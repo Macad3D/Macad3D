@@ -1,0 +1,87 @@
+﻿<mmp:Dialog x:Class="Macad.Interaction.Dialogs.ExportViewportHlr"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+        mc:Ignorable="d" 
+        Style="{StaticResource {x:Type mmp:Dialog}}"
+        Title="Create Drawing from Viewport"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"        
+        ResizeMode="NoResize" 
+        ShowInTaskbar="False" 
+        SizeToContent="WidthAndHeight"
+        mmp:Help.TopicId="0c834add-faf4-48f0-a8c3-e6dce411774c"
+        AutomationProperties.AutomationId="ExportViewportHlr">
+    
+    <mmp:Dialog.Footer>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Cancel" IsCancel="True" 
+                    Style="{StaticResource Macad.Styles.Button.DialogFooter}" 
+                    AutomationProperties.AutomationId="Cancel" />
+            <Button Content="Export" IsDefault="True" 
+                    Style="{StaticResource Macad.Styles.Button.DialogFooter}"
+                    Command="{Binding ExportCommand}"
+                    AutomationProperties.AutomationId="Ok" />
+        </StackPanel>
+    </mmp:Dialog.Footer>
+    
+    <StackPanel Margin="20,0">
+        <GroupBox Header="Included Edge Types">
+            <Grid Margin="10, 10, 10, 10" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="1" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="1" />
+                    <RowDefinition />
+                    <RowDefinition Height="1" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Rectangle Grid.RowSpan="5" Grid.Column="1" Stroke="DarkGray" />
+                <Rectangle Grid.RowSpan="5" Grid.Column="3" Stroke="DarkGray" />
+                <Rectangle Grid.RowSpan="5" Grid.Column="5" Stroke="DarkGray" />
+
+                <TextBlock Grid.Row="0" Grid.Column="2" Margin="5,5" Text="Outline" HorizontalAlignment="Center" />
+                <TextBlock Grid.Row="0" Grid.Column="4" Margin="5,5" Text="Smooth" HorizontalAlignment="Center" />
+                <TextBlock Grid.Row="0" Grid.Column="6" Margin="5,5" Text="Sewn" HorizontalAlignment="Center" />
+
+                <Rectangle Grid.Row="1" Grid.ColumnSpan="7" Stroke="DarkGray" />
+
+                <TextBlock Grid.Row="2" Margin="5,5" Text="Visible Edges" HorizontalAlignment="Right" />
+                <CheckBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        IsChecked="{Binding Settings.VisibleOutline}" />
+                <CheckBox Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        IsChecked="{Binding Settings.VisibleSmooth}" />
+                <CheckBox Grid.Row="2" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        IsChecked="{Binding Settings.VisibleSewn}" />
+
+                <Rectangle Grid.Row="3" Grid.ColumnSpan="7"  Stroke="DarkGray" />
+
+                <TextBlock Grid.Row="4" Margin="5,5" Text="Hidden Edges" HorizontalAlignment="Right" />
+                <CheckBox Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        IsChecked="{Binding Settings.HiddenOutline}" />
+                <CheckBox Grid.Row="4" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        IsChecked="{Binding Settings.HiddenSmooth}" />
+                <CheckBox Grid.Row="4" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        IsChecked="{Binding Settings.HiddenSewn}" />
+            </Grid>
+
+        </GroupBox>
+
+        <CheckBox Margin="0,30,0,0"
+                Content="Use Triangulation (Polylines instead of curves)"
+                IsChecked="{Binding Settings.UseTriangulation}" />
+
+    </StackPanel>
+</mmp:Dialog>
+

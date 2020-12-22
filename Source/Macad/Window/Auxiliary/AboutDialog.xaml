@@ -1,0 +1,53 @@
+﻿<mmp:Dialog x:Class="Macad.Window.AboutDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             mc:Ignorable="d" 
+             Style="{StaticResource {x:Type mmp:Dialog}}"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"        
+             Title="About Macad|3D"
+             Height="Auto" Width="Auto"
+             WindowStartupLocation="CenterOwner"
+             AutomationProperties.AutomationId="AboutDialog">
+        
+    <mmp:Dialog.Footer>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Close" IsCancel="True"
+                    Style="{StaticResource Macad.Styles.Button.DialogFooter}"
+                    AutomationProperties.AutomationId="CloseBtn"/>
+        </StackPanel>
+    </mmp:Dialog.Footer>
+
+    <StackPanel Margin="10,0,10,10" Orientation="Horizontal">
+        <StackPanel.Resources>
+            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Setter Property="FontSize" Value="16" />
+            </Style>
+        </StackPanel.Resources>
+
+        <Image Source="{mmp:IconResource App-MainLogo}" 
+               HorizontalAlignment="Right" VerticalAlignment="Top" Width="64" Height="64"
+               Margin="0,5,0,0"/>
+
+        <StackPanel Margin="20,0">
+            <TextBlock FontWeight="Bold" FontSize="24">Macad|3D</TextBlock>
+            <TextBlock Text="{Binding Version, StringFormat={}Version {0}}"/>
+            <TextBlock Text="{Binding Copyright}" />
+            <TextBlock>
+                <Hyperlink Click="_Website_Click">
+                    https://macad3d.net
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="0,20,0,0" Text="{Binding OcctVersion, StringFormat={}Uses Open CASCADE Technology {0}}" />
+            <TextBlock>and other open source products.</TextBlock>
+
+            <TextBlock Margin="0,10,0,0">
+                <Hyperlink Click="_ShowLicense_Click">
+                    License terms and 3rd party licenses
+                </Hyperlink>
+            </TextBlock>
+        </StackPanel>
+    </StackPanel>
+</mmp:Dialog>

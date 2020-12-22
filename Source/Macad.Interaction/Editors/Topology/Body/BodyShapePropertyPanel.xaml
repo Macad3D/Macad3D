@@ -1,0 +1,262 @@
+﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Topology.BodyShapePropertyPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:treeView="clr-namespace:Macad.Presentation.TreeView;assembly=Macad.Presentation"
+             xmlns:mmi="clr-namespace:Macad.Interaction"
+             xmlns:local="clr-namespace:Macad.Interaction.Editors.Topology"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}" 
+             Style="{DynamicResource Macad.Styles.PropertyPanel}"
+             Header="Shape Stack">
+
+    <StackPanel>
+        <Grid Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="146" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.ColumnSpan="2"
+                  Grid.Row="0">
+
+                <treeView:TreeViewEx
+                    Name="TreeView"
+                    ItemsSource="{Binding Items}"
+                    SelectedItems="{Binding SelectedItems}"
+                    Style="{StaticResource {x:Type treeView:TreeViewEx}}"
+                    AutomationProperties.AutomationId="ShapeTree"
+                    BorderThickness="1" 
+                    TextOptions.TextFormattingMode="Display" 
+                    HorizontalContentAlignment="Stretch"
+                    Margin="2" 
+                    Loaded="_TreeView_Loaded">
+
+                    <treeView:TreeViewEx.ItemContainerStyle>
+                        <Style TargetType="{x:Type treeView:TreeViewExItem}" BasedOn="{StaticResource {x:Type treeView:TreeViewExItem}}">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                            <Setter Property="Focusable" Value="True" />
+                            <Setter Property="AutomationProperties.AutomationId" Value="{Binding Shape.Name}" />
+                        </Style>
+                    </treeView:TreeViewEx.ItemContainerStyle>
+                   
+                    <treeView:TreeViewEx.Resources>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ButtonBase}">
+                                        <ContentPresenter Margin="0"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          RecognizesAccessKey="True"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+
+                        <!--Shape-->
+                        <HierarchicalDataTemplate DataType="{x:Type local:BodyShapeTreeShape}" 
+                                                  ItemsSource="{Binding Children, Mode=OneWay}">
+                            <DockPanel ToolTip="abc" ToolTipOpening="_Callback_ToolTipOpening" ContextMenuOpening="_Callback_ContextMenuOpening">
+
+                                <DockPanel.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Shape"
+                                                  Style="{StaticResource Macad.Styles.MenuItem.GroupHeader}"/>
+                                        <MenuItem Header="Set as Current"
+                                                  Command="{x:Static local:BodyShapePropertyPanel.SetCurrentShapeCommand}" 
+                                                  CommandParameter="{Binding Shape}"
+                                                  Icon="{mmp:IconResource Generic-CurrentMarker}" />
+                                        <MenuItem Header="Skip Modifier"
+                                                  Command="{x:Static local:BodyShapePropertyPanel.ToggleSkippedCommand}" 
+                                                  CommandParameter="{Binding Shape}"
+                                                  Visibility="{Binding Shape.IsSkipped, Converter={mmp:BoolToInvisibleCollapsedConverter}}"
+                                                  Icon="{mmp:IconResource Generic-Inactive}" />
+                                        <MenuItem Header="Unskip Modifier"
+                                                  Command="{x:Static local:BodyShapePropertyPanel.ToggleSkippedCommand}" 
+                                                  CommandParameter="{Binding Shape}"
+                                                  Visibility="{Binding Shape.IsSkipped, Converter={mmp:BoolToVisibleCollapsedConverter}}"
+                                                  Icon="{mmp:IconResource Generic-Active}" />
+                                        <Separator />
+                                        <MenuItem Header="Remake"
+                                                  Command="{x:Static local:BodyShapePropertyPanel.RemakeShapeCommand}"
+                                                  CommandParameter="{Binding Shape}"/>
+                                        <MenuItem Header="Delete"
+                                                  Command="{x:Static local:BodyShapePropertyPanel.DeleteShapeCommand}"
+                                                  CommandParameter="{Binding Shape}" 
+                                                  Icon="{mmp:IconResource Generic-Remove}"/>
+                                    </ContextMenu>
+                                </DockPanel.ContextMenu>
+
+                                <!--Type Icon-->
+                                <mmp:AutoGreyableImage Source="{Binding Shape, Converter={mmp:TypeToImageSourceConverter}}" 
+                                                       Height="16" Width="16">
+                                    <mmp:AutoGreyableImage.IsEnabled>
+                                        <MultiBinding Converter="{mmp:BooleanAndMultiConverter}">
+                                            <Binding Path="Shape.IsSkipped" Converter="{mmp:BoolToNotBoolConverter}" />
+                                            <Binding Path="IsInactive" Converter="{mmp:BoolToNotBoolConverter}" />
+                                        </MultiBinding>
+                                    </mmp:AutoGreyableImage.IsEnabled>
+                                </mmp:AutoGreyableImage>
+                                
+                                <!--CurrentShapeMarker-->
+                                <Button DockPanel.Dock="Right" 
+                                        Command="{x:Static local:BodyShapePropertyPanel.SetCurrentShapeCommand}"
+                                        CommandParameter="{Binding Shape}">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Grid Width="16" Height="16" 
+                                                  Margin="0,0,2,0" 
+                                                  Background="Transparent">
+                                                <Image Name="imgCurrentMarkerPreview"
+                                                       Source="{mmp:IconResource Generic-CurrentMarkerPreview}"
+                                                       Visibility="Hidden" />
+                                                <Image Name="imgCurrentMarker"
+                                                       Source="{mmp:IconResource Generic-CurrentMarker}"
+                                                       Visibility="Hidden"/>
+                                            </Grid>
+
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="imgCurrentMarkerPreview" Property="Visibility" Value="Visible" />
+                                                </Trigger>
+                                                <DataTrigger Binding="{Binding Shape, Converter={x:Static local:BodyShapePropertyPanel.IsCurrentShapeConverter}}"
+                                                             Value="True">
+                                                    <Setter TargetName="imgCurrentMarker" Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                                
+                                <!--IsSkipped-->
+                                <Button DockPanel.Dock="Right"
+                                        Command="{x:Static local:BodyShapePropertyPanel.ToggleSkippedCommand}"
+                                        CommandParameter="{Binding Shape}"
+                                        Visibility="{Binding Converter={x:Static local:BodyShapePropertyPanel.IsItemSkippableToVisibilityConverter}}"
+                                        ToolTip="Toggles the skipping of this particular shape." >
+                                    
+                                    <Grid Width="16" Height="16" Margin="0,0,2,0">
+                                        <Image Source="{mmp:IconResource Generic-Inactive}"
+                                               Visibility="{Binding Shape.IsSkipped, Converter={mmp:BoolToVisibleHiddenConverter}}"/>
+                                        <Image Source="{mmp:IconResource Generic-Active}" 
+                                               Visibility="{Binding Shape.IsSkipped, Converter={mmp:BoolToInvisibleHiddenConverter}}"/>
+                                    </Grid>
+                                </Button>
+
+                                <!--Name-->
+                                <TextBlock Text="{Binding Shape.Name}" Margin="3,0">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                            <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Text}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Shape.HasErrors, Mode=OneWay}" Value="True">
+                                                    <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Error}"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Shape.IsSkipped}" Value="True">
+                                                    <Setter Property="FontStyle" Value="Italic"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Glyph.Disabled}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsInactive}" Value="True">
+                                                    <Setter Property="FontStyle" Value="Italic"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Glyph.Disabled}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DockPanel>
+                        </HierarchicalDataTemplate>
+                        
+                        <!--Body-->
+                        <HierarchicalDataTemplate DataType="{x:Type local:BodyShapeTreeBody}">
+                            <DockPanel ContextMenuOpening="_Callback_ContextMenuOpening">
+                                
+                                <DockPanel.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Shape of Body"
+                                                  Style="{StaticResource Macad.Styles.MenuItem.GroupHeader}"/>
+                                        <MenuItem Header="Edit Body"
+                                                  Command="{x:Static local:BodyShapePropertyPanel.JumpToBodyCommand}"
+                                                  CommandParameter="{Binding BodyOperand.Body}" />
+                                        <Separator />
+                                        <MenuItem Header="Use Top Shape"
+                                                  Command="{x:Static local:BodyShapePropertyPanel.BodySelectTopCommand}" 
+                                                  CommandParameter="{Binding }" />
+                                        <MenuItem Header="Use Current Shape"
+                                                  Command="{x:Static local:BodyShapePropertyPanel.BodySelectCurrentCommand}" 
+                                                  CommandParameter="{Binding }" />
+                                        <MenuItem Header="Set Selected as Current"
+                                                  Command="{x:Static local:BodyShapePropertyPanel.BodySetSelectedAsCurrentCommand}" 
+                                                  CommandParameter="{Binding }"
+                                                  Icon="{mmp:IconResource Generic-CurrentMarker}" />
+                                        <Separator />
+                                        <MenuItem Header="Remake"
+                                                  Command="{x:Static local:BodyShapePropertyPanel.RemakeShapeCommand}"
+                                                  CommandParameter="{Binding BodyOperand.Shape}"/>
+                                    </ContextMenu>
+                                </DockPanel.ContextMenu>
+
+                                <mmp:Behaviors.Behavior>
+                                    <mmp:DoubleClickCommandBehavior Command="{x:Static local:BodyShapePropertyPanel.JumpToBodyCommand}"
+                                                                    CommandParameter="{Binding BodyOperand.Body}"/>
+                                </mmp:Behaviors.Behavior>
+
+                                <!--<Button DockPanel.Dock="Right"
+                                        Content="Edit Body" 
+                                        Command="{x:Static local:BodyShapePropertyPanel.JumpToBodyCommand}"
+                                        CommandParameter="{Binding BodyOperand.Body}" 
+                                        Style="{StaticResource LinkButton}"/>-->
+
+                                <mmp:AutoGreyableImage Source="{Binding BodyOperand.Body, Converter={mmp:TypeToImageSourceConverter}}" 
+                                                       Height="16"
+                                                       IsEnabled="{Binding IsInactive, Converter={mmp:BoolToNotBoolConverter}}"/>
+
+                                <TextBlock Margin="3,0"
+                                           FontStyle="Italic">
+                                    
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0} ({1})">
+                                            <Binding Path="BodyOperand.Body.Name" />
+                                            <Binding Path="ShapeDescription" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                            <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Text}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding BodyOperand.Shape.HasErrors, Mode=OneWay}" Value="True">
+                                                    <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Error}"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsInactive}" Value="True">
+                                                    <Setter Property="FontStyle" Value="Italic"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Glyph.Disabled}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DockPanel>
+                        </HierarchicalDataTemplate>
+
+                    </treeView:TreeViewEx.Resources>
+                
+                </treeView:TreeViewEx>
+            </Grid>
+        </Grid>
+    </StackPanel>
+</mmi:PropertyPanel>

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{42AFF16F-57DD-45BE-A9CC-C6342E3EA23D}</ProjectGuid>
+    <Platforms>x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Macad.Core.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Macad.Common\Macad.Common.csproj" />
+    <ProjectReference Include="..\Macad.Managed\Macad.Managed.vcxproj" />
+    <ProjectReference Include="..\Macad.Occt\Macad.Occt.vcxproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleToSigned Include="Test.Unit" />
+    <InternalsVisibleToSigned Include="Test.Memory" />
+  </ItemGroup>
+</Project>

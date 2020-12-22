@@ -1,0 +1,58 @@
+﻿<mmi:HudElement x:Class="Macad.Interaction.MultiValueHudElement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:mmi="clr-namespace:Macad.Interaction"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+            d:DesignWidth="120"
+             Foreground="White">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="VA" />
+                <ColumnDefinition Width="Auto" SharedSizeGroup="VB" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Text="{Binding Label1}" 
+                       VerticalAlignment="Center" 
+                       Margin="0,0,10,0"/>
+            <mmp:ValueEditBox Grid.Column="1"
+                              x:Name="ValueEditBox1" 
+                              MinWidth="60" Width="Auto" 
+                              Background="#703E3E3E" Foreground="White"
+                              Units="{Binding Units1}" 
+                              Value="{Binding Value1}" 
+                              IsHighlighted="{Binding IsInKeyboardMode1}" />
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="VA" />
+                <ColumnDefinition Width="Auto" SharedSizeGroup="VB" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Text="{Binding Label2}" 
+                       VerticalAlignment="Center" 
+                       Margin="0,0,10,0"/>
+            <mmp:ValueEditBox Grid.Column="1"
+                              x:Name="ValueEditBox2" 
+                              MinWidth="60" Width="Auto" 
+                              Background="#703E3E3E" Foreground="White"
+                              Units="{Binding Units2}" 
+                              Value="{Binding Value2}" 
+                              IsHighlighted="{Binding IsInKeyboardMode2}" />
+        </Grid>
+    </Grid>
+    
+</mmi:HudElement>

@@ -1,0 +1,15 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".generated.cs" #>
+<#@ include file=".\BoolConverter.ttinclude" #>
+<#
+	BaseName = "CollectionNotEmpty";
+	SourceType = "ICollection";
+	References.Add("System.Collections");
+
+	Evaluation = @" if (value != null)
+					{
+						b = ((ICollection)value).Count > 0;
+					}";
+
+	Generate();
+#>

@@ -1,0 +1,141 @@
+﻿<Window x:Class="Macad.Window.WelcomeDialog"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+                     xmlns:mmi="clr-namespace:Macad.Interaction;assembly=Macad.Interaction"
+                     mc:Ignorable="d" 
+                     Width="500" Height="450"
+                     WindowStartupLocation="CenterScreen"
+                     ResizeMode="NoResize"
+                     Background="{StaticResource Macad.Brushes.Popup.Background}"
+                     BorderBrush="{StaticResource Macad.Brushes.Popup.Border}" 
+                     BorderThickness="1"
+                     Title="Welcome to Macad|3D" 
+                     ShowInTaskbar="False" 
+                     Icon="/Macad;component/Properties/SplashScreen.png"
+                     AutomationProperties.AutomationId="WelcomeDialog">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
+
+    <Grid Margin="20,10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+       
+        <DockPanel Grid.Row="0">
+            <Image DockPanel.Dock="Right" 
+                   Source="{mmp:IconResource App-MainLogo}"
+                   Height="64" Width="64"/>
+            <StackPanel>
+                <TextBlock Text="Welcome to Macad|3D." 
+                           FontSize="20"
+                           FontWeight="SemiBold" />
+                <TextBlock Text="Where do you want to start?" 
+                           Margin="20,10,10,10"
+                           FontSize="14" />
+            </StackPanel>
+        </DockPanel>
+
+        <Rectangle Grid.Row="1" 
+                   Height="1" 
+                   Margin="0,10" 
+                   Fill="{StaticResource Macad.Brushes.Popup.Header.Border}" />
+
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Command="{Binding CreateNewCommand}" 
+                    AutomationProperties.AutomationId="CreateNewButton"
+                    Height="80" Width="90"
+                    Margin="10">
+                <StackPanel>
+                    <Image Source="{mmp:IconResource App-NewModel}" Width="32" Height="32" />
+                    <TextBlock Margin="0,5,0,0">Create New</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding OpenExistingCommand}"
+                    AutomationProperties.AutomationId="OpenExistingButton"
+                    Height="80" Width="90"
+                    Margin="10">
+                <StackPanel>
+                    <Image Source="{mmp:IconResource App-OpenModel}" Width="32" Height="32" />
+                    <TextBlock Margin="0,5,0,0">Open Existing</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding OpenSampleCommand}"
+                    AutomationProperties.AutomationId="OpenSampleButton"
+                    Height="80" Width="90"
+                    Margin="10">
+                <StackPanel>
+                    <Image Source="{mmp:IconResource App-OpenSample}" Width="32" Height="32" />
+                    <TextBlock Margin="0,5,0,0">Open Sample</TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <Rectangle Grid.Row="3"
+                   Height="1" 
+                   Margin="0,10" 
+                   Fill="{StaticResource Macad.Brushes.Popup.Header.Border}" />
+
+        <TextBlock Grid.Row="4" 
+                   Margin="10,5"
+                   FontSize="14">
+            Open Recent Model:
+        </TextBlock>
+
+        <ListBox Grid.Row="5" 
+                 AutomationProperties.AutomationId="RecentList"
+                 ItemsSource="{Binding MruList}">
+            <mmp:Behaviors.Behavior>
+                <mmp:SelectionCommandBehaviour Command="{Binding OpenRecentCommand}"
+                                               CommandParameter="{Binding SelectedValue, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}}"/>
+            </mmp:Behaviors.Behavior>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <DockPanel.ToolTip>
+                            <ToolTip Placement="Right"
+                                     HorizontalOffset="-80" VerticalOffset="-5"
+                                     DataContext="{Binding PlacementTarget.DataContext, Converter={mmp:ExtractFileThumbnailConverter}, RelativeSource={RelativeSource Self}}"
+                                     Visibility="{Binding Converter={mmp:NotNullToVisibleCollapsedConverter}}">
+                                <Image Source="{Binding}" 
+                                       MaxWidth="128" MaxHeight="128" 
+                                       RenderOptions.BitmapScalingMode="Fant" />
+                            </ToolTip>
+                        </DockPanel.ToolTip>
+
+                        <Image DockPanel.Dock="Left"
+                               Source="{mmp:IconResource App-OpenRecent}" 
+                               Height="20" Width="20"
+                               Margin="0,0,10,0"/>
+
+                        <TextBlock DockPanel.Dock="Top"
+                                   Text="{Binding Converter={mmp:ExtractFileNameNoExtensionConverter}}"
+                                   FontWeight="SemiBold"
+                                   FontSize="14"
+                                   TextTrimming="CharacterEllipsis"/>
+                        <TextBlock DockPanel.Dock="Top"
+                                   FontSize="10"
+                                   Foreground="{StaticResource Macad.Brushes.TextLight}"
+                                   MaxWidth="400">
+                            <mmp:Behaviors.Behavior>
+                                <mmp:PathEllipsisTextBehaviour OriginalPath="{Binding Converter={mmp:ExtractFileDirectoryConverter}}" />
+                            </mmp:Behaviors.Behavior>
+                        </TextBlock>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Window>

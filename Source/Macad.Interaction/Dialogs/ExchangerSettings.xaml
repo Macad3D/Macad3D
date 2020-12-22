@@ -1,0 +1,34 @@
+﻿<mmp:Dialog x:Class="Macad.Interaction.Dialogs.ExchangerSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             mc:Ignorable="d" 
+             Style="{StaticResource {x:Type mmp:Dialog}}"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"        
+             ResizeMode="NoResize" 
+             ShowInTaskbar="False" 
+             SizeToContent="WidthAndHeight"
+             AutomationProperties.AutomationId="ExchangerSettings">
+    
+    <mmp:Dialog.Footer>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Cancel" IsCancel="True" 
+                    Style="{StaticResource Macad.Styles.Button.DialogFooter}"
+                    AutomationProperties.AutomationId="Cancel" />
+            <Button Content="Do it" IsDefault="True" 
+                    Style="{StaticResource Macad.Styles.Button.DialogFooter}"
+                    Command="{Binding DoItCommand}"
+                    AutomationProperties.AutomationId="Ok"/>
+        </StackPanel>
+    </mmp:Dialog.Footer>
+
+    <StackPanel MinWidth="250" MinHeight="100" 
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center">
+
+        <ContentPresenter Content="{Binding SettingsPanel}" />
+
+    </StackPanel>
+</mmp:Dialog>

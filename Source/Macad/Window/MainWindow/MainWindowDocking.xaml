@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="Macad.Window.MainWindowDocking"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmw="clr-namespace:Macad.Window"
+             xmlns:dock="https://github.com/Dirkster99/AvalonDock"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" 
+             Loaded="_OnLoaded">
+
+    <dock:DockingManager Name="DockingManager" 
+                         AllowMixedOrientation="True" 
+                         ShowSystemMenu="False" 
+                         SnapsToDevicePixels="True" 
+                         UseLayoutRounding="False"
+                         ForceCursor="False">
+
+        <dock:LayoutRoot>
+            <dock:LayoutPanel Orientation="Horizontal">
+                <!-- Left (Project Tree) -->
+                <dock:LayoutAnchorablePaneGroup DockWidth="200" Orientation="Vertical">
+                    <dock:LayoutAnchorablePane DockWidth="200"
+                                               DockMinHeight="200" DockMinWidth="260">
+                        <dock:LayoutAnchorable ContentId="DocumentExplorer"
+                                               Title="Document Explorer"
+                                               CanClose="False" CanFloat="True" CanHide="False" 
+                                               FloatingWidth="200" FloatingHeight="500"
+                                               AutoHideWidth="200" AutoHideHeight="500">
+                            <mmw:DocumentExplorerView />
+                        </dock:LayoutAnchorable>
+                    </dock:LayoutAnchorablePane>
+                    <dock:LayoutAnchorablePane DockWidth="200"
+                                               DockMinHeight="200" DockMinWidth="260">
+                        <dock:LayoutAnchorable ContentId="Layers"
+                                               Title="Layers"
+                                               CanClose="False" CanFloat="True" CanHide="True" 
+                                               FloatingWidth="200" FloatingHeight="500"
+                                               AutoHideWidth="200" AutoHideHeight="500">
+                            <mmw:LayersView />
+                        </dock:LayoutAnchorable>                    
+                    </dock:LayoutAnchorablePane>
+                </dock:LayoutAnchorablePaneGroup>
+
+                <!-- Document (Workspace) -->
+                <dock:LayoutDocumentPane>
+                    <dock:LayoutDocument ContentId="Workspace"
+                                         Title="Workspace" 
+                                         CanClose="False" CanFloat="False">
+                        <Border BorderBrush="{StaticResource Macad.Brushes.Panel.Border}" BorderThickness="0">
+                            <mmw:ViewportHwndView x:Name="Viewport" 
+                                                  DataContext="{Binding ViewportViewModel}" />
+                        </Border>
+                    </dock:LayoutDocument>
+                </dock:LayoutDocumentPane>
+
+                <!-- Right (Properties) -->
+                <dock:LayoutAnchorablePane DockWidth="280" DockHeight="1*" 
+                                           DockMinHeight="200" DockMinWidth="280" >
+                    <dock:LayoutAnchorable ContentId="Properties"
+                                           Title="Properties" 
+                                           CanClose="False" CanFloat="True" CanHide="False" 
+                                           FloatingWidth="280" FloatingHeight="500"
+                                           AutoHideWidth="280" AutoHideHeight="500"
+                                           >
+                        <mmw:PropertyView />
+                    </dock:LayoutAnchorable>
+                </dock:LayoutAnchorablePane>
+            </dock:LayoutPanel>
+
+            <!-- Right (Shape Inspector) -->
+            <dock:LayoutRoot.RightSide>
+                <dock:LayoutAnchorSide>
+                    <dock:LayoutAnchorGroup>
+                        <dock:LayoutAnchorable ContentId="ShapeInspector"
+                                               Title="Shape Inspector" 
+                                               CanClose="False" CanFloat="True" CanHide="True"
+                                               FloatingWidth="260" FloatingHeight="500"
+                                               AutoHideWidth="260" AutoHideHeight="500">
+                            <mmw:ShapeInspectorView x:Name="ShapeInspector" />
+                        </dock:LayoutAnchorable>
+                    </dock:LayoutAnchorGroup>
+                </dock:LayoutAnchorSide>
+            </dock:LayoutRoot.RightSide>
+
+            <!-- Bottom (Messages) -->
+            <dock:LayoutRoot.BottomSide>
+                <dock:LayoutAnchorSide>
+                    <dock:LayoutAnchorGroup>
+                        <dock:LayoutAnchorable ContentId="Messages"
+                                               Title="Messages"
+                                               CanClose="False" CanFloat="True" CanHide="False" 
+                                               FloatingWidth="500" FloatingHeight="200"
+                                               AutoHideWidth="500" AutoHideHeight="200">
+                            <mmw:MessageList />
+                        </dock:LayoutAnchorable>
+                    </dock:LayoutAnchorGroup>
+                </dock:LayoutAnchorSide>
+            </dock:LayoutRoot.BottomSide>
+
+            <dock:LayoutRoot.Hidden>
+            </dock:LayoutRoot.Hidden>
+        </dock:LayoutRoot>
+    </dock:DockingManager>
+
+</UserControl>

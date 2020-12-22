@@ -1,0 +1,11 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".generated.cs" #>
+<#@ include file=".\BoolConverter.ttinclude" #>
+<#
+	BaseName = "HasFlag";
+	SourceType = "Enum";
+
+	Evaluation = "b = ((Enum)value).HasFlag((Enum)Enum.Parse(value.GetType(), (string)parameter));";
+
+	Generate();
+#>

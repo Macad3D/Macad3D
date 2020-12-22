@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.92.0 r15299"
+   sodipodi:docname="TopoDS_Edge.svg">
+  <metadata
+     id="metadata35">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs33">
+    <radialGradient
+       gradientUnits="userSpaceOnUse"
+       r="4.0300002"
+       cy="4.605"
+       cx="2.8570001"
+       id="SVGID_2_"
+       gradientTransform="matrix(1.0946071,0,0,1.0946071,-0.62636448,-0.20878815)"
+       xlink:href="#SVGID_3_">
+      <stop
+         id="stop15"
+         stop-color="#B5B5B5"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:1" />
+      <stop
+         id="stop17"
+         offset="0.71499997"
+         style="stop-color:#424242;stop-opacity:1" />
+    </radialGradient>
+    <radialGradient
+       gradientUnits="userSpaceOnUse"
+       r="5.125"
+       cy="5.224"
+       cx="9.8210001"
+       id="SVGID_3_"
+       gradientTransform="matrix(1.0946071,0,0,1.0946071,-0.62636448,-0.20878815)">
+      <stop
+         id="stop22"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:1" />
+      <stop
+         id="stop24"
+         offset="0.71499997"
+         style="stop-color:#424242;stop-opacity:1" />
+    </radialGradient>
+    <clipPath
+       id="clipPath4224"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4226"
+         d="M 0,16 16,16 16,0 0,0 0,16 Z" />
+    </clipPath>
+    <clipPath
+       id="clipPath4232"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4234"
+         d="M 0,16 16,16 16,0 0,0 0,16 Z" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview31"
+     showgrid="false"
+     inkscape:zoom="27.09375"
+     inkscape:cx="1.3036328"
+     inkscape:cy="8.1500553"
+     inkscape:current-layer="svg2" />
+  <style
+     type="text/css"
+     id="style4">.icon_x002D_canvas_x002D_transparent{opacity:0;fill:#F6F6F6;} .icon_x002D_vs_x002D_out{fill:#F6F6F6;} .icon_x002D_vs_x002D_bg{fill:#424242;} .icon_x002D_vs_x002D_fg{fill:#F0EFF1;} .icon_x002D_3d_x002D_gradient{fill:url(#SVGID_1_);} .st0{fill:url(#SVGID_2_);} .st1{fill:url(#SVGID_3_);}</style>
+  <radialGradient
+     id="SVGID_1_"
+     cx="0"
+     cy="0"
+     r="1"
+     gradientUnits="userSpaceOnUse">
+    <stop
+       offset="0"
+       stop-color="#B5B5B5"
+       id="stop7" />
+    <stop
+       offset=".715"
+       stop-color="#424242"
+       id="stop9" />
+  </radialGradient>
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#424242;stroke-width:1.18356478px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 1.9625784,1.7290731 C 10.781204,2.0186325 14.27746,10.518737 14.33924,14.078813"
+     id="path4579"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="cc" />
+  <rect
+     style="fill:#f0eff1;fill-opacity:1;stroke:#424242;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     id="rect4573"
+     width="2.9932063"
+     height="2.9932063"
+     x="0.51689249"
+     y="0.48990113" />
+  <rect
+     y="12.522197"
+     x="12.549188"
+     height="2.9932063"
+     width="2.9932063"
+     id="rect4575"
+     style="fill:#f0eff1;fill-opacity:1;stroke:#424242;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+</svg>

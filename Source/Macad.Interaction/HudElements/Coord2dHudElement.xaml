@@ -1,0 +1,25 @@
+﻿<mmi:HudElement x:Class="Macad.Interaction.Coord2DHudElement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:mmi="clr-namespace:Macad.Interaction"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+            d:DesignHeight="25"
+            d:DesignWidth="120"
+             Foreground="White">
+    
+    <Grid VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="LA" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="Auto" SharedSizeGroup="LB" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0" Text="{Binding CoordinateX, StringFormat={}{0:F3}}"/>
+        <TextBlock Grid.Column="2" Text="{Binding CoordinateY, StringFormat={}{0:F3}}"/>
+    </Grid>
+    
+</mmi:HudElement>

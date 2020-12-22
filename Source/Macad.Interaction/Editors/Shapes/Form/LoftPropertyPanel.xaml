@@ -1,0 +1,117 @@
+﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Shapes.LoftPropertyPanel"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                   xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+                   xmlns:mmi="clr-namespace:Macad.Interaction"
+                   mc:Ignorable="d" 
+                   DataContext="{Binding RelativeSource={RelativeSource Self}}"
+                   Style="{DynamicResource Macad.Styles.PropertyPanel}"
+                   Header="Loft"
+                   mmp:Help.TopicId="0e316c19-1062-42bb-82c1-22b91d9cca7e">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="90" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.Row="0" 
+                   Text="Start Capping"  
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <Grid Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <mmp:ToggleButton Content="None" mmp:GroupControls.Position="Left" Grid.Column="0" Padding="0"
+                              IsChecked="{Binding Loft.StartCapping, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=None}"
+                              Command="{Binding SwitchStartCappingCommand}" CommandParameter="None"/>
+            <mmp:ToggleButton Content="Flat" mmp:GroupControls.Position="Right" Grid.Column="1" Padding="0"
+                              IsChecked="{Binding Loft.StartCapping, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=Flat}"
+                              Command="{Binding SwitchStartCappingCommand}" CommandParameter="Flat"/>
+        </Grid>
+
+        <TextBlock Grid.Column="0" Grid.Row="1" 
+                   Text="End Capping"  
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <Grid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <mmp:ToggleButton Content="None" mmp:GroupControls.Position="Left" Grid.Column="0" Padding="0"
+                              IsChecked="{Binding Loft.EndCapping, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=None}"
+                              Command="{Binding SwitchEndCappingCommand}" CommandParameter="None"/>
+            <mmp:ToggleButton Content="Flat" mmp:GroupControls.Position="Right" Grid.Column="1" Padding="0"
+                              IsChecked="{Binding Loft.EndCapping, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=Flat}"
+                              Command="{Binding SwitchEndCappingCommand}" CommandParameter="Flat"/>
+        </Grid>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" 
+                   Text="Wall Thickness"
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}"
+                   Visibility="{Binding IsWallEnabled, Converter={mmp:BoolToVisibleCollapsedConverter}}" />
+        <mmp:ValueEditBox Grid.Row="3" Grid.Column="1"
+                          Units="Length" 
+                          Value="{Binding Loft.Thickness, NotifyOnSourceUpdated=True}"
+                          Visibility="{Binding IsWallEnabled, Converter={mmp:BoolToVisibleCollapsedConverter}}" />
+
+        <TextBlock Grid.Column="0" Grid.Row="4" 
+                   Text="Direction"  
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}"
+                   Visibility="{Binding IsWallEnabled, Converter={mmp:BoolToVisibleCollapsedConverter}}" />
+        <Grid Grid.Column="1" Grid.Row="4" HorizontalAlignment="Stretch"
+              Visibility="{Binding IsWallEnabled, Converter={mmp:BoolToVisibleCollapsedConverter}}" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <mmp:ToggleButton Content="Inwards" mmp:GroupControls.Position="Left" Grid.Column="0" Padding="0"
+                              IsChecked="{Binding Loft.ThickenDirection, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=Inwards}"
+                              Command="{Binding SwitchThickenDirectionCommand}" CommandParameter="Inwards"/>
+            <mmp:ToggleButton Content="Outwards" mmp:GroupControls.Position="Right" Grid.Column="1" Padding="0"
+                              IsChecked="{Binding Loft.ThickenDirection, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=Outwards}"
+                              Command="{Binding SwitchThickenDirectionCommand}" CommandParameter="Outwards"/>
+        </Grid>
+
+        <TextBlock Grid.Column="0" Grid.Row="5" 
+                   Text="Corner Type"  
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}"
+                   Visibility="{Binding IsWallEnabled, Converter={mmp:BoolToVisibleCollapsedConverter}}" />
+        <Grid Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch"
+              Visibility="{Binding IsWallEnabled, Converter={mmp:BoolToVisibleCollapsedConverter}}" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <mmp:ToggleButton Content="Round" mmp:GroupControls.Position="Left" Grid.Column="0" Padding="0"
+                              IsChecked="{Binding Loft.ThickenCornerType, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=Round}"
+                              Command="{Binding SwitchThickenCornerTypeCommand}" CommandParameter="Round"/>
+            <mmp:ToggleButton Content="Angular" mmp:GroupControls.Position="Right" Grid.Column="1" Padding="0"
+                              IsChecked="{Binding Loft.ThickenCornerType, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=Angular}"
+                              Command="{Binding SwitchThickenCornerTypeCommand}" CommandParameter="Angular"/>
+        </Grid>
+
+        <mmp:ToggleButton Grid.Row="7" Grid.ColumnSpan="2" 
+                          Content="Add Section Sketch" 
+                          IsChecked="{Binding IsToolActive}"
+                          Command="{Binding AddSectionCommand}"
+                          HorizontalAlignment="Center" />
+    </Grid>
+</mmi:PropertyPanel>

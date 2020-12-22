@@ -1,0 +1,67 @@
+﻿using System.Collections.Generic;
+using Macad.Interaction.Visual;
+using Macad.Core;
+using Macad.Core.Shapes;
+using Macad.Occt;
+
+namespace Macad.Interaction.Editors.Shapes
+{
+    public class SketchEditorPointElement : SketchEditorElement
+    {
+        public readonly int PointIndex;
+        readonly Marker _Marker;
+
+        public SketchEditorPointElement(SketchEditorTool sketchEditorTool, int pointIndex, Pnt2d point, Trsf transform, Pln plane)
+            : base(sketchEditorTool, transform, plane)
+        {
+            var geomPoint = new Geom_CartesianPoint(point.X, point.Y, 0);
+            geomPoint.Transform(Transform);
+            _Marker = new Marker(SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost | Marker.Styles.Selectable, Marker.BallImage);
+            _Marker.Set(geomPoint);
+
+            PointIndex = pointIndex;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public override void UpdateVisual()
+        {
+            _Marker.SetColor(IsSelected ? Colors.SketchEditorSelection : null);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public override void OnPointsChanged(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, Dictionary<int, int> markerCounts = default)
+        {
+            var point = points[PointIndex];
+            var geomPoint = new Geom_CartesianPoint(point.X, point.Y, 0);
+            geomPoint.Transform(Transform);
+
+            _Marker.Set(geomPoint);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public override void Activate(bool active)
+        {
+            _Marker.IsActive = active;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public override void Remove()
+        {
+            _Marker.Remove();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public override bool IsOwnerOf(AIS_InteractiveObject aisObject)
+        {
+            if (_Marker.AisObject == null)
+                return false;
+
+            return aisObject.Equals(_Marker.AisObject);
+        }
+    }
+}

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Std">
+      <UniqueIdentifier>{4800815b-e50e-4155-9966-922229ef4eab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{2068aaf6-a52e-4187-ae99-9a802692cc6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helper">
+      <UniqueIdentifier>{e88a3ed0-72f5-42dd-84e3-74cad1a7cf2e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ModelInfoProvider.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelInfoClassFactory.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Registration.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Unzip.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageHelper.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="ShellExtensionPCH.h">
+      <Filter>Std</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ModelInfoProvider.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelInfoClassFactory.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration.cpp">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Unzip.cpp">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageHelper.cpp">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="DllMain.cpp">
+      <Filter>Std</Filter>
+    </ClCompile>
+    <ClCompile Include="ShellExtensionPCH.cpp">
+      <Filter>Std</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GlobalExportFunctions.def">
+      <Filter>Std</Filter>
+    </None>
+  </ItemGroup>
+</Project>

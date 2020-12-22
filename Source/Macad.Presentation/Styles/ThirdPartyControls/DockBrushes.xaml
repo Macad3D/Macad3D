@@ -1,0 +1,116 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dock="clr-namespace:AvalonDock.Themes.VS2013.Themes;assembly=AvalonDock.Themes.VS2013">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Color x:Key="Macad.Colors.Dock.Accent">Macad.Colors.Accent</Color>
+    <Color x:Key="Macad.Colors.Dock.Background">Macad.Colors.Pane.Background</Color>
+    <Color x:Key="Macad.Colors.Dock.Border">Macad.Colors.Window.Border</Color>
+    <Color x:Key="Macad.Colors.Dock.ActiveText">Macad.Colors.Black</Color>
+    <Color x:Key="Macad.Colors.Dock.ActiveBackground">Macad.Colors.Dock.Accent</Color>
+    <Color x:Key="Macad.Colors.Dock.InactiveText">Macad.Colors.Base70</Color>
+
+    <!--  Accent Keys  -->
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ControlAccentBrushKey}">Macad.Colors.Dock.Accent</SolidColorBrush>
+
+    <!--  General  -->
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.Background}">Macad.Colors.Window.Background</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.PanelBorderBrush}">Macad.Colors.Dock.Border</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.TabBackground}">Macad.Colors.Dock.Background</SolidColorBrush>
+
+    <!--  Floating Document Window  -->
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.FloatingDocumentWindowBackground}">Macad.Colors.Dock.Background</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.FloatingDocumentWindowBorder}">Macad.Colors.Dock.Border</SolidColorBrush>
+
+    <!--  Floating Tool Window  -->
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.FloatingToolWindowBackground}">Macad.Colors.Dock.Background</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.FloatingToolWindowBorder}">Macad.Colors.Dock.Border</SolidColorBrush>
+
+    <!--  DockingBrushKeys  -->
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DockingButtonForegroundBrushKey}">Macad.Colors.Base80</SolidColorBrush>
+
+    <!--  Preview Box  -->
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.PreviewBoxBorderBrushKey}">Macad.Colors.Base80</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.PreviewBoxBackgroundBrushKey}" Opacity="0.5">Macad.Colors.Base50</SolidColorBrush>
+
+    <!--  Tool Window : Caption  -->
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionActiveBackground}">Macad.Colors.Dock.ActiveBackground</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionActiveGrip}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionActiveText}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionInactiveBackground}">Macad.Colors.Dock.Background</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionInactiveGrip}">Macad.Colors.Dock.InactiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionInactiveText}">Macad.Colors.Dock.InactiveText</SolidColorBrush>
+
+    <!-- Tool Window : Caption : Button -->
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionButtonActiveGlyph}">Macad.Colors.Dock.InactiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionButtonActiveHoveredBackground}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionButtonActiveHoveredBorder}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionButtonActiveHoveredGlyph}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionButtonActivePressedBackground}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionButtonActivePressedBorder}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionButtonActivePressedGlyph}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionButtonInactiveGlyph}">Macad.Colors.Dock.InactiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionButtonInactiveHoveredBackground}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionButtonInactiveHoveredBorder}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionButtonInactiveHoveredGlyph}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionButtonInactivePressedBackground}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionButtonInactivePressedBorder}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowCaptionButtonInactivePressedGlyph}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+
+    <!--  Tool Window : Tab  -->
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowTabSelectedActiveBackground}">Macad.Colors.Dock.ActiveBackground</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowTabSelectedActiveText}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowTabSelectedInactiveBackground}">Macad.Colors.Dock.Background</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowTabSelectedInactiveText}">Macad.Colors.Dock.InactiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowTabUnselectedBackground}">Macad.Colors.Dock.Background</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowTabUnselectedText}">Macad.Colors.Dock.InactiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowTabUnselectedHoveredBackground}">Macad.Colors.Dock.Background</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.ToolWindowTabUnselectedHoveredText}">Macad.Colors.Base80</SolidColorBrush>
+
+    <!--  Document Well : Tab  -->
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabSelectedActiveBackground}">Macad.Colors.Dock.ActiveBackground</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabSelectedActiveText}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabSelectedInactiveBackground}">Macad.Colors.Base30</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabSelectedInactiveText}">Macad.Colors.Dock.InactiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabUnselectedBackground}">Macad.Colors.Dock.Background</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabUnselectedText}">Macad.Colors.Dock.InactiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabUnselectedHoveredBackground}">Macad.Colors.Dock.Background</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabUnselectedHoveredText}">Macad.Colors.Base80</SolidColorBrush>
+
+    <!-- Document Well : Tab : Button -->
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabButtonSelectedActiveGlyph}">Macad.Colors.Dock.InactiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabButtonSelectedActiveHoveredBackground}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabButtonSelectedActiveHoveredBorder}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabButtonSelectedActiveHoveredGlyph}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabButtonSelectedActivePressedBackground}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabButtonSelectedActivePressedBorder}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabButtonSelectedActivePressedGlyph}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabButtonSelectedInactiveGlyph}">Macad.Colors.Dock.InactiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabButtonSelectedInactiveHoveredBackground}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabButtonSelectedInactiveHoveredBorder}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabButtonSelectedInactiveHoveredGlyph}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabButtonSelectedInactivePressedBackground}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabButtonSelectedInactivePressedBorder}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellTabButtonSelectedInactivePressedGlyph}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+
+    <!-- Document Well : Overflow Button -->
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellOverflowButtonDefaultGlyph}">Macad.Colors.Dock.InactiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellOverflowButtonHoveredBackground}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellOverflowButtonHoveredBorder}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellOverflowButtonHoveredGlyph}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellOverflowButtonPressedBackground}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellOverflowButtonPressedBorder}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DocumentWellOverflowButtonPressedGlyph}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+
+    <!-- Auto Hide : Tab -->
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.AutoHideTabDefaultBackground}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.AutoHideTabDefaultBorder}">Macad.Colors.Base60</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.AutoHideTabDefaultText}">Macad.Colors.Dock.InactiveText</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.AutoHideTabHoveredBackground}">Transparent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.AutoHideTabHoveredBorder}">Macad.Colors.Dock.Accent</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.AutoHideTabHoveredText}">Macad.Colors.Dock.ActiveText</SolidColorBrush>
+</ResourceDictionary>

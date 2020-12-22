@@ -1,0 +1,52 @@
+﻿using Macad.Test.UI.Framework;
+using NUnit.Framework;
+
+namespace Macad.Test.UI.Application.Edit
+{
+    public class WorkspaceTests : UITestBase
+    {        
+        [SetUp]
+        public void SetUp()
+        {
+            Reset();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void GridEnabled()
+        {
+            MainWindow.Ribbon.SelectGroup("Edit");
+            var enabled = Pipe.GetValue<bool>("$Context.WorkspaceController.Workspace.GridEnabled");
+            Assert.AreEqual(enabled, MainWindow.Ribbon.IsButtonChecked("ShowGrid"));
+
+            enabled = !enabled;
+            MainWindow.Ribbon.ClickButton("ShowGrid");
+            Assert.AreEqual(enabled, Pipe.GetValue<bool>("$Context.WorkspaceController.Workspace.GridEnabled"));
+            Assert.AreEqual(enabled, MainWindow.Ribbon.IsButtonChecked("ShowGrid"));
+
+            enabled = !enabled;
+            MainWindow.Ribbon.ClickButton("ShowGrid");
+            Assert.AreEqual(enabled, Pipe.GetValue<bool>("$Context.WorkspaceController.Workspace.GridEnabled"));
+            Assert.AreEqual(enabled, MainWindow.Ribbon.IsButtonChecked("ShowGrid"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void GridType()
+        {
+            MainWindow.Ribbon.SelectGroup("Edit");
+            MainWindow.Ribbon.OpenSplitButtonMenu("ShowGrid");
+            var menu = new ContextMenuAdaptor(MainWindow);
+            menu.ClickMenuItem("CircGrid");
+            Assert.AreEqual("Circular", Pipe.GetValue("$Context.WorkspaceController.Workspace.GridType"));
+
+            MainWindow.Ribbon.OpenSplitButtonMenu("ShowGrid");
+            menu = new ContextMenuAdaptor(MainWindow);
+            menu.ClickMenuItem("RectGrid");
+            Assert.AreEqual("Rectangular", Pipe.GetValue("$Context.WorkspaceController.Workspace.GridType"));
+        }
+
+    }
+}

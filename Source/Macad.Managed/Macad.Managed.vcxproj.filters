@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Std">
+      <UniqueIdentifier>{33ac2a51-4b88-4775-9420-f610767b3204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SketchSolve">
+      <UniqueIdentifier>{5bb156ce-8dbf-4788-8447-7ca62040fc3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interop">
+      <UniqueIdentifier>{32a90092-0338-44b7-b543-6938c5fa20bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OcctHelper">
+      <UniqueIdentifier>{632af340-c60d-41e0-9c7e-e2b6edd52a06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OcctExtensions">
+      <UniqueIdentifier>{3f46e437-1bf0-4d87-bb03-14df6bcd1da2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="OcctExtensions\AIS_PlaneEx.h">
+      <Filter>OcctExtensions</Filter>
+    </ClInclude>
+    <ClInclude Include="OcctExtensions\AIS_AxisEx.h">
+      <Filter>OcctExtensions</Filter>
+    </ClInclude>
+    <ClInclude Include="OcctExtensions\AIS_TranslationGizmo_Managed.h">
+      <Filter>OcctExtensions</Filter>
+    </ClInclude>
+    <ClInclude Include="OcctExtensions\AIS_TranslationGizmo.h">
+      <Filter>OcctExtensions</Filter>
+    </ClInclude>
+    <ClInclude Include="OcctExtensions\AIS_RotationGizmo.h">
+      <Filter>OcctExtensions</Filter>
+    </ClInclude>
+    <ClInclude Include="OcctExtensions\AIS_RotationGizmo_Managed.h">
+      <Filter>OcctExtensions</Filter>
+    </ClInclude>
+    <ClInclude Include="OcctExtensions\AIS_CircleEx.h">
+      <Filter>OcctExtensions</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagedPCH.h">
+      <Filter>Std</Filter>
+    </ClInclude>
+    <ClInclude Include="OcctIncludes.h">
+      <Filter>Std</Filter>
+    </ClInclude>
+    <ClInclude Include="OcctExtensions\AIS_ViewCubeEx.h">
+      <Filter>OcctExtensions</Filter>
+    </ClInclude>
+    <ClInclude Include="SketchSolve\solve.h">
+      <Filter>SketchSolve</Filter>
+    </ClInclude>
+    <ClInclude Include="OcctExtensions\AIS_TranslationGizmo2D.h">
+      <Filter>OcctExtensions</Filter>
+    </ClInclude>
+    <ClInclude Include="OcctExtensions\AIS_TranslationGizmo2D_Managed.h">
+      <Filter>OcctExtensions</Filter>
+    </ClInclude>
+    <ClInclude Include="OcctExtensions\AIS_PointEx.h">
+      <Filter>OcctExtensions</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp">
+      <Filter>Std</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctExtensions\AIS_PlaneEx.cpp">
+      <Filter>OcctExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctExtensions\AIS_AxisEx.cpp">
+      <Filter>OcctExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="SketchSolve\SketchSolve_Solver.cpp">
+      <Filter>SketchSolve</Filter>
+    </ClCompile>
+    <ClCompile Include="SketchSolve\solve.cpp">
+      <Filter>SketchSolve</Filter>
+    </ClCompile>
+    <ClCompile Include="Interop\SpaceNavigatorInterop.cpp">
+      <Filter>Interop</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctExtensions\AIS_TranslationGizmo_Managed.cpp">
+      <Filter>OcctExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctExtensions\AIS_TranslationGizmo.cpp">
+      <Filter>OcctExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctExtensions\AIS_RotationGizmo.cpp">
+      <Filter>OcctExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctExtensions\AIS_RotationGizmo_Managed.cpp">
+      <Filter>OcctExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctExtensions\AIS_CircleEx.cpp">
+      <Filter>OcctExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctHelper\HLRBRepAlgo.cpp">
+      <Filter>OcctHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctHelper\TopoDS_Explorer.cpp">
+      <Filter>OcctHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="Interop\FileOperation.cpp">
+      <Filter>Interop</Filter>
+    </ClCompile>
+    <ClCompile Include="Interop\ExceptionHelper.cpp">
+      <Filter>Interop</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctHelper\BRepExchange.cpp">
+      <Filter>OcctHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctHelper\AisHelper.cpp">
+      <Filter>OcctHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctHelper\Graphic3dHelper.cpp">
+      <Filter>OcctHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctHelper\TriangulationHelper.cpp">
+      <Filter>OcctHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctHelper\IgesExchange.cpp">
+      <Filter>OcctHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctHelper\StepExchange.cpp">
+      <Filter>OcctHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctHelper\PixMapHelper.cpp">
+      <Filter>OcctHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagedPCH.cpp">
+      <Filter>Std</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctExtensions\AIS_AxisEx_Managed.cpp">
+      <Filter>OcctExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctHelper\Version.cpp">
+      <Filter>OcctHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctExtensions\AIS_ViewCubeEx_Managed.cpp">
+      <Filter>OcctExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctExtensions\AIS_ViewCubeEx.cpp">
+      <Filter>OcctExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="SketchSolve\errorfuncs.cpp">
+      <Filter>SketchSolve</Filter>
+    </ClCompile>
+    <ClCompile Include="SketchSolve\solveimpl.cpp">
+      <Filter>SketchSolve</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Macad.VersionInfo.cpp" />
+    <ClCompile Include="OcctExtensions\AIS_TranslationGizmo2D.cpp">
+      <Filter>OcctExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctExtensions\AIS_TranslationGizmo2D_Managed.cpp">
+      <Filter>OcctExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctExtensions\AIS_PointEx_Managed.cpp">
+      <Filter>OcctExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctExtensions\AIS_PointEx.cpp">
+      <Filter>OcctExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctHelper\MessageRouter.cpp">
+      <Filter>OcctHelper</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="$(MSBuildThisFileDirectory)Macad.VersionInfo.rc" />
+  </ItemGroup>
+</Project>

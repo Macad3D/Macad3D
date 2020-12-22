@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Macad.Presentation.Popup"
+             x:Name="This"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             Focusable="False">
+    
+    <Popup AllowsTransparency="True"
+           Placement="Bottom"
+           Margin="1"
+           StaysOpen="False"
+           PlacementTarget="{Binding PlacementTarget, ElementName=This}"
+           IsOpen="{Binding IsOpen, ElementName=This}">
+        
+        <Border x:Name="DropDownBorder" 
+                BorderThickness="1"
+                Margin="0,0,5,5"
+                BorderBrush="{StaticResource Macad.Brushes.Popup.Border}"
+                Background="{StaticResource Macad.Brushes.Popup.Background}">
+
+            <Border.Effect>
+                <DropShadowEffect Opacity="0.75" />
+            </Border.Effect>
+
+            <StackPanel>
+                <TextBlock Style="{StaticResource Macad.Styles.TextBlock.PopupHeader}" 
+                           Text="{Binding Header, ElementName=This}" />
+
+                <ContentPresenter Content="{Binding Body, ElementName=This}" />
+            </StackPanel>
+        </Border>
+        
+    </Popup>
+</UserControl>

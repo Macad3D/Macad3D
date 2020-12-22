@@ -1,0 +1,40 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".generated.cs" #>
+<#@ include file=".\BoolConverter.ttinclude" #>
+
+<#
+	BaseName = "LowerThan";
+
+	Evaluation = @" if (value is String)
+					{
+						return value.ToString().CompareTo(parameter as String) < 0;
+					}
+					else if (value is Int32)
+					{
+						if (parameter is String)
+						{
+							b = (Int32)value < Int32.Parse(parameter as String);
+						}
+						else
+						{
+							b = (Int32)value < (Int32)parameter;
+						}
+					}
+					else if (value is Int64)
+					{
+						if (parameter is String)
+						{
+							b = (Int64)value < Int64.Parse(parameter as String);
+						}
+						else
+						{
+							b = (Int64)value < (Int64)parameter;
+						}
+					}
+					else
+					{
+						b = (value is IComparable).CompareTo((parameter is IComparable)) < 0;
+					}";
+
+	Generate();
+#>

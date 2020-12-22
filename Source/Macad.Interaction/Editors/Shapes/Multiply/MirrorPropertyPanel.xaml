@@ -1,0 +1,47 @@
+﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Shapes.MirrorPropertyPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:mmi="clr-namespace:Macad.Interaction"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             Style="{DynamicResource Macad.Styles.PropertyPanel}"
+             Header="Mirror"
+             mmp:Help.TopicId="6578fa5e-7536-4df2-96fc-18a31a4cee9c">
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Offset"  Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <mmp:ValueEditBox Grid.Row="1" Grid.Column="1" 
+                          Units="Length" 
+                          Value="{Binding Shape.Offset, NotifyOnSourceUpdated=True}" />
+       
+        <mmp:ToggleButton Grid.Row="3" Grid.ColumnSpan="2" 
+                          Visibility="{Binding Shape.ShapeType, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=Sketch}"
+                          Content="Reselect Reference Edge" 
+                          IsChecked="{Binding IsToolActive}"
+                          Command="{Binding ReselectCommand}"
+                          HorizontalAlignment="Center" 
+                          Margin="0,20,0,2" />
+        <mmp:ToggleButton Grid.Row="3" Grid.ColumnSpan="2" 
+                          Visibility="{Binding Shape.ShapeType, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=Solid}"
+                          Content="Reselect Reference Face" 
+                          IsChecked="{Binding IsToolActive}"
+                          Command="{Binding ReselectCommand}"
+                          HorizontalAlignment="Center" 
+                          Margin="0,20,0,2" />
+    </Grid>
+</mmi:PropertyPanel>

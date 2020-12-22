@@ -1,0 +1,17 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".generated.cs" #>
+<#@ include file=".\BoolConverter.ttinclude" #>
+<#
+	BaseName = "StringNotEmpty";
+	SourceType = "string";
+
+	Evaluation = @" if (value != null)
+					{
+						if (value.ToString().Length > 0)
+						{
+							b = true;
+						}
+					}";
+
+	Generate();
+#>

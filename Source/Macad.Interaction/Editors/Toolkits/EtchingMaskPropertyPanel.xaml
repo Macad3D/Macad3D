@@ -1,0 +1,85 @@
+﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Toolkits.EtchingMaskPropertyPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:mmi="clr-namespace:Macad.Interaction"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             Style="{DynamicResource Macad.Styles.PropertyPanel}"
+             Header="Etching Mask"
+             mmp:Help.TopicId="0c834add-faf4-48f0-a8c3-e6dce411774c">
+        
+    <mmi:PropertyPanel.HeaderButtons >
+        <mmp:PathButton Height="16" Width="16"
+                        ToolTip="Remove Component"
+                        Cursor="Hand"
+                        PathData="{StaticResource Macad.Geometries.Delete}"
+                        Command="{Binding DeleteCommand}">
+        </mmp:PathButton>
+    </mmi:PropertyPanel.HeaderButtons>
+
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="10" />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row ="0" Grid.Column="0" Style="{DynamicResource Macad.Styles.TextBlock.Property}"
+                       Text="Use Shape:" />
+            <Button Grid.Row ="0" Grid.Column="1"
+                    Content="{Binding ShapeDescription}"
+                    HorizontalAlignment="Left" Margin="0,0,0,5"
+                    Width="150" Style="{DynamicResource Macad.Styles.Button.DropDown}">
+                <mmp:Behaviors.Behavior>
+                    <mmp:DropDownButtonBehavior />
+                </mmp:Behaviors.Behavior>
+                <Button.ContextMenu>
+                    <ContextMenu DataContext="{Binding DataContext, Source={mmp:RootObject}}">
+                        <MenuItem Header="Always use the Top Shape"
+                                  Command="{Binding ShapeSelectTopCommand}"/>
+                        <MenuItem Header="Always use Current Shape" 
+                                  Command="{Binding ShapeSelectCurrentCommand}"/>
+                        <MenuItem Header="Set Selected as Current"
+                                  Command="{Binding ShapeSetCurrentCommand}"
+                                  Icon="{mmp:IconResource Generic-CurrentMarker}"/>
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
+
+                    
+            <TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource Macad.Styles.TextBlock.Property}"
+                       Text="Layer Count" />
+            <mmp:ValueEditBox  Grid.Row="1" Grid.Column="1"
+                               Units="None" MinValue="1" MaxValue="1000" Precision="0" IncDecButtons="True"
+                               Value="{Binding Tool.Component.LayerCount, NotifyOnSourceUpdated=True}" />
+            
+            <mmp:ToggleButton Grid.Row="3" Grid.ColumnSpan="2" 
+                              HorizontalAlignment="Center"  Width="118"
+                              Content="Reselect Base Face" 
+                              IsChecked="{Binding Tool.IsSelectingFace, Mode=OneWay}"
+                              Command="{Binding SelectFaceCommand}"
+                              AutomationProperties.AutomationId="ReselectBaseFace"/>
+        </Grid>
+
+        <Button Width="150" Margin="0,20,0,0" HorizontalAlignment="Center"
+                Command="{Binding ExportCommand}"
+                AutomationProperties.AutomationId="ExportVectorFile">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="{mmp:IconResource App-Export}"
+                       Height="32" Margin="0,0,5,0"/>
+                <TextBlock Text="Export Vector File"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
+        </Button>
+    </StackPanel>
+</mmi:PropertyPanel>

@@ -1,0 +1,14 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".generated.cs" #>
+<#@ include file=".\BoolConverter.ttinclude" #>
+<#
+	BaseName = "Bool";
+	SourceType = "bool";
+
+	Evaluation = "b = (bool)value;";
+
+	EvaluationBack = "return b;";
+
+	Generate();
+#>
+

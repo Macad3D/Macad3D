@@ -1,0 +1,114 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--#region Main Colors -->
+
+    <ColorAndBrush x:Key="White">#FFFFFFFF</ColorAndBrush>
+    <ColorAndBrush x:Key="Black">#FF000000</ColorAndBrush>
+
+    <ColorAndBrush x:Key="Base10">#FFF0F0F0</ColorAndBrush>
+    <ColorAndBrush x:Key="Base15">#FFE4E4E4</ColorAndBrush>
+    <ColorAndBrush x:Key="Base20">#FFD8D8D8</ColorAndBrush>
+    <ColorAndBrush x:Key="Base25">#FFCBCBCB</ColorAndBrush>
+    <ColorAndBrush x:Key="Base30">#FFC0C0C0</ColorAndBrush>
+    <ColorAndBrush x:Key="Base35">#FFB4B4B4</ColorAndBrush>
+    <ColorAndBrush x:Key="Base40">#FFA8A8A8</ColorAndBrush>
+    <ColorAndBrush x:Key="Base50">#FF909090</ColorAndBrush>
+    <ColorAndBrush x:Key="Base60">#FF787878</ColorAndBrush>
+    <ColorAndBrush x:Key="Base70">#FF606060</ColorAndBrush>
+    <ColorAndBrush x:Key="Base80">#FF484848</ColorAndBrush>
+    <ColorAndBrush x:Key="Base90">#FF303030</ColorAndBrush>
+    <ColorAndBrush x:Key="Base100">#FF242424</ColorAndBrush>
+    
+    <ColorAndBrush x:Key="Accent">#FFFECA34</ColorAndBrush>
+    <ColorAndBrush x:Key="AccentDark">#FFC2821B</ColorAndBrush>
+    <ColorAndBrush x:Key="AccentLight">#FFFEDE70</ColorAndBrush>
+    <ColorAndBrush x:Key="Complementary">#285eff</ColorAndBrush>
+    
+    <ColorAndBrush x:Key="Error">#ffb22222</ColorAndBrush>
+    <ColorAndBrush x:Key="Warning">#ffef6c00</ColorAndBrush>
+    
+    <ColorAndBrush x:Key="Text">Macad.Colors.Black</ColorAndBrush>
+    <ColorAndBrush x:Key="TextLight">Macad.Colors.Base60</ColorAndBrush>
+
+    <!--#endregion-->
+    
+    <!--#region Window -->
+
+    <ColorAndBrush x:Key="Window.Background">Macad.Colors.Base40</ColorAndBrush>
+    <ColorAndBrush x:Key="Window.Border">Macad.Colors.Base80</ColorAndBrush>
+    
+    <ColorAndBrush x:Key="StatusBar.Background">Macad.Colors.Base50</ColorAndBrush>
+    <ColorAndBrush x:Key="MessageBar.Background">LemonChiffon</ColorAndBrush>
+    
+    <ColorAndBrush x:Key="Pane.Background">Macad.Colors.Base40</ColorAndBrush>
+    <ColorAndBrush x:Key="Pane.Border">Macad.Colors.Base80</ColorAndBrush>
+    
+    <ColorAndBrush x:Key="Panel.Background">Macad.Colors.Base30</ColorAndBrush>
+    <ColorAndBrush x:Key="Panel.Border">Macad.Colors.Base60</ColorAndBrush>
+    <ColorAndBrush x:Key="Panel.Header.Background">Macad.Colors.Base25</ColorAndBrush>
+    <ColorAndBrush x:Key="Panel.Header.Border">Macad.Colors.Base60</ColorAndBrush>
+    
+    <ColorAndBrush x:Key="Popup.Border">Macad.Colors.Black</ColorAndBrush>
+    <ColorAndBrush x:Key="Popup.Background">Macad.Colors.Base10</ColorAndBrush>
+    <ColorAndBrush x:Key="Popup.Header.Border">Macad.Colors.Base80</ColorAndBrush>
+    <ColorAndBrush x:Key="Popup.Header.Background">Macad.Colors.Base30</ColorAndBrush>
+    <ColorAndBrush x:Key="Popup.Header.Text">Macad.Colors.Base80</ColorAndBrush>
+    
+    <!--#endregion-->
+    
+    <!--#region Controls -->
+
+    <ColorAndBrush x:Key="Button.Text">Macad.Colors.Text</ColorAndBrush>
+    <ColorAndBrush x:Key="Button.Border">Macad.Colors.Black</ColorAndBrush>
+    <ColorAndBrush x:Key="Button.Background">Macad.Colors.Base25</ColorAndBrush>
+    <ColorAndBrush x:Key="Button.MouseOver.Border">Macad.Colors.Base40</ColorAndBrush>
+    <ColorAndBrush x:Key="Button.MouseOver.Background">Macad.Colors.Base15</ColorAndBrush>
+    <ColorAndBrush x:Key="Button.Pressed.Border">Macad.Colors.Base50</ColorAndBrush>
+    <ColorAndBrush x:Key="Button.Pressed.Background">Macad.Colors.Base50</ColorAndBrush>
+    <ColorAndBrush x:Key="Button.Checked.Border">Macad.Colors.Black</ColorAndBrush>
+    <ColorAndBrush x:Key="Button.Checked.Background">Macad.Colors.Accent</ColorAndBrush>
+    <ColorAndBrush x:Key="Button.CheckedMouseOver.Border">Macad.Colors.Black</ColorAndBrush>
+    <ColorAndBrush x:Key="Button.CheckedMouseOver.Background">Macad.Colors.AccentLight</ColorAndBrush>
+    <ColorAndBrush x:Key="Button.Disabled.Border">Macad.Colors.Base50</ColorAndBrush>
+    <ColorAndBrush x:Key="Button.Disabled.Text">Macad.Colors.Base50</ColorAndBrush>
+    <ColorAndBrush x:Key="Button.Link.Text">SteelBlue</ColorAndBrush>
+    <ColorAndBrush x:Key="Button.Link.MouseOver.Text">Macad.Colors.Complementary</ColorAndBrush>
+
+    <ColorAndBrush x:Key="TextBox.Text">Macad.Colors.Text</ColorAndBrush>
+    <ColorAndBrush x:Key="TextBox.Border">Macad.Colors.Black</ColorAndBrush>
+    <ColorAndBrush x:Key="TextBox.Background">Macad.Colors.Base15</ColorAndBrush>
+    <ColorAndBrush x:Key="TextBox.MouseOver.Border">Macad.Colors.Base40</ColorAndBrush>
+    <ColorAndBrush x:Key="TextBox.MouseOver.Background">Macad.Colors.Base10</ColorAndBrush>
+    <ColorAndBrush x:Key="TextBox.Focused.Border">Macad.Colors.Base50</ColorAndBrush>
+    <ColorAndBrush x:Key="TextBox.Focused.Background">Macad.Colors.Base10</ColorAndBrush>
+    <ColorAndBrush x:Key="TextBox.Disabled.Border">Macad.Colors.Base50</ColorAndBrush>
+    <ColorAndBrush x:Key="TextBox.Disabled.Text">Macad.Colors.Base50</ColorAndBrush>
+    <ColorAndBrush x:Key="TextBox.Invalid.Background">Macad.Colors.Error</ColorAndBrush>
+    
+    <ColorAndBrush x:Key="ListView.Text">Macad.Colors.Text</ColorAndBrush>
+    <ColorAndBrush x:Key="ListView.Border">Macad.Colors.Black</ColorAndBrush>
+    <ColorAndBrush x:Key="ListView.Background">Macad.Colors.Base20</ColorAndBrush>
+    <ColorAndBrush x:Key="ListView.MouseOver.Border">Macad.Colors.Base40</ColorAndBrush>
+    <ColorAndBrush x:Key="ListView.MouseOver.Background">Macad.Colors.Base10</ColorAndBrush>
+    <ColorAndBrush x:Key="ListView.Focused.Border">Macad.Colors.Base50</ColorAndBrush>
+    <ColorAndBrush x:Key="ListView.Focused.Background">Transparent</ColorAndBrush>
+    <ColorAndBrush x:Key="ListView.Selected.Border">Macad.Colors.Accent</ColorAndBrush>
+    <ColorAndBrush x:Key="ListView.Selected.Background">Macad.Colors.Accent</ColorAndBrush>
+    <ColorAndBrush x:Key="ListView.SelectedFocused.Border">Macad.Colors.AccentDark</ColorAndBrush>
+    <ColorAndBrush x:Key="ListView.SelectedFocused.Background">Macad.Colors.Accent</ColorAndBrush>
+    <ColorAndBrush x:Key="ListView.SelectedMouseOver.Border">Macad.Colors.AccentDark</ColorAndBrush>
+    <ColorAndBrush x:Key="ListView.SelectedMouseOver.Background">Macad.Colors.AccentLight</ColorAndBrush>
+    <ColorAndBrush x:Key="ListView.Disabled.Border">Macad.Colors.Base50</ColorAndBrush>
+    <ColorAndBrush x:Key="ListView.Disabled.Text">Macad.Colors.Base50</ColorAndBrush>
+    
+    <ColorAndBrush x:Key="Glyph">Macad.Colors.Base80</ColorAndBrush>
+    <ColorAndBrush x:Key="Glyph.MouseOver">Macad.Colors.Base100</ColorAndBrush>
+    <ColorAndBrush x:Key="Glyph.Disabled">Macad.Colors.Base50</ColorAndBrush>
+    
+    <ColorAndBrush x:Key="ScrollBar.Foreground">Macad.Colors.Base70</ColorAndBrush>
+    
+    <ColorAndBrush x:Key="Separator">Macad.Colors.Base70</ColorAndBrush>
+    
+    <!--#endregion-->
+
+</ResourceDictionary>

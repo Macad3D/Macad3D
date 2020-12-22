@@ -1,0 +1,40 @@
+﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Shapes.SketchPropertyPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:mmi="clr-namespace:Macad.Interaction"
+             mc:Ignorable="d" 
+             d:DesignWidth="250"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             Style="{DynamicResource Macad.Styles.PropertyPanel}"
+             Header="Sketch">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="10">
+            <mmp:ToggleButton HorizontalAlignment="Center" Margin="0"
+                              HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                              IsChecked="{Binding IsToolActive, Mode=OneWay}"
+                              Command="{Binding StartToolCommand}" >
+                <Image Source="{mmp:IconResource Tool-SketchEditor}" Width="32" Height="32" />
+            </mmp:ToggleButton>
+        </DockPanel>
+        
+        <TextBlock Grid.Row="1"
+                   Text="Constraints failed to solve."
+                   Foreground="{StaticResource Macad.Brushes.Error}"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Visibility="{Binding Sketch.ConstraintSolverFailed, Converter={mmp:BoolToVisibleHiddenConverter}}"/>
+
+    </Grid>
+</mmi:PropertyPanel>
+
+
+

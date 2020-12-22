@@ -1,0 +1,45 @@
+﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Shapes.ExtrudePropertyPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:mmi="clr-namespace:Macad.Interaction"
+             mc:Ignorable="d"
+             d:DesignWidth="250"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             Style="{DynamicResource Macad.Styles.PropertyPanel}"
+             Header="Extrude"
+			 mmp:Help.TopicId="240A3C08-F9A0-4E31-88E0-7B034C1D9F9D">
+    
+    <Grid Margin="10,5,0,5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="0" Text="Depth" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <mmp:ValueEditBox Grid.Column="1" 
+                        Units="Length" Value="{Binding Extrude.Depth, NotifyOnSourceUpdated=True}" />
+        
+        <CheckBox Grid.Row="1" Grid.Column="1"
+                  Margin="0,8,0,8"
+                  VerticalAlignment="Center" HorizontalAlignment="Left"
+                  Content="Symmetric"
+                  Visibility="{Binding Extrude.Predecessor.ShapeType, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=Sketch}"
+                  IsChecked="{Binding Extrude.Symmetric, NotifyOnSourceUpdated=True}" />
+
+        <mmp:ToggleButton Grid.Row="2" Grid.ColumnSpan="2" 
+                          Content="Reselect Target Face" 
+                          Visibility="{Binding Extrude.Predecessor.ShapeType, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=Solid}"
+                          IsChecked="{Binding IsToolActive}"
+                          Command="{Binding ReselectFaceCommand}"
+                          HorizontalAlignment="Center" 
+                          Margin="0,20,0,2" />
+    </Grid>
+</mmi:PropertyPanel>

@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="Macad.Presentation.ColorPickerPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mmp="clr-namespace:Macad.Presentation"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}" 
+             BorderBrush="{StaticResource Macad.Brushes.Popup.Border}"
+             Background="{StaticResource Macad.Brushes.Popup.Background}">
+    
+    <UserControl.Resources>
+
+        <Geometry x:Key="HexagonGeometry">
+            M 0,25 L 0,75 L 50,100 L 100,75 L 100,25 L 50,0 Z
+        </Geometry>
+
+        <Style x:Key="ColorHexagonStyle" TargetType="ListBox">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="SelectionMode" Value="Single" />
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="Margin" Value="5,5,-4,5" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Grid.Row" Value="{Binding Row}" />
+                        <Setter Property="Grid.Column" Value="{Binding Column}" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <Grid Cursor="Pen">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <Path x:Name="Border" Data="{StaticResource HexagonGeometry}" 
+                                            Stretch="UniformToFill"
+                                              StrokeThickness="2"/>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Border" Property="Stroke" Value="{StaticResource Macad.Brushes.Button.MouseOver.Border}" />
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Border" Property="Stroke" Value="{StaticResource Macad.Brushes.Button.Checked.Border}" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Path Data="{StaticResource HexagonGeometry}" 
+                              Stretch="UniformToFill"
+                              StrokeThickness="0.2"
+                              Stroke="Silver">
+                            <Path.Fill>
+                                <SolidColorBrush Color="{Binding Color}" />
+                            </Path.Fill>
+                        </Path>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+    </UserControl.Resources>
+    
+    <StackPanel>
+        <TextBlock Style="{StaticResource Macad.Styles.TextBlock.PopupHeader}" Text="COLOR COMB" />
+        <Rectangle Height="1" Stroke="{StaticResource Macad.Brushes.Popup.Header.Border}" />
+
+        <ListBox ItemsSource="{Binding Source={x:Static mmp:ColorHelper.HexagonColors}}" 
+                 SelectedValue="{Binding SelectedColor, Mode=TwoWay}"
+                 SelectedValuePath="Color"
+                 Style="{StaticResource ColorHexagonStyle}"
+                 AutomationProperties.AutomationId="ColorList">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <mmp:HexagonGrid HexagonSideLength="10" Rows="15" Columns="13" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+
+        <TextBlock Style="{StaticResource Macad.Styles.TextBlock.PopupHeader}" Text="RECENTLY USED COLORS" Margin="0,5,0,0"/>
+        <Rectangle Height="1" Stroke="{StaticResource Macad.Brushes.Popup.Header.Border}" />
+
+        <ListBox ItemsSource="{Binding RecentColors}" 
+                     SelectedValue="{Binding SelectedColor, Mode=TwoWay}"
+                     SelectedValuePath="Color"
+                     Style="{StaticResource ColorHexagonStyle}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <mmp:HexagonGrid HexagonSideLength="10" Rows="3" Columns="11" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+
+    </StackPanel>
+</UserControl>

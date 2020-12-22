@@ -1,0 +1,287 @@
+﻿<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#+ 
+
+string BaseName;
+string SourceType = null;
+string Evaluation;
+string EvaluationBack;
+List<string> References = new List<string>();
+
+string GetValueConversionAttribute(string target)
+{
+	if(SourceType!=null)
+    {
+		return "[ValueConversion(typeof(" + SourceType + "), typeof(" + target +"))]";
+    }
+	return "";
+}
+
+void GenerateEvaluation()
+{
+#>
+			bool b = false;
+			if(value != null)
+			{
+				<#= Evaluation #>
+			};
+<#+ 
+}
+
+void GenerateEvaluationBack(string condition, string evaluation)
+{
+	if(string.IsNullOrEmpty(EvaluationBack))
+		WriteLine("\t\t\tthrow new NotSupportedException();");
+	else {
+#>
+			if((value == null)||(!(<#= condition #>)))
+				return false;
+
+			bool b = <#= evaluation #>;
+			<#= EvaluationBack #>
+<#+ 
+	}
+}
+
+void GenerateUsings()
+{
+	foreach(var reference in References)
+		WriteLine("using " + reference +";");
+}
+
+void Generate()
+{			
+#>
+// This file contains the implementation of the <#= BaseName #>
+// converter classes and was generated from a T4 template.
+// Generated: <#= DateTime.Now.ToString() #>
+
+using System;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Markup;
+using System.Windows.Data;
+<#+ GenerateUsings(); #>
+
+namespace Macad.Presentation
+{
+    [ContentProperty("Converter")]
+	<#= GetValueConversionAttribute("bool") #>
+    public sealed class <#= BaseName #>ToBoolConverter : ConverterMarkupExtension<<#= BaseName #>ToBoolConverter>
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (PresentationHelper.IsInDesignMode)
+            {
+                return true;
+            }
+
+			<#+ GenerateEvaluation(); #>
+
+            return b;
+        }
+						
+		public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+<#+ GenerateEvaluationBack("value is bool", "(bool)value"); #>
+		}
+    }
+	    
+
+	[ContentProperty("Converter")]
+	<#= GetValueConversionAttribute("bool") #>
+    public sealed class <#= BaseName #>ToNotBoolConverter : ConverterMarkupExtension<<#= BaseName #>ToNotBoolConverter>
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (PresentationHelper.IsInDesignMode)
+            {
+                return true;
+            }
+
+			<#+ GenerateEvaluation(); #>
+
+            return !b;
+        }
+				
+		public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+<#+ GenerateEvaluationBack("value is bool", "!(bool)value"); #>
+		}
+    }
+
+
+	[ContentProperty("Converter")]
+	<#= GetValueConversionAttribute("Visibility") #>
+    public sealed class <#= BaseName #>ToVisibleHiddenConverter : ConverterMarkupExtension<<#= BaseName #>ToVisibleHiddenConverter>
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (PresentationHelper.IsInDesignMode)
+            {
+                return Visibility.Visible;
+            }
+
+<#+ GenerateEvaluation(); #>
+
+            if (b == true)
+            {
+                return Visibility.Visible;
+            }
+            else
+            {
+                return Visibility.Hidden;
+            }
+        }
+
+		public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+<#+ GenerateEvaluationBack("value is Visibility", "(Visibility)value == Visibility.Visible"); #>
+		}
+    }
+
+
+	[ContentProperty("Converter")]
+	<#= GetValueConversionAttribute("Visibility") #>
+    public sealed class <#= BaseName #>ToVisibleCollapsedConverter : ConverterMarkupExtension<<#= BaseName #>ToVisibleCollapsedConverter>
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (PresentationHelper.IsInDesignMode)
+            {
+                return Visibility.Visible;
+            }
+
+<#+ GenerateEvaluation(); #>
+
+            if (b == true)
+            {
+                return Visibility.Visible;
+            }
+            else
+            {
+                return Visibility.Collapsed;
+            }
+        }
+		
+		public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+<#+ GenerateEvaluationBack("value is Visibility", "(Visibility)value == Visibility.Visible"); #>
+		}
+    }
+	
+
+	[ContentProperty("Converter")]
+	<#= GetValueConversionAttribute("Visibility") #>
+    public sealed class <#= BaseName #>ToInvisibleHiddenConverter : ConverterMarkupExtension<<#= BaseName #>ToInvisibleHiddenConverter>
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (PresentationHelper.IsInDesignMode)
+            {
+                return Visibility.Visible;
+            }
+
+			<#+ GenerateEvaluation(); #>
+
+            if (b == false)
+            {
+                return Visibility.Visible;
+            }
+            else
+            {
+                return Visibility.Hidden;
+            }
+        }
+				
+		public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+<#+ GenerateEvaluationBack("value is Visibility", "(Visibility)value == Visibility.Hidden"); #>
+		}
+    }
+
+
+	[ContentProperty("Converter")]
+	<#= GetValueConversionAttribute("Visibility") #>
+    public sealed class <#= BaseName #>ToInvisibleCollapsedConverter : ConverterMarkupExtension<<#= BaseName #>ToInvisibleCollapsedConverter>
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (PresentationHelper.IsInDesignMode)
+            {
+                return Visibility.Visible;
+            }
+
+			<#+ GenerateEvaluation(); #>
+
+            if (b == false)
+            {
+                return Visibility.Visible;
+            }
+            else
+            {
+                return Visibility.Collapsed;
+            }
+        }
+						
+		public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+<#+ GenerateEvaluationBack("value is Visibility", "(Visibility)value == Visibility.Collapsed"); #>
+		}
+    }
+	
+
+	[ContentProperty("Converter")]
+    public sealed class <#= BaseName #>ToParameterConverter : ConverterMarkupExtension<<#= BaseName #>ToParameterConverter>
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (PresentationHelper.IsInDesignMode)
+            {
+                return true;
+            }
+
+			<#+ GenerateEvaluation(); #>
+
+            if (b == true)
+            {
+                return parameter;
+            }
+            else
+            {
+                return "";
+            }
+        }
+    }
+		
+
+	[ContentProperty("Converter")]
+    public sealed class <#= BaseName #>NotToParameterConverter : ConverterMarkupExtension<<#= BaseName #>NotToParameterConverter>
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (PresentationHelper.IsInDesignMode)
+            {
+                return true;
+            }
+
+			<#+ GenerateEvaluation(); #>
+
+            if (b == false)
+            {
+                return parameter;
+            }
+            else
+            {
+                return "";
+            }
+        }
+    }
+}
+		
+<#+
+}
+#>

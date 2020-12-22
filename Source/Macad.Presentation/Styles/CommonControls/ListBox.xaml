@@ -1,0 +1,142 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    mc:Ignorable="d"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
+    <Style TargetType="{x:Type ListBox}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="Background" Value="{StaticResource Macad.Brushes.ListView.Background}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.ListView.Border}" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBox}">
+                    <Grid>
+                        <Border x:Name="Border" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="2" 
+                                Background="{TemplateBinding Background}" />
+                        <ScrollViewer Margin="0" Style="{StaticResource Macad.Styles.ScrollViewer}" 
+                                      Focusable="false" Background="{x:Null}" HorizontalContentAlignment="Stretch">
+                            <StackPanel Margin="1" IsItemsHost="true" />
+                        </ScrollViewer>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style d:IsControlPart="True" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border x:Name="border" 
+                            BorderThickness="1" 
+                            Padding="{TemplateBinding Control.Padding}"
+                            SnapsToDevicePixels="True"
+                            CornerRadius="2" 
+                            VerticalAlignment="Center" 
+                            Margin="0"
+                            Background="Transparent">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                          Margin="5,0" 
+                                          x:Name="contentPresenter" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Macad.Brushes.ListView.MouseOver.Background}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Macad.Brushes.ListView.MouseOver.Border}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Macad.Brushes.ListView.Selected.Background}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Macad.Brushes.ListView.Selected.Border}"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Macad.Brushes.ListView.Focused.Background}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Macad.Brushes.ListView.Focused.Border}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="Selector.IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Macad.Brushes.ListView.SelectedMouseOver.Background}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Macad.Brushes.ListView.SelectedMouseOver.Border}"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFocused" Value="True" />
+                                <Condition Property="Selector.IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Macad.Brushes.ListView.SelectedFocused.Background}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Macad.Brushes.ListView.SelectedFocused.Border}"/>
+                        </MultiTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition 
+                                    Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=IsActive, FallbackValue=False}"
+                                    Value="False" />
+                                <Condition
+                                    Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}"
+                                    Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Macad.Brushes.ListView.Focused.Background}"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Macad.Brushes.ListView.Focused.Border}"/>
+                        </MultiDataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.ListView.Text}" />
+        <Style.Triggers>
+            <Trigger Property="Selector.IsSelected" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.ListView.Text}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style x:Key="Macad.Styles.ListBoxItem.NoSelection" d:IsControlPart="True" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.ListView.Text}" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border x:Name="border" 
+                            BorderThickness="0" 
+                            Padding="{TemplateBinding Control.Padding}"
+                            SnapsToDevicePixels="True"
+                            VerticalAlignment="Center" 
+                            Margin="0"
+                            Background="Transparent">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                          Margin="5,0" 
+                                          x:Name="contentPresenter" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

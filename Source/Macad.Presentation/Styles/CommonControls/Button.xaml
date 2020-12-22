@@ -1,0 +1,256 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mmp="clr-namespace:Macad.Presentation">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Colors.xaml" />
+        <ResourceDictionary Source="../Geometries.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
+    <ControlTemplate x:Key="Macad.Templates.Button" TargetType="{x:Type Button}">
+        <Grid x:Name="Grid">
+            <Border x:Name="border" 
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    Height="Auto"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    CornerRadius="2">
+                <Border x:Name="border1" 
+                        Height="Auto" 
+                        BorderBrush="Transparent" 
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="Transparent" 
+                        CornerRadius="2"
+                        TextOptions.TextFormattingMode="Display">
+                    <Grid Height="Auto">
+                        <ContentPresenter Margin="{TemplateBinding Padding}" 
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
+                </Border>
+            </Border>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" TargetName="border" Value="{StaticResource Macad.Brushes.Button.Pressed.Background}" />
+                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Macad.Brushes.Button.Pressed.Border}" />
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsPressed" Value="False" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" TargetName="border" Value="{StaticResource Macad.Brushes.Button.MouseOver.Background}" />
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsPressed" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" TargetName="border" Value="{StaticResource Macad.Brushes.Button.MouseOver.Background}" />
+                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Macad.Brushes.Button.Pressed.Border}" />
+            </MultiTrigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Opacity" TargetName="Grid" Value="0.5" />
+            </Trigger>
+
+            <Trigger Property="mmp:GroupControls.Position" Value="Left">
+                <Setter TargetName="border" Property="CornerRadius" Value="2,0,0,2" />
+                <Setter TargetName="border1" Property="CornerRadius" Value="2,0,0,2" />
+                <Setter TargetName="border" Property="BorderThickness" Value="1" />
+            </Trigger>
+            <Trigger Property="mmp:GroupControls.Position" Value="HCenter">
+                <Setter TargetName="border" Property="CornerRadius" Value="0" />
+                <Setter TargetName="border1" Property="CornerRadius" Value="0" />
+                <Setter TargetName="border" Property="BorderThickness" Value="0,1,1,1" />
+            </Trigger>
+            <Trigger Property="mmp:GroupControls.Position" Value="Right">
+                <Setter TargetName="border" Property="CornerRadius" Value="0,2,2,0" />
+                <Setter TargetName="border1" Property="CornerRadius" Value="0,2,2,0" />
+                <Setter TargetName="border" Property="BorderThickness" Value="0,1,1,1" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+
+    <Style TargetType="{x:Type Button}" BasedOn="{x:Null}">
+        <Setter Property="Background" Value="{StaticResource Macad.Brushes.Button.Background}" />
+        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Button.Text}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.Border}" />
+        <Setter Property="Template" Value="{StaticResource Macad.Templates.Button}" />
+        <Setter Property="Padding" Value="7,2" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,2" />
+    </Style>
+
+
+    <Style x:Key="Macad.Styles.Button.DropDown"  TargetType="{x:Type Button}" BasedOn="{x:Null}">
+        <Setter Property="Background" Value="{StaticResource Macad.Brushes.Button.Background}" />
+        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Button.Text}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.Border}" />
+        <Setter Property="Padding" Value="7,2" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid x:Name="Grid">
+                        <Border x:Name="border" BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" Height="Auto"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            CornerRadius="3">
+                            <Border x:Name="border1" Height="Auto" BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="Transparent" CornerRadius="3"
+                                 TextOptions.TextFormattingMode="Display">
+                                <Grid Height="Auto">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="20"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentPresenter Margin="{TemplateBinding Padding}" />
+                                    <Path Grid.Column="1" HorizontalAlignment="Center" x:Name="Arrow" VerticalAlignment="Center" Fill="{x:Null}" Data="{StaticResource Macad.Geometries.DropDownArrow}" 
+                                            Stroke="{StaticResource Macad.Brushes.Glyph}" Margin="5,0,5,0" Height="7" StrokeThickness="2" Stretch="Fill" />
+                                </Grid>
+                            </Border>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource Macad.Brushes.Button.Pressed.Background}" />
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Macad.Brushes.Button.Pressed.Border}" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsPressed" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource Macad.Brushes.Button.MouseOver.Background}" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsPressed" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource Macad.Brushes.Button.MouseOver.Background}" />
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Macad.Brushes.Button.MouseOver.Border}" />
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="Grid" Value="0.5" />
+                        </Trigger>
+
+                        <Trigger Property="mmp:GroupControls.Position" Value="Left">
+                            <Setter TargetName="border" Property="CornerRadius" Value="3,0,0,3" />
+                            <Setter TargetName="border1" Property="CornerRadius" Value="3,0,0,3" />
+                            <Setter TargetName="border" Property="BorderThickness" Value="1" />
+                        </Trigger>
+                        <Trigger Property="mmp:GroupControls.Position" Value="HCenter">
+                            <Setter TargetName="border" Property="CornerRadius" Value="0" />
+                            <Setter TargetName="border1" Property="CornerRadius" Value="0" />
+                            <Setter TargetName="border" Property="BorderThickness" Value="0,1,1,1" />
+                        </Trigger>
+                        <Trigger Property="mmp:GroupControls.Position" Value="Right">
+                            <Setter TargetName="border" Property="CornerRadius" Value="0,3,3,0" />
+                            <Setter TargetName="border1" Property="CornerRadius" Value="0,3,3,0" />
+                            <Setter TargetName="border" Property="BorderThickness" Value="0,1,1,1" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Macad.Styles.Button.Grid" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <ContentPresenter Margin="{TemplateBinding Padding}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      RecognizesAccessKey="True"
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Macad.Styles.Button.GridDropDown" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Grid Height="Auto" Background="Transparent" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          RecognizesAccessKey="True"/>
+                        <Path Grid.Column="1" HorizontalAlignment="Center" x:Name="Arrow" VerticalAlignment="Center" Fill="{x:Null}" Data="{StaticResource Macad.Geometries.DropDownArrow}" 
+                              Stroke="{StaticResource Macad.Brushes.Glyph}" Margin="5,0,5,0" Height="7" StrokeThickness="2" Stretch="Fill" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Macad.Styles.Button.Link" TargetType="Button">
+        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Button.Link.Text}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <ContentPresenter Margin="{TemplateBinding Padding}" 
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Button.Link.MouseOver.Text}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="Macad.Styles.Button.Glyph" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Glyph}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Border VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            Background="{TemplateBinding Background}">
+                        <Path Margin="{TemplateBinding Padding}"
+                              SnapsToDevicePixels="True" UseLayoutRounding="True"
+                              Stroke="{TemplateBinding Foreground}"
+                              StrokeThickness="1"
+                              Stretch="Uniform"
+                              Data="{TemplateBinding Content}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Glyph.MouseOver}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

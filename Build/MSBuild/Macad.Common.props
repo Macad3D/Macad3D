@@ -1,0 +1,21 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MMRootDir Condition="$(MMRootDir) == ''">$(MSBuildThisFileDirectory)..\..\</MMRootDir>
+    <MMScriptDir Condition="$(MMScriptDir) == ''">$(MMRootDir)Build\</MMScriptDir>
+    <MMBuildPropsDir Condition="$(MMRootDir) == ''">$(MMRootDir)Build\MSBuild\</MMBuildPropsDir>
+    <MMCsiPath Condition="$(MMCsiPath) == ''">$(MSBuildBinPath)\Roslyn\csi.exe</MMCsiPath>
+    <MMExtensionAssemblyFile Condition="$(MMExtensionAssemblyFile) == ''">$(MMRootDir)bin\Build\MSBuildExtension.dll</MMExtensionAssemblyFile>
+    
+    <MMIsCsProj Condition="$(MSBuildProjectExtension) == '.csproj'">true</MMIsCsProj>
+    <MMIsVcxProj Condition="$(MSBuildProjectExtension) == '.vcxproj'">true</MMIsVcxProj>
+    <MMIsVcxManagedProj Condition="($(MMIsVcxProj) == 'true') And ($(Keyword) == 'ManagedCProj')">true</MMIsVcxManagedProj>
+    <MMIsDocProj Condition="$(MSBuildProjectExtension) == '.shfbproj'">true</MMIsDocProj>
+
+  </PropertyGroup>
+
+  <Import Project="$(MMBuildPropsDir)Macad.ThirdParty.props" />
+  <Import Project="$(MMBuildPropsDir)Macad.CSharp.props" Condition="$(MMIsCsProj) == 'true'" />
+  <Import Project="$(MMBuildPropsDir)Macad.Native.props" Condition="$(MMIsVcxProj) == 'true'" />
+  <Import Project="$(MMBuildPropsDir)Macad.Managed.props" Condition="$(MMIsVcxManagedProj) == 'true'" />
+
+</Project>

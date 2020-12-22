@@ -1,0 +1,50 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mmp="clr-namespace:Macad.Presentation">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Colors.xaml" />
+        <ResourceDictionary Source="../CommonControls/ScrollBar.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{x:Type mmp:PanningScrollViewer}" TargetType="{x:Type mmp:PanningScrollViewer}" BasedOn="{x:Null}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type mmp:PanningScrollViewer}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" MaxWidth="6"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" MaxHeight="6" />
+                        </Grid.RowDefinitions>
+                        <ScrollContentPresenter Grid.Column="0" Grid.Row="0" Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" CanContentScroll="{TemplateBinding CanContentScroll}" />
+                        <ScrollBar x:Name="PART_HorizontalScrollBar" 
+                                   Grid.Column="0" Grid.Row="1"
+                                   Height="6" 
+                                   Style="{StaticResource Macad.Styles.ScrollBar.Minimal}" 
+                                   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" 
+                                   Orientation="Horizontal" 
+                                   Value="{Binding Path=HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                   ViewportSize="{TemplateBinding ViewportWidth}" 
+                                   Minimum="0" Maximum="{TemplateBinding ScrollableWidth}" 
+                                   AutomationProperties.AutomationId="HorizontalScrollBar" />
+                        <ScrollBar x:Name="PART_VerticalScrollBar" 
+                                   Grid.Column="1" Grid.Row="0" 
+                                   Width="6" 
+                                   Style="{StaticResource Macad.Styles.ScrollBar.Minimal}" 
+                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" 
+                                   Orientation="Vertical" 
+                                   Value="{Binding Path=VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                   ViewportSize="{TemplateBinding ViewportHeight}" 
+                                   Minimum="0" Maximum="{TemplateBinding ScrollableHeight}" 
+                                   AutomationProperties.AutomationId="VerticalScrollBar" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

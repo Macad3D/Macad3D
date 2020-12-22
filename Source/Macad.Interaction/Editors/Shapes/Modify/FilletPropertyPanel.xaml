@@ -1,0 +1,45 @@
+﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Shapes.FilletPropertyPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:mmi="clr-namespace:Macad.Interaction"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             Style="{DynamicResource Macad.Styles.PropertyPanel}"
+             Header="Fillet Edges"
+			 mmp:Help.TopicId="9b151212-b7f3-43ab-ad5a-bb03c8c8b083">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <mmp:ToggleButton Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"
+                          HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    IsChecked="{Binding IsToolActive, Mode=OneWay}"
+                    Command="{Binding StartToolCommand}" >
+            <Image Source="{mmp:IconResource Tool-EdgesSelection}" Width="32" Height="32" />
+        </mmp:ToggleButton>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" >
+            <TextBlock Text="{Binding Fillet.Edges.Length, StringFormat=Edges selected: \{0\}}"  Style="{DynamicResource Macad.Styles.TextBlock.Property}" Margin="0,0,0,4" />
+                
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Content="Select All" Command="{Binding SelectAllCommand}"  mmp:GroupControls.Position="Left" />
+                <Button Content="Select None" Command="{Binding SelectNoneCommand}" mmp:GroupControls.Position="Right"  />
+            </StackPanel>
+        </StackPanel>
+
+        <TextBlock  Grid.Row="1" Grid.Column="0" Style="{DynamicResource Macad.Styles.TextBlock.Property}"
+                    Text="Radius" />
+        <mmp:ValueEditBox  Grid.Row="1" Grid.Column="1"  Margin="0,10"
+                        Units="Length" Value="{Binding Fillet.Radius, NotifyOnSourceUpdated=True}" />
+    </Grid>
+</mmi:PropertyPanel>

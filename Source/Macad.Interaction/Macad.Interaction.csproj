@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{71D0467D-7B10-49E0-9CC3-444AEEB22439}</ProjectGuid>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseWPF>true</UseWPF>
+    <Platforms>x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Macad.Interaction.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ControlzEx" Version="4.4.0" />
+    <PackageReference Include="Fluent.Ribbon" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Macad.Common\Macad.Common.csproj" />
+    <ProjectReference Include="..\Macad.Core\Macad.Core.csproj" />
+    <ProjectReference Include="..\Macad.Managed\Macad.Managed.vcxproj" />
+    <ProjectReference Include="..\Macad.Occt\Macad.Occt.vcxproj" />
+    <ProjectReference Include="..\Macad.Presentation\Macad.Presentation.csproj" />
+    <ProjectReference Include="..\Macad.Resources\Macad.Resources.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleToSigned Include="Test.Unit" />
+    <InternalsVisibleToSigned Include="Test.Memory" />
+  </ItemGroup>
+</Project>

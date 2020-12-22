@@ -1,0 +1,82 @@
+--- AIS_DataMapOfSelStat.hxx	2018-02-02 19:22:37.000000000 +0200
++++ AIS_DataMapOfSelStat.hxx	2019-10-02 22:12:51.000000000 +0200
+@@ -15,15 +15,15 @@
+ // commercial license or contractual agreement.
+ 
+ #ifndef AIS_DataMapOfSelStat_HeaderFile
+ #define AIS_DataMapOfSelStat_HeaderFile
+ 
+ #include <SelectMgr_SelectableObject.hxx>
+-#include <AIS_LocalStatus.hxx>
++//#include <AIS_LocalStatus.hxx>
+ #include <TColStd_MapTransientHasher.hxx>
+ #include <NCollection_DataMap.hxx>
+ 
+-typedef NCollection_DataMap<Handle(SelectMgr_SelectableObject),Handle(AIS_LocalStatus),TColStd_MapTransientHasher> AIS_DataMapOfSelStat;
+-typedef NCollection_DataMap<Handle(SelectMgr_SelectableObject),Handle(AIS_LocalStatus),TColStd_MapTransientHasher>::Iterator AIS_DataMapIteratorOfDataMapOfSelStat;
++//typedef NCollection_DataMap<Handle(SelectMgr_SelectableObject),Handle(AIS_LocalStatus),TColStd_MapTransientHasher> AIS_DataMapOfSelStat;
++//typedef NCollection_DataMap<Handle(SelectMgr_SelectableObject),Handle(AIS_LocalStatus),TColStd_MapTransientHasher>::Iterator AIS_DataMapIteratorOfDataMapOfSelStat;
+ 
+ 
+ #endif
+--- ShapeUpgrade_UnifySameDomain.hxx	2018-08-15 21:15:22.000000000 +0200
++++ ShapeUpgrade_UnifySameDomain.hxx	2019-09-16 15:22:07.000000000 +0200
+@@ -24,12 +24,13 @@
+ #include <TopoDS_Shape.hxx>
+ #include <Standard_Boolean.hxx>
+ #include <Standard_Transient.hxx>
+ #include <TopTools_DataMapOfShapeShape.hxx>
+ #include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
+ #include <TopTools_MapOfShape.hxx>
++#include <Precision.hxx>
+ class ShapeBuild_ReShape;
+ class TopoDS_Shape;
+ 
+ 
+ class ShapeUpgrade_UnifySameDomain;
+ DEFINE_STANDARD_HANDLE(ShapeUpgrade_UnifySameDomain, Standard_Transient)
+--- Standard_Macro.hxx	2019-09-16 12:34:49.000000000 +0200
++++ Standard_Macro.hxx	2019-09-16 15:18:26.000000000 +0200
+@@ -61,25 +61,29 @@
+ //! This attribute may appear in a function declaration,
+ //! enumeration declaration or class declaration. It tells the compiler to
+ //! issue a warning, if a return value marked by that attribute is discarded.
+ //!
+ //! Expands to C++17 attribute statement "[[nodiscard]]" on compilers that
+ //! declare support of this attribute, or equivalent attribute on GCC.
+-#if defined(__has_cpp_attribute)
+-  #if __has_cpp_attribute(nodiscard)
+-    #define Standard_NODISCARD [[nodiscard]]
+-  #else
+-    #define Standard_NODISCARD
+-  #endif
+-#elif defined(__GNUC__) && ! defined(INTEL_COMPILER)
+-  // According to available documentation, GCC-style __attribute__ ((warn_unused_result))
+-  // should be available in GCC since version 3.4, and in CLang since 3.9;
+-  // Intel compiler does not seem to support this
+-  #define Standard_NODISCARD __attribute__ ((warn_unused_result))
+-#else
+-  #define Standard_NODISCARD
++#if defined(__WRAPPER_GENERATOR__)
++	#define Standard_NODISCARD
++#else
++	#if defined(__has_cpp_attribute)
++	  #if __has_cpp_attribute(nodiscard)
++		#define Standard_NODISCARD [[nodiscard]]
++	  #else
++		#define Standard_NODISCARD
++	  #endif
++	#elif defined(__GNUC__) && ! defined(INTEL_COMPILER)
++	  // According to available documentation, GCC-style __attribute__ ((warn_unused_result))
++	  // should be available in GCC since version 3.4, and in CLang since 3.9;
++	  // Intel compiler does not seem to support this
++	  #define Standard_NODISCARD __attribute__ ((warn_unused_result))
++	#else
++	  #define Standard_NODISCARD
++	#endif
+ #endif
+ 
+ //! @def Standard_UNUSED
+ //! Macro for marking variables / functions as possibly unused
+ //! so that compiler will not emit redundant "unused" warnings.
+ //!

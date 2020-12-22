@@ -1,0 +1,472 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>Macad.Occt</ProjectName>
+    <ProjectGuid>{D86316B3-7F16-439C-9BE3-DB64ED7AD058}</ProjectGuid>
+    <RootNamespace>Macad.Occt</RootNamespace>
+    <Keyword>ManagedCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
+    <CodeAnalysisRuleSet>MixedRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <EnableManagedIncrementalBuild>false</EnableManagedIncrementalBuild>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(OcctIncPath);$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;WNT; CSFDB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalOptions>-Zm150 /bigobj /Zf /experimental:external /external:W1 /external:I"$(OcctIncPath)" %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MinimalRebuild>false</MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeaderFile>OcctPCH.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/IGNOREIDL /KEYFILE:$(SolutionDir)Source\sn.snk %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>msvcrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OcctLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>nochkclr.obj;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AssemblyDebug>true</AssemblyDebug>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <CLRUnmanagedCodeCheck>false</CLRUnmanagedCodeCheck>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(OcctIncPath);$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG; WNT; CSFDB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalOptions>-Zm150 /bigobj /Zf /experimental:external /external:W1 /external:I"$(OcctIncPath)" %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MinimalRebuild>false</MinimalRebuild>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeaderFile>OcctPCH.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OcctLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>nochkclr.obj;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <CLRUnmanagedCodeCheck>false</CLRUnmanagedCodeCheck>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalOptions>/IGNOREIDL /KEYFILE:$(SolutionDir)Source\sn.snk %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Generated\BRepClass3d.cpp" />
+    <ClCompile Include="Generated\BRepOffset.cpp" />
+    <ClCompile Include="Generated\GeomPlate.cpp" />
+    <ClCompile Include="Generated\IntAna2d.cpp" />
+    <ClCompile Include="Generated\Message.cpp" />
+    <ClCompile Include="Generated\StdSelect.cpp" />
+    <ClCompile Include="ValueTypes\2d\Ax22d.cpp" />
+    <ClCompile Include="ValueTypes\2d\Ax2d.cpp" />
+    <ClCompile Include="ValueTypes\2d\Dir2d.cpp" />
+    <ClCompile Include="ValueTypes\2d\Mat2d.cpp" />
+    <ClCompile Include="ValueTypes\2d\Pnt2d.cpp" />
+    <ClCompile Include="ValueTypes\2d\Trsf2d.cpp" />
+    <ClCompile Include="ValueTypes\2d\Vec2d.cpp" />
+    <ClCompile Include="ValueTypes\2d\XY.cpp" />
+    <ClCompile Include="ValueTypes\3d\Ax1.cpp" />
+    <ClCompile Include="ValueTypes\3d\Ax2.cpp" />
+    <ClCompile Include="ValueTypes\3d\Ax3.cpp" />
+    <ClCompile Include="ValueTypes\3d\Dir.cpp" />
+    <ClCompile Include="ValueTypes\3d\Mat.cpp" />
+    <ClCompile Include="ValueTypes\3d\Pln.cpp" />
+    <ClCompile Include="ValueTypes\3d\Quaternion.cpp" />
+    <ClCompile Include="ValueTypes\3d\Trsf.cpp" />
+    <ClCompile Include="ValueTypes\3d\Vec.cpp" />
+    <ClCompile Include="ValueTypes\3d\XYZ.cpp" />
+    <ClInclude Include="BaseClass.h" />
+    <ClInclude Include="Extensions\BOPTools_Ex.h" />
+    <ClInclude Include="Extensions\BRep_Ex.h" />
+    <ClInclude Include="Extensions\TColStd_Ex.h" />
+    <ClInclude Include="Extensions\Graphic3d_Ex.h" />
+    <ClInclude Include="Extensions\TopLoc_Ex.h" />
+    <ClInclude Include="Extensions\TopoDS_Ex.h" />
+    <ClInclude Include="Extensions\TopTools_Ex.h" />
+    <ClInclude Include="Extensions\V3d_Ex.h" />
+    <ClInclude Include="Generated\Adaptor2d.h">
+    </ClInclude>
+    <ClInclude Include="Generated\Adaptor3d.h">
+    </ClInclude>
+    <ClInclude Include="Generated\AIS.h">
+    </ClInclude>
+    <ClInclude Include="Generated\Aspect.h">
+    </ClInclude>
+    <ClInclude Include="Generated\BinTools.h">
+    </ClInclude>
+    <ClInclude Include="Generated\Bnd.h" />
+    <ClInclude Include="Generated\BndLib.h">
+    </ClInclude>
+    <ClInclude Include="Generated\BOPAlgo.h" />
+    <ClInclude Include="Generated\BRep.h">
+    </ClInclude>
+    <ClInclude Include="Generated\BRepAdaptor.h">
+    </ClInclude>
+    <ClInclude Include="Generated\BRepAlgoAPI.h">
+    </ClInclude>
+    <ClInclude Include="Generated\BRepBndLib.h">
+    </ClInclude>
+    <ClInclude Include="Generated\BRepBuilderAPI.h">
+    </ClInclude>
+    <ClInclude Include="Generated\BRepCheck.h" />
+    <ClInclude Include="Generated\BRepClass3d.h" />
+    <ClInclude Include="Generated\BRepExtrema.h" />
+    <ClInclude Include="Generated\BRepFeat.h" />
+    <ClInclude Include="Generated\BRepFilletAPI.h">
+    </ClInclude>
+    <ClInclude Include="Generated\BRepGProp.h" />
+    <ClInclude Include="Generated\BRepIntCurveSurface.h" />
+    <ClInclude Include="Generated\BRepLib.h" />
+    <ClInclude Include="Generated\BRepLProp.h">
+    </ClInclude>
+    <ClInclude Include="Generated\BRepOffset.h" />
+    <ClInclude Include="Generated\BRepOffsetAPI.h">
+    </ClInclude>
+    <ClInclude Include="Generated\BRepPrimAPI.h">
+    </ClInclude>
+    <ClInclude Include="Generated\BRepTools.h">
+    </ClInclude>
+    <ClInclude Include="Generated\BSplCLib.h" />
+    <ClInclude Include="Generated\BSplSLib.h" />
+    <ClInclude Include="Generated\ChFi3d.h" />
+    <ClInclude Include="Generated\Convert.h" />
+    <ClInclude Include="Generated\CSLib.h" />
+    <ClInclude Include="Generated\Dico.h" />
+    <ClInclude Include="Generated\ElCLib.h" />
+    <ClInclude Include="Generated\ElSLib.h" />
+    <ClInclude Include="Generated\Extrema.h" />
+    <ClInclude Include="Generated\forward_declarations.h" />
+    <ClInclude Include="Generated\gce.h" />
+    <ClInclude Include="Generated\Geom.h">
+    </ClInclude>
+    <ClInclude Include="Generated\Geom2d.h">
+    </ClInclude>
+    <ClInclude Include="Generated\Geom2dAdaptor.h">
+    </ClInclude>
+    <ClInclude Include="Generated\Geom2dAPI.h">
+    </ClInclude>
+    <ClInclude Include="Generated\Geom2dConvert.h">
+    </ClInclude>
+    <ClInclude Include="Generated\GeomAbs.h" />
+    <ClInclude Include="Generated\GeomAdaptor.h">
+    </ClInclude>
+    <ClInclude Include="Generated\GeomAPI.h">
+    </ClInclude>
+    <ClInclude Include="Generated\GeomConvert.h">
+    </ClInclude>
+    <ClInclude Include="Generated\GeomPlate.h" />
+    <ClInclude Include="Generated\GeomProjLib.h">
+    </ClInclude>
+    <ClInclude Include="Generated\gp.h" />
+    <ClInclude Include="Generated\GProp.h">
+    </ClInclude>
+    <ClInclude Include="Generated\Graphic3d.h">
+    </ClInclude>
+    <ClInclude Include="Generated\Image.h">
+    </ClInclude>
+    <ClInclude Include="Generated\IntAna.h" />
+    <ClInclude Include="Generated\IntAna2d.h" />
+    <ClInclude Include="Generated\IntCurvesFace.h" />
+    <ClInclude Include="Generated\Message.h" />
+    <ClInclude Include="Generated\native_includes.h" />
+    <ClInclude Include="Generated\MMgt.h" />
+    <ClInclude Include="Generated\NCollection.h" />
+    <ClInclude Include="Generated\Precision.h" />
+    <ClInclude Include="Generated\ProjLib.h">
+    </ClInclude>
+    <ClInclude Include="Generated\Prs3d.h">
+    </ClInclude>
+    <ClInclude Include="Generated\PrsMgr.h">
+    </ClInclude>
+    <ClInclude Include="Generated\Quantity.h" />
+    <ClInclude Include="Generated\SelectBasics.h">
+    </ClInclude>
+    <ClInclude Include="Generated\SelectMgr.h">
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeAlgo.h">
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeAnalysis.h">
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeBuild.h">
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeConstruct.h">
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeCustom.h">
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeExtend.h">
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeFix.h">
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeProcess.h">
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeProcessAPI.h">
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeUpgrade.h">
+    </ClInclude>
+    <ClInclude Include="Generated\Standard.h" />
+    <ClInclude Include="Generated\StdFail.h" />
+    <ClInclude Include="Generated\StdSelect.h" />
+    <ClInclude Include="Generated\TColgp.h" />
+    <ClInclude Include="Generated\TCollection.h" />
+    <ClInclude Include="Generated\TColQuantity.h">
+    </ClInclude>
+    <ClInclude Include="Generated\TColStd.h" />
+    <ClInclude Include="Generated\TopAbs.h">
+    </ClInclude>
+    <ClInclude Include="Generated\TopExp.h">
+    </ClInclude>
+    <ClInclude Include="Generated\TopLoc.h" />
+    <ClInclude Include="Generated\TopoDS.h">
+    </ClInclude>
+    <ClInclude Include="Generated\TopTools.h">
+    </ClInclude>
+    <ClInclude Include="Generated\TShort.h" />
+    <ClInclude Include="Generated\Units.h" />
+    <ClInclude Include="Generated\UnitsAPI.h" />
+    <ClInclude Include="Generated\V3d.h">
+    </ClInclude>
+    <ClInclude Include="Generated\WNT.h">
+    </ClInclude>
+    <ClInclude Include="OcctPCH.h" />
+    <ClCompile Include="ValueTypes\3d\Pnt.cpp" />
+    <ClInclude Include="Standard_Transient.h" />
+    <ClInclude Include="ValueTypes\2d\Ax22d.h" />
+    <ClInclude Include="ValueTypes\2d\Ax2d.h" />
+    <ClInclude Include="ValueTypes\2d\Dir2d.h" />
+    <ClInclude Include="ValueTypes\2d\Mat2d.h" />
+    <ClInclude Include="ValueTypes\2d\Pnt2d.h" />
+    <ClInclude Include="ValueTypes\2d\Trsf2d.h" />
+    <ClInclude Include="ValueTypes\2d\Vec2d.h" />
+    <ClInclude Include="ValueTypes\2d\XY.h" />
+    <ClInclude Include="ValueTypes\3d\Ax1.h" />
+    <ClInclude Include="ValueTypes\3d\Ax2.h" />
+    <ClInclude Include="ValueTypes\3d\Ax3.h" />
+    <ClInclude Include="ValueTypes\3d\Dir.h" />
+    <ClInclude Include="ValueTypes\3d\Mat.h" />
+    <ClInclude Include="ValueTypes\3d\Pln.h" />
+    <ClInclude Include="ValueTypes\3d\Quaternion.h" />
+    <ClInclude Include="ValueTypes\3d\Trsf.h" />
+    <ClInclude Include="ValueTypes\3d\Vec.h" />
+    <ClInclude Include="ValueTypes\Enums\EulerSequence.h" />
+    <ClInclude Include="ValueTypes\Enums\TrsfForm.h" />
+    <ClInclude Include="ValueTypes\gp.h" />
+    <ClInclude Include="ValueTypes\3d\Pnt.h" />
+    <ClInclude Include="ValueTypes\ValueTypes.h" />
+    <ClInclude Include="ValueTypes\3d\XYZ.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Extensions\BRep_Ex.cpp" />
+    <ClCompile Include="Extensions\TopTools_Ex.cpp" />
+    <ClCompile Include="Extensions\V3d_Ex.cpp" />
+    <ClCompile Include="Generated\Adaptor2d.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\Adaptor3d.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\AIS.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\Aspect.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\BinTools.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\Bnd.cpp" />
+    <ClCompile Include="Generated\BndLib.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\BOPAlgo.cpp" />
+    <ClCompile Include="Generated\BRep.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\BRepAdaptor.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\BRepAlgoAPI.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\BRepBndLib.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\BRepBuilderAPI.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\BRepCheck.cpp" />
+    <ClCompile Include="Generated\BRepExtrema.cpp" />
+    <ClCompile Include="Generated\BRepFeat.cpp" />
+    <ClCompile Include="Generated\BRepFilletAPI.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\BRepGProp.cpp" />
+    <ClCompile Include="Generated\BRepIntCurveSurface.cpp" />
+    <ClCompile Include="Generated\BRepLib.cpp" />
+    <ClCompile Include="Generated\BRepLProp.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\BRepOffsetAPI.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\BRepPrimAPI.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\BRepTools.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\BSplCLib.cpp" />
+    <ClCompile Include="Generated\BSplSLib.cpp" />
+    <ClCompile Include="Generated\ChFi3d.cpp" />
+    <ClCompile Include="Generated\Convert.cpp" />
+    <ClCompile Include="Generated\CSLib.cpp" />
+    <ClCompile Include="Generated\Dico.cpp" />
+    <ClCompile Include="Generated\ElCLib.cpp" />
+    <ClCompile Include="Generated\ElSLib.cpp" />
+    <ClCompile Include="Generated\Extrema.cpp" />
+    <ClCompile Include="Generated\gce.cpp" />
+    <ClCompile Include="Generated\Geom.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\Geom2d.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\Geom2dAdaptor.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\Geom2dAPI.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\Geom2dConvert.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\GeomAbs.cpp" />
+    <ClCompile Include="Generated\GeomAdaptor.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\GeomAPI.cpp" />
+    <ClCompile Include="Generated\GeomConvert.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\GeomProjLib.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\gp.cpp" />
+    <ClCompile Include="Generated\GProp.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\Graphic3d.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\Image.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\IntAna.cpp" />
+    <ClCompile Include="Generated\IntCurvesFace.cpp" />
+    <ClCompile Include="Generated\MMgt.cpp" />
+    <ClCompile Include="Generated\NCollection.cpp" />
+    <ClCompile Include="Generated\Precision.cpp" />
+    <ClCompile Include="Generated\ProjLib.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\Prs3d.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\PrsMgr.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\Quantity.cpp" />
+    <ClCompile Include="Generated\SelectBasics.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\SelectMgr.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeAlgo.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeAnalysis.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeBuild.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeConstruct.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeCustom.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeExtend.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeFix.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeProcess.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeProcessAPI.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeUpgrade.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\Standard.cpp" />
+    <ClCompile Include="Generated\StdFail.cpp" />
+    <ClCompile Include="Generated\TColgp.cpp" />
+    <ClCompile Include="Generated\TCollection.cpp" />
+    <ClCompile Include="Generated\TColQuantity.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\TColStd.cpp" />
+    <ClCompile Include="Generated\TopAbs.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\TopExp.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\TopLoc.cpp" />
+    <ClCompile Include="Generated\TopoDS.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\TopTools.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\TShort.cpp" />
+    <ClCompile Include="Generated\Units.cpp" />
+    <ClCompile Include="Generated\UnitsAPI.cpp" />
+    <ClCompile Include="Generated\V3d.cpp">
+    </ClCompile>
+    <ClCompile Include="Generated\WNT.cpp">
+    </ClCompile>
+    <ClCompile Include="OcctPCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="occt.natvis" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+
+  <ItemGroup>
+    <ThirdParty Include="$(OcctBinPath)\*.*" />
+    <ThirdParty Include="$(FreeTypeBinPath)\*.*" />
+    <ThirdParty Include="$(TbbBinPath)\*.*" />
+  </ItemGroup>
+</Project>

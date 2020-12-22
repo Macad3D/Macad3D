@@ -1,0 +1,4 @@
+This work is licensed under the The Code Project Open License (CPOL) 1.02. To view a copy of this license, visit http://www.codeproject.com/info/cpol10.aspx.
+
+Author: Sean A. Hanley
+Source: https://github.com/yadyn/WPF-Task-Dialog

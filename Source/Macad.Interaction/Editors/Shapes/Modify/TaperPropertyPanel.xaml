@@ -1,0 +1,46 @@
+﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Shapes.TaperPropertyPanel"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                   xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+                   xmlns:mmi="clr-namespace:Macad.Interaction"
+                   mc:Ignorable="d" 
+                   DataContext="{Binding RelativeSource={RelativeSource Self}}"
+                   Style="{DynamicResource Macad.Styles.PropertyPanel}"
+                   Header="Taper"
+                   mmp:Help.TopicId="ef7f7484-88f2-45d7-8062-771c8c0ad04e">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="90" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" 
+                   Text="Taper Angle"
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <mmp:ValueEditBox Grid.Row="0" Grid.Column="1"
+                          Units="Degree" MinValue="-89" MaxValue="89"
+                          Value="{Binding Taper.Angle, NotifyOnSourceUpdated=True}" />
+
+        <TextBlock Grid.Row="1" Grid.Column="0" 
+                   Text="Offset"
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <mmp:ValueEditBox Grid.Row="1" Grid.Column="1"
+                          Units="Length" MinValue="0"
+                          Value="{Binding Taper.Offset, NotifyOnSourceUpdated=True}" />
+        
+        <mmp:ToggleButton Grid.Row="2" Grid.ColumnSpan="2" 
+                          Content="Reselect Target Face" 
+                          IsChecked="{Binding IsToolActive}"
+                          Command="{Binding ReselectFaceCommand}"
+                          HorizontalAlignment="Center" 
+                          Margin="0,20,0,10" />
+    </Grid>
+</mmi:PropertyPanel>

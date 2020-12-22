@@ -1,0 +1,103 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using Macad.Common.Serialization;
+
+namespace Macad.Core.Topology
+{
+    [SerializeType]
+    public class EntityContainer<T> : Entity, IEnumerable<T>, INotifyCollectionChanged
+        where T : Entity
+    {
+        //--------------------------------------------------------------------------------------------------
+
+        public EntityContainer()
+        {
+            EntityList = new List<T>();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #region EntityList
+
+        [SerializeMember(SortKey = 1000)]
+        List<T> EntityList { get; set; }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public int ChildCount
+        {
+            get { return EntityList.Count; }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public virtual void AddChild(T entity, bool update = true)
+        {
+            EntityList.Add(entity);
+            if (update)
+            {
+                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, entity, EntityList.Count-1));
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public virtual void RemoveChild(T entity, bool update = true)
+        {
+            var index = EntityList.IndexOf(entity);
+            if (index < 0)
+                return;
+
+            EntityList.RemoveAt(index);
+            entity.Remove();
+            if (update)
+            {
+                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, entity, index));
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public virtual T GetChild(int index)
+        {
+            return EntityList[index];
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public override void Remove()
+        {
+            EntityList.ForEach(e => e.Remove());
+            EntityList.Clear();
+            base.Remove();
+        }
+
+        #endregion
+        
+        #region IEnumerable
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return EntityList.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return EntityList.GetEnumerator();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region INotifyCollectionChanged
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+    }
+}

@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Geometry x:Key="Macad.Geometries.Delete">M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z</Geometry>
+    <Geometry x:Key="Macad.Geometries.Increment">M0,4 H8 M4,0 V8</Geometry>
+    <Geometry x:Key="Macad.Geometries.Decrement">M0,0 H8</Geometry>
+    <Geometry x:Key="Macad.Geometries.DropDownArrow">M0.5,0.5 L3,6.5 5.5,0.5</Geometry>
+    <Geometry x:Key="Macad.Geometries.Check">M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z</Geometry>
+    <Geometry x:Key="Macad.Geometries.Close">F1M8.583,8L13,12.424 12.424,13 8,8.583 3.576,13 3,12.424 7.417,8 3,3.576 3.576,3 8,7.417 12.424,3 13,3.576z</Geometry>
+
+</ResourceDictionary>

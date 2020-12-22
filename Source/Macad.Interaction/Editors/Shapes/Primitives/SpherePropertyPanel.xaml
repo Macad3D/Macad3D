@@ -1,0 +1,49 @@
+﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Shapes.SpherePropertyPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:mmi="clr-namespace:Macad.Interaction"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             Style="{DynamicResource Macad.Styles.PropertyPanel}"
+             mmp:Help.TopicId="eecb316b-a4da-441b-b9a6-3fadf9275889"
+             Header="Sphere">
+    
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock  Grid.Row="0" Grid.Column="0" Text="Radius" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+            <mmp:ValueEditBox  Grid.Row="0" Grid.Column="1" 
+                        Units="Length" Value="{Binding Sphere.Radius, NotifyOnSourceUpdated=True}" HorizontalAlignment="Left" />
+
+            <TextBlock  Grid.Row="1" Grid.Column="0" Text="Segment" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+            <mmp:ValueEditBox  Grid.Row="1" Grid.Column="1" 
+                        Units="Degree" Value="{Binding Sphere.SegmentAngle, NotifyOnSourceUpdated=True}" 
+                        MinValue="0" MaxValue="360"
+                               HorizontalAlignment="Left" />
+
+            <TextBlock  Grid.Row="2" Grid.Column="0" Text="Extents (Lat)" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+            <StackPanel  Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                <mmp:ValueEditBox mmp:GroupControls.Position="Left"  
+                                  HorizontalAlignment="Left"
+                                  Units="Degree" Value="{Binding Sphere.MaxLatitude, NotifyOnSourceUpdated=True}" 
+                                  MinValue="-90" MaxValue="90" />
+                <mmp:ValueEditBox mmp:GroupControls.Position="Right"   
+                                  HorizontalAlignment="Left"
+                                  Units="Degree" Value="{Binding Sphere.MinLatitude, NotifyOnSourceUpdated=True}" 
+                                  MinValue="-90" MaxValue="90" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</mmi:PropertyPanel>

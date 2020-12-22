@@ -1,0 +1,33 @@
+﻿/*
+ * License information for resources
+ */
+
+/* Logo */
+by Sven Cordes
+License: Paid with house building material. :)
+
+Icons\App-MainLogo
+
+/* Icons */
+from Microsoft VS2015ImageLibrary
+License: Visual Studio 2015 Image Library EULA
+
+Icons\App-Settings (Gear)
+Icons\App-OpenSample (Lightbulb)
+Icons\Edit-Delete (Cross)
+Icons\Generic-Active/Inactive
+Icons\Generic-Add
+Icons\Generic-CurrentMarker/CurrentMarkerPreview
+Icons\Generic-Rename
+Icons\Layer-Editor (Wrench)
+Icons\Layer-MoveToLayer (Arrow)
+Icons\Layer-SelectAllEntities (Cursor)
+Icons\Layer-VisualProps (Palette)
+Types\TopoDS_* (Box)
+
+/* TaskDialog */
+by Sean A. Hanley, https://github.com/yadyn/WPF-Task-Dialog
+License: The Code Project Open License (CPOL) 1.02
+
+TaskDialog/*
+

@@ -1,0 +1,15 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Macad.VersionInfo.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Visible>False</Visible>
+    </ClCompile>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <CLRSupport>true</CLRSupport>
+  </PropertyGroup>
+
+</Project>

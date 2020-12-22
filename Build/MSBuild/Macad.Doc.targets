@@ -1,0 +1,50 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Conversion of articles in markdown format to MAML -->
+
+  <Import Project="Macad.Common.props" Condition="!Exists('$(MMRootDir)')" />
+
+  <UsingTask TaskName="MarkdownToMaml" AssemblyFile="$(MMExtensionAssemblyFile)" />
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <Target Name="_CreateMdFiles" >
+    <ItemGroup>
+      <MdFiles Include="@(Content)" Condition="'%(Extension)' == '.md'" />
+      <Content Remove="@(MdFiles)" />
+      <None Include="@(MdFiles -> '%(RootDir)%(Directory)%(Filename).aml' )" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="ConvertArticles"
+          Inputs="@(MdFiles)"
+          Outputs="@(MdFiles -> '%(RootDir)%(Directory)%(Filename).aml' )"
+          BeforeTargets="BeforeBuildHelp"
+          DependsOnTargets="_CreateMdFiles">
+    <MarkdownToMaml Inputs="@(MdFiles)" 
+                    Outputs="@(MdFiles -> '%(RootDir)%(Directory)%(Filename).aml' )"
+                    ProjectDir="$(MSBuildProjectDirectory)" />
+  </Target>
+
+  <Target Name="CleanArticles"
+          AfterTargets="AfterCleanHelp"
+          DependsOnTargets="_CreateMdFiles">
+    <Delete Files="@(MdFiles -> '%(RootDir)%(Directory)%(Filename).aml' )" />
+  </Target>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <!-- Copy of help files to build directories -->
+
+  <Target Name="CopyHelpFiles" AfterTargets="AfterBuildHelp">
+    <Copy SourceFiles="$(OutputPath)$(HtmlHelpName).chm" DestinationFolder="$(OutputPath)..\Release" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(OutputPath)$(HtmlHelpName).chm" DestinationFolder="$(OutputPath)..\Debug" SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="CleanHelpfiles"
+          AfterTargets="AfterCleanHelp">
+    <Delete Files="$(OutputPath)..\Release\$(HtmlHelpName).chm" />
+    <Delete Files="$(OutputPath)..\Debug\$(HtmlHelpName).chm" />
+  </Target>
+
+</Project>

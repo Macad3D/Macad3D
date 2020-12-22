@@ -1,0 +1,797 @@
+﻿<UserControl x:Class="Macad.Window.MainWindowRibbon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
+             xmlns:mmw="clr-namespace:Macad.Window"
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:mmi="clr-namespace:Macad.Interaction;assembly=Macad.Interaction"
+             mc:Ignorable="d" 
+             d:DesignWidth="1280" KeyDown="_KeyDown">
+
+    <Fluent:Ribbon x:Name="Ribbon" 
+                   AutomaticStateManagement="False"
+		           ContentHeight="90" ContentGapHeight="2">
+
+        <!--region Quick access -->
+        <Fluent:Ribbon.QuickAccessItems>
+            <Fluent:QuickAccessMenuItem Target="{Binding ElementName=SaveAllMenuItem}" IsChecked="True"/>
+            <Fluent:QuickAccessMenuItem Target="{Binding ElementName=UndoButton}" IsChecked="True"/>
+            <Fluent:QuickAccessMenuItem Target="{Binding ElementName=RedoButton}" IsChecked="True"/>
+        </Fluent:Ribbon.QuickAccessItems>
+        <!--endregion-->
+
+        <!--region Contextual Groups -->
+        <Fluent:Ribbon.ContextualGroups>
+            <Fluent:RibbonContextualTabGroup x:Name="SketchGroup" 
+                                             Header="Sketch" 
+                                             Background="Green"
+                                             Visibility="{Binding Context.EditorState.SketchGroupVisible, Converter={mmp:BoolToVisibleCollapsedConverter}}" 
+                                             IsVisibleChanged="ContextualGroup_IsVisibleChanged"/>
+        </Fluent:Ribbon.ContextualGroups>
+        <!--endregion-->
+
+        <!--region Toolbar -->
+        <Fluent:Ribbon.ToolBarItems>
+            <Fluent:Button Size="Small"
+                           Command="{x:Static mmw:AppCommands.ShowHelpTopic}" 
+                           Icon="{DynamicResource Fluent.Ribbon.Images.Help}"/>
+        </Fluent:Ribbon.ToolBarItems>
+        <!--endregion-->
+
+        <!--region App menu -->
+        <Fluent:Ribbon.Menu>
+            <Fluent:ApplicationMenu x:Name="RibbonFileMenu" 
+                                    Header="FILE" 
+                                    IsDropDownOpen="False" 
+                                    MaxDropDownHeight="600"
+                                    RightPaneWidth="350"
+                                    AutomationProperties.AutomationId="File">
+
+                <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:DocumentCommands.CreateNewModel}"
+                                 AutomationProperties.AutomationId="AppMenuNewModel"/>
+                <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:DocumentCommands.OpenModelFrom}"/>
+                <Fluent:MenuItem Header="Settings"
+                                 Icon="{mmp:IconResource App-Settings}">
+                    <Fluent:MenuItem mmp:Command.Action="{x:Static mmw:AppCommands.ResetWindowLayout}" />
+                </Fluent:MenuItem>
+
+                <Separator/>
+
+                <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:DocumentCommands.SaveModel}"
+                                 AutomationProperties.AutomationId="AppMenuSaveModel"/>
+                <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:DocumentCommands.SaveModelAs}"
+                                 AutomationProperties.AutomationId="AppMenuSaveModelAs"/>
+                <Fluent:MenuItem x:Name="SaveAllMenuItem"
+                                 mmp:Command.Action="{x:Static mmi:DocumentCommands.SaveAll}"/>
+                <Separator />
+
+                <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:ExchangeCommands.ImportFileToModel}"
+                                 AutomationProperties.AutomationId="AppMenuImportFileToModel"/>
+                <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:ExchangeCommands.ExportSelectedBrep}"
+                                 AutomationProperties.AutomationId="AppMenuExportSelectedBrep"/>
+                <Separator/>
+
+                <Fluent:MenuItem mmp:Command.Action="{x:Static mmw:AppCommands.ShowHelpTopic}" />
+                <Fluent:MenuItem mmp:Command.Action="{x:Static mmw:AppCommands.ShowAboutDialog}"
+                                 AutomationProperties.AutomationId="AppMenuShowAboutDialog"/>
+                <Separator/>
+
+                <Fluent:MenuItem mmp:Command.Action="{x:Static mmw:AppCommands.ExitApplication}"/>
+
+                <Fluent:ApplicationMenu.RightPaneContent>
+                    <StackPanel VerticalAlignment="Top">
+                        <Label FontWeight="Bold"
+                               Content="Recent Files"  />
+                        <Separator/>
+                        <ItemsControl ItemsSource="{Binding Context.DocumentController.MruList}" 
+                                      HorizontalContentAlignment="Stretch">
+                            <ItemsControl.Resources>
+                                <Style TargetType="Fluent:MenuItem">
+                                    <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Black}"/>
+                                    <Setter Property="Margin" Value="2,0"/>
+                                    <Setter Property="RecognizesAccessKey" Value="false"/>
+                                    <Setter Property="HeaderTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Converter={mmp:ExtractFileNameNoExtensionConverter}}"
+                                                               FontWeight="SemiBold"
+                                                               FontSize="13"
+                                                               HorizontalAlignment="Left"
+                                                               MaxWidth="275"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock FontSize="10"
+                                                               HorizontalAlignment="Left"
+                                                               MaxWidth="275"
+                                                               Foreground="{StaticResource Macad.Brushes.TextLight}">
+                                                        <mmp:Behaviors.Behavior>
+                                                            <mmp:PathEllipsisTextBehaviour OriginalPath="{Binding Converter={mmp:ExtractFileDirectoryConverter}}" />
+                                                        </mmp:Behaviors.Behavior>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ItemsControl.Resources>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Fluent:MenuItem CommandParameter="{Binding}"
+                                                     Command="{x:Static mmi:DocumentCommands.OpenRecentFile}"
+                                                     Header="{Binding}"
+                                                     Icon="{mmp:IconResource App-OpenRecent}"
+                                                     Click="_RecentFilesMenuItem_Click">
+                                        <Fluent:MenuItem.ToolTip>
+                                            <ToolTip Placement="Right"
+                                                     HorizontalOffset="-10" VerticalOffset="-5"
+                                                     DataContext="{Binding PlacementTarget.DataContext, Converter={mmp:ExtractFileThumbnailConverter}, RelativeSource={RelativeSource Self}}"
+                                                     Visibility="{Binding Converter={mmp:NotNullToVisibleCollapsedConverter}}">
+                                                <Image Source="{Binding}" 
+                                                       MaxWidth="128" MaxHeight="128" 
+                                                       RenderOptions.BitmapScalingMode="Fant" />
+                                            </ToolTip>
+                                        </Fluent:MenuItem.ToolTip>
+                                    </Fluent:MenuItem>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>                               
+                        </ItemsControl>                                
+                    </StackPanel>
+                </Fluent:ApplicationMenu.RightPaneContent>
+
+            </Fluent:ApplicationMenu>
+        </Fluent:Ribbon.Menu>
+        <!--endregion-->
+
+        <!--region Edit -->
+        <Fluent:RibbonTabItem Header="EDIT" 
+                              IsSelected="True"
+                              AutomationProperties.AutomationId="Edit"
+                              ReduceOrder="Snapping,Edit,Grid,Snapping,Grid,Edit">
+
+            <Fluent:RibbonGroupBox Header="Undo"
+                                   Name="Undo">
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.DoUndoCommand}"
+                               x:Name="UndoButton"
+                               AutomationProperties.AutomationId="Undo"/>
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.DoRedoCommand}"
+                               x:Name="RedoButton"
+                               AutomationProperties.AutomationId="Redo"/>
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Edit"
+                                   Name="Edit">
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.DuplicateEntityCommand}"
+                               AutomationProperties.AutomationId="Duplicate"
+                               SizeDefinition="Large,Large,Small" />
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateReference}"
+                               AutomationProperties.AutomationId="CreateReference"
+                               SizeDefinition="Large,Large,Small" />
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.PasteFromClipboardCommand}"
+                               AutomationProperties.AutomationId="PasteClipboard"
+                               SizeDefinition="Large,Large,Small" />
+                
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.CopyToClipboardCommand}"
+                               Size="Large,Middle,Small"
+                               AutomationProperties.AutomationId="CopyClipboard" />
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.CutToClipboardCommand}"
+                               Size="Large,Middle,Small"
+                               AutomationProperties.AutomationId="CutClipboard" />
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.DeleteEntityCommand}"
+                               Size="Large,Middle,Small"
+                               AutomationProperties.AutomationId="Delete" />
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Selection"
+                                   Name="Selection">
+                <Fluent:DropDownButton Header="Rubberband Mode"
+                                       LargeIcon="{Binding Context.EditorState.RubberbandSelectionMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRubberbandSelectionMode}}"
+                                       Icon="{Binding Context.EditorState.RubberbandSelectionMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRubberbandSelectionMode}}">
+                    <Fluent:MenuItem CommandParameter="Rectangle"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRubberbandSelectionMode}" />
+                    <Fluent:MenuItem CommandParameter="Freehand"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRubberbandSelectionMode}" />
+                </Fluent:DropDownButton>
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleIsolateSelection}"/>
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Snapping"
+                                   Name="Snapping"
+                                   Grid.IsSharedSizeScope="True">
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleSnappingEnabled}"
+                                     AutomationProperties.AutomationId="SnapEnable"
+                                     SizeDefinition="Large,Large"/>
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleSnapToGrid}"
+                                     AutomationProperties.AutomationId="SnapToGrid"
+                                     SizeDefinition="Large,Middle,Small" />
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleSnapToVertex}"
+                                     AutomationProperties.AutomationId="SnapToGrid" 
+                                     SizeDefinition="Large,Middle,Small" />
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleSnapToEdge}"
+                                     AutomationProperties.AutomationId="SnapToGrid" 
+                                     SizeDefinition="Large,Middle,Small" />
+
+                <!--<fluent:Spinner Header="Tolerance" 
+                                    Minimum="1" Maximum="9.5" Format="0.0" Increment="0.5"
+                                    Value="{Binding Context.EditorState.SnappingPixelTolerance}"/>-->
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Working Plane"
+                                   Name="WorkingPlane">
+                <Fluent:DropDownButton Header="Set"
+                                       Icon="{mmp:IconResource WorkingPlane-Set}" 
+                                       LargeIcon="{mmp:IconResource WorkingPlane-Set}">
+                    <Fluent:GroupSeparatorMenuItem Header="Default planes" />
+                    <Fluent:MenuItem CommandParameter="0"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetWorkingPlane}"/>
+                    <Fluent:MenuItem CommandParameter="1"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetWorkingPlane}"/>
+                    <Fluent:MenuItem CommandParameter="2"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetWorkingPlane}"/>
+                </Fluent:DropDownButton>
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.AlignWorkingPlane}"/>
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Grid"
+                                   Name="Grid"
+                                   Grid.IsSharedSizeScope="True">
+                <Fluent:SplitButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleGrid}"
+                                    AutomationProperties.AutomationId="ShowGrid"
+                                    SizeDefinition="Large,Large">
+
+                    <Fluent:GroupSeparatorMenuItem Header="Grid Type" />
+                    <Fluent:MenuItem CommandParameter="Rectangular"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridType}"
+                                     AutomationProperties.AutomationId="RectGrid"
+                                     SizeDefinition="Large,Small"/>
+                    <Fluent:MenuItem CommandParameter="Circular"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridType}"
+                                     AutomationProperties.AutomationId="CircGrid"
+                                     SizeDefinition="Large,Small"/>
+                </Fluent:SplitButton>
+
+                <Fluent:DropDownButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}"
+                                       SizeDefinition="Large,Middle,Small">
+                    <mmp:ValueEditBox Value="{Binding Context.Workspace.GridStep, NotifyOnSourceUpdated=True}" 
+                                      Units="Length" MinValue="0.01" MaxValue="1000"
+                                      HorizontalAlignment="Stretch" Width="Auto" SourceUpdated="_CloseMenuOnSourceUpdated" />
+                    <Fluent:MenuItem CommandParameter="10.0" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}" />
+                    <Fluent:MenuItem CommandParameter="5.0" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}" />
+                    <Fluent:MenuItem CommandParameter="2.5" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}" />
+                    <Fluent:MenuItem CommandParameter="2.0" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}" />
+                    <Fluent:MenuItem CommandParameter="1.0" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}" />
+                    <Fluent:MenuItem CommandParameter="0.5" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}" />
+                    <Fluent:MenuItem CommandParameter="0.25" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}" />
+                    <Fluent:MenuItem CommandParameter="0.2" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}" />
+                    <Fluent:MenuItem CommandParameter="0.1" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}" />
+                </Fluent:DropDownButton>
+
+                <Fluent:DropDownButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridRotationValue}"
+                                       SizeDefinition="Large,Middle,Small">
+                    <mmp:ValueEditBox Value="{Binding Context.Workspace.GridRotation, NotifyOnSourceUpdated=True}" 
+                                      Units="Degree" MinValue="-359.9" MaxValue="359.9"
+                                      HorizontalAlignment="Stretch" Width="Auto" SourceUpdated="_CloseMenuOnSourceUpdated" />
+                    <Fluent:MenuItem CommandParameter="0.0" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridRotationValue}" />
+                    <Fluent:MenuItem CommandParameter="5.0" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridRotationValue}" />
+                    <Fluent:MenuItem CommandParameter="10.0" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridRotationValue}" />
+                    <Fluent:MenuItem CommandParameter="11.25" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridRotationValue}" />
+                    <Fluent:MenuItem CommandParameter="22.5" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridRotationValue}" />
+                    <Fluent:MenuItem CommandParameter="45" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridRotationValue}" />
+                    <Fluent:MenuItem CommandParameter="90" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridRotationValue}" />
+                    <Fluent:MenuItem CommandParameter="135" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridRotationValue}" />
+                    <Fluent:MenuItem CommandParameter="180" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridRotationValue}" />
+                    <Fluent:MenuItem CommandParameter="270" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridRotationValue}" />
+                </Fluent:DropDownButton>
+
+                <Fluent:DropDownButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}"
+                                       IsEnabled="{Binding Context.Workspace.GridType, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=Circular}"
+                                       SizeDefinition="Large,Middle,Small">
+                    <mmp:ValueEditBox Value="{Binding Context.Workspace.GridDivisions, NotifyOnSourceUpdated=True}" 
+                                      Units="None" Precision="0" MinValue="1" MaxValue="60"
+                                      HorizontalAlignment="Stretch" Width="Auto" SourceUpdated="_CloseMenuOnSourceUpdated" />
+                    <Fluent:MenuItem CommandParameter="1" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
+                    <Fluent:MenuItem CommandParameter="2" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
+                    <Fluent:MenuItem CommandParameter="3" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
+                    <Fluent:MenuItem CommandParameter="4" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
+                    <Fluent:MenuItem CommandParameter="5" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
+                    <Fluent:MenuItem CommandParameter="6" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
+                    <Fluent:MenuItem CommandParameter="8" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
+                    <Fluent:MenuItem CommandParameter="12" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
+                    <Fluent:MenuItem CommandParameter="18" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
+                </Fluent:DropDownButton>
+
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Arrange"
+                                   Name="ArrangeGroup">
+                <Fluent:SplitButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.TransformShape}"
+                                    AutomationProperties.AutomationId="TransformShape">
+
+                    <Fluent:GroupSeparatorMenuItem Header="Pivot Point" />
+
+                    <Fluent:MenuItem CommandParameter="BodyPivot"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetTransformPivot}"/>
+                    <Fluent:MenuItem CommandParameter="BoundingCenter"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetTransformPivot}"/>
+                    <Fluent:MenuItem CommandParameter="MassCenter"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetTransformPivot}"/>
+
+                    <Fluent:GroupSeparatorMenuItem Header="Options" />
+
+                    <Fluent:MenuItem CommandParameter="MultiBodyUseFirst"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleTransformOption}"/>
+
+                    <Fluent:MenuItem CommandParameter="WorldSpaceOrientation"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleTransformOption}"/>
+
+                    <Fluent:MenuItem CommandParameter="LinkForeignOperands"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleTransformOption}"/>
+                </Fluent:SplitButton>
+
+            </Fluent:RibbonGroupBox>
+            
+            <Fluent:RibbonGroupBox Header="Layer"
+                                   Name="Layer">
+
+                <Fluent:Button Header="Layer Editor"
+                               mmp:Command.Action="{x:Static mmw:AppCommands.ShowLayerEditor}" />
+                
+                <Fluent:RibbonToolBar>
+                    
+                    <Fluent:RibbonToolBar.LayoutDefinitions>
+                        <Fluent:RibbonToolBarLayoutDefinition>
+                            <Fluent:RibbonToolBarRow>
+                                <Fluent:RibbonToolBarControlDefinition Target="Layers_ActiveLayerSelect" Width="155" />
+                            </Fluent:RibbonToolBarRow>
+                            <Fluent:RibbonToolBarRow>
+                                <Fluent:RibbonToolBarControlGroupDefinition>
+                                    <Fluent:RibbonToolBarControlDefinition Target="Layers_MoveEntityToLayer" />
+                                    <Fluent:RibbonToolBarControlDefinition Target="Layers_SelectAll" />
+                                </Fluent:RibbonToolBarControlGroupDefinition>
+                                <Fluent:RibbonToolBarControlGroupDefinition>
+                                    <Fluent:RibbonToolBarControlDefinition Target="Layers_ActiveLayerLocked" />
+                                    <Fluent:RibbonToolBarControlDefinition Target="Layers_ActiveLayerVisible" />
+                                    <Fluent:RibbonToolBarControlDefinition Target="Layers_Isolated" />
+                                </Fluent:RibbonToolBarControlGroupDefinition>
+                                <Fluent:RibbonToolBarControlGroupDefinition>
+                                    <Fluent:RibbonToolBarControlDefinition Target="Layers_ActiveLayerVisual" />
+                                </Fluent:RibbonToolBarControlGroupDefinition>
+                            </Fluent:RibbonToolBarRow>
+                        </Fluent:RibbonToolBarLayoutDefinition>
+                    </Fluent:RibbonToolBar.LayoutDefinitions>
+
+
+                    <!--<ComboBox x:Name="Layers_ActiveLayerSelect"
+                              Style="{StaticResource RibbonComboBox}"
+                              SelectedValue="{Binding Context.Layers.ActiveLayer}"
+                              ItemsSource="{Binding Context.Layers}"> TODO Implement Style for Combo Box-->
+                    <ComboBox x:Name="Layers_ActiveLayerSelect"
+                              SelectedValue="{Binding Context.Layers.ActiveLayer}"
+                              ItemsSource="{Binding Context.Layers}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <!-- Color -->
+                                    <Border DockPanel.Dock="Left" 
+                                            Width="14" Height="14"
+                                            BorderBrush="Black"
+                                            BorderThickness="1"
+                                            Margin="1">
+                                        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                   Fill="{Binding Color, Converter={mmp:ColorToBrushConverter}}" />
+                                    </Border>
+                                    <!-- Text -->
+                                    <TextBlock Text="{Binding Name}" 
+                                               Margin="5,0"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+
+                        <ComboBox.ToolTip>
+                            <Fluent:ScreenTip Title="Active Layer" 
+                                              Text="Selected the active layer. New entities are created in this layer."/>
+                        </ComboBox.ToolTip>
+                    </ComboBox>
+
+                    <Fluent:Button x:Name="Layers_MoveEntityToLayer"
+                                   Size="Small"
+                                   CommandParameter="{Binding Context.Layers.ActiveLayer}"
+                                   mmp:Command.Action="{x:Static mmi:LayerCommands.MoveEntityToLayer}">
+                    </Fluent:Button>
+
+                    <Fluent:Button x:Name="Layers_SelectAll"
+                                   Size="Small"
+                                   CommandParameter="{Binding Context.Layers.ActiveLayer}"
+                                   mmp:Command.Action="{x:Static mmi:LayerCommands.SelectAllEntities}">
+                    </Fluent:Button>
+
+                    <Fluent:ToggleButton x:Name="Layers_Isolated"
+                                         Size="Small"
+                                         CommandParameter="{Binding Context.Layers.ActiveLayer}"
+                                         mmp:Command.Action="{x:Static mmi:LayerCommands.ToggleIsolation}">
+                    </Fluent:ToggleButton>
+                    
+                    <Fluent:ToggleButton x:Name="Layers_ActiveLayerLocked"
+                                         Size="Small"
+                                         CommandParameter="{Binding Context.Layers.ActiveLayer}"
+                                         mmp:Command.Action="{x:Static mmi:LayerCommands.ToggleIsLocked}">
+                    </Fluent:ToggleButton>
+
+                    <Fluent:ToggleButton  x:Name="Layers_ActiveLayerVisible"
+                                          Size="Small"
+                                          CommandParameter="{Binding Context.Layers.ActiveLayer}"
+                                          mmp:Command.Action="{x:Static mmi:LayerCommands.ToggleIsVisible}"
+                                          IsChecked="{Binding Context.Layers.ActiveLayer.IsVisible, Mode=OneWay}">
+                    </Fluent:ToggleButton>
+
+                    <Fluent:DropDownButton  x:Name="Layers_ActiveLayerVisual"
+                                            Size="Small"
+                                            mmp:Command.Action="{x:Static mmi:LayerCommands.LayerVisualPanel}"
+                                            AutomationProperties.AutomationId="ActiveLayerVisual">
+
+                        <Fluent:GroupSeparatorMenuItem Header="Layer Visuals" />
+                        <mmi:LayerVisualPanel DataContext="{Binding Context.Layers.ActiveLayer, Mode=OneWay}" />
+                    </Fluent:DropDownButton>
+                </Fluent:RibbonToolBar>
+            </Fluent:RibbonGroupBox>
+
+        </Fluent:RibbonTabItem>
+        <!--endregion-->
+
+        <!--region Model -->
+        <Fluent:RibbonTabItem Header="MODEL"
+                              AutomationProperties.AutomationId="Model"
+                              ReduceOrder="Create,Form,Boolean,Modify,Multiply">
+
+            <Fluent:RibbonGroupBox Header="Create"
+                                   Name="Create">
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateBox}"
+                                     AutomationProperties.AutomationId="CreateBox" 
+                                     SizeDefinition="Large,Middle,Small" />
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateCylinder}"
+                                     AutomationProperties.AutomationId="CreateCylinder" 
+                                     SizeDefinition="Large,Middle,Small" />
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateSphere}"
+                                     AutomationProperties.AutomationId="CreateSphere"
+                                     SizeDefinition="Large,Middle,Small" />
+
+                <Fluent:SplitButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateSketch}"
+                                    AutomationProperties.AutomationId="CreateSketch"
+                                    SizeDefinition="Large,Large,Large" >
+                    <Fluent:GroupSeparatorMenuItem Header="Sketch Plane Alignment" />
+                    <Fluent:MenuItem CommandParameter="WorkplaneXY"
+                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateSketchAligned}" />
+                    <Fluent:MenuItem CommandParameter="WorkplaneXZ"
+                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateSketchAligned}" />
+                    <Fluent:MenuItem CommandParameter="WorkplaneYZ"
+                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateSketchAligned}" />
+                    <Fluent:MenuItem CommandParameter="Interactive"
+                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateSketchAligned}"
+                                     AutomationProperties.AutomationId="CreateSketchInteractive"/>
+                </Fluent:SplitButton>
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Modify"
+                                   Name="Modify">
+
+                <Fluent:SplitButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateImprint}"
+                                    AutomationProperties.AutomationId="CreateImprint"
+                                    SizeDefinition="Large,Large,Large">
+                    <Fluent:GroupSeparatorMenuItem Header="Imprint Mode" />
+                    <Fluent:MenuItem CommandParameter="Raise"
+                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateImprint}" />
+                    <Fluent:MenuItem CommandParameter="Lower"
+                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateImprint}" />
+                    <Fluent:MenuItem CommandParameter="Cutout"
+                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateImprint}" />
+                </Fluent:SplitButton>
+
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateFillet}"
+                               AutomationProperties.AutomationId="CreateFillet"
+                               SizeDefinition="Large,Middle,Small" />
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateChamfer}"
+                               AutomationProperties.AutomationId="CreateChamfer"
+                               SizeDefinition="Large,Middle,Small" />
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateTaper}" 
+                                     AutomationProperties.AutomationId="CreateTaper"
+                                     SizeDefinition="Large,Middle,Small" />
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Boolean"
+                                   Name="Boolean">
+
+                <Fluent:ToggleButton CommandParameter="Cut"
+                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateBoolean}"
+                                     AutomationProperties.AutomationId="CreateBooleanCut"/>
+                <Fluent:ToggleButton CommandParameter="Fuse"
+                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateBoolean}"
+                                     AutomationProperties.AutomationId="CreateBooleanFuse"/>
+                <Fluent:ToggleButton CommandParameter="Common"
+                                     mmp:Command.Action="{x:Static mmi:ModelCommands.CreateBoolean}"
+                                     AutomationProperties.AutomationId="CreateBooleanCommon"/>
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Form"
+                                   Name="Form">
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateExtrude}"
+                                     AutomationProperties.AutomationId="CreateExtrude"/>
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateRevolve}"
+                               AutomationProperties.AutomationId="CreateRevolve"/>
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateLoft}"
+                                     AutomationProperties.AutomationId="CreateLoft"/>
+
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Multiply"
+                                   Name="Multiply">
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateMirror}" 
+                                     AutomationProperties.AutomationId="CreateMirror"/>
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateLinearArray}" 
+                               AutomationProperties.AutomationId="CreateLinearArray"/>
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateCircularArray}" 
+                               AutomationProperties.AutomationId="CreateCircularArray"/>
+
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Assembly"
+                                   Name="Assembly">
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateBoxJoint}"
+                                     AutomationProperties.AutomationId="CreateBoxJoint"/>
+
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Sheet"
+                                   Name="Sheet">
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateFlangeSheet}" 
+                                     AutomationProperties.AutomationId="CreateFlangeSheet"/>
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateUnfoldSheet}"
+                                     AutomationProperties.AutomationId="CreateUnfoldSheet"/>
+            </Fluent:RibbonGroupBox>
+
+        </Fluent:RibbonTabItem>
+        <!--endregion-->
+
+        <!--region Toolbox -->
+        <Fluent:RibbonTabItem Header="TOOLBOX"
+                              AutomationProperties.AutomationId="Toolbox">
+            
+            <Fluent:RibbonGroupBox Header="Templates">
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ToolboxCommands.CreateSliceContour}"
+                                     AutomationProperties.AutomationId="CreateSliceContour"/>
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ToolboxCommands.CreateEtchingMask}"
+                                     AutomationProperties.AutomationId="CreateEtchingMask" />
+
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Drawings">
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:ToolboxCommands.ExportViewHlr}"
+                               AutomationProperties.AutomationId="ExportViewHlr"/>
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Workflow">
+                <Fluent:Button mmp:Command.Action="{x:Static mmw:AppCommands.ShowShapeInspector}"/>
+
+                <Fluent:SplitButton mmp:Command.Action="{x:Static mmi:ToolboxCommands.RunScriptFromCommand}"
+                                    AutomationProperties.AutomationId="RunScript">
+                    <Fluent:GroupSeparatorMenuItem Header="Recently Used Scripts" />
+                    <ItemsControl ItemsSource="{Binding Context.RecentUsedScripts}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Fluent:MenuItem CommandParameter="{Binding}"
+                                                 Command="{x:Static mmi:ToolboxCommands.RunScriptCommand}"
+                                                 Header="{Binding Converter={mmp:ExtractFileNameNoExtensionConverter}}">
+                                    <Fluent:MenuItem.ToolTip>
+                                        <Fluent:ScreenTip Title="{Binding Converter={mmp:ExtractFileNameConverter}}"
+                                                          Text="{Binding Converter={mmp:ExtractFileDirectoryConverter}}" />
+                                    </Fluent:MenuItem.ToolTip>
+                                </Fluent:MenuItem>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Fluent:SplitButton>
+            </Fluent:RibbonGroupBox>
+
+        </Fluent:RibbonTabItem>
+        <!--endregion-->
+
+        <!--region View -->
+        <Fluent:RibbonTabItem Header="VIEW"
+                              AutomationProperties.AutomationId="View">
+            <Fluent:RibbonGroupBox Header="View">
+                <Fluent:Button CommandParameter="Front"
+                               mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetPredefinedView}" />
+                <Fluent:Button CommandParameter="Top"
+                               mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetPredefinedView}" />
+                <Fluent:Button CommandParameter="Right"
+                               mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetPredefinedView}" />
+                <Fluent:Button CommandParameter="Left"
+                               mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetPredefinedView}" />
+                <Fluent:Button CommandParameter="Bottom"
+                               mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetPredefinedView}" />
+                <Fluent:Button CommandParameter="Back"
+                               mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetPredefinedView}" />
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Zoom">
+
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ZoomFitAll}" />
+
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ZoomFitSelected}" />
+
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ZoomIn}" />
+
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ZoomOut}" />
+
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Display">
+
+                <Fluent:DropDownButton Header="Render Mode"
+                                       LargeIcon="{Binding Context.Viewport.RenderMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRenderModeCommand}}"
+                                       Icon="{Binding Context.Viewport.RenderMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRenderModeCommand}}">
+                    <Fluent:GroupSeparatorMenuItem Header="Render Mode" />
+                    <Fluent:MenuItem CommandParameter="SolidShaded"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderModeCommand}" />
+                    <Fluent:MenuItem CommandParameter="HLR"
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderModeCommand}" />
+                    <Fluent:MenuItem CommandParameter="Raytraced" 
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderModeCommand}" />
+                </Fluent:DropDownButton>
+
+            </Fluent:RibbonGroupBox>
+        </Fluent:RibbonTabItem>
+        <!--endregion-->
+
+        <!--region Sketch -->
+        <Fluent:RibbonTabItem Header="SKETCH" 
+                              Group="{Binding ElementName=SketchGroup}" 
+                              ReduceOrder="Segment,Constraint"
+                              AutomationProperties.AutomationId="Sketch">
+            <Fluent:RibbonGroupBox Name="Segment" Header="Create Segment">
+
+                <Fluent:ToggleButton CommandParameter="Line"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.CreateSegment}"
+                                     AutomationProperties.AutomationId="CreateLineSegment"/>
+                <Fluent:ToggleButton CommandParameter="PolyLine"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.CreateSegment}"
+                                     AutomationProperties.AutomationId="CreatePolyLineSegment"/>
+                <Fluent:ToggleButton CommandParameter="Bezier2"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.CreateSegment}" 
+                                     AutomationProperties.AutomationId="CreateBezier2Segment"/>
+                <Fluent:ToggleButton CommandParameter="Bezier3"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.CreateSegment}" 
+                                     AutomationProperties.AutomationId="CreateBezier3Segment"/>
+                <Fluent:ToggleButton CommandParameter="Rectangle"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.CreateSegment}" 
+                                     AutomationProperties.AutomationId="CreateRectangleSegment"/>
+                <Fluent:ToggleButton CommandParameter="Circle"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.CreateSegment}" 
+                                     AutomationProperties.AutomationId="CreateCircleSegment"/>
+                <Fluent:ToggleButton CommandParameter="ArcCenter"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.CreateSegment}" 
+                                     AutomationProperties.AutomationId="CreateArcCenterSegment"/>
+                <Fluent:ToggleButton CommandParameter="ArcRim"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.CreateSegment}" 
+                                     AutomationProperties.AutomationId="CreateArcRimSegment"/>
+                <Fluent:ToggleButton CommandParameter="EllipseCenter"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.CreateSegment}" 
+                                     AutomationProperties.AutomationId="CreateEllipseCenterSegment"/>
+                <Fluent:ToggleButton CommandParameter="EllipticalArcCenter"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.CreateSegment}" 
+                                     AutomationProperties.AutomationId="CreateEllipticalArcCenterSegment"/>
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Name="Constraint"  Header="Create Constraint">
+                <Fluent:Button CommandParameter="Fixed"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}"
+                               AutomationProperties.AutomationId="CreateFixedConstraint"/>
+                <Fluent:Button CommandParameter="LineLength"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}"
+                               AutomationProperties.AutomationId="CreateLineLengthConstraint"/>
+                <Fluent:Button CommandParameter="Angle"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
+                               AutomationProperties.AutomationId="CreateAngleConstraint"/>
+                <Fluent:Button CommandParameter="CircleRadius"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
+                               AutomationProperties.AutomationId="CreateCircleRadiusConstraint"/>
+                <Fluent:Button CommandParameter="Equal"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
+                               AutomationProperties.AutomationId="CreateEqualConstraint"/>
+                <Fluent:Button CommandParameter="Perpendicular"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
+                               AutomationProperties.AutomationId="CreatePerpendicularConstraint"/>
+                <Fluent:Button CommandParameter="Parallel"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
+                               AutomationProperties.AutomationId="CreateParallelConstraint"/>
+                <Fluent:Button CommandParameter="Concentric"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
+                               AutomationProperties.AutomationId="CreateConcentricConstraint"/>
+                <Fluent:Button CommandParameter="Horizontal"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
+                               AutomationProperties.AutomationId="CreateHorizontalConstraint"/>
+                <Fluent:Button CommandParameter="Vertical"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
+                               AutomationProperties.AutomationId="CreateVerticalConstraint"/>
+                <Fluent:Button CommandParameter="HorizontalDistance"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
+                               AutomationProperties.AutomationId="CreateHorizontalDistanceConstraint"/>
+                <Fluent:Button CommandParameter="VerticalDistance"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
+                               AutomationProperties.AutomationId="CreateVerticalDistanceConstraint"/>
+                <Fluent:Button CommandParameter="Tangent"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
+                               AutomationProperties.AutomationId="CreateTangentConstraint"/>
+                <Fluent:Button CommandParameter="PointOnSegment"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
+                               AutomationProperties.AutomationId="CreatePointOnSegmentConstraint"/>
+                <Fluent:Button CommandParameter="PointOnMidpoint"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
+                               AutomationProperties.AutomationId="CreatePointOnMidpointConstraint"/>
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Name="Editor" Header="Editor">
+                <Fluent:Button CommandParameter="-90.0"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.RotateSketchView}" 
+                               AutomationProperties.AutomationId="TurnSketchViewCCW"/>
+                <Fluent:Button CommandParameter="90.0"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.RotateSketchView}"
+                               AutomationProperties.AutomationId="TurnSketchViewCW"/>
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.ToggleClippingPlane}"/>
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.RecenterGrid}"
+                                     AutomationProperties.AutomationId="RecenterGrid"/>
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Name="Tools"  Header="Tools">
+                <Fluent:DropDownButton Header="Exchange"
+                                       Icon="{mmp:IconResource Sketch-Exchange}"
+                                       LargeIcon="{mmp:IconResource Sketch-Exchange}"
+                                       AutomationProperties.AutomationId="SketchExchange">
+
+                    <Fluent:GroupSeparatorMenuItem Header="Export" />
+                    <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:SketchCommands.ExportAllToFile}"
+                                     AutomationProperties.AutomationId="ExportAllToFile"/>
+                    <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:SketchCommands.ExportAllToToSvgClipboard}"
+                                     AutomationProperties.AutomationId="ExportAllToSvgClipboard"/>
+
+                    <Fluent:GroupSeparatorMenuItem Header="Import" />
+                    <Fluent:MenuItem CommandParameter="false"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.ImportFromFile}" 
+                                     AutomationProperties.AutomationId="ImportFromFile"/>
+                    <Fluent:MenuItem CommandParameter="true"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.ImportFromFile}"
+                                     AutomationProperties.AutomationId="ReplaceFromFile"/>
+                    <Fluent:MenuItem CommandParameter="false"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.ImportFromClipboard}"
+                                     AutomationProperties.AutomationId="ImportFromClipboard"/>
+                    <Fluent:MenuItem CommandParameter="true"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.ImportFromClipboard}"
+                                     AutomationProperties.AutomationId="ReplaceFromClipboard"/>
+                </Fluent:DropDownButton>
+            </Fluent:RibbonGroupBox>
+            
+            <Fluent:RibbonGroupBox Name="Close" Header="Close">
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:SketchCommands.CloseSketchEditor}"/>
+
+            </Fluent:RibbonGroupBox>
+        </Fluent:RibbonTabItem>
+        <!--endregion-->
+
+    </Fluent:Ribbon>
+
+</UserControl>

@@ -1,0 +1,3 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- Only here so that the default Directory.Build.targets will not be used. -->
+</Project>

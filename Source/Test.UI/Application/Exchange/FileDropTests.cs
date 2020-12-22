@@ -1,0 +1,158 @@
+﻿using System.IO;
+using System.Linq;
+using Macad.Test.UI.Framework;
+using NUnit.Framework;
+
+namespace Macad.Test.UI.Application.Exchange
+{
+    [TestFixture]
+    public class FileDropTests : UITestBase
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            Reset();
+            TestDataGenerator.GenerateBox(MainWindow);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CancelTaskDialog()
+        {
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImprintRingFace.brep"));
+            Assume.That(MainWindow.SendFileDrop(path));
+
+            var dlg = new TaskDialogAdaptor(MainWindow);
+            Assert.That(dlg, Is.Not.Null);
+            Assert.That(dlg.Title,  Is.EqualTo("Import Data") );
+
+            dlg.ClickButton(TaskDialogAdaptor.Button.Cancel);
+
+            // Check that box is still there
+            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual("Box_1", MainWindow.Document.GetBodyItems().First().Name);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void ImportMerged()
+        {
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImprintRingFace.brep"));
+            Assume.That(MainWindow.SendFileDrop(path));
+
+            var dlg = new TaskDialogAdaptor(MainWindow);
+            Assert.That(dlg, Is.Not.Null);
+            Assert.That(dlg.Title, Is.EqualTo("Import Data"));
+
+            dlg.ClickButton(TaskDialogAdaptor.Button.Command2);
+
+            // Check that data was imported
+            Assert.AreEqual(2, MainWindow.Document.GetBodyItems().Count());
+
+            // Undo action
+            MainWindow.Ribbon.SelectGroup("Edit");
+            MainWindow.Ribbon.ClickButton("Undo");
+            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual("Box_1", MainWindow.Document.GetBodyItems().First().Name);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void ImportToNewModel()
+        {
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImprintRingFace.brep"));
+            Assume.That(MainWindow.SendFileDrop(path));
+
+            var dlg = new TaskDialogAdaptor(MainWindow);
+            Assert.That(dlg, Is.Not.Null);
+            Assert.That(dlg.Title, Is.EqualTo("Import Data"));
+
+            dlg.ClickButton(TaskDialogAdaptor.Button.Command1);
+
+            // Save model?
+            dlg = new TaskDialogAdaptor(MainWindow);
+            Assert.That(dlg, Is.Not.Null);
+            Assert.That(dlg.Title, Is.EqualTo("Unsaved Changes"));
+            dlg.ClickButton(TaskDialogAdaptor.Button.No);
+
+            // Check that button box is not there
+            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual("ImprintRingFace", MainWindow.Document.GetBodyItems().First().Name);
+
+            // Undo action not available, box is not there
+            MainWindow.Ribbon.SelectGroup("Edit");
+            MainWindow.Ribbon.ClickButton("Undo");
+            Assert.AreEqual(0, MainWindow.Document.GetBodyItems().Count());
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void ImportToNewModelCancelSave()
+        {
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImprintRingFace.brep"));
+            Assume.That(MainWindow.SendFileDrop(path));
+
+            var dlg = new TaskDialogAdaptor(MainWindow);
+            Assert.That(dlg, Is.Not.Null);
+            Assert.That(dlg.Title, Is.EqualTo("Import Data"));
+
+            dlg.ClickButton(TaskDialogAdaptor.Button.Command1);
+
+            // Save model?
+            dlg = new TaskDialogAdaptor(MainWindow);
+            Assert.That(dlg, Is.Not.Null);
+            Assert.That(dlg.Title, Is.EqualTo("Unsaved Changes"));
+
+            dlg.ClickButton(TaskDialogAdaptor.Button.Cancel, false);
+
+            // Check that box is still there
+            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual("Box_1", MainWindow.Document.GetBodyItems().First().Name);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void LoadModel()
+        {
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\Cylinder.model"));
+            Assume.That(MainWindow.SendFileDrop(path));
+
+            // Save model?
+            var dlg = new TaskDialogAdaptor(MainWindow);
+            Assert.That(dlg, Is.Not.Null);
+            Assert.That(dlg.Title, Is.EqualTo("Unsaved Changes"));
+            dlg.ClickButton(TaskDialogAdaptor.Button.No);
+
+            // Check that box is not selectable anymore
+            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual("Cylinder", MainWindow.Document.GetBodyItems().First().Name);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void LoadModelCancelSave()
+        {
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\Cylinder.model"));
+            Assume.That(MainWindow.SendFileDrop(path));
+
+            // Save model?
+            var dlg = new TaskDialogAdaptor(MainWindow);
+            Assert.That(dlg, Is.Not.Null);
+            Assert.That(dlg.Title, Is.EqualTo("Unsaved Changes"));
+            dlg.ClickButton(TaskDialogAdaptor.Button.Cancel);
+
+            // Check that box is still here
+            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual("Box_1", MainWindow.Document.GetBodyItems().First().Name);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+    }
+}

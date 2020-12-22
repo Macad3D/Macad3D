@@ -1,0 +1,39 @@
+﻿<fluent:RibbonWindow x:Class="Macad.Window.MainWindow"
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:fluent="clr-namespace:Fluent;assembly=Fluent"
+                     xmlns:mmw="clr-namespace:Macad.Window"
+                     xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+                     mc:Ignorable="d"
+                     Width="1280" Height="1024" 
+                     AllowDrop="True" 
+                     RenderOptions.ClearTypeHint="Enabled" 
+                     TextOptions.TextFormattingMode="Display" 
+                     TextOptions.TextRenderingMode="ClearType"
+                     SnapsToDevicePixels="True" 
+                     UseLayoutRounding="False"
+	                 WindowStyle="ThreeDBorderWindow"
+                     AutomationProperties.AutomationId="MacadMainWindow"
+                     >
+
+    <Window.Title>
+        <Binding Path="Context.Document.FilePath" Converter="{mmp:ExtractFileNameNoExtensionConverter}" StringFormat="{}{0} - Macad|3D" />
+    </Window.Title>
+    
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="_ApplicationCommandsHelp_Executed" />
+    </Window.CommandBindings>
+
+    <DockPanel SnapsToDevicePixels="True">
+
+        <mmw:MainWindowStatusBar DockPanel.Dock="Bottom" />
+
+        <mmw:MainWindowRibbon x:Name="Ribbon" DockPanel.Dock="Top" />
+        
+        <mmw:MainWindowDocking x:Name="Docking" />
+        
+    </DockPanel>
+</fluent:RibbonWindow>
+

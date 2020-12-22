@@ -1,0 +1,41 @@
+﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Shapes.SketchPointsPropertyPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:mmi="clr-namespace:Macad.Interaction"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             Style="{DynamicResource Macad.Styles.PropertyPanel}"
+             Header="Sketch Points">
+
+    <Grid>
+
+        <TextBlock Text="No points selected" HorizontalAlignment="Center"
+                   Visibility="{Binding Points.Count, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=0}" />
+
+        <mmp:TemplateItemsControl ItemsSource="{Binding Points}" Padding="0" Margin="0" Background="{x:Null}" BorderThickness="0">
+            <mmp:TemplateItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="{Binding Index, StringFormat={}{0} :}" 
+                                   HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" />
+                        <mmp:ValueEditBox Grid.Column="1" 
+                                          Tag="{Binding}"
+                                          Value="{Binding X, NotifyOnSourceUpdated=True}" HorizontalAlignment="Left" />
+                        <mmp:ValueEditBox Grid.Column="2" 
+                                          Tag="{Binding}"
+                                          Value="{Binding Y, NotifyOnSourceUpdated=True}" HorizontalAlignment="Left" />
+                    </Grid>
+                </DataTemplate>
+            </mmp:TemplateItemsControl.ItemTemplate>
+        </mmp:TemplateItemsControl>
+    </Grid>
+</mmi:PropertyPanel>

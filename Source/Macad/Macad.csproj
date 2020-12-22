@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <ProjectGuid>{6CD3EADE-505E-4F55-A720-4A5E7D88F943}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <ApplicationIcon>..\Macad.Resources\Icons\App\App-MainLogo.ico</ApplicationIcon>
+    <UseWPF>true</UseWPF>
+    <Platforms>x64</Platforms>
+    <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
+    <StartupObject>Macad.Window.App</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ControlzEx" Version="4.4.0" />
+    <PackageReference Include="Dirkster.AvalonDock" Version="4.50.0" />
+    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.50.0" />
+    <PackageReference Include="Fluent.Ribbon" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Macad.Common\Macad.Common.csproj" />
+    <ProjectReference Include="..\Macad.Core\Macad.Core.csproj" />
+    <ProjectReference Include="..\Macad.Interaction\Macad.Interaction.csproj" />
+    <ProjectReference Include="..\Macad.Managed\Macad.Managed.vcxproj" />
+    <ProjectReference Include="..\Macad.Occt\Macad.Occt.vcxproj" />
+    <ProjectReference Include="..\Macad.Presentation\Macad.Presentation.csproj" />
+    <ProjectReference Include="..\Macad.Resources\Macad.Resources.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleToSigned Include="Test.Unit" />
+    <InternalsVisibleToSigned Include="Test.Memory" />
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Properties\SplashScreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="obj\x64\Debug\App.g.cs" />
+    <Compile Remove="obj\x64\Debug\App.g.i.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Macad.args.json" />
+    <None Remove="Macad.csproj.DotSettings" />
+    <None Remove="Properties\launchSettings.json" />
+  </ItemGroup>
+</Project>

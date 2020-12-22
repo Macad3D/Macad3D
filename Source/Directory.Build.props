@@ -1,0 +1,9 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <MMRootDir Condition="$(MMRootDir) == ''">$([MsBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), Macad3D.sln))\</MMRootDir>
+  </PropertyGroup>
+
+  <Import Project="$(MMRootDir)Build\MSBuild\Macad.Common.props" />
+
+</Project>

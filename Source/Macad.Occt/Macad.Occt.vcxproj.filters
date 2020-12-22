@@ -1,0 +1,828 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Std">
+      <UniqueIdentifier>{827176ee-34b6-40e3-8777-f5bef03664d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated">
+      <UniqueIdentifier>{2432ca20-6e50-428d-9dac-5e7d9b2696b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\FoundationClasses">
+      <UniqueIdentifier>{7aa9e13a-cbb4-47ed-bffa-d31c41f4c822}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\FoundationClasses\TKKernel">
+      <UniqueIdentifier>{3deb4ed6-509b-4119-be3e-b90c7a9e45cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\FoundationClasses\TKMath">
+      <UniqueIdentifier>{92964cd8-e7b1-4c1b-af3a-f411f4a2ecb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingData">
+      <UniqueIdentifier>{eec92e74-6fbb-4d2c-8f8f-49406abab4fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingData\TKBRep">
+      <UniqueIdentifier>{d93bbedd-a0d8-45d7-ab4e-4c96a6658aba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingData\TKG2d">
+      <UniqueIdentifier>{f4d51ee4-ef99-4403-839b-15b08b1b739c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingData\TKGeomBase">
+      <UniqueIdentifier>{2fab19a1-fd14-4521-8a67-6ab1580e4d07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingData\TKG3d">
+      <UniqueIdentifier>{a747a790-85da-4c32-a241-f2100e8a544c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingAlgorithms">
+      <UniqueIdentifier>{c794bca7-0359-4b99-916b-73f34b7ab5e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingAlgorithms\TKGeomAlgo">
+      <UniqueIdentifier>{7ac8204d-4fb4-4b2f-8c2c-3d3c5abb1edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingAlgorithms\TKTopAlgo">
+      <UniqueIdentifier>{2731d4f2-efe0-4b3b-898e-e53f5b667bac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingAlgorithms\TKBO">
+      <UniqueIdentifier>{1018d3b7-3a3a-4b95-9634-f1d495500a58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingAlgorithms\TKFeat">
+      <UniqueIdentifier>{897ed536-95d1-4e05-86eb-1c5dc07ed022}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingAlgorithms\TKBool">
+      <UniqueIdentifier>{3f77e960-6256-4ddd-930e-878013a02a75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingAlgorithms\TKFillet">
+      <UniqueIdentifier>{06da78f1-4a49-4688-a560-b38d1cca593e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingAlgorithms\TKOffset">
+      <UniqueIdentifier>{d1949fcd-6df0-402a-a560-328b2240a03a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingAlgorithms\TKPrim">
+      <UniqueIdentifier>{85eca4a6-7445-4eb0-a49b-bdec2dd1bbe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\ModelingAlgorithms\TKShHealing">
+      <UniqueIdentifier>{9aebb118-ca64-4408-85bd-d3e24fbbcfb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\Visualization">
+      <UniqueIdentifier>{96adc600-dab8-474e-90d1-9720b6e2e57c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\Visualization\TKService">
+      <UniqueIdentifier>{9c6a73c8-cbc5-4d29-8174-d2ceb522b1df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extensions">
+      <UniqueIdentifier>{4ffb975c-9f0d-4c95-ae5f-58211d7f27ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated\Visualization\TKV3d">
+      <UniqueIdentifier>{d420e6b8-7c52-47d5-a2de-05e3307233db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ValueTypes">
+      <UniqueIdentifier>{6f397ccd-f6e8-430e-877c-bdd61d10ab19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ValueTypes\3d">
+      <UniqueIdentifier>{ac9e1466-7ca9-4f1b-b098-b5c1fdb84907}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ValueTypes\Enums">
+      <UniqueIdentifier>{393dea5c-91bd-4f53-beb2-62aff5279f4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ValueTypes\2d">
+      <UniqueIdentifier>{e4086b1d-0be6-4e5b-8093-1dce8db0a9d5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Generated\Bnd.h">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Convert.h">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ElCLib.h">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ElSLib.h">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\gp.h">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Quantity.h">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\MMgt.h">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Precision.h">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Standard.h">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\StdFail.h">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\TCollection.h">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\TShort.h">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Units.h">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\UnitsAPI.h">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\forward_declarations.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BSplCLib.h">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BSplSLib.h">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\CSLib.h">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Dico.h">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\GeomAbs.h">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\TopLoc.h">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\GProp.h">
+      <Filter>Generated\ModelingData\TKG2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Adaptor2d.h">
+      <Filter>Generated\ModelingData\TKG2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Geom2d.h">
+      <Filter>Generated\ModelingData\TKG2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Geom2dAdaptor.h">
+      <Filter>Generated\ModelingData\TKG2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Geom2dConvert.h">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\GeomConvert.h">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\GeomProjLib.h">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ProjLib.h">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BndLib.h">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Adaptor3d.h">
+      <Filter>Generated\ModelingData\TKG3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Geom.h">
+      <Filter>Generated\ModelingData\TKG3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\GeomAdaptor.h">
+      <Filter>Generated\ModelingData\TKG3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\TopAbs.h">
+      <Filter>Generated\ModelingData\TKG3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepTools.h">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\TopExp.h">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\TopoDS.h">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\TopTools.h">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BinTools.h">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRep.h">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepAdaptor.h">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepLProp.h">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Geom2dAPI.h">
+      <Filter>Generated\ModelingAlgorithms\TKGeomAlgo</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\GeomAPI.h">
+      <Filter>Generated\ModelingAlgorithms\TKGeomAlgo</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepBndLib.h">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepBuilderAPI.h">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepAlgoAPI.h">
+      <Filter>Generated\ModelingAlgorithms\TKBO</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepPrimAPI.h">
+      <Filter>Generated\ModelingAlgorithms\TKPrim</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeAnalysis.h">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeBuild.h">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeConstruct.h">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeCustom.h">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeExtend.h">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeFix.h">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeProcess.h">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeProcessAPI.h">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeUpgrade.h">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ShapeAlgo.h">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepFilletAPI.h">
+      <Filter>Generated\ModelingAlgorithms\TKFillet</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepOffsetAPI.h">
+      <Filter>Generated\ModelingAlgorithms\TKOffset</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Image.h">
+      <Filter>Generated\Visualization\TKService</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\SelectBasics.h">
+      <Filter>Generated\Visualization\TKService</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\TColQuantity.h">
+      <Filter>Generated\Visualization\TKService</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\WNT.h">
+      <Filter>Generated\Visualization\TKService</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Aspect.h">
+      <Filter>Generated\Visualization\TKService</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\V3d.h">
+      <Filter>Generated\Visualization\TKV3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Graphic3d.h">
+      <Filter>Generated\Visualization\TKV3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Prs3d.h">
+      <Filter>Generated\Visualization\TKV3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\PrsMgr.h">
+      <Filter>Generated\Visualization\TKV3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\AIS.h">
+      <Filter>Generated\Visualization\TKV3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\SelectMgr.h">
+      <Filter>Generated\Visualization\TKV3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\native_includes.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\NCollection.h">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\Graphic3d_Ex.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\gce.h">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepGProp.h">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepCheck.h">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepFeat.h">
+      <Filter>Generated\ModelingAlgorithms\TKFeat</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ChFi3d.h">
+      <Filter>Generated\ModelingAlgorithms\TKFillet</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BOPAlgo.h">
+      <Filter>Generated\ModelingAlgorithms\TKBO</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\IntAna.h">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Extrema.h">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\TColgp.h">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\TColStd.h">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\IntCurvesFace.h">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepExtrema.h">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepIntCurveSurface.h">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepLib.h">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\ValueTypes.h">
+      <Filter>ValueTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\3d\Vec.h">
+      <Filter>ValueTypes\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\gp.h">
+      <Filter>ValueTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\3d\Pnt.h">
+      <Filter>ValueTypes\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\3d\XYZ.h">
+      <Filter>ValueTypes\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\3d\Dir.h">
+      <Filter>ValueTypes\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\3d\Ax1.h">
+      <Filter>ValueTypes\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\3d\Ax2.h">
+      <Filter>ValueTypes\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\3d\Ax3.h">
+      <Filter>ValueTypes\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\3d\Mat.h">
+      <Filter>ValueTypes\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\3d\Quaternion.h">
+      <Filter>ValueTypes\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\Enums\EulerSequence.h">
+      <Filter>ValueTypes\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\Enums\TrsfForm.h">
+      <Filter>ValueTypes\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\3d\Trsf.h">
+      <Filter>ValueTypes\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\2d\XY.h">
+      <Filter>ValueTypes\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\2d\Pnt2d.h">
+      <Filter>ValueTypes\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\2d\Vec2d.h">
+      <Filter>ValueTypes\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\2d\Dir2d.h">
+      <Filter>ValueTypes\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\2d\Ax2d.h">
+      <Filter>ValueTypes\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\2d\Ax22d.h">
+      <Filter>ValueTypes\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\2d\Mat2d.h">
+      <Filter>ValueTypes\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\2d\Trsf2d.h">
+      <Filter>ValueTypes\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueTypes\3d\Pln.h">
+      <Filter>ValueTypes\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\Message.h">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\GeomPlate.h">
+      <Filter>Generated\ModelingAlgorithms\TKGeomAlgo</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\BOPTools_Ex.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\BRep_Ex.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\TopLoc_Ex.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\TopoDS_Ex.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\TopTools_Ex.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\V3d_Ex.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Extensions\TColStd_Ex.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepClass3d.h">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\BRepOffset.h">
+      <Filter>Generated\ModelingAlgorithms\TKOffset</Filter>
+    </ClInclude>
+    <ClInclude Include="OcctPCH.h">
+      <Filter>Std</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseClass.h">
+      <Filter>Std</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\IntAna2d.h">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\StdSelect.h">
+      <Filter>Generated\Visualization\TKV3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Standard_Transient.h">
+      <Filter>Std</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp">
+      <Filter>Std</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Bnd.cpp">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Convert.cpp">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\ElCLib.cpp">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\ElSLib.cpp">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\gp.cpp">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Quantity.cpp">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\MMgt.cpp">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Precision.cpp">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Standard.cpp">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\StdFail.cpp">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\TCollection.cpp">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\TShort.cpp">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Units.cpp">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\UnitsAPI.cpp">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BSplSLib.cpp">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BSplCLib.cpp">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\CSLib.cpp">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Dico.cpp">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\GeomAbs.cpp">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\TopLoc.cpp">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\GProp.cpp">
+      <Filter>Generated\ModelingData\TKG2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Adaptor2d.cpp">
+      <Filter>Generated\ModelingData\TKG2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Geom2d.cpp">
+      <Filter>Generated\ModelingData\TKG2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Geom2dAdaptor.cpp">
+      <Filter>Generated\ModelingData\TKG2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\GeomConvert.cpp">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\GeomProjLib.cpp">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\ProjLib.cpp">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BndLib.cpp">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Geom2dConvert.cpp">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Adaptor3d.cpp">
+      <Filter>Generated\ModelingData\TKG3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Geom.cpp">
+      <Filter>Generated\ModelingData\TKG3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\GeomAdaptor.cpp">
+      <Filter>Generated\ModelingData\TKG3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\TopAbs.cpp">
+      <Filter>Generated\ModelingData\TKG3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepTools.cpp">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\TopExp.cpp">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\TopoDS.cpp">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\TopTools.cpp">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BinTools.cpp">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRep.cpp">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepAdaptor.cpp">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepLProp.cpp">
+      <Filter>Generated\ModelingData\TKBRep</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Geom2dAPI.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKGeomAlgo</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepBndLib.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepBuilderAPI.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepAlgoAPI.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKBO</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepPrimAPI.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKPrim</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeAnalysis.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeBuild.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeConstruct.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeCustom.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeExtend.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeFix.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeProcess.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeProcessAPI.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeUpgrade.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\ShapeAlgo.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKShHealing</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepFilletAPI.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKFillet</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepOffsetAPI.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKOffset</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\SelectBasics.cpp">
+      <Filter>Generated\Visualization\TKService</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\TColQuantity.cpp">
+      <Filter>Generated\Visualization\TKService</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\WNT.cpp">
+      <Filter>Generated\Visualization\TKService</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Aspect.cpp">
+      <Filter>Generated\Visualization\TKService</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Image.cpp">
+      <Filter>Generated\Visualization\TKService</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Graphic3d.cpp">
+      <Filter>Generated\Visualization\TKV3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Prs3d.cpp">
+      <Filter>Generated\Visualization\TKV3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\PrsMgr.cpp">
+      <Filter>Generated\Visualization\TKV3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\AIS.cpp">
+      <Filter>Generated\Visualization\TKV3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\SelectMgr.cpp">
+      <Filter>Generated\Visualization\TKV3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\V3d.cpp">
+      <Filter>Generated\Visualization\TKV3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\NCollection.cpp">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\TopTools_Ex.cpp">
+      <Filter>Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\V3d_Ex.cpp">
+      <Filter>Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="Extensions\BRep_Ex.cpp">
+      <Filter>Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\GeomAPI.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKGeomAlgo</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\gce.cpp">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepCheck.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepGProp.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepFeat.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKFeat</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\ChFi3d.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKFillet</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BOPAlgo.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKBO</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\IntAna.cpp">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Extrema.cpp">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\TColgp.cpp">
+      <Filter>Generated\FoundationClasses\TKMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\TColStd.cpp">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\IntCurvesFace.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepExtrema.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepIntCurveSurface.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepLib.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\3d\Pnt.cpp">
+      <Filter>ValueTypes\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\3d\XYZ.cpp">
+      <Filter>ValueTypes\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\3d\Vec.cpp">
+      <Filter>ValueTypes\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\3d\Dir.cpp">
+      <Filter>ValueTypes\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\3d\Ax1.cpp">
+      <Filter>ValueTypes\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\3d\Ax2.cpp">
+      <Filter>ValueTypes\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\3d\Ax3.cpp">
+      <Filter>ValueTypes\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\3d\Mat.cpp">
+      <Filter>ValueTypes\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\3d\Quaternion.cpp">
+      <Filter>ValueTypes\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\3d\Trsf.cpp">
+      <Filter>ValueTypes\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\2d\XY.cpp">
+      <Filter>ValueTypes\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\2d\Pnt2d.cpp">
+      <Filter>ValueTypes\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\2d\Vec2d.cpp">
+      <Filter>ValueTypes\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\2d\Dir2d.cpp">
+      <Filter>ValueTypes\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\2d\Ax2d.cpp">
+      <Filter>ValueTypes\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\2d\Ax22d.cpp">
+      <Filter>ValueTypes\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\2d\Mat2d.cpp">
+      <Filter>ValueTypes\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\2d\Trsf2d.cpp">
+      <Filter>ValueTypes\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueTypes\3d\Pln.cpp">
+      <Filter>ValueTypes\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\Message.cpp">
+      <Filter>Generated\FoundationClasses\TKKernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\GeomPlate.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKGeomAlgo</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepClass3d.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKTopAlgo</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\BRepOffset.cpp">
+      <Filter>Generated\ModelingAlgorithms\TKOffset</Filter>
+    </ClCompile>
+    <ClCompile Include="OcctPCH.cpp">
+      <Filter>Std</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\IntAna2d.cpp">
+      <Filter>Generated\ModelingData\TKGeomBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Generated\StdSelect.cpp">
+      <Filter>Generated\Visualization\TKV3d</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Macad.VersionInfo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="occt.natvis">
+      <Filter>Std</Filter>
+    </Natvis>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="$(MSBuildThisFileDirectory)Macad.VersionInfo.rc" />
+  </ItemGroup>
+</Project>

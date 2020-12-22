@@ -1,0 +1,85 @@
+﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Shapes.FlangeSheetPropertyPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:mmi="clr-namespace:Macad.Interaction"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             Style="{DynamicResource Macad.Styles.PropertyPanel}"
+			 mmp:Help.TopicId="5F9B1A87-60F9-448A-860A-567EB18473C8"
+             Header="Flange Sheet">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock  Grid.Row="0" Grid.Column="0" Text="Length" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <mmp:ValueEditBox Grid.Row="0" Grid.Column="1"
+                          Units="Length"
+                          Value="{Binding FlangeSheet.Length, NotifyOnSourceUpdated=True}" />
+
+        <TextBlock  Grid.Row="1" Grid.Column="0" Text="Angle" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+            <mmp:ValueEditBox  Units="Degree" 
+                               Value="{Binding FlangeSheet.Angle, NotifyOnSourceUpdated=True}" />
+            <Button Content="Swap Side" Margin="5,0,0,0" 
+                    Command="{Binding SwitchAngleSideCommand}"/>
+        </StackPanel>
+
+        <TextBlock  Grid.Row="2" Grid.Column="0" Text="Radius" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <mmp:ValueEditBox Grid.Row="2" Grid.Column="1" 
+                          Units="Length"
+                          Value="{Binding FlangeSheet.Radius, NotifyOnSourceUpdated=True}" />
+
+        <TextBlock  Grid.Row="3" Grid.Column="0" Text="Gaps" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+            <mmp:ValueEditBox mmp:GroupControls.Position="Left"
+                              Units="Length"
+                              Value="{Binding FlangeSheet.StartGap, NotifyOnSourceUpdated=True}"/>
+            <mmp:ValueEditBox mmp:GroupControls.Position="Right"
+                              Units="Length"
+                              Value="{Binding FlangeSheet.EndGap, NotifyOnSourceUpdated=True}"/>
+        </StackPanel>
+
+        <TextBlock  Grid.Row="4" Grid.Column="0" Text="Relief Type" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <Grid Grid.Row="4" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <mmp:ToggleButton mmp:GroupControls.Position="Left" Grid.Column="0" Padding="0"
+                              Content="None" 
+                              IsChecked="{Binding FlangeSheet.Relief, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=0}"
+                              Command="{Binding SwitchReliefCommand}" CommandParameter="0"/>
+            <mmp:ToggleButton mmp:GroupControls.Position="HCenter" Grid.Column="1"  Padding="0"
+                              Content="Inside"
+                              IsChecked="{Binding FlangeSheet.Relief, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=2}"
+                              Command="{Binding SwitchReliefCommand}" CommandParameter="2"/>
+            <mmp:ToggleButton mmp:GroupControls.Position="Right" Grid.Column="2"  Padding="0"
+                              Content="Outside"
+                              IsChecked="{Binding FlangeSheet.Relief, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=3}"
+                              Command="{Binding SwitchReliefCommand}" CommandParameter="3"/>
+        </Grid>
+
+        <mmp:ToggleButton Grid.Row="5" Grid.ColumnSpan="2" 
+                          Content="Reselect Target Face" 
+                          IsChecked="{Binding IsToolActive}"
+                          Command="{Binding ReselectFaceCommand}"
+                          HorizontalAlignment="Center" 
+                          Margin="0,20,0,2" />
+    </Grid>
+</mmi:PropertyPanel>

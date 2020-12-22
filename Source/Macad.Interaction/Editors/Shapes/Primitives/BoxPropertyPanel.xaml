@@ -1,0 +1,42 @@
+﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Shapes.BoxPropertyPanel"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                 xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+                 xmlns:mmi="clr-namespace:Macad.Interaction"
+                 mc:Ignorable="d" 
+                 DataContext="{Binding RelativeSource={RelativeSource Self}}"
+                 Style="{DynamicResource Macad.Styles.PropertyPanel}"
+                 Header="Box"
+                 mmp:Help.TopicId="5da4906e-c86b-4f91-8b30-f5163e152d0e">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock  Grid.Row="0" Grid.Column="0" Text="Length" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <mmp:ValueEditBox Grid.Row="0" Grid.Column="1" Width="100"
+                          Units="Length" 
+                          Value="{Binding Box.DimensionX, NotifyOnSourceUpdated=True}"
+                          AutomationProperties.AutomationId="BoxLength" />
+
+        <TextBlock  Grid.Row="1" Grid.Column="0" Text="Width" Style="{DynamicResource Macad.Styles.TextBlock.Property}"  />
+        <mmp:ValueEditBox Grid.Row="1" Grid.Column="1" Width="100"
+                          Units="Length" 
+                          Value="{Binding Box.DimensionY, NotifyOnSourceUpdated=True}"
+                          AutomationProperties.AutomationId="BoxWidth"  />
+
+        <TextBlock  Grid.Row="2" Grid.Column="0" Text="Height" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <mmp:ValueEditBox Grid.Row="2" Grid.Column="1" Width="100"
+                          Units="Length" Value="{Binding Box.DimensionZ, NotifyOnSourceUpdated=True}"
+                          AutomationProperties.AutomationId="BoxHeight" />
+    </Grid>
+</mmi:PropertyPanel>

@@ -1,0 +1,11 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".generated.cs" #>
+<#@ include file=".\BoolConverter.ttinclude" #>
+<#
+	BaseName = "IndexIsValid";
+	SourceType = "int";
+
+	Evaluation = "b = (((int)value) >= 0);";
+
+	Generate();
+#>

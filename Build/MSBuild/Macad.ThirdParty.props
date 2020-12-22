@@ -1,0 +1,23 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <OcctIncPath>$(MMRootDir)ThirdParty\OCCT\inc</OcctIncPath>
+    <_3DxWareIncPath>$(MMRootDir)ThirdParty\3DxWare\inc</_3DxWareIncPath>
+    <FreeTypeBinPath>$(MMRootDir)ThirdParty\freetype\bin</FreeTypeBinPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OcctLibPath>$(MMRootDir)ThirdParty\OCCT\libd</OcctLibPath>
+    <OcctBinPath>$(MMRootDir)ThirdParty\OCCT\bind</OcctBinPath>
+    <TbbBinPath>$(MMRootDir)ThirdParty\tbb\bind</TbbBinPath>
+    <_3DxWareLibPath>$(MMRootDir)ThirdParty\3DxWare\lib</_3DxWareLibPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OcctLibPath>$(MMRootDir)ThirdParty\OCCT\lib</OcctLibPath>
+    <OcctBinPath>$(MMRootDir)ThirdParty\OCCT\bin</OcctBinPath>
+    <TbbBinPath>$(MMRootDir)ThirdParty\tbb\bin</TbbBinPath>
+    <_3DxWareLibPath>$(MMRootDir)ThirdParty\3DxWare\lib</_3DxWareLibPath>
+  </PropertyGroup>
+
+</Project>

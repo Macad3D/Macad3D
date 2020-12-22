@@ -1,0 +1,17 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <ItemGroup>
+    <ResourceCompile Include="$(MSBuildThisFileDirectory)Macad.VersionInfo.rc">
+      <Visible>False</Visible>
+    </ResourceCompile>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+    <OutDir>$(MMRootDir)Bin\$(Configuration)\</OutDir>
+    <IntDir>$(MMRootDir).intermediate\$(MSBuildProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+
+</Project>

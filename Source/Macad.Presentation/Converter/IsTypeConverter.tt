@@ -1,0 +1,23 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".generated.cs" #>
+<#@ include file=".\BoolConverter.ttinclude" #>
+<#
+	References.Add("System.Linq");
+	BaseName = "IsType";
+	SourceType = "object";
+
+	Evaluation = @"	if(parameter is string typestr1)
+					{
+						var typestr2 = value.GetType().ToString();
+						b = (parameter as string).Split(';').Any(p => p.Equals(typestr2));
+					} 
+					else if(parameter is Type type)
+					{
+						b = value.GetType().IsAssignableFrom(type);
+					}
+					else b = false;
+					";
+
+	Generate();
+#>
+

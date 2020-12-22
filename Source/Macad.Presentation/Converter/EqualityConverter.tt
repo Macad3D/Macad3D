@@ -1,0 +1,65 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".generated.cs" #>
+<#@ include file=".\BoolConverter.ttinclude" #>
+<#
+	BaseName = "Equality";
+
+	Evaluation = @" if (value is String)
+					{
+						b = value.ToString() == (parameter as String);
+					}
+					else if (value is Int32)
+					{
+						if (parameter is String)
+						{
+							b = (Int32)value == Int32.Parse(parameter as String);
+						}
+						else
+						{
+							b = (Int32)value == (Int32)parameter;
+						}
+					}
+					else if (value is Int64)
+					{
+						if (parameter is String)
+						{
+							b = (Int64)value == Int64.Parse(parameter as String);
+						}
+						else
+						{
+							b = (Int64)value == (Int64)parameter;
+						}
+					}
+					else if (value is Double)
+					{
+						if (parameter is String)
+						{
+							b = (Double)value == Double.Parse(parameter as String, CultureInfo.InvariantCulture);
+						}
+						else
+						{
+							b = (Double)value == (Double)parameter;
+						}
+					}
+					else if (value is Enum)
+					{
+						if(parameter is String s)
+						{
+							if(int.TryParse(s, out int i))
+							{
+								b = ((int)value) == i;
+							} else {
+								b = Enum.GetName(value.GetType(), value) == s;
+							}
+						}
+					}
+					else
+					{
+						b = value == parameter;
+					};";
+
+	EvaluationBack = @"return b ? parameter : default;";
+
+	Generate();
+#>
+

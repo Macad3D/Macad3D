@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 16 16"
+   enable-background="new 0 0 16 16"
+   version="1.1"
+   id="svg4542"
+   sodipodi:docname="Skipped-True.svg"
+   inkscape:version="0.92.0 r15299">
+  <metadata
+     id="metadata4548">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs4546" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview4544"
+     showgrid="false"
+     inkscape:zoom="52.6875"
+     inkscape:cx="4.6690391"
+     inkscape:cy="8"
+     inkscape:current-layer="iconBg" />
+  <style
+     type="text/css"
+     id="style4524">.icon-canvas-transparent{opacity:0;fill:#F6F6F6;} .icon-vs-out{fill:#F6F6F6;} .icon-vs-fg{fill:#F0EFF1;} .icon-disabled-grey{fill:#848484;} .icon-vs-yellow{fill:#FFCC00;}</style>
+  <path
+     class="icon-canvas-transparent"
+     d="M16 16h-16v-16h16v16z"
+     id="canvas" />
+  <path
+     class="icon-vs-out"
+     d="M13.539 4.249c-.443-2.173-2.786-4.249-4.268-4.249h-2.568c-.374 0-.568.152-.568.152-2.098.641-3.637 2.573-3.658 4.726-.047.463-.104 2.282 1.699 3.78.514.467 1.219 1.971 1.301 2.368l.018.074.044.114v3.222l1.514 1.564h1.98l1.506-1.567v-3.224l.038-.115.013-.066c.08-.382.8-1.894 1.271-2.323 1.098-.912 1.522-1.914 1.679-2.664v-1.792z"
+     id="outline"
+     style="fill:#424242;fill-opacity:1" />
+  <g
+     id="iconBg">
+    <path
+       class="icon-vs-yellow"
+       d="M12.613 5.05l-.002-.014.008-.077c0-2.178-1.855-3.979-4.139-4.016-.052-.09-1.343.022-1.343.022v.012c-2.072.255-3.67 1.987-3.66 3.971-.01.066-.23 1.642 1.371 2.975.721.653 1.502 2.388 1.609 2.904l.076.173h3.002l.074-.176c.107-.516.906-2.248 1.613-2.889 1.581-1.315 1.401-2.822 1.391-2.885zm-3.035.953l-.476 2.997h-.563v-2.944l.017-.056c1.082 0 .928-1 .928-1h-2.945v.072c.004.223.088.928 1 .928v3h-.562l-.149-.711-.363-2.286c-.65 0-.858-.431-.926-.729v-.4c0-.797.891-.874.891-.874h3.109s1 .125 1 1c0 0 .028 1.003-.961 1.003z"
+       id="path4528"
+       style="fill:#d9d9d9;fill-opacity:1" />
+    <rect
+       x="6.549"
+       y="12.035"
+       class="icon-disabled-grey"
+       width="3"
+       height=".965"
+       id="rect4530" />
+    <polygon
+       class="icon-disabled-grey"
+       points="7.479,15.021 8.604,15.021 9.535,14.035 6.533,14.035"
+       id="polygon4532" />
+    <rect
+       x="6.549"
+       y="12.035"
+       class="icon-disabled-grey"
+       width="3"
+       height=".965"
+       id="rect4534" />
+    <polygon
+       class="icon-disabled-grey"
+       points="7.479,15.021 8.604,15.021 9.535,14.035 6.533,14.035"
+       id="polygon4536" />
+  </g>
+</svg>

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProjectGuid>{74DCB954-CA11-4E84-BB02-1CCAD61CEE48}</ProjectGuid>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Macad.Common.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.IO.Compression" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleToSigned Include="Test.Unit" />
+    <InternalsVisibleToSigned Include="Test.Memory" />
+  </ItemGroup>
+</Project>

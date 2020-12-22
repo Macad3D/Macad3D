@@ -1,0 +1,41 @@
+﻿<mmp:TaskDialogData
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mmp="clr-namespace:Macad.Presentation"
+
+	Title="Task Dialog Title"
+	MainInstruction="The main instruction text for the TaskDialog goes here"
+	Content="The content text for the task dialog is shown here and the text will automatically wrap as needed."
+	VerificationText="Don't show me this message again"
+	FooterText="Optional footer text with an icon can be included."
+	MainIconType="Information"
+	DefaultButtonIndex="0"
+    ExpandedInfo="Any expanded content text for the task dialog is shown here and the text will automatically wrap as needed.">
+	<!--ShowCloseButton="False"-->
+    <!--<mmi:TaskDialogViewModel.MainIcon>
+		<BitmapImage UriSource="../Resources/shield-32.png"/>
+	</mmi:TaskDialogViewModel.MainIcon>
+    <mmi:TaskDialogViewModel.FooterIcon>
+		<BitmapImage UriSource="../Resources/shield-16.png"/>
+	</mmi:TaskDialogViewModel.FooterIcon>-->
+    <mmp:TaskDialogData.NormalButtons>
+		<mmp:TaskDialogButtonData ID="6" Text="Yes" IsDefault="True" IsCancel="False"/>
+		<mmp:TaskDialogButtonData ID="7" Text="No" IsDefault="False" IsCancel="False"/>
+		<mmp:TaskDialogButtonData ID="2" Text="Cancel" IsDefault="False" IsCancel="True"/>
+	</mmp:TaskDialogData.NormalButtons>
+    <mmp:TaskDialogData.CommandLinks>
+		<mmp:TaskDialogButtonData ID="2000" Text="Command Link 1" IsDefault="True" IsCancel="False"/>
+		<mmp:TaskDialogButtonData ID="2001" Text="Command Link 2&#x0a;Line 2&#x0a;Line 3" IsDefault="False" IsCancel="False"/>
+		<mmp:TaskDialogButtonData ID="2002" Text="Command Link 3" IsDefault="False" IsCancel="False"/>
+	</mmp:TaskDialogData.CommandLinks>
+    <mmp:TaskDialogData.RadioButtons>
+		<mmp:TaskDialogButtonData ID="1000" Text="Radio Button 1" IsDefault="True" IsCancel="False"/>
+		<mmp:TaskDialogButtonData ID="1001" Text="Radio Button 2" IsDefault="False" IsCancel="False"/>
+        <mmp:TaskDialogButtonData ID="1002" Text="Radio Button 3" IsDefault="False" IsCancel="False"/>
+        <mmp:TaskDialogButtonData IsDefault="False" IsCancel="False">
+		    <mmp:TaskDialogButtonData.Text>Radio Button 4</mmp:TaskDialogButtonData.Text>
+		    <mmp:TaskDialogButtonData.ID>1003</mmp:TaskDialogButtonData.ID>
+		</mmp:TaskDialogButtonData>
+	    <mmp:TaskDialogButtonData ID="1004" Text="Radio Button 5" IsDefault="False" IsCancel="False"/>
+	</mmp:TaskDialogData.RadioButtons>
+</mmp:TaskDialogData>
