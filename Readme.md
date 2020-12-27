@@ -25,7 +25,7 @@ Start ```ScriptConsole.cmd``` and enter the following commands:
 
     ```> build restore```
    
-2. Import OCCT into the repository and patch the header files. 
+2. Import OCCT into the repository. 
 
     ```> occt import <pathToOcct>```
 
