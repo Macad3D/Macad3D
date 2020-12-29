@@ -36,15 +36,28 @@
 
   <!-- Copy of help files to build directories -->
 
-  <Target Name="CopyHelpFiles" AfterTargets="AfterBuildHelp">
+  <Target Name="CopyHelpFiles" 
+          AfterTargets="AfterBuildHelp"
+          Condition=" '$(Configuration)' == 'Doc' ">
     <Copy SourceFiles="$(OutputPath)$(HtmlHelpName).chm" DestinationFolder="$(OutputPath)..\Release" SkipUnchangedFiles="true" />
     <Copy SourceFiles="$(OutputPath)$(HtmlHelpName).chm" DestinationFolder="$(OutputPath)..\Debug" SkipUnchangedFiles="true" />
   </Target>
 
   <Target Name="CleanHelpfiles"
-          AfterTargets="AfterCleanHelp">
+          AfterTargets="AfterCleanHelp"
+          Condition=" '$(Configuration)' == 'Doc' ">
     <Delete Files="$(OutputPath)..\Release\$(HtmlHelpName).chm" />
     <Delete Files="$(OutputPath)..\Debug\$(HtmlHelpName).chm" />
+  </Target>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <!-- Patch file for web doc -->
+  
+  <Target Name="CopyWebDocFiles" 
+          AfterTargets="AfterBuildHelp"
+          Condition=" '$(Configuration)' == 'WebDoc' ">
+    <Copy SourceFiles="$(MMScriptDir)Patches\branding-Website.js" DestinationFolder="$(OutputPath)scripts" SkipUnchangedFiles="true" />
   </Target>
 
 </Project>

@@ -44,9 +44,13 @@ if (buildRelease)
 
 if (config == "all" || config == "doc")
 {
-    if (!_BuildDocumentation())
+    if (!_BuildDocumentation("Doc"))
         return -1;
 }
+
+if (config == "webdoc")
+    if (!_BuildDocumentation("WebDoc"))
+        return -1;
 
 Printer.Success("\nBuild succeeded.");
 return 0;
@@ -100,13 +104,13 @@ bool _BuildConfiguration(string configuration)
 
 //--------------------------------------------------------------------------------------------------
 
-bool _BuildDocumentation()
+bool _BuildDocumentation(string configuration)
 {
     if(!_EnsureVS())
         return false;
 
     // Ensure SHFB
-    var shfbPath = Packages.FindPackageFile($"EWSoftware.SHFB.2019.*", "Tools\\BuildAssembler.exe");
+    var shfbPath = Packages.FindPackageFile($"EWSoftware.SHFB.2020.*", "Tools\\BuildAssembler.exe");
 	if(string.IsNullOrEmpty(shfbPath))
 		return false;
     Environment.SetEnvironmentVariable("SHFBROOT", Path.GetDirectoryName(shfbPath));
@@ -131,7 +135,7 @@ bool _BuildDocumentation()
 
     var pathToProject = Path.Combine(Common.GetRootFolder(), @"Source\Macad.UserGuide\Macad.UserGuide.shfbproj");
 
-    var commandLine = $"\"{pathToProject}\" /p:Configuration=Doc /p:HelpFileVersion=\"{major}.{minor}{flagsStr}\" /m /nologo /ds /verbosity:minimal /clp:Summary;EnableMPLogging";
+    var commandLine = $"\"{pathToProject}\" /p:Configuration={configuration} /p:HelpFileVersion=\"{major}.{minor}{flagsStr}\" /m /nologo /ds /verbosity:minimal /clp:Summary;EnableMPLogging";
     if (_OptionClean)
     {
         if (Common.Run(_VS.PathToMSBuild, commandLine + " /t:clean") != 0)
