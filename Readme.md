@@ -25,14 +25,14 @@ Start ```ScriptConsole.cmd``` and enter the following commands:
 
     ```> build restore```
    
-2. Import OCCT into the repository. 
+2. Import OCCT into the repository. The OCCT installer only contains a release build, if a debug build is to be used, it must be created before the import. For this, please refer to the documentation from OCCT.
 
     ```> occt import <pathToOcct>```
 
-3. Build the whole thing.
+3. Build the whole thing. Replace `all` with `debug`, `release` or `doc` if only one these should be built (e.g. you have no debug build of OCCT).
 
     ```> build all```
-
+    
 ## Regenerating OCCT wrapper
 
 Generating the OCCT wrapper code depends on several packages to work hand in hand. If any of this packages changes, it can be at least time-consuming to track down the error and either update other packages as well or find a way around.
