@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Macad.Occt;
 
 namespace Macad.Core.Geom
@@ -28,25 +29,23 @@ namespace Macad.Core.Geom
 
                         var tedge = edge.TShape() as BRep_TEdge;
                         var curves = tedge.CurvesList();
-                        Debug.Assert(curves.Count == 1);
-                        var curveRep = curves[0] as BRep_CurveOnSurface;
-                        Debug.Assert(curveRep != null);
+                        foreach (BRep_CurveOnSurface curveRep in curves.OfType<BRep_CurveOnSurface>())
+                        {
+                            // Transform PCurve
+                            var curve = curveRep.PCurve();
+                            double first = curve.FirstParameter();
+                            double last = curve.LastParameter();
+                            var newCurve = shapeBuildEdge.TransformPCurve(curve, transform, 1.0, ref first, ref last);
 
-                        // Transform PCurve
-                        var curve = curveRep.PCurve();
-                        double first = curve.FirstParameter();
-                        double last = curve.LastParameter();
-                        var newCurve = shapeBuildEdge.TransformPCurve(curve, transform, 1.0, ref first, ref last);
-
-                        // Transform UVs
-                        Pnt2d uv0 = new Pnt2d();
-                        Pnt2d uv1 = new Pnt2d();
-                        curveRep.UVPoints(ref uv0, ref uv1);
-                        uv0.Transform(transform);
-                        uv1.Transform(transform);
-
-                        var makeEdge = new BRepBuilderAPI_MakeEdge2d(newCurve, uv0, uv1);
-                        builder.Add(newShape, makeEdge.Edge());
+                            // Transform UVs
+                            Pnt2d uv0 = new Pnt2d();
+                            Pnt2d uv1 = new Pnt2d();
+                            curveRep.UVPoints(ref uv0, ref uv1);
+                            uv0.Transform(transform);
+                            uv1.Transform(transform);
+                            var makeEdge = new BRepBuilderAPI_MakeEdge2d(newCurve, uv0, uv1);
+                            builder.Add(newShape, makeEdge.Edge());
+                        }
                     }
                 }
             }

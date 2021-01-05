@@ -3150,32 +3150,27 @@ Macad::Occt::Geom_Conic::Geom_Conic()
 	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-void Macad::Occt::Geom_Conic::SetAxis(Macad::Occt::Ax1 A1)
+void Macad::Occt::Geom_Conic::SetAxis(Macad::Occt::Ax1 theA1)
 {
-	pin_ptr<Macad::Occt::Ax1> pp_A1 = &A1;
-	((::Geom_Conic*)_NativeInstance)->SetAxis(*(gp_Ax1*)pp_A1);
+	pin_ptr<Macad::Occt::Ax1> pp_theA1 = &theA1;
+	((::Geom_Conic*)_NativeInstance)->SetAxis(*(gp_Ax1*)pp_theA1);
 }
 
-void Macad::Occt::Geom_Conic::SetLocation(Macad::Occt::Pnt P)
+void Macad::Occt::Geom_Conic::SetLocation(Macad::Occt::Pnt theP)
 {
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	((::Geom_Conic*)_NativeInstance)->SetLocation(*(gp_Pnt*)pp_P);
+	pin_ptr<Macad::Occt::Pnt> pp_theP = &theP;
+	((::Geom_Conic*)_NativeInstance)->SetLocation(*(gp_Pnt*)pp_theP);
 }
 
-void Macad::Occt::Geom_Conic::SetPosition(Macad::Occt::Ax2 A2)
+void Macad::Occt::Geom_Conic::SetPosition(Macad::Occt::Ax2 theA2)
 {
-	pin_ptr<Macad::Occt::Ax2> pp_A2 = &A2;
-	((::Geom_Conic*)_NativeInstance)->SetPosition(*(gp_Ax2*)pp_A2);
+	pin_ptr<Macad::Occt::Ax2> pp_theA2 = &theA2;
+	((::Geom_Conic*)_NativeInstance)->SetPosition(*(gp_Ax2*)pp_theA2);
 }
 
 Macad::Occt::Ax1 Macad::Occt::Geom_Conic::Axis()
 {
 	return Macad::Occt::Ax1(((::Geom_Conic*)_NativeInstance)->Axis());
-}
-
-double Macad::Occt::Geom_Conic::Eccentricity()
-{
-	return ((::Geom_Conic*)_NativeInstance)->Eccentricity();
 }
 
 Macad::Occt::Pnt Macad::Occt::Geom_Conic::Location()
@@ -3186,6 +3181,11 @@ Macad::Occt::Pnt Macad::Occt::Geom_Conic::Location()
 Macad::Occt::Ax2 Macad::Occt::Geom_Conic::Position()
 {
 	return Macad::Occt::Ax2(((::Geom_Conic*)_NativeInstance)->Position());
+}
+
+double Macad::Occt::Geom_Conic::Eccentricity()
+{
+	return ((::Geom_Conic*)_NativeInstance)->Eccentricity();
 }
 
 Macad::Occt::Ax1 Macad::Occt::Geom_Conic::XAxis()
@@ -3385,22 +3385,22 @@ Macad::Occt::Geom_ElementarySurface::Geom_ElementarySurface()
 	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-void Macad::Occt::Geom_ElementarySurface::SetAxis(Macad::Occt::Ax1 A1)
+void Macad::Occt::Geom_ElementarySurface::SetAxis(Macad::Occt::Ax1 theA1)
 {
-	pin_ptr<Macad::Occt::Ax1> pp_A1 = &A1;
-	((::Geom_ElementarySurface*)_NativeInstance)->SetAxis(*(gp_Ax1*)pp_A1);
+	pin_ptr<Macad::Occt::Ax1> pp_theA1 = &theA1;
+	((::Geom_ElementarySurface*)_NativeInstance)->SetAxis(*(gp_Ax1*)pp_theA1);
 }
 
-void Macad::Occt::Geom_ElementarySurface::SetLocation(Macad::Occt::Pnt Loc)
+void Macad::Occt::Geom_ElementarySurface::SetLocation(Macad::Occt::Pnt theLoc)
 {
-	pin_ptr<Macad::Occt::Pnt> pp_Loc = &Loc;
-	((::Geom_ElementarySurface*)_NativeInstance)->SetLocation(*(gp_Pnt*)pp_Loc);
+	pin_ptr<Macad::Occt::Pnt> pp_theLoc = &theLoc;
+	((::Geom_ElementarySurface*)_NativeInstance)->SetLocation(*(gp_Pnt*)pp_theLoc);
 }
 
-void Macad::Occt::Geom_ElementarySurface::SetPosition(Macad::Occt::Ax3 A3)
+void Macad::Occt::Geom_ElementarySurface::SetPosition(Macad::Occt::Ax3 theAx3)
 {
-	pin_ptr<Macad::Occt::Ax3> pp_A3 = &A3;
-	((::Geom_ElementarySurface*)_NativeInstance)->SetPosition(*(gp_Ax3*)pp_A3);
+	pin_ptr<Macad::Occt::Ax3> pp_theAx3 = &theAx3;
+	((::Geom_ElementarySurface*)_NativeInstance)->SetPosition(*(gp_Ax3*)pp_theAx3);
 }
 
 Macad::Occt::Ax1 Macad::Occt::Geom_ElementarySurface::Axis()

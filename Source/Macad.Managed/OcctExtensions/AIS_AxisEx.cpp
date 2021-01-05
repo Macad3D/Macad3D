@@ -102,10 +102,9 @@ void AIS_AxisEx::HilightSelected(const Handle(PrsMgr_PresentationManager3d)& the
 {
 }
 
-void AIS_AxisEx::Compute(const Handle(Prs3d_Projector)& aProjector, const Handle(Geom_Transformation)& aTransformation, const Handle(Prs3d_Presentation)& aPresentation)
+void AIS_AxisEx::computeHLR(const Handle(Graphic3d_Camera)& theProjector, const Handle(TopLoc_Datum3D)& theTrsf, const Handle(Prs3d_Presentation)& aPresentation)
 {
-	// Standard_NotImplemented::Raise("AIS_Axis::Compute(const Handle(Prs3d_Projector)&, const Handle(Geom_Transformation)&, const Handle(Prs3d_Presentation)&)");
-	PrsMgr_PresentableObject::Compute(aProjector, aTransformation, aPresentation);
+	PrsMgr_PresentableObject::computeHLR(theProjector, theTrsf, aPresentation);
 }
 
 
@@ -170,16 +169,6 @@ void AIS_AxisEx::SetLength(const Standard_Real theLength)
 Standard_Real AIS_AxisEx::GetLength() const 
 {
 	return myDrawer->DatumAspect()->AxisLength(Prs3d_DP_XAxis);
-}
-
-
-//=======================================================================
-//function : Compute
-//purpose  : to avoid warning
-//=======================================================================
-void AIS_AxisEx::Compute(const Handle(Prs3d_Projector)&,
-	const Handle(Prs3d_Presentation)&)
-{
 }
 
 //=======================================================================

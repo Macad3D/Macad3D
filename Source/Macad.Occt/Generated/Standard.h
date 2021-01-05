@@ -9,6 +9,21 @@ namespace Macad
 namespace Occt
 {
 //---------------------------------------------------------------------
+//  Enum  Standard_JsonKey
+//---------------------------------------------------------------------
+public enum class Standard_JsonKey
+{
+	Standard_JsonKey_None = 0,
+	Standard_JsonKey_OpenChild = 1,
+	Standard_JsonKey_CloseChild = 2,
+	Standard_JsonKey_OpenContainer = 3,
+	Standard_JsonKey_CloseContainer = 4,
+	Standard_JsonKey_Quote = 5,
+	Standard_JsonKey_SeparatorKeyToValue = 6,
+	Standard_JsonKey_SeparatorValueToValue = 7
+}; // enum  class Standard_JsonKey
+
+//---------------------------------------------------------------------
 //  Enum  Standard_HandlerStatus
 //---------------------------------------------------------------------
 public enum class Standard_HandlerStatus
@@ -17,6 +32,40 @@ public enum class Standard_HandlerStatus
 	Standard_HandlerJumped = 1,
 	Standard_HandlerProcessed = 2
 }; // enum  class Standard_HandlerStatus
+
+//---------------------------------------------------------------------
+//  Class  Standard_DumpValue
+//---------------------------------------------------------------------
+public ref class Standard_DumpValue sealed : public BaseClass<::Standard_DumpValue>
+{
+
+#ifdef Include_Standard_DumpValue_h
+public:
+	Include_Standard_DumpValue_h
+#endif
+
+public:
+	Standard_DumpValue(::Standard_DumpValue* nativeInstance)
+		: BaseClass<::Standard_DumpValue>( nativeInstance, true )
+	{}
+
+	Standard_DumpValue(::Standard_DumpValue& nativeInstance)
+		: BaseClass<::Standard_DumpValue>( &nativeInstance, false )
+	{}
+
+	property ::Standard_DumpValue* NativeInstance
+	{
+		::Standard_DumpValue* get()
+		{
+			return static_cast<::Standard_DumpValue*>(_NativeInstance);
+		}
+	}
+
+public:
+	Standard_DumpValue();
+	Standard_DumpValue(Macad::Occt::TCollection_AsciiString^ theValue, int theStartPos);
+	Standard_DumpValue(Macad::Occt::Standard_DumpValue^ parameter1);
+}; // class Standard_DumpValue
 
 //---------------------------------------------------------------------
 //  Class  Standard_ErrorHandler
@@ -96,7 +145,7 @@ public:
 	Standard_Failure();
 	Standard_Failure(Macad::Occt::Standard_Failure^ f);
 	Standard_Failure(System::String^ aString);
-	/* Method skipped due to unknown mapping: void Print(ostream s, ) */
+	/* Method skipped due to unknown mapping: void Print(ostream theStream, ) */
 	System::String^ GetMessageString();
 	void SetMessageString(System::String^ aMessage);
 	void Reraise();
@@ -469,6 +518,189 @@ public:
 }; // class Standard_TypeMismatch
 
 //---------------------------------------------------------------------
+//  Class  Standard_NullObject
+//---------------------------------------------------------------------
+public ref class Standard_NullObject sealed : public Macad::Occt::Standard_DomainError
+{
+
+#ifdef Include_Standard_NullObject_h
+public:
+	Include_Standard_NullObject_h
+#endif
+
+public:
+	Standard_NullObject(::Standard_NullObject* nativeInstance)
+		: Macad::Occt::Standard_DomainError( nativeInstance )
+	{}
+
+	Standard_NullObject(::Standard_NullObject& nativeInstance)
+		: Macad::Occt::Standard_DomainError( nativeInstance )
+	{}
+
+	property ::Standard_NullObject* NativeInstance
+	{
+		::Standard_NullObject* get()
+		{
+			return static_cast<::Standard_NullObject*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Standard_NullObject^ CreateDowncasted(::Standard_NullObject* instance);
+
+public:
+	Standard_NullObject();
+	Standard_NullObject(System::String^ theMessage);
+	Standard_NullObject(Macad::Occt::Standard_NullObject^ parameter1);
+	static void Raise(System::String^ theMessage);
+	static void Raise();
+	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
+	static Macad::Occt::Standard_NullObject^ NewInstance(System::String^ theMessage);
+	static Macad::Occt::Standard_NullObject^ NewInstance();
+}; // class Standard_NullObject
+
+//---------------------------------------------------------------------
+//  Class  Standard_NumericError
+//---------------------------------------------------------------------
+public ref class Standard_NumericError : public Macad::Occt::Standard_Failure
+{
+
+#ifdef Include_Standard_NumericError_h
+public:
+	Include_Standard_NumericError_h
+#endif
+
+protected:
+	Standard_NumericError(InitMode init)
+		: Macad::Occt::Standard_Failure( init )
+	{}
+
+public:
+	Standard_NumericError(::Standard_NumericError* nativeInstance)
+		: Macad::Occt::Standard_Failure( nativeInstance )
+	{}
+
+	Standard_NumericError(::Standard_NumericError& nativeInstance)
+		: Macad::Occt::Standard_Failure( nativeInstance )
+	{}
+
+	property ::Standard_NumericError* NativeInstance
+	{
+		::Standard_NumericError* get()
+		{
+			return static_cast<::Standard_NumericError*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Standard_NumericError^ CreateDowncasted(::Standard_NumericError* instance);
+
+public:
+	Standard_NumericError();
+	Standard_NumericError(System::String^ theMessage);
+	Standard_NumericError(Macad::Occt::Standard_NumericError^ parameter1);
+	static void Raise(System::String^ theMessage);
+	static void Raise();
+	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
+	static Macad::Occt::Standard_NumericError^ NewInstance(System::String^ theMessage);
+	static Macad::Occt::Standard_NumericError^ NewInstance();
+}; // class Standard_NumericError
+
+//---------------------------------------------------------------------
+//  Class  Standard_NegativeValue
+//---------------------------------------------------------------------
+public ref class Standard_NegativeValue sealed : public Macad::Occt::Standard_RangeError
+{
+
+#ifdef Include_Standard_NegativeValue_h
+public:
+	Include_Standard_NegativeValue_h
+#endif
+
+public:
+	Standard_NegativeValue(::Standard_NegativeValue* nativeInstance)
+		: Macad::Occt::Standard_RangeError( nativeInstance )
+	{}
+
+	Standard_NegativeValue(::Standard_NegativeValue& nativeInstance)
+		: Macad::Occt::Standard_RangeError( nativeInstance )
+	{}
+
+	property ::Standard_NegativeValue* NativeInstance
+	{
+		::Standard_NegativeValue* get()
+		{
+			return static_cast<::Standard_NegativeValue*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Standard_NegativeValue^ CreateDowncasted(::Standard_NegativeValue* instance);
+
+public:
+	Standard_NegativeValue();
+	Standard_NegativeValue(System::String^ theMessage);
+	Standard_NegativeValue(Macad::Occt::Standard_NegativeValue^ parameter1);
+	static void Raise(System::String^ theMessage);
+	static void Raise();
+	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
+	static Macad::Occt::Standard_NegativeValue^ NewInstance(System::String^ theMessage);
+	static Macad::Occt::Standard_NegativeValue^ NewInstance();
+}; // class Standard_NegativeValue
+
+//---------------------------------------------------------------------
+//  Class  Standard_Dump
+//---------------------------------------------------------------------
+public ref class Standard_Dump sealed : public BaseClass<::Standard_Dump>
+{
+
+#ifdef Include_Standard_Dump_h
+public:
+	Include_Standard_Dump_h
+#endif
+
+public:
+	Standard_Dump(::Standard_Dump* nativeInstance)
+		: BaseClass<::Standard_Dump>( nativeInstance, true )
+	{}
+
+	Standard_Dump(::Standard_Dump& nativeInstance)
+		: BaseClass<::Standard_Dump>( &nativeInstance, false )
+	{}
+
+	property ::Standard_Dump* NativeInstance
+	{
+		::Standard_Dump* get()
+		{
+			return static_cast<::Standard_Dump*>(_NativeInstance);
+		}
+	}
+
+public:
+	Standard_Dump();
+	Standard_Dump(Macad::Occt::Standard_Dump^ parameter1);
+	/* Method skipped due to unknown mapping: TCollection_AsciiString Text(stringstream theStream, ) */
+	/* Method skipped due to unknown mapping: TCollection_AsciiString FormatJson(stringstream theStream, Standard_Integer theIndent, ) */
+	/* Method skipped due to unknown mapping: TCollection_AsciiString FormatJson(stringstream theStream, Standard_Integer theIndent, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean SplitJson(TCollection_AsciiString theStreamStr, NCollection_IndexedDataMap<TCollection_AsciiString, Standard_DumpValue, NCollection_DefaultHasher<TCollection_AsciiString> > theKeyToValues, ) */
+	/* Method skipped due to unknown mapping: NCollection_List<int> HierarchicalValueIndices(NCollection_IndexedDataMap<TCollection_AsciiString, TCollection_AsciiString, NCollection_DefaultHasher<TCollection_AsciiString> > theValues, ) */
+	static bool HasChildKey(Macad::Occt::TCollection_AsciiString^ theSourceValue);
+	static System::String^ JsonKeyToString(Macad::Occt::Standard_JsonKey theKey);
+	static int JsonKeyLength(Macad::Occt::Standard_JsonKey theKey);
+	/* Method skipped due to unknown mapping: void AddValuesSeparator(ostream theOStream, ) */
+	static Macad::Occt::TCollection_AsciiString^ GetPointerPrefix();
+	static Macad::Occt::TCollection_AsciiString^ GetPointerInfo(Macad::Occt::Standard_Transient^ thePointer, bool isShortInfo);
+	static Macad::Occt::TCollection_AsciiString^ GetPointerInfo(Macad::Occt::Standard_Transient^ thePointer);
+	static Macad::Occt::TCollection_AsciiString^ GetPointerInfo(System::IntPtr thePointer, bool isShortInfo);
+	static Macad::Occt::TCollection_AsciiString^ GetPointerInfo(System::IntPtr thePointer);
+	/* Method skipped due to unknown mapping: void DumpKeyToClass(ostream theOStream, TCollection_AsciiString theKey, TCollection_AsciiString theField, ) */
+	/* Method skipped due to unknown mapping: void DumpCharacterValues(ostream theOStream, int theCount, ) */
+	/* Method skipped due to unknown mapping: void DumpRealValues(ostream theOStream, int theCount, ) */
+	static bool ProcessStreamName(Macad::Occt::TCollection_AsciiString^ theStreamStr, Macad::Occt::TCollection_AsciiString^ theName, int% theStreamPos);
+	static bool ProcessFieldName(Macad::Occt::TCollection_AsciiString^ theStreamStr, Macad::Occt::TCollection_AsciiString^ theName, int% theStreamPos);
+	static bool InitRealValues(Macad::Occt::TCollection_AsciiString^ theStreamStr, int% theStreamPos, int theCount);
+	static bool InitValue(Macad::Occt::TCollection_AsciiString^ theStreamStr, int% theStreamPos, Macad::Occt::TCollection_AsciiString^ theValue);
+	static Macad::Occt::TCollection_AsciiString^ DumpFieldToName(Macad::Occt::TCollection_AsciiString^ theField);
+}; // class Standard_Dump
+
+//---------------------------------------------------------------------
 //  Class  Standard_ConstructionError
 //---------------------------------------------------------------------
 public ref class Standard_ConstructionError : public Macad::Occt::Standard_DomainError
@@ -651,52 +883,6 @@ public:
 }; // class Standard_Condition
 
 //---------------------------------------------------------------------
-//  Class  Standard_NumericError
-//---------------------------------------------------------------------
-public ref class Standard_NumericError : public Macad::Occt::Standard_Failure
-{
-
-#ifdef Include_Standard_NumericError_h
-public:
-	Include_Standard_NumericError_h
-#endif
-
-protected:
-	Standard_NumericError(InitMode init)
-		: Macad::Occt::Standard_Failure( init )
-	{}
-
-public:
-	Standard_NumericError(::Standard_NumericError* nativeInstance)
-		: Macad::Occt::Standard_Failure( nativeInstance )
-	{}
-
-	Standard_NumericError(::Standard_NumericError& nativeInstance)
-		: Macad::Occt::Standard_Failure( nativeInstance )
-	{}
-
-	property ::Standard_NumericError* NativeInstance
-	{
-		::Standard_NumericError* get()
-		{
-			return static_cast<::Standard_NumericError*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::Standard_NumericError^ CreateDowncasted(::Standard_NumericError* instance);
-
-public:
-	Standard_NumericError();
-	Standard_NumericError(System::String^ theMessage);
-	Standard_NumericError(Macad::Occt::Standard_NumericError^ parameter1);
-	static void Raise(System::String^ theMessage);
-	static void Raise();
-	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
-	static Macad::Occt::Standard_NumericError^ NewInstance(System::String^ theMessage);
-	static Macad::Occt::Standard_NumericError^ NewInstance();
-}; // class Standard_NumericError
-
-//---------------------------------------------------------------------
 //  Class  Standard_DivideByZero
 //---------------------------------------------------------------------
 public ref class Standard_DivideByZero sealed : public Macad::Occt::Standard_NumericError
@@ -736,167 +922,6 @@ public:
 	static Macad::Occt::Standard_DivideByZero^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_DivideByZero^ NewInstance();
 }; // class Standard_DivideByZero
-
-//---------------------------------------------------------------------
-//  Class  Standard_NullObject
-//---------------------------------------------------------------------
-public ref class Standard_NullObject sealed : public Macad::Occt::Standard_DomainError
-{
-
-#ifdef Include_Standard_NullObject_h
-public:
-	Include_Standard_NullObject_h
-#endif
-
-public:
-	Standard_NullObject(::Standard_NullObject* nativeInstance)
-		: Macad::Occt::Standard_DomainError( nativeInstance )
-	{}
-
-	Standard_NullObject(::Standard_NullObject& nativeInstance)
-		: Macad::Occt::Standard_DomainError( nativeInstance )
-	{}
-
-	property ::Standard_NullObject* NativeInstance
-	{
-		::Standard_NullObject* get()
-		{
-			return static_cast<::Standard_NullObject*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::Standard_NullObject^ CreateDowncasted(::Standard_NullObject* instance);
-
-public:
-	Standard_NullObject();
-	Standard_NullObject(System::String^ theMessage);
-	Standard_NullObject(Macad::Occt::Standard_NullObject^ parameter1);
-	static void Raise(System::String^ theMessage);
-	static void Raise();
-	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
-	static Macad::Occt::Standard_NullObject^ NewInstance(System::String^ theMessage);
-	static Macad::Occt::Standard_NullObject^ NewInstance();
-}; // class Standard_NullObject
-
-//---------------------------------------------------------------------
-//  Class  Standard_NegativeValue
-//---------------------------------------------------------------------
-public ref class Standard_NegativeValue sealed : public Macad::Occt::Standard_RangeError
-{
-
-#ifdef Include_Standard_NegativeValue_h
-public:
-	Include_Standard_NegativeValue_h
-#endif
-
-public:
-	Standard_NegativeValue(::Standard_NegativeValue* nativeInstance)
-		: Macad::Occt::Standard_RangeError( nativeInstance )
-	{}
-
-	Standard_NegativeValue(::Standard_NegativeValue& nativeInstance)
-		: Macad::Occt::Standard_RangeError( nativeInstance )
-	{}
-
-	property ::Standard_NegativeValue* NativeInstance
-	{
-		::Standard_NegativeValue* get()
-		{
-			return static_cast<::Standard_NegativeValue*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::Standard_NegativeValue^ CreateDowncasted(::Standard_NegativeValue* instance);
-
-public:
-	Standard_NegativeValue();
-	Standard_NegativeValue(System::String^ theMessage);
-	Standard_NegativeValue(Macad::Occt::Standard_NegativeValue^ parameter1);
-	static void Raise(System::String^ theMessage);
-	static void Raise();
-	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
-	static Macad::Occt::Standard_NegativeValue^ NewInstance(System::String^ theMessage);
-	static Macad::Occt::Standard_NegativeValue^ NewInstance();
-}; // class Standard_NegativeValue
-
-//---------------------------------------------------------------------
-//  Class  Standard_DumpSentry
-//---------------------------------------------------------------------
-public ref class Standard_DumpSentry sealed : public BaseClass<::Standard_DumpSentry>
-{
-
-#ifdef Include_Standard_DumpSentry_h
-public:
-	Include_Standard_DumpSentry_h
-#endif
-
-public:
-	Standard_DumpSentry(::Standard_DumpSentry* nativeInstance)
-		: BaseClass<::Standard_DumpSentry>( nativeInstance, true )
-	{}
-
-	Standard_DumpSentry(::Standard_DumpSentry& nativeInstance)
-		: BaseClass<::Standard_DumpSentry>( &nativeInstance, false )
-	{}
-
-	property ::Standard_DumpSentry* NativeInstance
-	{
-		::Standard_DumpSentry* get()
-		{
-			return static_cast<::Standard_DumpSentry*>(_NativeInstance);
-		}
-	}
-
-public:
-	/* Method skipped due to unknown mapping: void Standard_DumpSentry(ostream theOStream, char theClassName, ) */
-	Standard_DumpSentry(Macad::Occt::Standard_DumpSentry^ parameter1);
-}; // class Standard_DumpSentry
-
-//---------------------------------------------------------------------
-//  Class  Standard_Dump
-//---------------------------------------------------------------------
-public ref class Standard_Dump sealed : public BaseClass<::Standard_Dump>
-{
-
-#ifdef Include_Standard_Dump_h
-public:
-	Include_Standard_Dump_h
-#endif
-
-public:
-	Standard_Dump(::Standard_Dump* nativeInstance)
-		: BaseClass<::Standard_Dump>( nativeInstance, true )
-	{}
-
-	Standard_Dump(::Standard_Dump& nativeInstance)
-		: BaseClass<::Standard_Dump>( &nativeInstance, false )
-	{}
-
-	property ::Standard_Dump* NativeInstance
-	{
-		::Standard_Dump* get()
-		{
-			return static_cast<::Standard_Dump*>(_NativeInstance);
-		}
-	}
-
-public:
-	Standard_Dump();
-	Standard_Dump(Macad::Occt::Standard_Dump^ parameter1);
-	/* Method skipped due to unknown mapping: TCollection_AsciiString Text(stringstream theStream, ) */
-	/* Method skipped due to unknown mapping: TCollection_AsciiString FormatJson(stringstream theStream, Standard_Integer theIndent, ) */
-	/* Method skipped due to unknown mapping: TCollection_AsciiString FormatJson(stringstream theStream, Standard_Integer theIndent, ) */
-	/* Method skipped due to unknown mapping: void AddValuesSeparator(ostream theOStream, ) */
-	static Macad::Occt::TCollection_AsciiString^ GetPointerPrefix();
-	static Macad::Occt::TCollection_AsciiString^ GetPointerInfo(Macad::Occt::Standard_Transient^ thePointer, bool isShortInfo);
-	static Macad::Occt::TCollection_AsciiString^ GetPointerInfo(Macad::Occt::Standard_Transient^ thePointer);
-	static Macad::Occt::TCollection_AsciiString^ GetPointerInfo(System::IntPtr thePointer, bool isShortInfo);
-	static Macad::Occt::TCollection_AsciiString^ GetPointerInfo(System::IntPtr thePointer);
-	/* Method skipped due to unknown mapping: void DumpKeyToClass(ostream theOStream, char theKey, TCollection_AsciiString theField, ) */
-	/* Method skipped due to unknown mapping: void DumpCharacterValues(ostream theOStream, int theCount, ) */
-	/* Method skipped due to unknown mapping: void DumpRealValues(ostream theOStream, int theCount, ) */
-	static char DumpFieldToName(char theField);
-}; // class Standard_Dump
 
 //---------------------------------------------------------------------
 //  Class  Standard_GUID
@@ -1423,9 +1448,11 @@ public:
 	}
 
 public:
-	/* Method skipped due to unknown mapping: void Standard_ReadBuffer(long long int theDataLen, size_t theChunkLen, ) */
+	/* Method skipped due to unknown mapping: void Standard_ReadBuffer(long long int theDataLen, size_t theChunkLen, bool theIsPartialPayload, ) */
+	/* Method skipped due to unknown mapping: void Standard_ReadBuffer(long long int theDataLen, size_t theChunkLen, bool theIsPartialPayload, ) */
 	Standard_ReadBuffer(Macad::Occt::Standard_ReadBuffer^ parameter1);
-	/* Method skipped due to unknown mapping: void Init(long long int theDataLen, size_t theChunkLen, ) */
+	/* Method skipped due to unknown mapping: void Init(long long int theDataLen, size_t theChunkLen, bool theIsPartialPayload, ) */
+	/* Method skipped due to unknown mapping: void Init(long long int theDataLen, size_t theChunkLen, bool theIsPartialPayload, ) */
 	bool IsDone();
 }; // class Standard_ReadBuffer
 
@@ -1461,6 +1488,10 @@ public:
 	Standard_ReadLineBuffer(unsigned __int64 theMaxBufferSizeBytes);
 	Standard_ReadLineBuffer(Macad::Occt::Standard_ReadLineBuffer^ parameter1);
 	void Clear();
+	bool IsMultilineMode();
+	bool ToPutGapInMultiline();
+	void SetMultilineMode(bool theMultilineMode, bool theToPutGap);
+	void SetMultilineMode(bool theMultilineMode);
 }; // class Standard_ReadLineBuffer
 
 //---------------------------------------------------------------------

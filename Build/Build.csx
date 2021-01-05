@@ -11,7 +11,7 @@ using System.Linq;
 
 if (Args.Count() < 1)
 {
-    Printer.Line("Usage: build <all, restore, debug, release, doc> [/clean]");
+    Printer.Line("Usage: build <all, restore, debug, release, doc, webdoc> [/clean]");
     return -1;
 }
 

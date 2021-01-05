@@ -53,6 +53,8 @@ public static class Occt
         "tbbmalloc_debug.dll",
     };
 
+    public static List<string> AdditionalDependenciesSourcePaths = new List<string>();
+
     //--------------------------------------------------------------------------------------------------
 
     public static bool SetOcctSourcePath(string occtSourcePath)
@@ -61,28 +63,28 @@ public static class Occt
         if(!File.Exists(Path.Combine(_OcctSourcePath, @"src\Standard\Standard_Version.hxx")))
         {
             Printer.Error($"OCCT not found in directory {occtSourcePath}.");
-            Printer.Error($"Please make sure that you have slected to install the sources (folder 'src' must exist in path).");
+            Printer.Error($"Please make sure that you have selected to install the sources (folder 'src' must exist in path).");
             return false;
         }
         Printer.Success($"OCCT found in directory {occtSourcePath}.");
 
         // Get Third Party Paths
         var output = new List<string>();
-        if(Common.Run("cmd.exe", "/V /C \"call custom.bat && echo !HAVE_TBB! && echo !CSF_OPT_BIN64!\"", _OcctSourcePath, output)!=0)
+        if(Common.Run("cmd.exe", "/V /C \"call custom.bat && echo !CSF_OPT_BIN64! && echo !HAVE_TBB! && echo !HAVE_FREEIMAGE! && echo !HAVE_FFMPEG! && echo !HAVE_OPENVR!\"", _OcctSourcePath, output)!=0)
         {
             Printer.Error($"The batch file 'Custom.bat' in OCCT directory could not be executed.");
             return false;
         }
-        if(!output[0].Contains("true"))
+        if(!output[1].Contains("true"))
         {
             Printer.Error($"Usage of TBB has not been enabled. The build scripts do expect that TBB has been enabled.");
             return false;
         }
-        var binPaths = output[1].Split(';');
+        var binPaths = output[0].Split(';');
         
         // Check for FreeType
         FreetypeSourcePath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("freetype")) ?? "");
-        if(!File.Exists(Path.Combine(FreetypeSourcePath, "freetype.dll")))
+        if(!File.Exists(Path.Combine(FreetypeSourcePath, FreetypeBinaries[0])))
         {
             Printer.Error($"The file freetype.dll could not be found in folder {FreetypeSourcePath}.");
             return false;
@@ -91,12 +93,45 @@ public static class Occt
         
         // Check for TBB
         TbbSourcePath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("tbb")) ?? "");
-        if(!File.Exists(Path.Combine(TbbSourcePath, "tbb.dll")))
+        if(!File.Exists(Path.Combine(TbbSourcePath, TbbBinariesRelease[0])))
         {
             Printer.Error($"The file tbb.dll could not be found in folder {TbbSourcePath}.");
             return false;
         }
         Printer.Success($"TBB found in folder {TbbSourcePath}");
+        
+        // Check for FreeImage
+        if(output[2].Contains("true"))
+        {
+            var freeImageSourcePath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("freeimage")) ?? "");
+            if(File.Exists(Path.Combine(freeImageSourcePath, "FreeImage.dll")))
+            {
+                Printer.Success($"FreeImage found in folder {freeImageSourcePath}");
+                AdditionalDependenciesSourcePaths.Add(freeImageSourcePath);
+            }
+        }
+        
+        // Check for FFMPEG
+        if(output[3].Contains("true"))
+        {
+            var ffmpegSourcePath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("ffmpeg")) ?? "");
+            if(File.Exists(Path.Combine(ffmpegSourcePath, "ffprobe.exe")))
+            {
+                Printer.Success($"FFMPEG found in folder {ffmpegSourcePath}");
+                AdditionalDependenciesSourcePaths.Add(ffmpegSourcePath);
+            }
+        }
+        
+        // Check for OpenVR
+        if(output[4].Contains("true"))
+        {
+            var openVrPath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("openvr")) ?? "");
+            if(File.Exists(Path.Combine(openVrPath, "openvr_api.dll")))
+            {
+                Printer.Success($"OpenVR found in folder {openVrPath}");
+                AdditionalDependenciesSourcePaths.Add(openVrPath);
+            }
+        }
 
         return true;
     }

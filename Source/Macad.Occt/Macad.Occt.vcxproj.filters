@@ -129,9 +129,6 @@
     <ClInclude Include="Generated\UnitsAPI.h">
       <Filter>Generated\FoundationClasses\TKKernel</Filter>
     </ClInclude>
-    <ClInclude Include="Generated\forward_declarations.h">
-      <Filter>Generated</Filter>
-    </ClInclude>
     <ClInclude Include="Generated\BSplCLib.h">
       <Filter>Generated\FoundationClasses\TKMath</Filter>
     </ClInclude>
@@ -300,9 +297,6 @@
     <ClInclude Include="Generated\SelectMgr.h">
       <Filter>Generated\Visualization\TKV3d</Filter>
     </ClInclude>
-    <ClInclude Include="Generated\native_includes.h">
-      <Filter>Generated</Filter>
-    </ClInclude>
     <ClInclude Include="Generated\NCollection.h">
       <Filter>Generated\FoundationClasses\TKKernel</Filter>
     </ClInclude>
@@ -467,6 +461,15 @@
     </ClInclude>
     <ClInclude Include="Standard_Transient.h">
       <Filter>Std</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\VersionInfo.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\NativeIncludes.h">
+      <Filter>Generated</Filter>
+    </ClInclude>
+    <ClInclude Include="Generated\ForwardDeclarations.h">
+      <Filter>Generated</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

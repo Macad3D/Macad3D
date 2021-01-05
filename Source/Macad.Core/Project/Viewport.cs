@@ -237,9 +237,7 @@ namespace Macad.Core
 
             AisAnimationCamera = new AIS_AnimationCamera(new TCollection_AsciiString("ViewCamera"), V3dView);
 
-            //V3dView.SetBgGradientColors(Quantity_NameOfColor.Quantity_NOC_GRAY50, Quantity_NameOfColor.Quantity_NOC_GRAY40, Aspect_GradientFillMethod.Aspect_GFM_VER, false);
             V3dView.SetBgGradientColors(Quantity_NameOfColor.Quantity_NOC_SLATEGRAY3.ToColor(), Quantity_NameOfColor.Quantity_NOC_SLATEGRAY4.ToColor(), Aspect_GradientFillMethod.Aspect_GFM_VER, false);
-            //V3dView.SetBgGradientColors(Quantity_NameOfColor.Quantity_NOC_GRAY70, Quantity_NameOfColor.Quantity_NOC_GRAY60, Aspect_GradientFillMethod.Aspect_GFM_VER, false);
             _ShowTriedron(true);
 
             var renderParams = V3dView.ChangeRenderingParams();

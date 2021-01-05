@@ -17,10 +17,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "AIS.h"
 #include "GeomAbs.h"
 #include "gp.h"
-#include "TopoDS.h"
 #include "Bnd.h"
-#include "TopTools.h"
-#include "TopLoc.h"
 
 
 //---------------------------------------------------------------------
@@ -1328,31 +1325,6 @@ void Macad::Occt::Prs3d_Drawer::UpdatePreviousDeviationCoefficient()
 	((::Prs3d_Drawer*)_NativeInstance)->UpdatePreviousDeviationCoefficient();
 }
 
-void Macad::Occt::Prs3d_Drawer::SetHLRDeviationCoefficient(double theCoefficient)
-{
-	((::Prs3d_Drawer*)_NativeInstance)->SetHLRDeviationCoefficient(theCoefficient);
-}
-
-double Macad::Occt::Prs3d_Drawer::HLRDeviationCoefficient()
-{
-	return ((::Prs3d_Drawer*)_NativeInstance)->HLRDeviationCoefficient();
-}
-
-void Macad::Occt::Prs3d_Drawer::SetHLRDeviationCoefficient()
-{
-	((::Prs3d_Drawer*)_NativeInstance)->SetHLRDeviationCoefficient();
-}
-
-bool Macad::Occt::Prs3d_Drawer::HasOwnHLRDeviationCoefficient()
-{
-	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnHLRDeviationCoefficient();
-}
-
-double Macad::Occt::Prs3d_Drawer::PreviousHLRDeviationCoefficient()
-{
-	return ((::Prs3d_Drawer*)_NativeInstance)->PreviousHLRDeviationCoefficient();
-}
-
 void Macad::Occt::Prs3d_Drawer::SetDeviationAngle(double theAngle)
 {
 	((::Prs3d_Drawer*)_NativeInstance)->SetDeviationAngle(theAngle);
@@ -1381,31 +1353,6 @@ double Macad::Occt::Prs3d_Drawer::PreviousDeviationAngle()
 void Macad::Occt::Prs3d_Drawer::UpdatePreviousDeviationAngle()
 {
 	((::Prs3d_Drawer*)_NativeInstance)->UpdatePreviousDeviationAngle();
-}
-
-void Macad::Occt::Prs3d_Drawer::SetHLRAngle(double theAngle)
-{
-	((::Prs3d_Drawer*)_NativeInstance)->SetHLRAngle(theAngle);
-}
-
-double Macad::Occt::Prs3d_Drawer::HLRAngle()
-{
-	return ((::Prs3d_Drawer*)_NativeInstance)->HLRAngle();
-}
-
-void Macad::Occt::Prs3d_Drawer::SetHLRAngle()
-{
-	((::Prs3d_Drawer*)_NativeInstance)->SetHLRAngle();
-}
-
-bool Macad::Occt::Prs3d_Drawer::HasOwnHLRDeviationAngle()
-{
-	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnHLRDeviationAngle();
-}
-
-double Macad::Occt::Prs3d_Drawer::PreviousHLRDeviationAngle()
-{
-	return ((::Prs3d_Drawer*)_NativeInstance)->PreviousHLRDeviationAngle();
 }
 
 void Macad::Occt::Prs3d_Drawer::SetAutoTriangulation(bool theIsEnabled)
@@ -2064,6 +2011,31 @@ bool Macad::Occt::Prs3d_Drawer::SetShadingModel(Macad::Occt::Graphic3d_TypeOfSha
 	return ((::Prs3d_Drawer*)_NativeInstance)->SetShadingModel((::Graphic3d_TypeOfShadingModel)theModel, false);
 }
 
+void Macad::Occt::Prs3d_Drawer::SetHLRAngle(double theAngle)
+{
+	((::Prs3d_Drawer*)_NativeInstance)->SetHLRAngle(theAngle);
+}
+
+double Macad::Occt::Prs3d_Drawer::HLRAngle()
+{
+	return ((::Prs3d_Drawer*)_NativeInstance)->HLRAngle();
+}
+
+void Macad::Occt::Prs3d_Drawer::SetHLRAngle()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->SetHLRAngle();
+}
+
+bool Macad::Occt::Prs3d_Drawer::HasOwnHLRDeviationAngle()
+{
+	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnHLRDeviationAngle();
+}
+
+double Macad::Occt::Prs3d_Drawer::PreviousHLRDeviationAngle()
+{
+	return ((::Prs3d_Drawer*)_NativeInstance)->PreviousHLRDeviationAngle();
+}
+
 
 Macad::Occt::Prs3d_Drawer^ Macad::Occt::Prs3d_Drawer::CreateDowncasted(::Prs3d_Drawer* instance)
 {
@@ -2102,11 +2074,9 @@ bool Macad::Occt::Prs3d::MatchSegment(double X, double Y, double Z, double aDist
 	return ::Prs3d::MatchSegment(X, Y, Z, aDistance, *(gp_Pnt*)pp_p1, *(gp_Pnt*)pp_p2, *(Standard_Real*)pp_dist);
 }
 
-double Macad::Occt::Prs3d::GetDeflection(Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::Prs3d_Drawer^ theDrawer)
+double Macad::Occt::Prs3d::GetDeflection(Macad::Occt::Bnd_Box^ theBndBox, double theDeviationCoefficient, double theMaximalChordialDeviation)
 {
-	Handle(::Prs3d_Drawer) h_theDrawer = theDrawer->NativeInstance;
-	return ::Prs3d::GetDeflection(*(::TopoDS_Shape*)theShape->NativeInstance, h_theDrawer);
-	theDrawer->NativeInstance = h_theDrawer.get();
+	return ::Prs3d::GetDeflection(*(::Bnd_Box*)theBndBox->NativeInstance, theDeviationCoefficient, theMaximalChordialDeviation);
 }
 
 Macad::Occt::Graphic3d_ArrayOfPrimitives^ Macad::Occt::Prs3d::PrimitivesFromPolylines(Macad::Occt::Prs3d_NListOfSequenceOfPnt^ thePoints)
@@ -2129,54 +2099,17 @@ void Macad::Occt::Prs3d::AddPrimitivesGroup(Macad::Occt::Graphic3d_Structure^ th
 
 
 //---------------------------------------------------------------------
-//  Class  Prs3d_Root
-//---------------------------------------------------------------------
-
-Macad::Occt::Prs3d_Root::Prs3d_Root()
-	: BaseClass<::Prs3d_Root>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Prs3d_Root();
-}
-
-Macad::Occt::Prs3d_Root::Prs3d_Root(Macad::Occt::Prs3d_Root^ parameter1)
-	: BaseClass<::Prs3d_Root>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Prs3d_Root(*(::Prs3d_Root*)parameter1->NativeInstance);
-}
-
-Macad::Occt::Graphic3d_Group^ Macad::Occt::Prs3d_Root::CurrentGroup(Macad::Occt::Graphic3d_Structure^ thePrs3d)
-{
-	Handle(::Graphic3d_Structure) h_thePrs3d = thePrs3d->NativeInstance;
-	Handle(::Graphic3d_Group) _result;
-	_result = ::Prs3d_Root::CurrentGroup(h_thePrs3d);
-	thePrs3d->NativeInstance = h_thePrs3d.get();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Group::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Graphic3d_Group^ Macad::Occt::Prs3d_Root::NewGroup(Macad::Occt::Graphic3d_Structure^ thePrs3d)
-{
-	Handle(::Graphic3d_Structure) h_thePrs3d = thePrs3d->NativeInstance;
-	Handle(::Graphic3d_Group) _result;
-	_result = ::Prs3d_Root::NewGroup(h_thePrs3d);
-	thePrs3d->NativeInstance = h_thePrs3d.get();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Group::CreateDowncasted( _result.get());
-}
-
-
-
-
-//---------------------------------------------------------------------
 //  Class  Prs3d_Arrow
 //---------------------------------------------------------------------
 
 Macad::Occt::Prs3d_Arrow::Prs3d_Arrow()
-	: Macad::Occt::Prs3d_Root(BaseClass::InitMode::Uninitialized)
+	: BaseClass<::Prs3d_Arrow>(BaseClass::InitMode::Uninitialized)
 {
 	_NativeInstance = new ::Prs3d_Arrow();
 }
 
 Macad::Occt::Prs3d_Arrow::Prs3d_Arrow(Macad::Occt::Prs3d_Arrow^ parameter1)
-	: Macad::Occt::Prs3d_Root(BaseClass::InitMode::Uninitialized)
+	: BaseClass<::Prs3d_Arrow>(BaseClass::InitMode::Uninitialized)
 {
 	_NativeInstance = new ::Prs3d_Arrow(*(::Prs3d_Arrow*)parameter1->NativeInstance);
 }
@@ -2250,6 +2183,116 @@ Macad::Occt::Prs3d_IsoAspect^ Macad::Occt::Prs3d_IsoAspect::CreateDowncasted(::P
 {
 	return gcnew Macad::Occt::Prs3d_IsoAspect( instance );
 }
+
+
+
+//---------------------------------------------------------------------
+//  Class  Prs3d_Root
+//---------------------------------------------------------------------
+
+Macad::Occt::Prs3d_Root::Prs3d_Root()
+	: BaseClass<::Prs3d_Root>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Prs3d_Root();
+}
+
+Macad::Occt::Prs3d_Root::Prs3d_Root(Macad::Occt::Prs3d_Root^ parameter1)
+	: BaseClass<::Prs3d_Root>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Prs3d_Root(*(::Prs3d_Root*)parameter1->NativeInstance);
+}
+
+Macad::Occt::Graphic3d_Group^ Macad::Occt::Prs3d_Root::CurrentGroup(Macad::Occt::Graphic3d_Structure^ thePrs3d)
+{
+	Handle(::Graphic3d_Structure) h_thePrs3d = thePrs3d->NativeInstance;
+	Handle(::Graphic3d_Group) _result;
+	_result = ::Prs3d_Root::CurrentGroup(h_thePrs3d);
+	thePrs3d->NativeInstance = h_thePrs3d.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Group::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_Group^ Macad::Occt::Prs3d_Root::NewGroup(Macad::Occt::Graphic3d_Structure^ thePrs3d)
+{
+	Handle(::Graphic3d_Structure) h_thePrs3d = thePrs3d->NativeInstance;
+	Handle(::Graphic3d_Group) _result;
+	_result = ::Prs3d_Root::NewGroup(h_thePrs3d);
+	thePrs3d->NativeInstance = h_thePrs3d.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Group::CreateDowncasted( _result.get());
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  Prs3d_BndBox
+//---------------------------------------------------------------------
+
+Macad::Occt::Prs3d_BndBox::Prs3d_BndBox()
+	: Macad::Occt::Prs3d_Root(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Prs3d_BndBox();
+}
+
+Macad::Occt::Prs3d_BndBox::Prs3d_BndBox(Macad::Occt::Prs3d_BndBox^ parameter1)
+	: Macad::Occt::Prs3d_Root(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Prs3d_BndBox(*(::Prs3d_BndBox*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::Prs3d_BndBox::Add(Macad::Occt::Graphic3d_Structure^ thePresentation, Macad::Occt::Bnd_Box^ theBndBox, Macad::Occt::Prs3d_Drawer^ theDrawer)
+{
+	Handle(::Graphic3d_Structure) h_thePresentation = thePresentation->NativeInstance;
+	Handle(::Prs3d_Drawer) h_theDrawer = theDrawer->NativeInstance;
+	::Prs3d_BndBox::Add(h_thePresentation, *(::Bnd_Box*)theBndBox->NativeInstance, h_theDrawer);
+	thePresentation->NativeInstance = h_thePresentation.get();
+	theDrawer->NativeInstance = h_theDrawer.get();
+}
+
+void Macad::Occt::Prs3d_BndBox::Add(Macad::Occt::Graphic3d_Structure^ thePresentation, Macad::Occt::Bnd_OBB^ theBndBox, Macad::Occt::Prs3d_Drawer^ theDrawer)
+{
+	Handle(::Graphic3d_Structure) h_thePresentation = thePresentation->NativeInstance;
+	Handle(::Prs3d_Drawer) h_theDrawer = theDrawer->NativeInstance;
+	::Prs3d_BndBox::Add(h_thePresentation, *(::Bnd_OBB*)theBndBox->NativeInstance, h_theDrawer);
+	thePresentation->NativeInstance = h_thePresentation.get();
+	theDrawer->NativeInstance = h_theDrawer.get();
+}
+
+Macad::Occt::Graphic3d_ArrayOfSegments^ Macad::Occt::Prs3d_BndBox::FillSegments(Macad::Occt::Bnd_OBB^ theBox)
+{
+	Handle(::Graphic3d_ArrayOfSegments) _result;
+	_result = ::Prs3d_BndBox::FillSegments(*(::Bnd_OBB*)theBox->NativeInstance);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ArrayOfSegments::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_ArrayOfSegments^ Macad::Occt::Prs3d_BndBox::FillSegments(Macad::Occt::Bnd_Box^ theBox)
+{
+	Handle(::Graphic3d_ArrayOfSegments) _result;
+	_result = ::Prs3d_BndBox::FillSegments(*(::Bnd_Box*)theBox->NativeInstance);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ArrayOfSegments::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::Prs3d_BndBox::FillSegments(Macad::Occt::Graphic3d_ArrayOfSegments^ theSegments, Macad::Occt::Bnd_OBB^ theBox)
+{
+	Handle(::Graphic3d_ArrayOfSegments) h_theSegments = theSegments->NativeInstance;
+	::Prs3d_BndBox::FillSegments(h_theSegments, *(::Bnd_OBB*)theBox->NativeInstance);
+	theSegments->NativeInstance = h_theSegments.get();
+}
+
+void Macad::Occt::Prs3d_BndBox::FillSegments(Macad::Occt::Graphic3d_ArrayOfSegments^ theSegments, Macad::Occt::Bnd_Box^ theBox)
+{
+	Handle(::Graphic3d_ArrayOfSegments) h_theSegments = theSegments->NativeInstance;
+	::Prs3d_BndBox::FillSegments(h_theSegments, *(::Bnd_Box*)theBox->NativeInstance);
+	theSegments->NativeInstance = h_theSegments.get();
+}
+
+void Macad::Occt::Prs3d_BndBox::fillSegments(Macad::Occt::Graphic3d_ArrayOfSegments^ theSegments, Macad::Occt::Pnt theBox)
+{
+	Handle(::Graphic3d_ArrayOfSegments) h_theSegments = theSegments->NativeInstance;
+	pin_ptr<Macad::Occt::Pnt> pp_theBox = &theBox;
+	::Prs3d_BndBox::fillSegments(h_theSegments, (gp_Pnt*)pp_theBox);
+	theSegments->NativeInstance = h_theSegments.get();
+}
+
 
 
 
@@ -2359,210 +2402,55 @@ Macad::Occt::Prs3d_PresentationShadow^ Macad::Occt::Prs3d_PresentationShadow::Cr
 
 
 //---------------------------------------------------------------------
-//  Class  Prs3d_Projector
-//---------------------------------------------------------------------
-
-Macad::Occt::Prs3d_Projector::Prs3d_Projector(bool Pers, double Focus, double DX, double DY, double DZ, double XAt, double YAt, double ZAt, double XUp, double YUp, double ZUp)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Prs3d_Projector(Pers, Focus, DX, DY, DZ, XAt, YAt, ZAt, XUp, YUp, ZUp);
-}
-
-Macad::Occt::Prs3d_Projector::Prs3d_Projector(Macad::Occt::Prs3d_Projector^ parameter1)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Prs3d_Projector(*(::Prs3d_Projector*)parameter1->NativeInstance);
-}
-
-
-Macad::Occt::Prs3d_Projector^ Macad::Occt::Prs3d_Projector::CreateDowncasted(::Prs3d_Projector* instance)
-{
-	return gcnew Macad::Occt::Prs3d_Projector( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  Prs3d_ShapeTool
-//---------------------------------------------------------------------
-
-Macad::Occt::Prs3d_ShapeTool::Prs3d_ShapeTool(Macad::Occt::TopoDS_Shape^ theShape, bool theAllVertices)
-	: BaseClass<::Prs3d_ShapeTool>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Prs3d_ShapeTool(*(::TopoDS_Shape*)theShape->NativeInstance, theAllVertices);
-}
-
-Macad::Occt::Prs3d_ShapeTool::Prs3d_ShapeTool(Macad::Occt::TopoDS_Shape^ theShape)
-	: BaseClass<::Prs3d_ShapeTool>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Prs3d_ShapeTool(*(::TopoDS_Shape*)theShape->NativeInstance, false);
-}
-
-Macad::Occt::Prs3d_ShapeTool::Prs3d_ShapeTool(Macad::Occt::Prs3d_ShapeTool^ parameter1)
-	: BaseClass<::Prs3d_ShapeTool>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Prs3d_ShapeTool(*(::Prs3d_ShapeTool*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::Prs3d_ShapeTool::InitFace()
-{
-	((::Prs3d_ShapeTool*)_NativeInstance)->InitFace();
-}
-
-bool Macad::Occt::Prs3d_ShapeTool::MoreFace()
-{
-	return ((::Prs3d_ShapeTool*)_NativeInstance)->MoreFace();
-}
-
-void Macad::Occt::Prs3d_ShapeTool::NextFace()
-{
-	((::Prs3d_ShapeTool*)_NativeInstance)->NextFace();
-}
-
-Macad::Occt::TopoDS_Face^ Macad::Occt::Prs3d_ShapeTool::GetFace()
-{
-	::TopoDS_Face* _result = new ::TopoDS_Face();
-	*_result =  (::TopoDS_Face)((::Prs3d_ShapeTool*)_NativeInstance)->GetFace();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Face(_result);
-}
-
-Macad::Occt::Bnd_Box^ Macad::Occt::Prs3d_ShapeTool::FaceBound()
-{
-	::Bnd_Box* _result = new ::Bnd_Box();
-	*_result = ((::Prs3d_ShapeTool*)_NativeInstance)->FaceBound();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Bnd_Box(_result);
-}
-
-bool Macad::Occt::Prs3d_ShapeTool::IsPlanarFace()
-{
-	return ((::Prs3d_ShapeTool*)_NativeInstance)->IsPlanarFace();
-}
-
-void Macad::Occt::Prs3d_ShapeTool::InitCurve()
-{
-	((::Prs3d_ShapeTool*)_NativeInstance)->InitCurve();
-}
-
-bool Macad::Occt::Prs3d_ShapeTool::MoreCurve()
-{
-	return ((::Prs3d_ShapeTool*)_NativeInstance)->MoreCurve();
-}
-
-void Macad::Occt::Prs3d_ShapeTool::NextCurve()
-{
-	((::Prs3d_ShapeTool*)_NativeInstance)->NextCurve();
-}
-
-Macad::Occt::TopoDS_Edge^ Macad::Occt::Prs3d_ShapeTool::GetCurve()
-{
-	::TopoDS_Edge* _result = new ::TopoDS_Edge();
-	*_result =  (::TopoDS_Edge)((::Prs3d_ShapeTool*)_NativeInstance)->GetCurve();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Edge(_result);
-}
-
-Macad::Occt::Bnd_Box^ Macad::Occt::Prs3d_ShapeTool::CurveBound()
-{
-	::Bnd_Box* _result = new ::Bnd_Box();
-	*_result = ((::Prs3d_ShapeTool*)_NativeInstance)->CurveBound();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Bnd_Box(_result);
-}
-
-int Macad::Occt::Prs3d_ShapeTool::Neighbours()
-{
-	return ((::Prs3d_ShapeTool*)_NativeInstance)->Neighbours();
-}
-
-Macad::Occt::TopTools_HSequenceOfShape^ Macad::Occt::Prs3d_ShapeTool::FacesOfEdge()
-{
-	Handle(::TopTools_HSequenceOfShape) _result;
-	_result = ((::Prs3d_ShapeTool*)_NativeInstance)->FacesOfEdge();
-	 return _result.IsNull() ? nullptr : Macad::Occt::TopTools_HSequenceOfShape::CreateDowncasted( _result.get());
-}
-
-void Macad::Occt::Prs3d_ShapeTool::InitVertex()
-{
-	((::Prs3d_ShapeTool*)_NativeInstance)->InitVertex();
-}
-
-bool Macad::Occt::Prs3d_ShapeTool::MoreVertex()
-{
-	return ((::Prs3d_ShapeTool*)_NativeInstance)->MoreVertex();
-}
-
-void Macad::Occt::Prs3d_ShapeTool::NextVertex()
-{
-	((::Prs3d_ShapeTool*)_NativeInstance)->NextVertex();
-}
-
-Macad::Occt::TopoDS_Vertex^ Macad::Occt::Prs3d_ShapeTool::GetVertex()
-{
-	::TopoDS_Vertex* _result = new ::TopoDS_Vertex();
-	*_result =  (::TopoDS_Vertex)((::Prs3d_ShapeTool*)_NativeInstance)->GetVertex();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Vertex(_result);
-}
-
-bool Macad::Occt::Prs3d_ShapeTool::HasSurface()
-{
-	return ((::Prs3d_ShapeTool*)_NativeInstance)->HasSurface();
-}
-
-bool Macad::Occt::Prs3d_ShapeTool::HasCurve()
-{
-	return ((::Prs3d_ShapeTool*)_NativeInstance)->HasCurve();
-}
-
-bool Macad::Occt::Prs3d_ShapeTool::IsPlanarFace(Macad::Occt::TopoDS_Face^ theFace)
-{
-	return ::Prs3d_ShapeTool::IsPlanarFace(*(::TopoDS_Face*)theFace->NativeInstance);
-}
-
-
-
-
-//---------------------------------------------------------------------
 //  Class  Prs3d_Text
 //---------------------------------------------------------------------
 
 Macad::Occt::Prs3d_Text::Prs3d_Text()
-	: Macad::Occt::Prs3d_Root(BaseClass::InitMode::Uninitialized)
+	: BaseClass<::Prs3d_Text>(BaseClass::InitMode::Uninitialized)
 {
 	_NativeInstance = new ::Prs3d_Text();
 }
 
 Macad::Occt::Prs3d_Text::Prs3d_Text(Macad::Occt::Prs3d_Text^ parameter1)
-	: Macad::Occt::Prs3d_Root(BaseClass::InitMode::Uninitialized)
+	: BaseClass<::Prs3d_Text>(BaseClass::InitMode::Uninitialized)
 {
 	_NativeInstance = new ::Prs3d_Text(*(::Prs3d_Text*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::Prs3d_Text::Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Pnt theAttachmentPoint)
+Macad::Occt::Graphic3d_Text^ Macad::Occt::Prs3d_Text::Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Pnt theAttachmentPoint)
 {
 	Handle(::Graphic3d_Group) h_theGroup = theGroup->NativeInstance;
 	Handle(::Prs3d_TextAspect) h_theAspect = theAspect->NativeInstance;
 	pin_ptr<Macad::Occt::Pnt> pp_theAttachmentPoint = &theAttachmentPoint;
-	::Prs3d_Text::Draw(h_theGroup, h_theAspect, *(::TCollection_ExtendedString*)theText->NativeInstance, *(gp_Pnt*)pp_theAttachmentPoint);
+	Handle(::Graphic3d_Text) _result;
+	_result = ::Prs3d_Text::Draw(h_theGroup, h_theAspect, *(::TCollection_ExtendedString*)theText->NativeInstance, *(gp_Pnt*)pp_theAttachmentPoint);
 	theGroup->NativeInstance = h_theGroup.get();
 	theAspect->NativeInstance = h_theAspect.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Text::CreateDowncasted( _result.get());
 }
 
-void Macad::Occt::Prs3d_Text::Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation, bool theHasOwnAnchor)
+Macad::Occt::Graphic3d_Text^ Macad::Occt::Prs3d_Text::Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation, bool theHasOwnAnchor)
 {
 	Handle(::Graphic3d_Group) h_theGroup = theGroup->NativeInstance;
 	Handle(::Prs3d_TextAspect) h_theAspect = theAspect->NativeInstance;
 	pin_ptr<Macad::Occt::Ax2> pp_theOrientation = &theOrientation;
-	::Prs3d_Text::Draw(h_theGroup, h_theAspect, *(::TCollection_ExtendedString*)theText->NativeInstance, *(gp_Ax2*)pp_theOrientation, theHasOwnAnchor);
+	Handle(::Graphic3d_Text) _result;
+	_result = ::Prs3d_Text::Draw(h_theGroup, h_theAspect, *(::TCollection_ExtendedString*)theText->NativeInstance, *(gp_Ax2*)pp_theOrientation, theHasOwnAnchor);
 	theGroup->NativeInstance = h_theGroup.get();
 	theAspect->NativeInstance = h_theAspect.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Text::CreateDowncasted( _result.get());
 }
 
-void Macad::Occt::Prs3d_Text::Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation)
+Macad::Occt::Graphic3d_Text^ Macad::Occt::Prs3d_Text::Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation)
 {
 	Handle(::Graphic3d_Group) h_theGroup = theGroup->NativeInstance;
 	Handle(::Prs3d_TextAspect) h_theAspect = theAspect->NativeInstance;
 	pin_ptr<Macad::Occt::Ax2> pp_theOrientation = &theOrientation;
-	::Prs3d_Text::Draw(h_theGroup, h_theAspect, *(::TCollection_ExtendedString*)theText->NativeInstance, *(gp_Ax2*)pp_theOrientation, true);
+	Handle(::Graphic3d_Text) _result;
+	_result = ::Prs3d_Text::Draw(h_theGroup, h_theAspect, *(::TCollection_ExtendedString*)theText->NativeInstance, *(gp_Ax2*)pp_theOrientation, true);
 	theGroup->NativeInstance = h_theGroup.get();
 	theAspect->NativeInstance = h_theAspect.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Text::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::Prs3d_Text::Draw(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Prs3d_Drawer^ theDrawer, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Pnt theAttachmentPoint)
@@ -2624,17 +2512,35 @@ Macad::Occt::Prs3d_ToolQuadric::Prs3d_ToolQuadric(Macad::Occt::Prs3d_ToolQuadric
 	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
+int Macad::Occt::Prs3d_ToolQuadric::TrianglesNb(int theSlicesNb, int theStacksNb)
+{
+	return ::Prs3d_ToolQuadric::TrianglesNb(theSlicesNb, theStacksNb);
+}
+
+int Macad::Occt::Prs3d_ToolQuadric::VerticesNb(int theSlicesNb, int theStacksNb, bool theIsIndexed)
+{
+	return ::Prs3d_ToolQuadric::VerticesNb(theSlicesNb, theStacksNb, theIsIndexed);
+}
+
+int Macad::Occt::Prs3d_ToolQuadric::VerticesNb(int theSlicesNb, int theStacksNb)
+{
+	return ::Prs3d_ToolQuadric::VerticesNb(theSlicesNb, theStacksNb, true);
+}
+
+Macad::Occt::Graphic3d_ArrayOfTriangles^ Macad::Occt::Prs3d_ToolQuadric::CreateTriangulation(Macad::Occt::Trsf theTrsf)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
+	Handle(::Graphic3d_ArrayOfTriangles) _result;
+	_result = ((::Prs3d_ToolQuadric*)_NativeInstance)->CreateTriangulation(*(gp_Trsf*)pp_theTrsf);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ArrayOfTriangles::CreateDowncasted( _result.get());
+}
+
 void Macad::Occt::Prs3d_ToolQuadric::FillArray(Macad::Occt::Graphic3d_ArrayOfTriangles^ theArray, Macad::Occt::Trsf theTrsf)
 {
 	Handle(::Graphic3d_ArrayOfTriangles) h_theArray = theArray->NativeInstance;
 	pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
 	((::Prs3d_ToolQuadric*)_NativeInstance)->FillArray(h_theArray, *(gp_Trsf*)pp_theTrsf);
 	theArray->NativeInstance = h_theArray.get();
-}
-
-int Macad::Occt::Prs3d_ToolQuadric::TrianglesNb(int theSlicesNb, int theStacksNb)
-{
-	return ::Prs3d_ToolQuadric::TrianglesNb(theSlicesNb, theStacksNb);
 }
 
 
@@ -2747,6 +2653,75 @@ Macad::Occt::Graphic3d_ArrayOfTriangles^ Macad::Occt::Prs3d_ToolSphere::Create(d
 	pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
 	Handle(::Graphic3d_ArrayOfTriangles) _result;
 	_result = ::Prs3d_ToolSphere::Create(theRadius, theNbSlices, theNbStacks, *(gp_Trsf*)pp_theTrsf);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ArrayOfTriangles::CreateDowncasted( _result.get());
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  Prs3d_ToolTorus
+//---------------------------------------------------------------------
+
+Macad::Occt::Prs3d_ToolTorus::Prs3d_ToolTorus(double theMajorRad, double theMinorRad, int theNbSlices, int theNbStacks)
+	: Macad::Occt::Prs3d_ToolQuadric(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Prs3d_ToolTorus(theMajorRad, theMinorRad, theNbSlices, theNbStacks);
+}
+
+Macad::Occt::Prs3d_ToolTorus::Prs3d_ToolTorus(double theMajorRad, double theMinorRad, double theAngle, int theNbSlices, int theNbStacks)
+	: Macad::Occt::Prs3d_ToolQuadric(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Prs3d_ToolTorus(theMajorRad, theMinorRad, theAngle, theNbSlices, theNbStacks);
+}
+
+Macad::Occt::Prs3d_ToolTorus::Prs3d_ToolTorus(double theMajorRad, double theMinorRad, double theAngle1, double theAngle2, int theNbSlices, int theNbStacks)
+	: Macad::Occt::Prs3d_ToolQuadric(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Prs3d_ToolTorus(theMajorRad, theMinorRad, theAngle1, theAngle2, theNbSlices, theNbStacks);
+}
+
+Macad::Occt::Prs3d_ToolTorus::Prs3d_ToolTorus(double theMajorRad, double theMinorRad, double theAngle1, double theAngle2, double theAngle, int theNbSlices, int theNbStacks)
+	: Macad::Occt::Prs3d_ToolQuadric(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Prs3d_ToolTorus(theMajorRad, theMinorRad, theAngle1, theAngle2, theAngle, theNbSlices, theNbStacks);
+}
+
+Macad::Occt::Prs3d_ToolTorus::Prs3d_ToolTorus(Macad::Occt::Prs3d_ToolTorus^ parameter1)
+	: Macad::Occt::Prs3d_ToolQuadric(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Prs3d_ToolTorus(*(::Prs3d_ToolTorus*)parameter1->NativeInstance);
+}
+
+Macad::Occt::Graphic3d_ArrayOfTriangles^ Macad::Occt::Prs3d_ToolTorus::Create(double theMajorRad, double theMinorRad, int theNbSlices, int theNbStacks, Macad::Occt::Trsf theTrsf)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
+	Handle(::Graphic3d_ArrayOfTriangles) _result;
+	_result = ::Prs3d_ToolTorus::Create(theMajorRad, theMinorRad, theNbSlices, theNbStacks, *(gp_Trsf*)pp_theTrsf);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ArrayOfTriangles::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_ArrayOfTriangles^ Macad::Occt::Prs3d_ToolTorus::Create(double theMajorRad, double theMinorRad, double theAngle, int theNbSlices, int theNbStacks, Macad::Occt::Trsf theTrsf)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
+	Handle(::Graphic3d_ArrayOfTriangles) _result;
+	_result = ::Prs3d_ToolTorus::Create(theMajorRad, theMinorRad, theAngle, theNbSlices, theNbStacks, *(gp_Trsf*)pp_theTrsf);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ArrayOfTriangles::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_ArrayOfTriangles^ Macad::Occt::Prs3d_ToolTorus::Create(double theMajorRad, double theMinorRad, double theAngle1, double theAngle2, int theNbSlices, int theNbStacks, Macad::Occt::Trsf theTrsf)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
+	Handle(::Graphic3d_ArrayOfTriangles) _result;
+	_result = ::Prs3d_ToolTorus::Create(theMajorRad, theMinorRad, theAngle1, theAngle2, theNbSlices, theNbStacks, *(gp_Trsf*)pp_theTrsf);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ArrayOfTriangles::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_ArrayOfTriangles^ Macad::Occt::Prs3d_ToolTorus::Create(double theMajorRad, double theMinorRad, double theAngle1, double theAngle2, double theAngle, int theNbSlices, int theNbStacks, Macad::Occt::Trsf theTrsf)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
+	Handle(::Graphic3d_ArrayOfTriangles) _result;
+	_result = ::Prs3d_ToolTorus::Create(theMajorRad, theMinorRad, theAngle1, theAngle2, theAngle, theNbSlices, theNbStacks, *(gp_Trsf*)pp_theTrsf);
 	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ArrayOfTriangles::CreateDowncasted( _result.get());
 }
 

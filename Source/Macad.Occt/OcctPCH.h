@@ -1,10 +1,18 @@
-// stdafx.h : include file for standard system include files,
-// or project specific include files that are used frequently,
-// but are changed infrequently
-
 #pragma once
 
 #include <vcclr.h>
+
+// Version check
+#include "Standard_Version.hxx"
+#include "Generated/VersionInfo.h"
+
+#if REQUIRED_OCCT_VERSION_MAJOR != OCC_VERSION_MAJOR || REQUIRED_OCCT_VERSION_MINOR != OCC_VERSION_MINOR || REQUIRED_OCCT_VERSION_MAINTENANCE != OCC_VERSION_MAINTENANCE
+    #pragma message( "ERROR: OCCT library has the wrong version. Please install the correct version or regenerate wrapper code." )
+    #pragma message( "       Installed version: " OCC_VERSION_STRING_EXT )
+    #pragma message( "       Required version: " REQUIRED_OCCT_VERSION_STRING )
+    #error Incorrect OCCT library version.
+#endif
+
 
 #include "Standard_TypeDef.hxx"
 #include "gp.hxx"
@@ -28,7 +36,7 @@ typedef void* EAGLContext;
 #include "Extensions/Graphic3d_Ex.h"
 #include "Extensions/V3d_Ex.h"
 
-#include "Generated/forward_declarations.h"
-#include "Generated/native_includes.h"
+#include "Generated/ForwardDeclarations.h"
+#include "Generated/NativeIncludes.h"
 #include "Generated/Precision.h"
 

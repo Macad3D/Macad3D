@@ -11,7 +11,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "Standard.h"
 #include "Prs3d.h"
 #include "Graphic3d.h"
-#include "Geom.h"
+#include "TopLoc.h"
 #include "gp.h"
 #include "Bnd.h"
 #include "Aspect.h"
@@ -200,11 +200,11 @@ void Macad::Occt::PrsMgr_PresentableObject::SetTransformPersistence(Macad::Occt:
 	theTrsfPers->NativeInstance = h_theTrsfPers.get();
 }
 
-Macad::Occt::Geom_Transformation^ Macad::Occt::PrsMgr_PresentableObject::LocalTransformationGeom()
+Macad::Occt::TopLoc_Datum3D^ Macad::Occt::PrsMgr_PresentableObject::LocalTransformationGeom()
 {
-	Handle(::Geom_Transformation) _result;
+	Handle(::TopLoc_Datum3D) _result;
 	_result = ((::PrsMgr_PresentableObject*)_NativeInstance)->LocalTransformationGeom();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Transformation::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::TopLoc_Datum3D::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::PrsMgr_PresentableObject::SetLocalTransformation(Macad::Occt::Trsf theTrsf)
@@ -213,9 +213,9 @@ void Macad::Occt::PrsMgr_PresentableObject::SetLocalTransformation(Macad::Occt::
 	((::PrsMgr_PresentableObject*)_NativeInstance)->SetLocalTransformation(*(gp_Trsf*)pp_theTrsf);
 }
 
-void Macad::Occt::PrsMgr_PresentableObject::SetLocalTransformation(Macad::Occt::Geom_Transformation^ theTrsf)
+void Macad::Occt::PrsMgr_PresentableObject::SetLocalTransformation(Macad::Occt::TopLoc_Datum3D^ theTrsf)
 {
-	Handle(::Geom_Transformation) h_theTrsf = theTrsf->NativeInstance;
+	Handle(::TopLoc_Datum3D) h_theTrsf = theTrsf->NativeInstance;
 	((::PrsMgr_PresentableObject*)_NativeInstance)->SetLocalTransformation(h_theTrsf);
 	theTrsf->NativeInstance = h_theTrsf.get();
 }
@@ -225,11 +225,11 @@ bool Macad::Occt::PrsMgr_PresentableObject::HasTransformation()
 	return ((::PrsMgr_PresentableObject*)_NativeInstance)->HasTransformation();
 }
 
-Macad::Occt::Geom_Transformation^ Macad::Occt::PrsMgr_PresentableObject::TransformationGeom()
+Macad::Occt::TopLoc_Datum3D^ Macad::Occt::PrsMgr_PresentableObject::TransformationGeom()
 {
-	Handle(::Geom_Transformation) _result;
+	Handle(::TopLoc_Datum3D) _result;
 	_result = ((::PrsMgr_PresentableObject*)_NativeInstance)->TransformationGeom();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Transformation::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::TopLoc_Datum3D::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Trsf Macad::Occt::PrsMgr_PresentableObject::LocalTransformation()
@@ -249,11 +249,11 @@ Macad::Occt::gp_GTrsf^ Macad::Occt::PrsMgr_PresentableObject::InversedTransforma
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::gp_GTrsf(_result);
 }
 
-Macad::Occt::Geom_Transformation^ Macad::Occt::PrsMgr_PresentableObject::CombinedParentTransformation()
+Macad::Occt::TopLoc_Datum3D^ Macad::Occt::PrsMgr_PresentableObject::CombinedParentTransformation()
 {
-	Handle(::Geom_Transformation) _result;
+	Handle(::TopLoc_Datum3D) _result;
 	_result = ((::PrsMgr_PresentableObject*)_NativeInstance)->CombinedParentTransformation();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Transformation::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::TopLoc_Datum3D::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::PrsMgr_PresentableObject::ResetTransformation()

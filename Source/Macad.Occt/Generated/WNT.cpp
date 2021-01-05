@@ -7,6 +7,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 
 #include "Standard.h"
 #include "WNT.h"
+#include "Graphic3d.h"
 #include "TCollection.h"
 #include "Quantity.h"
 #include "Aspect.h"
@@ -69,6 +70,39 @@ Macad::Occt::WNT_ClassDefinitionError^ Macad::Occt::WNT_ClassDefinitionError::Cr
 {
 	return gcnew Macad::Occt::WNT_ClassDefinitionError( instance );
 }
+
+
+
+//---------------------------------------------------------------------
+//  Class  WNT_HIDSpaceMouse
+//---------------------------------------------------------------------
+
+Macad::Occt::WNT_HIDSpaceMouse::WNT_HIDSpaceMouse(Macad::Occt::WNT_HIDSpaceMouse^ parameter1)
+	: BaseClass<::WNT_HIDSpaceMouse>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::WNT_HIDSpaceMouse(*(::WNT_HIDSpaceMouse*)parameter1->NativeInstance);
+}
+
+bool Macad::Occt::WNT_HIDSpaceMouse::IsTranslation()
+{
+	return ((::WNT_HIDSpaceMouse*)_NativeInstance)->IsTranslation();
+}
+
+bool Macad::Occt::WNT_HIDSpaceMouse::IsRotation()
+{
+	return ((::WNT_HIDSpaceMouse*)_NativeInstance)->IsRotation();
+}
+
+bool Macad::Occt::WNT_HIDSpaceMouse::IsKeyState()
+{
+	return ((::WNT_HIDSpaceMouse*)_NativeInstance)->IsKeyState();
+}
+
+unsigned int Macad::Occt::WNT_HIDSpaceMouse::KeyState()
+{
+	return ((::WNT_HIDSpaceMouse*)_NativeInstance)->KeyState();
+}
+
 
 
 
@@ -336,6 +370,11 @@ void Macad::Occt::WNT_Window::InvalidateContent(Macad::Occt::Aspect_DisplayConne
 void Macad::Occt::WNT_Window::InvalidateContent()
 {
 	((::WNT_Window*)_NativeInstance)->InvalidateContent(0);
+}
+
+int Macad::Occt::WNT_Window::RegisterRawInputDevices(unsigned int theRawDeviceMask)
+{
+	return ((::WNT_Window*)_NativeInstance)->RegisterRawInputDevices(theRawDeviceMask);
 }
 
 

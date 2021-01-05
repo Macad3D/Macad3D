@@ -60,6 +60,49 @@ public:
 }; // class WNT_ClassDefinitionError
 
 //---------------------------------------------------------------------
+//  Class  WNT_HIDSpaceMouse
+//---------------------------------------------------------------------
+public ref class WNT_HIDSpaceMouse sealed : public BaseClass<::WNT_HIDSpaceMouse>
+{
+
+#ifdef Include_WNT_HIDSpaceMouse_h
+public:
+	Include_WNT_HIDSpaceMouse_h
+#endif
+
+public:
+	WNT_HIDSpaceMouse(::WNT_HIDSpaceMouse* nativeInstance)
+		: BaseClass<::WNT_HIDSpaceMouse>( nativeInstance, true )
+	{}
+
+	WNT_HIDSpaceMouse(::WNT_HIDSpaceMouse& nativeInstance)
+		: BaseClass<::WNT_HIDSpaceMouse>( &nativeInstance, false )
+	{}
+
+	property ::WNT_HIDSpaceMouse* NativeInstance
+	{
+		::WNT_HIDSpaceMouse* get()
+		{
+			return static_cast<::WNT_HIDSpaceMouse*>(_NativeInstance);
+		}
+	}
+
+public:
+	/* Method skipped due to unknown mapping: void WNT_HIDSpaceMouse(long unsigned int theProductId, Standard_Byte theData, Standard_Size theSize, ) */
+	WNT_HIDSpaceMouse(Macad::Occt::WNT_HIDSpaceMouse^ parameter1);
+	/* Method skipped due to unknown mapping: bool IsKnownProduct(long unsigned int theProductId, ) */
+	/* Method skipped due to unknown mapping: short int RawValueRange() */
+	/* Method skipped due to unknown mapping: void SetRawValueRange(short int theRange, ) */
+	bool IsTranslation();
+	/* Method skipped due to unknown mapping: Graphic3d_Vec3d Translation(bool theIsIdle, bool theIsQuadric, ) */
+	bool IsRotation();
+	/* Method skipped due to unknown mapping: Graphic3d_Vec3d Rotation(bool theIsIdle, bool theIsQuadric, ) */
+	bool IsKeyState();
+	unsigned int KeyState();
+	/* Method skipped due to unknown mapping: unsigned int HidToSpaceKey(short unsigned int theKeyBit, ) */
+}; // class WNT_HIDSpaceMouse
+
+//---------------------------------------------------------------------
 //  Class  WNT_WClass
 //---------------------------------------------------------------------
 public ref class WNT_WClass sealed : public Macad::Occt::Standard_Transient
@@ -133,6 +176,15 @@ public:
 	static Macad::Occt::WNT_Window^ CreateDowncasted(::WNT_Window* instance);
 
 public:
+	//---------------------------------------------------------------------
+	//  Enum  RawInputMask
+	//---------------------------------------------------------------------
+	enum class RawInputMask
+	{
+		RawInputMask_Mouse = 1,
+		RawInputMask_SpaceMouse = 2
+	}; // enum  class RawInputMask
+
 	WNT_Window(System::String^ theTitle, Macad::Occt::WNT_WClass^ theClass, DWORD theStyle, int thePxLeft, int thePxTop, int thePxWidth, int thePxHeight, Macad::Occt::Quantity_NameOfColor theBackColor, System::IntPtr theParent, System::IntPtr theMenu, System::IntPtr theClientStruct);
 	WNT_Window(System::String^ theTitle, Macad::Occt::WNT_WClass^ theClass, DWORD theStyle, int thePxLeft, int thePxTop, int thePxWidth, int thePxHeight, Macad::Occt::Quantity_NameOfColor theBackColor, System::IntPtr theParent, System::IntPtr theMenu);
 	WNT_Window(System::String^ theTitle, Macad::Occt::WNT_WClass^ theClass, DWORD theStyle, int thePxLeft, int thePxTop, int thePxWidth, int thePxHeight, Macad::Occt::Quantity_NameOfColor theBackColor, System::IntPtr theParent);
@@ -165,6 +217,7 @@ public:
 	void SetTitle(Macad::Occt::TCollection_AsciiString^ theTitle);
 	void InvalidateContent(Macad::Occt::Aspect_DisplayConnection^ theDisp);
 	void InvalidateContent();
+	int RegisterRawInputDevices(unsigned int theRawDeviceMask);
 }; // class WNT_Window
 
 }; // namespace Occt

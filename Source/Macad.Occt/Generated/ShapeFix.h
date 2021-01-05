@@ -779,7 +779,7 @@ public:
 	ShapeFix_Shell(Macad::Occt::TopoDS_Shell^ shape);
 	ShapeFix_Shell(Macad::Occt::ShapeFix_Shell^ parameter1);
 	void Init(Macad::Occt::TopoDS_Shell^ shell);
-	/* Method skipped due to unknown mapping: Standard_Boolean Perform(Message_ProgressIndicator theProgress, ) */
+	bool Perform(Macad::Occt::Message_ProgressRange^ theProgress);
 	bool Perform();
 	bool FixFaceOrientation(Macad::Occt::TopoDS_Shell^ shell, bool isAccountMultiConex, bool NonManifold);
 	bool FixFaceOrientation(Macad::Occt::TopoDS_Shell^ shell, bool isAccountMultiConex);
@@ -834,7 +834,7 @@ public:
 	ShapeFix_Solid(Macad::Occt::TopoDS_Solid^ solid);
 	ShapeFix_Solid(Macad::Occt::ShapeFix_Solid^ parameter1);
 	void Init(Macad::Occt::TopoDS_Solid^ solid);
-	/* Method skipped due to unknown mapping: Standard_Boolean Perform(Message_ProgressIndicator theProgress, ) */
+	bool Perform(Macad::Occt::Message_ProgressRange^ theProgress);
 	bool Perform();
 	Macad::Occt::TopoDS_Solid^ SolidFromShell(Macad::Occt::TopoDS_Shell^ shell);
 	bool Status(Macad::Occt::ShapeExtend_Status status);
@@ -923,7 +923,7 @@ public:
 	ShapeFix_Shape(Macad::Occt::TopoDS_Shape^ shape);
 	ShapeFix_Shape(Macad::Occt::ShapeFix_Shape^ parameter1);
 	void Init(Macad::Occt::TopoDS_Shape^ shape);
-	/* Method skipped due to unknown mapping: Standard_Boolean Perform(Message_ProgressIndicator theProgress, ) */
+	bool Perform(Macad::Occt::Message_ProgressRange^ theProgress);
 	bool Perform();
 	Macad::Occt::TopoDS_Shape^ Shape();
 	Macad::Occt::ShapeFix_Solid^ FixSolidTool();
@@ -1231,8 +1231,8 @@ public:
 public:
 	ShapeFix();
 	ShapeFix(Macad::Occt::ShapeFix^ parameter1);
-	/* Method skipped due to unknown mapping: Standard_Boolean SameParameter(TopoDS_Shape shape, Standard_Boolean enforce, Standard_Real preci, Message_ProgressIndicator theProgress, ShapeExtend_BasicMsgRegistrator theMsgReg, ) */
-	/* Method skipped due to unknown mapping: Standard_Boolean SameParameter(TopoDS_Shape shape, Standard_Boolean enforce, Standard_Real preci, Message_ProgressIndicator theProgress, ShapeExtend_BasicMsgRegistrator theMsgReg, ) */
+	static bool SameParameter(Macad::Occt::TopoDS_Shape^ shape, bool enforce, double preci, Macad::Occt::Message_ProgressRange^ theProgress, Macad::Occt::ShapeExtend_BasicMsgRegistrator^ theMsgReg);
+	static bool SameParameter(Macad::Occt::TopoDS_Shape^ shape, bool enforce, double preci, Macad::Occt::Message_ProgressRange^ theProgress);
 	static bool SameParameter(Macad::Occt::TopoDS_Shape^ shape, bool enforce, double preci);
 	static bool SameParameter(Macad::Occt::TopoDS_Shape^ shape, bool enforce);
 	static void EncodeRegularity(Macad::Occt::TopoDS_Shape^ shape, double tolang);

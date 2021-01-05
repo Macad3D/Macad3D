@@ -1,23 +1,55 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <OcctIncPath>$(MMRootDir)ThirdParty\OCCT\inc</OcctIncPath>
-    <_3DxWareIncPath>$(MMRootDir)ThirdParty\3DxWare\inc</_3DxWareIncPath>
-    <FreeTypeBinPath>$(MMRootDir)ThirdParty\freetype\bin</FreeTypeBinPath>
+    <OcctIncPath Condition="'$(OcctIncPath)' == ''">$(MMRootDir)ThirdParty\OCCT\inc</OcctIncPath>
+    <FreeTypeBinPath Condition="'$(FreeTypeBinPath)' == ''">$(MMRootDir)ThirdParty\freetype\bin</FreeTypeBinPath>
+    <TbbBinPath Condition="'$(TbbBinPath)' == ''">$(MMRootDir)ThirdParty\tbb\bin</TbbBinPath>
+    <_3DxWareIncPath Condition="'$(_3DxWareIncPath)' == ''">$(MMRootDir)ThirdParty\3DxWare\inc</_3DxWareIncPath>
+    <_3DxWareLibPath Condition="'$(_3DxWareLibPath)' == ''">$(MMRootDir)ThirdParty\3DxWare\lib</_3DxWareLibPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OcctLibPath>$(MMRootDir)ThirdParty\OCCT\libd</OcctLibPath>
-    <OcctBinPath>$(MMRootDir)ThirdParty\OCCT\bind</OcctBinPath>
-    <TbbBinPath>$(MMRootDir)ThirdParty\tbb\bind</TbbBinPath>
-    <_3DxWareLibPath>$(MMRootDir)ThirdParty\3DxWare\lib</_3DxWareLibPath>
+    <OcctLibPath Condition="'$(OcctLibPath)' == ''">$(MMRootDir)ThirdParty\OCCT\libd</OcctLibPath>
+    <OcctBinPath Condition="'$(OcctBinPath)' == ''">$(MMRootDir)ThirdParty\OCCT\bind</OcctBinPath>
+    <TbbSuffix>_debug</TbbSuffix>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OcctLibPath>$(MMRootDir)ThirdParty\OCCT\lib</OcctLibPath>
-    <OcctBinPath>$(MMRootDir)ThirdParty\OCCT\bin</OcctBinPath>
-    <TbbBinPath>$(MMRootDir)ThirdParty\tbb\bin</TbbBinPath>
-    <_3DxWareLibPath>$(MMRootDir)ThirdParty\3DxWare\lib</_3DxWareLibPath>
+    <OcctLibPath Condition="'$(OcctLibPath)' == ''">$(MMRootDir)ThirdParty\OCCT\lib</OcctLibPath>
+    <OcctBinPath Condition="'$(OcctBinPath)' == ''">$(MMRootDir)ThirdParty\OCCT\bin</OcctBinPath>
+    <TbbSuffix></TbbSuffix>
   </PropertyGroup>
+
+  <ItemGroup>
+    <OcctDeployFiles Include="$(FreeTypeBinPath)\freetype.dll" />
+    <OcctDeployFiles Include="$(TbbBinPath)\tbb$(TbbSuffix).dll" />
+    <OcctDeployFiles Include="$(TbbBinPath)\tbbmalloc$(TbbSuffix).dll" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKernel.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKMath.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKG2d.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKG3d.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKGeomBase.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKBRep.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKMesh.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKGeomAlgo.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKTopAlgo.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKPrim.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKBO.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKFeat.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKShHealing.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKFillet.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKOffset.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKBool.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKService.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKV3d.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKOpenGl.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKXSBase.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKIGES.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKSTEPBase.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKSTEPAttr.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKSTEP209.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKSTEP.*" />
+    <OcctDeployFiles Include="$(OcctBinPath)\TKHLR.*" />
+  </ItemGroup>
 
 </Project>

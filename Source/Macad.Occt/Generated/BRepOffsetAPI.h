@@ -513,7 +513,8 @@ public:
 	Macad::Occt::BRepOffset_MakeOffset^ MakeOffset();
 	void Build();
 	Macad::Occt::TopTools_ListOfShape^ Generated(Macad::Occt::TopoDS_Shape^ S);
-	Macad::Occt::TopTools_ListOfShape^ GeneratedEdge(Macad::Occt::TopoDS_Shape^ S);
+	Macad::Occt::TopTools_ListOfShape^ Modified(Macad::Occt::TopoDS_Shape^ S);
+	bool IsDeleted(Macad::Occt::TopoDS_Shape^ S);
 	Macad::Occt::GeomAbs_JoinType GetJoinType();
 }; // class BRepOffsetAPI_MakeOffsetShape
 

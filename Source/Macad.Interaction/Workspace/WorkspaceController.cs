@@ -147,25 +147,47 @@ namespace Macad.Interaction
 
             _UpdateParameter();
 
+            // Higlight Selected
             var selectionDrawer = new Prs3d_Drawer();
             selectionDrawer.SetColor(Colors.Selection);
             selectionDrawer.SetDisplayMode(0);
-            selectionDrawer.SetZLayer(0); // Graphic3d_ZLayerId_Top
+            selectionDrawer.SetZLayer(0); // Graphic3d_ZLayerId_Default
+            selectionDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.Aspect_TOD_RELATIVE);
+            selectionDrawer.SetDeviationAngle(aisContext.DeviationAngle());
+            selectionDrawer.SetDeviationCoefficient(aisContext.DeviationCoefficient());
             aisContext.SetSelectionStyle(selectionDrawer);
             aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Prs3d_TypeOfHighlight_Selected, selectionDrawer);
             aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Prs3d_TypeOfHighlight_LocalSelected, selectionDrawer);
             aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Prs3d_TypeOfHighlight_SubIntensity, selectionDrawer);
 
+            // Higlight Dynamic
             var hilightDrawer = new Prs3d_Drawer();
             hilightDrawer.SetColor(Colors.Highlight);
             hilightDrawer.SetDisplayMode(0);
             hilightDrawer.SetZLayer(-2); // Graphic3d_ZLayerId_Top
+            hilightDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.Aspect_TOD_RELATIVE);
+            hilightDrawer.SetDeviationAngle(aisContext.DeviationAngle());
+            hilightDrawer.SetDeviationCoefficient(aisContext.DeviationCoefficient());
             aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Prs3d_TypeOfHighlight_Dynamic, hilightDrawer);
 
+            // Higlight Local
             var hilightLocalDrawer = new Prs3d_Drawer();
             hilightLocalDrawer.SetColor(Colors.Highlight);
             hilightLocalDrawer.SetDisplayMode(1);
             hilightLocalDrawer.SetZLayer(-2); // Graphic3d_ZLayerId_Top
+            hilightLocalDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.Aspect_TOD_RELATIVE);
+            hilightLocalDrawer.SetDeviationAngle(aisContext.DeviationAngle());
+            hilightLocalDrawer.SetDeviationCoefficient(aisContext.DeviationCoefficient());
+
+            var shadingAspect = new Prs3d_ShadingAspect();
+            shadingAspect.SetColor(Colors.Highlight);
+            shadingAspect.SetTransparency(0);
+
+            var aspectFill = new Graphic3d_AspectFillArea3d(shadingAspect.Aspect());
+            aspectFill.SetPolygonOffsets((int)Aspect_PolygonOffsetMode.Aspect_POM_Fill, 0.99f, 0.0f );
+            shadingAspect.SetAspect(aspectFill);
+            hilightLocalDrawer.SetShadingAspect(shadingAspect);
+
             var lineAspect = new Prs3d_LineAspect(Colors.Highlight, Aspect_TypeOfLine.Aspect_TOL_SOLID, 3.0);
             hilightLocalDrawer.SetLineAspect(lineAspect);
             hilightLocalDrawer.SetSeenLineAspect(lineAspect);
@@ -185,9 +207,10 @@ namespace Macad.Interaction
             if (Workspace.AisContext == null)
                 return;
 
+            var aisContext = Workspace.AisContext;
             var parameterSet = InteractiveContext.Current.Parameters.Get<VisualParameterSet>();
-            Workspace.AisContext.SetDeviationCoefficient(parameterSet.DeviationCoefficient);
-            Workspace.AisContext.SetDeviationAngle(parameterSet.DeviationAngle.ToRad());
+            aisContext.SetDeviationCoefficient(parameterSet.DeviationCoefficient);
+            aisContext.SetDeviationAngle(parameterSet.DeviationAngle.ToRad());
         }
 
         //--------------------------------------------------------------------------------------------------

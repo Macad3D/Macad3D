@@ -688,8 +688,8 @@ public:
 	}
 
 public:
-	ShapeAnalysis_Shell(Macad::Occt::ShapeAnalysis_Shell^ parameter1);
 	ShapeAnalysis_Shell();
+	ShapeAnalysis_Shell(Macad::Occt::ShapeAnalysis_Shell^ parameter1);
 	void Clear();
 	void LoadShells(Macad::Occt::TopoDS_Shape^ shape);
 	bool CheckOrientedShells(Macad::Occt::TopoDS_Shape^ shape, bool alsofree, bool checkinternaledges);

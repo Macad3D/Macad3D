@@ -102,7 +102,10 @@ namespace Macad.Interaction.Editors.Toolkits
             InteractiveContext.Current.WorkspaceController.Selection.CloseContext(_SelectionContext);
             
             InteractiveEntity.VisualChanged -= _InteractiveEntity_OnVisualChanged;
-            _Component.PropertyChanged -= _Component_OnPropertyChanged;
+            if (_Component != null)
+            {
+                _Component.PropertyChanged -= _Component_OnPropertyChanged;
+            }
 
             base.Stop();
         }

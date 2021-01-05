@@ -14,7 +14,7 @@ Official homepage and download: http://macad3d.net
   - .Net Desktop workload
   - C++ Desktop workload
   - C++/CLI support component 
-- OpenCASCADE Technology (OCCT) 7.4.0
+- OpenCASCADE Technology (OCCT) 7.5.0
   - Get it from [OpenCASCADE Download Center](https://old.opencascade.com/content/download-center)
 
 ## Building from source
@@ -25,9 +25,9 @@ Start ```ScriptConsole.cmd``` and enter the following commands:
 
     ```> build restore```
    
-2. Import OCCT into the repository. The OCCT installer only contains a release build, if a debug build is to be used, it must be created before the import. For this, please refer to the documentation from OCCT.
+2. Configure the path to OCCT and it's dependencies. The OCCT installer only contains a release build, if a debug build is to be used, it must be created yourself. For this, please refer to the documentation from OCCT.
 
-    ```> occt import <pathToOcct>```
+    ```> occt config <pathToOcct>```
 
 3. Build the whole thing. Replace `all` with `debug`, `release` or `doc` if only one these should be built (e.g. you have no debug build of OCCT).
 
@@ -39,7 +39,7 @@ Generating the OCCT wrapper code depends on several packages to work hand in han
 
 For this reason, the generated wrapper code for the above mentioned version of the library is checked in. If you want to re-generate the wrapper code, this is the procedure:
 
-1. The include files of OCCT must be fixed to work with the compilation step of the wrapper generator. You find a patch file [here](Build/Patches/OcctCompilationFixes.patch), just apply it to `ThirdParty\OCCT\inc`. 
+1. The include files of OCCT must be fixed to work with the compilation step of the wrapper generator. You find a patch file [here](Build/Patches/OcctCompilationFixes.patch), just apply it to the include directory of OCCT. 
    
 2. Start the wrapper code generation.
 

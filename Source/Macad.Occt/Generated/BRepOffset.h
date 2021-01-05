@@ -20,18 +20,6 @@ public enum class BRepOffset_Status
 }; // enum  class BRepOffset_Status
 
 //---------------------------------------------------------------------
-//  Enum  BRepOffset_Type
-//---------------------------------------------------------------------
-public enum class BRepOffset_Type
-{
-	BRepOffset_Concave = 0,
-	BRepOffset_Convex = 1,
-	BRepOffset_Tangent = 2,
-	BRepOffset_FreeBoundary = 3,
-	BRepOffset_Other = 4
-}; // enum  class BRepOffset_Type
-
-//---------------------------------------------------------------------
 //  Enum  BRepOffset_Error
 //---------------------------------------------------------------------
 public enum class BRepOffset_Error
@@ -41,7 +29,10 @@ public enum class BRepOffset_Error
 	BRepOffset_BadNormalsOnGeometry = 2,
 	BRepOffset_C0Geometry = 3,
 	BRepOffset_NullOffset = 4,
-	BRepOffset_NotConnectedShell = 5
+	BRepOffset_NotConnectedShell = 5,
+	BRepOffset_CannotTrimEdges = 6,
+	BRepOffset_CannotFuseVertices = 7,
+	BRepOffset_CannotExtentEdge = 8
 }; // enum  class BRepOffset_Error
 
 //---------------------------------------------------------------------
@@ -283,14 +274,14 @@ public:
 
 public:
 	BRepOffset_Interval();
-	BRepOffset_Interval(double U1, double U2, Macad::Occt::BRepOffset_Type Type);
+	/* Method skipped due to unknown mapping: void BRepOffset_Interval(Standard_Real U1, Standard_Real U2, ChFiDS_TypeOfConcavity Type, ) */
 	BRepOffset_Interval(Macad::Occt::BRepOffset_Interval^ parameter1);
 	void First(double U);
 	void Last(double U);
-	void Type(Macad::Occt::BRepOffset_Type T);
+	/* Method skipped due to unknown mapping: void Type(ChFiDS_TypeOfConcavity T, ) */
 	double First();
 	double Last();
-	Macad::Occt::BRepOffset_Type Type();
+	/* Method skipped due to unknown mapping: ChFiDS_TypeOfConcavity Type() */
 }; // class BRepOffset_Interval
 
 //---------------------------------------------------------------------
@@ -323,21 +314,29 @@ public:
 
 public:
 	BRepOffset_Analyse();
-	BRepOffset_Analyse(Macad::Occt::TopoDS_Shape^ S, double Angle);
+	BRepOffset_Analyse(Macad::Occt::TopoDS_Shape^ theS, double theAngle);
 	BRepOffset_Analyse(Macad::Occt::BRepOffset_Analyse^ parameter1);
-	void Perform(Macad::Occt::TopoDS_Shape^ S, double Angle);
+	void Perform(Macad::Occt::TopoDS_Shape^ theS, double theAngle);
 	bool IsDone();
+	Macad::Occt::BRepOffset_ListOfInterval^ Type(Macad::Occt::TopoDS_Edge^ theE);
+	/* Method skipped due to unknown mapping: void Edges(TopoDS_Vertex theV, ChFiDS_TypeOfConcavity theType, TopTools_ListOfShape theL, ) */
+	/* Method skipped due to unknown mapping: void Edges(TopoDS_Face theF, ChFiDS_TypeOfConcavity theType, TopTools_ListOfShape theL, ) */
+	void TangentEdges(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Vertex^ theVertex, Macad::Occt::TopTools_ListOfShape^ theEdges);
+	bool HasAncestor(Macad::Occt::TopoDS_Shape^ theS);
+	Macad::Occt::TopTools_ListOfShape^ Ancestors(Macad::Occt::TopoDS_Shape^ theS);
+	/* Method skipped due to unknown mapping: void Explode(TopTools_ListOfShape theL, ChFiDS_TypeOfConcavity theType, ) */
+	/* Method skipped due to unknown mapping: void Explode(TopTools_ListOfShape theL, ChFiDS_TypeOfConcavity theType1, ChFiDS_TypeOfConcavity theType2, ) */
+	/* Method skipped due to unknown mapping: void AddFaces(TopoDS_Face theFace, TopoDS_Compound theCo, TopTools_MapOfShape theMap, ChFiDS_TypeOfConcavity theType, ) */
+	/* Method skipped due to unknown mapping: void AddFaces(TopoDS_Face theFace, TopoDS_Compound theCo, TopTools_MapOfShape theMap, ChFiDS_TypeOfConcavity theType1, ChFiDS_TypeOfConcavity theType2, ) */
+	void SetOffsetValue(double theOffset);
+	void SetFaceOffsetMap(Macad::Occt::TopTools_DataMapOfShapeReal^ theMap);
+	Macad::Occt::TopTools_ListOfShape^ NewFaces();
+	Macad::Occt::TopoDS_Shape^ Generated(Macad::Occt::TopoDS_Shape^ theS);
+	bool HasGenerated(Macad::Occt::TopoDS_Shape^ theS);
+	Macad::Occt::TopoDS_Edge^ EdgeReplacement(Macad::Occt::TopoDS_Face^ theFace, Macad::Occt::TopoDS_Edge^ theEdge);
+	Macad::Occt::TopTools_ListOfShape^ Descendants(Macad::Occt::TopoDS_Shape^ theS, bool theUpdate);
+	Macad::Occt::TopTools_ListOfShape^ Descendants(Macad::Occt::TopoDS_Shape^ theS);
 	void Clear();
-	Macad::Occt::BRepOffset_ListOfInterval^ Type(Macad::Occt::TopoDS_Edge^ E);
-	void Edges(Macad::Occt::TopoDS_Vertex^ V, Macad::Occt::BRepOffset_Type T, Macad::Occt::TopTools_ListOfShape^ L);
-	void Edges(Macad::Occt::TopoDS_Face^ F, Macad::Occt::BRepOffset_Type T, Macad::Occt::TopTools_ListOfShape^ L);
-	void TangentEdges(Macad::Occt::TopoDS_Edge^ Edge, Macad::Occt::TopoDS_Vertex^ Vertex, Macad::Occt::TopTools_ListOfShape^ Edges);
-	bool HasAncestor(Macad::Occt::TopoDS_Shape^ S);
-	Macad::Occt::TopTools_ListOfShape^ Ancestors(Macad::Occt::TopoDS_Shape^ S);
-	void Explode(Macad::Occt::TopTools_ListOfShape^ L, Macad::Occt::BRepOffset_Type Type);
-	void Explode(Macad::Occt::TopTools_ListOfShape^ L, Macad::Occt::BRepOffset_Type Type1, Macad::Occt::BRepOffset_Type Type2);
-	void AddFaces(Macad::Occt::TopoDS_Face^ Face, Macad::Occt::TopoDS_Compound^ Co, Macad::Occt::TopTools_MapOfShape^ Map, Macad::Occt::BRepOffset_Type Type);
-	void AddFaces(Macad::Occt::TopoDS_Face^ Face, Macad::Occt::TopoDS_Compound^ Co, Macad::Occt::TopTools_MapOfShape^ Map, Macad::Occt::BRepOffset_Type Type1, Macad::Occt::BRepOffset_Type Type2);
 }; // class BRepOffset_Analyse
 
 //---------------------------------------------------------------------
@@ -446,10 +445,10 @@ public:
 	BRepOffset_Inter2d();
 	BRepOffset_Inter2d(Macad::Occt::BRepOffset_Inter2d^ parameter1);
 	/* Method skipped due to unknown mapping: void Compute(BRepAlgo_AsDes AsDes, TopoDS_Face F, TopTools_IndexedMapOfShape NewEdges, Standard_Real Tol, TopTools_IndexedDataMapOfShapeListOfShape theDMVV, ) */
-	/* Method skipped due to unknown mapping: void ConnexIntByInt(TopoDS_Face FI, BRepOffset_Offset OFI, TopTools_DataMapOfShapeShape MES, TopTools_DataMapOfShapeShape Build, BRepAlgo_AsDes AsDes2d, Standard_Real Offset, Standard_Real Tol, TopTools_IndexedMapOfShape FacesWithVerts, TopTools_IndexedDataMapOfShapeListOfShape theDMVV, ) */
-	/* Method skipped due to unknown mapping: void ConnexIntByIntInVert(TopoDS_Face FI, BRepOffset_Offset OFI, TopTools_DataMapOfShapeShape MES, TopTools_DataMapOfShapeShape Build, BRepAlgo_AsDes AsDes, BRepAlgo_AsDes AsDes2d, Standard_Real Tol, TopTools_IndexedDataMapOfShapeListOfShape theDMVV, ) */
-	/* Method skipped due to unknown mapping: void FuseVertices(TopTools_IndexedDataMapOfShapeListOfShape theDMVV, BRepAlgo_AsDes theAsDes, ) */
-	static void ExtentEdge(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Edge^ NE, double theOffset);
+	/* Method skipped due to unknown mapping: Standard_Boolean ConnexIntByInt(TopoDS_Face FI, BRepOffset_Offset OFI, TopTools_DataMapOfShapeShape MES, TopTools_DataMapOfShapeShape Build, BRepAlgo_AsDes AsDes2d, Standard_Real Offset, Standard_Real Tol, BRepOffset_Analyse Analyse, TopTools_IndexedMapOfShape FacesWithVerts, TopTools_IndexedDataMapOfShapeListOfShape theDMVV, ) */
+	/* Method skipped due to unknown mapping: void ConnexIntByIntInVert(TopoDS_Face FI, BRepOffset_Offset OFI, TopTools_DataMapOfShapeShape MES, TopTools_DataMapOfShapeShape Build, BRepAlgo_AsDes AsDes, BRepAlgo_AsDes AsDes2d, Standard_Real Tol, BRepOffset_Analyse Analyse, TopTools_IndexedDataMapOfShapeListOfShape theDMVV, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean FuseVertices(TopTools_IndexedDataMapOfShapeListOfShape theDMVV, BRepAlgo_AsDes theAsDes, ) */
+	static bool ExtentEdge(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Edge^ NE, double theOffset);
 }; // class BRepOffset_Inter2d
 
 //---------------------------------------------------------------------
@@ -581,6 +580,7 @@ public:
 	void Initialize(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode);
 	void Initialize(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol);
 	void Clear();
+	void AllowLinearization(bool theIsAllowed);
 	void AddFace(Macad::Occt::TopoDS_Face^ F);
 	void SetOffsetOnFace(Macad::Occt::TopoDS_Face^ F, double Off);
 	void MakeOffsetShape();
@@ -588,6 +588,7 @@ public:
 	Macad::Occt::BRepOffset_Analyse^ GetAnalyse();
 	bool IsDone();
 	Macad::Occt::TopoDS_Shape^ Shape();
+	Macad::Occt::TopoDS_Shape^ InitShape();
 	Macad::Occt::BRepOffset_Error Error();
 	/* Method skipped due to unknown mapping: BRepAlgo_Image OffsetFacesFromShapes() */
 	Macad::Occt::GeomAbs_JoinType GetJoinType();
@@ -595,6 +596,9 @@ public:
 	Macad::Occt::TopTools_IndexedMapOfShape^ ClosingFaces();
 	bool CheckInputData();
 	Macad::Occt::TopoDS_Shape^ GetBadShape();
+	Macad::Occt::TopTools_ListOfShape^ Generated(Macad::Occt::TopoDS_Shape^ theS);
+	Macad::Occt::TopTools_ListOfShape^ Modified(Macad::Occt::TopoDS_Shape^ theS);
+	bool IsDeleted(Macad::Occt::TopoDS_Shape^ S);
 }; // class BRepOffset_MakeOffset
 
 //---------------------------------------------------------------------
@@ -717,7 +721,6 @@ public:
 	BRepOffset_Tool();
 	BRepOffset_Tool(Macad::Occt::BRepOffset_Tool^ parameter1);
 	static void EdgeVertices(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2);
-	static Macad::Occt::TopAbs_Orientation OriEdgeInFace(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F);
 	static void OrientSection(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2, Macad::Occt::TopAbs_Orientation% O1, Macad::Occt::TopAbs_Orientation% O2);
 	static bool FindCommonShapes(Macad::Occt::TopoDS_Face^ theF1, Macad::Occt::TopoDS_Face^ theF2, Macad::Occt::TopTools_ListOfShape^ theLE, Macad::Occt::TopTools_ListOfShape^ theLV);
 	static bool FindCommonShapes(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::TopAbs_ShapeEnum theType, Macad::Occt::TopTools_ListOfShape^ theLSC);

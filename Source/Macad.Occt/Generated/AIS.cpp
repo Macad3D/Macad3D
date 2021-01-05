@@ -10,22 +10,22 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "Standard.h"
 #include "SelectMgr.h"
 #include "TopoDS.h"
-#include "gp.h"
-#include "Geom.h"
-#include "Bnd.h"
-#include "Graphic3d.h"
-#include "Prs3d.h"
-#include "Quantity.h"
-#include "Aspect.h"
-#include "PrsMgr.h"
 #include "V3d.h"
 #include "TCollection.h"
+#include "Prs3d.h"
 #include "TopLoc.h"
+#include "Graphic3d.h"
+#include "gp.h"
 #include "TColgp.h"
+#include "Bnd.h"
 #include "TColStd.h"
-#include "StdSelect.h"
+#include "PrsMgr.h"
+#include "Aspect.h"
+#include "Quantity.h"
+#include "Geom.h"
 #include "TopAbs.h"
 #include "Image.h"
+#include "WNT.h"
 
 
 //---------------------------------------------------------------------
@@ -348,199 +348,6 @@ int Macad::Occt::AIS_DataMapOfShapeDrawer::Size()
 
 
 //---------------------------------------------------------------------
-//  Class  AIS_SequenceOfDimension
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_SequenceOfDimension::AIS_SequenceOfDimension()
-	: BaseClass<::AIS_SequenceOfDimension>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::AIS_SequenceOfDimension();
-}
-
-Macad::Occt::AIS_SequenceOfDimension::AIS_SequenceOfDimension(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-	: BaseClass<::AIS_SequenceOfDimension>(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
-	_NativeInstance = new ::AIS_SequenceOfDimension(h_theAllocator);
-	theAllocator->NativeInstance = h_theAllocator.get();
-}
-
-Macad::Occt::AIS_SequenceOfDimension::AIS_SequenceOfDimension(Macad::Occt::AIS_SequenceOfDimension^ theOther)
-	: BaseClass<::AIS_SequenceOfDimension>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::AIS_SequenceOfDimension(*(::AIS_SequenceOfDimension*)theOther->NativeInstance);
-}
-
-int Macad::Occt::AIS_SequenceOfDimension::Size()
-{
-	return ((::AIS_SequenceOfDimension*)_NativeInstance)->Size();
-}
-
-int Macad::Occt::AIS_SequenceOfDimension::Length()
-{
-	return ((::AIS_SequenceOfDimension*)_NativeInstance)->Length();
-}
-
-int Macad::Occt::AIS_SequenceOfDimension::Lower()
-{
-	return ((::AIS_SequenceOfDimension*)_NativeInstance)->Lower();
-}
-
-int Macad::Occt::AIS_SequenceOfDimension::Upper()
-{
-	return ((::AIS_SequenceOfDimension*)_NativeInstance)->Upper();
-}
-
-bool Macad::Occt::AIS_SequenceOfDimension::IsEmpty()
-{
-	return ((::AIS_SequenceOfDimension*)_NativeInstance)->IsEmpty();
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::Reverse()
-{
-	((::AIS_SequenceOfDimension*)_NativeInstance)->Reverse();
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::Exchange(int I, int J)
-{
-	((::AIS_SequenceOfDimension*)_NativeInstance)->Exchange(I, J);
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-{
-	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
-	((::AIS_SequenceOfDimension*)_NativeInstance)->Clear(h_theAllocator);
-	theAllocator->NativeInstance = h_theAllocator.get();
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::Clear()
-{
-	((::AIS_SequenceOfDimension*)_NativeInstance)->Clear(0L);
-}
-
-Macad::Occt::AIS_SequenceOfDimension^ Macad::Occt::AIS_SequenceOfDimension::Assign(Macad::Occt::AIS_SequenceOfDimension^ theOther)
-{
-	::AIS_SequenceOfDimension* _result = new ::AIS_SequenceOfDimension();
-	*_result = ((::AIS_SequenceOfDimension*)_NativeInstance)->Assign(*(::AIS_SequenceOfDimension*)theOther->NativeInstance);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::AIS_SequenceOfDimension(_result);
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::Remove(int theIndex)
-{
-	((::AIS_SequenceOfDimension*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::Remove(int theFromIndex, int theToIndex)
-{
-	((::AIS_SequenceOfDimension*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::Append(Macad::Occt::AIS_Relation^ theItem)
-{
-	Handle(::AIS_Relation) h_theItem = theItem->NativeInstance;
-	((::AIS_SequenceOfDimension*)_NativeInstance)->Append(h_theItem);
-	theItem->NativeInstance = h_theItem.get();
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::Append(Macad::Occt::AIS_SequenceOfDimension^ theSeq)
-{
-	((::AIS_SequenceOfDimension*)_NativeInstance)->Append(*(::AIS_SequenceOfDimension*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::Prepend(Macad::Occt::AIS_Relation^ theItem)
-{
-	Handle(::AIS_Relation) h_theItem = theItem->NativeInstance;
-	((::AIS_SequenceOfDimension*)_NativeInstance)->Prepend(h_theItem);
-	theItem->NativeInstance = h_theItem.get();
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::Prepend(Macad::Occt::AIS_SequenceOfDimension^ theSeq)
-{
-	((::AIS_SequenceOfDimension*)_NativeInstance)->Prepend(*(::AIS_SequenceOfDimension*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::InsertBefore(int theIndex, Macad::Occt::AIS_Relation^ theItem)
-{
-	Handle(::AIS_Relation) h_theItem = theItem->NativeInstance;
-	((::AIS_SequenceOfDimension*)_NativeInstance)->InsertBefore(theIndex, h_theItem);
-	theItem->NativeInstance = h_theItem.get();
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::InsertBefore(int theIndex, Macad::Occt::AIS_SequenceOfDimension^ theSeq)
-{
-	((::AIS_SequenceOfDimension*)_NativeInstance)->InsertBefore(theIndex, *(::AIS_SequenceOfDimension*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::InsertAfter(int theIndex, Macad::Occt::AIS_SequenceOfDimension^ theSeq)
-{
-	((::AIS_SequenceOfDimension*)_NativeInstance)->InsertAfter(theIndex, *(::AIS_SequenceOfDimension*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::InsertAfter(int theIndex, Macad::Occt::AIS_Relation^ theItem)
-{
-	Handle(::AIS_Relation) h_theItem = theItem->NativeInstance;
-	((::AIS_SequenceOfDimension*)_NativeInstance)->InsertAfter(theIndex, h_theItem);
-	theItem->NativeInstance = h_theItem.get();
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::Split(int theIndex, Macad::Occt::AIS_SequenceOfDimension^ theSeq)
-{
-	((::AIS_SequenceOfDimension*)_NativeInstance)->Split(theIndex, *(::AIS_SequenceOfDimension*)theSeq->NativeInstance);
-}
-
-Macad::Occt::AIS_Relation^ Macad::Occt::AIS_SequenceOfDimension::First()
-{
-	Handle(::AIS_Relation) _result;
-	_result = ((::AIS_SequenceOfDimension*)_NativeInstance)->First();
-	 return _result.IsNull() ? nullptr : Macad::Occt::AIS_Relation::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::AIS_Relation^ Macad::Occt::AIS_SequenceOfDimension::ChangeFirst()
-{
-	Handle(::AIS_Relation) _result;
-	_result = ((::AIS_SequenceOfDimension*)_NativeInstance)->ChangeFirst();
-	 return _result.IsNull() ? nullptr : Macad::Occt::AIS_Relation::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::AIS_Relation^ Macad::Occt::AIS_SequenceOfDimension::Last()
-{
-	Handle(::AIS_Relation) _result;
-	_result = ((::AIS_SequenceOfDimension*)_NativeInstance)->Last();
-	 return _result.IsNull() ? nullptr : Macad::Occt::AIS_Relation::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::AIS_Relation^ Macad::Occt::AIS_SequenceOfDimension::ChangeLast()
-{
-	Handle(::AIS_Relation) _result;
-	_result = ((::AIS_SequenceOfDimension*)_NativeInstance)->ChangeLast();
-	 return _result.IsNull() ? nullptr : Macad::Occt::AIS_Relation::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::AIS_Relation^ Macad::Occt::AIS_SequenceOfDimension::Value(int theIndex)
-{
-	Handle(::AIS_Relation) _result;
-	_result = ((::AIS_SequenceOfDimension*)_NativeInstance)->Value(theIndex);
-	 return _result.IsNull() ? nullptr : Macad::Occt::AIS_Relation::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::AIS_Relation^ Macad::Occt::AIS_SequenceOfDimension::ChangeValue(int theIndex)
-{
-	Handle(::AIS_Relation) _result;
-	_result = ((::AIS_SequenceOfDimension*)_NativeInstance)->ChangeValue(theIndex);
-	 return _result.IsNull() ? nullptr : Macad::Occt::AIS_Relation::CreateDowncasted( _result.get());
-}
-
-void Macad::Occt::AIS_SequenceOfDimension::SetValue(int theIndex, Macad::Occt::AIS_Relation^ theItem)
-{
-	Handle(::AIS_Relation) h_theItem = theItem->NativeInstance;
-	((::AIS_SequenceOfDimension*)_NativeInstance)->SetValue(theIndex, h_theItem);
-	theItem->NativeInstance = h_theItem.get();
-}
-
-
-
-
-//---------------------------------------------------------------------
 //  Class  AIS_SequenceOfInteractive
 //---------------------------------------------------------------------
 
@@ -856,397 +663,6 @@ Macad::Occt::AIS::AIS(Macad::Occt::AIS^ parameter1)
 	_NativeInstance = new ::AIS(*(::AIS*)parameter1->NativeInstance);
 }
 
-Macad::Occt::Pnt Macad::Occt::AIS::Nearest(Macad::Occt::TopoDS_Shape^ aShape, Macad::Occt::Pnt aPoint)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_aPoint = &aPoint;
-	return Macad::Occt::Pnt(::AIS::Nearest(*(::TopoDS_Shape*)aShape->NativeInstance, *(gp_Pnt*)pp_aPoint));
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS::Nearest(Macad::Occt::gp_Lin^ theLine, Macad::Occt::Pnt thePoint)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_thePoint = &thePoint;
-	return Macad::Occt::Pnt(::AIS::Nearest(*(::gp_Lin*)theLine->NativeInstance, *(gp_Pnt*)pp_thePoint));
-}
-
-bool Macad::Occt::AIS::Nearest(Macad::Occt::Geom_Curve^ theCurve, Macad::Occt::Pnt thePoint, Macad::Occt::Pnt theFirstPoint, Macad::Occt::Pnt theLastPoint, Macad::Occt::Pnt% theNearestPoint)
-{
-	Handle(::Geom_Curve) h_theCurve = theCurve->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_thePoint = &thePoint;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstPoint = &theFirstPoint;
-	pin_ptr<Macad::Occt::Pnt> pp_theLastPoint = &theLastPoint;
-	pin_ptr<Macad::Occt::Pnt> pp_theNearestPoint = &theNearestPoint;
-	return ::AIS::Nearest(h_theCurve, *(gp_Pnt*)pp_thePoint, *(gp_Pnt*)pp_theFirstPoint, *(gp_Pnt*)pp_theLastPoint, *(gp_Pnt*)pp_theNearestPoint);
-	theCurve->NativeInstance = h_theCurve.get();
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS::Farest(Macad::Occt::TopoDS_Shape^ aShape, Macad::Occt::Pnt aPoint)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_aPoint = &aPoint;
-	return Macad::Occt::Pnt(::AIS::Farest(*(::TopoDS_Shape*)aShape->NativeInstance, *(gp_Pnt*)pp_aPoint));
-}
-
-bool Macad::Occt::AIS::ComputeGeometry(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::Geom_Curve^ theCurve, Macad::Occt::Pnt% theFirstPnt, Macad::Occt::Pnt% theLastPnt)
-{
-	Handle(::Geom_Curve) h_theCurve = theCurve->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstPnt = &theFirstPnt;
-	pin_ptr<Macad::Occt::Pnt> pp_theLastPnt = &theLastPnt;
-	return ::AIS::ComputeGeometry(*(::TopoDS_Edge*)theEdge->NativeInstance, h_theCurve, *(gp_Pnt*)pp_theFirstPnt, *(gp_Pnt*)pp_theLastPnt);
-	theCurve->NativeInstance = h_theCurve.get();
-}
-
-bool Macad::Occt::AIS::ComputeGeometry(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::Geom_Curve^ theCurve, Macad::Occt::Pnt% theFirstPnt, Macad::Occt::Pnt% theLastPnt, bool% theIsInfinite)
-{
-	Handle(::Geom_Curve) h_theCurve = theCurve->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstPnt = &theFirstPnt;
-	pin_ptr<Macad::Occt::Pnt> pp_theLastPnt = &theLastPnt;
-	pin_ptr<bool> pp_theIsInfinite = &theIsInfinite;
-	return ::AIS::ComputeGeometry(*(::TopoDS_Edge*)theEdge->NativeInstance, h_theCurve, *(gp_Pnt*)pp_theFirstPnt, *(gp_Pnt*)pp_theLastPnt, *(Standard_Boolean*)pp_theIsInfinite);
-	theCurve->NativeInstance = h_theCurve.get();
-}
-
-bool Macad::Occt::AIS::ComputeGeometry(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::Geom_Curve^ theCurve, Macad::Occt::Pnt% theFirstPnt, Macad::Occt::Pnt% theLastPnt, Macad::Occt::Geom_Curve^ theExtCurve, bool% theIsInfinite, bool% theIsOnPlane, Macad::Occt::Geom_Plane^ thePlane)
-{
-	Handle(::Geom_Curve) h_theCurve = theCurve->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstPnt = &theFirstPnt;
-	pin_ptr<Macad::Occt::Pnt> pp_theLastPnt = &theLastPnt;
-	Handle(::Geom_Curve) h_theExtCurve = theExtCurve->NativeInstance;
-	pin_ptr<bool> pp_theIsInfinite = &theIsInfinite;
-	pin_ptr<bool> pp_theIsOnPlane = &theIsOnPlane;
-	Handle(::Geom_Plane) h_thePlane = thePlane->NativeInstance;
-	return ::AIS::ComputeGeometry(*(::TopoDS_Edge*)theEdge->NativeInstance, h_theCurve, *(gp_Pnt*)pp_theFirstPnt, *(gp_Pnt*)pp_theLastPnt, h_theExtCurve, *(Standard_Boolean*)pp_theIsInfinite, *(Standard_Boolean*)pp_theIsOnPlane, h_thePlane);
-	theCurve->NativeInstance = h_theCurve.get();
-	theExtCurve->NativeInstance = h_theExtCurve.get();
-	thePlane->NativeInstance = h_thePlane.get();
-}
-
-bool Macad::Occt::AIS::ComputeGeometry(Macad::Occt::TopoDS_Edge^ theFirstEdge, Macad::Occt::TopoDS_Edge^ theSecondEdge, Macad::Occt::Geom_Curve^ theFirstCurve, Macad::Occt::Geom_Curve^ theSecondCurve, Macad::Occt::Pnt% theFirstPnt1, Macad::Occt::Pnt% theLastPnt1, Macad::Occt::Pnt% theFirstPnt2, Macad::Occt::Pnt% theLastPnt2, Macad::Occt::Geom_Plane^ thePlane)
-{
-	Handle(::Geom_Curve) h_theFirstCurve = theFirstCurve->NativeInstance;
-	Handle(::Geom_Curve) h_theSecondCurve = theSecondCurve->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstPnt1 = &theFirstPnt1;
-	pin_ptr<Macad::Occt::Pnt> pp_theLastPnt1 = &theLastPnt1;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstPnt2 = &theFirstPnt2;
-	pin_ptr<Macad::Occt::Pnt> pp_theLastPnt2 = &theLastPnt2;
-	Handle(::Geom_Plane) h_thePlane = thePlane->NativeInstance;
-	return ::AIS::ComputeGeometry(*(::TopoDS_Edge*)theFirstEdge->NativeInstance, *(::TopoDS_Edge*)theSecondEdge->NativeInstance, h_theFirstCurve, h_theSecondCurve, *(gp_Pnt*)pp_theFirstPnt1, *(gp_Pnt*)pp_theLastPnt1, *(gp_Pnt*)pp_theFirstPnt2, *(gp_Pnt*)pp_theLastPnt2, h_thePlane);
-	theFirstCurve->NativeInstance = h_theFirstCurve.get();
-	theSecondCurve->NativeInstance = h_theSecondCurve.get();
-	thePlane->NativeInstance = h_thePlane.get();
-}
-
-bool Macad::Occt::AIS::ComputeGeometry(Macad::Occt::TopoDS_Edge^ theFirstEdge, Macad::Occt::TopoDS_Edge^ theSecondEdge, Macad::Occt::Geom_Curve^ theFirstCurve, Macad::Occt::Geom_Curve^ theSecondCurve, Macad::Occt::Pnt% theFirstPnt1, Macad::Occt::Pnt% theLastPnt1, Macad::Occt::Pnt% theFirstPnt2, Macad::Occt::Pnt% theLastPnt2, bool% theIsinfinite1, bool% theIsinfinite2)
-{
-	Handle(::Geom_Curve) h_theFirstCurve = theFirstCurve->NativeInstance;
-	Handle(::Geom_Curve) h_theSecondCurve = theSecondCurve->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstPnt1 = &theFirstPnt1;
-	pin_ptr<Macad::Occt::Pnt> pp_theLastPnt1 = &theLastPnt1;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstPnt2 = &theFirstPnt2;
-	pin_ptr<Macad::Occt::Pnt> pp_theLastPnt2 = &theLastPnt2;
-	pin_ptr<bool> pp_theIsinfinite1 = &theIsinfinite1;
-	pin_ptr<bool> pp_theIsinfinite2 = &theIsinfinite2;
-	return ::AIS::ComputeGeometry(*(::TopoDS_Edge*)theFirstEdge->NativeInstance, *(::TopoDS_Edge*)theSecondEdge->NativeInstance, h_theFirstCurve, h_theSecondCurve, *(gp_Pnt*)pp_theFirstPnt1, *(gp_Pnt*)pp_theLastPnt1, *(gp_Pnt*)pp_theFirstPnt2, *(gp_Pnt*)pp_theLastPnt2, *(Standard_Boolean*)pp_theIsinfinite1, *(Standard_Boolean*)pp_theIsinfinite2);
-	theFirstCurve->NativeInstance = h_theFirstCurve.get();
-	theSecondCurve->NativeInstance = h_theSecondCurve.get();
-}
-
-bool Macad::Occt::AIS::ComputeGeometry(Macad::Occt::TopoDS_Edge^ theFirstEdge, Macad::Occt::TopoDS_Edge^ theSecondEdge, int% theExtIndex, Macad::Occt::Geom_Curve^ theFirstCurve, Macad::Occt::Geom_Curve^ theSecondCurve, Macad::Occt::Pnt% theFirstPnt1, Macad::Occt::Pnt% theLastPnt1, Macad::Occt::Pnt% theFirstPnt2, Macad::Occt::Pnt% theLastPnt2, Macad::Occt::Geom_Curve^ theExtCurve, bool% theIsinfinite1, bool% theIsinfinite2, Macad::Occt::Geom_Plane^ thePlane)
-{
-	pin_ptr<int> pp_theExtIndex = &theExtIndex;
-	Handle(::Geom_Curve) h_theFirstCurve = theFirstCurve->NativeInstance;
-	Handle(::Geom_Curve) h_theSecondCurve = theSecondCurve->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstPnt1 = &theFirstPnt1;
-	pin_ptr<Macad::Occt::Pnt> pp_theLastPnt1 = &theLastPnt1;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstPnt2 = &theFirstPnt2;
-	pin_ptr<Macad::Occt::Pnt> pp_theLastPnt2 = &theLastPnt2;
-	Handle(::Geom_Curve) h_theExtCurve = theExtCurve->NativeInstance;
-	pin_ptr<bool> pp_theIsinfinite1 = &theIsinfinite1;
-	pin_ptr<bool> pp_theIsinfinite2 = &theIsinfinite2;
-	Handle(::Geom_Plane) h_thePlane = thePlane->NativeInstance;
-	return ::AIS::ComputeGeometry(*(::TopoDS_Edge*)theFirstEdge->NativeInstance, *(::TopoDS_Edge*)theSecondEdge->NativeInstance, *(Standard_Integer*)pp_theExtIndex, h_theFirstCurve, h_theSecondCurve, *(gp_Pnt*)pp_theFirstPnt1, *(gp_Pnt*)pp_theLastPnt1, *(gp_Pnt*)pp_theFirstPnt2, *(gp_Pnt*)pp_theLastPnt2, h_theExtCurve, *(Standard_Boolean*)pp_theIsinfinite1, *(Standard_Boolean*)pp_theIsinfinite2, h_thePlane);
-	theFirstCurve->NativeInstance = h_theFirstCurve.get();
-	theSecondCurve->NativeInstance = h_theSecondCurve.get();
-	theExtCurve->NativeInstance = h_theExtCurve.get();
-	thePlane->NativeInstance = h_thePlane.get();
-}
-
-bool Macad::Occt::AIS::ComputeGeomCurve(Macad::Occt::Geom_Curve^ aCurve, double first1, double last1, Macad::Occt::Pnt% FirstPnt1, Macad::Occt::Pnt% LastPnt1, Macad::Occt::Geom_Plane^ aPlane, bool% isOnPlane)
-{
-	Handle(::Geom_Curve) h_aCurve = aCurve->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_FirstPnt1 = &FirstPnt1;
-	pin_ptr<Macad::Occt::Pnt> pp_LastPnt1 = &LastPnt1;
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	pin_ptr<bool> pp_isOnPlane = &isOnPlane;
-	return ::AIS::ComputeGeomCurve(h_aCurve, first1, last1, *(gp_Pnt*)pp_FirstPnt1, *(gp_Pnt*)pp_LastPnt1, h_aPlane, *(Standard_Boolean*)pp_isOnPlane);
-	aCurve->NativeInstance = h_aCurve.get();
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-bool Macad::Occt::AIS::ComputeGeometry(Macad::Occt::TopoDS_Vertex^ aVertex, Macad::Occt::Pnt% point, Macad::Occt::Geom_Plane^ aPlane, bool% isOnPlane)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_point = &point;
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	pin_ptr<bool> pp_isOnPlane = &isOnPlane;
-	return ::AIS::ComputeGeometry(*(::TopoDS_Vertex*)aVertex->NativeInstance, *(gp_Pnt*)pp_point, h_aPlane, *(Standard_Boolean*)pp_isOnPlane);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-bool Macad::Occt::AIS::GetPlaneFromFace(Macad::Occt::TopoDS_Face^ aFace, Macad::Occt::Pln% aPlane, Macad::Occt::Geom_Surface^ aSurf, Macad::Occt::AIS_KindOfSurface% aSurfType, double% Offset)
-{
-	pin_ptr<Macad::Occt::Pln> pp_aPlane = &aPlane;
-	Handle(::Geom_Surface) h_aSurf = aSurf->NativeInstance;
-	pin_ptr<Macad::Occt::AIS_KindOfSurface> pp_aSurfType = &aSurfType;
-	pin_ptr<double> pp_Offset = &Offset;
-	return ::AIS::GetPlaneFromFace(*(::TopoDS_Face*)aFace->NativeInstance, *(gp_Pln*)pp_aPlane, h_aSurf, *(::AIS_KindOfSurface*)pp_aSurfType, *(Standard_Real*)pp_Offset);
-	aSurf->NativeInstance = h_aSurf.get();
-}
-
-void Macad::Occt::AIS::InitFaceLength(Macad::Occt::TopoDS_Face^ aFace, Macad::Occt::Pln% aPlane, Macad::Occt::Geom_Surface^ aSurface, Macad::Occt::AIS_KindOfSurface% aSurfaceType, double% anOffset)
-{
-	pin_ptr<Macad::Occt::Pln> pp_aPlane = &aPlane;
-	Handle(::Geom_Surface) h_aSurface = aSurface->NativeInstance;
-	pin_ptr<Macad::Occt::AIS_KindOfSurface> pp_aSurfaceType = &aSurfaceType;
-	pin_ptr<double> pp_anOffset = &anOffset;
-	::AIS::InitFaceLength(*(::TopoDS_Face*)aFace->NativeInstance, *(gp_Pln*)pp_aPlane, h_aSurface, *(::AIS_KindOfSurface*)pp_aSurfaceType, *(Standard_Real*)pp_anOffset);
-	aSurface->NativeInstance = h_aSurface.get();
-}
-
-void Macad::Occt::AIS::InitLengthBetweenCurvilinearFaces(Macad::Occt::TopoDS_Face^ theFirstFace, Macad::Occt::TopoDS_Face^ theSecondFace, Macad::Occt::Geom_Surface^ theFirstSurf, Macad::Occt::Geom_Surface^ theSecondSurf, Macad::Occt::Pnt% theFirstAttach, Macad::Occt::Pnt% theSecondAttach, Macad::Occt::Dir% theDirOnPlane)
-{
-	Handle(::Geom_Surface) h_theFirstSurf = theFirstSurf->NativeInstance;
-	Handle(::Geom_Surface) h_theSecondSurf = theSecondSurf->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstAttach = &theFirstAttach;
-	pin_ptr<Macad::Occt::Pnt> pp_theSecondAttach = &theSecondAttach;
-	pin_ptr<Macad::Occt::Dir> pp_theDirOnPlane = &theDirOnPlane;
-	::AIS::InitLengthBetweenCurvilinearFaces(*(::TopoDS_Face*)theFirstFace->NativeInstance, *(::TopoDS_Face*)theSecondFace->NativeInstance, h_theFirstSurf, h_theSecondSurf, *(gp_Pnt*)pp_theFirstAttach, *(gp_Pnt*)pp_theSecondAttach, *(gp_Dir*)pp_theDirOnPlane);
-	theFirstSurf->NativeInstance = h_theFirstSurf.get();
-	theSecondSurf->NativeInstance = h_theSecondSurf.get();
-}
-
-bool Macad::Occt::AIS::InitAngleBetweenPlanarFaces(Macad::Occt::TopoDS_Face^ theFirstFace, Macad::Occt::TopoDS_Face^ theSecondFace, Macad::Occt::Pnt% theCenter, Macad::Occt::Pnt% theFirstAttach, Macad::Occt::Pnt% theSecondAttach, bool theIsFirstPointSet)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theCenter = &theCenter;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstAttach = &theFirstAttach;
-	pin_ptr<Macad::Occt::Pnt> pp_theSecondAttach = &theSecondAttach;
-	return ::AIS::InitAngleBetweenPlanarFaces(*(::TopoDS_Face*)theFirstFace->NativeInstance, *(::TopoDS_Face*)theSecondFace->NativeInstance, *(gp_Pnt*)pp_theCenter, *(gp_Pnt*)pp_theFirstAttach, *(gp_Pnt*)pp_theSecondAttach, theIsFirstPointSet);
-}
-
-bool Macad::Occt::AIS::InitAngleBetweenPlanarFaces(Macad::Occt::TopoDS_Face^ theFirstFace, Macad::Occt::TopoDS_Face^ theSecondFace, Macad::Occt::Pnt% theCenter, Macad::Occt::Pnt% theFirstAttach, Macad::Occt::Pnt% theSecondAttach)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theCenter = &theCenter;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstAttach = &theFirstAttach;
-	pin_ptr<Macad::Occt::Pnt> pp_theSecondAttach = &theSecondAttach;
-	return ::AIS::InitAngleBetweenPlanarFaces(*(::TopoDS_Face*)theFirstFace->NativeInstance, *(::TopoDS_Face*)theSecondFace->NativeInstance, *(gp_Pnt*)pp_theCenter, *(gp_Pnt*)pp_theFirstAttach, *(gp_Pnt*)pp_theSecondAttach, false);
-}
-
-bool Macad::Occt::AIS::InitAngleBetweenCurvilinearFaces(Macad::Occt::TopoDS_Face^ theFirstFace, Macad::Occt::TopoDS_Face^ theSecondFace, Macad::Occt::AIS_KindOfSurface theFirstSurfType, Macad::Occt::AIS_KindOfSurface theSecondSurfType, Macad::Occt::Pnt% theCenter, Macad::Occt::Pnt% theFirstAttach, Macad::Occt::Pnt% theSecondAttach, bool theIsFirstPointSet)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theCenter = &theCenter;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstAttach = &theFirstAttach;
-	pin_ptr<Macad::Occt::Pnt> pp_theSecondAttach = &theSecondAttach;
-	return ::AIS::InitAngleBetweenCurvilinearFaces(*(::TopoDS_Face*)theFirstFace->NativeInstance, *(::TopoDS_Face*)theSecondFace->NativeInstance, (::AIS_KindOfSurface)theFirstSurfType, (::AIS_KindOfSurface)theSecondSurfType, *(gp_Pnt*)pp_theCenter, *(gp_Pnt*)pp_theFirstAttach, *(gp_Pnt*)pp_theSecondAttach, theIsFirstPointSet);
-}
-
-bool Macad::Occt::AIS::InitAngleBetweenCurvilinearFaces(Macad::Occt::TopoDS_Face^ theFirstFace, Macad::Occt::TopoDS_Face^ theSecondFace, Macad::Occt::AIS_KindOfSurface theFirstSurfType, Macad::Occt::AIS_KindOfSurface theSecondSurfType, Macad::Occt::Pnt% theCenter, Macad::Occt::Pnt% theFirstAttach, Macad::Occt::Pnt% theSecondAttach)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theCenter = &theCenter;
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstAttach = &theFirstAttach;
-	pin_ptr<Macad::Occt::Pnt> pp_theSecondAttach = &theSecondAttach;
-	return ::AIS::InitAngleBetweenCurvilinearFaces(*(::TopoDS_Face*)theFirstFace->NativeInstance, *(::TopoDS_Face*)theSecondFace->NativeInstance, (::AIS_KindOfSurface)theFirstSurfType, (::AIS_KindOfSurface)theSecondSurfType, *(gp_Pnt*)pp_theCenter, *(gp_Pnt*)pp_theFirstAttach, *(gp_Pnt*)pp_theSecondAttach, false);
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS::ProjectPointOnPlane(Macad::Occt::Pnt aPoint, Macad::Occt::Pln aPlane)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_aPoint = &aPoint;
-	pin_ptr<Macad::Occt::Pln> pp_aPlane = &aPlane;
-	return Macad::Occt::Pnt(::AIS::ProjectPointOnPlane(*(gp_Pnt*)pp_aPoint, *(gp_Pln*)pp_aPlane));
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS::ProjectPointOnLine(Macad::Occt::Pnt aPoint, Macad::Occt::gp_Lin^ aLine)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_aPoint = &aPoint;
-	return Macad::Occt::Pnt(::AIS::ProjectPointOnLine(*(gp_Pnt*)pp_aPoint, *(::gp_Lin*)aLine->NativeInstance));
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS::TranslatePointToBound(Macad::Occt::Pnt aPoint, Macad::Occt::Dir aDir, Macad::Occt::Bnd_Box^ aBndBox)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_aPoint = &aPoint;
-	pin_ptr<Macad::Occt::Dir> pp_aDir = &aDir;
-	return Macad::Occt::Pnt(::AIS::TranslatePointToBound(*(gp_Pnt*)pp_aPoint, *(gp_Dir*)pp_aDir, *(::Bnd_Box*)aBndBox->NativeInstance));
-}
-
-bool Macad::Occt::AIS::InDomain(double aFirstPar, double aLastPar, double anAttachPar)
-{
-	return ::AIS::InDomain(aFirstPar, aLastPar, anAttachPar);
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS::NearestApex(Macad::Occt::gp_Elips^ elips, Macad::Occt::Pnt pApex, Macad::Occt::Pnt nApex, double fpara, double lpara, bool% IsInDomain)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_pApex = &pApex;
-	pin_ptr<Macad::Occt::Pnt> pp_nApex = &nApex;
-	pin_ptr<bool> pp_IsInDomain = &IsInDomain;
-	return Macad::Occt::Pnt(::AIS::NearestApex(*(::gp_Elips*)elips->NativeInstance, *(gp_Pnt*)pp_pApex, *(gp_Pnt*)pp_nApex, fpara, lpara, *(Standard_Boolean*)pp_IsInDomain));
-}
-
-double Macad::Occt::AIS::DistanceFromApex(Macad::Occt::gp_Elips^ elips, Macad::Occt::Pnt Apex, double par)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_Apex = &Apex;
-	return ::AIS::DistanceFromApex(*(::gp_Elips*)elips->NativeInstance, *(gp_Pnt*)pp_Apex, par);
-}
-
-void Macad::Occt::AIS::ComputeProjEdgePresentation(Macad::Occt::Graphic3d_Structure^ aPres, Macad::Occt::Prs3d_Drawer^ aDrawer, Macad::Occt::TopoDS_Edge^ anEdge, Macad::Occt::Geom_Curve^ ProjCurve, Macad::Occt::Pnt FirstP, Macad::Occt::Pnt LastP, Macad::Occt::Quantity_NameOfColor aColor, double aWidth, Macad::Occt::Aspect_TypeOfLine aProjTOL, Macad::Occt::Aspect_TypeOfLine aCallTOL)
-{
-	Handle(::Graphic3d_Structure) h_aPres = aPres->NativeInstance;
-	Handle(::Prs3d_Drawer) h_aDrawer = aDrawer->NativeInstance;
-	Handle(::Geom_Curve) h_ProjCurve = ProjCurve->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_FirstP = &FirstP;
-	pin_ptr<Macad::Occt::Pnt> pp_LastP = &LastP;
-	::AIS::ComputeProjEdgePresentation(h_aPres, h_aDrawer, *(::TopoDS_Edge*)anEdge->NativeInstance, h_ProjCurve, *(gp_Pnt*)pp_FirstP, *(gp_Pnt*)pp_LastP, (::Quantity_NameOfColor)aColor, aWidth, (::Aspect_TypeOfLine)aProjTOL, (::Aspect_TypeOfLine)aCallTOL);
-	aPres->NativeInstance = h_aPres.get();
-	aDrawer->NativeInstance = h_aDrawer.get();
-	ProjCurve->NativeInstance = h_ProjCurve.get();
-}
-
-void Macad::Occt::AIS::ComputeProjEdgePresentation(Macad::Occt::Graphic3d_Structure^ aPres, Macad::Occt::Prs3d_Drawer^ aDrawer, Macad::Occt::TopoDS_Edge^ anEdge, Macad::Occt::Geom_Curve^ ProjCurve, Macad::Occt::Pnt FirstP, Macad::Occt::Pnt LastP, Macad::Occt::Quantity_NameOfColor aColor, double aWidth, Macad::Occt::Aspect_TypeOfLine aProjTOL)
-{
-	Handle(::Graphic3d_Structure) h_aPres = aPres->NativeInstance;
-	Handle(::Prs3d_Drawer) h_aDrawer = aDrawer->NativeInstance;
-	Handle(::Geom_Curve) h_ProjCurve = ProjCurve->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_FirstP = &FirstP;
-	pin_ptr<Macad::Occt::Pnt> pp_LastP = &LastP;
-	::AIS::ComputeProjEdgePresentation(h_aPres, h_aDrawer, *(::TopoDS_Edge*)anEdge->NativeInstance, h_ProjCurve, *(gp_Pnt*)pp_FirstP, *(gp_Pnt*)pp_LastP, (::Quantity_NameOfColor)aColor, aWidth, (::Aspect_TypeOfLine)aProjTOL, Aspect_TOL_DOT);
-	aPres->NativeInstance = h_aPres.get();
-	aDrawer->NativeInstance = h_aDrawer.get();
-	ProjCurve->NativeInstance = h_ProjCurve.get();
-}
-
-void Macad::Occt::AIS::ComputeProjEdgePresentation(Macad::Occt::Graphic3d_Structure^ aPres, Macad::Occt::Prs3d_Drawer^ aDrawer, Macad::Occt::TopoDS_Edge^ anEdge, Macad::Occt::Geom_Curve^ ProjCurve, Macad::Occt::Pnt FirstP, Macad::Occt::Pnt LastP, Macad::Occt::Quantity_NameOfColor aColor, double aWidth)
-{
-	Handle(::Graphic3d_Structure) h_aPres = aPres->NativeInstance;
-	Handle(::Prs3d_Drawer) h_aDrawer = aDrawer->NativeInstance;
-	Handle(::Geom_Curve) h_ProjCurve = ProjCurve->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_FirstP = &FirstP;
-	pin_ptr<Macad::Occt::Pnt> pp_LastP = &LastP;
-	::AIS::ComputeProjEdgePresentation(h_aPres, h_aDrawer, *(::TopoDS_Edge*)anEdge->NativeInstance, h_ProjCurve, *(gp_Pnt*)pp_FirstP, *(gp_Pnt*)pp_LastP, (::Quantity_NameOfColor)aColor, aWidth, Aspect_TOL_DASH, Aspect_TOL_DOT);
-	aPres->NativeInstance = h_aPres.get();
-	aDrawer->NativeInstance = h_aDrawer.get();
-	ProjCurve->NativeInstance = h_ProjCurve.get();
-}
-
-void Macad::Occt::AIS::ComputeProjEdgePresentation(Macad::Occt::Graphic3d_Structure^ aPres, Macad::Occt::Prs3d_Drawer^ aDrawer, Macad::Occt::TopoDS_Edge^ anEdge, Macad::Occt::Geom_Curve^ ProjCurve, Macad::Occt::Pnt FirstP, Macad::Occt::Pnt LastP, Macad::Occt::Quantity_NameOfColor aColor)
-{
-	Handle(::Graphic3d_Structure) h_aPres = aPres->NativeInstance;
-	Handle(::Prs3d_Drawer) h_aDrawer = aDrawer->NativeInstance;
-	Handle(::Geom_Curve) h_ProjCurve = ProjCurve->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_FirstP = &FirstP;
-	pin_ptr<Macad::Occt::Pnt> pp_LastP = &LastP;
-	::AIS::ComputeProjEdgePresentation(h_aPres, h_aDrawer, *(::TopoDS_Edge*)anEdge->NativeInstance, h_ProjCurve, *(gp_Pnt*)pp_FirstP, *(gp_Pnt*)pp_LastP, (::Quantity_NameOfColor)aColor, 2, Aspect_TOL_DASH, Aspect_TOL_DOT);
-	aPres->NativeInstance = h_aPres.get();
-	aDrawer->NativeInstance = h_aDrawer.get();
-	ProjCurve->NativeInstance = h_ProjCurve.get();
-}
-
-void Macad::Occt::AIS::ComputeProjEdgePresentation(Macad::Occt::Graphic3d_Structure^ aPres, Macad::Occt::Prs3d_Drawer^ aDrawer, Macad::Occt::TopoDS_Edge^ anEdge, Macad::Occt::Geom_Curve^ ProjCurve, Macad::Occt::Pnt FirstP, Macad::Occt::Pnt LastP)
-{
-	Handle(::Graphic3d_Structure) h_aPres = aPres->NativeInstance;
-	Handle(::Prs3d_Drawer) h_aDrawer = aDrawer->NativeInstance;
-	Handle(::Geom_Curve) h_ProjCurve = ProjCurve->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_FirstP = &FirstP;
-	pin_ptr<Macad::Occt::Pnt> pp_LastP = &LastP;
-	::AIS::ComputeProjEdgePresentation(h_aPres, h_aDrawer, *(::TopoDS_Edge*)anEdge->NativeInstance, h_ProjCurve, *(gp_Pnt*)pp_FirstP, *(gp_Pnt*)pp_LastP, Quantity_NOC_PURPLE, 2, Aspect_TOL_DASH, Aspect_TOL_DOT);
-	aPres->NativeInstance = h_aPres.get();
-	aDrawer->NativeInstance = h_aDrawer.get();
-	ProjCurve->NativeInstance = h_ProjCurve.get();
-}
-
-void Macad::Occt::AIS::ComputeProjVertexPresentation(Macad::Occt::Graphic3d_Structure^ aPres, Macad::Occt::Prs3d_Drawer^ aDrawer, Macad::Occt::TopoDS_Vertex^ aVertex, Macad::Occt::Pnt ProjPoint, Macad::Occt::Quantity_NameOfColor aColor, double aWidth, Macad::Occt::Aspect_TypeOfMarker aProjTOM, Macad::Occt::Aspect_TypeOfLine aCallTOL)
-{
-	Handle(::Graphic3d_Structure) h_aPres = aPres->NativeInstance;
-	Handle(::Prs3d_Drawer) h_aDrawer = aDrawer->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_ProjPoint = &ProjPoint;
-	::AIS::ComputeProjVertexPresentation(h_aPres, h_aDrawer, *(::TopoDS_Vertex*)aVertex->NativeInstance, *(gp_Pnt*)pp_ProjPoint, (::Quantity_NameOfColor)aColor, aWidth, (::Aspect_TypeOfMarker)aProjTOM, (::Aspect_TypeOfLine)aCallTOL);
-	aPres->NativeInstance = h_aPres.get();
-	aDrawer->NativeInstance = h_aDrawer.get();
-}
-
-void Macad::Occt::AIS::ComputeProjVertexPresentation(Macad::Occt::Graphic3d_Structure^ aPres, Macad::Occt::Prs3d_Drawer^ aDrawer, Macad::Occt::TopoDS_Vertex^ aVertex, Macad::Occt::Pnt ProjPoint, Macad::Occt::Quantity_NameOfColor aColor, double aWidth, Macad::Occt::Aspect_TypeOfMarker aProjTOM)
-{
-	Handle(::Graphic3d_Structure) h_aPres = aPres->NativeInstance;
-	Handle(::Prs3d_Drawer) h_aDrawer = aDrawer->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_ProjPoint = &ProjPoint;
-	::AIS::ComputeProjVertexPresentation(h_aPres, h_aDrawer, *(::TopoDS_Vertex*)aVertex->NativeInstance, *(gp_Pnt*)pp_ProjPoint, (::Quantity_NameOfColor)aColor, aWidth, (::Aspect_TypeOfMarker)aProjTOM, Aspect_TOL_DOT);
-	aPres->NativeInstance = h_aPres.get();
-	aDrawer->NativeInstance = h_aDrawer.get();
-}
-
-void Macad::Occt::AIS::ComputeProjVertexPresentation(Macad::Occt::Graphic3d_Structure^ aPres, Macad::Occt::Prs3d_Drawer^ aDrawer, Macad::Occt::TopoDS_Vertex^ aVertex, Macad::Occt::Pnt ProjPoint, Macad::Occt::Quantity_NameOfColor aColor, double aWidth)
-{
-	Handle(::Graphic3d_Structure) h_aPres = aPres->NativeInstance;
-	Handle(::Prs3d_Drawer) h_aDrawer = aDrawer->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_ProjPoint = &ProjPoint;
-	::AIS::ComputeProjVertexPresentation(h_aPres, h_aDrawer, *(::TopoDS_Vertex*)aVertex->NativeInstance, *(gp_Pnt*)pp_ProjPoint, (::Quantity_NameOfColor)aColor, aWidth, Aspect_TOM_PLUS, Aspect_TOL_DOT);
-	aPres->NativeInstance = h_aPres.get();
-	aDrawer->NativeInstance = h_aDrawer.get();
-}
-
-void Macad::Occt::AIS::ComputeProjVertexPresentation(Macad::Occt::Graphic3d_Structure^ aPres, Macad::Occt::Prs3d_Drawer^ aDrawer, Macad::Occt::TopoDS_Vertex^ aVertex, Macad::Occt::Pnt ProjPoint, Macad::Occt::Quantity_NameOfColor aColor)
-{
-	Handle(::Graphic3d_Structure) h_aPres = aPres->NativeInstance;
-	Handle(::Prs3d_Drawer) h_aDrawer = aDrawer->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_ProjPoint = &ProjPoint;
-	::AIS::ComputeProjVertexPresentation(h_aPres, h_aDrawer, *(::TopoDS_Vertex*)aVertex->NativeInstance, *(gp_Pnt*)pp_ProjPoint, (::Quantity_NameOfColor)aColor, 2, Aspect_TOM_PLUS, Aspect_TOL_DOT);
-	aPres->NativeInstance = h_aPres.get();
-	aDrawer->NativeInstance = h_aDrawer.get();
-}
-
-void Macad::Occt::AIS::ComputeProjVertexPresentation(Macad::Occt::Graphic3d_Structure^ aPres, Macad::Occt::Prs3d_Drawer^ aDrawer, Macad::Occt::TopoDS_Vertex^ aVertex, Macad::Occt::Pnt ProjPoint)
-{
-	Handle(::Graphic3d_Structure) h_aPres = aPres->NativeInstance;
-	Handle(::Prs3d_Drawer) h_aDrawer = aDrawer->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_ProjPoint = &ProjPoint;
-	::AIS::ComputeProjVertexPresentation(h_aPres, h_aDrawer, *(::TopoDS_Vertex*)aVertex->NativeInstance, *(gp_Pnt*)pp_ProjPoint, Quantity_NOC_PURPLE, 2, Aspect_TOM_PLUS, Aspect_TOL_DOT);
-	aPres->NativeInstance = h_aPres.get();
-	aDrawer->NativeInstance = h_aDrawer.get();
-}
-
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_DimensionOwner
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_DimensionOwner::AIS_DimensionOwner(Macad::Occt::SelectMgr_SelectableObject^ theSelObject, Macad::Occt::AIS_DimensionSelectionMode theSelMode, int thePriority)
-	: Macad::Occt::SelectMgr_EntityOwner(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::SelectMgr_SelectableObject) h_theSelObject = theSelObject->NativeInstance;
-	NativeInstance = new ::AIS_DimensionOwner(h_theSelObject, (::AIS_DimensionSelectionMode)theSelMode, thePriority);
-	theSelObject->NativeInstance = h_theSelObject.get();
-}
-
-Macad::Occt::AIS_DimensionOwner::AIS_DimensionOwner(Macad::Occt::SelectMgr_SelectableObject^ theSelObject, Macad::Occt::AIS_DimensionSelectionMode theSelMode)
-	: Macad::Occt::SelectMgr_EntityOwner(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::SelectMgr_SelectableObject) h_theSelObject = theSelObject->NativeInstance;
-	NativeInstance = new ::AIS_DimensionOwner(h_theSelObject, (::AIS_DimensionSelectionMode)theSelMode, 0);
-	theSelObject->NativeInstance = h_theSelObject.get();
-}
-
-Macad::Occt::AIS_DimensionOwner::AIS_DimensionOwner(Macad::Occt::AIS_DimensionOwner^ parameter1)
-	: Macad::Occt::SelectMgr_EntityOwner(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_DimensionOwner(*(::AIS_DimensionOwner*)parameter1->NativeInstance);
-}
-
-Macad::Occt::AIS_DimensionSelectionMode Macad::Occt::AIS_DimensionOwner::SelectionMode()
-{
-	return (Macad::Occt::AIS_DimensionSelectionMode)((::AIS_DimensionOwner*)_NativeInstance)->SelectionMode();
-}
-
-
-Macad::Occt::AIS_DimensionOwner^ Macad::Occt::AIS_DimensionOwner::CreateDowncasted(::AIS_DimensionOwner* instance)
-{
-	return gcnew Macad::Occt::AIS_DimensionOwner( instance );
-}
 
 
 
@@ -2152,6 +1568,16 @@ void Macad::Occt::AIS_InteractiveContext::ActivatedModes(Macad::Occt::AIS_Intera
 	anIobj->NativeInstance = h_anIobj.get();
 }
 
+Macad::Occt::SelectMgr_FilterType Macad::Occt::AIS_InteractiveContext::FilterType()
+{
+	return (Macad::Occt::SelectMgr_FilterType)((::AIS_InteractiveContext*)_NativeInstance)->FilterType();
+}
+
+void Macad::Occt::AIS_InteractiveContext::SetFilterType(Macad::Occt::SelectMgr_FilterType theFilterType)
+{
+	((::AIS_InteractiveContext*)_NativeInstance)->SetFilterType((::SelectMgr_FilterType)theFilterType);
+}
+
 Macad::Occt::SelectMgr_ListOfFilter^ Macad::Occt::AIS_InteractiveContext::Filters()
 {
 	::SelectMgr_ListOfFilter* _result = new ::SelectMgr_ListOfFilter();
@@ -2209,11 +1635,11 @@ Macad::Occt::SelectMgr_SelectionManager^ Macad::Occt::AIS_InteractiveContext::Se
 	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_SelectionManager::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::StdSelect_ViewerSelector3d^ Macad::Occt::AIS_InteractiveContext::MainSelector()
+Macad::Occt::SelectMgr_ViewerSelector3d^ Macad::Occt::AIS_InteractiveContext::MainSelector()
 {
-	Handle(::StdSelect_ViewerSelector3d) _result;
+	Handle(::SelectMgr_ViewerSelector3d) _result;
 	_result = ((::AIS_InteractiveContext*)_NativeInstance)->MainSelector();
-	 return _result.IsNull() ? nullptr : Macad::Occt::StdSelect_ViewerSelector3d::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_ViewerSelector3d::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::AIS_InteractiveContext::UpdateCurrentViewer()
@@ -2515,27 +1941,6 @@ void Macad::Occt::AIS_InteractiveContext::SetAngleAndDeviation(Macad::Occt::AIS_
 	theIObj->NativeInstance = h_theIObj.get();
 }
 
-void Macad::Occt::AIS_InteractiveContext::SetHLRDeviationCoefficient(Macad::Occt::AIS_InteractiveObject^ theIObj, double theCoefficient, bool theToUpdateViewer)
-{
-	Handle(::AIS_InteractiveObject) h_theIObj = theIObj->NativeInstance;
-	((::AIS_InteractiveContext*)_NativeInstance)->SetHLRDeviationCoefficient(h_theIObj, theCoefficient, theToUpdateViewer);
-	theIObj->NativeInstance = h_theIObj.get();
-}
-
-void Macad::Occt::AIS_InteractiveContext::SetHLRDeviationAngle(Macad::Occt::AIS_InteractiveObject^ theIObj, double theAngle, bool theToUpdateViewer)
-{
-	Handle(::AIS_InteractiveObject) h_theIObj = theIObj->NativeInstance;
-	((::AIS_InteractiveContext*)_NativeInstance)->SetHLRDeviationAngle(h_theIObj, theAngle, theToUpdateViewer);
-	theIObj->NativeInstance = h_theIObj.get();
-}
-
-void Macad::Occt::AIS_InteractiveContext::SetHLRAngleAndDeviation(Macad::Occt::AIS_InteractiveObject^ theIObj, double theAngle, bool theToUpdateViewer)
-{
-	Handle(::AIS_InteractiveObject) h_theIObj = theIObj->NativeInstance;
-	((::AIS_InteractiveContext*)_NativeInstance)->SetHLRAngleAndDeviation(h_theIObj, theAngle, theToUpdateViewer);
-	theIObj->NativeInstance = h_theIObj.get();
-}
-
 void Macad::Occt::AIS_InteractiveContext::SetDeviationCoefficient(double theCoefficient)
 {
 	((::AIS_InteractiveContext*)_NativeInstance)->SetDeviationCoefficient(theCoefficient);
@@ -2554,31 +1959,6 @@ void Macad::Occt::AIS_InteractiveContext::SetDeviationAngle(double anAngle)
 double Macad::Occt::AIS_InteractiveContext::DeviationAngle()
 {
 	return ((::AIS_InteractiveContext*)_NativeInstance)->DeviationAngle();
-}
-
-void Macad::Occt::AIS_InteractiveContext::SetHLRDeviationCoefficient(double aCoefficient)
-{
-	((::AIS_InteractiveContext*)_NativeInstance)->SetHLRDeviationCoefficient(aCoefficient);
-}
-
-double Macad::Occt::AIS_InteractiveContext::HLRDeviationCoefficient()
-{
-	return ((::AIS_InteractiveContext*)_NativeInstance)->HLRDeviationCoefficient();
-}
-
-void Macad::Occt::AIS_InteractiveContext::SetHLRAngle(double theAngle)
-{
-	((::AIS_InteractiveContext*)_NativeInstance)->SetHLRAngle(theAngle);
-}
-
-double Macad::Occt::AIS_InteractiveContext::HLRAngle()
-{
-	return ((::AIS_InteractiveContext*)_NativeInstance)->HLRAngle();
-}
-
-void Macad::Occt::AIS_InteractiveContext::SetHLRAngleAndDeviation(double theAngle)
-{
-	((::AIS_InteractiveContext*)_NativeInstance)->SetHLRAngleAndDeviation(theAngle);
 }
 
 Macad::Occt::Prs3d_LineAspect^ Macad::Occt::AIS_InteractiveContext::HiddenLineAspect()
@@ -2856,6 +2236,17 @@ void Macad::Occt::AIS_InteractiveObject::ClearOwner()
 	((::AIS_InteractiveObject*)_NativeInstance)->ClearOwner();
 }
 
+bool Macad::Occt::AIS_InteractiveObject::ProcessDragging(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView, Macad::Occt::SelectMgr_EntityOwner^ theOwner, Macad::Occt::Graphic3d_Vec2i^ theDragFrom, Macad::Occt::Graphic3d_Vec2i^ theDragTo, Macad::Occt::AIS_DragAction theAction)
+{
+	Handle(::AIS_InteractiveContext) h_theCtx = theCtx->NativeInstance;
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	Handle(::SelectMgr_EntityOwner) h_theOwner = theOwner->NativeInstance;
+	return ((::AIS_InteractiveObject*)_NativeInstance)->ProcessDragging(h_theCtx, h_theView, h_theOwner, *(::Graphic3d_Vec2i*)theDragFrom->NativeInstance, *(::Graphic3d_Vec2i*)theDragTo->NativeInstance, (::AIS_DragAction)theAction);
+	theCtx->NativeInstance = h_theCtx.get();
+	theView->NativeInstance = h_theView.get();
+	theOwner->NativeInstance = h_theOwner.get();
+}
+
 Macad::Occt::AIS_InteractiveContext^ Macad::Occt::AIS_InteractiveObject::GetContext()
 {
 	Handle(::AIS_InteractiveContext) _result;
@@ -2888,14 +2279,10 @@ Macad::Occt::AIS_InteractiveObject^ Macad::Occt::AIS_InteractiveObject::CreateDo
 	if( instance == nullptr )
 		return nullptr;
 
-	if (instance->IsKind(STANDARD_TYPE(::AIS_Dimension)))
-		return Macad::Occt::AIS_Dimension::CreateDowncasted((::AIS_Dimension*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::AIS_Axis)))
 		return Macad::Occt::AIS_Axis::CreateDowncasted((::AIS_Axis*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::AIS_CameraFrustum)))
 		return Macad::Occt::AIS_CameraFrustum::CreateDowncasted((::AIS_CameraFrustum*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_Relation)))
-		return Macad::Occt::AIS_Relation::CreateDowncasted((::AIS_Relation*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::AIS_Circle)))
 		return Macad::Occt::AIS_Circle::CreateDowncasted((::AIS_Circle*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::AIS_Shape)))
@@ -2924,397 +2311,12 @@ Macad::Occt::AIS_InteractiveObject^ Macad::Occt::AIS_InteractiveObject::CreateDo
 		return Macad::Occt::AIS_Triangulation::CreateDowncasted((::AIS_Triangulation*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::AIS_Trihedron)))
 		return Macad::Occt::AIS_Trihedron::CreateDowncasted((::AIS_Trihedron*)instance);
+	if (instance->IsKind(STANDARD_TYPE(::AIS_XRTrackedDevice)))
+		return Macad::Occt::AIS_XRTrackedDevice::CreateDowncasted((::AIS_XRTrackedDevice*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::AIS_ViewCube)))
 		return Macad::Occt::AIS_ViewCube::CreateDowncasted((::AIS_ViewCube*)instance);
 
 	return gcnew Macad::Occt::AIS_InteractiveObject( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_Dimension
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_Dimension::AIS_Dimension(Macad::Occt::AIS_KindOfDimension theType)
-	: Macad::Occt::AIS_InteractiveObject(BaseClass::InitMode::Uninitialized)
-{
-	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
-Macad::Occt::AIS_Dimension::AIS_Dimension(Macad::Occt::AIS_Dimension^ parameter1)
-	: Macad::Occt::AIS_InteractiveObject(BaseClass::InitMode::Uninitialized)
-{
-	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
-double Macad::Occt::AIS_Dimension::GetValue()
-{
-	return ((::AIS_Dimension*)_NativeInstance)->GetValue();
-}
-
-void Macad::Occt::AIS_Dimension::SetComputedValue()
-{
-	((::AIS_Dimension*)_NativeInstance)->SetComputedValue();
-}
-
-void Macad::Occt::AIS_Dimension::SetCustomValue(double theValue)
-{
-	((::AIS_Dimension*)_NativeInstance)->SetCustomValue(theValue);
-}
-
-void Macad::Occt::AIS_Dimension::SetCustomValue(Macad::Occt::TCollection_ExtendedString^ theValue)
-{
-	((::AIS_Dimension*)_NativeInstance)->SetCustomValue(*(::TCollection_ExtendedString*)theValue->NativeInstance);
-}
-
-Macad::Occt::TCollection_ExtendedString^ Macad::Occt::AIS_Dimension::GetCustomValue()
-{
-	::TCollection_ExtendedString* _result = new ::TCollection_ExtendedString();
-	*_result =  (::TCollection_ExtendedString)((::AIS_Dimension*)_NativeInstance)->GetCustomValue();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_ExtendedString(_result);
-}
-
-Macad::Occt::Pln Macad::Occt::AIS_Dimension::GetPlane()
-{
-	return Macad::Occt::Pln(((::AIS_Dimension*)_NativeInstance)->GetPlane());
-}
-
-int Macad::Occt::AIS_Dimension::GetGeometryType()
-{
-	return ((::AIS_Dimension*)_NativeInstance)->GetGeometryType();
-}
-
-void Macad::Occt::AIS_Dimension::SetCustomPlane(Macad::Occt::Pln thePlane)
-{
-	pin_ptr<Macad::Occt::Pln> pp_thePlane = &thePlane;
-	((::AIS_Dimension*)_NativeInstance)->SetCustomPlane(*(gp_Pln*)pp_thePlane);
-}
-
-void Macad::Occt::AIS_Dimension::UnsetCustomPlane()
-{
-	((::AIS_Dimension*)_NativeInstance)->UnsetCustomPlane();
-}
-
-bool Macad::Occt::AIS_Dimension::IsTextPositionCustom()
-{
-	return ((::AIS_Dimension*)_NativeInstance)->IsTextPositionCustom();
-}
-
-void Macad::Occt::AIS_Dimension::SetTextPosition(Macad::Occt::Pnt parameter1)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_parameter1 = &parameter1;
-	((::AIS_Dimension*)_NativeInstance)->SetTextPosition(*(gp_Pnt*)pp_parameter1);
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS_Dimension::GetTextPosition()
-{
-	return Macad::Occt::Pnt(((::AIS_Dimension*)_NativeInstance)->GetTextPosition());
-}
-
-Macad::Occt::Prs3d_DimensionAspect^ Macad::Occt::AIS_Dimension::DimensionAspect()
-{
-	Handle(::Prs3d_DimensionAspect) _result;
-	_result = ((::AIS_Dimension*)_NativeInstance)->DimensionAspect();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Prs3d_DimensionAspect::CreateDowncasted( _result.get());
-}
-
-void Macad::Occt::AIS_Dimension::SetDimensionAspect(Macad::Occt::Prs3d_DimensionAspect^ theDimensionAspect)
-{
-	Handle(::Prs3d_DimensionAspect) h_theDimensionAspect = theDimensionAspect->NativeInstance;
-	((::AIS_Dimension*)_NativeInstance)->SetDimensionAspect(h_theDimensionAspect);
-	theDimensionAspect->NativeInstance = h_theDimensionAspect.get();
-}
-
-Macad::Occt::AIS_KindOfDimension Macad::Occt::AIS_Dimension::KindOfDimension()
-{
-	return (Macad::Occt::AIS_KindOfDimension)((::AIS_Dimension*)_NativeInstance)->KindOfDimension();
-}
-
-Macad::Occt::AIS_KindOfInteractive Macad::Occt::AIS_Dimension::Type()
-{
-	return (Macad::Occt::AIS_KindOfInteractive)((::AIS_Dimension*)_NativeInstance)->Type();
-}
-
-bool Macad::Occt::AIS_Dimension::AcceptDisplayMode(int theMode)
-{
-	return ((::AIS_Dimension*)_NativeInstance)->AcceptDisplayMode(theMode);
-}
-
-Macad::Occt::AIS_DisplaySpecialSymbol Macad::Occt::AIS_Dimension::DisplaySpecialSymbol()
-{
-	return (Macad::Occt::AIS_DisplaySpecialSymbol)((::AIS_Dimension*)_NativeInstance)->DisplaySpecialSymbol();
-}
-
-void Macad::Occt::AIS_Dimension::SetDisplaySpecialSymbol(Macad::Occt::AIS_DisplaySpecialSymbol theDisplaySpecSymbol)
-{
-	((::AIS_Dimension*)_NativeInstance)->SetDisplaySpecialSymbol((::AIS_DisplaySpecialSymbol)theDisplaySpecSymbol);
-}
-
-char16_t Macad::Occt::AIS_Dimension::SpecialSymbol()
-{
-	return ((::AIS_Dimension*)_NativeInstance)->SpecialSymbol();
-}
-
-void Macad::Occt::AIS_Dimension::SetSpecialSymbol(char16_t theSpecialSymbol)
-{
-	((::AIS_Dimension*)_NativeInstance)->SetSpecialSymbol(theSpecialSymbol);
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::AIS_Dimension::GetDisplayUnits()
-{
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result =  (::TCollection_AsciiString)((::AIS_Dimension*)_NativeInstance)->GetDisplayUnits();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::AIS_Dimension::GetModelUnits()
-{
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result =  (::TCollection_AsciiString)((::AIS_Dimension*)_NativeInstance)->GetModelUnits();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-void Macad::Occt::AIS_Dimension::SetDisplayUnits(Macad::Occt::TCollection_AsciiString^ parameter1)
-{
-	((::AIS_Dimension*)_NativeInstance)->SetDisplayUnits(*(::TCollection_AsciiString*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::AIS_Dimension::SetModelUnits(Macad::Occt::TCollection_AsciiString^ parameter1)
-{
-	((::AIS_Dimension*)_NativeInstance)->SetModelUnits(*(::TCollection_AsciiString*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::AIS_Dimension::UnsetFixedTextPosition()
-{
-	((::AIS_Dimension*)_NativeInstance)->UnsetFixedTextPosition();
-}
-
-double Macad::Occt::AIS_Dimension::SelToleranceForText2d()
-{
-	return ((::AIS_Dimension*)_NativeInstance)->SelToleranceForText2d();
-}
-
-void Macad::Occt::AIS_Dimension::SetSelToleranceForText2d(double theTol)
-{
-	((::AIS_Dimension*)_NativeInstance)->SetSelToleranceForText2d(theTol);
-}
-
-double Macad::Occt::AIS_Dimension::GetFlyout()
-{
-	return ((::AIS_Dimension*)_NativeInstance)->GetFlyout();
-}
-
-void Macad::Occt::AIS_Dimension::SetFlyout(double theFlyout)
-{
-	((::AIS_Dimension*)_NativeInstance)->SetFlyout(theFlyout);
-}
-
-bool Macad::Occt::AIS_Dimension::IsValid()
-{
-	return ((::AIS_Dimension*)_NativeInstance)->IsValid();
-}
-
-
-Macad::Occt::AIS_Dimension^ Macad::Occt::AIS_Dimension::CreateDowncasted(::AIS_Dimension* instance)
-{
-	if( instance == nullptr )
-		return nullptr;
-
-	if (instance->IsKind(STANDARD_TYPE(::AIS_AngleDimension)))
-		return Macad::Occt::AIS_AngleDimension::CreateDowncasted((::AIS_AngleDimension*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_DiameterDimension)))
-		return Macad::Occt::AIS_DiameterDimension::CreateDowncasted((::AIS_DiameterDimension*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_LengthDimension)))
-		return Macad::Occt::AIS_LengthDimension::CreateDowncasted((::AIS_LengthDimension*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_RadiusDimension)))
-		return Macad::Occt::AIS_RadiusDimension::CreateDowncasted((::AIS_RadiusDimension*)instance);
-
-	return gcnew Macad::Occt::AIS_Dimension( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_AngleDimension
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_AngleDimension::AIS_AngleDimension(Macad::Occt::TopoDS_Edge^ theFirstEdge, Macad::Occt::TopoDS_Edge^ theSecondEdge)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_AngleDimension(*(::TopoDS_Edge*)theFirstEdge->NativeInstance, *(::TopoDS_Edge*)theSecondEdge->NativeInstance);
-}
-
-Macad::Occt::AIS_AngleDimension::AIS_AngleDimension(Macad::Occt::Pnt theFirstPoint, Macad::Occt::Pnt theSecondPoint, Macad::Occt::Pnt theThirdPoint)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstPoint = &theFirstPoint;
-	pin_ptr<Macad::Occt::Pnt> pp_theSecondPoint = &theSecondPoint;
-	pin_ptr<Macad::Occt::Pnt> pp_theThirdPoint = &theThirdPoint;
-	NativeInstance = new ::AIS_AngleDimension(*(gp_Pnt*)pp_theFirstPoint, *(gp_Pnt*)pp_theSecondPoint, *(gp_Pnt*)pp_theThirdPoint);
-}
-
-Macad::Occt::AIS_AngleDimension::AIS_AngleDimension(Macad::Occt::TopoDS_Vertex^ theFirstVertex, Macad::Occt::TopoDS_Vertex^ theSecondVertex, Macad::Occt::TopoDS_Vertex^ theThirdVertex)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_AngleDimension(*(::TopoDS_Vertex*)theFirstVertex->NativeInstance, *(::TopoDS_Vertex*)theSecondVertex->NativeInstance, *(::TopoDS_Vertex*)theThirdVertex->NativeInstance);
-}
-
-Macad::Occt::AIS_AngleDimension::AIS_AngleDimension(Macad::Occt::TopoDS_Face^ theCone)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_AngleDimension(*(::TopoDS_Face*)theCone->NativeInstance);
-}
-
-Macad::Occt::AIS_AngleDimension::AIS_AngleDimension(Macad::Occt::TopoDS_Face^ theFirstFace, Macad::Occt::TopoDS_Face^ theSecondFace)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_AngleDimension(*(::TopoDS_Face*)theFirstFace->NativeInstance, *(::TopoDS_Face*)theSecondFace->NativeInstance);
-}
-
-Macad::Occt::AIS_AngleDimension::AIS_AngleDimension(Macad::Occt::TopoDS_Face^ theFirstFace, Macad::Occt::TopoDS_Face^ theSecondFace, Macad::Occt::Pnt thePoint)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_thePoint = &thePoint;
-	NativeInstance = new ::AIS_AngleDimension(*(::TopoDS_Face*)theFirstFace->NativeInstance, *(::TopoDS_Face*)theSecondFace->NativeInstance, *(gp_Pnt*)pp_thePoint);
-}
-
-Macad::Occt::AIS_AngleDimension::AIS_AngleDimension(Macad::Occt::AIS_AngleDimension^ parameter1)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_AngleDimension(*(::AIS_AngleDimension*)parameter1->NativeInstance);
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS_AngleDimension::FirstPoint()
-{
-	return Macad::Occt::Pnt(((::AIS_AngleDimension*)_NativeInstance)->FirstPoint());
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS_AngleDimension::SecondPoint()
-{
-	return Macad::Occt::Pnt(((::AIS_AngleDimension*)_NativeInstance)->SecondPoint());
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS_AngleDimension::CenterPoint()
-{
-	return Macad::Occt::Pnt(((::AIS_AngleDimension*)_NativeInstance)->CenterPoint());
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::AIS_AngleDimension::FirstShape()
-{
-	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result =  (::TopoDS_Shape)((::AIS_AngleDimension*)_NativeInstance)->FirstShape();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::AIS_AngleDimension::SecondShape()
-{
-	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result =  (::TopoDS_Shape)((::AIS_AngleDimension*)_NativeInstance)->SecondShape();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::AIS_AngleDimension::ThirdShape()
-{
-	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result =  (::TopoDS_Shape)((::AIS_AngleDimension*)_NativeInstance)->ThirdShape();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-void Macad::Occt::AIS_AngleDimension::SetMeasuredGeometry(Macad::Occt::TopoDS_Edge^ theFirstEdge, Macad::Occt::TopoDS_Edge^ theSecondEdge)
-{
-	((::AIS_AngleDimension*)_NativeInstance)->SetMeasuredGeometry(*(::TopoDS_Edge*)theFirstEdge->NativeInstance, *(::TopoDS_Edge*)theSecondEdge->NativeInstance);
-}
-
-void Macad::Occt::AIS_AngleDimension::SetMeasuredGeometry(Macad::Occt::Pnt theFirstPoint, Macad::Occt::Pnt theSecondPoint, Macad::Occt::Pnt theThridPoint)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstPoint = &theFirstPoint;
-	pin_ptr<Macad::Occt::Pnt> pp_theSecondPoint = &theSecondPoint;
-	pin_ptr<Macad::Occt::Pnt> pp_theThridPoint = &theThridPoint;
-	((::AIS_AngleDimension*)_NativeInstance)->SetMeasuredGeometry(*(gp_Pnt*)pp_theFirstPoint, *(gp_Pnt*)pp_theSecondPoint, *(gp_Pnt*)pp_theThridPoint);
-}
-
-void Macad::Occt::AIS_AngleDimension::SetMeasuredGeometry(Macad::Occt::TopoDS_Vertex^ theFirstVertex, Macad::Occt::TopoDS_Vertex^ theSecondVertex, Macad::Occt::TopoDS_Vertex^ theThirdVertex)
-{
-	((::AIS_AngleDimension*)_NativeInstance)->SetMeasuredGeometry(*(::TopoDS_Vertex*)theFirstVertex->NativeInstance, *(::TopoDS_Vertex*)theSecondVertex->NativeInstance, *(::TopoDS_Vertex*)theThirdVertex->NativeInstance);
-}
-
-void Macad::Occt::AIS_AngleDimension::SetMeasuredGeometry(Macad::Occt::TopoDS_Face^ theCone)
-{
-	((::AIS_AngleDimension*)_NativeInstance)->SetMeasuredGeometry(*(::TopoDS_Face*)theCone->NativeInstance);
-}
-
-void Macad::Occt::AIS_AngleDimension::SetMeasuredGeometry(Macad::Occt::TopoDS_Face^ theFirstFace, Macad::Occt::TopoDS_Face^ theSecondFace)
-{
-	((::AIS_AngleDimension*)_NativeInstance)->SetMeasuredGeometry(*(::TopoDS_Face*)theFirstFace->NativeInstance, *(::TopoDS_Face*)theSecondFace->NativeInstance);
-}
-
-void Macad::Occt::AIS_AngleDimension::SetMeasuredGeometry(Macad::Occt::TopoDS_Face^ theFirstFace, Macad::Occt::TopoDS_Face^ theSecondFace, Macad::Occt::Pnt thePoint)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_thePoint = &thePoint;
-	((::AIS_AngleDimension*)_NativeInstance)->SetMeasuredGeometry(*(::TopoDS_Face*)theFirstFace->NativeInstance, *(::TopoDS_Face*)theSecondFace->NativeInstance, *(gp_Pnt*)pp_thePoint);
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::AIS_AngleDimension::GetDisplayUnits()
-{
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result =  (::TCollection_AsciiString)((::AIS_AngleDimension*)_NativeInstance)->GetDisplayUnits();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::AIS_AngleDimension::GetModelUnits()
-{
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result =  (::TCollection_AsciiString)((::AIS_AngleDimension*)_NativeInstance)->GetModelUnits();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-void Macad::Occt::AIS_AngleDimension::SetDisplayUnits(Macad::Occt::TCollection_AsciiString^ theUnits)
-{
-	((::AIS_AngleDimension*)_NativeInstance)->SetDisplayUnits(*(::TCollection_AsciiString*)theUnits->NativeInstance);
-}
-
-void Macad::Occt::AIS_AngleDimension::SetModelUnits(Macad::Occt::TCollection_AsciiString^ theUnits)
-{
-	((::AIS_AngleDimension*)_NativeInstance)->SetModelUnits(*(::TCollection_AsciiString*)theUnits->NativeInstance);
-}
-
-void Macad::Occt::AIS_AngleDimension::SetTextPosition(Macad::Occt::Pnt theTextPos)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theTextPos = &theTextPos;
-	((::AIS_AngleDimension*)_NativeInstance)->SetTextPosition(*(gp_Pnt*)pp_theTextPos);
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS_AngleDimension::GetTextPosition()
-{
-	return Macad::Occt::Pnt(((::AIS_AngleDimension*)_NativeInstance)->GetTextPosition());
-}
-
-void Macad::Occt::AIS_AngleDimension::SetType(Macad::Occt::AIS_TypeOfAngle theType)
-{
-	((::AIS_AngleDimension*)_NativeInstance)->SetType((::AIS_TypeOfAngle)theType);
-}
-
-Macad::Occt::AIS_TypeOfAngle Macad::Occt::AIS_AngleDimension::GetTypeOcc()
-{
-	return (Macad::Occt::AIS_TypeOfAngle)((::AIS_AngleDimension*)_NativeInstance)->GetType();
-}
-
-void Macad::Occt::AIS_AngleDimension::SetArrowsVisibility(Macad::Occt::AIS_TypeOfAngleArrowVisibility% theType)
-{
-	pin_ptr<Macad::Occt::AIS_TypeOfAngleArrowVisibility> pp_theType = &theType;
-	((::AIS_AngleDimension*)_NativeInstance)->SetArrowsVisibility(*(::AIS_TypeOfAngleArrowVisibility*)pp_theType);
-}
-
-Macad::Occt::AIS_TypeOfAngleArrowVisibility Macad::Occt::AIS_AngleDimension::GetArrowsVisibility()
-{
-	return (Macad::Occt::AIS_TypeOfAngleArrowVisibility)((::AIS_AngleDimension*)_NativeInstance)->GetArrowsVisibility();
-}
-
-
-Macad::Occt::AIS_AngleDimension^ Macad::Occt::AIS_AngleDimension::CreateDowncasted(::AIS_AngleDimension* instance)
-{
-	return gcnew Macad::Occt::AIS_AngleDimension( instance );
 }
 
 
@@ -3974,17 +2976,6 @@ bool Macad::Occt::AIS_Axis::AcceptDisplayMode(int aMode)
 	return ((::AIS_Axis*)_NativeInstance)->AcceptDisplayMode(aMode);
 }
 
-void Macad::Occt::AIS_Axis::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_Axis*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
 int Macad::Occt::AIS_Axis::Signature()
 {
 	return ((::AIS_Axis*)_NativeInstance)->Signature();
@@ -4162,289 +3153,6 @@ Macad::Occt::AIS_CameraFrustum^ Macad::Occt::AIS_CameraFrustum::CreateDowncasted
 
 
 //---------------------------------------------------------------------
-//  Class  AIS_Relation
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_Relation::AIS_Relation(Macad::Occt::AIS_Relation^ parameter1)
-	: Macad::Occt::AIS_InteractiveObject(BaseClass::InitMode::Uninitialized)
-{
-	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
-void Macad::Occt::AIS_Relation::SetColor(Macad::Occt::Quantity_Color^ theColor)
-{
-	((::AIS_Relation*)_NativeInstance)->SetColor(*(::Quantity_Color*)theColor->NativeInstance);
-}
-
-void Macad::Occt::AIS_Relation::UnsetColor()
-{
-	((::AIS_Relation*)_NativeInstance)->UnsetColor();
-}
-
-Macad::Occt::AIS_KindOfInteractive Macad::Occt::AIS_Relation::Type()
-{
-	return (Macad::Occt::AIS_KindOfInteractive)((::AIS_Relation*)_NativeInstance)->Type();
-}
-
-Macad::Occt::AIS_KindOfDimension Macad::Occt::AIS_Relation::KindOfDimension()
-{
-	return (Macad::Occt::AIS_KindOfDimension)((::AIS_Relation*)_NativeInstance)->KindOfDimension();
-}
-
-bool Macad::Occt::AIS_Relation::IsMovable()
-{
-	return ((::AIS_Relation*)_NativeInstance)->IsMovable();
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::AIS_Relation::FirstShape()
-{
-	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result =  (::TopoDS_Shape)((::AIS_Relation*)_NativeInstance)->FirstShape();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-void Macad::Occt::AIS_Relation::SetFirstShape(Macad::Occt::TopoDS_Shape^ aFShape)
-{
-	((::AIS_Relation*)_NativeInstance)->SetFirstShape(*(::TopoDS_Shape*)aFShape->NativeInstance);
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::AIS_Relation::SecondShape()
-{
-	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result =  (::TopoDS_Shape)((::AIS_Relation*)_NativeInstance)->SecondShape();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-void Macad::Occt::AIS_Relation::SetSecondShape(Macad::Occt::TopoDS_Shape^ aSShape)
-{
-	((::AIS_Relation*)_NativeInstance)->SetSecondShape(*(::TopoDS_Shape*)aSShape->NativeInstance);
-}
-
-void Macad::Occt::AIS_Relation::SetBndBox(double theXmin, double theYmin, double theZmin, double theXmax, double theYmax, double theZmax)
-{
-	((::AIS_Relation*)_NativeInstance)->SetBndBox(theXmin, theYmin, theZmin, theXmax, theYmax, theZmax);
-}
-
-void Macad::Occt::AIS_Relation::UnsetBndBox()
-{
-	((::AIS_Relation*)_NativeInstance)->UnsetBndBox();
-}
-
-Macad::Occt::Geom_Plane^ Macad::Occt::AIS_Relation::Plane()
-{
-	Handle(::Geom_Plane) _result;
-	_result = ((::AIS_Relation*)_NativeInstance)->Plane();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Plane::CreateDowncasted( _result.get());
-}
-
-void Macad::Occt::AIS_Relation::SetPlane(Macad::Occt::Geom_Plane^ thePlane)
-{
-	Handle(::Geom_Plane) h_thePlane = thePlane->NativeInstance;
-	((::AIS_Relation*)_NativeInstance)->SetPlane(h_thePlane);
-	thePlane->NativeInstance = h_thePlane.get();
-}
-
-double Macad::Occt::AIS_Relation::Value()
-{
-	return ((::AIS_Relation*)_NativeInstance)->Value();
-}
-
-void Macad::Occt::AIS_Relation::SetValue(double theVal)
-{
-	((::AIS_Relation*)_NativeInstance)->SetValue(theVal);
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS_Relation::Position()
-{
-	return Macad::Occt::Pnt(((::AIS_Relation*)_NativeInstance)->Position());
-}
-
-void Macad::Occt::AIS_Relation::SetPosition(Macad::Occt::Pnt thePosition)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_thePosition = &thePosition;
-	((::AIS_Relation*)_NativeInstance)->SetPosition(*(gp_Pnt*)pp_thePosition);
-}
-
-Macad::Occt::TCollection_ExtendedString^ Macad::Occt::AIS_Relation::Text()
-{
-	::TCollection_ExtendedString* _result = new ::TCollection_ExtendedString();
-	*_result =  (::TCollection_ExtendedString)((::AIS_Relation*)_NativeInstance)->Text();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_ExtendedString(_result);
-}
-
-void Macad::Occt::AIS_Relation::SetText(Macad::Occt::TCollection_ExtendedString^ theText)
-{
-	((::AIS_Relation*)_NativeInstance)->SetText(*(::TCollection_ExtendedString*)theText->NativeInstance);
-}
-
-double Macad::Occt::AIS_Relation::ArrowSize()
-{
-	return ((::AIS_Relation*)_NativeInstance)->ArrowSize();
-}
-
-void Macad::Occt::AIS_Relation::SetArrowSize(double theArrowSize)
-{
-	((::AIS_Relation*)_NativeInstance)->SetArrowSize(theArrowSize);
-}
-
-void Macad::Occt::AIS_Relation::SetExtShape(int theIndex)
-{
-	((::AIS_Relation*)_NativeInstance)->SetExtShape(theIndex);
-}
-
-int Macad::Occt::AIS_Relation::ExtShape()
-{
-	return ((::AIS_Relation*)_NativeInstance)->ExtShape();
-}
-
-bool Macad::Occt::AIS_Relation::AcceptDisplayMode(int aMode)
-{
-	return ((::AIS_Relation*)_NativeInstance)->AcceptDisplayMode(aMode);
-}
-
-void Macad::Occt::AIS_Relation::SetAutomaticPosition(bool theStatus)
-{
-	((::AIS_Relation*)_NativeInstance)->SetAutomaticPosition(theStatus);
-}
-
-bool Macad::Occt::AIS_Relation::AutomaticPosition()
-{
-	return ((::AIS_Relation*)_NativeInstance)->AutomaticPosition();
-}
-
-
-Macad::Occt::AIS_Relation^ Macad::Occt::AIS_Relation::CreateDowncasted(::AIS_Relation* instance)
-{
-	if( instance == nullptr )
-		return nullptr;
-
-	if (instance->IsKind(STANDARD_TYPE(::AIS_Chamf2dDimension)))
-		return Macad::Occt::AIS_Chamf2dDimension::CreateDowncasted((::AIS_Chamf2dDimension*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_Chamf3dDimension)))
-		return Macad::Occt::AIS_Chamf3dDimension::CreateDowncasted((::AIS_Chamf3dDimension*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_ConcentricRelation)))
-		return Macad::Occt::AIS_ConcentricRelation::CreateDowncasted((::AIS_ConcentricRelation*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_EllipseRadiusDimension)))
-		return Macad::Occt::AIS_EllipseRadiusDimension::CreateDowncasted((::AIS_EllipseRadiusDimension*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_EqualDistanceRelation)))
-		return Macad::Occt::AIS_EqualDistanceRelation::CreateDowncasted((::AIS_EqualDistanceRelation*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_EqualRadiusRelation)))
-		return Macad::Occt::AIS_EqualRadiusRelation::CreateDowncasted((::AIS_EqualRadiusRelation*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_FixRelation)))
-		return Macad::Occt::AIS_FixRelation::CreateDowncasted((::AIS_FixRelation*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_IdenticRelation)))
-		return Macad::Occt::AIS_IdenticRelation::CreateDowncasted((::AIS_IdenticRelation*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_MidPointRelation)))
-		return Macad::Occt::AIS_MidPointRelation::CreateDowncasted((::AIS_MidPointRelation*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_OffsetDimension)))
-		return Macad::Occt::AIS_OffsetDimension::CreateDowncasted((::AIS_OffsetDimension*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_ParallelRelation)))
-		return Macad::Occt::AIS_ParallelRelation::CreateDowncasted((::AIS_ParallelRelation*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_PerpendicularRelation)))
-		return Macad::Occt::AIS_PerpendicularRelation::CreateDowncasted((::AIS_PerpendicularRelation*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_SymmetricRelation)))
-		return Macad::Occt::AIS_SymmetricRelation::CreateDowncasted((::AIS_SymmetricRelation*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_TangentRelation)))
-		return Macad::Occt::AIS_TangentRelation::CreateDowncasted((::AIS_TangentRelation*)instance);
-
-	return gcnew Macad::Occt::AIS_Relation( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_Chamf2dDimension
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_Chamf2dDimension::AIS_Chamf2dDimension(Macad::Occt::TopoDS_Shape^ aFShape, Macad::Occt::Geom_Plane^ aPlane, double aVal, Macad::Occt::TCollection_ExtendedString^ aText)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	NativeInstance = new ::AIS_Chamf2dDimension(*(::TopoDS_Shape*)aFShape->NativeInstance, h_aPlane, aVal, *(::TCollection_ExtendedString*)aText->NativeInstance);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_Chamf2dDimension::AIS_Chamf2dDimension(Macad::Occt::AIS_Chamf2dDimension^ parameter1)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_Chamf2dDimension(*(::AIS_Chamf2dDimension*)parameter1->NativeInstance);
-}
-
-Macad::Occt::AIS_KindOfDimension Macad::Occt::AIS_Chamf2dDimension::KindOfDimension()
-{
-	return (Macad::Occt::AIS_KindOfDimension)((::AIS_Chamf2dDimension*)_NativeInstance)->KindOfDimension();
-}
-
-bool Macad::Occt::AIS_Chamf2dDimension::IsMovable()
-{
-	return ((::AIS_Chamf2dDimension*)_NativeInstance)->IsMovable();
-}
-
-void Macad::Occt::AIS_Chamf2dDimension::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_Chamf2dDimension*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-
-Macad::Occt::AIS_Chamf2dDimension^ Macad::Occt::AIS_Chamf2dDimension::CreateDowncasted(::AIS_Chamf2dDimension* instance)
-{
-	return gcnew Macad::Occt::AIS_Chamf2dDimension( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_Chamf3dDimension
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_Chamf3dDimension::AIS_Chamf3dDimension(Macad::Occt::TopoDS_Shape^ aFShape, double aVal, Macad::Occt::TCollection_ExtendedString^ aText)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_Chamf3dDimension(*(::TopoDS_Shape*)aFShape->NativeInstance, aVal, *(::TCollection_ExtendedString*)aText->NativeInstance);
-}
-
-Macad::Occt::AIS_Chamf3dDimension::AIS_Chamf3dDimension(Macad::Occt::AIS_Chamf3dDimension^ parameter1)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_Chamf3dDimension(*(::AIS_Chamf3dDimension*)parameter1->NativeInstance);
-}
-
-Macad::Occt::AIS_KindOfDimension Macad::Occt::AIS_Chamf3dDimension::KindOfDimension()
-{
-	return (Macad::Occt::AIS_KindOfDimension)((::AIS_Chamf3dDimension*)_NativeInstance)->KindOfDimension();
-}
-
-bool Macad::Occt::AIS_Chamf3dDimension::IsMovable()
-{
-	return ((::AIS_Chamf3dDimension*)_NativeInstance)->IsMovable();
-}
-
-void Macad::Occt::AIS_Chamf3dDimension::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_Chamf3dDimension*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-
-Macad::Occt::AIS_Chamf3dDimension^ Macad::Occt::AIS_Chamf3dDimension::CreateDowncasted(::AIS_Chamf3dDimension* instance)
-{
-	return gcnew Macad::Occt::AIS_Chamf3dDimension( instance );
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  AIS_Circle
 //---------------------------------------------------------------------
 
@@ -4476,17 +3184,6 @@ Macad::Occt::AIS_Circle::AIS_Circle(Macad::Occt::AIS_Circle^ parameter1)
 	: Macad::Occt::AIS_InteractiveObject(BaseClass::InitMode::Uninitialized)
 {
 	NativeInstance = new ::AIS_Circle(*(::AIS_Circle*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::AIS_Circle::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_Circle*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
 }
 
 int Macad::Occt::AIS_Circle::Signature()
@@ -4594,6 +3291,21 @@ bool Macad::Occt::AIS_ColoredDrawer::IsHidden()
 void Macad::Occt::AIS_ColoredDrawer::SetHidden(bool theToHide)
 {
 	((::AIS_ColoredDrawer*)_NativeInstance)->SetHidden(theToHide);
+}
+
+bool Macad::Occt::AIS_ColoredDrawer::HasOwnMaterial()
+{
+	return ((::AIS_ColoredDrawer*)_NativeInstance)->HasOwnMaterial();
+}
+
+void Macad::Occt::AIS_ColoredDrawer::UnsetOwnMaterial()
+{
+	((::AIS_ColoredDrawer*)_NativeInstance)->UnsetOwnMaterial();
+}
+
+void Macad::Occt::AIS_ColoredDrawer::SetOwnMaterial()
+{
+	((::AIS_ColoredDrawer*)_NativeInstance)->SetOwnMaterial();
 }
 
 bool Macad::Occt::AIS_ColoredDrawer::HasOwnColor()
@@ -4707,29 +3419,14 @@ bool Macad::Occt::AIS_Shape::SetOwnDeviationCoefficient()
 	return ((::AIS_Shape*)_NativeInstance)->SetOwnDeviationCoefficient();
 }
 
-bool Macad::Occt::AIS_Shape::SetOwnHLRDeviationCoefficient()
-{
-	return ((::AIS_Shape*)_NativeInstance)->SetOwnHLRDeviationCoefficient();
-}
-
 bool Macad::Occt::AIS_Shape::SetOwnDeviationAngle()
 {
 	return ((::AIS_Shape*)_NativeInstance)->SetOwnDeviationAngle();
 }
 
-bool Macad::Occt::AIS_Shape::SetOwnHLRDeviationAngle()
-{
-	return ((::AIS_Shape*)_NativeInstance)->SetOwnHLRDeviationAngle();
-}
-
 void Macad::Occt::AIS_Shape::SetOwnDeviationCoefficient(double aCoefficient)
 {
 	((::AIS_Shape*)_NativeInstance)->SetOwnDeviationCoefficient(aCoefficient);
-}
-
-void Macad::Occt::AIS_Shape::SetOwnHLRDeviationCoefficient(double aCoefficient)
-{
-	((::AIS_Shape*)_NativeInstance)->SetOwnHLRDeviationCoefficient(aCoefficient);
 }
 
 void Macad::Occt::AIS_Shape::SetAngleAndDeviation(double anAngle)
@@ -4747,16 +3444,6 @@ void Macad::Occt::AIS_Shape::SetOwnDeviationAngle(double anAngle)
 	((::AIS_Shape*)_NativeInstance)->SetOwnDeviationAngle(anAngle);
 }
 
-void Macad::Occt::AIS_Shape::SetHLRAngleAndDeviation(double anAngle)
-{
-	((::AIS_Shape*)_NativeInstance)->SetHLRAngleAndDeviation(anAngle);
-}
-
-void Macad::Occt::AIS_Shape::SetOwnHLRDeviationAngle(double anAngle)
-{
-	((::AIS_Shape*)_NativeInstance)->SetOwnHLRDeviationAngle(anAngle);
-}
-
 bool Macad::Occt::AIS_Shape::OwnDeviationCoefficient(double% aCoefficient, double% aPreviousCoefficient)
 {
 	pin_ptr<double> pp_aCoefficient = &aCoefficient;
@@ -4764,25 +3451,11 @@ bool Macad::Occt::AIS_Shape::OwnDeviationCoefficient(double% aCoefficient, doubl
 	return ((::AIS_Shape*)_NativeInstance)->OwnDeviationCoefficient(*(Standard_Real*)pp_aCoefficient, *(Standard_Real*)pp_aPreviousCoefficient);
 }
 
-bool Macad::Occt::AIS_Shape::OwnHLRDeviationCoefficient(double% aCoefficient, double% aPreviousCoefficient)
-{
-	pin_ptr<double> pp_aCoefficient = &aCoefficient;
-	pin_ptr<double> pp_aPreviousCoefficient = &aPreviousCoefficient;
-	return ((::AIS_Shape*)_NativeInstance)->OwnHLRDeviationCoefficient(*(Standard_Real*)pp_aCoefficient, *(Standard_Real*)pp_aPreviousCoefficient);
-}
-
 bool Macad::Occt::AIS_Shape::OwnDeviationAngle(double% anAngle, double% aPreviousAngle)
 {
 	pin_ptr<double> pp_anAngle = &anAngle;
 	pin_ptr<double> pp_aPreviousAngle = &aPreviousAngle;
 	return ((::AIS_Shape*)_NativeInstance)->OwnDeviationAngle(*(Standard_Real*)pp_anAngle, *(Standard_Real*)pp_aPreviousAngle);
-}
-
-bool Macad::Occt::AIS_Shape::OwnHLRDeviationAngle(double% anAngle, double% aPreviousAngle)
-{
-	pin_ptr<double> pp_anAngle = &anAngle;
-	pin_ptr<double> pp_aPreviousAngle = &aPreviousAngle;
-	return ((::AIS_Shape*)_NativeInstance)->OwnHLRDeviationAngle(*(Standard_Real*)pp_anAngle, *(Standard_Real*)pp_aPreviousAngle);
 }
 
 void Macad::Occt::AIS_Shape::SetTypeOfHLR(Macad::Occt::Prs3d_TypeOfHLR theTypeOfHLR)
@@ -4905,9 +3578,9 @@ void Macad::Occt::AIS_Shape::SetTextureScaleUV(Macad::Occt::Pnt2d theScaleUV)
 	((::AIS_Shape*)_NativeInstance)->SetTextureScaleUV(*(gp_Pnt2d*)pp_theScaleUV);
 }
 
-void Macad::Occt::AIS_Shape::computeHlrPresentation(Macad::Occt::Prs3d_Projector^ theProjector, Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::Prs3d_Drawer^ theDrawer)
+void Macad::Occt::AIS_Shape::computeHlrPresentation(Macad::Occt::Graphic3d_Camera^ theProjector, Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::Prs3d_Drawer^ theDrawer)
 {
-	Handle(::Prs3d_Projector) h_theProjector = theProjector->NativeInstance;
+	Handle(::Graphic3d_Camera) h_theProjector = theProjector->NativeInstance;
 	Handle(::Graphic3d_Structure) h_thePrs = thePrs->NativeInstance;
 	Handle(::Prs3d_Drawer) h_theDrawer = theDrawer->NativeInstance;
 	::AIS_Shape::computeHlrPresentation(h_theProjector, h_thePrs, *(::TopoDS_Shape*)theShape->NativeInstance, h_theDrawer);
@@ -5046,43 +3719,6 @@ Macad::Occt::AIS_ColoredShape^ Macad::Occt::AIS_ColoredShape::CreateDowncasted(:
 
 
 //---------------------------------------------------------------------
-//  Class  AIS_ConcentricRelation
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_ConcentricRelation::AIS_ConcentricRelation(Macad::Occt::TopoDS_Shape^ aFShape, Macad::Occt::TopoDS_Shape^ aSShape, Macad::Occt::Geom_Plane^ aPlane)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	NativeInstance = new ::AIS_ConcentricRelation(*(::TopoDS_Shape*)aFShape->NativeInstance, *(::TopoDS_Shape*)aSShape->NativeInstance, h_aPlane);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_ConcentricRelation::AIS_ConcentricRelation(Macad::Occt::AIS_ConcentricRelation^ parameter1)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_ConcentricRelation(*(::AIS_ConcentricRelation*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::AIS_ConcentricRelation::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_ConcentricRelation*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-
-Macad::Occt::AIS_ConcentricRelation^ Macad::Occt::AIS_ConcentricRelation::CreateDowncasted(::AIS_ConcentricRelation* instance)
-{
-	return gcnew Macad::Occt::AIS_ConcentricRelation( instance );
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  AIS_ConnectedInteractive
 //---------------------------------------------------------------------
 
@@ -5117,10 +3753,10 @@ void Macad::Occt::AIS_ConnectedInteractive::Connect(Macad::Occt::AIS_Interactive
 	theAnotherObj->NativeInstance = h_theAnotherObj.get();
 }
 
-void Macad::Occt::AIS_ConnectedInteractive::Connect(Macad::Occt::AIS_InteractiveObject^ theAnotherObj, Macad::Occt::Geom_Transformation^ theLocation)
+void Macad::Occt::AIS_ConnectedInteractive::Connect(Macad::Occt::AIS_InteractiveObject^ theAnotherObj, Macad::Occt::TopLoc_Datum3D^ theLocation)
 {
 	Handle(::AIS_InteractiveObject) h_theAnotherObj = theAnotherObj->NativeInstance;
-	Handle(::Geom_Transformation) h_theLocation = theLocation->NativeInstance;
+	Handle(::TopLoc_Datum3D) h_theLocation = theLocation->NativeInstance;
 	((::AIS_ConnectedInteractive*)_NativeInstance)->Connect(h_theAnotherObj, h_theLocation);
 	theAnotherObj->NativeInstance = h_theAnotherObj.get();
 	theLocation->NativeInstance = h_theLocation.get();
@@ -5157,253 +3793,6 @@ bool Macad::Occt::AIS_ConnectedInteractive::AcceptDisplayMode(int theMode)
 Macad::Occt::AIS_ConnectedInteractive^ Macad::Occt::AIS_ConnectedInteractive::CreateDowncasted(::AIS_ConnectedInteractive* instance)
 {
 	return gcnew Macad::Occt::AIS_ConnectedInteractive( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_DiameterDimension
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_DiameterDimension::AIS_DiameterDimension(Macad::Occt::gp_Circ^ theCircle)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_DiameterDimension(*(::gp_Circ*)theCircle->NativeInstance);
-}
-
-Macad::Occt::AIS_DiameterDimension::AIS_DiameterDimension(Macad::Occt::gp_Circ^ theCircle, Macad::Occt::Pln thePlane)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	pin_ptr<Macad::Occt::Pln> pp_thePlane = &thePlane;
-	NativeInstance = new ::AIS_DiameterDimension(*(::gp_Circ*)theCircle->NativeInstance, *(gp_Pln*)pp_thePlane);
-}
-
-Macad::Occt::AIS_DiameterDimension::AIS_DiameterDimension(Macad::Occt::TopoDS_Shape^ theShape)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_DiameterDimension(*(::TopoDS_Shape*)theShape->NativeInstance);
-}
-
-Macad::Occt::AIS_DiameterDimension::AIS_DiameterDimension(Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::Pln thePlane)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	pin_ptr<Macad::Occt::Pln> pp_thePlane = &thePlane;
-	NativeInstance = new ::AIS_DiameterDimension(*(::TopoDS_Shape*)theShape->NativeInstance, *(gp_Pln*)pp_thePlane);
-}
-
-Macad::Occt::AIS_DiameterDimension::AIS_DiameterDimension(Macad::Occt::AIS_DiameterDimension^ parameter1)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_DiameterDimension(*(::AIS_DiameterDimension*)parameter1->NativeInstance);
-}
-
-Macad::Occt::gp_Circ^ Macad::Occt::AIS_DiameterDimension::Circle()
-{
-	::gp_Circ* _result = new ::gp_Circ();
-	*_result =  (::gp_Circ)((::AIS_DiameterDimension*)_NativeInstance)->Circle();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::gp_Circ(_result);
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS_DiameterDimension::AnchorPoint()
-{
-	return Macad::Occt::Pnt(((::AIS_DiameterDimension*)_NativeInstance)->AnchorPoint());
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::AIS_DiameterDimension::Shape()
-{
-	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result =  (::TopoDS_Shape)((::AIS_DiameterDimension*)_NativeInstance)->Shape();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-void Macad::Occt::AIS_DiameterDimension::SetMeasuredGeometry(Macad::Occt::gp_Circ^ theCircle)
-{
-	((::AIS_DiameterDimension*)_NativeInstance)->SetMeasuredGeometry(*(::gp_Circ*)theCircle->NativeInstance);
-}
-
-void Macad::Occt::AIS_DiameterDimension::SetMeasuredGeometry(Macad::Occt::TopoDS_Shape^ theShape)
-{
-	((::AIS_DiameterDimension*)_NativeInstance)->SetMeasuredGeometry(*(::TopoDS_Shape*)theShape->NativeInstance);
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::AIS_DiameterDimension::GetDisplayUnits()
-{
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result =  (::TCollection_AsciiString)((::AIS_DiameterDimension*)_NativeInstance)->GetDisplayUnits();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::AIS_DiameterDimension::GetModelUnits()
-{
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result =  (::TCollection_AsciiString)((::AIS_DiameterDimension*)_NativeInstance)->GetModelUnits();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-void Macad::Occt::AIS_DiameterDimension::SetDisplayUnits(Macad::Occt::TCollection_AsciiString^ theUnits)
-{
-	((::AIS_DiameterDimension*)_NativeInstance)->SetDisplayUnits(*(::TCollection_AsciiString*)theUnits->NativeInstance);
-}
-
-void Macad::Occt::AIS_DiameterDimension::SetModelUnits(Macad::Occt::TCollection_AsciiString^ theUnits)
-{
-	((::AIS_DiameterDimension*)_NativeInstance)->SetModelUnits(*(::TCollection_AsciiString*)theUnits->NativeInstance);
-}
-
-void Macad::Occt::AIS_DiameterDimension::SetTextPosition(Macad::Occt::Pnt theTextPos)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theTextPos = &theTextPos;
-	((::AIS_DiameterDimension*)_NativeInstance)->SetTextPosition(*(gp_Pnt*)pp_theTextPos);
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS_DiameterDimension::GetTextPosition()
-{
-	return Macad::Occt::Pnt(((::AIS_DiameterDimension*)_NativeInstance)->GetTextPosition());
-}
-
-
-Macad::Occt::AIS_DiameterDimension^ Macad::Occt::AIS_DiameterDimension::CreateDowncasted(::AIS_DiameterDimension* instance)
-{
-	return gcnew Macad::Occt::AIS_DiameterDimension( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_EllipseRadiusDimension
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_EllipseRadiusDimension::AIS_EllipseRadiusDimension(Macad::Occt::AIS_EllipseRadiusDimension^ parameter1)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
-Macad::Occt::AIS_KindOfDimension Macad::Occt::AIS_EllipseRadiusDimension::KindOfDimension()
-{
-	return (Macad::Occt::AIS_KindOfDimension)((::AIS_EllipseRadiusDimension*)_NativeInstance)->KindOfDimension();
-}
-
-bool Macad::Occt::AIS_EllipseRadiusDimension::IsMovable()
-{
-	return ((::AIS_EllipseRadiusDimension*)_NativeInstance)->IsMovable();
-}
-
-void Macad::Occt::AIS_EllipseRadiusDimension::ComputeGeometry()
-{
-	((::AIS_EllipseRadiusDimension*)_NativeInstance)->ComputeGeometry();
-}
-
-
-Macad::Occt::AIS_EllipseRadiusDimension^ Macad::Occt::AIS_EllipseRadiusDimension::CreateDowncasted(::AIS_EllipseRadiusDimension* instance)
-{
-	if( instance == nullptr )
-		return nullptr;
-
-	if (instance->IsKind(STANDARD_TYPE(::AIS_MaxRadiusDimension)))
-		return Macad::Occt::AIS_MaxRadiusDimension::CreateDowncasted((::AIS_MaxRadiusDimension*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::AIS_MinRadiusDimension)))
-		return Macad::Occt::AIS_MinRadiusDimension::CreateDowncasted((::AIS_MinRadiusDimension*)instance);
-
-	return gcnew Macad::Occt::AIS_EllipseRadiusDimension( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_EqualDistanceRelation
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_EqualDistanceRelation::AIS_EqualDistanceRelation(Macad::Occt::TopoDS_Shape^ aShape1, Macad::Occt::TopoDS_Shape^ aShape2, Macad::Occt::TopoDS_Shape^ aShape3, Macad::Occt::TopoDS_Shape^ aShape4, Macad::Occt::Geom_Plane^ aPlane)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	NativeInstance = new ::AIS_EqualDistanceRelation(*(::TopoDS_Shape*)aShape1->NativeInstance, *(::TopoDS_Shape*)aShape2->NativeInstance, *(::TopoDS_Shape*)aShape3->NativeInstance, *(::TopoDS_Shape*)aShape4->NativeInstance, h_aPlane);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_EqualDistanceRelation::AIS_EqualDistanceRelation(Macad::Occt::AIS_EqualDistanceRelation^ parameter1)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_EqualDistanceRelation(*(::AIS_EqualDistanceRelation*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::AIS_EqualDistanceRelation::SetShape3(Macad::Occt::TopoDS_Shape^ aShape)
-{
-	((::AIS_EqualDistanceRelation*)_NativeInstance)->SetShape3(*(::TopoDS_Shape*)aShape->NativeInstance);
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::AIS_EqualDistanceRelation::Shape3()
-{
-	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result =  (::TopoDS_Shape)((::AIS_EqualDistanceRelation*)_NativeInstance)->Shape3();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-void Macad::Occt::AIS_EqualDistanceRelation::SetShape4(Macad::Occt::TopoDS_Shape^ aShape)
-{
-	((::AIS_EqualDistanceRelation*)_NativeInstance)->SetShape4(*(::TopoDS_Shape*)aShape->NativeInstance);
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::AIS_EqualDistanceRelation::Shape4()
-{
-	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result =  (::TopoDS_Shape)((::AIS_EqualDistanceRelation*)_NativeInstance)->Shape4();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-void Macad::Occt::AIS_EqualDistanceRelation::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_EqualDistanceRelation*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-
-Macad::Occt::AIS_EqualDistanceRelation^ Macad::Occt::AIS_EqualDistanceRelation::CreateDowncasted(::AIS_EqualDistanceRelation* instance)
-{
-	return gcnew Macad::Occt::AIS_EqualDistanceRelation( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_EqualRadiusRelation
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_EqualRadiusRelation::AIS_EqualRadiusRelation(Macad::Occt::TopoDS_Edge^ aFirstEdge, Macad::Occt::TopoDS_Edge^ aSecondEdge, Macad::Occt::Geom_Plane^ aPlane)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	NativeInstance = new ::AIS_EqualRadiusRelation(*(::TopoDS_Edge*)aFirstEdge->NativeInstance, *(::TopoDS_Edge*)aSecondEdge->NativeInstance, h_aPlane);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_EqualRadiusRelation::AIS_EqualRadiusRelation(Macad::Occt::AIS_EqualRadiusRelation^ parameter1)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_EqualRadiusRelation(*(::AIS_EqualRadiusRelation*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::AIS_EqualRadiusRelation::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_EqualRadiusRelation*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-
-Macad::Occt::AIS_EqualRadiusRelation^ Macad::Occt::AIS_EqualRadiusRelation::CreateDowncasted(::AIS_EqualRadiusRelation* instance)
-{
-	return gcnew Macad::Occt::AIS_EqualRadiusRelation( instance );
 }
 
 
@@ -5514,104 +3903,6 @@ Macad::Occt::AIS_ExclusionFilter^ Macad::Occt::AIS_ExclusionFilter::CreateDownca
 
 
 //---------------------------------------------------------------------
-//  Class  AIS_FixRelation
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_FixRelation::AIS_FixRelation(Macad::Occt::TopoDS_Shape^ aShape, Macad::Occt::Geom_Plane^ aPlane, Macad::Occt::TopoDS_Wire^ aWire)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	NativeInstance = new ::AIS_FixRelation(*(::TopoDS_Shape*)aShape->NativeInstance, h_aPlane, *(::TopoDS_Wire*)aWire->NativeInstance);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_FixRelation::AIS_FixRelation(Macad::Occt::TopoDS_Shape^ aShape, Macad::Occt::Geom_Plane^ aPlane, Macad::Occt::TopoDS_Wire^ aWire, Macad::Occt::Pnt aPosition, double anArrowSize)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_aPosition = &aPosition;
-	NativeInstance = new ::AIS_FixRelation(*(::TopoDS_Shape*)aShape->NativeInstance, h_aPlane, *(::TopoDS_Wire*)aWire->NativeInstance, *(gp_Pnt*)pp_aPosition, anArrowSize);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_FixRelation::AIS_FixRelation(Macad::Occt::TopoDS_Shape^ aShape, Macad::Occt::Geom_Plane^ aPlane, Macad::Occt::TopoDS_Wire^ aWire, Macad::Occt::Pnt aPosition)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_aPosition = &aPosition;
-	NativeInstance = new ::AIS_FixRelation(*(::TopoDS_Shape*)aShape->NativeInstance, h_aPlane, *(::TopoDS_Wire*)aWire->NativeInstance, *(gp_Pnt*)pp_aPosition, 0.01);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_FixRelation::AIS_FixRelation(Macad::Occt::TopoDS_Shape^ aShape, Macad::Occt::Geom_Plane^ aPlane)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	NativeInstance = new ::AIS_FixRelation(*(::TopoDS_Shape*)aShape->NativeInstance, h_aPlane);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_FixRelation::AIS_FixRelation(Macad::Occt::TopoDS_Shape^ aShape, Macad::Occt::Geom_Plane^ aPlane, Macad::Occt::Pnt aPosition, double anArrowSize)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_aPosition = &aPosition;
-	NativeInstance = new ::AIS_FixRelation(*(::TopoDS_Shape*)aShape->NativeInstance, h_aPlane, *(gp_Pnt*)pp_aPosition, anArrowSize);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_FixRelation::AIS_FixRelation(Macad::Occt::TopoDS_Shape^ aShape, Macad::Occt::Geom_Plane^ aPlane, Macad::Occt::Pnt aPosition)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_aPosition = &aPosition;
-	NativeInstance = new ::AIS_FixRelation(*(::TopoDS_Shape*)aShape->NativeInstance, h_aPlane, *(gp_Pnt*)pp_aPosition, 0.01);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_FixRelation::AIS_FixRelation(Macad::Occt::AIS_FixRelation^ parameter1)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_FixRelation(*(::AIS_FixRelation*)parameter1->NativeInstance);
-}
-
-Macad::Occt::TopoDS_Wire^ Macad::Occt::AIS_FixRelation::Wire()
-{
-	::TopoDS_Wire* _result = new ::TopoDS_Wire();
-	*_result = ((::AIS_FixRelation*)_NativeInstance)->Wire();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Wire(_result);
-}
-
-void Macad::Occt::AIS_FixRelation::SetWire(Macad::Occt::TopoDS_Wire^ aWire)
-{
-	((::AIS_FixRelation*)_NativeInstance)->SetWire(*(::TopoDS_Wire*)aWire->NativeInstance);
-}
-
-bool Macad::Occt::AIS_FixRelation::IsMovable()
-{
-	return ((::AIS_FixRelation*)_NativeInstance)->IsMovable();
-}
-
-void Macad::Occt::AIS_FixRelation::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_FixRelation*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-
-Macad::Occt::AIS_FixRelation^ Macad::Occt::AIS_FixRelation::CreateDowncasted(::AIS_FixRelation* instance)
-{
-	return gcnew Macad::Occt::AIS_FixRelation( instance );
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  AIS_GraphicTool
 //---------------------------------------------------------------------
 
@@ -5692,223 +3983,6 @@ Macad::Occt::Graphic3d_MaterialAspect^ Macad::Occt::AIS_GraphicTool::GetMaterial
 
 
 //---------------------------------------------------------------------
-//  Class  AIS_IdenticRelation
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_IdenticRelation::AIS_IdenticRelation(Macad::Occt::TopoDS_Shape^ FirstShape, Macad::Occt::TopoDS_Shape^ SecondShape, Macad::Occt::Geom_Plane^ aPlane)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	NativeInstance = new ::AIS_IdenticRelation(*(::TopoDS_Shape*)FirstShape->NativeInstance, *(::TopoDS_Shape*)SecondShape->NativeInstance, h_aPlane);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_IdenticRelation::AIS_IdenticRelation(Macad::Occt::AIS_IdenticRelation^ parameter1)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_IdenticRelation(*(::AIS_IdenticRelation*)parameter1->NativeInstance);
-}
-
-bool Macad::Occt::AIS_IdenticRelation::HasUsers()
-{
-	return ((::AIS_IdenticRelation*)_NativeInstance)->HasUsers();
-}
-
-Macad::Occt::TColStd_ListOfTransient^ Macad::Occt::AIS_IdenticRelation::Users()
-{
-	::TColStd_ListOfTransient* _result = new ::TColStd_ListOfTransient();
-	*_result =  (::TColStd_ListOfTransient)((::AIS_IdenticRelation*)_NativeInstance)->Users();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TColStd_ListOfTransient(_result);
-}
-
-void Macad::Occt::AIS_IdenticRelation::AddUser(Macad::Occt::Standard_Transient^ theUser)
-{
-	throw gcnew System::NotImplementedException();
-}
-
-void Macad::Occt::AIS_IdenticRelation::ClearUsers()
-{
-	((::AIS_IdenticRelation*)_NativeInstance)->ClearUsers();
-}
-
-bool Macad::Occt::AIS_IdenticRelation::IsMovable()
-{
-	return ((::AIS_IdenticRelation*)_NativeInstance)->IsMovable();
-}
-
-void Macad::Occt::AIS_IdenticRelation::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_IdenticRelation*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-
-Macad::Occt::AIS_IdenticRelation^ Macad::Occt::AIS_IdenticRelation::CreateDowncasted(::AIS_IdenticRelation* instance)
-{
-	return gcnew Macad::Occt::AIS_IdenticRelation( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_LengthDimension
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_LengthDimension::AIS_LengthDimension(Macad::Occt::TopoDS_Face^ theFace, Macad::Occt::TopoDS_Edge^ theEdge)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_LengthDimension(*(::TopoDS_Face*)theFace->NativeInstance, *(::TopoDS_Edge*)theEdge->NativeInstance);
-}
-
-Macad::Occt::AIS_LengthDimension::AIS_LengthDimension(Macad::Occt::TopoDS_Face^ theFirstFace, Macad::Occt::TopoDS_Face^ theSecondFace)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_LengthDimension(*(::TopoDS_Face*)theFirstFace->NativeInstance, *(::TopoDS_Face*)theSecondFace->NativeInstance);
-}
-
-Macad::Occt::AIS_LengthDimension::AIS_LengthDimension(Macad::Occt::Pnt theFirstPoint, Macad::Occt::Pnt theSecondPoint, Macad::Occt::Pln thePlane)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstPoint = &theFirstPoint;
-	pin_ptr<Macad::Occt::Pnt> pp_theSecondPoint = &theSecondPoint;
-	pin_ptr<Macad::Occt::Pln> pp_thePlane = &thePlane;
-	NativeInstance = new ::AIS_LengthDimension(*(gp_Pnt*)pp_theFirstPoint, *(gp_Pnt*)pp_theSecondPoint, *(gp_Pln*)pp_thePlane);
-}
-
-Macad::Occt::AIS_LengthDimension::AIS_LengthDimension(Macad::Occt::TopoDS_Shape^ theFirstShape, Macad::Occt::TopoDS_Shape^ theSecondShape, Macad::Occt::Pln thePlane)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	pin_ptr<Macad::Occt::Pln> pp_thePlane = &thePlane;
-	NativeInstance = new ::AIS_LengthDimension(*(::TopoDS_Shape*)theFirstShape->NativeInstance, *(::TopoDS_Shape*)theSecondShape->NativeInstance, *(gp_Pln*)pp_thePlane);
-}
-
-Macad::Occt::AIS_LengthDimension::AIS_LengthDimension(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::Pln thePlane)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	pin_ptr<Macad::Occt::Pln> pp_thePlane = &thePlane;
-	NativeInstance = new ::AIS_LengthDimension(*(::TopoDS_Edge*)theEdge->NativeInstance, *(gp_Pln*)pp_thePlane);
-}
-
-Macad::Occt::AIS_LengthDimension::AIS_LengthDimension(Macad::Occt::AIS_LengthDimension^ parameter1)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_LengthDimension(*(::AIS_LengthDimension*)parameter1->NativeInstance);
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS_LengthDimension::FirstPoint()
-{
-	return Macad::Occt::Pnt(((::AIS_LengthDimension*)_NativeInstance)->FirstPoint());
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS_LengthDimension::SecondPoint()
-{
-	return Macad::Occt::Pnt(((::AIS_LengthDimension*)_NativeInstance)->SecondPoint());
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::AIS_LengthDimension::FirstShape()
-{
-	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result =  (::TopoDS_Shape)((::AIS_LengthDimension*)_NativeInstance)->FirstShape();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::AIS_LengthDimension::SecondShape()
-{
-	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result =  (::TopoDS_Shape)((::AIS_LengthDimension*)_NativeInstance)->SecondShape();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-void Macad::Occt::AIS_LengthDimension::SetMeasuredGeometry(Macad::Occt::Pnt theFirstPoint, Macad::Occt::Pnt theSecondPoint, Macad::Occt::Pln thePlane)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theFirstPoint = &theFirstPoint;
-	pin_ptr<Macad::Occt::Pnt> pp_theSecondPoint = &theSecondPoint;
-	pin_ptr<Macad::Occt::Pln> pp_thePlane = &thePlane;
-	((::AIS_LengthDimension*)_NativeInstance)->SetMeasuredGeometry(*(gp_Pnt*)pp_theFirstPoint, *(gp_Pnt*)pp_theSecondPoint, *(gp_Pln*)pp_thePlane);
-}
-
-void Macad::Occt::AIS_LengthDimension::SetMeasuredGeometry(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::Pln thePlane)
-{
-	pin_ptr<Macad::Occt::Pln> pp_thePlane = &thePlane;
-	((::AIS_LengthDimension*)_NativeInstance)->SetMeasuredGeometry(*(::TopoDS_Edge*)theEdge->NativeInstance, *(gp_Pln*)pp_thePlane);
-}
-
-void Macad::Occt::AIS_LengthDimension::SetMeasuredGeometry(Macad::Occt::TopoDS_Face^ theFirstFace, Macad::Occt::TopoDS_Face^ theSecondFace)
-{
-	((::AIS_LengthDimension*)_NativeInstance)->SetMeasuredGeometry(*(::TopoDS_Face*)theFirstFace->NativeInstance, *(::TopoDS_Face*)theSecondFace->NativeInstance);
-}
-
-void Macad::Occt::AIS_LengthDimension::SetMeasuredGeometry(Macad::Occt::TopoDS_Face^ theFace, Macad::Occt::TopoDS_Edge^ theEdge)
-{
-	((::AIS_LengthDimension*)_NativeInstance)->SetMeasuredGeometry(*(::TopoDS_Face*)theFace->NativeInstance, *(::TopoDS_Edge*)theEdge->NativeInstance);
-}
-
-void Macad::Occt::AIS_LengthDimension::SetMeasuredShapes(Macad::Occt::TopoDS_Shape^ theFirstShape, Macad::Occt::TopoDS_Shape^ theSecondShape)
-{
-	((::AIS_LengthDimension*)_NativeInstance)->SetMeasuredShapes(*(::TopoDS_Shape*)theFirstShape->NativeInstance, *(::TopoDS_Shape*)theSecondShape->NativeInstance);
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::AIS_LengthDimension::GetDisplayUnits()
-{
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result =  (::TCollection_AsciiString)((::AIS_LengthDimension*)_NativeInstance)->GetDisplayUnits();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::AIS_LengthDimension::GetModelUnits()
-{
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result =  (::TCollection_AsciiString)((::AIS_LengthDimension*)_NativeInstance)->GetModelUnits();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-void Macad::Occt::AIS_LengthDimension::SetDisplayUnits(Macad::Occt::TCollection_AsciiString^ theUnits)
-{
-	((::AIS_LengthDimension*)_NativeInstance)->SetDisplayUnits(*(::TCollection_AsciiString*)theUnits->NativeInstance);
-}
-
-void Macad::Occt::AIS_LengthDimension::SetModelUnits(Macad::Occt::TCollection_AsciiString^ theUnits)
-{
-	((::AIS_LengthDimension*)_NativeInstance)->SetModelUnits(*(::TCollection_AsciiString*)theUnits->NativeInstance);
-}
-
-void Macad::Occt::AIS_LengthDimension::SetTextPosition(Macad::Occt::Pnt theTextPos)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theTextPos = &theTextPos;
-	((::AIS_LengthDimension*)_NativeInstance)->SetTextPosition(*(gp_Pnt*)pp_theTextPos);
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS_LengthDimension::GetTextPosition()
-{
-	return Macad::Occt::Pnt(((::AIS_LengthDimension*)_NativeInstance)->GetTextPosition());
-}
-
-void Macad::Occt::AIS_LengthDimension::SetDirection(Macad::Occt::Dir theDirection, bool theUseDirection)
-{
-	pin_ptr<Macad::Occt::Dir> pp_theDirection = &theDirection;
-	((::AIS_LengthDimension*)_NativeInstance)->SetDirection(*(gp_Dir*)pp_theDirection, theUseDirection);
-}
-
-void Macad::Occt::AIS_LengthDimension::SetDirection(Macad::Occt::Dir theDirection)
-{
-	pin_ptr<Macad::Occt::Dir> pp_theDirection = &theDirection;
-	((::AIS_LengthDimension*)_NativeInstance)->SetDirection(*(gp_Dir*)pp_theDirection, true);
-}
-
-
-Macad::Occt::AIS_LengthDimension^ Macad::Occt::AIS_LengthDimension::CreateDowncasted(::AIS_LengthDimension* instance)
-{
-	return gcnew Macad::Occt::AIS_LengthDimension( instance );
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  AIS_Line
 //---------------------------------------------------------------------
 
@@ -5934,17 +4008,6 @@ Macad::Occt::AIS_Line::AIS_Line(Macad::Occt::AIS_Line^ parameter1)
 	: Macad::Occt::AIS_InteractiveObject(BaseClass::InitMode::Uninitialized)
 {
 	NativeInstance = new ::AIS_Line(*(::AIS_Line*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::AIS_Line::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_Line*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
 }
 
 int Macad::Occt::AIS_Line::Signature()
@@ -6220,41 +4283,6 @@ Macad::Occt::AIS_ManipulatorOwner^ Macad::Occt::AIS_ManipulatorOwner::CreateDown
 
 
 //---------------------------------------------------------------------
-//  Class  AIS_MaxRadiusDimension
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_MaxRadiusDimension::AIS_MaxRadiusDimension(Macad::Occt::TopoDS_Shape^ aShape, double aVal, Macad::Occt::TCollection_ExtendedString^ aText)
-	: Macad::Occt::AIS_EllipseRadiusDimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_MaxRadiusDimension(*(::TopoDS_Shape*)aShape->NativeInstance, aVal, *(::TCollection_ExtendedString*)aText->NativeInstance);
-}
-
-Macad::Occt::AIS_MaxRadiusDimension::AIS_MaxRadiusDimension(Macad::Occt::AIS_MaxRadiusDimension^ parameter1)
-	: Macad::Occt::AIS_EllipseRadiusDimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_MaxRadiusDimension(*(::AIS_MaxRadiusDimension*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::AIS_MaxRadiusDimension::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_MaxRadiusDimension*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-
-Macad::Occt::AIS_MaxRadiusDimension^ Macad::Occt::AIS_MaxRadiusDimension::CreateDowncasted(::AIS_MaxRadiusDimension* instance)
-{
-	return gcnew Macad::Occt::AIS_MaxRadiusDimension( instance );
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  AIS_MediaPlayer
 //---------------------------------------------------------------------
 
@@ -6304,95 +4332,6 @@ Macad::Occt::AIS_MediaPlayer^ Macad::Occt::AIS_MediaPlayer::CreateDowncasted(::A
 
 
 //---------------------------------------------------------------------
-//  Class  AIS_MidPointRelation
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_MidPointRelation::AIS_MidPointRelation(Macad::Occt::TopoDS_Shape^ aSymmTool, Macad::Occt::TopoDS_Shape^ FirstShape, Macad::Occt::TopoDS_Shape^ SecondShape, Macad::Occt::Geom_Plane^ aPlane)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	NativeInstance = new ::AIS_MidPointRelation(*(::TopoDS_Shape*)aSymmTool->NativeInstance, *(::TopoDS_Shape*)FirstShape->NativeInstance, *(::TopoDS_Shape*)SecondShape->NativeInstance, h_aPlane);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_MidPointRelation::AIS_MidPointRelation(Macad::Occt::AIS_MidPointRelation^ parameter1)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_MidPointRelation(*(::AIS_MidPointRelation*)parameter1->NativeInstance);
-}
-
-bool Macad::Occt::AIS_MidPointRelation::IsMovable()
-{
-	return ((::AIS_MidPointRelation*)_NativeInstance)->IsMovable();
-}
-
-void Macad::Occt::AIS_MidPointRelation::SetTool(Macad::Occt::TopoDS_Shape^ aMidPointTool)
-{
-	((::AIS_MidPointRelation*)_NativeInstance)->SetTool(*(::TopoDS_Shape*)aMidPointTool->NativeInstance);
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::AIS_MidPointRelation::GetTool()
-{
-	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result =  (::TopoDS_Shape)((::AIS_MidPointRelation*)_NativeInstance)->GetTool();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-void Macad::Occt::AIS_MidPointRelation::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_MidPointRelation*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-
-Macad::Occt::AIS_MidPointRelation^ Macad::Occt::AIS_MidPointRelation::CreateDowncasted(::AIS_MidPointRelation* instance)
-{
-	return gcnew Macad::Occt::AIS_MidPointRelation( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_MinRadiusDimension
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_MinRadiusDimension::AIS_MinRadiusDimension(Macad::Occt::TopoDS_Shape^ aShape, double aVal, Macad::Occt::TCollection_ExtendedString^ aText)
-	: Macad::Occt::AIS_EllipseRadiusDimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_MinRadiusDimension(*(::TopoDS_Shape*)aShape->NativeInstance, aVal, *(::TCollection_ExtendedString*)aText->NativeInstance);
-}
-
-Macad::Occt::AIS_MinRadiusDimension::AIS_MinRadiusDimension(Macad::Occt::AIS_MinRadiusDimension^ parameter1)
-	: Macad::Occt::AIS_EllipseRadiusDimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_MinRadiusDimension(*(::AIS_MinRadiusDimension*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::AIS_MinRadiusDimension::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_MinRadiusDimension*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-
-Macad::Occt::AIS_MinRadiusDimension^ Macad::Occt::AIS_MinRadiusDimension::CreateDowncasted(::AIS_MinRadiusDimension* instance)
-{
-	return gcnew Macad::Occt::AIS_MinRadiusDimension( instance );
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  AIS_MultipleConnectedInteractive
 //---------------------------------------------------------------------
 
@@ -6408,10 +4347,10 @@ Macad::Occt::AIS_MultipleConnectedInteractive::AIS_MultipleConnectedInteractive(
 	NativeInstance = new ::AIS_MultipleConnectedInteractive(*(::AIS_MultipleConnectedInteractive*)parameter1->NativeInstance);
 }
 
-Macad::Occt::AIS_InteractiveObject^ Macad::Occt::AIS_MultipleConnectedInteractive::Connect(Macad::Occt::AIS_InteractiveObject^ theAnotherObj, Macad::Occt::Geom_Transformation^ theLocation, Macad::Occt::Graphic3d_TransformPers^ theTrsfPers)
+Macad::Occt::AIS_InteractiveObject^ Macad::Occt::AIS_MultipleConnectedInteractive::Connect(Macad::Occt::AIS_InteractiveObject^ theAnotherObj, Macad::Occt::TopLoc_Datum3D^ theLocation, Macad::Occt::Graphic3d_TransformPers^ theTrsfPers)
 {
 	Handle(::AIS_InteractiveObject) h_theAnotherObj = theAnotherObj->NativeInstance;
-	Handle(::Geom_Transformation) h_theLocation = theLocation->NativeInstance;
+	Handle(::TopLoc_Datum3D) h_theLocation = theLocation->NativeInstance;
 	Handle(::Graphic3d_TransformPers) h_theTrsfPers = theTrsfPers->NativeInstance;
 	Handle(::AIS_InteractiveObject) _result;
 	_result = ((::AIS_MultipleConnectedInteractive*)_NativeInstance)->Connect(h_theAnotherObj, h_theLocation, h_theTrsfPers);
@@ -6446,26 +4385,6 @@ void Macad::Occt::AIS_MultipleConnectedInteractive::Disconnect(Macad::Occt::AIS_
 void Macad::Occt::AIS_MultipleConnectedInteractive::DisconnectAll()
 {
 	((::AIS_MultipleConnectedInteractive*)_NativeInstance)->DisconnectAll();
-}
-
-void Macad::Occt::AIS_MultipleConnectedInteractive::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_MultipleConnectedInteractive*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-void Macad::Occt::AIS_MultipleConnectedInteractive::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_MultipleConnectedInteractive*)_NativeInstance)->Compute(h_aProjector, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
 }
 
 bool Macad::Occt::AIS_MultipleConnectedInteractive::AcceptShapeDecomposition()
@@ -6541,142 +4460,6 @@ Macad::Occt::AIS_InteractiveObject^ Macad::Occt::AIS_MultipleConnectedInteractiv
 Macad::Occt::AIS_MultipleConnectedInteractive^ Macad::Occt::AIS_MultipleConnectedInteractive::CreateDowncasted(::AIS_MultipleConnectedInteractive* instance)
 {
 	return gcnew Macad::Occt::AIS_MultipleConnectedInteractive( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_OffsetDimension
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_OffsetDimension::AIS_OffsetDimension(Macad::Occt::TopoDS_Shape^ FistShape, Macad::Occt::TopoDS_Shape^ SecondShape, double aVal, Macad::Occt::TCollection_ExtendedString^ aText)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_OffsetDimension(*(::TopoDS_Shape*)FistShape->NativeInstance, *(::TopoDS_Shape*)SecondShape->NativeInstance, aVal, *(::TCollection_ExtendedString*)aText->NativeInstance);
-}
-
-Macad::Occt::AIS_OffsetDimension::AIS_OffsetDimension(Macad::Occt::AIS_OffsetDimension^ parameter1)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_OffsetDimension(*(::AIS_OffsetDimension*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::AIS_OffsetDimension::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_OffsetDimension*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-Macad::Occt::AIS_KindOfDimension Macad::Occt::AIS_OffsetDimension::KindOfDimension()
-{
-	return (Macad::Occt::AIS_KindOfDimension)((::AIS_OffsetDimension*)_NativeInstance)->KindOfDimension();
-}
-
-bool Macad::Occt::AIS_OffsetDimension::IsMovable()
-{
-	return ((::AIS_OffsetDimension*)_NativeInstance)->IsMovable();
-}
-
-void Macad::Occt::AIS_OffsetDimension::SetRelativePos(Macad::Occt::Trsf aTrsf)
-{
-	pin_ptr<Macad::Occt::Trsf> pp_aTrsf = &aTrsf;
-	((::AIS_OffsetDimension*)_NativeInstance)->SetRelativePos(*(gp_Trsf*)pp_aTrsf);
-}
-
-
-Macad::Occt::AIS_OffsetDimension^ Macad::Occt::AIS_OffsetDimension::CreateDowncasted(::AIS_OffsetDimension* instance)
-{
-	return gcnew Macad::Occt::AIS_OffsetDimension( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_ParallelRelation
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_ParallelRelation::AIS_ParallelRelation(Macad::Occt::TopoDS_Shape^ aFShape, Macad::Occt::TopoDS_Shape^ aSShape, Macad::Occt::Geom_Plane^ aPlane)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	NativeInstance = new ::AIS_ParallelRelation(*(::TopoDS_Shape*)aFShape->NativeInstance, *(::TopoDS_Shape*)aSShape->NativeInstance, h_aPlane);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_ParallelRelation::AIS_ParallelRelation(Macad::Occt::AIS_ParallelRelation^ parameter1)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_ParallelRelation(*(::AIS_ParallelRelation*)parameter1->NativeInstance);
-}
-
-bool Macad::Occt::AIS_ParallelRelation::IsMovable()
-{
-	return ((::AIS_ParallelRelation*)_NativeInstance)->IsMovable();
-}
-
-void Macad::Occt::AIS_ParallelRelation::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_ParallelRelation*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-
-Macad::Occt::AIS_ParallelRelation^ Macad::Occt::AIS_ParallelRelation::CreateDowncasted(::AIS_ParallelRelation* instance)
-{
-	return gcnew Macad::Occt::AIS_ParallelRelation( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_PerpendicularRelation
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_PerpendicularRelation::AIS_PerpendicularRelation(Macad::Occt::TopoDS_Shape^ aFShape, Macad::Occt::TopoDS_Shape^ aSShape, Macad::Occt::Geom_Plane^ aPlane)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	NativeInstance = new ::AIS_PerpendicularRelation(*(::TopoDS_Shape*)aFShape->NativeInstance, *(::TopoDS_Shape*)aSShape->NativeInstance, h_aPlane);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_PerpendicularRelation::AIS_PerpendicularRelation(Macad::Occt::TopoDS_Shape^ aFShape, Macad::Occt::TopoDS_Shape^ aSShape)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_PerpendicularRelation(*(::TopoDS_Shape*)aFShape->NativeInstance, *(::TopoDS_Shape*)aSShape->NativeInstance);
-}
-
-Macad::Occt::AIS_PerpendicularRelation::AIS_PerpendicularRelation(Macad::Occt::AIS_PerpendicularRelation^ parameter1)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_PerpendicularRelation(*(::AIS_PerpendicularRelation*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::AIS_PerpendicularRelation::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_PerpendicularRelation*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-
-Macad::Occt::AIS_PerpendicularRelation^ Macad::Occt::AIS_PerpendicularRelation::CreateDowncasted(::AIS_PerpendicularRelation* instance)
-{
-	return gcnew Macad::Occt::AIS_PerpendicularRelation( instance );
 }
 
 
@@ -6891,17 +4674,6 @@ void Macad::Occt::AIS_Plane::SetContext(Macad::Occt::AIS_InteractiveContext^ aCt
 	aCtx->NativeInstance = h_aCtx.get();
 }
 
-void Macad::Occt::AIS_Plane::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_Plane*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
 void Macad::Occt::AIS_Plane::ComputeSelection(Macad::Occt::SelectMgr_Selection^ theSelection, int theMode)
 {
 	Handle(::SelectMgr_Selection) h_theSelection = theSelection->NativeInstance;
@@ -6972,17 +4744,6 @@ void Macad::Occt::AIS_Point::SetComponent(Macad::Occt::Geom_Point^ aComponent)
 bool Macad::Occt::AIS_Point::AcceptDisplayMode(int aMode)
 {
 	return ((::AIS_Point*)_NativeInstance)->AcceptDisplayMode(aMode);
-}
-
-void Macad::Occt::AIS_Point::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_Point*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
 }
 
 void Macad::Occt::AIS_Point::SetColor(Macad::Occt::Quantity_Color^ theColor)
@@ -7091,17 +4852,6 @@ double Macad::Occt::AIS_PlaneTrihedron::GetLength()
 bool Macad::Occt::AIS_PlaneTrihedron::AcceptDisplayMode(int aMode)
 {
 	return ((::AIS_PlaneTrihedron*)_NativeInstance)->AcceptDisplayMode(aMode);
-}
-
-void Macad::Occt::AIS_PlaneTrihedron::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_PlaneTrihedron*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
 }
 
 int Macad::Occt::AIS_PlaneTrihedron::Signature()
@@ -7270,131 +5020,6 @@ bool Macad::Occt::AIS_PointCloudOwner::IsForcedHilight()
 Macad::Occt::AIS_PointCloudOwner^ Macad::Occt::AIS_PointCloudOwner::CreateDowncasted(::AIS_PointCloudOwner* instance)
 {
 	return gcnew Macad::Occt::AIS_PointCloudOwner( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_RadiusDimension
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_RadiusDimension::AIS_RadiusDimension(Macad::Occt::gp_Circ^ theCircle)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_RadiusDimension(*(::gp_Circ*)theCircle->NativeInstance);
-}
-
-Macad::Occt::AIS_RadiusDimension::AIS_RadiusDimension(Macad::Occt::gp_Circ^ theCircle, Macad::Occt::Pnt theAnchorPoint)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theAnchorPoint = &theAnchorPoint;
-	NativeInstance = new ::AIS_RadiusDimension(*(::gp_Circ*)theCircle->NativeInstance, *(gp_Pnt*)pp_theAnchorPoint);
-}
-
-Macad::Occt::AIS_RadiusDimension::AIS_RadiusDimension(Macad::Occt::TopoDS_Shape^ theShape)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_RadiusDimension(*(::TopoDS_Shape*)theShape->NativeInstance);
-}
-
-Macad::Occt::AIS_RadiusDimension::AIS_RadiusDimension(Macad::Occt::AIS_RadiusDimension^ parameter1)
-	: Macad::Occt::AIS_Dimension(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_RadiusDimension(*(::AIS_RadiusDimension*)parameter1->NativeInstance);
-}
-
-Macad::Occt::gp_Circ^ Macad::Occt::AIS_RadiusDimension::Circle()
-{
-	::gp_Circ* _result = new ::gp_Circ();
-	*_result =  (::gp_Circ)((::AIS_RadiusDimension*)_NativeInstance)->Circle();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::gp_Circ(_result);
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS_RadiusDimension::AnchorPoint()
-{
-	return Macad::Occt::Pnt(((::AIS_RadiusDimension*)_NativeInstance)->AnchorPoint());
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::AIS_RadiusDimension::Shape()
-{
-	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result =  (::TopoDS_Shape)((::AIS_RadiusDimension*)_NativeInstance)->Shape();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-void Macad::Occt::AIS_RadiusDimension::SetMeasuredGeometry(Macad::Occt::gp_Circ^ theCircle)
-{
-	((::AIS_RadiusDimension*)_NativeInstance)->SetMeasuredGeometry(*(::gp_Circ*)theCircle->NativeInstance);
-}
-
-void Macad::Occt::AIS_RadiusDimension::SetMeasuredGeometry(Macad::Occt::gp_Circ^ theCircle, Macad::Occt::Pnt theAnchorPoint, bool theHasAnchor)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theAnchorPoint = &theAnchorPoint;
-	((::AIS_RadiusDimension*)_NativeInstance)->SetMeasuredGeometry(*(::gp_Circ*)theCircle->NativeInstance, *(gp_Pnt*)pp_theAnchorPoint, theHasAnchor);
-}
-
-void Macad::Occt::AIS_RadiusDimension::SetMeasuredGeometry(Macad::Occt::gp_Circ^ theCircle, Macad::Occt::Pnt theAnchorPoint)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theAnchorPoint = &theAnchorPoint;
-	((::AIS_RadiusDimension*)_NativeInstance)->SetMeasuredGeometry(*(::gp_Circ*)theCircle->NativeInstance, *(gp_Pnt*)pp_theAnchorPoint, true);
-}
-
-void Macad::Occt::AIS_RadiusDimension::SetMeasuredGeometry(Macad::Occt::TopoDS_Shape^ theShape)
-{
-	((::AIS_RadiusDimension*)_NativeInstance)->SetMeasuredGeometry(*(::TopoDS_Shape*)theShape->NativeInstance);
-}
-
-void Macad::Occt::AIS_RadiusDimension::SetMeasuredGeometry(Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::Pnt theAnchorPoint, bool theHasAnchor)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theAnchorPoint = &theAnchorPoint;
-	((::AIS_RadiusDimension*)_NativeInstance)->SetMeasuredGeometry(*(::TopoDS_Shape*)theShape->NativeInstance, *(gp_Pnt*)pp_theAnchorPoint, theHasAnchor);
-}
-
-void Macad::Occt::AIS_RadiusDimension::SetMeasuredGeometry(Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::Pnt theAnchorPoint)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theAnchorPoint = &theAnchorPoint;
-	((::AIS_RadiusDimension*)_NativeInstance)->SetMeasuredGeometry(*(::TopoDS_Shape*)theShape->NativeInstance, *(gp_Pnt*)pp_theAnchorPoint, true);
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::AIS_RadiusDimension::GetDisplayUnits()
-{
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result =  (::TCollection_AsciiString)((::AIS_RadiusDimension*)_NativeInstance)->GetDisplayUnits();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::AIS_RadiusDimension::GetModelUnits()
-{
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result =  (::TCollection_AsciiString)((::AIS_RadiusDimension*)_NativeInstance)->GetModelUnits();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-void Macad::Occt::AIS_RadiusDimension::SetDisplayUnits(Macad::Occt::TCollection_AsciiString^ theUnits)
-{
-	((::AIS_RadiusDimension*)_NativeInstance)->SetDisplayUnits(*(::TCollection_AsciiString*)theUnits->NativeInstance);
-}
-
-void Macad::Occt::AIS_RadiusDimension::SetModelUnits(Macad::Occt::TCollection_AsciiString^ theUnits)
-{
-	((::AIS_RadiusDimension*)_NativeInstance)->SetModelUnits(*(::TCollection_AsciiString*)theUnits->NativeInstance);
-}
-
-void Macad::Occt::AIS_RadiusDimension::SetTextPosition(Macad::Occt::Pnt theTextPos)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theTextPos = &theTextPos;
-	((::AIS_RadiusDimension*)_NativeInstance)->SetTextPosition(*(gp_Pnt*)pp_theTextPos);
-}
-
-Macad::Occt::Pnt Macad::Occt::AIS_RadiusDimension::GetTextPosition()
-{
-	return Macad::Occt::Pnt(((::AIS_RadiusDimension*)_NativeInstance)->GetTextPosition());
-}
-
-
-Macad::Occt::AIS_RadiusDimension^ Macad::Occt::AIS_RadiusDimension::CreateDowncasted(::AIS_RadiusDimension* instance)
-{
-	return gcnew Macad::Occt::AIS_RadiusDimension( instance );
 }
 
 
@@ -7633,115 +5258,6 @@ Macad::Occt::AIS_SignatureFilter^ Macad::Occt::AIS_SignatureFilter::CreateDownca
 
 
 //---------------------------------------------------------------------
-//  Class  AIS_SymmetricRelation
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_SymmetricRelation::AIS_SymmetricRelation(Macad::Occt::TopoDS_Shape^ aSymmTool, Macad::Occt::TopoDS_Shape^ FirstShape, Macad::Occt::TopoDS_Shape^ SecondShape, Macad::Occt::Geom_Plane^ aPlane)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	NativeInstance = new ::AIS_SymmetricRelation(*(::TopoDS_Shape*)aSymmTool->NativeInstance, *(::TopoDS_Shape*)FirstShape->NativeInstance, *(::TopoDS_Shape*)SecondShape->NativeInstance, h_aPlane);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_SymmetricRelation::AIS_SymmetricRelation(Macad::Occt::AIS_SymmetricRelation^ parameter1)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_SymmetricRelation(*(::AIS_SymmetricRelation*)parameter1->NativeInstance);
-}
-
-bool Macad::Occt::AIS_SymmetricRelation::IsMovable()
-{
-	return ((::AIS_SymmetricRelation*)_NativeInstance)->IsMovable();
-}
-
-void Macad::Occt::AIS_SymmetricRelation::SetTool(Macad::Occt::TopoDS_Shape^ aSymmetricTool)
-{
-	((::AIS_SymmetricRelation*)_NativeInstance)->SetTool(*(::TopoDS_Shape*)aSymmetricTool->NativeInstance);
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::AIS_SymmetricRelation::GetTool()
-{
-	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result =  (::TopoDS_Shape)((::AIS_SymmetricRelation*)_NativeInstance)->GetTool();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-void Macad::Occt::AIS_SymmetricRelation::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_SymmetricRelation*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-
-Macad::Occt::AIS_SymmetricRelation^ Macad::Occt::AIS_SymmetricRelation::CreateDowncasted(::AIS_SymmetricRelation* instance)
-{
-	return gcnew Macad::Occt::AIS_SymmetricRelation( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  AIS_TangentRelation
-//---------------------------------------------------------------------
-
-Macad::Occt::AIS_TangentRelation::AIS_TangentRelation(Macad::Occt::TopoDS_Shape^ aFShape, Macad::Occt::TopoDS_Shape^ aSShape, Macad::Occt::Geom_Plane^ aPlane, int anExternRef)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	NativeInstance = new ::AIS_TangentRelation(*(::TopoDS_Shape*)aFShape->NativeInstance, *(::TopoDS_Shape*)aSShape->NativeInstance, h_aPlane, anExternRef);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_TangentRelation::AIS_TangentRelation(Macad::Occt::TopoDS_Shape^ aFShape, Macad::Occt::TopoDS_Shape^ aSShape, Macad::Occt::Geom_Plane^ aPlane)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Plane) h_aPlane = aPlane->NativeInstance;
-	NativeInstance = new ::AIS_TangentRelation(*(::TopoDS_Shape*)aFShape->NativeInstance, *(::TopoDS_Shape*)aSShape->NativeInstance, h_aPlane, 0);
-	aPlane->NativeInstance = h_aPlane.get();
-}
-
-Macad::Occt::AIS_TangentRelation::AIS_TangentRelation(Macad::Occt::AIS_TangentRelation^ parameter1)
-	: Macad::Occt::AIS_Relation(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_TangentRelation(*(::AIS_TangentRelation*)parameter1->NativeInstance);
-}
-
-int Macad::Occt::AIS_TangentRelation::ExternRef()
-{
-	return ((::AIS_TangentRelation*)_NativeInstance)->ExternRef();
-}
-
-void Macad::Occt::AIS_TangentRelation::SetExternRef(int aRef)
-{
-	((::AIS_TangentRelation*)_NativeInstance)->SetExternRef(aRef);
-}
-
-void Macad::Occt::AIS_TangentRelation::Compute(Macad::Occt::Prs3d_Projector^ aProjector, Macad::Occt::Geom_Transformation^ aTrsf, Macad::Occt::Graphic3d_Structure^ aPresentation)
-{
-	Handle(::Prs3d_Projector) h_aProjector = aProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_aTrsf = aTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_aPresentation = aPresentation->NativeInstance;
-	((::AIS_TangentRelation*)_NativeInstance)->Compute(h_aProjector, h_aTrsf, h_aPresentation);
-	aProjector->NativeInstance = h_aProjector.get();
-	aTrsf->NativeInstance = h_aTrsf.get();
-	aPresentation->NativeInstance = h_aPresentation.get();
-}
-
-
-Macad::Occt::AIS_TangentRelation^ Macad::Occt::AIS_TangentRelation::CreateDowncasted(::AIS_TangentRelation* instance)
-{
-	return gcnew Macad::Occt::AIS_TangentRelation( instance );
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  AIS_TextLabel
 //---------------------------------------------------------------------
 
@@ -7755,6 +5271,11 @@ Macad::Occt::AIS_TextLabel::AIS_TextLabel(Macad::Occt::AIS_TextLabel^ parameter1
 	: Macad::Occt::AIS_InteractiveObject(BaseClass::InitMode::Uninitialized)
 {
 	NativeInstance = new ::AIS_TextLabel(*(::AIS_TextLabel*)parameter1->NativeInstance);
+}
+
+bool Macad::Occt::AIS_TextLabel::AcceptDisplayMode(int theMode)
+{
+	return ((::AIS_TextLabel*)_NativeInstance)->AcceptDisplayMode(theMode);
 }
 
 void Macad::Occt::AIS_TextLabel::SetColor(Macad::Occt::Quantity_Color^ theColor)
@@ -7836,6 +5357,20 @@ Macad::Occt::Pnt Macad::Occt::AIS_TextLabel::Position()
 	return Macad::Occt::Pnt(((::AIS_TextLabel*)_NativeInstance)->Position());
 }
 
+Macad::Occt::TCollection_ExtendedString^ Macad::Occt::AIS_TextLabel::Text()
+{
+	::TCollection_ExtendedString* _result = new ::TCollection_ExtendedString();
+	*_result =  (::TCollection_ExtendedString)((::AIS_TextLabel*)_NativeInstance)->Text();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_ExtendedString(_result);
+}
+
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::AIS_TextLabel::FontName()
+{
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result =  (::TCollection_AsciiString)((::AIS_TextLabel*)_NativeInstance)->FontName();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
+}
+
 Macad::Occt::Ax2 Macad::Occt::AIS_TextLabel::Orientation3D()
 {
 	return Macad::Occt::Ax2(((::AIS_TextLabel*)_NativeInstance)->Orientation3D());
@@ -7854,6 +5389,16 @@ void Macad::Occt::AIS_TextLabel::SetFlipping(bool theIsFlipping)
 bool Macad::Occt::AIS_TextLabel::HasFlipping()
 {
 	return ((::AIS_TextLabel*)_NativeInstance)->HasFlipping();
+}
+
+bool Macad::Occt::AIS_TextLabel::HasOwnAnchorPoint()
+{
+	return ((::AIS_TextLabel*)_NativeInstance)->HasOwnAnchorPoint();
+}
+
+void Macad::Occt::AIS_TextLabel::SetOwnAnchorPoint(bool theOwnAnchorPoint)
+{
+	((::AIS_TextLabel*)_NativeInstance)->SetOwnAnchorPoint(theOwnAnchorPoint);
 }
 
 void Macad::Occt::AIS_TextLabel::SetDisplayType(Macad::Occt::Aspect_TypeOfDisplayText theDisplayType)
@@ -8321,11 +5866,6 @@ Macad::Occt::TCollection_ExtendedString^ Macad::Occt::AIS_Trihedron::Label(Macad
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_ExtendedString(_result);
 }
 
-bool Macad::Occt::AIS_Trihedron::IsAutoHilight()
-{
-	return ((::AIS_Trihedron*)_NativeInstance)->IsAutoHilight();
-}
-
 void Macad::Occt::AIS_Trihedron::ClearSelected()
 {
 	((::AIS_Trihedron*)_NativeInstance)->ClearSelected();
@@ -8391,6 +5931,82 @@ void Macad::Occt::AIS_ViewInputBuffer::Reset()
 	((::AIS_ViewInputBuffer*)_NativeInstance)->Reset();
 }
 
+
+
+
+//---------------------------------------------------------------------
+//  Class  AIS_XRTrackedDevice
+//---------------------------------------------------------------------
+
+Macad::Occt::AIS_XRTrackedDevice::AIS_XRTrackedDevice(Macad::Occt::Graphic3d_ArrayOfTriangles^ theTris, Macad::Occt::Image_Texture^ theTexture)
+	: Macad::Occt::AIS_InteractiveObject(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::Graphic3d_ArrayOfTriangles) h_theTris = theTris->NativeInstance;
+	Handle(::Image_Texture) h_theTexture = theTexture->NativeInstance;
+	NativeInstance = new ::AIS_XRTrackedDevice(h_theTris, h_theTexture);
+	theTris->NativeInstance = h_theTris.get();
+	theTexture->NativeInstance = h_theTexture.get();
+}
+
+Macad::Occt::AIS_XRTrackedDevice::AIS_XRTrackedDevice()
+	: Macad::Occt::AIS_InteractiveObject(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::AIS_XRTrackedDevice();
+}
+
+Macad::Occt::AIS_XRTrackedDevice::AIS_XRTrackedDevice(Macad::Occt::AIS_XRTrackedDevice^ parameter1)
+	: Macad::Occt::AIS_InteractiveObject(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::AIS_XRTrackedDevice(*(::AIS_XRTrackedDevice*)parameter1->NativeInstance);
+}
+
+Macad::Occt::Aspect_XRTrackedDeviceRole Macad::Occt::AIS_XRTrackedDevice::Role()
+{
+	return (Macad::Occt::Aspect_XRTrackedDeviceRole)((::AIS_XRTrackedDevice*)_NativeInstance)->Role();
+}
+
+void Macad::Occt::AIS_XRTrackedDevice::SetRole(Macad::Occt::Aspect_XRTrackedDeviceRole theRole)
+{
+	((::AIS_XRTrackedDevice*)_NativeInstance)->SetRole((::Aspect_XRTrackedDeviceRole)theRole);
+}
+
+Macad::Occt::Quantity_Color^ Macad::Occt::AIS_XRTrackedDevice::LaserColor()
+{
+	::Quantity_Color* _result = new ::Quantity_Color();
+	*_result =  (::Quantity_Color)((::AIS_XRTrackedDevice*)_NativeInstance)->LaserColor();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Quantity_Color(_result);
+}
+
+void Macad::Occt::AIS_XRTrackedDevice::SetLaserColor(Macad::Occt::Quantity_Color^ theColor)
+{
+	((::AIS_XRTrackedDevice*)_NativeInstance)->SetLaserColor(*(::Quantity_Color*)theColor->NativeInstance);
+}
+
+float Macad::Occt::AIS_XRTrackedDevice::LaserLength()
+{
+	return ((::AIS_XRTrackedDevice*)_NativeInstance)->LaserLength();
+}
+
+void Macad::Occt::AIS_XRTrackedDevice::SetLaserLength(float theLength)
+{
+	((::AIS_XRTrackedDevice*)_NativeInstance)->SetLaserLength(theLength);
+}
+
+float Macad::Occt::AIS_XRTrackedDevice::UnitFactor()
+{
+	return ((::AIS_XRTrackedDevice*)_NativeInstance)->UnitFactor();
+}
+
+void Macad::Occt::AIS_XRTrackedDevice::SetUnitFactor(float theFactor)
+{
+	((::AIS_XRTrackedDevice*)_NativeInstance)->SetUnitFactor(theFactor);
+}
+
+
+Macad::Occt::AIS_XRTrackedDevice^ Macad::Occt::AIS_XRTrackedDevice::CreateDowncasted(::AIS_XRTrackedDevice* instance)
+{
+	return gcnew Macad::Occt::AIS_XRTrackedDevice( instance );
+}
 
 
 
@@ -8654,6 +6270,26 @@ void Macad::Occt::AIS_ViewController::ResetPreviousMoveTo()
 	((::AIS_ViewController*)_NativeInstance)->ResetPreviousMoveTo();
 }
 
+bool Macad::Occt::AIS_ViewController::ToDisplayXRAuxDevices()
+{
+	return ((::AIS_ViewController*)_NativeInstance)->ToDisplayXRAuxDevices();
+}
+
+void Macad::Occt::AIS_ViewController::SetDisplayXRAuxDevices(bool theToDisplay)
+{
+	((::AIS_ViewController*)_NativeInstance)->SetDisplayXRAuxDevices(theToDisplay);
+}
+
+bool Macad::Occt::AIS_ViewController::ToDisplayXRHands()
+{
+	return ((::AIS_ViewController*)_NativeInstance)->ToDisplayXRHands();
+}
+
+void Macad::Occt::AIS_ViewController::SetDisplayXRHands(bool theToDisplay)
+{
+	((::AIS_ViewController*)_NativeInstance)->SetDisplayXRHands(theToDisplay);
+}
+
 void Macad::Occt::AIS_ViewController::KeyDown(unsigned int theKey, double theTime, double thePressure)
 {
 	((::AIS_ViewController*)_NativeInstance)->KeyDown(theKey, theTime, thePressure);
@@ -8813,6 +6449,56 @@ void Macad::Occt::AIS_ViewController::UpdateTouchPoint(size_t theId, Macad::Occt
 	((::AIS_ViewController*)_NativeInstance)->UpdateTouchPoint(theId, *(::Graphic3d_Vec2d*)thePnt->NativeInstance);
 }
 
+float Macad::Occt::AIS_ViewController::Get3dMouseTranslationScale()
+{
+	return ((::AIS_ViewController*)_NativeInstance)->Get3dMouseTranslationScale();
+}
+
+void Macad::Occt::AIS_ViewController::Set3dMouseTranslationScale(float theScale)
+{
+	((::AIS_ViewController*)_NativeInstance)->Set3dMouseTranslationScale(theScale);
+}
+
+float Macad::Occt::AIS_ViewController::Get3dMouseRotationScale()
+{
+	return ((::AIS_ViewController*)_NativeInstance)->Get3dMouseRotationScale();
+}
+
+void Macad::Occt::AIS_ViewController::Set3dMouseRotationScale(float theScale)
+{
+	((::AIS_ViewController*)_NativeInstance)->Set3dMouseRotationScale(theScale);
+}
+
+bool Macad::Occt::AIS_ViewController::To3dMousePreciseInput()
+{
+	return ((::AIS_ViewController*)_NativeInstance)->To3dMousePreciseInput();
+}
+
+void Macad::Occt::AIS_ViewController::Set3dMousePreciseInput(bool theIsQuadric)
+{
+	((::AIS_ViewController*)_NativeInstance)->Set3dMousePreciseInput(theIsQuadric);
+}
+
+bool Macad::Occt::AIS_ViewController::Update3dMouse(Macad::Occt::WNT_HIDSpaceMouse^ theEvent)
+{
+	return ((::AIS_ViewController*)_NativeInstance)->Update3dMouse(*(::WNT_HIDSpaceMouse*)theEvent->NativeInstance);
+}
+
+bool Macad::Occt::AIS_ViewController::update3dMouseTranslation(Macad::Occt::WNT_HIDSpaceMouse^ theEvent)
+{
+	return ((::AIS_ViewController*)_NativeInstance)->update3dMouseTranslation(*(::WNT_HIDSpaceMouse*)theEvent->NativeInstance);
+}
+
+bool Macad::Occt::AIS_ViewController::update3dMouseRotation(Macad::Occt::WNT_HIDSpaceMouse^ theEvent)
+{
+	return ((::AIS_ViewController*)_NativeInstance)->update3dMouseRotation(*(::WNT_HIDSpaceMouse*)theEvent->NativeInstance);
+}
+
+bool Macad::Occt::AIS_ViewController::update3dMouseKeys(Macad::Occt::WNT_HIDSpaceMouse^ theEvent)
+{
+	return ((::AIS_ViewController*)_NativeInstance)->update3dMouseKeys(*(::WNT_HIDSpaceMouse*)theEvent->NativeInstance);
+}
+
 double Macad::Occt::AIS_ViewController::EventTime()
 {
 	return ((::AIS_ViewController*)_NativeInstance)->EventTime();
@@ -8890,6 +6576,35 @@ Macad::Occt::Pnt Macad::Occt::AIS_ViewController::GravityPoint(Macad::Occt::AIS_
 	return Macad::Occt::Pnt(((::AIS_ViewController*)_NativeInstance)->GravityPoint(h_theCtx, h_theView));
 	theCtx->NativeInstance = h_theCtx.get();
 	theView->NativeInstance = h_theView.get();
+}
+
+void Macad::Occt::AIS_ViewController::FitAllAuto(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView)
+{
+	Handle(::AIS_InteractiveContext) h_theCtx = theCtx->NativeInstance;
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	((::AIS_ViewController*)_NativeInstance)->FitAllAuto(h_theCtx, h_theView);
+	theCtx->NativeInstance = h_theCtx.get();
+	theView->NativeInstance = h_theView.get();
+}
+
+void Macad::Occt::AIS_ViewController::handleViewOrientationKeys(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView)
+{
+	Handle(::AIS_InteractiveContext) h_theCtx = theCtx->NativeInstance;
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	((::AIS_ViewController*)_NativeInstance)->handleViewOrientationKeys(h_theCtx, h_theView);
+	theCtx->NativeInstance = h_theCtx.get();
+	theView->NativeInstance = h_theView.get();
+}
+
+Macad::Occt::AIS_WalkDelta^ Macad::Occt::AIS_ViewController::handleNavigationKeys(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView)
+{
+	Handle(::AIS_InteractiveContext) h_theCtx = theCtx->NativeInstance;
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	::AIS_WalkDelta* _result = new ::AIS_WalkDelta();
+	*_result = ((::AIS_ViewController*)_NativeInstance)->handleNavigationKeys(h_theCtx, h_theView);
+	theCtx->NativeInstance = h_theCtx.get();
+	theView->NativeInstance = h_theView.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::AIS_WalkDelta(_result);
 }
 
 void Macad::Occt::AIS_ViewController::handleCameraActions(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView, Macad::Occt::AIS_WalkDelta^ theWalk)
@@ -9000,6 +6715,70 @@ void Macad::Occt::AIS_ViewController::handleViewRedraw(Macad::Occt::AIS_Interact
 	Handle(::AIS_InteractiveContext) h_theCtx = theCtx->NativeInstance;
 	Handle(::V3d_View) h_theView = theView->NativeInstance;
 	((::AIS_ViewController*)_NativeInstance)->handleViewRedraw(h_theCtx, h_theView);
+	theCtx->NativeInstance = h_theCtx.get();
+	theView->NativeInstance = h_theView.get();
+}
+
+void Macad::Occt::AIS_ViewController::handleXRInput(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView, Macad::Occt::AIS_WalkDelta^ theWalk)
+{
+	Handle(::AIS_InteractiveContext) h_theCtx = theCtx->NativeInstance;
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	((::AIS_ViewController*)_NativeInstance)->handleXRInput(h_theCtx, h_theView, *(::AIS_WalkDelta*)theWalk->NativeInstance);
+	theCtx->NativeInstance = h_theCtx.get();
+	theView->NativeInstance = h_theView.get();
+}
+
+void Macad::Occt::AIS_ViewController::handleXRTurnPad(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView)
+{
+	Handle(::AIS_InteractiveContext) h_theCtx = theCtx->NativeInstance;
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	((::AIS_ViewController*)_NativeInstance)->handleXRTurnPad(h_theCtx, h_theView);
+	theCtx->NativeInstance = h_theCtx.get();
+	theView->NativeInstance = h_theView.get();
+}
+
+void Macad::Occt::AIS_ViewController::handleXRTeleport(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView)
+{
+	Handle(::AIS_InteractiveContext) h_theCtx = theCtx->NativeInstance;
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	((::AIS_ViewController*)_NativeInstance)->handleXRTeleport(h_theCtx, h_theView);
+	theCtx->NativeInstance = h_theCtx.get();
+	theView->NativeInstance = h_theView.get();
+}
+
+void Macad::Occt::AIS_ViewController::handleXRPicking(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView)
+{
+	Handle(::AIS_InteractiveContext) h_theCtx = theCtx->NativeInstance;
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	((::AIS_ViewController*)_NativeInstance)->handleXRPicking(h_theCtx, h_theView);
+	theCtx->NativeInstance = h_theCtx.get();
+	theView->NativeInstance = h_theView.get();
+}
+
+void Macad::Occt::AIS_ViewController::handleXRHighlight(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView)
+{
+	Handle(::AIS_InteractiveContext) h_theCtx = theCtx->NativeInstance;
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	((::AIS_ViewController*)_NativeInstance)->handleXRHighlight(h_theCtx, h_theView);
+	theCtx->NativeInstance = h_theCtx.get();
+	theView->NativeInstance = h_theView.get();
+}
+
+void Macad::Occt::AIS_ViewController::handleXRPresentations(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView)
+{
+	Handle(::AIS_InteractiveContext) h_theCtx = theCtx->NativeInstance;
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	((::AIS_ViewController*)_NativeInstance)->handleXRPresentations(h_theCtx, h_theView);
+	theCtx->NativeInstance = h_theCtx.get();
+	theView->NativeInstance = h_theView.get();
+}
+
+int Macad::Occt::AIS_ViewController::handleXRMoveTo(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView, Macad::Occt::Trsf thePose, bool theToHighlight)
+{
+	Handle(::AIS_InteractiveContext) h_theCtx = theCtx->NativeInstance;
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	pin_ptr<Macad::Occt::Trsf> pp_thePose = &thePose;
+	return ((::AIS_ViewController*)_NativeInstance)->handleXRMoveTo(h_theCtx, h_theView, *(gp_Trsf*)pp_thePose, theToHighlight);
 	theCtx->NativeInstance = h_theCtx.get();
 	theView->NativeInstance = h_theView.get();
 }
@@ -9199,6 +6978,36 @@ double Macad::Occt::AIS_ViewCube::RoundRadius()
 void Macad::Occt::AIS_ViewCube::SetRoundRadius(double theValue)
 {
 	((::AIS_ViewCube*)_NativeInstance)->SetRoundRadius(theValue);
+}
+
+double Macad::Occt::AIS_ViewCube::AxesRadius()
+{
+	return ((::AIS_ViewCube*)_NativeInstance)->AxesRadius();
+}
+
+void Macad::Occt::AIS_ViewCube::SetAxesRadius(double theRadius)
+{
+	((::AIS_ViewCube*)_NativeInstance)->SetAxesRadius(theRadius);
+}
+
+double Macad::Occt::AIS_ViewCube::AxesConeRadius()
+{
+	return ((::AIS_ViewCube*)_NativeInstance)->AxesConeRadius();
+}
+
+void Macad::Occt::AIS_ViewCube::SetAxesConeRadius(double theRadius)
+{
+	((::AIS_ViewCube*)_NativeInstance)->SetAxesConeRadius(theRadius);
+}
+
+double Macad::Occt::AIS_ViewCube::AxesSphereRadius()
+{
+	return ((::AIS_ViewCube*)_NativeInstance)->AxesSphereRadius();
+}
+
+void Macad::Occt::AIS_ViewCube::SetAxesSphereRadius(double theRadius)
+{
+	((::AIS_ViewCube*)_NativeInstance)->SetAxesSphereRadius(theRadius);
 }
 
 bool Macad::Occt::AIS_ViewCube::ToDrawAxes()

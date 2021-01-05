@@ -953,11 +953,31 @@ Macad::Occt::ShapeCustom::ShapeCustom(Macad::Occt::ShapeCustom^ parameter1)
 	_NativeInstance = new ::ShapeCustom(*(::ShapeCustom*)parameter1->NativeInstance);
 }
 
+Macad::Occt::TopoDS_Shape^ Macad::Occt::ShapeCustom::ApplyModifier(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_Modification^ M, Macad::Occt::TopTools_DataMapOfShapeShape^ context, Macad::Occt::BRepTools_Modifier^ MD, Macad::Occt::Message_ProgressRange^ theProgress, Macad::Occt::ShapeBuild_ReShape^ aReShape)
+{
+	Handle(::BRepTools_Modification) h_M = M->NativeInstance;
+	Handle(::ShapeBuild_ReShape) h_aReShape = aReShape->NativeInstance;
+	::TopoDS_Shape* _result = new ::TopoDS_Shape();
+	*_result = ::ShapeCustom::ApplyModifier(*(::TopoDS_Shape*)S->NativeInstance, h_M, *(::TopTools_DataMapOfShapeShape*)context->NativeInstance, *(::BRepTools_Modifier*)MD->NativeInstance, *(::Message_ProgressRange*)theProgress->NativeInstance, h_aReShape);
+	M->NativeInstance = h_M.get();
+	aReShape->NativeInstance = h_aReShape.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
+}
+
+Macad::Occt::TopoDS_Shape^ Macad::Occt::ShapeCustom::ApplyModifier(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_Modification^ M, Macad::Occt::TopTools_DataMapOfShapeShape^ context, Macad::Occt::BRepTools_Modifier^ MD, Macad::Occt::Message_ProgressRange^ theProgress)
+{
+	Handle(::BRepTools_Modification) h_M = M->NativeInstance;
+	::TopoDS_Shape* _result = new ::TopoDS_Shape();
+	*_result = ::ShapeCustom::ApplyModifier(*(::TopoDS_Shape*)S->NativeInstance, h_M, *(::TopTools_DataMapOfShapeShape*)context->NativeInstance, *(::BRepTools_Modifier*)MD->NativeInstance, *(::Message_ProgressRange*)theProgress->NativeInstance, 0);
+	M->NativeInstance = h_M.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
+}
+
 Macad::Occt::TopoDS_Shape^ Macad::Occt::ShapeCustom::ApplyModifier(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_Modification^ M, Macad::Occt::TopTools_DataMapOfShapeShape^ context, Macad::Occt::BRepTools_Modifier^ MD)
 {
 	Handle(::BRepTools_Modification) h_M = M->NativeInstance;
 	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result = ::ShapeCustom::ApplyModifier(*(::TopoDS_Shape*)S->NativeInstance, h_M, *(::TopTools_DataMapOfShapeShape*)context->NativeInstance, *(::BRepTools_Modifier*)MD->NativeInstance, 0, 0);
+	*_result = ::ShapeCustom::ApplyModifier(*(::TopoDS_Shape*)S->NativeInstance, h_M, *(::TopTools_DataMapOfShapeShape*)context->NativeInstance, *(::BRepTools_Modifier*)MD->NativeInstance, ::Message_ProgressRange(), 0);
 	M->NativeInstance = h_M.get();
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
 }

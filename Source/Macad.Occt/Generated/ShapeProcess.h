@@ -46,6 +46,7 @@ public:
 public:
 	ShapeProcess_Operator(Macad::Occt::ShapeProcess_Operator^ parameter1);
 	ShapeProcess_Operator();
+	bool Perform(Macad::Occt::ShapeProcess_Context^ context, Macad::Occt::Message_ProgressRange^ theProgress);
 	bool Perform(Macad::Occt::ShapeProcess_Context^ context);
 }; // class ShapeProcess_Operator
 
@@ -106,8 +107,6 @@ public:
 	System::String^ StringVal(System::String^ param, System::String^ def);
 	void SetMessenger(Macad::Occt::Message_Messenger^ messenger);
 	Macad::Occt::Message_Messenger^ Messenger();
-	/* Method skipped due to unknown mapping: void SetProgress(Message_ProgressIndicator theProgress, ) */
-	/* Method skipped due to unknown mapping: Message_ProgressIndicator Progress() */
 	void SetTraceLevel(int tracelev);
 	int TraceLevel();
 }; // class ShapeProcess_Context
@@ -203,6 +202,7 @@ public:
 
 public:
 	ShapeProcess_UOperator(Macad::Occt::ShapeProcess_UOperator^ parameter1);
+	bool Perform(Macad::Occt::ShapeProcess_Context^ context, Macad::Occt::Message_ProgressRange^ theProgress);
 	bool Perform(Macad::Occt::ShapeProcess_Context^ context);
 }; // class ShapeProcess_UOperator
 
@@ -276,6 +276,7 @@ public:
 	ShapeProcess(Macad::Occt::ShapeProcess^ parameter1);
 	static bool RegisterOperator(System::String^ name, Macad::Occt::ShapeProcess_Operator^ op);
 	static bool FindOperator(System::String^ name, Macad::Occt::ShapeProcess_Operator^ op);
+	static bool Perform(Macad::Occt::ShapeProcess_Context^ context, System::String^ seq, Macad::Occt::Message_ProgressRange^ theProgress);
 	static bool Perform(Macad::Occt::ShapeProcess_Context^ context, System::String^ seq);
 }; // class ShapeProcess
 

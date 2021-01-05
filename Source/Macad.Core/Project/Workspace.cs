@@ -245,8 +245,8 @@ namespace Macad.Core
                     V3d_TypeOfVisualization.V3d_ZBUFFER);
             }
 
-            V3dViewer.SetLightOn(new V3d_DirectionalLight(V3dViewer, V3d_TypeOfOrientation.V3d_Zneg, Quantity_NameOfColor.Quantity_NOC_WHITE.ToColor(), true));
-            V3dViewer.SetLightOn(new V3d_AmbientLight(V3dViewer));
+            V3dViewer.SetLightOn(new V3d_DirectionalLight(V3d_TypeOfOrientation.V3d_Zneg, Quantity_NameOfColor.Quantity_NOC_WHITE.ToColor(), true));
+            V3dViewer.SetLightOn(new V3d_AmbientLight(Quantity_NameOfColor.Quantity_NOC_WHITE.ToColor()));
 
             //V3dViewer.Grid().SetColors(new Quantity_Color(Quantity_NameOfColor.Quantity_NOC_GRAY55), new Quantity_Color(Quantity_NameOfColor.Quantity_NOC_GRAY70));
             V3dViewer.Grid().SetColors(Quantity_NameOfColor.Quantity_NOC_GRAY45.ToColor(), Quantity_NameOfColor.Quantity_NOC_GRAY30.ToColor());

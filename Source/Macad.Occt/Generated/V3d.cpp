@@ -458,6 +458,27 @@ void Macad::Occt::V3d_View::SetBackgroundImage(System::String^ theFileName)
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theFileName);
 }
 
+void Macad::Occt::V3d_View::SetBackgroundImage(Macad::Occt::Graphic3d_Texture2D^ theTexture, Macad::Occt::Aspect_FillMethod theFillStyle, bool theToUpdate)
+{
+	Handle(::Graphic3d_Texture2D) h_theTexture = theTexture->NativeInstance;
+	((::V3d_View*)_NativeInstance)->SetBackgroundImage(h_theTexture, (::Aspect_FillMethod)theFillStyle, theToUpdate);
+	theTexture->NativeInstance = h_theTexture.get();
+}
+
+void Macad::Occt::V3d_View::SetBackgroundImage(Macad::Occt::Graphic3d_Texture2D^ theTexture, Macad::Occt::Aspect_FillMethod theFillStyle)
+{
+	Handle(::Graphic3d_Texture2D) h_theTexture = theTexture->NativeInstance;
+	((::V3d_View*)_NativeInstance)->SetBackgroundImage(h_theTexture, (::Aspect_FillMethod)theFillStyle, false);
+	theTexture->NativeInstance = h_theTexture.get();
+}
+
+void Macad::Occt::V3d_View::SetBackgroundImage(Macad::Occt::Graphic3d_Texture2D^ theTexture)
+{
+	Handle(::Graphic3d_Texture2D) h_theTexture = theTexture->NativeInstance;
+	((::V3d_View*)_NativeInstance)->SetBackgroundImage(h_theTexture, Aspect_FM_CENTERED, false);
+	theTexture->NativeInstance = h_theTexture.get();
+}
+
 void Macad::Occt::V3d_View::SetBgImageStyle(Macad::Occt::Aspect_FillMethod theFillStyle, bool theToUpdate)
 {
 	((::V3d_View*)_NativeInstance)->SetBgImageStyle((::Aspect_FillMethod)theFillStyle, theToUpdate);
@@ -468,18 +489,45 @@ void Macad::Occt::V3d_View::SetBgImageStyle(Macad::Occt::Aspect_FillMethod theFi
 	((::V3d_View*)_NativeInstance)->SetBgImageStyle((::Aspect_FillMethod)theFillStyle, false);
 }
 
-void Macad::Occt::V3d_View::SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap, bool theToUpdate)
+void Macad::Occt::V3d_View::SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap, bool theToUpdatePBREnv, bool theToUpdate)
 {
 	Handle(::Graphic3d_CubeMap) h_theCubeMap = theCubeMap->NativeInstance;
-	((::V3d_View*)_NativeInstance)->SetBackgroundCubeMap(h_theCubeMap, theToUpdate);
+	((::V3d_View*)_NativeInstance)->SetBackgroundCubeMap(h_theCubeMap, theToUpdatePBREnv, theToUpdate);
+	theCubeMap->NativeInstance = h_theCubeMap.get();
+}
+
+void Macad::Occt::V3d_View::SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap, bool theToUpdatePBREnv)
+{
+	Handle(::Graphic3d_CubeMap) h_theCubeMap = theCubeMap->NativeInstance;
+	((::V3d_View*)_NativeInstance)->SetBackgroundCubeMap(h_theCubeMap, theToUpdatePBREnv, false);
 	theCubeMap->NativeInstance = h_theCubeMap.get();
 }
 
 void Macad::Occt::V3d_View::SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap)
 {
 	Handle(::Graphic3d_CubeMap) h_theCubeMap = theCubeMap->NativeInstance;
-	((::V3d_View*)_NativeInstance)->SetBackgroundCubeMap(h_theCubeMap, false);
+	((::V3d_View*)_NativeInstance)->SetBackgroundCubeMap(h_theCubeMap, true, false);
 	theCubeMap->NativeInstance = h_theCubeMap.get();
+}
+
+void Macad::Occt::V3d_View::GeneratePBREnvironment(bool theToUpdate)
+{
+	((::V3d_View*)_NativeInstance)->GeneratePBREnvironment(theToUpdate);
+}
+
+void Macad::Occt::V3d_View::GeneratePBREnvironment()
+{
+	((::V3d_View*)_NativeInstance)->GeneratePBREnvironment(false);
+}
+
+void Macad::Occt::V3d_View::ClearPBREnvironment(bool theToUpdate)
+{
+	((::V3d_View*)_NativeInstance)->ClearPBREnvironment(theToUpdate);
+}
+
+void Macad::Occt::V3d_View::ClearPBREnvironment()
+{
+	((::V3d_View*)_NativeInstance)->ClearPBREnvironment(false);
 }
 
 void Macad::Occt::V3d_View::SetAxis(double X, double Y, double Z, double Vx, double Vy, double Vz)
@@ -1168,31 +1216,11 @@ Macad::Occt::V3d_TypeOfVisualization Macad::Occt::V3d_View::Visualization()
 	return (Macad::Occt::V3d_TypeOfVisualization)((::V3d_View*)_NativeInstance)->Visualization();
 }
 
-bool Macad::Occt::V3d_View::IfMoreLights()
+Macad::Occt::V3d_ListOfLight^ Macad::Occt::V3d_View::ActiveLights()
 {
-	return ((::V3d_View*)_NativeInstance)->IfMoreLights();
-}
-
-void Macad::Occt::V3d_View::InitActiveLights()
-{
-	((::V3d_View*)_NativeInstance)->InitActiveLights();
-}
-
-bool Macad::Occt::V3d_View::MoreActiveLights()
-{
-	return ((::V3d_View*)_NativeInstance)->MoreActiveLights();
-}
-
-void Macad::Occt::V3d_View::NextActiveLights()
-{
-	((::V3d_View*)_NativeInstance)->NextActiveLights();
-}
-
-Macad::Occt::Graphic3d_CLight^ Macad::Occt::V3d_View::ActiveLight()
-{
-	Handle(::Graphic3d_CLight) _result;
-	_result = ((::V3d_View*)_NativeInstance)->ActiveLight();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CLight::CreateDowncasted( _result.get());
+	::V3d_ListOfLight* _result = new ::V3d_ListOfLight();
+	*_result =  (::V3d_ListOfLight)((::V3d_View*)_NativeInstance)->ActiveLights();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::V3d_ListOfLight(_result);
 }
 
 int Macad::Occt::V3d_View::LightLimit()
@@ -1489,6 +1517,33 @@ void Macad::Occt::V3d_View::StatisticInformation(Macad::Occt::TColStd_IndexedDat
 Macad::Occt::Pnt Macad::Occt::V3d_View::GravityPoint()
 {
 	return Macad::Occt::Pnt(((::V3d_View*)_NativeInstance)->GravityPoint());
+}
+
+bool Macad::Occt::V3d_View::IfMoreLights()
+{
+	return ((::V3d_View*)_NativeInstance)->IfMoreLights();
+}
+
+void Macad::Occt::V3d_View::InitActiveLights()
+{
+	((::V3d_View*)_NativeInstance)->InitActiveLights();
+}
+
+bool Macad::Occt::V3d_View::MoreActiveLights()
+{
+	return ((::V3d_View*)_NativeInstance)->MoreActiveLights();
+}
+
+void Macad::Occt::V3d_View::NextActiveLights()
+{
+	((::V3d_View*)_NativeInstance)->NextActiveLights();
+}
+
+Macad::Occt::Graphic3d_CLight^ Macad::Occt::V3d_View::ActiveLight()
+{
+	Handle(::Graphic3d_CLight) _result;
+	_result = ((::V3d_View*)_NativeInstance)->ActiveLight();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CLight::CreateDowncasted( _result.get());
 }
 
 
@@ -1900,26 +1955,11 @@ void Macad::Occt::V3d_Viewer::SetZLayerSettings(int theLayerId, Macad::Occt::Gra
 	((::V3d_Viewer*)_NativeInstance)->SetZLayerSettings(theLayerId, *(::Graphic3d_ZLayerSettings*)theSettings->NativeInstance);
 }
 
-void Macad::Occt::V3d_Viewer::InitActiveViews()
+Macad::Occt::V3d_ListOfView^ Macad::Occt::V3d_Viewer::ActiveViews()
 {
-	((::V3d_Viewer*)_NativeInstance)->InitActiveViews();
-}
-
-bool Macad::Occt::V3d_Viewer::MoreActiveViews()
-{
-	return ((::V3d_Viewer*)_NativeInstance)->MoreActiveViews();
-}
-
-void Macad::Occt::V3d_Viewer::NextActiveViews()
-{
-	((::V3d_Viewer*)_NativeInstance)->NextActiveViews();
-}
-
-Macad::Occt::V3d_View^ Macad::Occt::V3d_Viewer::ActiveView()
-{
-	Handle(::V3d_View) _result;
-	_result = ((::V3d_Viewer*)_NativeInstance)->ActiveView();
-	 return _result.IsNull() ? nullptr : Macad::Occt::V3d_View::CreateDowncasted( _result.get());
+	::V3d_ListOfView* _result = new ::V3d_ListOfView();
+	*_result =  (::V3d_ListOfView)((::V3d_Viewer*)_NativeInstance)->ActiveViews();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::V3d_ListOfView(_result);
 }
 
 bool Macad::Occt::V3d_Viewer::LastActiveView()
@@ -1927,26 +1967,11 @@ bool Macad::Occt::V3d_Viewer::LastActiveView()
 	return ((::V3d_Viewer*)_NativeInstance)->LastActiveView();
 }
 
-void Macad::Occt::V3d_Viewer::InitDefinedViews()
+Macad::Occt::V3d_ListOfView^ Macad::Occt::V3d_Viewer::DefinedViews()
 {
-	((::V3d_Viewer*)_NativeInstance)->InitDefinedViews();
-}
-
-bool Macad::Occt::V3d_Viewer::MoreDefinedViews()
-{
-	return ((::V3d_Viewer*)_NativeInstance)->MoreDefinedViews();
-}
-
-void Macad::Occt::V3d_Viewer::NextDefinedViews()
-{
-	((::V3d_Viewer*)_NativeInstance)->NextDefinedViews();
-}
-
-Macad::Occt::V3d_View^ Macad::Occt::V3d_Viewer::DefinedView()
-{
-	Handle(::V3d_View) _result;
-	_result = ((::V3d_Viewer*)_NativeInstance)->DefinedView();
-	 return _result.IsNull() ? nullptr : Macad::Occt::V3d_View::CreateDowncasted( _result.get());
+	::V3d_ListOfView* _result = new ::V3d_ListOfView();
+	*_result =  (::V3d_ListOfView)((::V3d_Viewer*)_NativeInstance)->DefinedViews();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::V3d_ListOfView(_result);
 }
 
 void Macad::Occt::V3d_Viewer::SetDefaultLights()
@@ -2004,48 +2029,18 @@ bool Macad::Occt::V3d_Viewer::IsGlobalLight(Macad::Occt::Graphic3d_CLight^ TheLi
 	TheLight->NativeInstance = h_TheLight.get();
 }
 
-void Macad::Occt::V3d_Viewer::InitActiveLights()
+Macad::Occt::V3d_ListOfLight^ Macad::Occt::V3d_Viewer::ActiveLights()
 {
-	((::V3d_Viewer*)_NativeInstance)->InitActiveLights();
+	::V3d_ListOfLight* _result = new ::V3d_ListOfLight();
+	*_result =  (::V3d_ListOfLight)((::V3d_Viewer*)_NativeInstance)->ActiveLights();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::V3d_ListOfLight(_result);
 }
 
-bool Macad::Occt::V3d_Viewer::MoreActiveLights()
+Macad::Occt::V3d_ListOfLight^ Macad::Occt::V3d_Viewer::DefinedLights()
 {
-	return ((::V3d_Viewer*)_NativeInstance)->MoreActiveLights();
-}
-
-void Macad::Occt::V3d_Viewer::NextActiveLights()
-{
-	((::V3d_Viewer*)_NativeInstance)->NextActiveLights();
-}
-
-Macad::Occt::Graphic3d_CLight^ Macad::Occt::V3d_Viewer::ActiveLight()
-{
-	Handle(::Graphic3d_CLight) _result;
-	_result = ((::V3d_Viewer*)_NativeInstance)->ActiveLight();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CLight::CreateDowncasted( _result.get());
-}
-
-void Macad::Occt::V3d_Viewer::InitDefinedLights()
-{
-	((::V3d_Viewer*)_NativeInstance)->InitDefinedLights();
-}
-
-bool Macad::Occt::V3d_Viewer::MoreDefinedLights()
-{
-	return ((::V3d_Viewer*)_NativeInstance)->MoreDefinedLights();
-}
-
-void Macad::Occt::V3d_Viewer::NextDefinedLights()
-{
-	((::V3d_Viewer*)_NativeInstance)->NextDefinedLights();
-}
-
-Macad::Occt::Graphic3d_CLight^ Macad::Occt::V3d_Viewer::DefinedLight()
-{
-	Handle(::Graphic3d_CLight) _result;
-	_result = ((::V3d_Viewer*)_NativeInstance)->DefinedLight();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CLight::CreateDowncasted( _result.get());
+	::V3d_ListOfLight* _result = new ::V3d_ListOfLight();
+	*_result =  (::V3d_ListOfLight)((::V3d_Viewer*)_NativeInstance)->DefinedLights();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::V3d_ListOfLight(_result);
 }
 
 void Macad::Occt::V3d_Viewer::Erase()
@@ -2228,6 +2223,94 @@ void Macad::Occt::V3d_Viewer::DefaultBackgroundColor(Macad::Occt::Quantity_TypeO
 	((::V3d_Viewer*)_NativeInstance)->DefaultBackgroundColor((::Quantity_TypeOfColor)theType, *(Standard_Real*)pp_theV1, *(Standard_Real*)pp_theV2, *(Standard_Real*)pp_theV3);
 }
 
+void Macad::Occt::V3d_Viewer::InitActiveViews()
+{
+	((::V3d_Viewer*)_NativeInstance)->InitActiveViews();
+}
+
+bool Macad::Occt::V3d_Viewer::MoreActiveViews()
+{
+	return ((::V3d_Viewer*)_NativeInstance)->MoreActiveViews();
+}
+
+void Macad::Occt::V3d_Viewer::NextActiveViews()
+{
+	((::V3d_Viewer*)_NativeInstance)->NextActiveViews();
+}
+
+Macad::Occt::V3d_View^ Macad::Occt::V3d_Viewer::ActiveView()
+{
+	Handle(::V3d_View) _result;
+	_result = ((::V3d_Viewer*)_NativeInstance)->ActiveView();
+	 return _result.IsNull() ? nullptr : Macad::Occt::V3d_View::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::V3d_Viewer::InitDefinedViews()
+{
+	((::V3d_Viewer*)_NativeInstance)->InitDefinedViews();
+}
+
+bool Macad::Occt::V3d_Viewer::MoreDefinedViews()
+{
+	return ((::V3d_Viewer*)_NativeInstance)->MoreDefinedViews();
+}
+
+void Macad::Occt::V3d_Viewer::NextDefinedViews()
+{
+	((::V3d_Viewer*)_NativeInstance)->NextDefinedViews();
+}
+
+Macad::Occt::V3d_View^ Macad::Occt::V3d_Viewer::DefinedView()
+{
+	Handle(::V3d_View) _result;
+	_result = ((::V3d_Viewer*)_NativeInstance)->DefinedView();
+	 return _result.IsNull() ? nullptr : Macad::Occt::V3d_View::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::V3d_Viewer::InitActiveLights()
+{
+	((::V3d_Viewer*)_NativeInstance)->InitActiveLights();
+}
+
+bool Macad::Occt::V3d_Viewer::MoreActiveLights()
+{
+	return ((::V3d_Viewer*)_NativeInstance)->MoreActiveLights();
+}
+
+void Macad::Occt::V3d_Viewer::NextActiveLights()
+{
+	((::V3d_Viewer*)_NativeInstance)->NextActiveLights();
+}
+
+Macad::Occt::Graphic3d_CLight^ Macad::Occt::V3d_Viewer::ActiveLight()
+{
+	Handle(::Graphic3d_CLight) _result;
+	_result = ((::V3d_Viewer*)_NativeInstance)->ActiveLight();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CLight::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::V3d_Viewer::InitDefinedLights()
+{
+	((::V3d_Viewer*)_NativeInstance)->InitDefinedLights();
+}
+
+bool Macad::Occt::V3d_Viewer::MoreDefinedLights()
+{
+	return ((::V3d_Viewer*)_NativeInstance)->MoreDefinedLights();
+}
+
+void Macad::Occt::V3d_Viewer::NextDefinedLights()
+{
+	((::V3d_Viewer*)_NativeInstance)->NextDefinedLights();
+}
+
+Macad::Occt::Graphic3d_CLight^ Macad::Occt::V3d_Viewer::DefinedLight()
+{
+	Handle(::Graphic3d_CLight) _result;
+	_result = ((::V3d_Viewer*)_NativeInstance)->DefinedLight();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CLight::CreateDowncasted( _result.get());
+}
+
 
 Macad::Occt::V3d_Viewer^ Macad::Occt::V3d_Viewer::CreateDowncasted(::V3d_Viewer* instance)
 {
@@ -2244,22 +2327,6 @@ Macad::Occt::V3d_AmbientLight::V3d_AmbientLight(Macad::Occt::Quantity_Color^ the
 	: Macad::Occt::Graphic3d_CLight(BaseClass::InitMode::Uninitialized)
 {
 	NativeInstance = new ::V3d_AmbientLight(*(::Quantity_Color*)theColor->NativeInstance);
-}
-
-Macad::Occt::V3d_AmbientLight::V3d_AmbientLight(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt::Quantity_Color^ theColor)
-	: Macad::Occt::Graphic3d_CLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_AmbientLight(h_theViewer, *(::Quantity_Color*)theColor->NativeInstance);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_AmbientLight::V3d_AmbientLight(Macad::Occt::V3d_Viewer^ theViewer)
-	: Macad::Occt::Graphic3d_CLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_AmbientLight(h_theViewer, Quantity_NOC_WHITE);
-	theViewer->NativeInstance = h_theViewer.get();
 }
 
 
@@ -2437,62 +2504,6 @@ Macad::Occt::V3d_DirectionalLight::V3d_DirectionalLight(Macad::Occt::Dir theDire
 {
 	pin_ptr<Macad::Occt::Dir> pp_theDirection = &theDirection;
 	NativeInstance = new ::V3d_DirectionalLight(*(gp_Dir*)pp_theDirection, Quantity_NOC_WHITE, false);
-}
-
-Macad::Occt::V3d_DirectionalLight::V3d_DirectionalLight(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor, bool theIsHeadlight)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_DirectionalLight(h_theViewer, (::V3d_TypeOfOrientation)theDirection, *(::Quantity_Color*)theColor->NativeInstance, theIsHeadlight);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_DirectionalLight::V3d_DirectionalLight(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_DirectionalLight(h_theViewer, (::V3d_TypeOfOrientation)theDirection, *(::Quantity_Color*)theColor->NativeInstance, false);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_DirectionalLight::V3d_DirectionalLight(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt::V3d_TypeOfOrientation theDirection)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_DirectionalLight(h_theViewer, (::V3d_TypeOfOrientation)theDirection, Quantity_NOC_WHITE, false);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_DirectionalLight::V3d_DirectionalLight(Macad::Occt::V3d_Viewer^ theViewer)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_DirectionalLight(h_theViewer, V3d_XposYposZpos, Quantity_NOC_WHITE, false);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_DirectionalLight::V3d_DirectionalLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp, Macad::Occt::Quantity_Color^ theColor, bool theIsHeadlight)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_DirectionalLight(h_theViewer, theXt, theYt, theZt, theXp, theYp, theZp, *(::Quantity_Color*)theColor->NativeInstance, theIsHeadlight);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_DirectionalLight::V3d_DirectionalLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp, Macad::Occt::Quantity_Color^ theColor)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_DirectionalLight(h_theViewer, theXt, theYt, theZt, theXp, theYp, theZp, *(::Quantity_Color*)theColor->NativeInstance, false);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_DirectionalLight::V3d_DirectionalLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_DirectionalLight(h_theViewer, theXt, theYt, theZt, theXp, theYp, theZp, Quantity_NOC_WHITE, false);
-	theViewer->NativeInstance = h_theViewer.get();
 }
 
 void Macad::Occt::V3d_DirectionalLight::SetDirection(Macad::Occt::V3d_TypeOfOrientation theDirection)
@@ -2792,38 +2803,6 @@ Macad::Occt::V3d_PositionalLight::V3d_PositionalLight(Macad::Occt::Pnt thePos)
 	NativeInstance = new ::V3d_PositionalLight(*(gp_Pnt*)pp_thePos, Quantity_NOC_WHITE);
 }
 
-Macad::Occt::V3d_PositionalLight::V3d_PositionalLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation, double theLinearAttenuation)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_PositionalLight(h_theViewer, theX, theY, theZ, *(::Quantity_Color*)theColor->NativeInstance, theConstAttenuation, theLinearAttenuation);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_PositionalLight::V3d_PositionalLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_PositionalLight(h_theViewer, theX, theY, theZ, *(::Quantity_Color*)theColor->NativeInstance, theConstAttenuation, 0.);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_PositionalLight::V3d_PositionalLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::Quantity_Color^ theColor)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_PositionalLight(h_theViewer, theX, theY, theZ, *(::Quantity_Color*)theColor->NativeInstance, 1., 0.);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_PositionalLight::V3d_PositionalLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_PositionalLight(h_theViewer, theX, theY, theZ, Quantity_NOC_WHITE, 1., 0.);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
 
 Macad::Occt::V3d_PositionalLight^ Macad::Occt::V3d_PositionalLight::CreateDowncasted(::V3d_PositionalLight* instance)
 {
@@ -2871,110 +2850,6 @@ Macad::Occt::V3d_SpotLight::V3d_SpotLight(Macad::Occt::Pnt thePos, Macad::Occt::
 	pin_ptr<Macad::Occt::Pnt> pp_thePos = &thePos;
 	pin_ptr<Macad::Occt::Dir> pp_theDirection = &theDirection;
 	NativeInstance = new ::V3d_SpotLight(*(gp_Pnt*)pp_thePos, *(gp_Dir*)pp_theDirection, Quantity_NOC_WHITE);
-}
-
-Macad::Occt::V3d_SpotLight::V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation, double theLinearAttenuation, double theConcentration, double theAngle)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_SpotLight(h_theViewer, theX, theY, theZ, (::V3d_TypeOfOrientation)theDirection, *(::Quantity_Color*)theColor->NativeInstance, theConstAttenuation, theLinearAttenuation, theConcentration, theAngle);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_SpotLight::V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation, double theLinearAttenuation, double theConcentration)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_SpotLight(h_theViewer, theX, theY, theZ, (::V3d_TypeOfOrientation)theDirection, *(::Quantity_Color*)theColor->NativeInstance, theConstAttenuation, theLinearAttenuation, theConcentration, 0.52359900000000004);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_SpotLight::V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation, double theLinearAttenuation)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_SpotLight(h_theViewer, theX, theY, theZ, (::V3d_TypeOfOrientation)theDirection, *(::Quantity_Color*)theColor->NativeInstance, theConstAttenuation, theLinearAttenuation, 1., 0.52359900000000004);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_SpotLight::V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_SpotLight(h_theViewer, theX, theY, theZ, (::V3d_TypeOfOrientation)theDirection, *(::Quantity_Color*)theColor->NativeInstance, theConstAttenuation, 0., 1., 0.52359900000000004);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_SpotLight::V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_SpotLight(h_theViewer, theX, theY, theZ, (::V3d_TypeOfOrientation)theDirection, *(::Quantity_Color*)theColor->NativeInstance, 1., 0., 1., 0.52359900000000004);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_SpotLight::V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::V3d_TypeOfOrientation theDirection)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_SpotLight(h_theViewer, theX, theY, theZ, (::V3d_TypeOfOrientation)theDirection, Quantity_NOC_WHITE, 1., 0., 1., 0.52359900000000004);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_SpotLight::V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_SpotLight(h_theViewer, theX, theY, theZ, V3d_XnegYnegZpos, Quantity_NOC_WHITE, 1., 0., 1., 0.52359900000000004);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_SpotLight::V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation, double theLinearAttenuation, double theConcentration, double theAngle)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_SpotLight(h_theViewer, theXt, theYt, theZt, theXp, theYp, theZp, *(::Quantity_Color*)theColor->NativeInstance, theConstAttenuation, theLinearAttenuation, theConcentration, theAngle);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_SpotLight::V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation, double theLinearAttenuation, double theConcentration)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_SpotLight(h_theViewer, theXt, theYt, theZt, theXp, theYp, theZp, *(::Quantity_Color*)theColor->NativeInstance, theConstAttenuation, theLinearAttenuation, theConcentration, 0.52359900000000004);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_SpotLight::V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation, double theLinearAttenuation)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_SpotLight(h_theViewer, theXt, theYt, theZt, theXp, theYp, theZp, *(::Quantity_Color*)theColor->NativeInstance, theConstAttenuation, theLinearAttenuation, 1., 0.52359900000000004);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_SpotLight::V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_SpotLight(h_theViewer, theXt, theYt, theZt, theXp, theYp, theZp, *(::Quantity_Color*)theColor->NativeInstance, theConstAttenuation, 0., 1., 0.52359900000000004);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_SpotLight::V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp, Macad::Occt::Quantity_Color^ theColor)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_SpotLight(h_theViewer, theXt, theYt, theZt, theXp, theYp, theZp, *(::Quantity_Color*)theColor->NativeInstance, 1., 0., 1., 0.52359900000000004);
-	theViewer->NativeInstance = h_theViewer.get();
-}
-
-Macad::Occt::V3d_SpotLight::V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp)
-	: Macad::Occt::V3d_PositionLight(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::V3d_Viewer) h_theViewer = theViewer->NativeInstance;
-	NativeInstance = new ::V3d_SpotLight(h_theViewer, theXt, theYt, theZt, theXp, theYp, theZp, Quantity_NOC_WHITE, 1., 0., 1., 0.52359900000000004);
-	theViewer->NativeInstance = h_theViewer.get();
 }
 
 void Macad::Occt::V3d_SpotLight::SetDirection(Macad::Occt::V3d_TypeOfOrientation theOrientation)

@@ -38,11 +38,16 @@ public:
 	}
 
 public:
+	BRepPrimAPI_MakeBox();
 	BRepPrimAPI_MakeBox(double dx, double dy, double dz);
 	BRepPrimAPI_MakeBox(Macad::Occt::Pnt P, double dx, double dy, double dz);
 	BRepPrimAPI_MakeBox(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2);
 	BRepPrimAPI_MakeBox(Macad::Occt::Ax2 Axes, double dx, double dy, double dz);
 	BRepPrimAPI_MakeBox(Macad::Occt::BRepPrimAPI_MakeBox^ parameter1);
+	void Init(double theDX, double theDY, double theDZ);
+	void Init(Macad::Occt::Pnt thePnt, double theDX, double theDY, double theDZ);
+	void Init(Macad::Occt::Pnt thePnt1, Macad::Occt::Pnt thePnt2);
+	void Init(Macad::Occt::Ax2 theAxes, double theDX, double theDY, double theDZ);
 	/* Method skipped due to unknown mapping: BRepPrim_Wedge Wedge() */
 	void Build();
 	Macad::Occt::TopoDS_Shell^ Shell();

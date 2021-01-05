@@ -522,8 +522,8 @@ public:
 public:
 	ShapeCustom();
 	ShapeCustom(Macad::Occt::ShapeCustom^ parameter1);
-	/* Method skipped due to unknown mapping: TopoDS_Shape ApplyModifier(TopoDS_Shape S, BRepTools_Modification M, TopTools_DataMapOfShapeShape context, BRepTools_Modifier MD, Message_ProgressIndicator aProgress, ShapeBuild_ReShape aReShape, ) */
-	/* Method skipped due to unknown mapping: TopoDS_Shape ApplyModifier(TopoDS_Shape S, BRepTools_Modification M, TopTools_DataMapOfShapeShape context, BRepTools_Modifier MD, Message_ProgressIndicator aProgress, ShapeBuild_ReShape aReShape, ) */
+	static Macad::Occt::TopoDS_Shape^ ApplyModifier(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_Modification^ M, Macad::Occt::TopTools_DataMapOfShapeShape^ context, Macad::Occt::BRepTools_Modifier^ MD, Macad::Occt::Message_ProgressRange^ theProgress, Macad::Occt::ShapeBuild_ReShape^ aReShape);
+	static Macad::Occt::TopoDS_Shape^ ApplyModifier(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_Modification^ M, Macad::Occt::TopTools_DataMapOfShapeShape^ context, Macad::Occt::BRepTools_Modifier^ MD, Macad::Occt::Message_ProgressRange^ theProgress);
 	static Macad::Occt::TopoDS_Shape^ ApplyModifier(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_Modification^ M, Macad::Occt::TopTools_DataMapOfShapeShape^ context, Macad::Occt::BRepTools_Modifier^ MD);
 	static Macad::Occt::TopoDS_Shape^ DirectFaces(Macad::Occt::TopoDS_Shape^ S);
 	static Macad::Occt::TopoDS_Shape^ ScaleShape(Macad::Occt::TopoDS_Shape^ S, double scale);

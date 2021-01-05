@@ -959,6 +959,45 @@ public:
 }; // class TopoDS
 
 //---------------------------------------------------------------------
+//  Class  TopoDS_AlertAttribute
+//---------------------------------------------------------------------
+public ref class TopoDS_AlertAttribute sealed : public Macad::Occt::Message_AttributeStream
+{
+
+#ifdef Include_TopoDS_AlertAttribute_h
+public:
+	Include_TopoDS_AlertAttribute_h
+#endif
+
+public:
+	TopoDS_AlertAttribute(::TopoDS_AlertAttribute* nativeInstance)
+		: Macad::Occt::Message_AttributeStream( nativeInstance )
+	{}
+
+	TopoDS_AlertAttribute(::TopoDS_AlertAttribute& nativeInstance)
+		: Macad::Occt::Message_AttributeStream( nativeInstance )
+	{}
+
+	property ::TopoDS_AlertAttribute* NativeInstance
+	{
+		::TopoDS_AlertAttribute* get()
+		{
+			return static_cast<::TopoDS_AlertAttribute*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::TopoDS_AlertAttribute^ CreateDowncasted(::TopoDS_AlertAttribute* instance);
+
+public:
+	TopoDS_AlertAttribute(Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::TCollection_AsciiString^ theName);
+	TopoDS_AlertAttribute(Macad::Occt::TopoDS_Shape^ theShape);
+	Macad::Occt::TopoDS_Shape^ GetShape();
+	static void Send(Macad::Occt::Message_Messenger^ theMessenger, Macad::Occt::TopoDS_Shape^ theShape);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+}; // class TopoDS_AlertAttribute
+
+//---------------------------------------------------------------------
 //  Class  TopoDS_AlertWithShape
 //---------------------------------------------------------------------
 public ref class TopoDS_AlertWithShape sealed : public Macad::Occt::Message_Alert

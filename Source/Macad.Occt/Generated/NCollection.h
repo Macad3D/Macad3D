@@ -278,6 +278,8 @@ public:
 	void SetAllocator(Macad::Occt::NCollection_BaseAllocator^ theAlloc);
 	bool Allocate(size_t theSize);
 	void Free();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class NCollection_Buffer
 
 //---------------------------------------------------------------------

@@ -58,15 +58,17 @@ namespace Macad.Test.Utils
 
         public static void InitWithView(int viewportSize)
         {
-            Current = new Context();
-            Current.Document = new Model();
-            Current.DocumentController = new ModelController();
+            Current = new Context
+            {
+                Document = new Model(), 
+                DocumentController = new ModelController()
+            };
             Current.ViewportController.InitWindow(IntPtr.Zero, viewportSize, viewportSize);
 
             // Neutralize View
             var ocView = Current.Viewport.V3dView;
             ocView.SetBgGradientStyle(Aspect_GradientFillMethod.Aspect_GFM_NONE, false);
-            ocView.SetBackgroundColor(Quantity_NameOfColor.Quantity_NOC_GRAY.ToColor());
+            ocView.SetBackgroundColor(Quantity_NameOfColor.Quantity_NOC_BLACK.ToColor());
             ocView.TriedronErase();
             ocView.ChangeRenderingParams().NbMsaaSamples = 0;
 

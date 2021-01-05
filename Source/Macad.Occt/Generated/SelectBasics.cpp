@@ -88,6 +88,12 @@ void Macad::Occt::SelectBasics_PickResult::SetDistToGeomCenter(double theDistToC
 	((::SelectBasics_PickResult*)_NativeInstance)->SetDistToGeomCenter(theDistToCenter);
 }
 
+void Macad::Occt::SelectBasics_PickResult::SetSurfaceNormal(Macad::Occt::Vec theNormal)
+{
+	pin_ptr<Macad::Occt::Vec> pp_theNormal = &theNormal;
+	((::SelectBasics_PickResult*)_NativeInstance)->SetSurfaceNormal(*(gp_Vec*)pp_theNormal);
+}
+
 
 
 

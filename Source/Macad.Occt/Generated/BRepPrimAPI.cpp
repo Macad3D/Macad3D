@@ -18,6 +18,12 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 //  Class  BRepPrimAPI_MakeBox
 //---------------------------------------------------------------------
 
+Macad::Occt::BRepPrimAPI_MakeBox::BRepPrimAPI_MakeBox()
+	: Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepPrimAPI_MakeBox();
+}
+
 Macad::Occt::BRepPrimAPI_MakeBox::BRepPrimAPI_MakeBox(double dx, double dy, double dz)
 	: Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
 {
@@ -50,6 +56,30 @@ Macad::Occt::BRepPrimAPI_MakeBox::BRepPrimAPI_MakeBox(Macad::Occt::BRepPrimAPI_M
 	: Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
 {
 	_NativeInstance = new ::BRepPrimAPI_MakeBox(*(::BRepPrimAPI_MakeBox*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::BRepPrimAPI_MakeBox::Init(double theDX, double theDY, double theDZ)
+{
+	((::BRepPrimAPI_MakeBox*)_NativeInstance)->Init(theDX, theDY, theDZ);
+}
+
+void Macad::Occt::BRepPrimAPI_MakeBox::Init(Macad::Occt::Pnt thePnt, double theDX, double theDY, double theDZ)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_thePnt = &thePnt;
+	((::BRepPrimAPI_MakeBox*)_NativeInstance)->Init(*(gp_Pnt*)pp_thePnt, theDX, theDY, theDZ);
+}
+
+void Macad::Occt::BRepPrimAPI_MakeBox::Init(Macad::Occt::Pnt thePnt1, Macad::Occt::Pnt thePnt2)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_thePnt1 = &thePnt1;
+	pin_ptr<Macad::Occt::Pnt> pp_thePnt2 = &thePnt2;
+	((::BRepPrimAPI_MakeBox*)_NativeInstance)->Init(*(gp_Pnt*)pp_thePnt1, *(gp_Pnt*)pp_thePnt2);
+}
+
+void Macad::Occt::BRepPrimAPI_MakeBox::Init(Macad::Occt::Ax2 theAxes, double theDX, double theDY, double theDZ)
+{
+	pin_ptr<Macad::Occt::Ax2> pp_theAxes = &theAxes;
+	((::BRepPrimAPI_MakeBox*)_NativeInstance)->Init(*(gp_Ax2*)pp_theAxes, theDX, theDY, theDZ);
 }
 
 void Macad::Occt::BRepPrimAPI_MakeBox::Build()

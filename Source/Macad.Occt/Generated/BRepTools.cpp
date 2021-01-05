@@ -299,10 +299,17 @@ void Macad::Occt::BRepTools_Modifier::Init(Macad::Occt::TopoDS_Shape^ S)
 	((::BRepTools_Modifier*)_NativeInstance)->Init(*(::TopoDS_Shape*)S->NativeInstance);
 }
 
+void Macad::Occt::BRepTools_Modifier::Perform(Macad::Occt::BRepTools_Modification^ M, Macad::Occt::Message_ProgressRange^ theProgress)
+{
+	Handle(::BRepTools_Modification) h_M = M->NativeInstance;
+	((::BRepTools_Modifier*)_NativeInstance)->Perform(h_M, *(::Message_ProgressRange*)theProgress->NativeInstance);
+	M->NativeInstance = h_M.get();
+}
+
 void Macad::Occt::BRepTools_Modifier::Perform(Macad::Occt::BRepTools_Modification^ M)
 {
 	Handle(::BRepTools_Modification) h_M = M->NativeInstance;
-	((::BRepTools_Modifier*)_NativeInstance)->Perform(h_M, 0);
+	((::BRepTools_Modifier*)_NativeInstance)->Perform(h_M, ::Message_ProgressRange());
 	M->NativeInstance = h_M.get();
 }
 
@@ -957,9 +964,14 @@ void Macad::Occt::BRepTools::RemoveUnusedPCurves(Macad::Occt::TopoDS_Shape^ S)
 	::BRepTools::RemoveUnusedPCurves(*(::TopoDS_Shape*)S->NativeInstance);
 }
 
-bool Macad::Occt::BRepTools::Triangulation(Macad::Occt::TopoDS_Shape^ S, double deflec)
+bool Macad::Occt::BRepTools::Triangulation(Macad::Occt::TopoDS_Shape^ theShape, double theLinDefl, bool theToCheckFreeEdges)
 {
-	return ::BRepTools::Triangulation(*(::TopoDS_Shape*)S->NativeInstance, deflec);
+	return ::BRepTools::Triangulation(*(::TopoDS_Shape*)theShape->NativeInstance, theLinDefl, theToCheckFreeEdges);
+}
+
+bool Macad::Occt::BRepTools::Triangulation(Macad::Occt::TopoDS_Shape^ theShape, double theLinDefl)
+{
+	return ::BRepTools::Triangulation(*(::TopoDS_Shape*)theShape->NativeInstance, theLinDefl, false);
 }
 
 bool Macad::Occt::BRepTools::Compare(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2)
@@ -996,17 +1008,31 @@ void Macad::Occt::BRepTools::DetectClosedness(Macad::Occt::TopoDS_Face^ theFace,
 	::BRepTools::DetectClosedness(*(::TopoDS_Face*)theFace->NativeInstance, *(Standard_Boolean*)pp_theUclosed, *(Standard_Boolean*)pp_theVclosed);
 }
 
+bool Macad::Occt::BRepTools::Write(Macad::Occt::TopoDS_Shape^ Sh, System::String^ File, Macad::Occt::Message_ProgressRange^ theProgress)
+{
+	const char* sz_File = (char*)(void*)Marshal::StringToHGlobalAnsi(File);
+	return ::BRepTools::Write(*(::TopoDS_Shape*)Sh->NativeInstance, sz_File, *(::Message_ProgressRange*)theProgress->NativeInstance);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_File);
+}
+
 bool Macad::Occt::BRepTools::Write(Macad::Occt::TopoDS_Shape^ Sh, System::String^ File)
 {
 	const char* sz_File = (char*)(void*)Marshal::StringToHGlobalAnsi(File);
-	return ::BRepTools::Write(*(::TopoDS_Shape*)Sh->NativeInstance, sz_File, 0);
+	return ::BRepTools::Write(*(::TopoDS_Shape*)Sh->NativeInstance, sz_File, ::Message_ProgressRange());
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_File);
+}
+
+bool Macad::Occt::BRepTools::Read(Macad::Occt::TopoDS_Shape^ Sh, System::String^ File, Macad::Occt::BRep_Builder^ B, Macad::Occt::Message_ProgressRange^ theProgress)
+{
+	const char* sz_File = (char*)(void*)Marshal::StringToHGlobalAnsi(File);
+	return ::BRepTools::Read(*(::TopoDS_Shape*)Sh->NativeInstance, sz_File, *(::BRep_Builder*)B->NativeInstance, *(::Message_ProgressRange*)theProgress->NativeInstance);
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_File);
 }
 
 bool Macad::Occt::BRepTools::Read(Macad::Occt::TopoDS_Shape^ Sh, System::String^ File, Macad::Occt::BRep_Builder^ B)
 {
 	const char* sz_File = (char*)(void*)Marshal::StringToHGlobalAnsi(File);
-	return ::BRepTools::Read(*(::TopoDS_Shape*)Sh->NativeInstance, sz_File, *(::BRep_Builder*)B->NativeInstance, 0);
+	return ::BRepTools::Read(*(::TopoDS_Shape*)Sh->NativeInstance, sz_File, *(::BRep_Builder*)B->NativeInstance, ::Message_ProgressRange());
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_File);
 }
 
@@ -1017,6 +1043,21 @@ double Macad::Occt::BRepTools::EvalAndUpdateTol(Macad::Occt::TopoDS_Edge^ theE, 
 	return ::BRepTools::EvalAndUpdateTol(*(::TopoDS_Edge*)theE->NativeInstance, h_theC3d, Handle(::Geom2d_Curve)(theC2d->NativeInstance), h_theS, theF, theL);
 	theC3d->NativeInstance = h_theC3d.get();
 	theS->NativeInstance = h_theS.get();
+}
+
+Macad::Occt::TopAbs_Orientation Macad::Occt::BRepTools::OriEdgeInFace(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Face^ theFace)
+{
+	return (Macad::Occt::TopAbs_Orientation)::BRepTools::OriEdgeInFace(*(::TopoDS_Edge*)theEdge->NativeInstance, *(::TopoDS_Face*)theFace->NativeInstance);
+}
+
+void Macad::Occt::BRepTools::RemoveInternals(Macad::Occt::TopoDS_Shape^ theS, bool theForce)
+{
+	::BRepTools::RemoveInternals(*(::TopoDS_Shape*)theS->NativeInstance, theForce);
+}
+
+void Macad::Occt::BRepTools::RemoveInternals(Macad::Occt::TopoDS_Shape^ theS)
+{
+	::BRepTools::RemoveInternals(*(::TopoDS_Shape*)theS->NativeInstance, false);
 }
 
 

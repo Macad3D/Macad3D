@@ -49,6 +49,9 @@ public:
 	void SetPickedPoint(Macad::Occt::Pnt theObjPickedPnt);
 	double DistToGeomCenter();
 	void SetDistToGeomCenter(double theDistToCenter);
+	/* Method skipped due to unknown mapping: NCollection_Vec3<float> SurfaceNormal() */
+	/* Method skipped due to unknown mapping: void SetSurfaceNormal(NCollection_Vec3<float> theNormal, ) */
+	void SetSurfaceNormal(Macad::Occt::Vec theNormal);
 }; // class SelectBasics_PickResult
 
 //---------------------------------------------------------------------
@@ -145,6 +148,8 @@ public:
 	Macad::Occt::Pnt GetFarPickedPnt();
 	Macad::Occt::Pnt2d GetMousePosition();
 	/* Method skipped due to unknown mapping: void GetPlanes(NCollection_Vector<NCollection_Vec4<double> > thePlaneEquations, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class SelectBasics_SelectingVolumeManager
 
 }; // namespace Occt

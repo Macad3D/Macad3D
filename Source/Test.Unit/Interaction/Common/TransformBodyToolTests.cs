@@ -39,42 +39,45 @@ namespace Macad.Test.Unit.Interaction.Common
             var tool = new TransformBodyTool(new[] {body}, TransformBodyTool.PivotPoint.BodyPivot, TransformBodyTool.Options.None);
             ctx.WorkspaceController.StartTool(tool);
 
-            // Translate Idle
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateIdle"));
+            Assert.Multiple(() =>
+            {
+                // Translate Idle
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateIdle"));
 
-            // Translate Hilite X
-            ctx.ViewportController.MouseMove(new Point(264, 188));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateHiliteX"));
-            // Translate Hilite Y
-            ctx.ViewportController.MouseMove(new Point(385, 187));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateHiliteY"));
-            // Translate Hilite Z
-            ctx.ViewportController.MouseMove(new Point(325, 84));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateHiliteZ"));
+                // Translate Hilite X
+                ctx.ViewportController.MouseMove(new Point(264, 188));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateHiliteX"));
+                // Translate Hilite Y
+                ctx.ViewportController.MouseMove(new Point(385, 187));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateHiliteY"));
+                // Translate Hilite Z
+                ctx.ViewportController.MouseMove(new Point(325, 84));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateHiliteZ"));
 
-            // Translate Hilite XY
-            ctx.ViewportController.MouseMove(new Point(326, 182));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateHiliteXY"));
-            // Translate Hilite YZ
-            ctx.ViewportController.MouseMove(new Point(350, 136));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateHiliteYZ"));
-            // Translate Hilite XZ
-            ctx.ViewportController.MouseMove(new Point(296, 136));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateHiliteXZ"));
+                // Translate Hilite XY
+                ctx.ViewportController.MouseMove(new Point(326, 182));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateHiliteXY"));
+                // Translate Hilite YZ
+                ctx.ViewportController.MouseMove(new Point(350, 136));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateHiliteYZ"));
+                // Translate Hilite XZ
+                ctx.ViewportController.MouseMove(new Point(296, 136));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateHiliteXZ"));
 
-            // Rotate Idle
-            tool.ToggleTransformMode();
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingRotateIdle"));
+                // Rotate Idle
+                tool.ToggleTransformMode();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingRotateIdle"));
 
-            // Rotate Hilite Y
-            ctx.ViewportController.MouseMove(new Point(324, 211));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingRotateHiliteY"));
-            // Rotate Hilite P
-            ctx.ViewportController.MouseMove(new Point(357, 62));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingRotateHiliteP"));
-            // Rotate Hilite R
-            ctx.ViewportController.MouseMove(new Point(293, 62));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingRotateHiliteR"));
+                // Rotate Hilite Y
+                ctx.ViewportController.MouseMove(new Point(324, 211));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingRotateHiliteY"));
+                // Rotate Hilite P
+                ctx.ViewportController.MouseMove(new Point(357, 62));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingRotateHiliteP"));
+                // Rotate Hilite R
+                ctx.ViewportController.MouseMove(new Point(293, 62));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingRotateHiliteR"));
+            });
         }
 
         //--------------------------------------------------------------------------------------------------

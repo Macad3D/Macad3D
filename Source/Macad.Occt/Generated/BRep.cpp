@@ -812,6 +812,11 @@ bool Macad::Occt::BRep_Tool::NaturalRestriction(Macad::Occt::TopoDS_Face^ F)
 	return ::BRep_Tool::NaturalRestriction(*(::TopoDS_Face*)F->NativeInstance);
 }
 
+bool Macad::Occt::BRep_Tool::IsGeometric(Macad::Occt::TopoDS_Face^ F)
+{
+	return ::BRep_Tool::IsGeometric(*(::TopoDS_Face*)F->NativeInstance);
+}
+
 bool Macad::Occt::BRep_Tool::IsGeometric(Macad::Occt::TopoDS_Edge^ E)
 {
 	return ::BRep_Tool::IsGeometric(*(::TopoDS_Edge*)E->NativeInstance);
@@ -1043,6 +1048,12 @@ Macad::Occt::Pnt Macad::Occt::BRep_Tool::Pnt(Macad::Occt::TopoDS_Vertex^ V)
 double Macad::Occt::BRep_Tool::Tolerance(Macad::Occt::TopoDS_Vertex^ V)
 {
 	return ::BRep_Tool::Tolerance(*(::TopoDS_Vertex*)V->NativeInstance);
+}
+
+bool Macad::Occt::BRep_Tool::Parameter(Macad::Occt::TopoDS_Vertex^ theV, Macad::Occt::TopoDS_Edge^ theE, double% theParam)
+{
+	pin_ptr<double> pp_theParam = &theParam;
+	return ::BRep_Tool::Parameter(*(::TopoDS_Vertex*)theV->NativeInstance, *(::TopoDS_Edge*)theE->NativeInstance, *(Standard_Real*)pp_theParam);
 }
 
 double Macad::Occt::BRep_Tool::Parameter(Macad::Occt::TopoDS_Vertex^ V, Macad::Occt::TopoDS_Edge^ E)

@@ -9,16 +9,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Linq;
+using System.Xml;
 
 if(Args.Count() < 1)
 {
-	Printer.Line("Usage: occt <import, generate, patch>");
+	Printer.Line("Usage: occt <config, import, generate, patch>");
 	return -1;
 }
 
 _OptionDebug = Args.Any(s => s.ToLower() == "/debug");
 
-if(Args[0].ToLower() == "import")
+if(Args[0].ToLower() == "config")
+{
+	// Set paths to OCCT distri
+	if(Args.Count() < 2)
+	{
+		Printer.Error("Missing parameter. Usage: occt config <path_to_occt>");
+		return -1;
+	}
+	if(!_ConfigOcctPaths(Args[1]))
+		return -1;
+}
+else if(Args[0].ToLower() == "import")
 {
 	// Import from OCCT distri
 	if(Args.Count() < 2)
@@ -28,6 +40,9 @@ if(Args[0].ToLower() == "import")
 	}
 	if(!_ImportFromOcctPackage(Args[1]))
 		return -1;
+	if(!_ApplyPatch())
+		return -1;
+	_ConfigOcctPaths("");
 }
 else if(Args[0].ToLower() == "generate")
 {
@@ -52,6 +67,55 @@ SSIndex _SSIndex = null;
 /***************************************************************/
 		
 #region 
+
+bool _ConfigOcctPaths(string occtPath)
+{
+	var sb = new StringBuilder();
+	sb.AppendLine("<Project ToolsVersion=\"4.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">");
+	sb.AppendLine();
+
+	if(!string.IsNullOrEmpty(occtPath))
+	{
+		if(!Occt.SetOcctSourcePath(occtPath))
+		{
+			return false;
+		}
+
+		sb.AppendLine("  <PropertyGroup>");
+		sb.AppendLine("    <OcctIncPath>" + Path.Combine(occtPath, "inc") + "</OcctIncPath>");
+		sb.AppendLine("    <FreeTypeBinPath>" + Occt.FreetypeSourcePath + "</FreeTypeBinPath>");
+		sb.AppendLine("    <TbbBinPath>" + Occt.TbbSourcePath + "</TbbBinPath>");
+		sb.AppendLine("  </PropertyGroup>");
+
+		sb.AppendLine("  <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='Debug|x64'\">");
+		sb.AppendLine("    <OcctLibPath>" + Occt.GetLibrarySourcePath(true) + "</OcctLibPath>");
+		sb.AppendLine("    <OcctBinPath>" + Occt.GetBinarySourcePath(true) + "</OcctBinPath>");
+		sb.AppendLine("  </PropertyGroup>");
+
+		sb.AppendLine("  <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='Release|x64'\">");
+		sb.AppendLine("    <OcctLibPath>" + Occt.GetLibrarySourcePath(false) + "</OcctLibPath>");
+		sb.AppendLine("    <OcctBinPath>" + Occt.GetBinarySourcePath(false) + "</OcctBinPath>");
+		sb.AppendLine("  </PropertyGroup>");
+
+		if(Occt.AdditionalDependenciesSourcePaths.Count > 0)
+		{
+			sb.AppendLine("  <ItemGroup>");
+			foreach(var additionalPath in Occt.AdditionalDependenciesSourcePaths)
+			{
+				sb.AppendLine("    <OcctDeployFiles Include=\"" + additionalPath + "\\*.*\" />");
+			}
+			sb.AppendLine("  </ItemGroup>");
+		}
+	}
+
+	sb.AppendLine();
+	sb.AppendLine("</Project>");
+	var propsPath = Path.Combine(Common.GetRootFolder(), "Build", "MSBuild", "LocalSettings.props");
+	File.WriteAllText(propsPath, sb.ToString());
+	return true;
+}
+
+/***************************************************************/
 	
 bool _ImportFromOcctPackage(string occtPath)
 {
@@ -60,6 +124,12 @@ bool _ImportFromOcctPackage(string occtPath)
 
 	if(!Occt.SetOcctSourcePath(occtPath))
 	{
+		return false;
+	}
+
+	if(Occt.AdditionalDependenciesSourcePaths.Count > 0)
+	{
+		Printer.Error("Importing OCCT is only supported with dependencies Freetype and TBB. Please disable all other and rebuild OCCT.");
 		return false;
 	}
 	
@@ -205,10 +275,25 @@ bool _GenerateWrapper()
 	if(!vs.Build(solutionFile, _WrapperProjectName, _OptionDebug ? "Debug" : "Release", "x64"))
 		return false;
 	
+	// Determine Occt path from settings
+	var occtIncludePath = Path.Combine(Common.GetRootFolder(), Occt.OcctPath, "inc");
+	var propsPath = Path.Combine(Common.GetRootFolder(), "Build", "MSBuild", "LocalSettings.props");
+	if(File.Exists(propsPath))
+	{
+		var xmldoc = new XmlDocument();
+		xmldoc.Load(propsPath);
+		var path = xmldoc.GetElementsByTagName("OcctIncPath")?[0]?.InnerText;
+		Printer.Line(path);
+		if(!string.IsNullOrEmpty(path))
+		{
+			occtIncludePath = path;
+		}
+	}
 	
+	// Prepare command line
 	string modulePath = Path.Combine(Common.GetRootFolder(), string.Format(_WrapperBinPath,_OptionDebug ? "Debug" : "Release" ));
 	string commandLine = "";
-	commandLine += " occt=\"" + Path.Combine(Common.GetRootFolder(), Occt.OcctPath, "inc") + "\" ";
+	commandLine += " occt=\"" + occtIncludePath + "\" ";
 	commandLine += " out=\"" + Path.Combine(Common.GetRootFolder(), _GeneratedSourcePath) + "\" ";
 	commandLine += " castxml=\"" + Path.Combine(Common.GetRootFolder(), _CastXmlPath) + "\" ";
 	commandLine += " cache=\"" + Path.Combine(Common.GetRootFolder(), _CachePath) + "\" ";

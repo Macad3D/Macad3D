@@ -1459,28 +1459,28 @@ Macad::Occt::Geom2d_Conic::Geom2d_Conic()
 	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-void Macad::Occt::Geom2d_Conic::SetAxis(Macad::Occt::Ax22d A)
+void Macad::Occt::Geom2d_Conic::SetAxis(Macad::Occt::Ax22d theA)
 {
-	pin_ptr<Macad::Occt::Ax22d> pp_A = &A;
-	((::Geom2d_Conic*)_NativeInstance)->SetAxis(*(gp_Ax22d*)pp_A);
+	pin_ptr<Macad::Occt::Ax22d> pp_theA = &theA;
+	((::Geom2d_Conic*)_NativeInstance)->SetAxis(*(gp_Ax22d*)pp_theA);
 }
 
-void Macad::Occt::Geom2d_Conic::SetXAxis(Macad::Occt::Ax2d A)
+void Macad::Occt::Geom2d_Conic::SetXAxis(Macad::Occt::Ax2d theAX)
 {
-	pin_ptr<Macad::Occt::Ax2d> pp_A = &A;
-	((::Geom2d_Conic*)_NativeInstance)->SetXAxis(*(gp_Ax2d*)pp_A);
+	pin_ptr<Macad::Occt::Ax2d> pp_theAX = &theAX;
+	((::Geom2d_Conic*)_NativeInstance)->SetXAxis(*(gp_Ax2d*)pp_theAX);
 }
 
-void Macad::Occt::Geom2d_Conic::SetYAxis(Macad::Occt::Ax2d A)
+void Macad::Occt::Geom2d_Conic::SetYAxis(Macad::Occt::Ax2d theAY)
 {
-	pin_ptr<Macad::Occt::Ax2d> pp_A = &A;
-	((::Geom2d_Conic*)_NativeInstance)->SetYAxis(*(gp_Ax2d*)pp_A);
+	pin_ptr<Macad::Occt::Ax2d> pp_theAY = &theAY;
+	((::Geom2d_Conic*)_NativeInstance)->SetYAxis(*(gp_Ax2d*)pp_theAY);
 }
 
-void Macad::Occt::Geom2d_Conic::SetLocation(Macad::Occt::Pnt2d P)
+void Macad::Occt::Geom2d_Conic::SetLocation(Macad::Occt::Pnt2d theP)
 {
-	pin_ptr<Macad::Occt::Pnt2d> pp_P = &P;
-	((::Geom2d_Conic*)_NativeInstance)->SetLocation(*(gp_Pnt2d*)pp_P);
+	pin_ptr<Macad::Occt::Pnt2d> pp_theP = &theP;
+	((::Geom2d_Conic*)_NativeInstance)->SetLocation(*(gp_Pnt2d*)pp_theP);
 }
 
 Macad::Occt::Ax2d Macad::Occt::Geom2d_Conic::XAxis()

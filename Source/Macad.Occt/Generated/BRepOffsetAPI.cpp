@@ -1095,11 +1095,16 @@ Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepOffsetAPI_MakeOffsetShape::G
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopTools_ListOfShape(_result);
 }
 
-Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepOffsetAPI_MakeOffsetShape::GeneratedEdge(Macad::Occt::TopoDS_Shape^ S)
+Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepOffsetAPI_MakeOffsetShape::Modified(Macad::Occt::TopoDS_Shape^ S)
 {
 	::TopTools_ListOfShape* _result = new ::TopTools_ListOfShape();
-	*_result =  (::TopTools_ListOfShape)((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->GeneratedEdge(*(::TopoDS_Shape*)S->NativeInstance);
+	*_result =  (::TopTools_ListOfShape)((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->Modified(*(::TopoDS_Shape*)S->NativeInstance);
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopTools_ListOfShape(_result);
+}
+
+bool Macad::Occt::BRepOffsetAPI_MakeOffsetShape::IsDeleted(Macad::Occt::TopoDS_Shape^ S)
+{
+	return ((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->IsDeleted(*(::TopoDS_Shape*)S->NativeInstance);
 }
 
 Macad::Occt::GeomAbs_JoinType Macad::Occt::BRepOffsetAPI_MakeOffsetShape::GetJoinType()

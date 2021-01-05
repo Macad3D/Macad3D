@@ -95,12 +95,9 @@ void AIS_CircleEx::HilightSelected(const Handle(PrsMgr_PresentationManager3d)& t
 //purpose  : 
 //=======================================================================
 
-void AIS_CircleEx::Compute(const Handle(Prs3d_Projector)& aProjector,
-	const Handle(Geom_Transformation)& aTransformation,
-	const Handle(Prs3d_Presentation)& aPresentation)
+void AIS_CircleEx::computeHLR(const Handle(Graphic3d_Camera)& theProjector, const Handle(TopLoc_Datum3D)& theTrsf, const Handle(Prs3d_Presentation)& aPresentation)
 {
-	// Standard_NotImplemented::Raise("AIS_Circle::Compute(const Handle(Prs3d_Projector)&, const Handle(Geom_Transformation)&, const Handle(Prs3d_Presentation)&)");
-	PrsMgr_PresentableObject::Compute(aProjector, aTransformation, aPresentation);
+	PrsMgr_PresentableObject::computeHLR(theProjector, theTrsf, aPresentation);
 }
 
 //=======================================================================
@@ -232,9 +229,7 @@ void AIS_CircleEx::ComputeArc(const Handle(Prs3d_Presentation)& aPresentation, c
 void AIS_CircleEx::ComputeCircleSelection(const Handle(SelectMgr_Selection)& aSelection)
 {
 	Handle(SelectMgr_EntityOwner) eown = new SelectMgr_EntityOwner(this);
-	Handle(Select3D_SensitiveCircle) seg = new Select3D_SensitiveCircle(eown,
-		myComponent,
-		myIsFilledCircleSens);
+	Handle(Select3D_SensitiveCircle) seg = new Select3D_SensitiveCircle(eown, myComponent->Circ(), myIsFilledCircleSens);
 	seg->SetSensitivityFactor(10);
 	aSelection->Add(seg);
 }
@@ -248,19 +243,7 @@ void AIS_CircleEx::ComputeArcSelection(const Handle(SelectMgr_Selection)& aSelec
 
 
 	Handle(SelectMgr_EntityOwner) eown = new SelectMgr_EntityOwner(this);
-	Handle(Select3D_SensitiveCircle) seg = new Select3D_SensitiveCircle(eown,
-		myComponent,
-		myUStart, myUEnd,
-		myIsFilledCircleSens);
+	Handle(Select3D_SensitiveCircle) seg = new Select3D_SensitiveCircle(eown, myComponent->Circ(), myUStart, myUEnd, myIsFilledCircleSens);
 	seg->SetSensitivityFactor(20);
 	aSelection->Add(seg);
-}
-
-//=======================================================================
-//function : Compute
-//purpose  : to avoid warning
-//=======================================================================
-void AIS_CircleEx::Compute(const Handle(Prs3d_Projector)&,
-	const Handle(Prs3d_Presentation)&)
-{
 }

@@ -206,6 +206,7 @@ public:
 	void Add(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Edge^ EOn);
 	Macad::Occt::TopTools_ListOfShape^ DirectLeft();
 	Macad::Occt::TopTools_ListOfShape^ Left();
+	Macad::Occt::TopTools_ListOfShape^ Right();
 	void Build();
 	bool IsDeleted(Macad::Occt::TopoDS_Shape^ S);
 	Macad::Occt::TopTools_ListOfShape^ Modified(Macad::Occt::TopoDS_Shape^ F);

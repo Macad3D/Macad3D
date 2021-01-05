@@ -10,14 +10,13 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "NCollection.h"
 #include "TCollection.h"
 #include "gp.h"
-#include "Geom.h"
+#include "TopLoc.h"
 #include "Quantity.h"
 #include "Image.h"
 #include "TColStd.h"
 #include "Aspect.h"
 #include "Bnd.h"
 #include "V3d.h"
-#include "StdSelect.h"
 #include "Prs3d.h"
 
 
@@ -1919,11 +1918,11 @@ Macad::Occt::XYZ Macad::Occt::Graphic3d_ZLayerSettings::Origin()
 	return Macad::Occt::XYZ(((::Graphic3d_ZLayerSettings*)_NativeInstance)->Origin());
 }
 
-Macad::Occt::Geom_Transformation^ Macad::Occt::Graphic3d_ZLayerSettings::OriginTransformation()
+Macad::Occt::TopLoc_Datum3D^ Macad::Occt::Graphic3d_ZLayerSettings::OriginTransformation()
 {
-	Handle(::Geom_Transformation) _result;
+	Handle(::TopLoc_Datum3D) _result;
 	_result = ((::Graphic3d_ZLayerSettings*)_NativeInstance)->OriginTransformation();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Transformation::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::TopLoc_Datum3D::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::Graphic3d_ZLayerSettings::SetOrigin(Macad::Occt::XYZ theOrigin)
@@ -3132,6 +3131,137 @@ Macad::Occt::Graphic3d_HatchStyle^ Macad::Occt::Graphic3d_HatchStyle::CreateDown
 
 
 //---------------------------------------------------------------------
+//  Class  Graphic3d_PBRMaterial
+//---------------------------------------------------------------------
+
+Macad::Occt::Graphic3d_PBRMaterial::Graphic3d_PBRMaterial()
+	: BaseClass<::Graphic3d_PBRMaterial>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Graphic3d_PBRMaterial();
+}
+
+Macad::Occt::Graphic3d_PBRMaterial::Graphic3d_PBRMaterial(Macad::Occt::Graphic3d_BSDF^ theBSDF)
+	: BaseClass<::Graphic3d_PBRMaterial>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Graphic3d_PBRMaterial(*(::Graphic3d_BSDF*)theBSDF->NativeInstance);
+}
+
+Macad::Occt::Graphic3d_PBRMaterial::Graphic3d_PBRMaterial(Macad::Occt::Graphic3d_PBRMaterial^ parameter1)
+	: BaseClass<::Graphic3d_PBRMaterial>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Graphic3d_PBRMaterial(*(::Graphic3d_PBRMaterial*)parameter1->NativeInstance);
+}
+
+float Macad::Occt::Graphic3d_PBRMaterial::Metallic()
+{
+	return ((::Graphic3d_PBRMaterial*)_NativeInstance)->Metallic();
+}
+
+void Macad::Occt::Graphic3d_PBRMaterial::SetMetallic(float theMetallic)
+{
+	((::Graphic3d_PBRMaterial*)_NativeInstance)->SetMetallic(theMetallic);
+}
+
+float Macad::Occt::Graphic3d_PBRMaterial::Roughness(float theNormalizedRoughness)
+{
+	return ::Graphic3d_PBRMaterial::Roughness(theNormalizedRoughness);
+}
+
+float Macad::Occt::Graphic3d_PBRMaterial::Roughness()
+{
+	return ((::Graphic3d_PBRMaterial*)_NativeInstance)->Roughness();
+}
+
+float Macad::Occt::Graphic3d_PBRMaterial::NormalizedRoughness()
+{
+	return ((::Graphic3d_PBRMaterial*)_NativeInstance)->NormalizedRoughness();
+}
+
+void Macad::Occt::Graphic3d_PBRMaterial::SetRoughness(float theRoughness)
+{
+	((::Graphic3d_PBRMaterial*)_NativeInstance)->SetRoughness(theRoughness);
+}
+
+float Macad::Occt::Graphic3d_PBRMaterial::IOR()
+{
+	return ((::Graphic3d_PBRMaterial*)_NativeInstance)->IOR();
+}
+
+void Macad::Occt::Graphic3d_PBRMaterial::SetIOR(float theIOR)
+{
+	((::Graphic3d_PBRMaterial*)_NativeInstance)->SetIOR(theIOR);
+}
+
+Macad::Occt::Quantity_ColorRGBA^ Macad::Occt::Graphic3d_PBRMaterial::Color()
+{
+	::Quantity_ColorRGBA* _result = new ::Quantity_ColorRGBA();
+	*_result =  (::Quantity_ColorRGBA)((::Graphic3d_PBRMaterial*)_NativeInstance)->Color();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Quantity_ColorRGBA(_result);
+}
+
+void Macad::Occt::Graphic3d_PBRMaterial::SetColor(Macad::Occt::Quantity_ColorRGBA^ theColor)
+{
+	((::Graphic3d_PBRMaterial*)_NativeInstance)->SetColor(*(::Quantity_ColorRGBA*)theColor->NativeInstance);
+}
+
+void Macad::Occt::Graphic3d_PBRMaterial::SetColor(Macad::Occt::Quantity_Color^ theColor)
+{
+	((::Graphic3d_PBRMaterial*)_NativeInstance)->SetColor(*(::Quantity_Color*)theColor->NativeInstance);
+}
+
+float Macad::Occt::Graphic3d_PBRMaterial::Alpha()
+{
+	return ((::Graphic3d_PBRMaterial*)_NativeInstance)->Alpha();
+}
+
+void Macad::Occt::Graphic3d_PBRMaterial::SetAlpha(float theAlpha)
+{
+	((::Graphic3d_PBRMaterial*)_NativeInstance)->SetAlpha(theAlpha);
+}
+
+void Macad::Occt::Graphic3d_PBRMaterial::SetBSDF(Macad::Occt::Graphic3d_BSDF^ theBSDF)
+{
+	((::Graphic3d_PBRMaterial*)_NativeInstance)->SetBSDF(*(::Graphic3d_BSDF*)theBSDF->NativeInstance);
+}
+
+void Macad::Occt::Graphic3d_PBRMaterial::GenerateEnvLUT(Macad::Occt::Image_PixMap^ theLUT, unsigned int theNbIntegralSamples)
+{
+	Handle(::Image_PixMap) h_theLUT = theLUT->NativeInstance;
+	::Graphic3d_PBRMaterial::GenerateEnvLUT(h_theLUT, theNbIntegralSamples);
+	theLUT->NativeInstance = h_theLUT.get();
+}
+
+void Macad::Occt::Graphic3d_PBRMaterial::GenerateEnvLUT(Macad::Occt::Image_PixMap^ theLUT)
+{
+	Handle(::Image_PixMap) h_theLUT = theLUT->NativeInstance;
+	::Graphic3d_PBRMaterial::GenerateEnvLUT(h_theLUT, 1024);
+	theLUT->NativeInstance = h_theLUT.get();
+}
+
+float Macad::Occt::Graphic3d_PBRMaterial::RoughnessFromSpecular(Macad::Occt::Quantity_Color^ theSpecular, double theShiness)
+{
+	return ::Graphic3d_PBRMaterial::RoughnessFromSpecular(*(::Quantity_Color*)theSpecular->NativeInstance, theShiness);
+}
+
+float Macad::Occt::Graphic3d_PBRMaterial::MetallicFromSpecular(Macad::Occt::Quantity_Color^ theSpecular)
+{
+	return ::Graphic3d_PBRMaterial::MetallicFromSpecular(*(::Quantity_Color*)theSpecular->NativeInstance);
+}
+
+float Macad::Occt::Graphic3d_PBRMaterial::MinRoughness()
+{
+	return ::Graphic3d_PBRMaterial::MinRoughness();
+}
+
+float Macad::Occt::Graphic3d_PBRMaterial::SpecIBLMapSamplesFactor(float theProbability, float theRoughness)
+{
+	return ::Graphic3d_PBRMaterial::SpecIBLMapSamplesFactor(theProbability, theRoughness);
+}
+
+
+
+
+//---------------------------------------------------------------------
 //  Class  Graphic3d_Fresnel
 //---------------------------------------------------------------------
 
@@ -3190,6 +3320,13 @@ Macad::Occt::Graphic3d_BSDF::Graphic3d_BSDF(Macad::Occt::Graphic3d_BSDF^ paramet
 	: BaseClass<::Graphic3d_BSDF>(BaseClass::InitMode::Uninitialized)
 {
 	_NativeInstance = new ::Graphic3d_BSDF(*(::Graphic3d_BSDF*)parameter1->NativeInstance);
+}
+
+Macad::Occt::Graphic3d_BSDF^ Macad::Occt::Graphic3d_BSDF::CreateMetallicRoughness(Macad::Occt::Graphic3d_PBRMaterial^ thePbr)
+{
+	::Graphic3d_BSDF* _result = new ::Graphic3d_BSDF();
+	*_result = ::Graphic3d_BSDF::CreateMetallicRoughness(*(::Graphic3d_PBRMaterial*)thePbr->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_BSDF(_result);
 }
 
 void Macad::Occt::Graphic3d_BSDF::Normalize()
@@ -3403,6 +3540,18 @@ Macad::Occt::Graphic3d_BSDF^ Macad::Occt::Graphic3d_MaterialAspect::BSDF()
 void Macad::Occt::Graphic3d_MaterialAspect::SetBSDF(Macad::Occt::Graphic3d_BSDF^ theBSDF)
 {
 	((::Graphic3d_MaterialAspect*)_NativeInstance)->SetBSDF(*(::Graphic3d_BSDF*)theBSDF->NativeInstance);
+}
+
+Macad::Occt::Graphic3d_PBRMaterial^ Macad::Occt::Graphic3d_MaterialAspect::PBRMaterial()
+{
+	::Graphic3d_PBRMaterial* _result = new ::Graphic3d_PBRMaterial();
+	*_result =  (::Graphic3d_PBRMaterial)((::Graphic3d_MaterialAspect*)_NativeInstance)->PBRMaterial();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_PBRMaterial(_result);
+}
+
+void Macad::Occt::Graphic3d_MaterialAspect::SetPBRMaterial(Macad::Occt::Graphic3d_PBRMaterial^ thePBRMaterial)
+{
+	((::Graphic3d_MaterialAspect*)_NativeInstance)->SetPBRMaterial(*(::Graphic3d_PBRMaterial*)thePBRMaterial->NativeInstance);
 }
 
 bool Macad::Occt::Graphic3d_MaterialAspect::ReflectionMode(Macad::Occt::Graphic3d_TypeOfReflection theType)
@@ -3640,6 +3789,26 @@ Macad::Occt::Graphic3d_TypeOfTextureMode Macad::Occt::Graphic3d_TextureParams::G
 	return (Macad::Occt::Graphic3d_TypeOfTextureMode)((::Graphic3d_TextureParams*)_NativeInstance)->GenMode();
 }
 
+int Macad::Occt::Graphic3d_TextureParams::BaseLevel()
+{
+	return ((::Graphic3d_TextureParams*)_NativeInstance)->BaseLevel();
+}
+
+int Macad::Occt::Graphic3d_TextureParams::MaxLevel()
+{
+	return ((::Graphic3d_TextureParams*)_NativeInstance)->MaxLevel();
+}
+
+void Macad::Occt::Graphic3d_TextureParams::SetLevelsRange(int theFirstLevel, int theSecondLevel)
+{
+	((::Graphic3d_TextureParams*)_NativeInstance)->SetLevelsRange(theFirstLevel, theSecondLevel);
+}
+
+void Macad::Occt::Graphic3d_TextureParams::SetLevelsRange(int theFirstLevel)
+{
+	((::Graphic3d_TextureParams*)_NativeInstance)->SetLevelsRange(theFirstLevel, 0);
+}
+
 unsigned int Macad::Occt::Graphic3d_TextureParams::SamplerRevision()
 {
 	return ((::Graphic3d_TextureParams*)_NativeInstance)->SamplerRevision();
@@ -3697,10 +3866,21 @@ void Macad::Occt::Graphic3d_TextureRoot::UpdateRevision()
 	((::Graphic3d_TextureRoot*)_NativeInstance)->UpdateRevision();
 }
 
-Macad::Occt::Image_PixMap^ Macad::Occt::Graphic3d_TextureRoot::GetImage()
+Macad::Occt::Image_CompressedPixMap^ Macad::Occt::Graphic3d_TextureRoot::GetCompressedImage(Macad::Occt::Image_SupportedFormats^ theSupported)
 {
+	Handle(::Image_SupportedFormats) h_theSupported = theSupported->NativeInstance;
+	Handle(::Image_CompressedPixMap) _result;
+	_result = ((::Graphic3d_TextureRoot*)_NativeInstance)->GetCompressedImage(h_theSupported);
+	theSupported->NativeInstance = h_theSupported.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Image_CompressedPixMap::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Image_PixMap^ Macad::Occt::Graphic3d_TextureRoot::GetImage(Macad::Occt::Image_SupportedFormats^ theSupported)
+{
+	Handle(::Image_SupportedFormats) h_theSupported = theSupported->NativeInstance;
 	Handle(::Image_PixMap) _result;
-	_result = ((::Graphic3d_TextureRoot*)_NativeInstance)->GetImage();
+	_result = ((::Graphic3d_TextureRoot*)_NativeInstance)->GetImage(h_theSupported);
+	theSupported->NativeInstance = h_theSupported.get();
 	 return _result.IsNull() ? nullptr : Macad::Occt::Image_PixMap::CreateDowncasted( _result.get());
 }
 
@@ -3709,6 +3889,21 @@ Macad::Occt::Graphic3d_TextureParams^ Macad::Occt::Graphic3d_TextureRoot::GetPar
 	Handle(::Graphic3d_TextureParams) _result;
 	_result = ((::Graphic3d_TextureRoot*)_NativeInstance)->GetParams();
 	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_TextureParams::CreateDowncasted( _result.get());
+}
+
+bool Macad::Occt::Graphic3d_TextureRoot::IsColorMap()
+{
+	return ((::Graphic3d_TextureRoot*)_NativeInstance)->IsColorMap();
+}
+
+void Macad::Occt::Graphic3d_TextureRoot::SetColorMap(bool theIsColor)
+{
+	((::Graphic3d_TextureRoot*)_NativeInstance)->SetColorMap(theIsColor);
+}
+
+bool Macad::Occt::Graphic3d_TextureRoot::IsTopDown()
+{
+	return ((::Graphic3d_TextureRoot*)_NativeInstance)->IsTopDown();
 }
 
 
@@ -4787,16 +4982,16 @@ Macad::Occt::Graphic3d_SequenceOfGroup^ Macad::Occt::Graphic3d_CStructure::Group
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_SequenceOfGroup(_result);
 }
 
-Macad::Occt::Geom_Transformation^ Macad::Occt::Graphic3d_CStructure::Transformation()
+Macad::Occt::TopLoc_Datum3D^ Macad::Occt::Graphic3d_CStructure::Transformation()
 {
-	Handle(::Geom_Transformation) _result;
+	Handle(::TopLoc_Datum3D) _result;
 	_result = ((::Graphic3d_CStructure*)_NativeInstance)->Transformation();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Transformation::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::TopLoc_Datum3D::CreateDowncasted( _result.get());
 }
 
-void Macad::Occt::Graphic3d_CStructure::SetTransformation(Macad::Occt::Geom_Transformation^ theTrsf)
+void Macad::Occt::Graphic3d_CStructure::SetTransformation(Macad::Occt::TopLoc_Datum3D^ theTrsf)
 {
-	Handle(::Geom_Transformation) h_theTrsf = theTrsf->NativeInstance;
+	Handle(::TopLoc_Datum3D) h_theTrsf = theTrsf->NativeInstance;
 	((::Graphic3d_CStructure*)_NativeInstance)->SetTransformation(h_theTrsf);
 	theTrsf->NativeInstance = h_theTrsf.get();
 }
@@ -5119,6 +5314,11 @@ Macad::Occt::Dir Macad::Occt::Graphic3d_Camera::OrthogonalizedUp()
 	return Macad::Occt::Dir(((::Graphic3d_Camera*)_NativeInstance)->OrthogonalizedUp());
 }
 
+Macad::Occt::Dir Macad::Occt::Graphic3d_Camera::SideRight()
+{
+	return Macad::Occt::Dir(((::Graphic3d_Camera*)_NativeInstance)->SideRight());
+}
+
 Macad::Occt::Pnt Macad::Occt::Graphic3d_Camera::Eye()
 {
 	return Macad::Occt::Pnt(((::Graphic3d_Camera*)_NativeInstance)->Eye());
@@ -5213,6 +5413,21 @@ void Macad::Occt::Graphic3d_Camera::SetFOVy(double theFOVy)
 double Macad::Occt::Graphic3d_Camera::FOVy()
 {
 	return ((::Graphic3d_Camera*)_NativeInstance)->FOVy();
+}
+
+double Macad::Occt::Graphic3d_Camera::FOVx()
+{
+	return ((::Graphic3d_Camera*)_NativeInstance)->FOVx();
+}
+
+double Macad::Occt::Graphic3d_Camera::FOV2d()
+{
+	return ((::Graphic3d_Camera*)_NativeInstance)->FOV2d();
+}
+
+void Macad::Occt::Graphic3d_Camera::SetFOV2d(double theFOV)
+{
+	((::Graphic3d_Camera*)_NativeInstance)->SetFOV2d(theFOV);
 }
 
 bool Macad::Occt::Graphic3d_Camera::ZFitAll(double theScaleFactor, Macad::Occt::Bnd_Box^ theMinMax, Macad::Occt::Bnd_Box^ theGraphicBB, double% theZNear, double% theZFar)
@@ -5310,6 +5525,16 @@ Macad::Occt::XYZ Macad::Occt::Graphic3d_Camera::ViewDimensions(double theZValue)
 	return Macad::Occt::XYZ(((::Graphic3d_Camera*)_NativeInstance)->ViewDimensions(theZValue));
 }
 
+double Macad::Occt::Graphic3d_Camera::NDC2dOffsetX()
+{
+	return ((::Graphic3d_Camera*)_NativeInstance)->NDC2dOffsetX();
+}
+
+double Macad::Occt::Graphic3d_Camera::NDC2dOffsetY()
+{
+	return ((::Graphic3d_Camera*)_NativeInstance)->NDC2dOffsetY();
+}
+
 void Macad::Occt::Graphic3d_Camera::Frustum(Macad::Occt::Pln% theLeft, Macad::Occt::Pln% theRight, Macad::Occt::Pln% theBottom, Macad::Occt::Pln% theTop, Macad::Occt::Pln% theNear, Macad::Occt::Pln% theFar)
 {
 	pin_ptr<Macad::Occt::Pln> pp_theLeft = &theLeft;
@@ -5382,6 +5607,26 @@ void Macad::Occt::Graphic3d_Camera::InvalidateProjection()
 void Macad::Occt::Graphic3d_Camera::InvalidateOrientation()
 {
 	((::Graphic3d_Camera*)_NativeInstance)->InvalidateOrientation();
+}
+
+void Macad::Occt::Graphic3d_Camera::ResetCustomProjection()
+{
+	((::Graphic3d_Camera*)_NativeInstance)->ResetCustomProjection();
+}
+
+bool Macad::Occt::Graphic3d_Camera::IsCustomStereoFrustum()
+{
+	return ((::Graphic3d_Camera*)_NativeInstance)->IsCustomStereoFrustum();
+}
+
+bool Macad::Occt::Graphic3d_Camera::IsCustomStereoProjection()
+{
+	return ((::Graphic3d_Camera*)_NativeInstance)->IsCustomStereoProjection();
+}
+
+bool Macad::Occt::Graphic3d_Camera::IsCustomMonoProjection()
+{
+	return ((::Graphic3d_Camera*)_NativeInstance)->IsCustomMonoProjection();
 }
 
 
@@ -5607,6 +5852,16 @@ void Macad::Occt::Graphic3d_CLight::SetSmoothRadius(float theValue)
 void Macad::Occt::Graphic3d_CLight::SetSmoothAngle(float theValue)
 {
 	((::Graphic3d_CLight*)_NativeInstance)->SetSmoothAngle(theValue);
+}
+
+float Macad::Occt::Graphic3d_CLight::Range()
+{
+	return ((::Graphic3d_CLight*)_NativeInstance)->Range();
+}
+
+void Macad::Occt::Graphic3d_CLight::SetRange(float theValue)
+{
+	((::Graphic3d_CLight*)_NativeInstance)->SetRange(theValue);
 }
 
 Macad::Occt::TCollection_AsciiString^ Macad::Occt::Graphic3d_CLight::GetId()
@@ -6026,43 +6281,12 @@ void Macad::Occt::Graphic3d_Structure::Compute()
 	((::Graphic3d_Structure*)_NativeInstance)->Compute();
 }
 
-Macad::Occt::Graphic3d_Structure^ Macad::Occt::Graphic3d_Structure::Compute(Macad::Occt::Graphic3d_DataStructureManager^ theProjector)
+void Macad::Occt::Graphic3d_Structure::computeHLR(Macad::Occt::Graphic3d_Camera^ theProjector, Macad::Occt::Graphic3d_Structure^ theStructure)
 {
-	Handle(::Graphic3d_DataStructureManager) h_theProjector = theProjector->NativeInstance;
-	Handle(::Graphic3d_Structure) _result;
-	_result = ((::Graphic3d_Structure*)_NativeInstance)->Compute(h_theProjector);
-	theProjector->NativeInstance = h_theProjector.get();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Structure::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Graphic3d_Structure^ Macad::Occt::Graphic3d_Structure::Compute(Macad::Occt::Graphic3d_DataStructureManager^ theProjector, Macad::Occt::Geom_Transformation^ theTrsf)
-{
-	Handle(::Graphic3d_DataStructureManager) h_theProjector = theProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_theTrsf = theTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) _result;
-	_result = ((::Graphic3d_Structure*)_NativeInstance)->Compute(h_theProjector, h_theTrsf);
-	theProjector->NativeInstance = h_theProjector.get();
-	theTrsf->NativeInstance = h_theTrsf.get();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Structure::CreateDowncasted( _result.get());
-}
-
-void Macad::Occt::Graphic3d_Structure::Compute(Macad::Occt::Graphic3d_DataStructureManager^ theProjector, Macad::Occt::Graphic3d_Structure^ theStructure)
-{
-	Handle(::Graphic3d_DataStructureManager) h_theProjector = theProjector->NativeInstance;
+	Handle(::Graphic3d_Camera) h_theProjector = theProjector->NativeInstance;
 	Handle(::Graphic3d_Structure) h_theStructure = theStructure->NativeInstance;
-	((::Graphic3d_Structure*)_NativeInstance)->Compute(h_theProjector, h_theStructure);
+	((::Graphic3d_Structure*)_NativeInstance)->computeHLR(h_theProjector, h_theStructure);
 	theProjector->NativeInstance = h_theProjector.get();
-	theStructure->NativeInstance = h_theStructure.get();
-}
-
-void Macad::Occt::Graphic3d_Structure::Compute(Macad::Occt::Graphic3d_DataStructureManager^ theProjector, Macad::Occt::Geom_Transformation^ theTrsf, Macad::Occt::Graphic3d_Structure^ theStructure)
-{
-	Handle(::Graphic3d_DataStructureManager) h_theProjector = theProjector->NativeInstance;
-	Handle(::Geom_Transformation) h_theTrsf = theTrsf->NativeInstance;
-	Handle(::Graphic3d_Structure) h_theStructure = theStructure->NativeInstance;
-	((::Graphic3d_Structure*)_NativeInstance)->Compute(h_theProjector, h_theTrsf, h_theStructure);
-	theProjector->NativeInstance = h_theProjector.get();
-	theTrsf->NativeInstance = h_theTrsf.get();
 	theStructure->NativeInstance = h_theStructure.get();
 }
 
@@ -6234,16 +6458,16 @@ bool Macad::Occt::Graphic3d_Structure::HLRValidation()
 	return ((::Graphic3d_Structure*)_NativeInstance)->HLRValidation();
 }
 
-Macad::Occt::Geom_Transformation^ Macad::Occt::Graphic3d_Structure::Transformation()
+Macad::Occt::TopLoc_Datum3D^ Macad::Occt::Graphic3d_Structure::Transformation()
 {
-	Handle(::Geom_Transformation) _result;
+	Handle(::TopLoc_Datum3D) _result;
 	_result = ((::Graphic3d_Structure*)_NativeInstance)->Transformation();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Transformation::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::TopLoc_Datum3D::CreateDowncasted( _result.get());
 }
 
-void Macad::Occt::Graphic3d_Structure::SetTransformation(Macad::Occt::Geom_Transformation^ theTrsf)
+void Macad::Occt::Graphic3d_Structure::SetTransformation(Macad::Occt::TopLoc_Datum3D^ theTrsf)
 {
-	Handle(::Geom_Transformation) h_theTrsf = theTrsf->NativeInstance;
+	Handle(::TopLoc_Datum3D) h_theTrsf = theTrsf->NativeInstance;
 	((::Graphic3d_Structure*)_NativeInstance)->SetTransformation(h_theTrsf);
 	theTrsf->NativeInstance = h_theTrsf.get();
 }
@@ -6296,9 +6520,9 @@ void Macad::Occt::Graphic3d_Structure::GraphicDisconnect(Macad::Occt::Graphic3d_
 	theDaughter->NativeInstance = h_theDaughter.get();
 }
 
-void Macad::Occt::Graphic3d_Structure::GraphicTransform(Macad::Occt::Geom_Transformation^ theTrsf)
+void Macad::Occt::Graphic3d_Structure::GraphicTransform(Macad::Occt::TopLoc_Datum3D^ theTrsf)
 {
-	Handle(::Geom_Transformation) h_theTrsf = theTrsf->NativeInstance;
+	Handle(::TopLoc_Datum3D) h_theTrsf = theTrsf->NativeInstance;
 	((::Graphic3d_Structure*)_NativeInstance)->GraphicTransform(h_theTrsf);
 	theTrsf->NativeInstance = h_theTrsf.get();
 }
@@ -6347,8 +6571,6 @@ Macad::Occt::Graphic3d_Structure^ Macad::Occt::Graphic3d_Structure::CreateDownca
 	if( instance == nullptr )
 		return nullptr;
 
-	if (instance->IsKind(STANDARD_TYPE(::StdSelect_Prs)))
-		return Macad::Occt::StdSelect_Prs::CreateDowncasted((::StdSelect_Prs*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::Prs3d_PresentationShadow)))
 		return Macad::Occt::Prs3d_PresentationShadow::CreateDowncasted((::Prs3d_PresentationShadow*)instance);
 
@@ -7236,10 +7458,10 @@ void Macad::Occt::Graphic3d_StructureManager::Highlight(Macad::Occt::Graphic3d_S
 	theStructure->NativeInstance = h_theStructure.get();
 }
 
-void Macad::Occt::Graphic3d_StructureManager::SetTransform(Macad::Occt::Graphic3d_Structure^ theStructure, Macad::Occt::Geom_Transformation^ theTrsf)
+void Macad::Occt::Graphic3d_StructureManager::SetTransform(Macad::Occt::Graphic3d_Structure^ theStructure, Macad::Occt::TopLoc_Datum3D^ theTrsf)
 {
 	Handle(::Graphic3d_Structure) h_theStructure = theStructure->NativeInstance;
-	Handle(::Geom_Transformation) h_theTrsf = theTrsf->NativeInstance;
+	Handle(::TopLoc_Datum3D) h_theTrsf = theTrsf->NativeInstance;
 	((::Graphic3d_StructureManager*)_NativeInstance)->SetTransform(h_theStructure, h_theTrsf);
 	theStructure->NativeInstance = h_theStructure.get();
 	theTrsf->NativeInstance = h_theTrsf.get();
@@ -7361,10 +7583,10 @@ Macad::Occt::Graphic3d_CTexture::Graphic3d_CTexture(Macad::Occt::Graphic3d_CText
 //  Class  Graphic3d_ValidatedCubeMapOrder
 //---------------------------------------------------------------------
 
-Macad::Occt::Graphic3d_ValidatedCubeMapOrder::Graphic3d_ValidatedCubeMapOrder(Macad::Occt::Graphic3d_ValidatedCubeMapOrder^ parameter1)
+Macad::Occt::Graphic3d_ValidatedCubeMapOrder::Graphic3d_ValidatedCubeMapOrder(Macad::Occt::Graphic3d_ValidatedCubeMapOrder^ theOther)
 	: BaseClass<::Graphic3d_ValidatedCubeMapOrder>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::Graphic3d_ValidatedCubeMapOrder(*(::Graphic3d_ValidatedCubeMapOrder*)parameter1->NativeInstance);
+	_NativeInstance = new ::Graphic3d_ValidatedCubeMapOrder(*(::Graphic3d_ValidatedCubeMapOrder*)theOther->NativeInstance);
 }
 
 
@@ -7496,7 +7718,19 @@ Macad::Occt::Graphic3d_ValidatedCubeMapOrder^ Macad::Occt::Graphic3d_CubeMapOrde
 //  Class  Graphic3d_CubeMap
 //---------------------------------------------------------------------
 
+Macad::Occt::Graphic3d_CubeMap::Graphic3d_CubeMap(Macad::Occt::TCollection_AsciiString^ theFileName, bool theToGenerateMipmaps)
+	: Macad::Occt::Graphic3d_TextureMap(BaseClass::InitMode::Uninitialized)
+{
+	throw gcnew System::NotImplementedException("Native class is abstract");
+}
+
 Macad::Occt::Graphic3d_CubeMap::Graphic3d_CubeMap(Macad::Occt::TCollection_AsciiString^ theFileName)
+	: Macad::Occt::Graphic3d_TextureMap(BaseClass::InitMode::Uninitialized)
+{
+	throw gcnew System::NotImplementedException("Native class is abstract");
+}
+
+Macad::Occt::Graphic3d_CubeMap::Graphic3d_CubeMap(Macad::Occt::Image_PixMap^ thePixmap, bool theToGenerateMipmaps)
 	: Macad::Occt::Graphic3d_TextureMap(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
@@ -7529,11 +7763,6 @@ void Macad::Occt::Graphic3d_CubeMap::Next()
 	((::Graphic3d_CubeMap*)_NativeInstance)->Next();
 }
 
-bool Macad::Occt::Graphic3d_CubeMap::IsTopDown()
-{
-	return ((::Graphic3d_CubeMap*)_NativeInstance)->IsTopDown();
-}
-
 void Macad::Occt::Graphic3d_CubeMap::SetZInversion(bool theZIsInverted)
 {
 	((::Graphic3d_CubeMap*)_NativeInstance)->SetZInversion(theZIsInverted);
@@ -7544,10 +7773,31 @@ bool Macad::Occt::Graphic3d_CubeMap::ZIsInverted()
 	return ((::Graphic3d_CubeMap*)_NativeInstance)->ZIsInverted();
 }
 
-Macad::Occt::Image_PixMap^ Macad::Occt::Graphic3d_CubeMap::Value()
+bool Macad::Occt::Graphic3d_CubeMap::HasMipmaps()
 {
+	return ((::Graphic3d_CubeMap*)_NativeInstance)->HasMipmaps();
+}
+
+void Macad::Occt::Graphic3d_CubeMap::SetMipmapsGeneration(bool theToGenerateMipmaps)
+{
+	((::Graphic3d_CubeMap*)_NativeInstance)->SetMipmapsGeneration(theToGenerateMipmaps);
+}
+
+Macad::Occt::Image_CompressedPixMap^ Macad::Occt::Graphic3d_CubeMap::CompressedValue(Macad::Occt::Image_SupportedFormats^ theSupported)
+{
+	Handle(::Image_SupportedFormats) h_theSupported = theSupported->NativeInstance;
+	Handle(::Image_CompressedPixMap) _result;
+	_result = ((::Graphic3d_CubeMap*)_NativeInstance)->CompressedValue(h_theSupported);
+	theSupported->NativeInstance = h_theSupported.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Image_CompressedPixMap::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Image_PixMap^ Macad::Occt::Graphic3d_CubeMap::Value(Macad::Occt::Image_SupportedFormats^ theSupported)
+{
+	Handle(::Image_SupportedFormats) h_theSupported = theSupported->NativeInstance;
 	Handle(::Image_PixMap) _result;
-	_result = ((::Graphic3d_CubeMap*)_NativeInstance)->Value();
+	_result = ((::Graphic3d_CubeMap*)_NativeInstance)->Value(h_theSupported);
+	theSupported->NativeInstance = h_theSupported.get();
 	 return _result.IsNull() ? nullptr : Macad::Occt::Image_PixMap::CreateDowncasted( _result.get());
 }
 
@@ -7610,10 +7860,21 @@ Macad::Occt::Graphic3d_CubeMapPacked::Graphic3d_CubeMapPacked(Macad::Occt::Graph
 	NativeInstance = new ::Graphic3d_CubeMapPacked(*(::Graphic3d_CubeMapPacked*)parameter1->NativeInstance);
 }
 
-Macad::Occt::Image_PixMap^ Macad::Occt::Graphic3d_CubeMapPacked::Value()
+Macad::Occt::Image_CompressedPixMap^ Macad::Occt::Graphic3d_CubeMapPacked::CompressedValue(Macad::Occt::Image_SupportedFormats^ theSupported)
 {
+	Handle(::Image_SupportedFormats) h_theSupported = theSupported->NativeInstance;
+	Handle(::Image_CompressedPixMap) _result;
+	_result = ((::Graphic3d_CubeMapPacked*)_NativeInstance)->CompressedValue(h_theSupported);
+	theSupported->NativeInstance = h_theSupported.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Image_CompressedPixMap::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Image_PixMap^ Macad::Occt::Graphic3d_CubeMapPacked::Value(Macad::Occt::Image_SupportedFormats^ theSupported)
+{
+	Handle(::Image_SupportedFormats) h_theSupported = theSupported->NativeInstance;
 	Handle(::Image_PixMap) _result;
-	_result = ((::Graphic3d_CubeMapPacked*)_NativeInstance)->Value();
+	_result = ((::Graphic3d_CubeMapPacked*)_NativeInstance)->Value(h_theSupported);
+	theSupported->NativeInstance = h_theSupported.get();
 	 return _result.IsNull() ? nullptr : Macad::Occt::Image_PixMap::CreateDowncasted( _result.get());
 }
 
@@ -7635,17 +7896,30 @@ Macad::Occt::Graphic3d_CubeMapSeparate::Graphic3d_CubeMapSeparate(Macad::Occt::G
 	NativeInstance = new ::Graphic3d_CubeMapSeparate(*(::Graphic3d_CubeMapSeparate*)parameter1->NativeInstance);
 }
 
-Macad::Occt::Image_PixMap^ Macad::Occt::Graphic3d_CubeMapSeparate::Value()
+Macad::Occt::Image_CompressedPixMap^ Macad::Occt::Graphic3d_CubeMapSeparate::CompressedValue(Macad::Occt::Image_SupportedFormats^ theSupported)
 {
+	Handle(::Image_SupportedFormats) h_theSupported = theSupported->NativeInstance;
+	Handle(::Image_CompressedPixMap) _result;
+	_result = ((::Graphic3d_CubeMapSeparate*)_NativeInstance)->CompressedValue(h_theSupported);
+	theSupported->NativeInstance = h_theSupported.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Image_CompressedPixMap::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Image_PixMap^ Macad::Occt::Graphic3d_CubeMapSeparate::Value(Macad::Occt::Image_SupportedFormats^ theSupported)
+{
+	Handle(::Image_SupportedFormats) h_theSupported = theSupported->NativeInstance;
 	Handle(::Image_PixMap) _result;
-	_result = ((::Graphic3d_CubeMapSeparate*)_NativeInstance)->Value();
+	_result = ((::Graphic3d_CubeMapSeparate*)_NativeInstance)->Value(h_theSupported);
+	theSupported->NativeInstance = h_theSupported.get();
 	 return _result.IsNull() ? nullptr : Macad::Occt::Image_PixMap::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::Image_PixMap^ Macad::Occt::Graphic3d_CubeMapSeparate::GetImage()
+Macad::Occt::Image_PixMap^ Macad::Occt::Graphic3d_CubeMapSeparate::GetImage(Macad::Occt::Image_SupportedFormats^ parameter1)
 {
+	Handle(::Image_SupportedFormats) h_parameter1 = parameter1->NativeInstance;
 	Handle(::Image_PixMap) _result;
-	_result = ((::Graphic3d_CubeMapSeparate*)_NativeInstance)->GetImage();
+	_result = ((::Graphic3d_CubeMapSeparate*)_NativeInstance)->GetImage(h_parameter1);
+	parameter1->NativeInstance = h_parameter1.get();
 	 return _result.IsNull() ? nullptr : Macad::Occt::Image_PixMap::CreateDowncasted( _result.get());
 }
 
@@ -7681,7 +7955,7 @@ Macad::Occt::Graphic3d_CullingTool::Graphic3d_CullingTool(Macad::Occt::Graphic3d
 void Macad::Occt::Graphic3d_CullingTool::SetViewVolume(Macad::Occt::Graphic3d_Camera^ theCamera)
 {
 	Handle(::Graphic3d_Camera) h_theCamera = theCamera->NativeInstance;
-	((::Graphic3d_CullingTool*)_NativeInstance)->SetViewVolume(h_theCamera);
+	((::Graphic3d_CullingTool*)_NativeInstance)->SetViewVolume(h_theCamera, ::Graphic3d_Mat4d());
 	theCamera->NativeInstance = h_theCamera.get();
 }
 
@@ -7729,7 +8003,7 @@ Macad::Occt::Graphic3d_WorldViewProjState^ Macad::Occt::Graphic3d_CullingTool::W
 Macad::Occt::Graphic3d_DataStructureManager::Graphic3d_DataStructureManager(Macad::Occt::Graphic3d_DataStructureManager^ parameter1)
 	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
-	NativeInstance = new ::Graphic3d_DataStructureManager(*(::Graphic3d_DataStructureManager*)parameter1->NativeInstance);
+	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
 
@@ -8073,16 +8347,25 @@ void Macad::Occt::Graphic3d_CView::SetGradientBackground(Macad::Occt::Aspect_Gra
 	((::Graphic3d_CView*)_NativeInstance)->SetGradientBackground(*(::Aspect_GradientBackground*)theBackground->NativeInstance);
 }
 
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::Graphic3d_CView::BackgroundImage()
+Macad::Occt::Graphic3d_TextureMap^ Macad::Occt::Graphic3d_CView::BackgroundImage()
 {
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result = ((::Graphic3d_CView*)_NativeInstance)->BackgroundImage();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
+	Handle(::Graphic3d_TextureMap) _result;
+	_result = ((::Graphic3d_CView*)_NativeInstance)->BackgroundImage();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_TextureMap::CreateDowncasted( _result.get());
 }
 
-void Macad::Occt::Graphic3d_CView::SetBackgroundImage(Macad::Occt::TCollection_AsciiString^ theFilePath)
+void Macad::Occt::Graphic3d_CView::SetBackgroundImage(Macad::Occt::Graphic3d_TextureMap^ theTextureMap, bool theToUpdatePBREnv)
 {
-	((::Graphic3d_CView*)_NativeInstance)->SetBackgroundImage(*(::TCollection_AsciiString*)theFilePath->NativeInstance);
+	Handle(::Graphic3d_TextureMap) h_theTextureMap = theTextureMap->NativeInstance;
+	((::Graphic3d_CView*)_NativeInstance)->SetBackgroundImage(h_theTextureMap, theToUpdatePBREnv);
+	theTextureMap->NativeInstance = h_theTextureMap.get();
+}
+
+void Macad::Occt::Graphic3d_CView::SetBackgroundImage(Macad::Occt::Graphic3d_TextureMap^ theTextureMap)
+{
+	Handle(::Graphic3d_TextureMap) h_theTextureMap = theTextureMap->NativeInstance;
+	((::Graphic3d_CView*)_NativeInstance)->SetBackgroundImage(h_theTextureMap, true);
+	theTextureMap->NativeInstance = h_theTextureMap.get();
 }
 
 Macad::Occt::Aspect_FillMethod Macad::Occt::Graphic3d_CView::BackgroundImageStyle()
@@ -8102,11 +8385,14 @@ Macad::Occt::Graphic3d_CubeMap^ Macad::Occt::Graphic3d_CView::BackgroundCubeMap(
 	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CubeMap::CreateDowncasted( _result.get());
 }
 
-void Macad::Occt::Graphic3d_CView::SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap)
+void Macad::Occt::Graphic3d_CView::GeneratePBREnvironment()
 {
-	Handle(::Graphic3d_CubeMap) h_theCubeMap = theCubeMap->NativeInstance;
-	((::Graphic3d_CView*)_NativeInstance)->SetBackgroundCubeMap(h_theCubeMap);
-	theCubeMap->NativeInstance = h_theCubeMap.get();
+	((::Graphic3d_CView*)_NativeInstance)->GeneratePBREnvironment();
+}
+
+void Macad::Occt::Graphic3d_CView::ClearPBREnvironment()
+{
+	((::Graphic3d_CView*)_NativeInstance)->ClearPBREnvironment();
 }
 
 Macad::Occt::Graphic3d_TextureEnv^ Macad::Occt::Graphic3d_CView::TextureEnv()
@@ -8176,6 +8462,122 @@ Macad::Occt::TCollection_AsciiString^ Macad::Occt::Graphic3d_CView::StatisticInf
 void Macad::Occt::Graphic3d_CView::StatisticInformation(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theDict)
 {
 	((::Graphic3d_CView*)_NativeInstance)->StatisticInformation(*(::TColStd_IndexedDataMapOfStringString*)theDict->NativeInstance);
+}
+
+double Macad::Occt::Graphic3d_CView::UnitFactor()
+{
+	return ((::Graphic3d_CView*)_NativeInstance)->UnitFactor();
+}
+
+void Macad::Occt::Graphic3d_CView::SetUnitFactor(double theFactor)
+{
+	((::Graphic3d_CView*)_NativeInstance)->SetUnitFactor(theFactor);
+}
+
+Macad::Occt::Aspect_XRSession^ Macad::Occt::Graphic3d_CView::XRSession()
+{
+	Handle(::Aspect_XRSession) _result;
+	_result = ((::Graphic3d_CView*)_NativeInstance)->XRSession();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_XRSession::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::Graphic3d_CView::SetXRSession(Macad::Occt::Aspect_XRSession^ theSession)
+{
+	Handle(::Aspect_XRSession) h_theSession = theSession->NativeInstance;
+	((::Graphic3d_CView*)_NativeInstance)->SetXRSession(h_theSession);
+	theSession->NativeInstance = h_theSession.get();
+}
+
+bool Macad::Occt::Graphic3d_CView::IsActiveXR()
+{
+	return ((::Graphic3d_CView*)_NativeInstance)->IsActiveXR();
+}
+
+bool Macad::Occt::Graphic3d_CView::InitXR()
+{
+	return ((::Graphic3d_CView*)_NativeInstance)->InitXR();
+}
+
+void Macad::Occt::Graphic3d_CView::ReleaseXR()
+{
+	((::Graphic3d_CView*)_NativeInstance)->ReleaseXR();
+}
+
+void Macad::Occt::Graphic3d_CView::ProcessXRInput()
+{
+	((::Graphic3d_CView*)_NativeInstance)->ProcessXRInput();
+}
+
+void Macad::Occt::Graphic3d_CView::SetupXRPosedCamera()
+{
+	((::Graphic3d_CView*)_NativeInstance)->SetupXRPosedCamera();
+}
+
+void Macad::Occt::Graphic3d_CView::UnsetXRPosedCamera()
+{
+	((::Graphic3d_CView*)_NativeInstance)->UnsetXRPosedCamera();
+}
+
+Macad::Occt::Graphic3d_Camera^ Macad::Occt::Graphic3d_CView::PosedXRCamera()
+{
+	Handle(::Graphic3d_Camera) _result;
+	_result = ((::Graphic3d_CView*)_NativeInstance)->PosedXRCamera();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Camera::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::Graphic3d_CView::SetPosedXRCamera(Macad::Occt::Graphic3d_Camera^ theCamera)
+{
+	Handle(::Graphic3d_Camera) h_theCamera = theCamera->NativeInstance;
+	((::Graphic3d_CView*)_NativeInstance)->SetPosedXRCamera(h_theCamera);
+	theCamera->NativeInstance = h_theCamera.get();
+}
+
+Macad::Occt::Graphic3d_Camera^ Macad::Occt::Graphic3d_CView::BaseXRCamera()
+{
+	Handle(::Graphic3d_Camera) _result;
+	_result = ((::Graphic3d_CView*)_NativeInstance)->BaseXRCamera();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Camera::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::Graphic3d_CView::SetBaseXRCamera(Macad::Occt::Graphic3d_Camera^ theCamera)
+{
+	Handle(::Graphic3d_Camera) h_theCamera = theCamera->NativeInstance;
+	((::Graphic3d_CView*)_NativeInstance)->SetBaseXRCamera(h_theCamera);
+	theCamera->NativeInstance = h_theCamera.get();
+}
+
+Macad::Occt::Trsf Macad::Occt::Graphic3d_CView::PoseXRToWorld(Macad::Occt::Trsf thePoseXR)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_thePoseXR = &thePoseXR;
+	return Macad::Occt::Trsf(((::Graphic3d_CView*)_NativeInstance)->PoseXRToWorld(*(gp_Trsf*)pp_thePoseXR));
+}
+
+void Macad::Occt::Graphic3d_CView::SynchronizeXRBaseToPosedCamera()
+{
+	((::Graphic3d_CView*)_NativeInstance)->SynchronizeXRBaseToPosedCamera();
+}
+
+void Macad::Occt::Graphic3d_CView::SynchronizeXRPosedToBaseCamera()
+{
+	((::Graphic3d_CView*)_NativeInstance)->SynchronizeXRPosedToBaseCamera();
+}
+
+void Macad::Occt::Graphic3d_CView::ComputeXRPosedCameraFromBase(Macad::Occt::Graphic3d_Camera^ theCam, Macad::Occt::Trsf theXRTrsf)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_theXRTrsf = &theXRTrsf;
+	((::Graphic3d_CView*)_NativeInstance)->ComputeXRPosedCameraFromBase(*(::Graphic3d_Camera*)theCam->NativeInstance, *(gp_Trsf*)pp_theXRTrsf);
+}
+
+void Macad::Occt::Graphic3d_CView::ComputeXRBaseCameraFromPosed(Macad::Occt::Graphic3d_Camera^ theCamPosed, Macad::Occt::Trsf thePoseTrsf)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_thePoseTrsf = &thePoseTrsf;
+	((::Graphic3d_CView*)_NativeInstance)->ComputeXRBaseCameraFromPosed(*(::Graphic3d_Camera*)theCamPosed->NativeInstance, *(gp_Trsf*)pp_thePoseTrsf);
+}
+
+void Macad::Occt::Graphic3d_CView::TurnViewXRCamera(Macad::Occt::Trsf theTrsfTurn)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_theTrsfTurn = &theTrsfTurn;
+	((::Graphic3d_CView*)_NativeInstance)->TurnViewXRCamera(*(gp_Trsf*)pp_theTrsfTurn);
 }
 
 Macad::Occt::Graphic3d_GraduatedTrihedron^ Macad::Occt::Graphic3d_CView::GetGraduatedTrihedron()
@@ -8568,6 +8970,106 @@ float Macad::Occt::Graphic3d_RenderingParams::ResolutionRatio()
 
 
 //---------------------------------------------------------------------
+//  Class  Graphic3d_Texture2D
+//---------------------------------------------------------------------
+
+Macad::Occt::Graphic3d_Texture2D::Graphic3d_Texture2D(Macad::Occt::Graphic3d_Texture2D^ parameter1)
+	: Macad::Occt::Graphic3d_TextureMap(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Graphic3d_Texture2D(*(::Graphic3d_Texture2D*)parameter1->NativeInstance);
+}
+
+int Macad::Occt::Graphic3d_Texture2D::NumberOfTextures()
+{
+	return ::Graphic3d_Texture2D::NumberOfTextures();
+}
+
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::Graphic3d_Texture2D::TextureName(int theRank)
+{
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result = ::Graphic3d_Texture2D::TextureName(theRank);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
+}
+
+Macad::Occt::Graphic3d_NameOfTexture2D Macad::Occt::Graphic3d_Texture2D::Name()
+{
+	return (Macad::Occt::Graphic3d_NameOfTexture2D)((::Graphic3d_Texture2D*)_NativeInstance)->Name();
+}
+
+void Macad::Occt::Graphic3d_Texture2D::SetImage(Macad::Occt::Image_PixMap^ thePixMap)
+{
+	Handle(::Image_PixMap) h_thePixMap = thePixMap->NativeInstance;
+	((::Graphic3d_Texture2D*)_NativeInstance)->SetImage(h_thePixMap);
+	thePixMap->NativeInstance = h_thePixMap.get();
+}
+
+bool Macad::Occt::Graphic3d_Texture2D::HasMipMaps()
+{
+	return ((::Graphic3d_Texture2D*)_NativeInstance)->HasMipMaps();
+}
+
+void Macad::Occt::Graphic3d_Texture2D::SetMipMaps(bool theToUse)
+{
+	((::Graphic3d_Texture2D*)_NativeInstance)->SetMipMaps(theToUse);
+}
+
+
+Macad::Occt::Graphic3d_Texture2D^ Macad::Occt::Graphic3d_Texture2D::CreateDowncasted(::Graphic3d_Texture2D* instance)
+{
+	if( instance == nullptr )
+		return nullptr;
+
+	if (instance->IsKind(STANDARD_TYPE(::Graphic3d_Texture2Dmanual)))
+		return Macad::Occt::Graphic3d_Texture2Dmanual::CreateDowncasted((::Graphic3d_Texture2Dmanual*)instance);
+	if (instance->IsKind(STANDARD_TYPE(::Graphic3d_MediaTexture)))
+		return Macad::Occt::Graphic3d_MediaTexture::CreateDowncasted((::Graphic3d_MediaTexture*)instance);
+	if (instance->IsKind(STANDARD_TYPE(::Graphic3d_Texture2Dplane)))
+		return Macad::Occt::Graphic3d_Texture2Dplane::CreateDowncasted((::Graphic3d_Texture2Dplane*)instance);
+
+	return gcnew Macad::Occt::Graphic3d_Texture2D( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  Graphic3d_Texture2Dmanual
+//---------------------------------------------------------------------
+
+Macad::Occt::Graphic3d_Texture2Dmanual::Graphic3d_Texture2Dmanual(Macad::Occt::TCollection_AsciiString^ theFileName)
+	: Macad::Occt::Graphic3d_Texture2D(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Graphic3d_Texture2Dmanual(*(::TCollection_AsciiString*)theFileName->NativeInstance);
+}
+
+Macad::Occt::Graphic3d_Texture2Dmanual::Graphic3d_Texture2Dmanual(Macad::Occt::Graphic3d_NameOfTexture2D theNOT)
+	: Macad::Occt::Graphic3d_Texture2D(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Graphic3d_Texture2Dmanual((::Graphic3d_NameOfTexture2D)theNOT);
+}
+
+Macad::Occt::Graphic3d_Texture2Dmanual::Graphic3d_Texture2Dmanual(Macad::Occt::Image_PixMap^ thePixMap)
+	: Macad::Occt::Graphic3d_Texture2D(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::Image_PixMap) h_thePixMap = thePixMap->NativeInstance;
+	NativeInstance = new ::Graphic3d_Texture2Dmanual(h_thePixMap);
+	thePixMap->NativeInstance = h_thePixMap.get();
+}
+
+Macad::Occt::Graphic3d_Texture2Dmanual::Graphic3d_Texture2Dmanual(Macad::Occt::Graphic3d_Texture2Dmanual^ parameter1)
+	: Macad::Occt::Graphic3d_Texture2D(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Graphic3d_Texture2Dmanual(*(::Graphic3d_Texture2Dmanual*)parameter1->NativeInstance);
+}
+
+
+Macad::Occt::Graphic3d_Texture2Dmanual^ Macad::Occt::Graphic3d_Texture2Dmanual::CreateDowncasted(::Graphic3d_Texture2Dmanual* instance)
+{
+	return gcnew Macad::Occt::Graphic3d_Texture2Dmanual( instance );
+}
+
+
+
+//---------------------------------------------------------------------
 //  Class  Graphic3d_TextureEnv
 //---------------------------------------------------------------------
 
@@ -8759,6 +9261,16 @@ double Macad::Occt::Graphic3d_FrameStatsData::FrameRateCpu()
 	return ((::Graphic3d_FrameStatsData*)_NativeInstance)->FrameRateCpu();
 }
 
+double Macad::Occt::Graphic3d_FrameStatsData::ImmediateFrameRate()
+{
+	return ((::Graphic3d_FrameStatsData*)_NativeInstance)->ImmediateFrameRate();
+}
+
+double Macad::Occt::Graphic3d_FrameStatsData::ImmediateFrameRateCpu()
+{
+	return ((::Graphic3d_FrameStatsData*)_NativeInstance)->ImmediateFrameRateCpu();
+}
+
 size_t Macad::Occt::Graphic3d_FrameStatsData::CounterValue(Macad::Occt::Graphic3d_FrameStatsCounter theIndex)
 {
 	return ((::Graphic3d_FrameStatsData*)_NativeInstance)->CounterValue((::Graphic3d_FrameStatsCounter)theIndex);
@@ -8816,6 +9328,16 @@ double Macad::Occt::Graphic3d_FrameStatsDataTmp::ChangeFrameRate()
 double Macad::Occt::Graphic3d_FrameStatsDataTmp::ChangeFrameRateCpu()
 {
 	return ((::Graphic3d_FrameStatsDataTmp*)_NativeInstance)->ChangeFrameRateCpu();
+}
+
+double Macad::Occt::Graphic3d_FrameStatsDataTmp::ChangeImmediateFrameRate()
+{
+	return ((::Graphic3d_FrameStatsDataTmp*)_NativeInstance)->ChangeImmediateFrameRate();
+}
+
+double Macad::Occt::Graphic3d_FrameStatsDataTmp::ChangeImmediateFrameRateCpu()
+{
+	return ((::Graphic3d_FrameStatsDataTmp*)_NativeInstance)->ChangeImmediateFrameRateCpu();
 }
 
 size_t Macad::Occt::Graphic3d_FrameStatsDataTmp::ChangeCounterValue(Macad::Occt::Graphic3d_FrameStatsCounter theIndex)
@@ -9134,68 +9656,6 @@ Macad::Occt::Graphic3d_MaterialDefinitionError^ Macad::Occt::Graphic3d_MaterialD
 
 
 //---------------------------------------------------------------------
-//  Class  Graphic3d_Texture2D
-//---------------------------------------------------------------------
-
-Macad::Occt::Graphic3d_Texture2D::Graphic3d_Texture2D(Macad::Occt::Graphic3d_Texture2D^ parameter1)
-	: Macad::Occt::Graphic3d_TextureMap(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Graphic3d_Texture2D(*(::Graphic3d_Texture2D*)parameter1->NativeInstance);
-}
-
-int Macad::Occt::Graphic3d_Texture2D::NumberOfTextures()
-{
-	return ::Graphic3d_Texture2D::NumberOfTextures();
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::Graphic3d_Texture2D::TextureName(int theRank)
-{
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result = ::Graphic3d_Texture2D::TextureName(theRank);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-Macad::Occt::Graphic3d_NameOfTexture2D Macad::Occt::Graphic3d_Texture2D::Name()
-{
-	return (Macad::Occt::Graphic3d_NameOfTexture2D)((::Graphic3d_Texture2D*)_NativeInstance)->Name();
-}
-
-void Macad::Occt::Graphic3d_Texture2D::SetImage(Macad::Occt::Image_PixMap^ thePixMap)
-{
-	Handle(::Image_PixMap) h_thePixMap = thePixMap->NativeInstance;
-	((::Graphic3d_Texture2D*)_NativeInstance)->SetImage(h_thePixMap);
-	thePixMap->NativeInstance = h_thePixMap.get();
-}
-
-bool Macad::Occt::Graphic3d_Texture2D::HasMipMaps()
-{
-	return ((::Graphic3d_Texture2D*)_NativeInstance)->HasMipMaps();
-}
-
-void Macad::Occt::Graphic3d_Texture2D::SetMipMaps(bool theToUse)
-{
-	((::Graphic3d_Texture2D*)_NativeInstance)->SetMipMaps(theToUse);
-}
-
-
-Macad::Occt::Graphic3d_Texture2D^ Macad::Occt::Graphic3d_Texture2D::CreateDowncasted(::Graphic3d_Texture2D* instance)
-{
-	if( instance == nullptr )
-		return nullptr;
-
-	if (instance->IsKind(STANDARD_TYPE(::Graphic3d_MediaTexture)))
-		return Macad::Occt::Graphic3d_MediaTexture::CreateDowncasted((::Graphic3d_MediaTexture*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::Graphic3d_Texture2Dmanual)))
-		return Macad::Occt::Graphic3d_Texture2Dmanual::CreateDowncasted((::Graphic3d_Texture2Dmanual*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::Graphic3d_Texture2Dplane)))
-		return Macad::Occt::Graphic3d_Texture2Dplane::CreateDowncasted((::Graphic3d_Texture2Dplane*)instance);
-
-	return gcnew Macad::Occt::Graphic3d_Texture2D( instance );
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  Graphic3d_MediaTexture
 //---------------------------------------------------------------------
 
@@ -9205,10 +9665,12 @@ Macad::Occt::Graphic3d_MediaTexture::Graphic3d_MediaTexture(Macad::Occt::Graphic
 	NativeInstance = new ::Graphic3d_MediaTexture(*(::Graphic3d_MediaTexture*)parameter1->NativeInstance);
 }
 
-Macad::Occt::Image_PixMap^ Macad::Occt::Graphic3d_MediaTexture::GetImage()
+Macad::Occt::Image_PixMap^ Macad::Occt::Graphic3d_MediaTexture::GetImage(Macad::Occt::Image_SupportedFormats^ theSupported)
 {
+	Handle(::Image_SupportedFormats) h_theSupported = theSupported->NativeInstance;
 	Handle(::Image_PixMap) _result;
-	_result = ((::Graphic3d_MediaTexture*)_NativeInstance)->GetImage();
+	_result = ((::Graphic3d_MediaTexture*)_NativeInstance)->GetImage(h_theSupported);
+	theSupported->NativeInstance = h_theSupported.get();
 	 return _result.IsNull() ? nullptr : Macad::Occt::Image_PixMap::CreateDowncasted( _result.get());
 }
 
@@ -9476,44 +9938,6 @@ void Macad::Occt::Graphic3d_Texture1Dsegment::Segment(float% theX1, float% theY1
 Macad::Occt::Graphic3d_Texture1Dsegment^ Macad::Occt::Graphic3d_Texture1Dsegment::CreateDowncasted(::Graphic3d_Texture1Dsegment* instance)
 {
 	return gcnew Macad::Occt::Graphic3d_Texture1Dsegment( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  Graphic3d_Texture2Dmanual
-//---------------------------------------------------------------------
-
-Macad::Occt::Graphic3d_Texture2Dmanual::Graphic3d_Texture2Dmanual(Macad::Occt::TCollection_AsciiString^ theFileName)
-	: Macad::Occt::Graphic3d_Texture2D(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Graphic3d_Texture2Dmanual(*(::TCollection_AsciiString*)theFileName->NativeInstance);
-}
-
-Macad::Occt::Graphic3d_Texture2Dmanual::Graphic3d_Texture2Dmanual(Macad::Occt::Graphic3d_NameOfTexture2D theNOT)
-	: Macad::Occt::Graphic3d_Texture2D(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Graphic3d_Texture2Dmanual((::Graphic3d_NameOfTexture2D)theNOT);
-}
-
-Macad::Occt::Graphic3d_Texture2Dmanual::Graphic3d_Texture2Dmanual(Macad::Occt::Image_PixMap^ thePixMap)
-	: Macad::Occt::Graphic3d_Texture2D(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Image_PixMap) h_thePixMap = thePixMap->NativeInstance;
-	NativeInstance = new ::Graphic3d_Texture2Dmanual(h_thePixMap);
-	thePixMap->NativeInstance = h_thePixMap.get();
-}
-
-Macad::Occt::Graphic3d_Texture2Dmanual::Graphic3d_Texture2Dmanual(Macad::Occt::Graphic3d_Texture2Dmanual^ parameter1)
-	: Macad::Occt::Graphic3d_Texture2D(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Graphic3d_Texture2Dmanual(*(::Graphic3d_Texture2Dmanual*)parameter1->NativeInstance);
-}
-
-
-Macad::Occt::Graphic3d_Texture2Dmanual^ Macad::Occt::Graphic3d_Texture2Dmanual::CreateDowncasted(::Graphic3d_Texture2Dmanual* instance)
-{
-	return gcnew Macad::Occt::Graphic3d_Texture2Dmanual( instance );
 }
 
 

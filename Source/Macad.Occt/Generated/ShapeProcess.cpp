@@ -7,8 +7,8 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 
 #include "ShapeProcess.h"
 #include "Standard.h"
-#include "TCollection.h"
 #include "Message.h"
+#include "TCollection.h"
 #include "TopoDS.h"
 #include "TopTools.h"
 #include "ShapeExtend.h"
@@ -34,10 +34,17 @@ Macad::Occt::ShapeProcess_Operator::ShapeProcess_Operator()
 	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
+bool Macad::Occt::ShapeProcess_Operator::Perform(Macad::Occt::ShapeProcess_Context^ context, Macad::Occt::Message_ProgressRange^ theProgress)
+{
+	Handle(::ShapeProcess_Context) h_context = context->NativeInstance;
+	return ((::ShapeProcess_Operator*)_NativeInstance)->Perform(h_context, *(::Message_ProgressRange*)theProgress->NativeInstance);
+	context->NativeInstance = h_context.get();
+}
+
 bool Macad::Occt::ShapeProcess_Operator::Perform(Macad::Occt::ShapeProcess_Context^ context)
 {
 	Handle(::ShapeProcess_Context) h_context = context->NativeInstance;
-	return ((::ShapeProcess_Operator*)_NativeInstance)->Perform(h_context);
+	return ((::ShapeProcess_Operator*)_NativeInstance)->Perform(h_context, ::Message_ProgressRange());
 	context->NativeInstance = h_context.get();
 }
 
@@ -417,10 +424,17 @@ Macad::Occt::ShapeProcess_UOperator::ShapeProcess_UOperator(Macad::Occt::ShapePr
 	NativeInstance = new ::ShapeProcess_UOperator(*(::ShapeProcess_UOperator*)parameter1->NativeInstance);
 }
 
+bool Macad::Occt::ShapeProcess_UOperator::Perform(Macad::Occt::ShapeProcess_Context^ context, Macad::Occt::Message_ProgressRange^ theProgress)
+{
+	Handle(::ShapeProcess_Context) h_context = context->NativeInstance;
+	return ((::ShapeProcess_UOperator*)_NativeInstance)->Perform(h_context, *(::Message_ProgressRange*)theProgress->NativeInstance);
+	context->NativeInstance = h_context.get();
+}
+
 bool Macad::Occt::ShapeProcess_UOperator::Perform(Macad::Occt::ShapeProcess_Context^ context)
 {
 	Handle(::ShapeProcess_Context) h_context = context->NativeInstance;
-	return ((::ShapeProcess_UOperator*)_NativeInstance)->Perform(h_context);
+	return ((::ShapeProcess_UOperator*)_NativeInstance)->Perform(h_context, ::Message_ProgressRange());
 	context->NativeInstance = h_context.get();
 }
 
@@ -527,11 +541,20 @@ bool Macad::Occt::ShapeProcess::FindOperator(System::String^ name, Macad::Occt::
 	op->NativeInstance = h_op.get();
 }
 
+bool Macad::Occt::ShapeProcess::Perform(Macad::Occt::ShapeProcess_Context^ context, System::String^ seq, Macad::Occt::Message_ProgressRange^ theProgress)
+{
+	Handle(::ShapeProcess_Context) h_context = context->NativeInstance;
+	const char* sz_seq = (char*)(void*)Marshal::StringToHGlobalAnsi(seq);
+	return ::ShapeProcess::Perform(h_context, sz_seq, *(::Message_ProgressRange*)theProgress->NativeInstance);
+	context->NativeInstance = h_context.get();
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_seq);
+}
+
 bool Macad::Occt::ShapeProcess::Perform(Macad::Occt::ShapeProcess_Context^ context, System::String^ seq)
 {
 	Handle(::ShapeProcess_Context) h_context = context->NativeInstance;
 	const char* sz_seq = (char*)(void*)Marshal::StringToHGlobalAnsi(seq);
-	return ::ShapeProcess::Perform(h_context, sz_seq);
+	return ::ShapeProcess::Perform(h_context, sz_seq, ::Message_ProgressRange());
 	context->NativeInstance = h_context.get();
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_seq);
 }

@@ -181,6 +181,8 @@ public:
 	TopLoc_Datum3D(Macad::Occt::Trsf T);
 	TopLoc_Datum3D(Macad::Occt::TopLoc_Datum3D^ parameter1);
 	Macad::Occt::Trsf Transformation();
+	Macad::Occt::Trsf Trsf();
+	Macad::Occt::TrsfForm Form();
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void ShallowDump(ostream S, ) */

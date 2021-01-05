@@ -41,6 +41,7 @@ namespace Macad.Test.Unit.Infrastructure
             Assert.IsNull(script);
 
             Assert.That(Context.Current.MessageHandler.MessageItems.Any(m => m.Severity == MessageSeverity.Error 
+                                                                             && m.Explanation != null
                                                                              && m.Explanation.Any(s => s.Contains("Error CS0117"))));
         }
         

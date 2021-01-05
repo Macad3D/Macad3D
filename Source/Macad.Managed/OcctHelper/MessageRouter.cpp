@@ -30,7 +30,8 @@ namespace Macad
 
                 //--------------------------------------------------------------------------------------------------
 
-			    void Send (const ::TCollection_ExtendedString& theString, const ::Message_Gravity theGravity, const ::Standard_Boolean putEndl = Standard_True) const override
+			protected:
+			    void send (const ::TCollection_AsciiString& theString, const ::Message_Gravity theGravity) const override
 			    {
 			        if(_MessageCallback != nullptr)
 			        {

@@ -328,6 +328,7 @@ public:
 	bool HasFinitePart();
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean InitFromJson(stringstream theSStream, Standard_Integer theStreamPos, ) */
 }; // class Bnd_Box
 
 //---------------------------------------------------------------------

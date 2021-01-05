@@ -130,7 +130,7 @@ namespace Macad.Occt.Generator
                 
                 wd.WriteLine("#include \"{0}\"", Path.GetFileName(include));
             }
-            File.WriteAllText(Path.Combine(Configuration.Output, "native_includes.h"), wd.ToString());
+            File.WriteAllText(Path.Combine(Configuration.Output, "NativeIncludes.h"), wd.ToString());
 
             // Write forward decl list
             wd = new StringWriter();
@@ -156,7 +156,10 @@ namespace Macad.Occt.Generator
                 wd.WriteLine("}; // namespace " + ns);
             }
 
-            File.WriteAllText(Path.Combine(Configuration.Output, "forward_declarations.h"), wd.ToString());
+            File.WriteAllText(Path.Combine(Configuration.Output, "ForwardDeclarations.h"), wd.ToString());
+
+            // Write meta data
+            GenerateVersionInfo();
 
             return true;
         }
@@ -239,42 +242,6 @@ namespace Macad.Occt.Generator
 
         //--------------------------------------------------------------------------------------------------
 
-        void GenerateEnumHeader(StringWriter wh, Definitions.EnumDefinition ed, bool inner)
-        {
-            string prefix = inner ? "\t" : "";
-            wh.WriteLine($"{prefix}//---------------------------------------------------------------------");
-            wh.WriteLine($"{prefix}//  Enum  {ed.Name}");
-            wh.WriteLine($"{prefix}//---------------------------------------------------------------------");
-
-            if (!inner)
-            {
-                wh.Write("public ");
-            }
-            wh.WriteLine($"{prefix}enum class {ed.Name}");
-            wh.WriteLine($"{prefix}{{");
-
-            bool isFirst = true;
-            // write enumerators
-            foreach (var e in ed.Enumerators)
-            {
-                if (isFirst)
-                    isFirst = false;
-                else
-                    wh.WriteLine(",");
-
-                wh.Write($"{prefix}\t{e.Key}");
-                if (!string.IsNullOrEmpty(e.Value))
-                {
-                    wh.Write(" = " + e.Value);
-                }
-            }
-            wh.WriteLine();
-
-            wh.WriteLine($"{prefix}}}; // enum  class {ed.Name}");
-            wh.WriteLine();
-        }
-
-        //--------------------------------------------------------------------------------------------------
 
     }
 }

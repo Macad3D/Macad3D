@@ -217,7 +217,7 @@ namespace Macad.Core.Topology
             _IsVisible = true;
             _IsLocked = false;
             _PresentationMode = PresentationMode.SolidWithBoundary;
-            _Color = OcctColorUtils.Color(Quantity_NameOfColor.Quantity_NOC_GRAY70);
+            _Color = new Color("#c0c0c0");
             _Transparency = 0;
             _LineStyle = LineStyle.Solid;
             _LineThickness = LineThickness.Normal;

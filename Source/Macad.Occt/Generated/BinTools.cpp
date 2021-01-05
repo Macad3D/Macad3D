@@ -8,6 +8,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "Standard.h"
 #include "BinTools.h"
 #include "TopoDS.h"
+#include "Message.h"
 #include "TopAbs.h"
 #include "Geom2d.h"
 #include "Geom.h"
@@ -301,17 +302,31 @@ Macad::Occt::BinTools::BinTools(Macad::Occt::BinTools^ parameter1)
 	_NativeInstance = new ::BinTools(*(::BinTools*)parameter1->NativeInstance);
 }
 
+bool Macad::Occt::BinTools::Write(Macad::Occt::TopoDS_Shape^ theShape, System::String^ theFile, Macad::Occt::Message_ProgressRange^ theRange)
+{
+	const char* sz_theFile = (char*)(void*)Marshal::StringToHGlobalAnsi(theFile);
+	return ::BinTools::Write(*(::TopoDS_Shape*)theShape->NativeInstance, sz_theFile, *(::Message_ProgressRange*)theRange->NativeInstance);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theFile);
+}
+
 bool Macad::Occt::BinTools::Write(Macad::Occt::TopoDS_Shape^ theShape, System::String^ theFile)
 {
 	const char* sz_theFile = (char*)(void*)Marshal::StringToHGlobalAnsi(theFile);
-	return ::BinTools::Write(*(::TopoDS_Shape*)theShape->NativeInstance, sz_theFile);
+	return ::BinTools::Write(*(::TopoDS_Shape*)theShape->NativeInstance, sz_theFile, ::Message_ProgressRange());
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theFile);
+}
+
+bool Macad::Occt::BinTools::Read(Macad::Occt::TopoDS_Shape^ theShape, System::String^ theFile, Macad::Occt::Message_ProgressRange^ theRange)
+{
+	const char* sz_theFile = (char*)(void*)Marshal::StringToHGlobalAnsi(theFile);
+	return ::BinTools::Read(*(::TopoDS_Shape*)theShape->NativeInstance, sz_theFile, *(::Message_ProgressRange*)theRange->NativeInstance);
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theFile);
 }
 
 bool Macad::Occt::BinTools::Read(Macad::Occt::TopoDS_Shape^ theShape, System::String^ theFile)
 {
 	const char* sz_theFile = (char*)(void*)Marshal::StringToHGlobalAnsi(theFile);
-	return ::BinTools::Read(*(::TopoDS_Shape*)theShape->NativeInstance, sz_theFile);
+	return ::BinTools::Read(*(::TopoDS_Shape*)theShape->NativeInstance, sz_theFile, ::Message_ProgressRange());
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theFile);
 }
 

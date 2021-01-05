@@ -17,6 +17,191 @@ public enum class TCollection_Side
 }; // enum  class TCollection_Side
 
 //---------------------------------------------------------------------
+//  Class  TCollection_HAsciiString
+//---------------------------------------------------------------------
+public ref class TCollection_HAsciiString sealed : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_TCollection_HAsciiString_h
+public:
+	Include_TCollection_HAsciiString_h
+#endif
+
+public:
+	TCollection_HAsciiString(::TCollection_HAsciiString* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	TCollection_HAsciiString(::TCollection_HAsciiString& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	property ::TCollection_HAsciiString* NativeInstance
+	{
+		::TCollection_HAsciiString* get()
+		{
+			return static_cast<::TCollection_HAsciiString*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::TCollection_HAsciiString^ CreateDowncasted(::TCollection_HAsciiString* instance);
+
+public:
+	TCollection_HAsciiString();
+	TCollection_HAsciiString(System::String^ message);
+	TCollection_HAsciiString(char aChar);
+	TCollection_HAsciiString(int length, char filler);
+	TCollection_HAsciiString(int value);
+	TCollection_HAsciiString(double value);
+	TCollection_HAsciiString(Macad::Occt::TCollection_AsciiString^ aString);
+	TCollection_HAsciiString(Macad::Occt::TCollection_HAsciiString^ aString);
+	TCollection_HAsciiString(Macad::Occt::TCollection_HExtendedString^ aString, char replaceNonAscii);
+	void AssignCat(System::String^ other);
+	void AssignCat(Macad::Occt::TCollection_HAsciiString^ other);
+	void Capitalize();
+	Macad::Occt::TCollection_HAsciiString^ Cat(System::String^ other);
+	Macad::Occt::TCollection_HAsciiString^ Cat(Macad::Occt::TCollection_HAsciiString^ other);
+	void Center(int Width, char Filler);
+	void ChangeAll(char aChar, char NewChar, bool CaseSensitive);
+	void ChangeAll(char aChar, char NewChar);
+	void Clear();
+	int FirstLocationInSet(Macad::Occt::TCollection_HAsciiString^ Set, int FromIndex, int ToIndex);
+	int FirstLocationNotInSet(Macad::Occt::TCollection_HAsciiString^ Set, int FromIndex, int ToIndex);
+	void Insert(int where, char what);
+	void Insert(int where, System::String^ what);
+	void Insert(int where, Macad::Occt::TCollection_HAsciiString^ what);
+	void InsertAfter(int Index, Macad::Occt::TCollection_HAsciiString^ other);
+	void InsertBefore(int Index, Macad::Occt::TCollection_HAsciiString^ other);
+	bool IsEmpty();
+	bool IsLess(Macad::Occt::TCollection_HAsciiString^ other);
+	bool IsGreater(Macad::Occt::TCollection_HAsciiString^ other);
+	int IntegerValue();
+	bool IsIntegerValue();
+	bool IsRealValue();
+	bool IsAscii();
+	bool IsDifferent(Macad::Occt::TCollection_HAsciiString^ S);
+	bool IsSameString(Macad::Occt::TCollection_HAsciiString^ S);
+	bool IsSameString(Macad::Occt::TCollection_HAsciiString^ S, bool CaseSensitive);
+	void LeftAdjust();
+	void LeftJustify(int Width, char Filler);
+	int Length();
+	int Location(Macad::Occt::TCollection_HAsciiString^ other, int FromIndex, int ToIndex);
+	int Location(int N, char C, int FromIndex, int ToIndex);
+	void LowerCase();
+	void Prepend(Macad::Occt::TCollection_HAsciiString^ other);
+	/* Method skipped due to unknown mapping: void Print(ostream astream, ) */
+	double RealValue();
+	void RemoveAll(char C, bool CaseSensitive);
+	void RemoveAll(char what);
+	void Remove(int where, int ahowmany);
+	void Remove(int where);
+	void RightAdjust();
+	void RightJustify(int Width, char Filler);
+	int Search(System::String^ what);
+	int Search(Macad::Occt::TCollection_HAsciiString^ what);
+	int SearchFromEnd(System::String^ what);
+	int SearchFromEnd(Macad::Occt::TCollection_HAsciiString^ what);
+	void SetValue(int where, char what);
+	void SetValue(int where, System::String^ what);
+	void SetValue(int where, Macad::Occt::TCollection_HAsciiString^ what);
+	Macad::Occt::TCollection_HAsciiString^ Split(int where);
+	Macad::Occt::TCollection_HAsciiString^ SubString(int FromIndex, int ToIndex);
+	System::String^ ToCString();
+	Macad::Occt::TCollection_HAsciiString^ Token(System::String^ separators, int whichone);
+	Macad::Occt::TCollection_HAsciiString^ Token(System::String^ separators);
+	Macad::Occt::TCollection_HAsciiString^ Token();
+	void Trunc(int ahowmany);
+	void UpperCase();
+	int UsefullLength();
+	char Value(int where);
+	Macad::Occt::TCollection_AsciiString^ String();
+	bool IsSameState(Macad::Occt::TCollection_HAsciiString^ other);
+}; // class TCollection_HAsciiString
+
+//---------------------------------------------------------------------
+//  Class  TCollection_ExtendedString
+//---------------------------------------------------------------------
+public ref class TCollection_ExtendedString sealed : public BaseClass<::TCollection_ExtendedString>
+{
+
+#ifdef Include_TCollection_ExtendedString_h
+public:
+	Include_TCollection_ExtendedString_h
+#endif
+
+public:
+	TCollection_ExtendedString(::TCollection_ExtendedString* nativeInstance)
+		: BaseClass<::TCollection_ExtendedString>( nativeInstance, true )
+	{}
+
+	TCollection_ExtendedString(::TCollection_ExtendedString& nativeInstance)
+		: BaseClass<::TCollection_ExtendedString>( &nativeInstance, false )
+	{}
+
+	property ::TCollection_ExtendedString* NativeInstance
+	{
+		::TCollection_ExtendedString* get()
+		{
+			return static_cast<::TCollection_ExtendedString*>(_NativeInstance);
+		}
+	}
+
+public:
+	TCollection_ExtendedString();
+	TCollection_ExtendedString(System::String^ astring, bool isMultiByte);
+	TCollection_ExtendedString(System::String^ astring);
+	/* Method skipped due to unknown mapping: void TCollection_ExtendedString(wchar_t theStringUtf, ) */
+	TCollection_ExtendedString(char aChar);
+	TCollection_ExtendedString(char16_t aChar);
+	TCollection_ExtendedString(int length, char16_t filler);
+	TCollection_ExtendedString(int value);
+	TCollection_ExtendedString(double value);
+	TCollection_ExtendedString(Macad::Occt::TCollection_ExtendedString^ astring);
+	TCollection_ExtendedString(Macad::Occt::TCollection_AsciiString^ astring, bool isMultiByte);
+	TCollection_ExtendedString(Macad::Occt::TCollection_AsciiString^ astring);
+	void AssignCat(Macad::Occt::TCollection_ExtendedString^ other);
+	/* Method skipped due to unknown mapping: void AssignCat(char16_t theChar, ) */
+	Macad::Occt::TCollection_ExtendedString^ Cat(Macad::Occt::TCollection_ExtendedString^ other);
+	void ChangeAll(char16_t aChar, char16_t NewChar);
+	void Clear();
+	void Copy(Macad::Occt::TCollection_ExtendedString^ fromwhere);
+	void Swap(Macad::Occt::TCollection_ExtendedString^ theOther);
+	void Insert(int where, char16_t what);
+	void Insert(int where, Macad::Occt::TCollection_ExtendedString^ what);
+	bool IsEmpty();
+	bool IsEqual(System::String^ other);
+	bool IsEqual(Macad::Occt::TCollection_ExtendedString^ other);
+	bool IsDifferent(System::String^ other);
+	bool IsDifferent(Macad::Occt::TCollection_ExtendedString^ other);
+	bool IsLess(System::String^ other);
+	bool IsLess(Macad::Occt::TCollection_ExtendedString^ other);
+	bool IsGreater(System::String^ other);
+	bool IsGreater(Macad::Occt::TCollection_ExtendedString^ other);
+	bool StartsWith(Macad::Occt::TCollection_ExtendedString^ theStartString);
+	bool EndsWith(Macad::Occt::TCollection_ExtendedString^ theEndString);
+	bool IsAscii();
+	int Length();
+	/* Method skipped due to unknown mapping: void Print(ostream astream, ) */
+	void RemoveAll(char16_t what);
+	void Remove(int where, int ahowmany);
+	void Remove(int where);
+	int Search(Macad::Occt::TCollection_ExtendedString^ what);
+	int SearchFromEnd(Macad::Occt::TCollection_ExtendedString^ what);
+	void SetValue(int where, char16_t what);
+	void SetValue(int where, Macad::Occt::TCollection_ExtendedString^ what);
+	Macad::Occt::TCollection_ExtendedString^ Split(int where);
+	Macad::Occt::TCollection_ExtendedString^ Token(System::String^ separators, int whichone);
+	Macad::Occt::TCollection_ExtendedString^ Token(System::String^ separators);
+	System::String^ ToExtString();
+	/* Method skipped due to unknown mapping: wchar_t ToWideString() */
+	void Trunc(int ahowmany);
+	char16_t Value(int where);
+	static int HashCode(Macad::Occt::TCollection_ExtendedString^ theString, int theUpperBound);
+	static bool IsEqual(Macad::Occt::TCollection_ExtendedString^ theString1, Macad::Occt::TCollection_ExtendedString^ theString2);
+	int LengthOfCString();
+}; // class TCollection_ExtendedString
+
+//---------------------------------------------------------------------
 //  Class  TCollection_AsciiString
 //---------------------------------------------------------------------
 public ref class TCollection_AsciiString sealed : public BaseClass<::TCollection_AsciiString>
@@ -137,189 +322,6 @@ public:
 	static bool IsEqual(Macad::Occt::TCollection_AsciiString^ string1, System::String^ string2);
 	static bool IsSameString(Macad::Occt::TCollection_AsciiString^ theString1, Macad::Occt::TCollection_AsciiString^ theString2, bool theIsCaseSensitive);
 }; // class TCollection_AsciiString
-
-//---------------------------------------------------------------------
-//  Class  TCollection_ExtendedString
-//---------------------------------------------------------------------
-public ref class TCollection_ExtendedString sealed : public BaseClass<::TCollection_ExtendedString>
-{
-
-#ifdef Include_TCollection_ExtendedString_h
-public:
-	Include_TCollection_ExtendedString_h
-#endif
-
-public:
-	TCollection_ExtendedString(::TCollection_ExtendedString* nativeInstance)
-		: BaseClass<::TCollection_ExtendedString>( nativeInstance, true )
-	{}
-
-	TCollection_ExtendedString(::TCollection_ExtendedString& nativeInstance)
-		: BaseClass<::TCollection_ExtendedString>( &nativeInstance, false )
-	{}
-
-	property ::TCollection_ExtendedString* NativeInstance
-	{
-		::TCollection_ExtendedString* get()
-		{
-			return static_cast<::TCollection_ExtendedString*>(_NativeInstance);
-		}
-	}
-
-public:
-	TCollection_ExtendedString();
-	TCollection_ExtendedString(System::String^ astring, bool isMultiByte);
-	TCollection_ExtendedString(System::String^ astring);
-	/* Method skipped due to unknown mapping: void TCollection_ExtendedString(wchar_t theStringUtf, ) */
-	TCollection_ExtendedString(char aChar);
-	TCollection_ExtendedString(char16_t aChar);
-	TCollection_ExtendedString(int length, char16_t filler);
-	TCollection_ExtendedString(int value);
-	TCollection_ExtendedString(double value);
-	TCollection_ExtendedString(Macad::Occt::TCollection_ExtendedString^ astring);
-	TCollection_ExtendedString(Macad::Occt::TCollection_AsciiString^ astring);
-	void AssignCat(Macad::Occt::TCollection_ExtendedString^ other);
-	Macad::Occt::TCollection_ExtendedString^ Cat(Macad::Occt::TCollection_ExtendedString^ other);
-	void ChangeAll(char16_t aChar, char16_t NewChar);
-	void Clear();
-	void Copy(Macad::Occt::TCollection_ExtendedString^ fromwhere);
-	void Swap(Macad::Occt::TCollection_ExtendedString^ theOther);
-	void Insert(int where, char16_t what);
-	void Insert(int where, Macad::Occt::TCollection_ExtendedString^ what);
-	bool IsEmpty();
-	bool IsEqual(System::String^ other);
-	bool IsEqual(Macad::Occt::TCollection_ExtendedString^ other);
-	bool IsDifferent(System::String^ other);
-	bool IsDifferent(Macad::Occt::TCollection_ExtendedString^ other);
-	bool IsLess(System::String^ other);
-	bool IsLess(Macad::Occt::TCollection_ExtendedString^ other);
-	bool IsGreater(System::String^ other);
-	bool IsGreater(Macad::Occt::TCollection_ExtendedString^ other);
-	bool StartsWith(Macad::Occt::TCollection_ExtendedString^ theStartString);
-	bool EndsWith(Macad::Occt::TCollection_ExtendedString^ theEndString);
-	bool IsAscii();
-	int Length();
-	/* Method skipped due to unknown mapping: void Print(ostream astream, ) */
-	void RemoveAll(char16_t what);
-	void Remove(int where, int ahowmany);
-	void Remove(int where);
-	int Search(Macad::Occt::TCollection_ExtendedString^ what);
-	int SearchFromEnd(Macad::Occt::TCollection_ExtendedString^ what);
-	void SetValue(int where, char16_t what);
-	void SetValue(int where, Macad::Occt::TCollection_ExtendedString^ what);
-	Macad::Occt::TCollection_ExtendedString^ Split(int where);
-	Macad::Occt::TCollection_ExtendedString^ Token(System::String^ separators, int whichone);
-	Macad::Occt::TCollection_ExtendedString^ Token(System::String^ separators);
-	System::String^ ToExtString();
-	/* Method skipped due to unknown mapping: wchar_t ToWideString() */
-	void Trunc(int ahowmany);
-	char16_t Value(int where);
-	static int HashCode(Macad::Occt::TCollection_ExtendedString^ theString, int theUpperBound);
-	static bool IsEqual(Macad::Occt::TCollection_ExtendedString^ theString1, Macad::Occt::TCollection_ExtendedString^ theString2);
-	int LengthOfCString();
-}; // class TCollection_ExtendedString
-
-//---------------------------------------------------------------------
-//  Class  TCollection_HAsciiString
-//---------------------------------------------------------------------
-public ref class TCollection_HAsciiString sealed : public Macad::Occt::Standard_Transient
-{
-
-#ifdef Include_TCollection_HAsciiString_h
-public:
-	Include_TCollection_HAsciiString_h
-#endif
-
-public:
-	TCollection_HAsciiString(::TCollection_HAsciiString* nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	TCollection_HAsciiString(::TCollection_HAsciiString& nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	property ::TCollection_HAsciiString* NativeInstance
-	{
-		::TCollection_HAsciiString* get()
-		{
-			return static_cast<::TCollection_HAsciiString*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::TCollection_HAsciiString^ CreateDowncasted(::TCollection_HAsciiString* instance);
-
-public:
-	TCollection_HAsciiString();
-	TCollection_HAsciiString(System::String^ message);
-	TCollection_HAsciiString(char aChar);
-	TCollection_HAsciiString(int length, char filler);
-	TCollection_HAsciiString(int value);
-	TCollection_HAsciiString(double value);
-	TCollection_HAsciiString(Macad::Occt::TCollection_AsciiString^ aString);
-	TCollection_HAsciiString(Macad::Occt::TCollection_HAsciiString^ aString);
-	TCollection_HAsciiString(Macad::Occt::TCollection_HExtendedString^ aString, char replaceNonAscii);
-	void AssignCat(System::String^ other);
-	void AssignCat(Macad::Occt::TCollection_HAsciiString^ other);
-	void Capitalize();
-	Macad::Occt::TCollection_HAsciiString^ Cat(System::String^ other);
-	Macad::Occt::TCollection_HAsciiString^ Cat(Macad::Occt::TCollection_HAsciiString^ other);
-	void Center(int Width, char Filler);
-	void ChangeAll(char aChar, char NewChar, bool CaseSensitive);
-	void ChangeAll(char aChar, char NewChar);
-	void Clear();
-	int FirstLocationInSet(Macad::Occt::TCollection_HAsciiString^ Set, int FromIndex, int ToIndex);
-	int FirstLocationNotInSet(Macad::Occt::TCollection_HAsciiString^ Set, int FromIndex, int ToIndex);
-	void Insert(int where, char what);
-	void Insert(int where, System::String^ what);
-	void Insert(int where, Macad::Occt::TCollection_HAsciiString^ what);
-	void InsertAfter(int Index, Macad::Occt::TCollection_HAsciiString^ other);
-	void InsertBefore(int Index, Macad::Occt::TCollection_HAsciiString^ other);
-	bool IsEmpty();
-	bool IsLess(Macad::Occt::TCollection_HAsciiString^ other);
-	bool IsGreater(Macad::Occt::TCollection_HAsciiString^ other);
-	int IntegerValue();
-	bool IsIntegerValue();
-	bool IsRealValue();
-	bool IsAscii();
-	bool IsDifferent(Macad::Occt::TCollection_HAsciiString^ S);
-	bool IsSameString(Macad::Occt::TCollection_HAsciiString^ S);
-	bool IsSameString(Macad::Occt::TCollection_HAsciiString^ S, bool CaseSensitive);
-	void LeftAdjust();
-	void LeftJustify(int Width, char Filler);
-	int Length();
-	int Location(Macad::Occt::TCollection_HAsciiString^ other, int FromIndex, int ToIndex);
-	int Location(int N, char C, int FromIndex, int ToIndex);
-	void LowerCase();
-	void Prepend(Macad::Occt::TCollection_HAsciiString^ other);
-	/* Method skipped due to unknown mapping: void Print(ostream astream, ) */
-	double RealValue();
-	void RemoveAll(char C, bool CaseSensitive);
-	void RemoveAll(char what);
-	void Remove(int where, int ahowmany);
-	void Remove(int where);
-	void RightAdjust();
-	void RightJustify(int Width, char Filler);
-	int Search(System::String^ what);
-	int Search(Macad::Occt::TCollection_HAsciiString^ what);
-	int SearchFromEnd(System::String^ what);
-	int SearchFromEnd(Macad::Occt::TCollection_HAsciiString^ what);
-	void SetValue(int where, char what);
-	void SetValue(int where, System::String^ what);
-	void SetValue(int where, Macad::Occt::TCollection_HAsciiString^ what);
-	Macad::Occt::TCollection_HAsciiString^ Split(int where);
-	Macad::Occt::TCollection_HAsciiString^ SubString(int FromIndex, int ToIndex);
-	System::String^ ToCString();
-	Macad::Occt::TCollection_HAsciiString^ Token(System::String^ separators, int whichone);
-	Macad::Occt::TCollection_HAsciiString^ Token(System::String^ separators);
-	Macad::Occt::TCollection_HAsciiString^ Token();
-	void Trunc(int ahowmany);
-	void UpperCase();
-	int UsefullLength();
-	char Value(int where);
-	Macad::Occt::TCollection_AsciiString^ String();
-	bool IsSameState(Macad::Occt::TCollection_HAsciiString^ other);
-}; // class TCollection_HAsciiString
 
 //---------------------------------------------------------------------
 //  Class  TCollection_HExtendedString

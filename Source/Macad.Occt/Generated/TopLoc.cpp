@@ -314,6 +314,16 @@ Macad::Occt::Trsf Macad::Occt::TopLoc_Datum3D::Transformation()
 	return Macad::Occt::Trsf(((::TopLoc_Datum3D*)_NativeInstance)->Transformation());
 }
 
+Macad::Occt::Trsf Macad::Occt::TopLoc_Datum3D::Trsf()
+{
+	return Macad::Occt::Trsf(((::TopLoc_Datum3D*)_NativeInstance)->Trsf());
+}
+
+Macad::Occt::TrsfForm Macad::Occt::TopLoc_Datum3D::Form()
+{
+	return (Macad::Occt::TrsfForm)((::TopLoc_Datum3D*)_NativeInstance)->Form();
+}
+
 
 Macad::Occt::TopLoc_Datum3D^ Macad::Occt::TopLoc_Datum3D::CreateDowncasted(::TopLoc_Datum3D* instance)
 {

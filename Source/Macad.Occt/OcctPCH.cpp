@@ -1,7 +1,3 @@
-// stdafx.cpp : source file that includes just the standard includes
-// FoundationClasses.pch will be the pre-compiled header
-// stdafx.obj will contain the pre-compiled type information
-
 #include "OcctPCH.h"
 
 

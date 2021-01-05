@@ -218,9 +218,6 @@ namespace Macad.Occt.Generator
             "TopOpeBRepTool_STATE", // Only available when OCCT_DEBUG is defined
             "TopOpeBRepDS_DSS", // Many, many unresolved externals
             "Image_PixMapData", // Uses base class NCollection_Buffer
-//            "Font_FTLibrary", // Needs ft2build.h
-//            "Font_FTFont", // Needs ft2build.h (implicit via Font_FTLibrary)
-//            "Font_BRepFont", // Needs ft2build.h (implicit via Font_FTLibrary)
             "Image_PixMap::Value", // indirections on a generic type parameter are not allowed, needs handcrafted wrapping
             "Image_PixMap::ChangeValue", // indirections on a generic type parameter are not allowed, needs handcrafted wrapping
             "Graphic3d_BoundBuffer", // uses base class NCollection_Buffer
@@ -284,7 +281,6 @@ namespace Macad.Occt.Generator
             "TopOpeBRepDS_Filter::TopOpeBRepDS_Filter", // cannot convert argument 2 from 'TopOpeBRepTool_ShapeClassifier' to 'const TopOpeBRepTool_PShapeClassifier &'
             "V3d_RectangularGrid::V3d_RectangularGrid", // cannot convert argument 1 from 'V3d_Viewer' to 'const V3d_ViewerPointer &'
             "V3d_CircularGrid::V3d_CircularGrid", // cannot convert argument 1 from 'V3d_Viewer' to 'const V3d_ViewerPointer &'
-            "V3d_View::ChangeRenderingParams", // Replaced with extension
 
             /*
              * Deprecated
@@ -354,6 +350,12 @@ namespace Macad.Occt.Generator
             "Graphic3d_BvhCStructureSetTrsfPers",
             "Graphic3d_MediaTextureSet",
             "Graphic3d_Layer", // Missing exports in Graphic3d_BvhCStructureSet, Graphic3d_BvhCStructureSetTrsfPers
+            "SelectMgr_SelectionImageFiller", // unresolved external SelectMgr_SelectionImageFiller::CreateFiller
+
+            /*
+             * Replaced with hand-wrapped code
+             */
+            "V3d_View::ChangeRenderingParams",
         };
 
         #endregion

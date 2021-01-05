@@ -104,7 +104,7 @@ public:
 	//! Translation. The HLR Prs can't be deducted automatically
 	//! WARNING :<aTrsf> must be applied
 	//! to the object to display before computation  !!!
-	Standard_EXPORT void Compute(const Handle(Prs3d_Projector)& aProjector, const Handle(Geom_Transformation)& aTrsf, const Handle(Prs3d_Presentation)& aPresentation) override;
+	Standard_EXPORT void computeHLR(const Handle(Graphic3d_Camera)& theProjector, const Handle(TopLoc_Datum3D)& theTrsf, const Handle(Prs3d_Presentation)& aPresentation) override;
 
 	Standard_EXPORT void ComputeSelection(const Handle(SelectMgr_Selection)& theSelection, const Standard_Integer theMode) override;
 
@@ -131,11 +131,9 @@ private:
 
 	Standard_EXPORT void Compute(const Handle(PrsMgr_PresentationManager3d)& aPresentationManager, const Handle(Prs3d_Presentation)& aPresentation, const Standard_Integer aMode = 0) override;
 
-	Standard_EXPORT void Compute(const Handle(Prs3d_Projector)& aProjector, const Handle(Prs3d_Presentation)& aPresentation) override;
+	Standard_EXPORT void ComputeFrame();
 
-	Standard_EXPORT   void ComputeFrame();
-
-	Standard_EXPORT   void InitDrawerAttributes();
+	Standard_EXPORT void InitDrawerAttributes();
 
 	void UpdateFace();
 

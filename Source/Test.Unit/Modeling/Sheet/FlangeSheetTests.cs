@@ -240,7 +240,7 @@ namespace Macad.Test.Unit.Modeling.Sheet
         [Test]
         public void SecondFlangeOnFlangeSide()
         {
-            var source = TestData.GetBodyFromBRep(@"SourceData\BRep\FlangeSheetNoFlange.brep");
+            var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "SecondFlangeOnFlangeSide_Source.brep"));
             Assume.That(source, Is.Not.Null);
 
             var flangeSheet = FlangeSheet.Create(source, new SubshapeReference(SubshapeType.Face, source.Shape.Guid, 2), 45.0, 5.0);

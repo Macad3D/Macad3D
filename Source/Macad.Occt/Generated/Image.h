@@ -24,11 +24,24 @@ public enum class Image_Format
 	Image_Format_BGRA = 8,
 	Image_Format_GrayF = 9,
 	Image_Format_AlphaF = 10,
-	Image_Format_RGBF = 11,
-	Image_Format_BGRF = 12,
-	Image_Format_RGBAF = 13,
-	Image_Format_BGRAF = 14
+	Image_Format_RGF = 11,
+	Image_Format_RGBF = 12,
+	Image_Format_BGRF = 13,
+	Image_Format_RGBAF = 14,
+	Image_Format_BGRAF = 15
 }; // enum  class Image_Format
+
+//---------------------------------------------------------------------
+//  Enum  Image_CompressedFormat
+//---------------------------------------------------------------------
+public enum class Image_CompressedFormat
+{
+	Image_CompressedFormat_UNKNOWN = 0,
+	Image_CompressedFormat_RGB_S3TC_DXT1 = 16,
+	Image_CompressedFormat_RGBA_S3TC_DXT1 = 17,
+	Image_CompressedFormat_RGBA_S3TC_DXT3 = 18,
+	Image_CompressedFormat_RGBA_S3TC_DXT5 = 19
+}; // enum  class Image_CompressedFormat
 
 //---------------------------------------------------------------------
 //  Class  Image_ColorRGB
@@ -257,6 +270,42 @@ public:
 }; // class Image_ColorBGRA
 
 //---------------------------------------------------------------------
+//  Class  Image_ColorRGF
+//---------------------------------------------------------------------
+public ref class Image_ColorRGF sealed : public BaseClass<::Image_ColorRGF>
+{
+
+#ifdef Include_Image_ColorRGF_h
+public:
+	Include_Image_ColorRGF_h
+#endif
+
+public:
+	Image_ColorRGF(::Image_ColorRGF* nativeInstance)
+		: BaseClass<::Image_ColorRGF>( nativeInstance, true )
+	{}
+
+	Image_ColorRGF(::Image_ColorRGF& nativeInstance)
+		: BaseClass<::Image_ColorRGF>( &nativeInstance, false )
+	{}
+
+	property ::Image_ColorRGF* NativeInstance
+	{
+		::Image_ColorRGF* get()
+		{
+			return static_cast<::Image_ColorRGF*>(_NativeInstance);
+		}
+	}
+
+public:
+	Image_ColorRGF();
+	Image_ColorRGF(Macad::Occt::Image_ColorRGF^ parameter1);
+	static int Length();
+	float r();
+	float g();
+}; // class Image_ColorRGF
+
+//---------------------------------------------------------------------
 //  Class  Image_ColorRGBF
 //---------------------------------------------------------------------
 public ref class Image_ColorRGBF sealed : public BaseClass<::Image_ColorRGBF>
@@ -481,6 +530,7 @@ public:
 	static bool IsBigEndianHost();
 	static bool SwapRgbaBgra(Macad::Occt::Image_PixMap^ theImage);
 	static void ToBlackWhite(Macad::Occt::Image_PixMap^ theImage);
+	static Macad::Occt::NCollection_BaseAllocator^ DefaultAllocator();
 	Macad::Occt::Image_Format Format();
 	void SetFormat(Macad::Occt::Image_Format thePixelFormat);
 	size_t Width();
@@ -489,8 +539,11 @@ public:
 	size_t SizeY();
 	double Ratio();
 	bool IsEmpty();
+	Macad::Occt::Quantity_ColorRGBA^ PixelColor(int theX, int theY, bool theToLinearize);
 	Macad::Occt::Quantity_ColorRGBA^ PixelColor(int theX, int theY);
+	void SetPixelColor(int theX, int theY, Macad::Occt::Quantity_Color^ theColor, bool theToDeLinearize);
 	void SetPixelColor(int theX, int theY, Macad::Occt::Quantity_Color^ theColor);
+	void SetPixelColor(int theX, int theY, Macad::Occt::Quantity_ColorRGBA^ theColor, bool theToDeLinearize);
 	void SetPixelColor(int theX, int theY, Macad::Occt::Quantity_ColorRGBA^ theColor);
 	bool InitWrapper(Macad::Occt::Image_Format thePixelFormat, unsigned char% theDataPtr, size_t theSizeX, size_t theSizeY, size_t theSizeRowBytes);
 	bool InitWrapper(Macad::Occt::Image_Format thePixelFormat, unsigned char% theDataPtr, size_t theSizeX, size_t theSizeY);
@@ -557,6 +610,136 @@ public:
 	void Clear();
 	bool AdjustGamma(double theGammaCorr);
 }; // class Image_AlienPixMap
+
+//---------------------------------------------------------------------
+//  Class  Image_CompressedPixMap
+//---------------------------------------------------------------------
+public ref class Image_CompressedPixMap sealed : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_Image_CompressedPixMap_h
+public:
+	Include_Image_CompressedPixMap_h
+#endif
+
+public:
+	Image_CompressedPixMap(::Image_CompressedPixMap* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	Image_CompressedPixMap(::Image_CompressedPixMap& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	property ::Image_CompressedPixMap* NativeInstance
+	{
+		::Image_CompressedPixMap* get()
+		{
+			return static_cast<::Image_CompressedPixMap*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Image_CompressedPixMap^ CreateDowncasted(::Image_CompressedPixMap* instance);
+
+public:
+	Image_CompressedPixMap();
+	Image_CompressedPixMap(Macad::Occt::Image_CompressedPixMap^ parameter1);
+	Macad::Occt::Image_Format BaseFormat();
+	void SetBaseFormat(Macad::Occt::Image_Format theFormat);
+	Macad::Occt::Image_CompressedFormat CompressedFormat();
+	void SetCompressedFormat(Macad::Occt::Image_CompressedFormat theFormat);
+	Macad::Occt::NCollection_Buffer^ FaceData();
+	void SetFaceData(Macad::Occt::NCollection_Buffer^ theBuffer);
+	/* Method skipped due to unknown mapping: NCollection_Array1<int> MipMaps() */
+	/* Method skipped due to unknown mapping: NCollection_Array1<int> ChangeMipMaps() */
+	bool IsCompleteMipMapSet();
+	void SetCompleteMipMapSet(bool theIsComplete);
+	size_t FaceBytes();
+	void SetFaceBytes(size_t theSize);
+	int SizeX();
+	int SizeY();
+	void SetSize(int theSizeX, int theSizeY);
+	bool IsTopDown();
+	int NbFaces();
+	void SetNbFaces(int theSize);
+}; // class Image_CompressedPixMap
+
+//---------------------------------------------------------------------
+//  Class  Image_SupportedFormats
+//---------------------------------------------------------------------
+public ref class Image_SupportedFormats sealed : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_Image_SupportedFormats_h
+public:
+	Include_Image_SupportedFormats_h
+#endif
+
+public:
+	Image_SupportedFormats(::Image_SupportedFormats* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	Image_SupportedFormats(::Image_SupportedFormats& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	property ::Image_SupportedFormats* NativeInstance
+	{
+		::Image_SupportedFormats* get()
+		{
+			return static_cast<::Image_SupportedFormats*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Image_SupportedFormats^ CreateDowncasted(::Image_SupportedFormats* instance);
+
+public:
+	Image_SupportedFormats();
+	Image_SupportedFormats(Macad::Occt::Image_SupportedFormats^ parameter1);
+	bool IsSupported(Macad::Occt::Image_Format theFormat);
+	void Add(Macad::Occt::Image_Format theFormat);
+	bool HasCompressed();
+	bool IsSupported(Macad::Occt::Image_CompressedFormat theFormat);
+	void Add(Macad::Occt::Image_CompressedFormat theFormat);
+	void Clear();
+}; // class Image_SupportedFormats
+
+//---------------------------------------------------------------------
+//  Class  Image_DDSParser
+//---------------------------------------------------------------------
+public ref class Image_DDSParser sealed : public BaseClass<::Image_DDSParser>
+{
+
+#ifdef Include_Image_DDSParser_h
+public:
+	Include_Image_DDSParser_h
+#endif
+
+public:
+	Image_DDSParser(::Image_DDSParser* nativeInstance)
+		: BaseClass<::Image_DDSParser>( nativeInstance, true )
+	{}
+
+	Image_DDSParser(::Image_DDSParser& nativeInstance)
+		: BaseClass<::Image_DDSParser>( &nativeInstance, false )
+	{}
+
+	property ::Image_DDSParser* NativeInstance
+	{
+		::Image_DDSParser* get()
+		{
+			return static_cast<::Image_DDSParser*>(_NativeInstance);
+		}
+	}
+
+public:
+	Image_DDSParser();
+	Image_DDSParser(Macad::Occt::Image_DDSParser^ parameter1);
+	/* Method skipped due to unknown mapping: Image_CompressedPixMap Load(Image_SupportedFormats theSupported, TCollection_AsciiString theFile, Standard_Integer theFaceIndex, long long int theFileOffset, ) */
+	static Macad::Occt::Image_CompressedPixMap^ Load(Macad::Occt::Image_SupportedFormats^ theSupported, Macad::Occt::TCollection_AsciiString^ theFile, int theFaceIndex);
+	static Macad::Occt::Image_CompressedPixMap^ Load(Macad::Occt::Image_SupportedFormats^ theSupported, Macad::Occt::NCollection_Buffer^ theBuffer, int theFaceIndex);
+}; // class Image_DDSParser
 
 //---------------------------------------------------------------------
 //  Class  Image_Diff
@@ -645,10 +828,13 @@ public:
 	/* Method skipped due to unknown mapping: long long int FileLength() */
 	Macad::Occt::NCollection_Buffer^ DataBuffer();
 	Macad::Occt::TCollection_AsciiString^ ProbeImageFileFormat();
-	Macad::Occt::Image_PixMap^ ReadImage();
+	Macad::Occt::Image_CompressedPixMap^ ReadCompressedImage(Macad::Occt::Image_SupportedFormats^ theSupported);
+	Macad::Occt::Image_PixMap^ ReadImage(Macad::Occt::Image_SupportedFormats^ theSupported);
 	bool WriteImage(Macad::Occt::TCollection_AsciiString^ theFile);
 	static int HashCode(Macad::Occt::Image_Texture^ theTexture, int theUpper);
 	static bool IsEqual(Macad::Occt::Image_Texture^ theTex1, Macad::Occt::Image_Texture^ theTex2);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Image_Texture
 
 }; // namespace Occt

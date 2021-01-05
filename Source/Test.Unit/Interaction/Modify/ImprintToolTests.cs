@@ -89,25 +89,29 @@ namespace Macad.Test.Unit.Interaction.Modify
             ctx.SelectAt(90, 250);
             var sketchTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
             Assume.That(sketchTool != null);
-            sketchTool.StartSegmentCreation<SketchSegmentCircleCreator>();
-            ctx.SelectAt(250, 250);
-            ctx.SelectAt(150, 250);
-            sketchTool.Stop();
-            ctx.MoveTo(250, 250);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ReselectTargetFace1"));
 
-            // Start reselection, then cancel it
-            ctx.WorkspaceController.StartTool(new CreateImprintTool(body.Shape as Imprint));
-            ctx.MoveTo(300, 250);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ReselectTargetFace2"));
-            ctx.WorkspaceController.CancelTool(ctx.WorkspaceController.CurrentTool, true);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ReselectTargetFace1"));
+            Assert.Multiple(() =>
+            {
+                sketchTool.StartSegmentCreation<SketchSegmentCircleCreator>();
+                ctx.SelectAt(250, 250);
+                ctx.SelectAt(150, 250);
+                sketchTool.Stop();
+                ctx.MoveTo(250, 250);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ReselectTargetFace1"));
 
-            // Start reselection, perform
-            ctx.WorkspaceController.StartTool(new CreateImprintTool(body.Shape as Imprint));
-            ctx.SelectAt(300, 250);
-            AssertHelper.IsSameViewport(@Path.Combine(_BasePath, "ReselectTargetFace3"));
-            Assert.IsNull(ctx.WorkspaceController.CurrentTool);
+                // Start reselection, then cancel it
+                ctx.WorkspaceController.StartTool(new CreateImprintTool(body.Shape as Imprint));
+                ctx.MoveTo(300, 250);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ReselectTargetFace2"));
+                ctx.WorkspaceController.CancelTool(ctx.WorkspaceController.CurrentTool, true);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ReselectTargetFace4"));
+
+                // Start reselection, perform
+                ctx.WorkspaceController.StartTool(new CreateImprintTool(body.Shape as Imprint));
+                ctx.SelectAt(300, 250);
+                AssertHelper.IsSameViewport(@Path.Combine(_BasePath, "ReselectTargetFace3"));
+                Assert.IsNull(ctx.WorkspaceController.CurrentTool);
+            });
         }
 
         //--------------------------------------------------------------------------------------------------

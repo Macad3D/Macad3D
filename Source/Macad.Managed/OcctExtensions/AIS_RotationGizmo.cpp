@@ -174,10 +174,9 @@ void AIS_RotationGizmo::Compute(const Handle(PrsMgr_PresentationManager3d)& PM,
 {
 }
 
-void AIS_RotationGizmo::Compute(const Handle(Prs3d_Projector)& aProjector, const Handle(Geom_Transformation)& aTransformation, const Handle(Prs3d_Presentation)& aPresentation)
+void AIS_RotationGizmo::computeHLR(const Handle(Graphic3d_Camera)& theProjector, const Handle(TopLoc_Datum3D)& theTrsf, const Handle(Prs3d_Presentation)& aPresentation)
 {
-	// Standard_NotImplemented::Raise("AIS_PlaneTrihedron::Compute(const Handle(Prs3d_Projector)&, const Handle(Geom_Transformation)&, const Handle(Prs3d_Presentation)&)");
-	PrsMgr_PresentableObject::Compute(aProjector, aTransformation, aPresentation);
+	PrsMgr_PresentableObject::computeHLR(theProjector, theTrsf, aPresentation);
 }
 
 //=======================================================================
@@ -203,12 +202,6 @@ void AIS_RotationGizmo::ComputeSelection(const Handle(SelectMgr_Selection)& aSel
 			anAISContext->Display(myShapes[i], 1, Standard_True, Standard_False);
 		}
 	}
-}
-
-
-void AIS_RotationGizmo::Compute(const Handle(Prs3d_Projector)&,
-	const Handle(Prs3d_Presentation)&)
-{
 }
 
 

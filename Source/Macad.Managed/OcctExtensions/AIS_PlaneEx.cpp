@@ -107,9 +107,9 @@ void AIS_PlaneEx::Compute(const Handle(PrsMgr_PresentationManager3d)&,
 	}
 }
 
-void AIS_PlaneEx::Compute(const Handle(Prs3d_Projector)& aProjector, const Handle(Geom_Transformation)& aTransformation, const Handle(Prs3d_Presentation)& aPresentation)
+void AIS_PlaneEx::computeHLR(const Handle(Graphic3d_Camera)& theProjector, const Handle(TopLoc_Datum3D)& theTrsf, const Handle(Prs3d_Presentation)& aPresentation)
 {
-	PrsMgr_PresentableObject::Compute(aProjector, aTransformation, aPresentation);
+	PrsMgr_PresentableObject::computeHLR(theProjector, theTrsf, aPresentation);
 }
 
 
@@ -434,15 +434,6 @@ void AIS_PlaneEx::ComputeFrame()
 
 	//ElSLib::Parameters(pl->Pln(), myCenter, U, V);
 	//pl->D0(U, V, myCenter);
-}
-
-//=======================================================================
-//function : Compute
-//purpose  : to avoid warning
-//=======================================================================
-void AIS_PlaneEx::Compute(const Handle(Prs3d_Projector)&,
-	const Handle(Prs3d_Presentation)&)
-{
 }
 
 //=======================================================================

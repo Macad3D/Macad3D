@@ -19,19 +19,6 @@ public enum class GeomAbs_BSplKnotDistribution
 }; // enum  class GeomAbs_BSplKnotDistribution
 
 //---------------------------------------------------------------------
-//  Enum  GeomAbs_CurveForm
-//---------------------------------------------------------------------
-public enum class GeomAbs_CurveForm
-{
-	GeomAbs_PolylineForm = 0,
-	GeomAbs_CircularForm = 1,
-	GeomAbs_EllipticForm = 2,
-	GeomAbs_HyperbolicForm = 3,
-	GeomAbs_ParabolicForm = 4,
-	GeomAbs_OtherCurveForm = 5
-}; // enum  class GeomAbs_CurveForm
-
-//---------------------------------------------------------------------
 //  Enum  GeomAbs_CurveType
 //---------------------------------------------------------------------
 public enum class GeomAbs_CurveType
@@ -82,22 +69,6 @@ public enum class GeomAbs_Shape
 }; // enum  class GeomAbs_Shape
 
 //---------------------------------------------------------------------
-//  Enum  GeomAbs_SurfaceForm
-//---------------------------------------------------------------------
-public enum class GeomAbs_SurfaceForm
-{
-	GeomAbs_PlanarForm = 0,
-	GeomAbs_ConicalForm = 1,
-	GeomAbs_CylindricalForm = 2,
-	GeomAbs_ToroidalForm = 3,
-	GeomAbs_SphericalForm = 4,
-	GeomAbs_RevolutionForm = 5,
-	GeomAbs_RuledForm = 6,
-	GeomAbs_QuadricForm = 7,
-	GeomAbs_OtherSurfaceForm = 8
-}; // enum  class GeomAbs_SurfaceForm
-
-//---------------------------------------------------------------------
 //  Enum  GeomAbs_SurfaceType
 //---------------------------------------------------------------------
 public enum class GeomAbs_SurfaceType
@@ -114,17 +85,6 @@ public enum class GeomAbs_SurfaceType
 	GeomAbs_OffsetSurface = 9,
 	GeomAbs_OtherSurface = 10
 }; // enum  class GeomAbs_SurfaceType
-
-//---------------------------------------------------------------------
-//  Enum  GeomAbs_UVSense
-//---------------------------------------------------------------------
-public enum class GeomAbs_UVSense
-{
-	GeomAbs_SameUV = 0,
-	GeomAbs_SameU = 1,
-	GeomAbs_SameV = 2,
-	GeomAbs_OppositeUV = 3
-}; // enum  class GeomAbs_UVSense
 
 }; // namespace Occt
 }; // namespace Macad

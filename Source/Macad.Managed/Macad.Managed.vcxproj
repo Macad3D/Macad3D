@@ -176,12 +176,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <!-- Import the custom build targets -->
- 
+  
   <ItemGroup>
-    <CopyToOutput Include="$(OcctBinPath)\*.*" />
-    <CopyToOutput Include="$(FreeTypeBinPath)\*.*" />
-    <CopyToOutput Include="$(TbbBinPath)\*.*" />
+    <CopyToOutput Include="@(OcctDeployFiles)" />
   </ItemGroup>
 
 </Project>

@@ -771,22 +771,12 @@ public:
 	bool HasOwnDeviationCoefficient();
 	double PreviousDeviationCoefficient();
 	void UpdatePreviousDeviationCoefficient();
-	void SetHLRDeviationCoefficient(double theCoefficient);
-	double HLRDeviationCoefficient();
-	void SetHLRDeviationCoefficient();
-	bool HasOwnHLRDeviationCoefficient();
-	double PreviousHLRDeviationCoefficient();
 	void SetDeviationAngle(double theAngle);
 	double DeviationAngle();
 	void SetDeviationAngle();
 	bool HasOwnDeviationAngle();
 	double PreviousDeviationAngle();
 	void UpdatePreviousDeviationAngle();
-	void SetHLRAngle(double theAngle);
-	double HLRAngle();
-	void SetHLRAngle();
-	bool HasOwnHLRDeviationAngle();
-	double PreviousHLRDeviationAngle();
 	void SetAutoTriangulation(bool theIsEnabled);
 	bool IsAutoTriangulation();
 	bool HasOwnIsAutoTriangulation();
@@ -903,6 +893,11 @@ public:
 	bool SetShadingModel(Macad::Occt::Graphic3d_TypeOfShadingModel theModel);
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	void SetHLRAngle(double theAngle);
+	double HLRAngle();
+	void SetHLRAngle();
+	bool HasOwnHLRDeviationAngle();
+	double PreviousHLRDeviationAngle();
 }; // class Prs3d_Drawer
 
 //---------------------------------------------------------------------
@@ -937,55 +932,17 @@ public:
 	Prs3d();
 	Prs3d(Macad::Occt::Prs3d^ parameter1);
 	static bool MatchSegment(double X, double Y, double Z, double aDistance, Macad::Occt::Pnt p1, Macad::Occt::Pnt p2, double% dist);
-	static double GetDeflection(Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::Prs3d_Drawer^ theDrawer);
+	/* Method skipped due to unknown mapping: Standard_Real GetDeflection(Graphic3d_Vec3d theBndMin, Graphic3d_Vec3d theBndMax, Standard_Real theDeviationCoefficient, ) */
+	static double GetDeflection(Macad::Occt::Bnd_Box^ theBndBox, double theDeviationCoefficient, double theMaximalChordialDeviation);
 	static Macad::Occt::Graphic3d_ArrayOfPrimitives^ PrimitivesFromPolylines(Macad::Occt::Prs3d_NListOfSequenceOfPnt^ thePoints);
 	static void AddPrimitivesGroup(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Prs3d_LineAspect^ theAspect, Macad::Occt::Prs3d_NListOfSequenceOfPnt^ thePolylines);
+	/* Method skipped due to unknown mapping: void AddFreeEdges(TColgp_SequenceOfPnt theSegments, Poly_Triangulation thePolyTri, gp_Trsf theLocation, ) */
 }; // class Prs3d
-
-//---------------------------------------------------------------------
-//  Class  Prs3d_Root
-//---------------------------------------------------------------------
-public ref class Prs3d_Root : public BaseClass<::Prs3d_Root>
-{
-
-#ifdef Include_Prs3d_Root_h
-public:
-	Include_Prs3d_Root_h
-#endif
-
-protected:
-	Prs3d_Root(InitMode init)
-		: BaseClass<::Prs3d_Root>( init )
-	{}
-
-public:
-	Prs3d_Root(::Prs3d_Root* nativeInstance)
-		: BaseClass<::Prs3d_Root>( nativeInstance, true )
-	{}
-
-	Prs3d_Root(::Prs3d_Root& nativeInstance)
-		: BaseClass<::Prs3d_Root>( &nativeInstance, false )
-	{}
-
-	property ::Prs3d_Root* NativeInstance
-	{
-		::Prs3d_Root* get()
-		{
-			return static_cast<::Prs3d_Root*>(_NativeInstance);
-		}
-	}
-
-public:
-	Prs3d_Root();
-	Prs3d_Root(Macad::Occt::Prs3d_Root^ parameter1);
-	static Macad::Occt::Graphic3d_Group^ CurrentGroup(Macad::Occt::Graphic3d_Structure^ thePrs3d);
-	static Macad::Occt::Graphic3d_Group^ NewGroup(Macad::Occt::Graphic3d_Structure^ thePrs3d);
-}; // class Prs3d_Root
 
 //---------------------------------------------------------------------
 //  Class  Prs3d_Arrow
 //---------------------------------------------------------------------
-public ref class Prs3d_Arrow sealed : public Macad::Occt::Prs3d_Root
+public ref class Prs3d_Arrow sealed : public BaseClass<::Prs3d_Arrow>
 {
 
 #ifdef Include_Prs3d_Arrow_h
@@ -995,11 +952,11 @@ public:
 
 public:
 	Prs3d_Arrow(::Prs3d_Arrow* nativeInstance)
-		: Macad::Occt::Prs3d_Root( nativeInstance )
+		: BaseClass<::Prs3d_Arrow>( nativeInstance, true )
 	{}
 
 	Prs3d_Arrow(::Prs3d_Arrow& nativeInstance)
-		: Macad::Occt::Prs3d_Root( nativeInstance )
+		: BaseClass<::Prs3d_Arrow>( &nativeInstance, false )
 	{}
 
 	property ::Prs3d_Arrow* NativeInstance
@@ -1055,6 +1012,86 @@ public:
 	void SetNumber(int theNumber);
 	int Number();
 }; // class Prs3d_IsoAspect
+
+//---------------------------------------------------------------------
+//  Class  Prs3d_Root
+//---------------------------------------------------------------------
+public ref class Prs3d_Root : public BaseClass<::Prs3d_Root>
+{
+
+#ifdef Include_Prs3d_Root_h
+public:
+	Include_Prs3d_Root_h
+#endif
+
+protected:
+	Prs3d_Root(InitMode init)
+		: BaseClass<::Prs3d_Root>( init )
+	{}
+
+public:
+	Prs3d_Root(::Prs3d_Root* nativeInstance)
+		: BaseClass<::Prs3d_Root>( nativeInstance, true )
+	{}
+
+	Prs3d_Root(::Prs3d_Root& nativeInstance)
+		: BaseClass<::Prs3d_Root>( &nativeInstance, false )
+	{}
+
+	property ::Prs3d_Root* NativeInstance
+	{
+		::Prs3d_Root* get()
+		{
+			return static_cast<::Prs3d_Root*>(_NativeInstance);
+		}
+	}
+
+public:
+	Prs3d_Root();
+	Prs3d_Root(Macad::Occt::Prs3d_Root^ parameter1);
+	static Macad::Occt::Graphic3d_Group^ CurrentGroup(Macad::Occt::Graphic3d_Structure^ thePrs3d);
+	static Macad::Occt::Graphic3d_Group^ NewGroup(Macad::Occt::Graphic3d_Structure^ thePrs3d);
+}; // class Prs3d_Root
+
+//---------------------------------------------------------------------
+//  Class  Prs3d_BndBox
+//---------------------------------------------------------------------
+public ref class Prs3d_BndBox sealed : public Macad::Occt::Prs3d_Root
+{
+
+#ifdef Include_Prs3d_BndBox_h
+public:
+	Include_Prs3d_BndBox_h
+#endif
+
+public:
+	Prs3d_BndBox(::Prs3d_BndBox* nativeInstance)
+		: Macad::Occt::Prs3d_Root( nativeInstance )
+	{}
+
+	Prs3d_BndBox(::Prs3d_BndBox& nativeInstance)
+		: Macad::Occt::Prs3d_Root( nativeInstance )
+	{}
+
+	property ::Prs3d_BndBox* NativeInstance
+	{
+		::Prs3d_BndBox* get()
+		{
+			return static_cast<::Prs3d_BndBox*>(_NativeInstance);
+		}
+	}
+
+public:
+	Prs3d_BndBox();
+	Prs3d_BndBox(Macad::Occt::Prs3d_BndBox^ parameter1);
+	static void Add(Macad::Occt::Graphic3d_Structure^ thePresentation, Macad::Occt::Bnd_Box^ theBndBox, Macad::Occt::Prs3d_Drawer^ theDrawer);
+	static void Add(Macad::Occt::Graphic3d_Structure^ thePresentation, Macad::Occt::Bnd_OBB^ theBndBox, Macad::Occt::Prs3d_Drawer^ theDrawer);
+	static Macad::Occt::Graphic3d_ArrayOfSegments^ FillSegments(Macad::Occt::Bnd_OBB^ theBox);
+	static Macad::Occt::Graphic3d_ArrayOfSegments^ FillSegments(Macad::Occt::Bnd_Box^ theBox);
+	static void FillSegments(Macad::Occt::Graphic3d_ArrayOfSegments^ theSegments, Macad::Occt::Bnd_OBB^ theBox);
+	static void FillSegments(Macad::Occt::Graphic3d_ArrayOfSegments^ theSegments, Macad::Occt::Bnd_Box^ theBox);
+	static void fillSegments(Macad::Occt::Graphic3d_ArrayOfSegments^ theSegments, Macad::Occt::Pnt theBox);
+}; // class Prs3d_BndBox
 
 //---------------------------------------------------------------------
 //  Class  Prs3d_InvalidAngle
@@ -1133,106 +1170,14 @@ public:
 	int ParentId();
 	Macad::Occt::Graphic3d_ViewAffinity^ ParentAffinity();
 	void CalculateBoundBox();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Prs3d_PresentationShadow
-
-//---------------------------------------------------------------------
-//  Class  Prs3d_Projector
-//---------------------------------------------------------------------
-public ref class Prs3d_Projector sealed : public Macad::Occt::Standard_Transient
-{
-
-#ifdef Include_Prs3d_Projector_h
-public:
-	Include_Prs3d_Projector_h
-#endif
-
-public:
-	Prs3d_Projector(::Prs3d_Projector* nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	Prs3d_Projector(::Prs3d_Projector& nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	property ::Prs3d_Projector* NativeInstance
-	{
-		::Prs3d_Projector* get()
-		{
-			return static_cast<::Prs3d_Projector*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::Prs3d_Projector^ CreateDowncasted(::Prs3d_Projector* instance);
-
-public:
-	/* Method skipped due to unknown mapping: void Prs3d_Projector(HLRAlgo_Projector Pr, ) */
-	Prs3d_Projector(bool Pers, double Focus, double DX, double DY, double DZ, double XAt, double YAt, double ZAt, double XUp, double YUp, double ZUp);
-	Prs3d_Projector(Macad::Occt::Prs3d_Projector^ parameter1);
-	/* Method skipped due to unknown mapping: HLRAlgo_Projector Projector() */
-}; // class Prs3d_Projector
-
-//---------------------------------------------------------------------
-//  Class  Prs3d_ShapeTool
-//---------------------------------------------------------------------
-public ref class Prs3d_ShapeTool sealed : public BaseClass<::Prs3d_ShapeTool>
-{
-
-#ifdef Include_Prs3d_ShapeTool_h
-public:
-	Include_Prs3d_ShapeTool_h
-#endif
-
-public:
-	Prs3d_ShapeTool(::Prs3d_ShapeTool* nativeInstance)
-		: BaseClass<::Prs3d_ShapeTool>( nativeInstance, true )
-	{}
-
-	Prs3d_ShapeTool(::Prs3d_ShapeTool& nativeInstance)
-		: BaseClass<::Prs3d_ShapeTool>( &nativeInstance, false )
-	{}
-
-	property ::Prs3d_ShapeTool* NativeInstance
-	{
-		::Prs3d_ShapeTool* get()
-		{
-			return static_cast<::Prs3d_ShapeTool*>(_NativeInstance);
-		}
-	}
-
-public:
-	Prs3d_ShapeTool(Macad::Occt::TopoDS_Shape^ theShape, bool theAllVertices);
-	Prs3d_ShapeTool(Macad::Occt::TopoDS_Shape^ theShape);
-	Prs3d_ShapeTool(Macad::Occt::Prs3d_ShapeTool^ parameter1);
-	void InitFace();
-	bool MoreFace();
-	void NextFace();
-	Macad::Occt::TopoDS_Face^ GetFace();
-	Macad::Occt::Bnd_Box^ FaceBound();
-	bool IsPlanarFace();
-	void InitCurve();
-	bool MoreCurve();
-	void NextCurve();
-	Macad::Occt::TopoDS_Edge^ GetCurve();
-	Macad::Occt::Bnd_Box^ CurveBound();
-	int Neighbours();
-	Macad::Occt::TopTools_HSequenceOfShape^ FacesOfEdge();
-	void InitVertex();
-	bool MoreVertex();
-	void NextVertex();
-	Macad::Occt::TopoDS_Vertex^ GetVertex();
-	bool HasSurface();
-	/* Method skipped due to unknown mapping: Poly_Triangulation CurrentTriangulation(TopLoc_Location l, ) */
-	bool HasCurve();
-	/* Method skipped due to unknown mapping: void PolygonOnTriangulation(Poly_PolygonOnTriangulation Indices, Poly_Triangulation T, TopLoc_Location l, ) */
-	/* Method skipped due to unknown mapping: Poly_Polygon3D Polygon3D(TopLoc_Location l, ) */
-	static bool IsPlanarFace(Macad::Occt::TopoDS_Face^ theFace);
-}; // class Prs3d_ShapeTool
 
 //---------------------------------------------------------------------
 //  Class  Prs3d_Text
 //---------------------------------------------------------------------
-public ref class Prs3d_Text sealed : public Macad::Occt::Prs3d_Root
+public ref class Prs3d_Text sealed : public BaseClass<::Prs3d_Text>
 {
 
 #ifdef Include_Prs3d_Text_h
@@ -1242,11 +1187,11 @@ public:
 
 public:
 	Prs3d_Text(::Prs3d_Text* nativeInstance)
-		: Macad::Occt::Prs3d_Root( nativeInstance )
+		: BaseClass<::Prs3d_Text>( nativeInstance, true )
 	{}
 
 	Prs3d_Text(::Prs3d_Text& nativeInstance)
-		: Macad::Occt::Prs3d_Root( nativeInstance )
+		: BaseClass<::Prs3d_Text>( &nativeInstance, false )
 	{}
 
 	property ::Prs3d_Text* NativeInstance
@@ -1260,9 +1205,9 @@ public:
 public:
 	Prs3d_Text();
 	Prs3d_Text(Macad::Occt::Prs3d_Text^ parameter1);
-	static void Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Pnt theAttachmentPoint);
-	static void Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation, bool theHasOwnAnchor);
-	static void Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation);
+	static Macad::Occt::Graphic3d_Text^ Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Pnt theAttachmentPoint);
+	static Macad::Occt::Graphic3d_Text^ Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation, bool theHasOwnAnchor);
+	static Macad::Occt::Graphic3d_Text^ Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation);
 	static void Draw(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Prs3d_Drawer^ theDrawer, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Pnt theAttachmentPoint);
 	static void Draw(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation, bool theHasOwnAnchor);
 	static void Draw(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation);
@@ -1305,9 +1250,13 @@ public:
 public:
 	Prs3d_ToolQuadric();
 	Prs3d_ToolQuadric(Macad::Occt::Prs3d_ToolQuadric^ parameter1);
+	static int TrianglesNb(int theSlicesNb, int theStacksNb);
+	static int VerticesNb(int theSlicesNb, int theStacksNb, bool theIsIndexed);
+	static int VerticesNb(int theSlicesNb, int theStacksNb);
+	Macad::Occt::Graphic3d_ArrayOfTriangles^ CreateTriangulation(Macad::Occt::Trsf theTrsf);
+	/* Method skipped due to unknown mapping: Poly_Triangulation CreatePolyTriangulation(gp_Trsf theTrsf, ) */
 	void FillArray(Macad::Occt::Graphic3d_ArrayOfTriangles^ theArray, Macad::Occt::Trsf theTrsf);
 	/* Method skipped due to unknown mapping: void FillArray(Graphic3d_ArrayOfTriangles theArray, Poly_Triangulation theTriangulation, gp_Trsf theTrsf, ) */
-	static int TrianglesNb(int theSlicesNb, int theStacksNb);
 }; // class Prs3d_ToolQuadric
 
 //---------------------------------------------------------------------
@@ -1446,6 +1395,46 @@ public:
 	Prs3d_ToolSphere(Macad::Occt::Prs3d_ToolSphere^ parameter1);
 	static Macad::Occt::Graphic3d_ArrayOfTriangles^ Create(double theRadius, int theNbSlices, int theNbStacks, Macad::Occt::Trsf theTrsf);
 }; // class Prs3d_ToolSphere
+
+//---------------------------------------------------------------------
+//  Class  Prs3d_ToolTorus
+//---------------------------------------------------------------------
+public ref class Prs3d_ToolTorus sealed : public Macad::Occt::Prs3d_ToolQuadric
+{
+
+#ifdef Include_Prs3d_ToolTorus_h
+public:
+	Include_Prs3d_ToolTorus_h
+#endif
+
+public:
+	Prs3d_ToolTorus(::Prs3d_ToolTorus* nativeInstance)
+		: Macad::Occt::Prs3d_ToolQuadric( nativeInstance )
+	{}
+
+	Prs3d_ToolTorus(::Prs3d_ToolTorus& nativeInstance)
+		: Macad::Occt::Prs3d_ToolQuadric( nativeInstance )
+	{}
+
+	property ::Prs3d_ToolTorus* NativeInstance
+	{
+		::Prs3d_ToolTorus* get()
+		{
+			return static_cast<::Prs3d_ToolTorus*>(_NativeInstance);
+		}
+	}
+
+public:
+	Prs3d_ToolTorus(double theMajorRad, double theMinorRad, int theNbSlices, int theNbStacks);
+	Prs3d_ToolTorus(double theMajorRad, double theMinorRad, double theAngle, int theNbSlices, int theNbStacks);
+	Prs3d_ToolTorus(double theMajorRad, double theMinorRad, double theAngle1, double theAngle2, int theNbSlices, int theNbStacks);
+	Prs3d_ToolTorus(double theMajorRad, double theMinorRad, double theAngle1, double theAngle2, double theAngle, int theNbSlices, int theNbStacks);
+	Prs3d_ToolTorus(Macad::Occt::Prs3d_ToolTorus^ parameter1);
+	static Macad::Occt::Graphic3d_ArrayOfTriangles^ Create(double theMajorRad, double theMinorRad, int theNbSlices, int theNbStacks, Macad::Occt::Trsf theTrsf);
+	static Macad::Occt::Graphic3d_ArrayOfTriangles^ Create(double theMajorRad, double theMinorRad, double theAngle, int theNbSlices, int theNbStacks, Macad::Occt::Trsf theTrsf);
+	static Macad::Occt::Graphic3d_ArrayOfTriangles^ Create(double theMajorRad, double theMinorRad, double theAngle1, double theAngle2, int theNbSlices, int theNbStacks, Macad::Occt::Trsf theTrsf);
+	static Macad::Occt::Graphic3d_ArrayOfTriangles^ Create(double theMajorRad, double theMinorRad, double theAngle1, double theAngle2, double theAngle, int theNbSlices, int theNbStacks, Macad::Occt::Trsf theTrsf);
+}; // class Prs3d_ToolTorus
 
 }; // namespace Occt
 }; // namespace Macad

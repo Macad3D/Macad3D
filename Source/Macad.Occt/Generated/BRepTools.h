@@ -185,7 +185,7 @@ public:
 	BRepTools_Modifier(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_Modification^ M);
 	BRepTools_Modifier(Macad::Occt::BRepTools_Modifier^ parameter1);
 	void Init(Macad::Occt::TopoDS_Shape^ S);
-	/* Method skipped due to unknown mapping: void Perform(BRepTools_Modification M, Message_ProgressIndicator aProgress, ) */
+	void Perform(Macad::Occt::BRepTools_Modification^ M, Macad::Occt::Message_ProgressRange^ theProgress);
 	void Perform(Macad::Occt::BRepTools_Modification^ M);
 	bool IsDone();
 	bool IsMutableInput();
@@ -437,24 +437,32 @@ public:
 	void Clear();
 	void AddGeometry(Macad::Occt::TopoDS_Shape^ S);
 	/* Method skipped due to unknown mapping: void DumpGeometry(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void WriteGeometry(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void ReadGeometry(istream IS, ) */
+	/* Method skipped due to unknown mapping: void WriteGeometry(ostream OS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void WriteGeometry(ostream OS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void ReadGeometry(istream IS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void ReadGeometry(istream IS, Message_ProgressRange theProgress, ) */
 	/* Method skipped due to unknown mapping: void DumpGeometry(TopoDS_Shape S, ostream OS, ) */
 	/* Method skipped due to unknown mapping: void WriteGeometry(TopoDS_Shape S, ostream OS, ) */
 	/* Method skipped due to unknown mapping: void ReadGeometry(TopAbs_ShapeEnum T, istream IS, TopoDS_Shape S, ) */
 	void AddShapes(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2);
 	void Check(Macad::Occt::TopAbs_ShapeEnum T, Macad::Occt::TopoDS_Shape^ S);
-	/* Method skipped due to unknown mapping: void ReadPolygon3D(istream IS, ) */
-	/* Method skipped due to unknown mapping: void WritePolygon3D(ostream OS, Standard_Boolean Compact, ) */
-	/* Method skipped due to unknown mapping: void WritePolygon3D(ostream OS, Standard_Boolean Compact, ) */
+	/* Method skipped due to unknown mapping: void ReadPolygon3D(istream IS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void ReadPolygon3D(istream IS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void WritePolygon3D(ostream OS, Standard_Boolean Compact, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void WritePolygon3D(ostream OS, Standard_Boolean Compact, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void WritePolygon3D(ostream OS, Standard_Boolean Compact, Message_ProgressRange theProgress, ) */
 	/* Method skipped due to unknown mapping: void DumpPolygon3D(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void ReadTriangulation(istream IS, ) */
-	/* Method skipped due to unknown mapping: void WriteTriangulation(ostream OS, Standard_Boolean Compact, ) */
-	/* Method skipped due to unknown mapping: void WriteTriangulation(ostream OS, Standard_Boolean Compact, ) */
+	/* Method skipped due to unknown mapping: void ReadTriangulation(istream IS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void ReadTriangulation(istream IS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void WriteTriangulation(ostream OS, Standard_Boolean Compact, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void WriteTriangulation(ostream OS, Standard_Boolean Compact, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void WriteTriangulation(ostream OS, Standard_Boolean Compact, Message_ProgressRange theProgress, ) */
 	/* Method skipped due to unknown mapping: void DumpTriangulation(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void ReadPolygonOnTriangulation(istream IS, ) */
-	/* Method skipped due to unknown mapping: void WritePolygonOnTriangulation(ostream OS, Standard_Boolean Compact, ) */
-	/* Method skipped due to unknown mapping: void WritePolygonOnTriangulation(ostream OS, Standard_Boolean Compact, ) */
+	/* Method skipped due to unknown mapping: void ReadPolygonOnTriangulation(istream IS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void ReadPolygonOnTriangulation(istream IS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void WritePolygonOnTriangulation(ostream OS, Standard_Boolean Compact, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void WritePolygonOnTriangulation(ostream OS, Standard_Boolean Compact, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void WritePolygonOnTriangulation(ostream OS, Standard_Boolean Compact, Message_ProgressRange theProgress, ) */
 	/* Method skipped due to unknown mapping: void DumpPolygonOnTriangulation(ostream OS, ) */
 }; // class BRepTools_ShapeSet
 
@@ -574,7 +582,8 @@ public:
 	static void Clean(Macad::Occt::TopoDS_Shape^ S);
 	static void CleanGeometry(Macad::Occt::TopoDS_Shape^ theShape);
 	static void RemoveUnusedPCurves(Macad::Occt::TopoDS_Shape^ S);
-	static bool Triangulation(Macad::Occt::TopoDS_Shape^ S, double deflec);
+	static bool Triangulation(Macad::Occt::TopoDS_Shape^ theShape, double theLinDefl, bool theToCheckFreeEdges);
+	static bool Triangulation(Macad::Occt::TopoDS_Shape^ theShape, double theLinDefl);
 	static bool Compare(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2);
 	static bool Compare(Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2);
 	static Macad::Occt::TopoDS_Wire^ OuterWire(Macad::Occt::TopoDS_Face^ F);
@@ -582,15 +591,18 @@ public:
 	static bool IsReallyClosed(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F);
 	static void DetectClosedness(Macad::Occt::TopoDS_Face^ theFace, bool% theUclosed, bool% theVclosed);
 	/* Method skipped due to unknown mapping: void Dump(TopoDS_Shape Sh, ostream S, ) */
-	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape Sh, ostream S, Message_ProgressIndicator PR, ) */
-	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape Sh, ostream S, Message_ProgressIndicator PR, ) */
-	/* Method skipped due to unknown mapping: void Read(TopoDS_Shape Sh, istream S, BRep_Builder B, Message_ProgressIndicator PR, ) */
-	/* Method skipped due to unknown mapping: void Read(TopoDS_Shape Sh, istream S, BRep_Builder B, Message_ProgressIndicator PR, ) */
-	/* Method skipped due to unknown mapping: Standard_Boolean Write(TopoDS_Shape Sh, Standard_CString File, Message_ProgressIndicator PR, ) */
+	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape Sh, ostream S, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape Sh, ostream S, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void Read(TopoDS_Shape Sh, istream S, BRep_Builder B, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void Read(TopoDS_Shape Sh, istream S, BRep_Builder B, Message_ProgressRange theProgress, ) */
+	static bool Write(Macad::Occt::TopoDS_Shape^ Sh, System::String^ File, Macad::Occt::Message_ProgressRange^ theProgress);
 	static bool Write(Macad::Occt::TopoDS_Shape^ Sh, System::String^ File);
-	/* Method skipped due to unknown mapping: Standard_Boolean Read(TopoDS_Shape Sh, Standard_CString File, BRep_Builder B, Message_ProgressIndicator PR, ) */
+	static bool Read(Macad::Occt::TopoDS_Shape^ Sh, System::String^ File, Macad::Occt::BRep_Builder^ B, Macad::Occt::Message_ProgressRange^ theProgress);
 	static bool Read(Macad::Occt::TopoDS_Shape^ Sh, System::String^ File, Macad::Occt::BRep_Builder^ B);
 	static double EvalAndUpdateTol(Macad::Occt::TopoDS_Edge^ theE, Macad::Occt::Geom_Curve^ theC3d, Macad::Occt::Geom2d_Curve^ theC2d, Macad::Occt::Geom_Surface^ theS, double theF, double theL);
+	static Macad::Occt::TopAbs_Orientation OriEdgeInFace(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Face^ theFace);
+	static void RemoveInternals(Macad::Occt::TopoDS_Shape^ theS, bool theForce);
+	static void RemoveInternals(Macad::Occt::TopoDS_Shape^ theS);
 }; // class BRepTools
 
 //---------------------------------------------------------------------

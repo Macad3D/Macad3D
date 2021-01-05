@@ -351,10 +351,18 @@ public:
 	void SetBackgroundImage(System::String^ theFileName, Macad::Occt::Aspect_FillMethod theFillStyle, bool theToUpdate);
 	void SetBackgroundImage(System::String^ theFileName, Macad::Occt::Aspect_FillMethod theFillStyle);
 	void SetBackgroundImage(System::String^ theFileName);
+	void SetBackgroundImage(Macad::Occt::Graphic3d_Texture2D^ theTexture, Macad::Occt::Aspect_FillMethod theFillStyle, bool theToUpdate);
+	void SetBackgroundImage(Macad::Occt::Graphic3d_Texture2D^ theTexture, Macad::Occt::Aspect_FillMethod theFillStyle);
+	void SetBackgroundImage(Macad::Occt::Graphic3d_Texture2D^ theTexture);
 	void SetBgImageStyle(Macad::Occt::Aspect_FillMethod theFillStyle, bool theToUpdate);
 	void SetBgImageStyle(Macad::Occt::Aspect_FillMethod theFillStyle);
-	void SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap, bool theToUpdate);
+	void SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap, bool theToUpdatePBREnv, bool theToUpdate);
+	void SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap, bool theToUpdatePBREnv);
 	void SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap);
+	void GeneratePBREnvironment(bool theToUpdate);
+	void GeneratePBREnvironment();
+	void ClearPBREnvironment(bool theToUpdate);
+	void ClearPBREnvironment();
 	void SetAxis(double X, double Y, double Z, double Vx, double Vy, double Vz);
 	void SetShadingModel(Macad::Occt::Graphic3d_TypeOfShadingModel theShadingModel);
 	void SetTextureEnv(Macad::Occt::Graphic3d_TextureEnv^ theTexture);
@@ -478,12 +486,8 @@ public:
 	Macad::Occt::Graphic3d_TypeOfShadingModel ShadingModel();
 	Macad::Occt::Graphic3d_TextureEnv^ TextureEnv();
 	Macad::Occt::V3d_TypeOfVisualization Visualization();
-	bool IfMoreLights();
+	Macad::Occt::V3d_ListOfLight^ ActiveLights();
 	/* Method skipped due to unknown mapping: Iterator ActiveLightIterator() */
-	void InitActiveLights();
-	bool MoreActiveLights();
-	void NextActiveLights();
-	Macad::Occt::Graphic3d_CLight^ ActiveLight();
 	int LightLimit();
 	Macad::Occt::V3d_Viewer^ Viewer();
 	bool IfWindow();
@@ -535,6 +539,13 @@ public:
 	Macad::Occt::TCollection_AsciiString^ StatisticInformation();
 	void StatisticInformation(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theDict);
 	Macad::Occt::Pnt GravityPoint();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	bool IfMoreLights();
+	void InitActiveLights();
+	bool MoreActiveLights();
+	void NextActiveLights();
+	Macad::Occt::Graphic3d_CLight^ ActiveLight();
 }; // class V3d_View
 
 //---------------------------------------------------------------------
@@ -658,17 +669,11 @@ public:
 	bool RemoveZLayer(int theLayerId);
 	Macad::Occt::Graphic3d_ZLayerSettings^ ZLayerSettings(int theLayerId);
 	void SetZLayerSettings(int theLayerId, Macad::Occt::Graphic3d_ZLayerSettings^ theSettings);
+	Macad::Occt::V3d_ListOfView^ ActiveViews();
 	/* Method skipped due to unknown mapping: Iterator ActiveViewIterator() */
-	void InitActiveViews();
-	bool MoreActiveViews();
-	void NextActiveViews();
-	Macad::Occt::V3d_View^ ActiveView();
 	bool LastActiveView();
+	Macad::Occt::V3d_ListOfView^ DefinedViews();
 	/* Method skipped due to unknown mapping: Iterator DefinedViewIterator() */
-	void InitDefinedViews();
-	bool MoreDefinedViews();
-	void NextDefinedViews();
-	Macad::Occt::V3d_View^ DefinedView();
 	void SetDefaultLights();
 	void SetLightOn(Macad::Occt::Graphic3d_CLight^ theLight);
 	void SetLightOn();
@@ -678,16 +683,10 @@ public:
 	void DelLight(Macad::Occt::Graphic3d_CLight^ theLight);
 	void UpdateLights();
 	bool IsGlobalLight(Macad::Occt::Graphic3d_CLight^ TheLight);
+	Macad::Occt::V3d_ListOfLight^ ActiveLights();
 	/* Method skipped due to unknown mapping: Iterator ActiveLightIterator() */
-	void InitActiveLights();
-	bool MoreActiveLights();
-	void NextActiveLights();
-	Macad::Occt::Graphic3d_CLight^ ActiveLight();
+	Macad::Occt::V3d_ListOfLight^ DefinedLights();
 	/* Method skipped due to unknown mapping: Iterator DefinedLightIterator() */
-	void InitDefinedLights();
-	bool MoreDefinedLights();
-	void NextDefinedLights();
-	Macad::Occt::Graphic3d_CLight^ DefinedLight();
 	void Erase();
 	void UnHighlight();
 	bool ComputedMode();
@@ -720,6 +719,24 @@ public:
 	void HideGridEcho(Macad::Occt::V3d_View^ theView);
 	void SetDefaultBackgroundColor(Macad::Occt::Quantity_TypeOfColor theType, double theV1, double theV2, double theV3);
 	void DefaultBackgroundColor(Macad::Occt::Quantity_TypeOfColor theType, double% theV1, double% theV2, double% theV3);
+	void InitActiveViews();
+	bool MoreActiveViews();
+	void NextActiveViews();
+	Macad::Occt::V3d_View^ ActiveView();
+	void InitDefinedViews();
+	bool MoreDefinedViews();
+	void NextDefinedViews();
+	Macad::Occt::V3d_View^ DefinedView();
+	void InitActiveLights();
+	bool MoreActiveLights();
+	void NextActiveLights();
+	Macad::Occt::Graphic3d_CLight^ ActiveLight();
+	void InitDefinedLights();
+	bool MoreDefinedLights();
+	void NextDefinedLights();
+	Macad::Occt::Graphic3d_CLight^ DefinedLight();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class V3d_Viewer
 
 //---------------------------------------------------------------------
@@ -754,8 +771,6 @@ public:
 
 public:
 	V3d_AmbientLight(Macad::Occt::Quantity_Color^ theColor);
-	V3d_AmbientLight(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt::Quantity_Color^ theColor);
-	V3d_AmbientLight(Macad::Occt::V3d_Viewer^ theViewer);
 }; // class V3d_AmbientLight
 
 //---------------------------------------------------------------------
@@ -836,6 +851,8 @@ public:
 	bool IsDisplayed();
 	void GraphicValues(double% Radius, double% OffSet);
 	void SetGraphicValues(double Radius, double OffSet);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class V3d_CircularGrid
 
 //---------------------------------------------------------------------
@@ -913,13 +930,6 @@ public:
 	V3d_DirectionalLight(Macad::Occt::Dir theDirection, Macad::Occt::Quantity_Color^ theColor, bool theIsHeadlight);
 	V3d_DirectionalLight(Macad::Occt::Dir theDirection, Macad::Occt::Quantity_Color^ theColor);
 	V3d_DirectionalLight(Macad::Occt::Dir theDirection);
-	V3d_DirectionalLight(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor, bool theIsHeadlight);
-	V3d_DirectionalLight(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor);
-	V3d_DirectionalLight(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt::V3d_TypeOfOrientation theDirection);
-	V3d_DirectionalLight(Macad::Occt::V3d_Viewer^ theViewer);
-	V3d_DirectionalLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp, Macad::Occt::Quantity_Color^ theColor, bool theIsHeadlight);
-	V3d_DirectionalLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp, Macad::Occt::Quantity_Color^ theColor);
-	V3d_DirectionalLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp);
 	void SetDirection(Macad::Occt::V3d_TypeOfOrientation theDirection);
 }; // class V3d_DirectionalLight
 
@@ -966,6 +976,8 @@ public:
 	void SetArrowsColor(Macad::Occt::Quantity_Color^ theXColor, Macad::Occt::Quantity_Color^ theYColor, Macad::Occt::Quantity_Color^ theZColor);
 	void Display(Macad::Occt::V3d_View^ theView);
 	void Erase();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class V3d_Trihedron
 
 //---------------------------------------------------------------------
@@ -1005,6 +1017,8 @@ public:
 	bool IsDisplayed();
 	void GraphicValues(double% XSize, double% YSize, double% OffSet);
 	void SetGraphicValues(double XSize, double YSize, double OffSet);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class V3d_RectangularGrid
 
 //---------------------------------------------------------------------
@@ -1126,10 +1140,6 @@ public:
 public:
 	V3d_PositionalLight(Macad::Occt::Pnt thePos, Macad::Occt::Quantity_Color^ theColor);
 	V3d_PositionalLight(Macad::Occt::Pnt thePos);
-	V3d_PositionalLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation, double theLinearAttenuation);
-	V3d_PositionalLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation);
-	V3d_PositionalLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::Quantity_Color^ theColor);
-	V3d_PositionalLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ);
 }; // class V3d_PositionalLight
 
 //---------------------------------------------------------------------
@@ -1168,19 +1178,6 @@ public:
 	V3d_SpotLight(Macad::Occt::Pnt thePos);
 	V3d_SpotLight(Macad::Occt::Pnt thePos, Macad::Occt::Dir theDirection, Macad::Occt::Quantity_Color^ theColor);
 	V3d_SpotLight(Macad::Occt::Pnt thePos, Macad::Occt::Dir theDirection);
-	V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation, double theLinearAttenuation, double theConcentration, double theAngle);
-	V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation, double theLinearAttenuation, double theConcentration);
-	V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation, double theLinearAttenuation);
-	V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation);
-	V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::V3d_TypeOfOrientation theDirection, Macad::Occt::Quantity_Color^ theColor);
-	V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ, Macad::Occt::V3d_TypeOfOrientation theDirection);
-	V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theX, double theY, double theZ);
-	V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation, double theLinearAttenuation, double theConcentration, double theAngle);
-	V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation, double theLinearAttenuation, double theConcentration);
-	V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation, double theLinearAttenuation);
-	V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp, Macad::Occt::Quantity_Color^ theColor, double theConstAttenuation);
-	V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp, Macad::Occt::Quantity_Color^ theColor);
-	V3d_SpotLight(Macad::Occt::V3d_Viewer^ theViewer, double theXt, double theYt, double theZt, double theXp, double theYp, double theZp);
 	void SetDirection(Macad::Occt::V3d_TypeOfOrientation theOrientation);
 }; // class V3d_SpotLight
 

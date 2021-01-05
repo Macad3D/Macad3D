@@ -2076,16 +2076,16 @@ bool Macad::Occt::ShapeAnalysis_CheckSmallFace::StatusPinEdges(Macad::Occt::Shap
 //  Class  ShapeAnalysis_Shell
 //---------------------------------------------------------------------
 
-Macad::Occt::ShapeAnalysis_Shell::ShapeAnalysis_Shell(Macad::Occt::ShapeAnalysis_Shell^ parameter1)
-	: BaseClass<::ShapeAnalysis_Shell>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::ShapeAnalysis_Shell(*(::ShapeAnalysis_Shell*)parameter1->NativeInstance);
-}
-
 Macad::Occt::ShapeAnalysis_Shell::ShapeAnalysis_Shell()
 	: BaseClass<::ShapeAnalysis_Shell>(BaseClass::InitMode::Uninitialized)
 {
 	_NativeInstance = new ::ShapeAnalysis_Shell();
+}
+
+Macad::Occt::ShapeAnalysis_Shell::ShapeAnalysis_Shell(Macad::Occt::ShapeAnalysis_Shell^ parameter1)
+	: BaseClass<::ShapeAnalysis_Shell>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::ShapeAnalysis_Shell(*(::ShapeAnalysis_Shell*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeAnalysis_Shell::Clear()

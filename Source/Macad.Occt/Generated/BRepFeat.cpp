@@ -262,6 +262,13 @@ Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepFeat_SplitShape::Left()
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopTools_ListOfShape(_result);
 }
 
+Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepFeat_SplitShape::Right()
+{
+	::TopTools_ListOfShape* _result = new ::TopTools_ListOfShape();
+	*_result =  (::TopTools_ListOfShape)((::BRepFeat_SplitShape*)_NativeInstance)->Right();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopTools_ListOfShape(_result);
+}
+
 void Macad::Occt::BRepFeat_SplitShape::Build()
 {
 	((::BRepFeat_SplitShape*)_NativeInstance)->Build();

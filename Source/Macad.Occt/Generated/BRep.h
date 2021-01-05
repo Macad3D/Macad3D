@@ -242,6 +242,8 @@ public:
 	bool NaturalRestriction();
 	void NaturalRestriction(bool N);
 	Macad::Occt::TopoDS_TShape^ EmptyCopy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_TFace
 
 //---------------------------------------------------------------------
@@ -299,6 +301,8 @@ public:
 	void PCurve(Macad::Occt::Geom2d_Curve^ C);
 	Macad::Occt::Geom_Surface^ Surface();
 	void Surface(Macad::Occt::Geom_Surface^ S);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_PointRepresentation
 
 //---------------------------------------------------------------------
@@ -342,6 +346,8 @@ public:
 	Macad::Occt::BRep_ListOfPointRepresentation^ Points();
 	Macad::Occt::BRep_ListOfPointRepresentation^ ChangePoints();
 	Macad::Occt::TopoDS_TShape^ EmptyCopy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_TVertex
 
 //---------------------------------------------------------------------
@@ -381,6 +387,7 @@ public:
 	/* Method skipped due to unknown mapping: Poly_Triangulation Triangulation(TopoDS_Face F, TopLoc_Location L, ) */
 	static double Tolerance(Macad::Occt::TopoDS_Face^ F);
 	static bool NaturalRestriction(Macad::Occt::TopoDS_Face^ F);
+	static bool IsGeometric(Macad::Occt::TopoDS_Face^ F);
 	static bool IsGeometric(Macad::Occt::TopoDS_Edge^ E);
 	static Macad::Occt::Geom_Curve^ Curve(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopLoc_Location^ L, double% First, double% Last);
 	static Macad::Occt::Geom_Curve^ Curve(Macad::Occt::TopoDS_Edge^ E, double% First, double% Last);
@@ -421,6 +428,7 @@ public:
 	static Macad::Occt::GeomAbs_Shape MaxContinuity(Macad::Occt::TopoDS_Edge^ theEdge);
 	static Macad::Occt::Pnt Pnt(Macad::Occt::TopoDS_Vertex^ V);
 	static double Tolerance(Macad::Occt::TopoDS_Vertex^ V);
+	static bool Parameter(Macad::Occt::TopoDS_Vertex^ theV, Macad::Occt::TopoDS_Edge^ theE, double% theParam);
 	static double Parameter(Macad::Occt::TopoDS_Vertex^ V, Macad::Occt::TopoDS_Edge^ E);
 	static double Parameter(Macad::Occt::TopoDS_Vertex^ V, Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F);
 	static double Parameter(Macad::Occt::TopoDS_Vertex^ V, Macad::Occt::TopoDS_Edge^ E, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopLoc_Location^ L);
@@ -503,6 +511,8 @@ public:
 	Macad::Occt::GeomAbs_Shape Continuity();
 	void Continuity(Macad::Occt::GeomAbs_Shape C);
 	Macad::Occt::BRep_CurveRepresentation^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_CurveRepresentation
 
 //---------------------------------------------------------------------
@@ -550,6 +560,8 @@ public:
 	void Last(double L);
 	void D0(double U, Macad::Occt::Pnt% P);
 	void Update();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_GCurve
 
 //---------------------------------------------------------------------
@@ -590,6 +602,8 @@ public:
 	Macad::Occt::Geom_Curve^ Curve3D();
 	void Curve3D(Macad::Occt::Geom_Curve^ C);
 	Macad::Occt::BRep_CurveRepresentation^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_Curve3D
 
 //---------------------------------------------------------------------
@@ -634,6 +648,8 @@ public:
 	Macad::Occt::GeomAbs_Shape Continuity();
 	void Continuity(Macad::Occt::GeomAbs_Shape C);
 	Macad::Occt::BRep_CurveRepresentation^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_CurveOn2Surfaces
 
 //---------------------------------------------------------------------
@@ -684,6 +700,8 @@ public:
 	void PCurve(Macad::Occt::Geom2d_Curve^ C);
 	Macad::Occt::BRep_CurveRepresentation^ Copy();
 	void Update();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_CurveOnSurface
 
 //---------------------------------------------------------------------
@@ -732,6 +750,8 @@ public:
 	void PCurve2(Macad::Occt::Geom2d_Curve^ C);
 	Macad::Occt::BRep_CurveRepresentation^ Copy();
 	void Update();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_CurveOnClosedSurface
 
 //---------------------------------------------------------------------
@@ -771,6 +791,8 @@ public:
 	bool IsPointOnCurve(Macad::Occt::Geom_Curve^ C, Macad::Occt::TopLoc_Location^ L);
 	Macad::Occt::Geom_Curve^ Curve();
 	void Curve(Macad::Occt::Geom_Curve^ C);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_PointOnCurve
 
 //---------------------------------------------------------------------
@@ -812,6 +834,8 @@ public:
 	BRep_PointsOnSurface(Macad::Occt::BRep_PointsOnSurface^ parameter1);
 	Macad::Occt::Geom_Surface^ Surface();
 	void Surface(Macad::Occt::Geom_Surface^ S);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_PointsOnSurface
 
 //---------------------------------------------------------------------
@@ -851,6 +875,8 @@ public:
 	bool IsPointOnCurveOnSurface(Macad::Occt::Geom2d_Curve^ PC, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopLoc_Location^ L);
 	Macad::Occt::Geom2d_Curve^ PCurve();
 	void PCurve(Macad::Occt::Geom2d_Curve^ C);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_PointOnCurveOnSurface
 
 //---------------------------------------------------------------------
@@ -929,6 +955,8 @@ public:
 	/* Method skipped due to unknown mapping: Poly_Polygon3D Polygon3D() */
 	/* Method skipped due to unknown mapping: void Polygon3D(Poly_Polygon3D P, ) */
 	Macad::Occt::BRep_CurveRepresentation^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_Polygon3D
 
 //---------------------------------------------------------------------
@@ -975,6 +1003,8 @@ public:
 	/* Method skipped due to unknown mapping: Poly_Polygon2D Polygon() */
 	/* Method skipped due to unknown mapping: void Polygon(Poly_Polygon2D P, ) */
 	Macad::Occt::BRep_CurveRepresentation^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_PolygonOnSurface
 
 //---------------------------------------------------------------------
@@ -1014,6 +1044,8 @@ public:
 	/* Method skipped due to unknown mapping: Poly_Polygon2D Polygon2() */
 	/* Method skipped due to unknown mapping: void Polygon2(Poly_Polygon2D P, ) */
 	Macad::Occt::BRep_CurveRepresentation^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_PolygonOnClosedSurface
 
 //---------------------------------------------------------------------
@@ -1060,6 +1092,8 @@ public:
 	/* Method skipped due to unknown mapping: Poly_Triangulation Triangulation() */
 	/* Method skipped due to unknown mapping: Poly_PolygonOnTriangulation PolygonOnTriangulation() */
 	Macad::Occt::BRep_CurveRepresentation^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_PolygonOnTriangulation
 
 //---------------------------------------------------------------------
@@ -1099,6 +1133,8 @@ public:
 	/* Method skipped due to unknown mapping: void PolygonOnTriangulation2(Poly_PolygonOnTriangulation P2, ) */
 	/* Method skipped due to unknown mapping: Poly_PolygonOnTriangulation PolygonOnTriangulation2() */
 	Macad::Occt::BRep_CurveRepresentation^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_PolygonOnClosedTriangulation
 
 //---------------------------------------------------------------------
@@ -1146,6 +1182,8 @@ public:
 	Macad::Occt::BRep_ListOfCurveRepresentation^ Curves();
 	Macad::Occt::BRep_ListOfCurveRepresentation^ ChangeCurves();
 	Macad::Occt::TopoDS_TShape^ EmptyCopy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class BRep_TEdge
 
 }; // namespace Occt

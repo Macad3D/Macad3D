@@ -20,12 +20,39 @@ public enum class Aspect_GridDrawMode
 }; // enum  class Aspect_GridDrawMode
 
 //---------------------------------------------------------------------
+//  Enum  Aspect_GraphicsLibrary
+//---------------------------------------------------------------------
+public enum class Aspect_GraphicsLibrary
+{
+	Aspect_GraphicsLibrary_OpenGL = 0,
+	Aspect_GraphicsLibrary_OpenGLES = 1
+}; // enum  class Aspect_GraphicsLibrary
+
+//---------------------------------------------------------------------
+//  Enum  Aspect_ColorSpace
+//---------------------------------------------------------------------
+public enum class Aspect_ColorSpace
+{
+	Aspect_ColorSpace_sRGB = 0,
+	Aspect_ColorSpace_Linear = 1
+}; // enum  class Aspect_ColorSpace
+
+//---------------------------------------------------------------------
 //  Enum  Aspect_XAtom
 //---------------------------------------------------------------------
 public enum class Aspect_XAtom
 {
 	Aspect_XA_DELETE_WINDOW = 0
 }; // enum  class Aspect_XAtom
+
+//---------------------------------------------------------------------
+//  Enum  Aspect_Eye
+//---------------------------------------------------------------------
+public enum class Aspect_Eye
+{
+	Aspect_Eye_Left = 0,
+	Aspect_Eye_Right = 1
+}; // enum  class Aspect_Eye
 
 //---------------------------------------------------------------------
 //  Enum  Aspect_FillMethod
@@ -113,6 +140,53 @@ public enum class Aspect_TypeOfResize
 	Aspect_TOR_BOTTOM_AND_LEFT_BORDER = 8,
 	Aspect_TOR_LEFT_AND_TOP_BORDER = 9
 }; // enum  class Aspect_TypeOfResize
+
+//---------------------------------------------------------------------
+//  Enum  Aspect_XRActionType
+//---------------------------------------------------------------------
+public enum class Aspect_XRActionType
+{
+	Aspect_XRActionType_InputDigital = 0,
+	Aspect_XRActionType_InputAnalog = 1,
+	Aspect_XRActionType_InputPose = 2,
+	Aspect_XRActionType_InputSkeletal = 3,
+	Aspect_XRActionType_OutputHaptic = 4
+}; // enum  class Aspect_XRActionType
+
+//---------------------------------------------------------------------
+//  Enum  Aspect_XRGenericAction
+//---------------------------------------------------------------------
+public enum class Aspect_XRGenericAction
+{
+	Aspect_XRGenericAction_IsHeadsetOn = 0,
+	Aspect_XRGenericAction_InputAppMenu = 1,
+	Aspect_XRGenericAction_InputSysMenu = 2,
+	Aspect_XRGenericAction_InputTriggerPull = 3,
+	Aspect_XRGenericAction_InputTriggerClick = 4,
+	Aspect_XRGenericAction_InputGripClick = 5,
+	Aspect_XRGenericAction_InputTrackPadPosition = 6,
+	Aspect_XRGenericAction_InputTrackPadTouch = 7,
+	Aspect_XRGenericAction_InputTrackPadClick = 8,
+	Aspect_XRGenericAction_InputThumbstickPosition = 9,
+	Aspect_XRGenericAction_InputThumbstickTouch = 10,
+	Aspect_XRGenericAction_InputThumbstickClick = 11,
+	Aspect_XRGenericAction_InputPoseBase = 12,
+	Aspect_XRGenericAction_InputPoseFront = 13,
+	Aspect_XRGenericAction_InputPoseHandGrip = 14,
+	Aspect_XRGenericAction_InputPoseFingerTip = 15,
+	Aspect_XRGenericAction_OutputHaptic = 16
+}; // enum  class Aspect_XRGenericAction
+
+//---------------------------------------------------------------------
+//  Enum  Aspect_XRTrackedDeviceRole
+//---------------------------------------------------------------------
+public enum class Aspect_XRTrackedDeviceRole
+{
+	Aspect_XRTrackedDeviceRole_Head = 0,
+	Aspect_XRTrackedDeviceRole_LeftHand = 1,
+	Aspect_XRTrackedDeviceRole_RightHand = 2,
+	Aspect_XRTrackedDeviceRole_Other = 3
+}; // enum  class Aspect_XRTrackedDeviceRole
 
 //---------------------------------------------------------------------
 //  Enum  Aspect_PolygonOffsetMode
@@ -371,31 +445,43 @@ public enum class Aspect_VKeyBasic
 	Aspect_VKey_BrowserSearch = 103,
 	Aspect_VKey_BrowserFavorites = 104,
 	Aspect_VKey_BrowserHome = 105,
-	Aspect_VKey_Shift = 106,
-	Aspect_VKey_Control = 107,
-	Aspect_VKey_Alt = 108,
-	Aspect_VKey_Menu = 109,
-	Aspect_VKey_Meta = 110,
-	Aspect_VKey_NavInteract = 111,
-	Aspect_VKey_NavForward = 112,
-	Aspect_VKey_NavBackward = 113,
-	Aspect_VKey_NavSlideLeft = 114,
-	Aspect_VKey_NavSlideRight = 115,
-	Aspect_VKey_NavSlideUp = 116,
-	Aspect_VKey_NavSlideDown = 117,
-	Aspect_VKey_NavRollCCW = 118,
-	Aspect_VKey_NavRollCW = 119,
-	Aspect_VKey_NavLookLeft = 120,
-	Aspect_VKey_NavLookRight = 121,
-	Aspect_VKey_NavLookUp = 122,
-	Aspect_VKey_NavLookDown = 123,
-	Aspect_VKey_NavCrouch = 124,
-	Aspect_VKey_NavJump = 125,
-	Aspect_VKey_NavThrustForward = 126,
-	Aspect_VKey_NavThrustBackward = 127,
-	Aspect_VKey_NavThrustStop = 128,
-	Aspect_VKey_NavSpeedIncrease = 129,
-	Aspect_VKey_NavSpeedDecrease = 130
+	Aspect_VKey_ViewTop = 106,
+	Aspect_VKey_ViewBottom = 107,
+	Aspect_VKey_ViewLeft = 108,
+	Aspect_VKey_ViewRight = 109,
+	Aspect_VKey_ViewFront = 110,
+	Aspect_VKey_ViewBack = 111,
+	Aspect_VKey_ViewAxoLeftProj = 112,
+	Aspect_VKey_ViewAxoRightProj = 113,
+	Aspect_VKey_ViewFitAll = 114,
+	Aspect_VKey_ViewRoll90CW = 115,
+	Aspect_VKey_ViewRoll90CCW = 116,
+	Aspect_VKey_ViewSwitchRotate = 117,
+	Aspect_VKey_Shift = 118,
+	Aspect_VKey_Control = 119,
+	Aspect_VKey_Alt = 120,
+	Aspect_VKey_Menu = 121,
+	Aspect_VKey_Meta = 122,
+	Aspect_VKey_NavInteract = 123,
+	Aspect_VKey_NavForward = 124,
+	Aspect_VKey_NavBackward = 125,
+	Aspect_VKey_NavSlideLeft = 126,
+	Aspect_VKey_NavSlideRight = 127,
+	Aspect_VKey_NavSlideUp = 128,
+	Aspect_VKey_NavSlideDown = 129,
+	Aspect_VKey_NavRollCCW = 130,
+	Aspect_VKey_NavRollCW = 131,
+	Aspect_VKey_NavLookLeft = 132,
+	Aspect_VKey_NavLookRight = 133,
+	Aspect_VKey_NavLookUp = 134,
+	Aspect_VKey_NavLookDown = 135,
+	Aspect_VKey_NavCrouch = 136,
+	Aspect_VKey_NavJump = 137,
+	Aspect_VKey_NavThrustForward = 138,
+	Aspect_VKey_NavThrustBackward = 139,
+	Aspect_VKey_NavThrustStop = 140,
+	Aspect_VKey_NavSpeedIncrease = 141,
+	Aspect_VKey_NavSpeedDecrease = 142
 }; // enum  class Aspect_VKeyBasic
 
 //---------------------------------------------------------------------
@@ -409,6 +495,171 @@ public enum class Aspect_WidthOfLine
 	Aspect_WOL_VERYTHICK = 3,
 	Aspect_WOL_USERDEFINED = 4
 }; // enum  class Aspect_WidthOfLine
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRActionMap
+//---------------------------------------------------------------------
+public ref class Aspect_XRActionMap sealed : public BaseClass<::Aspect_XRActionMap>
+{
+
+#ifdef Include_Aspect_XRActionMap_h
+public:
+	Include_Aspect_XRActionMap_h
+#endif
+
+public:
+	Aspect_XRActionMap(::Aspect_XRActionMap* nativeInstance)
+		: BaseClass<::Aspect_XRActionMap>( nativeInstance, true )
+	{}
+
+	Aspect_XRActionMap(::Aspect_XRActionMap& nativeInstance)
+		: BaseClass<::Aspect_XRActionMap>( &nativeInstance, false )
+	{}
+
+	property ::Aspect_XRActionMap* NativeInstance
+	{
+		::Aspect_XRActionMap* get()
+		{
+			return static_cast<::Aspect_XRActionMap*>(_NativeInstance);
+		}
+	}
+
+public:
+	Aspect_XRActionMap();
+	Aspect_XRActionMap(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	Aspect_XRActionMap(int theNbBuckets);
+	Aspect_XRActionMap(Macad::Occt::Aspect_XRActionMap^ theOther);
+	void Exchange(Macad::Occt::Aspect_XRActionMap^ theOther);
+	int Add(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRAction^ theItem);
+	bool Contains(Macad::Occt::TCollection_AsciiString^ theKey1);
+	void Substitute(int theIndex, Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRAction^ theItem);
+	void Swap(int theIndex1, int theIndex2);
+	void RemoveLast();
+	void RemoveFromIndex(int theIndex);
+	void RemoveKey(Macad::Occt::TCollection_AsciiString^ theKey1);
+	Macad::Occt::TCollection_AsciiString^ FindKey(int theIndex);
+	Macad::Occt::Aspect_XRAction^ FindFromIndex(int theIndex);
+	Macad::Occt::Aspect_XRAction^ ChangeFromIndex(int theIndex);
+	int FindIndex(Macad::Occt::TCollection_AsciiString^ theKey1);
+	Macad::Occt::Aspect_XRAction^ FindFromKey(Macad::Occt::TCollection_AsciiString^ theKey1);
+	Macad::Occt::Aspect_XRAction^ ChangeFromKey(Macad::Occt::TCollection_AsciiString^ theKey1);
+	Macad::Occt::Aspect_XRAction^ Seek(Macad::Occt::TCollection_AsciiString^ theKey1);
+	Macad::Occt::Aspect_XRAction^ ChangeSeek(Macad::Occt::TCollection_AsciiString^ theKey1);
+	bool FindFromKey(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRAction^ theValue);
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+}; // class Aspect_XRActionMap
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRActionSetMap
+//---------------------------------------------------------------------
+public ref class Aspect_XRActionSetMap sealed : public BaseClass<::Aspect_XRActionSetMap>
+{
+
+#ifdef Include_Aspect_XRActionSetMap_h
+public:
+	Include_Aspect_XRActionSetMap_h
+#endif
+
+public:
+	Aspect_XRActionSetMap(::Aspect_XRActionSetMap* nativeInstance)
+		: BaseClass<::Aspect_XRActionSetMap>( nativeInstance, true )
+	{}
+
+	Aspect_XRActionSetMap(::Aspect_XRActionSetMap& nativeInstance)
+		: BaseClass<::Aspect_XRActionSetMap>( &nativeInstance, false )
+	{}
+
+	property ::Aspect_XRActionSetMap* NativeInstance
+	{
+		::Aspect_XRActionSetMap* get()
+		{
+			return static_cast<::Aspect_XRActionSetMap*>(_NativeInstance);
+		}
+	}
+
+public:
+	Aspect_XRActionSetMap();
+	Aspect_XRActionSetMap(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	Aspect_XRActionSetMap(int theNbBuckets);
+	Aspect_XRActionSetMap(Macad::Occt::Aspect_XRActionSetMap^ theOther);
+	void Exchange(Macad::Occt::Aspect_XRActionSetMap^ theOther);
+	int Add(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRActionSet^ theItem);
+	bool Contains(Macad::Occt::TCollection_AsciiString^ theKey1);
+	void Substitute(int theIndex, Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRActionSet^ theItem);
+	void Swap(int theIndex1, int theIndex2);
+	void RemoveLast();
+	void RemoveFromIndex(int theIndex);
+	void RemoveKey(Macad::Occt::TCollection_AsciiString^ theKey1);
+	Macad::Occt::TCollection_AsciiString^ FindKey(int theIndex);
+	Macad::Occt::Aspect_XRActionSet^ FindFromIndex(int theIndex);
+	Macad::Occt::Aspect_XRActionSet^ ChangeFromIndex(int theIndex);
+	int FindIndex(Macad::Occt::TCollection_AsciiString^ theKey1);
+	Macad::Occt::Aspect_XRActionSet^ FindFromKey(Macad::Occt::TCollection_AsciiString^ theKey1);
+	Macad::Occt::Aspect_XRActionSet^ ChangeFromKey(Macad::Occt::TCollection_AsciiString^ theKey1);
+	Macad::Occt::Aspect_XRActionSet^ Seek(Macad::Occt::TCollection_AsciiString^ theKey1);
+	Macad::Occt::Aspect_XRActionSet^ ChangeSeek(Macad::Occt::TCollection_AsciiString^ theKey1);
+	bool FindFromKey(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRActionSet^ theValue);
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+}; // class Aspect_XRActionSetMap
+
+//---------------------------------------------------------------------
+//  Class  Aspect_TrackedDevicePoseArray
+//---------------------------------------------------------------------
+public ref class Aspect_TrackedDevicePoseArray sealed : public BaseClass<::Aspect_TrackedDevicePoseArray>
+{
+
+#ifdef Include_Aspect_TrackedDevicePoseArray_h
+public:
+	Include_Aspect_TrackedDevicePoseArray_h
+#endif
+
+public:
+	Aspect_TrackedDevicePoseArray(::Aspect_TrackedDevicePoseArray* nativeInstance)
+		: BaseClass<::Aspect_TrackedDevicePoseArray>( nativeInstance, true )
+	{}
+
+	Aspect_TrackedDevicePoseArray(::Aspect_TrackedDevicePoseArray& nativeInstance)
+		: BaseClass<::Aspect_TrackedDevicePoseArray>( &nativeInstance, false )
+	{}
+
+	property ::Aspect_TrackedDevicePoseArray* NativeInstance
+	{
+		::Aspect_TrackedDevicePoseArray* get()
+		{
+			return static_cast<::Aspect_TrackedDevicePoseArray*>(_NativeInstance);
+		}
+	}
+
+public:
+	Aspect_TrackedDevicePoseArray();
+	Aspect_TrackedDevicePoseArray(int theLower, int theUpper);
+	Aspect_TrackedDevicePoseArray(Macad::Occt::Aspect_TrackedDevicePoseArray^ theOther);
+	Aspect_TrackedDevicePoseArray(Macad::Occt::Aspect_TrackedDevicePose^ theBegin, int theLower, int theUpper);
+	void Init(Macad::Occt::Aspect_TrackedDevicePose^ theValue);
+	int Size();
+	int Length();
+	bool IsEmpty();
+	int Lower();
+	int Upper();
+	bool IsDeletable();
+	bool IsAllocated();
+	Macad::Occt::Aspect_TrackedDevicePoseArray^ Assign(Macad::Occt::Aspect_TrackedDevicePoseArray^ theOther);
+	Macad::Occt::Aspect_TrackedDevicePoseArray^ Move(Macad::Occt::Aspect_TrackedDevicePoseArray^ theOther);
+	Macad::Occt::Aspect_TrackedDevicePose^ First();
+	Macad::Occt::Aspect_TrackedDevicePose^ ChangeFirst();
+	Macad::Occt::Aspect_TrackedDevicePose^ Last();
+	Macad::Occt::Aspect_TrackedDevicePose^ ChangeLast();
+	Macad::Occt::Aspect_TrackedDevicePose^ Value(int theIndex);
+	Macad::Occt::Aspect_TrackedDevicePose^ ChangeValue(int theIndex);
+	void SetValue(int theIndex, Macad::Occt::Aspect_TrackedDevicePose^ theItem);
+	void Resize(int theLower, int theUpper, bool theToCopyData);
+}; // class Aspect_TrackedDevicePoseArray
 
 //---------------------------------------------------------------------
 //  Class  Aspect_SequenceOfColor
@@ -474,6 +725,173 @@ public:
 	Macad::Occt::Quantity_Color^ ChangeValue(int theIndex);
 	void SetValue(int theIndex, Macad::Occt::Quantity_Color^ theItem);
 }; // class Aspect_SequenceOfColor
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRAnalogActionData
+//---------------------------------------------------------------------
+public ref class Aspect_XRAnalogActionData sealed : public BaseClass<::Aspect_XRAnalogActionData>
+{
+
+#ifdef Include_Aspect_XRAnalogActionData_h
+public:
+	Include_Aspect_XRAnalogActionData_h
+#endif
+
+public:
+	Aspect_XRAnalogActionData(::Aspect_XRAnalogActionData* nativeInstance)
+		: BaseClass<::Aspect_XRAnalogActionData>( nativeInstance, true )
+	{}
+
+	Aspect_XRAnalogActionData(::Aspect_XRAnalogActionData& nativeInstance)
+		: BaseClass<::Aspect_XRAnalogActionData>( &nativeInstance, false )
+	{}
+
+	property ::Aspect_XRAnalogActionData* NativeInstance
+	{
+		::Aspect_XRAnalogActionData* get()
+		{
+			return static_cast<::Aspect_XRAnalogActionData*>(_NativeInstance);
+		}
+	}
+
+public:
+	Aspect_XRAnalogActionData();
+	Aspect_XRAnalogActionData(Macad::Occt::Aspect_XRAnalogActionData^ parameter1);
+	bool IsChanged();
+}; // class Aspect_XRAnalogActionData
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRDigitalActionData
+//---------------------------------------------------------------------
+public ref class Aspect_XRDigitalActionData sealed : public BaseClass<::Aspect_XRDigitalActionData>
+{
+
+#ifdef Include_Aspect_XRDigitalActionData_h
+public:
+	Include_Aspect_XRDigitalActionData_h
+#endif
+
+public:
+	Aspect_XRDigitalActionData(::Aspect_XRDigitalActionData* nativeInstance)
+		: BaseClass<::Aspect_XRDigitalActionData>( nativeInstance, true )
+	{}
+
+	Aspect_XRDigitalActionData(::Aspect_XRDigitalActionData& nativeInstance)
+		: BaseClass<::Aspect_XRDigitalActionData>( &nativeInstance, false )
+	{}
+
+	property ::Aspect_XRDigitalActionData* NativeInstance
+	{
+		::Aspect_XRDigitalActionData* get()
+		{
+			return static_cast<::Aspect_XRDigitalActionData*>(_NativeInstance);
+		}
+	}
+
+public:
+	Aspect_XRDigitalActionData();
+	Aspect_XRDigitalActionData(Macad::Occt::Aspect_XRDigitalActionData^ parameter1);
+}; // class Aspect_XRDigitalActionData
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRHapticActionData
+//---------------------------------------------------------------------
+public ref class Aspect_XRHapticActionData sealed : public BaseClass<::Aspect_XRHapticActionData>
+{
+
+#ifdef Include_Aspect_XRHapticActionData_h
+public:
+	Include_Aspect_XRHapticActionData_h
+#endif
+
+public:
+	Aspect_XRHapticActionData(::Aspect_XRHapticActionData* nativeInstance)
+		: BaseClass<::Aspect_XRHapticActionData>( nativeInstance, true )
+	{}
+
+	Aspect_XRHapticActionData(::Aspect_XRHapticActionData& nativeInstance)
+		: BaseClass<::Aspect_XRHapticActionData>( &nativeInstance, false )
+	{}
+
+	property ::Aspect_XRHapticActionData* NativeInstance
+	{
+		::Aspect_XRHapticActionData* get()
+		{
+			return static_cast<::Aspect_XRHapticActionData*>(_NativeInstance);
+		}
+	}
+
+public:
+	Aspect_XRHapticActionData();
+	Aspect_XRHapticActionData(Macad::Occt::Aspect_XRHapticActionData^ parameter1);
+	bool IsValid();
+}; // class Aspect_XRHapticActionData
+
+//---------------------------------------------------------------------
+//  Class  Aspect_TrackedDevicePose
+//---------------------------------------------------------------------
+public ref class Aspect_TrackedDevicePose sealed : public BaseClass<::Aspect_TrackedDevicePose>
+{
+
+#ifdef Include_Aspect_TrackedDevicePose_h
+public:
+	Include_Aspect_TrackedDevicePose_h
+#endif
+
+public:
+	Aspect_TrackedDevicePose(::Aspect_TrackedDevicePose* nativeInstance)
+		: BaseClass<::Aspect_TrackedDevicePose>( nativeInstance, true )
+	{}
+
+	Aspect_TrackedDevicePose(::Aspect_TrackedDevicePose& nativeInstance)
+		: BaseClass<::Aspect_TrackedDevicePose>( &nativeInstance, false )
+	{}
+
+	property ::Aspect_TrackedDevicePose* NativeInstance
+	{
+		::Aspect_TrackedDevicePose* get()
+		{
+			return static_cast<::Aspect_TrackedDevicePose*>(_NativeInstance);
+		}
+	}
+
+public:
+	Aspect_TrackedDevicePose();
+	Aspect_TrackedDevicePose(Macad::Occt::Aspect_TrackedDevicePose^ parameter1);
+}; // class Aspect_TrackedDevicePose
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRPoseActionData
+//---------------------------------------------------------------------
+public ref class Aspect_XRPoseActionData sealed : public BaseClass<::Aspect_XRPoseActionData>
+{
+
+#ifdef Include_Aspect_XRPoseActionData_h
+public:
+	Include_Aspect_XRPoseActionData_h
+#endif
+
+public:
+	Aspect_XRPoseActionData(::Aspect_XRPoseActionData* nativeInstance)
+		: BaseClass<::Aspect_XRPoseActionData>( nativeInstance, true )
+	{}
+
+	Aspect_XRPoseActionData(::Aspect_XRPoseActionData& nativeInstance)
+		: BaseClass<::Aspect_XRPoseActionData>( &nativeInstance, false )
+	{}
+
+	property ::Aspect_XRPoseActionData* NativeInstance
+	{
+		::Aspect_XRPoseActionData* get()
+		{
+			return static_cast<::Aspect_XRPoseActionData*>(_NativeInstance);
+		}
+	}
+
+public:
+	Aspect_XRPoseActionData();
+	Aspect_XRPoseActionData(Macad::Occt::Aspect_XRPoseActionData^ parameter1);
+}; // class Aspect_XRPoseActionData
 
 //---------------------------------------------------------------------
 //  Class  Aspect_ScrollDelta
@@ -742,6 +1160,8 @@ public:
 	Aspect_Background(Macad::Occt::Aspect_Background^ parameter1);
 	void SetColor(Macad::Occt::Quantity_Color^ AColor);
 	Macad::Occt::Quantity_Color^ Color();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Aspect_Background
 
 //---------------------------------------------------------------------
@@ -802,6 +1222,8 @@ public:
 	void Erase();
 	bool IsDisplayed();
 	void Init();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Aspect_Grid
 
 //---------------------------------------------------------------------
@@ -852,6 +1274,8 @@ public:
 	double RadiusStep();
 	int DivisionNumber();
 	void Init();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Aspect_CircularGrid
 
 //---------------------------------------------------------------------
@@ -1010,6 +1434,8 @@ public:
 	int Next();
 	bool Next(int% theId);
 	int Upper();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Aspect_GenId
 
 //---------------------------------------------------------------------
@@ -1049,6 +1475,8 @@ public:
 	void SetColors(Macad::Occt::Quantity_Color^ AColor1, Macad::Occt::Quantity_Color^ AColor2);
 	void Colors(Macad::Occt::Quantity_Color^ AColor1, Macad::Occt::Quantity_Color^ AColor2);
 	Macad::Occt::Aspect_GradientFillMethod BgGradientFillMethod();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Aspect_GradientBackground
 
 //---------------------------------------------------------------------
@@ -1151,6 +1579,8 @@ public:
 	System::IntPtr NativeFBConfig();
 	void SetTitle(Macad::Occt::TCollection_AsciiString^ theTitle);
 	void InvalidateContent(Macad::Occt::Aspect_DisplayConnection^ theDisp);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Aspect_Window
 
 //---------------------------------------------------------------------
@@ -1205,6 +1635,232 @@ public:
 }; // class Aspect_NeutralWindow
 
 //---------------------------------------------------------------------
+//  Class  Aspect_XRAction
+//---------------------------------------------------------------------
+public ref class Aspect_XRAction sealed : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_Aspect_XRAction_h
+public:
+	Include_Aspect_XRAction_h
+#endif
+
+public:
+	Aspect_XRAction(::Aspect_XRAction* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	Aspect_XRAction(::Aspect_XRAction& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	property ::Aspect_XRAction* NativeInstance
+	{
+		::Aspect_XRAction* get()
+		{
+			return static_cast<::Aspect_XRAction*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Aspect_XRAction^ CreateDowncasted(::Aspect_XRAction* instance);
+
+public:
+	Aspect_XRAction(Macad::Occt::TCollection_AsciiString^ theId, Macad::Occt::Aspect_XRActionType theType);
+	Aspect_XRAction(Macad::Occt::Aspect_XRAction^ parameter1);
+	Macad::Occt::TCollection_AsciiString^ Id();
+	Macad::Occt::Aspect_XRActionType Type();
+	bool IsValid();
+	/* Method skipped due to unknown mapping: long long unsigned int RawHandle() */
+	/* Method skipped due to unknown mapping: void SetRawHandle(long long unsigned int theHande, ) */
+}; // class Aspect_XRAction
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRActionSet
+//---------------------------------------------------------------------
+public ref class Aspect_XRActionSet sealed : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_Aspect_XRActionSet_h
+public:
+	Include_Aspect_XRActionSet_h
+#endif
+
+public:
+	Aspect_XRActionSet(::Aspect_XRActionSet* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	Aspect_XRActionSet(::Aspect_XRActionSet& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	property ::Aspect_XRActionSet* NativeInstance
+	{
+		::Aspect_XRActionSet* get()
+		{
+			return static_cast<::Aspect_XRActionSet*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Aspect_XRActionSet^ CreateDowncasted(::Aspect_XRActionSet* instance);
+
+public:
+	Aspect_XRActionSet(Macad::Occt::TCollection_AsciiString^ theId);
+	Aspect_XRActionSet(Macad::Occt::Aspect_XRActionSet^ parameter1);
+	Macad::Occt::TCollection_AsciiString^ Id();
+	/* Method skipped due to unknown mapping: long long unsigned int RawHandle() */
+	/* Method skipped due to unknown mapping: void SetRawHandle(long long unsigned int theHande, ) */
+	void AddAction(Macad::Occt::Aspect_XRAction^ theAction);
+	Macad::Occt::Aspect_XRActionMap^ Actions();
+}; // class Aspect_XRActionSet
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRSession
+//---------------------------------------------------------------------
+public ref class Aspect_XRSession : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_Aspect_XRSession_h
+public:
+	Include_Aspect_XRSession_h
+#endif
+
+protected:
+	Aspect_XRSession(InitMode init)
+		: Macad::Occt::Standard_Transient( init )
+	{}
+
+public:
+	Aspect_XRSession(::Aspect_XRSession* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	Aspect_XRSession(::Aspect_XRSession& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	property ::Aspect_XRSession* NativeInstance
+	{
+		::Aspect_XRSession* get()
+		{
+			return static_cast<::Aspect_XRSession*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Aspect_XRSession^ CreateDowncasted(::Aspect_XRSession* instance);
+
+public:
+	//---------------------------------------------------------------------
+	//  Enum  TrackingUniverseOrigin
+	//---------------------------------------------------------------------
+	enum class TrackingUniverseOrigin
+	{
+		TrackingUniverseOrigin_Seated = 0,
+		TrackingUniverseOrigin_Standing = 1
+	}; // enum  class TrackingUniverseOrigin
+
+	//---------------------------------------------------------------------
+	//  Enum  InfoString
+	//---------------------------------------------------------------------
+	enum class InfoString
+	{
+		InfoString_Vendor = 0,
+		InfoString_Device = 1,
+		InfoString_Tracker = 2,
+		InfoString_SerialNumber = 3
+	}; // enum  class InfoString
+
+	Aspect_XRSession(Macad::Occt::Aspect_XRSession^ parameter1);
+	bool IsOpen();
+	bool Open();
+	void Close();
+	bool WaitPoses();
+	/* Method skipped due to unknown mapping: NCollection_Vec2<int> RecommendedViewport() */
+	/* Method skipped due to unknown mapping: NCollection_Mat4<double> EyeToHeadTransform(Aspect_Eye theEye, ) */
+	/* Method skipped due to unknown mapping: NCollection_Mat4<double> HeadToEyeTransform(Aspect_Eye theEye, ) */
+	/* Method skipped due to unknown mapping: NCollection_Mat4<double> ProjectionMatrix(Aspect_Eye theEye, double theZNear, double theZFar, ) */
+	bool HasProjectionFrustums();
+	void ProcessEvents();
+	bool SubmitEye(System::IntPtr theTexture, Macad::Occt::Aspect_GraphicsLibrary theGraphicsLib, Macad::Occt::Aspect_ColorSpace theColorSpace, Macad::Occt::Aspect_Eye theEye);
+	double UnitFactor();
+	void SetUnitFactor(double theFactor);
+	double Aspect();
+	double FieldOfView();
+	double IOD();
+	float DisplayFrequency();
+	/* Method skipped due to unknown mapping: Aspect_FrustumLRBT<double> ProjectionFrustum(Aspect_Eye theEye, ) */
+	Macad::Occt::Trsf HeadPose();
+	Macad::Occt::Trsf LeftHandPose();
+	Macad::Occt::Trsf RightHandPose();
+	Macad::Occt::Aspect_TrackedDevicePoseArray^ TrackedPoses();
+	bool HasTrackedPose(int theDevice);
+	int NamedTrackedDevice(Macad::Occt::Aspect_XRTrackedDeviceRole theDevice);
+	Macad::Occt::Graphic3d_ArrayOfTriangles^ LoadRenderModel(int theDevice, Macad::Occt::Image_Texture^ theTexture);
+	Macad::Occt::Graphic3d_ArrayOfTriangles^ LoadRenderModel(int theDevice, bool theToApplyUnitFactor, Macad::Occt::Image_Texture^ theTexture);
+	Macad::Occt::Aspect_XRDigitalActionData^ GetDigitalActionData(Macad::Occt::Aspect_XRAction^ theAction);
+	Macad::Occt::Aspect_XRAnalogActionData^ GetAnalogActionData(Macad::Occt::Aspect_XRAction^ theAction);
+	Macad::Occt::Aspect_XRPoseActionData^ GetPoseActionDataForNextFrame(Macad::Occt::Aspect_XRAction^ theAction);
+	void TriggerHapticVibrationAction(Macad::Occt::Aspect_XRAction^ theAction, Macad::Occt::Aspect_XRHapticActionData^ theParams);
+	void AbortHapticVibrationAction(Macad::Occt::Aspect_XRAction^ theAction);
+	Macad::Occt::Aspect_XRSession::TrackingUniverseOrigin TrackingOrigin();
+	void SetTrackingOrigin(Macad::Occt::Aspect_XRSession::TrackingUniverseOrigin theOrigin);
+	Macad::Occt::Aspect_XRAction^ GenericAction(Macad::Occt::Aspect_XRTrackedDeviceRole theDevice, Macad::Occt::Aspect_XRGenericAction theAction);
+	Macad::Occt::TCollection_AsciiString^ GetString(Macad::Occt::Aspect_XRSession::InfoString theInfo);
+}; // class Aspect_XRSession
+
+//---------------------------------------------------------------------
+//  Class  Aspect_OpenVRSession
+//---------------------------------------------------------------------
+public ref class Aspect_OpenVRSession sealed : public Macad::Occt::Aspect_XRSession
+{
+
+#ifdef Include_Aspect_OpenVRSession_h
+public:
+	Include_Aspect_OpenVRSession_h
+#endif
+
+public:
+	Aspect_OpenVRSession(::Aspect_OpenVRSession* nativeInstance)
+		: Macad::Occt::Aspect_XRSession( nativeInstance )
+	{}
+
+	Aspect_OpenVRSession(::Aspect_OpenVRSession& nativeInstance)
+		: Macad::Occt::Aspect_XRSession( nativeInstance )
+	{}
+
+	property ::Aspect_OpenVRSession* NativeInstance
+	{
+		::Aspect_OpenVRSession* get()
+		{
+			return static_cast<::Aspect_OpenVRSession*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Aspect_OpenVRSession^ CreateDowncasted(::Aspect_OpenVRSession* instance);
+
+public:
+	Aspect_OpenVRSession();
+	Aspect_OpenVRSession(Macad::Occt::Aspect_OpenVRSession^ parameter1);
+	static bool IsHmdPresent();
+	bool IsOpen();
+	bool Open();
+	void Close();
+	bool WaitPoses();
+	/* Method skipped due to unknown mapping: NCollection_Vec2<int> RecommendedViewport() */
+	/* Method skipped due to unknown mapping: NCollection_Mat4<double> EyeToHeadTransform(Aspect_Eye theEye, ) */
+	/* Method skipped due to unknown mapping: NCollection_Mat4<double> ProjectionMatrix(Aspect_Eye theEye, double theZNear, double theZFar, ) */
+	bool HasProjectionFrustums();
+	void ProcessEvents();
+	bool SubmitEye(System::IntPtr theTexture, Macad::Occt::Aspect_GraphicsLibrary theGraphicsLib, Macad::Occt::Aspect_ColorSpace theColorSpace, Macad::Occt::Aspect_Eye theEye);
+	/* Method skipped due to unknown mapping: TCollection_AsciiString GetString(InfoString theInfo, ) */
+	int NamedTrackedDevice(Macad::Occt::Aspect_XRTrackedDeviceRole theDevice);
+	Macad::Occt::Aspect_XRDigitalActionData^ GetDigitalActionData(Macad::Occt::Aspect_XRAction^ theAction);
+	Macad::Occt::Aspect_XRAnalogActionData^ GetAnalogActionData(Macad::Occt::Aspect_XRAction^ theAction);
+	Macad::Occt::Aspect_XRPoseActionData^ GetPoseActionDataForNextFrame(Macad::Occt::Aspect_XRAction^ theAction);
+	/* Method skipped due to unknown mapping: void SetTrackingOrigin(TrackingUniverseOrigin theOrigin, ) */
+}; // class Aspect_OpenVRSession
+
+//---------------------------------------------------------------------
 //  Class  Aspect_RectangularGrid
 //---------------------------------------------------------------------
 public ref class Aspect_RectangularGrid : public Macad::Occt::Aspect_Grid
@@ -1257,6 +1913,8 @@ public:
 	double FirstAngle();
 	double SecondAngle();
 	void Init();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Aspect_RectangularGrid
 
 //---------------------------------------------------------------------
@@ -1342,6 +2000,7 @@ public:
 	double TimeUp(unsigned int theKey);
 	bool IsFreeKey(unsigned int theKey);
 	bool IsKeyDown(unsigned int theKey);
+	/* Method skipped due to unknown mapping: Standard_Mutex Mutex() */
 	void Reset();
 	void KeyDown(unsigned int theKey, double theTime, double thePressure);
 	void KeyDown(unsigned int theKey, double theTime);

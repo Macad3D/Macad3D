@@ -129,6 +129,8 @@ public:
 	Macad::Occt::Geom_Geometry^ Translated(Macad::Occt::Vec V);
 	Macad::Occt::Geom_Geometry^ Translated(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_Geometry
 
 //---------------------------------------------------------------------
@@ -403,6 +405,8 @@ public:
 	void D3(double U, Macad::Occt::Pnt% P, Macad::Occt::Vec% V1, Macad::Occt::Vec% V2, Macad::Occt::Vec% V3);
 	Macad::Occt::Vec DN(double U, int N);
 	Macad::Occt::Pnt Value(double U);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_Curve
 
 //---------------------------------------------------------------------
@@ -445,6 +449,8 @@ public:
 	Geom_BoundedCurve();
 	Macad::Occt::Pnt EndPoint();
 	Macad::Occt::Pnt StartPoint();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_BoundedCurve
 
 //---------------------------------------------------------------------
@@ -519,6 +525,8 @@ public:
 	static int MaxDegree();
 	void Resolution(double Tolerance3D, double% UTolerance);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_BezierCurve
 
 //---------------------------------------------------------------------
@@ -585,6 +593,8 @@ public:
 	void D3(double U, double V, Macad::Occt::Pnt% P, Macad::Occt::Vec% D1U, Macad::Occt::Vec% D1V, Macad::Occt::Vec% D2U, Macad::Occt::Vec% D2V, Macad::Occt::Vec% D2UV, Macad::Occt::Vec% D3U, Macad::Occt::Vec% D3V, Macad::Occt::Vec% D3UUV, Macad::Occt::Vec% D3UVV);
 	Macad::Occt::Vec DN(double U, double V, int Nu, int Nv);
 	Macad::Occt::Pnt Value(double U, double V);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_Surface
 
 //---------------------------------------------------------------------
@@ -718,6 +728,8 @@ public:
 	static int MaxDegree();
 	void Resolution(double Tolerance3D, double% UTolerance, double% VTolerance);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_BezierSurface
 
 //---------------------------------------------------------------------
@@ -834,6 +846,8 @@ public:
 	void Resolution(double Tolerance3D, double% UTolerance);
 	Macad::Occt::Geom_Geometry^ Copy();
 	bool IsEqual(Macad::Occt::Geom_BSplineCurve^ theOther, double thePreci);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_BSplineCurve
 
 //---------------------------------------------------------------------
@@ -994,6 +1008,8 @@ public:
 	static int MaxDegree();
 	void Resolution(double Tolerance3D, double% UTolerance, double% VTolerance);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_BSplineSurface
 
 //---------------------------------------------------------------------
@@ -1129,19 +1145,21 @@ public:
 public:
 	Geom_Conic(Macad::Occt::Geom_Conic^ parameter1);
 	Geom_Conic();
-	void SetAxis(Macad::Occt::Ax1 A1);
-	void SetLocation(Macad::Occt::Pnt P);
-	void SetPosition(Macad::Occt::Ax2 A2);
+	void SetAxis(Macad::Occt::Ax1 theA1);
+	void SetLocation(Macad::Occt::Pnt theP);
+	void SetPosition(Macad::Occt::Ax2 theA2);
 	Macad::Occt::Ax1 Axis();
-	double Eccentricity();
 	Macad::Occt::Pnt Location();
 	Macad::Occt::Ax2 Position();
+	double Eccentricity();
 	Macad::Occt::Ax1 XAxis();
 	Macad::Occt::Ax1 YAxis();
 	void Reverse();
 	double ReversedParameter(double U);
 	Macad::Occt::GeomAbs_Shape Continuity();
 	bool IsCN(int N);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_Conic
 
 //---------------------------------------------------------------------
@@ -1195,6 +1213,8 @@ public:
 	Macad::Occt::Vec DN(double U, int N);
 	void Transform(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_Circle
 
 //---------------------------------------------------------------------
@@ -1235,9 +1255,9 @@ public:
 public:
 	Geom_ElementarySurface(Macad::Occt::Geom_ElementarySurface^ parameter1);
 	Geom_ElementarySurface();
-	void SetAxis(Macad::Occt::Ax1 A1);
-	void SetLocation(Macad::Occt::Pnt Loc);
-	void SetPosition(Macad::Occt::Ax3 A3);
+	void SetAxis(Macad::Occt::Ax1 theA1);
+	void SetLocation(Macad::Occt::Pnt theLoc);
+	void SetPosition(Macad::Occt::Ax3 theAx3);
 	Macad::Occt::Ax1 Axis();
 	Macad::Occt::Pnt Location();
 	Macad::Occt::Ax3 Position();
@@ -1248,6 +1268,8 @@ public:
 	Macad::Occt::GeomAbs_Shape Continuity();
 	bool IsCNu(int N);
 	bool IsCNv(int N);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_ElementarySurface
 
 //---------------------------------------------------------------------
@@ -1311,6 +1333,8 @@ public:
 	Macad::Occt::Vec DN(double U, double V, int Nu, int Nv);
 	void Transform(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_ConicalSurface
 
 //---------------------------------------------------------------------
@@ -1370,6 +1394,8 @@ public:
 	Macad::Occt::Vec DN(double U, double V, int Nu, int Nv);
 	void Transform(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_CylindricalSurface
 
 //---------------------------------------------------------------------
@@ -1538,6 +1564,8 @@ public:
 	Macad::Occt::Vec DN(double U, int N);
 	void Transform(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_Ellipse
 
 //---------------------------------------------------------------------
@@ -1674,6 +1702,8 @@ public:
 	Macad::Occt::Vec DN(double U, int N);
 	void Transform(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_Hyperbola
 
 //---------------------------------------------------------------------
@@ -1734,6 +1764,8 @@ public:
 	double TransformedParameter(double U, Macad::Occt::Trsf T);
 	double ParametricTransformation(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_Line
 
 //---------------------------------------------------------------------
@@ -1796,6 +1828,8 @@ public:
 	double ParametricTransformation(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
 	Macad::Occt::GeomAbs_Shape GetBasisCurveContinuity();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_OffsetCurve
 
 //---------------------------------------------------------------------
@@ -1837,6 +1871,8 @@ public:
 	double Tolerance();
 	bool UOscSurf(double U, double V, bool% t, Macad::Occt::Geom_BSplineSurface^ L);
 	bool VOscSurf(double U, double V, bool% t, Macad::Occt::Geom_BSplineSurface^ L);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_OsculatingSurface
 
 //---------------------------------------------------------------------
@@ -1908,6 +1944,8 @@ public:
 	bool UOsculatingSurface(double U, double V, bool% IsOpposite, Macad::Occt::Geom_BSplineSurface^ UOsculSurf);
 	bool VOsculatingSurface(double U, double V, bool% IsOpposite, Macad::Occt::Geom_BSplineSurface^ VOsculSurf);
 	Macad::Occt::GeomAbs_Shape GetBasisSurfContinuity();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_OffsetSurface
 
 //---------------------------------------------------------------------
@@ -1967,6 +2005,8 @@ public:
 	double TransformedParameter(double U, Macad::Occt::Trsf T);
 	double ParametricTransformation(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_Parabola
 
 //---------------------------------------------------------------------
@@ -2028,6 +2068,8 @@ public:
 	Macad::Occt::Vec DN(double U, double V, int Nu, int Nv);
 	void Transform(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_Plane
 
 //---------------------------------------------------------------------
@@ -2098,6 +2140,8 @@ public:
 	void TransformParameters(double% U, double% V, Macad::Occt::Trsf T);
 	Macad::Occt::gp_GTrsf2d^ ParametricTransformation(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_RectangularTrimmedSurface
 
 //---------------------------------------------------------------------
@@ -2157,6 +2201,8 @@ public:
 	Macad::Occt::Vec DN(double U, double V, int Nu, int Nv);
 	void Transform(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_SphericalSurface
 
 //---------------------------------------------------------------------
@@ -2200,6 +2246,8 @@ public:
 	Macad::Occt::GeomAbs_Shape Continuity();
 	Macad::Occt::Dir Direction();
 	Macad::Occt::Geom_Curve^ BasisCurve();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_SweptSurface
 
 //---------------------------------------------------------------------
@@ -2259,6 +2307,8 @@ public:
 	void TransformParameters(double% U, double% V, Macad::Occt::Trsf T);
 	Macad::Occt::gp_GTrsf2d^ ParametricTransformation(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_SurfaceOfLinearExtrusion
 
 //---------------------------------------------------------------------
@@ -2323,6 +2373,8 @@ public:
 	Macad::Occt::Vec DN(double U, double V, int Nu, int Nv);
 	void Transform(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_SurfaceOfRevolution
 
 //---------------------------------------------------------------------
@@ -2384,6 +2436,8 @@ public:
 	Macad::Occt::Vec DN(double U, double V, int Nu, int Nv);
 	void Transform(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_ToroidalSurface
 
 //---------------------------------------------------------------------
@@ -2444,6 +2498,8 @@ public:
 	void PreMultiply(Macad::Occt::Geom_Transformation^ Other);
 	void Transforms(double% theX, double% theY, double% theZ);
 	Macad::Occt::Geom_Transformation^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_Transformation
 
 //---------------------------------------------------------------------
@@ -2505,6 +2561,8 @@ public:
 	double TransformedParameter(double U, Macad::Occt::Trsf T);
 	double ParametricTransformation(Macad::Occt::Trsf T);
 	Macad::Occt::Geom_Geometry^ Copy();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_TrimmedCurve
 
 //---------------------------------------------------------------------

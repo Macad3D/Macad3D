@@ -80,7 +80,6 @@
 #include <PrsMgr_PresentationManager3d.hxx>
 
 #include <Prs3d_Presentation.hxx>
-#include <Prs3d_Projector.hxx>
 #include <Prs3d_LineAspect.hxx>
 #include <Prs3d_Drawer.hxx>
 #include <Prs3d_DatumAspect.hxx>

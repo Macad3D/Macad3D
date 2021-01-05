@@ -11,6 +11,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "TopLoc.h"
 #include "TopAbs.h"
 #include "BRep.h"
+#include "TCollection.h"
 #include "Message.h"
 
 
@@ -1178,6 +1179,44 @@ Macad::Occt::TopoDS_Compound^ Macad::Occt::TopoDS::Compound(Macad::Occt::TopoDS_
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Compound(_result);
 }
 
+
+
+
+//---------------------------------------------------------------------
+//  Class  TopoDS_AlertAttribute
+//---------------------------------------------------------------------
+
+Macad::Occt::TopoDS_AlertAttribute::TopoDS_AlertAttribute(Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::TCollection_AsciiString^ theName)
+	: Macad::Occt::Message_AttributeStream(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::TopoDS_AlertAttribute(*(::TopoDS_Shape*)theShape->NativeInstance, *(::TCollection_AsciiString*)theName->NativeInstance);
+}
+
+Macad::Occt::TopoDS_AlertAttribute::TopoDS_AlertAttribute(Macad::Occt::TopoDS_Shape^ theShape)
+	: Macad::Occt::Message_AttributeStream(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::TopoDS_AlertAttribute(*(::TopoDS_Shape*)theShape->NativeInstance, ::TCollection_AsciiString());
+}
+
+Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_AlertAttribute::GetShape()
+{
+	::TopoDS_Shape* _result = new ::TopoDS_Shape();
+	*_result =  (::TopoDS_Shape)((::TopoDS_AlertAttribute*)_NativeInstance)->GetShape();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
+}
+
+void Macad::Occt::TopoDS_AlertAttribute::Send(Macad::Occt::Message_Messenger^ theMessenger, Macad::Occt::TopoDS_Shape^ theShape)
+{
+	Handle(::Message_Messenger) h_theMessenger = theMessenger->NativeInstance;
+	::TopoDS_AlertAttribute::Send(h_theMessenger, *(::TopoDS_Shape*)theShape->NativeInstance);
+	theMessenger->NativeInstance = h_theMessenger.get();
+}
+
+
+Macad::Occt::TopoDS_AlertAttribute^ Macad::Occt::TopoDS_AlertAttribute::CreateDowncasted(::TopoDS_AlertAttribute* instance)
+{
+	return gcnew Macad::Occt::TopoDS_AlertAttribute( instance );
+}
 
 
 

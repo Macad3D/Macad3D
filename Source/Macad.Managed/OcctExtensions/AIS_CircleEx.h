@@ -20,14 +20,7 @@ public:
 	//! and the type of sensitivity theIsFilledCircleSens.
 	Standard_EXPORT AIS_CircleEx(const Handle(Geom_Circle)& theCircle, const Standard_Real theUStart, const Standard_Real theUEnd, const Standard_Boolean theIsFilledCircleSens = Standard_False);
 	
-	//! computes the presentation according to a point of view
-	//! given by <aProjector>.
-	//! To be Used when the associated degenerated Presentations
-	//! have been transformed by <aTrsf> which is not a Pure
-	//! Translation. The HLR Prs can't be deducted automatically
-	//! WARNING :<aTrsf> must be applied
-	//! to the object to display before computation  !!!
-	Standard_EXPORT void Compute(const Handle(Prs3d_Projector)& aProjector, const Handle(Geom_Transformation)& aTrsf, const Handle(Prs3d_Presentation)& aPresentation) override;
+	Standard_EXPORT void computeHLR(const Handle(Graphic3d_Camera)& theProjector, const Handle(TopLoc_Datum3D)& theTrsf, const Handle(Prs3d_Presentation)& aPresentation) override;
 
 	//! Returns index 6 by default.
 	inline virtual Standard_Integer Signature() const override { return 6; }
@@ -91,8 +84,6 @@ private:
 
 
 	void Compute(const Handle(PrsMgr_PresentationManager3d)& aPresentationManager, const Handle(Prs3d_Presentation)& aPresentation, const Standard_Integer aMode = 0) override;
-
-	void Compute(const Handle(Prs3d_Projector)& aProjector, const Handle(Prs3d_Presentation)& aPresentation) override;
 
 	void ComputeSelection(const Handle(SelectMgr_Selection)& aSelection, const Standard_Integer aMode) override;
 

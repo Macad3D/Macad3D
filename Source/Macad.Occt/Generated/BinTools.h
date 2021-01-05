@@ -49,22 +49,32 @@ public:
 	Macad::Occt::BinTools_LocationSet^ Locations();
 	Macad::Occt::BinTools_LocationSet^ ChangeLocations();
 	int NbShapes();
-	/* Method skipped due to unknown mapping: void Write(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void Read(istream IS, ) */
+	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange theRange, ) */
 	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape S, ostream OS, ) */
-	/* Method skipped due to unknown mapping: void WriteGeometry(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void ReadGeometry(istream IS, ) */
+	/* Method skipped due to unknown mapping: void WriteGeometry(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void WriteGeometry(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void ReadGeometry(istream IS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void ReadGeometry(istream IS, Message_ProgressRange theRange, ) */
 	/* Method skipped due to unknown mapping: void Read(TopoDS_Shape S, istream IS, Standard_Integer NbShapes, ) */
 	/* Method skipped due to unknown mapping: void WriteGeometry(TopoDS_Shape S, ostream OS, ) */
 	/* Method skipped due to unknown mapping: void ReadGeometry(TopAbs_ShapeEnum T, istream IS, TopoDS_Shape S, ) */
 	void AddGeometry(Macad::Occt::TopoDS_Shape^ S);
 	void AddShapes(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2);
-	/* Method skipped due to unknown mapping: void ReadPolygon3D(istream IS, ) */
-	/* Method skipped due to unknown mapping: void WritePolygon3D(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void ReadTriangulation(istream IS, ) */
-	/* Method skipped due to unknown mapping: void WriteTriangulation(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void ReadPolygonOnTriangulation(istream IS, ) */
-	/* Method skipped due to unknown mapping: void WritePolygonOnTriangulation(ostream OS, ) */
+	/* Method skipped due to unknown mapping: void ReadPolygon3D(istream IS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void ReadPolygon3D(istream IS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void WritePolygon3D(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void WritePolygon3D(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void ReadTriangulation(istream IS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void ReadTriangulation(istream IS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void WriteTriangulation(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void WriteTriangulation(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void ReadPolygonOnTriangulation(istream IS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void ReadPolygonOnTriangulation(istream IS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void WritePolygonOnTriangulation(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void WritePolygonOnTriangulation(ostream OS, Message_ProgressRange theRange, ) */
 }; // class BinTools_ShapeSet
 
 //---------------------------------------------------------------------
@@ -103,8 +113,10 @@ public:
 	Macad::Occt::Geom2d_Curve^ Curve2d(int I);
 	int Index(Macad::Occt::Geom2d_Curve^ C);
 	/* Method skipped due to unknown mapping: void Dump(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void Write(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void Read(istream IS, ) */
+	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange theRange, ) */
 	/* Method skipped due to unknown mapping: void WriteCurve2d(Geom2d_Curve C, ostream OS, ) */
 	/* Method skipped due to unknown mapping: istream ReadCurve2d(istream IS, Geom2d_Curve C, ) */
 }; // class BinTools_Curve2dSet
@@ -144,8 +156,10 @@ public:
 	int Add(Macad::Occt::Geom_Curve^ C);
 	Macad::Occt::Geom_Curve^ Curve(int I);
 	int Index(Macad::Occt::Geom_Curve^ C);
-	/* Method skipped due to unknown mapping: void Write(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void Read(istream IS, ) */
+	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange theRange, ) */
 	/* Method skipped due to unknown mapping: void WriteCurve(Geom_Curve C, ostream OS, ) */
 	/* Method skipped due to unknown mapping: istream ReadCurve(istream IS, Geom_Curve C, ) */
 }; // class BinTools_CurveSet
@@ -185,8 +199,10 @@ public:
 	int Add(Macad::Occt::Geom_Surface^ S);
 	Macad::Occt::Geom_Surface^ Surface(int I);
 	int Index(Macad::Occt::Geom_Surface^ S);
-	/* Method skipped due to unknown mapping: void Write(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void Read(istream IS, ) */
+	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange therange, ) */
+	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange therange, ) */
 	/* Method skipped due to unknown mapping: void WriteSurface(Geom_Surface S, ostream OS, ) */
 	/* Method skipped due to unknown mapping: istream ReadSurface(istream IS, Geom_Surface S, ) */
 }; // class BinTools_SurfaceSet
@@ -263,16 +279,22 @@ public:
 	BinTools();
 	BinTools(Macad::Occt::BinTools^ parameter1);
 	/* Method skipped due to unknown mapping: ostream PutReal(ostream OS, Standard_Real theValue, ) */
+	/* Method skipped due to unknown mapping: ostream PutShortReal(ostream OS, Standard_ShortReal theValue, ) */
 	/* Method skipped due to unknown mapping: ostream PutInteger(ostream OS, Standard_Integer theValue, ) */
 	/* Method skipped due to unknown mapping: ostream PutBool(ostream OS, Standard_Boolean theValue, ) */
 	/* Method skipped due to unknown mapping: ostream PutExtChar(ostream OS, Standard_ExtCharacter theValue, ) */
 	/* Method skipped due to unknown mapping: istream GetReal(istream IS, Standard_Real theValue, ) */
+	/* Method skipped due to unknown mapping: istream GetShortReal(istream IS, Standard_ShortReal theValue, ) */
 	/* Method skipped due to unknown mapping: istream GetInteger(istream IS, Standard_Integer theValue, ) */
 	/* Method skipped due to unknown mapping: istream GetBool(istream IS, Standard_Boolean theValue, ) */
 	/* Method skipped due to unknown mapping: istream GetExtChar(istream IS, Standard_ExtCharacter theValue, ) */
-	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape theShape, ostream theStream, ) */
-	/* Method skipped due to unknown mapping: void Read(TopoDS_Shape theShape, istream theStream, ) */
+	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape theShape, ostream theStream, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape theShape, ostream theStream, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void Read(TopoDS_Shape theShape, istream theStream, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void Read(TopoDS_Shape theShape, istream theStream, Message_ProgressRange theRange, ) */
+	static bool Write(Macad::Occt::TopoDS_Shape^ theShape, System::String^ theFile, Macad::Occt::Message_ProgressRange^ theRange);
 	static bool Write(Macad::Occt::TopoDS_Shape^ theShape, System::String^ theFile);
+	static bool Read(Macad::Occt::TopoDS_Shape^ theShape, System::String^ theFile, Macad::Occt::Message_ProgressRange^ theRange);
 	static bool Read(Macad::Occt::TopoDS_Shape^ theShape, System::String^ theFile);
 }; // class BinTools
 

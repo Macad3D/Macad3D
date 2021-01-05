@@ -64,6 +64,8 @@ public:
 	void Transforms(Macad::Occt::XYZ% Coord);
 	void Transforms(double% X, double% Y, double% Z);
 	Macad::Occt::Trsf Trsf();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class gp_GTrsf
 
 //---------------------------------------------------------------------

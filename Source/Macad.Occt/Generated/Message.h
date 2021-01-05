@@ -9,6 +9,37 @@ namespace Macad
 namespace Occt
 {
 //---------------------------------------------------------------------
+//  Enum  Message_Gravity
+//---------------------------------------------------------------------
+public enum class Message_Gravity
+{
+	Message_Trace = 0,
+	Message_Info = 1,
+	Message_Warning = 2,
+	Message_Alarm = 3,
+	Message_Fail = 4
+}; // enum  class Message_Gravity
+
+//---------------------------------------------------------------------
+//  Enum  Message_MetricType
+//---------------------------------------------------------------------
+public enum class Message_MetricType
+{
+	Message_MetricType_None = 0,
+	Message_MetricType_ThreadCPUUserTime = 1,
+	Message_MetricType_ThreadCPUSystemTime = 2,
+	Message_MetricType_ProcessCPUUserTime = 3,
+	Message_MetricType_ProcessCPUSystemTime = 4,
+	Message_MetricType_MemPrivate = 5,
+	Message_MetricType_MemVirtual = 6,
+	Message_MetricType_MemWorkingSet = 7,
+	Message_MetricType_MemWorkingSetPeak = 8,
+	Message_MetricType_MemSwapUsage = 9,
+	Message_MetricType_MemSwapUsagePeak = 10,
+	Message_MetricType_MemHeapUsage = 11
+}; // enum  class Message_MetricType
+
+//---------------------------------------------------------------------
 //  Enum  Message_StatusType
 //---------------------------------------------------------------------
 public enum class Message_StatusType
@@ -156,173 +187,20 @@ public enum class Message_Status
 }; // enum  class Message_Status
 
 //---------------------------------------------------------------------
-//  Enum  Message_Gravity
+//  Enum  Message_ConsoleColor
 //---------------------------------------------------------------------
-public enum class Message_Gravity
+public enum class Message_ConsoleColor
 {
-	Message_Trace = 0,
-	Message_Info = 1,
-	Message_Warning = 2,
-	Message_Alarm = 3,
-	Message_Fail = 4
-}; // enum  class Message_Gravity
-
-//---------------------------------------------------------------------
-//  Class  Message_ArrayOfMsg
-//---------------------------------------------------------------------
-public ref class Message_ArrayOfMsg sealed : public BaseClass<::Message_ArrayOfMsg>
-{
-
-#ifdef Include_Message_ArrayOfMsg_h
-public:
-	Include_Message_ArrayOfMsg_h
-#endif
-
-public:
-	Message_ArrayOfMsg(::Message_ArrayOfMsg* nativeInstance)
-		: BaseClass<::Message_ArrayOfMsg>( nativeInstance, true )
-	{}
-
-	Message_ArrayOfMsg(::Message_ArrayOfMsg& nativeInstance)
-		: BaseClass<::Message_ArrayOfMsg>( &nativeInstance, false )
-	{}
-
-	property ::Message_ArrayOfMsg* NativeInstance
-	{
-		::Message_ArrayOfMsg* get()
-		{
-			return static_cast<::Message_ArrayOfMsg*>(_NativeInstance);
-		}
-	}
-
-public:
-	Message_ArrayOfMsg();
-	Message_ArrayOfMsg(int theLower, int theUpper);
-	Message_ArrayOfMsg(Macad::Occt::Message_ArrayOfMsg^ theOther);
-	/* Method skipped due to unknown mapping: void Message_ArrayOfMsg(NCollection_Handle<Message_Msg> theBegin, Standard_Integer theLower, Standard_Integer theUpper, ) */
-	/* Method skipped due to unknown mapping: void Init(NCollection_Handle<Message_Msg> theValue, ) */
-	int Size();
-	int Length();
-	bool IsEmpty();
-	int Lower();
-	int Upper();
-	bool IsDeletable();
-	bool IsAllocated();
-	Macad::Occt::Message_ArrayOfMsg^ Assign(Macad::Occt::Message_ArrayOfMsg^ theOther);
-	Macad::Occt::Message_ArrayOfMsg^ Move(Macad::Occt::Message_ArrayOfMsg^ theOther);
-	/* Method skipped due to unknown mapping: NCollection_Handle<Message_Msg> First() */
-	/* Method skipped due to unknown mapping: NCollection_Handle<Message_Msg> ChangeFirst() */
-	/* Method skipped due to unknown mapping: NCollection_Handle<Message_Msg> Last() */
-	/* Method skipped due to unknown mapping: NCollection_Handle<Message_Msg> ChangeLast() */
-	/* Method skipped due to unknown mapping: NCollection_Handle<Message_Msg> Value(Standard_Integer theIndex, ) */
-	/* Method skipped due to unknown mapping: NCollection_Handle<Message_Msg> ChangeValue(Standard_Integer theIndex, ) */
-	/* Method skipped due to unknown mapping: void SetValue(Standard_Integer theIndex, NCollection_Handle<Message_Msg> theItem, ) */
-	void Resize(int theLower, int theUpper, bool theToCopyData);
-}; // class Message_ArrayOfMsg
-
-//---------------------------------------------------------------------
-//  Class  Message_ListOfMsg
-//---------------------------------------------------------------------
-public ref class Message_ListOfMsg sealed : public BaseClass<::Message_ListOfMsg>
-{
-
-#ifdef Include_Message_ListOfMsg_h
-public:
-	Include_Message_ListOfMsg_h
-#endif
-
-public:
-	Message_ListOfMsg(::Message_ListOfMsg* nativeInstance)
-		: BaseClass<::Message_ListOfMsg>( nativeInstance, true )
-	{}
-
-	Message_ListOfMsg(::Message_ListOfMsg& nativeInstance)
-		: BaseClass<::Message_ListOfMsg>( &nativeInstance, false )
-	{}
-
-	property ::Message_ListOfMsg* NativeInstance
-	{
-		::Message_ListOfMsg* get()
-		{
-			return static_cast<::Message_ListOfMsg*>(_NativeInstance);
-		}
-	}
-
-public:
-	Message_ListOfMsg();
-	Message_ListOfMsg(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-	Message_ListOfMsg(Macad::Occt::Message_ListOfMsg^ theOther);
-	int Size();
-	Macad::Occt::Message_ListOfMsg^ Assign(Macad::Occt::Message_ListOfMsg^ theOther);
-	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-	void Clear();
-	Macad::Occt::Message_Msg^ First();
-	Macad::Occt::Message_Msg^ Last();
-	Macad::Occt::Message_Msg^ Append(Macad::Occt::Message_Msg^ theItem);
-	/* Method skipped due to unknown mapping: void Append(Message_Msg theItem, Iterator theIter, ) */
-	void Append(Macad::Occt::Message_ListOfMsg^ theOther);
-	Macad::Occt::Message_Msg^ Prepend(Macad::Occt::Message_Msg^ theItem);
-	void Prepend(Macad::Occt::Message_ListOfMsg^ theOther);
-	void RemoveFirst();
-	/* Method skipped due to unknown mapping: void Remove(Iterator theIter, ) */
-	/* Method skipped due to unknown mapping: Message_Msg InsertBefore(Message_Msg theItem, Iterator theIter, ) */
-	/* Method skipped due to unknown mapping: void InsertBefore(Message_ListOfMsg theOther, Iterator theIter, ) */
-	/* Method skipped due to unknown mapping: Message_Msg InsertAfter(Message_Msg theItem, Iterator theIter, ) */
-	/* Method skipped due to unknown mapping: void InsertAfter(Message_ListOfMsg theOther, Iterator theIter, ) */
-	void Reverse();
-}; // class Message_ListOfMsg
-
-//---------------------------------------------------------------------
-//  Class  Message_ListOfAlert
-//---------------------------------------------------------------------
-public ref class Message_ListOfAlert sealed : public BaseClass<::Message_ListOfAlert>
-{
-
-#ifdef Include_Message_ListOfAlert_h
-public:
-	Include_Message_ListOfAlert_h
-#endif
-
-public:
-	Message_ListOfAlert(::Message_ListOfAlert* nativeInstance)
-		: BaseClass<::Message_ListOfAlert>( nativeInstance, true )
-	{}
-
-	Message_ListOfAlert(::Message_ListOfAlert& nativeInstance)
-		: BaseClass<::Message_ListOfAlert>( &nativeInstance, false )
-	{}
-
-	property ::Message_ListOfAlert* NativeInstance
-	{
-		::Message_ListOfAlert* get()
-		{
-			return static_cast<::Message_ListOfAlert*>(_NativeInstance);
-		}
-	}
-
-public:
-	Message_ListOfAlert();
-	Message_ListOfAlert(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-	Message_ListOfAlert(Macad::Occt::Message_ListOfAlert^ theOther);
-	int Size();
-	Macad::Occt::Message_ListOfAlert^ Assign(Macad::Occt::Message_ListOfAlert^ theOther);
-	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-	void Clear();
-	Macad::Occt::Message_Alert^ First();
-	Macad::Occt::Message_Alert^ Last();
-	Macad::Occt::Message_Alert^ Append(Macad::Occt::Message_Alert^ theItem);
-	/* Method skipped due to unknown mapping: void Append(Message_Alert theItem, Iterator theIter, ) */
-	void Append(Macad::Occt::Message_ListOfAlert^ theOther);
-	Macad::Occt::Message_Alert^ Prepend(Macad::Occt::Message_Alert^ theItem);
-	void Prepend(Macad::Occt::Message_ListOfAlert^ theOther);
-	void RemoveFirst();
-	/* Method skipped due to unknown mapping: void Remove(Iterator theIter, ) */
-	/* Method skipped due to unknown mapping: Message_Alert InsertBefore(Message_Alert theItem, Iterator theIter, ) */
-	/* Method skipped due to unknown mapping: void InsertBefore(Message_ListOfAlert theOther, Iterator theIter, ) */
-	/* Method skipped due to unknown mapping: Message_Alert InsertAfter(Message_Alert theItem, Iterator theIter, ) */
-	/* Method skipped due to unknown mapping: void InsertAfter(Message_ListOfAlert theOther, Iterator theIter, ) */
-	void Reverse();
-}; // class Message_ListOfAlert
+	Message_ConsoleColor_Default = 0,
+	Message_ConsoleColor_Black = 1,
+	Message_ConsoleColor_White = 2,
+	Message_ConsoleColor_Red = 3,
+	Message_ConsoleColor_Blue = 4,
+	Message_ConsoleColor_Green = 5,
+	Message_ConsoleColor_Yellow = 6,
+	Message_ConsoleColor_Cyan = 7,
+	Message_ConsoleColor_Magenta = 8
+}; // enum  class Message_ConsoleColor
 
 //---------------------------------------------------------------------
 //  Class  Message_SequenceOfPrinters
@@ -390,275 +268,161 @@ public:
 }; // class Message_SequenceOfPrinters
 
 //---------------------------------------------------------------------
-//  Class  Message_SequenceOfProgressScale
+//  Class  Message_ArrayOfMsg
 //---------------------------------------------------------------------
-public ref class Message_SequenceOfProgressScale sealed : public BaseClass<::Message_SequenceOfProgressScale>
+public ref class Message_ArrayOfMsg sealed : public BaseClass<::Message_ArrayOfMsg>
 {
 
-#ifdef Include_Message_SequenceOfProgressScale_h
+#ifdef Include_Message_ArrayOfMsg_h
 public:
-	Include_Message_SequenceOfProgressScale_h
+	Include_Message_ArrayOfMsg_h
 #endif
 
 public:
-	Message_SequenceOfProgressScale(::Message_SequenceOfProgressScale* nativeInstance)
-		: BaseClass<::Message_SequenceOfProgressScale>( nativeInstance, true )
+	Message_ArrayOfMsg(::Message_ArrayOfMsg* nativeInstance)
+		: BaseClass<::Message_ArrayOfMsg>( nativeInstance, true )
 	{}
 
-	Message_SequenceOfProgressScale(::Message_SequenceOfProgressScale& nativeInstance)
-		: BaseClass<::Message_SequenceOfProgressScale>( &nativeInstance, false )
+	Message_ArrayOfMsg(::Message_ArrayOfMsg& nativeInstance)
+		: BaseClass<::Message_ArrayOfMsg>( &nativeInstance, false )
 	{}
 
-	property ::Message_SequenceOfProgressScale* NativeInstance
+	property ::Message_ArrayOfMsg* NativeInstance
 	{
-		::Message_SequenceOfProgressScale* get()
+		::Message_ArrayOfMsg* get()
 		{
-			return static_cast<::Message_SequenceOfProgressScale*>(_NativeInstance);
+			return static_cast<::Message_ArrayOfMsg*>(_NativeInstance);
 		}
 	}
 
 public:
-	Message_SequenceOfProgressScale();
-	Message_SequenceOfProgressScale(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-	Message_SequenceOfProgressScale(Macad::Occt::Message_SequenceOfProgressScale^ theOther);
+	Message_ArrayOfMsg();
+	Message_ArrayOfMsg(int theLower, int theUpper);
+	Message_ArrayOfMsg(Macad::Occt::Message_ArrayOfMsg^ theOther);
+	/* Method skipped due to unknown mapping: void Message_ArrayOfMsg(NCollection_Handle<Message_Msg> theBegin, Standard_Integer theLower, Standard_Integer theUpper, ) */
+	/* Method skipped due to unknown mapping: void Init(NCollection_Handle<Message_Msg> theValue, ) */
 	int Size();
 	int Length();
+	bool IsEmpty();
 	int Lower();
 	int Upper();
-	bool IsEmpty();
-	void Reverse();
-	void Exchange(int I, int J);
-	/* Method skipped due to unknown mapping: void delNode(NCollection_SeqNode theNode, NCollection_BaseAllocator theAl, ) */
+	bool IsDeletable();
+	bool IsAllocated();
+	Macad::Occt::Message_ArrayOfMsg^ Assign(Macad::Occt::Message_ArrayOfMsg^ theOther);
+	Macad::Occt::Message_ArrayOfMsg^ Move(Macad::Occt::Message_ArrayOfMsg^ theOther);
+	/* Method skipped due to unknown mapping: NCollection_Handle<Message_Msg> First() */
+	/* Method skipped due to unknown mapping: NCollection_Handle<Message_Msg> ChangeFirst() */
+	/* Method skipped due to unknown mapping: NCollection_Handle<Message_Msg> Last() */
+	/* Method skipped due to unknown mapping: NCollection_Handle<Message_Msg> ChangeLast() */
+	/* Method skipped due to unknown mapping: NCollection_Handle<Message_Msg> Value(Standard_Integer theIndex, ) */
+	/* Method skipped due to unknown mapping: NCollection_Handle<Message_Msg> ChangeValue(Standard_Integer theIndex, ) */
+	/* Method skipped due to unknown mapping: void SetValue(Standard_Integer theIndex, NCollection_Handle<Message_Msg> theItem, ) */
+	void Resize(int theLower, int theUpper, bool theToCopyData);
+}; // class Message_ArrayOfMsg
+
+//---------------------------------------------------------------------
+//  Class  Message_ListOfAlert
+//---------------------------------------------------------------------
+public ref class Message_ListOfAlert sealed : public BaseClass<::Message_ListOfAlert>
+{
+
+#ifdef Include_Message_ListOfAlert_h
+public:
+	Include_Message_ListOfAlert_h
+#endif
+
+public:
+	Message_ListOfAlert(::Message_ListOfAlert* nativeInstance)
+		: BaseClass<::Message_ListOfAlert>( nativeInstance, true )
+	{}
+
+	Message_ListOfAlert(::Message_ListOfAlert& nativeInstance)
+		: BaseClass<::Message_ListOfAlert>( &nativeInstance, false )
+	{}
+
+	property ::Message_ListOfAlert* NativeInstance
+	{
+		::Message_ListOfAlert* get()
+		{
+			return static_cast<::Message_ListOfAlert*>(_NativeInstance);
+		}
+	}
+
+public:
+	Message_ListOfAlert();
+	Message_ListOfAlert(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	Message_ListOfAlert(Macad::Occt::Message_ListOfAlert^ theOther);
+	int Size();
+	Macad::Occt::Message_ListOfAlert^ Assign(Macad::Occt::Message_ListOfAlert^ theOther);
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	void Clear();
-	Macad::Occt::Message_SequenceOfProgressScale^ Assign(Macad::Occt::Message_SequenceOfProgressScale^ theOther);
-	/* Method skipped due to unknown mapping: void Remove(Iterator thePosition, ) */
-	void Remove(int theIndex);
-	void Remove(int theFromIndex, int theToIndex);
-	void Append(Macad::Occt::Message_ProgressScale^ theItem);
-	void Append(Macad::Occt::Message_SequenceOfProgressScale^ theSeq);
-	void Prepend(Macad::Occt::Message_ProgressScale^ theItem);
-	void Prepend(Macad::Occt::Message_SequenceOfProgressScale^ theSeq);
-	void InsertBefore(int theIndex, Macad::Occt::Message_ProgressScale^ theItem);
-	void InsertBefore(int theIndex, Macad::Occt::Message_SequenceOfProgressScale^ theSeq);
-	/* Method skipped due to unknown mapping: void InsertAfter(Iterator thePosition, Message_ProgressScale theItem, ) */
-	void InsertAfter(int theIndex, Macad::Occt::Message_SequenceOfProgressScale^ theSeq);
-	void InsertAfter(int theIndex, Macad::Occt::Message_ProgressScale^ theItem);
-	void Split(int theIndex, Macad::Occt::Message_SequenceOfProgressScale^ theSeq);
-	Macad::Occt::Message_ProgressScale^ First();
-	Macad::Occt::Message_ProgressScale^ ChangeFirst();
-	Macad::Occt::Message_ProgressScale^ Last();
-	Macad::Occt::Message_ProgressScale^ ChangeLast();
-	Macad::Occt::Message_ProgressScale^ Value(int theIndex);
-	Macad::Occt::Message_ProgressScale^ ChangeValue(int theIndex);
-	void SetValue(int theIndex, Macad::Occt::Message_ProgressScale^ theItem);
-}; // class Message_SequenceOfProgressScale
+	Macad::Occt::Message_Alert^ First();
+	Macad::Occt::Message_Alert^ Last();
+	Macad::Occt::Message_Alert^ Append(Macad::Occt::Message_Alert^ theItem);
+	/* Method skipped due to unknown mapping: void Append(Message_Alert theItem, Iterator theIter, ) */
+	void Append(Macad::Occt::Message_ListOfAlert^ theOther);
+	Macad::Occt::Message_Alert^ Prepend(Macad::Occt::Message_Alert^ theItem);
+	void Prepend(Macad::Occt::Message_ListOfAlert^ theOther);
+	void RemoveFirst();
+	/* Method skipped due to unknown mapping: void Remove(Iterator theIter, ) */
+	/* Method skipped due to unknown mapping: Message_Alert InsertBefore(Message_Alert theItem, Iterator theIter, ) */
+	/* Method skipped due to unknown mapping: void InsertBefore(Message_ListOfAlert theOther, Iterator theIter, ) */
+	/* Method skipped due to unknown mapping: Message_Alert InsertAfter(Message_Alert theItem, Iterator theIter, ) */
+	/* Method skipped due to unknown mapping: void InsertAfter(Message_ListOfAlert theOther, Iterator theIter, ) */
+	void Reverse();
+}; // class Message_ListOfAlert
 
 //---------------------------------------------------------------------
-//  Class  Message_Messenger
+//  Class  Message_ListOfMsg
 //---------------------------------------------------------------------
-public ref class Message_Messenger sealed : public Macad::Occt::Standard_Transient
+public ref class Message_ListOfMsg sealed : public BaseClass<::Message_ListOfMsg>
 {
 
-#ifdef Include_Message_Messenger_h
+#ifdef Include_Message_ListOfMsg_h
 public:
-	Include_Message_Messenger_h
+	Include_Message_ListOfMsg_h
 #endif
 
 public:
-	Message_Messenger(::Message_Messenger* nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
+	Message_ListOfMsg(::Message_ListOfMsg* nativeInstance)
+		: BaseClass<::Message_ListOfMsg>( nativeInstance, true )
 	{}
 
-	Message_Messenger(::Message_Messenger& nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
+	Message_ListOfMsg(::Message_ListOfMsg& nativeInstance)
+		: BaseClass<::Message_ListOfMsg>( &nativeInstance, false )
 	{}
 
-	property ::Message_Messenger* NativeInstance
+	property ::Message_ListOfMsg* NativeInstance
 	{
-		::Message_Messenger* get()
+		::Message_ListOfMsg* get()
 		{
-			return static_cast<::Message_Messenger*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::Message_Messenger^ CreateDowncasted(::Message_Messenger* instance);
-
-public:
-	Message_Messenger();
-	Message_Messenger(Macad::Occt::Message_Printer^ thePrinter);
-	Message_Messenger(Macad::Occt::Message_Messenger^ parameter1);
-	bool AddPrinter(Macad::Occt::Message_Printer^ thePrinter);
-	bool RemovePrinter(Macad::Occt::Message_Printer^ thePrinter);
-	/* Method skipped due to unknown mapping: Standard_Integer RemovePrinters(Standard_Type theType, ) */
-	Macad::Occt::Message_SequenceOfPrinters^ Printers();
-	Macad::Occt::Message_SequenceOfPrinters^ ChangePrinters();
-	void Send(System::String^ theString, Macad::Occt::Message_Gravity theGravity, bool putEndl);
-	void Send(System::String^ theString, Macad::Occt::Message_Gravity theGravity);
-	void Send(System::String^ theString);
-	void Send(Macad::Occt::TCollection_AsciiString^ theString, Macad::Occt::Message_Gravity theGravity, bool putEndl);
-	void Send(Macad::Occt::TCollection_AsciiString^ theString, Macad::Occt::Message_Gravity theGravity);
-	void Send(Macad::Occt::TCollection_AsciiString^ theString);
-	void Send(Macad::Occt::TCollection_ExtendedString^ theString, Macad::Occt::Message_Gravity theGravity, bool putEndl);
-	void Send(Macad::Occt::TCollection_ExtendedString^ theString, Macad::Occt::Message_Gravity theGravity);
-	void Send(Macad::Occt::TCollection_ExtendedString^ theString);
-}; // class Message_Messenger
-
-//---------------------------------------------------------------------
-//  Class  Message_Msg
-//---------------------------------------------------------------------
-public ref class Message_Msg sealed : public BaseClass<::Message_Msg>
-{
-
-#ifdef Include_Message_Msg_h
-public:
-	Include_Message_Msg_h
-#endif
-
-public:
-	Message_Msg(::Message_Msg* nativeInstance)
-		: BaseClass<::Message_Msg>( nativeInstance, true )
-	{}
-
-	Message_Msg(::Message_Msg& nativeInstance)
-		: BaseClass<::Message_Msg>( &nativeInstance, false )
-	{}
-
-	property ::Message_Msg* NativeInstance
-	{
-		::Message_Msg* get()
-		{
-			return static_cast<::Message_Msg*>(_NativeInstance);
+			return static_cast<::Message_ListOfMsg*>(_NativeInstance);
 		}
 	}
 
 public:
-	Message_Msg();
-	Message_Msg(Macad::Occt::Message_Msg^ theMsg);
-	Message_Msg(System::String^ theKey);
-	Message_Msg(Macad::Occt::TCollection_ExtendedString^ theKey);
-	void Set(System::String^ theMsg);
-	void Set(Macad::Occt::TCollection_ExtendedString^ theMsg);
-	Macad::Occt::Message_Msg^ Arg(System::String^ theString);
-	Macad::Occt::Message_Msg^ Arg(Macad::Occt::TCollection_AsciiString^ theString);
-	Macad::Occt::Message_Msg^ Arg(Macad::Occt::TCollection_HAsciiString^ theString);
-	Macad::Occt::Message_Msg^ Arg(Macad::Occt::TCollection_ExtendedString^ theString);
-	Macad::Occt::Message_Msg^ Arg(Macad::Occt::TCollection_HExtendedString^ theString);
-	Macad::Occt::Message_Msg^ Arg(int theInt);
-	Macad::Occt::Message_Msg^ Arg(double theReal);
-	Macad::Occt::TCollection_ExtendedString^ Original();
-	Macad::Occt::TCollection_ExtendedString^ Value();
-	bool IsEdited();
-	Macad::Occt::TCollection_ExtendedString^ Get();
-}; // class Message_Msg
-
-//---------------------------------------------------------------------
-//  Class  Message_MsgFile
-//---------------------------------------------------------------------
-public ref class Message_MsgFile sealed : public BaseClass<::Message_MsgFile>
-{
-
-#ifdef Include_Message_MsgFile_h
-public:
-	Include_Message_MsgFile_h
-#endif
-
-public:
-	Message_MsgFile(::Message_MsgFile* nativeInstance)
-		: BaseClass<::Message_MsgFile>( nativeInstance, true )
-	{}
-
-	Message_MsgFile(::Message_MsgFile& nativeInstance)
-		: BaseClass<::Message_MsgFile>( &nativeInstance, false )
-	{}
-
-	property ::Message_MsgFile* NativeInstance
-	{
-		::Message_MsgFile* get()
-		{
-			return static_cast<::Message_MsgFile*>(_NativeInstance);
-		}
-	}
-
-public:
-	Message_MsgFile();
-	Message_MsgFile(Macad::Occt::Message_MsgFile^ parameter1);
-	static bool Load(System::String^ theDirName, System::String^ theFileName);
-	static bool LoadFile(System::String^ theFName);
-	static bool LoadFromEnv(System::String^ theEnvName, System::String^ theFileName, System::String^ theLangExt);
-	static bool LoadFromEnv(System::String^ theEnvName, System::String^ theFileName);
-	static bool LoadFromString(System::String^ theContent, int theLength);
-	static bool LoadFromString(System::String^ theContent);
-	static bool AddMsg(Macad::Occt::TCollection_AsciiString^ key, Macad::Occt::TCollection_ExtendedString^ text);
-	static bool HasMsg(Macad::Occt::TCollection_AsciiString^ key);
-	static Macad::Occt::TCollection_ExtendedString^ Msg(System::String^ key);
-	static Macad::Occt::TCollection_ExtendedString^ Msg(Macad::Occt::TCollection_AsciiString^ key);
-}; // class Message_MsgFile
-
-//---------------------------------------------------------------------
-//  Class  Message_Algorithm
-//---------------------------------------------------------------------
-public ref class Message_Algorithm sealed : public Macad::Occt::Standard_Transient
-{
-
-#ifdef Include_Message_Algorithm_h
-public:
-	Include_Message_Algorithm_h
-#endif
-
-public:
-	Message_Algorithm(::Message_Algorithm* nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	Message_Algorithm(::Message_Algorithm& nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	property ::Message_Algorithm* NativeInstance
-	{
-		::Message_Algorithm* get()
-		{
-			return static_cast<::Message_Algorithm*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::Message_Algorithm^ CreateDowncasted(::Message_Algorithm* instance);
-
-public:
-	Message_Algorithm();
-	Message_Algorithm(Macad::Occt::Message_Algorithm^ parameter1);
-	void SetStatus(Macad::Occt::Message_Status% theStat);
-	void SetStatus(Macad::Occt::Message_Status% theStat, int theInt);
-	void SetStatus(Macad::Occt::Message_Status% theStat, System::String^ theStr, bool noRepetitions);
-	void SetStatus(Macad::Occt::Message_Status% theStat, System::String^ theStr);
-	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_AsciiString^ theStr, bool noRepetitions);
-	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_AsciiString^ theStr);
-	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_HAsciiString^ theStr, bool noRepetitions);
-	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_HAsciiString^ theStr);
-	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_ExtendedString^ theStr, bool noRepetitions);
-	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_ExtendedString^ theStr);
-	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_HExtendedString^ theStr, bool noRepetitions);
-	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_HExtendedString^ theStr);
-	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::Message_Msg^ theMsg);
-	Macad::Occt::Message_ExecStatus^ GetStatus();
-	Macad::Occt::Message_ExecStatus^ ChangeStatus();
-	void ClearStatus();
-	void SetMessenger(Macad::Occt::Message_Messenger^ theMsgr);
-	Macad::Occt::Message_Messenger^ GetMessenger();
-	void SendStatusMessages(Macad::Occt::Message_ExecStatus^ theFilter, Macad::Occt::Message_Gravity theTraceLevel, int theMaxCount);
-	void SendStatusMessages(Macad::Occt::Message_ExecStatus^ theFilter, Macad::Occt::Message_Gravity theTraceLevel);
-	void SendStatusMessages(Macad::Occt::Message_ExecStatus^ theFilter);
-	void SendMessages(Macad::Occt::Message_Gravity theTraceLevel, int theMaxCount);
-	void SendMessages(Macad::Occt::Message_Gravity theTraceLevel);
-	void SendMessages();
-	void AddStatus(Macad::Occt::Message_Algorithm^ theOther);
-	void AddStatus(Macad::Occt::Message_ExecStatus^ theStatus, Macad::Occt::Message_Algorithm^ theOther);
-	Macad::Occt::TColStd_HPackedMapOfInteger^ GetMessageNumbers(Macad::Occt::Message_Status% theStatus);
-	Macad::Occt::TColStd_HSequenceOfHExtendedString^ GetMessageStrings(Macad::Occt::Message_Status% theStatus);
-	static Macad::Occt::TCollection_ExtendedString^ PrepareReport(Macad::Occt::TColStd_HPackedMapOfInteger^ theError, int theMaxCount);
-	static Macad::Occt::TCollection_ExtendedString^ PrepareReport(Macad::Occt::TColStd_SequenceOfHExtendedString^ theReportSeq, int theMaxCount);
-}; // class Message_Algorithm
+	Message_ListOfMsg();
+	Message_ListOfMsg(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	Message_ListOfMsg(Macad::Occt::Message_ListOfMsg^ theOther);
+	int Size();
+	Macad::Occt::Message_ListOfMsg^ Assign(Macad::Occt::Message_ListOfMsg^ theOther);
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	void Clear();
+	Macad::Occt::Message_Msg^ First();
+	Macad::Occt::Message_Msg^ Last();
+	Macad::Occt::Message_Msg^ Append(Macad::Occt::Message_Msg^ theItem);
+	/* Method skipped due to unknown mapping: void Append(Message_Msg theItem, Iterator theIter, ) */
+	void Append(Macad::Occt::Message_ListOfMsg^ theOther);
+	Macad::Occt::Message_Msg^ Prepend(Macad::Occt::Message_Msg^ theItem);
+	void Prepend(Macad::Occt::Message_ListOfMsg^ theOther);
+	void RemoveFirst();
+	/* Method skipped due to unknown mapping: void Remove(Iterator theIter, ) */
+	/* Method skipped due to unknown mapping: Message_Msg InsertBefore(Message_Msg theItem, Iterator theIter, ) */
+	/* Method skipped due to unknown mapping: void InsertBefore(Message_ListOfMsg theOther, Iterator theIter, ) */
+	/* Method skipped due to unknown mapping: Message_Msg InsertAfter(Message_Msg theItem, Iterator theIter, ) */
+	/* Method skipped due to unknown mapping: void InsertAfter(Message_ListOfMsg theOther, Iterator theIter, ) */
+	void Reverse();
+}; // class Message_ListOfMsg
 
 //---------------------------------------------------------------------
 //  Class  Message_Printer
@@ -699,110 +463,138 @@ public:
 	Message_Printer(Macad::Occt::Message_Printer^ parameter1);
 	Macad::Occt::Message_Gravity GetTraceLevel();
 	void SetTraceLevel(Macad::Occt::Message_Gravity theTraceLevel);
-	void Send(Macad::Occt::TCollection_ExtendedString^ theString, Macad::Occt::Message_Gravity theGravity, bool theToPutEol);
-	void Send(System::String^ theString, Macad::Occt::Message_Gravity theGravity, bool theToPutEol);
-	void Send(Macad::Occt::TCollection_AsciiString^ theString, Macad::Occt::Message_Gravity theGravity, bool theToPutEol);
+	void Send(Macad::Occt::TCollection_ExtendedString^ theString, Macad::Occt::Message_Gravity theGravity);
+	void Send(System::String^ theString, Macad::Occt::Message_Gravity theGravity);
+	void Send(Macad::Occt::TCollection_AsciiString^ theString, Macad::Occt::Message_Gravity theGravity);
+	/* Method skipped due to unknown mapping: void SendStringStream(stringstream theStream, Message_Gravity theGravity, ) */
+	void SendObject(Macad::Occt::Standard_Transient^ theObject, Macad::Occt::Message_Gravity theGravity);
 }; // class Message_Printer
 
 //---------------------------------------------------------------------
-//  Class  Message_PrinterOStream
+//  Class  Message_Messenger
 //---------------------------------------------------------------------
-public ref class Message_PrinterOStream sealed : public Macad::Occt::Message_Printer
+public ref class Message_Messenger sealed : public Macad::Occt::Standard_Transient
 {
 
-#ifdef Include_Message_PrinterOStream_h
+#ifdef Include_Message_Messenger_h
 public:
-	Include_Message_PrinterOStream_h
+	Include_Message_Messenger_h
 #endif
 
 public:
-	Message_PrinterOStream(::Message_PrinterOStream* nativeInstance)
-		: Macad::Occt::Message_Printer( nativeInstance )
+	Message_Messenger(::Message_Messenger* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
 	{}
 
-	Message_PrinterOStream(::Message_PrinterOStream& nativeInstance)
-		: Macad::Occt::Message_Printer( nativeInstance )
+	Message_Messenger(::Message_Messenger& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
 	{}
 
-	property ::Message_PrinterOStream* NativeInstance
+	property ::Message_Messenger* NativeInstance
 	{
-		::Message_PrinterOStream* get()
+		::Message_Messenger* get()
 		{
-			return static_cast<::Message_PrinterOStream*>(_NativeInstance);
+			return static_cast<::Message_Messenger*>(_NativeInstance);
 		}
 	}
 
-	static Macad::Occt::Message_PrinterOStream^ CreateDowncasted(::Message_PrinterOStream* instance);
+	static Macad::Occt::Message_Messenger^ CreateDowncasted(::Message_Messenger* instance);
 
 public:
-	Message_PrinterOStream(Macad::Occt::Message_Gravity theTraceLevel);
-	Message_PrinterOStream(System::String^ theFileName, bool theDoAppend, Macad::Occt::Message_Gravity theTraceLevel);
-	Message_PrinterOStream(System::String^ theFileName, bool theDoAppend);
-	Message_PrinterOStream(Macad::Occt::Message_PrinterOStream^ parameter1);
-	void Close();
-	bool GetUseUtf8();
-	void SetUseUtf8(bool useUtf8);
-	/* Method skipped due to unknown mapping: ostream GetStream() */
-	void Send(System::String^ theString, Macad::Occt::Message_Gravity theGravity, bool putEndl);
+	Message_Messenger();
+	Message_Messenger(Macad::Occt::Message_Printer^ thePrinter);
+	Message_Messenger(Macad::Occt::Message_Messenger^ parameter1);
+	bool AddPrinter(Macad::Occt::Message_Printer^ thePrinter);
+	bool RemovePrinter(Macad::Occt::Message_Printer^ thePrinter);
+	/* Method skipped due to unknown mapping: Standard_Integer RemovePrinters(Standard_Type theType, ) */
+	Macad::Occt::Message_SequenceOfPrinters^ Printers();
+	Macad::Occt::Message_SequenceOfPrinters^ ChangePrinters();
 	void Send(System::String^ theString, Macad::Occt::Message_Gravity theGravity);
-	void Send(Macad::Occt::TCollection_AsciiString^ theString, Macad::Occt::Message_Gravity theGravity, bool putEndl);
+	void Send(System::String^ theString);
+	/* Method skipped due to unknown mapping: void Send(stringstream theStream, Message_Gravity theGravity, ) */
+	/* Method skipped due to unknown mapping: void Send(stringstream theStream, Message_Gravity theGravity, ) */
 	void Send(Macad::Occt::TCollection_AsciiString^ theString, Macad::Occt::Message_Gravity theGravity);
-	void Send(Macad::Occt::TCollection_ExtendedString^ theString, Macad::Occt::Message_Gravity theGravity, bool putEndl);
+	void Send(Macad::Occt::TCollection_AsciiString^ theString);
 	void Send(Macad::Occt::TCollection_ExtendedString^ theString, Macad::Occt::Message_Gravity theGravity);
-}; // class Message_PrinterOStream
+	void Send(Macad::Occt::TCollection_ExtendedString^ theString);
+	/* Method skipped due to unknown mapping: StreamBuffer Send(Message_Gravity theGravity, ) */
+	void Send(Macad::Occt::Standard_Transient^ theObject, Macad::Occt::Message_Gravity theGravity);
+	void Send(Macad::Occt::Standard_Transient^ theObject);
+	/* Method skipped due to unknown mapping: StreamBuffer SendFail() */
+	/* Method skipped due to unknown mapping: StreamBuffer SendAlarm() */
+	/* Method skipped due to unknown mapping: StreamBuffer SendWarning() */
+	/* Method skipped due to unknown mapping: StreamBuffer SendInfo() */
+	/* Method skipped due to unknown mapping: StreamBuffer SendTrace() */
+	void SendFail(Macad::Occt::TCollection_AsciiString^ theMessage);
+	void SendAlarm(Macad::Occt::TCollection_AsciiString^ theMessage);
+	void SendWarning(Macad::Occt::TCollection_AsciiString^ theMessage);
+	void SendInfo(Macad::Occt::TCollection_AsciiString^ theMessage);
+	void SendTrace(Macad::Occt::TCollection_AsciiString^ theMessage);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+}; // class Message_Messenger
 
 //---------------------------------------------------------------------
-//  Class  Message_ProgressScale
+//  Class  Message_Report
 //---------------------------------------------------------------------
-public ref class Message_ProgressScale sealed : public BaseClass<::Message_ProgressScale>
+public ref class Message_Report sealed : public Macad::Occt::Standard_Transient
 {
 
-#ifdef Include_Message_ProgressScale_h
+#ifdef Include_Message_Report_h
 public:
-	Include_Message_ProgressScale_h
+	Include_Message_Report_h
 #endif
 
 public:
-	Message_ProgressScale(::Message_ProgressScale* nativeInstance)
-		: BaseClass<::Message_ProgressScale>( nativeInstance, true )
+	Message_Report(::Message_Report* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
 	{}
 
-	Message_ProgressScale(::Message_ProgressScale& nativeInstance)
-		: BaseClass<::Message_ProgressScale>( &nativeInstance, false )
+	Message_Report(::Message_Report& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
 	{}
 
-	property ::Message_ProgressScale* NativeInstance
+	property ::Message_Report* NativeInstance
 	{
-		::Message_ProgressScale* get()
+		::Message_Report* get()
 		{
-			return static_cast<::Message_ProgressScale*>(_NativeInstance);
+			return static_cast<::Message_Report*>(_NativeInstance);
 		}
 	}
 
+	static Macad::Occt::Message_Report^ CreateDowncasted(::Message_Report* instance);
+
 public:
-	Message_ProgressScale();
-	Message_ProgressScale(Macad::Occt::Message_ProgressScale^ parameter1);
-	void SetName(System::String^ theName);
-	void SetName(Macad::Occt::TCollection_HAsciiString^ theName);
-	Macad::Occt::TCollection_HAsciiString^ GetName();
-	void SetMin(double theMin);
-	double GetMin();
-	void SetMax(double theMax);
-	double GetMax();
-	void SetRange(double min, double max);
-	void SetStep(double theStep);
-	double GetStep();
-	void SetInfinite(bool theInfinite);
-	void SetInfinite();
-	bool GetInfinite();
-	void SetScale(double min, double max, double step, bool theInfinite);
-	void SetScale(double min, double max, double step);
-	void SetSpan(double first, double last);
-	double GetFirst();
-	double GetLast();
-	double LocalToBase(double val);
-	double BaseToLocal(double val);
-}; // class Message_ProgressScale
+	Message_Report();
+	void AddAlert(Macad::Occt::Message_Gravity theGravity, Macad::Occt::Message_Alert^ theAlert);
+	Macad::Occt::Message_ListOfAlert^ GetAlerts(Macad::Occt::Message_Gravity theGravity);
+	/* Method skipped due to unknown mapping: Standard_Boolean HasAlert(Standard_Type theType, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean HasAlert(Standard_Type theType, Message_Gravity theGravity, ) */
+	bool IsActiveInMessenger(Macad::Occt::Message_Messenger^ theMessenger);
+	bool IsActiveInMessenger();
+	void ActivateInMessenger(bool toActivate, Macad::Occt::Message_Messenger^ theMessenger);
+	void ActivateInMessenger(bool toActivate);
+	void UpdateActiveInMessenger(Macad::Occt::Message_Messenger^ theMessenger);
+	void UpdateActiveInMessenger();
+	void AddLevel(Macad::Occt::Message_Level^ theLevel, Macad::Occt::TCollection_AsciiString^ theName);
+	void RemoveLevel(Macad::Occt::Message_Level^ theLevel);
+	void Clear();
+	void Clear(Macad::Occt::Message_Gravity theGravity);
+	/* Method skipped due to unknown mapping: void Clear(Standard_Type theType, ) */
+	/* Method skipped due to unknown mapping: NCollection_IndexedMap<Message_MetricType, NCollection_DefaultHasher<Message_MetricType> > ActiveMetrics() */
+	void SetActiveMetric(Macad::Occt::Message_MetricType theMetricType, bool theActivate);
+	void ClearMetrics();
+	int Limit();
+	void SetLimit(int theLimit);
+	/* Method skipped due to unknown mapping: void Dump(ostream theOS, ) */
+	/* Method skipped due to unknown mapping: void Dump(ostream theOS, Message_Gravity theGravity, ) */
+	void SendMessages(Macad::Occt::Message_Messenger^ theMessenger);
+	void SendMessages(Macad::Occt::Message_Messenger^ theMessenger, Macad::Occt::Message_Gravity theGravity);
+	void Merge(Macad::Occt::Message_Report^ theOther);
+	void Merge(Macad::Occt::Message_Report^ theOther, Macad::Occt::Message_Gravity theGravity);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+}; // class Message_Report
 
 //---------------------------------------------------------------------
 //  Class  Message
@@ -836,7 +628,26 @@ public:
 	Message();
 	Message(Macad::Occt::Message^ parameter1);
 	static Macad::Occt::Message_Messenger^ DefaultMessenger();
+	/* Method skipped due to unknown mapping: StreamBuffer Send(Message_Gravity theGravity, ) */
+	static void Send(Macad::Occt::TCollection_AsciiString^ theMessage, Macad::Occt::Message_Gravity theGravity);
+	/* Method skipped due to unknown mapping: StreamBuffer SendFail() */
+	/* Method skipped due to unknown mapping: StreamBuffer SendAlarm() */
+	/* Method skipped due to unknown mapping: StreamBuffer SendWarning() */
+	/* Method skipped due to unknown mapping: StreamBuffer SendInfo() */
+	/* Method skipped due to unknown mapping: StreamBuffer SendTrace() */
+	static void SendFail(Macad::Occt::TCollection_AsciiString^ theMessage);
+	static void SendAlarm(Macad::Occt::TCollection_AsciiString^ theMessage);
+	static void SendWarning(Macad::Occt::TCollection_AsciiString^ theMessage);
+	static void SendInfo(Macad::Occt::TCollection_AsciiString^ theMessage);
+	static void SendTrace(Macad::Occt::TCollection_AsciiString^ theMessage);
 	static Macad::Occt::TCollection_AsciiString^ FillTime(int Hour, int Minute, double Second);
+	static Macad::Occt::Message_Report^ DefaultReport(bool theToCreate);
+	static Macad::Occt::Message_Report^ DefaultReport();
+	static bool MetricFromString(System::String^ theString, Macad::Occt::Message_MetricType% theType);
+	static System::String^ MetricToString(Macad::Occt::Message_MetricType theType);
+	static Macad::Occt::Message_MetricType MetricFromString(System::String^ theString);
+	/* Method skipped due to unknown mapping: Standard_Boolean ToOSDMetric(Message_MetricType theMetric, Counter theMemInfo, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean ToMessageMetric(Counter theMemInfo, Message_MetricType theMetric, ) */
 }; // class Message
 
 //---------------------------------------------------------------------
@@ -880,7 +691,144 @@ public:
 	System::String^ GetMessageKey();
 	bool SupportsMerge();
 	bool Merge(Macad::Occt::Message_Alert^ theTarget);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Message_Alert
+
+//---------------------------------------------------------------------
+//  Class  Message_Attribute
+//---------------------------------------------------------------------
+public ref class Message_Attribute : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_Message_Attribute_h
+public:
+	Include_Message_Attribute_h
+#endif
+
+protected:
+	Message_Attribute(InitMode init)
+		: Macad::Occt::Standard_Transient( init )
+	{}
+
+public:
+	Message_Attribute(::Message_Attribute* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	Message_Attribute(::Message_Attribute& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	property ::Message_Attribute* NativeInstance
+	{
+		::Message_Attribute* get()
+		{
+			return static_cast<::Message_Attribute*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Message_Attribute^ CreateDowncasted(::Message_Attribute* instance);
+
+public:
+	Message_Attribute(Macad::Occt::TCollection_AsciiString^ theName);
+	Message_Attribute(Macad::Occt::Message_Attribute^ parameter1);
+	System::String^ GetMessageKey();
+	Macad::Occt::TCollection_AsciiString^ GetName();
+	void SetName(Macad::Occt::TCollection_AsciiString^ theName);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+}; // class Message_Attribute
+
+//---------------------------------------------------------------------
+//  Class  Message_CompositeAlerts
+//---------------------------------------------------------------------
+public ref class Message_CompositeAlerts sealed : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_Message_CompositeAlerts_h
+public:
+	Include_Message_CompositeAlerts_h
+#endif
+
+public:
+	Message_CompositeAlerts(::Message_CompositeAlerts* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	Message_CompositeAlerts(::Message_CompositeAlerts& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	property ::Message_CompositeAlerts* NativeInstance
+	{
+		::Message_CompositeAlerts* get()
+		{
+			return static_cast<::Message_CompositeAlerts*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Message_CompositeAlerts^ CreateDowncasted(::Message_CompositeAlerts* instance);
+
+public:
+	Message_CompositeAlerts();
+	Message_CompositeAlerts(Macad::Occt::Message_CompositeAlerts^ parameter1);
+	Macad::Occt::Message_ListOfAlert^ Alerts(Macad::Occt::Message_Gravity theGravity);
+	bool AddAlert(Macad::Occt::Message_Gravity theGravity, Macad::Occt::Message_Alert^ theAlert);
+	bool RemoveAlert(Macad::Occt::Message_Gravity theGravity, Macad::Occt::Message_Alert^ theAlert);
+	bool HasAlert(Macad::Occt::Message_Alert^ theAlert);
+	/* Method skipped due to unknown mapping: Standard_Boolean HasAlert(Standard_Type theType, Message_Gravity theGravity, ) */
+	void Clear();
+	void Clear(Macad::Occt::Message_Gravity theGravity);
+	/* Method skipped due to unknown mapping: void Clear(Standard_Type theType, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+}; // class Message_CompositeAlerts
+
+//---------------------------------------------------------------------
+//  Class  Message_AlertExtended
+//---------------------------------------------------------------------
+public ref class Message_AlertExtended sealed : public Macad::Occt::Message_Alert
+{
+
+#ifdef Include_Message_AlertExtended_h
+public:
+	Include_Message_AlertExtended_h
+#endif
+
+public:
+	Message_AlertExtended(::Message_AlertExtended* nativeInstance)
+		: Macad::Occt::Message_Alert( nativeInstance )
+	{}
+
+	Message_AlertExtended(::Message_AlertExtended& nativeInstance)
+		: Macad::Occt::Message_Alert( nativeInstance )
+	{}
+
+	property ::Message_AlertExtended* NativeInstance
+	{
+		::Message_AlertExtended* get()
+		{
+			return static_cast<::Message_AlertExtended*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Message_AlertExtended^ CreateDowncasted(::Message_AlertExtended* instance);
+
+public:
+	Message_AlertExtended();
+	Message_AlertExtended(Macad::Occt::Message_AlertExtended^ parameter1);
+	static Macad::Occt::Message_Alert^ AddAlert(Macad::Occt::Message_Report^ theReport, Macad::Occt::Message_Attribute^ theAttribute, Macad::Occt::Message_Gravity theGravity);
+	System::String^ GetMessageKey();
+	Macad::Occt::Message_Attribute^ Attribute();
+	void SetAttribute(Macad::Occt::Message_Attribute^ theAttribute);
+	Macad::Occt::Message_CompositeAlerts^ CompositeAlerts(bool theToCreate);
+	Macad::Occt::Message_CompositeAlerts^ CompositeAlerts();
+	bool SupportsMerge();
+	bool Merge(Macad::Occt::Message_Alert^ theTarget);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+}; // class Message_AlertExtended
 
 //---------------------------------------------------------------------
 //  Class  Message_ExecStatus
@@ -959,51 +907,532 @@ public:
 }; // class Message_ExecStatus
 
 //---------------------------------------------------------------------
-//  Class  Message_Report
+//  Class  Message_Msg
 //---------------------------------------------------------------------
-public ref class Message_Report sealed : public Macad::Occt::Standard_Transient
+public ref class Message_Msg sealed : public BaseClass<::Message_Msg>
 {
 
-#ifdef Include_Message_Report_h
+#ifdef Include_Message_Msg_h
 public:
-	Include_Message_Report_h
+	Include_Message_Msg_h
 #endif
 
 public:
-	Message_Report(::Message_Report* nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
+	Message_Msg(::Message_Msg* nativeInstance)
+		: BaseClass<::Message_Msg>( nativeInstance, true )
 	{}
 
-	Message_Report(::Message_Report& nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
+	Message_Msg(::Message_Msg& nativeInstance)
+		: BaseClass<::Message_Msg>( &nativeInstance, false )
 	{}
 
-	property ::Message_Report* NativeInstance
+	property ::Message_Msg* NativeInstance
 	{
-		::Message_Report* get()
+		::Message_Msg* get()
 		{
-			return static_cast<::Message_Report*>(_NativeInstance);
+			return static_cast<::Message_Msg*>(_NativeInstance);
 		}
 	}
 
-	static Macad::Occt::Message_Report^ CreateDowncasted(::Message_Report* instance);
+public:
+	Message_Msg();
+	Message_Msg(Macad::Occt::Message_Msg^ theMsg);
+	Message_Msg(System::String^ theKey);
+	Message_Msg(Macad::Occt::TCollection_ExtendedString^ theKey);
+	void Set(System::String^ theMsg);
+	void Set(Macad::Occt::TCollection_ExtendedString^ theMsg);
+	Macad::Occt::Message_Msg^ Arg(System::String^ theString);
+	Macad::Occt::Message_Msg^ Arg(Macad::Occt::TCollection_AsciiString^ theString);
+	Macad::Occt::Message_Msg^ Arg(Macad::Occt::TCollection_HAsciiString^ theString);
+	Macad::Occt::Message_Msg^ Arg(Macad::Occt::TCollection_ExtendedString^ theString);
+	Macad::Occt::Message_Msg^ Arg(Macad::Occt::TCollection_HExtendedString^ theString);
+	Macad::Occt::Message_Msg^ Arg(int theInt);
+	Macad::Occt::Message_Msg^ Arg(double theReal);
+	Macad::Occt::TCollection_ExtendedString^ Original();
+	Macad::Occt::TCollection_ExtendedString^ Value();
+	bool IsEdited();
+	Macad::Occt::TCollection_ExtendedString^ Get();
+}; // class Message_Msg
+
+//---------------------------------------------------------------------
+//  Class  Message_Algorithm
+//---------------------------------------------------------------------
+public ref class Message_Algorithm sealed : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_Message_Algorithm_h
+public:
+	Include_Message_Algorithm_h
+#endif
 
 public:
-	Message_Report();
-	void AddAlert(Macad::Occt::Message_Gravity theGravity, Macad::Occt::Message_Alert^ theAlert);
-	Macad::Occt::Message_ListOfAlert^ GetAlerts(Macad::Occt::Message_Gravity theGravity);
-	/* Method skipped due to unknown mapping: Standard_Boolean HasAlert(Standard_Type theType, ) */
-	/* Method skipped due to unknown mapping: Standard_Boolean HasAlert(Standard_Type theType, Message_Gravity theGravity, ) */
-	void Clear();
-	void Clear(Macad::Occt::Message_Gravity theGravity);
-	/* Method skipped due to unknown mapping: void Clear(Standard_Type theType, ) */
-	/* Method skipped due to unknown mapping: void Dump(ostream theOS, ) */
-	/* Method skipped due to unknown mapping: void Dump(ostream theOS, Message_Gravity theGravity, ) */
-	void SendMessages(Macad::Occt::Message_Messenger^ theMessenger);
-	void SendMessages(Macad::Occt::Message_Messenger^ theMessenger, Macad::Occt::Message_Gravity theGravity);
-	void Merge(Macad::Occt::Message_Report^ theOther);
-	void Merge(Macad::Occt::Message_Report^ theOther, Macad::Occt::Message_Gravity theGravity);
-}; // class Message_Report
+	Message_Algorithm(::Message_Algorithm* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	Message_Algorithm(::Message_Algorithm& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	property ::Message_Algorithm* NativeInstance
+	{
+		::Message_Algorithm* get()
+		{
+			return static_cast<::Message_Algorithm*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Message_Algorithm^ CreateDowncasted(::Message_Algorithm* instance);
+
+public:
+	Message_Algorithm();
+	Message_Algorithm(Macad::Occt::Message_Algorithm^ parameter1);
+	void SetStatus(Macad::Occt::Message_Status% theStat);
+	void SetStatus(Macad::Occt::Message_Status% theStat, int theInt);
+	void SetStatus(Macad::Occt::Message_Status% theStat, System::String^ theStr, bool noRepetitions);
+	void SetStatus(Macad::Occt::Message_Status% theStat, System::String^ theStr);
+	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_AsciiString^ theStr, bool noRepetitions);
+	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_AsciiString^ theStr);
+	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_HAsciiString^ theStr, bool noRepetitions);
+	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_HAsciiString^ theStr);
+	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_ExtendedString^ theStr, bool noRepetitions);
+	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_ExtendedString^ theStr);
+	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_HExtendedString^ theStr, bool noRepetitions);
+	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::TCollection_HExtendedString^ theStr);
+	void SetStatus(Macad::Occt::Message_Status% theStat, Macad::Occt::Message_Msg^ theMsg);
+	Macad::Occt::Message_ExecStatus^ GetStatus();
+	Macad::Occt::Message_ExecStatus^ ChangeStatus();
+	void ClearStatus();
+	void SetMessenger(Macad::Occt::Message_Messenger^ theMsgr);
+	Macad::Occt::Message_Messenger^ GetMessenger();
+	void SendStatusMessages(Macad::Occt::Message_ExecStatus^ theFilter, Macad::Occt::Message_Gravity theTraceLevel, int theMaxCount);
+	void SendStatusMessages(Macad::Occt::Message_ExecStatus^ theFilter, Macad::Occt::Message_Gravity theTraceLevel);
+	void SendStatusMessages(Macad::Occt::Message_ExecStatus^ theFilter);
+	void SendMessages(Macad::Occt::Message_Gravity theTraceLevel, int theMaxCount);
+	void SendMessages(Macad::Occt::Message_Gravity theTraceLevel);
+	void SendMessages();
+	void AddStatus(Macad::Occt::Message_Algorithm^ theOther);
+	void AddStatus(Macad::Occt::Message_ExecStatus^ theStatus, Macad::Occt::Message_Algorithm^ theOther);
+	Macad::Occt::TColStd_HPackedMapOfInteger^ GetMessageNumbers(Macad::Occt::Message_Status% theStatus);
+	Macad::Occt::TColStd_HSequenceOfHExtendedString^ GetMessageStrings(Macad::Occt::Message_Status% theStatus);
+	static Macad::Occt::TCollection_ExtendedString^ PrepareReport(Macad::Occt::TColStd_HPackedMapOfInteger^ theError, int theMaxCount);
+	static Macad::Occt::TCollection_ExtendedString^ PrepareReport(Macad::Occt::TColStd_SequenceOfHExtendedString^ theReportSeq, int theMaxCount);
+}; // class Message_Algorithm
+
+//---------------------------------------------------------------------
+//  Class  Message_AttributeMeter
+//---------------------------------------------------------------------
+public ref class Message_AttributeMeter sealed : public Macad::Occt::Message_Attribute
+{
+
+#ifdef Include_Message_AttributeMeter_h
+public:
+	Include_Message_AttributeMeter_h
+#endif
+
+public:
+	Message_AttributeMeter(::Message_AttributeMeter* nativeInstance)
+		: Macad::Occt::Message_Attribute( nativeInstance )
+	{}
+
+	Message_AttributeMeter(::Message_AttributeMeter& nativeInstance)
+		: Macad::Occt::Message_Attribute( nativeInstance )
+	{}
+
+	property ::Message_AttributeMeter* NativeInstance
+	{
+		::Message_AttributeMeter* get()
+		{
+			return static_cast<::Message_AttributeMeter*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Message_AttributeMeter^ CreateDowncasted(::Message_AttributeMeter* instance);
+
+public:
+	Message_AttributeMeter(Macad::Occt::TCollection_AsciiString^ theName);
+	Message_AttributeMeter(Macad::Occt::Message_AttributeMeter^ parameter1);
+	static double UndefinedMetricValue();
+	bool HasMetric(Macad::Occt::Message_MetricType% theMetric);
+	bool IsMetricValid(Macad::Occt::Message_MetricType% theMetric);
+	double StartValue(Macad::Occt::Message_MetricType% theMetric);
+	void SetStartValue(Macad::Occt::Message_MetricType% theMetric, double theValue);
+	double StopValue(Macad::Occt::Message_MetricType% theMetric);
+	void SetStopValue(Macad::Occt::Message_MetricType% theMetric, double theValue);
+	static void StartAlert(Macad::Occt::Message_AlertExtended^ theAlert);
+	static void StopAlert(Macad::Occt::Message_AlertExtended^ theAlert);
+	static void SetAlertMetrics(Macad::Occt::Message_AlertExtended^ theAlert, bool theStartValue);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+}; // class Message_AttributeMeter
+
+//---------------------------------------------------------------------
+//  Class  Message_AttributeObject
+//---------------------------------------------------------------------
+public ref class Message_AttributeObject sealed : public Macad::Occt::Message_Attribute
+{
+
+#ifdef Include_Message_AttributeObject_h
+public:
+	Include_Message_AttributeObject_h
+#endif
+
+public:
+	Message_AttributeObject(::Message_AttributeObject* nativeInstance)
+		: Macad::Occt::Message_Attribute( nativeInstance )
+	{}
+
+	Message_AttributeObject(::Message_AttributeObject& nativeInstance)
+		: Macad::Occt::Message_Attribute( nativeInstance )
+	{}
+
+	property ::Message_AttributeObject* NativeInstance
+	{
+		::Message_AttributeObject* get()
+		{
+			return static_cast<::Message_AttributeObject*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Message_AttributeObject^ CreateDowncasted(::Message_AttributeObject* instance);
+
+public:
+	Message_AttributeObject(Macad::Occt::Standard_Transient^ theObject, Macad::Occt::TCollection_AsciiString^ theName);
+	Message_AttributeObject(Macad::Occt::Standard_Transient^ theObject);
+	Message_AttributeObject(Macad::Occt::Message_AttributeObject^ parameter1);
+	Macad::Occt::Standard_Transient^ Object();
+	void SetObject(Macad::Occt::Standard_Transient^ theObject);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+}; // class Message_AttributeObject
+
+//---------------------------------------------------------------------
+//  Class  Message_AttributeStream
+//---------------------------------------------------------------------
+public ref class Message_AttributeStream : public Macad::Occt::Message_Attribute
+{
+
+#ifdef Include_Message_AttributeStream_h
+public:
+	Include_Message_AttributeStream_h
+#endif
+
+protected:
+	Message_AttributeStream(InitMode init)
+		: Macad::Occt::Message_Attribute( init )
+	{}
+
+public:
+	Message_AttributeStream(::Message_AttributeStream* nativeInstance)
+		: Macad::Occt::Message_Attribute( nativeInstance )
+	{}
+
+	Message_AttributeStream(::Message_AttributeStream& nativeInstance)
+		: Macad::Occt::Message_Attribute( nativeInstance )
+	{}
+
+	property ::Message_AttributeStream* NativeInstance
+	{
+		::Message_AttributeStream* get()
+		{
+			return static_cast<::Message_AttributeStream*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Message_AttributeStream^ CreateDowncasted(::Message_AttributeStream* instance);
+
+public:
+	/* Method skipped due to unknown mapping: void Message_AttributeStream(stringstream theStream, TCollection_AsciiString theName, ) */
+	/* Method skipped due to unknown mapping: void Message_AttributeStream(stringstream theStream, TCollection_AsciiString theName, ) */
+	/* Method skipped due to unknown mapping: stringstream Stream() */
+	/* Method skipped due to unknown mapping: void SetStream(stringstream theStream, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+}; // class Message_AttributeStream
+
+//---------------------------------------------------------------------
+//  Class  Message_Level
+//---------------------------------------------------------------------
+public ref class Message_Level sealed : public BaseClass<::Message_Level>
+{
+
+#ifdef Include_Message_Level_h
+public:
+	Include_Message_Level_h
+#endif
+
+public:
+	Message_Level(::Message_Level* nativeInstance)
+		: BaseClass<::Message_Level>( nativeInstance, true )
+	{}
+
+	Message_Level(::Message_Level& nativeInstance)
+		: BaseClass<::Message_Level>( &nativeInstance, false )
+	{}
+
+	property ::Message_Level* NativeInstance
+	{
+		::Message_Level* get()
+		{
+			return static_cast<::Message_Level*>(_NativeInstance);
+		}
+	}
+
+public:
+	Message_Level(Macad::Occt::TCollection_AsciiString^ theName);
+	Message_Level(Macad::Occt::Message_Level^ parameter1);
+	Macad::Occt::Message_AlertExtended^ RootAlert();
+	void SetRootAlert(Macad::Occt::Message_AlertExtended^ theAlert, bool isRequiredToStart);
+	bool AddAlert(Macad::Occt::Message_Gravity theGravity, Macad::Occt::Message_Alert^ theAlert);
+}; // class Message_Level
+
+//---------------------------------------------------------------------
+//  Class  Message_MsgFile
+//---------------------------------------------------------------------
+public ref class Message_MsgFile sealed : public BaseClass<::Message_MsgFile>
+{
+
+#ifdef Include_Message_MsgFile_h
+public:
+	Include_Message_MsgFile_h
+#endif
+
+public:
+	Message_MsgFile(::Message_MsgFile* nativeInstance)
+		: BaseClass<::Message_MsgFile>( nativeInstance, true )
+	{}
+
+	Message_MsgFile(::Message_MsgFile& nativeInstance)
+		: BaseClass<::Message_MsgFile>( &nativeInstance, false )
+	{}
+
+	property ::Message_MsgFile* NativeInstance
+	{
+		::Message_MsgFile* get()
+		{
+			return static_cast<::Message_MsgFile*>(_NativeInstance);
+		}
+	}
+
+public:
+	Message_MsgFile();
+	Message_MsgFile(Macad::Occt::Message_MsgFile^ parameter1);
+	static bool Load(System::String^ theDirName, System::String^ theFileName);
+	static bool LoadFile(System::String^ theFName);
+	static bool LoadFromEnv(System::String^ theEnvName, System::String^ theFileName, System::String^ theLangExt);
+	static bool LoadFromEnv(System::String^ theEnvName, System::String^ theFileName);
+	static bool LoadFromString(System::String^ theContent, int theLength);
+	static bool LoadFromString(System::String^ theContent);
+	static bool AddMsg(Macad::Occt::TCollection_AsciiString^ key, Macad::Occt::TCollection_ExtendedString^ text);
+	static bool HasMsg(Macad::Occt::TCollection_AsciiString^ key);
+	static Macad::Occt::TCollection_ExtendedString^ Msg(System::String^ key);
+	static Macad::Occt::TCollection_ExtendedString^ Msg(Macad::Occt::TCollection_AsciiString^ key);
+}; // class Message_MsgFile
+
+//---------------------------------------------------------------------
+//  Class  Message_PrinterOStream
+//---------------------------------------------------------------------
+public ref class Message_PrinterOStream sealed : public Macad::Occt::Message_Printer
+{
+
+#ifdef Include_Message_PrinterOStream_h
+public:
+	Include_Message_PrinterOStream_h
+#endif
+
+public:
+	Message_PrinterOStream(::Message_PrinterOStream* nativeInstance)
+		: Macad::Occt::Message_Printer( nativeInstance )
+	{}
+
+	Message_PrinterOStream(::Message_PrinterOStream& nativeInstance)
+		: Macad::Occt::Message_Printer( nativeInstance )
+	{}
+
+	property ::Message_PrinterOStream* NativeInstance
+	{
+		::Message_PrinterOStream* get()
+		{
+			return static_cast<::Message_PrinterOStream*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Message_PrinterOStream^ CreateDowncasted(::Message_PrinterOStream* instance);
+
+public:
+	Message_PrinterOStream(Macad::Occt::Message_Gravity theTraceLevel);
+	Message_PrinterOStream(System::String^ theFileName, bool theDoAppend, Macad::Occt::Message_Gravity theTraceLevel);
+	Message_PrinterOStream(System::String^ theFileName, bool theDoAppend);
+	Message_PrinterOStream(Macad::Occt::Message_PrinterOStream^ parameter1);
+	/* Method skipped due to unknown mapping: void SetConsoleTextColor(ostream theOStream, Message_ConsoleColor theTextColor, bool theIsIntenseText, ) */
+	/* Method skipped due to unknown mapping: void SetConsoleTextColor(ostream theOStream, Message_ConsoleColor theTextColor, bool theIsIntenseText, ) */
+	void Close();
+	/* Method skipped due to unknown mapping: ostream GetStream() */
+	bool ToColorize();
+	void SetToColorize(bool theToColorize);
+}; // class Message_PrinterOStream
+
+//---------------------------------------------------------------------
+//  Class  Message_PrinterSystemLog
+//---------------------------------------------------------------------
+public ref class Message_PrinterSystemLog sealed : public Macad::Occt::Message_Printer
+{
+
+#ifdef Include_Message_PrinterSystemLog_h
+public:
+	Include_Message_PrinterSystemLog_h
+#endif
+
+public:
+	Message_PrinterSystemLog(::Message_PrinterSystemLog* nativeInstance)
+		: Macad::Occt::Message_Printer( nativeInstance )
+	{}
+
+	Message_PrinterSystemLog(::Message_PrinterSystemLog& nativeInstance)
+		: Macad::Occt::Message_Printer( nativeInstance )
+	{}
+
+	property ::Message_PrinterSystemLog* NativeInstance
+	{
+		::Message_PrinterSystemLog* get()
+		{
+			return static_cast<::Message_PrinterSystemLog*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Message_PrinterSystemLog^ CreateDowncasted(::Message_PrinterSystemLog* instance);
+
+public:
+	Message_PrinterSystemLog(Macad::Occt::TCollection_AsciiString^ theEventSourceName, Macad::Occt::Message_Gravity theTraceLevel);
+	Message_PrinterSystemLog(Macad::Occt::TCollection_AsciiString^ theEventSourceName);
+	Message_PrinterSystemLog(Macad::Occt::Message_PrinterSystemLog^ parameter1);
+}; // class Message_PrinterSystemLog
+
+//---------------------------------------------------------------------
+//  Class  Message_PrinterToReport
+//---------------------------------------------------------------------
+public ref class Message_PrinterToReport sealed : public Macad::Occt::Message_Printer
+{
+
+#ifdef Include_Message_PrinterToReport_h
+public:
+	Include_Message_PrinterToReport_h
+#endif
+
+public:
+	Message_PrinterToReport(::Message_PrinterToReport* nativeInstance)
+		: Macad::Occt::Message_Printer( nativeInstance )
+	{}
+
+	Message_PrinterToReport(::Message_PrinterToReport& nativeInstance)
+		: Macad::Occt::Message_Printer( nativeInstance )
+	{}
+
+	property ::Message_PrinterToReport* NativeInstance
+	{
+		::Message_PrinterToReport* get()
+		{
+			return static_cast<::Message_PrinterToReport*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Message_PrinterToReport^ CreateDowncasted(::Message_PrinterToReport* instance);
+
+public:
+	Message_PrinterToReport();
+	Message_PrinterToReport(Macad::Occt::Message_PrinterToReport^ parameter1);
+	Macad::Occt::Message_Report^ Report();
+	void SetReport(Macad::Occt::Message_Report^ theReport);
+	/* Method skipped due to unknown mapping: void SendStringStream(stringstream theStream, Message_Gravity theGravity, ) */
+	void SendObject(Macad::Occt::Standard_Transient^ theObject, Macad::Occt::Message_Gravity theGravity);
+}; // class Message_PrinterToReport
+
+//---------------------------------------------------------------------
+//  Class  Message_ProgressRange
+//---------------------------------------------------------------------
+public ref class Message_ProgressRange sealed : public BaseClass<::Message_ProgressRange>
+{
+
+#ifdef Include_Message_ProgressRange_h
+public:
+	Include_Message_ProgressRange_h
+#endif
+
+public:
+	Message_ProgressRange(::Message_ProgressRange* nativeInstance)
+		: BaseClass<::Message_ProgressRange>( nativeInstance, true )
+	{}
+
+	Message_ProgressRange(::Message_ProgressRange& nativeInstance)
+		: BaseClass<::Message_ProgressRange>( &nativeInstance, false )
+	{}
+
+	property ::Message_ProgressRange* NativeInstance
+	{
+		::Message_ProgressRange* get()
+		{
+			return static_cast<::Message_ProgressRange*>(_NativeInstance);
+		}
+	}
+
+public:
+	Message_ProgressRange();
+	Message_ProgressRange(Macad::Occt::Message_ProgressRange^ theOther);
+	bool UserBreak();
+	bool More();
+	bool IsActive();
+	void Close();
+}; // class Message_ProgressRange
+
+//---------------------------------------------------------------------
+//  Class  Message_ProgressScope
+//---------------------------------------------------------------------
+public ref class Message_ProgressScope sealed : public BaseClass<::Message_ProgressScope>
+{
+
+#ifdef Include_Message_ProgressScope_h
+public:
+	Include_Message_ProgressScope_h
+#endif
+
+public:
+	Message_ProgressScope(::Message_ProgressScope* nativeInstance)
+		: BaseClass<::Message_ProgressScope>( nativeInstance, true )
+	{}
+
+	Message_ProgressScope(::Message_ProgressScope& nativeInstance)
+		: BaseClass<::Message_ProgressScope>( &nativeInstance, false )
+	{}
+
+	property ::Message_ProgressScope* NativeInstance
+	{
+		::Message_ProgressScope* get()
+		{
+			return static_cast<::Message_ProgressScope*>(_NativeInstance);
+		}
+	}
+
+public:
+	Message_ProgressScope();
+	Message_ProgressScope(Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::TCollection_AsciiString^ theName, double theMax, bool isInfinite);
+	Message_ProgressScope(Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::TCollection_AsciiString^ theName, double theMax);
+	/* Method skipped due to unknown mapping: void Message_ProgressScope(Message_ProgressRange theRange, NullString theName, Standard_Real theMax, Standard_Boolean isInfinite, ) */
+	/* Method skipped due to unknown mapping: void Message_ProgressScope(Message_ProgressRange theRange, NullString theName, Standard_Real theMax, Standard_Boolean isInfinite, ) */
+	void SetName(Macad::Occt::TCollection_AsciiString^ theName);
+	bool UserBreak();
+	bool More();
+	Macad::Occt::Message_ProgressRange^ Next(double theStep);
+	Macad::Occt::Message_ProgressRange^ Next();
+	void Show();
+	bool IsActive();
+	System::String^ Name();
+	Macad::Occt::Message_ProgressScope^ Parent();
+	double MaxValue();
+	double Value();
+	bool IsInfinite();
+	double GetPortion();
+	void Close();
+}; // class Message_ProgressScope
 
 }; // namespace Occt
 }; // namespace Macad

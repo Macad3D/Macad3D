@@ -38,14 +38,7 @@ public:
 
 	void SetZLayer(const Graphic3d_ZLayerId  theLayerId) override;
 
-	//! computes the presentation according to a point of view
-	//! given by <aProjector>.
-	//! To be Used when the associated degenerated Presentations
-	//! have been transformed by <aTrsf> which is not a Pure
-	//! Translation. The HLR Prs can't be deducted automatically
-	//! WARNING :<aTrsf> must be applied
-	//! to the object to display before computation  !!!
-	Standard_EXPORT virtual   void Compute(const Handle(Prs3d_Projector)& aProjector, const Handle(Geom_Transformation)& aTrsf, const Handle(Prs3d_Presentation)& aPresentation);
+	Standard_EXPORT void computeHLR(const Handle(Graphic3d_Camera)& theProjector, const Handle(TopLoc_Datum3D)& theTrsf, const Handle(Prs3d_Presentation)& aPresentation) override;
 
 	virtual   Standard_Integer Signature()  const
 	{
@@ -79,8 +72,6 @@ private:
 	Handle(AIS_CircleEx) Circle(Part part)  const;
 
 	void InitSubObjects();
-
-	Standard_EXPORT   void Compute(const Handle(Prs3d_Projector)& aProjector, const Handle(Prs3d_Presentation)& aPresentation);
 
 	Standard_EXPORT   void ComputeSelection(const Handle(SelectMgr_Selection)& aSelection, const Standard_Integer aMode);
 

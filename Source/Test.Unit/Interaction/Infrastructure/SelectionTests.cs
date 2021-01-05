@@ -42,31 +42,35 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             var body2 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
             body2.Position = new Pnt(15, 0, 0);
             ctx.ViewportController.ZoomFitAll();
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection01"));
 
-            // Select first
-            ctx.ViewportController.MouseMove(new Point(350, 180));
-            ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
-            ctx.ViewportController.MouseMove(new Point(0, 0));
-            Assert.That(sel.SelectedEntities.Count, Is.EqualTo(1));
-            Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection02"));
+            Assert.Multiple(() =>
+            {
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection01"));
 
-            // Select second
-            ctx.ViewportController.MouseMove(new Point(150, 290));
-            ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
-            ctx.ViewportController.MouseMove(new Point(0, 0));
-            Assert.That(sel.SelectedEntities.Count, Is.EqualTo(1));
-            Assert.That(sel.SelectedEntities[0], Is.EqualTo(body2));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection03"));
+                // Select first
+                ctx.ViewportController.MouseMove(new Point(350, 180));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseMove(new Point(0, 0));
+                Assert.That(sel.SelectedEntities.Count, Is.EqualTo(1));
+                Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection02"));
 
-            // Unselect
-            ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
-            Assert.That(sel.SelectedEntities.Count, Is.EqualTo(0));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection04"));
+                // Select second
+                ctx.ViewportController.MouseMove(new Point(150, 290));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseMove(new Point(0, 0));
+                Assert.That(sel.SelectedEntities.Count, Is.EqualTo(1));
+                Assert.That(sel.SelectedEntities[0], Is.EqualTo(body2));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection03"));
+
+                // Unselect
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseUp(false);
+                Assert.That(sel.SelectedEntities.Count, Is.EqualTo(0));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection04"));
+            });
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -213,10 +217,11 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             ctx.ViewportController.MouseDown();
             ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Freehand);
             ctx.MoveTo(395, 120);
-            ctx.MoveTo(392, 237);
-            ctx.MoveTo(317, 253);
-            ctx.MoveTo(288, 148);
-            //ctx.MoveTo(190, 139);
+            ctx.MoveTo(378, 430);
+            ctx.MoveTo(188, 446);
+            ctx.MoveTo(130, 250);
+            ctx.MoveTo(150, 120);
+            
             Assert.Multiple(() =>
             {
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RubberbandSelection11"));
@@ -224,6 +229,41 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
                 ctx.ViewportController.MouseUp(false);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RubberbandSelection12"));
                 Assert.AreEqual(2, sel.SelectedEntities.Count);
+            });
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void RubberbandFreehandOverlapSelection()
+        {
+            var ctx = Context.Current;
+            var sel = ctx.WorkspaceController.Selection;
+
+            var body1 = Body.Create(Box.Create(10, 10, 10));
+            body1.Position = new Pnt(-15, 0, 0);
+            var body2 = Body.Create(Cylinder.Create(6, 8));
+            body2.Position = new Pnt(15, 0, 0);
+            var body3 = Body.Create(Cylinder.Create(4, 6));
+            body2.Position = new Pnt(0, 15, 0);
+            ctx.ViewportController.ZoomFitAll();
+
+            // Select two of three
+            ctx.MoveTo(300, 50);
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Freehand);
+            ctx.MoveTo(395, 120);
+            ctx.MoveTo(392, 237);
+            ctx.MoveTo(317, 253);
+            ctx.MoveTo(288, 148);
+            //ctx.MoveTo(190, 139);
+            Assert.Multiple(() =>
+            {
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RubberbandSelection21"));
+
+                ctx.ViewportController.MouseUp(false);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RubberbandSelection22"));
+                Assert.AreEqual(0, sel.SelectedEntities.Count);
             });
         }
     }

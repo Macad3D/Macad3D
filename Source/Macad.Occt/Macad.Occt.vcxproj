@@ -96,6 +96,8 @@
       <CLRUnmanagedCodeCheck>false</CLRUnmanagedCodeCheck>
       <SubSystem>Windows</SubSystem>
       <AdditionalOptions>/IGNOREIDL /KEYFILE:$(SolutionDir)Source\sn.snk %(AdditionalOptions)</AdditionalOptions>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -189,7 +191,7 @@
     <ClInclude Include="Generated\ElCLib.h" />
     <ClInclude Include="Generated\ElSLib.h" />
     <ClInclude Include="Generated\Extrema.h" />
-    <ClInclude Include="Generated\forward_declarations.h" />
+    <ClInclude Include="Generated\ForwardDeclarations.h" />
     <ClInclude Include="Generated\gce.h" />
     <ClInclude Include="Generated\Geom.h">
     </ClInclude>
@@ -222,7 +224,7 @@
     <ClInclude Include="Generated\IntAna2d.h" />
     <ClInclude Include="Generated\IntCurvesFace.h" />
     <ClInclude Include="Generated\Message.h" />
-    <ClInclude Include="Generated\native_includes.h" />
+    <ClInclude Include="Generated\NativeIncludes.h" />
     <ClInclude Include="Generated\MMgt.h" />
     <ClInclude Include="Generated\NCollection.h" />
     <ClInclude Include="Generated\Precision.h" />
@@ -279,6 +281,7 @@
     <ClInclude Include="Generated\UnitsAPI.h" />
     <ClInclude Include="Generated\V3d.h">
     </ClInclude>
+    <ClInclude Include="Generated\VersionInfo.h" />
     <ClInclude Include="Generated\WNT.h">
     </ClInclude>
     <ClInclude Include="OcctPCH.h" />
@@ -463,10 +466,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-
+ 
   <ItemGroup>
-    <ThirdParty Include="$(OcctBinPath)\*.*" />
-    <ThirdParty Include="$(FreeTypeBinPath)\*.*" />
-    <ThirdParty Include="$(TbbBinPath)\*.*" />
+    <CopyToOutput Include="@(OcctDeployFiles)" />
   </ItemGroup>
+  
 </Project>

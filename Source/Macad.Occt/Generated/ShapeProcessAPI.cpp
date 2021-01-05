@@ -10,6 +10,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "ShapeProcess.h"
 #include "TopoDS.h"
 #include "TopAbs.h"
+#include "Message.h"
 #include "TopTools.h"
 
 
@@ -48,24 +49,31 @@ Macad::Occt::ShapeProcess_ShapeContext^ Macad::Occt::ShapeProcessAPI_ApplySequen
 	 return _result.IsNull() ? nullptr : Macad::Occt::ShapeProcess_ShapeContext::CreateDowncasted( _result.get());
 }
 
+Macad::Occt::TopoDS_Shape^ Macad::Occt::ShapeProcessAPI_ApplySequence::PrepareShape(Macad::Occt::TopoDS_Shape^ shape, bool fillmap, Macad::Occt::TopAbs_ShapeEnum until, Macad::Occt::Message_ProgressRange^ theProgress)
+{
+	::TopoDS_Shape* _result = new ::TopoDS_Shape();
+	*_result = ((::ShapeProcessAPI_ApplySequence*)_NativeInstance)->PrepareShape(*(::TopoDS_Shape*)shape->NativeInstance, fillmap, (::TopAbs_ShapeEnum)until, *(::Message_ProgressRange*)theProgress->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
+}
+
 Macad::Occt::TopoDS_Shape^ Macad::Occt::ShapeProcessAPI_ApplySequence::PrepareShape(Macad::Occt::TopoDS_Shape^ shape, bool fillmap, Macad::Occt::TopAbs_ShapeEnum until)
 {
 	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result = ((::ShapeProcessAPI_ApplySequence*)_NativeInstance)->PrepareShape(*(::TopoDS_Shape*)shape->NativeInstance, fillmap, (::TopAbs_ShapeEnum)until);
+	*_result = ((::ShapeProcessAPI_ApplySequence*)_NativeInstance)->PrepareShape(*(::TopoDS_Shape*)shape->NativeInstance, fillmap, (::TopAbs_ShapeEnum)until, ::Message_ProgressRange());
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
 }
 
 Macad::Occt::TopoDS_Shape^ Macad::Occt::ShapeProcessAPI_ApplySequence::PrepareShape(Macad::Occt::TopoDS_Shape^ shape, bool fillmap)
 {
 	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result = ((::ShapeProcessAPI_ApplySequence*)_NativeInstance)->PrepareShape(*(::TopoDS_Shape*)shape->NativeInstance, fillmap, TopAbs_SHAPE);
+	*_result = ((::ShapeProcessAPI_ApplySequence*)_NativeInstance)->PrepareShape(*(::TopoDS_Shape*)shape->NativeInstance, fillmap, TopAbs_SHAPE, ::Message_ProgressRange());
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
 }
 
 Macad::Occt::TopoDS_Shape^ Macad::Occt::ShapeProcessAPI_ApplySequence::PrepareShape(Macad::Occt::TopoDS_Shape^ shape)
 {
 	::TopoDS_Shape* _result = new ::TopoDS_Shape();
-	*_result = ((::ShapeProcessAPI_ApplySequence*)_NativeInstance)->PrepareShape(*(::TopoDS_Shape*)shape->NativeInstance, false, TopAbs_SHAPE);
+	*_result = ((::ShapeProcessAPI_ApplySequence*)_NativeInstance)->PrepareShape(*(::TopoDS_Shape*)shape->NativeInstance, false, TopAbs_SHAPE, ::Message_ProgressRange());
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
 }
 

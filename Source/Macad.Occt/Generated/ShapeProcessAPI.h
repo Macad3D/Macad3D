@@ -40,6 +40,7 @@ public:
 	ShapeProcessAPI_ApplySequence(System::String^ rscName);
 	ShapeProcessAPI_ApplySequence(Macad::Occt::ShapeProcessAPI_ApplySequence^ parameter1);
 	Macad::Occt::ShapeProcess_ShapeContext^ Context();
+	Macad::Occt::TopoDS_Shape^ PrepareShape(Macad::Occt::TopoDS_Shape^ shape, bool fillmap, Macad::Occt::TopAbs_ShapeEnum until, Macad::Occt::Message_ProgressRange^ theProgress);
 	Macad::Occt::TopoDS_Shape^ PrepareShape(Macad::Occt::TopoDS_Shape^ shape, bool fillmap, Macad::Occt::TopAbs_ShapeEnum until);
 	Macad::Occt::TopoDS_Shape^ PrepareShape(Macad::Occt::TopoDS_Shape^ shape, bool fillmap);
 	Macad::Occt::TopoDS_Shape^ PrepareShape(Macad::Occt::TopoDS_Shape^ shape);

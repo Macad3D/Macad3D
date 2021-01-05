@@ -563,7 +563,7 @@ public:
 	void Init();
 	void Load(Macad::Occt::TopoDS_Shape^ shape);
 	void Add(Macad::Occt::TopoDS_Shape^ shape);
-	/* Method skipped due to unknown mapping: void Perform(Message_ProgressIndicator thePI, ) */
+	void Perform(Macad::Occt::Message_ProgressRange^ theProgress);
 	void Perform();
 	Macad::Occt::TopoDS_Shape^ SewedShape();
 	void SetContext(Macad::Occt::BRepTools_ReShape^ theContext);

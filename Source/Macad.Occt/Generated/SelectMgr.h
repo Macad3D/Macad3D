@@ -10,6 +10,15 @@ namespace Macad
 namespace Occt
 {
 //---------------------------------------------------------------------
+//  Enum  SelectMgr_FilterType
+//---------------------------------------------------------------------
+public enum class SelectMgr_FilterType
+{
+	SelectMgr_FilterType_AND = 0,
+	SelectMgr_FilterType_OR = 1
+}; // enum  class SelectMgr_FilterType
+
+//---------------------------------------------------------------------
 //  Enum  SelectMgr_StateOfSelection
 //---------------------------------------------------------------------
 public enum class SelectMgr_StateOfSelection
@@ -50,6 +59,16 @@ public enum class SelectMgr_PickingStrategy
 	SelectMgr_PickingStrategy_FirstAcceptable = 0,
 	SelectMgr_PickingStrategy_OnlyTopmost = 1
 }; // enum  class SelectMgr_PickingStrategy
+
+//---------------------------------------------------------------------
+//  Enum  SelectMgr_TypeOfDepthTolerance
+//---------------------------------------------------------------------
+public enum class SelectMgr_TypeOfDepthTolerance
+{
+	SelectMgr_TypeOfDepthTolerance_Uniform = 0,
+	SelectMgr_TypeOfDepthTolerance_UniformPixels = 1,
+	SelectMgr_TypeOfDepthTolerance_SensitivityFactor = 2
+}; // enum  class SelectMgr_TypeOfDepthTolerance
 
 //---------------------------------------------------------------------
 //  Class  SelectMgr_ListOfFilter
@@ -400,6 +419,92 @@ public:
 }; // class SelectMgr_SequenceOfFilter
 
 //---------------------------------------------------------------------
+//  Class  SelectMgr_Selection
+//---------------------------------------------------------------------
+public ref class SelectMgr_Selection sealed : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_SelectMgr_Selection_h
+public:
+	Include_SelectMgr_Selection_h
+#endif
+
+public:
+	SelectMgr_Selection(::SelectMgr_Selection* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	SelectMgr_Selection(::SelectMgr_Selection& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	property ::SelectMgr_Selection* NativeInstance
+	{
+		::SelectMgr_Selection* get()
+		{
+			return static_cast<::SelectMgr_Selection*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::SelectMgr_Selection^ CreateDowncasted(::SelectMgr_Selection* instance);
+
+public:
+	SelectMgr_Selection(int theModeIdx);
+	SelectMgr_Selection(Macad::Occt::SelectMgr_Selection^ parameter1);
+	void Destroy();
+	/* Method skipped due to unknown mapping: void Add(Select3D_SensitiveEntity theSensitive, ) */
+	void Clear();
+	bool IsEmpty();
+	int Mode();
+	/* Method skipped due to unknown mapping: NCollection_Vector<opencascade::handle<SelectMgr_SensitiveEntity> > Entities() */
+	/* Method skipped due to unknown mapping: NCollection_Vector<opencascade::handle<SelectMgr_SensitiveEntity> > ChangeEntities() */
+	Macad::Occt::SelectMgr_TypeOfUpdate UpdateStatus();
+	void UpdateStatus(Macad::Occt::SelectMgr_TypeOfUpdate theStatus);
+	void UpdateBVHStatus(Macad::Occt::SelectMgr_TypeOfBVHUpdate theStatus);
+	Macad::Occt::SelectMgr_TypeOfBVHUpdate BVHUpdateStatus();
+	Macad::Occt::SelectMgr_StateOfSelection GetSelectionState();
+	void SetSelectionState(Macad::Occt::SelectMgr_StateOfSelection theState);
+	int Sensitivity();
+	void SetSensitivity(int theNewSens);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+}; // class SelectMgr_Selection
+
+//---------------------------------------------------------------------
+//  Class  SelectMgr
+//---------------------------------------------------------------------
+public ref class SelectMgr sealed : public BaseClass<::SelectMgr>
+{
+
+#ifdef Include_SelectMgr_h
+public:
+	Include_SelectMgr_h
+#endif
+
+public:
+	SelectMgr(::SelectMgr* nativeInstance)
+		: BaseClass<::SelectMgr>( nativeInstance, true )
+	{}
+
+	SelectMgr(::SelectMgr& nativeInstance)
+		: BaseClass<::SelectMgr>( &nativeInstance, false )
+	{}
+
+	property ::SelectMgr* NativeInstance
+	{
+		::SelectMgr* get()
+		{
+			return static_cast<::SelectMgr*>(_NativeInstance);
+		}
+	}
+
+public:
+	SelectMgr();
+	SelectMgr(Macad::Occt::SelectMgr^ parameter1);
+	static void ComputeSensitivePrs(Macad::Occt::Graphic3d_Structure^ theStructure, Macad::Occt::SelectMgr_Selection^ theSel, Macad::Occt::Trsf theLoc, Macad::Occt::Graphic3d_TransformPers^ theTrsfPers);
+}; // class SelectMgr
+
+//---------------------------------------------------------------------
 //  Class  SelectMgr_EntityOwner
 //---------------------------------------------------------------------
 public ref class SelectMgr_EntityOwner : public Macad::Occt::Standard_Transient
@@ -600,6 +705,45 @@ public:
 }; // class SelectMgr_AndFilter
 
 //---------------------------------------------------------------------
+//  Class  SelectMgr_AndOrFilter
+//---------------------------------------------------------------------
+public ref class SelectMgr_AndOrFilter sealed : public Macad::Occt::SelectMgr_CompositionFilter
+{
+
+#ifdef Include_SelectMgr_AndOrFilter_h
+public:
+	Include_SelectMgr_AndOrFilter_h
+#endif
+
+public:
+	SelectMgr_AndOrFilter(::SelectMgr_AndOrFilter* nativeInstance)
+		: Macad::Occt::SelectMgr_CompositionFilter( nativeInstance )
+	{}
+
+	SelectMgr_AndOrFilter(::SelectMgr_AndOrFilter& nativeInstance)
+		: Macad::Occt::SelectMgr_CompositionFilter( nativeInstance )
+	{}
+
+	property ::SelectMgr_AndOrFilter* NativeInstance
+	{
+		::SelectMgr_AndOrFilter* get()
+		{
+			return static_cast<::SelectMgr_AndOrFilter*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::SelectMgr_AndOrFilter^ CreateDowncasted(::SelectMgr_AndOrFilter* instance);
+
+public:
+	SelectMgr_AndOrFilter(Macad::Occt::SelectMgr_FilterType theFilterType);
+	SelectMgr_AndOrFilter(Macad::Occt::SelectMgr_AndOrFilter^ parameter1);
+	bool IsOk(Macad::Occt::SelectMgr_EntityOwner^ theObj);
+	/* Method skipped due to unknown mapping: void SetDisabledObjects(NCollection_Shared<NCollection_Map<const Standard_Transient *, NCollection_DefaultHasher<const Standard_Transient *> >, void>  theObjects, ) */
+	Macad::Occt::SelectMgr_FilterType FilterType();
+	void SetFilterType(Macad::Occt::SelectMgr_FilterType theFilterType);
+}; // class SelectMgr_AndOrFilter
+
+//---------------------------------------------------------------------
 //  Class  SelectMgr_ViewClipRange
 //---------------------------------------------------------------------
 public ref class SelectMgr_ViewClipRange sealed : public BaseClass<::SelectMgr_ViewClipRange>
@@ -641,6 +785,44 @@ public:
 }; // class SelectMgr_ViewClipRange
 
 //---------------------------------------------------------------------
+//  Class  SelectMgr_BVHThreadPool
+//---------------------------------------------------------------------
+public ref class SelectMgr_BVHThreadPool sealed : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_SelectMgr_BVHThreadPool_h
+public:
+	Include_SelectMgr_BVHThreadPool_h
+#endif
+
+public:
+	SelectMgr_BVHThreadPool(::SelectMgr_BVHThreadPool* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	SelectMgr_BVHThreadPool(::SelectMgr_BVHThreadPool& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	property ::SelectMgr_BVHThreadPool* NativeInstance
+	{
+		::SelectMgr_BVHThreadPool* get()
+		{
+			return static_cast<::SelectMgr_BVHThreadPool*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::SelectMgr_BVHThreadPool^ CreateDowncasted(::SelectMgr_BVHThreadPool* instance);
+
+public:
+	SelectMgr_BVHThreadPool(int theNbThreads);
+	/* Method skipped due to unknown mapping: void AddEntity(Select3D_SensitiveEntity theEntity, ) */
+	void StopThreads();
+	void WaitThreads();
+	/* Method skipped due to unknown mapping: NCollection_Array1<SelectMgr_BVHThreadPool::BVHThread> Threads() */
+}; // class SelectMgr_BVHThreadPool
+
+//---------------------------------------------------------------------
 //  Class  SelectMgr_SensitiveEntity
 //---------------------------------------------------------------------
 public ref class SelectMgr_SensitiveEntity sealed : public Macad::Occt::Standard_Transient
@@ -678,61 +860,9 @@ public:
 	bool IsActiveForSelection();
 	void ResetSelectionActiveStatus();
 	void SetActiveForSelection();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class SelectMgr_SensitiveEntity
-
-//---------------------------------------------------------------------
-//  Class  SelectMgr_Selection
-//---------------------------------------------------------------------
-public ref class SelectMgr_Selection sealed : public Macad::Occt::Standard_Transient
-{
-
-#ifdef Include_SelectMgr_Selection_h
-public:
-	Include_SelectMgr_Selection_h
-#endif
-
-public:
-	SelectMgr_Selection(::SelectMgr_Selection* nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	SelectMgr_Selection(::SelectMgr_Selection& nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	property ::SelectMgr_Selection* NativeInstance
-	{
-		::SelectMgr_Selection* get()
-		{
-			return static_cast<::SelectMgr_Selection*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::SelectMgr_Selection^ CreateDowncasted(::SelectMgr_Selection* instance);
-
-public:
-	SelectMgr_Selection(int theModeIdx);
-	SelectMgr_Selection(Macad::Occt::SelectMgr_Selection^ parameter1);
-	void Destroy();
-	/* Method skipped due to unknown mapping: void Add(Select3D_SensitiveEntity theSensitive, ) */
-	void Clear();
-	bool IsEmpty();
-	int Mode();
-	/* Method skipped due to unknown mapping: NCollection_Vector<opencascade::handle<SelectMgr_SensitiveEntity> > Entities() */
-	/* Method skipped due to unknown mapping: NCollection_Vector<opencascade::handle<SelectMgr_SensitiveEntity> > ChangeEntities() */
-	void Init();
-	bool More();
-	void Next();
-	Macad::Occt::SelectMgr_SensitiveEntity^ Sensitive();
-	Macad::Occt::SelectMgr_TypeOfUpdate UpdateStatus();
-	void UpdateStatus(Macad::Occt::SelectMgr_TypeOfUpdate theStatus);
-	void UpdateBVHStatus(Macad::Occt::SelectMgr_TypeOfBVHUpdate theStatus);
-	Macad::Occt::SelectMgr_TypeOfBVHUpdate BVHUpdateStatus();
-	Macad::Occt::SelectMgr_StateOfSelection GetSelectionState();
-	void SetSelectionState(Macad::Occt::SelectMgr_StateOfSelection theState);
-	int Sensitivity();
-	void SetSensitivity(int theNewSens);
-}; // class SelectMgr_Selection
 
 //---------------------------------------------------------------------
 //  Class  SelectMgr_SelectionManager
@@ -862,10 +992,6 @@ public:
 	Macad::Occt::SelectMgr_EntityOwner^ GetAssemblyOwner();
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
-	void Init();
-	bool More();
-	void Next();
-	Macad::Occt::SelectMgr_Selection^ CurrentSelection();
 }; // class SelectMgr_SelectableObject
 
 //---------------------------------------------------------------------
@@ -899,8 +1025,8 @@ public:
 public:
 	SelectMgr_SortCriterion();
 	SelectMgr_SortCriterion(Macad::Occt::SelectMgr_SortCriterion^ parameter1);
-	bool IsGreater(Macad::Occt::SelectMgr_SortCriterion^ theOther);
-	bool IsLower(Macad::Occt::SelectMgr_SortCriterion^ theOther);
+	bool IsCloserDepth(Macad::Occt::SelectMgr_SortCriterion^ theOther);
+	bool IsHigherPriority(Macad::Occt::SelectMgr_SortCriterion^ theOther);
 }; // class SelectMgr_SortCriterion
 
 //---------------------------------------------------------------------
@@ -937,7 +1063,6 @@ public:
 	SelectMgr_OrFilter();
 	SelectMgr_OrFilter(Macad::Occt::SelectMgr_OrFilter^ parameter1);
 	bool IsOk(Macad::Occt::SelectMgr_EntityOwner^ anobj);
-	/* Method skipped due to unknown mapping: void SetDisabledObjects(NCollection_Shared<NCollection_Map<const Standard_Transient *, NCollection_DefaultHasher<const Standard_Transient *> >, void>  theObjects, ) */
 }; // class SelectMgr_OrFilter
 
 //---------------------------------------------------------------------
@@ -992,7 +1117,104 @@ public:
 	bool IsEmpty(Macad::Occt::SelectMgr_SelectableObjectSet::BVHSubset theSubset);
 	Macad::Occt::SelectMgr_SelectableObject^ GetObjectById(Macad::Occt::SelectMgr_SelectableObjectSet::BVHSubset theSubset, int theIndex);
 	/* Method skipped due to unknown mapping: BVH_Tree<double, 3, BVH_BinaryTree>  BVH(BVHSubset theSubset, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class SelectMgr_SelectableObjectSet
+
+//---------------------------------------------------------------------
+//  Class  SelectMgr_ViewerSelector
+//---------------------------------------------------------------------
+public ref class SelectMgr_ViewerSelector : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_SelectMgr_ViewerSelector_h
+public:
+	Include_SelectMgr_ViewerSelector_h
+#endif
+
+protected:
+	SelectMgr_ViewerSelector(InitMode init)
+		: Macad::Occt::Standard_Transient( init )
+	{}
+
+public:
+	SelectMgr_ViewerSelector(::SelectMgr_ViewerSelector* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	SelectMgr_ViewerSelector(::SelectMgr_ViewerSelector& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	property ::SelectMgr_ViewerSelector* NativeInstance
+	{
+		::SelectMgr_ViewerSelector* get()
+		{
+			return static_cast<::SelectMgr_ViewerSelector*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::SelectMgr_ViewerSelector^ CreateDowncasted(::SelectMgr_ViewerSelector* instance);
+
+public:
+	SelectMgr_ViewerSelector(Macad::Occt::SelectMgr_ViewerSelector^ parameter1);
+	void Clear();
+	int CustomPixelTolerance();
+	void SetPixelTolerance(int theTolerance);
+	double Sensitivity();
+	int PixelTolerance();
+	void SortResult();
+	Macad::Occt::SelectMgr_EntityOwner^ OnePicked();
+	bool ToPickClosest();
+	void SetPickClosest(bool theToPreferClosest);
+	Macad::Occt::SelectMgr_TypeOfDepthTolerance DepthToleranceType();
+	double DepthTolerance();
+	void SetDepthTolerance(Macad::Occt::SelectMgr_TypeOfDepthTolerance theType, double theTolerance);
+	int NbPicked();
+	void ClearPicked();
+	Macad::Occt::SelectMgr_EntityOwner^ Picked(int theRank);
+	Macad::Occt::SelectMgr_SortCriterion^ PickedData(int theRank);
+	/* Method skipped due to unknown mapping: Select3D_SensitiveEntity PickedEntity(Standard_Integer theRank, ) */
+	Macad::Occt::Pnt PickedPoint(int theRank);
+	bool Contains(Macad::Occt::SelectMgr_SelectableObject^ theObject);
+	/* Method skipped due to unknown mapping: BVH_Builder<double, 3>  EntitySetBuilder() */
+	/* Method skipped due to unknown mapping: void SetEntitySetBuilder(BVH_Builder<double, 3>  theBuilder, ) */
+	bool Modes(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject, Macad::Occt::TColStd_ListOfInteger^ theModeList, Macad::Occt::SelectMgr_StateOfSelection theWantedState);
+	bool Modes(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject, Macad::Occt::TColStd_ListOfInteger^ theModeList);
+	bool IsActive(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject, int theMode);
+	bool IsInside(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject, int theMode);
+	Macad::Occt::SelectMgr_StateOfSelection Status(Macad::Occt::SelectMgr_Selection^ theSelection);
+	Macad::Occt::TCollection_AsciiString^ Status(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject);
+	/* Method skipped due to unknown mapping: void ActiveOwners(NCollection_List<opencascade::handle<SelectMgr_EntityOwner> > theOwners, ) */
+	void AddSelectableObject(Macad::Occt::SelectMgr_SelectableObject^ theObject);
+	void AddSelectionToObject(Macad::Occt::SelectMgr_SelectableObject^ theObject, Macad::Occt::SelectMgr_Selection^ theSelection);
+	void MoveSelectableObject(Macad::Occt::SelectMgr_SelectableObject^ theObject);
+	void RemoveSelectableObject(Macad::Occt::SelectMgr_SelectableObject^ theObject);
+	void RemoveSelectionOfObject(Macad::Occt::SelectMgr_SelectableObject^ theObject, Macad::Occt::SelectMgr_Selection^ theSelection);
+	void RebuildObjectsTree(bool theIsForce);
+	void RebuildObjectsTree();
+	void RebuildSensitivesTree(Macad::Occt::SelectMgr_SelectableObject^ theObject, bool theIsForce);
+	void RebuildSensitivesTree(Macad::Occt::SelectMgr_SelectableObject^ theObject);
+	/* Method skipped due to unknown mapping: SelectMgr_SelectingVolumeManager GetManager() */
+	Macad::Occt::SelectMgr_SelectableObjectSet^ SelectableObjects();
+	void ResetSelectionActivationStatus();
+	void AllowOverlapDetection(bool theIsToAllow);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	void Init();
+	bool More();
+	void Next();
+	Macad::Occt::SelectMgr_EntityOwner^ Picked();
+	void InitDetected();
+	void NextDetected();
+	bool MoreDetected();
+	/* Method skipped due to unknown mapping: Select3D_SensitiveEntity DetectedEntity() */
+	void SetToPrebuildBVH(bool theToPrebuild, int theThreadsNum);
+	void SetToPrebuildBVH(bool theToPrebuild);
+	/* Method skipped due to unknown mapping: void QueueBVHBuild(Select3D_SensitiveEntity theEntity, ) */
+	void WaitForBVHBuild();
+	bool ToPrebuildBVH();
+}; // class SelectMgr_ViewerSelector
 
 //---------------------------------------------------------------------
 //  Class  SelectMgr_SensitiveEntitySet
@@ -1041,86 +1263,50 @@ public:
 }; // class SelectMgr_SensitiveEntitySet
 
 //---------------------------------------------------------------------
-//  Class  SelectMgr_ViewerSelector
+//  Class  SelectMgr_ViewerSelector3d
 //---------------------------------------------------------------------
-public ref class SelectMgr_ViewerSelector : public Macad::Occt::Standard_Transient
+public ref class SelectMgr_ViewerSelector3d sealed : public Macad::Occt::SelectMgr_ViewerSelector
 {
 
-#ifdef Include_SelectMgr_ViewerSelector_h
+#ifdef Include_SelectMgr_ViewerSelector3d_h
 public:
-	Include_SelectMgr_ViewerSelector_h
+	Include_SelectMgr_ViewerSelector3d_h
 #endif
 
-protected:
-	SelectMgr_ViewerSelector(InitMode init)
-		: Macad::Occt::Standard_Transient( init )
-	{}
-
 public:
-	SelectMgr_ViewerSelector(::SelectMgr_ViewerSelector* nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
+	SelectMgr_ViewerSelector3d(::SelectMgr_ViewerSelector3d* nativeInstance)
+		: Macad::Occt::SelectMgr_ViewerSelector( nativeInstance )
 	{}
 
-	SelectMgr_ViewerSelector(::SelectMgr_ViewerSelector& nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
+	SelectMgr_ViewerSelector3d(::SelectMgr_ViewerSelector3d& nativeInstance)
+		: Macad::Occt::SelectMgr_ViewerSelector( nativeInstance )
 	{}
 
-	property ::SelectMgr_ViewerSelector* NativeInstance
+	property ::SelectMgr_ViewerSelector3d* NativeInstance
 	{
-		::SelectMgr_ViewerSelector* get()
+		::SelectMgr_ViewerSelector3d* get()
 		{
-			return static_cast<::SelectMgr_ViewerSelector*>(_NativeInstance);
+			return static_cast<::SelectMgr_ViewerSelector3d*>(_NativeInstance);
 		}
 	}
 
-	static Macad::Occt::SelectMgr_ViewerSelector^ CreateDowncasted(::SelectMgr_ViewerSelector* instance);
+	static Macad::Occt::SelectMgr_ViewerSelector3d^ CreateDowncasted(::SelectMgr_ViewerSelector3d* instance);
 
 public:
-	SelectMgr_ViewerSelector(Macad::Occt::SelectMgr_ViewerSelector^ parameter1);
-	void Clear();
-	double Sensitivity();
-	void SortResult();
-	Macad::Occt::SelectMgr_EntityOwner^ OnePicked();
-	void SetPickClosest(bool theToPreferClosest);
-	int NbPicked();
-	void ClearPicked();
-	Macad::Occt::SelectMgr_EntityOwner^ Picked(int theRank);
-	Macad::Occt::SelectMgr_SortCriterion^ PickedData(int theRank);
-	/* Method skipped due to unknown mapping: Select3D_SensitiveEntity PickedEntity(Standard_Integer theRank, ) */
-	Macad::Occt::Pnt PickedPoint(int theRank);
-	bool Contains(Macad::Occt::SelectMgr_SelectableObject^ theObject);
-	/* Method skipped due to unknown mapping: BVH_Builder<double, 3>  EntitySetBuilder() */
-	/* Method skipped due to unknown mapping: void SetEntitySetBuilder(BVH_Builder<double, 3>  theBuilder, ) */
-	bool Modes(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject, Macad::Occt::TColStd_ListOfInteger^ theModeList, Macad::Occt::SelectMgr_StateOfSelection theWantedState);
-	bool Modes(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject, Macad::Occt::TColStd_ListOfInteger^ theModeList);
-	bool IsActive(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject, int theMode);
-	bool IsInside(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject, int theMode);
-	Macad::Occt::SelectMgr_StateOfSelection Status(Macad::Occt::SelectMgr_Selection^ theSelection);
-	Macad::Occt::TCollection_AsciiString^ Status(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject);
-	/* Method skipped due to unknown mapping: void ActiveOwners(NCollection_List<opencascade::handle<SelectMgr_EntityOwner> > theOwners, ) */
-	void AddSelectableObject(Macad::Occt::SelectMgr_SelectableObject^ theObject);
-	void AddSelectionToObject(Macad::Occt::SelectMgr_SelectableObject^ theObject, Macad::Occt::SelectMgr_Selection^ theSelection);
-	void MoveSelectableObject(Macad::Occt::SelectMgr_SelectableObject^ theObject);
-	void RemoveSelectableObject(Macad::Occt::SelectMgr_SelectableObject^ theObject);
-	void RemoveSelectionOfObject(Macad::Occt::SelectMgr_SelectableObject^ theObject, Macad::Occt::SelectMgr_Selection^ theSelection);
-	void RebuildObjectsTree(bool theIsForce);
-	void RebuildObjectsTree();
-	void RebuildSensitivesTree(Macad::Occt::SelectMgr_SelectableObject^ theObject, bool theIsForce);
-	void RebuildSensitivesTree(Macad::Occt::SelectMgr_SelectableObject^ theObject);
-	/* Method skipped due to unknown mapping: SelectMgr_SelectingVolumeManager GetManager() */
-	void ResetSelectionActivationStatus();
-	void AllowOverlapDetection(bool theIsToAllow);
+	SelectMgr_ViewerSelector3d();
+	SelectMgr_ViewerSelector3d(Macad::Occt::SelectMgr_ViewerSelector3d^ parameter1);
+	void Pick(int theXPix, int theYPix, Macad::Occt::V3d_View^ theView);
+	void Pick(int theXPMin, int theYPMin, int theXPMax, int theYPMax, Macad::Occt::V3d_View^ theView);
+	void Pick(Macad::Occt::TColgp_Array1OfPnt2d^ thePolyline, Macad::Occt::V3d_View^ theView);
+	bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, Macad::Occt::V3d_View^ theView, Macad::Occt::StdSelect_TypeOfSelectionImage theType, int thePickedIndex);
+	bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, Macad::Occt::V3d_View^ theView, Macad::Occt::StdSelect_TypeOfSelectionImage theType);
+	void DisplaySensitive(Macad::Occt::V3d_View^ theView);
+	void ClearSensitive(Macad::Occt::V3d_View^ theView);
+	void DisplaySensitive(Macad::Occt::SelectMgr_Selection^ theSel, Macad::Occt::Trsf theTrsf, Macad::Occt::V3d_View^ theView, bool theToClearOthers);
+	void DisplaySensitive(Macad::Occt::SelectMgr_Selection^ theSel, Macad::Occt::Trsf theTrsf, Macad::Occt::V3d_View^ theView);
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
-	void Init();
-	bool More();
-	void Next();
-	Macad::Occt::SelectMgr_EntityOwner^ Picked();
-	void InitDetected();
-	void NextDetected();
-	bool MoreDetected();
-	/* Method skipped due to unknown mapping: Select3D_SensitiveEntity DetectedEntity() */
-}; // class SelectMgr_ViewerSelector
+}; // class SelectMgr_ViewerSelector3d
 
 }; // namespace Occt
 }; // namespace Macad

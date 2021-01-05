@@ -5,13 +5,465 @@
 
 using namespace System::Runtime::InteropServices; // for class Marshal
 
+#include "Standard.h"
 #include "NCollection.h"
 #include "Aspect.h"
-#include "Standard.h"
+#include "TCollection.h"
 #include "Quantity.h"
 #include "V3d.h"
 #include "WNT.h"
-#include "TCollection.h"
+#include "gp.h"
+#include "Graphic3d.h"
+#include "Image.h"
+
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRActionMap
+//---------------------------------------------------------------------
+
+Macad::Occt::Aspect_XRActionMap::Aspect_XRActionMap()
+	: BaseClass<::Aspect_XRActionMap>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_XRActionMap();
+}
+
+Macad::Occt::Aspect_XRActionMap::Aspect_XRActionMap(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::Aspect_XRActionMap>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::Aspect_XRActionMap(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::Aspect_XRActionMap::Aspect_XRActionMap(int theNbBuckets)
+	: BaseClass<::Aspect_XRActionMap>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_XRActionMap(theNbBuckets, 0L);
+}
+
+Macad::Occt::Aspect_XRActionMap::Aspect_XRActionMap(Macad::Occt::Aspect_XRActionMap^ theOther)
+	: BaseClass<::Aspect_XRActionMap>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_XRActionMap(*(::Aspect_XRActionMap*)theOther->NativeInstance);
+}
+
+void Macad::Occt::Aspect_XRActionMap::Exchange(Macad::Occt::Aspect_XRActionMap^ theOther)
+{
+	((::Aspect_XRActionMap*)_NativeInstance)->Exchange(*(::Aspect_XRActionMap*)theOther->NativeInstance);
+}
+
+int Macad::Occt::Aspect_XRActionMap::Add(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRAction^ theItem)
+{
+	Handle(::Aspect_XRAction) h_theItem = theItem->NativeInstance;
+	return ((::Aspect_XRActionMap*)_NativeInstance)->Add(*(::TCollection_AsciiString*)theKey1->NativeInstance, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
+}
+
+bool Macad::Occt::Aspect_XRActionMap::Contains(Macad::Occt::TCollection_AsciiString^ theKey1)
+{
+	return ((::Aspect_XRActionMap*)_NativeInstance)->Contains(*(::TCollection_AsciiString*)theKey1->NativeInstance);
+}
+
+void Macad::Occt::Aspect_XRActionMap::Substitute(int theIndex, Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRAction^ theItem)
+{
+	Handle(::Aspect_XRAction) h_theItem = theItem->NativeInstance;
+	((::Aspect_XRActionMap*)_NativeInstance)->Substitute(theIndex, *(::TCollection_AsciiString*)theKey1->NativeInstance, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
+}
+
+void Macad::Occt::Aspect_XRActionMap::Swap(int theIndex1, int theIndex2)
+{
+	((::Aspect_XRActionMap*)_NativeInstance)->Swap(theIndex1, theIndex2);
+}
+
+void Macad::Occt::Aspect_XRActionMap::RemoveLast()
+{
+	((::Aspect_XRActionMap*)_NativeInstance)->RemoveLast();
+}
+
+void Macad::Occt::Aspect_XRActionMap::RemoveFromIndex(int theIndex)
+{
+	((::Aspect_XRActionMap*)_NativeInstance)->RemoveFromIndex(theIndex);
+}
+
+void Macad::Occt::Aspect_XRActionMap::RemoveKey(Macad::Occt::TCollection_AsciiString^ theKey1)
+{
+	((::Aspect_XRActionMap*)_NativeInstance)->RemoveKey(*(::TCollection_AsciiString*)theKey1->NativeInstance);
+}
+
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::Aspect_XRActionMap::FindKey(int theIndex)
+{
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result =  (::TCollection_AsciiString)((::Aspect_XRActionMap*)_NativeInstance)->FindKey(theIndex);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
+}
+
+Macad::Occt::Aspect_XRAction^ Macad::Occt::Aspect_XRActionMap::FindFromIndex(int theIndex)
+{
+	Handle(::Aspect_XRAction) _result;
+	_result = ((::Aspect_XRActionMap*)_NativeInstance)->FindFromIndex(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_XRAction::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Aspect_XRAction^ Macad::Occt::Aspect_XRActionMap::ChangeFromIndex(int theIndex)
+{
+	Handle(::Aspect_XRAction) _result;
+	_result = ((::Aspect_XRActionMap*)_NativeInstance)->ChangeFromIndex(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_XRAction::CreateDowncasted( _result.get());
+}
+
+int Macad::Occt::Aspect_XRActionMap::FindIndex(Macad::Occt::TCollection_AsciiString^ theKey1)
+{
+	return ((::Aspect_XRActionMap*)_NativeInstance)->FindIndex(*(::TCollection_AsciiString*)theKey1->NativeInstance);
+}
+
+Macad::Occt::Aspect_XRAction^ Macad::Occt::Aspect_XRActionMap::FindFromKey(Macad::Occt::TCollection_AsciiString^ theKey1)
+{
+	Handle(::Aspect_XRAction) _result;
+	_result = ((::Aspect_XRActionMap*)_NativeInstance)->FindFromKey(*(::TCollection_AsciiString*)theKey1->NativeInstance);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_XRAction::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Aspect_XRAction^ Macad::Occt::Aspect_XRActionMap::ChangeFromKey(Macad::Occt::TCollection_AsciiString^ theKey1)
+{
+	Handle(::Aspect_XRAction) _result;
+	_result = ((::Aspect_XRActionMap*)_NativeInstance)->ChangeFromKey(*(::TCollection_AsciiString*)theKey1->NativeInstance);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_XRAction::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Aspect_XRAction^ Macad::Occt::Aspect_XRActionMap::Seek(Macad::Occt::TCollection_AsciiString^ theKey1)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+Macad::Occt::Aspect_XRAction^ Macad::Occt::Aspect_XRActionMap::ChangeSeek(Macad::Occt::TCollection_AsciiString^ theKey1)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+bool Macad::Occt::Aspect_XRActionMap::FindFromKey(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRAction^ theValue)
+{
+	Handle(::Aspect_XRAction) h_theValue = theValue->NativeInstance;
+	return ((::Aspect_XRActionMap*)_NativeInstance)->FindFromKey(*(::TCollection_AsciiString*)theKey1->NativeInstance, h_theValue);
+	theValue->NativeInstance = h_theValue.get();
+}
+
+void Macad::Occt::Aspect_XRActionMap::Clear(bool doReleaseMemory)
+{
+	((::Aspect_XRActionMap*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::Aspect_XRActionMap::Clear()
+{
+	((::Aspect_XRActionMap*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::Aspect_XRActionMap::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::Aspect_XRActionMap*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::Aspect_XRActionMap::Size()
+{
+	return ((::Aspect_XRActionMap*)_NativeInstance)->Size();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRActionSetMap
+//---------------------------------------------------------------------
+
+Macad::Occt::Aspect_XRActionSetMap::Aspect_XRActionSetMap()
+	: BaseClass<::Aspect_XRActionSetMap>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_XRActionSetMap();
+}
+
+Macad::Occt::Aspect_XRActionSetMap::Aspect_XRActionSetMap(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::Aspect_XRActionSetMap>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::Aspect_XRActionSetMap(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::Aspect_XRActionSetMap::Aspect_XRActionSetMap(int theNbBuckets)
+	: BaseClass<::Aspect_XRActionSetMap>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_XRActionSetMap(theNbBuckets, 0L);
+}
+
+Macad::Occt::Aspect_XRActionSetMap::Aspect_XRActionSetMap(Macad::Occt::Aspect_XRActionSetMap^ theOther)
+	: BaseClass<::Aspect_XRActionSetMap>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_XRActionSetMap(*(::Aspect_XRActionSetMap*)theOther->NativeInstance);
+}
+
+void Macad::Occt::Aspect_XRActionSetMap::Exchange(Macad::Occt::Aspect_XRActionSetMap^ theOther)
+{
+	((::Aspect_XRActionSetMap*)_NativeInstance)->Exchange(*(::Aspect_XRActionSetMap*)theOther->NativeInstance);
+}
+
+int Macad::Occt::Aspect_XRActionSetMap::Add(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRActionSet^ theItem)
+{
+	Handle(::Aspect_XRActionSet) h_theItem = theItem->NativeInstance;
+	return ((::Aspect_XRActionSetMap*)_NativeInstance)->Add(*(::TCollection_AsciiString*)theKey1->NativeInstance, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
+}
+
+bool Macad::Occt::Aspect_XRActionSetMap::Contains(Macad::Occt::TCollection_AsciiString^ theKey1)
+{
+	return ((::Aspect_XRActionSetMap*)_NativeInstance)->Contains(*(::TCollection_AsciiString*)theKey1->NativeInstance);
+}
+
+void Macad::Occt::Aspect_XRActionSetMap::Substitute(int theIndex, Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRActionSet^ theItem)
+{
+	Handle(::Aspect_XRActionSet) h_theItem = theItem->NativeInstance;
+	((::Aspect_XRActionSetMap*)_NativeInstance)->Substitute(theIndex, *(::TCollection_AsciiString*)theKey1->NativeInstance, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
+}
+
+void Macad::Occt::Aspect_XRActionSetMap::Swap(int theIndex1, int theIndex2)
+{
+	((::Aspect_XRActionSetMap*)_NativeInstance)->Swap(theIndex1, theIndex2);
+}
+
+void Macad::Occt::Aspect_XRActionSetMap::RemoveLast()
+{
+	((::Aspect_XRActionSetMap*)_NativeInstance)->RemoveLast();
+}
+
+void Macad::Occt::Aspect_XRActionSetMap::RemoveFromIndex(int theIndex)
+{
+	((::Aspect_XRActionSetMap*)_NativeInstance)->RemoveFromIndex(theIndex);
+}
+
+void Macad::Occt::Aspect_XRActionSetMap::RemoveKey(Macad::Occt::TCollection_AsciiString^ theKey1)
+{
+	((::Aspect_XRActionSetMap*)_NativeInstance)->RemoveKey(*(::TCollection_AsciiString*)theKey1->NativeInstance);
+}
+
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::Aspect_XRActionSetMap::FindKey(int theIndex)
+{
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result =  (::TCollection_AsciiString)((::Aspect_XRActionSetMap*)_NativeInstance)->FindKey(theIndex);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
+}
+
+Macad::Occt::Aspect_XRActionSet^ Macad::Occt::Aspect_XRActionSetMap::FindFromIndex(int theIndex)
+{
+	Handle(::Aspect_XRActionSet) _result;
+	_result = ((::Aspect_XRActionSetMap*)_NativeInstance)->FindFromIndex(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_XRActionSet::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Aspect_XRActionSet^ Macad::Occt::Aspect_XRActionSetMap::ChangeFromIndex(int theIndex)
+{
+	Handle(::Aspect_XRActionSet) _result;
+	_result = ((::Aspect_XRActionSetMap*)_NativeInstance)->ChangeFromIndex(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_XRActionSet::CreateDowncasted( _result.get());
+}
+
+int Macad::Occt::Aspect_XRActionSetMap::FindIndex(Macad::Occt::TCollection_AsciiString^ theKey1)
+{
+	return ((::Aspect_XRActionSetMap*)_NativeInstance)->FindIndex(*(::TCollection_AsciiString*)theKey1->NativeInstance);
+}
+
+Macad::Occt::Aspect_XRActionSet^ Macad::Occt::Aspect_XRActionSetMap::FindFromKey(Macad::Occt::TCollection_AsciiString^ theKey1)
+{
+	Handle(::Aspect_XRActionSet) _result;
+	_result = ((::Aspect_XRActionSetMap*)_NativeInstance)->FindFromKey(*(::TCollection_AsciiString*)theKey1->NativeInstance);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_XRActionSet::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Aspect_XRActionSet^ Macad::Occt::Aspect_XRActionSetMap::ChangeFromKey(Macad::Occt::TCollection_AsciiString^ theKey1)
+{
+	Handle(::Aspect_XRActionSet) _result;
+	_result = ((::Aspect_XRActionSetMap*)_NativeInstance)->ChangeFromKey(*(::TCollection_AsciiString*)theKey1->NativeInstance);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_XRActionSet::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Aspect_XRActionSet^ Macad::Occt::Aspect_XRActionSetMap::Seek(Macad::Occt::TCollection_AsciiString^ theKey1)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+Macad::Occt::Aspect_XRActionSet^ Macad::Occt::Aspect_XRActionSetMap::ChangeSeek(Macad::Occt::TCollection_AsciiString^ theKey1)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+bool Macad::Occt::Aspect_XRActionSetMap::FindFromKey(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRActionSet^ theValue)
+{
+	Handle(::Aspect_XRActionSet) h_theValue = theValue->NativeInstance;
+	return ((::Aspect_XRActionSetMap*)_NativeInstance)->FindFromKey(*(::TCollection_AsciiString*)theKey1->NativeInstance, h_theValue);
+	theValue->NativeInstance = h_theValue.get();
+}
+
+void Macad::Occt::Aspect_XRActionSetMap::Clear(bool doReleaseMemory)
+{
+	((::Aspect_XRActionSetMap*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::Aspect_XRActionSetMap::Clear()
+{
+	((::Aspect_XRActionSetMap*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::Aspect_XRActionSetMap::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::Aspect_XRActionSetMap*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::Aspect_XRActionSetMap::Size()
+{
+	return ((::Aspect_XRActionSetMap*)_NativeInstance)->Size();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  Aspect_TrackedDevicePoseArray
+//---------------------------------------------------------------------
+
+Macad::Occt::Aspect_TrackedDevicePoseArray::Aspect_TrackedDevicePoseArray()
+	: BaseClass<::Aspect_TrackedDevicePoseArray>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_TrackedDevicePoseArray();
+}
+
+Macad::Occt::Aspect_TrackedDevicePoseArray::Aspect_TrackedDevicePoseArray(int theLower, int theUpper)
+	: BaseClass<::Aspect_TrackedDevicePoseArray>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_TrackedDevicePoseArray(theLower, theUpper);
+}
+
+Macad::Occt::Aspect_TrackedDevicePoseArray::Aspect_TrackedDevicePoseArray(Macad::Occt::Aspect_TrackedDevicePoseArray^ theOther)
+	: BaseClass<::Aspect_TrackedDevicePoseArray>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_TrackedDevicePoseArray(*(::Aspect_TrackedDevicePoseArray*)theOther->NativeInstance);
+}
+
+Macad::Occt::Aspect_TrackedDevicePoseArray::Aspect_TrackedDevicePoseArray(Macad::Occt::Aspect_TrackedDevicePose^ theBegin, int theLower, int theUpper)
+	: BaseClass<::Aspect_TrackedDevicePoseArray>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_TrackedDevicePoseArray(*(::Aspect_TrackedDevicePose*)theBegin->NativeInstance, theLower, theUpper);
+}
+
+void Macad::Occt::Aspect_TrackedDevicePoseArray::Init(Macad::Occt::Aspect_TrackedDevicePose^ theValue)
+{
+	((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->Init(*(::Aspect_TrackedDevicePose*)theValue->NativeInstance);
+}
+
+int Macad::Occt::Aspect_TrackedDevicePoseArray::Size()
+{
+	return ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->Size();
+}
+
+int Macad::Occt::Aspect_TrackedDevicePoseArray::Length()
+{
+	return ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->Length();
+}
+
+bool Macad::Occt::Aspect_TrackedDevicePoseArray::IsEmpty()
+{
+	return ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->IsEmpty();
+}
+
+int Macad::Occt::Aspect_TrackedDevicePoseArray::Lower()
+{
+	return ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->Lower();
+}
+
+int Macad::Occt::Aspect_TrackedDevicePoseArray::Upper()
+{
+	return ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->Upper();
+}
+
+bool Macad::Occt::Aspect_TrackedDevicePoseArray::IsDeletable()
+{
+	return ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->IsDeletable();
+}
+
+bool Macad::Occt::Aspect_TrackedDevicePoseArray::IsAllocated()
+{
+	return ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->IsAllocated();
+}
+
+Macad::Occt::Aspect_TrackedDevicePoseArray^ Macad::Occt::Aspect_TrackedDevicePoseArray::Assign(Macad::Occt::Aspect_TrackedDevicePoseArray^ theOther)
+{
+	::Aspect_TrackedDevicePoseArray* _result = new ::Aspect_TrackedDevicePoseArray();
+	*_result = ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->Assign(*(::Aspect_TrackedDevicePoseArray*)theOther->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_TrackedDevicePoseArray(_result);
+}
+
+Macad::Occt::Aspect_TrackedDevicePoseArray^ Macad::Occt::Aspect_TrackedDevicePoseArray::Move(Macad::Occt::Aspect_TrackedDevicePoseArray^ theOther)
+{
+	::Aspect_TrackedDevicePoseArray* _result = new ::Aspect_TrackedDevicePoseArray();
+	*_result = ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->Move(*(::Aspect_TrackedDevicePoseArray*)theOther->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_TrackedDevicePoseArray(_result);
+}
+
+Macad::Occt::Aspect_TrackedDevicePose^ Macad::Occt::Aspect_TrackedDevicePoseArray::First()
+{
+	::Aspect_TrackedDevicePose* _result = new ::Aspect_TrackedDevicePose();
+	*_result =  (::Aspect_TrackedDevicePose)((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->First();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_TrackedDevicePose(_result);
+}
+
+Macad::Occt::Aspect_TrackedDevicePose^ Macad::Occt::Aspect_TrackedDevicePoseArray::ChangeFirst()
+{
+	::Aspect_TrackedDevicePose* _result = new ::Aspect_TrackedDevicePose();
+	*_result = ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->ChangeFirst();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_TrackedDevicePose(_result);
+}
+
+Macad::Occt::Aspect_TrackedDevicePose^ Macad::Occt::Aspect_TrackedDevicePoseArray::Last()
+{
+	::Aspect_TrackedDevicePose* _result = new ::Aspect_TrackedDevicePose();
+	*_result =  (::Aspect_TrackedDevicePose)((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->Last();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_TrackedDevicePose(_result);
+}
+
+Macad::Occt::Aspect_TrackedDevicePose^ Macad::Occt::Aspect_TrackedDevicePoseArray::ChangeLast()
+{
+	::Aspect_TrackedDevicePose* _result = new ::Aspect_TrackedDevicePose();
+	*_result = ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->ChangeLast();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_TrackedDevicePose(_result);
+}
+
+Macad::Occt::Aspect_TrackedDevicePose^ Macad::Occt::Aspect_TrackedDevicePoseArray::Value(int theIndex)
+{
+	::Aspect_TrackedDevicePose* _result = new ::Aspect_TrackedDevicePose();
+	*_result =  (::Aspect_TrackedDevicePose)((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->Value(theIndex);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_TrackedDevicePose(_result);
+}
+
+Macad::Occt::Aspect_TrackedDevicePose^ Macad::Occt::Aspect_TrackedDevicePoseArray::ChangeValue(int theIndex)
+{
+	::Aspect_TrackedDevicePose* _result = new ::Aspect_TrackedDevicePose();
+	*_result = ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->ChangeValue(theIndex);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_TrackedDevicePose(_result);
+}
+
+void Macad::Occt::Aspect_TrackedDevicePoseArray::SetValue(int theIndex, Macad::Occt::Aspect_TrackedDevicePose^ theItem)
+{
+	((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->SetValue(theIndex, *(::Aspect_TrackedDevicePose*)theItem->NativeInstance);
+}
+
+void Macad::Occt::Aspect_TrackedDevicePoseArray::Resize(int theLower, int theUpper, bool theToCopyData)
+{
+	((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->Resize(theLower, theUpper, theToCopyData);
+}
+
+
 
 
 //---------------------------------------------------------------------
@@ -192,6 +644,111 @@ Macad::Occt::Quantity_Color^ Macad::Occt::Aspect_SequenceOfColor::ChangeValue(in
 void Macad::Occt::Aspect_SequenceOfColor::SetValue(int theIndex, Macad::Occt::Quantity_Color^ theItem)
 {
 	((::Aspect_SequenceOfColor*)_NativeInstance)->SetValue(theIndex, *(::Quantity_Color*)theItem->NativeInstance);
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRAnalogActionData
+//---------------------------------------------------------------------
+
+Macad::Occt::Aspect_XRAnalogActionData::Aspect_XRAnalogActionData()
+	: BaseClass<::Aspect_XRAnalogActionData>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_XRAnalogActionData();
+}
+
+Macad::Occt::Aspect_XRAnalogActionData::Aspect_XRAnalogActionData(Macad::Occt::Aspect_XRAnalogActionData^ parameter1)
+	: BaseClass<::Aspect_XRAnalogActionData>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_XRAnalogActionData(*(::Aspect_XRAnalogActionData*)parameter1->NativeInstance);
+}
+
+bool Macad::Occt::Aspect_XRAnalogActionData::IsChanged()
+{
+	return ((::Aspect_XRAnalogActionData*)_NativeInstance)->IsChanged();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRDigitalActionData
+//---------------------------------------------------------------------
+
+Macad::Occt::Aspect_XRDigitalActionData::Aspect_XRDigitalActionData()
+	: BaseClass<::Aspect_XRDigitalActionData>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_XRDigitalActionData();
+}
+
+Macad::Occt::Aspect_XRDigitalActionData::Aspect_XRDigitalActionData(Macad::Occt::Aspect_XRDigitalActionData^ parameter1)
+	: BaseClass<::Aspect_XRDigitalActionData>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_XRDigitalActionData(*(::Aspect_XRDigitalActionData*)parameter1->NativeInstance);
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRHapticActionData
+//---------------------------------------------------------------------
+
+Macad::Occt::Aspect_XRHapticActionData::Aspect_XRHapticActionData()
+	: BaseClass<::Aspect_XRHapticActionData>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_XRHapticActionData();
+}
+
+Macad::Occt::Aspect_XRHapticActionData::Aspect_XRHapticActionData(Macad::Occt::Aspect_XRHapticActionData^ parameter1)
+	: BaseClass<::Aspect_XRHapticActionData>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_XRHapticActionData(*(::Aspect_XRHapticActionData*)parameter1->NativeInstance);
+}
+
+bool Macad::Occt::Aspect_XRHapticActionData::IsValid()
+{
+	return ((::Aspect_XRHapticActionData*)_NativeInstance)->IsValid();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  Aspect_TrackedDevicePose
+//---------------------------------------------------------------------
+
+Macad::Occt::Aspect_TrackedDevicePose::Aspect_TrackedDevicePose()
+	: BaseClass<::Aspect_TrackedDevicePose>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_TrackedDevicePose();
+}
+
+Macad::Occt::Aspect_TrackedDevicePose::Aspect_TrackedDevicePose(Macad::Occt::Aspect_TrackedDevicePose^ parameter1)
+	: BaseClass<::Aspect_TrackedDevicePose>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_TrackedDevicePose(*(::Aspect_TrackedDevicePose*)parameter1->NativeInstance);
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRPoseActionData
+//---------------------------------------------------------------------
+
+Macad::Occt::Aspect_XRPoseActionData::Aspect_XRPoseActionData()
+	: BaseClass<::Aspect_XRPoseActionData>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_XRPoseActionData();
+}
+
+Macad::Occt::Aspect_XRPoseActionData::Aspect_XRPoseActionData(Macad::Occt::Aspect_XRPoseActionData^ parameter1)
+	: BaseClass<::Aspect_XRPoseActionData>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Aspect_XRPoseActionData(*(::Aspect_XRPoseActionData*)parameter1->NativeInstance);
 }
 
 
@@ -1282,6 +1839,392 @@ bool Macad::Occt::Aspect_NeutralWindow::SetSize(int theWidth, int theHeight)
 Macad::Occt::Aspect_NeutralWindow^ Macad::Occt::Aspect_NeutralWindow::CreateDowncasted(::Aspect_NeutralWindow* instance)
 {
 	return gcnew Macad::Occt::Aspect_NeutralWindow( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRAction
+//---------------------------------------------------------------------
+
+Macad::Occt::Aspect_XRAction::Aspect_XRAction(Macad::Occt::TCollection_AsciiString^ theId, Macad::Occt::Aspect_XRActionType theType)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Aspect_XRAction(*(::TCollection_AsciiString*)theId->NativeInstance, (::Aspect_XRActionType)theType);
+}
+
+Macad::Occt::Aspect_XRAction::Aspect_XRAction(Macad::Occt::Aspect_XRAction^ parameter1)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Aspect_XRAction(*(::Aspect_XRAction*)parameter1->NativeInstance);
+}
+
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::Aspect_XRAction::Id()
+{
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result =  (::TCollection_AsciiString)((::Aspect_XRAction*)_NativeInstance)->Id();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
+}
+
+Macad::Occt::Aspect_XRActionType Macad::Occt::Aspect_XRAction::Type()
+{
+	return (Macad::Occt::Aspect_XRActionType)((::Aspect_XRAction*)_NativeInstance)->Type();
+}
+
+bool Macad::Occt::Aspect_XRAction::IsValid()
+{
+	return ((::Aspect_XRAction*)_NativeInstance)->IsValid();
+}
+
+
+Macad::Occt::Aspect_XRAction^ Macad::Occt::Aspect_XRAction::CreateDowncasted(::Aspect_XRAction* instance)
+{
+	return gcnew Macad::Occt::Aspect_XRAction( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRActionSet
+//---------------------------------------------------------------------
+
+Macad::Occt::Aspect_XRActionSet::Aspect_XRActionSet(Macad::Occt::TCollection_AsciiString^ theId)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Aspect_XRActionSet(*(::TCollection_AsciiString*)theId->NativeInstance);
+}
+
+Macad::Occt::Aspect_XRActionSet::Aspect_XRActionSet(Macad::Occt::Aspect_XRActionSet^ parameter1)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Aspect_XRActionSet(*(::Aspect_XRActionSet*)parameter1->NativeInstance);
+}
+
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::Aspect_XRActionSet::Id()
+{
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result =  (::TCollection_AsciiString)((::Aspect_XRActionSet*)_NativeInstance)->Id();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
+}
+
+void Macad::Occt::Aspect_XRActionSet::AddAction(Macad::Occt::Aspect_XRAction^ theAction)
+{
+	Handle(::Aspect_XRAction) h_theAction = theAction->NativeInstance;
+	((::Aspect_XRActionSet*)_NativeInstance)->AddAction(h_theAction);
+	theAction->NativeInstance = h_theAction.get();
+}
+
+Macad::Occt::Aspect_XRActionMap^ Macad::Occt::Aspect_XRActionSet::Actions()
+{
+	::Aspect_XRActionMap* _result = new ::Aspect_XRActionMap();
+	*_result =  (::Aspect_XRActionMap)((::Aspect_XRActionSet*)_NativeInstance)->Actions();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_XRActionMap(_result);
+}
+
+
+Macad::Occt::Aspect_XRActionSet^ Macad::Occt::Aspect_XRActionSet::CreateDowncasted(::Aspect_XRActionSet* instance)
+{
+	return gcnew Macad::Occt::Aspect_XRActionSet( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  Aspect_XRSession
+//---------------------------------------------------------------------
+
+Macad::Occt::Aspect_XRSession::Aspect_XRSession(Macad::Occt::Aspect_XRSession^ parameter1)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	throw gcnew System::NotImplementedException("Native class is abstract");
+}
+
+bool Macad::Occt::Aspect_XRSession::IsOpen()
+{
+	return ((::Aspect_XRSession*)_NativeInstance)->IsOpen();
+}
+
+bool Macad::Occt::Aspect_XRSession::Open()
+{
+	return ((::Aspect_XRSession*)_NativeInstance)->Open();
+}
+
+void Macad::Occt::Aspect_XRSession::Close()
+{
+	((::Aspect_XRSession*)_NativeInstance)->Close();
+}
+
+bool Macad::Occt::Aspect_XRSession::WaitPoses()
+{
+	return ((::Aspect_XRSession*)_NativeInstance)->WaitPoses();
+}
+
+bool Macad::Occt::Aspect_XRSession::HasProjectionFrustums()
+{
+	return ((::Aspect_XRSession*)_NativeInstance)->HasProjectionFrustums();
+}
+
+void Macad::Occt::Aspect_XRSession::ProcessEvents()
+{
+	((::Aspect_XRSession*)_NativeInstance)->ProcessEvents();
+}
+
+bool Macad::Occt::Aspect_XRSession::SubmitEye(System::IntPtr theTexture, Macad::Occt::Aspect_GraphicsLibrary theGraphicsLib, Macad::Occt::Aspect_ColorSpace theColorSpace, Macad::Occt::Aspect_Eye theEye)
+{
+	return ((::Aspect_XRSession*)_NativeInstance)->SubmitEye(theTexture.ToPointer(), (::Aspect_GraphicsLibrary)theGraphicsLib, (::Aspect_ColorSpace)theColorSpace, (::Aspect_Eye)theEye);
+}
+
+double Macad::Occt::Aspect_XRSession::UnitFactor()
+{
+	return ((::Aspect_XRSession*)_NativeInstance)->UnitFactor();
+}
+
+void Macad::Occt::Aspect_XRSession::SetUnitFactor(double theFactor)
+{
+	((::Aspect_XRSession*)_NativeInstance)->SetUnitFactor(theFactor);
+}
+
+double Macad::Occt::Aspect_XRSession::Aspect()
+{
+	return ((::Aspect_XRSession*)_NativeInstance)->Aspect();
+}
+
+double Macad::Occt::Aspect_XRSession::FieldOfView()
+{
+	return ((::Aspect_XRSession*)_NativeInstance)->FieldOfView();
+}
+
+double Macad::Occt::Aspect_XRSession::IOD()
+{
+	return ((::Aspect_XRSession*)_NativeInstance)->IOD();
+}
+
+float Macad::Occt::Aspect_XRSession::DisplayFrequency()
+{
+	return ((::Aspect_XRSession*)_NativeInstance)->DisplayFrequency();
+}
+
+Macad::Occt::Trsf Macad::Occt::Aspect_XRSession::HeadPose()
+{
+	return Macad::Occt::Trsf(((::Aspect_XRSession*)_NativeInstance)->HeadPose());
+}
+
+Macad::Occt::Trsf Macad::Occt::Aspect_XRSession::LeftHandPose()
+{
+	return Macad::Occt::Trsf(((::Aspect_XRSession*)_NativeInstance)->LeftHandPose());
+}
+
+Macad::Occt::Trsf Macad::Occt::Aspect_XRSession::RightHandPose()
+{
+	return Macad::Occt::Trsf(((::Aspect_XRSession*)_NativeInstance)->RightHandPose());
+}
+
+Macad::Occt::Aspect_TrackedDevicePoseArray^ Macad::Occt::Aspect_XRSession::TrackedPoses()
+{
+	::Aspect_TrackedDevicePoseArray* _result = new ::Aspect_TrackedDevicePoseArray();
+	*_result =  (::Aspect_TrackedDevicePoseArray)((::Aspect_XRSession*)_NativeInstance)->TrackedPoses();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_TrackedDevicePoseArray(_result);
+}
+
+bool Macad::Occt::Aspect_XRSession::HasTrackedPose(int theDevice)
+{
+	return ((::Aspect_XRSession*)_NativeInstance)->HasTrackedPose(theDevice);
+}
+
+int Macad::Occt::Aspect_XRSession::NamedTrackedDevice(Macad::Occt::Aspect_XRTrackedDeviceRole theDevice)
+{
+	return ((::Aspect_XRSession*)_NativeInstance)->NamedTrackedDevice((::Aspect_XRTrackedDeviceRole)theDevice);
+}
+
+Macad::Occt::Graphic3d_ArrayOfTriangles^ Macad::Occt::Aspect_XRSession::LoadRenderModel(int theDevice, Macad::Occt::Image_Texture^ theTexture)
+{
+	Handle(::Image_Texture) h_theTexture = theTexture->NativeInstance;
+	Handle(::Graphic3d_ArrayOfTriangles) _result;
+	_result = ((::Aspect_XRSession*)_NativeInstance)->LoadRenderModel(theDevice, h_theTexture);
+	theTexture->NativeInstance = h_theTexture.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ArrayOfTriangles::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_ArrayOfTriangles^ Macad::Occt::Aspect_XRSession::LoadRenderModel(int theDevice, bool theToApplyUnitFactor, Macad::Occt::Image_Texture^ theTexture)
+{
+	Handle(::Image_Texture) h_theTexture = theTexture->NativeInstance;
+	Handle(::Graphic3d_ArrayOfTriangles) _result;
+	_result = ((::Aspect_XRSession*)_NativeInstance)->LoadRenderModel(theDevice, theToApplyUnitFactor, h_theTexture);
+	theTexture->NativeInstance = h_theTexture.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ArrayOfTriangles::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Aspect_XRDigitalActionData^ Macad::Occt::Aspect_XRSession::GetDigitalActionData(Macad::Occt::Aspect_XRAction^ theAction)
+{
+	Handle(::Aspect_XRAction) h_theAction = theAction->NativeInstance;
+	::Aspect_XRDigitalActionData* _result = new ::Aspect_XRDigitalActionData();
+	*_result = ((::Aspect_XRSession*)_NativeInstance)->GetDigitalActionData(h_theAction);
+	theAction->NativeInstance = h_theAction.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_XRDigitalActionData(_result);
+}
+
+Macad::Occt::Aspect_XRAnalogActionData^ Macad::Occt::Aspect_XRSession::GetAnalogActionData(Macad::Occt::Aspect_XRAction^ theAction)
+{
+	Handle(::Aspect_XRAction) h_theAction = theAction->NativeInstance;
+	::Aspect_XRAnalogActionData* _result = new ::Aspect_XRAnalogActionData();
+	*_result = ((::Aspect_XRSession*)_NativeInstance)->GetAnalogActionData(h_theAction);
+	theAction->NativeInstance = h_theAction.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_XRAnalogActionData(_result);
+}
+
+Macad::Occt::Aspect_XRPoseActionData^ Macad::Occt::Aspect_XRSession::GetPoseActionDataForNextFrame(Macad::Occt::Aspect_XRAction^ theAction)
+{
+	Handle(::Aspect_XRAction) h_theAction = theAction->NativeInstance;
+	::Aspect_XRPoseActionData* _result = new ::Aspect_XRPoseActionData();
+	*_result = ((::Aspect_XRSession*)_NativeInstance)->GetPoseActionDataForNextFrame(h_theAction);
+	theAction->NativeInstance = h_theAction.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_XRPoseActionData(_result);
+}
+
+void Macad::Occt::Aspect_XRSession::TriggerHapticVibrationAction(Macad::Occt::Aspect_XRAction^ theAction, Macad::Occt::Aspect_XRHapticActionData^ theParams)
+{
+	Handle(::Aspect_XRAction) h_theAction = theAction->NativeInstance;
+	((::Aspect_XRSession*)_NativeInstance)->TriggerHapticVibrationAction(h_theAction, *(::Aspect_XRHapticActionData*)theParams->NativeInstance);
+	theAction->NativeInstance = h_theAction.get();
+}
+
+void Macad::Occt::Aspect_XRSession::AbortHapticVibrationAction(Macad::Occt::Aspect_XRAction^ theAction)
+{
+	Handle(::Aspect_XRAction) h_theAction = theAction->NativeInstance;
+	((::Aspect_XRSession*)_NativeInstance)->AbortHapticVibrationAction(h_theAction);
+	theAction->NativeInstance = h_theAction.get();
+}
+
+Macad::Occt::Aspect_XRSession::TrackingUniverseOrigin Macad::Occt::Aspect_XRSession::TrackingOrigin()
+{
+	return (Macad::Occt::Aspect_XRSession::TrackingUniverseOrigin)((::Aspect_XRSession*)_NativeInstance)->TrackingOrigin();
+}
+
+void Macad::Occt::Aspect_XRSession::SetTrackingOrigin(Macad::Occt::Aspect_XRSession::TrackingUniverseOrigin theOrigin)
+{
+	((::Aspect_XRSession*)_NativeInstance)->SetTrackingOrigin((::Aspect_XRSession::TrackingUniverseOrigin)theOrigin);
+}
+
+Macad::Occt::Aspect_XRAction^ Macad::Occt::Aspect_XRSession::GenericAction(Macad::Occt::Aspect_XRTrackedDeviceRole theDevice, Macad::Occt::Aspect_XRGenericAction theAction)
+{
+	Handle(::Aspect_XRAction) _result;
+	_result = ((::Aspect_XRSession*)_NativeInstance)->GenericAction((::Aspect_XRTrackedDeviceRole)theDevice, (::Aspect_XRGenericAction)theAction);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_XRAction::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::Aspect_XRSession::GetString(Macad::Occt::Aspect_XRSession::InfoString theInfo)
+{
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result = ((::Aspect_XRSession*)_NativeInstance)->GetString((::Aspect_XRSession::InfoString)theInfo);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
+}
+
+
+Macad::Occt::Aspect_XRSession^ Macad::Occt::Aspect_XRSession::CreateDowncasted(::Aspect_XRSession* instance)
+{
+	if( instance == nullptr )
+		return nullptr;
+
+	if (instance->IsKind(STANDARD_TYPE(::Aspect_OpenVRSession)))
+		return Macad::Occt::Aspect_OpenVRSession::CreateDowncasted((::Aspect_OpenVRSession*)instance);
+
+	return gcnew Macad::Occt::Aspect_XRSession( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  Aspect_OpenVRSession
+//---------------------------------------------------------------------
+
+Macad::Occt::Aspect_OpenVRSession::Aspect_OpenVRSession()
+	: Macad::Occt::Aspect_XRSession(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Aspect_OpenVRSession();
+}
+
+Macad::Occt::Aspect_OpenVRSession::Aspect_OpenVRSession(Macad::Occt::Aspect_OpenVRSession^ parameter1)
+	: Macad::Occt::Aspect_XRSession(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Aspect_OpenVRSession(*(::Aspect_OpenVRSession*)parameter1->NativeInstance);
+}
+
+bool Macad::Occt::Aspect_OpenVRSession::IsHmdPresent()
+{
+	return ::Aspect_OpenVRSession::IsHmdPresent();
+}
+
+bool Macad::Occt::Aspect_OpenVRSession::IsOpen()
+{
+	return ((::Aspect_OpenVRSession*)_NativeInstance)->IsOpen();
+}
+
+bool Macad::Occt::Aspect_OpenVRSession::Open()
+{
+	return ((::Aspect_OpenVRSession*)_NativeInstance)->Open();
+}
+
+void Macad::Occt::Aspect_OpenVRSession::Close()
+{
+	((::Aspect_OpenVRSession*)_NativeInstance)->Close();
+}
+
+bool Macad::Occt::Aspect_OpenVRSession::WaitPoses()
+{
+	return ((::Aspect_OpenVRSession*)_NativeInstance)->WaitPoses();
+}
+
+bool Macad::Occt::Aspect_OpenVRSession::HasProjectionFrustums()
+{
+	return ((::Aspect_OpenVRSession*)_NativeInstance)->HasProjectionFrustums();
+}
+
+void Macad::Occt::Aspect_OpenVRSession::ProcessEvents()
+{
+	((::Aspect_OpenVRSession*)_NativeInstance)->ProcessEvents();
+}
+
+bool Macad::Occt::Aspect_OpenVRSession::SubmitEye(System::IntPtr theTexture, Macad::Occt::Aspect_GraphicsLibrary theGraphicsLib, Macad::Occt::Aspect_ColorSpace theColorSpace, Macad::Occt::Aspect_Eye theEye)
+{
+	return ((::Aspect_OpenVRSession*)_NativeInstance)->SubmitEye(theTexture.ToPointer(), (::Aspect_GraphicsLibrary)theGraphicsLib, (::Aspect_ColorSpace)theColorSpace, (::Aspect_Eye)theEye);
+}
+
+int Macad::Occt::Aspect_OpenVRSession::NamedTrackedDevice(Macad::Occt::Aspect_XRTrackedDeviceRole theDevice)
+{
+	return ((::Aspect_OpenVRSession*)_NativeInstance)->NamedTrackedDevice((::Aspect_XRTrackedDeviceRole)theDevice);
+}
+
+Macad::Occt::Aspect_XRDigitalActionData^ Macad::Occt::Aspect_OpenVRSession::GetDigitalActionData(Macad::Occt::Aspect_XRAction^ theAction)
+{
+	Handle(::Aspect_XRAction) h_theAction = theAction->NativeInstance;
+	::Aspect_XRDigitalActionData* _result = new ::Aspect_XRDigitalActionData();
+	*_result = ((::Aspect_OpenVRSession*)_NativeInstance)->GetDigitalActionData(h_theAction);
+	theAction->NativeInstance = h_theAction.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_XRDigitalActionData(_result);
+}
+
+Macad::Occt::Aspect_XRAnalogActionData^ Macad::Occt::Aspect_OpenVRSession::GetAnalogActionData(Macad::Occt::Aspect_XRAction^ theAction)
+{
+	Handle(::Aspect_XRAction) h_theAction = theAction->NativeInstance;
+	::Aspect_XRAnalogActionData* _result = new ::Aspect_XRAnalogActionData();
+	*_result = ((::Aspect_OpenVRSession*)_NativeInstance)->GetAnalogActionData(h_theAction);
+	theAction->NativeInstance = h_theAction.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_XRAnalogActionData(_result);
+}
+
+Macad::Occt::Aspect_XRPoseActionData^ Macad::Occt::Aspect_OpenVRSession::GetPoseActionDataForNextFrame(Macad::Occt::Aspect_XRAction^ theAction)
+{
+	Handle(::Aspect_XRAction) h_theAction = theAction->NativeInstance;
+	::Aspect_XRPoseActionData* _result = new ::Aspect_XRPoseActionData();
+	*_result = ((::Aspect_OpenVRSession*)_NativeInstance)->GetPoseActionDataForNextFrame(h_theAction);
+	theAction->NativeInstance = h_theAction.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_XRPoseActionData(_result);
+}
+
+
+Macad::Occt::Aspect_OpenVRSession^ Macad::Occt::Aspect_OpenVRSession::CreateDowncasted(::Aspect_OpenVRSession* instance)
+{
+	return gcnew Macad::Occt::Aspect_OpenVRSession( instance );
 }
 
 

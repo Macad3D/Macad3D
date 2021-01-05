@@ -1340,9 +1340,14 @@ void Macad::Occt::BRepBuilderAPI_Sewing::Add(Macad::Occt::TopoDS_Shape^ shape)
 	((::BRepBuilderAPI_Sewing*)_NativeInstance)->Add(*(::TopoDS_Shape*)shape->NativeInstance);
 }
 
+void Macad::Occt::BRepBuilderAPI_Sewing::Perform(Macad::Occt::Message_ProgressRange^ theProgress)
+{
+	((::BRepBuilderAPI_Sewing*)_NativeInstance)->Perform(*(::Message_ProgressRange*)theProgress->NativeInstance);
+}
+
 void Macad::Occt::BRepBuilderAPI_Sewing::Perform()
 {
-	((::BRepBuilderAPI_Sewing*)_NativeInstance)->Perform(0);
+	((::BRepBuilderAPI_Sewing*)_NativeInstance)->Perform(::Message_ProgressRange());
 }
 
 Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepBuilderAPI_Sewing::SewedShape()

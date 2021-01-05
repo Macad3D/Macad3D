@@ -1356,10 +1356,10 @@ public:
 	Macad::Occt::TopLoc_Location^ Location(int I);
 	int Index(Macad::Occt::TopLoc_Location^ L);
 	/* Method skipped due to unknown mapping: void Dump(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void Write(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void Read(istream IS, ) */
-	/* Method skipped due to unknown mapping: void SetProgress(Message_ProgressIndicator PR, ) */
-	/* Method skipped due to unknown mapping: Message_ProgressIndicator GetProgress() */
+	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange theProgress, ) */
 }; // class TopTools_LocationSet
 
 //---------------------------------------------------------------------
@@ -1409,23 +1409,25 @@ public:
 	/* Method skipped due to unknown mapping: ostream DumpExtent(ostream OS, ) */
 	void DumpExtent(Macad::Occt::TCollection_AsciiString^ S);
 	/* Method skipped due to unknown mapping: void Dump(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void Write(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void Read(istream IS, ) */
+	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange theProgress, ) */
 	/* Method skipped due to unknown mapping: void Dump(TopoDS_Shape S, ostream OS, ) */
 	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape S, ostream OS, ) */
 	/* Method skipped due to unknown mapping: void Read(TopoDS_Shape S, istream IS, ) */
 	void AddGeometry(Macad::Occt::TopoDS_Shape^ S);
 	/* Method skipped due to unknown mapping: void DumpGeometry(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void WriteGeometry(ostream OS, ) */
-	/* Method skipped due to unknown mapping: void ReadGeometry(istream IS, ) */
+	/* Method skipped due to unknown mapping: void WriteGeometry(ostream OS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void WriteGeometry(ostream OS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void ReadGeometry(istream IS, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void ReadGeometry(istream IS, Message_ProgressRange theProgress, ) */
 	/* Method skipped due to unknown mapping: void DumpGeometry(TopoDS_Shape S, ostream OS, ) */
 	/* Method skipped due to unknown mapping: void WriteGeometry(TopoDS_Shape S, ostream OS, ) */
 	/* Method skipped due to unknown mapping: void ReadGeometry(TopAbs_ShapeEnum T, istream IS, TopoDS_Shape S, ) */
 	void AddShapes(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2);
 	void Check(Macad::Occt::TopAbs_ShapeEnum T, Macad::Occt::TopoDS_Shape^ S);
 	int NbShapes();
-	/* Method skipped due to unknown mapping: void SetProgress(Message_ProgressIndicator PR, ) */
-	/* Method skipped due to unknown mapping: Message_ProgressIndicator GetProgress() */
 }; // class TopTools_ShapeSet
 
 //---------------------------------------------------------------------

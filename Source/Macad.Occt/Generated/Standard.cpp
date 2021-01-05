@@ -5,6 +5,7 @@
 
 using namespace System::Runtime::InteropServices; // for class Marshal
 
+#include "TCollection.h"
 #include "Standard.h"
 #include "StdFail.h"
 #include "Quantity.h"
@@ -19,8 +20,33 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "Prs3d.h"
 #include "Aspect.h"
 #include "Graphic3d.h"
+#include "NCollection.h"
 #include "WNT.h"
-#include "TCollection.h"
+
+
+//---------------------------------------------------------------------
+//  Class  Standard_DumpValue
+//---------------------------------------------------------------------
+
+Macad::Occt::Standard_DumpValue::Standard_DumpValue()
+	: BaseClass<::Standard_DumpValue>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Standard_DumpValue();
+}
+
+Macad::Occt::Standard_DumpValue::Standard_DumpValue(Macad::Occt::TCollection_AsciiString^ theValue, int theStartPos)
+	: BaseClass<::Standard_DumpValue>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Standard_DumpValue(*(::TCollection_AsciiString*)theValue->NativeInstance, theStartPos);
+}
+
+Macad::Occt::Standard_DumpValue::Standard_DumpValue(Macad::Occt::Standard_DumpValue^ parameter1)
+	: BaseClass<::Standard_DumpValue>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Standard_DumpValue(*(::Standard_DumpValue*)parameter1->NativeInstance);
+}
+
+
 
 
 //---------------------------------------------------------------------
@@ -164,10 +190,10 @@ Macad::Occt::Standard_Failure^ Macad::Occt::Standard_Failure::CreateDowncasted(:
 		return Macad::Occt::Standard_DomainError::CreateDowncasted((::Standard_DomainError*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::Standard_ProgramError)))
 		return Macad::Occt::Standard_ProgramError::CreateDowncasted((::Standard_ProgramError*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::Standard_AbortiveTransaction)))
-		return Macad::Occt::Standard_AbortiveTransaction::CreateDowncasted((::Standard_AbortiveTransaction*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::Standard_NumericError)))
 		return Macad::Occt::Standard_NumericError::CreateDowncasted((::Standard_NumericError*)instance);
+	if (instance->IsKind(STANDARD_TYPE(::Standard_AbortiveTransaction)))
+		return Macad::Occt::Standard_AbortiveTransaction::CreateDowncasted((::Standard_AbortiveTransaction*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::Standard_LicenseError)))
 		return Macad::Occt::Standard_LicenseError::CreateDowncasted((::Standard_LicenseError*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::StdFail_InfiniteSolutions)))
@@ -248,18 +274,16 @@ Macad::Occt::Standard_DomainError^ Macad::Occt::Standard_DomainError::CreateDown
 		return Macad::Occt::Standard_RangeError::CreateDowncasted((::Standard_RangeError*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::Standard_TypeMismatch)))
 		return Macad::Occt::Standard_TypeMismatch::CreateDowncasted((::Standard_TypeMismatch*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::Standard_ConstructionError)))
-		return Macad::Occt::Standard_ConstructionError::CreateDowncasted((::Standard_ConstructionError*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::Standard_NullObject)))
 		return Macad::Occt::Standard_NullObject::CreateDowncasted((::Standard_NullObject*)instance);
+	if (instance->IsKind(STANDARD_TYPE(::Standard_ConstructionError)))
+		return Macad::Occt::Standard_ConstructionError::CreateDowncasted((::Standard_ConstructionError*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::Standard_ImmutableObject)))
 		return Macad::Occt::Standard_ImmutableObject::CreateDowncasted((::Standard_ImmutableObject*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::Standard_MultiplyDefined)))
 		return Macad::Occt::Standard_MultiplyDefined::CreateDowncasted((::Standard_MultiplyDefined*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::Standard_NoMoreObject)))
 		return Macad::Occt::Standard_NoMoreObject::CreateDowncasted((::Standard_NoMoreObject*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::Quantity_ColorDefinitionError)))
-		return Macad::Occt::Quantity_ColorDefinitionError::CreateDowncasted((::Quantity_ColorDefinitionError*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::Quantity_DateDefinitionError)))
 		return Macad::Occt::Quantity_DateDefinitionError::CreateDowncasted((::Quantity_DateDefinitionError*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::Quantity_PeriodDefinitionError)))
@@ -781,6 +805,294 @@ Macad::Occt::Standard_TypeMismatch^ Macad::Occt::Standard_TypeMismatch::CreateDo
 
 
 //---------------------------------------------------------------------
+//  Class  Standard_NullObject
+//---------------------------------------------------------------------
+
+Macad::Occt::Standard_NullObject::Standard_NullObject()
+	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Standard_NullObject();
+}
+
+Macad::Occt::Standard_NullObject::Standard_NullObject(System::String^ theMessage)
+	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	NativeInstance = new ::Standard_NullObject(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Standard_NullObject::Standard_NullObject(Macad::Occt::Standard_NullObject^ parameter1)
+	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Standard_NullObject(*(::Standard_NullObject*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::Standard_NullObject::Raise(System::String^ theMessage)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	::Standard_NullObject::Raise(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+void Macad::Occt::Standard_NullObject::Raise()
+{
+	::Standard_NullObject::Raise("");
+}
+
+Macad::Occt::Standard_NullObject^ Macad::Occt::Standard_NullObject::NewInstance(System::String^ theMessage)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	Handle(::Standard_NullObject) _result;
+	_result = ::Standard_NullObject::NewInstance(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_NullObject::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Standard_NullObject^ Macad::Occt::Standard_NullObject::NewInstance()
+{
+	Handle(::Standard_NullObject) _result;
+	_result = ::Standard_NullObject::NewInstance("");
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_NullObject::CreateDowncasted( _result.get());
+}
+
+
+Macad::Occt::Standard_NullObject^ Macad::Occt::Standard_NullObject::CreateDowncasted(::Standard_NullObject* instance)
+{
+	return gcnew Macad::Occt::Standard_NullObject( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  Standard_NumericError
+//---------------------------------------------------------------------
+
+Macad::Occt::Standard_NumericError::Standard_NumericError()
+	: Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Standard_NumericError();
+}
+
+Macad::Occt::Standard_NumericError::Standard_NumericError(System::String^ theMessage)
+	: Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	NativeInstance = new ::Standard_NumericError(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Standard_NumericError::Standard_NumericError(Macad::Occt::Standard_NumericError^ parameter1)
+	: Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Standard_NumericError(*(::Standard_NumericError*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::Standard_NumericError::Raise(System::String^ theMessage)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	::Standard_NumericError::Raise(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+void Macad::Occt::Standard_NumericError::Raise()
+{
+	::Standard_NumericError::Raise("");
+}
+
+Macad::Occt::Standard_NumericError^ Macad::Occt::Standard_NumericError::NewInstance(System::String^ theMessage)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	Handle(::Standard_NumericError) _result;
+	_result = ::Standard_NumericError::NewInstance(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_NumericError::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Standard_NumericError^ Macad::Occt::Standard_NumericError::NewInstance()
+{
+	Handle(::Standard_NumericError) _result;
+	_result = ::Standard_NumericError::NewInstance("");
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_NumericError::CreateDowncasted( _result.get());
+}
+
+
+Macad::Occt::Standard_NumericError^ Macad::Occt::Standard_NumericError::CreateDowncasted(::Standard_NumericError* instance)
+{
+	if( instance == nullptr )
+		return nullptr;
+
+	if (instance->IsKind(STANDARD_TYPE(::Standard_DivideByZero)))
+		return Macad::Occt::Standard_DivideByZero::CreateDowncasted((::Standard_DivideByZero*)instance);
+	if (instance->IsKind(STANDARD_TYPE(::Standard_Overflow)))
+		return Macad::Occt::Standard_Overflow::CreateDowncasted((::Standard_Overflow*)instance);
+	if (instance->IsKind(STANDARD_TYPE(::Standard_Underflow)))
+		return Macad::Occt::Standard_Underflow::CreateDowncasted((::Standard_Underflow*)instance);
+
+	return gcnew Macad::Occt::Standard_NumericError( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  Standard_NegativeValue
+//---------------------------------------------------------------------
+
+Macad::Occt::Standard_NegativeValue::Standard_NegativeValue()
+	: Macad::Occt::Standard_RangeError(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Standard_NegativeValue();
+}
+
+Macad::Occt::Standard_NegativeValue::Standard_NegativeValue(System::String^ theMessage)
+	: Macad::Occt::Standard_RangeError(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	NativeInstance = new ::Standard_NegativeValue(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Standard_NegativeValue::Standard_NegativeValue(Macad::Occt::Standard_NegativeValue^ parameter1)
+	: Macad::Occt::Standard_RangeError(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Standard_NegativeValue(*(::Standard_NegativeValue*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::Standard_NegativeValue::Raise(System::String^ theMessage)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	::Standard_NegativeValue::Raise(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+void Macad::Occt::Standard_NegativeValue::Raise()
+{
+	::Standard_NegativeValue::Raise("");
+}
+
+Macad::Occt::Standard_NegativeValue^ Macad::Occt::Standard_NegativeValue::NewInstance(System::String^ theMessage)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	Handle(::Standard_NegativeValue) _result;
+	_result = ::Standard_NegativeValue::NewInstance(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_NegativeValue::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Standard_NegativeValue^ Macad::Occt::Standard_NegativeValue::NewInstance()
+{
+	Handle(::Standard_NegativeValue) _result;
+	_result = ::Standard_NegativeValue::NewInstance("");
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_NegativeValue::CreateDowncasted( _result.get());
+}
+
+
+Macad::Occt::Standard_NegativeValue^ Macad::Occt::Standard_NegativeValue::CreateDowncasted(::Standard_NegativeValue* instance)
+{
+	return gcnew Macad::Occt::Standard_NegativeValue( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  Standard_Dump
+//---------------------------------------------------------------------
+
+Macad::Occt::Standard_Dump::Standard_Dump()
+	: BaseClass<::Standard_Dump>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Standard_Dump();
+}
+
+Macad::Occt::Standard_Dump::Standard_Dump(Macad::Occt::Standard_Dump^ parameter1)
+	: BaseClass<::Standard_Dump>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Standard_Dump(*(::Standard_Dump*)parameter1->NativeInstance);
+}
+
+bool Macad::Occt::Standard_Dump::HasChildKey(Macad::Occt::TCollection_AsciiString^ theSourceValue)
+{
+	return ::Standard_Dump::HasChildKey(*(::TCollection_AsciiString*)theSourceValue->NativeInstance);
+}
+
+System::String^ Macad::Occt::Standard_Dump::JsonKeyToString(Macad::Occt::Standard_JsonKey theKey)
+{
+	Standard_CString _result;
+	_result = ::Standard_Dump::JsonKeyToString((::Standard_JsonKey)theKey);
+	return gcnew System::String(_result);
+}
+
+int Macad::Occt::Standard_Dump::JsonKeyLength(Macad::Occt::Standard_JsonKey theKey)
+{
+	return ::Standard_Dump::JsonKeyLength((::Standard_JsonKey)theKey);
+}
+
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::GetPointerPrefix()
+{
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result = ::Standard_Dump::GetPointerPrefix();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
+}
+
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::GetPointerInfo(Macad::Occt::Standard_Transient^ thePointer, bool isShortInfo)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::GetPointerInfo(Macad::Occt::Standard_Transient^ thePointer)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::GetPointerInfo(System::IntPtr thePointer, bool isShortInfo)
+{
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result = ::Standard_Dump::GetPointerInfo(thePointer.ToPointer(), isShortInfo);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
+}
+
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::GetPointerInfo(System::IntPtr thePointer)
+{
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result = ::Standard_Dump::GetPointerInfo(thePointer.ToPointer(), true);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
+}
+
+bool Macad::Occt::Standard_Dump::ProcessStreamName(Macad::Occt::TCollection_AsciiString^ theStreamStr, Macad::Occt::TCollection_AsciiString^ theName, int% theStreamPos)
+{
+	pin_ptr<int> pp_theStreamPos = &theStreamPos;
+	return ::Standard_Dump::ProcessStreamName(*(::TCollection_AsciiString*)theStreamStr->NativeInstance, *(::TCollection_AsciiString*)theName->NativeInstance, *(Standard_Integer*)pp_theStreamPos);
+}
+
+bool Macad::Occt::Standard_Dump::ProcessFieldName(Macad::Occt::TCollection_AsciiString^ theStreamStr, Macad::Occt::TCollection_AsciiString^ theName, int% theStreamPos)
+{
+	pin_ptr<int> pp_theStreamPos = &theStreamPos;
+	return ::Standard_Dump::ProcessFieldName(*(::TCollection_AsciiString*)theStreamStr->NativeInstance, *(::TCollection_AsciiString*)theName->NativeInstance, *(Standard_Integer*)pp_theStreamPos);
+}
+
+bool Macad::Occt::Standard_Dump::InitRealValues(Macad::Occt::TCollection_AsciiString^ theStreamStr, int% theStreamPos, int theCount)
+{
+	pin_ptr<int> pp_theStreamPos = &theStreamPos;
+	return ::Standard_Dump::InitRealValues(*(::TCollection_AsciiString*)theStreamStr->NativeInstance, *(Standard_Integer*)pp_theStreamPos, theCount);
+}
+
+bool Macad::Occt::Standard_Dump::InitValue(Macad::Occt::TCollection_AsciiString^ theStreamStr, int% theStreamPos, Macad::Occt::TCollection_AsciiString^ theValue)
+{
+	pin_ptr<int> pp_theStreamPos = &theStreamPos;
+	return ::Standard_Dump::InitValue(*(::TCollection_AsciiString*)theStreamStr->NativeInstance, *(Standard_Integer*)pp_theStreamPos, *(::TCollection_AsciiString*)theValue->NativeInstance);
+}
+
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::DumpFieldToName(Macad::Occt::TCollection_AsciiString^ theField)
+{
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result = ::Standard_Dump::DumpFieldToName(*(::TCollection_AsciiString*)theField->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
+}
+
+
+
+
+//---------------------------------------------------------------------
 //  Class  Standard_ConstructionError
 //---------------------------------------------------------------------
 
@@ -1025,76 +1337,6 @@ System::IntPtr Macad::Occt::Standard_Condition::getHandle()
 
 
 //---------------------------------------------------------------------
-//  Class  Standard_NumericError
-//---------------------------------------------------------------------
-
-Macad::Occt::Standard_NumericError::Standard_NumericError()
-	: Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Standard_NumericError();
-}
-
-Macad::Occt::Standard_NumericError::Standard_NumericError(System::String^ theMessage)
-	: Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	NativeInstance = new ::Standard_NumericError(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-Macad::Occt::Standard_NumericError::Standard_NumericError(Macad::Occt::Standard_NumericError^ parameter1)
-	: Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Standard_NumericError(*(::Standard_NumericError*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::Standard_NumericError::Raise(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	::Standard_NumericError::Raise(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-void Macad::Occt::Standard_NumericError::Raise()
-{
-	::Standard_NumericError::Raise("");
-}
-
-Macad::Occt::Standard_NumericError^ Macad::Occt::Standard_NumericError::NewInstance(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	Handle(::Standard_NumericError) _result;
-	_result = ::Standard_NumericError::NewInstance(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_NumericError::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Standard_NumericError^ Macad::Occt::Standard_NumericError::NewInstance()
-{
-	Handle(::Standard_NumericError) _result;
-	_result = ::Standard_NumericError::NewInstance("");
-	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_NumericError::CreateDowncasted( _result.get());
-}
-
-
-Macad::Occt::Standard_NumericError^ Macad::Occt::Standard_NumericError::CreateDowncasted(::Standard_NumericError* instance)
-{
-	if( instance == nullptr )
-		return nullptr;
-
-	if (instance->IsKind(STANDARD_TYPE(::Standard_DivideByZero)))
-		return Macad::Occt::Standard_DivideByZero::CreateDowncasted((::Standard_DivideByZero*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::Standard_Overflow)))
-		return Macad::Occt::Standard_Overflow::CreateDowncasted((::Standard_Overflow*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::Standard_Underflow)))
-		return Macad::Occt::Standard_Underflow::CreateDowncasted((::Standard_Underflow*)instance);
-
-	return gcnew Macad::Occt::Standard_NumericError( instance );
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  Standard_DivideByZero
 //---------------------------------------------------------------------
 
@@ -1151,194 +1393,6 @@ Macad::Occt::Standard_DivideByZero^ Macad::Occt::Standard_DivideByZero::CreateDo
 {
 	return gcnew Macad::Occt::Standard_DivideByZero( instance );
 }
-
-
-
-//---------------------------------------------------------------------
-//  Class  Standard_NullObject
-//---------------------------------------------------------------------
-
-Macad::Occt::Standard_NullObject::Standard_NullObject()
-	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Standard_NullObject();
-}
-
-Macad::Occt::Standard_NullObject::Standard_NullObject(System::String^ theMessage)
-	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	NativeInstance = new ::Standard_NullObject(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-Macad::Occt::Standard_NullObject::Standard_NullObject(Macad::Occt::Standard_NullObject^ parameter1)
-	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Standard_NullObject(*(::Standard_NullObject*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::Standard_NullObject::Raise(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	::Standard_NullObject::Raise(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-void Macad::Occt::Standard_NullObject::Raise()
-{
-	::Standard_NullObject::Raise("");
-}
-
-Macad::Occt::Standard_NullObject^ Macad::Occt::Standard_NullObject::NewInstance(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	Handle(::Standard_NullObject) _result;
-	_result = ::Standard_NullObject::NewInstance(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_NullObject::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Standard_NullObject^ Macad::Occt::Standard_NullObject::NewInstance()
-{
-	Handle(::Standard_NullObject) _result;
-	_result = ::Standard_NullObject::NewInstance("");
-	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_NullObject::CreateDowncasted( _result.get());
-}
-
-
-Macad::Occt::Standard_NullObject^ Macad::Occt::Standard_NullObject::CreateDowncasted(::Standard_NullObject* instance)
-{
-	return gcnew Macad::Occt::Standard_NullObject( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  Standard_NegativeValue
-//---------------------------------------------------------------------
-
-Macad::Occt::Standard_NegativeValue::Standard_NegativeValue()
-	: Macad::Occt::Standard_RangeError(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Standard_NegativeValue();
-}
-
-Macad::Occt::Standard_NegativeValue::Standard_NegativeValue(System::String^ theMessage)
-	: Macad::Occt::Standard_RangeError(BaseClass::InitMode::Uninitialized)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	NativeInstance = new ::Standard_NegativeValue(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-Macad::Occt::Standard_NegativeValue::Standard_NegativeValue(Macad::Occt::Standard_NegativeValue^ parameter1)
-	: Macad::Occt::Standard_RangeError(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Standard_NegativeValue(*(::Standard_NegativeValue*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::Standard_NegativeValue::Raise(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	::Standard_NegativeValue::Raise(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-void Macad::Occt::Standard_NegativeValue::Raise()
-{
-	::Standard_NegativeValue::Raise("");
-}
-
-Macad::Occt::Standard_NegativeValue^ Macad::Occt::Standard_NegativeValue::NewInstance(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	Handle(::Standard_NegativeValue) _result;
-	_result = ::Standard_NegativeValue::NewInstance(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_NegativeValue::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Standard_NegativeValue^ Macad::Occt::Standard_NegativeValue::NewInstance()
-{
-	Handle(::Standard_NegativeValue) _result;
-	_result = ::Standard_NegativeValue::NewInstance("");
-	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_NegativeValue::CreateDowncasted( _result.get());
-}
-
-
-Macad::Occt::Standard_NegativeValue^ Macad::Occt::Standard_NegativeValue::CreateDowncasted(::Standard_NegativeValue* instance)
-{
-	return gcnew Macad::Occt::Standard_NegativeValue( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  Standard_DumpSentry
-//---------------------------------------------------------------------
-
-Macad::Occt::Standard_DumpSentry::Standard_DumpSentry(Macad::Occt::Standard_DumpSentry^ parameter1)
-	: BaseClass<::Standard_DumpSentry>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Standard_DumpSentry(*(::Standard_DumpSentry*)parameter1->NativeInstance);
-}
-
-
-
-
-//---------------------------------------------------------------------
-//  Class  Standard_Dump
-//---------------------------------------------------------------------
-
-Macad::Occt::Standard_Dump::Standard_Dump()
-	: BaseClass<::Standard_Dump>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Standard_Dump();
-}
-
-Macad::Occt::Standard_Dump::Standard_Dump(Macad::Occt::Standard_Dump^ parameter1)
-	: BaseClass<::Standard_Dump>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Standard_Dump(*(::Standard_Dump*)parameter1->NativeInstance);
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::GetPointerPrefix()
-{
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result = ::Standard_Dump::GetPointerPrefix();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::GetPointerInfo(Macad::Occt::Standard_Transient^ thePointer, bool isShortInfo)
-{
-	throw gcnew System::NotImplementedException();
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::GetPointerInfo(Macad::Occt::Standard_Transient^ thePointer)
-{
-	throw gcnew System::NotImplementedException();
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::GetPointerInfo(System::IntPtr thePointer, bool isShortInfo)
-{
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result = ::Standard_Dump::GetPointerInfo(thePointer.ToPointer(), isShortInfo);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::GetPointerInfo(System::IntPtr thePointer)
-{
-	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
-	*_result = ::Standard_Dump::GetPointerInfo(thePointer.ToPointer(), true);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-char Macad::Occt::Standard_Dump::DumpFieldToName(char theField)
-{
-	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
-}
-
 
 
 
@@ -2061,6 +2115,26 @@ Macad::Occt::Standard_ReadLineBuffer::Standard_ReadLineBuffer(Macad::Occt::Stand
 void Macad::Occt::Standard_ReadLineBuffer::Clear()
 {
 	((::Standard_ReadLineBuffer*)_NativeInstance)->Clear();
+}
+
+bool Macad::Occt::Standard_ReadLineBuffer::IsMultilineMode()
+{
+	return ((::Standard_ReadLineBuffer*)_NativeInstance)->IsMultilineMode();
+}
+
+bool Macad::Occt::Standard_ReadLineBuffer::ToPutGapInMultiline()
+{
+	return ((::Standard_ReadLineBuffer*)_NativeInstance)->ToPutGapInMultiline();
+}
+
+void Macad::Occt::Standard_ReadLineBuffer::SetMultilineMode(bool theMultilineMode, bool theToPutGap)
+{
+	((::Standard_ReadLineBuffer*)_NativeInstance)->SetMultilineMode(theMultilineMode, theToPutGap);
+}
+
+void Macad::Occt::Standard_ReadLineBuffer::SetMultilineMode(bool theMultilineMode)
+{
+	((::Standard_ReadLineBuffer*)_NativeInstance)->SetMultilineMode(theMultilineMode, true);
 }
 
 

@@ -37,14 +37,7 @@ public:
 	//! Returns true if the interactive object accepts the display mode aMode.
 	Standard_EXPORT   Standard_Boolean AcceptDisplayMode(const Standard_Integer aMode)  const;
 
-	//! computes the presentation according to a point of view
-	//! given by <aProjector>.
-	//! To be Used when the associated degenerated Presentations
-	//! have been transformed by <aTrsf> which is not a Pure
-	//! Translation. The HLR Prs can't be deducted automatically
-	//! WARNING :<aTrsf> must be applied
-	//! to the object to display before computation  !!!
-	Standard_EXPORT void Compute(const Handle(Prs3d_Projector)& aProjector, const Handle(Geom_Transformation)& aTrsf, const Handle(Prs3d_Presentation)& aPresentation)  override;
+	Standard_EXPORT void computeHLR(const Handle(Graphic3d_Camera)& theProjector, const Handle(TopLoc_Datum3D)& theTrsf, const Handle(Prs3d_Presentation)& aPresentation) override;
 
 	virtual   Standard_Integer Signature() const
 	{
@@ -82,17 +75,9 @@ public:
 	
 	DEFINE_STANDARD_RTTIEXT(AIS_AxisEx, AIS_InteractiveObject)
 
-protected:
-
-
-
-
 private:
 
-
 	Standard_EXPORT   void Compute(const Handle(PrsMgr_PresentationManager3d)& aPresentationManager, const Handle(Prs3d_Presentation)& aPresentation, const Standard_Integer aMode = 0) override;
-
-	Standard_EXPORT   void Compute(const Handle(Prs3d_Projector)& aProjector, const Handle(Prs3d_Presentation)& aPresentation) override;
 
 	Standard_EXPORT   void ComputeSelection(const Handle(SelectMgr_Selection)& aSelection, const Standard_Integer aMode) override;
 

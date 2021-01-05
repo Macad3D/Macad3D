@@ -1934,9 +1934,14 @@ void Macad::Occt::ShapeFix_Shell::Init(Macad::Occt::TopoDS_Shell^ shell)
 	((::ShapeFix_Shell*)_NativeInstance)->Init(*(::TopoDS_Shell*)shell->NativeInstance);
 }
 
+bool Macad::Occt::ShapeFix_Shell::Perform(Macad::Occt::Message_ProgressRange^ theProgress)
+{
+	return ((::ShapeFix_Shell*)_NativeInstance)->Perform(*(::Message_ProgressRange*)theProgress->NativeInstance);
+}
+
 bool Macad::Occt::ShapeFix_Shell::Perform()
 {
-	return ((::ShapeFix_Shell*)_NativeInstance)->Perform(0);
+	return ((::ShapeFix_Shell*)_NativeInstance)->Perform(::Message_ProgressRange());
 }
 
 bool Macad::Occt::ShapeFix_Shell::FixFaceOrientation(Macad::Occt::TopoDS_Shell^ shell, bool isAccountMultiConex, bool NonManifold)
@@ -2064,9 +2069,14 @@ void Macad::Occt::ShapeFix_Solid::Init(Macad::Occt::TopoDS_Solid^ solid)
 	((::ShapeFix_Solid*)_NativeInstance)->Init(*(::TopoDS_Solid*)solid->NativeInstance);
 }
 
+bool Macad::Occt::ShapeFix_Solid::Perform(Macad::Occt::Message_ProgressRange^ theProgress)
+{
+	return ((::ShapeFix_Solid*)_NativeInstance)->Perform(*(::Message_ProgressRange*)theProgress->NativeInstance);
+}
+
 bool Macad::Occt::ShapeFix_Solid::Perform()
 {
-	return ((::ShapeFix_Solid*)_NativeInstance)->Perform(0);
+	return ((::ShapeFix_Solid*)_NativeInstance)->Perform(::Message_ProgressRange());
 }
 
 Macad::Occt::TopoDS_Solid^ Macad::Occt::ShapeFix_Solid::SolidFromShell(Macad::Occt::TopoDS_Shell^ shell)
@@ -2218,9 +2228,14 @@ void Macad::Occt::ShapeFix_Shape::Init(Macad::Occt::TopoDS_Shape^ shape)
 	((::ShapeFix_Shape*)_NativeInstance)->Init(*(::TopoDS_Shape*)shape->NativeInstance);
 }
 
+bool Macad::Occt::ShapeFix_Shape::Perform(Macad::Occt::Message_ProgressRange^ theProgress)
+{
+	return ((::ShapeFix_Shape*)_NativeInstance)->Perform(*(::Message_ProgressRange*)theProgress->NativeInstance);
+}
+
 bool Macad::Occt::ShapeFix_Shape::Perform()
 {
-	return ((::ShapeFix_Shape*)_NativeInstance)->Perform(0);
+	return ((::ShapeFix_Shape*)_NativeInstance)->Perform(::Message_ProgressRange());
 }
 
 Macad::Occt::TopoDS_Shape^ Macad::Occt::ShapeFix_Shape::Shape()
@@ -2791,14 +2806,26 @@ Macad::Occt::ShapeFix::ShapeFix(Macad::Occt::ShapeFix^ parameter1)
 	_NativeInstance = new ::ShapeFix(*(::ShapeFix*)parameter1->NativeInstance);
 }
 
+bool Macad::Occt::ShapeFix::SameParameter(Macad::Occt::TopoDS_Shape^ shape, bool enforce, double preci, Macad::Occt::Message_ProgressRange^ theProgress, Macad::Occt::ShapeExtend_BasicMsgRegistrator^ theMsgReg)
+{
+	Handle(::ShapeExtend_BasicMsgRegistrator) h_theMsgReg = theMsgReg->NativeInstance;
+	return ::ShapeFix::SameParameter(*(::TopoDS_Shape*)shape->NativeInstance, enforce, preci, *(::Message_ProgressRange*)theProgress->NativeInstance, h_theMsgReg);
+	theMsgReg->NativeInstance = h_theMsgReg.get();
+}
+
+bool Macad::Occt::ShapeFix::SameParameter(Macad::Occt::TopoDS_Shape^ shape, bool enforce, double preci, Macad::Occt::Message_ProgressRange^ theProgress)
+{
+	return ::ShapeFix::SameParameter(*(::TopoDS_Shape*)shape->NativeInstance, enforce, preci, *(::Message_ProgressRange*)theProgress->NativeInstance, 0);
+}
+
 bool Macad::Occt::ShapeFix::SameParameter(Macad::Occt::TopoDS_Shape^ shape, bool enforce, double preci)
 {
-	return ::ShapeFix::SameParameter(*(::TopoDS_Shape*)shape->NativeInstance, enforce, preci, 0, 0);
+	return ::ShapeFix::SameParameter(*(::TopoDS_Shape*)shape->NativeInstance, enforce, preci, ::Message_ProgressRange(), 0);
 }
 
 bool Macad::Occt::ShapeFix::SameParameter(Macad::Occt::TopoDS_Shape^ shape, bool enforce)
 {
-	return ::ShapeFix::SameParameter(*(::TopoDS_Shape*)shape->NativeInstance, enforce, 0., 0, 0);
+	return ::ShapeFix::SameParameter(*(::TopoDS_Shape*)shape->NativeInstance, enforce, 0., ::Message_ProgressRange(), 0);
 }
 
 void Macad::Occt::ShapeFix::EncodeRegularity(Macad::Occt::TopoDS_Shape^ shape, double tolang)

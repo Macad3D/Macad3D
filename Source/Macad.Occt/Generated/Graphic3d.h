@@ -83,6 +83,32 @@ public enum class Graphic3d_FresnelModel
 //---------------------------------------------------------------------
 public enum class Graphic3d_NameOfMaterial
 {
+	Graphic3d_NameOfMaterial_Brass = 0,
+	Graphic3d_NameOfMaterial_Bronze = 1,
+	Graphic3d_NameOfMaterial_Copper = 2,
+	Graphic3d_NameOfMaterial_Gold = 3,
+	Graphic3d_NameOfMaterial_Pewter = 4,
+	Graphic3d_NameOfMaterial_Plastered = 5,
+	Graphic3d_NameOfMaterial_Plastified = 6,
+	Graphic3d_NameOfMaterial_Silver = 7,
+	Graphic3d_NameOfMaterial_Steel = 8,
+	Graphic3d_NameOfMaterial_Stone = 9,
+	Graphic3d_NameOfMaterial_ShinyPlastified = 10,
+	Graphic3d_NameOfMaterial_Satin = 11,
+	Graphic3d_NameOfMaterial_Metalized = 12,
+	Graphic3d_NameOfMaterial_Ionized = 13,
+	Graphic3d_NameOfMaterial_Chrome = 14,
+	Graphic3d_NameOfMaterial_Aluminum = 15,
+	Graphic3d_NameOfMaterial_Obsidian = 16,
+	Graphic3d_NameOfMaterial_Neon = 17,
+	Graphic3d_NameOfMaterial_Jade = 18,
+	Graphic3d_NameOfMaterial_Charcoal = 19,
+	Graphic3d_NameOfMaterial_Water = 20,
+	Graphic3d_NameOfMaterial_Glass = 21,
+	Graphic3d_NameOfMaterial_Diamond = 22,
+	Graphic3d_NameOfMaterial_Transparent = 23,
+	Graphic3d_NameOfMaterial_DEFAULT = 24,
+	Graphic3d_NameOfMaterial_UserDefined = 25,
 	Graphic3d_NOM_BRASS = 0,
 	Graphic3d_NOM_BRONZE = 1,
 	Graphic3d_NOM_COPPER = 2,
@@ -177,7 +203,15 @@ public enum class Graphic3d_TextureUnit
 	Graphic3d_TextureUnit_14 = 14,
 	Graphic3d_TextureUnit_15 = 15,
 	Graphic3d_TextureUnit_BaseColor = 0,
-	Graphic3d_TextureUnit_EnvMap = 0
+	Graphic3d_TextureUnit_Emissive = 1,
+	Graphic3d_TextureUnit_Occlusion = 2,
+	Graphic3d_TextureUnit_Normal = 3,
+	Graphic3d_TextureUnit_MetallicRoughness = 4,
+	Graphic3d_TextureUnit_EnvMap = 0,
+	Graphic3d_TextureUnit_PointSprite = 1,
+	Graphic3d_TextureUnit_PbrEnvironmentLUT = -3,
+	Graphic3d_TextureUnit_PbrIblDiffuseSH = -2,
+	Graphic3d_TextureUnit_PbrIblSpecular = -1
 }; // enum  class Graphic3d_TextureUnit
 
 //---------------------------------------------------------------------
@@ -203,6 +237,19 @@ public enum class Graphic3d_TypeOfTextureMode
 }; // enum  class Graphic3d_TypeOfTextureMode
 
 //---------------------------------------------------------------------
+//  Enum  Graphic3d_TextureSetBits
+//---------------------------------------------------------------------
+public enum class Graphic3d_TextureSetBits
+{
+	Graphic3d_TextureSetBits_NONE = 0,
+	Graphic3d_TextureSetBits_BaseColor = 1,
+	Graphic3d_TextureSetBits_Emissive = 2,
+	Graphic3d_TextureSetBits_Occlusion = 4,
+	Graphic3d_TextureSetBits_Normal = 8,
+	Graphic3d_TextureSetBits_MetallicRoughness = 16
+}; // enum  class Graphic3d_TextureSetBits
+
+//---------------------------------------------------------------------
 //  Enum  Graphic3d_TypeOfTexture
 //---------------------------------------------------------------------
 public enum class Graphic3d_TypeOfTexture
@@ -223,6 +270,8 @@ public enum class Graphic3d_TypeOfShadingModel
 	Graphic3d_TOSM_FACET = 1,
 	Graphic3d_TOSM_VERTEX = 2,
 	Graphic3d_TOSM_FRAGMENT = 3,
+	Graphic3d_TOSM_PBR = 4,
+	Graphic3d_TOSM_PBR_FACET = 5,
 	Graphic3d_TOSM_NONE = 0,
 	V3d_COLOR = 0,
 	V3d_FLAT = 1,
@@ -238,7 +287,8 @@ public enum class Graphic3d_BufferType
 	Graphic3d_BT_RGB = 0,
 	Graphic3d_BT_RGBA = 1,
 	Graphic3d_BT_Depth = 2,
-	Graphic3d_BT_RGB_RayTraceHdrLeft = 3
+	Graphic3d_BT_RGB_RayTraceHdrLeft = 3,
+	Graphic3d_BT_Red = 4
 }; // enum  class Graphic3d_BufferType
 
 //---------------------------------------------------------------------
@@ -392,7 +442,8 @@ public enum class Graphic3d_StereoMode
 	Graphic3d_StereoMode_SideBySide = 5,
 	Graphic3d_StereoMode_OverUnder = 6,
 	Graphic3d_StereoMode_SoftPageFlip = 7,
-	Graphic3d_StereoMode_NB = 8
+	Graphic3d_StereoMode_OpenVR = 8,
+	Graphic3d_StereoMode_NB = 9
 }; // enum  class Graphic3d_StereoMode
 
 //---------------------------------------------------------------------
@@ -423,6 +474,36 @@ public enum class Graphic3d_TypeOfStructure
 	Graphic3d_TOS_COMPUTED = 2,
 	Graphic3d_TOS_ALL = 3
 }; // enum  class Graphic3d_TypeOfStructure
+
+//---------------------------------------------------------------------
+//  Enum  Graphic3d_NameOfTexture2D
+//---------------------------------------------------------------------
+public enum class Graphic3d_NameOfTexture2D
+{
+	Graphic3d_NOT_2D_MATRA = 0,
+	Graphic3d_NOT_2D_ALIENSKIN = 1,
+	Graphic3d_NOT_2D_BLUE_ROCK = 2,
+	Graphic3d_NOT_2D_BLUEWHITE_PAPER = 3,
+	Graphic3d_NOT_2D_BRUSHED = 4,
+	Graphic3d_NOT_2D_BUBBLES = 5,
+	Graphic3d_NOT_2D_BUMP = 6,
+	Graphic3d_NOT_2D_CAST = 7,
+	Graphic3d_NOT_2D_CHIPBD = 8,
+	Graphic3d_NOT_2D_CLOUDS = 9,
+	Graphic3d_NOT_2D_FLESH = 10,
+	Graphic3d_NOT_2D_FLOOR = 11,
+	Graphic3d_NOT_2D_GALVNISD = 12,
+	Graphic3d_NOT_2D_GRASS = 13,
+	Graphic3d_NOT_2D_ALUMINUM = 14,
+	Graphic3d_NOT_2D_ROCK = 15,
+	Graphic3d_NOT_2D_KNURL = 16,
+	Graphic3d_NOT_2D_MAPLE = 17,
+	Graphic3d_NOT_2D_MARBLE = 18,
+	Graphic3d_NOT_2D_MOTTLED = 19,
+	Graphic3d_NOT_2D_RAIN = 20,
+	Graphic3d_NOT_2D_CHESS = 21,
+	Graphic3d_NOT_2D_UNKNOWN = 22
+}; // enum  class Graphic3d_NameOfTexture2D
 
 //---------------------------------------------------------------------
 //  Enum  Graphic3d_NameOfTextureEnv
@@ -486,20 +567,32 @@ public enum class Graphic3d_ZLayerSetting
 public enum class Graphic3d_FrameStatsCounter
 {
 	Graphic3d_FrameStatsCounter_NbLayers = 0,
-	Graphic3d_FrameStatsCounter_NbLayersNotCulled = 1,
-	Graphic3d_FrameStatsCounter_NbStructs = 2,
-	Graphic3d_FrameStatsCounter_NbStructsNotCulled = 3,
-	Graphic3d_FrameStatsCounter_NbGroupsNotCulled = 4,
-	Graphic3d_FrameStatsCounter_NbElemsNotCulled = 5,
-	Graphic3d_FrameStatsCounter_NbElemsFillNotCulled = 6,
-	Graphic3d_FrameStatsCounter_NbElemsLineNotCulled = 7,
-	Graphic3d_FrameStatsCounter_NbElemsPointNotCulled = 8,
-	Graphic3d_FrameStatsCounter_NbElemsTextNotCulled = 9,
-	Graphic3d_FrameStatsCounter_NbTrianglesNotCulled = 10,
-	Graphic3d_FrameStatsCounter_NbPointsNotCulled = 11,
-	Graphic3d_FrameStatsCounter_EstimatedBytesGeom = 12,
-	Graphic3d_FrameStatsCounter_EstimatedBytesFbos = 13,
-	Graphic3d_FrameStatsCounter_EstimatedBytesTextures = 14
+	Graphic3d_FrameStatsCounter_NbStructs = 1,
+	Graphic3d_FrameStatsCounter_EstimatedBytesGeom = 2,
+	Graphic3d_FrameStatsCounter_EstimatedBytesFbos = 3,
+	Graphic3d_FrameStatsCounter_EstimatedBytesTextures = 4,
+	Graphic3d_FrameStatsCounter_NbLayersNotCulled = 5,
+	Graphic3d_FrameStatsCounter_NbStructsNotCulled = 6,
+	Graphic3d_FrameStatsCounter_NbGroupsNotCulled = 7,
+	Graphic3d_FrameStatsCounter_NbElemsNotCulled = 8,
+	Graphic3d_FrameStatsCounter_NbElemsFillNotCulled = 9,
+	Graphic3d_FrameStatsCounter_NbElemsLineNotCulled = 10,
+	Graphic3d_FrameStatsCounter_NbElemsPointNotCulled = 11,
+	Graphic3d_FrameStatsCounter_NbElemsTextNotCulled = 12,
+	Graphic3d_FrameStatsCounter_NbTrianglesNotCulled = 13,
+	Graphic3d_FrameStatsCounter_NbLinesNotCulled = 14,
+	Graphic3d_FrameStatsCounter_NbPointsNotCulled = 15,
+	Graphic3d_FrameStatsCounter_NbLayersImmediate = 16,
+	Graphic3d_FrameStatsCounter_NbStructsImmediate = 17,
+	Graphic3d_FrameStatsCounter_NbGroupsImmediate = 18,
+	Graphic3d_FrameStatsCounter_NbElemsImmediate = 19,
+	Graphic3d_FrameStatsCounter_NbElemsFillImmediate = 20,
+	Graphic3d_FrameStatsCounter_NbElemsLineImmediate = 21,
+	Graphic3d_FrameStatsCounter_NbElemsPointImmediate = 22,
+	Graphic3d_FrameStatsCounter_NbElemsTextImmediate = 23,
+	Graphic3d_FrameStatsCounter_NbTrianglesImmediate = 24,
+	Graphic3d_FrameStatsCounter_NbLinesImmediate = 25,
+	Graphic3d_FrameStatsCounter_NbPointsImmediate = 26
 }; // enum  class Graphic3d_FrameStatsCounter
 
 //---------------------------------------------------------------------
@@ -527,16 +620,18 @@ public enum class Graphic3d_TypeOfLimit
 	Graphic3d_TypeOfLimit_MaxViewDumpSizeY = 5,
 	Graphic3d_TypeOfLimit_MaxCombinedTextureUnits = 6,
 	Graphic3d_TypeOfLimit_MaxMsaa = 7,
-	Graphic3d_TypeOfLimit_HasRayTracing = 8,
-	Graphic3d_TypeOfLimit_HasRayTracingTextures = 9,
-	Graphic3d_TypeOfLimit_HasRayTracingAdaptiveSampling = 10,
-	Graphic3d_TypeOfLimit_HasRayTracingAdaptiveSamplingAtomic = 11,
-	Graphic3d_TypeOfLimit_HasBlendedOit = 12,
-	Graphic3d_TypeOfLimit_HasBlendedOitMsaa = 13,
-	Graphic3d_TypeOfLimit_HasFlatShading = 14,
-	Graphic3d_TypeOfLimit_HasMeshEdges = 15,
-	Graphic3d_TypeOfLimit_IsWorkaroundFBO = 16,
-	Graphic3d_TypeOfLimit_NB = 17
+	Graphic3d_TypeOfLimit_HasPBR = 8,
+	Graphic3d_TypeOfLimit_HasRayTracing = 9,
+	Graphic3d_TypeOfLimit_HasRayTracingTextures = 10,
+	Graphic3d_TypeOfLimit_HasRayTracingAdaptiveSampling = 11,
+	Graphic3d_TypeOfLimit_HasRayTracingAdaptiveSamplingAtomic = 12,
+	Graphic3d_TypeOfLimit_HasSRGB = 13,
+	Graphic3d_TypeOfLimit_HasBlendedOit = 14,
+	Graphic3d_TypeOfLimit_HasBlendedOitMsaa = 15,
+	Graphic3d_TypeOfLimit_HasFlatShading = 16,
+	Graphic3d_TypeOfLimit_HasMeshEdges = 17,
+	Graphic3d_TypeOfLimit_IsWorkaroundFBO = 18,
+	Graphic3d_TypeOfLimit_NB = 19
 }; // enum  class Graphic3d_TypeOfLimit
 
 //---------------------------------------------------------------------
@@ -549,36 +644,6 @@ public enum class Graphic3d_GroupAspect
 	Graphic3d_ASPECT_MARKER = 2,
 	Graphic3d_ASPECT_FILL_AREA = 3
 }; // enum  class Graphic3d_GroupAspect
-
-//---------------------------------------------------------------------
-//  Enum  Graphic3d_NameOfTexture2D
-//---------------------------------------------------------------------
-public enum class Graphic3d_NameOfTexture2D
-{
-	Graphic3d_NOT_2D_MATRA = 0,
-	Graphic3d_NOT_2D_ALIENSKIN = 1,
-	Graphic3d_NOT_2D_BLUE_ROCK = 2,
-	Graphic3d_NOT_2D_BLUEWHITE_PAPER = 3,
-	Graphic3d_NOT_2D_BRUSHED = 4,
-	Graphic3d_NOT_2D_BUBBLES = 5,
-	Graphic3d_NOT_2D_BUMP = 6,
-	Graphic3d_NOT_2D_CAST = 7,
-	Graphic3d_NOT_2D_CHIPBD = 8,
-	Graphic3d_NOT_2D_CLOUDS = 9,
-	Graphic3d_NOT_2D_FLESH = 10,
-	Graphic3d_NOT_2D_FLOOR = 11,
-	Graphic3d_NOT_2D_GALVNISD = 12,
-	Graphic3d_NOT_2D_GRASS = 13,
-	Graphic3d_NOT_2D_ALUMINUM = 14,
-	Graphic3d_NOT_2D_ROCK = 15,
-	Graphic3d_NOT_2D_KNURL = 16,
-	Graphic3d_NOT_2D_MAPLE = 17,
-	Graphic3d_NOT_2D_MARBLE = 18,
-	Graphic3d_NOT_2D_MOTTLED = 19,
-	Graphic3d_NOT_2D_RAIN = 20,
-	Graphic3d_NOT_2D_CHESS = 21,
-	Graphic3d_NOT_2D_UNKNOWN = 22
-}; // enum  class Graphic3d_NameOfTexture2D
 
 //---------------------------------------------------------------------
 //  Enum  Graphic3d_NameOfTexture1D
@@ -664,6 +729,8 @@ public:
 	float SquareModulus();
 	static Macad::Occt::Graphic3d_Vec2^ DX();
 	static Macad::Occt::Graphic3d_Vec2^ DY();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_Vec2
 
 //---------------------------------------------------------------------
@@ -719,6 +786,8 @@ public:
 	double SquareModulus();
 	static Macad::Occt::Graphic3d_Vec2d^ DX();
 	static Macad::Occt::Graphic3d_Vec2d^ DY();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_Vec2d
 
 //---------------------------------------------------------------------
@@ -774,6 +843,8 @@ public:
 	int SquareModulus();
 	static Macad::Occt::Graphic3d_Vec2i^ DX();
 	static Macad::Occt::Graphic3d_Vec2i^ DY();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_Vec2i
 
 //---------------------------------------------------------------------
@@ -829,6 +900,8 @@ public:
 	char SquareModulus();
 	static Macad::Occt::Graphic3d_Vec2b^ DX();
 	static Macad::Occt::Graphic3d_Vec2b^ DY();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_Vec2b
 
 //---------------------------------------------------------------------
@@ -1436,7 +1509,7 @@ public:
 	Macad::Occt::Graphic3d_LightSet^ Lights();
 	void SetLights(Macad::Occt::Graphic3d_LightSet^ theLights);
 	Macad::Occt::XYZ Origin();
-	Macad::Occt::Geom_Transformation^ OriginTransformation();
+	Macad::Occt::TopLoc_Datum3D^ OriginTransformation();
 	void SetOrigin(Macad::Occt::XYZ theOrigin);
 	bool HasCullingDistance();
 	double CullingDistance();
@@ -1466,6 +1539,8 @@ public:
 	void DisableSetting(Macad::Occt::Graphic3d_ZLayerSetting theSetting);
 	void SetDepthOffsetPositive();
 	void SetDepthOffsetNegative();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_ZLayerSettings
 
 //---------------------------------------------------------------------
@@ -2027,7 +2102,67 @@ public:
 	Graphic3d_HatchStyle(Macad::Occt::Graphic3d_HatchStyle^ parameter1);
 	unsigned char Pattern();
 	int HatchType();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_HatchStyle
+
+//---------------------------------------------------------------------
+//  Class  Graphic3d_PBRMaterial
+//---------------------------------------------------------------------
+public ref class Graphic3d_PBRMaterial sealed : public BaseClass<::Graphic3d_PBRMaterial>
+{
+
+#ifdef Include_Graphic3d_PBRMaterial_h
+public:
+	Include_Graphic3d_PBRMaterial_h
+#endif
+
+public:
+	Graphic3d_PBRMaterial(::Graphic3d_PBRMaterial* nativeInstance)
+		: BaseClass<::Graphic3d_PBRMaterial>( nativeInstance, true )
+	{}
+
+	Graphic3d_PBRMaterial(::Graphic3d_PBRMaterial& nativeInstance)
+		: BaseClass<::Graphic3d_PBRMaterial>( &nativeInstance, false )
+	{}
+
+	property ::Graphic3d_PBRMaterial* NativeInstance
+	{
+		::Graphic3d_PBRMaterial* get()
+		{
+			return static_cast<::Graphic3d_PBRMaterial*>(_NativeInstance);
+		}
+	}
+
+public:
+	Graphic3d_PBRMaterial();
+	Graphic3d_PBRMaterial(Macad::Occt::Graphic3d_BSDF^ theBSDF);
+	Graphic3d_PBRMaterial(Macad::Occt::Graphic3d_PBRMaterial^ parameter1);
+	float Metallic();
+	void SetMetallic(float theMetallic);
+	static float Roughness(float theNormalizedRoughness);
+	float Roughness();
+	float NormalizedRoughness();
+	void SetRoughness(float theRoughness);
+	float IOR();
+	void SetIOR(float theIOR);
+	Macad::Occt::Quantity_ColorRGBA^ Color();
+	void SetColor(Macad::Occt::Quantity_ColorRGBA^ theColor);
+	void SetColor(Macad::Occt::Quantity_Color^ theColor);
+	float Alpha();
+	void SetAlpha(float theAlpha);
+	/* Method skipped due to unknown mapping: Graphic3d_Vec3 Emission() */
+	/* Method skipped due to unknown mapping: void SetEmission(Graphic3d_Vec3 theEmission, ) */
+	void SetBSDF(Macad::Occt::Graphic3d_BSDF^ theBSDF);
+	static void GenerateEnvLUT(Macad::Occt::Image_PixMap^ theLUT, unsigned int theNbIntegralSamples);
+	static void GenerateEnvLUT(Macad::Occt::Image_PixMap^ theLUT);
+	static float RoughnessFromSpecular(Macad::Occt::Quantity_Color^ theSpecular, double theShiness);
+	static float MetallicFromSpecular(Macad::Occt::Quantity_Color^ theSpecular);
+	static float MinRoughness();
+	static float SpecIBLMapSamplesFactor(float theProbability, float theRoughness);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+}; // class Graphic3d_PBRMaterial
 
 //---------------------------------------------------------------------
 //  Class  Graphic3d_Fresnel
@@ -2067,6 +2202,8 @@ public:
 	/* Method skipped due to unknown mapping: Graphic3d_Fresnel CreateConductor(Graphic3d_Vec3 theRefractionIndex, Graphic3d_Vec3 theAbsorptionIndex, ) */
 	/* Method skipped due to unknown mapping: Graphic3d_Vec4 Serialize() */
 	Macad::Occt::Graphic3d_FresnelModel FresnelType();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_Fresnel
 
 //---------------------------------------------------------------------
@@ -2104,7 +2241,10 @@ public:
 	/* Method skipped due to unknown mapping: Graphic3d_BSDF CreateMetallic(Graphic3d_Vec3 theWeight, Graphic3d_Fresnel theFresnel, Standard_ShortReal theRoughness, ) */
 	/* Method skipped due to unknown mapping: Graphic3d_BSDF CreateTransparent(Graphic3d_Vec3 theWeight, Graphic3d_Vec3 theAbsorptionColor, Standard_ShortReal theAbsorptionCoeff, ) */
 	/* Method skipped due to unknown mapping: Graphic3d_BSDF CreateGlass(Graphic3d_Vec3 theWeight, Graphic3d_Vec3 theAbsorptionColor, Standard_ShortReal theAbsorptionCoeff, Standard_ShortReal theRefractionIndex, ) */
+	static Macad::Occt::Graphic3d_BSDF^ CreateMetallicRoughness(Macad::Occt::Graphic3d_PBRMaterial^ thePbr);
 	void Normalize();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_BSDF
 
 //---------------------------------------------------------------------
@@ -2171,12 +2311,16 @@ public:
 	void SetRefractionIndex(float theValue);
 	Macad::Occt::Graphic3d_BSDF^ BSDF();
 	void SetBSDF(Macad::Occt::Graphic3d_BSDF^ theBSDF);
+	Macad::Occt::Graphic3d_PBRMaterial^ PBRMaterial();
+	void SetPBRMaterial(Macad::Occt::Graphic3d_PBRMaterial^ thePBRMaterial);
 	bool ReflectionMode(Macad::Occt::Graphic3d_TypeOfReflection theType);
 	Macad::Occt::Graphic3d_TypeOfMaterial MaterialType();
 	bool MaterialType(Macad::Occt::Graphic3d_TypeOfMaterial theType);
 	void SetMaterialType(Macad::Occt::Graphic3d_TypeOfMaterial theType);
 	bool IsDifferent(Macad::Occt::Graphic3d_MaterialAspect^ theOther);
 	bool IsEqual(Macad::Occt::Graphic3d_MaterialAspect^ theOther);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	void SetReflectionModeOff(Macad::Occt::Graphic3d_TypeOfReflection theType);
 }; // class Graphic3d_MaterialAspect
 
@@ -2311,6 +2455,10 @@ public:
 	/* Method skipped due to unknown mapping: Graphic3d_Vec4 GenPlaneS() */
 	/* Method skipped due to unknown mapping: Graphic3d_Vec4 GenPlaneT() */
 	/* Method skipped due to unknown mapping: void SetGenMode(Graphic3d_TypeOfTextureMode theMode, Graphic3d_Vec4 thePlaneS, Graphic3d_Vec4 thePlaneT, ) */
+	int BaseLevel();
+	int MaxLevel();
+	void SetLevelsRange(int theFirstLevel, int theSecondLevel);
+	void SetLevelsRange(int theFirstLevel);
 	unsigned int SamplerRevision();
 }; // class Graphic3d_TextureParams
 
@@ -2358,8 +2506,12 @@ public:
 	Macad::Occt::TCollection_AsciiString^ GetId();
 	size_t Revision();
 	void UpdateRevision();
-	Macad::Occt::Image_PixMap^ GetImage();
+	Macad::Occt::Image_CompressedPixMap^ GetCompressedImage(Macad::Occt::Image_SupportedFormats^ theSupported);
+	Macad::Occt::Image_PixMap^ GetImage(Macad::Occt::Image_SupportedFormats^ theSupported);
 	Macad::Occt::Graphic3d_TextureParams^ GetParams();
+	bool IsColorMap();
+	void SetColorMap(bool theIsColor);
+	bool IsTopDown();
 }; // class Graphic3d_TextureRoot
 
 //---------------------------------------------------------------------
@@ -2548,8 +2700,14 @@ public:
 	void SetPolygonOffsets(int theMode);
 	Macad::Occt::Aspect_TypeOfLine LineType();
 	void SetLineType(Macad::Occt::Aspect_TypeOfLine theType);
+	/* Method skipped due to unknown mapping: short unsigned int LinePattern() */
+	/* Method skipped due to unknown mapping: void SetLinePattern(short unsigned int thePattern, ) */
+	/* Method skipped due to unknown mapping: short unsigned int LineStippleFactor() */
+	/* Method skipped due to unknown mapping: void SetLineStippleFactor(short unsigned int theFactor, ) */
 	float LineWidth();
 	void SetLineWidth(float theWidth);
+	/* Method skipped due to unknown mapping: short unsigned int DefaultLinePatternForType(Aspect_TypeOfLine theType, ) */
+	/* Method skipped due to unknown mapping: Aspect_TypeOfLine DefaultLineTypeForPattern(short unsigned int thePattern, ) */
 	Macad::Occt::Aspect_TypeOfMarker MarkerType();
 	void SetMarkerType(Macad::Occt::Aspect_TypeOfMarker theType);
 	float MarkerScale();
@@ -2772,6 +2930,8 @@ public:
 	float GetTextAngle();
 	void SetTextAngle(double theAngle);
 	/* Method skipped due to unknown mapping: Font_FontAspect GetTextFontAspect() */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_AspectText3d
 
 //---------------------------------------------------------------------
@@ -2808,8 +2968,8 @@ public:
 	Graphic3d_CStructure(Macad::Occt::Graphic3d_CStructure^ parameter1);
 	Macad::Occt::Graphic3d_GraphicDriver^ GraphicDriver();
 	Macad::Occt::Graphic3d_SequenceOfGroup^ Groups();
-	Macad::Occt::Geom_Transformation^ Transformation();
-	void SetTransformation(Macad::Occt::Geom_Transformation^ theTrsf);
+	Macad::Occt::TopLoc_Datum3D^ Transformation();
+	void SetTransformation(Macad::Occt::TopLoc_Datum3D^ theTrsf);
 	Macad::Occt::Graphic3d_TransformPers^ TransformPersistence();
 	void SetTransformPersistence(Macad::Occt::Graphic3d_TransformPers^ theTrsfPers);
 	Macad::Occt::Graphic3d_SequenceOfHClipPlane^ ClipPlanes();
@@ -2837,6 +2997,8 @@ public:
 	Macad::Occt::Graphic3d_Group^ NewGroup(Macad::Occt::Graphic3d_Structure^ theStruct);
 	void RemoveGroup(Macad::Occt::Graphic3d_Group^ theGroup);
 	void updateLayerTransformation();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_CStructure
 
 //---------------------------------------------------------------------
@@ -2883,6 +3045,7 @@ public:
 	bool IsProjectionChanged(Macad::Occt::Graphic3d_WorldViewProjState^ theState);
 	bool IsWorldViewChanged(Macad::Occt::Graphic3d_WorldViewProjState^ theState);
 	bool IsChanged(Macad::Occt::Graphic3d_WorldViewProjState^ theState);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer parameter1, ) */
 }; // class Graphic3d_WorldViewProjState
 
 //---------------------------------------------------------------------
@@ -2958,6 +3121,7 @@ public:
 	void SetUp(Macad::Occt::Dir theUp);
 	void OrthogonalizeUp();
 	Macad::Occt::Dir OrthogonalizedUp();
+	Macad::Occt::Dir SideRight();
 	Macad::Occt::Pnt Eye();
 	void MoveEyeTo(Macad::Occt::Pnt theEye);
 	void SetEyeAndCenter(Macad::Occt::Pnt theEye, Macad::Occt::Pnt theCenter);
@@ -2976,6 +3140,9 @@ public:
 	bool IsStereo();
 	void SetFOVy(double theFOVy);
 	double FOVy();
+	double FOVx();
+	double FOV2d();
+	void SetFOV2d(double theFOV);
 	bool ZFitAll(double theScaleFactor, Macad::Occt::Bnd_Box^ theMinMax, Macad::Occt::Bnd_Box^ theGraphicBB, double% theZNear, double% theZFar);
 	void ZFitAll(double theScaleFactor, Macad::Occt::Bnd_Box^ theMinMax, Macad::Occt::Bnd_Box^ theGraphicBB);
 	void SetZRange(double theZNear, double theZFar);
@@ -2994,6 +3161,8 @@ public:
 	void Transform(Macad::Occt::Trsf theTrsf);
 	Macad::Occt::XYZ ViewDimensions();
 	Macad::Occt::XYZ ViewDimensions(double theZValue);
+	double NDC2dOffsetX();
+	double NDC2dOffsetY();
 	void Frustum(Macad::Occt::Pln% theLeft, Macad::Occt::Pln% theRight, Macad::Occt::Pln% theBottom, Macad::Occt::Pln% theTop, Macad::Occt::Pln% theNear, Macad::Occt::Pln% theFar);
 	Macad::Occt::Pnt Project(Macad::Occt::Pnt thePnt);
 	Macad::Occt::Pnt UnProject(Macad::Occt::Pnt thePnt);
@@ -3014,7 +3183,19 @@ public:
 	/* Method skipped due to unknown mapping: Graphic3d_Mat4 ProjectionStereoRightF() */
 	void InvalidateProjection();
 	void InvalidateOrientation();
-	/* Method skipped due to unknown mapping: void FrustumPoints(NCollection_Array1<NCollection_Vec3<double> > thePoints, ) */
+	/* Method skipped due to unknown mapping: void StereoProjection(Graphic3d_Mat4d theProjL, Graphic3d_Mat4d theHeadToEyeL, Graphic3d_Mat4d theProjR, Graphic3d_Mat4d theHeadToEyeR, ) */
+	/* Method skipped due to unknown mapping: void StereoProjectionF(Graphic3d_Mat4 theProjL, Graphic3d_Mat4 theHeadToEyeL, Graphic3d_Mat4 theProjR, Graphic3d_Mat4 theHeadToEyeR, ) */
+	void ResetCustomProjection();
+	bool IsCustomStereoFrustum();
+	/* Method skipped due to unknown mapping: void SetCustomStereoFrustums(Aspect_FrustumLRBT<double> theFrustumL, Aspect_FrustumLRBT<double> theFrustumR, ) */
+	bool IsCustomStereoProjection();
+	/* Method skipped due to unknown mapping: void SetCustomStereoProjection(Graphic3d_Mat4d theProjL, Graphic3d_Mat4d theHeadToEyeL, Graphic3d_Mat4d theProjR, Graphic3d_Mat4d theHeadToEyeR, ) */
+	bool IsCustomMonoProjection();
+	/* Method skipped due to unknown mapping: void SetCustomMonoProjection(Graphic3d_Mat4d theProj, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void FrustumPoints(NCollection_Array1<NCollection_Vec3<double> > thePoints, Graphic3d_Mat4d theModelWorld, ) */
+	/* Method skipped due to unknown mapping: void FrustumPoints(NCollection_Array1<NCollection_Vec3<double> > thePoints, Graphic3d_Mat4d theModelWorld, ) */
 }; // class Graphic3d_Camera
 
 //---------------------------------------------------------------------
@@ -3051,6 +3232,8 @@ public:
 	bool IsValid();
 	Macad::Occt::Graphic3d_Vec2i^ OffsetLowerLeft();
 	Macad::Occt::Graphic3d_CameraTile^ Cropped();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_CameraTile
 
 //---------------------------------------------------------------------
@@ -3121,11 +3304,15 @@ public:
 	float Smoothness();
 	void SetSmoothRadius(float theValue);
 	void SetSmoothAngle(float theValue);
+	float Range();
+	void SetRange(float theValue);
 	Macad::Occt::TCollection_AsciiString^ GetId();
 	/* Method skipped due to unknown mapping: Graphic3d_Vec4 PackedParams() */
 	/* Method skipped due to unknown mapping: Graphic3d_Vec4 PackedColor() */
-	/* Method skipped due to unknown mapping: Graphic3d_Vec4 PackedDirection() */
+	/* Method skipped due to unknown mapping: Graphic3d_Vec4 PackedDirectionRange() */
 	size_t Revision();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_CLight
 
 //---------------------------------------------------------------------
@@ -3209,6 +3396,8 @@ public:
 	/* Method skipped due to unknown mapping: bool IsBoxFullOutHalfspace(Graphic3d_BndBox3d theBox, ) */
 	/* Method skipped due to unknown mapping: Graphic3d_ClipState ProbeBoxMaxPointHalfspace(Graphic3d_BndBox3d theBox, ) */
 	/* Method skipped due to unknown mapping: bool IsBoxFullInHalfspace(Graphic3d_BndBox3d theBox, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	unsigned int MCountEquation();
 	unsigned int MCountAspect();
 }; // class Graphic3d_ClipPlane
@@ -3274,10 +3463,7 @@ public:
 	void SetIsForHighlight(bool isForHighlight);
 	void UnHighlight();
 	void Compute();
-	Macad::Occt::Graphic3d_Structure^ Compute(Macad::Occt::Graphic3d_DataStructureManager^ theProjector);
-	Macad::Occt::Graphic3d_Structure^ Compute(Macad::Occt::Graphic3d_DataStructureManager^ theProjector, Macad::Occt::Geom_Transformation^ theTrsf);
-	void Compute(Macad::Occt::Graphic3d_DataStructureManager^ theProjector, Macad::Occt::Graphic3d_Structure^ theStructure);
-	void Compute(Macad::Occt::Graphic3d_DataStructureManager^ theProjector, Macad::Occt::Geom_Transformation^ theTrsf, Macad::Occt::Graphic3d_Structure^ theStructure);
+	void computeHLR(Macad::Occt::Graphic3d_Camera^ theProjector, Macad::Occt::Graphic3d_Structure^ theStructure);
 	void ReCompute();
 	void ReCompute(Macad::Occt::Graphic3d_DataStructureManager^ aProjector);
 	bool ContainsFacet();
@@ -3311,8 +3497,8 @@ public:
 	System::IntPtr Owner();
 	void SetHLRValidation(bool theFlag);
 	bool HLRValidation();
-	Macad::Occt::Geom_Transformation^ Transformation();
-	void SetTransformation(Macad::Occt::Geom_Transformation^ theTrsf);
+	Macad::Occt::TopLoc_Datum3D^ Transformation();
+	void SetTransformation(Macad::Occt::TopLoc_Datum3D^ theTrsf);
 	void SetTransformPersistence(Macad::Occt::Graphic3d_TransformPers^ theTrsfPers);
 	Macad::Occt::Graphic3d_TransformPers^ TransformPersistence();
 	void SetMutable(bool theIsMutable);
@@ -3321,13 +3507,15 @@ public:
 	void GraphicClear(bool WithDestruction);
 	void GraphicConnect(Macad::Occt::Graphic3d_Structure^ theDaughter);
 	void GraphicDisconnect(Macad::Occt::Graphic3d_Structure^ theDaughter);
-	void GraphicTransform(Macad::Occt::Geom_Transformation^ theTrsf);
+	void GraphicTransform(Macad::Occt::TopLoc_Datum3D^ theTrsf);
 	int Identification();
 	static void PrintNetwork(Macad::Occt::Graphic3d_Structure^ AStructure, Macad::Occt::Graphic3d_TypeOfConnection AType);
 	void Remove(Macad::Occt::Graphic3d_Structure^ thePtr, Macad::Occt::Graphic3d_TypeOfConnection theType);
 	void SetComputeVisual(Macad::Occt::Graphic3d_TypeOfStructure theVisual);
 	static void Transforms(Macad::Occt::Trsf theTrsf, double theX, double theY, double theZ, double% theNewX, double% theNewY, double% theNewZ);
 	Macad::Occt::Graphic3d_CStructure^ CStructure();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_Structure
 
 //---------------------------------------------------------------------
@@ -3367,6 +3555,8 @@ public:
 	/* Method skipped due to unknown mapping: void SetText(NCollection_Utf8String theText, ) */
 	void SetText(Macad::Occt::TCollection_AsciiString^ theText);
 	void SetText(System::String^ theText);
+	/* Method skipped due to unknown mapping: Font_TextFormatter TextFormatter() */
+	/* Method skipped due to unknown mapping: void SetTextFormatter(Font_TextFormatter theFormatter, ) */
 	Macad::Occt::Pnt Position();
 	void SetPosition(Macad::Occt::Pnt thePoint);
 	Macad::Occt::Ax2 Orientation();
@@ -3512,6 +3702,8 @@ public:
 	void SetDisplayMode(int theMode);
 	Macad::Occt::Graphic3d_AspectFillArea3d^ BasicFillAreaAspect();
 	void SetBasicFillAreaAspect(Macad::Occt::Graphic3d_AspectFillArea3d^ theAspect);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_PresentationAttributes
 
 //---------------------------------------------------------------------
@@ -3556,6 +3748,8 @@ public:
 	/* Method skipped due to unknown mapping: void Remove(Iterator theItem, ) */
 	void Clear();
 	Macad::Occt::Graphic3d_ClipPlane^ First();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_SequenceOfHClipPlane
 
 //---------------------------------------------------------------------
@@ -3594,6 +3788,8 @@ public:
 	bool IsVisible(int theViewId);
 	void SetVisible(bool theIsVisible);
 	void SetVisible(int theViewId, bool theIsVisible);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_ViewAffinity
 
 //---------------------------------------------------------------------
@@ -3647,6 +3843,8 @@ public:
 	void SetCorner2d(Macad::Occt::Aspect_TypeOfTriedronPosition thePos);
 	Macad::Occt::Graphic3d_Vec2i^ Offset2d();
 	void SetOffset2d(Macad::Occt::Graphic3d_Vec2i^ theOffset);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_TransformPers
 
 //---------------------------------------------------------------------
@@ -3703,6 +3901,8 @@ public:
 	Macad::Occt::Aspect_DisplayConnection^ GetDisplayConnection();
 	int NewIdentification();
 	void RemoveIdentification(int theId);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_GraphicDriver
 
 //---------------------------------------------------------------------
@@ -3752,7 +3952,7 @@ public:
 	void Display(Macad::Occt::Graphic3d_Structure^ theStructure);
 	void Erase(Macad::Occt::Graphic3d_Structure^ theStructure);
 	void Highlight(Macad::Occt::Graphic3d_Structure^ theStructure);
-	void SetTransform(Macad::Occt::Graphic3d_Structure^ theStructure, Macad::Occt::Geom_Transformation^ theTrsf);
+	void SetTransform(Macad::Occt::Graphic3d_Structure^ theStructure, Macad::Occt::TopLoc_Datum3D^ theTrsf);
 	void ChangeDisplayPriority(Macad::Occt::Graphic3d_Structure^ theStructure, int theOldPriority, int theNewPriority);
 	void ChangeZLayer(Macad::Occt::Graphic3d_Structure^ theStructure, int theLayerId);
 	Macad::Occt::Graphic3d_GraphicDriver^ GraphicDriver();
@@ -3770,6 +3970,8 @@ public:
 	Macad::Occt::Graphic3d_ViewAffinity^ ObjectAffinity(Macad::Occt::Standard_Transient^ theObject);
 	bool IsDeviceLost();
 	void SetDeviceLost();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_StructureManager
 
 //---------------------------------------------------------------------
@@ -3834,7 +4036,7 @@ public:
 	}
 
 public:
-	Graphic3d_ValidatedCubeMapOrder(Macad::Occt::Graphic3d_ValidatedCubeMapOrder^ parameter1);
+	Graphic3d_ValidatedCubeMapOrder(Macad::Occt::Graphic3d_ValidatedCubeMapOrder^ theOther);
 }; // class Graphic3d_ValidatedCubeMapOrder
 
 //---------------------------------------------------------------------
@@ -3923,16 +4125,20 @@ public:
 	static Macad::Occt::Graphic3d_CubeMap^ CreateDowncasted(::Graphic3d_CubeMap* instance);
 
 public:
+	Graphic3d_CubeMap(Macad::Occt::TCollection_AsciiString^ theFileName, bool theToGenerateMipmaps);
 	Graphic3d_CubeMap(Macad::Occt::TCollection_AsciiString^ theFileName);
+	Graphic3d_CubeMap(Macad::Occt::Image_PixMap^ thePixmap, bool theToGenerateMipmaps);
 	Graphic3d_CubeMap(Macad::Occt::Image_PixMap^ thePixmap);
 	Graphic3d_CubeMap(Macad::Occt::Graphic3d_CubeMap^ parameter1);
 	bool More();
 	Macad::Occt::Graphic3d_CubeMapSide CurrentSide();
 	void Next();
-	bool IsTopDown();
 	void SetZInversion(bool theZIsInverted);
 	bool ZIsInverted();
-	Macad::Occt::Image_PixMap^ Value();
+	bool HasMipmaps();
+	void SetMipmapsGeneration(bool theToGenerateMipmaps);
+	Macad::Occt::Image_CompressedPixMap^ CompressedValue(Macad::Occt::Image_SupportedFormats^ theSupported);
+	Macad::Occt::Image_PixMap^ Value(Macad::Occt::Image_SupportedFormats^ theSupported);
 	Macad::Occt::Graphic3d_CubeMap^ Reset();
 }; // class Graphic3d_CubeMap
 
@@ -3972,7 +4178,8 @@ public:
 	Graphic3d_CubeMapPacked(Macad::Occt::Image_PixMap^ theImage, Macad::Occt::Graphic3d_ValidatedCubeMapOrder^ theOrder);
 	Graphic3d_CubeMapPacked(Macad::Occt::Image_PixMap^ theImage);
 	Graphic3d_CubeMapPacked(Macad::Occt::Graphic3d_CubeMapPacked^ parameter1);
-	Macad::Occt::Image_PixMap^ Value();
+	Macad::Occt::Image_CompressedPixMap^ CompressedValue(Macad::Occt::Image_SupportedFormats^ theSupported);
+	Macad::Occt::Image_PixMap^ Value(Macad::Occt::Image_SupportedFormats^ theSupported);
 }; // class Graphic3d_CubeMapPacked
 
 //---------------------------------------------------------------------
@@ -4009,8 +4216,9 @@ public:
 	/* Method skipped due to unknown mapping: void Graphic3d_CubeMapSeparate(NCollection_Array1<TCollection_AsciiString> thePaths, ) */
 	/* Method skipped due to unknown mapping: void Graphic3d_CubeMapSeparate(NCollection_Array1<opencascade::handle<Image_PixMap> > theImages, ) */
 	Graphic3d_CubeMapSeparate(Macad::Occt::Graphic3d_CubeMapSeparate^ parameter1);
-	Macad::Occt::Image_PixMap^ Value();
-	Macad::Occt::Image_PixMap^ GetImage();
+	Macad::Occt::Image_CompressedPixMap^ CompressedValue(Macad::Occt::Image_SupportedFormats^ theSupported);
+	Macad::Occt::Image_PixMap^ Value(Macad::Occt::Image_SupportedFormats^ theSupported);
+	Macad::Occt::Image_PixMap^ GetImage(Macad::Occt::Image_SupportedFormats^ parameter1);
 	bool IsDone();
 }; // class Graphic3d_CubeMapSeparate
 
@@ -4045,18 +4253,28 @@ public:
 public:
 	Graphic3d_CullingTool();
 	Graphic3d_CullingTool(Macad::Occt::Graphic3d_CullingTool^ parameter1);
+	/* Method skipped due to unknown mapping: void SetViewVolume(Graphic3d_Camera theCamera, Graphic3d_Mat4d theModelWorld, ) */
 	void SetViewVolume(Macad::Occt::Graphic3d_Camera^ theCamera);
 	void SetViewportSize(int theViewportWidth, int theViewportHeight, double theResolutionRatio);
 	/* Method skipped due to unknown mapping: void SetCullingDistance(CullingContext theCtx, Standard_Real theDistance, ) */
 	/* Method skipped due to unknown mapping: void SetCullingSize(CullingContext theCtx, Standard_Real theSize, ) */
 	void CacheClipPtsProjections();
-	/* Method skipped due to unknown mapping: bool IsCulled(CullingContext theCtx, Graphic3d_Vec3d theMinPt, Graphic3d_Vec3d theMaxPt, ) */
+	/* Method skipped due to unknown mapping: bool IsCulled(CullingContext theCtx, Graphic3d_Vec3d theMinPnt, Graphic3d_Vec3d theMaxPnt, Standard_Boolean theIsInside, ) */
+	/* Method skipped due to unknown mapping: bool IsCulled(CullingContext theCtx, Graphic3d_Vec3d theMinPnt, Graphic3d_Vec3d theMaxPnt, Standard_Boolean theIsInside, ) */
 	Macad::Occt::Graphic3d_Camera^ Camera();
 	/* Method skipped due to unknown mapping: Graphic3d_Mat4d ProjectionMatrix() */
 	/* Method skipped due to unknown mapping: Graphic3d_Mat4d WorldViewMatrix() */
 	int ViewportWidth();
 	int ViewportHeight();
 	Macad::Occt::Graphic3d_WorldViewProjState^ WorldViewProjState();
+	/* Method skipped due to unknown mapping: Graphic3d_Vec3d CameraEye() */
+	/* Method skipped due to unknown mapping: Graphic3d_Vec3d CameraDirection() */
+	/* Method skipped due to unknown mapping: Standard_Real SignedPlanePointDistance(Graphic3d_Vec4d theNormal, Graphic3d_Vec4d thePnt, ) */
+	/* Method skipped due to unknown mapping: bool IsOutFrustum(Graphic3d_Vec3d theMinPnt, Graphic3d_Vec3d theMaxPnt, Standard_Boolean theIsInside, ) */
+	/* Method skipped due to unknown mapping: bool IsOutFrustum(Graphic3d_Vec3d theMinPnt, Graphic3d_Vec3d theMaxPnt, Standard_Boolean theIsInside, ) */
+	/* Method skipped due to unknown mapping: bool IsTooDistant(CullingContext theCtx, Graphic3d_Vec3d theMinPnt, Graphic3d_Vec3d theMaxPnt, Standard_Boolean theIsInside, ) */
+	/* Method skipped due to unknown mapping: bool IsTooDistant(CullingContext theCtx, Graphic3d_Vec3d theMinPnt, Graphic3d_Vec3d theMaxPnt, Standard_Boolean theIsInside, ) */
+	/* Method skipped due to unknown mapping: bool IsTooSmall(CullingContext theCtx, Graphic3d_Vec3d theMinPnt, Graphic3d_Vec3d theMaxPnt, ) */
 }; // class Graphic3d_CullingTool
 
 //---------------------------------------------------------------------
@@ -4195,12 +4413,14 @@ public:
 	void SetBackground(Macad::Occt::Aspect_Background^ theBackground);
 	Macad::Occt::Aspect_GradientBackground^ GradientBackground();
 	void SetGradientBackground(Macad::Occt::Aspect_GradientBackground^ theBackground);
-	Macad::Occt::TCollection_AsciiString^ BackgroundImage();
-	void SetBackgroundImage(Macad::Occt::TCollection_AsciiString^ theFilePath);
+	Macad::Occt::Graphic3d_TextureMap^ BackgroundImage();
+	void SetBackgroundImage(Macad::Occt::Graphic3d_TextureMap^ theTextureMap, bool theToUpdatePBREnv);
+	void SetBackgroundImage(Macad::Occt::Graphic3d_TextureMap^ theTextureMap);
 	Macad::Occt::Aspect_FillMethod BackgroundImageStyle();
 	void SetBackgroundImageStyle(Macad::Occt::Aspect_FillMethod theFillStyle);
 	Macad::Occt::Graphic3d_CubeMap^ BackgroundCubeMap();
-	void SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap);
+	void GeneratePBREnvironment();
+	void ClearPBREnvironment();
 	Macad::Occt::Graphic3d_TextureEnv^ TextureEnv();
 	void SetTextureEnv(Macad::Occt::Graphic3d_TextureEnv^ theTextureEnv);
 	Macad::Occt::Graphic3d_TypeOfBackfacingModel BackfacingModel();
@@ -4212,10 +4432,32 @@ public:
 	void DiagnosticInformation(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theDict, Macad::Occt::Graphic3d_DiagnosticInfo theFlags);
 	Macad::Occt::TCollection_AsciiString^ StatisticInformation();
 	void StatisticInformation(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theDict);
+	double UnitFactor();
+	void SetUnitFactor(double theFactor);
+	Macad::Occt::Aspect_XRSession^ XRSession();
+	void SetXRSession(Macad::Occt::Aspect_XRSession^ theSession);
+	bool IsActiveXR();
+	bool InitXR();
+	void ReleaseXR();
+	void ProcessXRInput();
+	void SetupXRPosedCamera();
+	void UnsetXRPosedCamera();
+	Macad::Occt::Graphic3d_Camera^ PosedXRCamera();
+	void SetPosedXRCamera(Macad::Occt::Graphic3d_Camera^ theCamera);
+	Macad::Occt::Graphic3d_Camera^ BaseXRCamera();
+	void SetBaseXRCamera(Macad::Occt::Graphic3d_Camera^ theCamera);
+	Macad::Occt::Trsf PoseXRToWorld(Macad::Occt::Trsf thePoseXR);
+	void SynchronizeXRBaseToPosedCamera();
+	void SynchronizeXRPosedToBaseCamera();
+	void ComputeXRPosedCameraFromBase(Macad::Occt::Graphic3d_Camera^ theCam, Macad::Occt::Trsf theXRTrsf);
+	void ComputeXRBaseCameraFromPosed(Macad::Occt::Graphic3d_Camera^ theCamPosed, Macad::Occt::Trsf thePoseTrsf);
+	void TurnViewXRCamera(Macad::Occt::Trsf theTrsfTurn);
 	Macad::Occt::Graphic3d_GraduatedTrihedron^ GetGraduatedTrihedron();
 	void GraduatedTrihedronDisplay(Macad::Occt::Graphic3d_GraduatedTrihedron^ theTrihedronData);
 	void GraduatedTrihedronErase();
 	/* Method skipped due to unknown mapping: void GraduatedTrihedronMinMaxValues(Graphic3d_Vec3 theMin, Graphic3d_Vec3 theMax, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_CView
 
 //---------------------------------------------------------------------
@@ -4406,13 +4648,14 @@ public:
 		PerfCounters_GroupArrays = 32,
 		PerfCounters_Triangles = 64,
 		PerfCounters_Points = 128,
-		PerfCounters_EstimMem = 256,
-		PerfCounters_FrameTime = 512,
-		PerfCounters_FrameTimeMax = 1024,
-		PerfCounters_SkipImmediate = 2048,
+		PerfCounters_Lines = 256,
+		PerfCounters_EstimMem = 512,
+		PerfCounters_FrameTime = 1024,
+		PerfCounters_FrameTimeMax = 2048,
+		PerfCounters_SkipImmediate = 4096,
 		PerfCounters_Basic = 15,
-		PerfCounters_Extended = 511,
-		PerfCounters_All = 2047
+		PerfCounters_Extended = 1023,
+		PerfCounters_All = 4095
 	}; // enum  class PerfCounters
 
 	//---------------------------------------------------------------------
@@ -4428,7 +4671,91 @@ public:
 	Graphic3d_RenderingParams();
 	Graphic3d_RenderingParams(Macad::Occt::Graphic3d_RenderingParams^ parameter1);
 	float ResolutionRatio();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Graphic3d_RenderingParams
+
+//---------------------------------------------------------------------
+//  Class  Graphic3d_Texture2D
+//---------------------------------------------------------------------
+public ref class Graphic3d_Texture2D : public Macad::Occt::Graphic3d_TextureMap
+{
+
+#ifdef Include_Graphic3d_Texture2D_h
+public:
+	Include_Graphic3d_Texture2D_h
+#endif
+
+protected:
+	Graphic3d_Texture2D(InitMode init)
+		: Macad::Occt::Graphic3d_TextureMap( init )
+	{}
+
+public:
+	Graphic3d_Texture2D(::Graphic3d_Texture2D* nativeInstance)
+		: Macad::Occt::Graphic3d_TextureMap( nativeInstance )
+	{}
+
+	Graphic3d_Texture2D(::Graphic3d_Texture2D& nativeInstance)
+		: Macad::Occt::Graphic3d_TextureMap( nativeInstance )
+	{}
+
+	property ::Graphic3d_Texture2D* NativeInstance
+	{
+		::Graphic3d_Texture2D* get()
+		{
+			return static_cast<::Graphic3d_Texture2D*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Graphic3d_Texture2D^ CreateDowncasted(::Graphic3d_Texture2D* instance);
+
+public:
+	Graphic3d_Texture2D(Macad::Occt::Graphic3d_Texture2D^ parameter1);
+	static int NumberOfTextures();
+	static Macad::Occt::TCollection_AsciiString^ TextureName(int theRank);
+	Macad::Occt::Graphic3d_NameOfTexture2D Name();
+	void SetImage(Macad::Occt::Image_PixMap^ thePixMap);
+	bool HasMipMaps();
+	void SetMipMaps(bool theToUse);
+}; // class Graphic3d_Texture2D
+
+//---------------------------------------------------------------------
+//  Class  Graphic3d_Texture2Dmanual
+//---------------------------------------------------------------------
+public ref class Graphic3d_Texture2Dmanual sealed : public Macad::Occt::Graphic3d_Texture2D
+{
+
+#ifdef Include_Graphic3d_Texture2Dmanual_h
+public:
+	Include_Graphic3d_Texture2Dmanual_h
+#endif
+
+public:
+	Graphic3d_Texture2Dmanual(::Graphic3d_Texture2Dmanual* nativeInstance)
+		: Macad::Occt::Graphic3d_Texture2D( nativeInstance )
+	{}
+
+	Graphic3d_Texture2Dmanual(::Graphic3d_Texture2Dmanual& nativeInstance)
+		: Macad::Occt::Graphic3d_Texture2D( nativeInstance )
+	{}
+
+	property ::Graphic3d_Texture2Dmanual* NativeInstance
+	{
+		::Graphic3d_Texture2Dmanual* get()
+		{
+			return static_cast<::Graphic3d_Texture2Dmanual*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Graphic3d_Texture2Dmanual^ CreateDowncasted(::Graphic3d_Texture2Dmanual* instance);
+
+public:
+	Graphic3d_Texture2Dmanual(Macad::Occt::TCollection_AsciiString^ theFileName);
+	Graphic3d_Texture2Dmanual(Macad::Occt::Graphic3d_NameOfTexture2D theNOT);
+	Graphic3d_Texture2Dmanual(Macad::Occt::Image_PixMap^ thePixMap);
+	Graphic3d_Texture2Dmanual(Macad::Occt::Graphic3d_Texture2Dmanual^ parameter1);
+}; // class Graphic3d_Texture2Dmanual
 
 //---------------------------------------------------------------------
 //  Class  Graphic3d_TextureEnv
@@ -4570,6 +4897,8 @@ public:
 	Graphic3d_FrameStatsData(Macad::Occt::Graphic3d_FrameStatsData^ parameter1);
 	double FrameRate();
 	double FrameRateCpu();
+	double ImmediateFrameRate();
+	double ImmediateFrameRateCpu();
 	size_t CounterValue(Macad::Occt::Graphic3d_FrameStatsCounter theIndex);
 	double TimerValue(Macad::Occt::Graphic3d_FrameStatsTimer theIndex);
 	void Reset();
@@ -4611,6 +4940,8 @@ public:
 	void Reset();
 	double ChangeFrameRate();
 	double ChangeFrameRateCpu();
+	double ChangeImmediateFrameRate();
+	double ChangeImmediateFrameRateCpu();
 	/* Method skipped due to unknown mapping: OSD_Timer ChangeTimer(Graphic3d_FrameStatsTimer theTimer, ) */
 	size_t ChangeCounterValue(Macad::Occt::Graphic3d_FrameStatsCounter theIndex);
 	double ChangeTimerValue(Macad::Occt::Graphic3d_FrameStatsTimer theIndex);
@@ -4797,51 +5128,6 @@ public:
 }; // class Graphic3d_MaterialDefinitionError
 
 //---------------------------------------------------------------------
-//  Class  Graphic3d_Texture2D
-//---------------------------------------------------------------------
-public ref class Graphic3d_Texture2D : public Macad::Occt::Graphic3d_TextureMap
-{
-
-#ifdef Include_Graphic3d_Texture2D_h
-public:
-	Include_Graphic3d_Texture2D_h
-#endif
-
-protected:
-	Graphic3d_Texture2D(InitMode init)
-		: Macad::Occt::Graphic3d_TextureMap( init )
-	{}
-
-public:
-	Graphic3d_Texture2D(::Graphic3d_Texture2D* nativeInstance)
-		: Macad::Occt::Graphic3d_TextureMap( nativeInstance )
-	{}
-
-	Graphic3d_Texture2D(::Graphic3d_Texture2D& nativeInstance)
-		: Macad::Occt::Graphic3d_TextureMap( nativeInstance )
-	{}
-
-	property ::Graphic3d_Texture2D* NativeInstance
-	{
-		::Graphic3d_Texture2D* get()
-		{
-			return static_cast<::Graphic3d_Texture2D*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::Graphic3d_Texture2D^ CreateDowncasted(::Graphic3d_Texture2D* instance);
-
-public:
-	Graphic3d_Texture2D(Macad::Occt::Graphic3d_Texture2D^ parameter1);
-	static int NumberOfTextures();
-	static Macad::Occt::TCollection_AsciiString^ TextureName(int theRank);
-	Macad::Occt::Graphic3d_NameOfTexture2D Name();
-	void SetImage(Macad::Occt::Image_PixMap^ thePixMap);
-	bool HasMipMaps();
-	void SetMipMaps(bool theToUse);
-}; // class Graphic3d_Texture2D
-
-//---------------------------------------------------------------------
 //  Class  Graphic3d_MediaTexture
 //---------------------------------------------------------------------
 public ref class Graphic3d_MediaTexture sealed : public Macad::Occt::Graphic3d_Texture2D
@@ -4875,7 +5161,7 @@ public:
 	/* Method skipped due to unknown mapping: void Graphic3d_MediaTexture(NCollection_Shared<Standard_Mutex, void>  theMutex, Standard_Integer thePlane, ) */
 	/* Method skipped due to unknown mapping: void Graphic3d_MediaTexture(NCollection_Shared<Standard_Mutex, void>  theMutex, Standard_Integer thePlane, ) */
 	Graphic3d_MediaTexture(Macad::Occt::Graphic3d_MediaTexture^ parameter1);
-	Macad::Occt::Image_PixMap^ GetImage();
+	Macad::Occt::Image_PixMap^ GetImage(Macad::Occt::Image_SupportedFormats^ theSupported);
 	/* Method skipped due to unknown mapping: Media_Frame Frame() */
 	/* Method skipped due to unknown mapping: void SetFrame(Media_Frame theFrame, ) */
 	void GenerateNewId();
@@ -5080,43 +5366,6 @@ public:
 	void SetSegment(float theX1, float theY1, float theZ1, float theX2, float theY2, float theZ2);
 	void Segment(float% theX1, float% theY1, float% theZ1, float% theX2, float% theY2, float% theZ2);
 }; // class Graphic3d_Texture1Dsegment
-
-//---------------------------------------------------------------------
-//  Class  Graphic3d_Texture2Dmanual
-//---------------------------------------------------------------------
-public ref class Graphic3d_Texture2Dmanual sealed : public Macad::Occt::Graphic3d_Texture2D
-{
-
-#ifdef Include_Graphic3d_Texture2Dmanual_h
-public:
-	Include_Graphic3d_Texture2Dmanual_h
-#endif
-
-public:
-	Graphic3d_Texture2Dmanual(::Graphic3d_Texture2Dmanual* nativeInstance)
-		: Macad::Occt::Graphic3d_Texture2D( nativeInstance )
-	{}
-
-	Graphic3d_Texture2Dmanual(::Graphic3d_Texture2Dmanual& nativeInstance)
-		: Macad::Occt::Graphic3d_Texture2D( nativeInstance )
-	{}
-
-	property ::Graphic3d_Texture2Dmanual* NativeInstance
-	{
-		::Graphic3d_Texture2Dmanual* get()
-		{
-			return static_cast<::Graphic3d_Texture2Dmanual*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::Graphic3d_Texture2Dmanual^ CreateDowncasted(::Graphic3d_Texture2Dmanual* instance);
-
-public:
-	Graphic3d_Texture2Dmanual(Macad::Occt::TCollection_AsciiString^ theFileName);
-	Graphic3d_Texture2Dmanual(Macad::Occt::Graphic3d_NameOfTexture2D theNOT);
-	Graphic3d_Texture2Dmanual(Macad::Occt::Image_PixMap^ thePixMap);
-	Graphic3d_Texture2Dmanual(Macad::Occt::Graphic3d_Texture2Dmanual^ parameter1);
-}; // class Graphic3d_Texture2Dmanual
 
 //---------------------------------------------------------------------
 //  Class  Graphic3d_Texture2Dplane

@@ -15,6 +15,8 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "BRepTools.h"
 #include "TopAbs.h"
 #include "BRepFeat.h"
+#include "Bnd.h"
+#include "gp.h"
 
 
 //---------------------------------------------------------------------
@@ -117,6 +119,11 @@ void Macad::Occt::BOPAlgo_Options::SetFuzzyValue(double theFuzz)
 double Macad::Occt::BOPAlgo_Options::FuzzyValue()
 {
 	return ((::BOPAlgo_Options*)_NativeInstance)->FuzzyValue();
+}
+
+void Macad::Occt::BOPAlgo_Options::SetProgressIndicator(Macad::Occt::Message_ProgressScope^ theProgress)
+{
+	((::BOPAlgo_Options*)_NativeInstance)->SetProgressIndicator(*(::Message_ProgressScope*)theProgress->NativeInstance);
 }
 
 void Macad::Occt::BOPAlgo_Options::SetUseOBB(bool theUseOBB)
@@ -488,9 +495,24 @@ void Macad::Occt::BOPAlgo_Tools::IntersectVertices(Macad::Occt::TopTools_Indexed
 	::BOPAlgo_Tools::IntersectVertices(*(::TopTools_IndexedDataMapOfShapeReal*)theVertices->NativeInstance, theFuzzyValue, *(::TopTools_ListOfListOfShape*)theChains->NativeInstance);
 }
 
-void Macad::Occt::BOPAlgo_Tools::TreatCompound(Macad::Occt::TopoDS_Shape^ theS, Macad::Occt::TopTools_MapOfShape^ theMFence, Macad::Occt::TopTools_ListOfShape^ theLS)
+bool Macad::Occt::BOPAlgo_Tools::TrsfToPoint(Macad::Occt::Bnd_Box^ theBox1, Macad::Occt::Bnd_Box^ theBox2, Macad::Occt::Trsf% theTrsf, Macad::Occt::Pnt thePoint, double theCriteria)
 {
-	::BOPAlgo_Tools::TreatCompound(*(::TopoDS_Shape*)theS->NativeInstance, *(::TopTools_MapOfShape*)theMFence->NativeInstance, *(::TopTools_ListOfShape*)theLS->NativeInstance);
+	pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
+	pin_ptr<Macad::Occt::Pnt> pp_thePoint = &thePoint;
+	return ::BOPAlgo_Tools::TrsfToPoint(*(::Bnd_Box*)theBox1->NativeInstance, *(::Bnd_Box*)theBox2->NativeInstance, *(gp_Trsf*)pp_theTrsf, *(gp_Pnt*)pp_thePoint, theCriteria);
+}
+
+bool Macad::Occt::BOPAlgo_Tools::TrsfToPoint(Macad::Occt::Bnd_Box^ theBox1, Macad::Occt::Bnd_Box^ theBox2, Macad::Occt::Trsf% theTrsf, Macad::Occt::Pnt thePoint)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
+	pin_ptr<Macad::Occt::Pnt> pp_thePoint = &thePoint;
+	return ::BOPAlgo_Tools::TrsfToPoint(*(::Bnd_Box*)theBox1->NativeInstance, *(::Bnd_Box*)theBox2->NativeInstance, *(gp_Trsf*)pp_theTrsf, *(gp_Pnt*)pp_thePoint, 1.0E+5);
+}
+
+bool Macad::Occt::BOPAlgo_Tools::TrsfToPoint(Macad::Occt::Bnd_Box^ theBox1, Macad::Occt::Bnd_Box^ theBox2, Macad::Occt::Trsf% theTrsf)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
+	return ::BOPAlgo_Tools::TrsfToPoint(*(::Bnd_Box*)theBox1->NativeInstance, *(::Bnd_Box*)theBox2->NativeInstance, *(gp_Trsf*)pp_theTrsf, ::gp_Pnt(0., 0., 0.), 1.0E+5);
 }
 
 

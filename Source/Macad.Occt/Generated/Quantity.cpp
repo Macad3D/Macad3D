@@ -336,66 +336,6 @@ bool Macad::Occt::Quantity_ColorRGBAHasher::IsEqual(Macad::Occt::Quantity_ColorR
 
 
 //---------------------------------------------------------------------
-//  Class  Quantity_ColorDefinitionError
-//---------------------------------------------------------------------
-
-Macad::Occt::Quantity_ColorDefinitionError::Quantity_ColorDefinitionError()
-	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Quantity_ColorDefinitionError();
-}
-
-Macad::Occt::Quantity_ColorDefinitionError::Quantity_ColorDefinitionError(System::String^ theMessage)
-	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	NativeInstance = new ::Quantity_ColorDefinitionError(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-Macad::Occt::Quantity_ColorDefinitionError::Quantity_ColorDefinitionError(Macad::Occt::Quantity_ColorDefinitionError^ parameter1)
-	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Quantity_ColorDefinitionError(*(::Quantity_ColorDefinitionError*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::Quantity_ColorDefinitionError::Raise(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	::Quantity_ColorDefinitionError::Raise(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-void Macad::Occt::Quantity_ColorDefinitionError::Raise()
-{
-	::Quantity_ColorDefinitionError::Raise("");
-}
-
-Macad::Occt::Quantity_ColorDefinitionError^ Macad::Occt::Quantity_ColorDefinitionError::NewInstance(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	Handle(::Quantity_ColorDefinitionError) _result;
-	_result = ::Quantity_ColorDefinitionError::NewInstance(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Quantity_ColorDefinitionError::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Quantity_ColorDefinitionError^ Macad::Occt::Quantity_ColorDefinitionError::NewInstance()
-{
-	Handle(::Quantity_ColorDefinitionError) _result;
-	_result = ::Quantity_ColorDefinitionError::NewInstance("");
-	 return _result.IsNull() ? nullptr : Macad::Occt::Quantity_ColorDefinitionError::CreateDowncasted( _result.get());
-}
-
-
-Macad::Occt::Quantity_ColorDefinitionError^ Macad::Occt::Quantity_ColorDefinitionError::CreateDowncasted(::Quantity_ColorDefinitionError* instance)
-{
-	return gcnew Macad::Occt::Quantity_ColorDefinitionError( instance );
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  Quantity_Color
 //---------------------------------------------------------------------
 
@@ -405,16 +345,16 @@ Macad::Occt::Quantity_Color::Quantity_Color()
 	_NativeInstance = new ::Quantity_Color();
 }
 
-Macad::Occt::Quantity_Color::Quantity_Color(Macad::Occt::Quantity_NameOfColor AName)
+Macad::Occt::Quantity_Color::Quantity_Color(Macad::Occt::Quantity_NameOfColor theName)
 	: BaseClass<::Quantity_Color>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::Quantity_Color((::Quantity_NameOfColor)AName);
+	_NativeInstance = new ::Quantity_Color((::Quantity_NameOfColor)theName);
 }
 
-Macad::Occt::Quantity_Color::Quantity_Color(double theR1, double theR2, double theR3, Macad::Occt::Quantity_TypeOfColor theType)
+Macad::Occt::Quantity_Color::Quantity_Color(double theC1, double theC2, double theC3, Macad::Occt::Quantity_TypeOfColor theType)
 	: BaseClass<::Quantity_Color>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::Quantity_Color(theR1, theR2, theR3, (::Quantity_TypeOfColor)theType);
+	_NativeInstance = new ::Quantity_Color(theC1, theC2, theC3, (::Quantity_TypeOfColor)theType);
 }
 
 Macad::Occt::Quantity_Color::Quantity_Color(Macad::Occt::Quantity_Color^ parameter1)
@@ -423,76 +363,27 @@ Macad::Occt::Quantity_Color::Quantity_Color(Macad::Occt::Quantity_Color^ paramet
 	_NativeInstance = new ::Quantity_Color(*(::Quantity_Color*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::Quantity_Color::ChangeContrast(double ADelta)
-{
-	((::Quantity_Color*)_NativeInstance)->ChangeContrast(ADelta);
-}
-
-void Macad::Occt::Quantity_Color::ChangeIntensity(double ADelta)
-{
-	((::Quantity_Color*)_NativeInstance)->ChangeIntensity(ADelta);
-}
-
-void Macad::Occt::Quantity_Color::SetValues(Macad::Occt::Quantity_NameOfColor AName)
-{
-	((::Quantity_Color*)_NativeInstance)->SetValues((::Quantity_NameOfColor)AName);
-}
-
-void Macad::Occt::Quantity_Color::SetValues(double theR1, double theR2, double theR3, Macad::Occt::Quantity_TypeOfColor theType)
-{
-	((::Quantity_Color*)_NativeInstance)->SetValues(theR1, theR2, theR3, (::Quantity_TypeOfColor)theType);
-}
-
-void Macad::Occt::Quantity_Color::Delta(Macad::Occt::Quantity_Color^ AColor, double% DC, double% DI)
-{
-	pin_ptr<double> pp_DC = &DC;
-	pin_ptr<double> pp_DI = &DI;
-	((::Quantity_Color*)_NativeInstance)->Delta(*(::Quantity_Color*)AColor->NativeInstance, *(Standard_Real*)pp_DC, *(Standard_Real*)pp_DI);
-}
-
-double Macad::Occt::Quantity_Color::Distance(Macad::Occt::Quantity_Color^ AColor)
-{
-	return ((::Quantity_Color*)_NativeInstance)->Distance(*(::Quantity_Color*)AColor->NativeInstance);
-}
-
-double Macad::Occt::Quantity_Color::SquareDistance(Macad::Occt::Quantity_Color^ AColor)
-{
-	return ((::Quantity_Color*)_NativeInstance)->SquareDistance(*(::Quantity_Color*)AColor->NativeInstance);
-}
-
-double Macad::Occt::Quantity_Color::Blue()
-{
-	return ((::Quantity_Color*)_NativeInstance)->Blue();
-}
-
-double Macad::Occt::Quantity_Color::Green()
-{
-	return ((::Quantity_Color*)_NativeInstance)->Green();
-}
-
-double Macad::Occt::Quantity_Color::Hue()
-{
-	return ((::Quantity_Color*)_NativeInstance)->Hue();
-}
-
-bool Macad::Occt::Quantity_Color::IsDifferent(Macad::Occt::Quantity_Color^ Other)
-{
-	return ((::Quantity_Color*)_NativeInstance)->IsDifferent(*(::Quantity_Color*)Other->NativeInstance);
-}
-
-bool Macad::Occt::Quantity_Color::IsEqual(Macad::Occt::Quantity_Color^ Other)
-{
-	return ((::Quantity_Color*)_NativeInstance)->IsEqual(*(::Quantity_Color*)Other->NativeInstance);
-}
-
-double Macad::Occt::Quantity_Color::Light()
-{
-	return ((::Quantity_Color*)_NativeInstance)->Light();
-}
-
 Macad::Occt::Quantity_NameOfColor Macad::Occt::Quantity_Color::Name()
 {
 	return (Macad::Occt::Quantity_NameOfColor)((::Quantity_Color*)_NativeInstance)->Name();
+}
+
+void Macad::Occt::Quantity_Color::SetValues(Macad::Occt::Quantity_NameOfColor theName)
+{
+	((::Quantity_Color*)_NativeInstance)->SetValues((::Quantity_NameOfColor)theName);
+}
+
+void Macad::Occt::Quantity_Color::Values(double% theC1, double% theC2, double% theC3, Macad::Occt::Quantity_TypeOfColor theType)
+{
+	pin_ptr<double> pp_theC1 = &theC1;
+	pin_ptr<double> pp_theC2 = &theC2;
+	pin_ptr<double> pp_theC3 = &theC3;
+	((::Quantity_Color*)_NativeInstance)->Values(*(Standard_Real*)pp_theC1, *(Standard_Real*)pp_theC2, *(Standard_Real*)pp_theC3, (::Quantity_TypeOfColor)theType);
+}
+
+void Macad::Occt::Quantity_Color::SetValues(double theC1, double theC2, double theC3, Macad::Occt::Quantity_TypeOfColor theType)
+{
+	((::Quantity_Color*)_NativeInstance)->SetValues(theC1, theC2, theC3, (::Quantity_TypeOfColor)theType);
 }
 
 double Macad::Occt::Quantity_Color::Red()
@@ -500,38 +391,82 @@ double Macad::Occt::Quantity_Color::Red()
 	return ((::Quantity_Color*)_NativeInstance)->Red();
 }
 
+double Macad::Occt::Quantity_Color::Green()
+{
+	return ((::Quantity_Color*)_NativeInstance)->Green();
+}
+
+double Macad::Occt::Quantity_Color::Blue()
+{
+	return ((::Quantity_Color*)_NativeInstance)->Blue();
+}
+
+double Macad::Occt::Quantity_Color::Hue()
+{
+	return ((::Quantity_Color*)_NativeInstance)->Hue();
+}
+
+double Macad::Occt::Quantity_Color::Light()
+{
+	return ((::Quantity_Color*)_NativeInstance)->Light();
+}
+
+void Macad::Occt::Quantity_Color::ChangeIntensity(double theDelta)
+{
+	((::Quantity_Color*)_NativeInstance)->ChangeIntensity(theDelta);
+}
+
 double Macad::Occt::Quantity_Color::Saturation()
 {
 	return ((::Quantity_Color*)_NativeInstance)->Saturation();
 }
 
-void Macad::Occt::Quantity_Color::Values(double% theR1, double% theR2, double% theR3, Macad::Occt::Quantity_TypeOfColor theType)
+void Macad::Occt::Quantity_Color::ChangeContrast(double theDelta)
 {
-	pin_ptr<double> pp_theR1 = &theR1;
-	pin_ptr<double> pp_theR2 = &theR2;
-	pin_ptr<double> pp_theR3 = &theR3;
-	((::Quantity_Color*)_NativeInstance)->Values(*(Standard_Real*)pp_theR1, *(Standard_Real*)pp_theR2, *(Standard_Real*)pp_theR3, (::Quantity_TypeOfColor)theType);
+	((::Quantity_Color*)_NativeInstance)->ChangeContrast(theDelta);
 }
 
-void Macad::Occt::Quantity_Color::SetEpsilon(double AnEpsilon)
+bool Macad::Occt::Quantity_Color::IsDifferent(Macad::Occt::Quantity_Color^ theOther)
 {
-	::Quantity_Color::SetEpsilon(AnEpsilon);
+	return ((::Quantity_Color*)_NativeInstance)->IsDifferent(*(::Quantity_Color*)theOther->NativeInstance);
 }
 
-double Macad::Occt::Quantity_Color::Epsilon()
+bool Macad::Occt::Quantity_Color::IsEqual(Macad::Occt::Quantity_Color^ theOther)
 {
-	return ::Quantity_Color::Epsilon();
+	return ((::Quantity_Color*)_NativeInstance)->IsEqual(*(::Quantity_Color*)theOther->NativeInstance);
 }
 
-Macad::Occt::Quantity_NameOfColor Macad::Occt::Quantity_Color::Name(double R, double G, double B)
+double Macad::Occt::Quantity_Color::Distance(Macad::Occt::Quantity_Color^ theColor)
 {
-	return (Macad::Occt::Quantity_NameOfColor)::Quantity_Color::Name(R, G, B);
+	return ((::Quantity_Color*)_NativeInstance)->Distance(*(::Quantity_Color*)theColor->NativeInstance);
 }
 
-System::String^ Macad::Occt::Quantity_Color::StringName(Macad::Occt::Quantity_NameOfColor AColor)
+double Macad::Occt::Quantity_Color::SquareDistance(Macad::Occt::Quantity_Color^ theColor)
+{
+	return ((::Quantity_Color*)_NativeInstance)->SquareDistance(*(::Quantity_Color*)theColor->NativeInstance);
+}
+
+void Macad::Occt::Quantity_Color::Delta(Macad::Occt::Quantity_Color^ theColor, double% DC, double% DI)
+{
+	pin_ptr<double> pp_DC = &DC;
+	pin_ptr<double> pp_DI = &DI;
+	((::Quantity_Color*)_NativeInstance)->Delta(*(::Quantity_Color*)theColor->NativeInstance, *(Standard_Real*)pp_DC, *(Standard_Real*)pp_DI);
+}
+
+double Macad::Occt::Quantity_Color::DeltaE2000(Macad::Occt::Quantity_Color^ theOther)
+{
+	return ((::Quantity_Color*)_NativeInstance)->DeltaE2000(*(::Quantity_Color*)theOther->NativeInstance);
+}
+
+Macad::Occt::Quantity_NameOfColor Macad::Occt::Quantity_Color::Name(double theR, double theG, double theB)
+{
+	return (Macad::Occt::Quantity_NameOfColor)::Quantity_Color::Name(theR, theG, theB);
+}
+
+System::String^ Macad::Occt::Quantity_Color::StringName(Macad::Occt::Quantity_NameOfColor theColor)
 {
 	Standard_CString _result;
-	_result = ::Quantity_Color::StringName((::Quantity_NameOfColor)AColor);
+	_result = ::Quantity_Color::StringName((::Quantity_NameOfColor)theColor);
 	return gcnew System::String(_result);
 }
 
@@ -571,22 +506,6 @@ Macad::Occt::TCollection_AsciiString^ Macad::Occt::Quantity_Color::ColorToHex(Ma
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
 }
 
-void Macad::Occt::Quantity_Color::HlsRgb(double H, double L, double S, double% R, double% G, double% B)
-{
-	pin_ptr<double> pp_R = &R;
-	pin_ptr<double> pp_G = &G;
-	pin_ptr<double> pp_B = &B;
-	::Quantity_Color::HlsRgb(H, L, S, *(Standard_Real*)pp_R, *(Standard_Real*)pp_G, *(Standard_Real*)pp_B);
-}
-
-void Macad::Occt::Quantity_Color::RgbHls(double R, double G, double B, double% H, double% L, double% S)
-{
-	pin_ptr<double> pp_H = &H;
-	pin_ptr<double> pp_L = &L;
-	pin_ptr<double> pp_S = &S;
-	::Quantity_Color::RgbHls(R, G, B, *(Standard_Real*)pp_H, *(Standard_Real*)pp_L, *(Standard_Real*)pp_S);
-}
-
 void Macad::Occt::Quantity_Color::Color2argb(Macad::Occt::Quantity_Color^ theColor, int% theARGB)
 {
 	pin_ptr<int> pp_theARGB = &theARGB;
@@ -598,9 +517,60 @@ void Macad::Occt::Quantity_Color::Argb2color(int theARGB, Macad::Occt::Quantity_
 	::Quantity_Color::Argb2color(theARGB, *(::Quantity_Color*)theColor->NativeInstance);
 }
 
-void Macad::Occt::Quantity_Color::Test()
+double Macad::Occt::Quantity_Color::Convert_LinearRGB_To_sRGB(double theLinearValue)
 {
-	::Quantity_Color::Test();
+	return ::Quantity_Color::Convert_LinearRGB_To_sRGB(theLinearValue);
+}
+
+float Macad::Occt::Quantity_Color::Convert_LinearRGB_To_sRGB(float theLinearValue)
+{
+	return ::Quantity_Color::Convert_LinearRGB_To_sRGB(theLinearValue);
+}
+
+double Macad::Occt::Quantity_Color::Convert_sRGB_To_LinearRGB(double thesRGBValue)
+{
+	return ::Quantity_Color::Convert_sRGB_To_LinearRGB(thesRGBValue);
+}
+
+float Macad::Occt::Quantity_Color::Convert_sRGB_To_LinearRGB(float thesRGBValue)
+{
+	return ::Quantity_Color::Convert_sRGB_To_LinearRGB(thesRGBValue);
+}
+
+float Macad::Occt::Quantity_Color::Convert_LinearRGB_To_sRGB_approx22(float theLinearValue)
+{
+	return ::Quantity_Color::Convert_LinearRGB_To_sRGB_approx22(theLinearValue);
+}
+
+float Macad::Occt::Quantity_Color::Convert_sRGB_To_LinearRGB_approx22(float thesRGBValue)
+{
+	return ::Quantity_Color::Convert_sRGB_To_LinearRGB_approx22(thesRGBValue);
+}
+
+void Macad::Occt::Quantity_Color::HlsRgb(double theH, double theL, double theS, double% theR, double% theG, double% theB)
+{
+	pin_ptr<double> pp_theR = &theR;
+	pin_ptr<double> pp_theG = &theG;
+	pin_ptr<double> pp_theB = &theB;
+	::Quantity_Color::HlsRgb(theH, theL, theS, *(Standard_Real*)pp_theR, *(Standard_Real*)pp_theG, *(Standard_Real*)pp_theB);
+}
+
+void Macad::Occt::Quantity_Color::RgbHls(double theR, double theG, double theB, double% theH, double% theL, double% theS)
+{
+	pin_ptr<double> pp_theH = &theH;
+	pin_ptr<double> pp_theL = &theL;
+	pin_ptr<double> pp_theS = &theS;
+	::Quantity_Color::RgbHls(theR, theG, theB, *(Standard_Real*)pp_theH, *(Standard_Real*)pp_theL, *(Standard_Real*)pp_theS);
+}
+
+double Macad::Occt::Quantity_Color::Epsilon()
+{
+	return ::Quantity_Color::Epsilon();
+}
+
+void Macad::Occt::Quantity_Color::SetEpsilon(double theEpsilon)
+{
+	::Quantity_Color::SetEpsilon(theEpsilon);
 }
 
 
