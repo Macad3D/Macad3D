@@ -163,7 +163,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             // Select two of three
             ctx.MoveTo(170, 30);
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle);
+            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle, false);
             ctx.MoveTo(400, 400);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RubberbandSelection01"));
 
@@ -174,7 +174,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             // Additional selection
             ctx.MoveTo(30, 120);
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle);
+            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle, false);
             ctx.MoveTo(290, 420);
             ctx.ViewportController.MouseUp(true);
             Assert.AreEqual(3, sel.SelectedEntities.Count);
@@ -182,7 +182,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             // Reduce selection
             ctx.MoveTo(30, 120);
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle);
+            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle, false);
             ctx.MoveTo(290, 420);
             ctx.ViewportController.MouseUp(false);
             Assert.AreEqual(1, sel.SelectedEntities.Count);
@@ -190,10 +190,41 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             // Empty selection
             ctx.MoveTo(10, 10);
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle);
+            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle, false);
             ctx.MoveTo(100, 100);
             ctx.ViewportController.MouseUp(false);
             Assert.AreEqual(0, sel.SelectedEntities.Count);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void RubberbandRectangleTouchedSelection()
+        {
+            var ctx = Context.Current;
+            var sel = ctx.WorkspaceController.Selection;
+
+            var body1 = Body.Create(Box.Create(10, 10, 10));
+            body1.Position = new Pnt(-15, 0, 0);
+            var body2 = Body.Create(Cylinder.Create(6, 8));
+            body2.Position = new Pnt(15, 0, 0);
+            var body3 = Body.Create(Sphere.Create(8));
+            body2.Position = new Pnt(0, 15, 0);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                // Select two of three
+                ctx.MoveTo(400, 400);
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle, true);
+                ctx.MoveTo(170, 270);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RubberbandSelection31"));
+
+                ctx.ViewportController.MouseUp(false);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RubberbandSelection32"));
+                Assert.AreEqual(2, sel.SelectedEntities.Count);
+            });
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -215,7 +246,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             // Select two of three
             ctx.MoveTo(300, 50);
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Freehand);
+            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Freehand, false);
             ctx.MoveTo(395, 120);
             ctx.MoveTo(378, 430);
             ctx.MoveTo(188, 446);
@@ -235,7 +266,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void RubberbandFreehandOverlapSelection()
+        public void RubberbandFreehandTouchedSelection()
         {
             var ctx = Context.Current;
             var sel = ctx.WorkspaceController.Selection;
@@ -251,19 +282,18 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             // Select two of three
             ctx.MoveTo(300, 50);
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Freehand);
+            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Freehand, true);
             ctx.MoveTo(395, 120);
             ctx.MoveTo(392, 237);
             ctx.MoveTo(317, 253);
-            ctx.MoveTo(288, 148);
-            //ctx.MoveTo(190, 139);
+            ctx.MoveTo(159, 140);
             Assert.Multiple(() =>
             {
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RubberbandSelection21"));
 
                 ctx.ViewportController.MouseUp(false);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RubberbandSelection22"));
-                Assert.AreEqual(0, sel.SelectedEntities.Count);
+                Assert.AreEqual(2, sel.SelectedEntities.Count);
             });
         }
     }

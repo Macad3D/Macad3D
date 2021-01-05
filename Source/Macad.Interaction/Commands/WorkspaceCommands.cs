@@ -8,6 +8,7 @@ using Macad.Common;
 using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Interaction.Dialogs;
+using Macad.Interaction.Visual;
 using Macad.Occt;
 using Macad.Presentation;
 
@@ -59,7 +60,7 @@ namespace Macad.Interaction
             Description = () => "Toggles the grid visibility",
             Icon = () => InteractiveContext.Current?.Workspace?.GridType == Workspace.GridTypes.Rectangular ? "Grid-Rect" : "Grid-Circ",
             BindingSource = (InteractiveContext.Current, "Workspace.GridType"),
-            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "Workspace.GridEnabled", BindingMode.OneWay)
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(Workspace)}.{nameof(Workspace.GridEnabled)}", BindingMode.OneWay)
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -77,7 +78,7 @@ namespace Macad.Interaction
             Header = param => $"{param} Grid",
             Description = param => $"Change the grid type to {param}.",
             Icon = param => param == Workspace.GridTypes.Rectangular ? "Grid-Rect" : "Grid-Circ",
-            IsCheckedBinding = param => BindingHelper.Create(InteractiveContext.Current, "Workspace.GridType", BindingMode.OneWay, EqualityToBoolConverter.Instance, param.ToString())
+            IsCheckedBinding = param => BindingHelper.Create(InteractiveContext.Current, $"{nameof(Workspace)}.{nameof(Workspace.GridType)}", BindingMode.OneWay, EqualityToBoolConverter.Instance, param.ToString())
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -96,7 +97,7 @@ namespace Macad.Interaction
             Header = param => double.IsNaN(param) ? "Stepping" : $"{param.ToString(CultureInfo.InvariantCulture)} mm",
             Description = param => double.IsNaN(param) ? "Set the stepping between the grid lines." : null,
             Icon = param => double.IsNaN(param) ? "Grid-Step" : null,
-            IsCheckedBinding = param => BindingHelper.Create(InteractiveContext.Current, "Workspace.GridStep", BindingMode.OneWay, EqualityToBoolConverter.Instance, param)
+            IsCheckedBinding = param => BindingHelper.Create(InteractiveContext.Current, $"{nameof(Workspace)}.{nameof(Workspace.GridStep)}", BindingMode.OneWay, EqualityToBoolConverter.Instance, param)
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -115,7 +116,7 @@ namespace Macad.Interaction
             Header = param => double.IsNaN(param) ? "Rotation" : $"{param.ToString(CultureInfo.InvariantCulture)} °",
             Description = param => double.IsNaN(param) ? "Set the rotation of the whole grid around it's origin'." : null,
             Icon = param => double.IsNaN(param) ? "Grid-Rotation" : null,
-            IsCheckedBinding = param => BindingHelper.Create(InteractiveContext.Current, "Workspace.GridRotation", BindingMode.OneWay, EqualityToBoolConverter.Instance, param)
+            IsCheckedBinding = param => BindingHelper.Create(InteractiveContext.Current, $"{nameof(Workspace)}.{nameof(Workspace.GridRotation)}", BindingMode.OneWay, EqualityToBoolConverter.Instance, param)
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -134,7 +135,7 @@ namespace Macad.Interaction
             Header = param => param == int.MinValue ? "Divisions" : param.ToString(),
             Description = param => param == int.MinValue ? "Set the number of divisions of a circular grid." : null,
             Icon = param => param == int.MinValue ? "Grid-Divisions" : null,
-            IsCheckedBinding = param => BindingHelper.Create(InteractiveContext.Current, "Workspace.GridDivisions", BindingMode.OneWay, EqualityToBoolConverter.Instance, param)
+            IsCheckedBinding = param => BindingHelper.Create(InteractiveContext.Current, $"{nameof(Workspace)}.{nameof(Workspace.GridDivisions)}", BindingMode.OneWay, EqualityToBoolConverter.Instance, param)
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -157,7 +158,7 @@ namespace Macad.Interaction
             Header = () => "Enable Snapping",
             Description = () => "Toggle the snapping of positions to selected elements.",
             Icon = () => "Snap-Enabled",
-            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.SnappingEnabled", BindingMode.OneWay),
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.SnappingEnabled)}", BindingMode.OneWay),
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -177,7 +178,7 @@ namespace Macad.Interaction
             Title = () => "Snap to Grid",
             Description = () => "Toggle the snapping of positions to the grid.",
             Icon = () => "Snap-Grid",
-            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.SnapToGridSelected", BindingMode.OneWay),
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.SnapToGridSelected)}", BindingMode.OneWay),
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -197,7 +198,7 @@ namespace Macad.Interaction
             Title = () => "Snap to Vertex",
             Description = () => "Toggle the snapping of positions to other vertices.",
             Icon = () => "Snap-Vertex",
-            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.SnapToVertexSelected", BindingMode.OneWay),
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.SnapToVertexSelected)}", BindingMode.OneWay),
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -217,7 +218,7 @@ namespace Macad.Interaction
             Title = () => "Snap to Edge",
             Description = () => "Toggle the snapping of positions to other edges.",
             Icon = () => "Snap-Edge",
-            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.SnapToEdgeSelected", BindingMode.OneWay),
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.SnapToEdgeSelected)}", BindingMode.OneWay),
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -242,7 +243,7 @@ namespace Macad.Interaction
             Title = () => "Align Working Plane",
             Description = () => "Align the working plane to a face, edge or vertex.",
             Icon = () => "WorkingPlane-Align",
-            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.OneWay, EqualityToBoolConverter.Instance, nameof(AlignWorkingPlaneTool))
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveTool)}", BindingMode.OneWay, EqualityToBoolConverter.Instance, nameof(AlignWorkingPlaneTool))
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -328,7 +329,7 @@ namespace Macad.Interaction
             Title = () => "Transform Shape",
             Description = () => "Start transformation of selected shapes and toggle between translation and rotation.",
             Icon = () => "Arrange-Transform",
-            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.TwoWay, 
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveTool)}", BindingMode.TwoWay, 
                                                     EqualityToBoolConverter.Instance, nameof(TransformBodyTool)),
             HelpTopic = "5da4906e-c86b-4f91-8b30-f5163e152d1e"
         };
@@ -367,7 +368,7 @@ namespace Macad.Interaction
                     default: return "Arrange-Transform";
                 }
             },
-            IsCheckedBinding = (param) => BindingHelper.Create(InteractiveContext.Current, "EditorState.TransformPivot", BindingMode.OneWay, 
+            IsCheckedBinding = (param) => BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.TransformPivot)}", BindingMode.OneWay, 
                                                                EqualityToBoolConverter.Instance, param.ToString())
         };
 
@@ -395,7 +396,7 @@ namespace Macad.Interaction
                     default: return "Unknown";
                 }
             },
-            IsCheckedBinding = (param) => BindingHelper.Create(InteractiveContext.Current, "EditorState.TransformOptions", BindingMode.OneWay,
+            IsCheckedBinding = (param) => BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.TransformOptions)}", BindingMode.OneWay,
                                                                HasFlagToBoolConverter.Instance, param.ToString())
         };
 
@@ -429,8 +430,8 @@ namespace Macad.Interaction
                 }
             },
             Icon = (param) => $"View-Render{param.ToString()}",
-            IsCheckedBinding = (param) => BindingHelper.Create(InteractiveContext.Current, "ViewportController.Viewport.RenderMode", BindingMode.OneWay,
-                                                               EqualityToBoolConverter.Instance, param.ToString())
+            IsCheckedBinding = (param) => BindingHelper.Create(InteractiveContext.Current, $"{nameof(ViewportController)}.{nameof(Viewport)}.{nameof(Viewport.RenderMode)}", 
+                                                               BindingMode.OneWay, EqualityToBoolConverter.Instance, param.ToString())
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -510,10 +511,29 @@ namespace Macad.Interaction
             Header = param => param + " Selection",
             Icon = param => "Selection-" + param,
             Description = param => "Change the rubberband selection mode.",
-            IsCheckedBinding = param => BindingHelper.Create(InteractiveContext.Current, "EditorState.RubberbandSelectionMode", BindingMode.OneWay,
-                EqualityToBoolConverter.Instance, param.ToString())
+            IsCheckedBinding = param => BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.RubberbandSelectionMode)}", 
+                                                             BindingMode.OneWay, EqualityToBoolConverter.Instance, param.ToString())
         };
         
+        //--------------------------------------------------------------------------------------------------
+        
+        public static ActionCommand ToggleRubberbandIncludeTouched { get; } = new ActionCommand(
+            () =>
+            {
+                var editorState = InteractiveContext.Current?.EditorState;
+                if (editorState != null)
+                {
+                    editorState.RubberbandIncludeTouched = !editorState.RubberbandIncludeTouched;
+                }
+            },
+            CanExecuteOnWorkspace)
+        {
+            Header = () => "Include Touched",
+            Icon = () => "Selection-Touched",
+            Description = () => "Includes entities which were only touched, not enclosed.",
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.RubberbandIncludeTouched)}", BindingMode.OneWay),
+        };
+
         //--------------------------------------------------------------------------------------------------
 
         #endregion
@@ -663,7 +683,7 @@ namespace Macad.Interaction
             Header = () => "Isolate Selection",
             Description = () => "Hides all elements which are not selected to get a undisguised look at the selected elements.",
             Icon = () => "Selection-Isolate",
-            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "WorkspaceController.VisualShapes.EntityIsolationEnabled", BindingMode.OneWay)
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(WorkspaceController)}.{nameof(WorkspaceController.VisualShapes)}.{nameof(VisualShapeManager.EntityIsolationEnabled)}", BindingMode.OneWay)
         };
 
         //--------------------------------------------------------------------------------------------------

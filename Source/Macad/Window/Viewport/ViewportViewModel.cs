@@ -127,7 +127,9 @@ namespace Macad.Window
                     ViewportController.MouseMove(pos);
                     if (Keyboard.IsKeyDown(Key.LeftCtrl) && !ViewportController.IsInRubberbandSelection && ViewportController.WorkspaceController.IsSelecting)
                     {
-                        ViewportController.StartRubberbandSelection(AppContext.Current.EditorState.RubberbandSelectionMode);
+                        ViewportController.StartRubberbandSelection(
+                            AppContext.Current.EditorState.RubberbandSelectionMode,
+                            AppContext.Current.EditorState.RubberbandIncludeTouched);
                     }
                 } 
                 else 

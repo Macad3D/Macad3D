@@ -172,6 +172,22 @@ namespace Macad.Interaction
 
         ViewportController.RubberbandSelectionMode _RubberbandSelectionMode;
 
+        //--------------------------------------------------------------------------------------------------
+
+        public bool RubberbandIncludeTouched
+        {
+            get { return _RubberbandIncludeTouched; }
+            set
+            {
+                _RubberbandIncludeTouched = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        bool _RubberbandIncludeTouched;
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
         #region Workspace

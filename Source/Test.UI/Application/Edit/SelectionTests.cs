@@ -37,5 +37,29 @@ namespace Macad.Test.UI.Application.Edit
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void RubberbandMode()
+        {
+            MainWindow.Ribbon.SelectGroup("Edit");
+            MainWindow.Ribbon.ClickButton("RubberbandMode");
+            var menu = new ContextMenuAdaptor(MainWindow);
+            menu.ClickMenuItem("RubberbandModeRectangle");
+            Assert.AreEqual("Rectangle", Pipe.GetValue("$Context.EditorState.RubberbandSelectionMode"));
+
+            MainWindow.Ribbon.ClickButton("RubberbandMode");
+            menu = new ContextMenuAdaptor(MainWindow);
+            menu.ClickMenuItem("RubberbandModeFreehand");
+            Assert.AreEqual("Freehand", Pipe.GetValue("$Context.EditorState.RubberbandSelectionMode"));
+
+            var boolState = Pipe.GetValue<bool>("$Context.EditorState.RubberbandIncludeTouched");
+            MainWindow.Ribbon.ClickButton("RubberbandMode");
+            menu = new ContextMenuAdaptor(MainWindow);
+            menu.ClickMenuItem("RubberbandIncludeTouched");
+            Assert.AreEqual(!boolState, Pipe.GetValue<bool>("$Context.EditorState.RubberbandIncludeTouched"));
+            MainWindow.Ribbon.ClickButton("RubberbandMode");
+            menu = new ContextMenuAdaptor(MainWindow);
+            menu.ClickMenuItem("RubberbandIncludeTouched");
+            Assert.AreEqual(boolState, Pipe.GetValue<bool>("$Context.EditorState.RubberbandIncludeTouched"));
+        }
     }
 } 

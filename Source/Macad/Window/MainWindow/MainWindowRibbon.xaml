@@ -187,11 +187,19 @@
                                    Name="Selection">
                 <Fluent:DropDownButton Header="Rubberband Mode"
                                        LargeIcon="{Binding Context.EditorState.RubberbandSelectionMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRubberbandSelectionMode}}"
-                                       Icon="{Binding Context.EditorState.RubberbandSelectionMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRubberbandSelectionMode}}">
+                                       Icon="{Binding Context.EditorState.RubberbandSelectionMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRubberbandSelectionMode}}"
+                                       AutomationProperties.AutomationId="RubberbandMode">
                     <Fluent:MenuItem CommandParameter="Rectangle"
-                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRubberbandSelectionMode}" />
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRubberbandSelectionMode}"
+                                     AutomationProperties.AutomationId="RubberbandModeRectangle"/>
                     <Fluent:MenuItem CommandParameter="Freehand"
-                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRubberbandSelectionMode}" />
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRubberbandSelectionMode}" 
+                                     AutomationProperties.AutomationId="RubberbandModeFreehand"/>
+
+                    <Fluent:GroupSeparatorMenuItem Header="Options" />
+
+                    <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleRubberbandIncludeTouched}"
+                                     AutomationProperties.AutomationId="RubberbandIncludeTouched"/>
                 </Fluent:DropDownButton>
 
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleIsolateSelection}"/>

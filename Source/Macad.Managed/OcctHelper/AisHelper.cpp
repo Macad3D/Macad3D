@@ -32,10 +32,11 @@ namespace Macad
 
 			public:
 				static int PickFromContext(Macad::Occt::AIS_InteractiveContext^ aisContext,
-													   List<ValueTuple<int,int>>^ pointList,
-													   Macad::Occt::V3d_View^ theView,
-													   List<Macad::Occt::AIS_InteractiveObject^>^ interactives,
-													   List<Macad::Occt::TopoDS_Shape^>^ shapes)
+                                           List<ValueTuple<int,int>>^ pointList,
+                                           bool bAllowOverlapDetection,
+                                           Macad::Occt::V3d_View^ theView,
+                                           List<Macad::Occt::AIS_InteractiveObject^>^ interactives,
+                                           List<Macad::Occt::TopoDS_Shape^>^ shapes)
 				{
 					::TColgp_Array1OfPnt2d points(1,pointList->Count);
 					for(int pointIndex=0; pointIndex < pointList->Count; pointIndex++)
@@ -45,7 +46,7 @@ namespace Macad
 					}
 
 					auto selector = aisContext->NativeInstance->MainSelector();
-					selector->AllowOverlapDetection(false);
+					selector->AllowOverlapDetection(bAllowOverlapDetection);
 				    selector->Pick(points, theView->NativeInstance);
 
 					return _PickFromSelector(*selector, interactives, shapes);
@@ -54,15 +55,17 @@ namespace Macad
 				//--------------------------------------------------------------------------------------------------
 				
 			public:
-				static int PickFromContext(Macad::Occt::AIS_InteractiveContext^ aisContext,const Standard_Integer  theXPMin,
-													   const Standard_Integer  theYPMin, const Standard_Integer  theXPMax,const Standard_Integer  theYPMax,
-													   Macad::Occt::V3d_View^ theView,
-													   List<Macad::Occt::AIS_InteractiveObject^>^ interactives,
-													   List<Macad::Occt::TopoDS_Shape^>^ shapes)
+				static int PickFromContext(Macad::Occt::AIS_InteractiveContext^ aisContext,
+                                           const Standard_Integer theXPMin, const Standard_Integer theYPMin, 
+                                           const Standard_Integer theXPMax,const Standard_Integer  theYPMax,
+                                           bool bAllowOverlapDetection,
+                                           Macad::Occt::V3d_View^ theView,
+                                           List<Macad::Occt::AIS_InteractiveObject^>^ interactives,
+                                           List<Macad::Occt::TopoDS_Shape^>^ shapes)
 				{
 					auto selector = aisContext->NativeInstance->MainSelector();
-					selector->AllowOverlapDetection(false);
-				    selector->Pick (theXPMin, theYPMin, theXPMax, theYPMax, theView->NativeInstance);
+					selector->AllowOverlapDetection(bAllowOverlapDetection);
+				    selector->Pick(theXPMin, theYPMin, theXPMax, theYPMax, theView->NativeInstance);
 
 					return _PickFromSelector(*selector, interactives, shapes);
 				}

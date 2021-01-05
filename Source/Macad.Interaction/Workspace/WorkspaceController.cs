@@ -490,14 +490,15 @@ namespace Macad.Interaction
         
         //--------------------------------------------------------------------------------------------------
 
-        public void SelectByRectangle(int[] corners, ViewportController viewportController)
+        public void SelectByRectangle(int[] corners, bool includeTouched, ViewportController viewportController)
         {
             _MouseEventData.DetectedAisInteractives.Clear();
             _MouseEventData.DetectedEntities.Clear();
             _MouseEventData.DetectedShapes.Clear();
 
-            if (Occt.Helper.Ais.PickFromContext(Workspace.AisContext, corners[0], corners[1], corners[2], corners[3],
-                    viewportController.Viewport.V3dView, _MouseEventData.DetectedAisInteractives, _MouseEventData.DetectedShapes) > 0)
+            if (Occt.Helper.Ais.PickFromContext(Workspace.AisContext, corners[0], corners[1], corners[2], corners[3], includeTouched,
+                                                viewportController.Viewport.V3dView, 
+                                                _MouseEventData.DetectedAisInteractives, _MouseEventData.DetectedShapes) > 0)
             {
                 var entities = _MouseEventData.DetectedAisInteractives.Select(detected => VisualShapes.GetVisibleEntity(detected)).Where(entity => entity != null);
                 _MouseEventData.DetectedEntities.AddRange(entities);
@@ -506,14 +507,15 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public void SelectByPolyline(List<ValueTuple<int,int>> pointList, ViewportController viewportController)
+        public void SelectByPolyline(List<ValueTuple<int,int>> pointList, bool includeTouched, ViewportController viewportController)
         {
             _MouseEventData.DetectedAisInteractives.Clear();
             _MouseEventData.DetectedEntities.Clear();
             _MouseEventData.DetectedShapes.Clear();
             
-            if (Occt.Helper.Ais.PickFromContext(Workspace.AisContext, pointList, viewportController.Viewport.V3dView, 
-                    _MouseEventData.DetectedAisInteractives, _MouseEventData.DetectedShapes) > 0)
+            if (Occt.Helper.Ais.PickFromContext(Workspace.AisContext, pointList, includeTouched,
+                                                viewportController.Viewport.V3dView, 
+                                                _MouseEventData.DetectedAisInteractives, _MouseEventData.DetectedShapes) > 0)
             {
                 var entities = _MouseEventData.DetectedAisInteractives.Select(detected => VisualShapes.GetVisibleEntity(detected)).Where(entity => entity != null);
                 _MouseEventData.DetectedEntities.AddRange(entities);

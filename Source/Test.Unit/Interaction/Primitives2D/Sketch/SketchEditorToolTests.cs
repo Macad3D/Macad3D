@@ -433,7 +433,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             ctx.MoveTo(170, 50);
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle);
+            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle, false);
             ctx.MoveTo(450, 300);
             ctx.ViewportController.MouseUp(false);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RubberbandSelection01"));

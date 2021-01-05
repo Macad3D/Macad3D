@@ -77,7 +77,8 @@ namespace Macad.Interaction
 
         AIS_RubberBand _AisRubberBand;
         RubberbandSelectionMode _RubberbandMode;
-        readonly List<ValueTuple<int, int>> _RubberbandPoints = new List<(int, int)>();
+        bool _RubberbandIncludeTouched;
+        readonly List<ValueTuple<int, int>> _RubberbandPoints = new();
 
         Macad.Occt.Ext.AIS_ViewCubeEx _AisViewCube;
 
@@ -625,9 +626,10 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public void StartRubberbandSelection(RubberbandSelectionMode mode)
+        public void StartRubberbandSelection(RubberbandSelectionMode mode, bool includeTouched)
         {
             _StartedMousePosition = _LastMousePosition;
+            _RubberbandIncludeTouched = includeTouched;
 
             if (_AisRubberBand == null)
             {
@@ -670,12 +672,12 @@ namespace Macad.Interaction
                 switch (_RubberbandMode)
                 {
                     case RubberbandSelectionMode.Rectangle:
-                        WorkspaceController.SelectByRectangle(_CalcRectangleSelectionPoints(false), this);
+                        WorkspaceController.SelectByRectangle(_CalcRectangleSelectionPoints(false), _RubberbandIncludeTouched, this);
                         break;
                     case RubberbandSelectionMode.Freehand:
                         // Close polyline
                         _RubberbandPoints.Add(_RubberbandPoints[0]);
-                        WorkspaceController.SelectByPolyline(_RubberbandPoints, this);
+                        WorkspaceController.SelectByPolyline(_RubberbandPoints, _RubberbandIncludeTouched, this);
                         break;
                 }
 
