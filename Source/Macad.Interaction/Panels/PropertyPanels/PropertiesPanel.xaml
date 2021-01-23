@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="Macad.Interaction.Panels.PropertiesPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="280"
+             MinWidth="280"
+             Background="{StaticResource Macad.Brushes.Pane.Background}">
+
+    <DockPanel>
+        <mmp:PanningScrollViewer VerticalScrollBarVisibility="Auto"
+                                Focusable="False"
+                                    >
+            <mmp:TemplateItemsControl ItemsSource="{Binding PropertyPanels}" 
+                                      Background="{x:Null}"
+                                      BorderThickness="0,0,1,1" 
+                                      BorderBrush="{DynamicResource Macad.Brushes.Panel.Border}"
+                                      HorizontalContentAlignment="Stretch" 
+                                      VerticalAlignment="Top"
+                                    >
+
+                <mmp:TemplateItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Expander IsExpanded="{Binding Panel.IsCollapsed, Converter={mmp:BoolToNotBoolConverter}}"
+                                  Focusable="False" TextOptions.TextFormattingMode="Display"
+                                  BorderBrush="{StaticResource Macad.Brushes.Panel.Border}" BorderThickness="1">
+                            <Expander.Header>
+                                <Grid Height="16">
+                                    <StackPanel HorizontalAlignment="Right" Margin="3,0,5,0" Orientation="Horizontal">
+                                        <ContentPresenter Content="{Binding Panel.HeaderButtons}" DataContext="{Binding Panel}" 
+                                                          Margin="3,0" />
+                                        <Image Source="{Binding Panel.Instance, Converter={mmp:TypeToImageSourceConverter}}"
+                                               Height="16" Margin="3,0" />
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Panel.Header, Converter={mmp:StringUppercaseConverter}}" Foreground="{StaticResource Macad.Brushes.Glyph}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Grid>
+                            </Expander.Header>
+                            <Border Background="{StaticResource Macad.Brushes.Panel.Background}">
+                                <ContentPresenter Content="{Binding Panel}" 
+                                                  Margin="10" Width="250" 
+                                                  HorizontalAlignment="Center" />
+                            </Border>
+                        </Expander>
+                    </DataTemplate>
+                </mmp:TemplateItemsControl.ItemTemplate>
+            </mmp:TemplateItemsControl>
+        </mmp:PanningScrollViewer>
+    </DockPanel>
+</UserControl>

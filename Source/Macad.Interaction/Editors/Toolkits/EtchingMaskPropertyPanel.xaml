@@ -1,24 +1,25 @@
-﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Toolkits.EtchingMaskPropertyPanel"
+﻿<panels:PropertyPanel x:Class="Macad.Interaction.Editors.Toolkits.EtchingMaskPropertyPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
              xmlns:mmi="clr-namespace:Macad.Interaction"
+             xmlns:panels="clr-namespace:Macad.Interaction.Panels"
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              Style="{DynamicResource Macad.Styles.PropertyPanel}"
              Header="Etching Mask"
              mmp:Help.TopicId="0c834add-faf4-48f0-a8c3-e6dce411774c">
         
-    <mmi:PropertyPanel.HeaderButtons >
+    <panels:PropertyPanel.HeaderButtons >
         <mmp:PathButton Height="16" Width="16"
                         ToolTip="Remove Component"
                         Cursor="Hand"
                         PathData="{StaticResource Macad.Geometries.Delete}"
                         Command="{Binding DeleteCommand}">
         </mmp:PathButton>
-    </mmi:PropertyPanel.HeaderButtons>
+    </panels:PropertyPanel.HeaderButtons>
 
     <StackPanel>
         <Grid>
@@ -82,4 +83,4 @@
             </StackPanel>
         </Button>
     </StackPanel>
-</mmi:PropertyPanel>
+</panels:PropertyPanel>

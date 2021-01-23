@@ -6,12 +6,15 @@ using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Markup;
+using System.Windows.Shell;
 using Macad.Common.Interop;
-
 
 namespace Macad.Presentation
 {
+    [ContentProperty("OverlayChild")]
     public class AirspaceOverlay : Border
     {
         readonly Window _TransparentInputWindow;
@@ -83,6 +86,15 @@ namespace Macad.Presentation
                 if (_TransparentInputWindow != null)
                 {
                     _TransparentInputWindow.Content = value;
+
+                    if (value is FrameworkElement overlayChildElement)
+                    {
+                        if (overlayChildElement.DataContext == null)
+                        {
+                            overlayChildElement.SetBinding(DataContextProperty, BindingHelper.Create(this, nameof(DataContext), BindingMode.OneWay));
+                        }
+                    }
+
                 }
             }
         }
@@ -167,10 +179,11 @@ namespace Macad.Presentation
 
                 var r = LayoutInformation.GetLayoutSlot(this);
                 // Layout slot has unreliable position, we need to get the position separately
-                var p = TransformToAncestor(parent).Transform(new Point(0, 0));
+                var p = PointToScreen(new Point(0, 0));
+                var dpiScale = VisualTreeHelper.GetDpi(this);
 
-                _TransparentInputWindow.Left = p.X + (parent.WindowState != WindowState.Maximized ? parent.Left : 0) + _ClippingBorder.Left;
-                _TransparentInputWindow.Top = p.Y + (parent.WindowState != WindowState.Maximized ? parent.Top : 0) + _ClippingBorder.Top;
+                _TransparentInputWindow.Left = p.X / dpiScale.DpiScaleX + _ClippingBorder.Left;
+                _TransparentInputWindow.Top = p.Y / dpiScale.DpiScaleY + _ClippingBorder.Top;
                 _TransparentInputWindow.Width = Math.Max(0, r.Width - _ClippingBorder.Left - _ClippingBorder.Right);
                 _TransparentInputWindow.Height = Math.Max(0, r.Height - _ClippingBorder.Top - _ClippingBorder.Bottom);
             }

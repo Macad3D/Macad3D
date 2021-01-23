@@ -10,11 +10,10 @@ using Macad.Common;
 using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Occt;
-using Macad.Presentation;
 
 namespace Macad.Interaction
 {
-    public class WorkspaceController : BaseObject, ICustomMenuProvider, IDisposable
+    public sealed class WorkspaceController : BaseObject, ICustomMenuProvider, IDisposable
     {
         #region Properties
 
@@ -82,18 +81,25 @@ namespace Macad.Interaction
 
         ~WorkspaceController()
         {
-            Dispose();
+            Dispose(false);
         }
 
         public void Dispose()
         {
-            if (_CurrentTool != null)
+            Dispose(true);
+        }
+
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                CancelTool(_CurrentTool, true);
-                _CurrentTool = null;
+                if (_CurrentTool != null)
+                    CancelTool(_CurrentTool, true);
+                StopEditor();
             }
 
-            StopEditor();
+            _CurrentTool = null;
+            _CurrentEditor = null;
             
             _RedrawTimer.Stop();
             _RedrawTimer.Tick -= _RedrawTimer_Tick;

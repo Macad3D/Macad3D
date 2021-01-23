@@ -12,6 +12,7 @@ using System.Windows.Data;
 using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Interaction.Panels;
 using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Topology

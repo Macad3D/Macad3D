@@ -1,4 +1,4 @@
-﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Topology.BodyShapePropertyPanel"
+﻿<panels:PropertyPanel x:Class="Macad.Interaction.Editors.Topology.BodyShapePropertyPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,6 +7,7 @@
              xmlns:treeView="clr-namespace:Macad.Presentation.TreeView;assembly=Macad.Presentation"
              xmlns:mmi="clr-namespace:Macad.Interaction"
              xmlns:local="clr-namespace:Macad.Interaction.Editors.Topology"
+             xmlns:panels="clr-namespace:Macad.Interaction.Panels"
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}" 
              Style="{DynamicResource Macad.Styles.PropertyPanel}"
@@ -259,4 +260,4 @@
             </Grid>
         </Grid>
     </StackPanel>
-</mmi:PropertyPanel>
+</panels:PropertyPanel>

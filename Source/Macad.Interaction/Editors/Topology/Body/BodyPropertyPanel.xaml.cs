@@ -3,6 +3,7 @@ using System.Windows;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Topology;
+using Macad.Interaction.Panels;
 using Macad.Occt;
 using Macad.Presentation;
 

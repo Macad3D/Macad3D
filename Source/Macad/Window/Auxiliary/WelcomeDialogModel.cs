@@ -10,11 +10,12 @@ using Macad.Common.Serialization;
 using Macad.Core.Topology;
 using Macad.Interaction;
 using Macad.Interaction.Dialogs;
+using Macad.Interaction.Panels;
 using Macad.Presentation;
 
 namespace Macad.Window
 {
-    public class WelcomeDialogModel : ViewModelBase
+    public class WelcomeDialogModel : PanelBase
     {
         public List<string> MruList { get; private set; }
 

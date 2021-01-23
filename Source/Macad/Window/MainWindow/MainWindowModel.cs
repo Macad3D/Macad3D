@@ -1,9 +1,11 @@
 ﻿using System.Windows.Input;
 using Macad.Core;
+using Macad.Interaction;
+using Macad.Interaction.Panels;
 
 namespace Macad.Window
 {
-    public class MainWindowModel : ViewModelBase
+    public class MainWindowModel : PanelBase
     {
         #region Properties
 
@@ -25,8 +27,6 @@ namespace Macad.Window
 
         AppContext _Context;
 
-        public ViewportViewModel ViewportViewModel { get; private set; }
-
         //--------------------------------------------------------------------------------------------------
 
         #endregion
@@ -36,8 +36,6 @@ namespace Macad.Window
             Context = AppContext.Current;
 
             Context.MessageHandler.ProgressMessage += _MessageHandler_ProgressMessage;
-
-            ViewportViewModel = new ViewportViewModel();
 
             AppCommands.InitApplication.Execute();
         }

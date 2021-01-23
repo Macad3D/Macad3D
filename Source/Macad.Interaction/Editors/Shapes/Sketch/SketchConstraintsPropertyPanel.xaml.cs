@@ -10,6 +10,7 @@ using Macad.Core.Shapes;
 using Macad.Presentation;
 using Macad.Common;
 using Macad.Core;
+using Macad.Interaction.Panels;
 
 namespace Macad.Interaction.Editors.Shapes
 {

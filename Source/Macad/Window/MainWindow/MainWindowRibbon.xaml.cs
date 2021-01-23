@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using Fluent;
+using Macad.Interaction;
 using Macad.Presentation;
 
 namespace Macad.Window

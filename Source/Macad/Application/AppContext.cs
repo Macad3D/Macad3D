@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Windows.Input;
 using Macad.Core;
 using Macad.Common.Serialization;
 using Macad.Interaction;
@@ -13,10 +14,6 @@ namespace Macad.Window
         #region Properties
 
         public new static AppContext Current { get; private set; }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public ShortcutHandler ShortcutHandler { get; private set; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -35,7 +32,7 @@ namespace Macad.Window
 
         AppContext()
         {
-            ShortcutHandler = new ShortcutHandler();
+            LoadShortcuts();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -48,7 +45,15 @@ namespace Macad.Window
                 DebugPipeServer.Open();
             }
 
-            AppContext.Current = new AppContext();
+            Current = new AppContext();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void LoadShortcuts()
+        {
+            ShortcutHandler.AddShortcut(ShortcutScope.Application, new(Key.F1, ApplicationCommands.Help));
+            ShortcutHandler.AddShortcut(ShortcutScope.Application, new(Key.S, ModifierKeys.Control, DocumentCommands.SaveAll));
         }
 
         //--------------------------------------------------------------------------------------------------

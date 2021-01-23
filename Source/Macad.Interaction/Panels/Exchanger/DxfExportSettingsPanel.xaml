@@ -1,10 +1,11 @@
-﻿<mmi:PanelBase x:Class="Macad.Interaction.Panels.DxfExportSettingsPanel"
+﻿<panels:PanelBase x:Class="Macad.Interaction.Panels.DxfExportSettingsPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
              xmlns:mmi="clr-namespace:Macad.Interaction"
+             xmlns:panels="clr-namespace:Macad.Interaction.Panels"
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}"        
              d:DesignHeight="100" d:DesignWidth="250">
@@ -99,4 +100,4 @@
                           Value="{Binding PolygonPrecision}"
                           MinValue="0.0001" MaxValue="1" Precision="3"/>
     </Grid>
-</mmi:PanelBase>
+</panels:PanelBase>

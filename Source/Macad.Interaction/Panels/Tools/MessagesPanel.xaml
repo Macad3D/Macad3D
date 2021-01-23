@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="Macad.Interaction.Panels.MessagesPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmc="clr-namespace:Macad.Core;assembly=Macad.Core"
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:mmw="clr-namespace:Macad.Interaction.Panels"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="500">
+
+        <ListBox Name="listView" 
+                 ItemsSource="{Binding Path=MessageHandler.MessageItems, Source={x:Static mmc:CoreContext.Current}}"
+                 Background="{StaticResource Macad.Brushes.Panel.Background}"
+                 IsTextSearchEnabled="False" 
+                 Focusable="False" 
+                 BorderThickness="0"
+                 ItemContainerStyle="{StaticResource Macad.Styles.ListBoxItem.NoSelection}">
+
+            <ListBox.Resources>
+                <DataTemplate DataType="{x:Type mmc:MessageItem}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    ToolTipService.ShowDuration="12000"
+                                    ToolTipService.IsEnabled="{Binding Explanation, Converter={mmp:NotNullToBoolConverter}}">
+
+                            <!-- Time -->
+                            <Label Content="{Binding TimeStamp}"
+                                   ContentStringFormat="HH:mm:ss"
+                                   Foreground="Gray" 
+                                   Padding="0,0,10,0"/>
+
+                            <!-- Link / Shapename -->
+                            <Button Style="{StaticResource Macad.Styles.Button.Link}"
+                                    Command="{x:Static mmw:MessagesPanel.SelectEntityCommand}"
+                                    CommandParameter="{Binding Sender}"
+                                    Content="{Binding Sender, Converter={x:Static mmw:MessagesPanel.EntityToName}}"
+                                    Padding="0" />
+
+                            <!-- Message text -->
+                            <TextBlock x:Name="text" Text="{Binding Text}" />
+
+                            <!-- Explanation -->
+                            <StackPanel.ToolTip>
+                                <ItemsControl x:Name="list" 
+                                              ItemsSource="{Binding Explanation}"
+                                              Visibility="{Binding Explanation, Converter={mmp:NotNullToVisibleCollapsedConverter}}"
+                                              Margin="20,0,0,0" 
+                                              BorderThickness="0" 
+                                              Background="Transparent"
+                                              IsTextSearchEnabled="False" 
+                                              Focusable="False" 
+                                              IsHitTestVisible="False" />
+
+                            </StackPanel.ToolTip>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Severity}" Value="0">
+                            <!-- Trace -->
+                            <Setter TargetName="text" Property="Foreground" Value="CadetBlue" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Severity}" Value="1">
+                            <!-- Info -->
+                            <Setter TargetName="text" Property="Foreground" Value="{StaticResource Macad.Brushes.Text}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Severity}" Value="2">
+                            <!-- Warning -->
+                            <Setter TargetName="text" Property="Foreground" Value="{StaticResource Macad.Brushes.Warning}" />
+                            <Setter TargetName="text" Property="FontWeight" Value="SemiBold" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Severity}" Value="3">
+                            <!-- Error -->
+                            <Setter TargetName="text" Property="Foreground" Value="{StaticResource Macad.Brushes.Error}" />
+                            <Setter TargetName="text" Property="FontWeight" Value="SemiBold" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ListBox.Resources>
+        </ListBox>
+
+</UserControl>

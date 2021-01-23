@@ -4,6 +4,7 @@ using Macad.Interaction.Visual;
 using Macad.Common;
 using Macad.Core.Components;
 using Macad.Core.Topology;
+using Macad.Interaction.Panels;
 
 namespace Macad.Interaction.Editors.Topology
 {

@@ -1,6 +1,7 @@
 ﻿using Macad.Interaction.Visual;
 using Macad.Common;
 using Macad.Core.Shapes;
+using Macad.Interaction.Panels;
 using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes

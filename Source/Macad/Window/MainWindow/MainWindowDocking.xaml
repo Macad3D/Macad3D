@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mmw="clr-namespace:Macad.Window"
+             xmlns:panels="clr-namespace:Macad.Interaction.Panels;assembly=Macad.Interaction"
              xmlns:dock="https://github.com/Dirkster99/AvalonDock"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024" 
@@ -27,7 +28,7 @@
                                                CanClose="False" CanFloat="True" CanHide="False" 
                                                FloatingWidth="200" FloatingHeight="500"
                                                AutoHideWidth="200" AutoHideHeight="500">
-                            <mmw:DocumentExplorerView />
+                            <panels:DocumentExplorerPanel />
                         </dock:LayoutAnchorable>
                     </dock:LayoutAnchorablePane>
                     <dock:LayoutAnchorablePane DockWidth="200"
@@ -37,7 +38,7 @@
                                                CanClose="False" CanFloat="True" CanHide="True" 
                                                FloatingWidth="200" FloatingHeight="500"
                                                AutoHideWidth="200" AutoHideHeight="500">
-                            <mmw:LayersView />
+                            <panels:LayersPanel />
                         </dock:LayoutAnchorable>                    
                     </dock:LayoutAnchorablePane>
                 </dock:LayoutAnchorablePaneGroup>
@@ -47,10 +48,7 @@
                     <dock:LayoutDocument ContentId="Workspace"
                                          Title="Workspace" 
                                          CanClose="False" CanFloat="False">
-                        <Border BorderBrush="{StaticResource Macad.Brushes.Panel.Border}" BorderThickness="0">
-                            <mmw:ViewportHwndView x:Name="Viewport" 
-                                                  DataContext="{Binding ViewportViewModel}" />
-                        </Border>
+                        <mmw:ViewportView x:Name="Viewport" />
                     </dock:LayoutDocument>
                 </dock:LayoutDocumentPane>
 
@@ -63,7 +61,7 @@
                                            FloatingWidth="280" FloatingHeight="500"
                                            AutoHideWidth="280" AutoHideHeight="500"
                                            >
-                        <mmw:PropertyView />
+                        <panels:PropertiesPanel />
                     </dock:LayoutAnchorable>
                 </dock:LayoutAnchorablePane>
             </dock:LayoutPanel>
@@ -77,7 +75,7 @@
                                                CanClose="False" CanFloat="True" CanHide="True"
                                                FloatingWidth="260" FloatingHeight="500"
                                                AutoHideWidth="260" AutoHideHeight="500">
-                            <mmw:ShapeInspectorView x:Name="ShapeInspector" />
+                            <panels:ShapeInspectorPanel x:Name="ShapeInspector" />
                         </dock:LayoutAnchorable>
                     </dock:LayoutAnchorGroup>
                 </dock:LayoutAnchorSide>
@@ -92,7 +90,7 @@
                                                CanClose="False" CanFloat="True" CanHide="False" 
                                                FloatingWidth="500" FloatingHeight="200"
                                                AutoHideWidth="500" AutoHideHeight="200">
-                            <mmw:MessageList />
+                            <panels:MessagesPanel />
                         </dock:LayoutAnchorable>
                     </dock:LayoutAnchorGroup>
                 </dock:LayoutAnchorSide>

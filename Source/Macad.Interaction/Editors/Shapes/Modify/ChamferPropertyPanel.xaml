@@ -1,10 +1,11 @@
-﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Shapes.ChamferPropertyPanel"
+﻿<panels:PropertyPanel x:Class="Macad.Interaction.Editors.Shapes.ChamferPropertyPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
              xmlns:mmi="clr-namespace:Macad.Interaction"
+             xmlns:panels="clr-namespace:Macad.Interaction.Panels"
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              Style="{DynamicResource Macad.Styles.PropertyPanel}"
@@ -79,4 +80,4 @@
                               Command="{Binding SwitchAngleSideCommand}" CommandParameter="DistanceAngle"/>
         </StackPanel>
     </Grid>
-</mmi:PropertyPanel>
+</panels:PropertyPanel>

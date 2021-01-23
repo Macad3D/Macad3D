@@ -5,6 +5,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Macad.Common;
 using Macad.Core.Shapes;
+using Macad.Interaction.Panels;
 using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes

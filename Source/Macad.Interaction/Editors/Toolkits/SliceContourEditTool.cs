@@ -5,6 +5,7 @@ using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Toolkits;
 using Macad.Core.Topology;
+using Macad.Interaction.Panels;
 using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Toolkits

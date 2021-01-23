@@ -7,6 +7,7 @@
              xmlns:mmw="clr-namespace:Macad.Window"
              xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
              xmlns:mmi="clr-namespace:Macad.Interaction;assembly=Macad.Interaction"
+             xmlns:panels="clr-namespace:Macad.Interaction.Panels;assembly=Macad.Interaction"
              mc:Ignorable="d" 
              d:DesignWidth="1280" KeyDown="_KeyDown">
 
@@ -445,7 +446,7 @@
                                             AutomationProperties.AutomationId="ActiveLayerVisual">
 
                         <Fluent:GroupSeparatorMenuItem Header="Layer Visuals" />
-                        <mmi:LayerVisualPanel DataContext="{Binding Context.Layers.ActiveLayer, Mode=OneWay}" />
+                        <panels:LayerVisualPanel DataContext="{Binding Context.Layers.ActiveLayer, Mode=OneWay}" />
                     </Fluent:DropDownButton>
                 </Fluent:RibbonToolBar>
             </Fluent:RibbonGroupBox>

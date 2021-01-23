@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
+using Macad.Interaction.Panels;
 
 namespace Macad.Interaction.Editors.Shapes
 {

@@ -6,6 +6,7 @@ using Macad.Common;
 using Macad.Core;
 using Macad.Core.Exchange;
 using Macad.Core.Topology;
+using Macad.Interaction.Panels;
 
 namespace Macad.Interaction
 {
@@ -121,6 +122,10 @@ namespace Macad.Interaction
                 return _EditorState;
             }
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public ShortcutHandler ShortcutHandler { get; private set; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -138,6 +143,7 @@ namespace Macad.Interaction
             InitializeStatics();
             Current = this;
             DocumentController = new ModelController();
+            ShortcutHandler = new ShortcutHandler();
         }
 
         //--------------------------------------------------------------------------------------------------

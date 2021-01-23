@@ -1,4 +1,4 @@
-﻿<mmi:PropertyPanel x:Class="Macad.Interaction.Editors.Topology.BodyPropertyPanel"
+﻿<panels:PropertyPanel x:Class="Macad.Interaction.Editors.Topology.BodyPropertyPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,8 @@
              xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
              xmlns:mmi="clr-namespace:Macad.Interaction"
             xmlns:local="clr-namespace:Macad.Interaction.Editors.Topology"
-             mc:Ignorable="d" 
+            xmlns:panels="clr-namespace:Macad.Interaction.Panels"
+            mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}" 
              Style="{DynamicResource Macad.Styles.PropertyPanel}"
              Header="Body">
@@ -114,4 +115,4 @@
                               AutomationProperties.AutomationId="OrientationR" />
         </StackPanel>
     </StackPanel>
-</mmi:PropertyPanel>
+</panels:PropertyPanel>

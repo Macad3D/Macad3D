@@ -1,5 +1,6 @@
 ﻿using Macad.Common;
 using Macad.Core.Shapes;
+using Macad.Interaction.Panels;
 using Macad.Interaction.Visual;
 using Macad.Occt;
 
