@@ -1113,6 +1113,55 @@ public:
 }; // class TColStd_MapTransientHasher
 
 //---------------------------------------------------------------------
+//  Class  TColStd_DataMapOfTransientTransient
+//---------------------------------------------------------------------
+public ref class TColStd_DataMapOfTransientTransient sealed : public BaseClass<::TColStd_DataMapOfTransientTransient>
+{
+
+#ifdef Include_TColStd_DataMapOfTransientTransient_h
+public:
+	Include_TColStd_DataMapOfTransientTransient_h
+#endif
+
+public:
+	TColStd_DataMapOfTransientTransient(::TColStd_DataMapOfTransientTransient* nativeInstance)
+		: BaseClass<::TColStd_DataMapOfTransientTransient>( nativeInstance, true )
+	{}
+
+	TColStd_DataMapOfTransientTransient(::TColStd_DataMapOfTransientTransient& nativeInstance)
+		: BaseClass<::TColStd_DataMapOfTransientTransient>( &nativeInstance, false )
+	{}
+
+	property ::TColStd_DataMapOfTransientTransient* NativeInstance
+	{
+		::TColStd_DataMapOfTransientTransient* get()
+		{
+			return static_cast<::TColStd_DataMapOfTransientTransient*>(_NativeInstance);
+		}
+	}
+
+public:
+	TColStd_DataMapOfTransientTransient();
+	TColStd_DataMapOfTransientTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	TColStd_DataMapOfTransientTransient(int theNbBuckets);
+	TColStd_DataMapOfTransientTransient(Macad::Occt::TColStd_DataMapOfTransientTransient^ theOther);
+	void Exchange(Macad::Occt::TColStd_DataMapOfTransientTransient^ theOther);
+	Macad::Occt::TColStd_DataMapOfTransientTransient^ Assign(Macad::Occt::TColStd_DataMapOfTransientTransient^ theOther);
+	Macad::Occt::Standard_Transient^ Bound(Macad::Occt::Standard_Transient^ theKey, Macad::Occt::Standard_Transient^ theItem);
+	bool IsBound(Macad::Occt::Standard_Transient^ theKey);
+	bool UnBind(Macad::Occt::Standard_Transient^ theKey);
+	Macad::Occt::Standard_Transient^ Seek(Macad::Occt::Standard_Transient^ theKey);
+	Macad::Occt::Standard_Transient^ Find(Macad::Occt::Standard_Transient^ theKey);
+	bool Find(Macad::Occt::Standard_Transient^ theKey, Macad::Occt::Standard_Transient^ theValue);
+	Macad::Occt::Standard_Transient^ ChangeSeek(Macad::Occt::Standard_Transient^ theKey);
+	Macad::Occt::Standard_Transient^ ChangeFind(Macad::Occt::Standard_Transient^ theKey);
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+}; // class TColStd_DataMapOfTransientTransient
+
+//---------------------------------------------------------------------
 //  Class  TColStd_SequenceOfAsciiString
 //---------------------------------------------------------------------
 public ref class TColStd_SequenceOfAsciiString sealed : public BaseClass<::TColStd_SequenceOfAsciiString>
@@ -1624,6 +1673,62 @@ public:
 }; // class TColStd_IndexedDataMapOfStringString
 
 //---------------------------------------------------------------------
+//  Class  TColStd_IndexedDataMapOfTransientTransient
+//---------------------------------------------------------------------
+public ref class TColStd_IndexedDataMapOfTransientTransient sealed : public BaseClass<::TColStd_IndexedDataMapOfTransientTransient>
+{
+
+#ifdef Include_TColStd_IndexedDataMapOfTransientTransient_h
+public:
+	Include_TColStd_IndexedDataMapOfTransientTransient_h
+#endif
+
+public:
+	TColStd_IndexedDataMapOfTransientTransient(::TColStd_IndexedDataMapOfTransientTransient* nativeInstance)
+		: BaseClass<::TColStd_IndexedDataMapOfTransientTransient>( nativeInstance, true )
+	{}
+
+	TColStd_IndexedDataMapOfTransientTransient(::TColStd_IndexedDataMapOfTransientTransient& nativeInstance)
+		: BaseClass<::TColStd_IndexedDataMapOfTransientTransient>( &nativeInstance, false )
+	{}
+
+	property ::TColStd_IndexedDataMapOfTransientTransient* NativeInstance
+	{
+		::TColStd_IndexedDataMapOfTransientTransient* get()
+		{
+			return static_cast<::TColStd_IndexedDataMapOfTransientTransient*>(_NativeInstance);
+		}
+	}
+
+public:
+	TColStd_IndexedDataMapOfTransientTransient();
+	TColStd_IndexedDataMapOfTransientTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	TColStd_IndexedDataMapOfTransientTransient(int theNbBuckets);
+	TColStd_IndexedDataMapOfTransientTransient(Macad::Occt::TColStd_IndexedDataMapOfTransientTransient^ theOther);
+	void Exchange(Macad::Occt::TColStd_IndexedDataMapOfTransientTransient^ theOther);
+	int Add(Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theItem);
+	bool Contains(Macad::Occt::Standard_Transient^ theKey1);
+	void Substitute(int theIndex, Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theItem);
+	void Swap(int theIndex1, int theIndex2);
+	void RemoveLast();
+	void RemoveFromIndex(int theIndex);
+	void RemoveKey(Macad::Occt::Standard_Transient^ theKey1);
+	Macad::Occt::Standard_Transient^ FindKey(int theIndex);
+	Macad::Occt::Standard_Transient^ FindFromIndex(int theIndex);
+	Macad::Occt::Standard_Transient^ ChangeFromIndex(int theIndex);
+	int FindIndex(Macad::Occt::Standard_Transient^ theKey1);
+	Macad::Occt::Standard_Transient^ FindFromKey(Macad::Occt::Standard_Transient^ theKey1);
+	Macad::Occt::Standard_Transient^ ChangeFromKey(Macad::Occt::Standard_Transient^ theKey1);
+	Macad::Occt::Standard_Transient^ Seek(Macad::Occt::Standard_Transient^ theKey1);
+	Macad::Occt::Standard_Transient^ ChangeSeek(Macad::Occt::Standard_Transient^ theKey1);
+	bool FindFromKey(Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theValue);
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+}; // class TColStd_IndexedDataMapOfTransientTransient
+
+//---------------------------------------------------------------------
 //  Class  TColStd_IndexedMapOfInteger
 //---------------------------------------------------------------------
 public ref class TColStd_IndexedMapOfInteger sealed : public BaseClass<::TColStd_IndexedMapOfInteger>
@@ -1755,6 +1860,55 @@ public:
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	int Size();
 }; // class TColStd_IndexedMapOfReal
+
+//---------------------------------------------------------------------
+//  Class  TColStd_IndexedMapOfTransient
+//---------------------------------------------------------------------
+public ref class TColStd_IndexedMapOfTransient sealed : public BaseClass<::TColStd_IndexedMapOfTransient>
+{
+
+#ifdef Include_TColStd_IndexedMapOfTransient_h
+public:
+	Include_TColStd_IndexedMapOfTransient_h
+#endif
+
+public:
+	TColStd_IndexedMapOfTransient(::TColStd_IndexedMapOfTransient* nativeInstance)
+		: BaseClass<::TColStd_IndexedMapOfTransient>( nativeInstance, true )
+	{}
+
+	TColStd_IndexedMapOfTransient(::TColStd_IndexedMapOfTransient& nativeInstance)
+		: BaseClass<::TColStd_IndexedMapOfTransient>( &nativeInstance, false )
+	{}
+
+	property ::TColStd_IndexedMapOfTransient* NativeInstance
+	{
+		::TColStd_IndexedMapOfTransient* get()
+		{
+			return static_cast<::TColStd_IndexedMapOfTransient*>(_NativeInstance);
+		}
+	}
+
+public:
+	TColStd_IndexedMapOfTransient();
+	TColStd_IndexedMapOfTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	TColStd_IndexedMapOfTransient(int theNbBuckets);
+	TColStd_IndexedMapOfTransient(Macad::Occt::TColStd_IndexedMapOfTransient^ theOther);
+	void Exchange(Macad::Occt::TColStd_IndexedMapOfTransient^ theOther);
+	int Add(Macad::Occt::Standard_Transient^ theKey1);
+	bool Contains(Macad::Occt::Standard_Transient^ theKey1);
+	void Substitute(int theIndex, Macad::Occt::Standard_Transient^ theKey1);
+	void Swap(int theIndex1, int theIndex2);
+	void RemoveLast();
+	void RemoveFromIndex(int theIndex);
+	bool RemoveKey(Macad::Occt::Standard_Transient^ theKey1);
+	Macad::Occt::Standard_Transient^ FindKey(int theIndex);
+	int FindIndex(Macad::Occt::Standard_Transient^ theKey1);
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+}; // class TColStd_IndexedMapOfTransient
 
 //---------------------------------------------------------------------
 //  Class  TColStd_ListOfAsciiString
@@ -2076,6 +2230,61 @@ public:
 	void Difference(Macad::Occt::TColStd_MapOfReal^ theLeft, Macad::Occt::TColStd_MapOfReal^ theRight);
 	bool Differ(Macad::Occt::TColStd_MapOfReal^ theOther);
 }; // class TColStd_MapOfReal
+
+//---------------------------------------------------------------------
+//  Class  TColStd_MapOfTransient
+//---------------------------------------------------------------------
+public ref class TColStd_MapOfTransient sealed : public BaseClass<::TColStd_MapOfTransient>
+{
+
+#ifdef Include_TColStd_MapOfTransient_h
+public:
+	Include_TColStd_MapOfTransient_h
+#endif
+
+public:
+	TColStd_MapOfTransient(::TColStd_MapOfTransient* nativeInstance)
+		: BaseClass<::TColStd_MapOfTransient>( nativeInstance, true )
+	{}
+
+	TColStd_MapOfTransient(::TColStd_MapOfTransient& nativeInstance)
+		: BaseClass<::TColStd_MapOfTransient>( &nativeInstance, false )
+	{}
+
+	property ::TColStd_MapOfTransient* NativeInstance
+	{
+		::TColStd_MapOfTransient* get()
+		{
+			return static_cast<::TColStd_MapOfTransient*>(_NativeInstance);
+		}
+	}
+
+public:
+	TColStd_MapOfTransient();
+	TColStd_MapOfTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	TColStd_MapOfTransient(int theNbBuckets);
+	TColStd_MapOfTransient(Macad::Occt::TColStd_MapOfTransient^ theOther);
+	void Exchange(Macad::Occt::TColStd_MapOfTransient^ theOther);
+	Macad::Occt::TColStd_MapOfTransient^ Assign(Macad::Occt::TColStd_MapOfTransient^ theOther);
+	Macad::Occt::Standard_Transient^ Added(Macad::Occt::Standard_Transient^ K);
+	bool Contains(Macad::Occt::Standard_Transient^ K);
+	bool Remove(Macad::Occt::Standard_Transient^ K);
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+	bool IsEqual(Macad::Occt::TColStd_MapOfTransient^ theOther);
+	bool Contains(Macad::Occt::TColStd_MapOfTransient^ theOther);
+	void Union(Macad::Occt::TColStd_MapOfTransient^ theLeft, Macad::Occt::TColStd_MapOfTransient^ theRight);
+	bool Unite(Macad::Occt::TColStd_MapOfTransient^ theOther);
+	bool HasIntersection(Macad::Occt::TColStd_MapOfTransient^ theMap);
+	void Intersection(Macad::Occt::TColStd_MapOfTransient^ theLeft, Macad::Occt::TColStd_MapOfTransient^ theRight);
+	bool Intersect(Macad::Occt::TColStd_MapOfTransient^ theOther);
+	void Subtraction(Macad::Occt::TColStd_MapOfTransient^ theLeft, Macad::Occt::TColStd_MapOfTransient^ theRight);
+	bool Subtract(Macad::Occt::TColStd_MapOfTransient^ theOther);
+	void Difference(Macad::Occt::TColStd_MapOfTransient^ theLeft, Macad::Occt::TColStd_MapOfTransient^ theRight);
+	bool Differ(Macad::Occt::TColStd_MapOfTransient^ theOther);
+}; // class TColStd_MapOfTransient
 
 //---------------------------------------------------------------------
 //  Class  TColStd_SequenceOfBoolean
@@ -2536,8 +2745,8 @@ public:
 	int Upper();
 	bool IsDeletable();
 	bool IsAllocated();
-	/* Method skipped due to unknown mapping: NCollection_Array1<NCollection_List<int> > Assign(NCollection_Array1<NCollection_List<int> > theOther, ) */
-	/* Method skipped due to unknown mapping: NCollection_Array1<NCollection_List<int> > Move(NCollection_Array1<NCollection_List<int> > theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Array1<NCollection_List<int>> Assign(NCollection_Array1<NCollection_List<int>> theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Array1<NCollection_List<int>> Move(NCollection_Array1<NCollection_List<int>> theOther, ) */
 	/* Method skipped due to unknown mapping: NCollection_List<int> First() */
 	/* Method skipped due to unknown mapping: NCollection_List<int> ChangeFirst() */
 	/* Method skipped due to unknown mapping: NCollection_List<int> Last() */
@@ -2652,8 +2861,8 @@ public:
 	int Upper();
 	bool IsDeletable();
 	bool IsAllocated();
-	/* Method skipped due to unknown mapping: NCollection_Array1<opencascade::handle<Standard_Transient> > Assign(NCollection_Array1<opencascade::handle<Standard_Transient> > theOther, ) */
-	/* Method skipped due to unknown mapping: NCollection_Array1<opencascade::handle<Standard_Transient> > Move(NCollection_Array1<opencascade::handle<Standard_Transient> > theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Array1<opencascade::handle<Standard_Transient>> Assign(NCollection_Array1<opencascade::handle<Standard_Transient>> theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Array1<opencascade::handle<Standard_Transient>> Move(NCollection_Array1<opencascade::handle<Standard_Transient>> theOther, ) */
 	Macad::Occt::Standard_Transient^ First();
 	Macad::Occt::Standard_Transient^ ChangeFirst();
 	Macad::Occt::Standard_Transient^ Last();
@@ -2941,8 +3150,8 @@ public:
 	int LowerCol();
 	int UpperCol();
 	bool IsDeletable();
-	/* Method skipped due to unknown mapping: NCollection_Array2<opencascade::handle<Standard_Transient> > Assign(NCollection_Array2<opencascade::handle<Standard_Transient> > theOther, ) */
-	/* Method skipped due to unknown mapping: NCollection_Array2<opencascade::handle<Standard_Transient> > Move(NCollection_Array2<opencascade::handle<Standard_Transient> > theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Array2<opencascade::handle<Standard_Transient>> Assign(NCollection_Array2<opencascade::handle<Standard_Transient>> theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Array2<opencascade::handle<Standard_Transient>> Move(NCollection_Array2<opencascade::handle<Standard_Transient>> theOther, ) */
 	Macad::Occt::Standard_Transient^ Value(int theRow, int theCol);
 	Macad::Occt::Standard_Transient^ ChangeValue(int theRow, int theCol);
 	void SetValue(int theRow, int theCol, Macad::Occt::Standard_Transient^ theItem);
@@ -3175,19 +3384,19 @@ public:
 	/* Method skipped due to unknown mapping: void delNode(NCollection_SeqNode theNode, NCollection_BaseAllocator theAl, ) */
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	void Clear();
-	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<TCollection_HAsciiString> > Assign(NCollection_Sequence<opencascade::handle<TCollection_HAsciiString> > theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<TCollection_HAsciiString>> Assign(NCollection_Sequence<opencascade::handle<TCollection_HAsciiString>> theOther, ) */
 	/* Method skipped due to unknown mapping: void Remove(Iterator thePosition, ) */
 	void Remove(int theIndex);
 	void Remove(int theFromIndex, int theToIndex);
-	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<TCollection_HAsciiString> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<TCollection_HAsciiString>> theSeq, ) */
 	void Prepend(Macad::Occt::TCollection_HAsciiString^ theItem);
-	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<TCollection_HAsciiString> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<TCollection_HAsciiString>> theSeq, ) */
 	void InsertBefore(int theIndex, Macad::Occt::TCollection_HAsciiString^ theItem);
-	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TCollection_HAsciiString> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TCollection_HAsciiString>> theSeq, ) */
 	/* Method skipped due to unknown mapping: void InsertAfter(Iterator thePosition, TCollection_HAsciiString theItem, ) */
-	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TCollection_HAsciiString> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TCollection_HAsciiString>> theSeq, ) */
 	void InsertAfter(int theIndex, Macad::Occt::TCollection_HAsciiString^ theItem);
-	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TCollection_HAsciiString> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TCollection_HAsciiString>> theSeq, ) */
 	Macad::Occt::TCollection_HAsciiString^ First();
 	Macad::Occt::TCollection_HAsciiString^ ChangeFirst();
 	Macad::Occt::TCollection_HAsciiString^ Last();
@@ -3245,19 +3454,19 @@ public:
 	/* Method skipped due to unknown mapping: void delNode(NCollection_SeqNode theNode, NCollection_BaseAllocator theAl, ) */
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	void Clear();
-	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<TCollection_HExtendedString> > Assign(NCollection_Sequence<opencascade::handle<TCollection_HExtendedString> > theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<TCollection_HExtendedString>> Assign(NCollection_Sequence<opencascade::handle<TCollection_HExtendedString>> theOther, ) */
 	/* Method skipped due to unknown mapping: void Remove(Iterator thePosition, ) */
 	void Remove(int theIndex);
 	void Remove(int theFromIndex, int theToIndex);
-	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<TCollection_HExtendedString> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<TCollection_HExtendedString>> theSeq, ) */
 	void Prepend(Macad::Occt::TCollection_HExtendedString^ theItem);
-	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<TCollection_HExtendedString> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<TCollection_HExtendedString>> theSeq, ) */
 	void InsertBefore(int theIndex, Macad::Occt::TCollection_HExtendedString^ theItem);
-	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TCollection_HExtendedString> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TCollection_HExtendedString>> theSeq, ) */
 	/* Method skipped due to unknown mapping: void InsertAfter(Iterator thePosition, TCollection_HExtendedString theItem, ) */
-	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TCollection_HExtendedString> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TCollection_HExtendedString>> theSeq, ) */
 	void InsertAfter(int theIndex, Macad::Occt::TCollection_HExtendedString^ theItem);
-	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TCollection_HExtendedString> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TCollection_HExtendedString>> theSeq, ) */
 	Macad::Occt::TCollection_HExtendedString^ First();
 	Macad::Occt::TCollection_HExtendedString^ ChangeFirst();
 	Macad::Occt::TCollection_HExtendedString^ Last();
@@ -3455,19 +3664,19 @@ public:
 	/* Method skipped due to unknown mapping: void delNode(NCollection_SeqNode theNode, NCollection_BaseAllocator theAl, ) */
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	void Clear();
-	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<Standard_Transient> > Assign(NCollection_Sequence<opencascade::handle<Standard_Transient> > theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<Standard_Transient>> Assign(NCollection_Sequence<opencascade::handle<Standard_Transient>> theOther, ) */
 	/* Method skipped due to unknown mapping: void Remove(Iterator thePosition, ) */
 	void Remove(int theIndex);
 	void Remove(int theFromIndex, int theToIndex);
-	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<Standard_Transient> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<Standard_Transient>> theSeq, ) */
 	void Prepend(Macad::Occt::Standard_Transient^ theItem);
-	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<Standard_Transient> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<Standard_Transient>> theSeq, ) */
 	void InsertBefore(int theIndex, Macad::Occt::Standard_Transient^ theItem);
-	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Standard_Transient> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Standard_Transient>> theSeq, ) */
 	/* Method skipped due to unknown mapping: void InsertAfter(Iterator thePosition, Standard_Transient theItem, ) */
-	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Standard_Transient> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Standard_Transient>> theSeq, ) */
 	void InsertAfter(int theIndex, Macad::Occt::Standard_Transient^ theItem);
-	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Standard_Transient> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Standard_Transient>> theSeq, ) */
 	Macad::Occt::Standard_Transient^ First();
 	Macad::Occt::Standard_Transient^ ChangeFirst();
 	Macad::Occt::Standard_Transient^ Last();

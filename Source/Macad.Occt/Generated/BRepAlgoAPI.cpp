@@ -6,6 +6,7 @@
 using namespace System::Runtime::InteropServices; // for class Marshal
 
 #include "BRepAlgoAPI.h"
+#include "NCollection.h"
 #include "TopoDS.h"
 #include "BOPAlgo.h"
 #include "TopTools.h"

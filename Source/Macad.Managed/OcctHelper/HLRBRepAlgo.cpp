@@ -6,8 +6,6 @@
 #include <HLRBRep_PolyAlgo.hxx>
 #include <HLRBRep_PolyHLRToShape.hxx>
 
-#using <Macad.Occt.dll> as_friend
-
 using namespace System::Collections::Generic;
 
 namespace Macad

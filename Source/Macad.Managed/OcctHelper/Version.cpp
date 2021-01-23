@@ -1,8 +1,6 @@
 #include "ManagedPCH.h"
 #include <Standard_Version.hxx>
 
-#using <Macad.Occt.dll> as_friend
-
 using namespace System::Runtime::InteropServices;
 
 namespace Macad

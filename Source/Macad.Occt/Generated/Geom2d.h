@@ -530,8 +530,8 @@ public:
 	static Macad::Occt::Geom2d_Point^ CreateDowncasted(::Geom2d_Point* instance);
 
 public:
-	Geom2d_Point(Macad::Occt::Geom2d_Point^ parameter1);
 	Geom2d_Point();
+	Geom2d_Point(Macad::Occt::Geom2d_Point^ parameter1);
 	void Coord(double% X, double% Y);
 	Macad::Occt::Pnt2d Pnt2d();
 	double X();
@@ -626,8 +626,8 @@ public:
 	static Macad::Occt::Geom2d_Conic^ CreateDowncasted(::Geom2d_Conic* instance);
 
 public:
-	Geom2d_Conic(Macad::Occt::Geom2d_Conic^ parameter1);
 	Geom2d_Conic();
+	Geom2d_Conic(Macad::Occt::Geom2d_Conic^ parameter1);
 	void SetAxis(Macad::Occt::Ax22d theA);
 	void SetXAxis(Macad::Occt::Ax2d theAX);
 	void SetYAxis(Macad::Occt::Ax2d theAY);
@@ -738,8 +738,8 @@ public:
 	static Macad::Occt::Geom2d_Vector^ CreateDowncasted(::Geom2d_Vector* instance);
 
 public:
-	Geom2d_Vector(Macad::Occt::Geom2d_Vector^ parameter1);
 	Geom2d_Vector();
+	Geom2d_Vector(Macad::Occt::Geom2d_Vector^ parameter1);
 	void Reverse();
 	Macad::Occt::Geom2d_Vector^ Reversed();
 	double Angle(Macad::Occt::Geom2d_Vector^ Other);

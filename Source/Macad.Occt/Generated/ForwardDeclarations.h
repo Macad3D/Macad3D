@@ -129,6 +129,7 @@ namespace Occt
 	ref class TColStd_DataMapOfIntegerTransient;
 	ref class TColStd_DataMapOfStringInteger;
 	ref class TColStd_MapTransientHasher;
+	ref class TColStd_DataMapOfTransientTransient;
 	ref class TColStd_SequenceOfAsciiString;
 	ref class TColStd_SequenceOfExtendedString;
 	ref class TColStd_SequenceOfHAsciiString;
@@ -137,15 +138,18 @@ namespace Occt
 	ref class TColStd_SequenceOfReal;
 	ref class TColStd_SequenceOfTransient;
 	ref class TColStd_IndexedDataMapOfStringString;
+	ref class TColStd_IndexedDataMapOfTransientTransient;
 	ref class TColStd_IndexedMapOfInteger;
 	ref class TColStd_MapRealHasher;
 	ref class TColStd_IndexedMapOfReal;
+	ref class TColStd_IndexedMapOfTransient;
 	ref class TColStd_ListOfAsciiString;
 	ref class TColStd_ListOfReal;
 	ref class TColStd_ListOfTransient;
 	ref class TColStd_MapOfAsciiString;
 	ref class TColStd_MapOfInteger;
 	ref class TColStd_MapOfReal;
+	ref class TColStd_MapOfTransient;
 	ref class TColStd_SequenceOfBoolean;
 	ref class TColStd_HArray1OfAsciiString;
 	ref class TColStd_HArray1OfBoolean;
@@ -812,6 +816,7 @@ namespace Occt
 	ref class ShapeCustom_ConvertToBSpline;
 	ref class ShapeCustom;
 	ref class ShapeExtend_DataMapOfShapeListOfMsg;
+	ref class ShapeExtend_DataMapOfTransientListOfMsg;
 	ref class ShapeExtend_ComplexCurve;
 	ref class ShapeExtend_CompositeSurface;
 	ref class ShapeExtend_WireData;
@@ -985,7 +990,9 @@ namespace Occt
 	ref class Graphic3d_ShaderObjectList;
 	ref class Graphic3d_ShaderVariableList;
 	ref class Graphic3d_ShaderAttributeList;
+	ref class Graphic3d_MapOfAspectsToAspects;
 	ref class Graphic3d_SequenceOfGroup;
+	ref class Graphic3d_MapOfStructure;
 	ref class Graphic3d_SequenceOfStructure;
 	ref class Graphic3d_MapOfZLayerSettings;
 	ref class Graphic3d_BufferRange;
@@ -1069,7 +1076,10 @@ namespace Occt
 	ref class SelectMgr_TriangFrustums;
 	ref class SelectMgr_SequenceOfSelection;
 	ref class SelectMgr_SequenceOfOwner;
+	ref class SelectMgr_IndexedDataMapOfOwnerCriterion;
+	ref class SelectMgr_MapOfObjectSensitives;
 	ref class SelectMgr_FrustumCache;
+	ref class SelectMgr_IndexedMapOfHSensitive;
 	ref class SelectMgr_SequenceOfFilter;
 	ref class SelectMgr_Selection;
 	ref class SelectMgr;
@@ -1087,7 +1097,6 @@ namespace Occt
 	ref class SelectMgr_OrFilter;
 	ref class SelectMgr_SelectableObjectSet;
 	ref class SelectMgr_ViewerSelector;
-	ref class SelectMgr_SensitiveEntitySet;
 	ref class SelectMgr_ViewerSelector3d;
 	ref class StdSelect;
 	ref class StdSelect_Shape;
@@ -1122,9 +1131,13 @@ namespace Occt
 	ref class Prs3d_ToolSector;
 	ref class Prs3d_ToolSphere;
 	ref class Prs3d_ToolTorus;
+	ref class AIS_DataMapOfIOStatus;
 	ref class AIS_ListOfInteractive;
 	ref class AIS_NListOfEntityOwner;
 	ref class AIS_DataMapOfShapeDrawer;
+	ref class AIS_DataMapofIntegerListOfinteractive;
+	ref class AIS_IndexedDataMapOfOwnerPrs;
+	ref class AIS_MapOfInteractive;
 	ref class AIS_SequenceOfInteractive;
 	ref class AIS_AnimationProgress;
 	ref class AIS_WalkPart;

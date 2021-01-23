@@ -532,7 +532,7 @@ namespace Macad.Core.Shapes
                 return true;
 
             var brepAdaptor = new BRepAdaptor_Surface(context.FlangeFace);
-            if (brepAdaptor.GetTypeOcc() != GeomAbs_SurfaceType.GeomAbs_Plane)
+            if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
             {
                 Messages.Error("Flanges can only be added to planar faces.");
                 return false;

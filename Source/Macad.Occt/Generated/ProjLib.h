@@ -130,7 +130,7 @@ public:
 	void D3(double U, Macad::Occt::Pnt% P, Macad::Occt::Vec% V1, Macad::Occt::Vec% V2, Macad::Occt::Vec% V3);
 	Macad::Occt::Vec DN(double U, int N);
 	double Resolution(double R3d);
-	Macad::Occt::GeomAbs_CurveType GetTypeOcc();
+	Macad::Occt::GeomAbs_CurveType GetGeomType();
 	Macad::Occt::gp_Lin^ Line();
 	Macad::Occt::gp_Circ^ Circle();
 	Macad::Occt::gp_Elips^ Ellipse();
@@ -334,7 +334,7 @@ public:
 	void D3(double U, Macad::Occt::Pnt2d% P, Macad::Occt::Vec2d% V1, Macad::Occt::Vec2d% V2, Macad::Occt::Vec2d% V3);
 	Macad::Occt::Vec2d DN(double U, int N);
 	double Resolution(double R3d);
-	Macad::Occt::GeomAbs_CurveType GetTypeOcc();
+	Macad::Occt::GeomAbs_CurveType GetGeomType();
 	Macad::Occt::gp_Lin2d^ Line();
 	Macad::Occt::gp_Circ2d^ Circle();
 	Macad::Occt::gp_Elips2d^ Ellipse();
@@ -443,7 +443,7 @@ public:
 	void Intervals(Macad::Occt::TColStd_Array1OfReal^ T, Macad::Occt::GeomAbs_Shape S);
 	double MaxDistance(int Index);
 	Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ GetSequence();
-	Macad::Occt::GeomAbs_CurveType GetTypeOcc();
+	Macad::Occt::GeomAbs_CurveType GetGeomType();
 }; // class ProjLib_CompProjectedCurve
 
 //---------------------------------------------------------------------
@@ -561,7 +561,7 @@ public:
 	ProjLib_Projector(Macad::Occt::ProjLib_Projector^ parameter1);
 	bool IsDone();
 	void Done();
-	Macad::Occt::GeomAbs_CurveType GetTypeOcc();
+	Macad::Occt::GeomAbs_CurveType GetGeomType();
 	void SetBSpline(Macad::Occt::Geom2d_BSplineCurve^ C);
 	void SetBezier(Macad::Occt::Geom2d_BezierCurve^ C);
 	void SetType(Macad::Occt::GeomAbs_CurveType Type);
@@ -895,19 +895,19 @@ public:
 	/* Method skipped due to unknown mapping: void delNode(NCollection_SeqNode theNode, NCollection_BaseAllocator theAl, ) */
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	void Clear();
-	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<TColgp_HSequenceOfPnt> > Assign(NCollection_Sequence<opencascade::handle<TColgp_HSequenceOfPnt> > theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<TColgp_HSequenceOfPnt>> Assign(NCollection_Sequence<opencascade::handle<TColgp_HSequenceOfPnt>> theOther, ) */
 	/* Method skipped due to unknown mapping: void Remove(Iterator thePosition, ) */
 	void Remove(int theIndex);
 	void Remove(int theFromIndex, int theToIndex);
-	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<TColgp_HSequenceOfPnt> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<TColgp_HSequenceOfPnt>> theSeq, ) */
 	void Prepend(Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
-	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<TColgp_HSequenceOfPnt> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<TColgp_HSequenceOfPnt>> theSeq, ) */
 	void InsertBefore(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
-	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TColgp_HSequenceOfPnt> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TColgp_HSequenceOfPnt>> theSeq, ) */
 	/* Method skipped due to unknown mapping: void InsertAfter(Iterator thePosition, TColgp_HSequenceOfPnt theItem, ) */
-	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TColgp_HSequenceOfPnt> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TColgp_HSequenceOfPnt>> theSeq, ) */
 	void InsertAfter(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
-	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TColgp_HSequenceOfPnt> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<TColgp_HSequenceOfPnt>> theSeq, ) */
 	Macad::Occt::TColgp_HSequenceOfPnt^ First();
 	Macad::Occt::TColgp_HSequenceOfPnt^ ChangeFirst();
 	Macad::Occt::TColgp_HSequenceOfPnt^ Last();

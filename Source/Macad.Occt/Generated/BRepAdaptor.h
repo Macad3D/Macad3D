@@ -122,7 +122,7 @@ public:
 	void D3(double U, Macad::Occt::Pnt% P, Macad::Occt::Vec% V1, Macad::Occt::Vec% V2, Macad::Occt::Vec% V3);
 	Macad::Occt::Vec DN(double U, int N);
 	double Resolution(double R3d);
-	Macad::Occt::GeomAbs_CurveType GetTypeOcc();
+	Macad::Occt::GeomAbs_CurveType GetGeomType();
 	Macad::Occt::gp_Lin^ Line();
 	Macad::Occt::gp_Circ^ Circle();
 	Macad::Occt::gp_Elips^ Ellipse();
@@ -249,7 +249,7 @@ public:
 	void D3(double U, Macad::Occt::Pnt% P, Macad::Occt::Vec% V1, Macad::Occt::Vec% V2, Macad::Occt::Vec% V3);
 	Macad::Occt::Vec DN(double U, int N);
 	double Resolution(double R3d);
-	Macad::Occt::GeomAbs_CurveType GetTypeOcc();
+	Macad::Occt::GeomAbs_CurveType GetGeomType();
 	Macad::Occt::gp_Lin^ Line();
 	Macad::Occt::gp_Circ^ Circle();
 	Macad::Occt::gp_Elips^ Ellipse();
@@ -485,7 +485,7 @@ public:
 	Macad::Occt::Vec DN(double U, double V, int Nu, int Nv);
 	double UResolution(double R3d);
 	double VResolution(double R3d);
-	Macad::Occt::GeomAbs_SurfaceType GetTypeOcc();
+	Macad::Occt::GeomAbs_SurfaceType GetGeomType();
 	Macad::Occt::Pln Plane();
 	Macad::Occt::gp_Cylinder^ Cylinder();
 	Macad::Occt::gp_Cone^ Cone();

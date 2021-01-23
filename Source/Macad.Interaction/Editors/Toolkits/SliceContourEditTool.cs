@@ -323,7 +323,7 @@ namespace Macad.Interaction.Editors.Toolkits
             {
                 var face = TopoDS.Face(_SelectFaceAction.SelectedSubshape);
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
-                if (brepAdaptor.GetTypeOcc() != GeomAbs_SurfaceType.GeomAbs_Plane)
+                if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
                 {
                     StatusText = "Selected face is not a plane type surface.";
                     _SelectFaceAction.Reset();

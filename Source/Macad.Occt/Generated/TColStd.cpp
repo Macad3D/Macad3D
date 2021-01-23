@@ -2423,6 +2423,113 @@ bool Macad::Occt::TColStd_MapTransientHasher::IsEqual(Macad::Occt::Standard_Tran
 
 
 //---------------------------------------------------------------------
+//  Class  TColStd_DataMapOfTransientTransient
+//---------------------------------------------------------------------
+
+Macad::Occt::TColStd_DataMapOfTransientTransient::TColStd_DataMapOfTransientTransient()
+	: BaseClass<::TColStd_DataMapOfTransientTransient>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::TColStd_DataMapOfTransientTransient();
+}
+
+Macad::Occt::TColStd_DataMapOfTransientTransient::TColStd_DataMapOfTransientTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::TColStd_DataMapOfTransientTransient>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::TColStd_DataMapOfTransientTransient(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::TColStd_DataMapOfTransientTransient::TColStd_DataMapOfTransientTransient(int theNbBuckets)
+	: BaseClass<::TColStd_DataMapOfTransientTransient>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::TColStd_DataMapOfTransientTransient(theNbBuckets, 0L);
+}
+
+Macad::Occt::TColStd_DataMapOfTransientTransient::TColStd_DataMapOfTransientTransient(Macad::Occt::TColStd_DataMapOfTransientTransient^ theOther)
+	: BaseClass<::TColStd_DataMapOfTransientTransient>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::TColStd_DataMapOfTransientTransient(*(::TColStd_DataMapOfTransientTransient*)theOther->NativeInstance);
+}
+
+void Macad::Occt::TColStd_DataMapOfTransientTransient::Exchange(Macad::Occt::TColStd_DataMapOfTransientTransient^ theOther)
+{
+	((::TColStd_DataMapOfTransientTransient*)_NativeInstance)->Exchange(*(::TColStd_DataMapOfTransientTransient*)theOther->NativeInstance);
+}
+
+Macad::Occt::TColStd_DataMapOfTransientTransient^ Macad::Occt::TColStd_DataMapOfTransientTransient::Assign(Macad::Occt::TColStd_DataMapOfTransientTransient^ theOther)
+{
+	::TColStd_DataMapOfTransientTransient* _result = new ::TColStd_DataMapOfTransientTransient();
+	*_result = ((::TColStd_DataMapOfTransientTransient*)_NativeInstance)->Assign(*(::TColStd_DataMapOfTransientTransient*)theOther->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TColStd_DataMapOfTransientTransient(_result);
+}
+
+Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfTransientTransient::Bound(Macad::Occt::Standard_Transient^ theKey, Macad::Occt::Standard_Transient^ theItem)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+bool Macad::Occt::TColStd_DataMapOfTransientTransient::IsBound(Macad::Occt::Standard_Transient^ theKey)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+bool Macad::Occt::TColStd_DataMapOfTransientTransient::UnBind(Macad::Occt::Standard_Transient^ theKey)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfTransientTransient::Seek(Macad::Occt::Standard_Transient^ theKey)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfTransientTransient::Find(Macad::Occt::Standard_Transient^ theKey)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+bool Macad::Occt::TColStd_DataMapOfTransientTransient::Find(Macad::Occt::Standard_Transient^ theKey, Macad::Occt::Standard_Transient^ theValue)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfTransientTransient::ChangeSeek(Macad::Occt::Standard_Transient^ theKey)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfTransientTransient::ChangeFind(Macad::Occt::Standard_Transient^ theKey)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+void Macad::Occt::TColStd_DataMapOfTransientTransient::Clear(bool doReleaseMemory)
+{
+	((::TColStd_DataMapOfTransientTransient*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::TColStd_DataMapOfTransientTransient::Clear()
+{
+	((::TColStd_DataMapOfTransientTransient*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::TColStd_DataMapOfTransientTransient::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::TColStd_DataMapOfTransientTransient*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::TColStd_DataMapOfTransientTransient::Size()
+{
+	return ((::TColStd_DataMapOfTransientTransient*)_NativeInstance)->Size();
+}
+
+
+
+
+//---------------------------------------------------------------------
 //  Class  TColStd_SequenceOfAsciiString
 //---------------------------------------------------------------------
 
@@ -3852,6 +3959,146 @@ int Macad::Occt::TColStd_IndexedDataMapOfStringString::Size()
 
 
 //---------------------------------------------------------------------
+//  Class  TColStd_IndexedDataMapOfTransientTransient
+//---------------------------------------------------------------------
+
+Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::TColStd_IndexedDataMapOfTransientTransient()
+	: BaseClass<::TColStd_IndexedDataMapOfTransientTransient>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::TColStd_IndexedDataMapOfTransientTransient();
+}
+
+Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::TColStd_IndexedDataMapOfTransientTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::TColStd_IndexedDataMapOfTransientTransient>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::TColStd_IndexedDataMapOfTransientTransient(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::TColStd_IndexedDataMapOfTransientTransient(int theNbBuckets)
+	: BaseClass<::TColStd_IndexedDataMapOfTransientTransient>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::TColStd_IndexedDataMapOfTransientTransient(theNbBuckets, 0L);
+}
+
+Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::TColStd_IndexedDataMapOfTransientTransient(Macad::Occt::TColStd_IndexedDataMapOfTransientTransient^ theOther)
+	: BaseClass<::TColStd_IndexedDataMapOfTransientTransient>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::TColStd_IndexedDataMapOfTransientTransient(*(::TColStd_IndexedDataMapOfTransientTransient*)theOther->NativeInstance);
+}
+
+void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Exchange(Macad::Occt::TColStd_IndexedDataMapOfTransientTransient^ theOther)
+{
+	((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->Exchange(*(::TColStd_IndexedDataMapOfTransientTransient*)theOther->NativeInstance);
+}
+
+int Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Add(Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theItem)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+bool Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Contains(Macad::Occt::Standard_Transient^ theKey1)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Substitute(int theIndex, Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theItem)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Swap(int theIndex1, int theIndex2)
+{
+	((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->Swap(theIndex1, theIndex2);
+}
+
+void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::RemoveLast()
+{
+	((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->RemoveLast();
+}
+
+void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::RemoveFromIndex(int theIndex)
+{
+	((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->RemoveFromIndex(theIndex);
+}
+
+void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::RemoveKey(Macad::Occt::Standard_Transient^ theKey1)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::FindKey(int theIndex)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::FindFromIndex(int theIndex)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::ChangeFromIndex(int theIndex)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+int Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::FindIndex(Macad::Occt::Standard_Transient^ theKey1)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::FindFromKey(Macad::Occt::Standard_Transient^ theKey1)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::ChangeFromKey(Macad::Occt::Standard_Transient^ theKey1)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Seek(Macad::Occt::Standard_Transient^ theKey1)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::ChangeSeek(Macad::Occt::Standard_Transient^ theKey1)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+bool Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::FindFromKey(Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theValue)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Clear(bool doReleaseMemory)
+{
+	((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Clear()
+{
+	((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Size()
+{
+	return ((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->Size();
+}
+
+
+
+
+//---------------------------------------------------------------------
 //  Class  TColStd_IndexedMapOfInteger
 //---------------------------------------------------------------------
 
@@ -4098,6 +4345,111 @@ void Macad::Occt::TColStd_IndexedMapOfReal::Clear(Macad::Occt::NCollection_BaseA
 int Macad::Occt::TColStd_IndexedMapOfReal::Size()
 {
 	return ((::TColStd_IndexedMapOfReal*)_NativeInstance)->Size();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  TColStd_IndexedMapOfTransient
+//---------------------------------------------------------------------
+
+Macad::Occt::TColStd_IndexedMapOfTransient::TColStd_IndexedMapOfTransient()
+	: BaseClass<::TColStd_IndexedMapOfTransient>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::TColStd_IndexedMapOfTransient();
+}
+
+Macad::Occt::TColStd_IndexedMapOfTransient::TColStd_IndexedMapOfTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::TColStd_IndexedMapOfTransient>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::TColStd_IndexedMapOfTransient(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::TColStd_IndexedMapOfTransient::TColStd_IndexedMapOfTransient(int theNbBuckets)
+	: BaseClass<::TColStd_IndexedMapOfTransient>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::TColStd_IndexedMapOfTransient(theNbBuckets, 0L);
+}
+
+Macad::Occt::TColStd_IndexedMapOfTransient::TColStd_IndexedMapOfTransient(Macad::Occt::TColStd_IndexedMapOfTransient^ theOther)
+	: BaseClass<::TColStd_IndexedMapOfTransient>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::TColStd_IndexedMapOfTransient(*(::TColStd_IndexedMapOfTransient*)theOther->NativeInstance);
+}
+
+void Macad::Occt::TColStd_IndexedMapOfTransient::Exchange(Macad::Occt::TColStd_IndexedMapOfTransient^ theOther)
+{
+	((::TColStd_IndexedMapOfTransient*)_NativeInstance)->Exchange(*(::TColStd_IndexedMapOfTransient*)theOther->NativeInstance);
+}
+
+int Macad::Occt::TColStd_IndexedMapOfTransient::Add(Macad::Occt::Standard_Transient^ theKey1)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+bool Macad::Occt::TColStd_IndexedMapOfTransient::Contains(Macad::Occt::Standard_Transient^ theKey1)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+void Macad::Occt::TColStd_IndexedMapOfTransient::Substitute(int theIndex, Macad::Occt::Standard_Transient^ theKey1)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+void Macad::Occt::TColStd_IndexedMapOfTransient::Swap(int theIndex1, int theIndex2)
+{
+	((::TColStd_IndexedMapOfTransient*)_NativeInstance)->Swap(theIndex1, theIndex2);
+}
+
+void Macad::Occt::TColStd_IndexedMapOfTransient::RemoveLast()
+{
+	((::TColStd_IndexedMapOfTransient*)_NativeInstance)->RemoveLast();
+}
+
+void Macad::Occt::TColStd_IndexedMapOfTransient::RemoveFromIndex(int theIndex)
+{
+	((::TColStd_IndexedMapOfTransient*)_NativeInstance)->RemoveFromIndex(theIndex);
+}
+
+bool Macad::Occt::TColStd_IndexedMapOfTransient::RemoveKey(Macad::Occt::Standard_Transient^ theKey1)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedMapOfTransient::FindKey(int theIndex)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+int Macad::Occt::TColStd_IndexedMapOfTransient::FindIndex(Macad::Occt::Standard_Transient^ theKey1)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+void Macad::Occt::TColStd_IndexedMapOfTransient::Clear(bool doReleaseMemory)
+{
+	((::TColStd_IndexedMapOfTransient*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::TColStd_IndexedMapOfTransient::Clear()
+{
+	((::TColStd_IndexedMapOfTransient*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::TColStd_IndexedMapOfTransient::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::TColStd_IndexedMapOfTransient*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::TColStd_IndexedMapOfTransient::Size()
+{
+	return ((::TColStd_IndexedMapOfTransient*)_NativeInstance)->Size();
 }
 
 
@@ -4800,6 +5152,143 @@ void Macad::Occt::TColStd_MapOfReal::Difference(Macad::Occt::TColStd_MapOfReal^ 
 bool Macad::Occt::TColStd_MapOfReal::Differ(Macad::Occt::TColStd_MapOfReal^ theOther)
 {
 	return ((::TColStd_MapOfReal*)_NativeInstance)->Differ(*(::TColStd_MapOfReal*)theOther->NativeInstance);
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  TColStd_MapOfTransient
+//---------------------------------------------------------------------
+
+Macad::Occt::TColStd_MapOfTransient::TColStd_MapOfTransient()
+	: BaseClass<::TColStd_MapOfTransient>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::TColStd_MapOfTransient();
+}
+
+Macad::Occt::TColStd_MapOfTransient::TColStd_MapOfTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::TColStd_MapOfTransient>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::TColStd_MapOfTransient(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::TColStd_MapOfTransient::TColStd_MapOfTransient(int theNbBuckets)
+	: BaseClass<::TColStd_MapOfTransient>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::TColStd_MapOfTransient(theNbBuckets, 0L);
+}
+
+Macad::Occt::TColStd_MapOfTransient::TColStd_MapOfTransient(Macad::Occt::TColStd_MapOfTransient^ theOther)
+	: BaseClass<::TColStd_MapOfTransient>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::TColStd_MapOfTransient(*(::TColStd_MapOfTransient*)theOther->NativeInstance);
+}
+
+void Macad::Occt::TColStd_MapOfTransient::Exchange(Macad::Occt::TColStd_MapOfTransient^ theOther)
+{
+	((::TColStd_MapOfTransient*)_NativeInstance)->Exchange(*(::TColStd_MapOfTransient*)theOther->NativeInstance);
+}
+
+Macad::Occt::TColStd_MapOfTransient^ Macad::Occt::TColStd_MapOfTransient::Assign(Macad::Occt::TColStd_MapOfTransient^ theOther)
+{
+	::TColStd_MapOfTransient* _result = new ::TColStd_MapOfTransient();
+	*_result = ((::TColStd_MapOfTransient*)_NativeInstance)->Assign(*(::TColStd_MapOfTransient*)theOther->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TColStd_MapOfTransient(_result);
+}
+
+Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_MapOfTransient::Added(Macad::Occt::Standard_Transient^ K)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+bool Macad::Occt::TColStd_MapOfTransient::Contains(Macad::Occt::Standard_Transient^ K)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+bool Macad::Occt::TColStd_MapOfTransient::Remove(Macad::Occt::Standard_Transient^ K)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+void Macad::Occt::TColStd_MapOfTransient::Clear(bool doReleaseMemory)
+{
+	((::TColStd_MapOfTransient*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::TColStd_MapOfTransient::Clear()
+{
+	((::TColStd_MapOfTransient*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::TColStd_MapOfTransient::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::TColStd_MapOfTransient*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::TColStd_MapOfTransient::Size()
+{
+	return ((::TColStd_MapOfTransient*)_NativeInstance)->Size();
+}
+
+bool Macad::Occt::TColStd_MapOfTransient::IsEqual(Macad::Occt::TColStd_MapOfTransient^ theOther)
+{
+	return ((::TColStd_MapOfTransient*)_NativeInstance)->IsEqual(*(::TColStd_MapOfTransient*)theOther->NativeInstance);
+}
+
+bool Macad::Occt::TColStd_MapOfTransient::Contains(Macad::Occt::TColStd_MapOfTransient^ theOther)
+{
+	return ((::TColStd_MapOfTransient*)_NativeInstance)->Contains(*(::TColStd_MapOfTransient*)theOther->NativeInstance);
+}
+
+void Macad::Occt::TColStd_MapOfTransient::Union(Macad::Occt::TColStd_MapOfTransient^ theLeft, Macad::Occt::TColStd_MapOfTransient^ theRight)
+{
+	((::TColStd_MapOfTransient*)_NativeInstance)->Union(*(::TColStd_MapOfTransient*)theLeft->NativeInstance, *(::TColStd_MapOfTransient*)theRight->NativeInstance);
+}
+
+bool Macad::Occt::TColStd_MapOfTransient::Unite(Macad::Occt::TColStd_MapOfTransient^ theOther)
+{
+	return ((::TColStd_MapOfTransient*)_NativeInstance)->Unite(*(::TColStd_MapOfTransient*)theOther->NativeInstance);
+}
+
+bool Macad::Occt::TColStd_MapOfTransient::HasIntersection(Macad::Occt::TColStd_MapOfTransient^ theMap)
+{
+	return ((::TColStd_MapOfTransient*)_NativeInstance)->HasIntersection(*(::TColStd_MapOfTransient*)theMap->NativeInstance);
+}
+
+void Macad::Occt::TColStd_MapOfTransient::Intersection(Macad::Occt::TColStd_MapOfTransient^ theLeft, Macad::Occt::TColStd_MapOfTransient^ theRight)
+{
+	((::TColStd_MapOfTransient*)_NativeInstance)->Intersection(*(::TColStd_MapOfTransient*)theLeft->NativeInstance, *(::TColStd_MapOfTransient*)theRight->NativeInstance);
+}
+
+bool Macad::Occt::TColStd_MapOfTransient::Intersect(Macad::Occt::TColStd_MapOfTransient^ theOther)
+{
+	return ((::TColStd_MapOfTransient*)_NativeInstance)->Intersect(*(::TColStd_MapOfTransient*)theOther->NativeInstance);
+}
+
+void Macad::Occt::TColStd_MapOfTransient::Subtraction(Macad::Occt::TColStd_MapOfTransient^ theLeft, Macad::Occt::TColStd_MapOfTransient^ theRight)
+{
+	((::TColStd_MapOfTransient*)_NativeInstance)->Subtraction(*(::TColStd_MapOfTransient*)theLeft->NativeInstance, *(::TColStd_MapOfTransient*)theRight->NativeInstance);
+}
+
+bool Macad::Occt::TColStd_MapOfTransient::Subtract(Macad::Occt::TColStd_MapOfTransient^ theOther)
+{
+	return ((::TColStd_MapOfTransient*)_NativeInstance)->Subtract(*(::TColStd_MapOfTransient*)theOther->NativeInstance);
+}
+
+void Macad::Occt::TColStd_MapOfTransient::Difference(Macad::Occt::TColStd_MapOfTransient^ theLeft, Macad::Occt::TColStd_MapOfTransient^ theRight)
+{
+	((::TColStd_MapOfTransient*)_NativeInstance)->Difference(*(::TColStd_MapOfTransient*)theLeft->NativeInstance, *(::TColStd_MapOfTransient*)theRight->NativeInstance);
+}
+
+bool Macad::Occt::TColStd_MapOfTransient::Differ(Macad::Occt::TColStd_MapOfTransient^ theOther)
+{
+	return ((::TColStd_MapOfTransient*)_NativeInstance)->Differ(*(::TColStd_MapOfTransient*)theOther->NativeInstance);
 }
 
 

@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Windows;
+﻿using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Threading;
 using Macad.Core;
-using Macad.Core.Topology;
-using Macad.Presentation;
 using Macad.Presentation.TreeView;
 
 namespace Macad.Window

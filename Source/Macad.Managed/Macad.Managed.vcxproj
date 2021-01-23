@@ -52,7 +52,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;WNT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(_3DxWareIncPath);$(OcctIncPath);$(SolutionDir)Source\Macad.Occt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(_3DxWareIncPath);$(OcctIncPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(OutDir)</AdditionalUsingDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeTypeInfo>
@@ -73,7 +73,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;WNT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(_3DxWareIncPath);$(OcctIncPath);$(SolutionDir)Source\Macad.Occt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(_3DxWareIncPath);$(OcctIncPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(OutDir)</AdditionalUsingDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeTypeInfo>
@@ -167,7 +167,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Macad.Occt\Macad.Occt.vcxproj">
       <Project>{d86316b3-7f16-439c-9be3-db64ed7ad058}</Project>
-      <Private>true</Private>
+      <Private>false</Private>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
@@ -176,9 +176,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  
   <ItemGroup>
     <CopyToOutput Include="@(OcctDeployFiles)" />
   </ItemGroup>
-
 </Project>

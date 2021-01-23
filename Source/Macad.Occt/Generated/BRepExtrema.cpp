@@ -13,6 +13,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "TopoDS.h"
 #include "Bnd.h"
 #include "Extrema.h"
+#include "TopTools.h"
 
 
 //---------------------------------------------------------------------

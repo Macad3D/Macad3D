@@ -131,7 +131,7 @@ double Macad::Occt::Adaptor2d_HCurve2d::Resolution(double R3d)
 	return ((::Adaptor2d_HCurve2d*)_NativeInstance)->Resolution(R3d);
 }
 
-Macad::Occt::GeomAbs_CurveType Macad::Occt::Adaptor2d_HCurve2d::GetTypeOcc()
+Macad::Occt::GeomAbs_CurveType Macad::Occt::Adaptor2d_HCurve2d::GetGeomType()
 {
 	return (Macad::Occt::GeomAbs_CurveType)((::Adaptor2d_HCurve2d*)_NativeInstance)->GetType();
 }
@@ -337,7 +337,7 @@ double Macad::Occt::Adaptor2d_Curve2d::Resolution(double R3d)
 	return ((::Adaptor2d_Curve2d*)_NativeInstance)->Resolution(R3d);
 }
 
-Macad::Occt::GeomAbs_CurveType Macad::Occt::Adaptor2d_Curve2d::GetTypeOcc()
+Macad::Occt::GeomAbs_CurveType Macad::Occt::Adaptor2d_Curve2d::GetGeomType()
 {
 	return (Macad::Occt::GeomAbs_CurveType)((::Adaptor2d_Curve2d*)_NativeInstance)->GetType();
 }
@@ -545,7 +545,7 @@ double Macad::Occt::Adaptor2d_Line2d::Resolution(double R3d)
 	return ((::Adaptor2d_Line2d*)_NativeInstance)->Resolution(R3d);
 }
 
-Macad::Occt::GeomAbs_CurveType Macad::Occt::Adaptor2d_Line2d::GetTypeOcc()
+Macad::Occt::GeomAbs_CurveType Macad::Occt::Adaptor2d_Line2d::GetGeomType()
 {
 	return (Macad::Occt::GeomAbs_CurveType)((::Adaptor2d_Line2d*)_NativeInstance)->GetType();
 }
@@ -832,7 +832,7 @@ double Macad::Occt::Adaptor2d_OffsetCurve::Resolution(double R3d)
 	return ((::Adaptor2d_OffsetCurve*)_NativeInstance)->Resolution(R3d);
 }
 
-Macad::Occt::GeomAbs_CurveType Macad::Occt::Adaptor2d_OffsetCurve::GetTypeOcc()
+Macad::Occt::GeomAbs_CurveType Macad::Occt::Adaptor2d_OffsetCurve::GetGeomType()
 {
 	return (Macad::Occt::GeomAbs_CurveType)((::Adaptor2d_OffsetCurve*)_NativeInstance)->GetType();
 }

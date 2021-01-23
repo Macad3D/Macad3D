@@ -1153,6 +1153,55 @@ public:
 }; // class Graphic3d_ShaderAttributeList
 
 //---------------------------------------------------------------------
+//  Class  Graphic3d_MapOfAspectsToAspects
+//---------------------------------------------------------------------
+public ref class Graphic3d_MapOfAspectsToAspects sealed : public BaseClass<::Graphic3d_MapOfAspectsToAspects>
+{
+
+#ifdef Include_Graphic3d_MapOfAspectsToAspects_h
+public:
+	Include_Graphic3d_MapOfAspectsToAspects_h
+#endif
+
+public:
+	Graphic3d_MapOfAspectsToAspects(::Graphic3d_MapOfAspectsToAspects* nativeInstance)
+		: BaseClass<::Graphic3d_MapOfAspectsToAspects>( nativeInstance, true )
+	{}
+
+	Graphic3d_MapOfAspectsToAspects(::Graphic3d_MapOfAspectsToAspects& nativeInstance)
+		: BaseClass<::Graphic3d_MapOfAspectsToAspects>( &nativeInstance, false )
+	{}
+
+	property ::Graphic3d_MapOfAspectsToAspects* NativeInstance
+	{
+		::Graphic3d_MapOfAspectsToAspects* get()
+		{
+			return static_cast<::Graphic3d_MapOfAspectsToAspects*>(_NativeInstance);
+		}
+	}
+
+public:
+	Graphic3d_MapOfAspectsToAspects();
+	Graphic3d_MapOfAspectsToAspects(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	Graphic3d_MapOfAspectsToAspects(int theNbBuckets);
+	Graphic3d_MapOfAspectsToAspects(Macad::Occt::Graphic3d_MapOfAspectsToAspects^ theOther);
+	void Exchange(Macad::Occt::Graphic3d_MapOfAspectsToAspects^ theOther);
+	Macad::Occt::Graphic3d_MapOfAspectsToAspects^ Assign(Macad::Occt::Graphic3d_MapOfAspectsToAspects^ theOther);
+	Macad::Occt::Graphic3d_Aspects^ Bound(Macad::Occt::Graphic3d_Aspects^ theKey, Macad::Occt::Graphic3d_Aspects^ theItem);
+	bool IsBound(Macad::Occt::Graphic3d_Aspects^ theKey);
+	bool UnBind(Macad::Occt::Graphic3d_Aspects^ theKey);
+	Macad::Occt::Graphic3d_Aspects^ Seek(Macad::Occt::Graphic3d_Aspects^ theKey);
+	Macad::Occt::Graphic3d_Aspects^ Find(Macad::Occt::Graphic3d_Aspects^ theKey);
+	bool Find(Macad::Occt::Graphic3d_Aspects^ theKey, Macad::Occt::Graphic3d_Aspects^ theValue);
+	Macad::Occt::Graphic3d_Aspects^ ChangeSeek(Macad::Occt::Graphic3d_Aspects^ theKey);
+	Macad::Occt::Graphic3d_Aspects^ ChangeFind(Macad::Occt::Graphic3d_Aspects^ theKey);
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+}; // class Graphic3d_MapOfAspectsToAspects
+
+//---------------------------------------------------------------------
 //  Class  Graphic3d_SequenceOfGroup
 //---------------------------------------------------------------------
 public ref class Graphic3d_SequenceOfGroup sealed : public BaseClass<::Graphic3d_SequenceOfGroup>
@@ -1216,6 +1265,61 @@ public:
 	Macad::Occt::Graphic3d_Group^ ChangeValue(int theIndex);
 	void SetValue(int theIndex, Macad::Occt::Graphic3d_Group^ theItem);
 }; // class Graphic3d_SequenceOfGroup
+
+//---------------------------------------------------------------------
+//  Class  Graphic3d_MapOfStructure
+//---------------------------------------------------------------------
+public ref class Graphic3d_MapOfStructure sealed : public BaseClass<::Graphic3d_MapOfStructure>
+{
+
+#ifdef Include_Graphic3d_MapOfStructure_h
+public:
+	Include_Graphic3d_MapOfStructure_h
+#endif
+
+public:
+	Graphic3d_MapOfStructure(::Graphic3d_MapOfStructure* nativeInstance)
+		: BaseClass<::Graphic3d_MapOfStructure>( nativeInstance, true )
+	{}
+
+	Graphic3d_MapOfStructure(::Graphic3d_MapOfStructure& nativeInstance)
+		: BaseClass<::Graphic3d_MapOfStructure>( &nativeInstance, false )
+	{}
+
+	property ::Graphic3d_MapOfStructure* NativeInstance
+	{
+		::Graphic3d_MapOfStructure* get()
+		{
+			return static_cast<::Graphic3d_MapOfStructure*>(_NativeInstance);
+		}
+	}
+
+public:
+	Graphic3d_MapOfStructure();
+	Graphic3d_MapOfStructure(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	Graphic3d_MapOfStructure(int theNbBuckets);
+	Graphic3d_MapOfStructure(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
+	void Exchange(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
+	Macad::Occt::Graphic3d_MapOfStructure^ Assign(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
+	Macad::Occt::Graphic3d_Structure^ Added(Macad::Occt::Graphic3d_Structure^ K);
+	bool Contains(Macad::Occt::Graphic3d_Structure^ K);
+	bool Remove(Macad::Occt::Graphic3d_Structure^ K);
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+	bool IsEqual(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
+	bool Contains(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
+	void Union(Macad::Occt::Graphic3d_MapOfStructure^ theLeft, Macad::Occt::Graphic3d_MapOfStructure^ theRight);
+	bool Unite(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
+	bool HasIntersection(Macad::Occt::Graphic3d_MapOfStructure^ theMap);
+	void Intersection(Macad::Occt::Graphic3d_MapOfStructure^ theLeft, Macad::Occt::Graphic3d_MapOfStructure^ theRight);
+	bool Intersect(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
+	void Subtraction(Macad::Occt::Graphic3d_MapOfStructure^ theLeft, Macad::Occt::Graphic3d_MapOfStructure^ theRight);
+	bool Subtract(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
+	void Difference(Macad::Occt::Graphic3d_MapOfStructure^ theLeft, Macad::Occt::Graphic3d_MapOfStructure^ theRight);
+	bool Differ(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
+}; // class Graphic3d_MapOfStructure
 
 //---------------------------------------------------------------------
 //  Class  Graphic3d_SequenceOfStructure
@@ -3194,8 +3298,8 @@ public:
 	/* Method skipped due to unknown mapping: void SetCustomMonoProjection(Graphic3d_Mat4d theProj, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
-	/* Method skipped due to unknown mapping: void FrustumPoints(NCollection_Array1<NCollection_Vec3<double> > thePoints, Graphic3d_Mat4d theModelWorld, ) */
-	/* Method skipped due to unknown mapping: void FrustumPoints(NCollection_Array1<NCollection_Vec3<double> > thePoints, Graphic3d_Mat4d theModelWorld, ) */
+	/* Method skipped due to unknown mapping: void FrustumPoints(NCollection_Array1<NCollection_Vec3<double>> thePoints, Graphic3d_Mat4d theModelWorld, ) */
+	/* Method skipped due to unknown mapping: void FrustumPoints(NCollection_Array1<NCollection_Vec3<double>> thePoints, Graphic3d_Mat4d theModelWorld, ) */
 }; // class Graphic3d_Camera
 
 //---------------------------------------------------------------------
@@ -3483,16 +3587,16 @@ public:
 	Macad::Occt::Bnd_Box^ MinMaxValues();
 	Macad::Occt::Graphic3d_TypeOfStructure Visual();
 	static bool AcceptConnection(Macad::Occt::Graphic3d_Structure^ theStructure1, Macad::Occt::Graphic3d_Structure^ theStructure2, Macad::Occt::Graphic3d_TypeOfConnection theType);
-	/* Method skipped due to unknown mapping: void Ancestors(Graphic3d_MapOfStructure SG, ) */
+	void Ancestors(Macad::Occt::Graphic3d_MapOfStructure^ SG);
 	void Connect(Macad::Occt::Graphic3d_Structure^ theStructure, Macad::Occt::Graphic3d_TypeOfConnection theType, bool theWithCheck);
 	void Connect(Macad::Occt::Graphic3d_Structure^ theStructure, Macad::Occt::Graphic3d_TypeOfConnection theType);
 	void Connect(Macad::Occt::Graphic3d_Structure^ thePrs);
-	/* Method skipped due to unknown mapping: void Descendants(Graphic3d_MapOfStructure SG, ) */
+	void Descendants(Macad::Occt::Graphic3d_MapOfStructure^ SG);
 	void Disconnect(Macad::Occt::Graphic3d_Structure^ theStructure);
 	void Remove(Macad::Occt::Graphic3d_Structure^ thePrs);
 	void DisconnectAll(Macad::Occt::Graphic3d_TypeOfConnection AType);
 	void RemoveAll();
-	/* Method skipped due to unknown mapping: void Network(Graphic3d_Structure theStructure, Graphic3d_TypeOfConnection theType, NCollection_Map<Graphic3d_Structure *, NCollection_DefaultHasher<Graphic3d_Structure *> > theSet, ) */
+	/* Method skipped due to unknown mapping: void Network(Graphic3d_Structure theStructure, Graphic3d_TypeOfConnection theType, NCollection_Map<Graphic3d_Structure *, NCollection_DefaultHasher<Graphic3d_Structure *>> theSet, ) */
 	void SetOwner(System::IntPtr theOwner);
 	System::IntPtr Owner();
 	void SetHLRValidation(bool theFlag);
@@ -3612,7 +3716,7 @@ public:
 	void SetGroupPrimitivesAspect(Macad::Occt::Graphic3d_Aspects^ theAspect);
 	void SetPrimitivesAspect(Macad::Occt::Graphic3d_Aspects^ theAspect);
 	void SynchronizeAspects();
-	/* Method skipped due to unknown mapping: void ReplaceAspects(Graphic3d_MapOfAspectsToAspects theMap, ) */
+	void ReplaceAspects(Macad::Occt::Graphic3d_MapOfAspectsToAspects^ theMap);
 	void AddText(Macad::Occt::Graphic3d_Text^ theTextParams, bool theToEvalMinMax);
 	void AddText(Macad::Occt::Graphic3d_Text^ theTextParams);
 	/* Method skipped due to unknown mapping: void AddPrimitiveArray(Graphic3d_TypeOfPrimitiveArray theType, Graphic3d_IndexBuffer theIndices, Graphic3d_Buffer theAttribs, Graphic3d_BoundBuffer theBounds, Standard_Boolean theToEvalMinMax, ) */
@@ -3942,8 +4046,8 @@ public:
 	void Update();
 	void Remove();
 	void Erase();
-	/* Method skipped due to unknown mapping: void DisplayedStructures(Graphic3d_MapOfStructure SG, ) */
-	/* Method skipped due to unknown mapping: void HighlightedStructures(Graphic3d_MapOfStructure SG, ) */
+	void DisplayedStructures(Macad::Occt::Graphic3d_MapOfStructure^ SG);
+	void HighlightedStructures(Macad::Occt::Graphic3d_MapOfStructure^ SG);
 	void ReCompute(Macad::Occt::Graphic3d_Structure^ theStructure);
 	void ReCompute(Macad::Occt::Graphic3d_Structure^ theStructure, Macad::Occt::Graphic3d_DataStructureManager^ theProjector);
 	void Clear(Macad::Occt::Graphic3d_Structure^ theStructure, bool theWithDestruction);
@@ -3964,7 +4068,7 @@ public:
 	void UnHighlight(Macad::Occt::Graphic3d_Structure^ AStructure);
 	void UnHighlight();
 	void RecomputeStructures();
-	/* Method skipped due to unknown mapping: void RecomputeStructures(NCollection_Map<Graphic3d_Structure *, NCollection_DefaultHasher<Graphic3d_Structure *> > theStructures, ) */
+	/* Method skipped due to unknown mapping: void RecomputeStructures(NCollection_Map<Graphic3d_Structure *, NCollection_DefaultHasher<Graphic3d_Structure *>> theStructures, ) */
 	Macad::Occt::Graphic3d_ViewAffinity^ RegisterObject(Macad::Occt::Standard_Transient^ theObject);
 	void UnregisterObject(Macad::Occt::Standard_Transient^ theObject);
 	Macad::Occt::Graphic3d_ViewAffinity^ ObjectAffinity(Macad::Occt::Standard_Transient^ theObject);
@@ -4214,7 +4318,7 @@ public:
 
 public:
 	/* Method skipped due to unknown mapping: void Graphic3d_CubeMapSeparate(NCollection_Array1<TCollection_AsciiString> thePaths, ) */
-	/* Method skipped due to unknown mapping: void Graphic3d_CubeMapSeparate(NCollection_Array1<opencascade::handle<Image_PixMap> > theImages, ) */
+	/* Method skipped due to unknown mapping: void Graphic3d_CubeMapSeparate(NCollection_Array1<opencascade::handle<Image_PixMap>> theImages, ) */
 	Graphic3d_CubeMapSeparate(Macad::Occt::Graphic3d_CubeMapSeparate^ parameter1);
 	Macad::Occt::Image_CompressedPixMap^ CompressedValue(Macad::Occt::Image_SupportedFormats^ theSupported);
 	Macad::Occt::Image_PixMap^ Value(Macad::Occt::Image_SupportedFormats^ theSupported);
@@ -4368,16 +4472,16 @@ public:
 	void Update();
 	void Compute();
 	bool ContainsFacet();
-	/* Method skipped due to unknown mapping: Standard_Boolean ContainsFacet(Graphic3d_MapOfStructure theSet, ) */
-	/* Method skipped due to unknown mapping: void DisplayedStructures(Graphic3d_MapOfStructure theStructures, ) */
+	bool ContainsFacet(Macad::Occt::Graphic3d_MapOfStructure^ theSet);
+	void DisplayedStructures(Macad::Occt::Graphic3d_MapOfStructure^ theStructures);
 	int NumberOfDisplayedStructures();
-	/* Method skipped due to unknown mapping: NCollection_Shared<NCollection_Map<const Standard_Transient *, NCollection_DefaultHasher<const Standard_Transient *> >, void>  HiddenObjects() */
-	/* Method skipped due to unknown mapping: NCollection_Shared<NCollection_Map<const Standard_Transient *, NCollection_DefaultHasher<const Standard_Transient *> >, void>  ChangeHiddenObjects() */
+	/* Method skipped due to unknown mapping: NCollection_Shared<NCollection_Map<const Standard_Transient *, NCollection_DefaultHasher<const Standard_Transient *>>, void HiddenObjects() */
+	/* Method skipped due to unknown mapping: NCollection_Shared<NCollection_Map<const Standard_Transient *, NCollection_DefaultHasher<const Standard_Transient *>>, void ChangeHiddenObjects() */
 	bool IsComputed(int theStructId, Macad::Occt::Graphic3d_Structure^ theComputedStruct);
 	Macad::Occt::Bnd_Box^ MinMaxValues(bool theToIncludeAuxiliary);
 	Macad::Occt::Bnd_Box^ MinMaxValues();
-	/* Method skipped due to unknown mapping: Bnd_Box MinMaxValues(Graphic3d_MapOfStructure theSet, Standard_Boolean theToIncludeAuxiliary, ) */
-	/* Method skipped due to unknown mapping: Bnd_Box MinMaxValues(Graphic3d_MapOfStructure theSet, Standard_Boolean theToIncludeAuxiliary, ) */
+	Macad::Occt::Bnd_Box^ MinMaxValues(Macad::Occt::Graphic3d_MapOfStructure^ theSet, bool theToIncludeAuxiliary);
+	Macad::Occt::Bnd_Box^ MinMaxValues(Macad::Occt::Graphic3d_MapOfStructure^ theSet);
 	Macad::Occt::Graphic3d_StructureManager^ StructureManager();
 	void Redraw();
 	void RedrawImmediate();
@@ -4394,7 +4498,7 @@ public:
 	void InsertLayerBefore(int theNewLayerId, Macad::Occt::Graphic3d_ZLayerSettings^ theSettings, int theLayerAfter);
 	void InsertLayerAfter(int theNewLayerId, Macad::Occt::Graphic3d_ZLayerSettings^ theSettings, int theLayerBefore);
 	int ZLayerMax();
-	/* Method skipped due to unknown mapping: NCollection_List<opencascade::handle<Graphic3d_Layer> > Layers() */
+	/* Method skipped due to unknown mapping: NCollection_List<opencascade::handle<Graphic3d_Layer>> Layers() */
 	/* Method skipped due to unknown mapping: Graphic3d_Layer Layer(Standard_Integer theLayerId, ) */
 	void InvalidateZLayerBoundingBox(int theLayerId);
 	void RemoveZLayer(int theLayerId);
@@ -5158,8 +5262,8 @@ public:
 	static Macad::Occt::Graphic3d_MediaTexture^ CreateDowncasted(::Graphic3d_MediaTexture* instance);
 
 public:
-	/* Method skipped due to unknown mapping: void Graphic3d_MediaTexture(NCollection_Shared<Standard_Mutex, void>  theMutex, Standard_Integer thePlane, ) */
-	/* Method skipped due to unknown mapping: void Graphic3d_MediaTexture(NCollection_Shared<Standard_Mutex, void>  theMutex, Standard_Integer thePlane, ) */
+	/* Method skipped due to unknown mapping: void Graphic3d_MediaTexture(NCollection_Shared<Standard_Mutex, void theMutex, Standard_Integer thePlane, ) */
+	/* Method skipped due to unknown mapping: void Graphic3d_MediaTexture(NCollection_Shared<Standard_Mutex, void theMutex, Standard_Integer thePlane, ) */
 	Graphic3d_MediaTexture(Macad::Occt::Graphic3d_MediaTexture^ parameter1);
 	Macad::Occt::Image_PixMap^ GetImage(Macad::Occt::Image_SupportedFormats^ theSupported);
 	/* Method skipped due to unknown mapping: Media_Frame Frame() */

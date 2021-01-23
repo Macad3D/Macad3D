@@ -37,12 +37,6 @@ Start ```ScriptConsole.cmd``` and enter the following commands:
 
 Generating the OCCT wrapper code depends on several packages to work hand in hand. If any of this packages changes, it can be at least time-consuming to track down the error and either update other packages as well or find a way around.
 
-For this reason, the generated wrapper code for the above mentioned version of the library is checked in. If you want to re-generate the wrapper code, this is the procedure:
-
-1. The include files of OCCT must be fixed to work with the compilation step of the wrapper generator. You find a patch file [here](Build/Patches/OcctCompilationFixes.patch), just apply it to the include directory of OCCT. 
-   
-2. Start the wrapper code generation.
-
-    ```> occt generate```
+For this reason, the generated wrapper code for the above mentioned version of the library is checked in. If you want to re-generate the wrapper code, start the generation with the script console command ```> occt generate```.
 
 If you are missing something in the wrapper, it maybe excluded because of several reasons: Maybe it cannot be automatically wrapped yet, it did make trouble in any prior version, or it was simply not needed yet and excluded for saving compilation (and especially linking) time. Check the [configuration file](Source/WrapperGenerator/Configuration.cs) for the wrapper generator and enable what you need, then regenerate the wrapper code.

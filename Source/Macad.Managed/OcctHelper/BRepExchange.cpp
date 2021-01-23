@@ -4,8 +4,6 @@
 #include "BRepTools_ShapeSet.hxx"
 #include "BinTools_ShapeSet.hxx"
 
-#using <Macad.Occt.dll> as_friend
-
 using namespace System::Runtime::InteropServices;
 
 namespace Macad

@@ -581,7 +581,7 @@ public:
 	void Clear();
 	void Clear(Macad::Occt::Message_Gravity theGravity);
 	/* Method skipped due to unknown mapping: void Clear(Standard_Type theType, ) */
-	/* Method skipped due to unknown mapping: NCollection_IndexedMap<Message_MetricType, NCollection_DefaultHasher<Message_MetricType> > ActiveMetrics() */
+	/* Method skipped due to unknown mapping: NCollection_IndexedMap<Message_MetricType, NCollection_DefaultHasher<Message_MetricType>> ActiveMetrics() */
 	void SetActiveMetric(Macad::Occt::Message_MetricType theMetricType, bool theActivate);
 	void ClearMetrics();
 	int Limit();

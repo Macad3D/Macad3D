@@ -96,6 +96,83 @@ int Macad::Occt::ShapeExtend_DataMapOfShapeListOfMsg::Size()
 
 
 //---------------------------------------------------------------------
+//  Class  ShapeExtend_DataMapOfTransientListOfMsg
+//---------------------------------------------------------------------
+
+Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::ShapeExtend_DataMapOfTransientListOfMsg()
+	: BaseClass<::ShapeExtend_DataMapOfTransientListOfMsg>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::ShapeExtend_DataMapOfTransientListOfMsg();
+}
+
+Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::ShapeExtend_DataMapOfTransientListOfMsg(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::ShapeExtend_DataMapOfTransientListOfMsg>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::ShapeExtend_DataMapOfTransientListOfMsg(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::ShapeExtend_DataMapOfTransientListOfMsg(int theNbBuckets)
+	: BaseClass<::ShapeExtend_DataMapOfTransientListOfMsg>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::ShapeExtend_DataMapOfTransientListOfMsg(theNbBuckets, 0L);
+}
+
+Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::ShapeExtend_DataMapOfTransientListOfMsg(Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg^ theOther)
+	: BaseClass<::ShapeExtend_DataMapOfTransientListOfMsg>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::ShapeExtend_DataMapOfTransientListOfMsg(*(::ShapeExtend_DataMapOfTransientListOfMsg*)theOther->NativeInstance);
+}
+
+void Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::Exchange(Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg^ theOther)
+{
+	((::ShapeExtend_DataMapOfTransientListOfMsg*)_NativeInstance)->Exchange(*(::ShapeExtend_DataMapOfTransientListOfMsg*)theOther->NativeInstance);
+}
+
+Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg^ Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::Assign(Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg^ theOther)
+{
+	::ShapeExtend_DataMapOfTransientListOfMsg* _result = new ::ShapeExtend_DataMapOfTransientListOfMsg();
+	*_result = ((::ShapeExtend_DataMapOfTransientListOfMsg*)_NativeInstance)->Assign(*(::ShapeExtend_DataMapOfTransientListOfMsg*)theOther->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg(_result);
+}
+
+bool Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::IsBound(Macad::Occt::Standard_Transient^ theKey)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+bool Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::UnBind(Macad::Occt::Standard_Transient^ theKey)
+{
+	throw gcnew System::NotImplementedException();
+}
+
+void Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::Clear(bool doReleaseMemory)
+{
+	((::ShapeExtend_DataMapOfTransientListOfMsg*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::Clear()
+{
+	((::ShapeExtend_DataMapOfTransientListOfMsg*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::ShapeExtend_DataMapOfTransientListOfMsg*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::Size()
+{
+	return ((::ShapeExtend_DataMapOfTransientListOfMsg*)_NativeInstance)->Size();
+}
+
+
+
+
+//---------------------------------------------------------------------
 //  Class  ShapeExtend_ComplexCurve
 //---------------------------------------------------------------------
 
@@ -843,6 +920,13 @@ void Macad::Occt::ShapeExtend_MsgRegistrator::Send(Macad::Occt::Standard_Transie
 void Macad::Occt::ShapeExtend_MsgRegistrator::Send(Macad::Occt::TopoDS_Shape^ shape, Macad::Occt::Message_Msg^ message, Macad::Occt::Message_Gravity gravity)
 {
 	((::ShapeExtend_MsgRegistrator*)_NativeInstance)->Send(*(::TopoDS_Shape*)shape->NativeInstance, *(::Message_Msg*)message->NativeInstance, (::Message_Gravity)gravity);
+}
+
+Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg^ Macad::Occt::ShapeExtend_MsgRegistrator::MapTransient()
+{
+	::ShapeExtend_DataMapOfTransientListOfMsg* _result = new ::ShapeExtend_DataMapOfTransientListOfMsg();
+	*_result =  (::ShapeExtend_DataMapOfTransientListOfMsg)((::ShapeExtend_MsgRegistrator*)_NativeInstance)->MapTransient();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg(_result);
 }
 
 Macad::Occt::ShapeExtend_DataMapOfShapeListOfMsg^ Macad::Occt::ShapeExtend_MsgRegistrator::MapShape()

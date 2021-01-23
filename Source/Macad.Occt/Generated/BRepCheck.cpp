@@ -10,6 +10,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "Standard.h"
 #include "TopoDS.h"
 #include "TopTools.h"
+#include "TopAbs.h"
 #include "Adaptor3d.h"
 
 

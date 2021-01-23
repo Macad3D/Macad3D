@@ -152,9 +152,9 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 var face = TopoDS.Face(selectAction.SelectedSubshape);
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
-                if (brepAdaptor.GetTypeOcc() != GeomAbs_SurfaceType.GeomAbs_Plane
-                    && brepAdaptor.GetTypeOcc() != GeomAbs_SurfaceType.GeomAbs_Cylinder
-                    && brepAdaptor.GetTypeOcc() != GeomAbs_SurfaceType.GeomAbs_Cone)
+                if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane
+                    && brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Cylinder
+                    && brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Cone)
                 {
                     StatusText = "Selected face is not a plane, cylinder or cone type surface.";
                     selectAction.Reset();

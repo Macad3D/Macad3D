@@ -1176,19 +1176,19 @@ public:
 	/* Method skipped due to unknown mapping: void delNode(NCollection_SeqNode theNode, NCollection_BaseAllocator theAl, ) */
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	void Clear();
-	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<ShapeAnalysis_FreeBoundData> > Assign(NCollection_Sequence<opencascade::handle<ShapeAnalysis_FreeBoundData> > theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<ShapeAnalysis_FreeBoundData>> Assign(NCollection_Sequence<opencascade::handle<ShapeAnalysis_FreeBoundData>> theOther, ) */
 	/* Method skipped due to unknown mapping: void Remove(Iterator thePosition, ) */
 	void Remove(int theIndex);
 	void Remove(int theFromIndex, int theToIndex);
-	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<ShapeAnalysis_FreeBoundData> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<ShapeAnalysis_FreeBoundData>> theSeq, ) */
 	void Prepend(Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem);
-	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<ShapeAnalysis_FreeBoundData> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<ShapeAnalysis_FreeBoundData>> theSeq, ) */
 	void InsertBefore(int theIndex, Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem);
-	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<ShapeAnalysis_FreeBoundData> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<ShapeAnalysis_FreeBoundData>> theSeq, ) */
 	/* Method skipped due to unknown mapping: void InsertAfter(Iterator thePosition, ShapeAnalysis_FreeBoundData theItem, ) */
-	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<ShapeAnalysis_FreeBoundData> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<ShapeAnalysis_FreeBoundData>> theSeq, ) */
 	void InsertAfter(int theIndex, Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem);
-	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<ShapeAnalysis_FreeBoundData> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<ShapeAnalysis_FreeBoundData>> theSeq, ) */
 	Macad::Occt::ShapeAnalysis_FreeBoundData^ First();
 	Macad::Occt::ShapeAnalysis_FreeBoundData^ ChangeFirst();
 	Macad::Occt::ShapeAnalysis_FreeBoundData^ Last();

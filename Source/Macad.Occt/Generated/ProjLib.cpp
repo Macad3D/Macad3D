@@ -373,7 +373,7 @@ double Macad::Occt::ProjLib_ProjectOnPlane::Resolution(double R3d)
 	return ((::ProjLib_ProjectOnPlane*)_NativeInstance)->Resolution(R3d);
 }
 
-Macad::Occt::GeomAbs_CurveType Macad::Occt::ProjLib_ProjectOnPlane::GetTypeOcc()
+Macad::Occt::GeomAbs_CurveType Macad::Occt::ProjLib_ProjectOnPlane::GetGeomType()
 {
 	return (Macad::Occt::GeomAbs_CurveType)((::ProjLib_ProjectOnPlane*)_NativeInstance)->GetType();
 }
@@ -917,7 +917,7 @@ double Macad::Occt::ProjLib_ProjectedCurve::Resolution(double R3d)
 	return ((::ProjLib_ProjectedCurve*)_NativeInstance)->Resolution(R3d);
 }
 
-Macad::Occt::GeomAbs_CurveType Macad::Occt::ProjLib_ProjectedCurve::GetTypeOcc()
+Macad::Occt::GeomAbs_CurveType Macad::Occt::ProjLib_ProjectedCurve::GetGeomType()
 {
 	return (Macad::Occt::GeomAbs_CurveType)((::ProjLib_ProjectedCurve*)_NativeInstance)->GetType();
 }
@@ -1219,7 +1219,7 @@ Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ Macad::Occt::ProjLib_CompProject
 	 return _result.IsNull() ? nullptr : Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::GeomAbs_CurveType Macad::Occt::ProjLib_CompProjectedCurve::GetTypeOcc()
+Macad::Occt::GeomAbs_CurveType Macad::Occt::ProjLib_CompProjectedCurve::GetGeomType()
 {
 	return (Macad::Occt::GeomAbs_CurveType)((::ProjLib_CompProjectedCurve*)_NativeInstance)->GetType();
 }
@@ -1355,7 +1355,7 @@ void Macad::Occt::ProjLib_Projector::Done()
 	((::ProjLib_Projector*)_NativeInstance)->Done();
 }
 
-Macad::Occt::GeomAbs_CurveType Macad::Occt::ProjLib_Projector::GetTypeOcc()
+Macad::Occt::GeomAbs_CurveType Macad::Occt::ProjLib_Projector::GetGeomType()
 {
 	return (Macad::Occt::GeomAbs_CurveType)((::ProjLib_Projector*)_NativeInstance)->GetType();
 }

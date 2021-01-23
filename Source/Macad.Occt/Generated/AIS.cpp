@@ -5,16 +5,16 @@
 
 using namespace System::Runtime::InteropServices; // for class Marshal
 
+#include "Standard.h"
 #include "NCollection.h"
 #include "AIS.h"
-#include "Standard.h"
 #include "SelectMgr.h"
 #include "TopoDS.h"
+#include "Graphic3d.h"
 #include "V3d.h"
 #include "TCollection.h"
 #include "Prs3d.h"
 #include "TopLoc.h"
-#include "Graphic3d.h"
 #include "gp.h"
 #include "TColgp.h"
 #include "Bnd.h"
@@ -24,8 +24,132 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "Quantity.h"
 #include "Geom.h"
 #include "TopAbs.h"
+#include "StdSelect.h"
 #include "Image.h"
 #include "WNT.h"
+
+
+//---------------------------------------------------------------------
+//  Class  AIS_DataMapOfIOStatus
+//---------------------------------------------------------------------
+
+Macad::Occt::AIS_DataMapOfIOStatus::AIS_DataMapOfIOStatus()
+	: BaseClass<::AIS_DataMapOfIOStatus>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_DataMapOfIOStatus();
+}
+
+Macad::Occt::AIS_DataMapOfIOStatus::AIS_DataMapOfIOStatus(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::AIS_DataMapOfIOStatus>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::AIS_DataMapOfIOStatus(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::AIS_DataMapOfIOStatus::AIS_DataMapOfIOStatus(int theNbBuckets)
+	: BaseClass<::AIS_DataMapOfIOStatus>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_DataMapOfIOStatus(theNbBuckets, 0L);
+}
+
+Macad::Occt::AIS_DataMapOfIOStatus::AIS_DataMapOfIOStatus(Macad::Occt::AIS_DataMapOfIOStatus^ theOther)
+	: BaseClass<::AIS_DataMapOfIOStatus>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_DataMapOfIOStatus(*(::AIS_DataMapOfIOStatus*)theOther->NativeInstance);
+}
+
+void Macad::Occt::AIS_DataMapOfIOStatus::Exchange(Macad::Occt::AIS_DataMapOfIOStatus^ theOther)
+{
+	((::AIS_DataMapOfIOStatus*)_NativeInstance)->Exchange(*(::AIS_DataMapOfIOStatus*)theOther->NativeInstance);
+}
+
+Macad::Occt::AIS_DataMapOfIOStatus^ Macad::Occt::AIS_DataMapOfIOStatus::Assign(Macad::Occt::AIS_DataMapOfIOStatus^ theOther)
+{
+	::AIS_DataMapOfIOStatus* _result = new ::AIS_DataMapOfIOStatus();
+	*_result = ((::AIS_DataMapOfIOStatus*)_NativeInstance)->Assign(*(::AIS_DataMapOfIOStatus*)theOther->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::AIS_DataMapOfIOStatus(_result);
+}
+
+Macad::Occt::AIS_GlobalStatus^ Macad::Occt::AIS_DataMapOfIOStatus::Bound(Macad::Occt::AIS_InteractiveObject^ theKey, Macad::Occt::AIS_GlobalStatus^ theItem)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+bool Macad::Occt::AIS_DataMapOfIOStatus::IsBound(Macad::Occt::AIS_InteractiveObject^ theKey)
+{
+	Handle(::AIS_InteractiveObject) h_theKey = theKey->NativeInstance;
+	return ((::AIS_DataMapOfIOStatus*)_NativeInstance)->IsBound(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
+}
+
+bool Macad::Occt::AIS_DataMapOfIOStatus::UnBind(Macad::Occt::AIS_InteractiveObject^ theKey)
+{
+	Handle(::AIS_InteractiveObject) h_theKey = theKey->NativeInstance;
+	return ((::AIS_DataMapOfIOStatus*)_NativeInstance)->UnBind(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
+}
+
+Macad::Occt::AIS_GlobalStatus^ Macad::Occt::AIS_DataMapOfIOStatus::Seek(Macad::Occt::AIS_InteractiveObject^ theKey)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+Macad::Occt::AIS_GlobalStatus^ Macad::Occt::AIS_DataMapOfIOStatus::Find(Macad::Occt::AIS_InteractiveObject^ theKey)
+{
+	Handle(::AIS_InteractiveObject) h_theKey = theKey->NativeInstance;
+	Handle(::AIS_GlobalStatus) _result;
+	_result = ((::AIS_DataMapOfIOStatus*)_NativeInstance)->Find(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::AIS_GlobalStatus::CreateDowncasted( _result.get());
+}
+
+bool Macad::Occt::AIS_DataMapOfIOStatus::Find(Macad::Occt::AIS_InteractiveObject^ theKey, Macad::Occt::AIS_GlobalStatus^ theValue)
+{
+	Handle(::AIS_InteractiveObject) h_theKey = theKey->NativeInstance;
+	Handle(::AIS_GlobalStatus) h_theValue = theValue->NativeInstance;
+	return ((::AIS_DataMapOfIOStatus*)_NativeInstance)->Find(h_theKey, h_theValue);
+	theKey->NativeInstance = h_theKey.get();
+	theValue->NativeInstance = h_theValue.get();
+}
+
+Macad::Occt::AIS_GlobalStatus^ Macad::Occt::AIS_DataMapOfIOStatus::ChangeSeek(Macad::Occt::AIS_InteractiveObject^ theKey)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+Macad::Occt::AIS_GlobalStatus^ Macad::Occt::AIS_DataMapOfIOStatus::ChangeFind(Macad::Occt::AIS_InteractiveObject^ theKey)
+{
+	Handle(::AIS_InteractiveObject) h_theKey = theKey->NativeInstance;
+	Handle(::AIS_GlobalStatus) _result;
+	_result = ((::AIS_DataMapOfIOStatus*)_NativeInstance)->ChangeFind(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::AIS_GlobalStatus::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::AIS_DataMapOfIOStatus::Clear(bool doReleaseMemory)
+{
+	((::AIS_DataMapOfIOStatus*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::AIS_DataMapOfIOStatus::Clear()
+{
+	((::AIS_DataMapOfIOStatus*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::AIS_DataMapOfIOStatus::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::AIS_DataMapOfIOStatus*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::AIS_DataMapOfIOStatus::Size()
+{
+	return ((::AIS_DataMapOfIOStatus*)_NativeInstance)->Size();
+}
+
+
 
 
 //---------------------------------------------------------------------
@@ -342,6 +466,402 @@ void Macad::Occt::AIS_DataMapOfShapeDrawer::Clear(Macad::Occt::NCollection_BaseA
 int Macad::Occt::AIS_DataMapOfShapeDrawer::Size()
 {
 	return ((::AIS_DataMapOfShapeDrawer*)_NativeInstance)->Size();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  AIS_DataMapofIntegerListOfinteractive
+//---------------------------------------------------------------------
+
+Macad::Occt::AIS_DataMapofIntegerListOfinteractive::AIS_DataMapofIntegerListOfinteractive()
+	: BaseClass<::AIS_DataMapofIntegerListOfinteractive>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_DataMapofIntegerListOfinteractive();
+}
+
+Macad::Occt::AIS_DataMapofIntegerListOfinteractive::AIS_DataMapofIntegerListOfinteractive(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::AIS_DataMapofIntegerListOfinteractive>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::AIS_DataMapofIntegerListOfinteractive(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::AIS_DataMapofIntegerListOfinteractive::AIS_DataMapofIntegerListOfinteractive(int theNbBuckets)
+	: BaseClass<::AIS_DataMapofIntegerListOfinteractive>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_DataMapofIntegerListOfinteractive(theNbBuckets, 0L);
+}
+
+Macad::Occt::AIS_DataMapofIntegerListOfinteractive::AIS_DataMapofIntegerListOfinteractive(Macad::Occt::AIS_DataMapofIntegerListOfinteractive^ theOther)
+	: BaseClass<::AIS_DataMapofIntegerListOfinteractive>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_DataMapofIntegerListOfinteractive(*(::AIS_DataMapofIntegerListOfinteractive*)theOther->NativeInstance);
+}
+
+void Macad::Occt::AIS_DataMapofIntegerListOfinteractive::Exchange(Macad::Occt::AIS_DataMapofIntegerListOfinteractive^ theOther)
+{
+	((::AIS_DataMapofIntegerListOfinteractive*)_NativeInstance)->Exchange(*(::AIS_DataMapofIntegerListOfinteractive*)theOther->NativeInstance);
+}
+
+Macad::Occt::AIS_DataMapofIntegerListOfinteractive^ Macad::Occt::AIS_DataMapofIntegerListOfinteractive::Assign(Macad::Occt::AIS_DataMapofIntegerListOfinteractive^ theOther)
+{
+	::AIS_DataMapofIntegerListOfinteractive* _result = new ::AIS_DataMapofIntegerListOfinteractive();
+	*_result = ((::AIS_DataMapofIntegerListOfinteractive*)_NativeInstance)->Assign(*(::AIS_DataMapofIntegerListOfinteractive*)theOther->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::AIS_DataMapofIntegerListOfinteractive(_result);
+}
+
+bool Macad::Occt::AIS_DataMapofIntegerListOfinteractive::IsBound(int theKey)
+{
+	pin_ptr<int> pp_theKey = &theKey;
+	return ((::AIS_DataMapofIntegerListOfinteractive*)_NativeInstance)->IsBound(*(int*)pp_theKey);
+}
+
+bool Macad::Occt::AIS_DataMapofIntegerListOfinteractive::UnBind(int theKey)
+{
+	pin_ptr<int> pp_theKey = &theKey;
+	return ((::AIS_DataMapofIntegerListOfinteractive*)_NativeInstance)->UnBind(*(int*)pp_theKey);
+}
+
+void Macad::Occt::AIS_DataMapofIntegerListOfinteractive::Clear(bool doReleaseMemory)
+{
+	((::AIS_DataMapofIntegerListOfinteractive*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::AIS_DataMapofIntegerListOfinteractive::Clear()
+{
+	((::AIS_DataMapofIntegerListOfinteractive*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::AIS_DataMapofIntegerListOfinteractive::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::AIS_DataMapofIntegerListOfinteractive*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::AIS_DataMapofIntegerListOfinteractive::Size()
+{
+	return ((::AIS_DataMapofIntegerListOfinteractive*)_NativeInstance)->Size();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  AIS_IndexedDataMapOfOwnerPrs
+//---------------------------------------------------------------------
+
+Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::AIS_IndexedDataMapOfOwnerPrs()
+	: BaseClass<::AIS_IndexedDataMapOfOwnerPrs>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_IndexedDataMapOfOwnerPrs();
+}
+
+Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::AIS_IndexedDataMapOfOwnerPrs(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::AIS_IndexedDataMapOfOwnerPrs>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::AIS_IndexedDataMapOfOwnerPrs(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::AIS_IndexedDataMapOfOwnerPrs(int theNbBuckets)
+	: BaseClass<::AIS_IndexedDataMapOfOwnerPrs>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_IndexedDataMapOfOwnerPrs(theNbBuckets, 0L);
+}
+
+Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::AIS_IndexedDataMapOfOwnerPrs(Macad::Occt::AIS_IndexedDataMapOfOwnerPrs^ theOther)
+	: BaseClass<::AIS_IndexedDataMapOfOwnerPrs>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_IndexedDataMapOfOwnerPrs(*(::AIS_IndexedDataMapOfOwnerPrs*)theOther->NativeInstance);
+}
+
+void Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::Exchange(Macad::Occt::AIS_IndexedDataMapOfOwnerPrs^ theOther)
+{
+	((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->Exchange(*(::AIS_IndexedDataMapOfOwnerPrs*)theOther->NativeInstance);
+}
+
+int Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::Add(Macad::Occt::SelectMgr_EntityOwner^ theKey1, Macad::Occt::Graphic3d_Structure^ theItem)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	Handle(::Graphic3d_Structure) h_theItem = theItem->NativeInstance;
+	return ((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->Add(h_theKey1, h_theItem);
+	theKey1->NativeInstance = h_theKey1.get();
+	theItem->NativeInstance = h_theItem.get();
+}
+
+bool Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::Contains(Macad::Occt::SelectMgr_EntityOwner^ theKey1)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	return ((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->Contains(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+}
+
+void Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::Substitute(int theIndex, Macad::Occt::SelectMgr_EntityOwner^ theKey1, Macad::Occt::Graphic3d_Structure^ theItem)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	Handle(::Graphic3d_Structure) h_theItem = theItem->NativeInstance;
+	((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->Substitute(theIndex, h_theKey1, h_theItem);
+	theKey1->NativeInstance = h_theKey1.get();
+	theItem->NativeInstance = h_theItem.get();
+}
+
+void Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::Swap(int theIndex1, int theIndex2)
+{
+	((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->Swap(theIndex1, theIndex2);
+}
+
+void Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::RemoveLast()
+{
+	((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->RemoveLast();
+}
+
+void Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::RemoveFromIndex(int theIndex)
+{
+	((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->RemoveFromIndex(theIndex);
+}
+
+void Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::RemoveKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->RemoveKey(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+}
+
+Macad::Occt::SelectMgr_EntityOwner^ Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::FindKey(int theIndex)
+{
+	Handle(::SelectMgr_EntityOwner) _result;
+	_result = ((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->FindKey(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_EntityOwner::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_Structure^ Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::FindFromIndex(int theIndex)
+{
+	Handle(::Graphic3d_Structure) _result;
+	_result = ((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->FindFromIndex(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Structure::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_Structure^ Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::ChangeFromIndex(int theIndex)
+{
+	Handle(::Graphic3d_Structure) _result;
+	_result = ((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->ChangeFromIndex(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Structure::CreateDowncasted( _result.get());
+}
+
+int Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::FindIndex(Macad::Occt::SelectMgr_EntityOwner^ theKey1)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	return ((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->FindIndex(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+}
+
+Macad::Occt::Graphic3d_Structure^ Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::FindFromKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	Handle(::Graphic3d_Structure) _result;
+	_result = ((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->FindFromKey(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Structure::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_Structure^ Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::ChangeFromKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	Handle(::Graphic3d_Structure) _result;
+	_result = ((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->ChangeFromKey(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Structure::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_Structure^ Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::Seek(Macad::Occt::SelectMgr_EntityOwner^ theKey1)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+Macad::Occt::Graphic3d_Structure^ Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::ChangeSeek(Macad::Occt::SelectMgr_EntityOwner^ theKey1)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+bool Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::FindFromKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1, Macad::Occt::Graphic3d_Structure^ theValue)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	Handle(::Graphic3d_Structure) h_theValue = theValue->NativeInstance;
+	return ((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->FindFromKey(h_theKey1, h_theValue);
+	theKey1->NativeInstance = h_theKey1.get();
+	theValue->NativeInstance = h_theValue.get();
+}
+
+void Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::Clear(bool doReleaseMemory)
+{
+	((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::Clear()
+{
+	((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::AIS_IndexedDataMapOfOwnerPrs::Size()
+{
+	return ((::AIS_IndexedDataMapOfOwnerPrs*)_NativeInstance)->Size();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  AIS_MapOfInteractive
+//---------------------------------------------------------------------
+
+Macad::Occt::AIS_MapOfInteractive::AIS_MapOfInteractive()
+	: BaseClass<::AIS_MapOfInteractive>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_MapOfInteractive();
+}
+
+Macad::Occt::AIS_MapOfInteractive::AIS_MapOfInteractive(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::AIS_MapOfInteractive>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::AIS_MapOfInteractive(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::AIS_MapOfInteractive::AIS_MapOfInteractive(int theNbBuckets)
+	: BaseClass<::AIS_MapOfInteractive>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_MapOfInteractive(theNbBuckets, 0L);
+}
+
+Macad::Occt::AIS_MapOfInteractive::AIS_MapOfInteractive(Macad::Occt::AIS_MapOfInteractive^ theOther)
+	: BaseClass<::AIS_MapOfInteractive>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_MapOfInteractive(*(::AIS_MapOfInteractive*)theOther->NativeInstance);
+}
+
+void Macad::Occt::AIS_MapOfInteractive::Exchange(Macad::Occt::AIS_MapOfInteractive^ theOther)
+{
+	((::AIS_MapOfInteractive*)_NativeInstance)->Exchange(*(::AIS_MapOfInteractive*)theOther->NativeInstance);
+}
+
+Macad::Occt::AIS_MapOfInteractive^ Macad::Occt::AIS_MapOfInteractive::Assign(Macad::Occt::AIS_MapOfInteractive^ theOther)
+{
+	::AIS_MapOfInteractive* _result = new ::AIS_MapOfInteractive();
+	*_result = ((::AIS_MapOfInteractive*)_NativeInstance)->Assign(*(::AIS_MapOfInteractive*)theOther->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::AIS_MapOfInteractive(_result);
+}
+
+Macad::Occt::AIS_InteractiveObject^ Macad::Occt::AIS_MapOfInteractive::Added(Macad::Occt::AIS_InteractiveObject^ K)
+{
+	Handle(::AIS_InteractiveObject) h_K = K->NativeInstance;
+	Handle(::AIS_InteractiveObject) _result;
+	_result = ((::AIS_MapOfInteractive*)_NativeInstance)->Added(h_K);
+	K->NativeInstance = h_K.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::AIS_InteractiveObject::CreateDowncasted( _result.get());
+}
+
+bool Macad::Occt::AIS_MapOfInteractive::Contains(Macad::Occt::AIS_InteractiveObject^ K)
+{
+	Handle(::AIS_InteractiveObject) h_K = K->NativeInstance;
+	return ((::AIS_MapOfInteractive*)_NativeInstance)->Contains(h_K);
+	K->NativeInstance = h_K.get();
+}
+
+bool Macad::Occt::AIS_MapOfInteractive::Remove(Macad::Occt::AIS_InteractiveObject^ K)
+{
+	Handle(::AIS_InteractiveObject) h_K = K->NativeInstance;
+	return ((::AIS_MapOfInteractive*)_NativeInstance)->Remove(h_K);
+	K->NativeInstance = h_K.get();
+}
+
+void Macad::Occt::AIS_MapOfInteractive::Clear(bool doReleaseMemory)
+{
+	((::AIS_MapOfInteractive*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::AIS_MapOfInteractive::Clear()
+{
+	((::AIS_MapOfInteractive*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::AIS_MapOfInteractive::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::AIS_MapOfInteractive*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::AIS_MapOfInteractive::Size()
+{
+	return ((::AIS_MapOfInteractive*)_NativeInstance)->Size();
+}
+
+bool Macad::Occt::AIS_MapOfInteractive::IsEqual(Macad::Occt::AIS_MapOfInteractive^ theOther)
+{
+	return ((::AIS_MapOfInteractive*)_NativeInstance)->IsEqual(*(::AIS_MapOfInteractive*)theOther->NativeInstance);
+}
+
+bool Macad::Occt::AIS_MapOfInteractive::Contains(Macad::Occt::AIS_MapOfInteractive^ theOther)
+{
+	return ((::AIS_MapOfInteractive*)_NativeInstance)->Contains(*(::AIS_MapOfInteractive*)theOther->NativeInstance);
+}
+
+void Macad::Occt::AIS_MapOfInteractive::Union(Macad::Occt::AIS_MapOfInteractive^ theLeft, Macad::Occt::AIS_MapOfInteractive^ theRight)
+{
+	((::AIS_MapOfInteractive*)_NativeInstance)->Union(*(::AIS_MapOfInteractive*)theLeft->NativeInstance, *(::AIS_MapOfInteractive*)theRight->NativeInstance);
+}
+
+bool Macad::Occt::AIS_MapOfInteractive::Unite(Macad::Occt::AIS_MapOfInteractive^ theOther)
+{
+	return ((::AIS_MapOfInteractive*)_NativeInstance)->Unite(*(::AIS_MapOfInteractive*)theOther->NativeInstance);
+}
+
+bool Macad::Occt::AIS_MapOfInteractive::HasIntersection(Macad::Occt::AIS_MapOfInteractive^ theMap)
+{
+	return ((::AIS_MapOfInteractive*)_NativeInstance)->HasIntersection(*(::AIS_MapOfInteractive*)theMap->NativeInstance);
+}
+
+void Macad::Occt::AIS_MapOfInteractive::Intersection(Macad::Occt::AIS_MapOfInteractive^ theLeft, Macad::Occt::AIS_MapOfInteractive^ theRight)
+{
+	((::AIS_MapOfInteractive*)_NativeInstance)->Intersection(*(::AIS_MapOfInteractive*)theLeft->NativeInstance, *(::AIS_MapOfInteractive*)theRight->NativeInstance);
+}
+
+bool Macad::Occt::AIS_MapOfInteractive::Intersect(Macad::Occt::AIS_MapOfInteractive^ theOther)
+{
+	return ((::AIS_MapOfInteractive*)_NativeInstance)->Intersect(*(::AIS_MapOfInteractive*)theOther->NativeInstance);
+}
+
+void Macad::Occt::AIS_MapOfInteractive::Subtraction(Macad::Occt::AIS_MapOfInteractive^ theLeft, Macad::Occt::AIS_MapOfInteractive^ theRight)
+{
+	((::AIS_MapOfInteractive*)_NativeInstance)->Subtraction(*(::AIS_MapOfInteractive*)theLeft->NativeInstance, *(::AIS_MapOfInteractive*)theRight->NativeInstance);
+}
+
+bool Macad::Occt::AIS_MapOfInteractive::Subtract(Macad::Occt::AIS_MapOfInteractive^ theOther)
+{
+	return ((::AIS_MapOfInteractive*)_NativeInstance)->Subtract(*(::AIS_MapOfInteractive*)theOther->NativeInstance);
+}
+
+void Macad::Occt::AIS_MapOfInteractive::Difference(Macad::Occt::AIS_MapOfInteractive^ theLeft, Macad::Occt::AIS_MapOfInteractive^ theRight)
+{
+	((::AIS_MapOfInteractive*)_NativeInstance)->Difference(*(::AIS_MapOfInteractive*)theLeft->NativeInstance, *(::AIS_MapOfInteractive*)theRight->NativeInstance);
+}
+
+bool Macad::Occt::AIS_MapOfInteractive::Differ(Macad::Occt::AIS_MapOfInteractive^ theOther)
+{
+	return ((::AIS_MapOfInteractive*)_NativeInstance)->Differ(*(::AIS_MapOfInteractive*)theOther->NativeInstance);
 }
 
 

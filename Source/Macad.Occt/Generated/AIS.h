@@ -278,6 +278,55 @@ public enum class AIS_WalkRotation
 }; // enum  class AIS_WalkRotation
 
 //---------------------------------------------------------------------
+//  Class  AIS_DataMapOfIOStatus
+//---------------------------------------------------------------------
+public ref class AIS_DataMapOfIOStatus sealed : public BaseClass<::AIS_DataMapOfIOStatus>
+{
+
+#ifdef Include_AIS_DataMapOfIOStatus_h
+public:
+	Include_AIS_DataMapOfIOStatus_h
+#endif
+
+public:
+	AIS_DataMapOfIOStatus(::AIS_DataMapOfIOStatus* nativeInstance)
+		: BaseClass<::AIS_DataMapOfIOStatus>( nativeInstance, true )
+	{}
+
+	AIS_DataMapOfIOStatus(::AIS_DataMapOfIOStatus& nativeInstance)
+		: BaseClass<::AIS_DataMapOfIOStatus>( &nativeInstance, false )
+	{}
+
+	property ::AIS_DataMapOfIOStatus* NativeInstance
+	{
+		::AIS_DataMapOfIOStatus* get()
+		{
+			return static_cast<::AIS_DataMapOfIOStatus*>(_NativeInstance);
+		}
+	}
+
+public:
+	AIS_DataMapOfIOStatus();
+	AIS_DataMapOfIOStatus(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	AIS_DataMapOfIOStatus(int theNbBuckets);
+	AIS_DataMapOfIOStatus(Macad::Occt::AIS_DataMapOfIOStatus^ theOther);
+	void Exchange(Macad::Occt::AIS_DataMapOfIOStatus^ theOther);
+	Macad::Occt::AIS_DataMapOfIOStatus^ Assign(Macad::Occt::AIS_DataMapOfIOStatus^ theOther);
+	Macad::Occt::AIS_GlobalStatus^ Bound(Macad::Occt::AIS_InteractiveObject^ theKey, Macad::Occt::AIS_GlobalStatus^ theItem);
+	bool IsBound(Macad::Occt::AIS_InteractiveObject^ theKey);
+	bool UnBind(Macad::Occt::AIS_InteractiveObject^ theKey);
+	Macad::Occt::AIS_GlobalStatus^ Seek(Macad::Occt::AIS_InteractiveObject^ theKey);
+	Macad::Occt::AIS_GlobalStatus^ Find(Macad::Occt::AIS_InteractiveObject^ theKey);
+	bool Find(Macad::Occt::AIS_InteractiveObject^ theKey, Macad::Occt::AIS_GlobalStatus^ theValue);
+	Macad::Occt::AIS_GlobalStatus^ ChangeSeek(Macad::Occt::AIS_InteractiveObject^ theKey);
+	Macad::Occt::AIS_GlobalStatus^ ChangeFind(Macad::Occt::AIS_InteractiveObject^ theKey);
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+}; // class AIS_DataMapOfIOStatus
+
+//---------------------------------------------------------------------
 //  Class  AIS_ListOfInteractive
 //---------------------------------------------------------------------
 public ref class AIS_ListOfInteractive sealed : public BaseClass<::AIS_ListOfInteractive>
@@ -429,6 +478,166 @@ public:
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	int Size();
 }; // class AIS_DataMapOfShapeDrawer
+
+//---------------------------------------------------------------------
+//  Class  AIS_DataMapofIntegerListOfinteractive
+//---------------------------------------------------------------------
+public ref class AIS_DataMapofIntegerListOfinteractive sealed : public BaseClass<::AIS_DataMapofIntegerListOfinteractive>
+{
+
+#ifdef Include_AIS_DataMapofIntegerListOfinteractive_h
+public:
+	Include_AIS_DataMapofIntegerListOfinteractive_h
+#endif
+
+public:
+	AIS_DataMapofIntegerListOfinteractive(::AIS_DataMapofIntegerListOfinteractive* nativeInstance)
+		: BaseClass<::AIS_DataMapofIntegerListOfinteractive>( nativeInstance, true )
+	{}
+
+	AIS_DataMapofIntegerListOfinteractive(::AIS_DataMapofIntegerListOfinteractive& nativeInstance)
+		: BaseClass<::AIS_DataMapofIntegerListOfinteractive>( &nativeInstance, false )
+	{}
+
+	property ::AIS_DataMapofIntegerListOfinteractive* NativeInstance
+	{
+		::AIS_DataMapofIntegerListOfinteractive* get()
+		{
+			return static_cast<::AIS_DataMapofIntegerListOfinteractive*>(_NativeInstance);
+		}
+	}
+
+public:
+	AIS_DataMapofIntegerListOfinteractive();
+	AIS_DataMapofIntegerListOfinteractive(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	AIS_DataMapofIntegerListOfinteractive(int theNbBuckets);
+	AIS_DataMapofIntegerListOfinteractive(Macad::Occt::AIS_DataMapofIntegerListOfinteractive^ theOther);
+	void Exchange(Macad::Occt::AIS_DataMapofIntegerListOfinteractive^ theOther);
+	Macad::Occt::AIS_DataMapofIntegerListOfinteractive^ Assign(Macad::Occt::AIS_DataMapofIntegerListOfinteractive^ theOther);
+	/* Method skipped due to unknown mapping: NCollection_List<opencascade::handle<AIS_InteractiveObject>> Bound(int theKey, NCollection_List<opencascade::handle<AIS_InteractiveObject>> theItem, ) */
+	bool IsBound(int theKey);
+	bool UnBind(int theKey);
+	/* Method skipped due to unknown mapping: NCollection_List<opencascade::handle<AIS_InteractiveObject>> Seek(int theKey, ) */
+	/* Method skipped due to unknown mapping: NCollection_List<opencascade::handle<AIS_InteractiveObject>> Find(int theKey, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean Find(int theKey, NCollection_List<opencascade::handle<AIS_InteractiveObject>> theValue, ) */
+	/* Method skipped due to unknown mapping: NCollection_List<opencascade::handle<AIS_InteractiveObject>> ChangeSeek(int theKey, ) */
+	/* Method skipped due to unknown mapping: NCollection_List<opencascade::handle<AIS_InteractiveObject>> ChangeFind(int theKey, ) */
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+}; // class AIS_DataMapofIntegerListOfinteractive
+
+//---------------------------------------------------------------------
+//  Class  AIS_IndexedDataMapOfOwnerPrs
+//---------------------------------------------------------------------
+public ref class AIS_IndexedDataMapOfOwnerPrs sealed : public BaseClass<::AIS_IndexedDataMapOfOwnerPrs>
+{
+
+#ifdef Include_AIS_IndexedDataMapOfOwnerPrs_h
+public:
+	Include_AIS_IndexedDataMapOfOwnerPrs_h
+#endif
+
+public:
+	AIS_IndexedDataMapOfOwnerPrs(::AIS_IndexedDataMapOfOwnerPrs* nativeInstance)
+		: BaseClass<::AIS_IndexedDataMapOfOwnerPrs>( nativeInstance, true )
+	{}
+
+	AIS_IndexedDataMapOfOwnerPrs(::AIS_IndexedDataMapOfOwnerPrs& nativeInstance)
+		: BaseClass<::AIS_IndexedDataMapOfOwnerPrs>( &nativeInstance, false )
+	{}
+
+	property ::AIS_IndexedDataMapOfOwnerPrs* NativeInstance
+	{
+		::AIS_IndexedDataMapOfOwnerPrs* get()
+		{
+			return static_cast<::AIS_IndexedDataMapOfOwnerPrs*>(_NativeInstance);
+		}
+	}
+
+public:
+	AIS_IndexedDataMapOfOwnerPrs();
+	AIS_IndexedDataMapOfOwnerPrs(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	AIS_IndexedDataMapOfOwnerPrs(int theNbBuckets);
+	AIS_IndexedDataMapOfOwnerPrs(Macad::Occt::AIS_IndexedDataMapOfOwnerPrs^ theOther);
+	void Exchange(Macad::Occt::AIS_IndexedDataMapOfOwnerPrs^ theOther);
+	int Add(Macad::Occt::SelectMgr_EntityOwner^ theKey1, Macad::Occt::Graphic3d_Structure^ theItem);
+	bool Contains(Macad::Occt::SelectMgr_EntityOwner^ theKey1);
+	void Substitute(int theIndex, Macad::Occt::SelectMgr_EntityOwner^ theKey1, Macad::Occt::Graphic3d_Structure^ theItem);
+	void Swap(int theIndex1, int theIndex2);
+	void RemoveLast();
+	void RemoveFromIndex(int theIndex);
+	void RemoveKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1);
+	Macad::Occt::SelectMgr_EntityOwner^ FindKey(int theIndex);
+	Macad::Occt::Graphic3d_Structure^ FindFromIndex(int theIndex);
+	Macad::Occt::Graphic3d_Structure^ ChangeFromIndex(int theIndex);
+	int FindIndex(Macad::Occt::SelectMgr_EntityOwner^ theKey1);
+	Macad::Occt::Graphic3d_Structure^ FindFromKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1);
+	Macad::Occt::Graphic3d_Structure^ ChangeFromKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1);
+	Macad::Occt::Graphic3d_Structure^ Seek(Macad::Occt::SelectMgr_EntityOwner^ theKey1);
+	Macad::Occt::Graphic3d_Structure^ ChangeSeek(Macad::Occt::SelectMgr_EntityOwner^ theKey1);
+	bool FindFromKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1, Macad::Occt::Graphic3d_Structure^ theValue);
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+}; // class AIS_IndexedDataMapOfOwnerPrs
+
+//---------------------------------------------------------------------
+//  Class  AIS_MapOfInteractive
+//---------------------------------------------------------------------
+public ref class AIS_MapOfInteractive sealed : public BaseClass<::AIS_MapOfInteractive>
+{
+
+#ifdef Include_AIS_MapOfInteractive_h
+public:
+	Include_AIS_MapOfInteractive_h
+#endif
+
+public:
+	AIS_MapOfInteractive(::AIS_MapOfInteractive* nativeInstance)
+		: BaseClass<::AIS_MapOfInteractive>( nativeInstance, true )
+	{}
+
+	AIS_MapOfInteractive(::AIS_MapOfInteractive& nativeInstance)
+		: BaseClass<::AIS_MapOfInteractive>( &nativeInstance, false )
+	{}
+
+	property ::AIS_MapOfInteractive* NativeInstance
+	{
+		::AIS_MapOfInteractive* get()
+		{
+			return static_cast<::AIS_MapOfInteractive*>(_NativeInstance);
+		}
+	}
+
+public:
+	AIS_MapOfInteractive();
+	AIS_MapOfInteractive(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	AIS_MapOfInteractive(int theNbBuckets);
+	AIS_MapOfInteractive(Macad::Occt::AIS_MapOfInteractive^ theOther);
+	void Exchange(Macad::Occt::AIS_MapOfInteractive^ theOther);
+	Macad::Occt::AIS_MapOfInteractive^ Assign(Macad::Occt::AIS_MapOfInteractive^ theOther);
+	Macad::Occt::AIS_InteractiveObject^ Added(Macad::Occt::AIS_InteractiveObject^ K);
+	bool Contains(Macad::Occt::AIS_InteractiveObject^ K);
+	bool Remove(Macad::Occt::AIS_InteractiveObject^ K);
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+	bool IsEqual(Macad::Occt::AIS_MapOfInteractive^ theOther);
+	bool Contains(Macad::Occt::AIS_MapOfInteractive^ theOther);
+	void Union(Macad::Occt::AIS_MapOfInteractive^ theLeft, Macad::Occt::AIS_MapOfInteractive^ theRight);
+	bool Unite(Macad::Occt::AIS_MapOfInteractive^ theOther);
+	bool HasIntersection(Macad::Occt::AIS_MapOfInteractive^ theMap);
+	void Intersection(Macad::Occt::AIS_MapOfInteractive^ theLeft, Macad::Occt::AIS_MapOfInteractive^ theRight);
+	bool Intersect(Macad::Occt::AIS_MapOfInteractive^ theOther);
+	void Subtraction(Macad::Occt::AIS_MapOfInteractive^ theLeft, Macad::Occt::AIS_MapOfInteractive^ theRight);
+	bool Subtract(Macad::Occt::AIS_MapOfInteractive^ theOther);
+	void Difference(Macad::Occt::AIS_MapOfInteractive^ theLeft, Macad::Occt::AIS_MapOfInteractive^ theRight);
+	bool Differ(Macad::Occt::AIS_MapOfInteractive^ theOther);
+}; // class AIS_MapOfInteractive
 
 //---------------------------------------------------------------------
 //  Class  AIS_SequenceOfInteractive
@@ -1027,7 +1236,7 @@ public:
 	bool Remove(Macad::Occt::AIS_Animation^ theAnimation);
 	bool Replace(Macad::Occt::AIS_Animation^ theAnimationOld, Macad::Occt::AIS_Animation^ theAnimationNew);
 	void CopyFrom(Macad::Occt::AIS_Animation^ theOther);
-	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<AIS_Animation> > Children() */
+	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<AIS_Animation>> Children() */
 	void StartTimer(double theStartPts, double thePlaySpeed, bool theToUpdate, bool theToStopTimer);
 	void StartTimer(double theStartPts, double thePlaySpeed, bool theToUpdate);
 	double UpdateTimer();
@@ -1885,12 +2094,12 @@ public:
 
 public:
 	AIS_ManipulatorObjectSequence();
-	/* Method skipped due to unknown mapping: void AIS_ManipulatorObjectSequence(NCollection_Sequence<opencascade::handle<AIS_InteractiveObject> > theOther, ) */
+	/* Method skipped due to unknown mapping: void AIS_ManipulatorObjectSequence(NCollection_Sequence<opencascade::handle<AIS_InteractiveObject>> theOther, ) */
 	AIS_ManipulatorObjectSequence(Macad::Occt::AIS_ManipulatorObjectSequence^ parameter1);
-	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<AIS_InteractiveObject> > Sequence() */
+	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<AIS_InteractiveObject>> Sequence() */
 	void Append(Macad::Occt::AIS_InteractiveObject^ theItem);
-	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<AIS_InteractiveObject> > theSequence, ) */
-	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<AIS_InteractiveObject> > ChangeSequence() */
+	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<AIS_InteractiveObject>> theSequence, ) */
+	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<AIS_InteractiveObject>> ChangeSequence() */
 	int Size();
 	int Length();
 	int Lower();
@@ -1901,18 +2110,18 @@ public:
 	/* Method skipped due to unknown mapping: void delNode(NCollection_SeqNode theNode, NCollection_BaseAllocator theAl, ) */
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	void Clear();
-	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<AIS_InteractiveObject> > Assign(NCollection_Sequence<opencascade::handle<AIS_InteractiveObject> > theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<AIS_InteractiveObject>> Assign(NCollection_Sequence<opencascade::handle<AIS_InteractiveObject>> theOther, ) */
 	/* Method skipped due to unknown mapping: void Remove(Iterator thePosition, ) */
 	void Remove(int theIndex);
 	void Remove(int theFromIndex, int theToIndex);
 	void Prepend(Macad::Occt::AIS_InteractiveObject^ theItem);
-	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<AIS_InteractiveObject> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<AIS_InteractiveObject>> theSeq, ) */
 	void InsertBefore(int theIndex, Macad::Occt::AIS_InteractiveObject^ theItem);
-	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<AIS_InteractiveObject> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<AIS_InteractiveObject>> theSeq, ) */
 	/* Method skipped due to unknown mapping: void InsertAfter(Iterator thePosition, AIS_InteractiveObject theItem, ) */
-	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<AIS_InteractiveObject> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<AIS_InteractiveObject>> theSeq, ) */
 	void InsertAfter(int theIndex, Macad::Occt::AIS_InteractiveObject^ theItem);
-	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<AIS_InteractiveObject> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<AIS_InteractiveObject>> theSeq, ) */
 	Macad::Occt::AIS_InteractiveObject^ First();
 	Macad::Occt::AIS_InteractiveObject^ ChangeFirst();
 	Macad::Occt::AIS_InteractiveObject^ Last();
@@ -2368,7 +2577,7 @@ public:
 	void SetRectangle(int theMinX, int theMinY, int theMaxX, int theMaxY);
 	void AddPoint(Macad::Occt::Graphic3d_Vec2i^ thePoint);
 	void RemoveLastPoint();
-	/* Method skipped due to unknown mapping: NCollection_Sequence<NCollection_Vec2<int> > Points() */
+	/* Method skipped due to unknown mapping: NCollection_Sequence<NCollection_Vec2<int>> Points() */
 	void ClearPoints();
 	Macad::Occt::Quantity_Color^ LineColor();
 	void SetLineColor(Macad::Occt::Quantity_Color^ theColor);
@@ -2922,8 +3131,8 @@ public:
 	void SetMouseDoubleClickInterval(double theSeconds);
 	void SelectInViewer(Macad::Occt::Graphic3d_Vec2i^ thePnt, bool theIsXOR);
 	void SelectInViewer(Macad::Occt::Graphic3d_Vec2i^ thePnt);
-	/* Method skipped due to unknown mapping: void SelectInViewer(NCollection_Sequence<NCollection_Vec2<int> > thePnts, bool theIsXOR, ) */
-	/* Method skipped due to unknown mapping: void SelectInViewer(NCollection_Sequence<NCollection_Vec2<int> > thePnts, bool theIsXOR, ) */
+	/* Method skipped due to unknown mapping: void SelectInViewer(NCollection_Sequence<NCollection_Vec2<int>> thePnts, bool theIsXOR, ) */
+	/* Method skipped due to unknown mapping: void SelectInViewer(NCollection_Sequence<NCollection_Vec2<int>> thePnts, bool theIsXOR, ) */
 	void UpdateRubberBand(Macad::Occt::Graphic3d_Vec2i^ thePntFrom, Macad::Occt::Graphic3d_Vec2i^ thePntTo, bool theIsXOR);
 	void UpdateRubberBand(Macad::Occt::Graphic3d_Vec2i^ thePntFrom, Macad::Occt::Graphic3d_Vec2i^ thePntTo);
 	void UpdatePolySelection(Macad::Occt::Graphic3d_Vec2i^ thePnt, bool theToAppend);

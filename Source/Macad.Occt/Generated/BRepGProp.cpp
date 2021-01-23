@@ -13,6 +13,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "TColStd.h"
 #include "TopoDS.h"
 #include "GProp.h"
+#include "NCollection.h"
 #include "TColgp.h"
 #include "TopLoc.h"
 #include "TopAbs.h"

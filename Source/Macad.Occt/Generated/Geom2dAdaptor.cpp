@@ -165,7 +165,7 @@ double Macad::Occt::Geom2dAdaptor_Curve::Resolution(double Ruv)
 	return ((::Geom2dAdaptor_Curve*)_NativeInstance)->Resolution(Ruv);
 }
 
-Macad::Occt::GeomAbs_CurveType Macad::Occt::Geom2dAdaptor_Curve::GetTypeOcc()
+Macad::Occt::GeomAbs_CurveType Macad::Occt::Geom2dAdaptor_Curve::GetGeomType()
 {
 	return (Macad::Occt::GeomAbs_CurveType)((::Geom2dAdaptor_Curve*)_NativeInstance)->GetType();
 }

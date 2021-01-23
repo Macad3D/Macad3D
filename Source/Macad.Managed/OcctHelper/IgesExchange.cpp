@@ -4,8 +4,6 @@
 #include <IGESControl_Controller.hxx>
 #include <IGESControl_Reader.hxx>
 
-#using <Macad.Occt.dll> as_friend
-
 using namespace System::Runtime::InteropServices;
 
 namespace Macad

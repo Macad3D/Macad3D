@@ -12,10 +12,10 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "gp.h"
 #include "Geom.h"
 #include "Geom2d.h"
+#include "NCollection.h"
 #include "TopLoc.h"
 #include "GeomAbs.h"
 #include "BRepTools.h"
-#include "NCollection.h"
 #include "Adaptor3d.h"
 
 

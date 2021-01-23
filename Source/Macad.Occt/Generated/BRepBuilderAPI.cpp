@@ -21,6 +21,8 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "Message.h"
 #include "BRepTools.h"
 #include "TColStd.h"
+#include "TopLoc.h"
+#include "TColgp.h"
 #include "NCollection.h"
 
 

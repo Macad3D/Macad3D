@@ -24,7 +24,7 @@ namespace Macad.Core.Geom
             foreach (var edge in edges)
             {
                 var brepAdaptor = new BRepAdaptor_Curve(edge);
-                if (brepAdaptor.GetTypeOcc() != GeomAbs_CurveType.GeomAbs_Line)
+                if (brepAdaptor.GetGeomType() != GeomAbs_CurveType.GeomAbs_Line)
                     break;
 
                 var v1 = brepAdaptor.Value(brepAdaptor.FirstParameter());

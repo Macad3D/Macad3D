@@ -9,6 +9,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "Standard.h"
 #include "GeomPlate.h"
 #include "Geom.h"
+#include "gp.h"
 
 
 //---------------------------------------------------------------------

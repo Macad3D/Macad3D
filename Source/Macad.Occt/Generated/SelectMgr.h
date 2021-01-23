@@ -305,6 +305,111 @@ public:
 }; // class SelectMgr_SequenceOfOwner
 
 //---------------------------------------------------------------------
+//  Class  SelectMgr_IndexedDataMapOfOwnerCriterion
+//---------------------------------------------------------------------
+public ref class SelectMgr_IndexedDataMapOfOwnerCriterion sealed : public BaseClass<::SelectMgr_IndexedDataMapOfOwnerCriterion>
+{
+
+#ifdef Include_SelectMgr_IndexedDataMapOfOwnerCriterion_h
+public:
+	Include_SelectMgr_IndexedDataMapOfOwnerCriterion_h
+#endif
+
+public:
+	SelectMgr_IndexedDataMapOfOwnerCriterion(::SelectMgr_IndexedDataMapOfOwnerCriterion* nativeInstance)
+		: BaseClass<::SelectMgr_IndexedDataMapOfOwnerCriterion>( nativeInstance, true )
+	{}
+
+	SelectMgr_IndexedDataMapOfOwnerCriterion(::SelectMgr_IndexedDataMapOfOwnerCriterion& nativeInstance)
+		: BaseClass<::SelectMgr_IndexedDataMapOfOwnerCriterion>( &nativeInstance, false )
+	{}
+
+	property ::SelectMgr_IndexedDataMapOfOwnerCriterion* NativeInstance
+	{
+		::SelectMgr_IndexedDataMapOfOwnerCriterion* get()
+		{
+			return static_cast<::SelectMgr_IndexedDataMapOfOwnerCriterion*>(_NativeInstance);
+		}
+	}
+
+public:
+	SelectMgr_IndexedDataMapOfOwnerCriterion();
+	SelectMgr_IndexedDataMapOfOwnerCriterion(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	SelectMgr_IndexedDataMapOfOwnerCriterion(int theNbBuckets);
+	SelectMgr_IndexedDataMapOfOwnerCriterion(Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion^ theOther);
+	void Exchange(Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion^ theOther);
+	int Add(Macad::Occt::SelectMgr_EntityOwner^ theKey1, Macad::Occt::SelectMgr_SortCriterion^ theItem);
+	bool Contains(Macad::Occt::SelectMgr_EntityOwner^ theKey1);
+	void Substitute(int theIndex, Macad::Occt::SelectMgr_EntityOwner^ theKey1, Macad::Occt::SelectMgr_SortCriterion^ theItem);
+	void Swap(int theIndex1, int theIndex2);
+	void RemoveLast();
+	void RemoveFromIndex(int theIndex);
+	void RemoveKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1);
+	Macad::Occt::SelectMgr_EntityOwner^ FindKey(int theIndex);
+	Macad::Occt::SelectMgr_SortCriterion^ FindFromIndex(int theIndex);
+	Macad::Occt::SelectMgr_SortCriterion^ ChangeFromIndex(int theIndex);
+	int FindIndex(Macad::Occt::SelectMgr_EntityOwner^ theKey1);
+	Macad::Occt::SelectMgr_SortCriterion^ FindFromKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1);
+	Macad::Occt::SelectMgr_SortCriterion^ ChangeFromKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1);
+	Macad::Occt::SelectMgr_SortCriterion^ Seek(Macad::Occt::SelectMgr_EntityOwner^ theKey1);
+	Macad::Occt::SelectMgr_SortCriterion^ ChangeSeek(Macad::Occt::SelectMgr_EntityOwner^ theKey1);
+	bool FindFromKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1, Macad::Occt::SelectMgr_SortCriterion^ theValue);
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+}; // class SelectMgr_IndexedDataMapOfOwnerCriterion
+
+//---------------------------------------------------------------------
+//  Class  SelectMgr_MapOfObjectSensitives
+//---------------------------------------------------------------------
+public ref class SelectMgr_MapOfObjectSensitives sealed : public BaseClass<::SelectMgr_MapOfObjectSensitives>
+{
+
+#ifdef Include_SelectMgr_MapOfObjectSensitives_h
+public:
+	Include_SelectMgr_MapOfObjectSensitives_h
+#endif
+
+public:
+	SelectMgr_MapOfObjectSensitives(::SelectMgr_MapOfObjectSensitives* nativeInstance)
+		: BaseClass<::SelectMgr_MapOfObjectSensitives>( nativeInstance, true )
+	{}
+
+	SelectMgr_MapOfObjectSensitives(::SelectMgr_MapOfObjectSensitives& nativeInstance)
+		: BaseClass<::SelectMgr_MapOfObjectSensitives>( &nativeInstance, false )
+	{}
+
+	property ::SelectMgr_MapOfObjectSensitives* NativeInstance
+	{
+		::SelectMgr_MapOfObjectSensitives* get()
+		{
+			return static_cast<::SelectMgr_MapOfObjectSensitives*>(_NativeInstance);
+		}
+	}
+
+public:
+	SelectMgr_MapOfObjectSensitives();
+	SelectMgr_MapOfObjectSensitives(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	SelectMgr_MapOfObjectSensitives(int theNbBuckets);
+	SelectMgr_MapOfObjectSensitives(Macad::Occt::SelectMgr_MapOfObjectSensitives^ theOther);
+	void Exchange(Macad::Occt::SelectMgr_MapOfObjectSensitives^ theOther);
+	Macad::Occt::SelectMgr_MapOfObjectSensitives^ Assign(Macad::Occt::SelectMgr_MapOfObjectSensitives^ theOther);
+	/* Method skipped due to unknown mapping: SelectMgr_SensitiveEntitySet Bound(SelectMgr_SelectableObject theKey, SelectMgr_SensitiveEntitySet theItem, ) */
+	bool IsBound(Macad::Occt::SelectMgr_SelectableObject^ theKey);
+	bool UnBind(Macad::Occt::SelectMgr_SelectableObject^ theKey);
+	/* Method skipped due to unknown mapping: SelectMgr_SensitiveEntitySet Seek(SelectMgr_SelectableObject theKey, ) */
+	/* Method skipped due to unknown mapping: SelectMgr_SensitiveEntitySet Find(SelectMgr_SelectableObject theKey, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean Find(SelectMgr_SelectableObject theKey, SelectMgr_SensitiveEntitySet theValue, ) */
+	/* Method skipped due to unknown mapping: SelectMgr_SensitiveEntitySet ChangeSeek(SelectMgr_SelectableObject theKey, ) */
+	/* Method skipped due to unknown mapping: SelectMgr_SensitiveEntitySet ChangeFind(SelectMgr_SelectableObject theKey, ) */
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+}; // class SelectMgr_MapOfObjectSensitives
+
+//---------------------------------------------------------------------
 //  Class  SelectMgr_FrustumCache
 //---------------------------------------------------------------------
 public ref class SelectMgr_FrustumCache sealed : public BaseClass<::SelectMgr_FrustumCache>
@@ -352,6 +457,55 @@ public:
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	int Size();
 }; // class SelectMgr_FrustumCache
+
+//---------------------------------------------------------------------
+//  Class  SelectMgr_IndexedMapOfHSensitive
+//---------------------------------------------------------------------
+public ref class SelectMgr_IndexedMapOfHSensitive sealed : public BaseClass<::SelectMgr_IndexedMapOfHSensitive>
+{
+
+#ifdef Include_SelectMgr_IndexedMapOfHSensitive_h
+public:
+	Include_SelectMgr_IndexedMapOfHSensitive_h
+#endif
+
+public:
+	SelectMgr_IndexedMapOfHSensitive(::SelectMgr_IndexedMapOfHSensitive* nativeInstance)
+		: BaseClass<::SelectMgr_IndexedMapOfHSensitive>( nativeInstance, true )
+	{}
+
+	SelectMgr_IndexedMapOfHSensitive(::SelectMgr_IndexedMapOfHSensitive& nativeInstance)
+		: BaseClass<::SelectMgr_IndexedMapOfHSensitive>( &nativeInstance, false )
+	{}
+
+	property ::SelectMgr_IndexedMapOfHSensitive* NativeInstance
+	{
+		::SelectMgr_IndexedMapOfHSensitive* get()
+		{
+			return static_cast<::SelectMgr_IndexedMapOfHSensitive*>(_NativeInstance);
+		}
+	}
+
+public:
+	SelectMgr_IndexedMapOfHSensitive();
+	SelectMgr_IndexedMapOfHSensitive(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	SelectMgr_IndexedMapOfHSensitive(int theNbBuckets);
+	SelectMgr_IndexedMapOfHSensitive(Macad::Occt::SelectMgr_IndexedMapOfHSensitive^ theOther);
+	void Exchange(Macad::Occt::SelectMgr_IndexedMapOfHSensitive^ theOther);
+	int Add(Macad::Occt::SelectMgr_SensitiveEntity^ theKey1);
+	bool Contains(Macad::Occt::SelectMgr_SensitiveEntity^ theKey1);
+	void Substitute(int theIndex, Macad::Occt::SelectMgr_SensitiveEntity^ theKey1);
+	void Swap(int theIndex1, int theIndex2);
+	void RemoveLast();
+	void RemoveFromIndex(int theIndex);
+	bool RemoveKey(Macad::Occt::SelectMgr_SensitiveEntity^ theKey1);
+	Macad::Occt::SelectMgr_SensitiveEntity^ FindKey(int theIndex);
+	int FindIndex(Macad::Occt::SelectMgr_SensitiveEntity^ theKey1);
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+}; // class SelectMgr_IndexedMapOfHSensitive
 
 //---------------------------------------------------------------------
 //  Class  SelectMgr_SequenceOfFilter
@@ -456,8 +610,8 @@ public:
 	void Clear();
 	bool IsEmpty();
 	int Mode();
-	/* Method skipped due to unknown mapping: NCollection_Vector<opencascade::handle<SelectMgr_SensitiveEntity> > Entities() */
-	/* Method skipped due to unknown mapping: NCollection_Vector<opencascade::handle<SelectMgr_SensitiveEntity> > ChangeEntities() */
+	/* Method skipped due to unknown mapping: NCollection_Vector<opencascade::handle<SelectMgr_SensitiveEntity>> Entities() */
+	/* Method skipped due to unknown mapping: NCollection_Vector<opencascade::handle<SelectMgr_SensitiveEntity>> ChangeEntities() */
 	Macad::Occt::SelectMgr_TypeOfUpdate UpdateStatus();
 	void UpdateStatus(Macad::Occt::SelectMgr_TypeOfUpdate theStatus);
 	void UpdateBVHStatus(Macad::Occt::SelectMgr_TypeOfBVHUpdate theStatus);
@@ -738,7 +892,7 @@ public:
 	SelectMgr_AndOrFilter(Macad::Occt::SelectMgr_FilterType theFilterType);
 	SelectMgr_AndOrFilter(Macad::Occt::SelectMgr_AndOrFilter^ parameter1);
 	bool IsOk(Macad::Occt::SelectMgr_EntityOwner^ theObj);
-	/* Method skipped due to unknown mapping: void SetDisabledObjects(NCollection_Shared<NCollection_Map<const Standard_Transient *, NCollection_DefaultHasher<const Standard_Transient *> >, void>  theObjects, ) */
+	/* Method skipped due to unknown mapping: void SetDisabledObjects(NCollection_Shared<NCollection_Map<const Standard_Transient *, NCollection_DefaultHasher<const Standard_Transient *>>, void theObjects, ) */
 	Macad::Occt::SelectMgr_FilterType FilterType();
 	void SetFilterType(Macad::Occt::SelectMgr_FilterType theFilterType);
 }; // class SelectMgr_AndOrFilter
@@ -1116,7 +1270,7 @@ public:
 	bool IsEmpty();
 	bool IsEmpty(Macad::Occt::SelectMgr_SelectableObjectSet::BVHSubset theSubset);
 	Macad::Occt::SelectMgr_SelectableObject^ GetObjectById(Macad::Occt::SelectMgr_SelectableObjectSet::BVHSubset theSubset, int theIndex);
-	/* Method skipped due to unknown mapping: BVH_Tree<double, 3, BVH_BinaryTree>  BVH(BVHSubset theSubset, ) */
+	/* Method skipped due to unknown mapping: BVH_Tree<double, 3, BVH_BinaryTree BVH(BVHSubset theSubset, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class SelectMgr_SelectableObjectSet
@@ -1177,15 +1331,15 @@ public:
 	/* Method skipped due to unknown mapping: Select3D_SensitiveEntity PickedEntity(Standard_Integer theRank, ) */
 	Macad::Occt::Pnt PickedPoint(int theRank);
 	bool Contains(Macad::Occt::SelectMgr_SelectableObject^ theObject);
-	/* Method skipped due to unknown mapping: BVH_Builder<double, 3>  EntitySetBuilder() */
-	/* Method skipped due to unknown mapping: void SetEntitySetBuilder(BVH_Builder<double, 3>  theBuilder, ) */
+	/* Method skipped due to unknown mapping: BVH_Builder<double, 3 EntitySetBuilder() */
+	/* Method skipped due to unknown mapping: void SetEntitySetBuilder(BVH_Builder<double, 3 theBuilder, ) */
 	bool Modes(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject, Macad::Occt::TColStd_ListOfInteger^ theModeList, Macad::Occt::SelectMgr_StateOfSelection theWantedState);
 	bool Modes(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject, Macad::Occt::TColStd_ListOfInteger^ theModeList);
 	bool IsActive(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject, int theMode);
 	bool IsInside(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject, int theMode);
 	Macad::Occt::SelectMgr_StateOfSelection Status(Macad::Occt::SelectMgr_Selection^ theSelection);
 	Macad::Occt::TCollection_AsciiString^ Status(Macad::Occt::SelectMgr_SelectableObject^ theSelectableObject);
-	/* Method skipped due to unknown mapping: void ActiveOwners(NCollection_List<opencascade::handle<SelectMgr_EntityOwner> > theOwners, ) */
+	/* Method skipped due to unknown mapping: void ActiveOwners(NCollection_List<opencascade::handle<SelectMgr_EntityOwner>> theOwners, ) */
 	void AddSelectableObject(Macad::Occt::SelectMgr_SelectableObject^ theObject);
 	void AddSelectionToObject(Macad::Occt::SelectMgr_SelectableObject^ theObject, Macad::Occt::SelectMgr_Selection^ theSelection);
 	void MoveSelectableObject(Macad::Occt::SelectMgr_SelectableObject^ theObject);
@@ -1215,52 +1369,6 @@ public:
 	void WaitForBVHBuild();
 	bool ToPrebuildBVH();
 }; // class SelectMgr_ViewerSelector
-
-//---------------------------------------------------------------------
-//  Class  SelectMgr_SensitiveEntitySet
-//---------------------------------------------------------------------
-public ref class SelectMgr_SensitiveEntitySet sealed : public BaseClass<::SelectMgr_SensitiveEntitySet>
-{
-
-#ifdef Include_SelectMgr_SensitiveEntitySet_h
-public:
-	Include_SelectMgr_SensitiveEntitySet_h
-#endif
-
-public:
-	SelectMgr_SensitiveEntitySet(::SelectMgr_SensitiveEntitySet* nativeInstance)
-		: BaseClass<::SelectMgr_SensitiveEntitySet>( nativeInstance, true )
-	{}
-
-	SelectMgr_SensitiveEntitySet(::SelectMgr_SensitiveEntitySet& nativeInstance)
-		: BaseClass<::SelectMgr_SensitiveEntitySet>( &nativeInstance, false )
-	{}
-
-	property ::SelectMgr_SensitiveEntitySet* NativeInstance
-	{
-		::SelectMgr_SensitiveEntitySet* get()
-		{
-			return static_cast<::SelectMgr_SensitiveEntitySet*>(_NativeInstance);
-		}
-	}
-
-public:
-	/* Method skipped due to unknown mapping: void SelectMgr_SensitiveEntitySet(BVH_Builder<double, 3>  theBuilder, ) */
-	SelectMgr_SensitiveEntitySet(Macad::Occt::SelectMgr_SensitiveEntitySet^ parameter1);
-	void Append(Macad::Occt::SelectMgr_SensitiveEntity^ theEntity);
-	void Append(Macad::Occt::SelectMgr_Selection^ theSelection);
-	void Remove(Macad::Occt::SelectMgr_Selection^ theSelection);
-	/* Method skipped due to unknown mapping: Select3D_BndBox3d Box(Standard_Integer theIndex, ) */
-	double Center(int theIndex, int theAxis);
-	void Swap(int theIndex1, int theIndex2);
-	int Size();
-	Macad::Occt::SelectMgr_SensitiveEntity^ GetSensitiveById(int theIndex);
-	/* Method skipped due to unknown mapping: SelectMgr_IndexedMapOfHSensitive Sensitives() */
-	/* Method skipped due to unknown mapping: BVH_Box<double, 3> Box() */
-	/* Method skipped due to unknown mapping: BVH_Tree<double, 3, BVH_BinaryTree>  BVH() */
-	/* Method skipped due to unknown mapping: BVH_Builder<double, 3>  Builder() */
-	/* Method skipped due to unknown mapping: void SetBuilder(BVH_Builder<double, 3>  theBuilder, ) */
-}; // class SelectMgr_SensitiveEntitySet
 
 //---------------------------------------------------------------------
 //  Class  SelectMgr_ViewerSelector3d

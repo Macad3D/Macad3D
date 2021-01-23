@@ -20,6 +20,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "Bnd.h"
 #include "TColStd.h"
 #include "TCollection.h"
+#include "SelectBasics.h"
 #include "TColgp.h"
 #include "Image.h"
 
@@ -585,6 +586,261 @@ void Macad::Occt::SelectMgr_SequenceOfOwner::SetValue(int theIndex, Macad::Occt:
 
 
 //---------------------------------------------------------------------
+//  Class  SelectMgr_IndexedDataMapOfOwnerCriterion
+//---------------------------------------------------------------------
+
+Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::SelectMgr_IndexedDataMapOfOwnerCriterion()
+	: BaseClass<::SelectMgr_IndexedDataMapOfOwnerCriterion>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::SelectMgr_IndexedDataMapOfOwnerCriterion();
+}
+
+Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::SelectMgr_IndexedDataMapOfOwnerCriterion(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::SelectMgr_IndexedDataMapOfOwnerCriterion>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::SelectMgr_IndexedDataMapOfOwnerCriterion(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::SelectMgr_IndexedDataMapOfOwnerCriterion(int theNbBuckets)
+	: BaseClass<::SelectMgr_IndexedDataMapOfOwnerCriterion>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::SelectMgr_IndexedDataMapOfOwnerCriterion(theNbBuckets, 0L);
+}
+
+Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::SelectMgr_IndexedDataMapOfOwnerCriterion(Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion^ theOther)
+	: BaseClass<::SelectMgr_IndexedDataMapOfOwnerCriterion>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::SelectMgr_IndexedDataMapOfOwnerCriterion(*(::SelectMgr_IndexedDataMapOfOwnerCriterion*)theOther->NativeInstance);
+}
+
+void Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Exchange(Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion^ theOther)
+{
+	((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->Exchange(*(::SelectMgr_IndexedDataMapOfOwnerCriterion*)theOther->NativeInstance);
+}
+
+int Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Add(Macad::Occt::SelectMgr_EntityOwner^ theKey1, Macad::Occt::SelectMgr_SortCriterion^ theItem)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	return ((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->Add(h_theKey1, *(::SelectMgr_SortCriterion*)theItem->NativeInstance);
+	theKey1->NativeInstance = h_theKey1.get();
+}
+
+bool Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Contains(Macad::Occt::SelectMgr_EntityOwner^ theKey1)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	return ((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->Contains(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+}
+
+void Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Substitute(int theIndex, Macad::Occt::SelectMgr_EntityOwner^ theKey1, Macad::Occt::SelectMgr_SortCriterion^ theItem)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->Substitute(theIndex, h_theKey1, *(::SelectMgr_SortCriterion*)theItem->NativeInstance);
+	theKey1->NativeInstance = h_theKey1.get();
+}
+
+void Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Swap(int theIndex1, int theIndex2)
+{
+	((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->Swap(theIndex1, theIndex2);
+}
+
+void Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::RemoveLast()
+{
+	((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->RemoveLast();
+}
+
+void Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::RemoveFromIndex(int theIndex)
+{
+	((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->RemoveFromIndex(theIndex);
+}
+
+void Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::RemoveKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->RemoveKey(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+}
+
+Macad::Occt::SelectMgr_EntityOwner^ Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::FindKey(int theIndex)
+{
+	Handle(::SelectMgr_EntityOwner) _result;
+	_result = ((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->FindKey(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_EntityOwner::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::SelectMgr_SortCriterion^ Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::FindFromIndex(int theIndex)
+{
+	::SelectMgr_SortCriterion* _result = new ::SelectMgr_SortCriterion();
+	*_result =  (::SelectMgr_SortCriterion)((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->FindFromIndex(theIndex);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::SelectMgr_SortCriterion(_result);
+}
+
+Macad::Occt::SelectMgr_SortCriterion^ Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::ChangeFromIndex(int theIndex)
+{
+	::SelectMgr_SortCriterion* _result = new ::SelectMgr_SortCriterion();
+	*_result = ((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->ChangeFromIndex(theIndex);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::SelectMgr_SortCriterion(_result);
+}
+
+int Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::FindIndex(Macad::Occt::SelectMgr_EntityOwner^ theKey1)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	return ((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->FindIndex(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+}
+
+Macad::Occt::SelectMgr_SortCriterion^ Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::FindFromKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	::SelectMgr_SortCriterion* _result = new ::SelectMgr_SortCriterion();
+	*_result =  (::SelectMgr_SortCriterion)((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->FindFromKey(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::SelectMgr_SortCriterion(_result);
+}
+
+Macad::Occt::SelectMgr_SortCriterion^ Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::ChangeFromKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	::SelectMgr_SortCriterion* _result = new ::SelectMgr_SortCriterion();
+	*_result = ((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->ChangeFromKey(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::SelectMgr_SortCriterion(_result);
+}
+
+Macad::Occt::SelectMgr_SortCriterion^ Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Seek(Macad::Occt::SelectMgr_EntityOwner^ theKey1)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	::SelectMgr_SortCriterion* _result;
+	_result = (::SelectMgr_SortCriterion*)((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->Seek(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::SelectMgr_SortCriterion(_result);
+}
+
+Macad::Occt::SelectMgr_SortCriterion^ Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::ChangeSeek(Macad::Occt::SelectMgr_EntityOwner^ theKey1)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	::SelectMgr_SortCriterion* _result;
+	_result = (::SelectMgr_SortCriterion*)((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->ChangeSeek(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::SelectMgr_SortCriterion(_result);
+}
+
+bool Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::FindFromKey(Macad::Occt::SelectMgr_EntityOwner^ theKey1, Macad::Occt::SelectMgr_SortCriterion^ theValue)
+{
+	Handle(::SelectMgr_EntityOwner) h_theKey1 = theKey1->NativeInstance;
+	return ((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->FindFromKey(h_theKey1, *(::SelectMgr_SortCriterion*)theValue->NativeInstance);
+	theKey1->NativeInstance = h_theKey1.get();
+}
+
+void Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Clear(bool doReleaseMemory)
+{
+	((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Clear()
+{
+	((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::SelectMgr_IndexedDataMapOfOwnerCriterion::Size()
+{
+	return ((::SelectMgr_IndexedDataMapOfOwnerCriterion*)_NativeInstance)->Size();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  SelectMgr_MapOfObjectSensitives
+//---------------------------------------------------------------------
+
+Macad::Occt::SelectMgr_MapOfObjectSensitives::SelectMgr_MapOfObjectSensitives()
+	: BaseClass<::SelectMgr_MapOfObjectSensitives>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::SelectMgr_MapOfObjectSensitives();
+}
+
+Macad::Occt::SelectMgr_MapOfObjectSensitives::SelectMgr_MapOfObjectSensitives(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::SelectMgr_MapOfObjectSensitives>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::SelectMgr_MapOfObjectSensitives(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::SelectMgr_MapOfObjectSensitives::SelectMgr_MapOfObjectSensitives(int theNbBuckets)
+	: BaseClass<::SelectMgr_MapOfObjectSensitives>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::SelectMgr_MapOfObjectSensitives(theNbBuckets, 0L);
+}
+
+Macad::Occt::SelectMgr_MapOfObjectSensitives::SelectMgr_MapOfObjectSensitives(Macad::Occt::SelectMgr_MapOfObjectSensitives^ theOther)
+	: BaseClass<::SelectMgr_MapOfObjectSensitives>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::SelectMgr_MapOfObjectSensitives(*(::SelectMgr_MapOfObjectSensitives*)theOther->NativeInstance);
+}
+
+void Macad::Occt::SelectMgr_MapOfObjectSensitives::Exchange(Macad::Occt::SelectMgr_MapOfObjectSensitives^ theOther)
+{
+	((::SelectMgr_MapOfObjectSensitives*)_NativeInstance)->Exchange(*(::SelectMgr_MapOfObjectSensitives*)theOther->NativeInstance);
+}
+
+Macad::Occt::SelectMgr_MapOfObjectSensitives^ Macad::Occt::SelectMgr_MapOfObjectSensitives::Assign(Macad::Occt::SelectMgr_MapOfObjectSensitives^ theOther)
+{
+	::SelectMgr_MapOfObjectSensitives* _result = new ::SelectMgr_MapOfObjectSensitives();
+	*_result = ((::SelectMgr_MapOfObjectSensitives*)_NativeInstance)->Assign(*(::SelectMgr_MapOfObjectSensitives*)theOther->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::SelectMgr_MapOfObjectSensitives(_result);
+}
+
+bool Macad::Occt::SelectMgr_MapOfObjectSensitives::IsBound(Macad::Occt::SelectMgr_SelectableObject^ theKey)
+{
+	Handle(::SelectMgr_SelectableObject) h_theKey = theKey->NativeInstance;
+	return ((::SelectMgr_MapOfObjectSensitives*)_NativeInstance)->IsBound(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
+}
+
+bool Macad::Occt::SelectMgr_MapOfObjectSensitives::UnBind(Macad::Occt::SelectMgr_SelectableObject^ theKey)
+{
+	Handle(::SelectMgr_SelectableObject) h_theKey = theKey->NativeInstance;
+	return ((::SelectMgr_MapOfObjectSensitives*)_NativeInstance)->UnBind(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
+}
+
+void Macad::Occt::SelectMgr_MapOfObjectSensitives::Clear(bool doReleaseMemory)
+{
+	((::SelectMgr_MapOfObjectSensitives*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::SelectMgr_MapOfObjectSensitives::Clear()
+{
+	((::SelectMgr_MapOfObjectSensitives*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::SelectMgr_MapOfObjectSensitives::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::SelectMgr_MapOfObjectSensitives*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::SelectMgr_MapOfObjectSensitives::Size()
+{
+	return ((::SelectMgr_MapOfObjectSensitives*)_NativeInstance)->Size();
+}
+
+
+
+
+//---------------------------------------------------------------------
 //  Class  SelectMgr_FrustumCache
 //---------------------------------------------------------------------
 
@@ -658,6 +914,123 @@ void Macad::Occt::SelectMgr_FrustumCache::Clear(Macad::Occt::NCollection_BaseAll
 int Macad::Occt::SelectMgr_FrustumCache::Size()
 {
 	return ((::SelectMgr_FrustumCache*)_NativeInstance)->Size();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  SelectMgr_IndexedMapOfHSensitive
+//---------------------------------------------------------------------
+
+Macad::Occt::SelectMgr_IndexedMapOfHSensitive::SelectMgr_IndexedMapOfHSensitive()
+	: BaseClass<::SelectMgr_IndexedMapOfHSensitive>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::SelectMgr_IndexedMapOfHSensitive();
+}
+
+Macad::Occt::SelectMgr_IndexedMapOfHSensitive::SelectMgr_IndexedMapOfHSensitive(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::SelectMgr_IndexedMapOfHSensitive>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::SelectMgr_IndexedMapOfHSensitive(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::SelectMgr_IndexedMapOfHSensitive::SelectMgr_IndexedMapOfHSensitive(int theNbBuckets)
+	: BaseClass<::SelectMgr_IndexedMapOfHSensitive>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::SelectMgr_IndexedMapOfHSensitive(theNbBuckets, 0L);
+}
+
+Macad::Occt::SelectMgr_IndexedMapOfHSensitive::SelectMgr_IndexedMapOfHSensitive(Macad::Occt::SelectMgr_IndexedMapOfHSensitive^ theOther)
+	: BaseClass<::SelectMgr_IndexedMapOfHSensitive>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::SelectMgr_IndexedMapOfHSensitive(*(::SelectMgr_IndexedMapOfHSensitive*)theOther->NativeInstance);
+}
+
+void Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Exchange(Macad::Occt::SelectMgr_IndexedMapOfHSensitive^ theOther)
+{
+	((::SelectMgr_IndexedMapOfHSensitive*)_NativeInstance)->Exchange(*(::SelectMgr_IndexedMapOfHSensitive*)theOther->NativeInstance);
+}
+
+int Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Add(Macad::Occt::SelectMgr_SensitiveEntity^ theKey1)
+{
+	Handle(::SelectMgr_SensitiveEntity) h_theKey1 = theKey1->NativeInstance;
+	return ((::SelectMgr_IndexedMapOfHSensitive*)_NativeInstance)->Add(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+}
+
+bool Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Contains(Macad::Occt::SelectMgr_SensitiveEntity^ theKey1)
+{
+	Handle(::SelectMgr_SensitiveEntity) h_theKey1 = theKey1->NativeInstance;
+	return ((::SelectMgr_IndexedMapOfHSensitive*)_NativeInstance)->Contains(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+}
+
+void Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Substitute(int theIndex, Macad::Occt::SelectMgr_SensitiveEntity^ theKey1)
+{
+	Handle(::SelectMgr_SensitiveEntity) h_theKey1 = theKey1->NativeInstance;
+	((::SelectMgr_IndexedMapOfHSensitive*)_NativeInstance)->Substitute(theIndex, h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+}
+
+void Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Swap(int theIndex1, int theIndex2)
+{
+	((::SelectMgr_IndexedMapOfHSensitive*)_NativeInstance)->Swap(theIndex1, theIndex2);
+}
+
+void Macad::Occt::SelectMgr_IndexedMapOfHSensitive::RemoveLast()
+{
+	((::SelectMgr_IndexedMapOfHSensitive*)_NativeInstance)->RemoveLast();
+}
+
+void Macad::Occt::SelectMgr_IndexedMapOfHSensitive::RemoveFromIndex(int theIndex)
+{
+	((::SelectMgr_IndexedMapOfHSensitive*)_NativeInstance)->RemoveFromIndex(theIndex);
+}
+
+bool Macad::Occt::SelectMgr_IndexedMapOfHSensitive::RemoveKey(Macad::Occt::SelectMgr_SensitiveEntity^ theKey1)
+{
+	Handle(::SelectMgr_SensitiveEntity) h_theKey1 = theKey1->NativeInstance;
+	return ((::SelectMgr_IndexedMapOfHSensitive*)_NativeInstance)->RemoveKey(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+}
+
+Macad::Occt::SelectMgr_SensitiveEntity^ Macad::Occt::SelectMgr_IndexedMapOfHSensitive::FindKey(int theIndex)
+{
+	Handle(::SelectMgr_SensitiveEntity) _result;
+	_result = ((::SelectMgr_IndexedMapOfHSensitive*)_NativeInstance)->FindKey(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_SensitiveEntity::CreateDowncasted( _result.get());
+}
+
+int Macad::Occt::SelectMgr_IndexedMapOfHSensitive::FindIndex(Macad::Occt::SelectMgr_SensitiveEntity^ theKey1)
+{
+	Handle(::SelectMgr_SensitiveEntity) h_theKey1 = theKey1->NativeInstance;
+	return ((::SelectMgr_IndexedMapOfHSensitive*)_NativeInstance)->FindIndex(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+}
+
+void Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Clear(bool doReleaseMemory)
+{
+	((::SelectMgr_IndexedMapOfHSensitive*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Clear()
+{
+	((::SelectMgr_IndexedMapOfHSensitive*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::SelectMgr_IndexedMapOfHSensitive*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::SelectMgr_IndexedMapOfHSensitive::Size()
+{
+	return ((::SelectMgr_IndexedMapOfHSensitive*)_NativeInstance)->Size();
 }
 
 
@@ -851,6 +1224,121 @@ void Macad::Occt::SelectMgr_SequenceOfFilter::SetValue(int theIndex, Macad::Occt
 	Handle(::SelectMgr_Filter) h_theItem = theItem->NativeInstance;
 	((::SelectMgr_SequenceOfFilter*)_NativeInstance)->SetValue(theIndex, h_theItem);
 	theItem->NativeInstance = h_theItem.get();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  SelectMgr_Selection
+//---------------------------------------------------------------------
+
+Macad::Occt::SelectMgr_Selection::SelectMgr_Selection(int theModeIdx)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::SelectMgr_Selection(theModeIdx);
+}
+
+Macad::Occt::SelectMgr_Selection::SelectMgr_Selection(Macad::Occt::SelectMgr_Selection^ parameter1)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::SelectMgr_Selection(*(::SelectMgr_Selection*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::SelectMgr_Selection::Destroy()
+{
+	((::SelectMgr_Selection*)_NativeInstance)->Destroy();
+}
+
+void Macad::Occt::SelectMgr_Selection::Clear()
+{
+	((::SelectMgr_Selection*)_NativeInstance)->Clear();
+}
+
+bool Macad::Occt::SelectMgr_Selection::IsEmpty()
+{
+	return ((::SelectMgr_Selection*)_NativeInstance)->IsEmpty();
+}
+
+int Macad::Occt::SelectMgr_Selection::Mode()
+{
+	return ((::SelectMgr_Selection*)_NativeInstance)->Mode();
+}
+
+Macad::Occt::SelectMgr_TypeOfUpdate Macad::Occt::SelectMgr_Selection::UpdateStatus()
+{
+	return (Macad::Occt::SelectMgr_TypeOfUpdate)((::SelectMgr_Selection*)_NativeInstance)->UpdateStatus();
+}
+
+void Macad::Occt::SelectMgr_Selection::UpdateStatus(Macad::Occt::SelectMgr_TypeOfUpdate theStatus)
+{
+	((::SelectMgr_Selection*)_NativeInstance)->UpdateStatus((::SelectMgr_TypeOfUpdate)theStatus);
+}
+
+void Macad::Occt::SelectMgr_Selection::UpdateBVHStatus(Macad::Occt::SelectMgr_TypeOfBVHUpdate theStatus)
+{
+	((::SelectMgr_Selection*)_NativeInstance)->UpdateBVHStatus((::SelectMgr_TypeOfBVHUpdate)theStatus);
+}
+
+Macad::Occt::SelectMgr_TypeOfBVHUpdate Macad::Occt::SelectMgr_Selection::BVHUpdateStatus()
+{
+	return (Macad::Occt::SelectMgr_TypeOfBVHUpdate)((::SelectMgr_Selection*)_NativeInstance)->BVHUpdateStatus();
+}
+
+Macad::Occt::SelectMgr_StateOfSelection Macad::Occt::SelectMgr_Selection::GetSelectionState()
+{
+	return (Macad::Occt::SelectMgr_StateOfSelection)((::SelectMgr_Selection*)_NativeInstance)->GetSelectionState();
+}
+
+void Macad::Occt::SelectMgr_Selection::SetSelectionState(Macad::Occt::SelectMgr_StateOfSelection theState)
+{
+	((::SelectMgr_Selection*)_NativeInstance)->SetSelectionState((::SelectMgr_StateOfSelection)theState);
+}
+
+int Macad::Occt::SelectMgr_Selection::Sensitivity()
+{
+	return ((::SelectMgr_Selection*)_NativeInstance)->Sensitivity();
+}
+
+void Macad::Occt::SelectMgr_Selection::SetSensitivity(int theNewSens)
+{
+	((::SelectMgr_Selection*)_NativeInstance)->SetSensitivity(theNewSens);
+}
+
+
+Macad::Occt::SelectMgr_Selection^ Macad::Occt::SelectMgr_Selection::CreateDowncasted(::SelectMgr_Selection* instance)
+{
+	return gcnew Macad::Occt::SelectMgr_Selection( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  SelectMgr
+//---------------------------------------------------------------------
+
+Macad::Occt::SelectMgr::SelectMgr()
+	: BaseClass<::SelectMgr>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::SelectMgr();
+}
+
+Macad::Occt::SelectMgr::SelectMgr(Macad::Occt::SelectMgr^ parameter1)
+	: BaseClass<::SelectMgr>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::SelectMgr(*(::SelectMgr*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::SelectMgr::ComputeSensitivePrs(Macad::Occt::Graphic3d_Structure^ theStructure, Macad::Occt::SelectMgr_Selection^ theSel, Macad::Occt::Trsf theLoc, Macad::Occt::Graphic3d_TransformPers^ theTrsfPers)
+{
+	Handle(::Graphic3d_Structure) h_theStructure = theStructure->NativeInstance;
+	Handle(::SelectMgr_Selection) h_theSel = theSel->NativeInstance;
+	pin_ptr<Macad::Occt::Trsf> pp_theLoc = &theLoc;
+	Handle(::Graphic3d_TransformPers) h_theTrsfPers = theTrsfPers->NativeInstance;
+	::SelectMgr::ComputeSensitivePrs(h_theStructure, h_theSel, *(gp_Trsf*)pp_theLoc, h_theTrsfPers);
+	theStructure->NativeInstance = h_theStructure.get();
+	theSel->NativeInstance = h_theSel.get();
+	theTrsfPers->NativeInstance = h_theTrsfPers.get();
 }
 
 
@@ -2264,62 +2752,6 @@ Macad::Occt::SelectMgr_ViewerSelector^ Macad::Occt::SelectMgr_ViewerSelector::Cr
 
 	return gcnew Macad::Occt::SelectMgr_ViewerSelector( instance );
 }
-
-
-
-//---------------------------------------------------------------------
-//  Class  SelectMgr_SensitiveEntitySet
-//---------------------------------------------------------------------
-
-Macad::Occt::SelectMgr_SensitiveEntitySet::SelectMgr_SensitiveEntitySet(Macad::Occt::SelectMgr_SensitiveEntitySet^ parameter1)
-	: BaseClass<::SelectMgr_SensitiveEntitySet>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::SelectMgr_SensitiveEntitySet(*(::SelectMgr_SensitiveEntitySet*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::SelectMgr_SensitiveEntitySet::Append(Macad::Occt::SelectMgr_SensitiveEntity^ theEntity)
-{
-	Handle(::SelectMgr_SensitiveEntity) h_theEntity = theEntity->NativeInstance;
-	((::SelectMgr_SensitiveEntitySet*)_NativeInstance)->Append(h_theEntity);
-	theEntity->NativeInstance = h_theEntity.get();
-}
-
-void Macad::Occt::SelectMgr_SensitiveEntitySet::Append(Macad::Occt::SelectMgr_Selection^ theSelection)
-{
-	Handle(::SelectMgr_Selection) h_theSelection = theSelection->NativeInstance;
-	((::SelectMgr_SensitiveEntitySet*)_NativeInstance)->Append(h_theSelection);
-	theSelection->NativeInstance = h_theSelection.get();
-}
-
-void Macad::Occt::SelectMgr_SensitiveEntitySet::Remove(Macad::Occt::SelectMgr_Selection^ theSelection)
-{
-	Handle(::SelectMgr_Selection) h_theSelection = theSelection->NativeInstance;
-	((::SelectMgr_SensitiveEntitySet*)_NativeInstance)->Remove(h_theSelection);
-	theSelection->NativeInstance = h_theSelection.get();
-}
-
-double Macad::Occt::SelectMgr_SensitiveEntitySet::Center(int theIndex, int theAxis)
-{
-	return ((::SelectMgr_SensitiveEntitySet*)_NativeInstance)->Center(theIndex, theAxis);
-}
-
-void Macad::Occt::SelectMgr_SensitiveEntitySet::Swap(int theIndex1, int theIndex2)
-{
-	((::SelectMgr_SensitiveEntitySet*)_NativeInstance)->Swap(theIndex1, theIndex2);
-}
-
-int Macad::Occt::SelectMgr_SensitiveEntitySet::Size()
-{
-	return ((::SelectMgr_SensitiveEntitySet*)_NativeInstance)->Size();
-}
-
-Macad::Occt::SelectMgr_SensitiveEntity^ Macad::Occt::SelectMgr_SensitiveEntitySet::GetSensitiveById(int theIndex)
-{
-	Handle(::SelectMgr_SensitiveEntity) _result;
-	_result = ((::SelectMgr_SensitiveEntitySet*)_NativeInstance)->GetSensitiveById(theIndex);
-	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_SensitiveEntity::CreateDowncasted( _result.get());
-}
-
 
 
 

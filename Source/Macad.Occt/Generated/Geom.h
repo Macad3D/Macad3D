@@ -169,8 +169,8 @@ public:
 	static Macad::Occt::Geom_AxisPlacement^ CreateDowncasted(::Geom_AxisPlacement* instance);
 
 public:
-	Geom_AxisPlacement(Macad::Occt::Geom_AxisPlacement^ parameter1);
 	Geom_AxisPlacement();
+	Geom_AxisPlacement(Macad::Occt::Geom_AxisPlacement^ parameter1);
 	void SetAxis(Macad::Occt::Ax1 A1);
 	void SetDirection(Macad::Occt::Dir V);
 	void SetLocation(Macad::Occt::Pnt P);
@@ -1048,8 +1048,8 @@ public:
 	static Macad::Occt::Geom_Point^ CreateDowncasted(::Geom_Point* instance);
 
 public:
-	Geom_Point(Macad::Occt::Geom_Point^ parameter1);
 	Geom_Point();
+	Geom_Point(Macad::Occt::Geom_Point^ parameter1);
 	void Coord(double% X, double% Y, double% Z);
 	Macad::Occt::Pnt Pnt();
 	double X();
@@ -1143,8 +1143,8 @@ public:
 	static Macad::Occt::Geom_Conic^ CreateDowncasted(::Geom_Conic* instance);
 
 public:
-	Geom_Conic(Macad::Occt::Geom_Conic^ parameter1);
 	Geom_Conic();
+	Geom_Conic(Macad::Occt::Geom_Conic^ parameter1);
 	void SetAxis(Macad::Occt::Ax1 theA1);
 	void SetLocation(Macad::Occt::Pnt theP);
 	void SetPosition(Macad::Occt::Ax2 theA2);
@@ -1253,8 +1253,8 @@ public:
 	static Macad::Occt::Geom_ElementarySurface^ CreateDowncasted(::Geom_ElementarySurface* instance);
 
 public:
-	Geom_ElementarySurface(Macad::Occt::Geom_ElementarySurface^ parameter1);
 	Geom_ElementarySurface();
+	Geom_ElementarySurface(Macad::Occt::Geom_ElementarySurface^ parameter1);
 	void SetAxis(Macad::Occt::Ax1 theA1);
 	void SetLocation(Macad::Occt::Pnt theLoc);
 	void SetPosition(Macad::Occt::Ax3 theAx3);
@@ -1434,8 +1434,8 @@ public:
 	static Macad::Occt::Geom_Vector^ CreateDowncasted(::Geom_Vector* instance);
 
 public:
-	Geom_Vector(Macad::Occt::Geom_Vector^ parameter1);
 	Geom_Vector();
+	Geom_Vector(Macad::Occt::Geom_Vector^ parameter1);
 	void Reverse();
 	Macad::Occt::Geom_Vector^ Reversed();
 	double Angle(Macad::Occt::Geom_Vector^ Other);
@@ -1616,19 +1616,19 @@ public:
 	/* Method skipped due to unknown mapping: void delNode(NCollection_SeqNode theNode, NCollection_BaseAllocator theAl, ) */
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	void Clear();
-	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<Geom_BSplineSurface> > Assign(NCollection_Sequence<opencascade::handle<Geom_BSplineSurface> > theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<Geom_BSplineSurface>> Assign(NCollection_Sequence<opencascade::handle<Geom_BSplineSurface>> theOther, ) */
 	/* Method skipped due to unknown mapping: void Remove(Iterator thePosition, ) */
 	void Remove(int theIndex);
 	void Remove(int theFromIndex, int theToIndex);
-	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<Geom_BSplineSurface> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<Geom_BSplineSurface>> theSeq, ) */
 	void Prepend(Macad::Occt::Geom_BSplineSurface^ theItem);
-	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<Geom_BSplineSurface> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<Geom_BSplineSurface>> theSeq, ) */
 	void InsertBefore(int theIndex, Macad::Occt::Geom_BSplineSurface^ theItem);
-	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Geom_BSplineSurface> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Geom_BSplineSurface>> theSeq, ) */
 	/* Method skipped due to unknown mapping: void InsertAfter(Iterator thePosition, Geom_BSplineSurface theItem, ) */
-	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Geom_BSplineSurface> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Geom_BSplineSurface>> theSeq, ) */
 	void InsertAfter(int theIndex, Macad::Occt::Geom_BSplineSurface^ theItem);
-	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Geom_BSplineSurface> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Geom_BSplineSurface>> theSeq, ) */
 	Macad::Occt::Geom_BSplineSurface^ First();
 	Macad::Occt::Geom_BSplineSurface^ ChangeFirst();
 	Macad::Occt::Geom_BSplineSurface^ Last();

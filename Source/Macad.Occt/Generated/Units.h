@@ -989,19 +989,19 @@ public:
 	/* Method skipped due to unknown mapping: void delNode(NCollection_SeqNode theNode, NCollection_BaseAllocator theAl, ) */
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	void Clear();
-	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<Units_Unit> > Assign(NCollection_Sequence<opencascade::handle<Units_Unit> > theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<Units_Unit>> Assign(NCollection_Sequence<opencascade::handle<Units_Unit>> theOther, ) */
 	/* Method skipped due to unknown mapping: void Remove(Iterator thePosition, ) */
 	void Remove(int theIndex);
 	void Remove(int theFromIndex, int theToIndex);
-	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<Units_Unit> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<Units_Unit>> theSeq, ) */
 	void Prepend(Macad::Occt::Units_Unit^ theItem);
-	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<Units_Unit> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<Units_Unit>> theSeq, ) */
 	void InsertBefore(int theIndex, Macad::Occt::Units_Unit^ theItem);
-	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Unit> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Unit>> theSeq, ) */
 	/* Method skipped due to unknown mapping: void InsertAfter(Iterator thePosition, Units_Unit theItem, ) */
-	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Unit> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Unit>> theSeq, ) */
 	void InsertAfter(int theIndex, Macad::Occt::Units_Unit^ theItem);
-	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Unit> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Unit>> theSeq, ) */
 	Macad::Occt::Units_Unit^ First();
 	Macad::Occt::Units_Unit^ ChangeFirst();
 	Macad::Occt::Units_Unit^ Last();
@@ -1059,19 +1059,19 @@ public:
 	/* Method skipped due to unknown mapping: void delNode(NCollection_SeqNode theNode, NCollection_BaseAllocator theAl, ) */
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	void Clear();
-	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<Units_Quantity> > Assign(NCollection_Sequence<opencascade::handle<Units_Quantity> > theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<Units_Quantity>> Assign(NCollection_Sequence<opencascade::handle<Units_Quantity>> theOther, ) */
 	/* Method skipped due to unknown mapping: void Remove(Iterator thePosition, ) */
 	void Remove(int theIndex);
 	void Remove(int theFromIndex, int theToIndex);
-	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<Units_Quantity> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<Units_Quantity>> theSeq, ) */
 	void Prepend(Macad::Occt::Units_Quantity^ theItem);
-	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<Units_Quantity> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<Units_Quantity>> theSeq, ) */
 	void InsertBefore(int theIndex, Macad::Occt::Units_Quantity^ theItem);
-	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Quantity> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Quantity>> theSeq, ) */
 	/* Method skipped due to unknown mapping: void InsertAfter(Iterator thePosition, Units_Quantity theItem, ) */
-	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Quantity> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Quantity>> theSeq, ) */
 	void InsertAfter(int theIndex, Macad::Occt::Units_Quantity^ theItem);
-	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Quantity> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Quantity>> theSeq, ) */
 	Macad::Occt::Units_Quantity^ First();
 	Macad::Occt::Units_Quantity^ ChangeFirst();
 	Macad::Occt::Units_Quantity^ Last();
@@ -1129,19 +1129,19 @@ public:
 	/* Method skipped due to unknown mapping: void delNode(NCollection_SeqNode theNode, NCollection_BaseAllocator theAl, ) */
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	void Clear();
-	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<Units_Token> > Assign(NCollection_Sequence<opencascade::handle<Units_Token> > theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<Units_Token>> Assign(NCollection_Sequence<opencascade::handle<Units_Token>> theOther, ) */
 	/* Method skipped due to unknown mapping: void Remove(Iterator thePosition, ) */
 	void Remove(int theIndex);
 	void Remove(int theFromIndex, int theToIndex);
-	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<Units_Token> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<Units_Token>> theSeq, ) */
 	void Prepend(Macad::Occt::Units_Token^ theItem);
-	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<Units_Token> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Prepend(NCollection_Sequence<opencascade::handle<Units_Token>> theSeq, ) */
 	void InsertBefore(int theIndex, Macad::Occt::Units_Token^ theItem);
-	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Token> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertBefore(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Token>> theSeq, ) */
 	/* Method skipped due to unknown mapping: void InsertAfter(Iterator thePosition, Units_Token theItem, ) */
-	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Token> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void InsertAfter(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Token>> theSeq, ) */
 	void InsertAfter(int theIndex, Macad::Occt::Units_Token^ theItem);
-	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Token> > theSeq, ) */
+	/* Method skipped due to unknown mapping: void Split(Standard_Integer theIndex, NCollection_Sequence<opencascade::handle<Units_Token>> theSeq, ) */
 	Macad::Occt::Units_Token^ First();
 	Macad::Occt::Units_Token^ ChangeFirst();
 	Macad::Occt::Units_Token^ Last();

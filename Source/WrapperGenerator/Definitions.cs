@@ -9,7 +9,9 @@ namespace Macad.Occt.Generator
         public static List<EnumDefinition> EnumItems = new List<EnumDefinition>();
         public static List<ClassDefinition> ClassItems = new List<ClassDefinition>();
         public static List<string> IncludeList = new List<string>();
-        public static Dictionary<string, TypeDefinition> TypeDefinitions = new Dictionary<string, TypeDefinition>();
+        public static Dictionary<string, TypeDefinition> TypeDefinitions = new();
+
+        //--------------------------------------------------------------------------------------------------
 
         public enum KnownTypes
         {
@@ -28,6 +30,8 @@ namespace Macad.Occt.Generator
             WrappedStruct
         }
 
+        //--------------------------------------------------------------------------------------------------
+
         public class KnownTypeDefinition
         {
             public KnownTypes Type;
@@ -44,6 +48,8 @@ namespace Macad.Occt.Generator
             }
         }
 
+        //--------------------------------------------------------------------------------------------------
+
         public class ClassDefinition
         {
             public string Name;
@@ -54,8 +60,6 @@ namespace Macad.Occt.Generator
             public bool IsBase;
             public bool IsAbstract;
             public bool IsTransient;
-            public bool HasUnaccessibleConstructor;
-            public bool HasUnaccessibleDestructor;
 
             public ClassDefinition BaseClass;
             public ClassDefinition OuterClass;
@@ -63,6 +67,22 @@ namespace Macad.Occt.Generator
             public List<FunctionDefintion> Functions = new List<FunctionDefintion>();
             public List<EnumDefinition> InnerEnums = new List<EnumDefinition>();
             public List<ClassDefinition> InnerClasses = new List<ClassDefinition>();
+
+            public bool HasUnaccessibleConstructor
+            {
+                get
+                {
+                    return !Functions.Any(fd => fd.IsPublic && fd.IsConstructor);
+                }
+            }
+
+            public bool HasUnaccessibleDestructor
+            {
+                get
+                {
+                    return !Functions.Any(fd => fd.IsPublic && fd.IsDestructor);
+                }
+            }
 
             public string Fqn
             {
@@ -181,9 +201,7 @@ namespace Macad.Occt.Generator
                     Name = newClassName,
                     Package = newPackage,
                     BaseClassName = BaseClassName,
-                    IsTransient = IsTransient,
-                    HasUnaccessibleDestructor = HasUnaccessibleDestructor,
-                    HasUnaccessibleConstructor = HasUnaccessibleConstructor
+                    IsTransient = IsTransient
                 };
 
                 foreach (var function in Functions)
@@ -213,6 +231,8 @@ namespace Macad.Occt.Generator
                 get { return (OuterClass == null ? "" : OuterClass.Native) + "::" + Name; }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         public class FunctionDefintion
         {
@@ -302,6 +322,8 @@ namespace Macad.Occt.Generator
             }
         }
 
+        //--------------------------------------------------------------------------------------------------
+
         public class ParameterDefinition
         {
             public string Name;
@@ -344,6 +366,8 @@ namespace Macad.Occt.Generator
                 return pd;
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         public class TypeDefinition
         {

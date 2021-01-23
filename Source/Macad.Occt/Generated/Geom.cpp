@@ -371,13 +371,13 @@ Macad::Occt::Geom_Geometry^ Macad::Occt::Geom_Geometry::CreateDowncasted(::Geom_
 //  Class  Geom_AxisPlacement
 //---------------------------------------------------------------------
 
-Macad::Occt::Geom_AxisPlacement::Geom_AxisPlacement(Macad::Occt::Geom_AxisPlacement^ parameter1)
+Macad::Occt::Geom_AxisPlacement::Geom_AxisPlacement()
 	: Macad::Occt::Geom_Geometry(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Geom_AxisPlacement::Geom_AxisPlacement()
+Macad::Occt::Geom_AxisPlacement::Geom_AxisPlacement(Macad::Occt::Geom_AxisPlacement^ parameter1)
 	: Macad::Occt::Geom_Geometry(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
@@ -2968,13 +2968,13 @@ Macad::Occt::Geom_BSplineSurface^ Macad::Occt::Geom_BSplineSurface::CreateDownca
 //  Class  Geom_Point
 //---------------------------------------------------------------------
 
-Macad::Occt::Geom_Point::Geom_Point(Macad::Occt::Geom_Point^ parameter1)
+Macad::Occt::Geom_Point::Geom_Point()
 	: Macad::Occt::Geom_Geometry(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Geom_Point::Geom_Point()
+Macad::Occt::Geom_Point::Geom_Point(Macad::Occt::Geom_Point^ parameter1)
 	: Macad::Occt::Geom_Geometry(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
@@ -3138,13 +3138,13 @@ Macad::Occt::Geom_CartesianPoint^ Macad::Occt::Geom_CartesianPoint::CreateDownca
 //  Class  Geom_Conic
 //---------------------------------------------------------------------
 
-Macad::Occt::Geom_Conic::Geom_Conic(Macad::Occt::Geom_Conic^ parameter1)
+Macad::Occt::Geom_Conic::Geom_Conic()
 	: Macad::Occt::Geom_Curve(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Geom_Conic::Geom_Conic()
+Macad::Occt::Geom_Conic::Geom_Conic(Macad::Occt::Geom_Conic^ parameter1)
 	: Macad::Occt::Geom_Curve(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
@@ -3373,13 +3373,13 @@ Macad::Occt::Geom_Circle^ Macad::Occt::Geom_Circle::CreateDowncasted(::Geom_Circ
 //  Class  Geom_ElementarySurface
 //---------------------------------------------------------------------
 
-Macad::Occt::Geom_ElementarySurface::Geom_ElementarySurface(Macad::Occt::Geom_ElementarySurface^ parameter1)
+Macad::Occt::Geom_ElementarySurface::Geom_ElementarySurface()
 	: Macad::Occt::Geom_Surface(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Geom_ElementarySurface::Geom_ElementarySurface()
+Macad::Occt::Geom_ElementarySurface::Geom_ElementarySurface(Macad::Occt::Geom_ElementarySurface^ parameter1)
 	: Macad::Occt::Geom_Surface(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
@@ -3889,13 +3889,13 @@ Macad::Occt::Geom_CylindricalSurface^ Macad::Occt::Geom_CylindricalSurface::Crea
 //  Class  Geom_Vector
 //---------------------------------------------------------------------
 
-Macad::Occt::Geom_Vector::Geom_Vector(Macad::Occt::Geom_Vector^ parameter1)
+Macad::Occt::Geom_Vector::Geom_Vector()
 	: Macad::Occt::Geom_Geometry(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Geom_Vector::Geom_Vector()
+Macad::Occt::Geom_Vector::Geom_Vector(Macad::Occt::Geom_Vector^ parameter1)
 	: Macad::Occt::Geom_Geometry(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");

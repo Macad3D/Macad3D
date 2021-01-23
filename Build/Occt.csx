@@ -18,6 +18,7 @@ if(Args.Count() < 1)
 }
 
 _OptionDebug = Args.Any(s => s.ToLower() == "/debug");
+_OptionClean = Args.Any(s => s.ToLower() == "/clean");
 
 if(Args[0].ToLower() == "config")
 {
@@ -61,6 +62,7 @@ return 0;
 /***************************************************************/
 
 bool _OptionDebug = false;
+bool _OptionClean = false;
 string _occtSourceDir;
 SSIndex _SSIndex = null;
 
@@ -263,7 +265,7 @@ string _CastXmlPath = @"Tools\CastXML";
 
 bool _GenerateWrapper()
 {
-	var _CastXmlPath = Packages.FindPackageFile("CastXml.2020.04.06", "castxml\\bin\\castxml.exe");
+	var _CastXmlPath = Packages.FindPackageFile("CastXml.0.4.1", "castxml\\bin\\castxml.exe");
 	if(string.IsNullOrEmpty(_CastXmlPath))
 		return false;
 
@@ -290,6 +292,19 @@ bool _GenerateWrapper()
 		}
 	}
 	
+	// Clean
+	if(_OptionClean)
+	{
+		Printer.Line("Cleaning CastXml cache...");
+		int count = 0;
+		foreach (var file in Directory.EnumerateFiles(Path.Combine(Common.GetRootFolder(), _CachePath)))
+		{
+			File.Delete(file);
+			count++;
+		}
+		Printer.Success($"Cleaned {count} files from cache.");
+	}
+
 	// Prepare command line
 	string modulePath = Path.Combine(Common.GetRootFolder(), string.Format(_WrapperBinPath,_OptionDebug ? "Debug" : "Release" ));
 	string commandLine = "";
@@ -322,14 +337,20 @@ bool _GenerateWrapper()
 
 bool _ApplyPatch()
 {
+	var rootPath = Common.GetRootFolder();
+	var patchPath = Path.Combine(rootPath, "Build", "Patches", _PatchFileName);
+	if(!File.Exists(patchPath))
+	{
+		Printer.Line($"Patch file not found, currently no patch needed.");
+		return true;
+	}
+
 	var svnPath = Packages.FindPackageFile($"Subversion", @"bin\svn.exe");
 	if(string.IsNullOrEmpty(svnPath))
 		return false;
 
 	Printer.Line($"\nApplying patch to fix compilation issues...\n");
 
-	var rootPath = Common.GetRootFolder();
-	var patchPath = Path.Combine(rootPath, "Build", "Patches", _PatchFileName);
 	var targetPath = Path.Combine(rootPath, Occt.OcctPath, "inc");
 	var commandLine = $"patch \"{patchPath}\" \"{targetPath}\"";
 	var svnOutput = new List<string>();

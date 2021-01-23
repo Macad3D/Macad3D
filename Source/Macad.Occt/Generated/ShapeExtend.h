@@ -95,6 +95,55 @@ public:
 }; // class ShapeExtend_DataMapOfShapeListOfMsg
 
 //---------------------------------------------------------------------
+//  Class  ShapeExtend_DataMapOfTransientListOfMsg
+//---------------------------------------------------------------------
+public ref class ShapeExtend_DataMapOfTransientListOfMsg sealed : public BaseClass<::ShapeExtend_DataMapOfTransientListOfMsg>
+{
+
+#ifdef Include_ShapeExtend_DataMapOfTransientListOfMsg_h
+public:
+	Include_ShapeExtend_DataMapOfTransientListOfMsg_h
+#endif
+
+public:
+	ShapeExtend_DataMapOfTransientListOfMsg(::ShapeExtend_DataMapOfTransientListOfMsg* nativeInstance)
+		: BaseClass<::ShapeExtend_DataMapOfTransientListOfMsg>( nativeInstance, true )
+	{}
+
+	ShapeExtend_DataMapOfTransientListOfMsg(::ShapeExtend_DataMapOfTransientListOfMsg& nativeInstance)
+		: BaseClass<::ShapeExtend_DataMapOfTransientListOfMsg>( &nativeInstance, false )
+	{}
+
+	property ::ShapeExtend_DataMapOfTransientListOfMsg* NativeInstance
+	{
+		::ShapeExtend_DataMapOfTransientListOfMsg* get()
+		{
+			return static_cast<::ShapeExtend_DataMapOfTransientListOfMsg*>(_NativeInstance);
+		}
+	}
+
+public:
+	ShapeExtend_DataMapOfTransientListOfMsg();
+	ShapeExtend_DataMapOfTransientListOfMsg(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	ShapeExtend_DataMapOfTransientListOfMsg(int theNbBuckets);
+	ShapeExtend_DataMapOfTransientListOfMsg(Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg^ theOther);
+	void Exchange(Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg^ theOther);
+	Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg^ Assign(Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg^ theOther);
+	/* Method skipped due to unknown mapping: NCollection_List<Message_Msg> Bound(Standard_Transient theKey, NCollection_List<Message_Msg> theItem, ) */
+	bool IsBound(Macad::Occt::Standard_Transient^ theKey);
+	bool UnBind(Macad::Occt::Standard_Transient^ theKey);
+	/* Method skipped due to unknown mapping: NCollection_List<Message_Msg> Seek(Standard_Transient theKey, ) */
+	/* Method skipped due to unknown mapping: NCollection_List<Message_Msg> Find(Standard_Transient theKey, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean Find(Standard_Transient theKey, NCollection_List<Message_Msg> theValue, ) */
+	/* Method skipped due to unknown mapping: NCollection_List<Message_Msg> ChangeSeek(Standard_Transient theKey, ) */
+	/* Method skipped due to unknown mapping: NCollection_List<Message_Msg> ChangeFind(Standard_Transient theKey, ) */
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	int Size();
+}; // class ShapeExtend_DataMapOfTransientListOfMsg
+
+//---------------------------------------------------------------------
 //  Class  ShapeExtend_ComplexCurve
 //---------------------------------------------------------------------
 public ref class ShapeExtend_ComplexCurve : public Macad::Occt::Geom_Curve
@@ -389,7 +438,7 @@ public:
 	ShapeExtend_MsgRegistrator(Macad::Occt::ShapeExtend_MsgRegistrator^ parameter1);
 	void Send(Macad::Occt::Standard_Transient^ object, Macad::Occt::Message_Msg^ message, Macad::Occt::Message_Gravity gravity);
 	void Send(Macad::Occt::TopoDS_Shape^ shape, Macad::Occt::Message_Msg^ message, Macad::Occt::Message_Gravity gravity);
-	/* Method skipped due to unknown mapping: ShapeExtend_DataMapOfTransientListOfMsg MapTransient() */
+	Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg^ MapTransient();
 	Macad::Occt::ShapeExtend_DataMapOfShapeListOfMsg^ MapShape();
 }; // class ShapeExtend_MsgRegistrator
 

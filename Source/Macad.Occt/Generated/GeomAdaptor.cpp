@@ -164,7 +164,7 @@ double Macad::Occt::GeomAdaptor_Curve::Resolution(double R3d)
 	return ((::GeomAdaptor_Curve*)_NativeInstance)->Resolution(R3d);
 }
 
-Macad::Occt::GeomAbs_CurveType Macad::Occt::GeomAdaptor_Curve::GetTypeOcc()
+Macad::Occt::GeomAbs_CurveType Macad::Occt::GeomAdaptor_Curve::GetGeomType()
 {
 	return (Macad::Occt::GeomAbs_CurveType)((::GeomAdaptor_Curve*)_NativeInstance)->GetType();
 }
@@ -485,7 +485,7 @@ double Macad::Occt::GeomAdaptor_Surface::VResolution(double R3d)
 	return ((::GeomAdaptor_Surface*)_NativeInstance)->VResolution(R3d);
 }
 
-Macad::Occt::GeomAbs_SurfaceType Macad::Occt::GeomAdaptor_Surface::GetTypeOcc()
+Macad::Occt::GeomAbs_SurfaceType Macad::Occt::GeomAdaptor_Surface::GetGeomType()
 {
 	return (Macad::Occt::GeomAbs_SurfaceType)((::GeomAdaptor_Surface*)_NativeInstance)->GetType();
 }
@@ -1024,7 +1024,7 @@ double Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::VResolution(double R3d
 	return ((::GeomAdaptor_SurfaceOfLinearExtrusion*)_NativeInstance)->VResolution(R3d);
 }
 
-Macad::Occt::GeomAbs_SurfaceType Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::GetTypeOcc()
+Macad::Occt::GeomAbs_SurfaceType Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::GetGeomType()
 {
 	return (Macad::Occt::GeomAbs_SurfaceType)((::GeomAdaptor_SurfaceOfLinearExtrusion*)_NativeInstance)->GetType();
 }
@@ -1320,7 +1320,7 @@ double Macad::Occt::GeomAdaptor_SurfaceOfRevolution::VResolution(double R3d)
 	return ((::GeomAdaptor_SurfaceOfRevolution*)_NativeInstance)->VResolution(R3d);
 }
 
-Macad::Occt::GeomAbs_SurfaceType Macad::Occt::GeomAdaptor_SurfaceOfRevolution::GetTypeOcc()
+Macad::Occt::GeomAbs_SurfaceType Macad::Occt::GeomAdaptor_SurfaceOfRevolution::GetGeomType()
 {
 	return (Macad::Occt::GeomAbs_SurfaceType)((::GeomAdaptor_SurfaceOfRevolution*)_NativeInstance)->GetType();
 }

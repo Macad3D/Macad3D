@@ -13,7 +13,7 @@ namespace Macad.Core.Geom
         public static bool GetPlaneFromFace(TopoDS_Face face, out Pln plane)
         {
             var surfaceAdaptor = new BRepAdaptor_Surface(face);
-            if (surfaceAdaptor.GetTypeOcc() != GeomAbs_SurfaceType.GeomAbs_Plane)
+            if (surfaceAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
             {
                 plane = new Pln();
                 return false;
@@ -51,7 +51,7 @@ namespace Macad.Core.Geom
         public static bool GetCenteredPlaneFromFace(TopoDS_Face face, out Pln plane)
         {
             var brepAdaptor = new BRepAdaptor_Surface(face, true);
-            if (brepAdaptor.GetTypeOcc() != GeomAbs_SurfaceType.GeomAbs_Plane)
+            if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
             {
                 Messages.Error("Selected face is not a plane type surface.");
                 plane = Pln.XOY;
@@ -139,7 +139,7 @@ namespace Macad.Core.Geom
             foreach (var face in faces)
             {
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
-                if (brepAdaptor.GetTypeOcc() != GeomAbs_SurfaceType.GeomAbs_Plane)
+                if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
                 {
                     Messages.Error("Cannot get plane of faces, shape has faces which are not plane.");
                     return false;
@@ -196,7 +196,7 @@ namespace Macad.Core.Geom
             foreach (var face in faces)
             {
                 var brepAdaptor = new BRepAdaptor_Surface(face);
-                if (brepAdaptor.GetTypeOcc() != GeomAbs_SurfaceType.GeomAbs_Plane)
+                if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
                     continue;
 
                 var area = face.Area();

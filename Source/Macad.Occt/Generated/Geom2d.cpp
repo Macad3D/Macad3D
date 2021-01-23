@@ -1294,13 +1294,13 @@ Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2d_BSplineCurve::CreateDownca
 //  Class  Geom2d_Point
 //---------------------------------------------------------------------
 
-Macad::Occt::Geom2d_Point::Geom2d_Point(Macad::Occt::Geom2d_Point^ parameter1)
+Macad::Occt::Geom2d_Point::Geom2d_Point()
 	: Macad::Occt::Geom2d_Geometry(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Geom2d_Point::Geom2d_Point()
+Macad::Occt::Geom2d_Point::Geom2d_Point(Macad::Occt::Geom2d_Point^ parameter1)
 	: Macad::Occt::Geom2d_Geometry(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
@@ -1447,13 +1447,13 @@ Macad::Occt::Geom2d_CartesianPoint^ Macad::Occt::Geom2d_CartesianPoint::CreateDo
 //  Class  Geom2d_Conic
 //---------------------------------------------------------------------
 
-Macad::Occt::Geom2d_Conic::Geom2d_Conic(Macad::Occt::Geom2d_Conic^ parameter1)
+Macad::Occt::Geom2d_Conic::Geom2d_Conic()
 	: Macad::Occt::Geom2d_Curve(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Geom2d_Conic::Geom2d_Conic()
+Macad::Occt::Geom2d_Conic::Geom2d_Conic(Macad::Occt::Geom2d_Conic^ parameter1)
 	: Macad::Occt::Geom2d_Curve(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
@@ -1697,13 +1697,13 @@ Macad::Occt::Geom2d_Circle^ Macad::Occt::Geom2d_Circle::CreateDowncasted(::Geom2
 //  Class  Geom2d_Vector
 //---------------------------------------------------------------------
 
-Macad::Occt::Geom2d_Vector::Geom2d_Vector(Macad::Occt::Geom2d_Vector^ parameter1)
+Macad::Occt::Geom2d_Vector::Geom2d_Vector()
 	: Macad::Occt::Geom2d_Geometry(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Geom2d_Vector::Geom2d_Vector()
+Macad::Occt::Geom2d_Vector::Geom2d_Vector(Macad::Occt::Geom2d_Vector^ parameter1)
 	: Macad::Occt::Geom2d_Geometry(BaseClass::InitMode::Uninitialized)
 {
 	throw gcnew System::NotImplementedException("Native class is abstract");

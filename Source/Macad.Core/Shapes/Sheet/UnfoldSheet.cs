@@ -411,13 +411,13 @@ namespace Macad.Core.Shapes
             var faceAdaptor = new BRepAdaptor_Surface(baseFace);
 
             // Surface is flat, but two edges are of circle and coplanar
-            if (faceAdaptor.GetTypeOcc() == GeomAbs_SurfaceType.GeomAbs_Plane)
+            if (faceAdaptor.GetGeomType() == GeomAbs_SurfaceType.GeomAbs_Plane)
             {
                 // Ignore them for the moment, but sign them as bend section face
                 return true;
             }
 
-            if (faceAdaptor.GetTypeOcc() != GeomAbs_SurfaceType.GeomAbs_Cylinder)
+            if (faceAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Cylinder)
             {
                 // Surface must be of type Cylinder, other are not supported currently
                 return false;
@@ -491,7 +491,7 @@ namespace Macad.Core.Shapes
             foreach (var edge in edges)
             {
                 var edgeAdaptor = new BRepAdaptor_Curve(edge);
-                if (edgeAdaptor.GetTypeOcc() == GeomAbs_CurveType.GeomAbs_Circle)
+                if (edgeAdaptor.GetGeomType() == GeomAbs_CurveType.GeomAbs_Circle)
                 {
                     foundCircularEdges++;
 

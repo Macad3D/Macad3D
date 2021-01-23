@@ -15,7 +15,7 @@ namespace Macad.Occt.Generator
 
         #region Package List
 
-        public static List<string> PackageList = new List<string>()
+        public static List<string> PackageList = new()
         {
             /*** FoundationClasses ***/
             /* -- TKKernel -- */
@@ -69,7 +69,7 @@ namespace Macad.Occt.Generator
          * If a package is listed here, it is completely ignored except the listed classes.
          */
 
-        public static Dictionary<string, List<string>> ClassOptInList = new Dictionary<string, List<string>>()
+        public static Dictionary<string, List<string>> ClassOptInList = new()
         {
             {
                 "PrsMgr", new List<string>()
@@ -116,7 +116,7 @@ namespace Macad.Occt.Generator
 
         #region Known Types
 
-        public static List<Definitions.KnownTypeDefinition> KnownTypes = new List<Definitions.KnownTypeDefinition>()
+        public static List<Definitions.KnownTypeDefinition> KnownTypes = new()
         {
             new Definitions.KnownTypeDefinition("void", "void", true, Definitions.KnownTypes.Void),
             new Definitions.KnownTypeDefinition("bool", "bool", true, Definitions.KnownTypes.Boolean),
@@ -171,11 +171,11 @@ namespace Macad.Occt.Generator
 
         #endregion
 
-        public static List<string> UnknownTypes = new List<string>();
+        public static List<string> UnknownTypes = new();
 
         #region Ignores
 
-        public static List<string> Ignore = new List<string>()
+        public static List<string> Ignore = new()
         {
             "gp", // Manually wrapped
             "Standard_OutOfMemory", // unresolved external Standard_OutOfMemory::Throw(void)
@@ -271,6 +271,7 @@ namespace Macad.Occt.Generator
             "PrsMgr_Prs::PrsMgr_Prs", // cannot convert argument 2 from 'PrsMgr_Presentation' to 'const PrsMgr_PresentationPointer &'
             "Select3D_SensitiveGroup", // Unresolved externals
             "Select3D_SensitiveTriangulation", // Unresolved externals
+            "SelectMgr_SensitiveEntitySet", // Base class is not detected as transient
             "ShapeAnalysis_BoxBndTreeSelector", // Base class not present (NCollection_UBTree< TheObjType, TheBndType >::Selector)
             "TopOpeBRep_FacesFiller::SetPShapeClassifier", // cannot convert argument 1 from 'TopOpeBRepTool_ShapeClassifier' to 'const TopOpeBRepTool_PShapeClassifier &'
             "TopOpeBRep_FFDumper::TopOpeBRep_FFDumper", // cannot convert argument 1 from 'TopOpeBRep_FacesFiller' to 'const TopOpeBRep_PFacesFiller &'
@@ -362,7 +363,7 @@ namespace Macad.Occt.Generator
 
         #region Missing Exports
 
-        public static List<string> MissingExports = new List<string>()
+        public static List<string> MissingExports = new()
         {
             "math_NewtonMinimum::IsConvex()",
             "math_NewtonFunctionSetRoot::StateNumber()",
@@ -509,7 +510,7 @@ namespace Macad.Occt.Generator
 
         #region Unseal
 
-        public static List<string> Unseal = new List<string>()
+        public static List<string> Unseal = new()
         {
             "AIS_ViewCube",
             "AIS_Point"
@@ -519,9 +520,9 @@ namespace Macad.Occt.Generator
 
         #region Name Replacements
 
-        public static Dictionary<string, string> NameReplacements = new Dictionary<string, string>()
+        public static Dictionary<string, string> NameReplacements = new()
         {
-            {"GetType", "GetTypeOcc"},
+            {"GetType", "GetGeomType"},
             {"IN", "_IN"},
 
             // Replace collection names with template types as template parameter, which are already resolved by Clang
@@ -535,11 +536,14 @@ namespace Macad.Occt.Generator
         #region Source file header
 
         // We need to define an in
-        public static string SouceFileHeader = @"
+        public static string SourceFileHeader = @"
             // clang does not define the __MACHINEARM in its intrinsic.h
             #undef __clang__
                 #include <intrin0.h> 
             #define __clang__
+
+            // The following header file can not be compiled, it seems to be obsolete
+            #define AIS_DataMapOfSelStat_HeaderFile
 
             struct TI_0 {};
             struct TI_1 {};

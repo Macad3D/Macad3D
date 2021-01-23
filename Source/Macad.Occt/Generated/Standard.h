@@ -679,8 +679,8 @@ public:
 	/* Method skipped due to unknown mapping: TCollection_AsciiString Text(stringstream theStream, ) */
 	/* Method skipped due to unknown mapping: TCollection_AsciiString FormatJson(stringstream theStream, Standard_Integer theIndent, ) */
 	/* Method skipped due to unknown mapping: TCollection_AsciiString FormatJson(stringstream theStream, Standard_Integer theIndent, ) */
-	/* Method skipped due to unknown mapping: Standard_Boolean SplitJson(TCollection_AsciiString theStreamStr, NCollection_IndexedDataMap<TCollection_AsciiString, Standard_DumpValue, NCollection_DefaultHasher<TCollection_AsciiString> > theKeyToValues, ) */
-	/* Method skipped due to unknown mapping: NCollection_List<int> HierarchicalValueIndices(NCollection_IndexedDataMap<TCollection_AsciiString, TCollection_AsciiString, NCollection_DefaultHasher<TCollection_AsciiString> > theValues, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean SplitJson(TCollection_AsciiString theStreamStr, NCollection_IndexedDataMap<TCollection_AsciiString, Standard_DumpValue, NCollection_DefaultHasher<TCollection_AsciiString>> theKeyToValues, ) */
+	/* Method skipped due to unknown mapping: NCollection_List<int> HierarchicalValueIndices(NCollection_IndexedDataMap<TCollection_AsciiString, TCollection_AsciiString, NCollection_DefaultHasher<TCollection_AsciiString>> theValues, ) */
 	static bool HasChildKey(Macad::Occt::TCollection_AsciiString^ theSourceValue);
 	static System::String^ JsonKeyToString(Macad::Occt::Standard_JsonKey theKey);
 	static int JsonKeyLength(Macad::Occt::Standard_JsonKey theKey);
@@ -825,7 +825,7 @@ public:
 	/* Method skipped due to unknown mapping: streampos pubseekpos(streampos _Pos, int _Mode, ) */
 	/* Method skipped due to unknown mapping: streampos pubseekpos(streampos _Pos, int _Mode, ) */
 	/* Method skipped due to unknown mapping: streampos pubseekpos(streampos _Pos, unsigned int _Mode, ) */
-	/* Method skipped due to unknown mapping: basic_streambuf<char, std::char_traits<char> > pubsetbuf(char _Buffer, long long int _Count, ) */
+	/* Method skipped due to unknown mapping: basic_streambuf<char, std::char_traits<char>> pubsetbuf(char _Buffer, long long int _Count, ) */
 	/* Method skipped due to unknown mapping: locale pubimbue(locale _Newlocale, ) */
 	/* Method skipped due to unknown mapping: locale getloc() */
 	/* Method skipped due to unknown mapping: long long int in_avail() */

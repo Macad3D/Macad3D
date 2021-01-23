@@ -1,10 +1,9 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace Macad.Occt.Generator
@@ -14,15 +13,15 @@ namespace Macad.Occt.Generator
         string _IncludePath;
         string _CachePath;
         string _CastXmlPath;
-        XDocument _Db;
+        CastXml.CastXML _Db;
         Dictionary<string, Definitions.TypeDefinition> _TypeCache = new Dictionary<string, Definitions.TypeDefinition>();
         Definitions.TypeDefinition _VoidTypeDefinition = new Definitions.TypeDefinition() { Name = "void" };
         Dictionary<string, string> _CurrentFileSet = new Dictionary<string, string>();
         public static Dictionary<string, string> CollectionTypedefs = new Dictionary<string, string>();
-        public string _CurrentTemplateTypedefSource = "";
-        public string _CurrentTemplateTypedefTarget = "";
 
         static readonly char[] TrimChars = new[] { (char)0x1, (char)0x2, ' ', '=' };
+
+        //--------------------------------------------------------------------------------------------------
 
         public bool Execute()
         {
@@ -36,7 +35,7 @@ namespace Macad.Occt.Generator
             // Process packages
             foreach (var package in Configuration.PackageList)
             {
-                result = result && AddPackage(package);
+                result = result && _AddPackage(package);
             }
 
             // Remove all template classes
@@ -44,13 +43,15 @@ namespace Macad.Occt.Generator
 
             // Link and sort
             Logger.Context = "-Post-Classes-";
-            result = result && PostProcessClasses();
+            result = result && _PostProcessClasses();
 
             Logger.Context = "";
             return result;
         }
 
-        bool PostProcessClasses()
+        //--------------------------------------------------------------------------------------------------
+
+        bool _PostProcessClasses()
         {
             bool result = true;
 
@@ -151,7 +152,9 @@ namespace Macad.Occt.Generator
             return result;
         }
 
-        bool AddPackage(string package)
+        //--------------------------------------------------------------------------------------------------
+
+        bool _AddPackage(string package)
         {
             var headerFiles = new List<string>();
 
@@ -176,7 +179,7 @@ namespace Macad.Occt.Generator
                 var writer = File.CreateText(cacheSourcePath);
 
                 // Write include
-                writer.WriteLine(Configuration.SouceFileHeader);
+                writer.WriteLine(Configuration.SourceFileHeader);
                 writer.WriteLine("");
 
                 foreach (var headerFile in headerFiles)
@@ -186,7 +189,7 @@ namespace Macad.Occt.Generator
                 writer.Close();
 
                 // Compile
-                if (!CompilePackage(_CachePath + @"\" + package))
+                if (!_CompilePackage(_CachePath + @"\" + package))
                     return false;
 
                 if (!File.Exists(cacheFilePath))
@@ -201,72 +204,72 @@ namespace Macad.Occt.Generator
 
             bool result = true;
 
-            _Db = XDocument.Load(cacheFilePath);
+            _Db = CastXml.CastXML.Load(cacheFilePath);
             _TypeCache.Clear();
             _CurrentFileSet.Clear();
 
             // Get file IDs
-            var fileItems = from item in _Db.Descendants("File")
-                where headerFiles.Contains(item.Attribute("name").Value)
+            var fileItems = from item in _Db.Files
+                where headerFiles.Contains(item.name)
                 select item;
 
             foreach (var fileItem in fileItems)
             {
-                _CurrentFileSet.Add(fileItem.Attribute("id").Value, fileItem.Attribute("name").Value);
+                _CurrentFileSet.Add(fileItem.id, fileItem.name);
             }
 
             // Process Type Definitions
-            var typedefs = from item in _Db.Descendants("Typedef")
-                where _CurrentFileSet.ContainsKey(item.Attribute("file").Value)
-                      && item.Attribute("context").Value.Equals("_1")
+            var typedefs = from item in _Db.Typedefs
+                where _CurrentFileSet.ContainsKey(item.file)
+                      && item.context == "_1"
                 select item;
 
             foreach (var t in typedefs)
             {
-                result = result && AddTypedef(t, package);
+                result = result && _AddTypedef(t, package);
             }
 
             // Process Enums
-            var enums = from item in _Db.Descendants("Enumeration")
-                where _CurrentFileSet.ContainsKey(item.Attribute("file").Value)
-                      && item.Attribute("context").Value.Equals("_1")
+            var enums = from item in _Db.Enumerations
+                where _CurrentFileSet.ContainsKey(item.file)
+                      && item.context == "_1"
                 select item;
 
             foreach (var e in enums)
             {
-                if (!Definitions.EnumItems.Any(ed => ed.Name.Equals(e.Attribute("name").Value)))
+                if (Definitions.EnumItems.All(ed => ed.Name != e.name))
                 {
-                    result = result && AddEnum(e, e.Attribute("id").Value, package);
+                    result = result && _AddEnum(e, e.id, package);
                 }
             }
 
             // Process Structs
-            var structs = from item in _Db.Descendants("Struct")
-                          where _CurrentFileSet.ContainsKey(item.Attribute("file").Value)
-                                && !item.Attributes("incomplete").Any(attr => attr.Value.Equals("1"))
-                                && item.Attribute("context").Value.Equals("_1") 
+            var structs = from item in _Db.Structs
+                          where _CurrentFileSet.ContainsKey(item.file)
+                                && !item.IsIncomplete
+                                && item.context == "_1"
                           select item;
 
             foreach (var s in structs)
             {
-                if (!Definitions.ClassItems.Any(cd => cd.Name.Equals(s.Attribute("name").Value)))
+                if (Definitions.ClassItems.All(cd => cd.Name != s.name))
                 {
-                    AddClass(s, package, true);
+                    _AddClass(s, package, true);
                 }
             }
             
             // Process Classes
-            var classes = from item in _Db.Descendants("Class")
-                          where _CurrentFileSet.ContainsKey(item.Attribute("file").Value)
-                      && !item.Attributes("incomplete").Any(attr => attr.Value.Equals("1"))
-                      && item.Attribute("context").Value.Equals("_1") 
+            var classes = from item in _Db.Classes
+                          where _CurrentFileSet.ContainsKey(item.file)
+                      && !item.IsIncomplete
+                      && item.context == "_1"
                 select item;
 
             foreach (var c in classes)
             {
-                if (!Definitions.ClassItems.Any(cd => cd.Name.Equals(c.Attribute("name").Value)))
+                if (Definitions.ClassItems.All(cd => cd.Name != c.name))
                 {
-                    AddClass(c, package, false);
+                    _AddClass(c, package, false);
                 }
             }
 
@@ -274,36 +277,37 @@ namespace Macad.Occt.Generator
             return result;
         }
 
-        bool CompilePackage(string cacheFilePath)
+        //--------------------------------------------------------------------------------------------------
+
+        bool _CompilePackage(string cacheFilePath)
         {
-            var options = new List<string>();
+            var options = new List<string>
+            {
+                @"--castxml-output=1",
+                @"--castxml-cc-msvc """ + Path.Combine(Configuration.VisualCppPath, @"bin\Hostx64\x64\cl.exe") + @"""",
 
-            options.Add(@"--castxml-gccxml"); 
-            options.Add(@"--castxml-cc-msvc """ + Path.Combine(Configuration.VisualCppPath, @"bin\Hostx64\x64\cl.exe") + @"""");
+                // Include paths
+                @"-I """ + _IncludePath + @"""",
+                @"-I """ + _IncludePath + @"\..\..\freetype\include""",
+                @"-I """ + Path.Combine(Configuration.VisualCppPath, @"include") + @"""",
+                @"-I """ + Configuration.UcrtPath + @"""",
+                @"-I """ + Path.Combine(Configuration.WinSDKPath, @"um") + @"""",
+                @"-I """ + Path.Combine(Configuration.WinSDKPath, @"shared") + @"""",
 
-            // Include paths
-            options.Add(@"-I """ + _IncludePath + @""""); //
-            options.Add(@"-I """ + _IncludePath + @"\..\..\freetype\include"""); //
-            options.Add(@"-I """ + Path.Combine(Configuration.VisualCppPath, @"include") + @"""");
-            options.Add(@"-I """ + Configuration.UcrtPath + @"""");
-            options.Add(@"-I """ + Path.Combine(Configuration.WinSDKPath, @"um") + @"""");
-            options.Add(@"-I """ + Path.Combine(Configuration.WinSDKPath, @"shared") + @"""");
+                // Defines
+                @"-D WNT",
+                @"-D __STDCPP_DEFAULT_NEW_ALIGNMENT__=8U",
+                @"-D __WRAPPER_GENERATOR__",
+                @"-D __clang__",
+                @"-D _ALLOW_COMPILER_AND_STL_VERSION_MISMATCH",
 
-            // Defines
-            options.Add(@"-D WNT");
-            options.Add(@"-D __STDCPP_DEFAULT_NEW_ALIGNMENT__=8U");
-            options.Add(@"-D __WRAPPER_GENERATOR__");
-            options.Add(@"-D __clang__");
-            options.Add(@"-D _ALLOW_COMPILER_AND_STL_VERSION_MISMATCH");
+                // Options for Clang
+                "-fcxx-exceptions", // Enable C++ exceptions
 
-            // Options for Clang
-            options.Add("-fcxx-exceptions"); // Enable C++ exceptions
+                // Source file
+                cacheFilePath + @".cxx"
+            };
 
-            // Output
-            //options.Add(@"-o """ + cacheFilePath + @"""" );
-
-            // Source file
-            options.Add(cacheFilePath + @".cxx");
 
             var logWriter = File.CreateText(cacheFilePath + @".log");
 
@@ -344,9 +348,11 @@ namespace Macad.Occt.Generator
             return true;
         }
 
-        bool AddEnum(XElement element, string enumId, string package, Definitions.ClassDefinition c = null)
+        //--------------------------------------------------------------------------------------------------
+
+        bool _AddEnum(CastXml.ItemsEnumeration enumeration, string enumId, string package, Definitions.ClassDefinition c = null)
         {
-            var name = element.Attribute("name").Value;
+            var name = enumeration.name;
             if (string.IsNullOrEmpty(name))
                 return true;
 
@@ -366,7 +372,7 @@ namespace Macad.Occt.Generator
                 }
             }
 
-            Logger.WriteLine(true, string.Format("Relevant enum: [{0}] [{1}] {2}", element.Attribute("id").Value, enumId, name));
+            Logger.WriteLine(true, $"Relevant enum: [{enumeration.id}] [{enumId}] {name}");
 
             var e = new Definitions.EnumDefinition()
             {
@@ -386,22 +392,21 @@ namespace Macad.Occt.Generator
                 c.InnerEnums.Add(e);
             }
 
-            // Search for enumerators in enum
-            var enumerators = element.Descendants("EnumValue");
-
-            foreach (var enumerator in enumerators)
+            foreach (var enumValue in enumeration.EnumValue)
             {
-                e.Enumerators.Add(enumerator.Attribute("name").Value, enumerator.Attribute("init").Value);
+                e.Enumerators.Add(enumValue.name, enumValue.init.ToString());
             }
 
-            AddInclude(element);
+            _AddInclude(enumeration.file);
 
             return true;
         }
 
-        public Definitions.ClassDefinition AddClass(XElement element, string package, bool isStruct, string overrideName = null)
+        //--------------------------------------------------------------------------------------------------
+
+        Definitions.ClassDefinition _AddClass(CastXml.Record record, string package, bool isStruct, string overrideName = null)
         {
-            string className = string.IsNullOrEmpty(overrideName) ? element.Attribute("name").Value : overrideName;
+            string className = string.IsNullOrEmpty(overrideName) ? record.name : overrideName;
             if (string.IsNullOrEmpty(className) || className.StartsWith("Handle_"))
                 return null;
 
@@ -432,22 +437,21 @@ namespace Macad.Occt.Generator
                 Name = className,
                 Package = package,
                 IsStruct = isStruct,
-                IsAbstract = element.Attributes("abstract").Any(attr => attr.Value.Equals("1"))
+                IsAbstract = record.IsAbstract
             };
             Definitions.ClassItems.Add(c);
 
             // Search for base class
             var baseClassToCopyIds = new List<string>();
-            var baseElements = element.Descendants("Base");
-            if (baseElements.Any())
+            if (record.Base != null)
             {
-                foreach (var baseElement in baseElements)
+                foreach (var baseElement in record.Base)
                 {
-                    var baseTypeId = baseElement.Attribute("type").Value;
-                    var baseClassElement = _Db.Descendants("Class").FirstOrDefault(e => e.Attribute("id").Value.Equals(baseTypeId));
+                    var baseTypeId = baseElement.type;
+                    var baseClassElement = _Db.Classes.FirstOrDefault(e => e.id == baseTypeId);
                     if (baseClassElement != null)
                     {
-                        var baseClassName = baseClassElement.Attribute("name").Value;
+                        var baseClassName = baseClassElement.name;
                         // Take base class name only if it is not template.
                         if (baseClassName.Contains("<"))
                         {
@@ -460,86 +464,73 @@ namespace Macad.Occt.Generator
                 }
             }
 
-            var classId = element.Attribute("id").Value;
+            var classId = record.id;
 
-            Logger.WriteLine(true, string.Format("Relevant class: [{0}] {1} : {2}", classId, className, c.BaseClassName));
+            Logger.WriteLine(true, $"Relevant class: [{classId}] {className} : {c.BaseClassName}");
 
             // Search for constructors in class
-            var constructors = from item in _Db.Descendants("Constructor")
-                            where item.Attribute("context").Value.Equals(classId)
+            var constructors = from item in _Db.Constructors
+                            where item.context == classId
                             select item;
 
             foreach (var f in constructors)
             {
-                if (!f.Attribute("access").Value.Equals("public"))
-                {
-                    c.HasUnaccessibleConstructor = true;
-                    continue;
-                }
-                AddFunction(c, f, 1);
+                _AddFunction(c, f, 1);
             }
 
             // Search for destructors in class
-            var destructors = from item in _Db.Descendants("Destructor")
-                where item.Attribute("context").Value.Equals(classId)
+            var destructors = from item in _Db.Destructors
+                where item.context == classId
                 select item;
 
             foreach (var f in destructors)
             {
-                if (!f.Attribute("access").Value.Equals("public"))
-                {
-                    c.HasUnaccessibleDestructor = true;
-                }
-                else
-                {
-                    AddFunction(c, f, 2);
-                }
+                _AddFunction(c, f, 2);
             }
 
             // Search for functions in class
-            var functions = from item in _Db.Descendants("Method")
-                            where item.Attribute("context").Value.Equals(classId)
-                                  && item.Attribute("access").Value.Equals("public")
+            var functions = from item in _Db.Methods
+                            where item.context == classId
                             select item;
 
             foreach (var f in functions)
             {
-                AddFunction(c, f, 0);
+                _AddFunction(c, f, 0);
             }
 
             // Search for functions in base class to copy
             // e.g. if the base class was templated
             foreach (var id in baseClassToCopyIds)
             {
-                var baseFuncs = from item in _Db.Descendants("Method")
-                                where item.Attribute("context").Value.Equals(id)
-                                      && item.Attribute("access").Value.Equals("public")
+                var baseFuncs = from item in _Db.Methods
+                                where item.context == id
                                 select item;
 
                 foreach (var f in baseFuncs)
                 {
-                    AddFunction(c, f, 0);
+                    _AddFunction(c, f, 0);
                 }
             }
 
             // Search for inner enums
-            var enums = from item in _Db.Descendants("Enumeration")
-                        where item.Attribute("context").Value.Equals(classId)
+            var enums = from item in _Db.Enumerations
+                        where item.context == classId
                         select item;
 
             foreach (var e in enums)
             {
-                var enumName = e.Attribute("name").Value;
-                AddEnum(e, e.Attribute("id").Value, package, c);
+                _AddEnum(e, e.id, package, c);
             }
 
-            AddInclude(element);
+            _AddInclude(record.file);
             return c;
         }
 
-        public void AddFunction(Definitions.ClassDefinition klass, XElement element, int funcType)
+        //--------------------------------------------------------------------------------------------------
+
+        void _AddFunction(Definitions.ClassDefinition klass, CastXml.Method method, int funcType)
         {
-            var fName = funcType == 0 ? element.Attribute("name").Value : klass.Name;
+            var fName = funcType == 0 ? method.name : klass.Name;
             var logName = klass.Name + "::" + fName;
 
             if (Configuration.Ignore.Contains(klass.Name + "::" + fName) || Configuration.Ignore.Contains("*::" + fName))
@@ -559,14 +550,14 @@ namespace Macad.Occt.Generator
             {
                 Class = klass,
                 Name = fName,
-                Type = (funcType == 0) ? GetTypeDefinition(element.Attribute("returns").Value) : _VoidTypeDefinition,
-                IsStatic = element.Attributes("static").Any(attr => attr.Value.Equals("1")),
-                IsPublic = true,
+                Type = (funcType == 0) ? _GetTypeDefinition(method.returns) : _VoidTypeDefinition,
+                IsStatic = method.IsStatic,
+                IsPublic = method.IsPublic,
                 IsConstructor = funcType == 1,
                 IsDestructor = funcType == 2,
                 IsOperator = false,
                 IsTemplate = fName.Contains('<'),
-                IsAbstract = element.Attributes("abstract").Any(attr => attr.Value.Equals("1")),
+                IsAbstract = method.IsPureVirtual,
             };
 
             if (f.Type == null)
@@ -575,68 +566,66 @@ namespace Macad.Occt.Generator
                 return;
             }
 
-            Logger.WriteLine(true, string.Format("\tRelevant function: [{0}] {1} type='{2}'", element.Attribute("id").Value, fName, f.Type.Name));
+            Logger.WriteLine(true, string.Format("\tRelevant function: [{0}] {1} type='{2}'", method.id, fName, f.Type.Name));
 
             // Get parameters
-            var parameters = element.Descendants("Argument");
-
             int unnamedCount = 1;
-
-            foreach (var p in parameters)
+            if (method.Argument != null)
             {
-                var fp = new Definitions.ParameterDefinition
+                foreach (var p in method.Argument)
                 {
-                    Type = GetTypeDefinition(p.Attribute("type").Value)
-                };
-
-                if (fp.Type == null)
-                {
-                    Logger.WriteLine(true, string.Format("\tFunction " + logName + " ignored because of an unknown parameter type (FunctionType?)."));
-                    return;
-                }
-
-                var pNameAttr = p.Attribute("name");
-                if (pNameAttr != null)
-                {
-                    fp.Name = pNameAttr.Value;
-                }
-                else
-                {
-                    fp.Name = string.Format("parameter{0}", unnamedCount);
-                    unnamedCount++;
-                }
-
-                if (Configuration.NameReplacements.ContainsKey(fp.Name))
-                    fp.Name = Configuration.NameReplacements[fp.Name];
-
-                var defaultValue = p.Attribute("default");
-                if (defaultValue != null)
-                {
-                    fp.Default = defaultValue.Value.Trim(TrimChars);
-
-                    // Make sure any type is interpreted as native, not wrapped
-                    if (fp.Default.StartsWith("opencascade::handle<"))
+                    var fp = new Definitions.ParameterDefinition
                     {
-                        fp.Default = fp.Default.Insert(20, "::");
-                    }
-                    else if (fp.Default.EndsWith("()")) // Constructor
+                        Type = _GetTypeDefinition(p.type)
+                    };
+
+                    if (fp.Type == null)
                     {
-                        fp.Default = "::" + fp.Default;
+                        Logger.WriteLine(true, string.Format("\tFunction " + logName + " ignored because of an unknown parameter type (FunctionType?)."));
+                        return;
                     }
 
-                    fp.HasDefault = true;
+                    if (string.IsNullOrEmpty(p.name))
+                    {
+                        fp.Name = $"parameter{unnamedCount}";
+                        unnamedCount++;
+                    }
+                    else
+                    {
+                        fp.Name = p.name;
+                    }
+
+                    if (Configuration.NameReplacements.ContainsKey(fp.Name))
+                        fp.Name = Configuration.NameReplacements[fp.Name];
+
+                    if (!string.IsNullOrEmpty(p.@default))
+                    {
+                        fp.Default = p.@default.Trim(TrimChars);
+
+                        // Make sure any type is interpreted as native, not wrapped
+                        if (fp.Default.StartsWith("opencascade::handle<"))
+                        {
+                            fp.Default = fp.Default.Insert(20, "::");
+                        }
+                        else if (fp.Default.EndsWith("()")) // Constructor
+                        {
+                            fp.Default = "::" + fp.Default;
+                        }
+
+                        fp.HasDefault = true;
+                    }
+
+                    Logger.WriteLine(true, $"\t\tRelevant parameter: {fp.Name} type='{fp.Type.Name}' default='{fp.Default}'");
+
+                    f.Parameters.Add(fp);
                 }
 
-                Logger.WriteLine(true, string.Format("\t\tRelevant parameter: {0} type='{1}' default='{2}'", fp.Name, fp.Type.Name, fp.Default));
-
-                f.Parameters.Add(fp);
-            }
-
-            if (f.Parameters.All(pd => pd.Type.IsVoid && !pd.Type.IsPointer))
-            {
-                // Only one void parameter, thats equivalent to no parameter
-                Logger.WriteLine(true, "\t\tFunction " + logName + " cleared all parameters because it has only one of type void.");
-                f.Parameters.Clear();
+                if (f.Parameters.All(pd => pd.Type.IsVoid && !pd.Type.IsPointer))
+                {
+                    // Only one void parameter, thats equivalent to no parameter
+                    Logger.WriteLine(true, "\t\tFunction " + logName + " cleared all parameters because it has only one of type void.");
+                    f.Parameters.Clear();
+                }
             }
 
             if (!klass.Functions.Any(other => f.IsEqual(other)))
@@ -645,19 +634,21 @@ namespace Macad.Occt.Generator
             }
         }
 
-        bool AddTypedef(XElement element, string package)
+        //--------------------------------------------------------------------------------------------------
+
+        bool _AddTypedef(CastXml.ItemsTypedef typedef, string package)
         {
             // Check if we have a typedef to a NCollection
-            var targetName = element.Attribute("name").Value;
+            var targetName = typedef.name;
             if (targetName.Contains("<"))
                 return true;
 
-            var sourceId = element.Attribute("type").Value;
-            var sourceElement = _Db.Descendants("Class").FirstOrDefault(e => e.Attribute("id").Value.Equals(sourceId));
+            var sourceId = typedef.type;
+            var sourceElement = _Db.Classes.FirstOrDefault(e => e.id == sourceId);
             if (sourceElement == null)
                 return true;
 
-            var sourceName = sourceElement.Attribute("name").Value;
+            var sourceName = sourceElement.name;
             if(!(sourceName.StartsWith("NCollection_") && sourceName.Contains("<")))
                 return true;
 
@@ -678,14 +669,16 @@ namespace Macad.Occt.Generator
 
             Logger.WriteLine(true, "\t\tFound relevant collection typedef: " + targetName + " << " + sourceName);
 
-            AddCollectionTemplateClass(targetName, sourceName, package);
+            _AddCollectionTemplateClass(targetName, sourceName, package);
 
-            AddInclude(element);
+            _AddInclude(typedef.file);
 
             return true;
         }
 
-        bool AddCollectionTemplateClass(string targetName, string sourceName, string package)
+        //--------------------------------------------------------------------------------------------------
+
+        bool _AddCollectionTemplateClass(string targetName, string sourceName, string package)
         {
             var resolvedSourceName = Configuration.NameReplacements.ContainsKey(sourceName) ? Configuration.NameReplacements[sourceName] : sourceName;
             var tpBegin = resolvedSourceName.IndexOf('<');
@@ -701,19 +694,13 @@ namespace Macad.Occt.Generator
             var sourceClass = Definitions.ClassItems.FirstOrDefault(cd => cd.IsTemplate && cd.Name.Equals(refClassName));
             if (sourceClass == null)
             {
-                var sourceElement = _Db.Descendants("Class").FirstOrDefault(e =>
-                {
-                    var attr = e.Attribute("name");
-                    if (attr == null)
-                        return false;
-                    return attr.Value.Equals(refClassName);
-                });
+                var sourceElement = _Db.Classes.FirstOrDefault(e => e.name == refClassName);
                 if (sourceElement == null)
                 {
                     Logger.WriteLine(true, "\t\t\tSource class not found: " + templateClassName + " for target " + targetName);
                     return false;
                 }
-                sourceClass = AddClass(sourceElement, "", false);
+                sourceClass = _AddClass(sourceElement, "", false);
             }
 
             Logger.WriteLine(true, "\t\t\tSource class found: " + refClassName + " for target " + targetName);
@@ -747,105 +734,106 @@ namespace Macad.Occt.Generator
             return true;
         }
 
-        public Definitions.TypeDefinition GetTypeDefinition(string id)
+        //--------------------------------------------------------------------------------------------------
+
+        Definitions.TypeDefinition _GetTypeDefinition(string id)
         {
             Definitions.TypeDefinition cached;
             if(_TypeCache.TryGetValue(id, out cached))
                 return cached;
 
-            var element = _Db.Descendants().FirstOrDefault(e => e.Attributes("id").Any( attr => attr.Value.Equals(id)));
-            Debug.Assert(element != null, "element != null");
+            var (element, type) = _Db.FindById(id);
+            if (element == null)
+                return null;
 
             var td = new Definitions.TypeDefinition();
-            var elementType = element.Name.LocalName;
 
-            // Check for fundamental type
-            if (elementType.Equals("FundamentalType"))
+            Definitions.TypeDefinition std;
+            switch (type)
             {
-                td.Name = element.Attribute("name").Value;
-            }
-            else if (elementType.Equals("Typedef"))
-            {
-                var elementName = element.Attribute("name").Value;
+                case CastXml.Items1ChoiceType.FundamentalType:
+                    td.Name = ((CastXml.ItemsFundamentalType)element).name;
+                    break;
 
-                // Check for known types
-                if (Configuration.KnownTypes.Any(kt => kt.NativeFqn == elementName))
-                {
-                    td.Name = elementName;
-                }
-                else
-                {
-                    var std = GetTypeDefinition(element.Attribute("type").Value);
-                    if (std == null)
-                        return null;
+                case CastXml.Items1ChoiceType.Typedef:
+                    var typedef = (CastXml.ItemsTypedef)element;
 
-                    if (std.Name.Contains("<") && !elementName.Contains("<"))
+                    // Check for known types
+                    if (Configuration.KnownTypes.Any(kt => kt.NativeFqn == typedef.name))
                     {
-                        // Only supress typedef resolve if the typedef resolves an template
-                        td.Name = elementName;
+                        td.Name = typedef.name;
                     }
                     else
                     {
-                        td.Name = std.Name;
-                        td.IsPointer = std.IsPointer;
-                        td.IsReference = std.IsReference;
-                        td.IsHandle = std.IsHandle;
+                        std = _GetTypeDefinition(typedef.type);
+                        if (std == null)
+                            return null;
+
+                        if (std.Name.Contains("<") && !typedef.name.Contains("<"))
+                        {
+                            // Only supress typedef resolve if the typedef resolves an template
+                            td.Name = typedef.name;
+                        }
+                        else
+                        {
+                            td.Name = std.Name;
+                            td.IsPointer = std.IsPointer;
+                            td.IsReference = std.IsReference;
+                            td.IsHandle = std.IsHandle;
+                        }
                     }
-                }
-            }
-            else if (elementType.Equals("Class"))
-            {
-                td.Name = element.Attribute("name").Value;
-                //if (_CurrentTemplateTypedefSource.Equals(td.Name))
-                    //td.Name = _CurrentTemplateTypedefTarget;
-            }
-            else if (elementType.Equals("Struct"))
-            {
-                td.Name = element.Attribute("name").Value;
-            }
-            else if (elementType.Equals("Enumeration"))
-            {
-                td.Name = element.Attribute("name").Value;
-            }
-            else if (elementType.Equals("PointerType"))
-            {
-                td.IsPointer = true;
-                var std = GetTypeDefinition(element.Attribute("type").Value);
-                if (std == null)
-                    return null;
+                    break;
+                    
+                case CastXml.Items1ChoiceType.ElaboratedType:
+                    return _GetTypeDefinition(((CastXml.ItemsElaboratedType)element).type);
 
-                td.Name = std.Name;
-                td.IsHandle = std.IsHandle;
-                td.IsConst = std.IsConst;
-            }
-            else if (elementType.Equals("ReferenceType"))
-            {
-                td.IsReference = true;
-                var std = GetTypeDefinition(element.Attribute("type").Value);
-                if (std == null)
-                    return null;
+                case CastXml.Items1ChoiceType.Class:
+                case CastXml.Items1ChoiceType.Struct:
+                    td.Name = ((CastXml.Record)element).name;
+                    break;
 
-                td.Name = std.Name;
-                td.IsHandle = std.IsHandle;
-                td.IsConst = std.IsConst;
-            }
-            else if (elementType.Equals("CvQualifiedType"))
-            {
-                td.IsConst = true;
-                var std = GetTypeDefinition(element.Attribute("type").Value);
-                if (std == null)
-                    return null;
+                case CastXml.Items1ChoiceType.Enumeration:
+                    td.Name = ((CastXml.ItemsEnumeration)element).name;
+                    break;
 
-                td.Name = std.Name;
-                td.IsPointer = std.IsPointer;
-                td.IsReference = std.IsReference;
-                td.IsHandle = std.IsHandle;
+                case CastXml.Items1ChoiceType.PointerType:
+                    td.IsPointer = true;
+                    std = _GetTypeDefinition(((CastXml.ItemsPointerType)element).type);
+                    if (std == null)
+                        return null;
+
+                    td.Name = std.Name;
+                    td.IsHandle = std.IsHandle;
+                    td.IsConst = std.IsConst;
+                    break;
+
+                case CastXml.Items1ChoiceType.ReferenceType:
+                    td.IsReference = true;
+                    std = _GetTypeDefinition(((CastXml.ItemsReferenceType)element).type);
+                    if (std == null)
+                        return null;
+
+                    td.Name = std.Name;
+                    td.IsHandle = std.IsHandle;
+                    td.IsConst = std.IsConst;
+                    break;
+
+                case CastXml.Items1ChoiceType.CvQualifiedType:
+                    td.IsConst = true;
+                    std = _GetTypeDefinition(((CastXml.ItemsCvQualifiedType)element).type);
+                    if (std == null)
+                        return null;
+
+                    td.Name = std.Name;
+                    td.IsPointer = std.IsPointer;
+                    td.IsReference = std.IsReference;
+                    td.IsHandle = std.IsHandle;
+                    break;
+
+                default:
+                    return null;
             }
-            else
-            {
-                return null;
-            }
-            
+
             // Is handled?
             if (td.Name.StartsWith("Handle_"))
             {
@@ -868,20 +856,21 @@ namespace Macad.Occt.Generator
             return td;
         }
 
-        public void AddInclude(XElement element)
+        //--------------------------------------------------------------------------------------------------
+
+        void _AddInclude(string fileId)
         {
             string fileName = "";
-            var fileId = element.Attribute("file").Value;
             if (_CurrentFileSet.ContainsKey(fileId))
             {
                 fileName = Path.GetFileName(_CurrentFileSet[fileId]);
             }
             else
             {
-                var fileItem = _Db.Descendants("File").FirstOrDefault(e => e.Attribute("id").Value.Equals(fileId));
+                var fileItem = _Db.Files.FirstOrDefault(e => e.id == fileId);
                 if (fileItem != null)
                 {
-                    fileName = fileItem.Attribute("name").Value;
+                    fileName = fileItem.name;
                 }
             }
 
@@ -894,6 +883,8 @@ namespace Macad.Occt.Generator
                 Definitions.IncludeList.Add(fileName);
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
     }
 }

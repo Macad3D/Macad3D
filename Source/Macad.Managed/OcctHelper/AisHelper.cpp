@@ -1,9 +1,6 @@
 
 #include "ManagedPCH.h"
 
-#using <Macad.Occt.dll> as_friend
-
-
 namespace Macad
 {
 	namespace Occt

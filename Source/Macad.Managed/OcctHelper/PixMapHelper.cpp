@@ -1,7 +1,5 @@
 ﻿#include "ManagedPCH.h"
 
-#using <Macad.Occt.dll> as_friend
-
 using namespace System::Drawing;
 using namespace System::Drawing::Imaging;
 

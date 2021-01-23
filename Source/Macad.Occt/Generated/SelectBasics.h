@@ -147,7 +147,7 @@ public:
 	Macad::Occt::Pnt GetNearPickedPnt();
 	Macad::Occt::Pnt GetFarPickedPnt();
 	Macad::Occt::Pnt2d GetMousePosition();
-	/* Method skipped due to unknown mapping: void GetPlanes(NCollection_Vector<NCollection_Vec4<double> > thePlaneEquations, ) */
+	/* Method skipped due to unknown mapping: void GetPlanes(NCollection_Vector<NCollection_Vec4<double>> thePlaneEquations, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class SelectBasics_SelectingVolumeManager

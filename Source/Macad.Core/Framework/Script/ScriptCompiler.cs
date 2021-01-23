@@ -11,7 +11,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
-using Microsoft.CodeAnalysis.Scripting.Hosting;
 using Macad.Common;
 
 namespace Macad.Core
@@ -42,8 +41,10 @@ namespace Macad.Core
         static readonly string[] _DefaultImports =
         {
             "System",
+            "Macad.Common",
             "Macad.Core",
             "Macad.Core.Shapes",
+            "Macad.Core.Toolkits",
             "Macad.Core.Topology",
             "Macad.Occt",
         };

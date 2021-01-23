@@ -3,8 +3,6 @@
 
 #include "AIS_TranslationGizmo2D.h"
 
-#using <Macad.Occt.dll> as_friend
-
 namespace Macad
 {
 	namespace Occt

@@ -35,7 +35,7 @@ Reselect Face
 # Remarks    
 This modifier constructs a flange part and a bend part connecting the flange with the original solid.
 
-> [!Caution] While you can freely modifier the flange part, you should be very careful when modifying the bend part, if you plan to unfold the sheet at a later time. The unfolding algorithm needs to recognize the bend part, which is done by analyzing both the topology and the geometry. For the same reason, you must always add a gap between two neighboring flanges.
+> [!Caution] While you can freely modify the flange part, you should be very careful when modifying the bend part, if you plan to unfold the sheet at a later time. The unfolding algorithm needs to recognize the bend part, which is done by analyzing both the topology and the geometry. For the same reason, you must always add a gap between two neighboring flanges.
 
 # Creating a Flange
 1. Select the solid you.

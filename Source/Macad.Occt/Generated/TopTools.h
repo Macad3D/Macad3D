@@ -1511,8 +1511,8 @@ public:
 	int Upper();
 	bool IsDeletable();
 	bool IsAllocated();
-	/* Method skipped due to unknown mapping: NCollection_Array1<NCollection_List<TopoDS_Shape> > Assign(NCollection_Array1<NCollection_List<TopoDS_Shape> > theOther, ) */
-	/* Method skipped due to unknown mapping: NCollection_Array1<NCollection_List<TopoDS_Shape> > Move(NCollection_Array1<NCollection_List<TopoDS_Shape> > theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Array1<NCollection_List<TopoDS_Shape>> Assign(NCollection_Array1<NCollection_List<TopoDS_Shape>> theOther, ) */
+	/* Method skipped due to unknown mapping: NCollection_Array1<NCollection_List<TopoDS_Shape>> Move(NCollection_Array1<NCollection_List<TopoDS_Shape>> theOther, ) */
 	/* Method skipped due to unknown mapping: NCollection_List<TopoDS_Shape> First() */
 	/* Method skipped due to unknown mapping: NCollection_List<TopoDS_Shape> ChangeFirst() */
 	/* Method skipped due to unknown mapping: NCollection_List<TopoDS_Shape> Last() */

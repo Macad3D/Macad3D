@@ -1244,6 +1244,129 @@ void Macad::Occt::Graphic3d_ShaderAttributeList::SetValue(int theIndex, Macad::O
 
 
 //---------------------------------------------------------------------
+//  Class  Graphic3d_MapOfAspectsToAspects
+//---------------------------------------------------------------------
+
+Macad::Occt::Graphic3d_MapOfAspectsToAspects::Graphic3d_MapOfAspectsToAspects()
+	: BaseClass<::Graphic3d_MapOfAspectsToAspects>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Graphic3d_MapOfAspectsToAspects();
+}
+
+Macad::Occt::Graphic3d_MapOfAspectsToAspects::Graphic3d_MapOfAspectsToAspects(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::Graphic3d_MapOfAspectsToAspects>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::Graphic3d_MapOfAspectsToAspects(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::Graphic3d_MapOfAspectsToAspects::Graphic3d_MapOfAspectsToAspects(int theNbBuckets)
+	: BaseClass<::Graphic3d_MapOfAspectsToAspects>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Graphic3d_MapOfAspectsToAspects(theNbBuckets, 0L);
+}
+
+Macad::Occt::Graphic3d_MapOfAspectsToAspects::Graphic3d_MapOfAspectsToAspects(Macad::Occt::Graphic3d_MapOfAspectsToAspects^ theOther)
+	: BaseClass<::Graphic3d_MapOfAspectsToAspects>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Graphic3d_MapOfAspectsToAspects(*(::Graphic3d_MapOfAspectsToAspects*)theOther->NativeInstance);
+}
+
+void Macad::Occt::Graphic3d_MapOfAspectsToAspects::Exchange(Macad::Occt::Graphic3d_MapOfAspectsToAspects^ theOther)
+{
+	((::Graphic3d_MapOfAspectsToAspects*)_NativeInstance)->Exchange(*(::Graphic3d_MapOfAspectsToAspects*)theOther->NativeInstance);
+}
+
+Macad::Occt::Graphic3d_MapOfAspectsToAspects^ Macad::Occt::Graphic3d_MapOfAspectsToAspects::Assign(Macad::Occt::Graphic3d_MapOfAspectsToAspects^ theOther)
+{
+	::Graphic3d_MapOfAspectsToAspects* _result = new ::Graphic3d_MapOfAspectsToAspects();
+	*_result = ((::Graphic3d_MapOfAspectsToAspects*)_NativeInstance)->Assign(*(::Graphic3d_MapOfAspectsToAspects*)theOther->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_MapOfAspectsToAspects(_result);
+}
+
+Macad::Occt::Graphic3d_Aspects^ Macad::Occt::Graphic3d_MapOfAspectsToAspects::Bound(Macad::Occt::Graphic3d_Aspects^ theKey, Macad::Occt::Graphic3d_Aspects^ theItem)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+bool Macad::Occt::Graphic3d_MapOfAspectsToAspects::IsBound(Macad::Occt::Graphic3d_Aspects^ theKey)
+{
+	Handle(::Graphic3d_Aspects) h_theKey = theKey->NativeInstance;
+	return ((::Graphic3d_MapOfAspectsToAspects*)_NativeInstance)->IsBound(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
+}
+
+bool Macad::Occt::Graphic3d_MapOfAspectsToAspects::UnBind(Macad::Occt::Graphic3d_Aspects^ theKey)
+{
+	Handle(::Graphic3d_Aspects) h_theKey = theKey->NativeInstance;
+	return ((::Graphic3d_MapOfAspectsToAspects*)_NativeInstance)->UnBind(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
+}
+
+Macad::Occt::Graphic3d_Aspects^ Macad::Occt::Graphic3d_MapOfAspectsToAspects::Seek(Macad::Occt::Graphic3d_Aspects^ theKey)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+Macad::Occt::Graphic3d_Aspects^ Macad::Occt::Graphic3d_MapOfAspectsToAspects::Find(Macad::Occt::Graphic3d_Aspects^ theKey)
+{
+	Handle(::Graphic3d_Aspects) h_theKey = theKey->NativeInstance;
+	Handle(::Graphic3d_Aspects) _result;
+	_result = ((::Graphic3d_MapOfAspectsToAspects*)_NativeInstance)->Find(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Aspects::CreateDowncasted( _result.get());
+}
+
+bool Macad::Occt::Graphic3d_MapOfAspectsToAspects::Find(Macad::Occt::Graphic3d_Aspects^ theKey, Macad::Occt::Graphic3d_Aspects^ theValue)
+{
+	Handle(::Graphic3d_Aspects) h_theKey = theKey->NativeInstance;
+	Handle(::Graphic3d_Aspects) h_theValue = theValue->NativeInstance;
+	return ((::Graphic3d_MapOfAspectsToAspects*)_NativeInstance)->Find(h_theKey, h_theValue);
+	theKey->NativeInstance = h_theKey.get();
+	theValue->NativeInstance = h_theValue.get();
+}
+
+Macad::Occt::Graphic3d_Aspects^ Macad::Occt::Graphic3d_MapOfAspectsToAspects::ChangeSeek(Macad::Occt::Graphic3d_Aspects^ theKey)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+Macad::Occt::Graphic3d_Aspects^ Macad::Occt::Graphic3d_MapOfAspectsToAspects::ChangeFind(Macad::Occt::Graphic3d_Aspects^ theKey)
+{
+	Handle(::Graphic3d_Aspects) h_theKey = theKey->NativeInstance;
+	Handle(::Graphic3d_Aspects) _result;
+	_result = ((::Graphic3d_MapOfAspectsToAspects*)_NativeInstance)->ChangeFind(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Aspects::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::Graphic3d_MapOfAspectsToAspects::Clear(bool doReleaseMemory)
+{
+	((::Graphic3d_MapOfAspectsToAspects*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::Graphic3d_MapOfAspectsToAspects::Clear()
+{
+	((::Graphic3d_MapOfAspectsToAspects*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::Graphic3d_MapOfAspectsToAspects::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::Graphic3d_MapOfAspectsToAspects*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::Graphic3d_MapOfAspectsToAspects::Size()
+{
+	return ((::Graphic3d_MapOfAspectsToAspects*)_NativeInstance)->Size();
+}
+
+
+
+
+//---------------------------------------------------------------------
 //  Class  Graphic3d_SequenceOfGroup
 //---------------------------------------------------------------------
 
@@ -1431,6 +1554,151 @@ void Macad::Occt::Graphic3d_SequenceOfGroup::SetValue(int theIndex, Macad::Occt:
 	Handle(::Graphic3d_Group) h_theItem = theItem->NativeInstance;
 	((::Graphic3d_SequenceOfGroup*)_NativeInstance)->SetValue(theIndex, h_theItem);
 	theItem->NativeInstance = h_theItem.get();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  Graphic3d_MapOfStructure
+//---------------------------------------------------------------------
+
+Macad::Occt::Graphic3d_MapOfStructure::Graphic3d_MapOfStructure()
+	: BaseClass<::Graphic3d_MapOfStructure>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Graphic3d_MapOfStructure();
+}
+
+Macad::Occt::Graphic3d_MapOfStructure::Graphic3d_MapOfStructure(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::Graphic3d_MapOfStructure>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	_NativeInstance = new ::Graphic3d_MapOfStructure(theNbBuckets, h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+Macad::Occt::Graphic3d_MapOfStructure::Graphic3d_MapOfStructure(int theNbBuckets)
+	: BaseClass<::Graphic3d_MapOfStructure>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Graphic3d_MapOfStructure(theNbBuckets, 0L);
+}
+
+Macad::Occt::Graphic3d_MapOfStructure::Graphic3d_MapOfStructure(Macad::Occt::Graphic3d_MapOfStructure^ theOther)
+	: BaseClass<::Graphic3d_MapOfStructure>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Graphic3d_MapOfStructure(*(::Graphic3d_MapOfStructure*)theOther->NativeInstance);
+}
+
+void Macad::Occt::Graphic3d_MapOfStructure::Exchange(Macad::Occt::Graphic3d_MapOfStructure^ theOther)
+{
+	((::Graphic3d_MapOfStructure*)_NativeInstance)->Exchange(*(::Graphic3d_MapOfStructure*)theOther->NativeInstance);
+}
+
+Macad::Occt::Graphic3d_MapOfStructure^ Macad::Occt::Graphic3d_MapOfStructure::Assign(Macad::Occt::Graphic3d_MapOfStructure^ theOther)
+{
+	::Graphic3d_MapOfStructure* _result = new ::Graphic3d_MapOfStructure();
+	*_result = ((::Graphic3d_MapOfStructure*)_NativeInstance)->Assign(*(::Graphic3d_MapOfStructure*)theOther->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_MapOfStructure(_result);
+}
+
+Macad::Occt::Graphic3d_Structure^ Macad::Occt::Graphic3d_MapOfStructure::Added(Macad::Occt::Graphic3d_Structure^ K)
+{
+	Handle(::Graphic3d_Structure) h_K = K->NativeInstance;
+	Handle(::Graphic3d_Structure) _result;
+	_result = ((::Graphic3d_MapOfStructure*)_NativeInstance)->Added(h_K);
+	K->NativeInstance = h_K.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Structure::CreateDowncasted( _result.get());
+}
+
+bool Macad::Occt::Graphic3d_MapOfStructure::Contains(Macad::Occt::Graphic3d_Structure^ K)
+{
+	Handle(::Graphic3d_Structure) h_K = K->NativeInstance;
+	return ((::Graphic3d_MapOfStructure*)_NativeInstance)->Contains(h_K);
+	K->NativeInstance = h_K.get();
+}
+
+bool Macad::Occt::Graphic3d_MapOfStructure::Remove(Macad::Occt::Graphic3d_Structure^ K)
+{
+	Handle(::Graphic3d_Structure) h_K = K->NativeInstance;
+	return ((::Graphic3d_MapOfStructure*)_NativeInstance)->Remove(h_K);
+	K->NativeInstance = h_K.get();
+}
+
+void Macad::Occt::Graphic3d_MapOfStructure::Clear(bool doReleaseMemory)
+{
+	((::Graphic3d_MapOfStructure*)_NativeInstance)->Clear(doReleaseMemory);
+}
+
+void Macad::Occt::Graphic3d_MapOfStructure::Clear()
+{
+	((::Graphic3d_MapOfStructure*)_NativeInstance)->Clear(true);
+}
+
+void Macad::Occt::Graphic3d_MapOfStructure::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+{
+	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
+	((::Graphic3d_MapOfStructure*)_NativeInstance)->Clear(h_theAllocator);
+	theAllocator->NativeInstance = h_theAllocator.get();
+}
+
+int Macad::Occt::Graphic3d_MapOfStructure::Size()
+{
+	return ((::Graphic3d_MapOfStructure*)_NativeInstance)->Size();
+}
+
+bool Macad::Occt::Graphic3d_MapOfStructure::IsEqual(Macad::Occt::Graphic3d_MapOfStructure^ theOther)
+{
+	return ((::Graphic3d_MapOfStructure*)_NativeInstance)->IsEqual(*(::Graphic3d_MapOfStructure*)theOther->NativeInstance);
+}
+
+bool Macad::Occt::Graphic3d_MapOfStructure::Contains(Macad::Occt::Graphic3d_MapOfStructure^ theOther)
+{
+	return ((::Graphic3d_MapOfStructure*)_NativeInstance)->Contains(*(::Graphic3d_MapOfStructure*)theOther->NativeInstance);
+}
+
+void Macad::Occt::Graphic3d_MapOfStructure::Union(Macad::Occt::Graphic3d_MapOfStructure^ theLeft, Macad::Occt::Graphic3d_MapOfStructure^ theRight)
+{
+	((::Graphic3d_MapOfStructure*)_NativeInstance)->Union(*(::Graphic3d_MapOfStructure*)theLeft->NativeInstance, *(::Graphic3d_MapOfStructure*)theRight->NativeInstance);
+}
+
+bool Macad::Occt::Graphic3d_MapOfStructure::Unite(Macad::Occt::Graphic3d_MapOfStructure^ theOther)
+{
+	return ((::Graphic3d_MapOfStructure*)_NativeInstance)->Unite(*(::Graphic3d_MapOfStructure*)theOther->NativeInstance);
+}
+
+bool Macad::Occt::Graphic3d_MapOfStructure::HasIntersection(Macad::Occt::Graphic3d_MapOfStructure^ theMap)
+{
+	return ((::Graphic3d_MapOfStructure*)_NativeInstance)->HasIntersection(*(::Graphic3d_MapOfStructure*)theMap->NativeInstance);
+}
+
+void Macad::Occt::Graphic3d_MapOfStructure::Intersection(Macad::Occt::Graphic3d_MapOfStructure^ theLeft, Macad::Occt::Graphic3d_MapOfStructure^ theRight)
+{
+	((::Graphic3d_MapOfStructure*)_NativeInstance)->Intersection(*(::Graphic3d_MapOfStructure*)theLeft->NativeInstance, *(::Graphic3d_MapOfStructure*)theRight->NativeInstance);
+}
+
+bool Macad::Occt::Graphic3d_MapOfStructure::Intersect(Macad::Occt::Graphic3d_MapOfStructure^ theOther)
+{
+	return ((::Graphic3d_MapOfStructure*)_NativeInstance)->Intersect(*(::Graphic3d_MapOfStructure*)theOther->NativeInstance);
+}
+
+void Macad::Occt::Graphic3d_MapOfStructure::Subtraction(Macad::Occt::Graphic3d_MapOfStructure^ theLeft, Macad::Occt::Graphic3d_MapOfStructure^ theRight)
+{
+	((::Graphic3d_MapOfStructure*)_NativeInstance)->Subtraction(*(::Graphic3d_MapOfStructure*)theLeft->NativeInstance, *(::Graphic3d_MapOfStructure*)theRight->NativeInstance);
+}
+
+bool Macad::Occt::Graphic3d_MapOfStructure::Subtract(Macad::Occt::Graphic3d_MapOfStructure^ theOther)
+{
+	return ((::Graphic3d_MapOfStructure*)_NativeInstance)->Subtract(*(::Graphic3d_MapOfStructure*)theOther->NativeInstance);
+}
+
+void Macad::Occt::Graphic3d_MapOfStructure::Difference(Macad::Occt::Graphic3d_MapOfStructure^ theLeft, Macad::Occt::Graphic3d_MapOfStructure^ theRight)
+{
+	((::Graphic3d_MapOfStructure*)_NativeInstance)->Difference(*(::Graphic3d_MapOfStructure*)theLeft->NativeInstance, *(::Graphic3d_MapOfStructure*)theRight->NativeInstance);
+}
+
+bool Macad::Occt::Graphic3d_MapOfStructure::Differ(Macad::Occt::Graphic3d_MapOfStructure^ theOther)
+{
+	return ((::Graphic3d_MapOfStructure*)_NativeInstance)->Differ(*(::Graphic3d_MapOfStructure*)theOther->NativeInstance);
 }
 
 
@@ -6399,6 +6667,11 @@ bool Macad::Occt::Graphic3d_Structure::AcceptConnection(Macad::Occt::Graphic3d_S
 	return ::Graphic3d_Structure::AcceptConnection((::Graphic3d_Structure*)theStructure1->NativeInstance, (::Graphic3d_Structure*)theStructure2->NativeInstance, (::Graphic3d_TypeOfConnection)theType);
 }
 
+void Macad::Occt::Graphic3d_Structure::Ancestors(Macad::Occt::Graphic3d_MapOfStructure^ SG)
+{
+	((::Graphic3d_Structure*)_NativeInstance)->Ancestors(*(::Graphic3d_MapOfStructure*)SG->NativeInstance);
+}
+
 void Macad::Occt::Graphic3d_Structure::Connect(Macad::Occt::Graphic3d_Structure^ theStructure, Macad::Occt::Graphic3d_TypeOfConnection theType, bool theWithCheck)
 {
 	((::Graphic3d_Structure*)_NativeInstance)->Connect((::Graphic3d_Structure*)theStructure->NativeInstance, (::Graphic3d_TypeOfConnection)theType, theWithCheck);
@@ -6414,6 +6687,11 @@ void Macad::Occt::Graphic3d_Structure::Connect(Macad::Occt::Graphic3d_Structure^
 	Handle(::Graphic3d_Structure) h_thePrs = thePrs->NativeInstance;
 	((::Graphic3d_Structure*)_NativeInstance)->Connect(h_thePrs);
 	thePrs->NativeInstance = h_thePrs.get();
+}
+
+void Macad::Occt::Graphic3d_Structure::Descendants(Macad::Occt::Graphic3d_MapOfStructure^ SG)
+{
+	((::Graphic3d_Structure*)_NativeInstance)->Descendants(*(::Graphic3d_MapOfStructure*)SG->NativeInstance);
 }
 
 void Macad::Occt::Graphic3d_Structure::Disconnect(Macad::Occt::Graphic3d_Structure^ theStructure)
@@ -6736,6 +7014,11 @@ void Macad::Occt::Graphic3d_Group::SetPrimitivesAspect(Macad::Occt::Graphic3d_As
 void Macad::Occt::Graphic3d_Group::SynchronizeAspects()
 {
 	((::Graphic3d_Group*)_NativeInstance)->SynchronizeAspects();
+}
+
+void Macad::Occt::Graphic3d_Group::ReplaceAspects(Macad::Occt::Graphic3d_MapOfAspectsToAspects^ theMap)
+{
+	((::Graphic3d_Group*)_NativeInstance)->ReplaceAspects(*(::Graphic3d_MapOfAspectsToAspects*)theMap->NativeInstance);
 }
 
 void Macad::Occt::Graphic3d_Group::AddText(Macad::Occt::Graphic3d_Text^ theTextParams, bool theToEvalMinMax)
@@ -7404,6 +7687,16 @@ void Macad::Occt::Graphic3d_StructureManager::Remove()
 void Macad::Occt::Graphic3d_StructureManager::Erase()
 {
 	((::Graphic3d_StructureManager*)_NativeInstance)->Erase();
+}
+
+void Macad::Occt::Graphic3d_StructureManager::DisplayedStructures(Macad::Occt::Graphic3d_MapOfStructure^ SG)
+{
+	((::Graphic3d_StructureManager*)_NativeInstance)->DisplayedStructures(*(::Graphic3d_MapOfStructure*)SG->NativeInstance);
+}
+
+void Macad::Occt::Graphic3d_StructureManager::HighlightedStructures(Macad::Occt::Graphic3d_MapOfStructure^ SG)
+{
+	((::Graphic3d_StructureManager*)_NativeInstance)->HighlightedStructures(*(::Graphic3d_MapOfStructure*)SG->NativeInstance);
 }
 
 void Macad::Occt::Graphic3d_StructureManager::ReCompute(Macad::Occt::Graphic3d_Structure^ theStructure)
@@ -8137,6 +8430,16 @@ bool Macad::Occt::Graphic3d_CView::ContainsFacet()
 	return ((::Graphic3d_CView*)_NativeInstance)->ContainsFacet();
 }
 
+bool Macad::Occt::Graphic3d_CView::ContainsFacet(Macad::Occt::Graphic3d_MapOfStructure^ theSet)
+{
+	return ((::Graphic3d_CView*)_NativeInstance)->ContainsFacet(*(::Graphic3d_MapOfStructure*)theSet->NativeInstance);
+}
+
+void Macad::Occt::Graphic3d_CView::DisplayedStructures(Macad::Occt::Graphic3d_MapOfStructure^ theStructures)
+{
+	((::Graphic3d_CView*)_NativeInstance)->DisplayedStructures(*(::Graphic3d_MapOfStructure*)theStructures->NativeInstance);
+}
+
 int Macad::Occt::Graphic3d_CView::NumberOfDisplayedStructures()
 {
 	return ((::Graphic3d_CView*)_NativeInstance)->NumberOfDisplayedStructures();
@@ -8160,6 +8463,20 @@ Macad::Occt::Bnd_Box^ Macad::Occt::Graphic3d_CView::MinMaxValues()
 {
 	::Bnd_Box* _result = new ::Bnd_Box();
 	*_result = ((::Graphic3d_CView*)_NativeInstance)->MinMaxValues(false);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Bnd_Box(_result);
+}
+
+Macad::Occt::Bnd_Box^ Macad::Occt::Graphic3d_CView::MinMaxValues(Macad::Occt::Graphic3d_MapOfStructure^ theSet, bool theToIncludeAuxiliary)
+{
+	::Bnd_Box* _result = new ::Bnd_Box();
+	*_result = ((::Graphic3d_CView*)_NativeInstance)->MinMaxValues(*(::Graphic3d_MapOfStructure*)theSet->NativeInstance, theToIncludeAuxiliary);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Bnd_Box(_result);
+}
+
+Macad::Occt::Bnd_Box^ Macad::Occt::Graphic3d_CView::MinMaxValues(Macad::Occt::Graphic3d_MapOfStructure^ theSet)
+{
+	::Bnd_Box* _result = new ::Bnd_Box();
+	*_result = ((::Graphic3d_CView*)_NativeInstance)->MinMaxValues(*(::Graphic3d_MapOfStructure*)theSet->NativeInstance, false);
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Bnd_Box(_result);
 }
 

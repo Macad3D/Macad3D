@@ -11,6 +11,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "TopTools.h"
 #include "gp.h"
 #include "Geom.h"
+#include "BRepAlgoAPI.h"
 #include "TColgp.h"
 #include "Geom2dAdaptor.h"
 #include "TopAbs.h"

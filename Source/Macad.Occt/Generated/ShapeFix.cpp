@@ -20,6 +20,8 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "ShapeAnalysis.h"
 #include "TopTools.h"
 #include "TopAbs.h"
+#include "gp.h"
+#include "TColStd.h"
 
 
 //---------------------------------------------------------------------
