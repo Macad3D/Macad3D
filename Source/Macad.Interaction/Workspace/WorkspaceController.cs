@@ -530,6 +530,13 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
+        public void CancelSelection()
+        {
+            IsSelecting = false;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public bool KeyPressed(Key key)
         {
             if (CurrentTool != null)

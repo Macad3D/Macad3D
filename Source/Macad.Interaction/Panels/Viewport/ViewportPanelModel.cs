@@ -48,11 +48,11 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        public ObservableCollection<HudElement> HudElements { get; } = new ObservableCollection<HudElement>();
+        public ObservableCollection<HudElement> HudElements { get; } = new();
 
         //--------------------------------------------------------------------------------------------------
 
-        public CustomMenuItems DynamicContextMenuItems { get; } = new CustomMenuItems();
+        public CustomMenuItems DynamicContextMenuItems { get; } = new();
 
         //--------------------------------------------------------------------------------------------------
 
@@ -71,7 +71,6 @@ namespace Macad.Interaction.Panels
         WorkspaceController _WorkspaceController;
         ViewportController _ViewportController;
         Cursor _Cursor;
-        ViewportController.MouseMoveMode _CurrentMouseMoveMode;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -105,87 +104,6 @@ namespace Macad.Interaction.Panels
         #endregion
 
         #region Control Callbacks
-
-        public void MouseMove(Point pos, MouseDevice mouseDevice)
-        {
-            if (ViewportController == null)
-                return;
-
-            if(_CurrentMouseMoveMode != ViewportController.MouseMoveMode.None)
-            {
-                ViewportController.MouseMove(pos, _CurrentMouseMoveMode);
-            }
-            else
-            {
-                if (mouseDevice?.LeftButton == MouseButtonState.Pressed)
-                {
-                    ViewportController.MouseMove(pos);
-                    if (Keyboard.IsKeyDown(Key.LeftCtrl) && !ViewportController.IsInRubberbandSelection && ViewportController.WorkspaceController.IsSelecting)
-                    {
-                        ViewportController.StartRubberbandSelection(
-                            InteractiveContext.Current.EditorState.RubberbandSelectionMode,
-                            InteractiveContext.Current.EditorState.RubberbandIncludeTouched);
-                    }
-                } 
-                else 
-                {
-                    ViewportController.MouseMove(pos);
-                }
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void MouseWheel(Point pos, int delta, InputDevice device)
-        {
-            if (ViewportController != null)
-            {
-                double scaledDelta = delta / 200.0;
-                if (Keyboard.IsKeyDown(Key.LeftCtrl))
-                {
-                    // Increase precision
-                    scaledDelta /= 10.0;
-                }
-                ViewportController.Zoom(pos, scaledDelta);
-                ViewportController.MouseMove(pos);
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void MouseDown(Point pos, MouseButton changedButton, MouseDevice mouseDevice)
-        {
-            if (changedButton == MouseButton.Left)
-            {
-                ViewportController.MouseDown();
-            }
-            _UpdateMouseMoveMode(mouseDevice);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void MouseUp(Point pos, MouseButton changedButton, int clickCount, MouseDevice mouseDevice)
-        {
-            if (WorkspaceController != null)
-            {
-                if (changedButton == MouseButton.Left)
-                {
-                    bool shiftKey = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
-                    ViewportController.MouseUp(shiftKey);
-                }
-            }
-            _UpdateMouseMoveMode(mouseDevice);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void MouseLeave()
-        {
-            ViewportController?.MouseMove(new Point(-1,-1), ViewportController.MouseMoveMode.None);
-            _CurrentMouseMoveMode = ViewportController.MouseMoveMode.None;
-        }
-
-        //--------------------------------------------------------------------------------------------------
         
         public bool KeyDown(KeyEventArgs keyEventArgs)
         {
@@ -211,40 +129,6 @@ namespace Macad.Interaction.Panels
         }
 
         //--------------------------------------------------------------------------------------------------
-
-        void _UpdateMouseMoveMode(MouseDevice mouseDevice)
-        {
-            if (mouseDevice?.MiddleButton == MouseButtonState.Pressed)
-            {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl))
-                {
-                    _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Twisting;
-                }
-                else if (ViewportController.LockedToPlane)
-                {
-                    _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Panning;
-                }
-                else
-                {
-                    _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Rotating;
-                }
-            }
-            else if (mouseDevice?.RightButton == MouseButtonState.Pressed)
-            {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl))
-                {
-                    _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Zooming;
-                }
-                else
-                {
-                    _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Panning;
-                }
-            }
-            else 
-            {
-                _CurrentMouseMoveMode = ViewportController.MouseMoveMode.None;
-            }
-        }
 
         #endregion
 
