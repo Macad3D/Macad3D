@@ -53,7 +53,7 @@ namespace Macad.Test.Unit.Exchange
             Assert.IsNotNull(bodies);
             Assert.AreEqual(1, bodies.Count());
             AssertHelper.IsSameModel(bodies.First().Shape, Path.Combine(_BasePath, "AsciiRead"), 
-                ModelCompare.CompareFlags.SaveTriangulation | ModelCompare.CompareFlags.CompareBytes);
+                ModelCompare.CompareFlags.SaveTriangulation | ModelCompare.CompareFlags.CompareText);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ namespace Macad.Test.Unit.Exchange
             Assert.IsNotNull(bodies);
             Assert.AreEqual(1, bodies.Count());
             AssertHelper.IsSameModel(bodies.First().Shape, Path.Combine(_BasePath, "BinaryRead"), 
-                ModelCompare.CompareFlags.SaveTriangulation | ModelCompare.CompareFlags.CompareBytes);
+                ModelCompare.CompareFlags.SaveTriangulation | ModelCompare.CompareFlags.CompareText);
         }
 
         //--------------------------------------------------------------------------------------------------

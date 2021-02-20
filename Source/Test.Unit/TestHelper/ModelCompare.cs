@@ -21,7 +21,8 @@ namespace Macad.Test.Unit
             None = 0,
             CompareBytes = 1 << 1,
             CompareProperties = 1 << 2,
-            SaveTriangulation = 1 << 3
+            SaveTriangulation = 1 << 3,
+            CompareText = 1 << 4
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -63,6 +64,13 @@ namespace Macad.Test.Unit
                 TestData.WriteTestResult(bytes, brepFile + "_TestResult.brep");
                 TestContext.WriteLine($"{brepFile}: Shape not equal to reference");
                 return false;
+            }
+                                    
+            if (flags.HasFlag(CompareFlags.CompareText))
+            {
+                TestData.WriteTestResult(bytes, brepFile + "_TestResult.brep");
+                AssertHelper.IsSameText(referenceBytes, bytes, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+                return true;
             }
 
             if (flags.HasFlag(CompareFlags.CompareProperties))

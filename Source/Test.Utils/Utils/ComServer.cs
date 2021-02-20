@@ -102,7 +102,13 @@ namespace Macad.Test.Utils
             try
             {
                 _Module = Win32Api.LoadLibrary(moduleName);
+                if (_Module == IntPtr.Zero)
+                    return false;
+
                 var proc = Win32Api.GetProcAddress(_Module, "DllGetClassObject");
+                if (proc == IntPtr.Zero)
+                    return false;
+
                 _GetClassObject = Marshal.GetDelegateForFunctionPointer(proc, typeof(DllGetClassObjectDelegate)) as DllGetClassObjectDelegate;
 
                 return _GetClassObject != null;

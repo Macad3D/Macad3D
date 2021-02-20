@@ -312,11 +312,14 @@ namespace Macad.Common.Interop
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
         public static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPWStr)] string lpFileName);
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+        [DllImport("kernel32.dll")]
         public static extern bool FreeLibrary(IntPtr hLibModule);
  
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
         public static extern IntPtr GetProcAddress(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string lpProcName);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern bool SetDllDirectory(string lpPathName);
 
         //--------------------------------------------------------------------------------------------------
 

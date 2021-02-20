@@ -17,7 +17,7 @@ namespace Macad.Test.UI.Framework
 
         public DocumentExplorerAdaptor(Window window)
         {
-            _ViewControl = window.FindFirstDescendant(cf => cf.ByClassName("DocumentExplorerView"));
+            _ViewControl = window.FindFirstDescendant(cf => cf.ByClassName("DocumentExplorerPanel"));
             Assume.That(_ViewControl, Is.Not.Null);
             _TreeControl = _ViewControl.FindFirstDescendant(cf => cf.ByAutomationId("TreeView")).AsTree();
             Assume.That(_TreeControl, Is.Not.Null);

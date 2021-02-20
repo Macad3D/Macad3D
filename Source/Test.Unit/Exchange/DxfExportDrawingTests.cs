@@ -34,7 +34,7 @@ namespace Macad.Test.Unit.Exchange
             var dxf = RunExporter(false, _Projection, new[] { ocShape });
             
             // Write to file and compare
-            TestData.FileCompare(dxf.ToArray(), Path.Combine(_BasePath, "Simple.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Simple.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ namespace Macad.Test.Unit.Exchange
             var dxf = RunExporter(true, _Projection, new[] { ocShape });
 
             // Write to file and compare
-            TestData.FileCompare(dxf.ToArray(), Path.Combine(_BasePath, "PolySimple.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "PolySimple.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ namespace Macad.Test.Unit.Exchange
             var dxf = RunExporter(false, _Projection, new[] { ocShape });
 
             // Write to file and compare
-            TestData.FileCompare(dxf.ToArray(), Path.Combine(_BasePath, "RudderBlade.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "RudderBlade.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ namespace Macad.Test.Unit.Exchange
             var dxf = RunExporter(false, _TopProjection, new[] { ocShape });
 
             // Write to file and compare
-            TestData.FileCompare(dxf.ToArray(), Path.Combine(_BasePath, "Circle.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Circle.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
 
             // Cut circle
             var box = new Box() { DimensionX = 10, DimensionY = 10, DimensionZ = 10};
@@ -95,7 +95,7 @@ namespace Macad.Test.Unit.Exchange
             dxf = RunExporter(false, _TopProjection, new[] { ocShape, ocBoxShape });
 
             // Write to file and compare
-            TestData.FileCompare(dxf.ToArray(), Path.Combine(_BasePath, "CircleArc.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "CircleArc.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ namespace Macad.Test.Unit.Exchange
             var dxf = RunExporter(false, _TopProjection, new[] { ocShape });
 
             // Write to file and compare
-            TestData.FileCompare(dxf.ToArray(), Path.Combine(_BasePath, "Ellipse.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Ellipse.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
 
             // Cut circle
             var box = new Box() { DimensionX = 10, DimensionY = 10, DimensionZ = 10 };
@@ -123,7 +123,7 @@ namespace Macad.Test.Unit.Exchange
             dxf = RunExporter(false, _TopProjection, new[] { ocShape, ocBoxShape });
 
             // Write to file and compare
-            TestData.FileCompare(dxf.ToArray(), Path.Combine(_BasePath, "EllipseArc.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "EllipseArc.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -138,7 +138,7 @@ namespace Macad.Test.Unit.Exchange
             var dxf = RunExporter(false, _Projection, new[] { ocShape }, DxfVersion.AC1015);
 
             // Write to file and compare
-            TestData.FileCompare(dxf.ToArray(), Path.Combine(_BasePath, "Complex_AC1015.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Complex_AC1015.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -168,7 +168,7 @@ namespace Macad.Test.Unit.Exchange
             var dxf = RunExporter(false, _Projection, new[] { ocShape }, DxfVersion.AC1012);
 
             // Write to file and compare
-            TestData.FileCompare(dxf.ToArray(), Path.Combine(_BasePath, "Complex_AC1012.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Complex_AC1012.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -198,7 +198,7 @@ namespace Macad.Test.Unit.Exchange
             var dxf = RunExporter(false, _Projection, new[] { ocShape }, DxfVersion.AC1009);
 
             // Write to file and compare
-            TestData.FileCompare(dxf.ToArray(), Path.Combine(_BasePath, "Complex_AC1009.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Complex_AC1009.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------

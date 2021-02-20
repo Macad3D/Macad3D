@@ -27,10 +27,10 @@ namespace Macad.Test.Unit.Modeling.Multiply
             array.Distance2 = 25;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, array.ShapeType);
-            AssertHelper.IsSameModel2D(array, Path.Combine(_BasePath, "SketchDefault"));
+            AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SketchDefault"));
 
             // Ensure that original shape is still unmodified
-            AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "SketchDefaultUnmodified"));
+            AssertHelper.IsSameModel(sketch, Path.Combine(_BasePath, "SketchDefaultUnmodified"));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
             array.DistanceMode2 = LinearArray.DistanceMode.Extent;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, array.ShapeType);
-            AssertHelper.IsSameModel2D(array, Path.Combine(_BasePath, "SketchExtent"));
+            AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SketchExtent"));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
             array.DistanceMode2 = LinearArray.DistanceMode.Spacing;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, array.ShapeType);
-            AssertHelper.IsSameModel2D(array, Path.Combine(_BasePath, "SketchSpacing"));
+            AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SketchSpacing"));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
             array.DistanceMode2 = LinearArray.DistanceMode.OverallExtent;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, array.ShapeType);
-            AssertHelper.IsSameModel2D(array, Path.Combine(_BasePath, "SketchOverallExtent"));
+            AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SketchOverallExtent"));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
             array.Border = true;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, array.ShapeType);
-            AssertHelper.IsSameModel2D(array, Path.Combine(_BasePath, "SketchBorder"));
+            AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SketchBorder"));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
             array.Alignment2 = LinearArray.AlignmentMode.Center;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, array.ShapeType);
-            AssertHelper.IsSameModel2D(array, Path.Combine(_BasePath, "SketchAlignCenter"));
+            AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SketchAlignCenter"));
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -143,7 +143,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
             array.Alignment2 = LinearArray.AlignmentMode.Last;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, array.ShapeType);
-            AssertHelper.IsSameModel2D(array, Path.Combine(_BasePath, "SketchAlignLast"));
+            AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SketchAlignLast"));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
             array.Rotation = 45;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, array.ShapeType);
-            AssertHelper.IsSameModel2D(array, Path.Combine(_BasePath, "SketchRotation"));
+            AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SketchRotation"));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
             array.Rotation = 45;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, array.ShapeType);
-            AssertHelper.IsSameModel2D(array, Path.Combine(_BasePath, "SketchRotationAlignCenter"));
+            AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SketchRotationAlignCenter"));
         }
 
         //--------------------------------------------------------------------------------------------------

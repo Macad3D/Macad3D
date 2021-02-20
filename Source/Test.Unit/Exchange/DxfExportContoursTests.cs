@@ -31,7 +31,7 @@ namespace Macad.Test.Unit.Exchange
             var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "SimpleContour_TestResult.dxf"));
             Assert.IsTrue(template.Export(path, new DxfExchanger()));
 
-            AssertHelper.IsSameFile(Path.Combine(_BasePath, "SimpleContour.dxf"), path);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "SimpleContour.dxf"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ namespace Macad.Test.Unit.Exchange
             var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "TwoLayerContour_TestResult.dxf"));
             Assert.IsTrue(template.Export(path, new DxfExchanger()));
 
-            AssertHelper.IsSameFile(Path.Combine(_BasePath, "TwoLayerContour.dxf"), path);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "TwoLayerContour.dxf"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ namespace Macad.Test.Unit.Exchange
             var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "TwoLayerEtchMask_TestResult.dxf"));
             Assert.IsTrue(component.Export(path, new DxfExchanger()));
 
-            AssertHelper.IsSameFile(Path.Combine(_BasePath, "TwoLayerEtchMask.dxf"), path);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "TwoLayerEtchMask.dxf"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -91,7 +91,7 @@ namespace Macad.Test.Unit.Exchange
             var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "MultipleHoles_TestResult.dxf"));
             Assert.IsTrue(template.Export(path, new DxfExchanger()));
 
-            AssertHelper.IsSameFile(Path.Combine(_BasePath, "MultipleHoles.dxf"), path);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "MultipleHoles.dxf"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ namespace Macad.Test.Unit.Exchange
                 throw;
             }
 
-            AssertHelper.IsSameFile(Path.Combine(_BasePath, "LocatedWire.dxf"), path);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "LocatedWire.dxf"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -36,7 +36,8 @@ public class Packages
             Printer.Error("Try restoring packages.");
             return "";
         }
-        var filePath = Path.Combine(dirs[0], packageFile);
+        dirs.Sort();
+        var filePath = Path.Combine(dirs.Last(), packageFile);
         if(!File.Exists(filePath))
         {
             Printer.Error("Package not complete: " + packageName);
@@ -129,7 +130,16 @@ public class Packages
             if(package.Method=="unzip")
             {
                 Printer.Line($"Extracting web package {package.Name}... ");
-                System.IO.Compression.ZipFile.ExtractToDirectory(targetFileName, localPath);
+                if(Path.GetExtension(targetFileName).ToLower() == ".zip")
+                {
+                    System.IO.Compression.ZipFile.ExtractToDirectory(targetFileName, localPath);
+                } 
+                else 
+                {
+                    var args = $"x -aoa -y \"{targetFileName}\"";
+                    if(Common.Run(Path.Combine(Common.GetRootFolder(), "Packages", "7Zip", "7za.exe"), args, localPath) != 0)
+                        throw new Exception("Execution of 7-Zip failed.");
+                }
             }
             else if(package.Method.StartsWith("execute "))
             {

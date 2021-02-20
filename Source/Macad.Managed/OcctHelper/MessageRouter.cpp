@@ -24,6 +24,7 @@ namespace Macad
 
 				~NativeMessageRouter()
 				{
+					_MessageCallback = nullptr;
 				}
 
                 //--------------------------------------------------------------------------------------------------
@@ -86,6 +87,11 @@ namespace Macad
 
 				!MessageRouter()
 				{
+					auto messenger = ::Message::DefaultMessenger();
+					if(!messenger.IsNull())
+					{
+					    messenger->RemovePrinter((NativeMessageRouter*)NativeInstance);
+					}
 				    _NativeCallbackDelegate = nullptr;
 				}
 

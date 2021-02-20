@@ -24,7 +24,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = DxfSketchExporter.Export(sketch, DxfVersion.Latest, DxfFlags.None);
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "SingleLine.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "SingleLine.dxf"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = DxfSketchExporter.Export(sketch, DxfVersion.Latest, DxfFlags.None);
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "MultipleLinesOpen.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "MultipleLinesOpen.dxf"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = DxfSketchExporter.Export(sketch, DxfVersion.Latest, DxfFlags.None);
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "MultipleLinesClosed.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "MultipleLinesClosed.dxf"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = DxfSketchExporter.Export(sketch, DxfVersion.Latest, DxfFlags.None);
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "Circle.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Circle.dxf"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = DxfSketchExporter.Export(sketch, DxfVersion.Latest, DxfFlags.None);
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "Ellipse.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Ellipse.dxf"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -116,7 +116,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = DxfSketchExporter.Export(sketch, DxfVersion.AC1009, DxfFlags.None);
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "Ellipse_AC1009.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Ellipse_AC1009.dxf"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = DxfSketchExporter.Export(sketch, DxfVersion.Latest, DxfFlags.None);
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "Arc.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Arc.dxf"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -152,7 +152,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = DxfSketchExporter.Export(sketch, DxfVersion.Latest, DxfFlags.None);
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "EllipticalArc.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "EllipticalArc.dxf"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -170,7 +170,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = DxfSketchExporter.Export(sketch, DxfVersion.AC1009, DxfFlags.None);
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "EllipticalArc_AC1009.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "EllipticalArc_AC1009.dxf"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -188,7 +188,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = DxfSketchExporter.Export(sketch, DxfVersion.Latest, DxfFlags.None);
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "BezierQuadratic.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "BezierQuadratic.dxf"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -206,7 +206,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = DxfSketchExporter.Export(sketch, DxfVersion.Latest, DxfFlags.None);
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "BezierCubic.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "BezierCubic.dxf"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -224,7 +224,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = DxfSketchExporter.Export(sketch, DxfVersion.Latest, DxfFlags.ExportSplineAsPolygon);
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "BezierAsPoly.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "BezierAsPoly.dxf"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -242,7 +242,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = DxfSketchExporter.Export(sketch, DxfVersion.AC1009, DxfFlags.ExportSplineAsPolygon);
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "BezierAsPoly_AC1009.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "BezierAsPoly_AC1009.dxf"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -260,7 +260,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = DxfSketchExporter.Export(sketch, DxfVersion.Latest, DxfFlags.ExportSplineAsPolygon | DxfFlags.ExportBinaryFile);
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "BezierAsPolyBin.dxf"));
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "BezierAsPolyBin.dxf"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------

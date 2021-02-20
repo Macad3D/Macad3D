@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Macad.Test.Utils;
 using Macad.Common;
 using Macad.Core.Shapes;
@@ -126,7 +128,57 @@ namespace Macad.Test.Unit
 
         static char[] _FloatDelimiterChars = new[] {' ', ',', ':'};
 
+        //--------------------------------------------------------------------------------------------------
+
+
         public static void IsSameTextFile(string originalPath, string testResultPath, TextCompareFlags flags = TextCompareFlags.None)
+        {
+            Debug.Assert(originalPath != testResultPath);
+
+            // Read file to compare
+            var testLines = TestData.GetTestDataLines(testResultPath);
+            Assert.IsNotNull(testLines, "Test file not found: " + testResultPath);
+            var refLines = TestData.GetTestDataLines(originalPath);
+            Assert.IsNotNull(refLines, "Reference file not found: " + originalPath);
+
+            IsSameText(refLines, testLines, flags);
+
+            TestData.DeleteTestResult(testResultPath);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static void IsSameTextFile(string originalPath, Stream testResultStream, TextCompareFlags flags = TextCompareFlags.None)
+        {
+            var testLines = new List<string>();
+            testResultStream.Position = 0;
+            using (StreamReader sr = new StreamReader(testResultStream))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    testLines.Add(line);
+                }
+            }
+            var refLines = TestData.GetTestDataLines(originalPath);
+            Assert.IsNotNull(refLines, "Reference file not found: " + originalPath);
+
+            IsSameText(refLines, testLines.ToArray(), flags);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public static void IsSameText(byte[] referenceBytes, byte[] testBytes, TextCompareFlags flags = TextCompareFlags.None)
+        {
+            var refLines = Encoding.Default.GetString(referenceBytes).Split('\n');
+            var testLines = Encoding.Default.GetString(testBytes).Split('\n');
+
+            IsSameText(refLines, testLines, flags);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static void IsSameText(string[] refLines, string[] testLines, TextCompareFlags flags = TextCompareFlags.None)
         {
             bool __TryGetFloatValue(string line, int col, out double result, out int endPos)
             {
@@ -141,15 +193,7 @@ namespace Macad.Test.Unit
             }
 
             //--------------------------------------------------------------------------------------------------
-
-            Debug.Assert(originalPath != testResultPath);
-
-            // Read file to compare
-            var testLines = TestData.GetTestDataLines(testResultPath);
-            Assert.IsNotNull(testLines, "Test file not found: " + testResultPath);
-            var refLines = TestData.GetTestDataLines(originalPath);
-            Assert.IsNotNull(refLines, "Reference file not found: " + originalPath);
-
+            
             // Compare
             Assert.AreEqual(testLines.Length, refLines.Length);
 
@@ -183,8 +227,7 @@ namespace Macad.Test.Unit
                     Assert.Fail( $"File differs at line {i} at position {testCol}." );
                 }
             }
-
-            TestData.DeleteTestResult(testResultPath);
         }
+
     }
 }

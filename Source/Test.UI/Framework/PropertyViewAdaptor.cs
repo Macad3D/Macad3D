@@ -13,7 +13,7 @@ namespace Macad.Test.UI.Framework
 
         public PropertyViewAdaptor(Window window)
         {
-            _ViewControl = window.FindFirstDescendant(cf => cf.ByClassName("PropertyView"));
+            _ViewControl = window.FindFirstDescendant(cf => cf.ByClassName("PropertiesPanel"));
             Assume.That(_ViewControl, Is.Not.Null);
             _PaneControl = _ViewControl.FindFirstChild();
             Assume.That(_PaneControl, Is.Not.Null);

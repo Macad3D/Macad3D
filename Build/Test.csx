@@ -17,26 +17,32 @@ if(Args.Count() < 1)
 _OptionDebug = Args.Any(s => s.ToLower() == "/debug");
 _OptionStopOnError = Args.Any(s => s.ToLower() == "/stop");
 _OptionSaveLog = Args.Any(s => s.ToLower() == "/log");
+_OptionAppVeyor = Args.Any(s => s.ToLower() == "/appveyor");
 
 switch(Args[0].ToLower())
 {
 	case "all":
 		int res = 0;
+		_ResultSuffix = "Unit_UI";
 		if(!_RunTests("Test.Unit,Test.UI"))
 			res = -1;
+		_ResultSuffix = "Memory";
 		if(!_RunMemoryTests("Test.Memory"))
 			res = -1;
 		return res;
 		break;
 	case "unit":
+		_ResultSuffix = "Unit";
 		if(!_RunTests("Test.Unit"))
 			return -1;
 		break;
 	case "ui":
+		_ResultSuffix = "UI";
 		if(!_RunTests("Test.UI"))
 			return -1;
 		break;
 	case "memory":
+		_ResultSuffix = "Memory";
 		if(!_RunMemoryTests("Test.Memory"))
 			return -1;
 		break;
@@ -52,6 +58,8 @@ return 0;
 static bool _OptionDebug = false;
 static bool _OptionStopOnError = false;
 static bool _OptionSaveLog = false;
+static bool _OptionAppVeyor = false;
+static string _ResultSuffix;
 
 /***************************************************************/
 
@@ -79,16 +87,34 @@ static string _EnsureTargets(string targets)
 
 static string _GetNUnitCommandLine()
 {
-	var commandLine = $"--noheader --workers=1 --agents=1 --process=Separate --out=TestOutput.txt";
+	var commandLine = $"--noheader --workers=1 --agents=1 --process=Separate";
+	if(_OptionAppVeyor)
+		commandLine += " --result=myresults.xml;format=AppVeyor";
+	else
+		commandLine += $" --out=TestOutput_{_ResultSuffix}.txt --result=TestResult_{_ResultSuffix}.xml";
+
 	if(_OptionDebug)
 		commandLine += " --pause";
 	else
 		commandLine += " --timeout=30000";
+
 	if(_OptionStopOnError)
 		commandLine += " --stoponerror";
+
 	if(_OptionSaveLog)
 		commandLine += " --trace=verbose";
+
 	return commandLine;
+}
+
+/***************************************************************/
+
+static string _GetNUnitPath()
+{
+	if(_OptionAppVeyor)
+		return "nunit3-console.exe";
+
+	return Packages.FindPackageFile(@"NUnit.ConsoleRunner.*", @"tools\nunit3-console.exe");
 }
 
 /***************************************************************/
@@ -100,7 +126,7 @@ static bool _RunTests(string targets)
 		return false;
 
 	// Build command line and run
-	var pathToRunner = Packages.FindPackageFile(@"NUnit.ConsoleRunner.*", @"tools\nunit3-console.exe");
+	var pathToRunner = _GetNUnitPath();
 	if(string.IsNullOrEmpty(pathToRunner))
 		return false;
 
@@ -124,11 +150,11 @@ static bool _RunMemoryTests(string targets)
 		return false;
 
 	// Build command line and run
-	var pathToRunner = Packages.FindPackageFile(@"NUnit.ConsoleRunner.*", @"tools\nunit3-console.exe");
+	var pathToRunner = _GetNUnitPath();
 	if(string.IsNullOrEmpty(pathToRunner))
 		return false;
 
-	var pathToMemRunner = Packages.FindPackageFile(@"JetBrains.dotMemoryUnit.*", @"lib\tools\dotMemoryUnit.exe");
+	var pathToMemRunner = Packages.FindPackageFile(@"JetBrains.dotMemoryUnit\*", @"lib\tools\dotMemoryUnit.exe");
 	if(string.IsNullOrEmpty(pathToMemRunner))
 		return false;
 

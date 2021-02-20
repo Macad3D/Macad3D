@@ -314,7 +314,7 @@ namespace Macad.Test.Unit.Modeling.Sheet
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        [Ignore("ToDo")]
+        [Explicit("ToDo")]
         public void FlangesOnSameFaceWithNoGaps()
         {
             /* The Flange modifier shouldn't allow this:

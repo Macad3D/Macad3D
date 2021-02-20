@@ -17,7 +17,7 @@ namespace Macad.Test.UI.Framework
 
         public LayersAdaptor(Window window)
         {
-            _ViewControl = window.FindFirstDescendant(cf => cf.ByClassName("LayersView"));
+            _ViewControl = window.FindFirstDescendant(cf => cf.ByClassName("LayersPanel"));
             Assume.That(_ViewControl, Is.Not.Null);
             _ListControl = _ViewControl.FindFirstDescendant(cf => cf.ByAutomationId("LayerList")).AsListBox();
             Assume.That(_ListControl, Is.Not.Null);
