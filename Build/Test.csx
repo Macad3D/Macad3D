@@ -65,20 +65,23 @@ static string _ResultSuffix;
 
 static string _EnsureTargets(string targets)
 {
-	string targetDlls = "";
-	string pathToBinaries = Path.Combine(Common.GetRootFolder(), "bin", _OptionDebug ? "Debug" : "Release");
-	var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.sln");
-	var vs = new VisualStudio();
-	if(!vs.IsReady)
-		return null;
-
-	// Check if targets were built
-	foreach(var target in targets.Split(','))
+	string targetDlls = string.Join(" ", targets.Split(',').Select(target => target + ".dll"));
+	
+	// On AppVeyor, we do not need to build
+	if(!_OptionAppVeyor)
 	{
-		if(!vs.Build(solutionFile, target, _OptionDebug ? "Debug" : "Release", "x64"))
+		string pathToBinaries = Path.Combine(Common.GetRootFolder(), "bin", _OptionDebug ? "Debug" : "Release");
+		var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.sln");
+		var vs = new VisualStudio();
+		if(!vs.IsReady)
 			return null;
 
-		targetDlls += target + ".dll ";
+		// Check if targets were built
+		foreach(var target in targets.Split(','))
+		{
+			if(!vs.Build(solutionFile, target, _OptionDebug ? "Debug" : "Release", "x64"))
+				return null;
+		}
 	}
 	return targetDlls;
 }
