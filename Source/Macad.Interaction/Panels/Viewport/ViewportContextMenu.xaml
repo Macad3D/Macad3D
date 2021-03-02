@@ -10,6 +10,7 @@
                         AutomationProperties.AutomationId="ViewportContextMenu">
 
         <mmp:ToolbarContextMenu.Resources>
+            <mmp:BindingProxy x:Key="DataContextProxy" Data="{Binding}"/>
             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" />
             <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" />
             <Style TargetType="{x:Type Separator}" BasedOn="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
@@ -77,7 +78,7 @@
 
         <mmp:ToolbarContextMenu.ItemsSource>
             <CompositeCollection>
-                <CollectionContainer Collection="{Binding Data.DynamicContextMenuItems}" /><!--, Source={StaticResource DataContextProxy}-->
+                <CollectionContainer Collection="{Binding Data.DynamicContextMenuItems, Source={StaticResource DataContextProxy}}" />
 
                 <MenuItem mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}">
                     <MenuItem CommandParameter="10.0" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridStepValue}" />

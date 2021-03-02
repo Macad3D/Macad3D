@@ -58,5 +58,24 @@ namespace Macad.Test.UI.Application.Edit
             Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
             Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"));
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void DynamicContextMenuItems()
+        {
+            TestDataGenerator.GenerateBox(MainWindow);
+
+            MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
+            Assert.IsTrue(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+            var menu = new ContextMenuAdaptor(MainWindow, "ViewportContextMenu");
+            menu.ClickMenuItem("Transform Shape");
+
+            MainWindow.Ribbon.SelectGroup("Edit");
+            Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("TransformShape"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

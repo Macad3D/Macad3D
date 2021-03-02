@@ -52,10 +52,6 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        public CustomMenuItems DynamicContextMenuItems { get; } = new();
-
-        //--------------------------------------------------------------------------------------------------
-
         public Cursor Cursor
         {
             get { return _Cursor; }
@@ -169,39 +165,6 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
         
-        #endregion
-
-        #region Context Actions
-
-        public void UpdateContextActions()
-        {
-            void __AddCommands(ICustomMenuProvider provider)
-            {
-                if (provider == null)
-                    return;
-
-                int oldcount = DynamicContextMenuItems.Count;
-                provider.EnrichContextMenu(DynamicContextMenuItems);
-                if (DynamicContextMenuItems.Count > oldcount)
-                {
-                    DynamicContextMenuItems.AddSeparator();
-                }
-            }
-
-            //--------------------------------------------------------------------------------------------------
-
-            DynamicContextMenuItems.Clear();
-            __AddCommands(WorkspaceController.CurrentToolAction);
-            __AddCommands(WorkspaceController.CurrentTool);
-            if (WorkspaceController.CurrentTool == null)
-            {
-                __AddCommands(WorkspaceController.CurrentEditor);
-            }
-            __AddCommands(WorkspaceController);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         #endregion
     }
 

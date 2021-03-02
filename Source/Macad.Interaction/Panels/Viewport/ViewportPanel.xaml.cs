@@ -194,7 +194,6 @@ namespace Macad.Interaction.Panels
         
             if (e.ChangedButton == MouseButton.Right && ContextMenu != null && !_SuppressContextMenu)
             {
-                Model?.UpdateContextActions();
                 ContextMenu.IsOpen = true;
                 return;
             }
