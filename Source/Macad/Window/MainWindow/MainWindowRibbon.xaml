@@ -751,6 +751,9 @@
                 <Fluent:Button CommandParameter="PointOnMidpoint"
                                mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
                                AutomationProperties.AutomationId="CreatePointOnMidpointConstraint"/>
+                <Fluent:Button CommandParameter="SmoothCorner"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.CreateConstraint}" 
+                               AutomationProperties.AutomationId="CreateSmoothCornerConstraint"/>
             </Fluent:RibbonGroupBox>
 
             <Fluent:RibbonGroupBox Name="Tools" Header="Tools">

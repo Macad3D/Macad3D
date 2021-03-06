@@ -179,4 +179,7 @@
   <ItemGroup>
     <CopyToOutput Include="@(OcctDeployFiles)" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="SketchSolve\License.txt" />
+  </ItemGroup>
 </Project>

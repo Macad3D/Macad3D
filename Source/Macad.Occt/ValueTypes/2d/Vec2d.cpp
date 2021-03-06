@@ -81,20 +81,20 @@ bool Vec2d::IsEqual(Vec2d Other, double LinearTolerance, double AngularTolerance
 
 bool Vec2d::IsNormal(Vec2d Other, double AngularTolerance)
 {
-	double Ang = M_PI / 2.0 - Angle(Other);
+	double Ang = Abs(M_PI / 2.0 - Abs(Angle(Other)));
 	if (Ang < 0) Ang = -Ang;
 	return  Ang <= AngularTolerance;
 }
 
 bool Vec2d::IsOpposite(Vec2d Other, double AngularTolerance)
 {
-	double Ang = M_PI - Angle(Other);
+	double Ang = M_PI - Abs(Angle(Other));
 	return Ang <= AngularTolerance;	
 }
 
 bool Vec2d::IsParallel(Vec2d Other, double AngularTolerance)
 {
-	double Ang = Angle(Other);
+	double Ang = Abs(Angle(Other));
 	return Ang <= AngularTolerance || M_PI - Ang <= AngularTolerance;
 }
 

@@ -57,6 +57,15 @@
                                               Value="{Binding Parameter, NotifyOnSourceUpdated=True}"  />
 
                         </Grid>
+
+                        <mmp:ToggleButton Grid.Row="1" Grid.ColumnSpan="2" 
+                                      Margin="60,2,0,0" 
+                                      Visibility="{Binding ToggleName, Converter={mmp:StringNotEmptyToVisibleCollapsedConverter}}"
+                                      Content="{Binding ToggleName}"
+                                      IsChecked="{Binding ToggleState, Mode=OneWay}"
+                                      Command="{Binding ToggleCommand}"
+                                      CommandParameter="{Binding}"
+                                      />
                     </Grid>
                 </DataTemplate>
             </mmp:TemplateItemsControl.ItemTemplate>

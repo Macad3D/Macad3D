@@ -54,7 +54,8 @@ namespace Macad.Interaction
             HorizontalDistance,
             VerticalDistance,
             Fixed,
-            Tangent
+            Tangent,
+            SmoothCorner
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -137,8 +138,7 @@ namespace Macad.Interaction
         {
             Header = () => "Export as SVG to Clipboard"
         };
-
-
+        
         //--------------------------------------------------------------------------------------------------
 
         public static ActionCommand<bool> ImportFromFile { get; } = new(
@@ -280,6 +280,9 @@ namespace Macad.Interaction
                     case Constraints.Tangent:
                         sketchEditTool.CreateConstraint<SketchConstraintTangent>();
                         break;
+                    case Constraints.SmoothCorner:
+                        sketchEditTool.CreateConstraint<SketchConstraintSmoothCorner>();
+                        break;
                 }
             },
             (constraintType) =>
@@ -338,6 +341,8 @@ namespace Macad.Interaction
                         return sketchEditTool.CanCreateConstraint<SketchConstraintFixed>();
                     case Constraints.Tangent:
                         return sketchEditTool.CanCreateConstraint<SketchConstraintTangent>();
+                    case Constraints.SmoothCorner:
+                        return sketchEditTool.CanCreateConstraint<SketchConstraintSmoothCorner>();
                 }
 
                 return false;
@@ -347,22 +352,23 @@ namespace Macad.Interaction
             {
                 switch (constraintType)
                 {
-                    case Constraints.LineLength: return "Length";
-                    case Constraints.CircleRadius: return "Radius";
-                    case Constraints.Perpendicular: return "Perpendicular";
-                    case Constraints.Parallel: return "Parallel";
-                    case Constraints.Horizontal: return "Horizontal";
-                    case Constraints.Vertical: return "Vertical";
-                    case Constraints.Angle: return "Angle";
-                    case Constraints.Concentric: return "Concentric";
-                    case Constraints.Equal: return "Equal";
-                    case Constraints.PointOnSegment: return "Point on Segment";
-                    case Constraints.PointOnMidpoint: return "Point on Midpoint";
+                    case Constraints.LineLength:         return "Length";
+                    case Constraints.CircleRadius:       return "Radius";
+                    case Constraints.Perpendicular:      return "Perpendicular";
+                    case Constraints.Parallel:           return "Parallel";
+                    case Constraints.Horizontal:         return "Horizontal";
+                    case Constraints.Vertical:           return "Vertical";
+                    case Constraints.Angle:              return "Angle";
+                    case Constraints.Concentric:         return "Concentric";
+                    case Constraints.Equal:              return "Equal";
+                    case Constraints.PointOnSegment:     return "Point on Segment";
+                    case Constraints.PointOnMidpoint:    return "Point on Midpoint";
                     case Constraints.HorizontalDistance: return "Horizontal Distance";
-                    case Constraints.VerticalDistance: return "Vertical Distance";
-                    case Constraints.Fixed: return "Fixed";
-                    case Constraints.Tangent: return "Tangent";
-                    default: return "Create Constraint";
+                    case Constraints.VerticalDistance:   return "Vertical Distance";
+                    case Constraints.Fixed:              return "Fixed";
+                    case Constraints.Tangent:            return "Tangent";
+                    case Constraints.SmoothCorner:       return "Smooth Corner";
+                    default:                             return "Create Constraint";
                 }
             },
             Icon = (constraintType) => $"Sketch-Constraint{constraintType.ToString()}"

@@ -34,8 +34,8 @@ namespace Macad.Interaction.Editors.Shapes
 
             void _ToggleAuxilliary()
             {
-                Segment.IsAuxilliary = !Segment.IsAuxilliary;
                 Sketch.SaveUndo(Sketch.ElementType.Segment);
+                Segment.IsAuxilliary = !Segment.IsAuxilliary;
                 Sketch.OnElementsChanged(Sketch.ElementType.Segment);
                 Sketch.Invalidate();
                 InteractiveContext.Current.UndoHandler.Commit();

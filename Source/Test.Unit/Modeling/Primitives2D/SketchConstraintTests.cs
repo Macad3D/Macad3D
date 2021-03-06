@@ -401,5 +401,112 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
             Assert.AreEqual(0.0, pointOnCurve.Distance(1), MaxLengthDelta);
             Assert.AreEqual(pointOnCurve.Point(1).Distance(sketch.Points[p1]), pointOnCurve.Point(1).Distance(sketch.Points[p2]), MaxLengthDelta);
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void SmoothCorner_BezierBezier()
+        {
+            var sketch = Sketch.Create();
+            var p1 = sketch.AddPoint(new Pnt2d( 0, 0));
+            var p2 = sketch.AddPoint(new Pnt2d( 2, 9));
+            var p3 = sketch.AddPoint(new Pnt2d(10, 10));
+            var p4 = sketch.AddPoint(new Pnt2d(15, 9));
+            var p5 = sketch.AddPoint(new Pnt2d(20, 7));
+            var p6 = sketch.AddPoint(new Pnt2d(20, 0));
+            var bezier1 = new SketchSegmentBezier(p1, p2, p3);
+            var s1 = sketch.AddSegment(bezier1);
+            var bezier2 = new SketchSegmentBezier(p3, p4, p5, p6);
+            var s2 = sketch.AddSegment(bezier2);
+            var constraint1 = new SketchConstraintSmoothCorner(p3, false);
+            var c1 = sketch.AddConstraint(constraint1);
+
+            Assert.IsTrue(sketch.SolveConstraints(true));
+
+            var tan1 = new Vec2d(sketch.Points[p2], sketch.Points[p3]);
+            var tan2 = new Vec2d(sketch.Points[p3], sketch.Points[p4]);
+            Assert.IsTrue(tan1.IsParallel(tan2, 0.1));
+            Assert.AreNotEqual(tan1.Magnitude(), tan2.Magnitude());
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void SmoothCorner_BezierBezier_Symmetric()
+        {
+            var sketch = Sketch.Create();
+            var p1 = sketch.AddPoint(new Pnt2d( 0, 0));
+            var p2 = sketch.AddPoint(new Pnt2d( 2, 9));
+            var p3 = sketch.AddPoint(new Pnt2d(10, 10));
+            var p4 = sketch.AddPoint(new Pnt2d(15, 9));
+            var p5 = sketch.AddPoint(new Pnt2d(20, 7));
+            var p6 = sketch.AddPoint(new Pnt2d(20, 0));
+            var bezier1 = new SketchSegmentBezier(p1, p2, p3);
+            var s1 = sketch.AddSegment(bezier1);
+            var bezier2 = new SketchSegmentBezier(p3, p4, p5, p6);
+            var s2 = sketch.AddSegment(bezier2);
+            var constraint1 = new SketchConstraintSmoothCorner(p3, true);
+            var c1 = sketch.AddConstraint(constraint1);
+
+            Assert.IsTrue(sketch.SolveConstraints(true));
+
+            var tan1 = new Vec2d(sketch.Points[p2], sketch.Points[p3]);
+            var tan2 = new Vec2d(sketch.Points[p3], sketch.Points[p4]);
+            Assert.IsTrue(tan1.IsParallel(tan2, 0.1));
+            Assert.AreEqual(tan1.Magnitude(), tan2.Magnitude(), 0.0001);
+        }
+                
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void SmoothCorner_BezierLine()
+        {
+            var sketch = Sketch.Create();
+            var p1 = sketch.AddPoint(new Pnt2d( 0, 0));
+            var p2 = sketch.AddPoint(new Pnt2d( 2, 9));
+            var p3 = sketch.AddPoint(new Pnt2d(10, 10));
+            var p4 = sketch.AddPoint(new Pnt2d(15, 0));
+            var bezier1 = new SketchSegmentBezier(p1, p2, p3);
+            var s1 = sketch.AddSegment(bezier1);
+            var line = new SketchSegmentLine(p3, p4);
+            var s2 = sketch.AddSegment(line);
+            var constraint1 = new SketchConstraintSmoothCorner(p3, true);
+            var c1 = sketch.AddConstraint(constraint1);
+
+            Assert.IsTrue(sketch.SolveConstraints(true));
+
+            var tan1 = new Vec2d(sketch.Points[p2], sketch.Points[p3]);
+            var tan2 = new Vec2d(sketch.Points[p3], sketch.Points[p4]);
+            Assert.IsTrue(tan1.IsParallel(tan2, 0.01));
+        }
+                        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void SmoothCorner_BezierArc()
+        {
+            var sketch = Sketch.Create();
+            var p1 = sketch.AddPoint(new Pnt2d( 0, 0));
+            var p2 = sketch.AddPoint(new Pnt2d( 2, 9));
+            var p3 = sketch.AddPoint(new Pnt2d(10, 10));
+            var p4 = sketch.AddPoint(new Pnt2d(20, 0));
+            var p5 = sketch.AddPoint(new Pnt2d(18, 7));
+            var bezier1 = new SketchSegmentBezier(p1, p2, p3);
+            var s1 = sketch.AddSegment(bezier1);
+            var arc = new SketchSegmentArc(p3, p4, p5);
+            var s2 = sketch.AddSegment(arc);
+            var constraint1 = new SketchConstraintSmoothCorner(p3, true);
+            var c1 = sketch.AddConstraint(constraint1);
+
+            Assert.IsTrue(sketch.SolveConstraints(true));
+
+            var tan1 = new Vec2d(sketch.Points[p2], sketch.Points[p3]);
+            var parameter = new double[2];
+            var circle = arc.GetCircle(sketch.Points, parameter);
+            var pnt = new Pnt2d();
+            var tan2 = new Vec2d();
+            ElCLib.D1(parameter[0], circle, ref pnt, ref tan2);
+            Assert.IsTrue(tan1.IsParallel(tan2, 0.01));
+        }
     }
 }

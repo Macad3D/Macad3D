@@ -30,9 +30,15 @@ namespace Macad.Interaction
             Command.SetAction(mi, command);
 
             if (_GroupItems.Count > 0)
-                _GroupItems.Peek().Items.Add(mi);
+            {
+                var gi = _GroupItems.Peek();
+                gi.Items.Add(mi);
+                gi.IsEnabled = true;
+            }
             else
+            {
                 Add(mi);
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -46,9 +52,13 @@ namespace Macad.Interaction
                                            Style = Application.Current.FindResource("Macad.Styles.MenuItem.GroupHeader") as Style
                                        };
             if (_GroupItems.Count > 0)
+            {
                 _GroupItems.Peek().Items.Add(newSeperator);
+            }
             else
+            {
                 Add(newSeperator);
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -57,13 +67,18 @@ namespace Macad.Interaction
         {
             var mi = new MenuItem
             {
-                Header = header
+                Header = header,
+                IsEnabled = false
             };
 
             if (_GroupItems.Count > 0)
+            {
                 _GroupItems.Peek().Items.Add(mi);
+            }
             else
+            {
                 Add(mi);
+            }
 
             _GroupItems.Push(mi);
         }
@@ -73,7 +88,9 @@ namespace Macad.Interaction
         public void CloseGroup()
         {
             if (_GroupItems.Count > 0)
+            {
                 _GroupItems.Pop();
+            }
         }
 
         //--------------------------------------------------------------------------------------------------

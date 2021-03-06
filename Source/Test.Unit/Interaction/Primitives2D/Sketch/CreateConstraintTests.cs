@@ -857,6 +857,123 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         //--------------------------------------------------------------------------------------------------
 
         [Test]
+        public void SmoothCorner_BezierBezier()
+        {
+            var ctx = Context.Current;
+
+            ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+            var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+            Assume.That(sketchEditTool, Is.Not.Null);
+
+            // Create segments
+            sketchEditTool.StartSegmentCreation<SketchSegmentBezier2Creator>();
+            ctx.ClickAt(50, 400);
+            ctx.ClickAt(200, 200);
+            ctx.ClickAt(40, 220);
+            sketchEditTool.StartSegmentCreation<SketchSegmentBezier3Creator>();
+            ctx.ClickAt(200, 200);
+            ctx.ClickAt(400, 400);
+            ctx.ClickAt(300, 220);
+            ctx.ClickAt(400, 260);
+
+            ctx.ClickAt(200, 200, false);
+            ctx.MoveTo(0, 0);
+
+            // Create Constraint
+            Assert.AreEqual(1, sketchEditTool.SelectedPoints.Count);
+            Assert.AreEqual(0, sketchEditTool.SelectedSegments.Count);
+            Assert.IsTrue(sketchEditTool.CanCreateConstraint<SketchConstraintSmoothCorner>());
+            sketchEditTool.CreateConstraint<SketchConstraintSmoothCorner>();
+
+            // Check
+            Assert.Multiple(() =>
+            {
+                Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
+                Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SmoothCorner_BezierBezier"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void SmoothCorner_BezierLine()
+        {
+            var ctx = Context.Current;
+
+            ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+            var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+            Assume.That(sketchEditTool, Is.Not.Null);
+
+            // Create segments
+            sketchEditTool.StartSegmentCreation<SketchSegmentBezier2Creator>();
+            ctx.ClickAt(50, 400);
+            ctx.ClickAt(200, 200);
+            ctx.ClickAt(40, 220);
+            sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
+            ctx.ClickAt(200, 200);
+            ctx.ClickAt(400, 200);
+
+            ctx.ClickAt(200, 200, false);
+            ctx.MoveTo(0, 0);
+
+            // Create Constraint
+            Assert.AreEqual(1, sketchEditTool.SelectedPoints.Count);
+            Assert.AreEqual(0, sketchEditTool.SelectedSegments.Count);
+            Assert.IsTrue(sketchEditTool.CanCreateConstraint<SketchConstraintSmoothCorner>());
+            sketchEditTool.CreateConstraint<SketchConstraintSmoothCorner>();
+
+            // Check
+            Assert.Multiple(() =>
+            {
+                Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
+                Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SmoothCorner_BezierLine"));
+            });
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void SmoothCorner_BezierArc()
+        {
+            var ctx = Context.Current;
+
+            ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+            var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+            Assume.That(sketchEditTool, Is.Not.Null);
+
+            // Create segments
+            sketchEditTool.StartSegmentCreation<SketchSegmentBezier2Creator>();
+            ctx.ClickAt(50, 400);
+            ctx.ClickAt(200, 200);
+            ctx.ClickAt(40, 220);
+            sketchEditTool.StartSegmentCreation<SketchSegmentArcRimCreator>();
+            ctx.ClickAt(200, 200);
+            ctx.ClickAt(350, 350);
+            ctx.ClickAt(400, 200);
+
+            ctx.ClickAt(200, 200, false);
+            ctx.MoveTo(0, 0);
+
+            // Create Constraint
+            Assert.AreEqual(1, sketchEditTool.SelectedPoints.Count);
+            Assert.AreEqual(0, sketchEditTool.SelectedSegments.Count);
+            Assert.IsTrue(sketchEditTool.CanCreateConstraint<SketchConstraintSmoothCorner>());
+            sketchEditTool.CreateConstraint<SketchConstraintSmoothCorner>();
+
+            // Check
+            Assert.Multiple(() =>
+            {
+                Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
+                Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SmoothCorner_BezierArc"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
         public void MarkerStacking()
         {
             var ctx = Context.Current;

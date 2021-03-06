@@ -57,6 +57,10 @@ namespace Macad.Interaction.Editors.Shapes
                         return !sketch.Constraints.Any(c => (c is SketchConstraintHorizontalDistance || c is SketchConstraintVerticalDistance || c is SketchConstraintFixed) 
                                                             && c.Points != null && points.Contains(c.Points[0]));
                     }
+                    if (type == typeof(SketchConstraintSmoothCorner))
+                    {
+                        return SketchConstraintSmoothCorner.CanCreate(sketch, points, segments);
+                    }
                 }
             }
 

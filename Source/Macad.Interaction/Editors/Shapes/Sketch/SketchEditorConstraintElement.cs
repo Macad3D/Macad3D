@@ -306,6 +306,9 @@ namespace Macad.Interaction.Editors.Shapes
                 case SketchConstraintTangent _:
                     marker = new ConstraintMarker(SketchEditorTool, Constraint, "Marker_SketchConstraintTangent");
                     break;
+                case SketchConstraintSmoothCorner _:
+                    marker = new ConstraintMarker(SketchEditorTool, Constraint, "Marker_SketchConstraintSmoothCorner");
+                    break;
             }
 
             return marker;

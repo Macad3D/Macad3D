@@ -11,6 +11,7 @@ using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
+using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
@@ -350,6 +351,16 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override void EnrichContextMenu(CustomMenuItems itemList)
         {
+            void __AddIfExecutable(IActionCommand command, object param)
+            {
+                if (SketchCommands.CreateConstraint.CanExecute(param))
+                {
+                    itemList.AddCommand(SketchCommands.CreateConstraint, param);
+                }
+            }
+
+            //--------------------------------------------------------------------------------------------------
+
             itemList.AddCommand(SketchCommands.CloseSketchEditor, null);
 
             itemList.AddGroup("Create Segment");
@@ -366,21 +377,31 @@ namespace Macad.Interaction.Editors.Shapes
             itemList.CloseGroup();
 
             itemList.AddGroup("Create Constraint");
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.Fixed);
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.LineLength);
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.Angle);
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.CircleRadius);
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.Equal);
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.Perpendicular);
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.Parallel);
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.Concentric);
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.Horizontal);
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.Vertical);
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.HorizontalDistance);
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.VerticalDistance);
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.Tangent);
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.PointOnSegment);
-            itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.PointOnMidpoint);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Fixed);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.LineLength);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Angle);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.CircleRadius);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Equal);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Perpendicular);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Parallel);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Concentric);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Horizontal);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Vertical);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.HorizontalDistance);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.VerticalDistance);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Tangent);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.PointOnSegment);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.PointOnMidpoint);
+            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.SmoothCorner);
+            itemList.CloseGroup();
+
+            itemList.AddCommand(SketchCommands.SplitElement);
+
+            itemList.AddGroup("Convert Segment");
+            __AddIfExecutable(SketchCommands.ConvertSegment, SketchCommands.Segments.Line);
+            __AddIfExecutable(SketchCommands.ConvertSegment, SketchCommands.Segments.Bezier);
+            __AddIfExecutable(SketchCommands.ConvertSegment, SketchCommands.Segments.Arc);
+            __AddIfExecutable(SketchCommands.ConvertSegment, SketchCommands.Segments.EllipticalArc);
             itemList.CloseGroup();
 
             itemList.AddCommand(SketchCommands.SplitElement);

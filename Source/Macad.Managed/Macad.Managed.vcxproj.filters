@@ -169,4 +169,9 @@
   <ItemGroup>
     <ResourceCompile Include="$(MSBuildThisFileDirectory)Macad.VersionInfo.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="SketchSolve\License.txt">
+      <Filter>SketchSolve</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

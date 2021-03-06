@@ -13,8 +13,15 @@ namespace Macad.Core.Shapes
 
         public static IEnumerable<int> GetSegmentsUsingPoint(Sketch sketch, int point)
         {
+            return GetSegmentsUsingPoint(sketch.Segments, point);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static IEnumerable<int> GetSegmentsUsingPoint(Dictionary<int, SketchSegment> segments, int point)
+        {
             // Look out for segments who reference this point
-            foreach (var segmentKvp in sketch.Segments)
+            foreach (var segmentKvp in segments)
             {
                 foreach (var segPoint in segmentKvp.Value.Points)
                 {
