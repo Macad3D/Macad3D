@@ -6,62 +6,10 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <None Remove="Marker\Marker_Background.png" />
-    <None Remove="Marker\Marker_SketchConstraintAngle.png" />
-    <None Remove="Marker\Marker_SketchConstraintCircleRadius.png" />
-    <None Remove="Marker\Marker_SketchConstraintConcentric.png" />
-    <None Remove="Marker\Marker_SketchConstraintEqual.png" />
-    <None Remove="Marker\Marker_SketchConstraintFixed.png" />
-    <None Remove="Marker\Marker_SketchConstraintHorizontal.png" />
-    <None Remove="Marker\Marker_SketchConstraintHorizontalDistance.png" />
-    <None Remove="Marker\Marker_SketchConstraintLineLength.png" />
-    <None Remove="Marker\Marker_SketchConstraintParallel.png" />
-    <None Remove="Marker\Marker_SketchConstraintPerpendicular.png" />
-    <None Remove="Marker\Marker_SketchConstraintPointOnMidpoint.png" />
-    <None Remove="Marker\Marker_SketchConstraintPointOnSegment.png" />
-    <None Remove="Marker\Marker_SketchConstraintTangent.png" />
-    <None Remove="Marker\Marker_SketchConstraintVertical.png" />
-    <None Remove="Marker\Marker_SketchConstraintVerticalDistance.png" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Resource Include="Marker\Marker_SketchConstraintAngle.png" />
-    <Resource Include="Marker\Marker_SketchConstraintCircleRadius.png" />
-    <Resource Include="Marker\Marker_SketchConstraintConcentric.png" />
-    <Resource Include="Marker\Marker_SketchConstraintEqual.png" />
-    <Resource Include="Marker\Marker_SketchConstraintFixed.png" />
-    <Resource Include="Marker\Marker_SketchConstraintHorizontal.png" />
-    <Resource Include="Marker\Marker_SketchConstraintHorizontalDistance.png" />
-    <Resource Include="Marker\Marker_SketchConstraintLineLength.png" />
-    <Resource Include="Marker\Marker_SketchConstraintParallel.png" />
-    <Resource Include="Marker\Marker_SketchConstraintPerpendicular.png" />
-    <Resource Include="Marker\Marker_SketchConstraintPointOnMidpoint.png" />
-    <Resource Include="Marker\Marker_SketchConstraintPointOnSegment.png" />
-    <Resource Include="Marker\Marker_SketchConstraintTangent.png" />
-    <Resource Include="Marker\Marker_SketchConstraintVertical.png" />
-    <Resource Include="Marker\Marker_SketchConstraintVerticalDistance.png" />
-    <Resource Include="Visual\Hatch45.png" />
-    <Resource Include="Visual\ViewCubeSides.png" />
-    <Resource Include="Marker\Marker_Error.png" />
-    <Resource Include="Marker\Marker_Ring.png" />
-    <Resource Include="Marker\Marker_Ball.png" />
-    <Resource Include="Cursors\SetHeight.cur" />
-    <Resource Include="Cursors\SetPoint.cur" />
-    <Resource Include="Cursors\SetRadius.cur" />
-    <Resource Include="Cursors\SelectEdge.cur" />
-    <Resource Include="Cursors\SelectFace.cur" />
-    <Resource Include="Cursors\SelectShape.cur" />
-    <Resource Include="Cursors\WorkingPlane.cur" />
-    <Resource Include="Cursors\Move.cur" />
-    <Resource Include="Cursors\Rotate.cur" />
-    <Resource Include="Controls\TaskDialog\cmdarr1.png" />
-    <Resource Include="Controls\TaskDialog\cmdarr2.png" />
-    <Resource Include="Controls\TaskDialog\exparr-down1.png" />
-    <Resource Include="Controls\TaskDialog\exparr-down2.png" />
-    <Resource Include="Controls\TaskDialog\exparr-down3.png" />
-    <Resource Include="Controls\TaskDialog\exparr-up1.png" />
-    <Resource Include="Controls\TaskDialog\exparr-up2.png" />
-    <Resource Include="Controls\TaskDialog\exparr-up3.png" />
+    <Resource Include="Marker\**\*.png" />
+    <Resource Include="Visual\**\*.png" />
+    <Resource Include="Cursors\**\*.cur" />
+    <Resource Include="Controls\**\*.png" />
     <Content Include="Licenses.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +21,12 @@
       <KeyPrefix>TypeIcon</KeyPrefix>
     </IconSet>
     <UpToDateCheckInput Include="Types\**\*.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Icons\Sketch\Sketch-ConvertSegment - Copy.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Icons\Sketch\Sketch-ConvertSegment - Copy.svg" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Types\Aliases.txt" />

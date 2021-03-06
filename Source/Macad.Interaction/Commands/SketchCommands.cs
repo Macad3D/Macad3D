@@ -1,4 +1,7 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
+using System.Windows.Data;
 using Macad.Interaction.Dialogs;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Core;
@@ -15,17 +18,20 @@ namespace Macad.Interaction
 
         #region Enumerations
 
-        public enum SegmentCreator
+        public enum Segments
         {
             None,
             Circle,
             Line,
             PolyLine,
+            Arc,
             ArcCenter,
             ArcRim,
             EllipseCenter,
+            EllipticalArc,
             EllipticalArcCenter,
             Rectangle,
+            Bezier,
             Bezier2,
             Bezier3
         }
@@ -55,7 +61,7 @@ namespace Macad.Interaction
 
         #endregion
 
-        public static ActionCommand CloseSketchEditor { get; } = new ActionCommand(
+        public static ActionCommand CloseSketchEditor { get; } = new(
             () =>
             {
                 var tool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
@@ -71,7 +77,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
         
-        public static ActionCommand<Sketch> StartSketchEditor { get; } = new ActionCommand<Sketch>(
+        public static ActionCommand<Sketch> StartSketchEditor { get; } = new(
             (sketch) =>
             {
                 var tool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
@@ -90,7 +96,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand ExportAllToFile { get; } = new ActionCommand(
+        public static ActionCommand ExportAllToFile { get; } = new(
             () =>
             {
                 var tool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
@@ -114,7 +120,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand ExportAllToToSvgClipboard { get; } = new ActionCommand(
+        public static ActionCommand ExportAllToToSvgClipboard { get; } = new(
             () =>
             {
                 var tool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
@@ -135,7 +141,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<bool> ImportFromFile { get; } = new ActionCommand<bool>(
+        public static ActionCommand<bool> ImportFromFile { get; } = new(
             replace =>
             {
                 var tool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
@@ -169,7 +175,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<bool> ImportFromClipboard { get; } = new ActionCommand<bool>(
+        public static ActionCommand<bool> ImportFromClipboard { get; } = new(
             replace =>
             {
                 var tool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
@@ -202,7 +208,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<Constraints> CreateConstraint { get; } = new ActionCommand<Constraints>(
+        public static ActionCommand<Constraints> CreateConstraint { get; } = new(
             (constraintType) =>
             {
                 var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
@@ -364,7 +370,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<SegmentCreator> CreateSegment { get; } = new ActionCommand<SegmentCreator>(
+        public static ActionCommand<Segments> CreateSegment { get; } = new(
             (creator) =>
             {
                 var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
@@ -373,34 +379,34 @@ namespace Macad.Interaction
 
                 switch (creator)
                 {
-                    case SegmentCreator.Circle:
+                    case Segments.Circle:
                         sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
                         break;
-                    case SegmentCreator.Line:
+                    case Segments.Line:
                         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
                         break;
-                    case SegmentCreator.PolyLine:
+                    case Segments.PolyLine:
                         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>(true);
                         break;
-                    case SegmentCreator.ArcCenter:
+                    case Segments.ArcCenter:
                         sketchEditTool.StartSegmentCreation<SketchSegmentArcCenterCreator>();
                         break;
-                    case SegmentCreator.ArcRim:
+                    case Segments.ArcRim:
                         sketchEditTool.StartSegmentCreation<SketchSegmentArcRimCreator>();
                         break;
-                    case SegmentCreator.EllipseCenter:
+                    case Segments.EllipseCenter:
                         sketchEditTool.StartSegmentCreation<SketchSegmentEllipseCenterCreator>();
                         break;
-                    case SegmentCreator.EllipticalArcCenter:
+                    case Segments.EllipticalArcCenter:
                         sketchEditTool.StartSegmentCreation<SketchSegmentEllipticalArcCenterCreator>();
                         break;
-                    case SegmentCreator.Rectangle:
+                    case Segments.Rectangle:
                         sketchEditTool.StartSegmentCreation<SketchSegmentRectangleCreator>();
                         break;
-                    case SegmentCreator.Bezier2:
+                    case Segments.Bezier2:
                         sketchEditTool.StartSegmentCreation<SketchSegmentBezier2Creator>();
                         break;
-                    case SegmentCreator.Bezier3:
+                    case Segments.Bezier3:
                         sketchEditTool.StartSegmentCreation<SketchSegmentBezier3Creator>();
                         break;
                 }
@@ -412,27 +418,27 @@ namespace Macad.Interaction
             {
                 switch (creator)
                 {
-                    case SegmentCreator.Circle: return "Circle";
-                    case SegmentCreator.Line: return "Line";
-                    case SegmentCreator.PolyLine: return "Polyline";
-                    case SegmentCreator.ArcCenter: return "Arc using Center";
-                    case SegmentCreator.ArcRim: return "Arc using Rim";
-                    case SegmentCreator.EllipseCenter: return "Ellipse";
-                    case SegmentCreator.EllipticalArcCenter: return "Elliptical Arc";
-                    case SegmentCreator.Rectangle: return "Rectangle";
-                    case SegmentCreator.Bezier2: return "Quadratic Bézier";
-                    case SegmentCreator.Bezier3: return "Cubic Bézier";
+                    case Segments.Circle: return "Circle";
+                    case Segments.Line: return "Line";
+                    case Segments.PolyLine: return "Polyline";
+                    case Segments.ArcCenter: return "Arc using Center";
+                    case Segments.ArcRim: return "Arc using Rim";
+                    case Segments.EllipseCenter: return "Ellipse";
+                    case Segments.EllipticalArcCenter: return "Elliptical Arc";
+                    case Segments.Rectangle: return "Rectangle";
+                    case Segments.Bezier2: return "Quadratic Bézier";
+                    case Segments.Bezier3: return "Cubic Bézier";
                     default: return "Create Segment";
                 }
             },
             Icon = (creator) => $"Sketch-Segment{creator.ToString()}",
-            IsCheckedBinding = (creator) => BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveSketchTool", BindingMode.OneWay,
+            IsCheckedBinding = (creator) => BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveSketchTool)}", BindingMode.OneWay,
                                                                  EqualityToBoolConverter.Instance, $"SketchSegment{creator.ToString()}Creator")
         };
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<double> RotateSketchView { get; } = new ActionCommand<double>(
+        public static ActionCommand<double> RotateSketchView { get; } = new(
             (param) =>
             {
                 var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
@@ -449,7 +455,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand ToggleClippingPlane { get; } = new ActionCommand(
+        public static ActionCommand ToggleClippingPlane { get; } = new(
             () =>
             {
                 var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
@@ -462,12 +468,12 @@ namespace Macad.Interaction
         {
             Header = () => "Clip Plane",
             Icon = () => "Sketch-ClipPlane",
-            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.SketchClipPlaneEnabled", BindingMode.OneWay)
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.SketchClipPlaneEnabled)}", BindingMode.OneWay)
         };
 
         //--------------------------------------------------------------------------------------------------
         
-        public static ActionCommand RecenterGrid { get; } = new ActionCommand(
+        public static ActionCommand RecenterGrid { get; } = new(
             () =>
             {
                 var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
@@ -487,10 +493,99 @@ namespace Macad.Interaction
         {
             Header = () => "Recenter Grid",
             Icon = () => "WorkingPlane-Align",
-            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveSketchTool", BindingMode.OneWay,
-                                                    EqualityToBoolConverter.Instance, "RecenterGridSketchTool")
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveSketchTool)}", BindingMode.OneWay,
+                                                    EqualityToBoolConverter.Instance, nameof(RecenterGridSketchTool))
         };
 
         //--------------------------------------------------------------------------------------------------
+
+        public static ActionCommand SplitElement { get; } = new(
+            () =>
+            {
+                var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
+                if (sketchEditTool == null)
+                    return;
+
+                if (sketchEditTool.CurrentTool is SplitElementSketchTool)
+                {
+                    sketchEditTool.StopTool();
+                    return;
+                }
+
+                var tool = new SplitElementSketchTool();
+                sketchEditTool.StartTool(tool);
+            },
+            () => InteractiveContext.Current?.WorkspaceController?.CurrentTool is SketchEditorTool)
+        {
+            Header = () => "Split",
+            Icon = () => "Sketch-SplitTool",
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveSketchTool)}", BindingMode.OneWay,
+                                                    EqualityToBoolConverter.Instance, nameof(SplitElementSketchTool)),
+            Description = () => "1. Split a segment into two parts by selecting the position where to split.\n2. Split a shared point into separate points for each segment."
+        };
+        
+        //--------------------------------------------------------------------------------------------------
+
+        static Type _GetConversionTargetType(Segments segments)
+        {
+            switch (segments)
+            {
+                case Segments.Line:          return typeof(SketchSegmentLine);
+                case Segments.Arc:           return typeof(SketchSegmentArc);
+                case Segments.EllipticalArc: return typeof(SketchSegmentEllipticalArc);
+                case Segments.Bezier:        return typeof(SketchSegmentBezier);
+                default:                     return null;
+            }
+        }
+
+        public static ActionCommand<Segments> ConvertSegment { get; } = new(
+            (target) =>
+            {
+                var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
+                if (sketchEditTool == null)
+                    return;
+
+                var targetType = _GetConversionTargetType(target);
+                if (targetType == null)
+                    return;
+
+                var segments = sketchEditTool.SelectedSegments;
+                var newSegments = new List<int>();
+                foreach (var segment in segments)
+                {
+                    var newSegmentIndex = SketchUtils.ConvertSegment(sketchEditTool.Sketch, segment, targetType);
+                    if(newSegmentIndex != SketchUtils.ConvertSegmentFailed)
+                        newSegments.Add(newSegmentIndex);
+                }
+
+                if (newSegments.Count == 0) 
+                    return;
+
+                InteractiveContext.Current?.UndoHandler?.Commit();
+                sketchEditTool.Elements.Select(null, newSegments);
+            },
+            (target) =>
+            {
+                var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
+                return sketchEditTool?.SelectedSegments.Count > 0 && sketchEditTool?.SelectedPoints.Count == 0 && sketchEditTool?.SelectedConstraints.Count == 0 
+                       && sketchEditTool.SelectedSegments.TrueForAll(seg => SketchUtils.CanConvertSegment(sketchEditTool.Sketch, seg, _GetConversionTargetType(target)));
+            })
+        {
+            Header = (target) =>
+            {
+                switch (target)
+                {
+                    case Segments.Line:          return "To Line";
+                    case Segments.Arc:           return "To Arc";
+                    case Segments.EllipticalArc: return "To Elliptical Arc";
+                    case Segments.Bezier:        return "To Bezier";
+                    default:                     return "Convert";
+                }
+            },
+            Description = (_) => "Convert a segment from one type to another."
+        };
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

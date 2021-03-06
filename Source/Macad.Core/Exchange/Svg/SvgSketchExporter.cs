@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Web;
 using Macad.Core.Shapes;
 using Macad.Common;
 using Macad.Occt;
-using Color = Macad.Common.Color;
 
 namespace Macad.Core.Exchange.Svg
 {
@@ -163,7 +160,7 @@ namespace Macad.Core.Exchange.Svg
                 {
                     var center = _Sketch.Points[sketchEllipse.CenterPoint];
                     var element = new SvgEllipseElement(center, curve.MajorRadius(), curve.MinorRadius());
-                    var majorAxisPoint = _Sketch.Points[sketchEllipse.MajorAxisPoint(_Sketch.Points)];
+                    var majorAxisPoint = _Sketch.Points[sketchEllipse.GetMajorAxisPoint(_Sketch.Points)];
                     double rotAngle = new Ax2d(center, Dir2d.DX).Angle(new Ax2d(center, new Vec2d(center, majorAxisPoint).ToDir()));
 
                     element.Transforms.Add(new SvgRotateTransform(rotAngle.ToDeg(), element.Center));

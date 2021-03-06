@@ -5,7 +5,7 @@
  *      Author: Jonathan George
  *      This
  *      Copyright (c) 2009, Jonathan George
- *      This program is released under the BSD license. See the file COPYING for details.
+ *      This program is released under the BSD license. See the file License.txt for details.
  *
  */	
 

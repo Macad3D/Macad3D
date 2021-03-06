@@ -35,13 +35,31 @@ namespace Macad.Common
         {
             if (value >= 360.0)
             {
-                return value%360.0;
+                return value % 360.0;
             }
             if (value < 0.0)
             {
                 value = (value % 360.0);
                 if (value < 0.0)
                     value += 360.0;
+                return value;
+            }
+            return value;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        public static double NormalizeAngleRad(double value)
+        {
+            if (value >= DoublePI)
+            {
+                return value % DoublePI;
+            }
+            if (value < 0.0)
+            {
+                value = (value % DoublePI);
+                if (value < 0.0)
+                    value += DoublePI;
                 return value;
             }
             return value;

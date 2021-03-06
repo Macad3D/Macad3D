@@ -353,16 +353,16 @@ namespace Macad.Interaction.Editors.Shapes
             itemList.AddCommand(SketchCommands.CloseSketchEditor, null);
 
             itemList.AddGroup("Create Segment");
-            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.SegmentCreator.Line);
-            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.SegmentCreator.PolyLine);
-            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.SegmentCreator.Bezier2);
-            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.SegmentCreator.Bezier3);
-            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.SegmentCreator.Circle);
-            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.SegmentCreator.ArcCenter);
-            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.SegmentCreator.ArcRim);
-            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.SegmentCreator.EllipseCenter);
-            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.SegmentCreator.EllipticalArcCenter);
-            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.SegmentCreator.Rectangle);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.Line);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.PolyLine);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.Bezier2);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.Bezier3);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.Circle);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.ArcCenter);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.ArcRim);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.EllipseCenter);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.EllipticalArcCenter);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.Rectangle);
             itemList.CloseGroup();
 
             itemList.AddGroup("Create Constraint");
@@ -381,6 +381,15 @@ namespace Macad.Interaction.Editors.Shapes
             itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.Tangent);
             itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.PointOnSegment);
             itemList.AddCommand(SketchCommands.CreateConstraint, SketchCommands.Constraints.PointOnMidpoint);
+            itemList.CloseGroup();
+
+            itemList.AddCommand(SketchCommands.SplitElement);
+
+            itemList.AddGroup("Convert Segment");
+            itemList.AddCommand(SketchCommands.ConvertSegment, SketchCommands.Segments.Line);
+            itemList.AddCommand(SketchCommands.ConvertSegment, SketchCommands.Segments.Bezier);
+            itemList.AddCommand(SketchCommands.ConvertSegment, SketchCommands.Segments.Arc);
+            itemList.AddCommand(SketchCommands.ConvertSegment, SketchCommands.Segments.EllipticalArc);
             itemList.CloseGroup();
 
             itemList.AddCommand(SketchCommands.RecenterGrid);
@@ -433,7 +442,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _SelectElements(IEnumerable<int> pointIndices, IEnumerable<int> segmentIndices)
+        public void Select(IEnumerable<int> pointIndices, IEnumerable<int> segmentIndices)
         {
             Elements.Select(pointIndices, segmentIndices);
             _OnSelectionChanged(null);
@@ -572,7 +581,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         public bool StartSegmentCreation<T>(bool continuesCreation = false) where T : ISketchSegmentCreator, new()
         {
-            _SelectElements(null, null);
+            Select(null, null);
             StopTool();
 
             T newCreator = new T();
@@ -677,12 +686,12 @@ namespace Macad.Interaction.Editors.Shapes
         {
             SelectedConstraints.ForEach(c => Sketch.DeleteConstraint(c));
             SelectedSegments.ForEach(s => Sketch.DeleteSegment(s));
-            SelectedPoints.ForEach(p => Sketch.DeletePoint(p));
+            SelectedPoints.ForEach(p => SketchUtils.DeletePointTrySubstituteSegments(Sketch, p));
 
             Sketch.SolveConstraints(true);
             InteractiveContext.Current.UndoHandler.Commit();
 
-            _SelectElements(null, null);
+            Select(null, null);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -719,7 +728,7 @@ namespace Macad.Interaction.Editors.Shapes
             Sketch.SolveConstraints(true);
             InteractiveContext.Current.UndoHandler.Commit();
 
-            _SelectElements(pointMap.Values.Distinct(), segmentMap.Values.Distinct());
+            Select(pointMap.Values.Distinct(), segmentMap.Values.Distinct());
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -792,6 +801,8 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (tool.Start(this))
             {
+                _MoveAction?.Stop();
+                _MoveAction = null;
                 CurrentTool = tool;
             }
         }
@@ -806,7 +817,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             // Update activation, since we have switched the local context
             Elements.Activate(true, true, true);
-
+            _OnSelectionChanged(null);
             _UpdateStatusText();
         }
 

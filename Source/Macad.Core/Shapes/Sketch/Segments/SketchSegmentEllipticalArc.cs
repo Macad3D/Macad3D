@@ -90,5 +90,22 @@ namespace Macad.Core.Shapes
             }
             return ellipse;
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public int GetMajorAxisPoint(Dictionary<int, Pnt2d> points)
+        {
+            var p1 = points[Points[0]];
+            var p2 = points[Points[1]];
+            var center = points[Points[2]];
+
+            if (p1.Distance(p2) <= 0 || p2.Distance(center) <= 0 || p1.Distance(center) <= 0)
+                return -1;
+
+            return p1.Distance(center) < p2.Distance(center) ? Points[1] : Points[0];
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

@@ -170,6 +170,24 @@ namespace Macad.Interaction.Editors.Shapes
                 c.IsSelected = false;
             });
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public SketchEditorElement FindOwner(AIS_InteractiveObject detectedObject)
+        {
+            if (detectedObject == null)
+                return null;
+
+            foreach (var element in Elements)
+            {
+                if (element.IsOwnerOf(detectedObject))
+                {
+                    return element;
+                }
+            }
+
+            return null;
+        }
 
         //--------------------------------------------------------------------------------------------------
 

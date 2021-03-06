@@ -235,6 +235,69 @@ namespace Macad.Test.UI.Editors.Primitives
         }
 
         //--------------------------------------------------------------------------------------------------
+         
+        [Test]
+        public void SplitSegment()
+        {
+            // Create Sketch
+            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.ClickButton("CreateSketch");
+
+            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.ClickButton("CreateLineSegment");
+            MainWindow.Viewport.ClickRelative(0.4, 0.5);
+            MainWindow.Viewport.ClickRelative(0.6, 0.5);
+            Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("SplitElement"));
+
+            // Press button to start tool, press again to cancel
+            MainWindow.Ribbon.ClickButton("SplitElement");
+            Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("SplitElement"));
+            MainWindow.Ribbon.ClickButton("SplitElement");
+            Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("SplitElement"));
+
+            // Split segment.
+            MainWindow.Ribbon.ClickButton("SplitElement");
+            Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("SplitElement"));
+            MainWindow.Viewport.ClickRelative(0.5, 0.5);
+            Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("SplitElement"));
+            MainWindow.Viewport.ClickRelative(0.55, 0.5);
+            Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("SplitElement"));
+            MainWindow.Ribbon.ClickButton("SplitElement");
+            Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("SplitElement"));
+
+            Assert.AreEqual(3, Pipe.GetValue<int>("$Sketch.Segments.Count"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void ConvertSegment()
+        {
+            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Ribbon.SelectGroup("Sketch");
+
+            MainWindow.Ribbon.ClickButton("ConvertSegment");
+            var menu = new ContextMenuAdaptor(MainWindow);
+            Assert.IsFalse(menu.IsMenuItemEnabled("ConvertSegmentToBezier"));
+
+            MainWindow.Ribbon.ClickButton("CreateLineSegment");
+            MainWindow.Viewport.ClickRelative(0.4, 0.5);
+            MainWindow.Viewport.ClickRelative(0.6, 0.5);
+
+            // Enabled? Then click!
+            MainWindow.Ribbon.ClickButton("ConvertSegment");
+            menu = new ContextMenuAdaptor(MainWindow);
+            Assert.IsTrue(menu.IsMenuItemEnabled("ConvertSegmentToBezier"));
+            menu.ClickMenuItem("ConvertSegmentToBezier");
+
+            Assert.AreEqual(4, Pipe.GetValue<int>("$Sketch.Points.Count"));
+            MainWindow.Ribbon.ClickButton("ConvertSegment");
+            menu = new ContextMenuAdaptor(MainWindow);
+            Assert.IsFalse(menu.IsMenuItemEnabled("ConvertSegmentToBezier"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
     }
 }

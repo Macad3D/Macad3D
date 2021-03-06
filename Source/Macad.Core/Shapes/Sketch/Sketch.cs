@@ -15,9 +15,11 @@ namespace Macad.Core.Shapes
         [Flags]
         public enum ElementType
         {
+            None = 0,
             Point = 1,
             Segment = 2,
-            Constraint = 4
+            Constraint = 4,
+            All = Point | Segment | Constraint
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -130,8 +132,11 @@ namespace Macad.Core.Shapes
 
         public int AddPoint(Pnt2d point)
         {
+            SaveUndo(ElementType.Point);
             var index = Points.Keys.Any() ? Points.Keys.Max() + 1 : 0;
             Points.Add(index, point);
+            RaisePropertyChanged("Points");
+            OnElementsChanged(ElementType.Point);
             return index;
         }
 
@@ -182,11 +187,11 @@ namespace Macad.Core.Shapes
 
             Invalidate();
 
-            RaisePropertyChanged("Points");
+            RaisePropertyChanged(nameof(Points));
             if (changedSegments)
-                RaisePropertyChanged("Segments");
+                RaisePropertyChanged(nameof(Segments));
             if (changedConstraints)
-                RaisePropertyChanged("Constraints");
+                RaisePropertyChanged(nameof(Constraints));
 
             ElementType types = ElementType.Point;
             if (changedConstraints) types |= ElementType.Constraint;
@@ -204,7 +209,7 @@ namespace Macad.Core.Shapes
             SaveUndo(ElementType.Point);
             Points[index] = pnt2d;
 
-            RaisePropertyChanged("Points");
+            RaisePropertyChanged(nameof(Points));
 
             OnElementsChanged(ElementType.Point);
             return true;
@@ -279,10 +284,10 @@ namespace Macad.Core.Shapes
             }
 
             if (changedSegments)
-                RaisePropertyChanged("Segments");
+                RaisePropertyChanged(nameof(Segments));
             if (changedConstraints)
-                RaisePropertyChanged("Constraints");
-            RaisePropertyChanged("Points");
+                RaisePropertyChanged(nameof(Constraints));
+            RaisePropertyChanged(nameof(Points));
 
             ElementType types = ElementType.Point;
             if (changedConstraints) types |= ElementType.Constraint;
@@ -294,8 +299,11 @@ namespace Macad.Core.Shapes
 
         public int AddSegment(SketchSegment segment)
         {
+            SaveUndo(ElementType.Segment);
             var index = Segments.Keys.Any() ? Segments.Keys.Max() + 1 : 0;
             Segments.Add(index, segment);
+            RaisePropertyChanged(nameof(Segments));
+            OnElementsChanged(ElementType.Segment);
             return index;
         }
 
@@ -303,7 +311,10 @@ namespace Macad.Core.Shapes
 
         public int AddConstraint(SketchConstraint constraint)
         {
+            SaveUndo(ElementType.Constraint);
             Constraints.Add(constraint);
+            RaisePropertyChanged(nameof(Constraints));
+            OnElementsChanged(ElementType.Constraint);
             return Constraints.Count - 1;
         }
 
@@ -320,8 +331,7 @@ namespace Macad.Core.Shapes
             if(SolveConstraints(false))
                 SolveConstraints(true);
 
-            RaisePropertyChanged("Constraints");
-
+            RaisePropertyChanged(nameof(Constraints));
             OnElementsChanged(ElementType.Constraint);
             return true;
         }
@@ -335,8 +345,7 @@ namespace Macad.Core.Shapes
             // Remove constraint
             _Constraints.Remove(conToDelete);
 
-            RaisePropertyChanged("Constraints");
-
+            RaisePropertyChanged(nameof(Constraints));
             OnElementsChanged(ElementType.Constraint);
         }
 
@@ -453,8 +462,8 @@ namespace Macad.Core.Shapes
             _Segments.Remove(segIdToDelete);
 
             if (changedConstraints)
-                RaisePropertyChanged("Constraints");
-            RaisePropertyChanged("Segments");
+                RaisePropertyChanged(nameof(Constraints));
+            RaisePropertyChanged(nameof(Segments));
             
             var deletedPoints = DeleteOrphanedPoints();
 
@@ -509,7 +518,7 @@ namespace Macad.Core.Shapes
                 }
 
                 if (doPropertyChangeCalls)
-                    RaisePropertyChanged("Points");
+                    RaisePropertyChanged(nameof(Points));
             }
 
             return pointsToDelete;
@@ -560,24 +569,22 @@ namespace Macad.Core.Shapes
 
         public void SaveUndo(ElementType type)
         {
-            switch (type)
+            if (type.HasFlag(ElementType.Point))
             {
-                case ElementType.Point:
-                    SaveUndo("Points", new Dictionary<int,Pnt2d>(_Points));
-                    break;
-
-                case ElementType.Segment:
-                    var newDict = new Dictionary<int, SketchSegment>(_Segments.Count);
-                    foreach (var segmentKvp in Segments)
-                    {
-                        newDict.Add(segmentKvp.Key, segmentKvp.Value.Clone());
-                    }
-                    SaveUndo("Segments", newDict);
-                    break;
-
-                case ElementType.Constraint:
-                    SaveUndo("Constraints", _Constraints.ConvertAll(con => con.Clone()));
-                    break;
+                SaveUndo(nameof(Points), new Dictionary<int,Pnt2d>(_Points));
+            }
+            if (type.HasFlag(ElementType.Segment))
+            {
+                var newDict = new Dictionary<int, SketchSegment>(_Segments.Count);
+                foreach (var segmentKvp in Segments)
+                {
+                    newDict.Add(segmentKvp.Key, segmentKvp.Value.Clone());
+                }
+                SaveUndo(nameof(Segments), newDict);
+            }
+            if (type.HasFlag(ElementType.Constraint))
+            {
+                SaveUndo(nameof(Constraints), _Constraints.ConvertAll(con => con.Clone()));
             }
         }
 
@@ -590,7 +597,7 @@ namespace Macad.Core.Shapes
                 kvp.Value.Invalidate();
             }
 
-            OnElementsChanged(ElementType.Point | ElementType.Segment | ElementType.Constraint);
+            OnElementsChanged(ElementType.All);
 
             base.OnAfterUndo();
         }

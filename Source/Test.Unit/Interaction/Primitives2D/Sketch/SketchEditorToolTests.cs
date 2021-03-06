@@ -211,25 +211,28 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
-            var tool = new SketchEditorTool(sketch);
-            ctx.WorkspaceController.StartTool(tool);
-            Assert.IsFalse(ctx.WorkspaceController.CanDelete());
+            Assert.Multiple(() =>
+            {
+                var tool = new SketchEditorTool(sketch);
+                ctx.WorkspaceController.StartTool(tool);
+                Assert.IsFalse(ctx.WorkspaceController.CanDelete());
 
-            // Delete Point
-            ctx.SelectAt(411, 88);
-            Assert.IsTrue(ctx.WorkspaceController.CanDelete());
-            ctx.WorkspaceController.Delete();
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeleteElements01"));
+                // Delete Point
+                ctx.SelectAt(411, 88);
+                Assert.IsTrue(ctx.WorkspaceController.CanDelete());
+                ctx.WorkspaceController.Delete();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeleteElements01"));
 
-            // Delete Segment
-            ctx.SelectAt(90, 230);
-            Assert.IsTrue(ctx.WorkspaceController.CanDelete());
-            ctx.WorkspaceController.Delete();
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeleteElements02"));
+                // Delete Segment
+                ctx.SelectAt(90, 230);
+                Assert.IsTrue(ctx.WorkspaceController.CanDelete());
+                ctx.WorkspaceController.Delete();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeleteElements02"));
 
-            // Undo twice
-            ctx.UndoHandler.DoUndo(2);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeleteElements03"));
+                // Undo twice
+                ctx.UndoHandler.DoUndo(2);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeleteElements03"));
+            });
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -747,7 +750,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             ctx.ClickAt(200, 200);
 
-            SketchCommands.CreateSegment.Execute(SketchCommands.SegmentCreator.Line);
+            SketchCommands.CreateSegment.Execute(SketchCommands.Segments.Line);
             ctx.EditorState.SnappingEnabled = true;
             ctx.EditorState.SnapToGridSelected = true;
             ctx.MoveTo(44, 44);

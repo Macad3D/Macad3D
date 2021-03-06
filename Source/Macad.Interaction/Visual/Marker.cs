@@ -16,9 +16,8 @@ namespace Macad.Interaction.Visual
         [Flags]
         public enum Styles
         {
-            Legacy     = 1,
-            Bitmap     = 2,
-            Image      = 3,
+            Bitmap     = 1,
+            Image      = 2,
             ModeMask   = 0x000f,
 
             Topmost    = 1 << 16,
@@ -166,11 +165,6 @@ namespace Macad.Interaction.Visual
 
             switch (_Styles & Styles.ModeMask)
             {
-                case Styles.Legacy:
-                    _AisPoint.SetMarker(Aspect_TypeOfMarker.Aspect_TOM_PLUS);
-                    _AisPoint.SetColor(_Color);
-                    break;
-
                 case Styles.Bitmap:
                     _AisPoint.SetMarker(Aspect_TypeOfMarker.Aspect_TOM_USERDEFINED);
                     _AisPoint.SetColor(_Color);
@@ -209,6 +203,7 @@ namespace Macad.Interaction.Visual
 
             AisContext.Display(_AisPoint, 0, _Styles.HasFlag(Styles.Selectable) ? 0 : -1, false);
             AisContext.SetSelectionSensitivity(_AisPoint, 0, Math.Min(_Image.Height, _Image.Width));
+
             _UpdateActivation();
 
             return true;
@@ -255,6 +250,7 @@ namespace Macad.Interaction.Visual
 
         public static Image BallImage = _GetMarkerImage("Marker_Ball");
         public static Image RingImage = _GetMarkerImage("Marker_Ring");
+        public static Image XImage = _GetMarkerImage("Marker_X");
         public static Image ErrorImage = _GetMarkerImage("Marker_Error");
 
         //--------------------------------------------------------------------------------------------------

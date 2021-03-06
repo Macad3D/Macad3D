@@ -346,6 +346,28 @@ namespace Macad.Core
 
         //--------------------------------------------------------------------------------------------------
 
+        public bool PointToScreen(Pnt pnt, out int screenX, out int screenY)
+        {
+            try
+            {
+                int x = 0, y = 0;
+                V3dView.Convert(pnt.X, pnt.Y, pnt.Z, ref x, ref y );
+                screenX = x;
+                screenY = y;
+                return true;
+            }
+            catch (Exception)
+            {
+                Debug.Assert(false);
+            }
+
+            screenX = 0;
+            screenY = 0;
+            return false;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public Pln GetViewPlane()
         {
             var eyeDir = GetViewDirection();

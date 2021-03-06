@@ -30,6 +30,13 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
+        public int Degree
+        {
+            get { return Points.Length-1; }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public SketchSegmentBezier(int p1, int cp, int p2)
         {
             Points = new int[] { p1, cp, p2 };

@@ -22,20 +22,6 @@ namespace Macad.Core.Geom
             var denom = rX.Sqr() * v1.Y.Sqr() + rY.Sqr() * v1.X.Sqr();
             var numer = rX.Sqr() * rY.Sqr() - denom;
 
-            // This correction is used in SvgNet, no idea what it is doing. 
-            //double root = 0;
-            //if (numer < 0)
-            //{
-            //    var s = (float)Math.Sqrt(1.0 - numer / (rX.Sqr() * rY.Sqr()));
-            //    rX *= s;
-            //    rY *= s;
-            //    root = 0.0;
-            //}
-            //else
-            //{
-            //    root = Math.Sqrt(numer / denom) * (sense ? -1 : 1);
-            //}
-
             var root = Math.Sqrt(Math.Abs(numer / denom)) * (sense ? -1 : 1);
             var c1 = new XY(rX * v1.Y / rY, -(rY * v1.X / rX)).Multiplied(root);
 

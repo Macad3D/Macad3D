@@ -33,6 +33,17 @@ namespace Macad.Test.UI.Framework
             Wait.UntilInputIsProcessed();
             Wait.UntilResponsive(Window);
         }
+                
+        //--------------------------------------------------------------------------------------------------
+
+        public bool IsMenuItemEnabled(string name, bool jump = true)
+        {
+            var menuItemCtrl = (Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByAutomationId(name)))
+                                ?? Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(name))))
+                ?.AsMenuItem();
+            Assert.IsNotNull(menuItemCtrl, $"MenuItem {name} not found in current context menu.");
+            return menuItemCtrl.IsEnabled;
+        }
 
         //--------------------------------------------------------------------------------------------------
 

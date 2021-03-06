@@ -669,7 +669,7 @@
         <!--region Sketch -->
         <Fluent:RibbonTabItem Header="SKETCH" 
                               Group="{Binding ElementName=SketchGroup}" 
-                              ReduceOrder="Segment,Constraint"
+                              ReduceOrder="Segment,Constraint,Constraint,Tools"
                               AutomationProperties.AutomationId="Sketch">
             <Fluent:RibbonGroupBox Name="Segment" Header="Create Segment">
 
@@ -753,20 +753,28 @@
                                AutomationProperties.AutomationId="CreatePointOnMidpointConstraint"/>
             </Fluent:RibbonGroupBox>
 
-            <Fluent:RibbonGroupBox Name="Editor" Header="Editor">
-                <Fluent:Button CommandParameter="-90.0"
-                               mmp:Command.Action="{x:Static mmi:SketchCommands.RotateSketchView}" 
-                               AutomationProperties.AutomationId="TurnSketchViewCCW"/>
-                <Fluent:Button CommandParameter="90.0"
-                               mmp:Command.Action="{x:Static mmi:SketchCommands.RotateSketchView}"
-                               AutomationProperties.AutomationId="TurnSketchViewCW"/>
-                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.ToggleClippingPlane}"/>
+            <Fluent:RibbonGroupBox Name="Tools" Header="Tools">
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.SplitElement}"
+                                     AutomationProperties.AutomationId="SplitElement"/>
 
-                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.RecenterGrid}"
-                                     AutomationProperties.AutomationId="RecenterGrid"/>
-            </Fluent:RibbonGroupBox>
+                <Fluent:DropDownButton Header="Convert Segment"
+                                       Icon="{mmp:IconResource Sketch-ConvertSegment}"
+                                       LargeIcon="{mmp:IconResource Sketch-ConvertSegment}"
+                                       AutomationProperties.AutomationId="ConvertSegment">
+                    <Fluent:MenuItem CommandParameter="Line"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.ConvertSegment}"
+                                     AutomationProperties.AutomationId="ConvertSegmentToLine" />
+                    <Fluent:MenuItem CommandParameter="Bezier"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.ConvertSegment}"
+                                     AutomationProperties.AutomationId="ConvertSegmentToBezier" />
+                    <Fluent:MenuItem CommandParameter="Arc"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.ConvertSegment}"
+                                     AutomationProperties.AutomationId="ConvertSegmentToArc" />
+                    <Fluent:MenuItem CommandParameter="EllipticalArc"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.ConvertSegment}"
+                                     AutomationProperties.AutomationId="ConvertSegmentToEllipticalArc" />
+                </Fluent:DropDownButton>
 
-            <Fluent:RibbonGroupBox Name="Tools"  Header="Tools">
                 <Fluent:DropDownButton Header="Exchange"
                                        Icon="{mmp:IconResource Sketch-Exchange}"
                                        LargeIcon="{mmp:IconResource Sketch-Exchange}"
@@ -793,10 +801,22 @@
                                      AutomationProperties.AutomationId="ReplaceFromClipboard"/>
                 </Fluent:DropDownButton>
             </Fluent:RibbonGroupBox>
-            
-            <Fluent:RibbonGroupBox Name="Close" Header="Close">
-                <Fluent:Button mmp:Command.Action="{x:Static mmi:SketchCommands.CloseSketchEditor}"/>
 
+            <Fluent:RibbonGroupBox Name="Editor" Header="Editor">
+                <Fluent:Button CommandParameter="-90.0"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.RotateSketchView}" 
+                               AutomationProperties.AutomationId="TurnSketchViewCCW"/>
+                <Fluent:Button CommandParameter="90.0"
+                               mmp:Command.Action="{x:Static mmi:SketchCommands.RotateSketchView}"
+                               AutomationProperties.AutomationId="TurnSketchViewCW"/>
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.ToggleClippingPlane}"/>
+
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.RecenterGrid}"
+                                     AutomationProperties.AutomationId="RecenterGrid"/>
+            
+                <Fluent:RibbonGroupBox Name="Close" Header="Close">
+                    <Fluent:Button mmp:Command.Action="{x:Static mmi:SketchCommands.CloseSketchEditor}"/>
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonGroupBox>
         </Fluent:RibbonTabItem>
         <!--endregion-->

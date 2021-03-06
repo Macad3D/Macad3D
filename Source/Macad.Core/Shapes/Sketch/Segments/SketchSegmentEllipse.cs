@@ -88,7 +88,7 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public int MajorAxisPoint(Dictionary<int, Pnt2d> points)
+        public int GetMajorAxisPoint(Dictionary<int, Pnt2d> points)
         {
             var center = points[Points[0]];
             var p1 = points[Points[1]];
