@@ -135,7 +135,7 @@ namespace Macad.Core.Shapes
             SaveUndo(ElementType.Point);
             var index = Points.Keys.Any() ? Points.Keys.Max() + 1 : 0;
             Points.Add(index, point);
-            RaisePropertyChanged("Points");
+            RaisePropertyChanged(nameof(Points));
             OnElementsChanged(ElementType.Point);
             return index;
         }

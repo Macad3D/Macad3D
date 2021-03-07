@@ -11,6 +11,27 @@ namespace Macad.Core.Shapes
     {
         #region Utilities
 
+        public static bool IsUnconnectedEndpoint(Sketch sketch, int point)
+        {
+            bool foundOnce = false;
+
+            // Look out for segments who reference this point
+            foreach (var segmentKvp in sketch.Segments)
+            {
+                if(segmentKvp.Value.StartPoint != point && segmentKvp.Value.EndPoint != point)
+                    continue;
+
+                if (foundOnce)
+                    return false;
+
+                foundOnce = true;
+            }
+
+            return foundOnce;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public static IEnumerable<int> GetSegmentsUsingPoint(Sketch sketch, int point)
         {
             return GetSegmentsUsingPoint(sketch.Segments, point);
@@ -337,6 +358,8 @@ namespace Macad.Core.Shapes
             if (segmentIds.Length <= 1)
                 return SplitPointFailed;
 
+            sketch.SaveUndo(Sketch.ElementType.Segment);
+
             int[] newPoints = new int[segmentIds.Length - 1];
             for (int itNewPoints = 0; itNewPoints < newPoints.Length; itNewPoints++)
             {
@@ -345,6 +368,8 @@ namespace Macad.Core.Shapes
                 // Replace segment point
                 ReplaceSegmentPoint(sketch.Segments[segmentIds[itNewPoints]], point, newPoints[itNewPoints]);
             }
+
+            sketch.OnElementsChanged(Sketch.ElementType.Point | Sketch.ElementType.Segment);
 
             return newPoints;
         }

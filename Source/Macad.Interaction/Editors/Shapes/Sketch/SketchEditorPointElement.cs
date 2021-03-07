@@ -14,12 +14,13 @@ namespace Macad.Interaction.Editors.Shapes
         public SketchEditorPointElement(SketchEditorTool sketchEditorTool, int pointIndex, Pnt2d point, Trsf transform, Pln plane)
             : base(sketchEditorTool, transform, plane)
         {
+            PointIndex = pointIndex;
+
             var geomPoint = new Geom_CartesianPoint(point.X, point.Y, 0);
             geomPoint.Transform(Transform);
-            _Marker = new Marker(SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost | Marker.Styles.Selectable, Marker.BallImage);
+            _Marker = new Marker(SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost | Marker.Styles.Selectable, 
+                                 SketchUtils.IsUnconnectedEndpoint(SketchEditorTool.Sketch, PointIndex) ? Marker.RectImage : Marker.BallImage );
             _Marker.Set(geomPoint);
-
-            PointIndex = pointIndex;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -38,6 +39,7 @@ namespace Macad.Interaction.Editors.Shapes
             geomPoint.Transform(Transform);
 
             _Marker.Set(geomPoint);
+            _Marker.SetImage(SketchUtils.IsUnconnectedEndpoint(SketchEditorTool.Sketch, PointIndex) ? Marker.RectImage : Marker.BallImage);
         }
 
         //--------------------------------------------------------------------------------------------------

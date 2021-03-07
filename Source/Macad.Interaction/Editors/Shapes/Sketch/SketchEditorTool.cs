@@ -404,15 +404,6 @@ namespace Macad.Interaction.Editors.Shapes
             __AddIfExecutable(SketchCommands.ConvertSegment, SketchCommands.Segments.EllipticalArc);
             itemList.CloseGroup();
 
-            itemList.AddCommand(SketchCommands.SplitElement);
-
-            itemList.AddGroup("Convert Segment");
-            itemList.AddCommand(SketchCommands.ConvertSegment, SketchCommands.Segments.Line);
-            itemList.AddCommand(SketchCommands.ConvertSegment, SketchCommands.Segments.Bezier);
-            itemList.AddCommand(SketchCommands.ConvertSegment, SketchCommands.Segments.Arc);
-            itemList.AddCommand(SketchCommands.ConvertSegment, SketchCommands.Segments.EllipticalArc);
-            itemList.CloseGroup();
-
             itemList.AddCommand(SketchCommands.RecenterGrid);
         }
 

@@ -46,7 +46,7 @@ namespace Macad.Interaction.Visual
         //--------------------------------------------------------------------------------------------------
 
         readonly Styles _Styles;
-        readonly Image _Image;
+        Image _Image;
         AIS_PointEx _AisPoint;
         Geom_Point _P;
         Quantity_Color _Color = Colors.BallMarker;
@@ -146,6 +146,19 @@ namespace Macad.Interaction.Visual
                 return;
 
             _AisPoint.SetBackgroundColor(_ColorBg);
+        }
+                
+        //--------------------------------------------------------------------------------------------------
+
+        public void SetImage(Image image)
+        {
+            if (_Image.Equals(image))
+                return;
+
+            _Image = image;
+
+            Remove();
+            _EnsureAisObject();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -249,6 +262,7 @@ namespace Macad.Interaction.Visual
         //--------------------------------------------------------------------------------------------------
 
         public static Image BallImage = _GetMarkerImage("Marker_Ball");
+        public static Image RectImage = _GetMarkerImage("Marker_Rect");
         public static Image RingImage = _GetMarkerImage("Marker_Ring");
         public static Image XImage = _GetMarkerImage("Marker_X");
         public static Image ErrorImage = _GetMarkerImage("Marker_Error");
