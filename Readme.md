@@ -2,9 +2,9 @@
 
 Macad\|3D is a free and open-source 3D construction program which implements easy-to-handle workflows specific to the model making hobbyist. Design and arrange your model, export perspective drawings and create source data for printing, laser cutting, milling or photo etching.
 
-Macad\|3D is mainly based on the technologies .Net, C#, C++/CLI and OpenCASCADE Technology (OCCT). Contributions are welcome, either by submitting via GitHub, or by sending a patch file to tobias@macad3d.net.
+Macad\|3D is mainly based on the technologies .Net, C#, C++/CLI and OpenCASCADE Technology (OCCT). Contributions are welcome, either by submitting via GitHub, or by sending a patch file to info@macad3d.net.
 
-Official homepage and download: http://macad3d.net
+Official homepage and download: https://macad3d.net
 
 ![Screenshot](https://macad3d.net/img/screenshot1.png)
 
@@ -16,6 +16,9 @@ Official homepage and download: http://macad3d.net
   - C++/CLI support component 
 - OpenCASCADE Technology (OCCT) 7.5.0
   - Get it from [OpenCASCADE Download Center](https://old.opencascade.com/content/download-center)
+- HTML Help Workshop 1.3
+  - needed only for building the user guide
+  - Get it from [Microsoft](https://docs.microsoft.com/en-us/previous-versions/windows/desktop/htmlhelp/microsoft-html-help-downloads)
 
 ## Building from source
 

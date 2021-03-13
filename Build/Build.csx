@@ -122,9 +122,12 @@ bool _BuildDocumentation(string configuration)
     Environment.SetEnvironmentVariable("SHFBNETFRAMEWORK", Path.GetDirectoryName(shfbNetFrameworkPath));
 
     // Ensure HtmlHelp
-    var setupCompilerPath = Packages.FindPackageFile($"HtmlHelp", "htmlhelp.exe");
-	if(string.IsNullOrEmpty(setupCompilerPath))
-		return false;
+    var setupCompilerPath = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\HTML Help Workshop", "InstallDir", "") as string;
+    if(string.IsNullOrEmpty(setupCompilerPath) || !File.Exists(Path.Combine(setupCompilerPath, "hhc.exe")))
+    {
+        Printer.Error("Cannot find HTML Help Workshop. Please install it.");
+        return false;
+    }
        
     if(!Version.ReadCurrentVersion(out var major, out var minor, out var revision, out var flags))
     {
