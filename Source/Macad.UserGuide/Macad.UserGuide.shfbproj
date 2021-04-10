@@ -3,7 +3,7 @@
   <Import Project="$(SHFBNETFRAMEWORK)\EWSoftware.SHFB.NET.props" Condition="'$(SHFBNETFRAMEWORK)'!=''" />
   <PropertyGroup>
     <!-- NOTE: Update the version number in the path (YYYY.M.D.R) to match the package version -->
-    <SHFBROOT Condition=" '$(SHFBROOT)' == '' ">$(MSBuildThisFileDirectory)..\..\Packages\EWSoftware.SHFB.2021.4.5\Tools\</SHFBROOT>
+    <SHFBROOT Condition=" '$(SHFBROOT)' == '' ">$(MSBuildThisFileDirectory)..\..\Packages\EWSoftware.SHFB.2021.4.9\Tools\</SHFBROOT>
     <!-- The configuration and platform will be used to determine which assemblies to include from solution and
 				 project documentation sources -->
     <Configuration Condition=" '$(Configuration)' == '' ">Doc</Configuration>
