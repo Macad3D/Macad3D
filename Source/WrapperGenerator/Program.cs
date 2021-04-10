@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using System.Windows.Forms;
+using System.Windows;
 
 namespace Macad.Occt.Generator
 {
@@ -8,7 +8,7 @@ namespace Macad.Occt.Generator
         static int Main(string[] args)
         {
 #if DEBUG
-            MessageBox.Show($"If you want to debug me, you can not attach the debugger to process {Process.GetCurrentProcess().ProcessName} (PID {Process.GetCurrentProcess().Id})", "Wrapper Generator", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"If you want to debug me, you can not attach the debugger to process {Process.GetCurrentProcess().ProcessName} (PID {Process.GetCurrentProcess().Id})", "Wrapper Generator", MessageBoxButton.OK, MessageBoxImage.Information);
 #endif
             foreach (var arg in args)
             {

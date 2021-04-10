@@ -1,3 +1,5 @@
+#pragma once
+
 #pragma managed(push, off)
 
 #include <Standard.hxx>
@@ -8,7 +10,6 @@
 #include <Standard_Integer.hxx>
 #include <Standard_Transient.hxx>
 
-#include <NCollection_Haft.h>
 #include <TColgp_Array1OfPnt.hxx>
 #include <TColgp_HArray1OfPnt.hxx>
 #include <TCollection_AsciiString.hxx>

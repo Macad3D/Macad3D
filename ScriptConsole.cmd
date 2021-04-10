@@ -24,7 +24,8 @@ rem Start
 if not %1.==. (
 	set CMD=%*
 	call:execute
-	exit /b %ERRORLEVEL%
+	echo Script returned with error code !ERRORLEVEL!.
+	exit /b !ERRORLEVEL!
 )
 
 echo - 

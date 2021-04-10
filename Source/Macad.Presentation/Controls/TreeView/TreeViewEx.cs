@@ -25,7 +25,7 @@ namespace Macad.Presentation.TreeView
 
     #endregion
 
-    public class TreeViewEx : ItemsControl
+    public sealed class TreeViewEx : ItemsControl, IDisposable
     {
         #region Constants and Fields
         // the space where items will be realized if virtualization is enabled. This is set by virtualizingtreepanel.
@@ -113,6 +113,12 @@ namespace Macad.Presentation.TreeView
         public TreeViewEx()
         {
             SelectedItems = new ObservableCollection<object>();
+        }
+        
+        public void Dispose()
+        {
+            dragNDropController?.Dispose();
+            autoScroller?.Dispose();
         }
 
         #endregion
@@ -730,5 +736,6 @@ namespace Macad.Presentation.TreeView
         }
 
         #endregion
+
     }
 }

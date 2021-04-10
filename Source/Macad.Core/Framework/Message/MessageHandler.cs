@@ -71,12 +71,20 @@ namespace Macad.Core
 
         ~MessageHandler()
         {
-            Dispose();
+            Dispose(false);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void Dispose(bool disposing)
         {
             _MessageRouter?.Dispose();
             _MessageRouter = null;

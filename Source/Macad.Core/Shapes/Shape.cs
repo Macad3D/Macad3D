@@ -347,7 +347,7 @@ namespace Macad.Core.Shapes
             catch (SEHException e)
             {
                 // Try to get infos from native
-                var info = Interop.ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionCode(), Marshal.GetExceptionPointers());
+                var info = Interop.ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionPointers());
                 Messages.Exception(info != null ? $"Modeling Exception - {info.Message}" : "Exception while making shape.", e, this);
                 Console.WriteLine(e);
             }

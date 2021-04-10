@@ -325,26 +325,23 @@ namespace Macad.Interaction
 
         double? _ProcessMouseInputForAxis(MouseEventData data)
         {
-            if (_MoveAxis != null)
+            var planeDir = WorkspaceController.ActiveViewport.GetRightDirection();
+            if (planeDir.IsParallel(_MoveAxis.Direction, 0.1))
             {
-                var planeDir = WorkspaceController.ActiveViewport.GetRightDirection();
-                if (planeDir.IsParallel(_MoveAxis.Direction, 0.1))
-                {
-                    planeDir = WorkspaceController.ActiveViewport.GetUpDirection();
-                }
-                planeDir.Cross(_MoveAxis.Direction);
-                //Console.WriteLine("PlaneDir: {0:0.00} | {1:0.00} | {2:0.00}", planeDir.X(), planeDir.Y(), planeDir.Z());
-                var plane = new Pln(new Ax3(_MoveAxis.Location, planeDir, _MoveAxis.Direction));
+                planeDir = WorkspaceController.ActiveViewport.GetUpDirection();
+            }
+            planeDir.Cross(_MoveAxis.Direction);
+            //Console.WriteLine("PlaneDir: {0:0.00} | {1:0.00} | {2:0.00}", planeDir.X(), planeDir.Y(), planeDir.Z());
+            var plane = new Pln(new Ax3(_MoveAxis.Location, planeDir, _MoveAxis.Direction));
 
-                Pnt convertedPoint;
-                if (WorkspaceController.ActiveViewport.ScreenToPoint(plane, Convert.ToInt32(data.ScreenPoint.X), Convert.ToInt32(data.ScreenPoint.Y), out convertedPoint))
+            Pnt convertedPoint;
+            if (WorkspaceController.ActiveViewport.ScreenToPoint(plane, Convert.ToInt32(data.ScreenPoint.X), Convert.ToInt32(data.ScreenPoint.Y), out convertedPoint))
+            {
+                var extrema = new Extrema_ExtPC(convertedPoint, new GeomAdaptor_Curve(new Geom_Line(_MoveAxis)), 1.0e-10);
+                if (extrema.IsDone() && extrema.NbExt() >= 1)
                 {
-                    var extrema = new Extrema_ExtPC(convertedPoint, new GeomAdaptor_Curve(new Geom_Line(_MoveAxis)), 1.0e-10);
-                    if (extrema.IsDone() && extrema.NbExt() >= 1)
-                    {
-                        var value = extrema.Point(1).Parameter();
-                        return value;
-                    }
+                    var value = extrema.Point(1).Parameter();
+                    return value;
                 }
             }
             return null;

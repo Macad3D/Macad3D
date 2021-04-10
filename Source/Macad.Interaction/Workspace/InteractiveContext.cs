@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using Macad.Interaction;
 using Macad.Common;
 using Macad.Core;
-using Macad.Core.Exchange;
-using Macad.Core.Topology;
 using Macad.Interaction.Panels;
 
 namespace Macad.Interaction
@@ -125,7 +121,7 @@ namespace Macad.Interaction
         
         //--------------------------------------------------------------------------------------------------
 
-        public ShortcutHandler ShortcutHandler { get; private set; }
+        public ShortcutHandler ShortcutHandler { get; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -147,13 +143,13 @@ namespace Macad.Interaction
         }
 
         //--------------------------------------------------------------------------------------------------
-        
-        public override void Dispose()
+
+        protected override void Dispose(bool disposing)
         {
             WorkspaceController?.Dispose();
             WorkspaceController = null;
             ViewportController = null;
-            base.Dispose();
+            base.Dispose(disposing);
         }
 
         //--------------------------------------------------------------------------------------------------

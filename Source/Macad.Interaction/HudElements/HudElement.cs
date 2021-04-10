@@ -42,13 +42,6 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        ~HudElement()
-        {
-            Debug.WriteLine("Hud element " + GetType().Name + " destroyed.");
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         public virtual void Initialize(BaseObject instance)
         {
         }

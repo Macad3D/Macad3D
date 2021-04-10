@@ -10,7 +10,7 @@ using Macad.Occt;
 namespace Macad.Core.Exchange
 {
     [InitializeAtStartup]
-    public class DxfExchanger : ISketchExporter, ISketchImporter, IVectorExporter
+    public sealed class DxfExchanger : ISketchExporter, ISketchImporter, IVectorExporter
     {
         #region Exchanger
 
@@ -124,7 +124,7 @@ namespace Macad.Core.Exchange
 
         //--------------------------------------------------------------------------------------------------
         
-        public static bool _ReadFromFile(string fileName, out Stream content)
+        bool _ReadFromFile(string fileName, out Stream content)
         {
             try
             {

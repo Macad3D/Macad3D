@@ -111,7 +111,7 @@ namespace Macad.Test.Unit
             Assert.IsNotNull(referenceBytes, "Reference file not found: " + originalPath);
 
             // Compare
-            CollectionAssert.AreEqual(referenceBytes.Skip(skipBytes), testPathBytes.Skip(skipBytes));
+            Assert.That(referenceBytes.Skip(skipBytes).SequenceEqual(testPathBytes.Skip(skipBytes)));
             TestData.DeleteTestResult(testResultPath);
         }
         
@@ -125,11 +125,6 @@ namespace Macad.Test.Unit
         }
 
         //--------------------------------------------------------------------------------------------------
-
-        static char[] _FloatDelimiterChars = new[] {' ', ',', ':'};
-
-        //--------------------------------------------------------------------------------------------------
-
 
         public static void IsSameTextFile(string originalPath, string testResultPath, TextCompareFlags flags = TextCompareFlags.None)
         {
@@ -178,18 +173,46 @@ namespace Macad.Test.Unit
 
         //--------------------------------------------------------------------------------------------------
 
+        static readonly string _FloatChars = "0123456789.+-Ee";
+
         public static void IsSameText(string[] refLines, string[] testLines, TextCompareFlags flags = TextCompareFlags.None)
         {
+            int __FindFrontBorderOfFloat(string line, int startindex)
+            {
+                int index = startindex-1;
+                while (index > 0)
+                {
+                    if (!_FloatChars.Contains(line[index]))
+                        break;
+                    index--;
+                }
+                return index+1;
+            }
+
+            //--------------------------------------------------------------------------------------------------
+
+            int __FindBackBorderOfFloat(string line, int startindex)
+            {
+                int length = line.Length;
+                int index = startindex;
+                while (index < length)
+                {
+                    if (!_FloatChars.Contains(line[index]))
+                        break;
+                    index++;
+                }
+                return index-1;
+            }
+
+            //--------------------------------------------------------------------------------------------------
+
             bool __TryGetFloatValue(string line, int col, out double result, out int endPos)
             {
-                int startPos = line.LastIndexOfAny(_FloatDelimiterChars, col-1);
-                startPos++;
+                int startPos = __FindFrontBorderOfFloat(line, col);
 
-                endPos = line.IndexOfAny(_FloatDelimiterChars, col);
-                if (endPos == -1)
-                    endPos = line.Length-1;
+                endPos = __FindBackBorderOfFloat(line, col);
 
-                return double.TryParse(line.Substring(startPos, endPos - startPos), NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+                return double.TryParse(line.Substring(startPos, endPos - startPos + 1), NumberStyles.Any, CultureInfo.InvariantCulture, out result);
             }
 
             //--------------------------------------------------------------------------------------------------
@@ -224,7 +247,7 @@ namespace Macad.Test.Unit
                             }
                         }
                     }
-                    Assert.Fail( $"File differs at line {i} at position {testCol}." );
+                    Assert.Fail( $"File differs at line {i+1} at position {testCol}." );
                 }
             }
         }

@@ -11,7 +11,7 @@ using Macad.Resources;
 
 namespace Macad.Interaction
 {
-    public class ViewportController : BaseObject, IDisposable
+    public sealed class ViewportController : BaseObject, IDisposable
     {
         const int RubberbandFreehandSelectionThresholdSquared = 100;
 

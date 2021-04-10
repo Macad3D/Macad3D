@@ -34,7 +34,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = RunExporter(false, _Projection, new[] { ocShape });
             
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "Simple.svg"));
+            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "Simple.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = RunExporter(true, _Projection, new[] { ocShape });
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "PolySimple.svg"));
+            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "PolySimple.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = RunExporter(false, _Projection, new[] { ocShape });
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "Complex.svg"));
+            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "Complex.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = RunExporter(false, _Projection, new[] { ocShape });
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "RudderBlade.svg"));
+            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "RudderBlade.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = RunExporter(true, _Projection, new[] { ocShape });
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "PolyComplex.svg"));
+            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "PolyComplex.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = RunExporter(false, _TopProjection, new[] { ocShape });
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "Circle.svg"));
+            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "Circle.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
 
             // Cut circle
             var box = new Box() { DimensionX = 10, DimensionY = 10, DimensionZ = 10};
@@ -126,7 +126,7 @@ namespace Macad.Test.Unit.Exchange
             svg = RunExporter(false, _TopProjection, new[] { ocShape, ocBoxShape });
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "CircleArc.svg"));
+            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "CircleArc.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -143,7 +143,7 @@ namespace Macad.Test.Unit.Exchange
             var svg = RunExporter(false, _TopProjection, new[] { ocShape });
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "Ellipse.svg"));
+            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "Ellipse.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
 
             // Cut circle
             var box = new Box() { DimensionX = 10, DimensionY = 10, DimensionZ = 10 };
@@ -154,7 +154,7 @@ namespace Macad.Test.Unit.Exchange
             svg = RunExporter(false, _TopProjection, new[] { ocShape, ocBoxShape });
 
             // Write to file and compare
-            TestData.FileCompare(svg.ToArray(), Path.Combine(_BasePath, "EllipseArc.svg"));
+            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "EllipseArc.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------

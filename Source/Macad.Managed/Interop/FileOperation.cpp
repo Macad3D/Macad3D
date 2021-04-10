@@ -1,6 +1,7 @@
 
 #include "ManagedPCH.h"
 
+using namespace System;
 using namespace System::IO;
 
 namespace Macad

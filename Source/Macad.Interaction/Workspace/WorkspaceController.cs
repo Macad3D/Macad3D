@@ -118,6 +118,8 @@ namespace Macad.Interaction
                 viewCtrl.Dispose();
             }
             _ViewControllers.Clear();
+            _LastDetectedInteractive?.Dispose();
+
             GC.SuppressFinalize(this);
         }
         

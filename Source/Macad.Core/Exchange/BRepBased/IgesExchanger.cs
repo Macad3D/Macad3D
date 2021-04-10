@@ -10,7 +10,7 @@ using Macad.Occt;
 namespace Macad.Core.Exchange
 {
     [InitializeAtStartup]
-    public class IgesExchanger : IBodyExporter, IBodyImporter
+    public sealed class IgesExchanger : IBodyExporter, IBodyImporter
     {
         #region Exchanger
 

@@ -7,12 +7,16 @@ using System.Linq;
 
 public class VisualStudio
 {
+    public const string DotNetRelease = "5.0";
+    public const string DotNetRuntime = "Microsoft.WindowsDesktop.App";
+
     public bool IsReady
     {
         get { return !(string.IsNullOrEmpty(PathToVS) || string.IsNullOrEmpty(PathToMSBuild)); }
     }
     public string PathToVS { get; private set; }
     public string PathToMSBuild { get; private set; }
+    public bool LogToFile { get; set; }
 
     public VisualStudio()
     {
@@ -55,12 +59,14 @@ public class VisualStudio
         Printer.Success($"\nBuilding configuration {configuration}...");
 
         //Environment.SetEnvironmentVariable("MSBuildEmitSolution", "1");
-        var target = "Build";
 
-        if (!string.IsNullOrEmpty(projectName))
-            target = projectName.Replace(".", "_");
+        string target = string.IsNullOrEmpty(projectName) ? "Build" : projectName.Replace(".", "_");
 
         var commandLine = $"\"{pathToSolution}\" /t:{target} /p:Configuration={configuration} /p:Platform=\"{platform}\" /m /nologo /ds /verbosity:minimal /clp:Summary;EnableMPLogging";
+        if(LogToFile)
+        {
+            commandLine += $" /fl /flp:logfile=\"{Path.ChangeExtension(pathToSolution, ".MSBuild.log")}\";verbosity=Detailed"; // Detailed, Diagnostic
+        }
         commandLine += " /nr:false"; // Disable node reuse to prevent locking of MSBuilExtension.dll
 
         if (Common.Run(PathToMSBuild, commandLine) != 0)
@@ -178,6 +184,39 @@ public class VisualStudio
         }
 
         return pathToLastWinSdkInclude;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static string GetLatestDotNetVersion()
+    {
+        List<string> dotNetOutput = new();
+        if (Common.Run("dotnet.exe", "--list-runtimes", null, dotNetOutput ) != 0)
+        {
+            Printer.Error("Calling dotnet.exe failed.");
+            return null;
+        }
+
+        string highestVersion = "";
+        foreach(var line in dotNetOutput)
+        {
+            if(line==null || !line.StartsWith(DotNetRuntime))
+                continue;
+
+            var rtInfo = line.Split(' ');
+            if(!rtInfo[1].StartsWith(DotNetRelease))
+                continue;
+
+            highestVersion = rtInfo[1];
+        }
+
+        if(!string.IsNullOrEmpty(highestVersion))
+        {
+            return highestVersion;
+        }
+        
+        Printer.Error($"No release of .NET {DotNetRuntime} {DotNetRelease} found.");
+        return null;
     }
 
     //--------------------------------------------------------------------------------------------------

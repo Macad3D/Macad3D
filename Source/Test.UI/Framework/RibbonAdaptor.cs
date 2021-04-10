@@ -74,6 +74,7 @@ namespace Macad.Test.UI.Framework
 
             Wait.UntilInputIsProcessed();
             Wait.UntilResponsive(_RibbonControl);
+            Wait.UntilInputIsProcessed();
         }
         
         //--------------------------------------------------------------------------------------------------

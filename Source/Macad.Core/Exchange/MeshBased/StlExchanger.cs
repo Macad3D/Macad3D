@@ -14,7 +14,7 @@ using Macad.Occt.Helper;
 namespace Macad.Core.Exchange
 {
     [InitializeAtStartup]
-    public class StlExchanger : IBodyExporter, IBodyImporter
+    public sealed class StlExchanger : IBodyExporter, IBodyImporter
     {
         #region Exchanger
 
@@ -105,12 +105,12 @@ namespace Macad.Core.Exchange
 
             public void AddFacet(Vec normal, Pnt vertex1, Pnt vertex2, Pnt vertex3)
             {
-                _Sb.AppendLine($" facet normal {normal.X.ToInvariantString()} {normal.Y.ToInvariantString()} {normal.Z.ToInvariantString()}");
+                _Sb.AppendLine($" facet normal {normal.X.ToInvariantString("G14")} {normal.Y.ToInvariantString("G14")} {normal.Z.ToInvariantString("G14")}");
                 _Sb.AppendLine( "  outer loop");
 
-                _Sb.AppendLine($"   vertex {vertex1.X.ToInvariantString()} {vertex1.Y.ToInvariantString()} {vertex1.Z.ToInvariantString()}");
-                _Sb.AppendLine($"   vertex {vertex2.X.ToInvariantString()} {vertex2.Y.ToInvariantString()} {vertex2.Z.ToInvariantString()}");
-                _Sb.AppendLine($"   vertex {vertex3.X.ToInvariantString()} {vertex3.Y.ToInvariantString()} {vertex3.Z.ToInvariantString()}");
+                _Sb.AppendLine($"   vertex {vertex1.X.ToInvariantString("G14")} {vertex1.Y.ToInvariantString("G14")} {vertex1.Z.ToInvariantString("G14")}");
+                _Sb.AppendLine($"   vertex {vertex2.X.ToInvariantString("G14")} {vertex2.Y.ToInvariantString("G14")} {vertex2.Z.ToInvariantString("G14")}");
+                _Sb.AppendLine($"   vertex {vertex3.X.ToInvariantString("G14")} {vertex3.Y.ToInvariantString("G14")} {vertex3.Z.ToInvariantString("G14")}");
 
                 _Sb.AppendLine( "  endloop");
                 _Sb.AppendLine( " endfacet");

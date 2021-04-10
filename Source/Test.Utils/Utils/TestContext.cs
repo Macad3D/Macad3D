@@ -30,10 +30,14 @@ namespace Macad.Test.Utils
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            MessageHandler.MessageThrown -= MessageHub_MessageThrown;
-            base.Dispose();
+            if (disposing)
+            {
+                MessageHandler.MessageThrown -= MessageHub_MessageThrown;
+            }
+
+            base.Dispose(disposing);
         }
 
         //--------------------------------------------------------------------------------------------------

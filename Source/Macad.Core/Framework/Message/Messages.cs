@@ -45,7 +45,7 @@ namespace Macad.Core
             if (exception is SEHException)
             {
                 // Try to get infos from native
-                var info = Interop.ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionCode(), Marshal.GetExceptionPointers());
+                var info = Interop.ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionPointers());
                 if (info != null)
                 {
                     msg = $"{info.Message} [{info.Source}]";

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <MMRootDir Condition="$(MMRootDir) == ''">$(MSBuildThisFileDirectory)..\..\</MMRootDir>
     <MMScriptDir Condition="$(MMScriptDir) == ''">$(MMRootDir)Build\</MMScriptDir>
-    <MMBuildPropsDir Condition="$(MMRootDir) == ''">$(MMRootDir)Build\MSBuild\</MMBuildPropsDir>
+    <MMBuildPropsDir Condition="$(MMBuildPropsDir) == ''">$(MMRootDir)Build\MSBuild\</MMBuildPropsDir>
     <MMCsiPath Condition="$(MMCsiPath) == ''">$(MSBuildBinPath)\Roslyn\csi.exe</MMCsiPath>
     <MMExtensionAssemblyFile Condition="$(MMExtensionAssemblyFile) == ''">$(MMRootDir)bin\Build\MSBuildExtension.dll</MMExtensionAssemblyFile>
     
@@ -11,6 +11,8 @@
     <MMIsVcxManagedProj Condition="($(MMIsVcxProj) == 'true') And ($(Keyword) == 'ManagedCProj')">true</MMIsVcxManagedProj>
     <MMIsDocProj Condition="$(MSBuildProjectExtension) == '.shfbproj'">true</MMIsDocProj>
 
+    <MMFramework>net5.0-windows</MMFramework>
+    <MMRuntime>win7-x64</MMRuntime>
   </PropertyGroup>
 
   <Import Project="$(MMBuildPropsDir)Macad.ThirdParty.props" />

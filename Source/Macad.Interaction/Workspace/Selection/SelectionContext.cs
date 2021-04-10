@@ -11,7 +11,7 @@ using Macad.Occt;
 
 namespace Macad.Interaction
 {
-    public class SelectionContext : IDisposable
+    public sealed class SelectionContext : IDisposable
     {
         [Flags]
         public enum Options

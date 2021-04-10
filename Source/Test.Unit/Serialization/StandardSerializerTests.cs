@@ -365,7 +365,7 @@ namespace Macad.Test.Unit.Serialization
             Assert.True(serializer.Write(w, float.MaxValue, null));
             w.EndList();
             Assert.True(w.IsValid());
-            Assert.AreEqual("[0,3.14159274,-3.40282347E+38,3.40282347E+38]", w.ToString());
+            Assert.AreEqual("[0,3.1415927,-3.4028235E+38,3.4028235E+38]", w.ToString());
 
             var r = new Reader(w.ToString());
             r.BeginList();
@@ -400,7 +400,7 @@ namespace Macad.Test.Unit.Serialization
             Assert.True(serializer.Write(w, double.MaxValue, null));
             w.EndList();
             Assert.True(w.IsValid());
-            Assert.AreEqual("[0,3.1415926535897931,-1.7976931348623157E+308,1.7976931348623157E+308]", w.ToString());
+            Assert.AreEqual("[0,3.141592653589793,-1.7976931348623157E+308,1.7976931348623157E+308]", w.ToString());
 
             var r = new Reader(w.ToString());
             r.BeginList();

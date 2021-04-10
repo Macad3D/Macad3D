@@ -118,7 +118,7 @@ namespace Macad.Test.Unit.Exchange
             }
             catch (SEHException)
             {
-                var info = ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionCode(), Marshal.GetExceptionPointers());
+                var info = ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionPointers());
                 TestContext.WriteLine(info.Message);
                 throw;
             }

@@ -17,15 +17,6 @@
     <ProjectName>Macad.Managed</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -63,7 +54,7 @@
       <AdditionalDependencies>Shell32.lib;msvcrtd.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(_3DxWareLibPath);$(OcctLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <CLRUnmanagedCodeCheck>false</CLRUnmanagedCodeCheck>
-      <AdditionalOptions>/ignore:4099 /KEYFILE:$(SolutionDir)Source\sn.snk /NOENTRY %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/ignore:4099 /KEYFILE:$(MMRootDir)Source\sn.snk %(AdditionalOptions)</AdditionalOptions>
       <IgnoreSpecificDefaultLibraries>nochkclr.obj</IgnoreSpecificDefaultLibraries>
       <ForceSymbolReferences>_DllMainCRTStartup</ForceSymbolReferences>
     </Link>
@@ -84,19 +75,13 @@
       <AdditionalDependencies>Shell32.lib;msvcrt.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(_3DxWareLibPath);$(OcctLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <CLRUnmanagedCodeCheck>false</CLRUnmanagedCodeCheck>
-      <AdditionalOptions>/ignore:4099 /KEYFILE:$(SolutionDir)Source\sn.snk /NOENTRY %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/ignore:4099 /KEYFILE:$(MMRootDir)Source\sn.snk %(AdditionalOptions)</AdditionalOptions>
       <LinkTimeCodeGeneration>
       </LinkTimeCodeGeneration>
       <IgnoreSpecificDefaultLibraries>nochkclr.obj</IgnoreSpecificDefaultLibraries>
       <ForceSymbolReferences>_DllMainCRTStartup</ForceSymbolReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OcctExtensions\AIS_CircleEx.h" />
     <ClInclude Include="OcctExtensions\AIS_PointEx.h" />

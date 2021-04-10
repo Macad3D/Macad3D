@@ -1,20 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProjectGuid>{6CD3EADE-505E-4F55-A720-4A5E7D88F943}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <ApplicationIcon>..\Macad.Resources\Icons\App\App-MainLogo.ico</ApplicationIcon>
-    <UseWPF>true</UseWPF>
+    <ApplicationIcon>..\Macad.Resources\Icons\App\App-MainLogo.ico</ApplicationIcon>  
     <Platforms>x64</Platforms>
-    <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
     <StartupObject>Macad.Window.App</StartupObject>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  
+  <Import Project="$(MMBuildPropsDir)\Macad.Publish.props" />
 
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="4.4.0" />
-    <PackageReference Include="Dirkster.AvalonDock" Version="4.50.1" />
-    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.50.1" />
+    <PackageReference Include="ControlzEx" Version="5.0.0" />
+    <PackageReference Include="Dirkster.AvalonDock" Version="4.51.0-alpha" />
+    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.51.0-alpha" />
     <PackageReference Include="Fluent.Ribbon" Version="8.0.3" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
   </ItemGroup>
@@ -49,5 +49,23 @@
     <None Remove="Macad.args.json" />
     <None Remove="Macad.csproj.DotSettings" />
     <None Remove="Properties\launchSettings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 </Project>

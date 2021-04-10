@@ -8,7 +8,6 @@ namespace Macad.Common.Evaluator
 {
     #region ParseTreeEvaluator
     // rootlevel of the node tree
-    [Serializable]
     public partial class ParseTreeEvaluator : ParseTree
     {
 

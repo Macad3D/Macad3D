@@ -15,7 +15,6 @@ namespace Macad.Window
 {
     public static class CrashHandler
     {
-        [SecurityPermission(SecurityAction.Demand, ControlAppDomain = true)]
         public static void Init(string crashDumpDirectory)
         {
             _CrashDumpDirectory = crashDumpDirectory;

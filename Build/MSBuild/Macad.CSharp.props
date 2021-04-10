@@ -1,17 +1,25 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <TargetFramework>$(MMFramework)</TargetFramework>
+    <RuntimeIdentifier>$(MMRuntime)</RuntimeIdentifier>
     <LangVersion>latest</LangVersion>
+    <UseWPF>true</UseWPF>
+    <SelfContained>false</SelfContained>
+
+    <OutputPath>$(MMRootDir)bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <BaseIntermediateOutputPath>$(MMRootDir).intermediate\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+
     <CodeAnalysisRuleSet>$(MMRootDir)Source\Macad.ruleset</CodeAnalysisRuleSet>
     <WarningLevel>4</WarningLevel>
-    <OutputPath>$(MMRootDir)bin\$(Configuration)\</OutputPath>
-    <TargetFramework>net48</TargetFramework>
     <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\sn.snk</AssemblyOriginatorKeyFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <BaseIntermediateOutputPath>$(MMRootDir).intermediate\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
 
     <!-- Disable XML Documentation errors -->
     <NoWarn>1573,1591</NoWarn>
@@ -27,6 +35,10 @@
   <PropertyGroup Condition="'$(Platform)' == 'x64'">
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App" />
+  </ItemGroup>
 
   <Import Project="Macad.VersionInfo.props" />
 

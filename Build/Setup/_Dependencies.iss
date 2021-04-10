@@ -61,19 +61,15 @@ end;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-// https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/versions-and-dependencies
 function IsDotNetInstalled(): boolean;
 var
-  key: string;
-  install, release: cardinal;
+  ResultCode: Integer;
 begin
   Result := False;
-  key := 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v{#DotNetMajor}\Full';
-  if RegQueryDWordValue(HKLM, key, 'Install', install) then begin
-    if RegQueryDWordValue(HKLM, key, 'Release', release) then begin
-      Log('DotNet Framework is installed: ' + IntToStr(install) + ' Release: ' + IntToStr(release));
-      Result := (install = 1) and (release >= {#DotNetRelease});
-    end;
+  ExtractTemporaryFile(ExtractFileName('{#DotNetCheckPath}'));
+  if Exec(ExpandConstant('{tmp}\') + ExtractFileName('{#DotNetCheckPath}'), '{#DotNetRuntime} {#DotNetVersion}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+  begin
+    Result := ResultCode = 0;
   end;
 end;
 
@@ -83,28 +79,28 @@ function InstallDotNet(var NeedsRestart: Boolean): String;
 var
   ResultCode: Integer;
 begin
-  // Uncomment the following three lines for testing error message display
-  //Result := 'Installation of Microsoft .NET Framework {#DotNetDisplayedVersion} failed with code: ' + //IntToStr(ResultCode) + '.' + #13#10;
+  // Uncomment the following two lines for testing error message display
+  //Result := 'Installation of Microsoft .NET Desktop Runtime {#DotNetVersion} failed with code: ' + IntToStr(ResultCode) + '.' + #13#10;
   //Exit;
-
-  Result := '';
-  DependencyPage.SetText('Installing Microsoft .NET Framework {#DotNetDisplayedVersion}...', '');
-  ExtractTemporaryFile(ExtractFileName('{#DotNetInstaller}'));
-  if not Exec(ExpandConstant('{tmp}\' + ExtractFileName('{#DotNetInstaller}')), '/norestart /passive', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
-  begin
-    Result := 'Installation of Microsoft .NET Framework {#DotNetDisplayedVersion} cannot be started due to the following error: ' +
-              + 'Code ' + IntToStr(ResultCode) + ' - ' + SysErrorMessage(ResultCode) + '.' + #13#10;
-    Exit;
-  end;
-  if( ResultCode <> 0 ) then
-  begin
-    if (ResultCode = 1641) or (ResultCode = 3010) then 
-    begin
-      NeedsRestart := True;
-    end else begin
-      Result := 'Installation of Microsoft .NET Framework {#DotNetDisplayedVersion} failed with code: ' + IntToStr(ResultCode) + '.' + #13#10;
-    end;
-  end;
+ 
+   Result := '';
+   DependencyPage.SetText('Installing Microsoft .NET Desktop Runtime {#DotNetRelease}...', '');
+   ExtractTemporaryFile('{#DotNetRedistFile}');
+   if not Exec(ExpandConstant('{tmp}\{#DotNetRedistFile}'), '/install /norestart /quiet', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
+   begin
+     Result := 'Installation of Microsoft .NET Desktop Runtime {#DotNetVersion} cannot be started due to the following error: ' +
+               + 'Code ' + IntToStr(ResultCode) + ' - ' + SysErrorMessage(ResultCode) + '.' + #13#10;
+     Exit;
+   end;
+   if( ResultCode <> 0 ) then
+   begin
+     if (ResultCode = 1641) or (ResultCode = 3010) then 
+     begin
+       NeedsRestart := True;
+     end else begin
+       Result := 'Installation of Microsoft .NET Desktop Runtime {#DotNetVersion} failed with code: ' + IntToStr(ResultCode) + '.' + #13#10;
+     end;
+   end;
 end;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -161,7 +157,7 @@ begin
     if VCRedistNeeded then
       S := S + Space + 'Microsoft Visual C++ {#VcRedistDisplayedVersion} Runtime' + NewLine;
     if DotNetNeeded then
-      S := S + Space + 'Microsoft .NET Framework {#DotNetDisplayedVersion}' + NewLine;
+      S := S + Space + 'Microsoft .NET Desktop Runtime {#DotNetRelease}' + NewLine;
     S := S + NewLine;
   end;
   Result := S;

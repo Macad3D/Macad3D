@@ -1,12 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <!-- Removed satellite assemblies from the list of assembly references to copy to local bin -->
-  <Target Name="RemoveSatelliteAssemblies" AfterTargets="ResolveAssemblyReferences">
-    <ItemGroup>
-      <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="%(ReferenceCopyLocalPaths.Culture) != ''"/>
-    </ItemGroup>
-  </Target>
-
   <!-- Adds assemblies to InternalsVisibleTo-List -->
   <PropertyGroup>
     <MMSigningPublicKey>00240000048000009400000006020000002400005253413100040000010001002FFA46B4523B97AA210D4ECEEB89949C68B1B295DA74556674F23E681010D35EC97F18738369981DCECEDB9A7A41DC604770C86E5AFA02EA3750041EA4B28E368A31BC5C4FFF5EA2DF58BF81491948A5CC9E24B8B165EA04BA2DCC00E2FCC8B143D37F3459050F86238C360AA8F2B0EB4B1C6197D3A25D53BBF983EE06EE39A7</MMSigningPublicKey>

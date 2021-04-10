@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Occt;
@@ -30,9 +31,9 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
 
             Assert.AreEqual(2, sketch.Segments.Count);
             Assert.IsInstanceOf<SketchSegmentLine>(sketch.Segments[segs[0]]);
-            CollectionAssert.AreEqual(new[] {p1, p3}, sketch.Segments[segs[0]].Points);
+            Assert.That(sketch.Segments[segs[0]].Points.SequenceEqual(new[] {p1, p3}));
             Assert.IsInstanceOf<SketchSegmentLine>(sketch.Segments[segs[1]]);
-            CollectionAssert.AreEqual(new[] {p3, p2}, sketch.Segments[segs[1]].Points);
+            Assert.That(sketch.Segments[segs[1]].Points.SequenceEqual(new[] {p3, p2}));
             
             Assert.IsTrue(sketch.Make(Shape.MakeFlags.None));
             ModelCompare.CompareShape2D(sketch, Path.Combine(_BasePath, "SplitLine"));
@@ -76,9 +77,9 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
 
             Assert.AreEqual(2, sketch.Segments.Count);
             Assert.IsInstanceOf<SketchSegmentArc>(sketch.Segments[segs[0]]);
-            CollectionAssert.AreEqual(new[] {p2, p3, p3 + 1}, sketch.Segments[segs[0]].Points);
+            Assert.That(sketch.Segments[segs[0]].Points.SequenceEqual(new[] {p2, p3, p3 + 1}));
             Assert.IsInstanceOf<SketchSegmentArc>(sketch.Segments[segs[1]]);
-            CollectionAssert.AreEqual(new[] {p3, p2, p3 + 2}, sketch.Segments[segs[1]].Points);
+            Assert.That(sketch.Segments[segs[1]].Points.SequenceEqual(new[] {p3, p2, p3 + 2}));
             
             Assert.IsTrue(sketch.Make(Shape.MakeFlags.None));
             ModelCompare.CompareShape2D(sketch, Path.Combine(_BasePath, "SplitCircle"));
@@ -119,9 +120,9 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
 
             Assert.AreEqual(2, sketch.Segments.Count);
             Assert.IsInstanceOf<SketchSegmentArc>(sketch.Segments[segs[0]]);
-            CollectionAssert.AreEqual(new[] {p1, p3, p3 + 1}, sketch.Segments[segs[0]].Points);
+            Assert.That(sketch.Segments[segs[0]].Points.SequenceEqual(new[] {p1, p3, p3 + 1}));
             Assert.IsInstanceOf<SketchSegmentArc>(sketch.Segments[segs[1]]);
-            CollectionAssert.AreEqual(new[] {p3, p2, p3 + 2}, sketch.Segments[segs[1]].Points);
+            Assert.That(sketch.Segments[segs[1]].Points.SequenceEqual(new[] {p3, p2, p3 + 2}));
             
             Assert.IsTrue(sketch.Make(Shape.MakeFlags.None));
             ModelCompare.CompareShape2D(sketch, Path.Combine(_BasePath, "SplitArc"));
@@ -146,9 +147,9 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
 
             Assert.AreEqual(2, sketch.Segments.Count);
             Assert.IsInstanceOf<SketchSegmentArc>(sketch.Segments[segs[0]]);
-            CollectionAssert.AreEqual(new[] {p1, p3, p3 + 1}, sketch.Segments[segs[0]].Points);
+            Assert.That(sketch.Segments[segs[0]].Points.SequenceEqual(new[] {p1, p3, p3 + 1}));
             Assert.IsInstanceOf<SketchSegmentArc>(sketch.Segments[segs[1]]);
-            CollectionAssert.AreEqual(new[] {p3, p2, p3 + 2}, sketch.Segments[segs[1]].Points);
+            Assert.That(sketch.Segments[segs[1]].Points.SequenceEqual(new[] {p3, p2, p3 + 2}));
             
             Assert.IsTrue(sketch.Make(Shape.MakeFlags.None));
             ModelCompare.CompareShape2D(sketch, Path.Combine(_BasePath, "SplitArcReverse"));
@@ -190,9 +191,9 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
 
             Assert.AreEqual(2, sketch.Segments.Count);
             Assert.IsInstanceOf<SketchSegmentEllipticalArc>(sketch.Segments[segs[0]]);
-            CollectionAssert.AreEqual(new[] {p2, p3, pc}, sketch.Segments[segs[0]].Points);
+            Assert.That(sketch.Segments[segs[0]].Points.SequenceEqual(new[] {p2, p3, pc}));
             Assert.IsInstanceOf<SketchSegmentEllipticalArc>(sketch.Segments[segs[1]]);
-            CollectionAssert.AreEqual(new[] {p3, p2, pc}, sketch.Segments[segs[1]].Points);
+            Assert.That(sketch.Segments[segs[1]].Points.SequenceEqual(new[] {p3, p2, pc}));
             
             Assert.IsTrue(sketch.Make(Shape.MakeFlags.None));
             ModelCompare.CompareShape2D(sketch, Path.Combine(_BasePath, "SplitEllipse"));
@@ -234,9 +235,9 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
 
             Assert.AreEqual(2, sketch.Segments.Count);
             Assert.IsInstanceOf<SketchSegmentEllipticalArc>(sketch.Segments[segs[0]]);
-            CollectionAssert.AreEqual(new[] {p3, p2, pc}, sketch.Segments[segs[0]].Points);
+            Assert.That(sketch.Segments[segs[0]].Points.SequenceEqual(new[] {p3, p2, pc}));
             Assert.IsInstanceOf<SketchSegmentBezier>(sketch.Segments[segs[1]]);
-            CollectionAssert.AreEqual(new[] {p1, p3 + 1, p3 + 2, p3}, sketch.Segments[segs[1]].Points);
+            Assert.That(sketch.Segments[segs[1]].Points.SequenceEqual(new[] {p1, p3 + 1, p3 + 2, p3}));
             
             Assert.IsTrue(sketch.Make(Shape.MakeFlags.None));
             ModelCompare.CompareShape2D(sketch, Path.Combine(_BasePath, "SplitEllipticalArc"));
@@ -261,13 +262,13 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
 
             Assert.AreEqual(4, sketch.Segments.Count);
             Assert.IsInstanceOf<SketchSegmentEllipticalArc>(sketch.Segments[segs[0]]);
-            CollectionAssert.AreEqual(new[] {p1, p3, pc}, sketch.Segments[segs[0]].Points);
+            Assert.That(sketch.Segments[segs[0]].Points.SequenceEqual(new[] {p1, p3, pc}));
             Assert.IsInstanceOf<SketchSegmentBezier>(sketch.Segments[segs[1]]);
-            CollectionAssert.AreEqual(new[] {p3, p3 + 1, p3 + 2, p3 + 3}, sketch.Segments[segs[1]].Points);
+            Assert.That(sketch.Segments[segs[1]].Points.SequenceEqual(new[] {p3, p3 + 1, p3 + 2, p3 + 3}));
             Assert.IsInstanceOf<SketchSegmentBezier>(sketch.Segments[segs[2]]);
-            CollectionAssert.AreEqual(new[] {p3 + 3, p3 + 4, p3 + 5, p3 + 6}, sketch.Segments[segs[2]].Points);
+            Assert.That(sketch.Segments[segs[2]].Points.SequenceEqual(new[] {p3 + 3, p3 + 4, p3 + 5, p3 + 6}));
             Assert.IsInstanceOf<SketchSegmentBezier>(sketch.Segments[segs[3]]);
-            CollectionAssert.AreEqual(new[] {p3 + 6, p3 + 7, p3 + 8, p2}, sketch.Segments[segs[3]].Points);
+            Assert.That(sketch.Segments[segs[3]].Points.SequenceEqual(new[] {p3 + 6, p3 + 7, p3 + 8, p2}));
             
             Assert.IsTrue(sketch.Make(Shape.MakeFlags.None));
             ModelCompare.CompareShape2D(sketch, Path.Combine(_BasePath, "SplitEllipticalArcReversed"));
@@ -307,9 +308,9 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
 
             Assert.AreEqual(2, sketch.Segments.Count);
             Assert.IsInstanceOf<SketchSegmentBezier>(sketch.Segments[segs[0]]);
-            CollectionAssert.AreEqual(new[] {p1, ps + 1, ps}, sketch.Segments[segs[0]].Points);
+            Assert.That(sketch.Segments[segs[0]].Points.SequenceEqual(new[] {p1, ps + 1, ps}));
             Assert.IsInstanceOf<SketchSegmentBezier>(sketch.Segments[segs[1]]);
-            CollectionAssert.AreEqual(new[] {ps, ps + 2, p3}, sketch.Segments[segs[1]].Points);
+            Assert.That(sketch.Segments[segs[1]].Points.SequenceEqual(new[] {ps, ps + 2, p3}));
             
             Assert.IsTrue(sketch.Make(Shape.MakeFlags.None));
             ModelCompare.CompareShape2D(sketch, Path.Combine(_BasePath, "SplitBezier2"));
@@ -335,9 +336,9 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
 
             Assert.AreEqual(2, sketch.Segments.Count);
             Assert.IsInstanceOf<SketchSegmentBezier>(sketch.Segments[segs[0]]);
-            CollectionAssert.AreEqual(new[] {p1, ps + 1, ps + 2, ps}, sketch.Segments[segs[0]].Points);
+            Assert.That(sketch.Segments[segs[0]].Points.SequenceEqual(new[] {p1, ps + 1, ps + 2, ps}));
             Assert.IsInstanceOf<SketchSegmentBezier>(sketch.Segments[segs[1]]);
-            CollectionAssert.AreEqual(new[] {ps, ps + 3, ps + 4, p4}, sketch.Segments[segs[1]].Points);
+            Assert.That(sketch.Segments[segs[1]].Points.SequenceEqual(new[] {ps, ps + 3, ps + 4, p4}));
             
             Assert.IsTrue(sketch.Make(Shape.MakeFlags.None));
             ModelCompare.CompareShape2D(sketch, Path.Combine(_BasePath, "SplitBezier3"));
@@ -368,7 +369,7 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
 
             Assert.IsTrue(SketchUtils.CanSplitPoint(sketch, 0));
             var newPoints = SketchUtils.SplitPoint(sketch, 0);
-            CollectionAssert.AreEqual(new[] {4}, newPoints);
+            Assert.That(newPoints.SequenceEqual(new[] {4}));
             Assert.AreEqual(5, sketch.Points.Count);
 
             Assert.AreEqual(4, sketch.Segments[0].StartPoint);

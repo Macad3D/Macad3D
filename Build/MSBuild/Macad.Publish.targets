@@ -1,0 +1,16 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Target for copy sub project additional output to main publish output -->
+  <Target Name="GenerateGetCopyToPublishDirectoryItems"
+          BeforeTargets="GetCopyToPublishDirectoryItems"
+          Returns="@(AllPublishItemsFullPathWithTargetPath)">
+
+    <ItemGroup>
+      <AllPublishItemsFullPathWithTargetPath Include="@(CopyToOutput)">
+        <TargetPath>%(Filename)%(Extension)</TargetPath>
+        <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      </AllPublishItemsFullPathWithTargetPath>
+    </ItemGroup>
+  </Target>
+
+</Project>

@@ -16,7 +16,7 @@ using Macad.Occt.Helper;
 namespace Macad.Core.Exchange
 {
     [InitializeAtStartup]
-    public class ObjExchanger : IBodyExporter, IBodyImporter
+    public sealed class ObjExchanger : IBodyExporter, IBodyImporter
     {
         #region Exchanger
 

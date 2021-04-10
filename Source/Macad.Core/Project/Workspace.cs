@@ -8,7 +8,7 @@ using Macad.Occt;
 namespace Macad.Core
 {
     [SerializeType]
-    public class Workspace : BaseObject, IDisposable
+    public sealed class Workspace : BaseObject, IDisposable
     {
         #region Properties
 

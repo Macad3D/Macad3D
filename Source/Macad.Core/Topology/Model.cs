@@ -33,7 +33,7 @@ namespace Macad.Core.Topology
             Layers = new LayerCollection(this);
 
             // Create default setup
-            Workspaces = new List<Workspace> {new Workspace(this)};
+            Workspaces = new List<Workspace> {new (this)};
             
             CoreContext.Current.MessageHandler.ClearAllEntityMessages();
         }

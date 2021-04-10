@@ -11,7 +11,7 @@ using Macad.Core.Topology;
 
 namespace Macad.Interaction
 {
-    public class SelectionManager : IDisposable
+    public sealed class SelectionManager : IDisposable
     {
         public List<InteractiveEntity> SelectedEntities
         {
@@ -57,7 +57,7 @@ namespace Macad.Interaction
 
         void ClearSelection(bool suppressEvent = false)
         {
-            if (!suppressEvent && RaiseSelectionChanging(null, SelectedEntities))
+            if (!suppressEvent && _RaiseSelectionChanging(null, SelectedEntities))
                 return;
 
             SelectedEntities.Clear();
@@ -67,7 +67,7 @@ namespace Macad.Interaction
 
         public void SelectEntity(InteractiveEntity entity, bool exclusiveSelection = true)
         {
-            if (RaiseSelectionChanging(
+            if (_RaiseSelectionChanging(
                 entity != null ? new List<InteractiveEntity>() { entity } : new List<InteractiveEntity>(),
                 exclusiveSelection ? SelectedEntities : null))
                 return;
@@ -87,7 +87,7 @@ namespace Macad.Interaction
                 _WorkspaceController.Workspace.AisContext.ClearSelected(false);
             }
 
-            RaiseSelectionChanged();
+            _RaiseSelectionChanged();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ namespace Macad.Interaction
         public void SelectEntities(IEnumerable<InteractiveEntity> entities, bool exclusiveSelection = true)
         {
             var entityList = entities?.ToList() ?? new List<InteractiveEntity>();
-            if (RaiseSelectionChanging(entityList,
+            if (_RaiseSelectionChanging(entityList,
                 exclusiveSelection ? SelectedEntities : null))
                 return;
 
@@ -117,7 +117,7 @@ namespace Macad.Interaction
                 _WorkspaceController.Workspace.AisContext.ClearSelected(false);
             }
 
-            RaiseSelectionChanged();
+            _RaiseSelectionChanged();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ namespace Macad.Interaction
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         public void ChangeEntitySelection(IEnumerable<InteractiveEntity> entitiesToSelect, IEnumerable<InteractiveEntity> entitiesToUnSelect)
         {
-            if (RaiseSelectionChanging(entitiesToSelect, entitiesToUnSelect))
+            if (_RaiseSelectionChanging(entitiesToSelect, entitiesToUnSelect))
                 return;
 
             foreach (var entity in entitiesToUnSelect)
@@ -138,7 +138,7 @@ namespace Macad.Interaction
             }
 
             _SyncToAisSelection();
-            RaiseSelectionChanged();
+            _RaiseSelectionChanged();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ namespace Macad.Interaction
             var toSelect = aisSelected.Except(SelectedEntities).ToArray();
             var toDeselect = SelectedEntities.Except(aisSelected).ToArray();
 
-            if (RaiseSelectionChanging(toSelect, toDeselect))
+            if (_RaiseSelectionChanging(toSelect, toDeselect))
                 return;
 
             foreach (var entity in toDeselect)
@@ -194,7 +194,7 @@ namespace Macad.Interaction
                 _AddEntityToSelectionList(entity);
             }
 
-            RaiseSelectionChanged();
+            _RaiseSelectionChanged();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -239,7 +239,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        protected bool RaiseSelectionChanging(IEnumerable<InteractiveEntity> entitiesToSelect, IEnumerable<InteractiveEntity> entitiesToUnSelect)
+        bool _RaiseSelectionChanging(IEnumerable<InteractiveEntity> entitiesToSelect, IEnumerable<InteractiveEntity> entitiesToUnSelect)
         {
             if (SelectionChanging != null)
             {
@@ -260,7 +260,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        protected void RaiseSelectionChanged()
+        void _RaiseSelectionChanged()
         {
             SelectionChanged?.Invoke(this);
         }
@@ -274,7 +274,7 @@ namespace Macad.Interaction
 
             // Deselect
             _RemoveEntityFromSelectionList(interactiveEntity);
-            RaiseSelectionChanged();
+            _RaiseSelectionChanged();
         }
 
         //--------------------------------------------------------------------------------------------------

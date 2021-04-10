@@ -9,7 +9,7 @@ using Macad.Occt;
 namespace Macad.Core
 {
     [SerializeType]
-    public class Viewport : BaseObject, IDisposable
+    public sealed class Viewport : BaseObject, IDisposable
     {
         #region Properties
 
@@ -536,7 +536,7 @@ namespace Macad.Core
                 V3dView.ToPixMap(pixmap, (int)width, (int)height);
                 _ShowTriedron(true);
 
-                return Occt.Helper.PixMapHelper.ConvertToBitmap(pixmap);
+                return null; //TODO Occt.Helper.PixMapHelper.ConvertToBitmap(pixmap);
             }
             catch (Exception )
             {

@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
+using Macad.Common.Interop;
 
 namespace Macad.Common
 {
@@ -102,14 +103,6 @@ namespace Macad.Common
 
         //--------------------------------------------------------------------------------------------------
 
-        [DllImport("shlwapi", EntryPoint = "PathCanonicalize")]
-        private static extern bool PathCanonicalize(
-            StringBuilder lpszDst,
-            string lpszSrc
-        );
-
-        //--------------------------------------------------------------------------------------------------
-
         public static string MakePathAbsolute(string sRootDirectory, string sRelativePath)
         {
             if (Path.IsPathRooted(sRelativePath))
@@ -117,7 +110,7 @@ namespace Macad.Common
                 return sRelativePath;
             }
             StringBuilder sb = new StringBuilder(260); // MAX_PATH
-            if (PathCanonicalize(sb, Path.Combine(sRootDirectory, sRelativePath)))
+            if (Win32Api.PathCanonicalize(sb, Path.Combine(sRootDirectory, sRelativePath)))
             {
                 return sb.ToString();
             }

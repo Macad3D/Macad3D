@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using Macad.Core.Topology;
 using Macad.Common;
 using Macad.Common.Serialization;
@@ -36,7 +37,7 @@ namespace Macad.Core
             protected set
             {
                 _Workspace = value;
-                Viewport = _Workspace?.Viewports.First();
+                Viewport = _Workspace?.Viewports.FirstOrDefault();
                 RaisePropertyChanged();
             }
         }
@@ -88,7 +89,7 @@ namespace Macad.Core
 
         //--------------------------------------------------------------------------------------------------
 
-        public MessageHandler MessageHandler { get; } = new MessageHandler();
+        public MessageHandler MessageHandler { get; } = new();
 
         //--------------------------------------------------------------------------------------------------
 
@@ -110,12 +111,24 @@ namespace Macad.Core
             InitializeStatics();
             Current = this;
         }
-        
+
         //--------------------------------------------------------------------------------------------------
         
-        public virtual void Dispose()
+        public void Dispose()
         {
-            MessageHandler.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                MessageHandler?.Dispose();
+            }
+
             _Workspace = null;
             _Viewport = null;
             _Document = null;
@@ -155,6 +168,8 @@ namespace Macad.Core
         {
             if (_Initialized)
                 return;
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             OcctSerializers.Init();
             Serializer.RegisterNamespaceAlias("Core", "Macad.Core");

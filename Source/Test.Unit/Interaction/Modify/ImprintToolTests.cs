@@ -117,7 +117,7 @@ namespace Macad.Test.Unit.Interaction.Modify
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        [RequiresThread(ApartmentState.STA)]
+        [Apartment(System.Threading.ApartmentState.STA)]
         public void SketchPropertyPanels()
         {
             var ctx = Context.Current;

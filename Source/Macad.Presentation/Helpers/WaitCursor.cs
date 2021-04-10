@@ -5,7 +5,7 @@ namespace Macad.Presentation
 {
     // Source: https://stackoverflow.com/questions/3480966/display-hourglass-when-application-is-busy
 
-    public class WaitCursor : IDisposable
+    public sealed class WaitCursor : IDisposable
     {
         readonly Cursor _PreviousCursor;
 

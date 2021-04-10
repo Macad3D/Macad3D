@@ -11,7 +11,7 @@ namespace Macad.Presentation
 	/// <summary>
 	/// Provides commands and properties to the emulated TaskDialog view.
 	/// </summary>
-	public class TaskDialogData : BaseObject, IActiveTaskDialog
+	public sealed class TaskDialogData : BaseObject, IActiveTaskDialog
 	{
 	    static readonly TimeSpan _CallbackTimerInterval = new TimeSpan(0, 0, 0, 0, 200);
 
@@ -232,7 +232,7 @@ namespace Macad.Presentation
 				args.Notification = TaskDialogNotification.ExpandoButtonClicked;
 				args.Expanded = _ExpandedInfoVisible;
 
-				OnCallback(args);
+				_OnCallback(args);
 			}
 		}
 		/// <summary>
@@ -294,7 +294,7 @@ namespace Macad.Presentation
 				args.Notification = TaskDialogNotification.VerificationClicked;
 				args.VerificationFlagChecked = _VerificationChecked;
 
-				OnCallback(args);
+				_OnCallback(args);
 			}
 		}
 		/// <summary>
@@ -626,9 +626,9 @@ namespace Macad.Presentation
 							args.Notification = TaskDialogNotification.ButtonClicked;
 							args.ButtonId = i;
 
-							OnCallback(args);
+							_OnCallback(args);
 
-							RaiseRequestCloseEvent();
+							_RaiseRequestCloseEvent();
 						});
 				}
 
@@ -648,7 +648,7 @@ namespace Macad.Presentation
 						{
 							_DialogResult = i;
 
-							RaiseRequestCloseEvent();
+							_RaiseRequestCloseEvent();
 						});
 				}
 
@@ -674,7 +674,7 @@ namespace Macad.Presentation
 							args.Notification = TaskDialogNotification.RadioButtonClicked;
 							args.ButtonId = i;
 
-							OnCallback(args);
+							_OnCallback(args);
 						});
 				}
 
@@ -698,7 +698,7 @@ namespace Macad.Presentation
 							args.Notification = TaskDialogNotification.HyperlinkClicked;
 							args.Hyperlink = uri;
 
-							OnCallback(args);
+							_OnCallback(args);
 						});
 				}
 
@@ -729,7 +729,7 @@ namespace Macad.Presentation
 			args.Config = _Options;
 			args.Notification = TaskDialogNotification.DialogConstructed;
 
-			OnCallback(args);
+			_OnCallback(args);
 		}
 		/// <summary>
 		/// Notifies any callback handlers that the dialog has been created but not yet shown.
@@ -741,7 +741,7 @@ namespace Macad.Presentation
 			args.Config = _Options;
 			args.Notification = TaskDialogNotification.Created;
 
-			OnCallback(args);
+			_OnCallback(args);
 		}
 		/// <summary>
 		/// Notifies any callback handlers periodically if a callback timer has been set.
@@ -764,15 +764,15 @@ namespace Macad.Presentation
 			args.Config = _Options;
 			args.Notification = TaskDialogNotification.Destroyed;
 
-			OnCallback(args);
+			_OnCallback(args);
 		}
 
-		protected void RaiseRequestCloseEvent()
+		void _RaiseRequestCloseEvent()
 		{
-			OnRequestClose(EventArgs.Empty);
+			_OnRequestClose(EventArgs.Empty);
 		}
 
-		protected void OnRequestClose(EventArgs e)
+		void _OnRequestClose(EventArgs e)
 		{
 			if (RequestClose != null)
 			{
@@ -780,7 +780,7 @@ namespace Macad.Presentation
 			}
 		}
 
-        protected void OnCallback(TaskDialogNotificationArgs e)
+        void _OnCallback(TaskDialogNotificationArgs e)
 		{
 			if (_Options.Callback != null)
 			{
@@ -815,7 +815,7 @@ namespace Macad.Presentation
 			args.Notification = TaskDialogNotification.Timer;
 			args.TimerTickCount = Convert.ToUInt32(Math.Round(DateTime.Now.Subtract(_CallbackTimerStart).TotalMilliseconds, 0));
 
-			OnCallback(args);
+			_OnCallback(args);
 		}
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]

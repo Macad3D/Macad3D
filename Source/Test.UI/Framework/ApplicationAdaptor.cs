@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using FlaUI.Core.AutomationElements;
 using FlaUI.UIA3;
 using Macad.Common;
@@ -30,7 +31,7 @@ namespace Macad.Test.UI.Framework
         public void Init(bool enableWelcomeDialog, string filepath=null)
         {
             // Set up paths
-            var applicationDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var applicationDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var applicationPath = Path.Combine(applicationDirectory, "Macad.exe");
             var applicationArguments = "-sandbox";
             if (!enableWelcomeDialog)
@@ -47,6 +48,7 @@ namespace Macad.Test.UI.Framework
             var processStartInfo = new ProcessStartInfo
             {
                 FileName = applicationPath,
+                WorkingDirectory = applicationDirectory,
                 Arguments = applicationArguments
             };
 
@@ -59,7 +61,7 @@ namespace Macad.Test.UI.Framework
 
         public void Cleanup()
         {
-            Application.Kill();
+            Application?.Kill();
         }
 
         #endregion

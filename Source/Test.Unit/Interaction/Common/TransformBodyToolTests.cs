@@ -83,6 +83,7 @@ namespace Macad.Test.Unit.Interaction.Common
         //--------------------------------------------------------------------------------------------------
 
         [Test]
+        [Apartment(System.Threading.ApartmentState.STA)]
         [Description("Issue: In Top view, the axis aligned move leads to a zero-length direction.")]
         public void MoveInTopView()
         {

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Runtime.ExceptionServices;
+using System.Security;
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -140,7 +141,6 @@ namespace Macad.Test.Unit.Modeling.Modify
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        [HandleProcessCorruptedStateExceptions]
         public void RingFaceDraft()
         {
             var shape = TestGeomGenerator.CreateImprint(TestGeomGenerator.SketchType.Ring);
@@ -151,16 +151,11 @@ namespace Macad.Test.Unit.Modeling.Modify
             shape.DraftAngle = 10;
 
             //Imprinting a ring face with draft angle isn't supported by the algo.
-            // This throws a Process Corrupted State Exception, so we need to catch it here
-            try
-            {
-                Assert.IsFalse(shape.Make(Shape.MakeFlags.None));
-            }
-            catch (System.AccessViolationException)
-            {
-                Assert.Pass();
-            }
-            //Assert.IsTrue(ModelCompare.CompareShape(shape, Path.Combine(_BasePath, "RingFaceDraft")));
+            Assert.IsTrue(shape.Make(Shape.MakeFlags.None));
+            var messages = Context.Current.MessageHandler.GetEntityMessages(shape);
+            Assert.AreEqual(1, messages.Count);
+            Assert.AreEqual(MessageSeverity.Warning, messages[0].Severity);
+            Assert.IsTrue(ModelCompare.CompareShape(shape, Path.Combine(_BasePath, "RingFaceDraft")));
         }
 
         //--------------------------------------------------------------------------------------------------

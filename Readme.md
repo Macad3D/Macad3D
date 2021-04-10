@@ -13,6 +13,7 @@ Official homepage and download: https://macad3d.net
 - Visual Studio 2019 Community Edition 
   - .Net Desktop workload
   - C++ Desktop workload
+  - .Net 5 support component
   - C++/CLI support component 
 - OpenCASCADE Technology (OCCT) 7.5.0
   - Get it from [OpenCASCADE Download Center](https://old.opencascade.com/content/download-center)
@@ -26,7 +27,7 @@ Start ```ScriptConsole.cmd``` and enter the following commands:
    
 1. Get dependencies from web and nuget.
 
-    ```> build restore```
+    ```> restore```
    
 2. Configure the path to OCCT and it's dependencies. The OCCT installer only contains a release build, if a debug build is to be used, it must be created yourself. For this, please refer to the documentation from OCCT.
 

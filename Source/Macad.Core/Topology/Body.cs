@@ -450,12 +450,6 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-        ~Body()
-        {
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         public override void OnBeginDeserializing(SerializationContext context)
         {
             base.OnBeginDeserializing(context);

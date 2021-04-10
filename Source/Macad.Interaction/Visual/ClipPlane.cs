@@ -51,7 +51,6 @@ namespace Macad.Interaction.Visual
                     Messages.Error($"Could not load hatch texture into pixmap.");
                     return;
                 }
-
                 _HatchTexture = new Graphic3d_Texture2Dmanual(pixmap);
                 _HatchTexture.EnableModulate();
                 _HatchTexture.EnableRepeat();

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Windows;
 using Macad.Test.Utils;
 using Macad.Common;
@@ -324,8 +325,8 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 Assert.AreEqual(5, sketch.Constraints.Count);
                 Assert.AreEqual(3, tool.SelectedPoints.Count);
                 Assert.AreEqual(2, tool.SelectedSegments.Count);
-                CollectionAssert.AreEqual(new [] {4, 5, 6}, tool.SelectedPoints);
-                CollectionAssert.AreEqual(new [] {4, 5}, tool.SelectedSegmentIndices);
+                Assert.That(tool.SelectedPoints.SequenceEqual(new[] {4, 5, 6}));
+                Assert.That(tool.SelectedSegmentIndices.SequenceEqual(new[] {4, 5}));
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DuplicateElements01"));
 
                 // Try move
@@ -370,8 +371,8 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             Assert.AreEqual(5, sketch.Constraints.Count);
             Assert.AreEqual(3, tool.SelectedPoints.Count);
             Assert.AreEqual(2, tool.SelectedSegments.Count);
-            CollectionAssert.AreEqual(new [] {4, 5, 6}, tool.SelectedPoints);
-            CollectionAssert.AreEqual(new [] {4, 5}, tool.SelectedSegmentIndices);
+            Assert.That(tool.SelectedPoints.SequenceEqual(new[] {4, 5, 6}));
+            Assert.That(tool.SelectedSegmentIndices.SequenceEqual(new[] {4, 5}));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DuplicateElements01"));
 
             // Try move

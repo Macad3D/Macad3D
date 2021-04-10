@@ -45,7 +45,7 @@ namespace Macad.Interaction
 
         public Model NewModel()
         {
-            var newModel = new Model();
+            Model newModel = new();
             InteractiveContext.Current.Document = newModel;
             newModel.ResetUnsavedChanges();
             return newModel;

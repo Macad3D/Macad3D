@@ -35,7 +35,16 @@ namespace Macad.Test.UI.Framework
         protected WindowAdaptor(WindowAdaptor mainWindow, Func<ConditionFactory, ConditionBase> conditionFunc)
         {
             Wait.UntilResponsive(mainWindow.Window);
-            Window = mainWindow.Window.FindFirstChild(conditionFunc)?.AsWindow();
+            int retryCount = 3;
+            while (retryCount > 0)
+            {
+                Window = mainWindow.Window.FindFirstChild(conditionFunc)?.AsWindow();
+                if (Window != null)
+                    break;
+
+                retryCount--;
+                Wait.UntilInputIsProcessed();
+            }
             Assert.That(Window, Is.Not.Null);
         }
 

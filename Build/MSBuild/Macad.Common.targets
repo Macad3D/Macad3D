@@ -8,11 +8,9 @@
     <Copy SourceFiles="@(CopyToOutput)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
   </Target>
 
-  <!-- Import project specific targets -->
+  <!-- Import specific targets -->
 
   <Import Project="$(MMBuildPropsDir)Macad.CSharp.targets" Condition="$(MMIsCsProj) == 'true'" />
-  <Import Project="$(MMBuildPropsDir)Macad.Icons.targets" Condition="($(MMIsCsProj) == 'true') AND ($(UseWPF) == 'true')" />
-  <Import Project="$(MMBuildPropsDir)Macad.Xaml.targets" Condition="($(MMIsCsProj) == 'true') AND ($(UseWPF) == 'true')" />
-  <Import Project="$(MMBuildPropsDir)Macad.Doc.targets" Condition="$(MMIsDocProj) == 'true'" />
+  <Import Project="$(MMBuildPropsDir)Macad.Publish.targets" />
 
 </Project>

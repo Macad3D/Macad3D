@@ -46,6 +46,7 @@ namespace Macad.Window
         //--------------------------------------------------------------------------------------------------
 
         System.Windows.Window _MainWindow;
+        object _InstanceLock = new();
 
         //--------------------------------------------------------------------------------------------------
 
@@ -73,7 +74,7 @@ namespace Macad.Window
                     Thread.Sleep(100);
                 }
 
-                lock (this)
+                lock (_InstanceLock)
                 {
                     Current = null;
 
@@ -111,7 +112,7 @@ namespace Macad.Window
 
         void _MainWindow_OnContentRendered(object sender, EventArgs e)
         {
-            lock (this)
+            lock (_InstanceLock)
             {
                 if (Current == null)
                     return;

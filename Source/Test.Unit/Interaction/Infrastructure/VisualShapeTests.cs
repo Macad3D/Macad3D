@@ -480,6 +480,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
         //--------------------------------------------------------------------------------------------------
 
         [Test]
+        [Apartment(System.Threading.ApartmentState.STA)]
         [Description("Bug: After duplication and view changes (e.g. isolation of another body) the clone is drawn highlighted.")]
         public void SelectionHighlightAfterTransform()
         {

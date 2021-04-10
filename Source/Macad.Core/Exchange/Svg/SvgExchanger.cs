@@ -10,7 +10,7 @@ using Macad.Occt;
 namespace Macad.Core.Exchange
 {
     [InitializeAtStartup]
-    public class SvgExchanger : ISketchExporter, ISketchImporter, IVectorExporter
+    public sealed class SvgExchanger : ISketchExporter, ISketchImporter, IVectorExporter
     {
         #region Exchanger
 

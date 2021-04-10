@@ -4,6 +4,7 @@
 #include <STEPControl_Writer.hxx>
 #include <STEPControl_Reader.hxx>
 
+using namespace System;
 using namespace System::Runtime::InteropServices;
 
 namespace Macad

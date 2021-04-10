@@ -1,14 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProjectGuid>{CB8167A6-A9E7-4864-A65D-B7526BC67ED0}</ProjectGuid>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <RootNamespace>Macad.Test.Unit</RootNamespace>
     <Platforms>x64</Platforms>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Macad.Presentation\Macad.Presentation.csproj" />
     <ProjectReference Include="..\Macad\Macad.csproj" />
@@ -20,7 +19,10 @@
     <ProjectReference Include="..\Macad.Occt\Macad.Occt.vcxproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.13.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.0.0-beta.2" />
+    <PackageReference Include="NUnit" Version="3.13.1" />
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>

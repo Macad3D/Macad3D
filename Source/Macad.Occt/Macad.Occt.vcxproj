@@ -17,13 +17,6 @@
     <Keyword>ManagedCProj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -62,7 +55,7 @@
       <PrecompiledHeaderFile>OcctPCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/IGNOREIDL /KEYFILE:$(SolutionDir)Source\sn.snk %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/IGNOREIDL /KEYFILE:$(MMRootDir)Source\sn.snk %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>msvcrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OcctLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>nochkclr.obj;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -95,17 +88,9 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <CLRUnmanagedCodeCheck>false</CLRUnmanagedCodeCheck>
       <SubSystem>Windows</SubSystem>
-      <AdditionalOptions>/IGNOREIDL /KEYFILE:$(SolutionDir)Source\sn.snk %(AdditionalOptions)</AdditionalOptions>
-      <LinkTimeCodeGeneration>
-      </LinkTimeCodeGeneration>
+      <AdditionalOptions>/IGNOREIDL /KEYFILE:$(MMRootDir)Source\sn.snk /LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <Reference Include="System">
-      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Generated\BRepClass3d.cpp" />
     <ClCompile Include="Generated\BRepOffset.cpp" />
@@ -466,9 +451,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
- 
   <ItemGroup>
     <CopyToOutput Include="@(OcctDeployFiles)" />
   </ItemGroup>
-  
 </Project>

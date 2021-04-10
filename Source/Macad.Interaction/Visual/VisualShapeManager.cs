@@ -7,7 +7,7 @@ using Macad.Occt;
 
 namespace Macad.Interaction.Visual
 {
-    public class VisualShapeManager : BaseObject, IDisposable
+    public sealed class VisualShapeManager : BaseObject, IDisposable
     {
         #region Members
 

@@ -68,7 +68,7 @@ namespace Macad.Test.Utils
 
     //--------------------------------------------------------------------------------------------------
 
-    public class ComServer : IDisposable
+    public sealed class ComServer : IDisposable
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate uint DllGetClassObjectDelegate([MarshalAs(UnmanagedType.LPStruct)] Guid rclsid,

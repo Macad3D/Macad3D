@@ -9,7 +9,7 @@ namespace Macad.Presentation.TreeView
 
     #endregion
 
-    public class TreeViewExAutomationPeer : ItemsControlAutomationPeer, ISelectionProvider
+    public sealed class TreeViewExAutomationPeer : ItemsControlAutomationPeer, ISelectionProvider
     {
         #region Constructors and Destructors
 

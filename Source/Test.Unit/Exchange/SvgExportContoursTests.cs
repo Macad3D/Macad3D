@@ -31,7 +31,7 @@ namespace Macad.Test.Unit.Exchange
             var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "SimpleContour_TestResult.svg"));
             Assert.IsTrue(template.Export(path, new SvgExchanger()));
 
-            AssertHelper.IsSameFile(Path.Combine(_BasePath, "SimpleContour.svg"), path);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "SimpleContour.svg"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ namespace Macad.Test.Unit.Exchange
             var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "TwoLayerContour_TestResult.svg"));
             Assert.IsTrue(template.Export(path, new SvgExchanger()));
 
-            AssertHelper.IsSameFile(Path.Combine(_BasePath, "TwoLayerContour.svg"), path);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "TwoLayerContour.svg"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ namespace Macad.Test.Unit.Exchange
             var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "HolesInPaths_TestResult.svg"));
             Assert.IsTrue(component.Export(path, new SvgExchanger()));
 
-            AssertHelper.IsSameFile(Path.Combine(_BasePath, "HolesInPaths.svg"), path);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "HolesInPaths.svg"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ namespace Macad.Test.Unit.Exchange
             var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "TwoLayerEtchMask_TestResult.svg"));
             Assert.IsTrue(component.Export(path, new SvgExchanger()));
 
-            AssertHelper.IsSameFile(Path.Combine(_BasePath, "TwoLayerEtchMask.svg"), path);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "TwoLayerEtchMask.svg"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ namespace Macad.Test.Unit.Exchange
             var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "MultipleHoles_TestResult.svg"));
             Assert.IsTrue(template.Export(path, new SvgExchanger()));
 
-            AssertHelper.IsSameFile(Path.Combine(_BasePath, "MultipleHoles.svg"), path);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "MultipleHoles.svg"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -132,7 +132,7 @@ namespace Macad.Test.Unit.Exchange
             var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "BoundaryIsClosed_TestResult.svg"));
             Assert.IsTrue(template.Export(path, new SvgExchanger()));
 
-            AssertHelper.IsSameFile(Path.Combine(_BasePath, "BoundaryIsClosed.svg"), path);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "BoundaryIsClosed.svg"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -159,12 +159,12 @@ namespace Macad.Test.Unit.Exchange
             }
             catch (SEHException)
             {
-                var info = ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionCode(), Marshal.GetExceptionPointers());
+                var info = ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionPointers());
                 TestContext.WriteLine(info.Message);
                 throw;
             }
 
-            AssertHelper.IsSameFile(Path.Combine(_BasePath, "LocatedWire.svg"), path);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "LocatedWire.svg"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------

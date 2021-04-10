@@ -46,7 +46,7 @@ UninstallDisplayIcon={app}\Macad.exe
 
 ArchitecturesInstallIn64BitMode=x64
 ArchitecturesAllowed=x64
-MinVersion=0,6.1
+MinVersion=0,6.3
 WizardSmallImageFile=WizModernSmallImage.bmp
 WizardImageFile=WizModernImage.bmp
 AlwaysShowComponentsList=False
@@ -86,7 +86,8 @@ Name: "{app}\Samples"; Flags: uninsalwaysuninstall
 
 [Files]
 Source: "{#VcRedistDir}\vcredist_x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall dontcopy solidbreak
-Source: "{#DotNetInstaller}"; DestDir: "{tmp}"; Flags: deleteafterinstall dontcopy solidbreak
+Source: "{#DotNetCheckPath}"; DestDir: "{tmp}"; Flags: deleteafterinstall dontcopy solidbreak
+Source: "{#DotNetRedistPath}"; DestDir: "{tmp}"; Flags: deleteafterinstall dontcopy solidbreak
 
 ;///////////////////////////////////////////////////////////////////////////////
 
@@ -140,13 +141,7 @@ Root: "HKLM"; Subkey: "SOFTWARE\Classes\.stp\OpenWithProgIDs"; ValueType: string
 ;///////////////////////////////////////////////////////////////////////////////
 
 [Run]
-Filename: {dotnet4064}\ngen.exe; Parameters: "install ""{app}\{#MyAppExeName}"" /ExeConfig:{#MyAppExeName}"; WorkingDir: "{app}"; Flags: runhidden; StatusMsg: Optimizing Macad|3D for your system...; 
 Filename: "{app}\{#MyAppExeName}"; Flags: nowait postinstall skipifsilent; Description: "{cm:LaunchProgram,{#StringChange(MyAppTitle, '&', '&&')}}"
-
-;///////////////////////////////////////////////////////////////////////////////
-
-[UninstallRun]
-Filename: "{dotnet4064}\ngen.exe"; Parameters: "uninstall ""{app}\{#MyAppExeName}"""; WorkingDir: "{app}"; Flags: runhidden; StatusMsg: "Removing native images...";
 
 ;///////////////////////////////////////////////////////////////////////////////
 

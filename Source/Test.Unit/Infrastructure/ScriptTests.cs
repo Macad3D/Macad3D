@@ -28,7 +28,7 @@ namespace Macad.Test.Unit.Infrastructure
             using (var output = new ConsoleOutput())
             {
                 Assert.IsTrue(script.Run());
-                Assert.AreEqual("Hello World", output.GetOuput());
+                Assert.AreEqual("Hello World", output.GetOutput());
             }
         }
 
@@ -117,7 +117,7 @@ namespace Macad.Test.Unit.Infrastructure
             using (var output = new ConsoleOutput())
             {
                 Assert.IsTrue(script.Run());
-                Assert.AreEqual("Hello World", output.GetOuput());
+                Assert.AreEqual("Hello World", output.GetOutput());
             }
             Assert.IsNull(ScriptInstance.Current);
         }
@@ -163,7 +163,7 @@ namespace Macad.Test.Unit.Infrastructure
             using (var output = new ConsoleOutput())
             {
                 Assert.IsTrue(script.Run());
-                Assert.AreEqual("Hello World to the other file", output.GetOuput());
+                Assert.AreEqual("Hello World to the other file", output.GetOutput());
             }
             Assert.IsNull(ScriptInstance.Current);
         }
@@ -212,7 +212,7 @@ namespace Macad.Test.Unit.Infrastructure
                 var script = ScriptInstance.LoadScriptFromFile(GetScriptFilename("VersionDefines.csx"), true);
                 Assert.IsNotNull(script);
                 Assert.IsTrue(script.Run());
-                Assert.AreEqual("-Version >= 2.0-", output.GetOuput());
+                Assert.AreEqual("-Version >= 2.0-", output.GetOutput());
             }
 
             ScriptCompiler.OverrideVersion(2.1f);
@@ -221,7 +221,7 @@ namespace Macad.Test.Unit.Infrastructure
                 var script = ScriptInstance.LoadScriptFromFile(GetScriptFilename("VersionDefines.csx"), true);
                 Assert.IsNotNull(script);
                 Assert.IsTrue(script.Run());
-                Assert.AreEqual("-Version >= 2.0-", output.GetOuput());
+                Assert.AreEqual("-Version >= 2.0-", output.GetOutput());
             }
 
             ScriptCompiler.OverrideVersion(1.0f);
@@ -230,7 +230,7 @@ namespace Macad.Test.Unit.Infrastructure
                 var script = ScriptInstance.LoadScriptFromFile(GetScriptFilename("VersionDefines.csx"), true);
                 Assert.IsNotNull(script);
                 Assert.IsTrue(script.Run());
-                Assert.AreEqual("-Version < 1.1-", output.GetOuput());
+                Assert.AreEqual("-Version < 1.1-", output.GetOutput());
             }
 
             ScriptCompiler.OverrideVersion(1.1f);
@@ -239,7 +239,7 @@ namespace Macad.Test.Unit.Infrastructure
                 var script = ScriptInstance.LoadScriptFromFile(GetScriptFilename("VersionDefines.csx"), true);
                 Assert.IsNotNull(script);
                 Assert.IsTrue(script.Run());
-                Assert.AreEqual("-Version Else-", output.GetOuput());
+                Assert.AreEqual("-Version Else-", output.GetOutput());
             }
         }
 

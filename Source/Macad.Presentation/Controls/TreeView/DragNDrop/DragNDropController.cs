@@ -382,6 +382,8 @@ namespace Macad.Presentation.TreeView
 
         public void Dispose()
         {
+            CleanUpAdorners();
+
             if (TreeView != null)
             {
                 TreeView.Drop -= OnDrop;

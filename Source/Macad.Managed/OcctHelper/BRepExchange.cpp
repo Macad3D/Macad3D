@@ -4,6 +4,7 @@
 #include "BRepTools_ShapeSet.hxx"
 #include "BinTools_ShapeSet.hxx"
 
+using namespace System;
 using namespace System::Runtime::InteropServices;
 
 namespace Macad

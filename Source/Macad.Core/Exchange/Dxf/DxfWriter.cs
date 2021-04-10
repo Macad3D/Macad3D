@@ -106,7 +106,7 @@ namespace Macad.Core.Exchange.Dxf
                     break;
 
                 case double doubleValue:
-                    _Writer.WriteLine(doubleValue.ToInvariantString());
+                    _Writer.WriteLine(doubleValue.ToInvariantString("G14"));
                     break;
 
                 default:

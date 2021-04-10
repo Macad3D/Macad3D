@@ -1,5 +1,7 @@
 #include "ManagedPCH.h"
 
+using namespace System;
+
 namespace Macad {
 	namespace Interop
 	{
@@ -52,12 +54,12 @@ namespace Macad {
 			//--------------------------------------------------------------------------------------------------
 
 		public:
-			static ExceptionInfo^ GetNativeExceptionInfo(int code, IntPtr^ ptr)
+			static ExceptionInfo^ GetNativeExceptionInfo(IntPtr^ ptr)
 			{
 				try {
-					if (code == CppExceptionCode)
+					auto eptr = (EXCEPTION_POINTERS*)(ptr->ToPointer());
+					if (eptr->ExceptionRecord->ExceptionCode == CppExceptionCode)
 					{
-						auto eptr = (EXCEPTION_POINTERS*)(ptr->ToPointer());
 						const EXCEPTION_RECORD & er = *eptr->ExceptionRecord;
 						void* object = (void*)eptr->ExceptionRecord->ExceptionInformation[1];
 

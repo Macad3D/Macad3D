@@ -1,6 +1,7 @@
 #include "ManagedPCH.h"
 #include <Standard_Version.hxx>
 
+using namespace System;
 using namespace System::Runtime::InteropServices;
 
 namespace Macad

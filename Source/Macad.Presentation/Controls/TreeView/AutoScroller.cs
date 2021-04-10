@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Macad.Presentation.TreeView
 {
-    sealed class AutoScroller : InputSubscriberBase
+    sealed class AutoScroller : InputSubscriberBase, IDisposable
     {
         public const uint ScrollBorderSize = 10;
         public const double ScrollDelta = 30;
@@ -19,6 +19,11 @@ namespace Macad.Presentation.TreeView
         public AutoScroller(TreeViewEx treeView) 
             : base(treeView)
         {
+        }
+        
+        public void Dispose()
+        {
+            _Timer?.Dispose();
         }
 
         internal bool IsEnabled { get; set; }
@@ -84,6 +89,5 @@ namespace Macad.Presentation.TreeView
         {
             TreeView.ScrollViewer.ScrollToVerticalOffset(TreeView.ScrollViewer.VerticalOffset + delta);
         }
-
     }
 }

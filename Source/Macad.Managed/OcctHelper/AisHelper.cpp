@@ -1,6 +1,9 @@
 
 #include "ManagedPCH.h"
 
+using namespace System;
+using namespace System::Collections::Generic;
+
 namespace Macad
 {
 	namespace Occt

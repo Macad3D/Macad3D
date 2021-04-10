@@ -17,7 +17,7 @@ namespace Macad.Test.Unit.Common
             }
             catch (SEHException)
             {
-                var info = ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionCode(), Marshal.GetExceptionPointers());
+                var info = ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionPointers());
 
                 Assert.IsNotNull(info);
                 Assert.AreEqual(ExceptionInfo.ExceptionSource.OCCT, info.Source);
@@ -36,7 +36,7 @@ namespace Macad.Test.Unit.Common
             }
             catch (SEHException)
             {
-                var info = ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionCode(), Marshal.GetExceptionPointers());
+                var info = ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionPointers());
 
                 Assert.IsNotNull(info);
                 Assert.AreEqual(ExceptionInfo.ExceptionSource.STL, info.Source);
@@ -55,7 +55,7 @@ namespace Macad.Test.Unit.Common
             }
             catch (SEHException)
             {
-                var info = ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionCode(), Marshal.GetExceptionPointers());
+                var info = ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionPointers());
 
                 Assert.IsNull(info);
             }

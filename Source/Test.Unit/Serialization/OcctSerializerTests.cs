@@ -107,7 +107,7 @@ namespace Macad.Test.Unit.Serialization
             Assert.NotNull(serializer);
             serializer.Write(w, originalValue, null);
             Assert.True(w.IsValid());
-            Assert.AreEqual("[1.5,42.3,11,0.91132237686576711,0.39056673294247163,0.13018891098082389]", w.ToString());
+            Assert.AreEqual("[1.5,42.3,11,0.9113223768657671,0.39056673294247163,0.13018891098082389]", w.ToString());
 
             var r = new Reader(w.ToString());
             var targetValue = serializer.Read(r, null, null) as Ax1?;
@@ -125,7 +125,7 @@ namespace Macad.Test.Unit.Serialization
             Assert.NotNull(serializer);
             serializer.Write(w, originalValue, null);
             Assert.True(w.IsValid());
-            Assert.AreEqual("[1.5,42.3,11,0,0.92387953251128674,0,0.38268343236508978]", w.ToString());
+            Assert.AreEqual("[1.5,42.3,11,0,0.9238795325112867,0,0.3826834323650898]", w.ToString());
 
             var r = new Reader(w.ToString());
             var targetValue = serializer.Read(r, null, null) as Pln?;

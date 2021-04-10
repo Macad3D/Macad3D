@@ -200,6 +200,21 @@ namespace Macad.Core.Shapes
                 return false;
             }
 
+            // Check if we have inner wires (holes), the algo will not work with them when using BRepFeat_MakeDPrism
+            bool useDraft = DraftAngle != 0;
+            if (useDraft)
+            {
+                foreach (var face in baseFacesShape.Faces())
+                {
+                    if (face.Wires().Count > 1)
+                    {
+                        Messages.Warning("Imprinting a face with holes and draft angle isn't supported. Remove holes and imprint them in a second imprint.");
+                        useDraft = false;
+                        break;
+                    }
+                }
+            }
+
             // If extrusion vector has zero length, or the shape is empty, just copy the source shape
             if (Depth == 0 || !baseFacesShape.Faces().Any())
             {
@@ -207,7 +222,7 @@ namespace Macad.Core.Shapes
             }
 
             // Do it!
-            if (DraftAngle != 0)
+            if (useDraft)
             {
                 // DraftPrism needs to change the sign of depth and draft angle
                 var sign = _Mode == ImprintMode.Raise ? 1 : -1;

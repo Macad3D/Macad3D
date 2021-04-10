@@ -5,7 +5,6 @@ using System.Diagnostics.Contracts;
 using System.Dynamic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Macad.Common.Serialization;
 
 namespace Macad.Common

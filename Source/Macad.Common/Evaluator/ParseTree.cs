@@ -48,7 +48,6 @@ namespace Macad.Common.Evaluator
     }
 
     // rootlevel of the node tree
-    [Serializable]
     public partial class ParseTree : ParseNode
     {
         public ParseErrors Errors;

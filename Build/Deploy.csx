@@ -23,7 +23,7 @@ var config = Args[0].ToLower();
 
 if (config == "setup")
 {
-    if(!_EnhanceFileList())
+    if(!_ResolveFileList())
         return -1;
     if (!_BuildSetup())
         return -1;
@@ -36,7 +36,7 @@ else if (config == "symstore")
         return -1;
     }
 
-    if(!_EnhanceFileList())
+    if (!_ResolveFileList())
         return -1;
     if (!_SourceIndexPdbs())
         return -1;
@@ -54,18 +54,12 @@ return 0;
 
 /***************************************************************/
 
-const string DotNetVersion = "4.8";
-const string DotNetRelease = "528040";
-const string DotNetInstaller = "ndp48-web.exe";
-
-/***************************************************************/
-
 static Dictionary<string, List<string>> FileSets = new Dictionary<string, List<string>> {
-    // OCCT and it's dependencies will be added automatically
     { "app", new List<string> {
-        @"Bin\Release\Macad.exe",
+        @"Bin\Publish\*.exe",
+        @"Bin\Publish\*.dll",
+        @"Bin\Publish\*.runtimeconfig.json",
         @"Bin\Doc\Macad.UserGuide.chm",
-        @"Bin\Release\AvalonDock.Themes.VS2013.dll",
     }},
     { "shellext", new List<string> {
         @"Bin\Release\Macad.ShellExtension.dll",
@@ -100,12 +94,25 @@ bool _EnsureVS()
 
 /***************************************************************/
 
-bool _EnhanceFileList()
+bool _ResolveFileList()
 {
-    FileSets["app"].AddRange(Occt.GetDeployFiles().Where(s => Path.GetExtension(s).ToLower() != ".pdb"));
-    if(!_FindFileDependencies())
-        return false;
+    var rootPath = Common.GetRootFolder();
+    foreach (var files in FileSets)
+    {
+        foreach (var file in files.Value.ToArray())
+        {
+            if(file.IndexOf('*') < 0)
+                continue;
 
+            string fileDir = Path.GetDirectoryName(file);
+            string fileName = Path.GetFileName(file);
+            foreach(var wcfile in Directory.EnumerateFiles(Path.Combine(rootPath, fileDir), Path.GetFileName(fileName)))
+            {
+                files.Value.Add(Path.Combine(fileDir, Path.GetFileName(wcfile)));
+            }
+            files.Value.Remove(file);
+        }
+    }
     return true;
 }
 
@@ -116,14 +123,29 @@ bool _BuildSetup()
     _EnsureVS();
 
     // Ensure redist packages
-    var dotNetInstallerPath = Packages.FindPackageFile($"DotNetRedist.{DotNetVersion}", DotNetInstaller);
-	if(string.IsNullOrEmpty(dotNetInstallerPath))
+    var dotNetCheckPath = Packages.FindPackageFile($"Microsoft.NET.Tools.NETCoreCheck.x64.*", Path.Combine("win-x64","NetCoreCheck.exe"));
+	if(string.IsNullOrEmpty(dotNetCheckPath))
 		return false;
 
     // Ensure installer
     var setupCompilerPath = Packages.FindPackageFile($"Tools.InnoSetup.*", "tools\\iscc.exe");
 	if(string.IsNullOrEmpty(setupCompilerPath))
 		return false;
+
+    // Ensure DotNet Redist
+    string dotNetFullVersion = VisualStudio.GetLatestDotNetVersion();
+    if(dotNetFullVersion == null)
+        return false;
+    Printer.Line($"Added prerequisite: DotNet version {dotNetFullVersion}.");
+
+    string dotNetRedistPath = Packages.FindPackageFile($"DotNetRedist.{dotNetFullVersion}", $"windowsdesktop-runtime-{dotNetFullVersion}-win-x64.exe");
+    if(string.IsNullOrEmpty(dotNetRedistPath))
+        return false;
+
+    // Ensure VC Redist
+    var redistDir = _VS.GetPathToVcRedist();
+    var redistVersion = _VS.GetVersionOfVcRedist();
+    Printer.Line($"Added prerequisite: VcRedist version {string.Join(".", redistVersion)}.");
 
     // Go
     var rootPath = Common.GetRootFolder();
@@ -138,25 +160,25 @@ bool _BuildSetup()
         return false;
     }
     defFile.WriteLine($"#define MyAppVersion '{major}.{minor}.{flags}'");
-    defFile.WriteLine($"#define MyAppVersionStr '{major}.{minor}" + (flags==0 ? "" : $"_{Version.GetFlagsString(flags)}'"));
+    defFile.WriteLine($"#define MyAppVersionStr '{major}.{minor}" + (flags==0 ? "'" : $"_{Version.GetFlagsString(flags)}'"));
     defFile.WriteLine($"#define MyAppRevision '{major}.{minor}.{revision}.{flags}'");
     defFile.WriteLine("");
     
     // Write VCRedist definitions
     defFile.WriteLine($"#define VcRedistDisplayedVersion 2019");
-    var redistDir = _VS.GetPathToVcRedist();
     defFile.WriteLine($"#define VcRedistDir '{redistDir}'");
-    var redistVersion = _VS.GetVersionOfVcRedist();
     defFile.WriteLine($"#define VcRedistMajor {redistVersion[0]}");
     defFile.WriteLine($"#define VcRedistMinor {redistVersion[1]}");
     defFile.WriteLine($"#define VcRedistBuild {redistVersion[2]}");
     defFile.WriteLine("");
 
     // Write DotNet definitions
-    defFile.WriteLine($"#define DotNetDisplayedVersion '{DotNetVersion}'");
-    defFile.WriteLine($"#define DotNetInstaller '{dotNetInstallerPath}'");
-    defFile.WriteLine($"#define DotNetMajor {DotNetVersion[0]}");
-    defFile.WriteLine($"#define DotNetRelease {DotNetRelease}");
+    defFile.WriteLine($"#define DotNetVersion '{dotNetFullVersion}'");
+    defFile.WriteLine($"#define DotNetRelease '{VisualStudio.DotNetRelease}'");
+    defFile.WriteLine($"#define DotNetRuntime '{VisualStudio.DotNetRuntime}'");
+    defFile.WriteLine($"#define DotNetCheckPath '{dotNetCheckPath}'");
+    defFile.WriteLine($"#define DotNetRedistPath '{dotNetRedistPath}'");
+    defFile.WriteLine($"#define DotNetRedistFile '{Path.GetFileName(dotNetRedistPath)}'");
     defFile.WriteLine("");
 
     // Write Files
@@ -173,19 +195,7 @@ bool _BuildSetup()
 
         foreach (var file in files.Value)
         {
-            if(file.IndexOf('*') >= 0)
-            {
-                // Wildcard
-                foreach(var wcfile in Directory.EnumerateFiles(Path.GetDirectoryName($"{rootPath}{file}"), "*.*"))
-                {
-                    defFile.WriteLine($"Source: \"{wcfile}\"; DestDir: \"{targetDir}\"; Flags: {fileFlags}");
-                }
-            } 
-            else 
-            {
-                // Explicit file
-                defFile.WriteLine($"Source: \"{rootPath}{file}\"; DestDir: \"{targetDir}\"; Flags: {fileFlags}");
-            }
+            defFile.WriteLine($"Source: \"{rootPath}{file}\"; DestDir: \"{targetDir}\"; Flags: {fileFlags}");
         }
     }
     defFile.WriteLine("");
@@ -193,7 +203,7 @@ bool _BuildSetup()
     defFile.Close();
 
     // Call InnoSetup
-    Printer.Success($"\nCalling InnoSetup compiler...");
+    Printer.Line($"\nCalling InnoSetup compiler...");
 
     var commandLine = $"/Qp \"{rootPath}\\Build\\Setup\\MacadSetup.iss\"";
 
@@ -227,6 +237,7 @@ bool _SourceIndexPdbs()
 
             if (File.Exists(pdbPath))
             {
+                Printer.Line(pdbPath);
                 if (!ssindex.ProcessPdb(pdbPath))
                 {
                     Printer.Error("Source indexing failed.");
@@ -303,46 +314,3 @@ bool _StoreSymbols(string pathToSymstore)
     return true;
 }
 
-/***************************************************************/
-
-bool _FindFileDependencies()
-{
-    foreach (var files in FileSets)
-    {
-        for(int i=0; i<files.Value.Count; i++)
-        {
-            var file = files.Value[i];
-            var ext = Path.GetExtension(file).ToLower();
-            if(ext != ".dll" && ext != ".exe")
-                continue;
-            var relativeDir = Path.GetDirectoryName(file);
-
-            // Check for .config
-            if(File.Exists(Path.Combine(Common.GetRootFolder(), file + ".config")))
-            {
-                files.Value.Add(file + ".config");
-            }
-
-            // Check for references assemblies
-            try
-            {
-                var asm = Assembly.ReflectionOnlyLoadFrom(Path.Combine(Common.GetRootFolder(), file));
-                foreach(var refName in asm.GetReferencedAssemblies())
-                {
-                    var asmRelPath = Path.Combine(relativeDir, refName.Name + ".dll");
-                    if(files.Value.Any(fn => String.Compare(fn, asmRelPath)==0))
-                        continue;
-                    if(!File.Exists(Path.Combine(Common.GetRootFolder(), asmRelPath)))
-                        continue;
-
-                    files.Value.Add(asmRelPath);
-                }
-            }
-            catch (System.Exception)
-            {
-                continue;
-            }
-        }
-    }
-    return true;
-}

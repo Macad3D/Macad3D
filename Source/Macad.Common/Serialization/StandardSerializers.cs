@@ -172,7 +172,8 @@ namespace Macad.Common.Serialization
         {
             public bool Write(Writer writer, object obj, SerializationContext context)
             {
-                writer.WriteValueString(((float)obj).ToString("r", CultureInfo.InvariantCulture));
+                writer.WriteValueString(((float)obj).ToString("R",
+                                                              CultureInfo.InvariantCulture));
                 return true;
             }
 
@@ -188,7 +189,7 @@ namespace Macad.Common.Serialization
         {
             public bool Write(Writer writer, object obj, SerializationContext context)
             {
-                writer.WriteValueString(((double)obj).ToString("r", CultureInfo.InvariantCulture));
+                writer.WriteValueString(((double)obj).ToString("R", CultureInfo.InvariantCulture));
                 return true;
             }
 

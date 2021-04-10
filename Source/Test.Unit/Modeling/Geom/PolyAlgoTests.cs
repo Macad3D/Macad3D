@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Macad.Core.Geom;
 using Macad.Occt;
 using NUnit.Framework;
@@ -44,7 +45,7 @@ namespace Macad.Test.Unit.Modeling.Geom
             var triangulator = new EarClippingTriangulator();
             var result = triangulator.DoTriangulation(vertices, indices);
             Assert.NotNull(result);
-            CollectionAssert.AreEqual(expected, result);
+            Assert.That(expected.SequenceEqual(result));
 
             // Change direction
             indices = new List<int>
@@ -60,7 +61,7 @@ namespace Macad.Test.Unit.Modeling.Geom
 
             result = triangulator.DoTriangulation(vertices, indices);
             Assert.NotNull(result);
-            CollectionAssert.AreEqual(expected, result);
+            Assert.That(expected.SequenceEqual(result));
         }
     }
 }

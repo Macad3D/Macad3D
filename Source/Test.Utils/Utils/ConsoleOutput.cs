@@ -3,10 +3,11 @@ using System.IO;
 
 namespace Macad.Test.Utils
 {
-    public class ConsoleOutput : IDisposable
+    public sealed class ConsoleOutput : IDisposable
     {
-        readonly StringWriter _StringWriter;
-        readonly TextWriter _OriginalOutput;
+        StringWriter _StringWriter;
+        TextWriter _OriginalOutput;
+        bool _isDisposed;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -19,8 +20,9 @@ namespace Macad.Test.Utils
 
         //--------------------------------------------------------------------------------------------------
 
-        public string GetOuput()
+        public string GetOutput()
         {
+            Console.Out.Flush();
             return _StringWriter.ToString();
         }
 
@@ -28,8 +30,16 @@ namespace Macad.Test.Utils
 
         public void Dispose()
         {
+            if (_isDisposed)
+                return;
+
             Console.SetOut(_OriginalOutput);
             _StringWriter.Dispose();
+            _StringWriter = null;
+            _OriginalOutput = null;
+            _isDisposed = true;
+
+            GC.SuppressFinalize(this);
         }
 
         //--------------------------------------------------------------------------------------------------

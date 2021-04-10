@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Macad Managed (Microsoft Managed Recommended Rules)" Description="These rules focus on the most critical problems in your code, including potential security holes, application crashes, and other important logic and design errors. You should include this rule set in any custom rule set you create for your projects." ToolsVersion="15.0">
+<RuleSet Name="Macad Managed (Microsoft Managed Recommended Rules)" Description="These rules focus on the most critical problems in your code, including potential security holes, application crashes, and other important logic and design errors. You should include this rule set in any custom rule set you create for your projects." ToolsVersion="16.0">
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
-    <Rule Id="CA1001" Action="Warning" />
+    <Rule Id="CA1001" Action="Hidden" />
     <Rule Id="CA1009" Action="Warning" />
     <Rule Id="CA1016" Action="Warning" />
-    <Rule Id="CA1033" Action="Warning" />
+    <Rule Id="CA1033" Action="Hidden" />
     <Rule Id="CA1049" Action="Warning" />
-    <Rule Id="CA1060" Action="Warning" />
+    <Rule Id="CA1060" Action="Hidden" />
     <Rule Id="CA1061" Action="Warning" />
     <Rule Id="CA1063" Action="Warning" />
     <Rule Id="CA1065" Action="Warning" />
     <Rule Id="CA1301" Action="Warning" />
     <Rule Id="CA1400" Action="Warning" />
-    <Rule Id="CA1401" Action="Warning" />
+    <Rule Id="CA1401" Action="Hidden" />
     <Rule Id="CA1403" Action="Warning" />
     <Rule Id="CA1404" Action="Warning" />
     <Rule Id="CA1405" Action="Warning" />
@@ -23,7 +23,7 @@
     <Rule Id="CA1901" Action="Warning" />
     <Rule Id="CA2002" Action="Warning" />
     <Rule Id="CA2100" Action="Warning" />
-    <Rule Id="CA2101" Action="Warning" />
+    <Rule Id="CA2101" Action="Hidden" />
     <Rule Id="CA2108" Action="Warning" />
     <Rule Id="CA2111" Action="Warning" />
     <Rule Id="CA2112" Action="Warning" />
@@ -49,7 +49,7 @@
     <Rule Id="CA2202" Action="Warning" />
     <Rule Id="CA2207" Action="Warning" />
     <Rule Id="CA2212" Action="Warning" />
-    <Rule Id="CA2213" Action="Warning" />
+    <Rule Id="CA2213" Action="Hidden" />
     <Rule Id="CA2214" Action="Warning" />
     <Rule Id="CA2216" Action="Warning" />
     <Rule Id="CA2220" Action="Warning" />
@@ -130,5 +130,9 @@
     <Rule Id="IDE0010WithoutSuggestion" Action="None" />
     <Rule Id="IDE0033" Action="None" />
     <Rule Id="IDE0033WithoutSuggestion" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="Microsoft.CodeAnalysis.NetAnalyzers" RuleNamespace="Microsoft.CodeAnalysis.NetAnalyzers">
+    <Rule Id="CA1401" Action="Hidden" />
+    <Rule Id="CA2101" Action="Hidden" />
   </Rules>
 </RuleSet>

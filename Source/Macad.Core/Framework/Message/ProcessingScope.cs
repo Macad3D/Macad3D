@@ -3,7 +3,7 @@ using Macad.Core.Topology;
 
 namespace Macad.Core
 {
-    public class ProcessingScope : IDisposable
+    public sealed class ProcessingScope : IDisposable
     {
         public ProcessingScope(Entity referenceEntity, string description)
         {

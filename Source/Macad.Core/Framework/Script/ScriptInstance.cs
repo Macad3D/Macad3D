@@ -97,7 +97,7 @@ namespace Macad.Core
             _RunningScripts.Push(this);
             try
             {
-                _RunnerDelegate(ContextInstance);
+                _RunnerDelegate(ContextInstance).Wait();
                 result = true;
             }
             catch (Exception e)

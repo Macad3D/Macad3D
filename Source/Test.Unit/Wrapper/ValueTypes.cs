@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Macad.Test.Unit.Wrapper
 {
     [TestFixture]
-    public class ValueTypes
+    public class ValueTypeTests
     {
         [Test]
         public void BaseFunctionality()

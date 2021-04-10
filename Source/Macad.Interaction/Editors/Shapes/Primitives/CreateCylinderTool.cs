@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;

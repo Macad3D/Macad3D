@@ -16,6 +16,7 @@
                      UseLayoutRounding="False"
 	                 WindowStyle="ThreeDBorderWindow"
                      AutomationProperties.AutomationId="MacadMainWindow"
+                     Icon="pack://application:,,,/Macad.Resources;Component/Icons/App/App-MainLogo.ico"
                      >
 
     <Window.Title>

@@ -21,11 +21,11 @@ namespace Macad.Core.Shapes
         {
             get
             {
-                throw new NotImplementedException();
+                return 0.0;
             }
+            // ReSharper disable once ValueParameterNotUsed
             set
             {
-                throw new NotImplementedException();
             }
         }
 

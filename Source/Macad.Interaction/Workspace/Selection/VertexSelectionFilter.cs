@@ -2,7 +2,7 @@
 
 namespace Macad.Interaction
 {
-    public class VertexSelectionFilter : ISelectionFilter
+    public sealed class VertexSelectionFilter : ISelectionFilter
     {
         public enum VertexType
         {

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(SHFBNETFRAMEWORK)\EWSoftware.SHFB.NETFramework.props" Condition="'$(SHFBNETFRAMEWORK)'!=''" />
+  <Import Project="$(SHFBNETFRAMEWORK)\EWSoftware.SHFB.NET.props" Condition="'$(SHFBNETFRAMEWORK)'!=''" />
   <PropertyGroup>
     <!-- NOTE: Update the version number in the path (YYYY.M.D.R) to match the package version -->
-    <SHFBROOT Condition=" '$(SHFBROOT)' == '' ">$(MSBuildThisFileDirectory)..\..\Packages\EWSoftware.SHFB.2020.3.6\Tools\</SHFBROOT>
+    <SHFBROOT Condition=" '$(SHFBROOT)' == '' ">$(MSBuildThisFileDirectory)..\..\Packages\EWSoftware.SHFB.2021.4.5\Tools\</SHFBROOT>
     <!-- The configuration and platform will be used to determine which assemblies to include from solution and
 				 project documentation sources -->
     <Configuration Condition=" '$(Configuration)' == '' ">Doc</Configuration>
@@ -16,7 +16,7 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <FrameworkVersion>.NET Framework 4.8</FrameworkVersion>
+    <FrameworkVersion>.NET Core/.NET Standard/.NET 5.0+</FrameworkVersion>
     <OutputPath>..\..\Bin\$(Configuration)\</OutputPath>
     <HtmlHelpName>Macad.UserGuide</HtmlHelpName>
     <Language>en-US</Language>
@@ -68,10 +68,8 @@
     </TransformComponentArguments>
     <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers</VisibleItems>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\..\Bin\Release\Macad.Interaction.xml" />
-      <DocumentationSource sourceFile="..\..\Bin\Release\Macad.Interaction.dll" />
-      <DocumentationSource sourceFile="..\..\Bin\Release\Macad.Core.xml" />
-      <DocumentationSource sourceFile="..\..\Bin\Release\Macad.Core.dll" />
+      <DocumentationSource sourceFile="..\Macad.Core\Macad.Core.csproj" configuration="Release" platform="x64" />
+      <DocumentationSource sourceFile="..\Macad.Interaction\Macad.Interaction.csproj" configuration="Release" platform="x64" />
     </DocumentationSources>
     <RootNamespaceTitle>API Reference</RootNamespaceTitle>
     <MissingTags>AutoDocumentCtors, AutoDocumentDispose</MissingTags>
@@ -229,16 +227,11 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Doc' ">
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>
-        <PlugInConfigurations>
-      <PlugInConfig id="Additional Content Only" enabled="False">
-        <configuration />
-      </PlugInConfig>
-    </PlugInConfigurations>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'WebDoc' ">
     <HelpFileFormat>Website</HelpFileFormat>
     <FooterText>&amp;lt%3ba href=&amp;quot%3bhttps://macad3d.net&amp;quot%3b&amp;gt%3bMacad|3D Homepage&amp;lt%3b/a&amp;gt%3b | &amp;lt%3ba href=&amp;quot%3bhttps://www.github.com/Macad3d/Macad3d&amp;quot%3b target=&amp;quot%3b_blank&amp;quot%3b&amp;gt%3bVisit on Github&amp;lt%3b/a&amp;gt%3b | &amp;lt%3ba href=&amp;quot%3bhttps://macad3d.net/#contact&amp;quot%3b&amp;gt%3bContact&amp;lt%3b/a&amp;gt%3b</FooterText>
-        <PlugInConfigurations>
+    <PlugInConfigurations>
       <PlugInConfig id="Additional Content Only" enabled="True">
         <configuration />
       </PlugInConfig>
@@ -551,4 +544,7 @@
   </ItemGroup>
   <!-- The pre-build and post-build event properties must appear *after* the targets file import in order to be
 			 evaluated correctly. -->
+
+  <Import Project="$(MMBuildPropsDir)Macad.Doc.targets" />
+
 </Project>

@@ -1,17 +1,19 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Macad.Common;
+using Macad.Occt;
+using Microsoft.CodeAnalysis.Scripting.Hosting;
 
 namespace Macad.Core
 {
@@ -26,16 +28,6 @@ namespace Macad.Core
             "Macad.Presentation.dll",
             "Macad.Interaction.dll",
             "Macad.Resources.dll"
-        };
-
-        static readonly string[] _DefaultReferenceGacAssemblies =
-        {
-            "System.dll",
-            "System.Core.dll",
-            "System.Xaml.dll",
-            "WindowsBase.dll",
-            "PresentationCore.dll",
-            "PresentationFramework.dll"
         };
 
         static readonly string[] _DefaultImports =
@@ -120,7 +112,6 @@ namespace Macad.Core
 
                 var options = ScriptOptions.Default
                                            .WithWarningLevel(4)
-                                           .WithReferences(_DefaultReferenceGacAssemblies)
                                            .WithReferences(_DefaultReferenceAppAssemblies)
                                            .WithMetadataResolver(metadataResolver)
                                            .WithSourceResolver(sourceResolver)
@@ -128,7 +119,15 @@ namespace Macad.Core
                                            .WithEmitDebugInformation(_EnableDebugging)
                                            .WithLanguageVersion(LanguageVersion.Latest);
 
-                var script = CSharpScript.Create(codeStream, options, _ScriptInstance.ContextInstance.GetType());
+                var assemblyLoader = new InteractiveAssemblyLoader();
+                foreach (var defaultAssembly in AssemblyLoadContext.Default.Assemblies)
+                {
+                    assemblyLoader.RegisterDependency(defaultAssembly);
+                }
+                // This extra reference is needed for unit test runner which isolate this assembly
+                assemblyLoader.RegisterDependency(Assembly.GetExecutingAssembly());
+
+                var script = CSharpScript.Create(codeStream, options, _ScriptInstance.ContextInstance.GetType(), assemblyLoader);
                 var results = script.Compile();
                 codeStream.Dispose();
 

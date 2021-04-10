@@ -1,5 +1,7 @@
 #include "ManagedPCH.h"
 
+using namespace System;
+
 namespace Macad
 {
 	namespace Occt

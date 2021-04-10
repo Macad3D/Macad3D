@@ -11,18 +11,15 @@ using System.Linq;
 
 if (Args.Count() < 1)
 {
-    Printer.Line("Usage: build <all, restore, debug, release, doc, webdoc> [/clean]");
+    Printer.Line("Usage: build <all, debug, release, publish, doc, webdoc> [/clean] [/log]");
     return -1;
 }
 
 _OptionClean = Args.Any(s => s.ToLower() == "/clean");
+_OptionLog = Args.Any(s => s.ToLower() == "/log");
 var config = Args[0].ToLower();
 var buildDebug = config == "all" || config == "debug";
 var buildRelease = config == "all" || config == "release";
-
-if (config == "all" || config == "restore")
-    if (!_RestorePackages())
-        return -1;
 
 if( _OptionClean )
 {
@@ -43,10 +40,12 @@ if (buildRelease)
         return -1;
 
 if (config == "all" || config == "doc")
-{
     if (!_BuildDocumentation("Doc"))
         return -1;
-}
+
+if (config == "all" || config == "publish")
+    if (!_BuildPublish())
+        return -1;
 
 if (config == "webdoc")
     if (!_BuildDocumentation("WebDoc"))
@@ -59,7 +58,7 @@ return 0;
 
 VisualStudio _VS;
 bool _OptionClean = false;
-
+bool _OptionLog = false;
 
 //--------------------------------------------------------------------------------------------------
 
@@ -68,6 +67,7 @@ bool _EnsureVS()
     if(_VS == null)
     {
         _VS = new VisualStudio();
+        _VS.LogToFile = _OptionLog;
     }
     return _VS.IsReady;
 }
@@ -104,22 +104,42 @@ bool _BuildConfiguration(string configuration)
 
 //--------------------------------------------------------------------------------------------------
 
+bool _BuildPublish()
+{
+    if(!_EnsureVS())
+        return false;
+
+    var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.sln");
+    var pathToProject = Path.Combine(Common.GetRootFolder(), @"Source\Macad\Macad.csproj");
+    var commandLine = $"\"{pathToProject}\" /t:Publish /p:Configuration=Release /p:Platform=x64 /p:PublishProfile=\"$(MMRootDir)Build\\MSBuild\\Macad.Publish.pubxml\" /nologo /verbosity:minimal ";
+
+    if (Common.Run(_VS.PathToMSBuild, commandLine) != 0)
+    {
+        Printer.Error("Publish failed.");
+        return false;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+
 bool _BuildDocumentation(string configuration)
 {
     if(!_EnsureVS())
         return false;
 
     // Ensure SHFB
-    var shfbPath = Packages.FindPackageFile($"EWSoftware.SHFB.2020.*", "Tools\\BuildAssembler.exe");
+    var shfbPath = Packages.FindPackageFile($"EWSoftware.SHFB.20*", "Tools\\BuildAssembler.exe");
 	if(string.IsNullOrEmpty(shfbPath))
 		return false;
     Environment.SetEnvironmentVariable("SHFBROOT", Path.GetDirectoryName(shfbPath));
 
-    // Ensure NetFramework Reflection Package
-    var shfbNetFrameworkPath = Packages.FindPackageFile($"EWSoftware.SHFB.NETFramework.*", "build\\EWSoftware.SHFB.NETFramework.props");
-	if(string.IsNullOrEmpty(shfbNetFrameworkPath))
+    // Ensure .Net Reflection Package
+    var shfbNetReflectionPath = Packages.FindPackageFile($"EWSoftware.SHFB.NET.*", "build\\EWSoftware.SHFB.NET.props");
+	if(string.IsNullOrEmpty(shfbNetReflectionPath))
 		return false;
-    Environment.SetEnvironmentVariable("SHFBNETFRAMEWORK", Path.GetDirectoryName(shfbNetFrameworkPath));
+    Environment.SetEnvironmentVariable("SHFBNETFRAMEWORK", Path.GetDirectoryName(shfbNetReflectionPath));
 
     // Ensure HtmlHelp
     var setupCompilerPath = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\HTML Help Workshop", "InstallDir", "") as string;
@@ -158,11 +178,3 @@ bool _BuildDocumentation(string configuration)
 }
 
 //--------------------------------------------------------------------------------------------------
-
-bool _RestorePackages()
-{
-    return Packages.RestorePackages();
-}
-
-//--------------------------------------------------------------------------------------------------
-

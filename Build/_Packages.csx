@@ -40,7 +40,7 @@ public class Packages
         var filePath = Path.Combine(dirs.Last(), packageFile);
         if(!File.Exists(filePath))
         {
-            Printer.Error("Package not complete: " + packageName);
+            Printer.Error($"Package not complete: {packageName} in {dirs.Last()}.");
             Printer.Error("Try restoring packages.");
             return "";
         }

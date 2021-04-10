@@ -62,7 +62,7 @@ namespace Macad.Window
 
         #region Local App Data
 
-        public string LocalAppDataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Macad");
+        public readonly string LocalAppDataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), "Macad");
 
         //--------------------------------------------------------------------------------------------------
 

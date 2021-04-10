@@ -454,6 +454,13 @@ namespace Macad.Common.Interop
         public static extern void SHCreateStreamOnFileEx(string fileName, Stgm grfmode, uint dwAttributes, bool fCreate, 
             System.Runtime.InteropServices.ComTypes.IStream streamNull, ref System.Runtime.InteropServices.ComTypes.IStream stream);
 
+        //--------------------------------------------------------------------------------------------------
+
+        [DllImport("shlwapi", EntryPoint = "PathCanonicalize")]
+        public static extern bool PathCanonicalize(StringBuilder lpszDst, string lpszSrc);
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
     }
 }

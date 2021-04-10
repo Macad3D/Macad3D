@@ -15,91 +15,86 @@ if(Args.Count() < 1)
 }
 
 _OptionDebug = Args.Any(s => s.ToLower() == "/debug");
+_PathToBinaries = Path.Combine(Common.GetRootFolder(), "bin", _OptionDebug ? "Debug" : "Release");
 _OptionStopOnError = Args.Any(s => s.ToLower() == "/stop");
 _OptionSaveLog = Args.Any(s => s.ToLower() == "/log");
-_OptionAppVeyor = Args.Any(s => s.ToLower() == "/appveyor");
+_OptionWhere = string.Join(" ", Args.Skip(1).Where(s => !s.StartsWith("/")));
+List<string> targets = new();
+int res = 0;
 
 switch(Args[0].ToLower())
 {
 	case "all":
-		int res = 0;
-		_ResultSuffix = "Unit_UI";
-		if(!_RunTests("Test.Unit,Test.UI"))
-			res = -1;
-		_ResultSuffix = "Memory";
-		if(!_RunMemoryTests("Test.Memory"))
-			res = -1;
-		return res;
+		targets.Add("Test.Unit");
+		targets.Add("Test.UI");
+		targets.Add("Test.Memory");
 		break;
 	case "unit":
-		_ResultSuffix = "Unit";
-		if(!_RunTests("Test.Unit"))
-			return -1;
+		targets.Add("Test.Unit");
 		break;
 	case "ui":
-		_ResultSuffix = "UI";
-		if(!_RunTests("Test.UI"))
-			return -1;
+		targets.Add("Test.UI");
 		break;
 	case "memory":
-		_ResultSuffix = "Memory";
-		if(!_RunMemoryTests("Test.Memory"))
-			return -1;
+		targets.Add("Test.Memory");
 		break;
 	default:
 		Printer.Error("Parameter unknown.");
 		return -1;
 }
-Printer.Success("\nAll tests run.");
-return 0;
+
+foreach(var target in targets)
+{
+	if(target.Contains("Memory"))
+	{
+		if(!_RunTestsDotMemoryUnit(target))
+			res = -1;
+	} 
+	else 
+	{
+		if(!_RunTestsNunit(target))
+			res = -1;
+	}
+}
+
+if(res == 0)
+{
+	Printer.Success("\nAll tests run.");
+} 
+else
+{
+	Printer.Warning("\nAll tests run, but some (or all) tests failed.");
+}
+
+return res;
 
 /***************************************************************/
 
 static bool _OptionDebug = false;
 static bool _OptionStopOnError = false;
 static bool _OptionSaveLog = false;
-static bool _OptionAppVeyor = false;
-static string _ResultSuffix;
+static string _OptionWhere = "";
+static string _PathToBinaries = "";
 
 /***************************************************************/
 
-static string _EnsureTargets(string targets)
+static string _GetNUnitCommandLine(string target)
 {
-	string targetDlls = string.Join(" ", targets.Split(',').Select(target => target + ".dll"));
-	
-	// On AppVeyor, we do not need to build
-	if(!_OptionAppVeyor)
+	var resultSuffix = target.Replace("Test.", null);
+
+	var commandLine = $"--runtimeconfig \"{Path.Combine(_PathToBinaries, $"{target}.runtimeconfig.json")}\" {target}.dll"; // --process:Separate";
+	commandLine += " --noheader --workers=1";
+	commandLine += $" --result=TestResult_{resultSuffix}.xml --out=TestOutput_{resultSuffix}.txt";
+
+	if(!string.IsNullOrEmpty(_OptionWhere))
 	{
-		string pathToBinaries = Path.Combine(Common.GetRootFolder(), "bin", _OptionDebug ? "Debug" : "Release");
-		var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.sln");
-		var vs = new VisualStudio();
-		if(!vs.IsReady)
-			return null;
-
-		// Check if targets were built
-		foreach(var target in targets.Split(','))
-		{
-			if(!vs.Build(solutionFile, target, _OptionDebug ? "Debug" : "Release", "x64"))
-				return null;
-		}
+		commandLine += $" --where \"{_OptionWhere}\"";
 	}
-	return targetDlls;
-}
 
-/***************************************************************/
-
-static string _GetNUnitCommandLine()
-{
-	var commandLine = $"--noheader --workers=1 --agents=1 --process=Separate";
-	if(_OptionAppVeyor)
-		commandLine += " --result=myresults.xml;format=AppVeyor";
-	else
-		commandLine += $" --out=TestOutput_{_ResultSuffix}.txt --result=TestResult_{_ResultSuffix}.xml";
-
-	if(_OptionDebug)
-		commandLine += " --pause";
-	else
+/*	if(!_OptionDebug)
 		commandLine += " --timeout=30000";
+	else
+		commandLine += " --pause"; --debug */
 
 	if(_OptionStopOnError)
 		commandLine += " --stoponerror";
@@ -114,29 +109,19 @@ static string _GetNUnitCommandLine()
 
 static string _GetNUnitPath()
 {
-	if(_OptionAppVeyor)
-		return "nunit3-console.exe";
-
-	return Packages.FindPackageFile(@"NUnit.ConsoleRunner.*", @"tools\nunit3-console.exe");
+	return Packages.FindPackageFile(@"NUnit.ConsoleRunner.NetCore.*", @"tools\netcoreapp3.1\any\nunit3-console.exe");
 }
 
 /***************************************************************/
 
-static bool _RunTests(string targets)
+static bool _RunTestsNunit(string target)
 {
-	var targetDlls = _EnsureTargets(targets);
-	if(targetDlls==null)
-		return false;
-
-	// Build command line and run
 	var pathToRunner = _GetNUnitPath();
 	if(string.IsNullOrEmpty(pathToRunner))
 		return false;
 
 	Printer.Line($"\nLaunching test runner...");
-	var commandLine = targetDlls + " " + _GetNUnitCommandLine();
-	var pathToBinaries = Path.Combine(Common.GetRootFolder(), "bin", _OptionDebug ? "Debug" : "Release");
-	if(Common.Run(pathToRunner, commandLine, pathToBinaries) != 0)
+	if(Common.Run(pathToRunner, _GetNUnitCommandLine(target), _PathToBinaries) != 0)
 	{
 		Printer.Error("Testrun failed.");
 		return false;
@@ -146,13 +131,8 @@ static bool _RunTests(string targets)
 
 /***************************************************************/
 
-static bool _RunMemoryTests(string targets)
+static bool _RunTestsDotMemoryUnit(string target)
 {
-	var targetDlls = _EnsureTargets(targets);
-	if(targetDlls==null)
-		return false;
-
-	// Build command line and run
 	var pathToRunner = _GetNUnitPath();
 	if(string.IsNullOrEmpty(pathToRunner))
 		return false;
@@ -162,9 +142,8 @@ static bool _RunMemoryTests(string targets)
 		return false;
 
 	Printer.Line($"\nLaunching memory test runner...");
-	var commandLine = $"\"{pathToRunner}\" --propagate-exit-code -- \"{targetDlls}\" {_GetNUnitCommandLine()}";
-	var pathToBinaries = Path.Combine(Common.GetRootFolder(), "bin", _OptionDebug ? "Debug" : "Release");
-	if(Common.Run(pathToMemRunner, commandLine, pathToBinaries) != 0)
+	var commandLine = $"\"{pathToRunner}\" --propagate-exit-code -- {_GetNUnitCommandLine(target)}";
+	if(Common.Run(pathToMemRunner, commandLine, _PathToBinaries) != 0)
 	{
 		Printer.Error("Testrun failed.");
 		return false;

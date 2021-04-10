@@ -120,10 +120,10 @@ namespace Macad.Test.Utils
             Assert.IsNotNull(referenceBytes, "Reference file not found: " + path);
 
             // Compare
-            CollectionAssert.AreEqual(referenceBytes, bytes);
+            Assert.That(referenceBytes.SequenceEqual(bytes));
 
             // Test was ok, delete result file
-            TestData.DeleteTestResult(pathTestResult);
+            DeleteTestResult(pathTestResult);
         }
 
     }

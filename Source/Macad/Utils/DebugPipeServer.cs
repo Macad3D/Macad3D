@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using Macad.Common;
 using Macad.Common.Interop;
 using Macad.Common.Serialization;
@@ -41,7 +40,7 @@ namespace Macad.Window
             if (_Thread == null)
                 return;
 
-            _Thread.Abort();
+            _Thread.Interrupt();
             _Thread = null;
         }
 
@@ -74,7 +73,7 @@ namespace Macad.Window
                     };
                 }
             }
-            catch (ThreadAbortException)
+            catch (ThreadInterruptedException)
             {
                 // Gracefully close
             }
