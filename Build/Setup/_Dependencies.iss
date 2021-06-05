@@ -61,15 +61,75 @@ end;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-function IsDotNetInstalled(): boolean;
+function CheckDotNetByPath(): boolean;
 var
-  ResultCode: Integer;
+  rtstr: string;
+  FindRec: TFindRec;
 begin
   Result := False;
-  ExtractTemporaryFile(ExtractFileName('{#DotNetCheckPath}'));
-  if Exec(ExpandConstant('{tmp}\') + ExtractFileName('{#DotNetCheckPath}'), '{#DotNetRuntime} {#DotNetVersion}', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+  if FindFirst(AddBackslash(ExpandConstant('{commonpf}')) + 'dotnet\shared\{#DotNetRuntime}\{#DotNetRelease}.*', FindRec) then
+  try
+    repeat
+      if (FindRec.Attributes and FILE_ATTRIBUTE_DIRECTORY <> 0) then
+      begin
+        // Get minor version
+        rtstr := '{#DotNetRelease}.';
+        if StrToIntDef(Copy(FindRec.Name, Length(rtstr)+1, Length(FindRec.Name)-Length(rtstr)), 0) >= {#DotNetMinPatch} then begin
+          Result := true;
+          MsgBox('OK', mbInformation, MB_OK);
+          exit;
+        end;
+      end;
+    until Result or (not FindNext(FindRec));
+  finally
+    FindClose(FindRec);
+  end;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+
+function CheckDotNetByDotNetExe(): boolean;
+var
+  TmpFileName, rtstr, tmpstr: string;
+  ExecStdout: TArrayOfString;
+  ResultCode, line, cpos: integer;
+begin
+  Result := False;
+  TmpFileName := ExpandConstant('{tmp}') + '\dotnet_runtimes.txt';
+  if Exec(ExpandConstant('{cmd}'), '/C dotnet.exe --list-runtimes > "' + TmpFileName + '"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
   begin
-    Result := ResultCode = 0;
+    if LoadStringsFromFile(TmpFileName, ExecStdout) then
+    begin
+      DeleteFile(TmpFileName);              
+      // Search for entries which match runtime and (major) release
+      rtstr := '{#DotNetRuntime} {#DotNetRelease}.';
+      for line := 0 to GetArrayLength(ExecStdout)-1 do begin
+        tmpstr := Copy(ExecStdout[line], 0, Length(rtstr));
+        if SameText(tmpstr, rtstr) then
+        begin
+          // Get minor version
+          cpos := Pos('[', ExecStdout[line]);
+          if cpos > 0 then
+          begin
+            if StrToIntDef(Copy(ExecStdout[line], Length(rtstr)+1, cpos-Length(rtstr)-2), 0) >= {#DotNetMinPatch} then begin
+              Result := true;
+              exit;
+            end;
+          end;
+        end;
+      end;
+    end;
+  end;
+end;
+      
+///////////////////////////////////////////////////////////////////////////////
+
+function IsDotNetInstalled(): boolean;
+begin
+  Result := CheckDotNetByDotNetExe;
+  if not Result then
+  begin
+    Result := CheckDotNetByPath;
   end;
 end;
 

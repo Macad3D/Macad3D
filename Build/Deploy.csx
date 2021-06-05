@@ -122,11 +122,6 @@ bool _BuildSetup()
 {
     _EnsureVS();
 
-    // Ensure redist packages
-    var dotNetCheckPath = Packages.FindPackageFile($"Microsoft.NET.Tools.NETCoreCheck.x64.*", Path.Combine("win-x64","NetCoreCheck.exe"));
-	if(string.IsNullOrEmpty(dotNetCheckPath))
-		return false;
-
     // Ensure installer
     var setupCompilerPath = Packages.FindPackageFile($"Tools.InnoSetup.*", "tools\\iscc.exe");
 	if(string.IsNullOrEmpty(setupCompilerPath))
@@ -175,6 +170,7 @@ bool _BuildSetup()
     // Write DotNet definitions
     defFile.WriteLine($"#define DotNetVersion '{dotNetFullVersion}'");
     defFile.WriteLine($"#define DotNetRelease '{VisualStudio.DotNetRelease}'");
+    defFile.WriteLine($"#define DotNetMinPatch {dotNetFullVersion.Split('.')[2]}");
     defFile.WriteLine($"#define DotNetRuntime '{VisualStudio.DotNetRuntime}'");
     defFile.WriteLine($"#define DotNetCheckPath '{dotNetCheckPath}'");
     defFile.WriteLine($"#define DotNetRedistPath '{dotNetRedistPath}'");
