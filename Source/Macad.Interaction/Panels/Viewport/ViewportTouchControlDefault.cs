@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Macad.Common;
 
 namespace Macad.Interaction.Panels
 {
@@ -17,6 +18,7 @@ namespace Macad.Interaction.Panels
         int _SecondId = -1;
         Point _FirstPos;
         Point _SecondPos;
+        Vector _FirstToSecond;
         int _MoveCallCount;
 
         //--------------------------------------------------------------------------------------------------
@@ -36,6 +38,7 @@ namespace Macad.Interaction.Panels
             {
                 _SecondId = id;
                 _SecondPos = pos;
+                _FirstToSecond = Point.Subtract(_FirstPos, _SecondPos);
             }
         }
 
@@ -62,31 +65,42 @@ namespace Macad.Interaction.Panels
 
             if (_MultiTouch)
             {
-                // Double touch, pan mode
+                // Double touch, pan
+                double dx=0, dy=0;
                 if (_FirstId == id)
                 {
-                    var dx = (pos.X - _FirstPos.X) / 2.0;
-                    var dy = (pos.Y - _FirstPos.Y) / 2.0;
-                    ViewportController.Pan(dx, -dy);
+                    dx = pos.X - _FirstPos.X;
+                    dy = pos.Y - _FirstPos.Y;
                     _FirstPos = pos;
-                    _MoveCallCount++;
                 }
                 else if (_SecondId == id)
                 {
-                    var dx = (pos.X - _SecondPos.X) / 2.0;
-                    var dy = (pos.Y - _SecondPos.Y) / 2.0;
-                    ViewportController.Pan(dx, -dy);
+                    dx = pos.X - _SecondPos.X;
+                    dy = pos.Y - _SecondPos.Y;
                     _SecondPos = pos;
-                    _MoveCallCount++;
                 }
+                double scale = ViewportController.Viewport.Scale * 1.1;
+                ViewportController.Pan(dx / scale, -dy / scale);
+                _MoveCallCount++;
+
+                // zoom and roll
+                var newFirstToSecond = Point.Subtract(_FirstPos, _SecondPos);
+
+                var diffDistance = newFirstToSecond.Length - _FirstToSecond.Length;
+                ViewportController.Zoom(diffDistance / 100.0);
+
+                var angle = Vector.AngleBetween(_FirstToSecond, newFirstToSecond);
+                ViewportController.Rotate(0, 0, angle);
+
+                _FirstToSecond = newFirstToSecond;
             }
             else
             {
-                // Single touch, rotate mode
+                // Single touch, rotate
                 if (_FirstId == id )
                 {
-                    var dx = (pos.X - _FirstPos.X) * 0.05;
-                    var dy = (pos.Y - _FirstPos.Y) * 0.05;
+                    var dx = (pos.X - _FirstPos.X) * 0.25;
+                    var dy = (pos.Y - _FirstPos.Y) * 0.25;
                     ViewportController.Rotate(dy, -dx, 0.0);
                     _FirstPos = pos;
                     _MoveCallCount++;

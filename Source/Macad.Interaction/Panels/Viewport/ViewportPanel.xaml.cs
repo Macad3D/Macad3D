@@ -118,6 +118,8 @@ namespace Macad.Interaction.Panels
             InitializeComponent();
             OverlayContentPresenter.SetBinding(ContentPresenter.ContentProperty, BindingHelper.Create(this, nameof(OverlayContent), BindingMode.OneWay));
 
+            MouseHorizontalWheelEnabler.AddMouseHorizontalWheelHandler(this, OnMouseHorizontalWheel);
+
             _ViewportControllerChanged();
         }
 
@@ -167,7 +169,16 @@ namespace Macad.Interaction.Panels
 
             var pos = e.GetPosition(this);
             var dpiScale = VisualTreeHelper.GetDpi(this);
-            MouseControl?.MouseWheel(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY), e.Delta, e.MouseDevice);
+            MouseControl?.MouseWheel(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY), Panels.MouseWheel.Vertical, e.Delta, e.MouseDevice);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void OnMouseHorizontalWheel(object sender, MouseHorizontalWheelEventArgs e)
+        {
+            var pos = e.GetPosition(this);
+            var dpiScale = VisualTreeHelper.GetDpi(this);
+            MouseControl?.MouseWheel(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY), Panels.MouseWheel.Horizontal, e.Delta, e.MouseDevice);
         }
 
         //--------------------------------------------------------------------------------------------------

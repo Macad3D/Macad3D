@@ -64,7 +64,7 @@ namespace Macad.Common
 
         public static double Distance(this double value, double other)
         {
-            if (other > value)
+            if (other < value)
                 return value - other;
             return other - value;
         }

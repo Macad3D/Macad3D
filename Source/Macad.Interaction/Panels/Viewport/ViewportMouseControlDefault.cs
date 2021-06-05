@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Macad.Interaction.Panels
@@ -43,19 +44,27 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        public void MouseWheel(Point pos, int delta, InputDevice device)
+        public void MouseWheel(Point pos, MouseWheel wheel, int delta, InputDevice device)
         {
-            if (ViewportController == null)
+            if (ViewportController == null || delta == 0)
                 return;
 
-            double scaledDelta = delta / 200.0;
+            double scaledDelta = delta;
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 // Increase precision
                 scaledDelta /= 10.0;
             }
 
-            ViewportController.Zoom(pos, scaledDelta);
+            switch (wheel)
+            {
+                case Panels.MouseWheel.Vertical:
+                    ViewportController.Zoom(pos, scaledDelta / 200.0);
+                    break;
+                case Panels.MouseWheel.Horizontal:
+                    ViewportController.Rotate(0, scaledDelta / 50.0, 0);
+                    break;
+            }
             ViewportController.MouseMove(pos);
         }
 

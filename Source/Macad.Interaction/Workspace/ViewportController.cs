@@ -296,12 +296,12 @@ namespace Macad.Interaction
                     break;
 
                 case MouseMoveMode.Twisting:
-                    Rotate(0, 0, (pos.Y - _LastMousePosition.Y) / 36.0);
+                    Rotate(0, 0, (pos.Y - _LastMousePosition.Y) / 12.0);
                     break;
 
                 case MouseMoveMode.Rotating:
                     // Turntable
-                    Rotate((pos.Y - _LastMousePosition.Y) / 36.0, (_LastMousePosition.X - pos.X) / 36.0, 0);
+                    Rotate((pos.Y - _LastMousePosition.Y) / 6.0, (_LastMousePosition.X - pos.X) / 6.0, 0);
                     break;
 
                 case MouseMoveMode.Zooming:
@@ -392,7 +392,7 @@ namespace Macad.Interaction
                     var sphere = Viewport.GetOrbitSphere();
                     var projPoint = ProjLib.Project(sphere, Viewport.EyePoint);
 
-                    projPoint.Translate(new Vec2d(dY/10.0, dX/10.0));
+                    projPoint.Translate(new Vec2d(dY.ToRad(), dX.ToRad()));
 
                     // Constraint polar regions to avoid singularity troubles
                     if (projPoint.Y > _OrbitProjectionConstraint)
@@ -406,12 +406,12 @@ namespace Macad.Interaction
 
                     Viewport.EyePoint = ElSLib.Value(projPoint.X, projPoint.Y, sphere);
 
-                    //Console.WriteLine("[RotateView] x={0}  y={1}  px={2}  py={3}", dX, dY, projPoint.x, projPoint.y);
+                    Debug.WriteLine("[RotateView] x={0}  y={1}  px={2}  py={3}", dX, dY, projPoint.X, projPoint.Y);
                 }
 
                 if (Math.Abs(dZ) > 0.001)
                 {
-                    Viewport.V3dView.Turn(V3d_TypeOfAxe.V3d_Z, dZ/20.0, true);
+                    Viewport.V3dView.Turn(V3d_TypeOfAxe.V3d_Z, dZ.ToRad(), true);
                 }
             }
 

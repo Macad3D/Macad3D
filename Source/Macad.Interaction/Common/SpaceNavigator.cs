@@ -22,7 +22,7 @@ namespace Macad.Interaction
             SetDefaultValue(nameof(MoveSensitivity),     1.0);
             SetDefaultValue(nameof(RotationSensitivity), 1.0);
             SetDefaultValue(nameof(ZoomSensitivity),     1.0);
-            SetDefaultValue(nameof(RollDeadZone),        0.25);
+            SetDefaultValue(nameof(RollDeadZone),        1.25);
         }
     }
 
@@ -32,7 +32,7 @@ namespace Macad.Interaction
     public class SpaceNavigator
     {
         static double _MoveDataDivisorScale = 16.0;
-        static double _RotateDataDivisorScale = 2048.0;
+        static double _RotateDataDivisorScale = 400.0;
         static double _ZoomDataDivisorScale = 20480.0;
 
         //--------------------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ namespace Macad.Interaction
         static double _MoveDataDivisor = _MoveDataDivisorScale;
         static double _RotateDataDivisor = _RotateDataDivisorScale;
         static double _ZoomDataDivisor = _ZoomDataDivisorScale;
-        static double _RollDeadZone = 0.25;
+        static double _RollDeadZone = 1.25;
 
         //--------------------------------------------------------------------------------------------------
 

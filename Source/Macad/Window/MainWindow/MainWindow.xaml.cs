@@ -125,30 +125,36 @@ namespace Macad.Window
 
         IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (msg == Win32Api.WM_DROPFILES)
+            switch (msg)
             {
-                handled = true;
-                const int maxPath = 260;
-                var hDrop = wParam;
-                var count = Win32Api.DragQueryFile(hDrop, 0xFFFFFFFF, null, 0);
-                if (count > 0)
-                    count = 1; // Currently, we only import the first
-
-                for (uint i = 0; i < count; i++)
+                case Win32Api.WM_DROPFILES:
                 {
-                    int size = (int)Win32Api.DragQueryFile(hDrop, i, null, 0);
-                    var filename = new StringBuilder(size + 1);
-                    Win32Api.DragQueryFile(hDrop, i, filename, maxPath);
+                    handled = true;
+                    const int maxPath = 260;
+                    var hDrop = wParam;
+                    var count = Win32Api.DragQueryFile(hDrop, 0xFFFFFFFF, null, 0);
+                    if (count > 0)
+                        count = 1; // Currently, we only import the first
 
-                    _ImportDroppedFile(filename.ToString());
+                    for (uint i = 0; i < count; i++)
+                    {
+                        int size = (int)Win32Api.DragQueryFile(hDrop, i, null, 0);
+                        var filename = new StringBuilder(size + 1);
+                        Win32Api.DragQueryFile(hDrop, i, filename, maxPath);
+
+                        _ImportDroppedFile(filename.ToString());
+                    }
+
+                    Win32Api.DragFinish(hDrop);
+                    break;
                 }
 
-                Win32Api.DragFinish(hDrop);
-            }
-            else if (msg == Win32Api.WM_ENABLE)
-            {
-                bool bIsEnabled = wParam.ToInt32() == 1;
-                Docking.Viewport.SetWindowEnabled(bIsEnabled);
+                case Win32Api.WM_ENABLE:
+                {
+                    bool bIsEnabled = wParam.ToInt32() == 1;
+                    Docking.Viewport.SetWindowEnabled(bIsEnabled);
+                    break;
+                }
             }
 
             return IntPtr.Zero;
