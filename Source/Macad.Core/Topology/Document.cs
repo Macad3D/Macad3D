@@ -176,9 +176,9 @@ namespace Macad.Core.Topology
 
             Instances[entity.Guid] = new WeakReference<Entity>(entity);
 
-            if (entity is IDecorable)
+            if (entity is IDecorable decorable)
             {
-                foreach (var component in ((IDecorable) entity).GetComponents(false))
+                foreach (var component in decorable.GetComponents(false))
                 {
                     Instances[component.Guid] = new WeakReference<Entity>(component);
                 }

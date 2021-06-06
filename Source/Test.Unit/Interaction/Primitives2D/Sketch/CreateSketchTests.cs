@@ -1,8 +1,10 @@
 ﻿using System.IO;
 using Macad.Test.Utils;
 using Macad.Core;
+using Macad.Core.Auxiliary;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
@@ -218,5 +220,23 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void CreateOnDatumPlane()
+        {
+            var ctx = Context.Current;
+            ctx.Workspace.GridEnabled = true;
+            ctx.Workspace.GridStep = 15.0;
+
+            var datumPlane = DatumPlane.Create();
+            datumPlane.Position = new Pnt(5, 10, 10);
+            ctx.Document.AddChild(datumPlane);
+            ctx.ViewportController.ZoomFitAll();
+
+            ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.Interactive));
+            ctx.ClickAt(300, 300);
+            var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+            Assert.NotNull(sketchEditTool);
+            Assert.AreEqual(sketchEditTool.Sketch.Body.Position, datumPlane.Position);
+        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System.IO;
 using System.Threading;
+using Macad.Core;
 using Macad.Test.Utils;
 using Macad.Core.Shapes;
+using Macad.Core.Topology;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
@@ -35,7 +37,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             var ctx = Context.Current;
 
             var body = TestGeomGenerator.CreateBox().Body;
-            body.Translate(new Vec(10, 10, 0));
+            TransformUtils.Translate(body, new Vec(10, 10, 0));
             ctx.WorkspaceController.Selection.SelectEntity(body);
             ctx.ViewportController.ZoomFitAll();
 
@@ -58,7 +60,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             var ctx = Context.Current;
 
             var body = TestGeomGenerator.CreateImprint().Body;
-            body.Translate(new Vec(10, 10, 0));
+            TransformUtils.Translate(body, new Vec(10, 10, 0));
             ctx.WorkspaceController.Selection.SelectEntity(body);
             ctx.ViewportController.ZoomFitAll();
 
@@ -79,7 +81,7 @@ namespace Macad.Test.Unit.Interaction.Modify
         {
             var ctx = Context.Current;
             var body = TestGeomGenerator.CreateBox().Body;
-            body.Translate(new Vec(10, 10, 0));
+            TransformUtils.Translate(body, new Vec(10, 10, 0));
             ctx.WorkspaceController.Selection.SelectEntity(body);
             ctx.ViewportController.ZoomFitAll();
 
@@ -124,7 +126,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             var propPanels = ctx.EnablePropertyPanels();
             
             var body = TestGeomGenerator.CreateBox().Body;
-            body.Translate(new Vec(10, 10, 0));
+            TransformUtils.Translate(body, new Vec(10, 10, 0));
             ctx.WorkspaceController.Selection.SelectEntity(body);
             ctx.ViewportController.ZoomFitAll();
 

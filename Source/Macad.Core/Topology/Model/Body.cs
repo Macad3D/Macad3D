@@ -11,59 +11,15 @@ using Macad.Occt;
 
 namespace Macad.Core.Topology
 {
-    public sealed class Body : InteractiveEntity, IUndoableDataBlob, IDecorable
+    public class Body : InteractiveEntity, IUndoableDataBlob, IDecorable, ITransformable
     {
         #region Inner Classes
-
-        public class CloneOptions
-        {
-            public virtual bool CloneReferencedBodies
-            {
-                get { return _CloneReferencedBodies; }
-                protected set { _CloneReferencedBodies = value; }
-            }
-
-            bool _CloneReferencedBodies;
-
-            public CloneOptions(bool cloneReferencedBodies)
-            {
-                _CloneReferencedBodies = cloneReferencedBodies;
-            }
-        }
 
         //--------------------------------------------------------------------------------------------------
 
         #endregion
 
         #region Properties
-
-        [SerializeMember(SortKey = -900)]
-        public override string Name
-        {
-            get { return _Name; }
-            set
-            {
-                if (_Name != value)
-                {
-                    SaveUndo();
-                    _Name = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public Model Model
-        {
-            get { return Document as Model; }
-            private set
-            {
-                Document = value;
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
 
         [SerializeMember]
         public Pnt Position
@@ -78,7 +34,7 @@ namespace Macad.Core.Topology
                 {
                     SaveUndo();
                     _Position = value;
-                    InvalidateTransformation();
+                    _InvalidateTransformation();
                     RaisePropertyChanged();
                 }
             }
@@ -99,7 +55,7 @@ namespace Macad.Core.Topology
                 {
                     SaveUndo();
                     _Rotation = value;
-                    InvalidateTransformation();
+                    _InvalidateTransformation();
                     RaisePropertyChanged();
                 }
             }
@@ -158,36 +114,6 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-        [SerializeMember]
-        public Guid LayerId
-        {
-            get { return _LayerId; }
-            set
-            {
-                if (_LayerId != value)
-                {
-                    SaveUndo();
-                    _LayerId = value;
-                    Invalidate();
-                    RaisePropertyChanged();
-                    RaisePropertyChanged("Layer");
-                    RaiseVisualChanged();
-                }
-            }
-        }
-
-        public Layer Layer
-        {
-            get { return CoreContext.Current?.Layers?.Find(_LayerId); }
-            set
-            {
-                var layers = CoreContext.Current?.Layers;
-                LayerId = (value == layers?.Default || value == null) ? Guid.Empty : value.Guid;
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         [SerializeMember(SortKey = 900)]
         public List<Component> Components
         {
@@ -203,6 +129,17 @@ namespace Macad.Core.Topology
                 }
             }
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public Model Model
+        {
+            get { return Document as Model; }
+            private set
+            {
+                Document = value;
+            }
+        }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -214,22 +151,17 @@ namespace Macad.Core.Topology
         Shape _RootShape;
         Pnt _Position = Pnt.Origin;
         Quaternion _Rotation = Quaternion.Identity;
-        Guid _LayerId;
-        string _Name;
         List<Component> _Components;
         Ax3? _CachedCoordinateSystem;
         Trsf? _CachedTransformation;
 
         #endregion
 
-        #region Transformation
+        #region ITransformable
 
         public Trsf GetTransformation()
         {
-            if (!_CachedTransformation.HasValue)
-            {
-                _CachedTransformation = new Trsf(Rotation, Position.ToVec());
-            }
+            _CachedTransformation ??= new Trsf(Rotation, Position.ToVec());
             return _CachedTransformation.Value;
         }
 
@@ -237,29 +169,36 @@ namespace Macad.Core.Topology
 
         public Ax3 GetCoordinateSystem()
         {
-            if (!_CachedCoordinateSystem.HasValue)
-            {
-                _CachedCoordinateSystem = Rotation.ToAx3(Position);
-            }
+            _CachedCoordinateSystem ??= Rotation.ToAx3(Position);
             return _CachedCoordinateSystem.Value;
         }
-
+        
         //--------------------------------------------------------------------------------------------------
 
-        public void Translate(Vec vec)
+        void _InvalidateTransformation()
         {
-            Position = Position.Translated(vec);
+            _CachedCoordinateSystem = null;
+            _CachedTransformation = null;
+
+            if (IsDeserializing) 
+                return;
+
+            Shape?.InvalidateTransformation();
+
+            foreach (var reference in _Dependents)
+            {
+                if (reference.TryGetTarget(out var dependent))
+                {
+                    dependent.OnTransformInvalidated(this);
+                }
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void Rotate(Ax1 rotationAxis, double angle)
+        public IEnumerable<ITransformable> GetLinkedTransformables()
         {
-            var rotTrsf = new Trsf(rotationAxis, angle);
-
-            var trsf = rotTrsf.Multiplied(GetTransformation());
-            Position = trsf.TranslationPart().ToPnt();
-            Rotation = trsf.GetRotation();
+            return GetReferencedBodies();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -267,21 +206,6 @@ namespace Macad.Core.Topology
         #endregion
 
         #region Shape
-
-        public static Body Create(Shape shape)
-        {
-            var body = new Body
-            {
-                Name = CoreContext.Current.Document?.AddNextNameSuffix(shape.Name) ?? shape.Name,
-                Model = CoreContext.Current.Document,
-                Layer = CoreContext.Current.Layers?.ActiveLayer,
-            };
-            body.AddShape(shape, false);
-
-            return body;
-        }
-
-        //--------------------------------------------------------------------------------------------------
 
         public bool AddShape(Shape shape, bool saveUndo = true)
         {
@@ -389,35 +313,14 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-        public void Invalidate()
+        public override void Invalidate()
         {
             if (!IsDeserializing)
             {
                 Shape?.Invalidate();
                 InvalidateDependents();
             }
-            InvalidateTransformation();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void InvalidateTransformation()
-        {
-            _CachedCoordinateSystem = null;
-            _CachedTransformation = null;
-
-            if (IsDeserializing) 
-                return;
-
-            Shape?.InvalidateTransformation();
-
-            foreach (var reference in _Dependents)
-            {
-                if (reference.TryGetTarget(out var dependent))
-                {
-                    dependent.OnTransformInvalidated(this);
-                }
-            }
+            _InvalidateTransformation();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -441,20 +344,33 @@ namespace Macad.Core.Topology
         #endregion
 
         #region Initialization / Serialization
+        
+        public static Body Create(Shape shape)
+        {
+            var body = new Body
+            {
+                Name = CoreContext.Current.Document?.AddNextNameSuffix(shape.Name) ?? shape.Name,
+                Layer = CoreContext.Current.Layers?.ActiveLayer,
+                Model = CoreContext.Current.Document
+            };
+            body.AddShape(shape, false);
+
+            return body;
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         public Body()
         {
             Components = new List<Component>();
-            _Name = "Unnamed";
         }
-
+        
         //--------------------------------------------------------------------------------------------------
 
         public override void OnBeginDeserializing(SerializationContext context)
         {
             base.OnBeginDeserializing(context);
             Model = context.GetInstance<Model>();
-            context.GetInstanceList<Body>().Add(this);
             context.SetInstance(this);
         }
 
@@ -470,10 +386,10 @@ namespace Macad.Core.Topology
 
         public override void Remove()
         {
-            Model = null;
             _RootShape?.Remove();
             _RootShape = null;
             Components.Clear();
+            Model = null;
             base.Remove();
         }
 
@@ -549,7 +465,6 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-
         #endregion
 
         #region Components
@@ -601,13 +516,6 @@ namespace Macad.Core.Topology
         #endregion
 
         #region InteractiveEntity
-
-        public override Layer GetLayer()
-        {
-            return Layer;
-        }
-
-        //--------------------------------------------------------------------------------------------------
 
         public TopoDS_Shape GetBRep()
         {
@@ -686,6 +594,5 @@ namespace Macad.Core.Topology
         //--------------------------------------------------------------------------------------------------
 
         #endregion
-
     }
 }

@@ -1959,7 +1959,9 @@ bool Macad::Occt::AIS_InteractiveContext::HasApplicative()
 
 Macad::Occt::Standard_Transient^ Macad::Occt::AIS_InteractiveContext::Applicative()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::AIS_InteractiveContext*)_NativeInstance)->Applicative();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 bool Macad::Occt::AIS_InteractiveContext::BeginImmediateDraw()
@@ -2743,12 +2745,16 @@ bool Macad::Occt::AIS_InteractiveObject::HasOwner()
 
 Macad::Occt::Standard_Transient^ Macad::Occt::AIS_InteractiveObject::GetOwner()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::AIS_InteractiveObject*)_NativeInstance)->GetOwner();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::AIS_InteractiveObject::SetOwner(Macad::Occt::Standard_Transient^ theApplicativeEntity)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theApplicativeEntity = theApplicativeEntity->NativeInstance;
+	((::AIS_InteractiveObject*)_NativeInstance)->SetOwner(h_theApplicativeEntity);
+	theApplicativeEntity->NativeInstance = h_theApplicativeEntity.get();
 }
 
 void Macad::Occt::AIS_InteractiveObject::ClearOwner()

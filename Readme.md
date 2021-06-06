@@ -16,7 +16,7 @@ Official homepage and download: https://macad3d.net
   - .Net 5 support component
   - C++/CLI support component 
 - OpenCASCADE Technology (OCCT) 7.5.0
-  - Get it from [OpenCASCADE Download Center](https://old.opencascade.com/content/download-center)
+  - Get it from [OpenCASCADE Download Center](https://dev.opencascade.org/release)
 - HTML Help Workshop 1.3
   - needed only for building the user guide
   - Get it from [Microsoft](https://docs.microsoft.com/en-us/previous-versions/windows/desktop/htmlhelp/microsoft-html-help-downloads)

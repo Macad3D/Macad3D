@@ -1,13 +1,9 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
-using System.Windows;
 using System.Windows.Data;
-using ControlzEx.Standard;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Topology;
-using Macad.Interaction.Dialogs;
 using Macad.Interaction.Visual;
 using Macad.Occt;
 using Macad.Presentation;
@@ -16,27 +12,38 @@ namespace Macad.Interaction
 {
     public static class WorkspaceCommands
     {
-        static bool CanExecuteOnWorkspace()
+        #region Helper
+
+        static WorkspaceController _WorkspaceController
+        {
+            get { return InteractiveContext.Current?.WorkspaceController; }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        static bool _CanExecuteOnWorkspace()
         {
             return InteractiveContext.Current?.WorkspaceController?.Workspace != null;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        static bool CanExecuteOnViewport()
+        static bool _CanExecuteOnViewport()
         {
             return InteractiveContext.Current?.ViewportController?.Viewport != null;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public static RelayCommand Escape { get; } = new RelayCommand(
+        #endregion
+
+        public static RelayCommand Escape { get; } = new(
             () =>
             {
-                if (InteractiveContext.Current.WorkspaceController.CurrentTool != null)
+                if (_WorkspaceController.CurrentTool != null)
                 {
-                    InteractiveContext.Current.WorkspaceController.CancelTool(InteractiveContext.Current.WorkspaceController.CurrentTool, false);
-                    InteractiveContext.Current.WorkspaceController.Invalidate();
+                    _WorkspaceController.CancelTool(_WorkspaceController.CurrentTool, false);
+                    _WorkspaceController.Invalidate();
                 }
             },
             () => true);
@@ -45,7 +52,7 @@ namespace Macad.Interaction
             
         #region Grid
 
-        public static ActionCommand ToggleGrid { get; } = new ActionCommand(
+        public static ActionCommand ToggleGrid { get; } = new(
             () =>
             {
                 var workspace = InteractiveContext.Current?.WorkspaceController?.Workspace;
@@ -54,7 +61,7 @@ namespace Macad.Interaction
                     workspace.GridEnabled = !workspace.GridEnabled;
                 }
             },
-            CanExecuteOnWorkspace)
+            _CanExecuteOnWorkspace)
         {
             Header = () => "Show Grid",
             Description = () => "Toggles the grid visibility",
@@ -65,7 +72,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<Workspace.GridTypes> SetGridType { get; } = new ActionCommand<Workspace.GridTypes>(
+        public static ActionCommand<Workspace.GridTypes> SetGridType { get; } = new(
             param =>
             {
                 var workspace = InteractiveContext.Current?.WorkspaceController?.Workspace;
@@ -73,7 +80,7 @@ namespace Macad.Interaction
                 {
                     workspace.GridType = param;
                 }
-            }, CanExecuteOnWorkspace)
+            }, _CanExecuteOnWorkspace)
         {
             Header = param => $"{param} Grid",
             Description = param => $"Change the grid type to {param}.",
@@ -83,7 +90,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<double> SetGridStepValue { get; } = new ActionCommand<double>(
+        public static ActionCommand<double> SetGridStepValue { get; } = new(
             param =>
             {
                 var workspace = InteractiveContext.Current?.WorkspaceController?.Workspace;
@@ -92,7 +99,7 @@ namespace Macad.Interaction
                     workspace.GridStep = param;
                 }
             },
-            CanExecuteOnWorkspace)
+            _CanExecuteOnWorkspace)
         {
             Header = param => double.IsNaN(param) ? "Stepping" : $"{param.ToString(CultureInfo.InvariantCulture)} mm",
             Description = param => double.IsNaN(param) ? "Set the stepping between the grid lines." : null,
@@ -102,7 +109,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<double> SetGridRotationValue { get; } = new ActionCommand<double>(
+        public static ActionCommand<double> SetGridRotationValue { get; } = new(
             param =>
             {
                 var workspace = InteractiveContext.Current?.WorkspaceController?.Workspace;
@@ -111,7 +118,7 @@ namespace Macad.Interaction
                     workspace.GridRotation = param;
                 }
             },
-            CanExecuteOnWorkspace)
+            _CanExecuteOnWorkspace)
         {
             Header = param => double.IsNaN(param) ? "Rotation" : $"{param.ToString(CultureInfo.InvariantCulture)} °",
             Description = param => double.IsNaN(param) ? "Set the rotation of the whole grid around it's origin'." : null,
@@ -121,7 +128,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
         
-        public static ActionCommand<int> SetGridDivisionsValue { get; } = new ActionCommand<int>(
+        public static ActionCommand<int> SetGridDivisionsValue { get; } = new(
             param =>
             {
                 var workspace = InteractiveContext.Current?.WorkspaceController?.Workspace;
@@ -130,7 +137,7 @@ namespace Macad.Interaction
                     workspace.GridDivisions = param;
                 }
             },
-            () => CanExecuteOnWorkspace() && (InteractiveContext.Current?.Workspace?.GridType == Workspace.GridTypes.Circular))
+            () => _CanExecuteOnWorkspace() && (InteractiveContext.Current?.Workspace?.GridType == Workspace.GridTypes.Circular))
         {
             Header = param => param == int.MinValue ? "Divisions" : param.ToString(),
             Description = param => param == int.MinValue ? "Set the number of divisions of a circular grid." : null,
@@ -144,7 +151,7 @@ namespace Macad.Interaction
 
         #region Snapping
 
-        public static ActionCommand ToggleSnappingEnabled { get; } = new ActionCommand(
+        public static ActionCommand ToggleSnappingEnabled { get; } = new(
             () =>
             {
                 var editorState = InteractiveContext.Current?.EditorState;
@@ -153,7 +160,7 @@ namespace Macad.Interaction
                     editorState.SnappingEnabled = !editorState.SnappingEnabled;
                 }
             },
-            CanExecuteOnWorkspace)
+            _CanExecuteOnWorkspace)
         {
             Header = () => "Enable Snapping",
             Description = () => "Toggle the snapping of positions to selected elements.",
@@ -163,7 +170,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand ToggleSnapToGrid { get; } = new ActionCommand(
+        public static ActionCommand ToggleSnapToGrid { get; } = new(
             () =>
             {
                 var editorState = InteractiveContext.Current?.EditorState;
@@ -172,7 +179,7 @@ namespace Macad.Interaction
                     editorState.SnapToGridSelected = !editorState.SnapToGridSelected;
                 }
             },
-            () => CanExecuteOnWorkspace() && (InteractiveContext.Current?.EditorState?.SnappingEnabled ?? false))
+            () => _CanExecuteOnWorkspace() && (InteractiveContext.Current?.EditorState?.SnappingEnabled ?? false))
         {
             Header = () => "Grid",
             Title = () => "Snap to Grid",
@@ -183,7 +190,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand ToggleSnapToVertex { get; } = new ActionCommand(
+        public static ActionCommand ToggleSnapToVertex { get; } = new(
             () =>
             {
                 var editorState = InteractiveContext.Current?.EditorState;
@@ -192,7 +199,7 @@ namespace Macad.Interaction
                     editorState.SnapToVertexSelected = !editorState.SnapToVertexSelected;
                 }
             },
-            () => CanExecuteOnWorkspace() && (InteractiveContext.Current?.EditorState?.SnappingEnabled ?? false))
+            () => _CanExecuteOnWorkspace() && (InteractiveContext.Current?.EditorState?.SnappingEnabled ?? false))
         {
             Header = () => "Vertex",
             Title = () => "Snap to Vertex",
@@ -203,7 +210,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
         
-        public static ActionCommand ToggleSnapToEdge { get; } = new ActionCommand(
+        public static ActionCommand ToggleSnapToEdge { get; } = new(
             () =>
             {
                 var editorState = InteractiveContext.Current?.EditorState;
@@ -212,7 +219,7 @@ namespace Macad.Interaction
                     editorState.SnapToEdgeSelected = !editorState.SnapToEdgeSelected;
                 }
             },
-            () => CanExecuteOnWorkspace() && (InteractiveContext.Current?.EditorState?.SnappingEnabled ?? false))
+            () => _CanExecuteOnWorkspace() && (InteractiveContext.Current?.EditorState?.SnappingEnabled ?? false))
         {
             Header = () => "Edge",
             Title = () => "Snap to Edge",
@@ -227,17 +234,17 @@ namespace Macad.Interaction
 
         #region Working Plane
 
-        public static ActionCommand AlignWorkingPlane { get; } = new ActionCommand(
+        public static ActionCommand AlignWorkingPlane { get; } = new(
             () =>
             {
                 var wsCtrl = InteractiveContext.Current?.WorkspaceController;
                 if (wsCtrl != null)
                 {
                     wsCtrl.StartTool(new AlignWorkingPlaneTool(AlignWorkingPlaneTool.AlignWorkingPlaneModes.All));
-                    InteractiveContext.Current.WorkspaceController.Invalidate();
+                    _WorkspaceController.Invalidate();
                 }
             },
-            () => CanExecuteOnWorkspace() && !InteractiveContext.Current.WorkspaceController.LockWorkingPlane)
+            () => _CanExecuteOnWorkspace() && !_WorkspaceController.LockWorkingPlane)
         {
             Header = () => "Align",
             Title = () => "Align Working Plane",
@@ -248,7 +255,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<int> SetWorkingPlane { get; } = new ActionCommand<int>(
+        public static ActionCommand<int> SetWorkingPlane { get; } = new(
             (param) =>
             {
                 var workspace = InteractiveContext.Current?.WorkspaceController?.Workspace;
@@ -269,9 +276,9 @@ namespace Macad.Interaction
                         workspace.SetDefaultWorkingPlane(AIS_TypeOfPlane.AIS_TOPL_YZPlane);
                         break;
                 }
-                InteractiveContext.Current.WorkspaceController.Invalidate();
+                _WorkspaceController.Invalidate();
             },
-            (param) => CanExecuteOnWorkspace() && !InteractiveContext.Current.WorkspaceController.LockWorkingPlane)
+            (param) => _CanExecuteOnWorkspace() && !_WorkspaceController.LockWorkingPlane)
         {
             Header = (param) =>
             {
@@ -301,19 +308,19 @@ namespace Macad.Interaction
 
         #region Transform
 
-        public static ActionCommand TransformShape { get; } = new ActionCommand(
+        public static ActionCommand Transform { get; } = new (
             () =>
             {
                 var wsCtrl = InteractiveContext.Current?.WorkspaceController;
                 if (wsCtrl == null)
                     return;
 
-                var tool = wsCtrl.CurrentTool as TransformBodyTool;
+                var tool = wsCtrl.CurrentTool as TransformTool;
                 if (tool != null)
                     tool.ToggleTransformMode();
                 else
-                    wsCtrl.StartTool( new TransformBodyTool(
-                        wsCtrl.Selection.SelectedEntities, 
+                    wsCtrl.StartTool( new TransformTool(
+                        wsCtrl.Selection.SelectedEntities.Cast<ITransformable>(), 
                         InteractiveContext.Current.EditorState.TransformPivot, 
                         InteractiveContext.Current.EditorState.TransformOptions));
             },
@@ -322,39 +329,39 @@ namespace Macad.Interaction
                 var selectionManager = InteractiveContext.Current?.WorkspaceController?.Selection;
                 return selectionManager != null
                        && (selectionManager.SelectedEntities.Count > 0)
-                       && (selectionManager.SelectedEntities.All(e => e is Body));
+                       && (selectionManager.SelectedEntities.All(e => e is ITransformable));
             })
         {
             Header = () => "Transform",
-            Title = () => "Transform Shape",
-            Description = () => "Start transformation of selected shapes and toggle between translation and rotation.",
+            Title = () => "Transform Entity",
+            Description = () => "Start transformation of selected entities and toggle between translation and rotation.",
             Icon = () => "Arrange-Transform",
             IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveTool)}", BindingMode.TwoWay, 
-                                                    EqualityToBoolConverter.Instance, nameof(TransformBodyTool)),
+                                                    EqualityToBoolConverter.Instance, nameof(TransformTool)),
             HelpTopic = "5da4906e-c86b-4f91-8b30-f5163e152d1e"
         };
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<TransformBodyTool.PivotPoint> SetTransformPivot { get; } = new ActionCommand<TransformBodyTool.PivotPoint>(
+        public static ActionCommand<TransformTool.PivotPoint> SetTransformPivot { get; } = new (
             (param) =>
             {
-                var tool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as TransformBodyTool;
+                var tool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as TransformTool;
                 if (tool != null)
                 {
                     InteractiveContext.Current.EditorState.TransformPivot = param;
                     tool.ChangePivot(InteractiveContext.Current.EditorState.TransformPivot);
                 }
             },
-            (param) => CanExecuteOnWorkspace() && InteractiveContext.Current?.WorkspaceController?.CurrentTool is TransformBodyTool)
+            (param) => _CanExecuteOnWorkspace() && InteractiveContext.Current?.WorkspaceController?.CurrentTool is TransformTool)
         {
             Header = (param) =>
             {
                 switch (param)
                 {
-                    case TransformBodyTool.PivotPoint.BodyPivot:      return "Body Pivot";
-                    case TransformBodyTool.PivotPoint.BoundingCenter: return "Bounding Center";
-                    case TransformBodyTool.PivotPoint.MassCenter:     return "Mass Center";
+                    case TransformTool.PivotPoint.EntityPivot:    return "Entity Pivot";
+                    case TransformTool.PivotPoint.BoundingCenter: return "Bounding Center";
+                    case TransformTool.PivotPoint.MassCenter:     return "Mass Center";
                     default: return "Unknown";
                 }
             },
@@ -362,9 +369,9 @@ namespace Macad.Interaction
             {
                 switch (param)
                 {
-                    case TransformBodyTool.PivotPoint.BodyPivot:      return "Arrange-ShapePivot";
-                    case TransformBodyTool.PivotPoint.BoundingCenter: return "Arrange-BoundingCenter";
-                    case TransformBodyTool.PivotPoint.MassCenter:     return "Arrange-MassCenter";
+                    case TransformTool.PivotPoint.EntityPivot:    return "Arrange-ShapePivot";
+                    case TransformTool.PivotPoint.BoundingCenter: return "Arrange-BoundingCenter";
+                    case TransformTool.PivotPoint.MassCenter:     return "Arrange-MassCenter";
                     default: return "Arrange-Transform";
                 }
             },
@@ -374,25 +381,25 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<TransformBodyTool.Options> ToggleTransformOption { get; } = new ActionCommand<TransformBodyTool.Options>(
+        public static ActionCommand<TransformTool.Options> ToggleTransformOption { get; } = new (
             (param) =>
             {
-                var tool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as TransformBodyTool;
+                var tool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as TransformTool;
                 if (tool != null)
                 {
                     InteractiveContext.Current.EditorState.TransformOptions = InteractiveContext.Current.EditorState.TransformOptions.Toggled(param);
                     tool.ChangeOptions(InteractiveContext.Current.EditorState.TransformOptions);
                 }
             },
-            (param) => CanExecuteOnWorkspace() && InteractiveContext.Current?.WorkspaceController?.CurrentTool is TransformBodyTool)
+            (param) => _CanExecuteOnWorkspace() && InteractiveContext.Current?.WorkspaceController?.CurrentTool is TransformTool)
         {
             Header = (param) =>
             {
                 switch (param)
                 {
-                    case TransformBodyTool.Options.MultiBodyUseFirst:     return "Use Pivot of first Body";
-                    case TransformBodyTool.Options.WorldSpaceOrientation: return "Use Worldspace Orientation";
-                    case TransformBodyTool.Options.LinkForeignOperands:   return "Link Foreign Operands";
+                    case TransformTool.Options.MultipleUseFirst:   return "Use Pivot of first Entity";
+                    case TransformTool.Options.WorldSpaceOrientation: return "Use Worldspace Orientation";
+                    case TransformTool.Options.LinkForeignOperands:   return "Link Foreign Operands";
                     default: return "Unknown";
                 }
             },
@@ -406,7 +413,7 @@ namespace Macad.Interaction
 
         #region Viewport
 
-        public static ActionCommand<Viewport.RenderModes> SetRenderModeCommand { get; } = new ActionCommand<Viewport.RenderModes>(
+        public static ActionCommand<Viewport.RenderModes> SetRenderMode { get; } = new(
             (param) =>
             {
                 var viewport = InteractiveContext.Current?.ViewportController?.Viewport;
@@ -416,7 +423,7 @@ namespace Macad.Interaction
                     InteractiveContext.Current?.WorkspaceController.Invalidate();
                 } 
             },
-            (param) => CanExecuteOnViewport()
+            (param) => _CanExecuteOnViewport()
         )
         {
             Header = (param) =>
@@ -436,12 +443,12 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand ZoomIn { get; } = new ActionCommand(
+        public static ActionCommand ZoomIn { get; } = new(
             () =>
             {
                 InteractiveContext.Current?.ViewportController?.Zoom(0.5);
             },
-            () => CanExecuteOnViewport())
+            () => _CanExecuteOnViewport())
         {
             Header = () => "Zoom In",
             Icon = () => "Zoom-In"
@@ -449,12 +456,12 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand ZoomOut { get; } = new ActionCommand(
+        public static ActionCommand ZoomOut { get; } = new(
             () =>
             {
                 InteractiveContext.Current?.ViewportController?.Zoom(-0.5);
             },
-            () => CanExecuteOnViewport())
+            () => _CanExecuteOnViewport())
         {
             Header = () => "Zoom Out",
             Icon = () => "Zoom-Out"
@@ -462,12 +469,12 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand ZoomFitAll { get; } = new ActionCommand(
+        public static ActionCommand ZoomFitAll { get; } = new(
             () =>
             {
                 InteractiveContext.Current?.ViewportController?.ZoomFitAll();
             },
-            () => CanExecuteOnViewport())
+            () => _CanExecuteOnViewport())
         {
             Header = () => "Zoom All",
             Icon = () => "Zoom-All"
@@ -475,12 +482,12 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand ZoomFitSelected { get; } = new ActionCommand(
+        public static ActionCommand ZoomFitSelected { get; } = new(
             () =>
             {
                 InteractiveContext.Current?.ViewportController?.ZoomFitSelected();
             },
-            () => CanExecuteOnViewport() && InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.Any())
+            () => _CanExecuteOnViewport() && _WorkspaceController.Selection.SelectedEntities.Any())
         {
             Header = () => "Zoom Selection",
             Icon = () => "Zoom-Selection"
@@ -488,12 +495,12 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<ViewportController.PredefinedViews> SetPredefinedView { get; } = new ActionCommand<ViewportController.PredefinedViews>(
+        public static ActionCommand<ViewportController.PredefinedViews> SetPredefinedView { get; } = new(
             (param) =>
             {
                 InteractiveContext.Current?.ViewportController?.SetPredefinedView(param);
             },
-            (param) => CanExecuteOnViewport())
+            (param) => _CanExecuteOnViewport())
         {
             Header = (param) => param.ToString(),
             Icon = (param) => $"View-{param.ToString()}"
@@ -501,7 +508,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<ViewportController.RubberbandSelectionMode> SetRubberbandSelectionMode { get; } = new ActionCommand<ViewportController.RubberbandSelectionMode>(
+        public static ActionCommand<ViewportController.RubberbandSelectionMode> SetRubberbandSelectionMode { get; } = new(
             param =>
             {
                 InteractiveContext.Current.EditorState.RubberbandSelectionMode = param; 
@@ -517,7 +524,7 @@ namespace Macad.Interaction
         
         //--------------------------------------------------------------------------------------------------
         
-        public static ActionCommand ToggleRubberbandIncludeTouched { get; } = new ActionCommand(
+        public static ActionCommand ToggleRubberbandIncludeTouched { get; } = new(
             () =>
             {
                 var editorState = InteractiveContext.Current?.EditorState;
@@ -526,7 +533,7 @@ namespace Macad.Interaction
                     editorState.RubberbandIncludeTouched = !editorState.RubberbandIncludeTouched;
                 }
             },
-            CanExecuteOnWorkspace)
+            _CanExecuteOnWorkspace)
         {
             Header = () => "Include Touched",
             Icon = () => "Selection-Touched",
@@ -540,10 +547,10 @@ namespace Macad.Interaction
         
         #region Topology Edit
 
-        public static ActionCommand DeleteEntityCommand { get; } = new ActionCommand(
+        public static ActionCommand DeleteEntity { get; } = new(
             () =>
             {
-                InteractiveContext.Current.WorkspaceController.Delete();
+                _WorkspaceController.Delete();
                 InteractiveContext.Current.UndoHandler.Commit();
             },
             () => InteractiveContext.Current?.WorkspaceController?.CanDelete() ?? false)
@@ -555,13 +562,13 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand DoUndoCommand { get; } = new ActionCommand(
+        public static ActionCommand DoUndo { get; } = new(
             () =>
             {
-                if (InteractiveContext.Current.WorkspaceController.PrepareUndo())
+                if (_WorkspaceController.PrepareUndo())
                 {
                     InteractiveContext.Current.UndoHandler.DoUndo(1);
-                    InteractiveContext.Current.WorkspaceController.Invalidate();
+                    _WorkspaceController.Invalidate();
                 }
             },
             () => InteractiveContext.Current?.UndoHandler?.CanUndo ?? false)
@@ -573,13 +580,13 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand DoRedoCommand { get; } = new ActionCommand(
+        public static ActionCommand DoRedo { get; } = new(
             () =>
             {
-                if (InteractiveContext.Current.WorkspaceController.PrepareUndo())
+                if (_WorkspaceController.PrepareUndo())
                 {
                     InteractiveContext.Current.UndoHandler.DoRedo(1);
-                    InteractiveContext.Current.WorkspaceController.Invalidate();
+                    _WorkspaceController.Invalidate();
                 }
             },
             () => InteractiveContext.Current?.UndoHandler?.CanRedo ?? false)
@@ -591,7 +598,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand DuplicateEntityCommand { get; } = new ActionCommand(
+        public static ActionCommand DuplicateEntity { get; } = new(
             () =>
             {
                 var context = InteractiveContext.Current;
@@ -607,7 +614,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
         
-        public static ActionCommand CopyToClipboardCommand { get; } = new ActionCommand(
+        public static ActionCommand CopyToClipboard { get; } = new(
             () =>
             {
                 var context = InteractiveContext.Current;
@@ -623,7 +630,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
         
-        public static ActionCommand CutToClipboardCommand { get; } = new ActionCommand(
+        public static ActionCommand CutToClipboard { get; } = new(
             () =>
             {
                 var context = InteractiveContext.Current;
@@ -642,7 +649,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand PasteFromClipboardCommand { get; } = new ActionCommand(
+        public static ActionCommand PasteFromClipboard { get; } = new(
             () =>
             {
                 var context = InteractiveContext.Current;
@@ -662,33 +669,33 @@ namespace Macad.Interaction
 
         #region Isolation and Visibility
 
-        public static ActionCommand ToggleIsolateSelection { get; } = new ActionCommand(
+        public static ActionCommand ToggleIsolateSelection { get; } = new(
             () =>
             {
-                var workspaceController = InteractiveContext.Current.WorkspaceController;
-                if (workspaceController.VisualShapes.EntityIsolationEnabled)
+                var workspaceController = _WorkspaceController;
+                if (workspaceController.VisualObjects.EntityIsolationEnabled)
                 {
-                    workspaceController.VisualShapes.SetIsolatedEntities(null);
+                    workspaceController.VisualObjects.SetIsolatedEntities(null);
                 }
                 else
                 {
-                    workspaceController.VisualShapes.SetIsolatedEntities(workspaceController.Selection.SelectedEntities);
+                    workspaceController.VisualObjects.SetIsolatedEntities(workspaceController.Selection.SelectedEntities);
                 }
                 workspaceController.Invalidate();
             },
-            () => CanExecuteOnWorkspace() && 
-                  (InteractiveContext.Current.WorkspaceController.VisualShapes.EntityIsolationEnabled
+            () => _CanExecuteOnWorkspace() && 
+                  (_WorkspaceController.VisualObjects.EntityIsolationEnabled
                    || InteractiveContext.Current?.WorkspaceController?.Selection?.SelectedEntities.Count > 0))
         {
             Header = () => "Isolate Selection",
             Description = () => "Hides all elements which are not selected to get a undisguised look at the selected elements.",
             Icon = () => "Selection-Isolate",
-            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(WorkspaceController)}.{nameof(WorkspaceController.VisualShapes)}.{nameof(VisualShapeManager.EntityIsolationEnabled)}", BindingMode.OneWay)
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(_WorkspaceController)}.{nameof(_WorkspaceController.VisualObjects)}.{nameof(VisualObjectManager.EntityIsolationEnabled)}", BindingMode.OneWay)
         };
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<InteractiveEntity> ToggleIsVisible { get; } = new ActionCommand<InteractiveEntity>(
+        public static ActionCommand<InteractiveEntity> ToggleIsVisible { get; } = new(
             (entity) =>
             {
                 if (entity != null)
@@ -700,7 +707,7 @@ namespace Macad.Interaction
                     selectedEntity.IsVisible = !selectedEntity.IsVisible;
                 }
             },
-            (entity) => CanExecuteOnWorkspace()
+            (entity) => _CanExecuteOnWorkspace()
                 && (entity != null || InteractiveContext.Current?.WorkspaceController?.Selection?.SelectedEntities.Count > 0))
         {
             Header = (entity) => "Visibility",

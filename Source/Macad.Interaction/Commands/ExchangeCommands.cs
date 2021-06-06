@@ -13,14 +13,14 @@ namespace Macad.Interaction
     {
         #region Helper
 
-        static WorkspaceController WorkspaceController
+        static WorkspaceController _WorkspaceController
         {
             get { return InteractiveContext.Current?.WorkspaceController; }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        static UndoHandler UndoHandler
+        static UndoHandler _UndoHandler
         {
             get { return InteractiveContext.Current?.UndoHandler; }
         }
@@ -29,7 +29,7 @@ namespace Macad.Interaction
 
         #endregion
 
-        public static ActionCommand ImportFileToModel { get; } = new ActionCommand(
+        public static ActionCommand ImportFileToModel { get; } = new(
             () =>
             {
                 if (ImportDialog.Execute<IBodyImporter>(out var filename, out var importer))
@@ -46,8 +46,8 @@ namespace Macad.Interaction
                     {
                         CoreContext.Current?.Document?.AddChild(newBody);
                     }
-                    UndoHandler?.Commit();
-                    WorkspaceController.Selection.SelectEntities(newBodies);
+                    _UndoHandler?.Commit();
+                    _WorkspaceController.Selection.SelectEntities(newBodies);
                 }
             },
             () => !(InteractiveContext.Current?.Document is null))
@@ -60,7 +60,7 @@ namespace Macad.Interaction
         
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand ExportSelectedBrep { get; } = new ActionCommand(
+        public static ActionCommand ExportSelectedBrep { get; } = new(
             () =>
             {
                 if (ExportDialog.Execute<IBodyExporter>(out var filename, out var exporter))
@@ -71,7 +71,7 @@ namespace Macad.Interaction
                     bool success;
                     using (new ProcessingScope(null, "Exporting geometry..."))
                     {
-                        success = exporter.DoExport(filename, WorkspaceController.Selection.SelectedEntities.Cast<Body>());
+                        success = exporter.DoExport(filename, _WorkspaceController.Selection.SelectedEntities.Cast<Body>());
                     }
 
                     if (!success)
@@ -80,8 +80,8 @@ namespace Macad.Interaction
                     }
                 }
             },
-            () => WorkspaceController?.Selection.SelectedEntities.Count > 0 
-                  && WorkspaceController.Selection.SelectedEntities.TrueForAll(entity => entity is Body))
+            () => _WorkspaceController?.Selection.SelectedEntities.Count > 0 
+                  && _WorkspaceController.Selection.SelectedEntities.TrueForAll(entity => entity is Body))
         {
             Header = () => "Export Selected...",
             Title = () => "Export Selected Bodies",
@@ -107,7 +107,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static RelayCommand<string> ImportDroppedFile { get; } = new RelayCommand<string>(
+        public static RelayCommand<string> ImportDroppedFile { get; } = new(
             (filePath) =>
             {
                 if (filePath.IsNullOrEmpty())

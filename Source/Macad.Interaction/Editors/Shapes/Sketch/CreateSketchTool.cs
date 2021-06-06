@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics;
 using Macad.Core;
+using Macad.Core.Auxiliary;
 using Macad.Core.Geom;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Interaction.Visual;
 using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes
@@ -37,8 +39,9 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (_InitialCreateMode == CreateMode.Interactive)
             {
-
-                var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, null, new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane));
+                var selectionFilter =new OrSelectionFilter(new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane), 
+                                                           new SignatureSelectionFilter(VisualPlane.SelectionSignature));
+                var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, null, selectionFilter);
                 if (!WorkspaceController.StartToolAction(toolAction))
                     return false;
                 toolAction.Finished += _OnActionFinished;
@@ -78,7 +81,12 @@ namespace Macad.Interaction.Editors.Shapes
             var selectAction = toolAction as SelectSubshapeAction;
             Debug.Assert(selectAction != null);
 
-            if (selectAction.SelectedSubshapeType == SubshapeTypes.Face)
+            if (selectAction.SelectedEntity is DatumPlane datumPlane)
+            {
+                _Plane = new Pln(datumPlane.GetCoordinateSystem());
+                finished = true;
+            }
+            else if (selectAction.SelectedSubshapeType == SubshapeTypes.Face)
             {
                 var face = TopoDS.Face(selectAction.SelectedSubshape);
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
@@ -88,16 +96,18 @@ namespace Macad.Interaction.Editors.Shapes
                 }
                 else
                 {
-                    selectAction.Stop();
-                    Stop();
-                    finished = true;
-
                     FaceAlgo.GetCenteredPlaneFromFace(face, out _Plane);
-                    CreateSketch();
+                    finished = true;
                 }
             }
 
-            if (!finished)
+            if (finished)
+            {
+                selectAction.Stop();
+                Stop();
+                CreateSketch();
+            }
+            else
             {
                 selectAction.Reset();
             }

@@ -170,6 +170,17 @@ namespace Macad.Interaction.Dialogs
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        public static void CannotLoadImage(string filePath)
+        {
+            TaskDialog.ShowMessage(Application.Current.MainWindow,
+                                   $"Loading image from file {Path.GetFileName(filePath)} failed.",
+                                   $"The file {filePath} does not contain valid image data or the image format is not supported.",
+                                   "Image loading failed",
+                                   TaskDialogCommonButtons.Close, TaskDialogIcon.Error);
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
     }
 }

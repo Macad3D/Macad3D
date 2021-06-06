@@ -1,0 +1,285 @@
+﻿using System.IO;
+using System.Linq;
+using Macad.Common;
+using Macad.Core.Auxiliary;
+using Macad.Core.Topology;
+using Macad.Interaction;
+using Macad.Occt;
+using Macad.Test.Utils;
+using NUnit.Framework;
+
+namespace Macad.Test.Unit.Interaction.Auxiliary
+{
+    [TestFixture]
+    public class DatumPlaneTests
+    {
+        const string _BasePath = @"Interaction\Auxiliary\DatumPlane";
+        static string _SourceImagePath = Path.Combine(TestData.TestDataDirectory, @"SourceData\Images\coat-of-arms.png");
+
+        //--------------------------------------------------------------------------------------------------
+
+        [SetUp]
+        public void SetUp()
+        {
+            Context.InitWithView(500);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Context.Current.Deinit();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void Create()
+        {
+            var ctx = Context.Current;
+
+            var plane = DatumPlane.Create();
+            Assert.AreEqual("DatumPlane_1", plane.Name);
+            ctx.Document.AddChild(plane);
+
+            ctx.ViewportController.ZoomFitAll();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Create01"));
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void Select()
+        {
+            var ctx = Context.Current;
+
+            var datumPlane = DatumPlane.Create();
+            ctx.Document.AddChild(datumPlane);
+
+            Assert.Multiple(() =>
+            {
+                ctx.ViewportController.ZoomFitAll();
+                ctx.MoveTo(300, 300);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Select01"));
+
+                ctx.ClickAt(300, 300);
+                Assert.That(ctx.WorkspaceController.Selection.SelectedEntities.SequenceEqual(new[] {datumPlane}));
+                ctx.MoveTo(1,1);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Select02"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void ColorFromLayer()
+        {
+            var ctx = Context.Current;
+            ctx.Layers.ActiveLayer.Color = new Color(1, 0, 0);
+
+            var plane = DatumPlane.Create();
+            Assert.AreEqual("DatumPlane_1", plane.Name);
+            ctx.Document.AddChild(plane);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ColorFromLayer01"));
+
+                ctx.Layers.ActiveLayer.Color = new Color(0, 1, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ColorFromLayer02"));
+
+                var layer = new Layer()
+                {
+                    Color = new Color(0, 0, 1)
+                };
+                ctx.Layers.Add(layer);
+                plane.Layer = layer;
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ColorFromLayer03"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateWithImage()
+        {
+            var ctx = Context.Current;
+
+            var imagePlane = DatumPlane.Create();
+            imagePlane.ImageFilePath = _SourceImagePath;
+            ctx.Document.AddChild(imagePlane);
+
+            ctx.ViewportController.ZoomFitAll();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateWithImage01"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void SelectWithImage()
+        {
+            var ctx = Context.Current;
+
+            var imagePlane = DatumPlane.Create();
+            imagePlane.ImageFilePath = _SourceImagePath;
+            ctx.Document.AddChild(imagePlane);
+
+            Assert.Multiple(() =>
+            {
+                ctx.ViewportController.ZoomFitAll();
+                ctx.MoveTo(300, 300);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SelectWithImage01"));
+
+                ctx.ClickAt(300, 300);
+                Assert.That(ctx.WorkspaceController.Selection.SelectedEntities.SequenceEqual(new[] {imagePlane}));
+                ctx.MoveTo(1,1);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SelectWithImage02"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void Transform()
+        {
+            var ctx = Context.Current;
+
+            var plane = DatumPlane.Create();
+            ctx.Document.AddChild(plane);
+
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                ctx.ClickAt(300, 300);
+                Assert.That(ctx.WorkspaceController.Selection.SelectedEntities.SequenceEqual(new[] {plane}));
+                Assert.That(WorkspaceCommands.Transform.CanExecute());
+                WorkspaceCommands.Transform.Execute();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Transform01"));
+
+                ctx.MoveTo(219,267);
+                ctx.ViewportController.MouseDown();
+                ctx.MoveTo(151,313);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Transform02")); // AIS local transformation working
+
+                ctx.ViewportController.MouseUp(false);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Transform03")); // Updating transformation working
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void SelectInSelectionContext()
+        {
+            var ctx = Context.Current;
+
+            var datumPlane = DatumPlane.Create();
+            ctx.Document.AddChild(datumPlane);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                var selCtx = ctx.WorkspaceController.Selection.OpenContext(SelectionContext.Options.IncludeAll);
+                ctx.ClickAt(300, 300);
+                Assert.That(ctx.WorkspaceController.Selection.SelectedEntities.SequenceEqual(new[] {datumPlane}));
+
+                ctx.WorkspaceController.Selection.CloseContext(selCtx);
+                ctx.WorkspaceController.Selection.SelectEntity(null);
+                ctx.ClickAt(300, 300);
+                Assert.That(ctx.WorkspaceController.Selection.SelectedEntities.SequenceEqual(new[] {datumPlane}));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void HideWithLayer()
+        {
+            var ctx = Context.Current;
+
+            var datumPlane = DatumPlane.Create();
+            ctx.Document.AddChild(datumPlane);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                ctx.Document.Layers.ActiveLayer.IsVisible = false;
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "HideWithLayer01"));
+                ctx.ClickAt(300, 300);
+                Assert.AreEqual(0, ctx.WorkspaceController.Selection.SelectedEntities.Count);
+
+                ctx.Document.Layers.ActiveLayer.IsVisible = true;
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "HideWithLayer02"));
+                ctx.ClickAt(300, 300);
+                Assert.AreEqual(1, ctx.WorkspaceController.Selection.SelectedEntities.Count);
+            });
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void IsolateSelection()
+        {
+            var ctx = Context.Current;
+
+            var datumPlane = DatumPlane.Create();
+            ctx.Document.AddChild(datumPlane);
+            ctx.ViewportController.ZoomFitAll();
+            var body1 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
+
+            Assert.Multiple(() =>
+            {
+                ctx.WorkspaceController.Selection.SelectEntity(body1);
+                WorkspaceCommands.ToggleIsolateSelection.Execute();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "IsolateSelection01"));
+                WorkspaceCommands.ToggleIsolateSelection.Execute();
+
+                ctx.WorkspaceController.Selection.SelectEntity(datumPlane);
+                WorkspaceCommands.ToggleIsolateSelection.Execute();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "IsolateSelection02"));
+            });
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void SelectAsWorkingPlane()
+        {
+            var ctx = Context.Current;
+            ctx.Workspace.GridEnabled = true;
+            ctx.Workspace.GridStep = 15.0;
+
+            var datumPlane = DatumPlane.Create();
+            datumPlane.Position = new Pnt(5, 10, 10);
+            ctx.Document.AddChild(datumPlane);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                WorkspaceCommands.AlignWorkingPlane.Execute();
+                ctx.ClickAt(300, 300);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SelectAsWorkingPlane01"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void Clone()
+        {
+            var ctx = Context.Current;
+            ctx.Workspace.GridEnabled = true;
+            ctx.Workspace.GridStep = 15.0;
+
+            var datumPlane = DatumPlane.Create();
+            datumPlane.Position = new Pnt(5, 10, 10);
+            ctx.Document.AddChild(datumPlane);
+            ctx.WorkspaceController.Selection.SelectEntity(datumPlane);
+
+            Assert.IsTrue(WorkspaceCommands.DuplicateEntity.CanExecute());
+            WorkspaceCommands.DuplicateEntity.Execute();
+            Assert.AreEqual(2, ctx.Document.Cast<DatumPlane>().Count());
+        }
+    }
+}

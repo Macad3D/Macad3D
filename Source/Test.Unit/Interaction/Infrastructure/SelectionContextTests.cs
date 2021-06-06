@@ -4,6 +4,7 @@ using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
+using Macad.Interaction.Visual;
 using Macad.Occt;
 using NUnit.Framework;
 
@@ -451,7 +452,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             selContext.SetSubshapeSelection(SubshapeTypes.Face);
 
             // Remove shape before AIS update
-            var visShape2 = ctx.WorkspaceController.VisualShapes.GetVisualShape(body2);
+            var visShape2 = ctx.WorkspaceController.VisualObjects.Get(body2) as VisualShape;
             visShape2.IsHidden = true;
 
             // Hilite face of first (to force AIS update)
@@ -486,7 +487,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
 
             // Remove shape
             body2.Remove();
-            var visShape2 = ctx.WorkspaceController.VisualShapes.GetVisualShape(body2);
+            var visShape2 = ctx.WorkspaceController.VisualObjects.Get(body2) as VisualShape;
             Assume.That(visShape2, Is.Null);
 
             // Force AIS update by enhancing include list

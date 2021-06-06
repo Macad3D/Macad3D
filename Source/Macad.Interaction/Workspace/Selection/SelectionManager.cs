@@ -171,7 +171,7 @@ namespace Macad.Interaction
             aisContext.InitSelected();
             while (aisContext.MoreSelected())
             {
-                var selected = _WorkspaceController.VisualShapes.GetVisibleEntity(aisContext.SelectedInteractive());
+                var selected = _WorkspaceController.VisualObjects.GetVisibleEntity(aisContext.SelectedInteractive());
                 if (selected != null)
                     aisSelected.Add(selected);
 
@@ -202,12 +202,12 @@ namespace Macad.Interaction
         void _SyncToAisSelection()
         {
             var aisContext = _WorkspaceController.Workspace.AisContext;
-            _WorkspaceController.VisualShapes.UpdateInvalidatedEntities();
+            _WorkspaceController.VisualObjects.UpdateInvalidatedEntities();
             aisContext.ClearSelected(false);
             
             foreach (var entity in SelectedEntities)
             {
-                var visualShape = _WorkspaceController.VisualShapes.GetVisualShape(entity);
+                var visualShape = _WorkspaceController.VisualObjects.Get(entity);
                 if (visualShape != null)
                 {
                     aisContext.AddOrRemoveSelected(visualShape.AisObject, false);

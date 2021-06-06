@@ -1,0 +1,49 @@
+﻿<panels:PanelBase x:Class="Macad.Interaction.Panels.TransformablePropertyGroup"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+           xmlns:panels="clr-namespace:Macad.Interaction.Panels"
+           mc:Ignorable="d" >
+
+    <StackPanel DataContext="{Binding Mode=OneTime, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type panels:TransformablePropertyGroup}}}" >
+    
+        <!--Position-->
+        <TextBlock Text="Position [X, Y, Z]" Style="{StaticResource Macad.Styles.TextBlock.PropertyLine}" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <mmp:ValueEditBox Width="75"
+                              mmp:GroupControls.Position="Left"
+                              Value="{Binding PositionX, NotifyOnSourceUpdated=True}"
+                              AutomationProperties.AutomationId="PositionX" />
+            <mmp:ValueEditBox Width="75"
+                              mmp:GroupControls.Position="HCenter"
+                              Value="{Binding PositionY, NotifyOnSourceUpdated=True}"
+                              AutomationProperties.AutomationId="PositionY" />
+            <mmp:ValueEditBox Width="75"
+                              mmp:GroupControls.Position="Right"
+                              Value="{Binding PositionZ, NotifyOnSourceUpdated=True}"
+                              AutomationProperties.AutomationId="PositionZ" />
+        </StackPanel>
+        
+        <!--Orientation-->
+        <TextBlock Text="Orientation [Yaw, Pitch, Roll]" Style="{StaticResource Macad.Styles.TextBlock.PropertyLine}" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <mmp:ValueEditBox Width="75"
+                              Units="Degree"  
+                              mmp:GroupControls.Position="Left"
+                              Value="{Binding RotationYaw, NotifyOnSourceUpdated=True}"
+                              AutomationProperties.AutomationId="OrientationY" />
+            <mmp:ValueEditBox Width="75"
+                              Units="Degree"  
+                              mmp:GroupControls.Position="HCenter"
+                              Value="{Binding RotationPitch, NotifyOnSourceUpdated=True}"
+                              AutomationProperties.AutomationId="OrientationP" />
+            <mmp:ValueEditBox Width="75"
+                              Units="Degree"  
+                              mmp:GroupControls.Position="Right"
+                              Value="{Binding RotationRoll, NotifyOnSourceUpdated=True}"
+                              AutomationProperties.AutomationId="OrientationR" />
+        </StackPanel>        
+    </StackPanel>
+</panels:PanelBase>

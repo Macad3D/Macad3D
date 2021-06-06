@@ -187,8 +187,17 @@
     <Topic id="46771fa8-3ee1-4afd-a9d5-c92afdd9ee0a" visible="True" noFile="true" isExpanded="true" title="Assemble">
       <Topic id="c0d4325e-1684-4449-b71d-5fa1c875dd5c" visible="True" title="Box Joint">
         <HelpKeywords>
-          <HelpKeyword index="K" term="BoxJoint" />
+          <HelpKeyword index="K" term="Box Joint" />
           <HelpKeyword index="K" term="Joint" />
+        </HelpKeywords>
+      </Topic>
+    </Topic>
+    <Topic id="42401d4f-479f-48c9-8413-e488e304e1d8" visible="True" noFile="true" isExpanded="true" title="Auxiliary">
+      <Topic id="322f5cc2-0fc7-43f9-bb80-5e87cb3e3651" visible="True" title="Datum Plane">
+        <HelpKeywords>
+          <HelpKeyword index="K" term="Datum Plane" />
+          <HelpKeyword index="K" term="Auxiliary Plane" />
+          <HelpKeyword index="K" term="Reference Plane" />
         </HelpKeywords>
       </Topic>
     </Topic>
@@ -212,7 +221,7 @@
           <HelpKeyword index="K" term="Script Example, Creating Bodies and Shapes" />
         </HelpKeywords>
       </Topic>
-      <Topic id="0e4bd8dd-c0f6-4ad6-a251-302a96744c94" visible="True" isSelected="true" title="Working with Subshapes">
+      <Topic id="0e4bd8dd-c0f6-4ad6-a251-302a96744c94" visible="True" title="Working with Subshapes">
         <HelpKeywords>
           <HelpKeyword index="K" term="Script Example, Working with Subshapes" />
         </HelpKeywords>

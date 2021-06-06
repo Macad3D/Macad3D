@@ -267,6 +267,7 @@
     <None Include="Modeling\Primitives\Box.aml" />
     <None Include="Modeling\Sheet\FlangeSheet.aml" />
     <None Include="Modeling\Sheet\UnfoldSheet.aml" />
+    <None Include="Modeling\Auxiliary\DatumPlane.aml" />
     <None Include="Scripting\Example_CreatingBodiesAndShapes.aml" />
     <None Include="Scripting\Example_CreatingInteractiveTools.aml" />
     <None Include="Scripting\Example_ExportImport.aml" />
@@ -287,6 +288,11 @@
     <ContentLayout Include="Content Layout.content" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="icons\MainLogo-64.png">
+      <ImageId>MainLogo-64</ImageId>
+      <AlternateText>Main Logo-64</AlternateText>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
     <Content Include="Concepts\Editing.md" />
     <Content Include="Concepts\ImportExport.md" />
     <Content Include="Concepts\Sketches.md" />
@@ -318,11 +324,6 @@
     <Content Include="License\SketchSolve.txt" />
     <Content Include="License\OcctException.txt" />
     <Content Include="License\Occt.txt" />
-    <Content Include="icons\MainLogo-64.png">
-      <ImageId>MainLogo-64</ImageId>
-      <AlternateText>Main Logo-64</AlternateText>
-      <CopyToMedia>True</CopyToMedia>
-    </Content>
     <Content Include="Modeling\Form\Extrude.md" />
     <Content Include="Modeling\Form\Loft.md" />
     <Content Include="Modeling\Form\Revolve.md" />
@@ -336,8 +337,10 @@
     <Content Include="Modeling\Primitives\Sphere.md" />
     <Content Include="Modeling\Sheet\FlangeSheet.md" />
     <Content Include="Modeling\Sheet\UnfoldSheet.md" />
+    <Content Include="Modeling\Auxiliary\DatumPlane.md" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Modeling\Auxiliary\" />
     <Folder Include="Modeling\Multiply\" />
     <Folder Include="Modeling\Form\" />
     <Folder Include="License\" />
@@ -544,7 +547,5 @@
   </ItemGroup>
   <!-- The pre-build and post-build event properties must appear *after* the targets file import in order to be
 			 evaluated correctly. -->
-
   <Import Project="$(MMBuildPropsDir)Macad.Doc.targets" />
-
 </Project>

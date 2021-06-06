@@ -1,26 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Macad.Common;
+using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Occt;
+using Macad.Occt.Extensions;
 
 namespace Macad.Interaction.Visual
 {
-    public sealed class VisualShapeManager : BaseObject, IDisposable
+    public sealed class VisualObjectManager : BaseObject, IDisposable
     {
         #region Members
 
         WorkspaceController _WorkspaceController;
 
-        readonly Dictionary<TopoDS_Shape, InteractiveEntity> _BRepToInteractiveDictionary = new Dictionary<TopoDS_Shape, InteractiveEntity>();
-        readonly Dictionary<InteractiveEntity, VisualShape> _InteractiveToVisualShapeDictionary = new Dictionary<InteractiveEntity, VisualShape>();
-        readonly List<InteractiveEntity> _InvalidatedInteractiveEntities = new List<InteractiveEntity>();
-        readonly List<InteractiveEntity> _IsolatedEntities = new List<InteractiveEntity>();
+        public delegate VisualObject CreateVisualObjectDelegate(WorkspaceController workspaceController, InteractiveEntity entity);
+        static readonly Dictionary<Type, CreateVisualObjectDelegate> _RegisteredVisualTypes = new();
+
+        readonly Dictionary<TopoDS_Shape, InteractiveEntity> _BRepToInteractiveDictionary = new();
+        readonly Dictionary<InteractiveEntity, VisualObject> _InteractiveToVisualDictionary = new();
+        readonly Dictionary<Guid, InteractiveEntity> _GuidToInteractiveDictionary = new();
+        readonly List<InteractiveEntity> _InvalidatedInteractiveEntities = new();
+        readonly List<InteractiveEntity> _IsolatedEntities = new();
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+        
+        #region Registration
+
+        public static void Register<TEntity>(CreateVisualObjectDelegate createDelegate) where TEntity : InteractiveEntity 
+        {
+            var typeEntity = typeof(TEntity);
+            Debug.Assert(!_RegisteredVisualTypes.ContainsKey(typeEntity), "Entity type has already registered a visual object type.");
+            _RegisteredVisualTypes.Add(typeEntity, createDelegate);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        public static VisualObject CreateVisualObject(WorkspaceController workspaceController, InteractiveEntity entity)
+        {
+            if (!_RegisteredVisualTypes.TryGetValue(entity.GetType(), out CreateVisualObjectDelegate createDelegate))
+            {
+                Messages.Error($"Could not found a visualization for entity type {entity.GetType().Name}.");
+                return null;
+            }
+
+            try
+            {
+                var instance = createDelegate(workspaceController, entity);
+                return instance;
+            }
+            catch (Exception e)
+            {
+                Messages.Error($"Could not create visualization for type {entity.GetType().Name}: {e.Message}");
+            }
+
+            return VisualShape.Create(workspaceController, entity); // at the end, try with default VisualObject
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
 
-        public VisualShapeManager(WorkspaceController workspaceController)
+        public VisualObjectManager(WorkspaceController workspaceController)
         {
             _WorkspaceController = workspaceController;
 
@@ -36,7 +81,8 @@ namespace Macad.Interaction.Visual
             Entity.EntityRemoved -= _Entity_EntityRemoved;
             
             _BRepToInteractiveDictionary.Clear();
-            _InteractiveToVisualShapeDictionary.Clear();
+            _InteractiveToVisualDictionary.Clear();
+            _GuidToInteractiveDictionary.Clear();
             _InvalidatedInteractiveEntities.Clear();
             _IsolatedEntities.Clear();
 
@@ -47,7 +93,7 @@ namespace Macad.Interaction.Visual
 
         internal void InitEntities()
         {
-            foreach (var entity in InteractiveContext.Current.Document.OfType<InteractiveEntity>())
+            foreach (var entity in InteractiveContext.Current.Document)
             {
                 entity.RaiseVisualChanged();
             }
@@ -57,7 +103,7 @@ namespace Macad.Interaction.Visual
 
         #region Isolation
 
-        public delegate void VisualShapeManagerEventHandler(VisualShapeManager visualShapeManager);
+        public delegate void VisualShapeManagerEventHandler(VisualObjectManager visualObjectManager);
 
         public static event VisualShapeManagerEventHandler IsolatedEntitiesChanged;
 
@@ -96,37 +142,37 @@ namespace Macad.Interaction.Visual
 
         #endregion
 
-        public VisualShape GetVisualShape(InteractiveEntity obj, bool forceCreation=false)
+        public VisualObject Get(InteractiveEntity obj, bool forceCreation=false)
         {
             if (obj == null)
                 return null;
 
-            if (_InteractiveToVisualShapeDictionary.ContainsKey(obj))
-                return _InteractiveToVisualShapeDictionary[obj];
+            if (_InteractiveToVisualDictionary.ContainsKey(obj))
+                return _InteractiveToVisualDictionary[obj];
 
             if(forceCreation)
-                return AddVisualShape(obj);
+                return Add(obj);
 
             return null;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public IEnumerable<VisualShape> GetVisualShapes()
+        public IEnumerable<VisualObject> GetAll()
         {
-            return _InteractiveToVisualShapeDictionary.Select(kvp => kvp.Value);
+            return _InteractiveToVisualDictionary.Select(kvp => kvp.Value);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public IEnumerable<VisualShape> GetVisualShapes(Func<InteractiveEntity, bool> selector)
+        public IEnumerable<VisualObject> Where(Func<InteractiveEntity, bool> selector)
         {
-            return _InteractiveToVisualShapeDictionary.Where(kvp => selector(kvp.Key)).Select(kvp => kvp.Value);
+            return _InteractiveToVisualDictionary.Where(kvp => selector(kvp.Key)).Select(kvp => kvp.Value);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public VisualShape AddVisualShape(InteractiveEntity entity)
+        public VisualObject Add(InteractiveEntity entity)
         {
             foreach (var item in _BRepToInteractiveDictionary.Where(kvp => kvp.Value == entity).ToList())
             {
@@ -137,21 +183,24 @@ namespace Macad.Interaction.Visual
             if (ocShape != null)
             {
                 _BRepToInteractiveDictionary.Add(ocShape, entity);
-
-                var visualShape = GetVisualShape(entity);
-                if (visualShape != null)
-                {
-                    visualShape.UpdateShape();
-                }
-                else
-                {
-                    visualShape = new VisualShape(_WorkspaceController, entity);
-                    _InteractiveToVisualShapeDictionary.Add(entity, visualShape);
-                }
-
-                return visualShape;
             }
-            return null;
+
+            var visualObject = Get(entity);
+            if (visualObject != null)
+            {
+                visualObject.Update();
+            }
+            else
+            {
+                visualObject = CreateVisualObject(_WorkspaceController, entity);
+                if (visualObject != null)
+                {
+                    _InteractiveToVisualDictionary.Add(entity, visualObject);
+                    _GuidToInteractiveDictionary.Add(entity.Guid, entity);
+                }
+            }
+
+            return visualObject;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -161,25 +210,25 @@ namespace Macad.Interaction.Visual
             var entitiesToUpdate = _InvalidatedInteractiveEntities.ToArray();
             foreach (var entity in entitiesToUpdate)
             {
-                UpdateVisualShape(entity);
+                Update(entity);
                 _InvalidatedInteractiveEntities.Remove(entity);
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void UpdateVisualShape(InteractiveEntity entity)
+        public void Update(InteractiveEntity entity)
         {
             if (!entity.IsVisible)
             {
-                RemoveShape(entity);
+                Remove(entity);
                 return;
             }
 
-            var visualShape = GetVisualShape(entity);
-            if (visualShape == null)
+            var visualObject = Get(entity);
+            if (visualObject == null)
             {
-                AddVisualShape(entity);
+                Add(entity);
                 return;
             }
 
@@ -194,18 +243,19 @@ namespace Macad.Interaction.Visual
                 _BRepToInteractiveDictionary.Add(ocShape, entity);
             }
 
-            visualShape.UpdateShape();
+            visualObject.Update();
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void RemoveShape(InteractiveEntity entity)
+        public void Remove(InteractiveEntity entity)
         {
-            var visualShape = GetVisualShape(entity);
+            var visualShape = Get(entity);
             if (visualShape != null)
             {
                 visualShape.Remove();
-                _InteractiveToVisualShapeDictionary.Remove(entity);
+                _InteractiveToVisualDictionary.Remove(entity);
+                _GuidToInteractiveDictionary.Remove(entity.Guid);
             }
 
             foreach (var item in _BRepToInteractiveDictionary.Where(kvp => kvp.Value == entity).ToList())
@@ -218,6 +268,12 @@ namespace Macad.Interaction.Visual
 
         public InteractiveEntity GetVisibleEntity(AIS_InteractiveObject aisInteractiveObject)
         {
+            var owner = aisInteractiveObject.GetOwner();
+            if (AISX_Guid.TryGetGuid(owner, out var guid)
+                && _GuidToInteractiveDictionary.TryGetValue(guid, out var entity))
+            {
+                return entity;
+            }
             if (aisInteractiveObject.Type() == AIS_KindOfInteractive.AIS_KOI_Shape)
             {
                 var brep = (aisInteractiveObject as AIS_Shape)?.Shape();
@@ -241,7 +297,7 @@ namespace Macad.Interaction.Visual
 
         public IEnumerable<InteractiveEntity> GetVisibleEntities()
         {
-            return _InteractiveToVisualShapeDictionary.Keys;
+            return _InteractiveToVisualDictionary.Keys;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -261,7 +317,7 @@ namespace Macad.Interaction.Visual
             _InvalidatedInteractiveEntities.Remove(interactiveEntity);
 
             // Remove visual
-            RemoveShape(interactiveEntity);
+            Remove(interactiveEntity);
         }
 
         //--------------------------------------------------------------------------------------------------

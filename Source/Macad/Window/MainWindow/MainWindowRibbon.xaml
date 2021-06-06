@@ -153,33 +153,33 @@
 
             <Fluent:RibbonGroupBox Header="Undo"
                                    Name="Undo">
-                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.DoUndoCommand}"
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.DoUndo}"
                                x:Name="UndoButton"
                                AutomationProperties.AutomationId="Undo"/>
-                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.DoRedoCommand}"
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.DoRedo}"
                                x:Name="RedoButton"
                                AutomationProperties.AutomationId="Redo"/>
             </Fluent:RibbonGroupBox>
 
             <Fluent:RibbonGroupBox Header="Edit"
                                    Name="Edit">
-                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.DuplicateEntityCommand}"
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.DuplicateEntity}"
                                AutomationProperties.AutomationId="Duplicate"
                                SizeDefinition="Large,Large,Small" />
                 <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateReference}"
                                AutomationProperties.AutomationId="CreateReference"
                                SizeDefinition="Large,Large,Small" />
-                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.PasteFromClipboardCommand}"
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.PasteFromClipboard}"
                                AutomationProperties.AutomationId="PasteClipboard"
                                SizeDefinition="Large,Large,Small" />
                 
-                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.CopyToClipboardCommand}"
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.CopyToClipboard}"
                                Size="Large,Middle,Small"
                                AutomationProperties.AutomationId="CopyClipboard" />
-                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.CutToClipboardCommand}"
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.CutToClipboard}"
                                Size="Large,Middle,Small"
                                AutomationProperties.AutomationId="CutClipboard" />
-                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.DeleteEntityCommand}"
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.DeleteEntity}"
                                Size="Large,Middle,Small"
                                AutomationProperties.AutomationId="Delete" />
             </Fluent:RibbonGroupBox>
@@ -319,12 +319,12 @@
 
             <Fluent:RibbonGroupBox Header="Arrange"
                                    Name="ArrangeGroup">
-                <Fluent:SplitButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.TransformShape}"
+                <Fluent:SplitButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.Transform}"
                                     AutomationProperties.AutomationId="TransformShape">
 
                     <Fluent:GroupSeparatorMenuItem Header="Pivot Point" />
 
-                    <Fluent:MenuItem CommandParameter="BodyPivot"
+                    <Fluent:MenuItem CommandParameter="EntityPivot"
                                      mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetTransformPivot}"/>
                     <Fluent:MenuItem CommandParameter="BoundingCenter"
                                      mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetTransformPivot}"/>
@@ -333,7 +333,7 @@
 
                     <Fluent:GroupSeparatorMenuItem Header="Options" />
 
-                    <Fluent:MenuItem CommandParameter="MultiBodyUseFirst"
+                    <Fluent:MenuItem CommandParameter="MultipleUseFirst"
                                      mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleTransformOption}"/>
 
                     <Fluent:MenuItem CommandParameter="WorldSpaceOrientation"
@@ -391,7 +391,8 @@
                                             Width="14" Height="14"
                                             BorderBrush="Black"
                                             BorderThickness="1"
-                                            Margin="1">
+                                            Margin="1"
+                                            UseLayoutRounding="True">
                                         <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                                    Fill="{Binding Color, Converter={mmp:ColorToBrushConverter}}" />
                                     </Border>
@@ -570,6 +571,13 @@
                                      AutomationProperties.AutomationId="CreateUnfoldSheet"/>
             </Fluent:RibbonGroupBox>
 
+            <Fluent:RibbonGroupBox Header="Auxiliary"
+                                   Name="Auxiliary">
+
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:AuxiliaryCommands.CreateDatumPlane}"
+                               AutomationProperties.AutomationId="CreateDatumPlane"
+                               SizeDefinition="Large,Large,Large" />
+            </Fluent:RibbonGroupBox>
         </Fluent:RibbonTabItem>
         <!--endregion-->
 
@@ -595,7 +603,7 @@
             <Fluent:RibbonGroupBox Header="Workflow">
                 <Fluent:Button mmp:Command.Action="{x:Static mmw:AppCommands.ShowShapeInspector}"/>
 
-                <Fluent:SplitButton mmp:Command.Action="{x:Static mmi:ToolboxCommands.RunScriptFromCommand}"
+                <Fluent:SplitButton mmp:Command.Action="{x:Static mmi:ToolboxCommands.RunScriptFrom}"
                                     AutomationProperties.AutomationId="RunScript">
                     <Fluent:GroupSeparatorMenuItem Header="Recently Used Scripts" />
                     <ItemsControl ItemsSource="{Binding Context.RecentUsedScripts}">
@@ -651,15 +659,15 @@
             <Fluent:RibbonGroupBox Header="Display">
 
                 <Fluent:DropDownButton Header="Render Mode"
-                                       LargeIcon="{Binding Context.Viewport.RenderMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRenderModeCommand}}"
-                                       Icon="{Binding Context.Viewport.RenderMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRenderModeCommand}}">
+                                       LargeIcon="{Binding Context.Viewport.RenderMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRenderMode}}"
+                                       Icon="{Binding Context.Viewport.RenderMode, Converter={mmp:CommandToIconConverter}, ConverterParameter={x:Static mmi:WorkspaceCommands.SetRenderMode}}">
                     <Fluent:GroupSeparatorMenuItem Header="Render Mode" />
                     <Fluent:MenuItem CommandParameter="SolidShaded"
-                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderModeCommand}" />
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderMode}" />
                     <Fluent:MenuItem CommandParameter="HLR"
-                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderModeCommand}" />
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderMode}" />
                     <Fluent:MenuItem CommandParameter="Raytraced" 
-                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderModeCommand}" />
+                                     mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetRenderMode}" />
                 </Fluent:DropDownButton>
 
             </Fluent:RibbonGroupBox>

@@ -1,17 +1,19 @@
-﻿using Macad.Occt;
+﻿using Macad.Core.Topology;
+using Macad.Occt;
 
 namespace Macad.Interaction.Visual
 {
     public abstract class VisualObject
     {
-        protected VisualObject(WorkspaceController workspaceController)
+        protected VisualObject(WorkspaceController workspaceController, InteractiveEntity entity)
         {
             WorkspaceController = workspaceController;
+            Entity = entity;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        protected WorkspaceController WorkspaceController { get; private set; }
+        protected WorkspaceController WorkspaceController { get; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -23,10 +25,11 @@ namespace Macad.Interaction.Visual
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual bool IsActive
+        public virtual bool IsSelectable
         {
             get { return false; }
-            set { return; }
+            // ReSharper disable once ValueParameterNotUsed
+            set {  }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -34,10 +37,53 @@ namespace Macad.Interaction.Visual
         public object Tag { get; set; }
 
         //--------------------------------------------------------------------------------------------------
+        
+        public InteractiveEntity Entity { get; }
+        
+        //--------------------------------------------------------------------------------------------------
 
         public abstract void Remove();
 
         //--------------------------------------------------------------------------------------------------
 
+        public abstract void Update();
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void SetLocalTransformation(Trsf? transformation)
+        {
+            if (AisObject == null) 
+                return;
+
+            if (transformation != null)
+            {
+                AisObject.SetLocalTransformation(transformation.Value);
+            }
+            else
+            {
+                AisObject.ResetTransformation();
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        #region Events
+
+        public delegate void AisObjectChangedEventHandler(VisualObject visualObject);
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static event AisObjectChangedEventHandler AisObjectChanged;
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected void RaiseAisObjectChanged()
+        {
+            AisObjectChanged?.Invoke(this);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
     }
 }

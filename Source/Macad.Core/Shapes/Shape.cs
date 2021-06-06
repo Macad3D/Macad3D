@@ -311,6 +311,7 @@ namespace Macad.Core.Shapes
                 dependent.OnTransformInvalidated(_Body);
             }
 
+            // TODO is this still needed?
             RaisePropertyChanged("Transformation");
         }
 

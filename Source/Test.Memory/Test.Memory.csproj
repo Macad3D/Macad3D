@@ -22,7 +22,6 @@
     <PackageReference Include="JetBrains.dotMemoryUnit" Version="3.1.20200127.214830" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.0.0-beta.2" />
     <PackageReference Include="NUnit" Version="3.13.1" />
   </ItemGroup>
 

@@ -994,12 +994,16 @@ Macad::Occt::TColStd_Array1OfTransient::TColStd_Array1OfTransient(Macad::Occt::T
 Macad::Occt::TColStd_Array1OfTransient::TColStd_Array1OfTransient(Macad::Occt::Standard_Transient^ theBegin, int theLower, int theUpper)
 	: BaseClass<::TColStd_Array1OfTransient>(BaseClass::InitMode::Uninitialized)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theBegin = theBegin->NativeInstance;
+	_NativeInstance = new ::TColStd_Array1OfTransient(h_theBegin, theLower, theUpper);
+	theBegin->NativeInstance = h_theBegin.get();
 }
 
 void Macad::Occt::TColStd_Array1OfTransient::Init(Macad::Occt::Standard_Transient^ theValue)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theValue = theValue->NativeInstance;
+	((::TColStd_Array1OfTransient*)_NativeInstance)->Init(h_theValue);
+	theValue->NativeInstance = h_theValue.get();
 }
 
 int Macad::Occt::TColStd_Array1OfTransient::Size()
@@ -1053,37 +1057,51 @@ Macad::Occt::TColStd_Array1OfTransient^ Macad::Occt::TColStd_Array1OfTransient::
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_Array1OfTransient::First()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_Array1OfTransient*)_NativeInstance)->First();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_Array1OfTransient::ChangeFirst()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_Array1OfTransient*)_NativeInstance)->ChangeFirst();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_Array1OfTransient::Last()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_Array1OfTransient*)_NativeInstance)->Last();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_Array1OfTransient::ChangeLast()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_Array1OfTransient*)_NativeInstance)->ChangeLast();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_Array1OfTransient::Value(int theIndex)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_Array1OfTransient*)_NativeInstance)->Value(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_Array1OfTransient::ChangeValue(int theIndex)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_Array1OfTransient*)_NativeInstance)->ChangeValue(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::TColStd_Array1OfTransient::SetValue(int theIndex, Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_Array1OfTransient*)_NativeInstance)->SetValue(theIndex, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
 void Macad::Occt::TColStd_Array1OfTransient::Resize(int theLower, int theUpper, bool theToCopyData)
@@ -1631,12 +1649,16 @@ Macad::Occt::TColStd_Array2OfTransient::TColStd_Array2OfTransient(Macad::Occt::T
 Macad::Occt::TColStd_Array2OfTransient::TColStd_Array2OfTransient(Macad::Occt::Standard_Transient^ theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper)
 	: BaseClass<::TColStd_Array2OfTransient>(BaseClass::InitMode::Uninitialized)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theBegin = theBegin->NativeInstance;
+	_NativeInstance = new ::TColStd_Array2OfTransient(h_theBegin, theRowLower, theRowUpper, theColLower, theColUpper);
+	theBegin->NativeInstance = h_theBegin.get();
 }
 
 void Macad::Occt::TColStd_Array2OfTransient::Init(Macad::Occt::Standard_Transient^ theValue)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theValue = theValue->NativeInstance;
+	((::TColStd_Array2OfTransient*)_NativeInstance)->Init(h_theValue);
+	theValue->NativeInstance = h_theValue.get();
 }
 
 int Macad::Occt::TColStd_Array2OfTransient::Size()
@@ -1710,17 +1732,23 @@ Macad::Occt::TColStd_Array2OfTransient^ Macad::Occt::TColStd_Array2OfTransient::
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_Array2OfTransient::Value(int theRow, int theCol)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_Array2OfTransient*)_NativeInstance)->Value(theRow, theCol);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_Array2OfTransient::ChangeValue(int theRow, int theCol)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_Array2OfTransient*)_NativeInstance)->ChangeValue(theRow, theCol);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::TColStd_Array2OfTransient::SetValue(int theRow, int theCol, Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_Array2OfTransient*)_NativeInstance)->SetValue(theRow, theCol, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
 void Macad::Occt::TColStd_Array2OfTransient::Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData)
@@ -2242,12 +2270,18 @@ Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfIntegerTransient:
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfIntegerTransient::Find(int theKey)
 {
-	throw gcnew System::NotImplementedException();
+	pin_ptr<int> pp_theKey = &theKey;
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_DataMapOfIntegerTransient*)_NativeInstance)->Find(*(int*)pp_theKey);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 bool Macad::Occt::TColStd_DataMapOfIntegerTransient::Find(int theKey, Macad::Occt::Standard_Transient^ theValue)
 {
-	throw gcnew System::NotImplementedException();
+	pin_ptr<int> pp_theKey = &theKey;
+	Handle(::Standard_Transient) h_theValue = theValue->NativeInstance;
+	return ((::TColStd_DataMapOfIntegerTransient*)_NativeInstance)->Find(*(int*)pp_theKey, h_theValue);
+	theValue->NativeInstance = h_theValue.get();
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfIntegerTransient::ChangeSeek(int theKey)
@@ -2257,7 +2291,10 @@ Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfIntegerTransient:
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfIntegerTransient::ChangeFind(int theKey)
 {
-	throw gcnew System::NotImplementedException();
+	pin_ptr<int> pp_theKey = &theKey;
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_DataMapOfIntegerTransient*)_NativeInstance)->ChangeFind(*(int*)pp_theKey);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::TColStd_DataMapOfIntegerTransient::Clear(bool doReleaseMemory)
@@ -2411,12 +2448,18 @@ Macad::Occt::TColStd_MapTransientHasher::TColStd_MapTransientHasher(Macad::Occt:
 
 int Macad::Occt::TColStd_MapTransientHasher::HashCode(Macad::Occt::Standard_Transient^ theKey, int theUpperBound)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey = theKey->NativeInstance;
+	return ::TColStd_MapTransientHasher::HashCode(h_theKey, theUpperBound);
+	theKey->NativeInstance = h_theKey.get();
 }
 
 bool Macad::Occt::TColStd_MapTransientHasher::IsEqual(Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theKey2)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey1 = theKey1->NativeInstance;
+	Handle(::Standard_Transient) h_theKey2 = theKey2->NativeInstance;
+	return ::TColStd_MapTransientHasher::IsEqual(h_theKey1, h_theKey2);
+	theKey1->NativeInstance = h_theKey1.get();
+	theKey2->NativeInstance = h_theKey2.get();
 }
 
 
@@ -2471,12 +2514,16 @@ Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfTransientTransien
 
 bool Macad::Occt::TColStd_DataMapOfTransientTransient::IsBound(Macad::Occt::Standard_Transient^ theKey)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey = theKey->NativeInstance;
+	return ((::TColStd_DataMapOfTransientTransient*)_NativeInstance)->IsBound(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
 }
 
 bool Macad::Occt::TColStd_DataMapOfTransientTransient::UnBind(Macad::Occt::Standard_Transient^ theKey)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey = theKey->NativeInstance;
+	return ((::TColStd_DataMapOfTransientTransient*)_NativeInstance)->UnBind(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfTransientTransient::Seek(Macad::Occt::Standard_Transient^ theKey)
@@ -2486,12 +2533,20 @@ Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfTransientTransien
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfTransientTransient::Find(Macad::Occt::Standard_Transient^ theKey)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey = theKey->NativeInstance;
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_DataMapOfTransientTransient*)_NativeInstance)->Find(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 bool Macad::Occt::TColStd_DataMapOfTransientTransient::Find(Macad::Occt::Standard_Transient^ theKey, Macad::Occt::Standard_Transient^ theValue)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey = theKey->NativeInstance;
+	Handle(::Standard_Transient) h_theValue = theValue->NativeInstance;
+	return ((::TColStd_DataMapOfTransientTransient*)_NativeInstance)->Find(h_theKey, h_theValue);
+	theKey->NativeInstance = h_theKey.get();
+	theValue->NativeInstance = h_theValue.get();
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfTransientTransient::ChangeSeek(Macad::Occt::Standard_Transient^ theKey)
@@ -2501,7 +2556,11 @@ Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfTransientTransien
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_DataMapOfTransientTransient::ChangeFind(Macad::Occt::Standard_Transient^ theKey)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey = theKey->NativeInstance;
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_DataMapOfTransientTransient*)_NativeInstance)->ChangeFind(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::TColStd_DataMapOfTransientTransient::Clear(bool doReleaseMemory)
@@ -3723,7 +3782,9 @@ void Macad::Occt::TColStd_SequenceOfTransient::Remove(int theFromIndex, int theT
 
 void Macad::Occt::TColStd_SequenceOfTransient::Append(Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_SequenceOfTransient*)_NativeInstance)->Append(h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
 void Macad::Occt::TColStd_SequenceOfTransient::Append(Macad::Occt::TColStd_SequenceOfTransient^ theSeq)
@@ -3733,7 +3794,9 @@ void Macad::Occt::TColStd_SequenceOfTransient::Append(Macad::Occt::TColStd_Seque
 
 void Macad::Occt::TColStd_SequenceOfTransient::Prepend(Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_SequenceOfTransient*)_NativeInstance)->Prepend(h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
 void Macad::Occt::TColStd_SequenceOfTransient::Prepend(Macad::Occt::TColStd_SequenceOfTransient^ theSeq)
@@ -3743,7 +3806,9 @@ void Macad::Occt::TColStd_SequenceOfTransient::Prepend(Macad::Occt::TColStd_Sequ
 
 void Macad::Occt::TColStd_SequenceOfTransient::InsertBefore(int theIndex, Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_SequenceOfTransient*)_NativeInstance)->InsertBefore(theIndex, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
 void Macad::Occt::TColStd_SequenceOfTransient::InsertBefore(int theIndex, Macad::Occt::TColStd_SequenceOfTransient^ theSeq)
@@ -3758,7 +3823,9 @@ void Macad::Occt::TColStd_SequenceOfTransient::InsertAfter(int theIndex, Macad::
 
 void Macad::Occt::TColStd_SequenceOfTransient::InsertAfter(int theIndex, Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_SequenceOfTransient*)_NativeInstance)->InsertAfter(theIndex, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
 void Macad::Occt::TColStd_SequenceOfTransient::Split(int theIndex, Macad::Occt::TColStd_SequenceOfTransient^ theSeq)
@@ -3768,37 +3835,51 @@ void Macad::Occt::TColStd_SequenceOfTransient::Split(int theIndex, Macad::Occt::
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_SequenceOfTransient::First()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_SequenceOfTransient*)_NativeInstance)->First();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_SequenceOfTransient::ChangeFirst()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_SequenceOfTransient*)_NativeInstance)->ChangeFirst();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_SequenceOfTransient::Last()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_SequenceOfTransient*)_NativeInstance)->Last();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_SequenceOfTransient::ChangeLast()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_SequenceOfTransient*)_NativeInstance)->ChangeLast();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_SequenceOfTransient::Value(int theIndex)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_SequenceOfTransient*)_NativeInstance)->Value(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_SequenceOfTransient::ChangeValue(int theIndex)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_SequenceOfTransient*)_NativeInstance)->ChangeValue(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::TColStd_SequenceOfTransient::SetValue(int theIndex, Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_SequenceOfTransient*)_NativeInstance)->SetValue(theIndex, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
 
@@ -3995,17 +4076,27 @@ void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Exchange(Macad::Oc
 
 int Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Add(Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey1 = theKey1->NativeInstance;
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	return ((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->Add(h_theKey1, h_theItem);
+	theKey1->NativeInstance = h_theKey1.get();
+	theItem->NativeInstance = h_theItem.get();
 }
 
 bool Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Contains(Macad::Occt::Standard_Transient^ theKey1)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey1 = theKey1->NativeInstance;
+	return ((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->Contains(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
 }
 
 void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Substitute(int theIndex, Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey1 = theKey1->NativeInstance;
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->Substitute(theIndex, h_theKey1, h_theItem);
+	theKey1->NativeInstance = h_theKey1.get();
+	theItem->NativeInstance = h_theItem.get();
 }
 
 void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Swap(int theIndex1, int theIndex2)
@@ -4025,37 +4116,55 @@ void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::RemoveFromIndex(in
 
 void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::RemoveKey(Macad::Occt::Standard_Transient^ theKey1)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey1 = theKey1->NativeInstance;
+	((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->RemoveKey(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::FindKey(int theIndex)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->FindKey(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::FindFromIndex(int theIndex)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->FindFromIndex(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::ChangeFromIndex(int theIndex)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->ChangeFromIndex(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 int Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::FindIndex(Macad::Occt::Standard_Transient^ theKey1)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey1 = theKey1->NativeInstance;
+	return ((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->FindIndex(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::FindFromKey(Macad::Occt::Standard_Transient^ theKey1)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey1 = theKey1->NativeInstance;
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->FindFromKey(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::ChangeFromKey(Macad::Occt::Standard_Transient^ theKey1)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey1 = theKey1->NativeInstance;
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->ChangeFromKey(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Seek(Macad::Occt::Standard_Transient^ theKey1)
@@ -4070,7 +4179,11 @@ Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedDataMapOfTransientT
 
 bool Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::FindFromKey(Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theValue)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey1 = theKey1->NativeInstance;
+	Handle(::Standard_Transient) h_theValue = theValue->NativeInstance;
+	return ((::TColStd_IndexedDataMapOfTransientTransient*)_NativeInstance)->FindFromKey(h_theKey1, h_theValue);
+	theKey1->NativeInstance = h_theKey1.get();
+	theValue->NativeInstance = h_theValue.get();
 }
 
 void Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Clear(bool doReleaseMemory)
@@ -4387,17 +4500,23 @@ void Macad::Occt::TColStd_IndexedMapOfTransient::Exchange(Macad::Occt::TColStd_I
 
 int Macad::Occt::TColStd_IndexedMapOfTransient::Add(Macad::Occt::Standard_Transient^ theKey1)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey1 = theKey1->NativeInstance;
+	return ((::TColStd_IndexedMapOfTransient*)_NativeInstance)->Add(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
 }
 
 bool Macad::Occt::TColStd_IndexedMapOfTransient::Contains(Macad::Occt::Standard_Transient^ theKey1)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey1 = theKey1->NativeInstance;
+	return ((::TColStd_IndexedMapOfTransient*)_NativeInstance)->Contains(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
 }
 
 void Macad::Occt::TColStd_IndexedMapOfTransient::Substitute(int theIndex, Macad::Occt::Standard_Transient^ theKey1)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey1 = theKey1->NativeInstance;
+	((::TColStd_IndexedMapOfTransient*)_NativeInstance)->Substitute(theIndex, h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
 }
 
 void Macad::Occt::TColStd_IndexedMapOfTransient::Swap(int theIndex1, int theIndex2)
@@ -4417,17 +4536,23 @@ void Macad::Occt::TColStd_IndexedMapOfTransient::RemoveFromIndex(int theIndex)
 
 bool Macad::Occt::TColStd_IndexedMapOfTransient::RemoveKey(Macad::Occt::Standard_Transient^ theKey1)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey1 = theKey1->NativeInstance;
+	return ((::TColStd_IndexedMapOfTransient*)_NativeInstance)->RemoveKey(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_IndexedMapOfTransient::FindKey(int theIndex)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_IndexedMapOfTransient*)_NativeInstance)->FindKey(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 int Macad::Occt::TColStd_IndexedMapOfTransient::FindIndex(Macad::Occt::Standard_Transient^ theKey1)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey1 = theKey1->NativeInstance;
+	return ((::TColStd_IndexedMapOfTransient*)_NativeInstance)->FindIndex(h_theKey1);
+	theKey1->NativeInstance = h_theKey1.get();
 }
 
 void Macad::Occt::TColStd_IndexedMapOfTransient::Clear(bool doReleaseMemory)
@@ -4697,17 +4822,25 @@ void Macad::Occt::TColStd_ListOfTransient::Clear()
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_ListOfTransient::First()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_ListOfTransient*)_NativeInstance)->First();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_ListOfTransient::Last()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_ListOfTransient*)_NativeInstance)->Last();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_ListOfTransient::Append(Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_ListOfTransient*)_NativeInstance)->Append(h_theItem);
+	theItem->NativeInstance = h_theItem.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::TColStd_ListOfTransient::Append(Macad::Occt::TColStd_ListOfTransient^ theOther)
@@ -4717,7 +4850,11 @@ void Macad::Occt::TColStd_ListOfTransient::Append(Macad::Occt::TColStd_ListOfTra
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_ListOfTransient::Prepend(Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_ListOfTransient*)_NativeInstance)->Prepend(h_theItem);
+	theItem->NativeInstance = h_theItem.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::TColStd_ListOfTransient::Prepend(Macad::Occt::TColStd_ListOfTransient^ theOther)
@@ -5201,17 +5338,25 @@ Macad::Occt::TColStd_MapOfTransient^ Macad::Occt::TColStd_MapOfTransient::Assign
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_MapOfTransient::Added(Macad::Occt::Standard_Transient^ K)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_K = K->NativeInstance;
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_MapOfTransient*)_NativeInstance)->Added(h_K);
+	K->NativeInstance = h_K.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 bool Macad::Occt::TColStd_MapOfTransient::Contains(Macad::Occt::Standard_Transient^ K)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_K = K->NativeInstance;
+	return ((::TColStd_MapOfTransient*)_NativeInstance)->Contains(h_K);
+	K->NativeInstance = h_K.get();
 }
 
 bool Macad::Occt::TColStd_MapOfTransient::Remove(Macad::Occt::Standard_Transient^ K)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_K = K->NativeInstance;
+	return ((::TColStd_MapOfTransient*)_NativeInstance)->Remove(h_K);
+	K->NativeInstance = h_K.get();
 }
 
 void Macad::Occt::TColStd_MapOfTransient::Clear(bool doReleaseMemory)
@@ -6550,7 +6695,9 @@ Macad::Occt::TColStd_HArray1OfTransient::TColStd_HArray1OfTransient(int theLower
 Macad::Occt::TColStd_HArray1OfTransient::TColStd_HArray1OfTransient(int theLower, int theUpper, Macad::Occt::Standard_Transient^ theValue)
 	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theValue = theValue->NativeInstance;
+	NativeInstance = new ::TColStd_HArray1OfTransient(theLower, theUpper, h_theValue);
+	theValue->NativeInstance = h_theValue.get();
 }
 
 Macad::Occt::TColStd_HArray1OfTransient::TColStd_HArray1OfTransient(Macad::Occt::TColStd_Array1OfTransient^ theOther)
@@ -6581,7 +6728,9 @@ Macad::Occt::TColStd_Array1OfTransient^ Macad::Occt::TColStd_HArray1OfTransient:
 
 void Macad::Occt::TColStd_HArray1OfTransient::Init(Macad::Occt::Standard_Transient^ theValue)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theValue = theValue->NativeInstance;
+	((::TColStd_HArray1OfTransient*)_NativeInstance)->Init(h_theValue);
+	theValue->NativeInstance = h_theValue.get();
 }
 
 int Macad::Occt::TColStd_HArray1OfTransient::Size()
@@ -6621,37 +6770,51 @@ bool Macad::Occt::TColStd_HArray1OfTransient::IsAllocated()
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_HArray1OfTransient::First()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_HArray1OfTransient*)_NativeInstance)->First();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_HArray1OfTransient::ChangeFirst()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_HArray1OfTransient*)_NativeInstance)->ChangeFirst();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_HArray1OfTransient::Last()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_HArray1OfTransient*)_NativeInstance)->Last();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_HArray1OfTransient::ChangeLast()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_HArray1OfTransient*)_NativeInstance)->ChangeLast();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_HArray1OfTransient::Value(int theIndex)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_HArray1OfTransient*)_NativeInstance)->Value(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_HArray1OfTransient::ChangeValue(int theIndex)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_HArray1OfTransient*)_NativeInstance)->ChangeValue(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::TColStd_HArray1OfTransient::SetValue(int theIndex, Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_HArray1OfTransient*)_NativeInstance)->SetValue(theIndex, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
 void Macad::Occt::TColStd_HArray1OfTransient::Resize(int theLower, int theUpper, bool theToCopyData)
@@ -7212,7 +7375,9 @@ Macad::Occt::TColStd_HArray2OfTransient::TColStd_HArray2OfTransient(int theRowLo
 Macad::Occt::TColStd_HArray2OfTransient::TColStd_HArray2OfTransient(int theRowLow, int theRowUpp, int theColLow, int theColUpp, Macad::Occt::Standard_Transient^ theValue)
 	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theValue = theValue->NativeInstance;
+	NativeInstance = new ::TColStd_HArray2OfTransient(theRowLow, theRowUpp, theColLow, theColUpp, h_theValue);
+	theValue->NativeInstance = h_theValue.get();
 }
 
 Macad::Occt::TColStd_HArray2OfTransient::TColStd_HArray2OfTransient(Macad::Occt::TColStd_Array2OfTransient^ theOther)
@@ -7243,7 +7408,9 @@ Macad::Occt::TColStd_Array2OfTransient^ Macad::Occt::TColStd_HArray2OfTransient:
 
 void Macad::Occt::TColStd_HArray2OfTransient::Init(Macad::Occt::Standard_Transient^ theValue)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theValue = theValue->NativeInstance;
+	((::TColStd_HArray2OfTransient*)_NativeInstance)->Init(h_theValue);
+	theValue->NativeInstance = h_theValue.get();
 }
 
 int Macad::Occt::TColStd_HArray2OfTransient::Size()
@@ -7303,17 +7470,23 @@ bool Macad::Occt::TColStd_HArray2OfTransient::IsDeletable()
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_HArray2OfTransient::Value(int theRow, int theCol)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_HArray2OfTransient*)_NativeInstance)->Value(theRow, theCol);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_HArray2OfTransient::ChangeValue(int theRow, int theCol)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_HArray2OfTransient*)_NativeInstance)->ChangeValue(theRow, theCol);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::TColStd_HArray2OfTransient::SetValue(int theRow, int theCol, Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_HArray2OfTransient*)_NativeInstance)->SetValue(theRow, theCol, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
 void Macad::Occt::TColStd_HArray2OfTransient::Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData)
@@ -8428,7 +8601,9 @@ Macad::Occt::TColStd_SequenceOfTransient^ Macad::Occt::TColStd_HSequenceOfTransi
 
 void Macad::Occt::TColStd_HSequenceOfTransient::Append(Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_HSequenceOfTransient*)_NativeInstance)->Append(h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
 void Macad::Occt::TColStd_HSequenceOfTransient::Append(Macad::Occt::TColStd_SequenceOfTransient^ theSequence)
@@ -8502,52 +8677,72 @@ void Macad::Occt::TColStd_HSequenceOfTransient::Remove(int theFromIndex, int the
 
 void Macad::Occt::TColStd_HSequenceOfTransient::Prepend(Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_HSequenceOfTransient*)_NativeInstance)->Prepend(h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
 void Macad::Occt::TColStd_HSequenceOfTransient::InsertBefore(int theIndex, Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_HSequenceOfTransient*)_NativeInstance)->InsertBefore(theIndex, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
 void Macad::Occt::TColStd_HSequenceOfTransient::InsertAfter(int theIndex, Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_HSequenceOfTransient*)_NativeInstance)->InsertAfter(theIndex, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_HSequenceOfTransient::First()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_HSequenceOfTransient*)_NativeInstance)->First();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_HSequenceOfTransient::ChangeFirst()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_HSequenceOfTransient*)_NativeInstance)->ChangeFirst();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_HSequenceOfTransient::Last()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_HSequenceOfTransient*)_NativeInstance)->Last();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_HSequenceOfTransient::ChangeLast()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_HSequenceOfTransient*)_NativeInstance)->ChangeLast();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_HSequenceOfTransient::Value(int theIndex)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_HSequenceOfTransient*)_NativeInstance)->Value(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::TColStd_HSequenceOfTransient::ChangeValue(int theIndex)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::TColStd_HSequenceOfTransient*)_NativeInstance)->ChangeValue(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::TColStd_HSequenceOfTransient::SetValue(int theIndex, Macad::Occt::Standard_Transient^ theItem)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theItem = theItem->NativeInstance;
+	((::TColStd_HSequenceOfTransient*)_NativeInstance)->SetValue(theIndex, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
 

@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Security.Policy;
 using System.Windows;
 using System.Windows.Shell;
 using Macad.Interaction.Dialogs;
@@ -13,7 +11,6 @@ using Macad.Common;
 using Macad.Core;
 using Macad.Core.Exchange;
 using Macad.Common.Serialization;
-using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Presentation;
 
@@ -353,7 +350,7 @@ namespace Macad.Interaction
 
         internal bool CanDelete(List<InteractiveEntity> entities)
         {
-            return entities.Any() && entities.All(e => e is Body && CoreContext.Current.Document.Contains(e));
+            return entities.Any() && entities.All(e => CoreContext.Current.Document.Contains(e));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -364,52 +361,16 @@ namespace Macad.Interaction
                 return;
 
             // Delete all bodies. Use array copy, since the list will change.
-            var bodies = entities.OfType<Body>().ToArray();
-            InteractiveContext.Current.WorkspaceController.Selection.ChangeEntitySelection(new Body[0], bodies);
-            InteractiveContext.Current.Document.SafeDelete(bodies);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        internal class InteractiveBodyCloneOptions : Body.CloneOptions
-        {
-            public override bool CloneReferencedBodies { 
-                get {
-                    if(!_AskedForCloneReferencedBodies)
-                        CloneReferencedBodies = AskForCloneReferencedBodies();
-                    return base.CloneReferencedBodies;
-                }
-            }
-
-            public bool IsCanceled { get; private set; }
-
-            bool _AskedForCloneReferencedBodies;
-
-            public InteractiveBodyCloneOptions() 
-                : base(false)
-            {
-            }
-
-            bool AskForCloneReferencedBodies()
-            {
-                _AskedForCloneReferencedBodies = true;
-
-                // Do asking
-                var dlgResult = Dialogs.Dialogs.AskBodyCloneBehaviour();
-                if (!dlgResult.HasValue)
-                {
-                    IsCanceled = true;
-                    return false;
-                }
-                return dlgResult.Value;
-            }
+            var entitiesToDelete = entities.ToArray();
+            InteractiveContext.Current.WorkspaceController.Selection.ChangeEntitySelection(new InteractiveEntity[0], entitiesToDelete);
+            InteractiveContext.Current.Document.SafeDelete(entitiesToDelete);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         internal bool CanDuplicate(List<InteractiveEntity> entities)
         {
-            return entities.Any() && entities.All(e => e is Body && CoreContext.Current.Document.Contains(e));
+            return entities.Any() && entities.All(e => CoreContext.Current.Document.Contains(e));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -419,36 +380,34 @@ namespace Macad.Interaction
             if (!CanDuplicate(entities))
                 return;
 
-            var bodies = entities.OfType<Body>().ToArray();
-            
             var context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(InteractiveContext.Current.Document);
-            var serialized = Serializer.Serialize(bodies, context);
+            var serialized = Serializer.Serialize(entities, context);
             
             context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(InteractiveContext.Current.Document);
             context.SetInstance(ReadOptions.RecreateGuids);
-            var cloneOptions = new InteractiveBodyCloneOptions();
-            context.SetInstance<Body.CloneOptions>(cloneOptions);
-            var clonedBodies = Serializer.Deserialize<Body[]>(serialized, context);
+            var cloneOptions = new InteractiveCloneOptions();
+            context.SetInstance<CloneOptions>(cloneOptions);
+            var cloned = Serializer.Deserialize<InteractiveEntity[]>(serialized, context);
             
             if (cloneOptions.IsCanceled)
                 return;
 
-            foreach (var body in context.GetInstanceList<Body>())
+            foreach (var entity in context.GetInstanceList<InteractiveEntity>())
             {
-                InteractiveContext.Current.Document.AddChild(body);
-                body.RaiseVisualChanged();
+                InteractiveContext.Current.Document.AddChild(entity);
+                entity.RaiseVisualChanged();
             }
 
-            InteractiveContext.Current.WorkspaceController.Selection.SelectEntities(clonedBodies);
+            InteractiveContext.Current.WorkspaceController.Selection.SelectEntities(cloned);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         internal bool CanCopyToClipboard(List<InteractiveEntity> entities)
         {
-            return entities.Any() && entities.All(e => e is Body && CoreContext.Current.Document.Contains(e));
+            return entities.Any() && entities.All(e => e is InteractiveEntity && CoreContext.Current.Document.Contains(e));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -458,8 +417,6 @@ namespace Macad.Interaction
             if (!CanCopyToClipboard(entities))
                 return;
 
-            var bodies = entities.OfType<Body>().ToArray();
-            
             var context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(InteractiveContext.Current.Document);
             var document = new ClipboardHeader()
@@ -468,7 +425,7 @@ namespace Macad.Interaction
             };
             var writer = new Writer();
             if (!Serializer.Serialize(writer, document, context)
-                || !Serializer.Serialize(writer, bodies, context))
+                || !Serializer.Serialize(writer, entities, context))
                 return;
 
             Core.Clipboard.Current?.SetData(ClipboardContentFormat, writer.ToString());
@@ -483,7 +440,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        internal IEnumerable<Body> PasteFromClipboard()
+        internal IEnumerable<InteractiveEntity> PasteFromClipboard()
         {
             var serialized = Core.Clipboard.Current?.GetDataAsString(ClipboardContentFormat);
             if (serialized == null)
@@ -499,20 +456,20 @@ namespace Macad.Interaction
 
             // Same Model -> Ask for cloning
             // Foreign Model -> Clone always
-            context.SetInstance<Body.CloneOptions>(
+            context.SetInstance<CloneOptions>(
                 document.ModelGuid == CoreContext.Current.Document.Guid 
-                ? new InteractiveBodyCloneOptions() 
-                : new Body.CloneOptions(true));
+                ? new InteractiveCloneOptions() 
+                : new CloneOptions(true));
 
-            var clonedBodies = Serializer.Deserialize<Body[]>(reader, context);
-            foreach (var body in context.GetInstanceList<Body>())
+            var cloned = Serializer.Deserialize<InteractiveEntity[]>(reader, context);
+            foreach (var entity in context.GetInstanceList<InteractiveEntity>())
             {
-                InteractiveContext.Current.Document.AddChild(body);
-                body.RaiseVisualChanged();
+                InteractiveContext.Current.Document.AddChild(entity);
+                entity.RaiseVisualChanged();
             }
 
-            InteractiveContext.Current.WorkspaceController?.Selection?.SelectEntities(clonedBodies);
-            return clonedBodies;
+            InteractiveContext.Current.WorkspaceController?.Selection?.SelectEntities(cloned);
+            return cloned;
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
 using System.Windows.Data;
 using Macad.Interaction.Dialogs;
 using Macad.Interaction.Editors.Shapes;
@@ -13,9 +12,6 @@ namespace Macad.Interaction
 {
     public static class SketchCommands
     {
-        #region Helper
-        #endregion
-
         #region Enumerations
 
         public enum Segments

@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Interaction.Visual;
 using Macad.Occt;
-using Body = Macad.Core.Topology.Body;
 
 namespace Macad.Interaction
 {
-    public class TransformBodyTool : Tool
+    public class TransformTool : Tool
     {
         public enum PivotPoint
         {
-            BodyPivot,
+            EntityPivot,
             BoundingCenter,
             MassCenter
         }
@@ -28,7 +27,7 @@ namespace Macad.Interaction
         public enum Options
         {
             None = 0,
-            MultiBodyUseFirst = 1,
+            MultipleUseFirst = 1,
             WorldSpaceOrientation = 2,
             LinkForeignOperands = 4,
         }
@@ -43,46 +42,40 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        readonly List<Body> _TargetBodies = new List<Body>();
-        readonly List<Body> _TargetAndLinkedBodies = new List<Body>();
+        readonly List<ITransformable> _TargetEntities = new ();
+        readonly List<ITransformable> _TargetAndLinkedEntities = new ();
         Ax3 _CoordinateSystem;
         TranslateAction _TranslateAction;
         RotateAction _RotateAction;
         PivotPoint _PivotPoint;
         Options _Options;
         Mode _Mode;
-        bool _UpdatingBodyProperties;
+        bool _UpdatingEntityProperties;
 
         //--------------------------------------------------------------------------------------------------
 
-        public TransformBodyTool(IEnumerable<Entity> targetList, PivotPoint pivotPoint, Options options)
+        public TransformTool(IEnumerable<ITransformable> targetList, PivotPoint pivotPoint, Options options)
         {
             Debug.Assert(targetList != null);
-            foreach (var target in targetList)
-            {
-                Body body = null;
-                if (target is Body)
-                    body = (Body) target;
-                else if (target is Shape)
-                    body = ((Shape) target).Body;
-
-                if(body != null && !_TargetBodies.Contains(body))
-                    _TargetBodies.Add(body);
-            }
-            Debug.Assert(_TargetBodies.Any());
 
             _PivotPoint = pivotPoint;
             _Options = options;
-
-            _TargetAndLinkedBodies.Clear();
-            _TargetAndLinkedBodies.AddRange(_TargetBodies);
-            foreach (var targetBody in _TargetBodies)
+            _TargetAndLinkedEntities.Clear();
+            foreach (var target in targetList)
             {
-                targetBody.PropertyChanged += _TargetBody_PropertyChanged;
+                if (target == null || _TargetEntities.Contains(target))
+                    continue;
 
-                _TargetAndLinkedBodies.AddRange(targetBody.GetReferencedBodies());
+                target.PropertyChanged += _TargetEntity_PropertyChanged;
+
+                _TargetEntities.Add(target);
+                _TargetAndLinkedEntities.Add(target);
+                _TargetAndLinkedEntities.AddRange(target.GetLinkedTransformables());
             }
-            _TargetAndLinkedBodies = _TargetAndLinkedBodies.Distinct().ToList();
+            _TargetAndLinkedEntities = _TargetAndLinkedEntities.Distinct().ToList();
+
+            Debug.Assert(_TargetEntities.Any());
+            Debug.Assert(_TargetAndLinkedEntities.Any());
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -92,9 +85,9 @@ namespace Macad.Interaction
             _TranslateAction?.Stop();
             _RotateAction?.Stop();
 
-            foreach (var targetBody in _TargetBodies)
+            foreach (var targetEntity in _TargetEntities)
             {
-                targetBody.PropertyChanged -= _TargetBody_PropertyChanged;
+                targetEntity.PropertyChanged -= _TargetEntity_PropertyChanged;
             }
 
             base.Stop();
@@ -127,12 +120,12 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        void _TargetBody_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        void _TargetEntity_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (_UpdatingBodyProperties)
+            if (_UpdatingEntityProperties)
                 return;
 
-            if ((e.PropertyName == "Position") || (e.PropertyName == "Rotation"))
+            if (e.PropertyName == nameof(ITransformable.Position) || e.PropertyName == nameof(ITransformable.Rotation))
             {
                 _RestartAction();
             }
@@ -144,20 +137,20 @@ namespace Macad.Interaction
         {
             TopoDS_Shape ocShape;
 
-            if ((_TargetBodies.Count == 1) || _Options.HasFlag(Options.MultiBodyUseFirst))
+            if (_TargetEntities.Count == 1 || _Options.HasFlag(Options.MultipleUseFirst))
             {
                 // Single body, or Multishape using pivot of first shape
-                Body targetBody = _TargetBodies[0];
-                ocShape = targetBody.Shape?.GetTransformedBRep();
+                var targetEntity = _TargetEntities[0];
+                ocShape = targetEntity.Shape?.GetTransformedBRep();
 
                 switch (_PivotPoint)
                 {
-                    case PivotPoint.BodyPivot:
-                        _CoordinateSystem = targetBody.GetCoordinateSystem();
+                    case PivotPoint.EntityPivot:
+                        _CoordinateSystem = targetEntity.GetCoordinateSystem();
                         break;
 
                     case PivotPoint.BoundingCenter:
-                        _CoordinateSystem = targetBody.GetCoordinateSystem();
+                        _CoordinateSystem = targetEntity.GetCoordinateSystem();
                         if (ocShape != null)
                         {
                             _CoordinateSystem.Location = ocShape.BoundingBox().Center();
@@ -165,7 +158,7 @@ namespace Macad.Interaction
                         break;
 
                     case PivotPoint.MassCenter:
-                        _CoordinateSystem = targetBody.GetCoordinateSystem();
+                        _CoordinateSystem = targetEntity.GetCoordinateSystem();
                         if (ocShape != null)
                         {
                             _CoordinateSystem.Location = ocShape.CenterOfMass();
@@ -183,9 +176,9 @@ namespace Macad.Interaction
                 // Multiple shapes, use BBox center for all as pivot, and world space axis
                 Bnd_Box bndBox = new Bnd_Box();
 
-                foreach (var targetBody in _TargetBodies)
+                foreach (var targetEntity in _TargetEntities)
                 {
-                    ocShape = targetBody.Shape?.GetTransformedBRep();
+                    ocShape = targetEntity.Shape?.GetTransformedBRep();
                     if (ocShape != null)
                     {
                         bndBox.Add(ocShape.BoundingBox());
@@ -203,32 +196,34 @@ namespace Macad.Interaction
         {
             _ComputeCoordinateSystem();
 
-            if ((_TranslateAction != null) && !_TranslateAction.IsFinished)
+            if (_TranslateAction is {IsFinished: false})
             {
                 _TranslateAction.Stop();
             }
-            if ((_RotateAction != null) && !_RotateAction.IsFinished)
+            if (_RotateAction is {IsFinished: false})
             {
                 _RotateAction.Stop();
             }
 
-            if (_Mode == Mode.Translate)
+            switch (_Mode)
             {
-                _TranslateAction = new TranslateAction(this, _CoordinateSystem);
-                if (!WorkspaceController.StartToolAction(_TranslateAction, false))
-                    return;
-                StatusText = "Move body using gizmo, press 'CTRL' to round to grid stepping. Press 'T' for rotation.";
-                _TranslateAction.Previewed += _OnActionPreview;
-                _TranslateAction.Finished += _OnActionFinished;
-            }
-            else if (_Mode == Mode.Rotate)
-            {
-                _RotateAction = new RotateAction(this, _CoordinateSystem);
-                if (!WorkspaceController.StartToolAction(_RotateAction, false))
-                    return;
-                StatusText = "Rotate body using gizmo, press 'CTRL' to round to 5°. Press 'T' for translation.";
-                _RotateAction.Previewed += _OnActionPreview;
-                _RotateAction.Finished += _OnActionFinished;
+                case Mode.Translate:
+                    _TranslateAction = new TranslateAction(this, _CoordinateSystem);
+                    if (!WorkspaceController.StartToolAction(_TranslateAction, false))
+                        return;
+                    StatusText = "Move entity using gizmo, press 'CTRL' to round to grid stepping. Press 'T' for rotation.";
+                    _TranslateAction.Previewed += _OnActionPreview;
+                    _TranslateAction.Finished += _OnActionFinished;
+                    break;
+
+                case Mode.Rotate:
+                    _RotateAction = new RotateAction(this, _CoordinateSystem);
+                    if (!WorkspaceController.StartToolAction(_RotateAction, false))
+                        return;
+                    StatusText = "Rotate entity using gizmo, press 'CTRL' to round to 5°. Press 'T' for translation.";
+                    _RotateAction.Previewed += _OnActionPreview;
+                    _RotateAction.Finished += _OnActionFinished;
+                    break;
             }
             WorkspaceController.Invalidate();
         }
@@ -237,13 +232,13 @@ namespace Macad.Interaction
 
         void _UpdateTransformations(Trsf? transformation)
         {
-            var bodyList = _Options.Has(Options.LinkForeignOperands) ? _TargetAndLinkedBodies : _TargetBodies;
-            foreach (var targetBody in bodyList)
+            var entityList = (_Options.Has(Options.LinkForeignOperands) ? _TargetAndLinkedEntities : _TargetEntities).Cast<InteractiveEntity>();
+            foreach (var entity in entityList)
             {
-                var visualShape = WorkspaceController.VisualShapes.GetVisualShape(targetBody);
-                if (visualShape != null)
+                var visualObject = WorkspaceController.VisualObjects.Get(entity);
+                if (visualObject != null)
                 {
-                    visualShape.SetLocalTransformation(transformation);
+                    visualObject.SetLocalTransformation(transformation);
                     WorkspaceController.Invalidate();
                 }
             }
@@ -253,21 +248,21 @@ namespace Macad.Interaction
 
         void _OnActionFinished(ToolAction toolAction)
         {
-            _UpdatingBodyProperties = true;
-            var bodyList = _Options.Has(Options.LinkForeignOperands) ? _TargetAndLinkedBodies : _TargetBodies;
+            _UpdatingEntityProperties = true;
+            var targetEntities = _Options.Has(Options.LinkForeignOperands) ? _TargetAndLinkedEntities : _TargetEntities;
 
             if (toolAction == _TranslateAction)
             {
-                foreach (var targetBody in bodyList)
+                foreach (var targetEntity in targetEntities)
                 {
-                    targetBody.Translate(_TranslateAction.Delta);
+                    TransformUtils.Translate(targetEntity, _TranslateAction.Delta);
                 }
             }
             else if (toolAction == _RotateAction)
             {
-                foreach (var targetBody in bodyList)
+                foreach (var targetEntity in targetEntities)
                 {
-                    targetBody.Rotate(_RotateAction.RotationAxis, _RotateAction.Delta);
+                    TransformUtils.Rotate(targetEntity, _RotateAction.RotationAxis, _RotateAction.Delta);
                 }
             }
 
@@ -278,7 +273,7 @@ namespace Macad.Interaction
             // Restart
             _RestartAction();
 
-            _UpdatingBodyProperties = false;
+            _UpdatingEntityProperties = false;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -302,7 +297,7 @@ namespace Macad.Interaction
         public override bool OnMouseDown(MouseEventData data)
         {
             if(data.DetectedAisInteractives.Count==0 || 
-               data.DetectedEntities.Count > 0 && !_TargetBodies.ContainsAny(data.DetectedEntities))
+               data.DetectedEntities.Count > 0 && !_TargetEntities.ContainsAny(data.DetectedEntities.Cast<ITransformable>()))
             {
                 // Selection of another shape clicking into "nothing" closes the tool
                 if ((_TranslateAction==null || !_TranslateAction.IsMoving)
@@ -363,13 +358,13 @@ namespace Macad.Interaction
         {
             itemList.AddSeparator("Pivot Point");
 
-            itemList.AddCommand(WorkspaceCommands.SetTransformPivot, PivotPoint.BodyPivot);
+            itemList.AddCommand(WorkspaceCommands.SetTransformPivot, PivotPoint.EntityPivot);
             itemList.AddCommand(WorkspaceCommands.SetTransformPivot, PivotPoint.BoundingCenter);
             itemList.AddCommand(WorkspaceCommands.SetTransformPivot, PivotPoint.MassCenter);
 
             itemList.AddSeparator("Options");
 
-            itemList.AddCommand(WorkspaceCommands.ToggleTransformOption, Options.MultiBodyUseFirst);
+            itemList.AddCommand(WorkspaceCommands.ToggleTransformOption, Options.MultipleUseFirst);
             itemList.AddCommand(WorkspaceCommands.ToggleTransformOption, Options.WorldSpaceOrientation);
             itemList.AddCommand(WorkspaceCommands.ToggleTransformOption, Options.LinkForeignOperands);
         }

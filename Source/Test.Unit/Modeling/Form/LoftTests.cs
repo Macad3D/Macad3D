@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Macad.Test.Utils;
 using Macad.Common;
+using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
@@ -392,7 +393,7 @@ namespace Macad.Test.Unit.Modeling.Form
             sketch2.Segments.Add(1, new SketchSegmentBezier(2, 3, 0));
             Assume.That(sketch2.Make(Shape.MakeFlags.None));
             var body2 = Body.Create(sketch2);
-            body2.Translate(new Vec(0, 0, 23.0534323259767));
+            TransformUtils.Translate(body2, new Vec(0, 0, 23.0534323259767));
 
             var loft = Loft.Create(body1, new[] {new BodyShapeOperand(body2)});
             loft.EndCapping = Loft.CappingMode.None;
@@ -443,7 +444,7 @@ namespace Macad.Test.Unit.Modeling.Form
             sketch2.Segments.Add(5, new SketchSegmentLine(5, 0));
             Assume.That(sketch2.Make(Shape.MakeFlags.None));
             var body2 = Body.Create(sketch2);
-            body2.Translate(new Vec(0, 0, 20.0));
+            TransformUtils.Translate(body2, new Vec(0, 0, 20.0));
 
             var sketch3 = Sketch.Create();
             sketch3.Points.Add(0, new Pnt2d(-17.803690866510539, 3.560738173302112));
@@ -460,7 +461,7 @@ namespace Macad.Test.Unit.Modeling.Form
             sketch3.Segments.Add(5, new SketchSegmentLine(5, 0));
             Assume.That(sketch3.Make(Shape.MakeFlags.None));
             var body3 = Body.Create(sketch3);
-            body3.Translate(new Vec(0, 0, 40.0));
+            TransformUtils.Translate(body3, new Vec(0, 0, 40.0));
 
             var loft = Loft.Create(body1, new[] {new BodyShapeOperand(body2), new BodyShapeOperand(body3)});
             loft.StartCapping = Loft.CappingMode.None;

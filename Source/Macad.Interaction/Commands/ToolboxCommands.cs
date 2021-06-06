@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using Macad.Interaction.Dialogs;
@@ -17,14 +16,14 @@ namespace Macad.Interaction
     {
         #region Helper
 
-        static WorkspaceController WorkspaceController
+        static WorkspaceController _WorkspaceController
         {
             get { return InteractiveContext.Current?.WorkspaceController; }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        static UndoHandler UndoHandler
+        static UndoHandler _UndoHandler
         {
             get { return InteractiveContext.Current?.UndoHandler; }
         }
@@ -33,16 +32,16 @@ namespace Macad.Interaction
 
         static bool _CanExecuteOnSingleSolid()
         {
-            return WorkspaceController?.Selection != null
-                   && WorkspaceController.Selection.SelectedEntities.Count == 1
-                   && (WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape?.ShapeType == ShapeType.Solid;
+            return _WorkspaceController?.Selection != null
+                   && _WorkspaceController.Selection.SelectedEntities.Count == 1
+                   && (_WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape?.ShapeType == ShapeType.Solid;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         #endregion
 
-        public static ActionCommand RunScriptFromCommand { get; } = new ActionCommand(
+        public static ActionCommand RunScriptFrom { get; } = new(
             () =>
             {
                 var dlg = new OpenFileDialog()
@@ -69,7 +68,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<string> RunScriptCommand { get; } = new ActionCommand<string>(
+        public static ActionCommand<string> RunScriptCommand { get; } = new(
             (param) =>
             {
                 if (param.IsNullOrEmpty())
@@ -102,7 +101,7 @@ namespace Macad.Interaction
         
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand ExportViewHlr { get; } = new ActionCommand(
+        public static ActionCommand ExportViewHlr { get; } = new(
             () =>
             {
                 ExportViewportHlr.Execute(Application.Current.MainWindow, InteractiveContext.Current?.ViewportController?.Viewport);
@@ -118,24 +117,24 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
         
-        public static ActionCommand CreateSliceContour { get; } = new ActionCommand(
+        public static ActionCommand CreateSliceContour { get; } = new(
             () =>
             {
-                if (WorkspaceController.CurrentTool is SliceContourEditTool)
+                if (_WorkspaceController.CurrentTool is SliceContourEditTool)
                 {
-                    WorkspaceController.CurrentTool.Stop();
+                    _WorkspaceController.CurrentTool.Stop();
                 }
                 else
                 {
-                    var body = WorkspaceController?.Selection?.SelectedEntities?.First() as Body;
+                    var body = _WorkspaceController?.Selection?.SelectedEntities?.First() as Body;
                     if (body == null)
                         return;
 
                     var tool = new SliceContourEditTool(body);
-                    WorkspaceController.StartTool(tool);
+                    _WorkspaceController.StartTool(tool);
                 }
             },
-            () => _CanExecuteOnSingleSolid() || WorkspaceController?.CurrentTool is SliceContourEditTool)
+            () => _CanExecuteOnSingleSolid() || _WorkspaceController?.CurrentTool is SliceContourEditTool)
         {
             Header = () => "Slice Contour",
             Title = () => "Create Slice Contour",
@@ -148,24 +147,24 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand CreateEtchingMask { get; } = new ActionCommand(
+        public static ActionCommand CreateEtchingMask { get; } = new(
             () =>
             {
-                if (WorkspaceController.CurrentTool is EtchingMaskEditTool)
+                if (_WorkspaceController.CurrentTool is EtchingMaskEditTool)
                 {
-                    WorkspaceController.CurrentTool.Stop();
+                    _WorkspaceController.CurrentTool.Stop();
                 }
                 else
                 {
-                    var body = WorkspaceController?.Selection?.SelectedEntities?.First() as Body;
+                    var body = _WorkspaceController?.Selection?.SelectedEntities?.First() as Body;
                     if (body == null)
                         return;
 
                     var tool = new EtchingMaskEditTool(body);
-                    WorkspaceController.StartTool(tool);
+                    _WorkspaceController.StartTool(tool);
                 }
             },
-            () => _CanExecuteOnSingleSolid() || WorkspaceController?.CurrentTool is EtchingMaskEditTool)
+            () => _CanExecuteOnSingleSolid() || _WorkspaceController?.CurrentTool is EtchingMaskEditTool)
         {
             Header = () => "Etching Mask",
             Title = () => "Create Etching Mask",

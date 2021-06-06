@@ -72,6 +72,13 @@ namespace Occt
 		    }
 	    }
 
+        //--------------------------------------------------------------------------------------------------
+
+		static Standard_Transient^ CreateDowncasted(::Standard_Transient* instance)
+        {
+			return gcnew Standard_Transient(instance);
+		}
+
     }; // class Standard_Transient
 		
 }; // namespace Occt

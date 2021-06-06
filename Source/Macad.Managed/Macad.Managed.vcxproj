@@ -83,6 +83,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AisExtensions\AISX_Guid.h" />
+    <ClInclude Include="AisExtensions\AISX_Plane.h" />
     <ClInclude Include="OcctExtensions\AIS_CircleEx.h" />
     <ClInclude Include="OcctExtensions\AIS_PointEx.h" />
     <ClInclude Include="OcctExtensions\AIS_RotationGizmo.h" />
@@ -98,6 +100,10 @@
     <ClInclude Include="SketchSolve\solve.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AisExtensions\AISX_Guid.cpp" />
+    <ClCompile Include="AisExtensions\AISX_Guid.Managed.cpp" />
+    <ClCompile Include="AisExtensions\AISX_Plane.cpp" />
+    <ClCompile Include="AisExtensions\AISX_Plane.Managed.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Interop\ExceptionHelper.cpp" />
     <ClCompile Include="Interop\FileOperation.cpp" />

@@ -1036,12 +1036,20 @@ Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::GetPointerPref
 
 Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::GetPointerInfo(Macad::Occt::Standard_Transient^ thePointer, bool isShortInfo)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_thePointer = thePointer->NativeInstance;
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result = ::Standard_Dump::GetPointerInfo(h_thePointer, isShortInfo);
+	thePointer->NativeInstance = h_thePointer.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
 }
 
 Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::GetPointerInfo(Macad::Occt::Standard_Transient^ thePointer)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_thePointer = thePointer->NativeInstance;
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result = ::Standard_Dump::GetPointerInfo(h_thePointer, true);
+	thePointer->NativeInstance = h_thePointer.get();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
 }
 
 Macad::Occt::TCollection_AsciiString^ Macad::Occt::Standard_Dump::GetPointerInfo(System::IntPtr thePointer, bool isShortInfo)

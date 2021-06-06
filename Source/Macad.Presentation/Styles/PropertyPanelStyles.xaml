@@ -15,7 +15,7 @@
     </Style>
 
     <Style x:Key="Macad.Styles.TextBlock.PropertyLine" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Macad.Styles.TextBlock.Property}">
-        <Setter Property="Margin" Value="10,5,0,0"/>
+        <Setter Property="Margin" Value="10,0,0,0"/>
     </Style>
 
     <Style x:Key="Macad.Styles.PropertyPanelStyle" TargetType="{x:Type UserControl}">

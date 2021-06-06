@@ -497,7 +497,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
                 //AssertHelper.IsSameViewport(Path.Combine(BasePath, "SelectionHighlightAfterTransform01"));
 
                 // Transform 1
-                WorkspaceCommands.TransformShape.Execute();
+                WorkspaceCommands.Transform.Execute();
                 ctx.ViewportController.ZoomFitAll();
                 //AssertHelper.IsSameViewport(Path.Combine(BasePath, "SelectionHighlightAfterTransform02"));
                 ctx.MoveTo(280, 175);

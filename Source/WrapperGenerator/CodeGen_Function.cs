@@ -140,7 +140,7 @@ namespace Macad.Occt.Generator
                 if (!fd.Type.IsValueType(fd.Class))
                 {
                     // If return value is class type, prepare new native pointer
-                    if (fd.Type.IsKnownType)
+                    if (fd.Type.IsKnownType && fd.Type.KnownTypeDef.Type != Definitions.KnownTypes.WrappedClass)
                     {
                         switch (fd.Type.KnownTypeDef.Type)
                         {
@@ -436,6 +436,20 @@ namespace Macad.Occt.Generator
                                     wf.Write($"(Standard_ExtString)pp_{pd.Name}");
                                     break;
 
+                                case Definitions.KnownTypes.WrappedClass:
+                                    if (pd.Type.IsReference)
+                                    {
+                                        // prepared copy of the handle
+                                        wf.Write($"h_{pd.Name}");
+                                    }
+                                    else
+                                    {
+                                        wf.Write(pd.Type.IsPointer || pd.Type.IsHandle
+                                                     ? $"(::{pd.Type.Name}*){pd.Name}->NativeInstance"
+                                                     : $"*(::{pd.Type.Name}*){pd.Name}->NativeInstance");
+                                    }
+                                    break;
+
                                 default:
                                     return false;
                             }
@@ -478,7 +492,7 @@ namespace Macad.Occt.Generator
             if ((!fd.Type.IsVoid || fd.Type.IsVoidPointer) && !fd.IsConstructor && !fd.Type.IsValueType(fd.Class))
             {
                 // Known type
-                if (fd.Type.IsKnownType)
+                if (fd.Type.IsKnownType && fd.Type.KnownTypeDef.Type != Definitions.KnownTypes.WrappedClass)
                 {
                     switch (fd.Type.KnownTypeDef.Type)
                     {

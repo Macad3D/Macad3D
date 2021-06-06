@@ -168,7 +168,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (Sketch.IsVisible)
             {
-                var visualSketchShape = WorkspaceController.VisualShapes.GetVisualShape(Sketch.Body, true);
+                var visualSketchShape = WorkspaceController.VisualObjects.Get(Sketch.Body, true) as VisualShape;
                 if (visualSketchShape != null)
                     visualSketchShape.IsHidden = true;
             }
@@ -206,7 +206,7 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 if (Sketch.IsVisible)
                 {
-                    var visualSketchShape = WorkspaceController.VisualShapes.GetVisualShape(Sketch.Body);
+                    var visualSketchShape = WorkspaceController.VisualObjects.Get(Sketch.Body) as VisualShape;
                     if (visualSketchShape != null)
                         visualSketchShape.IsHidden = false;
                 }

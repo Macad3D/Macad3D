@@ -33,7 +33,7 @@ namespace Macad.Interaction
         
         public bool IsSelecting { get; private set; }
 
-        public VisualShapeManager VisualShapes { get; set; }
+        public VisualObjectManager VisualObjects { get; set; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -57,7 +57,7 @@ namespace Macad.Interaction
 
             Workspace = workspace;
 
-            VisualShapes = new VisualShapeManager(this);
+            VisualObjects = new VisualObjectManager(this);
 
             Selection = new SelectionManager(this);
             Selection.SelectionChanging += _Selection_SelectionChanging;
@@ -110,7 +110,7 @@ namespace Macad.Interaction
             Selection.SelectionChanging -= _Selection_SelectionChanging;
             Selection.Dispose();
 
-            VisualShapes.Dispose();
+            VisualObjects.Dispose();
 
             Workspace.Dispose();
             foreach (var viewCtrl in _ViewControllers)
@@ -144,7 +144,7 @@ namespace Macad.Interaction
                 _ViewControllers.Add(viewCtrl);
             }
 
-            VisualShapes.InitEntities();
+            VisualObjects.InitEntities();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -371,8 +371,12 @@ namespace Macad.Interaction
                 {
                     _LastDetectedInteractive = Workspace.AisContext.DetectedInteractive();
                     _LastDetectedOwner = Workspace.AisContext.DetectedOwner();
-                    detectedEntity = VisualShapes.GetVisibleEntity(_LastDetectedInteractive);
                     detectedShape = Occt.Helper.Ais.GetDetectedShapeFromContext(Workspace.AisContext);
+                    if (detectedShape != null)
+                    {
+                        detectedEntity = VisualObjects.GetVisibleEntity(detectedShape);
+                    }
+                    detectedEntity ??= VisualObjects.GetVisibleEntity(_LastDetectedInteractive);
                 }
 
                 _MouseEventData.Set(viewportController.Viewport, pos, rawPoint, planePoint, detectedEntity, _LastDetectedInteractive, detectedShape);
@@ -508,7 +512,7 @@ namespace Macad.Interaction
                                                 viewportController.Viewport.V3dView, 
                                                 _MouseEventData.DetectedAisInteractives, _MouseEventData.DetectedShapes) > 0)
             {
-                var entities = _MouseEventData.DetectedAisInteractives.Select(detected => VisualShapes.GetVisibleEntity(detected)).Where(entity => entity != null);
+                var entities = _MouseEventData.DetectedAisInteractives.Select(detected => VisualObjects.GetVisibleEntity(detected)).Where(entity => entity != null);
                 _MouseEventData.DetectedEntities.AddRange(entities);
             }
         }
@@ -525,7 +529,7 @@ namespace Macad.Interaction
                                                 viewportController.Viewport.V3dView, 
                                                 _MouseEventData.DetectedAisInteractives, _MouseEventData.DetectedShapes) > 0)
             {
-                var entities = _MouseEventData.DetectedAisInteractives.Select(detected => VisualShapes.GetVisibleEntity(detected)).Where(entity => entity != null);
+                var entities = _MouseEventData.DetectedAisInteractives.Select(detected => VisualObjects.GetVisibleEntity(detected)).Where(entity => entity != null);
                 _MouseEventData.DetectedEntities.AddRange(entities);
             }
         }
@@ -674,7 +678,7 @@ namespace Macad.Interaction
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
                 return false;
             }
         }
@@ -771,7 +775,7 @@ namespace Macad.Interaction
 
                 if (toolAction != null)
                 {
-                    Console.WriteLine("Starting tool action " + toolAction.GetType().Name);
+                    Debug.WriteLine("Starting tool action " + toolAction.GetType().Name);
                     toolAction.WorkspaceController = this;
                     if (!toolAction.Start())
                         return false;
@@ -782,7 +786,7 @@ namespace Macad.Interaction
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
                 return false;
             }
         }
@@ -824,10 +828,10 @@ namespace Macad.Interaction
 
         void _Selection_SelectionChanged(SelectionManager selectionManager)
         {
-            if (VisualShapes.EntityIsolationEnabled)
+            if (VisualObjects.EntityIsolationEnabled)
             {
-                if(VisualShapes.GetIsolatedEntities().SymmetricExcept(selectionManager.SelectedEntities).Any())
-                    VisualShapes.SetIsolatedEntities(null);
+                if(VisualObjects.GetIsolatedEntities().SymmetricExcept(selectionManager.SelectedEntities).Any())
+                    VisualObjects.SetIsolatedEntities(null);
             }
 
             UpdateEditor();
@@ -873,7 +877,7 @@ namespace Macad.Interaction
 
             if (Workspace.NeedsRedraw)
             {
-                VisualShapes.UpdateInvalidatedEntities();
+                VisualObjects.UpdateInvalidatedEntities();
                 Workspace.Viewports.ForEach(v =>
                 {
                     if(v.RenderMode == Viewport.RenderModes.HLR)
@@ -994,7 +998,7 @@ namespace Macad.Interaction
             {
                 if (Selection.SelectedEntities.Count > 0)
                 {
-                    itemList.AddCommand(WorkspaceCommands.TransformShape);
+                    itemList.AddCommand(WorkspaceCommands.Transform);
                 }
             }
         }

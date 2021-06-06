@@ -1,6 +1,6 @@
-﻿using Macad.Core.Components;
+﻿using System;
 using Macad.Common.Serialization;
-using Macad.Core.Shapes;
+using Macad.Core.Components;
 using Macad.Occt;
 
 namespace Macad.Core.Topology
@@ -9,6 +9,23 @@ namespace Macad.Core.Topology
     public abstract class InteractiveEntity : Entity
     {
         #region Properties
+        
+        [SerializeMember(SortKey = -900)]
+        public override string Name
+        {
+            get { return _Name; }
+            set
+            {
+                if (_Name != value)
+                {
+                    SaveUndo();
+                    _Name = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         [SerializeMember]
         public bool IsVisible
@@ -31,45 +48,88 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
+        [SerializeMember]
+        public Guid LayerId
+        {
+            get { return _LayerId; }
+            set
+            {
+                if (_LayerId != value)
+                {
+                    SaveUndo();
+                    _LayerId = value;
+                    Invalidate();
+                    RaisePropertyChanged();
+                    RaisePropertyChanged("Layer");
+                    RaiseVisualChanged();
+                }
+            }
+        }
+
+        public Layer Layer
+        {
+            get { return CoreContext.Current?.Layers?.Find(_LayerId); }
+            set
+            {
+                var layers = CoreContext.Current?.Layers;
+                LayerId = (value == layers?.Default || value == null) ? Guid.Empty : value.Guid;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
         #endregion
 
-        #region Member
+        #region Initialization / Serialization
 
-        bool _IsVisible = true;
+        Guid _LayerId;
+        string _Name;
+        bool _IsVisible;
 
         //--------------------------------------------------------------------------------------------------
 
-        #endregion
-
-        #region Abstract Interface Functions
-
-        public abstract Layer GetLayer();
-        public abstract TopoDS_Shape GetTransformedBRep();
-        public abstract VisualStyle GetVisualStyleComponent();
+        protected InteractiveEntity()
+        {
+            _Name = "Unnamed";
+            _IsVisible = true;
+        }
 
         //--------------------------------------------------------------------------------------------------
-
-        #endregion
-
-        #region Serialization
 
         public override void OnBeginDeserializing(SerializationContext context)
         {
             base.OnBeginDeserializing(context);
             context.GetInstanceList<InteractiveEntity>().Add(this);
+            context.SetInstance(this);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public override void Remove()
+        {
+            base.Remove();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public virtual TopoDS_Shape GetTransformedBRep()
+        {
+            return null;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         #endregion
 
-        #region Events
-
-        public delegate void InteractiveEntityChangedEventHandler(InteractiveEntity entity);
+        public virtual void Invalidate()
+        {
+            // Nothing to do here
+        }
 
         //--------------------------------------------------------------------------------------------------
 
-        public static event InteractiveEntityChangedEventHandler VisualChanged;
+        public delegate void InteractiveChangedEventHandler(InteractiveEntity entity);
+        public static event InteractiveChangedEventHandler VisualChanged;
 
         public void RaiseVisualChanged()
         {
@@ -79,6 +139,12 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-        #endregion
+        public virtual VisualStyle GetVisualStyleComponent()
+        {
+            return null;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

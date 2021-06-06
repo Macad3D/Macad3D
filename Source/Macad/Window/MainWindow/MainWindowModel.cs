@@ -7,35 +7,9 @@ namespace Macad.Window
 {
     public class MainWindowModel : PanelBase
     {
-        #region Properties
-
-        public AppContext Context
-        {
-            get { return _Context; }
-            private set
-            {
-                _Context = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
-
-        #region Member
-
-        AppContext _Context;
-
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
-
         public MainWindowModel()
         {
-            Context = AppContext.Current;
-
-            Context.MessageHandler.ProgressMessage += _MessageHandler_ProgressMessage;
+            AppContext.Current.MessageHandler.ProgressMessage += _MessageHandler_ProgressMessage;
 
             AppCommands.InitApplication.Execute();
         }
@@ -59,7 +33,8 @@ namespace Macad.Window
 
         public bool GlobalKeyDown(KeyEventArgs keyEventArgs)
         {
-            return AppContext.Current.ShortcutHandler.KeyPressed(ShortcutScope.Application, keyEventArgs.Key, Keyboard.Modifiers);
+            return AppContext.Current.ShortcutHandler.KeyPressed(ShortcutScope.Application, keyEventArgs.Key, Keyboard.Modifiers)
+                   || InteractiveContext.Current.ShortcutHandler.KeyPressed(ShortcutScope.Workspace, keyEventArgs.Key, Keyboard.Modifiers);
         }
 
         //--------------------------------------------------------------------------------------------------

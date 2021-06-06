@@ -81,7 +81,7 @@ namespace Macad.Test.Memory.Core
 
                 var context = new SerializationContext(SerializationScope.CopyPaste);
                 context.SetInstance(ReadOptions.None);
-                context.SetInstance(new Body.CloneOptions(true));
+                context.SetInstance(new CloneOptions(true));
                 var clonedBody = Serializer.Deserialize<Entity>(serialized, context) as Body;
                 Assert.IsNotNull(clonedBody);
                 Assert.IsTrue(clonedBody.Shape.Make(Shape.MakeFlags.None));
@@ -94,7 +94,7 @@ namespace Macad.Test.Memory.Core
                 Assert.AreEqual(0, memory.ObjectsCount<SerializationContext>(), "Context is alive"); 
                 Assert.AreEqual(0, memory.ObjectsCount<Writer>(), "Writer is alive"); 
                 Assert.AreEqual(0, memory.ObjectsCount<Reader>(), "Reader is alive"); 
-                Assert.AreEqual(0, memory.ObjectsCount<Body.CloneOptions>(), "Body.CloneOptions is alive"); 
+                Assert.AreEqual(0, memory.ObjectsCount<CloneOptions>(), "Body.CloneOptions is alive"); 
             });
         }
 

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Data;
 using Macad.Interaction.Editors.Shapes;
-using Macad.Core;
-using Macad.Core.Components;
 using Macad.Core.Shapes;
-using Macad.Core.Toolkits;
 using Macad.Core.Topology;
-using Macad.Interaction;
 using Macad.Presentation;
 
 namespace Macad.Interaction
@@ -16,59 +11,52 @@ namespace Macad.Interaction
     {
         #region Helper
 
-        static WorkspaceController WorkspaceController
+        static WorkspaceController _WorkspaceController
         {
             get { return InteractiveContext.Current?.WorkspaceController; }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        static UndoHandler UndoHandler
-        {
-            get { return InteractiveContext.Current?.UndoHandler; }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         static bool _CanStartTool()
         {
-            return (WorkspaceController != null);
+            return (_WorkspaceController != null);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         static bool _CanExecuteSketchModifier()
         {
-            return WorkspaceController?.Selection != null
-                   && WorkspaceController.Selection.SelectedEntities.Count == 1
-                   && (WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape?.ShapeType == ShapeType.Sketch;
+            return _WorkspaceController?.Selection != null
+                   && _WorkspaceController.Selection.SelectedEntities.Count == 1
+                   && (_WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape?.ShapeType == ShapeType.Sketch;
         }
 
         //--------------------------------------------------------------------------------------------------
         
         static bool _CanExecuteSketchModifierMany()
         {
-            return WorkspaceController?.Selection != null
-                   && WorkspaceController.Selection.SelectedEntities.Count > 0
-                   && WorkspaceController.Selection.SelectedEntities.All(e => (e as Body)?.Shape?.ShapeType == ShapeType.Sketch);
+            return _WorkspaceController?.Selection != null
+                   && _WorkspaceController.Selection.SelectedEntities.Count > 0
+                   && _WorkspaceController.Selection.SelectedEntities.All(e => (e as Body)?.Shape?.ShapeType == ShapeType.Sketch);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         static bool _CanExecuteSolidModifier()
         {
-            return WorkspaceController?.Selection != null
-                   && WorkspaceController.Selection.SelectedEntities.Count == 1
-                   && (WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape?.ShapeType == ShapeType.Solid;
+            return _WorkspaceController?.Selection != null
+                   && _WorkspaceController.Selection.SelectedEntities.Count == 1
+                   && (_WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape?.ShapeType == ShapeType.Solid;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         static bool _CanExecuteSolidModifierMany()
         {
-            return WorkspaceController?.Selection != null
-                && WorkspaceController.Selection.SelectedEntities.Count > 0
-                && WorkspaceController.Selection.SelectedEntities.All(e => (e as Body)?.Shape?.ShapeType == ShapeType.Solid);
+            return _WorkspaceController?.Selection != null
+                && _WorkspaceController.Selection.SelectedEntities.Count > 0
+                && _WorkspaceController.Selection.SelectedEntities.All(e => (e as Body)?.Shape?.ShapeType == ShapeType.Solid);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -77,10 +65,10 @@ namespace Macad.Interaction
 
         #region Primitives
 
-        public static ActionCommand CreateBox { get; } = new ActionCommand(
+        public static ActionCommand CreateBox { get; } = new(
             () =>
             {
-                WorkspaceController?.StartTool(new CreateBoxTool());
+                _WorkspaceController?.StartTool(new CreateBoxTool());
             },
             _CanStartTool)
         {
@@ -95,10 +83,10 @@ namespace Macad.Interaction
         
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand CreateSphere { get; } = new ActionCommand(
+        public static ActionCommand CreateSphere { get; } = new(
             () =>
             {
-                WorkspaceController?.StartTool(new CreateSphereTool());
+                _WorkspaceController?.StartTool(new CreateSphereTool());
             },
             _CanStartTool)
         {
@@ -114,10 +102,10 @@ namespace Macad.Interaction
         //--------------------------------------------------------------------------------------------------
 
 
-        public static ActionCommand CreateCylinder { get; } = new ActionCommand(
+        public static ActionCommand CreateCylinder { get; } = new(
             () =>
             {
-                WorkspaceController?.StartTool(new CreateCylinderTool());
+                _WorkspaceController?.StartTool(new CreateCylinderTool());
             },
             _CanStartTool)        
         {
@@ -133,10 +121,10 @@ namespace Macad.Interaction
         //--------------------------------------------------------------------------------------------------
 
 
-        public static ActionCommand CreateSketch { get; } = new ActionCommand(
+        public static ActionCommand CreateSketch { get; } = new(
             () =>
             {
-                WorkspaceController?.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+                _WorkspaceController?.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
             },
             _CanStartTool)
         {
@@ -151,10 +139,10 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
         
-        public static ActionCommand<CreateSketchTool.CreateMode> CreateSketchAligned { get; } = new ActionCommand<CreateSketchTool.CreateMode>(
+        public static ActionCommand<CreateSketchTool.CreateMode> CreateSketchAligned { get; } = new(
             (mode) =>
             {
-                WorkspaceController?.StartTool(new CreateSketchTool(mode));
+                _WorkspaceController?.StartTool(new CreateSketchTool(mode));
             },
             _CanStartTool)
         {
@@ -162,7 +150,7 @@ namespace Macad.Interaction
             {
                 switch (mode)
                 {
-                    case CreateSketchTool.CreateMode.Interactive: return "Face Selection";
+                    case CreateSketchTool.CreateMode.Interactive: return "Select Plane or Face";
                     case CreateSketchTool.CreateMode.WorkplaneXY: return "Working Plane XY";
                     case CreateSketchTool.CreateMode.WorkplaneXZ: return "Working Plane XZ";
                     case CreateSketchTool.CreateMode.WorkplaneYZ: return "Working Plane YZ";
@@ -180,7 +168,7 @@ namespace Macad.Interaction
 
         #region Modifier
 
-        public static ActionCommand<BooleanOperationTool.Operations> CreateBoolean { get; } = new ActionCommand<BooleanOperationTool.Operations>(
+        public static ActionCommand<BooleanOperationTool.Operations> CreateBoolean { get; } = new(
             (op) =>
             {
                 InteractiveContext.Current.WorkspaceController.StartTool(new BooleanOperationTool(op));
@@ -223,16 +211,16 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand CreateChamfer { get; } = new ActionCommand(
+        public static ActionCommand CreateChamfer { get; } = new(
             () =>
             {
                 var modifierShape = Chamfer.Create(InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.First() as Body);
                 if (modifierShape != null)
                 {
-                    UndoHandler.Commit();
-                    WorkspaceController.StartTool( new EdgeModifierTool(modifierShape));
+                    InteractiveContext.Current?.UndoHandler.Commit();
+                    _WorkspaceController.StartTool( new EdgeModifierTool(modifierShape));
                 }
-                WorkspaceController.Invalidate();
+                _WorkspaceController.Invalidate();
             },
             _CanExecuteSolidModifier)        
         {
@@ -244,16 +232,16 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand CreateFillet { get; } = new ActionCommand(
+        public static ActionCommand CreateFillet { get; } = new(
             () =>
             {
                 var modifierShape = Fillet.Create(InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.First() as Body);
                 if (modifierShape != null)
                 {
-                    UndoHandler.Commit();
-                    WorkspaceController.StartTool(new EdgeModifierTool(modifierShape));
+                    InteractiveContext.Current?.UndoHandler.Commit();
+                    _WorkspaceController.StartTool(new EdgeModifierTool(modifierShape));
                 }
-                WorkspaceController.Invalidate();
+                _WorkspaceController.Invalidate();
             },
             _CanExecuteSolidModifier)
         {
@@ -265,10 +253,10 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand CreateExtrude { get; } = new ActionCommand(
+        public static ActionCommand CreateExtrude { get; } = new(
             () =>
             {
-                WorkspaceController.StartTool(new CreateExtrudeTool(WorkspaceController.Selection.SelectedEntities.First() as Body));
+                _WorkspaceController.StartTool(new CreateExtrudeTool(_WorkspaceController.Selection.SelectedEntities.First() as Body));
             },
             () => _CanExecuteSketchModifier() || _CanExecuteSolidModifier())
         {
@@ -282,15 +270,15 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand CreateRevolve { get; } = new ActionCommand(
+        public static ActionCommand CreateRevolve { get; } = new(
             () =>
             {
                 var modifierShape = Revolve.Create(InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.First() as Body);
                 if (modifierShape != null)
                 {
-                    UndoHandler.Commit();
+                    InteractiveContext.Current?.UndoHandler.Commit();
                 }
-                WorkspaceController.Invalidate();
+                _WorkspaceController.Invalidate();
             },
             _CanExecuteSketchModifier)        
         {
@@ -302,10 +290,10 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<Imprint.ImprintMode> CreateImprint { get; } = new ActionCommand<Imprint.ImprintMode>(
+        public static ActionCommand<Imprint.ImprintMode> CreateImprint { get; } = new(
             (mode) =>
             {
-                WorkspaceController.StartTool(new CreateImprintTool(WorkspaceController.Selection.SelectedEntities.First() as Body, mode));
+                _WorkspaceController.StartTool(new CreateImprintTool(_WorkspaceController.Selection.SelectedEntities.First() as Body, mode));
             },
             _CanExecuteSolidModifier)
         {
@@ -349,10 +337,10 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand CreateFlangeSheet { get; } = new ActionCommand(
+        public static ActionCommand CreateFlangeSheet { get; } = new(
             () =>
             {
-                InteractiveContext.Current.WorkspaceController.StartTool(new CreateFlangeSheetTool(WorkspaceController.Selection.SelectedEntities.First() as Body));
+                InteractiveContext.Current.WorkspaceController.StartTool(new CreateFlangeSheetTool(_WorkspaceController.Selection.SelectedEntities.First() as Body));
             },
             _CanExecuteSolidModifier)
         {
@@ -367,10 +355,10 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand CreateUnfoldSheet { get; } = new ActionCommand(
+        public static ActionCommand CreateUnfoldSheet { get; } = new(
             () =>
             {
-                InteractiveContext.Current.WorkspaceController.StartTool(new CreateUnfoldSheetTool(WorkspaceController.Selection.SelectedEntities.First() as Body));
+                InteractiveContext.Current.WorkspaceController.StartTool(new CreateUnfoldSheetTool(_WorkspaceController.Selection.SelectedEntities.First() as Body));
             },
             _CanExecuteSolidModifier)
         {
@@ -385,10 +373,10 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand CreateMirror { get; } = new ActionCommand(
+        public static ActionCommand CreateMirror { get; } = new(
             () =>
             {
-                var tool = new CreateMirrorTool(WorkspaceController.Selection.SelectedEntities.First() as Body);
+                var tool = new CreateMirrorTool(_WorkspaceController.Selection.SelectedEntities.First() as Body);
                 InteractiveContext.Current.WorkspaceController.StartTool(tool);
             },
             () => _CanExecuteSolidModifier() || _CanExecuteSketchModifier())
@@ -403,15 +391,15 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
         
-        public static ActionCommand CreateLinearArray { get; } = new ActionCommand(
+        public static ActionCommand CreateLinearArray { get; } = new(
             () =>
             {
                 var modifierShape = LinearArray.Create(InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.First() as Body);
                 if (modifierShape != null)
                 {
-                    UndoHandler.Commit();
+                    InteractiveContext.Current?.UndoHandler.Commit();
                 }
-                WorkspaceController.Invalidate();
+                _WorkspaceController.Invalidate();
             },
             () => _CanExecuteSolidModifier() || _CanExecuteSketchModifier())
         {
@@ -423,15 +411,15 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand CreateCircularArray { get; } = new ActionCommand(
+        public static ActionCommand CreateCircularArray { get; } = new(
             () =>
             {
                 var modifierShape = CircularArray.Create(InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.First() as Body);
                 if (modifierShape != null)
                 {
-                    UndoHandler.Commit();
+                    InteractiveContext.Current?.UndoHandler.Commit();
                 }
-                WorkspaceController.Invalidate();
+                _WorkspaceController.Invalidate();
             },
             () => _CanExecuteSolidModifier() || _CanExecuteSketchModifier())
         {
@@ -443,15 +431,15 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand CreateBoxJoint { get; } = new ActionCommand(
+        public static ActionCommand CreateBoxJoint { get; } = new(
             () =>
             {
-                var body1 = WorkspaceController.Selection.SelectedEntities[0] as Body;
-                var body2 = WorkspaceController.Selection.SelectedEntities.Count > 1 ? WorkspaceController.Selection.SelectedEntities[1] as Body : null;
+                var body1 = _WorkspaceController.Selection.SelectedEntities[0] as Body;
+                var body2 = _WorkspaceController.Selection.SelectedEntities.Count > 1 ? _WorkspaceController.Selection.SelectedEntities[1] as Body : null;
                 var tool = new CreateBoxJointTool(body1, body2);
                 InteractiveContext.Current.WorkspaceController.StartTool(tool); 
             },
-            () => _CanExecuteSolidModifierMany() && WorkspaceController.Selection.SelectedEntities.Count <= 2)
+            () => _CanExecuteSolidModifierMany() && _WorkspaceController.Selection.SelectedEntities.Count <= 2)
         {
             Header = () => "Box Joint",
             Description = () => "Build a junction of two solids by using interlocking profiles.",
@@ -463,14 +451,14 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand CreateLoft { get; } = new ActionCommand(
+        public static ActionCommand CreateLoft { get; } = new(
             () =>
             {
                 var tool = new CreateLoftTool();
                 InteractiveContext.Current.WorkspaceController.StartTool(tool);
             },
             () => _CanExecuteSketchModifierMany()
-                  || (WorkspaceController?.Selection?.SelectedEntities?.FirstOrDefault() as Body)?.Shape is Loft)
+                  || (_WorkspaceController?.Selection?.SelectedEntities?.FirstOrDefault() as Body)?.Shape is Loft)
         {
             Header = () => "Loft",
             Description = () => "Creates a solid or hollowed shape from a number of section sketches.",
@@ -482,17 +470,17 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
         
-        public static ActionCommand CreateReference { get; } = new ActionCommand(
+        public static ActionCommand CreateReference { get; } = new(
             () =>
             {
-                var body = Reference.Create(WorkspaceController.Selection.SelectedEntities.First() as Body);
+                var body = Reference.Create(_WorkspaceController.Selection.SelectedEntities.First() as Body);
                 if (body != null)
                 {
                     InteractiveContext.Current.Document.AddChild(body);
-                    UndoHandler.Commit();
-                    WorkspaceController.Selection.SelectEntity(body);
+                    InteractiveContext.Current?.UndoHandler.Commit();
+                    _WorkspaceController.Selection.SelectEntity(body);
                 }
-                WorkspaceController.Invalidate();
+                _WorkspaceController.Invalidate();
             },
             () => _CanExecuteSolidModifier() || _CanExecuteSketchModifier())
             {
@@ -504,10 +492,10 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand CreateTaper { get; } = new ActionCommand(
+        public static ActionCommand CreateTaper { get; } = new(
             () =>
             {
-                var body1 = WorkspaceController.Selection.SelectedEntities[0] as Body;
+                var body1 = _WorkspaceController.Selection.SelectedEntities[0] as Body;
                 var tool = new CreateTaperTool(body1);
                 InteractiveContext.Current.WorkspaceController.StartTool(tool); 
             },

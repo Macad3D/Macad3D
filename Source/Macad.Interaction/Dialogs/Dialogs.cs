@@ -148,5 +148,16 @@ namespace Macad.Interaction.Dialogs
 
         //--------------------------------------------------------------------------------------------------
 
+        public static bool UseAspectRatioFromImageFile()
+        {
+            return TaskDialog.ShowMessage(Application.Current.MainWindow,
+                                          $"Use Aspect Ratio from image?",
+                                          $"The loaded image file has a different aspect ratio than the plane it will be assigned to. Should the Y-dimension of the plane adjusted to match the aspect ratio of the image?",
+                                          $"Aspect Ratio",
+                                          TaskDialogCommonButtons.YesNo, TaskDialogIcon.Question) == TaskDialogResults.Yes;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

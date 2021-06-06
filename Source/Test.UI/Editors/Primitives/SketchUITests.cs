@@ -29,7 +29,7 @@ namespace Macad.Test.UI.Editors.Primitives
             // Body and shape created
             var bodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");
             Assert.NotNull(bodyPanel);
-            Assert.AreEqual("Sketch_1", bodyPanel.GetValue<string>("BodyName"));
+            Assert.AreEqual("Sketch_1", bodyPanel.GetValue<string>("EntityName"));
 
             // All panels shown
             var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPropertyPanel");
@@ -73,7 +73,7 @@ namespace Macad.Test.UI.Editors.Primitives
             // Body and shape created
             var bodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");
             Assert.NotNull(bodyPanel);
-            Assert.AreEqual("Sketch_1", bodyPanel.GetValue<string>("BodyName"));
+            Assert.AreEqual("Sketch_1", bodyPanel.GetValue<string>("EntityName"));
 
             // All panels shown
             var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPropertyPanel");

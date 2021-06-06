@@ -23,7 +23,7 @@ namespace Macad.Interaction.Visual
     public abstract class Hint : VisualObject
     {
         protected Hint(WorkspaceController workspaceController)
-            : base(workspaceController)
+            : base(workspaceController, null)
         {
         }
 

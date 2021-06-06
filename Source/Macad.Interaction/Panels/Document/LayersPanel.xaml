@@ -81,7 +81,8 @@
                                 Width="14" Height="14"
                                 BorderBrush="Black"
                                 BorderThickness="1"
-                                Margin="1">
+                                Margin="1"
+                                UseLayoutRounding="True">
                             <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                         Fill="{Binding Color, Converter={mmp:ColorToBrushConverter}}" />
                         </Border>

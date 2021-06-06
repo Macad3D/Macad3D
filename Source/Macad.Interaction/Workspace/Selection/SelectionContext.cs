@@ -26,7 +26,7 @@ namespace Macad.Interaction
         public List<InteractiveEntity> SelectedEntities { get; }
 
         readonly WorkspaceController _WorkspaceController;
-        readonly HashSet<VisualShape> _InOrExcludedShapes = new HashSet<VisualShape>();
+        readonly HashSet<VisualObject> _InOrExcludedShapes = new();
         readonly Options _Options;
         bool _IsActive = false;
         SubshapeTypes _SubshapeTypes;
@@ -51,7 +51,7 @@ namespace Macad.Interaction
         {
             if (_IsActive)
             {
-                VisualShape.AisObjectChanged -= _VisualShape_AisObjectChanged;
+                VisualObject.AisObjectChanged -= _VisualObject_AisObjectChanged;
                 _IsActive = false;
             }
         }
@@ -81,29 +81,29 @@ namespace Macad.Interaction
 
         public void Include(InteractiveEntity entity)
         {
-            var visShape = _WorkspaceController.VisualShapes.GetVisualShape(entity, true);
+            var visShape = _WorkspaceController.VisualObjects.Get(entity, true);
             if(visShape != null)
                 Include(visShape);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void Include(VisualShape visShape)
+        public void Include(VisualObject visObject)
         {
             if (_Options.HasFlag(Options.IncludeAll))
             {
-                if (_InOrExcludedShapes.Contains(visShape))
+                if (_InOrExcludedShapes.Contains(visObject))
                 {
-                    _InOrExcludedShapes.Remove(visShape);
+                    _InOrExcludedShapes.Remove(visObject);
                     _RaiseParametersChanged();
                 }
                 return;
             }
 
-            if (_InOrExcludedShapes.Contains(visShape))
+            if (_InOrExcludedShapes.Contains(visObject))
                 return;
 
-            _InOrExcludedShapes.Add(visShape);
+            _InOrExcludedShapes.Add(visObject);
             _RaiseParametersChanged();
         }
 
@@ -111,29 +111,29 @@ namespace Macad.Interaction
 
         public void Exclude(InteractiveEntity entity)
         {
-            var visShape = _WorkspaceController.VisualShapes.GetVisualShape(entity, true);
-            if (visShape != null)
-                Exclude(visShape);
+            var visObject = _WorkspaceController.VisualObjects.Get(entity, true);
+            if (visObject != null)
+                Exclude(visObject);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void Exclude(VisualShape visShape)
+        public void Exclude(VisualObject visObject)
         {
             if (!_Options.HasFlag(Options.IncludeAll))
             {
-                if (_InOrExcludedShapes.Contains(visShape))
+                if (_InOrExcludedShapes.Contains(visObject))
                 {
-                    _InOrExcludedShapes.Remove(visShape);
+                    _InOrExcludedShapes.Remove(visObject);
                     _RaiseParametersChanged();
                 }
                 return;
             }
 
-            if (_InOrExcludedShapes.Contains(visShape))
+            if (_InOrExcludedShapes.Contains(visObject))
                 return;
 
-            _InOrExcludedShapes.Add(visShape);
+            _InOrExcludedShapes.Add(visObject);
             _RaiseParametersChanged();
         }
 
@@ -147,7 +147,7 @@ namespace Macad.Interaction
         {
             Debug.Assert(!_IsActive);
 
-            VisualShape.AisObjectChanged += _VisualShape_AisObjectChanged;
+            VisualObject.AisObjectChanged += _VisualObject_AisObjectChanged;
 
             _UpdateFilter();
 
@@ -160,7 +160,7 @@ namespace Macad.Interaction
         {
             Debug.Assert(_IsActive);
 
-            VisualShape.AisObjectChanged -= _VisualShape_AisObjectChanged;
+            VisualObject.AisObjectChanged -= _VisualObject_AisObjectChanged;
 
             var aisContext = _WorkspaceController?.Workspace?.AisContext;
             aisContext?.RemoveFilters();
@@ -186,7 +186,7 @@ namespace Macad.Interaction
         {
             // Update shapes
             bool includeByDefault = _Options.HasFlag(Options.IncludeAll);
-            var visShapes = _WorkspaceController.VisualShapes.GetVisualShapes();
+            var visShapes = _WorkspaceController.VisualObjects.GetAll();
             foreach (var visualShape in visShapes)
             {
                 bool isInOrExcluded = _InOrExcludedShapes.Contains(visualShape);
@@ -197,23 +197,23 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public void UpdateShape(VisualShape visualShape)
+        public void UpdateShape(VisualObject visualObject)
         {
             bool includeByDefault = _Options.HasFlag(Options.IncludeAll);
-            bool isInOrExcluded = _InOrExcludedShapes.Contains(visualShape);
-            UpdateShape(visualShape, includeByDefault ? !isInOrExcluded : isInOrExcluded);
+            bool isInOrExcluded = _InOrExcludedShapes.Contains(visualObject);
+            UpdateShape(visualObject, includeByDefault ? !isInOrExcluded : isInOrExcluded);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void UpdateShape(VisualShape visualShape, bool activate)
+        public void UpdateShape(VisualObject visualObject, bool activate)
         {
             var aisContext = _WorkspaceController?.Workspace?.AisContext;
             if (aisContext == null)
                 return;
 
-            var aisObject = visualShape.AisObject;
-            if (visualShape.IsSelectable())
+            var aisObject = visualObject.AisObject;
+            if (visualObject.IsSelectable)
             {
                 // Get already activated modes
                 var colActivatedModes = new TColStd_ListOfInteger();
@@ -246,17 +246,17 @@ namespace Macad.Interaction
             }
             else
             {
-                aisContext.Deactivate(visualShape.AisObject);
+                aisContext.Deactivate(visualObject.AisObject);
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _VisualShape_AisObjectChanged(VisualShape theShape)
+        void _VisualObject_AisObjectChanged(VisualObject visualObject)
         {
-            if (theShape.AisObject != null)
+            if (visualObject.AisObject != null)
             {
-                UpdateShape(theShape);
+                UpdateShape(visualObject);
             }
         }
 

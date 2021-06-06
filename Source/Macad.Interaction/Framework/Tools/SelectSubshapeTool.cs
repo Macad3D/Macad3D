@@ -46,7 +46,7 @@ namespace Macad.Interaction
         {
             if (_TargetShape != _TargetBody?.Shape)
             {
-                _OverriddenVisualShape = WorkspaceController.VisualShapes.GetVisualShape(_TargetBody);
+                _OverriddenVisualShape = WorkspaceController.VisualObjects.Get(_TargetBody) as VisualShape;
                 if (_OverriddenVisualShape != null)
                 {
                     _OverriddenVisualShape.OverrideBrep = _TargetShape.GetTransformedBRep();

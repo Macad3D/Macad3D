@@ -526,7 +526,9 @@ void Macad::Occt::Message_Printer::Send(Macad::Occt::TCollection_AsciiString^ th
 
 void Macad::Occt::Message_Printer::SendObject(Macad::Occt::Standard_Transient^ theObject, Macad::Occt::Message_Gravity theGravity)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theObject = theObject->NativeInstance;
+	((::Message_Printer*)_NativeInstance)->SendObject(h_theObject, (::Message_Gravity)theGravity);
+	theObject->NativeInstance = h_theObject.get();
 }
 
 
@@ -635,12 +637,16 @@ void Macad::Occt::Message_Messenger::Send(Macad::Occt::TCollection_ExtendedStrin
 
 void Macad::Occt::Message_Messenger::Send(Macad::Occt::Standard_Transient^ theObject, Macad::Occt::Message_Gravity theGravity)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theObject = theObject->NativeInstance;
+	((::Message_Messenger*)_NativeInstance)->Send(h_theObject, (::Message_Gravity)theGravity);
+	theObject->NativeInstance = h_theObject.get();
 }
 
 void Macad::Occt::Message_Messenger::Send(Macad::Occt::Standard_Transient^ theObject)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theObject = theObject->NativeInstance;
+	((::Message_Messenger*)_NativeInstance)->Send(h_theObject, Message_Warning);
+	theObject->NativeInstance = h_theObject.get();
 }
 
 void Macad::Occt::Message_Messenger::SendFail(Macad::Occt::TCollection_AsciiString^ theMessage)
@@ -1736,13 +1742,17 @@ Macad::Occt::Message_AttributeMeter^ Macad::Occt::Message_AttributeMeter::Create
 Macad::Occt::Message_AttributeObject::Message_AttributeObject(Macad::Occt::Standard_Transient^ theObject, Macad::Occt::TCollection_AsciiString^ theName)
 	: Macad::Occt::Message_Attribute(BaseClass::InitMode::Uninitialized)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theObject = theObject->NativeInstance;
+	NativeInstance = new ::Message_AttributeObject(h_theObject, *(::TCollection_AsciiString*)theName->NativeInstance);
+	theObject->NativeInstance = h_theObject.get();
 }
 
 Macad::Occt::Message_AttributeObject::Message_AttributeObject(Macad::Occt::Standard_Transient^ theObject)
 	: Macad::Occt::Message_Attribute(BaseClass::InitMode::Uninitialized)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theObject = theObject->NativeInstance;
+	NativeInstance = new ::Message_AttributeObject(h_theObject, ::TCollection_AsciiString());
+	theObject->NativeInstance = h_theObject.get();
 }
 
 Macad::Occt::Message_AttributeObject::Message_AttributeObject(Macad::Occt::Message_AttributeObject^ parameter1)
@@ -1753,12 +1763,16 @@ Macad::Occt::Message_AttributeObject::Message_AttributeObject(Macad::Occt::Messa
 
 Macad::Occt::Standard_Transient^ Macad::Occt::Message_AttributeObject::Object()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::Message_AttributeObject*)_NativeInstance)->Object();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::Message_AttributeObject::SetObject(Macad::Occt::Standard_Transient^ theObject)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theObject = theObject->NativeInstance;
+	((::Message_AttributeObject*)_NativeInstance)->SetObject(h_theObject);
+	theObject->NativeInstance = h_theObject.get();
 }
 
 
@@ -2039,7 +2053,9 @@ void Macad::Occt::Message_PrinterToReport::SetReport(Macad::Occt::Message_Report
 
 void Macad::Occt::Message_PrinterToReport::SendObject(Macad::Occt::Standard_Transient^ theObject, Macad::Occt::Message_Gravity theGravity)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theObject = theObject->NativeInstance;
+	((::Message_PrinterToReport*)_NativeInstance)->SendObject(h_theObject, (::Message_Gravity)theGravity);
+	theObject->NativeInstance = h_theObject.get();
 }
 
 

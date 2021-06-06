@@ -71,9 +71,9 @@
                 </Style>
 
                 <!--
-                        Body
+                        InteractiveEntity
                 -->
-                <HierarchicalDataTemplate DataType="{x:Type mmt:Body}">
+                <HierarchicalDataTemplate DataType="{x:Type mmt:InteractiveEntity}">
                     <DockPanel ToolTip="-" ToolTipOpening="FrameworkElement_OnToolTipOpening"
                         Margin="0,0,10,0">
                         <Image Source="{Binding Converter={mmp:TypeToImageSourceConverter}}" Height="16" />

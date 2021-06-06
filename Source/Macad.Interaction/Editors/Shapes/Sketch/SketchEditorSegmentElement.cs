@@ -159,13 +159,13 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Activate(bool active)
+        public override void Activate(bool selectable)
         {
-            _IsActive = active;
+            _IsActive = selectable;
             if (AisObject == null)
                 return;
 
-            if(active)
+            if(selectable)
             {
                 SketchEditorTool.WorkspaceController.Workspace.AisContext.Activate(AisObject, 0, false);
             }

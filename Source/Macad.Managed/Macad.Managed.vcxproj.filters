@@ -16,6 +16,9 @@
     <Filter Include="OcctExtensions">
       <UniqueIdentifier>{3f46e437-1bf0-4d87-bb03-14df6bcd1da2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AisExtensions">
+      <UniqueIdentifier>{82b28c24-8d0f-4e84-aa4d-d2b672f9e1fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OcctExtensions\AIS_PlaneEx.h">
@@ -59,6 +62,12 @@
     </ClInclude>
     <ClInclude Include="OcctExtensions\AIS_PointEx.h">
       <Filter>OcctExtensions</Filter>
+    </ClInclude>
+    <ClInclude Include="AisExtensions\AISX_Plane.h">
+      <Filter>AisExtensions</Filter>
+    </ClInclude>
+    <ClInclude Include="AisExtensions\AISX_Guid.h">
+      <Filter>AisExtensions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +173,18 @@
     </ClCompile>
     <ClCompile Include="OcctHelper\MessageRouter.cpp">
       <Filter>OcctHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="AisExtensions\AISX_Plane.cpp">
+      <Filter>AisExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="AisExtensions\AISX_Guid.cpp">
+      <Filter>AisExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="AisExtensions\AISX_Plane.Managed.cpp">
+      <Filter>AisExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="AisExtensions\AISX_Guid.Managed.cpp">
+      <Filter>AisExtensions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -12,7 +12,7 @@ namespace Macad.Interaction.Editors.Shapes
     {
         public readonly SketchConstraint Constraint;
         ConstraintMarker _Marker;
-        bool _IsActivated;
+        bool _IsSelectable;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -38,7 +38,7 @@ namespace Macad.Interaction.Editors.Shapes
                 _Marker = _CreateMarker();
                 foreach (var visualobj in _Marker.VisualObjects)
                 {
-                    visualobj.IsActive = _IsActivated;
+                    visualobj.IsSelectable = _IsSelectable;
                 }
                 _Marker?.UpdateVisual(points, segments, Plane, SketchEditorTool.WorkspaceController.ActiveViewport.PixelSize, markerCounts);
                 UpdateVisual();
@@ -66,16 +66,16 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Activate(bool active)
+        public override void Activate(bool selectable)
         {
-            _IsActivated = active;
+            _IsSelectable = selectable;
 
             if (_Marker == null)
                 return;
 
             foreach (var visualObj in _Marker.VisualObjects)
             {
-                visualObj.IsActive = active;
+                visualObj.IsSelectable = selectable;
             }
         }
 

@@ -56,7 +56,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        static void _Model_OnAdditionalDataSaving(Document<Body> sender, FileSystem filesystem)
+        static void _Model_OnAdditionalDataSaving(Document<InteractiveEntity> sender, FileSystem filesystem)
         {
             var sketches = sender.FindInstances<Sketch>();
             var writer = new Writer();
@@ -90,7 +90,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
         
-        static void _Model_OnAdditionalDataLoading(Document<Body> sender, FileSystem filesystem)
+        static void _Model_OnAdditionalDataLoading(Document<InteractiveEntity> sender, FileSystem filesystem)
         {
             var s = filesystem.Read(_FilePath)?.FromUtf8Bytes();
             if(s.IsNullOrEmpty())

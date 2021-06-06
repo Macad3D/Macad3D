@@ -76,7 +76,7 @@ namespace Macad.Interaction.Editors.Topology
         {
             if (entity == Entity)
             {
-                _GhostVisualObject?.UpdateShape();
+                _GhostVisualObject?.Update();
             }
         }
 

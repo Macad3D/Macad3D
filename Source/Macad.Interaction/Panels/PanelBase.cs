@@ -8,7 +8,6 @@ namespace Macad.Interaction.Panels
 {
     public class PanelBase : UserControl, INotifyPropertyChanged
     {
-
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -26,7 +25,7 @@ namespace Macad.Interaction.Panels
         
         protected static void PropertyChangedStaticCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
         {
-            var instance = dependencyObject as PropertyPanel;
+            var instance = dependencyObject as PanelBase;
             instance?.PropertyChangedCallback(eventArgs);
         }
 
@@ -34,6 +33,17 @@ namespace Macad.Interaction.Panels
 
         protected virtual void PropertyChangedCallback(DependencyPropertyChangedEventArgs eventArgs)
         {}
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region Helper
+
+        public virtual InteractiveContext Context
+        {
+            get { return InteractiveContext.Current; }
+        }
 
         //--------------------------------------------------------------------------------------------------
 

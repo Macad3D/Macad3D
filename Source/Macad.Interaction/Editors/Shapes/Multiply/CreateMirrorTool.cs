@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Interaction.Visual;
 using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes
@@ -55,7 +56,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (_Mode == ToolMode.Reselect)
             {
-                var visualShape = WorkspaceController.VisualShapes.GetVisualShape(_TargetBody);
+                var visualShape = WorkspaceController.VisualObjects.Get(_TargetBody) as VisualShape;
                 if (visualShape != null)
                 {
                     visualShape.OverrideBrep = _TargetShape.GetTransformedBRep();
@@ -152,7 +153,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override void Stop()
         {
-            var visualShape = WorkspaceController.VisualShapes.GetVisualShape(_TargetBody);
+            var visualShape = WorkspaceController.VisualObjects.Get(_TargetBody) as VisualShape;
             if (visualShape != null)
             {
                 visualShape.OverrideBrep = null;

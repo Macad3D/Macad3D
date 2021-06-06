@@ -44,9 +44,9 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Activate(bool active)
+        public override void Activate(bool selectable)
         {
-            _Marker.IsActive = active;
+            _Marker.IsSelectable = selectable;
         }
 
         //--------------------------------------------------------------------------------------------------

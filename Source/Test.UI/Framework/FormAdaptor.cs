@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows.Input;
 using FlaUI.Core.AutomationElements;
-using FlaUI.Core.AutomationElements.Infrastructure;
-using FlaUI.Core.Conditions;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using FlaUI.Core.WindowsAPI;
 using NUnit.Framework;
-using Keyboard = FlaUI.Core.Input.Keyboard;
-using Mouse = FlaUI.Core.Input.Mouse;
 
 namespace Macad.Test.UI.Framework
 {
@@ -74,6 +69,26 @@ namespace Macad.Test.UI.Framework
             Wait.UntilInputIsProcessed();
             Wait.UntilResponsive(_FormControl);
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public bool GetToggle(string id)
+        {
+            var togglePattern = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id))?.Patterns.Toggle?.PatternOrDefault;
+            Assert.IsNotNull(togglePattern, $"Toggle {id} not found in form.");
+
+            return togglePattern.ToggleState.Value == ToggleState.On;
+        }
+                
+        //--------------------------------------------------------------------------------------------------
+
+        public void ClickToggle(string id)
+        {
+            var togglePattern = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id))?.Patterns.Toggle?.PatternOrDefault;
+            Assert.IsNotNull(togglePattern, $"Toggle {id} not found in form.");
+
+            togglePattern.Toggle();
+        }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -105,7 +120,7 @@ namespace Macad.Test.UI.Framework
 
             return button.Patterns.Toggle.Pattern.ToggleState.Value == ToggleState.On;
         }
-
+        
         //--------------------------------------------------------------------------------------------------
 
         public bool IsCollapsed()

@@ -37,6 +37,16 @@ namespace Macad.Interaction.Visual
 
         //--------------------------------------------------------------------------------------------------
 
+        public override void Update()
+        {
+            if (_AisAxis == null)
+                _EnsureAisObject();
+            else
+                AisContext.RecomputePrsOnly(_AisAxis, false);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public void SetAxis(Ax1 axis)
         {
             if (!_EnsureAisObject())

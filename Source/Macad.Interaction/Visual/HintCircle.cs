@@ -38,6 +38,16 @@ namespace Macad.Interaction.Visual
                 _AisCircle = null;
             }
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public override void Update()
+        {
+            if (_AisCircle == null)
+                _EnsureAisObject();
+            else
+                AisContext.RecomputePrsOnly(_AisCircle, false);
+        }
 
         //--------------------------------------------------------------------------------------------------
 

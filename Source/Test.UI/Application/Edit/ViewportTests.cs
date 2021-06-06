@@ -69,7 +69,7 @@ namespace Macad.Test.UI.Application.Edit
             MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
             Assert.IsTrue(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
             var menu = new ContextMenuAdaptor(MainWindow, "ViewportContextMenu");
-            menu.ClickMenuItem("Transform Shape");
+            menu.ClickMenuItem("Transform Entity");
 
             MainWindow.Ribbon.SelectGroup("Edit");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("TransformShape"));

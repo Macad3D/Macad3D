@@ -29,7 +29,7 @@ namespace Macad.Interaction
         {
             _SelectionContext = WorkspaceController.Selection.OpenContext(SelectionContext.Options.None);
 
-            foreach (var entity in WorkspaceController.VisualShapes.GetVisibleEntities())
+            foreach (var entity in WorkspaceController.VisualObjects.GetVisibleEntities())
             {
                 if(!entity.IsVisible)
                     continue;

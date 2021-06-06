@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Macad.Interaction.Visual;
 using Macad.Core;
 using Macad.Core.Topology;
@@ -11,6 +12,7 @@ namespace Macad.Interaction
         //--------------------------------------------------------------------------------------------------
 
         public TopoDS_Shape SelectedSubshape { get; private set; }
+        public InteractiveEntity SelectedEntity { get; private set; }
         public SubshapeTypes SelectedSubshapeType { get; private set; }
 
         SelectionContext _SelectionContext;
@@ -81,6 +83,8 @@ namespace Macad.Interaction
 
         void ProcessMouseInput(MouseEventData data)
         {
+            SelectedEntity = data.DetectedEntities.FirstOrDefault();
+
             if (data.DetectedShapes.Count == 0)
             {
                 SelectedSubshape = null;
@@ -88,32 +92,31 @@ namespace Macad.Interaction
                 return;
             }
 
-            foreach (var detectedShape in data.DetectedShapes)
+            var detectedShape = data.DetectedShapes[0];
+
+            if (_SubshapeTypes.HasFlag(SubshapeTypes.Vertex)
+                && (detectedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_VERTEX))
             {
-                if (_SubshapeTypes.HasFlag(SubshapeTypes.Vertex)
-                    && (detectedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_VERTEX))
-                {
-                    SelectedSubshape = detectedShape;
-                    SelectedSubshapeType = SubshapeTypes.Vertex;
-                }
-                else if (_SubshapeTypes.HasFlag(SubshapeTypes.Edge)
-                         && (detectedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_EDGE))
-                {
-                    SelectedSubshape = detectedShape;
-                    SelectedSubshapeType = SubshapeTypes.Edge;
-                }
-                else if (_SubshapeTypes.HasFlag(SubshapeTypes.Wire)
-                         && (detectedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_WIRE))
-                {
-                    SelectedSubshape = detectedShape;
-                    SelectedSubshapeType = SubshapeTypes.Wire;
-                }
-                else if (_SubshapeTypes.HasFlag(SubshapeTypes.Face)
-                         && (detectedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_FACE))
-                {
-                    SelectedSubshape = detectedShape;
-                    SelectedSubshapeType = SubshapeTypes.Face;
-                }
+                SelectedSubshape = detectedShape;
+                SelectedSubshapeType = SubshapeTypes.Vertex;
+            }
+            else if (_SubshapeTypes.HasFlag(SubshapeTypes.Edge)
+                     && (detectedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_EDGE))
+            {
+                SelectedSubshape = detectedShape;
+                SelectedSubshapeType = SubshapeTypes.Edge;
+            }
+            else if (_SubshapeTypes.HasFlag(SubshapeTypes.Wire)
+                     && (detectedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_WIRE))
+            {
+                SelectedSubshape = detectedShape;
+                SelectedSubshapeType = SubshapeTypes.Wire;
+            }
+            else if (_SubshapeTypes.HasFlag(SubshapeTypes.Face)
+                     && (detectedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_FACE))
+            {
+                SelectedSubshape = detectedShape;
+                SelectedSubshapeType = SubshapeTypes.Face;
             }
         }
 
@@ -137,7 +140,7 @@ namespace Macad.Interaction
             if (!IsFinished)
             {
                 ProcessMouseInput(data);
-                IsFinished = SelectedSubshape != null;
+                IsFinished = SelectedEntity != null || SelectedSubshape != null;
             }
             return true;
         }

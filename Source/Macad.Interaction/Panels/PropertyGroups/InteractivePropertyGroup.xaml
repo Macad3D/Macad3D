@@ -1,0 +1,77 @@
+﻿<panels:PanelBase x:Class="Macad.Interaction.Panels.InteractivePropertyGroup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:panels="clr-namespace:Macad.Interaction.Panels"
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             mc:Ignorable="d" >
+
+    <Grid Margin="0,0,0,10"
+          DataContext="{Binding Mode=OneTime, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type panels:InteractivePropertyGroup}}}" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--Name, Visibility-->
+        <TextBlock Grid.Row="0" Text="Name" Style="{StaticResource Macad.Styles.TextBlock.Property}" />
+        <DockPanel Grid.Row="0" Grid.Column="1">
+            <Button x:Name="VisibilityToggle"
+                    DockPanel.Dock="Right" 
+                    Command="{x:Static panels:InteractivePropertyGroup.ToggleVisibilityCommand}"
+                    CommandParameter="{Binding Entity}" 
+                    Padding="7,1"
+                    VerticalAlignment="Stretch">
+                <Grid Width="16" Height="16">
+                    <Image Source="{mmp:IconResource Generic-Visible}"
+                           Visibility="{Binding Entity.IsVisible, Converter={mmp:BoolToVisibleHiddenConverter}}"/>
+                    <Image Source="{mmp:IconResource Generic-Hidden}" 
+                           Visibility="{Binding Entity.IsVisible, Converter={mmp:BoolToInvisibleHiddenConverter}}"/>
+                </Grid>
+            </Button>                
+            <TextBox x:Name="EntityName" 
+                     Text="{Binding Entity.Name, NotifyOnSourceUpdated=True}" >
+                <mmp:Behaviors.Behavior>
+                    <mmp:SubmitOnEnterBehaviour />
+                </mmp:Behaviors.Behavior>
+            </TextBox>
+        </DockPanel>
+
+        <!--Layer-->
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Layer" Style="{StaticResource Macad.Styles.TextBlock.Property}" />
+        <ComboBox x:Name="LayerBox" 
+                  Grid.Row="1" Grid.Column="1" 
+                  SelectedValue="{Binding Entity.Layer, NotifyOnSourceUpdated=True}"
+                  ItemsSource="{Binding Context.Layers}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <!-- Color -->
+                        <Border DockPanel.Dock="Left" 
+                                Width="14" Height="14"
+                                BorderBrush="Black"
+                                BorderThickness="1"
+                                Margin="1"
+                                UseLayoutRounding="True">
+                            <Rectangle x:Name="LayerColor" 
+                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                       Fill="{Binding Color, Converter={mmp:ColorToBrushConverter}}" />
+                        </Border>
+                        <!-- Text -->
+                        <TextBlock x:Name="LayerName" 
+                                   Text="{Binding Name}" 
+                                   Margin="5,0"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </Grid>
+
+</panels:PanelBase>

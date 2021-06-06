@@ -28,12 +28,12 @@ namespace Macad.Interaction.Panels
 
         #region Commands
 
-        public static ICommand ToggleVisibilityCommand = new RelayCommand<Body>(
-            body =>
+        public static ICommand ToggleVisibilityCommand = new RelayCommand<InteractiveEntity>(
+            entity =>
             {
-                if (body != null)
+                if (entity != null)
                 {
-                    body.IsVisible = !body.IsVisible;
+                    entity.IsVisible = !entity.IsVisible;
                     InteractiveContext.Current.UndoHandler.Commit();
                 }
             });

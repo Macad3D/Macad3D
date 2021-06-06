@@ -39,13 +39,6 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        public InteractiveContext Context
-        {
-            get { return InteractiveContext.Current; }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         public WorkspaceController WorkspaceController { get; private set; }
 
         public IPropertyPanelManager PanelManager { get; private set; }

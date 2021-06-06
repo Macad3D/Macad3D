@@ -2,15 +2,13 @@
 using System.Windows.Data;
 using Macad.Core;
 using Macad.Core.Topology;
-using Macad.Occt;
 using Macad.Presentation;
-using Body = Macad.Core.Topology.Body;
 
 namespace Macad.Interaction
 {
     public static class LayerCommands
     {
-        static bool IsValidLayer(Layer layer)
+        static bool _IsValidLayer(Layer layer)
         {
             return CoreContext.Current?.Layers != null
                    && layer != null
@@ -19,7 +17,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand CreateNewLayer { get; } = new ActionCommand(
+        public static ActionCommand CreateNewLayer { get; } = new(
             () =>
             {
                 var cl = CoreContext.Current?.Layers;
@@ -40,7 +38,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<Layer> DeleteLayer { get; } = new ActionCommand<Layer>(
+        public static ActionCommand<Layer> DeleteLayer { get; } = new(
             layer =>
             {
                 var cl = CoreContext.Current?.Layers;
@@ -55,7 +53,7 @@ namespace Macad.Interaction
                 CoreContext.Current.Document?.MarkAsUnsaved();
                 InteractiveContext.Current.WorkspaceController.Invalidate();
             },
-            layer => IsValidLayer(layer) && CoreContext.Current?.Layers?.Default != layer
+            layer => _IsValidLayer(layer) && CoreContext.Current?.Layers?.Default != layer
         )
         {
             Header = (layer) => "Delete",
@@ -65,7 +63,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<Layer> ToggleIsVisible { get; } = new ActionCommand<Layer>(
+        public static ActionCommand<Layer> ToggleIsVisible { get; } = new(
             layer =>
             {
                 var cl = CoreContext.Current?.Layers;
@@ -82,7 +80,7 @@ namespace Macad.Interaction
                 CoreContext.Current.Document?.MarkAsUnsaved();
                 InteractiveContext.Current.WorkspaceController.Invalidate();
             },
-            IsValidLayer
+            _IsValidLayer
         )
         {
             Header = (layer) => "Visibility",
@@ -96,7 +94,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<Layer> ToggleIsLocked { get; } = new ActionCommand<Layer>(
+        public static ActionCommand<Layer> ToggleIsLocked { get; } = new(
             layer =>
             {
                 var cl = CoreContext.Current?.Layers;
@@ -113,7 +111,7 @@ namespace Macad.Interaction
                 CoreContext.Current.Document?.MarkAsUnsaved();
                 InteractiveContext.Current.WorkspaceController.Invalidate();
             },
-            IsValidLayer
+            _IsValidLayer
         )
         {
             Header = (layer) => "Locking",
@@ -128,7 +126,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<Layer> ToggleIsolation { get; } = new ActionCommand<Layer>(
+        public static ActionCommand<Layer> ToggleIsolation { get; } = new(
             layer =>
             {
                 var cl = CoreContext.Current?.Layers;
@@ -151,9 +149,9 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<Layer> MoveEntityToLayer { get; } = new ActionCommand<Layer>(
+        public static ActionCommand<Layer> MoveEntityToLayer { get; } = new(
             ExecuteMoveEntityToLayer,
-            layer => IsValidLayer(layer) && (InteractiveContext.Current?.WorkspaceController?.Selection?.SelectedEntities.Any() ?? false)
+            layer => _IsValidLayer(layer) && (InteractiveContext.Current?.WorkspaceController?.Selection?.SelectedEntities.Any() ?? false)
         ) 
         {
             Header = (layer) => "Move to Layer",
@@ -185,7 +183,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<Layer> SelectAllEntities { get; } = new ActionCommand<Layer>(
+        public static ActionCommand<Layer> SelectAllEntities { get; } = new(
             layer =>
             {
                 var cl = CoreContext.Current?.Layers;
@@ -197,7 +195,7 @@ namespace Macad.Interaction
                 InteractiveContext.Current.Document?.MarkAsUnsaved();
                 InteractiveContext.Current.WorkspaceController.Invalidate();
             },
-            IsValidLayer
+            _IsValidLayer
         )        
         {
             Header = (layer) => "Select All",
@@ -207,7 +205,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand LayerVisualPanel { get; } = new ActionCommand(
+        public static ActionCommand LayerVisualPanel { get; } = new(
             () =>
             {
                 // Left empty by intension, the visual panel is shown as drop down content

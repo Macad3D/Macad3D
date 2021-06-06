@@ -5432,7 +5432,7 @@ Macad::Occt::Graphic3d_WorldViewProjState::Graphic3d_WorldViewProjState()
 Macad::Occt::Graphic3d_WorldViewProjState::Graphic3d_WorldViewProjState(size_t theProjectionState, size_t theWorldViewState, Macad::Occt::Standard_Transient^ theCamera)
 	: BaseClass<::Graphic3d_WorldViewProjState>(BaseClass::InitMode::Uninitialized)
 {
-	throw gcnew System::NotImplementedException();
+	_NativeInstance = new ::Graphic3d_WorldViewProjState(theProjectionState, theWorldViewState, (::Standard_Transient*)theCamera->NativeInstance);
 }
 
 Macad::Occt::Graphic3d_WorldViewProjState::Graphic3d_WorldViewProjState(size_t theProjectionState, size_t theWorldViewState)
@@ -5459,7 +5459,7 @@ void Macad::Occt::Graphic3d_WorldViewProjState::Reset()
 
 void Macad::Occt::Graphic3d_WorldViewProjState::Initialize(size_t theProjectionState, size_t theWorldViewState, Macad::Occt::Standard_Transient^ theCamera)
 {
-	throw gcnew System::NotImplementedException();
+	((::Graphic3d_WorldViewProjState*)_NativeInstance)->Initialize(theProjectionState, theWorldViewState, (::Standard_Transient*)theCamera->NativeInstance);
 }
 
 void Macad::Occt::Graphic3d_WorldViewProjState::Initialize(size_t theProjectionState, size_t theWorldViewState)
@@ -5469,7 +5469,7 @@ void Macad::Occt::Graphic3d_WorldViewProjState::Initialize(size_t theProjectionS
 
 void Macad::Occt::Graphic3d_WorldViewProjState::Initialize(Macad::Occt::Standard_Transient^ theCamera)
 {
-	throw gcnew System::NotImplementedException();
+	((::Graphic3d_WorldViewProjState*)_NativeInstance)->Initialize((::Standard_Transient*)theCamera->NativeInstance);
 }
 
 void Macad::Occt::Graphic3d_WorldViewProjState::Initialize()
@@ -7822,17 +7822,27 @@ void Macad::Occt::Graphic3d_StructureManager::RecomputeStructures()
 
 Macad::Occt::Graphic3d_ViewAffinity^ Macad::Occt::Graphic3d_StructureManager::RegisterObject(Macad::Occt::Standard_Transient^ theObject)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theObject = theObject->NativeInstance;
+	Handle(::Graphic3d_ViewAffinity) _result;
+	_result = ((::Graphic3d_StructureManager*)_NativeInstance)->RegisterObject(h_theObject);
+	theObject->NativeInstance = h_theObject.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ViewAffinity::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::Graphic3d_StructureManager::UnregisterObject(Macad::Occt::Standard_Transient^ theObject)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theObject = theObject->NativeInstance;
+	((::Graphic3d_StructureManager*)_NativeInstance)->UnregisterObject(h_theObject);
+	theObject->NativeInstance = h_theObject.get();
 }
 
 Macad::Occt::Graphic3d_ViewAffinity^ Macad::Occt::Graphic3d_StructureManager::ObjectAffinity(Macad::Occt::Standard_Transient^ theObject)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theObject = theObject->NativeInstance;
+	Handle(::Graphic3d_ViewAffinity) _result;
+	_result = ((::Graphic3d_StructureManager*)_NativeInstance)->ObjectAffinity(h_theObject);
+	theObject->NativeInstance = h_theObject.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ViewAffinity::CreateDowncasted( _result.get());
 }
 
 bool Macad::Occt::Graphic3d_StructureManager::IsDeviceLost()
@@ -8591,32 +8601,48 @@ double Macad::Occt::Graphic3d_CView::ConsiderZoomPersistenceObjects()
 
 Macad::Occt::Standard_Transient^ Macad::Occt::Graphic3d_CView::FBO()
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::Graphic3d_CView*)_NativeInstance)->FBO();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::Graphic3d_CView::SetFBO(Macad::Occt::Standard_Transient^ theFbo)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theFbo = theFbo->NativeInstance;
+	((::Graphic3d_CView*)_NativeInstance)->SetFBO(h_theFbo);
+	theFbo->NativeInstance = h_theFbo.get();
 }
 
 Macad::Occt::Standard_Transient^ Macad::Occt::Graphic3d_CView::FBOCreate(int theWidth, int theHeight)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) _result;
+	_result = ((::Graphic3d_CView*)_NativeInstance)->FBOCreate(theWidth, theHeight);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Standard_Transient::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::Graphic3d_CView::FBORelease(Macad::Occt::Standard_Transient^ theFbo)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theFbo = theFbo->NativeInstance;
+	((::Graphic3d_CView*)_NativeInstance)->FBORelease(h_theFbo);
+	theFbo->NativeInstance = h_theFbo.get();
 }
 
 void Macad::Occt::Graphic3d_CView::FBOGetDimensions(Macad::Occt::Standard_Transient^ theFbo, int% theWidth, int% theHeight, int% theWidthMax, int% theHeightMax)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theFbo = theFbo->NativeInstance;
+	pin_ptr<int> pp_theWidth = &theWidth;
+	pin_ptr<int> pp_theHeight = &theHeight;
+	pin_ptr<int> pp_theWidthMax = &theWidthMax;
+	pin_ptr<int> pp_theHeightMax = &theHeightMax;
+	((::Graphic3d_CView*)_NativeInstance)->FBOGetDimensions(h_theFbo, *(Standard_Integer*)pp_theWidth, *(Standard_Integer*)pp_theHeight, *(Standard_Integer*)pp_theWidthMax, *(Standard_Integer*)pp_theHeightMax);
+	theFbo->NativeInstance = h_theFbo.get();
 }
 
 void Macad::Occt::Graphic3d_CView::FBOChangeViewport(Macad::Occt::Standard_Transient^ theFbo, int theWidth, int theHeight)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theFbo = theFbo->NativeInstance;
+	((::Graphic3d_CView*)_NativeInstance)->FBOChangeViewport(h_theFbo, theWidth, theHeight);
+	theFbo->NativeInstance = h_theFbo.get();
 }
 
 void Macad::Occt::Graphic3d_CView::CopySettings(Macad::Occt::Graphic3d_CView^ theOther)

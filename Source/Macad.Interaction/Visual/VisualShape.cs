@@ -11,7 +11,8 @@ namespace Macad.Interaction.Visual
 {
     //--------------------------------------------------------------------------------------------------
 
-    public class VisualShape : VisualObject
+    [InitializeAtStartup]
+    public sealed class VisualShape : VisualObject
     {
         #region Enums
 
@@ -33,17 +34,13 @@ namespace Macad.Interaction.Visual
 
         //--------------------------------------------------------------------------------------------------
 
-        public InteractiveEntity ShapeSourceEntity {  get { return _ShapeSource; } }
-
-        //--------------------------------------------------------------------------------------------------
-
         public TopoDS_Shape OverrideBrep
         {
             get { return _OverrideBrep; }
             set
             {
                 _OverrideBrep = value;
-                UpdateShape();
+                Update();
             }
         }
 
@@ -64,17 +61,27 @@ namespace Macad.Interaction.Visual
 
         //--------------------------------------------------------------------------------------------------
 
+        public override bool IsSelectable
+        {
+            get { return _IsSelectable(); }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
         #region Members
 
-        readonly InteractiveEntity _ShapeSource;
         AIS_Shape _AisShape;
         bool _IsHidden;
         VisualStyle _VisualStyle;
-        Options _Options;
+        readonly Options _Options;
         TopoDS_Shape _OverrideBrep;
         Marker _ErrorMarker;
+
+        static readonly WeakTable<object, AttributeSet> _DrawerCache = new();
+
+        //--------------------------------------------------------------------------------------------------
 
         class AttributeSet
         {
@@ -89,7 +96,32 @@ namespace Macad.Interaction.Visual
             }
         }
 
-        static readonly WeakTable<object, AttributeSet> _DrawerCache = new WeakTable<object, AttributeSet>();
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region Statics
+
+        static VisualShape()
+        {
+            VisualObjectManager.Register<Body>(Create);
+
+            Layer.PresentationChanged += _OnPresentationChanged;
+            Layer.InteractivityChanged += _OnInteractivityChanged;
+            VisualObjectManager.IsolatedEntitiesChanged += _VisualObjectManager_IsolatedEntitiesChanged;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static VisualShape Create(WorkspaceController workspaceController, InteractiveEntity entity)
+        {
+            if (entity?.GetTransformedBRep() != null)
+            {
+                return new VisualShape(workspaceController, entity);
+            }
+
+            return null;
+        }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -97,18 +129,9 @@ namespace Macad.Interaction.Visual
 
         #region Layer
 
-        static VisualShape()
+        static void _VisualObjectManager_IsolatedEntitiesChanged(VisualObjectManager visualObjectManager)
         {
-            Layer.PresentationChanged += _OnPresentationChanged;
-            Layer.InteractivityChanged += _OnInteractivityChanged;
-            VisualShapeManager.IsolatedEntitiesChanged += _VisualShapeManager_IsolatedEntitiesChanged;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        static void _VisualShapeManager_IsolatedEntitiesChanged(VisualShapeManager visualShapeManager)
-        {
-            foreach (var visualShape in visualShapeManager.GetVisualShapes())
+            foreach (var visualShape in visualObjectManager.GetAll().OfType<VisualShape>())
             {
                 visualShape._UpdateInteractivityStatus();
             }
@@ -122,7 +145,7 @@ namespace Macad.Interaction.Visual
             if (workspaceController == null)
                 return;
 
-            foreach (var visualShape in workspaceController.VisualShapes.GetVisualShapes(entity => entity.GetLayer() == layer))
+            foreach (var visualShape in workspaceController.VisualObjects.Where(entity => entity.Layer == layer).OfType<VisualShape>())
             {
                 visualShape._UpdateInteractivityStatus();
             }
@@ -143,7 +166,7 @@ namespace Macad.Interaction.Visual
             if (workspaceController == null)
                 return;
 
-            foreach (var visualShape in workspaceController.VisualShapes.GetVisualShapes(entity => entity.GetLayer() == layer))
+            foreach (var visualShape in workspaceController.VisualObjects.Where(entity => entity.Layer == layer).OfType<VisualShape>())
             {
                 var aisShape = visualShape._AisShape;
                 if (aisShape == null)
@@ -212,18 +235,24 @@ namespace Macad.Interaction.Visual
 
         #region C'tor, Remove
 
-        public VisualShape(WorkspaceController workspaceController, InteractiveEntity shapeSource, Options options = Options.None)
-            : base(workspaceController)
+        public VisualShape(WorkspaceController workspaceController, InteractiveEntity entity)
+            : this(workspaceController, entity, Options.None)
+        {
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public VisualShape(WorkspaceController workspaceController, InteractiveEntity entity, Options options)
+            : base(workspaceController, entity)
         {
             _Options = options;
-            _ShapeSource = shapeSource;
-            if (_ShapeSource != null)
+            if (entity != null)
             {
-                _VisualStyle = _ShapeSource.GetVisualStyleComponent();
+                _VisualStyle = entity.GetVisualStyleComponent();
                 if (_VisualStyle != null)
                     _VisualStyle.VisualStyleChanged += _VisualStyle_VisualStyleChanged;
             }
-            UpdateShape();
+            Update();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -249,7 +278,7 @@ namespace Macad.Interaction.Visual
 
         #region Updating
 
-        public void UpdateShape()
+        public override void Update()
         {
             if (_AisShape == null)
             {
@@ -258,14 +287,14 @@ namespace Macad.Interaction.Visual
             }
             else
             {
-                var ocShape = OverrideBrep ?? _ShapeSource.GetTransformedBRep();
+                var ocShape = OverrideBrep ?? Entity.GetTransformedBRep();
                 if (ocShape != null)
                 {
                     if (_AisShape.Shape().ShapeType() != ocShape.ShapeType())
                     {
                         // If shape type changes, recompute can lead to crashes. It's better to redisplay AIS_Shape
                         Remove();
-                        UpdateShape();
+                        Update();
                     }
                     else
                     {
@@ -284,32 +313,15 @@ namespace Macad.Interaction.Visual
 
         //--------------------------------------------------------------------------------------------------
 
-        public void SetLocalTransformation(Trsf? transformation)
-        {
-            if (_AisShape != null)
-            {
-                if (transformation != null)
-                {
-                    _AisShape.SetLocalTransformation(transformation.Value);
-                }
-                else
-                {
-                    _AisShape.ResetTransformation();
-                }
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         bool _EnsureAisObject()
         {
             if (_AisShape != null)
                 return true;
 
-            if ((_ShapeSource == null) || (AisContext == null))
+            if ((Entity == null) || (AisContext == null))
                 return false;
 
-            var brep = OverrideBrep ?? _ShapeSource.GetTransformedBRep();
+            var brep = OverrideBrep ?? Entity.GetTransformedBRep();
             if (brep == null)
                 return false;
 
@@ -317,11 +329,6 @@ namespace Macad.Interaction.Visual
 
             _UpdatePresentation();
             _UpdateInteractivityStatus();
-
-            if (WorkspaceController.Selection.SelectedEntities.Contains(_ShapeSource) && !IsHidden)
-            {
-                AisContext.AddOrRemoveSelected(_AisShape, false);
-            }
 
             return true;
         }
@@ -335,7 +342,7 @@ namespace Macad.Interaction.Visual
             if (_AisShape == null)
                 return;
 
-            var layer = _ShapeSource?.GetLayer();
+            var layer = Entity?.Layer;
             if (layer == null)
                 return;
 
@@ -389,7 +396,7 @@ namespace Macad.Interaction.Visual
 
         //--------------------------------------------------------------------------------------------------
 
-        public bool IsSelectable()
+        bool _IsSelectable()
         {
             if (_AisShape == null)
                 return false;
@@ -399,7 +406,7 @@ namespace Macad.Interaction.Visual
                 return false;
             }
 
-            var layer = _ShapeSource?.GetLayer();
+            var layer = Entity?.Layer;
             if (layer == null)
                 return false;
 
@@ -427,14 +434,14 @@ namespace Macad.Interaction.Visual
                 return;
             }
 
-            var layer = _ShapeSource?.GetLayer();
+            var layer = Entity?.Layer;
             if (layer == null)
                 return;
 
             bool isVisible = !_IsHidden && layer.IsVisible;
-            if (WorkspaceController.VisualShapes.EntityIsolationEnabled)
+            if (WorkspaceController.VisualObjects.EntityIsolationEnabled)
             {
-                isVisible &= WorkspaceController.VisualShapes.GetIsolatedEntities().Contains(_ShapeSource);
+                isVisible &= WorkspaceController.VisualObjects.GetIsolatedEntities().Contains(Entity);
             }
 
             if (isVisible)
@@ -449,6 +456,11 @@ namespace Macad.Interaction.Visual
                 }
 
                 _UpdateSelectionSensitivity();
+
+                if (WorkspaceController.Selection.SelectedEntities.Contains(Entity) && !AisContext.IsSelected(_AisShape))
+                {
+                    AisContext.AddOrRemoveSelected(_AisShape, false);
+                }
             }
             else
             {
@@ -458,7 +470,7 @@ namespace Macad.Interaction.Visual
                 }
             }
 
-            _RaiseAisObjectChanged();
+            RaiseAisObjectChanged();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -474,7 +486,7 @@ namespace Macad.Interaction.Visual
                 return;
             }
 
-            if ((_ShapeSource as Body)?.Shape.ShapeType == ShapeType.Sketch)
+            if ((Entity as Body)?.Shape.ShapeType == ShapeType.Sketch)
             {
                 var paramSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
                 AisContext.SetSelectionSensitivity(_AisShape, 0, (int)(paramSet.SketchSelectionSensitivity * 10.0));
@@ -483,25 +495,6 @@ namespace Macad.Interaction.Visual
             {
                 AisContext.SetSelectionSensitivity(_AisShape, 0, 2);
             }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
-
-        #region Events
-
-        public delegate void AisObjectChangedEventHandler(VisualShape theShape);
-
-        //--------------------------------------------------------------------------------------------------
-
-        public static event AisObjectChangedEventHandler AisObjectChanged;
-
-        //--------------------------------------------------------------------------------------------------
-
-        void _RaiseAisObjectChanged()
-        {
-            AisObjectChanged?.Invoke(this);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -538,7 +531,7 @@ namespace Macad.Interaction.Visual
 
         void _UpdateMarker()
         {
-            var shape = (_ShapeSource as Body)?.Shape;
+            var shape = (Entity as Body)?.Shape;
 
             if (_AisShape != null && shape != null && !shape.IsValid)
             {

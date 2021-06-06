@@ -56,7 +56,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         public abstract void UpdateVisual();
         public abstract void OnPointsChanged(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, Dictionary<int, int> markerCounts = default);
-        public abstract void Activate(bool active);
+        public abstract void Activate(bool selectable);
         public abstract void Remove();
         public abstract bool IsOwnerOf(AIS_InteractiveObject aisObject);
     }

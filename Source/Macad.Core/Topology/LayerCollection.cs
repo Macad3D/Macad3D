@@ -2,11 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using Macad.Common;
 using Macad.Common.Serialization;
 
 namespace Macad.Core.Topology
@@ -15,11 +12,14 @@ namespace Macad.Core.Topology
     public sealed class LayerCollection : Entity, IEnumerable<Layer>, INotifyCollectionChanged, IUndoableTopology
     {
         [SerializeMember]
-        List<Layer> Layers { get; } = new List<Layer>();
+        List<Layer> Layers { get; } = new();
 
         //--------------------------------------------------------------------------------------------------
 
-        public Layer Default { get { return Layers[0]; } }
+        public Layer Default
+        {
+            get { return Layers.Count > 0 ? Layers[0] : null; }
+        }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -47,12 +47,12 @@ namespace Macad.Core.Topology
                     _ActiveLayer = value;
                     RaisePropertyChanged();
 
-                    formerLayer.OnActiveLayerChanged();
+                    formerLayer?.OnActiveLayerChanged();
                     ActiveLayer.OnActiveLayerChanged();
 
                     if (_IsolateActiveLayer)
                     {
-                        formerLayer.RaiseInteractivityChanged();
+                        formerLayer?.RaiseInteractivityChanged();
                         ActiveLayer.RaiseInteractivityChanged();
                     }
                 }

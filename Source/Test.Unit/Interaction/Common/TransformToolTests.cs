@@ -8,9 +8,9 @@ using NUnit.Framework;
 namespace Macad.Test.Unit.Interaction.Common
 {
     [TestFixture]
-    public class TransformBodyToolTests
+    public class TransformToolTests
     {
-        const string _BasePath = @"Interaction\Common\TransformBody";
+        const string _BasePath = @"Interaction\Common\Transform";
 
         //--------------------------------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ namespace Macad.Test.Unit.Interaction.Common
             var body = TestGeomGenerator.CreateBody(Box.Create(10, 5, 2));
             ctx.ViewportController.ZoomFitAll();
 
-            var tool = new TransformBodyTool(new[] {body}, TransformBodyTool.PivotPoint.BodyPivot, TransformBodyTool.Options.None);
+            var tool = new TransformTool(new[] {body}, TransformTool.PivotPoint.EntityPivot, TransformTool.Options.None);
             ctx.WorkspaceController.StartTool(tool);
 
             Assert.Multiple(() =>
@@ -93,7 +93,7 @@ namespace Macad.Test.Unit.Interaction.Common
             ctx.ViewportController.SetPredefinedView(ViewportController.PredefinedViews.WorkingPlane);
             ctx.ViewportController.ZoomFitAll();
 
-            var tool = new TransformBodyTool(new[] {body}, TransformBodyTool.PivotPoint.BodyPivot, TransformBodyTool.Options.None);
+            var tool = new TransformTool(new[] {body}, TransformTool.PivotPoint.EntityPivot, TransformTool.Options.None);
             ctx.WorkspaceController.StartTool(tool);
 
             // X-Axis

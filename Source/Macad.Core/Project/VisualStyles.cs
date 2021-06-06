@@ -38,6 +38,7 @@ namespace Macad.Core
         public static readonly Quantity_Color FilteredSubshapes = Quantity_NameOfColor.Quantity_NOC_DEEPSKYBLUE2.ToColor();
         public static readonly Quantity_Color FilteredSubshapesHot = Quantity_NameOfColor.Quantity_NOC_RED.ToColor();
         public static readonly Quantity_Color Ghost = Quantity_NameOfColor.Quantity_NOC_LIGHTGRAY.ToColor();
+        public static readonly Quantity_Color Auxillary = Quantity_NameOfColor.Quantity_NOC_GRAY25.ToColor();
         public static readonly Quantity_Color BallMarker = Quantity_NameOfColor.Quantity_NOC_YELLOW.ToColor();
         public static readonly Quantity_Color AttributeMarkerBackground = new Color(0.2f, 0.3f, 0.6f).ToQuantityColor();
         public static readonly Quantity_Color AttributeMarkerSelection = new Color(0.7f, 0.3f, 0.3f).ToQuantityColor();

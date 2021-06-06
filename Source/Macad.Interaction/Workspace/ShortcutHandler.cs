@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Input;
-using Macad.Interaction;
 using Macad.Presentation;
 
 namespace Macad.Interaction
@@ -68,21 +67,21 @@ namespace Macad.Interaction
             // TODO: Read in from external config file
             _ShortcutScopes.Add(ShortcutScope.Application, new List<Shortcut>
             {
-                new(Key.Y, ModifierKeys.Control, WorkspaceCommands.DoRedoCommand),
-                new(Key.Z, ModifierKeys.Control, WorkspaceCommands.DoUndoCommand),
-                new(Key.C, ModifierKeys.Control, WorkspaceCommands.CopyToClipboardCommand),
-                new(Key.X, ModifierKeys.Control, WorkspaceCommands.CutToClipboardCommand),
-                new(Key.V, ModifierKeys.Control, WorkspaceCommands.PasteFromClipboardCommand),
+                new(Key.Y, ModifierKeys.Control, WorkspaceCommands.DoRedo),
+                new(Key.Z, ModifierKeys.Control, WorkspaceCommands.DoUndo),
+                new(Key.C, ModifierKeys.Control, WorkspaceCommands.CopyToClipboard),
+                new(Key.X, ModifierKeys.Control, WorkspaceCommands.CutToClipboard),
+                new(Key.V, ModifierKeys.Control, WorkspaceCommands.PasteFromClipboard),
             });
 
             _ShortcutScopes.Add(ShortcutScope.Workspace, new List<Shortcut>
             {
                 new(Key.G, WorkspaceCommands.ToggleGrid),
                 new(Key.S, WorkspaceCommands.ToggleSnappingEnabled),
-                new(Key.T, WorkspaceCommands.TransformShape),
+                new(Key.T, WorkspaceCommands.Transform),
                 new(Key.W, WorkspaceCommands.AlignWorkingPlane),
-                new(Key.Delete, WorkspaceCommands.DeleteEntityCommand),
-                new(Key.D, ModifierKeys.Control, WorkspaceCommands.DuplicateEntityCommand),
+                new(Key.Delete, WorkspaceCommands.DeleteEntity),
+                new(Key.D, ModifierKeys.Control, WorkspaceCommands.DuplicateEntity),
                 new(Key.R, ModifierKeys.Control, ModelCommands.CreateReference),
                 new(Key.Space, WorkspaceCommands.ToggleIsolateSelection),
                 new(Key.Escape, WorkspaceCommands.Escape),

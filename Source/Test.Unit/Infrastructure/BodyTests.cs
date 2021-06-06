@@ -30,11 +30,11 @@ namespace Macad.Test.Unit.Infrastructure
         {
             var box1 = TestGeomGenerator.CreateBox();
             var body1 = box1.Body;
-            body1.Translate(new Vec(-2.5, -2.5, 0));
+            TransformUtils.Translate(body1, new Vec(-2.5, -2.5, 0));
 
             var box2 = TestGeomGenerator.CreateBox();
             var body2 = box2.Body;
-            body2.Translate(new Vec(2.5, 2.5, 0));
+            TransformUtils.Translate(body2, new Vec(2.5, 2.5, 0));
             BooleanFuse.Create(body2, new BodyShapeOperand(body1));
 
             AssertHelper.IsSameModel(body2.Shape, Path.Combine(_BasePath, "InvalidationAcrossBodyOperand1"));
@@ -256,7 +256,7 @@ namespace Macad.Test.Unit.Infrastructure
             // Undo should link to the SAME body as before
             CoreContext.Current.UndoHandler.DoUndo(1);
             Assert.AreEqual(2, model.ChildCount);
-            var newBody2 = model.GetChild(1);
+            var newBody2 = model.GetChild(1) as Body;
             Assert.AreSame(body1, ((newBody2.RootShape as ModifierBase)?.Operands[1] as BodyShapeOperand)?.Body);
         }
 

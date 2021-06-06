@@ -223,7 +223,7 @@ namespace Macad.Interaction.Dialogs
                 if (Settings.HiddenSewn)
                     exportHelper.IncludeEdgeType(HlrEdgeType.HiddenSewn);
 
-                return exportHelper.Export(filename, exporter, InteractiveContext.Current.WorkspaceController.VisualShapes.GetVisibleBReps());
+                return exportHelper.Export(filename, exporter, InteractiveContext.Current.WorkspaceController.VisualObjects.GetVisibleBReps());
             }
             catch (Exception e)
             {

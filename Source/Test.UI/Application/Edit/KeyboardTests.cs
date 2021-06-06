@@ -25,7 +25,7 @@ namespace Macad.Test.UI.Application.Edit
             MainWindow.Ribbon.SelectGroup("Edit");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("TransformShape"));
             MainWindow.Ribbon.ClickButton("TransformShape");
-            Assert.AreEqual("TransformBodyTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
+            Assert.AreEqual("TransformTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
 
             // Select tree view
             MainWindow.Document.SelectItem("Box_1");
@@ -42,14 +42,14 @@ namespace Macad.Test.UI.Application.Edit
         {
             // Init
             TestDataGenerator.GenerateBox(MainWindow);
-            Assert.IsFalse(Pipe.GetValue<bool>("$Context.WorkspaceController.VisualShapes.EntityIsolationEnabled"));
+            Assert.IsFalse(Pipe.GetValue<bool>("$Context.WorkspaceController.VisualObjects.EntityIsolationEnabled"));
 
             // Select tree view
             MainWindow.Document.SelectItem("Box_1");
 
             // Press Escape, tool should be canceled
             Pipe.TypeKey(VirtualKeyShort.SPACE);
-            Assert.IsTrue(Pipe.GetValue<bool>("$Context.WorkspaceController.VisualShapes.EntityIsolationEnabled"));
+            Assert.IsTrue(Pipe.GetValue<bool>("$Context.WorkspaceController.VisualObjects.EntityIsolationEnabled"));
         }
                 
         //--------------------------------------------------------------------------------------------------
@@ -75,14 +75,14 @@ namespace Macad.Test.UI.Application.Edit
         {
             // Init
             TestDataGenerator.GenerateBox(MainWindow);
-            Assert.IsFalse(Pipe.GetValue<bool>("$Context.WorkspaceController.VisualShapes.EntityIsolationEnabled"));
+            Assert.IsFalse(Pipe.GetValue<bool>("$Context.WorkspaceController.VisualObjects.EntityIsolationEnabled"));
 
             // Select layers
             MainWindow.Layers.SelectItem(0);
 
             // Press Escape, tool should be canceled
             Pipe.TypeKey(VirtualKeyShort.SPACE);
-            Assert.IsTrue(Pipe.GetValue<bool>("$Context.WorkspaceController.VisualShapes.EntityIsolationEnabled"));
+            Assert.IsTrue(Pipe.GetValue<bool>("$Context.WorkspaceController.VisualObjects.EntityIsolationEnabled"));
         }
 
     }

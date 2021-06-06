@@ -9,7 +9,7 @@ namespace Macad.Interaction
     {
         #region Models
 
-        public static ActionCommand CreateNewModel { get; } = new ActionCommand(
+        public static ActionCommand CreateNewModel { get; } = new(
             () =>
             {
                 if (InteractiveContext.Current.DocumentController.AskForSavingModelChanges())
@@ -24,7 +24,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand SaveModel { get; } = new ActionCommand(
+        public static ActionCommand SaveModel { get; } = new(
             () => { InteractiveContext.Current.DocumentController.SaveModel(); },
             () =>
             {
@@ -44,7 +44,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
         
-        public static ActionCommand SaveModelAs { get; } = new ActionCommand(
+        public static ActionCommand SaveModelAs { get; } = new(
             () =>
             {
                 InteractiveContext.Current.DocumentController.SaveModelAs();
@@ -58,7 +58,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand SaveAll { get; } = new ActionCommand(
+        public static ActionCommand SaveAll { get; } = new(
             () =>
             {
                 if (InteractiveContext.Current.Document.HasUnsavedChanges)
@@ -75,7 +75,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand OpenModelFrom { get; } = new ActionCommand(
+        public static ActionCommand OpenModelFrom { get; } = new(
             () =>
             {
                 if (InteractiveContext.Current.DocumentController.AskForSavingModelChanges())
@@ -90,7 +90,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<string> OpenFile { get; } = new ActionCommand<string>(
+        public static ActionCommand<string> OpenFile { get; } = new(
             (fileName) => { InteractiveContext.Current.DocumentController.OpenFile(fileName, false); },
             (fileName) => !(InteractiveContext.Current?.DocumentController is null) && File.Exists(fileName))
         {
@@ -101,7 +101,7 @@ namespace Macad.Interaction
         
         //--------------------------------------------------------------------------------------------------
 
-        public static ActionCommand<string> OpenRecentFile { get; } = new ActionCommand<string>(
+        public static ActionCommand<string> OpenRecentFile { get; } = new(
             (fileName) =>
             {
                 if (!File.Exists(fileName))

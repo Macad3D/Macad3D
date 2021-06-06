@@ -36,13 +36,13 @@
                     <Separator />
 
                     <!-- Copy -->
-                    <Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.CopyToClipboardCommand}"
+                    <Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.CopyToClipboard}"
                             Click="_CloseMenu" />
-                    <Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.CutToClipboardCommand}"
+                    <Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.CutToClipboard}"
                             Click="_CloseMenu" />
-                    <Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.PasteFromClipboardCommand}"
+                    <Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.PasteFromClipboard}"
                             Click="_CloseMenu" />
-                    <Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.DuplicateEntityCommand}"
+                    <Button mmp:Command.Action="{x:Static mmi:WorkspaceCommands.DuplicateEntity}"
                             Click="_CloseMenu" />
                     <Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateReference}"
                             Click="_CloseMenu" />

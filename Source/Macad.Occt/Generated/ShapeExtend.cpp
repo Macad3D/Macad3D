@@ -139,12 +139,16 @@ Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg^ Macad::Occt::ShapeExtend_D
 
 bool Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::IsBound(Macad::Occt::Standard_Transient^ theKey)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey = theKey->NativeInstance;
+	return ((::ShapeExtend_DataMapOfTransientListOfMsg*)_NativeInstance)->IsBound(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
 }
 
 bool Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::UnBind(Macad::Occt::Standard_Transient^ theKey)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_theKey = theKey->NativeInstance;
+	return ((::ShapeExtend_DataMapOfTransientListOfMsg*)_NativeInstance)->UnBind(h_theKey);
+	theKey->NativeInstance = h_theKey.get();
 }
 
 void Macad::Occt::ShapeExtend_DataMapOfTransientListOfMsg::Clear(bool doReleaseMemory)
@@ -869,7 +873,9 @@ Macad::Occt::ShapeExtend_BasicMsgRegistrator::ShapeExtend_BasicMsgRegistrator(Ma
 
 void Macad::Occt::ShapeExtend_BasicMsgRegistrator::Send(Macad::Occt::Standard_Transient^ object, Macad::Occt::Message_Msg^ message, Macad::Occt::Message_Gravity gravity)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_object = object->NativeInstance;
+	((::ShapeExtend_BasicMsgRegistrator*)_NativeInstance)->Send(h_object, *(::Message_Msg*)message->NativeInstance, (::Message_Gravity)gravity);
+	object->NativeInstance = h_object.get();
 }
 
 void Macad::Occt::ShapeExtend_BasicMsgRegistrator::Send(Macad::Occt::TopoDS_Shape^ shape, Macad::Occt::Message_Msg^ message, Macad::Occt::Message_Gravity gravity)
@@ -914,7 +920,9 @@ Macad::Occt::ShapeExtend_MsgRegistrator::ShapeExtend_MsgRegistrator(Macad::Occt:
 
 void Macad::Occt::ShapeExtend_MsgRegistrator::Send(Macad::Occt::Standard_Transient^ object, Macad::Occt::Message_Msg^ message, Macad::Occt::Message_Gravity gravity)
 {
-	throw gcnew System::NotImplementedException();
+	Handle(::Standard_Transient) h_object = object->NativeInstance;
+	((::ShapeExtend_MsgRegistrator*)_NativeInstance)->Send(h_object, *(::Message_Msg*)message->NativeInstance, (::Message_Gravity)gravity);
+	object->NativeInstance = h_object.get();
 }
 
 void Macad::Occt::ShapeExtend_MsgRegistrator::Send(Macad::Occt::TopoDS_Shape^ shape, Macad::Occt::Message_Msg^ message, Macad::Occt::Message_Gravity gravity)

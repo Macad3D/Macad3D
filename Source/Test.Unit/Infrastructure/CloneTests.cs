@@ -51,7 +51,7 @@ namespace Macad.Test.Unit.Infrastructure
             var context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(model);
             context.SetInstance(ReadOptions.RecreateGuids);
-            context.SetInstance(new Body.CloneOptions(false));
+            context.SetInstance(new CloneOptions(false));
             var targetBody2 = Serializer.Deserialize<Entity>(serialized, context) as Body;
             Assert.IsNotNull(targetBody2);
             var operandBody2 = ((targetBody2.RootShape as ModifierBase)?.Operands[1] as BodyShapeOperand)?.Body;
@@ -62,7 +62,7 @@ namespace Macad.Test.Unit.Infrastructure
             context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(model);
             context.SetInstance(ReadOptions.RecreateGuids);
-            context.SetInstance(new Body.CloneOptions(true));
+            context.SetInstance(new CloneOptions(true));
             var targetBody3 = Serializer.Deserialize<Entity>(serialized, context) as Body;
             Assert.IsNotNull(targetBody3);
             var operandBody3 = ((targetBody3.RootShape as ModifierBase)?.Operands[1] as BodyShapeOperand)?.Body;
@@ -85,14 +85,14 @@ namespace Macad.Test.Unit.Infrastructure
 
             var context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(ReadOptions.RecreateGuids);
-            context.SetInstance(new Body.CloneOptions(true));
+            context.SetInstance(new CloneOptions(true));
             var clonedBody = Serializer.Deserialize<Entity>(serialized, context) as Body;
             Assert.IsNotNull(clonedBody);
             Assert.IsTrue(clonedBody.Shape.Make(Shape.MakeFlags.None));
 
             context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(ReadOptions.RecreateGuids);
-            context.SetInstance(new Body.CloneOptions(false));
+            context.SetInstance(new CloneOptions(false));
             clonedBody = Serializer.Deserialize<Entity>(serialized, context) as Body;
             Assert.IsNotNull(clonedBody);
             Assert.IsTrue(clonedBody.Shape.Make(Shape.MakeFlags.None));

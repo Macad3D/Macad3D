@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Printing;
 using System.Windows.Input;
 using Macad.Core;
+using Macad.Core.Auxiliary;
+using Macad.Core.Topology;
+using Macad.Interaction.Visual;
 using Macad.Occt;
 
 namespace Macad.Interaction
@@ -12,10 +16,11 @@ namespace Macad.Interaction
         [Flags]
         public enum AlignWorkingPlaneModes
         {
-            AlignToFace = 1,
-            AlignToEdge = 2,
-            AlignToVertex = 4,
-            All = 255
+            AlignToFace   = 1 << 0,
+            AlignToEdge   = 1 << 1,
+            AlignToVertex = 1 << 2,
+            AlignToDatum  = 1 << 4,
+            All = 0xff
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -54,8 +59,14 @@ namespace Macad.Interaction
                 selectionFilters.Add(new VertexSelectionFilter(VertexSelectionFilter.VertexType.All));
             }
 
+            if (_Mode.HasFlag(AlignWorkingPlaneModes.AlignToDatum))
+            {
+                selectionFilters.Add(new SignatureSelectionFilter(VisualPlane.SelectionSignature));
+            }
+
             var toolAction = new SelectSubshapeAction(this, allowedTypes, null,
                                                       selectionFilters.Count > 0 ? new OrSelectionFilter(selectionFilters.ToArray()) : null);
+
             if (!WorkspaceController.StartToolAction(toolAction))
             {
                 return false;
@@ -76,42 +87,58 @@ namespace Macad.Interaction
             var selectAction = toolAction as SelectSubshapeAction;
             Debug.Assert(selectAction != null);
 
-            if (selectAction.SelectedSubshapeType == SubshapeTypes.Face)
+            if (selectAction.SelectedEntity is DatumPlane plane)
             {
-                var face = TopoDS.Face(selectAction.SelectedSubshape);
-                var brepAdaptor = new BRepAdaptor_Surface(face, true);
-                if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
-                {
-                    StatusText = "Selected face is not a plane type surface.";
-                }
-                else
-                {
-                    double centerU = brepAdaptor.FirstUParameter() + (brepAdaptor.LastUParameter() - brepAdaptor.FirstUParameter())/2;
-                    double centerV = brepAdaptor.FirstVParameter() + (brepAdaptor.LastVParameter() - brepAdaptor.FirstVParameter())/2;
-                    var centerPnt = brepAdaptor.Value(centerU, centerV);
-
-                    WorkspaceController.Workspace.WorkingPlane = new Pln(centerPnt, brepAdaptor.Plane().Axis.Direction);
-                    finished = true;
-                }
-            }
-            else if (selectAction.SelectedSubshapeType == SubshapeTypes.Edge)
-            {
-                var edge = TopoDS.Edge(selectAction.SelectedSubshape);
-                double firstParam = 0, lastParam = 0;
-                var curve = BRep_Tool.Curve(edge, ref firstParam, ref lastParam);
-                if (curve != null)
-                {
-                    var midpoint = curve.Value(firstParam + (lastParam - firstParam) / 2);
-
-                    WorkspaceController.Workspace.WorkingPlane = new Pln(midpoint, WorkspaceController.Workspace.WorkingPlane.Axis.Direction);
-                    finished = true;
-                }
-            }
-            else if (selectAction.SelectedSubshapeType == SubshapeTypes.Vertex)
-            {
-                var vertex = TopoDS.Vertex(selectAction.SelectedSubshape);
-                WorkspaceController.Workspace.WorkingPlane = new Pln(BRep_Tool.Pnt(vertex), WorkspaceController.Workspace.WorkingPlane.Axis.Direction);
+                WorkspaceController.Workspace.WorkingPlane = new Pln(plane.GetCoordinateSystem());
                 finished = true;
+            }
+            else
+            {
+                switch (selectAction.SelectedSubshapeType)
+                {
+                    case SubshapeTypes.Face:
+                    {
+                        var face = TopoDS.Face(selectAction.SelectedSubshape);
+                        var brepAdaptor = new BRepAdaptor_Surface(face, true);
+                        if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
+                        {
+                            StatusText = "Selected face is not a plane type surface.";
+                        }
+                        else
+                        {
+                            double centerU = brepAdaptor.FirstUParameter() + (brepAdaptor.LastUParameter() - brepAdaptor.FirstUParameter()) / 2;
+                            double centerV = brepAdaptor.FirstVParameter() + (brepAdaptor.LastVParameter() - brepAdaptor.FirstVParameter()) / 2;
+                            var centerPnt = brepAdaptor.Value(centerU, centerV);
+
+                            WorkspaceController.Workspace.WorkingPlane = new Pln(centerPnt, brepAdaptor.Plane().Axis.Direction);
+                            finished = true;
+                        }
+
+                        break;
+                    }
+                    case SubshapeTypes.Edge:
+                    {
+                        var edge = TopoDS.Edge(selectAction.SelectedSubshape);
+                        double firstParam = 0, lastParam = 0;
+                        var curve = BRep_Tool.Curve(edge, ref firstParam, ref lastParam);
+                        if (curve != null)
+                        {
+                            var midpoint = curve.Value(firstParam + (lastParam - firstParam) / 2);
+
+                            WorkspaceController.Workspace.WorkingPlane = new Pln(midpoint, WorkspaceController.Workspace.WorkingPlane.Axis.Direction);
+                            finished = true;
+                        }
+
+                        break;
+                    }
+                    case SubshapeTypes.Vertex:
+                    {
+                        var vertex = TopoDS.Vertex(selectAction.SelectedSubshape);
+                        WorkspaceController.Workspace.WorkingPlane = new Pln(BRep_Tool.Pnt(vertex), WorkspaceController.Workspace.WorkingPlane.Axis.Direction);
+                        finished = true;
+                        break;
+                    }
+                }
             }
 
             if (finished)

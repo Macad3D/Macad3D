@@ -126,7 +126,7 @@ namespace Macad.Interaction
         #region Transform
 
         [SerializeMember]
-        public TransformBodyTool.PivotPoint TransformPivot
+        public TransformTool.PivotPoint TransformPivot
         {
             get { return _TransformPivot; }
             set
@@ -136,12 +136,12 @@ namespace Macad.Interaction
             }
         }
 
-        TransformBodyTool.PivotPoint _TransformPivot;
+        TransformTool.PivotPoint _TransformPivot;
 
         //--------------------------------------------------------------------------------------------------
 
         [SerializeMember]
-        public TransformBodyTool.Options TransformOptions
+        public TransformTool.Options TransformOptions
         {
             get { return _TransformOptions; }
             set
@@ -151,7 +151,7 @@ namespace Macad.Interaction
             }
         }
 
-        TransformBodyTool.Options _TransformOptions;
+        TransformTool.Options _TransformOptions;
 
         //--------------------------------------------------------------------------------------------------
 

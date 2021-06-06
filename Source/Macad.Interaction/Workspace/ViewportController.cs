@@ -469,7 +469,7 @@ namespace Macad.Interaction
                 _ZoomFitAllOnInit = true;
                 return;
             }
-            WorkspaceController.VisualShapes.UpdateInvalidatedEntities();
+            WorkspaceController.VisualObjects.UpdateInvalidatedEntities();
             Viewport.V3dView.FitAll(0.1, false);
             Viewport.V3dView.ZFitAll(1.0);
             WorkspaceController.Invalidate();
@@ -480,7 +480,7 @@ namespace Macad.Interaction
         
         public void ZoomFitSelected()
         {
-            WorkspaceController.VisualShapes.UpdateInvalidatedEntities();
+            WorkspaceController.VisualObjects.UpdateInvalidatedEntities();
             WorkspaceController.Workspace.AisContext.FitSelected(Viewport.V3dView, 0.1, false);
             WorkspaceController.Invalidate();
             Viewport.OnViewMoved();

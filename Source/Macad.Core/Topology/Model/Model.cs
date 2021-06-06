@@ -5,12 +5,11 @@ using System.Linq;
 using Macad.Core.Shapes;
 using Macad.Common;
 using Macad.Common.Serialization;
-using Macad.Occt;
 
 namespace Macad.Core.Topology
 {
     [SerializeType]
-    public class Model : Document<Body>
+    public class Model : Document<InteractiveEntity>
     {
         [SerializeMember]
         public List<Workspace> Workspaces { get; private set; }
@@ -153,9 +152,9 @@ namespace Macad.Core.Topology
 
         #endregion
 
-        public void SafeDelete(IEnumerable<Body> bodiesToDelete)
+        public void SafeDelete(IEnumerable<InteractiveEntity> entitiesToDelete)
         {
-            var bodies = bodiesToDelete.ToArray();
+            var bodies = entitiesToDelete.OfType<Body>().ToArray();
             foreach (var body in bodies)
             {
                 foreach (var dependent in body.GetDependents().ToArray()) // Enumeration may be changed

@@ -61,7 +61,7 @@ namespace Macad.Core.Topology
         {
             var model = context.GetInstance<Model>();
             bool reuseModelBodies = false;
-            Body.CloneOptions cloneOptions = default;
+            CloneOptions cloneOptions = default;
 
             switch (context.Scope)
             {

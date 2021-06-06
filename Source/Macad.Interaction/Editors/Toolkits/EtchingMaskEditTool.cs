@@ -6,6 +6,7 @@ using Macad.Core.Shapes;
 using Macad.Core.Toolkits;
 using Macad.Core.Topology;
 using Macad.Interaction.Panels;
+using Macad.Interaction.Visual;
 using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Toolkits
@@ -158,7 +159,7 @@ namespace Macad.Interaction.Editors.Toolkits
 
         void _UpdateReconstructed()
         {
-            var visObject = WorkspaceController.VisualShapes.GetVisualShape(_Body, true);
+            var visObject = WorkspaceController.VisualObjects.Get(_Body, true) as VisualShape;
             if (visObject == null)
                 return;
 
@@ -175,7 +176,7 @@ namespace Macad.Interaction.Editors.Toolkits
         {
             if (_IsReconstructedActive)
             {
-                var visObject = WorkspaceController.VisualShapes.GetVisualShape(_Body, true);
+                var visObject = WorkspaceController.VisualObjects.Get(_Body, true) as VisualShape;
                 if (visObject == null)
                     return;
 
@@ -248,7 +249,7 @@ namespace Macad.Interaction.Editors.Toolkits
                 var selectionBRep = _ShapeForFaceSelection.GetTransformedBRep();
                 if (selectionBRep == null)
                     return;
-                var visObject = WorkspaceController.VisualShapes.GetVisualShape(_Body, true);
+                var visObject = WorkspaceController.VisualObjects.Get(_Body, true) as VisualShape;
                 if (visObject == null)
                     return;
                 visObject.OverrideBrep = selectionBRep;

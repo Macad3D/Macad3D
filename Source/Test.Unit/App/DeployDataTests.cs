@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Macad.Test.Utils;
 using Macad.Core.Shapes;
+using Macad.Core.Topology;
 using NUnit.Framework;
 
 namespace Macad.Test.Unit.App
@@ -48,11 +50,11 @@ namespace Macad.Test.Unit.App
                     Assert.That(ctx.Document.ChildCount > 0, $"Doc is empty: {filename}");
 
                     // Reconstruct
-                    foreach (var body in ctx.Document)
+                    foreach (var entity in ctx.Document)
                     {
-                        body.Invalidate();
+                        entity.Invalidate();
                     }
-                    foreach (var body in ctx.Document)
+                    foreach (var body in ctx.Document.OfType<Body>())
                     {
                         if (!body.RootShape.IsValid)
                         {

@@ -39,7 +39,7 @@ namespace Macad.Test.UI.Editors.Primitives
             // Check property panel for correct creation
             _BodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");
             Assert.That(_BodyPanel, Is.Not.Null);
-            Assert.That(_BodyPanel.GetValue<string>("BodyName"), Is.EqualTo("Cylinder_1"));
+            Assert.That(_BodyPanel.GetValue<string>("EntityName"), Is.EqualTo("Cylinder_1"));
 
             _CylinderPanel = MainWindow.PropertyView.FindPanelByClass("CylinderPropertyPanel");
             Assert.That(_CylinderPanel, Is.Not.Null);

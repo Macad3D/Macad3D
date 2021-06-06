@@ -27,17 +27,17 @@ namespace Macad.Interaction.Visual
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool IsActive
+        public override bool IsSelectable
         {
             get
             {
-                return _IsActive;
+                return _IsSelectable;
             }
             set
             {
-                if (value != _IsActive && _Styles.HasFlag(Styles.Selectable))
+                if (value != _IsSelectable && _Styles.HasFlag(Styles.Selectable))
                 {
-                    _IsActive = value;
+                    _IsSelectable = value;
                     _UpdateActivation();
                 }
             }
@@ -51,12 +51,12 @@ namespace Macad.Interaction.Visual
         Geom_Point _P;
         Quantity_Color _Color = Colors.BallMarker;
         Quantity_Color _ColorBg = Colors.AttributeMarkerBackground;
-        bool _IsActive;
+        bool _IsSelectable;
 
         //--------------------------------------------------------------------------------------------------
 
         public Marker(WorkspaceController workspaceController, Styles styles, Image image)
-            : base(workspaceController)
+            : base(workspaceController, null)
         {
             _Styles = styles;
             _Image = image;
@@ -65,7 +65,7 @@ namespace Macad.Interaction.Visual
         //--------------------------------------------------------------------------------------------------
 
         public Marker(WorkspaceController workspaceController, Styles styles, string imageName)
-            : base(workspaceController)
+            : base(workspaceController, null)
         {
             _Styles = styles;
             _Image = _GetMarkerImage(imageName);
@@ -91,6 +91,16 @@ namespace Macad.Interaction.Visual
                 AisContext.Erase(_AisPoint, false);
                 _AisPoint = null;
             }
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public override void Update()
+        {
+            if (_AisPoint == null)
+                _EnsureAisObject();
+            else
+                AisContext.Redisplay(_AisPoint, false);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -231,7 +241,7 @@ namespace Macad.Interaction.Visual
             if (_AisPoint == null)
                 return;
 
-            if (_IsActive)
+            if (_IsSelectable)
             {
                 AisContext.Activate(_AisPoint, 0, false);
             }
