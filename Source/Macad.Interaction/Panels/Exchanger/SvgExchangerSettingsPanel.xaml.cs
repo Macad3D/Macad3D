@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using Macad.Common;
@@ -7,7 +8,6 @@ using Macad.Core.Exchange.Svg;
 
 namespace Macad.Interaction.Panels
 {
-    [InitializeAtStartup]
     public class SvgExchangerSettingsPanelCreator : IExchangerSettingsPanelCreator
     {
         public Type ExchangerType
@@ -27,7 +27,8 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        static SvgExchangerSettingsPanelCreator()
+        [ModuleInitializer]
+        public static void Register()
         {
             ExchangeRegistry.Register(new SvgExchangerSettingsPanelCreator());
         }

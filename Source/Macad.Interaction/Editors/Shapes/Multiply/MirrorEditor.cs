@@ -1,10 +1,10 @@
-﻿using Macad.Common;
+﻿using System.Runtime.CompilerServices;
+using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 
 namespace Macad.Interaction.Editors.Shapes
 {
-    [InitializeAtStartup]
     public class MirrorEditor : Editor<Mirror>
     {
         MirrorPropertyPanel _Panel;
@@ -26,7 +26,8 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
                 
-        static MirrorEditor()
+        [ModuleInitializer]
+        public static void Register()
         {
             RegisterEditor<MirrorEditor>();
         }

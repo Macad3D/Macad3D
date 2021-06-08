@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Auxiliary;
@@ -9,7 +10,6 @@ using Macad.Occt.Extensions;
 
 namespace Macad.Interaction.Visual
 {
-    [InitializeAtStartup]
     public sealed class VisualPlane : VisualObject
     {
         public override AIS_InteractiveObject AisObject
@@ -41,8 +41,6 @@ namespace Macad.Interaction.Visual
 
         static VisualPlane()
         {
-            VisualObjectManager.Register<DatumPlane>(Create);
-
             Layer.PresentationChanged += _OnPresentationChanged;
             Layer.InteractivityChanged += _OnInteractivityChanged;
             VisualObjectManager.IsolatedEntitiesChanged += _VisualObjectManager_IsolatedEntitiesChanged;
@@ -72,6 +70,14 @@ namespace Macad.Interaction.Visual
         //--------------------------------------------------------------------------------------------------
 
         public static SelectionSignature SelectionSignature => new (AIS_KindOfInteractive.AIS_KOI_Datum, 7);
+
+        //--------------------------------------------------------------------------------------------------
+
+        [ModuleInitializer]
+        public static void Register()
+        {
+            VisualObjectManager.Register<DatumPlane>(Create);
+        }
 
         //--------------------------------------------------------------------------------------------------
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
@@ -6,7 +7,6 @@ using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
-    [InitializeAtStartup]
     public class SketchEditor : Editor<Sketch>
     {
         SketchPropertyPanel _Panel;
@@ -28,18 +28,19 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        static SketchEditor()
-        {
-            RegisterEditor<SketchEditor>();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         public override void EnrichContextMenu(CustomMenuItems itemList)
         {
             itemList.AddCommand(SketchCommands.StartSketchEditor, Entity);
             itemList.AddCommand(ModelCommands.CreateExtrude, Entity);
             itemList.AddCommand(ModelCommands.CreateRevolve, Entity);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [ModuleInitializer]
+        public static void Register()
+        {
+            RegisterEditor<SketchEditor>();
         }
 
         //--------------------------------------------------------------------------------------------------

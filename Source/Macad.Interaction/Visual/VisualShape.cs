@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Components;
@@ -11,7 +12,6 @@ namespace Macad.Interaction.Visual
 {
     //--------------------------------------------------------------------------------------------------
 
-    [InitializeAtStartup]
     public sealed class VisualShape : VisualObject
     {
         #region Enums
@@ -104,8 +104,6 @@ namespace Macad.Interaction.Visual
 
         static VisualShape()
         {
-            VisualObjectManager.Register<Body>(Create);
-
             Layer.PresentationChanged += _OnPresentationChanged;
             Layer.InteractivityChanged += _OnInteractivityChanged;
             VisualObjectManager.IsolatedEntitiesChanged += _VisualObjectManager_IsolatedEntitiesChanged;
@@ -121,6 +119,14 @@ namespace Macad.Interaction.Visual
             }
 
             return null;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [ModuleInitializer]
+        public static void Register()
+        {
+            VisualObjectManager.Register<Body>(Create);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -273,7 +279,7 @@ namespace Macad.Interaction.Visual
         }
 
         //--------------------------------------------------------------------------------------------------
-        
+
         #endregion
 
         #region Updating

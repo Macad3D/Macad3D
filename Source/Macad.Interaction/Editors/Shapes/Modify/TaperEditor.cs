@@ -1,4 +1,5 @@
-﻿using Macad.Common;
+﻿using System.Runtime.CompilerServices;
+using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Interaction.Visual;
@@ -6,7 +7,6 @@ using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes
 {
-    [InitializeAtStartup]
     public class TaperEditor : Editor<Taper>
     {
         TaperPropertyPanel _Panel;
@@ -28,7 +28,8 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
                 
-        static TaperEditor()
+        [ModuleInitializer]
+        public static void Register()
         {
             RegisterEditor<TaperEditor>();
         }

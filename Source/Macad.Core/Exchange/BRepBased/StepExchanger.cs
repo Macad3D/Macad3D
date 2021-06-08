@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Common;
@@ -9,7 +10,6 @@ using Macad.Occt;
 
 namespace Macad.Core.Exchange
 {
-    [InitializeAtStartup]
     public sealed class StepExchanger : IBodyExporter, IBodyImporter
     {
         #region Exchanger
@@ -64,9 +64,10 @@ namespace Macad.Core.Exchange
 
         #endregion
             
-        #region C'tor
+        #region Registration
 
-        static StepExchanger()
+        [ModuleInitializer]
+        public static void Register()
         {
             ExchangeRegistry.Register(new StepExchanger());
         }

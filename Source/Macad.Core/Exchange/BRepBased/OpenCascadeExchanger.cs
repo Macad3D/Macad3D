@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Common;
@@ -10,7 +11,6 @@ using Macad.Occt.Helper;
 
 namespace Macad.Core.Exchange
 {
-    [InitializeAtStartup]
     public sealed class OpenCascadeExchanger : IBodyExporter, IBodyImporter
     {
         #region Exchanger
@@ -65,9 +65,10 @@ namespace Macad.Core.Exchange
 
         #endregion
             
-        #region C'tor
+        #region Registration
 
-        static OpenCascadeExchanger()
+        [ModuleInitializer]
+        public static void Register()
         {
             ExchangeRegistry.Register(new OpenCascadeExchanger());
         }

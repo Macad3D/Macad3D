@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Macad.Common;
 using Macad.Core.Exchange;
 
 namespace Macad.Interaction.Panels
 {
-    [InitializeAtStartup]
     public class DxfExchangerSettingsPanelCreator : IExchangerSettingsPanelCreator
     {
         public Type ExchangerType
@@ -33,7 +33,8 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        static DxfExchangerSettingsPanelCreator()
+        [ModuleInitializer]
+        public static void Register()
         {
             ExchangeRegistry.Register(new DxfExchangerSettingsPanelCreator());
         }

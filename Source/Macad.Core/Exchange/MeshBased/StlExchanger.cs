@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
@@ -13,7 +14,6 @@ using Macad.Occt.Helper;
 
 namespace Macad.Core.Exchange
 {
-    [InitializeAtStartup]
     public sealed class StlExchanger : IBodyExporter, IBodyImporter
     {
         #region Exchanger
@@ -68,9 +68,10 @@ namespace Macad.Core.Exchange
 
         #endregion
             
-        #region C'tor
+        #region Registration
 
-        static StlExchanger()
+        [ModuleInitializer]
+        public static void Register()
         {
             ExchangeRegistry.Register(new StlExchanger());
         }

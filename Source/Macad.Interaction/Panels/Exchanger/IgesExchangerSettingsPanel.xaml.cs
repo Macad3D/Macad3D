@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -8,7 +9,6 @@ using Macad.Presentation;
 
 namespace Macad.Interaction.Panels
 {
-    [InitializeAtStartup]
     public class IgesExchangerSettingsPanelCreator : IExchangerSettingsPanelCreator
     {
         public Type ExchangerType
@@ -33,7 +33,8 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        static IgesExchangerSettingsPanelCreator()
+        [ModuleInitializer]
+        public static void Register()
         {
             ExchangeRegistry.Register(new IgesExchangerSettingsPanelCreator());
         }

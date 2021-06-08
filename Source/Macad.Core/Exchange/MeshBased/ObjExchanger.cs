@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Macad.Core.Geom;
 using Macad.Core.Shapes;
@@ -15,7 +16,6 @@ using Macad.Occt.Helper;
 
 namespace Macad.Core.Exchange
 {
-    [InitializeAtStartup]
     public sealed class ObjExchanger : IBodyExporter, IBodyImporter
     {
         #region Exchanger
@@ -72,9 +72,10 @@ namespace Macad.Core.Exchange
 
         #endregion
             
-        #region C'tor
+        #region Registration
 
-        static ObjExchanger()
+        [ModuleInitializer]
+        public static void Register()
         {
             ExchangeRegistry.Register(new ObjExchanger());
         }

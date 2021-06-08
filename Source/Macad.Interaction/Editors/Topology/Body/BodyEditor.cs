@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Macad.Interaction.Visual;
 using Macad.Common;
 using Macad.Core.Components;
@@ -8,7 +9,6 @@ using Macad.Interaction.Panels;
 
 namespace Macad.Interaction.Editors.Topology
 {
-    [InitializeAtStartup]
     public sealed class BodyEditor : Editor<Body>
     {
         BodyPropertyPanel _Panel;
@@ -127,7 +127,8 @@ namespace Macad.Interaction.Editors.Topology
 
         //--------------------------------------------------------------------------------------------------
                         
-        static BodyEditor()
+        [ModuleInitializer]
+        public static void Register()
         {
             RegisterEditor<BodyEditor>();
         }

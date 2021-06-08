@@ -1,4 +1,5 @@
-﻿using Macad.Interaction.Visual;
+﻿using System.Runtime.CompilerServices;
+using Macad.Interaction.Visual;
 using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
@@ -6,7 +7,6 @@ using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes
 {
-    [InitializeAtStartup]
     public class CircularArrayEditor : Editor<CircularArray>
     {
         CircularArrayPropertyPanel _Panel;
@@ -109,7 +109,8 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
                 
-        static CircularArrayEditor()
+        [ModuleInitializer]
+        public static void Register()
         {
             RegisterEditor<CircularArrayEditor>();
         }

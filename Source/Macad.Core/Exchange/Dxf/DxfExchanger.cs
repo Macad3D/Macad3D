@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using Macad.Core.Exchange.Dxf;
 using Macad.Core.Shapes;
 using Macad.Common;
@@ -9,7 +10,6 @@ using Macad.Occt;
 
 namespace Macad.Core.Exchange
 {
-    [InitializeAtStartup]
     public sealed class DxfExchanger : ISketchExporter, ISketchImporter, IVectorExporter
     {
         #region Exchanger
@@ -150,9 +150,10 @@ namespace Macad.Core.Exchange
 
         #endregion
 
-        #region C'tor
+        #region Registration
 
-        static DxfExchanger()
+        [ModuleInitializer]
+        public static void Register()
         {
             ExchangeRegistry.Register(new DxfExchanger());
         }

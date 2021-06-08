@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using Macad.Common;
@@ -7,7 +8,6 @@ using Macad.Presentation;
 
 namespace Macad.Interaction.Panels
 {
-    [InitializeAtStartup]
     public class ObjExchangerSettingsPanelCreator : IExchangerSettingsPanelCreator
     {
         public Type ExchangerType
@@ -36,7 +36,8 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        static ObjExchangerSettingsPanelCreator()
+        [ModuleInitializer]
+        public static void Register()
         {
             ExchangeRegistry.Register(new ObjExchangerSettingsPanelCreator());
         }

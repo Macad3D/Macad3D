@@ -167,8 +167,6 @@ namespace Macad.Interaction
             if (_Initialized)
                 return;
 
-            StaticClassInitializer.InitializeStaticClasses(System.Reflection.Assembly.GetExecutingAssembly());
-
             _Initialized = true;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
@@ -6,7 +7,6 @@ using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
-    [InitializeAtStartup]
     public class ImprintEditor : Editor<Imprint>
     {
         ImprintPropertyPanel _Panel;
@@ -44,7 +44,8 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        static ImprintEditor()
+        [ModuleInitializer]
+        public static void Register()
         {
             RegisterEditor<ImprintEditor>();
         }

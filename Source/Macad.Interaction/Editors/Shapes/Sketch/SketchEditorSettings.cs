@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Shapes;
 using Macad.Common;
 using Macad.Common.Serialization;
@@ -25,7 +26,6 @@ namespace Macad.Interaction.Editors.Shapes
 
     //--------------------------------------------------------------------------------------------------
 
-    [InitializeAtStartup]
     internal static class SketchEditorSettingsCache
     {
         static readonly WeakTable<Sketch, SketchEditorSettings> _Settings = new WeakTable<Sketch, SketchEditorSettings>();
@@ -36,7 +36,8 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        static SketchEditorSettingsCache()
+        [ModuleInitializer]
+        public static void Init()
         {
             Model.AdditionalDataSaving += _Model_OnAdditionalDataSaving;
             Model.AdditionalDataLoading += _Model_OnAdditionalDataLoading;

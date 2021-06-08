@@ -181,8 +181,6 @@ namespace Macad.Core
             Serializer.RegisterNamespaceAlias("Exchange", "Macad.Core.Exchange");
             Serializer.RegisterNamespaceAlias("Occt", "Macad.Occt");
 
-            StaticClassInitializer.InitializeStaticClasses(System.Reflection.Assembly.GetExecutingAssembly());
-
             _Initialized = true;
         }
 
