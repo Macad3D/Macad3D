@@ -334,6 +334,14 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
+        public override void OnBeginDeserializing(SerializationContext context)
+        {
+            context.SetInstance<IDocument>(this);
+            base.OnBeginDeserializing(context);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
     }
 }

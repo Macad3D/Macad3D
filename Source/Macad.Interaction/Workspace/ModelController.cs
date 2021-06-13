@@ -382,10 +382,12 @@ namespace Macad.Interaction
 
             var context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(InteractiveContext.Current.Document);
+            context.SetInstance<IDocument>(InteractiveContext.Current.Document);
             var serialized = Serializer.Serialize(entities, context);
             
             context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(InteractiveContext.Current.Document);
+            context.SetInstance<IDocument>(InteractiveContext.Current.Document);
             context.SetInstance(ReadOptions.RecreateGuids);
             var cloneOptions = new InteractiveCloneOptions();
             context.SetInstance<CloneOptions>(cloneOptions);
@@ -419,6 +421,7 @@ namespace Macad.Interaction
 
             var context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(InteractiveContext.Current.Document);
+            context.SetInstance<IDocument>(InteractiveContext.Current.Document);
             var document = new ClipboardHeader()
             {
                 ModelGuid = CoreContext.Current.Document.Guid
@@ -448,6 +451,7 @@ namespace Macad.Interaction
 
             var context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(InteractiveContext.Current.Document);
+            context.SetInstance<IDocument>(InteractiveContext.Current.Document);
 
             var reader = new Reader(serialized, ReadOptions.RecreateGuids);
             var document = Serializer.Deserialize<ClipboardHeader>(reader, context);

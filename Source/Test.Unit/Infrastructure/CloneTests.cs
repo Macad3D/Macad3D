@@ -50,6 +50,7 @@ namespace Macad.Test.Unit.Infrastructure
             // Deserialize with reusing existing referenced bodies
             var context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(model);
+            context.SetInstance<IDocument>(model);
             context.SetInstance(ReadOptions.RecreateGuids);
             context.SetInstance(new CloneOptions(false));
             var targetBody2 = Serializer.Deserialize<Entity>(serialized, context) as Body;
@@ -61,6 +62,7 @@ namespace Macad.Test.Unit.Infrastructure
             // Deserialize with cloning referenced bodies
             context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(model);
+            context.SetInstance<IDocument>(model);
             context.SetInstance(ReadOptions.RecreateGuids);
             context.SetInstance(new CloneOptions(true));
             var targetBody3 = Serializer.Deserialize<Entity>(serialized, context) as Body;

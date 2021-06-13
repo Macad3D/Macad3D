@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using Macad.Common;
 using Macad.Presentation;
@@ -27,6 +28,13 @@ namespace Macad.Interaction
             {
                 CommandParameter = param
             };
+
+            var autoId = command.GetHeader(param) ?? command.GetTitle(param);
+            if (!autoId.IsNullOrEmpty())
+            {
+                AutomationProperties.SetAutomationId(mi, autoId);
+            }
+
             Command.SetAction(mi, command);
 
             if (_GroupItems.Count > 0)

@@ -281,5 +281,35 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
             WorkspaceCommands.DuplicateEntity.Execute();
             Assert.AreEqual(2, ctx.Document.Cast<DatumPlane>().Count());
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateUndoRedo()
+        {
+            var ctx = Context.Current;
+            Assert.IsFalse(ctx.UndoHandler.CanUndo);
+
+            Assert.IsTrue(AuxiliaryCommands.CreateDatumPlane.CanExecute());
+            AuxiliaryCommands.CreateDatumPlane.Execute();
+            Assert.AreEqual(1, ctx.Document.ChildCount);
+            var planeGuid = ctx.Document.GetChild(0).Guid;
+            Assert.IsTrue(ctx.UndoHandler.CanUndo);
+
+            ctx.UndoHandler.DoUndo(1);
+            Assert.AreEqual(0, ctx.Document.ChildCount);
+            Assert.IsNull(ctx.Document.FindInstance(planeGuid));
+            Assert.IsFalse(ctx.UndoHandler.CanUndo);
+            Assert.IsTrue(ctx.UndoHandler.CanRedo);
+
+            ctx.UndoHandler.DoRedo(1);
+            Assert.AreEqual(1, ctx.Document.ChildCount);
+            Assert.IsNotNull(ctx.Document.FindInstance(planeGuid));
+            Assert.IsTrue(ctx.UndoHandler.CanUndo);
+            Assert.IsFalse(ctx.UndoHandler.CanRedo);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

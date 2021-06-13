@@ -51,11 +51,11 @@ namespace Macad.Interaction
         public static ActionCommand SetWorkingPlaneToDatumPlane { get; } = new (
             () =>
             {
-                var plane = _WorkspaceController.Selection.SelectedEntities.Cast<DatumPlane>().First();
+                var plane = _WorkspaceController.Selection.SelectedEntities.OfType<DatumPlane>().First();
                 _WorkspaceController.Workspace.WorkingPlane = new Pln(plane.GetCoordinateSystem());
                 _WorkspaceController.Invalidate();
             },
-            () => _WorkspaceController.Selection.SelectedEntities.Cast<DatumPlane>().Count() == 1)
+            () => _WorkspaceController.Selection.SelectedEntities.OfType<DatumPlane>().Count() == 1)
         {
             Header = () => "Set as Working Plane",
             Description = () => "Sets the working plane to the selected datum plane.",

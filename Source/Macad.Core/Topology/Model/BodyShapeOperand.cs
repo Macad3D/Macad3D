@@ -59,7 +59,7 @@ namespace Macad.Core.Topology
         
         bool DeserializeBody(Reader reader, SerializationContext context)
         {
-            var model = context.GetInstance<Model>();
+            IDocument document = context.GetInstance<IDocument>();
             bool reuseModelBodies = false;
             CloneOptions cloneOptions = default;
 
@@ -75,7 +75,7 @@ namespace Macad.Core.Topology
                     break;
             }
 
-            if (!reuseModelBodies || model == null )
+            if (!reuseModelBodies || document == null )
             {
                 return false; // Use standard serializer
             }
@@ -85,7 +85,7 @@ namespace Macad.Core.Topology
             if (anticipated.type != null && typeof(Body).IsAssignableFrom(anticipated.type))
             {
                 // Try finding body in model?
-                var body = model.FindInstance(anticipated.guid) as Body;
+                var body = document.FindInstance(anticipated.guid) as Body;
                 if (body != null)
                 {
                     // Ask if options are available, otherwise assume re-using

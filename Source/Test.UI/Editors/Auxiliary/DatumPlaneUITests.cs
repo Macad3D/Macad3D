@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using FlaUI.Core.Input;
+using FlaUI.Core.WindowsAPI;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
 
@@ -94,6 +96,33 @@ namespace Macad.Test.UI.Editors.Auxiliary
             Assert.IsNotEmpty(Pipe.GetValue<string>("$Selected.ImageFilePath"));
             Assert.AreEqual(100.0, panel.GetValue<double>("DimensionX"));
             Assert.AreEqual(50.0, panel.GetValue<double>("DimensionY"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateSketchOnPlane()
+        {
+            // Start tool
+            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.ClickButton("CreateDatumPlane");
+
+            // Select as WorkingPlane
+            MainWindow.Viewport.ClickRelative(0.5, 0.5, MouseButton.Right, false);
+            Assume.That(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+            var contextMenu = new ContextMenuAdaptor(MainWindow, "ViewportContextMenu");
+            contextMenu.ClickMenuItem("Set as Working Plane");
+
+            // Create sketch on new plane
+            MainWindow.Ribbon.ClickButton("CreateSketch");
+            Assert.AreEqual("SketchEditorTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
+
+            // Exit sketch editor
+            Pipe.TypeKey(VirtualKeyShort.ESCAPE);
+            Assert.AreEqual("", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
+
+            // Let it crash
+            MainWindow.Viewport.ClickRelative(0.5, 0.5, MouseButton.Right, false);
         }
     }
 }

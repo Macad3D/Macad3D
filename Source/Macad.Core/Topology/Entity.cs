@@ -127,7 +127,7 @@ namespace Macad.Core.Topology
 
         public override void OnDeserialized(SerializationContext context)
         {
-            _Document?.RegisterInstance(this);
+            Document = context.GetInstance<IDocument>();
             base.OnDeserialized(context);
         }
 
@@ -152,7 +152,7 @@ namespace Macad.Core.Topology
         public virtual void Remove()
         {
             RaiseEntityRemoved();
-            _Document = null;
+            Document = null;
         }
 
         //--------------------------------------------------------------------------------------------------

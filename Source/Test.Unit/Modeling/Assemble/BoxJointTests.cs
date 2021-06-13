@@ -286,6 +286,7 @@ namespace Macad.Test.Unit.Modeling.Assemble
             var serialized = Serializer.Serialize(body2, new SerializationContext());
             var context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(CoreContext.Current.Document);
+            context.SetInstance<IDocument>(CoreContext.Current.Document);
             context.SetInstance(ReadOptions.RecreateGuids);
             context.SetInstance(new CloneOptions(cloneReferencedBodies: false));
             var third = (Serializer.Deserialize<Entity>(serialized, context) as Body)?.Shape as BoxJoint;

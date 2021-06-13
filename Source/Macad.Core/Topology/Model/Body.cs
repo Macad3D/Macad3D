@@ -13,12 +13,6 @@ namespace Macad.Core.Topology
 {
     public class Body : InteractiveEntity, IUndoableDataBlob, IDecorable, ITransformable
     {
-        #region Inner Classes
-
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
-
         #region Properties
 
         [SerializeMember]
@@ -135,10 +129,6 @@ namespace Macad.Core.Topology
         public Model Model
         {
             get { return Document as Model; }
-            private set
-            {
-                Document = value;
-            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -351,7 +341,7 @@ namespace Macad.Core.Topology
             {
                 Name = CoreContext.Current.Document?.AddNextNameSuffix(shape.Name) ?? shape.Name,
                 Layer = CoreContext.Current.Layers?.ActiveLayer,
-                Model = CoreContext.Current.Document
+                Document = CoreContext.Current.Document
             };
             body.AddShape(shape, false);
 
@@ -370,7 +360,6 @@ namespace Macad.Core.Topology
         public override void OnBeginDeserializing(SerializationContext context)
         {
             base.OnBeginDeserializing(context);
-            Model = context.GetInstance<Model>();
             context.SetInstance(this);
         }
 
@@ -389,7 +378,6 @@ namespace Macad.Core.Topology
             _RootShape?.Remove();
             _RootShape = null;
             Components.Clear();
-            Model = null;
             base.Remove();
         }
 
@@ -452,6 +440,7 @@ namespace Macad.Core.Topology
 
             var context = new SerializationContext(SerializationScope.UndoRedo);
             context.SetInstance(Model);
+            context.SetInstance<IDocument>(Model);
             context.SetInstance(this);
             context.SetInstance(CoreContext.Current.Workspace);
 

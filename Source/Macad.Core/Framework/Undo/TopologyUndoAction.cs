@@ -86,6 +86,7 @@ namespace Macad.Core
                     // Counter-Action: Add.
                     var context = new SerializationContext(SerializationScope.UndoRedo);
                     context.SetInstance(CoreContext.Current.Document);
+                    context.SetInstance<IDocument>(CoreContext.Current.Document);
                     context.SetInstance(CoreContext.Current.Workspace);
 
                     child = Serializer.Deserialize<Entity>(_StoredData, context);
