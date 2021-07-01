@@ -311,5 +311,15 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
         
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void Delete()
+        {
+            var ctx = Context.Current;
+            AuxiliaryCommands.CreateDatumPlane.Execute();
+            Assert.AreEqual(1, ctx.Document.Cast<DatumPlane>().Count());
+            Assert.IsTrue(WorkspaceCommands.DeleteEntity.CanExecute());
+            WorkspaceCommands.DeleteEntity.Execute();
+            Assert.AreEqual(0, ctx.Document.Cast<DatumPlane>().Count());
+        }
     }
 }

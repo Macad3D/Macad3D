@@ -6,9 +6,9 @@ Macad\|3D uses C# as the primary language for writing scripts. You can use any l
 
 Instead of providing an abstract API on top of the internal classes, scripts are referencing the Macad\|3D assemblies and using the same API Macad\|3D is using internally. However, you should try to keep at the documented classes and functions, as all other interfaces are subject to change in further development.
 
-Scripts are compiled at run-time and loaded into the AppDomain of the main application. That means they cannot be unloaded. If a script or it's referenced code files are changed, they are compiled into a new assembly again, which is referenced instead. Doing this very often will increase memory usage, so the application should be restarted from time to time when developing scripts.
+Scripts are compiled at run-time and loaded into the context of the main application. That means they cannot be unloaded. If a script or it's referenced code files are changed, they are compiled into a new assembly again, which is referenced instead. Doing this very often will increase memory usage, so the application should be restarted from time to time when developing scripts.
 
-Since scripts run in the AppDomain of the main application, debugging scripts is very easy. Just attach the debugger to the running Macad\|3D process, set breakpoints in your script, and run it.
+Since scripts run in the context of the main application, debugging scripts is very easy. Just attach the debugger to the running Macad\|3D process, set breakpoints in your script, and run it.
 
 # Writing a Script
 Scripts are built using the common Roslyn C# Scripting format, which is supported by many editors out of the box (e.b. Visual Studio Code). Source files do not need to contain any class or namespace declaration, just write the code. Classes or functions can be declared and used as they were an inner part of your script class. All scripts are derived from [ScriptContext](Macad.Interaction.InteractiveScriptContext) class and can access it's members directly.

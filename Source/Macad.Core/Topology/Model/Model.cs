@@ -154,7 +154,9 @@ namespace Macad.Core.Topology
 
         public void SafeDelete(IEnumerable<InteractiveEntity> entitiesToDelete)
         {
-            var bodies = entitiesToDelete.OfType<Body>().ToArray();
+            var interactiveEntities = entitiesToDelete as List<InteractiveEntity> ?? entitiesToDelete.ToList();
+
+            var bodies = interactiveEntities.OfType<Body>().ToArray();
             foreach (var body in bodies)
             {
                 foreach (var dependent in body.GetDependents().ToArray()) // Enumeration may be changed
@@ -177,9 +179,12 @@ namespace Macad.Core.Topology
                         }
                     }
                 }
+            }
 
-                RemoveChild(body);
-                body.Remove();
+            foreach (var entity in interactiveEntities)
+            {
+                RemoveChild(entity);
+                entity.Remove();
             }
         }
 
