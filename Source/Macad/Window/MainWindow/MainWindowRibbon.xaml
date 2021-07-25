@@ -539,6 +539,8 @@
                                AutomationProperties.AutomationId="CreateRevolve"/>
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateLoft}"
                                      AutomationProperties.AutomationId="CreateLoft"/>
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreatePipe}"
+                               AutomationProperties.AutomationId="CreatePipe"/>
 
             </Fluent:RibbonGroupBox>
 
@@ -826,7 +828,8 @@
                                      AutomationProperties.AutomationId="RecenterGrid"/>
             
                 <Fluent:RibbonGroupBox Name="Close" Header="Close">
-                    <Fluent:Button mmp:Command.Action="{x:Static mmi:SketchCommands.CloseSketchEditor}"/>
+                    <Fluent:Button mmp:Command.Action="{x:Static mmi:SketchCommands.CloseSketchEditor}"
+                                   AutomationProperties.AutomationId="CloseSketchEditor"/>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonGroupBox>
         </Fluent:RibbonTabItem>

@@ -508,6 +508,27 @@ namespace Macad.Interaction
             IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.OneWay,
                                                     EqualityToBoolConverter.Instance, nameof(CreateTaperTool))
         };
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public static ActionCommand CreatePipe { get; } = new(
+            () =>
+            {
+                var body = InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.First() as Body;
+                if (body?.Shape?.ShapeType != ShapeType.Sketch)
+                    return;
+
+                Pipe.Create(body);
+                InteractiveContext.Current?.UndoHandler.Commit();
+                _WorkspaceController.Invalidate();
+            },
+            _CanExecuteSketchModifier)
+        {
+            Header = () => "Pipe",
+            Description = () => "Creates a pipe by sweeping a profile along a sketch based path.",
+            Icon = () => "Form-Pipe",
+            HelpTopic = "69425fd0-ff1a-4dc3-9014-12860684e057"
+        };
 
         //--------------------------------------------------------------------------------------------------
 

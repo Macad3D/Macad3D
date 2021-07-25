@@ -75,6 +75,7 @@ namespace Macad.Core.Shapes
             operandShape.AddDependent(this);
 
             RaisePropertyChanged("ChildCount");
+            Body?.RaiseShapeTopologyChanged();
             Invalidate();
 
             return true;
@@ -97,6 +98,7 @@ namespace Macad.Core.Shapes
             operandShape.AddDependent(this);
 
             RaisePropertyChanged("ChildCount");
+            Body?.RaiseShapeTopologyChanged();
             Invalidate();
             return true;
         }
@@ -135,6 +137,7 @@ namespace Macad.Core.Shapes
             Operands.RemoveAt(operandIndex);
 
             RaisePropertyChanged("ChildCount");
+            Body?.RaiseShapeTopologyChanged();
             Invalidate();
         }
 

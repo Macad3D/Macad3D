@@ -39,11 +39,11 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        public WorkspaceController WorkspaceController { get; private set; }
+        protected WorkspaceController WorkspaceController { get; private set; }
 
-        public IPropertyPanelManager PanelManager { get; private set; }
+        protected IPropertyPanelManager PanelManager { get; private set; }
 
-        public BaseObject Instance { get; set; }
+        protected BaseObject Instance { get; set; }
 
         bool _IsDisposed = false;
         

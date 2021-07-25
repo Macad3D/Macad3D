@@ -27,13 +27,14 @@ typedef void* EAGLContext;
 #include "Standard_Transient.h"
 #include "ValueTypes\ValueTypes.h"
 
-#include "Extensions/TColStd_Ex.h"
-#include "Extensions/BRep_Ex.h"
 #include "Extensions/BOPTools_Ex.h"
+#include "Extensions/BRep_Ex.h"
+#include "Extensions/Graphic3d_Ex.h"
+#include "Extensions/ShapeFix_Ex.h"
+#include "Extensions/TColStd_Ex.h"
 #include "Extensions/TopLoc_Ex.h"
 #include "Extensions/TopoDS_Ex.h"
 #include "Extensions/TopTools_Ex.h"
-#include "Extensions/Graphic3d_Ex.h"
 #include "Extensions/V3d_Ex.h"
 
 #include "Generated/ForwardDeclarations.h"

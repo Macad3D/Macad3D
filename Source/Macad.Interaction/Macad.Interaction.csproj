@@ -34,6 +34,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Editors\Shapes\Form\PipePropertyPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Panels\Document\DocumentExplorerPanel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

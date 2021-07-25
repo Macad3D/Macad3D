@@ -52,7 +52,7 @@ While lofts can be built using open or closed contours, they cannot be mixed. So
 # Creating a Loft
 A loft can be created on any sketch shape by adding more sketches to define the hull of the loft.
 1. Select one or more sketches.
-2. Select __Create Loft__ from ribbon menu. If you have selected more than one sketch, the shape is finished using this two shapes. Otherwise, you can now add another sketches to the loft.
+2. Select __Loft__ from ribbon menu. If you have selected more than one sketch, the shape is finished using this two shapes. Otherwise, you can now add another sketches to the loft.
 3. Select another sketch to add it to the loft. You can add as many sketches as you need. Press __Escape__ to leave the adding mode.
 
 > [!Note] The order of addition is not important for the algorithm to work, but it will define the order the sketches are listed in the modifier stack.

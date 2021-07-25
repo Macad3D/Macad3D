@@ -15,6 +15,7 @@ Shapes-Loft=..\Icons\Form-Loft.xaml
 Shapes-Mirror=..\Icons\Multiply-Mirror.xaml
 Shapes-Reference=..\Icons\Create-Reference.xaml
 Shapes-Revolve=..\Icons\Form-Revolve.xaml
+Shapes-Pipe=..\Icons\Form-Pipe.xaml
 Shapes-Sketch=..\Icons\Prim-Sketch.xaml
 Shapes-Solid=..\Icons\Prim-Box.xaml
 Shapes-Sphere=..\Icons\Prim-Sphere.xaml

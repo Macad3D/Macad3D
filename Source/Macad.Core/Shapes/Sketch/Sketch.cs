@@ -670,20 +670,33 @@ namespace Macad.Core.Shapes
             while (freeSegmentEdges.Any())
             {
                 var nextSegmentEdge = freeSegmentEdges.First();
-                var firstSegmentOfWire = nextSegmentEdge.Key;
+                var frontSegment = nextSegmentEdge.Key;
                 freeSegmentEdges.Remove(nextSegmentEdge.Key);
 
                 var makeWire = new BRepBuilderAPI_MakeWire(nextSegmentEdge.Value);
 
-                if ((firstSegmentOfWire.StartPoint != -1) || (firstSegmentOfWire.EndPoint != -1))
+                if ((frontSegment.StartPoint != -1) || (frontSegment.EndPoint != -1))
                 {
+                    var backSegment = frontSegment;
                     while (freeSegmentEdges.Any())
                     {
-                        nextSegmentEdge = freeSegmentEdges.FirstOrDefault(kvp => kvp.Key.IsConnected(nextSegmentEdge.Key));
-                        if (nextSegmentEdge.Value == null)
+                        nextSegmentEdge = freeSegmentEdges.FirstOrDefault(kvp => kvp.Key.IsConnected(frontSegment));
+                        if (nextSegmentEdge.Value != null)
                         {
-                            // disconnected segment
-                            break;
+                            frontSegment = nextSegmentEdge.Key;
+                        }
+                        else
+                        {
+                            nextSegmentEdge = freeSegmentEdges.FirstOrDefault(kvp => kvp.Key.IsConnected(backSegment));
+                            if (nextSegmentEdge.Value != null)
+                            {
+                                backSegment = nextSegmentEdge.Key;
+                            }
+                            else
+                            {
+                                // disconnected segment
+                                break;
+                            }
                         }
 
                         makeWire.Add(nextSegmentEdge.Value);

@@ -96,6 +96,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" TargetName="PART_TextBox" Value="{StaticResource Macad.Brushes.TextBox.Disabled.Background}" />
+                            <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.TextBox.Disabled.Text}" />
                             <!--<Setter Property="BorderBrush" TargetName="PART_TextBox" Value="{StaticResource DisabledBorderBrush}" />-->
                             <!--<Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />-->
                         </Trigger>

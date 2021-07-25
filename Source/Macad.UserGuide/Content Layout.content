@@ -148,6 +148,13 @@
           <HelpKeyword index="K" term="Hull" />
         </HelpKeywords>
       </Topic>
+      <Topic id="69425fd0-ff1a-4dc3-9014-12860684e057" visible="True">
+        <HelpKeywords>
+          <HelpKeyword index="K" term="Pipe" />
+          <HelpKeyword index="K" term="Wire" />
+          <HelpKeyword index="K" term="Sweep" />
+        </HelpKeywords>
+      </Topic>
     </Topic>
     <Topic id="c503aec8-39ad-4bd2-a7d7-7123b3a6543e" visible="True" noFile="true" isExpanded="true" title="Multiply">
       <Topic id="6578fa5e-7536-4df2-96fc-18a31a4cee9c" visible="True">

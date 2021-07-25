@@ -12,10 +12,6 @@ namespace Macad.Test.Utils
 {
     public sealed class Context : InteractiveContext
     {
-        public const int ImageSize = 500;
-
-        //--------------------------------------------------------------------------------------------------
-
         public new static Context Current { get; private set; }
 
         //--------------------------------------------------------------------------------------------------
@@ -94,7 +90,8 @@ namespace Macad.Test.Utils
 
         void MessageHub_MessageThrown(object sender, MessageItem e)
         {
-            TestContext.WriteLine(e.ToString());
+            TestContext.Out.WriteLine(e.ToString());
+            TestContext.Out.Flush();
         }
 
         //--------------------------------------------------------------------------------------------------

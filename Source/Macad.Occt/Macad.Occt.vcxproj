@@ -119,6 +119,7 @@
     <ClInclude Include="BaseClass.h" />
     <ClInclude Include="Extensions\BOPTools_Ex.h" />
     <ClInclude Include="Extensions\BRep_Ex.h" />
+    <ClInclude Include="Extensions\ShapeFix_Ex.h" />
     <ClInclude Include="Extensions\TColStd_Ex.h" />
     <ClInclude Include="Extensions\Graphic3d_Ex.h" />
     <ClInclude Include="Extensions\TopLoc_Ex.h" />

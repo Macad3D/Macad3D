@@ -471,6 +471,9 @@
     <ClInclude Include="Generated\ForwardDeclarations.h">
       <Filter>Generated</Filter>
     </ClInclude>
+    <ClInclude Include="Extensions\ShapeFix_Ex.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">

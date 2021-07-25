@@ -22,7 +22,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public void AddCommand(IActionCommand command, object param = null)
+        public void AddCommand(IActionCommand command, object param = null, string overrideTitle = null)
         {
             var mi = new MenuItem
             {
@@ -36,6 +36,11 @@ namespace Macad.Interaction
             }
 
             Command.SetAction(mi, command);
+
+            if (!overrideTitle.IsNullOrEmpty())
+            {
+                mi.Header = overrideTitle;
+            }
 
             if (_GroupItems.Count > 0)
             {

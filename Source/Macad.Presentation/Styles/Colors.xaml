@@ -81,6 +81,7 @@
     <ColorAndBrush x:Key="TextBox.MouseOver.Background">Macad.Colors.Base10</ColorAndBrush>
     <ColorAndBrush x:Key="TextBox.Focused.Border">Macad.Colors.Base50</ColorAndBrush>
     <ColorAndBrush x:Key="TextBox.Focused.Background">Macad.Colors.Base10</ColorAndBrush>
+    <ColorAndBrush x:Key="TextBox.Disabled.Background">Macad.Colors.Base20</ColorAndBrush>
     <ColorAndBrush x:Key="TextBox.Disabled.Border">Macad.Colors.Base50</ColorAndBrush>
     <ColorAndBrush x:Key="TextBox.Disabled.Text">Macad.Colors.Base50</ColorAndBrush>
     <ColorAndBrush x:Key="TextBox.Invalid.Background">Macad.Colors.Error</ColorAndBrush>

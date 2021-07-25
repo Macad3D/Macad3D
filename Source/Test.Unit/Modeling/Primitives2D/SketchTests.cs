@@ -93,6 +93,25 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void UnsortedSegments()
+        {
+            var sketch = Sketch.Create();
+            var sb = new SketchBuilder(sketch);
+            sb.Line(15, 5, 25, 10); // 3 - 0-1
+            sb.Line(10, 0, 15, 5);  // 2 - 2-3
+            sb.Line(25, 10, 20, 0); // 4 - 4-5
+            sb.Line(0, 0, 10, 0);   // 1 - 6-7
+            sketch.MergePoints(2,7);
+            sketch.MergePoints(0,3);
+            sketch.MergePoints(4,1);
+
+            Assert.IsTrue(sketch.Make(Shape.MakeFlags.None));
+            Assert.AreEqual(1, sketch.GetBRep().Wires().Count);
+        }
+
+        //--------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------
 
         #region Support Functions

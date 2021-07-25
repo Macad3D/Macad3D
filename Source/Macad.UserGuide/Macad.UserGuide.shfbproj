@@ -251,8 +251,6 @@
     <None Include="Modeling\Modify\BooleanFuse.aml" />
     <None Include="Modeling\Modify\BooleanCut.aml" />
     <None Include="Modeling\Modify\BooleanCommon.aml" />
-    <None Include="Modeling\Form\Extrude.aml" />
-    <None Include="Modeling\Form\Revolve.aml" />
     <None Include="Modeling\Modify\Chamfer.aml" />
     <None Include="Modeling\Modify\Fillet.aml" />
     <None Include="Modeling\Modify\Imprint.aml" />
@@ -260,7 +258,10 @@
     <None Include="Modeling\Multiply\LinearArray.aml" />
     <None Include="Modeling\Multiply\CircularArray.aml" />
     <None Include="Modeling\Multiply\Mirror.aml" />
+    <None Include="Modeling\Form\Extrude.aml" />
+    <None Include="Modeling\Form\Revolve.aml" />
     <None Include="Modeling\Form\Loft.aml" />
+    <None Include="Modeling\Form\Pipe.aml" />
     <None Include="License\License.aml" />
     <None Include="Modeling\Primitives\Sphere.aml" />
     <None Include="Modeling\Primitives\Cylinder.aml" />
@@ -327,6 +328,7 @@
     <Content Include="Modeling\Form\Extrude.md" />
     <Content Include="Modeling\Form\Loft.md" />
     <Content Include="Modeling\Form\Revolve.md" />
+    <Content Include="Modeling\Form\Pipe.md" />
     <Content Include="Modeling\Modify\Chamfer.md" />
     <Content Include="Modeling\Modify\Fillet.md" />
     <Content Include="Modeling\Multiply\CircularArray.md" />
@@ -475,6 +477,14 @@
     <Image Include="Modeling\Form\LoftCappingMode.png">
       <ImageId>LoftCappingMode</ImageId>
       <AlternateText>Loft Capping Mode</AlternateText>
+    </Image>
+    <Image Include="Modeling\Form\PipeSegTooShort.png">
+      <ImageId>PipeSegTooShort</ImageId>
+      <AlternateText>Segment too short</AlternateText>
+    </Image>
+    <Image Include="Modeling\Form\PipeProfiles.png">
+      <ImageId>PipeProfiles</ImageId>
+      <AlternateText>Pipe Profiles</AlternateText>
     </Image>
     <Image Include="Modeling\Primitives\SphereExtents.png">
       <ImageId>SphereExtents</ImageId>

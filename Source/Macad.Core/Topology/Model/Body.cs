@@ -412,6 +412,13 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
+        public void RaiseShapeTopologyChanged()
+        {
+            RaisePropertyChanged(nameof(Shape));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
         #region IUndoableDataBlob
