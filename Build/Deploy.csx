@@ -172,7 +172,6 @@ bool _BuildSetup()
     defFile.WriteLine($"#define DotNetRelease '{VisualStudio.DotNetRelease}'");
     defFile.WriteLine($"#define DotNetMinPatch {dotNetFullVersion.Split('.')[2]}");
     defFile.WriteLine($"#define DotNetRuntime '{VisualStudio.DotNetRuntime}'");
-    defFile.WriteLine($"#define DotNetCheckPath '{dotNetCheckPath}'");
     defFile.WriteLine($"#define DotNetRedistPath '{dotNetRedistPath}'");
     defFile.WriteLine($"#define DotNetRedistFile '{Path.GetFileName(dotNetRedistPath)}'");
     defFile.WriteLine("");

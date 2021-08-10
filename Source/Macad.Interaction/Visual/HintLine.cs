@@ -1,4 +1,5 @@
 ﻿using System;
+using Macad.Common;
 using Macad.Occt;
 
 namespace Macad.Interaction.Visual
@@ -41,33 +42,47 @@ namespace Macad.Interaction.Visual
 
         public override void Update()
         {
+            bool isValid = true;
+            if (_GeomLine == null)
+            {
+                isValid = _P1.Distance(_P2) > Double.Epsilon;
+            }
+            if (!isValid)
+            {
+                Remove();
+                return;
+            }
+
             if (_AisLine == null)
-                _EnsureAisObject();
+            {
+                if (!_EnsureAisObject())
+                    return;
+            }
             else
+            {
+                if (_GeomLine != null)
+                    _AisLine.SetLine(_GeomLine);
+                else
+                    _AisLine.SetPoints(_P1, _P2);
                 AisContext.RecomputePrsOnly(_AisLine, false);
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public void Set(Pnt p1, Pnt p2)
         {
-            if (p1.IsEqual(p2, Double.Epsilon))
-                return;
-
             _P1 = new Geom_CartesianPoint(p1);
             _P2 = new Geom_CartesianPoint(p2);
             _GeomLine = null;
 
-            _Update();
+            Update();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public void Set(Pnt2d p1, Pnt2d p2, Pln plane)
         {
-            if (p1.IsEqual(p2, Double.Epsilon))
-                return;
-
             Pnt pnt1 = new Pnt();
             Pnt pnt2 = new Pnt();
             ElSLib.D0(p1.X, p1.Y, plane, ref pnt1);
@@ -83,26 +98,7 @@ namespace Macad.Interaction.Visual
             _GeomLine = new Geom_Line(axis);
             _P1 = _P2 = null;
 
-            _Update();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        void _Update()
-        {
-            if (_AisLine == null)
-            {
-                if (!_EnsureAisObject())
-                    return;
-            }
-            else
-            {
-                if (_GeomLine != null)
-                    _AisLine.SetLine(_GeomLine);
-                else
-                    _AisLine.SetPoints(_P1, _P2);
-                AisContext.RecomputePrsOnly(_AisLine, false);
-            }
+            Update();
         }
 
         //--------------------------------------------------------------------------------------------------

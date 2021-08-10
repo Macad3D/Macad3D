@@ -84,7 +84,7 @@ namespace Macad.Interaction.Editors.Shapes
                     _LabelHudElement?.SetValue("Length: " + _Segment.Length(_Points).ToRoundedString() + " mm");
                 }
 
-                _Coord2DHudElement?.SetValues(_PointAction.Point.X, _PointAction.Point.Y);
+                _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
             }
         }
 

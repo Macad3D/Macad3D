@@ -1,4 +1,5 @@
-﻿using Macad.Common;
+﻿using System;
+using Macad.Common;
 using Macad.Occt;
 
 namespace Macad.Interaction.Visual
@@ -43,44 +44,13 @@ namespace Macad.Interaction.Visual
 
         public override void Update()
         {
-            if (_AisCircle == null)
-                _EnsureAisObject();
-            else
-                AisContext.RecomputePrsOnly(_AisCircle, false);
-        }
+            bool isValid = _Circle.Radius() > Double.Epsilon;
+            if (!isValid)
+            {
+                Remove();
+                return;
+            }
 
-        //--------------------------------------------------------------------------------------------------
-
-        public void Set(gp_Circ circle)
-        {
-            _Circle = new Geom_Circle(circle);
-
-            _Update();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void SetRange(double startAngle, double endAngle)
-        {
-            _StartParam = startAngle.ToRad();
-            _EndParam = endAngle.ToRad();
-
-            _Update();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void Set(gp_Circ2d circle2d, Pln plane)
-        {
-            _Circle = GeomAPI.To3d(new Geom2d_Circle(circle2d), plane) as Geom_Circle;
-
-            _Update();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        void _Update()
-        {
             if (_AisCircle == null)
             {
                 if (!_EnsureAisObject())
@@ -93,6 +63,34 @@ namespace Macad.Interaction.Visual
                 _AisCircle.SetLastParam(_EndParam);
                 AisContext.RecomputePrsOnly(_AisCircle, false);
             }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void Set(gp_Circ circle)
+        {
+            _Circle = new Geom_Circle(circle);
+
+            Update();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void SetRange(double startAngle, double endAngle)
+        {
+            _StartParam = startAngle.ToRad();
+            _EndParam = endAngle.ToRad();
+
+            Update();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void Set(gp_Circ2d circle2d, Pln plane)
+        {
+            _Circle = GeomAPI.To3d(new Geom2d_Circle(circle2d), plane) as Geom_Circle;
+
+            Update();
         }
 
         //--------------------------------------------------------------------------------------------------

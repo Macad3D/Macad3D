@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Windows;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Interaction.Visual;
 using Macad.Core;
@@ -33,6 +31,7 @@ namespace Macad.Interaction
         Geom_Plane _GizmoPlane;
         Geom_Plane _GeomPlane;
         Pnt2d _Center2D;
+        Pnt2d _Center2DOnWorkingPlane;
         Pnt2d _MoveStartPoint;
         Coord2DHudElement _Coord2DHudElement;
         Delta2DHudElement _Delta2DHudElement;
@@ -64,15 +63,15 @@ namespace Macad.Interaction
         public void SetSketchElements(Sketch sketch, List<int> points)
         {
             _Sketch = sketch;
-            _Sketch.ElementsChanged += Sketch_ElementsChanged;
+            _Sketch.ElementsChanged += _Sketch_ElementsChanged;
             Points = points;
 
-            UpdateTrihedron();
+            _UpdateTrihedron();
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void Sketch_ElementsChanged(Sketch sketch, Sketch.ElementType types)
+        void _Sketch_ElementsChanged(Sketch sketch, Sketch.ElementType types)
         {
             if (types.HasFlag(Sketch.ElementType.Point))
             {
@@ -88,13 +87,13 @@ namespace Macad.Interaction
                     RaiseFinished();
                 }
 
-                UpdateTrihedron();
+                _UpdateTrihedron();
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void UpdateTrihedron()
+        void _UpdateTrihedron()
         {
             if(!Points.Any())
                 return;
@@ -110,6 +109,19 @@ namespace Macad.Interaction
             // Project center point onto sketch plane
             var center3D = ElSLib.Value(center.X, center.Y, _Sketch.Plane);
             //Debug.WriteLine("MoveSketchPointAction - Center3D {0} {1} {2}", center3D.X(), center3D.Y(), center3D.Z());
+
+            // Calculate center point on working plane
+            if (_Sketch.Plane.Location.IsEqual(WorkspaceController.Workspace.WorkingPlane.Location, 0.00001))
+            {
+                _Center2DOnWorkingPlane = _Center2D;
+            }
+            else
+            {
+                double u = 0, v = 0;
+                ElSLib.Parameters(WorkspaceController.Workspace.WorkingPlane, _Sketch.Plane.Location, ref u, ref v);
+                _Center2DOnWorkingPlane = _Center2D.Translated(new Vec2d(u, v));
+            }
+             
 
             // Use plane from sketch, but translate it to center position
             var plane = _Sketch.Plane;
@@ -147,7 +159,7 @@ namespace Macad.Interaction
 
             if (_Sketch != null)
             {
-                _Sketch.ElementsChanged -= Sketch_ElementsChanged;
+                _Sketch.ElementsChanged -= _Sketch_ElementsChanged;
             }
 
             base.Stop();
@@ -203,7 +215,7 @@ namespace Macad.Interaction
                     MoveDelta = Vec2d.Zero;
 
                     // Set new center
-                    UpdateTrihedron();
+                    _UpdateTrihedron();
                 }
 
                 WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
@@ -259,21 +271,11 @@ namespace Macad.Interaction
 
                 data.ForceReDetection = true;
 
-                if (_Coord2DHudElement == null)
-                {
-                    _Coord2DHudElement = WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
-                    _Delta2DHudElement = WorkspaceController.HudManager?.CreateElement<Delta2DHudElement>(this);
-                }
-                if (_Coord2DHudElement != null)
-                {
-                    _Coord2DHudElement.CoordinateX = _Center2D.X + MoveDelta.X;
-                    _Coord2DHudElement.CoordinateY = _Center2D.Y + MoveDelta.Y;
-                }
-                if (_Delta2DHudElement != null)
-                {
-                    _Delta2DHudElement.DeltaX = MoveDelta.X;
-                    _Delta2DHudElement.DeltaY = MoveDelta.Y;
-                }
+                _Coord2DHudElement ??= WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
+                _Coord2DHudElement?.SetValues( _Center2DOnWorkingPlane.X + MoveDelta.X, _Center2DOnWorkingPlane.Y + MoveDelta.Y);
+
+                _Delta2DHudElement ??= WorkspaceController.HudManager?.CreateElement<Delta2DHudElement>(this);
+                _Delta2DHudElement?.SetValues(MoveDelta.X, MoveDelta.Y);
             }
 
             return base.OnMouseMove(data);

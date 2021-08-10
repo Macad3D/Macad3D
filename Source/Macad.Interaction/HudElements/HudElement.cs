@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Windows;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Macad.Common;
 
 namespace Macad.Interaction
 {
-    public abstract class HudElement: UserControl, IDisposable
+    public abstract class HudElement: UserControl, INotifyPropertyChanged, IDisposable
     {
         public WorkspaceController WorkspaceController { get; private set; }
 
@@ -54,19 +54,6 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        protected static void PropertyChangedStaticCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
-        {
-            var instance = dependencyObject as HudElement;
-            if (instance != null)
-            {
-                instance.PropertyChangedCallback(eventArgs);
-            }
-        }
-
-        protected abstract void PropertyChangedCallback(DependencyPropertyChangedEventArgs eventArgs);
-
-        //--------------------------------------------------------------------------------------------------
-
         public static T CreateElement<T>(object owner, BaseObject instance, WorkspaceController workspaceController) where T: HudElement
         {
             var element = Activator.CreateInstance(typeof(T)) as T;
@@ -88,6 +75,19 @@ namespace Macad.Interaction
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void RaisePropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
 
     }
 }

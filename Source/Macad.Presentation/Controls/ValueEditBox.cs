@@ -120,6 +120,17 @@ namespace Macad.Presentation
 
         //--------------------------------------------------------------------------------------------------
 
+        public static readonly DependencyProperty SourceUpdateThresholdProperty = DependencyProperty.Register(
+            "SourceUpdateThreshold", typeof(double), typeof(ValueEditBox), new PropertyMetadata( 1e-10 ));
+
+        public double SourceUpdateThreshold
+        {
+            get { return (double) GetValue(SourceUpdateThresholdProperty); }
+            set { SetValue(SourceUpdateThresholdProperty, value); }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         static void PropertyChangedCallbackStatic(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             var instance = dependencyObject as ValueEditBox;
@@ -290,7 +301,7 @@ namespace Macad.Presentation
                 }
 
                 newValue = newValue.Clamp(MinValue, MaxValue);
-                if (Math.Abs(Value - newValue) > 1e-10)
+                if(Math.Abs(Value - newValue) >= SourceUpdateThreshold)
                 {
                     Value = newValue;
                 }
@@ -421,6 +432,7 @@ namespace Macad.Presentation
             {
                 // Enter value
                 CommitTextChange();
+                e.Handled = true;
                 return;
             }
 

@@ -85,41 +85,35 @@ namespace Macad.Interaction.Editors.Shapes
                 switch (_PointsCompleted)
                 {
                     case 1:
-                        if (_PreviewLine == null)
-                        {
-                            _PreviewLine = new HintCircle(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        }
-                        if (_HintLines[0] == null)
-                        {
-                            _HintLines[0] = new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        }
-                        var p1 = _CenterPoint;
-                        var p2 = _PointAction.Point;
-                        var circ = new gce_MakeCirc2d(p1, p2).Value();
+                        _PreviewLine ??= new HintCircle(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                        _HintLines[0] ??= new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                        var circ = new gce_MakeCirc2d(_CenterPoint, _PointAction.Point).Value();
                         _PreviewLine.Set(circ, _SketchEditorTool.Sketch.Plane);
                         _HintLines[0].Set(_CenterPoint, _PointAction.Point, _SketchEditorTool.Sketch.Plane);
 
-                        if (_LabelHudElement == null)
-                            _LabelHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
+                        _LabelHudElement ??= _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
                         _LabelHudElement?.SetValue("Radius: " + circ.Radius().ToRoundedString());
                         break;
 
                     case 2:
-                        if (_HintLines[1] == null)
-                        {
-                            _HintLines[1] = new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        }
+                        _HintLines[1] ??= new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
                         _HintLines[1].Set(_CenterPoint, _PointAction.Point, _SketchEditorTool.Sketch.Plane);
 
                         if (_Segment != null)
                         {
-                            _CalcArcRimPoints(_PointAction.Point);
-                            _Element.OnPointsChanged(_Points, null);
+                            if (_CalcArcRimPoints(_PointAction.Point))
+                            {
+                                _Element.OnPointsChanged(_Points, null);
+                            }
+                            else
+                            {
+                                _Element.Remove();
+                            }
                         }
                         break;
                 }
 
-                _Coord2DHudElement?.SetValues(_PointAction.Point.X, _PointAction.Point.Y);
+                _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
             }
         }
 

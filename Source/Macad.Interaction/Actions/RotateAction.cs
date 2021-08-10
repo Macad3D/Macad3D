@@ -188,12 +188,12 @@ namespace Macad.Interaction
                 _UpdateGizmo();
                 data.ForceReDetection = true;
 
-                if (_DeltaHudElement == null)
+                _DeltaHudElement ??= WorkspaceController.HudManager?.CreateElement<DeltaHudElement>(this);
+                if (_DeltaHudElement != null)
                 {
-                    _DeltaHudElement = WorkspaceController.HudManager?.CreateElement<DeltaHudElement>(this);
                     _DeltaHudElement.Units = ValueUnits.Degree;
+                    _DeltaHudElement.Delta = Delta.ToDeg();
                 }
-                _DeltaHudElement.Delta = Delta.ToDeg();
 
                 return base.OnMouseMove(data);
             }

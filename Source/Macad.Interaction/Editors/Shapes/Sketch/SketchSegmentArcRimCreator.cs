@@ -72,10 +72,7 @@ namespace Macad.Interaction.Editors.Shapes
                     case 1:
                         var p1 = _Points[0];
                         var p2 = _PointAction.Point;
-                        if (_PreviewLine == null)
-                        {
-                            _PreviewLine = new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        }
+                        _PreviewLine ??= new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
                         _PreviewLine.Set(p1, p2, _SketchEditorTool.Sketch.Plane);
                         break;
 
@@ -85,14 +82,13 @@ namespace Macad.Interaction.Editors.Shapes
                             _Points[2] = _PointAction.Point;
                             _Element.OnPointsChanged(_Points, null);
 
-                            if (_LabelHudElement == null)
-                                _LabelHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
+                            _LabelHudElement ??= _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
                             _LabelHudElement?.SetValue("Radius: " + _Segment.Radius(_Points).ToRoundedString());
                         }
                         break;
                 }
 
-                _Coord2DHudElement?.SetValues(_PointAction.Point.X, _PointAction.Point.Y);
+                _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
             }
         }
 

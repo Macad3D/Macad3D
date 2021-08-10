@@ -1,43 +1,70 @@
-﻿using System.Windows;
-
-namespace Macad.Interaction
+﻿namespace Macad.Interaction
 {
     public partial class Coord3dHudElement : HudElement
     {
-        public static readonly DependencyProperty CoordinateXProperty = 
-            DependencyProperty.Register("CoordinateX", typeof (double), typeof (Coord3dHudElement));
-
         public double CoordinateX
         {
-            get { return (double) GetValue(CoordinateXProperty); }
-            set { SetValue(CoordinateXProperty, value); }
+            get { return _CoordinateX; }
+            set
+            {
+                if (_CoordinateX != value)
+                {
+                    _CoordinateX = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
-        public static readonly DependencyProperty CoordinateYProperty = 
-            DependencyProperty.Register("CoordinateY", typeof (double), typeof (Coord3dHudElement));
+        //--------------------------------------------------------------------------------------------------
 
         public double CoordinateY
         {
-            get { return (double) GetValue(CoordinateYProperty); }
-            set { SetValue(CoordinateYProperty, value); }
+            get { return _CoordinateY; }
+            set
+            {
+                if (_CoordinateY != value)
+                {
+                    _CoordinateY = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
-        public static readonly DependencyProperty CoordinateZProperty =
-            DependencyProperty.Register("CoordinateZ", typeof(double), typeof(Coord3dHudElement));
+        //--------------------------------------------------------------------------------------------------
 
         public double CoordinateZ
         {
-            get { return (double)GetValue(CoordinateZProperty); }
-            set { SetValue(CoordinateZProperty, value); }
+            get { return _CoordinateZ; }
+            set
+            {
+                if (_CoordinateZ != value)
+                {
+                    _CoordinateZ = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
-        protected override void PropertyChangedCallback(DependencyPropertyChangedEventArgs eventArgs)
-        {
-        }
+        //--------------------------------------------------------------------------------------------------
+
+        double _CoordinateX;
+        double _CoordinateY;
+        double _CoordinateZ;
+
+        //--------------------------------------------------------------------------------------------------
 
         public Coord3dHudElement()
         {
             InitializeComponent();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void SetValues(double coordX, double coordY, double coordZ)
+        {
+            CoordinateX = coordX;
+            CoordinateY = coordY;
+            CoordinateZ = coordZ;
         }
     }
 }

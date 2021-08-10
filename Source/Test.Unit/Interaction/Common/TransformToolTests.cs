@@ -1,8 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
+using Macad.Core;
 using Macad.Test.Utils;
 using Macad.Core.Shapes;
 using Macad.Interaction;
+using Macad.Occt;
 using NUnit.Framework;
 
 namespace Macad.Test.Unit.Interaction.Common
@@ -116,6 +119,125 @@ namespace Macad.Test.Unit.Interaction.Common
             ctx.ViewportController.MouseMove(new Point(50, 320));
             ctx.ViewportController.MouseUp(false);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveInTopView03"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void Move()
+        {
+            var ctx = Context.Current;
+
+            var body = TestGeomGenerator.CreateBody(Box.Create(10, 5, 2));
+            body.Position = new Pnt(3, 2, 1);
+            ctx.ViewportController.ZoomFitAll();
+
+            var tool = new TransformTool(new[] {body}, TransformTool.PivotPoint.EntityPivot, TransformTool.Options.None);
+            ctx.WorkspaceController.StartTool(tool);
+
+            Assert.Multiple(() =>
+            {
+                // X-Axis
+                var oldpos = body.Position;
+                ctx.ViewportController.MouseMove(new Point(267, 186));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(230, 215));
+                ctx.ViewportController.MouseUp(false);
+                Assert.AreEqual(oldpos.Y, body.Position.Y, Double.Epsilon);
+                Assert.AreEqual(oldpos.Z, body.Position.Z, Double.Epsilon);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Move01"));
+
+                // Y-Axis
+                oldpos = body.Position;
+                ctx.ViewportController.MouseMove(new Point(339, 212));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(357, 240));
+                ctx.ViewportController.MouseUp(false);
+                Assert.AreEqual(oldpos.X, body.Position.X, Double.Epsilon);
+                Assert.AreEqual(oldpos.Z, body.Position.Z, Double.Epsilon);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Move02"));
+
+                // Z-Axis
+                oldpos = body.Position;
+                ctx.ViewportController.MouseMove(new Point(314, 133));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(325, 119));
+                ctx.ViewportController.MouseUp(false);
+                Assert.AreEqual(oldpos.X, body.Position.X, Double.Epsilon);
+                Assert.AreEqual(oldpos.Y, body.Position.Y, Double.Epsilon);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Move03"));
+
+                // XY-Plane
+                oldpos = body.Position;
+                ctx.ViewportController.MouseMove(new Point(320, 216));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(293, 246));
+                ctx.ViewportController.MouseUp(false);
+                Assert.AreEqual(oldpos.Z, body.Position.Z, Double.Epsilon);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Move04"));
+
+                // YZ-Plane
+                oldpos = body.Position;
+                ctx.ViewportController.MouseMove(new Point(315, 200));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(351, 183));
+                ctx.ViewportController.MouseUp(false);
+                Assert.AreEqual(oldpos.X, body.Position.X, Double.Epsilon);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Move05"));
+
+                // XZ-Plane
+                oldpos = body.Position;
+                ctx.ViewportController.MouseMove(new Point(297, 175));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(269, 167));
+                ctx.ViewportController.MouseUp(false);
+                Assert.AreEqual(oldpos.Y, body.Position.Y, Double.Epsilon);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Move06"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void Rotate()
+        {
+            var ctx = Context.Current;
+
+            var body = TestGeomGenerator.CreateBody(Box.Create(10, 5, 2));
+            body.Position = new Pnt(3, 2, 1);
+            var oldpos = body.Position;
+            ctx.ViewportController.ZoomFitAll();
+
+            var tool = new TransformTool(new[] {body}, TransformTool.PivotPoint.EntityPivot, TransformTool.Options.None);
+            ctx.WorkspaceController.StartTool(tool);
+            tool.ToggleTransformMode();
+
+            Assert.Multiple(() =>
+            {
+                // X-Axis
+                ctx.ViewportController.MouseMove(new Point(374, 123));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(390, 154));
+                ctx.ViewportController.MouseUp(false);
+                Assert.AreEqual(oldpos, body.Position);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Rotate01"));
+
+                // Y-Axis
+                ctx.ViewportController.MouseMove(new Point(310, 120));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(291, 143));
+                ctx.ViewportController.MouseUp(false);
+                Assert.AreEqual(oldpos, body.Position);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Rotate02"));
+
+                // Z-Axis
+                ctx.ViewportController.MouseMove(new Point(420, 178));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(411, 214));
+                ctx.ViewportController.MouseUp(false);
+                Assert.AreEqual(oldpos, body.Position);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Rotate03"));
+            });
         }
     }
 }

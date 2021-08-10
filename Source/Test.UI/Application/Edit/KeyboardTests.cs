@@ -51,7 +51,33 @@ namespace Macad.Test.UI.Application.Edit
             Pipe.TypeKey(VirtualKeyShort.SPACE);
             Assert.IsTrue(Pipe.GetValue<bool>("$Context.WorkspaceController.VisualObjects.EntityIsolationEnabled"));
         }
-                
+                        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void ForwardEnterFromTreeView()
+        {
+            // Select tree view
+            MainWindow.Document.SelectModelItem();
+
+            // Init
+            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.ClickButton("CreateBox");
+            Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
+            MainWindow.Viewport.ClickRelative(0.3, 0.3);
+            
+            // Enter numbers
+            Pipe.TypeText("15");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+            Pipe.TypeText("10");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+            Pipe.TypeText("5");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+
+            Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
+            Assert.AreEqual("Box_1", Pipe.GetValue<string>("$Selected.Name"));
+        }
+
         //--------------------------------------------------------------------------------------------------
 
         [Test]
@@ -84,6 +110,31 @@ namespace Macad.Test.UI.Application.Edit
             Pipe.TypeKey(VirtualKeyShort.SPACE);
             Assert.IsTrue(Pipe.GetValue<bool>("$Context.WorkspaceController.VisualObjects.EntityIsolationEnabled"));
         }
+                                
+        //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void ForwardEnterFromLayers()
+        {
+            // Select layers
+            MainWindow.Layers.SelectItem(0);
+
+            // Init
+            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.ClickButton("CreateBox");
+            Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
+            MainWindow.Viewport.ClickRelative(0.3, 0.3);
+            
+            // Enter numbers
+            Pipe.TypeText("15");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+            Pipe.TypeText("10");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+            Pipe.TypeText("5");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+
+            Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
+            Assert.AreEqual("Box_1", Pipe.GetValue<string>("$Selected.Name"));
+        }
     }
 }

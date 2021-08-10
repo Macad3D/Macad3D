@@ -44,7 +44,10 @@ namespace Macad.Interaction.Editors.Shapes
             var ctx = SketchEditorTool.WorkspaceController.Workspace.AisContext;
             var edge = Segment.MakeEdge(points);
             if (edge == null)
+            {
+                Remove();
                 return;
+            }
 
             if (AisObject != null)
             {

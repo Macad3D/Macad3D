@@ -1,12 +1,18 @@
 ﻿using System.Windows.Input;
 using Macad.Core;
 using Macad.Interaction;
-using Macad.Interaction.Panels;
 
 namespace Macad.Window
 {
-    public class MainWindowModel : PanelBase
+    public class MainWindowModel
     {
+        public virtual InteractiveContext Context
+        {
+            get { return InteractiveContext.Current; }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public MainWindowModel()
         {
             AppContext.Current.MessageHandler.ProgressMessage += _MessageHandler_ProgressMessage;

@@ -1,12 +1,14 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Macad.Interaction;
 using Macad.Interaction.Dialogs;
-using Macad.Interaction.Panels;
 using Macad.Presentation;
 
 namespace Macad.Window
 {
-    public class ViewportViewModel : PanelBase
+    public class ViewportViewModel : INotifyPropertyChanged
     {
         #region Properties
 
@@ -21,6 +23,13 @@ namespace Macad.Window
                     RaisePropertyChanged();
                 }
             }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public virtual InteractiveContext Context
+        {
+            get { return InteractiveContext.Current; }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -95,6 +104,18 @@ namespace Macad.Window
         //--------------------------------------------------------------------------------------------------
         
         #endregion
+        
+        #region INotifyPropertyChanged
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void RaisePropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
     }
 }

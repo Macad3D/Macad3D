@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Macad.Interaction.Visual;
 using Macad.Core.Shapes;
 using Macad.Occt;
@@ -75,29 +74,29 @@ namespace Macad.Interaction.Editors.Shapes
                 switch (_PointsCompleted)
                 {
                     case 1:
-                        if (_HintLines[0] == null)
-                        {
-                            _HintLines[0] = new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        }
+                        _HintLines[0] ??= new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
                         _HintLines[0].Set(_CenterPoint, _PointAction.Point, _SketchEditorTool.Sketch.Plane);
                         break;
 
                     case 2:
-                        if (_HintLines[1] == null)
-                        {
-                            _HintLines[1] = new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        }
+                        _HintLines[1] ??= new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
                         _HintLines[1].Set(_CenterPoint, _PointAction.Point, _SketchEditorTool.Sketch.Plane);
 
                         if (_Segment != null)
                         {
-                            _CalcArcRimPoints(_PointAction.Point);
-                            _Element.OnPointsChanged(_Points, null);
+                            if (_CalcArcRimPoints(_PointAction.Point))
+                            {
+                                _Element.OnPointsChanged(_Points, null);
+                            }
+                            else
+                            {
+                                _Element.Remove();
+                            }
                         }
                         break;
                 }
 
-                _Coord2DHudElement?.SetValues(_PointAction.Point.X, _PointAction.Point.Y);
+                _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
             }
         }
 

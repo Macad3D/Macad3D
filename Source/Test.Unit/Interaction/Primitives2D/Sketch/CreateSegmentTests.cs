@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Interaction.Editors.Shapes;
@@ -608,6 +609,83 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             // Can make
             Assert.AreEqual(1, sketchEditTool.Sketch.GetBRep()?.Edges().Count);
+        }
+                
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateCircle_MinSizeHints()
+        {
+            // Hints should be removed when size is zero
+            var ctx = Context.Current;
+
+            ctx.EditorState.SnappingEnabled = true;
+            ctx.EditorState.SnapToGridSelected = true;
+            ctx.Workspace.GridStep = 1.0;
+            ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+            var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+            Assert.That(sketchEditTool, Is.Not.Null);
+
+            sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
+            Assert.DoesNotThrow(() =>
+            {
+                ctx.ClickAt(250, 250); // Center point
+                ctx.MoveTo(400, 100);
+                ctx.MoveTo(250, 250);
+            });
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCircle_MinSizeHints01"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateArcCenter_MinSizeHints()
+        {
+            // Hints should be removed when size is zero
+            var ctx = Context.Current;
+
+            ctx.EditorState.SnappingEnabled = true;
+            ctx.EditorState.SnapToGridSelected = true;
+            ctx.Workspace.GridStep = 1.0;
+            ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+            var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+            Assert.That(sketchEditTool, Is.Not.Null);
+
+            sketchEditTool.StartSegmentCreation<SketchSegmentArcCenterCreator>();
+            ctx.ClickAt(250, 250); // Center point
+            ctx.MoveTo(400, 100); // Preview start point
+            ctx.MoveTo(250, 250);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter_MinSizeHints01"));
+            ctx.ClickAt(250, 100); // Set start point
+            ctx.MoveTo(400, 250);
+            ctx.MoveTo(250, 50); // Preview end point
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter_MinSizeHints02"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void CreateEllipticalArcCenter_MinSizeHints()
+        {
+            // Hints should be removed when size is zero
+            var ctx = Context.Current;
+
+            ctx.EditorState.SnappingEnabled = true;
+            ctx.EditorState.SnapToGridSelected = true;
+            ctx.Workspace.GridStep = 1.0;
+            ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+            var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+            Assert.That(sketchEditTool, Is.Not.Null);
+
+            sketchEditTool.StartSegmentCreation<SketchSegmentEllipticalArcCenterCreator>();
+            ctx.ClickAt(250, 250); // Center point
+            ctx.MoveTo(400, 100); // Preview start point
+            ctx.MoveTo(250, 250);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter_MinSizeHints01"));
+            ctx.ClickAt(250, 100); // Set start point
+            ctx.MoveTo(400, 250);
+            ctx.MoveTo(250, 100); // Preview end point
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter_MinSizeHints02"));
         }
 
         //--------------------------------------------------------------------------------------------------

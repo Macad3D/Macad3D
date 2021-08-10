@@ -45,17 +45,32 @@ namespace Macad.Test.UI.Framework
         {
             return GetModelItem().Items.Where(ti => ti.IsSelected);
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public void SelectModelItem()
+        {
+            SelectItem(GetModelItem());
+        }
 
         //--------------------------------------------------------------------------------------------------
 
         public void SelectItem(string name)
         {
-            var rect = GetModelItem().Items.First(ti => ti.Text == name).BoundingRectangle;
+            var item = GetModelItem().Items.First(ti => ti.Text == name);
+            Assert.NotNull(item, $"Item {name} not found");
+            SelectItem(item);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public void SelectItem(TreeItem item)
+        {
+            var rect = item.BoundingRectangle;
             var pnt = new Point((int)(rect.Left + rect.Width * 0.5), (int)(rect.Top + rect.Height * 0.5));
             Mouse.Click(pnt, MouseButton.Left);
             Wait.UntilInputIsProcessed();
             Wait.UntilResponsive(_ViewControl);
         }
-
     }
 }

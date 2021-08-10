@@ -218,11 +218,11 @@
                                      SizeDefinition="Large,Middle,Small" />
 
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleSnapToVertex}"
-                                     AutomationProperties.AutomationId="SnapToGrid" 
+                                     AutomationProperties.AutomationId="SnapToVertex" 
                                      SizeDefinition="Large,Middle,Small" />
 
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.ToggleSnapToEdge}"
-                                     AutomationProperties.AutomationId="SnapToGrid" 
+                                     AutomationProperties.AutomationId="SnapToEdge" 
                                      SizeDefinition="Large,Middle,Small" />
 
                 <!--<fluent:Spinner Header="Tolerance" 

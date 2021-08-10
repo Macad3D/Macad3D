@@ -86,22 +86,15 @@ namespace Macad.Interaction.Editors.Shapes
                 switch (_PointsCompleted)
                 {
                     case 1:
-                        if (_HintCircle == null)
-                        {
-                            _HintCircle = new HintCircle(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        }
-                        if (_HintLine == null)
-                        {
-                            _HintLine = new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        }
+                        _HintCircle ??= new HintCircle(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                        _HintLine ??= new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
                         var p1 = _Points[0];
                         var p2 = _PointAction.Point;
                         var circ = new gce_MakeCirc2d(p1, p2).Value();
                         _HintCircle.Set(circ, _SketchEditorTool.Sketch.Plane);
                         _HintLine.Set(p1, p2, _SketchEditorTool.Sketch.Plane);
                         
-                        if (_LabelHudElement == null)
-                            _LabelHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
+                        _LabelHudElement ??= _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
                         _LabelHudElement?.SetValue("Distance: " + _Points[0].Distance(_PointAction.Point).ToRoundedString());
                         break;
 
@@ -115,7 +108,7 @@ namespace Macad.Interaction.Editors.Shapes
                         break;
                 }
                 
-                _Coord2DHudElement?.SetValues(_PointAction.Point.X, _PointAction.Point.Y);
+                _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
             }
         }
 

@@ -19,8 +19,8 @@ namespace Macad.Test.UI.Framework
         }
 
         //--------------------------------------------------------------------------------------------------
-
-        public void ClickRelative(double x, double y, MouseButton button = MouseButton.Left, bool jump = true)
+        
+        public void  MoveRelative(double x, double y, bool jump = true)
         {
             var rect = _ViewportControl.BoundingRectangle;
             var pnt = new Point((int) (rect.Left + rect.Width * x), (int) (rect.Top + rect.Height * y));
@@ -28,6 +28,16 @@ namespace Macad.Test.UI.Framework
                 Mouse.Position = pnt;
             else
                 Mouse.MoveTo(pnt);
+
+            Wait.UntilInputIsProcessed();
+            Wait.UntilResponsive(_ViewportControl);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void ClickRelative(double x, double y, MouseButton button = MouseButton.Left, bool jump = true)
+        {
+            MoveRelative(x, y, jump);
 
             if (jump)
             {

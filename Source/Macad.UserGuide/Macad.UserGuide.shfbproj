@@ -66,7 +66,7 @@
       <Argument Key="baseSourceCodeUrl" Value="" />
       <Argument Key="requestExampleUrl" Value="" />
     </TransformComponentArguments>
-    <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers</VisibleItems>
+    <VisibleItems>Attributes, InheritedMembers</VisibleItems>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\Macad.Core\Macad.Core.csproj" configuration="Release" platform="x64" />
       <DocumentationSource sourceFile="..\Macad.Interaction\Macad.Interaction.csproj" configuration="Release" platform="x64" />

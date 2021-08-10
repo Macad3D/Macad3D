@@ -14,7 +14,7 @@ namespace Macad.Interaction.Editors.Shapes
         SketchEditorSegmentElement _Element;
         Coord2DHudElement _Coord2DHudElement;
         LabelHudElement _LabelHudElement;
-        readonly Dictionary<int, Pnt2d> _Points = new Dictionary<int, Pnt2d>(2);
+        readonly Dictionary<int, Pnt2d> _Points = new(2);
         readonly int[] _MergePointIndices = new int[2];
         Marker _Marker;
 
@@ -72,18 +72,14 @@ namespace Macad.Interaction.Editors.Shapes
                     _Element.OnPointsChanged(_Points, null);
                     _SketchEditorTool.WorkspaceController.Invalidate();
 
-                    if (_LabelHudElement == null)
-                        _LabelHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
-                    if(_LabelHudElement != null)
+                    _LabelHudElement ??= _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
+                    if (_LabelHudElement != null)
+                    {
                         _LabelHudElement.Text = "Radius: " + _Segment.Radius(_Points).ToRoundedString();
-
+                    }
                 }
 
-                if (_Coord2DHudElement != null)
-                {
-                    _Coord2DHudElement.CoordinateX = _PointAction.Point.X;
-                    _Coord2DHudElement.CoordinateY = _PointAction.Point.Y;
-                }
+                _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
             }
         }
 

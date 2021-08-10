@@ -1,75 +1,76 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Data;
 using System.Windows.Input;
-using Macad.Core;
-using Macad.Core.Shapes;
 using Macad.Presentation;
 
 namespace Macad.Interaction
 {
     public partial class ValueHudElement : HudElement
     {
-        public static readonly DependencyProperty LabelProperty = 
-            DependencyProperty.Register("Label", typeof (string), typeof (ValueHudElement), new PropertyMetadata(default(string)));
-
         public string Label
         {
-            get { return (string) GetValue(LabelProperty); }
-            set { SetValue(LabelProperty, value); }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public static readonly DependencyProperty ValueProperty = 
-            DependencyProperty.Register("Value", typeof (double), typeof (ValueHudElement), new PropertyMetadata(default(double), PropertyChangedStaticCallback));
-
-        public double Value
-        {
-            get { return (double) GetValue(ValueProperty); }
+            get { return _Label; }
             set
             {
-                IsInKeyboardMode = false;
-                SetValue(ValueProperty, value);
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public static readonly DependencyProperty UnitsProperty = DependencyProperty.Register(
-            "Units", typeof(ValueUnits), typeof(ValueHudElement), new PropertyMetadata(ValueUnits.None));
-
-        public ValueUnits Units
-        {
-            get { return (ValueUnits)GetValue(UnitsProperty); }
-            set { SetValue(UnitsProperty, value); }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public static readonly DependencyProperty IsInKeyboardModeProperty = 
-            DependencyProperty.Register("IsInKeyboardMode", typeof (bool), typeof (ValueHudElement), new PropertyMetadata(default(bool)));
-
-        public bool IsInKeyboardMode
-        {
-            get { return (bool) GetValue(IsInKeyboardModeProperty); }
-            set { SetValue(IsInKeyboardModeProperty, value); }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        protected override void PropertyChangedCallback(DependencyPropertyChangedEventArgs eventArgs)
-        {
-            if (eventArgs.Property == ValueProperty)
-            {
-                if (IsInKeyboardMode)
+                if (_Label != value)
                 {
-                    IsInKeyboardMode = false;
-                    OnValueEntered((double)eventArgs.NewValue);
+                    _Label = value;
+                    RaisePropertyChanged();
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public double Value
+        {
+            get { return _Value; }
+            set
+            {
+                if (_Value != value)
+                {
+                    _Value = value;
+                    RaisePropertyChanged();
+                    IsInKeyboardMode = false;
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public ValueUnits Units
+        {
+            get { return _Units; }
+            set
+            {
+                if (_Units != value)
+                {
+                    _Units = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public bool IsInKeyboardMode
+        {
+            get { return _IsInKeyboardMode; }
+            set
+            {
+                if (_IsInKeyboardMode != value)
+                {
+                    _IsInKeyboardMode = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        string _Label;
+        double _Value;
+        ValueUnits _Units;
+        bool _IsInKeyboardMode;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -77,7 +78,9 @@ namespace Macad.Interaction
         {
             ValueEditBox.SimulatedKeyDown(eventArgs, !IsInKeyboardMode);
             if (eventArgs.Handled)
+            {
                 IsInKeyboardMode = true;
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -86,16 +89,26 @@ namespace Macad.Interaction
 
         public event ValueEnteredEvent ValueEntered;
 
-        public void OnValueEntered(double newValue)
-        {
-            if (ValueEntered != null) ValueEntered(this, newValue);
-        }
-
         //--------------------------------------------------------------------------------------------------
 
         public ValueHudElement()
         {
             InitializeComponent();
+            SourceUpdated += _OnSourceUpdated;
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _OnSourceUpdated(object sender, DataTransferEventArgs eventArgs)
+        {
+            if (eventArgs.TargetObject == ValueEditBox)
+            {
+                IsInKeyboardMode = false;
+                ValueEntered?.Invoke(this, Value);
+            }
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

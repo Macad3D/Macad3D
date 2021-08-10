@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows.Documents;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Interaction.Visual;
 using Macad.Core;
@@ -13,6 +11,7 @@ namespace Macad.Interaction
     public class SketchPointAction : ToolAction
     {
         public Pnt2d Point { get; private set; }
+        public Pnt2d PointOnWorkingPlane { get; private set; }
         public int MergeCandidateIndex { get; private set; }
         public bool EnablePointMerge { get; set; }
         public IEnumerable<Pnt2d> AdditionalSnapPoints { get; set; }
@@ -90,6 +89,17 @@ namespace Macad.Interaction
             var sketchPoint = new Pnt2d(u, v);
 
             Point = Snap(sketchPoint);
+
+            // Recalculate point on working plane
+            if (_SketchEditorTool.Sketch.Plane.Location.IsEqual(WorkspaceController.Workspace.WorkingPlane.Location, 0.00001))
+            {
+                PointOnWorkingPlane = Point;
+            }
+            else
+            {
+                ElSLib.Parameters(WorkspaceController.Workspace.WorkingPlane, _SketchEditorTool.Sketch.Plane.Location, ref u, ref v);
+                PointOnWorkingPlane = Point.Translated(new Vec2d(u, v));
+            }
         }
 
         //--------------------------------------------------------------------------------------------------

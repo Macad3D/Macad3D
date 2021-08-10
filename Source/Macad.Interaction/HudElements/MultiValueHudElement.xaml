@@ -31,7 +31,8 @@
                               MinWidth="60" Width="Auto" 
                               Background="#703E3E3E" Foreground="White"
                               Units="{Binding Units1}" 
-                              Value="{Binding Value1}" 
+                              Value="{Binding Value1, NotifyOnSourceUpdated=True}" 
+                              SourceUpdateThreshold="0"
                               IsHighlighted="{Binding IsInKeyboardMode1}" />
         </Grid>
         
@@ -50,7 +51,8 @@
                               MinWidth="60" Width="Auto" 
                               Background="#703E3E3E" Foreground="White"
                               Units="{Binding Units2}" 
-                              Value="{Binding Value2}" 
+                              Value="{Binding Value2, NotifyOnSourceUpdated=True}" 
+                              SourceUpdateThreshold="0"
                               IsHighlighted="{Binding IsInKeyboardMode2}" />
         </Grid>
     </Grid>

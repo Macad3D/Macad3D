@@ -1,40 +1,39 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using Macad.Core;
-using Macad.Core.Shapes;
-
-namespace Macad.Interaction
+﻿namespace Macad.Interaction
 {
     public partial class Coord2DHudElement : HudElement
     {
-        public static readonly DependencyProperty CoordinateXProperty = 
-            DependencyProperty.Register("CoordinateX", typeof (double), typeof (Coord2DHudElement));
-
         public double CoordinateX
         {
-            get { return (double) GetValue(CoordinateXProperty); }
-            set { SetValue(CoordinateXProperty, value); }
+            get { return _CoordinateX; }
+            set
+            {
+                if (_CoordinateX != value)
+                {
+                    _CoordinateX = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
-
-        public static readonly DependencyProperty CoordinateYProperty = 
-            DependencyProperty.Register("CoordinateY", typeof (double), typeof (Coord2DHudElement));
 
         public double CoordinateY
         {
-            get { return (double) GetValue(CoordinateYProperty); }
-            set { SetValue(CoordinateYProperty, value); }
+            get { return _CoordinateY; }
+            set
+            {
+                if (_CoordinateY != value)
+                {
+                    _CoordinateY = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        protected override void PropertyChangedCallback(DependencyPropertyChangedEventArgs eventArgs)
-        {
-        }
+        double _CoordinateX;
+        double _CoordinateY;
 
         //--------------------------------------------------------------------------------------------------
 

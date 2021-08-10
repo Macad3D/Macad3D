@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Macad.Common;
-using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Occt;
 
@@ -75,8 +74,7 @@ namespace Macad.Interaction.Editors.Shapes
                         component.OnPointsChanged(_Points, null);
                     }
 
-                    if (_LabelHudElement == null)
-                        _LabelHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
+                    _LabelHudElement ??= _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
                     if (_LabelHudElement != null)
                     {
                         _LabelHudElement.Text = "Size: " + (_Points[0].X - _Points[2].X).Abs().ToRoundedString()
@@ -84,11 +82,7 @@ namespace Macad.Interaction.Editors.Shapes
                     }
                 }
 
-                if (_Coord2DHudElement != null)
-                {
-                    _Coord2DHudElement.CoordinateX = _PointAction.Point.X;
-                    _Coord2DHudElement.CoordinateY = _PointAction.Point.Y;
-                }
+                _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
             }
         }
 
