@@ -1,9 +1,15 @@
 ﻿using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using Macad.Core;
 using Macad.Test.Utils;
-using Macad.Common;
+using Macad.Core.Drawing;
 using Macad.Core.Exchange;
 using Macad.Core.Exchange.Svg;
 using Macad.Core.Shapes;
+using Macad.Core.Toolkits;
+using Macad.Core.Topology;
+using Macad.Interop;
 using Macad.Occt;
 using Macad.Occt.Helper;
 using NUnit.Framework;
@@ -28,13 +34,12 @@ namespace Macad.Test.Unit.Exchange
             // Create simple geometry
             var imprint = TestGeomGenerator.CreateImprint();
             Assert.IsTrue(imprint.Make(Shape.MakeFlags.None));
-            var ocShape = imprint.GetTransformedBRep();
 
             // Create Hlr Exporter
-            var svg = RunExporter(false, _Projection, new[] { ocShape });
+            var svg = RunExporter(false, _Projection, imprint.Body);
             
             // Write to file and compare
-            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "Simple.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Simple.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -46,13 +51,12 @@ namespace Macad.Test.Unit.Exchange
             // Create simple geometry
             var imprint = TestGeomGenerator.CreateImprint();
             Assert.IsTrue(imprint.Make(Shape.MakeFlags.None));
-            var ocShape = imprint.GetTransformedBRep();
 
             // Create Hlr Exporter
-            var svg = RunExporter(true, _Projection, new[] { ocShape });
+            var svg = RunExporter(true, _Projection, imprint.Body);
 
             // Write to file and compare
-            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "PolySimple.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "PolySimple.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -61,13 +65,13 @@ namespace Macad.Test.Unit.Exchange
         public void Complex()
         {
             // Load geometry
-            var ocShape = TestData.GetTestDataBRep(@"SourceData\Brep\Motor-c.brep");
+            var body = TestData.GetBodyFromBRep(@"SourceData\Brep\Motor-c.brep");
 
             // Create Hlr Exporter
-            var svg = RunExporter(false, _Projection, new[] { ocShape });
+            var svg = RunExporter(false, _Projection, body);
 
             // Write to file and compare
-            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "Complex.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Complex.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -76,13 +80,13 @@ namespace Macad.Test.Unit.Exchange
         public void RudderBlade()
         {
             // Load geometry
-            var ocShape = TestData.GetTestDataBRep(@"SourceData\Brep\Rudder.brep");
+            var body = TestData.GetBodyFromBRep(@"SourceData\Brep\Rudder.brep");
 
             // Create Hlr Exporter
-            var svg = RunExporter(false, _Projection, new[] { ocShape });
+            var svg = RunExporter(false, _Projection, body);
 
             // Write to file and compare
-            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "RudderBlade.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "RudderBlade.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -92,13 +96,13 @@ namespace Macad.Test.Unit.Exchange
         public void PolyComplex()
         {
             // Load geometry
-            var ocShape = TestData.GetTestDataBRep(@"SourceData\Brep\Motor-c.brep");
+            var body = TestData.GetBodyFromBRep(@"SourceData\Brep\Motor-c.brep");
 
             // Create Hlr Exporter
-            var svg = RunExporter(true, _Projection, new[] { ocShape });
+            var svg = RunExporter(true, _Projection, body);
 
             // Write to file and compare
-            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "PolyComplex.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "PolyComplex.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -109,24 +113,31 @@ namespace Macad.Test.Unit.Exchange
             // Create simple geometry
             var imprint = TestGeomGenerator.CreateImprint();
             Assert.IsTrue(imprint.Make(Shape.MakeFlags.None));
-            var ocShape = imprint.GetTransformedBRep();
 
             // Create Hlr Exporter
-            var svg = RunExporter(false, _TopProjection, new[] { ocShape });
+            var svg = RunExporter(false, _TopProjection, imprint.Body );
 
             // Write to file and compare
-            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "Circle.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Circle.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
 
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CircleArc()
+        {
+            // Create simple geometry
+            var imprint = TestGeomGenerator.CreateImprint();
+            Assert.IsTrue(imprint.Make(Shape.MakeFlags.None));
             // Cut circle
-            var box = new Box() { DimensionX = 10, DimensionY = 10, DimensionZ = 10};
+            var box = TestGeomGenerator.CreateBox();
             Assert.IsTrue(box.Make(Shape.MakeFlags.None));
-            var ocBoxShape = box.GetBRep();
 
             // Create Hlr Exporter
-            svg = RunExporter(false, _TopProjection, new[] { ocShape, ocBoxShape });
+            var svg = RunExporter(false, _TopProjection, imprint.Body, box.Body);
 
             // Write to file and compare
-            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "CircleArc.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "CircleArc.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -137,44 +148,221 @@ namespace Macad.Test.Unit.Exchange
             // Create simple geometry
             var imprint = TestGeomGenerator.CreateImprint(TestGeomGenerator.SketchType.Ellipse);
             Assert.IsTrue(imprint.Make(Shape.MakeFlags.None));
-            var ocShape = imprint.GetTransformedBRep();
 
             // Create Hlr Exporter
-            var svg = RunExporter(false, _TopProjection, new[] { ocShape });
+            var svg = RunExporter(false, _TopProjection, imprint.Body);
 
             // Write to file and compare
-            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "Ellipse.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Ellipse.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void EllipseArc()
+        {
+            // Create simple geometry
+            var imprint = TestGeomGenerator.CreateImprint(TestGeomGenerator.SketchType.Ellipse);
+            Assert.IsTrue(imprint.Make(Shape.MakeFlags.None));
 
             // Cut circle
-            var box = new Box() { DimensionX = 10, DimensionY = 10, DimensionZ = 10 };
+            var box = TestGeomGenerator.CreateBox();
             Assert.IsTrue(box.Make(Shape.MakeFlags.None));
-            var ocBoxShape = box.GetBRep();
 
             // Create Hlr Exporter
-            svg = RunExporter(false, _TopProjection, new[] { ocShape, ocBoxShape });
+            var svg = RunExporter(false, _TopProjection, imprint.Body, box.Body);
 
             // Write to file and compare
-            AssertHelper.IsSameText(svg.ToArray(), TestData.GetTestData(Path.Combine(_BasePath, "EllipseArc.svg")), AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "EllipseArc.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void SimpleContour()
+        {
+            var source = TestData.GetBodyFromBRep(@"SourceData\Brep\SheetWithOneLayer.brep");
+            Assume.That(source?.GetBRep() != null);
+
+            var template = new SliceContourComponent
+            {
+                Owner = source,
+                LayerCount = 1,
+            };
+            Assert.IsTrue(template.Make());
+            var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "SimpleContour_TestResult.svg"));
+            Assert.IsTrue(template.Export(path, new SvgExchanger()));
+
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "SimpleContour.svg"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void TwoLayerCutout()
+        {
+            var source = TestData.GetBodyFromBRep(@"SourceData\Brep\SheetWithTwoLayers.brep");
+            Assume.That(source?.GetBRep() != null);
+
+            var template = new SliceContourComponent
+            {
+                Owner = source,
+                LayerCount = 2,
+            };
+            Assert.IsTrue(template.Make());
+            var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "TwoLayerContour_TestResult.svg"));
+            Assert.IsTrue(template.Export(path, new SvgExchanger()));
+
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "TwoLayerContour.svg"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void HolesInPaths()
+        {
+            var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "HolesInPaths_Source.brep"));
+            Assume.That(source?.GetBRep() != null);
+
+            var component = new EtchingMaskComponent()
+            {
+                Owner = source,
+                LayerCount = 1
+            };
+            Assert.IsTrue(component.Make());
+            //AssertHelper.IsSameModel2D(template.Layers[0], Path.Combine(_BasePath, "HolesInPaths"));
+            var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "HolesInPaths_TestResult.svg"));
+            Assert.IsTrue(component.Export(path, new SvgExchanger()));
+
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "HolesInPaths.svg"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void TwoLayerEtchMask()
+        {
+            var source = TestData.GetBodyFromBRep(@"SourceData\Brep\SheetWithTwoLayers.brep");
+            Assume.That(source?.GetBRep() != null);
+
+            var component = new EtchingMaskComponent()
+            {
+                Owner = source,
+                LayerCount = 2
+            };
+            Assert.IsTrue(component.Make());
+            var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "TwoLayerEtchMask_TestResult.svg"));
+            Assert.IsTrue(component.Export(path, new SvgExchanger()));
+
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "TwoLayerEtchMask.svg"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void MultipleHoles()
+        {
+            var source = TestData.GetBodyFromBRep(@"SourceData\Brep\ContourMultipleHoles.brep");
+            Assume.That(source?.GetBRep() != null);
+
+            var template = new SliceContourComponent()
+            {
+                Owner = source,
+                LayerCount = 2,
+            };
+            Assert.IsTrue(template.Make());
+            var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "MultipleHoles_TestResult.svg"));
+            Assert.IsTrue(template.Export(path, new SvgExchanger()));
+
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "MultipleHoles.svg"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void BoundaryIsClosed()
+        {
+            var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "BoundaryIsClosed_Source.brep"));
+            Assume.That(source?.GetBRep() != null);
+
+            var template = new SliceContourComponent()
+            {
+                Owner = source,
+                LayerCount = 1,
+            };
+            Assert.IsTrue(template.Make());
+            var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "BoundaryIsClosed_TestResult.svg"));
+            Assert.IsTrue(template.Export(path, new SvgExchanger()));
+
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "BoundaryIsClosed.svg"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void LocatedWire()
+        {
+            var source = TestData.GetBodyFromBRep(@"SourceData\Brep\ContourLocatedWire.brep");
+            Assume.That(source?.GetBRep() != null);
+
+            var template = new SliceContourComponent()
+            {
+                Owner = source,
+                LayerCount = 1,
+                ReferenceFace = source.Shape.GetSubshapeReference(SubshapeType.Face, 2)
+            };
+
+            Assert.IsTrue(template.Make());
+            var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "LocatedWire_TestResult.svg"));
+
+            try
+            {
+                Assert.IsTrue(template.Export(path, new SvgExchanger()));
+            }
+            catch (SEHException)
+            {
+                var info = ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionPointers());
+                TestContext.WriteLine(info.Message);
+                throw;
+            }
+
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "LocatedWire.svg"), path, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void TagGroupsAsLayers()
+        {
+            // Create simple geometry
+            var imprint = TestGeomGenerator.CreateImprint();
+            Assert.IsTrue(imprint.Make(Shape.MakeFlags.None));
+
+            // Create Hlr Exporter
+            SvgExporterBase.TagGroupsAsLayers = true;
+            var svg = RunExporter(false, _Projection, imprint.Body);
+            SvgExporterBase.TagGroupsAsLayers = false;
+            
+            // Write to file and compare
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "TagGroupsAsLayers.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         #region Helper
 
-        MemoryStream RunExporter(bool useTriangulation, Ax3 projection, TopoDS_Shape[] shapes)
+        MemoryStream RunExporter(bool useTriangulation, Ax3 projection, params Body[] bodies)
         {
-            var helper = new DrawingExportHelper(useTriangulation, projection);
-            helper.IncludeEdgeType(HlrEdgeType.VisibleSharp);
-            helper.IncludeEdgeType(HlrEdgeType.VisibleOutline);
-            helper.IncludeEdgeType(HlrEdgeType.VisibleSmooth);
-            helper.IncludeEdgeType(HlrEdgeType.HiddenSharp);
-            helper.IncludeEdgeType(HlrEdgeType.HiddenOutline);
+            var hlrEdgeTypes = HlrEdgeTypes.VisibleSharp | HlrEdgeTypes.VisibleOutline | HlrEdgeTypes.VisibleSmooth 
+                               | HlrEdgeTypes.HiddenSharp | HlrEdgeTypes.HiddenOutline;
+            IBrepSource[] sources = bodies.Select(body => (IBrepSource)new BodyBrepSource(body)).ToArray();
+            var hlrBrepDrawing = HlrView.Create(projection, hlrEdgeTypes, sources);
+            hlrBrepDrawing.UseTriangulation = useTriangulation;
 
-            var layers = helper.PrepareExportLayers(shapes);
-            if (layers == null || layers.Length == 0)
-                return new MemoryStream("!HLRExporterError!".ToUtf8Bytes());
+            var drawing = new Drawing();
+            drawing.AddChild(hlrBrepDrawing);
 
-            return SvgVectorExporter.Export(VectorExportTemplate.Drawing, layers);
+            return SvgDrawingExporter.Export(drawing);
         }
 
         #endregion

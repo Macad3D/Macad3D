@@ -3,17 +3,12 @@
 <svg width="40mm" height="40mm" viewBox="0, 0, 151.1811, 151.1811" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg">
   <sodipodi:namedview inkscape:document-units="mm" />
   <g id="Drawing" transform="translate(75.59055,75.59055)">
-    <g id="Outline" stroke-width="0.7559055" style="stroke:black;fill:none;">
-      <path d="M-37.79528,37.79528 L-37.79528,-37.79528 L0,-37.79528" />
-      <path d="M8.392237E-16,-16.47884 A19.72971,7.892014 286.6992 1 0 8.180811,-3.776507E-15" />
-      <path d="M37.79528,0 L0,0 L0,-37.79528 L37.79528,-37.79528 L37.79528,0 L37.79528,37.79528 L-37.79528,37.79528" />
+    <g id="HiddenOutline" stroke-width="0.37795275" stroke-dasharray="2 0.5" style="stroke:black;fill:none;">
+      <ellipse cx="0" cy="-0" rx="19.729713" ry="7.892014" transform="rotate(286.69925)" />
+      <path d="M-37.795277,37.795277 L-37.795277,-37.795277 L37.795277,-37.795277 L0,-37.795277 M5.6692915,-18.897638 A19.729713,7.892014 286.69925 0 0 0,-16.478836 M37.795277,-0 L0,-0 M5.6692915,-18.897638 A19.729713,7.892014 286.69925 0 1 8.180811,-4.1961186E-15 M0,-0 L0,-37.795277 L37.795277,-37.795277 L37.795277,-0 L37.795277,-37.795277 L37.795277,37.795277 L-37.795277,37.795277" />
     </g>
-    <g id="HiddenOutline" stroke-width="0.3779528" stroke-dasharray="2 0.5" style="stroke:black;fill:none;">
-      <path d="M-37.79528,37.79528 L-37.79528,-37.79528 L37.79528,-37.79528 L0,-37.79528" />
-      <ellipse cx="0" cy="0" rx="19.72971" ry="7.892014" transform="rotate(286.6992)" />
-      <path d="M5.669291,-18.89764 A19.72971,7.892014 286.6992 0 0 8.392237E-16,-16.47884" />
-      <path d="M5.669291,-18.89764 A19.72971,7.892014 286.6992 0 1 8.180811,-3.776507E-15" />
-      <path d="M37.79528,0 L0,0 L0,-37.79528 L37.79528,-37.79528 L37.79528,0 L37.79528,-37.79528 L37.79528,37.79528 L-37.79528,37.79528" />
+    <g id="Outline" stroke-width="0.7559055" style="stroke:black;fill:none;">
+      <path d="M-37.795277,37.795277 L-37.795277,-37.795277 L0,-37.795277 M37.795277,-0 L0,-0 M0,-16.478836 A19.729713,7.892014 286.69925 1 0 8.180811,-4.1961186E-15 M0,-0 L0,-37.795277 L37.795277,-37.795277 L37.795277,-0 L37.795277,37.795277 L-37.795277,37.795277" />
     </g>
   </g>
 </svg>

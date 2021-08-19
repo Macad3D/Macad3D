@@ -16,6 +16,7 @@ namespace Macad.Core
     {
         Solid,
         Dash,
+        ShortDash,
         Dot,
         DotDash
     }
@@ -73,6 +74,7 @@ namespace Macad.Core
         {
             new LineStyleDescription(LineStyle.Solid, "Solid", new []{10.0, 0.0}),
             new LineStyleDescription(LineStyle.Dash, "Dash", new []{4.0, 2.0}),
+            new LineStyleDescription(LineStyle.ShortDash, "Short Dash", new []{2.0, 2.0}),
             new LineStyleDescription(LineStyle.Dot, "Dot", new []{1.0, 1.0}),
             new LineStyleDescription(LineStyle.DotDash, "Dot-Dash", new []{5.0, 2.0, 1.0, 2.0}),
         };

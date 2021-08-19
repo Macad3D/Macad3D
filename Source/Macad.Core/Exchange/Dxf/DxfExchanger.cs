@@ -10,7 +10,7 @@ using Macad.Occt;
 
 namespace Macad.Core.Exchange
 {
-    public sealed class DxfExchanger : ISketchExporter, ISketchImporter, IVectorExporter
+    public sealed class DxfExchanger : ISketchExporter, ISketchImporter, IDrawingExporter
     {
         #region Exchanger
 
@@ -220,14 +220,14 @@ namespace Macad.Core.Exchange
 
         #endregion
 
-        #region IVectorExporter
+        #region IDrawingExporter
 
-        bool IVectorExporter.DoExport(string fileName, VectorExportTemplate template, VectorExportLayer[] layers)
+        bool IDrawingExporter.DoExport(string fileName, Drawing.Drawing drawing)
         {
             bool result;
             using (new ProcessingScope(null, "Exporting vector to DXF"))
             {
-                var stream = DxfVectorExporter.Export(template, layers, Settings.ExportVersion, _GetFlags(), Settings.ExportPolygonPrecision);
+                var stream = DxfDrawingExporter.Export(drawing, Settings.ExportVersion, _GetFlags(), Settings.ExportPolygonPrecision);
                 result = _WriteToFile(fileName, stream);
             }
             return result;

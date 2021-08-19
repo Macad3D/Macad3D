@@ -3,15 +3,13 @@
 <svg width="40mm" height="40mm" viewBox="0, 0, 151.1811, 151.1811" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg">
   <sodipodi:namedview inkscape:document-units="mm" />
   <g id="Drawing" transform="translate(75.59055,75.59055)">
-    <g id="Outline" stroke-width="0.7559055" style="stroke:black;fill:none;">
-      <path d="M-37.79528,37.79528 L-37.79528,-37.79528 L37.79528,-37.79528" />
-      <circle cx="0" cy="0" r="26.7253" />
-      <path d="M37.79528,-37.79528 L37.79528,37.79528 L-37.79528,37.79528" />
+    <g id="HiddenOutline" stroke-width="0.37795275" stroke-dasharray="2 0.5" style="stroke:black;fill:none;">
+      <circle cx="0" cy="-0" r="26.725296" />
+      <path d="M-37.795277,37.795277 L-37.795277,-37.795277 L37.795277,-37.795277 M37.795277,-37.795277 L37.795277,37.795277 L-37.795277,37.795277" />
     </g>
-    <g id="HiddenOutline" stroke-width="0.3779528" stroke-dasharray="2 0.5" style="stroke:black;fill:none;">
-      <path d="M-37.79528,37.79528 L-37.79528,-37.79528 L37.79528,-37.79528" />
-      <circle cx="0" cy="0" r="26.7253" />
-      <path d="M37.79528,-37.79528 L37.79528,37.79528 L-37.79528,37.79528" />
+    <g id="Outline" stroke-width="0.7559055" style="stroke:black;fill:none;">
+      <circle cx="0" cy="-0" r="26.725296" />
+      <path d="M-37.795277,37.795277 L-37.795277,-37.795277 L37.795277,-37.795277 M37.795277,-37.795277 L37.795277,37.795277 L-37.795277,37.795277" />
     </g>
   </g>
 </svg>

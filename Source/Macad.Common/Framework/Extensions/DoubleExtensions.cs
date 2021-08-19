@@ -64,14 +64,21 @@ namespace Macad.Common
 
         public static double Distance(this double value, double other)
         {
-            if (other < value)
-                return value - other;
-            return other - value;
+            double val = value - other;
+            if (val < 0) val = -val;
+            return val;
         }
 
         public static double Lerp(this double value, double other, double amount)
         {
             return value * (1.0 - amount) + other * amount;
+        }
+
+        public static void Swap(this ref double value, ref double other)
+        {
+            double temp = value;
+            value = other;
+            other = temp;
         }
     }
 }

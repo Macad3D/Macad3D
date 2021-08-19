@@ -143,8 +143,11 @@ namespace Macad.Test.Unit
 
         //--------------------------------------------------------------------------------------------------
 
-        public static void IsSameTextFile(string originalPath, Stream testResultStream, TextCompareFlags flags = TextCompareFlags.None)
+        public static void IsSameTextFile(string originalPath, MemoryStream testResultStream, TextCompareFlags flags = TextCompareFlags.None)
         {
+            var resultFileName = Path.Combine(Path.GetDirectoryName(originalPath), Path.GetFileNameWithoutExtension(originalPath) + "_TestResult" + Path.GetExtension(originalPath));
+            TestData.DeleteTestResult(resultFileName);
+
             var testLines = new List<string>();
             testResultStream.Position = 0;
             using (StreamReader sr = new StreamReader(testResultStream))
@@ -155,10 +158,18 @@ namespace Macad.Test.Unit
                     testLines.Add(line);
                 }
             }
-            var refLines = TestData.GetTestDataLines(originalPath);
-            Assert.IsNotNull(refLines, "Reference file not found: " + originalPath);
 
-            IsSameText(refLines, testLines.ToArray(), flags);
+            try
+            {
+                var refLines = TestData.GetTestDataLines(originalPath);
+                Assert.IsNotNull(refLines, "Reference file not found: " + originalPath);
+                IsSameText(refLines, testLines.ToArray(), flags);
+            }
+            catch (AssertionException)
+            {
+                TestData.WriteTestResult(testResultStream.ToArray(), resultFileName);
+                throw;
+            }
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -218,7 +229,7 @@ namespace Macad.Test.Unit
             //--------------------------------------------------------------------------------------------------
             
             // Compare
-            Assert.AreEqual(testLines.Length, refLines.Length);
+            Assert.AreEqual(refLines.Length, testLines.Length);
 
             for (int i = 0; i < testLines.Length; i++)
             {

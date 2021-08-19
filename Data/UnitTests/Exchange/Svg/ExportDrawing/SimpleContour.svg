@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="60mm" height="60mm" viewBox="0, 0, 226.77165, 226.77165" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg">
+  <sodipodi:namedview inkscape:document-units="mm" />
+  <g id="Contours" transform="translate(113.385826,113.385826)">
+    <g id="Layer0" stroke-width="0.37795275" style="stroke:black;fill:none;">
+      <circle cx="-45.354332" cy="-45.354332" r="11.338583" />
+      <circle cx="0" cy="-0" r="27.25456" />
+      <circle cx="45.354332" cy="-45.354332" r="10.690118" />
+      <path d="M75.59055,-75.59055 L-75.59055,-75.59055 L-75.59055,75.59055 L75.59055,75.59055 L75.59055,-75.59055 Z M-56.692913,56.692913 L-56.692913,37.795277 L-37.795277,37.795277 L-37.795277,56.692913 L-56.692913,56.692913 Z M37.795277,56.692913 L37.795277,37.795277 L56.692913,37.795277 A15.144334,15.144334 0 0 1 37.795277,56.692913 Z" />
+    </g>
+  </g>
+</svg>

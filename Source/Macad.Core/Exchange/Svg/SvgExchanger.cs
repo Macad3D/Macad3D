@@ -4,13 +4,12 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using Macad.Core.Exchange.Svg;
 using Macad.Core.Shapes;
-using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Occt;
 
 namespace Macad.Core.Exchange
 {
-    public sealed class SvgExchanger : ISketchExporter, ISketchImporter, IVectorExporter
+    public sealed class SvgExchanger : ISketchExporter, ISketchImporter, IDrawingExporter
     {
         #region Exchanger
 
@@ -54,6 +53,9 @@ namespace Macad.Core.Exchange
         {
             [SerializeMember]
             public double DotsPerInch { get; set; } = 96.0;
+
+            [SerializeMember]
+            public bool TagGroupsAsLayers { get; set; } = false;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -252,15 +254,16 @@ namespace Macad.Core.Exchange
 
         #endregion
 
-        #region IVectorExporter
+        #region IDrawingExporter
         
-        bool IVectorExporter.DoExport(string fileName, VectorExportTemplate template, VectorExportLayer[] layers)
+        bool IDrawingExporter.DoExport(string fileName, Drawing.Drawing drawing)
         {
             bool result;
-            using (new ProcessingScope(null, "Exporting vector to SVG"))
+            using (new ProcessingScope(null, "Exporting drawing to SVG"))
             {
-                SvgVectorExporter.DotsPerInch = Settings.DotsPerInch;
-                result = _WriteToFile(fileName, SvgVectorExporter.Export(template, layers));
+                SvgExporterBase.DotsPerInch = Settings.DotsPerInch;
+                SvgExporterBase.TagGroupsAsLayers = Settings.TagGroupsAsLayers;
+                result = _WriteToFile(fileName, SvgDrawingExporter.Export(drawing));
             }
 
             return result;

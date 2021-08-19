@@ -124,6 +124,52 @@ namespace Macad.Core.Geom
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        public static Geom2d_BSplineCurve MakeBSplineCurve(int degree, double[] knots, Pnt2d[] controlPoints, double[] weights, bool isClosed)
+        {
+            // Copy control points
+            var poleCount = controlPoints.Length;
+            var poles = new TColgp_Array1OfPnt2d(1, poleCount);
+            var weightsCol = weights != null ? new TColStd_Array1OfReal(1, poleCount) : null;
+            for (int i = 0; i < poleCount; i++)
+            {
+                poles.SetValue(i + 1, controlPoints[i]);
+                weightsCol?.SetValue(i + 1, weights[i] );
+            }
 
+            // Count multiplicities and compact knot list
+            var knotList = new List<double>();
+            var multList = new List<int>();
+            var lastKnot = double.NaN;
+            foreach (var knot in knots)
+            {
+                if (lastKnot != knot)
+                {
+                    knotList.Add(knot);
+                    lastKnot = knot;
+                    multList.Add(1);
+                }
+                else
+                {
+                    multList[^1]++;
+                }
+            }
+
+            // Copy knots and multiplicities
+            var knotCount = knotList.Count;
+            var knotsCol = new TColStd_Array1OfReal(1, knotCount);
+            var multsCol = new TColStd_Array1OfInteger(1, knotCount);
+            for (int i = 0; i < knotCount; i++)
+            {
+                knotsCol.SetValue(i + 1, knotList[i]);
+                multsCol.SetValue(i + 1, multList[i]);
+            }
+
+            // Create spline
+            var spline = weightsCol != null 
+                             ? new Geom2d_BSplineCurve(poles, weightsCol, knotsCol, multsCol, degree, isClosed) 
+                             : new Geom2d_BSplineCurve(poles, knotsCol, multsCol, degree, isClosed);
+            return spline;
+        }
     }
 }

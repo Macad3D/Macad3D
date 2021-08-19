@@ -7,6 +7,7 @@ using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Common;
 using Macad.Common.Serialization;
+using Macad.Core.Drawing;
 using Macad.Occt;
 
 namespace Macad.Core.Toolkits
@@ -322,16 +323,26 @@ namespace Macad.Core.Toolkits
                 return false;
             }
 
-            var exporter = exchanger as IVectorExporter;
+            var exporter = exchanger as IDrawingExporter;
             if (exporter == null)
                 return false;
 
-            VectorExportLayer[] exportLayers = new VectorExportLayer[_Layers.Length];
+            Drawing.Drawing drawing = new()
+            {
+                Name = "Masks"
+            };
             for (var layer = 0; layer < _Layers.Length; layer++)
             {
-                exportLayers[layer] = new VectorExportLayer(VectorExportLayerType.FilledOutline, $"Layer{layer}", _Layers[layer].BRep);
+                BRepDrawing drawingLayer = new()
+                {
+                    Name = $"Layer{layer}",
+                    Source = new TopoDSBrepSource(_Layers[layer].BRep),
+                    Stroke = new StrokeStyle(Color.Black, 0.1f, LineStyle.Solid),
+                    Fill = new FillStyle(Color.Black)
+                };
+                drawing.AddChild(drawingLayer);
             }
-            return exporter.DoExport(fileName, VectorExportTemplate.Contours, exportLayers);
+            return exporter.DoExport(fileName, drawing);
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -6,11 +6,40 @@ namespace Macad.Core
 {
     public static class gpExtensions
     {
-        #region gp_Pnt
+        #region Pnt
 
         public static Pnt Round(this Pnt pnt)
         {
             return new Pnt(pnt.X.Round(), pnt.Y.Round(), pnt.Z.Round());
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public static void Swap(this ref Pnt value, ref Pnt other)
+        {
+            Pnt temp = value;
+            value = other;
+            other = temp;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region Pnt2d
+
+        public static Pnt2d Round(this Pnt2d pnt)
+        {
+            return new (pnt.X.Round(), pnt.Y.Round());
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static void Swap(this ref Pnt2d value, ref Pnt2d other)
+        {
+            Pnt2d temp = value;
+            value = other;
+            other = temp;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -78,7 +107,7 @@ namespace Macad.Core
 
         #endregion
 
-        #region gp_Ax22d
+        #region Ax22d
 
         public static int Sense(this Ax22d ax)
         {

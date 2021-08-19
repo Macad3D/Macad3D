@@ -65,7 +65,7 @@ namespace Macad.Interaction.Editors.Toolkits
         void ExecuteExport()
         {
             {
-                if (!ExportDialog.Execute<IVectorExporter>(out string fileName, out var exporter))
+                if (!ExportDialog.Execute<IDrawingExporter>(out string fileName, out var exporter))
                     return;
 
                 if (!_Tool.Component.Export(fileName, exporter))

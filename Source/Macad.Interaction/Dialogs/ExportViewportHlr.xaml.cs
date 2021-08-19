@@ -7,6 +7,7 @@ using Macad.Common;
 using Macad.Core;
 using Macad.Core.Exchange;
 using Macad.Common.Serialization;
+using Macad.Core.Drawing;
 using Macad.Occt;
 using Macad.Occt.Helper;
 using Macad.Presentation;
@@ -156,7 +157,7 @@ namespace Macad.Interaction.Dialogs
         {
             InteractiveContext.Current.SaveLocalSettings("ExportViewportHlr", Settings);
 
-            var exchangers = ExchangeRegistry.EnumerateExchanger<IVectorExporter>()?.ToArray();
+            var exchangers = ExchangeRegistry.EnumerateExchanger<IDrawingExporter>()?.ToArray();
             if (exchangers == null || exchangers.Length == 0)
                 return;
 
@@ -182,7 +183,7 @@ namespace Macad.Interaction.Dialogs
             {
                 var exporter = exchangers[dlg.FilterIndex - 1];
 
-                if (!ExchangerSettings.Execute<ISketchImporter>(exporter))
+                if (!ExchangerSettings.Execute<IDrawingExporter>(exporter))
                     return;
 
                 using (new ProcessingScope(null, "Exporting Line Drawing"))
@@ -197,33 +198,40 @@ namespace Macad.Interaction.Dialogs
 
         //--------------------------------------------------------------------------------------------------
 
-        bool DoExport(string filename, IVectorExporter exporter)
+        bool DoExport(string filename, IDrawingExporter exporter)
         {
             try
             {
                 var projection = new Ax3(_Viewport.EyePoint, _Viewport.GetViewDirection().Reversed(), _Viewport.GetRightDirection());
-                var exportHelper = new DrawingExportHelper(Settings.UseTriangulation, projection);
+                var hlrEdgeTypes = HlrEdgeTypes.None;
 
                 if (Settings.VisibleOutline)
                 {
-                    exportHelper.IncludeEdgeType(HlrEdgeType.VisibleSharp);
-                    exportHelper.IncludeEdgeType(HlrEdgeType.VisibleOutline);
+                    hlrEdgeTypes |= HlrEdgeTypes.VisibleSharp;
+                    hlrEdgeTypes |= HlrEdgeTypes.VisibleOutline;
                 }
                 if (Settings.VisibleSmooth)
-                    exportHelper.IncludeEdgeType(HlrEdgeType.VisibleSmooth);
+                    hlrEdgeTypes |= HlrEdgeTypes.VisibleSmooth;
                 if (Settings.VisibleSewn)
-                    exportHelper.IncludeEdgeType(HlrEdgeType.VisibleSewn);
+                    hlrEdgeTypes |= HlrEdgeTypes.VisibleSewn;
                 if (Settings.HiddenOutline)
                 {
-                    exportHelper.IncludeEdgeType(HlrEdgeType.HiddenSharp);
-                    exportHelper.IncludeEdgeType(HlrEdgeType.HiddenOutline);
+                    hlrEdgeTypes |= HlrEdgeTypes.HiddenSharp;
+                    hlrEdgeTypes |= HlrEdgeTypes.HiddenOutline;
                 }
                 if (Settings.HiddenSmooth)
-                    exportHelper.IncludeEdgeType(HlrEdgeType.HiddenSmooth);
+                    hlrEdgeTypes |= HlrEdgeTypes.HiddenSmooth;
                 if (Settings.HiddenSewn)
-                    exportHelper.IncludeEdgeType(HlrEdgeType.HiddenSewn);
+                    hlrEdgeTypes |= HlrEdgeTypes.HiddenSewn;
 
-                return exportHelper.Export(filename, exporter, InteractiveContext.Current.WorkspaceController.VisualObjects.GetVisibleBReps());
+                var source = new TopoDSBrepSource(InteractiveContext.Current.WorkspaceController.VisualObjects.GetVisibleBReps().ToArray());
+                var hlrBrepDrawing = HlrView.Create(projection, hlrEdgeTypes, source);
+                hlrBrepDrawing.UseTriangulation = Settings.UseTriangulation;
+
+                var drawing = new Drawing();
+                drawing.AddChild(hlrBrepDrawing);
+
+                return exporter.DoExport(filename, drawing);
             }
             catch (Exception e)
             {

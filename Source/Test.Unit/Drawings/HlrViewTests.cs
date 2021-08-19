@@ -5,12 +5,12 @@ using Macad.Occt;
 using Macad.Occt.Helper;
 using NUnit.Framework;
 
-namespace Macad.Test.Unit.Exchange
+namespace Macad.Test.Unit.Drawings
 {
     [TestFixture]
-    public class GenerateHlrTests
+    public class HlrViewTests
     {
-        const string _BasePath = @"Exchange\GenerateHlr";
+        const string _BasePath = @"Drawing\HlrView";
 
         //--------------------------------------------------------------------------------------------------
 
@@ -30,11 +30,11 @@ namespace Macad.Test.Unit.Exchange
             hlrAlgo.Update();
 
             // Get Hlr Shape
-            var visibleSharp = hlrAlgo.GetResult(HlrEdgeType.VisibleSharp);
+            var visibleSharp = hlrAlgo.GetResult(HlrEdgeTypes.VisibleSharp);
             Assert.IsNotNull(visibleSharp);
             Assert.IsTrue(ModelCompare.CompareShape(visibleSharp, Path.Combine(_BasePath, "VisSharp")));
 
-            var hiddenSharp = hlrAlgo.GetResult(HlrEdgeType.HiddenSharp);
+            var hiddenSharp = hlrAlgo.GetResult(HlrEdgeTypes.HiddenSharp);
             Assert.IsNotNull(hiddenSharp);
             Assert.IsTrue(ModelCompare.CompareShape(hiddenSharp, Path.Combine(_BasePath, "HidSharp")));
         }
@@ -56,11 +56,11 @@ namespace Macad.Test.Unit.Exchange
             hlrAlgo.Update();
 
             // Get Hlr Shape
-            var visibleSharp = hlrAlgo.GetResult(HlrEdgeType.VisibleSharp);
+            var visibleSharp = hlrAlgo.GetResult(HlrEdgeTypes.VisibleSharp);
             Assert.IsNotNull(visibleSharp);
             Assert.IsTrue(ModelCompare.CompareShape(visibleSharp, Path.Combine(_BasePath, "Poly_VisSharp")));
 
-            var hiddenSharp = hlrAlgo.GetResult(HlrEdgeType.HiddenSharp);
+            var hiddenSharp = hlrAlgo.GetResult(HlrEdgeTypes.HiddenSharp);
             Assert.IsNotNull(hiddenSharp);
             Assert.IsTrue(ModelCompare.CompareShape(hiddenSharp, Path.Combine(_BasePath, "Poly_HidSharp")));
         }
@@ -85,7 +85,7 @@ namespace Macad.Test.Unit.Exchange
             hlrAlgo.Update();
 
             // Get Hlr Shape
-            var visibleSharp = hlrAlgo.GetResult(HlrEdgeType.VisibleSharp);
+            var visibleSharp = hlrAlgo.GetResult(HlrEdgeTypes.VisibleSharp);
             Assert.IsNotNull(visibleSharp);
             Assert.IsTrue(ModelCompare.CompareShape(visibleSharp, Path.Combine(_BasePath, "MultiShape_VisSharp")));
         }
@@ -111,7 +111,7 @@ namespace Macad.Test.Unit.Exchange
             hlrAlgo.Update();
 
             // Get Hlr Shape
-            var visibleSharp = hlrAlgo.GetResult(HlrEdgeType.VisibleSharp);
+            var visibleSharp = hlrAlgo.GetResult(HlrEdgeTypes.VisibleSharp);
             Assert.IsNotNull(visibleSharp);
             Assert.IsTrue(ModelCompare.CompareShape(visibleSharp, Path.Combine(_BasePath, "PolyMultiShape_VisSharp")));
         }

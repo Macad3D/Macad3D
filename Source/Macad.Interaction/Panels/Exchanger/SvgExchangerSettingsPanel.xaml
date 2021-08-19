@@ -11,6 +11,10 @@
              d:DesignHeight="100" d:DesignWidth="250">
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="80" />
             <ColumnDefinition />
@@ -18,9 +22,14 @@
             
         <TextBlock Grid.Column="0" Text="Scaling"
                    Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
-        
         <mmp:ValueEditBox Grid.Column="1"
                           Value="{Binding DotsPerInch}"
                           MinValue="0" MaxValue="1000" Units="DotsPerInch" Precision="0"/>
+
+        <CheckBox Grid.Row="1" Grid.Column="1"
+                  Margin="0,4,0,4"
+                  Content="Tag Groups as Layers"
+                  IsChecked="{Binding TagGroupsAsLayers}"
+                  Visibility="{Binding IsDrawingExport, Converter={mmp:BoolToVisibleCollapsedConverter} }"/>
     </Grid>
 </panels:PanelBase>

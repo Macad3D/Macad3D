@@ -321,48 +321,7 @@ namespace Macad.Core.Exchange.Dxf
 
         void _ImportSplineWithControlPoints(DxfDomSpline dxfSpline)
         {
-            // Copy control points
-            var poleCount = dxfSpline.ControlPoints.Length;
-            var poles = new TColgp_Array1OfPnt2d(1, poleCount);
-            var weights = dxfSpline.Weights != null ? new TColStd_Array1OfReal(1, poleCount) : null;
-            for (int i = 0; i < poleCount; i++)
-            {
-                poles.SetValue(i + 1, dxfSpline.ControlPoints[i]);
-                weights?.SetValue(i + 1, dxfSpline.Weights[i] );
-            }
-
-            // Count multiplicities and compact knot list
-            var knotList = new List<double>();
-            var multList = new List<int>();
-            var lastKnot = double.NaN;
-            foreach (var knot in dxfSpline.Knots)
-            {
-                if (lastKnot != knot)
-                {
-                    knotList.Add(knot);
-                    lastKnot = knot;
-                    multList.Add(1);
-                }
-                else
-                {
-                    multList[multList.Count - 1]++;
-                }
-            }
-
-            // Copy knots and multiplicities
-            var knotCount = knotList.Count;
-            var knots = new TColStd_Array1OfReal(1, knotCount);
-            var mults = new TColStd_Array1OfInteger(1, knotCount);
-            for (int i = 0; i < knotCount; i++)
-            {
-                knots.SetValue(i + 1, knotList[i]);
-                mults.SetValue(i + 1, multList[i]);
-            }
-
-            // Create spline
-            var spline = weights != null 
-                             ? new Geom2d_BSplineCurve(poles, weights, knots, mults, dxfSpline.Degree, dxfSpline.Flags.Has(DxfDomSpline.SplineFlags.IsClosed)) 
-                             : new Geom2d_BSplineCurve(poles, knots, mults, dxfSpline.Degree, dxfSpline.Flags.Has(DxfDomSpline.SplineFlags.IsClosed));
+            var spline = Geom2dUtils.MakeBSplineCurve(dxfSpline.Degree, dxfSpline.Knots, dxfSpline.ControlPoints, dxfSpline.Weights, dxfSpline.Flags.Has(DxfDomSpline.SplineFlags.IsClosed));
             _AddBSplineCurve(spline);
         }
 

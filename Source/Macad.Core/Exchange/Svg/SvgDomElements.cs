@@ -6,21 +6,11 @@ using Macad.Occt;
 
 namespace Macad.Core.Exchange.Svg
 {
-    public enum SvgDashTypes
-    {
-        Solid,
-        Point,
-        Short,
-        Long
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     public class SvgStyle
     {
         public Color? StrokeColor;
         public float? StrokeWidth;
-        public SvgDashTypes DashType;
+        public LineStyle LineStyle;
         public Color? FillColor;
 
         internal void Write(XmlWriter writer, SvgConverter conv)
@@ -28,16 +18,19 @@ namespace Macad.Core.Exchange.Svg
             if(StrokeWidth.HasValue)
                 writer.WriteAttributeString("stroke-width", conv.ToSvgLength(StrokeWidth.Value));
 
-            switch (DashType)
+            switch (LineStyle)
             {
-                case SvgDashTypes.Point:
+                case LineStyle.Dot:
                     writer.WriteAttributeString("stroke-dasharray", "0.5 0.5");
                     break;
-                case SvgDashTypes.Short:
+                case LineStyle.ShortDash:
                     writer.WriteAttributeString("stroke-dasharray", "1 0.5");
                     break;
-                case SvgDashTypes.Long:
+                case LineStyle.Dash:
                     writer.WriteAttributeString("stroke-dasharray", "2 0.5");
+                    break;
+                case LineStyle.DotDash:
+                    writer.WriteAttributeString("stroke-dasharray", "2 0.5 0.5 0.5");
                     break;
             }
 

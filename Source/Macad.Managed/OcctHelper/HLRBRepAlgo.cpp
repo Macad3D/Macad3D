@@ -14,16 +14,18 @@ namespace Macad
 	{
 		namespace Helper
 		{
-			public enum struct HlrEdgeType
+			[System::Flags]
+			public enum struct HlrEdgeTypes
 			{
-				VisibleSharp,
-				VisibleSmooth,
-				VisibleSewn,
-				VisibleOutline,
-				HiddenSharp,
-				HiddenSmooth,
-				HiddenSewn,
-				HiddenOutline,
+				None		   = 0,
+				VisibleSharp   = 1 << 0,
+				VisibleSmooth  = 1 << 1,
+				VisibleSewn    = 1 << 2,
+				VisibleOutline = 1 << 3,
+				HiddenSharp    = 1 << 4,
+				HiddenSmooth   = 1 << 5,
+				HiddenSewn     = 1 << 6,
+				HiddenOutline  = 1 << 7,
 			};
 
 			//--------------------------------------------------------------------------------------------------
@@ -61,12 +63,12 @@ namespace Macad
 
 				//--------------------------------------------------------------------------------------------------
 
-				Macad::Occt::TopoDS_Shape^ GetResult(HlrEdgeType type)
+				Macad::Occt::TopoDS_Shape^ GetResult(HlrEdgeTypes type)
 				{
 					return GetResult(type, nullptr);
 				}
 
-				virtual Macad::Occt::TopoDS_Shape^ GetResult(HlrEdgeType type, Macad::Occt::TopoDS_Shape^ sourceShape) abstract;
+				virtual Macad::Occt::TopoDS_Shape^ GetResult(HlrEdgeTypes type, Macad::Occt::TopoDS_Shape^ sourceShape) abstract;
 
 				virtual void Update() abstract;
 			};
@@ -112,7 +114,7 @@ namespace Macad
 
 				//--------------------------------------------------------------------------------------------------
 
-				Macad::Occt::TopoDS_Shape^ GetResult(HlrEdgeType type, Macad::Occt::TopoDS_Shape^ sourceShape) override
+				Macad::Occt::TopoDS_Shape^ GetResult(HlrEdgeTypes type, Macad::Occt::TopoDS_Shape^ sourceShape) override
 				{
 					bool all = sourceShape == nullptr;
 					::TopoDS_Shape* src = all ? nullptr : sourceShape->NativeInstance;
@@ -125,28 +127,28 @@ namespace Macad
 
 					switch (type)
 					{
-					case HlrEdgeType::VisibleSharp:
+					case HlrEdgeTypes::VisibleSharp:
 						shape = all ? _Extractor->VCompound() : _Extractor->VCompound(*src);
 						break;
-					case HlrEdgeType::VisibleSmooth:
+					case HlrEdgeTypes::VisibleSmooth:
 						shape = all ? _Extractor->Rg1LineVCompound() : _Extractor->Rg1LineVCompound(*src);
 						break;
-					case HlrEdgeType::VisibleSewn:
+					case HlrEdgeTypes::VisibleSewn:
 						shape = all ? _Extractor->RgNLineVCompound() : _Extractor->RgNLineVCompound(*src);
 						break;
-					case HlrEdgeType::VisibleOutline:
+					case HlrEdgeTypes::VisibleOutline:
 						shape = all ? _Extractor->OutLineVCompound() : _Extractor->OutLineVCompound(*src);
 						break;
-					case HlrEdgeType::HiddenSharp:
+					case HlrEdgeTypes::HiddenSharp:
 						shape = all ? _Extractor->HCompound() : _Extractor->HCompound(*src);
 						break;
-					case HlrEdgeType::HiddenSmooth:
+					case HlrEdgeTypes::HiddenSmooth:
 						shape = all ? _Extractor->Rg1LineHCompound() : _Extractor->Rg1LineHCompound(*src);
 						break;
-					case HlrEdgeType::HiddenSewn:
+					case HlrEdgeTypes::HiddenSewn:
 						shape = all ? _Extractor->RgNLineHCompound() : _Extractor->RgNLineHCompound(*src);
 						break;
-					case HlrEdgeType::HiddenOutline:
+					case HlrEdgeTypes::HiddenOutline:
 						shape = all ? _Extractor->OutLineHCompound() : _Extractor->OutLineHCompound(*src);
 						break;
 					}
@@ -212,7 +214,7 @@ namespace Macad
 
 				//--------------------------------------------------------------------------------------------------
 
-				Macad::Occt::TopoDS_Shape^ GetResult(HlrEdgeType type, Macad::Occt::TopoDS_Shape^ sourceShape) override
+				Macad::Occt::TopoDS_Shape^ GetResult(HlrEdgeTypes type, Macad::Occt::TopoDS_Shape^ sourceShape) override
 				{
 					bool all = sourceShape == nullptr;
 					::TopoDS_Shape* src = all ? nullptr : sourceShape->NativeInstance;
@@ -223,28 +225,28 @@ namespace Macad
 
 					switch (type)
 					{
-					case HlrEdgeType::VisibleSharp:
+					case HlrEdgeTypes::VisibleSharp:
 						shape = all ? _Extractor->VCompound() : _Extractor->VCompound(*src);
 						break;
-					case HlrEdgeType::VisibleSmooth:
+					case HlrEdgeTypes::VisibleSmooth:
 						shape = all ? _Extractor->Rg1LineVCompound() : _Extractor->Rg1LineVCompound(*src);
 						break;
-					case HlrEdgeType::VisibleSewn:
+					case HlrEdgeTypes::VisibleSewn:
 						shape = all ? _Extractor->RgNLineVCompound() : _Extractor->RgNLineVCompound(*src);
 						break;
-					case HlrEdgeType::VisibleOutline:
+					case HlrEdgeTypes::VisibleOutline:
 						shape = all ? _Extractor->OutLineVCompound() : _Extractor->OutLineVCompound(*src);
 						break;
-					case HlrEdgeType::HiddenSharp:
+					case HlrEdgeTypes::HiddenSharp:
 						shape = all ? _Extractor->HCompound() : _Extractor->HCompound(*src);
 						break;
-					case HlrEdgeType::HiddenSmooth:
+					case HlrEdgeTypes::HiddenSmooth:
 						shape = all ? _Extractor->Rg1LineHCompound() : _Extractor->Rg1LineHCompound(*src);
 						break;
-					case HlrEdgeType::HiddenSewn:
+					case HlrEdgeTypes::HiddenSewn:
 						shape = all ? _Extractor->RgNLineHCompound() : _Extractor->RgNLineHCompound(*src);
 						break;
-					case HlrEdgeType::HiddenOutline:
+					case HlrEdgeTypes::HiddenOutline:
 						shape = all ? _Extractor->OutLineHCompound() : _Extractor->OutLineHCompound(*src);
 						break;
 					}

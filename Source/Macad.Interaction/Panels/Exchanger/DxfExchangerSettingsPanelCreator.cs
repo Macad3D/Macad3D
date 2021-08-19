@@ -19,7 +19,7 @@ namespace Macad.Interaction.Panels
 
         public object CreatePanel<T>(IExchanger exchanger)
         {
-            if (typeof(T) == typeof(ISketchExporter) || typeof(T) == typeof(IVectorExporter))
+            if (typeof(T) == typeof(ISketchExporter) || typeof(T) == typeof(IDrawingExporter))
             {
                 return new DxfExportSettingsPanel((exchanger as DxfExchanger)?.Settings);
             }

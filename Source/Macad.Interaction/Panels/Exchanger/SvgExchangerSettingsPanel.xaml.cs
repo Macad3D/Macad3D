@@ -22,7 +22,7 @@ namespace Macad.Interaction.Panels
 
         public object CreatePanel<T>(IExchanger exchanger)
         {
-            return new SvgExchangerSettingsPanel((exchanger as SvgExchanger)?.Settings);
+            return new SvgExchangerSettingsPanel((exchanger as SvgExchanger)?.Settings, typeof(T));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -53,15 +53,34 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        SvgExchanger.SvgSettings _SvgSettings;
+        public bool TagGroupsAsLayers
+        {
+            get { return _SvgSettings.TagGroupsAsLayers; }
+            set
+            {
+                _SvgSettings.TagGroupsAsLayers = value;
+                RaisePropertyChanged();
+            }
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public bool IsDrawingExport
+        {
+            get { return _IsDrawingExport; }
+        }
 
         //--------------------------------------------------------------------------------------------------
 
-        public SvgExchangerSettingsPanel(SvgExchanger.SvgSettings svgSettings)
+        readonly SvgExchanger.SvgSettings _SvgSettings;
+        bool _IsDrawingExport;
+
+        //--------------------------------------------------------------------------------------------------
+
+        public SvgExchangerSettingsPanel(SvgExchanger.SvgSettings svgSettings, Type exchangerType)
         {
             _SvgSettings = svgSettings;
-            DotsPerInch = _SvgSettings.DotsPerInch;
-
+            _IsDrawingExport = exchangerType.IsAssignableTo(typeof(IDrawingExporter));
             InitializeComponent();
         }
 
