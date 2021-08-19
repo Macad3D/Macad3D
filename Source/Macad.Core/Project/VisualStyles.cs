@@ -1,4 +1,6 @@
-﻿using Macad.Common;
+﻿using System;
+using System.Linq;
+using Macad.Common;
 using Macad.Occt;
 
 namespace Macad.Core
@@ -70,13 +72,13 @@ namespace Macad.Core
             }
         }
 
-        public static LineStyleDescription[] LineStyleDescriptions =
+        public static readonly LineStyleDescription[] LineStyleDescriptions =
         {
-            new LineStyleDescription(LineStyle.Solid, "Solid", new []{10.0, 0.0}),
-            new LineStyleDescription(LineStyle.Dash, "Dash", new []{4.0, 2.0}),
-            new LineStyleDescription(LineStyle.ShortDash, "Short Dash", new []{2.0, 2.0}),
-            new LineStyleDescription(LineStyle.Dot, "Dot", new []{1.0, 1.0}),
-            new LineStyleDescription(LineStyle.DotDash, "Dot-Dash", new []{5.0, 2.0, 1.0, 2.0}),
+            new (LineStyle.Solid, "Solid", new []{10.0, 0.0}),
+            new (LineStyle.Dash, "Dash", new []{4.0, 2.0}),
+            new (LineStyle.ShortDash, "Short Dash", new []{2.0, 2.0}),
+            new (LineStyle.Dot, "Dot", new []{1.0, 1.0}),
+            new (LineStyle.DotDash, "Dot-Dash", new []{5.0, 2.0, 1.0, 2.0}),
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -95,11 +97,11 @@ namespace Macad.Core
             }
         }
 
-        public static LineThicknessDescription[] LineThicknessDescriptions =
+        public static readonly LineThicknessDescription[] LineThicknessDescriptions =
         {
-            new LineThicknessDescription(LineThickness.Thin, "Thin", 1.0),
-            new LineThicknessDescription(LineThickness.Normal, "Normal", 2.0),
-            new LineThicknessDescription(LineThickness.Thick, "Thick", 3.0),
+            new (LineThickness.Thin, "Thin", 1.0),
+            new (LineThickness.Normal, "Normal", 2.0),
+            new (LineThickness.Thick, "Thick", 3.0),
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -110,7 +112,42 @@ namespace Macad.Core
 
         public static Aspect_TypeOfLine TypeOfLine(this LineStyle lineStyle)
         {
-            return (Aspect_TypeOfLine) lineStyle;
+            return lineStyle switch
+            {
+                LineStyle.Solid => Aspect_TypeOfLine.Aspect_TOL_SOLID,
+                LineStyle.Dash => Aspect_TypeOfLine.Aspect_TOL_DASH,
+                LineStyle.ShortDash => Aspect_TypeOfLine.Aspect_TOL_USERDEFINED,
+                LineStyle.Dot => Aspect_TypeOfLine.Aspect_TOL_DOT,
+                LineStyle.DotDash => Aspect_TypeOfLine.Aspect_TOL_DOTDASH,
+                _ => Aspect_TypeOfLine.Aspect_TOL_SOLID
+            };
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static void ApplyToAspect(this LineStyle lineStyle, Prs3d_LineAspect aspect)
+        {
+            var tol = lineStyle switch
+            {
+                LineStyle.Solid => Aspect_TypeOfLine.Aspect_TOL_SOLID,
+                LineStyle.Dash => Aspect_TypeOfLine.Aspect_TOL_DASH,
+                LineStyle.ShortDash => Aspect_TypeOfLine.Aspect_TOL_USERDEFINED,
+                LineStyle.Dot => Aspect_TypeOfLine.Aspect_TOL_DOT,
+                LineStyle.DotDash => Aspect_TypeOfLine.Aspect_TOL_DOTDASH,
+                _ => Aspect_TypeOfLine.Aspect_TOL_SOLID
+            };
+            
+            aspect.SetTypeOfLine(tol);
+
+            if (tol == Aspect_TypeOfLine.Aspect_TOL_USERDEFINED)
+            {
+                UInt16 pattern = lineStyle switch
+                {
+                    LineStyle.ShortDash => 0xf8f8,
+                    _ => 0xffff
+                };
+                aspect.Aspect().SetLinePattern(pattern);
+            }
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -198,7 +198,8 @@ namespace Macad.Interaction.Visual
             shadingAspect.SetTransparency(layer.Transparency);
             attributeSet.Drawer.SetShadingAspect(shadingAspect);
 
-            var lineAspect = new Prs3d_LineAspect(layer.Color.ToQuantityColor(), layer.LineStyle.TypeOfLine(), layer.LineThickness.LineWidth());
+            var lineAspect = new Prs3d_LineAspect(layer.Color.ToQuantityColor(), Aspect_TypeOfLine.Aspect_TOL_SOLID, layer.LineThickness.LineWidth());
+            layer.LineStyle.ApplyToAspect(lineAspect);
             attributeSet.Drawer.SetLineAspect(lineAspect);
             attributeSet.Drawer.SetSeenLineAspect(lineAspect);
             attributeSet.Drawer.SetWireAspect(lineAspect);

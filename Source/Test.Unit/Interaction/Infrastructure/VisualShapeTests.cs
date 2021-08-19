@@ -200,17 +200,23 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             var body = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
             ctx.ViewportController.ZoomFitAll();
 
-            body.Layer.LineStyle = LineStyle.Solid;
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LineStyleSolid"));
+            Assert.Multiple(() =>
+            {
+                body.Layer.LineStyle = LineStyle.Solid;
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LineStyleSolid"));
 
-            body.Layer.LineStyle = LineStyle.Dash;
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LineStyleDash"));
+                body.Layer.LineStyle = LineStyle.Dash;
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LineStyleDash"));
 
-            body.Layer.LineStyle = LineStyle.Dot;
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LineStyleDot"));
+                body.Layer.LineStyle = LineStyle.ShortDash;
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LineStyleShortDash"));
 
-            body.Layer.LineStyle = LineStyle.DotDash;
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LineStyleDotDash"));
+                body.Layer.LineStyle = LineStyle.Dot;
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LineStyleDot"));
+
+                body.Layer.LineStyle = LineStyle.DotDash;
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LineStyleDotDash"));
+            });
         }
 
         //--------------------------------------------------------------------------------------------------

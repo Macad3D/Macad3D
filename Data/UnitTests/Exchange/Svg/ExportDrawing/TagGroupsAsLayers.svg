@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="48.28427mm" height="40.412415mm" viewBox="0, 0, 182.49173, 152.73984" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg">
+  <sodipodi:namedview inkscape:document-units="mm" />
+  <g inkscape:groupmode="layer" inkscape:label="Drawing" id="Drawing" transform="translate(91.245865,84.08485)">
+    <g inkscape:groupmode="layer" inkscape:label="HiddenOutline" id="HiddenOutline" stroke-width="0.37795275" stroke-dasharray="2 0.5" style="stroke:black;fill:none;">
+      <path d="M-26.725296,-15.429856 A26.725296,15.429856 0 1 1 26.725296,-15.429856 M53.450592,-0 L0,-30.859713 L0,-46.28957 M0,-30.859713 L-53.450592,-0" />
+    </g>
+    <g inkscape:groupmode="layer" inkscape:label="Outline" id="Outline" stroke-width="0.7559055" style="stroke:black;fill:none;">
+      <path d="M-26.725296,-18.515827 A26.725296,15.429856 0 0 0 -18.897638,-7.605272 A26.725296,15.429856 0 0 0 26.725296,-18.515827 A26.725296,15.429856 0 1 0 -26.725296,-18.515827 L-26.725296,-15.429856 A26.725296,15.429856 0 0 0 -18.897638,-4.5193005 A26.725296,15.429856 0 0 0 26.725296,-15.429856 L26.725296,-18.515827 M53.450592,-15.429856 L0,15.429856 L-53.450592,-15.429856 L-53.450592,-0 L0,30.859713 L0,15.429856 M0,30.859713 L53.450592,-0 L53.450592,-15.429856 L0,-46.28957 L-53.450592,-15.429856" />
+    </g>
+  </g>
+</svg>

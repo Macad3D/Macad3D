@@ -4663,6 +4663,26 @@ void Macad::Occt::Graphic3d_Aspects::SetLineType(Macad::Occt::Aspect_TypeOfLine 
 	((::Graphic3d_Aspects*)_NativeInstance)->SetLineType((::Aspect_TypeOfLine)theType);
 }
 
+unsigned short Macad::Occt::Graphic3d_Aspects::LinePattern()
+{
+	return ((::Graphic3d_Aspects*)_NativeInstance)->LinePattern();
+}
+
+void Macad::Occt::Graphic3d_Aspects::SetLinePattern(unsigned short thePattern)
+{
+	((::Graphic3d_Aspects*)_NativeInstance)->SetLinePattern(thePattern);
+}
+
+unsigned short Macad::Occt::Graphic3d_Aspects::LineStippleFactor()
+{
+	return ((::Graphic3d_Aspects*)_NativeInstance)->LineStippleFactor();
+}
+
+void Macad::Occt::Graphic3d_Aspects::SetLineStippleFactor(unsigned short theFactor)
+{
+	((::Graphic3d_Aspects*)_NativeInstance)->SetLineStippleFactor(theFactor);
+}
+
 float Macad::Occt::Graphic3d_Aspects::LineWidth()
 {
 	return ((::Graphic3d_Aspects*)_NativeInstance)->LineWidth();
@@ -4671,6 +4691,16 @@ float Macad::Occt::Graphic3d_Aspects::LineWidth()
 void Macad::Occt::Graphic3d_Aspects::SetLineWidth(float theWidth)
 {
 	((::Graphic3d_Aspects*)_NativeInstance)->SetLineWidth(theWidth);
+}
+
+unsigned short Macad::Occt::Graphic3d_Aspects::DefaultLinePatternForType(Macad::Occt::Aspect_TypeOfLine theType)
+{
+	return ::Graphic3d_Aspects::DefaultLinePatternForType((::Aspect_TypeOfLine)theType);
+}
+
+Macad::Occt::Aspect_TypeOfLine Macad::Occt::Graphic3d_Aspects::DefaultLineTypeForPattern(unsigned short thePattern)
+{
+	return (Macad::Occt::Aspect_TypeOfLine)::Graphic3d_Aspects::DefaultLineTypeForPattern(thePattern);
 }
 
 Macad::Occt::Aspect_TypeOfMarker Macad::Occt::Graphic3d_Aspects::MarkerType()

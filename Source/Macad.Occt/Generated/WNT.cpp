@@ -103,6 +103,11 @@ unsigned int Macad::Occt::WNT_HIDSpaceMouse::KeyState()
 	return ((::WNT_HIDSpaceMouse*)_NativeInstance)->KeyState();
 }
 
+unsigned int Macad::Occt::WNT_HIDSpaceMouse::HidToSpaceKey(unsigned short theKeyBit)
+{
+	return ((::WNT_HIDSpaceMouse*)_NativeInstance)->HidToSpaceKey(theKeyBit);
+}
+
 
 
 

@@ -2804,14 +2804,14 @@ public:
 	void SetPolygonOffsets(int theMode);
 	Macad::Occt::Aspect_TypeOfLine LineType();
 	void SetLineType(Macad::Occt::Aspect_TypeOfLine theType);
-	/* Method skipped due to unknown mapping: short unsigned int LinePattern() */
-	/* Method skipped due to unknown mapping: void SetLinePattern(short unsigned int thePattern, ) */
-	/* Method skipped due to unknown mapping: short unsigned int LineStippleFactor() */
-	/* Method skipped due to unknown mapping: void SetLineStippleFactor(short unsigned int theFactor, ) */
+	unsigned short LinePattern();
+	void SetLinePattern(unsigned short thePattern);
+	unsigned short LineStippleFactor();
+	void SetLineStippleFactor(unsigned short theFactor);
 	float LineWidth();
 	void SetLineWidth(float theWidth);
-	/* Method skipped due to unknown mapping: short unsigned int DefaultLinePatternForType(Aspect_TypeOfLine theType, ) */
-	/* Method skipped due to unknown mapping: Aspect_TypeOfLine DefaultLineTypeForPattern(short unsigned int thePattern, ) */
+	static unsigned short DefaultLinePatternForType(Macad::Occt::Aspect_TypeOfLine theType);
+	static Macad::Occt::Aspect_TypeOfLine DefaultLineTypeForPattern(unsigned short thePattern);
 	Macad::Occt::Aspect_TypeOfMarker MarkerType();
 	void SetMarkerType(Macad::Occt::Aspect_TypeOfMarker theType);
 	float MarkerScale();

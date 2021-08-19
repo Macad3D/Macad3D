@@ -99,7 +99,7 @@ public:
 	/* Method skipped due to unknown mapping: Graphic3d_Vec3d Rotation(bool theIsIdle, bool theIsQuadric, ) */
 	bool IsKeyState();
 	unsigned int KeyState();
-	/* Method skipped due to unknown mapping: unsigned int HidToSpaceKey(short unsigned int theKeyBit, ) */
+	unsigned int HidToSpaceKey(unsigned short theKeyBit);
 }; // class WNT_HIDSpaceMouse
 
 //---------------------------------------------------------------------

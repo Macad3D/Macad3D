@@ -135,6 +135,7 @@ namespace Macad.Occt.Generator
             new Definitions.KnownTypeDefinition("int", "int", true, Definitions.KnownTypes.Integer),
             new Definitions.KnownTypeDefinition("integer", "int", true, Definitions.KnownTypes.Integer),
             new Definitions.KnownTypeDefinition("long", "long", true, Definitions.KnownTypes.Integer),
+            new Definitions.KnownTypeDefinition("short unsigned int", "unsigned short", true, Definitions.KnownTypes.Integer),
             new Definitions.KnownTypeDefinition("unsigned int", "unsigned int", true, Definitions.KnownTypes.Integer),
             new Definitions.KnownTypeDefinition("unsigned __int64", "unsigned __int64", true, Definitions.KnownTypes.Integer),
             new Definitions.KnownTypeDefinition("size_t", "unsigned __int64", true, Definitions.KnownTypes.Integer),
