@@ -81,7 +81,7 @@
                               RenderOptions.EdgeMode="Aliased"
                               Height="20"
                               X1="6" Y1="10" X2="136" Y2="10"
-                              Stroke="Black" StrokeDashArray="{Binding StrokeDashArray, Converter={mmp:DoubleCollectionConverter}}"
+                              Stroke="Black" StrokeDashArray="{Binding Pattern, Converter={mmp:DoubleCollectionConverter}}"
                               StrokeThickness="2" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>

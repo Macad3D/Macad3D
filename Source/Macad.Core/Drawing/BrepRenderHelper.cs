@@ -97,6 +97,8 @@ namespace Macad.Core.Drawing
                 {
                     int startIndex = 0, endIndex = 0;
                     order.Chain(chain, ref startIndex, ref endIndex);
+                    if(startIndex > endIndex)
+                        continue;
 
                     // Process ordered edges
                     _Renderer.BeginPathSegment();
@@ -206,6 +208,16 @@ namespace Macad.Core.Drawing
 
         bool _DoCircle(Geom2d_Circle circle, double first, double last, bool reverse)
         {
+            if (_Renderer.Capabilities.CircleAsCurve)
+            {
+                var bsplineCurve = ShapeConstruct.ConvertCurveToBSpline(circle, first, last, 0.001, GeomAbs_Shape.GeomAbs_C2, 100, 3);
+                if (bsplineCurve != null)
+                {
+                    return _DoBSpline(bsplineCurve, first, last, reverse);
+                }
+                return false;
+            }
+
             var center = circle.Location();
             var radius = circle.Radius();
             double rotation = circle.XAxis().Direction.Angle(Dir2d.DX);
@@ -227,9 +239,19 @@ namespace Macad.Core.Drawing
         }
 
         //--------------------------------------------------------------------------------------------------
-        
+
         bool _DoEllipse(Geom2d_Ellipse ellipse, double first, double last, bool reverse)
         {
+            if (_Renderer.Capabilities.EllipseAsCurve)
+            {
+                var bsplineCurve = ShapeConstruct.ConvertCurveToBSpline(ellipse, first, last, 0.001, GeomAbs_Shape.GeomAbs_C1, 100, 3);
+                if (bsplineCurve != null)
+                {
+                    return _DoBSpline(bsplineCurve, first, last, reverse);
+                }
+                return false;
+            }
+
             var center = ellipse.Location();
             var majorRadius = ellipse.MajorRadius();
             var minorRadius = ellipse.MinorRadius();

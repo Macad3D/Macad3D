@@ -66,6 +66,13 @@ namespace Macad.Core.Drawing
         
         void _Invalidate()
         {
+            Extents = null;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        protected override void CalculateExtents()
+        {
             // Update bounding rect
             Bnd_Box2d aabb = new Bnd_Box2d();
 

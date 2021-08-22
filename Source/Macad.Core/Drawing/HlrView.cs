@@ -123,6 +123,14 @@ namespace Macad.Core.Drawing
         void _Invalidate()
         {
             _Shapes = null;
+            Extents = null;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        protected override void CalculateExtents()
+        {
+            _EnsureShapes();
         }
 
         //--------------------------------------------------------------------------------------------------

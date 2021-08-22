@@ -134,7 +134,7 @@ namespace Macad.Test.Unit
             var testLines = TestData.GetTestDataLines(testResultPath);
             Assert.IsNotNull(testLines, "Test file not found: " + testResultPath);
             var refLines = TestData.GetTestDataLines(originalPath);
-            Assert.IsNotNull(refLines, "Reference file not found: " + originalPath);
+            Assume.That(refLines != null, "Reference file not found: " + originalPath);
 
             IsSameText(refLines, testLines, flags);
 
@@ -162,10 +162,10 @@ namespace Macad.Test.Unit
             try
             {
                 var refLines = TestData.GetTestDataLines(originalPath);
-                Assert.IsNotNull(refLines, "Reference file not found: " + originalPath);
+                Assume.That(refLines != null, "Reference file not found: " + originalPath);
                 IsSameText(refLines, testLines.ToArray(), flags);
             }
-            catch (AssertionException)
+            catch (ResultStateException e) when (e is AssertionException or InconclusiveException)
             {
                 TestData.WriteTestResult(testResultStream.ToArray(), resultFileName);
                 throw;

@@ -61,7 +61,15 @@ namespace Macad.Core.Drawing
         [SerializeMember]
         public Bnd_Box2d Extents
         {
-            get { return _Extents ?? new Bnd_Box2d(); }
+            get
+            {
+                if (_Extents == null)
+                {
+                    CalculateExtents();
+                }
+
+                return _Extents ?? new Bnd_Box2d();
+            }
             set
             {
                 if (_Extents != value)
@@ -81,5 +89,9 @@ namespace Macad.Core.Drawing
         //--------------------------------------------------------------------------------------------------
 
         public abstract bool Render(IDrawingRenderer renderer);
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected abstract void CalculateExtents();
     }
 }

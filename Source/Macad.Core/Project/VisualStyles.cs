@@ -62,13 +62,13 @@ namespace Macad.Core
         {
             public LineStyle Style { get; }
             public string Name { get; }
-            public double[] StrokeDashArray { get; }
+            public double[] Pattern { get; }
 
-            public LineStyleDescription(LineStyle style, string name, double[] strokeDashArray)
+            public LineStyleDescription(LineStyle style, string name, double[] pattern)
             {
                 Style = style;
                 Name = name;
-                StrokeDashArray = strokeDashArray;
+                Pattern = pattern;
             }
         }
 
@@ -109,6 +109,15 @@ namespace Macad.Core
         #endregion
 
         #region Extensions
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public static double[] Pattern(this LineStyle lineStyle)
+        {
+            return LineStyleDescriptions[(int) lineStyle].Pattern;
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         public static Aspect_TypeOfLine TypeOfLine(this LineStyle lineStyle)
         {
