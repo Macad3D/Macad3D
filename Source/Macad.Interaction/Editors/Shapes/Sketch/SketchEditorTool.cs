@@ -353,9 +353,9 @@ namespace Macad.Interaction.Editors.Shapes
         {
             void __AddIfExecutable(IActionCommand command, object param)
             {
-                if (SketchCommands.CreateConstraint.CanExecute(param))
+                if (command.CanExecute(param))
                 {
-                    itemList.AddCommand(SketchCommands.CreateConstraint, param);
+                    itemList.AddCommand(command, param);
                 }
             }
 

@@ -174,7 +174,7 @@ namespace Macad.Presentation
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
                 var parent = GetParentWindow(this);
-                if (parent == null)
+                if (parent is not {IsVisible: true})
                     return;
 
                 var r = LayoutInformation.GetLayoutSlot(this);
