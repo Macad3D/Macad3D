@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using Macad.Interaction.Visual;
 using Macad.Common;
+using Macad.Core.Geom;
 using Macad.Core.Shapes;
 using Macad.Occt;
+using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
@@ -13,7 +15,7 @@ namespace Macad.Interaction.Editors.Shapes
         SketchSegmentArc _Segment;
         HintLine _PreviewLine;
         Coord2DHudElement _Coord2DHudElement;
-        LabelHudElement _LabelHudElement;
+        ValueHudElement _ValueHudElement;
         SketchEditorSegmentElement _Element;
         readonly Dictionary<int, Pnt2d> _Points = new Dictionary<int, Pnt2d>(3);
         readonly int[] _MergePointIndices = new int[3];
@@ -50,8 +52,8 @@ namespace Macad.Interaction.Editors.Shapes
 
             _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
             _Coord2DHudElement = null;
-            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_LabelHudElement);
-            _LabelHudElement = null;
+            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
+            _ValueHudElement = null;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -82,8 +84,14 @@ namespace Macad.Interaction.Editors.Shapes
                             _Points[2] = _PointAction.Point;
                             _Element.OnPointsChanged(_Points, null);
 
-                            _LabelHudElement ??= _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
-                            _LabelHudElement?.SetValue("Radius: " + _Segment.Radius(_Points).ToRoundedString());
+                            if (_ValueHudElement == null && _SketchEditorTool.WorkspaceController.HudManager != null)
+                            {
+                                _ValueHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
+                                _ValueHudElement.Label = "Radius:";
+                                _ValueHudElement.Units = ValueUnits.Length;
+                                _ValueHudElement.ValueEntered += _ValueHudElement_RadiusEntered;
+                            }
+                            _ValueHudElement?.SetValue(_Segment.Radius(_Points));
                         }
                         break;
                 }
@@ -153,5 +161,30 @@ namespace Macad.Interaction.Editors.Shapes
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        void _ValueHudElement_RadiusEntered(ValueHudElement hudElement, double newValue)
+        {
+            if (newValue == 0)
+                return;
+
+            if (_Points[0].Distance(_Points[1]) == 0)
+                return;
+            
+            var center = Geom2dUtils.FindEllipseCenterFromEndpoints(_Points[0], _Points[1], newValue, newValue, 0, newValue > 0);
+            var xAxis = new Ax2d(center, new Dir2d(new Vec2d(center, _Points[0])));
+            var radius = center.Distance(_Points[0]);
+            var circ = new gp_Circ2d(xAxis, radius, newValue < 0);
+            var endParameter = ElCLib.Parameter(circ, _Points[1]);
+            _Points[2] = ElCLib.Value(endParameter/2, circ);
+
+            _MergePointIndices[2] = -1;
+            _PointAction.Stop();
+            _SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

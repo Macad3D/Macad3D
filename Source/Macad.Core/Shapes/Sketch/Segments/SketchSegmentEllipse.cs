@@ -111,5 +111,6 @@ namespace Macad.Core.Shapes
 
             return Geom.Geom2dUtils.MakeEllipse(center, p1, p2);
         }
+
     }
 }

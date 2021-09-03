@@ -536,7 +536,7 @@ namespace Macad.Core
                 V3dView.ToPixMap(pixmap, (int)width, (int)height);
                 _ShowTriedron(true);
 
-                return null; //TODO Occt.Helper.PixMapHelper.ConvertToBitmap(pixmap);
+                return Occt.Helper.PixMapHelper.ConvertToBitmap(pixmap);
             }
             catch (Exception )
             {

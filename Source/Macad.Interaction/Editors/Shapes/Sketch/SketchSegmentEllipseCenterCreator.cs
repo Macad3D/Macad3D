@@ -3,6 +3,7 @@ using Macad.Interaction.Visual;
 using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Occt;
+using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
@@ -13,7 +14,7 @@ namespace Macad.Interaction.Editors.Shapes
         SketchSegmentEllipse _Segment;
         SketchEditorSegmentElement _Element;
         Coord2DHudElement _Coord2DHudElement;
-        LabelHudElement _LabelHudElement;
+        ValueHudElement _ValueHudElement;
         HintCircle _HintCircle;
         HintLine _HintLine;
         readonly Marker[] _Marker = new Marker[2];
@@ -66,8 +67,8 @@ namespace Macad.Interaction.Editors.Shapes
 
             _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
             _Coord2DHudElement = null;
-            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_LabelHudElement);
-            _LabelHudElement = null;
+            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
+            _ValueHudElement = null;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -94,8 +95,15 @@ namespace Macad.Interaction.Editors.Shapes
                         _HintCircle.Set(circ, _SketchEditorTool.Sketch.Plane);
                         _HintLine.Set(p1, p2, _SketchEditorTool.Sketch.Plane);
                         
-                        _LabelHudElement ??= _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
-                        _LabelHudElement?.SetValue("Distance: " + _Points[0].Distance(_PointAction.Point).ToRoundedString());
+                        if (_ValueHudElement == null && _SketchEditorTool.WorkspaceController.HudManager != null)
+                        {
+                            _ValueHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
+                            _ValueHudElement.Label = "Distance:";
+                            _ValueHudElement.Units = ValueUnits.Length;
+                            _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
+                        }
+                        _ValueHudElement?.SetValue(_Points[0].Distance(_PointAction.Point));
+                        _Points[1] = p2;
                         break;
 
                     case 2:
@@ -104,7 +112,8 @@ namespace Macad.Interaction.Editors.Shapes
                             _Points[2] = _PointAction.Point;
                             _Element.OnPointsChanged(_Points, null);
                         }
-                        _LabelHudElement?.SetValue("Distance: " + _Points[0].Distance(_PointAction.Point).ToRoundedString());
+                        _ValueHudElement?.SetValue(_Points[0].Distance(_PointAction.Point));
+                        _Points[2] = _PointAction.Point;
                         break;
                 }
                 
@@ -121,74 +130,129 @@ namespace Macad.Interaction.Editors.Shapes
                 switch (_PointsCompleted)
                 {
                     case 0:
-                        _Points.Add(0, _PointAction.Point);
-                        _MergePointIndices[0] = _PointAction.MergeCandidateIndex;
-                        _PointsCompleted++;
-
-                        _Marker[0] = new Marker(_SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage);
-                        _Marker[0].Set(_PointAction.Point, _SketchEditorTool.Sketch.Plane);
-
-                        _SketchEditorTool.StatusText = "Select first rim point of the ellipse.";
-
-                        _PointAction.Reset();
+                        _SetCenterPoint(_PointAction.Point, _PointAction.MergeCandidateIndex);
                         break;
 
                     case 1:
-                        if (_Points[0].Distance(_PointAction.Point) < 0.001)
-                        {
-                            // Min distance not met
-                            _PointAction.Reset();
-                            return;
-                        }
-
-                        if (_HintCircle != null)
-                        {
-                            _HintCircle.Remove();
-                            _HintCircle = null;
-                        }
-                        if (_HintLine != null)
-                        {
-                            _HintLine.Remove();
-                            _HintLine = null;
-                        }
-
-                        _Points.Add(1, _PointAction.Point);
-                        _MergePointIndices[1] = _PointAction.MergeCandidateIndex;
-                        _PointsCompleted++;
-
-                        _Marker[1] = new Marker(_SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage);
-                        _Marker[1].Set(_PointAction.Point, _SketchEditorTool.Sketch.Plane);
-
-                        _Points.Add(2, _PointAction.Point);
-                        _Segment = new SketchSegmentEllipse(0, 1, 2);
-
-                        _Element = new SketchEditorSegmentElement(_SketchEditorTool, -1, _Segment, _SketchEditorTool.Transform, _SketchEditorTool.Sketch.Plane);
-                        _Element.IsCreating = true;
-                        _Element.OnPointsChanged(_Points, null);
-
-                        _SketchEditorTool.StatusText = "Select second rim point of the ellipse.";
-
-                        _PointAction.Reset();
+                        _SetFirstRimPoint(_PointAction.Point, _PointAction.MergeCandidateIndex);
                         break;
 
                     case 2:
-                        if (_Points[0].Distance(_PointAction.Point) < 0.001
-                            || _Points[1].Distance(_PointAction.Point) < 0.001)
-                        {
-                            // Min distance not met
-                            _PointAction.Reset();
-                            return;
-                        }
-
-                        _Points[2] = _PointAction.Point;
-                        _MergePointIndices[2] = _PointAction.MergeCandidateIndex;
-
-                        _PointAction.Stop();
-
-                        _SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
+                        _SetSecondRimPoint(_PointAction.Point, _PointAction.MergeCandidateIndex);
                         break;
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _SetCenterPoint(Pnt2d point, int mergeCandidateIndex)
+        {
+            _Points[0] = point;
+            _MergePointIndices[0] = mergeCandidateIndex;
+            _PointsCompleted++;
+
+            _Marker[0] = new Marker(_SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage);
+            _Marker[0].Set(point, _SketchEditorTool.Sketch.Plane);
+
+            _SketchEditorTool.StatusText = "Select first rim point of the ellipse.";
+
+            _PointAction.Reset();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _SetSecondRimPoint(Pnt2d point, int mergeCandidateIndex)
+        {
+            if (_Points[0].Distance(point) < 0.001
+                || _Points[1].Distance(point) < 0.001)
+            {
+                // Min distance not met
+                _PointAction.Reset();
+                return;
+            }
+
+            _Points[2] = point;
+            _MergePointIndices[2] = mergeCandidateIndex;
+
+            _PointAction.Stop();
+
+            _SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] {_Segment}, null);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _SetFirstRimPoint(Pnt2d point, int mergeCandidateIndex)
+        {
+            if (_Points[0].Distance(point) < 0.001)
+            {
+                // Min distance not met
+                _PointAction.Reset();
+                return;
+            }
+
+            if (_HintCircle != null)
+            {
+                _HintCircle.Remove();
+                _HintCircle = null;
+            }
+
+            if (_HintLine != null)
+            {
+                _HintLine.Remove();
+                _HintLine = null;
+            }
+
+            _Points[1] = point;
+            _MergePointIndices[1] = mergeCandidateIndex;
+            _PointsCompleted++;
+
+            _Marker[1] = new Marker(_SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage);
+            _Marker[1].Set(point, _SketchEditorTool.Sketch.Plane);
+
+            _Points[2] = point;
+            _Segment = new SketchSegmentEllipse(0, 1, 2);
+
+            _Element = new SketchEditorSegmentElement(_SketchEditorTool, -1, _Segment, _SketchEditorTool.Transform, _SketchEditorTool.Sketch.Plane);
+            _Element.IsCreating = true;
+            _Element.OnPointsChanged(_Points, null);
+
+            _SketchEditorTool.StatusText = "Select second rim point of the ellipse.";
+            _PointAction.Reset();
+            _SketchEditorTool.WorkspaceController.Invalidate();
+            _SketchEditorTool.WorkspaceController.UpdateSelection();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _ValueHudElement_ValueEntered(ValueHudElement hudelement, double newValue)
+        {
+            if (newValue <= 0)
+                return;
+
+            switch (_PointsCompleted)
+            {
+                case 1:
+                {
+                    Vec2d vec = new(_Points[0], _Points[1]);
+                    if (vec.Magnitude() == 0)
+                        return;
+
+                    _SetFirstRimPoint(_Points[0].Translated(vec.Normalized().Scaled(newValue)), -1);
+                }
+                break;
+
+                case 2:
+                {
+                    Vec2d vec = new(_Points[0], _Points[2]);
+                    if (vec.Magnitude() == 0)
+                        return;
+
+                    _SetSecondRimPoint(_Points[0].Translated(vec.Normalized().Scaled(newValue)), -1);
+                }
+                break;
+            }
+        }
+
     }
 }

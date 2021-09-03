@@ -123,5 +123,17 @@ namespace Macad.Core.Shapes
             }
             return circ;
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public double Angle(Dictionary<int, Pnt2d> points)
+        {
+            var parameter = new double[2];
+            var circ = GetCircle(points, parameter);
+            if (circ == null)
+                return 0;
+
+            return (parameter[1] - parameter[0]) * circ.Position().Sense();
+        }
     }
 }

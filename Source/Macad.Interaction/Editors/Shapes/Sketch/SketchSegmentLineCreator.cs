@@ -2,6 +2,7 @@
 using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Occt;
+using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
@@ -12,7 +13,7 @@ namespace Macad.Interaction.Editors.Shapes
         SketchSegmentLine _Segment;
         SketchEditorSegmentElement _Element;
         Coord2DHudElement _Coord2DHudElement;
-        LabelHudElement _LabelHudElement;
+        ValueHudElement _ValueHudElement;
         readonly Dictionary<int, Pnt2d> _Points = new Dictionary<int, Pnt2d>(2);
         readonly int[] _MergePointIndices = new int[2];
 
@@ -43,8 +44,8 @@ namespace Macad.Interaction.Editors.Shapes
             _Element?.Remove();
             _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
             _Coord2DHudElement = null;
-            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_LabelHudElement);
-            _LabelHudElement = null;
+            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
+            _ValueHudElement = null;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -81,7 +82,7 @@ namespace Macad.Interaction.Editors.Shapes
                     _Points[1] = _PointAction.Point;
                     _Element.OnPointsChanged(_Points, null);
 
-                    _LabelHudElement?.SetValue("Length: " + _Segment.Length(_Points).ToRoundedString() + " mm");
+                    _ValueHudElement?.SetValue(_Segment.Length(_Points));
                 }
 
                 _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
@@ -105,8 +106,14 @@ namespace Macad.Interaction.Editors.Shapes
                     _Element.IsCreating = true;
                     _Element.OnPointsChanged(_Points, null);
 
-                    _LabelHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
-                    _LabelHudElement?.SetValue("Length: " + _Segment.Length(_Points).ToRoundedString());
+                    if (_ValueHudElement == null && _SketchEditorTool.WorkspaceController.HudManager != null)
+                    {
+                        _ValueHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
+                        _ValueHudElement.Label = "Length:";
+                        _ValueHudElement.Units = ValueUnits.Length;
+                        _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
+                    }
+                    _ValueHudElement?.SetValue(_Segment.Length(_Points));
 
                     _SketchEditorTool.StatusText = "Select end point for line.";
 
@@ -130,5 +137,25 @@ namespace Macad.Interaction.Editors.Shapes
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _ValueHudElement_ValueEntered(ValueHudElement hudElement, double newValue)
+        {
+            if (newValue <= 0)
+                return;
+
+            Vec2d vec = new(_Points[0], _Points[1]);
+            if (vec.Magnitude() == 0)
+                return;
+
+            _Points[1] = _Points[0].Translated(vec.Normalized().Scaled(newValue));
+            _MergePointIndices[1] = -1;
+            _PointAction.Stop();
+            _SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null, 1);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

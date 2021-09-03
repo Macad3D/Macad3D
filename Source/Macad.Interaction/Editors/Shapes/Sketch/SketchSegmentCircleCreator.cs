@@ -3,6 +3,7 @@ using Macad.Interaction.Visual;
 using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Occt;
+using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
@@ -13,7 +14,7 @@ namespace Macad.Interaction.Editors.Shapes
         SketchSegmentCircle _Segment;
         SketchEditorSegmentElement _Element;
         Coord2DHudElement _Coord2DHudElement;
-        LabelHudElement _LabelHudElement;
+        ValueHudElement _ValueHudElement;
         readonly Dictionary<int, Pnt2d> _Points = new(2);
         readonly int[] _MergePointIndices = new int[2];
         Marker _Marker;
@@ -49,8 +50,8 @@ namespace Macad.Interaction.Editors.Shapes
 
             _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
             _Coord2DHudElement = null;
-            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_LabelHudElement);
-            _LabelHudElement = null;
+            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
+            _ValueHudElement = null;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -72,11 +73,14 @@ namespace Macad.Interaction.Editors.Shapes
                     _Element.OnPointsChanged(_Points, null);
                     _SketchEditorTool.WorkspaceController.Invalidate();
 
-                    _LabelHudElement ??= _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
-                    if (_LabelHudElement != null)
+                    if (_ValueHudElement == null && _SketchEditorTool.WorkspaceController.HudManager != null)
                     {
-                        _LabelHudElement.Text = "Radius: " + _Segment.Radius(_Points).ToRoundedString();
+                        _ValueHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
+                        _ValueHudElement.Label = "Radius:";
+                        _ValueHudElement.Units = ValueUnits.Length;
+                        _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
                     }
+                    _ValueHudElement?.SetValue(_Segment.Radius(_Points));
                 }
 
                 _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
@@ -127,5 +131,25 @@ namespace Macad.Interaction.Editors.Shapes
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _ValueHudElement_ValueEntered(ValueHudElement hudElement, double newValue)
+        {
+            if (newValue <= 0)
+                return;
+
+            Vec2d vec = new(_Points[0], _Points[1]);
+            if (vec.Magnitude() == 0)
+                return;
+
+            _Points[1] = _Points[0].Translated(vec.Normalized().Scaled(newValue));
+            _MergePointIndices[1] = -1;
+            _PointAction.Stop();
+            _SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

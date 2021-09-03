@@ -46,10 +46,11 @@ namespace Macad.Test.UI.Editors.Modifier
             _Panel.ClickButton("ProfileCustom");
             Assert.AreEqual("SketchEditorTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
             Assert.AreEqual("Profile", Pipe.GetValue<string>("$Sketch.Name"));
+            MainWindow.Ribbon.SelectGroup("Sketch");
             MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
-            Assert.AreEqual("Custom", Pipe.GetValue<string>("$Selected.Shape.Name"));
-           Assert.AreEqual(2, Pipe.GetValue<int>("$Selected.Shape.Operands.Count"));
+            Assert.AreEqual("Custom", Pipe.GetValue("$Selected.Shape.Profile"));
+            Assert.AreEqual(2, Pipe.GetValue<int>("$Selected.Shape.Operands.Count"));
         }
 
         //--------------------------------------------------------------------------------------------------

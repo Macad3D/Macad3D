@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO.Pipes;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -92,7 +93,8 @@ namespace Macad.Window
             {
                 case "GETV":
                     var signature = message.Substring(4, 8);
-                    string value = Application.Current.Dispatcher.Invoke(() => _GetValue(message.Substring(12)) ?? "INVALID");
+                    string value = Application.Current.Dispatcher.Invoke(
+                        () => _GetValue(message.Substring(12), out var obj ) ? Serializer.Serialize(obj) : "INVALID");
                     return $"VALU{signature}{value}".ToUtf8Bytes();
 
                 case "KEYD":
@@ -112,24 +114,36 @@ namespace Macad.Window
 
         #region Value Query
 
-        static string _GetValue(string path)
+        static bool _GetValue(string path, out object obj)
         {
             // Find value based on a path
-            var parts = path.Split('.');
-            if (parts.Length == 0)
-                return null;
+            obj = null;
+            string[] parts;
 
-            object obj = null;
+            // Method?
+            var firstPar = path.IndexOf('(');
+            if (firstPar > 0)
+            {
+                parts = path.Substring(0, firstPar).Split('.');
+                parts[^1] = parts[^1] + path.Substring(firstPar);
+            }
+            else
+            {
+                parts = path.Split('.');
+                if (parts.Length == 0)
+                    return false;
+            }
+
             if (!_FindRootObject(ref obj, parts[0]))
-                return null;
+                return false;
 
             foreach (var part in parts.Skip(1))
             {
                 if (!_FindValue(ref obj, part))
-                    return null;
+                    return false;
             }
 
-            return Serializer.Serialize(obj);
+            return true;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -169,11 +183,57 @@ namespace Macad.Window
             if (obj == null)
                 return false;
 
+            if (memberName.StartsWith('[') && memberName.EndsWith(']'))
+            {
+                return _FindIndexedPropertyValue(ref obj, memberName);
+            }
+
+            if (memberName.EndsWith(')'))
+            {
+                return _FindMethodValue(ref obj, memberName);
+            }
+
+            // Get pure property value
             var propInfo = obj.GetType().GetProperty(memberName);
             if (propInfo == null)
                 return false;
 
             obj = propInfo.GetValue(obj);
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        static bool _FindMethodValue(ref object obj, string memberName)
+        {
+            int first = memberName.IndexOf('(');
+            string paramStr = memberName.Substring(first + 1, memberName.Length - first - 2).Trim();
+            int paramCount = paramStr.Length > 0 ? 1 : 0;
+            string methodName = memberName.Substring(0, first);
+            var methodInfo = obj.GetType().GetMethods().FirstOrDefault(mi => mi.Name == methodName && mi.GetParameters().Length == paramCount);
+            if (methodInfo == null)
+                return false;
+
+            object param1 = null;
+            if (paramCount == 1 && !_GetValue(paramStr, out param1))
+                return false;
+
+            obj = methodInfo.Invoke(obj, new[] {param1});
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        static bool _FindIndexedPropertyValue(ref object obj, string memberName)
+        {
+            var indexerPropInfo = obj.GetType().GetProperties().FirstOrDefault(pi => pi.GetIndexParameters().Length > 0);
+            if (indexerPropInfo == null)
+                return false;
+
+            var indexStr = memberName.Substring(1, memberName.Length - 2);
+            obj = int.TryParse(indexStr, out var index)
+                      ? indexerPropInfo.GetValue(obj, new object[] {index})
+                      : indexerPropInfo.GetValue(obj, new object[] {indexStr});
             return true;
         }
 

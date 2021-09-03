@@ -141,7 +141,6 @@ namespace Macad.Interaction
         public IntPtr InitWindow(IntPtr parentHWnd, int width=64, int height=64)
         {
             Debug.Assert(Viewport.V3dView != null);
-            //Debug.Assert(parentHWnd != IntPtr.Zero);
 
             uint style;
 
@@ -406,7 +405,7 @@ namespace Macad.Interaction
 
                     Viewport.EyePoint = ElSLib.Value(projPoint.X, projPoint.Y, sphere);
 
-                    Debug.WriteLine("[RotateView] x={0}  y={1}  px={2}  py={3}", dX, dY, projPoint.X, projPoint.Y);
+//                    Debug.WriteLine("[RotateView] x={0}  y={1}  px={2}  py={3}", dX, dY, projPoint.X, projPoint.Y);
                 }
 
                 if (Math.Abs(dZ) > 0.001)

@@ -1,5 +1,6 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
 using FlaUI.Core.WindowsAPI;
+using Macad.Common;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
 
@@ -299,5 +300,171 @@ namespace Macad.Test.UI.Editors.Primitives
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void CreateCircleWithValueHudElement()
+        {
+            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Ribbon.SelectGroup("Sketch");
+
+            MainWindow.Ribbon.ClickButton("CreateCircleSegment");
+            MainWindow.Viewport.ClickRelative(0.4, 0.5);
+            MainWindow.Viewport.MoveRelative(0.6, 0.5);
+
+            Pipe.TypeText("2");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+
+            Assert.AreEqual(1, Pipe.GetValue<int>("$Sketch.Segments.Count"));
+            Assert.AreEqual(2.0, Pipe.GetValue<double>("$Sketch.Segments.[0].Radius($Sketch.Points)"));
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateLineWithValueHudElement()
+        {
+            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Ribbon.SelectGroup("Sketch");
+
+            MainWindow.Ribbon.ClickButton("CreateLineSegment");
+            MainWindow.Viewport.ClickRelative(0.4, 0.5);
+            MainWindow.Viewport.MoveRelative(0.6, 0.5);
+
+            Pipe.TypeText("2");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+
+            Assert.AreEqual(1, Pipe.GetValue<int>("$Sketch.Segments.Count"));
+            Assert.AreEqual(2.0, Pipe.GetValue<double>("$Sketch.Segments.[0].Length($Sketch.Points)"));
+        }
+                
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateArcCenterWithValueHudElement()
+        {
+            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Ribbon.SelectGroup("Sketch");
+
+            MainWindow.Ribbon.ClickButton("CreateArcCenterSegment");
+            MainWindow.Viewport.ClickRelative(0.4, 0.5);
+            MainWindow.Viewport.MoveRelative(0.6, 0.5);
+
+            Pipe.TypeText("2");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+            Pipe.TypeText("90");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+
+            Assert.AreEqual(1, Pipe.GetValue<int>("$Sketch.Segments.Count"));
+            Assert.AreEqual(2.0, Pipe.GetValue<double>("$Sketch.Segments.[0].Radius($Sketch.Points)"));
+            Assert.AreEqual(90.0.ToRad(), Pipe.GetValue<double>("$Sketch.Segments.[0].Angle($Sketch.Points)"));
+        }
+                        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateArcRimWithValueHudElement()
+        {
+            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Ribbon.SelectGroup("Sketch");
+
+            MainWindow.Ribbon.ClickButton("CreateArcRimSegment");
+            MainWindow.Viewport.ClickRelative(0.4, 0.5);
+            MainWindow.Viewport.ClickRelative(0.6, 0.5);
+            MainWindow.Viewport.MoveRelative(0.5, 0.6);
+
+            Pipe.TypeText("2");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+
+            Assert.AreEqual(1, Pipe.GetValue<int>("$Sketch.Segments.Count"));
+            Assert.AreEqual(2.0, Pipe.GetValue<double>("$Sketch.Segments.[0].Radius($Sketch.Points)"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateEllipseWithValueHudElement()
+        {
+            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Ribbon.SelectGroup("Sketch");
+
+            MainWindow.Ribbon.ClickButton("CreateEllipseCenterSegment");
+            MainWindow.Viewport.ClickRelative(0.4, 0.5);
+            MainWindow.Viewport.MoveRelative(0.6, 0.5);
+            Pipe.TypeText("2");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+            MainWindow.Viewport.MoveRelative(0.55, 0.4);
+            Pipe.TypeText("3");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+
+            Assert.AreEqual(1, Pipe.GetValue<int>("$Sketch.Segments.Count"));
+        }
+                
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateBezier2WithValueHudElement()
+        {
+            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Ribbon.SelectGroup("Sketch");
+
+            MainWindow.Ribbon.ClickButton("CreateBezier2Segment");
+            MainWindow.Viewport.ClickRelative(0.4, 0.5);
+            MainWindow.Viewport.MoveRelative(0.6, 0.5);
+
+            Pipe.TypeText("2");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+
+            MainWindow.Viewport.ClickRelative(0.5, 0.4);
+
+            Assert.AreEqual(1, Pipe.GetValue<int>("$Sketch.Segments.Count"));
+        }
+                        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateBezier3WithValueHudElement()
+        {
+            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Ribbon.SelectGroup("Sketch");
+
+            MainWindow.Ribbon.ClickButton("CreateBezier3Segment");
+            MainWindow.Viewport.ClickRelative(0.4, 0.5);
+            MainWindow.Viewport.MoveRelative(0.6, 0.5);
+
+            Pipe.TypeText("2");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+
+            MainWindow.Viewport.ClickRelative(0.45, 0.4);
+            MainWindow.Viewport.ClickRelative(0.55, 0.4);
+
+            Assert.AreEqual(1, Pipe.GetValue<int>("$Sketch.Segments.Count"));
+        }
+                                
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateRectangleWithValueHudElement()
+        {
+            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Ribbon.SelectGroup("Sketch");
+
+            MainWindow.Ribbon.ClickButton("CreateRectangleSegment");
+            MainWindow.Viewport.ClickRelative(0.4, 0.5);
+            MainWindow.Viewport.MoveRelative(0.6, 0.5);
+
+            Pipe.TypeText("2");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+            Pipe.TypeText("4");
+            Pipe.TypeKey(VirtualKeyShort.ENTER);
+
+            Assert.AreEqual(4, Pipe.GetValue<int>("$Sketch.Segments.Count"));
+        }
     }
 }

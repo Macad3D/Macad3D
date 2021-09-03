@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Occt;
+using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
@@ -13,7 +14,7 @@ namespace Macad.Interaction.Editors.Shapes
         SketchSegmentLine[] _Segments;
         SketchEditorSegmentElement[] _Elements;
         Coord2DHudElement _Coord2DHudElement;
-        LabelHudElement _LabelHudElement;
+        MultiValueHudElement _ValueHudElement;
         readonly Dictionary<int, Pnt2d> _Points = new Dictionary<int, Pnt2d>(4);
         readonly int[] _MergePointIndices = new int[4];
 
@@ -49,8 +50,8 @@ namespace Macad.Interaction.Editors.Shapes
 
             _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
             _Coord2DHudElement = null;
-            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_LabelHudElement);
-            _LabelHudElement = null;
+            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
+            _ValueHudElement = null;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -68,18 +69,23 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 if (_Segments != null)
                 {
-                    _SetSecondPoint(_PointAction.Point);
+                    _UpdateCornerPoints(_PointAction.Point);
                     foreach (var component in _Elements)
                     {
                         component.OnPointsChanged(_Points, null);
                     }
 
-                    _LabelHudElement ??= _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
-                    if (_LabelHudElement != null)
+                    if (_ValueHudElement == null && _SketchEditorTool.WorkspaceController.HudManager != null)
                     {
-                        _LabelHudElement.Text = "Size: " + (_Points[0].X - _Points[2].X).Abs().ToRoundedString()
-                                                + " x " + (_Points[0].Y - _Points[2].Y).Abs().ToRoundedString();
+                        _ValueHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<MultiValueHudElement>(this);
+                        _ValueHudElement.Label1 = "Size X:";
+                        _ValueHudElement.Units1 = ValueUnits.Length;
+                        _ValueHudElement.Label2 = "Size Y:";
+                        _ValueHudElement.Units2 = ValueUnits.Length;
+                        _ValueHudElement.MultiValueEntered += _ValueHudElement_MultiValueEntered;
                     }
+                    _ValueHudElement?.SetValue1(_Points[2].X - _Points[0].X);
+                    _ValueHudElement?.SetValue2(_Points[2].Y - _Points[0].Y);
                 }
 
                 _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
@@ -96,7 +102,7 @@ namespace Macad.Interaction.Editors.Shapes
                 {
                     _Points.Add(0, _PointAction.Point);
                     _MergePointIndices[0] = _PointAction.MergeCandidateIndex;
-                    _SetSecondPoint(_PointAction.Point);
+                    _UpdateCornerPoints(_PointAction.Point);
 
                     _Segments = new SketchSegmentLine[4];
                     _Segments[0] = new SketchSegmentLine(0, 1);
@@ -118,40 +124,57 @@ namespace Macad.Interaction.Editors.Shapes
                 } 
                 else
                 {
-                    if (Math.Abs(_Points[0].X - _PointAction.Point.X) < 0.001
-                        || Math.Abs(_Points[0].Y - _PointAction.Point.Y) < 0.001)
-                    {
-                        // Minimum length not met
-                        _PointAction.Reset();
-                        return;
-                    }
-
-                    _PointAction.Stop();
-
-                    _SetSecondPoint(_PointAction.Point);
-                    _MergePointIndices[1] = -1;
-                    _MergePointIndices[2] = _PointAction.MergeCandidateIndex;
-                    _MergePointIndices[3] = -1;
-
-                    var constraints = new SketchConstraintPerpendicular[4];
-                    constraints[0] = new SketchConstraintPerpendicular(0, 1);
-                    constraints[1] = new SketchConstraintPerpendicular(1, 2);
-                    constraints[2] = new SketchConstraintPerpendicular(2, 3);
-                    constraints[3] = new SketchConstraintPerpendicular(3, 0);
-
-                    _SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, _Segments, constraints);
+                    _SetSecondPoint(_PointAction.Point, _PointAction.MergeCandidateIndex);
                 }
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _SetSecondPoint(Pnt2d second)
+        void _SetSecondPoint(Pnt2d point, int mergeCandidateIndex)
+        {
+            if (Math.Abs(_Points[0].X - point.X) < 0.001
+                || Math.Abs(_Points[0].Y - point.Y) < 0.001)
+            {
+                // Minimum length not met
+                _PointAction.Reset();
+                return;
+            }
+
+            _PointAction.Stop();
+
+            _UpdateCornerPoints(point);
+            _MergePointIndices[1] = -1;
+            _MergePointIndices[2] = mergeCandidateIndex;
+            _MergePointIndices[3] = -1;
+
+            var constraints = new SketchConstraintPerpendicular[4];
+            constraints[0] = new SketchConstraintPerpendicular(0, 1);
+            constraints[1] = new SketchConstraintPerpendicular(1, 2);
+            constraints[2] = new SketchConstraintPerpendicular(2, 3);
+            constraints[3] = new SketchConstraintPerpendicular(3, 0);
+
+            _SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, _Segments, constraints);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _UpdateCornerPoints(Pnt2d second)
         {
             var first = _Points[0];
             _Points[1] = new Pnt2d(first.X, second.Y);
             _Points[2] = new Pnt2d(second.X, second.Y);
             _Points[3] = new Pnt2d(second.X, first.Y);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _ValueHudElement_MultiValueEntered(MultiValueHudElement hudelement, double newvalue1, double newvalue2)
+        {
+            if (newvalue1 == 0 || newvalue2 == 0)
+                return;
+
+            _SetSecondPoint(_Points[0].Translated(new Vec2d(newvalue1, newvalue2)), -1);
         }
     }
 }
