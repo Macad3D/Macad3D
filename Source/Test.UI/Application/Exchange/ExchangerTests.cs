@@ -22,7 +22,7 @@ namespace Macad.Test.UI.Application.Exchange
             System.IO.File.Delete(path);
             TestDataGenerator.GenerateBox(MainWindow);
 
-            MainWindow.Ribbon.ClickFileMenuItem("ExportSelectedBrep");
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ExportSelectedBrep");
 
             var fileDlg = new FileDialogAdaptor(MainWindow);
             fileDlg.Cancel();
@@ -40,7 +40,7 @@ namespace Macad.Test.UI.Application.Exchange
             var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "testexport.brep");
             TestDataGenerator.GenerateBox(MainWindow);
 
-            MainWindow.Ribbon.ClickFileMenuItem("ExportSelectedBrep");
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ExportSelectedBrep");
 
             var fileDlg = new FileDialogAdaptor(MainWindow);
             fileDlg.SelectFileType(".brep");
@@ -63,7 +63,7 @@ namespace Macad.Test.UI.Application.Exchange
             var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "testexport.brep");
             TestDataGenerator.GenerateBox(MainWindow);
 
-            MainWindow.Ribbon.ClickFileMenuItem("ExportSelectedBrep");
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ExportSelectedBrep");
 
             var fileDlg = new FileDialogAdaptor(MainWindow);
             fileDlg.SelectFileType(".brep");
@@ -86,7 +86,7 @@ namespace Macad.Test.UI.Application.Exchange
             var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "testexport.iges");
             TestDataGenerator.GenerateBox(MainWindow);
 
-            MainWindow.Ribbon.ClickFileMenuItem("ExportSelectedBrep");
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ExportSelectedBrep");
 
             var fileDlg = new FileDialogAdaptor(MainWindow);
             fileDlg.SelectFileType(".iges");
@@ -106,7 +106,7 @@ namespace Macad.Test.UI.Application.Exchange
             var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "testexport.step");
             TestDataGenerator.GenerateBox(MainWindow);
 
-            MainWindow.Ribbon.ClickFileMenuItem("ExportSelectedBrep");
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ExportSelectedBrep");
 
             var fileDlg = new FileDialogAdaptor(MainWindow);
             fileDlg.SelectFileType(".step");
@@ -126,7 +126,7 @@ namespace Macad.Test.UI.Application.Exchange
             var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "testexport.obj");
             TestDataGenerator.GenerateBox(MainWindow);
 
-            MainWindow.Ribbon.ClickFileMenuItem("ExportSelectedBrep");
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ExportSelectedBrep");
 
             var fileDlg = new FileDialogAdaptor(MainWindow);
             fileDlg.SelectFileType(".obj");
@@ -149,7 +149,7 @@ namespace Macad.Test.UI.Application.Exchange
             var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "testexport.stl");
             TestDataGenerator.GenerateBox(MainWindow);
 
-            MainWindow.Ribbon.ClickFileMenuItem("ExportSelectedBrep");
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ExportSelectedBrep");
 
             var fileDlg = new FileDialogAdaptor(MainWindow);
             fileDlg.SelectFileType(".stl");
@@ -171,7 +171,7 @@ namespace Macad.Test.UI.Application.Exchange
         {
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportMesh.obj"));
 
-            MainWindow.Ribbon.ClickFileMenuItem("ImportFileToModel");
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ImportFileToModel");
 
             var fileDlg = new FileDialogAdaptor(MainWindow);
             fileDlg.Cancel();
@@ -187,7 +187,7 @@ namespace Macad.Test.UI.Application.Exchange
         {
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportMesh.obj"));
 
-            MainWindow.Ribbon.ClickFileMenuItem("ImportFileToModel");
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ImportFileToModel");
 
             var fileDlg = new FileDialogAdaptor(MainWindow);
             fileDlg.SelectFileType(".obj");
@@ -208,7 +208,7 @@ namespace Macad.Test.UI.Application.Exchange
         {
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImprintRingFace.brep"));
 
-            MainWindow.Ribbon.ClickFileMenuItem("ImportFileToModel");
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ImportFileToModel");
 
             var fileDlg = new FileDialogAdaptor(MainWindow);
             fileDlg.SelectFileType(".brep");
@@ -226,7 +226,7 @@ namespace Macad.Test.UI.Application.Exchange
         {
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportSolid.igs"));
 
-            MainWindow.Ribbon.ClickFileMenuItem("ImportFileToModel");
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ImportFileToModel");
 
             var fileDlg = new FileDialogAdaptor(MainWindow);
             fileDlg.SelectFileType(".iges");
@@ -247,7 +247,7 @@ namespace Macad.Test.UI.Application.Exchange
         {
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportSolid.stp"));
 
-            MainWindow.Ribbon.ClickFileMenuItem("ImportFileToModel");
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ImportFileToModel");
 
             var fileDlg = new FileDialogAdaptor(MainWindow);
             fileDlg.SelectFileType(".step");
@@ -268,7 +268,7 @@ namespace Macad.Test.UI.Application.Exchange
         {
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportMesh.obj"));
 
-            MainWindow.Ribbon.ClickFileMenuItem("ImportFileToModel");
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ImportFileToModel");
 
             var fileDlg = new FileDialogAdaptor(MainWindow);
             fileDlg.SelectFileType(".obj");
@@ -289,7 +289,7 @@ namespace Macad.Test.UI.Application.Exchange
         {
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportMesh.stl"));
 
-            MainWindow.Ribbon.ClickFileMenuItem("ImportFileToModel");
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ImportFileToModel");
 
             var fileDlg = new FileDialogAdaptor(MainWindow);
             fileDlg.SelectFileType(".stl");

@@ -1,29 +1,28 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using Macad.Common;
 
 namespace Macad.Core.Exchange.Pdf
 {
     public class PdfWriter
     {
+
         MemoryStream _Stream;
         Encoding _Encoding = Encoding.GetEncoding(1252);
         long[] _ObjectOffsets;
+        bool _ObjectOpen;
         bool _CurrentObjectIsStream;
 
         //--------------------------------------------------------------------------------------------------
 
-        public PdfWriter(int lastObjectNumber)
+        public PdfWriter(PdfVersion version, int lastObjectNumber)
         {
             _ObjectOffsets = new long[lastObjectNumber];
             _Stream = new MemoryStream();
 
-            Write("%PDF-1.4\n"); // header
+            Write($"%PDF-{(int)version / 10}.{(int)version % 10}\n"); // header
             Write("%öäüß\n"); // binary signature
         }
 
@@ -31,6 +30,8 @@ namespace Macad.Core.Exchange.Pdf
 
         public MemoryStream Finish()
         {
+            EndObject();
+
             // XRef table
             var xrefOffset = _Stream.Position;
             Write($"xref\n{0} {_ObjectOffsets.Length+1}\n0000000000 65535 f\n");
@@ -44,6 +45,8 @@ namespace Macad.Core.Exchange.Pdf
             Write($"startxref\n{xrefOffset}\n");
             Write("%%EOF\n");
 
+            _Stream.Flush();
+
             return _Stream;
         }
         
@@ -51,19 +54,26 @@ namespace Macad.Core.Exchange.Pdf
 
         public void StartObject(int objectNumber)
         {
+            EndObject();
             _ObjectOffsets[objectNumber-1] = _Stream.Position;
             Write($"{objectNumber} 0 obj\n<<\n");
+            _ObjectOpen = true;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public void EndObject()
         {
+            if (!_ObjectOpen)
+                return;
+
             if(_CurrentObjectIsStream)
                 Write("endobj\n");
             else
                 Write(">>\nendobj\n");
+
             _CurrentObjectIsStream = false;
+            _ObjectOpen = false;
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -78,10 +88,19 @@ namespace Macad.Core.Exchange.Pdf
 
         public void Write(object value)
         {
+            bool first;
             switch (value)
             {
+                case bool boolValue:
+                    Write(boolValue ? "true" : "false");
+                    break;
+
                 case String stringValue:
                     Write(stringValue);
+                    break;
+
+                case PdfDomString pdfStringValue:
+                    Write(pdfStringValue.ToString());
                     break;
 
                 case int int32Value:
@@ -96,13 +115,45 @@ namespace Macad.Core.Exchange.Pdf
                     Write(doubleValue.ToInvariantString("G14"));
                     break;
 
+                case float floatValue:
+                    Write(floatValue.ToInvariantString("G7"));
+                    break;
+
                 case PdfDomObject pdfObject:
                     Write($"{pdfObject.ObjectNumber} 0 R");
                     break;
 
+                case Color color:
+                    _Stream.WriteByte(0x5b); // [
+                    Write(color.Red);
+                    _Stream.WriteByte(0x20); // space
+                    Write(color.Green);
+                    _Stream.WriteByte(0x20); // space
+                    Write(color.Blue);
+                    _Stream.WriteByte(0x5d); // ]
+                    break;
+                    
+                case IDictionary dictionary:
+                    _Stream.WriteByte(0x3c); // <
+                    _Stream.WriteByte(0x3c); // <
+                    first = true;
+                    foreach (DictionaryEntry entry in dictionary)
+                    {
+                        if (!first)
+                            _Stream.WriteByte(0x0a);
+                        first = false;
+                        _Stream.WriteByte(0x2f);
+                        Write(entry.Key);
+                        _Stream.WriteByte(0x20);
+                        Write(entry.Value);
+                    }
+                    _Stream.WriteByte(0x3e); // >
+                    _Stream.WriteByte(0x3e); // >
+                    break;
+
                 case IEnumerable enumerable:
                     _Stream.WriteByte(0x5b); // [
-                    var first = true;
+                    first = true;
                     foreach (var element in enumerable)
                     {
                         if (!first)
@@ -129,8 +180,9 @@ namespace Macad.Core.Exchange.Pdf
 
         //--------------------------------------------------------------------------------------------------
 
-        public void WriteKeyValue(string key, object value)
+        public void WriteAttribute(string key, object value)
         {
+            _Stream.WriteByte(0x2f);
             Write(key);
             _Stream.WriteByte(0x20);
             Write(value);

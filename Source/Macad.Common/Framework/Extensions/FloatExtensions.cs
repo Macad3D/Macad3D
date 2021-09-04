@@ -43,5 +43,10 @@ namespace Macad.Common
                 return value - other;
             return other - value;
         }
+        
+        public static float Lerp(this float value, float other, float amount)
+        {
+            return value * (1.0f - amount) + other * amount;
+        }
     }
 }

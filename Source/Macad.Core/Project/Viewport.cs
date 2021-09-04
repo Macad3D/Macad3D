@@ -135,6 +135,18 @@ namespace Macad.Core
 
         //--------------------------------------------------------------------------------------------------
 
+        public (double Width, double Height) Size
+        {
+            get
+            {
+                double width = 0, height = 0;
+                V3dView.Size(ref width, ref height);
+                return (width, height);
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public double GizmoScale
         {
             get

@@ -20,7 +20,7 @@ namespace Macad.Interaction
     {
         #region Member variables
 
-        const int _MaxMruCount = 14;
+        const int _MaxMruCount = 12;
 
         public ObservableCollection<string> MruList { get; }
 
@@ -32,6 +32,10 @@ namespace Macad.Interaction
         {
             MruList = InteractiveContext.Current.LoadLocalSettings<ObservableCollection<string>>("MRU")
                       ?? new ObservableCollection<string>();
+            while (MruList.Count >= _MaxMruCount)
+            {
+                MruList.RemoveAt(MruList.Count-1);
+            }
         }
 
         //--------------------------------------------------------------------------------------------------

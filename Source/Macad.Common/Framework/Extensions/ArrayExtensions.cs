@@ -1,4 +1,7 @@
-﻿namespace Macad.Common
+﻿using System;
+using System.Runtime.CompilerServices;
+
+namespace Macad.Common
 {
     public static class ArrayExtensions
     {
@@ -22,5 +25,12 @@
 
         //--------------------------------------------------------------------------------------------------
 
+        public static void ForEach<T>(this T[] array, Action<T> action)
+        {
+            for (int index = 0; index < array.Length; ++index)
+            {
+                action(array[index]);
+            }
+        }
     }
 }

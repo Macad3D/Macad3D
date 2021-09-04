@@ -18,7 +18,7 @@ namespace Macad.Core.Exchange.Pdf
 
         PdfDomDocument _Document;
         PdfDomPage _Page;
-        PdfDomContent _Content;
+        PdfDomStream _Content;
         PdfPathBuilder _PathBuilder;
 
         //--------------------------------------------------------------------------------------------------

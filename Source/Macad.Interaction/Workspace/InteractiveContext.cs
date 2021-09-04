@@ -199,7 +199,7 @@ namespace Macad.Interaction
             }
         }
 
-        const int _MaxScriptMruCount = 10;
+        const int _MaxScriptMruCount = 1;
 
         ObservableCollection<string> _RecentUsedScripts;
 

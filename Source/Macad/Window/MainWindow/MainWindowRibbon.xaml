@@ -46,7 +46,7 @@
             <Fluent:ApplicationMenu x:Name="RibbonFileMenu" 
                                     Header="FILE" 
                                     IsDropDownOpen="False" 
-                                    MaxDropDownHeight="600"
+                                    MaxDropDownHeight="500"
                                     RightPaneWidth="350"
                                     AutomationProperties.AutomationId="File">
 
@@ -68,10 +68,17 @@
                                  mmp:Command.Action="{x:Static mmi:DocumentCommands.SaveAll}"/>
                 <Separator />
 
-                <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:ExchangeCommands.ImportFileToModel}"
-                                 AutomationProperties.AutomationId="AppMenuImportFileToModel"/>
-                <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:ExchangeCommands.ExportSelectedBrep}"
-                                 AutomationProperties.AutomationId="AppMenuExportSelectedBrep"/>
+                <Fluent:MenuItem Header="Exchange"
+                                 Icon="{mmp:IconResource App-Exchange}"
+                                 AutomationProperties.AutomationId="AppMenuExchange">
+                    <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:ExchangeCommands.ImportFileToModel}"
+                                     AutomationProperties.AutomationId="AppMenuImportFileToModel"/>
+                    <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:ExchangeCommands.ExportVisibleBrep}"
+                                     AutomationProperties.AutomationId="AppMenuExportVisibleBrep"/>
+                    <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:ExchangeCommands.ExportSelectedBrep}"
+                                     AutomationProperties.AutomationId="AppMenuExportSelectedBrep"/>
+                </Fluent:MenuItem>
+
                 <Separator/>
 
                 <Fluent:MenuItem mmp:Command.Action="{x:Static mmw:AppCommands.ShowHelpTopic}" />

@@ -2,27 +2,26 @@
 {
     public sealed class PdfDomCatalog : PdfDomObject
     {
-        public PdfDomDictionary Outlines { get; }
+        public PdfDomObject Outlines { get; }
         public PdfDomPages Pages { get; }
 
         //--------------------------------------------------------------------------------------------------
 
         public PdfDomCatalog(PdfDomDocument document) 
-            : base(document)
+            : base(document, "Catalog")
         {
-            Outlines = new PdfDomDictionary(document);
+            Outlines = new PdfDomObject(document, "Outlines");
             Pages = new PdfDomPages(document);
+
+            Attributes["Outlines"] = Outlines;
+            Attributes["Pages"] = Pages;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public override bool Write(PdfWriter writer)
         {
-            writer.StartObject(ObjectNumber);
-            writer.WriteKeyValue("/Type", "/Catalog");
-            writer.WriteKeyValue("/Outlines", Outlines);
-            writer.WriteKeyValue("/Pages", Pages);
-            writer.EndObject();
+            base.Write(writer);
 
             Outlines.Write(writer);
             Pages.Write(writer);

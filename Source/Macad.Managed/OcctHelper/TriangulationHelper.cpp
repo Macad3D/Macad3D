@@ -31,6 +31,16 @@ namespace Macad
 
 				//--------------------------------------------------------------------------------------------------
 
+			    property array<Macad::Occt::Dir>^ Normals
+				{ 
+					array<Macad::Occt::Dir>^ get()
+					{
+						return _Normals;
+					} 
+				}
+
+				//--------------------------------------------------------------------------------------------------
+
 				property int TriangleCount
 				{
 					int get()
@@ -41,10 +51,11 @@ namespace Macad
 
 				//--------------------------------------------------------------------------------------------------
 
-				TriangulationData(array<int>^ indices, array<Macad::Occt::Pnt>^ vertices)
+				TriangulationData(array<int>^ indices, array<Macad::Occt::Pnt>^ vertices, array<Macad::Occt::Dir>^ normals)
 				{
 					_Indices = indices;
 					_Vertices = vertices;
+					_Normals = normals;
 				}
 
 				//--------------------------------------------------------------------------------------------------
@@ -52,6 +63,7 @@ namespace Macad
 			private:
 				array<int>^ _Indices;
 				array<Macad::Occt::Pnt>^ _Vertices;
+				array<Macad::Occt::Dir>^ _Normals;
 			};
 
 
@@ -62,7 +74,7 @@ namespace Macad
 			public ref class TriangulationHelper sealed
 			{
 			public:
-				static TriangulationData^ GetTriangulation(Macad::Occt::TopoDS_Shape^ brepShape)
+				static TriangulationData^ GetTriangulation(Macad::Occt::TopoDS_Shape^ brepShape, bool getNormals)
 				{
 					auto shape = *brepShape->NativeInstance;
 
@@ -75,6 +87,7 @@ namespace Macad
 					}
 
 					// Count elements
+					bool hasNormals = true;
 					int triangleCount = 0;
 					int vertexCount = 0;
 					for(::TopExp_Explorer exp(shape, TopAbs_FACE); exp.More(); exp.Next())
@@ -84,8 +97,14 @@ namespace Macad
 						if (triangulation.IsNull())
 							continue;
 
+						if(getNormals && !triangulation->HasNormals())
+						{
+						    Poly::ComputeNormals( triangulation );
+						}
+
 						triangleCount += triangulation->NbTriangles();
 						vertexCount += triangulation->NbNodes();
+						hasNormals &= triangulation->HasNormals();
 					}
 
 					if(triangleCount == 0 || vertexCount == 0)
@@ -95,6 +114,16 @@ namespace Macad
 					auto vertexArray = gcnew array<Pnt>(vertexCount);
 					pin_ptr<Pnt> vertices_pinnedptr = &vertexArray[0];
 					gp_Pnt* vertices = reinterpret_cast<gp_Pnt*>(vertices_pinnedptr);
+
+					array<Dir>^ normalsArray = nullptr;
+					pin_ptr<Dir> normals_pinnedptr= nullptr;
+					gp_Dir* normals = nullptr;
+					if(getNormals && hasNormals)
+					{
+					    normalsArray = gcnew array<Dir>(vertexCount);
+					    normals_pinnedptr = &normalsArray[0];
+					    normals = reinterpret_cast<gp_Dir*>(normals_pinnedptr);
+					}
 
 					auto indexArray = gcnew array<int>(triangleCount * 3);
 					pin_ptr<int> indices_pinnedptr = &indexArray[0];
@@ -109,14 +138,32 @@ namespace Macad
 						auto triangulation = ::BRep_Tool::Triangulation(::TopoDS::Face(exp.Current()), location);
 						if (triangulation.IsNull())
 							continue;
+						const auto trsf = location.Transformation();
+						auto orientation = exp.Current().Orientation();
 
 						// Copy Vertices
 						auto nodes = triangulation->Nodes();
-						const auto trsf = location.Transformation();
 						for (int nodeIndex = nodes.Lower(); nodeIndex <= nodes.Upper(); nodeIndex++)
 						{
 							*vertices = nodes(nodeIndex).Transformed(trsf);
 							vertices++;
+						}
+
+						if(getNormals && hasNormals)
+						{
+						    // Copy Normals
+						    auto normalsSource = triangulation->Normals();
+						    const auto trsf = location.Transformation();
+						    for (int nrmlIndex = normalsSource.Lower(); nrmlIndex <= normalsSource.Upper(); nrmlIndex+=3)
+						    {
+							    normals->SetCoord(normalsSource(nrmlIndex), normalsSource(nrmlIndex + 1), normalsSource(nrmlIndex + 2));
+								normals->Transform(trsf);
+								if(orientation == ::TopAbs_Orientation::TopAbs_REVERSED)
+								{
+								    normals->Reverse();
+								}
+							    normals++;
+						    }
 						}
 
 						// Copy Indices
@@ -145,7 +192,7 @@ namespace Macad
 					}
 
 					// Return
-					return gcnew TriangulationData(indexArray, vertexArray);
+					return gcnew TriangulationData(indexArray, vertexArray, normalsArray);
 				}
 
 				//--------------------------------------------------------------------------------------------------

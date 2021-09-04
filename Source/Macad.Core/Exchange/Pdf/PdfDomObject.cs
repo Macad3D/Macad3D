@@ -1,20 +1,39 @@
-﻿namespace Macad.Core.Exchange.Pdf
+﻿using System.Collections.Generic;
+using Macad.Common;
+
+namespace Macad.Core.Exchange.Pdf
 {
-    public abstract class PdfDomObject
+    public class PdfDomObject
     {
+        public string Type { get; }
         public int ObjectNumber { get; }
+        public Dictionary<string, object> Attributes { get; } = new();
         protected PdfDomDocument Document { get; }
 
         //--------------------------------------------------------------------------------------------------
 
-        protected PdfDomObject(PdfDomDocument document)
+        public PdfDomObject(PdfDomDocument document, string type)
         {
             Document = document;
+            Type = type;
             ObjectNumber = document.ReserveObjectNumber();
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public abstract bool Write(PdfWriter writer);
+        public virtual bool Write(PdfWriter writer)
+        {
+            writer.StartObject(ObjectNumber);
+            if (!Type.IsNullOrEmpty())
+            {
+                writer.WriteAttribute("Type",  "/" + Type);
+            }
+            foreach (var attribute in Attributes)
+            {
+                writer.WriteAttribute(attribute.Key, attribute.Value);
+            }
+
+            return true;
+        }
     }
 }

@@ -1,53 +1,81 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Macad.Common;
 
 namespace Macad.Core.Exchange.Pdf
 {
     public class PdfDomPage : PdfDomObject
     {
-        public double[] MediaBox { get; set; } = {0.0, 0.0, 100.0, 100.0};
-
-        public List<PdfDomContent> Contents { get; } = new();
-
-        //--------------------------------------------------------------------------------------------------
-
-        readonly PdfDomPages _PagesObject;
-
-        //--------------------------------------------------------------------------------------------------
-
-        public PdfDomPage(PdfDomDocument document, PdfDomPages pagesObject) 
-            : base(document)
+        public double[] MediaBox
         {
-            _PagesObject = pagesObject;
-            pagesObject.PageList.Add(this);
+            set
+            {
+                Attributes["MediaBox"] = value.Select(d => d * PdfDomDocument.UserSpaceScale).ToArray();
+            }
+        }
+
+        public List<PdfDomStream> Contents { get; } = new();
+
+        public List<PdfDomObject> Annotations
+        {
+            get
+            {
+                if (_Annots == null)
+                {
+                    _Annots = new();
+                    Attributes["Annots"] = _Annots;
+                }
+
+                return _Annots;
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public PdfDomContent AddContent()
+        List<PdfDomObject> _Annots;
+
+        //--------------------------------------------------------------------------------------------------
+
+        public PdfDomPage(PdfDomDocument document, PdfDomPages pagesObject)
+            : base(document, "Page")
         {
-            return new PdfDomContent(Document, this);
+            pagesObject.PageList.Add(this);
+
+            Attributes["Parent"] = pagesObject;
+            MediaBox = new[] {0.0, 0.0, 100.0, 100.0};
+            Attributes["Contents"] = Contents;
+            Attributes["Resources"] = "<< /ProcSet [/PDF] >>";
+    }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public PdfDomStream AddContent()
+        {
+            var stream = new PdfDomStream(Document, "");
+            
+            // Matrix for scaling from mm (MacadSpace) to 1/72 inch (UserSpace)
+            stream.Add("2.83464567 0 0 2.83464567 0 0 cm\n".ToUtf8Bytes()); 
+            Contents.Add(stream);
+            return stream;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public PdfDomAnnotation AddAnnotation(string subtype, double[] rect)
+        {
+            var annot = new PdfDomAnnotation(Document, subtype, rect);
+            Annotations.Add(annot);
+            return annot;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public override bool Write(PdfWriter writer)
         {
-            writer.StartObject(ObjectNumber);
-            writer.WriteKeyValue("/Type", "/Page");
-            writer.WriteKeyValue("/Parent", _PagesObject);
-            writer.WriteKeyValue("/MediaBox", MediaBox.Select(d => d * PdfDomDocument.UserSpaceScale).ToArray());
-            if (Contents.Count == 1)
-                writer.WriteKeyValue("/Contents", Contents[0]);
-            else
-                writer.WriteKeyValue("/Contents", Contents);
-            writer.WriteKeyValue("/Resources", "<< /ProcSet [/PDF] >>");
-            writer.EndObject();
+            base.Write(writer);
 
-            foreach (var content in Contents)
-            {
-                content.Write(writer);
-            }
+            Contents.ForEach(content => content.Write(writer));
+            _Annots?.ForEach(annot => annot.Write(writer));
 
             return true;
         }

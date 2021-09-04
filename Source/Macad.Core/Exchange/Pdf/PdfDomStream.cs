@@ -4,7 +4,7 @@ using Macad.Common;
 
 namespace Macad.Core.Exchange.Pdf
 {
-    public class PdfDomContent : PdfDomObject
+    public class PdfDomStream : PdfDomObject
     {
         readonly MemoryStream _TargetStream;
         readonly DeflateStream _DeflateStream;
@@ -12,7 +12,8 @@ namespace Macad.Core.Exchange.Pdf
 
         //--------------------------------------------------------------------------------------------------
 
-        public PdfDomContent(PdfDomDocument document, PdfDomPage page) : base(document)
+        public PdfDomStream(PdfDomDocument document, string type) 
+            : base(document, type)
         {
             _TargetStream = new();
             _Stream = _TargetStream;
@@ -25,12 +26,8 @@ namespace Macad.Core.Exchange.Pdf
                 _TargetStream.WriteByte(0xDA);
                 _DeflateStream = new (_TargetStream, CompressionLevel.Fastest, true);
                 _Stream = _DeflateStream;
+                Attributes["Filter"] = "/FlateDecode";
             }
-
-            page.Contents.Add(this);
-
-            // Matrix for scaling from mm (MacadSpace) to 1/72 inch (UserSpace)
-            Add("2.83464567 0 0 2.83464567 0 0 cm\n".ToUtf8Bytes()); 
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -46,22 +43,30 @@ namespace Macad.Core.Exchange.Pdf
         {
             _Stream.Write(bytes);
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public void Add(string value)
+        {
+            _Stream.Write(value.ToUtf8Bytes());
+        }
 
         //--------------------------------------------------------------------------------------------------
 
         public override bool Write(PdfWriter writer)
         {
-            writer.StartObject(ObjectNumber);
-            writer.WriteKeyValue("/Length", _TargetStream.Length);
             if (_DeflateStream != null)
             {
                 _DeflateStream.Close();
-                writer.WriteKeyValue("/Filter", "/FlateDecode");
             }
+            Attributes["Length"] = _TargetStream.Length;
+
+            base.Write(writer);
+
             writer.WriteObjectStream(_TargetStream.GetBuffer(),0, (int)_TargetStream.Length);
-            writer.EndObject();
 
             return true;
         }
+
     }
 }

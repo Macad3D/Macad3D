@@ -130,7 +130,10 @@ namespace Macad.Test.UI.Framework
 
             var menuItem1 = _MainWindow.Popup?.FindFirstDescendant(cf => cf.ByAutomationId($"AppMenu{id1}"))?.AsMenuItem();
             Assert.IsNotNull(menuItem1, $"Parent MenuItem AppMenu{id1} not found.");
-            menuItem1.Click(!jump);
+            if(id2 == null)
+                menuItem1.Click(!jump);
+            else
+                Mouse.Position = menuItem1.GetClickablePoint();
             Wait.UntilInputIsProcessed();
             Wait.UntilResponsive(_RibbonControl);
 

@@ -71,6 +71,7 @@
 #include <BRepMesh_ShapeTool.hxx>
 #include <BRepMesh_IncrementalMesh.hxx>
 
+#include <Poly.hxx>
 #include <Poly_Triangulation.hxx>
 
 #include <Image_PixMap.hxx>

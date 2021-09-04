@@ -25,6 +25,14 @@ namespace Macad.Test.Unit.Exchange
 
         readonly Ax3 _Projection = new Ax3(Pnt.Origin, new Vec(1, 1, 1).ToDir(), new Vec(-2, 0, -1).ToDir());
         readonly Ax3 _TopProjection = new Ax3(Pnt.Origin, Dir.DZ, Dir.DX);
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [SetUp]
+        public void Setup()
+        {
+            Context.InitEmpty();
+        }
 
         //--------------------------------------------------------------------------------------------------
 

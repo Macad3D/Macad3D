@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using Macad.Common.Serialization;
-using Macad.Core.Exchange.Svg;
-using Macad.Core.Shapes;
-using Macad.Occt;
+using Macad.Core.Exchange.Pdf;
+using Macad.Core.Topology;
 
-namespace Macad.Core.Exchange.Pdf
+namespace Macad.Core.Exchange
 {
-    public class PdfExchanger : IDrawingExporter
+    public class PdfExchanger : IDrawingExporter, IBodyExporter
     {
         #region Exchanger
 
@@ -112,6 +111,25 @@ namespace Macad.Core.Exchange.Pdf
 
             return result;
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+        
+        #region IBodyExporter
+        
+        bool IBodyExporter.DoExport(string fileName, IEnumerable<Body> bodies)
+        {
+            bool result;
+            using (new ProcessingScope(null, "Exporting bodies to 3D-PDF"))
+            {
+                result = _WriteToFile(fileName, PdfBodyExporter.Export(bodies));
+            }
+
+            return result;
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
     }

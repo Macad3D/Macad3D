@@ -57,7 +57,37 @@ namespace Macad.Interaction
             Description = () => "Import geometry data from other file formats into current model.",
             Icon = () => "App-Import"
         };
-        
+                
+        //--------------------------------------------------------------------------------------------------
+
+        public static ActionCommand ExportVisibleBrep { get; } = new(
+            () =>
+            {
+                if (ExportDialog.Execute<IBodyExporter>(out var filename, out var exporter))
+                {
+                    if (!ExchangerSettings.Execute<IBodyExporter>(exporter))
+                        return;
+
+                    bool success;
+                    using (new ProcessingScope(null, "Exporting geometry..."))
+                    {
+                        success = exporter.DoExport(filename, _WorkspaceController.VisualObjects.GetVisibleEntities().OfType<Body>());
+                    }
+
+                    if (!success)
+                    {
+                        ErrorDialogs.CannotExport(filename);
+                    }
+                }
+            },
+            () => _WorkspaceController.VisualObjects.GetVisibleEntities().Any(entity => entity is Body))
+        {
+            Header = () => "Export Visible...",
+            Title = () => "Export Visible Bodies",
+            Description = () => "Export geometry data of the visible entities to an other file format.",
+            Icon = () => "App-Export"
+        };
+
         //--------------------------------------------------------------------------------------------------
 
         public static ActionCommand ExportSelectedBrep { get; } = new(
@@ -71,7 +101,7 @@ namespace Macad.Interaction
                     bool success;
                     using (new ProcessingScope(null, "Exporting geometry..."))
                     {
-                        success = exporter.DoExport(filename, _WorkspaceController.Selection.SelectedEntities.Cast<Body>());
+                        success = exporter.DoExport(filename, _WorkspaceController.Selection.SelectedEntities.OfType<Body>());
                     }
 
                     if (!success)

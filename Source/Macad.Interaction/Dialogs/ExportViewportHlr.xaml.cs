@@ -149,7 +149,11 @@ namespace Macad.Interaction.Dialogs
             set { SetValue(SettingsProperty, value); }
         }
 
+        //--------------------------------------------------------------------------------------------------
+
         #region Logic
+
+        static int _LastFilterIndex = 1;
 
         public ICommand ExportCommand { get; private set; }
 
@@ -175,13 +179,14 @@ namespace Macad.Interaction.Dialogs
                 CheckPathExists = true,
                 OverwritePrompt = true,
                 Filter = filter,
-                FilterIndex = 1
+                FilterIndex = _LastFilterIndex
             };
             var result = dlg.ShowDialog(Application.Current.MainWindow) ?? false;
             DialogResult = true;
             if (result)
             {
                 var exporter = exchangers[dlg.FilterIndex - 1];
+                _LastFilterIndex = dlg.FilterIndex;
 
                 if (!ExchangerSettings.Execute<IDrawingExporter>(exporter))
                     return;

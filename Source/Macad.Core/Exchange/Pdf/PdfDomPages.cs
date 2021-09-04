@@ -8,19 +8,18 @@ namespace Macad.Core.Exchange.Pdf
 
         //--------------------------------------------------------------------------------------------------
 
-        public PdfDomPages(PdfDomDocument document) : base(document)
+        public PdfDomPages(PdfDomDocument document) 
+            : base(document, "Pages")
         {
+            Attributes["Kids"] = PageList;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public override bool Write(PdfWriter writer)
         {
-            writer.StartObject(ObjectNumber);
-            writer.WriteKeyValue("/Type", "/Pages");
-            writer.WriteKeyValue("/Kids", PageList.ToArray());
-            writer.WriteKeyValue("/Count", PageList.Count);
-            writer.EndObject();
+            Attributes["Count"] = PageList.Count;
+            base.Write(writer);
 
             PageList.ForEach(page => page.Write(writer));
             return true;

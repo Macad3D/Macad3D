@@ -157,5 +157,9 @@ namespace Macad.Common
 
         //--------------------------------------------------------------------------------------------------
 
+        public Color Lerp(Color other, float f)
+        {
+            return new Color(Red.Lerp(other.Red, f), Green.Lerp(other.Green, f), Blue.Lerp(other.Blue, f));
+        }
     }
 }

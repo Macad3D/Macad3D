@@ -6,8 +6,12 @@ using Macad.Core.Exchange;
 
 namespace Macad.Interaction.Dialogs
 {
-    public class ExportDialog
+    public static class ExportDialog
     {
+        static int _LastFilterIndex = 1;
+
+        //--------------------------------------------------------------------------------------------------
+
         public static bool Execute<T>(out string fileName, out T exporter) where T: class, IExchanger
         {
             fileName = null;
@@ -32,17 +36,17 @@ namespace Macad.Interaction.Dialogs
                 CheckPathExists = true,
                 OverwritePrompt = true,
                 Filter = filter,
-                FilterIndex = 1
+                FilterIndex = _LastFilterIndex
             };
-            var result = dlg.ShowDialog(Application.Current.MainWindow) ?? false;
+            if (!dlg.ShowDialog(Application.Current.MainWindow) ?? false)
+                return false;
 
             // Do export
-            if (result)
-            {
-                fileName = dlg.FileName;
-                exporter = exchangers[dlg.FilterIndex-1];
-            }
-            return result;
+            fileName = dlg.FileName;
+            exporter = exchangers[dlg.FilterIndex-1];
+            _LastFilterIndex = dlg.FilterIndex;
+
+            return true;
         }
 
         //--------------------------------------------------------------------------------------------------
