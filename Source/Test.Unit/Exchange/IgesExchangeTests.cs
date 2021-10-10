@@ -2,7 +2,7 @@
 using System.Linq;
 using Macad.Test.Utils;
 using Macad.Core;
-using Macad.Core.Exchange;
+using Macad.Exchange;
 using NUnit.Framework;
 
 namespace Macad.Test.Unit.Exchange

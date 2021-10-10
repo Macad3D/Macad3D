@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Collections.Generic;
-using Macad.Core.Exchange;
+using Macad.Core;
+using Macad.Exchange;
 
 // Get importer
 var importer = ExchangeRegistry.FindExchanger<IBodyImporter>("stl");

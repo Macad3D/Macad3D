@@ -3,8 +3,9 @@ using System.Windows;
 using Macad.Interaction.Dialogs;
 using Macad.Common;
 using Macad.Core;
-using Macad.Core.Exchange;
+using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Exchange;
 using Macad.Presentation;
 
 namespace Macad.Interaction
@@ -118,23 +119,7 @@ namespace Macad.Interaction
             Description = () => "Export geometry data of the selected entities to an other file format.",
             Icon = () => "App-Export"
         };
-
-        //--------------------------------------------------------------------------------------------------
-
-        static string _ExtractDropFile(DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                // Note that you can have more than one file.
-                var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
-                if (files != null)
-                {
-                    var filePath = files.First();
-                }
-            }
-            return null;
-        }
-
+        
         //--------------------------------------------------------------------------------------------------
 
         public static RelayCommand<string> ImportDroppedFile { get; } = new(
@@ -150,8 +135,8 @@ namespace Macad.Interaction
                     InteractiveContext.Current.DocumentController?.OpenFile(filePath, false);
                 }
 
-                var importer = ExchangeRegistry.FindExchanger<IBodyImporter>(extension);
-                if (importer != null)
+                var bodyImporter = ExchangeRegistry.FindExchanger<IBodyImporter>(extension);
+                if (bodyImporter != null)
                 {
                     var mergeIntoCurrent = Dialogs.Dialogs.AskDropImportBehaviour();
                     if (!mergeIntoCurrent.HasValue)
@@ -164,13 +149,13 @@ namespace Macad.Interaction
                         return;
                     }
 
-                    if (!ExchangerSettings.Execute<IBodyImporter>(importer))
+                    if (!ExchangerSettings.Execute<IBodyImporter>(bodyImporter))
                         return;
 
                     // Merge
                     using (new ProcessingScope(null, "Importing file..."))
                     {
-                        if (!importer.DoImport(filePath, out var newBodies))
+                        if (!bodyImporter.DoImport(filePath, out var newBodies))
                         {
                             CoreContext.Current.MessageHandler.OnProcessingStopped();
                             ErrorDialogs.CannotImport(filePath);
@@ -182,8 +167,34 @@ namespace Macad.Interaction
                             CoreContext.Current?.Document?.AddChild(newBody);
                         }
 
-                        InteractiveContext.Current.UndoHandler?.Commit();
-                        InteractiveContext.Current.WorkspaceController.Selection.SelectEntities(newBodies);
+                        _UndoHandler?.Commit();
+                        _WorkspaceController.Selection.SelectEntities(newBodies);
+                    }
+                }
+                
+                var sketchImporter = ExchangeRegistry.FindExchanger<ISketchImporter>(extension);
+                if (sketchImporter != null)
+                {
+                    if (!ExchangerSettings.Execute<ISketchImporter>(sketchImporter))
+                        return;
+
+                    // Merge
+                    using (new ProcessingScope(null, "Importing to sketch..."))
+                    {
+                        if (!sketchImporter.DoImport(filePath, out var points, out var segments, out var constraints)
+                            || segments.Count == 0)
+                        {
+                            ErrorDialogs.CannotImport(filePath);
+                            return;
+                        }
+
+                        var sketch = Sketch.Create();
+                        sketch.AddElements(points, null, segments, constraints);
+                        var newBody = Body.Create(sketch);
+                        CoreContext.Current?.Document?.AddChild(newBody);
+
+                        _UndoHandler?.Commit();
+                        _WorkspaceController.Selection.SelectEntity(newBody);
                     }
                 }
 
@@ -199,8 +210,9 @@ namespace Macad.Interaction
 
                 var extension = PathUtils.GetExtensionWithoutPoint(filePath);
                 if (extension != null
-                    && (extension.Equals(Model.FileExtension) 
-                        || ExchangeRegistry.FindExchanger<IBodyImporter>(extension) != null))
+                    && (extension.Equals(Model.FileExtension)
+                        || ExchangeRegistry.FindExchanger<IBodyImporter>(extension) != null
+                        || ExchangeRegistry.FindExchanger<ISketchImporter>(extension) != null))
                 {
                     return true;
                 }
@@ -209,6 +221,39 @@ namespace Macad.Interaction
             }
         );
 
+        //--------------------------------------------------------------------------------------------------
+
+        public static ActionCommand ImportFileToSketch { get; } = new(
+            () =>
+            {
+                if (ImportDialog.Execute<ISketchImporter>(out var filePath, out var importer))
+                {
+                    if (!ExchangerSettings.Execute<ISketchImporter>(importer))
+                        return;
+
+                    if (!importer.DoImport(filePath, out var points, out var segments, out var constraints)
+                        || segments.Count == 0)
+                    {
+                        ErrorDialogs.CannotImport(filePath);
+                        return;
+                    }
+
+                    var sketch = Sketch.Create();
+                    sketch.AddElements(points, null, segments, constraints);
+                    var newBody = Body.Create(sketch);
+                    CoreContext.Current?.Document?.AddChild(newBody);
+                    _UndoHandler?.Commit();
+                    _WorkspaceController.Selection.SelectEntity(newBody);
+                }
+            },
+            () => !(InteractiveContext.Current?.Document is null))
+        {
+            Header = () => "Import...",
+            Title = () => "Import into Sketch",
+            Description = () => "Import vector data from other file formats into new sketch.",
+            Icon = () => "App-Import"
+        };
+                
         //--------------------------------------------------------------------------------------------------
 
     }

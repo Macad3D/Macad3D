@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Macad.Common\Macad.Common.csproj" />
     <ProjectReference Include="..\Macad.Core\Macad.Core.csproj" />
+    <ProjectReference Include="..\Macad.Exchange\Macad.Exchange.csproj" />
     <ProjectReference Include="..\Macad.Managed\Macad.Managed.vcxproj" />
     <ProjectReference Include="..\Macad.Occt\Macad.Occt.vcxproj" />
     <ProjectReference Include="..\Macad.Presentation\Macad.Presentation.csproj" />

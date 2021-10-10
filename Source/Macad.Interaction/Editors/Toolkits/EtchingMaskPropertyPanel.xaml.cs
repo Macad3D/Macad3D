@@ -2,7 +2,7 @@
 using System.Windows;
 using Macad.Interaction.Dialogs;
 using Macad.Common;
-using Macad.Core.Exchange;
+using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction.Panels;

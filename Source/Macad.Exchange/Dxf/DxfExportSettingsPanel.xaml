@@ -1,0 +1,102 @@
+﻿<mme:SettingsPanelBase x:Class="Macad.Exchange.Dxf.DxfExportSettingsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:mme="clr-namespace:Macad.Exchange"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"        
+             d:DesignHeight="100" d:DesignWidth="250">
+
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Verion -->
+        <TextBlock Grid.Column="0" Text="File Version"
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+
+        <ComboBox Grid.Column="1" Grid.ColumnSpan="2"
+                  ItemsSource="{Binding VersionList}" 
+                  SelectedValue="{Binding Version}"
+                  DisplayMemberPath="Value" SelectedValuePath="Key"/>
+
+        <!-- ASCII/Binary -->
+        <TextBlock Grid.Row="2" Grid.Column="0" 
+                   Text="File Format"
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+
+        <mmp:ToggleButton Grid.Row="2" Grid.Column="1"
+                          Content="Binary" 
+                          mmp:GroupControls.Position="Left"
+                          IsChecked="{Binding Binary}"
+                          Command="{Binding SetBinaryFormatCommand}"
+                          CommandParameter="true"/>
+        <mmp:ToggleButton Grid.Row="2" Grid.Column="2"
+                          Content="ASCII" 
+                          mmp:GroupControls.Position="Right"
+                          IsChecked="{Binding Binary, Converter={mmp:BoolToNotBoolConverter}}"
+                          Command="{Binding SetBinaryFormatCommand}"
+                          CommandParameter="false"/>
+
+        <!-- Export spline as polygon -->
+        <TextBlock Grid.Row="4" Grid.Column="0" 
+                   Text="Export Spline as"
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+
+        <mmp:ToggleButton Grid.Row="4" Grid.Column="1"
+                          Content="SPLINE" 
+                          mmp:GroupControls.Position="Left"
+                          IsChecked="{Binding SplineAsPolygon}"
+                          Command="{Binding SetSplineAsPolygonCommand}"
+                          CommandParameter="true"/>
+        <mmp:ToggleButton Grid.Row="4" Grid.Column="2"
+                          Content="LWPOLYLINE" 
+                          mmp:GroupControls.Position="Right"
+                          IsChecked="{Binding SplineAsPolygon, Converter={mmp:BoolToNotBoolConverter}}"
+                          Command="{Binding SetSplineAsPolygonCommand}"
+                          CommandParameter="false"/>
+
+        <!-- Export ellipsis as polygon -->
+        <TextBlock Grid.Row="5" Grid.Column="0" 
+                   Text="Export Ellipse as"
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+
+        <mmp:ToggleButton Grid.Row="5" Grid.Column="1"
+                          Content="ELLIPSE" 
+                          mmp:GroupControls.Position="Left"
+                          IsChecked="{Binding EllipseAsPolygon}"
+                          Command="{Binding SetEllipseAsPolygonCommand}"
+                          CommandParameter="true"/>
+        <mmp:ToggleButton Grid.Row="5" Grid.Column="2"
+                          Content="LWPOLYLINE" 
+                          mmp:GroupControls.Position="Right"
+                          IsChecked="{Binding EllipseAsPolygon, Converter={mmp:BoolToNotBoolConverter}}"
+                          Command="{Binding SetEllipseAsPolygonCommand}"
+                          CommandParameter="false"/>
+
+
+        <!-- Precision -->
+        <TextBlock Grid.Row="6" Grid.Column="0" 
+                   Text="Polygon Precision"
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}"/>
+
+        <mmp:ValueEditBox Grid.Row="6" Grid.Column="1"
+                          Value="{Binding PolygonPrecision}"
+                          MinValue="0.0001" MaxValue="1" Precision="3"/>
+    </Grid>
+</mme:SettingsPanelBase>

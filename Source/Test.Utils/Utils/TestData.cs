@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using Macad.Common;
-using Macad.Core.Exchange;
+using Macad.Exchange;
 using Macad.Core.Topology;
 using Macad.Occt;
 using NUnit.Framework;

@@ -36,7 +36,7 @@ var exchanger = new StlExchanger();
 exchanger.Settings.ExportBinaryFormat = true;
 ```
 
-Now we can do the export. For this we need to cast the exchanger instance to the interface of the desired export operation. The export itself is then started by using the function [](Macad.Core.Exchange.IBodyExporter.DoExport).
+Now we can do the export. For this we need to cast the exchanger instance to the interface of the desired export operation. The export itself is then started by using the function [](Macad.Core.IBodyExporter.DoExport).
 
 ```cs
 var exporter = exchanger as IBodyExporter;
@@ -48,7 +48,7 @@ if (!exporter.DoExport("MyExportedShape.stl", bodies))
 ```
 
 # Import Shapes to Bodies
-When importing, we also need to get an instance to the proper exchanger. This can be requested by the static class [](Macad.Core.Exchange.ExchangeRegistry). This class holds all registered exchanger together with information about their file formats.
+When importing, we also need to get an instance to the proper exchanger. This can be requested by the static class [](Macad.Core.ExchangeRegistry). This class holds all registered exchanger together with information about their file formats.
 
 ```cs
 var importer = ExchangeRegistry.FindExchanger&lt;IBodyImporter&gt;("stl");

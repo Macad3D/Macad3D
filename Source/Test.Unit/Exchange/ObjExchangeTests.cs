@@ -1,9 +1,10 @@
 ﻿using System.IO;
 using System.Linq;
 using Macad.Test.Utils;
-using Macad.Core.Exchange;
+using Macad.Core;
 using Macad.Occt;
 using NUnit.Framework;
+using Macad.Exchange;
 
 namespace Macad.Test.Unit.Exchange
 {

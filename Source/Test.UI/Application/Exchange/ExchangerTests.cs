@@ -299,5 +299,6 @@ namespace Macad.Test.UI.Application.Exchange
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
             Assert.That(Pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
         }
+
     }
 }

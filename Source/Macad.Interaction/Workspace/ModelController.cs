@@ -9,7 +9,6 @@ using Macad.Interaction.Dialogs;
 using Microsoft.Win32;
 using Macad.Common;
 using Macad.Core;
-using Macad.Core.Exchange;
 using Macad.Common.Serialization;
 using Macad.Core.Topology;
 using Macad.Presentation;

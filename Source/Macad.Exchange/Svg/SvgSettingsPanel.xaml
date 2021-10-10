@@ -1,0 +1,34 @@
+﻿<mme:SettingsPanelBase x:Class="Macad.Exchange.Svg.SvgSettingsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+             xmlns:mme="clr-namespace:Macad.Exchange"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"        
+             d:DesignHeight="100" d:DesignWidth="250">
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+            
+        <TextBlock Grid.Column="0" Text="Scaling"
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <mmp:ValueEditBox Grid.Column="1"
+                          Value="{Binding DotsPerInch}"
+                          MinValue="0" MaxValue="1000" Units="DotsPerInch" Precision="0"/>
+
+        <CheckBox Grid.Row="1" Grid.Column="1"
+                  Margin="0,4,0,4"
+                  Content="Tag Groups as Layers"
+                  IsChecked="{Binding TagGroupsAsLayers}"
+                  Visibility="{Binding IsDrawingExport, Converter={mmp:BoolToVisibleCollapsedConverter} }"/>
+    </Grid>
+</mme:SettingsPanelBase>

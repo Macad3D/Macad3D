@@ -4,8 +4,7 @@ using System.Runtime.InteropServices;
 using Macad.Core;
 using Macad.Test.Utils;
 using Macad.Core.Drawing;
-using Macad.Core.Exchange;
-using Macad.Core.Exchange.Dxf;
+using Macad.Exchange.Dxf;
 using Macad.Core.Shapes;
 using Macad.Core.Toolkits;
 using Macad.Core.Topology;
@@ -13,6 +12,7 @@ using Macad.Interop;
 using Macad.Occt;
 using Macad.Occt.Helper;
 using NUnit.Framework;
+using Macad.Exchange;
 
 namespace Macad.Test.Unit.Exchange
 {

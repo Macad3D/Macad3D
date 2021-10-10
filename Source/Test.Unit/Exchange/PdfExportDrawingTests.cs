@@ -1,11 +1,12 @@
 ﻿using System.IO;
 using System.Linq;
 using Macad.Core.Drawing;
-using Macad.Core.Exchange;
-using Macad.Core.Exchange.Pdf;
+using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Toolkits;
 using Macad.Core.Topology;
+using Macad.Exchange;
+using Macad.Exchange.Pdf;
 using Macad.Occt;
 using Macad.Occt.Helper;
 using Macad.Test.Utils;

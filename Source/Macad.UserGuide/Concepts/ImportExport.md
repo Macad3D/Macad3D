@@ -10,13 +10,15 @@ Macad\|3D supports the following file formats for importing and exporting data:
 
 File Format | Supported Data 
 ------------|----------------|----------------
-SVG         | Sketch Import and Export, 2D Vector Export
-DXF         | Sketch Import and Export, 2D Vector Export
+SVG         | Sketch Import and Export, Drawing Export
+DXF         | Sketch Import and Export, Drawing Export
 IGES        | Solid Import and Export
 STEP        | Solid Import and Export
 BREP        | Solid Import and Export
 OBJ         | Mesh Import and Export
 STL         | Mesh Import and Export
+U3D         | Mesh Export
+PDF         | Drawing Export, Mesh Export (as 3D-PDF)
 
 Imported meshes can be displayed, but not modified or be part of another modeling operation.
 
@@ -26,7 +28,7 @@ Drawings are easily generated from a viewport and exported as 2D vector file. Th
 
 ![Example of a drawing exported as SVG](ImportExportDrawingSample.png)
 
-## Exporting a Drawing
+## Exporting a Viewport Drawing
 
 1. Select your desired perspective in the viewport.
 2. Make all bodies visible which should be seen in the drawing. Hide the others. 

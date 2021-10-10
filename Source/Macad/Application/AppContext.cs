@@ -6,6 +6,7 @@ using Macad.Core;
 using Macad.Common.Serialization;
 using Macad.Interaction;
 using Macad.Common;
+using Macad.Exchange;
 
 namespace Macad.Window
 {
@@ -46,6 +47,8 @@ namespace Macad.Window
             }
 
             Current = new AppContext();
+
+            ExchangeModule.Initialize();
         }
 
         //--------------------------------------------------------------------------------------------------

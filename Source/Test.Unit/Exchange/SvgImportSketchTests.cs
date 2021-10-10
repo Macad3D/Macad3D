@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using Macad.Test.Utils;
-using Macad.Core.Exchange.Svg;
+using Macad.Exchange.Svg;
 using Macad.Core.Shapes;
 using NUnit.Framework;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Macad.Core.Components;
-using Macad.Core.Exchange;
+using Macad.Core;
 using Macad.Core.Geom;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;

@@ -73,6 +73,8 @@
                                  AutomationProperties.AutomationId="AppMenuExchange">
                     <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:ExchangeCommands.ImportFileToModel}"
                                      AutomationProperties.AutomationId="AppMenuImportFileToModel"/>
+                    <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:ExchangeCommands.ImportFileToSketch}"
+                                     AutomationProperties.AutomationId="AppMenuImportFileToSketch"/>
                     <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:ExchangeCommands.ExportVisibleBrep}"
                                      AutomationProperties.AutomationId="AppMenuExportVisibleBrep"/>
                     <Fluent:MenuItem mmp:Command.Action="{x:Static mmi:ExchangeCommands.ExportSelectedBrep}"

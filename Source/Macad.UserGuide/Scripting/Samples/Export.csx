@@ -1,5 +1,6 @@
 using System.Linq;
-using Macad.Core.Exchange;
+using Macad.Core;
+using Macad.Exchange;
 using Macad.Interaction;
 
 // Get selected body

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using Macad.Common;
-using Macad.Interaction;
 using Macad.Interaction.Panels;
 using NUnit.Framework;
 

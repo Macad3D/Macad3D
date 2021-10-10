@@ -154,5 +154,45 @@ namespace Macad.Test.UI.Application.Exchange
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void ImportToSketch()
+        {
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportSketch.dxf"));
+            Assume.That(MainWindow.SendFileDrop(path));
+            
+            var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
+            Assert.IsNotNull(dlg);
+            dlg.ClickButton("Ok");
+            Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
+
+            // Check that data was imported
+            Assert.AreEqual(2, MainWindow.Document.GetBodyItems().Count());
+
+            // Undo action
+            MainWindow.Ribbon.SelectGroup("Edit");
+            MainWindow.Ribbon.ClickButton("Undo");
+
+            // Check that box is still here
+            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual("Box_1", MainWindow.Document.GetBodyItems().First().Name);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void ImportToSketchCanceled()
+        {
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportSketch.dxf"));
+            Assume.That(MainWindow.SendFileDrop(path));
+            
+            var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
+            Assert.IsNotNull(dlg);
+            dlg.ClickButton("Cancel");
+            Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
+
+            // Check that box is still alone
+            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual("Box_1", MainWindow.Document.GetBodyItems().First().Name);
+        }
     }
 }

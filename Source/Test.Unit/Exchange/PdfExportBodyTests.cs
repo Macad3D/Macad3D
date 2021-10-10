@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Linq;
 using Macad.Common;
-using Macad.Core.Exchange.Pdf;
 using Macad.Core.Topology;
+using Macad.Exchange.Pdf;
 using Macad.Test.Utils;
 using NUnit.Framework;
 

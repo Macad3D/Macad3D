@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{7979e852-a660-49e9-b7ae-c1241ad25d99}</ProjectGuid>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Platforms>x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Macad.Exchange.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Macad.Common\Macad.Common.csproj" />
+    <ProjectReference Include="..\Macad.Core\Macad.Core.csproj" />
+    <ProjectReference Include="..\Macad.Managed\Macad.Managed.vcxproj" />
+    <ProjectReference Include="..\Macad.Presentation\Macad.Presentation.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleToSigned Include="Test.Unit" />
+    <InternalsVisibleToSigned Include="Test.Memory" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="Macad.Occt">
+      <HintPath>..\..\Bin\Debug\Macad.Occt.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="Dxf\DxfExportSettingsPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Dxf\DxfImportSettingsPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Iges\IgesExchangerSettingsPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Obj\ObjSettingsPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="OpenCascade\OpenCascadeSettingsPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Step\StepSettingsPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Stl\StlExchangerSettingsPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Svg\SvgSettingsPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+</Project>

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using Microsoft.Win32;
 using Macad.Common;
-using Macad.Core.Exchange;
+using Macad.Core;
 
 namespace Macad.Interaction.Dialogs
 {

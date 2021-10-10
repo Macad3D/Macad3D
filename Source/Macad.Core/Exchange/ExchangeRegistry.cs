@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Macad.Core;
 
-namespace Macad.Core.Exchange
+namespace Macad.Core
 {
     public static class ExchangeRegistry
     {

@@ -4,7 +4,7 @@ using System.Text;
 using Macad.Core.Topology;
 using Macad.Common;
 using Macad.Common.Serialization;
-using Macad.Core.Exchange;
+using Macad.Core;
 using Macad.Occt;
 
 namespace Macad.Core
@@ -178,7 +178,6 @@ namespace Macad.Core
             Serializer.RegisterNamespaceAlias("Auxiliary", "Macad.Core.Auxiliary");
             Serializer.RegisterNamespaceAlias("Components", "Macad.Core.Components");
             Serializer.RegisterNamespaceAlias("Toolkits", "Macad.Core.Toolkits");
-            Serializer.RegisterNamespaceAlias("Exchange", "Macad.Core.Exchange");
             Serializer.RegisterNamespaceAlias("Occt", "Macad.Occt");
 
             _Initialized = true;

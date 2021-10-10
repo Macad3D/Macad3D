@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using Macad.Test.Utils;
-using Macad.Core.Exchange.Dxf;
+using Macad.Exchange.Dxf;
 using Macad.Core.Shapes;
 using NUnit.Framework;
 

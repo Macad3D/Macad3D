@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Linq;
 using Macad.Common;
-using Macad.Core.Exchange.U3d;
 using Macad.Core.Topology;
+using Macad.Exchange.U3d;
 using Macad.Test.Utils;
 using NUnit.Framework;
 

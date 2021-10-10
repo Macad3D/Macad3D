@@ -11,7 +11,6 @@ using Fluent;
 using Macad.Common;
 using Macad.Common.Interop;
 using Macad.Core;
-using Macad.Core.Exchange;
 using Macad.Interaction;
 using Macad.Interaction.Dialogs;
 using Macad.Presentation;

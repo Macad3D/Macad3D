@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Macad.Common;
-using Macad.Core.Exchange;
+using Macad.Core;
 using Macad.Presentation;
 
 namespace Macad.Interaction.Dialogs

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Macad.Common.Serialization;
-using Macad.Occt;
 
-namespace Macad.Core.Exchange
+namespace Macad.Core
 {
     [SerializeType]
     public interface IExchangerSettings

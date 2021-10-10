@@ -240,5 +240,49 @@ namespace Macad.Test.UI.Application.Exchange
 
             Assert.AreEqual(5, Pipe.GetValue<int>("$Sketch.Segments.Count"));
         }
+                                       
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void ImportIntoNewSketchSvg()
+        {
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportSketch.svg"));
+
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ImportFileToSketch");
+
+            var fileDlg = new FileDialogAdaptor(MainWindow);
+            fileDlg.SelectFileType(".svg");
+            fileDlg.Load(path);
+            Assert.IsFalse(FileDialogAdaptor.IsDialogOpen(MainWindow));
+
+            var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
+            Assert.IsNotNull(dlg);
+            dlg.ClickButton("Ok");
+            Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
+
+            Assert.That(Pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void ImportIntoNewSketchDxf()
+        {
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportSketch.dxf"));
+
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ImportFileToSketch");
+
+            var fileDlg = new FileDialogAdaptor(MainWindow);
+            fileDlg.SelectFileType(".dxf");
+            fileDlg.Load(path);
+            Assert.IsFalse(FileDialogAdaptor.IsDialogOpen(MainWindow));
+
+            var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
+            Assert.IsNotNull(dlg);
+            dlg.ClickButton("Ok");
+            Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
+
+            Assert.That(Pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+        }
     }
 }

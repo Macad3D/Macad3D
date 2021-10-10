@@ -4,8 +4,8 @@ using System.Windows.Data;
 using Macad.Interaction.Dialogs;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Core;
-using Macad.Core.Exchange;
 using Macad.Core.Shapes;
+using Macad.Exchange;
 using Macad.Presentation;
 
 namespace Macad.Interaction
@@ -182,6 +182,7 @@ namespace Macad.Interaction
                 if (!importer.DoImport(Clipboard.Current, out var points, out var segments, out var constraints))
                 {
                     ErrorDialogs.CannotImportFromClipboard();
+                    return;
                 }
 
                 if (replace && points?.Count > 0)
