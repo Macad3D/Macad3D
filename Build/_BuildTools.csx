@@ -245,7 +245,7 @@ public class VisualStudio
             return false;
         }
 
-        if(vswhereOutput.Count>0)
+        if(vswhereOutput.Count>0 && !string.IsNullOrEmpty(vswhereOutput[0]))
         {
             PathToVS = vswhereOutput[0];
             PathToMSBuild = Path.Combine(PathToVS, @"MSBuild\Current\Bin\MSBuild.exe");
