@@ -26,6 +26,8 @@ Imported meshes can be displayed, but not modified or be part of another modelin
 
 Drawings are easily generated from a viewport and exported as 2D vector file. They contain every shape currently visible, with hidden lines removed (or rather exported with different style).
 
+Some drawings depend on the modeling path used, for example the [Pipe Drawing](xref:69425fd0-ff1a-4dc3-9014-12860684e057). These are described on the pages of the respective modeling tools.
+
 ![Example of a drawing exported as SVG](ImportExportDrawingSample.png)
 
 ## Exporting a Viewport Drawing
@@ -72,3 +74,4 @@ Etching masks are single or double layer vector drawings with filled areas to se
 All settings will be saved with the body and be restored the next time you call this exporter. If you want to remove this settings, click the black round _x_ on the right side of the property panel header.
 
 For an example how this exporter can be used, take a look into the Tutorial [](xref:cb109114-b7bd-40be-bb3a-ce7e0fbe0974).
+

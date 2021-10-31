@@ -14,6 +14,7 @@ namespace Macad.Exchange.Pdf
         long[] _ObjectOffsets;
         bool _ObjectOpen;
         bool _CurrentObjectIsStream;
+        int _Indent = 0;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -86,6 +87,17 @@ namespace Macad.Exchange.Pdf
 
         //--------------------------------------------------------------------------------------------------
 
+        void _WriteIndent()
+        {
+            for (int i = 0; i < _Indent; i++)
+            {
+                _Stream.WriteByte(0x20); // space
+                _Stream.WriteByte(0x20);
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public void Write(object value)
         {
             bool first;
@@ -136,17 +148,19 @@ namespace Macad.Exchange.Pdf
                 case IDictionary dictionary:
                     _Stream.WriteByte(0x3c); // <
                     _Stream.WriteByte(0x3c); // <
-                    first = true;
+                    _Stream.WriteByte(0x0a);
+                    _Indent++;
                     foreach (DictionaryEntry entry in dictionary)
                     {
-                        if (!first)
-                            _Stream.WriteByte(0x0a);
-                        first = false;
+                        _WriteIndent();
                         _Stream.WriteByte(0x2f);
                         Write(entry.Key);
                         _Stream.WriteByte(0x20);
                         Write(entry.Value);
+                        _Stream.WriteByte(0x0a);
                     }
+                    _Indent--;
+                    _WriteIndent();
                     _Stream.WriteByte(0x3e); // >
                     _Stream.WriteByte(0x3e); // >
                     break;

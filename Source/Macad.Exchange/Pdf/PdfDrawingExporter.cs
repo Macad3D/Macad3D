@@ -8,7 +8,7 @@ namespace Macad.Exchange.Pdf
 {
     public class PdfDrawingExporter: IDrawingRenderer, IRendererCapabilities
     {
-        public static MemoryStream Export(Core.Drawing.Drawing drawing)
+        public static MemoryStream Export(Drawing drawing)
         {
             var exporter = new PdfDrawingExporter();
             return exporter._Export(drawing);
@@ -20,6 +20,7 @@ namespace Macad.Exchange.Pdf
         PdfDomPage _Page;
         PdfDomStream _Content;
         PdfPathBuilder _PathBuilder;
+        PdfDomFont _CurrentFont;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -29,7 +30,7 @@ namespace Macad.Exchange.Pdf
 
         //--------------------------------------------------------------------------------------------------
         
-        MemoryStream _Export(Core.Drawing.Drawing drawing)
+        MemoryStream _Export(Drawing drawing)
         {
             _Document = new PdfDomDocument();
             _Page = _Document.AddPage();
@@ -78,12 +79,15 @@ namespace Macad.Exchange.Pdf
 
         void IDrawingRenderer.EndGroup()
         {
+            ((IDrawingRenderer) this).EndPath();
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void IDrawingRenderer.SetStyle(StrokeStyle stroke, FillStyle fill)
+        void IDrawingRenderer.SetStyle(StrokeStyle stroke, FillStyle fill, FontStyle font)
         {
+            _PathBuilder.EndPath();
+
             _PathBuilder.StrokeEnabled = stroke != null;
             if (stroke != null)
             {
@@ -110,6 +114,13 @@ namespace Macad.Exchange.Pdf
                     _PathBuilder.SetFillColor(c.Red, c.Green, c.Blue);
                 }
             }
+
+            _CurrentFont = null;
+            if (font != null)
+            {
+                _CurrentFont = _Page.Fonts.FirstOrDefault(pdffont => pdffont.Style.IsEqual(font))
+                               ?? _Page.AddFont(font);
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -133,8 +144,11 @@ namespace Macad.Exchange.Pdf
 
         void IDrawingRenderer.EndPath()
         {
-            _PathBuilder.EndPath();
-            _Content.Add(_PathBuilder.GetBytes());
+            if (_PathBuilder.HasContent)
+            {
+                _PathBuilder.EndPath();
+                _Content.Add(_PathBuilder.GetBytes());
+            }
             _PathBuilder = new PdfPathBuilder();
         }
 
@@ -161,6 +175,15 @@ namespace Macad.Exchange.Pdf
                     break;
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void IDrawingRenderer.Text(string text, Pnt2d position, double rotation)
+        {
+            _PathBuilder.AddText(text, position, rotation, _CurrentFont);
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
     }

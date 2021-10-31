@@ -163,7 +163,7 @@ namespace Macad.Interaction.Editors.Shapes
         void _FinishRadius(ToolAction toolAction)
         {
             toolAction?.Stop();
-            var axisValueAction = new AxisValueAction(this, new Ax1(_PivotPoint.Round(), _Plane.Axis.Direction));
+            var axisValueAction = new AxisValueAction(this, new Ax1(_PivotPoint.Rounded(), _Plane.Axis.Direction));
             if (!WorkspaceController.StartToolAction(axisValueAction))
                 return;
             axisValueAction.Previewed += _PreviewHeight;
@@ -191,7 +191,7 @@ namespace Macad.Interaction.Editors.Shapes
             if(!(toolAction is AxisValueAction axisValueAction))
                 return;
 
-            _Position = _PivotPoint.Round();
+            _Position = _PivotPoint.Rounded();
             _Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
 
             _ClearPreviews();
@@ -212,12 +212,12 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (height > 0)
             {
-                _Position = _PivotPoint.Round();
+                _Position = _PivotPoint.Rounded();
                 _PreviewShape.Height = height;
             }
             else
             {
-                _Position = _PivotPoint.Translated(_Plane.Axis.Direction.ToVec().Multiplied(height)).Round();
+                _Position = _PivotPoint.Translated(_Plane.Axis.Direction.ToVec().Multiplied(height)).Rounded();
                 _PreviewShape.Height = -height;
             }
 
@@ -278,12 +278,12 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 if (newValue > 0)
                 {
-                    _Position = _PivotPoint.Round();
+                    _Position = _PivotPoint.Rounded();
                     _PreviewShape.Height = newValue;
                 }
                 else
                 {
-                    _Position = _PivotPoint.Translated(_Plane.Axis.Direction.ToVec().Multiplied(newValue)).Round();
+                    _Position = _PivotPoint.Translated(_Plane.Axis.Direction.ToVec().Multiplied(newValue)).Rounded();
                     _PreviewShape.Height = -newValue;
                 }
                 _FinishHeight(null);

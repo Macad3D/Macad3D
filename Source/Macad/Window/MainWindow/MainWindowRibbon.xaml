@@ -602,8 +602,13 @@
             </Fluent:RibbonGroupBox>
 
             <Fluent:RibbonGroupBox Header="Drawings">
+
                 <Fluent:Button mmp:Command.Action="{x:Static mmi:ToolboxCommands.ExportViewHlr}"
                                AutomationProperties.AutomationId="ExportViewHlr"/>
+
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:ToolboxCommands.ExportPipeDrawing}"
+                               AutomationProperties.AutomationId="ExportPipeDrawing"/>
+
             </Fluent:RibbonGroupBox>
 
             <Fluent:RibbonGroupBox Header="Workflow">

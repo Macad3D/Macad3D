@@ -75,6 +75,11 @@ Vec2d Dir2d::ToVec()
 	return Vec2d(_Coord);
 }
 
+Vec2d Dir2d::ToVec(double scale)
+{
+	return Vec2d(_Coord).Scaled(scale);
+}
+
 Ax2d Dir2d::ToAxis(Pnt2d loc)
 {
 	return Ax2d(loc, *this);

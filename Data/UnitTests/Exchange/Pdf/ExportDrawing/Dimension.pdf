@@ -1,0 +1,98 @@
+%PDF-1.4
+%цдья
+1 0 obj
+<<
+/Type /Catalog
+/Outlines 2 0 R
+/Pages 3 0 R
+>>
+endobj
+2 0 obj
+<<
+/Type /Outlines
+>>
+endobj
+3 0 obj
+<<
+/Type /Pages
+/Kids [4 0 R]
+/Count 1
+>>
+endobj
+4 0 obj
+<<
+/Type /Page
+/Parent 3 0 R
+/MediaBox [-56.692913385827 -39.68251236766 63.070234391128 56.692913385827]
+/Contents [5 0 R]
+/Resources <<
+  /ProcSet [/PDF /Text]
+  /Font <<
+    /F1 6 0 R
+  >>
+>>
+>>
+endobj
+5 0 obj
+<<
+/Length 469
+>>
+stream
+2.83464567 0 0 2.83464567 0 0 cm
+0.1000 w
+[] 0 d
+0.0000 0.0000 0.0000 RG
+-10.0000 5.0000 m
+-7.7502 -3.9991 l
+10.0000 10.0000 m
+12.2498 1.0009 l
+-5.3249 -1.3312 m
+8.8543 2.2136 l
+S
+0.0000 0.0000 0.0000 rg
+-8.2353 -2.0588 m
+-5.4461 -0.8461 l
+-5.2036 -1.8163 l
+-8.2353 -2.0588 l
+h
+f
+0.0000 0.0000 0.0000 rg
+11.7647 2.9412 m
+8.9755 1.7285 l
+8.7330 2.6986 l
+11.7647 2.9412 l
+h
+f
+0.0000 0.0000 0.0000 rg
+BT
+/F1 3 Tf
+0.9701 0.2425 -0.2425 0.9701 -1.3101 0.7033 Tm(20.6) Tj
+ET
+endstream
+endobj
+6 0 obj
+<<
+/Type /Font
+/Name /F1
+/Subtype /TrueType
+/BaseFont /Arial
+/Encoding /WinAnsiEncoding
+>>
+endobj
+xref
+0 7
+0000000000 65535 f
+0000000015 00000 n
+0000000080 00000 n
+0000000117 00000 n
+0000000174 00000 n
+0000000387 00000 n
+0000000906 00000 n
+trailer
+<<
+/Size 7
+/Root 1 0 R
+>>
+startxref
+1012
+%%EOF

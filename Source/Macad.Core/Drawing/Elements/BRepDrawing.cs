@@ -107,14 +107,13 @@ namespace Macad.Core.Drawing
             if (renderer.RenderElement(this))
                 return true;
 
+            renderer.SetStyle(_Stroke, _Fill, null);
             renderer.BeginGroup(Name);
-            renderer.SetStyle(_Stroke, _Fill);
 
             bool res = true;
-            BrepRenderHelper renderHelper = new(renderer);
             foreach (var shape in shapes)
             {
-                 res &= renderHelper.Render(shape);
+                 res &= BrepRenderHelper.RenderShape(renderer, shape);
             }
 
             renderer.EndGroup();

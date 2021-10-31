@@ -229,7 +229,7 @@ namespace Macad.Interaction.Dialogs
                     hlrEdgeTypes |= HlrEdgeTypes.HiddenSewn;
 
                 var source = new TopoDSBrepSource(InteractiveContext.Current.WorkspaceController.VisualObjects.GetVisibleBReps().ToArray());
-                var hlrBrepDrawing = HlrView.Create(projection, hlrEdgeTypes, source);
+                var hlrBrepDrawing = HlrDrawing.Create(projection, hlrEdgeTypes, source);
                 hlrBrepDrawing.UseTriangulation = Settings.UseTriangulation;
 
                 var drawing = new Drawing();

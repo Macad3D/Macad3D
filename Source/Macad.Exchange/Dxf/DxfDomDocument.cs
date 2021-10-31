@@ -22,12 +22,13 @@ namespace Macad.Exchange.Dxf
     {
         #region Properties and Members
 
-        public DxfVersion Version { get; private set; }
-        public DxfFlags Flags { get; private set; }
+        public DxfVersion Version { get; }
+        public DxfFlags Flags { get; }
 
-        public List<DxfDomEntity> Entities { get; } = new List<DxfDomEntity>();
-        public List<DxfDomLayer> Layers { get; } = new List<DxfDomLayer>();
-        public List<DxfDomLinetype> Linetypes { get; } = new List<DxfDomLinetype>();
+        public List<DxfDomEntity> Entities { get; } = new();
+        public List<DxfDomBlock> Blocks { get; } = new();
+        public List<DxfDomLayer> Layers { get; } = new();
+        public List<DxfDomLinetype> Linetypes { get; } = new();
 
         //--------------------------------------------------------------------------------------------------
 
@@ -50,6 +51,12 @@ namespace Macad.Exchange.Dxf
             Linetypes.Add(new DxfDomLinetype("BYBLOCK", "", 0.0, new double[0]));
             Linetypes.Add(new DxfDomLinetype("BYLAYER", "", 0.0, new double[0]));
             Linetypes.Add(new DxfDomLinetype("CONTINUOUS", "Solid line", 0.0, new double[0]));
+
+            if (Version >= DxfVersion.AC1012)
+            {
+                Blocks.Add(new DxfDomBlock("*Model_Space", false));
+                Blocks.Add(new DxfDomBlock("*Paper_Space", false));
+            }
         }
 
         #endregion
@@ -72,9 +79,9 @@ namespace Macad.Exchange.Dxf
                 _WriteHeader(writer);
                 _WriteClasses(writer);
                 _WriteTables(writer);
-                _WriteBlocks(writer);
             }
 
+            _WriteBlocks(writer);
             _WriteEntities(writer);
 
             if (Version >= DxfVersion.AC1012)
@@ -91,13 +98,15 @@ namespace Macad.Exchange.Dxf
             writer.Write(2, "HEADER");
 
             writer.Write(9, "$ACADVER");
-            writer.Write(1, Version.ToString()); // AutoCad R13 (SPLINE,Layer.Lineweight)
+            writer.Write(1, Version.ToString()); 
             writer.Write(9, "$HANDSEED");
             writer.Write(5, "FFFFFF");
             writer.Write(9, "$ANGDIR");
             writer.Write(70, 1); // Clockwise Angles
             writer.Write(9, "$MEASUREMENT");
             writer.Write(70, 1); // Metric
+            writer.Write(9, "$DWGCODEPAGE");
+            writer.Write(3, "iso8859-1");
 
             writer.Write(0, "ENDSEC");
         }
@@ -165,14 +174,14 @@ namespace Macad.Exchange.Dxf
                     writer.WriteHandle();
                     writer.WriteSubclass("AcDbSymbolTableRecord");
                     writer.WriteSubclass("AcDbTextStyleTableRecord");
-                    writer.Write(2, "STANDARD");
+                    writer.Write(2, "Standard");
                     writer.Write(70, 0);
                     writer.Write(40, 0.0);
                     writer.Write(41, 1.0);
                     writer.Write(50, 0.0);
                     writer.Write(71, 0);
                     writer.Write(42, 2.5);
-                    writer.Write(3, "txt");
+                    writer.Write(3, "TXT.SHX");
                     writer.Write(4, "");
                 }
             }
@@ -233,8 +242,18 @@ namespace Macad.Exchange.Dxf
                     writer.WriteHandle(105);
                     writer.WriteSubclass("AcDbSymbolTableRecord");
                     writer.WriteSubclass("AcDbDimStyleTableRecord");
-                    writer.Write(2, "STANDARD");
+                    writer.Write(2, "Standard");
                     writer.Write(70, 0);
+                    writer.Write(40, 1.0); // DIMSCALE, text size
+                    writer.Write(140, 2.0); // DIMTXT, text size
+                    writer.Write(45, 0.1); // DIMRND
+                    writer.Write(41, 3.0); // DIMASZ, arrow length
+                    writer.Write(275, 0); // DIMAUNIT, Degrees
+                    writer.Write(280, 0); // DIMJUST, Above dimension line and center-justified between extension lines
+                    writer.Write(277, 2); // DIMLUNIT, units in decimal
+                    writer.Write(77, 1); // DIMTAD, Text above dimension line
+                    writer.Write(78, 12); // DIMZIN, Suppresses zero's
+                    writer.Write(174, 1); // DIMTIX, Force text inside extensions if nonzero
                 }
             }
             writer.Write(0, "ENDTAB");
@@ -247,17 +266,14 @@ namespace Macad.Exchange.Dxf
                 writer.WriteSubclass("AcDbSymbolTable");
                 writer.Write(70, 2);
                 {
-                    writer.Write(0, "BLOCK_RECORD");
-                    writer.WriteHandle();
-                    writer.WriteSubclass("AcDbSymbolTableRecord");
-                    writer.WriteSubclass("AcDbBlockTableRecord");
-                    writer.Write(2, "*MODEL_SPACE");
-
-                    writer.Write(0, "BLOCK_RECORD");
-                    writer.WriteHandle();
-                    writer.WriteSubclass("AcDbSymbolTableRecord");
-                    writer.WriteSubclass("AcDbBlockTableRecord");
-                    writer.Write(2, "*PAPER_SPACE");
+                    foreach (var block in Blocks)
+                    {
+                        writer.Write(0, "BLOCK_RECORD");
+                        writer.WriteHandle();
+                        writer.WriteSubclass("AcDbSymbolTableRecord");
+                        writer.WriteSubclass("AcDbBlockTableRecord");
+                        writer.Write(2, block.Name);
+                    }
                 }
             }
             writer.Write(0, "ENDTAB");
@@ -269,46 +285,13 @@ namespace Macad.Exchange.Dxf
 
         void _WriteBlocks(DxfWriter writer)
         {
+            if (Blocks.Count == 0)
+                return;
+
             writer.Write(0, "SECTION");
             writer.Write(2, "BLOCKS");
-
-            writer.Write(0, "BLOCK");
-            writer.WriteHandle();
-            writer.WriteSubclass("AcDbEntity");
-            writer.Write(8, "0");
-            writer.WriteSubclass("AcDbBlockBegin");
-            writer.Write(2, "*Model_Space");
-            writer.Write(70, 0);
-            writer.Write(10, 0.0);
-            writer.Write(20, 0.0);
-            writer.Write(30, 0.0);
-            writer.Write(3, "*Model_Space");
-            writer.Write(1, "");
-
-            writer.Write(0, "ENDBLK");
-            writer.WriteHandle();
-            writer.WriteSubclass("AcDbEntity");
-            writer.Write(8, "0");
-            writer.WriteSubclass("AcDbBlockEnd");
             
-            writer.Write(0, "BLOCK");
-            writer.WriteHandle();
-            writer.WriteSubclass("AcDbEntity");
-            writer.Write(8, "0");
-            writer.WriteSubclass("AcDbBlockBegin");
-            writer.Write(2, "*Paper_Space");
-            writer.Write(70, 0);
-            writer.Write(10, 0.0);
-            writer.Write(20, 0.0);
-            writer.Write(30, 0.0);
-            writer.Write(3, "*Paper_Space");
-            writer.Write(1, "");
-
-            writer.Write(0, "ENDBLK");
-            writer.WriteHandle();
-            writer.WriteSubclass("AcDbEntity");
-            writer.Write(8, "0");
-            writer.WriteSubclass("AcDbBlockEnd");
+            Blocks.ForEach(block => block.Write(writer));
 
             writer.Write(0, "ENDSEC");
         }

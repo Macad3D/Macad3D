@@ -220,18 +220,20 @@ namespace Macad.Core.Toolkits
                 return false;
             }
 
-            CoreContext.Current.MessageHandler.ClearEntityMessages(body);
-
-            Invalidate();
-
-            if (!(_InitMake(out var context) && _Slice(context)))
+            CoreContext.Current.MessageHandler.ClearEntityMessages(this);
+            using (new ProcessingScope(this, "Generating Etching Mask Drawing"))
             {
-                _HasErrors = true;
-                return false;
+                Invalidate();
+
+                if (!(_InitMake(out var context) && _Slice(context)))
+                {
+                    _HasErrors = true;
+                    return false;
+                }
+
+                // Reconstruct
+                _ReconstructedBRep = context.Slicer.Reconstruct();
             }
-            
-            // Reconstruct
-            _ReconstructedBRep = context.Slicer.Reconstruct();
 
             RaisePropertyChanged(nameof(Layers));
             RaisePropertyChanged(nameof(ReconstructedBRep));

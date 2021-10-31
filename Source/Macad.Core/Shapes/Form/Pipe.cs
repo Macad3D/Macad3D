@@ -205,6 +205,8 @@ namespace Macad.Core.Shapes
         double _BendRadius;
         PipeFlags _Flags;
         double _MeasuredOverallLength;
+        List<ArcInfo> _ArcInfos;
+        List<TopoDS_Wire> _SpineWires;
 
         static bool _Debug_ReturnSpineWire = false;
         static bool _Debug_NoWireCheck = false;
@@ -402,7 +404,7 @@ namespace Macad.Core.Shapes
             internal Vec                Tangent;
             internal double?            CutPointParameter;
         }
-
+        
         //--------------------------------------------------------------------------------------------------
 
         class SpineParams
@@ -410,7 +412,30 @@ namespace Macad.Core.Shapes
             internal readonly EdgeParams[]  Edges = { new(), new() };
             internal Pnt                    Location;
             internal double                 Angle;
+            internal Pnt                    Center;
             internal readonly Pnt[]         ArcPoints = new Pnt[2];
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        internal class ArcInfo
+        {
+            internal readonly Pnt           P1;
+            internal readonly Vec           Tangent1;
+            internal readonly Pnt           P2;
+            internal readonly Vec           Tangent2;
+            internal readonly Pnt           Center;
+            internal readonly double        Angle;
+
+            internal ArcInfo(Pnt p1, Vec tangent1, Pnt p2, Vec tangent2, Pnt center, double angle)
+            {
+                P1 = p1;
+                P2 = p2;
+                Center = center;
+                Angle = angle;
+                Tangent1 = tangent1;
+                Tangent2 = tangent2;
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -438,11 +463,11 @@ namespace Macad.Core.Shapes
             // https://math.stackexchange.com/a/797891
             double bendRadius = _Flags.HasFlag(PipeFlags.AutoBendRadius) ? Math.Max(_SizeX, _SizeY) : _BendRadius;
             double distToArcCenter = bendRadius / Math.Sin((Maths.PI - spine.Angle) / 2);
-            Pnt center = spine.Location.Translated((spine.Edges[1].Tangent.Normalized() + spine.Edges[0].Tangent.Normalized()).Normalized() * distToArcCenter);
+            spine.Center = spine.Location.Translated((spine.Edges[1].Tangent.Normalized() + spine.Edges[0].Tangent.Normalized()).Normalized() * distToArcCenter);
             Dir normal = spine.Edges[1].Tangent.Crossed(spine.Edges[0].Tangent).ToDir();
-            Dir direction = new Vec(center, spine.Location).ToDir();
+            Dir direction = new Vec(spine.Center, spine.Location).ToDir();
             
-            Geom_Circle circle = new(new Ax2(center, normal, direction), bendRadius);
+            Geom_Circle circle = new(new Ax2(spine.Center, normal, direction), bendRadius);
 
             spine.ArcPoints[0] = circle.Value(-spine.Angle/2);
             spine.ArcPoints[1] = circle.Value(spine.Angle/2);
@@ -589,6 +614,12 @@ namespace Macad.Core.Shapes
                 {
                     edgesToReplace[edge.Key] = edge.CutShape;
                 }
+
+                // Fill in arc info
+                var vertices = arc.Vertices();
+                _ArcInfos.Add(new ArcInfo(vertices[0].Pnt(), spine.Edges[0].Tangent, 
+                                          vertices[1].Pnt(), spine.Edges[1].Tangent, 
+                                          spine.Center, spine.Angle));
             }
 
             foreach (var edge in edgesToAdd)
@@ -622,6 +653,9 @@ namespace Macad.Core.Shapes
 
         protected override bool MakeInternal(MakeFlags flags)
         {
+            _ArcInfos = new();
+            _SpineWires = new();
+
             if (Operands.Count < 1)
             {
                 Messages.Error("Pipe needs at minimum one source shape.");
@@ -707,6 +741,8 @@ namespace Macad.Core.Shapes
                     BRep = maker.Shape();
                 }
 
+                _SpineWires.Add(spineWire);
+
                 // Measure wire
                 var gprops = new GProp_GProps();
                 BRepGProp.LinearProperties(spineWire, gprops);
@@ -736,6 +772,49 @@ namespace Macad.Core.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        #endregion
+        
+        #region Utils
+
+        internal IList<TopoDS_Wire> GetOperandWires()
+        {
+            // First operand gives the wires
+            var operandBRep = GetOperandBRep(0);
+            if (operandBRep == null)
+                return null;
+
+            // If the shape is empty, just copy the source shape
+            var wires = operandBRep.Wires();
+            if (wires.Count == 0)
+            {
+                return null;
+            }
+
+            foreach (var wire in wires)
+            {
+                // Ensure curves are 3D
+                BRepLib.BuildCurves3d(wire);
+            }
+
+            return wires;
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        internal IList<TopoDS_Wire> GetSpineWires()
+        {
+            EnsureHistory();
+            return _SpineWires;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        internal IList<ArcInfo> GetArcInfos()
+        {
+            EnsureHistory();
+            return _ArcInfos;
+        }
 
         #endregion
     }

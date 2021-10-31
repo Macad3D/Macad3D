@@ -286,7 +286,10 @@ namespace Macad.Core
         public static Geom_Curve Curve(this TopoDS_Edge edge, out double firstParam, out double lastParam)
         {
             firstParam = lastParam = 0;
-            return edge == null ? null : BRep_Tool.Curve(edge, ref firstParam, ref lastParam);
+            if (edge == null)
+                return null;
+
+            return BRep_Tool.Curve(edge, ref firstParam, ref lastParam);
         }
 
         //--------------------------------------------------------------------------------------------------

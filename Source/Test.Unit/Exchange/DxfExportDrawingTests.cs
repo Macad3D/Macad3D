@@ -349,6 +349,101 @@ namespace Macad.Test.Unit.Exchange
 
         //--------------------------------------------------------------------------------------------------
         
+        [Test]
+        public void LengthDimension()
+        {
+            var dim = new LengthDimension()
+            {
+                FirstPoint = new Pnt2d(-10, 5),
+                SecondPoint = new Pnt2d(10, 10),
+            };
+
+            Drawing drawing = new();
+            drawing.AddChild(dim);
+
+            var dxf = DxfDrawingExporter.Export(drawing, DxfVersion.AC1009);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "LengthDimension.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+            
+            dxf = DxfDrawingExporter.Export(drawing, DxfVersion.AC1012);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "LengthDimension_AC1012.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+            
+            dxf = DxfDrawingExporter.Export(drawing, DxfVersion.AC1015);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "LengthDimension_AC1015.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void AngleDimension()
+        {
+            var dim = new AngleDimension()
+            {
+                FirstPoint = new Pnt2d(-8, 5),
+                SecondPoint = new Pnt2d(10, 10),
+                CenterPoint = new Pnt2d(0, 30),
+            };
+
+            Drawing drawing = new();
+            drawing.AddChild(dim);
+
+            var dxf = DxfDrawingExporter.Export(drawing, DxfVersion.AC1009);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "AngleDimension.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+            
+            dxf = DxfDrawingExporter.Export(drawing, DxfVersion.AC1012);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "AngleDimension_AC1012.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+            
+            dxf = DxfDrawingExporter.Export(drawing, DxfVersion.AC1015);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "AngleDimension_AC1015.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void TextWithUmlauts()
+        {
+            var dim = new LengthDimension()
+            {
+                FirstPoint = new Pnt2d(-10, 5),
+                SecondPoint = new Pnt2d(10, 10),
+                AutoText = false,
+                Text = "ö 23°"
+            };
+
+            Drawing drawing = new();
+            drawing.AddChild(dim);
+
+            var dxf = DxfDrawingExporter.Export(drawing, DxfVersion.AC1009);
+            Assert.IsNotNull(dxf);
+
+            // Write to file and compare
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "TextWithUmlauts.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void MultipleDimensionEntities()
+        {
+            var sketch = Sketch.Create();
+            SketchBuilder sb = new SketchBuilder(sketch);
+            sb.StartPath(0.0, -48.0);
+            sb.LineTo(0.0, 5.0);
+            sb.LineTo(-9.0, 4.0);
+            sb.LineTo(-18.0, -7.0);
+            var body = Body.Create(sketch);
+            var pipe = Pipe.Create(body);
+            Assume.That(pipe.Make(Shape.MakeFlags.None));
+
+            var pipeDrawing = PipeDrawing.Create(pipe.Body);
+            Drawing drawing = new();
+            drawing.AddChild(pipeDrawing);
+
+            var dxf = DxfDrawingExporter.Export(drawing, DxfVersion.AC1015);
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "MultipleDimensionEntities.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #region Helper
 
         MemoryStream RunExporter(bool useTriangulation, Ax3 projection, DxfVersion version, DxfFlags flags, params Body[] bodies)
@@ -356,7 +451,7 @@ namespace Macad.Test.Unit.Exchange
             var hlrEdgeTypes = HlrEdgeTypes.VisibleSharp | HlrEdgeTypes.VisibleOutline | HlrEdgeTypes.VisibleSmooth 
                                | HlrEdgeTypes.HiddenSharp | HlrEdgeTypes.HiddenOutline;
             IBrepSource[] sources = bodies.Select(body => (IBrepSource)new BodyBrepSource(body)).ToArray();
-            var hlrBrepDrawing = HlrView.Create(projection, hlrEdgeTypes, sources);
+            var hlrBrepDrawing = HlrDrawing.Create(projection, hlrEdgeTypes, sources);
             hlrBrepDrawing.UseTriangulation = useTriangulation;
 
             var drawing = new Drawing();

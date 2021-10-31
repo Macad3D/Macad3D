@@ -357,6 +357,28 @@ namespace Macad.Test.Unit.Exchange
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void Dimension()
+        {
+            // Create simple geometry
+            var dim = new LengthDimension()
+            {
+                FirstPoint = new Pnt2d(-10, 5),
+                SecondPoint = new Pnt2d(10, 10),
+            };
+
+            Drawing drawing = new();
+            drawing.AddChild(dim);
+
+            var svg = SvgDrawingExporter.Export(drawing);
+            Assert.IsNotNull(svg);
+
+            // Write to file and compare
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Dimension.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #region Helper
 
         MemoryStream RunExporter(bool useTriangulation, Ax3 projection, params Body[] bodies)
@@ -364,7 +386,7 @@ namespace Macad.Test.Unit.Exchange
             var hlrEdgeTypes = HlrEdgeTypes.VisibleSharp | HlrEdgeTypes.VisibleOutline | HlrEdgeTypes.VisibleSmooth 
                                | HlrEdgeTypes.HiddenSharp | HlrEdgeTypes.HiddenOutline;
             IBrepSource[] sources = bodies.Select(body => (IBrepSource)new BodyBrepSource(body)).ToArray();
-            var hlrBrepDrawing = HlrView.Create(projection, hlrEdgeTypes, sources);
+            var hlrBrepDrawing = HlrDrawing.Create(projection, hlrEdgeTypes, sources);
             hlrBrepDrawing.UseTriangulation = useTriangulation;
 
             var drawing = new Drawing();

@@ -7,7 +7,9 @@ using Microsoft.Win32;
 using Macad.Core;
 using Macad.Presentation;
 using Macad.Common;
+using Macad.Core.Drawing;
 using Macad.Core.Shapes;
+using Macad.Core.Toolkits;
 using Macad.Core.Topology;
 
 namespace Macad.Interaction
@@ -173,6 +175,43 @@ namespace Macad.Interaction
             HelpTopic = "0c834add-faf4-48f0-a8c3-e6dce411774c",
             IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.TwoWay,
                                                     EqualityToBoolConverter.Instance, nameof(EtchingMaskEditTool))
+        };
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static ActionCommand ExportPipeDrawing { get; } = new(
+            () =>
+            {
+                var body = _WorkspaceController.Selection.SelectedEntities.First() as Body;
+                if (body == null || PipeDrawing.FindPipeModifier(body) == null)
+                {
+                    return; // That shouldn't ever happen
+                }
+
+                if (!ExportDialog.Execute<IDrawingExporter>(out string fileName, out var exporter))
+                    return; // Cancelled
+
+                if (!ExchangerSettings.Execute<IDrawingExporter>(exporter))
+                    return;
+
+                Drawing drawing = new()
+                {
+                    Name = "Pipe"
+                };
+                drawing.AddChild(PipeDrawing.Create(body));
+
+                if (!exporter.DoExport(fileName, drawing))
+                {
+                    ErrorDialogs.CannotExport(fileName);
+                }
+            },
+            () => _CanExecuteOnSingleSolid() && PipeDrawing.FindPipeModifier(_WorkspaceController.Selection.SelectedEntities.First() as Body) != null)
+        {
+            Header = () => "Pipe Drawing",
+            Title = () => "Create Pipe Drawing",
+            Description = () => "Create and export a drawing with dimensions for bending pipes.",
+            Icon = () => "Make-PipeDrawing",
+            HelpTopic = "69425fd0-ff1a-4dc3-9014-12860684e057"
         };
 
         //--------------------------------------------------------------------------------------------------

@@ -357,8 +357,8 @@ namespace Macad.Test.UI.Editors.Primitives
             Pipe.TypeKey(VirtualKeyShort.ENTER);
 
             Assert.AreEqual(1, Pipe.GetValue<int>("$Sketch.Segments.Count"));
-            Assert.AreEqual(2.0, Pipe.GetValue<double>("$Sketch.Segments.[0].Radius($Sketch.Points)"));
-            Assert.AreEqual(90.0.ToRad(), Pipe.GetValue<double>("$Sketch.Segments.[0].Angle($Sketch.Points)"));
+            Assert.AreEqual(2.0, Pipe.GetValue<double>("$Sketch.Segments.[0].Radius($Sketch.Points)"), 1e-7);
+            Assert.AreEqual(90.0.ToRad(), Pipe.GetValue<double>("$Sketch.Segments.[0].Angle($Sketch.Points)"), 1e-7);
         }
                         
         //--------------------------------------------------------------------------------------------------
@@ -379,7 +379,7 @@ namespace Macad.Test.UI.Editors.Primitives
             Pipe.TypeKey(VirtualKeyShort.ENTER);
 
             Assert.AreEqual(1, Pipe.GetValue<int>("$Sketch.Segments.Count"));
-            Assert.AreEqual(2.0, Pipe.GetValue<double>("$Sketch.Segments.[0].Radius($Sketch.Points)"));
+            Assert.AreEqual(2.0, Pipe.GetValue<double>("$Sketch.Segments.[0].Radius($Sketch.Points)"), 1e-7);
         }
 
         //--------------------------------------------------------------------------------------------------

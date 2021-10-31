@@ -114,7 +114,7 @@ namespace Macad.Exchange.Svg
         {
             if(_Center.HasValue)
                 sb.AppendFormat("rotate({0},{1},{2}) ", 
-                                conv.ToSvgValue(-_Angle), 
+                                conv.ToSvgValue(_Angle), 
                                 conv.ToSvgLength(_Center.Value.X),
                                 conv.ToSvgLength(-_Center.Value.Y));
             else

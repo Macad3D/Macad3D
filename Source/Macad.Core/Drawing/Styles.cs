@@ -27,4 +27,29 @@ namespace Macad.Core.Drawing
             Color = color;
         }
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public class FontStyle
+    {
+        public string Family { get; }
+        public float Size { get; }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public FontStyle(string family, float size)
+        {
+            Family = family;
+            Size = size;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public bool IsEqual(FontStyle other)
+        {
+            return Family == other.Family
+                   && Size == other.Size;
+        }
+    }
+
 }

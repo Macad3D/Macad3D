@@ -49,3 +49,17 @@ A pipe can be created on any sketch shape which defines the path.
 1. Create a sketch and draw the path.
 2. Select __Pipe__ from ribbon menu. 
 4. Adjust parameters in the property panel as needed.
+
+# Pipe Drawing
+
+If a bend is calculated using the pipe modifier, a drawing can be generated automatically, which contains a cross-section of the body together with the dimensions of the distances and bend angles. This plan can be used as a template for a replica.
+
+> [!Note] The drawing contains length dimensions that allow for a shortening of the bend. This is strongly dependent on the material, wall thickness and diameter, so only an approximation is achieved here.
+
+![Automatically generated Pipe Drawing](PipeDrawing.png)
+
+## Creating a Pipe Drawing
+1. Select the body with a Pipe modifier on it's shape stack.
+2. Select __Pipe Drawing__ on the ribbon tab __Toolbox__
+3. Enter file path and select file format.
+

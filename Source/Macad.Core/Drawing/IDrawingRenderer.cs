@@ -1,4 +1,5 @@
-﻿using Macad.Occt;
+﻿using System.Drawing;
+using Macad.Occt;
 
 namespace Macad.Core.Drawing
 {
@@ -13,6 +14,7 @@ namespace Macad.Core.Drawing
         void Ellipse(Pnt2d center, double majorRadius, double minorRadius, double rotation, double startAngle, double endAngle)  {}
         void BezierCurve(Pnt2d[] knots) {}
         void BSplineCurve(int degree, double[] knots, Pnt2d[] controlPoints, double[] weights, bool isRational) {}
+        void Text(string text, Pnt2d position, double rotation);
 
         //--------------------------------------------------------------------------------------------------
 
@@ -25,7 +27,7 @@ namespace Macad.Core.Drawing
 
         //--------------------------------------------------------------------------------------------------
 
-        void SetStyle(StrokeStyle stroke, FillStyle fill) {}
+        void SetStyle(StrokeStyle stroke, FillStyle fill, FontStyle font);
 
         //--------------------------------------------------------------------------------------------------
 

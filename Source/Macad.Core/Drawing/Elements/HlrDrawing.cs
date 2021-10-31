@@ -6,7 +6,7 @@ using Macad.Occt.Helper;
 
 namespace Macad.Core.Drawing
 {
-    public class HlrView : DrawingElement
+    public class HlrDrawing : DrawingElement
     {
         enum LayerType
         {
@@ -108,9 +108,9 @@ namespace Macad.Core.Drawing
 
         //--------------------------------------------------------------------------------------------------
 
-        public static HlrView Create(Ax3 projection, HlrEdgeTypes includedEdges, params IBrepSource[] sources)
+        public static HlrDrawing Create(Ax3 projection, HlrEdgeTypes includedEdges, params IBrepSource[] sources)
         {
-            return new HlrView()
+            return new HlrDrawing()
             {
                 _Projection = projection,
                 _IncludedEdgeTypes = includedEdges,
@@ -241,11 +241,10 @@ namespace Macad.Core.Drawing
             if (shape == null)
                 return true; // Nothing to render
 
+            renderer.SetStyle(_StrokeStyles[(int)type], null, null);
             renderer.BeginGroup(type.ToString());
-            renderer.SetStyle(_StrokeStyles[(int)type], null);
 
-            BrepRenderHelper renderHelper = new(renderer);
-            bool res = renderHelper.Render(shape);
+            bool res = BrepRenderHelper.RenderShape(renderer, shape);
 
             renderer.EndGroup();
             return res;

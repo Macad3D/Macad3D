@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Macad.Common;
+using Macad.Core.Drawing;
 
 namespace Macad.Exchange.Pdf
 {
@@ -14,7 +15,11 @@ namespace Macad.Exchange.Pdf
             }
         }
 
+        //--------------------------------------------------------------------------------------------------
+
         public List<PdfDomStream> Contents { get; } = new();
+
+        //--------------------------------------------------------------------------------------------------
 
         public List<PdfDomObject> Annotations
         {
@@ -32,7 +37,19 @@ namespace Macad.Exchange.Pdf
 
         //--------------------------------------------------------------------------------------------------
 
+        public IEnumerable<PdfDomFont> Fonts
+        {
+            get
+            {
+                return _Fonts.Values;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         List<PdfDomObject> _Annots;
+        readonly Dictionary<string, object> _Resources = new();
+        readonly Dictionary<string, PdfDomFont> _Fonts = new();
 
         //--------------------------------------------------------------------------------------------------
 
@@ -44,8 +61,9 @@ namespace Macad.Exchange.Pdf
             Attributes["Parent"] = pagesObject;
             MediaBox = new[] {0.0, 0.0, 100.0, 100.0};
             Attributes["Contents"] = Contents;
-            Attributes["Resources"] = "<< /ProcSet [/PDF] >>";
-    }
+            _Resources["ProcSet"] = new [] {"/PDF", "/Text"};
+            Attributes["Resources"] = _Resources;
+        }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -70,12 +88,35 @@ namespace Macad.Exchange.Pdf
 
         //--------------------------------------------------------------------------------------------------
 
+        public PdfDomFont AddFont(FontStyle style)
+        {
+            if (_Fonts.Count == 0)
+            {
+                _Resources["Font"] = _Fonts; // Added with first font
+            }
+
+            string name = $"F{_Fonts.Count + 1}";
+            var font = new PdfDomFont(Document, name)
+            {
+                Style = style
+            };
+            _Fonts[name] = font;
+
+            return font;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public override bool Write(PdfWriter writer)
         {
             base.Write(writer);
 
             Contents.ForEach(content => content.Write(writer));
             _Annots?.ForEach(annot => annot.Write(writer));
+            foreach (var font in _Fonts.Values)
+            {
+                font.Write(writer);
+            }
 
             return true;
         }

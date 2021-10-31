@@ -72,7 +72,7 @@ namespace Macad.Interaction.Editors.Shapes
             if(!(toolAction is PointAction pointAction))
                 return;
 
-            _Point = pointAction.Point.Round();
+            _Point = pointAction.Point.Rounded();
             pointAction.Stop();
 
             var axisValueAction = new AxisValueAction(this, new Ax1(_Point, Dir.DZ));

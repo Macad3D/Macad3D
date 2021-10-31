@@ -486,6 +486,10 @@
       <ImageId>PipeProfiles</ImageId>
       <AlternateText>Pipe Profiles</AlternateText>
     </Image>
+    <Image Include="Modeling\Form\PipeDrawing.png">
+      <ImageId>PipeDrawing</ImageId>
+      <AlternateText>Pipe Drawing</AlternateText>
+    </Image>
     <Image Include="Modeling\Primitives\SphereExtents.png">
       <ImageId>SphereExtents</ImageId>
       <AlternateText>Sphere Extents</AlternateText>

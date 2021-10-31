@@ -21,8 +21,8 @@ namespace Macad.Exchange.Svg
         //--------------------------------------------------------------------------------------------------
 
         readonly Sketch _Sketch;
-        SvgGroupElement _Group;
-        SvgPathElement _CurrentPath;
+        SvgDomGroup _DomGroup;
+        SvgDomPath _CurrentPath;
         int _FirstPathEndPoint = -1;
         int _LastPathEndPoint = -1;
 
@@ -37,7 +37,7 @@ namespace Macad.Exchange.Svg
 
         MemoryStream _Export()
         {
-            _Group = new SvgGroupElement
+            _DomGroup = new SvgDomGroup
             {
                 ID = _Sketch.Name,
                 Style = new SvgStyle {StrokeWidth = 0.1f, StrokeColor = Color.Black, FillColor = null}
@@ -58,7 +58,7 @@ namespace Macad.Exchange.Svg
                 }
 
                 // Start path
-                _CurrentPath = new SvgPathElement();
+                _CurrentPath = new SvgDomPath();
                 _FirstPathEndPoint = -1;
                 _LastPathEndPoint = -1;
 
@@ -123,7 +123,7 @@ namespace Macad.Exchange.Svg
                 }
 
                 // Add to group
-                _Group.Children.Add(_CurrentPath);
+                _DomGroup.Children.Add(_CurrentPath);
             }
 
             var doc = new SvgDocument
@@ -133,7 +133,7 @@ namespace Macad.Exchange.Svg
                 DotsPerInch = DotsPerInch
             };
 
-            doc.Children.Add(_Group);
+            doc.Children.Add(_DomGroup);
 
             return doc.WriteToStream();
         }
@@ -149,7 +149,7 @@ namespace Macad.Exchange.Svg
                 if (radius > 0)
                 {
                     var center = _Sketch.Points[sketchCircle.CenterPoint];
-                    _Group.Children.Add(new SvgCircleElement(center, radius));
+                    _DomGroup.Children.Add(new SvgDomCircle(center, radius));
                     return;
                 }
             }
@@ -160,13 +160,13 @@ namespace Macad.Exchange.Svg
                 if (curve != null)
                 {
                     var center = _Sketch.Points[sketchEllipse.CenterPoint];
-                    var element = new SvgEllipseElement(center, curve.MajorRadius(), curve.MinorRadius());
+                    var element = new SvgDomEllipse(center, curve.MajorRadius(), curve.MinorRadius());
                     var majorAxisPoint = _Sketch.Points[sketchEllipse.GetMajorAxisPoint(_Sketch.Points)];
-                    double rotAngle = new Ax2d(center, Dir2d.DX).Angle(new Ax2d(center, new Vec2d(center, majorAxisPoint).ToDir()));
+                    double rotAngle = new Ax2d(center, new Vec2d(center, majorAxisPoint).ToDir()).Angle(new Ax2d(center, Dir2d.DX));
 
                     element.Transforms.Add(new SvgRotateTransform(rotAngle.ToDeg(), element.Center));
 
-                    _Group.Children.Add(element);
+                    _DomGroup.Children.Add(element);
                     return;
                 }
             }

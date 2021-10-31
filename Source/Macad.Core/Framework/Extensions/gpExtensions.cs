@@ -8,7 +8,7 @@ namespace Macad.Core
     {
         #region Pnt
 
-        public static Pnt Round(this Pnt pnt)
+        public static Pnt Rounded(this Pnt pnt)
         {
             return new Pnt(pnt.X.Round(), pnt.Y.Round(), pnt.Z.Round());
         }
@@ -28,7 +28,7 @@ namespace Macad.Core
 
         #region Pnt2d
 
-        public static Pnt2d Round(this Pnt2d pnt)
+        public static Pnt2d Rounded(this Pnt2d pnt)
         {
             return new (pnt.X.Round(), pnt.Y.Round());
         }
@@ -40,6 +40,24 @@ namespace Macad.Core
             Pnt2d temp = value;
             value = other;
             other = temp;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static Pnt2d Lerped(this Pnt2d value, Pnt2d other, double amount)
+        {
+            return new Pnt2d(value.X.Lerp(other.X, amount), value.Y.Lerp(other.Y, amount));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region Vec2d
+
+        public static Vec2d Lerped(this Vec2d value, Vec2d other, double amount)
+        {
+            return new Vec2d(value.X.Lerp(other.X, amount), value.Y.Lerp(other.Y, amount));
         }
 
         //--------------------------------------------------------------------------------------------------

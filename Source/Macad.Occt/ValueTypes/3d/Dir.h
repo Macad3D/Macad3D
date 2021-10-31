@@ -43,6 +43,7 @@ namespace Macad
 			Dir(Vec vec);
 			XYZ ToXYZ();
 			Vec ToVec();
+			Vec ToVec(double scale);
 			Ax1 ToAx1(Pnt loc);
 
 			bool IsEqual(Dir Other, double AngularTolerance);

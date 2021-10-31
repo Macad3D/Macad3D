@@ -15,7 +15,7 @@ namespace Macad.Exchange.Dxf
 
         MemoryStream _Stream;
         StreamWriter _Writer;
-        Encoding _Encoding = Encoding.GetEncoding(1252);
+        Encoding _Encoding = Encoding.GetEncoding("ISO-8859-1");
         int _NextHandle = 1;
         bool _IsBinary = false;
 

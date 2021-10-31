@@ -196,7 +196,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             _ClearPreviews();
 
-            _Position = ElSLib.Value(Math.Min(_PointPlane1.X, _PointPlane2.X), Math.Min(_PointPlane1.Y, _PointPlane2.Y), _Plane).Round();
+            _Position = ElSLib.Value(Math.Min(_PointPlane1.X, _PointPlane2.X), Math.Min(_PointPlane1.Y, _PointPlane2.Y), _Plane).Rounded();
             _Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
             if (_PreviewShape == null)
             {

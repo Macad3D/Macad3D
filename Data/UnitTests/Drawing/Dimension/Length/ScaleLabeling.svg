@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="27.390533mm" height="25.837278mm" viewBox="0, 0, 103.52327, 97.6527" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg">
+  <sodipodi:namedview inkscape:document-units="mm" />
+  <g id="Drawing" transform="translate(49.133858,48.518845)">
+    <g id="Dimension" stroke-width="0.37795275" style="stroke:black;fill:none;">
+      <line x1="-11.338583" y1="1.8897638" x2="-6.0830264" y2="-10.723571" />
+      <line x1="11.338583" y1="11.338583" x2="16.59414" y2="-1.2747519" />
+      <line x1="-1.4313004" y1="-0.59637517" x2="6.1277547" y2="2.5532312" />
+      <path d="M-8.9903555,-3.7459815 L-0.906366,-1.8562176 L-1.9562348,0.66346735 L-8.9903555,-3.7459815 Z" style="fill:black;" />
+      <path d="M13.68681,5.7028375 L5.6028204,3.8130736 L6.652689,1.2933886 L13.68681,5.7028375 Z" style="fill:black;" />
+      <text x="-3.4729607" y="-5.541555" style="fill:black;" font-family="Arial" font-size="11.338583" transform="rotate(22.619865,-3.4729607,-5.541555)">6.5</text>
+    </g>
+  </g>
+</svg>

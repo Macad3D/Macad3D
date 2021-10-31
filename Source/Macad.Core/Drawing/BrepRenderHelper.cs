@@ -6,43 +6,29 @@ using Macad.Occt;
 
 namespace Macad.Core.Drawing
 {
-    public sealed class BrepRenderHelper
+    public static class BrepRenderHelper
     {
-        TopoDS_Shape _Shape;
-        readonly IDrawingRenderer _Renderer;
-
-        //--------------------------------------------------------------------------------------------------
-
-        public BrepRenderHelper(IDrawingRenderer renderer)
+        public static bool RenderShape(IDrawingRenderer renderer, TopoDS_Shape brepShape)
         {
-            _Renderer = renderer;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public bool Render(TopoDS_Shape brepShape)
-        {
-            _Shape = brepShape;
-
-            if (_Renderer.RenderBrepShape(_Shape))
+            if (renderer.RenderBrepShape(brepShape))
                 return true;
 
-            return _DoFaces();
+            return RenderFaces(renderer, brepShape);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        bool _DoFaces()
+        public static bool RenderFaces(IDrawingRenderer renderer, TopoDS_Shape brepShape)
         {
             var res = true;
 
-            _Renderer.BeginPath();
+            renderer.BeginPath();
 
-            var faces = _Shape.Faces();
+            var faces = brepShape.Faces();
             if (faces.Count == 0)
             {
                 // Drawings may only contain lines, not faces
-                res = _DoEdges(_Shape.Edges(), null);
+                res = RenderEdges(renderer, brepShape.Edges(), null);
             }
             else
             {
@@ -53,27 +39,27 @@ namespace Macad.Core.Drawing
                     if (outerWire == null)
                         continue;
 
-                    res &= _DoEdges(outerWire.Edges(), face);
+                    res &= RenderEdges(renderer, outerWire.Edges(), face);
 
                     var wires = face.Wires();
                     foreach (var wire in wires)
                     {
                         if (wire.IsEqual(outerWire))
                             continue;
-                        res &= _DoEdges(wire.Edges(), face);
+                        res &= RenderEdges(renderer, wire.Edges(), face);
                     }
 
                 }
             }
 
-            _Renderer.EndPath();
+            renderer.EndPath();
 
             return res;
         }
         
         //--------------------------------------------------------------------------------------------------
 
-        bool _DoEdges(List<TopoDS_Edge> edges, TopoDS_Face face)
+        public static bool RenderEdges(IDrawingRenderer renderer, List<TopoDS_Edge> edges, TopoDS_Face face)
         {
             var res = true;
 
@@ -101,21 +87,21 @@ namespace Macad.Core.Drawing
                         continue;
 
                     // Process ordered edges
-                    _Renderer.BeginPathSegment();
+                    renderer.BeginPathSegment();
                     for (int index = startIndex; index <= endIndex; index++)
                     {
                         int orderIndex = order.Ordered(index);
                         int originalIndex = Math.Abs(orderIndex) - 1; // order index is 1-based
-                        res &= _DoEdge(edges[originalIndex], orderIndex < 0, face);
+                        res &= RenderEdge(renderer, edges[originalIndex], orderIndex < 0, face);
                     }
-                    _Renderer.EndPathSegment();
+                    renderer.EndPathSegment();
                 }
             }
             else
             {
                 // Cannot sort, just pump out all edges
                 foreach (var edge in edges)
-                    res &= _DoEdge(edge, false, face);
+                    res &= RenderEdge(renderer, edge, false, face);
             }
 
             return res;
@@ -123,7 +109,7 @@ namespace Macad.Core.Drawing
 
         //--------------------------------------------------------------------------------------------------
 
-        bool _DoEdge(TopoDS_Edge edge, bool reverse, TopoDS_Face face)
+        public static bool RenderEdge(IDrawingRenderer renderer, TopoDS_Edge edge, bool reverse, TopoDS_Face face)
         {
             var res = true;
 
@@ -136,7 +122,7 @@ namespace Macad.Core.Drawing
                 if (curve == null)
                     return false;
 
-                res &= _DoCurve(curve, first, last, reverse);
+                res &= RenderCurve(renderer, curve, first, last, reverse);
             }
             else
             {
@@ -149,12 +135,12 @@ namespace Macad.Core.Drawing
                     curves.Reverse();
                 }
 
-                foreach (var curveOnSurface in curves.Cast<BRep_CurveOnSurface>())
+                foreach (var curveOnSurface in curves.OfType<BRep_CurveOnSurface>())
                 {
                     var curve = curveOnSurface.PCurve();
                     first = curveOnSurface.First();
                     last = curveOnSurface.Last();
-                    res &= _DoCurve(curve, first, last, reverse);
+                    res &= RenderCurve(renderer, curve, first, last, reverse);
                 }
             }
 
@@ -163,31 +149,31 @@ namespace Macad.Core.Drawing
 
         //--------------------------------------------------------------------------------------------------
 
-        bool _DoCurve(Geom2d_Curve curve2d, double first, double last, bool reverse)
+        public static bool RenderCurve(IDrawingRenderer renderer, Geom2d_Curve curve2d, double first, double last, bool reverse)
         {
             switch (curve2d)
             {
                 case Geom2d_Line line:
-                    return _DoLine(line, first, last, reverse);
+                    return RenderLine(renderer, line, first, last, reverse);
 
                 case Geom2d_Ellipse ellipse:
-                    return _DoEllipse(ellipse, first, last, reverse);
+                    return RenderEllipse(renderer, ellipse, first, last, reverse);
 
                 case Geom2d_Circle circle:
-                    return _DoCircle(circle, first, last, reverse);
+                    return RenderCircle(renderer, circle, first, last, reverse);
 
                 case Geom2d_BSplineCurve bspline:
-                    return _DoBSpline(bspline, first, last, reverse);
+                    return RenderBSplineCurve(renderer, bspline, first, last, reverse);
 
                 case Geom2d_BezierCurve bezier:
-                    return _DoBezier(bezier, first, last, reverse);
+                    return RenderBezierCurve(renderer, bezier, first, last, reverse);
 
                 default:
                     // Try to create B-Spline curve
                     var bsplineCurve = ShapeConstruct.ConvertCurveToBSpline(curve2d, first, last, 0.001 /*Precision.Confusion()*10*/, curve2d.Continuity(), 10000, 3);
                     if (bsplineCurve != null)
                     {
-                        return _DoBSpline(bsplineCurve, first, last, reverse);
+                        return RenderBSplineCurve(renderer, bsplineCurve, first, last, reverse);
                     }
                     Messages.Warning("BrepRenderHelper: Unsupported curve class.");
                     return false;
@@ -196,24 +182,24 @@ namespace Macad.Core.Drawing
 
         //--------------------------------------------------------------------------------------------------
 
-        bool _DoLine(Geom2d_Line line, double first, double last, bool reverse)
+        public static bool RenderLine(IDrawingRenderer renderer, Geom2d_Line line, double first, double last, bool reverse)
         {
             var start = line.Value(reverse ? last : first);
             var end = line.Value(reverse ? first : last);
-            _Renderer.Line(start, end);
+            renderer.Line(start, end);
             return true;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        bool _DoCircle(Geom2d_Circle circle, double first, double last, bool reverse)
+        public static bool RenderCircle(IDrawingRenderer renderer, Geom2d_Circle circle, double first, double last, bool reverse)
         {
-            if (_Renderer.Capabilities.CircleAsCurve)
+            if (renderer.Capabilities.CircleAsCurve)
             {
                 var bsplineCurve = ShapeConstruct.ConvertCurveToBSpline(circle, first, last, 0.001, GeomAbs_Shape.GeomAbs_C2, 100, 3);
                 if (bsplineCurve != null)
                 {
-                    return _DoBSpline(bsplineCurve, first, last, reverse);
+                    return RenderBSplineCurve(renderer, bsplineCurve, first, last, reverse);
                 }
                 return false;
             }
@@ -233,21 +219,21 @@ namespace Macad.Core.Drawing
                 first.Swap(ref last);
             }
 
-            _Renderer.Circle(center, radius, first - rotation, last - rotation);
+            renderer.Circle(center, radius, first - rotation, last - rotation);
 
             return true;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        bool _DoEllipse(Geom2d_Ellipse ellipse, double first, double last, bool reverse)
+        public static bool RenderEllipse(IDrawingRenderer renderer, Geom2d_Ellipse ellipse, double first, double last, bool reverse)
         {
-            if (_Renderer.Capabilities.EllipseAsCurve)
+            if (renderer.Capabilities.EllipseAsCurve)
             {
                 var bsplineCurve = ShapeConstruct.ConvertCurveToBSpline(ellipse, first, last, 0.001, GeomAbs_Shape.GeomAbs_C1, 100, 3);
                 if (bsplineCurve != null)
                 {
-                    return _DoBSpline(bsplineCurve, first, last, reverse);
+                    return RenderBSplineCurve(renderer, bsplineCurve, first, last, reverse);
                 }
                 return false;
             }
@@ -268,20 +254,20 @@ namespace Macad.Core.Drawing
                 first.Swap(ref last);
             }
 
-            _Renderer.Ellipse(center, majorRadius, minorRadius, rotation, first, last);
+            renderer.Ellipse(center, majorRadius, minorRadius, rotation, first, last);
 
             return false;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        bool _DoBSpline(Geom2d_BSplineCurve bspline, double first, double last, bool reverse)
+        public static bool RenderBSplineCurve(IDrawingRenderer renderer, Geom2d_BSplineCurve bspline, double first, double last, bool reverse)
         {
-            if (_Renderer.Capabilities.BSplineCurveMaxDegree > 0)
+            if (renderer.Capabilities.BSplineCurveMaxDegree > 0)
             {
                 bspline = Geom2dConvert.SplitBSplineCurve(bspline, first, last, 0.00001);
 
-                if (bspline.Degree() > _Renderer.Capabilities.BSplineCurveMaxDegree)
+                if (bspline.Degree() > renderer.Capabilities.BSplineCurveMaxDegree)
                 {
                     // Try to reduce the order of the curve
                     var continuity = bspline.Continuity();
@@ -314,7 +300,7 @@ namespace Macad.Core.Drawing
                     weights[i] = bspline.Weight(i + 1);
                 }
 
-                _Renderer.BSplineCurve(bspline.Degree(), knots, points, weights, bspline.IsRational());
+                renderer.BSplineCurve(bspline.Degree(), knots, points, weights, bspline.IsRational());
                 return true;
             }
             else
@@ -328,7 +314,7 @@ namespace Macad.Core.Drawing
                     for (int i = converter.NbArcs(); i >= 1; i -= 1)
                     {
                         var arc = converter.Arc(i);
-                        result &= _DoBezier(arc, arc.FirstParameter(), arc.LastParameter(), true);
+                        result &= RenderBezierCurve(renderer, arc, arc.FirstParameter(), arc.LastParameter(), true);
                     }
                 }
                 else
@@ -336,7 +322,7 @@ namespace Macad.Core.Drawing
                     for (int i = 1; i <= converter.NbArcs(); i += 1)
                     {
                         var arc = converter.Arc(i);
-                        result &= _DoBezier(arc, arc.FirstParameter(), arc.LastParameter(), false);
+                        result &= RenderBezierCurve(renderer, arc, arc.FirstParameter(), arc.LastParameter(), false);
                     }
                 }
 
@@ -346,11 +332,11 @@ namespace Macad.Core.Drawing
 
         //--------------------------------------------------------------------------------------------------
 
-        bool _DoBezier(Geom2d_BezierCurve bezier, double first, double last, bool reverse)
+        public static bool RenderBezierCurve(IDrawingRenderer renderer, Geom2d_BezierCurve bezier, double first, double last, bool reverse)
         {
-            if (_Renderer.Capabilities.BezierCurveMaxDegree > 0)
+            if (renderer.Capabilities.BezierCurveMaxDegree > 0)
             {
-                var maxDegree = Math.Min(3, _Renderer.Capabilities.BezierCurveMaxDegree);
+                var maxDegree = Math.Min(3, renderer.Capabilities.BezierCurveMaxDegree);
                 if (bezier.Degree() > maxDegree)
                 {
                     // Try to reduce the order of the curve
@@ -365,7 +351,7 @@ namespace Macad.Core.Drawing
                         return false;
                     }
 
-                    return _DoBSpline(converter.Curve(), first, last, reverse);
+                    return RenderBSplineCurve(renderer, converter.Curve(), first, last, reverse);
                 }
 
                 bezier.Segment(first, last);
@@ -376,18 +362,18 @@ namespace Macad.Core.Drawing
                 switch (bezier.Degree())
                 {
                     case 1:
-                        _Renderer.Line(start, end);
+                        renderer.Line(start, end);
                         return true;
 
                     case 2:
                         c1 = bezier.Pole(2);
-                        _Renderer.BezierCurve(new[] {start, c1, end});
+                        renderer.BezierCurve(new[] {start, c1, end});
                         return true;
 
                     case 3:
                         c1 = bezier.Pole(reverse ? 3 : 2);
                         c2 = bezier.Pole(reverse ? 2 : 3);
-                        _Renderer.BezierCurve(new[] {start, c1, c2, end});
+                        renderer.BezierCurve(new[] {start, c1, c2, end});
                         return true;
 
                     default:
@@ -403,7 +389,7 @@ namespace Macad.Core.Drawing
                 var bsplineCurve = ShapeConstruct.ConvertCurveToBSpline(bezier, first, last, 0.0001, bezier.Continuity(), 10000, 3);
                 if (bsplineCurve != null)
                 {
-                    return _DoBSpline(bsplineCurve, first, last, reverse);
+                    return RenderBSplineCurve(renderer, bsplineCurve, first, last, reverse);
                 }
                 Messages.Warning("BrepRenderHelper: Bezier curve is not supported by exporter and conversion to BSpline failed.");
                 return false;

@@ -82,6 +82,11 @@ Vec Dir::ToVec()
 	return Vec(_Coord);
 }
 
+Vec Dir::ToVec(double scale)
+{
+	return Vec(_Coord).Scaled(scale);
+}
+
 Ax1 Dir::ToAx1(Pnt loc)
 {
 	return Ax1(loc, *this);

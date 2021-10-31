@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="59.287487mm" height="84.88678mm" viewBox="0, 0, 224.07869, 320.83194" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg">
+  <sodipodi:namedview inkscape:document-units="mm" />
+  <g id="Pipe" transform="translate(140.9291,101.61933)">
+    <g id="Contour" stroke-width="0.18897638" style="stroke:black;fill:black;">
+      <path d="M-1.8897638,-14.674904 L-1.8897638,181.41733 L1.8897638,181.41733 L1.8897638,-14.674904 A5.6692915,5.6692915 0 0 0 -4.4055963,-20.30952 L-32.692608,-17.16652 A5.6692915,5.6692915 0 0 0 -36.454327,-15.121912 L-69.494095,25.260023 L-66.5689,27.653362 L-33.529133,-12.728573 A1.8897638,1.8897638 0 0 1 -32.275227,-13.410109 L-3.988217,-16.55311 A1.8897638,1.8897638 0 0 1 -1.8897638,-14.674904 Z" />
+    </g>
+    <g id="Dimension" stroke-width="0.37795275" style="stroke:black;fill:none;">
+      <line x1="0" y1="181.41733" x2="45.354332" y2="181.41733" />
+      <line x1="-4.1961186E-16" y1="-17.534698" x2="45.354332" y2="-17.534698" />
+      <line x1="37.795277" y1="170.07874" x2="37.795277" y2="-6.1961164" />
+      <path d="M37.795277,181.41733 L35.90551,170.07874 L39.68504,170.07874 L37.795277,181.41733 Z" style="fill:black;" />
+      <path d="M37.795277,-17.534698 L39.68504,-6.1961164 L35.90551,-6.1961164 L37.795277,-17.534698 Z" style="fill:black;" />
+      <text x="34.015747" y="92.975395" style="fill:black;" font-family="Arial" font-size="11.338583" transform="rotate(270,34.015747,92.975395)">52.6</text>
+    </g>
+    <g id="Dimension" stroke-width="0.37795275" style="stroke:black;fill:none;">
+      <line x1="-4.1961186E-16" y1="-17.534698" x2="45.354332" y2="-17.534698" />
+      <line x1="-1.3546028" y1="-18.747126" x2="-6.3631506" y2="-63.82406" />
+      <path d="M36.15923,-28.714344 A39.015163,39.015163 0 0 0 5.7635465,-55.919785" />
+      <path d="M37.795254,-17.574516 L34.283592,-28.519968 L38.023285,-29.06724 L37.795254,-17.574516 Z" style="fill:black;" />
+      <path d="M-5.488816,-56.315613 L5.908432,-57.81141 L5.7774873,-54.03415 L-5.488816,-56.315613 Z" style="fill:black;" />
+      <text x="20.932722" y="-55.139835" style="fill:black;" font-family="Arial" font-size="11.338583" transform="rotate(41.829903,20.932722,-55.139835)">96°</text>
+    </g>
+    <g id="Dimension" stroke-width="0.37795275" style="stroke:black;fill:none;">
+      <line x1="-1.3546028" y1="-18.747126" x2="-6.3631506" y2="-63.82406" />
+      <line x1="-33.79297" y1="-15.142863" x2="-38.801514" y2="-60.219795" />
+      <line x1="-16.34118" y1="-55.109814" x2="-27.153969" y2="-53.908394" />
+      <path d="M-5.528393,-56.311237 L-16.140944,-53.307682 L-16.541418,-56.911945 L-5.528393,-56.311237 Z" style="fill:black;" />
+      <path d="M-37.96676,-52.706974 L-27.354206,-55.710526 L-26.953732,-52.106262 L-37.96676,-52.706974 Z" style="fill:black;" />
+      <text x="-29.99784" y="-57.395195" style="fill:black;" font-family="Arial" font-size="11.338583" transform="rotate(353.65982,-29.99784,-57.395195)">8.6</text>
+    </g>
+    <g id="Dimension" stroke-width="0.37795275" style="stroke:black;fill:none;">
+      <line x1="-33.79297" y1="-15.142863" x2="-38.801514" y2="-60.219795" />
+      <line x1="-34.15769" y1="-14.944626" x2="-69.26" y2="-43.664703" />
+      <path d="M-47.555256,-50.363297 A38.344948,38.344948 0 0 0 -56.227776,-45.64953" />
+      <path d="M-37.994026,-52.703934 L-47.2175,-48.75121 L-48.000896,-51.95627 L-37.994026,-52.703934 Z" style="fill:black;" />
+      <path d="M-63.39224,-38.89925 L-57.322136,-46.889896 L-55.05869,-44.48929 L-63.39224,-38.89925 Z" style="fill:black;" />
+      <text x="-61.381145" y="-47.513264" style="fill:black;" font-family="Arial" font-size="11.338583" transform="rotate(331.4746,-61.381145,-47.513264)">44°</text>
+    </g>
+    <g id="Dimension" stroke-width="0.37795275" style="stroke:black;fill:none;">
+      <line x1="-34.15769" y1="-14.944626" x2="-69.26" y2="-43.664703" />
+      <line x1="-68.031494" y1="26.456694" x2="-103.13381" y2="-2.2633832" />
+      <line x1="-70.58964" y1="-30.102444" x2="-90.10341" y2="-6.2522826" />
+      <path d="M-63.40962,-38.87802 L-69.127045,-28.905775 L-72.05223,-31.299114 L-63.40962,-38.87802 Z" style="fill:black;" />
+      <path d="M-97.283424,2.523296 L-91.566,-7.4489527 L-88.64081,-5.055613 L-97.283424,2.523296 Z" style="fill:black;" />
+      <text x="-90.25891" y="-12.030797" style="fill:black;" font-family="Arial" font-size="11.338583" transform="rotate(309.2894,-90.25891,-12.030797)">14.2</text>
+    </g>
+  </g>
+</svg>

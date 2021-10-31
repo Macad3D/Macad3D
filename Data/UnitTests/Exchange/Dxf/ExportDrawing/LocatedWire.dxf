@@ -20,6 +20,10 @@ $ANGDIR
 $MEASUREMENT
 70
 1
+9
+$DWGCODEPAGE
+3
+iso8859-1
 0
 ENDSEC
 0
@@ -201,7 +205,7 @@ AcDbSymbolTableRecord
 100
 AcDbTextStyleTableRecord
 2
-STANDARD
+Standard
 70
 0
 40
@@ -215,7 +219,7 @@ STANDARD
 42
 2.5
 3
-txt
+TXT.SHX
 4
 
 0
@@ -289,9 +293,29 @@ AcDbSymbolTableRecord
 100
 AcDbDimStyleTableRecord
 2
-STANDARD
+Standard
 70
 0
+40
+1
+140
+2
+45
+0.1
+41
+3
+275
+0
+280
+0
+277
+2
+77
+1
+78
+12
+174
+1
 0
 ENDTAB
 0
@@ -313,7 +337,7 @@ AcDbSymbolTableRecord
 100
 AcDbBlockTableRecord
 2
-*MODEL_SPACE
+*Model_Space
 0
 BLOCK_RECORD
 5
@@ -323,7 +347,7 @@ AcDbSymbolTableRecord
 100
 AcDbBlockTableRecord
 2
-*PAPER_SPACE
+*Paper_Space
 0
 ENDTAB
 0
@@ -354,8 +378,6 @@ AcDbBlockBegin
 0
 3
 *Model_Space
-1
-
 0
 ENDBLK
 5
@@ -388,8 +410,6 @@ AcDbBlockBegin
 0
 3
 *Paper_Space
-1
-
 0
 ENDBLK
 5

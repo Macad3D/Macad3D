@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Drawing;
@@ -21,9 +21,13 @@ namespace Macad.Exchange.Dxf
         //--------------------------------------------------------------------------------------------------
 
         DxfDomDocument _Document;
-        DxfDomLayer _CurrentLayer = null;
+        DxfDomLayer _CurrentLayer;
+        DxfDomBlock _CurrentBlock;
         string _CurrentLayerName => _CurrentLayer?.Name ?? "0";
+        StrokeStyle _CurrentStrokeStyle;
+        FontStyle _CurrentFontStyle;
         double _Precision;
+        int _DimensionCount = 0;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -47,6 +51,20 @@ namespace Macad.Exchange.Dxf
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        void _AddEntity(DxfDomEntity entity)
+        {
+            if (_CurrentBlock != null)
+            {
+                _CurrentBlock.Entities.Add(entity);
+            }
+            else
+            {
+                _Document.Entities.Add(entity);
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
         
         void _AddPolygonCurve(Geom2d_Curve curve)
         {
@@ -65,7 +83,7 @@ namespace Macad.Exchange.Dxf
             }
 
             var entity = new DxfDomLwPolyline(_CurrentLayerName, points);
-            _Document.Entities.Add(entity);
+            _AddEntity(entity);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -73,7 +91,7 @@ namespace Macad.Exchange.Dxf
         #region IRendererCapabilities
 
         int IRendererCapabilities.BSplineCurveMaxDegree => 3;
-
+        
         //--------------------------------------------------------------------------------------------------
 
         #endregion
@@ -86,7 +104,15 @@ namespace Macad.Exchange.Dxf
 
         void IDrawingRenderer.BeginGroup(string name)
         {
-            _CurrentLayer = new DxfDomLayer(name);
+            _CurrentLayer = _Document.Layers.FirstOrDefault(layer => layer.Name == name);
+            if (_CurrentLayer != null)
+                return;
+
+            _CurrentLayer = new DxfDomLayer(name)
+            {
+                Lineweight = _CurrentStrokeStyle?.Width ?? 0.1, 
+                LinetypeName = _CurrentStrokeStyle?.LineStyle.ToString() ?? "CONTINUOUS"
+            };
             _Document.Layers.Add(_CurrentLayer);
         }
 
@@ -94,11 +120,12 @@ namespace Macad.Exchange.Dxf
 
         void IDrawingRenderer.EndGroup()
         {
+            _CurrentBlock = null;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void IDrawingRenderer.SetStyle(StrokeStyle stroke, FillStyle fill)
+        void IDrawingRenderer.SetStyle(StrokeStyle stroke, FillStyle fill, FontStyle font)
         {
             void __AddLinetype(LineStyle style, double length, double[] pattern)
             {
@@ -108,13 +135,10 @@ namespace Macad.Exchange.Dxf
 
             //--------------------------------------------------------------------------------------------------
 
-            if (_CurrentLayer == null || stroke == null)
-                return;
+            _CurrentFontStyle = font;
+            _CurrentStrokeStyle = stroke;
 
-            _CurrentLayer.Lineweight = stroke.Width;
-            _CurrentLayer.LinetypeName = stroke.LineStyle.ToString();
-
-            if (!_Document.Linetypes.Exists(lt => lt.Name == stroke.LineStyle.ToString()))
+            if (stroke != null && !_Document.Linetypes.Exists(lt => lt.Name == stroke.LineStyle.ToString()))
             {
                 switch (stroke.LineStyle)
                 {
@@ -156,7 +180,7 @@ namespace Macad.Exchange.Dxf
         void IDrawingRenderer.Line(Pnt2d start, Pnt2d end)
         {
             var entity = new DxfDomLine(_CurrentLayerName, start, end);
-            _Document.Entities.Add(entity);
+            _AddEntity(entity);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -167,7 +191,7 @@ namespace Macad.Exchange.Dxf
             {
                 // Full circle
                 var entity = new DxfDomCircle(_CurrentLayerName, center, radius);
-                _Document.Entities.Add(entity);
+                _AddEntity(entity);
             }
             else
             {
@@ -176,7 +200,7 @@ namespace Macad.Exchange.Dxf
                     startAngle.Swap(ref endAngle);
 
                 var entity = new DxfDomCircle(_CurrentLayerName, center, radius, startAngle.ToDeg(), endAngle.ToDeg());
-                _Document.Entities.Add(entity);
+                _AddEntity(entity);
             }
         }
 
@@ -210,13 +234,13 @@ namespace Macad.Exchange.Dxf
             {
                 // Full ellipse
                 var entity = new DxfDomEllipse(_CurrentLayerName, center, majorAxisPointOffset.ToPnt(), ratio);
-                _Document.Entities.Add(entity);
+                _AddEntity(entity);
             }
             else
             {
                 // Elliptical arc
                 var entity = new DxfDomEllipse(_CurrentLayerName, center, majorAxisPointOffset.ToPnt(), ratio, startAngle, endAngle);
-                _Document.Entities.Add(entity);
+                _AddEntity(entity);
             }
         }
 
@@ -233,8 +257,94 @@ namespace Macad.Exchange.Dxf
             
             var flags = isRational ? DxfDomSpline.SplineFlags.IsRational : DxfDomSpline.SplineFlags.None;
             var entity = new DxfDomSpline(_CurrentLayerName, degree, knots, controlPoints, weights, flags);
-            _Document.Entities.Add(entity);
+            _AddEntity(entity);
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void IDrawingRenderer.Text(string text, Pnt2d position, double rotation)
+        {
+            var fontSize = (_CurrentFontStyle?.Size ?? 3.0) / 1.3; // assumed EU/EO = 0.3 * H
+            var entity = new DxfDomText(_CurrentLayerName, position, fontSize, -rotation, text);
+            _AddEntity(entity);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        bool IDrawingRenderer.RenderElement(DrawingElement element)
+        {
+            switch (element)
+            {
+                case LengthDimension lengthDim:
+                    _AddLengthDimension(lengthDim);
+                    break;
+
+                case AngleDimension angleDim:
+                    _AddAngleDimension(angleDim);
+                    break;
+            }
+
+            return false;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region Dimensions
+
+        void _InitDimensionBlock()
+        {
+            _DimensionCount++;
+            _CurrentBlock = new DxfDomBlock($"*D{_DimensionCount}", true);
+            _Document.Blocks.Add(_CurrentBlock);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _AddLengthDimension(LengthDimension dim)
+        {
+            _InitDimensionBlock();
+
+            dim.ComputeParameters(out var p);
+
+            var textMidPos = p.TextOrigin.Translated(p.DimensionDirection.ToVec(p.TextWidth * 0.5))
+                                         .Translated(p.ExtensionVector.Normalized().Scaled(p.TextHeight * 0.5));
+            var dimLinePoint = dim.SecondPoint.Translated(p.DimensionOffset);
+
+            var entity = new DxfDomDimension(_CurrentLayerName, _CurrentBlock.Name, textMidPos, -Maths.NormalizeAngleRad(p.DimensionRotation).ToDeg());
+            entity.SetAlignedDimension(dimLinePoint, dim.FirstPoint, dim.SecondPoint);
+            if (!dim.AutoText)
+            {
+                entity.Text = dim.Text;
+            }
+
+            _Document.Entities.Add(entity); // Add to document, not to block
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        void _AddAngleDimension(AngleDimension dim)
+        {
+            _InitDimensionBlock();
+
+            dim.ComputeParameters(out var p);
+
+            var textMidPos = p.TextOrigin.Translated(Dir2d.DX.Rotated(-p.TextRotation).ToVec(p.TextWidth * 0.5))
+                                         .Translated(Dir2d.DX.Rotated(-p.TextRotation + Maths.HalfPI).ToVec(p.TextHeight * 0.5));
+            var rimPoint = dim.CenterPoint.Translated(p.FirstExtensionVector.Normalized().Lerped(p.SecondExtensionVector.Normalized(), 0.5).Normalized().Scaled(p.Radius));
+
+            var entity = new DxfDomDimension(_CurrentLayerName, _CurrentBlock.Name, textMidPos, -Maths.NormalizeAngleRad(p.TextRotation).ToDeg());
+            entity.SetAngularDimension(rimPoint, dim.FirstPoint, dim.SecondPoint, dim.CenterPoint);
+            if (!dim.AutoText)
+            {
+                entity.Text = dim.Text;
+            }
+
+            _Document.Entities.Add(entity); // Add to document, not to block
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
     }

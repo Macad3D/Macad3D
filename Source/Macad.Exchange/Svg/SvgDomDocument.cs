@@ -276,7 +276,7 @@ namespace Macad.Exchange.Svg
 
     //--------------------------------------------------------------------------------------------------
 
-    internal class SvgDocument : SvgElement
+    internal class SvgDocument : SvgDomElement
     {
         internal const string XmlnsSvg = "http://www.w3.org/2000/svg";
         internal const string XmlnsSodipodi = "http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd";

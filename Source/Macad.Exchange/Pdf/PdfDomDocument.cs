@@ -20,7 +20,8 @@ namespace Macad.Exchange.Pdf
         //--------------------------------------------------------------------------------------------------
 
         public const double UserSpaceScale = 72.0 / 25.4;
-        public bool UseCompression { get; set; } = true;
+        public static bool UseCompression = true;
+
         public List<PdfDomObject> Objects { get; } = new();
 
         int _LastObjectNumber;

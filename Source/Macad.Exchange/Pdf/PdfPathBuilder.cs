@@ -11,12 +11,14 @@ namespace Macad.Exchange.Pdf
 
         public bool StrokeEnabled { get; set; }
         public bool FillEnabled { get; set; }
+        public bool HasContent { get { return _Sb.Length > 0; } }
 
         const double PRECISION = 0.00001;
         readonly StringBuilder _Sb = new();
         static readonly Pnt2d _UndefinedPoint = new (double.MinValue, double.MinValue);
         Pnt2d _CurrentPoint = _UndefinedPoint;
         Pnt2d _FirstPoint = _UndefinedPoint;
+        bool _HasGeometry = false;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -26,7 +28,7 @@ namespace Macad.Exchange.Pdf
 
         public byte[] GetBytes()
         {
-            return _Sb.ToString().ToUtf8Bytes();
+            return Encoding.GetEncoding(1252).GetBytes(_Sb.ToString());
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -76,6 +78,7 @@ namespace Macad.Exchange.Pdf
             _SetCurrentPosition(start);
             _Sb.Append($"{_Conv(end.X)} {_Conv(end.Y)} l\n");
             _CurrentPoint = end;
+            _HasGeometry = true;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -85,6 +88,7 @@ namespace Macad.Exchange.Pdf
             _SetCurrentPosition(start);
             _Sb.Append($"{_Conv(c1.X)} {_Conv(c1.Y)} {_Conv(c2.X)} {_Conv(c2.Y)} {_Conv(end.X)} {_Conv(end.Y)} c\n");
             _CurrentPoint = end;
+            _HasGeometry = true;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -92,7 +96,8 @@ namespace Macad.Exchange.Pdf
         public void EndSegment()
         {
             if (_FirstPoint != _UndefinedPoint 
-                && _FirstPoint.IsEqual(_CurrentPoint, PRECISION))
+                && _FirstPoint.IsEqual(_CurrentPoint, PRECISION)
+                && _HasGeometry)
             {
                 _Sb.Append("h\n");
             }
@@ -106,14 +111,19 @@ namespace Macad.Exchange.Pdf
         {
             EndSegment();
 
-            if (StrokeEnabled && FillEnabled)
-                _Sb.Append("B\n");
-            else if (StrokeEnabled)
-                _Sb.Append("S\n");
-            else if (FillEnabled)
-                _Sb.Append("f\n");
-            else
-                _Sb.Append("n\n");
+            if (_HasGeometry)
+            {
+                if (StrokeEnabled && FillEnabled)
+                    _Sb.Append("B\n");
+                else if (StrokeEnabled)
+                    _Sb.Append("S\n");
+                else if (FillEnabled)
+                    _Sb.Append("f\n");
+                else
+                    _Sb.Append("n\n");
+            }
+
+            _HasGeometry = false;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -149,6 +159,34 @@ namespace Macad.Exchange.Pdf
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region Text
+
+        public void AddText(string text, Pnt2d position, double rotation, PdfDomFont font)
+        {
+            EndPath();
+
+            _Sb.Append("BT\n");
+            _Sb.Append($"/{font.Name} {font.Style.Size} Tf\n");
+
+            Mat2d rotmat = new();
+            rotmat.SetRotation(rotation);
+            _Sb.Append($"{_Conv(rotmat.Value(1, 1))} {_Conv(rotmat.Value(1, 2))} ");
+            _Sb.Append($"{_Conv(rotmat.Value(2,1))} {_Conv(rotmat.Value(2,2))} ");
+            _Sb.Append($"{_Conv(position.X)} {_Conv(position.Y)} Tm");
+
+            _Sb.Append('(');
+            foreach (var character in text)
+            {
+                if (character is '(' or ')' or '\\')
+                    _Sb.Append("\\");
+                _Sb.Append(character);
+            }
+            _Sb.Append(") Tj\n");
+            _Sb.Append("ET\n");
+        }
 
         #endregion
     }

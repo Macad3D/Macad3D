@@ -71,23 +71,23 @@ namespace Macad.Exchange.Svg
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ImportElement(SvgElement element)
+        void _ImportElement(SvgDomElement element)
         {
             switch (element)
             {
-                case SvgGroupElement group:
+                case SvgDomGroup group:
                     _ImportGroup(group);
                     break;
-                case SvgCircleElement circle:
+                case SvgDomCircle circle:
                     _ImportCircle(circle);
                     break;
-                case SvgEllipseElement ellipse:
+                case SvgDomEllipse ellipse:
                     _ImportEllipse(ellipse);
                     break;
-                case SvgRectElement rectangle:
+                case SvgDomRect rectangle:
                     _ImportRectangle(rectangle);
                     break;
-                case SvgPathElement path:
+                case SvgDomPath path:
                     _ImportPath(path);
                     break;
                 default:
@@ -104,16 +104,16 @@ namespace Macad.Exchange.Svg
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ImportGroup(SvgGroupElement group)
+        void _ImportGroup(SvgDomGroup domGroup)
         {
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ImportCircle(SvgCircleElement circle)
+        void _ImportCircle(SvgDomCircle domCircle)
         {
-            var centerPoint = circle.Center;
-            double radius = circle.Radius;
+            var centerPoint = domCircle.Center;
+            double radius = domCircle.Radius;
             if (radius <= 0)
                 return;
 
@@ -124,16 +124,16 @@ namespace Macad.Exchange.Svg
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ImportEllipse(SvgEllipseElement ellipse)
+        void _ImportEllipse(SvgDomEllipse domEllipse)
         {
-            var centerPoint = ellipse.Center;
-            var radiusX = ellipse.RadiusX;
-            var radiusY = ellipse.RadiusY;
+            var centerPoint = domEllipse.Center;
+            var radiusX = domEllipse.RadiusX;
+            var radiusY = domEllipse.RadiusY;
             if (radiusX <= 0 || radiusY <= 0)
                 return;
 
-            var rimPointX = ellipse.RimPointX;
-            var rimPointY = ellipse.RimPointY;
+            var rimPointX = domEllipse.RimPointX;
+            var rimPointY = domEllipse.RimPointY;
 
             var centerIndex = _AddPoint(centerPoint);
             var rimIndexX = _AddPoint(rimPointX);
@@ -143,7 +143,7 @@ namespace Macad.Exchange.Svg
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ImportRectangle(SvgRectElement rectangle)
+        void _ImportRectangle(SvgDomRect rectangle)
         {
             if ((rectangle.CornerRadiusX > 0) || (rectangle.CornerRadiusY > 0))
             {
@@ -172,7 +172,7 @@ namespace Macad.Exchange.Svg
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ImportPath(SvgPathElement path)
+        void _ImportPath(SvgDomPath path)
         {
             if (path.Segments.Count < 1)
                 return;

@@ -8,9 +8,9 @@ using NUnit.Framework;
 namespace Macad.Test.Unit.Drawings
 {
     [TestFixture]
-    public class HlrViewTests
+    public class HlrDrawingTests
     {
-        const string _BasePath = @"Drawing\HlrView";
+        const string _BasePath = @"Drawing\Hlr";
 
         //--------------------------------------------------------------------------------------------------
 
@@ -114,6 +114,26 @@ namespace Macad.Test.Unit.Drawings
             var visibleSharp = hlrAlgo.GetResult(HlrEdgeTypes.VisibleSharp);
             Assert.IsNotNull(visibleSharp);
             Assert.IsTrue(ModelCompare.CompareShape(visibleSharp, Path.Combine(_BasePath, "PolyMultiShape_VisSharp")));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void RudderBlade()
+        {
+            // Load geometry
+            var body = TestData.GetBodyFromBRep(@"SourceData\Brep\Rudder.brep");
+            var ocShape = body.GetTransformedBRep();
+
+            // Create HLR Algo
+            var hlrAlgo = new HlrBRepAlgo(new[] { ocShape });
+            hlrAlgo.SetProjection(_Projection);
+            hlrAlgo.Update();
+
+            // Get Hlr Shape
+            var visibleSharp = hlrAlgo.GetResult(HlrEdgeTypes.VisibleSharp);
+            Assert.IsNotNull(visibleSharp);
+            Assert.IsTrue(ModelCompare.CompareShape(visibleSharp, Path.Combine(_BasePath, "RudderBlade_VisSharp")));
         }
 
         //--------------------------------------------------------------------------------------------------

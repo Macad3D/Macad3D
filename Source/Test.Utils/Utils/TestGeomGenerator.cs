@@ -246,5 +246,20 @@ namespace Macad.Test.Utils
 
         //--------------------------------------------------------------------------------------------------
 
+        public static Pipe CreatePipe()
+        {
+            var sketch = Sketch.Create();
+            var body = Body.Create(sketch);
+            var sb = new SketchBuilder(sketch);
+            sb.StartPath(0, 0);
+            sb.LineTo(10, 0);
+            sb.LineTo(15, 5);
+            sb.LineTo(25, 10);
+            sb.LineTo(22, 3);
+
+            var pipe = Pipe.Create(body);
+            pipe.Profile = Pipe.ProfileType.HollowCircle;
+            return pipe;
+        }
     }
 }

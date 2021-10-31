@@ -18,7 +18,7 @@ namespace Macad.Exchange.Pdf
             _TargetStream = new();
             _Stream = _TargetStream;
 
-            if (document.UseCompression)
+            if (PdfDomDocument.UseCompression)
             {
                 // ZLib magic header, .Net don't write, but PDF expect them
                 // See https://www.ietf.org/rfc/rfc1950.txt

@@ -24,7 +24,7 @@ namespace Macad.Exchange.Svg
 
         protected void InitPathExport()
         {
-            CurrentPath = new SvgPathElement();
+            CurrentPath = new SvgDomPath() {Style = CurrentStyle};
             _PathStart = new Pnt2d();
             _PathPosition = new Pnt2d();
             _SubPathStartIndex = 0;
@@ -75,7 +75,7 @@ namespace Macad.Exchange.Svg
 
         protected void ClosePath()
         {
-            SvgPathElement path = CurrentPath;
+            SvgDomPath path = CurrentPath;
 
             if (path?.Segments.Count > 0)
             {
@@ -88,14 +88,14 @@ namespace Macad.Exchange.Svg
 
         //--------------------------------------------------------------------------------------------------
 
-        protected SvgPathElement FinalizePath()
+        protected SvgDomPath FinalizePath()
         {
             ClosePath();
 
-            SvgPathElement path = CurrentPath;
+            SvgDomPath path = CurrentPath;
             if (path?.Segments.Count > 0)
             {
-                CurrentGroup.Children.Add(path);
+                CurrentDomGroup.Children.Add(path);
             }
             CurrentPath = null;
             return path;
@@ -107,8 +107,9 @@ namespace Macad.Exchange.Svg
 
         #region Members
 
-        protected SvgGroupElement CurrentGroup;
-        protected SvgPathElement CurrentPath;
+        protected SvgDomGroup CurrentDomGroup;
+        protected SvgDomPath CurrentPath;
+        protected SvgStyle CurrentStyle;
         Pnt2d _PathStart;
         Pnt2d _PathPosition;
         int _SubPathStartIndex;

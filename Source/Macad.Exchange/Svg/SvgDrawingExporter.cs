@@ -19,7 +19,7 @@ namespace Macad.Exchange.Svg
         
         //--------------------------------------------------------------------------------------------------
 
-        readonly Stack<SvgGroupElement> _GroupStack = new();
+        readonly Stack<SvgDomGroup> _GroupStack = new();
 
         //--------------------------------------------------------------------------------------------------
 
@@ -32,12 +32,12 @@ namespace Macad.Exchange.Svg
         MemoryStream _Export(Drawing drawing)
         {
             // Create group
-            var group = new SvgGroupElement
+            var group = new SvgDomGroup
             {
                 ID = drawing.Name,
                 IsLayer = TagGroupsAsLayers
             };
-            CurrentGroup = group;
+            CurrentDomGroup = group;
 
             // Export
             drawing.Render(this);
@@ -84,50 +84,68 @@ namespace Macad.Exchange.Svg
 
         void IDrawingRenderer.BeginGroup(string name)
         {
-            if (CurrentGroup != null)
+            if (CurrentDomGroup != null)
             {
-                _GroupStack.Push(CurrentGroup);
+                _GroupStack.Push(CurrentDomGroup);
             }
 
-            CurrentGroup = new SvgGroupElement
+            CurrentDomGroup = new SvgDomGroup
             {
                 ID = name,
-                IsLayer = TagGroupsAsLayers
+                IsLayer = TagGroupsAsLayers,
+                Style = CurrentStyle
             };
+
+            CurrentStyle = null;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void IDrawingRenderer.EndGroup()
         {
+            FinalizePath();
+
             Debug.Assert(_GroupStack.Count > 0, "CloseGroup called, but no group on stack.");
 
             var parent = _GroupStack.Pop();
-            if (CurrentGroup != null)
+            if (CurrentDomGroup != null)
             {
-                parent.Children.Add(CurrentGroup);
+                parent.Children.Add(CurrentDomGroup);
             }
-            CurrentGroup = parent;
+            CurrentDomGroup = parent;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void IDrawingRenderer.SetStyle(StrokeStyle stroke, FillStyle fill)
+        void IDrawingRenderer.SetStyle(StrokeStyle stroke, FillStyle fill, FontStyle font)
         {
-            Debug.Assert(CurrentGroup != null);
-
-            CurrentGroup.Style ??= new SvgStyle();
+            CurrentStyle = new SvgStyle();
             if (stroke != null)
             {
-                CurrentGroup.Style.StrokeColor = stroke.Color;
-                CurrentGroup.Style.StrokeWidth = stroke.Width;
-                CurrentGroup.Style.LineStyle = stroke.LineStyle;
+                CurrentStyle.StrokeColor = stroke.Color;
+                CurrentStyle.StrokeWidth = stroke.Width;
+                CurrentStyle.LineStyle = stroke.LineStyle;
             }
 
             if (fill != null)
             {
-                CurrentGroup.Style.FillColor = fill.Color;
+                CurrentStyle.FillMode = FillMode.Solid;
+                CurrentStyle.FillColor = fill.Color;
             }
+
+            if (font != null)
+            {
+                CurrentStyle.FontFamily = font.Family;
+                CurrentStyle.FontSize = font.Size;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void IDrawingRenderer.BeginPath()
+        {
+            FinalizePath();
+            InitPathExport();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -148,7 +166,14 @@ namespace Macad.Exchange.Svg
 
         void IDrawingRenderer.Line(Pnt2d start, Pnt2d end)
         {
-            AddToPath(new SvgPathSegLineto(start, end));
+            if (CurrentPath == null)
+            {
+                CurrentDomGroup.Children.Add(new SvgDomLine(start, end) {Style = CurrentStyle});
+            }
+            else
+            {
+                AddToPath(new SvgPathSegLineto(start, end));
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -158,7 +183,7 @@ namespace Macad.Exchange.Svg
             if (startAngle.Distance(endAngle).IsEqual(Maths.DoublePI, 0.00001))
             {
                 // Full circle
-                if (CurrentGroup.Style.FillColor != null)
+                if (CurrentDomGroup.Style.FillColor != null)
                 {
                     // Circle must be combined into path
                     ClosePath();
@@ -186,7 +211,7 @@ namespace Macad.Exchange.Svg
                 }
                 else
                 {
-                    CurrentGroup.Children.Add(new SvgCircleElement(center, radius));
+                    CurrentDomGroup.Children.Add(new SvgDomCircle(center, radius) {Style = CurrentStyle});
                 }
             }
             else
@@ -215,9 +240,9 @@ namespace Macad.Exchange.Svg
             if (startAngle.Distance(endAngle).IsEqual(Maths.DoublePI, 0.00001))
             {
                 // Full ellipse
-                var segment = new SvgEllipseElement(center, majorRadius, minorRadius);
+                var segment = new SvgDomEllipse(center, majorRadius, minorRadius) {Style = CurrentStyle};
                 segment.Transforms.Add(new SvgRotateTransform(Maths.NormalizeAngleDegree(rotation.ToDeg())));
-                CurrentGroup.Children.Add(segment);
+                CurrentDomGroup.Children.Add(segment);
             }
             else
             {
@@ -264,6 +289,20 @@ namespace Macad.Exchange.Svg
                     Messages.Warning($"SvgExporter: Bezier curve has an unsupported order of {knots.Length-1}.");
                     break;
             }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void IDrawingRenderer.Text(string text, Pnt2d position, double rotation)
+        {
+            var element = new SvgDomText(position, text) {Style = CurrentStyle};
+
+            if (!rotation.IsEqual(0, 1E-7))
+            {
+                element.Transforms.Add(new SvgRotateTransform(Maths.NormalizeAngleDegree(rotation.ToDeg()), position));
+            }
+
+            CurrentDomGroup.Children.Add(element);
         }
 
         #endregion

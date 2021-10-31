@@ -9,14 +9,21 @@ namespace Macad.Core
         {
             CoreContext.Current?.MessageHandler?.OnProcessingStarted(referenceEntity, description);
         }
+        
+        ~ProcessingScope()
+        {
+            Dispose();
+        }
 
         #region IDisposable Members
 
         public void Dispose()
         {
             CoreContext.Current?.MessageHandler?.OnProcessingStopped();
+            GC.SuppressFinalize(this);
         }
 
         #endregion
+
     }
 }
