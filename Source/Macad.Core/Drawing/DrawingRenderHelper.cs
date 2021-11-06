@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using Macad.Common.Interop;
 using Macad.Occt;
 
 namespace Macad.Core.Drawing
@@ -62,5 +63,6 @@ namespace Macad.Core.Drawing
             var size = g.MeasureString(text, font, new SizeF(), StringFormat.GenericTypographic);
             return new XY(size.Width, size.Height);
         }
+
     }
 }

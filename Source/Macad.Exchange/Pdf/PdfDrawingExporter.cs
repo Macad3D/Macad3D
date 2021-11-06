@@ -19,7 +19,7 @@ namespace Macad.Exchange.Pdf
         PdfDomDocument _Document;
         PdfDomPage _Page;
         PdfDomStream _Content;
-        PdfPathBuilder _PathBuilder;
+        PdfContentBuilder _ContentBuilder;
         PdfDomFont _CurrentFont;
 
         //--------------------------------------------------------------------------------------------------
@@ -35,7 +35,7 @@ namespace Macad.Exchange.Pdf
             _Document = new PdfDomDocument();
             _Page = _Document.AddPage();
             _Content = _Page.AddContent();
-            _PathBuilder = new PdfPathBuilder();
+            _ContentBuilder = new PdfContentBuilder();
 
             var aabb = drawing.GetBoundingBox();
             if (!aabb.IsVoid())
@@ -86,32 +86,32 @@ namespace Macad.Exchange.Pdf
 
         void IDrawingRenderer.SetStyle(StrokeStyle stroke, FillStyle fill, FontStyle font)
         {
-            _PathBuilder.EndPath();
+            _ContentBuilder.EndPath();
 
-            _PathBuilder.StrokeEnabled = stroke != null;
+            _ContentBuilder.StrokeEnabled = stroke != null;
             if (stroke != null)
             {
-                _PathBuilder.SetLineWidth(stroke.Width);
+                _ContentBuilder.SetLineWidth(stroke.Width);
 
                 if(stroke.LineStyle == LineStyle.Solid)
-                    _PathBuilder.SetLinePattern();
+                    _ContentBuilder.SetLinePattern();
                 else
-                    _PathBuilder.SetLinePattern(stroke.LineStyle.Pattern().Select(w => w * 0.1).ToArray());
+                    _ContentBuilder.SetLinePattern(stroke.LineStyle.Pattern().Select(w => w * 0.1).ToArray());
 
                 if (stroke.Color.HasValue)
                 {
                     var c = stroke.Color.Value;
-                    _PathBuilder.SetStrokeColor(c.Red, c.Green, c.Blue);
+                    _ContentBuilder.SetStrokeColor(c.Red, c.Green, c.Blue);
                 }
             }
 
-            _PathBuilder.FillEnabled = fill != null;
+            _ContentBuilder.FillEnabled = fill != null;
             if (fill != null)
             {
                 if (fill.Color.HasValue)
                 {
                     var c = fill.Color.Value;
-                    _PathBuilder.SetFillColor(c.Red, c.Green, c.Blue);
+                    _ContentBuilder.SetFillColor(c.Red, c.Green, c.Blue);
                 }
             }
 
@@ -127,16 +127,16 @@ namespace Macad.Exchange.Pdf
 
         void IDrawingRenderer.EndPathSegment()
         {
-            if (_PathBuilder.FillEnabled)
+            if (_ContentBuilder.FillEnabled)
             {
-                _PathBuilder.EndSegment();
+                _ContentBuilder.EndSegment();
             }
             else
             {
                 // If path gets to long, Acrobat Reader does render dashed
                 // lines as solid ones. So if we not need to fill, we can
                 // end the path here.
-                _PathBuilder.EndPath();
+                _ContentBuilder.EndPath();
             }
         }
 
@@ -144,19 +144,19 @@ namespace Macad.Exchange.Pdf
 
         void IDrawingRenderer.EndPath()
         {
-            if (_PathBuilder.HasContent)
+            if (_ContentBuilder.HasContent)
             {
-                _PathBuilder.EndPath();
-                _Content.Add(_PathBuilder.GetBytes());
+                _ContentBuilder.EndPath();
+                _Content.Add(_ContentBuilder.Finish());
             }
-            _PathBuilder = new PdfPathBuilder();
+            _ContentBuilder = new PdfContentBuilder();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void IDrawingRenderer.Line(Pnt2d start, Pnt2d end)
         {
-            _PathBuilder.AddLine(start, end);
+            _ContentBuilder.AddLine(start, end);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -168,10 +168,10 @@ namespace Macad.Exchange.Pdf
                 case 3:
                     var cp1 = knots[0] + (knots[1] - knots[0]).ToVec() * 2 / 3;
                     var cp2 = knots[2] + (knots[1] - knots[2]).ToVec() * 2 / 3;
-                    _PathBuilder.AddCurve(knots[0], cp1, cp2, knots[2]);
+                    _ContentBuilder.AddCurve(knots[0], cp1, cp2, knots[2]);
                     break;
                 case 4: 
-                    _PathBuilder.AddCurve(knots[0], knots[1], knots[2], knots[3]);
+                    _ContentBuilder.AddCurve(knots[0], knots[1], knots[2], knots[3]);
                     break;
             }
         }
@@ -180,7 +180,7 @@ namespace Macad.Exchange.Pdf
 
         void IDrawingRenderer.Text(string text, Pnt2d position, double rotation)
         {
-            _PathBuilder.AddText(text, position, rotation, _CurrentFont);
+            _ContentBuilder.AddText(text, position, rotation, _CurrentFont);
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -15,17 +15,12 @@
     <ProjectReference Include="..\Macad.Core\Macad.Core.csproj" />
     <ProjectReference Include="..\Macad.Managed\Macad.Managed.vcxproj" />
     <ProjectReference Include="..\Macad.Presentation\Macad.Presentation.csproj" />
+    <ProjectReference Include="..\Macad.Occt\Macad.Occt.vcxproj" />
   </ItemGroup>
   
   <ItemGroup>
     <InternalsVisibleToSigned Include="Test.Unit" />
     <InternalsVisibleToSigned Include="Test.Memory" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Reference Include="Macad.Occt">
-      <HintPath>..\..\Bin\Debug\Macad.Occt.dll</HintPath>
-    </Reference>
   </ItemGroup>
   
   <ItemGroup>

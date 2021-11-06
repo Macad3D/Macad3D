@@ -96,10 +96,7 @@ namespace Macad.Exchange.Pdf
             }
 
             string name = $"F{_Fonts.Count + 1}";
-            var font = new PdfDomFont(Document, name)
-            {
-                Style = style
-            };
+            var font = new PdfDomFont(Document, name, style);
             _Fonts[name] = font;
 
             return font;

@@ -8,7 +8,6 @@ namespace Macad.Exchange.Pdf
 {
     public class PdfWriter
     {
-
         MemoryStream _Stream;
         Encoding _Encoding = Encoding.GetEncoding(1252);
         long[] _ObjectOffsets;
@@ -117,6 +116,10 @@ namespace Macad.Exchange.Pdf
 
                 case int int32Value:
                     Write(int32Value.ToString());
+                    break;
+
+                case uint uint32Value:
+                    Write(uint32Value.ToString());
                     break;
 
                 case long int64Value:

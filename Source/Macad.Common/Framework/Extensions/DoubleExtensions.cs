@@ -30,6 +30,11 @@ namespace Macad.Common
             return Math.Round(value, Maths.Precision);
         }
 
+        public static int ToRoundedInt(this double value)
+        {
+            return (int)Math.Round(value, MidpointRounding.AwayFromZero);
+        }
+
         public static double Abs(this double value)
         {
             return Math.Abs(value);

@@ -34,6 +34,7 @@ namespace Macad.Exchange.Pdf
 
         public void Add(Stream stream)
         {
+            stream.Seek(0, SeekOrigin.Begin);
             stream.CopyTo(_Stream);
         }
         
@@ -67,6 +68,5 @@ namespace Macad.Exchange.Pdf
 
             return true;
         }
-
     }
 }

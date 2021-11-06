@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using Macad.Common;
 using Macad.Core.Drawing;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -238,30 +239,6 @@ namespace Macad.Test.Unit.Exchange
         }
 
         //--------------------------------------------------------------------------------------------------
-                
-        [Test]
-        public void TextWithUmlauts()
-        {
-            // Create simple geometry
-            var dim = new LengthDimension()
-            {
-                FirstPoint = new Pnt2d(-10, 5),
-                SecondPoint = new Pnt2d(10, 10),
-                AutoText = false,
-                Text = "ö 23°"
-            };
-
-            Drawing drawing = new();
-            drawing.AddChild(dim);
-
-            var pdf = PdfDrawingExporter.Export(drawing);
-            Assert.IsNotNull(pdf);
-
-            // Write to file and compare
-            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "TextWithUmlauts.pdf"), pdf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
-        }
-
-        //--------------------------------------------------------------------------------------------------
         
         [Test]
         public void MultipleDimensions()
@@ -285,6 +262,51 @@ namespace Macad.Test.Unit.Exchange
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void TextWithUmlauts()
+        {
+            Drawing drawing = new();
+            drawing.AddChild(new TextElement("ö 23°", DrawingRenderHelper.GetDefaultFontStyle()));
+
+            var pdf = PdfDrawingExporter.Export(drawing);
+            Assert.IsNotNull(pdf);
+
+            // Write to file and compare
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "TextWithUmlauts.pdf"), pdf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void TextWithUnicode()
+        {
+            Drawing drawing = new();
+            drawing.AddChild(new TextElement("κόσμε", DrawingRenderHelper.GetDefaultFontStyle()));
+
+            var pdf = PdfDrawingExporter.Export(drawing);
+            Assert.IsNotNull(pdf);
+
+            // Write to file and compare
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "TextWithUnicode.pdf"), pdf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void FontIsNonStandard()
+        {
+            Drawing drawing = new();
+            drawing.AddChild(new TextElement("Hello World!", new FontStyle("Comic Sans MS", 3.0f)));
+
+            var pdf = PdfDrawingExporter.Export(drawing);
+            Assert.IsNotNull(pdf);
+
+            // Write to file and compare
+            AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "FontIsNonStandard.pdf"), pdf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         #region Helper
 
@@ -301,6 +323,39 @@ namespace Macad.Test.Unit.Exchange
 
             return PdfDrawingExporter.Export(drawing);
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        class TextElement : DrawingElement
+        {
+            public string Text { get; set; }
+            public FontStyle Style { get; set; }
+            
+            public TextElement(string text, FontStyle style)
+            {
+                Text = text;
+                Style = style;
+            }
+
+            public override bool Render(IDrawingRenderer renderer)
+            {
+                renderer.BeginGroup("Text");
+                renderer.SetStyle(null, new FillStyle(Color.Black), Style);
+                renderer.Text(Text, Pnt2d.Origin, 0.0);
+                renderer.EndGroup();
+                return true;
+            }
+
+            protected override void CalculateExtents()
+            {
+                var aabb = new Bnd_Box2d();
+                aabb.Add(Pnt2d.Origin);
+                aabb.Add(DrawingRenderHelper.MeasureText(Text, Style).ToPnt());
+                Extents = aabb;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
     }
