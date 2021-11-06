@@ -72,5 +72,6 @@ namespace Macad.Test.UI.Editors.Toolkits
             context.ClickMenuItem("CreateBoxBody");
             Assert.AreEqual(2, Pipe.GetValue<int>("$Context.Document.ChildCount"));
         }
+
     }
 }

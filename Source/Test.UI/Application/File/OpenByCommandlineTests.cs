@@ -33,7 +33,7 @@ namespace Macad.Test.UI.Application.File
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, _BasePath, "Cylinder.model"));
             
             App = new ApplicationAdaptor();
-            App.Init(true, path);
+            App.Init($"\"{path}\"");
             MainWindow = new MainWindowAdaptor(App);
             Wait.UntilResponsive(MainWindow.Window);
 
@@ -49,7 +49,7 @@ namespace Macad.Test.UI.Application.File
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, _BasePath, "ImprintRingFace.brep"));
             
             App = new ApplicationAdaptor();
-            App.Init(true, path);
+            App.Init($"\"{path}\"");
             MainWindow = new MainWindowAdaptor(App);
             Wait.UntilResponsive(MainWindow.Window);
 
@@ -65,7 +65,7 @@ namespace Macad.Test.UI.Application.File
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, _BasePath, "ImportSolid.igs"));
             
             App = new ApplicationAdaptor();
-            App.Init(true, path);
+            App.Init($"\"{path}\"");
             MainWindow = new MainWindowAdaptor(App);
             Wait.UntilResponsive(MainWindow.Window);
 
@@ -86,7 +86,7 @@ namespace Macad.Test.UI.Application.File
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, _BasePath, "ImportSolid.stp"));
             
             App = new ApplicationAdaptor();
-            App.Init(true, path);
+            App.Init($"\"{path}\"");
             MainWindow = new MainWindowAdaptor(App);
             Wait.UntilResponsive(MainWindow.Window);
 
@@ -107,7 +107,7 @@ namespace Macad.Test.UI.Application.File
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, _BasePath, "ImportMesh.obj"));
             
             App = new ApplicationAdaptor();
-            App.Init(true, path);
+            App.Init($"\"{path}\"");
             MainWindow = new MainWindowAdaptor(App);
             Wait.UntilResponsive(MainWindow.Window);
 
@@ -128,12 +128,47 @@ namespace Macad.Test.UI.Application.File
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, _BasePath, "ImportMesh.stl"));
             
             App = new ApplicationAdaptor();
-            App.Init(true, path);
+            App.Init($"\"{path}\"");
             MainWindow = new MainWindowAdaptor(App);
             Wait.UntilResponsive(MainWindow.Window);
 
             var pipe = new DebugPipeClient();
             Assert.That(pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void RunScriptByCommandLine()
+        {
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, _BasePath, "CreateBoxBody.csx"));
+            
+            App = new ApplicationAdaptor();
+            App.Init($"-runscript=\"{path}\"");
+            MainWindow = new MainWindowAdaptor(App);
+            Wait.UntilResponsive(MainWindow.Window);
+
+            var pipe = new DebugPipeClient();
+            Assert.AreEqual(1, pipe.GetValue<int>("$Context.Document.ChildCount"));
+           
+        }
+                
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void OpenModelAndRunScriptByCommandLine()
+        {
+            string modelpath = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, _BasePath, "Cylinder.model"));
+            string scriptpath = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, _BasePath, "CreateBoxBody.csx"));
+            
+            App = new ApplicationAdaptor();
+            App.Init($"-runscript=\"{scriptpath}\" {modelpath}");
+            MainWindow = new MainWindowAdaptor(App);
+            Wait.UntilResponsive(MainWindow.Window);
+
+            var pipe = new DebugPipeClient();
+            Assert.AreEqual(2, pipe.GetValue<int>("$Context.Document.ChildCount"));
+           
         }
     }
 }

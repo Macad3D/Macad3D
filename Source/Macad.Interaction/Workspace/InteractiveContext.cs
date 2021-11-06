@@ -207,21 +207,22 @@ namespace Macad.Interaction
         
         internal void AddToScriptMruList(string filePath)
         {
-            var index = _RecentUsedScripts.IndexOfFirst(s => s.CompareIgnoreCase(filePath) == 0);
+            var recentList = RecentUsedScripts;
+            var index = recentList.IndexOfFirst(s => s.CompareIgnoreCase(filePath) == 0);
             if (index >= 0)
             {
                 // Move to top of list
-                _RecentUsedScripts.Move(index, 0);
-                _RecentUsedScripts[0] = filePath;
+                recentList.Move(index, 0);
+                recentList[0] = filePath;
                 return;
             }
 
-            if(_RecentUsedScripts.Count >= _MaxScriptMruCount)
-                _RecentUsedScripts.RemoveAt(_RecentUsedScripts.Count-1);
+            if(recentList.Count >= _MaxScriptMruCount)
+                recentList.RemoveAt(recentList.Count-1);
 
-            _RecentUsedScripts.Insert(0, filePath);
+            recentList.Insert(0, filePath);
 
-            SaveLocalSettings("RecentUsedScripts", _RecentUsedScripts);
+            SaveLocalSettings("RecentUsedScripts", recentList);
         }
 
         //--------------------------------------------------------------------------------------------------

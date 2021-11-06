@@ -35,7 +35,7 @@ namespace Macad.Window
             var cmdLine = new CommandLine(e.Args);
             
             // Show Welcome Dialog while initializing
-            bool bSkipWelcome = cmdLine.NoWelcomeDialog || cmdLine.HasPathToOpen;
+            bool bSkipWelcome = cmdLine.NoWelcomeDialog || cmdLine.HasPathToOpen || cmdLine.HasScriptToRun;
             if (!bSkipWelcome)
             {
                 WelcomeDialog.ShowAsync();
@@ -46,7 +46,7 @@ namespace Macad.Window
 
             CreateInstanceMutexes();
 
-            // Init Occ
+            // Init OCCT
 #if DEBUG
             Environment.SetEnvironmentVariable(@"CSF_DEBUG", "1");
 #endif

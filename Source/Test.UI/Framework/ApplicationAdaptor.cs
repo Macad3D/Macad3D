@@ -28,21 +28,12 @@ namespace Macad.Test.UI.Framework
 
         //--------------------------------------------------------------------------------------------------
 
-        public void Init(bool enableWelcomeDialog, string filepath=null)
+        public void Init(string cmdargs)
         {
             // Set up paths
             var applicationDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var applicationPath = Path.Combine(applicationDirectory, "Macad.exe");
-            var applicationArguments = "-sandbox";
-            if (!enableWelcomeDialog)
-            {
-                applicationArguments += " -nowelcome";
-            }
-
-            if (!filepath.IsNullOrEmpty())
-            {
-                applicationArguments += " \"" + filepath + "\"";
-            }
+            var applicationArguments = "-sandbox " + cmdargs;
 
             // Start the app
             var processStartInfo = new ProcessStartInfo

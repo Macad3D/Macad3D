@@ -17,7 +17,7 @@ namespace Macad.Test.UI.Application.File
         public void SetUp()
         {
             App = new ApplicationAdaptor();
-            App.Init(true);
+            App.Init("");
 
             MainWindow = new MainWindowAdaptor(App);
             WelcomeDialog = new WindowAdaptor(MainWindow, "WelcomeDialog");

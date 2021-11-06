@@ -42,9 +42,16 @@ namespace Macad.Window
                     DocumentCommands.OpenFile.Execute(cmdArgs.PathToOpen);
                 }
 
+                // If no document is loaded, create a new
                 if (AppContext.Current.Document == null)
                 {
                     DocumentCommands.CreateNewModel.Execute();
+                }
+
+                // Check for command line option to run script
+                if (cmdArgs.HasScriptToRun)
+                {
+                    ToolboxCommands.RunScriptCommand.Execute(cmdArgs.ScriptToRun);
                 }
             });
 

@@ -225,6 +225,12 @@ bool _CopyBinaries(string sourcePath, IEnumerable<string> sourceList, string tar
 		filesToDelete.Remove(filename);
 		
 		var sourceFilepath = Path.Combine(sourcePath, filename);
+		if(!File.Exists(sourceFilepath))
+		{
+			Printer.Warning($"The file {filename} was not found in source path.");
+			continue;
+		}
+
 		var targetFilepath = Path.Combine(targetPath, filename);
 
 		if (File.GetLastWriteTime(sourceFilepath).CompareTo(File.GetLastWriteTime(targetFilepath)) > 0)

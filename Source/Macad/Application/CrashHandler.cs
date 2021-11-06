@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Macad.Common;
@@ -70,13 +71,18 @@ namespace Macad.Window
 
             _InCrashState = true;
 
-            if (MessageBox.Show(
-                    "An unhandled exception occurred, and the application is terminating.\n\n"
-                    + "If you click OK, it is tried to save a copy of the open documents.\n"
-                    + "Also two crashdump files will be saved to the application directory. "
-                    + "These can be used by the developer to trace the crash.\n\n"
-                    + "The crashdump files will be deleted on the next start of the application.",
-                    "Ooops...", MessageBoxButton.OKCancel, MessageBoxImage.Error) != MessageBoxResult.OK)
+            MessageBoxResult mbres = MessageBoxResult.OK;
+            Task.Run(() =>
+                {
+                    mbres = MessageBox.Show(
+                        "An unhandled exception occurred, and the application is terminating.\n\n"
+                        + "If you click OK, it is tried to save a copy of the open documents.\n"
+                        + "Also two crashdump files will be saved to the application directory. "
+                        + "These can be used by the developer to trace the crash.\n\n"
+                        + "The crashdump files will be deleted on the next start of the application.",
+                        "Ooops...", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+                }).Wait();
+            if(mbres != MessageBoxResult.OK)
                 return false;
 
             using (new WaitCursor())
@@ -125,7 +131,8 @@ namespace Macad.Window
                 ThreadId = Win32Api.GetCurrentThreadId()
             };
 
-            Win32Api.MiniDumpWriteDump(Win32Api.GetCurrentProcess(), Win32Api.GetCurrentProcessId(),
+            Win32Api.MiniDumpWriteDump(
+                Win32Api.GetCurrentProcess(), Win32Api.GetCurrentProcessId(),
                 fileStream.SafeFileHandle.DangerousGetHandle(), 
                 full ? Win32Api.MINIDUMP_TYPE.MiniDumpWithFullMemory : Win32Api.MINIDUMP_TYPE.MiniDumpNormal,
                 ref info, IntPtr.Zero, IntPtr.Zero);

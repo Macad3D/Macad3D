@@ -1,4 +1,6 @@
-﻿using Macad.Common;
+﻿using System;
+using System.Reflection;
+using Macad.Common;
 
 namespace Macad.Window
 {
@@ -8,6 +10,8 @@ namespace Macad.Window
         public bool HasPathToOpen => !PathToOpen.IsNullOrEmpty();
         public bool EnableSandbox { get; }
         public bool NoWelcomeDialog { get; }
+        public string ScriptToRun { get; }
+        public bool HasScriptToRun => !ScriptToRun.IsNullOrEmpty();
 
         //--------------------------------------------------------------------------------------------------
 
@@ -17,7 +21,19 @@ namespace Macad.Window
             {
                 if (cmdarg.StartsWith("-") | cmdarg.StartsWith("/"))
                 {
-                    var option = cmdarg.Substring(1).ToLower();
+                    string option, parameter;
+                    int splitPos = Math.Min(cmdarg.IndexOf('='), cmdarg.IndexOf(':'));
+                    if (splitPos > 1)
+                    {
+                        option = cmdarg.Substring(1, splitPos-1).ToLower();
+                        parameter = cmdarg.Substring(splitPos + 1);
+                    }
+                    else
+                    {
+                        option = cmdarg.Substring(1).ToLower();
+                        parameter = null;
+                    }
+
                     switch (option)
                     {
                         case "sandbox":
@@ -26,6 +42,10 @@ namespace Macad.Window
 
                         case "nowelcome":
                             NoWelcomeDialog = true;
+                            break;
+
+                        case "runscript":
+                            ScriptToRun = parameter;
                             break;
                     }
                 }

@@ -21,7 +21,7 @@ namespace Macad.Test.UI.Framework
         public void OneTimeSetUp()
         {
             App = new ApplicationAdaptor();
-            App.Init(EnableWelcomeDialog);
+            App.Init(EnableWelcomeDialog ? "" : "-nowelcome");
 
             // Create main window
             MainWindow = new MainWindowAdaptor(App);
