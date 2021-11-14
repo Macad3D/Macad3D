@@ -9,9 +9,9 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "BRepCheck.h"
 #include "Standard.h"
 #include "TopoDS.h"
-#include "TopTools.h"
-#include "TopAbs.h"
 #include "Adaptor3d.h"
+#include "TopAbs.h"
+#include "TopTools.h"
 
 
 //---------------------------------------------------------------------
@@ -108,190 +108,197 @@ void Macad::Occt::BRepCheck_ListOfStatus::Reverse()
 
 
 //---------------------------------------------------------------------
-//  Class  BRepCheck_DataMapOfShapeListOfStatus
+//  Class  BRepCheck_IndexedDataMapOfShapeResult
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus::BRepCheck_DataMapOfShapeListOfStatus()
-	: BaseClass<::BRepCheck_DataMapOfShapeListOfStatus>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::BRepCheck_IndexedDataMapOfShapeResult()
+	: BaseClass<::BRepCheck_IndexedDataMapOfShapeResult>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepCheck_DataMapOfShapeListOfStatus();
+	_NativeInstance = new ::BRepCheck_IndexedDataMapOfShapeResult();
 }
 
-Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus::BRepCheck_DataMapOfShapeListOfStatus(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-	: BaseClass<::BRepCheck_DataMapOfShapeListOfStatus>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::BRepCheck_IndexedDataMapOfShapeResult(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::BRepCheck_IndexedDataMapOfShapeResult>(BaseClass::InitMode::Uninitialized)
 {
 	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
-	_NativeInstance = new ::BRepCheck_DataMapOfShapeListOfStatus(theNbBuckets, h_theAllocator);
+	_NativeInstance = new ::BRepCheck_IndexedDataMapOfShapeResult(theNbBuckets, h_theAllocator);
 	theAllocator->NativeInstance = h_theAllocator.get();
 }
 
-Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus::BRepCheck_DataMapOfShapeListOfStatus(int theNbBuckets)
-	: BaseClass<::BRepCheck_DataMapOfShapeListOfStatus>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::BRepCheck_IndexedDataMapOfShapeResult(int theNbBuckets)
+	: BaseClass<::BRepCheck_IndexedDataMapOfShapeResult>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepCheck_DataMapOfShapeListOfStatus(theNbBuckets, 0L);
+	_NativeInstance = new ::BRepCheck_IndexedDataMapOfShapeResult(theNbBuckets, 0L);
 }
 
-Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus::BRepCheck_DataMapOfShapeListOfStatus(Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus^ theOther)
-	: BaseClass<::BRepCheck_DataMapOfShapeListOfStatus>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::BRepCheck_IndexedDataMapOfShapeResult(Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult^ theOther)
+	: BaseClass<::BRepCheck_IndexedDataMapOfShapeResult>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepCheck_DataMapOfShapeListOfStatus(*(::BRepCheck_DataMapOfShapeListOfStatus*)theOther->NativeInstance);
+	_NativeInstance = new ::BRepCheck_IndexedDataMapOfShapeResult(*(::BRepCheck_IndexedDataMapOfShapeResult*)theOther->NativeInstance);
 }
 
-void Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus::Exchange(Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus^ theOther)
+void Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::Exchange(Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult^ theOther)
 {
-	((::BRepCheck_DataMapOfShapeListOfStatus*)_NativeInstance)->Exchange(*(::BRepCheck_DataMapOfShapeListOfStatus*)theOther->NativeInstance);
+	((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->Exchange(*(::BRepCheck_IndexedDataMapOfShapeResult*)theOther->NativeInstance);
 }
 
-Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus^ Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus::Assign(Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus^ theOther)
+int Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::Add(Macad::Occt::TopoDS_Shape^ theKey1, Macad::Occt::BRepCheck_Result^ theItem)
 {
-	::BRepCheck_DataMapOfShapeListOfStatus* _result = new ::BRepCheck_DataMapOfShapeListOfStatus();
-	*_result = ((::BRepCheck_DataMapOfShapeListOfStatus*)_NativeInstance)->Assign(*(::BRepCheck_DataMapOfShapeListOfStatus*)theOther->NativeInstance);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus(_result);
+	Handle(::BRepCheck_Result) h_theItem = theItem->NativeInstance;
+	return ((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->Add(*(::TopoDS_Shape*)theKey1->NativeInstance, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
-bool Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus::IsBound(Macad::Occt::TopoDS_Shape^ theKey)
+bool Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::Contains(Macad::Occt::TopoDS_Shape^ theKey1)
 {
-	return ((::BRepCheck_DataMapOfShapeListOfStatus*)_NativeInstance)->IsBound(*(::TopoDS_Shape*)theKey->NativeInstance);
+	return ((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->Contains(*(::TopoDS_Shape*)theKey1->NativeInstance);
 }
 
-bool Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus::UnBind(Macad::Occt::TopoDS_Shape^ theKey)
+void Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::Substitute(int theIndex, Macad::Occt::TopoDS_Shape^ theKey1, Macad::Occt::BRepCheck_Result^ theItem)
 {
-	return ((::BRepCheck_DataMapOfShapeListOfStatus*)_NativeInstance)->UnBind(*(::TopoDS_Shape*)theKey->NativeInstance);
+	Handle(::BRepCheck_Result) h_theItem = theItem->NativeInstance;
+	((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->Substitute(theIndex, *(::TopoDS_Shape*)theKey1->NativeInstance, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
 }
 
-void Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus::Clear(bool doReleaseMemory)
+void Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::Swap(int theIndex1, int theIndex2)
 {
-	((::BRepCheck_DataMapOfShapeListOfStatus*)_NativeInstance)->Clear(doReleaseMemory);
+	((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->Swap(theIndex1, theIndex2);
 }
 
-void Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus::Clear()
+void Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::RemoveLast()
 {
-	((::BRepCheck_DataMapOfShapeListOfStatus*)_NativeInstance)->Clear(true);
+	((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->RemoveLast();
 }
 
-void Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+void Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::RemoveFromIndex(int theIndex)
 {
-	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
-	((::BRepCheck_DataMapOfShapeListOfStatus*)_NativeInstance)->Clear(h_theAllocator);
-	theAllocator->NativeInstance = h_theAllocator.get();
+	((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->RemoveFromIndex(theIndex);
 }
 
-int Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus::Size()
+void Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::RemoveKey(Macad::Occt::TopoDS_Shape^ theKey1)
 {
-	return ((::BRepCheck_DataMapOfShapeListOfStatus*)_NativeInstance)->Size();
+	((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->RemoveKey(*(::TopoDS_Shape*)theKey1->NativeInstance);
 }
 
-
-
-
-//---------------------------------------------------------------------
-//  Class  BRepCheck_DataMapOfShapeResult
-//---------------------------------------------------------------------
-
-Macad::Occt::BRepCheck_DataMapOfShapeResult::BRepCheck_DataMapOfShapeResult()
-	: BaseClass<::BRepCheck_DataMapOfShapeResult>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::FindKey(int theIndex)
 {
-	_NativeInstance = new ::BRepCheck_DataMapOfShapeResult();
+	::TopoDS_Shape* _result = new ::TopoDS_Shape();
+	*_result =  (::TopoDS_Shape)((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->FindKey(theIndex);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
 }
 
-Macad::Occt::BRepCheck_DataMapOfShapeResult::BRepCheck_DataMapOfShapeResult(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-	: BaseClass<::BRepCheck_DataMapOfShapeResult>(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
-	_NativeInstance = new ::BRepCheck_DataMapOfShapeResult(theNbBuckets, h_theAllocator);
-	theAllocator->NativeInstance = h_theAllocator.get();
-}
-
-Macad::Occt::BRepCheck_DataMapOfShapeResult::BRepCheck_DataMapOfShapeResult(int theNbBuckets)
-	: BaseClass<::BRepCheck_DataMapOfShapeResult>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepCheck_DataMapOfShapeResult(theNbBuckets, 0L);
-}
-
-Macad::Occt::BRepCheck_DataMapOfShapeResult::BRepCheck_DataMapOfShapeResult(Macad::Occt::BRepCheck_DataMapOfShapeResult^ theOther)
-	: BaseClass<::BRepCheck_DataMapOfShapeResult>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepCheck_DataMapOfShapeResult(*(::BRepCheck_DataMapOfShapeResult*)theOther->NativeInstance);
-}
-
-void Macad::Occt::BRepCheck_DataMapOfShapeResult::Exchange(Macad::Occt::BRepCheck_DataMapOfShapeResult^ theOther)
-{
-	((::BRepCheck_DataMapOfShapeResult*)_NativeInstance)->Exchange(*(::BRepCheck_DataMapOfShapeResult*)theOther->NativeInstance);
-}
-
-Macad::Occt::BRepCheck_DataMapOfShapeResult^ Macad::Occt::BRepCheck_DataMapOfShapeResult::Assign(Macad::Occt::BRepCheck_DataMapOfShapeResult^ theOther)
-{
-	::BRepCheck_DataMapOfShapeResult* _result = new ::BRepCheck_DataMapOfShapeResult();
-	*_result = ((::BRepCheck_DataMapOfShapeResult*)_NativeInstance)->Assign(*(::BRepCheck_DataMapOfShapeResult*)theOther->NativeInstance);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepCheck_DataMapOfShapeResult(_result);
-}
-
-Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_DataMapOfShapeResult::Bound(Macad::Occt::TopoDS_Shape^ theKey, Macad::Occt::BRepCheck_Result^ theItem)
-{
-	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
-}
-
-bool Macad::Occt::BRepCheck_DataMapOfShapeResult::IsBound(Macad::Occt::TopoDS_Shape^ theKey)
-{
-	return ((::BRepCheck_DataMapOfShapeResult*)_NativeInstance)->IsBound(*(::TopoDS_Shape*)theKey->NativeInstance);
-}
-
-bool Macad::Occt::BRepCheck_DataMapOfShapeResult::UnBind(Macad::Occt::TopoDS_Shape^ theKey)
-{
-	return ((::BRepCheck_DataMapOfShapeResult*)_NativeInstance)->UnBind(*(::TopoDS_Shape*)theKey->NativeInstance);
-}
-
-Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_DataMapOfShapeResult::Seek(Macad::Occt::TopoDS_Shape^ theKey)
-{
-	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
-}
-
-Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_DataMapOfShapeResult::Find(Macad::Occt::TopoDS_Shape^ theKey)
+Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::FindFromIndex(int theIndex)
 {
 	Handle(::BRepCheck_Result) _result;
-	_result = ((::BRepCheck_DataMapOfShapeResult*)_NativeInstance)->Find(*(::TopoDS_Shape*)theKey->NativeInstance);
+	_result = ((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->FindFromIndex(theIndex);
 	 return _result.IsNull() ? nullptr : Macad::Occt::BRepCheck_Result::CreateDowncasted( _result.get());
 }
 
-bool Macad::Occt::BRepCheck_DataMapOfShapeResult::Find(Macad::Occt::TopoDS_Shape^ theKey, Macad::Occt::BRepCheck_Result^ theValue)
+Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::ChangeFromIndex(int theIndex)
+{
+	Handle(::BRepCheck_Result) _result;
+	_result = ((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->ChangeFromIndex(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::BRepCheck_Result::CreateDowncasted( _result.get());
+}
+
+int Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::FindIndex(Macad::Occt::TopoDS_Shape^ theKey1)
+{
+	return ((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->FindIndex(*(::TopoDS_Shape*)theKey1->NativeInstance);
+}
+
+Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::FindFromKey(Macad::Occt::TopoDS_Shape^ theKey1)
+{
+	Handle(::BRepCheck_Result) _result;
+	_result = ((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->FindFromKey(*(::TopoDS_Shape*)theKey1->NativeInstance);
+	 return _result.IsNull() ? nullptr : Macad::Occt::BRepCheck_Result::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::ChangeFromKey(Macad::Occt::TopoDS_Shape^ theKey1)
+{
+	Handle(::BRepCheck_Result) _result;
+	_result = ((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->ChangeFromKey(*(::TopoDS_Shape*)theKey1->NativeInstance);
+	 return _result.IsNull() ? nullptr : Macad::Occt::BRepCheck_Result::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::Seek(Macad::Occt::TopoDS_Shape^ theKey1)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::ChangeSeek(Macad::Occt::TopoDS_Shape^ theKey1)
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+bool Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::FindFromKey(Macad::Occt::TopoDS_Shape^ theKey1, Macad::Occt::BRepCheck_Result^ theValue)
 {
 	Handle(::BRepCheck_Result) h_theValue = theValue->NativeInstance;
-	return ((::BRepCheck_DataMapOfShapeResult*)_NativeInstance)->Find(*(::TopoDS_Shape*)theKey->NativeInstance, h_theValue);
+	return ((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->FindFromKey(*(::TopoDS_Shape*)theKey1->NativeInstance, h_theValue);
 	theValue->NativeInstance = h_theValue.get();
 }
 
-Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_DataMapOfShapeResult::ChangeSeek(Macad::Occt::TopoDS_Shape^ theKey)
+void Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::Clear(bool doReleaseMemory)
 {
-	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+	((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->Clear(doReleaseMemory);
 }
 
-Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_DataMapOfShapeResult::ChangeFind(Macad::Occt::TopoDS_Shape^ theKey)
+void Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::Clear()
 {
-	Handle(::BRepCheck_Result) _result;
-	_result = ((::BRepCheck_DataMapOfShapeResult*)_NativeInstance)->ChangeFind(*(::TopoDS_Shape*)theKey->NativeInstance);
-	 return _result.IsNull() ? nullptr : Macad::Occt::BRepCheck_Result::CreateDowncasted( _result.get());
+	((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->Clear(true);
 }
 
-void Macad::Occt::BRepCheck_DataMapOfShapeResult::Clear(bool doReleaseMemory)
-{
-	((::BRepCheck_DataMapOfShapeResult*)_NativeInstance)->Clear(doReleaseMemory);
-}
-
-void Macad::Occt::BRepCheck_DataMapOfShapeResult::Clear()
-{
-	((::BRepCheck_DataMapOfShapeResult*)_NativeInstance)->Clear(true);
-}
-
-void Macad::Occt::BRepCheck_DataMapOfShapeResult::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+void Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
 {
 	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
-	((::BRepCheck_DataMapOfShapeResult*)_NativeInstance)->Clear(h_theAllocator);
+	((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->Clear(h_theAllocator);
 	theAllocator->NativeInstance = h_theAllocator.get();
 }
 
-int Macad::Occt::BRepCheck_DataMapOfShapeResult::Size()
+int Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::Size()
 {
-	return ((::BRepCheck_DataMapOfShapeResult*)_NativeInstance)->Size();
+	return ((::BRepCheck_IndexedDataMapOfShapeResult*)_NativeInstance)->Size();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  BRepCheck
+//---------------------------------------------------------------------
+
+Macad::Occt::BRepCheck::BRepCheck()
+	: BaseClass<::BRepCheck>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepCheck();
+}
+
+Macad::Occt::BRepCheck::BRepCheck(Macad::Occt::BRepCheck^ parameter1)
+	: BaseClass<::BRepCheck>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepCheck(*(::BRepCheck*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::BRepCheck::Add(Macad::Occt::BRepCheck_ListOfStatus^ List, Macad::Occt::BRepCheck_Status Stat)
+{
+	::BRepCheck::Add(*(::BRepCheck_ListOfStatus*)List->NativeInstance, (::BRepCheck_Status)Stat);
+}
+
+bool Macad::Occt::BRepCheck::SelfIntersection(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2)
+{
+	return ::BRepCheck::SelfIntersection(*(::TopoDS_Wire*)W->NativeInstance, *(::TopoDS_Face*)F->NativeInstance, *(::TopoDS_Edge*)E1->NativeInstance, *(::TopoDS_Edge*)E2->NativeInstance);
+}
+
+double Macad::Occt::BRepCheck::PrecCurve(Macad::Occt::Adaptor3d_Curve^ aAC3D)
+{
+	return ::BRepCheck::PrecCurve(*(::Adaptor3d_Curve*)aAC3D->NativeInstance);
+}
+
+double Macad::Occt::BRepCheck::PrecSurface(Macad::Occt::Adaptor3d_Surface^ aAHSurf)
+{
+	Handle(::Adaptor3d_Surface) h_aAHSurf = aAHSurf->NativeInstance;
+	return ::BRepCheck::PrecSurface(h_aAHSurf);
+	aAHSurf->NativeInstance = h_aAHSurf.get();
 }
 
 
@@ -349,13 +356,6 @@ bool Macad::Occt::BRepCheck_Result::IsBlind()
 	return ((::BRepCheck_Result*)_NativeInstance)->IsBlind();
 }
 
-Macad::Occt::BRepCheck_ListOfStatus^ Macad::Occt::BRepCheck_Result::StatusOnShape(Macad::Occt::TopoDS_Shape^ S)
-{
-	::BRepCheck_ListOfStatus* _result = new ::BRepCheck_ListOfStatus();
-	*_result =  (::BRepCheck_ListOfStatus)((::BRepCheck_Result*)_NativeInstance)->StatusOnShape(*(::TopoDS_Shape*)S->NativeInstance);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepCheck_ListOfStatus(_result);
-}
-
 void Macad::Occt::BRepCheck_Result::InitContextIterator()
 {
 	((::BRepCheck_Result*)_NativeInstance)->InitContextIterator();
@@ -385,24 +385,41 @@ void Macad::Occt::BRepCheck_Result::NextShapeInContext()
 	((::BRepCheck_Result*)_NativeInstance)->NextShapeInContext();
 }
 
+void Macad::Occt::BRepCheck_Result::SetParallel(bool theIsParallel)
+{
+	((::BRepCheck_Result*)_NativeInstance)->SetParallel(theIsParallel);
+}
+
+bool Macad::Occt::BRepCheck_Result::IsStatusOnShape(Macad::Occt::TopoDS_Shape^ theShape)
+{
+	return ((::BRepCheck_Result*)_NativeInstance)->IsStatusOnShape(*(::TopoDS_Shape*)theShape->NativeInstance);
+}
+
+Macad::Occt::BRepCheck_ListOfStatus^ Macad::Occt::BRepCheck_Result::StatusOnShape(Macad::Occt::TopoDS_Shape^ theShape)
+{
+	::BRepCheck_ListOfStatus* _result = new ::BRepCheck_ListOfStatus();
+	*_result =  (::BRepCheck_ListOfStatus)((::BRepCheck_Result*)_NativeInstance)->StatusOnShape(*(::TopoDS_Shape*)theShape->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepCheck_ListOfStatus(_result);
+}
+
 
 Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_Result::CreateDowncasted(::BRepCheck_Result* instance)
 {
 	if( instance == nullptr )
 		return nullptr;
 
-	if (instance->IsKind(STANDARD_TYPE(::BRepCheck_Vertex)))
-		return Macad::Occt::BRepCheck_Vertex::CreateDowncasted((::BRepCheck_Vertex*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::BRepCheck_Edge)))
 		return Macad::Occt::BRepCheck_Edge::CreateDowncasted((::BRepCheck_Edge*)instance);
-	if (instance->IsKind(STANDARD_TYPE(::BRepCheck_Wire)))
-		return Macad::Occt::BRepCheck_Wire::CreateDowncasted((::BRepCheck_Wire*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::BRepCheck_Face)))
 		return Macad::Occt::BRepCheck_Face::CreateDowncasted((::BRepCheck_Face*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::BRepCheck_Shell)))
 		return Macad::Occt::BRepCheck_Shell::CreateDowncasted((::BRepCheck_Shell*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::BRepCheck_Solid)))
 		return Macad::Occt::BRepCheck_Solid::CreateDowncasted((::BRepCheck_Solid*)instance);
+	if (instance->IsKind(STANDARD_TYPE(::BRepCheck_Vertex)))
+		return Macad::Occt::BRepCheck_Vertex::CreateDowncasted((::BRepCheck_Vertex*)instance);
+	if (instance->IsKind(STANDARD_TYPE(::BRepCheck_Wire)))
+		return Macad::Occt::BRepCheck_Wire::CreateDowncasted((::BRepCheck_Wire*)instance);
 
 	return gcnew Macad::Occt::BRepCheck_Result( instance );
 }
@@ -410,46 +427,65 @@ Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_Result::CreateDowncasted(:
 
 
 //---------------------------------------------------------------------
-//  Class  BRepCheck_Vertex
+//  Class  BRepCheck_Analyzer
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepCheck_Vertex::BRepCheck_Vertex(Macad::Occt::TopoDS_Vertex^ V)
-	: Macad::Occt::BRepCheck_Result(BaseClass::InitMode::Uninitialized)
+Macad::Occt::BRepCheck_Analyzer::BRepCheck_Analyzer(Macad::Occt::TopoDS_Shape^ S, bool GeomControls, bool theIsParallel)
+	: BaseClass<::BRepCheck_Analyzer>(BaseClass::InitMode::Uninitialized)
 {
-	NativeInstance = new ::BRepCheck_Vertex(*(::TopoDS_Vertex*)V->NativeInstance);
+	_NativeInstance = new ::BRepCheck_Analyzer(*(::TopoDS_Shape*)S->NativeInstance, GeomControls, theIsParallel);
 }
 
-Macad::Occt::BRepCheck_Vertex::BRepCheck_Vertex(Macad::Occt::BRepCheck_Vertex^ parameter1)
-	: Macad::Occt::BRepCheck_Result(BaseClass::InitMode::Uninitialized)
+Macad::Occt::BRepCheck_Analyzer::BRepCheck_Analyzer(Macad::Occt::TopoDS_Shape^ S, bool GeomControls)
+	: BaseClass<::BRepCheck_Analyzer>(BaseClass::InitMode::Uninitialized)
 {
-	NativeInstance = new ::BRepCheck_Vertex(*(::BRepCheck_Vertex*)parameter1->NativeInstance);
+	_NativeInstance = new ::BRepCheck_Analyzer(*(::TopoDS_Shape*)S->NativeInstance, GeomControls, false);
 }
 
-void Macad::Occt::BRepCheck_Vertex::InContext(Macad::Occt::TopoDS_Shape^ ContextShape)
+Macad::Occt::BRepCheck_Analyzer::BRepCheck_Analyzer(Macad::Occt::TopoDS_Shape^ S)
+	: BaseClass<::BRepCheck_Analyzer>(BaseClass::InitMode::Uninitialized)
 {
-	((::BRepCheck_Vertex*)_NativeInstance)->InContext(*(::TopoDS_Shape*)ContextShape->NativeInstance);
+	_NativeInstance = new ::BRepCheck_Analyzer(*(::TopoDS_Shape*)S->NativeInstance, true, false);
 }
 
-void Macad::Occt::BRepCheck_Vertex::Minimum()
+Macad::Occt::BRepCheck_Analyzer::BRepCheck_Analyzer(Macad::Occt::BRepCheck_Analyzer^ parameter1)
+	: BaseClass<::BRepCheck_Analyzer>(BaseClass::InitMode::Uninitialized)
 {
-	((::BRepCheck_Vertex*)_NativeInstance)->Minimum();
+	_NativeInstance = new ::BRepCheck_Analyzer(*(::BRepCheck_Analyzer*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::BRepCheck_Vertex::Blind()
+void Macad::Occt::BRepCheck_Analyzer::Init(Macad::Occt::TopoDS_Shape^ S, bool GeomControls, bool theIsParallel)
 {
-	((::BRepCheck_Vertex*)_NativeInstance)->Blind();
+	((::BRepCheck_Analyzer*)_NativeInstance)->Init(*(::TopoDS_Shape*)S->NativeInstance, GeomControls, theIsParallel);
 }
 
-double Macad::Occt::BRepCheck_Vertex::Tolerance()
+void Macad::Occt::BRepCheck_Analyzer::Init(Macad::Occt::TopoDS_Shape^ S, bool GeomControls)
 {
-	return ((::BRepCheck_Vertex*)_NativeInstance)->Tolerance();
+	((::BRepCheck_Analyzer*)_NativeInstance)->Init(*(::TopoDS_Shape*)S->NativeInstance, GeomControls, false);
 }
 
-
-Macad::Occt::BRepCheck_Vertex^ Macad::Occt::BRepCheck_Vertex::CreateDowncasted(::BRepCheck_Vertex* instance)
+void Macad::Occt::BRepCheck_Analyzer::Init(Macad::Occt::TopoDS_Shape^ S)
 {
-	return gcnew Macad::Occt::BRepCheck_Vertex( instance );
+	((::BRepCheck_Analyzer*)_NativeInstance)->Init(*(::TopoDS_Shape*)S->NativeInstance, true, false);
 }
+
+bool Macad::Occt::BRepCheck_Analyzer::IsValid(Macad::Occt::TopoDS_Shape^ S)
+{
+	return ((::BRepCheck_Analyzer*)_NativeInstance)->IsValid(*(::TopoDS_Shape*)S->NativeInstance);
+}
+
+bool Macad::Occt::BRepCheck_Analyzer::IsValid()
+{
+	return ((::BRepCheck_Analyzer*)_NativeInstance)->IsValid();
+}
+
+Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_Analyzer::Result(Macad::Occt::TopoDS_Shape^ theSubS)
+{
+	Handle(::BRepCheck_Result) _result;
+	_result = ((::BRepCheck_Analyzer*)_NativeInstance)->Result(*(::TopoDS_Shape*)theSubS->NativeInstance);
+	 return _result.IsNull() ? nullptr : Macad::Occt::BRepCheck_Result::CreateDowncasted( _result.get());
+}
+
 
 
 
@@ -513,100 +549,6 @@ Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Edge::CheckPolygonOnTriangu
 Macad::Occt::BRepCheck_Edge^ Macad::Occt::BRepCheck_Edge::CreateDowncasted(::BRepCheck_Edge* instance)
 {
 	return gcnew Macad::Occt::BRepCheck_Edge( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  BRepCheck_Wire
-//---------------------------------------------------------------------
-
-Macad::Occt::BRepCheck_Wire::BRepCheck_Wire(Macad::Occt::TopoDS_Wire^ W)
-	: Macad::Occt::BRepCheck_Result(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::BRepCheck_Wire(*(::TopoDS_Wire*)W->NativeInstance);
-}
-
-Macad::Occt::BRepCheck_Wire::BRepCheck_Wire(Macad::Occt::BRepCheck_Wire^ parameter1)
-	: Macad::Occt::BRepCheck_Result(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::BRepCheck_Wire(*(::BRepCheck_Wire*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::BRepCheck_Wire::InContext(Macad::Occt::TopoDS_Shape^ ContextShape)
-{
-	((::BRepCheck_Wire*)_NativeInstance)->InContext(*(::TopoDS_Shape*)ContextShape->NativeInstance);
-}
-
-void Macad::Occt::BRepCheck_Wire::Minimum()
-{
-	((::BRepCheck_Wire*)_NativeInstance)->Minimum();
-}
-
-void Macad::Occt::BRepCheck_Wire::Blind()
-{
-	((::BRepCheck_Wire*)_NativeInstance)->Blind();
-}
-
-Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::Closed(bool Update)
-{
-	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->Closed(Update);
-}
-
-Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::Closed()
-{
-	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->Closed(false);
-}
-
-Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::Closed2d(Macad::Occt::TopoDS_Face^ F, bool Update)
-{
-	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->Closed2d(*(::TopoDS_Face*)F->NativeInstance, Update);
-}
-
-Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::Closed2d(Macad::Occt::TopoDS_Face^ F)
-{
-	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->Closed2d(*(::TopoDS_Face*)F->NativeInstance, false);
-}
-
-Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::Orientation(Macad::Occt::TopoDS_Face^ F, bool Update)
-{
-	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->Orientation(*(::TopoDS_Face*)F->NativeInstance, Update);
-}
-
-Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::Orientation(Macad::Occt::TopoDS_Face^ F)
-{
-	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->Orientation(*(::TopoDS_Face*)F->NativeInstance, false);
-}
-
-Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::SelfIntersect(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2, bool Update)
-{
-	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->SelfIntersect(*(::TopoDS_Face*)F->NativeInstance, *(::TopoDS_Edge*)E1->NativeInstance, *(::TopoDS_Edge*)E2->NativeInstance, Update);
-}
-
-Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::SelfIntersect(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2)
-{
-	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->SelfIntersect(*(::TopoDS_Face*)F->NativeInstance, *(::TopoDS_Edge*)E1->NativeInstance, *(::TopoDS_Edge*)E2->NativeInstance, false);
-}
-
-bool Macad::Occt::BRepCheck_Wire::GeometricControls()
-{
-	return ((::BRepCheck_Wire*)_NativeInstance)->GeometricControls();
-}
-
-void Macad::Occt::BRepCheck_Wire::GeometricControls(bool B)
-{
-	((::BRepCheck_Wire*)_NativeInstance)->GeometricControls(B);
-}
-
-void Macad::Occt::BRepCheck_Wire::SetStatus(Macad::Occt::BRepCheck_Status theStatus)
-{
-	((::BRepCheck_Wire*)_NativeInstance)->SetStatus((::BRepCheck_Status)theStatus);
-}
-
-
-Macad::Occt::BRepCheck_Wire^ Macad::Occt::BRepCheck_Wire::CreateDowncasted(::BRepCheck_Wire* instance)
-{
-	return gcnew Macad::Occt::BRepCheck_Wire( instance );
 }
 
 
@@ -819,94 +761,139 @@ Macad::Occt::BRepCheck_Solid^ Macad::Occt::BRepCheck_Solid::CreateDowncasted(::B
 
 
 //---------------------------------------------------------------------
-//  Class  BRepCheck_Analyzer
+//  Class  BRepCheck_Vertex
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepCheck_Analyzer::BRepCheck_Analyzer(Macad::Occt::TopoDS_Shape^ S, bool GeomControls)
-	: BaseClass<::BRepCheck_Analyzer>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::BRepCheck_Vertex::BRepCheck_Vertex(Macad::Occt::TopoDS_Vertex^ V)
+	: Macad::Occt::BRepCheck_Result(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepCheck_Analyzer(*(::TopoDS_Shape*)S->NativeInstance, GeomControls);
+	NativeInstance = new ::BRepCheck_Vertex(*(::TopoDS_Vertex*)V->NativeInstance);
 }
 
-Macad::Occt::BRepCheck_Analyzer::BRepCheck_Analyzer(Macad::Occt::TopoDS_Shape^ S)
-	: BaseClass<::BRepCheck_Analyzer>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::BRepCheck_Vertex::BRepCheck_Vertex(Macad::Occt::BRepCheck_Vertex^ parameter1)
+	: Macad::Occt::BRepCheck_Result(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepCheck_Analyzer(*(::TopoDS_Shape*)S->NativeInstance, true);
+	NativeInstance = new ::BRepCheck_Vertex(*(::BRepCheck_Vertex*)parameter1->NativeInstance);
 }
 
-Macad::Occt::BRepCheck_Analyzer::BRepCheck_Analyzer(Macad::Occt::BRepCheck_Analyzer^ parameter1)
-	: BaseClass<::BRepCheck_Analyzer>(BaseClass::InitMode::Uninitialized)
+void Macad::Occt::BRepCheck_Vertex::InContext(Macad::Occt::TopoDS_Shape^ ContextShape)
 {
-	_NativeInstance = new ::BRepCheck_Analyzer(*(::BRepCheck_Analyzer*)parameter1->NativeInstance);
+	((::BRepCheck_Vertex*)_NativeInstance)->InContext(*(::TopoDS_Shape*)ContextShape->NativeInstance);
 }
 
-void Macad::Occt::BRepCheck_Analyzer::Init(Macad::Occt::TopoDS_Shape^ S, bool GeomControls)
+void Macad::Occt::BRepCheck_Vertex::Minimum()
 {
-	((::BRepCheck_Analyzer*)_NativeInstance)->Init(*(::TopoDS_Shape*)S->NativeInstance, GeomControls);
+	((::BRepCheck_Vertex*)_NativeInstance)->Minimum();
 }
 
-void Macad::Occt::BRepCheck_Analyzer::Init(Macad::Occt::TopoDS_Shape^ S)
+void Macad::Occt::BRepCheck_Vertex::Blind()
 {
-	((::BRepCheck_Analyzer*)_NativeInstance)->Init(*(::TopoDS_Shape*)S->NativeInstance, true);
+	((::BRepCheck_Vertex*)_NativeInstance)->Blind();
 }
 
-bool Macad::Occt::BRepCheck_Analyzer::IsValid(Macad::Occt::TopoDS_Shape^ S)
+double Macad::Occt::BRepCheck_Vertex::Tolerance()
 {
-	return ((::BRepCheck_Analyzer*)_NativeInstance)->IsValid(*(::TopoDS_Shape*)S->NativeInstance);
+	return ((::BRepCheck_Vertex*)_NativeInstance)->Tolerance();
 }
 
-bool Macad::Occt::BRepCheck_Analyzer::IsValid()
-{
-	return ((::BRepCheck_Analyzer*)_NativeInstance)->IsValid();
-}
 
-Macad::Occt::BRepCheck_Result^ Macad::Occt::BRepCheck_Analyzer::Result(Macad::Occt::TopoDS_Shape^ SubS)
+Macad::Occt::BRepCheck_Vertex^ Macad::Occt::BRepCheck_Vertex::CreateDowncasted(::BRepCheck_Vertex* instance)
 {
-	Handle(::BRepCheck_Result) _result;
-	_result = ((::BRepCheck_Analyzer*)_NativeInstance)->Result(*(::TopoDS_Shape*)SubS->NativeInstance);
-	 return _result.IsNull() ? nullptr : Macad::Occt::BRepCheck_Result::CreateDowncasted( _result.get());
+	return gcnew Macad::Occt::BRepCheck_Vertex( instance );
 }
-
 
 
 
 //---------------------------------------------------------------------
-//  Class  BRepCheck
+//  Class  BRepCheck_Wire
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepCheck::BRepCheck()
-	: BaseClass<::BRepCheck>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::BRepCheck_Wire::BRepCheck_Wire(Macad::Occt::TopoDS_Wire^ W)
+	: Macad::Occt::BRepCheck_Result(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepCheck();
+	NativeInstance = new ::BRepCheck_Wire(*(::TopoDS_Wire*)W->NativeInstance);
 }
 
-Macad::Occt::BRepCheck::BRepCheck(Macad::Occt::BRepCheck^ parameter1)
-	: BaseClass<::BRepCheck>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::BRepCheck_Wire::BRepCheck_Wire(Macad::Occt::BRepCheck_Wire^ parameter1)
+	: Macad::Occt::BRepCheck_Result(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepCheck(*(::BRepCheck*)parameter1->NativeInstance);
+	NativeInstance = new ::BRepCheck_Wire(*(::BRepCheck_Wire*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::BRepCheck::Add(Macad::Occt::BRepCheck_ListOfStatus^ List, Macad::Occt::BRepCheck_Status Stat)
+void Macad::Occt::BRepCheck_Wire::InContext(Macad::Occt::TopoDS_Shape^ ContextShape)
 {
-	::BRepCheck::Add(*(::BRepCheck_ListOfStatus*)List->NativeInstance, (::BRepCheck_Status)Stat);
+	((::BRepCheck_Wire*)_NativeInstance)->InContext(*(::TopoDS_Shape*)ContextShape->NativeInstance);
 }
 
-bool Macad::Occt::BRepCheck::SelfIntersection(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2)
+void Macad::Occt::BRepCheck_Wire::Minimum()
 {
-	return ::BRepCheck::SelfIntersection(*(::TopoDS_Wire*)W->NativeInstance, *(::TopoDS_Face*)F->NativeInstance, *(::TopoDS_Edge*)E1->NativeInstance, *(::TopoDS_Edge*)E2->NativeInstance);
+	((::BRepCheck_Wire*)_NativeInstance)->Minimum();
 }
 
-double Macad::Occt::BRepCheck::PrecCurve(Macad::Occt::Adaptor3d_Curve^ aAC3D)
+void Macad::Occt::BRepCheck_Wire::Blind()
 {
-	return ::BRepCheck::PrecCurve(*(::Adaptor3d_Curve*)aAC3D->NativeInstance);
+	((::BRepCheck_Wire*)_NativeInstance)->Blind();
 }
 
-double Macad::Occt::BRepCheck::PrecSurface(Macad::Occt::Adaptor3d_HSurface^ aAHSurf)
+Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::Closed(bool Update)
 {
-	Handle(::Adaptor3d_HSurface) h_aAHSurf = aAHSurf->NativeInstance;
-	return ::BRepCheck::PrecSurface(h_aAHSurf);
-	aAHSurf->NativeInstance = h_aAHSurf.get();
+	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->Closed(Update);
 }
 
+Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::Closed()
+{
+	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->Closed(false);
+}
+
+Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::Closed2d(Macad::Occt::TopoDS_Face^ F, bool Update)
+{
+	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->Closed2d(*(::TopoDS_Face*)F->NativeInstance, Update);
+}
+
+Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::Closed2d(Macad::Occt::TopoDS_Face^ F)
+{
+	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->Closed2d(*(::TopoDS_Face*)F->NativeInstance, false);
+}
+
+Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::Orientation(Macad::Occt::TopoDS_Face^ F, bool Update)
+{
+	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->Orientation(*(::TopoDS_Face*)F->NativeInstance, Update);
+}
+
+Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::Orientation(Macad::Occt::TopoDS_Face^ F)
+{
+	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->Orientation(*(::TopoDS_Face*)F->NativeInstance, false);
+}
+
+Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::SelfIntersect(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2, bool Update)
+{
+	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->SelfIntersect(*(::TopoDS_Face*)F->NativeInstance, *(::TopoDS_Edge*)E1->NativeInstance, *(::TopoDS_Edge*)E2->NativeInstance, Update);
+}
+
+Macad::Occt::BRepCheck_Status Macad::Occt::BRepCheck_Wire::SelfIntersect(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2)
+{
+	return (Macad::Occt::BRepCheck_Status)((::BRepCheck_Wire*)_NativeInstance)->SelfIntersect(*(::TopoDS_Face*)F->NativeInstance, *(::TopoDS_Edge*)E1->NativeInstance, *(::TopoDS_Edge*)E2->NativeInstance, false);
+}
+
+bool Macad::Occt::BRepCheck_Wire::GeometricControls()
+{
+	return ((::BRepCheck_Wire*)_NativeInstance)->GeometricControls();
+}
+
+void Macad::Occt::BRepCheck_Wire::GeometricControls(bool B)
+{
+	((::BRepCheck_Wire*)_NativeInstance)->GeometricControls(B);
+}
+
+void Macad::Occt::BRepCheck_Wire::SetStatus(Macad::Occt::BRepCheck_Status theStatus)
+{
+	((::BRepCheck_Wire*)_NativeInstance)->SetStatus((::BRepCheck_Status)theStatus);
+}
+
+
+Macad::Occt::BRepCheck_Wire^ Macad::Occt::BRepCheck_Wire::CreateDowncasted(::BRepCheck_Wire* instance)
+{
+	return gcnew Macad::Occt::BRepCheck_Wire( instance );
+}
 
 

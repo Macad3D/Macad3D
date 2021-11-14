@@ -578,5 +578,15 @@ bool Macad::Occt::TopLoc_Location::IsDifferent(Macad::Occt::TopLoc_Location^ Oth
 	return ((::TopLoc_Location*)_NativeInstance)->IsDifferent(*(::TopLoc_Location*)Other->NativeInstance);
 }
 
+void Macad::Occt::TopLoc_Location::Clear()
+{
+	((::TopLoc_Location*)_NativeInstance)->Clear();
+}
+
+double Macad::Occt::TopLoc_Location::ScalePrec()
+{
+	return ::TopLoc_Location::ScalePrec();
+}
+
 
 

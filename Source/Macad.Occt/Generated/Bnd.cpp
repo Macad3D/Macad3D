@@ -1061,6 +1061,18 @@ bool Macad::Occt::Bnd_Box2d::IsOut(Macad::Occt::Pnt2d P)
 	return ((::Bnd_Box2d*)_NativeInstance)->IsOut(*(gp_Pnt2d*)pp_P);
 }
 
+bool Macad::Occt::Bnd_Box2d::IsOut(Macad::Occt::gp_Lin2d^ theL)
+{
+	return ((::Bnd_Box2d*)_NativeInstance)->IsOut(*(::gp_Lin2d*)theL->NativeInstance);
+}
+
+bool Macad::Occt::Bnd_Box2d::IsOut(Macad::Occt::Pnt2d theP0, Macad::Occt::Pnt2d theP1)
+{
+	pin_ptr<Macad::Occt::Pnt2d> pp_theP0 = &theP0;
+	pin_ptr<Macad::Occt::Pnt2d> pp_theP1 = &theP1;
+	return ((::Bnd_Box2d*)_NativeInstance)->IsOut(*(gp_Pnt2d*)pp_theP0, *(gp_Pnt2d*)pp_theP1);
+}
+
 bool Macad::Occt::Bnd_Box2d::IsOut(Macad::Occt::Bnd_Box2d^ Other)
 {
 	return ((::Bnd_Box2d*)_NativeInstance)->IsOut(*(::Bnd_Box2d*)Other->NativeInstance);

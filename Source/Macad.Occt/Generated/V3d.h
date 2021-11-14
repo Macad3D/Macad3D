@@ -61,30 +61,6 @@ public enum class V3d_TypeOfOrientation
 }; // enum  class V3d_TypeOfOrientation
 
 //---------------------------------------------------------------------
-//  Enum  V3d_TypeOfPickLight
-//---------------------------------------------------------------------
-public enum class V3d_TypeOfPickLight
-{
-	V3d_POSITIONLIGHT = 0,
-	V3d_SPACELIGHT = 1,
-	V3d_RADIUSTEXTLIGHT = 2,
-	V3d_ExtRADIUSLIGHT = 3,
-	V3d_IntRADIUSLIGHT = 4,
-	V3d_NOTHING = 5
-}; // enum  class V3d_TypeOfPickLight
-
-//---------------------------------------------------------------------
-//  Enum  V3d_TypeOfRepresentation
-//---------------------------------------------------------------------
-public enum class V3d_TypeOfRepresentation
-{
-	V3d_SIMPLE = 0,
-	V3d_COMPLETE = 1,
-	V3d_PARTIAL = 2,
-	V3d_SAMELAST = 3
-}; // enum  class V3d_TypeOfRepresentation
-
-//---------------------------------------------------------------------
 //  Enum  V3d_StereoDumpOptions
 //---------------------------------------------------------------------
 public enum class V3d_StereoDumpOptions
@@ -94,26 +70,6 @@ public enum class V3d_StereoDumpOptions
 	V3d_SDO_RIGHT_EYE = 2,
 	V3d_SDO_BLENDED = 3
 }; // enum  class V3d_StereoDumpOptions
-
-//---------------------------------------------------------------------
-//  Enum  V3d_TypeOfAxe
-//---------------------------------------------------------------------
-public enum class V3d_TypeOfAxe
-{
-	V3d_X = 0,
-	V3d_Y = 1,
-	V3d_Z = 2
-}; // enum  class V3d_TypeOfAxe
-
-//---------------------------------------------------------------------
-//  Enum  V3d_TypeOfBackfacingModel
-//---------------------------------------------------------------------
-public enum class V3d_TypeOfBackfacingModel
-{
-	V3d_TOBM_AUTOMATIC = 0,
-	V3d_TOBM_ALWAYS_DISPLAYED = 1,
-	V3d_TOBM_NEVER_DISPLAYED = 2
-}; // enum  class V3d_TypeOfBackfacingModel
 
 //---------------------------------------------------------------------
 //  Enum  V3d_TypeOfView
@@ -134,17 +90,14 @@ public enum class V3d_TypeOfVisualization
 }; // enum  class V3d_TypeOfVisualization
 
 //---------------------------------------------------------------------
-//  Enum  V3d_TypeOfPickCamera
+//  Enum  V3d_TypeOfAxe
 //---------------------------------------------------------------------
-public enum class V3d_TypeOfPickCamera
+public enum class V3d_TypeOfAxe
 {
-	V3d_POSITIONCAMERA = 0,
-	V3d_SPACECAMERA = 1,
-	V3d_RADIUSTEXTCAMERA = 2,
-	V3d_ExtRADIUSCAMERA = 3,
-	V3d_IntRADIUSCAMERA = 4,
-	V3d_NOTHINGCAMERA = 5
-}; // enum  class V3d_TypeOfPickCamera
+	V3d_X = 0,
+	V3d_Y = 1,
+	V3d_Z = 2
+}; // enum  class V3d_TypeOfAxe
 
 //---------------------------------------------------------------------
 //  Class  V3d_ListOfLight
@@ -359,13 +312,15 @@ public:
 	void SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap, bool theToUpdatePBREnv, bool theToUpdate);
 	void SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap, bool theToUpdatePBREnv);
 	void SetBackgroundCubeMap(Macad::Occt::Graphic3d_CubeMap^ theCubeMap);
+	bool IsImageBasedLighting();
+	void SetImageBasedLighting(bool theToEnableIBL, bool theToUpdate);
+	void SetImageBasedLighting(bool theToEnableIBL);
 	void GeneratePBREnvironment(bool theToUpdate);
 	void GeneratePBREnvironment();
 	void ClearPBREnvironment(bool theToUpdate);
 	void ClearPBREnvironment();
-	void SetAxis(double X, double Y, double Z, double Vx, double Vy, double Vz);
-	void SetShadingModel(Macad::Occt::Graphic3d_TypeOfShadingModel theShadingModel);
 	void SetTextureEnv(Macad::Occt::Graphic3d_TextureEnv^ theTexture);
+	void SetAxis(double X, double Y, double Z, double Vx, double Vy, double Vz);
 	void SetVisualization(Macad::Occt::V3d_TypeOfVisualization theType);
 	void SetLightOn(Macad::Occt::Graphic3d_CLight^ theLight);
 	void SetLightOn();
@@ -373,6 +328,8 @@ public:
 	void SetLightOff();
 	bool IsActiveLight(Macad::Occt::Graphic3d_CLight^ theLight);
 	bool SetImmediateUpdate(bool theImmediateUpdate);
+	Macad::Occt::V3d_Trihedron^ Trihedron(bool theToCreate);
+	Macad::Occt::V3d_Trihedron^ Trihedron();
 	void ZBufferTriedronSetup(Macad::Occt::Quantity_Color^ theXColor, Macad::Occt::Quantity_Color^ theYColor, Macad::Occt::Quantity_Color^ theZColor, double theSizeRatio, double theAxisDiametr, int theNbFacettes);
 	void ZBufferTriedronSetup(Macad::Occt::Quantity_Color^ theXColor, Macad::Occt::Quantity_Color^ theYColor, Macad::Occt::Quantity_Color^ theZColor, double theSizeRatio, double theAxisDiametr);
 	void ZBufferTriedronSetup(Macad::Occt::Quantity_Color^ theXColor, Macad::Occt::Quantity_Color^ theYColor, Macad::Occt::Quantity_Color^ theZColor, double theSizeRatio);
@@ -484,6 +441,7 @@ public:
 	void Up(double% Vx, double% Vy, double% Vz);
 	double Twist();
 	Macad::Occt::Graphic3d_TypeOfShadingModel ShadingModel();
+	void SetShadingModel(Macad::Occt::Graphic3d_TypeOfShadingModel theShadingModel);
 	Macad::Occt::Graphic3d_TextureEnv^ TextureEnv();
 	Macad::Occt::V3d_TypeOfVisualization Visualization();
 	Macad::Occt::V3d_ListOfLight^ ActiveLights();
@@ -521,13 +479,13 @@ public:
 	bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType% theBufferType, bool theToAdjustAspect);
 	bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight, Macad::Occt::Graphic3d_BufferType% theBufferType);
 	bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, int theWidth, int theHeight);
-	void SetBackFacingModel(Macad::Occt::V3d_TypeOfBackfacingModel theModel);
+	void SetBackFacingModel(Macad::Occt::Graphic3d_TypeOfBackfacingModel theModel);
 	void SetBackFacingModel();
-	Macad::Occt::V3d_TypeOfBackfacingModel BackFacingModel();
+	Macad::Occt::Graphic3d_TypeOfBackfacingModel BackFacingModel();
 	void AddClipPlane(Macad::Occt::Graphic3d_ClipPlane^ thePlane);
 	void RemoveClipPlane(Macad::Occt::Graphic3d_ClipPlane^ thePlane);
-	void SetClipPlanes(Macad::Occt::Graphic3d_SequenceOfHClipPlane^ thePlanes);
 	Macad::Occt::Graphic3d_SequenceOfHClipPlane^ ClipPlanes();
+	void SetClipPlanes(Macad::Occt::Graphic3d_SequenceOfHClipPlane^ thePlanes);
 	int PlaneLimit();
 	void SetCamera(Macad::Occt::Graphic3d_Camera^ theCamera);
 	Macad::Occt::Graphic3d_Camera^ Camera();
@@ -620,15 +578,6 @@ public:
 
 public:
 	V3d_Viewer(Macad::Occt::Graphic3d_GraphicDriver^ theDriver);
-	V3d_Viewer(Macad::Occt::Graphic3d_GraphicDriver^ theDriver, System::String^ theName, System::String^ theDomain, double theViewSize, Macad::Occt::V3d_TypeOfOrientation theViewProj, Macad::Occt::Quantity_Color^ theViewBackground, Macad::Occt::V3d_TypeOfVisualization theVisualization, Macad::Occt::Graphic3d_TypeOfShadingModel theShadingModel, bool theComputedMode, bool theDefaultComputedMode);
-	V3d_Viewer(Macad::Occt::Graphic3d_GraphicDriver^ theDriver, System::String^ theName, System::String^ theDomain, double theViewSize, Macad::Occt::V3d_TypeOfOrientation theViewProj, Macad::Occt::Quantity_Color^ theViewBackground, Macad::Occt::V3d_TypeOfVisualization theVisualization, Macad::Occt::Graphic3d_TypeOfShadingModel theShadingModel, bool theComputedMode);
-	V3d_Viewer(Macad::Occt::Graphic3d_GraphicDriver^ theDriver, System::String^ theName, System::String^ theDomain, double theViewSize, Macad::Occt::V3d_TypeOfOrientation theViewProj, Macad::Occt::Quantity_Color^ theViewBackground, Macad::Occt::V3d_TypeOfVisualization theVisualization, Macad::Occt::Graphic3d_TypeOfShadingModel theShadingModel);
-	V3d_Viewer(Macad::Occt::Graphic3d_GraphicDriver^ theDriver, System::String^ theName, System::String^ theDomain, double theViewSize, Macad::Occt::V3d_TypeOfOrientation theViewProj, Macad::Occt::Quantity_Color^ theViewBackground, Macad::Occt::V3d_TypeOfVisualization theVisualization);
-	V3d_Viewer(Macad::Occt::Graphic3d_GraphicDriver^ theDriver, System::String^ theName, System::String^ theDomain, double theViewSize, Macad::Occt::V3d_TypeOfOrientation theViewProj, Macad::Occt::Quantity_Color^ theViewBackground);
-	V3d_Viewer(Macad::Occt::Graphic3d_GraphicDriver^ theDriver, System::String^ theName, System::String^ theDomain, double theViewSize, Macad::Occt::V3d_TypeOfOrientation theViewProj);
-	V3d_Viewer(Macad::Occt::Graphic3d_GraphicDriver^ theDriver, System::String^ theName, System::String^ theDomain, double theViewSize);
-	V3d_Viewer(Macad::Occt::Graphic3d_GraphicDriver^ theDriver, System::String^ theName, System::String^ theDomain);
-	V3d_Viewer(Macad::Occt::Graphic3d_GraphicDriver^ theDriver, System::String^ theName);
 	V3d_Viewer(Macad::Occt::V3d_Viewer^ parameter1);
 	bool IfMoreViews();
 	Macad::Occt::V3d_View^ CreateView();
@@ -703,22 +652,24 @@ public:
 	void SetGridEcho();
 	void SetGridEcho(Macad::Occt::Graphic3d_AspectMarker3d^ aMarker);
 	bool GridEcho();
-	bool IsActive();
+	bool IsGridActive();
+	Macad::Occt::Aspect_Grid^ Grid(bool theToCreate);
 	Macad::Occt::Aspect_Grid^ Grid();
+	Macad::Occt::Aspect_Grid^ Grid(Macad::Occt::Aspect_GridType theGridType, bool theToCreate);
+	Macad::Occt::Aspect_Grid^ Grid(Macad::Occt::Aspect_GridType theGridType);
 	Macad::Occt::Aspect_GridType GridType();
 	Macad::Occt::Aspect_GridDrawMode GridDrawMode();
-	void RectangularGridValues(double% XOrigin, double% YOrigin, double% XStep, double% YStep, double% RotationAngle);
+	void RectangularGridValues(double% theXOrigin, double% theYOrigin, double% theXStep, double% theYStep, double% theRotationAngle);
 	void SetRectangularGridValues(double XOrigin, double YOrigin, double XStep, double YStep, double RotationAngle);
-	void CircularGridValues(double% XOrigin, double% YOrigin, double% RadiusStep, int% DivisionNumber, double% RotationAngle);
+	void CircularGridValues(double% theXOrigin, double% theYOrigin, double% theRadiusStep, int% theDivisionNumber, double% theRotationAngle);
 	void SetCircularGridValues(double XOrigin, double YOrigin, double RadiusStep, int DivisionNumber, double RotationAngle);
-	void CircularGridGraphicValues(double% Radius, double% OffSet);
+	void CircularGridGraphicValues(double% theRadius, double% theOffSet);
 	void SetCircularGridGraphicValues(double Radius, double OffSet);
-	void RectangularGridGraphicValues(double% XSize, double% YSize, double% OffSet);
+	void RectangularGridGraphicValues(double% theXSize, double% theYSize, double% theOffSet);
 	void SetRectangularGridGraphicValues(double XSize, double YSize, double OffSet);
 	/* Method skipped due to unknown mapping: void ShowGridEcho(V3d_View theView, Graphic3d_Vertex thePoint, ) */
 	void HideGridEcho(Macad::Occt::V3d_View^ theView);
-	void SetDefaultBackgroundColor(Macad::Occt::Quantity_TypeOfColor theType, double theV1, double theV2, double theV3);
-	void DefaultBackgroundColor(Macad::Occt::Quantity_TypeOfColor theType, double% theV1, double% theV2, double% theV3);
+	bool IsActive();
 	void InitActiveViews();
 	bool MoreActiveViews();
 	void NextActiveViews();
@@ -806,12 +757,14 @@ public:
 public:
 	V3d_BadValue();
 	V3d_BadValue(System::String^ theMessage);
+	V3d_BadValue(System::String^ theMessage, System::String^ theStackTrace);
 	V3d_BadValue(Macad::Occt::V3d_BadValue^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::V3d_BadValue^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::V3d_BadValue^ NewInstance();
+	static Macad::Occt::V3d_BadValue^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class V3d_BadValue
 
 //---------------------------------------------------------------------
@@ -934,53 +887,6 @@ public:
 }; // class V3d_DirectionalLight
 
 //---------------------------------------------------------------------
-//  Class  V3d_Trihedron
-//---------------------------------------------------------------------
-public ref class V3d_Trihedron sealed : public Macad::Occt::Standard_Transient
-{
-
-#ifdef Include_V3d_Trihedron_h
-public:
-	Include_V3d_Trihedron_h
-#endif
-
-public:
-	V3d_Trihedron(::V3d_Trihedron* nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	V3d_Trihedron(::V3d_Trihedron& nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	property ::V3d_Trihedron* NativeInstance
-	{
-		::V3d_Trihedron* get()
-		{
-			return static_cast<::V3d_Trihedron*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::V3d_Trihedron^ CreateDowncasted(::V3d_Trihedron* instance);
-
-public:
-	V3d_Trihedron();
-	V3d_Trihedron(Macad::Occt::V3d_Trihedron^ parameter1);
-	void SetWireframe(bool theAsWireframe);
-	void SetPosition(Macad::Occt::Aspect_TypeOfTriedronPosition thePosition);
-	void SetScale(double theScale);
-	void SetSizeRatio(double theRatio);
-	void SetArrowDiameter(double theDiam);
-	void SetNbFacets(int theNbFacets);
-	void SetLabelsColor(Macad::Occt::Quantity_Color^ theColor);
-	void SetArrowsColor(Macad::Occt::Quantity_Color^ theXColor, Macad::Occt::Quantity_Color^ theYColor, Macad::Occt::Quantity_Color^ theZColor);
-	void Display(Macad::Occt::V3d_View^ theView);
-	void Erase();
-	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
-	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
-}; // class V3d_Trihedron
-
-//---------------------------------------------------------------------
 //  Class  V3d_RectangularGrid
 //---------------------------------------------------------------------
 public ref class V3d_RectangularGrid sealed : public Macad::Occt::Aspect_RectangularGrid
@@ -1022,45 +928,63 @@ public:
 }; // class V3d_RectangularGrid
 
 //---------------------------------------------------------------------
-//  Class  V3d_UnMapped
+//  Class  V3d_Trihedron
 //---------------------------------------------------------------------
-public ref class V3d_UnMapped sealed : public Macad::Occt::Standard_DomainError
+public ref class V3d_Trihedron sealed : public Macad::Occt::Standard_Transient
 {
 
-#ifdef Include_V3d_UnMapped_h
+#ifdef Include_V3d_Trihedron_h
 public:
-	Include_V3d_UnMapped_h
+	Include_V3d_Trihedron_h
 #endif
 
 public:
-	V3d_UnMapped(::V3d_UnMapped* nativeInstance)
-		: Macad::Occt::Standard_DomainError( nativeInstance )
+	V3d_Trihedron(::V3d_Trihedron* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
 	{}
 
-	V3d_UnMapped(::V3d_UnMapped& nativeInstance)
-		: Macad::Occt::Standard_DomainError( nativeInstance )
+	V3d_Trihedron(::V3d_Trihedron& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
 	{}
 
-	property ::V3d_UnMapped* NativeInstance
+	property ::V3d_Trihedron* NativeInstance
 	{
-		::V3d_UnMapped* get()
+		::V3d_Trihedron* get()
 		{
-			return static_cast<::V3d_UnMapped*>(_NativeInstance);
+			return static_cast<::V3d_Trihedron*>(_NativeInstance);
 		}
 	}
 
-	static Macad::Occt::V3d_UnMapped^ CreateDowncasted(::V3d_UnMapped* instance);
+	static Macad::Occt::V3d_Trihedron^ CreateDowncasted(::V3d_Trihedron* instance);
 
 public:
-	V3d_UnMapped();
-	V3d_UnMapped(System::String^ theMessage);
-	V3d_UnMapped(Macad::Occt::V3d_UnMapped^ parameter1);
-	static void Raise(System::String^ theMessage);
-	static void Raise();
-	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
-	static Macad::Occt::V3d_UnMapped^ NewInstance(System::String^ theMessage);
-	static Macad::Occt::V3d_UnMapped^ NewInstance();
-}; // class V3d_UnMapped
+	V3d_Trihedron();
+	V3d_Trihedron(Macad::Occt::V3d_Trihedron^ parameter1);
+	bool IsWireframe();
+	void SetWireframe(bool theAsWireframe);
+	Macad::Occt::Graphic3d_TransformPers^ TransformPersistence();
+	void SetPosition(Macad::Occt::Aspect_TypeOfTriedronPosition thePosition);
+	double Scale();
+	void SetScale(double theScale);
+	double SizeRatio();
+	void SetSizeRatio(double theRatio);
+	double ArrowDiameter();
+	void SetArrowDiameter(double theDiam);
+	int NbFacets();
+	void SetNbFacets(int theNbFacets);
+	Macad::Occt::Prs3d_TextAspect^ LabelAspect(Macad::Occt::V3d_TypeOfAxe theAxis);
+	void SetLabelsColor(Macad::Occt::Quantity_Color^ theXColor, Macad::Occt::Quantity_Color^ theYColor, Macad::Occt::Quantity_Color^ theZColor);
+	void SetLabelsColor(Macad::Occt::Quantity_Color^ theColor);
+	Macad::Occt::Prs3d_ShadingAspect^ ArrowAspect(Macad::Occt::V3d_TypeOfAxe theAxis);
+	void SetArrowsColor(Macad::Occt::Quantity_Color^ theXColor, Macad::Occt::Quantity_Color^ theYColor, Macad::Occt::Quantity_Color^ theZColor);
+	Macad::Occt::Prs3d_ShadingAspect^ OriginAspect();
+	Macad::Occt::TCollection_AsciiString^ Label(Macad::Occt::V3d_TypeOfAxe theAxis);
+	void SetLabels(Macad::Occt::TCollection_AsciiString^ theX, Macad::Occt::TCollection_AsciiString^ theY, Macad::Occt::TCollection_AsciiString^ theZ);
+	void Display(Macad::Occt::V3d_View^ theView);
+	void Erase();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+}; // class V3d_Trihedron
 
 //---------------------------------------------------------------------
 //  Class  V3d_Plane
@@ -1180,6 +1104,49 @@ public:
 	V3d_SpotLight(Macad::Occt::Pnt thePos, Macad::Occt::Dir theDirection);
 	void SetDirection(Macad::Occt::V3d_TypeOfOrientation theOrientation);
 }; // class V3d_SpotLight
+
+//---------------------------------------------------------------------
+//  Class  V3d_UnMapped
+//---------------------------------------------------------------------
+public ref class V3d_UnMapped sealed : public Macad::Occt::Standard_DomainError
+{
+
+#ifdef Include_V3d_UnMapped_h
+public:
+	Include_V3d_UnMapped_h
+#endif
+
+public:
+	V3d_UnMapped(::V3d_UnMapped* nativeInstance)
+		: Macad::Occt::Standard_DomainError( nativeInstance )
+	{}
+
+	V3d_UnMapped(::V3d_UnMapped& nativeInstance)
+		: Macad::Occt::Standard_DomainError( nativeInstance )
+	{}
+
+	property ::V3d_UnMapped* NativeInstance
+	{
+		::V3d_UnMapped* get()
+		{
+			return static_cast<::V3d_UnMapped*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::V3d_UnMapped^ CreateDowncasted(::V3d_UnMapped* instance);
+
+public:
+	V3d_UnMapped();
+	V3d_UnMapped(System::String^ theMessage);
+	V3d_UnMapped(System::String^ theMessage, System::String^ theStackTrace);
+	V3d_UnMapped(Macad::Occt::V3d_UnMapped^ parameter1);
+	static void Raise(System::String^ theMessage);
+	static void Raise();
+	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
+	static Macad::Occt::V3d_UnMapped^ NewInstance(System::String^ theMessage);
+	static Macad::Occt::V3d_UnMapped^ NewInstance();
+	static Macad::Occt::V3d_UnMapped^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
+}; // class V3d_UnMapped
 
 }; // namespace Occt
 }; // namespace Macad

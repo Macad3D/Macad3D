@@ -109,6 +109,13 @@ namespace Macad.Occt.Generator
                 {
                     "GeomPlate_BuildAveragePlane",
                 }
+            },
+            {
+                "WNT", new List<string>
+                {
+                    "WNT_Window",
+                    "WNT_WClass",
+                }
             }
         };
 
@@ -330,6 +337,11 @@ namespace Macad.Occt.Generator
             "BRepClass3d_BndBoxTreeSelectorLine",
 
             /*
+             * Classes which baseclass is unaccessible
+             */
+            "Message_LazyProgressScope",
+
+            /*
              * Compilation Errors
              */
             "Graphic3d_ListOfCLight", // error C2678: binary '==' : no operator found which takes a left-hand operand of type 'Graphic3d_CLight' (or there is no acceptable conversion)
@@ -343,6 +355,8 @@ namespace Macad.Occt.Generator
             "BRepExtrema_OverlapTool", // error C2882:  'BVH': illegal use of namespace identifier in expression (in BVH_Traverse.hxx(322))
             "AIS_ViewController::Keys", // error C2280:  'Aspect_VKeySet &Aspect_VKeySet::operator =(const Aspect_VKeySet &)': attempting to reference a deleted function
             "AIS_ViewController::ChangeKeys", // error C2280:  'Aspect_VKeySet &Aspect_VKeySet::operator =(const Aspect_VKeySet &)': attempting to reference a deleted function
+            "Aspect_WindowInputListener::Keys", // error C2280: 'Aspect_VKeySet &Aspect_VKeySet::operator =(const Aspect_VKeySet &)': attempting to reference a deleted function
+            "Aspect_WindowInputListener::ChangeKeys", // error C2280: 'Aspect_VKeySet &Aspect_VKeySet::operator =(const Aspect_VKeySet &)': attempting to reference a deleted function
 
             /*
              * Missing External
@@ -353,6 +367,10 @@ namespace Macad.Occt.Generator
             "Graphic3d_MediaTextureSet",
             "Graphic3d_Layer", // Missing exports in Graphic3d_BvhCStructureSet, Graphic3d_BvhCStructureSetTrsfPers
             "SelectMgr_SelectionImageFiller", // unresolved external SelectMgr_SelectionImageFiller::CreateFiller
+            "BinTools_ShapeWriter", // unresolved external symbol "private: virtual void __cdecl BinTools_ShapeWriter::WriteShape(class BinTools_OStream &,class TopoDS_Shape const &)"
+            "Aspect_DisplayConnection", // warning LNK4248: unresolved typeref token for '__GLXFBConfigRec'; 
+//            "Aspect_Window", // warning LNK4248: unresolved typeref token for '__GLXFBConfigRec'; 
+            "Aspect_NeutralWindow", // warning LNK4248: unresolved typeref token for '__GLXFBConfigRec'; 
 
             /*
              * Replaced with hand-wrapped code
@@ -505,6 +523,7 @@ namespace Macad.Occt.Generator
             "Interval::Interval(Standard_Real,Standard_Real)",
             "Interval::Interval()",
             "IntPolyh_Triangle::GetNextChainTriangle(IntPolyh_StartPoint,Standard_Integer,IntPolyh_ArrayOfCouples,IntPolyh_ArrayOfTriangles,IntPolyh_ArrayOfTriangles,Standard_Integer,Standard_Integer)",
+            "BRepTools_PurgeLocations::ModifiedShape(TopoDS_Shape)",
         };
 
         #endregion
@@ -545,6 +564,10 @@ namespace Macad.Occt.Generator
 
             // The following header file can not be compiled, it seems to be obsolete
             #define AIS_DataMapOfSelStat_HeaderFile
+
+            // The following header files contain a typedef for compatibility reasons which conflicts with forward declaration in ProjLib.hxx
+            #define _ProjLib_HProjectedCurve_HeaderFile
+            #define _ProjLib_HCompProjectedCurve_HeaderFile
 
             struct TI_0 {};
             struct TI_1 {};

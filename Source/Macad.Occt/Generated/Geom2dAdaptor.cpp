@@ -5,14 +5,40 @@
 
 using namespace System::Runtime::InteropServices; // for class Marshal
 
-#include "BRepAdaptor.h"
 #include "Geom2d.h"
+#include "Adaptor2d.h"
+#include "BRepAdaptor.h"
 #include "Standard.h"
 #include "Geom2dAdaptor.h"
 #include "GeomAbs.h"
 #include "TColStd.h"
-#include "Adaptor2d.h"
 #include "gp.h"
+
+
+//---------------------------------------------------------------------
+//  Class  Geom2dAdaptor
+//---------------------------------------------------------------------
+
+Macad::Occt::Geom2dAdaptor::Geom2dAdaptor()
+	: BaseClass<::Geom2dAdaptor>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Geom2dAdaptor();
+}
+
+Macad::Occt::Geom2dAdaptor::Geom2dAdaptor(Macad::Occt::Geom2dAdaptor^ parameter1)
+	: BaseClass<::Geom2dAdaptor>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Geom2dAdaptor(*(::Geom2dAdaptor*)parameter1->NativeInstance);
+}
+
+Macad::Occt::Geom2d_Curve^ Macad::Occt::Geom2dAdaptor::MakeCurve(Macad::Occt::Adaptor2d_Curve2d^ HC)
+{
+	Handle(::Geom2d_Curve) _result;
+	_result = ::Geom2dAdaptor::MakeCurve(*(::Adaptor2d_Curve2d*)HC->NativeInstance);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_Curve::CreateDowncasted( _result.get());
+}
+
+
 
 
 //---------------------------------------------------------------------
@@ -22,14 +48,14 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 Macad::Occt::Geom2dAdaptor_Curve::Geom2dAdaptor_Curve()
 	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::Geom2dAdaptor_Curve();
+	NativeInstance = new ::Geom2dAdaptor_Curve();
 }
 
 Macad::Occt::Geom2dAdaptor_Curve::Geom2dAdaptor_Curve(Macad::Occt::Geom2d_Curve^ C)
 	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
 	Handle(::Geom2d_Curve) h_C = C->NativeInstance;
-	_NativeInstance = new ::Geom2dAdaptor_Curve(h_C);
+	NativeInstance = new ::Geom2dAdaptor_Curve(h_C);
 	C->NativeInstance = h_C.get();
 }
 
@@ -37,14 +63,21 @@ Macad::Occt::Geom2dAdaptor_Curve::Geom2dAdaptor_Curve(Macad::Occt::Geom2d_Curve^
 	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
 	Handle(::Geom2d_Curve) h_C = C->NativeInstance;
-	_NativeInstance = new ::Geom2dAdaptor_Curve(h_C, UFirst, ULast);
+	NativeInstance = new ::Geom2dAdaptor_Curve(h_C, UFirst, ULast);
 	C->NativeInstance = h_C.get();
 }
 
 Macad::Occt::Geom2dAdaptor_Curve::Geom2dAdaptor_Curve(Macad::Occt::Geom2dAdaptor_Curve^ parameter1)
 	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::Geom2dAdaptor_Curve(*(::Geom2dAdaptor_Curve*)parameter1->NativeInstance);
+	NativeInstance = new ::Geom2dAdaptor_Curve(*(::Geom2dAdaptor_Curve*)parameter1->NativeInstance);
+}
+
+Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::Geom2dAdaptor_Curve::ShallowCopy()
+{
+	Handle(::Adaptor2d_Curve2d) _result;
+	_result = ((::Geom2dAdaptor_Curve*)_NativeInstance)->ShallowCopy();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor2d_Curve2d::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::Geom2dAdaptor_Curve::Reset()
@@ -52,18 +85,18 @@ void Macad::Occt::Geom2dAdaptor_Curve::Reset()
 	((::Geom2dAdaptor_Curve*)_NativeInstance)->Reset();
 }
 
-void Macad::Occt::Geom2dAdaptor_Curve::Load(Macad::Occt::Geom2d_Curve^ C)
+void Macad::Occt::Geom2dAdaptor_Curve::Load(Macad::Occt::Geom2d_Curve^ theCurve)
 {
-	Handle(::Geom2d_Curve) h_C = C->NativeInstance;
-	((::Geom2dAdaptor_Curve*)_NativeInstance)->Load(h_C);
-	C->NativeInstance = h_C.get();
+	Handle(::Geom2d_Curve) h_theCurve = theCurve->NativeInstance;
+	((::Geom2dAdaptor_Curve*)_NativeInstance)->Load(h_theCurve);
+	theCurve->NativeInstance = h_theCurve.get();
 }
 
-void Macad::Occt::Geom2dAdaptor_Curve::Load(Macad::Occt::Geom2d_Curve^ C, double UFirst, double ULast)
+void Macad::Occt::Geom2dAdaptor_Curve::Load(Macad::Occt::Geom2d_Curve^ theCurve, double theUFirst, double theULast)
 {
-	Handle(::Geom2d_Curve) h_C = C->NativeInstance;
-	((::Geom2dAdaptor_Curve*)_NativeInstance)->Load(h_C, UFirst, ULast);
-	C->NativeInstance = h_C.get();
+	Handle(::Geom2d_Curve) h_theCurve = theCurve->NativeInstance;
+	((::Geom2dAdaptor_Curve*)_NativeInstance)->Load(h_theCurve, theUFirst, theULast);
+	theCurve->NativeInstance = h_theCurve.get();
 }
 
 Macad::Occt::Geom2d_Curve^ Macad::Occt::Geom2dAdaptor_Curve::Curve()
@@ -98,11 +131,11 @@ void Macad::Occt::Geom2dAdaptor_Curve::Intervals(Macad::Occt::TColStd_Array1OfRe
 	((::Geom2dAdaptor_Curve*)_NativeInstance)->Intervals(*(::TColStd_Array1OfReal*)T->NativeInstance, (::GeomAbs_Shape)S);
 }
 
-Macad::Occt::Adaptor2d_HCurve2d^ Macad::Occt::Geom2dAdaptor_Curve::Trim(double First, double Last, double Tol)
+Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::Geom2dAdaptor_Curve::Trim(double First, double Last, double Tol)
 {
-	Handle(::Adaptor2d_HCurve2d) _result;
+	Handle(::Adaptor2d_Curve2d) _result;
 	_result = ((::Geom2dAdaptor_Curve*)_NativeInstance)->Trim(First, Last, Tol);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor2d_HCurve2d::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor2d_Curve2d::CreateDowncasted( _result.get());
 }
 
 bool Macad::Occt::Geom2dAdaptor_Curve::IsClosed()
@@ -245,131 +278,15 @@ Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dAdaptor_Curve::BSpline()
 }
 
 
-
-
-//---------------------------------------------------------------------
-//  Class  Geom2dAdaptor_GHCurve
-//---------------------------------------------------------------------
-
-Macad::Occt::Geom2dAdaptor_GHCurve::Geom2dAdaptor_GHCurve()
-	: Macad::Occt::Adaptor2d_HCurve2d(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Geom2dAdaptor_GHCurve();
-}
-
-Macad::Occt::Geom2dAdaptor_GHCurve::Geom2dAdaptor_GHCurve(Macad::Occt::Geom2dAdaptor_Curve^ C)
-	: Macad::Occt::Adaptor2d_HCurve2d(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Geom2dAdaptor_GHCurve(*(::Geom2dAdaptor_Curve*)C->NativeInstance);
-}
-
-Macad::Occt::Geom2dAdaptor_GHCurve::Geom2dAdaptor_GHCurve(Macad::Occt::Geom2dAdaptor_GHCurve^ parameter1)
-	: Macad::Occt::Adaptor2d_HCurve2d(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Geom2dAdaptor_GHCurve(*(::Geom2dAdaptor_GHCurve*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::Geom2dAdaptor_GHCurve::Set(Macad::Occt::Geom2dAdaptor_Curve^ C)
-{
-	((::Geom2dAdaptor_GHCurve*)_NativeInstance)->Set(*(::Geom2dAdaptor_Curve*)C->NativeInstance);
-}
-
-Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::Geom2dAdaptor_GHCurve::Curve2d()
-{
-	::Adaptor2d_Curve2d* _result = new ::Adaptor2d_Curve2d();
-	*_result =  (::Adaptor2d_Curve2d)((::Geom2dAdaptor_GHCurve*)_NativeInstance)->Curve2d();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Adaptor2d_Curve2d(_result);
-}
-
-Macad::Occt::Geom2dAdaptor_Curve^ Macad::Occt::Geom2dAdaptor_GHCurve::ChangeCurve2d()
-{
-	::Geom2dAdaptor_Curve* _result = new ::Geom2dAdaptor_Curve();
-	*_result = ((::Geom2dAdaptor_GHCurve*)_NativeInstance)->ChangeCurve2d();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Geom2dAdaptor_Curve(_result);
-}
-
-
-Macad::Occt::Geom2dAdaptor_GHCurve^ Macad::Occt::Geom2dAdaptor_GHCurve::CreateDowncasted(::Geom2dAdaptor_GHCurve* instance)
+Macad::Occt::Geom2dAdaptor_Curve^ Macad::Occt::Geom2dAdaptor_Curve::CreateDowncasted(::Geom2dAdaptor_Curve* instance)
 {
 	if( instance == nullptr )
 		return nullptr;
 
-	if (instance->IsKind(STANDARD_TYPE(::Geom2dAdaptor_HCurve)))
-		return Macad::Occt::Geom2dAdaptor_HCurve::CreateDowncasted((::Geom2dAdaptor_HCurve*)instance);
+	if (instance->IsKind(STANDARD_TYPE(::BRepAdaptor_Curve2d)))
+		return Macad::Occt::BRepAdaptor_Curve2d::CreateDowncasted((::BRepAdaptor_Curve2d*)instance);
 
-	return gcnew Macad::Occt::Geom2dAdaptor_GHCurve( instance );
+	return gcnew Macad::Occt::Geom2dAdaptor_Curve( instance );
 }
-
-
-
-//---------------------------------------------------------------------
-//  Class  Geom2dAdaptor_HCurve
-//---------------------------------------------------------------------
-
-Macad::Occt::Geom2dAdaptor_HCurve::Geom2dAdaptor_HCurve()
-	: Macad::Occt::Geom2dAdaptor_GHCurve(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Geom2dAdaptor_HCurve();
-}
-
-Macad::Occt::Geom2dAdaptor_HCurve::Geom2dAdaptor_HCurve(Macad::Occt::Geom2dAdaptor_Curve^ AS)
-	: Macad::Occt::Geom2dAdaptor_GHCurve(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Geom2dAdaptor_HCurve(*(::Geom2dAdaptor_Curve*)AS->NativeInstance);
-}
-
-Macad::Occt::Geom2dAdaptor_HCurve::Geom2dAdaptor_HCurve(Macad::Occt::Geom2d_Curve^ S)
-	: Macad::Occt::Geom2dAdaptor_GHCurve(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom2d_Curve) h_S = S->NativeInstance;
-	NativeInstance = new ::Geom2dAdaptor_HCurve(h_S);
-	S->NativeInstance = h_S.get();
-}
-
-Macad::Occt::Geom2dAdaptor_HCurve::Geom2dAdaptor_HCurve(Macad::Occt::Geom2d_Curve^ S, double UFirst, double ULast)
-	: Macad::Occt::Geom2dAdaptor_GHCurve(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom2d_Curve) h_S = S->NativeInstance;
-	NativeInstance = new ::Geom2dAdaptor_HCurve(h_S, UFirst, ULast);
-	S->NativeInstance = h_S.get();
-}
-
-Macad::Occt::Geom2dAdaptor_HCurve::Geom2dAdaptor_HCurve(Macad::Occt::Geom2dAdaptor_HCurve^ parameter1)
-	: Macad::Occt::Geom2dAdaptor_GHCurve(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Geom2dAdaptor_HCurve(*(::Geom2dAdaptor_HCurve*)parameter1->NativeInstance);
-}
-
-
-Macad::Occt::Geom2dAdaptor_HCurve^ Macad::Occt::Geom2dAdaptor_HCurve::CreateDowncasted(::Geom2dAdaptor_HCurve* instance)
-{
-	return gcnew Macad::Occt::Geom2dAdaptor_HCurve( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  Geom2dAdaptor
-//---------------------------------------------------------------------
-
-Macad::Occt::Geom2dAdaptor::Geom2dAdaptor()
-	: BaseClass<::Geom2dAdaptor>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Geom2dAdaptor();
-}
-
-Macad::Occt::Geom2dAdaptor::Geom2dAdaptor(Macad::Occt::Geom2dAdaptor^ parameter1)
-	: BaseClass<::Geom2dAdaptor>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Geom2dAdaptor(*(::Geom2dAdaptor*)parameter1->NativeInstance);
-}
-
-Macad::Occt::Geom2d_Curve^ Macad::Occt::Geom2dAdaptor::MakeCurve(Macad::Occt::Adaptor2d_Curve2d^ HC)
-{
-	Handle(::Geom2d_Curve) _result;
-	_result = ::Geom2dAdaptor::MakeCurve(*(::Adaptor2d_Curve2d*)HC->NativeInstance);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_Curve::CreateDowncasted( _result.get());
-}
-
 
 

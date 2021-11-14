@@ -12,9 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="5.0.0" />
+    <PackageReference Include="ControlzEx" Version="5.0.1" />
     <PackageReference Include="Fluent.Ribbon" Version="8.0.3" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.37" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Macad.Common\Macad.Common.csproj" />
@@ -24,6 +24,7 @@
     <ProjectReference Include="..\Macad.Occt\Macad.Occt.vcxproj" />
     <ProjectReference Include="..\Macad.Presentation\Macad.Presentation.csproj" />
     <ProjectReference Include="..\Macad.Resources\Macad.Resources.csproj" />
+    <ProjectReference Include="..\SourceGenerator\SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleToSigned Include="Test.Unit" />

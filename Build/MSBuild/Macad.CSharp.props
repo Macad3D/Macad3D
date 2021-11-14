@@ -1,6 +1,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <TargetFramework>$(MMFramework)</TargetFramework>
+    <TargetFramework Condition="'$(TargetFramework)' == ''">$(MMFramework)</TargetFramework>
     <RuntimeIdentifier>$(MMRuntime)</RuntimeIdentifier>
     <LangVersion>latest</LangVersion>
     <UseWPF>true</UseWPF>
@@ -21,8 +21,11 @@
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
 
-    <!-- Disable XML Documentation errors -->
-    <NoWarn>1573,1591</NoWarn>
+    <!-- Warnings Disabled:
+      1573,1591: XML Documentation errors
+      CA2255: The 'ModuleInitializer' attribute is only intended to be used in application code or advanced source generator scenarios
+    -->
+    <NoWarn>1573,1591,CA2255</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -37,7 +40,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.WindowsDesktop.App" />
+    <FrameworkReference Condition="'$(TargetFramework)' == '$(MMFramework)'" 
+                        Include="Microsoft.WindowsDesktop.App" />
   </ItemGroup>
 
   <Import Project="Macad.VersionInfo.props" />

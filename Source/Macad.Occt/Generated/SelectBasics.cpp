@@ -147,43 +147,74 @@ int Macad::Occt::SelectBasics_SelectingVolumeManager::GetActiveSelectionType()
 	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->GetActiveSelectionType();
 }
 
-bool Macad::Occt::SelectBasics_SelectingVolumeManager::Overlaps(Macad::Occt::Pnt thePnt, Macad::Occt::SelectBasics_PickResult^ thePickResult)
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsPoint(Macad::Occt::Pnt thePnt, Macad::Occt::SelectBasics_PickResult^ thePickResult)
 {
 	pin_ptr<Macad::Occt::Pnt> pp_thePnt = &thePnt;
-	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->Overlaps(*(gp_Pnt*)pp_thePnt, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsPoint(*(gp_Pnt*)pp_thePnt, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
 }
 
-bool Macad::Occt::SelectBasics_SelectingVolumeManager::Overlaps(Macad::Occt::Pnt thePnt)
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsPoint(Macad::Occt::Pnt thePnt)
 {
 	pin_ptr<Macad::Occt::Pnt> pp_thePnt = &thePnt;
-	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->Overlaps(*(gp_Pnt*)pp_thePnt);
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsPoint(*(gp_Pnt*)pp_thePnt);
 }
 
-bool Macad::Occt::SelectBasics_SelectingVolumeManager::Overlaps(Macad::Occt::TColgp_HArray1OfPnt^ theArrayOfPts, int theSensType, Macad::Occt::SelectBasics_PickResult^ thePickResult)
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsPolygon(Macad::Occt::TColgp_Array1OfPnt^ theArrayOfPts, int theSensType, Macad::Occt::SelectBasics_PickResult^ thePickResult)
 {
-	Handle(::TColgp_HArray1OfPnt) h_theArrayOfPts = theArrayOfPts->NativeInstance;
-	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->Overlaps(h_theArrayOfPts, theSensType, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
-	theArrayOfPts->NativeInstance = h_theArrayOfPts.get();
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsPolygon(*(::TColgp_Array1OfPnt*)theArrayOfPts->NativeInstance, theSensType, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
 }
 
-bool Macad::Occt::SelectBasics_SelectingVolumeManager::Overlaps(Macad::Occt::TColgp_Array1OfPnt^ theArrayOfPts, int theSensType, Macad::Occt::SelectBasics_PickResult^ thePickResult)
-{
-	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->Overlaps(*(::TColgp_Array1OfPnt*)theArrayOfPts->NativeInstance, theSensType, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
-}
-
-bool Macad::Occt::SelectBasics_SelectingVolumeManager::Overlaps(Macad::Occt::Pnt thePt1, Macad::Occt::Pnt thePt2, Macad::Occt::SelectBasics_PickResult^ thePickResult)
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsSegment(Macad::Occt::Pnt thePt1, Macad::Occt::Pnt thePt2, Macad::Occt::SelectBasics_PickResult^ thePickResult)
 {
 	pin_ptr<Macad::Occt::Pnt> pp_thePt1 = &thePt1;
 	pin_ptr<Macad::Occt::Pnt> pp_thePt2 = &thePt2;
-	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->Overlaps(*(gp_Pnt*)pp_thePt1, *(gp_Pnt*)pp_thePt2, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsSegment(*(gp_Pnt*)pp_thePt1, *(gp_Pnt*)pp_thePt2, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
 }
 
-bool Macad::Occt::SelectBasics_SelectingVolumeManager::Overlaps(Macad::Occt::Pnt thePt1, Macad::Occt::Pnt thePt2, Macad::Occt::Pnt thePt3, int theSensType, Macad::Occt::SelectBasics_PickResult^ thePickResult)
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsTriangle(Macad::Occt::Pnt thePt1, Macad::Occt::Pnt thePt2, Macad::Occt::Pnt thePt3, int theSensType, Macad::Occt::SelectBasics_PickResult^ thePickResult)
 {
 	pin_ptr<Macad::Occt::Pnt> pp_thePt1 = &thePt1;
 	pin_ptr<Macad::Occt::Pnt> pp_thePt2 = &thePt2;
 	pin_ptr<Macad::Occt::Pnt> pp_thePt3 = &thePt3;
-	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->Overlaps(*(gp_Pnt*)pp_thePt1, *(gp_Pnt*)pp_thePt2, *(gp_Pnt*)pp_thePt3, theSensType, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsTriangle(*(gp_Pnt*)pp_thePt1, *(gp_Pnt*)pp_thePt2, *(gp_Pnt*)pp_thePt3, theSensType, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
+}
+
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsSphere(Macad::Occt::Pnt theCenter, double theRadius, Macad::Occt::SelectBasics_PickResult^ thePickResult)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_theCenter = &theCenter;
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsSphere(*(gp_Pnt*)pp_theCenter, theRadius, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
+}
+
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsSphere(Macad::Occt::Pnt theCenter, double theRadius, bool% theInside)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_theCenter = &theCenter;
+	pin_ptr<bool> pp_theInside = &theInside;
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsSphere(*(gp_Pnt*)pp_theCenter, theRadius, (Standard_Boolean*)pp_theInside);
+}
+
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsSphere(Macad::Occt::Pnt theCenter, double theRadius)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_theCenter = &theCenter;
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsSphere(*(gp_Pnt*)pp_theCenter, theRadius, 0);
+}
+
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsCylinder(double theBottomRad, double theTopRad, double theHeight, Macad::Occt::Trsf theTrsf, Macad::Occt::SelectBasics_PickResult^ thePickResult)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsCylinder(theBottomRad, theTopRad, theHeight, *(gp_Trsf*)pp_theTrsf, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
+}
+
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsCylinder(double theBottomRad, double theTopRad, double theHeight, Macad::Occt::Trsf theTrsf, bool% theInside)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
+	pin_ptr<bool> pp_theInside = &theInside;
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsCylinder(theBottomRad, theTopRad, theHeight, *(gp_Trsf*)pp_theTrsf, (Standard_Boolean*)pp_theInside);
+}
+
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsCylinder(double theBottomRad, double theTopRad, double theHeight, Macad::Occt::Trsf theTrsf)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsCylinder(theBottomRad, theTopRad, theHeight, *(gp_Trsf*)pp_theTrsf, 0);
 }
 
 double Macad::Occt::SelectBasics_SelectingVolumeManager::DistToGeometryCenter(Macad::Occt::Pnt theCOG)
@@ -212,9 +243,58 @@ Macad::Occt::Pnt Macad::Occt::SelectBasics_SelectingVolumeManager::GetFarPickedP
 	return Macad::Occt::Pnt(((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->GetFarPickedPnt());
 }
 
+Macad::Occt::Dir Macad::Occt::SelectBasics_SelectingVolumeManager::GetViewRayDirection()
+{
+	return Macad::Occt::Dir(((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->GetViewRayDirection());
+}
+
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::IsScalableActiveVolume()
+{
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->IsScalableActiveVolume();
+}
+
 Macad::Occt::Pnt2d Macad::Occt::SelectBasics_SelectingVolumeManager::GetMousePosition()
 {
 	return Macad::Occt::Pnt2d(((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->GetMousePosition());
+}
+
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::Overlaps(Macad::Occt::Pnt thePnt, Macad::Occt::SelectBasics_PickResult^ thePickResult)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_thePnt = &thePnt;
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->Overlaps(*(gp_Pnt*)pp_thePnt, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
+}
+
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::Overlaps(Macad::Occt::Pnt thePnt)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_thePnt = &thePnt;
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->Overlaps(*(gp_Pnt*)pp_thePnt);
+}
+
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::Overlaps(Macad::Occt::TColgp_HArray1OfPnt^ theArrayOfPts, int theSensType, Macad::Occt::SelectBasics_PickResult^ thePickResult)
+{
+	Handle(::TColgp_HArray1OfPnt) h_theArrayOfPts = theArrayOfPts->NativeInstance;
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->Overlaps(h_theArrayOfPts, theSensType, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
+	theArrayOfPts->NativeInstance = h_theArrayOfPts.get();
+}
+
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::Overlaps(Macad::Occt::TColgp_Array1OfPnt^ theArrayOfPts, int theSensType, Macad::Occt::SelectBasics_PickResult^ thePickResult)
+{
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->Overlaps(*(::TColgp_Array1OfPnt*)theArrayOfPts->NativeInstance, theSensType, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
+}
+
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::Overlaps(Macad::Occt::Pnt thePnt1, Macad::Occt::Pnt thePnt2, Macad::Occt::SelectBasics_PickResult^ thePickResult)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_thePnt1 = &thePnt1;
+	pin_ptr<Macad::Occt::Pnt> pp_thePnt2 = &thePnt2;
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->Overlaps(*(gp_Pnt*)pp_thePnt1, *(gp_Pnt*)pp_thePnt2, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
+}
+
+bool Macad::Occt::SelectBasics_SelectingVolumeManager::Overlaps(Macad::Occt::Pnt thePnt1, Macad::Occt::Pnt thePnt2, Macad::Occt::Pnt thePnt3, int theSensType, Macad::Occt::SelectBasics_PickResult^ thePickResult)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_thePnt1 = &thePnt1;
+	pin_ptr<Macad::Occt::Pnt> pp_thePnt2 = &thePnt2;
+	pin_ptr<Macad::Occt::Pnt> pp_thePnt3 = &thePnt3;
+	return ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->Overlaps(*(gp_Pnt*)pp_thePnt1, *(gp_Pnt*)pp_thePnt2, *(gp_Pnt*)pp_thePnt3, theSensType, *(::SelectBasics_PickResult*)thePickResult->NativeInstance);
 }
 
 

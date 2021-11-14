@@ -19,6 +19,17 @@ public enum class SelectMgr_FilterType
 }; // enum  class SelectMgr_FilterType
 
 //---------------------------------------------------------------------
+//  Enum  SelectMgr_SelectionType
+//---------------------------------------------------------------------
+public enum class SelectMgr_SelectionType
+{
+	SelectMgr_SelectionType_Unknown = -1,
+	SelectMgr_SelectionType_Point = 0,
+	SelectMgr_SelectionType_Box = 1,
+	SelectMgr_SelectionType_Polyline = 2
+}; // enum  class SelectMgr_SelectionType
+
+//---------------------------------------------------------------------
 //  Enum  SelectMgr_StateOfSelection
 //---------------------------------------------------------------------
 public enum class SelectMgr_StateOfSelection
@@ -121,58 +132,6 @@ public:
 	/* Method skipped due to unknown mapping: void InsertAfter(SelectMgr_ListOfFilter theOther, Iterator theIter, ) */
 	void Reverse();
 }; // class SelectMgr_ListOfFilter
-
-//---------------------------------------------------------------------
-//  Class  SelectMgr_TriangFrustums
-//---------------------------------------------------------------------
-public ref class SelectMgr_TriangFrustums sealed : public BaseClass<::SelectMgr_TriangFrustums>
-{
-
-#ifdef Include_SelectMgr_TriangFrustums_h
-public:
-	Include_SelectMgr_TriangFrustums_h
-#endif
-
-public:
-	SelectMgr_TriangFrustums(::SelectMgr_TriangFrustums* nativeInstance)
-		: BaseClass<::SelectMgr_TriangFrustums>( nativeInstance, true )
-	{}
-
-	SelectMgr_TriangFrustums(::SelectMgr_TriangFrustums& nativeInstance)
-		: BaseClass<::SelectMgr_TriangFrustums>( &nativeInstance, false )
-	{}
-
-	property ::SelectMgr_TriangFrustums* NativeInstance
-	{
-		::SelectMgr_TriangFrustums* get()
-		{
-			return static_cast<::SelectMgr_TriangFrustums*>(_NativeInstance);
-		}
-	}
-
-public:
-	SelectMgr_TriangFrustums();
-	SelectMgr_TriangFrustums(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-	SelectMgr_TriangFrustums(Macad::Occt::SelectMgr_TriangFrustums^ theOther);
-	int Size();
-	Macad::Occt::SelectMgr_TriangFrustums^ Assign(Macad::Occt::SelectMgr_TriangFrustums^ theOther);
-	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-	void Clear();
-	/* Method skipped due to unknown mapping: SelectMgr_TriangularFrustum First() */
-	/* Method skipped due to unknown mapping: SelectMgr_TriangularFrustum Last() */
-	/* Method skipped due to unknown mapping: SelectMgr_TriangularFrustum Append(SelectMgr_TriangularFrustum theItem, ) */
-	/* Method skipped due to unknown mapping: void Append(SelectMgr_TriangularFrustum theItem, Iterator theIter, ) */
-	void Append(Macad::Occt::SelectMgr_TriangFrustums^ theOther);
-	/* Method skipped due to unknown mapping: SelectMgr_TriangularFrustum Prepend(SelectMgr_TriangularFrustum theItem, ) */
-	void Prepend(Macad::Occt::SelectMgr_TriangFrustums^ theOther);
-	void RemoveFirst();
-	/* Method skipped due to unknown mapping: void Remove(Iterator theIter, ) */
-	/* Method skipped due to unknown mapping: SelectMgr_TriangularFrustum InsertBefore(SelectMgr_TriangularFrustum theItem, Iterator theIter, ) */
-	/* Method skipped due to unknown mapping: void InsertBefore(SelectMgr_TriangFrustums theOther, Iterator theIter, ) */
-	/* Method skipped due to unknown mapping: SelectMgr_TriangularFrustum InsertAfter(SelectMgr_TriangularFrustum theItem, Iterator theIter, ) */
-	/* Method skipped due to unknown mapping: void InsertAfter(SelectMgr_TriangFrustums theOther, Iterator theIter, ) */
-	void Reverse();
-}; // class SelectMgr_TriangFrustums
 
 //---------------------------------------------------------------------
 //  Class  SelectMgr_SequenceOfSelection
@@ -508,69 +467,105 @@ public:
 }; // class SelectMgr_IndexedMapOfHSensitive
 
 //---------------------------------------------------------------------
-//  Class  SelectMgr_SequenceOfFilter
+//  Class  SelectMgr_MapOfOwners
 //---------------------------------------------------------------------
-public ref class SelectMgr_SequenceOfFilter sealed : public BaseClass<::SelectMgr_SequenceOfFilter>
+public ref class SelectMgr_MapOfOwners sealed : public BaseClass<::SelectMgr_MapOfOwners>
 {
 
-#ifdef Include_SelectMgr_SequenceOfFilter_h
+#ifdef Include_SelectMgr_MapOfOwners_h
 public:
-	Include_SelectMgr_SequenceOfFilter_h
+	Include_SelectMgr_MapOfOwners_h
 #endif
 
 public:
-	SelectMgr_SequenceOfFilter(::SelectMgr_SequenceOfFilter* nativeInstance)
-		: BaseClass<::SelectMgr_SequenceOfFilter>( nativeInstance, true )
+	SelectMgr_MapOfOwners(::SelectMgr_MapOfOwners* nativeInstance)
+		: BaseClass<::SelectMgr_MapOfOwners>( nativeInstance, true )
 	{}
 
-	SelectMgr_SequenceOfFilter(::SelectMgr_SequenceOfFilter& nativeInstance)
-		: BaseClass<::SelectMgr_SequenceOfFilter>( &nativeInstance, false )
+	SelectMgr_MapOfOwners(::SelectMgr_MapOfOwners& nativeInstance)
+		: BaseClass<::SelectMgr_MapOfOwners>( &nativeInstance, false )
 	{}
 
-	property ::SelectMgr_SequenceOfFilter* NativeInstance
+	property ::SelectMgr_MapOfOwners* NativeInstance
 	{
-		::SelectMgr_SequenceOfFilter* get()
+		::SelectMgr_MapOfOwners* get()
 		{
-			return static_cast<::SelectMgr_SequenceOfFilter*>(_NativeInstance);
+			return static_cast<::SelectMgr_MapOfOwners*>(_NativeInstance);
 		}
 	}
 
 public:
-	SelectMgr_SequenceOfFilter();
-	SelectMgr_SequenceOfFilter(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-	SelectMgr_SequenceOfFilter(Macad::Occt::SelectMgr_SequenceOfFilter^ theOther);
+	SelectMgr_MapOfOwners();
+	SelectMgr_MapOfOwners(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	SelectMgr_MapOfOwners(int theNbBuckets);
+	SelectMgr_MapOfOwners(Macad::Occt::SelectMgr_MapOfOwners^ theOther);
+	void Exchange(Macad::Occt::SelectMgr_MapOfOwners^ theOther);
+	Macad::Occt::SelectMgr_MapOfOwners^ Assign(Macad::Occt::SelectMgr_MapOfOwners^ theOther);
+	int Bound(Macad::Occt::SelectMgr_EntityOwner^ theKey, int theItem);
+	bool IsBound(Macad::Occt::SelectMgr_EntityOwner^ theKey);
+	bool UnBind(Macad::Occt::SelectMgr_EntityOwner^ theKey);
+	int Seek(Macad::Occt::SelectMgr_EntityOwner^ theKey);
+	int Find(Macad::Occt::SelectMgr_EntityOwner^ theKey);
+	bool Find(Macad::Occt::SelectMgr_EntityOwner^ theKey, int% theValue);
+	int ChangeSeek(Macad::Occt::SelectMgr_EntityOwner^ theKey);
+	int ChangeFind(Macad::Occt::SelectMgr_EntityOwner^ theKey);
+	void Clear(bool doReleaseMemory);
+	void Clear();
+	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	int Size();
-	int Length();
-	int Lower();
-	int Upper();
-	bool IsEmpty();
-	void Reverse();
-	void Exchange(int I, int J);
-	/* Method skipped due to unknown mapping: void delNode(NCollection_SeqNode theNode, NCollection_BaseAllocator theAl, ) */
+}; // class SelectMgr_MapOfOwners
+
+//---------------------------------------------------------------------
+//  Class  SelectMgr_TriangFrustums
+//---------------------------------------------------------------------
+public ref class SelectMgr_TriangFrustums sealed : public BaseClass<::SelectMgr_TriangFrustums>
+{
+
+#ifdef Include_SelectMgr_TriangFrustums_h
+public:
+	Include_SelectMgr_TriangFrustums_h
+#endif
+
+public:
+	SelectMgr_TriangFrustums(::SelectMgr_TriangFrustums* nativeInstance)
+		: BaseClass<::SelectMgr_TriangFrustums>( nativeInstance, true )
+	{}
+
+	SelectMgr_TriangFrustums(::SelectMgr_TriangFrustums& nativeInstance)
+		: BaseClass<::SelectMgr_TriangFrustums>( &nativeInstance, false )
+	{}
+
+	property ::SelectMgr_TriangFrustums* NativeInstance
+	{
+		::SelectMgr_TriangFrustums* get()
+		{
+			return static_cast<::SelectMgr_TriangFrustums*>(_NativeInstance);
+		}
+	}
+
+public:
+	SelectMgr_TriangFrustums();
+	SelectMgr_TriangFrustums(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+	SelectMgr_TriangFrustums(Macad::Occt::SelectMgr_TriangFrustums^ theOther);
+	int Size();
+	Macad::Occt::SelectMgr_TriangFrustums^ Assign(Macad::Occt::SelectMgr_TriangFrustums^ theOther);
 	void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
 	void Clear();
-	Macad::Occt::SelectMgr_SequenceOfFilter^ Assign(Macad::Occt::SelectMgr_SequenceOfFilter^ theOther);
-	/* Method skipped due to unknown mapping: void Remove(Iterator thePosition, ) */
-	void Remove(int theIndex);
-	void Remove(int theFromIndex, int theToIndex);
-	void Append(Macad::Occt::SelectMgr_Filter^ theItem);
-	void Append(Macad::Occt::SelectMgr_SequenceOfFilter^ theSeq);
-	void Prepend(Macad::Occt::SelectMgr_Filter^ theItem);
-	void Prepend(Macad::Occt::SelectMgr_SequenceOfFilter^ theSeq);
-	void InsertBefore(int theIndex, Macad::Occt::SelectMgr_Filter^ theItem);
-	void InsertBefore(int theIndex, Macad::Occt::SelectMgr_SequenceOfFilter^ theSeq);
-	/* Method skipped due to unknown mapping: void InsertAfter(Iterator thePosition, SelectMgr_Filter theItem, ) */
-	void InsertAfter(int theIndex, Macad::Occt::SelectMgr_SequenceOfFilter^ theSeq);
-	void InsertAfter(int theIndex, Macad::Occt::SelectMgr_Filter^ theItem);
-	void Split(int theIndex, Macad::Occt::SelectMgr_SequenceOfFilter^ theSeq);
-	Macad::Occt::SelectMgr_Filter^ First();
-	Macad::Occt::SelectMgr_Filter^ ChangeFirst();
-	Macad::Occt::SelectMgr_Filter^ Last();
-	Macad::Occt::SelectMgr_Filter^ ChangeLast();
-	Macad::Occt::SelectMgr_Filter^ Value(int theIndex);
-	Macad::Occt::SelectMgr_Filter^ ChangeValue(int theIndex);
-	void SetValue(int theIndex, Macad::Occt::SelectMgr_Filter^ theItem);
-}; // class SelectMgr_SequenceOfFilter
+	/* Method skipped due to unknown mapping: SelectMgr_TriangularFrustum First() */
+	/* Method skipped due to unknown mapping: SelectMgr_TriangularFrustum Last() */
+	/* Method skipped due to unknown mapping: SelectMgr_TriangularFrustum Append(SelectMgr_TriangularFrustum theItem, ) */
+	/* Method skipped due to unknown mapping: void Append(SelectMgr_TriangularFrustum theItem, Iterator theIter, ) */
+	void Append(Macad::Occt::SelectMgr_TriangFrustums^ theOther);
+	/* Method skipped due to unknown mapping: SelectMgr_TriangularFrustum Prepend(SelectMgr_TriangularFrustum theItem, ) */
+	void Prepend(Macad::Occt::SelectMgr_TriangFrustums^ theOther);
+	void RemoveFirst();
+	/* Method skipped due to unknown mapping: void Remove(Iterator theIter, ) */
+	/* Method skipped due to unknown mapping: SelectMgr_TriangularFrustum InsertBefore(SelectMgr_TriangularFrustum theItem, Iterator theIter, ) */
+	/* Method skipped due to unknown mapping: void InsertBefore(SelectMgr_TriangFrustums theOther, Iterator theIter, ) */
+	/* Method skipped due to unknown mapping: SelectMgr_TriangularFrustum InsertAfter(SelectMgr_TriangularFrustum theItem, Iterator theIter, ) */
+	/* Method skipped due to unknown mapping: void InsertAfter(SelectMgr_TriangFrustums theOther, Iterator theIter, ) */
+	void Reverse();
+}; // class SelectMgr_TriangFrustums
 
 //---------------------------------------------------------------------
 //  Class  SelectMgr_Selection
@@ -939,6 +934,141 @@ public:
 }; // class SelectMgr_ViewClipRange
 
 //---------------------------------------------------------------------
+//  Class  SelectMgr_BaseIntersector
+//---------------------------------------------------------------------
+public ref class SelectMgr_BaseIntersector : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_SelectMgr_BaseIntersector_h
+public:
+	Include_SelectMgr_BaseIntersector_h
+#endif
+
+protected:
+	SelectMgr_BaseIntersector(InitMode init)
+		: Macad::Occt::Standard_Transient( init )
+	{}
+
+public:
+	SelectMgr_BaseIntersector(::SelectMgr_BaseIntersector* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	SelectMgr_BaseIntersector(::SelectMgr_BaseIntersector& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	property ::SelectMgr_BaseIntersector* NativeInstance
+	{
+		::SelectMgr_BaseIntersector* get()
+		{
+			return static_cast<::SelectMgr_BaseIntersector*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::SelectMgr_BaseIntersector^ CreateDowncasted(::SelectMgr_BaseIntersector* instance);
+
+public:
+	SelectMgr_BaseIntersector();
+	SelectMgr_BaseIntersector(Macad::Occt::SelectMgr_BaseIntersector^ parameter1);
+	void Build();
+	Macad::Occt::SelectMgr_SelectionType GetSelectionType();
+	bool IsScalable();
+	void SetPixelTolerance(int theTol);
+	/* Method skipped due to unknown mapping: SelectMgr_BaseIntersector ScaleAndTransform(Standard_Integer theScaleFactor, gp_GTrsf theTrsf, SelectMgr_FrustumBuilder theBuilder, ) */
+	Macad::Occt::Graphic3d_Camera^ Camera();
+	void SetCamera(Macad::Occt::Graphic3d_Camera^ theCamera);
+	void WindowSize(int% theWidth, int% theHeight);
+	void SetWindowSize(int theWidth, int theHeight);
+	void SetViewport(double theX, double theY, double theWidth, double theHeight);
+	Macad::Occt::Pnt GetNearPnt();
+	Macad::Occt::Pnt GetFarPnt();
+	Macad::Occt::Dir GetViewRayDirection();
+	Macad::Occt::Pnt2d GetMousePosition();
+	/* Method skipped due to unknown mapping: void GetPlanes(NCollection_Vector<NCollection_Vec4<double>> thePlaneEquations, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean OverlapsBox(SelectMgr_Vec3 theBoxMin, SelectMgr_Vec3 theBoxMax, SelectMgr_ViewClipRange theClipRange, SelectBasics_PickResult thePickResult, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean OverlapsBox(SelectMgr_Vec3 theBoxMin, SelectMgr_Vec3 theBoxMax, Standard_Boolean theInside, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean OverlapsBox(SelectMgr_Vec3 theBoxMin, SelectMgr_Vec3 theBoxMax, Standard_Boolean theInside, ) */
+	bool OverlapsPoint(Macad::Occt::Pnt thePnt, Macad::Occt::SelectMgr_ViewClipRange^ theClipRange, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	bool OverlapsPoint(Macad::Occt::Pnt thePnt);
+	/* Method skipped due to unknown mapping: Standard_Boolean OverlapsPolygon(TColgp_Array1OfPnt theArrayOfPnts, Select3D_TypeOfSensitivity theSensType, SelectMgr_ViewClipRange theClipRange, SelectBasics_PickResult thePickResult, ) */
+	bool OverlapsSegment(Macad::Occt::Pnt thePnt1, Macad::Occt::Pnt thePnt2, Macad::Occt::SelectMgr_ViewClipRange^ theClipRange, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	/* Method skipped due to unknown mapping: Standard_Boolean OverlapsTriangle(gp_Pnt thePnt1, gp_Pnt thePnt2, gp_Pnt thePnt3, Select3D_TypeOfSensitivity theSensType, SelectMgr_ViewClipRange theClipRange, SelectBasics_PickResult thePickResult, ) */
+	bool OverlapsSphere(Macad::Occt::Pnt theCenter, double theRadius, bool% theInside);
+	bool OverlapsSphere(Macad::Occt::Pnt theCenter, double theRadius);
+	bool OverlapsSphere(Macad::Occt::Pnt theCenter, double theRadius, Macad::Occt::SelectMgr_ViewClipRange^ theClipRange, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	bool OverlapsCylinder(double theBottomRad, double theTopRad, double theHeight, Macad::Occt::Trsf theTrsf, Macad::Occt::SelectMgr_ViewClipRange^ theClipRange, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	bool OverlapsCylinder(double theBottomRad, double theTopRad, double theHeight, Macad::Occt::Trsf theTrsf, bool% theInside);
+	bool OverlapsCylinder(double theBottomRad, double theTopRad, double theHeight, Macad::Occt::Trsf theTrsf);
+	double DistToGeometryCenter(Macad::Occt::Pnt theCOG);
+	Macad::Occt::Pnt DetectedPoint(double theDepth);
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	bool RaySphereIntersection(Macad::Occt::Pnt theCenter, double theRadius, Macad::Occt::Pnt theLoc, Macad::Occt::Dir theRayDir, double% theTimeEnter, double% theTimeLeave);
+	bool RayCylinderIntersection(double theBottomRadius, double theTopRadius, double theHeight, Macad::Occt::Pnt theLoc, Macad::Occt::Dir theRayDir, double% theTimeEnter, double% theTimeLeave);
+}; // class SelectMgr_BaseIntersector
+
+//---------------------------------------------------------------------
+//  Class  SelectMgr_AxisIntersector
+//---------------------------------------------------------------------
+public ref class SelectMgr_AxisIntersector sealed : public Macad::Occt::SelectMgr_BaseIntersector
+{
+
+#ifdef Include_SelectMgr_AxisIntersector_h
+public:
+	Include_SelectMgr_AxisIntersector_h
+#endif
+
+public:
+	SelectMgr_AxisIntersector(::SelectMgr_AxisIntersector* nativeInstance)
+		: Macad::Occt::SelectMgr_BaseIntersector( nativeInstance )
+	{}
+
+	SelectMgr_AxisIntersector(::SelectMgr_AxisIntersector& nativeInstance)
+		: Macad::Occt::SelectMgr_BaseIntersector( nativeInstance )
+	{}
+
+	property ::SelectMgr_AxisIntersector* NativeInstance
+	{
+		::SelectMgr_AxisIntersector* get()
+		{
+			return static_cast<::SelectMgr_AxisIntersector*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::SelectMgr_AxisIntersector^ CreateDowncasted(::SelectMgr_AxisIntersector* instance);
+
+public:
+	SelectMgr_AxisIntersector();
+	SelectMgr_AxisIntersector(Macad::Occt::SelectMgr_AxisIntersector^ parameter1);
+	void Init(Macad::Occt::Ax1 theAxis);
+	void Build();
+	void SetCamera(Macad::Occt::Graphic3d_Camera^ theCamera);
+	bool IsScalable();
+	/* Method skipped due to unknown mapping: SelectMgr_BaseIntersector ScaleAndTransform(Standard_Integer theScaleFactor, gp_GTrsf theTrsf, SelectMgr_FrustumBuilder theBuilder, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean OverlapsBox(SelectMgr_Vec3 theBoxMin, SelectMgr_Vec3 theBoxMax, SelectMgr_ViewClipRange theClipRange, SelectBasics_PickResult thePickResult, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean OverlapsBox(SelectMgr_Vec3 theBoxMin, SelectMgr_Vec3 theBoxMax, Standard_Boolean theInside, ) */
+	bool OverlapsPoint(Macad::Occt::Pnt thePnt, Macad::Occt::SelectMgr_ViewClipRange^ theClipRange, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	bool OverlapsPoint(Macad::Occt::Pnt thePnt);
+	/* Method skipped due to unknown mapping: Standard_Boolean OverlapsPolygon(TColgp_Array1OfPnt theArrayOfPnts, Select3D_TypeOfSensitivity theSensType, SelectMgr_ViewClipRange theClipRange, SelectBasics_PickResult thePickResult, ) */
+	bool OverlapsSegment(Macad::Occt::Pnt thePnt1, Macad::Occt::Pnt thePnt2, Macad::Occt::SelectMgr_ViewClipRange^ theClipRange, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	/* Method skipped due to unknown mapping: Standard_Boolean OverlapsTriangle(gp_Pnt thePnt1, gp_Pnt thePnt2, gp_Pnt thePnt3, Select3D_TypeOfSensitivity theSensType, SelectMgr_ViewClipRange theClipRange, SelectBasics_PickResult thePickResult, ) */
+	bool OverlapsSphere(Macad::Occt::Pnt theCenter, double theRadius, bool% theInside);
+	bool OverlapsSphere(Macad::Occt::Pnt theCenter, double theRadius);
+	bool OverlapsSphere(Macad::Occt::Pnt theCenter, double theRadius, Macad::Occt::SelectMgr_ViewClipRange^ theClipRange, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	bool OverlapsCylinder(double theBottomRad, double theTopRad, double theHeight, Macad::Occt::Trsf theTrsf, Macad::Occt::SelectMgr_ViewClipRange^ theClipRange, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	bool OverlapsCylinder(double theBottomRad, double theTopRad, double theHeight, Macad::Occt::Trsf theTrsf, bool% theInside);
+	bool OverlapsCylinder(double theBottomRad, double theTopRad, double theHeight, Macad::Occt::Trsf theTrsf);
+	double DistToGeometryCenter(Macad::Occt::Pnt theCOG);
+	Macad::Occt::Pnt DetectedPoint(double theDepth);
+	Macad::Occt::Pnt GetNearPnt();
+	Macad::Occt::Pnt GetFarPnt();
+	Macad::Occt::Dir GetViewRayDirection();
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+}; // class SelectMgr_AxisIntersector
+
+//---------------------------------------------------------------------
 //  Class  SelectMgr_BVHThreadPool
 //---------------------------------------------------------------------
 public ref class SelectMgr_BVHThreadPool sealed : public Macad::Occt::Standard_Transient
@@ -1264,7 +1394,7 @@ public:
 	bool Append(Macad::Occt::SelectMgr_SelectableObject^ theObject);
 	bool Remove(Macad::Occt::SelectMgr_SelectableObject^ theObject);
 	void ChangeSubset(Macad::Occt::SelectMgr_SelectableObject^ theObject);
-	/* Method skipped due to unknown mapping: void UpdateBVH(Graphic3d_Camera theCamera, Graphic3d_Mat4d theProjectionMat, Graphic3d_Mat4d theWorldViewMat, Graphic3d_WorldViewProjState theViewState, Standard_Integer theViewportWidth, Standard_Integer theViewportHeight, ) */
+	void UpdateBVH(Macad::Occt::Graphic3d_Camera^ theCam, Macad::Occt::Graphic3d_Vec2i^ theWinSize);
 	void MarkDirty();
 	bool Contains(Macad::Occt::SelectMgr_SelectableObject^ theObject);
 	bool IsEmpty();
@@ -1278,18 +1408,13 @@ public:
 //---------------------------------------------------------------------
 //  Class  SelectMgr_ViewerSelector
 //---------------------------------------------------------------------
-public ref class SelectMgr_ViewerSelector : public Macad::Occt::Standard_Transient
+public ref class SelectMgr_ViewerSelector sealed : public Macad::Occt::Standard_Transient
 {
 
 #ifdef Include_SelectMgr_ViewerSelector_h
 public:
 	Include_SelectMgr_ViewerSelector_h
 #endif
-
-protected:
-	SelectMgr_ViewerSelector(InitMode init)
-		: Macad::Occt::Standard_Transient( init )
-	{}
 
 public:
 	SelectMgr_ViewerSelector(::SelectMgr_ViewerSelector* nativeInstance)
@@ -1311,8 +1436,8 @@ public:
 	static Macad::Occt::SelectMgr_ViewerSelector^ CreateDowncasted(::SelectMgr_ViewerSelector* instance);
 
 public:
+	SelectMgr_ViewerSelector();
 	SelectMgr_ViewerSelector(Macad::Occt::SelectMgr_ViewerSelector^ parameter1);
-	void Clear();
 	int CustomPixelTolerance();
 	void SetPixelTolerance(int theTolerance);
 	double Sensitivity();
@@ -1326,10 +1451,12 @@ public:
 	void SetDepthTolerance(Macad::Occt::SelectMgr_TypeOfDepthTolerance theType, double theTolerance);
 	int NbPicked();
 	void ClearPicked();
+	void Clear();
 	Macad::Occt::SelectMgr_EntityOwner^ Picked(int theRank);
 	Macad::Occt::SelectMgr_SortCriterion^ PickedData(int theRank);
 	/* Method skipped due to unknown mapping: Select3D_SensitiveEntity PickedEntity(Standard_Integer theRank, ) */
 	Macad::Occt::Pnt PickedPoint(int theRank);
+	bool RemovePicked(Macad::Occt::SelectMgr_SelectableObject^ theObject);
 	bool Contains(Macad::Occt::SelectMgr_SelectableObject^ theObject);
 	/* Method skipped due to unknown mapping: BVH_Builder<double, 3 EntitySetBuilder() */
 	/* Method skipped due to unknown mapping: void SetEntitySetBuilder(BVH_Builder<double, 3 theBuilder, ) */
@@ -1353,59 +1480,10 @@ public:
 	Macad::Occt::SelectMgr_SelectableObjectSet^ SelectableObjects();
 	void ResetSelectionActivationStatus();
 	void AllowOverlapDetection(bool theIsToAllow);
-	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
-	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
-	void Init();
-	bool More();
-	void Next();
-	Macad::Occt::SelectMgr_EntityOwner^ Picked();
-	void InitDetected();
-	void NextDetected();
-	bool MoreDetected();
-	/* Method skipped due to unknown mapping: Select3D_SensitiveEntity DetectedEntity() */
-	void SetToPrebuildBVH(bool theToPrebuild, int theThreadsNum);
-	void SetToPrebuildBVH(bool theToPrebuild);
-	/* Method skipped due to unknown mapping: void QueueBVHBuild(Select3D_SensitiveEntity theEntity, ) */
-	void WaitForBVHBuild();
-	bool ToPrebuildBVH();
-}; // class SelectMgr_ViewerSelector
-
-//---------------------------------------------------------------------
-//  Class  SelectMgr_ViewerSelector3d
-//---------------------------------------------------------------------
-public ref class SelectMgr_ViewerSelector3d sealed : public Macad::Occt::SelectMgr_ViewerSelector
-{
-
-#ifdef Include_SelectMgr_ViewerSelector3d_h
-public:
-	Include_SelectMgr_ViewerSelector3d_h
-#endif
-
-public:
-	SelectMgr_ViewerSelector3d(::SelectMgr_ViewerSelector3d* nativeInstance)
-		: Macad::Occt::SelectMgr_ViewerSelector( nativeInstance )
-	{}
-
-	SelectMgr_ViewerSelector3d(::SelectMgr_ViewerSelector3d& nativeInstance)
-		: Macad::Occt::SelectMgr_ViewerSelector( nativeInstance )
-	{}
-
-	property ::SelectMgr_ViewerSelector3d* NativeInstance
-	{
-		::SelectMgr_ViewerSelector3d* get()
-		{
-			return static_cast<::SelectMgr_ViewerSelector3d*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::SelectMgr_ViewerSelector3d^ CreateDowncasted(::SelectMgr_ViewerSelector3d* instance);
-
-public:
-	SelectMgr_ViewerSelector3d();
-	SelectMgr_ViewerSelector3d(Macad::Occt::SelectMgr_ViewerSelector3d^ parameter1);
 	void Pick(int theXPix, int theYPix, Macad::Occt::V3d_View^ theView);
 	void Pick(int theXPMin, int theYPMin, int theXPMax, int theYPMax, Macad::Occt::V3d_View^ theView);
 	void Pick(Macad::Occt::TColgp_Array1OfPnt2d^ thePolyline, Macad::Occt::V3d_View^ theView);
+	void Pick(Macad::Occt::Ax1 theAxis, Macad::Occt::V3d_View^ theView);
 	bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, Macad::Occt::V3d_View^ theView, Macad::Occt::StdSelect_TypeOfSelectionImage theType, int thePickedIndex);
 	bool ToPixMap(Macad::Occt::Image_PixMap^ theImage, Macad::Occt::V3d_View^ theView, Macad::Occt::StdSelect_TypeOfSelectionImage theType);
 	void DisplaySensitive(Macad::Occt::V3d_View^ theView);
@@ -1414,7 +1492,12 @@ public:
 	void DisplaySensitive(Macad::Occt::SelectMgr_Selection^ theSel, Macad::Occt::Trsf theTrsf, Macad::Occt::V3d_View^ theView);
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
-}; // class SelectMgr_ViewerSelector3d
+	void SetToPrebuildBVH(bool theToPrebuild, int theThreadsNum);
+	void SetToPrebuildBVH(bool theToPrebuild);
+	/* Method skipped due to unknown mapping: void QueueBVHBuild(Select3D_SensitiveEntity theEntity, ) */
+	void WaitForBVHBuild();
+	bool ToPrebuildBVH();
+}; // class SelectMgr_ViewerSelector
 
 }; // namespace Occt
 }; // namespace Macad

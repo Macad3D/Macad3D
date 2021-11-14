@@ -121,11 +121,6 @@ double Macad::Occt::BOPAlgo_Options::FuzzyValue()
 	return ((::BOPAlgo_Options*)_NativeInstance)->FuzzyValue();
 }
 
-void Macad::Occt::BOPAlgo_Options::SetProgressIndicator(Macad::Occt::Message_ProgressScope^ theProgress)
-{
-	((::BOPAlgo_Options*)_NativeInstance)->SetProgressIndicator(*(::Message_ProgressScope*)theProgress->NativeInstance);
-}
-
 void Macad::Occt::BOPAlgo_Options::SetUseOBB(bool theUseOBB)
 {
 	((::BOPAlgo_Options*)_NativeInstance)->SetUseOBB(theUseOBB);
@@ -149,9 +144,14 @@ Macad::Occt::BOPAlgo_Algo::BOPAlgo_Algo(Macad::Occt::BOPAlgo_Algo^ parameter1)
 	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
+void Macad::Occt::BOPAlgo_Algo::Perform(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BOPAlgo_Algo*)_NativeInstance)->Perform(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BOPAlgo_Algo::Perform()
 {
-	((::BOPAlgo_Algo*)_NativeInstance)->Perform();
+	((::BOPAlgo_Algo*)_NativeInstance)->Perform(::Message_ProgressRange());
 }
 
 
@@ -304,29 +304,34 @@ bool Macad::Occt::BOPAlgo_Builder::CheckInverted()
 	return ((::BOPAlgo_Builder*)_NativeInstance)->CheckInverted();
 }
 
+void Macad::Occt::BOPAlgo_Builder::Perform(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BOPAlgo_Builder*)_NativeInstance)->Perform(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BOPAlgo_Builder::Perform()
 {
-	((::BOPAlgo_Builder*)_NativeInstance)->Perform();
+	((::BOPAlgo_Builder*)_NativeInstance)->Perform(::Message_ProgressRange());
 }
 
-void Macad::Occt::BOPAlgo_Builder::BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopAbs_State theObjState, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::TopAbs_State theToolsState, Macad::Occt::Message_Report^ theReport)
+void Macad::Occt::BOPAlgo_Builder::BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopAbs_State theObjState, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::TopAbs_State theToolsState, Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::Message_Report^ theReport)
 {
-	((::BOPAlgo_Builder*)_NativeInstance)->BuildBOP(*(::TopTools_ListOfShape*)theObjects->NativeInstance, (::TopAbs_State)theObjState, *(::TopTools_ListOfShape*)theTools->NativeInstance, (::TopAbs_State)theToolsState, Handle(::Message_Report)(theReport->NativeInstance));
+	((::BOPAlgo_Builder*)_NativeInstance)->BuildBOP(*(::TopTools_ListOfShape*)theObjects->NativeInstance, (::TopAbs_State)theObjState, *(::TopTools_ListOfShape*)theTools->NativeInstance, (::TopAbs_State)theToolsState, *(::Message_ProgressRange*)theRange->NativeInstance, Handle(::Message_Report)(theReport->NativeInstance));
 }
 
-void Macad::Occt::BOPAlgo_Builder::BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopAbs_State theObjState, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::TopAbs_State theToolsState)
+void Macad::Occt::BOPAlgo_Builder::BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopAbs_State theObjState, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::TopAbs_State theToolsState, Macad::Occt::Message_ProgressRange^ theRange)
 {
-	((::BOPAlgo_Builder*)_NativeInstance)->BuildBOP(*(::TopTools_ListOfShape*)theObjects->NativeInstance, (::TopAbs_State)theObjState, *(::TopTools_ListOfShape*)theTools->NativeInstance, (::TopAbs_State)theToolsState, 0);
+	((::BOPAlgo_Builder*)_NativeInstance)->BuildBOP(*(::TopTools_ListOfShape*)theObjects->NativeInstance, (::TopAbs_State)theObjState, *(::TopTools_ListOfShape*)theTools->NativeInstance, (::TopAbs_State)theToolsState, *(::Message_ProgressRange*)theRange->NativeInstance, 0);
 }
 
-void Macad::Occt::BOPAlgo_Builder::BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::BOPAlgo_Operation theOperation, Macad::Occt::Message_Report^ theReport)
+void Macad::Occt::BOPAlgo_Builder::BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::BOPAlgo_Operation theOperation, Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::Message_Report^ theReport)
 {
-	((::BOPAlgo_Builder*)_NativeInstance)->BuildBOP(*(::TopTools_ListOfShape*)theObjects->NativeInstance, *(::TopTools_ListOfShape*)theTools->NativeInstance, (::BOPAlgo_Operation)theOperation, Handle(::Message_Report)(theReport->NativeInstance));
+	((::BOPAlgo_Builder*)_NativeInstance)->BuildBOP(*(::TopTools_ListOfShape*)theObjects->NativeInstance, *(::TopTools_ListOfShape*)theTools->NativeInstance, (::BOPAlgo_Operation)theOperation, *(::Message_ProgressRange*)theRange->NativeInstance, Handle(::Message_Report)(theReport->NativeInstance));
 }
 
-void Macad::Occt::BOPAlgo_Builder::BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::BOPAlgo_Operation theOperation)
+void Macad::Occt::BOPAlgo_Builder::BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::BOPAlgo_Operation theOperation, Macad::Occt::Message_ProgressRange^ theRange)
 {
-	((::BOPAlgo_Builder*)_NativeInstance)->BuildBOP(*(::TopTools_ListOfShape*)theObjects->NativeInstance, *(::TopTools_ListOfShape*)theTools->NativeInstance, (::BOPAlgo_Operation)theOperation, 0);
+	((::BOPAlgo_Builder*)_NativeInstance)->BuildBOP(*(::TopTools_ListOfShape*)theObjects->NativeInstance, *(::TopTools_ListOfShape*)theTools->NativeInstance, (::BOPAlgo_Operation)theOperation, *(::Message_ProgressRange*)theRange->NativeInstance, 0);
 }
 
 Macad::Occt::TopTools_DataMapOfShapeListOfShape^ Macad::Occt::BOPAlgo_Builder::Images()
@@ -441,9 +446,14 @@ Macad::Occt::BOPAlgo_Operation Macad::Occt::BOPAlgo_BOP::Operation()
 	return (Macad::Occt::BOPAlgo_Operation)((::BOPAlgo_BOP*)_NativeInstance)->Operation();
 }
 
+void Macad::Occt::BOPAlgo_BOP::Perform(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BOPAlgo_BOP*)_NativeInstance)->Perform(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BOPAlgo_BOP::Perform()
 {
-	((::BOPAlgo_BOP*)_NativeInstance)->Perform();
+	((::BOPAlgo_BOP*)_NativeInstance)->Perform(::Message_ProgressRange());
 }
 
 

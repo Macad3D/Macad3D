@@ -123,6 +123,7 @@ public:
 	double RelativeAbscissa(int IC, Macad::Occt::TopoDS_Vertex^ V);
 	bool ClosedAndTangent(int IC);
 	bool Closed(int IC);
+	void Build(Macad::Occt::Message_ProgressRange^ theRange);
 	void Build();
 	void Reset();
 	/* Method skipped due to unknown mapping: TopOpeBRepBuild_HBuilder Builder() */
@@ -201,6 +202,7 @@ public:
 	double RelativeAbscissa(int IC, Macad::Occt::TopoDS_Vertex^ V);
 	bool ClosedAndTangent(int IC);
 	bool Closed(int IC);
+	void Build(Macad::Occt::Message_ProgressRange^ theRange);
 	void Build();
 	void Reset();
 	/* Method skipped due to unknown mapping: TopOpeBRepBuild_HBuilder Builder() */
@@ -277,6 +279,7 @@ public:
 	Macad::Occt::TopoDS_Edge^ DescendantEdge(Macad::Occt::TopoDS_Edge^ E);
 	Macad::Occt::TopoDS_Edge^ BasisEdge(Macad::Occt::TopoDS_Edge^ E);
 	/* Method skipped due to unknown mapping: ChFi2d_ConstructionError Status() */
+	void Build(Macad::Occt::Message_ProgressRange^ theRange);
 	void Build();
 }; // class BRepFilletAPI_MakeFillet2d
 

@@ -21,7 +21,10 @@
 #include "Message_ProgressIndicator.hxx"
 #include "Message_Msg.hxx"
 
-typedef void* EAGLContext;
+// Define Aspect_FBConfig to pointer, otherwise it will be typerefed to a OpenGL type
+// which cannot be found by the linker
+#define _Aspect_FBConfig_HeaderFile
+typedef void* Aspect_FBConfig;
 
 #include "BaseClass.h"
 #include "Standard_Transient.h"

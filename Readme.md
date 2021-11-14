@@ -10,12 +10,12 @@ Official homepage and download: https://macad3d.net
 
 ## Development requirements
 
-- Visual Studio 2019 Community Edition 
+- Visual Studio 2022 Community Edition 
   - .Net Desktop workload
   - C++ Desktop workload
-  - .Net 5 support component
+  - .Net 6 support component
   - C++/CLI support component 
-- OpenCASCADE Technology (OCCT) 7.5.0
+- OpenCASCADE Technology (OCCT) 7.6.0
   - Get it from [OpenCASCADE Download Center](https://dev.opencascade.org/release)
 - HTML Help Workshop 1.3
   - needed only for building the user guide

@@ -14,7 +14,7 @@ public:
 	             const opencascade::handle<Prs3d_Presentation>& thePrs,
 	             const Standard_Integer theMode) override;
 
-	void HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager3d)& thePrsMgr,
+	void HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
 	                           const Handle(Prs3d_Drawer)& theStyle,
 	                           const Handle(SelectMgr_EntityOwner)& theOwner) override;
 	

@@ -8,6 +8,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "BRepFilletAPI.h"
 #include "TopoDS.h"
 #include "Standard.h"
+#include "Message.h"
 #include "TopTools.h"
 #include "ChFi3d.h"
 #include "GeomAbs.h"
@@ -282,9 +283,14 @@ bool Macad::Occt::BRepFilletAPI_MakeChamfer::Closed(int IC)
 	return ((::BRepFilletAPI_MakeChamfer*)_NativeInstance)->Closed(IC);
 }
 
+void Macad::Occt::BRepFilletAPI_MakeChamfer::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepFilletAPI_MakeChamfer*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepFilletAPI_MakeChamfer::Build()
 {
-	((::BRepFilletAPI_MakeChamfer*)_NativeInstance)->Build();
+	((::BRepFilletAPI_MakeChamfer*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepFilletAPI_MakeChamfer::Reset()
@@ -509,9 +515,14 @@ bool Macad::Occt::BRepFilletAPI_MakeFillet::Closed(int IC)
 	return ((::BRepFilletAPI_MakeFillet*)_NativeInstance)->Closed(IC);
 }
 
+void Macad::Occt::BRepFilletAPI_MakeFillet::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepFilletAPI_MakeFillet*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepFilletAPI_MakeFillet::Build()
 {
-	((::BRepFilletAPI_MakeFillet*)_NativeInstance)->Build();
+	((::BRepFilletAPI_MakeFillet*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepFilletAPI_MakeFillet::Reset()
@@ -764,9 +775,14 @@ Macad::Occt::TopoDS_Edge^ Macad::Occt::BRepFilletAPI_MakeFillet2d::BasisEdge(Mac
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Edge(_result);
 }
 
+void Macad::Occt::BRepFilletAPI_MakeFillet2d::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepFilletAPI_MakeFillet2d*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepFilletAPI_MakeFillet2d::Build()
 {
-	((::BRepFilletAPI_MakeFillet2d*)_NativeInstance)->Build();
+	((::BRepFilletAPI_MakeFillet2d*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 

@@ -2728,6 +2728,16 @@ Macad::Occt::Units_NoSuchType::Units_NoSuchType(System::String^ theMessage)
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
 }
 
+Macad::Occt::Units_NoSuchType::Units_NoSuchType(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_NoSuchObject(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Units_NoSuchType(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+}
+
 Macad::Occt::Units_NoSuchType::Units_NoSuchType(Macad::Occt::Units_NoSuchType^ parameter1)
 	: Macad::Occt::Standard_NoSuchObject(BaseClass::InitMode::Uninitialized)
 {
@@ -2762,6 +2772,17 @@ Macad::Occt::Units_NoSuchType^ Macad::Occt::Units_NoSuchType::NewInstance()
 	 return _result.IsNull() ? nullptr : Macad::Occt::Units_NoSuchType::CreateDowncasted( _result.get());
 }
 
+Macad::Occt::Units_NoSuchType^ Macad::Occt::Units_NoSuchType::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Units_NoSuchType) _result;
+	_result = ::Units_NoSuchType::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Units_NoSuchType::CreateDowncasted( _result.get());
+}
+
 
 Macad::Occt::Units_NoSuchType^ Macad::Occt::Units_NoSuchType::CreateDowncasted(::Units_NoSuchType* instance)
 {
@@ -2786,6 +2807,16 @@ Macad::Occt::Units_NoSuchUnit::Units_NoSuchUnit(System::String^ theMessage)
 	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
 	NativeInstance = new ::Units_NoSuchUnit(sz_theMessage);
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Units_NoSuchUnit::Units_NoSuchUnit(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_NoSuchObject(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Units_NoSuchUnit(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
 Macad::Occt::Units_NoSuchUnit::Units_NoSuchUnit(Macad::Occt::Units_NoSuchUnit^ parameter1)
@@ -2819,6 +2850,17 @@ Macad::Occt::Units_NoSuchUnit^ Macad::Occt::Units_NoSuchUnit::NewInstance()
 {
 	Handle(::Units_NoSuchUnit) _result;
 	_result = ::Units_NoSuchUnit::NewInstance("");
+	 return _result.IsNull() ? nullptr : Macad::Occt::Units_NoSuchUnit::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Units_NoSuchUnit^ Macad::Occt::Units_NoSuchUnit::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Units_NoSuchUnit) _result;
+	_result = ::Units_NoSuchUnit::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 	 return _result.IsNull() ? nullptr : Macad::Occt::Units_NoSuchUnit::CreateDowncasted( _result.get());
 }
 

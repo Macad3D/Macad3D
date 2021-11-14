@@ -37,8 +37,8 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        [ModuleInitializer]
-        public static void Register()
+        [AutoRegister]
+        internal static void Register()
         {
             RegisterEditor<SketchEditor>();
         }

@@ -5,18 +5,278 @@
 
 using namespace System::Runtime::InteropServices; // for class Marshal
 
-#include "BRepGProp.h"
-#include "Standard.h"
-#include "BRepAdaptor.h"
-#include "gp.h"
-#include "GeomAbs.h"
-#include "TColStd.h"
 #include "TopoDS.h"
 #include "GProp.h"
+#include "Standard.h"
+#include "gp.h"
+#include "BRepAdaptor.h"
+#include "BRepGProp.h"
+#include "GeomAbs.h"
+#include "TColStd.h"
 #include "NCollection.h"
 #include "TColgp.h"
 #include "TopLoc.h"
 #include "TopAbs.h"
+
+
+//---------------------------------------------------------------------
+//  Class  BRepGProp
+//---------------------------------------------------------------------
+
+Macad::Occt::BRepGProp::BRepGProp()
+	: BaseClass<::BRepGProp>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepGProp();
+}
+
+Macad::Occt::BRepGProp::BRepGProp(Macad::Occt::BRepGProp^ parameter1)
+	: BaseClass<::BRepGProp>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepGProp(*(::BRepGProp*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::BRepGProp::LinearProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ LProps, bool SkipShared, bool UseTriangulation)
+{
+	::BRepGProp::LinearProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)LProps->NativeInstance, SkipShared, UseTriangulation);
+}
+
+void Macad::Occt::BRepGProp::LinearProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ LProps, bool SkipShared)
+{
+	::BRepGProp::LinearProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)LProps->NativeInstance, SkipShared, false);
+}
+
+void Macad::Occt::BRepGProp::LinearProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ LProps)
+{
+	::BRepGProp::LinearProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)LProps->NativeInstance, false, false);
+}
+
+void Macad::Occt::BRepGProp::SurfaceProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ SProps, bool SkipShared, bool UseTriangulation)
+{
+	::BRepGProp::SurfaceProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)SProps->NativeInstance, SkipShared, UseTriangulation);
+}
+
+void Macad::Occt::BRepGProp::SurfaceProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ SProps, bool SkipShared)
+{
+	::BRepGProp::SurfaceProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)SProps->NativeInstance, SkipShared, false);
+}
+
+void Macad::Occt::BRepGProp::SurfaceProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ SProps)
+{
+	::BRepGProp::SurfaceProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)SProps->NativeInstance, false, false);
+}
+
+double Macad::Occt::BRepGProp::SurfaceProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ SProps, double Eps, bool SkipShared)
+{
+	return ::BRepGProp::SurfaceProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)SProps->NativeInstance, Eps, SkipShared);
+}
+
+double Macad::Occt::BRepGProp::SurfaceProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ SProps, double Eps)
+{
+	return ::BRepGProp::SurfaceProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)SProps->NativeInstance, Eps, false);
+}
+
+void Macad::Occt::BRepGProp::VolumeProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, bool OnlyClosed, bool SkipShared, bool UseTriangulation)
+{
+	::BRepGProp::VolumeProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, OnlyClosed, SkipShared, UseTriangulation);
+}
+
+void Macad::Occt::BRepGProp::VolumeProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, bool OnlyClosed, bool SkipShared)
+{
+	::BRepGProp::VolumeProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, OnlyClosed, SkipShared, false);
+}
+
+void Macad::Occt::BRepGProp::VolumeProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, bool OnlyClosed)
+{
+	::BRepGProp::VolumeProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, OnlyClosed, false, false);
+}
+
+void Macad::Occt::BRepGProp::VolumeProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps)
+{
+	::BRepGProp::VolumeProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, false, false, false);
+}
+
+double Macad::Occt::BRepGProp::VolumeProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps, bool OnlyClosed, bool SkipShared)
+{
+	return ::BRepGProp::VolumeProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, OnlyClosed, SkipShared);
+}
+
+double Macad::Occt::BRepGProp::VolumeProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps, bool OnlyClosed)
+{
+	return ::BRepGProp::VolumeProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, OnlyClosed, false);
+}
+
+double Macad::Occt::BRepGProp::VolumeProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps)
+{
+	return ::BRepGProp::VolumeProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, false, false);
+}
+
+double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps, bool OnlyClosed, bool IsUseSpan, bool CGFlag, bool IFlag, bool SkipShared)
+{
+	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, OnlyClosed, IsUseSpan, CGFlag, IFlag, SkipShared);
+}
+
+double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps, bool OnlyClosed, bool IsUseSpan, bool CGFlag, bool IFlag)
+{
+	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, OnlyClosed, IsUseSpan, CGFlag, IFlag, false);
+}
+
+double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps, bool OnlyClosed, bool IsUseSpan, bool CGFlag)
+{
+	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, OnlyClosed, IsUseSpan, CGFlag, false, false);
+}
+
+double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps, bool OnlyClosed, bool IsUseSpan)
+{
+	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, OnlyClosed, IsUseSpan, false, false, false);
+}
+
+double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps, bool OnlyClosed)
+{
+	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, OnlyClosed, false, false, false, false);
+}
+
+double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps)
+{
+	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, false, false, false, false, false);
+}
+
+double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps)
+{
+	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, 0.001, false, false, false, false, false);
+}
+
+double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, Macad::Occt::Pln thePln, double Eps, bool OnlyClosed, bool IsUseSpan, bool CGFlag, bool IFlag, bool SkipShared)
+{
+	pin_ptr<Macad::Occt::Pln> pp_thePln = &thePln;
+	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, *(gp_Pln*)pp_thePln, Eps, OnlyClosed, IsUseSpan, CGFlag, IFlag, SkipShared);
+}
+
+double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, Macad::Occt::Pln thePln, double Eps, bool OnlyClosed, bool IsUseSpan, bool CGFlag, bool IFlag)
+{
+	pin_ptr<Macad::Occt::Pln> pp_thePln = &thePln;
+	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, *(gp_Pln*)pp_thePln, Eps, OnlyClosed, IsUseSpan, CGFlag, IFlag, false);
+}
+
+double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, Macad::Occt::Pln thePln, double Eps, bool OnlyClosed, bool IsUseSpan, bool CGFlag)
+{
+	pin_ptr<Macad::Occt::Pln> pp_thePln = &thePln;
+	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, *(gp_Pln*)pp_thePln, Eps, OnlyClosed, IsUseSpan, CGFlag, false, false);
+}
+
+double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, Macad::Occt::Pln thePln, double Eps, bool OnlyClosed, bool IsUseSpan)
+{
+	pin_ptr<Macad::Occt::Pln> pp_thePln = &thePln;
+	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, *(gp_Pln*)pp_thePln, Eps, OnlyClosed, IsUseSpan, false, false, false);
+}
+
+double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, Macad::Occt::Pln thePln, double Eps, bool OnlyClosed)
+{
+	pin_ptr<Macad::Occt::Pln> pp_thePln = &thePln;
+	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, *(gp_Pln*)pp_thePln, Eps, OnlyClosed, false, false, false, false);
+}
+
+double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, Macad::Occt::Pln thePln, double Eps)
+{
+	pin_ptr<Macad::Occt::Pln> pp_thePln = &thePln;
+	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, *(gp_Pln*)pp_thePln, Eps, false, false, false, false, false);
+}
+
+double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, Macad::Occt::Pln thePln)
+{
+	pin_ptr<Macad::Occt::Pln> pp_thePln = &thePln;
+	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, *(gp_Pln*)pp_thePln, 0.001, false, false, false, false, false);
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  BRepGProp_Cinert
+//---------------------------------------------------------------------
+
+Macad::Occt::BRepGProp_Cinert::BRepGProp_Cinert()
+	: Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepGProp_Cinert();
+}
+
+Macad::Occt::BRepGProp_Cinert::BRepGProp_Cinert(Macad::Occt::BRepAdaptor_Curve^ C, Macad::Occt::Pnt CLocation)
+	: Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_CLocation = &CLocation;
+	_NativeInstance = new ::BRepGProp_Cinert(*(::BRepAdaptor_Curve*)C->NativeInstance, *(gp_Pnt*)pp_CLocation);
+}
+
+Macad::Occt::BRepGProp_Cinert::BRepGProp_Cinert(Macad::Occt::BRepGProp_Cinert^ parameter1)
+	: Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepGProp_Cinert(*(::BRepGProp_Cinert*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::BRepGProp_Cinert::SetLocation(Macad::Occt::Pnt CLocation)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_CLocation = &CLocation;
+	((::BRepGProp_Cinert*)_NativeInstance)->SetLocation(*(gp_Pnt*)pp_CLocation);
+}
+
+void Macad::Occt::BRepGProp_Cinert::Perform(Macad::Occt::BRepAdaptor_Curve^ C)
+{
+	((::BRepGProp_Cinert*)_NativeInstance)->Perform(*(::BRepAdaptor_Curve*)C->NativeInstance);
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  BRepGProp_Domain
+//---------------------------------------------------------------------
+
+Macad::Occt::BRepGProp_Domain::BRepGProp_Domain()
+	: BaseClass<::BRepGProp_Domain>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepGProp_Domain();
+}
+
+Macad::Occt::BRepGProp_Domain::BRepGProp_Domain(Macad::Occt::TopoDS_Face^ F)
+	: BaseClass<::BRepGProp_Domain>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepGProp_Domain(*(::TopoDS_Face*)F->NativeInstance);
+}
+
+Macad::Occt::BRepGProp_Domain::BRepGProp_Domain(Macad::Occt::BRepGProp_Domain^ parameter1)
+	: BaseClass<::BRepGProp_Domain>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepGProp_Domain(*(::BRepGProp_Domain*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::BRepGProp_Domain::Init(Macad::Occt::TopoDS_Face^ F)
+{
+	((::BRepGProp_Domain*)_NativeInstance)->Init(*(::TopoDS_Face*)F->NativeInstance);
+}
+
+bool Macad::Occt::BRepGProp_Domain::More()
+{
+	return ((::BRepGProp_Domain*)_NativeInstance)->More();
+}
+
+void Macad::Occt::BRepGProp_Domain::Init()
+{
+	((::BRepGProp_Domain*)_NativeInstance)->Init();
+}
+
+Macad::Occt::TopoDS_Edge^ Macad::Occt::BRepGProp_Domain::Value()
+{
+	::TopoDS_Edge* _result = new ::TopoDS_Edge();
+	*_result =  (::TopoDS_Edge)((::BRepGProp_Domain*)_NativeInstance)->Value();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Edge(_result);
+}
+
+void Macad::Occt::BRepGProp_Domain::Next()
+{
+	((::BRepGProp_Domain*)_NativeInstance)->Next();
+}
+
+
 
 
 //---------------------------------------------------------------------
@@ -241,89 +501,91 @@ void Macad::Occt::BRepGProp_Face::GetTKnots(double theTMin, double theTMax, Maca
 
 
 //---------------------------------------------------------------------
-//  Class  BRepGProp_Domain
+//  Class  BRepGProp_Gauss
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepGProp_Domain::BRepGProp_Domain()
-	: BaseClass<::BRepGProp_Domain>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::BRepGProp_Gauss::BRepGProp_Gauss(Macad::Occt::BRepGProp_Gauss::BRepGProp_GaussType theType)
+	: BaseClass<::BRepGProp_Gauss>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepGProp_Domain();
-}
-
-Macad::Occt::BRepGProp_Domain::BRepGProp_Domain(Macad::Occt::TopoDS_Face^ F)
-	: BaseClass<::BRepGProp_Domain>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepGProp_Domain(*(::TopoDS_Face*)F->NativeInstance);
-}
-
-Macad::Occt::BRepGProp_Domain::BRepGProp_Domain(Macad::Occt::BRepGProp_Domain^ parameter1)
-	: BaseClass<::BRepGProp_Domain>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepGProp_Domain(*(::BRepGProp_Domain*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::BRepGProp_Domain::Init(Macad::Occt::TopoDS_Face^ F)
-{
-	((::BRepGProp_Domain*)_NativeInstance)->Init(*(::TopoDS_Face*)F->NativeInstance);
-}
-
-bool Macad::Occt::BRepGProp_Domain::More()
-{
-	return ((::BRepGProp_Domain*)_NativeInstance)->More();
-}
-
-void Macad::Occt::BRepGProp_Domain::Init()
-{
-	((::BRepGProp_Domain*)_NativeInstance)->Init();
-}
-
-Macad::Occt::TopoDS_Edge^ Macad::Occt::BRepGProp_Domain::Value()
-{
-	::TopoDS_Edge* _result = new ::TopoDS_Edge();
-	*_result =  (::TopoDS_Edge)((::BRepGProp_Domain*)_NativeInstance)->Value();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Edge(_result);
-}
-
-void Macad::Occt::BRepGProp_Domain::Next()
-{
-	((::BRepGProp_Domain*)_NativeInstance)->Next();
+	_NativeInstance = new ::BRepGProp_Gauss((::BRepGProp_Gauss::BRepGProp_GaussType)theType);
 }
 
 
 
 
 //---------------------------------------------------------------------
-//  Class  BRepGProp_Cinert
+//  Class  BRepGProp_MeshCinert
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepGProp_Cinert::BRepGProp_Cinert()
+Macad::Occt::BRepGProp_MeshCinert::BRepGProp_MeshCinert()
 	: Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepGProp_Cinert();
+	_NativeInstance = new ::BRepGProp_MeshCinert();
 }
 
-Macad::Occt::BRepGProp_Cinert::BRepGProp_Cinert(Macad::Occt::BRepAdaptor_Curve^ C, Macad::Occt::Pnt CLocation)
+Macad::Occt::BRepGProp_MeshCinert::BRepGProp_MeshCinert(Macad::Occt::BRepGProp_MeshCinert^ parameter1)
 	: Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepGProp_MeshCinert(*(::BRepGProp_MeshCinert*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::BRepGProp_MeshCinert::SetLocation(Macad::Occt::Pnt CLocation)
 {
 	pin_ptr<Macad::Occt::Pnt> pp_CLocation = &CLocation;
-	_NativeInstance = new ::BRepGProp_Cinert(*(::BRepAdaptor_Curve*)C->NativeInstance, *(gp_Pnt*)pp_CLocation);
+	((::BRepGProp_MeshCinert*)_NativeInstance)->SetLocation(*(gp_Pnt*)pp_CLocation);
 }
 
-Macad::Occt::BRepGProp_Cinert::BRepGProp_Cinert(Macad::Occt::BRepGProp_Cinert^ parameter1)
+void Macad::Occt::BRepGProp_MeshCinert::Perform(Macad::Occt::TColgp_Array1OfPnt^ theNodes)
+{
+	((::BRepGProp_MeshCinert*)_NativeInstance)->Perform(*(::TColgp_Array1OfPnt*)theNodes->NativeInstance);
+}
+
+void Macad::Occt::BRepGProp_MeshCinert::PreparePolygon(Macad::Occt::TopoDS_Edge^ theE, Macad::Occt::TColgp_HArray1OfPnt^ thePolyg)
+{
+	Handle(::TColgp_HArray1OfPnt) h_thePolyg = thePolyg->NativeInstance;
+	::BRepGProp_MeshCinert::PreparePolygon(*(::TopoDS_Edge*)theE->NativeInstance, h_thePolyg);
+	thePolyg->NativeInstance = h_thePolyg.get();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  BRepGProp_MeshProps
+//---------------------------------------------------------------------
+
+Macad::Occt::BRepGProp_MeshProps::BRepGProp_MeshProps(Macad::Occt::BRepGProp_MeshProps::BRepGProp_MeshObjType theType)
 	: Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepGProp_Cinert(*(::BRepGProp_Cinert*)parameter1->NativeInstance);
+	_NativeInstance = new ::BRepGProp_MeshProps((::BRepGProp_MeshProps::BRepGProp_MeshObjType)theType);
 }
 
-void Macad::Occt::BRepGProp_Cinert::SetLocation(Macad::Occt::Pnt CLocation)
+Macad::Occt::BRepGProp_MeshProps::BRepGProp_MeshProps(Macad::Occt::BRepGProp_MeshProps^ parameter1)
+	: Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
 {
-	pin_ptr<Macad::Occt::Pnt> pp_CLocation = &CLocation;
-	((::BRepGProp_Cinert*)_NativeInstance)->SetLocation(*(gp_Pnt*)pp_CLocation);
+	_NativeInstance = new ::BRepGProp_MeshProps(*(::BRepGProp_MeshProps*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::BRepGProp_Cinert::Perform(Macad::Occt::BRepAdaptor_Curve^ C)
+void Macad::Occt::BRepGProp_MeshProps::SetLocation(Macad::Occt::Pnt theLocation)
 {
-	((::BRepGProp_Cinert*)_NativeInstance)->Perform(*(::BRepAdaptor_Curve*)C->NativeInstance);
+	pin_ptr<Macad::Occt::Pnt> pp_theLocation = &theLocation;
+	((::BRepGProp_MeshProps*)_NativeInstance)->SetLocation(*(gp_Pnt*)pp_theLocation);
+}
+
+void Macad::Occt::BRepGProp_MeshProps::CalculateProps(Macad::Occt::Pnt p1, Macad::Occt::Pnt p2, Macad::Occt::Pnt p3, Macad::Occt::Pnt Apex, bool isVolume, double% GProps, int NbGaussPoints, double GaussPnts)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_p1 = &p1;
+	pin_ptr<Macad::Occt::Pnt> pp_p2 = &p2;
+	pin_ptr<Macad::Occt::Pnt> pp_p3 = &p3;
+	pin_ptr<Macad::Occt::Pnt> pp_Apex = &Apex;
+	pin_ptr<double> pp_GProps = &GProps;
+	pin_ptr<double> pp_GaussPnts = &GaussPnts;
+	::BRepGProp_MeshProps::CalculateProps(*(gp_Pnt*)pp_p1, *(gp_Pnt*)pp_p2, *(gp_Pnt*)pp_p3, *(gp_Pnt*)pp_Apex, isVolume, (Standard_Real*)pp_GProps, NbGaussPoints, (Standard_Real*)pp_GaussPnts);
+}
+
+Macad::Occt::BRepGProp_MeshProps::BRepGProp_MeshObjType Macad::Occt::BRepGProp_MeshProps::GetMeshObjType()
+{
+	return (Macad::Occt::BRepGProp_MeshProps::BRepGProp_MeshObjType)((::BRepGProp_MeshProps*)_NativeInstance)->GetMeshObjType();
 }
 
 
@@ -947,268 +1209,6 @@ double Macad::Occt::BRepGProp_VinertGK::GetErrorReached()
 double Macad::Occt::BRepGProp_VinertGK::GetAbsolutError()
 {
 	throw gcnew System::NotImplementedException("Unresolved external symbol");
-}
-
-
-
-
-//---------------------------------------------------------------------
-//  Class  BRepGProp
-//---------------------------------------------------------------------
-
-Macad::Occt::BRepGProp::BRepGProp()
-	: BaseClass<::BRepGProp>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepGProp();
-}
-
-Macad::Occt::BRepGProp::BRepGProp(Macad::Occt::BRepGProp^ parameter1)
-	: BaseClass<::BRepGProp>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepGProp(*(::BRepGProp*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::BRepGProp::LinearProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ LProps, bool SkipShared, bool UseTriangulation)
-{
-	::BRepGProp::LinearProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)LProps->NativeInstance, SkipShared, UseTriangulation);
-}
-
-void Macad::Occt::BRepGProp::LinearProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ LProps, bool SkipShared)
-{
-	::BRepGProp::LinearProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)LProps->NativeInstance, SkipShared, false);
-}
-
-void Macad::Occt::BRepGProp::LinearProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ LProps)
-{
-	::BRepGProp::LinearProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)LProps->NativeInstance, false, false);
-}
-
-void Macad::Occt::BRepGProp::SurfaceProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ SProps, bool SkipShared, bool UseTriangulation)
-{
-	::BRepGProp::SurfaceProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)SProps->NativeInstance, SkipShared, UseTriangulation);
-}
-
-void Macad::Occt::BRepGProp::SurfaceProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ SProps, bool SkipShared)
-{
-	::BRepGProp::SurfaceProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)SProps->NativeInstance, SkipShared, false);
-}
-
-void Macad::Occt::BRepGProp::SurfaceProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ SProps)
-{
-	::BRepGProp::SurfaceProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)SProps->NativeInstance, false, false);
-}
-
-double Macad::Occt::BRepGProp::SurfaceProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ SProps, double Eps, bool SkipShared)
-{
-	return ::BRepGProp::SurfaceProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)SProps->NativeInstance, Eps, SkipShared);
-}
-
-double Macad::Occt::BRepGProp::SurfaceProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ SProps, double Eps)
-{
-	return ::BRepGProp::SurfaceProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)SProps->NativeInstance, Eps, false);
-}
-
-void Macad::Occt::BRepGProp::VolumeProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, bool OnlyClosed, bool SkipShared, bool UseTriangulation)
-{
-	::BRepGProp::VolumeProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, OnlyClosed, SkipShared, UseTriangulation);
-}
-
-void Macad::Occt::BRepGProp::VolumeProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, bool OnlyClosed, bool SkipShared)
-{
-	::BRepGProp::VolumeProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, OnlyClosed, SkipShared, false);
-}
-
-void Macad::Occt::BRepGProp::VolumeProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, bool OnlyClosed)
-{
-	::BRepGProp::VolumeProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, OnlyClosed, false, false);
-}
-
-void Macad::Occt::BRepGProp::VolumeProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps)
-{
-	::BRepGProp::VolumeProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, false, false, false);
-}
-
-double Macad::Occt::BRepGProp::VolumeProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps, bool OnlyClosed, bool SkipShared)
-{
-	return ::BRepGProp::VolumeProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, OnlyClosed, SkipShared);
-}
-
-double Macad::Occt::BRepGProp::VolumeProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps, bool OnlyClosed)
-{
-	return ::BRepGProp::VolumeProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, OnlyClosed, false);
-}
-
-double Macad::Occt::BRepGProp::VolumeProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps)
-{
-	return ::BRepGProp::VolumeProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, false, false);
-}
-
-double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps, bool OnlyClosed, bool IsUseSpan, bool CGFlag, bool IFlag, bool SkipShared)
-{
-	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, OnlyClosed, IsUseSpan, CGFlag, IFlag, SkipShared);
-}
-
-double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps, bool OnlyClosed, bool IsUseSpan, bool CGFlag, bool IFlag)
-{
-	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, OnlyClosed, IsUseSpan, CGFlag, IFlag, false);
-}
-
-double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps, bool OnlyClosed, bool IsUseSpan, bool CGFlag)
-{
-	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, OnlyClosed, IsUseSpan, CGFlag, false, false);
-}
-
-double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps, bool OnlyClosed, bool IsUseSpan)
-{
-	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, OnlyClosed, IsUseSpan, false, false, false);
-}
-
-double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps, bool OnlyClosed)
-{
-	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, OnlyClosed, false, false, false, false);
-}
-
-double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, double Eps)
-{
-	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, Eps, false, false, false, false, false);
-}
-
-double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps)
-{
-	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, 0.001, false, false, false, false, false);
-}
-
-double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, Macad::Occt::Pln thePln, double Eps, bool OnlyClosed, bool IsUseSpan, bool CGFlag, bool IFlag, bool SkipShared)
-{
-	pin_ptr<Macad::Occt::Pln> pp_thePln = &thePln;
-	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, *(gp_Pln*)pp_thePln, Eps, OnlyClosed, IsUseSpan, CGFlag, IFlag, SkipShared);
-}
-
-double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, Macad::Occt::Pln thePln, double Eps, bool OnlyClosed, bool IsUseSpan, bool CGFlag, bool IFlag)
-{
-	pin_ptr<Macad::Occt::Pln> pp_thePln = &thePln;
-	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, *(gp_Pln*)pp_thePln, Eps, OnlyClosed, IsUseSpan, CGFlag, IFlag, false);
-}
-
-double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, Macad::Occt::Pln thePln, double Eps, bool OnlyClosed, bool IsUseSpan, bool CGFlag)
-{
-	pin_ptr<Macad::Occt::Pln> pp_thePln = &thePln;
-	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, *(gp_Pln*)pp_thePln, Eps, OnlyClosed, IsUseSpan, CGFlag, false, false);
-}
-
-double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, Macad::Occt::Pln thePln, double Eps, bool OnlyClosed, bool IsUseSpan)
-{
-	pin_ptr<Macad::Occt::Pln> pp_thePln = &thePln;
-	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, *(gp_Pln*)pp_thePln, Eps, OnlyClosed, IsUseSpan, false, false, false);
-}
-
-double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, Macad::Occt::Pln thePln, double Eps, bool OnlyClosed)
-{
-	pin_ptr<Macad::Occt::Pln> pp_thePln = &thePln;
-	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, *(gp_Pln*)pp_thePln, Eps, OnlyClosed, false, false, false, false);
-}
-
-double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, Macad::Occt::Pln thePln, double Eps)
-{
-	pin_ptr<Macad::Occt::Pln> pp_thePln = &thePln;
-	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, *(gp_Pln*)pp_thePln, Eps, false, false, false, false, false);
-}
-
-double Macad::Occt::BRepGProp::VolumePropertiesGK(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ VProps, Macad::Occt::Pln thePln)
-{
-	pin_ptr<Macad::Occt::Pln> pp_thePln = &thePln;
-	return ::BRepGProp::VolumePropertiesGK(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)VProps->NativeInstance, *(gp_Pln*)pp_thePln, 0.001, false, false, false, false, false);
-}
-
-
-
-
-//---------------------------------------------------------------------
-//  Class  BRepGProp_Gauss
-//---------------------------------------------------------------------
-
-Macad::Occt::BRepGProp_Gauss::BRepGProp_Gauss(Macad::Occt::BRepGProp_Gauss::BRepGProp_GaussType theType)
-	: BaseClass<::BRepGProp_Gauss>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepGProp_Gauss((::BRepGProp_Gauss::BRepGProp_GaussType)theType);
-}
-
-
-
-
-//---------------------------------------------------------------------
-//  Class  BRepGProp_MeshCinert
-//---------------------------------------------------------------------
-
-Macad::Occt::BRepGProp_MeshCinert::BRepGProp_MeshCinert()
-	: Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepGProp_MeshCinert();
-}
-
-Macad::Occt::BRepGProp_MeshCinert::BRepGProp_MeshCinert(Macad::Occt::BRepGProp_MeshCinert^ parameter1)
-	: Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepGProp_MeshCinert(*(::BRepGProp_MeshCinert*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::BRepGProp_MeshCinert::SetLocation(Macad::Occt::Pnt CLocation)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_CLocation = &CLocation;
-	((::BRepGProp_MeshCinert*)_NativeInstance)->SetLocation(*(gp_Pnt*)pp_CLocation);
-}
-
-void Macad::Occt::BRepGProp_MeshCinert::Perform(Macad::Occt::TColgp_Array1OfPnt^ theNodes)
-{
-	((::BRepGProp_MeshCinert*)_NativeInstance)->Perform(*(::TColgp_Array1OfPnt*)theNodes->NativeInstance);
-}
-
-void Macad::Occt::BRepGProp_MeshCinert::PreparePolygon(Macad::Occt::TopoDS_Edge^ theE, Macad::Occt::TColgp_HArray1OfPnt^ thePolyg)
-{
-	Handle(::TColgp_HArray1OfPnt) h_thePolyg = thePolyg->NativeInstance;
-	::BRepGProp_MeshCinert::PreparePolygon(*(::TopoDS_Edge*)theE->NativeInstance, h_thePolyg);
-	thePolyg->NativeInstance = h_thePolyg.get();
-}
-
-
-
-
-//---------------------------------------------------------------------
-//  Class  BRepGProp_MeshProps
-//---------------------------------------------------------------------
-
-Macad::Occt::BRepGProp_MeshProps::BRepGProp_MeshProps(Macad::Occt::BRepGProp_MeshProps::BRepGProp_MeshObjType theType)
-	: Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepGProp_MeshProps((::BRepGProp_MeshProps::BRepGProp_MeshObjType)theType);
-}
-
-Macad::Occt::BRepGProp_MeshProps::BRepGProp_MeshProps(Macad::Occt::BRepGProp_MeshProps^ parameter1)
-	: Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepGProp_MeshProps(*(::BRepGProp_MeshProps*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::BRepGProp_MeshProps::SetLocation(Macad::Occt::Pnt theLocation)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_theLocation = &theLocation;
-	((::BRepGProp_MeshProps*)_NativeInstance)->SetLocation(*(gp_Pnt*)pp_theLocation);
-}
-
-void Macad::Occt::BRepGProp_MeshProps::CalculateProps(Macad::Occt::Pnt p1, Macad::Occt::Pnt p2, Macad::Occt::Pnt p3, Macad::Occt::Pnt Apex, bool isVolume, double% GProps, int NbGaussPoints, double GaussPnts)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_p1 = &p1;
-	pin_ptr<Macad::Occt::Pnt> pp_p2 = &p2;
-	pin_ptr<Macad::Occt::Pnt> pp_p3 = &p3;
-	pin_ptr<Macad::Occt::Pnt> pp_Apex = &Apex;
-	pin_ptr<double> pp_GProps = &GProps;
-	pin_ptr<double> pp_GaussPnts = &GaussPnts;
-	::BRepGProp_MeshProps::CalculateProps(*(gp_Pnt*)pp_p1, *(gp_Pnt*)pp_p2, *(gp_Pnt*)pp_p3, *(gp_Pnt*)pp_Apex, isVolume, (Standard_Real*)pp_GProps, NbGaussPoints, (Standard_Real*)pp_GaussPnts);
-}
-
-Macad::Occt::BRepGProp_MeshProps::BRepGProp_MeshObjType Macad::Occt::BRepGProp_MeshProps::GetMeshObjType()
-{
-	return (Macad::Occt::BRepGProp_MeshProps::BRepGProp_MeshObjType)((::BRepGProp_MeshProps*)_NativeInstance)->GetMeshObjType();
 }
 
 

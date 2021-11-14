@@ -103,23 +103,26 @@ public:
 		}
 	}
 
+	static Macad::Occt::ProjLib_ProjectOnPlane^ CreateDowncasted(::ProjLib_ProjectOnPlane* instance);
+
 public:
 	ProjLib_ProjectOnPlane();
 	ProjLib_ProjectOnPlane(Macad::Occt::Ax3 Pl);
 	ProjLib_ProjectOnPlane(Macad::Occt::Ax3 Pl, Macad::Occt::Dir D);
 	ProjLib_ProjectOnPlane(Macad::Occt::ProjLib_ProjectOnPlane^ parameter1);
-	void Load(Macad::Occt::Adaptor3d_HCurve^ C, double Tolerance, bool KeepParametrization);
-	void Load(Macad::Occt::Adaptor3d_HCurve^ C, double Tolerance);
+	Macad::Occt::Adaptor3d_Curve^ ShallowCopy();
+	void Load(Macad::Occt::Adaptor3d_Curve^ C, double Tolerance, bool KeepParametrization);
+	void Load(Macad::Occt::Adaptor3d_Curve^ C, double Tolerance);
 	Macad::Occt::Ax3 GetPlane();
 	Macad::Occt::Dir GetDirection();
-	Macad::Occt::Adaptor3d_HCurve^ GetCurve();
-	Macad::Occt::GeomAdaptor_HCurve^ GetResult();
+	Macad::Occt::Adaptor3d_Curve^ GetCurve();
+	Macad::Occt::GeomAdaptor_Curve^ GetResult();
 	double FirstParameter();
 	double LastParameter();
 	Macad::Occt::GeomAbs_Shape Continuity();
 	int NbIntervals(Macad::Occt::GeomAbs_Shape S);
 	void Intervals(Macad::Occt::TColStd_Array1OfReal^ T, Macad::Occt::GeomAbs_Shape S);
-	Macad::Occt::Adaptor3d_HCurve^ Trim(double First, double Last, double Tol);
+	Macad::Occt::Adaptor3d_Curve^ Trim(double First, double Last, double Tol);
 	bool IsClosed();
 	bool IsPeriodic();
 	double Period();
@@ -174,10 +177,10 @@ public:
 
 public:
 	ProjLib_ProjectOnSurface();
-	ProjLib_ProjectOnSurface(Macad::Occt::Adaptor3d_HSurface^ S);
+	ProjLib_ProjectOnSurface(Macad::Occt::Adaptor3d_Surface^ S);
 	ProjLib_ProjectOnSurface(Macad::Occt::ProjLib_ProjectOnSurface^ parameter1);
-	void Load(Macad::Occt::Adaptor3d_HSurface^ S);
-	void Load(Macad::Occt::Adaptor3d_HCurve^ C, double Tolerance);
+	void Load(Macad::Occt::Adaptor3d_Surface^ S);
+	void Load(Macad::Occt::Adaptor3d_Curve^ C, double Tolerance);
 	bool IsDone();
 	Macad::Occt::Geom_BSplineCurve^ BSpline();
 }; // class ProjLib_ProjectOnSurface
@@ -212,9 +215,9 @@ public:
 
 public:
 	ProjLib_ComputeApprox();
-	ProjLib_ComputeApprox(Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S, double Tol);
+	ProjLib_ComputeApprox(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S, double Tol);
 	ProjLib_ComputeApprox(Macad::Occt::ProjLib_ComputeApprox^ parameter1);
-	void Perform(Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S);
+	void Perform(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S);
 	void SetTolerance(double theTolerance);
 	void SetDegree(int theDegMin, int theDegMax);
 	void SetMaxSegments(int theMaxSegments);
@@ -254,20 +257,20 @@ public:
 
 public:
 	ProjLib_ComputeApproxOnPolarSurface();
-	ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S, double Tol);
-	ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S);
-	ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor2d_HCurve2d^ InitCurve2d, Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S, double Tol);
-	ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor2d_HCurve2d^ InitCurve2d, Macad::Occt::Adaptor2d_HCurve2d^ InitCurve2dBis, Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S, double Tol);
+	ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S, double Tol);
+	ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S);
+	ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor2d_Curve2d^ InitCurve2d, Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S, double Tol);
+	ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor2d_Curve2d^ InitCurve2d, Macad::Occt::Adaptor2d_Curve2d^ InitCurve2dBis, Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S, double Tol);
 	ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::ProjLib_ComputeApproxOnPolarSurface^ parameter1);
 	void SetDegree(int theDegMin, int theDegMax);
 	void SetMaxSegments(int theMaxSegments);
 	/* Method skipped due to unknown mapping: void SetBndPnt(AppParCurves_Constraint theBndPnt, ) */
 	void SetMaxDist(double theMaxDist);
 	void SetTolerance(double theTolerance);
-	void Perform(Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S);
-	Macad::Occt::Geom2d_BSplineCurve^ Perform(Macad::Occt::Adaptor2d_HCurve2d^ InitCurve2d, Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S);
-	Macad::Occt::Adaptor2d_HCurve2d^ BuildInitialCurve2d(Macad::Occt::Adaptor3d_HCurve^ Curve, Macad::Occt::Adaptor3d_HSurface^ S);
-	Macad::Occt::Geom2d_BSplineCurve^ ProjectUsingInitialCurve2d(Macad::Occt::Adaptor3d_HCurve^ Curve, Macad::Occt::Adaptor3d_HSurface^ S, Macad::Occt::Adaptor2d_HCurve2d^ InitCurve2d);
+	void Perform(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S);
+	Macad::Occt::Geom2d_BSplineCurve^ Perform(Macad::Occt::Adaptor2d_Curve2d^ InitCurve2d, Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S);
+	Macad::Occt::Adaptor2d_Curve2d^ BuildInitialCurve2d(Macad::Occt::Adaptor3d_Curve^ Curve, Macad::Occt::Adaptor3d_Surface^ S);
+	Macad::Occt::Geom2d_BSplineCurve^ ProjectUsingInitialCurve2d(Macad::Occt::Adaptor3d_Curve^ Curve, Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor2d_Curve2d^ InitCurve2d);
 	Macad::Occt::Geom2d_BSplineCurve^ BSpline();
 	Macad::Occt::Geom2d_Curve^ Curve2d();
 	bool IsDone();
@@ -302,28 +305,31 @@ public:
 		}
 	}
 
+	static Macad::Occt::ProjLib_ProjectedCurve^ CreateDowncasted(::ProjLib_ProjectedCurve* instance);
+
 public:
 	ProjLib_ProjectedCurve();
-	ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_HSurface^ S);
-	ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_HSurface^ S, Macad::Occt::Adaptor3d_HCurve^ C);
-	ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_HSurface^ S, Macad::Occt::Adaptor3d_HCurve^ C, double Tol);
+	ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_Surface^ S);
+	ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C);
+	ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C, double Tol);
 	ProjLib_ProjectedCurve(Macad::Occt::ProjLib_ProjectedCurve^ parameter1);
+	Macad::Occt::Adaptor2d_Curve2d^ ShallowCopy();
 	void Load(double Tolerance);
-	void Load(Macad::Occt::Adaptor3d_HSurface^ S);
-	void Perform(Macad::Occt::Adaptor3d_HCurve^ C);
+	void Load(Macad::Occt::Adaptor3d_Surface^ S);
+	void Perform(Macad::Occt::Adaptor3d_Curve^ C);
 	void SetDegree(int theDegMin, int theDegMax);
 	void SetMaxSegments(int theMaxSegments);
 	/* Method skipped due to unknown mapping: void SetBndPnt(AppParCurves_Constraint theBndPnt, ) */
 	void SetMaxDist(double theMaxDist);
-	Macad::Occt::Adaptor3d_HSurface^ GetSurface();
-	Macad::Occt::Adaptor3d_HCurve^ GetCurve();
+	Macad::Occt::Adaptor3d_Surface^ GetSurface();
+	Macad::Occt::Adaptor3d_Curve^ GetCurve();
 	double GetTolerance();
 	double FirstParameter();
 	double LastParameter();
 	Macad::Occt::GeomAbs_Shape Continuity();
 	int NbIntervals(Macad::Occt::GeomAbs_Shape S);
 	void Intervals(Macad::Occt::TColStd_Array1OfReal^ T, Macad::Occt::GeomAbs_Shape S);
-	Macad::Occt::Adaptor2d_HCurve2d^ Trim(double First, double Last, double Tol);
+	Macad::Occt::Adaptor2d_Curve2d^ Trim(double First, double Last, double Tol);
 	bool IsClosed();
 	bool IsPeriodic();
 	double Period();
@@ -347,45 +353,6 @@ public:
 	Macad::Occt::Geom2d_BezierCurve^ Bezier();
 	Macad::Occt::Geom2d_BSplineCurve^ BSpline();
 }; // class ProjLib_ProjectedCurve
-
-//---------------------------------------------------------------------
-//  Class  ProjLib_HProjectedCurve
-//---------------------------------------------------------------------
-public ref class ProjLib_HProjectedCurve sealed : public Macad::Occt::Adaptor2d_HCurve2d
-{
-
-#ifdef Include_ProjLib_HProjectedCurve_h
-public:
-	Include_ProjLib_HProjectedCurve_h
-#endif
-
-public:
-	ProjLib_HProjectedCurve(::ProjLib_HProjectedCurve* nativeInstance)
-		: Macad::Occt::Adaptor2d_HCurve2d( nativeInstance )
-	{}
-
-	ProjLib_HProjectedCurve(::ProjLib_HProjectedCurve& nativeInstance)
-		: Macad::Occt::Adaptor2d_HCurve2d( nativeInstance )
-	{}
-
-	property ::ProjLib_HProjectedCurve* NativeInstance
-	{
-		::ProjLib_HProjectedCurve* get()
-		{
-			return static_cast<::ProjLib_HProjectedCurve*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::ProjLib_HProjectedCurve^ CreateDowncasted(::ProjLib_HProjectedCurve* instance);
-
-public:
-	ProjLib_HProjectedCurve();
-	ProjLib_HProjectedCurve(Macad::Occt::ProjLib_ProjectedCurve^ C);
-	ProjLib_HProjectedCurve(Macad::Occt::ProjLib_HProjectedCurve^ parameter1);
-	void Set(Macad::Occt::ProjLib_ProjectedCurve^ C);
-	Macad::Occt::Adaptor2d_Curve2d^ Curve2d();
-	Macad::Occt::ProjLib_ProjectedCurve^ ChangeCurve2d();
-}; // class ProjLib_HProjectedCurve
 
 //---------------------------------------------------------------------
 //  Class  ProjLib_CompProjectedCurve
@@ -415,16 +382,28 @@ public:
 		}
 	}
 
+	static Macad::Occt::ProjLib_CompProjectedCurve^ CreateDowncasted(::ProjLib_CompProjectedCurve* instance);
+
 public:
 	ProjLib_CompProjectedCurve();
-	ProjLib_CompProjectedCurve(Macad::Occt::Adaptor3d_HSurface^ S, Macad::Occt::Adaptor3d_HCurve^ C, double TolU, double TolV);
-	ProjLib_CompProjectedCurve(Macad::Occt::Adaptor3d_HSurface^ S, Macad::Occt::Adaptor3d_HCurve^ C, double TolU, double TolV, double MaxDist);
+	ProjLib_CompProjectedCurve(Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C, double TolU, double TolV);
+	ProjLib_CompProjectedCurve(Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C, double TolU, double TolV, double MaxDist);
+	ProjLib_CompProjectedCurve(double Tol3d, Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C, double MaxDist);
+	ProjLib_CompProjectedCurve(double Tol3d, Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C);
 	ProjLib_CompProjectedCurve(Macad::Occt::ProjLib_CompProjectedCurve^ parameter1);
+	Macad::Occt::Adaptor2d_Curve2d^ ShallowCopy();
 	void Init();
-	void Load(Macad::Occt::Adaptor3d_HSurface^ S);
-	void Load(Macad::Occt::Adaptor3d_HCurve^ C);
-	Macad::Occt::Adaptor3d_HSurface^ GetSurface();
-	Macad::Occt::Adaptor3d_HCurve^ GetCurve();
+	void Perform();
+	void SetTol3d(double theTol3d);
+	void SetContinuity(Macad::Occt::GeomAbs_Shape theContinuity);
+	void SetMaxDegree(int theMaxDegree);
+	void SetMaxSeg(int theMaxSeg);
+	void SetProj2d(bool theProj2d);
+	void SetProj3d(bool theProj3d);
+	void Load(Macad::Occt::Adaptor3d_Surface^ S);
+	void Load(Macad::Occt::Adaptor3d_Curve^ C);
+	Macad::Occt::Adaptor3d_Surface^ GetSurface();
+	Macad::Occt::Adaptor3d_Curve^ GetCurve();
 	void GetTolerance(double% TolU, double% TolV);
 	int NbCurves();
 	void Bounds(int Index, double% Udeb, double% Ufin);
@@ -439,51 +418,22 @@ public:
 	double FirstParameter();
 	double LastParameter();
 	int NbIntervals(Macad::Occt::GeomAbs_Shape S);
-	Macad::Occt::Adaptor2d_HCurve2d^ Trim(double FirstParam, double LastParam, double Tol);
+	Macad::Occt::Adaptor2d_Curve2d^ Trim(double FirstParam, double LastParam, double Tol);
 	void Intervals(Macad::Occt::TColStd_Array1OfReal^ T, Macad::Occt::GeomAbs_Shape S);
 	double MaxDistance(int Index);
 	Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ GetSequence();
 	Macad::Occt::GeomAbs_CurveType GetGeomType();
+	bool ResultIsPoint(int theIndex);
+	double GetResult2dUApproxError(int theIndex);
+	double GetResult2dVApproxError(int theIndex);
+	double GetResult3dApproxError(int theIndex);
+	Macad::Occt::Geom2d_Curve^ GetResult2dC(int theIndex);
+	Macad::Occt::Geom_Curve^ GetResult3dC(int theIndex);
+	Macad::Occt::Pnt2d GetResult2dP(int theIndex);
+	Macad::Occt::Pnt GetResult3dP(int theIndex);
+	bool GetProj2d();
+	bool GetProj3d();
 }; // class ProjLib_CompProjectedCurve
-
-//---------------------------------------------------------------------
-//  Class  ProjLib_HCompProjectedCurve
-//---------------------------------------------------------------------
-public ref class ProjLib_HCompProjectedCurve sealed : public Macad::Occt::Adaptor2d_HCurve2d
-{
-
-#ifdef Include_ProjLib_HCompProjectedCurve_h
-public:
-	Include_ProjLib_HCompProjectedCurve_h
-#endif
-
-public:
-	ProjLib_HCompProjectedCurve(::ProjLib_HCompProjectedCurve* nativeInstance)
-		: Macad::Occt::Adaptor2d_HCurve2d( nativeInstance )
-	{}
-
-	ProjLib_HCompProjectedCurve(::ProjLib_HCompProjectedCurve& nativeInstance)
-		: Macad::Occt::Adaptor2d_HCurve2d( nativeInstance )
-	{}
-
-	property ::ProjLib_HCompProjectedCurve* NativeInstance
-	{
-		::ProjLib_HCompProjectedCurve* get()
-		{
-			return static_cast<::ProjLib_HCompProjectedCurve*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::ProjLib_HCompProjectedCurve^ CreateDowncasted(::ProjLib_HCompProjectedCurve* instance);
-
-public:
-	ProjLib_HCompProjectedCurve();
-	ProjLib_HCompProjectedCurve(Macad::Occt::ProjLib_CompProjectedCurve^ C);
-	ProjLib_HCompProjectedCurve(Macad::Occt::ProjLib_HCompProjectedCurve^ parameter1);
-	void Set(Macad::Occt::ProjLib_CompProjectedCurve^ C);
-	Macad::Occt::Adaptor2d_Curve2d^ Curve2d();
-	Macad::Occt::ProjLib_CompProjectedCurve^ ChangeCurve2d();
-}; // class ProjLib_HCompProjectedCurve
 
 //---------------------------------------------------------------------
 //  Class  ProjLib_PrjResolve
@@ -844,7 +794,7 @@ public:
 	static Macad::Occt::Pnt2d Project(Macad::Occt::gp_Torus^ To, Macad::Occt::Pnt P);
 	static Macad::Occt::gp_Lin2d^ Project(Macad::Occt::gp_Torus^ To, Macad::Occt::gp_Circ^ Ci);
 	static void MakePCurveOfType(Macad::Occt::ProjLib_ProjectedCurve^ PC, Macad::Occt::Geom2d_Curve^ aC);
-	static bool IsAnaSurf(Macad::Occt::Adaptor3d_HSurface^ theAS);
+	static bool IsAnaSurf(Macad::Occt::Adaptor3d_Surface^ theAS);
 }; // class ProjLib
 
 //---------------------------------------------------------------------

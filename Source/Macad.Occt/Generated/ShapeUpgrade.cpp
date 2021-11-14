@@ -20,6 +20,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "TopAbs.h"
 #include "TopTools.h"
 #include "BRepTools.h"
+#include "NCollection.h"
 
 
 //---------------------------------------------------------------------

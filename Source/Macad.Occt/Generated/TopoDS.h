@@ -101,7 +101,9 @@ public:
 	bool IsNull();
 	void Nullify();
 	Macad::Occt::TopLoc_Location^ Location();
+	void Location(Macad::Occt::TopLoc_Location^ theLoc, bool theRaiseExc);
 	void Location(Macad::Occt::TopLoc_Location^ theLoc);
+	Macad::Occt::TopoDS_Shape^ Located(Macad::Occt::TopLoc_Location^ theLoc, bool theRaiseExc);
 	Macad::Occt::TopoDS_Shape^ Located(Macad::Occt::TopLoc_Location^ theLoc);
 	Macad::Occt::TopAbs_Orientation Orientation();
 	void Orientation(Macad::Occt::TopAbs_Orientation theOrient);
@@ -124,7 +126,9 @@ public:
 	void Infinite(bool theIsInfinite);
 	bool Convex();
 	void Convex(bool theIsConvex);
+	void Move(Macad::Occt::TopLoc_Location^ thePosition, bool theRaiseExc);
 	void Move(Macad::Occt::TopLoc_Location^ thePosition);
+	Macad::Occt::TopoDS_Shape^ Moved(Macad::Occt::TopLoc_Location^ thePosition, bool theRaiseExc);
 	Macad::Occt::TopoDS_Shape^ Moved(Macad::Occt::TopLoc_Location^ thePosition);
 	void Reverse();
 	Macad::Occt::TopoDS_Shape^ Reversed();
@@ -1069,12 +1073,14 @@ public:
 public:
 	TopoDS_FrozenShape();
 	TopoDS_FrozenShape(System::String^ theMessage);
+	TopoDS_FrozenShape(System::String^ theMessage, System::String^ theStackTrace);
 	TopoDS_FrozenShape(Macad::Occt::TopoDS_FrozenShape^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::TopoDS_FrozenShape^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::TopoDS_FrozenShape^ NewInstance();
+	static Macad::Occt::TopoDS_FrozenShape^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class TopoDS_FrozenShape
 
 //---------------------------------------------------------------------
@@ -1110,12 +1116,14 @@ public:
 public:
 	TopoDS_UnCompatibleShapes();
 	TopoDS_UnCompatibleShapes(System::String^ theMessage);
+	TopoDS_UnCompatibleShapes(System::String^ theMessage, System::String^ theStackTrace);
 	TopoDS_UnCompatibleShapes(Macad::Occt::TopoDS_UnCompatibleShapes^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::TopoDS_UnCompatibleShapes^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::TopoDS_UnCompatibleShapes^ NewInstance();
+	static Macad::Occt::TopoDS_UnCompatibleShapes^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class TopoDS_UnCompatibleShapes
 
 //---------------------------------------------------------------------
@@ -1151,12 +1159,14 @@ public:
 public:
 	TopoDS_LockedShape();
 	TopoDS_LockedShape(System::String^ theMessage);
+	TopoDS_LockedShape(System::String^ theMessage, System::String^ theStackTrace);
 	TopoDS_LockedShape(Macad::Occt::TopoDS_LockedShape^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::TopoDS_LockedShape^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::TopoDS_LockedShape^ NewInstance();
+	static Macad::Occt::TopoDS_LockedShape^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class TopoDS_LockedShape
 
 }; // namespace Occt

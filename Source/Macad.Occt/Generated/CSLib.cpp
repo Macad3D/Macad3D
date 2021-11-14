@@ -5,57 +5,10 @@
 
 using namespace System::Runtime::InteropServices; // for class Marshal
 
-#include "TColgp.h"
+#include "gp.h"
 #include "Standard.h"
 #include "CSLib.h"
-#include "gp.h"
-
-
-//---------------------------------------------------------------------
-//  Class  CSLib_Class2d
-//---------------------------------------------------------------------
-
-Macad::Occt::CSLib_Class2d::CSLib_Class2d(Macad::Occt::TColgp_Array1OfPnt2d^ thePnts2d, double theTolU, double theTolV, double theUMin, double theVMin, double theUMax, double theVMax)
-	: BaseClass<::CSLib_Class2d>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::CSLib_Class2d(*(::TColgp_Array1OfPnt2d*)thePnts2d->NativeInstance, theTolU, theTolV, theUMin, theVMin, theUMax, theVMax);
-}
-
-Macad::Occt::CSLib_Class2d::CSLib_Class2d(Macad::Occt::TColgp_SequenceOfPnt2d^ thePnts2d, double theTolU, double theTolV, double theUMin, double theVMin, double theUMax, double theVMax)
-	: BaseClass<::CSLib_Class2d>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::CSLib_Class2d(*(::TColgp_SequenceOfPnt2d*)thePnts2d->NativeInstance, theTolU, theTolV, theUMin, theVMin, theUMax, theVMax);
-}
-
-Macad::Occt::CSLib_Class2d::CSLib_Class2d(Macad::Occt::CSLib_Class2d^ parameter1)
-	: BaseClass<::CSLib_Class2d>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::CSLib_Class2d(*(::CSLib_Class2d*)parameter1->NativeInstance);
-}
-
-int Macad::Occt::CSLib_Class2d::SiDans(Macad::Occt::Pnt2d P)
-{
-	pin_ptr<Macad::Occt::Pnt2d> pp_P = &P;
-	return ((::CSLib_Class2d*)_NativeInstance)->SiDans(*(gp_Pnt2d*)pp_P);
-}
-
-int Macad::Occt::CSLib_Class2d::SiDans_OnMode(Macad::Occt::Pnt2d P, double Tol)
-{
-	pin_ptr<Macad::Occt::Pnt2d> pp_P = &P;
-	return ((::CSLib_Class2d*)_NativeInstance)->SiDans_OnMode(*(gp_Pnt2d*)pp_P, Tol);
-}
-
-int Macad::Occt::CSLib_Class2d::InternalSiDans(double X, double Y)
-{
-	return ((::CSLib_Class2d*)_NativeInstance)->InternalSiDans(X, Y);
-}
-
-int Macad::Occt::CSLib_Class2d::InternalSiDansOuOn(double X, double Y)
-{
-	return ((::CSLib_Class2d*)_NativeInstance)->InternalSiDansOuOn(X, Y);
-}
-
-
+#include "TColgp.h"
 
 
 //---------------------------------------------------------------------
@@ -137,6 +90,53 @@ Macad::Occt::Vec Macad::Occt::CSLib::DNNormal(int Nu, int Nv, Macad::Occt::TColg
 Macad::Occt::Vec Macad::Occt::CSLib::DNNormal(int Nu, int Nv, Macad::Occt::TColgp_Array2OfVec^ DerNUV)
 {
 	return Macad::Occt::Vec(::CSLib::DNNormal(Nu, Nv, *(::TColgp_Array2OfVec*)DerNUV->NativeInstance, 0, 0));
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  CSLib_Class2d
+//---------------------------------------------------------------------
+
+Macad::Occt::CSLib_Class2d::CSLib_Class2d(Macad::Occt::TColgp_Array1OfPnt2d^ thePnts2d, double theTolU, double theTolV, double theUMin, double theVMin, double theUMax, double theVMax)
+	: BaseClass<::CSLib_Class2d>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::CSLib_Class2d(*(::TColgp_Array1OfPnt2d*)thePnts2d->NativeInstance, theTolU, theTolV, theUMin, theVMin, theUMax, theVMax);
+}
+
+Macad::Occt::CSLib_Class2d::CSLib_Class2d(Macad::Occt::TColgp_SequenceOfPnt2d^ thePnts2d, double theTolU, double theTolV, double theUMin, double theVMin, double theUMax, double theVMax)
+	: BaseClass<::CSLib_Class2d>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::CSLib_Class2d(*(::TColgp_SequenceOfPnt2d*)thePnts2d->NativeInstance, theTolU, theTolV, theUMin, theVMin, theUMax, theVMax);
+}
+
+Macad::Occt::CSLib_Class2d::CSLib_Class2d(Macad::Occt::CSLib_Class2d^ parameter1)
+	: BaseClass<::CSLib_Class2d>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::CSLib_Class2d(*(::CSLib_Class2d*)parameter1->NativeInstance);
+}
+
+int Macad::Occt::CSLib_Class2d::SiDans(Macad::Occt::Pnt2d P)
+{
+	pin_ptr<Macad::Occt::Pnt2d> pp_P = &P;
+	return ((::CSLib_Class2d*)_NativeInstance)->SiDans(*(gp_Pnt2d*)pp_P);
+}
+
+int Macad::Occt::CSLib_Class2d::SiDans_OnMode(Macad::Occt::Pnt2d P, double Tol)
+{
+	pin_ptr<Macad::Occt::Pnt2d> pp_P = &P;
+	return ((::CSLib_Class2d*)_NativeInstance)->SiDans_OnMode(*(gp_Pnt2d*)pp_P, Tol);
+}
+
+int Macad::Occt::CSLib_Class2d::InternalSiDans(double X, double Y)
+{
+	return ((::CSLib_Class2d*)_NativeInstance)->InternalSiDans(X, Y);
+}
+
+int Macad::Occt::CSLib_Class2d::InternalSiDansOuOn(double X, double Y)
+{
+	return ((::CSLib_Class2d*)_NativeInstance)->InternalSiDansOuOn(X, Y);
 }
 
 

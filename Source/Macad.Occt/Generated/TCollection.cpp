@@ -1027,9 +1027,14 @@ bool Macad::Occt::TCollection_AsciiString::IsIntegerValue()
 	return ((::TCollection_AsciiString*)_NativeInstance)->IsIntegerValue();
 }
 
+bool Macad::Occt::TCollection_AsciiString::IsRealValue(bool theToCheckFull)
+{
+	return ((::TCollection_AsciiString*)_NativeInstance)->IsRealValue(theToCheckFull);
+}
+
 bool Macad::Occt::TCollection_AsciiString::IsRealValue()
 {
-	return ((::TCollection_AsciiString*)_NativeInstance)->IsRealValue();
+	return ((::TCollection_AsciiString*)_NativeInstance)->IsRealValue(false);
 }
 
 bool Macad::Occt::TCollection_AsciiString::IsAscii()
@@ -1234,6 +1239,30 @@ bool Macad::Occt::TCollection_AsciiString::IsEqual(Macad::Occt::TCollection_Asci
 bool Macad::Occt::TCollection_AsciiString::IsSameString(Macad::Occt::TCollection_AsciiString^ theString1, Macad::Occt::TCollection_AsciiString^ theString2, bool theIsCaseSensitive)
 {
 	return ::TCollection_AsciiString::IsSameString(*(::TCollection_AsciiString*)theString1->NativeInstance, *(::TCollection_AsciiString*)theString2->NativeInstance, theIsCaseSensitive);
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  TCollection
+//---------------------------------------------------------------------
+
+Macad::Occt::TCollection::TCollection()
+	: BaseClass<::TCollection>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::TCollection();
+}
+
+Macad::Occt::TCollection::TCollection(Macad::Occt::TCollection^ parameter1)
+	: BaseClass<::TCollection>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::TCollection(*(::TCollection*)parameter1->NativeInstance);
+}
+
+int Macad::Occt::TCollection::NextPrimeForMap(int I)
+{
+	return ::TCollection::NextPrimeForMap(I);
 }
 
 
@@ -1458,135 +1487,5 @@ Macad::Occt::TCollection_HExtendedString^ Macad::Occt::TCollection_HExtendedStri
 {
 	return gcnew Macad::Occt::TCollection_HExtendedString( instance );
 }
-
-
-
-//---------------------------------------------------------------------
-//  Class  TCollection_BaseSequence
-//---------------------------------------------------------------------
-
-bool Macad::Occt::TCollection_BaseSequence::IsEmpty()
-{
-	return ((::TCollection_BaseSequence*)_NativeInstance)->IsEmpty();
-}
-
-int Macad::Occt::TCollection_BaseSequence::Length()
-{
-	return ((::TCollection_BaseSequence*)_NativeInstance)->Length();
-}
-
-void Macad::Occt::TCollection_BaseSequence::Reverse()
-{
-	((::TCollection_BaseSequence*)_NativeInstance)->Reverse();
-}
-
-void Macad::Occt::TCollection_BaseSequence::Exchange(int I, int J)
-{
-	((::TCollection_BaseSequence*)_NativeInstance)->Exchange(I, J);
-}
-
-
-
-
-//---------------------------------------------------------------------
-//  Class  TCollection_BasicMap
-//---------------------------------------------------------------------
-
-Macad::Occt::TCollection_BasicMap::TCollection_BasicMap(Macad::Occt::TCollection_BasicMap^ parameter1)
-	: BaseClass<::TCollection_BasicMap>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::TCollection_BasicMap(*(::TCollection_BasicMap*)parameter1->NativeInstance);
-}
-
-int Macad::Occt::TCollection_BasicMap::NbBuckets()
-{
-	return ((::TCollection_BasicMap*)_NativeInstance)->NbBuckets();
-}
-
-int Macad::Occt::TCollection_BasicMap::Extent()
-{
-	return ((::TCollection_BasicMap*)_NativeInstance)->Extent();
-}
-
-bool Macad::Occt::TCollection_BasicMap::IsEmpty()
-{
-	return ((::TCollection_BasicMap*)_NativeInstance)->IsEmpty();
-}
-
-
-
-
-//---------------------------------------------------------------------
-//  Class  TCollection_MapNode
-//---------------------------------------------------------------------
-
-Macad::Occt::TCollection_MapNode::TCollection_MapNode(Macad::Occt::TCollection_MapNode^ n)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::TCollection_MapNode(*(::TCollection_MapNode*)n->NativeInstance);
-}
-
-Macad::Occt::TCollection_MapNode^ Macad::Occt::TCollection_MapNode::Next()
-{
-	throw gcnew System::NotImplementedException();
-}
-
-
-Macad::Occt::TCollection_MapNode^ Macad::Occt::TCollection_MapNode::CreateDowncasted(::TCollection_MapNode* instance)
-{
-	return gcnew Macad::Occt::TCollection_MapNode( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  TCollection_BasicMapIterator
-//---------------------------------------------------------------------
-
-Macad::Occt::TCollection_BasicMapIterator::TCollection_BasicMapIterator(Macad::Occt::TCollection_BasicMapIterator^ parameter1)
-	: BaseClass<::TCollection_BasicMapIterator>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::TCollection_BasicMapIterator(*(::TCollection_BasicMapIterator*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::TCollection_BasicMapIterator::Reset()
-{
-	((::TCollection_BasicMapIterator*)_NativeInstance)->Reset();
-}
-
-bool Macad::Occt::TCollection_BasicMapIterator::More()
-{
-	return ((::TCollection_BasicMapIterator*)_NativeInstance)->More();
-}
-
-void Macad::Occt::TCollection_BasicMapIterator::Next()
-{
-	((::TCollection_BasicMapIterator*)_NativeInstance)->Next();
-}
-
-
-
-
-//---------------------------------------------------------------------
-//  Class  TCollection
-//---------------------------------------------------------------------
-
-Macad::Occt::TCollection::TCollection()
-	: BaseClass<::TCollection>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::TCollection();
-}
-
-Macad::Occt::TCollection::TCollection(Macad::Occt::TCollection^ parameter1)
-	: BaseClass<::TCollection>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::TCollection(*(::TCollection*)parameter1->NativeInstance);
-}
-
-int Macad::Occt::TCollection::NextPrimeForMap(int I)
-{
-	return ::TCollection::NextPrimeForMap(I);
-}
-
 
 

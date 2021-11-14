@@ -432,9 +432,9 @@ void Macad::Occt::BSplCLib::IncreaseDegree(int NewDegree, Macad::Occt::TColgp_Ar
 	::BSplCLib::IncreaseDegree(NewDegree, *(::TColgp_Array1OfPnt*)Poles->NativeInstance, (::TColStd_Array1OfReal*)Weights->NativeInstance, *(::TColgp_Array1OfPnt*)NewPoles->NativeInstance, (::TColStd_Array1OfReal*)NewWeights->NativeInstance);
 }
 
-void Macad::Occt::BSplCLib::IncreaseDegree(int NewDegree, Macad::Occt::TColgp_Array1OfPnt2d^ Poles, Macad::Occt::TColStd_Array1OfReal^ Weights, Macad::Occt::TColgp_Array1OfPnt2d^ NewPoles, Macad::Occt::TColStd_Array1OfReal^ NewWeights)
+void Macad::Occt::BSplCLib::IncreaseDegree(int theNewDegree, Macad::Occt::TColgp_Array1OfPnt2d^ thePoles, Macad::Occt::TColStd_Array1OfReal^ theWeights, Macad::Occt::TColgp_Array1OfPnt2d^ theNewPoles, Macad::Occt::TColStd_Array1OfReal^ theNewWeights)
 {
-	::BSplCLib::IncreaseDegree(NewDegree, *(::TColgp_Array1OfPnt2d*)Poles->NativeInstance, (::TColStd_Array1OfReal*)Weights->NativeInstance, *(::TColgp_Array1OfPnt2d*)NewPoles->NativeInstance, (::TColStd_Array1OfReal*)NewWeights->NativeInstance);
+	::BSplCLib::IncreaseDegree(theNewDegree, *(::TColgp_Array1OfPnt2d*)thePoles->NativeInstance, (::TColStd_Array1OfReal*)theWeights->NativeInstance, *(::TColgp_Array1OfPnt2d*)theNewPoles->NativeInstance, (::TColStd_Array1OfReal*)theNewWeights->NativeInstance);
 }
 
 void Macad::Occt::BSplCLib::PrepareUnperiodize(int Degree, Macad::Occt::TColStd_Array1OfInteger^ Mults, int% NbKnots, int% NbPoles)

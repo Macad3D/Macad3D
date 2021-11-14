@@ -77,7 +77,7 @@ Standard_Integer AIS_PlaneEx::Signature() const
 //function : Compute
 //purpose  : 
 //=======================================================================
-void AIS_PlaneEx::Compute(const Handle(PrsMgr_PresentationManager3d)&,
+void AIS_PlaneEx::Compute(const Handle(PrsMgr_PresentationManager)&,
 	const Handle(Prs3d_Presentation)& aPresentation,
 	const Standard_Integer aMode)
 {
@@ -117,7 +117,7 @@ void AIS_PlaneEx::computeHLR(const Handle(Graphic3d_Camera)& theProjector, const
 //function : HilightOwnerWithColor
 //purpose  : 
 //=======================================================================
-void AIS_PlaneEx::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager3d)& PM,
+void AIS_PlaneEx::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& PM,
 	const Handle(Prs3d_Drawer) &theStyle,
 	const Handle(SelectMgr_EntityOwner)& Owner)
 {
@@ -157,7 +157,7 @@ void AIS_PlaneEx::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager3
 	}
 }
 
-void AIS_PlaneEx::HilightSelected(const Handle(PrsMgr_PresentationManager3d)& thePM,
+void AIS_PlaneEx::HilightSelected(const Handle(PrsMgr_PresentationManager)& thePM,
 	const SelectMgr_SequenceOfOwner& theOwners)
 {
 }

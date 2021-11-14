@@ -268,88 +268,6 @@ public:
 }; // class Geom_Axis2Placement
 
 //---------------------------------------------------------------------
-//  Class  Geom_UndefinedDerivative
-//---------------------------------------------------------------------
-public ref class Geom_UndefinedDerivative sealed : public Macad::Occt::Standard_DomainError
-{
-
-#ifdef Include_Geom_UndefinedDerivative_h
-public:
-	Include_Geom_UndefinedDerivative_h
-#endif
-
-public:
-	Geom_UndefinedDerivative(::Geom_UndefinedDerivative* nativeInstance)
-		: Macad::Occt::Standard_DomainError( nativeInstance )
-	{}
-
-	Geom_UndefinedDerivative(::Geom_UndefinedDerivative& nativeInstance)
-		: Macad::Occt::Standard_DomainError( nativeInstance )
-	{}
-
-	property ::Geom_UndefinedDerivative* NativeInstance
-	{
-		::Geom_UndefinedDerivative* get()
-		{
-			return static_cast<::Geom_UndefinedDerivative*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::Geom_UndefinedDerivative^ CreateDowncasted(::Geom_UndefinedDerivative* instance);
-
-public:
-	Geom_UndefinedDerivative();
-	Geom_UndefinedDerivative(System::String^ theMessage);
-	Geom_UndefinedDerivative(Macad::Occt::Geom_UndefinedDerivative^ parameter1);
-	static void Raise(System::String^ theMessage);
-	static void Raise();
-	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
-	static Macad::Occt::Geom_UndefinedDerivative^ NewInstance(System::String^ theMessage);
-	static Macad::Occt::Geom_UndefinedDerivative^ NewInstance();
-}; // class Geom_UndefinedDerivative
-
-//---------------------------------------------------------------------
-//  Class  Geom_UndefinedValue
-//---------------------------------------------------------------------
-public ref class Geom_UndefinedValue sealed : public Macad::Occt::Standard_DomainError
-{
-
-#ifdef Include_Geom_UndefinedValue_h
-public:
-	Include_Geom_UndefinedValue_h
-#endif
-
-public:
-	Geom_UndefinedValue(::Geom_UndefinedValue* nativeInstance)
-		: Macad::Occt::Standard_DomainError( nativeInstance )
-	{}
-
-	Geom_UndefinedValue(::Geom_UndefinedValue& nativeInstance)
-		: Macad::Occt::Standard_DomainError( nativeInstance )
-	{}
-
-	property ::Geom_UndefinedValue* NativeInstance
-	{
-		::Geom_UndefinedValue* get()
-		{
-			return static_cast<::Geom_UndefinedValue*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::Geom_UndefinedValue^ CreateDowncasted(::Geom_UndefinedValue* instance);
-
-public:
-	Geom_UndefinedValue();
-	Geom_UndefinedValue(System::String^ theMessage);
-	Geom_UndefinedValue(Macad::Occt::Geom_UndefinedValue^ parameter1);
-	static void Raise(System::String^ theMessage);
-	static void Raise();
-	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
-	static Macad::Occt::Geom_UndefinedValue^ NewInstance(System::String^ theMessage);
-	static Macad::Occt::Geom_UndefinedValue^ NewInstance();
-}; // class Geom_UndefinedValue
-
-//---------------------------------------------------------------------
 //  Class  Geom_Curve
 //---------------------------------------------------------------------
 public ref class Geom_Curve : public Macad::Occt::Geom_Geometry
@@ -2564,6 +2482,92 @@ public:
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Geom_TrimmedCurve
+
+//---------------------------------------------------------------------
+//  Class  Geom_UndefinedDerivative
+//---------------------------------------------------------------------
+public ref class Geom_UndefinedDerivative sealed : public Macad::Occt::Standard_DomainError
+{
+
+#ifdef Include_Geom_UndefinedDerivative_h
+public:
+	Include_Geom_UndefinedDerivative_h
+#endif
+
+public:
+	Geom_UndefinedDerivative(::Geom_UndefinedDerivative* nativeInstance)
+		: Macad::Occt::Standard_DomainError( nativeInstance )
+	{}
+
+	Geom_UndefinedDerivative(::Geom_UndefinedDerivative& nativeInstance)
+		: Macad::Occt::Standard_DomainError( nativeInstance )
+	{}
+
+	property ::Geom_UndefinedDerivative* NativeInstance
+	{
+		::Geom_UndefinedDerivative* get()
+		{
+			return static_cast<::Geom_UndefinedDerivative*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Geom_UndefinedDerivative^ CreateDowncasted(::Geom_UndefinedDerivative* instance);
+
+public:
+	Geom_UndefinedDerivative();
+	Geom_UndefinedDerivative(System::String^ theMessage);
+	Geom_UndefinedDerivative(System::String^ theMessage, System::String^ theStackTrace);
+	Geom_UndefinedDerivative(Macad::Occt::Geom_UndefinedDerivative^ parameter1);
+	static void Raise(System::String^ theMessage);
+	static void Raise();
+	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
+	static Macad::Occt::Geom_UndefinedDerivative^ NewInstance(System::String^ theMessage);
+	static Macad::Occt::Geom_UndefinedDerivative^ NewInstance();
+	static Macad::Occt::Geom_UndefinedDerivative^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
+}; // class Geom_UndefinedDerivative
+
+//---------------------------------------------------------------------
+//  Class  Geom_UndefinedValue
+//---------------------------------------------------------------------
+public ref class Geom_UndefinedValue sealed : public Macad::Occt::Standard_DomainError
+{
+
+#ifdef Include_Geom_UndefinedValue_h
+public:
+	Include_Geom_UndefinedValue_h
+#endif
+
+public:
+	Geom_UndefinedValue(::Geom_UndefinedValue* nativeInstance)
+		: Macad::Occt::Standard_DomainError( nativeInstance )
+	{}
+
+	Geom_UndefinedValue(::Geom_UndefinedValue& nativeInstance)
+		: Macad::Occt::Standard_DomainError( nativeInstance )
+	{}
+
+	property ::Geom_UndefinedValue* NativeInstance
+	{
+		::Geom_UndefinedValue* get()
+		{
+			return static_cast<::Geom_UndefinedValue*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Geom_UndefinedValue^ CreateDowncasted(::Geom_UndefinedValue* instance);
+
+public:
+	Geom_UndefinedValue();
+	Geom_UndefinedValue(System::String^ theMessage);
+	Geom_UndefinedValue(System::String^ theMessage, System::String^ theStackTrace);
+	Geom_UndefinedValue(Macad::Occt::Geom_UndefinedValue^ parameter1);
+	static void Raise(System::String^ theMessage);
+	static void Raise();
+	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
+	static Macad::Occt::Geom_UndefinedValue^ NewInstance(System::String^ theMessage);
+	static Macad::Occt::Geom_UndefinedValue^ NewInstance();
+	static Macad::Occt::Geom_UndefinedValue^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
+}; // class Geom_UndefinedValue
 
 //---------------------------------------------------------------------
 //  Class  Geom_VectorWithMagnitude

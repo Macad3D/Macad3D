@@ -108,7 +108,7 @@ namespace Macad.Core
 
         protected CoreContext()
         {
-            InitializeStatics();
+            CoreModule.Initialize();
             Current = this;
         }
 
@@ -155,33 +155,11 @@ namespace Macad.Core
 
         //--------------------------------------------------------------------------------------------------
 
-        static bool _Initialized;
         static CoreContext _Current;
         Model _Document;
         Workspace _Workspace;
         Viewport _Viewport;
         ParameterSets _ParameterSets;
-
-        //--------------------------------------------------------------------------------------------------
-
-        static void InitializeStatics()
-        {
-            if (_Initialized)
-                return;
-
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-            OcctSerializers.Init();
-            Serializer.RegisterNamespaceAlias("Core", "Macad.Core");
-            Serializer.RegisterNamespaceAlias("Topology", "Macad.Core.Topology");
-            Serializer.RegisterNamespaceAlias("Shapes", "Macad.Core.Shapes");
-            Serializer.RegisterNamespaceAlias("Auxiliary", "Macad.Core.Auxiliary");
-            Serializer.RegisterNamespaceAlias("Components", "Macad.Core.Components");
-            Serializer.RegisterNamespaceAlias("Toolkits", "Macad.Core.Toolkits");
-            Serializer.RegisterNamespaceAlias("Occt", "Macad.Occt");
-
-            _Initialized = true;
-        }
 
         //--------------------------------------------------------------------------------------------------
 

@@ -238,17 +238,16 @@ namespace Macad.Core
             if (V3dViewer == null)
             {
                 var ocGraphicDriver = Occt.Helper.Graphic3d.CreateOpenGlDriver();
-
-                V3dViewer = new V3d_Viewer(ocGraphicDriver, "MyView", "", 1000.0,
-                    V3d_TypeOfOrientation.V3d_XposYposZpos,
-                    Quantity_NameOfColor.Quantity_NOC_GRAY30.ToColor(),
-                    V3d_TypeOfVisualization.V3d_ZBUFFER);
+                V3dViewer = new V3d_Viewer(ocGraphicDriver);
             }
 
+            V3dViewer.SetDefaultViewSize(1000.0);
+            V3dViewer.SetDefaultViewProj(V3d_TypeOfOrientation.V3d_XposYposZpos);
+            V3dViewer.SetDefaultBackgroundColor(Quantity_NameOfColor.Quantity_NOC_GRAY30.ToColor());
+            V3dViewer.SetDefaultVisualization(V3d_TypeOfVisualization.V3d_ZBUFFER);
             V3dViewer.SetLightOn(new V3d_DirectionalLight(V3d_TypeOfOrientation.V3d_Zneg, Quantity_NameOfColor.Quantity_NOC_WHITE.ToColor(), true));
             V3dViewer.SetLightOn(new V3d_AmbientLight(Quantity_NameOfColor.Quantity_NOC_WHITE.ToColor()));
 
-            //V3dViewer.Grid().SetColors(new Quantity_Color(Quantity_NameOfColor.Quantity_NOC_GRAY55), new Quantity_Color(Quantity_NameOfColor.Quantity_NOC_GRAY70));
             V3dViewer.Grid().SetColors(Quantity_NameOfColor.Quantity_NOC_GRAY45.ToColor(), Quantity_NameOfColor.Quantity_NOC_GRAY30.ToColor());
 
             // Reinit viewer parameters

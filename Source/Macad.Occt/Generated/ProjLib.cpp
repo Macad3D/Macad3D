@@ -219,14 +219,14 @@ void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::SetValue(int theIndex, Macad
 Macad::Occt::ProjLib_ProjectOnPlane::ProjLib_ProjectOnPlane()
 	: Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::ProjLib_ProjectOnPlane();
+	NativeInstance = new ::ProjLib_ProjectOnPlane();
 }
 
 Macad::Occt::ProjLib_ProjectOnPlane::ProjLib_ProjectOnPlane(Macad::Occt::Ax3 Pl)
 	: Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
 {
 	pin_ptr<Macad::Occt::Ax3> pp_Pl = &Pl;
-	_NativeInstance = new ::ProjLib_ProjectOnPlane(*(gp_Ax3*)pp_Pl);
+	NativeInstance = new ::ProjLib_ProjectOnPlane(*(gp_Ax3*)pp_Pl);
 }
 
 Macad::Occt::ProjLib_ProjectOnPlane::ProjLib_ProjectOnPlane(Macad::Occt::Ax3 Pl, Macad::Occt::Dir D)
@@ -234,25 +234,32 @@ Macad::Occt::ProjLib_ProjectOnPlane::ProjLib_ProjectOnPlane(Macad::Occt::Ax3 Pl,
 {
 	pin_ptr<Macad::Occt::Ax3> pp_Pl = &Pl;
 	pin_ptr<Macad::Occt::Dir> pp_D = &D;
-	_NativeInstance = new ::ProjLib_ProjectOnPlane(*(gp_Ax3*)pp_Pl, *(gp_Dir*)pp_D);
+	NativeInstance = new ::ProjLib_ProjectOnPlane(*(gp_Ax3*)pp_Pl, *(gp_Dir*)pp_D);
 }
 
 Macad::Occt::ProjLib_ProjectOnPlane::ProjLib_ProjectOnPlane(Macad::Occt::ProjLib_ProjectOnPlane^ parameter1)
 	: Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::ProjLib_ProjectOnPlane(*(::ProjLib_ProjectOnPlane*)parameter1->NativeInstance);
+	NativeInstance = new ::ProjLib_ProjectOnPlane(*(::ProjLib_ProjectOnPlane*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::ProjLib_ProjectOnPlane::Load(Macad::Occt::Adaptor3d_HCurve^ C, double Tolerance, bool KeepParametrization)
+Macad::Occt::Adaptor3d_Curve^ Macad::Occt::ProjLib_ProjectOnPlane::ShallowCopy()
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Curve) _result;
+	_result = ((::ProjLib_ProjectOnPlane*)_NativeInstance)->ShallowCopy();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Curve::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::ProjLib_ProjectOnPlane::Load(Macad::Occt::Adaptor3d_Curve^ C, double Tolerance, bool KeepParametrization)
+{
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
 	((::ProjLib_ProjectOnPlane*)_NativeInstance)->Load(h_C, Tolerance, KeepParametrization);
 	C->NativeInstance = h_C.get();
 }
 
-void Macad::Occt::ProjLib_ProjectOnPlane::Load(Macad::Occt::Adaptor3d_HCurve^ C, double Tolerance)
+void Macad::Occt::ProjLib_ProjectOnPlane::Load(Macad::Occt::Adaptor3d_Curve^ C, double Tolerance)
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
 	((::ProjLib_ProjectOnPlane*)_NativeInstance)->Load(h_C, Tolerance, true);
 	C->NativeInstance = h_C.get();
 }
@@ -267,18 +274,18 @@ Macad::Occt::Dir Macad::Occt::ProjLib_ProjectOnPlane::GetDirection()
 	return Macad::Occt::Dir(((::ProjLib_ProjectOnPlane*)_NativeInstance)->GetDirection());
 }
 
-Macad::Occt::Adaptor3d_HCurve^ Macad::Occt::ProjLib_ProjectOnPlane::GetCurve()
+Macad::Occt::Adaptor3d_Curve^ Macad::Occt::ProjLib_ProjectOnPlane::GetCurve()
 {
-	Handle(::Adaptor3d_HCurve) _result;
+	Handle(::Adaptor3d_Curve) _result;
 	_result = ((::ProjLib_ProjectOnPlane*)_NativeInstance)->GetCurve();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HCurve::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Curve::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::GeomAdaptor_HCurve^ Macad::Occt::ProjLib_ProjectOnPlane::GetResult()
+Macad::Occt::GeomAdaptor_Curve^ Macad::Occt::ProjLib_ProjectOnPlane::GetResult()
 {
-	Handle(::GeomAdaptor_HCurve) _result;
+	Handle(::GeomAdaptor_Curve) _result;
 	_result = ((::ProjLib_ProjectOnPlane*)_NativeInstance)->GetResult();
-	 return _result.IsNull() ? nullptr : Macad::Occt::GeomAdaptor_HCurve::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::GeomAdaptor_Curve::CreateDowncasted( _result.get());
 }
 
 double Macad::Occt::ProjLib_ProjectOnPlane::FirstParameter()
@@ -306,11 +313,11 @@ void Macad::Occt::ProjLib_ProjectOnPlane::Intervals(Macad::Occt::TColStd_Array1O
 	((::ProjLib_ProjectOnPlane*)_NativeInstance)->Intervals(*(::TColStd_Array1OfReal*)T->NativeInstance, (::GeomAbs_Shape)S);
 }
 
-Macad::Occt::Adaptor3d_HCurve^ Macad::Occt::ProjLib_ProjectOnPlane::Trim(double First, double Last, double Tol)
+Macad::Occt::Adaptor3d_Curve^ Macad::Occt::ProjLib_ProjectOnPlane::Trim(double First, double Last, double Tol)
 {
-	Handle(::Adaptor3d_HCurve) _result;
+	Handle(::Adaptor3d_Curve) _result;
 	_result = ((::ProjLib_ProjectOnPlane*)_NativeInstance)->Trim(First, Last, Tol);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HCurve::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Curve::CreateDowncasted( _result.get());
 }
 
 bool Macad::Occt::ProjLib_ProjectOnPlane::IsClosed()
@@ -448,6 +455,11 @@ Macad::Occt::Geom_BSplineCurve^ Macad::Occt::ProjLib_ProjectOnPlane::BSpline()
 }
 
 
+Macad::Occt::ProjLib_ProjectOnPlane^ Macad::Occt::ProjLib_ProjectOnPlane::CreateDowncasted(::ProjLib_ProjectOnPlane* instance)
+{
+	return gcnew Macad::Occt::ProjLib_ProjectOnPlane( instance );
+}
+
 
 
 //---------------------------------------------------------------------
@@ -460,10 +472,10 @@ Macad::Occt::ProjLib_ProjectOnSurface::ProjLib_ProjectOnSurface()
 	_NativeInstance = new ::ProjLib_ProjectOnSurface();
 }
 
-Macad::Occt::ProjLib_ProjectOnSurface::ProjLib_ProjectOnSurface(Macad::Occt::Adaptor3d_HSurface^ S)
+Macad::Occt::ProjLib_ProjectOnSurface::ProjLib_ProjectOnSurface(Macad::Occt::Adaptor3d_Surface^ S)
 	: BaseClass<::ProjLib_ProjectOnSurface>(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
 	_NativeInstance = new ::ProjLib_ProjectOnSurface(h_S);
 	S->NativeInstance = h_S.get();
 }
@@ -474,14 +486,16 @@ Macad::Occt::ProjLib_ProjectOnSurface::ProjLib_ProjectOnSurface(Macad::Occt::Pro
 	_NativeInstance = new ::ProjLib_ProjectOnSurface(*(::ProjLib_ProjectOnSurface*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::ProjLib_ProjectOnSurface::Load(Macad::Occt::Adaptor3d_HSurface^ S)
+void Macad::Occt::ProjLib_ProjectOnSurface::Load(Macad::Occt::Adaptor3d_Surface^ S)
 {
-	throw gcnew System::NotImplementedException("Unresolved external symbol");
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
+	((::ProjLib_ProjectOnSurface*)_NativeInstance)->Load(h_S);
+	S->NativeInstance = h_S.get();
 }
 
-void Macad::Occt::ProjLib_ProjectOnSurface::Load(Macad::Occt::Adaptor3d_HCurve^ C, double Tolerance)
+void Macad::Occt::ProjLib_ProjectOnSurface::Load(Macad::Occt::Adaptor3d_Curve^ C, double Tolerance)
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
 	((::ProjLib_ProjectOnSurface*)_NativeInstance)->Load(h_C, Tolerance);
 	C->NativeInstance = h_C.get();
 }
@@ -511,11 +525,11 @@ Macad::Occt::ProjLib_ComputeApprox::ProjLib_ComputeApprox()
 	_NativeInstance = new ::ProjLib_ComputeApprox();
 }
 
-Macad::Occt::ProjLib_ComputeApprox::ProjLib_ComputeApprox(Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S, double Tol)
+Macad::Occt::ProjLib_ComputeApprox::ProjLib_ComputeApprox(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S, double Tol)
 	: BaseClass<::ProjLib_ComputeApprox>(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
 	_NativeInstance = new ::ProjLib_ComputeApprox(h_C, h_S, Tol);
 	C->NativeInstance = h_C.get();
 	S->NativeInstance = h_S.get();
@@ -527,10 +541,10 @@ Macad::Occt::ProjLib_ComputeApprox::ProjLib_ComputeApprox(Macad::Occt::ProjLib_C
 	_NativeInstance = new ::ProjLib_ComputeApprox(*(::ProjLib_ComputeApprox*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::ProjLib_ComputeApprox::Perform(Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S)
+void Macad::Occt::ProjLib_ComputeApprox::Perform(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S)
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
 	((::ProjLib_ComputeApprox*)_NativeInstance)->Perform(h_C, h_S);
 	C->NativeInstance = h_C.get();
 	S->NativeInstance = h_S.get();
@@ -583,45 +597,45 @@ Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::ProjLib_ComputeApproxOnPolarSu
 	_NativeInstance = new ::ProjLib_ComputeApproxOnPolarSurface();
 }
 
-Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S, double Tol)
+Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S, double Tol)
 	: BaseClass<::ProjLib_ComputeApproxOnPolarSurface>(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
 	_NativeInstance = new ::ProjLib_ComputeApproxOnPolarSurface(h_C, h_S, Tol);
 	C->NativeInstance = h_C.get();
 	S->NativeInstance = h_S.get();
 }
 
-Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S)
+Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S)
 	: BaseClass<::ProjLib_ComputeApproxOnPolarSurface>(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
 	_NativeInstance = new ::ProjLib_ComputeApproxOnPolarSurface(h_C, h_S, 1.0E-4);
 	C->NativeInstance = h_C.get();
 	S->NativeInstance = h_S.get();
 }
 
-Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor2d_HCurve2d^ InitCurve2d, Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S, double Tol)
+Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor2d_Curve2d^ InitCurve2d, Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S, double Tol)
 	: BaseClass<::ProjLib_ComputeApproxOnPolarSurface>(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor2d_HCurve2d) h_InitCurve2d = InitCurve2d->NativeInstance;
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
+	Handle(::Adaptor2d_Curve2d) h_InitCurve2d = InitCurve2d->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
 	_NativeInstance = new ::ProjLib_ComputeApproxOnPolarSurface(h_InitCurve2d, h_C, h_S, Tol);
 	InitCurve2d->NativeInstance = h_InitCurve2d.get();
 	C->NativeInstance = h_C.get();
 	S->NativeInstance = h_S.get();
 }
 
-Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor2d_HCurve2d^ InitCurve2d, Macad::Occt::Adaptor2d_HCurve2d^ InitCurve2dBis, Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S, double Tol)
+Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor2d_Curve2d^ InitCurve2d, Macad::Occt::Adaptor2d_Curve2d^ InitCurve2dBis, Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S, double Tol)
 	: BaseClass<::ProjLib_ComputeApproxOnPolarSurface>(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor2d_HCurve2d) h_InitCurve2d = InitCurve2d->NativeInstance;
-	Handle(::Adaptor2d_HCurve2d) h_InitCurve2dBis = InitCurve2dBis->NativeInstance;
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
+	Handle(::Adaptor2d_Curve2d) h_InitCurve2d = InitCurve2d->NativeInstance;
+	Handle(::Adaptor2d_Curve2d) h_InitCurve2dBis = InitCurve2dBis->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
 	_NativeInstance = new ::ProjLib_ComputeApproxOnPolarSurface(h_InitCurve2d, h_InitCurve2dBis, h_C, h_S, Tol);
 	InitCurve2d->NativeInstance = h_InitCurve2d.get();
 	InitCurve2dBis->NativeInstance = h_InitCurve2dBis.get();
@@ -655,20 +669,20 @@ void Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::SetTolerance(double theTo
 	((::ProjLib_ComputeApproxOnPolarSurface*)_NativeInstance)->SetTolerance(theTolerance);
 }
 
-void Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::Perform(Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S)
+void Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::Perform(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S)
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
 	((::ProjLib_ComputeApproxOnPolarSurface*)_NativeInstance)->Perform(h_C, h_S);
 	C->NativeInstance = h_C.get();
 	S->NativeInstance = h_S.get();
 }
 
-Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::Perform(Macad::Occt::Adaptor2d_HCurve2d^ InitCurve2d, Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Adaptor3d_HSurface^ S)
+Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::Perform(Macad::Occt::Adaptor2d_Curve2d^ InitCurve2d, Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S)
 {
-	Handle(::Adaptor2d_HCurve2d) h_InitCurve2d = InitCurve2d->NativeInstance;
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
+	Handle(::Adaptor2d_Curve2d) h_InitCurve2d = InitCurve2d->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
 	Handle(::Geom2d_BSplineCurve) _result;
 	_result = ((::ProjLib_ComputeApproxOnPolarSurface*)_NativeInstance)->Perform(h_InitCurve2d, h_C, h_S);
 	InitCurve2d->NativeInstance = h_InitCurve2d.get();
@@ -677,22 +691,22 @@ Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::ProjLib_ComputeApproxOnPolarSurfa
 	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::Adaptor2d_HCurve2d^ Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::BuildInitialCurve2d(Macad::Occt::Adaptor3d_HCurve^ Curve, Macad::Occt::Adaptor3d_HSurface^ S)
+Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::BuildInitialCurve2d(Macad::Occt::Adaptor3d_Curve^ Curve, Macad::Occt::Adaptor3d_Surface^ S)
 {
-	Handle(::Adaptor3d_HCurve) h_Curve = Curve->NativeInstance;
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
-	Handle(::Adaptor2d_HCurve2d) _result;
+	Handle(::Adaptor3d_Curve) h_Curve = Curve->NativeInstance;
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
+	Handle(::Adaptor2d_Curve2d) _result;
 	_result = ((::ProjLib_ComputeApproxOnPolarSurface*)_NativeInstance)->BuildInitialCurve2d(h_Curve, h_S);
 	Curve->NativeInstance = h_Curve.get();
 	S->NativeInstance = h_S.get();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor2d_HCurve2d::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor2d_Curve2d::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::ProjectUsingInitialCurve2d(Macad::Occt::Adaptor3d_HCurve^ Curve, Macad::Occt::Adaptor3d_HSurface^ S, Macad::Occt::Adaptor2d_HCurve2d^ InitCurve2d)
+Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::ProjectUsingInitialCurve2d(Macad::Occt::Adaptor3d_Curve^ Curve, Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor2d_Curve2d^ InitCurve2d)
 {
-	Handle(::Adaptor3d_HCurve) h_Curve = Curve->NativeInstance;
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
-	Handle(::Adaptor2d_HCurve2d) h_InitCurve2d = InitCurve2d->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_Curve = Curve->NativeInstance;
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
+	Handle(::Adaptor2d_Curve2d) h_InitCurve2d = InitCurve2d->NativeInstance;
 	Handle(::Geom2d_BSplineCurve) _result;
 	_result = ((::ProjLib_ComputeApproxOnPolarSurface*)_NativeInstance)->ProjectUsingInitialCurve2d(h_Curve, h_S, h_InitCurve2d);
 	Curve->NativeInstance = h_Curve.get();
@@ -735,33 +749,33 @@ double Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::Tolerance()
 Macad::Occt::ProjLib_ProjectedCurve::ProjLib_ProjectedCurve()
 	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::ProjLib_ProjectedCurve();
+	NativeInstance = new ::ProjLib_ProjectedCurve();
 }
 
-Macad::Occt::ProjLib_ProjectedCurve::ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_HSurface^ S)
+Macad::Occt::ProjLib_ProjectedCurve::ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_Surface^ S)
 	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
-	_NativeInstance = new ::ProjLib_ProjectedCurve(h_S);
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
+	NativeInstance = new ::ProjLib_ProjectedCurve(h_S);
 	S->NativeInstance = h_S.get();
 }
 
-Macad::Occt::ProjLib_ProjectedCurve::ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_HSurface^ S, Macad::Occt::Adaptor3d_HCurve^ C)
+Macad::Occt::ProjLib_ProjectedCurve::ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C)
 	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
-	_NativeInstance = new ::ProjLib_ProjectedCurve(h_S, h_C);
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	NativeInstance = new ::ProjLib_ProjectedCurve(h_S, h_C);
 	S->NativeInstance = h_S.get();
 	C->NativeInstance = h_C.get();
 }
 
-Macad::Occt::ProjLib_ProjectedCurve::ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_HSurface^ S, Macad::Occt::Adaptor3d_HCurve^ C, double Tol)
+Macad::Occt::ProjLib_ProjectedCurve::ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C, double Tol)
 	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
-	_NativeInstance = new ::ProjLib_ProjectedCurve(h_S, h_C, Tol);
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	NativeInstance = new ::ProjLib_ProjectedCurve(h_S, h_C, Tol);
 	S->NativeInstance = h_S.get();
 	C->NativeInstance = h_C.get();
 }
@@ -769,7 +783,14 @@ Macad::Occt::ProjLib_ProjectedCurve::ProjLib_ProjectedCurve(Macad::Occt::Adaptor
 Macad::Occt::ProjLib_ProjectedCurve::ProjLib_ProjectedCurve(Macad::Occt::ProjLib_ProjectedCurve^ parameter1)
 	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::ProjLib_ProjectedCurve(*(::ProjLib_ProjectedCurve*)parameter1->NativeInstance);
+	NativeInstance = new ::ProjLib_ProjectedCurve(*(::ProjLib_ProjectedCurve*)parameter1->NativeInstance);
+}
+
+Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::ProjLib_ProjectedCurve::ShallowCopy()
+{
+	Handle(::Adaptor2d_Curve2d) _result;
+	_result = ((::ProjLib_ProjectedCurve*)_NativeInstance)->ShallowCopy();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor2d_Curve2d::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::ProjLib_ProjectedCurve::Load(double Tolerance)
@@ -777,16 +798,16 @@ void Macad::Occt::ProjLib_ProjectedCurve::Load(double Tolerance)
 	throw gcnew System::NotImplementedException("Unresolved external symbol");
 }
 
-void Macad::Occt::ProjLib_ProjectedCurve::Load(Macad::Occt::Adaptor3d_HSurface^ S)
+void Macad::Occt::ProjLib_ProjectedCurve::Load(Macad::Occt::Adaptor3d_Surface^ S)
 {
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
 	((::ProjLib_ProjectedCurve*)_NativeInstance)->Load(h_S);
 	S->NativeInstance = h_S.get();
 }
 
-void Macad::Occt::ProjLib_ProjectedCurve::Perform(Macad::Occt::Adaptor3d_HCurve^ C)
+void Macad::Occt::ProjLib_ProjectedCurve::Perform(Macad::Occt::Adaptor3d_Curve^ C)
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
 	((::ProjLib_ProjectedCurve*)_NativeInstance)->Perform(h_C);
 	C->NativeInstance = h_C.get();
 }
@@ -806,18 +827,18 @@ void Macad::Occt::ProjLib_ProjectedCurve::SetMaxDist(double theMaxDist)
 	((::ProjLib_ProjectedCurve*)_NativeInstance)->SetMaxDist(theMaxDist);
 }
 
-Macad::Occt::Adaptor3d_HSurface^ Macad::Occt::ProjLib_ProjectedCurve::GetSurface()
+Macad::Occt::Adaptor3d_Surface^ Macad::Occt::ProjLib_ProjectedCurve::GetSurface()
 {
-	Handle(::Adaptor3d_HSurface) _result;
+	Handle(::Adaptor3d_Surface) _result;
 	_result = ((::ProjLib_ProjectedCurve*)_NativeInstance)->GetSurface();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HSurface::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Surface::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::Adaptor3d_HCurve^ Macad::Occt::ProjLib_ProjectedCurve::GetCurve()
+Macad::Occt::Adaptor3d_Curve^ Macad::Occt::ProjLib_ProjectedCurve::GetCurve()
 {
-	Handle(::Adaptor3d_HCurve) _result;
+	Handle(::Adaptor3d_Curve) _result;
 	_result = ((::ProjLib_ProjectedCurve*)_NativeInstance)->GetCurve();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HCurve::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Curve::CreateDowncasted( _result.get());
 }
 
 double Macad::Occt::ProjLib_ProjectedCurve::GetTolerance()
@@ -850,11 +871,11 @@ void Macad::Occt::ProjLib_ProjectedCurve::Intervals(Macad::Occt::TColStd_Array1O
 	((::ProjLib_ProjectedCurve*)_NativeInstance)->Intervals(*(::TColStd_Array1OfReal*)T->NativeInstance, (::GeomAbs_Shape)S);
 }
 
-Macad::Occt::Adaptor2d_HCurve2d^ Macad::Occt::ProjLib_ProjectedCurve::Trim(double First, double Last, double Tol)
+Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::ProjLib_ProjectedCurve::Trim(double First, double Last, double Tol)
 {
-	Handle(::Adaptor2d_HCurve2d) _result;
+	Handle(::Adaptor2d_Curve2d) _result;
 	_result = ((::ProjLib_ProjectedCurve*)_NativeInstance)->Trim(First, Last, Tol);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor2d_HCurve2d::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor2d_Curve2d::CreateDowncasted( _result.get());
 }
 
 bool Macad::Occt::ProjLib_ProjectedCurve::IsClosed()
@@ -992,53 +1013,9 @@ Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::ProjLib_ProjectedCurve::BSpline()
 }
 
 
-
-
-//---------------------------------------------------------------------
-//  Class  ProjLib_HProjectedCurve
-//---------------------------------------------------------------------
-
-Macad::Occt::ProjLib_HProjectedCurve::ProjLib_HProjectedCurve()
-	: Macad::Occt::Adaptor2d_HCurve2d(BaseClass::InitMode::Uninitialized)
+Macad::Occt::ProjLib_ProjectedCurve^ Macad::Occt::ProjLib_ProjectedCurve::CreateDowncasted(::ProjLib_ProjectedCurve* instance)
 {
-	NativeInstance = new ::ProjLib_HProjectedCurve();
-}
-
-Macad::Occt::ProjLib_HProjectedCurve::ProjLib_HProjectedCurve(Macad::Occt::ProjLib_ProjectedCurve^ C)
-	: Macad::Occt::Adaptor2d_HCurve2d(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::ProjLib_HProjectedCurve(*(::ProjLib_ProjectedCurve*)C->NativeInstance);
-}
-
-Macad::Occt::ProjLib_HProjectedCurve::ProjLib_HProjectedCurve(Macad::Occt::ProjLib_HProjectedCurve^ parameter1)
-	: Macad::Occt::Adaptor2d_HCurve2d(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::ProjLib_HProjectedCurve(*(::ProjLib_HProjectedCurve*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::ProjLib_HProjectedCurve::Set(Macad::Occt::ProjLib_ProjectedCurve^ C)
-{
-	((::ProjLib_HProjectedCurve*)_NativeInstance)->Set(*(::ProjLib_ProjectedCurve*)C->NativeInstance);
-}
-
-Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::ProjLib_HProjectedCurve::Curve2d()
-{
-	::Adaptor2d_Curve2d* _result = new ::Adaptor2d_Curve2d();
-	*_result =  (::Adaptor2d_Curve2d)((::ProjLib_HProjectedCurve*)_NativeInstance)->Curve2d();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Adaptor2d_Curve2d(_result);
-}
-
-Macad::Occt::ProjLib_ProjectedCurve^ Macad::Occt::ProjLib_HProjectedCurve::ChangeCurve2d()
-{
-	::ProjLib_ProjectedCurve* _result = new ::ProjLib_ProjectedCurve();
-	*_result = ((::ProjLib_HProjectedCurve*)_NativeInstance)->ChangeCurve2d();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::ProjLib_ProjectedCurve(_result);
-}
-
-
-Macad::Occt::ProjLib_HProjectedCurve^ Macad::Occt::ProjLib_HProjectedCurve::CreateDowncasted(::ProjLib_HProjectedCurve* instance)
-{
-	return gcnew Macad::Occt::ProjLib_HProjectedCurve( instance );
+	return gcnew Macad::Occt::ProjLib_ProjectedCurve( instance );
 }
 
 
@@ -1050,25 +1027,45 @@ Macad::Occt::ProjLib_HProjectedCurve^ Macad::Occt::ProjLib_HProjectedCurve::Crea
 Macad::Occt::ProjLib_CompProjectedCurve::ProjLib_CompProjectedCurve()
 	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::ProjLib_CompProjectedCurve();
+	NativeInstance = new ::ProjLib_CompProjectedCurve();
 }
 
-Macad::Occt::ProjLib_CompProjectedCurve::ProjLib_CompProjectedCurve(Macad::Occt::Adaptor3d_HSurface^ S, Macad::Occt::Adaptor3d_HCurve^ C, double TolU, double TolV)
+Macad::Occt::ProjLib_CompProjectedCurve::ProjLib_CompProjectedCurve(Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C, double TolU, double TolV)
 	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
-	_NativeInstance = new ::ProjLib_CompProjectedCurve(h_S, h_C, TolU, TolV);
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	NativeInstance = new ::ProjLib_CompProjectedCurve(h_S, h_C, TolU, TolV);
 	S->NativeInstance = h_S.get();
 	C->NativeInstance = h_C.get();
 }
 
-Macad::Occt::ProjLib_CompProjectedCurve::ProjLib_CompProjectedCurve(Macad::Occt::Adaptor3d_HSurface^ S, Macad::Occt::Adaptor3d_HCurve^ C, double TolU, double TolV, double MaxDist)
+Macad::Occt::ProjLib_CompProjectedCurve::ProjLib_CompProjectedCurve(Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C, double TolU, double TolV, double MaxDist)
 	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
-	_NativeInstance = new ::ProjLib_CompProjectedCurve(h_S, h_C, TolU, TolV, MaxDist);
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	NativeInstance = new ::ProjLib_CompProjectedCurve(h_S, h_C, TolU, TolV, MaxDist);
+	S->NativeInstance = h_S.get();
+	C->NativeInstance = h_C.get();
+}
+
+Macad::Occt::ProjLib_CompProjectedCurve::ProjLib_CompProjectedCurve(double Tol3d, Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C, double MaxDist)
+	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	NativeInstance = new ::ProjLib_CompProjectedCurve(Tol3d, h_S, h_C, MaxDist);
+	S->NativeInstance = h_S.get();
+	C->NativeInstance = h_C.get();
+}
+
+Macad::Occt::ProjLib_CompProjectedCurve::ProjLib_CompProjectedCurve(double Tol3d, Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C)
+	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	NativeInstance = new ::ProjLib_CompProjectedCurve(Tol3d, h_S, h_C, -1.);
 	S->NativeInstance = h_S.get();
 	C->NativeInstance = h_C.get();
 }
@@ -1076,7 +1073,14 @@ Macad::Occt::ProjLib_CompProjectedCurve::ProjLib_CompProjectedCurve(Macad::Occt:
 Macad::Occt::ProjLib_CompProjectedCurve::ProjLib_CompProjectedCurve(Macad::Occt::ProjLib_CompProjectedCurve^ parameter1)
 	: Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::ProjLib_CompProjectedCurve(*(::ProjLib_CompProjectedCurve*)parameter1->NativeInstance);
+	NativeInstance = new ::ProjLib_CompProjectedCurve(*(::ProjLib_CompProjectedCurve*)parameter1->NativeInstance);
+}
+
+Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::ProjLib_CompProjectedCurve::ShallowCopy()
+{
+	Handle(::Adaptor2d_Curve2d) _result;
+	_result = ((::ProjLib_CompProjectedCurve*)_NativeInstance)->ShallowCopy();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor2d_Curve2d::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::ProjLib_CompProjectedCurve::Init()
@@ -1084,32 +1088,67 @@ void Macad::Occt::ProjLib_CompProjectedCurve::Init()
 	((::ProjLib_CompProjectedCurve*)_NativeInstance)->Init();
 }
 
-void Macad::Occt::ProjLib_CompProjectedCurve::Load(Macad::Occt::Adaptor3d_HSurface^ S)
+void Macad::Occt::ProjLib_CompProjectedCurve::Perform()
 {
-	Handle(::Adaptor3d_HSurface) h_S = S->NativeInstance;
+	((::ProjLib_CompProjectedCurve*)_NativeInstance)->Perform();
+}
+
+void Macad::Occt::ProjLib_CompProjectedCurve::SetTol3d(double theTol3d)
+{
+	((::ProjLib_CompProjectedCurve*)_NativeInstance)->SetTol3d(theTol3d);
+}
+
+void Macad::Occt::ProjLib_CompProjectedCurve::SetContinuity(Macad::Occt::GeomAbs_Shape theContinuity)
+{
+	((::ProjLib_CompProjectedCurve*)_NativeInstance)->SetContinuity((::GeomAbs_Shape)theContinuity);
+}
+
+void Macad::Occt::ProjLib_CompProjectedCurve::SetMaxDegree(int theMaxDegree)
+{
+	((::ProjLib_CompProjectedCurve*)_NativeInstance)->SetMaxDegree(theMaxDegree);
+}
+
+void Macad::Occt::ProjLib_CompProjectedCurve::SetMaxSeg(int theMaxSeg)
+{
+	((::ProjLib_CompProjectedCurve*)_NativeInstance)->SetMaxSeg(theMaxSeg);
+}
+
+void Macad::Occt::ProjLib_CompProjectedCurve::SetProj2d(bool theProj2d)
+{
+	((::ProjLib_CompProjectedCurve*)_NativeInstance)->SetProj2d(theProj2d);
+}
+
+void Macad::Occt::ProjLib_CompProjectedCurve::SetProj3d(bool theProj3d)
+{
+	((::ProjLib_CompProjectedCurve*)_NativeInstance)->SetProj3d(theProj3d);
+}
+
+void Macad::Occt::ProjLib_CompProjectedCurve::Load(Macad::Occt::Adaptor3d_Surface^ S)
+{
+	Handle(::Adaptor3d_Surface) h_S = S->NativeInstance;
 	((::ProjLib_CompProjectedCurve*)_NativeInstance)->Load(h_S);
 	S->NativeInstance = h_S.get();
 }
 
-void Macad::Occt::ProjLib_CompProjectedCurve::Load(Macad::Occt::Adaptor3d_HCurve^ C)
+void Macad::Occt::ProjLib_CompProjectedCurve::Load(Macad::Occt::Adaptor3d_Curve^ C)
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
 	((::ProjLib_CompProjectedCurve*)_NativeInstance)->Load(h_C);
 	C->NativeInstance = h_C.get();
 }
 
-Macad::Occt::Adaptor3d_HSurface^ Macad::Occt::ProjLib_CompProjectedCurve::GetSurface()
+Macad::Occt::Adaptor3d_Surface^ Macad::Occt::ProjLib_CompProjectedCurve::GetSurface()
 {
-	Handle(::Adaptor3d_HSurface) _result;
+	Handle(::Adaptor3d_Surface) _result;
 	_result = ((::ProjLib_CompProjectedCurve*)_NativeInstance)->GetSurface();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HSurface::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Surface::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::Adaptor3d_HCurve^ Macad::Occt::ProjLib_CompProjectedCurve::GetCurve()
+Macad::Occt::Adaptor3d_Curve^ Macad::Occt::ProjLib_CompProjectedCurve::GetCurve()
 {
-	Handle(::Adaptor3d_HCurve) _result;
+	Handle(::Adaptor3d_Curve) _result;
 	_result = ((::ProjLib_CompProjectedCurve*)_NativeInstance)->GetCurve();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HCurve::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Curve::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::ProjLib_CompProjectedCurve::GetTolerance(double% TolU, double% TolV)
@@ -1195,11 +1234,11 @@ int Macad::Occt::ProjLib_CompProjectedCurve::NbIntervals(Macad::Occt::GeomAbs_Sh
 	return ((::ProjLib_CompProjectedCurve*)_NativeInstance)->NbIntervals((::GeomAbs_Shape)S);
 }
 
-Macad::Occt::Adaptor2d_HCurve2d^ Macad::Occt::ProjLib_CompProjectedCurve::Trim(double FirstParam, double LastParam, double Tol)
+Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::ProjLib_CompProjectedCurve::Trim(double FirstParam, double LastParam, double Tol)
 {
-	Handle(::Adaptor2d_HCurve2d) _result;
+	Handle(::Adaptor2d_Curve2d) _result;
 	_result = ((::ProjLib_CompProjectedCurve*)_NativeInstance)->Trim(FirstParam, LastParam, Tol);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor2d_HCurve2d::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor2d_Curve2d::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::ProjLib_CompProjectedCurve::Intervals(Macad::Occt::TColStd_Array1OfReal^ T, Macad::Occt::GeomAbs_Shape S)
@@ -1224,54 +1263,64 @@ Macad::Occt::GeomAbs_CurveType Macad::Occt::ProjLib_CompProjectedCurve::GetGeomT
 	return (Macad::Occt::GeomAbs_CurveType)((::ProjLib_CompProjectedCurve*)_NativeInstance)->GetType();
 }
 
-
-
-
-//---------------------------------------------------------------------
-//  Class  ProjLib_HCompProjectedCurve
-//---------------------------------------------------------------------
-
-Macad::Occt::ProjLib_HCompProjectedCurve::ProjLib_HCompProjectedCurve()
-	: Macad::Occt::Adaptor2d_HCurve2d(BaseClass::InitMode::Uninitialized)
+bool Macad::Occt::ProjLib_CompProjectedCurve::ResultIsPoint(int theIndex)
 {
-	NativeInstance = new ::ProjLib_HCompProjectedCurve();
+	return ((::ProjLib_CompProjectedCurve*)_NativeInstance)->ResultIsPoint(theIndex);
 }
 
-Macad::Occt::ProjLib_HCompProjectedCurve::ProjLib_HCompProjectedCurve(Macad::Occt::ProjLib_CompProjectedCurve^ C)
-	: Macad::Occt::Adaptor2d_HCurve2d(BaseClass::InitMode::Uninitialized)
+double Macad::Occt::ProjLib_CompProjectedCurve::GetResult2dUApproxError(int theIndex)
 {
-	NativeInstance = new ::ProjLib_HCompProjectedCurve(*(::ProjLib_CompProjectedCurve*)C->NativeInstance);
+	return ((::ProjLib_CompProjectedCurve*)_NativeInstance)->GetResult2dUApproxError(theIndex);
 }
 
-Macad::Occt::ProjLib_HCompProjectedCurve::ProjLib_HCompProjectedCurve(Macad::Occt::ProjLib_HCompProjectedCurve^ parameter1)
-	: Macad::Occt::Adaptor2d_HCurve2d(BaseClass::InitMode::Uninitialized)
+double Macad::Occt::ProjLib_CompProjectedCurve::GetResult2dVApproxError(int theIndex)
 {
-	NativeInstance = new ::ProjLib_HCompProjectedCurve(*(::ProjLib_HCompProjectedCurve*)parameter1->NativeInstance);
+	return ((::ProjLib_CompProjectedCurve*)_NativeInstance)->GetResult2dVApproxError(theIndex);
 }
 
-void Macad::Occt::ProjLib_HCompProjectedCurve::Set(Macad::Occt::ProjLib_CompProjectedCurve^ C)
+double Macad::Occt::ProjLib_CompProjectedCurve::GetResult3dApproxError(int theIndex)
 {
-	((::ProjLib_HCompProjectedCurve*)_NativeInstance)->Set(*(::ProjLib_CompProjectedCurve*)C->NativeInstance);
+	return ((::ProjLib_CompProjectedCurve*)_NativeInstance)->GetResult3dApproxError(theIndex);
 }
 
-Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::ProjLib_HCompProjectedCurve::Curve2d()
+Macad::Occt::Geom2d_Curve^ Macad::Occt::ProjLib_CompProjectedCurve::GetResult2dC(int theIndex)
 {
-	::Adaptor2d_Curve2d* _result = new ::Adaptor2d_Curve2d();
-	*_result =  (::Adaptor2d_Curve2d)((::ProjLib_HCompProjectedCurve*)_NativeInstance)->Curve2d();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Adaptor2d_Curve2d(_result);
+	Handle(::Geom2d_Curve) _result;
+	_result = ((::ProjLib_CompProjectedCurve*)_NativeInstance)->GetResult2dC(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_Curve::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::ProjLib_CompProjectedCurve^ Macad::Occt::ProjLib_HCompProjectedCurve::ChangeCurve2d()
+Macad::Occt::Geom_Curve^ Macad::Occt::ProjLib_CompProjectedCurve::GetResult3dC(int theIndex)
 {
-	::ProjLib_CompProjectedCurve* _result = new ::ProjLib_CompProjectedCurve();
-	*_result = ((::ProjLib_HCompProjectedCurve*)_NativeInstance)->ChangeCurve2d();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::ProjLib_CompProjectedCurve(_result);
+	Handle(::Geom_Curve) _result;
+	_result = ((::ProjLib_CompProjectedCurve*)_NativeInstance)->GetResult3dC(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Curve::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Pnt2d Macad::Occt::ProjLib_CompProjectedCurve::GetResult2dP(int theIndex)
+{
+	return Macad::Occt::Pnt2d(((::ProjLib_CompProjectedCurve*)_NativeInstance)->GetResult2dP(theIndex));
+}
+
+Macad::Occt::Pnt Macad::Occt::ProjLib_CompProjectedCurve::GetResult3dP(int theIndex)
+{
+	return Macad::Occt::Pnt(((::ProjLib_CompProjectedCurve*)_NativeInstance)->GetResult3dP(theIndex));
+}
+
+bool Macad::Occt::ProjLib_CompProjectedCurve::GetProj2d()
+{
+	return ((::ProjLib_CompProjectedCurve*)_NativeInstance)->GetProj2d();
+}
+
+bool Macad::Occt::ProjLib_CompProjectedCurve::GetProj3d()
+{
+	return ((::ProjLib_CompProjectedCurve*)_NativeInstance)->GetProj3d();
 }
 
 
-Macad::Occt::ProjLib_HCompProjectedCurve^ Macad::Occt::ProjLib_HCompProjectedCurve::CreateDowncasted(::ProjLib_HCompProjectedCurve* instance)
+Macad::Occt::ProjLib_CompProjectedCurve^ Macad::Occt::ProjLib_CompProjectedCurve::CreateDowncasted(::ProjLib_CompProjectedCurve* instance)
 {
-	return gcnew Macad::Occt::ProjLib_HCompProjectedCurve( instance );
+	return gcnew Macad::Occt::ProjLib_CompProjectedCurve( instance );
 }
 
 
@@ -1971,9 +2020,9 @@ void Macad::Occt::ProjLib::MakePCurveOfType(Macad::Occt::ProjLib_ProjectedCurve^
 	aC->NativeInstance = h_aC.get();
 }
 
-bool Macad::Occt::ProjLib::IsAnaSurf(Macad::Occt::Adaptor3d_HSurface^ theAS)
+bool Macad::Occt::ProjLib::IsAnaSurf(Macad::Occt::Adaptor3d_Surface^ theAS)
 {
-	Handle(::Adaptor3d_HSurface) h_theAS = theAS->NativeInstance;
+	Handle(::Adaptor3d_Surface) h_theAS = theAS->NativeInstance;
 	return ::ProjLib::IsAnaSurf(h_theAS);
 	theAS->NativeInstance = h_theAS.get();
 }

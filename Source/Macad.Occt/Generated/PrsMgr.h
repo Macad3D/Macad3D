@@ -68,6 +68,7 @@ public:
 	void SetInfiniteState();
 	/* Method skipped due to unknown mapping: PrsMgr_TypeOfPresentation3d TypeOfPresentation3d() */
 	/* Method skipped due to unknown mapping: void SetTypeOfPresentation(PrsMgr_TypeOfPresentation3d theType, ) */
+	/* Method skipped due to unknown mapping: PrsMgr_DisplayStatus DisplayStatus() */
 	Macad::Occt::Prs3d_Drawer^ Attributes();
 	void SetAttributes(Macad::Occt::Prs3d_Drawer^ theDrawer);
 	Macad::Occt::Prs3d_Drawer^ HilightAttributes();
@@ -131,9 +132,6 @@ public:
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	void ToBeUpdated(Macad::Occt::TColStd_ListOfInteger^ ListOfMode);
-	void SetTransformPersistence(Macad::Occt::Graphic3d_TransModeFlags theMode, Macad::Occt::Pnt thePoint);
-	void SetTransformPersistence(Macad::Occt::Graphic3d_TransModeFlags theMode);
-	Macad::Occt::Graphic3d_TransModeFlags GetTransformPersistenceMode();
 	bool ToPropagateVisualState();
 	void SetPropagateVisualState(bool theFlag);
 }; // class PrsMgr_PresentableObject

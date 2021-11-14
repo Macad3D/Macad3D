@@ -8,6 +8,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "Standard.h"
 #include "gp.h"
 #include "BRepPrimAPI.h"
+#include "Message.h"
 #include "TopoDS.h"
 #include "BRepOffsetAPI.h"
 #include "TopTools.h"
@@ -82,9 +83,14 @@ void Macad::Occt::BRepPrimAPI_MakeBox::Init(Macad::Occt::Ax2 theAxes, double the
 	((::BRepPrimAPI_MakeBox*)_NativeInstance)->Init(*(gp_Ax2*)pp_theAxes, theDX, theDY, theDZ);
 }
 
+void Macad::Occt::BRepPrimAPI_MakeBox::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepPrimAPI_MakeBox*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepPrimAPI_MakeBox::Build()
 {
-	((::BRepPrimAPI_MakeBox*)_NativeInstance)->Build();
+	((::BRepPrimAPI_MakeBox*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 Macad::Occt::TopoDS_Shell^ Macad::Occt::BRepPrimAPI_MakeBox::Shell()
@@ -167,9 +173,14 @@ System::IntPtr Macad::Occt::BRepPrimAPI_MakeOneAxis::OneAxis()
 	return System::IntPtr(((::BRepPrimAPI_MakeOneAxis*)_NativeInstance)->OneAxis());
 }
 
+void Macad::Occt::BRepPrimAPI_MakeOneAxis::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepPrimAPI_MakeOneAxis*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepPrimAPI_MakeOneAxis::Build()
 {
-	((::BRepPrimAPI_MakeOneAxis*)_NativeInstance)->Build();
+	((::BRepPrimAPI_MakeOneAxis*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 Macad::Occt::TopoDS_Face^ Macad::Occt::BRepPrimAPI_MakeOneAxis::Face()
@@ -410,9 +421,14 @@ Macad::Occt::BRepPrimAPI_MakePrism::BRepPrimAPI_MakePrism(Macad::Occt::BRepPrimA
 	_NativeInstance = new ::BRepPrimAPI_MakePrism(*(::BRepPrimAPI_MakePrism*)parameter1->NativeInstance);
 }
 
+void Macad::Occt::BRepPrimAPI_MakePrism::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepPrimAPI_MakePrism*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepPrimAPI_MakePrism::Build()
 {
-	((::BRepPrimAPI_MakePrism*)_NativeInstance)->Build();
+	((::BRepPrimAPI_MakePrism*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepPrimAPI_MakePrism::FirstShape()
@@ -496,9 +512,14 @@ Macad::Occt::BRepPrimAPI_MakeRevol::BRepPrimAPI_MakeRevol(Macad::Occt::BRepPrimA
 	_NativeInstance = new ::BRepPrimAPI_MakeRevol(*(::BRepPrimAPI_MakeRevol*)parameter1->NativeInstance);
 }
 
+void Macad::Occt::BRepPrimAPI_MakeRevol::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepPrimAPI_MakeRevol*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepPrimAPI_MakeRevol::Build()
 {
-	((::BRepPrimAPI_MakeRevol*)_NativeInstance)->Build();
+	((::BRepPrimAPI_MakeRevol*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepPrimAPI_MakeRevol::FirstShape()
@@ -846,9 +867,14 @@ Macad::Occt::BRepPrimAPI_MakeWedge::BRepPrimAPI_MakeWedge(Macad::Occt::BRepPrimA
 	_NativeInstance = new ::BRepPrimAPI_MakeWedge(*(::BRepPrimAPI_MakeWedge*)parameter1->NativeInstance);
 }
 
+void Macad::Occt::BRepPrimAPI_MakeWedge::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepPrimAPI_MakeWedge*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepPrimAPI_MakeWedge::Build()
 {
-	((::BRepPrimAPI_MakeWedge*)_NativeInstance)->Build();
+	((::BRepPrimAPI_MakeWedge*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 Macad::Occt::TopoDS_Shell^ Macad::Occt::BRepPrimAPI_MakeWedge::Shell()

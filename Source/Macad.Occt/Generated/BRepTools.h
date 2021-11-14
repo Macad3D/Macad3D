@@ -59,48 +59,94 @@ public:
 }; // class BRepTools_MapOfVertexPnt2d
 
 //---------------------------------------------------------------------
-//  Class  BRepTools_WireExplorer
+//  Class  BRepTools
 //---------------------------------------------------------------------
-public ref class BRepTools_WireExplorer sealed : public BaseClass<::BRepTools_WireExplorer>
+public ref class BRepTools sealed : public BaseClass<::BRepTools>
 {
 
-#ifdef Include_BRepTools_WireExplorer_h
+#ifdef Include_BRepTools_h
 public:
-	Include_BRepTools_WireExplorer_h
+	Include_BRepTools_h
 #endif
 
 public:
-	BRepTools_WireExplorer(::BRepTools_WireExplorer* nativeInstance)
-		: BaseClass<::BRepTools_WireExplorer>( nativeInstance, true )
+	BRepTools(::BRepTools* nativeInstance)
+		: BaseClass<::BRepTools>( nativeInstance, true )
 	{}
 
-	BRepTools_WireExplorer(::BRepTools_WireExplorer& nativeInstance)
-		: BaseClass<::BRepTools_WireExplorer>( &nativeInstance, false )
+	BRepTools(::BRepTools& nativeInstance)
+		: BaseClass<::BRepTools>( &nativeInstance, false )
 	{}
 
-	property ::BRepTools_WireExplorer* NativeInstance
+	property ::BRepTools* NativeInstance
 	{
-		::BRepTools_WireExplorer* get()
+		::BRepTools* get()
 		{
-			return static_cast<::BRepTools_WireExplorer*>(_NativeInstance);
+			return static_cast<::BRepTools*>(_NativeInstance);
 		}
 	}
 
 public:
-	BRepTools_WireExplorer();
-	BRepTools_WireExplorer(Macad::Occt::TopoDS_Wire^ W);
-	BRepTools_WireExplorer(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Face^ F);
-	BRepTools_WireExplorer(Macad::Occt::BRepTools_WireExplorer^ parameter1);
-	void Init(Macad::Occt::TopoDS_Wire^ W);
-	void Init(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Face^ F);
-	void Init(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Face^ F, double UMin, double UMax, double VMin, double VMax);
-	bool More();
-	void Next();
-	Macad::Occt::TopoDS_Edge^ Current();
-	Macad::Occt::TopAbs_Orientation Orientation();
-	Macad::Occt::TopoDS_Vertex^ CurrentVertex();
-	void Clear();
-}; // class BRepTools_WireExplorer
+	BRepTools();
+	BRepTools(Macad::Occt::BRepTools^ parameter1);
+	static void UVBounds(Macad::Occt::TopoDS_Face^ F, double% UMin, double% UMax, double% VMin, double% VMax);
+	static void UVBounds(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Wire^ W, double% UMin, double% UMax, double% VMin, double% VMax);
+	static void UVBounds(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E, double% UMin, double% UMax, double% VMin, double% VMax);
+	static void AddUVBounds(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Bnd_Box2d^ B);
+	static void AddUVBounds(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Wire^ W, Macad::Occt::Bnd_Box2d^ B);
+	static void AddUVBounds(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E, Macad::Occt::Bnd_Box2d^ B);
+	static void Update(Macad::Occt::TopoDS_Vertex^ V);
+	static void Update(Macad::Occt::TopoDS_Edge^ E);
+	static void Update(Macad::Occt::TopoDS_Wire^ W);
+	static void Update(Macad::Occt::TopoDS_Face^ F);
+	static void Update(Macad::Occt::TopoDS_Shell^ S);
+	static void Update(Macad::Occt::TopoDS_Solid^ S);
+	static void Update(Macad::Occt::TopoDS_CompSolid^ C);
+	static void Update(Macad::Occt::TopoDS_Compound^ C);
+	static void Update(Macad::Occt::TopoDS_Shape^ S);
+	static void UpdateFaceUVPoints(Macad::Occt::TopoDS_Face^ theF);
+	static void Clean(Macad::Occt::TopoDS_Shape^ theShape, bool theForce);
+	static void Clean(Macad::Occt::TopoDS_Shape^ theShape);
+	static void CleanGeometry(Macad::Occt::TopoDS_Shape^ theShape);
+	static void RemoveUnusedPCurves(Macad::Occt::TopoDS_Shape^ S);
+	static bool Triangulation(Macad::Occt::TopoDS_Shape^ theShape, double theLinDefl, bool theToCheckFreeEdges);
+	static bool Triangulation(Macad::Occt::TopoDS_Shape^ theShape, double theLinDefl);
+	/* Method skipped due to unknown mapping: Standard_Boolean LoadTriangulation(TopoDS_Shape theShape, Standard_Integer theTriangulationIdx, Standard_Boolean theToSetAsActive, OSD_FileSystem theFileSystem, ) */
+	static bool LoadTriangulation(Macad::Occt::TopoDS_Shape^ theShape, int theTriangulationIdx, bool theToSetAsActive);
+	static bool LoadTriangulation(Macad::Occt::TopoDS_Shape^ theShape, int theTriangulationIdx);
+	static bool LoadTriangulation(Macad::Occt::TopoDS_Shape^ theShape);
+	static bool UnloadTriangulation(Macad::Occt::TopoDS_Shape^ theShape, int theTriangulationIdx);
+	static bool UnloadTriangulation(Macad::Occt::TopoDS_Shape^ theShape);
+	static bool ActivateTriangulation(Macad::Occt::TopoDS_Shape^ theShape, int theTriangulationIdx, bool theToActivateStrictly);
+	static bool ActivateTriangulation(Macad::Occt::TopoDS_Shape^ theShape, int theTriangulationIdx);
+	/* Method skipped due to unknown mapping: Standard_Boolean LoadAllTriangulations(TopoDS_Shape theShape, OSD_FileSystem theFileSystem, ) */
+	static bool LoadAllTriangulations(Macad::Occt::TopoDS_Shape^ theShape);
+	static bool UnloadAllTriangulations(Macad::Occt::TopoDS_Shape^ theShape);
+	static bool Compare(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2);
+	static bool Compare(Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2);
+	static Macad::Occt::TopoDS_Wire^ OuterWire(Macad::Occt::TopoDS_Face^ F);
+	static void Map3DEdges(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_IndexedMapOfShape^ M);
+	static bool IsReallyClosed(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F);
+	static void DetectClosedness(Macad::Occt::TopoDS_Face^ theFace, bool% theUclosed, bool% theVclosed);
+	/* Method skipped due to unknown mapping: void Dump(TopoDS_Shape Sh, ostream S, ) */
+	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape theShape, ostream theStream, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape theShape, ostream theStream, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape theShape, ostream theStream, Standard_Boolean theWithTriangles, Standard_Boolean theWithNormals, TopTools_FormatVersion theVersion, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape theShape, ostream theStream, Standard_Boolean theWithTriangles, Standard_Boolean theWithNormals, TopTools_FormatVersion theVersion, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void Read(TopoDS_Shape Sh, istream S, BRep_Builder B, Message_ProgressRange theProgress, ) */
+	/* Method skipped due to unknown mapping: void Read(TopoDS_Shape Sh, istream S, BRep_Builder B, Message_ProgressRange theProgress, ) */
+	static bool Write(Macad::Occt::TopoDS_Shape^ theShape, System::String^ theFile, Macad::Occt::Message_ProgressRange^ theProgress);
+	static bool Write(Macad::Occt::TopoDS_Shape^ theShape, System::String^ theFile);
+	static bool Write(Macad::Occt::TopoDS_Shape^ theShape, System::String^ theFile, bool theWithTriangles, bool theWithNormals, Macad::Occt::TopTools_FormatVersion theVersion, Macad::Occt::Message_ProgressRange^ theProgress);
+	static bool Write(Macad::Occt::TopoDS_Shape^ theShape, System::String^ theFile, bool theWithTriangles, bool theWithNormals, Macad::Occt::TopTools_FormatVersion theVersion);
+	static bool Read(Macad::Occt::TopoDS_Shape^ Sh, System::String^ File, Macad::Occt::BRep_Builder^ B, Macad::Occt::Message_ProgressRange^ theProgress);
+	static bool Read(Macad::Occt::TopoDS_Shape^ Sh, System::String^ File, Macad::Occt::BRep_Builder^ B);
+	static double EvalAndUpdateTol(Macad::Occt::TopoDS_Edge^ theE, Macad::Occt::Geom_Curve^ theC3d, Macad::Occt::Geom2d_Curve^ theC2d, Macad::Occt::Geom_Surface^ theS, double theF, double theL);
+	static Macad::Occt::TopAbs_Orientation OriEdgeInFace(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Face^ theFace);
+	static void RemoveInternals(Macad::Occt::TopoDS_Shape^ theS, bool theForce);
+	static void RemoveInternals(Macad::Occt::TopoDS_Shape^ theS);
+	static void CheckLocations(Macad::Occt::TopoDS_Shape^ theS, Macad::Occt::TopTools_ListOfShape^ theProblemShapes);
+}; // class BRepTools
 
 //---------------------------------------------------------------------
 //  Class  BRepTools_Modification
@@ -152,6 +198,108 @@ public:
 }; // class BRepTools_Modification
 
 //---------------------------------------------------------------------
+//  Class  BRepTools_GTrsfModification
+//---------------------------------------------------------------------
+public ref class BRepTools_GTrsfModification sealed : public Macad::Occt::BRepTools_Modification
+{
+
+#ifdef Include_BRepTools_GTrsfModification_h
+public:
+	Include_BRepTools_GTrsfModification_h
+#endif
+
+public:
+	BRepTools_GTrsfModification(::BRepTools_GTrsfModification* nativeInstance)
+		: Macad::Occt::BRepTools_Modification( nativeInstance )
+	{}
+
+	BRepTools_GTrsfModification(::BRepTools_GTrsfModification& nativeInstance)
+		: Macad::Occt::BRepTools_Modification( nativeInstance )
+	{}
+
+	property ::BRepTools_GTrsfModification* NativeInstance
+	{
+		::BRepTools_GTrsfModification* get()
+		{
+			return static_cast<::BRepTools_GTrsfModification*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::BRepTools_GTrsfModification^ CreateDowncasted(::BRepTools_GTrsfModification* instance);
+
+public:
+	BRepTools_GTrsfModification(Macad::Occt::gp_GTrsf^ T);
+	BRepTools_GTrsfModification(Macad::Occt::BRepTools_GTrsfModification^ parameter1);
+	Macad::Occt::gp_GTrsf^ GTrsf();
+	bool NewSurface(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopLoc_Location^ L, double% Tol, bool% RevWires, bool% RevFace);
+	bool NewCurve(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::Geom_Curve^ C, Macad::Occt::TopLoc_Location^ L, double% Tol);
+	bool NewPoint(Macad::Occt::TopoDS_Vertex^ V, Macad::Occt::Pnt% P, double% Tol);
+	bool NewCurve2d(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ NewE, Macad::Occt::TopoDS_Face^ NewF, Macad::Occt::Geom2d_Curve^ C, double% Tol);
+	bool NewParameter(Macad::Occt::TopoDS_Vertex^ V, Macad::Occt::TopoDS_Edge^ E, double% P, double% Tol);
+	Macad::Occt::GeomAbs_Shape Continuity(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2, Macad::Occt::TopoDS_Edge^ NewE, Macad::Occt::TopoDS_Face^ NewF1, Macad::Occt::TopoDS_Face^ NewF2);
+}; // class BRepTools_GTrsfModification
+
+//---------------------------------------------------------------------
+//  Class  BRepTools_History
+//---------------------------------------------------------------------
+public ref class BRepTools_History sealed : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_BRepTools_History_h
+public:
+	Include_BRepTools_History_h
+#endif
+
+public:
+	BRepTools_History(::BRepTools_History* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	BRepTools_History(::BRepTools_History& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
+	{}
+
+	property ::BRepTools_History* NativeInstance
+	{
+		::BRepTools_History* get()
+		{
+			return static_cast<::BRepTools_History*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::BRepTools_History^ CreateDowncasted(::BRepTools_History* instance);
+
+public:
+	//---------------------------------------------------------------------
+	//  Enum  TRelationType
+	//---------------------------------------------------------------------
+	enum class TRelationType
+	{
+		TRelationType_Removed = 0,
+		TRelationType_Generated = 1,
+		TRelationType_Modified = 2
+	}; // enum  class TRelationType
+
+	BRepTools_History();
+	BRepTools_History(Macad::Occt::BRepTools_History^ parameter1);
+	static bool IsSupportedType(Macad::Occt::TopoDS_Shape^ theShape);
+	void AddGenerated(Macad::Occt::TopoDS_Shape^ theInitial, Macad::Occt::TopoDS_Shape^ theGenerated);
+	void AddModified(Macad::Occt::TopoDS_Shape^ theInitial, Macad::Occt::TopoDS_Shape^ theModified);
+	void Remove(Macad::Occt::TopoDS_Shape^ theRemoved);
+	void ReplaceGenerated(Macad::Occt::TopoDS_Shape^ theInitial, Macad::Occt::TopoDS_Shape^ theGenerated);
+	void ReplaceModified(Macad::Occt::TopoDS_Shape^ theInitial, Macad::Occt::TopoDS_Shape^ theModified);
+	void Clear();
+	Macad::Occt::TopTools_ListOfShape^ Generated(Macad::Occt::TopoDS_Shape^ theInitial);
+	Macad::Occt::TopTools_ListOfShape^ Modified(Macad::Occt::TopoDS_Shape^ theInitial);
+	bool IsRemoved(Macad::Occt::TopoDS_Shape^ theInitial);
+	bool HasGenerated();
+	bool HasModified();
+	bool HasRemoved();
+	void Merge(Macad::Occt::BRepTools_History^ theHistory23);
+	/* Method skipped due to unknown mapping: void Dump(ostream theS, ) */
+}; // class BRepTools_History
+
+//---------------------------------------------------------------------
 //  Class  BRepTools_Modifier
 //---------------------------------------------------------------------
 public ref class BRepTools_Modifier sealed : public BaseClass<::BRepTools_Modifier>
@@ -192,53 +340,6 @@ public:
 	void SetMutableInput(bool theMutableInput);
 	Macad::Occt::TopoDS_Shape^ ModifiedShape(Macad::Occt::TopoDS_Shape^ S);
 }; // class BRepTools_Modifier
-
-//---------------------------------------------------------------------
-//  Class  BRepTools_TrsfModification
-//---------------------------------------------------------------------
-public ref class BRepTools_TrsfModification : public Macad::Occt::BRepTools_Modification
-{
-
-#ifdef Include_BRepTools_TrsfModification_h
-public:
-	Include_BRepTools_TrsfModification_h
-#endif
-
-protected:
-	BRepTools_TrsfModification(InitMode init)
-		: Macad::Occt::BRepTools_Modification( init )
-	{}
-
-public:
-	BRepTools_TrsfModification(::BRepTools_TrsfModification* nativeInstance)
-		: Macad::Occt::BRepTools_Modification( nativeInstance )
-	{}
-
-	BRepTools_TrsfModification(::BRepTools_TrsfModification& nativeInstance)
-		: Macad::Occt::BRepTools_Modification( nativeInstance )
-	{}
-
-	property ::BRepTools_TrsfModification* NativeInstance
-	{
-		::BRepTools_TrsfModification* get()
-		{
-			return static_cast<::BRepTools_TrsfModification*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::BRepTools_TrsfModification^ CreateDowncasted(::BRepTools_TrsfModification* instance);
-
-public:
-	BRepTools_TrsfModification(Macad::Occt::Trsf T);
-	BRepTools_TrsfModification(Macad::Occt::BRepTools_TrsfModification^ parameter1);
-	Macad::Occt::Trsf Trsf();
-	bool NewSurface(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopLoc_Location^ L, double% Tol, bool% RevWires, bool% RevFace);
-	bool NewCurve(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::Geom_Curve^ C, Macad::Occt::TopLoc_Location^ L, double% Tol);
-	bool NewPoint(Macad::Occt::TopoDS_Vertex^ V, Macad::Occt::Pnt% P, double% Tol);
-	bool NewCurve2d(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ NewE, Macad::Occt::TopoDS_Face^ NewF, Macad::Occt::Geom2d_Curve^ C, double% Tol);
-	bool NewParameter(Macad::Occt::TopoDS_Vertex^ V, Macad::Occt::TopoDS_Edge^ E, double% P, double% Tol);
-	Macad::Occt::GeomAbs_Shape Continuity(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2, Macad::Occt::TopoDS_Edge^ NewE, Macad::Occt::TopoDS_Face^ NewF1, Macad::Occt::TopoDS_Face^ NewF2);
-}; // class BRepTools_TrsfModification
 
 //---------------------------------------------------------------------
 //  Class  BRepTools_NurbsConvertModification
@@ -283,84 +384,107 @@ public:
 }; // class BRepTools_NurbsConvertModification
 
 //---------------------------------------------------------------------
-//  Class  BRepTools_GTrsfModification
+//  Class  BRepTools_ReShape
 //---------------------------------------------------------------------
-public ref class BRepTools_GTrsfModification sealed : public Macad::Occt::BRepTools_Modification
+public ref class BRepTools_ReShape : public Macad::Occt::Standard_Transient
 {
 
-#ifdef Include_BRepTools_GTrsfModification_h
+#ifdef Include_BRepTools_ReShape_h
 public:
-	Include_BRepTools_GTrsfModification_h
+	Include_BRepTools_ReShape_h
 #endif
 
+protected:
+	BRepTools_ReShape(InitMode init)
+		: Macad::Occt::Standard_Transient( init )
+	{}
+
 public:
-	BRepTools_GTrsfModification(::BRepTools_GTrsfModification* nativeInstance)
-		: Macad::Occt::BRepTools_Modification( nativeInstance )
+	BRepTools_ReShape(::BRepTools_ReShape* nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
 	{}
 
-	BRepTools_GTrsfModification(::BRepTools_GTrsfModification& nativeInstance)
-		: Macad::Occt::BRepTools_Modification( nativeInstance )
+	BRepTools_ReShape(::BRepTools_ReShape& nativeInstance)
+		: Macad::Occt::Standard_Transient( nativeInstance )
 	{}
 
-	property ::BRepTools_GTrsfModification* NativeInstance
+	property ::BRepTools_ReShape* NativeInstance
 	{
-		::BRepTools_GTrsfModification* get()
+		::BRepTools_ReShape* get()
 		{
-			return static_cast<::BRepTools_GTrsfModification*>(_NativeInstance);
+			return static_cast<::BRepTools_ReShape*>(_NativeInstance);
 		}
 	}
 
-	static Macad::Occt::BRepTools_GTrsfModification^ CreateDowncasted(::BRepTools_GTrsfModification* instance);
+	static Macad::Occt::BRepTools_ReShape^ CreateDowncasted(::BRepTools_ReShape* instance);
 
 public:
-	BRepTools_GTrsfModification(Macad::Occt::gp_GTrsf^ T);
-	BRepTools_GTrsfModification(Macad::Occt::BRepTools_GTrsfModification^ parameter1);
-	Macad::Occt::gp_GTrsf^ GTrsf();
-	bool NewSurface(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopLoc_Location^ L, double% Tol, bool% RevWires, bool% RevFace);
-	bool NewCurve(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::Geom_Curve^ C, Macad::Occt::TopLoc_Location^ L, double% Tol);
-	bool NewPoint(Macad::Occt::TopoDS_Vertex^ V, Macad::Occt::Pnt% P, double% Tol);
-	bool NewCurve2d(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ NewE, Macad::Occt::TopoDS_Face^ NewF, Macad::Occt::Geom2d_Curve^ C, double% Tol);
-	bool NewParameter(Macad::Occt::TopoDS_Vertex^ V, Macad::Occt::TopoDS_Edge^ E, double% P, double% Tol);
-	Macad::Occt::GeomAbs_Shape Continuity(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2, Macad::Occt::TopoDS_Edge^ NewE, Macad::Occt::TopoDS_Face^ NewF1, Macad::Occt::TopoDS_Face^ NewF2);
-}; // class BRepTools_GTrsfModification
-
-//---------------------------------------------------------------------
-//  Class  BRepTools_Substitution
-//---------------------------------------------------------------------
-public ref class BRepTools_Substitution sealed : public BaseClass<::BRepTools_Substitution>
-{
-
-#ifdef Include_BRepTools_Substitution_h
-public:
-	Include_BRepTools_Substitution_h
-#endif
-
-public:
-	BRepTools_Substitution(::BRepTools_Substitution* nativeInstance)
-		: BaseClass<::BRepTools_Substitution>( nativeInstance, true )
-	{}
-
-	BRepTools_Substitution(::BRepTools_Substitution& nativeInstance)
-		: BaseClass<::BRepTools_Substitution>( &nativeInstance, false )
-	{}
-
-	property ::BRepTools_Substitution* NativeInstance
+	//---------------------------------------------------------------------
+	//  Enum  TReplacementKind
+	//---------------------------------------------------------------------
+	enum class TReplacementKind
 	{
-		::BRepTools_Substitution* get()
-		{
-			return static_cast<::BRepTools_Substitution*>(_NativeInstance);
-		}
-	}
+		TReplacementKind_Remove = 1,
+		TReplacementKind_Modify = 2,
+		TReplacementKind_Merge_Main = 4,
+		TReplacementKind_Merge_Ordinary = 8
+	}; // enum  class TReplacementKind
 
-public:
-	BRepTools_Substitution();
-	BRepTools_Substitution(Macad::Occt::BRepTools_Substitution^ parameter1);
+	BRepTools_ReShape();
+	BRepTools_ReShape(Macad::Occt::BRepTools_ReShape^ parameter1);
 	void Clear();
-	void Substitute(Macad::Occt::TopoDS_Shape^ OldShape, Macad::Occt::TopTools_ListOfShape^ NewShapes);
-	void Build(Macad::Occt::TopoDS_Shape^ S);
-	bool IsCopied(Macad::Occt::TopoDS_Shape^ S);
-	Macad::Occt::TopTools_ListOfShape^ Copy(Macad::Occt::TopoDS_Shape^ S);
-}; // class BRepTools_Substitution
+	void Remove(Macad::Occt::TopoDS_Shape^ shape);
+	void Replace(Macad::Occt::TopoDS_Shape^ shape, Macad::Occt::TopoDS_Shape^ newshape);
+	bool IsRecorded(Macad::Occt::TopoDS_Shape^ shape);
+	Macad::Occt::TopoDS_Shape^ Value(Macad::Occt::TopoDS_Shape^ shape);
+	int Status(Macad::Occt::TopoDS_Shape^ shape, Macad::Occt::TopoDS_Shape^ newsh, bool last);
+	int Status(Macad::Occt::TopoDS_Shape^ shape, Macad::Occt::TopoDS_Shape^ newsh);
+	Macad::Occt::TopoDS_Shape^ Apply(Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::TopAbs_ShapeEnum theUntil);
+	Macad::Occt::TopoDS_Shape^ Apply(Macad::Occt::TopoDS_Shape^ theShape);
+	bool ModeConsiderLocation();
+	Macad::Occt::TopoDS_Vertex^ CopyVertex(Macad::Occt::TopoDS_Vertex^ theV, double theTol);
+	Macad::Occt::TopoDS_Vertex^ CopyVertex(Macad::Occt::TopoDS_Vertex^ theV);
+	Macad::Occt::TopoDS_Vertex^ CopyVertex(Macad::Occt::TopoDS_Vertex^ theV, Macad::Occt::Pnt theNewPos, double aTol);
+	bool IsNewShape(Macad::Occt::TopoDS_Shape^ theShape);
+	Macad::Occt::BRepTools_History^ History();
+}; // class BRepTools_ReShape
+
+//---------------------------------------------------------------------
+//  Class  BRepTools_PurgeLocations
+//---------------------------------------------------------------------
+public ref class BRepTools_PurgeLocations sealed : public BaseClass<::BRepTools_PurgeLocations>
+{
+
+#ifdef Include_BRepTools_PurgeLocations_h
+public:
+	Include_BRepTools_PurgeLocations_h
+#endif
+
+public:
+	BRepTools_PurgeLocations(::BRepTools_PurgeLocations* nativeInstance)
+		: BaseClass<::BRepTools_PurgeLocations>( nativeInstance, true )
+	{}
+
+	BRepTools_PurgeLocations(::BRepTools_PurgeLocations& nativeInstance)
+		: BaseClass<::BRepTools_PurgeLocations>( &nativeInstance, false )
+	{}
+
+	property ::BRepTools_PurgeLocations* NativeInstance
+	{
+		::BRepTools_PurgeLocations* get()
+		{
+			return static_cast<::BRepTools_PurgeLocations*>(_NativeInstance);
+		}
+	}
+
+public:
+	BRepTools_PurgeLocations();
+	BRepTools_PurgeLocations(Macad::Occt::BRepTools_PurgeLocations^ parameter1);
+	bool Perform(Macad::Occt::TopoDS_Shape^ theShape);
+	Macad::Occt::TopoDS_Shape^ GetResult();
+	bool IsDone();
+	Macad::Occt::TopoDS_Shape^ ModifiedShape(Macad::Occt::TopoDS_Shape^ theInitShape);
+}; // class BRepTools_PurgeLocations
 
 //---------------------------------------------------------------------
 //  Class  BRepTools_Quilt
@@ -430,10 +554,16 @@ public:
 	}
 
 public:
-	BRepTools_ShapeSet(bool isWithTriangles);
-	BRepTools_ShapeSet(Macad::Occt::BRep_Builder^ B, bool isWithTriangles);
-	BRepTools_ShapeSet(Macad::Occt::BRep_Builder^ B);
+	BRepTools_ShapeSet(bool theWithTriangles, bool theWithNormals);
+	BRepTools_ShapeSet(bool theWithTriangles);
+	BRepTools_ShapeSet(Macad::Occt::BRep_Builder^ theBuilder, bool theWithTriangles, bool theWithNormals);
+	BRepTools_ShapeSet(Macad::Occt::BRep_Builder^ theBuilder, bool theWithTriangles);
+	BRepTools_ShapeSet(Macad::Occt::BRep_Builder^ theBuilder);
 	BRepTools_ShapeSet(Macad::Occt::BRepTools_ShapeSet^ parameter1);
+	bool IsWithTriangles();
+	bool IsWithNormals();
+	void SetWithTriangles(bool theWithTriangles);
+	void SetWithNormals(bool theWithNormals);
 	void Clear();
 	void AddGeometry(Macad::Occt::TopoDS_Shape^ S);
 	/* Method skipped due to unknown mapping: void DumpGeometry(ostream OS, ) */
@@ -467,203 +597,133 @@ public:
 }; // class BRepTools_ShapeSet
 
 //---------------------------------------------------------------------
-//  Class  BRepTools_ReShape
+//  Class  BRepTools_Substitution
 //---------------------------------------------------------------------
-public ref class BRepTools_ReShape : public Macad::Occt::Standard_Transient
+public ref class BRepTools_Substitution sealed : public BaseClass<::BRepTools_Substitution>
 {
 
-#ifdef Include_BRepTools_ReShape_h
+#ifdef Include_BRepTools_Substitution_h
 public:
-	Include_BRepTools_ReShape_h
+	Include_BRepTools_Substitution_h
+#endif
+
+public:
+	BRepTools_Substitution(::BRepTools_Substitution* nativeInstance)
+		: BaseClass<::BRepTools_Substitution>( nativeInstance, true )
+	{}
+
+	BRepTools_Substitution(::BRepTools_Substitution& nativeInstance)
+		: BaseClass<::BRepTools_Substitution>( &nativeInstance, false )
+	{}
+
+	property ::BRepTools_Substitution* NativeInstance
+	{
+		::BRepTools_Substitution* get()
+		{
+			return static_cast<::BRepTools_Substitution*>(_NativeInstance);
+		}
+	}
+
+public:
+	BRepTools_Substitution();
+	BRepTools_Substitution(Macad::Occt::BRepTools_Substitution^ parameter1);
+	void Clear();
+	void Substitute(Macad::Occt::TopoDS_Shape^ OldShape, Macad::Occt::TopTools_ListOfShape^ NewShapes);
+	void Build(Macad::Occt::TopoDS_Shape^ S);
+	bool IsCopied(Macad::Occt::TopoDS_Shape^ S);
+	Macad::Occt::TopTools_ListOfShape^ Copy(Macad::Occt::TopoDS_Shape^ S);
+}; // class BRepTools_Substitution
+
+//---------------------------------------------------------------------
+//  Class  BRepTools_TrsfModification
+//---------------------------------------------------------------------
+public ref class BRepTools_TrsfModification : public Macad::Occt::BRepTools_Modification
+{
+
+#ifdef Include_BRepTools_TrsfModification_h
+public:
+	Include_BRepTools_TrsfModification_h
 #endif
 
 protected:
-	BRepTools_ReShape(InitMode init)
-		: Macad::Occt::Standard_Transient( init )
+	BRepTools_TrsfModification(InitMode init)
+		: Macad::Occt::BRepTools_Modification( init )
 	{}
 
 public:
-	BRepTools_ReShape(::BRepTools_ReShape* nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
+	BRepTools_TrsfModification(::BRepTools_TrsfModification* nativeInstance)
+		: Macad::Occt::BRepTools_Modification( nativeInstance )
 	{}
 
-	BRepTools_ReShape(::BRepTools_ReShape& nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
+	BRepTools_TrsfModification(::BRepTools_TrsfModification& nativeInstance)
+		: Macad::Occt::BRepTools_Modification( nativeInstance )
 	{}
 
-	property ::BRepTools_ReShape* NativeInstance
+	property ::BRepTools_TrsfModification* NativeInstance
 	{
-		::BRepTools_ReShape* get()
+		::BRepTools_TrsfModification* get()
 		{
-			return static_cast<::BRepTools_ReShape*>(_NativeInstance);
+			return static_cast<::BRepTools_TrsfModification*>(_NativeInstance);
 		}
 	}
 
-	static Macad::Occt::BRepTools_ReShape^ CreateDowncasted(::BRepTools_ReShape* instance);
+	static Macad::Occt::BRepTools_TrsfModification^ CreateDowncasted(::BRepTools_TrsfModification* instance);
 
 public:
-	//---------------------------------------------------------------------
-	//  Enum  TReplacementKind
-	//---------------------------------------------------------------------
-	enum class TReplacementKind
-	{
-		TReplacementKind_Remove = 1,
-		TReplacementKind_Modify = 2,
-		TReplacementKind_Merge_Main = 4,
-		TReplacementKind_Merge_Ordinary = 8
-	}; // enum  class TReplacementKind
-
-	BRepTools_ReShape();
-	BRepTools_ReShape(Macad::Occt::BRepTools_ReShape^ parameter1);
-	void Clear();
-	void Remove(Macad::Occt::TopoDS_Shape^ shape);
-	void Replace(Macad::Occt::TopoDS_Shape^ shape, Macad::Occt::TopoDS_Shape^ newshape);
-	bool IsRecorded(Macad::Occt::TopoDS_Shape^ shape);
-	Macad::Occt::TopoDS_Shape^ Value(Macad::Occt::TopoDS_Shape^ shape);
-	int Status(Macad::Occt::TopoDS_Shape^ shape, Macad::Occt::TopoDS_Shape^ newsh, bool last);
-	int Status(Macad::Occt::TopoDS_Shape^ shape, Macad::Occt::TopoDS_Shape^ newsh);
-	Macad::Occt::TopoDS_Shape^ Apply(Macad::Occt::TopoDS_Shape^ shape, Macad::Occt::TopAbs_ShapeEnum until);
-	Macad::Occt::TopoDS_Shape^ Apply(Macad::Occt::TopoDS_Shape^ shape);
-	bool ModeConsiderLocation();
-	Macad::Occt::TopoDS_Vertex^ CopyVertex(Macad::Occt::TopoDS_Vertex^ theV, double theTol);
-	Macad::Occt::TopoDS_Vertex^ CopyVertex(Macad::Occt::TopoDS_Vertex^ theV);
-	Macad::Occt::TopoDS_Vertex^ CopyVertex(Macad::Occt::TopoDS_Vertex^ theV, Macad::Occt::Pnt theNewPos, double aTol);
-	bool IsNewShape(Macad::Occt::TopoDS_Shape^ theShape);
-	Macad::Occt::BRepTools_History^ History();
-}; // class BRepTools_ReShape
+	BRepTools_TrsfModification(Macad::Occt::Trsf T);
+	BRepTools_TrsfModification(Macad::Occt::BRepTools_TrsfModification^ parameter1);
+	Macad::Occt::Trsf Trsf();
+	bool NewSurface(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopLoc_Location^ L, double% Tol, bool% RevWires, bool% RevFace);
+	bool NewCurve(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::Geom_Curve^ C, Macad::Occt::TopLoc_Location^ L, double% Tol);
+	bool NewPoint(Macad::Occt::TopoDS_Vertex^ V, Macad::Occt::Pnt% P, double% Tol);
+	bool NewCurve2d(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ NewE, Macad::Occt::TopoDS_Face^ NewF, Macad::Occt::Geom2d_Curve^ C, double% Tol);
+	bool NewParameter(Macad::Occt::TopoDS_Vertex^ V, Macad::Occt::TopoDS_Edge^ E, double% P, double% Tol);
+	Macad::Occt::GeomAbs_Shape Continuity(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2, Macad::Occt::TopoDS_Edge^ NewE, Macad::Occt::TopoDS_Face^ NewF1, Macad::Occt::TopoDS_Face^ NewF2);
+}; // class BRepTools_TrsfModification
 
 //---------------------------------------------------------------------
-//  Class  BRepTools
+//  Class  BRepTools_WireExplorer
 //---------------------------------------------------------------------
-public ref class BRepTools sealed : public BaseClass<::BRepTools>
+public ref class BRepTools_WireExplorer sealed : public BaseClass<::BRepTools_WireExplorer>
 {
 
-#ifdef Include_BRepTools_h
+#ifdef Include_BRepTools_WireExplorer_h
 public:
-	Include_BRepTools_h
+	Include_BRepTools_WireExplorer_h
 #endif
 
 public:
-	BRepTools(::BRepTools* nativeInstance)
-		: BaseClass<::BRepTools>( nativeInstance, true )
+	BRepTools_WireExplorer(::BRepTools_WireExplorer* nativeInstance)
+		: BaseClass<::BRepTools_WireExplorer>( nativeInstance, true )
 	{}
 
-	BRepTools(::BRepTools& nativeInstance)
-		: BaseClass<::BRepTools>( &nativeInstance, false )
+	BRepTools_WireExplorer(::BRepTools_WireExplorer& nativeInstance)
+		: BaseClass<::BRepTools_WireExplorer>( &nativeInstance, false )
 	{}
 
-	property ::BRepTools* NativeInstance
+	property ::BRepTools_WireExplorer* NativeInstance
 	{
-		::BRepTools* get()
+		::BRepTools_WireExplorer* get()
 		{
-			return static_cast<::BRepTools*>(_NativeInstance);
+			return static_cast<::BRepTools_WireExplorer*>(_NativeInstance);
 		}
 	}
 
 public:
-	BRepTools();
-	BRepTools(Macad::Occt::BRepTools^ parameter1);
-	static void UVBounds(Macad::Occt::TopoDS_Face^ F, double% UMin, double% UMax, double% VMin, double% VMax);
-	static void UVBounds(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Wire^ W, double% UMin, double% UMax, double% VMin, double% VMax);
-	static void UVBounds(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E, double% UMin, double% UMax, double% VMin, double% VMax);
-	static void AddUVBounds(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Bnd_Box2d^ B);
-	static void AddUVBounds(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Wire^ W, Macad::Occt::Bnd_Box2d^ B);
-	static void AddUVBounds(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E, Macad::Occt::Bnd_Box2d^ B);
-	static void Update(Macad::Occt::TopoDS_Vertex^ V);
-	static void Update(Macad::Occt::TopoDS_Edge^ E);
-	static void Update(Macad::Occt::TopoDS_Wire^ W);
-	static void Update(Macad::Occt::TopoDS_Face^ F);
-	static void Update(Macad::Occt::TopoDS_Shell^ S);
-	static void Update(Macad::Occt::TopoDS_Solid^ S);
-	static void Update(Macad::Occt::TopoDS_CompSolid^ C);
-	static void Update(Macad::Occt::TopoDS_Compound^ C);
-	static void Update(Macad::Occt::TopoDS_Shape^ S);
-	static void UpdateFaceUVPoints(Macad::Occt::TopoDS_Face^ theF);
-	static void Clean(Macad::Occt::TopoDS_Shape^ S);
-	static void CleanGeometry(Macad::Occt::TopoDS_Shape^ theShape);
-	static void RemoveUnusedPCurves(Macad::Occt::TopoDS_Shape^ S);
-	static bool Triangulation(Macad::Occt::TopoDS_Shape^ theShape, double theLinDefl, bool theToCheckFreeEdges);
-	static bool Triangulation(Macad::Occt::TopoDS_Shape^ theShape, double theLinDefl);
-	static bool Compare(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2);
-	static bool Compare(Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2);
-	static Macad::Occt::TopoDS_Wire^ OuterWire(Macad::Occt::TopoDS_Face^ F);
-	static void Map3DEdges(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_IndexedMapOfShape^ M);
-	static bool IsReallyClosed(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F);
-	static void DetectClosedness(Macad::Occt::TopoDS_Face^ theFace, bool% theUclosed, bool% theVclosed);
-	/* Method skipped due to unknown mapping: void Dump(TopoDS_Shape Sh, ostream S, ) */
-	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape Sh, ostream S, Message_ProgressRange theProgress, ) */
-	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape Sh, ostream S, Message_ProgressRange theProgress, ) */
-	/* Method skipped due to unknown mapping: void Read(TopoDS_Shape Sh, istream S, BRep_Builder B, Message_ProgressRange theProgress, ) */
-	/* Method skipped due to unknown mapping: void Read(TopoDS_Shape Sh, istream S, BRep_Builder B, Message_ProgressRange theProgress, ) */
-	static bool Write(Macad::Occt::TopoDS_Shape^ Sh, System::String^ File, Macad::Occt::Message_ProgressRange^ theProgress);
-	static bool Write(Macad::Occt::TopoDS_Shape^ Sh, System::String^ File);
-	static bool Read(Macad::Occt::TopoDS_Shape^ Sh, System::String^ File, Macad::Occt::BRep_Builder^ B, Macad::Occt::Message_ProgressRange^ theProgress);
-	static bool Read(Macad::Occt::TopoDS_Shape^ Sh, System::String^ File, Macad::Occt::BRep_Builder^ B);
-	static double EvalAndUpdateTol(Macad::Occt::TopoDS_Edge^ theE, Macad::Occt::Geom_Curve^ theC3d, Macad::Occt::Geom2d_Curve^ theC2d, Macad::Occt::Geom_Surface^ theS, double theF, double theL);
-	static Macad::Occt::TopAbs_Orientation OriEdgeInFace(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Face^ theFace);
-	static void RemoveInternals(Macad::Occt::TopoDS_Shape^ theS, bool theForce);
-	static void RemoveInternals(Macad::Occt::TopoDS_Shape^ theS);
-}; // class BRepTools
-
-//---------------------------------------------------------------------
-//  Class  BRepTools_History
-//---------------------------------------------------------------------
-public ref class BRepTools_History sealed : public Macad::Occt::Standard_Transient
-{
-
-#ifdef Include_BRepTools_History_h
-public:
-	Include_BRepTools_History_h
-#endif
-
-public:
-	BRepTools_History(::BRepTools_History* nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	BRepTools_History(::BRepTools_History& nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	property ::BRepTools_History* NativeInstance
-	{
-		::BRepTools_History* get()
-		{
-			return static_cast<::BRepTools_History*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::BRepTools_History^ CreateDowncasted(::BRepTools_History* instance);
-
-public:
-	//---------------------------------------------------------------------
-	//  Enum  TRelationType
-	//---------------------------------------------------------------------
-	enum class TRelationType
-	{
-		TRelationType_Removed = 0,
-		TRelationType_Generated = 1,
-		TRelationType_Modified = 2
-	}; // enum  class TRelationType
-
-	BRepTools_History();
-	BRepTools_History(Macad::Occt::BRepTools_History^ parameter1);
-	static bool IsSupportedType(Macad::Occt::TopoDS_Shape^ theShape);
-	void AddGenerated(Macad::Occt::TopoDS_Shape^ theInitial, Macad::Occt::TopoDS_Shape^ theGenerated);
-	void AddModified(Macad::Occt::TopoDS_Shape^ theInitial, Macad::Occt::TopoDS_Shape^ theModified);
-	void Remove(Macad::Occt::TopoDS_Shape^ theRemoved);
-	void ReplaceGenerated(Macad::Occt::TopoDS_Shape^ theInitial, Macad::Occt::TopoDS_Shape^ theGenerated);
-	void ReplaceModified(Macad::Occt::TopoDS_Shape^ theInitial, Macad::Occt::TopoDS_Shape^ theModified);
+	BRepTools_WireExplorer();
+	BRepTools_WireExplorer(Macad::Occt::TopoDS_Wire^ W);
+	BRepTools_WireExplorer(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Face^ F);
+	BRepTools_WireExplorer(Macad::Occt::BRepTools_WireExplorer^ parameter1);
+	void Init(Macad::Occt::TopoDS_Wire^ W);
+	void Init(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Face^ F);
+	void Init(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Face^ F, double UMin, double UMax, double VMin, double VMax);
+	bool More();
+	void Next();
+	Macad::Occt::TopoDS_Edge^ Current();
+	Macad::Occt::TopAbs_Orientation Orientation();
+	Macad::Occt::TopoDS_Vertex^ CurrentVertex();
 	void Clear();
-	Macad::Occt::TopTools_ListOfShape^ Generated(Macad::Occt::TopoDS_Shape^ theInitial);
-	Macad::Occt::TopTools_ListOfShape^ Modified(Macad::Occt::TopoDS_Shape^ theInitial);
-	bool IsRemoved(Macad::Occt::TopoDS_Shape^ theInitial);
-	bool HasGenerated();
-	bool HasModified();
-	bool HasRemoved();
-	void Merge(Macad::Occt::BRepTools_History^ theHistory23);
-	/* Method skipped due to unknown mapping: void Dump(ostream theS, ) */
-}; // class BRepTools_History
+}; // class BRepTools_WireExplorer
 
 }; // namespace Occt
 }; // namespace Macad

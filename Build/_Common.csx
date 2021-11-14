@@ -19,7 +19,6 @@ public static class Common
             info.ErrorDialog = false;
             if (!string.IsNullOrEmpty(workingDir))
                 info.WorkingDirectory = Environment.ExpandEnvironmentVariables(workingDir);
-
             var proc = new Process();
             proc.StartInfo = info;
 

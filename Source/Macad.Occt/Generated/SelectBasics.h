@@ -118,20 +118,34 @@ public:
 	}
 
 public:
-	//---------------------------------------------------------------------
-	//  Enum  SelectionType
-	//---------------------------------------------------------------------
-	enum class SelectionType
-	{
-		Point = 0,
-		Box = 1,
-		Polyline = 2,
-		Unknown = 3
-	}; // enum  class SelectionType
-
 	SelectBasics_SelectingVolumeManager();
 	SelectBasics_SelectingVolumeManager(Macad::Occt::SelectBasics_SelectingVolumeManager^ parameter1);
 	int GetActiveSelectionType();
+	/* Method skipped due to unknown mapping: Standard_Boolean OverlapsBox(NCollection_Vec3<double> theBoxMin, NCollection_Vec3<double> theBoxMax, SelectBasics_PickResult thePickResult, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean OverlapsBox(NCollection_Vec3<double> theBoxMin, NCollection_Vec3<double> theBoxMax, Standard_Boolean theInside, ) */
+	/* Method skipped due to unknown mapping: Standard_Boolean OverlapsBox(NCollection_Vec3<double> theBoxMin, NCollection_Vec3<double> theBoxMax, Standard_Boolean theInside, ) */
+	bool OverlapsPoint(Macad::Occt::Pnt thePnt, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	bool OverlapsPoint(Macad::Occt::Pnt thePnt);
+	bool OverlapsPolygon(Macad::Occt::TColgp_Array1OfPnt^ theArrayOfPts, int theSensType, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	bool OverlapsSegment(Macad::Occt::Pnt thePt1, Macad::Occt::Pnt thePt2, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	bool OverlapsTriangle(Macad::Occt::Pnt thePt1, Macad::Occt::Pnt thePt2, Macad::Occt::Pnt thePt3, int theSensType, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	bool OverlapsSphere(Macad::Occt::Pnt theCenter, double theRadius, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	bool OverlapsSphere(Macad::Occt::Pnt theCenter, double theRadius, bool% theInside);
+	bool OverlapsSphere(Macad::Occt::Pnt theCenter, double theRadius);
+	bool OverlapsCylinder(double theBottomRad, double theTopRad, double theHeight, Macad::Occt::Trsf theTrsf, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	bool OverlapsCylinder(double theBottomRad, double theTopRad, double theHeight, Macad::Occt::Trsf theTrsf, bool% theInside);
+	bool OverlapsCylinder(double theBottomRad, double theTopRad, double theHeight, Macad::Occt::Trsf theTrsf);
+	double DistToGeometryCenter(Macad::Occt::Pnt theCOG);
+	Macad::Occt::Pnt DetectedPoint(double theDepth);
+	bool IsOverlapAllowed();
+	Macad::Occt::Pnt GetNearPickedPnt();
+	Macad::Occt::Pnt GetFarPickedPnt();
+	Macad::Occt::Dir GetViewRayDirection();
+	bool IsScalableActiveVolume();
+	Macad::Occt::Pnt2d GetMousePosition();
+	/* Method skipped due to unknown mapping: void GetPlanes(NCollection_Vector<NCollection_Vec4<double>> thePlaneEquations, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: Standard_Boolean Overlaps(NCollection_Vec3<double> theBoxMin, NCollection_Vec3<double> theBoxMax, SelectBasics_PickResult thePickResult, ) */
 	/* Method skipped due to unknown mapping: Standard_Boolean Overlaps(NCollection_Vec3<double> theBoxMin, NCollection_Vec3<double> theBoxMax, Standard_Boolean theInside, ) */
 	/* Method skipped due to unknown mapping: Standard_Boolean Overlaps(NCollection_Vec3<double> theBoxMin, NCollection_Vec3<double> theBoxMax, Standard_Boolean theInside, ) */
@@ -139,17 +153,8 @@ public:
 	bool Overlaps(Macad::Occt::Pnt thePnt);
 	bool Overlaps(Macad::Occt::TColgp_HArray1OfPnt^ theArrayOfPts, int theSensType, Macad::Occt::SelectBasics_PickResult^ thePickResult);
 	bool Overlaps(Macad::Occt::TColgp_Array1OfPnt^ theArrayOfPts, int theSensType, Macad::Occt::SelectBasics_PickResult^ thePickResult);
-	bool Overlaps(Macad::Occt::Pnt thePt1, Macad::Occt::Pnt thePt2, Macad::Occt::SelectBasics_PickResult^ thePickResult);
-	bool Overlaps(Macad::Occt::Pnt thePt1, Macad::Occt::Pnt thePt2, Macad::Occt::Pnt thePt3, int theSensType, Macad::Occt::SelectBasics_PickResult^ thePickResult);
-	double DistToGeometryCenter(Macad::Occt::Pnt theCOG);
-	Macad::Occt::Pnt DetectedPoint(double theDepth);
-	bool IsOverlapAllowed();
-	Macad::Occt::Pnt GetNearPickedPnt();
-	Macad::Occt::Pnt GetFarPickedPnt();
-	Macad::Occt::Pnt2d GetMousePosition();
-	/* Method skipped due to unknown mapping: void GetPlanes(NCollection_Vector<NCollection_Vec4<double>> thePlaneEquations, ) */
-	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
-	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	bool Overlaps(Macad::Occt::Pnt thePnt1, Macad::Occt::Pnt thePnt2, Macad::Occt::SelectBasics_PickResult^ thePickResult);
+	bool Overlaps(Macad::Occt::Pnt thePnt1, Macad::Occt::Pnt thePnt2, Macad::Occt::Pnt thePnt3, int theSensType, Macad::Occt::SelectBasics_PickResult^ thePickResult);
 }; // class SelectBasics_SelectingVolumeManager
 
 }; // namespace Occt

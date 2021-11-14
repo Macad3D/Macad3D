@@ -45,8 +45,16 @@ namespace Macad.Exchange
 
         //--------------------------------------------------------------------------------------------------
 
+        [AutoRegister]
+        internal static void Register()
+        {
+            ExchangeRegistry.Register(new SvgExchanger());
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
-            
+
         #region Settings
 
         [SerializeType]

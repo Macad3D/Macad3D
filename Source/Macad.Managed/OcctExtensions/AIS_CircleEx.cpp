@@ -42,7 +42,7 @@ AIS_CircleEx::AIS_CircleEx(const Handle(Geom_Circle)& theComponent,
 //function : Compute
 //purpose  : 
 //=======================================================================
-void AIS_CircleEx::Compute(const Handle(PrsMgr_PresentationManager3d)& /*aPresentationManager*/,
+void AIS_CircleEx::Compute(const Handle(PrsMgr_PresentationManager)& /*aPresentationManager*/,
 	const Handle(Prs3d_Presentation)& aPresentation,
 	const Standard_Integer /*aMode*/)
 {
@@ -60,7 +60,7 @@ void AIS_CircleEx::Compute(const Handle(PrsMgr_PresentationManager3d)& /*aPresen
 //function : HilightOwnerWithColor
 //purpose  : 
 //=======================================================================
-void AIS_CircleEx::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager3d)& PM,
+void AIS_CircleEx::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& PM,
 	const Handle(Prs3d_Drawer) &theStyle,
 	const Handle(SelectMgr_EntityOwner)& Owner)
 {
@@ -85,7 +85,7 @@ void AIS_CircleEx::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager
 	}
 }
 
-void AIS_CircleEx::HilightSelected(const Handle(PrsMgr_PresentationManager3d)& thePM,
+void AIS_CircleEx::HilightSelected(const Handle(PrsMgr_PresentationManager)& thePM,
 	const SelectMgr_SequenceOfOwner& theOwners)
 {
 }

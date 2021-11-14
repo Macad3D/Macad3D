@@ -545,12 +545,6 @@ Macad::Occt::ShapeAnalysis_Surface::ShapeAnalysis_Surface(Macad::Occt::Geom_Surf
 	S->NativeInstance = h_S.get();
 }
 
-Macad::Occt::ShapeAnalysis_Surface::ShapeAnalysis_Surface(Macad::Occt::ShapeAnalysis_Surface^ parameter1)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::ShapeAnalysis_Surface(*(::ShapeAnalysis_Surface*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeAnalysis_Surface::Init(Macad::Occt::Geom_Surface^ S)
 {
 	Handle(::Geom_Surface) h_S = S->NativeInstance;
@@ -577,18 +571,18 @@ Macad::Occt::Geom_Surface^ Macad::Occt::ShapeAnalysis_Surface::Surface()
 	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Surface::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::GeomAdaptor_HSurface^ Macad::Occt::ShapeAnalysis_Surface::Adaptor3d()
+Macad::Occt::GeomAdaptor_Surface^ Macad::Occt::ShapeAnalysis_Surface::Adaptor3d()
 {
-	Handle(::GeomAdaptor_HSurface) _result;
+	Handle(::GeomAdaptor_Surface) _result;
 	_result = ((::ShapeAnalysis_Surface*)_NativeInstance)->Adaptor3d();
-	 return _result.IsNull() ? nullptr : Macad::Occt::GeomAdaptor_HSurface::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::GeomAdaptor_Surface::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::GeomAdaptor_HSurface^ Macad::Occt::ShapeAnalysis_Surface::TrueAdaptor3d()
+Macad::Occt::GeomAdaptor_Surface^ Macad::Occt::ShapeAnalysis_Surface::TrueAdaptor3d()
 {
-	Handle(::GeomAdaptor_HSurface) _result;
+	Handle(::GeomAdaptor_Surface) _result;
 	_result = ((::ShapeAnalysis_Surface*)_NativeInstance)->TrueAdaptor3d();
-	 return _result.IsNull() ? nullptr : Macad::Occt::GeomAdaptor_HSurface::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::GeomAdaptor_Surface::CreateDowncasted( _result.get());
 }
 
 double Macad::Occt::ShapeAnalysis_Surface::Gap()
@@ -1078,12 +1072,6 @@ bool Macad::Occt::ShapeAnalysis_Edge::CheckPCurveRange(double theFirst, double t
 	Handle(::Geom2d_Curve) h_thePC = thePC->NativeInstance;
 	return ((::ShapeAnalysis_Edge*)_NativeInstance)->CheckPCurveRange(theFirst, theLast, h_thePC);
 	thePC->NativeInstance = h_thePC.get();
-}
-
-bool Macad::Occt::ShapeAnalysis_Edge::ComputeDeviation(Macad::Occt::Adaptor3d_Curve^ CRef, Macad::Occt::Adaptor3d_Curve^ Other, bool SameParameter, double% dev, int NCONTROL)
-{
-	pin_ptr<double> pp_dev = &dev;
-	return ::ShapeAnalysis_Edge::ComputeDeviation(*(::Adaptor3d_Curve*)CRef->NativeInstance, *(::Adaptor3d_Curve*)Other->NativeInstance, SameParameter, *(Standard_Real*)pp_dev, NCONTROL);
 }
 
 bool Macad::Occt::ShapeAnalysis_Edge::CheckOverlapping(Macad::Occt::TopoDS_Edge^ theEdge1, Macad::Occt::TopoDS_Edge^ theEdge2, double% theTolOverlap, double theDomainDist)
@@ -2280,9 +2268,9 @@ bool Macad::Occt::ShapeAnalysis_ShapeContents::ModifyIndirectMode()
 	return ((::ShapeAnalysis_ShapeContents*)_NativeInstance)->ModifyIndirectMode();
 }
 
-bool Macad::Occt::ShapeAnalysis_ShapeContents::ModifyOffestSurfaceMode()
+bool Macad::Occt::ShapeAnalysis_ShapeContents::ModifyOffsetSurfaceMode()
 {
-	return ((::ShapeAnalysis_ShapeContents*)_NativeInstance)->ModifyOffestSurfaceMode();
+	return ((::ShapeAnalysis_ShapeContents*)_NativeInstance)->ModifyOffsetSurfaceMode();
 }
 
 bool Macad::Occt::ShapeAnalysis_ShapeContents::ModifyTrimmed3dMode()
@@ -2505,6 +2493,11 @@ Macad::Occt::TopTools_HSequenceOfShape^ Macad::Occt::ShapeAnalysis_ShapeContents
 	Handle(::TopTools_HSequenceOfShape) _result;
 	_result = ((::ShapeAnalysis_ShapeContents*)_NativeInstance)->Trimmed2dSec();
 	 return _result.IsNull() ? nullptr : Macad::Occt::TopTools_HSequenceOfShape::CreateDowncasted( _result.get());
+}
+
+bool Macad::Occt::ShapeAnalysis_ShapeContents::ModifyOffestSurfaceMode()
+{
+	return ((::ShapeAnalysis_ShapeContents*)_NativeInstance)->ModifyOffestSurfaceMode();
 }
 
 

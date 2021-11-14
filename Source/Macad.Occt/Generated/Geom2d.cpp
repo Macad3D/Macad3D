@@ -255,126 +255,6 @@ Macad::Occt::Geom2d_AxisPlacement^ Macad::Occt::Geom2d_AxisPlacement::CreateDown
 
 
 //---------------------------------------------------------------------
-//  Class  Geom2d_UndefinedDerivative
-//---------------------------------------------------------------------
-
-Macad::Occt::Geom2d_UndefinedDerivative::Geom2d_UndefinedDerivative()
-	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Geom2d_UndefinedDerivative();
-}
-
-Macad::Occt::Geom2d_UndefinedDerivative::Geom2d_UndefinedDerivative(System::String^ theMessage)
-	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	NativeInstance = new ::Geom2d_UndefinedDerivative(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-Macad::Occt::Geom2d_UndefinedDerivative::Geom2d_UndefinedDerivative(Macad::Occt::Geom2d_UndefinedDerivative^ parameter1)
-	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Geom2d_UndefinedDerivative(*(::Geom2d_UndefinedDerivative*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::Geom2d_UndefinedDerivative::Raise(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	::Geom2d_UndefinedDerivative::Raise(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-void Macad::Occt::Geom2d_UndefinedDerivative::Raise()
-{
-	::Geom2d_UndefinedDerivative::Raise("");
-}
-
-Macad::Occt::Geom2d_UndefinedDerivative^ Macad::Occt::Geom2d_UndefinedDerivative::NewInstance(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	Handle(::Geom2d_UndefinedDerivative) _result;
-	_result = ::Geom2d_UndefinedDerivative::NewInstance(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_UndefinedDerivative::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Geom2d_UndefinedDerivative^ Macad::Occt::Geom2d_UndefinedDerivative::NewInstance()
-{
-	Handle(::Geom2d_UndefinedDerivative) _result;
-	_result = ::Geom2d_UndefinedDerivative::NewInstance("");
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_UndefinedDerivative::CreateDowncasted( _result.get());
-}
-
-
-Macad::Occt::Geom2d_UndefinedDerivative^ Macad::Occt::Geom2d_UndefinedDerivative::CreateDowncasted(::Geom2d_UndefinedDerivative* instance)
-{
-	return gcnew Macad::Occt::Geom2d_UndefinedDerivative( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  Geom2d_UndefinedValue
-//---------------------------------------------------------------------
-
-Macad::Occt::Geom2d_UndefinedValue::Geom2d_UndefinedValue()
-	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Geom2d_UndefinedValue();
-}
-
-Macad::Occt::Geom2d_UndefinedValue::Geom2d_UndefinedValue(System::String^ theMessage)
-	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	NativeInstance = new ::Geom2d_UndefinedValue(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-Macad::Occt::Geom2d_UndefinedValue::Geom2d_UndefinedValue(Macad::Occt::Geom2d_UndefinedValue^ parameter1)
-	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Geom2d_UndefinedValue(*(::Geom2d_UndefinedValue*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::Geom2d_UndefinedValue::Raise(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	::Geom2d_UndefinedValue::Raise(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-void Macad::Occt::Geom2d_UndefinedValue::Raise()
-{
-	::Geom2d_UndefinedValue::Raise("");
-}
-
-Macad::Occt::Geom2d_UndefinedValue^ Macad::Occt::Geom2d_UndefinedValue::NewInstance(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	Handle(::Geom2d_UndefinedValue) _result;
-	_result = ::Geom2d_UndefinedValue::NewInstance(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_UndefinedValue::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Geom2d_UndefinedValue^ Macad::Occt::Geom2d_UndefinedValue::NewInstance()
-{
-	Handle(::Geom2d_UndefinedValue) _result;
-	_result = ::Geom2d_UndefinedValue::NewInstance("");
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_UndefinedValue::CreateDowncasted( _result.get());
-}
-
-
-Macad::Occt::Geom2d_UndefinedValue^ Macad::Occt::Geom2d_UndefinedValue::CreateDowncasted(::Geom2d_UndefinedValue* instance)
-{
-	return gcnew Macad::Occt::Geom2d_UndefinedValue( instance );
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  Geom2d_Curve
 //---------------------------------------------------------------------
 
@@ -3171,6 +3051,168 @@ Macad::Occt::Geom2d_Geometry^ Macad::Occt::Geom2d_TrimmedCurve::Copy()
 Macad::Occt::Geom2d_TrimmedCurve^ Macad::Occt::Geom2d_TrimmedCurve::CreateDowncasted(::Geom2d_TrimmedCurve* instance)
 {
 	return gcnew Macad::Occt::Geom2d_TrimmedCurve( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  Geom2d_UndefinedDerivative
+//---------------------------------------------------------------------
+
+Macad::Occt::Geom2d_UndefinedDerivative::Geom2d_UndefinedDerivative()
+	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Geom2d_UndefinedDerivative();
+}
+
+Macad::Occt::Geom2d_UndefinedDerivative::Geom2d_UndefinedDerivative(System::String^ theMessage)
+	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	NativeInstance = new ::Geom2d_UndefinedDerivative(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Geom2d_UndefinedDerivative::Geom2d_UndefinedDerivative(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Geom2d_UndefinedDerivative(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+}
+
+Macad::Occt::Geom2d_UndefinedDerivative::Geom2d_UndefinedDerivative(Macad::Occt::Geom2d_UndefinedDerivative^ parameter1)
+	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Geom2d_UndefinedDerivative(*(::Geom2d_UndefinedDerivative*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::Geom2d_UndefinedDerivative::Raise(System::String^ theMessage)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	::Geom2d_UndefinedDerivative::Raise(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+void Macad::Occt::Geom2d_UndefinedDerivative::Raise()
+{
+	::Geom2d_UndefinedDerivative::Raise("");
+}
+
+Macad::Occt::Geom2d_UndefinedDerivative^ Macad::Occt::Geom2d_UndefinedDerivative::NewInstance(System::String^ theMessage)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	Handle(::Geom2d_UndefinedDerivative) _result;
+	_result = ::Geom2d_UndefinedDerivative::NewInstance(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_UndefinedDerivative::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Geom2d_UndefinedDerivative^ Macad::Occt::Geom2d_UndefinedDerivative::NewInstance()
+{
+	Handle(::Geom2d_UndefinedDerivative) _result;
+	_result = ::Geom2d_UndefinedDerivative::NewInstance("");
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_UndefinedDerivative::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Geom2d_UndefinedDerivative^ Macad::Occt::Geom2d_UndefinedDerivative::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Geom2d_UndefinedDerivative) _result;
+	_result = ::Geom2d_UndefinedDerivative::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_UndefinedDerivative::CreateDowncasted( _result.get());
+}
+
+
+Macad::Occt::Geom2d_UndefinedDerivative^ Macad::Occt::Geom2d_UndefinedDerivative::CreateDowncasted(::Geom2d_UndefinedDerivative* instance)
+{
+	return gcnew Macad::Occt::Geom2d_UndefinedDerivative( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  Geom2d_UndefinedValue
+//---------------------------------------------------------------------
+
+Macad::Occt::Geom2d_UndefinedValue::Geom2d_UndefinedValue()
+	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Geom2d_UndefinedValue();
+}
+
+Macad::Occt::Geom2d_UndefinedValue::Geom2d_UndefinedValue(System::String^ theMessage)
+	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	NativeInstance = new ::Geom2d_UndefinedValue(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Geom2d_UndefinedValue::Geom2d_UndefinedValue(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Geom2d_UndefinedValue(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+}
+
+Macad::Occt::Geom2d_UndefinedValue::Geom2d_UndefinedValue(Macad::Occt::Geom2d_UndefinedValue^ parameter1)
+	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Geom2d_UndefinedValue(*(::Geom2d_UndefinedValue*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::Geom2d_UndefinedValue::Raise(System::String^ theMessage)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	::Geom2d_UndefinedValue::Raise(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+void Macad::Occt::Geom2d_UndefinedValue::Raise()
+{
+	::Geom2d_UndefinedValue::Raise("");
+}
+
+Macad::Occt::Geom2d_UndefinedValue^ Macad::Occt::Geom2d_UndefinedValue::NewInstance(System::String^ theMessage)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	Handle(::Geom2d_UndefinedValue) _result;
+	_result = ::Geom2d_UndefinedValue::NewInstance(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_UndefinedValue::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Geom2d_UndefinedValue^ Macad::Occt::Geom2d_UndefinedValue::NewInstance()
+{
+	Handle(::Geom2d_UndefinedValue) _result;
+	_result = ::Geom2d_UndefinedValue::NewInstance("");
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_UndefinedValue::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Geom2d_UndefinedValue^ Macad::Occt::Geom2d_UndefinedValue::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Geom2d_UndefinedValue) _result;
+	_result = ::Geom2d_UndefinedValue::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_UndefinedValue::CreateDowncasted( _result.get());
+}
+
+
+Macad::Occt::Geom2d_UndefinedValue^ Macad::Occt::Geom2d_UndefinedValue::CreateDowncasted(::Geom2d_UndefinedValue* instance)
+{
+	return gcnew Macad::Occt::Geom2d_UndefinedValue( instance );
 }
 
 

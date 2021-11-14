@@ -231,7 +231,7 @@ void AIS_TranslationGizmo::ForcePartHilighting(Part part)
 //function : Compute
 //purpose  : 
 //=======================================================================
-void AIS_TranslationGizmo::Compute(const Handle(PrsMgr_PresentationManager3d)& PM,
+void AIS_TranslationGizmo::Compute(const Handle(PrsMgr_PresentationManager)& PM,
 	const Handle(Prs3d_Presentation)& aPresentation,
 	const Standard_Integer mode)
 {

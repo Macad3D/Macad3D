@@ -1,19 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using Macad.Core.Geom;
-using Macad.Core.Shapes;
 using Macad.Core.Topology;
-using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Exchange.Obj;
-using Macad.Occt;
-using Macad.Occt.Helper;
 using Macad.Core;
 
 namespace Macad.Exchange
@@ -53,8 +42,16 @@ namespace Macad.Exchange
 
         //--------------------------------------------------------------------------------------------------
 
+        [AutoRegister]
+        internal static void Register()
+        {
+            ExchangeRegistry.Register(new ObjExchanger());
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
-            
+
         #region Settings
 
         [SerializeType]

@@ -38,44 +38,6 @@ public enum class CSLib_NormalStatus
 }; // enum  class CSLib_NormalStatus
 
 //---------------------------------------------------------------------
-//  Class  CSLib_Class2d
-//---------------------------------------------------------------------
-public ref class CSLib_Class2d sealed : public BaseClass<::CSLib_Class2d>
-{
-
-#ifdef Include_CSLib_Class2d_h
-public:
-	Include_CSLib_Class2d_h
-#endif
-
-public:
-	CSLib_Class2d(::CSLib_Class2d* nativeInstance)
-		: BaseClass<::CSLib_Class2d>( nativeInstance, true )
-	{}
-
-	CSLib_Class2d(::CSLib_Class2d& nativeInstance)
-		: BaseClass<::CSLib_Class2d>( &nativeInstance, false )
-	{}
-
-	property ::CSLib_Class2d* NativeInstance
-	{
-		::CSLib_Class2d* get()
-		{
-			return static_cast<::CSLib_Class2d*>(_NativeInstance);
-		}
-	}
-
-public:
-	CSLib_Class2d(Macad::Occt::TColgp_Array1OfPnt2d^ thePnts2d, double theTolU, double theTolV, double theUMin, double theVMin, double theUMax, double theVMax);
-	CSLib_Class2d(Macad::Occt::TColgp_SequenceOfPnt2d^ thePnts2d, double theTolU, double theTolV, double theUMin, double theVMin, double theUMax, double theVMax);
-	CSLib_Class2d(Macad::Occt::CSLib_Class2d^ parameter1);
-	int SiDans(Macad::Occt::Pnt2d P);
-	int SiDans_OnMode(Macad::Occt::Pnt2d P, double Tol);
-	int InternalSiDans(double X, double Y);
-	int InternalSiDansOuOn(double X, double Y);
-}; // class CSLib_Class2d
-
-//---------------------------------------------------------------------
 //  Class  CSLib
 //---------------------------------------------------------------------
 public ref class CSLib sealed : public BaseClass<::CSLib>
@@ -116,6 +78,44 @@ public:
 	static Macad::Occt::Vec DNNormal(int Nu, int Nv, Macad::Occt::TColgp_Array2OfVec^ DerNUV, int Iduref);
 	static Macad::Occt::Vec DNNormal(int Nu, int Nv, Macad::Occt::TColgp_Array2OfVec^ DerNUV);
 }; // class CSLib
+
+//---------------------------------------------------------------------
+//  Class  CSLib_Class2d
+//---------------------------------------------------------------------
+public ref class CSLib_Class2d sealed : public BaseClass<::CSLib_Class2d>
+{
+
+#ifdef Include_CSLib_Class2d_h
+public:
+	Include_CSLib_Class2d_h
+#endif
+
+public:
+	CSLib_Class2d(::CSLib_Class2d* nativeInstance)
+		: BaseClass<::CSLib_Class2d>( nativeInstance, true )
+	{}
+
+	CSLib_Class2d(::CSLib_Class2d& nativeInstance)
+		: BaseClass<::CSLib_Class2d>( &nativeInstance, false )
+	{}
+
+	property ::CSLib_Class2d* NativeInstance
+	{
+		::CSLib_Class2d* get()
+		{
+			return static_cast<::CSLib_Class2d*>(_NativeInstance);
+		}
+	}
+
+public:
+	CSLib_Class2d(Macad::Occt::TColgp_Array1OfPnt2d^ thePnts2d, double theTolU, double theTolV, double theUMin, double theVMin, double theUMax, double theVMax);
+	CSLib_Class2d(Macad::Occt::TColgp_SequenceOfPnt2d^ thePnts2d, double theTolU, double theTolV, double theUMin, double theVMin, double theUMax, double theVMax);
+	CSLib_Class2d(Macad::Occt::CSLib_Class2d^ parameter1);
+	int SiDans(Macad::Occt::Pnt2d P);
+	int SiDans_OnMode(Macad::Occt::Pnt2d P, double Tol);
+	int InternalSiDans(double X, double Y);
+	int InternalSiDansOuOn(double X, double Y);
+}; // class CSLib_Class2d
 
 }; // namespace Occt
 }; // namespace Macad

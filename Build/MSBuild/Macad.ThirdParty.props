@@ -3,7 +3,6 @@
   <PropertyGroup>
     <OcctIncPath Condition="'$(OcctIncPath)' == ''">$(MMRootDir)ThirdParty\OCCT\inc</OcctIncPath>
     <FreeTypeBinPath Condition="'$(FreeTypeBinPath)' == ''">$(MMRootDir)ThirdParty\freetype\bin</FreeTypeBinPath>
-    <TbbBinPath Condition="'$(TbbBinPath)' == ''">$(MMRootDir)ThirdParty\tbb\bin</TbbBinPath>
     <_3DxWareIncPath Condition="'$(_3DxWareIncPath)' == ''">$(MMRootDir)ThirdParty\3DxWare\inc</_3DxWareIncPath>
     <_3DxWareLibPath Condition="'$(_3DxWareLibPath)' == ''">$(MMRootDir)ThirdParty\3DxWare\lib</_3DxWareLibPath>
   </PropertyGroup>
@@ -11,12 +10,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OcctLibPath Condition="'$(OcctLibPath)' == ''">$(MMRootDir)ThirdParty\OCCT\libd</OcctLibPath>
     <OcctBinPath Condition="'$(OcctBinPath)' == ''">$(MMRootDir)ThirdParty\OCCT\bind</OcctBinPath>
+    <TbbBinPath Condition="'$(TbbBinPath)' == ''">$(MMRootDir)ThirdParty\tbb\bind</TbbBinPath>
     <TbbSuffix>_debug</TbbSuffix>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OcctLibPath Condition="'$(OcctLibPath)' == ''">$(MMRootDir)ThirdParty\OCCT\lib</OcctLibPath>
     <OcctBinPath Condition="'$(OcctBinPath)' == ''">$(MMRootDir)ThirdParty\OCCT\bin</OcctBinPath>
+    <TbbBinPath Condition="'$(TbbBinPath)' == ''">$(MMRootDir)ThirdParty\tbb\bin</TbbBinPath>
     <TbbSuffix></TbbSuffix>
   </PropertyGroup>
 

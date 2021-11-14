@@ -7,11 +7,142 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 
 #include "Geom2d.h"
 #include "Standard.h"
-#include "Geom2dConvert.h"
-#include "TColStd.h"
 #include "Convert.h"
+#include "TColStd.h"
 #include "GeomAbs.h"
 #include "Adaptor2d.h"
+#include "Geom2dConvert.h"
+
+
+//---------------------------------------------------------------------
+//  Class  Geom2dConvert
+//---------------------------------------------------------------------
+
+Macad::Occt::Geom2dConvert::Geom2dConvert()
+	: BaseClass<::Geom2dConvert>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Geom2dConvert();
+}
+
+Macad::Occt::Geom2dConvert::Geom2dConvert(Macad::Occt::Geom2dConvert^ parameter1)
+	: BaseClass<::Geom2dConvert>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Geom2dConvert(*(::Geom2dConvert*)parameter1->NativeInstance);
+}
+
+Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert::SplitBSplineCurve(Macad::Occt::Geom2d_BSplineCurve^ C, int FromK1, int ToK2, bool SameOrientation)
+{
+	Handle(::Geom2d_BSplineCurve) h_C = C->NativeInstance;
+	Handle(::Geom2d_BSplineCurve) _result;
+	_result = ::Geom2dConvert::SplitBSplineCurve(h_C, FromK1, ToK2, SameOrientation);
+	C->NativeInstance = h_C.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert::SplitBSplineCurve(Macad::Occt::Geom2d_BSplineCurve^ C, int FromK1, int ToK2)
+{
+	Handle(::Geom2d_BSplineCurve) h_C = C->NativeInstance;
+	Handle(::Geom2d_BSplineCurve) _result;
+	_result = ::Geom2dConvert::SplitBSplineCurve(h_C, FromK1, ToK2, true);
+	C->NativeInstance = h_C.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert::SplitBSplineCurve(Macad::Occt::Geom2d_BSplineCurve^ C, double FromU1, double ToU2, double ParametricTolerance, bool SameOrientation)
+{
+	Handle(::Geom2d_BSplineCurve) h_C = C->NativeInstance;
+	Handle(::Geom2d_BSplineCurve) _result;
+	_result = ::Geom2dConvert::SplitBSplineCurve(h_C, FromU1, ToU2, ParametricTolerance, SameOrientation);
+	C->NativeInstance = h_C.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert::SplitBSplineCurve(Macad::Occt::Geom2d_BSplineCurve^ C, double FromU1, double ToU2, double ParametricTolerance)
+{
+	Handle(::Geom2d_BSplineCurve) h_C = C->NativeInstance;
+	Handle(::Geom2d_BSplineCurve) _result;
+	_result = ::Geom2dConvert::SplitBSplineCurve(h_C, FromU1, ToU2, ParametricTolerance, true);
+	C->NativeInstance = h_C.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert::CurveToBSplineCurve(Macad::Occt::Geom2d_Curve^ C, Macad::Occt::Convert_ParameterisationType Parameterisation)
+{
+	Handle(::Geom2d_Curve) h_C = C->NativeInstance;
+	Handle(::Geom2d_BSplineCurve) _result;
+	_result = ::Geom2dConvert::CurveToBSplineCurve(h_C, (::Convert_ParameterisationType)Parameterisation);
+	C->NativeInstance = h_C.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert::CurveToBSplineCurve(Macad::Occt::Geom2d_Curve^ C)
+{
+	Handle(::Geom2d_Curve) h_C = C->NativeInstance;
+	Handle(::Geom2d_BSplineCurve) _result;
+	_result = ::Geom2dConvert::CurveToBSplineCurve(h_C, Convert_TgtThetaOver2);
+	C->NativeInstance = h_C.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::Geom2dConvert::C0BSplineToC1BSplineCurve(Macad::Occt::Geom2d_BSplineCurve^ BS, double Tolerance)
+{
+	Handle(::Geom2d_BSplineCurve) h_BS = BS->NativeInstance;
+	::Geom2dConvert::C0BSplineToC1BSplineCurve(h_BS, Tolerance);
+	BS->NativeInstance = h_BS.get();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  Geom2dConvert_ApproxCurve
+//---------------------------------------------------------------------
+
+Macad::Occt::Geom2dConvert_ApproxCurve::Geom2dConvert_ApproxCurve(Macad::Occt::Geom2d_Curve^ Curve, double Tol2d, Macad::Occt::GeomAbs_Shape Order, int MaxSegments, int MaxDegree)
+	: BaseClass<::Geom2dConvert_ApproxCurve>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::Geom2d_Curve) h_Curve = Curve->NativeInstance;
+	_NativeInstance = new ::Geom2dConvert_ApproxCurve(h_Curve, Tol2d, (::GeomAbs_Shape)Order, MaxSegments, MaxDegree);
+	Curve->NativeInstance = h_Curve.get();
+}
+
+Macad::Occt::Geom2dConvert_ApproxCurve::Geom2dConvert_ApproxCurve(Macad::Occt::Adaptor2d_Curve2d^ Curve, double Tol2d, Macad::Occt::GeomAbs_Shape Order, int MaxSegments, int MaxDegree)
+	: BaseClass<::Geom2dConvert_ApproxCurve>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::Adaptor2d_Curve2d) h_Curve = Curve->NativeInstance;
+	_NativeInstance = new ::Geom2dConvert_ApproxCurve(h_Curve, Tol2d, (::GeomAbs_Shape)Order, MaxSegments, MaxDegree);
+	Curve->NativeInstance = h_Curve.get();
+}
+
+Macad::Occt::Geom2dConvert_ApproxCurve::Geom2dConvert_ApproxCurve(Macad::Occt::Geom2dConvert_ApproxCurve^ parameter1)
+	: BaseClass<::Geom2dConvert_ApproxCurve>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Geom2dConvert_ApproxCurve(*(::Geom2dConvert_ApproxCurve*)parameter1->NativeInstance);
+}
+
+Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert_ApproxCurve::Curve()
+{
+	Handle(::Geom2d_BSplineCurve) _result;
+	_result = ((::Geom2dConvert_ApproxCurve*)_NativeInstance)->Curve();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
+}
+
+bool Macad::Occt::Geom2dConvert_ApproxCurve::IsDone()
+{
+	return ((::Geom2dConvert_ApproxCurve*)_NativeInstance)->IsDone();
+}
+
+bool Macad::Occt::Geom2dConvert_ApproxCurve::HasResult()
+{
+	return ((::Geom2dConvert_ApproxCurve*)_NativeInstance)->HasResult();
+}
+
+double Macad::Occt::Geom2dConvert_ApproxCurve::MaxError()
+{
+	return ((::Geom2dConvert_ApproxCurve*)_NativeInstance)->MaxError();
+}
+
+
 
 
 //---------------------------------------------------------------------
@@ -152,137 +283,6 @@ Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert_CompCurveToBSplineC
 void Macad::Occt::Geom2dConvert_CompCurveToBSplineCurve::Clear()
 {
 	((::Geom2dConvert_CompCurveToBSplineCurve*)_NativeInstance)->Clear();
-}
-
-
-
-
-//---------------------------------------------------------------------
-//  Class  Geom2dConvert_ApproxCurve
-//---------------------------------------------------------------------
-
-Macad::Occt::Geom2dConvert_ApproxCurve::Geom2dConvert_ApproxCurve(Macad::Occt::Geom2d_Curve^ Curve, double Tol2d, Macad::Occt::GeomAbs_Shape Order, int MaxSegments, int MaxDegree)
-	: BaseClass<::Geom2dConvert_ApproxCurve>(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom2d_Curve) h_Curve = Curve->NativeInstance;
-	_NativeInstance = new ::Geom2dConvert_ApproxCurve(h_Curve, Tol2d, (::GeomAbs_Shape)Order, MaxSegments, MaxDegree);
-	Curve->NativeInstance = h_Curve.get();
-}
-
-Macad::Occt::Geom2dConvert_ApproxCurve::Geom2dConvert_ApproxCurve(Macad::Occt::Adaptor2d_HCurve2d^ Curve, double Tol2d, Macad::Occt::GeomAbs_Shape Order, int MaxSegments, int MaxDegree)
-	: BaseClass<::Geom2dConvert_ApproxCurve>(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Adaptor2d_HCurve2d) h_Curve = Curve->NativeInstance;
-	_NativeInstance = new ::Geom2dConvert_ApproxCurve(h_Curve, Tol2d, (::GeomAbs_Shape)Order, MaxSegments, MaxDegree);
-	Curve->NativeInstance = h_Curve.get();
-}
-
-Macad::Occt::Geom2dConvert_ApproxCurve::Geom2dConvert_ApproxCurve(Macad::Occt::Geom2dConvert_ApproxCurve^ parameter1)
-	: BaseClass<::Geom2dConvert_ApproxCurve>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Geom2dConvert_ApproxCurve(*(::Geom2dConvert_ApproxCurve*)parameter1->NativeInstance);
-}
-
-Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert_ApproxCurve::Curve()
-{
-	Handle(::Geom2d_BSplineCurve) _result;
-	_result = ((::Geom2dConvert_ApproxCurve*)_NativeInstance)->Curve();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
-}
-
-bool Macad::Occt::Geom2dConvert_ApproxCurve::IsDone()
-{
-	return ((::Geom2dConvert_ApproxCurve*)_NativeInstance)->IsDone();
-}
-
-bool Macad::Occt::Geom2dConvert_ApproxCurve::HasResult()
-{
-	return ((::Geom2dConvert_ApproxCurve*)_NativeInstance)->HasResult();
-}
-
-double Macad::Occt::Geom2dConvert_ApproxCurve::MaxError()
-{
-	return ((::Geom2dConvert_ApproxCurve*)_NativeInstance)->MaxError();
-}
-
-
-
-
-//---------------------------------------------------------------------
-//  Class  Geom2dConvert
-//---------------------------------------------------------------------
-
-Macad::Occt::Geom2dConvert::Geom2dConvert()
-	: BaseClass<::Geom2dConvert>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Geom2dConvert();
-}
-
-Macad::Occt::Geom2dConvert::Geom2dConvert(Macad::Occt::Geom2dConvert^ parameter1)
-	: BaseClass<::Geom2dConvert>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Geom2dConvert(*(::Geom2dConvert*)parameter1->NativeInstance);
-}
-
-Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert::SplitBSplineCurve(Macad::Occt::Geom2d_BSplineCurve^ C, int FromK1, int ToK2, bool SameOrientation)
-{
-	Handle(::Geom2d_BSplineCurve) h_C = C->NativeInstance;
-	Handle(::Geom2d_BSplineCurve) _result;
-	_result = ::Geom2dConvert::SplitBSplineCurve(h_C, FromK1, ToK2, SameOrientation);
-	C->NativeInstance = h_C.get();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert::SplitBSplineCurve(Macad::Occt::Geom2d_BSplineCurve^ C, int FromK1, int ToK2)
-{
-	Handle(::Geom2d_BSplineCurve) h_C = C->NativeInstance;
-	Handle(::Geom2d_BSplineCurve) _result;
-	_result = ::Geom2dConvert::SplitBSplineCurve(h_C, FromK1, ToK2, true);
-	C->NativeInstance = h_C.get();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert::SplitBSplineCurve(Macad::Occt::Geom2d_BSplineCurve^ C, double FromU1, double ToU2, double ParametricTolerance, bool SameOrientation)
-{
-	Handle(::Geom2d_BSplineCurve) h_C = C->NativeInstance;
-	Handle(::Geom2d_BSplineCurve) _result;
-	_result = ::Geom2dConvert::SplitBSplineCurve(h_C, FromU1, ToU2, ParametricTolerance, SameOrientation);
-	C->NativeInstance = h_C.get();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert::SplitBSplineCurve(Macad::Occt::Geom2d_BSplineCurve^ C, double FromU1, double ToU2, double ParametricTolerance)
-{
-	Handle(::Geom2d_BSplineCurve) h_C = C->NativeInstance;
-	Handle(::Geom2d_BSplineCurve) _result;
-	_result = ::Geom2dConvert::SplitBSplineCurve(h_C, FromU1, ToU2, ParametricTolerance, true);
-	C->NativeInstance = h_C.get();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert::CurveToBSplineCurve(Macad::Occt::Geom2d_Curve^ C, Macad::Occt::Convert_ParameterisationType Parameterisation)
-{
-	Handle(::Geom2d_Curve) h_C = C->NativeInstance;
-	Handle(::Geom2d_BSplineCurve) _result;
-	_result = ::Geom2dConvert::CurveToBSplineCurve(h_C, (::Convert_ParameterisationType)Parameterisation);
-	C->NativeInstance = h_C.get();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert::CurveToBSplineCurve(Macad::Occt::Geom2d_Curve^ C)
-{
-	Handle(::Geom2d_Curve) h_C = C->NativeInstance;
-	Handle(::Geom2d_BSplineCurve) _result;
-	_result = ::Geom2dConvert::CurveToBSplineCurve(h_C, Convert_TgtThetaOver2);
-	C->NativeInstance = h_C.get();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_BSplineCurve::CreateDowncasted( _result.get());
-}
-
-void Macad::Occt::Geom2dConvert::C0BSplineToC1BSplineCurve(Macad::Occt::Geom2d_BSplineCurve^ BS, double Tolerance)
-{
-	Handle(::Geom2d_BSplineCurve) h_BS = BS->NativeInstance;
-	::Geom2dConvert::C0BSplineToC1BSplineCurve(h_BS, Tolerance);
-	BS->NativeInstance = h_BS.get();
 }
 
 

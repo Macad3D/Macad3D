@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.ExceptionServices;
 using Macad.Core.Geom;
 using Macad.Core.Shapes;
 using Macad.Common;
@@ -248,7 +247,6 @@ namespace Macad.Core
 
         #region Property List
 
-        [HandleProcessCorruptedStateExceptions] 
         void _InitProperties()
         {
             if (_Properties != null)

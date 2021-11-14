@@ -12,6 +12,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "TopoDS.h"
 #include "Graphic3d.h"
 #include "V3d.h"
+#include "PrsMgr.h"
 #include "TCollection.h"
 #include "Prs3d.h"
 #include "TopLoc.h"
@@ -19,7 +20,6 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "TColgp.h"
 #include "Bnd.h"
 #include "TColStd.h"
-#include "PrsMgr.h"
 #include "Aspect.h"
 #include "Quantity.h"
 #include "Geom.h"
@@ -250,6 +250,149 @@ void Macad::Occt::AIS_ListOfInteractive::RemoveFirst()
 void Macad::Occt::AIS_ListOfInteractive::Reverse()
 {
 	((::AIS_ListOfInteractive*)_NativeInstance)->Reverse();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  AIS_NArray1OfEntityOwner
+//---------------------------------------------------------------------
+
+Macad::Occt::AIS_NArray1OfEntityOwner::AIS_NArray1OfEntityOwner()
+	: BaseClass<::AIS_NArray1OfEntityOwner>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_NArray1OfEntityOwner();
+}
+
+Macad::Occt::AIS_NArray1OfEntityOwner::AIS_NArray1OfEntityOwner(int theLower, int theUpper)
+	: BaseClass<::AIS_NArray1OfEntityOwner>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_NArray1OfEntityOwner(theLower, theUpper);
+}
+
+Macad::Occt::AIS_NArray1OfEntityOwner::AIS_NArray1OfEntityOwner(Macad::Occt::AIS_NArray1OfEntityOwner^ theOther)
+	: BaseClass<::AIS_NArray1OfEntityOwner>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::AIS_NArray1OfEntityOwner(*(::AIS_NArray1OfEntityOwner*)theOther->NativeInstance);
+}
+
+Macad::Occt::AIS_NArray1OfEntityOwner::AIS_NArray1OfEntityOwner(Macad::Occt::SelectMgr_EntityOwner^ theBegin, int theLower, int theUpper)
+	: BaseClass<::AIS_NArray1OfEntityOwner>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::SelectMgr_EntityOwner) h_theBegin = theBegin->NativeInstance;
+	_NativeInstance = new ::AIS_NArray1OfEntityOwner(h_theBegin, theLower, theUpper);
+	theBegin->NativeInstance = h_theBegin.get();
+}
+
+void Macad::Occt::AIS_NArray1OfEntityOwner::Init(Macad::Occt::SelectMgr_EntityOwner^ theValue)
+{
+	Handle(::SelectMgr_EntityOwner) h_theValue = theValue->NativeInstance;
+	((::AIS_NArray1OfEntityOwner*)_NativeInstance)->Init(h_theValue);
+	theValue->NativeInstance = h_theValue.get();
+}
+
+int Macad::Occt::AIS_NArray1OfEntityOwner::Size()
+{
+	return ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->Size();
+}
+
+int Macad::Occt::AIS_NArray1OfEntityOwner::Length()
+{
+	return ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->Length();
+}
+
+bool Macad::Occt::AIS_NArray1OfEntityOwner::IsEmpty()
+{
+	return ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->IsEmpty();
+}
+
+int Macad::Occt::AIS_NArray1OfEntityOwner::Lower()
+{
+	return ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->Lower();
+}
+
+int Macad::Occt::AIS_NArray1OfEntityOwner::Upper()
+{
+	return ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->Upper();
+}
+
+bool Macad::Occt::AIS_NArray1OfEntityOwner::IsDeletable()
+{
+	return ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->IsDeletable();
+}
+
+bool Macad::Occt::AIS_NArray1OfEntityOwner::IsAllocated()
+{
+	return ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->IsAllocated();
+}
+
+Macad::Occt::AIS_NArray1OfEntityOwner^ Macad::Occt::AIS_NArray1OfEntityOwner::Assign(Macad::Occt::AIS_NArray1OfEntityOwner^ theOther)
+{
+	::AIS_NArray1OfEntityOwner* _result = new ::AIS_NArray1OfEntityOwner();
+	*_result = ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->Assign(*(::AIS_NArray1OfEntityOwner*)theOther->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::AIS_NArray1OfEntityOwner(_result);
+}
+
+Macad::Occt::AIS_NArray1OfEntityOwner^ Macad::Occt::AIS_NArray1OfEntityOwner::Move(Macad::Occt::AIS_NArray1OfEntityOwner^ theOther)
+{
+	::AIS_NArray1OfEntityOwner* _result = new ::AIS_NArray1OfEntityOwner();
+	*_result = ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->Move(*(::AIS_NArray1OfEntityOwner*)theOther->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::AIS_NArray1OfEntityOwner(_result);
+}
+
+Macad::Occt::SelectMgr_EntityOwner^ Macad::Occt::AIS_NArray1OfEntityOwner::First()
+{
+	Handle(::SelectMgr_EntityOwner) _result;
+	_result = ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->First();
+	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_EntityOwner::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::SelectMgr_EntityOwner^ Macad::Occt::AIS_NArray1OfEntityOwner::ChangeFirst()
+{
+	Handle(::SelectMgr_EntityOwner) _result;
+	_result = ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->ChangeFirst();
+	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_EntityOwner::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::SelectMgr_EntityOwner^ Macad::Occt::AIS_NArray1OfEntityOwner::Last()
+{
+	Handle(::SelectMgr_EntityOwner) _result;
+	_result = ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->Last();
+	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_EntityOwner::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::SelectMgr_EntityOwner^ Macad::Occt::AIS_NArray1OfEntityOwner::ChangeLast()
+{
+	Handle(::SelectMgr_EntityOwner) _result;
+	_result = ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->ChangeLast();
+	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_EntityOwner::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::SelectMgr_EntityOwner^ Macad::Occt::AIS_NArray1OfEntityOwner::Value(int theIndex)
+{
+	Handle(::SelectMgr_EntityOwner) _result;
+	_result = ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->Value(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_EntityOwner::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::SelectMgr_EntityOwner^ Macad::Occt::AIS_NArray1OfEntityOwner::ChangeValue(int theIndex)
+{
+	Handle(::SelectMgr_EntityOwner) _result;
+	_result = ((::AIS_NArray1OfEntityOwner*)_NativeInstance)->ChangeValue(theIndex);
+	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_EntityOwner::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::AIS_NArray1OfEntityOwner::SetValue(int theIndex, Macad::Occt::SelectMgr_EntityOwner^ theItem)
+{
+	Handle(::SelectMgr_EntityOwner) h_theItem = theItem->NativeInstance;
+	((::AIS_NArray1OfEntityOwner*)_NativeInstance)->SetValue(theIndex, h_theItem);
+	theItem->NativeInstance = h_theItem.get();
+}
+
+void Macad::Occt::AIS_NArray1OfEntityOwner::Resize(int theLower, int theUpper, bool theToCopyData)
+{
+	((::AIS_NArray1OfEntityOwner*)_NativeInstance)->Resize(theLower, theUpper, theToCopyData);
 }
 
 
@@ -1149,6 +1292,16 @@ void Macad::Occt::AIS_WalkDelta::SetRunning(bool theIsRunning)
 	((::AIS_WalkDelta*)_NativeInstance)->SetRunning(theIsRunning);
 }
 
+bool Macad::Occt::AIS_WalkDelta::IsDefined()
+{
+	return ((::AIS_WalkDelta*)_NativeInstance)->IsDefined();
+}
+
+void Macad::Occt::AIS_WalkDelta::SetDefined(bool theIsDefined)
+{
+	((::AIS_WalkDelta*)_NativeInstance)->SetDefined(theIsDefined);
+}
+
 bool Macad::Occt::AIS_WalkDelta::IsEmpty()
 {
 	return ((::AIS_WalkDelta*)_NativeInstance)->IsEmpty();
@@ -1204,13 +1357,6 @@ Macad::Occt::AIS_InteractiveContext::AIS_InteractiveContext(Macad::Occt::AIS_Int
 	NativeInstance = new ::AIS_InteractiveContext(*(::AIS_InteractiveContext*)parameter1->NativeInstance);
 }
 
-Macad::Occt::AIS_DisplayStatus Macad::Occt::AIS_InteractiveContext::DisplayStatus(Macad::Occt::AIS_InteractiveObject^ anIobj)
-{
-	Handle(::AIS_InteractiveObject) h_anIobj = anIobj->NativeInstance;
-	return (Macad::Occt::AIS_DisplayStatus)((::AIS_InteractiveContext*)_NativeInstance)->DisplayStatus(h_anIobj);
-	anIobj->NativeInstance = h_anIobj.get();
-}
-
 void Macad::Occt::AIS_InteractiveContext::Status(Macad::Occt::AIS_InteractiveObject^ anObj, Macad::Occt::TCollection_ExtendedString^ astatus)
 {
 	Handle(::AIS_InteractiveObject) h_anObj = anObj->NativeInstance;
@@ -1249,17 +1395,10 @@ void Macad::Occt::AIS_InteractiveContext::Display(Macad::Occt::AIS_InteractiveOb
 	theIObj->NativeInstance = h_theIObj.get();
 }
 
-void Macad::Occt::AIS_InteractiveContext::Display(Macad::Occt::AIS_InteractiveObject^ theIObj, int theDispMode, int theSelectionMode, bool theToUpdateViewer, Macad::Occt::AIS_DisplayStatus theDispStatus)
-{
-	Handle(::AIS_InteractiveObject) h_theIObj = theIObj->NativeInstance;
-	((::AIS_InteractiveContext*)_NativeInstance)->Display(h_theIObj, theDispMode, theSelectionMode, theToUpdateViewer, (::AIS_DisplayStatus)theDispStatus);
-	theIObj->NativeInstance = h_theIObj.get();
-}
-
 void Macad::Occt::AIS_InteractiveContext::Display(Macad::Occt::AIS_InteractiveObject^ theIObj, int theDispMode, int theSelectionMode, bool theToUpdateViewer)
 {
 	Handle(::AIS_InteractiveObject) h_theIObj = theIObj->NativeInstance;
-	((::AIS_InteractiveContext*)_NativeInstance)->Display(h_theIObj, theDispMode, theSelectionMode, theToUpdateViewer, AIS_DS_None);
+	((::AIS_InteractiveContext*)_NativeInstance)->Display(h_theIObj, theDispMode, theSelectionMode, theToUpdateViewer, PrsMgr_DisplayStatus_None);
 	theIObj->NativeInstance = h_theIObj.get();
 }
 
@@ -1274,27 +1413,6 @@ void Macad::Occt::AIS_InteractiveContext::Load(Macad::Occt::AIS_InteractiveObjec
 {
 	Handle(::AIS_InteractiveObject) h_theObj = theObj->NativeInstance;
 	((::AIS_InteractiveContext*)_NativeInstance)->Load(h_theObj, -1);
-	theObj->NativeInstance = h_theObj.get();
-}
-
-void Macad::Occt::AIS_InteractiveContext::Display(Macad::Occt::AIS_InteractiveObject^ theIObj, int theDispMode, int theSelectionMode, bool theToUpdateViewer, bool theToAllowDecomposition, Macad::Occt::AIS_DisplayStatus theDispStatus)
-{
-	Handle(::AIS_InteractiveObject) h_theIObj = theIObj->NativeInstance;
-	((::AIS_InteractiveContext*)_NativeInstance)->Display(h_theIObj, theDispMode, theSelectionMode, theToUpdateViewer, theToAllowDecomposition, (::AIS_DisplayStatus)theDispStatus);
-	theIObj->NativeInstance = h_theIObj.get();
-}
-
-void Macad::Occt::AIS_InteractiveContext::Display(Macad::Occt::AIS_InteractiveObject^ theIObj, int theDispMode, int theSelectionMode, bool theToUpdateViewer, bool theToAllowDecomposition)
-{
-	Handle(::AIS_InteractiveObject) h_theIObj = theIObj->NativeInstance;
-	((::AIS_InteractiveContext*)_NativeInstance)->Display(h_theIObj, theDispMode, theSelectionMode, theToUpdateViewer, theToAllowDecomposition, AIS_DS_None);
-	theIObj->NativeInstance = h_theIObj.get();
-}
-
-void Macad::Occt::AIS_InteractiveContext::Load(Macad::Occt::AIS_InteractiveObject^ theObj, int theSelectionMode, bool parameter1)
-{
-	Handle(::AIS_InteractiveObject) h_theObj = theObj->NativeInstance;
-	((::AIS_InteractiveContext*)_NativeInstance)->Load(h_theObj, theSelectionMode, parameter1);
 	theObj->NativeInstance = h_theObj.get();
 }
 
@@ -1581,23 +1699,6 @@ void Macad::Occt::AIS_InteractiveContext::SetTransformPersistence(Macad::Occt::A
 	theTrsfPers->NativeInstance = h_theTrsfPers.get();
 }
 
-void Macad::Occt::AIS_InteractiveContext::SetTransformPersistence(Macad::Occt::AIS_InteractiveObject^ theObj, Macad::Occt::Graphic3d_TransModeFlags% theFlag, Macad::Occt::Pnt thePoint)
-{
-	Handle(::AIS_InteractiveObject) h_theObj = theObj->NativeInstance;
-	pin_ptr<Macad::Occt::Graphic3d_TransModeFlags> pp_theFlag = &theFlag;
-	pin_ptr<Macad::Occt::Pnt> pp_thePoint = &thePoint;
-	((::AIS_InteractiveContext*)_NativeInstance)->SetTransformPersistence(h_theObj, *(::Graphic3d_TransModeFlags*)pp_theFlag, *(gp_Pnt*)pp_thePoint);
-	theObj->NativeInstance = h_theObj.get();
-}
-
-void Macad::Occt::AIS_InteractiveContext::SetTransformPersistence(Macad::Occt::AIS_InteractiveObject^ theObj, Macad::Occt::Graphic3d_TransModeFlags% theFlag)
-{
-	Handle(::AIS_InteractiveObject) h_theObj = theObj->NativeInstance;
-	pin_ptr<Macad::Occt::Graphic3d_TransModeFlags> pp_theFlag = &theFlag;
-	((::AIS_InteractiveContext*)_NativeInstance)->SetTransformPersistence(h_theObj, *(::Graphic3d_TransModeFlags*)pp_theFlag, ::gp_Pnt(0., 0., 0.));
-	theObj->NativeInstance = h_theObj.get();
-}
-
 void Macad::Occt::AIS_InteractiveContext::SetPixelTolerance(int thePrecision)
 {
 	((::AIS_InteractiveContext*)_NativeInstance)->SetPixelTolerance(thePrecision);
@@ -1631,6 +1732,14 @@ Macad::Occt::AIS_StatusOfDetection Macad::Occt::AIS_InteractiveContext::MoveTo(i
 {
 	Handle(::V3d_View) h_theView = theView->NativeInstance;
 	return (Macad::Occt::AIS_StatusOfDetection)((::AIS_InteractiveContext*)_NativeInstance)->MoveTo(theXPix, theYPix, h_theView, theToRedrawOnUpdate);
+	theView->NativeInstance = h_theView.get();
+}
+
+Macad::Occt::AIS_StatusOfDetection Macad::Occt::AIS_InteractiveContext::MoveTo(Macad::Occt::Ax1 theAxis, Macad::Occt::V3d_View^ theView, bool theToRedrawOnUpdate)
+{
+	pin_ptr<Macad::Occt::Ax1> pp_theAxis = &theAxis;
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	return (Macad::Occt::AIS_StatusOfDetection)((::AIS_InteractiveContext*)_NativeInstance)->MoveTo(*(gp_Ax1*)pp_theAxis, h_theView, theToRedrawOnUpdate);
 	theView->NativeInstance = h_theView.get();
 }
 
@@ -1730,13 +1839,6 @@ Macad::Occt::SelectMgr_EntityOwner^ Macad::Occt::AIS_InteractiveContext::Detecte
 	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_EntityOwner::CreateDowncasted( _result.get());
 }
 
-void Macad::Occt::AIS_InteractiveContext::SetSelectedAspect(Macad::Occt::Prs3d_BasicAspect^ theAspect, bool theToUpdateViewer)
-{
-	Handle(::Prs3d_BasicAspect) h_theAspect = theAspect->NativeInstance;
-	((::AIS_InteractiveContext*)_NativeInstance)->SetSelectedAspect(h_theAspect, theToUpdateViewer);
-	theAspect->NativeInstance = h_theAspect.get();
-}
-
 Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::AddSelect(Macad::Occt::SelectMgr_EntityOwner^ theObject)
 {
 	Handle(::SelectMgr_EntityOwner) h_theObject = theObject->NativeInstance;
@@ -1751,42 +1853,56 @@ Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::AddSelect(Mac
 	theObject->NativeInstance = h_theObject.get();
 }
 
-Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::Select(int theXPMin, int theYPMin, int theXPMax, int theYPMax, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer)
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::SelectRectangle(Macad::Occt::Graphic3d_Vec2i^ thePntMin, Macad::Occt::Graphic3d_Vec2i^ thePntMax, Macad::Occt::V3d_View^ theView, Macad::Occt::AIS_SelectionScheme theSelScheme)
 {
 	Handle(::V3d_View) h_theView = theView->NativeInstance;
-	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->Select(theXPMin, theYPMin, theXPMax, theYPMax, h_theView, theToUpdateViewer);
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->SelectRectangle(*(::Graphic3d_Vec2i*)thePntMin->NativeInstance, *(::Graphic3d_Vec2i*)thePntMax->NativeInstance, h_theView, (::AIS_SelectionScheme)theSelScheme);
 	theView->NativeInstance = h_theView.get();
 }
 
-Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::Select(Macad::Occt::TColgp_Array1OfPnt2d^ thePolyline, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer)
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::SelectRectangle(Macad::Occt::Graphic3d_Vec2i^ thePntMin, Macad::Occt::Graphic3d_Vec2i^ thePntMax, Macad::Occt::V3d_View^ theView)
 {
 	Handle(::V3d_View) h_theView = theView->NativeInstance;
-	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->Select(*(::TColgp_Array1OfPnt2d*)thePolyline->NativeInstance, h_theView, theToUpdateViewer);
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->SelectRectangle(*(::Graphic3d_Vec2i*)thePntMin->NativeInstance, *(::Graphic3d_Vec2i*)thePntMax->NativeInstance, h_theView, AIS_SelectionScheme_Replace);
 	theView->NativeInstance = h_theView.get();
 }
 
-Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::Select(bool theToUpdateViewer)
-{
-	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->Select(theToUpdateViewer);
-}
-
-Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::ShiftSelect(bool theToUpdateViewer)
-{
-	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->ShiftSelect(theToUpdateViewer);
-}
-
-Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::ShiftSelect(Macad::Occt::TColgp_Array1OfPnt2d^ thePolyline, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer)
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::SelectPolygon(Macad::Occt::TColgp_Array1OfPnt2d^ thePolyline, Macad::Occt::V3d_View^ theView, Macad::Occt::AIS_SelectionScheme theSelScheme)
 {
 	Handle(::V3d_View) h_theView = theView->NativeInstance;
-	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->ShiftSelect(*(::TColgp_Array1OfPnt2d*)thePolyline->NativeInstance, h_theView, theToUpdateViewer);
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->SelectPolygon(*(::TColgp_Array1OfPnt2d*)thePolyline->NativeInstance, h_theView, (::AIS_SelectionScheme)theSelScheme);
 	theView->NativeInstance = h_theView.get();
 }
 
-Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::ShiftSelect(int theXPMin, int theYPMin, int theXPMax, int theYPMax, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer)
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::SelectPolygon(Macad::Occt::TColgp_Array1OfPnt2d^ thePolyline, Macad::Occt::V3d_View^ theView)
 {
 	Handle(::V3d_View) h_theView = theView->NativeInstance;
-	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->ShiftSelect(theXPMin, theYPMin, theXPMax, theYPMax, h_theView, theToUpdateViewer);
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->SelectPolygon(*(::TColgp_Array1OfPnt2d*)thePolyline->NativeInstance, h_theView, AIS_SelectionScheme_Replace);
 	theView->NativeInstance = h_theView.get();
+}
+
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::SelectPoint(Macad::Occt::Graphic3d_Vec2i^ thePnt, Macad::Occt::V3d_View^ theView, Macad::Occt::AIS_SelectionScheme theSelScheme)
+{
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->SelectPoint(*(::Graphic3d_Vec2i*)thePnt->NativeInstance, h_theView, (::AIS_SelectionScheme)theSelScheme);
+	theView->NativeInstance = h_theView.get();
+}
+
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::SelectPoint(Macad::Occt::Graphic3d_Vec2i^ thePnt, Macad::Occt::V3d_View^ theView)
+{
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->SelectPoint(*(::Graphic3d_Vec2i*)thePnt->NativeInstance, h_theView, AIS_SelectionScheme_Replace);
+	theView->NativeInstance = h_theView.get();
+}
+
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::SelectDetected(Macad::Occt::AIS_SelectionScheme theSelScheme)
+{
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->SelectDetected((::AIS_SelectionScheme)theSelScheme);
+}
+
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::SelectDetected()
+{
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->SelectDetected(AIS_SelectionScheme_Replace);
 }
 
 Macad::Occt::Bnd_Box^ Macad::Occt::AIS_InteractiveContext::BoundingBoxOfSelection()
@@ -1794,6 +1910,11 @@ Macad::Occt::Bnd_Box^ Macad::Occt::AIS_InteractiveContext::BoundingBoxOfSelectio
 	::Bnd_Box* _result = new ::Bnd_Box();
 	*_result = ((::AIS_InteractiveContext*)_NativeInstance)->BoundingBoxOfSelection();
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Bnd_Box(_result);
+}
+
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::Select(Macad::Occt::AIS_NArray1OfEntityOwner^ theOwners, Macad::Occt::AIS_SelectionScheme theSelScheme)
+{
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->Select(*(::AIS_NArray1OfEntityOwner*)theOwners->NativeInstance, (::AIS_SelectionScheme)theSelScheme);
 }
 
 void Macad::Occt::AIS_InteractiveContext::FitSelected(Macad::Occt::V3d_View^ theView, double theMargin, bool theToUpdate)
@@ -2107,6 +2228,13 @@ Macad::Occt::SelectMgr_ListOfFilter^ Macad::Occt::AIS_InteractiveContext::Filter
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::SelectMgr_ListOfFilter(_result);
 }
 
+Macad::Occt::SelectMgr_AndOrFilter^ Macad::Occt::AIS_InteractiveContext::GlobalFilter()
+{
+	Handle(::SelectMgr_AndOrFilter) _result;
+	_result = ((::AIS_InteractiveContext*)_NativeInstance)->GlobalFilter();
+	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_AndOrFilter::CreateDowncasted( _result.get());
+}
+
 void Macad::Occt::AIS_InteractiveContext::AddFilter(Macad::Occt::SelectMgr_Filter^ theFilter)
 {
 	Handle(::SelectMgr_Filter) h_theFilter = theFilter->NativeInstance;
@@ -2143,6 +2271,13 @@ Macad::Occt::Prs3d_Drawer^ Macad::Occt::AIS_InteractiveContext::DefaultDrawer()
 	 return _result.IsNull() ? nullptr : Macad::Occt::Prs3d_Drawer::CreateDowncasted( _result.get());
 }
 
+void Macad::Occt::AIS_InteractiveContext::SetDefaultDrawer(Macad::Occt::Prs3d_Drawer^ theDrawer)
+{
+	Handle(::Prs3d_Drawer) h_theDrawer = theDrawer->NativeInstance;
+	((::AIS_InteractiveContext*)_NativeInstance)->SetDefaultDrawer(h_theDrawer);
+	theDrawer->NativeInstance = h_theDrawer.get();
+}
+
 Macad::Occt::V3d_Viewer^ Macad::Occt::AIS_InteractiveContext::CurrentViewer()
 {
 	Handle(::V3d_Viewer) _result;
@@ -2157,11 +2292,11 @@ Macad::Occt::SelectMgr_SelectionManager^ Macad::Occt::AIS_InteractiveContext::Se
 	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_SelectionManager::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::SelectMgr_ViewerSelector3d^ Macad::Occt::AIS_InteractiveContext::MainSelector()
+Macad::Occt::SelectMgr_ViewerSelector^ Macad::Occt::AIS_InteractiveContext::MainSelector()
 {
-	Handle(::SelectMgr_ViewerSelector3d) _result;
+	Handle(::SelectMgr_ViewerSelector) _result;
 	_result = ((::AIS_InteractiveContext*)_NativeInstance)->MainSelector();
-	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_ViewerSelector3d::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_ViewerSelector::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::AIS_InteractiveContext::UpdateCurrentViewer()
@@ -2189,16 +2324,6 @@ void Macad::Occt::AIS_InteractiveContext::ErasedObjects(Macad::Occt::AIS_KindOfI
 	((::AIS_InteractiveContext*)_NativeInstance)->ErasedObjects((::AIS_KindOfInteractive)theWhichKind, theWhichSignature, *(::AIS_ListOfInteractive*)theListOfIO->NativeInstance);
 }
 
-void Macad::Occt::AIS_InteractiveContext::ObjectsByDisplayStatus(Macad::Occt::AIS_DisplayStatus theStatus, Macad::Occt::AIS_ListOfInteractive^ theListOfIO)
-{
-	((::AIS_InteractiveContext*)_NativeInstance)->ObjectsByDisplayStatus((::AIS_DisplayStatus)theStatus, *(::AIS_ListOfInteractive*)theListOfIO->NativeInstance);
-}
-
-void Macad::Occt::AIS_InteractiveContext::ObjectsByDisplayStatus(Macad::Occt::AIS_KindOfInteractive WhichKind, int WhichSignature, Macad::Occt::AIS_DisplayStatus theStatus, Macad::Occt::AIS_ListOfInteractive^ theListOfIO)
-{
-	((::AIS_InteractiveContext*)_NativeInstance)->ObjectsByDisplayStatus((::AIS_KindOfInteractive)WhichKind, WhichSignature, (::AIS_DisplayStatus)theStatus, *(::AIS_ListOfInteractive*)theListOfIO->NativeInstance);
-}
-
 void Macad::Occt::AIS_InteractiveContext::ObjectsInside(Macad::Occt::AIS_ListOfInteractive^ aListOfIO, Macad::Occt::AIS_KindOfInteractive WhichKind, int WhichSignature)
 {
 	((::AIS_InteractiveContext*)_NativeInstance)->ObjectsInside(*(::AIS_ListOfInteractive*)aListOfIO->NativeInstance, (::AIS_KindOfInteractive)WhichKind, WhichSignature);
@@ -2211,7 +2336,7 @@ void Macad::Occt::AIS_InteractiveContext::ObjectsInside(Macad::Occt::AIS_ListOfI
 
 void Macad::Occt::AIS_InteractiveContext::ObjectsInside(Macad::Occt::AIS_ListOfInteractive^ aListOfIO)
 {
-	((::AIS_InteractiveContext*)_NativeInstance)->ObjectsInside(*(::AIS_ListOfInteractive*)aListOfIO->NativeInstance, AIS_KOI_None, -1);
+	((::AIS_InteractiveContext*)_NativeInstance)->ObjectsInside(*(::AIS_ListOfInteractive*)aListOfIO->NativeInstance, AIS_KindOfInteractive_None, -1);
 }
 
 void Macad::Occt::AIS_InteractiveContext::RebuildSelectionStructs()
@@ -2235,23 +2360,11 @@ void Macad::Occt::AIS_InteractiveContext::Disconnect(Macad::Occt::AIS_Interactiv
 	theAssembly->NativeInstance = h_theAssembly.get();
 }
 
-void Macad::Occt::AIS_InteractiveContext::ObjectsForView(Macad::Occt::AIS_ListOfInteractive^ theListOfIO, Macad::Occt::V3d_View^ theView, bool theIsVisibleInView, Macad::Occt::AIS_DisplayStatus theStatus)
-{
-	Handle(::V3d_View) h_theView = theView->NativeInstance;
-	((::AIS_InteractiveContext*)_NativeInstance)->ObjectsForView(*(::AIS_ListOfInteractive*)theListOfIO->NativeInstance, h_theView, theIsVisibleInView, (::AIS_DisplayStatus)theStatus);
-	theView->NativeInstance = h_theView.get();
-}
-
 void Macad::Occt::AIS_InteractiveContext::ObjectsForView(Macad::Occt::AIS_ListOfInteractive^ theListOfIO, Macad::Occt::V3d_View^ theView, bool theIsVisibleInView)
 {
 	Handle(::V3d_View) h_theView = theView->NativeInstance;
-	((::AIS_InteractiveContext*)_NativeInstance)->ObjectsForView(*(::AIS_ListOfInteractive*)theListOfIO->NativeInstance, h_theView, theIsVisibleInView, AIS_DS_None);
+	((::AIS_InteractiveContext*)_NativeInstance)->ObjectsForView(*(::AIS_ListOfInteractive*)theListOfIO->NativeInstance, h_theView, theIsVisibleInView, PrsMgr_DisplayStatus_None);
 	theView->NativeInstance = h_theView.get();
-}
-
-int Macad::Occt::AIS_InteractiveContext::PurgeDisplay()
-{
-	return ((::AIS_InteractiveContext*)_NativeInstance)->PurgeDisplay();
 }
 
 Macad::Occt::Pnt Macad::Occt::AIS_InteractiveContext::GravityPoint(Macad::Occt::V3d_View^ theView)
@@ -2473,9 +2586,9 @@ double Macad::Occt::AIS_InteractiveContext::DeviationCoefficient()
 	return ((::AIS_InteractiveContext*)_NativeInstance)->DeviationCoefficient();
 }
 
-void Macad::Occt::AIS_InteractiveContext::SetDeviationAngle(double anAngle)
+void Macad::Occt::AIS_InteractiveContext::SetDeviationAngle(double theAngle)
 {
-	((::AIS_InteractiveContext*)_NativeInstance)->SetDeviationAngle(anAngle);
+	((::AIS_InteractiveContext*)_NativeInstance)->SetDeviationAngle(theAngle);
 }
 
 double Macad::Occt::AIS_InteractiveContext::DeviationAngle()
@@ -2490,11 +2603,11 @@ Macad::Occt::Prs3d_LineAspect^ Macad::Occt::AIS_InteractiveContext::HiddenLineAs
 	 return _result.IsNull() ? nullptr : Macad::Occt::Prs3d_LineAspect::CreateDowncasted( _result.get());
 }
 
-void Macad::Occt::AIS_InteractiveContext::SetHiddenLineAspect(Macad::Occt::Prs3d_LineAspect^ anAspect)
+void Macad::Occt::AIS_InteractiveContext::SetHiddenLineAspect(Macad::Occt::Prs3d_LineAspect^ theAspect)
 {
-	Handle(::Prs3d_LineAspect) h_anAspect = anAspect->NativeInstance;
-	((::AIS_InteractiveContext*)_NativeInstance)->SetHiddenLineAspect(h_anAspect);
-	anAspect->NativeInstance = h_anAspect.get();
+	Handle(::Prs3d_LineAspect) h_theAspect = theAspect->NativeInstance;
+	((::AIS_InteractiveContext*)_NativeInstance)->SetHiddenLineAspect(h_theAspect);
+	theAspect->NativeInstance = h_theAspect.get();
 }
 
 bool Macad::Occt::AIS_InteractiveContext::DrawHiddenLine()
@@ -2532,9 +2645,9 @@ int Macad::Occt::AIS_InteractiveContext::IsoNumber()
 	return ((::AIS_InteractiveContext*)_NativeInstance)->IsoNumber(AIS_TOI_Both);
 }
 
-void Macad::Occt::AIS_InteractiveContext::IsoOnPlane(bool SwitchOn)
+void Macad::Occt::AIS_InteractiveContext::IsoOnPlane(bool theToSwitchOn)
 {
-	((::AIS_InteractiveContext*)_NativeInstance)->IsoOnPlane(SwitchOn);
+	((::AIS_InteractiveContext*)_NativeInstance)->IsoOnPlane(theToSwitchOn);
 }
 
 bool Macad::Occt::AIS_InteractiveContext::IsoOnPlane()
@@ -2557,6 +2670,65 @@ void Macad::Occt::AIS_InteractiveContext::IsoOnTriangulation(bool theToSwitchOn)
 bool Macad::Occt::AIS_InteractiveContext::IsoOnTriangulation()
 {
 	return ((::AIS_InteractiveContext*)_NativeInstance)->IsoOnTriangulation();
+}
+
+void Macad::Occt::AIS_InteractiveContext::Display(Macad::Occt::AIS_InteractiveObject^ theIObj, int theDispMode, int theSelectionMode, bool theToUpdateViewer, bool theToAllowDecomposition)
+{
+	Handle(::AIS_InteractiveObject) h_theIObj = theIObj->NativeInstance;
+	((::AIS_InteractiveContext*)_NativeInstance)->Display(h_theIObj, theDispMode, theSelectionMode, theToUpdateViewer, theToAllowDecomposition, PrsMgr_DisplayStatus_None);
+	theIObj->NativeInstance = h_theIObj.get();
+}
+
+void Macad::Occt::AIS_InteractiveContext::Load(Macad::Occt::AIS_InteractiveObject^ theObj, int theSelectionMode, bool parameter1)
+{
+	Handle(::AIS_InteractiveObject) h_theObj = theObj->NativeInstance;
+	((::AIS_InteractiveContext*)_NativeInstance)->Load(h_theObj, theSelectionMode, parameter1);
+	theObj->NativeInstance = h_theObj.get();
+}
+
+void Macad::Occt::AIS_InteractiveContext::SetSelectedAspect(Macad::Occt::Prs3d_BasicAspect^ theAspect, bool theToUpdateViewer)
+{
+	Handle(::Prs3d_BasicAspect) h_theAspect = theAspect->NativeInstance;
+	((::AIS_InteractiveContext*)_NativeInstance)->SetSelectedAspect(h_theAspect, theToUpdateViewer);
+	theAspect->NativeInstance = h_theAspect.get();
+}
+
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::Select(int theXPMin, int theYPMin, int theXPMax, int theYPMax, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer)
+{
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->Select(theXPMin, theYPMin, theXPMax, theYPMax, h_theView, theToUpdateViewer);
+	theView->NativeInstance = h_theView.get();
+}
+
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::Select(Macad::Occt::TColgp_Array1OfPnt2d^ thePolyline, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer)
+{
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->Select(*(::TColgp_Array1OfPnt2d*)thePolyline->NativeInstance, h_theView, theToUpdateViewer);
+	theView->NativeInstance = h_theView.get();
+}
+
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::Select(bool theToUpdateViewer)
+{
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->Select(theToUpdateViewer);
+}
+
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::ShiftSelect(bool theToUpdateViewer)
+{
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->ShiftSelect(theToUpdateViewer);
+}
+
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::ShiftSelect(Macad::Occt::TColgp_Array1OfPnt2d^ thePolyline, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer)
+{
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->ShiftSelect(*(::TColgp_Array1OfPnt2d*)thePolyline->NativeInstance, h_theView, theToUpdateViewer);
+	theView->NativeInstance = h_theView.get();
+}
+
+Macad::Occt::AIS_StatusOfPick Macad::Occt::AIS_InteractiveContext::ShiftSelect(int theXPMin, int theYPMin, int theXPMax, int theYPMax, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer)
+{
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	return (Macad::Occt::AIS_StatusOfPick)((::AIS_InteractiveContext*)_NativeInstance)->ShiftSelect(theXPMin, theYPMin, theXPMax, theYPMax, h_theView, theToUpdateViewer);
+	theView->NativeInstance = h_theView.get();
 }
 
 void Macad::Occt::AIS_InteractiveContext::SetCurrentObject(Macad::Occt::AIS_InteractiveObject^ theIObj, bool theToUpdateViewer)
@@ -2815,6 +2987,8 @@ Macad::Occt::AIS_InteractiveObject^ Macad::Occt::AIS_InteractiveObject::CreateDo
 		return Macad::Occt::AIS_Shape::CreateDowncasted((::AIS_Shape*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::AIS_ConnectedInteractive)))
 		return Macad::Occt::AIS_ConnectedInteractive::CreateDowncasted((::AIS_ConnectedInteractive*)instance);
+	if (instance->IsKind(STANDARD_TYPE(::AIS_LightSource)))
+		return Macad::Occt::AIS_LightSource::CreateDowncasted((::AIS_LightSource*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::AIS_Line)))
 		return Macad::Occt::AIS_Line::CreateDowncasted((::AIS_Line*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::AIS_MediaPlayer)))
@@ -3086,43 +3260,10 @@ Macad::Occt::AIS_GlobalStatus::AIS_GlobalStatus()
 	NativeInstance = new ::AIS_GlobalStatus();
 }
 
-Macad::Occt::AIS_GlobalStatus::AIS_GlobalStatus(Macad::Occt::AIS_DisplayStatus aStat, int aDispMode, int aSelMode, bool ishilighted, int aLayerIndex)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_GlobalStatus((::AIS_DisplayStatus)aStat, aDispMode, aSelMode, ishilighted, aLayerIndex);
-}
-
-Macad::Occt::AIS_GlobalStatus::AIS_GlobalStatus(Macad::Occt::AIS_DisplayStatus aStat, int aDispMode, int aSelMode, bool ishilighted)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_GlobalStatus((::AIS_DisplayStatus)aStat, aDispMode, aSelMode, ishilighted, 0);
-}
-
-Macad::Occt::AIS_GlobalStatus::AIS_GlobalStatus(Macad::Occt::AIS_DisplayStatus aStat, int aDispMode, int aSelMode)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::AIS_GlobalStatus((::AIS_DisplayStatus)aStat, aDispMode, aSelMode, false, 0);
-}
-
 Macad::Occt::AIS_GlobalStatus::AIS_GlobalStatus(Macad::Occt::AIS_GlobalStatus^ parameter1)
 	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
 	NativeInstance = new ::AIS_GlobalStatus(*(::AIS_GlobalStatus*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::AIS_GlobalStatus::SetGraphicStatus(Macad::Occt::AIS_DisplayStatus theStatus)
-{
-	((::AIS_GlobalStatus*)_NativeInstance)->SetGraphicStatus((::AIS_DisplayStatus)theStatus);
-}
-
-void Macad::Occt::AIS_GlobalStatus::AddSelectionMode(int theMode)
-{
-	((::AIS_GlobalStatus*)_NativeInstance)->AddSelectionMode(theMode);
-}
-
-void Macad::Occt::AIS_GlobalStatus::SetDisplayMode(int theMode)
-{
-	((::AIS_GlobalStatus*)_NativeInstance)->SetDisplayMode(theMode);
 }
 
 int Macad::Occt::AIS_GlobalStatus::DisplayMode()
@@ -3130,9 +3271,14 @@ int Macad::Occt::AIS_GlobalStatus::DisplayMode()
 	return ((::AIS_GlobalStatus*)_NativeInstance)->DisplayMode();
 }
 
-void Macad::Occt::AIS_GlobalStatus::SetLayerIndex(int theIndex)
+void Macad::Occt::AIS_GlobalStatus::SetDisplayMode(int theMode)
 {
-	((::AIS_GlobalStatus*)_NativeInstance)->SetLayerIndex(theIndex);
+	((::AIS_GlobalStatus*)_NativeInstance)->SetDisplayMode(theMode);
+}
+
+bool Macad::Occt::AIS_GlobalStatus::IsHilighted()
+{
+	return ((::AIS_GlobalStatus*)_NativeInstance)->IsHilighted();
 }
 
 void Macad::Occt::AIS_GlobalStatus::SetHilightStatus(bool theStatus)
@@ -3154,36 +3300,6 @@ Macad::Occt::Prs3d_Drawer^ Macad::Occt::AIS_GlobalStatus::HilightStyle()
 	 return _result.IsNull() ? nullptr : Macad::Occt::Prs3d_Drawer::CreateDowncasted( _result.get());
 }
 
-bool Macad::Occt::AIS_GlobalStatus::IsSubIntensityOn()
-{
-	return ((::AIS_GlobalStatus*)_NativeInstance)->IsSubIntensityOn();
-}
-
-void Macad::Occt::AIS_GlobalStatus::SubIntensityOn()
-{
-	((::AIS_GlobalStatus*)_NativeInstance)->SubIntensityOn();
-}
-
-void Macad::Occt::AIS_GlobalStatus::SubIntensityOff()
-{
-	((::AIS_GlobalStatus*)_NativeInstance)->SubIntensityOff();
-}
-
-void Macad::Occt::AIS_GlobalStatus::RemoveSelectionMode(int aMode)
-{
-	((::AIS_GlobalStatus*)_NativeInstance)->RemoveSelectionMode(aMode);
-}
-
-void Macad::Occt::AIS_GlobalStatus::ClearSelectionModes()
-{
-	((::AIS_GlobalStatus*)_NativeInstance)->ClearSelectionModes();
-}
-
-Macad::Occt::AIS_DisplayStatus Macad::Occt::AIS_GlobalStatus::GraphicStatus()
-{
-	return (Macad::Occt::AIS_DisplayStatus)((::AIS_GlobalStatus*)_NativeInstance)->GraphicStatus();
-}
-
 Macad::Occt::TColStd_ListOfInteger^ Macad::Occt::AIS_GlobalStatus::SelectionModes()
 {
 	::TColStd_ListOfInteger* _result = new ::TColStd_ListOfInteger();
@@ -3191,19 +3307,34 @@ Macad::Occt::TColStd_ListOfInteger^ Macad::Occt::AIS_GlobalStatus::SelectionMode
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TColStd_ListOfInteger(_result);
 }
 
-bool Macad::Occt::AIS_GlobalStatus::IsHilighted()
+bool Macad::Occt::AIS_GlobalStatus::IsSModeIn(int theMode)
 {
-	return ((::AIS_GlobalStatus*)_NativeInstance)->IsHilighted();
+	return ((::AIS_GlobalStatus*)_NativeInstance)->IsSModeIn(theMode);
 }
 
-bool Macad::Occt::AIS_GlobalStatus::IsSModeIn(int aMode)
+bool Macad::Occt::AIS_GlobalStatus::AddSelectionMode(int theMode)
 {
-	return ((::AIS_GlobalStatus*)_NativeInstance)->IsSModeIn(aMode);
+	return ((::AIS_GlobalStatus*)_NativeInstance)->AddSelectionMode(theMode);
 }
 
-int Macad::Occt::AIS_GlobalStatus::GetLayerIndex()
+bool Macad::Occt::AIS_GlobalStatus::RemoveSelectionMode(int theMode)
 {
-	return ((::AIS_GlobalStatus*)_NativeInstance)->GetLayerIndex();
+	return ((::AIS_GlobalStatus*)_NativeInstance)->RemoveSelectionMode(theMode);
+}
+
+void Macad::Occt::AIS_GlobalStatus::ClearSelectionModes()
+{
+	((::AIS_GlobalStatus*)_NativeInstance)->ClearSelectionModes();
+}
+
+bool Macad::Occt::AIS_GlobalStatus::IsSubIntensityOn()
+{
+	return ((::AIS_GlobalStatus*)_NativeInstance)->IsSubIntensityOn();
+}
+
+void Macad::Occt::AIS_GlobalStatus::SetSubIntensity(bool theIsOn)
+{
+	((::AIS_GlobalStatus*)_NativeInstance)->SetSubIntensity(theIsOn);
 }
 
 
@@ -3302,6 +3433,13 @@ Macad::Occt::SelectMgr_EntityOwner^ Macad::Occt::AIS_Selection::Value()
 	 return _result.IsNull() ? nullptr : Macad::Occt::SelectMgr_EntityOwner::CreateDowncasted( _result.get());
 }
 
+void Macad::Occt::AIS_Selection::SelectOwners(Macad::Occt::AIS_NArray1OfEntityOwner^ thePickedOwners, Macad::Occt::AIS_SelectionScheme theSelScheme, bool theToAllowSelOverlap, Macad::Occt::SelectMgr_Filter^ theFilter)
+{
+	Handle(::SelectMgr_Filter) h_theFilter = theFilter->NativeInstance;
+	((::AIS_Selection*)_NativeInstance)->SelectOwners(*(::AIS_NArray1OfEntityOwner*)thePickedOwners->NativeInstance, (::AIS_SelectionScheme)theSelScheme, theToAllowSelOverlap, h_theFilter);
+	theFilter->NativeInstance = h_theFilter.get();
+}
+
 
 Macad::Occt::AIS_Selection^ Macad::Occt::AIS_Selection::CreateDowncasted(::AIS_Selection* instance)
 {
@@ -3378,14 +3516,14 @@ bool Macad::Occt::AIS_AttributeFilter::HasWidth()
 	return ((::AIS_AttributeFilter*)_NativeInstance)->HasWidth();
 }
 
-void Macad::Occt::AIS_AttributeFilter::SetColor(Macad::Occt::Quantity_NameOfColor aCol)
+void Macad::Occt::AIS_AttributeFilter::SetColor(Macad::Occt::Quantity_NameOfColor theCol)
 {
-	((::AIS_AttributeFilter*)_NativeInstance)->SetColor((::Quantity_NameOfColor)aCol);
+	((::AIS_AttributeFilter*)_NativeInstance)->SetColor((::Quantity_NameOfColor)theCol);
 }
 
-void Macad::Occt::AIS_AttributeFilter::SetWidth(double aWidth)
+void Macad::Occt::AIS_AttributeFilter::SetWidth(double theWidth)
 {
-	((::AIS_AttributeFilter*)_NativeInstance)->SetWidth(aWidth);
+	((::AIS_AttributeFilter*)_NativeInstance)->SetWidth(theWidth);
 }
 
 void Macad::Occt::AIS_AttributeFilter::UnsetColor()
@@ -3439,6 +3577,20 @@ Macad::Occt::AIS_Axis::AIS_Axis(Macad::Occt::Geom_Axis1Placement^ anAxis)
 	Handle(::Geom_Axis1Placement) h_anAxis = anAxis->NativeInstance;
 	NativeInstance = new ::AIS_Axis(h_anAxis);
 	anAxis->NativeInstance = h_anAxis.get();
+}
+
+Macad::Occt::AIS_Axis::AIS_Axis(Macad::Occt::Ax1 theAxis, double theLength)
+	: Macad::Occt::AIS_InteractiveObject(BaseClass::InitMode::Uninitialized)
+{
+	pin_ptr<Macad::Occt::Ax1> pp_theAxis = &theAxis;
+	NativeInstance = new ::AIS_Axis(*(gp_Ax1*)pp_theAxis, theLength);
+}
+
+Macad::Occt::AIS_Axis::AIS_Axis(Macad::Occt::Ax1 theAxis)
+	: Macad::Occt::AIS_InteractiveObject(BaseClass::InitMode::Uninitialized)
+{
+	pin_ptr<Macad::Occt::Ax1> pp_theAxis = &theAxis;
+	NativeInstance = new ::AIS_Axis(*(gp_Ax1*)pp_theAxis, -1);
 }
 
 Macad::Occt::AIS_Axis::AIS_Axis(Macad::Occt::AIS_Axis^ parameter1)
@@ -3520,6 +3672,13 @@ void Macad::Occt::AIS_Axis::SetColor(Macad::Occt::Quantity_Color^ aColor)
 void Macad::Occt::AIS_Axis::SetWidth(double aValue)
 {
 	((::AIS_Axis*)_NativeInstance)->SetWidth(aValue);
+}
+
+void Macad::Occt::AIS_Axis::SetDisplayAspect(Macad::Occt::Prs3d_LineAspect^ theNewDatumAspect)
+{
+	Handle(::Prs3d_LineAspect) h_theNewDatumAspect = theNewDatumAspect->NativeInstance;
+	((::AIS_Axis*)_NativeInstance)->SetDisplayAspect(h_theNewDatumAspect);
+	theNewDatumAspect->NativeInstance = h_theNewDatumAspect.get();
 }
 
 void Macad::Occt::AIS_Axis::UnsetColor()
@@ -4400,9 +4559,9 @@ bool Macad::Occt::AIS_ExclusionFilter::IsExclusionFlagOn()
 	return ((::AIS_ExclusionFilter*)_NativeInstance)->IsExclusionFlagOn();
 }
 
-void Macad::Occt::AIS_ExclusionFilter::SetExclusionFlag(bool Status)
+void Macad::Occt::AIS_ExclusionFilter::SetExclusionFlag(bool theStatus)
 {
-	((::AIS_ExclusionFilter*)_NativeInstance)->SetExclusionFlag(Status);
+	((::AIS_ExclusionFilter*)_NativeInstance)->SetExclusionFlag(theStatus);
 }
 
 bool Macad::Occt::AIS_ExclusionFilter::IsStored(Macad::Occt::AIS_KindOfInteractive aType)
@@ -4505,6 +4664,214 @@ Macad::Occt::Graphic3d_MaterialAspect^ Macad::Occt::AIS_GraphicTool::GetMaterial
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_MaterialAspect(_result);
 }
 
+
+
+
+//---------------------------------------------------------------------
+//  Class  AIS_LightSource
+//---------------------------------------------------------------------
+
+Macad::Occt::AIS_LightSource::AIS_LightSource(Macad::Occt::Graphic3d_CLight^ theLightSource)
+	: Macad::Occt::AIS_InteractiveObject(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::Graphic3d_CLight) h_theLightSource = theLightSource->NativeInstance;
+	NativeInstance = new ::AIS_LightSource(h_theLightSource);
+	theLightSource->NativeInstance = h_theLightSource.get();
+}
+
+Macad::Occt::AIS_LightSource::AIS_LightSource(Macad::Occt::AIS_LightSource^ parameter1)
+	: Macad::Occt::AIS_InteractiveObject(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::AIS_LightSource(*(::AIS_LightSource*)parameter1->NativeInstance);
+}
+
+Macad::Occt::Graphic3d_CLight^ Macad::Occt::AIS_LightSource::Light()
+{
+	Handle(::Graphic3d_CLight) _result;
+	_result = ((::AIS_LightSource*)_NativeInstance)->Light();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CLight::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::AIS_LightSource::SetLight(Macad::Occt::Graphic3d_CLight^ theLight)
+{
+	Handle(::Graphic3d_CLight) h_theLight = theLight->NativeInstance;
+	((::AIS_LightSource*)_NativeInstance)->SetLight(h_theLight);
+	theLight->NativeInstance = h_theLight.get();
+}
+
+bool Macad::Occt::AIS_LightSource::ToDisplayName()
+{
+	return ((::AIS_LightSource*)_NativeInstance)->ToDisplayName();
+}
+
+void Macad::Occt::AIS_LightSource::SetDisplayName(bool theToDisplay)
+{
+	((::AIS_LightSource*)_NativeInstance)->SetDisplayName(theToDisplay);
+}
+
+bool Macad::Occt::AIS_LightSource::ToDisplayRange()
+{
+	return ((::AIS_LightSource*)_NativeInstance)->ToDisplayRange();
+}
+
+void Macad::Occt::AIS_LightSource::SetDisplayRange(bool theToDisplay)
+{
+	((::AIS_LightSource*)_NativeInstance)->SetDisplayRange(theToDisplay);
+}
+
+double Macad::Occt::AIS_LightSource::Size()
+{
+	return ((::AIS_LightSource*)_NativeInstance)->Size();
+}
+
+void Macad::Occt::AIS_LightSource::SetSize(double theSize)
+{
+	((::AIS_LightSource*)_NativeInstance)->SetSize(theSize);
+}
+
+int Macad::Occt::AIS_LightSource::ArcSize()
+{
+	return ((::AIS_LightSource*)_NativeInstance)->ArcSize();
+}
+
+void Macad::Occt::AIS_LightSource::SetArcSize(int theSize)
+{
+	((::AIS_LightSource*)_NativeInstance)->SetArcSize(theSize);
+}
+
+bool Macad::Occt::AIS_LightSource::IsZoomable()
+{
+	return ((::AIS_LightSource*)_NativeInstance)->IsZoomable();
+}
+
+void Macad::Occt::AIS_LightSource::SetZoomable(bool theIsZoomable)
+{
+	((::AIS_LightSource*)_NativeInstance)->SetZoomable(theIsZoomable);
+}
+
+void Macad::Occt::AIS_LightSource::SetDraggable(bool theIsDraggable)
+{
+	((::AIS_LightSource*)_NativeInstance)->SetDraggable(theIsDraggable);
+}
+
+bool Macad::Occt::AIS_LightSource::ToSwitchOnClick()
+{
+	return ((::AIS_LightSource*)_NativeInstance)->ToSwitchOnClick();
+}
+
+void Macad::Occt::AIS_LightSource::SetSwitchOnClick(bool theToHandle)
+{
+	((::AIS_LightSource*)_NativeInstance)->SetSwitchOnClick(theToHandle);
+}
+
+int Macad::Occt::AIS_LightSource::NbArrows()
+{
+	return ((::AIS_LightSource*)_NativeInstance)->NbArrows();
+}
+
+void Macad::Occt::AIS_LightSource::SetNbArrows(int theNbArrows)
+{
+	((::AIS_LightSource*)_NativeInstance)->SetNbArrows(theNbArrows);
+}
+
+Macad::Occt::Graphic3d_MarkerImage^ Macad::Occt::AIS_LightSource::MarkerImage(bool theIsEnabled)
+{
+	Handle(::Graphic3d_MarkerImage) _result;
+	_result = ((::AIS_LightSource*)_NativeInstance)->MarkerImage(theIsEnabled);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_MarkerImage::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Aspect_TypeOfMarker Macad::Occt::AIS_LightSource::MarkerType(bool theIsEnabled)
+{
+	return (Macad::Occt::Aspect_TypeOfMarker)((::AIS_LightSource*)_NativeInstance)->MarkerType(theIsEnabled);
+}
+
+void Macad::Occt::AIS_LightSource::SetMarkerImage(Macad::Occt::Graphic3d_MarkerImage^ theImage, bool theIsEnabled)
+{
+	Handle(::Graphic3d_MarkerImage) h_theImage = theImage->NativeInstance;
+	((::AIS_LightSource*)_NativeInstance)->SetMarkerImage(h_theImage, theIsEnabled);
+	theImage->NativeInstance = h_theImage.get();
+}
+
+void Macad::Occt::AIS_LightSource::SetMarkerType(Macad::Occt::Aspect_TypeOfMarker theType, bool theIsEnabled)
+{
+	((::AIS_LightSource*)_NativeInstance)->SetMarkerType((::Aspect_TypeOfMarker)theType, theIsEnabled);
+}
+
+int Macad::Occt::AIS_LightSource::NbSplitsQuadric()
+{
+	return ((::AIS_LightSource*)_NativeInstance)->NbSplitsQuadric();
+}
+
+void Macad::Occt::AIS_LightSource::SetNbSplitsQuadric(int theNbSplits)
+{
+	((::AIS_LightSource*)_NativeInstance)->SetNbSplitsQuadric(theNbSplits);
+}
+
+int Macad::Occt::AIS_LightSource::NbSplitsArrow()
+{
+	return ((::AIS_LightSource*)_NativeInstance)->NbSplitsArrow();
+}
+
+void Macad::Occt::AIS_LightSource::SetNbSplitsArrow(int theNbSplits)
+{
+	((::AIS_LightSource*)_NativeInstance)->SetNbSplitsArrow(theNbSplits);
+}
+
+Macad::Occt::AIS_KindOfInteractive Macad::Occt::AIS_LightSource::Type()
+{
+	return (Macad::Occt::AIS_KindOfInteractive)((::AIS_LightSource*)_NativeInstance)->Type();
+}
+
+
+Macad::Occt::AIS_LightSource^ Macad::Occt::AIS_LightSource::CreateDowncasted(::AIS_LightSource* instance)
+{
+	return gcnew Macad::Occt::AIS_LightSource( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  AIS_LightSourceOwner
+//---------------------------------------------------------------------
+
+Macad::Occt::AIS_LightSourceOwner::AIS_LightSourceOwner(Macad::Occt::AIS_LightSource^ theObject, int thePriority)
+	: Macad::Occt::SelectMgr_EntityOwner(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::AIS_LightSource) h_theObject = theObject->NativeInstance;
+	NativeInstance = new ::AIS_LightSourceOwner(h_theObject, thePriority);
+	theObject->NativeInstance = h_theObject.get();
+}
+
+Macad::Occt::AIS_LightSourceOwner::AIS_LightSourceOwner(Macad::Occt::AIS_LightSource^ theObject)
+	: Macad::Occt::SelectMgr_EntityOwner(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::AIS_LightSource) h_theObject = theObject->NativeInstance;
+	NativeInstance = new ::AIS_LightSourceOwner(h_theObject, 5);
+	theObject->NativeInstance = h_theObject.get();
+}
+
+Macad::Occt::AIS_LightSourceOwner::AIS_LightSourceOwner(Macad::Occt::AIS_LightSourceOwner^ parameter1)
+	: Macad::Occt::SelectMgr_EntityOwner(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::AIS_LightSourceOwner(*(::AIS_LightSourceOwner*)parameter1->NativeInstance);
+}
+
+bool Macad::Occt::AIS_LightSourceOwner::HandleMouseClick(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButton, unsigned int theModifiers, bool theIsDoubleClick)
+{
+	return ((::AIS_LightSourceOwner*)_NativeInstance)->HandleMouseClick(*(::Graphic3d_Vec2i*)thePoint->NativeInstance, theButton, theModifiers, theIsDoubleClick);
+}
+
+bool Macad::Occt::AIS_LightSourceOwner::IsForcedHilight()
+{
+	return ((::AIS_LightSourceOwner*)_NativeInstance)->IsForcedHilight();
+}
+
+
+Macad::Occt::AIS_LightSourceOwner^ Macad::Occt::AIS_LightSourceOwner::CreateDowncasted(::AIS_LightSourceOwner* instance)
+{
+	return gcnew Macad::Occt::AIS_LightSourceOwner( instance );
+}
 
 
 
@@ -4970,18 +5337,6 @@ Macad::Occt::AIS_InteractiveObject^ Macad::Occt::AIS_MultipleConnectedInteractiv
 	 return _result.IsNull() ? nullptr : Macad::Occt::AIS_InteractiveObject::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::AIS_InteractiveObject^ Macad::Occt::AIS_MultipleConnectedInteractive::Connect(Macad::Occt::AIS_InteractiveObject^ theInteractive, Macad::Occt::Trsf theLocation, Macad::Occt::Graphic3d_TransModeFlags% theTrsfPersFlag, Macad::Occt::Pnt theTrsfPersPoint)
-{
-	Handle(::AIS_InteractiveObject) h_theInteractive = theInteractive->NativeInstance;
-	pin_ptr<Macad::Occt::Trsf> pp_theLocation = &theLocation;
-	pin_ptr<Macad::Occt::Graphic3d_TransModeFlags> pp_theTrsfPersFlag = &theTrsfPersFlag;
-	pin_ptr<Macad::Occt::Pnt> pp_theTrsfPersPoint = &theTrsfPersPoint;
-	Handle(::AIS_InteractiveObject) _result;
-	_result = ((::AIS_MultipleConnectedInteractive*)_NativeInstance)->Connect(h_theInteractive, *(gp_Trsf*)pp_theLocation, *(::Graphic3d_TransModeFlags*)pp_theTrsfPersFlag, *(gp_Pnt*)pp_theTrsfPersPoint);
-	theInteractive->NativeInstance = h_theInteractive.get();
-	 return _result.IsNull() ? nullptr : Macad::Occt::AIS_InteractiveObject::CreateDowncasted( _result.get());
-}
-
 
 Macad::Occt::AIS_MultipleConnectedInteractive^ Macad::Occt::AIS_MultipleConnectedInteractive::CreateDowncasted(::AIS_MultipleConnectedInteractive* instance)
 {
@@ -5097,6 +5452,21 @@ bool Macad::Occt::AIS_Plane::Size(double% X, double% Y)
 bool Macad::Occt::AIS_Plane::HasOwnSize()
 {
 	return ((::AIS_Plane*)_NativeInstance)->HasOwnSize();
+}
+
+void Macad::Occt::AIS_Plane::SetMinimumSize(double theValue)
+{
+	((::AIS_Plane*)_NativeInstance)->SetMinimumSize(theValue);
+}
+
+void Macad::Occt::AIS_Plane::UnsetMinimumSize()
+{
+	((::AIS_Plane*)_NativeInstance)->UnsetMinimumSize();
+}
+
+bool Macad::Occt::AIS_Plane::HasMinimumSize()
+{
+	return ((::AIS_Plane*)_NativeInstance)->HasMinimumSize();
 }
 
 int Macad::Occt::AIS_Plane::Signature()
@@ -6225,14 +6595,14 @@ Macad::Occt::AIS_Trihedron::AIS_Trihedron(Macad::Occt::AIS_Trihedron^ parameter1
 	NativeInstance = new ::AIS_Trihedron(*(::AIS_Trihedron*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::AIS_Trihedron::SetDatumDisplayMode(Macad::Occt::Prs3d_DatumMode theMode)
-{
-	((::AIS_Trihedron*)_NativeInstance)->SetDatumDisplayMode((::Prs3d_DatumMode)theMode);
-}
-
 Macad::Occt::Prs3d_DatumMode Macad::Occt::AIS_Trihedron::DatumDisplayMode()
 {
 	return (Macad::Occt::Prs3d_DatumMode)((::AIS_Trihedron*)_NativeInstance)->DatumDisplayMode();
+}
+
+void Macad::Occt::AIS_Trihedron::SetDatumDisplayMode(Macad::Occt::Prs3d_DatumMode theMode)
+{
+	((::AIS_Trihedron*)_NativeInstance)->SetDatumDisplayMode((::Prs3d_DatumMode)theMode);
 }
 
 Macad::Occt::Geom_Axis2Placement^ Macad::Occt::AIS_Trihedron::Component()
@@ -6254,6 +6624,11 @@ bool Macad::Occt::AIS_Trihedron::HasOwnSize()
 	return ((::AIS_Trihedron*)_NativeInstance)->HasOwnSize();
 }
 
+double Macad::Occt::AIS_Trihedron::Size()
+{
+	return ((::AIS_Trihedron*)_NativeInstance)->Size();
+}
+
 void Macad::Occt::AIS_Trihedron::SetSize(double theValue)
 {
 	((::AIS_Trihedron*)_NativeInstance)->SetSize(theValue);
@@ -6262,36 +6637,6 @@ void Macad::Occt::AIS_Trihedron::SetSize(double theValue)
 void Macad::Occt::AIS_Trihedron::UnsetSize()
 {
 	((::AIS_Trihedron*)_NativeInstance)->UnsetSize();
-}
-
-double Macad::Occt::AIS_Trihedron::Size()
-{
-	return ((::AIS_Trihedron*)_NativeInstance)->Size();
-}
-
-bool Macad::Occt::AIS_Trihedron::AcceptDisplayMode(int theMode)
-{
-	return ((::AIS_Trihedron*)_NativeInstance)->AcceptDisplayMode(theMode);
-}
-
-int Macad::Occt::AIS_Trihedron::Signature()
-{
-	return ((::AIS_Trihedron*)_NativeInstance)->Signature();
-}
-
-Macad::Occt::AIS_KindOfInteractive Macad::Occt::AIS_Trihedron::Type()
-{
-	return (Macad::Occt::AIS_KindOfInteractive)((::AIS_Trihedron*)_NativeInstance)->Type();
-}
-
-void Macad::Occt::AIS_Trihedron::SetColor(Macad::Occt::Quantity_Color^ theColor)
-{
-	((::AIS_Trihedron*)_NativeInstance)->SetColor(*(::Quantity_Color*)theColor->NativeInstance);
-}
-
-void Macad::Occt::AIS_Trihedron::SetTextColor(Macad::Occt::Quantity_Color^ theColor)
-{
-	((::AIS_Trihedron*)_NativeInstance)->SetTextColor(*(::Quantity_Color*)theColor->NativeInstance);
 }
 
 bool Macad::Occt::AIS_Trihedron::HasTextColor()
@@ -6306,9 +6651,14 @@ Macad::Occt::Quantity_Color^ Macad::Occt::AIS_Trihedron::TextColor()
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Quantity_Color(_result);
 }
 
-void Macad::Occt::AIS_Trihedron::SetArrowColor(Macad::Occt::Quantity_Color^ theColor)
+void Macad::Occt::AIS_Trihedron::SetTextColor(Macad::Occt::Quantity_Color^ theColor)
 {
-	((::AIS_Trihedron*)_NativeInstance)->SetArrowColor(*(::Quantity_Color*)theColor->NativeInstance);
+	((::AIS_Trihedron*)_NativeInstance)->SetTextColor(*(::Quantity_Color*)theColor->NativeInstance);
+}
+
+void Macad::Occt::AIS_Trihedron::SetTextColor(Macad::Occt::Prs3d_DatumParts thePart, Macad::Occt::Quantity_Color^ theColor)
+{
+	((::AIS_Trihedron*)_NativeInstance)->SetTextColor((::Prs3d_DatumParts)thePart, *(::Quantity_Color*)theColor->NativeInstance);
 }
 
 bool Macad::Occt::AIS_Trihedron::HasArrowColor()
@@ -6323,14 +6673,14 @@ Macad::Occt::Quantity_Color^ Macad::Occt::AIS_Trihedron::ArrowColor()
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Quantity_Color(_result);
 }
 
-void Macad::Occt::AIS_Trihedron::UnsetColor()
+void Macad::Occt::AIS_Trihedron::SetArrowColor(Macad::Occt::Quantity_Color^ theColor)
 {
-	((::AIS_Trihedron*)_NativeInstance)->UnsetColor();
+	((::AIS_Trihedron*)_NativeInstance)->SetArrowColor(*(::Quantity_Color*)theColor->NativeInstance);
 }
 
-void Macad::Occt::AIS_Trihedron::SetDatumPartColor(Macad::Occt::Prs3d_DatumParts thePart, Macad::Occt::Quantity_Color^ theColor)
+void Macad::Occt::AIS_Trihedron::SetArrowColor(Macad::Occt::Prs3d_DatumParts thePart, Macad::Occt::Quantity_Color^ theColor)
 {
-	((::AIS_Trihedron*)_NativeInstance)->SetDatumPartColor((::Prs3d_DatumParts)thePart, *(::Quantity_Color*)theColor->NativeInstance);
+	((::AIS_Trihedron*)_NativeInstance)->SetArrowColor((::Prs3d_DatumParts)thePart, *(::Quantity_Color*)theColor->NativeInstance);
 }
 
 Macad::Occt::Quantity_Color^ Macad::Occt::AIS_Trihedron::DatumPartColor(Macad::Occt::Prs3d_DatumParts thePart)
@@ -6338,6 +6688,11 @@ Macad::Occt::Quantity_Color^ Macad::Occt::AIS_Trihedron::DatumPartColor(Macad::O
 	::Quantity_Color* _result = new ::Quantity_Color();
 	*_result = ((::AIS_Trihedron*)_NativeInstance)->DatumPartColor((::Prs3d_DatumParts)thePart);
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Quantity_Color(_result);
+}
+
+void Macad::Occt::AIS_Trihedron::SetDatumPartColor(Macad::Occt::Prs3d_DatumParts thePart, Macad::Occt::Quantity_Color^ theColor)
+{
+	((::AIS_Trihedron*)_NativeInstance)->SetDatumPartColor((::Prs3d_DatumParts)thePart, *(::Quantity_Color*)theColor->NativeInstance);
 }
 
 void Macad::Occt::AIS_Trihedron::SetOriginColor(Macad::Occt::Quantity_Color^ theColor)
@@ -6370,19 +6725,14 @@ void Macad::Occt::AIS_Trihedron::SetDrawArrows(bool theToDraw)
 	((::AIS_Trihedron*)_NativeInstance)->SetDrawArrows(theToDraw);
 }
 
-void Macad::Occt::AIS_Trihedron::SetSelectionPriority(Macad::Occt::Prs3d_DatumParts thePart, int thePriority)
-{
-	((::AIS_Trihedron*)_NativeInstance)->SetSelectionPriority((::Prs3d_DatumParts)thePart, thePriority);
-}
-
 int Macad::Occt::AIS_Trihedron::SelectionPriority(Macad::Occt::Prs3d_DatumParts thePart)
 {
 	return ((::AIS_Trihedron*)_NativeInstance)->SelectionPriority((::Prs3d_DatumParts)thePart);
 }
 
-void Macad::Occt::AIS_Trihedron::SetLabel(Macad::Occt::Prs3d_DatumParts thePart, Macad::Occt::TCollection_ExtendedString^ thePriority)
+void Macad::Occt::AIS_Trihedron::SetSelectionPriority(Macad::Occt::Prs3d_DatumParts thePart, int thePriority)
 {
-	((::AIS_Trihedron*)_NativeInstance)->SetLabel((::Prs3d_DatumParts)thePart, *(::TCollection_ExtendedString*)thePriority->NativeInstance);
+	((::AIS_Trihedron*)_NativeInstance)->SetSelectionPriority((::Prs3d_DatumParts)thePart, thePriority);
 }
 
 Macad::Occt::TCollection_ExtendedString^ Macad::Occt::AIS_Trihedron::Label(Macad::Occt::Prs3d_DatumParts thePart)
@@ -6390,6 +6740,36 @@ Macad::Occt::TCollection_ExtendedString^ Macad::Occt::AIS_Trihedron::Label(Macad
 	::TCollection_ExtendedString* _result = new ::TCollection_ExtendedString();
 	*_result =  (::TCollection_ExtendedString)((::AIS_Trihedron*)_NativeInstance)->Label((::Prs3d_DatumParts)thePart);
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_ExtendedString(_result);
+}
+
+void Macad::Occt::AIS_Trihedron::SetLabel(Macad::Occt::Prs3d_DatumParts thePart, Macad::Occt::TCollection_ExtendedString^ theName)
+{
+	((::AIS_Trihedron*)_NativeInstance)->SetLabel((::Prs3d_DatumParts)thePart, *(::TCollection_ExtendedString*)theName->NativeInstance);
+}
+
+void Macad::Occt::AIS_Trihedron::SetColor(Macad::Occt::Quantity_Color^ theColor)
+{
+	((::AIS_Trihedron*)_NativeInstance)->SetColor(*(::Quantity_Color*)theColor->NativeInstance);
+}
+
+bool Macad::Occt::AIS_Trihedron::AcceptDisplayMode(int theMode)
+{
+	return ((::AIS_Trihedron*)_NativeInstance)->AcceptDisplayMode(theMode);
+}
+
+int Macad::Occt::AIS_Trihedron::Signature()
+{
+	return ((::AIS_Trihedron*)_NativeInstance)->Signature();
+}
+
+Macad::Occt::AIS_KindOfInteractive Macad::Occt::AIS_Trihedron::Type()
+{
+	return (Macad::Occt::AIS_KindOfInteractive)((::AIS_Trihedron*)_NativeInstance)->Type();
+}
+
+void Macad::Occt::AIS_Trihedron::UnsetColor()
+{
+	((::AIS_Trihedron*)_NativeInstance)->UnsetColor();
 }
 
 void Macad::Occt::AIS_Trihedron::ClearSelected()
@@ -6541,7 +6921,7 @@ Macad::Occt::AIS_XRTrackedDevice^ Macad::Occt::AIS_XRTrackedDevice::CreateDownca
 //---------------------------------------------------------------------
 
 Macad::Occt::AIS_ViewController::AIS_ViewController()
-	: BaseClass<::AIS_ViewController>(BaseClass::InitMode::Uninitialized)
+	: Macad::Occt::Aspect_WindowInputListener(BaseClass::InitMode::Uninitialized)
 {
 	_NativeInstance = new ::AIS_ViewController();
 }
@@ -6577,6 +6957,40 @@ void Macad::Occt::AIS_ViewController::SetViewAnimation(Macad::Occt::AIS_Animatio
 void Macad::Occt::AIS_ViewController::AbortViewAnimation()
 {
 	((::AIS_ViewController*)_NativeInstance)->AbortViewAnimation();
+}
+
+Macad::Occt::AIS_Animation^ Macad::Occt::AIS_ViewController::ObjectsAnimation()
+{
+	Handle(::AIS_Animation) _result;
+	_result = ((::AIS_ViewController*)_NativeInstance)->ObjectsAnimation();
+	 return _result.IsNull() ? nullptr : Macad::Occt::AIS_Animation::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::AIS_ViewController::SetObjectsAnimation(Macad::Occt::AIS_Animation^ theAnimation)
+{
+	Handle(::AIS_Animation) h_theAnimation = theAnimation->NativeInstance;
+	((::AIS_ViewController*)_NativeInstance)->SetObjectsAnimation(h_theAnimation);
+	theAnimation->NativeInstance = h_theAnimation.get();
+}
+
+bool Macad::Occt::AIS_ViewController::ToPauseObjectsAnimation()
+{
+	return ((::AIS_ViewController*)_NativeInstance)->ToPauseObjectsAnimation();
+}
+
+void Macad::Occt::AIS_ViewController::SetPauseObjectsAnimation(bool theToPause)
+{
+	((::AIS_ViewController*)_NativeInstance)->SetPauseObjectsAnimation(theToPause);
+}
+
+bool Macad::Occt::AIS_ViewController::IsContinuousRedraw()
+{
+	return ((::AIS_ViewController*)_NativeInstance)->IsContinuousRedraw();
+}
+
+void Macad::Occt::AIS_ViewController::SetContinuousRedraw(bool theToEnable)
+{
+	((::AIS_ViewController*)_NativeInstance)->SetContinuousRedraw(theToEnable);
 }
 
 Macad::Occt::AIS_RotationMode Macad::Occt::AIS_ViewController::RotationMode()
@@ -6853,24 +7267,19 @@ void Macad::Occt::AIS_ViewController::SetMouseDoubleClickInterval(double theSeco
 	((::AIS_ViewController*)_NativeInstance)->SetMouseDoubleClickInterval(theSeconds);
 }
 
-void Macad::Occt::AIS_ViewController::SelectInViewer(Macad::Occt::Graphic3d_Vec2i^ thePnt, bool theIsXOR)
+void Macad::Occt::AIS_ViewController::SelectInViewer(Macad::Occt::Graphic3d_Vec2i^ thePnt, Macad::Occt::AIS_SelectionScheme theScheme)
 {
-	((::AIS_ViewController*)_NativeInstance)->SelectInViewer(*(::Graphic3d_Vec2i*)thePnt->NativeInstance, theIsXOR);
+	((::AIS_ViewController*)_NativeInstance)->SelectInViewer(*(::Graphic3d_Vec2i*)thePnt->NativeInstance, (::AIS_SelectionScheme)theScheme);
 }
 
 void Macad::Occt::AIS_ViewController::SelectInViewer(Macad::Occt::Graphic3d_Vec2i^ thePnt)
 {
-	((::AIS_ViewController*)_NativeInstance)->SelectInViewer(*(::Graphic3d_Vec2i*)thePnt->NativeInstance, false);
-}
-
-void Macad::Occt::AIS_ViewController::UpdateRubberBand(Macad::Occt::Graphic3d_Vec2i^ thePntFrom, Macad::Occt::Graphic3d_Vec2i^ thePntTo, bool theIsXOR)
-{
-	((::AIS_ViewController*)_NativeInstance)->UpdateRubberBand(*(::Graphic3d_Vec2i*)thePntFrom->NativeInstance, *(::Graphic3d_Vec2i*)thePntTo->NativeInstance, theIsXOR);
+	((::AIS_ViewController*)_NativeInstance)->SelectInViewer(*(::Graphic3d_Vec2i*)thePnt->NativeInstance, AIS_SelectionScheme_Replace);
 }
 
 void Macad::Occt::AIS_ViewController::UpdateRubberBand(Macad::Occt::Graphic3d_Vec2i^ thePntFrom, Macad::Occt::Graphic3d_Vec2i^ thePntTo)
 {
-	((::AIS_ViewController*)_NativeInstance)->UpdateRubberBand(*(::Graphic3d_Vec2i*)thePntFrom->NativeInstance, *(::Graphic3d_Vec2i*)thePntTo->NativeInstance, false);
+	((::AIS_ViewController*)_NativeInstance)->UpdateRubberBand(*(::Graphic3d_Vec2i*)thePntFrom->NativeInstance, *(::Graphic3d_Vec2i*)thePntTo->NativeInstance);
 }
 
 void Macad::Occt::AIS_ViewController::UpdatePolySelection(Macad::Occt::Graphic3d_Vec2i^ thePnt, bool theToAppend)
@@ -6903,36 +7312,9 @@ bool Macad::Occt::AIS_ViewController::UpdateMousePosition(Macad::Occt::Graphic3d
 	return ((::AIS_ViewController*)_NativeInstance)->UpdateMousePosition(*(::Graphic3d_Vec2i*)thePoint->NativeInstance, theButtons, theModifiers, theIsEmulated);
 }
 
-bool Macad::Occt::AIS_ViewController::PressMouseButton(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButton, unsigned int theModifiers, bool theIsEmulated)
-{
-	return ((::AIS_ViewController*)_NativeInstance)->PressMouseButton(*(::Graphic3d_Vec2i*)thePoint->NativeInstance, theButton, theModifiers, theIsEmulated);
-}
-
-bool Macad::Occt::AIS_ViewController::ReleaseMouseButton(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButton, unsigned int theModifiers, bool theIsEmulated)
-{
-	return ((::AIS_ViewController*)_NativeInstance)->ReleaseMouseButton(*(::Graphic3d_Vec2i*)thePoint->NativeInstance, theButton, theModifiers, theIsEmulated);
-}
-
 bool Macad::Occt::AIS_ViewController::UpdateMouseClick(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButton, unsigned int theModifiers, bool theIsDoubleClick)
 {
 	return ((::AIS_ViewController*)_NativeInstance)->UpdateMouseClick(*(::Graphic3d_Vec2i*)thePoint->NativeInstance, theButton, theModifiers, theIsDoubleClick);
-}
-
-unsigned int Macad::Occt::AIS_ViewController::PressedMouseButtons()
-{
-	return ((::AIS_ViewController*)_NativeInstance)->PressedMouseButtons();
-}
-
-unsigned int Macad::Occt::AIS_ViewController::LastMouseFlags()
-{
-	return ((::AIS_ViewController*)_NativeInstance)->LastMouseFlags();
-}
-
-Macad::Occt::Graphic3d_Vec2i^ Macad::Occt::AIS_ViewController::LastMousePosition()
-{
-	::Graphic3d_Vec2i* _result = new ::Graphic3d_Vec2i(0);
-	*_result =  (::Graphic3d_Vec2i)((::AIS_ViewController*)_NativeInstance)->LastMousePosition();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_Vec2i(_result);
 }
 
 float Macad::Occt::AIS_ViewController::TouchToleranceScale()
@@ -6943,11 +7325,6 @@ float Macad::Occt::AIS_ViewController::TouchToleranceScale()
 void Macad::Occt::AIS_ViewController::SetTouchToleranceScale(float theTolerance)
 {
 	((::AIS_ViewController*)_NativeInstance)->SetTouchToleranceScale(theTolerance);
-}
-
-bool Macad::Occt::AIS_ViewController::HasTouchPoints()
-{
-	return ((::AIS_ViewController*)_NativeInstance)->HasTouchPoints();
 }
 
 void Macad::Occt::AIS_ViewController::AddTouchPoint(size_t theId, Macad::Occt::Graphic3d_Vec2d^ thePnt, bool theClearBefore)
@@ -6975,59 +7352,29 @@ void Macad::Occt::AIS_ViewController::UpdateTouchPoint(size_t theId, Macad::Occt
 	((::AIS_ViewController*)_NativeInstance)->UpdateTouchPoint(theId, *(::Graphic3d_Vec2d*)thePnt->NativeInstance);
 }
 
-float Macad::Occt::AIS_ViewController::Get3dMouseTranslationScale()
+void Macad::Occt::AIS_ViewController::ProcessExpose()
 {
-	return ((::AIS_ViewController*)_NativeInstance)->Get3dMouseTranslationScale();
+	((::AIS_ViewController*)_NativeInstance)->ProcessExpose();
 }
 
-void Macad::Occt::AIS_ViewController::Set3dMouseTranslationScale(float theScale)
+void Macad::Occt::AIS_ViewController::ProcessConfigure(bool theIsResized)
 {
-	((::AIS_ViewController*)_NativeInstance)->Set3dMouseTranslationScale(theScale);
+	((::AIS_ViewController*)_NativeInstance)->ProcessConfigure(theIsResized);
 }
 
-float Macad::Occt::AIS_ViewController::Get3dMouseRotationScale()
+void Macad::Occt::AIS_ViewController::ProcessInput()
 {
-	return ((::AIS_ViewController*)_NativeInstance)->Get3dMouseRotationScale();
+	((::AIS_ViewController*)_NativeInstance)->ProcessInput();
 }
 
-void Macad::Occt::AIS_ViewController::Set3dMouseRotationScale(float theScale)
+void Macad::Occt::AIS_ViewController::ProcessFocus(bool theIsActivated)
 {
-	((::AIS_ViewController*)_NativeInstance)->Set3dMouseRotationScale(theScale);
+	((::AIS_ViewController*)_NativeInstance)->ProcessFocus(theIsActivated);
 }
 
-bool Macad::Occt::AIS_ViewController::To3dMousePreciseInput()
+void Macad::Occt::AIS_ViewController::ProcessClose()
 {
-	return ((::AIS_ViewController*)_NativeInstance)->To3dMousePreciseInput();
-}
-
-void Macad::Occt::AIS_ViewController::Set3dMousePreciseInput(bool theIsQuadric)
-{
-	((::AIS_ViewController*)_NativeInstance)->Set3dMousePreciseInput(theIsQuadric);
-}
-
-bool Macad::Occt::AIS_ViewController::Update3dMouse(Macad::Occt::WNT_HIDSpaceMouse^ theEvent)
-{
-	return ((::AIS_ViewController*)_NativeInstance)->Update3dMouse(*(::WNT_HIDSpaceMouse*)theEvent->NativeInstance);
-}
-
-bool Macad::Occt::AIS_ViewController::update3dMouseTranslation(Macad::Occt::WNT_HIDSpaceMouse^ theEvent)
-{
-	return ((::AIS_ViewController*)_NativeInstance)->update3dMouseTranslation(*(::WNT_HIDSpaceMouse*)theEvent->NativeInstance);
-}
-
-bool Macad::Occt::AIS_ViewController::update3dMouseRotation(Macad::Occt::WNT_HIDSpaceMouse^ theEvent)
-{
-	return ((::AIS_ViewController*)_NativeInstance)->update3dMouseRotation(*(::WNT_HIDSpaceMouse*)theEvent->NativeInstance);
-}
-
-bool Macad::Occt::AIS_ViewController::update3dMouseKeys(Macad::Occt::WNT_HIDSpaceMouse^ theEvent)
-{
-	return ((::AIS_ViewController*)_NativeInstance)->update3dMouseKeys(*(::WNT_HIDSpaceMouse*)theEvent->NativeInstance);
-}
-
-double Macad::Occt::AIS_ViewController::EventTime()
-{
-	return ((::AIS_ViewController*)_NativeInstance)->EventTime();
+	((::AIS_ViewController*)_NativeInstance)->ProcessClose();
 }
 
 void Macad::Occt::AIS_ViewController::ResetViewInput()
@@ -7091,6 +7438,17 @@ bool Macad::Occt::AIS_ViewController::PickPoint(Macad::Occt::Pnt% thePnt, Macad:
 	Handle(::AIS_InteractiveContext) h_theCtx = theCtx->NativeInstance;
 	Handle(::V3d_View) h_theView = theView->NativeInstance;
 	return ((::AIS_ViewController*)_NativeInstance)->PickPoint(*(gp_Pnt*)pp_thePnt, h_theCtx, h_theView, *(::Graphic3d_Vec2i*)theCursor->NativeInstance, theToStickToPickRay);
+	theCtx->NativeInstance = h_theCtx.get();
+	theView->NativeInstance = h_theView.get();
+}
+
+bool Macad::Occt::AIS_ViewController::PickAxis(Macad::Occt::Pnt% theTopPnt, Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView, Macad::Occt::Ax1 theAxis)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_theTopPnt = &theTopPnt;
+	Handle(::AIS_InteractiveContext) h_theCtx = theCtx->NativeInstance;
+	Handle(::V3d_View) h_theView = theView->NativeInstance;
+	pin_ptr<Macad::Occt::Ax1> pp_theAxis = &theAxis;
+	return ((::AIS_ViewController*)_NativeInstance)->PickAxis(*(gp_Pnt*)pp_theTopPnt, h_theCtx, h_theView, *(gp_Ax1*)pp_theAxis);
 	theCtx->NativeInstance = h_theCtx.get();
 	theView->NativeInstance = h_theView.get();
 }

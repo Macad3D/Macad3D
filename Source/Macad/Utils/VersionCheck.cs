@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Windows;
 using Macad.Common;
@@ -67,92 +65,60 @@ namespace Macad.Window
 
     internal class VersionCheckWebRequest : IVersionCheckRequest
     {
-        class RequestContext
-        {
-            public WebRequest WebRequest;
-            public Action<Dictionary<string, string>> Callback;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         readonly string _Url;
+        readonly Version _UserAgentVersion;
+        Action<Dictionary<string, string>> _Callback;
 
         //--------------------------------------------------------------------------------------------------
 
-        public VersionCheckWebRequest(string url)
+        public VersionCheckWebRequest(string url, Version userAgentVersion)
         {
             _Url = url;
+            _UserAgentVersion = userAgentVersion;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public void BeginRequest(Action<Dictionary<string, string>> callback)
         {
-            var context = new RequestContext()
-            {
-                Callback = callback
-            };
+            _Callback = callback;
 
-            Thread t = new Thread(new ParameterizedThreadStart(_ThreadEntry))
+            Thread t = new Thread(_ThreadEntry)
             {
                 IsBackground = true,
             };
-            t.Start(context);
-
+            t.Start();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _ThreadEntry(object obj)
         {
+            using HttpClient httpClient = new();
+            httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd($"Macad3D/{_UserAgentVersion.Major}.{_UserAgentVersion.Minor}");
+
             try
             {
-                var context = obj as RequestContext;
-                Debug.Assert(context != null);
+                var task = httpClient.GetStringAsync(_Url);
+                if (!task.Wait(new TimeSpan(0, 0, 30)))
+                {
+                    Debug.Print("--- Version check failed: Timeout on server connection.");
+                }
 
-                string url = _Url;
-                context.WebRequest = WebRequest.Create(url);
-                var result = context.WebRequest.BeginGetResponse(_OnResponsed, context);
-
-                ThreadPool.RegisterWaitForSingleObject( result.AsyncWaitHandle, 
-                                                        (context, timedOut) =>
-                                                        {
-                                                            if (timedOut)
-                                                            {
-                                                                ((RequestContext)context).WebRequest.Abort();
-                                                            }
-                                                        }, 
-                                                        null, 30* 1000,  true );
+                string responseText = task.Result;
+                if (responseText.Length >= 1)
+                {
+                    var serializer = Serializer.GetSerializer(typeof(Dictionary<string, string>));
+                    var reader = new Reader(responseText);
+                    if (serializer.Read(reader, null, null) is Dictionary<string, string> dict)
+                    {
+                        _Callback.Invoke(dict);
+                    }
+                }
             }
             catch (Exception)
             {
                 Debug.Print("--- Version check failed: Retrieving version information from server failed.");
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        void _OnResponsed(IAsyncResult result)
-        {
-            var context = result.AsyncState as RequestContext;
-            Debug.Assert(context != null);
-
-            var response = context.WebRequest.EndGetResponse(result);
-            string responseText;
-            using (var sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
-            {
-                responseText = sr.ReadToEnd();
-            }
-
-            if (responseText.Length >= 1)
-            {
-                var serializer = Serializer.GetSerializer(typeof(Dictionary<string, string>));
-                var reader = new Reader(responseText);
-                var dict = serializer.Read(reader, null, null) as Dictionary<string, string>;
-                if (dict != null)
-                {
-                    context.Callback.Invoke(dict);
-                }
             }
         }
     }
@@ -198,7 +164,7 @@ namespace Macad.Window
                 return;
             }
 
-            vc.BeginCheckForUpdate(false, new VersionCheckWebRequest(GetVersionUrl));
+            vc.BeginCheckForUpdate(false, new VersionCheckWebRequest(GetVersionUrl, vc._LocalVersion));
         }
         
         //--------------------------------------------------------------------------------------------------

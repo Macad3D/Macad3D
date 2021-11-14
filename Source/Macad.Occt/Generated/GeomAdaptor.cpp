@@ -6,12 +6,52 @@
 using namespace System::Runtime::InteropServices; // for class Marshal
 
 #include "Geom.h"
+#include "Adaptor3d.h"
 #include "Standard.h"
 #include "GeomAdaptor.h"
 #include "GeomAbs.h"
 #include "TColStd.h"
-#include "Adaptor3d.h"
 #include "gp.h"
+
+
+//---------------------------------------------------------------------
+//  Class  GeomAdaptor
+//---------------------------------------------------------------------
+
+Macad::Occt::GeomAdaptor::GeomAdaptor()
+	: BaseClass<::GeomAdaptor>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::GeomAdaptor();
+}
+
+Macad::Occt::GeomAdaptor::GeomAdaptor(Macad::Occt::GeomAdaptor^ parameter1)
+	: BaseClass<::GeomAdaptor>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::GeomAdaptor(*(::GeomAdaptor*)parameter1->NativeInstance);
+}
+
+Macad::Occt::Geom_Curve^ Macad::Occt::GeomAdaptor::MakeCurve(Macad::Occt::Adaptor3d_Curve^ C)
+{
+	Handle(::Geom_Curve) _result;
+	_result = ::GeomAdaptor::MakeCurve(*(::Adaptor3d_Curve*)C->NativeInstance);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Curve::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Geom_Surface^ Macad::Occt::GeomAdaptor::MakeSurface(Macad::Occt::Adaptor3d_Surface^ theS, bool theTrimFlag)
+{
+	Handle(::Geom_Surface) _result;
+	_result = ::GeomAdaptor::MakeSurface(*(::Adaptor3d_Surface*)theS->NativeInstance, theTrimFlag);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Surface::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Geom_Surface^ Macad::Occt::GeomAdaptor::MakeSurface(Macad::Occt::Adaptor3d_Surface^ theS)
+{
+	Handle(::Geom_Surface) _result;
+	_result = ::GeomAdaptor::MakeSurface(*(::Adaptor3d_Surface*)theS->NativeInstance, true);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Surface::CreateDowncasted( _result.get());
+}
+
+
 
 
 //---------------------------------------------------------------------
@@ -21,29 +61,36 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 Macad::Occt::GeomAdaptor_Curve::GeomAdaptor_Curve()
 	: Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::GeomAdaptor_Curve();
+	NativeInstance = new ::GeomAdaptor_Curve();
 }
 
-Macad::Occt::GeomAdaptor_Curve::GeomAdaptor_Curve(Macad::Occt::Geom_Curve^ C)
+Macad::Occt::GeomAdaptor_Curve::GeomAdaptor_Curve(Macad::Occt::Geom_Curve^ theCurve)
 	: Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Geom_Curve) h_C = C->NativeInstance;
-	_NativeInstance = new ::GeomAdaptor_Curve(h_C);
-	C->NativeInstance = h_C.get();
+	Handle(::Geom_Curve) h_theCurve = theCurve->NativeInstance;
+	NativeInstance = new ::GeomAdaptor_Curve(h_theCurve);
+	theCurve->NativeInstance = h_theCurve.get();
 }
 
-Macad::Occt::GeomAdaptor_Curve::GeomAdaptor_Curve(Macad::Occt::Geom_Curve^ C, double UFirst, double ULast)
+Macad::Occt::GeomAdaptor_Curve::GeomAdaptor_Curve(Macad::Occt::Geom_Curve^ theCurve, double theUFirst, double theULast)
 	: Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Geom_Curve) h_C = C->NativeInstance;
-	_NativeInstance = new ::GeomAdaptor_Curve(h_C, UFirst, ULast);
-	C->NativeInstance = h_C.get();
+	Handle(::Geom_Curve) h_theCurve = theCurve->NativeInstance;
+	NativeInstance = new ::GeomAdaptor_Curve(h_theCurve, theUFirst, theULast);
+	theCurve->NativeInstance = h_theCurve.get();
 }
 
 Macad::Occt::GeomAdaptor_Curve::GeomAdaptor_Curve(Macad::Occt::GeomAdaptor_Curve^ parameter1)
 	: Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::GeomAdaptor_Curve(*(::GeomAdaptor_Curve*)parameter1->NativeInstance);
+	NativeInstance = new ::GeomAdaptor_Curve(*(::GeomAdaptor_Curve*)parameter1->NativeInstance);
+}
+
+Macad::Occt::Adaptor3d_Curve^ Macad::Occt::GeomAdaptor_Curve::ShallowCopy()
+{
+	Handle(::Adaptor3d_Curve) _result;
+	_result = ((::GeomAdaptor_Curve*)_NativeInstance)->ShallowCopy();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Curve::CreateDowncasted( _result.get());
 }
 
 void Macad::Occt::GeomAdaptor_Curve::Reset()
@@ -51,18 +98,18 @@ void Macad::Occt::GeomAdaptor_Curve::Reset()
 	((::GeomAdaptor_Curve*)_NativeInstance)->Reset();
 }
 
-void Macad::Occt::GeomAdaptor_Curve::Load(Macad::Occt::Geom_Curve^ C)
+void Macad::Occt::GeomAdaptor_Curve::Load(Macad::Occt::Geom_Curve^ theCurve)
 {
-	Handle(::Geom_Curve) h_C = C->NativeInstance;
-	((::GeomAdaptor_Curve*)_NativeInstance)->Load(h_C);
-	C->NativeInstance = h_C.get();
+	Handle(::Geom_Curve) h_theCurve = theCurve->NativeInstance;
+	((::GeomAdaptor_Curve*)_NativeInstance)->Load(h_theCurve);
+	theCurve->NativeInstance = h_theCurve.get();
 }
 
-void Macad::Occt::GeomAdaptor_Curve::Load(Macad::Occt::Geom_Curve^ C, double UFirst, double ULast)
+void Macad::Occt::GeomAdaptor_Curve::Load(Macad::Occt::Geom_Curve^ theCurve, double theUFirst, double theULast)
 {
-	Handle(::Geom_Curve) h_C = C->NativeInstance;
-	((::GeomAdaptor_Curve*)_NativeInstance)->Load(h_C, UFirst, ULast);
-	C->NativeInstance = h_C.get();
+	Handle(::Geom_Curve) h_theCurve = theCurve->NativeInstance;
+	((::GeomAdaptor_Curve*)_NativeInstance)->Load(h_theCurve, theUFirst, theULast);
+	theCurve->NativeInstance = h_theCurve.get();
 }
 
 Macad::Occt::Geom_Curve^ Macad::Occt::GeomAdaptor_Curve::Curve()
@@ -97,11 +144,11 @@ void Macad::Occt::GeomAdaptor_Curve::Intervals(Macad::Occt::TColStd_Array1OfReal
 	((::GeomAdaptor_Curve*)_NativeInstance)->Intervals(*(::TColStd_Array1OfReal*)T->NativeInstance, (::GeomAbs_Shape)S);
 }
 
-Macad::Occt::Adaptor3d_HCurve^ Macad::Occt::GeomAdaptor_Curve::Trim(double First, double Last, double Tol)
+Macad::Occt::Adaptor3d_Curve^ Macad::Occt::GeomAdaptor_Curve::Trim(double First, double Last, double Tol)
 {
-	Handle(::Adaptor3d_HCurve) _result;
+	Handle(::Adaptor3d_Curve) _result;
 	_result = ((::GeomAdaptor_Curve*)_NativeInstance)->Trim(First, Last, Tol);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HCurve::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Curve::CreateDowncasted( _result.get());
 }
 
 bool Macad::Occt::GeomAdaptor_Curve::IsClosed()
@@ -246,6 +293,11 @@ Macad::Occt::Geom_OffsetCurve^ Macad::Occt::GeomAdaptor_Curve::OffsetCurve()
 }
 
 
+Macad::Occt::GeomAdaptor_Curve^ Macad::Occt::GeomAdaptor_Curve::CreateDowncasted(::GeomAdaptor_Curve* instance)
+{
+	return gcnew Macad::Occt::GeomAdaptor_Curve( instance );
+}
+
 
 
 //---------------------------------------------------------------------
@@ -255,73 +307,80 @@ Macad::Occt::Geom_OffsetCurve^ Macad::Occt::GeomAdaptor_Curve::OffsetCurve()
 Macad::Occt::GeomAdaptor_Surface::GeomAdaptor_Surface()
 	: Macad::Occt::Adaptor3d_Surface(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::GeomAdaptor_Surface();
+	NativeInstance = new ::GeomAdaptor_Surface();
 }
 
-Macad::Occt::GeomAdaptor_Surface::GeomAdaptor_Surface(Macad::Occt::Geom_Surface^ S)
+Macad::Occt::GeomAdaptor_Surface::GeomAdaptor_Surface(Macad::Occt::Geom_Surface^ theSurf)
 	: Macad::Occt::Adaptor3d_Surface(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	_NativeInstance = new ::GeomAdaptor_Surface(h_S);
-	S->NativeInstance = h_S.get();
+	Handle(::Geom_Surface) h_theSurf = theSurf->NativeInstance;
+	NativeInstance = new ::GeomAdaptor_Surface(h_theSurf);
+	theSurf->NativeInstance = h_theSurf.get();
 }
 
-Macad::Occt::GeomAdaptor_Surface::GeomAdaptor_Surface(Macad::Occt::Geom_Surface^ S, double UFirst, double ULast, double VFirst, double VLast, double TolU, double TolV)
+Macad::Occt::GeomAdaptor_Surface::GeomAdaptor_Surface(Macad::Occt::Geom_Surface^ theSurf, double theUFirst, double theULast, double theVFirst, double theVLast, double theTolU, double theTolV)
 	: Macad::Occt::Adaptor3d_Surface(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	_NativeInstance = new ::GeomAdaptor_Surface(h_S, UFirst, ULast, VFirst, VLast, TolU, TolV);
-	S->NativeInstance = h_S.get();
+	Handle(::Geom_Surface) h_theSurf = theSurf->NativeInstance;
+	NativeInstance = new ::GeomAdaptor_Surface(h_theSurf, theUFirst, theULast, theVFirst, theVLast, theTolU, theTolV);
+	theSurf->NativeInstance = h_theSurf.get();
 }
 
-Macad::Occt::GeomAdaptor_Surface::GeomAdaptor_Surface(Macad::Occt::Geom_Surface^ S, double UFirst, double ULast, double VFirst, double VLast, double TolU)
+Macad::Occt::GeomAdaptor_Surface::GeomAdaptor_Surface(Macad::Occt::Geom_Surface^ theSurf, double theUFirst, double theULast, double theVFirst, double theVLast, double theTolU)
 	: Macad::Occt::Adaptor3d_Surface(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	_NativeInstance = new ::GeomAdaptor_Surface(h_S, UFirst, ULast, VFirst, VLast, TolU, 0.);
-	S->NativeInstance = h_S.get();
+	Handle(::Geom_Surface) h_theSurf = theSurf->NativeInstance;
+	NativeInstance = new ::GeomAdaptor_Surface(h_theSurf, theUFirst, theULast, theVFirst, theVLast, theTolU, 0.);
+	theSurf->NativeInstance = h_theSurf.get();
 }
 
-Macad::Occt::GeomAdaptor_Surface::GeomAdaptor_Surface(Macad::Occt::Geom_Surface^ S, double UFirst, double ULast, double VFirst, double VLast)
+Macad::Occt::GeomAdaptor_Surface::GeomAdaptor_Surface(Macad::Occt::Geom_Surface^ theSurf, double theUFirst, double theULast, double theVFirst, double theVLast)
 	: Macad::Occt::Adaptor3d_Surface(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	_NativeInstance = new ::GeomAdaptor_Surface(h_S, UFirst, ULast, VFirst, VLast, 0., 0.);
-	S->NativeInstance = h_S.get();
+	Handle(::Geom_Surface) h_theSurf = theSurf->NativeInstance;
+	NativeInstance = new ::GeomAdaptor_Surface(h_theSurf, theUFirst, theULast, theVFirst, theVLast, 0., 0.);
+	theSurf->NativeInstance = h_theSurf.get();
 }
 
 Macad::Occt::GeomAdaptor_Surface::GeomAdaptor_Surface(Macad::Occt::GeomAdaptor_Surface^ parameter1)
 	: Macad::Occt::Adaptor3d_Surface(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::GeomAdaptor_Surface(*(::GeomAdaptor_Surface*)parameter1->NativeInstance);
+	NativeInstance = new ::GeomAdaptor_Surface(*(::GeomAdaptor_Surface*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::GeomAdaptor_Surface::Load(Macad::Occt::Geom_Surface^ S)
+Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_Surface::ShallowCopy()
 {
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	((::GeomAdaptor_Surface*)_NativeInstance)->Load(h_S);
-	S->NativeInstance = h_S.get();
+	Handle(::Adaptor3d_Surface) _result;
+	_result = ((::GeomAdaptor_Surface*)_NativeInstance)->ShallowCopy();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Surface::CreateDowncasted( _result.get());
 }
 
-void Macad::Occt::GeomAdaptor_Surface::Load(Macad::Occt::Geom_Surface^ S, double UFirst, double ULast, double VFirst, double VLast, double TolU, double TolV)
+void Macad::Occt::GeomAdaptor_Surface::Load(Macad::Occt::Geom_Surface^ theSurf)
 {
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	((::GeomAdaptor_Surface*)_NativeInstance)->Load(h_S, UFirst, ULast, VFirst, VLast, TolU, TolV);
-	S->NativeInstance = h_S.get();
+	Handle(::Geom_Surface) h_theSurf = theSurf->NativeInstance;
+	((::GeomAdaptor_Surface*)_NativeInstance)->Load(h_theSurf);
+	theSurf->NativeInstance = h_theSurf.get();
 }
 
-void Macad::Occt::GeomAdaptor_Surface::Load(Macad::Occt::Geom_Surface^ S, double UFirst, double ULast, double VFirst, double VLast, double TolU)
+void Macad::Occt::GeomAdaptor_Surface::Load(Macad::Occt::Geom_Surface^ theSurf, double theUFirst, double theULast, double theVFirst, double theVLast, double theTolU, double theTolV)
 {
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	((::GeomAdaptor_Surface*)_NativeInstance)->Load(h_S, UFirst, ULast, VFirst, VLast, TolU, 0.);
-	S->NativeInstance = h_S.get();
+	Handle(::Geom_Surface) h_theSurf = theSurf->NativeInstance;
+	((::GeomAdaptor_Surface*)_NativeInstance)->Load(h_theSurf, theUFirst, theULast, theVFirst, theVLast, theTolU, theTolV);
+	theSurf->NativeInstance = h_theSurf.get();
 }
 
-void Macad::Occt::GeomAdaptor_Surface::Load(Macad::Occt::Geom_Surface^ S, double UFirst, double ULast, double VFirst, double VLast)
+void Macad::Occt::GeomAdaptor_Surface::Load(Macad::Occt::Geom_Surface^ theSurf, double theUFirst, double theULast, double theVFirst, double theVLast, double theTolU)
 {
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	((::GeomAdaptor_Surface*)_NativeInstance)->Load(h_S, UFirst, ULast, VFirst, VLast, 0., 0.);
-	S->NativeInstance = h_S.get();
+	Handle(::Geom_Surface) h_theSurf = theSurf->NativeInstance;
+	((::GeomAdaptor_Surface*)_NativeInstance)->Load(h_theSurf, theUFirst, theULast, theVFirst, theVLast, theTolU, 0.);
+	theSurf->NativeInstance = h_theSurf.get();
+}
+
+void Macad::Occt::GeomAdaptor_Surface::Load(Macad::Occt::Geom_Surface^ theSurf, double theUFirst, double theULast, double theVFirst, double theVLast)
+{
+	Handle(::Geom_Surface) h_theSurf = theSurf->NativeInstance;
+	((::GeomAdaptor_Surface*)_NativeInstance)->Load(h_theSurf, theUFirst, theULast, theVFirst, theVLast, 0., 0.);
+	theSurf->NativeInstance = h_theSurf.get();
 }
 
 Macad::Occt::Geom_Surface^ Macad::Occt::GeomAdaptor_Surface::Surface()
@@ -381,18 +440,18 @@ void Macad::Occt::GeomAdaptor_Surface::VIntervals(Macad::Occt::TColStd_Array1OfR
 	((::GeomAdaptor_Surface*)_NativeInstance)->VIntervals(*(::TColStd_Array1OfReal*)T->NativeInstance, (::GeomAbs_Shape)S);
 }
 
-Macad::Occt::Adaptor3d_HSurface^ Macad::Occt::GeomAdaptor_Surface::UTrim(double First, double Last, double Tol)
+Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_Surface::UTrim(double First, double Last, double Tol)
 {
-	Handle(::Adaptor3d_HSurface) _result;
+	Handle(::Adaptor3d_Surface) _result;
 	_result = ((::GeomAdaptor_Surface*)_NativeInstance)->UTrim(First, Last, Tol);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HSurface::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Surface::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::Adaptor3d_HSurface^ Macad::Occt::GeomAdaptor_Surface::VTrim(double First, double Last, double Tol)
+Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_Surface::VTrim(double First, double Last, double Tol)
 {
-	Handle(::Adaptor3d_HSurface) _result;
+	Handle(::Adaptor3d_Surface) _result;
 	_result = ((::GeomAdaptor_Surface*)_NativeInstance)->VTrim(First, Last, Tol);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HSurface::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Surface::CreateDowncasted( _result.get());
 }
 
 bool Macad::Occt::GeomAdaptor_Surface::IsUClosed()
@@ -587,18 +646,18 @@ Macad::Occt::Dir Macad::Occt::GeomAdaptor_Surface::Direction()
 	return Macad::Occt::Dir(((::GeomAdaptor_Surface*)_NativeInstance)->Direction());
 }
 
-Macad::Occt::Adaptor3d_HCurve^ Macad::Occt::GeomAdaptor_Surface::BasisCurve()
+Macad::Occt::Adaptor3d_Curve^ Macad::Occt::GeomAdaptor_Surface::BasisCurve()
 {
-	Handle(::Adaptor3d_HCurve) _result;
+	Handle(::Adaptor3d_Curve) _result;
 	_result = ((::GeomAdaptor_Surface*)_NativeInstance)->BasisCurve();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HCurve::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Curve::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::Adaptor3d_HSurface^ Macad::Occt::GeomAdaptor_Surface::BasisSurface()
+Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_Surface::BasisSurface()
 {
-	Handle(::Adaptor3d_HSurface) _result;
+	Handle(::Adaptor3d_Surface) _result;
 	_result = ((::GeomAdaptor_Surface*)_NativeInstance)->BasisSurface();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HSurface::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Surface::CreateDowncasted( _result.get());
 }
 
 double Macad::Occt::GeomAdaptor_Surface::OffsetValue()
@@ -607,270 +666,18 @@ double Macad::Occt::GeomAdaptor_Surface::OffsetValue()
 }
 
 
-
-
-//---------------------------------------------------------------------
-//  Class  GeomAdaptor_GHSurface
-//---------------------------------------------------------------------
-
-Macad::Occt::GeomAdaptor_GHSurface::GeomAdaptor_GHSurface()
-	: Macad::Occt::Adaptor3d_HSurface(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_GHSurface();
-}
-
-Macad::Occt::GeomAdaptor_GHSurface::GeomAdaptor_GHSurface(Macad::Occt::GeomAdaptor_Surface^ S)
-	: Macad::Occt::Adaptor3d_HSurface(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_GHSurface(*(::GeomAdaptor_Surface*)S->NativeInstance);
-}
-
-Macad::Occt::GeomAdaptor_GHSurface::GeomAdaptor_GHSurface(Macad::Occt::GeomAdaptor_GHSurface^ parameter1)
-	: Macad::Occt::Adaptor3d_HSurface(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_GHSurface(*(::GeomAdaptor_GHSurface*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::GeomAdaptor_GHSurface::Set(Macad::Occt::GeomAdaptor_Surface^ S)
-{
-	((::GeomAdaptor_GHSurface*)_NativeInstance)->Set(*(::GeomAdaptor_Surface*)S->NativeInstance);
-}
-
-Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_GHSurface::Surface()
-{
-	::Adaptor3d_Surface* _result = new ::Adaptor3d_Surface();
-	*_result =  (::Adaptor3d_Surface)((::GeomAdaptor_GHSurface*)_NativeInstance)->Surface();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Adaptor3d_Surface(_result);
-}
-
-Macad::Occt::GeomAdaptor_Surface^ Macad::Occt::GeomAdaptor_GHSurface::ChangeSurface()
-{
-	::GeomAdaptor_Surface* _result = new ::GeomAdaptor_Surface();
-	*_result = ((::GeomAdaptor_GHSurface*)_NativeInstance)->ChangeSurface();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::GeomAdaptor_Surface(_result);
-}
-
-
-Macad::Occt::GeomAdaptor_GHSurface^ Macad::Occt::GeomAdaptor_GHSurface::CreateDowncasted(::GeomAdaptor_GHSurface* instance)
+Macad::Occt::GeomAdaptor_Surface^ Macad::Occt::GeomAdaptor_Surface::CreateDowncasted(::GeomAdaptor_Surface* instance)
 {
 	if( instance == nullptr )
 		return nullptr;
 
-	if (instance->IsKind(STANDARD_TYPE(::GeomAdaptor_HSurface)))
-		return Macad::Occt::GeomAdaptor_HSurface::CreateDowncasted((::GeomAdaptor_HSurface*)instance);
+	if (instance->IsKind(STANDARD_TYPE(::GeomAdaptor_SurfaceOfLinearExtrusion)))
+		return Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::CreateDowncasted((::GeomAdaptor_SurfaceOfLinearExtrusion*)instance);
+	if (instance->IsKind(STANDARD_TYPE(::GeomAdaptor_SurfaceOfRevolution)))
+		return Macad::Occt::GeomAdaptor_SurfaceOfRevolution::CreateDowncasted((::GeomAdaptor_SurfaceOfRevolution*)instance);
 
-	return gcnew Macad::Occt::GeomAdaptor_GHSurface( instance );
+	return gcnew Macad::Occt::GeomAdaptor_Surface( instance );
 }
-
-
-
-//---------------------------------------------------------------------
-//  Class  GeomAdaptor_HSurface
-//---------------------------------------------------------------------
-
-Macad::Occt::GeomAdaptor_HSurface::GeomAdaptor_HSurface()
-	: Macad::Occt::GeomAdaptor_GHSurface(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_HSurface();
-}
-
-Macad::Occt::GeomAdaptor_HSurface::GeomAdaptor_HSurface(Macad::Occt::GeomAdaptor_Surface^ AS)
-	: Macad::Occt::GeomAdaptor_GHSurface(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_HSurface(*(::GeomAdaptor_Surface*)AS->NativeInstance);
-}
-
-Macad::Occt::GeomAdaptor_HSurface::GeomAdaptor_HSurface(Macad::Occt::Geom_Surface^ S)
-	: Macad::Occt::GeomAdaptor_GHSurface(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	NativeInstance = new ::GeomAdaptor_HSurface(h_S);
-	S->NativeInstance = h_S.get();
-}
-
-Macad::Occt::GeomAdaptor_HSurface::GeomAdaptor_HSurface(Macad::Occt::Geom_Surface^ S, double UFirst, double ULast, double VFirst, double VLast, double TolU, double TolV)
-	: Macad::Occt::GeomAdaptor_GHSurface(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	NativeInstance = new ::GeomAdaptor_HSurface(h_S, UFirst, ULast, VFirst, VLast, TolU, TolV);
-	S->NativeInstance = h_S.get();
-}
-
-Macad::Occt::GeomAdaptor_HSurface::GeomAdaptor_HSurface(Macad::Occt::Geom_Surface^ S, double UFirst, double ULast, double VFirst, double VLast, double TolU)
-	: Macad::Occt::GeomAdaptor_GHSurface(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	NativeInstance = new ::GeomAdaptor_HSurface(h_S, UFirst, ULast, VFirst, VLast, TolU, 0.);
-	S->NativeInstance = h_S.get();
-}
-
-Macad::Occt::GeomAdaptor_HSurface::GeomAdaptor_HSurface(Macad::Occt::Geom_Surface^ S, double UFirst, double ULast, double VFirst, double VLast)
-	: Macad::Occt::GeomAdaptor_GHSurface(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	NativeInstance = new ::GeomAdaptor_HSurface(h_S, UFirst, ULast, VFirst, VLast, 0., 0.);
-	S->NativeInstance = h_S.get();
-}
-
-Macad::Occt::GeomAdaptor_HSurface::GeomAdaptor_HSurface(Macad::Occt::GeomAdaptor_HSurface^ parameter1)
-	: Macad::Occt::GeomAdaptor_GHSurface(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_HSurface(*(::GeomAdaptor_HSurface*)parameter1->NativeInstance);
-}
-
-
-Macad::Occt::GeomAdaptor_HSurface^ Macad::Occt::GeomAdaptor_HSurface::CreateDowncasted(::GeomAdaptor_HSurface* instance)
-{
-	return gcnew Macad::Occt::GeomAdaptor_HSurface( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  GeomAdaptor_GHCurve
-//---------------------------------------------------------------------
-
-Macad::Occt::GeomAdaptor_GHCurve::GeomAdaptor_GHCurve()
-	: Macad::Occt::Adaptor3d_HCurve(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_GHCurve();
-}
-
-Macad::Occt::GeomAdaptor_GHCurve::GeomAdaptor_GHCurve(Macad::Occt::GeomAdaptor_Curve^ C)
-	: Macad::Occt::Adaptor3d_HCurve(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_GHCurve(*(::GeomAdaptor_Curve*)C->NativeInstance);
-}
-
-Macad::Occt::GeomAdaptor_GHCurve::GeomAdaptor_GHCurve(Macad::Occt::GeomAdaptor_GHCurve^ parameter1)
-	: Macad::Occt::Adaptor3d_HCurve(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_GHCurve(*(::GeomAdaptor_GHCurve*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::GeomAdaptor_GHCurve::Set(Macad::Occt::GeomAdaptor_Curve^ C)
-{
-	((::GeomAdaptor_GHCurve*)_NativeInstance)->Set(*(::GeomAdaptor_Curve*)C->NativeInstance);
-}
-
-Macad::Occt::Adaptor3d_Curve^ Macad::Occt::GeomAdaptor_GHCurve::Curve()
-{
-	::Adaptor3d_Curve* _result = new ::Adaptor3d_Curve();
-	*_result =  (::Adaptor3d_Curve)((::GeomAdaptor_GHCurve*)_NativeInstance)->Curve();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Adaptor3d_Curve(_result);
-}
-
-Macad::Occt::Adaptor3d_Curve^ Macad::Occt::GeomAdaptor_GHCurve::GetCurve()
-{
-	::Adaptor3d_Curve* _result = new ::Adaptor3d_Curve();
-	*_result = ((::GeomAdaptor_GHCurve*)_NativeInstance)->GetCurve();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Adaptor3d_Curve(_result);
-}
-
-Macad::Occt::GeomAdaptor_Curve^ Macad::Occt::GeomAdaptor_GHCurve::ChangeCurve()
-{
-	::GeomAdaptor_Curve* _result = new ::GeomAdaptor_Curve();
-	*_result = ((::GeomAdaptor_GHCurve*)_NativeInstance)->ChangeCurve();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::GeomAdaptor_Curve(_result);
-}
-
-
-Macad::Occt::GeomAdaptor_GHCurve^ Macad::Occt::GeomAdaptor_GHCurve::CreateDowncasted(::GeomAdaptor_GHCurve* instance)
-{
-	if( instance == nullptr )
-		return nullptr;
-
-	if (instance->IsKind(STANDARD_TYPE(::GeomAdaptor_HCurve)))
-		return Macad::Occt::GeomAdaptor_HCurve::CreateDowncasted((::GeomAdaptor_HCurve*)instance);
-
-	return gcnew Macad::Occt::GeomAdaptor_GHCurve( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  GeomAdaptor_HCurve
-//---------------------------------------------------------------------
-
-Macad::Occt::GeomAdaptor_HCurve::GeomAdaptor_HCurve()
-	: Macad::Occt::GeomAdaptor_GHCurve(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_HCurve();
-}
-
-Macad::Occt::GeomAdaptor_HCurve::GeomAdaptor_HCurve(Macad::Occt::GeomAdaptor_Curve^ AS)
-	: Macad::Occt::GeomAdaptor_GHCurve(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_HCurve(*(::GeomAdaptor_Curve*)AS->NativeInstance);
-}
-
-Macad::Occt::GeomAdaptor_HCurve::GeomAdaptor_HCurve(Macad::Occt::Geom_Curve^ S)
-	: Macad::Occt::GeomAdaptor_GHCurve(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Curve) h_S = S->NativeInstance;
-	NativeInstance = new ::GeomAdaptor_HCurve(h_S);
-	S->NativeInstance = h_S.get();
-}
-
-Macad::Occt::GeomAdaptor_HCurve::GeomAdaptor_HCurve(Macad::Occt::Geom_Curve^ S, double UFirst, double ULast)
-	: Macad::Occt::GeomAdaptor_GHCurve(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Geom_Curve) h_S = S->NativeInstance;
-	NativeInstance = new ::GeomAdaptor_HCurve(h_S, UFirst, ULast);
-	S->NativeInstance = h_S.get();
-}
-
-Macad::Occt::GeomAdaptor_HCurve::GeomAdaptor_HCurve(Macad::Occt::GeomAdaptor_HCurve^ parameter1)
-	: Macad::Occt::GeomAdaptor_GHCurve(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_HCurve(*(::GeomAdaptor_HCurve*)parameter1->NativeInstance);
-}
-
-
-Macad::Occt::GeomAdaptor_HCurve^ Macad::Occt::GeomAdaptor_HCurve::CreateDowncasted(::GeomAdaptor_HCurve* instance)
-{
-	return gcnew Macad::Occt::GeomAdaptor_HCurve( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  GeomAdaptor
-//---------------------------------------------------------------------
-
-Macad::Occt::GeomAdaptor::GeomAdaptor()
-	: BaseClass<::GeomAdaptor>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::GeomAdaptor();
-}
-
-Macad::Occt::GeomAdaptor::GeomAdaptor(Macad::Occt::GeomAdaptor^ parameter1)
-	: BaseClass<::GeomAdaptor>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::GeomAdaptor(*(::GeomAdaptor*)parameter1->NativeInstance);
-}
-
-Macad::Occt::Geom_Curve^ Macad::Occt::GeomAdaptor::MakeCurve(Macad::Occt::Adaptor3d_Curve^ C)
-{
-	Handle(::Geom_Curve) _result;
-	_result = ::GeomAdaptor::MakeCurve(*(::Adaptor3d_Curve*)C->NativeInstance);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Curve::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Geom_Surface^ Macad::Occt::GeomAdaptor::MakeSurface(Macad::Occt::Adaptor3d_Surface^ theS, bool theTrimFlag)
-{
-	Handle(::Geom_Surface) _result;
-	_result = ::GeomAdaptor::MakeSurface(*(::Adaptor3d_Surface*)theS->NativeInstance, theTrimFlag);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Surface::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Geom_Surface^ Macad::Occt::GeomAdaptor::MakeSurface(Macad::Occt::Adaptor3d_Surface^ theS)
-{
-	Handle(::Geom_Surface) _result;
-	_result = ::GeomAdaptor::MakeSurface(*(::Adaptor3d_Surface*)theS->NativeInstance, true);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Surface::CreateDowncasted( _result.get());
-}
-
 
 
 
@@ -881,35 +688,42 @@ Macad::Occt::Geom_Surface^ Macad::Occt::GeomAdaptor::MakeSurface(Macad::Occt::Ad
 Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::GeomAdaptor_SurfaceOfLinearExtrusion()
 	: Macad::Occt::GeomAdaptor_Surface(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::GeomAdaptor_SurfaceOfLinearExtrusion();
+	NativeInstance = new ::GeomAdaptor_SurfaceOfLinearExtrusion();
 }
 
-Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::GeomAdaptor_SurfaceOfLinearExtrusion(Macad::Occt::Adaptor3d_HCurve^ C)
+Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::GeomAdaptor_SurfaceOfLinearExtrusion(Macad::Occt::Adaptor3d_Curve^ C)
 	: Macad::Occt::GeomAdaptor_Surface(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
-	_NativeInstance = new ::GeomAdaptor_SurfaceOfLinearExtrusion(h_C);
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	NativeInstance = new ::GeomAdaptor_SurfaceOfLinearExtrusion(h_C);
 	C->NativeInstance = h_C.get();
 }
 
-Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::GeomAdaptor_SurfaceOfLinearExtrusion(Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Dir V)
+Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::GeomAdaptor_SurfaceOfLinearExtrusion(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Dir V)
 	: Macad::Occt::GeomAdaptor_Surface(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
 	pin_ptr<Macad::Occt::Dir> pp_V = &V;
-	_NativeInstance = new ::GeomAdaptor_SurfaceOfLinearExtrusion(h_C, *(gp_Dir*)pp_V);
+	NativeInstance = new ::GeomAdaptor_SurfaceOfLinearExtrusion(h_C, *(gp_Dir*)pp_V);
 	C->NativeInstance = h_C.get();
 }
 
 Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::GeomAdaptor_SurfaceOfLinearExtrusion(Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion^ parameter1)
 	: Macad::Occt::GeomAdaptor_Surface(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::GeomAdaptor_SurfaceOfLinearExtrusion(*(::GeomAdaptor_SurfaceOfLinearExtrusion*)parameter1->NativeInstance);
+	NativeInstance = new ::GeomAdaptor_SurfaceOfLinearExtrusion(*(::GeomAdaptor_SurfaceOfLinearExtrusion*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::Load(Macad::Occt::Adaptor3d_HCurve^ C)
+Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::ShallowCopy()
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Surface) _result;
+	_result = ((::GeomAdaptor_SurfaceOfLinearExtrusion*)_NativeInstance)->ShallowCopy();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Surface::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::Load(Macad::Occt::Adaptor3d_Curve^ C)
+{
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
 	((::GeomAdaptor_SurfaceOfLinearExtrusion*)_NativeInstance)->Load(h_C);
 	C->NativeInstance = h_C.get();
 }
@@ -970,18 +784,18 @@ void Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::VIntervals(Macad::Occt::
 	((::GeomAdaptor_SurfaceOfLinearExtrusion*)_NativeInstance)->VIntervals(*(::TColStd_Array1OfReal*)T->NativeInstance, (::GeomAbs_Shape)S);
 }
 
-Macad::Occt::Adaptor3d_HSurface^ Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::UTrim(double First, double Last, double Tol)
+Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::UTrim(double First, double Last, double Tol)
 {
-	Handle(::Adaptor3d_HSurface) _result;
+	Handle(::Adaptor3d_Surface) _result;
 	_result = ((::GeomAdaptor_SurfaceOfLinearExtrusion*)_NativeInstance)->UTrim(First, Last, Tol);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HSurface::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Surface::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::Adaptor3d_HSurface^ Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::VTrim(double First, double Last, double Tol)
+Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::VTrim(double First, double Last, double Tol)
 {
-	Handle(::Adaptor3d_HSurface) _result;
+	Handle(::Adaptor3d_Surface) _result;
 	_result = ((::GeomAdaptor_SurfaceOfLinearExtrusion*)_NativeInstance)->VTrim(First, Last, Tol);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HSurface::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Surface::CreateDowncasted( _result.get());
 }
 
 bool Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::IsUClosed()
@@ -1106,61 +920,17 @@ Macad::Occt::Dir Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::Direction()
 	return Macad::Occt::Dir(((::GeomAdaptor_SurfaceOfLinearExtrusion*)_NativeInstance)->Direction());
 }
 
-Macad::Occt::Adaptor3d_HCurve^ Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::BasisCurve()
+Macad::Occt::Adaptor3d_Curve^ Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::BasisCurve()
 {
-	Handle(::Adaptor3d_HCurve) _result;
+	Handle(::Adaptor3d_Curve) _result;
 	_result = ((::GeomAdaptor_SurfaceOfLinearExtrusion*)_NativeInstance)->BasisCurve();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HCurve::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Curve::CreateDowncasted( _result.get());
 }
 
 
-
-
-//---------------------------------------------------------------------
-//  Class  GeomAdaptor_HSurfaceOfLinearExtrusion
-//---------------------------------------------------------------------
-
-Macad::Occt::GeomAdaptor_HSurfaceOfLinearExtrusion::GeomAdaptor_HSurfaceOfLinearExtrusion()
-	: Macad::Occt::Adaptor3d_HSurface(BaseClass::InitMode::Uninitialized)
+Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion^ Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::CreateDowncasted(::GeomAdaptor_SurfaceOfLinearExtrusion* instance)
 {
-	NativeInstance = new ::GeomAdaptor_HSurfaceOfLinearExtrusion();
-}
-
-Macad::Occt::GeomAdaptor_HSurfaceOfLinearExtrusion::GeomAdaptor_HSurfaceOfLinearExtrusion(Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion^ S)
-	: Macad::Occt::Adaptor3d_HSurface(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_HSurfaceOfLinearExtrusion(*(::GeomAdaptor_SurfaceOfLinearExtrusion*)S->NativeInstance);
-}
-
-Macad::Occt::GeomAdaptor_HSurfaceOfLinearExtrusion::GeomAdaptor_HSurfaceOfLinearExtrusion(Macad::Occt::GeomAdaptor_HSurfaceOfLinearExtrusion^ parameter1)
-	: Macad::Occt::Adaptor3d_HSurface(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_HSurfaceOfLinearExtrusion(*(::GeomAdaptor_HSurfaceOfLinearExtrusion*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::GeomAdaptor_HSurfaceOfLinearExtrusion::Set(Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion^ S)
-{
-	((::GeomAdaptor_HSurfaceOfLinearExtrusion*)_NativeInstance)->Set(*(::GeomAdaptor_SurfaceOfLinearExtrusion*)S->NativeInstance);
-}
-
-Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_HSurfaceOfLinearExtrusion::Surface()
-{
-	::Adaptor3d_Surface* _result = new ::Adaptor3d_Surface();
-	*_result =  (::Adaptor3d_Surface)((::GeomAdaptor_HSurfaceOfLinearExtrusion*)_NativeInstance)->Surface();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Adaptor3d_Surface(_result);
-}
-
-Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion^ Macad::Occt::GeomAdaptor_HSurfaceOfLinearExtrusion::ChangeSurface()
-{
-	::GeomAdaptor_SurfaceOfLinearExtrusion* _result = new ::GeomAdaptor_SurfaceOfLinearExtrusion();
-	*_result = ((::GeomAdaptor_HSurfaceOfLinearExtrusion*)_NativeInstance)->ChangeSurface();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion(_result);
-}
-
-
-Macad::Occt::GeomAdaptor_HSurfaceOfLinearExtrusion^ Macad::Occt::GeomAdaptor_HSurfaceOfLinearExtrusion::CreateDowncasted(::GeomAdaptor_HSurfaceOfLinearExtrusion* instance)
-{
-	return gcnew Macad::Occt::GeomAdaptor_HSurfaceOfLinearExtrusion( instance );
+	return gcnew Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion( instance );
 }
 
 
@@ -1172,35 +942,42 @@ Macad::Occt::GeomAdaptor_HSurfaceOfLinearExtrusion^ Macad::Occt::GeomAdaptor_HSu
 Macad::Occt::GeomAdaptor_SurfaceOfRevolution::GeomAdaptor_SurfaceOfRevolution()
 	: Macad::Occt::GeomAdaptor_Surface(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::GeomAdaptor_SurfaceOfRevolution();
+	NativeInstance = new ::GeomAdaptor_SurfaceOfRevolution();
 }
 
-Macad::Occt::GeomAdaptor_SurfaceOfRevolution::GeomAdaptor_SurfaceOfRevolution(Macad::Occt::Adaptor3d_HCurve^ C)
+Macad::Occt::GeomAdaptor_SurfaceOfRevolution::GeomAdaptor_SurfaceOfRevolution(Macad::Occt::Adaptor3d_Curve^ C)
 	: Macad::Occt::GeomAdaptor_Surface(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
-	_NativeInstance = new ::GeomAdaptor_SurfaceOfRevolution(h_C);
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
+	NativeInstance = new ::GeomAdaptor_SurfaceOfRevolution(h_C);
 	C->NativeInstance = h_C.get();
 }
 
-Macad::Occt::GeomAdaptor_SurfaceOfRevolution::GeomAdaptor_SurfaceOfRevolution(Macad::Occt::Adaptor3d_HCurve^ C, Macad::Occt::Ax1 V)
+Macad::Occt::GeomAdaptor_SurfaceOfRevolution::GeomAdaptor_SurfaceOfRevolution(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Ax1 V)
 	: Macad::Occt::GeomAdaptor_Surface(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
 	pin_ptr<Macad::Occt::Ax1> pp_V = &V;
-	_NativeInstance = new ::GeomAdaptor_SurfaceOfRevolution(h_C, *(gp_Ax1*)pp_V);
+	NativeInstance = new ::GeomAdaptor_SurfaceOfRevolution(h_C, *(gp_Ax1*)pp_V);
 	C->NativeInstance = h_C.get();
 }
 
 Macad::Occt::GeomAdaptor_SurfaceOfRevolution::GeomAdaptor_SurfaceOfRevolution(Macad::Occt::GeomAdaptor_SurfaceOfRevolution^ parameter1)
 	: Macad::Occt::GeomAdaptor_Surface(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::GeomAdaptor_SurfaceOfRevolution(*(::GeomAdaptor_SurfaceOfRevolution*)parameter1->NativeInstance);
+	NativeInstance = new ::GeomAdaptor_SurfaceOfRevolution(*(::GeomAdaptor_SurfaceOfRevolution*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::GeomAdaptor_SurfaceOfRevolution::Load(Macad::Occt::Adaptor3d_HCurve^ C)
+Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_SurfaceOfRevolution::ShallowCopy()
 {
-	Handle(::Adaptor3d_HCurve) h_C = C->NativeInstance;
+	Handle(::Adaptor3d_Surface) _result;
+	_result = ((::GeomAdaptor_SurfaceOfRevolution*)_NativeInstance)->ShallowCopy();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Surface::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::GeomAdaptor_SurfaceOfRevolution::Load(Macad::Occt::Adaptor3d_Curve^ C)
+{
+	Handle(::Adaptor3d_Curve) h_C = C->NativeInstance;
 	((::GeomAdaptor_SurfaceOfRevolution*)_NativeInstance)->Load(h_C);
 	C->NativeInstance = h_C.get();
 }
@@ -1266,18 +1043,18 @@ void Macad::Occt::GeomAdaptor_SurfaceOfRevolution::VIntervals(Macad::Occt::TColS
 	((::GeomAdaptor_SurfaceOfRevolution*)_NativeInstance)->VIntervals(*(::TColStd_Array1OfReal*)T->NativeInstance, (::GeomAbs_Shape)S);
 }
 
-Macad::Occt::Adaptor3d_HSurface^ Macad::Occt::GeomAdaptor_SurfaceOfRevolution::UTrim(double First, double Last, double Tol)
+Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_SurfaceOfRevolution::UTrim(double First, double Last, double Tol)
 {
-	Handle(::Adaptor3d_HSurface) _result;
+	Handle(::Adaptor3d_Surface) _result;
 	_result = ((::GeomAdaptor_SurfaceOfRevolution*)_NativeInstance)->UTrim(First, Last, Tol);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HSurface::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Surface::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::Adaptor3d_HSurface^ Macad::Occt::GeomAdaptor_SurfaceOfRevolution::VTrim(double First, double Last, double Tol)
+Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_SurfaceOfRevolution::VTrim(double First, double Last, double Tol)
 {
-	Handle(::Adaptor3d_HSurface) _result;
+	Handle(::Adaptor3d_Surface) _result;
 	_result = ((::GeomAdaptor_SurfaceOfRevolution*)_NativeInstance)->VTrim(First, Last, Tol);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HSurface::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Surface::CreateDowncasted( _result.get());
 }
 
 bool Macad::Occt::GeomAdaptor_SurfaceOfRevolution::IsUClosed()
@@ -1402,61 +1179,17 @@ Macad::Occt::Ax3 Macad::Occt::GeomAdaptor_SurfaceOfRevolution::Axis()
 	return Macad::Occt::Ax3(((::GeomAdaptor_SurfaceOfRevolution*)_NativeInstance)->Axis());
 }
 
-Macad::Occt::Adaptor3d_HCurve^ Macad::Occt::GeomAdaptor_SurfaceOfRevolution::BasisCurve()
+Macad::Occt::Adaptor3d_Curve^ Macad::Occt::GeomAdaptor_SurfaceOfRevolution::BasisCurve()
 {
-	Handle(::Adaptor3d_HCurve) _result;
+	Handle(::Adaptor3d_Curve) _result;
 	_result = ((::GeomAdaptor_SurfaceOfRevolution*)_NativeInstance)->BasisCurve();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_HCurve::CreateDowncasted( _result.get());
+	 return _result.IsNull() ? nullptr : Macad::Occt::Adaptor3d_Curve::CreateDowncasted( _result.get());
 }
 
 
-
-
-//---------------------------------------------------------------------
-//  Class  GeomAdaptor_HSurfaceOfRevolution
-//---------------------------------------------------------------------
-
-Macad::Occt::GeomAdaptor_HSurfaceOfRevolution::GeomAdaptor_HSurfaceOfRevolution()
-	: Macad::Occt::Adaptor3d_HSurface(BaseClass::InitMode::Uninitialized)
+Macad::Occt::GeomAdaptor_SurfaceOfRevolution^ Macad::Occt::GeomAdaptor_SurfaceOfRevolution::CreateDowncasted(::GeomAdaptor_SurfaceOfRevolution* instance)
 {
-	NativeInstance = new ::GeomAdaptor_HSurfaceOfRevolution();
-}
-
-Macad::Occt::GeomAdaptor_HSurfaceOfRevolution::GeomAdaptor_HSurfaceOfRevolution(Macad::Occt::GeomAdaptor_SurfaceOfRevolution^ S)
-	: Macad::Occt::Adaptor3d_HSurface(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_HSurfaceOfRevolution(*(::GeomAdaptor_SurfaceOfRevolution*)S->NativeInstance);
-}
-
-Macad::Occt::GeomAdaptor_HSurfaceOfRevolution::GeomAdaptor_HSurfaceOfRevolution(Macad::Occt::GeomAdaptor_HSurfaceOfRevolution^ parameter1)
-	: Macad::Occt::Adaptor3d_HSurface(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::GeomAdaptor_HSurfaceOfRevolution(*(::GeomAdaptor_HSurfaceOfRevolution*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::GeomAdaptor_HSurfaceOfRevolution::Set(Macad::Occt::GeomAdaptor_SurfaceOfRevolution^ S)
-{
-	((::GeomAdaptor_HSurfaceOfRevolution*)_NativeInstance)->Set(*(::GeomAdaptor_SurfaceOfRevolution*)S->NativeInstance);
-}
-
-Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_HSurfaceOfRevolution::Surface()
-{
-	::Adaptor3d_Surface* _result = new ::Adaptor3d_Surface();
-	*_result =  (::Adaptor3d_Surface)((::GeomAdaptor_HSurfaceOfRevolution*)_NativeInstance)->Surface();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Adaptor3d_Surface(_result);
-}
-
-Macad::Occt::GeomAdaptor_SurfaceOfRevolution^ Macad::Occt::GeomAdaptor_HSurfaceOfRevolution::ChangeSurface()
-{
-	::GeomAdaptor_SurfaceOfRevolution* _result = new ::GeomAdaptor_SurfaceOfRevolution();
-	*_result = ((::GeomAdaptor_HSurfaceOfRevolution*)_NativeInstance)->ChangeSurface();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::GeomAdaptor_SurfaceOfRevolution(_result);
-}
-
-
-Macad::Occt::GeomAdaptor_HSurfaceOfRevolution^ Macad::Occt::GeomAdaptor_HSurfaceOfRevolution::CreateDowncasted(::GeomAdaptor_HSurfaceOfRevolution* instance)
-{
-	return gcnew Macad::Occt::GeomAdaptor_HSurfaceOfRevolution( instance );
+	return gcnew Macad::Occt::GeomAdaptor_SurfaceOfRevolution( instance );
 }
 
 

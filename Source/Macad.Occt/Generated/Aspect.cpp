@@ -12,9 +12,10 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "Quantity.h"
 #include "V3d.h"
 #include "WNT.h"
-#include "gp.h"
 #include "Graphic3d.h"
+#include "gp.h"
 #include "Image.h"
+#include "AIS.h"
 
 
 //---------------------------------------------------------------------
@@ -796,44 +797,6 @@ void Macad::Occt::Aspect_ScrollDelta::ResetPoint()
 
 
 //---------------------------------------------------------------------
-//  Class  _xwd_file_header
-//---------------------------------------------------------------------
-
-Macad::Occt::_xwd_file_header::_xwd_file_header()
-	: BaseClass<::_xwd_file_header>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::_xwd_file_header();
-}
-
-Macad::Occt::_xwd_file_header::_xwd_file_header(Macad::Occt::_xwd_file_header^ parameter1)
-	: BaseClass<::_xwd_file_header>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::_xwd_file_header(*(::_xwd_file_header*)parameter1->NativeInstance);
-}
-
-
-
-
-//---------------------------------------------------------------------
-//  Class  _xcolor
-//---------------------------------------------------------------------
-
-Macad::Occt::_xcolor::_xcolor()
-	: BaseClass<::_xcolor>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::_xcolor();
-}
-
-Macad::Occt::_xcolor::_xcolor(Macad::Occt::_xcolor^ parameter1)
-	: BaseClass<::_xcolor>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::_xcolor(*(::_xcolor*)parameter1->NativeInstance);
-}
-
-
-
-
-//---------------------------------------------------------------------
 //  Class  Aspect_AspectFillAreaDefinitionError
 //---------------------------------------------------------------------
 
@@ -849,6 +812,16 @@ Macad::Occt::Aspect_AspectFillAreaDefinitionError::Aspect_AspectFillAreaDefiniti
 	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
 	NativeInstance = new ::Aspect_AspectFillAreaDefinitionError(sz_theMessage);
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Aspect_AspectFillAreaDefinitionError::Aspect_AspectFillAreaDefinitionError(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Aspect_AspectFillAreaDefinitionError(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
 Macad::Occt::Aspect_AspectFillAreaDefinitionError::Aspect_AspectFillAreaDefinitionError(Macad::Occt::Aspect_AspectFillAreaDefinitionError^ parameter1)
@@ -885,6 +858,17 @@ Macad::Occt::Aspect_AspectFillAreaDefinitionError^ Macad::Occt::Aspect_AspectFil
 	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_AspectFillAreaDefinitionError::CreateDowncasted( _result.get());
 }
 
+Macad::Occt::Aspect_AspectFillAreaDefinitionError^ Macad::Occt::Aspect_AspectFillAreaDefinitionError::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Aspect_AspectFillAreaDefinitionError) _result;
+	_result = ::Aspect_AspectFillAreaDefinitionError::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_AspectFillAreaDefinitionError::CreateDowncasted( _result.get());
+}
+
 
 Macad::Occt::Aspect_AspectFillAreaDefinitionError^ Macad::Occt::Aspect_AspectFillAreaDefinitionError::CreateDowncasted(::Aspect_AspectFillAreaDefinitionError* instance)
 {
@@ -909,6 +893,16 @@ Macad::Occt::Aspect_AspectLineDefinitionError::Aspect_AspectLineDefinitionError(
 	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
 	NativeInstance = new ::Aspect_AspectLineDefinitionError(sz_theMessage);
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Aspect_AspectLineDefinitionError::Aspect_AspectLineDefinitionError(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Aspect_AspectLineDefinitionError(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
 Macad::Occt::Aspect_AspectLineDefinitionError::Aspect_AspectLineDefinitionError(Macad::Occt::Aspect_AspectLineDefinitionError^ parameter1)
@@ -945,6 +939,17 @@ Macad::Occt::Aspect_AspectLineDefinitionError^ Macad::Occt::Aspect_AspectLineDef
 	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_AspectLineDefinitionError::CreateDowncasted( _result.get());
 }
 
+Macad::Occt::Aspect_AspectLineDefinitionError^ Macad::Occt::Aspect_AspectLineDefinitionError::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Aspect_AspectLineDefinitionError) _result;
+	_result = ::Aspect_AspectLineDefinitionError::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_AspectLineDefinitionError::CreateDowncasted( _result.get());
+}
+
 
 Macad::Occt::Aspect_AspectLineDefinitionError^ Macad::Occt::Aspect_AspectLineDefinitionError::CreateDowncasted(::Aspect_AspectLineDefinitionError* instance)
 {
@@ -969,6 +974,16 @@ Macad::Occt::Aspect_AspectMarkerDefinitionError::Aspect_AspectMarkerDefinitionEr
 	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
 	NativeInstance = new ::Aspect_AspectMarkerDefinitionError(sz_theMessage);
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Aspect_AspectMarkerDefinitionError::Aspect_AspectMarkerDefinitionError(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Aspect_AspectMarkerDefinitionError(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
 Macad::Occt::Aspect_AspectMarkerDefinitionError::Aspect_AspectMarkerDefinitionError(Macad::Occt::Aspect_AspectMarkerDefinitionError^ parameter1)
@@ -1002,6 +1017,17 @@ Macad::Occt::Aspect_AspectMarkerDefinitionError^ Macad::Occt::Aspect_AspectMarke
 {
 	Handle(::Aspect_AspectMarkerDefinitionError) _result;
 	_result = ::Aspect_AspectMarkerDefinitionError::NewInstance("");
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_AspectMarkerDefinitionError::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Aspect_AspectMarkerDefinitionError^ Macad::Occt::Aspect_AspectMarkerDefinitionError::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Aspect_AspectMarkerDefinitionError) _result;
+	_result = ::Aspect_AspectMarkerDefinitionError::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_AspectMarkerDefinitionError::CreateDowncasted( _result.get());
 }
 
@@ -1271,24 +1297,6 @@ Macad::Occt::Aspect_CircularGrid^ Macad::Occt::Aspect_CircularGrid::CreateDownca
 
 
 //---------------------------------------------------------------------
-//  Class  Aspect_DisplayConnection
-//---------------------------------------------------------------------
-
-Macad::Occt::Aspect_DisplayConnection::Aspect_DisplayConnection()
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Aspect_DisplayConnection();
-}
-
-
-Macad::Occt::Aspect_DisplayConnection^ Macad::Occt::Aspect_DisplayConnection::CreateDowncasted(::Aspect_DisplayConnection* instance)
-{
-	return gcnew Macad::Occt::Aspect_DisplayConnection( instance );
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  Aspect_DisplayConnectionDefinitionError
 //---------------------------------------------------------------------
 
@@ -1304,6 +1312,16 @@ Macad::Occt::Aspect_DisplayConnectionDefinitionError::Aspect_DisplayConnectionDe
 	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
 	NativeInstance = new ::Aspect_DisplayConnectionDefinitionError(sz_theMessage);
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Aspect_DisplayConnectionDefinitionError::Aspect_DisplayConnectionDefinitionError(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Aspect_DisplayConnectionDefinitionError(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
 Macad::Occt::Aspect_DisplayConnectionDefinitionError::Aspect_DisplayConnectionDefinitionError(Macad::Occt::Aspect_DisplayConnectionDefinitionError^ parameter1)
@@ -1340,70 +1358,21 @@ Macad::Occt::Aspect_DisplayConnectionDefinitionError^ Macad::Occt::Aspect_Displa
 	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_DisplayConnectionDefinitionError::CreateDowncasted( _result.get());
 }
 
+Macad::Occt::Aspect_DisplayConnectionDefinitionError^ Macad::Occt::Aspect_DisplayConnectionDefinitionError::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Aspect_DisplayConnectionDefinitionError) _result;
+	_result = ::Aspect_DisplayConnectionDefinitionError::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_DisplayConnectionDefinitionError::CreateDowncasted( _result.get());
+}
+
 
 Macad::Occt::Aspect_DisplayConnectionDefinitionError^ Macad::Occt::Aspect_DisplayConnectionDefinitionError::CreateDowncasted(::Aspect_DisplayConnectionDefinitionError* instance)
 {
 	return gcnew Macad::Occt::Aspect_DisplayConnectionDefinitionError( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  Aspect_IdentDefinitionError
-//---------------------------------------------------------------------
-
-Macad::Occt::Aspect_IdentDefinitionError::Aspect_IdentDefinitionError()
-	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Aspect_IdentDefinitionError();
-}
-
-Macad::Occt::Aspect_IdentDefinitionError::Aspect_IdentDefinitionError(System::String^ theMessage)
-	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	NativeInstance = new ::Aspect_IdentDefinitionError(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-Macad::Occt::Aspect_IdentDefinitionError::Aspect_IdentDefinitionError(Macad::Occt::Aspect_IdentDefinitionError^ parameter1)
-	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Aspect_IdentDefinitionError(*(::Aspect_IdentDefinitionError*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::Aspect_IdentDefinitionError::Raise(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	::Aspect_IdentDefinitionError::Raise(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-void Macad::Occt::Aspect_IdentDefinitionError::Raise()
-{
-	::Aspect_IdentDefinitionError::Raise("");
-}
-
-Macad::Occt::Aspect_IdentDefinitionError^ Macad::Occt::Aspect_IdentDefinitionError::NewInstance(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	Handle(::Aspect_IdentDefinitionError) _result;
-	_result = ::Aspect_IdentDefinitionError::NewInstance(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_IdentDefinitionError::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Aspect_IdentDefinitionError^ Macad::Occt::Aspect_IdentDefinitionError::NewInstance()
-{
-	Handle(::Aspect_IdentDefinitionError) _result;
-	_result = ::Aspect_IdentDefinitionError::NewInstance("");
-	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_IdentDefinitionError::CreateDowncasted( _result.get());
-}
-
-
-Macad::Occt::Aspect_IdentDefinitionError^ Macad::Occt::Aspect_IdentDefinitionError::CreateDowncasted(::Aspect_IdentDefinitionError* instance)
-{
-	return gcnew Macad::Occt::Aspect_IdentDefinitionError( instance );
 }
 
 
@@ -1484,16 +1453,16 @@ Macad::Occt::Aspect_GradientBackground::Aspect_GradientBackground()
 	_NativeInstance = new ::Aspect_GradientBackground();
 }
 
-Macad::Occt::Aspect_GradientBackground::Aspect_GradientBackground(Macad::Occt::Quantity_Color^ AColor1, Macad::Occt::Quantity_Color^ AColor2, Macad::Occt::Aspect_GradientFillMethod AMethod)
+Macad::Occt::Aspect_GradientBackground::Aspect_GradientBackground(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2, Macad::Occt::Aspect_GradientFillMethod theMethod)
 	: Macad::Occt::Aspect_Background(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::Aspect_GradientBackground(*(::Quantity_Color*)AColor1->NativeInstance, *(::Quantity_Color*)AColor2->NativeInstance, (::Aspect_GradientFillMethod)AMethod);
+	_NativeInstance = new ::Aspect_GradientBackground(*(::Quantity_Color*)theColor1->NativeInstance, *(::Quantity_Color*)theColor2->NativeInstance, (::Aspect_GradientFillMethod)theMethod);
 }
 
-Macad::Occt::Aspect_GradientBackground::Aspect_GradientBackground(Macad::Occt::Quantity_Color^ AColor1, Macad::Occt::Quantity_Color^ AColor2)
+Macad::Occt::Aspect_GradientBackground::Aspect_GradientBackground(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2)
 	: Macad::Occt::Aspect_Background(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::Aspect_GradientBackground(*(::Quantity_Color*)AColor1->NativeInstance, *(::Quantity_Color*)AColor2->NativeInstance, Aspect_GFM_HOR);
+	_NativeInstance = new ::Aspect_GradientBackground(*(::Quantity_Color*)theColor1->NativeInstance, *(::Quantity_Color*)theColor2->NativeInstance, Aspect_GradientFillMethod_Horizontal);
 }
 
 Macad::Occt::Aspect_GradientBackground::Aspect_GradientBackground(Macad::Occt::Aspect_GradientBackground^ parameter1)
@@ -1502,19 +1471,19 @@ Macad::Occt::Aspect_GradientBackground::Aspect_GradientBackground(Macad::Occt::A
 	_NativeInstance = new ::Aspect_GradientBackground(*(::Aspect_GradientBackground*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::Aspect_GradientBackground::SetColors(Macad::Occt::Quantity_Color^ AColor1, Macad::Occt::Quantity_Color^ AColor2, Macad::Occt::Aspect_GradientFillMethod AMethod)
+void Macad::Occt::Aspect_GradientBackground::SetColors(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2, Macad::Occt::Aspect_GradientFillMethod theMethod)
 {
-	((::Aspect_GradientBackground*)_NativeInstance)->SetColors(*(::Quantity_Color*)AColor1->NativeInstance, *(::Quantity_Color*)AColor2->NativeInstance, (::Aspect_GradientFillMethod)AMethod);
+	((::Aspect_GradientBackground*)_NativeInstance)->SetColors(*(::Quantity_Color*)theColor1->NativeInstance, *(::Quantity_Color*)theColor2->NativeInstance, (::Aspect_GradientFillMethod)theMethod);
 }
 
-void Macad::Occt::Aspect_GradientBackground::SetColors(Macad::Occt::Quantity_Color^ AColor1, Macad::Occt::Quantity_Color^ AColor2)
+void Macad::Occt::Aspect_GradientBackground::SetColors(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2)
 {
-	((::Aspect_GradientBackground*)_NativeInstance)->SetColors(*(::Quantity_Color*)AColor1->NativeInstance, *(::Quantity_Color*)AColor2->NativeInstance, Aspect_GFM_HOR);
+	((::Aspect_GradientBackground*)_NativeInstance)->SetColors(*(::Quantity_Color*)theColor1->NativeInstance, *(::Quantity_Color*)theColor2->NativeInstance, Aspect_GradientFillMethod_Horizontal);
 }
 
-void Macad::Occt::Aspect_GradientBackground::Colors(Macad::Occt::Quantity_Color^ AColor1, Macad::Occt::Quantity_Color^ AColor2)
+void Macad::Occt::Aspect_GradientBackground::Colors(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2)
 {
-	((::Aspect_GradientBackground*)_NativeInstance)->Colors(*(::Quantity_Color*)AColor1->NativeInstance, *(::Quantity_Color*)AColor2->NativeInstance);
+	((::Aspect_GradientBackground*)_NativeInstance)->Colors(*(::Quantity_Color*)theColor1->NativeInstance, *(::Quantity_Color*)theColor2->NativeInstance);
 }
 
 Macad::Occt::Aspect_GradientFillMethod Macad::Occt::Aspect_GradientBackground::BgGradientFillMethod()
@@ -1541,6 +1510,16 @@ Macad::Occt::Aspect_GraphicDeviceDefinitionError::Aspect_GraphicDeviceDefinition
 	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
 	NativeInstance = new ::Aspect_GraphicDeviceDefinitionError(sz_theMessage);
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Aspect_GraphicDeviceDefinitionError::Aspect_GraphicDeviceDefinitionError(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Aspect_GraphicDeviceDefinitionError(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
 Macad::Occt::Aspect_GraphicDeviceDefinitionError::Aspect_GraphicDeviceDefinitionError(Macad::Occt::Aspect_GraphicDeviceDefinitionError^ parameter1)
@@ -1577,10 +1556,102 @@ Macad::Occt::Aspect_GraphicDeviceDefinitionError^ Macad::Occt::Aspect_GraphicDev
 	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_GraphicDeviceDefinitionError::CreateDowncasted( _result.get());
 }
 
+Macad::Occt::Aspect_GraphicDeviceDefinitionError^ Macad::Occt::Aspect_GraphicDeviceDefinitionError::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Aspect_GraphicDeviceDefinitionError) _result;
+	_result = ::Aspect_GraphicDeviceDefinitionError::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_GraphicDeviceDefinitionError::CreateDowncasted( _result.get());
+}
+
 
 Macad::Occt::Aspect_GraphicDeviceDefinitionError^ Macad::Occt::Aspect_GraphicDeviceDefinitionError::CreateDowncasted(::Aspect_GraphicDeviceDefinitionError* instance)
 {
 	return gcnew Macad::Occt::Aspect_GraphicDeviceDefinitionError( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  Aspect_IdentDefinitionError
+//---------------------------------------------------------------------
+
+Macad::Occt::Aspect_IdentDefinitionError::Aspect_IdentDefinitionError()
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Aspect_IdentDefinitionError();
+}
+
+Macad::Occt::Aspect_IdentDefinitionError::Aspect_IdentDefinitionError(System::String^ theMessage)
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	NativeInstance = new ::Aspect_IdentDefinitionError(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Aspect_IdentDefinitionError::Aspect_IdentDefinitionError(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Aspect_IdentDefinitionError(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+}
+
+Macad::Occt::Aspect_IdentDefinitionError::Aspect_IdentDefinitionError(Macad::Occt::Aspect_IdentDefinitionError^ parameter1)
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Aspect_IdentDefinitionError(*(::Aspect_IdentDefinitionError*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::Aspect_IdentDefinitionError::Raise(System::String^ theMessage)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	::Aspect_IdentDefinitionError::Raise(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+void Macad::Occt::Aspect_IdentDefinitionError::Raise()
+{
+	::Aspect_IdentDefinitionError::Raise("");
+}
+
+Macad::Occt::Aspect_IdentDefinitionError^ Macad::Occt::Aspect_IdentDefinitionError::NewInstance(System::String^ theMessage)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	Handle(::Aspect_IdentDefinitionError) _result;
+	_result = ::Aspect_IdentDefinitionError::NewInstance(sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_IdentDefinitionError::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Aspect_IdentDefinitionError^ Macad::Occt::Aspect_IdentDefinitionError::NewInstance()
+{
+	Handle(::Aspect_IdentDefinitionError) _result;
+	_result = ::Aspect_IdentDefinitionError::NewInstance("");
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_IdentDefinitionError::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Aspect_IdentDefinitionError^ Macad::Occt::Aspect_IdentDefinitionError::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Aspect_IdentDefinitionError) _result;
+	_result = ::Aspect_IdentDefinitionError::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_IdentDefinitionError::CreateDowncasted( _result.get());
+}
+
+
+Macad::Occt::Aspect_IdentDefinitionError^ Macad::Occt::Aspect_IdentDefinitionError::CreateDowncasted(::Aspect_IdentDefinitionError* instance)
+{
+	return gcnew Macad::Occt::Aspect_IdentDefinitionError( instance );
 }
 
 
@@ -1700,21 +1771,28 @@ System::IntPtr Macad::Occt::Aspect_Window::NativeParentHandle()
 	return System::IntPtr(((::Aspect_Window*)_NativeInstance)->NativeParentHandle());
 }
 
-System::IntPtr Macad::Occt::Aspect_Window::NativeFBConfig()
-{
-	return System::IntPtr(((::Aspect_Window*)_NativeInstance)->NativeFBConfig());
-}
-
 void Macad::Occt::Aspect_Window::SetTitle(Macad::Occt::TCollection_AsciiString^ theTitle)
 {
 	((::Aspect_Window*)_NativeInstance)->SetTitle(*(::TCollection_AsciiString*)theTitle->NativeInstance);
 }
 
-void Macad::Occt::Aspect_Window::InvalidateContent(Macad::Occt::Aspect_DisplayConnection^ theDisp)
+double Macad::Occt::Aspect_Window::DevicePixelRatio()
 {
-	Handle(::Aspect_DisplayConnection) h_theDisp = theDisp->NativeInstance;
-	((::Aspect_Window*)_NativeInstance)->InvalidateContent(h_theDisp);
-	theDisp->NativeInstance = h_theDisp.get();
+	return ((::Aspect_Window*)_NativeInstance)->DevicePixelRatio();
+}
+
+Macad::Occt::Graphic3d_Vec2d^ Macad::Occt::Aspect_Window::ConvertPointToBacking(Macad::Occt::Graphic3d_Vec2d^ thePnt)
+{
+	::Graphic3d_Vec2d* _result = new ::Graphic3d_Vec2d(0.0);
+	*_result = ((::Aspect_Window*)_NativeInstance)->ConvertPointToBacking(*(::Graphic3d_Vec2d*)thePnt->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_Vec2d(_result);
+}
+
+Macad::Occt::Graphic3d_Vec2d^ Macad::Occt::Aspect_Window::ConvertPointFromBacking(Macad::Occt::Graphic3d_Vec2d^ thePnt)
+{
+	::Graphic3d_Vec2d* _result = new ::Graphic3d_Vec2d(0.0);
+	*_result = ((::Aspect_Window*)_NativeInstance)->ConvertPointFromBacking(*(::Graphic3d_Vec2d*)thePnt->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_Vec2d(_result);
 }
 
 
@@ -1723,122 +1801,10 @@ Macad::Occt::Aspect_Window^ Macad::Occt::Aspect_Window::CreateDowncasted(::Aspec
 	if( instance == nullptr )
 		return nullptr;
 
-	if (instance->IsKind(STANDARD_TYPE(::Aspect_NeutralWindow)))
-		return Macad::Occt::Aspect_NeutralWindow::CreateDowncasted((::Aspect_NeutralWindow*)instance);
 	if (instance->IsKind(STANDARD_TYPE(::WNT_Window)))
 		return Macad::Occt::WNT_Window::CreateDowncasted((::WNT_Window*)instance);
 
 	return gcnew Macad::Occt::Aspect_Window( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  Aspect_NeutralWindow
-//---------------------------------------------------------------------
-
-Macad::Occt::Aspect_NeutralWindow::Aspect_NeutralWindow()
-	: Macad::Occt::Aspect_Window(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Aspect_NeutralWindow();
-}
-
-Macad::Occt::Aspect_NeutralWindow::Aspect_NeutralWindow(Macad::Occt::Aspect_NeutralWindow^ parameter1)
-	: Macad::Occt::Aspect_Window(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Aspect_NeutralWindow(*(::Aspect_NeutralWindow*)parameter1->NativeInstance);
-}
-
-System::IntPtr Macad::Occt::Aspect_NeutralWindow::NativeHandle()
-{
-	return System::IntPtr(((::Aspect_NeutralWindow*)_NativeInstance)->NativeHandle());
-}
-
-System::IntPtr Macad::Occt::Aspect_NeutralWindow::NativeParentHandle()
-{
-	return System::IntPtr(((::Aspect_NeutralWindow*)_NativeInstance)->NativeParentHandle());
-}
-
-System::IntPtr Macad::Occt::Aspect_NeutralWindow::NativeFBConfig()
-{
-	return System::IntPtr(((::Aspect_NeutralWindow*)_NativeInstance)->NativeFBConfig());
-}
-
-bool Macad::Occt::Aspect_NeutralWindow::SetNativeHandle(System::IntPtr theWindow)
-{
-	return ((::Aspect_NeutralWindow*)_NativeInstance)->SetNativeHandle(theWindow.ToPointer());
-}
-
-bool Macad::Occt::Aspect_NeutralWindow::SetNativeHandles(System::IntPtr theWindow, System::IntPtr theParentWindow, System::IntPtr theFbConfig)
-{
-	return ((::Aspect_NeutralWindow*)_NativeInstance)->SetNativeHandles(theWindow.ToPointer(), theParentWindow.ToPointer(), theFbConfig.ToPointer());
-}
-
-bool Macad::Occt::Aspect_NeutralWindow::IsMapped()
-{
-	return ((::Aspect_NeutralWindow*)_NativeInstance)->IsMapped();
-}
-
-void Macad::Occt::Aspect_NeutralWindow::Map()
-{
-	((::Aspect_NeutralWindow*)_NativeInstance)->Map();
-}
-
-void Macad::Occt::Aspect_NeutralWindow::Unmap()
-{
-	((::Aspect_NeutralWindow*)_NativeInstance)->Unmap();
-}
-
-Macad::Occt::Aspect_TypeOfResize Macad::Occt::Aspect_NeutralWindow::DoResize()
-{
-	return (Macad::Occt::Aspect_TypeOfResize)((::Aspect_NeutralWindow*)_NativeInstance)->DoResize();
-}
-
-bool Macad::Occt::Aspect_NeutralWindow::DoMapping()
-{
-	return ((::Aspect_NeutralWindow*)_NativeInstance)->DoMapping();
-}
-
-double Macad::Occt::Aspect_NeutralWindow::Ratio()
-{
-	return ((::Aspect_NeutralWindow*)_NativeInstance)->Ratio();
-}
-
-void Macad::Occt::Aspect_NeutralWindow::Position(int% theX1, int% theY1, int% theX2, int% theY2)
-{
-	pin_ptr<int> pp_theX1 = &theX1;
-	pin_ptr<int> pp_theY1 = &theY1;
-	pin_ptr<int> pp_theX2 = &theX2;
-	pin_ptr<int> pp_theY2 = &theY2;
-	((::Aspect_NeutralWindow*)_NativeInstance)->Position(*(Standard_Integer*)pp_theX1, *(Standard_Integer*)pp_theY1, *(Standard_Integer*)pp_theX2, *(Standard_Integer*)pp_theY2);
-}
-
-bool Macad::Occt::Aspect_NeutralWindow::SetPosition(int theX1, int theY1)
-{
-	return ((::Aspect_NeutralWindow*)_NativeInstance)->SetPosition(theX1, theY1);
-}
-
-bool Macad::Occt::Aspect_NeutralWindow::SetPosition(int theX1, int theY1, int theX2, int theY2)
-{
-	return ((::Aspect_NeutralWindow*)_NativeInstance)->SetPosition(theX1, theY1, theX2, theY2);
-}
-
-void Macad::Occt::Aspect_NeutralWindow::Size(int% theWidth, int% theHeight)
-{
-	pin_ptr<int> pp_theWidth = &theWidth;
-	pin_ptr<int> pp_theHeight = &theHeight;
-	((::Aspect_NeutralWindow*)_NativeInstance)->Size(*(Standard_Integer*)pp_theWidth, *(Standard_Integer*)pp_theHeight);
-}
-
-bool Macad::Occt::Aspect_NeutralWindow::SetSize(int theWidth, int theHeight)
-{
-	return ((::Aspect_NeutralWindow*)_NativeInstance)->SetSize(theWidth, theHeight);
-}
-
-
-Macad::Occt::Aspect_NeutralWindow^ Macad::Occt::Aspect_NeutralWindow::CreateDowncasted(::Aspect_NeutralWindow* instance)
-{
-	return gcnew Macad::Occt::Aspect_NeutralWindow( instance );
 }
 
 
@@ -2465,6 +2431,16 @@ Macad::Occt::Aspect_WindowDefinitionError::Aspect_WindowDefinitionError(System::
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
 }
 
+Macad::Occt::Aspect_WindowDefinitionError::Aspect_WindowDefinitionError(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Aspect_WindowDefinitionError(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+}
+
 Macad::Occt::Aspect_WindowDefinitionError::Aspect_WindowDefinitionError(Macad::Occt::Aspect_WindowDefinitionError^ parameter1)
 	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
 {
@@ -2499,6 +2475,17 @@ Macad::Occt::Aspect_WindowDefinitionError^ Macad::Occt::Aspect_WindowDefinitionE
 	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_WindowDefinitionError::CreateDowncasted( _result.get());
 }
 
+Macad::Occt::Aspect_WindowDefinitionError^ Macad::Occt::Aspect_WindowDefinitionError::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Aspect_WindowDefinitionError) _result;
+	_result = ::Aspect_WindowDefinitionError::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_WindowDefinitionError::CreateDowncasted( _result.get());
+}
+
 
 Macad::Occt::Aspect_WindowDefinitionError^ Macad::Occt::Aspect_WindowDefinitionError::CreateDowncasted(::Aspect_WindowDefinitionError* instance)
 {
@@ -2523,6 +2510,16 @@ Macad::Occt::Aspect_WindowError::Aspect_WindowError(System::String^ theMessage)
 	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
 	NativeInstance = new ::Aspect_WindowError(sz_theMessage);
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Aspect_WindowError::Aspect_WindowError(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Aspect_WindowError(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
 Macad::Occt::Aspect_WindowError::Aspect_WindowError(Macad::Occt::Aspect_WindowError^ parameter1)
@@ -2559,10 +2556,180 @@ Macad::Occt::Aspect_WindowError^ Macad::Occt::Aspect_WindowError::NewInstance()
 	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_WindowError::CreateDowncasted( _result.get());
 }
 
+Macad::Occt::Aspect_WindowError^ Macad::Occt::Aspect_WindowError::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Aspect_WindowError) _result;
+	_result = ::Aspect_WindowError::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_WindowError::CreateDowncasted( _result.get());
+}
+
 
 Macad::Occt::Aspect_WindowError^ Macad::Occt::Aspect_WindowError::CreateDowncasted(::Aspect_WindowError* instance)
 {
 	return gcnew Macad::Occt::Aspect_WindowError( instance );
 }
+
+
+
+//---------------------------------------------------------------------
+//  Class  Aspect_WindowInputListener
+//---------------------------------------------------------------------
+
+double Macad::Occt::Aspect_WindowInputListener::EventTime()
+{
+	return ((::Aspect_WindowInputListener*)_NativeInstance)->EventTime();
+}
+
+void Macad::Occt::Aspect_WindowInputListener::ProcessExpose()
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->ProcessExpose();
+}
+
+void Macad::Occt::Aspect_WindowInputListener::ProcessConfigure(bool theIsResized)
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->ProcessConfigure(theIsResized);
+}
+
+void Macad::Occt::Aspect_WindowInputListener::ProcessInput()
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->ProcessInput();
+}
+
+void Macad::Occt::Aspect_WindowInputListener::ProcessFocus(bool theIsActivated)
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->ProcessFocus(theIsActivated);
+}
+
+void Macad::Occt::Aspect_WindowInputListener::ProcessClose()
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->ProcessClose();
+}
+
+void Macad::Occt::Aspect_WindowInputListener::KeyDown(unsigned int theKey, double theTime, double thePressure)
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->KeyDown(theKey, theTime, thePressure);
+}
+
+void Macad::Occt::Aspect_WindowInputListener::KeyDown(unsigned int theKey, double theTime)
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->KeyDown(theKey, theTime, 1.);
+}
+
+void Macad::Occt::Aspect_WindowInputListener::KeyUp(unsigned int theKey, double theTime)
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->KeyUp(theKey, theTime);
+}
+
+void Macad::Occt::Aspect_WindowInputListener::KeyFromAxis(unsigned int theNegative, unsigned int thePositive, double theTime, double thePressure)
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->KeyFromAxis(theNegative, thePositive, theTime, thePressure);
+}
+
+bool Macad::Occt::Aspect_WindowInputListener::UpdateMouseScroll(Macad::Occt::Aspect_ScrollDelta^ theDelta)
+{
+	return ((::Aspect_WindowInputListener*)_NativeInstance)->UpdateMouseScroll(*(::Aspect_ScrollDelta*)theDelta->NativeInstance);
+}
+
+bool Macad::Occt::Aspect_WindowInputListener::UpdateMouseButtons(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButtons, unsigned int theModifiers, bool theIsEmulated)
+{
+	return ((::Aspect_WindowInputListener*)_NativeInstance)->UpdateMouseButtons(*(::Graphic3d_Vec2i*)thePoint->NativeInstance, theButtons, theModifiers, theIsEmulated);
+}
+
+bool Macad::Occt::Aspect_WindowInputListener::UpdateMousePosition(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButtons, unsigned int theModifiers, bool theIsEmulated)
+{
+	return ((::Aspect_WindowInputListener*)_NativeInstance)->UpdateMousePosition(*(::Graphic3d_Vec2i*)thePoint->NativeInstance, theButtons, theModifiers, theIsEmulated);
+}
+
+bool Macad::Occt::Aspect_WindowInputListener::PressMouseButton(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButton, unsigned int theModifiers, bool theIsEmulated)
+{
+	return ((::Aspect_WindowInputListener*)_NativeInstance)->PressMouseButton(*(::Graphic3d_Vec2i*)thePoint->NativeInstance, theButton, theModifiers, theIsEmulated);
+}
+
+bool Macad::Occt::Aspect_WindowInputListener::ReleaseMouseButton(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButton, unsigned int theModifiers, bool theIsEmulated)
+{
+	return ((::Aspect_WindowInputListener*)_NativeInstance)->ReleaseMouseButton(*(::Graphic3d_Vec2i*)thePoint->NativeInstance, theButton, theModifiers, theIsEmulated);
+}
+
+unsigned int Macad::Occt::Aspect_WindowInputListener::PressedMouseButtons()
+{
+	return ((::Aspect_WindowInputListener*)_NativeInstance)->PressedMouseButtons();
+}
+
+unsigned int Macad::Occt::Aspect_WindowInputListener::LastMouseFlags()
+{
+	return ((::Aspect_WindowInputListener*)_NativeInstance)->LastMouseFlags();
+}
+
+Macad::Occt::Graphic3d_Vec2i^ Macad::Occt::Aspect_WindowInputListener::LastMousePosition()
+{
+	::Graphic3d_Vec2i* _result = new ::Graphic3d_Vec2i(0);
+	*_result =  (::Graphic3d_Vec2i)((::Aspect_WindowInputListener*)_NativeInstance)->LastMousePosition();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_Vec2i(_result);
+}
+
+bool Macad::Occt::Aspect_WindowInputListener::HasTouchPoints()
+{
+	return ((::Aspect_WindowInputListener*)_NativeInstance)->HasTouchPoints();
+}
+
+void Macad::Occt::Aspect_WindowInputListener::AddTouchPoint(size_t theId, Macad::Occt::Graphic3d_Vec2d^ thePnt, bool theClearBefore)
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->AddTouchPoint(theId, *(::Graphic3d_Vec2d*)thePnt->NativeInstance, theClearBefore);
+}
+
+void Macad::Occt::Aspect_WindowInputListener::AddTouchPoint(size_t theId, Macad::Occt::Graphic3d_Vec2d^ thePnt)
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->AddTouchPoint(theId, *(::Graphic3d_Vec2d*)thePnt->NativeInstance, false);
+}
+
+bool Macad::Occt::Aspect_WindowInputListener::RemoveTouchPoint(size_t theId, bool theClearSelectPnts)
+{
+	return ((::Aspect_WindowInputListener*)_NativeInstance)->RemoveTouchPoint(theId, theClearSelectPnts);
+}
+
+bool Macad::Occt::Aspect_WindowInputListener::RemoveTouchPoint(size_t theId)
+{
+	return ((::Aspect_WindowInputListener*)_NativeInstance)->RemoveTouchPoint(theId, false);
+}
+
+void Macad::Occt::Aspect_WindowInputListener::UpdateTouchPoint(size_t theId, Macad::Occt::Graphic3d_Vec2d^ thePnt)
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->UpdateTouchPoint(theId, *(::Graphic3d_Vec2d*)thePnt->NativeInstance);
+}
+
+float Macad::Occt::Aspect_WindowInputListener::Get3dMouseTranslationScale()
+{
+	return ((::Aspect_WindowInputListener*)_NativeInstance)->Get3dMouseTranslationScale();
+}
+
+void Macad::Occt::Aspect_WindowInputListener::Set3dMouseTranslationScale(float theScale)
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->Set3dMouseTranslationScale(theScale);
+}
+
+float Macad::Occt::Aspect_WindowInputListener::Get3dMouseRotationScale()
+{
+	return ((::Aspect_WindowInputListener*)_NativeInstance)->Get3dMouseRotationScale();
+}
+
+void Macad::Occt::Aspect_WindowInputListener::Set3dMouseRotationScale(float theScale)
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->Set3dMouseRotationScale(theScale);
+}
+
+bool Macad::Occt::Aspect_WindowInputListener::To3dMousePreciseInput()
+{
+	return ((::Aspect_WindowInputListener*)_NativeInstance)->To3dMousePreciseInput();
+}
+
+void Macad::Occt::Aspect_WindowInputListener::Set3dMousePreciseInput(bool theIsQuadric)
+{
+	((::Aspect_WindowInputListener*)_NativeInstance)->Set3dMousePreciseInput(theIsQuadric);
+}
+
 
 

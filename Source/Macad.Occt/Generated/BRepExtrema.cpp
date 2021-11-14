@@ -13,6 +13,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "TopoDS.h"
 #include "Bnd.h"
 #include "Extrema.h"
+#include "Message.h"
 #include "TopTools.h"
 
 
@@ -453,13 +454,13 @@ Macad::Occt::BRepExtrema_DistShapeShape::BRepExtrema_DistShapeShape()
 Macad::Occt::BRepExtrema_DistShapeShape::BRepExtrema_DistShapeShape(Macad::Occt::TopoDS_Shape^ Shape1, Macad::Occt::TopoDS_Shape^ Shape2)
 	: BaseClass<::BRepExtrema_DistShapeShape>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepExtrema_DistShapeShape(*(::TopoDS_Shape*)Shape1->NativeInstance, *(::TopoDS_Shape*)Shape2->NativeInstance, Extrema_ExtFlag_MINMAX, Extrema_ExtAlgo_Grad);
+	_NativeInstance = new ::BRepExtrema_DistShapeShape(*(::TopoDS_Shape*)Shape1->NativeInstance, *(::TopoDS_Shape*)Shape2->NativeInstance, Extrema_ExtFlag_MINMAX, Extrema_ExtAlgo_Grad, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepExtrema_DistShapeShape::BRepExtrema_DistShapeShape(Macad::Occt::TopoDS_Shape^ Shape1, Macad::Occt::TopoDS_Shape^ Shape2, double theDeflection)
 	: BaseClass<::BRepExtrema_DistShapeShape>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepExtrema_DistShapeShape(*(::TopoDS_Shape*)Shape1->NativeInstance, *(::TopoDS_Shape*)Shape2->NativeInstance, theDeflection, Extrema_ExtFlag_MINMAX, Extrema_ExtAlgo_Grad);
+	_NativeInstance = new ::BRepExtrema_DistShapeShape(*(::TopoDS_Shape*)Shape1->NativeInstance, *(::TopoDS_Shape*)Shape2->NativeInstance, theDeflection, Extrema_ExtFlag_MINMAX, Extrema_ExtAlgo_Grad, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepExtrema_DistShapeShape::BRepExtrema_DistShapeShape(Macad::Occt::BRepExtrema_DistShapeShape^ parameter1)
@@ -483,9 +484,14 @@ void Macad::Occt::BRepExtrema_DistShapeShape::LoadS2(Macad::Occt::TopoDS_Shape^ 
 	((::BRepExtrema_DistShapeShape*)_NativeInstance)->LoadS2(*(::TopoDS_Shape*)Shape1->NativeInstance);
 }
 
+bool Macad::Occt::BRepExtrema_DistShapeShape::Perform(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	return ((::BRepExtrema_DistShapeShape*)_NativeInstance)->Perform(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 bool Macad::Occt::BRepExtrema_DistShapeShape::Perform()
 {
-	return ((::BRepExtrema_DistShapeShape*)_NativeInstance)->Perform();
+	return ((::BRepExtrema_DistShapeShape*)_NativeInstance)->Perform(::Message_ProgressRange());
 }
 
 bool Macad::Occt::BRepExtrema_DistShapeShape::IsDone()
@@ -568,6 +574,16 @@ void Macad::Occt::BRepExtrema_DistShapeShape::ParOnFaceS2(int N, double% u, doub
 	((::BRepExtrema_DistShapeShape*)_NativeInstance)->ParOnFaceS2(N, *(Standard_Real*)pp_u, *(Standard_Real*)pp_v);
 }
 
+void Macad::Occt::BRepExtrema_DistShapeShape::SetMultiThread(bool theIsMultiThread)
+{
+	((::BRepExtrema_DistShapeShape*)_NativeInstance)->SetMultiThread(theIsMultiThread);
+}
+
+bool Macad::Occt::BRepExtrema_DistShapeShape::IsMultiThread()
+{
+	return ((::BRepExtrema_DistShapeShape*)_NativeInstance)->IsMultiThread();
+}
+
 
 
 
@@ -585,12 +601,6 @@ Macad::Occt::BRepExtrema_ExtCC::BRepExtrema_ExtCC(Macad::Occt::TopoDS_Edge^ E1, 
 	: BaseClass<::BRepExtrema_ExtCC>(BaseClass::InitMode::Uninitialized)
 {
 	_NativeInstance = new ::BRepExtrema_ExtCC(*(::TopoDS_Edge*)E1->NativeInstance, *(::TopoDS_Edge*)E2->NativeInstance);
-}
-
-Macad::Occt::BRepExtrema_ExtCC::BRepExtrema_ExtCC(Macad::Occt::BRepExtrema_ExtCC^ parameter1)
-	: BaseClass<::BRepExtrema_ExtCC>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepExtrema_ExtCC(*(::BRepExtrema_ExtCC*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepExtrema_ExtCC::Initialize(Macad::Occt::TopoDS_Edge^ E2)
@@ -673,12 +683,6 @@ Macad::Occt::BRepExtrema_ExtCF::BRepExtrema_ExtCF(Macad::Occt::TopoDS_Edge^ E, M
 	: BaseClass<::BRepExtrema_ExtCF>(BaseClass::InitMode::Uninitialized)
 {
 	_NativeInstance = new ::BRepExtrema_ExtCF(*(::TopoDS_Edge*)E->NativeInstance, *(::TopoDS_Face*)F->NativeInstance);
-}
-
-Macad::Occt::BRepExtrema_ExtCF::BRepExtrema_ExtCF(Macad::Occt::BRepExtrema_ExtCF^ parameter1)
-	: BaseClass<::BRepExtrema_ExtCF>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepExtrema_ExtCF(*(::BRepExtrema_ExtCF*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepExtrema_ExtCF::Initialize(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F)
@@ -905,12 +909,6 @@ Macad::Occt::BRepExtrema_ExtPF::BRepExtrema_ExtPF(Macad::Occt::TopoDS_Vertex^ Th
 	_NativeInstance = new ::BRepExtrema_ExtPF(*(::TopoDS_Vertex*)TheVertex->NativeInstance, *(::TopoDS_Face*)TheFace->NativeInstance, Extrema_ExtFlag_MINMAX, Extrema_ExtAlgo_Grad);
 }
 
-Macad::Occt::BRepExtrema_ExtPF::BRepExtrema_ExtPF(Macad::Occt::BRepExtrema_ExtPF^ parameter1)
-	: BaseClass<::BRepExtrema_ExtPF>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepExtrema_ExtPF(*(::BRepExtrema_ExtPF*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepExtrema_ExtPF::Initialize(Macad::Occt::TopoDS_Face^ TheFace)
 {
 	((::BRepExtrema_ExtPF*)_NativeInstance)->Initialize(*(::TopoDS_Face*)TheFace->NativeInstance, Extrema_ExtFlag_MINMAX, Extrema_ExtAlgo_Grad);
@@ -1085,6 +1083,16 @@ Macad::Occt::BRepExtrema_UnCompatibleShape::BRepExtrema_UnCompatibleShape(System
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
 }
 
+Macad::Occt::BRepExtrema_UnCompatibleShape::BRepExtrema_UnCompatibleShape(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::BRepExtrema_UnCompatibleShape(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+}
+
 Macad::Occt::BRepExtrema_UnCompatibleShape::BRepExtrema_UnCompatibleShape(Macad::Occt::BRepExtrema_UnCompatibleShape^ parameter1)
 	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
 {
@@ -1116,6 +1124,17 @@ Macad::Occt::BRepExtrema_UnCompatibleShape^ Macad::Occt::BRepExtrema_UnCompatibl
 {
 	Handle(::BRepExtrema_UnCompatibleShape) _result;
 	_result = ::BRepExtrema_UnCompatibleShape::NewInstance("");
+	 return _result.IsNull() ? nullptr : Macad::Occt::BRepExtrema_UnCompatibleShape::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::BRepExtrema_UnCompatibleShape^ Macad::Occt::BRepExtrema_UnCompatibleShape::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::BRepExtrema_UnCompatibleShape) _result;
+	_result = ::BRepExtrema_UnCompatibleShape::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 	 return _result.IsNull() ? nullptr : Macad::Occt::BRepExtrema_UnCompatibleShape::CreateDowncasted( _result.get());
 }
 

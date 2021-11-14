@@ -520,11 +520,30 @@ void Macad::Occt::Image_PixMap::ToBlackWhite(Macad::Occt::Image_PixMap^ theImage
 	::Image_PixMap::ToBlackWhite(*(::Image_PixMap*)theImage->NativeInstance);
 }
 
+bool Macad::Occt::Image_PixMap::FlipY(Macad::Occt::Image_PixMap^ theImage)
+{
+	return ::Image_PixMap::FlipY(*(::Image_PixMap*)theImage->NativeInstance);
+}
+
 Macad::Occt::NCollection_BaseAllocator^ Macad::Occt::Image_PixMap::DefaultAllocator()
 {
 	Handle(::NCollection_BaseAllocator) _result;
 	_result = ::Image_PixMap::DefaultAllocator();
 	 return _result.IsNull() ? nullptr : Macad::Occt::NCollection_BaseAllocator::CreateDowncasted( _result.get());
+}
+
+System::String^ Macad::Occt::Image_PixMap::ImageFormatToString(Macad::Occt::Image_Format theFormat)
+{
+	Standard_CString _result;
+	_result = ::Image_PixMap::ImageFormatToString((::Image_Format)theFormat);
+	return gcnew System::String(_result);
+}
+
+System::String^ Macad::Occt::Image_PixMap::ImageFormatToString(Macad::Occt::Image_CompressedFormat theFormat)
+{
+	Standard_CString _result;
+	_result = ::Image_PixMap::ImageFormatToString((::Image_CompressedFormat)theFormat);
+	return gcnew System::String(_result);
 }
 
 Macad::Occt::Image_Format Macad::Occt::Image_PixMap::Format()
@@ -701,6 +720,16 @@ unsigned char Macad::Occt::Image_PixMap::RawValue(size_t theRow, size_t theCol)
 unsigned char Macad::Occt::Image_PixMap::ChangeRawValue(size_t theRow, size_t theCol)
 {
 	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+float Macad::Occt::Image_PixMap::ConvertFromHalfFloat(unsigned short theHalf)
+{
+	return ::Image_PixMap::ConvertFromHalfFloat(theHalf);
+}
+
+unsigned short Macad::Occt::Image_PixMap::ConvertToHalfFloat(float theFloat)
+{
+	return ::Image_PixMap::ConvertToHalfFloat(theFloat);
 }
 
 
@@ -1112,6 +1141,13 @@ Macad::Occt::NCollection_Buffer^ Macad::Occt::Image_Texture::DataBuffer()
 	Handle(::NCollection_Buffer) _result;
 	_result = ((::Image_Texture*)_NativeInstance)->DataBuffer();
 	 return _result.IsNull() ? nullptr : Macad::Occt::NCollection_Buffer::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::Image_Texture::MimeType()
+{
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result = ((::Image_Texture*)_NativeInstance)->MimeType();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
 }
 
 Macad::Occt::TCollection_AsciiString^ Macad::Occt::Image_Texture::ProbeImageFileFormat()

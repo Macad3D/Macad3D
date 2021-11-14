@@ -8,15 +8,6 @@ namespace Macad
 namespace Occt
 {
 //---------------------------------------------------------------------
-//  Enum  TCollection_Side
-//---------------------------------------------------------------------
-public enum class TCollection_Side
-{
-	TCollection_Left = 0,
-	TCollection_Right = 1
-}; // enum  class TCollection_Side
-
-//---------------------------------------------------------------------
 //  Class  TCollection_HAsciiString
 //---------------------------------------------------------------------
 public ref class TCollection_HAsciiString sealed : public Macad::Occt::Standard_Transient
@@ -282,6 +273,7 @@ public:
 	bool EndsWith(Macad::Occt::TCollection_AsciiString^ theEndString);
 	int IntegerValue();
 	bool IsIntegerValue();
+	bool IsRealValue(bool theToCheckFull);
 	bool IsRealValue();
 	bool IsAscii();
 	void LeftAdjust();
@@ -322,6 +314,40 @@ public:
 	static bool IsEqual(Macad::Occt::TCollection_AsciiString^ string1, System::String^ string2);
 	static bool IsSameString(Macad::Occt::TCollection_AsciiString^ theString1, Macad::Occt::TCollection_AsciiString^ theString2, bool theIsCaseSensitive);
 }; // class TCollection_AsciiString
+
+//---------------------------------------------------------------------
+//  Class  TCollection
+//---------------------------------------------------------------------
+public ref class TCollection sealed : public BaseClass<::TCollection>
+{
+
+#ifdef Include_TCollection_h
+public:
+	Include_TCollection_h
+#endif
+
+public:
+	TCollection(::TCollection* nativeInstance)
+		: BaseClass<::TCollection>( nativeInstance, true )
+	{}
+
+	TCollection(::TCollection& nativeInstance)
+		: BaseClass<::TCollection>( &nativeInstance, false )
+	{}
+
+	property ::TCollection* NativeInstance
+	{
+		::TCollection* get()
+		{
+			return static_cast<::TCollection*>(_NativeInstance);
+		}
+	}
+
+public:
+	TCollection();
+	TCollection(Macad::Occt::TCollection^ parameter1);
+	static int NextPrimeForMap(int I);
+}; // class TCollection
 
 //---------------------------------------------------------------------
 //  Class  TCollection_HExtendedString
@@ -389,181 +415,6 @@ public:
 	/* Method skipped due to unknown mapping: void Print(ostream astream, ) */
 	bool IsSameState(Macad::Occt::TCollection_HExtendedString^ other);
 }; // class TCollection_HExtendedString
-
-//---------------------------------------------------------------------
-//  Class  TCollection_BaseSequence
-//---------------------------------------------------------------------
-public ref class TCollection_BaseSequence sealed : public BaseClass<::TCollection_BaseSequence>
-{
-
-#ifdef Include_TCollection_BaseSequence_h
-public:
-	Include_TCollection_BaseSequence_h
-#endif
-
-public:
-	TCollection_BaseSequence(::TCollection_BaseSequence* nativeInstance)
-		: BaseClass<::TCollection_BaseSequence>( nativeInstance, true )
-	{}
-
-	TCollection_BaseSequence(::TCollection_BaseSequence& nativeInstance)
-		: BaseClass<::TCollection_BaseSequence>( &nativeInstance, false )
-	{}
-
-	property ::TCollection_BaseSequence* NativeInstance
-	{
-		::TCollection_BaseSequence* get()
-		{
-			return static_cast<::TCollection_BaseSequence*>(_NativeInstance);
-		}
-	}
-
-public:
-	bool IsEmpty();
-	int Length();
-	void Reverse();
-	void Exchange(int I, int J);
-}; // class TCollection_BaseSequence
-
-//---------------------------------------------------------------------
-//  Class  TCollection_BasicMap
-//---------------------------------------------------------------------
-public ref class TCollection_BasicMap sealed : public BaseClass<::TCollection_BasicMap>
-{
-
-#ifdef Include_TCollection_BasicMap_h
-public:
-	Include_TCollection_BasicMap_h
-#endif
-
-public:
-	TCollection_BasicMap(::TCollection_BasicMap* nativeInstance)
-		: BaseClass<::TCollection_BasicMap>( nativeInstance, true )
-	{}
-
-	TCollection_BasicMap(::TCollection_BasicMap& nativeInstance)
-		: BaseClass<::TCollection_BasicMap>( &nativeInstance, false )
-	{}
-
-	property ::TCollection_BasicMap* NativeInstance
-	{
-		::TCollection_BasicMap* get()
-		{
-			return static_cast<::TCollection_BasicMap*>(_NativeInstance);
-		}
-	}
-
-public:
-	TCollection_BasicMap(Macad::Occt::TCollection_BasicMap^ parameter1);
-	int NbBuckets();
-	int Extent();
-	bool IsEmpty();
-	/* Method skipped due to unknown mapping: void Statistics(ostream S, ) */
-}; // class TCollection_BasicMap
-
-//---------------------------------------------------------------------
-//  Class  TCollection_MapNode
-//---------------------------------------------------------------------
-public ref class TCollection_MapNode sealed : public Macad::Occt::Standard_Transient
-{
-
-#ifdef Include_TCollection_MapNode_h
-public:
-	Include_TCollection_MapNode_h
-#endif
-
-public:
-	TCollection_MapNode(::TCollection_MapNode* nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	TCollection_MapNode(::TCollection_MapNode& nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	property ::TCollection_MapNode* NativeInstance
-	{
-		::TCollection_MapNode* get()
-		{
-			return static_cast<::TCollection_MapNode*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::TCollection_MapNode^ CreateDowncasted(::TCollection_MapNode* instance);
-
-public:
-	TCollection_MapNode(Macad::Occt::TCollection_MapNode^ n);
-	Macad::Occt::TCollection_MapNode^ Next();
-}; // class TCollection_MapNode
-
-//---------------------------------------------------------------------
-//  Class  TCollection_BasicMapIterator
-//---------------------------------------------------------------------
-public ref class TCollection_BasicMapIterator sealed : public BaseClass<::TCollection_BasicMapIterator>
-{
-
-#ifdef Include_TCollection_BasicMapIterator_h
-public:
-	Include_TCollection_BasicMapIterator_h
-#endif
-
-public:
-	TCollection_BasicMapIterator(::TCollection_BasicMapIterator* nativeInstance)
-		: BaseClass<::TCollection_BasicMapIterator>( nativeInstance, true )
-	{}
-
-	TCollection_BasicMapIterator(::TCollection_BasicMapIterator& nativeInstance)
-		: BaseClass<::TCollection_BasicMapIterator>( &nativeInstance, false )
-	{}
-
-	property ::TCollection_BasicMapIterator* NativeInstance
-	{
-		::TCollection_BasicMapIterator* get()
-		{
-			return static_cast<::TCollection_BasicMapIterator*>(_NativeInstance);
-		}
-	}
-
-public:
-	TCollection_BasicMapIterator(Macad::Occt::TCollection_BasicMapIterator^ parameter1);
-	void Reset();
-	bool More();
-	void Next();
-}; // class TCollection_BasicMapIterator
-
-//---------------------------------------------------------------------
-//  Class  TCollection
-//---------------------------------------------------------------------
-public ref class TCollection sealed : public BaseClass<::TCollection>
-{
-
-#ifdef Include_TCollection_h
-public:
-	Include_TCollection_h
-#endif
-
-public:
-	TCollection(::TCollection* nativeInstance)
-		: BaseClass<::TCollection>( nativeInstance, true )
-	{}
-
-	TCollection(::TCollection& nativeInstance)
-		: BaseClass<::TCollection>( &nativeInstance, false )
-	{}
-
-	property ::TCollection* NativeInstance
-	{
-		::TCollection* get()
-		{
-			return static_cast<::TCollection*>(_NativeInstance);
-		}
-	}
-
-public:
-	TCollection();
-	TCollection(Macad::Occt::TCollection^ parameter1);
-	static int NextPrimeForMap(int I);
-}; // class TCollection
 
 }; // namespace Occt
 }; // namespace Macad

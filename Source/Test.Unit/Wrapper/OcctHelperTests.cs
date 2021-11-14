@@ -111,20 +111,22 @@ namespace Macad.Test.Unit.Wrapper
         [Test]
         public void MessagePrinter()
         {
+            var initialCount = Context.Current.MessageHandler.MessageItems.Count;
+
             // To simulate a diagnostic message over OCCT message system, we need to
             // generate a failing operation
             var op = new BOPAlgo_Builder();
             var listOfShapes = new TopTools_ListOfShape();
-            op.BuildBOP(listOfShapes, listOfShapes, BOPAlgo_Operation.BOPAlgo_FUSE);
+            op.BuildBOP(listOfShapes, listOfShapes, BOPAlgo_Operation.BOPAlgo_FUSE, new Message_ProgressRange());
             var report = op.GetReport();
             var alerts = report.GetAlerts(Message_Gravity.Message_Fail);
             Assert.AreEqual(1, alerts.Size());
 
             report.SendMessages(Message.DefaultMessenger());
-            Assert.AreEqual(1, Context.Current.MessageHandler.MessageItems.Count);
+            Assert.AreEqual(initialCount + 1, Context.Current.MessageHandler.MessageItems.Count);
 
             Messages.Report(report);
-            Assert.AreEqual(2, Context.Current.MessageHandler.MessageItems.Count);
+            Assert.AreEqual(initialCount + 2, Context.Current.MessageHandler.MessageItems.Count);
         }
     }
 }

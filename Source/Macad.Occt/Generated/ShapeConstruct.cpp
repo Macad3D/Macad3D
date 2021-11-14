@@ -16,6 +16,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "GeomAbs.h"
 #include "TColgp.h"
 #include "TopoDS.h"
+#include "Message.h"
 #include "TopTools.h"
 #include "TopAbs.h"
 
@@ -301,9 +302,14 @@ Macad::Occt::ShapeConstruct_MakeTriangulation::ShapeConstruct_MakeTriangulation(
 	_NativeInstance = new ::ShapeConstruct_MakeTriangulation(*(::ShapeConstruct_MakeTriangulation*)parameter1->NativeInstance);
 }
 
+void Macad::Occt::ShapeConstruct_MakeTriangulation::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::ShapeConstruct_MakeTriangulation*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::ShapeConstruct_MakeTriangulation::Build()
 {
-	((::ShapeConstruct_MakeTriangulation*)_NativeInstance)->Build();
+	((::ShapeConstruct_MakeTriangulation*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 bool Macad::Occt::ShapeConstruct_MakeTriangulation::IsDone()

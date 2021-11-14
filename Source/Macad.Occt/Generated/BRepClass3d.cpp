@@ -5,15 +5,41 @@
 
 using namespace System::Runtime::InteropServices; // for class Marshal
 
+#include "TopoDS.h"
 #include "BRepClass3d.h"
 #include "gp.h"
 #include "Standard.h"
-#include "TopoDS.h"
 #include "TopAbs.h"
 #include "BRepAdaptor.h"
 #include "Bnd.h"
 #include "IntCurvesFace.h"
 #include "TopTools.h"
+
+
+//---------------------------------------------------------------------
+//  Class  BRepClass3d
+//---------------------------------------------------------------------
+
+Macad::Occt::BRepClass3d::BRepClass3d()
+	: BaseClass<::BRepClass3d>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepClass3d();
+}
+
+Macad::Occt::BRepClass3d::BRepClass3d(Macad::Occt::BRepClass3d^ parameter1)
+	: BaseClass<::BRepClass3d>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepClass3d(*(::BRepClass3d*)parameter1->NativeInstance);
+}
+
+Macad::Occt::TopoDS_Shell^ Macad::Occt::BRepClass3d::OuterShell(Macad::Occt::TopoDS_Solid^ S)
+{
+	::TopoDS_Shell* _result = new ::TopoDS_Shell();
+	*_result = ::BRepClass3d::OuterShell(*(::TopoDS_Solid*)S->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shell(_result);
+}
+
+
 
 
 //---------------------------------------------------------------------
@@ -167,26 +193,26 @@ bool Macad::Occt::BRepClass3d_SolidExplorer::PointInTheFace(Macad::Occt::TopoDS_
 	return ((::BRepClass3d_SolidExplorer*)_NativeInstance)->PointInTheFace(*(::TopoDS_Face*)F->NativeInstance, *(gp_Pnt*)pp_P, *(Standard_Real*)pp_u, *(Standard_Real*)pp_v, *(Standard_Real*)pp_Param, *(Standard_Integer*)pp_Index);
 }
 
-bool Macad::Occt::BRepClass3d_SolidExplorer::PointInTheFace(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Pnt% P, double% u, double% v, double% Param, int% Index, Macad::Occt::BRepAdaptor_HSurface^ surf, double u1, double v1, double u2, double v2)
+bool Macad::Occt::BRepClass3d_SolidExplorer::PointInTheFace(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Pnt% P, double% u, double% v, double% Param, int% Index, Macad::Occt::BRepAdaptor_Surface^ surf, double u1, double v1, double u2, double v2)
 {
 	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
 	pin_ptr<double> pp_u = &u;
 	pin_ptr<double> pp_v = &v;
 	pin_ptr<double> pp_Param = &Param;
 	pin_ptr<int> pp_Index = &Index;
-	Handle(::BRepAdaptor_HSurface) h_surf = surf->NativeInstance;
+	Handle(::BRepAdaptor_Surface) h_surf = surf->NativeInstance;
 	return ((::BRepClass3d_SolidExplorer*)_NativeInstance)->PointInTheFace(*(::TopoDS_Face*)F->NativeInstance, *(gp_Pnt*)pp_P, *(Standard_Real*)pp_u, *(Standard_Real*)pp_v, *(Standard_Real*)pp_Param, *(Standard_Integer*)pp_Index, h_surf, u1, v1, u2, v2);
 	surf->NativeInstance = h_surf.get();
 }
 
-bool Macad::Occt::BRepClass3d_SolidExplorer::PointInTheFace(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Pnt% P, double% u, double% v, double% Param, int% Index, Macad::Occt::BRepAdaptor_HSurface^ surf, double u1, double v1, double u2, double v2, Macad::Occt::Vec% theVecD1U, Macad::Occt::Vec% theVecD1V)
+bool Macad::Occt::BRepClass3d_SolidExplorer::PointInTheFace(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Pnt% P, double% u, double% v, double% Param, int% Index, Macad::Occt::BRepAdaptor_Surface^ surf, double u1, double v1, double u2, double v2, Macad::Occt::Vec% theVecD1U, Macad::Occt::Vec% theVecD1V)
 {
 	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
 	pin_ptr<double> pp_u = &u;
 	pin_ptr<double> pp_v = &v;
 	pin_ptr<double> pp_Param = &Param;
 	pin_ptr<int> pp_Index = &Index;
-	Handle(::BRepAdaptor_HSurface) h_surf = surf->NativeInstance;
+	Handle(::BRepAdaptor_Surface) h_surf = surf->NativeInstance;
 	pin_ptr<Macad::Occt::Vec> pp_theVecD1U = &theVecD1U;
 	pin_ptr<Macad::Occt::Vec> pp_theVecD1V = &theVecD1V;
 	return ((::BRepClass3d_SolidExplorer*)_NativeInstance)->PointInTheFace(*(::TopoDS_Face*)F->NativeInstance, *(gp_Pnt*)pp_P, *(Standard_Real*)pp_u, *(Standard_Real*)pp_v, *(Standard_Real*)pp_Param, *(Standard_Integer*)pp_Index, h_surf, u1, v1, u2, v2, *(gp_Vec*)pp_theVecD1U, *(gp_Vec*)pp_theVecD1V);
@@ -307,57 +333,6 @@ void Macad::Occt::BRepClass3d_SolidExplorer::Destroy()
 
 
 //---------------------------------------------------------------------
-//  Class  BRepClass3d_SolidPassiveClassifier
-//---------------------------------------------------------------------
-
-Macad::Occt::BRepClass3d_SolidPassiveClassifier::BRepClass3d_SolidPassiveClassifier()
-	: BaseClass<::BRepClass3d_SolidPassiveClassifier>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepClass3d_SolidPassiveClassifier();
-}
-
-Macad::Occt::BRepClass3d_SolidPassiveClassifier::BRepClass3d_SolidPassiveClassifier(Macad::Occt::BRepClass3d_SolidPassiveClassifier^ parameter1)
-	: BaseClass<::BRepClass3d_SolidPassiveClassifier>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepClass3d_SolidPassiveClassifier(*(::BRepClass3d_SolidPassiveClassifier*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::BRepClass3d_SolidPassiveClassifier::Reset(Macad::Occt::gp_Lin^ L, double P, double Tol)
-{
-	((::BRepClass3d_SolidPassiveClassifier*)_NativeInstance)->Reset(*(::gp_Lin*)L->NativeInstance, P, Tol);
-}
-
-void Macad::Occt::BRepClass3d_SolidPassiveClassifier::Compare(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopAbs_Orientation Or)
-{
-	((::BRepClass3d_SolidPassiveClassifier*)_NativeInstance)->Compare(*(::TopoDS_Face*)F->NativeInstance, (::TopAbs_Orientation)Or);
-}
-
-double Macad::Occt::BRepClass3d_SolidPassiveClassifier::Parameter()
-{
-	return ((::BRepClass3d_SolidPassiveClassifier*)_NativeInstance)->Parameter();
-}
-
-bool Macad::Occt::BRepClass3d_SolidPassiveClassifier::HasIntersection()
-{
-	return ((::BRepClass3d_SolidPassiveClassifier*)_NativeInstance)->HasIntersection();
-}
-
-Macad::Occt::BRepClass3d_Intersector3d^ Macad::Occt::BRepClass3d_SolidPassiveClassifier::Intersector()
-{
-	::BRepClass3d_Intersector3d* _result = new ::BRepClass3d_Intersector3d();
-	*_result = ((::BRepClass3d_SolidPassiveClassifier*)_NativeInstance)->Intersector();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepClass3d_Intersector3d(_result);
-}
-
-Macad::Occt::TopAbs_State Macad::Occt::BRepClass3d_SolidPassiveClassifier::State()
-{
-	return (Macad::Occt::TopAbs_State)((::BRepClass3d_SolidPassiveClassifier*)_NativeInstance)->State();
-}
-
-
-
-
-//---------------------------------------------------------------------
 //  Class  BRepClass3d_SClassifier
 //---------------------------------------------------------------------
 
@@ -464,26 +439,51 @@ void Macad::Occt::BRepClass3d_SolidClassifier::Destroy()
 
 
 //---------------------------------------------------------------------
-//  Class  BRepClass3d
+//  Class  BRepClass3d_SolidPassiveClassifier
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepClass3d::BRepClass3d()
-	: BaseClass<::BRepClass3d>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::BRepClass3d_SolidPassiveClassifier::BRepClass3d_SolidPassiveClassifier()
+	: BaseClass<::BRepClass3d_SolidPassiveClassifier>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepClass3d();
+	_NativeInstance = new ::BRepClass3d_SolidPassiveClassifier();
 }
 
-Macad::Occt::BRepClass3d::BRepClass3d(Macad::Occt::BRepClass3d^ parameter1)
-	: BaseClass<::BRepClass3d>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::BRepClass3d_SolidPassiveClassifier::BRepClass3d_SolidPassiveClassifier(Macad::Occt::BRepClass3d_SolidPassiveClassifier^ parameter1)
+	: BaseClass<::BRepClass3d_SolidPassiveClassifier>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepClass3d(*(::BRepClass3d*)parameter1->NativeInstance);
+	_NativeInstance = new ::BRepClass3d_SolidPassiveClassifier(*(::BRepClass3d_SolidPassiveClassifier*)parameter1->NativeInstance);
 }
 
-Macad::Occt::TopoDS_Shell^ Macad::Occt::BRepClass3d::OuterShell(Macad::Occt::TopoDS_Solid^ S)
+void Macad::Occt::BRepClass3d_SolidPassiveClassifier::Reset(Macad::Occt::gp_Lin^ L, double P, double Tol)
 {
-	::TopoDS_Shell* _result = new ::TopoDS_Shell();
-	*_result = ::BRepClass3d::OuterShell(*(::TopoDS_Solid*)S->NativeInstance);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shell(_result);
+	((::BRepClass3d_SolidPassiveClassifier*)_NativeInstance)->Reset(*(::gp_Lin*)L->NativeInstance, P, Tol);
+}
+
+void Macad::Occt::BRepClass3d_SolidPassiveClassifier::Compare(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopAbs_Orientation Or)
+{
+	((::BRepClass3d_SolidPassiveClassifier*)_NativeInstance)->Compare(*(::TopoDS_Face*)F->NativeInstance, (::TopAbs_Orientation)Or);
+}
+
+double Macad::Occt::BRepClass3d_SolidPassiveClassifier::Parameter()
+{
+	return ((::BRepClass3d_SolidPassiveClassifier*)_NativeInstance)->Parameter();
+}
+
+bool Macad::Occt::BRepClass3d_SolidPassiveClassifier::HasIntersection()
+{
+	return ((::BRepClass3d_SolidPassiveClassifier*)_NativeInstance)->HasIntersection();
+}
+
+Macad::Occt::BRepClass3d_Intersector3d^ Macad::Occt::BRepClass3d_SolidPassiveClassifier::Intersector()
+{
+	::BRepClass3d_Intersector3d* _result = new ::BRepClass3d_Intersector3d();
+	*_result = ((::BRepClass3d_SolidPassiveClassifier*)_NativeInstance)->Intersector();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepClass3d_Intersector3d(_result);
+}
+
+Macad::Occt::TopAbs_State Macad::Occt::BRepClass3d_SolidPassiveClassifier::State()
+{
+	return (Macad::Occt::TopAbs_State)((::BRepClass3d_SolidPassiveClassifier*)_NativeInstance)->State();
 }
 
 

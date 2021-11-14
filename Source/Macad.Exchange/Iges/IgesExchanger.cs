@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
-using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Occt;
@@ -45,7 +43,15 @@ namespace Macad.Exchange
         }
 
         //--------------------------------------------------------------------------------------------------
-        
+
+        [AutoRegister]
+        internal static void Register()
+        {
+            ExchangeRegistry.Register(new IgesExchanger());
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
         #region Settings

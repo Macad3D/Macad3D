@@ -136,7 +136,7 @@ namespace Macad.Interaction
 
         protected InteractiveContext()
         {
-            InitializeStatics();
+            InteractionModule.Initialize();
             Current = this;
             DocumentController = new ModelController();
             ShortcutHandler = new ShortcutHandler();
@@ -157,18 +157,6 @@ namespace Macad.Interaction
         #region Statics
 
         public new static InteractiveContext Current { get; private set; }
-
-        static bool _Initialized;
-
-        //--------------------------------------------------------------------------------------------------
-
-        static void InitializeStatics()
-        {
-            if (_Initialized)
-                return;
-
-            _Initialized = true;
-        }
 
         //--------------------------------------------------------------------------------------------------
         

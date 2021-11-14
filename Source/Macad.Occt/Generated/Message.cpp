@@ -1802,6 +1802,148 @@ Macad::Occt::Message_AttributeStream^ Macad::Occt::Message_AttributeStream::Crea
 
 
 //---------------------------------------------------------------------
+//  Class  Message_ProgressRange
+//---------------------------------------------------------------------
+
+Macad::Occt::Message_ProgressRange::Message_ProgressRange()
+	: BaseClass<::Message_ProgressRange>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Message_ProgressRange();
+}
+
+Macad::Occt::Message_ProgressRange::Message_ProgressRange(Macad::Occt::Message_ProgressRange^ theOther)
+	: BaseClass<::Message_ProgressRange>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Message_ProgressRange(*(::Message_ProgressRange*)theOther->NativeInstance);
+}
+
+bool Macad::Occt::Message_ProgressRange::UserBreak()
+{
+	return ((::Message_ProgressRange*)_NativeInstance)->UserBreak();
+}
+
+bool Macad::Occt::Message_ProgressRange::More()
+{
+	return ((::Message_ProgressRange*)_NativeInstance)->More();
+}
+
+bool Macad::Occt::Message_ProgressRange::IsActive()
+{
+	return ((::Message_ProgressRange*)_NativeInstance)->IsActive();
+}
+
+void Macad::Occt::Message_ProgressRange::Close()
+{
+	((::Message_ProgressRange*)_NativeInstance)->Close();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  Message_ProgressScope
+//---------------------------------------------------------------------
+
+Macad::Occt::Message_ProgressScope::Message_ProgressScope()
+	: BaseClass<::Message_ProgressScope>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Message_ProgressScope();
+}
+
+Macad::Occt::Message_ProgressScope::Message_ProgressScope(Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::TCollection_AsciiString^ theName, double theMax, bool isInfinite)
+	: BaseClass<::Message_ProgressScope>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Message_ProgressScope(*(::Message_ProgressRange*)theRange->NativeInstance, *(::TCollection_AsciiString*)theName->NativeInstance, theMax, isInfinite);
+}
+
+Macad::Occt::Message_ProgressScope::Message_ProgressScope(Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::TCollection_AsciiString^ theName, double theMax)
+	: BaseClass<::Message_ProgressScope>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::Message_ProgressScope(*(::Message_ProgressRange*)theRange->NativeInstance, *(::TCollection_AsciiString*)theName->NativeInstance, theMax, false);
+}
+
+void Macad::Occt::Message_ProgressScope::SetName(Macad::Occt::TCollection_AsciiString^ theName)
+{
+	((::Message_ProgressScope*)_NativeInstance)->SetName(*(::TCollection_AsciiString*)theName->NativeInstance);
+}
+
+bool Macad::Occt::Message_ProgressScope::UserBreak()
+{
+	return ((::Message_ProgressScope*)_NativeInstance)->UserBreak();
+}
+
+bool Macad::Occt::Message_ProgressScope::More()
+{
+	return ((::Message_ProgressScope*)_NativeInstance)->More();
+}
+
+Macad::Occt::Message_ProgressRange^ Macad::Occt::Message_ProgressScope::Next(double theStep)
+{
+	::Message_ProgressRange* _result = new ::Message_ProgressRange();
+	*_result = ((::Message_ProgressScope*)_NativeInstance)->Next(theStep);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Message_ProgressRange(_result);
+}
+
+Macad::Occt::Message_ProgressRange^ Macad::Occt::Message_ProgressScope::Next()
+{
+	::Message_ProgressRange* _result = new ::Message_ProgressRange();
+	*_result = ((::Message_ProgressScope*)_NativeInstance)->Next(1.);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Message_ProgressRange(_result);
+}
+
+void Macad::Occt::Message_ProgressScope::Show()
+{
+	((::Message_ProgressScope*)_NativeInstance)->Show();
+}
+
+bool Macad::Occt::Message_ProgressScope::IsActive()
+{
+	return ((::Message_ProgressScope*)_NativeInstance)->IsActive();
+}
+
+System::String^ Macad::Occt::Message_ProgressScope::Name()
+{
+	Standard_CString _result;
+	_result = ((::Message_ProgressScope*)_NativeInstance)->Name();
+	return gcnew System::String(_result);
+}
+
+Macad::Occt::Message_ProgressScope^ Macad::Occt::Message_ProgressScope::Parent()
+{
+	::Message_ProgressScope* _result;
+	_result = (::Message_ProgressScope*)((::Message_ProgressScope*)_NativeInstance)->Parent();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Message_ProgressScope(_result);
+}
+
+double Macad::Occt::Message_ProgressScope::MaxValue()
+{
+	return ((::Message_ProgressScope*)_NativeInstance)->MaxValue();
+}
+
+double Macad::Occt::Message_ProgressScope::Value()
+{
+	return ((::Message_ProgressScope*)_NativeInstance)->Value();
+}
+
+bool Macad::Occt::Message_ProgressScope::IsInfinite()
+{
+	return ((::Message_ProgressScope*)_NativeInstance)->IsInfinite();
+}
+
+double Macad::Occt::Message_ProgressScope::GetPortion()
+{
+	return ((::Message_ProgressScope*)_NativeInstance)->GetPortion();
+}
+
+void Macad::Occt::Message_ProgressScope::Close()
+{
+	((::Message_ProgressScope*)_NativeInstance)->Close();
+}
+
+
+
+
+//---------------------------------------------------------------------
 //  Class  Message_Level
 //---------------------------------------------------------------------
 
@@ -2063,147 +2205,5 @@ Macad::Occt::Message_PrinterToReport^ Macad::Occt::Message_PrinterToReport::Crea
 {
 	return gcnew Macad::Occt::Message_PrinterToReport( instance );
 }
-
-
-
-//---------------------------------------------------------------------
-//  Class  Message_ProgressRange
-//---------------------------------------------------------------------
-
-Macad::Occt::Message_ProgressRange::Message_ProgressRange()
-	: BaseClass<::Message_ProgressRange>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Message_ProgressRange();
-}
-
-Macad::Occt::Message_ProgressRange::Message_ProgressRange(Macad::Occt::Message_ProgressRange^ theOther)
-	: BaseClass<::Message_ProgressRange>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Message_ProgressRange(*(::Message_ProgressRange*)theOther->NativeInstance);
-}
-
-bool Macad::Occt::Message_ProgressRange::UserBreak()
-{
-	return ((::Message_ProgressRange*)_NativeInstance)->UserBreak();
-}
-
-bool Macad::Occt::Message_ProgressRange::More()
-{
-	return ((::Message_ProgressRange*)_NativeInstance)->More();
-}
-
-bool Macad::Occt::Message_ProgressRange::IsActive()
-{
-	return ((::Message_ProgressRange*)_NativeInstance)->IsActive();
-}
-
-void Macad::Occt::Message_ProgressRange::Close()
-{
-	((::Message_ProgressRange*)_NativeInstance)->Close();
-}
-
-
-
-
-//---------------------------------------------------------------------
-//  Class  Message_ProgressScope
-//---------------------------------------------------------------------
-
-Macad::Occt::Message_ProgressScope::Message_ProgressScope()
-	: BaseClass<::Message_ProgressScope>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Message_ProgressScope();
-}
-
-Macad::Occt::Message_ProgressScope::Message_ProgressScope(Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::TCollection_AsciiString^ theName, double theMax, bool isInfinite)
-	: BaseClass<::Message_ProgressScope>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Message_ProgressScope(*(::Message_ProgressRange*)theRange->NativeInstance, *(::TCollection_AsciiString*)theName->NativeInstance, theMax, isInfinite);
-}
-
-Macad::Occt::Message_ProgressScope::Message_ProgressScope(Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::TCollection_AsciiString^ theName, double theMax)
-	: BaseClass<::Message_ProgressScope>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Message_ProgressScope(*(::Message_ProgressRange*)theRange->NativeInstance, *(::TCollection_AsciiString*)theName->NativeInstance, theMax, false);
-}
-
-void Macad::Occt::Message_ProgressScope::SetName(Macad::Occt::TCollection_AsciiString^ theName)
-{
-	((::Message_ProgressScope*)_NativeInstance)->SetName(*(::TCollection_AsciiString*)theName->NativeInstance);
-}
-
-bool Macad::Occt::Message_ProgressScope::UserBreak()
-{
-	return ((::Message_ProgressScope*)_NativeInstance)->UserBreak();
-}
-
-bool Macad::Occt::Message_ProgressScope::More()
-{
-	return ((::Message_ProgressScope*)_NativeInstance)->More();
-}
-
-Macad::Occt::Message_ProgressRange^ Macad::Occt::Message_ProgressScope::Next(double theStep)
-{
-	::Message_ProgressRange* _result = new ::Message_ProgressRange();
-	*_result = ((::Message_ProgressScope*)_NativeInstance)->Next(theStep);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Message_ProgressRange(_result);
-}
-
-Macad::Occt::Message_ProgressRange^ Macad::Occt::Message_ProgressScope::Next()
-{
-	::Message_ProgressRange* _result = new ::Message_ProgressRange();
-	*_result = ((::Message_ProgressScope*)_NativeInstance)->Next(1.);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Message_ProgressRange(_result);
-}
-
-void Macad::Occt::Message_ProgressScope::Show()
-{
-	((::Message_ProgressScope*)_NativeInstance)->Show();
-}
-
-bool Macad::Occt::Message_ProgressScope::IsActive()
-{
-	return ((::Message_ProgressScope*)_NativeInstance)->IsActive();
-}
-
-System::String^ Macad::Occt::Message_ProgressScope::Name()
-{
-	Standard_CString _result;
-	_result = ((::Message_ProgressScope*)_NativeInstance)->Name();
-	return gcnew System::String(_result);
-}
-
-Macad::Occt::Message_ProgressScope^ Macad::Occt::Message_ProgressScope::Parent()
-{
-	::Message_ProgressScope* _result;
-	_result = (::Message_ProgressScope*)((::Message_ProgressScope*)_NativeInstance)->Parent();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Message_ProgressScope(_result);
-}
-
-double Macad::Occt::Message_ProgressScope::MaxValue()
-{
-	return ((::Message_ProgressScope*)_NativeInstance)->MaxValue();
-}
-
-double Macad::Occt::Message_ProgressScope::Value()
-{
-	return ((::Message_ProgressScope*)_NativeInstance)->Value();
-}
-
-bool Macad::Occt::Message_ProgressScope::IsInfinite()
-{
-	return ((::Message_ProgressScope*)_NativeInstance)->IsInfinite();
-}
-
-double Macad::Occt::Message_ProgressScope::GetPortion()
-{
-	return ((::Message_ProgressScope*)_NativeInstance)->GetPortion();
-}
-
-void Macad::Occt::Message_ProgressScope::Close()
-{
-	((::Message_ProgressScope*)_NativeInstance)->Close();
-}
-
 
 

@@ -43,8 +43,16 @@ namespace Macad.Exchange
 
         //--------------------------------------------------------------------------------------------------
 
+        [AutoRegister]
+        internal static void Register()
+        {
+            ExchangeRegistry.Register(new PdfExchanger());
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
-            
+
         #region Settings
 
         [SerializeType]

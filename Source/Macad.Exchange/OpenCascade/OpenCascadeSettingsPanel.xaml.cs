@@ -8,17 +8,14 @@ namespace Macad.Exchange.OpenCascade
     {
         public Type ExchangerType
         {
-            get
-            {
-                return typeof(OpenCascadeExchanger);
-            }
+            get { return typeof(OpenCascadeExchanger); }
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public object CreatePanel<T>(IExchanger exchanger)
         {
-            if(typeof(T) == typeof(IBodyExporter))
+            if (typeof(T) == typeof(IBodyExporter))
             {
                 return new OpenCascadeSettingsPanel((exchanger as OpenCascadeExchanger)?.Settings);
             }
@@ -26,8 +23,18 @@ namespace Macad.Exchange.OpenCascade
             return null;
         }
 
+        //--------------------------------------------------------------------------------------------------
+
+        [AutoRegister]
+        internal static void Register()
+        {
+            ExchangeRegistry.Register(new OpenCascadeSettingsPanelCreator());
+        }
+
+        //--------------------------------------------------------------------------------------------------
     }
 
+    //--------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------
 
     public partial class OpenCascadeSettingsPanel : SettingsPanelBase

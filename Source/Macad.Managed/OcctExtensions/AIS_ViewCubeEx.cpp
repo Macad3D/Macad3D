@@ -129,7 +129,7 @@ void AIS_ViewCubeEx::Compute(const opencascade::handle<PrsMgr_PresentationManage
 
 //--------------------------------------------------------------------------------------------------
 
-void AIS_ViewCubeEx::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager3d)& thePrsMgr,
+void AIS_ViewCubeEx::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
                                          const Handle(Prs3d_Drawer)& theStyle,
                                          const Handle(SelectMgr_EntityOwner)& theOwner)
 {

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29215.179
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSBuildExtension", "Source\MSBuildExtension\MSBuildExtension.csproj", "{C6235524-7321-4B1D-86D4-9FA44BFDAC16}"
 EndProject
@@ -68,6 +68,8 @@ Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Macad.UserGuide", "Source\M
 	ProjectSection(ProjectDependencies) = postProject
 		{C6235524-7321-4B1D-86D4-9FA44BFDAC16} = {C6235524-7321-4B1D-86D4-9FA44BFDAC16}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceGenerator", "Source\SourceGenerator\SourceGenerator.csproj", "{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -273,6 +275,22 @@ Global
 		{CABFBE42-D58D-4894-BAEA-451864FB22CD}.WebDoc|Any CPU.Build.0 = WebDoc|Any CPU
 		{CABFBE42-D58D-4894-BAEA-451864FB22CD}.WebDoc|x64.ActiveCfg = WebDoc|Any CPU
 		{CABFBE42-D58D-4894-BAEA-451864FB22CD}.WebDoc|x64.Build.0 = WebDoc|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Debug|x64.Build.0 = Debug|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Doc|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Doc|Any CPU.Build.0 = Debug|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Doc|x64.ActiveCfg = Debug|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Doc|x64.Build.0 = Debug|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Release|x64.ActiveCfg = Release|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.Release|x64.Build.0 = Release|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.WebDoc|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.WebDoc|Any CPU.Build.0 = Debug|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.WebDoc|x64.ActiveCfg = Debug|Any CPU
+		{AAECC5B6-5784-43DC-ADAA-24D7D3D5C204}.WebDoc|x64.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

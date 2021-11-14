@@ -8,22 +8,27 @@ namespace Macad.Exchange.Step
     {
         public Type ExchangerType
         {
-            get
-            {
-                return typeof(StepExchanger);
-            }
+            get { return typeof(StepExchanger); }
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public object CreatePanel<T>(IExchanger exchanger)
         {
-            if(typeof(T) == typeof(IBodyImporter))
+            if (typeof(T) == typeof(IBodyImporter))
             {
                 return new StepSettingsPanel((exchanger as StepExchanger)?.Settings);
             }
 
             return null;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [AutoRegister]
+        internal static void Register()
+        {
+            ExchangeRegistry.Register(new StepSettingsPanelCreator());
         }
 
         //--------------------------------------------------------------------------------------------------

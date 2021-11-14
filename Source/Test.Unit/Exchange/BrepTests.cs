@@ -24,7 +24,7 @@ namespace Macad.Test.Unit.Exchange
             // Write out
             var writtenBytes = BRepExchange.WriteASCII(originalShape, false);
             Assert.IsNotNull(writtenBytes);
-            Assert.AreEqual(4900, writtenBytes.Length, 20); // due to some slight differences (e.g. +/-0)
+            Assert.AreEqual(4900, writtenBytes.Length, 50); // due to some slight differences (e.g. +/-0)
 
             // Re-read in
             var rereadShape = BRepExchange.ReadASCII(writtenBytes);
@@ -51,7 +51,7 @@ namespace Macad.Test.Unit.Exchange
             // Write out
             var writtenBytes = BRepExchange.WriteBinary(originalShape, false);
             Assert.IsNotNull(writtenBytes);
-            Assert.AreEqual(8374, writtenBytes.Length);
+            Assert.AreEqual(7222, writtenBytes.Length);
 
             // Re-read in
             var rereadShape = BRepExchange.ReadBinary(writtenBytes);
@@ -116,7 +116,7 @@ namespace Macad.Test.Unit.Exchange
             // Write out with triangulation
             var writtenBytes = BRepExchange.WriteBinary(originalShape, true);
             Assert.IsNotNull(writtenBytes);
-            Assert.AreEqual(1670157, writtenBytes.Length);
+            Assert.AreEqual(1624845, writtenBytes.Length);
 
             // Re-read in with triangulation
             var rereadShape = BRepExchange.ReadBinary(writtenBytes);
@@ -128,7 +128,7 @@ namespace Macad.Test.Unit.Exchange
             // Write out w/o triangulation
             writtenBytes = BRepExchange.WriteBinary(originalShape, false);
             Assert.IsNotNull(writtenBytes);
-            Assert.AreEqual(711071, writtenBytes.Length);
+            Assert.AreEqual(665759, writtenBytes.Length);
 
             // Re-read in w/o triangulation
             rereadShape = BRepExchange.ReadBinary(writtenBytes);

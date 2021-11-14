@@ -55,7 +55,7 @@ void AIS_AxisEx::SetAxis1Placement(const Handle(Geom_Axis1Placement)& anAxis)
 //function : Compute
 //purpose  : 
 //=======================================================================
-void AIS_AxisEx::Compute(const Handle(PrsMgr_PresentationManager3d)&,
+void AIS_AxisEx::Compute(const Handle(PrsMgr_PresentationManager)&,
 	const Handle(Prs3d_Presentation)& aPresentation,
 	const Standard_Integer)
 {
@@ -73,7 +73,7 @@ void AIS_AxisEx::Compute(const Handle(PrsMgr_PresentationManager3d)&,
 //function : HilightOwnerWithColor
 //purpose  : 
 //=======================================================================
-void AIS_AxisEx::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager3d)& PM,
+void AIS_AxisEx::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& PM,
 	const Handle(Prs3d_Drawer) &theStyle,
 	const Handle(SelectMgr_EntityOwner)& Owner)
 {
@@ -97,7 +97,7 @@ void AIS_AxisEx::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager3d
 	}
 }
 
-void AIS_AxisEx::HilightSelected(const Handle(PrsMgr_PresentationManager3d)& thePM,
+void AIS_AxisEx::HilightSelected(const Handle(PrsMgr_PresentationManager)& thePM,
 	const SelectMgr_SequenceOfOwner& theOwners)
 {
 }

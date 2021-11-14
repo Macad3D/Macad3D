@@ -1898,125 +1898,103 @@ void Macad::Occt::Graphic3d_SequenceOfStructure::SetValue(int theIndex, Macad::O
 
 
 //---------------------------------------------------------------------
-//  Class  Graphic3d_MapOfZLayerSettings
+//  Class  Graphic3d_GraphicDriverFactoryList
 //---------------------------------------------------------------------
 
-Macad::Occt::Graphic3d_MapOfZLayerSettings::Graphic3d_MapOfZLayerSettings()
-	: BaseClass<::Graphic3d_MapOfZLayerSettings>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::Graphic3d_GraphicDriverFactoryList::Graphic3d_GraphicDriverFactoryList()
+	: BaseClass<::Graphic3d_GraphicDriverFactoryList>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::Graphic3d_MapOfZLayerSettings();
+	_NativeInstance = new ::Graphic3d_GraphicDriverFactoryList();
 }
 
-Macad::Occt::Graphic3d_MapOfZLayerSettings::Graphic3d_MapOfZLayerSettings(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-	: BaseClass<::Graphic3d_MapOfZLayerSettings>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::Graphic3d_GraphicDriverFactoryList::Graphic3d_GraphicDriverFactoryList(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+	: BaseClass<::Graphic3d_GraphicDriverFactoryList>(BaseClass::InitMode::Uninitialized)
 {
 	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
-	_NativeInstance = new ::Graphic3d_MapOfZLayerSettings(theNbBuckets, h_theAllocator);
+	_NativeInstance = new ::Graphic3d_GraphicDriverFactoryList(h_theAllocator);
 	theAllocator->NativeInstance = h_theAllocator.get();
 }
 
-Macad::Occt::Graphic3d_MapOfZLayerSettings::Graphic3d_MapOfZLayerSettings(int theNbBuckets)
-	: BaseClass<::Graphic3d_MapOfZLayerSettings>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::Graphic3d_GraphicDriverFactoryList::Graphic3d_GraphicDriverFactoryList(Macad::Occt::Graphic3d_GraphicDriverFactoryList^ theOther)
+	: BaseClass<::Graphic3d_GraphicDriverFactoryList>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::Graphic3d_MapOfZLayerSettings(theNbBuckets, 0L);
+	_NativeInstance = new ::Graphic3d_GraphicDriverFactoryList(*(::Graphic3d_GraphicDriverFactoryList*)theOther->NativeInstance);
 }
 
-Macad::Occt::Graphic3d_MapOfZLayerSettings::Graphic3d_MapOfZLayerSettings(Macad::Occt::Graphic3d_MapOfZLayerSettings^ theOther)
-	: BaseClass<::Graphic3d_MapOfZLayerSettings>(BaseClass::InitMode::Uninitialized)
+int Macad::Occt::Graphic3d_GraphicDriverFactoryList::Size()
 {
-	_NativeInstance = new ::Graphic3d_MapOfZLayerSettings(*(::Graphic3d_MapOfZLayerSettings*)theOther->NativeInstance);
+	return ((::Graphic3d_GraphicDriverFactoryList*)_NativeInstance)->Size();
 }
 
-void Macad::Occt::Graphic3d_MapOfZLayerSettings::Exchange(Macad::Occt::Graphic3d_MapOfZLayerSettings^ theOther)
+Macad::Occt::Graphic3d_GraphicDriverFactoryList^ Macad::Occt::Graphic3d_GraphicDriverFactoryList::Assign(Macad::Occt::Graphic3d_GraphicDriverFactoryList^ theOther)
 {
-	((::Graphic3d_MapOfZLayerSettings*)_NativeInstance)->Exchange(*(::Graphic3d_MapOfZLayerSettings*)theOther->NativeInstance);
+	::Graphic3d_GraphicDriverFactoryList* _result = new ::Graphic3d_GraphicDriverFactoryList();
+	*_result = ((::Graphic3d_GraphicDriverFactoryList*)_NativeInstance)->Assign(*(::Graphic3d_GraphicDriverFactoryList*)theOther->NativeInstance);
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_GraphicDriverFactoryList(_result);
 }
 
-Macad::Occt::Graphic3d_MapOfZLayerSettings^ Macad::Occt::Graphic3d_MapOfZLayerSettings::Assign(Macad::Occt::Graphic3d_MapOfZLayerSettings^ theOther)
-{
-	::Graphic3d_MapOfZLayerSettings* _result = new ::Graphic3d_MapOfZLayerSettings();
-	*_result = ((::Graphic3d_MapOfZLayerSettings*)_NativeInstance)->Assign(*(::Graphic3d_MapOfZLayerSettings*)theOther->NativeInstance);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_MapOfZLayerSettings(_result);
-}
-
-Macad::Occt::Graphic3d_ZLayerSettings^ Macad::Occt::Graphic3d_MapOfZLayerSettings::Bound(int theKey, Macad::Occt::Graphic3d_ZLayerSettings^ theItem)
-{
-	pin_ptr<int> pp_theKey = &theKey;
-	::Graphic3d_ZLayerSettings* _result;
-	_result = (::Graphic3d_ZLayerSettings*)((::Graphic3d_MapOfZLayerSettings*)_NativeInstance)->Bound(*(int*)pp_theKey, *(::Graphic3d_ZLayerSettings*)theItem->NativeInstance);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_ZLayerSettings(_result);
-}
-
-bool Macad::Occt::Graphic3d_MapOfZLayerSettings::IsBound(int theKey)
-{
-	pin_ptr<int> pp_theKey = &theKey;
-	return ((::Graphic3d_MapOfZLayerSettings*)_NativeInstance)->IsBound(*(int*)pp_theKey);
-}
-
-bool Macad::Occt::Graphic3d_MapOfZLayerSettings::UnBind(int theKey)
-{
-	pin_ptr<int> pp_theKey = &theKey;
-	return ((::Graphic3d_MapOfZLayerSettings*)_NativeInstance)->UnBind(*(int*)pp_theKey);
-}
-
-Macad::Occt::Graphic3d_ZLayerSettings^ Macad::Occt::Graphic3d_MapOfZLayerSettings::Seek(int theKey)
-{
-	pin_ptr<int> pp_theKey = &theKey;
-	::Graphic3d_ZLayerSettings* _result;
-	_result = (::Graphic3d_ZLayerSettings*)((::Graphic3d_MapOfZLayerSettings*)_NativeInstance)->Seek(*(int*)pp_theKey);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_ZLayerSettings(_result);
-}
-
-Macad::Occt::Graphic3d_ZLayerSettings^ Macad::Occt::Graphic3d_MapOfZLayerSettings::Find(int theKey)
-{
-	pin_ptr<int> pp_theKey = &theKey;
-	::Graphic3d_ZLayerSettings* _result = new ::Graphic3d_ZLayerSettings();
-	*_result =  (::Graphic3d_ZLayerSettings)((::Graphic3d_MapOfZLayerSettings*)_NativeInstance)->Find(*(int*)pp_theKey);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_ZLayerSettings(_result);
-}
-
-bool Macad::Occt::Graphic3d_MapOfZLayerSettings::Find(int theKey, Macad::Occt::Graphic3d_ZLayerSettings^ theValue)
-{
-	pin_ptr<int> pp_theKey = &theKey;
-	return ((::Graphic3d_MapOfZLayerSettings*)_NativeInstance)->Find(*(int*)pp_theKey, *(::Graphic3d_ZLayerSettings*)theValue->NativeInstance);
-}
-
-Macad::Occt::Graphic3d_ZLayerSettings^ Macad::Occt::Graphic3d_MapOfZLayerSettings::ChangeSeek(int theKey)
-{
-	pin_ptr<int> pp_theKey = &theKey;
-	::Graphic3d_ZLayerSettings* _result;
-	_result = (::Graphic3d_ZLayerSettings*)((::Graphic3d_MapOfZLayerSettings*)_NativeInstance)->ChangeSeek(*(int*)pp_theKey);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_ZLayerSettings(_result);
-}
-
-Macad::Occt::Graphic3d_ZLayerSettings^ Macad::Occt::Graphic3d_MapOfZLayerSettings::ChangeFind(int theKey)
-{
-	pin_ptr<int> pp_theKey = &theKey;
-	::Graphic3d_ZLayerSettings* _result = new ::Graphic3d_ZLayerSettings();
-	*_result = ((::Graphic3d_MapOfZLayerSettings*)_NativeInstance)->ChangeFind(*(int*)pp_theKey);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_ZLayerSettings(_result);
-}
-
-void Macad::Occt::Graphic3d_MapOfZLayerSettings::Clear(bool doReleaseMemory)
-{
-	((::Graphic3d_MapOfZLayerSettings*)_NativeInstance)->Clear(doReleaseMemory);
-}
-
-void Macad::Occt::Graphic3d_MapOfZLayerSettings::Clear()
-{
-	((::Graphic3d_MapOfZLayerSettings*)_NativeInstance)->Clear(true);
-}
-
-void Macad::Occt::Graphic3d_MapOfZLayerSettings::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
+void Macad::Occt::Graphic3d_GraphicDriverFactoryList::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
 {
 	Handle(::NCollection_BaseAllocator) h_theAllocator = theAllocator->NativeInstance;
-	((::Graphic3d_MapOfZLayerSettings*)_NativeInstance)->Clear(h_theAllocator);
+	((::Graphic3d_GraphicDriverFactoryList*)_NativeInstance)->Clear(h_theAllocator);
 	theAllocator->NativeInstance = h_theAllocator.get();
 }
 
-int Macad::Occt::Graphic3d_MapOfZLayerSettings::Size()
+void Macad::Occt::Graphic3d_GraphicDriverFactoryList::Clear()
 {
-	return ((::Graphic3d_MapOfZLayerSettings*)_NativeInstance)->Size();
+	((::Graphic3d_GraphicDriverFactoryList*)_NativeInstance)->Clear(0L);
+}
+
+Macad::Occt::Graphic3d_GraphicDriverFactory^ Macad::Occt::Graphic3d_GraphicDriverFactoryList::First()
+{
+	Handle(::Graphic3d_GraphicDriverFactory) _result;
+	_result = ((::Graphic3d_GraphicDriverFactoryList*)_NativeInstance)->First();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_GraphicDriverFactory::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_GraphicDriverFactory^ Macad::Occt::Graphic3d_GraphicDriverFactoryList::Last()
+{
+	Handle(::Graphic3d_GraphicDriverFactory) _result;
+	_result = ((::Graphic3d_GraphicDriverFactoryList*)_NativeInstance)->Last();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_GraphicDriverFactory::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_GraphicDriverFactory^ Macad::Occt::Graphic3d_GraphicDriverFactoryList::Append(Macad::Occt::Graphic3d_GraphicDriverFactory^ theItem)
+{
+	Handle(::Graphic3d_GraphicDriverFactory) h_theItem = theItem->NativeInstance;
+	Handle(::Graphic3d_GraphicDriverFactory) _result;
+	_result = ((::Graphic3d_GraphicDriverFactoryList*)_NativeInstance)->Append(h_theItem);
+	theItem->NativeInstance = h_theItem.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_GraphicDriverFactory::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::Graphic3d_GraphicDriverFactoryList::Append(Macad::Occt::Graphic3d_GraphicDriverFactoryList^ theOther)
+{
+	((::Graphic3d_GraphicDriverFactoryList*)_NativeInstance)->Append(*(::Graphic3d_GraphicDriverFactoryList*)theOther->NativeInstance);
+}
+
+Macad::Occt::Graphic3d_GraphicDriverFactory^ Macad::Occt::Graphic3d_GraphicDriverFactoryList::Prepend(Macad::Occt::Graphic3d_GraphicDriverFactory^ theItem)
+{
+	Handle(::Graphic3d_GraphicDriverFactory) h_theItem = theItem->NativeInstance;
+	Handle(::Graphic3d_GraphicDriverFactory) _result;
+	_result = ((::Graphic3d_GraphicDriverFactoryList*)_NativeInstance)->Prepend(h_theItem);
+	theItem->NativeInstance = h_theItem.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_GraphicDriverFactory::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::Graphic3d_GraphicDriverFactoryList::Prepend(Macad::Occt::Graphic3d_GraphicDriverFactoryList^ theOther)
+{
+	((::Graphic3d_GraphicDriverFactoryList*)_NativeInstance)->Prepend(*(::Graphic3d_GraphicDriverFactoryList*)theOther->NativeInstance);
+}
+
+void Macad::Occt::Graphic3d_GraphicDriverFactoryList::RemoveFirst()
+{
+	((::Graphic3d_GraphicDriverFactoryList*)_NativeInstance)->RemoveFirst();
+}
+
+void Macad::Occt::Graphic3d_GraphicDriverFactoryList::Reverse()
+{
+	((::Graphic3d_GraphicDriverFactoryList*)_NativeInstance)->Reverse();
 }
 
 
@@ -2316,21 +2294,6 @@ Macad::Occt::Graphic3d_PolygonOffset^ Macad::Occt::Graphic3d_ZLayerSettings::Cha
 	::Graphic3d_PolygonOffset* _result = new ::Graphic3d_PolygonOffset();
 	*_result = ((::Graphic3d_ZLayerSettings*)_NativeInstance)->ChangePolygonOffset();
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_PolygonOffset(_result);
-}
-
-bool Macad::Occt::Graphic3d_ZLayerSettings::IsSettingEnabled(Macad::Occt::Graphic3d_ZLayerSetting theSetting)
-{
-	return ((::Graphic3d_ZLayerSettings*)_NativeInstance)->IsSettingEnabled((::Graphic3d_ZLayerSetting)theSetting);
-}
-
-void Macad::Occt::Graphic3d_ZLayerSettings::EnableSetting(Macad::Occt::Graphic3d_ZLayerSetting theSetting)
-{
-	((::Graphic3d_ZLayerSettings*)_NativeInstance)->EnableSetting((::Graphic3d_ZLayerSetting)theSetting);
-}
-
-void Macad::Occt::Graphic3d_ZLayerSettings::DisableSetting(Macad::Occt::Graphic3d_ZLayerSetting theSetting)
-{
-	((::Graphic3d_ZLayerSettings*)_NativeInstance)->DisableSetting((::Graphic3d_ZLayerSetting)theSetting);
 }
 
 void Macad::Occt::Graphic3d_ZLayerSettings::SetDepthOffsetPositive()
@@ -3274,11 +3237,21 @@ Macad::Occt::Graphic3d_ArrayOfTriangleStrips^ Macad::Occt::Graphic3d_ArrayOfTria
 //  Class  Graphic3d_MarkerImage
 //---------------------------------------------------------------------
 
+Macad::Occt::Graphic3d_MarkerImage::Graphic3d_MarkerImage(Macad::Occt::Image_PixMap^ theImage, Macad::Occt::Image_PixMap^ theImageAlpha)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::Image_PixMap) h_theImage = theImage->NativeInstance;
+	Handle(::Image_PixMap) h_theImageAlpha = theImageAlpha->NativeInstance;
+	NativeInstance = new ::Graphic3d_MarkerImage(h_theImage, h_theImageAlpha);
+	theImage->NativeInstance = h_theImage.get();
+	theImageAlpha->NativeInstance = h_theImageAlpha.get();
+}
+
 Macad::Occt::Graphic3d_MarkerImage::Graphic3d_MarkerImage(Macad::Occt::Image_PixMap^ theImage)
 	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
 	Handle(::Image_PixMap) h_theImage = theImage->NativeInstance;
-	NativeInstance = new ::Graphic3d_MarkerImage(h_theImage);
+	NativeInstance = new ::Graphic3d_MarkerImage(h_theImage, ::opencascade::handle<::Image_PixMap>());
 	theImage->NativeInstance = h_theImage.get();
 }
 
@@ -3286,9 +3259,7 @@ Macad::Occt::Graphic3d_MarkerImage::Graphic3d_MarkerImage(Macad::Occt::TColStd_H
 	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
 	Handle(::TColStd_HArray1OfByte) h_theBitMap = theBitMap->NativeInstance;
-	pin_ptr<int> pp_theWidth = &theWidth;
-	pin_ptr<int> pp_theHeight = &theHeight;
-	NativeInstance = new ::Graphic3d_MarkerImage(h_theBitMap, *(Standard_Integer*)pp_theWidth, *(Standard_Integer*)pp_theHeight);
+	NativeInstance = new ::Graphic3d_MarkerImage(h_theBitMap, theWidth, theHeight);
 	theBitMap->NativeInstance = h_theBitMap.get();
 }
 
@@ -3296,21 +3267,6 @@ Macad::Occt::Graphic3d_MarkerImage::Graphic3d_MarkerImage(Macad::Occt::Graphic3d
 	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
 	NativeInstance = new ::Graphic3d_MarkerImage(*(::Graphic3d_MarkerImage*)parameter1->NativeInstance);
-}
-
-Macad::Occt::TColStd_HArray1OfByte^ Macad::Occt::Graphic3d_MarkerImage::GetBitMapArray(double theAlphaValue)
-{
-	pin_ptr<double> pp_theAlphaValue = &theAlphaValue;
-	Handle(::TColStd_HArray1OfByte) _result;
-	_result = ((::Graphic3d_MarkerImage*)_NativeInstance)->GetBitMapArray(*(Standard_Real*)pp_theAlphaValue);
-	 return _result.IsNull() ? nullptr : Macad::Occt::TColStd_HArray1OfByte::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::TColStd_HArray1OfByte^ Macad::Occt::Graphic3d_MarkerImage::GetBitMapArray()
-{
-	Handle(::TColStd_HArray1OfByte) _result;
-	_result = ((::Graphic3d_MarkerImage*)_NativeInstance)->GetBitMapArray(0.5);
-	 return _result.IsNull() ? nullptr : Macad::Occt::TColStd_HArray1OfByte::CreateDowncasted( _result.get());
 }
 
 Macad::Occt::Image_PixMap^ Macad::Occt::Graphic3d_MarkerImage::GetImage()
@@ -3348,52 +3304,36 @@ void Macad::Occt::Graphic3d_MarkerImage::GetTextureSize(int% theWidth, int% theH
 	((::Graphic3d_MarkerImage*)_NativeInstance)->GetTextureSize(*(Standard_Integer*)pp_theWidth, *(Standard_Integer*)pp_theHeight);
 }
 
+bool Macad::Occt::Graphic3d_MarkerImage::IsColoredImage()
+{
+	return ((::Graphic3d_MarkerImage*)_NativeInstance)->IsColoredImage();
+}
+
+Macad::Occt::TColStd_HArray1OfByte^ Macad::Occt::Graphic3d_MarkerImage::GetBitMapArray(double theAlphaValue, bool theIsTopDown)
+{
+	Handle(::TColStd_HArray1OfByte) _result;
+	_result = ((::Graphic3d_MarkerImage*)_NativeInstance)->GetBitMapArray(theAlphaValue, theIsTopDown);
+	 return _result.IsNull() ? nullptr : Macad::Occt::TColStd_HArray1OfByte::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::TColStd_HArray1OfByte^ Macad::Occt::Graphic3d_MarkerImage::GetBitMapArray(double theAlphaValue)
+{
+	Handle(::TColStd_HArray1OfByte) _result;
+	_result = ((::Graphic3d_MarkerImage*)_NativeInstance)->GetBitMapArray(theAlphaValue, false);
+	 return _result.IsNull() ? nullptr : Macad::Occt::TColStd_HArray1OfByte::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::TColStd_HArray1OfByte^ Macad::Occt::Graphic3d_MarkerImage::GetBitMapArray()
+{
+	Handle(::TColStd_HArray1OfByte) _result;
+	_result = ((::Graphic3d_MarkerImage*)_NativeInstance)->GetBitMapArray(0.5, false);
+	 return _result.IsNull() ? nullptr : Macad::Occt::TColStd_HArray1OfByte::CreateDowncasted( _result.get());
+}
+
 
 Macad::Occt::Graphic3d_MarkerImage^ Macad::Occt::Graphic3d_MarkerImage::CreateDowncasted(::Graphic3d_MarkerImage* instance)
 {
 	return gcnew Macad::Occt::Graphic3d_MarkerImage( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  Graphic3d_HatchStyle
-//---------------------------------------------------------------------
-
-Macad::Occt::Graphic3d_HatchStyle::Graphic3d_HatchStyle(Macad::Occt::Image_PixMap^ thePattern)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	Handle(::Image_PixMap) h_thePattern = thePattern->NativeInstance;
-	NativeInstance = new ::Graphic3d_HatchStyle(h_thePattern);
-	thePattern->NativeInstance = h_thePattern.get();
-}
-
-Macad::Occt::Graphic3d_HatchStyle::Graphic3d_HatchStyle(Macad::Occt::Aspect_HatchStyle theType)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Graphic3d_HatchStyle((::Aspect_HatchStyle)theType);
-}
-
-Macad::Occt::Graphic3d_HatchStyle::Graphic3d_HatchStyle(Macad::Occt::Graphic3d_HatchStyle^ parameter1)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Graphic3d_HatchStyle(*(::Graphic3d_HatchStyle*)parameter1->NativeInstance);
-}
-
-unsigned char Macad::Occt::Graphic3d_HatchStyle::Pattern()
-{
-	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
-}
-
-int Macad::Occt::Graphic3d_HatchStyle::HatchType()
-{
-	return ((::Graphic3d_HatchStyle*)_NativeInstance)->HatchType();
-}
-
-
-Macad::Occt::Graphic3d_HatchStyle^ Macad::Occt::Graphic3d_HatchStyle::CreateDowncasted(::Graphic3d_HatchStyle* instance)
-{
-	return gcnew Macad::Occt::Graphic3d_HatchStyle( instance );
 }
 
 
@@ -3861,6 +3801,48 @@ void Macad::Occt::Graphic3d_MaterialAspect::SetReflectionModeOff(Macad::Occt::Gr
 
 
 //---------------------------------------------------------------------
+//  Class  Graphic3d_HatchStyle
+//---------------------------------------------------------------------
+
+Macad::Occt::Graphic3d_HatchStyle::Graphic3d_HatchStyle(Macad::Occt::Image_PixMap^ thePattern)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::Image_PixMap) h_thePattern = thePattern->NativeInstance;
+	NativeInstance = new ::Graphic3d_HatchStyle(h_thePattern);
+	thePattern->NativeInstance = h_thePattern.get();
+}
+
+Macad::Occt::Graphic3d_HatchStyle::Graphic3d_HatchStyle(Macad::Occt::Aspect_HatchStyle theType)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Graphic3d_HatchStyle((::Aspect_HatchStyle)theType);
+}
+
+Macad::Occt::Graphic3d_HatchStyle::Graphic3d_HatchStyle(Macad::Occt::Graphic3d_HatchStyle^ parameter1)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Graphic3d_HatchStyle(*(::Graphic3d_HatchStyle*)parameter1->NativeInstance);
+}
+
+unsigned char Macad::Occt::Graphic3d_HatchStyle::Pattern()
+{
+	throw gcnew System::NotImplementedException("Native class returns pointer to integer/double/handle.");
+}
+
+int Macad::Occt::Graphic3d_HatchStyle::HatchType()
+{
+	return ((::Graphic3d_HatchStyle*)_NativeInstance)->HatchType();
+}
+
+
+Macad::Occt::Graphic3d_HatchStyle^ Macad::Occt::Graphic3d_HatchStyle::CreateDowncasted(::Graphic3d_HatchStyle* instance)
+{
+	return gcnew Macad::Occt::Graphic3d_HatchStyle( instance );
+}
+
+
+
+//---------------------------------------------------------------------
 //  Class  Graphic3d_ShaderAttribute
 //---------------------------------------------------------------------
 
@@ -3906,6 +3888,20 @@ Macad::Occt::Graphic3d_ShaderObject::Graphic3d_ShaderObject(Macad::Occt::Graphic
 	NativeInstance = new ::Graphic3d_ShaderObject(*(::Graphic3d_ShaderObject*)parameter1->NativeInstance);
 }
 
+Macad::Occt::Graphic3d_ShaderObject^ Macad::Occt::Graphic3d_ShaderObject::CreateFromFile(Macad::Occt::Graphic3d_TypeOfShaderObject theType, Macad::Occt::TCollection_AsciiString^ thePath)
+{
+	Handle(::Graphic3d_ShaderObject) _result;
+	_result = ::Graphic3d_ShaderObject::CreateFromFile((::Graphic3d_TypeOfShaderObject)theType, *(::TCollection_AsciiString*)thePath->NativeInstance);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ShaderObject::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_ShaderObject^ Macad::Occt::Graphic3d_ShaderObject::CreateFromSource(Macad::Occt::Graphic3d_TypeOfShaderObject theType, Macad::Occt::TCollection_AsciiString^ theSource)
+{
+	Handle(::Graphic3d_ShaderObject) _result;
+	_result = ::Graphic3d_ShaderObject::CreateFromSource((::Graphic3d_TypeOfShaderObject)theType, *(::TCollection_AsciiString*)theSource->NativeInstance);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ShaderObject::CreateDowncasted( _result.get());
+}
+
 bool Macad::Occt::Graphic3d_ShaderObject::IsDone()
 {
 	return ((::Graphic3d_ShaderObject*)_NativeInstance)->IsDone();
@@ -3928,20 +3924,6 @@ Macad::Occt::TCollection_AsciiString^ Macad::Occt::Graphic3d_ShaderObject::GetId
 	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
 	*_result =  (::TCollection_AsciiString)((::Graphic3d_ShaderObject*)_NativeInstance)->GetId();
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
-}
-
-Macad::Occt::Graphic3d_ShaderObject^ Macad::Occt::Graphic3d_ShaderObject::CreateFromFile(Macad::Occt::Graphic3d_TypeOfShaderObject theType, Macad::Occt::TCollection_AsciiString^ thePath)
-{
-	Handle(::Graphic3d_ShaderObject) _result;
-	_result = ::Graphic3d_ShaderObject::CreateFromFile((::Graphic3d_TypeOfShaderObject)theType, *(::TCollection_AsciiString*)thePath->NativeInstance);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ShaderObject::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Graphic3d_ShaderObject^ Macad::Occt::Graphic3d_ShaderObject::CreateFromSource(Macad::Occt::Graphic3d_TypeOfShaderObject theType, Macad::Occt::TCollection_AsciiString^ theSource)
-{
-	Handle(::Graphic3d_ShaderObject) _result;
-	_result = ::Graphic3d_ShaderObject::CreateFromSource((::Graphic3d_TypeOfShaderObject)theType, *(::TCollection_AsciiString*)theSource->NativeInstance);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_ShaderObject::CreateDowncasted( _result.get());
 }
 
 
@@ -4520,29 +4502,14 @@ void Macad::Occt::Graphic3d_Aspects::SetBackMaterial(Macad::Occt::Graphic3d_Mate
 	((::Graphic3d_Aspects*)_NativeInstance)->SetBackMaterial(*(::Graphic3d_MaterialAspect*)theMaterial->NativeInstance);
 }
 
-bool Macad::Occt::Graphic3d_Aspects::ToSuppressBackFaces()
+Macad::Occt::Graphic3d_TypeOfBackfacingModel Macad::Occt::Graphic3d_Aspects::FaceCulling()
 {
-	return ((::Graphic3d_Aspects*)_NativeInstance)->ToSuppressBackFaces();
+	return (Macad::Occt::Graphic3d_TypeOfBackfacingModel)((::Graphic3d_Aspects*)_NativeInstance)->FaceCulling();
 }
 
-void Macad::Occt::Graphic3d_Aspects::SetSuppressBackFaces(bool theToSuppress)
+void Macad::Occt::Graphic3d_Aspects::SetFaceCulling(Macad::Occt::Graphic3d_TypeOfBackfacingModel theCulling)
 {
-	((::Graphic3d_Aspects*)_NativeInstance)->SetSuppressBackFaces(theToSuppress);
-}
-
-bool Macad::Occt::Graphic3d_Aspects::BackFace()
-{
-	return ((::Graphic3d_Aspects*)_NativeInstance)->BackFace();
-}
-
-void Macad::Occt::Graphic3d_Aspects::AllowBackFace()
-{
-	((::Graphic3d_Aspects*)_NativeInstance)->AllowBackFace();
-}
-
-void Macad::Occt::Graphic3d_Aspects::SuppressBackFace()
-{
-	((::Graphic3d_Aspects*)_NativeInstance)->SuppressBackFace();
+	((::Graphic3d_Aspects*)_NativeInstance)->SetFaceCulling((::Graphic3d_TypeOfBackfacingModel)theCulling);
 }
 
 bool Macad::Occt::Graphic3d_Aspects::Distinguish()
@@ -4928,6 +4895,31 @@ bool Macad::Occt::Graphic3d_Aspects::IsEqual(Macad::Occt::Graphic3d_Aspects^ the
 	return ((::Graphic3d_Aspects*)_NativeInstance)->IsEqual(*(::Graphic3d_Aspects*)theOther->NativeInstance);
 }
 
+bool Macad::Occt::Graphic3d_Aspects::ToSuppressBackFaces()
+{
+	return ((::Graphic3d_Aspects*)_NativeInstance)->ToSuppressBackFaces();
+}
+
+void Macad::Occt::Graphic3d_Aspects::SetSuppressBackFaces(bool theToSuppress)
+{
+	((::Graphic3d_Aspects*)_NativeInstance)->SetSuppressBackFaces(theToSuppress);
+}
+
+bool Macad::Occt::Graphic3d_Aspects::BackFace()
+{
+	return ((::Graphic3d_Aspects*)_NativeInstance)->BackFace();
+}
+
+void Macad::Occt::Graphic3d_Aspects::AllowBackFace()
+{
+	((::Graphic3d_Aspects*)_NativeInstance)->AllowBackFace();
+}
+
+void Macad::Occt::Graphic3d_Aspects::SuppressBackFace()
+{
+	((::Graphic3d_Aspects*)_NativeInstance)->SuppressBackFace();
+}
+
 
 Macad::Occt::Graphic3d_Aspects^ Macad::Occt::Graphic3d_Aspects::CreateDowncasted(::Graphic3d_Aspects* instance)
 {
@@ -5308,6 +5300,16 @@ void Macad::Occt::Graphic3d_CStructure::SetTransformPersistence(Macad::Occt::Gra
 	theTrsfPers->NativeInstance = h_theTrsfPers.get();
 }
 
+bool Macad::Occt::Graphic3d_CStructure::HasGroupTransformPersistence()
+{
+	return ((::Graphic3d_CStructure*)_NativeInstance)->HasGroupTransformPersistence();
+}
+
+void Macad::Occt::Graphic3d_CStructure::SetGroupTransformPersistence(bool theValue)
+{
+	((::Graphic3d_CStructure*)_NativeInstance)->SetGroupTransformPersistence(theValue);
+}
+
 Macad::Occt::Graphic3d_SequenceOfHClipPlane^ Macad::Occt::Graphic3d_CStructure::ClipPlanes()
 {
 	Handle(::Graphic3d_SequenceOfHClipPlane) _result;
@@ -5553,6 +5555,17 @@ Macad::Occt::Graphic3d_Camera::Graphic3d_Camera(Macad::Occt::Graphic3d_Camera^ t
 	theOther->NativeInstance = h_theOther.get();
 }
 
+void Macad::Occt::Graphic3d_Camera::Interpolate(Macad::Occt::Graphic3d_Camera^ theStart, Macad::Occt::Graphic3d_Camera^ theEnd, double theT, Macad::Occt::Graphic3d_Camera^ theCamera)
+{
+	Handle(::Graphic3d_Camera) h_theStart = theStart->NativeInstance;
+	Handle(::Graphic3d_Camera) h_theEnd = theEnd->NativeInstance;
+	Handle(::Graphic3d_Camera) h_theCamera = theCamera->NativeInstance;
+	::Graphic3d_Camera::Interpolate(h_theStart, h_theEnd, theT, h_theCamera);
+	theStart->NativeInstance = h_theStart.get();
+	theEnd->NativeInstance = h_theEnd.get();
+	theCamera->NativeInstance = h_theCamera.get();
+}
+
 void Macad::Occt::Graphic3d_Camera::CopyMappingData(Macad::Occt::Graphic3d_Camera^ theOtherCamera)
 {
 	Handle(::Graphic3d_Camera) h_theOtherCamera = theOtherCamera->NativeInstance;
@@ -5728,6 +5741,11 @@ void Macad::Occt::Graphic3d_Camera::SetFOV2d(double theFOV)
 	((::Graphic3d_Camera*)_NativeInstance)->SetFOV2d(theFOV);
 }
 
+bool Macad::Occt::Graphic3d_Camera::FitMinMax(Macad::Occt::Bnd_Box^ theBox, double theResolution, bool theToEnlargeIfLine)
+{
+	return ((::Graphic3d_Camera*)_NativeInstance)->FitMinMax(*(::Bnd_Box*)theBox->NativeInstance, theResolution, theToEnlargeIfLine);
+}
+
 bool Macad::Occt::Graphic3d_Camera::ZFitAll(double theScaleFactor, Macad::Occt::Bnd_Box^ theMinMax, Macad::Occt::Bnd_Box^ theGraphicBB, double% theZNear, double% theZFar)
 {
 	pin_ptr<double> pp_theZNear = &theZNear;
@@ -5753,6 +5771,16 @@ double Macad::Occt::Graphic3d_Camera::ZNear()
 double Macad::Occt::Graphic3d_Camera::ZFar()
 {
 	return ((::Graphic3d_Camera*)_NativeInstance)->ZFar();
+}
+
+bool Macad::Occt::Graphic3d_Camera::IsZeroToOneDepth()
+{
+	return ((::Graphic3d_Camera*)_NativeInstance)->IsZeroToOneDepth();
+}
+
+void Macad::Occt::Graphic3d_Camera::SetZeroToOneDepth(bool theIsZeroToOne)
+{
+	((::Graphic3d_Camera*)_NativeInstance)->SetZeroToOneDepth(theIsZeroToOne);
 }
 
 void Macad::Occt::Graphic3d_Camera::SetAspect(double theAspect)
@@ -5805,6 +5833,11 @@ Macad::Occt::Graphic3d_CameraTile^ Macad::Occt::Graphic3d_Camera::Tile()
 void Macad::Occt::Graphic3d_Camera::SetTile(Macad::Occt::Graphic3d_CameraTile^ theTile)
 {
 	((::Graphic3d_Camera*)_NativeInstance)->SetTile(*(::Graphic3d_CameraTile*)theTile->NativeInstance);
+}
+
+void Macad::Occt::Graphic3d_Camera::SetIdentityOrientation()
+{
+	((::Graphic3d_Camera*)_NativeInstance)->SetIdentityOrientation();
 }
 
 void Macad::Occt::Graphic3d_Camera::Transform(Macad::Occt::Trsf theTrsf)
@@ -5983,6 +6016,13 @@ Macad::Occt::Graphic3d_CLight::Graphic3d_CLight(Macad::Occt::Graphic3d_TypeOfLig
 	NativeInstance = new ::Graphic3d_CLight((::Graphic3d_TypeOfLightSource)theType);
 }
 
+void Macad::Occt::Graphic3d_CLight::CopyFrom(Macad::Occt::Graphic3d_CLight^ theLight)
+{
+	Handle(::Graphic3d_CLight) h_theLight = theLight->NativeInstance;
+	((::Graphic3d_CLight*)_NativeInstance)->CopyFrom(h_theLight);
+	theLight->NativeInstance = h_theLight.get();
+}
+
 Macad::Occt::Graphic3d_TypeOfLightSource Macad::Occt::Graphic3d_CLight::Type()
 {
 	return (Macad::Occt::Graphic3d_TypeOfLightSource)((::Graphic3d_CLight*)_NativeInstance)->Type();
@@ -6020,6 +6060,16 @@ bool Macad::Occt::Graphic3d_CLight::IsEnabled()
 void Macad::Occt::Graphic3d_CLight::SetEnabled(bool theIsOn)
 {
 	((::Graphic3d_CLight*)_NativeInstance)->SetEnabled(theIsOn);
+}
+
+bool Macad::Occt::Graphic3d_CLight::ToCastShadows()
+{
+	return ((::Graphic3d_CLight*)_NativeInstance)->ToCastShadows();
+}
+
+void Macad::Occt::Graphic3d_CLight::SetCastShadows(bool theToCast)
+{
+	((::Graphic3d_CLight*)_NativeInstance)->SetCastShadows(theToCast);
 }
 
 bool Macad::Occt::Graphic3d_CLight::IsHeadlight()
@@ -6107,6 +6157,17 @@ void Macad::Occt::Graphic3d_CLight::SetDirection(double theVx, double theVy, dou
 	((::Graphic3d_CLight*)_NativeInstance)->SetDirection(theVx, theVy, theVz);
 }
 
+Macad::Occt::Pnt Macad::Occt::Graphic3d_CLight::DisplayPosition()
+{
+	return Macad::Occt::Pnt(((::Graphic3d_CLight*)_NativeInstance)->DisplayPosition());
+}
+
+void Macad::Occt::Graphic3d_CLight::SetDisplayPosition(Macad::Occt::Pnt thePosition)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_thePosition = &thePosition;
+	((::Graphic3d_CLight*)_NativeInstance)->SetDisplayPosition(*(gp_Pnt*)pp_thePosition);
+}
+
 float Macad::Occt::Graphic3d_CLight::Angle()
 {
 	return ((::Graphic3d_CLight*)_NativeInstance)->Angle();
@@ -6150,6 +6211,11 @@ void Macad::Occt::Graphic3d_CLight::SetSmoothRadius(float theValue)
 void Macad::Occt::Graphic3d_CLight::SetSmoothAngle(float theValue)
 {
 	((::Graphic3d_CLight*)_NativeInstance)->SetSmoothAngle(theValue);
+}
+
+bool Macad::Occt::Graphic3d_CLight::HasRange()
+{
+	return ((::Graphic3d_CLight*)_NativeInstance)->HasRange();
 }
 
 float Macad::Occt::Graphic3d_CLight::Range()
@@ -6996,6 +7062,136 @@ Macad::Occt::Graphic3d_Text^ Macad::Occt::Graphic3d_Text::CreateDowncasted(::Gra
 
 
 //---------------------------------------------------------------------
+//  Class  Graphic3d_TransformPers
+//---------------------------------------------------------------------
+
+Macad::Occt::Graphic3d_TransformPers::Graphic3d_TransformPers(Macad::Occt::Graphic3d_TransModeFlags theMode)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Graphic3d_TransformPers((::Graphic3d_TransModeFlags)theMode);
+}
+
+Macad::Occt::Graphic3d_TransformPers::Graphic3d_TransformPers(Macad::Occt::Graphic3d_TransModeFlags theMode, Macad::Occt::Pnt thePnt)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_thePnt = &thePnt;
+	NativeInstance = new ::Graphic3d_TransformPers((::Graphic3d_TransModeFlags)theMode, *(gp_Pnt*)pp_thePnt);
+}
+
+Macad::Occt::Graphic3d_TransformPers::Graphic3d_TransformPers(Macad::Occt::Graphic3d_TransModeFlags theMode, Macad::Occt::Aspect_TypeOfTriedronPosition theCorner, Macad::Occt::Graphic3d_Vec2i^ theOffset)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Graphic3d_TransformPers((::Graphic3d_TransModeFlags)theMode, (::Aspect_TypeOfTriedronPosition)theCorner, *(::Graphic3d_Vec2i*)theOffset->NativeInstance);
+}
+
+Macad::Occt::Graphic3d_TransformPers::Graphic3d_TransformPers(Macad::Occt::Graphic3d_TransModeFlags theMode, Macad::Occt::Aspect_TypeOfTriedronPosition theCorner)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Graphic3d_TransformPers((::Graphic3d_TransModeFlags)theMode, (::Aspect_TypeOfTriedronPosition)theCorner, ::Graphic3d_Vec2i(0, 0));
+}
+
+Macad::Occt::Graphic3d_TransformPers::Graphic3d_TransformPers(Macad::Occt::Graphic3d_TransformPers^ parameter1)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Graphic3d_TransformPers(*(::Graphic3d_TransformPers*)parameter1->NativeInstance);
+}
+
+bool Macad::Occt::Graphic3d_TransformPers::IsZoomOrRotate(Macad::Occt::Graphic3d_TransModeFlags theMode)
+{
+	return ::Graphic3d_TransformPers::IsZoomOrRotate((::Graphic3d_TransModeFlags)theMode);
+}
+
+bool Macad::Occt::Graphic3d_TransformPers::IsTrihedronOr2d(Macad::Occt::Graphic3d_TransModeFlags theMode)
+{
+	return ::Graphic3d_TransformPers::IsTrihedronOr2d((::Graphic3d_TransModeFlags)theMode);
+}
+
+bool Macad::Occt::Graphic3d_TransformPers::IsZoomOrRotate()
+{
+	return ((::Graphic3d_TransformPers*)_NativeInstance)->IsZoomOrRotate();
+}
+
+bool Macad::Occt::Graphic3d_TransformPers::IsTrihedronOr2d()
+{
+	return ((::Graphic3d_TransformPers*)_NativeInstance)->IsTrihedronOr2d();
+}
+
+Macad::Occt::Graphic3d_TransModeFlags Macad::Occt::Graphic3d_TransformPers::Mode()
+{
+	return (Macad::Occt::Graphic3d_TransModeFlags)((::Graphic3d_TransformPers*)_NativeInstance)->Mode();
+}
+
+Macad::Occt::Graphic3d_TransModeFlags Macad::Occt::Graphic3d_TransformPers::Flags()
+{
+	return (Macad::Occt::Graphic3d_TransModeFlags)((::Graphic3d_TransformPers*)_NativeInstance)->Flags();
+}
+
+void Macad::Occt::Graphic3d_TransformPers::SetPersistence(Macad::Occt::Graphic3d_TransModeFlags theMode, Macad::Occt::Pnt thePnt)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_thePnt = &thePnt;
+	((::Graphic3d_TransformPers*)_NativeInstance)->SetPersistence((::Graphic3d_TransModeFlags)theMode, *(gp_Pnt*)pp_thePnt);
+}
+
+void Macad::Occt::Graphic3d_TransformPers::SetPersistence(Macad::Occt::Graphic3d_TransModeFlags theMode, Macad::Occt::Aspect_TypeOfTriedronPosition theCorner, Macad::Occt::Graphic3d_Vec2i^ theOffset)
+{
+	((::Graphic3d_TransformPers*)_NativeInstance)->SetPersistence((::Graphic3d_TransModeFlags)theMode, (::Aspect_TypeOfTriedronPosition)theCorner, *(::Graphic3d_Vec2i*)theOffset->NativeInstance);
+}
+
+Macad::Occt::Pnt Macad::Occt::Graphic3d_TransformPers::AnchorPoint()
+{
+	return Macad::Occt::Pnt(((::Graphic3d_TransformPers*)_NativeInstance)->AnchorPoint());
+}
+
+void Macad::Occt::Graphic3d_TransformPers::SetAnchorPoint(Macad::Occt::Pnt thePnt)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_thePnt = &thePnt;
+	((::Graphic3d_TransformPers*)_NativeInstance)->SetAnchorPoint(*(gp_Pnt*)pp_thePnt);
+}
+
+Macad::Occt::Aspect_TypeOfTriedronPosition Macad::Occt::Graphic3d_TransformPers::Corner2d()
+{
+	return (Macad::Occt::Aspect_TypeOfTriedronPosition)((::Graphic3d_TransformPers*)_NativeInstance)->Corner2d();
+}
+
+void Macad::Occt::Graphic3d_TransformPers::SetCorner2d(Macad::Occt::Aspect_TypeOfTriedronPosition thePos)
+{
+	((::Graphic3d_TransformPers*)_NativeInstance)->SetCorner2d((::Aspect_TypeOfTriedronPosition)thePos);
+}
+
+Macad::Occt::Graphic3d_Vec2i^ Macad::Occt::Graphic3d_TransformPers::Offset2d()
+{
+	::Graphic3d_Vec2i* _result = new ::Graphic3d_Vec2i(0);
+	*_result = ((::Graphic3d_TransformPers*)_NativeInstance)->Offset2d();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_Vec2i(_result);
+}
+
+void Macad::Occt::Graphic3d_TransformPers::SetOffset2d(Macad::Occt::Graphic3d_Vec2i^ theOffset)
+{
+	((::Graphic3d_TransformPers*)_NativeInstance)->SetOffset2d(*(::Graphic3d_Vec2i*)theOffset->NativeInstance);
+}
+
+double Macad::Occt::Graphic3d_TransformPers::persistentScale(Macad::Occt::Graphic3d_Camera^ theCamera, int parameter1, int theViewportHeight)
+{
+	Handle(::Graphic3d_Camera) h_theCamera = theCamera->NativeInstance;
+	return ((::Graphic3d_TransformPers*)_NativeInstance)->persistentScale(h_theCamera, parameter1, theViewportHeight);
+	theCamera->NativeInstance = h_theCamera.get();
+}
+
+
+Macad::Occt::Graphic3d_TransformPers^ Macad::Occt::Graphic3d_TransformPers::CreateDowncasted(::Graphic3d_TransformPers* instance)
+{
+	if( instance == nullptr )
+		return nullptr;
+
+	if (instance->IsKind(STANDARD_TYPE(::Graphic3d_TransformPersScaledAbove)))
+		return Macad::Occt::Graphic3d_TransformPersScaledAbove::CreateDowncasted((::Graphic3d_TransformPersScaledAbove*)instance);
+
+	return gcnew Macad::Occt::Graphic3d_TransformPers( instance );
+}
+
+
+
+//---------------------------------------------------------------------
 //  Class  Graphic3d_Group
 //---------------------------------------------------------------------
 
@@ -7088,6 +7284,20 @@ void Macad::Occt::Graphic3d_Group::SetFlippingOptions(bool theIsEnabled, Macad::
 {
 	pin_ptr<Macad::Occt::Ax2> pp_theRefPlane = &theRefPlane;
 	((::Graphic3d_Group*)_NativeInstance)->SetFlippingOptions(theIsEnabled, *(gp_Ax2*)pp_theRefPlane);
+}
+
+Macad::Occt::Graphic3d_TransformPers^ Macad::Occt::Graphic3d_Group::TransformPersistence()
+{
+	Handle(::Graphic3d_TransformPers) _result;
+	_result = ((::Graphic3d_Group*)_NativeInstance)->TransformPersistence();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_TransformPers::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::Graphic3d_Group::SetTransformPersistence(Macad::Occt::Graphic3d_TransformPers^ theTrsfPers)
+{
+	Handle(::Graphic3d_TransformPers) h_theTrsfPers = theTrsfPers->NativeInstance;
+	((::Graphic3d_Group*)_NativeInstance)->SetTransformPersistence(h_theTrsfPers);
+	theTrsfPers->NativeInstance = h_theTrsfPers.get();
 }
 
 bool Macad::Occt::Graphic3d_Group::ContainsFacet()
@@ -7401,131 +7611,6 @@ Macad::Occt::Graphic3d_ViewAffinity^ Macad::Occt::Graphic3d_ViewAffinity::Create
 
 
 //---------------------------------------------------------------------
-//  Class  Graphic3d_TransformPers
-//---------------------------------------------------------------------
-
-Macad::Occt::Graphic3d_TransformPers::Graphic3d_TransformPers(Macad::Occt::Graphic3d_TransModeFlags theMode)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Graphic3d_TransformPers((::Graphic3d_TransModeFlags)theMode);
-}
-
-Macad::Occt::Graphic3d_TransformPers::Graphic3d_TransformPers(Macad::Occt::Graphic3d_TransModeFlags theMode, Macad::Occt::Pnt thePnt)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_thePnt = &thePnt;
-	NativeInstance = new ::Graphic3d_TransformPers((::Graphic3d_TransModeFlags)theMode, *(gp_Pnt*)pp_thePnt);
-}
-
-Macad::Occt::Graphic3d_TransformPers::Graphic3d_TransformPers(Macad::Occt::Graphic3d_TransModeFlags theMode, Macad::Occt::Aspect_TypeOfTriedronPosition theCorner, Macad::Occt::Graphic3d_Vec2i^ theOffset)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Graphic3d_TransformPers((::Graphic3d_TransModeFlags)theMode, (::Aspect_TypeOfTriedronPosition)theCorner, *(::Graphic3d_Vec2i*)theOffset->NativeInstance);
-}
-
-Macad::Occt::Graphic3d_TransformPers::Graphic3d_TransformPers(Macad::Occt::Graphic3d_TransModeFlags theMode, Macad::Occt::Aspect_TypeOfTriedronPosition theCorner)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Graphic3d_TransformPers((::Graphic3d_TransModeFlags)theMode, (::Aspect_TypeOfTriedronPosition)theCorner, ::Graphic3d_Vec2i(0, 0));
-}
-
-Macad::Occt::Graphic3d_TransformPers::Graphic3d_TransformPers(Macad::Occt::Graphic3d_TransformPers^ parameter1)
-	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::Graphic3d_TransformPers(*(::Graphic3d_TransformPers*)parameter1->NativeInstance);
-}
-
-bool Macad::Occt::Graphic3d_TransformPers::IsZoomOrRotate(Macad::Occt::Graphic3d_TransModeFlags theMode)
-{
-	return ::Graphic3d_TransformPers::IsZoomOrRotate((::Graphic3d_TransModeFlags)theMode);
-}
-
-bool Macad::Occt::Graphic3d_TransformPers::IsTrihedronOr2d(Macad::Occt::Graphic3d_TransModeFlags theMode)
-{
-	return ::Graphic3d_TransformPers::IsTrihedronOr2d((::Graphic3d_TransModeFlags)theMode);
-}
-
-Macad::Occt::Graphic3d_TransformPers^ Macad::Occt::Graphic3d_TransformPers::FromDeprecatedParams(Macad::Occt::Graphic3d_TransModeFlags theFlag, Macad::Occt::Pnt thePoint)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_thePoint = &thePoint;
-	Handle(::Graphic3d_TransformPers) _result;
-	_result = ::Graphic3d_TransformPers::FromDeprecatedParams((::Graphic3d_TransModeFlags)theFlag, *(gp_Pnt*)pp_thePoint);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_TransformPers::CreateDowncasted( _result.get());
-}
-
-bool Macad::Occt::Graphic3d_TransformPers::IsZoomOrRotate()
-{
-	return ((::Graphic3d_TransformPers*)_NativeInstance)->IsZoomOrRotate();
-}
-
-bool Macad::Occt::Graphic3d_TransformPers::IsTrihedronOr2d()
-{
-	return ((::Graphic3d_TransformPers*)_NativeInstance)->IsTrihedronOr2d();
-}
-
-Macad::Occt::Graphic3d_TransModeFlags Macad::Occt::Graphic3d_TransformPers::Mode()
-{
-	return (Macad::Occt::Graphic3d_TransModeFlags)((::Graphic3d_TransformPers*)_NativeInstance)->Mode();
-}
-
-Macad::Occt::Graphic3d_TransModeFlags Macad::Occt::Graphic3d_TransformPers::Flags()
-{
-	return (Macad::Occt::Graphic3d_TransModeFlags)((::Graphic3d_TransformPers*)_NativeInstance)->Flags();
-}
-
-void Macad::Occt::Graphic3d_TransformPers::SetPersistence(Macad::Occt::Graphic3d_TransModeFlags theMode, Macad::Occt::Pnt thePnt)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_thePnt = &thePnt;
-	((::Graphic3d_TransformPers*)_NativeInstance)->SetPersistence((::Graphic3d_TransModeFlags)theMode, *(gp_Pnt*)pp_thePnt);
-}
-
-void Macad::Occt::Graphic3d_TransformPers::SetPersistence(Macad::Occt::Graphic3d_TransModeFlags theMode, Macad::Occt::Aspect_TypeOfTriedronPosition theCorner, Macad::Occt::Graphic3d_Vec2i^ theOffset)
-{
-	((::Graphic3d_TransformPers*)_NativeInstance)->SetPersistence((::Graphic3d_TransModeFlags)theMode, (::Aspect_TypeOfTriedronPosition)theCorner, *(::Graphic3d_Vec2i*)theOffset->NativeInstance);
-}
-
-Macad::Occt::Pnt Macad::Occt::Graphic3d_TransformPers::AnchorPoint()
-{
-	return Macad::Occt::Pnt(((::Graphic3d_TransformPers*)_NativeInstance)->AnchorPoint());
-}
-
-void Macad::Occt::Graphic3d_TransformPers::SetAnchorPoint(Macad::Occt::Pnt thePnt)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_thePnt = &thePnt;
-	((::Graphic3d_TransformPers*)_NativeInstance)->SetAnchorPoint(*(gp_Pnt*)pp_thePnt);
-}
-
-Macad::Occt::Aspect_TypeOfTriedronPosition Macad::Occt::Graphic3d_TransformPers::Corner2d()
-{
-	return (Macad::Occt::Aspect_TypeOfTriedronPosition)((::Graphic3d_TransformPers*)_NativeInstance)->Corner2d();
-}
-
-void Macad::Occt::Graphic3d_TransformPers::SetCorner2d(Macad::Occt::Aspect_TypeOfTriedronPosition thePos)
-{
-	((::Graphic3d_TransformPers*)_NativeInstance)->SetCorner2d((::Aspect_TypeOfTriedronPosition)thePos);
-}
-
-Macad::Occt::Graphic3d_Vec2i^ Macad::Occt::Graphic3d_TransformPers::Offset2d()
-{
-	::Graphic3d_Vec2i* _result = new ::Graphic3d_Vec2i(0);
-	*_result = ((::Graphic3d_TransformPers*)_NativeInstance)->Offset2d();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_Vec2i(_result);
-}
-
-void Macad::Occt::Graphic3d_TransformPers::SetOffset2d(Macad::Occt::Graphic3d_Vec2i^ theOffset)
-{
-	((::Graphic3d_TransformPers*)_NativeInstance)->SetOffset2d(*(::Graphic3d_Vec2i*)theOffset->NativeInstance);
-}
-
-
-Macad::Occt::Graphic3d_TransformPers^ Macad::Occt::Graphic3d_TransformPers::CreateDowncasted(::Graphic3d_TransformPers* instance)
-{
-	return gcnew Macad::Occt::Graphic3d_TransformPers( instance );
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  Graphic3d_GraphicDriver
 //---------------------------------------------------------------------
 
@@ -7592,6 +7677,16 @@ void Macad::Occt::Graphic3d_GraphicDriver::EnableVBO(bool status)
 	((::Graphic3d_GraphicDriver*)_NativeInstance)->EnableVBO(status);
 }
 
+bool Macad::Occt::Graphic3d_GraphicDriver::IsVerticalSync()
+{
+	return ((::Graphic3d_GraphicDriver*)_NativeInstance)->IsVerticalSync();
+}
+
+void Macad::Occt::Graphic3d_GraphicDriver::SetVerticalSync(bool theToEnable)
+{
+	((::Graphic3d_GraphicDriver*)_NativeInstance)->SetVerticalSync(theToEnable);
+}
+
 bool Macad::Occt::Graphic3d_GraphicDriver::MemoryInfo(size_t% theFreeBytes, Macad::Occt::TCollection_AsciiString^ theInfo)
 {
 	pin_ptr<size_t> pp_theFreeBytes = &theFreeBytes;
@@ -7654,13 +7749,6 @@ bool Macad::Occt::Graphic3d_GraphicDriver::ViewExists(Macad::Occt::Aspect_Window
 	return ((::Graphic3d_GraphicDriver*)_NativeInstance)->ViewExists(h_theWindow, h_theView);
 	theWindow->NativeInstance = h_theWindow.get();
 	theView->NativeInstance = h_theView.get();
-}
-
-Macad::Occt::Aspect_DisplayConnection^ Macad::Occt::Graphic3d_GraphicDriver::GetDisplayConnection()
-{
-	Handle(::Aspect_DisplayConnection) _result;
-	_result = ((::Graphic3d_GraphicDriver*)_NativeInstance)->GetDisplayConnection();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Aspect_DisplayConnection::CreateDowncasted( _result.get());
 }
 
 int Macad::Occt::Graphic3d_GraphicDriver::NewIdentification()
@@ -7890,25 +7978,6 @@ Macad::Occt::Graphic3d_StructureManager^ Macad::Occt::Graphic3d_StructureManager
 {
 	return gcnew Macad::Occt::Graphic3d_StructureManager( instance );
 }
-
-
-
-//---------------------------------------------------------------------
-//  Class  Graphic3d_CTexture
-//---------------------------------------------------------------------
-
-Macad::Occt::Graphic3d_CTexture::Graphic3d_CTexture()
-	: BaseClass<::Graphic3d_CTexture>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Graphic3d_CTexture();
-}
-
-Macad::Occt::Graphic3d_CTexture::Graphic3d_CTexture(Macad::Occt::Graphic3d_CTexture^ parameter1)
-	: BaseClass<::Graphic3d_CTexture>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Graphic3d_CTexture(*(::Graphic3d_CTexture*)parameter1->NativeInstance);
-}
-
 
 
 
@@ -8423,6 +8492,16 @@ void Macad::Occt::Graphic3d_CView::SetShadingModel(Macad::Occt::Graphic3d_TypeOf
 	((::Graphic3d_CView*)_NativeInstance)->SetShadingModel((::Graphic3d_TypeOfShadingModel)theModel);
 }
 
+Macad::Occt::Graphic3d_TypeOfBackfacingModel Macad::Occt::Graphic3d_CView::BackfacingModel()
+{
+	return (Macad::Occt::Graphic3d_TypeOfBackfacingModel)((::Graphic3d_CView*)_NativeInstance)->BackfacingModel();
+}
+
+void Macad::Occt::Graphic3d_CView::SetBackfacingModel(Macad::Occt::Graphic3d_TypeOfBackfacingModel theModel)
+{
+	((::Graphic3d_CView*)_NativeInstance)->SetBackfacingModel((::Graphic3d_TypeOfBackfacingModel)theModel);
+}
+
 Macad::Occt::Graphic3d_TypeOfVisualization Macad::Occt::Graphic3d_CView::VisualizationType()
 {
 	return (Macad::Occt::Graphic3d_TypeOfVisualization)((::Graphic3d_CView*)_NativeInstance)->VisualizationType();
@@ -8727,6 +8806,20 @@ Macad::Occt::Graphic3d_TextureMap^ Macad::Occt::Graphic3d_CView::BackgroundImage
 	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_TextureMap::CreateDowncasted( _result.get());
 }
 
+Macad::Occt::Graphic3d_CubeMap^ Macad::Occt::Graphic3d_CView::BackgroundCubeMap()
+{
+	Handle(::Graphic3d_CubeMap) _result;
+	_result = ((::Graphic3d_CView*)_NativeInstance)->BackgroundCubeMap();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CubeMap::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_CubeMap^ Macad::Occt::Graphic3d_CView::IBLCubeMap()
+{
+	Handle(::Graphic3d_CubeMap) _result;
+	_result = ((::Graphic3d_CView*)_NativeInstance)->IBLCubeMap();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CubeMap::CreateDowncasted( _result.get());
+}
+
 void Macad::Occt::Graphic3d_CView::SetBackgroundImage(Macad::Occt::Graphic3d_TextureMap^ theTextureMap, bool theToUpdatePBREnv)
 {
 	Handle(::Graphic3d_TextureMap) h_theTextureMap = theTextureMap->NativeInstance;
@@ -8751,21 +8844,19 @@ void Macad::Occt::Graphic3d_CView::SetBackgroundImageStyle(Macad::Occt::Aspect_F
 	((::Graphic3d_CView*)_NativeInstance)->SetBackgroundImageStyle((::Aspect_FillMethod)theFillStyle);
 }
 
-Macad::Occt::Graphic3d_CubeMap^ Macad::Occt::Graphic3d_CView::BackgroundCubeMap()
+Macad::Occt::Graphic3d_TypeOfBackground Macad::Occt::Graphic3d_CView::BackgroundType()
 {
-	Handle(::Graphic3d_CubeMap) _result;
-	_result = ((::Graphic3d_CView*)_NativeInstance)->BackgroundCubeMap();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CubeMap::CreateDowncasted( _result.get());
+	return (Macad::Occt::Graphic3d_TypeOfBackground)((::Graphic3d_CView*)_NativeInstance)->BackgroundType();
 }
 
-void Macad::Occt::Graphic3d_CView::GeneratePBREnvironment()
+void Macad::Occt::Graphic3d_CView::SetBackgroundType(Macad::Occt::Graphic3d_TypeOfBackground theType)
 {
-	((::Graphic3d_CView*)_NativeInstance)->GeneratePBREnvironment();
+	((::Graphic3d_CView*)_NativeInstance)->SetBackgroundType((::Graphic3d_TypeOfBackground)theType);
 }
 
-void Macad::Occt::Graphic3d_CView::ClearPBREnvironment()
+void Macad::Occt::Graphic3d_CView::SetImageBasedLighting(bool theToEnableIBL)
 {
-	((::Graphic3d_CView*)_NativeInstance)->ClearPBREnvironment();
+	((::Graphic3d_CView*)_NativeInstance)->SetImageBasedLighting(theToEnableIBL);
 }
 
 Macad::Occt::Graphic3d_TextureEnv^ Macad::Occt::Graphic3d_CView::TextureEnv()
@@ -8780,16 +8871,6 @@ void Macad::Occt::Graphic3d_CView::SetTextureEnv(Macad::Occt::Graphic3d_TextureE
 	Handle(::Graphic3d_TextureEnv) h_theTextureEnv = theTextureEnv->NativeInstance;
 	((::Graphic3d_CView*)_NativeInstance)->SetTextureEnv(h_theTextureEnv);
 	theTextureEnv->NativeInstance = h_theTextureEnv.get();
-}
-
-Macad::Occt::Graphic3d_TypeOfBackfacingModel Macad::Occt::Graphic3d_CView::BackfacingModel()
-{
-	return (Macad::Occt::Graphic3d_TypeOfBackfacingModel)((::Graphic3d_CView*)_NativeInstance)->BackfacingModel();
-}
-
-void Macad::Occt::Graphic3d_CView::SetBackfacingModel(Macad::Occt::Graphic3d_TypeOfBackfacingModel theModel)
-{
-	((::Graphic3d_CView*)_NativeInstance)->SetBackfacingModel((::Graphic3d_TypeOfBackfacingModel)theModel);
 }
 
 Macad::Occt::Graphic3d_LightSet^ Macad::Occt::Graphic3d_CView::Lights()
@@ -8925,6 +9006,12 @@ Macad::Occt::Trsf Macad::Occt::Graphic3d_CView::PoseXRToWorld(Macad::Occt::Trsf 
 	return Macad::Occt::Trsf(((::Graphic3d_CView*)_NativeInstance)->PoseXRToWorld(*(gp_Trsf*)pp_thePoseXR));
 }
 
+Macad::Occt::Ax1 Macad::Occt::Graphic3d_CView::ViewAxisInWorld(Macad::Occt::Trsf thePoseXR)
+{
+	pin_ptr<Macad::Occt::Trsf> pp_thePoseXR = &thePoseXR;
+	return Macad::Occt::Ax1(((::Graphic3d_CView*)_NativeInstance)->ViewAxisInWorld(*(gp_Trsf*)pp_thePoseXR));
+}
+
 void Macad::Occt::Graphic3d_CView::SynchronizeXRBaseToPosedCamera()
 {
 	((::Graphic3d_CView*)_NativeInstance)->SynchronizeXRBaseToPosedCamera();
@@ -8979,185 +9066,6 @@ Macad::Occt::Graphic3d_CView^ Macad::Occt::Graphic3d_CView::CreateDowncasted(::G
 
 
 //---------------------------------------------------------------------
-//  Class  Graphic3d_AxisAspect
-//---------------------------------------------------------------------
-
-Macad::Occt::Graphic3d_AxisAspect::Graphic3d_AxisAspect(Macad::Occt::TCollection_ExtendedString^ theName, Macad::Occt::Quantity_Color^ theNameColor, Macad::Occt::Quantity_Color^ theColor, int theValuesOffset, int theNameOffset, int theTickmarksNumber, int theTickmarksLength, bool theToDrawName, bool theToDrawValues, bool theToDrawTickmarks)
-	: BaseClass<::Graphic3d_AxisAspect>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Graphic3d_AxisAspect(*(::TCollection_ExtendedString*)theName->NativeInstance, *(::Quantity_Color*)theNameColor->NativeInstance, *(::Quantity_Color*)theColor->NativeInstance, theValuesOffset, theNameOffset, theTickmarksNumber, theTickmarksLength, theToDrawName, theToDrawValues, theToDrawTickmarks);
-}
-
-Macad::Occt::Graphic3d_AxisAspect::Graphic3d_AxisAspect(Macad::Occt::TCollection_ExtendedString^ theName, Macad::Occt::Quantity_Color^ theNameColor, Macad::Occt::Quantity_Color^ theColor, int theValuesOffset, int theNameOffset, int theTickmarksNumber, int theTickmarksLength, bool theToDrawName, bool theToDrawValues)
-	: BaseClass<::Graphic3d_AxisAspect>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Graphic3d_AxisAspect(*(::TCollection_ExtendedString*)theName->NativeInstance, *(::Quantity_Color*)theNameColor->NativeInstance, *(::Quantity_Color*)theColor->NativeInstance, theValuesOffset, theNameOffset, theTickmarksNumber, theTickmarksLength, theToDrawName, theToDrawValues, true);
-}
-
-Macad::Occt::Graphic3d_AxisAspect::Graphic3d_AxisAspect(Macad::Occt::TCollection_ExtendedString^ theName, Macad::Occt::Quantity_Color^ theNameColor, Macad::Occt::Quantity_Color^ theColor, int theValuesOffset, int theNameOffset, int theTickmarksNumber, int theTickmarksLength, bool theToDrawName)
-	: BaseClass<::Graphic3d_AxisAspect>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Graphic3d_AxisAspect(*(::TCollection_ExtendedString*)theName->NativeInstance, *(::Quantity_Color*)theNameColor->NativeInstance, *(::Quantity_Color*)theColor->NativeInstance, theValuesOffset, theNameOffset, theTickmarksNumber, theTickmarksLength, theToDrawName, true, true);
-}
-
-Macad::Occt::Graphic3d_AxisAspect::Graphic3d_AxisAspect(Macad::Occt::TCollection_ExtendedString^ theName, Macad::Occt::Quantity_Color^ theNameColor, Macad::Occt::Quantity_Color^ theColor, int theValuesOffset, int theNameOffset, int theTickmarksNumber, int theTickmarksLength)
-	: BaseClass<::Graphic3d_AxisAspect>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Graphic3d_AxisAspect(*(::TCollection_ExtendedString*)theName->NativeInstance, *(::Quantity_Color*)theNameColor->NativeInstance, *(::Quantity_Color*)theColor->NativeInstance, theValuesOffset, theNameOffset, theTickmarksNumber, theTickmarksLength, true, true, true);
-}
-
-Macad::Occt::Graphic3d_AxisAspect::Graphic3d_AxisAspect(Macad::Occt::TCollection_ExtendedString^ theName, Macad::Occt::Quantity_Color^ theNameColor, Macad::Occt::Quantity_Color^ theColor, int theValuesOffset, int theNameOffset, int theTickmarksNumber)
-	: BaseClass<::Graphic3d_AxisAspect>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Graphic3d_AxisAspect(*(::TCollection_ExtendedString*)theName->NativeInstance, *(::Quantity_Color*)theNameColor->NativeInstance, *(::Quantity_Color*)theColor->NativeInstance, theValuesOffset, theNameOffset, theTickmarksNumber, 10, true, true, true);
-}
-
-Macad::Occt::Graphic3d_AxisAspect::Graphic3d_AxisAspect(Macad::Occt::TCollection_ExtendedString^ theName, Macad::Occt::Quantity_Color^ theNameColor, Macad::Occt::Quantity_Color^ theColor, int theValuesOffset, int theNameOffset)
-	: BaseClass<::Graphic3d_AxisAspect>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Graphic3d_AxisAspect(*(::TCollection_ExtendedString*)theName->NativeInstance, *(::Quantity_Color*)theNameColor->NativeInstance, *(::Quantity_Color*)theColor->NativeInstance, theValuesOffset, theNameOffset, 5, 10, true, true, true);
-}
-
-Macad::Occt::Graphic3d_AxisAspect::Graphic3d_AxisAspect(Macad::Occt::TCollection_ExtendedString^ theName, Macad::Occt::Quantity_Color^ theNameColor, Macad::Occt::Quantity_Color^ theColor, int theValuesOffset)
-	: BaseClass<::Graphic3d_AxisAspect>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Graphic3d_AxisAspect(*(::TCollection_ExtendedString*)theName->NativeInstance, *(::Quantity_Color*)theNameColor->NativeInstance, *(::Quantity_Color*)theColor->NativeInstance, theValuesOffset, 30, 5, 10, true, true, true);
-}
-
-Macad::Occt::Graphic3d_AxisAspect::Graphic3d_AxisAspect(Macad::Occt::TCollection_ExtendedString^ theName, Macad::Occt::Quantity_Color^ theNameColor, Macad::Occt::Quantity_Color^ theColor)
-	: BaseClass<::Graphic3d_AxisAspect>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Graphic3d_AxisAspect(*(::TCollection_ExtendedString*)theName->NativeInstance, *(::Quantity_Color*)theNameColor->NativeInstance, *(::Quantity_Color*)theColor->NativeInstance, 10, 30, 5, 10, true, true, true);
-}
-
-Macad::Occt::Graphic3d_AxisAspect::Graphic3d_AxisAspect(Macad::Occt::TCollection_ExtendedString^ theName, Macad::Occt::Quantity_Color^ theNameColor)
-	: BaseClass<::Graphic3d_AxisAspect>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Graphic3d_AxisAspect(*(::TCollection_ExtendedString*)theName->NativeInstance, *(::Quantity_Color*)theNameColor->NativeInstance, Quantity_NOC_BLACK, 10, 30, 5, 10, true, true, true);
-}
-
-Macad::Occt::Graphic3d_AxisAspect::Graphic3d_AxisAspect(Macad::Occt::TCollection_ExtendedString^ theName)
-	: BaseClass<::Graphic3d_AxisAspect>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Graphic3d_AxisAspect(*(::TCollection_ExtendedString*)theName->NativeInstance, Quantity_NOC_BLACK, Quantity_NOC_BLACK, 10, 30, 5, 10, true, true, true);
-}
-
-Macad::Occt::Graphic3d_AxisAspect::Graphic3d_AxisAspect(Macad::Occt::Graphic3d_AxisAspect^ parameter1)
-	: BaseClass<::Graphic3d_AxisAspect>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::Graphic3d_AxisAspect(*(::Graphic3d_AxisAspect*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::Graphic3d_AxisAspect::SetName(Macad::Occt::TCollection_ExtendedString^ theName)
-{
-	((::Graphic3d_AxisAspect*)_NativeInstance)->SetName(*(::TCollection_ExtendedString*)theName->NativeInstance);
-}
-
-Macad::Occt::TCollection_ExtendedString^ Macad::Occt::Graphic3d_AxisAspect::Name()
-{
-	::TCollection_ExtendedString* _result = new ::TCollection_ExtendedString();
-	*_result =  (::TCollection_ExtendedString)((::Graphic3d_AxisAspect*)_NativeInstance)->Name();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_ExtendedString(_result);
-}
-
-bool Macad::Occt::Graphic3d_AxisAspect::ToDrawName()
-{
-	return ((::Graphic3d_AxisAspect*)_NativeInstance)->ToDrawName();
-}
-
-void Macad::Occt::Graphic3d_AxisAspect::SetDrawName(bool theToDraw)
-{
-	((::Graphic3d_AxisAspect*)_NativeInstance)->SetDrawName(theToDraw);
-}
-
-bool Macad::Occt::Graphic3d_AxisAspect::ToDrawTickmarks()
-{
-	return ((::Graphic3d_AxisAspect*)_NativeInstance)->ToDrawTickmarks();
-}
-
-void Macad::Occt::Graphic3d_AxisAspect::SetDrawTickmarks(bool theToDraw)
-{
-	((::Graphic3d_AxisAspect*)_NativeInstance)->SetDrawTickmarks(theToDraw);
-}
-
-bool Macad::Occt::Graphic3d_AxisAspect::ToDrawValues()
-{
-	return ((::Graphic3d_AxisAspect*)_NativeInstance)->ToDrawValues();
-}
-
-void Macad::Occt::Graphic3d_AxisAspect::SetDrawValues(bool theToDraw)
-{
-	((::Graphic3d_AxisAspect*)_NativeInstance)->SetDrawValues(theToDraw);
-}
-
-Macad::Occt::Quantity_Color^ Macad::Occt::Graphic3d_AxisAspect::NameColor()
-{
-	::Quantity_Color* _result = new ::Quantity_Color();
-	*_result =  (::Quantity_Color)((::Graphic3d_AxisAspect*)_NativeInstance)->NameColor();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Quantity_Color(_result);
-}
-
-void Macad::Occt::Graphic3d_AxisAspect::SetNameColor(Macad::Occt::Quantity_Color^ theColor)
-{
-	((::Graphic3d_AxisAspect*)_NativeInstance)->SetNameColor(*(::Quantity_Color*)theColor->NativeInstance);
-}
-
-Macad::Occt::Quantity_Color^ Macad::Occt::Graphic3d_AxisAspect::Color()
-{
-	::Quantity_Color* _result = new ::Quantity_Color();
-	*_result =  (::Quantity_Color)((::Graphic3d_AxisAspect*)_NativeInstance)->Color();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Quantity_Color(_result);
-}
-
-void Macad::Occt::Graphic3d_AxisAspect::SetColor(Macad::Occt::Quantity_Color^ theColor)
-{
-	((::Graphic3d_AxisAspect*)_NativeInstance)->SetColor(*(::Quantity_Color*)theColor->NativeInstance);
-}
-
-int Macad::Occt::Graphic3d_AxisAspect::TickmarksNumber()
-{
-	return ((::Graphic3d_AxisAspect*)_NativeInstance)->TickmarksNumber();
-}
-
-void Macad::Occt::Graphic3d_AxisAspect::SetTickmarksNumber(int theValue)
-{
-	((::Graphic3d_AxisAspect*)_NativeInstance)->SetTickmarksNumber(theValue);
-}
-
-int Macad::Occt::Graphic3d_AxisAspect::TickmarksLength()
-{
-	return ((::Graphic3d_AxisAspect*)_NativeInstance)->TickmarksLength();
-}
-
-void Macad::Occt::Graphic3d_AxisAspect::SetTickmarksLength(int theValue)
-{
-	((::Graphic3d_AxisAspect*)_NativeInstance)->SetTickmarksLength(theValue);
-}
-
-int Macad::Occt::Graphic3d_AxisAspect::ValuesOffset()
-{
-	return ((::Graphic3d_AxisAspect*)_NativeInstance)->ValuesOffset();
-}
-
-void Macad::Occt::Graphic3d_AxisAspect::SetValuesOffset(int theValue)
-{
-	((::Graphic3d_AxisAspect*)_NativeInstance)->SetValuesOffset(theValue);
-}
-
-int Macad::Occt::Graphic3d_AxisAspect::NameOffset()
-{
-	return ((::Graphic3d_AxisAspect*)_NativeInstance)->NameOffset();
-}
-
-void Macad::Occt::Graphic3d_AxisAspect::SetNameOffset(int theValue)
-{
-	((::Graphic3d_AxisAspect*)_NativeInstance)->SetNameOffset(theValue);
-}
-
-
-
-
-//---------------------------------------------------------------------
 //  Class  Graphic3d_GraduatedTrihedron
 //---------------------------------------------------------------------
 
@@ -9171,62 +9079,6 @@ Macad::Occt::Graphic3d_GraduatedTrihedron::Graphic3d_GraduatedTrihedron(Macad::O
 	: BaseClass<::Graphic3d_GraduatedTrihedron>(BaseClass::InitMode::Uninitialized)
 {
 	_NativeInstance = new ::Graphic3d_GraduatedTrihedron(*(::Graphic3d_GraduatedTrihedron*)parameter1->NativeInstance);
-}
-
-Macad::Occt::Graphic3d_AxisAspect^ Macad::Occt::Graphic3d_GraduatedTrihedron::ChangeXAxisAspect()
-{
-	::Graphic3d_AxisAspect* _result = new ::Graphic3d_AxisAspect("", Quantity_NOC_BLACK, Quantity_NOC_BLACK, 10, 30, 5, 10, true, true, true);
-	*_result = ((::Graphic3d_GraduatedTrihedron*)_NativeInstance)->ChangeXAxisAspect();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_AxisAspect(_result);
-}
-
-Macad::Occt::Graphic3d_AxisAspect^ Macad::Occt::Graphic3d_GraduatedTrihedron::ChangeYAxisAspect()
-{
-	::Graphic3d_AxisAspect* _result = new ::Graphic3d_AxisAspect("", Quantity_NOC_BLACK, Quantity_NOC_BLACK, 10, 30, 5, 10, true, true, true);
-	*_result = ((::Graphic3d_GraduatedTrihedron*)_NativeInstance)->ChangeYAxisAspect();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_AxisAspect(_result);
-}
-
-Macad::Occt::Graphic3d_AxisAspect^ Macad::Occt::Graphic3d_GraduatedTrihedron::ChangeZAxisAspect()
-{
-	::Graphic3d_AxisAspect* _result = new ::Graphic3d_AxisAspect("", Quantity_NOC_BLACK, Quantity_NOC_BLACK, 10, 30, 5, 10, true, true, true);
-	*_result = ((::Graphic3d_GraduatedTrihedron*)_NativeInstance)->ChangeZAxisAspect();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_AxisAspect(_result);
-}
-
-Macad::Occt::Graphic3d_AxisAspect^ Macad::Occt::Graphic3d_GraduatedTrihedron::ChangeAxisAspect(int theIndex)
-{
-	::Graphic3d_AxisAspect* _result = new ::Graphic3d_AxisAspect("", Quantity_NOC_BLACK, Quantity_NOC_BLACK, 10, 30, 5, 10, true, true, true);
-	*_result = ((::Graphic3d_GraduatedTrihedron*)_NativeInstance)->ChangeAxisAspect(theIndex);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_AxisAspect(_result);
-}
-
-Macad::Occt::Graphic3d_AxisAspect^ Macad::Occt::Graphic3d_GraduatedTrihedron::XAxisAspect()
-{
-	::Graphic3d_AxisAspect* _result = new ::Graphic3d_AxisAspect("", Quantity_NOC_BLACK, Quantity_NOC_BLACK, 10, 30, 5, 10, true, true, true);
-	*_result =  (::Graphic3d_AxisAspect)((::Graphic3d_GraduatedTrihedron*)_NativeInstance)->XAxisAspect();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_AxisAspect(_result);
-}
-
-Macad::Occt::Graphic3d_AxisAspect^ Macad::Occt::Graphic3d_GraduatedTrihedron::YAxisAspect()
-{
-	::Graphic3d_AxisAspect* _result = new ::Graphic3d_AxisAspect("", Quantity_NOC_BLACK, Quantity_NOC_BLACK, 10, 30, 5, 10, true, true, true);
-	*_result =  (::Graphic3d_AxisAspect)((::Graphic3d_GraduatedTrihedron*)_NativeInstance)->YAxisAspect();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_AxisAspect(_result);
-}
-
-Macad::Occt::Graphic3d_AxisAspect^ Macad::Occt::Graphic3d_GraduatedTrihedron::ZAxisAspect()
-{
-	::Graphic3d_AxisAspect* _result = new ::Graphic3d_AxisAspect("", Quantity_NOC_BLACK, Quantity_NOC_BLACK, 10, 30, 5, 10, true, true, true);
-	*_result =  (::Graphic3d_AxisAspect)((::Graphic3d_GraduatedTrihedron*)_NativeInstance)->ZAxisAspect();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_AxisAspect(_result);
-}
-
-Macad::Occt::Graphic3d_AxisAspect^ Macad::Occt::Graphic3d_GraduatedTrihedron::AxisAspect(int theIndex)
-{
-	::Graphic3d_AxisAspect* _result = new ::Graphic3d_AxisAspect("", Quantity_NOC_BLACK, Quantity_NOC_BLACK, 10, 30, 5, 10, true, true, true);
-	*_result =  (::Graphic3d_AxisAspect)((::Graphic3d_GraduatedTrihedron*)_NativeInstance)->AxisAspect(theIndex);
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_AxisAspect(_result);
 }
 
 float Macad::Occt::Graphic3d_GraduatedTrihedron::ArrowsLength()
@@ -9313,6 +9165,11 @@ int Macad::Occt::Graphic3d_GraduatedTrihedron::ValuesSize()
 void Macad::Occt::Graphic3d_GraduatedTrihedron::SetValuesSize(int theValue)
 {
 	((::Graphic3d_GraduatedTrihedron*)_NativeInstance)->SetValuesSize(theValue);
+}
+
+bool Macad::Occt::Graphic3d_GraduatedTrihedron::CubicAxesCallback(Macad::Occt::Graphic3d_CView^ theView)
+{
+	return ((::Graphic3d_GraduatedTrihedron*)_NativeInstance)->CubicAxesCallback((::Graphic3d_CView*)theView->NativeInstance);
 }
 
 
@@ -9586,6 +9443,11 @@ int Macad::Occt::Graphic3d_LightSet::NbEnabledLightsOfType(Macad::Occt::Graphic3
 	return ((::Graphic3d_LightSet*)_NativeInstance)->NbEnabledLightsOfType((::Graphic3d_TypeOfLightSource)theType);
 }
 
+int Macad::Occt::Graphic3d_LightSet::NbCastShadows()
+{
+	return ((::Graphic3d_LightSet*)_NativeInstance)->NbCastShadows();
+}
+
 Macad::Occt::TCollection_AsciiString^ Macad::Occt::Graphic3d_LightSet::KeyEnabledLong()
 {
 	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
@@ -9849,61 +9711,59 @@ Macad::Occt::Graphic3d_FrameStats^ Macad::Occt::Graphic3d_FrameStats::CreateDown
 
 
 //---------------------------------------------------------------------
-//  Class  Graphic3d_TransformError
+//  Class  Graphic3d_GraphicDriverFactory
 //---------------------------------------------------------------------
 
-Macad::Occt::Graphic3d_TransformError::Graphic3d_TransformError()
-	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+Macad::Occt::Graphic3d_GraphicDriverFactory::Graphic3d_GraphicDriverFactory(Macad::Occt::Graphic3d_GraphicDriverFactory^ parameter1)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
-	NativeInstance = new ::Graphic3d_TransformError();
+	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Graphic3d_TransformError::Graphic3d_TransformError(System::String^ theMessage)
-	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+void Macad::Occt::Graphic3d_GraphicDriverFactory::RegisterFactory(Macad::Occt::Graphic3d_GraphicDriverFactory^ theFactory, bool theIsPreferred)
 {
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	NativeInstance = new ::Graphic3d_TransformError(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Handle(::Graphic3d_GraphicDriverFactory) h_theFactory = theFactory->NativeInstance;
+	::Graphic3d_GraphicDriverFactory::RegisterFactory(h_theFactory, theIsPreferred);
+	theFactory->NativeInstance = h_theFactory.get();
 }
 
-Macad::Occt::Graphic3d_TransformError::Graphic3d_TransformError(Macad::Occt::Graphic3d_TransformError^ parameter1)
-	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+void Macad::Occt::Graphic3d_GraphicDriverFactory::RegisterFactory(Macad::Occt::Graphic3d_GraphicDriverFactory^ theFactory)
 {
-	NativeInstance = new ::Graphic3d_TransformError(*(::Graphic3d_TransformError*)parameter1->NativeInstance);
+	Handle(::Graphic3d_GraphicDriverFactory) h_theFactory = theFactory->NativeInstance;
+	::Graphic3d_GraphicDriverFactory::RegisterFactory(h_theFactory, false);
+	theFactory->NativeInstance = h_theFactory.get();
 }
 
-void Macad::Occt::Graphic3d_TransformError::Raise(System::String^ theMessage)
+void Macad::Occt::Graphic3d_GraphicDriverFactory::UnregisterFactory(Macad::Occt::TCollection_AsciiString^ theName)
 {
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	::Graphic3d_TransformError::Raise(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	::Graphic3d_GraphicDriverFactory::UnregisterFactory(*(::TCollection_AsciiString*)theName->NativeInstance);
 }
 
-void Macad::Occt::Graphic3d_TransformError::Raise()
+Macad::Occt::Graphic3d_GraphicDriverFactory^ Macad::Occt::Graphic3d_GraphicDriverFactory::DefaultDriverFactory()
 {
-	::Graphic3d_TransformError::Raise("");
+	Handle(::Graphic3d_GraphicDriverFactory) _result;
+	_result = ::Graphic3d_GraphicDriverFactory::DefaultDriverFactory();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_GraphicDriverFactory::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::Graphic3d_TransformError^ Macad::Occt::Graphic3d_TransformError::NewInstance(System::String^ theMessage)
+Macad::Occt::Graphic3d_GraphicDriverFactoryList^ Macad::Occt::Graphic3d_GraphicDriverFactory::DriverFactories()
 {
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	Handle(::Graphic3d_TransformError) _result;
-	_result = ::Graphic3d_TransformError::NewInstance(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_TransformError::CreateDowncasted( _result.get());
+	::Graphic3d_GraphicDriverFactoryList* _result = new ::Graphic3d_GraphicDriverFactoryList();
+	*_result =  (::Graphic3d_GraphicDriverFactoryList)::Graphic3d_GraphicDriverFactory::DriverFactories();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Graphic3d_GraphicDriverFactoryList(_result);
 }
 
-Macad::Occt::Graphic3d_TransformError^ Macad::Occt::Graphic3d_TransformError::NewInstance()
+Macad::Occt::TCollection_AsciiString^ Macad::Occt::Graphic3d_GraphicDriverFactory::Name()
 {
-	Handle(::Graphic3d_TransformError) _result;
-	_result = ::Graphic3d_TransformError::NewInstance("");
-	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_TransformError::CreateDowncasted( _result.get());
+	::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
+	*_result =  (::TCollection_AsciiString)((::Graphic3d_GraphicDriverFactory*)_NativeInstance)->Name();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TCollection_AsciiString(_result);
 }
 
 
-Macad::Occt::Graphic3d_TransformError^ Macad::Occt::Graphic3d_TransformError::CreateDowncasted(::Graphic3d_TransformError* instance)
+Macad::Occt::Graphic3d_GraphicDriverFactory^ Macad::Occt::Graphic3d_GraphicDriverFactory::CreateDowncasted(::Graphic3d_GraphicDriverFactory* instance)
 {
-	return gcnew Macad::Occt::Graphic3d_TransformError( instance );
+	return gcnew Macad::Occt::Graphic3d_GraphicDriverFactory( instance );
 }
 
 
@@ -9924,6 +9784,16 @@ Macad::Occt::Graphic3d_GroupDefinitionError::Graphic3d_GroupDefinitionError(Syst
 	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
 	NativeInstance = new ::Graphic3d_GroupDefinitionError(sz_theMessage);
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Graphic3d_GroupDefinitionError::Graphic3d_GroupDefinitionError(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Graphic3d_GroupDefinitionError(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
 Macad::Occt::Graphic3d_GroupDefinitionError::Graphic3d_GroupDefinitionError(Macad::Occt::Graphic3d_GroupDefinitionError^ parameter1)
@@ -9960,6 +9830,17 @@ Macad::Occt::Graphic3d_GroupDefinitionError^ Macad::Occt::Graphic3d_GroupDefinit
 	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_GroupDefinitionError::CreateDowncasted( _result.get());
 }
 
+Macad::Occt::Graphic3d_GroupDefinitionError^ Macad::Occt::Graphic3d_GroupDefinitionError::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Graphic3d_GroupDefinitionError) _result;
+	_result = ::Graphic3d_GroupDefinitionError::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_GroupDefinitionError::CreateDowncasted( _result.get());
+}
+
 
 Macad::Occt::Graphic3d_GroupDefinitionError^ Macad::Occt::Graphic3d_GroupDefinitionError::CreateDowncasted(::Graphic3d_GroupDefinitionError* instance)
 {
@@ -9984,6 +9865,16 @@ Macad::Occt::Graphic3d_MaterialDefinitionError::Graphic3d_MaterialDefinitionErro
 	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
 	NativeInstance = new ::Graphic3d_MaterialDefinitionError(sz_theMessage);
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Graphic3d_MaterialDefinitionError::Graphic3d_MaterialDefinitionError(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Graphic3d_MaterialDefinitionError(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
 Macad::Occt::Graphic3d_MaterialDefinitionError::Graphic3d_MaterialDefinitionError(Macad::Occt::Graphic3d_MaterialDefinitionError^ parameter1)
@@ -10017,6 +9908,17 @@ Macad::Occt::Graphic3d_MaterialDefinitionError^ Macad::Occt::Graphic3d_MaterialD
 {
 	Handle(::Graphic3d_MaterialDefinitionError) _result;
 	_result = ::Graphic3d_MaterialDefinitionError::NewInstance("");
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_MaterialDefinitionError::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_MaterialDefinitionError^ Macad::Occt::Graphic3d_MaterialDefinitionError::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Graphic3d_MaterialDefinitionError) _result;
+	_result = ::Graphic3d_MaterialDefinitionError::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_MaterialDefinitionError::CreateDowncasted( _result.get());
 }
 
@@ -10078,6 +9980,16 @@ Macad::Occt::Graphic3d_PriorityDefinitionError::Graphic3d_PriorityDefinitionErro
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
 }
 
+Macad::Occt::Graphic3d_PriorityDefinitionError::Graphic3d_PriorityDefinitionError(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Graphic3d_PriorityDefinitionError(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+}
+
 Macad::Occt::Graphic3d_PriorityDefinitionError::Graphic3d_PriorityDefinitionError(Macad::Occt::Graphic3d_PriorityDefinitionError^ parameter1)
 	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
 {
@@ -10112,10 +10024,115 @@ Macad::Occt::Graphic3d_PriorityDefinitionError^ Macad::Occt::Graphic3d_PriorityD
 	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_PriorityDefinitionError::CreateDowncasted( _result.get());
 }
 
+Macad::Occt::Graphic3d_PriorityDefinitionError^ Macad::Occt::Graphic3d_PriorityDefinitionError::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Graphic3d_PriorityDefinitionError) _result;
+	_result = ::Graphic3d_PriorityDefinitionError::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_PriorityDefinitionError::CreateDowncasted( _result.get());
+}
+
 
 Macad::Occt::Graphic3d_PriorityDefinitionError^ Macad::Occt::Graphic3d_PriorityDefinitionError::CreateDowncasted(::Graphic3d_PriorityDefinitionError* instance)
 {
 	return gcnew Macad::Occt::Graphic3d_PriorityDefinitionError( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  Graphic3d_ShaderManager
+//---------------------------------------------------------------------
+
+Macad::Occt::Graphic3d_ShaderManager::Graphic3d_ShaderManager(Macad::Occt::Aspect_GraphicsLibrary theGapi)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Graphic3d_ShaderManager((::Aspect_GraphicsLibrary)theGapi);
+}
+
+Macad::Occt::Graphic3d_ShaderManager::Graphic3d_ShaderManager(Macad::Occt::Graphic3d_ShaderManager^ parameter1)
+	: Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Graphic3d_ShaderManager(*(::Graphic3d_ShaderManager*)parameter1->NativeInstance);
+}
+
+bool Macad::Occt::Graphic3d_ShaderManager::IsGapiGreaterEqual(int theVerMajor, int theVerMinor)
+{
+	return ((::Graphic3d_ShaderManager*)_NativeInstance)->IsGapiGreaterEqual(theVerMajor, theVerMinor);
+}
+
+int Macad::Occt::Graphic3d_ShaderManager::GapiVersionMajor()
+{
+	return ((::Graphic3d_ShaderManager*)_NativeInstance)->GapiVersionMajor();
+}
+
+int Macad::Occt::Graphic3d_ShaderManager::GapiVersionMinor()
+{
+	return ((::Graphic3d_ShaderManager*)_NativeInstance)->GapiVersionMinor();
+}
+
+void Macad::Occt::Graphic3d_ShaderManager::SetGapiVersion(int theVerMajor, int theVerMinor)
+{
+	((::Graphic3d_ShaderManager*)_NativeInstance)->SetGapiVersion(theVerMajor, theVerMinor);
+}
+
+bool Macad::Occt::Graphic3d_ShaderManager::UseRedAlpha()
+{
+	return ((::Graphic3d_ShaderManager*)_NativeInstance)->UseRedAlpha();
+}
+
+void Macad::Occt::Graphic3d_ShaderManager::SetUseRedAlpha(bool theUseRedAlpha)
+{
+	((::Graphic3d_ShaderManager*)_NativeInstance)->SetUseRedAlpha(theUseRedAlpha);
+}
+
+bool Macad::Occt::Graphic3d_ShaderManager::HasFlatShading()
+{
+	return ((::Graphic3d_ShaderManager*)_NativeInstance)->HasFlatShading();
+}
+
+bool Macad::Occt::Graphic3d_ShaderManager::ToReverseDFdxSign()
+{
+	return ((::Graphic3d_ShaderManager*)_NativeInstance)->ToReverseDFdxSign();
+}
+
+void Macad::Occt::Graphic3d_ShaderManager::SetFlatShading(bool theToUse, bool theToReverseSign)
+{
+	((::Graphic3d_ShaderManager*)_NativeInstance)->SetFlatShading(theToUse, theToReverseSign);
+}
+
+bool Macad::Occt::Graphic3d_ShaderManager::ToEmulateDepthClamp()
+{
+	return ((::Graphic3d_ShaderManager*)_NativeInstance)->ToEmulateDepthClamp();
+}
+
+void Macad::Occt::Graphic3d_ShaderManager::SetEmulateDepthClamp(bool theToEmulate)
+{
+	((::Graphic3d_ShaderManager*)_NativeInstance)->SetEmulateDepthClamp(theToEmulate);
+}
+
+bool Macad::Occt::Graphic3d_ShaderManager::HasGlslExtension(Macad::Occt::Graphic3d_GlslExtension theExt)
+{
+	return ((::Graphic3d_ShaderManager*)_NativeInstance)->HasGlslExtension((::Graphic3d_GlslExtension)theExt);
+}
+
+void Macad::Occt::Graphic3d_ShaderManager::EnableGlslExtension(Macad::Occt::Graphic3d_GlslExtension theExt, bool theToEnable)
+{
+	((::Graphic3d_ShaderManager*)_NativeInstance)->EnableGlslExtension((::Graphic3d_GlslExtension)theExt, theToEnable);
+}
+
+void Macad::Occt::Graphic3d_ShaderManager::EnableGlslExtension(Macad::Occt::Graphic3d_GlslExtension theExt)
+{
+	((::Graphic3d_ShaderManager*)_NativeInstance)->EnableGlslExtension((::Graphic3d_GlslExtension)theExt, true);
+}
+
+
+Macad::Occt::Graphic3d_ShaderManager^ Macad::Occt::Graphic3d_ShaderManager::CreateDowncasted(::Graphic3d_ShaderManager* instance)
+{
+	return gcnew Macad::Occt::Graphic3d_ShaderManager( instance );
 }
 
 
@@ -10136,6 +10153,16 @@ Macad::Occt::Graphic3d_StructureDefinitionError::Graphic3d_StructureDefinitionEr
 	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
 	NativeInstance = new ::Graphic3d_StructureDefinitionError(sz_theMessage);
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::Graphic3d_StructureDefinitionError::Graphic3d_StructureDefinitionError(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Graphic3d_StructureDefinitionError(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
 Macad::Occt::Graphic3d_StructureDefinitionError::Graphic3d_StructureDefinitionError(Macad::Occt::Graphic3d_StructureDefinitionError^ parameter1)
@@ -10169,6 +10196,17 @@ Macad::Occt::Graphic3d_StructureDefinitionError^ Macad::Occt::Graphic3d_Structur
 {
 	Handle(::Graphic3d_StructureDefinitionError) _result;
 	_result = ::Graphic3d_StructureDefinitionError::NewInstance("");
+	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_StructureDefinitionError::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Graphic3d_StructureDefinitionError^ Macad::Occt::Graphic3d_StructureDefinitionError::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Graphic3d_StructureDefinitionError) _result;
+	_result = ::Graphic3d_StructureDefinitionError::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_StructureDefinitionError::CreateDowncasted( _result.get());
 }
 
@@ -10442,6 +10480,38 @@ void Macad::Occt::Graphic3d_Texture2Dplane::Rotation(float% theVal)
 Macad::Occt::Graphic3d_Texture2Dplane^ Macad::Occt::Graphic3d_Texture2Dplane::CreateDowncasted(::Graphic3d_Texture2Dplane* instance)
 {
 	return gcnew Macad::Occt::Graphic3d_Texture2Dplane( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  Graphic3d_TransformPersScaledAbove
+//---------------------------------------------------------------------
+
+Macad::Occt::Graphic3d_TransformPersScaledAbove::Graphic3d_TransformPersScaledAbove(double theScale, Macad::Occt::Pnt thePnt)
+	: Macad::Occt::Graphic3d_TransformPers(BaseClass::InitMode::Uninitialized)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_thePnt = &thePnt;
+	NativeInstance = new ::Graphic3d_TransformPersScaledAbove(theScale, *(gp_Pnt*)pp_thePnt);
+}
+
+Macad::Occt::Graphic3d_TransformPersScaledAbove::Graphic3d_TransformPersScaledAbove(Macad::Occt::Graphic3d_TransformPersScaledAbove^ parameter1)
+	: Macad::Occt::Graphic3d_TransformPers(BaseClass::InitMode::Uninitialized)
+{
+	NativeInstance = new ::Graphic3d_TransformPersScaledAbove(*(::Graphic3d_TransformPersScaledAbove*)parameter1->NativeInstance);
+}
+
+double Macad::Occt::Graphic3d_TransformPersScaledAbove::persistentScale(Macad::Occt::Graphic3d_Camera^ theCamera, int theViewportWidth, int theViewportHeight)
+{
+	Handle(::Graphic3d_Camera) h_theCamera = theCamera->NativeInstance;
+	return ((::Graphic3d_TransformPersScaledAbove*)_NativeInstance)->persistentScale(h_theCamera, theViewportWidth, theViewportHeight);
+	theCamera->NativeInstance = h_theCamera.get();
+}
+
+
+Macad::Occt::Graphic3d_TransformPersScaledAbove^ Macad::Occt::Graphic3d_TransformPersScaledAbove::CreateDowncasted(::Graphic3d_TransformPersScaledAbove* instance)
+{
+	return gcnew Macad::Occt::Graphic3d_TransformPersScaledAbove( instance );
 }
 
 

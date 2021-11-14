@@ -68,16 +68,16 @@ public:
 
 
 	//! Draw hilighted owner presentation
-	Standard_EXPORT void HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager3d)& PM, const Handle(Prs3d_Drawer) &theStyle, const Handle(SelectMgr_EntityOwner)& Owner) override;
+	Standard_EXPORT void HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& PM, const Handle(Prs3d_Drawer) &theStyle, const Handle(SelectMgr_EntityOwner)& Owner) override;
 
-	Standard_EXPORT void HilightSelected(const Handle(PrsMgr_PresentationManager3d)& PM, const SelectMgr_SequenceOfOwner& Owners) override;
+	Standard_EXPORT void HilightSelected(const Handle(PrsMgr_PresentationManager)& PM, const SelectMgr_SequenceOfOwner& Owners) override;
 
 	
 	DEFINE_STANDARD_RTTIEXT(AIS_AxisEx, AIS_InteractiveObject)
 
 private:
 
-	Standard_EXPORT   void Compute(const Handle(PrsMgr_PresentationManager3d)& aPresentationManager, const Handle(Prs3d_Presentation)& aPresentation, const Standard_Integer aMode = 0) override;
+	Standard_EXPORT   void Compute(const Handle(PrsMgr_PresentationManager)& aPresentationManager, const Handle(Prs3d_Presentation)& aPresentation, const Standard_Integer aMode = 0) override;
 
 	Standard_EXPORT   void ComputeSelection(const Handle(SelectMgr_Selection)& aSelection, const Standard_Integer aMode) override;
 

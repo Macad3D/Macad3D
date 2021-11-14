@@ -30,13 +30,14 @@ public enum class Message_MetricType
 	Message_MetricType_ThreadCPUSystemTime = 2,
 	Message_MetricType_ProcessCPUUserTime = 3,
 	Message_MetricType_ProcessCPUSystemTime = 4,
-	Message_MetricType_MemPrivate = 5,
-	Message_MetricType_MemVirtual = 6,
-	Message_MetricType_MemWorkingSet = 7,
-	Message_MetricType_MemWorkingSetPeak = 8,
-	Message_MetricType_MemSwapUsage = 9,
-	Message_MetricType_MemSwapUsagePeak = 10,
-	Message_MetricType_MemHeapUsage = 11
+	Message_MetricType_WallClock = 5,
+	Message_MetricType_MemPrivate = 6,
+	Message_MetricType_MemVirtual = 7,
+	Message_MetricType_MemWorkingSet = 8,
+	Message_MetricType_MemWorkingSetPeak = 9,
+	Message_MetricType_MemSwapUsage = 10,
+	Message_MetricType_MemSwapUsagePeak = 11,
+	Message_MetricType_MemHeapUsage = 12
 }; // enum  class Message_MetricType
 
 //---------------------------------------------------------------------
@@ -1151,6 +1152,93 @@ public:
 }; // class Message_AttributeStream
 
 //---------------------------------------------------------------------
+//  Class  Message_ProgressRange
+//---------------------------------------------------------------------
+public ref class Message_ProgressRange sealed : public BaseClass<::Message_ProgressRange>
+{
+
+#ifdef Include_Message_ProgressRange_h
+public:
+	Include_Message_ProgressRange_h
+#endif
+
+public:
+	Message_ProgressRange(::Message_ProgressRange* nativeInstance)
+		: BaseClass<::Message_ProgressRange>( nativeInstance, true )
+	{}
+
+	Message_ProgressRange(::Message_ProgressRange& nativeInstance)
+		: BaseClass<::Message_ProgressRange>( &nativeInstance, false )
+	{}
+
+	property ::Message_ProgressRange* NativeInstance
+	{
+		::Message_ProgressRange* get()
+		{
+			return static_cast<::Message_ProgressRange*>(_NativeInstance);
+		}
+	}
+
+public:
+	Message_ProgressRange();
+	Message_ProgressRange(Macad::Occt::Message_ProgressRange^ theOther);
+	bool UserBreak();
+	bool More();
+	bool IsActive();
+	void Close();
+}; // class Message_ProgressRange
+
+//---------------------------------------------------------------------
+//  Class  Message_ProgressScope
+//---------------------------------------------------------------------
+public ref class Message_ProgressScope sealed : public BaseClass<::Message_ProgressScope>
+{
+
+#ifdef Include_Message_ProgressScope_h
+public:
+	Include_Message_ProgressScope_h
+#endif
+
+public:
+	Message_ProgressScope(::Message_ProgressScope* nativeInstance)
+		: BaseClass<::Message_ProgressScope>( nativeInstance, true )
+	{}
+
+	Message_ProgressScope(::Message_ProgressScope& nativeInstance)
+		: BaseClass<::Message_ProgressScope>( &nativeInstance, false )
+	{}
+
+	property ::Message_ProgressScope* NativeInstance
+	{
+		::Message_ProgressScope* get()
+		{
+			return static_cast<::Message_ProgressScope*>(_NativeInstance);
+		}
+	}
+
+public:
+	Message_ProgressScope();
+	Message_ProgressScope(Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::TCollection_AsciiString^ theName, double theMax, bool isInfinite);
+	Message_ProgressScope(Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::TCollection_AsciiString^ theName, double theMax);
+	/* Method skipped due to unknown mapping: void Message_ProgressScope(Message_ProgressRange theRange, NullString theName, Standard_Real theMax, Standard_Boolean isInfinite, ) */
+	/* Method skipped due to unknown mapping: void Message_ProgressScope(Message_ProgressRange theRange, NullString theName, Standard_Real theMax, Standard_Boolean isInfinite, ) */
+	void SetName(Macad::Occt::TCollection_AsciiString^ theName);
+	bool UserBreak();
+	bool More();
+	Macad::Occt::Message_ProgressRange^ Next(double theStep);
+	Macad::Occt::Message_ProgressRange^ Next();
+	void Show();
+	bool IsActive();
+	System::String^ Name();
+	Macad::Occt::Message_ProgressScope^ Parent();
+	double MaxValue();
+	double Value();
+	bool IsInfinite();
+	double GetPortion();
+	void Close();
+}; // class Message_ProgressScope
+
+//---------------------------------------------------------------------
 //  Class  Message_Level
 //---------------------------------------------------------------------
 public ref class Message_Level sealed : public BaseClass<::Message_Level>
@@ -1346,93 +1434,6 @@ public:
 	/* Method skipped due to unknown mapping: void SendStringStream(stringstream theStream, Message_Gravity theGravity, ) */
 	void SendObject(Macad::Occt::Standard_Transient^ theObject, Macad::Occt::Message_Gravity theGravity);
 }; // class Message_PrinterToReport
-
-//---------------------------------------------------------------------
-//  Class  Message_ProgressRange
-//---------------------------------------------------------------------
-public ref class Message_ProgressRange sealed : public BaseClass<::Message_ProgressRange>
-{
-
-#ifdef Include_Message_ProgressRange_h
-public:
-	Include_Message_ProgressRange_h
-#endif
-
-public:
-	Message_ProgressRange(::Message_ProgressRange* nativeInstance)
-		: BaseClass<::Message_ProgressRange>( nativeInstance, true )
-	{}
-
-	Message_ProgressRange(::Message_ProgressRange& nativeInstance)
-		: BaseClass<::Message_ProgressRange>( &nativeInstance, false )
-	{}
-
-	property ::Message_ProgressRange* NativeInstance
-	{
-		::Message_ProgressRange* get()
-		{
-			return static_cast<::Message_ProgressRange*>(_NativeInstance);
-		}
-	}
-
-public:
-	Message_ProgressRange();
-	Message_ProgressRange(Macad::Occt::Message_ProgressRange^ theOther);
-	bool UserBreak();
-	bool More();
-	bool IsActive();
-	void Close();
-}; // class Message_ProgressRange
-
-//---------------------------------------------------------------------
-//  Class  Message_ProgressScope
-//---------------------------------------------------------------------
-public ref class Message_ProgressScope sealed : public BaseClass<::Message_ProgressScope>
-{
-
-#ifdef Include_Message_ProgressScope_h
-public:
-	Include_Message_ProgressScope_h
-#endif
-
-public:
-	Message_ProgressScope(::Message_ProgressScope* nativeInstance)
-		: BaseClass<::Message_ProgressScope>( nativeInstance, true )
-	{}
-
-	Message_ProgressScope(::Message_ProgressScope& nativeInstance)
-		: BaseClass<::Message_ProgressScope>( &nativeInstance, false )
-	{}
-
-	property ::Message_ProgressScope* NativeInstance
-	{
-		::Message_ProgressScope* get()
-		{
-			return static_cast<::Message_ProgressScope*>(_NativeInstance);
-		}
-	}
-
-public:
-	Message_ProgressScope();
-	Message_ProgressScope(Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::TCollection_AsciiString^ theName, double theMax, bool isInfinite);
-	Message_ProgressScope(Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::TCollection_AsciiString^ theName, double theMax);
-	/* Method skipped due to unknown mapping: void Message_ProgressScope(Message_ProgressRange theRange, NullString theName, Standard_Real theMax, Standard_Boolean isInfinite, ) */
-	/* Method skipped due to unknown mapping: void Message_ProgressScope(Message_ProgressRange theRange, NullString theName, Standard_Real theMax, Standard_Boolean isInfinite, ) */
-	void SetName(Macad::Occt::TCollection_AsciiString^ theName);
-	bool UserBreak();
-	bool More();
-	Macad::Occt::Message_ProgressRange^ Next(double theStep);
-	Macad::Occt::Message_ProgressRange^ Next();
-	void Show();
-	bool IsActive();
-	System::String^ Name();
-	Macad::Occt::Message_ProgressScope^ Parent();
-	double MaxValue();
-	double Value();
-	bool IsInfinite();
-	double GetPortion();
-	void Close();
-}; // class Message_ProgressScope
 
 }; // namespace Occt
 }; // namespace Macad

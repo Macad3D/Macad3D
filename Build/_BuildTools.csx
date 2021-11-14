@@ -7,7 +7,7 @@ using System.Linq;
 
 public class VisualStudio
 {
-    public const string DotNetRelease = "5.0";
+    public const string DotNetRelease = "6.0";
     public const string DotNetRuntime = "Microsoft.WindowsDesktop.App";
 
     public bool IsReady
@@ -236,7 +236,7 @@ public class VisualStudio
         }
 
         var exePath = @"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe";
-        var commandLine = "-prerelease -version 16.0 -latest -property installationPath -requires " + string.Join(" ", _RequiredComponents);
+        var commandLine = "-prerelease -version 17.0 -latest -property installationPath -requires " + string.Join(" ", _RequiredComponents);
         var vswhereOutput = new List<string>();
 
         if (Common.Run(exePath, commandLine, output: vswhereOutput) != 0)
@@ -258,7 +258,7 @@ public class VisualStudio
             return true;
         }
 
-        Printer.Error("Required installation of VisualStudio 2019 not found.");
+        Printer.Error("Required installation of VisualStudio 2022 not found.");
         Printer.Line("Please ensure that the following components are installed:");
         foreach (var component in _RequiredComponents)
         {

@@ -147,9 +147,12 @@ public:
 	void MakeFace(Macad::Occt::TopoDS_Face^ F);
 	void MakeFace(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Geom_Surface^ S, double Tol);
 	void MakeFace(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopLoc_Location^ L, double Tol);
-	/* Method skipped due to unknown mapping: void MakeFace(TopoDS_Face F, Poly_Triangulation T, ) */
+	/* Method skipped due to unknown mapping: void MakeFace(TopoDS_Face theFace, Poly_Triangulation theTriangulation, ) */
+	/* Method skipped due to unknown mapping: void MakeFace(TopoDS_Face theFace, Poly_ListOfTriangulation theTriangulations, Poly_Triangulation theActiveTriangulation, ) */
+	/* Method skipped due to unknown mapping: void MakeFace(TopoDS_Face theFace, Poly_ListOfTriangulation theTriangulations, Poly_Triangulation theActiveTriangulation, ) */
 	void UpdateFace(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopLoc_Location^ L, double Tol);
-	/* Method skipped due to unknown mapping: void UpdateFace(TopoDS_Face F, Poly_Triangulation T, ) */
+	/* Method skipped due to unknown mapping: void UpdateFace(TopoDS_Face theFace, Poly_Triangulation theTriangulation, Standard_Boolean theToReset, ) */
+	/* Method skipped due to unknown mapping: void UpdateFace(TopoDS_Face theFace, Poly_Triangulation theTriangulation, Standard_Boolean theToReset, ) */
 	void UpdateFace(Macad::Occt::TopoDS_Face^ F, double Tol);
 	void NaturalRestriction(Macad::Occt::TopoDS_Face^ F, bool N);
 	void MakeEdge(Macad::Occt::TopoDS_Edge^ E);
@@ -232,18 +235,24 @@ public:
 	BRep_TFace();
 	BRep_TFace(Macad::Occt::BRep_TFace^ parameter1);
 	Macad::Occt::Geom_Surface^ Surface();
-	/* Method skipped due to unknown mapping: Poly_Triangulation Triangulation() */
+	void Surface(Macad::Occt::Geom_Surface^ theSurface);
 	Macad::Occt::TopLoc_Location^ Location();
+	void Location(Macad::Occt::TopLoc_Location^ theLocation);
 	double Tolerance();
-	void Surface(Macad::Occt::Geom_Surface^ S);
-	/* Method skipped due to unknown mapping: void Triangulation(Poly_Triangulation T, ) */
-	void Location(Macad::Occt::TopLoc_Location^ L);
-	void Tolerance(double T);
+	void Tolerance(double theTolerance);
 	bool NaturalRestriction();
-	void NaturalRestriction(bool N);
+	void NaturalRestriction(bool theRestriction);
+	/* Method skipped due to unknown mapping: Poly_Triangulation Triangulation(unsigned int thePurpose, ) */
+	/* Method skipped due to unknown mapping: Poly_Triangulation Triangulation(unsigned int thePurpose, ) */
+	/* Method skipped due to unknown mapping: void Triangulation(Poly_Triangulation theTriangulation, Standard_Boolean theToReset, ) */
+	/* Method skipped due to unknown mapping: void Triangulation(Poly_Triangulation theTriangulation, Standard_Boolean theToReset, ) */
 	Macad::Occt::TopoDS_TShape^ EmptyCopy();
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/* Method skipped due to unknown mapping: Poly_ListOfTriangulation Triangulations() */
+	/* Method skipped due to unknown mapping: void Triangulations(Poly_ListOfTriangulation theTriangulations, Poly_Triangulation theActiveTriangulation, ) */
+	int NbTriangulations();
+	/* Method skipped due to unknown mapping: Poly_Triangulation ActiveTriangulation() */
 }; // class BRep_TFace
 
 //---------------------------------------------------------------------
@@ -384,7 +393,9 @@ public:
 	static bool IsClosed(Macad::Occt::TopoDS_Shape^ S);
 	static Macad::Occt::Geom_Surface^ Surface(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopLoc_Location^ L);
 	static Macad::Occt::Geom_Surface^ Surface(Macad::Occt::TopoDS_Face^ F);
-	/* Method skipped due to unknown mapping: Poly_Triangulation Triangulation(TopoDS_Face F, TopLoc_Location L, ) */
+	/* Method skipped due to unknown mapping: Poly_Triangulation Triangulation(TopoDS_Face theFace, TopLoc_Location theLocation, unsigned int theMeshPurpose, ) */
+	/* Method skipped due to unknown mapping: Poly_Triangulation Triangulation(TopoDS_Face theFace, TopLoc_Location theLocation, unsigned int theMeshPurpose, ) */
+	/* Method skipped due to unknown mapping: Poly_ListOfTriangulation Triangulations(TopoDS_Face theFace, TopLoc_Location theLocation, ) */
 	static double Tolerance(Macad::Occt::TopoDS_Face^ F);
 	static bool NaturalRestriction(Macad::Occt::TopoDS_Face^ F);
 	static bool IsGeometric(Macad::Occt::TopoDS_Face^ F);

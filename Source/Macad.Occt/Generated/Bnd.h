@@ -401,6 +401,8 @@ public:
 	void Add(Macad::Occt::Pnt2d thePnt, Macad::Occt::Dir2d theDir);
 	void Add(Macad::Occt::Dir2d D);
 	bool IsOut(Macad::Occt::Pnt2d P);
+	bool IsOut(Macad::Occt::gp_Lin2d^ theL);
+	bool IsOut(Macad::Occt::Pnt2d theP0, Macad::Occt::Pnt2d theP1);
 	bool IsOut(Macad::Occt::Bnd_Box2d^ Other);
 	bool IsOut(Macad::Occt::Bnd_Box2d^ theOther, Macad::Occt::Trsf2d theTrsf);
 	bool IsOut(Macad::Occt::Trsf2d T1, Macad::Occt::Bnd_Box2d^ Other, Macad::Occt::Trsf2d T2);

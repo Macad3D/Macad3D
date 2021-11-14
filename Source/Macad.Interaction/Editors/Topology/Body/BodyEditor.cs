@@ -126,9 +126,9 @@ namespace Macad.Interaction.Editors.Topology
         }
 
         //--------------------------------------------------------------------------------------------------
-                        
-        [ModuleInitializer]
-        public static void Register()
+
+        [AutoRegister]
+        internal static void Register()
         {
             RegisterEditor<BodyEditor>();
         }

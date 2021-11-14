@@ -10,9 +10,11 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "Standard.h"
 #include "TopoDS.h"
 #include "Geom.h"
+#include "Message.h"
 #include "TopTools.h"
 #include "GeomAbs.h"
 #include "TopAbs.h"
+#include "TColStd.h"
 #include "TCollection.h"
 #include "TopLoc.h"
 #include "gp.h"
@@ -421,9 +423,14 @@ Macad::Occt::BRepOffset_Analyse::BRepOffset_Analyse(Macad::Occt::BRepOffset_Anal
 	_NativeInstance = new ::BRepOffset_Analyse(*(::BRepOffset_Analyse*)parameter1->NativeInstance);
 }
 
+void Macad::Occt::BRepOffset_Analyse::Perform(Macad::Occt::TopoDS_Shape^ theS, double theAngle, Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffset_Analyse*)_NativeInstance)->Perform(*(::TopoDS_Shape*)theS->NativeInstance, theAngle, *(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepOffset_Analyse::Perform(Macad::Occt::TopoDS_Shape^ theS, double theAngle)
 {
-	((::BRepOffset_Analyse*)_NativeInstance)->Perform(*(::TopoDS_Shape*)theS->NativeInstance, theAngle);
+	((::BRepOffset_Analyse*)_NativeInstance)->Perform(*(::TopoDS_Shape*)theS->NativeInstance, theAngle, ::Message_ProgressRange());
 }
 
 bool Macad::Occt::BRepOffset_Analyse::IsDone()
@@ -795,29 +802,24 @@ Macad::Occt::BRepOffset_Inter3d::BRepOffset_Inter3d(Macad::Occt::BRepOffset_Inte
 	_NativeInstance = new ::BRepOffset_Inter3d(*(::BRepOffset_Inter3d*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::BRepOffset_Inter3d::ConnexIntByInt(Macad::Occt::TopoDS_Shape^ SI, Macad::Occt::BRepOffset_DataMapOfShapeOffset^ MapSF, Macad::Occt::BRepOffset_Analyse^ A, Macad::Occt::TopTools_DataMapOfShapeShape^ MES, Macad::Occt::TopTools_DataMapOfShapeShape^ Build, Macad::Occt::TopTools_ListOfShape^ Failed, bool bIsPlanar)
+void Macad::Occt::BRepOffset_Inter3d::ConnexIntByInt(Macad::Occt::TopoDS_Shape^ SI, Macad::Occt::BRepOffset_DataMapOfShapeOffset^ MapSF, Macad::Occt::BRepOffset_Analyse^ A, Macad::Occt::TopTools_DataMapOfShapeShape^ MES, Macad::Occt::TopTools_DataMapOfShapeShape^ Build, Macad::Occt::TopTools_ListOfShape^ Failed, Macad::Occt::Message_ProgressRange^ theRange, bool bIsPlanar)
 {
-	((::BRepOffset_Inter3d*)_NativeInstance)->ConnexIntByInt(*(::TopoDS_Shape*)SI->NativeInstance, *(::BRepOffset_DataMapOfShapeOffset*)MapSF->NativeInstance, *(::BRepOffset_Analyse*)A->NativeInstance, *(::TopTools_DataMapOfShapeShape*)MES->NativeInstance, *(::TopTools_DataMapOfShapeShape*)Build->NativeInstance, *(::TopTools_ListOfShape*)Failed->NativeInstance, bIsPlanar);
+	((::BRepOffset_Inter3d*)_NativeInstance)->ConnexIntByInt(*(::TopoDS_Shape*)SI->NativeInstance, *(::BRepOffset_DataMapOfShapeOffset*)MapSF->NativeInstance, *(::BRepOffset_Analyse*)A->NativeInstance, *(::TopTools_DataMapOfShapeShape*)MES->NativeInstance, *(::TopTools_DataMapOfShapeShape*)Build->NativeInstance, *(::TopTools_ListOfShape*)Failed->NativeInstance, *(::Message_ProgressRange*)theRange->NativeInstance, bIsPlanar);
 }
 
-void Macad::Occt::BRepOffset_Inter3d::ConnexIntByInt(Macad::Occt::TopoDS_Shape^ SI, Macad::Occt::BRepOffset_DataMapOfShapeOffset^ MapSF, Macad::Occt::BRepOffset_Analyse^ A, Macad::Occt::TopTools_DataMapOfShapeShape^ MES, Macad::Occt::TopTools_DataMapOfShapeShape^ Build, Macad::Occt::TopTools_ListOfShape^ Failed)
+void Macad::Occt::BRepOffset_Inter3d::ConnexIntByInt(Macad::Occt::TopoDS_Shape^ SI, Macad::Occt::BRepOffset_DataMapOfShapeOffset^ MapSF, Macad::Occt::BRepOffset_Analyse^ A, Macad::Occt::TopTools_DataMapOfShapeShape^ MES, Macad::Occt::TopTools_DataMapOfShapeShape^ Build, Macad::Occt::TopTools_ListOfShape^ Failed, Macad::Occt::Message_ProgressRange^ theRange)
 {
-	((::BRepOffset_Inter3d*)_NativeInstance)->ConnexIntByInt(*(::TopoDS_Shape*)SI->NativeInstance, *(::BRepOffset_DataMapOfShapeOffset*)MapSF->NativeInstance, *(::BRepOffset_Analyse*)A->NativeInstance, *(::TopTools_DataMapOfShapeShape*)MES->NativeInstance, *(::TopTools_DataMapOfShapeShape*)Build->NativeInstance, *(::TopTools_ListOfShape*)Failed->NativeInstance, false);
+	((::BRepOffset_Inter3d*)_NativeInstance)->ConnexIntByInt(*(::TopoDS_Shape*)SI->NativeInstance, *(::BRepOffset_DataMapOfShapeOffset*)MapSF->NativeInstance, *(::BRepOffset_Analyse*)A->NativeInstance, *(::TopTools_DataMapOfShapeShape*)MES->NativeInstance, *(::TopTools_DataMapOfShapeShape*)Build->NativeInstance, *(::TopTools_ListOfShape*)Failed->NativeInstance, *(::Message_ProgressRange*)theRange->NativeInstance, false);
 }
 
-void Macad::Occt::BRepOffset_Inter3d::ContextIntByInt(Macad::Occt::TopTools_IndexedMapOfShape^ ContextFaces, bool ExtentContext, Macad::Occt::BRepOffset_DataMapOfShapeOffset^ MapSF, Macad::Occt::BRepOffset_Analyse^ A, Macad::Occt::TopTools_DataMapOfShapeShape^ MES, Macad::Occt::TopTools_DataMapOfShapeShape^ Build, Macad::Occt::TopTools_ListOfShape^ Failed, bool bIsPlanar)
+void Macad::Occt::BRepOffset_Inter3d::ContextIntByInt(Macad::Occt::TopTools_IndexedMapOfShape^ ContextFaces, bool ExtentContext, Macad::Occt::BRepOffset_DataMapOfShapeOffset^ MapSF, Macad::Occt::BRepOffset_Analyse^ A, Macad::Occt::TopTools_DataMapOfShapeShape^ MES, Macad::Occt::TopTools_DataMapOfShapeShape^ Build, Macad::Occt::TopTools_ListOfShape^ Failed, Macad::Occt::Message_ProgressRange^ theRange, bool bIsPlanar)
 {
-	((::BRepOffset_Inter3d*)_NativeInstance)->ContextIntByInt(*(::TopTools_IndexedMapOfShape*)ContextFaces->NativeInstance, ExtentContext, *(::BRepOffset_DataMapOfShapeOffset*)MapSF->NativeInstance, *(::BRepOffset_Analyse*)A->NativeInstance, *(::TopTools_DataMapOfShapeShape*)MES->NativeInstance, *(::TopTools_DataMapOfShapeShape*)Build->NativeInstance, *(::TopTools_ListOfShape*)Failed->NativeInstance, bIsPlanar);
+	((::BRepOffset_Inter3d*)_NativeInstance)->ContextIntByInt(*(::TopTools_IndexedMapOfShape*)ContextFaces->NativeInstance, ExtentContext, *(::BRepOffset_DataMapOfShapeOffset*)MapSF->NativeInstance, *(::BRepOffset_Analyse*)A->NativeInstance, *(::TopTools_DataMapOfShapeShape*)MES->NativeInstance, *(::TopTools_DataMapOfShapeShape*)Build->NativeInstance, *(::TopTools_ListOfShape*)Failed->NativeInstance, *(::Message_ProgressRange*)theRange->NativeInstance, bIsPlanar);
 }
 
-void Macad::Occt::BRepOffset_Inter3d::ContextIntByInt(Macad::Occt::TopTools_IndexedMapOfShape^ ContextFaces, bool ExtentContext, Macad::Occt::BRepOffset_DataMapOfShapeOffset^ MapSF, Macad::Occt::BRepOffset_Analyse^ A, Macad::Occt::TopTools_DataMapOfShapeShape^ MES, Macad::Occt::TopTools_DataMapOfShapeShape^ Build, Macad::Occt::TopTools_ListOfShape^ Failed)
+void Macad::Occt::BRepOffset_Inter3d::ContextIntByInt(Macad::Occt::TopTools_IndexedMapOfShape^ ContextFaces, bool ExtentContext, Macad::Occt::BRepOffset_DataMapOfShapeOffset^ MapSF, Macad::Occt::BRepOffset_Analyse^ A, Macad::Occt::TopTools_DataMapOfShapeShape^ MES, Macad::Occt::TopTools_DataMapOfShapeShape^ Build, Macad::Occt::TopTools_ListOfShape^ Failed, Macad::Occt::Message_ProgressRange^ theRange)
 {
-	((::BRepOffset_Inter3d*)_NativeInstance)->ContextIntByInt(*(::TopTools_IndexedMapOfShape*)ContextFaces->NativeInstance, ExtentContext, *(::BRepOffset_DataMapOfShapeOffset*)MapSF->NativeInstance, *(::BRepOffset_Analyse*)A->NativeInstance, *(::TopTools_DataMapOfShapeShape*)MES->NativeInstance, *(::TopTools_DataMapOfShapeShape*)Build->NativeInstance, *(::TopTools_ListOfShape*)Failed->NativeInstance, false);
-}
-
-void Macad::Occt::BRepOffset_Inter3d::AddCommonEdges(Macad::Occt::TopTools_ListOfShape^ SetOfFaces)
-{
-	((::BRepOffset_Inter3d*)_NativeInstance)->AddCommonEdges(*(::TopTools_ListOfShape*)SetOfFaces->NativeInstance);
+	((::BRepOffset_Inter3d*)_NativeInstance)->ContextIntByInt(*(::TopTools_IndexedMapOfShape*)ContextFaces->NativeInstance, ExtentContext, *(::BRepOffset_DataMapOfShapeOffset*)MapSF->NativeInstance, *(::BRepOffset_Analyse*)A->NativeInstance, *(::TopTools_DataMapOfShapeShape*)MES->NativeInstance, *(::TopTools_DataMapOfShapeShape*)Build->NativeInstance, *(::TopTools_ListOfShape*)Failed->NativeInstance, *(::Message_ProgressRange*)theRange->NativeInstance, false);
 }
 
 void Macad::Occt::BRepOffset_Inter3d::SetDone(Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2)
@@ -876,46 +878,52 @@ Macad::Occt::BRepOffset_MakeOffset::BRepOffset_MakeOffset()
 	_NativeInstance = new ::BRepOffset_MakeOffset();
 }
 
+Macad::Occt::BRepOffset_MakeOffset::BRepOffset_MakeOffset(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join, bool Thickening, bool RemoveIntEdges, Macad::Occt::Message_ProgressRange^ theRange)
+	: BaseClass<::BRepOffset_MakeOffset>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, Thickening, RemoveIntEdges, *(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 Macad::Occt::BRepOffset_MakeOffset::BRepOffset_MakeOffset(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join, bool Thickening, bool RemoveIntEdges)
 	: BaseClass<::BRepOffset_MakeOffset>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, Thickening, RemoveIntEdges);
+	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, Thickening, RemoveIntEdges, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepOffset_MakeOffset::BRepOffset_MakeOffset(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join, bool Thickening)
 	: BaseClass<::BRepOffset_MakeOffset>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, Thickening, false);
+	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, Thickening, false, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepOffset_MakeOffset::BRepOffset_MakeOffset(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join)
 	: BaseClass<::BRepOffset_MakeOffset>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, false, false);
+	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, false, false, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepOffset_MakeOffset::BRepOffset_MakeOffset(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter)
 	: BaseClass<::BRepOffset_MakeOffset>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, GeomAbs_Arc, false, false);
+	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, GeomAbs_Arc, false, false, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepOffset_MakeOffset::BRepOffset_MakeOffset(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection)
 	: BaseClass<::BRepOffset_MakeOffset>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, false, GeomAbs_Arc, false, false);
+	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, false, GeomAbs_Arc, false, false, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepOffset_MakeOffset::BRepOffset_MakeOffset(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode)
 	: BaseClass<::BRepOffset_MakeOffset>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, false, false, GeomAbs_Arc, false, false);
+	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, false, false, GeomAbs_Arc, false, false, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepOffset_MakeOffset::BRepOffset_MakeOffset(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol)
 	: BaseClass<::BRepOffset_MakeOffset>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, BRepOffset_Skin, false, false, GeomAbs_Arc, false, false);
+	_NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, BRepOffset_Skin, false, false, GeomAbs_Arc, false, false, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepOffset_MakeOffset::BRepOffset_MakeOffset(Macad::Occt::BRepOffset_MakeOffset^ parameter1)
@@ -979,14 +987,24 @@ void Macad::Occt::BRepOffset_MakeOffset::SetOffsetOnFace(Macad::Occt::TopoDS_Fac
 	((::BRepOffset_MakeOffset*)_NativeInstance)->SetOffsetOnFace(*(::TopoDS_Face*)F->NativeInstance, Off);
 }
 
+void Macad::Occt::BRepOffset_MakeOffset::MakeOffsetShape(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffset_MakeOffset*)_NativeInstance)->MakeOffsetShape(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepOffset_MakeOffset::MakeOffsetShape()
 {
-	((::BRepOffset_MakeOffset*)_NativeInstance)->MakeOffsetShape();
+	((::BRepOffset_MakeOffset*)_NativeInstance)->MakeOffsetShape(::Message_ProgressRange());
+}
+
+void Macad::Occt::BRepOffset_MakeOffset::MakeThickSolid(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffset_MakeOffset*)_NativeInstance)->MakeThickSolid(*(::Message_ProgressRange*)theRange->NativeInstance);
 }
 
 void Macad::Occt::BRepOffset_MakeOffset::MakeThickSolid()
 {
-	((::BRepOffset_MakeOffset*)_NativeInstance)->MakeThickSolid();
+	((::BRepOffset_MakeOffset*)_NativeInstance)->MakeThickSolid(::Message_ProgressRange());
 }
 
 Macad::Occt::BRepOffset_Analyse^ Macad::Occt::BRepOffset_MakeOffset::GetAnalyse()
@@ -1030,9 +1048,9 @@ Macad::Occt::TopTools_IndexedMapOfShape^ Macad::Occt::BRepOffset_MakeOffset::Clo
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopTools_IndexedMapOfShape(_result);
 }
 
-bool Macad::Occt::BRepOffset_MakeOffset::CheckInputData()
+bool Macad::Occt::BRepOffset_MakeOffset::CheckInputData(Macad::Occt::Message_ProgressRange^ theRange)
 {
-	return ((::BRepOffset_MakeOffset*)_NativeInstance)->CheckInputData();
+	return ((::BRepOffset_MakeOffset*)_NativeInstance)->CheckInputData(*(::Message_ProgressRange*)theRange->NativeInstance);
 }
 
 Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepOffset_MakeOffset::GetBadShape()
@@ -1268,14 +1286,9 @@ bool Macad::Occt::BRepOffset_Tool::FindCommonShapes(Macad::Occt::TopoDS_Shape^ t
 	return ::BRepOffset_Tool::FindCommonShapes(*(::TopoDS_Shape*)theS1->NativeInstance, *(::TopoDS_Shape*)theS2->NativeInstance, (::TopAbs_ShapeEnum)theType, *(::TopTools_ListOfShape*)theLSC->NativeInstance);
 }
 
-void Macad::Occt::BRepOffset_Tool::Inter3D(Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2, Macad::Occt::TopTools_ListOfShape^ LInt1, Macad::Occt::TopTools_ListOfShape^ LInt2, Macad::Occt::TopAbs_State Side, Macad::Occt::TopoDS_Edge^ RefEdge, bool IsRefEdgeDefined)
+void Macad::Occt::BRepOffset_Tool::Inter3D(Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2, Macad::Occt::TopTools_ListOfShape^ LInt1, Macad::Occt::TopTools_ListOfShape^ LInt2, Macad::Occt::TopAbs_State Side, Macad::Occt::TopoDS_Edge^ RefEdge, Macad::Occt::TopoDS_Face^ RefFace1, Macad::Occt::TopoDS_Face^ RefFace2)
 {
-	::BRepOffset_Tool::Inter3D(*(::TopoDS_Face*)F1->NativeInstance, *(::TopoDS_Face*)F2->NativeInstance, *(::TopTools_ListOfShape*)LInt1->NativeInstance, *(::TopTools_ListOfShape*)LInt2->NativeInstance, (::TopAbs_State)Side, *(::TopoDS_Edge*)RefEdge->NativeInstance, IsRefEdgeDefined);
-}
-
-void Macad::Occt::BRepOffset_Tool::Inter3D(Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2, Macad::Occt::TopTools_ListOfShape^ LInt1, Macad::Occt::TopTools_ListOfShape^ LInt2, Macad::Occt::TopAbs_State Side, Macad::Occt::TopoDS_Edge^ RefEdge)
-{
-	::BRepOffset_Tool::Inter3D(*(::TopoDS_Face*)F1->NativeInstance, *(::TopoDS_Face*)F2->NativeInstance, *(::TopTools_ListOfShape*)LInt1->NativeInstance, *(::TopTools_ListOfShape*)LInt2->NativeInstance, (::TopAbs_State)Side, *(::TopoDS_Edge*)RefEdge->NativeInstance, false);
+	::BRepOffset_Tool::Inter3D(*(::TopoDS_Face*)F1->NativeInstance, *(::TopoDS_Face*)F2->NativeInstance, *(::TopTools_ListOfShape*)LInt1->NativeInstance, *(::TopTools_ListOfShape*)LInt2->NativeInstance, (::TopAbs_State)Side, *(::TopoDS_Edge*)RefEdge->NativeInstance, *(::TopoDS_Face*)RefFace1->NativeInstance, *(::TopoDS_Face*)RefFace2->NativeInstance);
 }
 
 bool Macad::Occt::BRepOffset_Tool::TryProject(Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2, Macad::Occt::TopTools_ListOfShape^ Edges, Macad::Occt::TopTools_ListOfShape^ LInt1, Macad::Occt::TopTools_ListOfShape^ LInt2, Macad::Occt::TopAbs_State Side, double TolConf)

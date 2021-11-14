@@ -69,6 +69,133 @@ public enum class BRepLib_WireError
 }; // enum  class BRepLib_WireError
 
 //---------------------------------------------------------------------
+//  Class  BRepLib
+//---------------------------------------------------------------------
+public ref class BRepLib sealed : public BaseClass<::BRepLib>
+{
+
+#ifdef Include_BRepLib_h
+public:
+	Include_BRepLib_h
+#endif
+
+public:
+	BRepLib(::BRepLib* nativeInstance)
+		: BaseClass<::BRepLib>( nativeInstance, true )
+	{}
+
+	BRepLib(::BRepLib& nativeInstance)
+		: BaseClass<::BRepLib>( &nativeInstance, false )
+	{}
+
+	property ::BRepLib* NativeInstance
+	{
+		::BRepLib* get()
+		{
+			return static_cast<::BRepLib*>(_NativeInstance);
+		}
+	}
+
+public:
+	BRepLib();
+	BRepLib(Macad::Occt::BRepLib^ parameter1);
+	static void Precision(double P);
+	static double Precision();
+	static void Plane(Macad::Occt::Geom_Plane^ P);
+	static Macad::Occt::Geom_Plane^ Plane();
+	static bool CheckSameRange(Macad::Occt::TopoDS_Edge^ E, double Confusion);
+	static bool CheckSameRange(Macad::Occt::TopoDS_Edge^ E);
+	static void SameRange(Macad::Occt::TopoDS_Edge^ E, double Tolerance);
+	static void SameRange(Macad::Occt::TopoDS_Edge^ E);
+	static bool BuildCurve3d(Macad::Occt::TopoDS_Edge^ E, double Tolerance, Macad::Occt::GeomAbs_Shape Continuity, int MaxDegree, int MaxSegment);
+	static bool BuildCurve3d(Macad::Occt::TopoDS_Edge^ E, double Tolerance, Macad::Occt::GeomAbs_Shape Continuity, int MaxDegree);
+	static bool BuildCurve3d(Macad::Occt::TopoDS_Edge^ E, double Tolerance, Macad::Occt::GeomAbs_Shape Continuity);
+	static bool BuildCurve3d(Macad::Occt::TopoDS_Edge^ E, double Tolerance);
+	static bool BuildCurve3d(Macad::Occt::TopoDS_Edge^ E);
+	static bool BuildCurves3d(Macad::Occt::TopoDS_Shape^ S, double Tolerance, Macad::Occt::GeomAbs_Shape Continuity, int MaxDegree, int MaxSegment);
+	static bool BuildCurves3d(Macad::Occt::TopoDS_Shape^ S, double Tolerance, Macad::Occt::GeomAbs_Shape Continuity, int MaxDegree);
+	static bool BuildCurves3d(Macad::Occt::TopoDS_Shape^ S, double Tolerance, Macad::Occt::GeomAbs_Shape Continuity);
+	static bool BuildCurves3d(Macad::Occt::TopoDS_Shape^ S, double Tolerance);
+	static bool BuildCurves3d(Macad::Occt::TopoDS_Shape^ S);
+	static void BuildPCurveForEdgeOnPlane(Macad::Occt::TopoDS_Edge^ theE, Macad::Occt::TopoDS_Face^ theF);
+	static void BuildPCurveForEdgeOnPlane(Macad::Occt::TopoDS_Edge^ theE, Macad::Occt::TopoDS_Face^ theF, Macad::Occt::Geom2d_Curve^ aC2D, bool% bToUpdate);
+	static bool UpdateEdgeTol(Macad::Occt::TopoDS_Edge^ E, double MinToleranceRequest, double MaxToleranceToCheck);
+	static bool UpdateEdgeTolerance(Macad::Occt::TopoDS_Shape^ S, double MinToleranceRequest, double MaxToleranceToCheck);
+	static void SameParameter(Macad::Occt::TopoDS_Edge^ theEdge, double Tolerance);
+	static void SameParameter(Macad::Occt::TopoDS_Edge^ theEdge);
+	static Macad::Occt::TopoDS_Edge^ SameParameter(Macad::Occt::TopoDS_Edge^ theEdge, double theTolerance, double% theNewTol, bool IsUseOldEdge);
+	static void SameParameter(Macad::Occt::TopoDS_Shape^ S, double Tolerance, bool forced);
+	static void SameParameter(Macad::Occt::TopoDS_Shape^ S, double Tolerance);
+	static void SameParameter(Macad::Occt::TopoDS_Shape^ S);
+	static void SameParameter(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_ReShape^ theReshaper, double Tolerance, bool forced);
+	static void SameParameter(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_ReShape^ theReshaper, double Tolerance);
+	static void SameParameter(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_ReShape^ theReshaper);
+	static void UpdateTolerances(Macad::Occt::TopoDS_Shape^ S, bool verifyFaceTolerance);
+	static void UpdateTolerances(Macad::Occt::TopoDS_Shape^ S);
+	static void UpdateTolerances(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_ReShape^ theReshaper, bool verifyFaceTolerance);
+	static void UpdateTolerances(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_ReShape^ theReshaper);
+	static void UpdateInnerTolerances(Macad::Occt::TopoDS_Shape^ S);
+	static bool OrientClosedSolid(Macad::Occt::TopoDS_Solid^ solid);
+	static void EncodeRegularity(Macad::Occt::TopoDS_Shape^ S, double TolAng);
+	static void EncodeRegularity(Macad::Occt::TopoDS_Shape^ S);
+	static void EncodeRegularity(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ LE, double TolAng);
+	static void EncodeRegularity(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ LE);
+	static void EncodeRegularity(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2, double TolAng);
+	static void EncodeRegularity(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2);
+	static void SortFaces(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ LF);
+	static void ReverseSortFaces(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ LF);
+	static bool EnsureNormalConsistency(Macad::Occt::TopoDS_Shape^ S, double theAngTol, bool ForceComputeNormals);
+	static bool EnsureNormalConsistency(Macad::Occt::TopoDS_Shape^ S, double theAngTol);
+	static bool EnsureNormalConsistency(Macad::Occt::TopoDS_Shape^ S);
+	static void UpdateDeflection(Macad::Occt::TopoDS_Shape^ S);
+	/* Method skipped due to unknown mapping: void BoundingVertex(NCollection_List<TopoDS_Shape> theLV, gp_Pnt theNewCenter, Standard_Real theNewTol, ) */
+	static bool FindValidRange(Macad::Occt::Adaptor3d_Curve^ theCurve, double theTolE, double theParV1, Macad::Occt::Pnt thePntV1, double theTolV1, double theParV2, Macad::Occt::Pnt thePntV2, double theTolV2, double% theFirst, double% theLast);
+	static bool FindValidRange(Macad::Occt::TopoDS_Edge^ theEdge, double% theFirst, double% theLast);
+	static void ExtendFace(Macad::Occt::TopoDS_Face^ theF, double theExtVal, bool theExtUMin, bool theExtUMax, bool theExtVMin, bool theExtVMax, Macad::Occt::TopoDS_Face^ theFExtended);
+}; // class BRepLib
+
+//---------------------------------------------------------------------
+//  Class  BRepLib_CheckCurveOnSurface
+//---------------------------------------------------------------------
+public ref class BRepLib_CheckCurveOnSurface sealed : public BaseClass<::BRepLib_CheckCurveOnSurface>
+{
+
+#ifdef Include_BRepLib_CheckCurveOnSurface_h
+public:
+	Include_BRepLib_CheckCurveOnSurface_h
+#endif
+
+public:
+	BRepLib_CheckCurveOnSurface(::BRepLib_CheckCurveOnSurface* nativeInstance)
+		: BaseClass<::BRepLib_CheckCurveOnSurface>( nativeInstance, true )
+	{}
+
+	BRepLib_CheckCurveOnSurface(::BRepLib_CheckCurveOnSurface& nativeInstance)
+		: BaseClass<::BRepLib_CheckCurveOnSurface>( &nativeInstance, false )
+	{}
+
+	property ::BRepLib_CheckCurveOnSurface* NativeInstance
+	{
+		::BRepLib_CheckCurveOnSurface* get()
+		{
+			return static_cast<::BRepLib_CheckCurveOnSurface*>(_NativeInstance);
+		}
+	}
+
+public:
+	BRepLib_CheckCurveOnSurface();
+	BRepLib_CheckCurveOnSurface(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Face^ theFace);
+	BRepLib_CheckCurveOnSurface(Macad::Occt::BRepLib_CheckCurveOnSurface^ parameter1);
+	void Init(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Face^ theFace);
+	void Perform(bool isMultiThread);
+	void Perform();
+	bool IsDone();
+	int ErrorStatus();
+	double MaxDistance();
+	double MaxParameter();
+}; // class BRepLib_CheckCurveOnSurface
+
+//---------------------------------------------------------------------
 //  Class  BRepLib_Command
 //---------------------------------------------------------------------
 public ref class BRepLib_Command : public BaseClass<::BRepLib_Command>
@@ -106,6 +233,96 @@ public:
 	bool IsDone();
 	void Check();
 }; // class BRepLib_Command
+
+//---------------------------------------------------------------------
+//  Class  BRepLib_FindSurface
+//---------------------------------------------------------------------
+public ref class BRepLib_FindSurface sealed : public BaseClass<::BRepLib_FindSurface>
+{
+
+#ifdef Include_BRepLib_FindSurface_h
+public:
+	Include_BRepLib_FindSurface_h
+#endif
+
+public:
+	BRepLib_FindSurface(::BRepLib_FindSurface* nativeInstance)
+		: BaseClass<::BRepLib_FindSurface>( nativeInstance, true )
+	{}
+
+	BRepLib_FindSurface(::BRepLib_FindSurface& nativeInstance)
+		: BaseClass<::BRepLib_FindSurface>( &nativeInstance, false )
+	{}
+
+	property ::BRepLib_FindSurface* NativeInstance
+	{
+		::BRepLib_FindSurface* get()
+		{
+			return static_cast<::BRepLib_FindSurface*>(_NativeInstance);
+		}
+	}
+
+public:
+	BRepLib_FindSurface();
+	BRepLib_FindSurface(Macad::Occt::TopoDS_Shape^ S, double Tol, bool OnlyPlane, bool OnlyClosed);
+	BRepLib_FindSurface(Macad::Occt::TopoDS_Shape^ S, double Tol, bool OnlyPlane);
+	BRepLib_FindSurface(Macad::Occt::TopoDS_Shape^ S, double Tol);
+	BRepLib_FindSurface(Macad::Occt::TopoDS_Shape^ S);
+	BRepLib_FindSurface(Macad::Occt::BRepLib_FindSurface^ parameter1);
+	void Init(Macad::Occt::TopoDS_Shape^ S, double Tol, bool OnlyPlane, bool OnlyClosed);
+	void Init(Macad::Occt::TopoDS_Shape^ S, double Tol, bool OnlyPlane);
+	void Init(Macad::Occt::TopoDS_Shape^ S, double Tol);
+	void Init(Macad::Occt::TopoDS_Shape^ S);
+	bool Found();
+	Macad::Occt::Geom_Surface^ Surface();
+	double Tolerance();
+	double ToleranceReached();
+	bool Existed();
+	Macad::Occt::TopLoc_Location^ Location();
+}; // class BRepLib_FindSurface
+
+//---------------------------------------------------------------------
+//  Class  BRepLib_FuseEdges
+//---------------------------------------------------------------------
+public ref class BRepLib_FuseEdges sealed : public BaseClass<::BRepLib_FuseEdges>
+{
+
+#ifdef Include_BRepLib_FuseEdges_h
+public:
+	Include_BRepLib_FuseEdges_h
+#endif
+
+public:
+	BRepLib_FuseEdges(::BRepLib_FuseEdges* nativeInstance)
+		: BaseClass<::BRepLib_FuseEdges>( nativeInstance, true )
+	{}
+
+	BRepLib_FuseEdges(::BRepLib_FuseEdges& nativeInstance)
+		: BaseClass<::BRepLib_FuseEdges>( &nativeInstance, false )
+	{}
+
+	property ::BRepLib_FuseEdges* NativeInstance
+	{
+		::BRepLib_FuseEdges* get()
+		{
+			return static_cast<::BRepLib_FuseEdges*>(_NativeInstance);
+		}
+	}
+
+public:
+	BRepLib_FuseEdges(Macad::Occt::TopoDS_Shape^ theShape, bool PerformNow);
+	BRepLib_FuseEdges(Macad::Occt::TopoDS_Shape^ theShape);
+	BRepLib_FuseEdges(Macad::Occt::BRepLib_FuseEdges^ parameter1);
+	void AvoidEdges(Macad::Occt::TopTools_IndexedMapOfShape^ theMapEdg);
+	void SetConcatBSpl(bool theConcatBSpl);
+	void SetConcatBSpl();
+	void Edges(Macad::Occt::TopTools_DataMapOfIntegerListOfShape^ theMapLstEdg);
+	void ResultEdges(Macad::Occt::TopTools_DataMapOfIntegerShape^ theMapEdg);
+	void Faces(Macad::Occt::TopTools_DataMapOfShapeShape^ theMapFac);
+	Macad::Occt::TopoDS_Shape^ Shape();
+	int NbVertices();
+	void Perform();
+}; // class BRepLib_FuseEdges
 
 //---------------------------------------------------------------------
 //  Class  BRepLib_MakeShape
@@ -151,40 +368,6 @@ public:
 	Macad::Occt::TopTools_ListOfShape^ NewFaces(int I);
 	Macad::Occt::TopTools_ListOfShape^ FacesFromEdges(Macad::Occt::TopoDS_Edge^ E);
 }; // class BRepLib_MakeShape
-
-//---------------------------------------------------------------------
-//  Class  BRepLib_MakeVertex
-//---------------------------------------------------------------------
-public ref class BRepLib_MakeVertex sealed : public Macad::Occt::BRepLib_MakeShape
-{
-
-#ifdef Include_BRepLib_MakeVertex_h
-public:
-	Include_BRepLib_MakeVertex_h
-#endif
-
-public:
-	BRepLib_MakeVertex(::BRepLib_MakeVertex* nativeInstance)
-		: Macad::Occt::BRepLib_MakeShape( nativeInstance )
-	{}
-
-	BRepLib_MakeVertex(::BRepLib_MakeVertex& nativeInstance)
-		: Macad::Occt::BRepLib_MakeShape( nativeInstance )
-	{}
-
-	property ::BRepLib_MakeVertex* NativeInstance
-	{
-		::BRepLib_MakeVertex* get()
-		{
-			return static_cast<::BRepLib_MakeVertex*>(_NativeInstance);
-		}
-	}
-
-public:
-	BRepLib_MakeVertex(Macad::Occt::Pnt P);
-	BRepLib_MakeVertex(Macad::Occt::BRepLib_MakeVertex^ parameter1);
-	Macad::Occt::TopoDS_Vertex^ Vertex();
-}; // class BRepLib_MakeVertex
 
 //---------------------------------------------------------------------
 //  Class  BRepLib_MakeEdge
@@ -340,57 +523,6 @@ public:
 }; // class BRepLib_MakeEdge2d
 
 //---------------------------------------------------------------------
-//  Class  BRepLib_MakePolygon
-//---------------------------------------------------------------------
-public ref class BRepLib_MakePolygon sealed : public Macad::Occt::BRepLib_MakeShape
-{
-
-#ifdef Include_BRepLib_MakePolygon_h
-public:
-	Include_BRepLib_MakePolygon_h
-#endif
-
-public:
-	BRepLib_MakePolygon(::BRepLib_MakePolygon* nativeInstance)
-		: Macad::Occt::BRepLib_MakeShape( nativeInstance )
-	{}
-
-	BRepLib_MakePolygon(::BRepLib_MakePolygon& nativeInstance)
-		: Macad::Occt::BRepLib_MakeShape( nativeInstance )
-	{}
-
-	property ::BRepLib_MakePolygon* NativeInstance
-	{
-		::BRepLib_MakePolygon* get()
-		{
-			return static_cast<::BRepLib_MakePolygon*>(_NativeInstance);
-		}
-	}
-
-public:
-	BRepLib_MakePolygon();
-	BRepLib_MakePolygon(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2);
-	BRepLib_MakePolygon(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2, Macad::Occt::Pnt P3, bool Close);
-	BRepLib_MakePolygon(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2, Macad::Occt::Pnt P3);
-	BRepLib_MakePolygon(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2, Macad::Occt::Pnt P3, Macad::Occt::Pnt P4, bool Close);
-	BRepLib_MakePolygon(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2, Macad::Occt::Pnt P3, Macad::Occt::Pnt P4);
-	BRepLib_MakePolygon(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2);
-	BRepLib_MakePolygon(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, Macad::Occt::TopoDS_Vertex^ V3, bool Close);
-	BRepLib_MakePolygon(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, Macad::Occt::TopoDS_Vertex^ V3);
-	BRepLib_MakePolygon(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, Macad::Occt::TopoDS_Vertex^ V3, Macad::Occt::TopoDS_Vertex^ V4, bool Close);
-	BRepLib_MakePolygon(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, Macad::Occt::TopoDS_Vertex^ V3, Macad::Occt::TopoDS_Vertex^ V4);
-	BRepLib_MakePolygon(Macad::Occt::BRepLib_MakePolygon^ parameter1);
-	void Add(Macad::Occt::Pnt P);
-	void Add(Macad::Occt::TopoDS_Vertex^ V);
-	bool Added();
-	void Close();
-	Macad::Occt::TopoDS_Vertex^ FirstVertex();
-	Macad::Occt::TopoDS_Vertex^ LastVertex();
-	Macad::Occt::TopoDS_Edge^ Edge();
-	Macad::Occt::TopoDS_Wire^ Wire();
-}; // class BRepLib_MakePolygon
-
-//---------------------------------------------------------------------
 //  Class  BRepLib_MakeFace
 //---------------------------------------------------------------------
 public ref class BRepLib_MakeFace sealed : public Macad::Occt::BRepLib_MakeShape
@@ -459,50 +591,55 @@ public:
 }; // class BRepLib_MakeFace
 
 //---------------------------------------------------------------------
-//  Class  BRepLib_MakeWire
+//  Class  BRepLib_MakePolygon
 //---------------------------------------------------------------------
-public ref class BRepLib_MakeWire sealed : public Macad::Occt::BRepLib_MakeShape
+public ref class BRepLib_MakePolygon sealed : public Macad::Occt::BRepLib_MakeShape
 {
 
-#ifdef Include_BRepLib_MakeWire_h
+#ifdef Include_BRepLib_MakePolygon_h
 public:
-	Include_BRepLib_MakeWire_h
+	Include_BRepLib_MakePolygon_h
 #endif
 
 public:
-	BRepLib_MakeWire(::BRepLib_MakeWire* nativeInstance)
+	BRepLib_MakePolygon(::BRepLib_MakePolygon* nativeInstance)
 		: Macad::Occt::BRepLib_MakeShape( nativeInstance )
 	{}
 
-	BRepLib_MakeWire(::BRepLib_MakeWire& nativeInstance)
+	BRepLib_MakePolygon(::BRepLib_MakePolygon& nativeInstance)
 		: Macad::Occt::BRepLib_MakeShape( nativeInstance )
 	{}
 
-	property ::BRepLib_MakeWire* NativeInstance
+	property ::BRepLib_MakePolygon* NativeInstance
 	{
-		::BRepLib_MakeWire* get()
+		::BRepLib_MakePolygon* get()
 		{
-			return static_cast<::BRepLib_MakeWire*>(_NativeInstance);
+			return static_cast<::BRepLib_MakePolygon*>(_NativeInstance);
 		}
 	}
 
 public:
-	BRepLib_MakeWire();
-	BRepLib_MakeWire(Macad::Occt::TopoDS_Edge^ E);
-	BRepLib_MakeWire(Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2);
-	BRepLib_MakeWire(Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2, Macad::Occt::TopoDS_Edge^ E3);
-	BRepLib_MakeWire(Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2, Macad::Occt::TopoDS_Edge^ E3, Macad::Occt::TopoDS_Edge^ E4);
-	BRepLib_MakeWire(Macad::Occt::TopoDS_Wire^ W);
-	BRepLib_MakeWire(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Edge^ E);
-	BRepLib_MakeWire(Macad::Occt::BRepLib_MakeWire^ parameter1);
-	void Add(Macad::Occt::TopoDS_Edge^ E);
-	void Add(Macad::Occt::TopoDS_Wire^ W);
-	void Add(Macad::Occt::TopTools_ListOfShape^ L);
-	Macad::Occt::BRepLib_WireError Error();
-	Macad::Occt::TopoDS_Wire^ Wire();
+	BRepLib_MakePolygon();
+	BRepLib_MakePolygon(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2);
+	BRepLib_MakePolygon(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2, Macad::Occt::Pnt P3, bool Close);
+	BRepLib_MakePolygon(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2, Macad::Occt::Pnt P3);
+	BRepLib_MakePolygon(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2, Macad::Occt::Pnt P3, Macad::Occt::Pnt P4, bool Close);
+	BRepLib_MakePolygon(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2, Macad::Occt::Pnt P3, Macad::Occt::Pnt P4);
+	BRepLib_MakePolygon(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2);
+	BRepLib_MakePolygon(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, Macad::Occt::TopoDS_Vertex^ V3, bool Close);
+	BRepLib_MakePolygon(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, Macad::Occt::TopoDS_Vertex^ V3);
+	BRepLib_MakePolygon(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, Macad::Occt::TopoDS_Vertex^ V3, Macad::Occt::TopoDS_Vertex^ V4, bool Close);
+	BRepLib_MakePolygon(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, Macad::Occt::TopoDS_Vertex^ V3, Macad::Occt::TopoDS_Vertex^ V4);
+	BRepLib_MakePolygon(Macad::Occt::BRepLib_MakePolygon^ parameter1);
+	void Add(Macad::Occt::Pnt P);
+	void Add(Macad::Occt::TopoDS_Vertex^ V);
+	bool Added();
+	void Close();
+	Macad::Occt::TopoDS_Vertex^ FirstVertex();
+	Macad::Occt::TopoDS_Vertex^ LastVertex();
 	Macad::Occt::TopoDS_Edge^ Edge();
-	Macad::Occt::TopoDS_Vertex^ Vertex();
-}; // class BRepLib_MakeWire
+	Macad::Occt::TopoDS_Wire^ Wire();
+}; // class BRepLib_MakePolygon
 
 //---------------------------------------------------------------------
 //  Class  BRepLib_MakeShell
@@ -588,225 +725,124 @@ public:
 }; // class BRepLib_MakeSolid
 
 //---------------------------------------------------------------------
-//  Class  BRepLib_FindSurface
+//  Class  BRepLib_MakeVertex
 //---------------------------------------------------------------------
-public ref class BRepLib_FindSurface sealed : public BaseClass<::BRepLib_FindSurface>
+public ref class BRepLib_MakeVertex sealed : public Macad::Occt::BRepLib_MakeShape
 {
 
-#ifdef Include_BRepLib_FindSurface_h
+#ifdef Include_BRepLib_MakeVertex_h
 public:
-	Include_BRepLib_FindSurface_h
+	Include_BRepLib_MakeVertex_h
 #endif
 
 public:
-	BRepLib_FindSurface(::BRepLib_FindSurface* nativeInstance)
-		: BaseClass<::BRepLib_FindSurface>( nativeInstance, true )
+	BRepLib_MakeVertex(::BRepLib_MakeVertex* nativeInstance)
+		: Macad::Occt::BRepLib_MakeShape( nativeInstance )
 	{}
 
-	BRepLib_FindSurface(::BRepLib_FindSurface& nativeInstance)
-		: BaseClass<::BRepLib_FindSurface>( &nativeInstance, false )
+	BRepLib_MakeVertex(::BRepLib_MakeVertex& nativeInstance)
+		: Macad::Occt::BRepLib_MakeShape( nativeInstance )
 	{}
 
-	property ::BRepLib_FindSurface* NativeInstance
+	property ::BRepLib_MakeVertex* NativeInstance
 	{
-		::BRepLib_FindSurface* get()
+		::BRepLib_MakeVertex* get()
 		{
-			return static_cast<::BRepLib_FindSurface*>(_NativeInstance);
+			return static_cast<::BRepLib_MakeVertex*>(_NativeInstance);
 		}
 	}
 
 public:
-	BRepLib_FindSurface();
-	BRepLib_FindSurface(Macad::Occt::TopoDS_Shape^ S, double Tol, bool OnlyPlane, bool OnlyClosed);
-	BRepLib_FindSurface(Macad::Occt::TopoDS_Shape^ S, double Tol, bool OnlyPlane);
-	BRepLib_FindSurface(Macad::Occt::TopoDS_Shape^ S, double Tol);
-	BRepLib_FindSurface(Macad::Occt::TopoDS_Shape^ S);
-	BRepLib_FindSurface(Macad::Occt::BRepLib_FindSurface^ parameter1);
-	void Init(Macad::Occt::TopoDS_Shape^ S, double Tol, bool OnlyPlane, bool OnlyClosed);
-	void Init(Macad::Occt::TopoDS_Shape^ S, double Tol, bool OnlyPlane);
-	void Init(Macad::Occt::TopoDS_Shape^ S, double Tol);
-	void Init(Macad::Occt::TopoDS_Shape^ S);
-	bool Found();
-	Macad::Occt::Geom_Surface^ Surface();
-	double Tolerance();
-	double ToleranceReached();
-	bool Existed();
-	Macad::Occt::TopLoc_Location^ Location();
-}; // class BRepLib_FindSurface
+	BRepLib_MakeVertex(Macad::Occt::Pnt P);
+	BRepLib_MakeVertex(Macad::Occt::BRepLib_MakeVertex^ parameter1);
+	Macad::Occt::TopoDS_Vertex^ Vertex();
+}; // class BRepLib_MakeVertex
 
 //---------------------------------------------------------------------
-//  Class  BRepLib_FuseEdges
+//  Class  BRepLib_MakeWire
 //---------------------------------------------------------------------
-public ref class BRepLib_FuseEdges sealed : public BaseClass<::BRepLib_FuseEdges>
+public ref class BRepLib_MakeWire sealed : public Macad::Occt::BRepLib_MakeShape
 {
 
-#ifdef Include_BRepLib_FuseEdges_h
+#ifdef Include_BRepLib_MakeWire_h
 public:
-	Include_BRepLib_FuseEdges_h
+	Include_BRepLib_MakeWire_h
 #endif
 
 public:
-	BRepLib_FuseEdges(::BRepLib_FuseEdges* nativeInstance)
-		: BaseClass<::BRepLib_FuseEdges>( nativeInstance, true )
+	BRepLib_MakeWire(::BRepLib_MakeWire* nativeInstance)
+		: Macad::Occt::BRepLib_MakeShape( nativeInstance )
 	{}
 
-	BRepLib_FuseEdges(::BRepLib_FuseEdges& nativeInstance)
-		: BaseClass<::BRepLib_FuseEdges>( &nativeInstance, false )
+	BRepLib_MakeWire(::BRepLib_MakeWire& nativeInstance)
+		: Macad::Occt::BRepLib_MakeShape( nativeInstance )
 	{}
 
-	property ::BRepLib_FuseEdges* NativeInstance
+	property ::BRepLib_MakeWire* NativeInstance
 	{
-		::BRepLib_FuseEdges* get()
+		::BRepLib_MakeWire* get()
 		{
-			return static_cast<::BRepLib_FuseEdges*>(_NativeInstance);
+			return static_cast<::BRepLib_MakeWire*>(_NativeInstance);
 		}
 	}
 
 public:
-	BRepLib_FuseEdges(Macad::Occt::TopoDS_Shape^ theShape, bool PerformNow);
-	BRepLib_FuseEdges(Macad::Occt::TopoDS_Shape^ theShape);
-	BRepLib_FuseEdges(Macad::Occt::BRepLib_FuseEdges^ parameter1);
-	void AvoidEdges(Macad::Occt::TopTools_IndexedMapOfShape^ theMapEdg);
-	void SetConcatBSpl(bool theConcatBSpl);
-	void SetConcatBSpl();
-	void Edges(Macad::Occt::TopTools_DataMapOfIntegerListOfShape^ theMapLstEdg);
-	void ResultEdges(Macad::Occt::TopTools_DataMapOfIntegerShape^ theMapEdg);
-	void Faces(Macad::Occt::TopTools_DataMapOfShapeShape^ theMapFac);
-	Macad::Occt::TopoDS_Shape^ Shape();
-	int NbVertices();
-	void Perform();
-}; // class BRepLib_FuseEdges
+	BRepLib_MakeWire();
+	BRepLib_MakeWire(Macad::Occt::TopoDS_Edge^ E);
+	BRepLib_MakeWire(Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2);
+	BRepLib_MakeWire(Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2, Macad::Occt::TopoDS_Edge^ E3);
+	BRepLib_MakeWire(Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2, Macad::Occt::TopoDS_Edge^ E3, Macad::Occt::TopoDS_Edge^ E4);
+	BRepLib_MakeWire(Macad::Occt::TopoDS_Wire^ W);
+	BRepLib_MakeWire(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Edge^ E);
+	BRepLib_MakeWire(Macad::Occt::BRepLib_MakeWire^ parameter1);
+	void Add(Macad::Occt::TopoDS_Edge^ E);
+	void Add(Macad::Occt::TopoDS_Wire^ W);
+	void Add(Macad::Occt::TopTools_ListOfShape^ L);
+	Macad::Occt::BRepLib_WireError Error();
+	Macad::Occt::TopoDS_Wire^ Wire();
+	Macad::Occt::TopoDS_Edge^ Edge();
+	Macad::Occt::TopoDS_Vertex^ Vertex();
+}; // class BRepLib_MakeWire
 
 //---------------------------------------------------------------------
-//  Class  BRepLib_CheckCurveOnSurface
+//  Class  BRepLib_ValidateEdge
 //---------------------------------------------------------------------
-public ref class BRepLib_CheckCurveOnSurface sealed : public BaseClass<::BRepLib_CheckCurveOnSurface>
+public ref class BRepLib_ValidateEdge sealed : public BaseClass<::BRepLib_ValidateEdge>
 {
 
-#ifdef Include_BRepLib_CheckCurveOnSurface_h
+#ifdef Include_BRepLib_ValidateEdge_h
 public:
-	Include_BRepLib_CheckCurveOnSurface_h
+	Include_BRepLib_ValidateEdge_h
 #endif
 
 public:
-	BRepLib_CheckCurveOnSurface(::BRepLib_CheckCurveOnSurface* nativeInstance)
-		: BaseClass<::BRepLib_CheckCurveOnSurface>( nativeInstance, true )
+	BRepLib_ValidateEdge(::BRepLib_ValidateEdge* nativeInstance)
+		: BaseClass<::BRepLib_ValidateEdge>( nativeInstance, true )
 	{}
 
-	BRepLib_CheckCurveOnSurface(::BRepLib_CheckCurveOnSurface& nativeInstance)
-		: BaseClass<::BRepLib_CheckCurveOnSurface>( &nativeInstance, false )
+	BRepLib_ValidateEdge(::BRepLib_ValidateEdge& nativeInstance)
+		: BaseClass<::BRepLib_ValidateEdge>( &nativeInstance, false )
 	{}
 
-	property ::BRepLib_CheckCurveOnSurface* NativeInstance
+	property ::BRepLib_ValidateEdge* NativeInstance
 	{
-		::BRepLib_CheckCurveOnSurface* get()
+		::BRepLib_ValidateEdge* get()
 		{
-			return static_cast<::BRepLib_CheckCurveOnSurface*>(_NativeInstance);
+			return static_cast<::BRepLib_ValidateEdge*>(_NativeInstance);
 		}
 	}
 
 public:
-	BRepLib_CheckCurveOnSurface();
-	BRepLib_CheckCurveOnSurface(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Face^ theFace);
-	BRepLib_CheckCurveOnSurface(Macad::Occt::BRepLib_CheckCurveOnSurface^ parameter1);
-	void Init(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Face^ theFace);
-	void Perform(bool isTheMultyTheradDisabled);
-	void Perform();
-	Macad::Occt::Geom_Curve^ Curve();
-	Macad::Occt::Geom2d_Curve^ PCurve();
-	Macad::Occt::Geom2d_Curve^ PCurve2();
-	Macad::Occt::Geom_Surface^ Surface();
-	void Range(double% theFirst, double% theLast);
+	BRepLib_ValidateEdge(Macad::Occt::Adaptor3d_Curve^ theReferenceCurve, Macad::Occt::Adaptor3d_CurveOnSurface^ theOtherCurve, bool theSameParameter);
+	BRepLib_ValidateEdge(Macad::Occt::BRepLib_ValidateEdge^ parameter1);
+	void SetControlPointsNumber(int theControlPointsNumber);
+	void SetExitIfToleranceExceeded(double theToleranceForChecking);
+	void Process();
 	bool IsDone();
-	int ErrorStatus();
-	double MaxDistance();
-	double MaxParameter();
-}; // class BRepLib_CheckCurveOnSurface
-
-//---------------------------------------------------------------------
-//  Class  BRepLib
-//---------------------------------------------------------------------
-public ref class BRepLib sealed : public BaseClass<::BRepLib>
-{
-
-#ifdef Include_BRepLib_h
-public:
-	Include_BRepLib_h
-#endif
-
-public:
-	BRepLib(::BRepLib* nativeInstance)
-		: BaseClass<::BRepLib>( nativeInstance, true )
-	{}
-
-	BRepLib(::BRepLib& nativeInstance)
-		: BaseClass<::BRepLib>( &nativeInstance, false )
-	{}
-
-	property ::BRepLib* NativeInstance
-	{
-		::BRepLib* get()
-		{
-			return static_cast<::BRepLib*>(_NativeInstance);
-		}
-	}
-
-public:
-	BRepLib();
-	BRepLib(Macad::Occt::BRepLib^ parameter1);
-	static void Precision(double P);
-	static double Precision();
-	static void Plane(Macad::Occt::Geom_Plane^ P);
-	static Macad::Occt::Geom_Plane^ Plane();
-	static bool CheckSameRange(Macad::Occt::TopoDS_Edge^ E, double Confusion);
-	static bool CheckSameRange(Macad::Occt::TopoDS_Edge^ E);
-	static void SameRange(Macad::Occt::TopoDS_Edge^ E, double Tolerance);
-	static void SameRange(Macad::Occt::TopoDS_Edge^ E);
-	static bool BuildCurve3d(Macad::Occt::TopoDS_Edge^ E, double Tolerance, Macad::Occt::GeomAbs_Shape Continuity, int MaxDegree, int MaxSegment);
-	static bool BuildCurve3d(Macad::Occt::TopoDS_Edge^ E, double Tolerance, Macad::Occt::GeomAbs_Shape Continuity, int MaxDegree);
-	static bool BuildCurve3d(Macad::Occt::TopoDS_Edge^ E, double Tolerance, Macad::Occt::GeomAbs_Shape Continuity);
-	static bool BuildCurve3d(Macad::Occt::TopoDS_Edge^ E, double Tolerance);
-	static bool BuildCurve3d(Macad::Occt::TopoDS_Edge^ E);
-	static bool BuildCurves3d(Macad::Occt::TopoDS_Shape^ S, double Tolerance, Macad::Occt::GeomAbs_Shape Continuity, int MaxDegree, int MaxSegment);
-	static bool BuildCurves3d(Macad::Occt::TopoDS_Shape^ S, double Tolerance, Macad::Occt::GeomAbs_Shape Continuity, int MaxDegree);
-	static bool BuildCurves3d(Macad::Occt::TopoDS_Shape^ S, double Tolerance, Macad::Occt::GeomAbs_Shape Continuity);
-	static bool BuildCurves3d(Macad::Occt::TopoDS_Shape^ S, double Tolerance);
-	static bool BuildCurves3d(Macad::Occt::TopoDS_Shape^ S);
-	static void BuildPCurveForEdgeOnPlane(Macad::Occt::TopoDS_Edge^ theE, Macad::Occt::TopoDS_Face^ theF);
-	static void BuildPCurveForEdgeOnPlane(Macad::Occt::TopoDS_Edge^ theE, Macad::Occt::TopoDS_Face^ theF, Macad::Occt::Geom2d_Curve^ aC2D, bool% bToUpdate);
-	static bool UpdateEdgeTol(Macad::Occt::TopoDS_Edge^ E, double MinToleranceRequest, double MaxToleranceToCheck);
-	static bool UpdateEdgeTolerance(Macad::Occt::TopoDS_Shape^ S, double MinToleranceRequest, double MaxToleranceToCheck);
-	static void SameParameter(Macad::Occt::TopoDS_Edge^ theEdge, double Tolerance);
-	static void SameParameter(Macad::Occt::TopoDS_Edge^ theEdge);
-	static Macad::Occt::TopoDS_Edge^ SameParameter(Macad::Occt::TopoDS_Edge^ theEdge, double theTolerance, double% theNewTol, bool IsUseOldEdge);
-	static void SameParameter(Macad::Occt::TopoDS_Shape^ S, double Tolerance, bool forced);
-	static void SameParameter(Macad::Occt::TopoDS_Shape^ S, double Tolerance);
-	static void SameParameter(Macad::Occt::TopoDS_Shape^ S);
-	static void SameParameter(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_ReShape^ theReshaper, double Tolerance, bool forced);
-	static void SameParameter(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_ReShape^ theReshaper, double Tolerance);
-	static void SameParameter(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_ReShape^ theReshaper);
-	static void UpdateTolerances(Macad::Occt::TopoDS_Shape^ S, bool verifyFaceTolerance);
-	static void UpdateTolerances(Macad::Occt::TopoDS_Shape^ S);
-	static void UpdateTolerances(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_ReShape^ theReshaper, bool verifyFaceTolerance);
-	static void UpdateTolerances(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_ReShape^ theReshaper);
-	static void UpdateInnerTolerances(Macad::Occt::TopoDS_Shape^ S);
-	static bool OrientClosedSolid(Macad::Occt::TopoDS_Solid^ solid);
-	static void EncodeRegularity(Macad::Occt::TopoDS_Shape^ S, double TolAng);
-	static void EncodeRegularity(Macad::Occt::TopoDS_Shape^ S);
-	static void EncodeRegularity(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ LE, double TolAng);
-	static void EncodeRegularity(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ LE);
-	static void EncodeRegularity(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2, double TolAng);
-	static void EncodeRegularity(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2);
-	static void SortFaces(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ LF);
-	static void ReverseSortFaces(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ LF);
-	static bool EnsureNormalConsistency(Macad::Occt::TopoDS_Shape^ S, double theAngTol, bool ForceComputeNormals);
-	static bool EnsureNormalConsistency(Macad::Occt::TopoDS_Shape^ S, double theAngTol);
-	static bool EnsureNormalConsistency(Macad::Occt::TopoDS_Shape^ S);
-	/* Method skipped due to unknown mapping: void BoundingVertex(NCollection_List<TopoDS_Shape> theLV, gp_Pnt theNewCenter, Standard_Real theNewTol, ) */
-	static bool FindValidRange(Macad::Occt::Adaptor3d_Curve^ theCurve, double theTolE, double theParV1, Macad::Occt::Pnt thePntV1, double theTolV1, double theParV2, Macad::Occt::Pnt thePntV2, double theTolV2, double% theFirst, double% theLast);
-	static bool FindValidRange(Macad::Occt::TopoDS_Edge^ theEdge, double% theFirst, double% theLast);
-	static void ExtendFace(Macad::Occt::TopoDS_Face^ theF, double theExtVal, bool theExtUMin, bool theExtUMax, bool theExtVMin, bool theExtVMax, Macad::Occt::TopoDS_Face^ theFExtended);
-}; // class BRepLib
+	bool CheckTolerance(double theToleranceToCheck);
+	double GetMaxDistance();
+	void UpdateTolerance(double% theToleranceToUpdate);
+}; // class BRepLib_ValidateEdge
 
 }; // namespace Occt
 }; // namespace Macad

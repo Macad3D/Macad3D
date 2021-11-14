@@ -5,6 +5,7 @@
 #include "SelectMgr.h"
 #include "AIS.h"
 #include "Prs3d.h"
+#include "Aspect.h"
 
 namespace Macad
 {
@@ -15,6 +16,13 @@ namespace Occt
 //---------------------------------------------------------------------
 public enum class AIS_KindOfInteractive
 {
+	AIS_KindOfInteractive_None = 0,
+	AIS_KindOfInteractive_Datum = 1,
+	AIS_KindOfInteractive_Shape = 2,
+	AIS_KindOfInteractive_Object = 3,
+	AIS_KindOfInteractive_Relation = 4,
+	AIS_KindOfInteractive_Dimension = 5,
+	AIS_KindOfInteractive_LightSource = 6,
 	AIS_KOI_None = 0,
 	AIS_KOI_Datum = 1,
 	AIS_KOI_Shape = 2,
@@ -33,16 +41,6 @@ public enum class AIS_DragAction
 	AIS_DragAction_Stop = 2,
 	AIS_DragAction_Abort = 3
 }; // enum  class AIS_DragAction
-
-//---------------------------------------------------------------------
-//  Enum  AIS_DisplayStatus
-//---------------------------------------------------------------------
-public enum class AIS_DisplayStatus
-{
-	AIS_DS_Displayed = 0,
-	AIS_DS_Erased = 1,
-	AIS_DS_None = 2
-}; // enum  class AIS_DisplayStatus
 
 //---------------------------------------------------------------------
 //  Enum  AIS_DisplayMode
@@ -64,6 +62,20 @@ public enum class AIS_ClearMode
 	AIS_CM_StandardModes = 3,
 	AIS_CM_TemporaryShapePrs = 4
 }; // enum  class AIS_ClearMode
+
+//---------------------------------------------------------------------
+//  Enum  AIS_SelectionScheme
+//---------------------------------------------------------------------
+public enum class AIS_SelectionScheme
+{
+	AIS_SelectionScheme_UNKNOWN = -1,
+	AIS_SelectionScheme_Replace = 0,
+	AIS_SelectionScheme_Add = 1,
+	AIS_SelectionScheme_Remove = 2,
+	AIS_SelectionScheme_XOR = 3,
+	AIS_SelectionScheme_Clear = 4,
+	AIS_SelectionScheme_ReplaceExtra = 5
+}; // enum  class AIS_SelectionScheme
 
 //---------------------------------------------------------------------
 //  Enum  AIS_SelectStatus
@@ -377,6 +389,59 @@ public:
 	/* Method skipped due to unknown mapping: void InsertAfter(AIS_ListOfInteractive theOther, Iterator theIter, ) */
 	void Reverse();
 }; // class AIS_ListOfInteractive
+
+//---------------------------------------------------------------------
+//  Class  AIS_NArray1OfEntityOwner
+//---------------------------------------------------------------------
+public ref class AIS_NArray1OfEntityOwner sealed : public BaseClass<::AIS_NArray1OfEntityOwner>
+{
+
+#ifdef Include_AIS_NArray1OfEntityOwner_h
+public:
+	Include_AIS_NArray1OfEntityOwner_h
+#endif
+
+public:
+	AIS_NArray1OfEntityOwner(::AIS_NArray1OfEntityOwner* nativeInstance)
+		: BaseClass<::AIS_NArray1OfEntityOwner>( nativeInstance, true )
+	{}
+
+	AIS_NArray1OfEntityOwner(::AIS_NArray1OfEntityOwner& nativeInstance)
+		: BaseClass<::AIS_NArray1OfEntityOwner>( &nativeInstance, false )
+	{}
+
+	property ::AIS_NArray1OfEntityOwner* NativeInstance
+	{
+		::AIS_NArray1OfEntityOwner* get()
+		{
+			return static_cast<::AIS_NArray1OfEntityOwner*>(_NativeInstance);
+		}
+	}
+
+public:
+	AIS_NArray1OfEntityOwner();
+	AIS_NArray1OfEntityOwner(int theLower, int theUpper);
+	AIS_NArray1OfEntityOwner(Macad::Occt::AIS_NArray1OfEntityOwner^ theOther);
+	AIS_NArray1OfEntityOwner(Macad::Occt::SelectMgr_EntityOwner^ theBegin, int theLower, int theUpper);
+	void Init(Macad::Occt::SelectMgr_EntityOwner^ theValue);
+	int Size();
+	int Length();
+	bool IsEmpty();
+	int Lower();
+	int Upper();
+	bool IsDeletable();
+	bool IsAllocated();
+	Macad::Occt::AIS_NArray1OfEntityOwner^ Assign(Macad::Occt::AIS_NArray1OfEntityOwner^ theOther);
+	Macad::Occt::AIS_NArray1OfEntityOwner^ Move(Macad::Occt::AIS_NArray1OfEntityOwner^ theOther);
+	Macad::Occt::SelectMgr_EntityOwner^ First();
+	Macad::Occt::SelectMgr_EntityOwner^ ChangeFirst();
+	Macad::Occt::SelectMgr_EntityOwner^ Last();
+	Macad::Occt::SelectMgr_EntityOwner^ ChangeLast();
+	Macad::Occt::SelectMgr_EntityOwner^ Value(int theIndex);
+	Macad::Occt::SelectMgr_EntityOwner^ ChangeValue(int theIndex);
+	void SetValue(int theIndex, Macad::Occt::SelectMgr_EntityOwner^ theItem);
+	void Resize(int theLower, int theUpper, bool theToCopyData);
+}; // class AIS_NArray1OfEntityOwner
 
 //---------------------------------------------------------------------
 //  Class  AIS_NListOfEntityOwner
@@ -808,6 +873,8 @@ public:
 	void SetCrouching(bool theIsCrouching);
 	bool IsRunning();
 	void SetRunning(bool theIsRunning);
+	bool IsDefined();
+	void SetDefined(bool theIsDefined);
 	bool IsEmpty();
 	bool ToMove();
 	bool ToRotate();
@@ -879,20 +946,17 @@ public:
 public:
 	AIS_InteractiveContext(Macad::Occt::V3d_Viewer^ MainViewer);
 	AIS_InteractiveContext(Macad::Occt::AIS_InteractiveContext^ parameter1);
-	Macad::Occt::AIS_DisplayStatus DisplayStatus(Macad::Occt::AIS_InteractiveObject^ anIobj);
+	/* Method skipped due to unknown mapping: PrsMgr_DisplayStatus DisplayStatus(AIS_InteractiveObject anIobj, ) */
 	void Status(Macad::Occt::AIS_InteractiveObject^ anObj, Macad::Occt::TCollection_ExtendedString^ astatus);
 	bool IsDisplayed(Macad::Occt::AIS_InteractiveObject^ anIobj);
 	bool IsDisplayed(Macad::Occt::AIS_InteractiveObject^ aniobj, int aMode);
 	void SetAutoActivateSelection(bool theIsAuto);
 	bool GetAutoActivateSelection();
 	void Display(Macad::Occt::AIS_InteractiveObject^ theIObj, bool theToUpdateViewer);
-	void Display(Macad::Occt::AIS_InteractiveObject^ theIObj, int theDispMode, int theSelectionMode, bool theToUpdateViewer, Macad::Occt::AIS_DisplayStatus theDispStatus);
+	/* Method skipped due to unknown mapping: void Display(AIS_InteractiveObject theIObj, Standard_Integer theDispMode, Standard_Integer theSelectionMode, Standard_Boolean theToUpdateViewer, PrsMgr_DisplayStatus theDispStatus, ) */
 	void Display(Macad::Occt::AIS_InteractiveObject^ theIObj, int theDispMode, int theSelectionMode, bool theToUpdateViewer);
 	void Load(Macad::Occt::AIS_InteractiveObject^ theObj, int theSelectionMode);
 	void Load(Macad::Occt::AIS_InteractiveObject^ theObj);
-	void Display(Macad::Occt::AIS_InteractiveObject^ theIObj, int theDispMode, int theSelectionMode, bool theToUpdateViewer, bool theToAllowDecomposition, Macad::Occt::AIS_DisplayStatus theDispStatus);
-	void Display(Macad::Occt::AIS_InteractiveObject^ theIObj, int theDispMode, int theSelectionMode, bool theToUpdateViewer, bool theToAllowDecomposition);
-	void Load(Macad::Occt::AIS_InteractiveObject^ theObj, int theSelectionMode, bool parameter1);
 	void Erase(Macad::Occt::AIS_InteractiveObject^ theIObj, bool theToUpdateViewer);
 	void EraseAll(bool theToUpdateViewer);
 	void DisplayAll(bool theToUpdateViewer);
@@ -934,14 +998,13 @@ public:
 	bool HasLocation(Macad::Occt::AIS_InteractiveObject^ theObject);
 	Macad::Occt::TopLoc_Location^ Location(Macad::Occt::AIS_InteractiveObject^ theObject);
 	void SetTransformPersistence(Macad::Occt::AIS_InteractiveObject^ theObject, Macad::Occt::Graphic3d_TransformPers^ theTrsfPers);
-	void SetTransformPersistence(Macad::Occt::AIS_InteractiveObject^ theObj, Macad::Occt::Graphic3d_TransModeFlags% theFlag, Macad::Occt::Pnt thePoint);
-	void SetTransformPersistence(Macad::Occt::AIS_InteractiveObject^ theObj, Macad::Occt::Graphic3d_TransModeFlags% theFlag);
 	void SetPixelTolerance(int thePrecision);
 	void SetPixelTolerance();
 	int PixelTolerance();
 	void SetSelectionSensitivity(Macad::Occt::AIS_InteractiveObject^ theObject, int theMode, int theNewSensitivity);
 	Macad::Occt::V3d_View^ LastActiveView();
 	Macad::Occt::AIS_StatusOfDetection MoveTo(int theXPix, int theYPix, Macad::Occt::V3d_View^ theView, bool theToRedrawOnUpdate);
+	Macad::Occt::AIS_StatusOfDetection MoveTo(Macad::Occt::Ax1 theAxis, Macad::Occt::V3d_View^ theView, bool theToRedrawOnUpdate);
 	bool ClearDetected(bool theToRedrawImmediate);
 	bool ClearDetected();
 	bool HasDetected();
@@ -958,16 +1021,18 @@ public:
 	bool MoreDetected();
 	void NextDetected();
 	Macad::Occt::SelectMgr_EntityOwner^ DetectedCurrentOwner();
-	void SetSelectedAspect(Macad::Occt::Prs3d_BasicAspect^ theAspect, bool theToUpdateViewer);
 	Macad::Occt::AIS_StatusOfPick AddSelect(Macad::Occt::SelectMgr_EntityOwner^ theObject);
 	Macad::Occt::AIS_StatusOfPick AddSelect(Macad::Occt::AIS_InteractiveObject^ theObject);
-	Macad::Occt::AIS_StatusOfPick Select(int theXPMin, int theYPMin, int theXPMax, int theYPMax, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer);
-	Macad::Occt::AIS_StatusOfPick Select(Macad::Occt::TColgp_Array1OfPnt2d^ thePolyline, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer);
-	Macad::Occt::AIS_StatusOfPick Select(bool theToUpdateViewer);
-	Macad::Occt::AIS_StatusOfPick ShiftSelect(bool theToUpdateViewer);
-	Macad::Occt::AIS_StatusOfPick ShiftSelect(Macad::Occt::TColgp_Array1OfPnt2d^ thePolyline, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer);
-	Macad::Occt::AIS_StatusOfPick ShiftSelect(int theXPMin, int theYPMin, int theXPMax, int theYPMax, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer);
+	Macad::Occt::AIS_StatusOfPick SelectRectangle(Macad::Occt::Graphic3d_Vec2i^ thePntMin, Macad::Occt::Graphic3d_Vec2i^ thePntMax, Macad::Occt::V3d_View^ theView, Macad::Occt::AIS_SelectionScheme theSelScheme);
+	Macad::Occt::AIS_StatusOfPick SelectRectangle(Macad::Occt::Graphic3d_Vec2i^ thePntMin, Macad::Occt::Graphic3d_Vec2i^ thePntMax, Macad::Occt::V3d_View^ theView);
+	Macad::Occt::AIS_StatusOfPick SelectPolygon(Macad::Occt::TColgp_Array1OfPnt2d^ thePolyline, Macad::Occt::V3d_View^ theView, Macad::Occt::AIS_SelectionScheme theSelScheme);
+	Macad::Occt::AIS_StatusOfPick SelectPolygon(Macad::Occt::TColgp_Array1OfPnt2d^ thePolyline, Macad::Occt::V3d_View^ theView);
+	Macad::Occt::AIS_StatusOfPick SelectPoint(Macad::Occt::Graphic3d_Vec2i^ thePnt, Macad::Occt::V3d_View^ theView, Macad::Occt::AIS_SelectionScheme theSelScheme);
+	Macad::Occt::AIS_StatusOfPick SelectPoint(Macad::Occt::Graphic3d_Vec2i^ thePnt, Macad::Occt::V3d_View^ theView);
+	Macad::Occt::AIS_StatusOfPick SelectDetected(Macad::Occt::AIS_SelectionScheme theSelScheme);
+	Macad::Occt::AIS_StatusOfPick SelectDetected();
 	Macad::Occt::Bnd_Box^ BoundingBoxOfSelection();
+	Macad::Occt::AIS_StatusOfPick Select(Macad::Occt::AIS_NArray1OfEntityOwner^ theOwners, Macad::Occt::AIS_SelectionScheme theSelScheme);
 	void FitSelected(Macad::Occt::V3d_View^ theView, double theMargin, bool theToUpdate);
 	void FitSelected(Macad::Occt::V3d_View^ theView);
 	bool ToHilightSelected();
@@ -1019,32 +1084,34 @@ public:
 	Macad::Occt::SelectMgr_FilterType FilterType();
 	void SetFilterType(Macad::Occt::SelectMgr_FilterType theFilterType);
 	Macad::Occt::SelectMgr_ListOfFilter^ Filters();
+	Macad::Occt::SelectMgr_AndOrFilter^ GlobalFilter();
 	void AddFilter(Macad::Occt::SelectMgr_Filter^ theFilter);
 	void RemoveFilter(Macad::Occt::SelectMgr_Filter^ theFilter);
 	void RemoveFilters();
 	Macad::Occt::SelectMgr_PickingStrategy PickingStrategy();
 	void SetPickingStrategy(Macad::Occt::SelectMgr_PickingStrategy theStrategy);
 	Macad::Occt::Prs3d_Drawer^ DefaultDrawer();
+	void SetDefaultDrawer(Macad::Occt::Prs3d_Drawer^ theDrawer);
 	Macad::Occt::V3d_Viewer^ CurrentViewer();
 	Macad::Occt::SelectMgr_SelectionManager^ SelectionManager();
 	/* Method skipped due to unknown mapping: PrsMgr_PresentationManager MainPrsMgr() */
-	Macad::Occt::SelectMgr_ViewerSelector3d^ MainSelector();
+	Macad::Occt::SelectMgr_ViewerSelector^ MainSelector();
 	void UpdateCurrentViewer();
 	void DisplayedObjects(Macad::Occt::AIS_ListOfInteractive^ aListOfIO);
 	void DisplayedObjects(Macad::Occt::AIS_KindOfInteractive theWhichKind, int theWhichSignature, Macad::Occt::AIS_ListOfInteractive^ theListOfIO);
 	void ErasedObjects(Macad::Occt::AIS_ListOfInteractive^ theListOfIO);
 	void ErasedObjects(Macad::Occt::AIS_KindOfInteractive theWhichKind, int theWhichSignature, Macad::Occt::AIS_ListOfInteractive^ theListOfIO);
-	void ObjectsByDisplayStatus(Macad::Occt::AIS_DisplayStatus theStatus, Macad::Occt::AIS_ListOfInteractive^ theListOfIO);
-	void ObjectsByDisplayStatus(Macad::Occt::AIS_KindOfInteractive WhichKind, int WhichSignature, Macad::Occt::AIS_DisplayStatus theStatus, Macad::Occt::AIS_ListOfInteractive^ theListOfIO);
+	/* Method skipped due to unknown mapping: void ObjectsByDisplayStatus(PrsMgr_DisplayStatus theStatus, AIS_ListOfInteractive theListOfIO, ) */
+	/* Method skipped due to unknown mapping: void ObjectsByDisplayStatus(AIS_KindOfInteractive WhichKind, Standard_Integer WhichSignature, PrsMgr_DisplayStatus theStatus, AIS_ListOfInteractive theListOfIO, ) */
 	void ObjectsInside(Macad::Occt::AIS_ListOfInteractive^ aListOfIO, Macad::Occt::AIS_KindOfInteractive WhichKind, int WhichSignature);
 	void ObjectsInside(Macad::Occt::AIS_ListOfInteractive^ aListOfIO, Macad::Occt::AIS_KindOfInteractive WhichKind);
 	void ObjectsInside(Macad::Occt::AIS_ListOfInteractive^ aListOfIO);
+	/* Method skipped due to unknown mapping: Iterator ObjectIterator() */
 	void RebuildSelectionStructs();
 	void Disconnect(Macad::Occt::AIS_InteractiveObject^ theAssembly, Macad::Occt::AIS_InteractiveObject^ theObjToDisconnect);
 	void Disconnect(Macad::Occt::AIS_InteractiveObject^ theAssembly);
-	void ObjectsForView(Macad::Occt::AIS_ListOfInteractive^ theListOfIO, Macad::Occt::V3d_View^ theView, bool theIsVisibleInView, Macad::Occt::AIS_DisplayStatus theStatus);
+	/* Method skipped due to unknown mapping: void ObjectsForView(AIS_ListOfInteractive theListOfIO, V3d_View theView, Standard_Boolean theIsVisibleInView, PrsMgr_DisplayStatus theStatus, ) */
 	void ObjectsForView(Macad::Occt::AIS_ListOfInteractive^ theListOfIO, Macad::Occt::V3d_View^ theView, bool theIsVisibleInView);
-	int PurgeDisplay();
 	Macad::Occt::Pnt GravityPoint(Macad::Occt::V3d_View^ theView);
 	void DisplayActiveSensitive(Macad::Occt::V3d_View^ aView);
 	void ClearActiveSensitive(Macad::Occt::V3d_View^ aView);
@@ -1077,10 +1144,10 @@ public:
 	void SetAngleAndDeviation(Macad::Occt::AIS_InteractiveObject^ theIObj, double theAngle, bool theToUpdateViewer);
 	void SetDeviationCoefficient(double theCoefficient);
 	double DeviationCoefficient();
-	void SetDeviationAngle(double anAngle);
+	void SetDeviationAngle(double theAngle);
 	double DeviationAngle();
 	Macad::Occt::Prs3d_LineAspect^ HiddenLineAspect();
-	void SetHiddenLineAspect(Macad::Occt::Prs3d_LineAspect^ anAspect);
+	void SetHiddenLineAspect(Macad::Occt::Prs3d_LineAspect^ theAspect);
 	bool DrawHiddenLine();
 	void EnableDrawHiddenLine();
 	void DisableDrawHiddenLine();
@@ -1088,11 +1155,21 @@ public:
 	void SetIsoNumber(int NbIsos);
 	int IsoNumber(Macad::Occt::AIS_TypeOfIso WhichIsos);
 	int IsoNumber();
-	void IsoOnPlane(bool SwitchOn);
+	void IsoOnPlane(bool theToSwitchOn);
 	bool IsoOnPlane();
 	void IsoOnTriangulation(bool theIsEnabled, Macad::Occt::AIS_InteractiveObject^ theObject);
 	void IsoOnTriangulation(bool theToSwitchOn);
 	bool IsoOnTriangulation();
+	/* Method skipped due to unknown mapping: void Display(AIS_InteractiveObject theIObj, Standard_Integer theDispMode, Standard_Integer theSelectionMode, Standard_Boolean theToUpdateViewer, Standard_Boolean theToAllowDecomposition, PrsMgr_DisplayStatus theDispStatus, ) */
+	void Display(Macad::Occt::AIS_InteractiveObject^ theIObj, int theDispMode, int theSelectionMode, bool theToUpdateViewer, bool theToAllowDecomposition);
+	void Load(Macad::Occt::AIS_InteractiveObject^ theObj, int theSelectionMode, bool parameter1);
+	void SetSelectedAspect(Macad::Occt::Prs3d_BasicAspect^ theAspect, bool theToUpdateViewer);
+	Macad::Occt::AIS_StatusOfPick Select(int theXPMin, int theYPMin, int theXPMax, int theYPMax, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer);
+	Macad::Occt::AIS_StatusOfPick Select(Macad::Occt::TColgp_Array1OfPnt2d^ thePolyline, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer);
+	Macad::Occt::AIS_StatusOfPick Select(bool theToUpdateViewer);
+	Macad::Occt::AIS_StatusOfPick ShiftSelect(bool theToUpdateViewer);
+	Macad::Occt::AIS_StatusOfPick ShiftSelect(Macad::Occt::TColgp_Array1OfPnt2d^ thePolyline, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer);
+	Macad::Occt::AIS_StatusOfPick ShiftSelect(int theXPMin, int theYPMin, int theXPMax, int theYPMax, Macad::Occt::V3d_View^ theView, bool theToUpdateViewer);
 	void SetCurrentObject(Macad::Occt::AIS_InteractiveObject^ theIObj, bool theToUpdateViewer);
 	void AddOrRemoveCurrentObject(Macad::Occt::AIS_InteractiveObject^ theObj, bool theIsToUpdateViewer);
 	void UpdateCurrent();
@@ -1241,6 +1318,8 @@ public:
 	void StartTimer(double theStartPts, double thePlaySpeed, bool theToUpdate);
 	double UpdateTimer();
 	double ElapsedTime();
+	/* Method skipped due to unknown mapping: Media_Timer Timer() */
+	/* Method skipped due to unknown mapping: void SetTimer(Media_Timer theTimer, ) */
 	void Start(bool theToUpdate);
 	void Pause();
 	void Stop();
@@ -1321,28 +1400,20 @@ public:
 
 public:
 	AIS_GlobalStatus();
-	AIS_GlobalStatus(Macad::Occt::AIS_DisplayStatus aStat, int aDispMode, int aSelMode, bool ishilighted, int aLayerIndex);
-	AIS_GlobalStatus(Macad::Occt::AIS_DisplayStatus aStat, int aDispMode, int aSelMode, bool ishilighted);
-	AIS_GlobalStatus(Macad::Occt::AIS_DisplayStatus aStat, int aDispMode, int aSelMode);
 	AIS_GlobalStatus(Macad::Occt::AIS_GlobalStatus^ parameter1);
-	void SetGraphicStatus(Macad::Occt::AIS_DisplayStatus theStatus);
-	void AddSelectionMode(int theMode);
-	void SetDisplayMode(int theMode);
 	int DisplayMode();
-	void SetLayerIndex(int theIndex);
+	void SetDisplayMode(int theMode);
+	bool IsHilighted();
 	void SetHilightStatus(bool theStatus);
 	void SetHilightStyle(Macad::Occt::Prs3d_Drawer^ theStyle);
 	Macad::Occt::Prs3d_Drawer^ HilightStyle();
-	bool IsSubIntensityOn();
-	void SubIntensityOn();
-	void SubIntensityOff();
-	void RemoveSelectionMode(int aMode);
-	void ClearSelectionModes();
-	Macad::Occt::AIS_DisplayStatus GraphicStatus();
 	Macad::Occt::TColStd_ListOfInteger^ SelectionModes();
-	bool IsHilighted();
-	bool IsSModeIn(int aMode);
-	int GetLayerIndex();
+	bool IsSModeIn(int theMode);
+	bool AddSelectionMode(int theMode);
+	bool RemoveSelectionMode(int theMode);
+	void ClearSelectionModes();
+	bool IsSubIntensityOn();
+	void SetSubIntensity(bool theIsOn);
 }; // class AIS_GlobalStatus
 
 //---------------------------------------------------------------------
@@ -1390,6 +1461,7 @@ public:
 	bool More();
 	void Next();
 	Macad::Occt::SelectMgr_EntityOwner^ Value();
+	void SelectOwners(Macad::Occt::AIS_NArray1OfEntityOwner^ thePickedOwners, Macad::Occt::AIS_SelectionScheme theSelScheme, bool theToAllowSelOverlap, Macad::Occt::SelectMgr_Filter^ theFilter);
 }; // class AIS_Selection
 
 //---------------------------------------------------------------------
@@ -1464,8 +1536,8 @@ public:
 	AIS_AttributeFilter(Macad::Occt::AIS_AttributeFilter^ parameter1);
 	bool HasColor();
 	bool HasWidth();
-	void SetColor(Macad::Occt::Quantity_NameOfColor aCol);
-	void SetWidth(double aWidth);
+	void SetColor(Macad::Occt::Quantity_NameOfColor theCol);
+	void SetWidth(double theWidth);
 	void UnsetColor();
 	void UnsetWidth();
 	bool IsOk(Macad::Occt::SelectMgr_EntityOwner^ anObj);
@@ -1505,6 +1577,8 @@ public:
 	AIS_Axis(Macad::Occt::Geom_Line^ aComponent);
 	AIS_Axis(Macad::Occt::Geom_Axis2Placement^ aComponent, Macad::Occt::AIS_TypeOfAxis anAxisType);
 	AIS_Axis(Macad::Occt::Geom_Axis1Placement^ anAxis);
+	AIS_Axis(Macad::Occt::Ax1 theAxis, double theLength);
+	AIS_Axis(Macad::Occt::Ax1 theAxis);
 	AIS_Axis(Macad::Occt::AIS_Axis^ parameter1);
 	Macad::Occt::Geom_Line^ Component();
 	void SetComponent(Macad::Occt::Geom_Line^ aComponent);
@@ -1519,6 +1593,7 @@ public:
 	Macad::Occt::AIS_KindOfInteractive Type();
 	void SetColor(Macad::Occt::Quantity_Color^ aColor);
 	void SetWidth(double aValue);
+	void SetDisplayAspect(Macad::Occt::Prs3d_LineAspect^ theNewDatumAspect);
 	void UnsetColor();
 	void UnsetWidth();
 }; // class AIS_Axis
@@ -1969,7 +2044,7 @@ public:
 	bool Remove(Macad::Occt::AIS_KindOfInteractive TypeToExclude, int SignatureInType);
 	void Clear();
 	bool IsExclusionFlagOn();
-	void SetExclusionFlag(bool Status);
+	void SetExclusionFlag(bool theStatus);
 	bool IsStored(Macad::Occt::AIS_KindOfInteractive aType);
 	void ListOfStoredTypes(Macad::Occt::TColStd_ListOfInteger^ TheList);
 	void ListOfSignature(Macad::Occt::AIS_KindOfInteractive aType, Macad::Occt::TColStd_ListOfInteger^ TheStoredList);
@@ -2015,6 +2090,106 @@ public:
 	static void GetInteriorColor(Macad::Occt::Prs3d_Drawer^ aDrawer, Macad::Occt::Quantity_Color^ aColor);
 	static Macad::Occt::Graphic3d_MaterialAspect^ GetMaterial(Macad::Occt::Prs3d_Drawer^ aDrawer);
 }; // class AIS_GraphicTool
+
+//---------------------------------------------------------------------
+//  Class  AIS_LightSource
+//---------------------------------------------------------------------
+public ref class AIS_LightSource sealed : public Macad::Occt::AIS_InteractiveObject
+{
+
+#ifdef Include_AIS_LightSource_h
+public:
+	Include_AIS_LightSource_h
+#endif
+
+public:
+	AIS_LightSource(::AIS_LightSource* nativeInstance)
+		: Macad::Occt::AIS_InteractiveObject( nativeInstance )
+	{}
+
+	AIS_LightSource(::AIS_LightSource& nativeInstance)
+		: Macad::Occt::AIS_InteractiveObject( nativeInstance )
+	{}
+
+	property ::AIS_LightSource* NativeInstance
+	{
+		::AIS_LightSource* get()
+		{
+			return static_cast<::AIS_LightSource*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::AIS_LightSource^ CreateDowncasted(::AIS_LightSource* instance);
+
+public:
+	AIS_LightSource(Macad::Occt::Graphic3d_CLight^ theLightSource);
+	AIS_LightSource(Macad::Occt::AIS_LightSource^ parameter1);
+	Macad::Occt::Graphic3d_CLight^ Light();
+	void SetLight(Macad::Occt::Graphic3d_CLight^ theLight);
+	bool ToDisplayName();
+	void SetDisplayName(bool theToDisplay);
+	bool ToDisplayRange();
+	void SetDisplayRange(bool theToDisplay);
+	double Size();
+	void SetSize(double theSize);
+	int ArcSize();
+	void SetArcSize(int theSize);
+	bool IsZoomable();
+	void SetZoomable(bool theIsZoomable);
+	void SetDraggable(bool theIsDraggable);
+	bool ToSwitchOnClick();
+	void SetSwitchOnClick(bool theToHandle);
+	int NbArrows();
+	void SetNbArrows(int theNbArrows);
+	Macad::Occt::Graphic3d_MarkerImage^ MarkerImage(bool theIsEnabled);
+	Macad::Occt::Aspect_TypeOfMarker MarkerType(bool theIsEnabled);
+	void SetMarkerImage(Macad::Occt::Graphic3d_MarkerImage^ theImage, bool theIsEnabled);
+	void SetMarkerType(Macad::Occt::Aspect_TypeOfMarker theType, bool theIsEnabled);
+	int NbSplitsQuadric();
+	void SetNbSplitsQuadric(int theNbSplits);
+	int NbSplitsArrow();
+	void SetNbSplitsArrow(int theNbSplits);
+	Macad::Occt::AIS_KindOfInteractive Type();
+}; // class AIS_LightSource
+
+//---------------------------------------------------------------------
+//  Class  AIS_LightSourceOwner
+//---------------------------------------------------------------------
+public ref class AIS_LightSourceOwner sealed : public Macad::Occt::SelectMgr_EntityOwner
+{
+
+#ifdef Include_AIS_LightSourceOwner_h
+public:
+	Include_AIS_LightSourceOwner_h
+#endif
+
+public:
+	AIS_LightSourceOwner(::AIS_LightSourceOwner* nativeInstance)
+		: Macad::Occt::SelectMgr_EntityOwner( nativeInstance )
+	{}
+
+	AIS_LightSourceOwner(::AIS_LightSourceOwner& nativeInstance)
+		: Macad::Occt::SelectMgr_EntityOwner( nativeInstance )
+	{}
+
+	property ::AIS_LightSourceOwner* NativeInstance
+	{
+		::AIS_LightSourceOwner* get()
+		{
+			return static_cast<::AIS_LightSourceOwner*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::AIS_LightSourceOwner^ CreateDowncasted(::AIS_LightSourceOwner* instance);
+
+public:
+	AIS_LightSourceOwner(Macad::Occt::AIS_LightSource^ theObject, int thePriority);
+	AIS_LightSourceOwner(Macad::Occt::AIS_LightSource^ theObject);
+	AIS_LightSourceOwner(Macad::Occt::AIS_LightSourceOwner^ parameter1);
+	bool HandleMouseClick(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButton, unsigned int theModifiers, bool theIsDoubleClick);
+	/* Method skipped due to unknown mapping: void HilightWithColor(PrsMgr_PresentationManager thePrsMgr, Prs3d_Drawer theStyle, Standard_Integer theMode, ) */
+	bool IsForcedHilight();
+}; // class AIS_LightSourceOwner
 
 //---------------------------------------------------------------------
 //  Class  AIS_Line
@@ -2259,7 +2434,6 @@ public:
 	Macad::Occt::AIS_InteractiveObject^ Connect(Macad::Occt::AIS_InteractiveObject^ theAnotherObj);
 	Macad::Occt::AIS_InteractiveObject^ Connect(Macad::Occt::AIS_InteractiveObject^ theAnotherObj, Macad::Occt::Trsf theLocation);
 	Macad::Occt::AIS_InteractiveObject^ Connect(Macad::Occt::AIS_InteractiveObject^ theAnotherObj, Macad::Occt::Trsf theLocation, Macad::Occt::Graphic3d_TransformPers^ theTrsfPers);
-	Macad::Occt::AIS_InteractiveObject^ Connect(Macad::Occt::AIS_InteractiveObject^ theInteractive, Macad::Occt::Trsf theLocation, Macad::Occt::Graphic3d_TransModeFlags% theTrsfPersFlag, Macad::Occt::Pnt theTrsfPersPoint);
 }; // class AIS_MultipleConnectedInteractive
 
 //---------------------------------------------------------------------
@@ -2307,6 +2481,9 @@ public:
 	void UnsetSize();
 	bool Size(double% X, double% Y);
 	bool HasOwnSize();
+	void SetMinimumSize(double theValue);
+	void UnsetMinimumSize();
+	bool HasMinimumSize();
 	int Signature();
 	Macad::Occt::AIS_KindOfInteractive Type();
 	Macad::Occt::Geom_Plane^ Component();
@@ -2885,37 +3062,39 @@ public:
 public:
 	AIS_Trihedron(Macad::Occt::Geom_Axis2Placement^ theComponent);
 	AIS_Trihedron(Macad::Occt::AIS_Trihedron^ parameter1);
-	void SetDatumDisplayMode(Macad::Occt::Prs3d_DatumMode theMode);
 	Macad::Occt::Prs3d_DatumMode DatumDisplayMode();
+	void SetDatumDisplayMode(Macad::Occt::Prs3d_DatumMode theMode);
 	Macad::Occt::Geom_Axis2Placement^ Component();
 	void SetComponent(Macad::Occt::Geom_Axis2Placement^ theComponent);
 	bool HasOwnSize();
+	double Size();
 	void SetSize(double theValue);
 	void UnsetSize();
-	double Size();
-	bool AcceptDisplayMode(int theMode);
-	int Signature();
-	Macad::Occt::AIS_KindOfInteractive Type();
-	void SetColor(Macad::Occt::Quantity_Color^ theColor);
-	void SetTextColor(Macad::Occt::Quantity_Color^ theColor);
 	bool HasTextColor();
 	Macad::Occt::Quantity_Color^ TextColor();
-	void SetArrowColor(Macad::Occt::Quantity_Color^ theColor);
+	void SetTextColor(Macad::Occt::Quantity_Color^ theColor);
+	void SetTextColor(Macad::Occt::Prs3d_DatumParts thePart, Macad::Occt::Quantity_Color^ theColor);
 	bool HasArrowColor();
 	Macad::Occt::Quantity_Color^ ArrowColor();
-	void UnsetColor();
-	void SetDatumPartColor(Macad::Occt::Prs3d_DatumParts thePart, Macad::Occt::Quantity_Color^ theColor);
+	void SetArrowColor(Macad::Occt::Quantity_Color^ theColor);
+	void SetArrowColor(Macad::Occt::Prs3d_DatumParts thePart, Macad::Occt::Quantity_Color^ theColor);
 	Macad::Occt::Quantity_Color^ DatumPartColor(Macad::Occt::Prs3d_DatumParts thePart);
+	void SetDatumPartColor(Macad::Occt::Prs3d_DatumParts thePart, Macad::Occt::Quantity_Color^ theColor);
 	void SetOriginColor(Macad::Occt::Quantity_Color^ theColor);
 	void SetXAxisColor(Macad::Occt::Quantity_Color^ theColor);
 	void SetYAxisColor(Macad::Occt::Quantity_Color^ theColor);
 	void SetAxisColor(Macad::Occt::Quantity_Color^ theColor);
 	bool ToDrawArrows();
 	void SetDrawArrows(bool theToDraw);
-	void SetSelectionPriority(Macad::Occt::Prs3d_DatumParts thePart, int thePriority);
 	int SelectionPriority(Macad::Occt::Prs3d_DatumParts thePart);
-	void SetLabel(Macad::Occt::Prs3d_DatumParts thePart, Macad::Occt::TCollection_ExtendedString^ thePriority);
+	void SetSelectionPriority(Macad::Occt::Prs3d_DatumParts thePart, int thePriority);
 	Macad::Occt::TCollection_ExtendedString^ Label(Macad::Occt::Prs3d_DatumParts thePart);
+	void SetLabel(Macad::Occt::Prs3d_DatumParts thePart, Macad::Occt::TCollection_ExtendedString^ theName);
+	void SetColor(Macad::Occt::Quantity_Color^ theColor);
+	bool AcceptDisplayMode(int theMode);
+	int Signature();
+	Macad::Occt::AIS_KindOfInteractive Type();
+	void UnsetColor();
 	void ClearSelected();
 	/* Method skipped due to unknown mapping: void HilightSelected(PrsMgr_PresentationManager thePM, SelectMgr_SequenceOfOwner theOwners, ) */
 	/* Method skipped due to unknown mapping: void HilightOwnerWithColor(PrsMgr_PresentationManager thePM, Prs3d_Drawer theStyle, SelectMgr_EntityOwner theOwner, ) */
@@ -3041,7 +3220,7 @@ public:
 //---------------------------------------------------------------------
 //  Class  AIS_ViewController
 //---------------------------------------------------------------------
-public ref class AIS_ViewController sealed : public BaseClass<::AIS_ViewController>
+public ref class AIS_ViewController sealed : public Macad::Occt::Aspect_WindowInputListener
 {
 
 #ifdef Include_AIS_ViewController_h
@@ -3051,11 +3230,11 @@ public:
 
 public:
 	AIS_ViewController(::AIS_ViewController* nativeInstance)
-		: BaseClass<::AIS_ViewController>( nativeInstance, true )
+		: Macad::Occt::Aspect_WindowInputListener( nativeInstance )
 	{}
 
 	AIS_ViewController(::AIS_ViewController& nativeInstance)
-		: BaseClass<::AIS_ViewController>( &nativeInstance, false )
+		: Macad::Occt::Aspect_WindowInputListener( nativeInstance )
 	{}
 
 	property ::AIS_ViewController* NativeInstance
@@ -3073,6 +3252,12 @@ public:
 	Macad::Occt::AIS_AnimationCamera^ ViewAnimation();
 	void SetViewAnimation(Macad::Occt::AIS_AnimationCamera^ theAnimation);
 	void AbortViewAnimation();
+	Macad::Occt::AIS_Animation^ ObjectsAnimation();
+	void SetObjectsAnimation(Macad::Occt::AIS_Animation^ theAnimation);
+	bool ToPauseObjectsAnimation();
+	void SetPauseObjectsAnimation(bool theToPause);
+	bool IsContinuousRedraw();
+	void SetContinuousRedraw(bool theToEnable);
 	Macad::Occt::AIS_RotationMode RotationMode();
 	void SetRotationMode(Macad::Occt::AIS_RotationMode theMode);
 	Macad::Occt::AIS_NavigationMode NavigationMode();
@@ -3127,13 +3312,14 @@ public:
 	Macad::Occt::AIS_WalkDelta^ FetchNavigationKeys(double theCrouchRatio, double theRunRatio);
 	/* Method skipped due to unknown mapping: AIS_MouseGestureMap MouseGestureMap() */
 	/* Method skipped due to unknown mapping: AIS_MouseGestureMap ChangeMouseGestureMap() */
+	/* Method skipped due to unknown mapping: AIS_MouseSelectionSchemeMap MouseSelectionSchemes() */
+	/* Method skipped due to unknown mapping: AIS_MouseSelectionSchemeMap ChangeMouseSelectionSchemes() */
 	double MouseDoubleClickInterval();
 	void SetMouseDoubleClickInterval(double theSeconds);
-	void SelectInViewer(Macad::Occt::Graphic3d_Vec2i^ thePnt, bool theIsXOR);
+	void SelectInViewer(Macad::Occt::Graphic3d_Vec2i^ thePnt, Macad::Occt::AIS_SelectionScheme theScheme);
 	void SelectInViewer(Macad::Occt::Graphic3d_Vec2i^ thePnt);
-	/* Method skipped due to unknown mapping: void SelectInViewer(NCollection_Sequence<NCollection_Vec2<int>> thePnts, bool theIsXOR, ) */
-	/* Method skipped due to unknown mapping: void SelectInViewer(NCollection_Sequence<NCollection_Vec2<int>> thePnts, bool theIsXOR, ) */
-	void UpdateRubberBand(Macad::Occt::Graphic3d_Vec2i^ thePntFrom, Macad::Occt::Graphic3d_Vec2i^ thePntTo, bool theIsXOR);
+	/* Method skipped due to unknown mapping: void SelectInViewer(NCollection_Sequence<NCollection_Vec2<int>> thePnts, AIS_SelectionScheme theScheme, ) */
+	/* Method skipped due to unknown mapping: void SelectInViewer(NCollection_Sequence<NCollection_Vec2<int>> thePnts, AIS_SelectionScheme theScheme, ) */
 	void UpdateRubberBand(Macad::Occt::Graphic3d_Vec2i^ thePntFrom, Macad::Occt::Graphic3d_Vec2i^ thePntTo);
 	void UpdatePolySelection(Macad::Occt::Graphic3d_Vec2i^ thePnt, bool theToAppend);
 	bool UpdateZoom(Macad::Occt::Aspect_ScrollDelta^ theDelta);
@@ -3141,35 +3327,20 @@ public:
 	bool UpdateMouseScroll(Macad::Occt::Aspect_ScrollDelta^ theDelta);
 	bool UpdateMouseButtons(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButtons, unsigned int theModifiers, bool theIsEmulated);
 	bool UpdateMousePosition(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButtons, unsigned int theModifiers, bool theIsEmulated);
-	bool PressMouseButton(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButton, unsigned int theModifiers, bool theIsEmulated);
-	bool ReleaseMouseButton(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButton, unsigned int theModifiers, bool theIsEmulated);
 	bool UpdateMouseClick(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButton, unsigned int theModifiers, bool theIsDoubleClick);
-	unsigned int PressedMouseButtons();
-	unsigned int LastMouseFlags();
-	Macad::Occt::Graphic3d_Vec2i^ LastMousePosition();
 	float TouchToleranceScale();
 	void SetTouchToleranceScale(float theTolerance);
-	bool HasTouchPoints();
 	void AddTouchPoint(size_t theId, Macad::Occt::Graphic3d_Vec2d^ thePnt, bool theClearBefore);
 	void AddTouchPoint(size_t theId, Macad::Occt::Graphic3d_Vec2d^ thePnt);
 	bool RemoveTouchPoint(size_t theId, bool theClearSelectPnts);
 	bool RemoveTouchPoint(size_t theId);
 	void UpdateTouchPoint(size_t theId, Macad::Occt::Graphic3d_Vec2d^ thePnt);
-	float Get3dMouseTranslationScale();
-	void Set3dMouseTranslationScale(float theScale);
-	float Get3dMouseRotationScale();
-	void Set3dMouseRotationScale(float theScale);
-	bool To3dMousePreciseInput();
-	void Set3dMousePreciseInput(bool theIsQuadric);
-	/* Method skipped due to unknown mapping: NCollection_Vec3<bool> Get3dMouseIsNoRotate() */
-	/* Method skipped due to unknown mapping: NCollection_Vec3<bool> Change3dMouseIsNoRotate() */
-	/* Method skipped due to unknown mapping: NCollection_Vec3<bool> Get3dMouseToReverse() */
-	/* Method skipped due to unknown mapping: NCollection_Vec3<bool> Change3dMouseToReverse() */
-	bool Update3dMouse(Macad::Occt::WNT_HIDSpaceMouse^ theEvent);
-	bool update3dMouseTranslation(Macad::Occt::WNT_HIDSpaceMouse^ theEvent);
-	bool update3dMouseRotation(Macad::Occt::WNT_HIDSpaceMouse^ theEvent);
-	bool update3dMouseKeys(Macad::Occt::WNT_HIDSpaceMouse^ theEvent);
-	double EventTime();
+	/* Method skipped due to unknown mapping: bool Update3dMouse(WNT_HIDSpaceMouse theEvent, ) */
+	void ProcessExpose();
+	void ProcessConfigure(bool theIsResized);
+	void ProcessInput();
+	void ProcessFocus(bool theIsActivated);
+	void ProcessClose();
 	void ResetViewInput();
 	void UpdateViewOrientation(Macad::Occt::V3d_TypeOfOrientation theOrientation, bool theToFitAll);
 	void FlushViewEvents(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView, bool theToHandle);
@@ -3178,6 +3349,7 @@ public:
 	void OnSelectionChanged(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView);
 	void OnObjectDragged(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView, Macad::Occt::AIS_DragAction theAction);
 	bool PickPoint(Macad::Occt::Pnt% thePnt, Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView, Macad::Occt::Graphic3d_Vec2i^ theCursor, bool theToStickToPickRay);
+	bool PickAxis(Macad::Occt::Pnt% theTopPnt, Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView, Macad::Occt::Ax1 theAxis);
 	Macad::Occt::Pnt GravityPoint(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView);
 	void FitAllAuto(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView);
 	void handleViewOrientationKeys(Macad::Occt::AIS_InteractiveContext^ theCtx, Macad::Occt::V3d_View^ theView);

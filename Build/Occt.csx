@@ -271,7 +271,7 @@ string _CastXmlPath = @"Tools\CastXML";
 
 bool _GenerateWrapper()
 {
-	var _CastXmlPath = Packages.FindPackageFile("CastXml.0.4.1", "castxml\\bin\\castxml.exe");
+	var _CastXmlPath = Packages.FindPackageFile("CastXml.0.4.4", "castxml\\bin\\castxml.exe");
 	if(string.IsNullOrEmpty(_CastXmlPath))
 		return false;
 

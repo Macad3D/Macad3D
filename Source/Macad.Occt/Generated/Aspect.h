@@ -70,6 +70,16 @@ public enum class Aspect_FillMethod
 //---------------------------------------------------------------------
 public enum class Aspect_GradientFillMethod
 {
+	Aspect_GradientFillMethod_None = 0,
+	Aspect_GradientFillMethod_Horizontal = 1,
+	Aspect_GradientFillMethod_Vertical = 2,
+	Aspect_GradientFillMethod_Diagonal1 = 3,
+	Aspect_GradientFillMethod_Diagonal2 = 4,
+	Aspect_GradientFillMethod_Corner1 = 5,
+	Aspect_GradientFillMethod_Corner2 = 6,
+	Aspect_GradientFillMethod_Corner3 = 7,
+	Aspect_GradientFillMethod_Corner4 = 8,
+	Aspect_GradientFillMethod_Elliptical = 9,
 	Aspect_GFM_NONE = 0,
 	Aspect_GFM_HOR = 1,
 	Aspect_GFM_VER = 2,
@@ -933,72 +943,6 @@ public:
 }; // class Aspect_ScrollDelta
 
 //---------------------------------------------------------------------
-//  Class  _xwd_file_header
-//---------------------------------------------------------------------
-public ref class _xwd_file_header sealed : public BaseClass<::_xwd_file_header>
-{
-
-#ifdef Include__xwd_file_header_h
-public:
-	Include__xwd_file_header_h
-#endif
-
-public:
-	_xwd_file_header(::_xwd_file_header* nativeInstance)
-		: BaseClass<::_xwd_file_header>( nativeInstance, true )
-	{}
-
-	_xwd_file_header(::_xwd_file_header& nativeInstance)
-		: BaseClass<::_xwd_file_header>( &nativeInstance, false )
-	{}
-
-	property ::_xwd_file_header* NativeInstance
-	{
-		::_xwd_file_header* get()
-		{
-			return static_cast<::_xwd_file_header*>(_NativeInstance);
-		}
-	}
-
-public:
-	_xwd_file_header();
-	_xwd_file_header(Macad::Occt::_xwd_file_header^ parameter1);
-}; // class _xwd_file_header
-
-//---------------------------------------------------------------------
-//  Class  _xcolor
-//---------------------------------------------------------------------
-public ref class _xcolor sealed : public BaseClass<::_xcolor>
-{
-
-#ifdef Include__xcolor_h
-public:
-	Include__xcolor_h
-#endif
-
-public:
-	_xcolor(::_xcolor* nativeInstance)
-		: BaseClass<::_xcolor>( nativeInstance, true )
-	{}
-
-	_xcolor(::_xcolor& nativeInstance)
-		: BaseClass<::_xcolor>( &nativeInstance, false )
-	{}
-
-	property ::_xcolor* NativeInstance
-	{
-		::_xcolor* get()
-		{
-			return static_cast<::_xcolor*>(_NativeInstance);
-		}
-	}
-
-public:
-	_xcolor();
-	_xcolor(Macad::Occt::_xcolor^ parameter1);
-}; // class _xcolor
-
-//---------------------------------------------------------------------
 //  Class  Aspect_AspectFillAreaDefinitionError
 //---------------------------------------------------------------------
 public ref class Aspect_AspectFillAreaDefinitionError sealed : public Macad::Occt::Standard_OutOfRange
@@ -1031,12 +975,14 @@ public:
 public:
 	Aspect_AspectFillAreaDefinitionError();
 	Aspect_AspectFillAreaDefinitionError(System::String^ theMessage);
+	Aspect_AspectFillAreaDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
 	Aspect_AspectFillAreaDefinitionError(Macad::Occt::Aspect_AspectFillAreaDefinitionError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Aspect_AspectFillAreaDefinitionError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Aspect_AspectFillAreaDefinitionError^ NewInstance();
+	static Macad::Occt::Aspect_AspectFillAreaDefinitionError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Aspect_AspectFillAreaDefinitionError
 
 //---------------------------------------------------------------------
@@ -1072,12 +1018,14 @@ public:
 public:
 	Aspect_AspectLineDefinitionError();
 	Aspect_AspectLineDefinitionError(System::String^ theMessage);
+	Aspect_AspectLineDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
 	Aspect_AspectLineDefinitionError(Macad::Occt::Aspect_AspectLineDefinitionError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Aspect_AspectLineDefinitionError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Aspect_AspectLineDefinitionError^ NewInstance();
+	static Macad::Occt::Aspect_AspectLineDefinitionError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Aspect_AspectLineDefinitionError
 
 //---------------------------------------------------------------------
@@ -1113,12 +1061,14 @@ public:
 public:
 	Aspect_AspectMarkerDefinitionError();
 	Aspect_AspectMarkerDefinitionError(System::String^ theMessage);
+	Aspect_AspectMarkerDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
 	Aspect_AspectMarkerDefinitionError(Macad::Occt::Aspect_AspectMarkerDefinitionError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Aspect_AspectMarkerDefinitionError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Aspect_AspectMarkerDefinitionError^ NewInstance();
+	static Macad::Occt::Aspect_AspectMarkerDefinitionError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Aspect_AspectMarkerDefinitionError
 
 //---------------------------------------------------------------------
@@ -1279,40 +1229,6 @@ public:
 }; // class Aspect_CircularGrid
 
 //---------------------------------------------------------------------
-//  Class  Aspect_DisplayConnection
-//---------------------------------------------------------------------
-public ref class Aspect_DisplayConnection sealed : public Macad::Occt::Standard_Transient
-{
-
-#ifdef Include_Aspect_DisplayConnection_h
-public:
-	Include_Aspect_DisplayConnection_h
-#endif
-
-public:
-	Aspect_DisplayConnection(::Aspect_DisplayConnection* nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	Aspect_DisplayConnection(::Aspect_DisplayConnection& nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	property ::Aspect_DisplayConnection* NativeInstance
-	{
-		::Aspect_DisplayConnection* get()
-		{
-			return static_cast<::Aspect_DisplayConnection*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::Aspect_DisplayConnection^ CreateDowncasted(::Aspect_DisplayConnection* instance);
-
-public:
-	Aspect_DisplayConnection();
-}; // class Aspect_DisplayConnection
-
-//---------------------------------------------------------------------
 //  Class  Aspect_DisplayConnectionDefinitionError
 //---------------------------------------------------------------------
 public ref class Aspect_DisplayConnectionDefinitionError sealed : public Macad::Occt::Standard_OutOfRange
@@ -1345,54 +1261,15 @@ public:
 public:
 	Aspect_DisplayConnectionDefinitionError();
 	Aspect_DisplayConnectionDefinitionError(System::String^ theMessage);
+	Aspect_DisplayConnectionDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
 	Aspect_DisplayConnectionDefinitionError(Macad::Occt::Aspect_DisplayConnectionDefinitionError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Aspect_DisplayConnectionDefinitionError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Aspect_DisplayConnectionDefinitionError^ NewInstance();
+	static Macad::Occt::Aspect_DisplayConnectionDefinitionError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Aspect_DisplayConnectionDefinitionError
-
-//---------------------------------------------------------------------
-//  Class  Aspect_IdentDefinitionError
-//---------------------------------------------------------------------
-public ref class Aspect_IdentDefinitionError sealed : public Macad::Occt::Standard_OutOfRange
-{
-
-#ifdef Include_Aspect_IdentDefinitionError_h
-public:
-	Include_Aspect_IdentDefinitionError_h
-#endif
-
-public:
-	Aspect_IdentDefinitionError(::Aspect_IdentDefinitionError* nativeInstance)
-		: Macad::Occt::Standard_OutOfRange( nativeInstance )
-	{}
-
-	Aspect_IdentDefinitionError(::Aspect_IdentDefinitionError& nativeInstance)
-		: Macad::Occt::Standard_OutOfRange( nativeInstance )
-	{}
-
-	property ::Aspect_IdentDefinitionError* NativeInstance
-	{
-		::Aspect_IdentDefinitionError* get()
-		{
-			return static_cast<::Aspect_IdentDefinitionError*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::Aspect_IdentDefinitionError^ CreateDowncasted(::Aspect_IdentDefinitionError* instance);
-
-public:
-	Aspect_IdentDefinitionError();
-	Aspect_IdentDefinitionError(System::String^ theMessage);
-	Aspect_IdentDefinitionError(Macad::Occt::Aspect_IdentDefinitionError^ parameter1);
-	static void Raise(System::String^ theMessage);
-	static void Raise();
-	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
-	static Macad::Occt::Aspect_IdentDefinitionError^ NewInstance(System::String^ theMessage);
-	static Macad::Occt::Aspect_IdentDefinitionError^ NewInstance();
-}; // class Aspect_IdentDefinitionError
 
 //---------------------------------------------------------------------
 //  Class  Aspect_GenId
@@ -1468,12 +1345,12 @@ public:
 
 public:
 	Aspect_GradientBackground();
-	Aspect_GradientBackground(Macad::Occt::Quantity_Color^ AColor1, Macad::Occt::Quantity_Color^ AColor2, Macad::Occt::Aspect_GradientFillMethod AMethod);
-	Aspect_GradientBackground(Macad::Occt::Quantity_Color^ AColor1, Macad::Occt::Quantity_Color^ AColor2);
+	Aspect_GradientBackground(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2, Macad::Occt::Aspect_GradientFillMethod theMethod);
+	Aspect_GradientBackground(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2);
 	Aspect_GradientBackground(Macad::Occt::Aspect_GradientBackground^ parameter1);
-	void SetColors(Macad::Occt::Quantity_Color^ AColor1, Macad::Occt::Quantity_Color^ AColor2, Macad::Occt::Aspect_GradientFillMethod AMethod);
-	void SetColors(Macad::Occt::Quantity_Color^ AColor1, Macad::Occt::Quantity_Color^ AColor2);
-	void Colors(Macad::Occt::Quantity_Color^ AColor1, Macad::Occt::Quantity_Color^ AColor2);
+	void SetColors(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2, Macad::Occt::Aspect_GradientFillMethod theMethod);
+	void SetColors(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2);
+	void Colors(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2);
 	Macad::Occt::Aspect_GradientFillMethod BgGradientFillMethod();
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
@@ -1512,13 +1389,58 @@ public:
 public:
 	Aspect_GraphicDeviceDefinitionError();
 	Aspect_GraphicDeviceDefinitionError(System::String^ theMessage);
+	Aspect_GraphicDeviceDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
 	Aspect_GraphicDeviceDefinitionError(Macad::Occt::Aspect_GraphicDeviceDefinitionError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Aspect_GraphicDeviceDefinitionError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Aspect_GraphicDeviceDefinitionError^ NewInstance();
+	static Macad::Occt::Aspect_GraphicDeviceDefinitionError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Aspect_GraphicDeviceDefinitionError
+
+//---------------------------------------------------------------------
+//  Class  Aspect_IdentDefinitionError
+//---------------------------------------------------------------------
+public ref class Aspect_IdentDefinitionError sealed : public Macad::Occt::Standard_OutOfRange
+{
+
+#ifdef Include_Aspect_IdentDefinitionError_h
+public:
+	Include_Aspect_IdentDefinitionError_h
+#endif
+
+public:
+	Aspect_IdentDefinitionError(::Aspect_IdentDefinitionError* nativeInstance)
+		: Macad::Occt::Standard_OutOfRange( nativeInstance )
+	{}
+
+	Aspect_IdentDefinitionError(::Aspect_IdentDefinitionError& nativeInstance)
+		: Macad::Occt::Standard_OutOfRange( nativeInstance )
+	{}
+
+	property ::Aspect_IdentDefinitionError* NativeInstance
+	{
+		::Aspect_IdentDefinitionError* get()
+		{
+			return static_cast<::Aspect_IdentDefinitionError*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Aspect_IdentDefinitionError^ CreateDowncasted(::Aspect_IdentDefinitionError* instance);
+
+public:
+	Aspect_IdentDefinitionError();
+	Aspect_IdentDefinitionError(System::String^ theMessage);
+	Aspect_IdentDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
+	Aspect_IdentDefinitionError(Macad::Occt::Aspect_IdentDefinitionError^ parameter1);
+	static void Raise(System::String^ theMessage);
+	static void Raise();
+	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
+	static Macad::Occt::Aspect_IdentDefinitionError^ NewInstance(System::String^ theMessage);
+	static Macad::Occt::Aspect_IdentDefinitionError^ NewInstance();
+	static Macad::Occt::Aspect_IdentDefinitionError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
+}; // class Aspect_IdentDefinitionError
 
 //---------------------------------------------------------------------
 //  Class  Aspect_Window
@@ -1576,63 +1498,16 @@ public:
 	void Size(int% Width, int% Height);
 	System::IntPtr NativeHandle();
 	System::IntPtr NativeParentHandle();
-	System::IntPtr NativeFBConfig();
+	/* Method skipped due to unknown mapping: __GLXFBConfigRec NativeFBConfig() */
+	/* Method skipped due to unknown mapping: Aspect_DisplayConnection DisplayConnection() */
 	void SetTitle(Macad::Occt::TCollection_AsciiString^ theTitle);
-	void InvalidateContent(Macad::Occt::Aspect_DisplayConnection^ theDisp);
+	/* Method skipped due to unknown mapping: void InvalidateContent(Aspect_DisplayConnection theDisp, ) */
+	double DevicePixelRatio();
+	Macad::Occt::Graphic3d_Vec2d^ ConvertPointToBacking(Macad::Occt::Graphic3d_Vec2d^ thePnt);
+	Macad::Occt::Graphic3d_Vec2d^ ConvertPointFromBacking(Macad::Occt::Graphic3d_Vec2d^ thePnt);
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 }; // class Aspect_Window
-
-//---------------------------------------------------------------------
-//  Class  Aspect_NeutralWindow
-//---------------------------------------------------------------------
-public ref class Aspect_NeutralWindow sealed : public Macad::Occt::Aspect_Window
-{
-
-#ifdef Include_Aspect_NeutralWindow_h
-public:
-	Include_Aspect_NeutralWindow_h
-#endif
-
-public:
-	Aspect_NeutralWindow(::Aspect_NeutralWindow* nativeInstance)
-		: Macad::Occt::Aspect_Window( nativeInstance )
-	{}
-
-	Aspect_NeutralWindow(::Aspect_NeutralWindow& nativeInstance)
-		: Macad::Occt::Aspect_Window( nativeInstance )
-	{}
-
-	property ::Aspect_NeutralWindow* NativeInstance
-	{
-		::Aspect_NeutralWindow* get()
-		{
-			return static_cast<::Aspect_NeutralWindow*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::Aspect_NeutralWindow^ CreateDowncasted(::Aspect_NeutralWindow* instance);
-
-public:
-	Aspect_NeutralWindow();
-	Aspect_NeutralWindow(Macad::Occt::Aspect_NeutralWindow^ parameter1);
-	System::IntPtr NativeHandle();
-	System::IntPtr NativeParentHandle();
-	System::IntPtr NativeFBConfig();
-	bool SetNativeHandle(System::IntPtr theWindow);
-	bool SetNativeHandles(System::IntPtr theWindow, System::IntPtr theParentWindow, System::IntPtr theFbConfig);
-	bool IsMapped();
-	void Map();
-	void Unmap();
-	Macad::Occt::Aspect_TypeOfResize DoResize();
-	bool DoMapping();
-	double Ratio();
-	void Position(int% theX1, int% theY1, int% theX2, int% theY2);
-	bool SetPosition(int theX1, int theY1);
-	bool SetPosition(int theX1, int theY1, int theX2, int theY2);
-	void Size(int% theWidth, int% theHeight);
-	bool SetSize(int theWidth, int theHeight);
-}; // class Aspect_NeutralWindow
 
 //---------------------------------------------------------------------
 //  Class  Aspect_XRAction
@@ -2043,12 +1918,14 @@ public:
 public:
 	Aspect_WindowDefinitionError();
 	Aspect_WindowDefinitionError(System::String^ theMessage);
+	Aspect_WindowDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
 	Aspect_WindowDefinitionError(Macad::Occt::Aspect_WindowDefinitionError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Aspect_WindowDefinitionError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Aspect_WindowDefinitionError^ NewInstance();
+	static Macad::Occt::Aspect_WindowDefinitionError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Aspect_WindowDefinitionError
 
 //---------------------------------------------------------------------
@@ -2084,13 +1961,90 @@ public:
 public:
 	Aspect_WindowError();
 	Aspect_WindowError(System::String^ theMessage);
+	Aspect_WindowError(System::String^ theMessage, System::String^ theStackTrace);
 	Aspect_WindowError(Macad::Occt::Aspect_WindowError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Aspect_WindowError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Aspect_WindowError^ NewInstance();
+	static Macad::Occt::Aspect_WindowError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Aspect_WindowError
+
+//---------------------------------------------------------------------
+//  Class  Aspect_WindowInputListener
+//---------------------------------------------------------------------
+public ref class Aspect_WindowInputListener : public BaseClass<::Aspect_WindowInputListener>
+{
+
+#ifdef Include_Aspect_WindowInputListener_h
+public:
+	Include_Aspect_WindowInputListener_h
+#endif
+
+protected:
+	Aspect_WindowInputListener(InitMode init)
+		: BaseClass<::Aspect_WindowInputListener>( init )
+	{}
+
+public:
+	Aspect_WindowInputListener(::Aspect_WindowInputListener* nativeInstance)
+		: BaseClass<::Aspect_WindowInputListener>( nativeInstance, true )
+	{}
+
+	Aspect_WindowInputListener(::Aspect_WindowInputListener& nativeInstance)
+		: BaseClass<::Aspect_WindowInputListener>( &nativeInstance, false )
+	{}
+
+	property ::Aspect_WindowInputListener* NativeInstance
+	{
+		::Aspect_WindowInputListener* get()
+		{
+			return static_cast<::Aspect_WindowInputListener*>(_NativeInstance);
+		}
+	}
+
+public:
+	double EventTime();
+	void ProcessExpose();
+	void ProcessConfigure(bool theIsResized);
+	void ProcessInput();
+	void ProcessFocus(bool theIsActivated);
+	void ProcessClose();
+	void KeyDown(unsigned int theKey, double theTime, double thePressure);
+	void KeyDown(unsigned int theKey, double theTime);
+	void KeyUp(unsigned int theKey, double theTime);
+	void KeyFromAxis(unsigned int theNegative, unsigned int thePositive, double theTime, double thePressure);
+	bool UpdateMouseScroll(Macad::Occt::Aspect_ScrollDelta^ theDelta);
+	bool UpdateMouseButtons(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButtons, unsigned int theModifiers, bool theIsEmulated);
+	bool UpdateMousePosition(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButtons, unsigned int theModifiers, bool theIsEmulated);
+	bool PressMouseButton(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButton, unsigned int theModifiers, bool theIsEmulated);
+	bool ReleaseMouseButton(Macad::Occt::Graphic3d_Vec2i^ thePoint, unsigned int theButton, unsigned int theModifiers, bool theIsEmulated);
+	unsigned int PressedMouseButtons();
+	unsigned int LastMouseFlags();
+	Macad::Occt::Graphic3d_Vec2i^ LastMousePosition();
+	bool HasTouchPoints();
+	/* Method skipped due to unknown mapping: Aspect_TouchMap TouchPoints() */
+	void AddTouchPoint(size_t theId, Macad::Occt::Graphic3d_Vec2d^ thePnt, bool theClearBefore);
+	void AddTouchPoint(size_t theId, Macad::Occt::Graphic3d_Vec2d^ thePnt);
+	bool RemoveTouchPoint(size_t theId, bool theClearSelectPnts);
+	bool RemoveTouchPoint(size_t theId);
+	void UpdateTouchPoint(size_t theId, Macad::Occt::Graphic3d_Vec2d^ thePnt);
+	float Get3dMouseTranslationScale();
+	void Set3dMouseTranslationScale(float theScale);
+	float Get3dMouseRotationScale();
+	void Set3dMouseRotationScale(float theScale);
+	bool To3dMousePreciseInput();
+	void Set3dMousePreciseInput(bool theIsQuadric);
+	/* Method skipped due to unknown mapping: NCollection_Vec3<bool> Get3dMouseIsNoRotate() */
+	/* Method skipped due to unknown mapping: NCollection_Vec3<bool> Change3dMouseIsNoRotate() */
+	/* Method skipped due to unknown mapping: NCollection_Vec3<bool> Get3dMouseToReverse() */
+	/* Method skipped due to unknown mapping: NCollection_Vec3<bool> Change3dMouseToReverse() */
+	/* Method skipped due to unknown mapping: bool Update3dMouse(WNT_HIDSpaceMouse theEvent, ) */
+	/* Method skipped due to unknown mapping: bool update3dMouseTranslation(WNT_HIDSpaceMouse theEvent, ) */
+	/* Method skipped due to unknown mapping: bool update3dMouseRotation(WNT_HIDSpaceMouse theEvent, ) */
+	/* Method skipped due to unknown mapping: bool update3dMouseKeys(WNT_HIDSpaceMouse theEvent, ) */
+}; // class Aspect_WindowInputListener
 
 }; // namespace Occt
 }; // namespace Macad

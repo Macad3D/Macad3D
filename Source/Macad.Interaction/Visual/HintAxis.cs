@@ -55,7 +55,7 @@ namespace Macad.Interaction.Visual
             if ((_Style & HintStyle.NoResize) > 0)
             {
                 _AisAxis.SetComponent(new Geom_Line(Pnt.Origin, axis.Direction));
-                _AisAxis.SetTransformPersistence(Graphic3d_TransModeFlags.Graphic3d_TMF_ZoomPers, axis.Location);
+                _AisAxis.SetTransformPersistence(new Graphic3d_TransformPers(Graphic3d_TransModeFlags.Graphic3d_TMF_ZoomPers, axis.Location));
             }
             else
             {

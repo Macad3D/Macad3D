@@ -49,6 +49,7 @@ public:
 	void Init(Macad::Occt::Pnt thePnt1, Macad::Occt::Pnt thePnt2);
 	void Init(Macad::Occt::Ax2 theAxes, double theDX, double theDY, double theDZ);
 	/* Method skipped due to unknown mapping: BRepPrim_Wedge Wedge() */
+	void Build(Macad::Occt::Message_ProgressRange^ theRange);
 	void Build();
 	Macad::Occt::TopoDS_Shell^ Shell();
 	Macad::Occt::TopoDS_Solid^ Solid();
@@ -97,6 +98,7 @@ public:
 	BRepPrimAPI_MakeOneAxis();
 	BRepPrimAPI_MakeOneAxis(Macad::Occt::BRepPrimAPI_MakeOneAxis^ parameter1);
 	System::IntPtr OneAxis();
+	void Build(Macad::Occt::Message_ProgressRange^ theRange);
 	void Build();
 	Macad::Occt::TopoDS_Face^ Face();
 	Macad::Occt::TopoDS_Shell^ Shell();
@@ -292,6 +294,7 @@ public:
 	BRepPrimAPI_MakePrism(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::Dir D);
 	BRepPrimAPI_MakePrism(Macad::Occt::BRepPrimAPI_MakePrism^ parameter1);
 	/* Method skipped due to unknown mapping: BRepSweep_Prism Prism() */
+	void Build(Macad::Occt::Message_ProgressRange^ theRange);
 	void Build();
 	Macad::Occt::TopoDS_Shape^ FirstShape();
 	Macad::Occt::TopoDS_Shape^ LastShape();
@@ -336,6 +339,7 @@ public:
 	BRepPrimAPI_MakeRevol(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::Ax1 A);
 	BRepPrimAPI_MakeRevol(Macad::Occt::BRepPrimAPI_MakeRevol^ parameter1);
 	/* Method skipped due to unknown mapping: BRepSweep_Revol Revol() */
+	void Build(Macad::Occt::Message_ProgressRange^ theRange);
 	void Build();
 	Macad::Occt::TopoDS_Shape^ FirstShape();
 	Macad::Occt::TopoDS_Shape^ LastShape();
@@ -512,6 +516,7 @@ public:
 	BRepPrimAPI_MakeWedge(Macad::Occt::Ax2 Axes, double dx, double dy, double dz, double xmin, double zmin, double xmax, double zmax);
 	BRepPrimAPI_MakeWedge(Macad::Occt::BRepPrimAPI_MakeWedge^ parameter1);
 	/* Method skipped due to unknown mapping: BRepPrim_Wedge Wedge() */
+	void Build(Macad::Occt::Message_ProgressRange^ theRange);
 	void Build();
 	Macad::Occt::TopoDS_Shell^ Shell();
 	Macad::Occt::TopoDS_Solid^ Solid();

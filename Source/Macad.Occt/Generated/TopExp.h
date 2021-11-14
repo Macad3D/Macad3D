@@ -47,9 +47,9 @@ public:
 	Macad::Occt::TopoDS_Shape^ Value();
 	Macad::Occt::TopoDS_Shape^ Current();
 	void ReInit();
+	Macad::Occt::TopoDS_Shape^ ExploredShape();
 	int Depth();
 	void Clear();
-	void Destroy();
 }; // class TopExp_Explorer
 
 //---------------------------------------------------------------------
@@ -84,7 +84,11 @@ public:
 	TopExp();
 	TopExp(Macad::Occt::TopExp^ parameter1);
 	static void MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopAbs_ShapeEnum T, Macad::Occt::TopTools_IndexedMapOfShape^ M);
+	static void MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_IndexedMapOfShape^ M, bool cumOri, bool cumLoc);
+	static void MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_IndexedMapOfShape^ M, bool cumOri);
 	static void MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_IndexedMapOfShape^ M);
+	static void MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_MapOfShape^ M, bool cumOri, bool cumLoc);
+	static void MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_MapOfShape^ M, bool cumOri);
 	static void MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_MapOfShape^ M);
 	static void MapShapesAndAncestors(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopAbs_ShapeEnum TS, Macad::Occt::TopAbs_ShapeEnum TA, Macad::Occt::TopTools_IndexedDataMapOfShapeListOfShape^ M);
 	static void MapShapesAndUniqueAncestors(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopAbs_ShapeEnum TS, Macad::Occt::TopAbs_ShapeEnum TA, Macad::Occt::TopTools_IndexedDataMapOfShapeListOfShape^ M, bool useOrientation);

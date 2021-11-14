@@ -79,7 +79,7 @@
 #include <Aspect_DisplayConnection.hxx>
 #include <Aspect_TypeOfLine.hxx>
 
-#include <PrsMgr_PresentationManager3d.hxx>
+#include <PrsMgr_PresentationManager.hxx>
 
 #include <Prs3d_Presentation.hxx>
 #include <Prs3d_LineAspect.hxx>

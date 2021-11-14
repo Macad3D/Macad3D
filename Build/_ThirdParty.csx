@@ -75,7 +75,12 @@ public static class Occt
             Printer.Error($"The batch file 'Custom.bat' in OCCT directory could not be executed.");
             return false;
         }
-        if(!output[1].Contains("true"))
+        bool hasTbb = output[1].Contains("true");
+        bool hasFreeImage = output[2].Contains("true");
+        bool hasFFMpeg = output[3].Contains("true");
+        bool hasOpenVR = output[4].Contains("true");
+
+        if(!hasTbb)
         {
             Printer.Error($"Usage of TBB has not been enabled. The build scripts do expect that TBB has been enabled.");
             return false;
@@ -101,7 +106,7 @@ public static class Occt
         Printer.Success($"TBB found in folder {TbbSourcePath}");
         
         // Check for FreeImage
-        if(output[2].Contains("true"))
+        if(hasFreeImage)
         {
             var freeImageSourcePath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("freeimage")) ?? "");
             if(File.Exists(Path.Combine(freeImageSourcePath, "FreeImage.dll")))
@@ -112,7 +117,7 @@ public static class Occt
         }
         
         // Check for FFMPEG
-        if(output[3].Contains("true"))
+        if(hasFFMpeg)
         {
             var ffmpegSourcePath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("ffmpeg")) ?? "");
             if(File.Exists(Path.Combine(ffmpegSourcePath, "ffprobe.exe")))
@@ -123,7 +128,12 @@ public static class Occt
         }
         
         // Check for OpenVR
-        if(output[4].Contains("true"))
+        if(hasFreeImage && hasFFMpeg && !hasOpenVR)
+        {
+            hasOpenVR = true;
+            Printer.Warning("It seems that you are referencing the official download build of OCCT. This download does erroneously not declare the HAVE_OPENVR switch. This switch is now set anyway to avoid crashes due to missing dlls.");
+        }
+        if(hasOpenVR)
         {
             var openVrPath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("openvr")) ?? "");
             if(File.Exists(Path.Combine(openVrPath, "openvr_api.dll")))

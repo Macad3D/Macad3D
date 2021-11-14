@@ -136,6 +136,7 @@ public:
 	ShapeConstruct_MakeTriangulation(Macad::Occt::TopoDS_Wire^ wire, double prec);
 	ShapeConstruct_MakeTriangulation(Macad::Occt::TopoDS_Wire^ wire);
 	ShapeConstruct_MakeTriangulation(Macad::Occt::ShapeConstruct_MakeTriangulation^ parameter1);
+	void Build(Macad::Occt::Message_ProgressRange^ theRange);
 	void Build();
 	bool IsDone();
 }; // class ShapeConstruct_MakeTriangulation

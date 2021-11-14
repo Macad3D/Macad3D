@@ -46,6 +46,14 @@ namespace Macad.Exchange
 
         //--------------------------------------------------------------------------------------------------
 
+        [AutoRegister]
+        internal static void Register()
+        {
+            ExchangeRegistry.Register(new StepExchanger());
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
         #region Settings

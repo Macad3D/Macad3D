@@ -48,9 +48,9 @@ void Macad::Occt::IntCurvesFace_Intersector::Perform(Macad::Occt::gp_Lin^ L, dou
 	((::IntCurvesFace_Intersector*)_NativeInstance)->Perform(*(::gp_Lin*)L->NativeInstance, PInf, PSup);
 }
 
-void Macad::Occt::IntCurvesFace_Intersector::Perform(Macad::Occt::Adaptor3d_HCurve^ HCu, double PInf, double PSup)
+void Macad::Occt::IntCurvesFace_Intersector::Perform(Macad::Occt::Adaptor3d_Curve^ HCu, double PInf, double PSup)
 {
-	Handle(::Adaptor3d_HCurve) h_HCu = HCu->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_HCu = HCu->NativeInstance;
 	((::IntCurvesFace_Intersector*)_NativeInstance)->Perform(h_HCu, PInf, PSup);
 	HCu->NativeInstance = h_HCu.get();
 }
@@ -169,9 +169,9 @@ void Macad::Occt::IntCurvesFace_ShapeIntersector::PerformNearest(Macad::Occt::gp
 	((::IntCurvesFace_ShapeIntersector*)_NativeInstance)->PerformNearest(*(::gp_Lin*)L->NativeInstance, PInf, PSup);
 }
 
-void Macad::Occt::IntCurvesFace_ShapeIntersector::Perform(Macad::Occt::Adaptor3d_HCurve^ HCu, double PInf, double PSup)
+void Macad::Occt::IntCurvesFace_ShapeIntersector::Perform(Macad::Occt::Adaptor3d_Curve^ HCu, double PInf, double PSup)
 {
-	Handle(::Adaptor3d_HCurve) h_HCu = HCu->NativeInstance;
+	Handle(::Adaptor3d_Curve) h_HCu = HCu->NativeInstance;
 	((::IntCurvesFace_ShapeIntersector*)_NativeInstance)->Perform(h_HCu, PInf, PSup);
 	HCu->NativeInstance = h_HCu.get();
 }

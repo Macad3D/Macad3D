@@ -11,6 +11,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "TopoDS.h"
 #include "gp.h"
 #include "TopTools.h"
+#include "Message.h"
 #include "BRepBuilderAPI.h"
 #include "Geom.h"
 #include "GeomAbs.h"
@@ -326,9 +327,14 @@ Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepOffsetAPI_DraftAngle::Modifi
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopTools_ListOfShape(_result);
 }
 
+void Macad::Occt::BRepOffsetAPI_DraftAngle::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffsetAPI_DraftAngle*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepOffsetAPI_DraftAngle::Build()
 {
-	((::BRepOffsetAPI_DraftAngle*)_NativeInstance)->Build();
+	((::BRepOffsetAPI_DraftAngle*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepOffsetAPI_DraftAngle::CorrectWires()
@@ -622,9 +628,14 @@ Macad::Occt::BRepOffsetAPI_MakeEvolved::BRepOffsetAPI_MakeEvolved(Macad::Occt::B
 	_NativeInstance = new ::BRepOffsetAPI_MakeEvolved(*(::BRepOffsetAPI_MakeEvolved*)parameter1->NativeInstance);
 }
 
+void Macad::Occt::BRepOffsetAPI_MakeEvolved::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffsetAPI_MakeEvolved*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepOffsetAPI_MakeEvolved::Build()
 {
-	((::BRepOffsetAPI_MakeEvolved*)_NativeInstance)->Build();
+	((::BRepOffsetAPI_MakeEvolved*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepOffsetAPI_MakeEvolved::GeneratedShapes(Macad::Occt::TopoDS_Shape^ SpineShape, Macad::Occt::TopoDS_Shape^ ProfShape)
@@ -827,9 +838,14 @@ int Macad::Occt::BRepOffsetAPI_MakeFilling::Add(double U, double V, Macad::Occt:
 	return ((::BRepOffsetAPI_MakeFilling*)_NativeInstance)->Add(U, V, *(::TopoDS_Face*)Support->NativeInstance, (::GeomAbs_Shape)Order);
 }
 
+void Macad::Occt::BRepOffsetAPI_MakeFilling::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffsetAPI_MakeFilling*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepOffsetAPI_MakeFilling::Build()
 {
-	((::BRepOffsetAPI_MakeFilling*)_NativeInstance)->Build();
+	((::BRepOffsetAPI_MakeFilling*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 bool Macad::Occt::BRepOffsetAPI_MakeFilling::IsDone()
@@ -974,9 +990,14 @@ void Macad::Occt::BRepOffsetAPI_MakeOffset::Perform(double Offset)
 	((::BRepOffsetAPI_MakeOffset*)_NativeInstance)->Perform(Offset, 0.);
 }
 
+void Macad::Occt::BRepOffsetAPI_MakeOffset::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffsetAPI_MakeOffset*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepOffsetAPI_MakeOffset::Build()
 {
-	((::BRepOffsetAPI_MakeOffset*)_NativeInstance)->Build();
+	((::BRepOffsetAPI_MakeOffset*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepOffsetAPI_MakeOffset::Generated(Macad::Occt::TopoDS_Shape^ S)
@@ -999,42 +1020,6 @@ Macad::Occt::BRepOffsetAPI_MakeOffsetShape::BRepOffsetAPI_MakeOffsetShape()
 	_NativeInstance = new ::BRepOffsetAPI_MakeOffsetShape();
 }
 
-Macad::Occt::BRepOffsetAPI_MakeOffsetShape::BRepOffsetAPI_MakeOffsetShape(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join, bool RemoveIntEdges)
-	: Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepOffsetAPI_MakeOffsetShape(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, RemoveIntEdges);
-}
-
-Macad::Occt::BRepOffsetAPI_MakeOffsetShape::BRepOffsetAPI_MakeOffsetShape(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join)
-	: Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepOffsetAPI_MakeOffsetShape(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, false);
-}
-
-Macad::Occt::BRepOffsetAPI_MakeOffsetShape::BRepOffsetAPI_MakeOffsetShape(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter)
-	: Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepOffsetAPI_MakeOffsetShape(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, GeomAbs_Arc, false);
-}
-
-Macad::Occt::BRepOffsetAPI_MakeOffsetShape::BRepOffsetAPI_MakeOffsetShape(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection)
-	: Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepOffsetAPI_MakeOffsetShape(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, false, GeomAbs_Arc, false);
-}
-
-Macad::Occt::BRepOffsetAPI_MakeOffsetShape::BRepOffsetAPI_MakeOffsetShape(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode)
-	: Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepOffsetAPI_MakeOffsetShape(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, false, false, GeomAbs_Arc, false);
-}
-
-Macad::Occt::BRepOffsetAPI_MakeOffsetShape::BRepOffsetAPI_MakeOffsetShape(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol)
-	: Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepOffsetAPI_MakeOffsetShape(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, BRepOffset_Skin, false, false, GeomAbs_Arc, false);
-}
-
 Macad::Occt::BRepOffsetAPI_MakeOffsetShape::BRepOffsetAPI_MakeOffsetShape(Macad::Occt::BRepOffsetAPI_MakeOffsetShape^ parameter1)
 	: Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
 {
@@ -1046,34 +1031,39 @@ void Macad::Occt::BRepOffsetAPI_MakeOffsetShape::PerformBySimple(Macad::Occt::To
 	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->PerformBySimple(*(::TopoDS_Shape*)theS->NativeInstance, theOffsetValue);
 }
 
+void Macad::Occt::BRepOffsetAPI_MakeOffsetShape::PerformByJoin(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join, bool RemoveIntEdges, Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->PerformByJoin(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, RemoveIntEdges, *(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepOffsetAPI_MakeOffsetShape::PerformByJoin(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join, bool RemoveIntEdges)
 {
-	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->PerformByJoin(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, RemoveIntEdges);
+	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->PerformByJoin(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, RemoveIntEdges, ::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepOffsetAPI_MakeOffsetShape::PerformByJoin(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join)
 {
-	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->PerformByJoin(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, false);
+	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->PerformByJoin(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, false, ::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepOffsetAPI_MakeOffsetShape::PerformByJoin(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter)
 {
-	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->PerformByJoin(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, GeomAbs_Arc, false);
+	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->PerformByJoin(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, GeomAbs_Arc, false, ::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepOffsetAPI_MakeOffsetShape::PerformByJoin(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection)
 {
-	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->PerformByJoin(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, false, GeomAbs_Arc, false);
+	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->PerformByJoin(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, false, GeomAbs_Arc, false, ::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepOffsetAPI_MakeOffsetShape::PerformByJoin(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode)
 {
-	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->PerformByJoin(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, false, false, GeomAbs_Arc, false);
+	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->PerformByJoin(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, false, false, GeomAbs_Arc, false, ::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepOffsetAPI_MakeOffsetShape::PerformByJoin(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol)
 {
-	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->PerformByJoin(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, BRepOffset_Skin, false, false, GeomAbs_Arc, false);
+	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->PerformByJoin(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, BRepOffset_Skin, false, false, GeomAbs_Arc, false, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepOffset_MakeOffset^ Macad::Occt::BRepOffsetAPI_MakeOffsetShape::MakeOffset()
@@ -1083,9 +1073,14 @@ Macad::Occt::BRepOffset_MakeOffset^ Macad::Occt::BRepOffsetAPI_MakeOffsetShape::
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepOffset_MakeOffset(_result);
 }
 
+void Macad::Occt::BRepOffsetAPI_MakeOffsetShape::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepOffsetAPI_MakeOffsetShape::Build()
 {
-	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->Build();
+	((::BRepOffsetAPI_MakeOffsetShape*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepOffsetAPI_MakeOffsetShape::Generated(Macad::Occt::TopoDS_Shape^ S)
@@ -1131,9 +1126,14 @@ Macad::Occt::BRepOffsetAPI_MakePipe::BRepOffsetAPI_MakePipe(Macad::Occt::BRepOff
 	_NativeInstance = new ::BRepOffsetAPI_MakePipe(*(::BRepOffsetAPI_MakePipe*)parameter1->NativeInstance);
 }
 
+void Macad::Occt::BRepOffsetAPI_MakePipe::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffsetAPI_MakePipe*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepOffsetAPI_MakePipe::Build()
 {
-	((::BRepOffsetAPI_MakePipe*)_NativeInstance)->Build();
+	((::BRepOffsetAPI_MakePipe*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepOffsetAPI_MakePipe::FirstShape()
@@ -1320,9 +1320,14 @@ void Macad::Occt::BRepOffsetAPI_MakePipeShell::Simulate(int NumberOfSection, Mac
 	((::BRepOffsetAPI_MakePipeShell*)_NativeInstance)->Simulate(NumberOfSection, *(::TopTools_ListOfShape*)Result->NativeInstance);
 }
 
+void Macad::Occt::BRepOffsetAPI_MakePipeShell::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffsetAPI_MakePipeShell*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepOffsetAPI_MakePipeShell::Build()
 {
-	((::BRepOffsetAPI_MakePipeShell*)_NativeInstance)->Build();
+	((::BRepOffsetAPI_MakePipeShell*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 bool Macad::Occt::BRepOffsetAPI_MakePipeShell::MakeSolid()
@@ -1381,42 +1386,6 @@ Macad::Occt::BRepOffsetAPI_MakeThickSolid::BRepOffsetAPI_MakeThickSolid()
 	_NativeInstance = new ::BRepOffsetAPI_MakeThickSolid();
 }
 
-Macad::Occt::BRepOffsetAPI_MakeThickSolid::BRepOffsetAPI_MakeThickSolid(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ ClosingFaces, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join, bool RemoveIntEdges)
-	: Macad::Occt::BRepOffsetAPI_MakeOffsetShape(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepOffsetAPI_MakeThickSolid(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, RemoveIntEdges);
-}
-
-Macad::Occt::BRepOffsetAPI_MakeThickSolid::BRepOffsetAPI_MakeThickSolid(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ ClosingFaces, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join)
-	: Macad::Occt::BRepOffsetAPI_MakeOffsetShape(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepOffsetAPI_MakeThickSolid(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, false);
-}
-
-Macad::Occt::BRepOffsetAPI_MakeThickSolid::BRepOffsetAPI_MakeThickSolid(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ ClosingFaces, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter)
-	: Macad::Occt::BRepOffsetAPI_MakeOffsetShape(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepOffsetAPI_MakeThickSolid(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, GeomAbs_Arc, false);
-}
-
-Macad::Occt::BRepOffsetAPI_MakeThickSolid::BRepOffsetAPI_MakeThickSolid(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ ClosingFaces, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection)
-	: Macad::Occt::BRepOffsetAPI_MakeOffsetShape(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepOffsetAPI_MakeThickSolid(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, false, GeomAbs_Arc, false);
-}
-
-Macad::Occt::BRepOffsetAPI_MakeThickSolid::BRepOffsetAPI_MakeThickSolid(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ ClosingFaces, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode)
-	: Macad::Occt::BRepOffsetAPI_MakeOffsetShape(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepOffsetAPI_MakeThickSolid(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, false, false, GeomAbs_Arc, false);
-}
-
-Macad::Occt::BRepOffsetAPI_MakeThickSolid::BRepOffsetAPI_MakeThickSolid(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ ClosingFaces, double Offset, double Tol)
-	: Macad::Occt::BRepOffsetAPI_MakeOffsetShape(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::BRepOffsetAPI_MakeThickSolid(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, BRepOffset_Skin, false, false, GeomAbs_Arc, false);
-}
-
 Macad::Occt::BRepOffsetAPI_MakeThickSolid::BRepOffsetAPI_MakeThickSolid(Macad::Occt::BRepOffsetAPI_MakeThickSolid^ parameter1)
 	: Macad::Occt::BRepOffsetAPI_MakeOffsetShape(BaseClass::InitMode::Uninitialized)
 {
@@ -1428,39 +1397,49 @@ void Macad::Occt::BRepOffsetAPI_MakeThickSolid::MakeThickSolidBySimple(Macad::Oc
 	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->MakeThickSolidBySimple(*(::TopoDS_Shape*)theS->NativeInstance, theOffsetValue);
 }
 
+void Macad::Occt::BRepOffsetAPI_MakeThickSolid::MakeThickSolidByJoin(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ ClosingFaces, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join, bool RemoveIntEdges, Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->MakeThickSolidByJoin(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, RemoveIntEdges, *(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepOffsetAPI_MakeThickSolid::MakeThickSolidByJoin(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ ClosingFaces, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join, bool RemoveIntEdges)
 {
-	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->MakeThickSolidByJoin(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, RemoveIntEdges);
+	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->MakeThickSolidByJoin(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, RemoveIntEdges, ::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepOffsetAPI_MakeThickSolid::MakeThickSolidByJoin(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ ClosingFaces, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join)
 {
-	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->MakeThickSolidByJoin(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, false);
+	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->MakeThickSolidByJoin(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, false, ::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepOffsetAPI_MakeThickSolid::MakeThickSolidByJoin(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ ClosingFaces, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter)
 {
-	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->MakeThickSolidByJoin(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, GeomAbs_Arc, false);
+	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->MakeThickSolidByJoin(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, GeomAbs_Arc, false, ::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepOffsetAPI_MakeThickSolid::MakeThickSolidByJoin(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ ClosingFaces, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection)
 {
-	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->MakeThickSolidByJoin(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, false, GeomAbs_Arc, false);
+	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->MakeThickSolidByJoin(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, false, GeomAbs_Arc, false, ::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepOffsetAPI_MakeThickSolid::MakeThickSolidByJoin(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ ClosingFaces, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode)
 {
-	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->MakeThickSolidByJoin(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, false, false, GeomAbs_Arc, false);
+	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->MakeThickSolidByJoin(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, false, false, GeomAbs_Arc, false, ::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepOffsetAPI_MakeThickSolid::MakeThickSolidByJoin(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_ListOfShape^ ClosingFaces, double Offset, double Tol)
 {
-	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->MakeThickSolidByJoin(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, BRepOffset_Skin, false, false, GeomAbs_Arc, false);
+	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->MakeThickSolidByJoin(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_ListOfShape*)ClosingFaces->NativeInstance, Offset, Tol, BRepOffset_Skin, false, false, GeomAbs_Arc, false, ::Message_ProgressRange());
+}
+
+void Macad::Occt::BRepOffsetAPI_MakeThickSolid::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
 }
 
 void Macad::Occt::BRepOffsetAPI_MakeThickSolid::Build()
 {
-	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->Build();
+	((::BRepOffsetAPI_MakeThickSolid*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepOffsetAPI_MakeThickSolid::Modified(Macad::Occt::TopoDS_Shape^ S)
@@ -1489,9 +1468,14 @@ Macad::Occt::BRepOffsetAPI_MiddlePath::BRepOffsetAPI_MiddlePath(Macad::Occt::BRe
 	_NativeInstance = new ::BRepOffsetAPI_MiddlePath(*(::BRepOffsetAPI_MiddlePath*)parameter1->NativeInstance);
 }
 
+void Macad::Occt::BRepOffsetAPI_MiddlePath::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffsetAPI_MiddlePath*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepOffsetAPI_MiddlePath::Build()
 {
-	((::BRepOffsetAPI_MiddlePath*)_NativeInstance)->Build();
+	((::BRepOffsetAPI_MiddlePath*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 
@@ -1559,9 +1543,14 @@ void Macad::Occt::BRepOffsetAPI_NormalProjection::Compute3d()
 	((::BRepOffsetAPI_NormalProjection*)_NativeInstance)->Compute3d(true);
 }
 
+void Macad::Occt::BRepOffsetAPI_NormalProjection::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffsetAPI_NormalProjection*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepOffsetAPI_NormalProjection::Build()
 {
-	((::BRepOffsetAPI_NormalProjection*)_NativeInstance)->Build();
+	((::BRepOffsetAPI_NormalProjection*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 bool Macad::Occt::BRepOffsetAPI_NormalProjection::IsDone()
@@ -1716,9 +1705,14 @@ void Macad::Occt::BRepOffsetAPI_ThruSections::CriteriumWeight(double% W1, double
 	((::BRepOffsetAPI_ThruSections*)_NativeInstance)->CriteriumWeight(*(Standard_Real*)pp_W1, *(Standard_Real*)pp_W2, *(Standard_Real*)pp_W3);
 }
 
+void Macad::Occt::BRepOffsetAPI_ThruSections::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepOffsetAPI_ThruSections*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepOffsetAPI_ThruSections::Build()
 {
-	((::BRepOffsetAPI_ThruSections*)_NativeInstance)->Build();
+	((::BRepOffsetAPI_ThruSections*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepOffsetAPI_ThruSections::FirstShape()

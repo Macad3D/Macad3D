@@ -20,7 +20,9 @@ namespace Macad
 				{
 					std::stringstream out;
 
-					::BRepTools_ShapeSet shapeSet(includeTriangles);
+					::BRepTools_ShapeSet shapeSet;
+					shapeSet.SetWithTriangles(includeTriangles);
+					shapeSet.SetFormatNb(1);
 					shapeSet.Add(*shape->NativeInstance);
 					shapeSet.Write(out);
 					shapeSet.Write(*shape->NativeInstance, out);
@@ -58,7 +60,9 @@ namespace Macad
 				{
 					std::stringstream out;
 
-					::BinTools_ShapeSet shapeSet(includeTriangles);
+					::BinTools_ShapeSet shapeSet;
+					shapeSet.SetFormatNb(1);
+					shapeSet.SetWithTriangles(includeTriangles);
 					shapeSet.Add(*shape->NativeInstance);
 					shapeSet.Write(out);
 					shapeSet.Write(*shape->NativeInstance, out);
@@ -87,7 +91,7 @@ namespace Macad
 						return nullptr;
 
 					::TopoDS_Shape* shape = new ::TopoDS_Shape();
-					shapeSet.Read(*shape, in, shapeSet.NbShapes());
+					shapeSet.ReadSubs(*shape, in, shapeSet.NbShapes());
 
 					return gcnew Macad::Occt::TopoDS_Shape(shape);
 				}

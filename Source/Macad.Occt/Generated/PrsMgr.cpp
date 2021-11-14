@@ -482,22 +482,6 @@ void Macad::Occt::PrsMgr_PresentableObject::ToBeUpdated(Macad::Occt::TColStd_Lis
 	((::PrsMgr_PresentableObject*)_NativeInstance)->ToBeUpdated(*(::TColStd_ListOfInteger*)ListOfMode->NativeInstance);
 }
 
-void Macad::Occt::PrsMgr_PresentableObject::SetTransformPersistence(Macad::Occt::Graphic3d_TransModeFlags theMode, Macad::Occt::Pnt thePoint)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_thePoint = &thePoint;
-	((::PrsMgr_PresentableObject*)_NativeInstance)->SetTransformPersistence((::Graphic3d_TransModeFlags)theMode, *(gp_Pnt*)pp_thePoint);
-}
-
-void Macad::Occt::PrsMgr_PresentableObject::SetTransformPersistence(Macad::Occt::Graphic3d_TransModeFlags theMode)
-{
-	((::PrsMgr_PresentableObject*)_NativeInstance)->SetTransformPersistence((::Graphic3d_TransModeFlags)theMode, ::gp_Pnt(0., 0., 0.));
-}
-
-Macad::Occt::Graphic3d_TransModeFlags Macad::Occt::PrsMgr_PresentableObject::GetTransformPersistenceMode()
-{
-	return (Macad::Occt::Graphic3d_TransModeFlags)((::PrsMgr_PresentableObject*)_NativeInstance)->GetTransformPersistenceMode();
-}
-
 bool Macad::Occt::PrsMgr_PresentableObject::ToPropagateVisualState()
 {
 	return ((::PrsMgr_PresentableObject*)_NativeInstance)->ToPropagateVisualState();

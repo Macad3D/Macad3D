@@ -73,7 +73,7 @@ public:
 protected:
 
 
-	Standard_EXPORT void Compute(const Handle(PrsMgr_PresentationManager3d)& aPresentationManager, const Handle(Prs3d_Presentation)& aPresentation, const Standard_Integer aMode = 0) override;
+	Standard_EXPORT void Compute(const Handle(PrsMgr_PresentationManager)& aPresentationManager, const Handle(Prs3d_Presentation)& aPresentation, const Standard_Integer aMode = 0) override;
 
 
 

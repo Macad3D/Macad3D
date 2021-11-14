@@ -22,7 +22,7 @@ void AIS_PointEx::SetBackgroundColor(const Quantity_Color& theColor)
 
 //--------------------------------------------------------------------------------------------------
 
-void AIS_PointEx::Compute(const Handle(PrsMgr_PresentationManager3d)& aPresentationManager,
+void AIS_PointEx::Compute(const Handle(PrsMgr_PresentationManager)& aPresentationManager,
                         const Handle(Prs3d_Presentation)& aPresentation, 
                         const Standard_Integer aMode)
 {

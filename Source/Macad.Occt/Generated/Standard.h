@@ -144,19 +144,24 @@ public:
 public:
 	Standard_Failure();
 	Standard_Failure(Macad::Occt::Standard_Failure^ f);
-	Standard_Failure(System::String^ aString);
+	Standard_Failure(System::String^ theDesc);
+	Standard_Failure(System::String^ theDesc, System::String^ theStackTrace);
 	/* Method skipped due to unknown mapping: void Print(ostream theStream, ) */
 	System::String^ GetMessageString();
-	void SetMessageString(System::String^ aMessage);
+	void SetMessageString(System::String^ theMessage);
+	System::String^ GetStackString();
+	void SetStackString(System::String^ theStack);
 	void Reraise();
 	void Reraise(System::String^ aMessage);
 	/* Method skipped due to unknown mapping: void Reraise(stringstream aReason, ) */
 	static void Raise(System::String^ aMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream aReason, ) */
-	static Macad::Occt::Standard_Failure^ NewInstance(System::String^ aMessage);
+	static Macad::Occt::Standard_Failure^ NewInstance(System::String^ theMessage);
+	static Macad::Occt::Standard_Failure^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
+	static int DefaultStackTraceLength();
+	static void SetDefaultStackTraceLength(int theNbStackTraces);
 	void Jump();
-	static Macad::Occt::Standard_Failure^ Caught();
 }; // class Standard_Failure
 
 //---------------------------------------------------------------------
@@ -197,59 +202,15 @@ public:
 public:
 	Standard_DomainError();
 	Standard_DomainError(System::String^ theMessage);
+	Standard_DomainError(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_DomainError(Macad::Occt::Standard_DomainError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_DomainError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_DomainError^ NewInstance();
+	static Macad::Occt::Standard_DomainError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_DomainError
-
-//---------------------------------------------------------------------
-//  Class  Standard_NoSuchObject
-//---------------------------------------------------------------------
-public ref class Standard_NoSuchObject : public Macad::Occt::Standard_DomainError
-{
-
-#ifdef Include_Standard_NoSuchObject_h
-public:
-	Include_Standard_NoSuchObject_h
-#endif
-
-protected:
-	Standard_NoSuchObject(InitMode init)
-		: Macad::Occt::Standard_DomainError( init )
-	{}
-
-public:
-	Standard_NoSuchObject(::Standard_NoSuchObject* nativeInstance)
-		: Macad::Occt::Standard_DomainError( nativeInstance )
-	{}
-
-	Standard_NoSuchObject(::Standard_NoSuchObject& nativeInstance)
-		: Macad::Occt::Standard_DomainError( nativeInstance )
-	{}
-
-	property ::Standard_NoSuchObject* NativeInstance
-	{
-		::Standard_NoSuchObject* get()
-		{
-			return static_cast<::Standard_NoSuchObject*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::Standard_NoSuchObject^ CreateDowncasted(::Standard_NoSuchObject* instance);
-
-public:
-	Standard_NoSuchObject();
-	Standard_NoSuchObject(System::String^ theMessage);
-	Standard_NoSuchObject(Macad::Occt::Standard_NoSuchObject^ parameter1);
-	static void Raise(System::String^ theMessage);
-	static void Raise();
-	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
-	static Macad::Occt::Standard_NoSuchObject^ NewInstance(System::String^ theMessage);
-	static Macad::Occt::Standard_NoSuchObject^ NewInstance();
-}; // class Standard_NoSuchObject
 
 //---------------------------------------------------------------------
 //  Class  Standard_DimensionError
@@ -289,12 +250,14 @@ public:
 public:
 	Standard_DimensionError();
 	Standard_DimensionError(System::String^ theMessage);
+	Standard_DimensionError(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_DimensionError(Macad::Occt::Standard_DimensionError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_DimensionError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_DimensionError^ NewInstance();
+	static Macad::Occt::Standard_DimensionError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_DimensionError
 
 //---------------------------------------------------------------------
@@ -330,12 +293,14 @@ public:
 public:
 	Standard_DimensionMismatch();
 	Standard_DimensionMismatch(System::String^ theMessage);
+	Standard_DimensionMismatch(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_DimensionMismatch(Macad::Occt::Standard_DimensionMismatch^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_DimensionMismatch^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_DimensionMismatch^ NewInstance();
+	static Macad::Occt::Standard_DimensionMismatch^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_DimensionMismatch
 
 //---------------------------------------------------------------------
@@ -376,12 +341,14 @@ public:
 public:
 	Standard_ProgramError();
 	Standard_ProgramError(System::String^ theMessage);
+	Standard_ProgramError(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_ProgramError(Macad::Occt::Standard_ProgramError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_ProgramError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_ProgramError^ NewInstance();
+	static Macad::Occt::Standard_ProgramError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_ProgramError
 
 //---------------------------------------------------------------------
@@ -422,12 +389,14 @@ public:
 public:
 	Standard_RangeError();
 	Standard_RangeError(System::String^ theMessage);
+	Standard_RangeError(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_RangeError(Macad::Occt::Standard_RangeError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_RangeError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_RangeError^ NewInstance();
+	static Macad::Occt::Standard_RangeError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_RangeError
 
 //---------------------------------------------------------------------
@@ -468,13 +437,63 @@ public:
 public:
 	Standard_OutOfRange();
 	Standard_OutOfRange(System::String^ theMessage);
+	Standard_OutOfRange(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_OutOfRange(Macad::Occt::Standard_OutOfRange^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_OutOfRange^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_OutOfRange^ NewInstance();
+	static Macad::Occt::Standard_OutOfRange^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_OutOfRange
+
+//---------------------------------------------------------------------
+//  Class  Standard_NoSuchObject
+//---------------------------------------------------------------------
+public ref class Standard_NoSuchObject : public Macad::Occt::Standard_DomainError
+{
+
+#ifdef Include_Standard_NoSuchObject_h
+public:
+	Include_Standard_NoSuchObject_h
+#endif
+
+protected:
+	Standard_NoSuchObject(InitMode init)
+		: Macad::Occt::Standard_DomainError( init )
+	{}
+
+public:
+	Standard_NoSuchObject(::Standard_NoSuchObject* nativeInstance)
+		: Macad::Occt::Standard_DomainError( nativeInstance )
+	{}
+
+	Standard_NoSuchObject(::Standard_NoSuchObject& nativeInstance)
+		: Macad::Occt::Standard_DomainError( nativeInstance )
+	{}
+
+	property ::Standard_NoSuchObject* NativeInstance
+	{
+		::Standard_NoSuchObject* get()
+		{
+			return static_cast<::Standard_NoSuchObject*>(_NativeInstance);
+		}
+	}
+
+	static Macad::Occt::Standard_NoSuchObject^ CreateDowncasted(::Standard_NoSuchObject* instance);
+
+public:
+	Standard_NoSuchObject();
+	Standard_NoSuchObject(System::String^ theMessage);
+	Standard_NoSuchObject(System::String^ theMessage, System::String^ theStackTrace);
+	Standard_NoSuchObject(Macad::Occt::Standard_NoSuchObject^ parameter1);
+	static void Raise(System::String^ theMessage);
+	static void Raise();
+	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
+	static Macad::Occt::Standard_NoSuchObject^ NewInstance(System::String^ theMessage);
+	static Macad::Occt::Standard_NoSuchObject^ NewInstance();
+	static Macad::Occt::Standard_NoSuchObject^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
+}; // class Standard_NoSuchObject
 
 //---------------------------------------------------------------------
 //  Class  Standard_TypeMismatch
@@ -509,12 +528,14 @@ public:
 public:
 	Standard_TypeMismatch();
 	Standard_TypeMismatch(System::String^ theMessage);
+	Standard_TypeMismatch(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_TypeMismatch(Macad::Occt::Standard_TypeMismatch^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_TypeMismatch^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_TypeMismatch^ NewInstance();
+	static Macad::Occt::Standard_TypeMismatch^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_TypeMismatch
 
 //---------------------------------------------------------------------
@@ -550,12 +571,14 @@ public:
 public:
 	Standard_NullObject();
 	Standard_NullObject(System::String^ theMessage);
+	Standard_NullObject(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_NullObject(Macad::Occt::Standard_NullObject^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_NullObject^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_NullObject^ NewInstance();
+	static Macad::Occt::Standard_NullObject^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_NullObject
 
 //---------------------------------------------------------------------
@@ -596,12 +619,14 @@ public:
 public:
 	Standard_NumericError();
 	Standard_NumericError(System::String^ theMessage);
+	Standard_NumericError(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_NumericError(Macad::Occt::Standard_NumericError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_NumericError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_NumericError^ NewInstance();
+	static Macad::Occt::Standard_NumericError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_NumericError
 
 //---------------------------------------------------------------------
@@ -637,12 +662,14 @@ public:
 public:
 	Standard_NegativeValue();
 	Standard_NegativeValue(System::String^ theMessage);
+	Standard_NegativeValue(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_NegativeValue(Macad::Occt::Standard_NegativeValue^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_NegativeValue^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_NegativeValue^ NewInstance();
+	static Macad::Occt::Standard_NegativeValue^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_NegativeValue
 
 //---------------------------------------------------------------------
@@ -703,18 +730,13 @@ public:
 //---------------------------------------------------------------------
 //  Class  Standard_ConstructionError
 //---------------------------------------------------------------------
-public ref class Standard_ConstructionError : public Macad::Occt::Standard_DomainError
+public ref class Standard_ConstructionError sealed : public Macad::Occt::Standard_DomainError
 {
 
 #ifdef Include_Standard_ConstructionError_h
 public:
 	Include_Standard_ConstructionError_h
 #endif
-
-protected:
-	Standard_ConstructionError(InitMode init)
-		: Macad::Occt::Standard_DomainError( init )
-	{}
 
 public:
 	Standard_ConstructionError(::Standard_ConstructionError* nativeInstance)
@@ -738,12 +760,14 @@ public:
 public:
 	Standard_ConstructionError();
 	Standard_ConstructionError(System::String^ theMessage);
+	Standard_ConstructionError(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_ConstructionError(Macad::Occt::Standard_ConstructionError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_ConstructionError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_ConstructionError^ NewInstance();
+	static Macad::Occt::Standard_ConstructionError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_ConstructionError
 
 //---------------------------------------------------------------------
@@ -779,12 +803,14 @@ public:
 public:
 	Standard_AbortiveTransaction();
 	Standard_AbortiveTransaction(System::String^ theMessage);
+	Standard_AbortiveTransaction(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_AbortiveTransaction(Macad::Occt::Standard_AbortiveTransaction^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_AbortiveTransaction^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_AbortiveTransaction^ NewInstance();
+	static Macad::Occt::Standard_AbortiveTransaction^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_AbortiveTransaction
 
 //---------------------------------------------------------------------
@@ -915,12 +941,14 @@ public:
 public:
 	Standard_DivideByZero();
 	Standard_DivideByZero(System::String^ theMessage);
+	Standard_DivideByZero(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_DivideByZero(Macad::Occt::Standard_DivideByZero^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_DivideByZero^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_DivideByZero^ NewInstance();
+	static Macad::Occt::Standard_DivideByZero^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_DivideByZero
 
 //---------------------------------------------------------------------
@@ -1004,12 +1032,14 @@ public:
 public:
 	Standard_ImmutableObject();
 	Standard_ImmutableObject(System::String^ theMessage);
+	Standard_ImmutableObject(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_ImmutableObject(Macad::Occt::Standard_ImmutableObject^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_ImmutableObject^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_ImmutableObject^ NewInstance();
+	static Macad::Occt::Standard_ImmutableObject^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_ImmutableObject
 
 //---------------------------------------------------------------------
@@ -1050,12 +1080,14 @@ public:
 public:
 	Standard_LicenseError();
 	Standard_LicenseError(System::String^ theMessage);
+	Standard_LicenseError(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_LicenseError(Macad::Occt::Standard_LicenseError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_LicenseError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_LicenseError^ NewInstance();
+	static Macad::Occt::Standard_LicenseError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_LicenseError
 
 //---------------------------------------------------------------------
@@ -1091,12 +1123,14 @@ public:
 public:
 	Standard_LicenseNotFound();
 	Standard_LicenseNotFound(System::String^ theMessage);
+	Standard_LicenseNotFound(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_LicenseNotFound(Macad::Occt::Standard_LicenseNotFound^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_LicenseNotFound^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_LicenseNotFound^ NewInstance();
+	static Macad::Occt::Standard_LicenseNotFound^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_LicenseNotFound
 
 //---------------------------------------------------------------------
@@ -1247,12 +1281,14 @@ public:
 public:
 	Standard_MultiplyDefined();
 	Standard_MultiplyDefined(System::String^ theMessage);
+	Standard_MultiplyDefined(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_MultiplyDefined(Macad::Occt::Standard_MultiplyDefined^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_MultiplyDefined^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_MultiplyDefined^ NewInstance();
+	static Macad::Occt::Standard_MultiplyDefined^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_MultiplyDefined
 
 //---------------------------------------------------------------------
@@ -1288,12 +1324,14 @@ public:
 public:
 	Standard_NoMoreObject();
 	Standard_NoMoreObject(System::String^ theMessage);
+	Standard_NoMoreObject(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_NoMoreObject(Macad::Occt::Standard_NoMoreObject^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_NoMoreObject^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_NoMoreObject^ NewInstance();
+	static Macad::Occt::Standard_NoMoreObject^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_NoMoreObject
 
 //---------------------------------------------------------------------
@@ -1329,12 +1367,14 @@ public:
 public:
 	Standard_NotImplemented();
 	Standard_NotImplemented(System::String^ theMessage);
+	Standard_NotImplemented(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_NotImplemented(Macad::Occt::Standard_NotImplemented^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_NotImplemented^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_NotImplemented^ NewInstance();
+	static Macad::Occt::Standard_NotImplemented^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_NotImplemented
 
 //---------------------------------------------------------------------
@@ -1370,12 +1410,14 @@ public:
 public:
 	Standard_NullValue();
 	Standard_NullValue(System::String^ theMessage);
+	Standard_NullValue(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_NullValue(Macad::Occt::Standard_NullValue^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_NullValue^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_NullValue^ NewInstance();
+	static Macad::Occt::Standard_NullValue^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_NullValue
 
 //---------------------------------------------------------------------
@@ -1411,12 +1453,14 @@ public:
 public:
 	Standard_Overflow();
 	Standard_Overflow(System::String^ theMessage);
+	Standard_Overflow(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_Overflow(Macad::Occt::Standard_Overflow^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_Overflow^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_Overflow^ NewInstance();
+	static Macad::Occt::Standard_Overflow^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_Overflow
 
 //---------------------------------------------------------------------
@@ -1527,12 +1571,14 @@ public:
 public:
 	Standard_TooManyUsers();
 	Standard_TooManyUsers(System::String^ theMessage);
+	Standard_TooManyUsers(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_TooManyUsers(Macad::Occt::Standard_TooManyUsers^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_TooManyUsers^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_TooManyUsers^ NewInstance();
+	static Macad::Occt::Standard_TooManyUsers^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_TooManyUsers
 
 //---------------------------------------------------------------------
@@ -1568,12 +1614,14 @@ public:
 public:
 	Standard_Underflow();
 	Standard_Underflow(System::String^ theMessage);
+	Standard_Underflow(System::String^ theMessage, System::String^ theStackTrace);
 	Standard_Underflow(Macad::Occt::Standard_Underflow^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Standard_Underflow^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Standard_Underflow^ NewInstance();
+	static Macad::Occt::Standard_Underflow^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Standard_Underflow
 
 }; // namespace Occt

@@ -41,7 +41,7 @@ public:
 	IntCurvesFace_Intersector(Macad::Occt::TopoDS_Face^ F, double aTol);
 	IntCurvesFace_Intersector(Macad::Occt::IntCurvesFace_Intersector^ parameter1);
 	void Perform(Macad::Occt::gp_Lin^ L, double PInf, double PSup);
-	void Perform(Macad::Occt::Adaptor3d_HCurve^ HCu, double PInf, double PSup);
+	void Perform(Macad::Occt::Adaptor3d_Curve^ HCu, double PInf, double PSup);
 	Macad::Occt::GeomAbs_SurfaceType SurfaceType();
 	bool IsDone();
 	int NbPnt();
@@ -94,7 +94,7 @@ public:
 	void Load(Macad::Occt::TopoDS_Shape^ Sh, double Tol);
 	void Perform(Macad::Occt::gp_Lin^ L, double PInf, double PSup);
 	void PerformNearest(Macad::Occt::gp_Lin^ L, double PInf, double PSup);
-	void Perform(Macad::Occt::Adaptor3d_HCurve^ HCu, double PInf, double PSup);
+	void Perform(Macad::Occt::Adaptor3d_Curve^ HCu, double PInf, double PSup);
 	bool IsDone();
 	int NbPnt();
 	double UParameter(int I);

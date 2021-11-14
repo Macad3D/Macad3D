@@ -85,7 +85,7 @@ Name: "{app}\Samples"; Flags: uninsalwaysuninstall
 ;///////////////////////////////////////////////////////////////////////////////
 
 [Files]
-Source: "{#VcRedistDir}\vcredist_x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall dontcopy solidbreak
+Source: "{#VcRedistDir}\vc_redist.x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall dontcopy solidbreak
 Source: "{#DotNetRedistPath}"; DestDir: "{tmp}"; Flags: deleteafterinstall dontcopy solidbreak
 
 ;///////////////////////////////////////////////////////////////////////////////

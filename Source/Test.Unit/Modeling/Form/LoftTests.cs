@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Security.Cryptography;
 using Macad.Test.Utils;
 using Macad.Common;
 using Macad.Core;
@@ -139,8 +140,11 @@ namespace Macad.Test.Unit.Modeling.Form
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        [Explicit("OCCT Bug 30055")]
-        public void OpenWires()
+        [TestCase(Loft.Direction.Inwards, Loft.CornerType.Angular, Explicit = true, Description = "OCCT_30055")]
+        [TestCase(Loft.Direction.Inwards, Loft.CornerType.Round, Explicit = true, Description = "OCCT-bug")]
+        [TestCase(Loft.Direction.Outwards, Loft.CornerType.Angular, Explicit = true, Description = "OCCT_30055")]
+        [TestCase(Loft.Direction.Outwards, Loft.CornerType.Round, Explicit = true, Description = "OCCT-bug")]
+        public void OpenWires(Loft.Direction direction, Loft.CornerType cornerType)
         {
             // For OCCT_30055, the join type must be Intersect.
 
@@ -162,24 +166,22 @@ namespace Macad.Test.Unit.Modeling.Form
             body3.Rotation = new Quaternion(40.0.ToRad(), 40.0.ToRad(), 0.0);
 
             var loft = Loft.Create(body1, new[] {new BodyShapeOperand(body2), new BodyShapeOperand(body3)});
+            loft.ThickenDirection = direction;
+            loft.ThickenCornerType = cornerType;
 
-            loft.ThickenDirection = Loft.Direction.Outwards;
             Assert.IsTrue(loft.Make(Shape.MakeFlags.None));
-            AssertHelper.IsSameModel(loft, Path.Combine(_BasePath, "OpenWires_Out"));
-
-            loft.ThickenDirection = Loft.Direction.Inwards;
-            Assert.IsTrue(loft.Make(Shape.MakeFlags.None));
-            AssertHelper.IsSameModel(loft, Path.Combine(_BasePath, "OpenWires_In"));
+            AssertHelper.IsSameModel(loft, Path.Combine(_BasePath, $"OpenWires_{direction}_{cornerType}"));
         }
 
         //--------------------------------------------------------------------------------------------------
         
         [Test]
-        [Explicit("OCCT Bug 30054")]
-        public void OpenWiresRect()
+        [TestCase(Loft.Direction.Inwards, Loft.CornerType.Angular)]
+        [TestCase(Loft.Direction.Inwards, Loft.CornerType.Round, Explicit = true, Description = "OCCT-bug")]
+        [TestCase(Loft.Direction.Outwards, Loft.CornerType.Angular, Description = "OCCT_30054, fixed with 7.6.0")]
+        [TestCase(Loft.Direction.Outwards, Loft.CornerType.Round)]
+        public void OpenWiresRect(Loft.Direction direction, Loft.CornerType cornerType)
         {
-            // For OCCT_30054, the join type must be Intersect.
-
             // Remove first segment to create open wires
             var sketch1 = TestSketchGenerator.CreateRectangle(5.0, 5.0);
             sketch1.DeleteSegment(sketch1.Segments[0]);
@@ -199,13 +201,10 @@ namespace Macad.Test.Unit.Modeling.Form
 
             var loft = Loft.Create(body1, new[] {new BodyShapeOperand(body2), new BodyShapeOperand(body3)});
 
-            loft.ThickenDirection = Loft.Direction.Outwards;
+            loft.ThickenDirection = direction;
+            loft.ThickenCornerType = cornerType;
             Assert.IsTrue(loft.Make(Shape.MakeFlags.None));
-            AssertHelper.IsSameModel(loft, Path.Combine(_BasePath, "OpenWiresRect_Out"));
-
-            loft.ThickenDirection = Loft.Direction.Inwards;
-            Assert.IsTrue(loft.Make(Shape.MakeFlags.None));
-            AssertHelper.IsSameModel(loft, Path.Combine(_BasePath, "OpenWiresRect_In"));
+            AssertHelper.IsSameModel(loft, Path.Combine(_BasePath, $"OpenWiresRect_{direction}_{cornerType}"));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -346,7 +345,7 @@ namespace Macad.Test.Unit.Modeling.Form
         //--------------------------------------------------------------------------------------------------
                 
         [Test]
-        [Explicit("OCCT Bug 30055")]
+        [Explicit("OCCT Bug")]
         public void CappingModeNoneWithCircle()
         {
             // For OCCT_30055, the join type must be Intersect.

@@ -43,8 +43,10 @@ public enum class StdSelect_TypeOfSelectionImage
 	StdSelect_TypeOfSelectionImage_UnnormalizedDepth = 2,
 	StdSelect_TypeOfSelectionImage_ColoredDetectedObject = 3,
 	StdSelect_TypeOfSelectionImage_ColoredEntity = 4,
-	StdSelect_TypeOfSelectionImage_ColoredOwner = 5,
-	StdSelect_TypeOfSelectionImage_ColoredSelectionMode = 6
+	StdSelect_TypeOfSelectionImage_ColoredEntityType = 5,
+	StdSelect_TypeOfSelectionImage_ColoredOwner = 6,
+	StdSelect_TypeOfSelectionImage_ColoredSelectionMode = 7,
+	StdSelect_TypeOfSelectionImage_SurfaceNormal = 8
 }; // enum  class StdSelect_TypeOfSelectionImage
 
 //---------------------------------------------------------------------
@@ -115,8 +117,7 @@ public:
 	StdSelect_Shape(Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::Prs3d_Drawer^ theDrawer);
 	StdSelect_Shape(Macad::Occt::TopoDS_Shape^ theShape);
 	StdSelect_Shape(Macad::Occt::StdSelect_Shape^ parameter1);
-	/* Method skipped due to unknown mapping: void Compute(PrsMgr_PresentationManager aPresentationManager, Graphic3d_Structure aPresentation, Standard_Integer aMode, ) */
-	/* Method skipped due to unknown mapping: void Compute(PrsMgr_PresentationManager aPresentationManager, Graphic3d_Structure aPresentation, Standard_Integer aMode, ) */
+	/* Method skipped due to unknown mapping: void Compute(PrsMgr_PresentationManager thePrsMgr, Graphic3d_Structure thePrs, Standard_Integer theMode, ) */
 	Macad::Occt::TopoDS_Shape^ Shape();
 	void Shape(Macad::Occt::TopoDS_Shape^ theShape);
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
@@ -170,7 +171,6 @@ public:
 	int HilightMode();
 	/* Method skipped due to unknown mapping: Standard_Boolean IsHilighted(PrsMgr_PresentationManager aPM, Standard_Integer aMode, ) */
 	/* Method skipped due to unknown mapping: Standard_Boolean IsHilighted(PrsMgr_PresentationManager aPM, Standard_Integer aMode, ) */
-	/* Method skipped due to unknown mapping: void HilightWithColor(PrsMgr_PresentationManager thePM, Prs3d_Drawer theStyle, Standard_Integer theMode, ) */
 	/* Method skipped due to unknown mapping: void HilightWithColor(PrsMgr_PresentationManager thePM, Prs3d_Drawer theStyle, Standard_Integer theMode, ) */
 	/* Method skipped due to unknown mapping: void Unhilight(PrsMgr_PresentationManager aPM, Standard_Integer aMode, ) */
 	/* Method skipped due to unknown mapping: void Unhilight(PrsMgr_PresentationManager aPM, Standard_Integer aMode, ) */

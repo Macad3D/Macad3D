@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
-using Macad.Common;
 using Macad.Common.Interop;
 using Macad.Core.Topology;
 using Macad.Presentation;
@@ -42,7 +38,6 @@ namespace Macad.Window
 
         //--------------------------------------------------------------------------------------------------
 
-        [HandleProcessCorruptedStateExceptions]
         static void _Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs args)
         {
             if (_UnhandledException())
@@ -55,7 +50,6 @@ namespace Macad.Window
 
         //--------------------------------------------------------------------------------------------------
 
-        [HandleProcessCorruptedStateExceptions]
         static void _CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
             _UnhandledException();

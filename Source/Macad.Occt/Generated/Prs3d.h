@@ -35,6 +35,14 @@ public enum class Prs3d_TypeOfHLR
 //---------------------------------------------------------------------
 public enum class Prs3d_DatumAttribute
 {
+	Prs3d_DatumAttribute_XAxisLength = 0,
+	Prs3d_DatumAttribute_YAxisLength = 1,
+	Prs3d_DatumAttribute_ZAxisLength = 2,
+	Prs3d_DatumAttribute_ShadingTubeRadiusPercent = 3,
+	Prs3d_DatumAttribute_ShadingConeRadiusPercent = 4,
+	Prs3d_DatumAttribute_ShadingConeLengthPercent = 5,
+	Prs3d_DatumAttribute_ShadingOriginRadiusPercent = 6,
+	Prs3d_DatumAttribute_ShadingNumberOfFacettes = 7,
 	Prs3d_DA_XAxisLength = 0,
 	Prs3d_DA_YAxisLength = 1,
 	Prs3d_DA_ZAxisLength = 2,
@@ -50,6 +58,13 @@ public enum class Prs3d_DatumAttribute
 //---------------------------------------------------------------------
 public enum class Prs3d_DatumAxes
 {
+	Prs3d_DatumAxes_XAxis = 1,
+	Prs3d_DatumAxes_YAxis = 2,
+	Prs3d_DatumAxes_ZAxis = 4,
+	Prs3d_DatumAxes_XYAxes = 3,
+	Prs3d_DatumAxes_YZAxes = 6,
+	Prs3d_DatumAxes_XZAxes = 5,
+	Prs3d_DatumAxes_XYZAxes = 7,
 	Prs3d_DA_XAxis = 1,
 	Prs3d_DA_YAxis = 2,
 	Prs3d_DA_ZAxis = 4,
@@ -73,6 +88,17 @@ public enum class Prs3d_DatumMode
 //---------------------------------------------------------------------
 public enum class Prs3d_DatumParts
 {
+	Prs3d_DatumParts_Origin = 0,
+	Prs3d_DatumParts_XAxis = 1,
+	Prs3d_DatumParts_YAxis = 2,
+	Prs3d_DatumParts_ZAxis = 3,
+	Prs3d_DatumParts_XArrow = 4,
+	Prs3d_DatumParts_YArrow = 5,
+	Prs3d_DatumParts_ZArrow = 6,
+	Prs3d_DatumParts_XOYAxis = 7,
+	Prs3d_DatumParts_YOZAxis = 8,
+	Prs3d_DatumParts_XOZAxis = 9,
+	Prs3d_DatumParts_None = 10,
 	Prs3d_DP_Origin = 0,
 	Prs3d_DP_XAxis = 1,
 	Prs3d_DP_YAxis = 2,
@@ -567,6 +593,8 @@ public:
 	double Angle();
 	void SetLength(double theLength);
 	double Length();
+	void SetZoomable(bool theIsZoomable);
+	bool IsZoomable();
 	void SetColor(Macad::Occt::Quantity_Color^ theColor);
 	Macad::Occt::Graphic3d_AspectLine3d^ Aspect();
 	void SetAspect(Macad::Occt::Graphic3d_AspectLine3d^ theAspect);
@@ -609,37 +637,29 @@ public:
 	Prs3d_DatumAspect(Macad::Occt::Prs3d_DatumAspect^ parameter1);
 	Macad::Occt::Prs3d_LineAspect^ LineAspect(Macad::Occt::Prs3d_DatumParts thePart);
 	Macad::Occt::Prs3d_ShadingAspect^ ShadingAspect(Macad::Occt::Prs3d_DatumParts thePart);
-	Macad::Occt::Prs3d_TextAspect^ TextAspect();
+	Macad::Occt::Prs3d_TextAspect^ TextAspect(Macad::Occt::Prs3d_DatumParts thePart);
 	void SetTextAspect(Macad::Occt::Prs3d_TextAspect^ theTextAspect);
 	Macad::Occt::Prs3d_PointAspect^ PointAspect();
 	void SetPointAspect(Macad::Occt::Prs3d_PointAspect^ theAspect);
 	Macad::Occt::Prs3d_ArrowAspect^ ArrowAspect();
 	void SetArrowAspect(Macad::Occt::Prs3d_ArrowAspect^ theAspect);
-	Macad::Occt::Prs3d_LineAspect^ FirstAxisAspect();
-	Macad::Occt::Prs3d_LineAspect^ SecondAxisAspect();
-	Macad::Occt::Prs3d_LineAspect^ ThirdAxisAspect();
-	void SetDrawFirstAndSecondAxis(bool theToDraw);
-	bool DrawFirstAndSecondAxis();
-	void SetDrawThirdAxis(bool theToDraw);
-	bool DrawThirdAxis();
 	bool DrawDatumPart(Macad::Occt::Prs3d_DatumParts thePart);
 	void SetDrawDatumAxes(Macad::Occt::Prs3d_DatumAxes theType);
 	Macad::Occt::Prs3d_DatumAxes DatumAxes();
-	void SetAttribute(Macad::Occt::Prs3d_DatumAttribute theType, double theValue);
 	double Attribute(Macad::Occt::Prs3d_DatumAttribute theType);
-	void SetAxisLength(double theL1, double theL2, double theL3);
+	void SetAttribute(Macad::Occt::Prs3d_DatumAttribute theType, double theValue);
 	double AxisLength(Macad::Occt::Prs3d_DatumParts thePart);
-	double FirstAxisLength();
-	double SecondAxisLength();
-	double ThirdAxisLength();
+	void SetAxisLength(double theL1, double theL2, double theL3);
 	bool ToDrawLabels();
 	void SetDrawLabels(bool theToDraw);
 	void SetToDrawLabels(bool theToDraw);
 	bool ToDrawArrows();
 	void SetDrawArrows(bool theToDraw);
-	Macad::Occt::Prs3d_DatumParts ArrowPartForAxis(Macad::Occt::Prs3d_DatumParts thePart);
+	void CopyAspectsFrom(Macad::Occt::Prs3d_DatumAspect^ theOther);
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	static Macad::Occt::Prs3d_DatumParts ArrowPartForAxis(Macad::Occt::Prs3d_DatumParts thePart);
+	Macad::Occt::Prs3d_TextAspect^ TextAspect();
 }; // class Prs3d_DatumAspect
 
 //---------------------------------------------------------------------
@@ -747,24 +767,30 @@ public:
 	void SetTypeOfDeflection(Macad::Occt::Aspect_TypeOfDeflection theTypeOfDeflection);
 	Macad::Occt::Aspect_TypeOfDeflection TypeOfDeflection();
 	bool HasOwnTypeOfDeflection();
+	void UnsetOwnTypeOfDeflection();
 	void SetMaximalChordialDeviation(double theChordialDeviation);
 	double MaximalChordialDeviation();
 	bool HasOwnMaximalChordialDeviation();
+	void UnsetOwnMaximalChordialDeviation();
 	void SetTypeOfHLR(Macad::Occt::Prs3d_TypeOfHLR theTypeOfHLR);
 	Macad::Occt::Prs3d_TypeOfHLR TypeOfHLR();
 	bool HasOwnTypeOfHLR();
 	void SetMaximalParameterValue(double theValue);
 	double MaximalParameterValue();
 	bool HasOwnMaximalParameterValue();
+	void UnsetOwnMaximalParameterValue();
 	void SetIsoOnPlane(bool theIsEnabled);
 	bool IsoOnPlane();
 	bool HasOwnIsoOnPlane();
+	void UnsetOwnIsoOnPlane();
 	bool IsoOnTriangulation();
 	bool HasOwnIsoOnTriangulation();
+	void UnsetOwnIsoOnTriangulation();
 	void SetIsoOnTriangulation(bool theToEnable);
 	void SetDiscretisation(int theValue);
 	int Discretisation();
 	bool HasOwnDiscretisation();
+	void UnsetOwnDiscretisation();
 	void SetDeviationCoefficient(double theCoefficient);
 	double DeviationCoefficient();
 	void SetDeviationCoefficient();
@@ -780,6 +806,7 @@ public:
 	void SetAutoTriangulation(bool theIsEnabled);
 	bool IsAutoTriangulation();
 	bool HasOwnIsAutoTriangulation();
+	void UnsetOwnIsAutoTriangulation();
 	Macad::Occt::Prs3d_IsoAspect^ UIsoAspect();
 	void SetUIsoAspect(Macad::Occt::Prs3d_IsoAspect^ theAspect);
 	bool HasOwnUIsoAspect();
@@ -792,6 +819,7 @@ public:
 	void SetWireDraw(bool theIsEnabled);
 	bool WireDraw();
 	bool HasOwnWireDraw();
+	void UnsetOwnWireDraw();
 	Macad::Occt::Prs3d_PointAspect^ PointAspect();
 	void SetPointAspect(Macad::Occt::Prs3d_PointAspect^ theAspect);
 	bool HasOwnPointAspect();
@@ -824,6 +852,7 @@ public:
 	void SetLineArrowDraw(bool theIsEnabled);
 	bool LineArrowDraw();
 	bool HasOwnLineArrowDraw();
+	void UnsetOwnLineArrowDraw();
 	Macad::Occt::Prs3d_LineAspect^ HiddenLineAspect();
 	void SetHiddenLineAspect(Macad::Occt::Prs3d_LineAspect^ theAspect);
 	bool HasOwnHiddenLineAspect();
@@ -831,6 +860,7 @@ public:
 	void EnableDrawHiddenLine();
 	void DisableDrawHiddenLine();
 	bool HasOwnDrawHiddenLine();
+	void UnsetOwnDrawHiddenLine();
 	Macad::Occt::Prs3d_LineAspect^ VectorAspect();
 	void SetVectorAspect(Macad::Occt::Prs3d_LineAspect^ theAspect);
 	bool HasOwnVectorAspect();
@@ -849,12 +879,14 @@ public:
 	void SetFreeBoundaryDraw(bool theIsEnabled);
 	bool FreeBoundaryDraw();
 	bool HasOwnFreeBoundaryDraw();
+	void UnsetOwnFreeBoundaryDraw();
 	void SetUnFreeBoundaryAspect(Macad::Occt::Prs3d_LineAspect^ theAspect);
 	Macad::Occt::Prs3d_LineAspect^ UnFreeBoundaryAspect();
 	bool HasOwnUnFreeBoundaryAspect();
 	void SetUnFreeBoundaryDraw(bool theIsEnabled);
 	bool UnFreeBoundaryDraw();
 	bool HasOwnUnFreeBoundaryDraw();
+	void UnsetOwnUnFreeBoundaryDraw();
 	void SetFaceBoundaryAspect(Macad::Occt::Prs3d_LineAspect^ theAspect);
 	Macad::Occt::Prs3d_LineAspect^ FaceBoundaryAspect();
 	bool HasOwnFaceBoundaryAspect();
@@ -863,6 +895,7 @@ public:
 	void SetFaceBoundaryDraw(bool theIsEnabled);
 	bool FaceBoundaryDraw();
 	bool HasOwnFaceBoundaryDraw();
+	void UnsetOwnFaceBoundaryDraw();
 	bool HasOwnFaceBoundaryUpperContinuity();
 	Macad::Occt::GeomAbs_Shape FaceBoundaryUpperContinuity();
 	void SetFaceBoundaryUpperContinuity(Macad::Occt::GeomAbs_Shape theMostAllowedEdgeClass);
@@ -875,13 +908,17 @@ public:
 	Macad::Occt::TCollection_AsciiString^ DimLengthModelUnits();
 	Macad::Occt::TCollection_AsciiString^ DimAngleModelUnits();
 	bool HasOwnDimLengthModelUnits();
+	void UnsetOwnDimLengthModelUnits();
 	bool HasOwnDimAngleModelUnits();
+	void UnsetOwnDimAngleModelUnits();
 	void SetDimLengthDisplayUnits(Macad::Occt::TCollection_AsciiString^ theUnits);
 	void SetDimAngleDisplayUnits(Macad::Occt::TCollection_AsciiString^ theUnits);
 	Macad::Occt::TCollection_AsciiString^ DimLengthDisplayUnits();
 	Macad::Occt::TCollection_AsciiString^ DimAngleDisplayUnits();
 	bool HasOwnDimLengthDisplayUnits();
+	void UnsetOwnDimLengthDisplayUnits();
 	bool HasOwnDimAngleDisplayUnits();
+	void UnsetOwnDimAngleDisplayUnits();
 	Macad::Occt::Prs3d_Drawer^ Link();
 	bool HasLink();
 	void Link(Macad::Occt::Prs3d_Drawer^ theDrawer);
@@ -973,7 +1010,6 @@ public:
 	static Macad::Occt::Graphic3d_ArrayOfTriangles^ DrawShaded(Macad::Occt::Ax1 theAxis, double theTubeRadius, double theAxisLength, double theConeRadius, double theConeLength, int theNbFacettes);
 	static Macad::Occt::Graphic3d_ArrayOfSegments^ DrawSegments(Macad::Occt::Pnt theLocation, Macad::Occt::Dir theDir, double theAngle, double theLength, int theNbSegments);
 	static void Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Pnt theLocation, Macad::Occt::Dir theDirection, double theAngle, double theLength);
-	static void Draw(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Pnt theLocation, Macad::Occt::Dir theDirection, double theAngle, double theLength);
 }; // class Prs3d_Arrow
 
 //---------------------------------------------------------------------
@@ -1126,12 +1162,14 @@ public:
 public:
 	Prs3d_InvalidAngle();
 	Prs3d_InvalidAngle(System::String^ theMessage);
+	Prs3d_InvalidAngle(System::String^ theMessage, System::String^ theStackTrace);
 	Prs3d_InvalidAngle(Macad::Occt::Prs3d_InvalidAngle^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Prs3d_InvalidAngle^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Prs3d_InvalidAngle^ NewInstance();
+	static Macad::Occt::Prs3d_InvalidAngle^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Prs3d_InvalidAngle
 
 //---------------------------------------------------------------------
@@ -1208,10 +1246,6 @@ public:
 	static Macad::Occt::Graphic3d_Text^ Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Pnt theAttachmentPoint);
 	static Macad::Occt::Graphic3d_Text^ Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation, bool theHasOwnAnchor);
 	static Macad::Occt::Graphic3d_Text^ Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation);
-	static void Draw(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Prs3d_Drawer^ theDrawer, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Pnt theAttachmentPoint);
-	static void Draw(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation, bool theHasOwnAnchor);
-	static void Draw(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation);
-	static void Draw(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Pnt theAttachmentPoint);
 }; // class Prs3d_Text
 
 //---------------------------------------------------------------------
@@ -1256,6 +1290,9 @@ public:
 	Macad::Occt::Graphic3d_ArrayOfTriangles^ CreateTriangulation(Macad::Occt::Trsf theTrsf);
 	/* Method skipped due to unknown mapping: Poly_Triangulation CreatePolyTriangulation(gp_Trsf theTrsf, ) */
 	void FillArray(Macad::Occt::Graphic3d_ArrayOfTriangles^ theArray, Macad::Occt::Trsf theTrsf);
+	int TrianglesNb();
+	int VerticesNb(bool theIsIndexed);
+	int VerticesNb();
 	/* Method skipped due to unknown mapping: void FillArray(Graphic3d_ArrayOfTriangles theArray, Poly_Triangulation theTriangulation, gp_Trsf theTrsf, ) */
 }; // class Prs3d_ToolQuadric
 

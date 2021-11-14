@@ -47,8 +47,16 @@ namespace Macad.Exchange
 
         //--------------------------------------------------------------------------------------------------
 
+        [AutoRegister]
+        internal static void Register()
+        {
+            ExchangeRegistry.Register(new OpenCascadeExchanger());
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
-            
+
         #region Settings
 
         [SerializeType]

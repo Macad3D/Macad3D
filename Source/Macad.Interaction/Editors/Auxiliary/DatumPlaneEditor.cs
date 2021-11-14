@@ -32,9 +32,9 @@ namespace Macad.Interaction.Editors.Auxiliary
         }
 
         //--------------------------------------------------------------------------------------------------
-               
-        [ModuleInitializer]
-        internal static void Init()
+
+        [AutoRegister]
+        internal static void Register()
         {
             RegisterEditor<DatumPlaneEditor>();
         }

@@ -976,12 +976,14 @@ public:
 public:
 	Quantity_DateDefinitionError();
 	Quantity_DateDefinitionError(System::String^ theMessage);
+	Quantity_DateDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
 	Quantity_DateDefinitionError(Macad::Occt::Quantity_DateDefinitionError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Quantity_DateDefinitionError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Quantity_DateDefinitionError^ NewInstance();
+	static Macad::Occt::Quantity_DateDefinitionError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Quantity_DateDefinitionError
 
 //---------------------------------------------------------------------
@@ -1187,12 +1189,14 @@ public:
 public:
 	Quantity_PeriodDefinitionError();
 	Quantity_PeriodDefinitionError(System::String^ theMessage);
+	Quantity_PeriodDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
 	Quantity_PeriodDefinitionError(Macad::Occt::Quantity_PeriodDefinitionError^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Quantity_PeriodDefinitionError^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Quantity_PeriodDefinitionError^ NewInstance();
+	static Macad::Occt::Quantity_PeriodDefinitionError^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Quantity_PeriodDefinitionError
 
 }; // namespace Occt

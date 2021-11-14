@@ -86,7 +86,6 @@ public:
 	bool RunParallel();
 	void SetFuzzyValue(double theFuzz);
 	double FuzzyValue();
-	void SetProgressIndicator(Macad::Occt::Message_ProgressScope^ theProgress);
 	void SetUseOBB(bool theUseOBB);
 	bool UseOBB();
 }; // class BOPAlgo_Options
@@ -126,6 +125,7 @@ public:
 
 public:
 	BOPAlgo_Algo(Macad::Occt::BOPAlgo_Algo^ parameter1);
+	void Perform(Macad::Occt::Message_ProgressRange^ theRange);
 	void Perform();
 }; // class BOPAlgo_Algo
 
@@ -226,12 +226,14 @@ public:
 	Macad::Occt::BOPAlgo_GlueEnum Glue();
 	void SetCheckInverted(bool theCheck);
 	bool CheckInverted();
+	void Perform(Macad::Occt::Message_ProgressRange^ theRange);
 	void Perform();
-	/* Method skipped due to unknown mapping: void PerformWithFiller(BOPAlgo_PaveFiller theFiller, ) */
-	void BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopAbs_State theObjState, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::TopAbs_State theToolsState, Macad::Occt::Message_Report^ theReport);
-	void BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopAbs_State theObjState, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::TopAbs_State theToolsState);
-	void BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::BOPAlgo_Operation theOperation, Macad::Occt::Message_Report^ theReport);
-	void BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::BOPAlgo_Operation theOperation);
+	/* Method skipped due to unknown mapping: void PerformWithFiller(BOPAlgo_PaveFiller theFiller, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void PerformWithFiller(BOPAlgo_PaveFiller theFiller, Message_ProgressRange theRange, ) */
+	void BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopAbs_State theObjState, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::TopAbs_State theToolsState, Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::Message_Report^ theReport);
+	void BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopAbs_State theObjState, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::TopAbs_State theToolsState, Macad::Occt::Message_ProgressRange^ theRange);
+	void BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::BOPAlgo_Operation theOperation, Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::Message_Report^ theReport);
+	void BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::BOPAlgo_Operation theOperation, Macad::Occt::Message_ProgressRange^ theRange);
 	Macad::Occt::TopTools_DataMapOfShapeListOfShape^ Images();
 	Macad::Occt::TopTools_DataMapOfShapeListOfShape^ Origins();
 	Macad::Occt::TopTools_DataMapOfShapeShape^ ShapesSD();
@@ -320,6 +322,7 @@ public:
 	void Clear();
 	void SetOperation(Macad::Occt::BOPAlgo_Operation theOperation);
 	Macad::Occt::BOPAlgo_Operation Operation();
+	void Perform(Macad::Occt::Message_ProgressRange^ theRange);
 	void Perform();
 }; // class BOPAlgo_BOP
 
@@ -362,9 +365,10 @@ public:
 	static bool WiresToFaces(Macad::Occt::TopoDS_Shape^ theWires, Macad::Occt::TopoDS_Shape^ theFaces, double theAngTol);
 	static bool WiresToFaces(Macad::Occt::TopoDS_Shape^ theWires, Macad::Occt::TopoDS_Shape^ theFaces);
 	static void IntersectVertices(Macad::Occt::TopTools_IndexedDataMapOfShapeReal^ theVertices, double theFuzzyValue, Macad::Occt::TopTools_ListOfListOfShape^ theChains);
-	/* Method skipped due to unknown mapping: void ClassifyFaces(TopTools_ListOfShape theFaces, TopTools_ListOfShape theSolids, Standard_Boolean theRunParallel, IntTools_Context theContext, TopTools_IndexedDataMapOfShapeListOfShape theInParts, TopTools_DataMapOfShapeBox theShapeBoxMap, TopTools_DataMapOfShapeListOfShape theSolidsIF, ) */
-	/* Method skipped due to unknown mapping: void ClassifyFaces(TopTools_ListOfShape theFaces, TopTools_ListOfShape theSolids, Standard_Boolean theRunParallel, IntTools_Context theContext, TopTools_IndexedDataMapOfShapeListOfShape theInParts, TopTools_DataMapOfShapeBox theShapeBoxMap, TopTools_DataMapOfShapeListOfShape theSolidsIF, ) */
-	/* Method skipped due to unknown mapping: void ClassifyFaces(TopTools_ListOfShape theFaces, TopTools_ListOfShape theSolids, Standard_Boolean theRunParallel, IntTools_Context theContext, TopTools_IndexedDataMapOfShapeListOfShape theInParts, TopTools_DataMapOfShapeBox theShapeBoxMap, TopTools_DataMapOfShapeListOfShape theSolidsIF, ) */
+	/* Method skipped due to unknown mapping: void ClassifyFaces(TopTools_ListOfShape theFaces, TopTools_ListOfShape theSolids, Standard_Boolean theRunParallel, IntTools_Context theContext, TopTools_IndexedDataMapOfShapeListOfShape theInParts, TopTools_DataMapOfShapeBox theShapeBoxMap, TopTools_DataMapOfShapeListOfShape theSolidsIF, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void ClassifyFaces(TopTools_ListOfShape theFaces, TopTools_ListOfShape theSolids, Standard_Boolean theRunParallel, IntTools_Context theContext, TopTools_IndexedDataMapOfShapeListOfShape theInParts, TopTools_DataMapOfShapeBox theShapeBoxMap, TopTools_DataMapOfShapeListOfShape theSolidsIF, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void ClassifyFaces(TopTools_ListOfShape theFaces, TopTools_ListOfShape theSolids, Standard_Boolean theRunParallel, IntTools_Context theContext, TopTools_IndexedDataMapOfShapeListOfShape theInParts, TopTools_DataMapOfShapeBox theShapeBoxMap, TopTools_DataMapOfShapeListOfShape theSolidsIF, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void ClassifyFaces(TopTools_ListOfShape theFaces, TopTools_ListOfShape theSolids, Standard_Boolean theRunParallel, IntTools_Context theContext, TopTools_IndexedDataMapOfShapeListOfShape theInParts, TopTools_DataMapOfShapeBox theShapeBoxMap, TopTools_DataMapOfShapeListOfShape theSolidsIF, Message_ProgressRange theRange, ) */
 	/* Method skipped due to unknown mapping: void FillInternals(TopTools_ListOfShape theSolids, TopTools_ListOfShape theParts, TopTools_DataMapOfShapeListOfShape theImages, IntTools_Context theContext, ) */
 	static bool TrsfToPoint(Macad::Occt::Bnd_Box^ theBox1, Macad::Occt::Bnd_Box^ theBox2, Macad::Occt::Trsf% theTrsf, Macad::Occt::Pnt thePoint, double theCriteria);
 	static bool TrsfToPoint(Macad::Occt::Bnd_Box^ theBox1, Macad::Occt::Bnd_Box^ theBox2, Macad::Occt::Trsf% theTrsf, Macad::Occt::Pnt thePoint);

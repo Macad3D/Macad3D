@@ -708,6 +708,16 @@ Macad::Occt::Quantity_DateDefinitionError::Quantity_DateDefinitionError(System::
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
 }
 
+Macad::Occt::Quantity_DateDefinitionError::Quantity_DateDefinitionError(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Quantity_DateDefinitionError(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+}
+
 Macad::Occt::Quantity_DateDefinitionError::Quantity_DateDefinitionError(Macad::Occt::Quantity_DateDefinitionError^ parameter1)
 	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
 {
@@ -739,6 +749,17 @@ Macad::Occt::Quantity_DateDefinitionError^ Macad::Occt::Quantity_DateDefinitionE
 {
 	Handle(::Quantity_DateDefinitionError) _result;
 	_result = ::Quantity_DateDefinitionError::NewInstance("");
+	 return _result.IsNull() ? nullptr : Macad::Occt::Quantity_DateDefinitionError::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Quantity_DateDefinitionError^ Macad::Occt::Quantity_DateDefinitionError::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Quantity_DateDefinitionError) _result;
+	_result = ::Quantity_DateDefinitionError::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 	 return _result.IsNull() ? nullptr : Macad::Occt::Quantity_DateDefinitionError::CreateDowncasted( _result.get());
 }
 
@@ -1217,6 +1238,16 @@ Macad::Occt::Quantity_PeriodDefinitionError::Quantity_PeriodDefinitionError(Syst
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
 }
 
+Macad::Occt::Quantity_PeriodDefinitionError::Quantity_PeriodDefinitionError(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Quantity_PeriodDefinitionError(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+}
+
 Macad::Occt::Quantity_PeriodDefinitionError::Quantity_PeriodDefinitionError(Macad::Occt::Quantity_PeriodDefinitionError^ parameter1)
 	: Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
 {
@@ -1248,6 +1279,17 @@ Macad::Occt::Quantity_PeriodDefinitionError^ Macad::Occt::Quantity_PeriodDefinit
 {
 	Handle(::Quantity_PeriodDefinitionError) _result;
 	_result = ::Quantity_PeriodDefinitionError::NewInstance("");
+	 return _result.IsNull() ? nullptr : Macad::Occt::Quantity_PeriodDefinitionError::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Quantity_PeriodDefinitionError^ Macad::Occt::Quantity_PeriodDefinitionError::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Quantity_PeriodDefinitionError) _result;
+	_result = ::Quantity_PeriodDefinitionError::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 	 return _result.IsNull() ? nullptr : Macad::Occt::Quantity_PeriodDefinitionError::CreateDowncasted( _result.get());
 }
 

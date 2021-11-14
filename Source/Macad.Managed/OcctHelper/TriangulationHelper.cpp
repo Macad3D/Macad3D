@@ -142,21 +142,19 @@ namespace Macad
 						auto orientation = exp.Current().Orientation();
 
 						// Copy Vertices
-						auto nodes = triangulation->Nodes();
-						for (int nodeIndex = nodes.Lower(); nodeIndex <= nodes.Upper(); nodeIndex++)
+						for (int nodeIndex = 1; nodeIndex <= triangulation->NbNodes(); nodeIndex++)
 						{
-							*vertices = nodes(nodeIndex).Transformed(trsf);
+							*vertices = triangulation->Node(nodeIndex).Transformed(trsf);
 							vertices++;
 						}
 
 						if(getNormals && hasNormals)
 						{
 						    // Copy Normals
-						    auto normalsSource = triangulation->Normals();
 						    const auto trsf = location.Transformation();
-						    for (int nrmlIndex = normalsSource.Lower(); nrmlIndex <= normalsSource.Upper(); nrmlIndex+=3)
+						    for (int nrmlIndex = 1; nrmlIndex <= triangulation->NbNodes(); nrmlIndex++)
 						    {
-							    normals->SetCoord(normalsSource(nrmlIndex), normalsSource(nrmlIndex + 1), normalsSource(nrmlIndex + 2));
+							    *normals = triangulation->Normal(nrmlIndex);
 								normals->Transform(trsf);
 								if(orientation == ::TopAbs_Orientation::TopAbs_REVERSED)
 								{
@@ -167,18 +165,18 @@ namespace Macad
 						}
 
 						// Copy Indices
-						const auto correctedIndexOffset = indexOffset - nodes.Lower(); // Correct lower bound, this is not 0!
-						auto triangles = triangulation->Triangles();
+						const auto correctedIndexOffset = indexOffset - 1; // Correct lower bound, this is not 0!
 						int triIndices[3];
-						for (int triangleIndex = triangles.Lower(); triangleIndex <= triangles.Upper(); triangleIndex++)
+						for (int triangleIndex = 1; triangleIndex <= triangulation->NbTriangles(); triangleIndex++)
 						{
+							const ::Poly_Triangle triangle = triangulation->Triangle(triangleIndex);
 							if (exp.Current().Orientation() == TopAbs_REVERSED)
 							{
-								triangles(triangleIndex).Get(triIndices[0], triIndices[2], triIndices[1]);
+								triangle.Get(triIndices[0], triIndices[2], triIndices[1]);
 							} 
 							else 
 							{
-								triangles(triangleIndex).Get(triIndices[0], triIndices[1], triIndices[2]);
+								triangle.Get(triIndices[0], triIndices[1], triIndices[2]);
 							}
 
 							// Copy with face offset
@@ -188,7 +186,7 @@ namespace Macad
 							indices += 3;
 						}
 
-						indexOffset += nodes.Size();
+						indexOffset += triangulation->NbNodes();
 					}
 
 					// Return
@@ -208,7 +206,7 @@ namespace Macad
 					gp_Pnt* vertices = reinterpret_cast<gp_Pnt*>(vertices_pinnedptr);
 					for(int i = 1; i<=vertexCount; i++, vertices++) // Note: Nodes-Array starts at 1
 					{
-						triangulation->ChangeNode(i) = *vertices;
+						triangulation->SetNode(i, *vertices);
 					}
 
 					// Copy Indices
@@ -218,15 +216,16 @@ namespace Macad
 						int* indices = indices_pinnedptr;
 						for(int index = 1; index<=triangleCount; index++, indices+=3) // Note: Triangle-Array starts at 1
 						{
-							triangulation->ChangeTriangle(index) = Poly_Triangle(*indices+1, *(indices+1)+1, *(indices+2)+1); // Correct lower bound, OCCT needs this to be 1!
+							triangulation->SetTriangle(index, Poly_Triangle(*indices+1, *(indices+1)+1, *(indices+2)+1)); // Correct lower bound, OCCT needs this to be 1!
 						}
-					} else
+					}
+					else
 					{
 						// Create Indices
 						int index = 1;
 						for(int triangle = 1; triangle<=triangleCount; triangle++, index+=3) // Note: Triangle-Array starts at 1
 						{
-							triangulation->ChangeTriangle(triangle) = Poly_Triangle(index, index+1, index+2);
+							triangulation->SetTriangle(triangle, Poly_Triangle(index, index+1, index+2));
 						}
 					}
 

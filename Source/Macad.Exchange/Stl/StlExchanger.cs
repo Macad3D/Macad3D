@@ -43,6 +43,14 @@ namespace Macad.Exchange
 
         //--------------------------------------------------------------------------------------------------
 
+        [AutoRegister]
+        internal static void Register()
+        {
+            ExchangeRegistry.Register(new StlExchanger());
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
         #region Settings

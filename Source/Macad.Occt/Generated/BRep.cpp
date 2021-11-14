@@ -504,6 +504,13 @@ Macad::Occt::Geom_Surface^ Macad::Occt::BRep_TFace::Surface()
 	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Surface::CreateDowncasted( _result.get());
 }
 
+void Macad::Occt::BRep_TFace::Surface(Macad::Occt::Geom_Surface^ theSurface)
+{
+	Handle(::Geom_Surface) h_theSurface = theSurface->NativeInstance;
+	((::BRep_TFace*)_NativeInstance)->Surface(h_theSurface);
+	theSurface->NativeInstance = h_theSurface.get();
+}
+
 Macad::Occt::TopLoc_Location^ Macad::Occt::BRep_TFace::Location()
 {
 	::TopLoc_Location* _result = new ::TopLoc_Location();
@@ -511,26 +518,19 @@ Macad::Occt::TopLoc_Location^ Macad::Occt::BRep_TFace::Location()
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopLoc_Location(_result);
 }
 
+void Macad::Occt::BRep_TFace::Location(Macad::Occt::TopLoc_Location^ theLocation)
+{
+	((::BRep_TFace*)_NativeInstance)->Location(*(::TopLoc_Location*)theLocation->NativeInstance);
+}
+
 double Macad::Occt::BRep_TFace::Tolerance()
 {
 	return ((::BRep_TFace*)_NativeInstance)->Tolerance();
 }
 
-void Macad::Occt::BRep_TFace::Surface(Macad::Occt::Geom_Surface^ S)
+void Macad::Occt::BRep_TFace::Tolerance(double theTolerance)
 {
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	((::BRep_TFace*)_NativeInstance)->Surface(h_S);
-	S->NativeInstance = h_S.get();
-}
-
-void Macad::Occt::BRep_TFace::Location(Macad::Occt::TopLoc_Location^ L)
-{
-	((::BRep_TFace*)_NativeInstance)->Location(*(::TopLoc_Location*)L->NativeInstance);
-}
-
-void Macad::Occt::BRep_TFace::Tolerance(double T)
-{
-	((::BRep_TFace*)_NativeInstance)->Tolerance(T);
+	((::BRep_TFace*)_NativeInstance)->Tolerance(theTolerance);
 }
 
 bool Macad::Occt::BRep_TFace::NaturalRestriction()
@@ -538,9 +538,9 @@ bool Macad::Occt::BRep_TFace::NaturalRestriction()
 	return ((::BRep_TFace*)_NativeInstance)->NaturalRestriction();
 }
 
-void Macad::Occt::BRep_TFace::NaturalRestriction(bool N)
+void Macad::Occt::BRep_TFace::NaturalRestriction(bool theRestriction)
 {
-	((::BRep_TFace*)_NativeInstance)->NaturalRestriction(N);
+	((::BRep_TFace*)_NativeInstance)->NaturalRestriction(theRestriction);
 }
 
 Macad::Occt::TopoDS_TShape^ Macad::Occt::BRep_TFace::EmptyCopy()
@@ -548,6 +548,11 @@ Macad::Occt::TopoDS_TShape^ Macad::Occt::BRep_TFace::EmptyCopy()
 	Handle(::TopoDS_TShape) _result;
 	_result = ((::BRep_TFace*)_NativeInstance)->EmptyCopy();
 	 return _result.IsNull() ? nullptr : Macad::Occt::TopoDS_TShape::CreateDowncasted( _result.get());
+}
+
+int Macad::Occt::BRep_TFace::NbTriangulations()
+{
+	return ((::BRep_TFace*)_NativeInstance)->NbTriangulations();
 }
 
 

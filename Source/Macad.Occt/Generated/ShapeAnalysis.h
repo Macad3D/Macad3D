@@ -245,13 +245,12 @@ public:
 
 public:
 	ShapeAnalysis_Surface(Macad::Occt::Geom_Surface^ S);
-	ShapeAnalysis_Surface(Macad::Occt::ShapeAnalysis_Surface^ parameter1);
 	void Init(Macad::Occt::Geom_Surface^ S);
 	void Init(Macad::Occt::ShapeAnalysis_Surface^ other);
 	void SetDomain(double U1, double U2, double V1, double V2);
 	Macad::Occt::Geom_Surface^ Surface();
-	Macad::Occt::GeomAdaptor_HSurface^ Adaptor3d();
-	Macad::Occt::GeomAdaptor_HSurface^ TrueAdaptor3d();
+	Macad::Occt::GeomAdaptor_Surface^ Adaptor3d();
+	Macad::Occt::GeomAdaptor_Surface^ TrueAdaptor3d();
 	double Gap();
 	Macad::Occt::Pnt Value(double u, double v);
 	Macad::Occt::Pnt Value(Macad::Occt::Pnt2d p2d);
@@ -354,7 +353,6 @@ public:
 	bool CheckSameParameter(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Face^ theFace, double% theMaxdev, int theNbControl);
 	bool CheckSameParameter(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Face^ theFace, double% theMaxdev);
 	bool CheckPCurveRange(double theFirst, double theLast, Macad::Occt::Geom2d_Curve^ thePC);
-	static bool ComputeDeviation(Macad::Occt::Adaptor3d_Curve^ CRef, Macad::Occt::Adaptor3d_Curve^ Other, bool SameParameter, double% dev, int NCONTROL);
 	bool CheckOverlapping(Macad::Occt::TopoDS_Edge^ theEdge1, Macad::Occt::TopoDS_Edge^ theEdge2, double% theTolOverlap, double theDomainDist);
 	bool CheckOverlapping(Macad::Occt::TopoDS_Edge^ theEdge1, Macad::Occt::TopoDS_Edge^ theEdge2, double% theTolOverlap);
 }; // class ShapeAnalysis_Edge
@@ -784,7 +782,7 @@ public:
 	void Perform(Macad::Occt::TopoDS_Shape^ shape);
 	bool ModifyBigSplineMode();
 	bool ModifyIndirectMode();
-	bool ModifyOffestSurfaceMode();
+	bool ModifyOffsetSurfaceMode();
 	bool ModifyTrimmed3dMode();
 	bool ModifyOffsetCurveMode();
 	bool ModifyTrimmed2dMode();
@@ -827,6 +825,7 @@ public:
 	Macad::Occt::TopTools_HSequenceOfShape^ Trimmed3dSec();
 	Macad::Occt::TopTools_HSequenceOfShape^ OffsetCurveSec();
 	Macad::Occt::TopTools_HSequenceOfShape^ Trimmed2dSec();
+	bool ModifyOffestSurfaceMode();
 }; // class ShapeAnalysis_ShapeContents
 
 //---------------------------------------------------------------------

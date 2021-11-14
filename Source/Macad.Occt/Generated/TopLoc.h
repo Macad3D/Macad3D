@@ -353,6 +353,8 @@ public:
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
 	/* Method skipped due to unknown mapping: void ShallowDump(ostream S, ) */
+	void Clear();
+	static double ScalePrec();
 }; // class TopLoc_Location
 
 }; // namespace Occt

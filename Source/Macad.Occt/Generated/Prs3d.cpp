@@ -772,6 +772,16 @@ double Macad::Occt::Prs3d_ArrowAspect::Length()
 	return ((::Prs3d_ArrowAspect*)_NativeInstance)->Length();
 }
 
+void Macad::Occt::Prs3d_ArrowAspect::SetZoomable(bool theIsZoomable)
+{
+	((::Prs3d_ArrowAspect*)_NativeInstance)->SetZoomable(theIsZoomable);
+}
+
+bool Macad::Occt::Prs3d_ArrowAspect::IsZoomable()
+{
+	return ((::Prs3d_ArrowAspect*)_NativeInstance)->IsZoomable();
+}
+
 void Macad::Occt::Prs3d_ArrowAspect::SetColor(Macad::Occt::Quantity_Color^ theColor)
 {
 	((::Prs3d_ArrowAspect*)_NativeInstance)->SetColor(*(::Quantity_Color*)theColor->NativeInstance);
@@ -829,10 +839,10 @@ Macad::Occt::Prs3d_ShadingAspect^ Macad::Occt::Prs3d_DatumAspect::ShadingAspect(
 	 return _result.IsNull() ? nullptr : Macad::Occt::Prs3d_ShadingAspect::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::Prs3d_TextAspect^ Macad::Occt::Prs3d_DatumAspect::TextAspect()
+Macad::Occt::Prs3d_TextAspect^ Macad::Occt::Prs3d_DatumAspect::TextAspect(Macad::Occt::Prs3d_DatumParts thePart)
 {
 	Handle(::Prs3d_TextAspect) _result;
-	_result = ((::Prs3d_DatumAspect*)_NativeInstance)->TextAspect();
+	_result = ((::Prs3d_DatumAspect*)_NativeInstance)->TextAspect((::Prs3d_DatumParts)thePart);
 	 return _result.IsNull() ? nullptr : Macad::Occt::Prs3d_TextAspect::CreateDowncasted( _result.get());
 }
 
@@ -871,47 +881,6 @@ void Macad::Occt::Prs3d_DatumAspect::SetArrowAspect(Macad::Occt::Prs3d_ArrowAspe
 	theAspect->NativeInstance = h_theAspect.get();
 }
 
-Macad::Occt::Prs3d_LineAspect^ Macad::Occt::Prs3d_DatumAspect::FirstAxisAspect()
-{
-	Handle(::Prs3d_LineAspect) _result;
-	_result = ((::Prs3d_DatumAspect*)_NativeInstance)->FirstAxisAspect();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Prs3d_LineAspect::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Prs3d_LineAspect^ Macad::Occt::Prs3d_DatumAspect::SecondAxisAspect()
-{
-	Handle(::Prs3d_LineAspect) _result;
-	_result = ((::Prs3d_DatumAspect*)_NativeInstance)->SecondAxisAspect();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Prs3d_LineAspect::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Prs3d_LineAspect^ Macad::Occt::Prs3d_DatumAspect::ThirdAxisAspect()
-{
-	Handle(::Prs3d_LineAspect) _result;
-	_result = ((::Prs3d_DatumAspect*)_NativeInstance)->ThirdAxisAspect();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Prs3d_LineAspect::CreateDowncasted( _result.get());
-}
-
-void Macad::Occt::Prs3d_DatumAspect::SetDrawFirstAndSecondAxis(bool theToDraw)
-{
-	((::Prs3d_DatumAspect*)_NativeInstance)->SetDrawFirstAndSecondAxis(theToDraw);
-}
-
-bool Macad::Occt::Prs3d_DatumAspect::DrawFirstAndSecondAxis()
-{
-	return ((::Prs3d_DatumAspect*)_NativeInstance)->DrawFirstAndSecondAxis();
-}
-
-void Macad::Occt::Prs3d_DatumAspect::SetDrawThirdAxis(bool theToDraw)
-{
-	((::Prs3d_DatumAspect*)_NativeInstance)->SetDrawThirdAxis(theToDraw);
-}
-
-bool Macad::Occt::Prs3d_DatumAspect::DrawThirdAxis()
-{
-	return ((::Prs3d_DatumAspect*)_NativeInstance)->DrawThirdAxis();
-}
-
 bool Macad::Occt::Prs3d_DatumAspect::DrawDatumPart(Macad::Occt::Prs3d_DatumParts thePart)
 {
 	return ((::Prs3d_DatumAspect*)_NativeInstance)->DrawDatumPart((::Prs3d_DatumParts)thePart);
@@ -927,20 +896,14 @@ Macad::Occt::Prs3d_DatumAxes Macad::Occt::Prs3d_DatumAspect::DatumAxes()
 	return (Macad::Occt::Prs3d_DatumAxes)((::Prs3d_DatumAspect*)_NativeInstance)->DatumAxes();
 }
 
-void Macad::Occt::Prs3d_DatumAspect::SetAttribute(Macad::Occt::Prs3d_DatumAttribute theType, double theValue)
-{
-	pin_ptr<double> pp_theValue = &theValue;
-	((::Prs3d_DatumAspect*)_NativeInstance)->SetAttribute((::Prs3d_DatumAttribute)theType, *(Standard_Real*)pp_theValue);
-}
-
 double Macad::Occt::Prs3d_DatumAspect::Attribute(Macad::Occt::Prs3d_DatumAttribute theType)
 {
 	return ((::Prs3d_DatumAspect*)_NativeInstance)->Attribute((::Prs3d_DatumAttribute)theType);
 }
 
-void Macad::Occt::Prs3d_DatumAspect::SetAxisLength(double theL1, double theL2, double theL3)
+void Macad::Occt::Prs3d_DatumAspect::SetAttribute(Macad::Occt::Prs3d_DatumAttribute theType, double theValue)
 {
-	((::Prs3d_DatumAspect*)_NativeInstance)->SetAxisLength(theL1, theL2, theL3);
+	((::Prs3d_DatumAspect*)_NativeInstance)->SetAttribute((::Prs3d_DatumAttribute)theType, theValue);
 }
 
 double Macad::Occt::Prs3d_DatumAspect::AxisLength(Macad::Occt::Prs3d_DatumParts thePart)
@@ -948,19 +911,9 @@ double Macad::Occt::Prs3d_DatumAspect::AxisLength(Macad::Occt::Prs3d_DatumParts 
 	return ((::Prs3d_DatumAspect*)_NativeInstance)->AxisLength((::Prs3d_DatumParts)thePart);
 }
 
-double Macad::Occt::Prs3d_DatumAspect::FirstAxisLength()
+void Macad::Occt::Prs3d_DatumAspect::SetAxisLength(double theL1, double theL2, double theL3)
 {
-	return ((::Prs3d_DatumAspect*)_NativeInstance)->FirstAxisLength();
-}
-
-double Macad::Occt::Prs3d_DatumAspect::SecondAxisLength()
-{
-	return ((::Prs3d_DatumAspect*)_NativeInstance)->SecondAxisLength();
-}
-
-double Macad::Occt::Prs3d_DatumAspect::ThirdAxisLength()
-{
-	return ((::Prs3d_DatumAspect*)_NativeInstance)->ThirdAxisLength();
+	((::Prs3d_DatumAspect*)_NativeInstance)->SetAxisLength(theL1, theL2, theL3);
 }
 
 bool Macad::Occt::Prs3d_DatumAspect::ToDrawLabels()
@@ -988,9 +941,23 @@ void Macad::Occt::Prs3d_DatumAspect::SetDrawArrows(bool theToDraw)
 	((::Prs3d_DatumAspect*)_NativeInstance)->SetDrawArrows(theToDraw);
 }
 
+void Macad::Occt::Prs3d_DatumAspect::CopyAspectsFrom(Macad::Occt::Prs3d_DatumAspect^ theOther)
+{
+	Handle(::Prs3d_DatumAspect) h_theOther = theOther->NativeInstance;
+	((::Prs3d_DatumAspect*)_NativeInstance)->CopyAspectsFrom(h_theOther);
+	theOther->NativeInstance = h_theOther.get();
+}
+
 Macad::Occt::Prs3d_DatumParts Macad::Occt::Prs3d_DatumAspect::ArrowPartForAxis(Macad::Occt::Prs3d_DatumParts thePart)
 {
-	return (Macad::Occt::Prs3d_DatumParts)((::Prs3d_DatumAspect*)_NativeInstance)->ArrowPartForAxis((::Prs3d_DatumParts)thePart);
+	return (Macad::Occt::Prs3d_DatumParts)::Prs3d_DatumAspect::ArrowPartForAxis((::Prs3d_DatumParts)thePart);
+}
+
+Macad::Occt::Prs3d_TextAspect^ Macad::Occt::Prs3d_DatumAspect::TextAspect()
+{
+	Handle(::Prs3d_TextAspect) _result;
+	_result = ((::Prs3d_DatumAspect*)_NativeInstance)->TextAspect();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Prs3d_TextAspect::CreateDowncasted( _result.get());
 }
 
 
@@ -1205,6 +1172,11 @@ bool Macad::Occt::Prs3d_Drawer::HasOwnTypeOfDeflection()
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnTypeOfDeflection();
 }
 
+void Macad::Occt::Prs3d_Drawer::UnsetOwnTypeOfDeflection()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnTypeOfDeflection();
+}
+
 void Macad::Occt::Prs3d_Drawer::SetMaximalChordialDeviation(double theChordialDeviation)
 {
 	((::Prs3d_Drawer*)_NativeInstance)->SetMaximalChordialDeviation(theChordialDeviation);
@@ -1218,6 +1190,11 @@ double Macad::Occt::Prs3d_Drawer::MaximalChordialDeviation()
 bool Macad::Occt::Prs3d_Drawer::HasOwnMaximalChordialDeviation()
 {
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnMaximalChordialDeviation();
+}
+
+void Macad::Occt::Prs3d_Drawer::UnsetOwnMaximalChordialDeviation()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnMaximalChordialDeviation();
 }
 
 void Macad::Occt::Prs3d_Drawer::SetTypeOfHLR(Macad::Occt::Prs3d_TypeOfHLR theTypeOfHLR)
@@ -1250,6 +1227,11 @@ bool Macad::Occt::Prs3d_Drawer::HasOwnMaximalParameterValue()
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnMaximalParameterValue();
 }
 
+void Macad::Occt::Prs3d_Drawer::UnsetOwnMaximalParameterValue()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnMaximalParameterValue();
+}
+
 void Macad::Occt::Prs3d_Drawer::SetIsoOnPlane(bool theIsEnabled)
 {
 	((::Prs3d_Drawer*)_NativeInstance)->SetIsoOnPlane(theIsEnabled);
@@ -1265,6 +1247,11 @@ bool Macad::Occt::Prs3d_Drawer::HasOwnIsoOnPlane()
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnIsoOnPlane();
 }
 
+void Macad::Occt::Prs3d_Drawer::UnsetOwnIsoOnPlane()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnIsoOnPlane();
+}
+
 bool Macad::Occt::Prs3d_Drawer::IsoOnTriangulation()
 {
 	return ((::Prs3d_Drawer*)_NativeInstance)->IsoOnTriangulation();
@@ -1273,6 +1260,11 @@ bool Macad::Occt::Prs3d_Drawer::IsoOnTriangulation()
 bool Macad::Occt::Prs3d_Drawer::HasOwnIsoOnTriangulation()
 {
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnIsoOnTriangulation();
+}
+
+void Macad::Occt::Prs3d_Drawer::UnsetOwnIsoOnTriangulation()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnIsoOnTriangulation();
 }
 
 void Macad::Occt::Prs3d_Drawer::SetIsoOnTriangulation(bool theToEnable)
@@ -1293,6 +1285,11 @@ int Macad::Occt::Prs3d_Drawer::Discretisation()
 bool Macad::Occt::Prs3d_Drawer::HasOwnDiscretisation()
 {
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnDiscretisation();
+}
+
+void Macad::Occt::Prs3d_Drawer::UnsetOwnDiscretisation()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnDiscretisation();
 }
 
 void Macad::Occt::Prs3d_Drawer::SetDeviationCoefficient(double theCoefficient)
@@ -1370,6 +1367,11 @@ bool Macad::Occt::Prs3d_Drawer::HasOwnIsAutoTriangulation()
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnIsAutoTriangulation();
 }
 
+void Macad::Occt::Prs3d_Drawer::UnsetOwnIsAutoTriangulation()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnIsAutoTriangulation();
+}
+
 Macad::Occt::Prs3d_IsoAspect^ Macad::Occt::Prs3d_Drawer::UIsoAspect()
 {
 	Handle(::Prs3d_IsoAspect) _result;
@@ -1440,6 +1442,11 @@ bool Macad::Occt::Prs3d_Drawer::WireDraw()
 bool Macad::Occt::Prs3d_Drawer::HasOwnWireDraw()
 {
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnWireDraw();
+}
+
+void Macad::Occt::Prs3d_Drawer::UnsetOwnWireDraw()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnWireDraw();
 }
 
 Macad::Occt::Prs3d_PointAspect^ Macad::Occt::Prs3d_Drawer::PointAspect()
@@ -1638,6 +1645,11 @@ bool Macad::Occt::Prs3d_Drawer::HasOwnLineArrowDraw()
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnLineArrowDraw();
 }
 
+void Macad::Occt::Prs3d_Drawer::UnsetOwnLineArrowDraw()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnLineArrowDraw();
+}
+
 Macad::Occt::Prs3d_LineAspect^ Macad::Occt::Prs3d_Drawer::HiddenLineAspect()
 {
 	Handle(::Prs3d_LineAspect) _result;
@@ -1675,6 +1687,11 @@ void Macad::Occt::Prs3d_Drawer::DisableDrawHiddenLine()
 bool Macad::Occt::Prs3d_Drawer::HasOwnDrawHiddenLine()
 {
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnDrawHiddenLine();
+}
+
+void Macad::Occt::Prs3d_Drawer::UnsetOwnDrawHiddenLine()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnDrawHiddenLine();
 }
 
 Macad::Occt::Prs3d_LineAspect^ Macad::Occt::Prs3d_Drawer::VectorAspect()
@@ -1783,6 +1800,11 @@ bool Macad::Occt::Prs3d_Drawer::HasOwnFreeBoundaryDraw()
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnFreeBoundaryDraw();
 }
 
+void Macad::Occt::Prs3d_Drawer::UnsetOwnFreeBoundaryDraw()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnFreeBoundaryDraw();
+}
+
 void Macad::Occt::Prs3d_Drawer::SetUnFreeBoundaryAspect(Macad::Occt::Prs3d_LineAspect^ theAspect)
 {
 	Handle(::Prs3d_LineAspect) h_theAspect = theAspect->NativeInstance;
@@ -1815,6 +1837,11 @@ bool Macad::Occt::Prs3d_Drawer::UnFreeBoundaryDraw()
 bool Macad::Occt::Prs3d_Drawer::HasOwnUnFreeBoundaryDraw()
 {
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnUnFreeBoundaryDraw();
+}
+
+void Macad::Occt::Prs3d_Drawer::UnsetOwnUnFreeBoundaryDraw()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnUnFreeBoundaryDraw();
 }
 
 void Macad::Occt::Prs3d_Drawer::SetFaceBoundaryAspect(Macad::Occt::Prs3d_LineAspect^ theAspect)
@@ -1861,6 +1888,11 @@ bool Macad::Occt::Prs3d_Drawer::FaceBoundaryDraw()
 bool Macad::Occt::Prs3d_Drawer::HasOwnFaceBoundaryDraw()
 {
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnFaceBoundaryDraw();
+}
+
+void Macad::Occt::Prs3d_Drawer::UnsetOwnFaceBoundaryDraw()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnFaceBoundaryDraw();
 }
 
 bool Macad::Occt::Prs3d_Drawer::HasOwnFaceBoundaryUpperContinuity()
@@ -1931,9 +1963,19 @@ bool Macad::Occt::Prs3d_Drawer::HasOwnDimLengthModelUnits()
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnDimLengthModelUnits();
 }
 
+void Macad::Occt::Prs3d_Drawer::UnsetOwnDimLengthModelUnits()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnDimLengthModelUnits();
+}
+
 bool Macad::Occt::Prs3d_Drawer::HasOwnDimAngleModelUnits()
 {
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnDimAngleModelUnits();
+}
+
+void Macad::Occt::Prs3d_Drawer::UnsetOwnDimAngleModelUnits()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnDimAngleModelUnits();
 }
 
 void Macad::Occt::Prs3d_Drawer::SetDimLengthDisplayUnits(Macad::Occt::TCollection_AsciiString^ theUnits)
@@ -1965,9 +2007,19 @@ bool Macad::Occt::Prs3d_Drawer::HasOwnDimLengthDisplayUnits()
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnDimLengthDisplayUnits();
 }
 
+void Macad::Occt::Prs3d_Drawer::UnsetOwnDimLengthDisplayUnits()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnDimLengthDisplayUnits();
+}
+
 bool Macad::Occt::Prs3d_Drawer::HasOwnDimAngleDisplayUnits()
 {
 	return ((::Prs3d_Drawer*)_NativeInstance)->HasOwnDimAngleDisplayUnits();
+}
+
+void Macad::Occt::Prs3d_Drawer::UnsetOwnDimAngleDisplayUnits()
+{
+	((::Prs3d_Drawer*)_NativeInstance)->UnsetOwnDimAngleDisplayUnits();
 }
 
 Macad::Occt::Prs3d_Drawer^ Macad::Occt::Prs3d_Drawer::Link()
@@ -2140,15 +2192,6 @@ void Macad::Occt::Prs3d_Arrow::Draw(Macad::Occt::Graphic3d_Group^ theGroup, Maca
 	theGroup->NativeInstance = h_theGroup.get();
 }
 
-void Macad::Occt::Prs3d_Arrow::Draw(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Pnt theLocation, Macad::Occt::Dir theDirection, double theAngle, double theLength)
-{
-	Handle(::Graphic3d_Structure) h_thePrs = thePrs->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_theLocation = &theLocation;
-	pin_ptr<Macad::Occt::Dir> pp_theDirection = &theDirection;
-	::Prs3d_Arrow::Draw(h_thePrs, *(gp_Pnt*)pp_theLocation, *(gp_Dir*)pp_theDirection, theAngle, theLength);
-	thePrs->NativeInstance = h_thePrs.get();
-}
-
 
 
 
@@ -2314,6 +2357,16 @@ Macad::Occt::Prs3d_InvalidAngle::Prs3d_InvalidAngle(System::String^ theMessage)
 	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
 }
 
+Macad::Occt::Prs3d_InvalidAngle::Prs3d_InvalidAngle(System::String^ theMessage, System::String^ theStackTrace)
+	: Macad::Occt::Standard_RangeError(BaseClass::InitMode::Uninitialized)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	NativeInstance = new ::Prs3d_InvalidAngle(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+}
+
 Macad::Occt::Prs3d_InvalidAngle::Prs3d_InvalidAngle(Macad::Occt::Prs3d_InvalidAngle^ parameter1)
 	: Macad::Occt::Standard_RangeError(BaseClass::InitMode::Uninitialized)
 {
@@ -2345,6 +2398,17 @@ Macad::Occt::Prs3d_InvalidAngle^ Macad::Occt::Prs3d_InvalidAngle::NewInstance()
 {
 	Handle(::Prs3d_InvalidAngle) _result;
 	_result = ::Prs3d_InvalidAngle::NewInstance("");
+	 return _result.IsNull() ? nullptr : Macad::Occt::Prs3d_InvalidAngle::CreateDowncasted( _result.get());
+}
+
+Macad::Occt::Prs3d_InvalidAngle^ Macad::Occt::Prs3d_InvalidAngle::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+	const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+	Handle(::Prs3d_InvalidAngle) _result;
+	_result = ::Prs3d_InvalidAngle::NewInstance(sz_theMessage, sz_theStackTrace);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 	 return _result.IsNull() ? nullptr : Macad::Occt::Prs3d_InvalidAngle::CreateDowncasted( _result.get());
 }
 
@@ -2453,46 +2517,6 @@ Macad::Occt::Graphic3d_Text^ Macad::Occt::Prs3d_Text::Draw(Macad::Occt::Graphic3
 	 return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Text::CreateDowncasted( _result.get());
 }
 
-void Macad::Occt::Prs3d_Text::Draw(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Prs3d_Drawer^ theDrawer, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Pnt theAttachmentPoint)
-{
-	Handle(::Graphic3d_Structure) h_thePrs = thePrs->NativeInstance;
-	Handle(::Prs3d_Drawer) h_theDrawer = theDrawer->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_theAttachmentPoint = &theAttachmentPoint;
-	::Prs3d_Text::Draw(h_thePrs, h_theDrawer, *(::TCollection_ExtendedString*)theText->NativeInstance, *(gp_Pnt*)pp_theAttachmentPoint);
-	thePrs->NativeInstance = h_thePrs.get();
-	theDrawer->NativeInstance = h_theDrawer.get();
-}
-
-void Macad::Occt::Prs3d_Text::Draw(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation, bool theHasOwnAnchor)
-{
-	Handle(::Graphic3d_Structure) h_thePrs = thePrs->NativeInstance;
-	Handle(::Prs3d_TextAspect) h_theAspect = theAspect->NativeInstance;
-	pin_ptr<Macad::Occt::Ax2> pp_theOrientation = &theOrientation;
-	::Prs3d_Text::Draw(h_thePrs, h_theAspect, *(::TCollection_ExtendedString*)theText->NativeInstance, *(gp_Ax2*)pp_theOrientation, theHasOwnAnchor);
-	thePrs->NativeInstance = h_thePrs.get();
-	theAspect->NativeInstance = h_theAspect.get();
-}
-
-void Macad::Occt::Prs3d_Text::Draw(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Ax2 theOrientation)
-{
-	Handle(::Graphic3d_Structure) h_thePrs = thePrs->NativeInstance;
-	Handle(::Prs3d_TextAspect) h_theAspect = theAspect->NativeInstance;
-	pin_ptr<Macad::Occt::Ax2> pp_theOrientation = &theOrientation;
-	::Prs3d_Text::Draw(h_thePrs, h_theAspect, *(::TCollection_ExtendedString*)theText->NativeInstance, *(gp_Ax2*)pp_theOrientation, true);
-	thePrs->NativeInstance = h_thePrs.get();
-	theAspect->NativeInstance = h_theAspect.get();
-}
-
-void Macad::Occt::Prs3d_Text::Draw(Macad::Occt::Graphic3d_Structure^ thePrs, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Pnt theAttachmentPoint)
-{
-	Handle(::Graphic3d_Structure) h_thePrs = thePrs->NativeInstance;
-	Handle(::Prs3d_TextAspect) h_theAspect = theAspect->NativeInstance;
-	pin_ptr<Macad::Occt::Pnt> pp_theAttachmentPoint = &theAttachmentPoint;
-	::Prs3d_Text::Draw(h_thePrs, h_theAspect, *(::TCollection_ExtendedString*)theText->NativeInstance, *(gp_Pnt*)pp_theAttachmentPoint);
-	thePrs->NativeInstance = h_thePrs.get();
-	theAspect->NativeInstance = h_theAspect.get();
-}
-
 
 
 
@@ -2541,6 +2565,21 @@ void Macad::Occt::Prs3d_ToolQuadric::FillArray(Macad::Occt::Graphic3d_ArrayOfTri
 	pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
 	((::Prs3d_ToolQuadric*)_NativeInstance)->FillArray(h_theArray, *(gp_Trsf*)pp_theTrsf);
 	theArray->NativeInstance = h_theArray.get();
+}
+
+int Macad::Occt::Prs3d_ToolQuadric::TrianglesNb()
+{
+	return ((::Prs3d_ToolQuadric*)_NativeInstance)->TrianglesNb();
+}
+
+int Macad::Occt::Prs3d_ToolQuadric::VerticesNb(bool theIsIndexed)
+{
+	return ((::Prs3d_ToolQuadric*)_NativeInstance)->VerticesNb(theIsIndexed);
+}
+
+int Macad::Occt::Prs3d_ToolQuadric::VerticesNb()
+{
+	return ((::Prs3d_ToolQuadric*)_NativeInstance)->VerticesNb(true);
 }
 
 

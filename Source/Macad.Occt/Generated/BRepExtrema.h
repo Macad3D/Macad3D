@@ -294,16 +294,19 @@ public:
 
 public:
 	BRepExtrema_DistShapeShape();
-	/* Method skipped due to unknown mapping: void BRepExtrema_DistShapeShape(TopoDS_Shape Shape1, TopoDS_Shape Shape2, Extrema_ExtFlag F, Extrema_ExtAlgo A, ) */
-	/* Method skipped due to unknown mapping: void BRepExtrema_DistShapeShape(TopoDS_Shape Shape1, TopoDS_Shape Shape2, Extrema_ExtFlag F, Extrema_ExtAlgo A, ) */
+	/* Method skipped due to unknown mapping: void BRepExtrema_DistShapeShape(TopoDS_Shape Shape1, TopoDS_Shape Shape2, Extrema_ExtFlag F, Extrema_ExtAlgo A, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void BRepExtrema_DistShapeShape(TopoDS_Shape Shape1, TopoDS_Shape Shape2, Extrema_ExtFlag F, Extrema_ExtAlgo A, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void BRepExtrema_DistShapeShape(TopoDS_Shape Shape1, TopoDS_Shape Shape2, Extrema_ExtFlag F, Extrema_ExtAlgo A, Message_ProgressRange theRange, ) */
 	BRepExtrema_DistShapeShape(Macad::Occt::TopoDS_Shape^ Shape1, Macad::Occt::TopoDS_Shape^ Shape2);
-	/* Method skipped due to unknown mapping: void BRepExtrema_DistShapeShape(TopoDS_Shape Shape1, TopoDS_Shape Shape2, Standard_Real theDeflection, Extrema_ExtFlag F, Extrema_ExtAlgo A, ) */
-	/* Method skipped due to unknown mapping: void BRepExtrema_DistShapeShape(TopoDS_Shape Shape1, TopoDS_Shape Shape2, Standard_Real theDeflection, Extrema_ExtFlag F, Extrema_ExtAlgo A, ) */
+	/* Method skipped due to unknown mapping: void BRepExtrema_DistShapeShape(TopoDS_Shape Shape1, TopoDS_Shape Shape2, Standard_Real theDeflection, Extrema_ExtFlag F, Extrema_ExtAlgo A, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void BRepExtrema_DistShapeShape(TopoDS_Shape Shape1, TopoDS_Shape Shape2, Standard_Real theDeflection, Extrema_ExtFlag F, Extrema_ExtAlgo A, Message_ProgressRange theRange, ) */
+	/* Method skipped due to unknown mapping: void BRepExtrema_DistShapeShape(TopoDS_Shape Shape1, TopoDS_Shape Shape2, Standard_Real theDeflection, Extrema_ExtFlag F, Extrema_ExtAlgo A, Message_ProgressRange theRange, ) */
 	BRepExtrema_DistShapeShape(Macad::Occt::TopoDS_Shape^ Shape1, Macad::Occt::TopoDS_Shape^ Shape2, double theDeflection);
 	BRepExtrema_DistShapeShape(Macad::Occt::BRepExtrema_DistShapeShape^ parameter1);
 	void SetDeflection(double theDeflection);
 	void LoadS1(Macad::Occt::TopoDS_Shape^ Shape1);
 	void LoadS2(Macad::Occt::TopoDS_Shape^ Shape1);
+	bool Perform(Macad::Occt::Message_ProgressRange^ theRange);
 	bool Perform();
 	bool IsDone();
 	int NbSolution();
@@ -322,6 +325,8 @@ public:
 	/* Method skipped due to unknown mapping: void Dump(ostream o, ) */
 	/* Method skipped due to unknown mapping: void SetFlag(Extrema_ExtFlag F, ) */
 	/* Method skipped due to unknown mapping: void SetAlgo(Extrema_ExtAlgo A, ) */
+	void SetMultiThread(bool theIsMultiThread);
+	bool IsMultiThread();
 }; // class BRepExtrema_DistShapeShape
 
 //---------------------------------------------------------------------
@@ -355,7 +360,6 @@ public:
 public:
 	BRepExtrema_ExtCC();
 	BRepExtrema_ExtCC(Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2);
-	BRepExtrema_ExtCC(Macad::Occt::BRepExtrema_ExtCC^ parameter1);
 	void Initialize(Macad::Occt::TopoDS_Edge^ E2);
 	void Perform(Macad::Occt::TopoDS_Edge^ E1);
 	bool IsDone();
@@ -400,7 +404,6 @@ public:
 public:
 	BRepExtrema_ExtCF();
 	BRepExtrema_ExtCF(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F);
-	BRepExtrema_ExtCF(Macad::Occt::BRepExtrema_ExtCF^ parameter1);
 	void Initialize(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F);
 	void Perform(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F);
 	bool IsDone();
@@ -533,7 +536,6 @@ public:
 	/* Method skipped due to unknown mapping: void BRepExtrema_ExtPF(TopoDS_Vertex TheVertex, TopoDS_Face TheFace, Extrema_ExtFlag TheFlag, Extrema_ExtAlgo TheAlgo, ) */
 	/* Method skipped due to unknown mapping: void BRepExtrema_ExtPF(TopoDS_Vertex TheVertex, TopoDS_Face TheFace, Extrema_ExtFlag TheFlag, Extrema_ExtAlgo TheAlgo, ) */
 	BRepExtrema_ExtPF(Macad::Occt::TopoDS_Vertex^ TheVertex, Macad::Occt::TopoDS_Face^ TheFace);
-	BRepExtrema_ExtPF(Macad::Occt::BRepExtrema_ExtPF^ parameter1);
 	/* Method skipped due to unknown mapping: void Initialize(TopoDS_Face TheFace, Extrema_ExtFlag TheFlag, Extrema_ExtAlgo TheAlgo, ) */
 	/* Method skipped due to unknown mapping: void Initialize(TopoDS_Face TheFace, Extrema_ExtFlag TheFlag, Extrema_ExtAlgo TheAlgo, ) */
 	void Initialize(Macad::Occt::TopoDS_Face^ TheFace);
@@ -661,12 +663,14 @@ public:
 public:
 	BRepExtrema_UnCompatibleShape();
 	BRepExtrema_UnCompatibleShape(System::String^ theMessage);
+	BRepExtrema_UnCompatibleShape(System::String^ theMessage, System::String^ theStackTrace);
 	BRepExtrema_UnCompatibleShape(Macad::Occt::BRepExtrema_UnCompatibleShape^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::BRepExtrema_UnCompatibleShape^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::BRepExtrema_UnCompatibleShape^ NewInstance();
+	static Macad::Occt::BRepExtrema_UnCompatibleShape^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class BRepExtrema_UnCompatibleShape
 
 }; // namespace Occt

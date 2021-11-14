@@ -28,7 +28,9 @@ public enum class Image_Format
 	Image_Format_RGBF = 12,
 	Image_Format_BGRF = 13,
 	Image_Format_RGBAF = 14,
-	Image_Format_BGRAF = 15
+	Image_Format_BGRAF = 15,
+	Image_Format_RGF_half = 16,
+	Image_Format_RGBAF_half = 17
 }; // enum  class Image_Format
 
 //---------------------------------------------------------------------
@@ -37,10 +39,10 @@ public enum class Image_Format
 public enum class Image_CompressedFormat
 {
 	Image_CompressedFormat_UNKNOWN = 0,
-	Image_CompressedFormat_RGB_S3TC_DXT1 = 16,
-	Image_CompressedFormat_RGBA_S3TC_DXT1 = 17,
-	Image_CompressedFormat_RGBA_S3TC_DXT3 = 18,
-	Image_CompressedFormat_RGBA_S3TC_DXT5 = 19
+	Image_CompressedFormat_RGB_S3TC_DXT1 = 18,
+	Image_CompressedFormat_RGBA_S3TC_DXT1 = 19,
+	Image_CompressedFormat_RGBA_S3TC_DXT3 = 20,
+	Image_CompressedFormat_RGBA_S3TC_DXT5 = 21
 }; // enum  class Image_CompressedFormat
 
 //---------------------------------------------------------------------
@@ -530,7 +532,10 @@ public:
 	static bool IsBigEndianHost();
 	static bool SwapRgbaBgra(Macad::Occt::Image_PixMap^ theImage);
 	static void ToBlackWhite(Macad::Occt::Image_PixMap^ theImage);
+	static bool FlipY(Macad::Occt::Image_PixMap^ theImage);
 	static Macad::Occt::NCollection_BaseAllocator^ DefaultAllocator();
+	static System::String^ ImageFormatToString(Macad::Occt::Image_Format theFormat);
+	static System::String^ ImageFormatToString(Macad::Occt::Image_CompressedFormat theFormat);
 	Macad::Occt::Image_Format Format();
 	void SetFormat(Macad::Occt::Image_Format thePixelFormat);
 	size_t Width();
@@ -565,6 +570,8 @@ public:
 	size_t SizeBytes();
 	unsigned char RawValue(size_t theRow, size_t theCol);
 	unsigned char ChangeRawValue(size_t theRow, size_t theCol);
+	static float ConvertFromHalfFloat(unsigned short theHalf);
+	static unsigned short ConvertToHalfFloat(float theFloat);
 }; // class Image_PixMap
 
 //---------------------------------------------------------------------
@@ -827,10 +834,12 @@ public:
 	/* Method skipped due to unknown mapping: long long int FileOffset() */
 	/* Method skipped due to unknown mapping: long long int FileLength() */
 	Macad::Occt::NCollection_Buffer^ DataBuffer();
+	Macad::Occt::TCollection_AsciiString^ MimeType();
 	Macad::Occt::TCollection_AsciiString^ ProbeImageFileFormat();
 	Macad::Occt::Image_CompressedPixMap^ ReadCompressedImage(Macad::Occt::Image_SupportedFormats^ theSupported);
 	Macad::Occt::Image_PixMap^ ReadImage(Macad::Occt::Image_SupportedFormats^ theSupported);
 	bool WriteImage(Macad::Occt::TCollection_AsciiString^ theFile);
+	/* Method skipped due to unknown mapping: Standard_Boolean WriteImage(ostream theStream, TCollection_AsciiString theFile, ) */
 	static int HashCode(Macad::Occt::Image_Texture^ theTexture, int theUpper);
 	static bool IsEqual(Macad::Occt::Image_Texture^ theTex1, Macad::Occt::Image_Texture^ theTex2);
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */

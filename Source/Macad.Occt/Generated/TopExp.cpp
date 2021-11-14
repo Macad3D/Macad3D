@@ -79,6 +79,13 @@ void Macad::Occt::TopExp_Explorer::ReInit()
 	((::TopExp_Explorer*)_NativeInstance)->ReInit();
 }
 
+Macad::Occt::TopoDS_Shape^ Macad::Occt::TopExp_Explorer::ExploredShape()
+{
+	::TopoDS_Shape* _result = new ::TopoDS_Shape();
+	*_result =  (::TopoDS_Shape)((::TopExp_Explorer*)_NativeInstance)->ExploredShape();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
+}
+
 int Macad::Occt::TopExp_Explorer::Depth()
 {
 	return ((::TopExp_Explorer*)_NativeInstance)->Depth();
@@ -87,11 +94,6 @@ int Macad::Occt::TopExp_Explorer::Depth()
 void Macad::Occt::TopExp_Explorer::Clear()
 {
 	((::TopExp_Explorer*)_NativeInstance)->Clear();
-}
-
-void Macad::Occt::TopExp_Explorer::Destroy()
-{
-	((::TopExp_Explorer*)_NativeInstance)->Destroy();
 }
 
 
@@ -118,14 +120,34 @@ void Macad::Occt::TopExp::MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::T
 	::TopExp::MapShapes(*(::TopoDS_Shape*)S->NativeInstance, (::TopAbs_ShapeEnum)T, *(::TopTools_IndexedMapOfShape*)M->NativeInstance);
 }
 
+void Macad::Occt::TopExp::MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_IndexedMapOfShape^ M, bool cumOri, bool cumLoc)
+{
+	::TopExp::MapShapes(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_IndexedMapOfShape*)M->NativeInstance, cumOri, cumLoc);
+}
+
+void Macad::Occt::TopExp::MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_IndexedMapOfShape^ M, bool cumOri)
+{
+	::TopExp::MapShapes(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_IndexedMapOfShape*)M->NativeInstance, cumOri, true);
+}
+
 void Macad::Occt::TopExp::MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_IndexedMapOfShape^ M)
 {
-	::TopExp::MapShapes(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_IndexedMapOfShape*)M->NativeInstance);
+	::TopExp::MapShapes(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_IndexedMapOfShape*)M->NativeInstance, true, true);
+}
+
+void Macad::Occt::TopExp::MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_MapOfShape^ M, bool cumOri, bool cumLoc)
+{
+	::TopExp::MapShapes(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_MapOfShape*)M->NativeInstance, cumOri, cumLoc);
+}
+
+void Macad::Occt::TopExp::MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_MapOfShape^ M, bool cumOri)
+{
+	::TopExp::MapShapes(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_MapOfShape*)M->NativeInstance, cumOri, true);
 }
 
 void Macad::Occt::TopExp::MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopTools_MapOfShape^ M)
 {
-	::TopExp::MapShapes(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_MapOfShape*)M->NativeInstance);
+	::TopExp::MapShapes(*(::TopoDS_Shape*)S->NativeInstance, *(::TopTools_MapOfShape*)M->NativeInstance, true, true);
 }
 
 void Macad::Occt::TopExp::MapShapesAndAncestors(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopAbs_ShapeEnum TS, Macad::Occt::TopAbs_ShapeEnum TA, Macad::Occt::TopTools_IndexedDataMapOfShapeListOfShape^ M)

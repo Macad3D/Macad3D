@@ -11,6 +11,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "BOPAlgo.h"
 #include "TopTools.h"
 #include "Standard.h"
+#include "Message.h"
 #include "BRepTools.h"
 #include "gp.h"
 #include "Geom.h"
@@ -94,9 +95,14 @@ bool Macad::Occt::BRepAlgoAPI_BuilderAlgo::CheckInverted()
 	return ((::BRepAlgoAPI_BuilderAlgo*)_NativeInstance)->CheckInverted();
 }
 
+void Macad::Occt::BRepAlgoAPI_BuilderAlgo::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepAlgoAPI_BuilderAlgo*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepAlgoAPI_BuilderAlgo::Build()
 {
-	((::BRepAlgoAPI_BuilderAlgo*)_NativeInstance)->Build();
+	((::BRepAlgoAPI_BuilderAlgo*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepAlgoAPI_BuilderAlgo::SimplifyResult(bool theUnifyEdges, bool theUnifyFaces, double theAngularTol)
@@ -232,9 +238,14 @@ Macad::Occt::BOPAlgo_Operation Macad::Occt::BRepAlgoAPI_BooleanOperation::Operat
 	return (Macad::Occt::BOPAlgo_Operation)((::BRepAlgoAPI_BooleanOperation*)_NativeInstance)->Operation();
 }
 
+void Macad::Occt::BRepAlgoAPI_BooleanOperation::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepAlgoAPI_BooleanOperation*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepAlgoAPI_BooleanOperation::Build()
 {
-	((::BRepAlgoAPI_BooleanOperation*)_NativeInstance)->Build();
+	((::BRepAlgoAPI_BooleanOperation*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 
@@ -250,46 +261,58 @@ Macad::Occt::BRepAlgoAPI_Check::BRepAlgoAPI_Check()
 	_NativeInstance = new ::BRepAlgoAPI_Check();
 }
 
+Macad::Occt::BRepAlgoAPI_Check::BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS, bool bTestSE, bool bTestSI, Macad::Occt::Message_ProgressRange^ theRange)
+	: Macad::Occt::BOPAlgo_Options(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS->NativeInstance, bTestSE, bTestSI, *(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 Macad::Occt::BRepAlgoAPI_Check::BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS, bool bTestSE, bool bTestSI)
 	: Macad::Occt::BOPAlgo_Options(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS->NativeInstance, bTestSE, bTestSI);
+	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS->NativeInstance, bTestSE, bTestSI, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepAlgoAPI_Check::BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS, bool bTestSE)
 	: Macad::Occt::BOPAlgo_Options(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS->NativeInstance, bTestSE, true);
+	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS->NativeInstance, bTestSE, true, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepAlgoAPI_Check::BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS)
 	: Macad::Occt::BOPAlgo_Options(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS->NativeInstance, true, true);
+	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS->NativeInstance, true, true, ::Message_ProgressRange());
+}
+
+Macad::Occt::BRepAlgoAPI_Check::BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::BOPAlgo_Operation theOp, bool bTestSE, bool bTestSI, Macad::Occt::Message_ProgressRange^ theRange)
+	: Macad::Occt::BOPAlgo_Options(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS1->NativeInstance, *(::TopoDS_Shape*)theS2->NativeInstance, (::BOPAlgo_Operation)theOp, bTestSE, bTestSI, *(::Message_ProgressRange*)theRange->NativeInstance);
 }
 
 Macad::Occt::BRepAlgoAPI_Check::BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::BOPAlgo_Operation theOp, bool bTestSE, bool bTestSI)
 	: Macad::Occt::BOPAlgo_Options(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS1->NativeInstance, *(::TopoDS_Shape*)theS2->NativeInstance, (::BOPAlgo_Operation)theOp, bTestSE, bTestSI);
+	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS1->NativeInstance, *(::TopoDS_Shape*)theS2->NativeInstance, (::BOPAlgo_Operation)theOp, bTestSE, bTestSI, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepAlgoAPI_Check::BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::BOPAlgo_Operation theOp, bool bTestSE)
 	: Macad::Occt::BOPAlgo_Options(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS1->NativeInstance, *(::TopoDS_Shape*)theS2->NativeInstance, (::BOPAlgo_Operation)theOp, bTestSE, true);
+	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS1->NativeInstance, *(::TopoDS_Shape*)theS2->NativeInstance, (::BOPAlgo_Operation)theOp, bTestSE, true, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepAlgoAPI_Check::BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::BOPAlgo_Operation theOp)
 	: Macad::Occt::BOPAlgo_Options(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS1->NativeInstance, *(::TopoDS_Shape*)theS2->NativeInstance, (::BOPAlgo_Operation)theOp, true, true);
+	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS1->NativeInstance, *(::TopoDS_Shape*)theS2->NativeInstance, (::BOPAlgo_Operation)theOp, true, true, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepAlgoAPI_Check::BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2)
 	: Macad::Occt::BOPAlgo_Options(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS1->NativeInstance, *(::TopoDS_Shape*)theS2->NativeInstance, BOPAlgo_UNKNOWN, true, true);
+	_NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS1->NativeInstance, *(::TopoDS_Shape*)theS2->NativeInstance, BOPAlgo_UNKNOWN, true, true, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepAlgoAPI_Check::BRepAlgoAPI_Check(Macad::Occt::BRepAlgoAPI_Check^ parameter1)
@@ -333,9 +356,14 @@ void Macad::Occt::BRepAlgoAPI_Check::SetData(Macad::Occt::TopoDS_Shape^ theS1, M
 	((::BRepAlgoAPI_Check*)_NativeInstance)->SetData(*(::TopoDS_Shape*)theS1->NativeInstance, *(::TopoDS_Shape*)theS2->NativeInstance, BOPAlgo_UNKNOWN, true, true);
 }
 
+void Macad::Occt::BRepAlgoAPI_Check::Perform(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepAlgoAPI_Check*)_NativeInstance)->Perform(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepAlgoAPI_Check::Perform()
 {
-	((::BRepAlgoAPI_Check*)_NativeInstance)->Perform();
+	((::BRepAlgoAPI_Check*)_NativeInstance)->Perform(::Message_ProgressRange());
 }
 
 bool Macad::Occt::BRepAlgoAPI_Check::IsValid()
@@ -356,10 +384,16 @@ Macad::Occt::BRepAlgoAPI_Common::BRepAlgoAPI_Common()
 	_NativeInstance = new ::BRepAlgoAPI_Common();
 }
 
+Macad::Occt::BRepAlgoAPI_Common::BRepAlgoAPI_Common(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2, Macad::Occt::Message_ProgressRange^ theRange)
+	: Macad::Occt::BRepAlgoAPI_BooleanOperation(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepAlgoAPI_Common(*(::TopoDS_Shape*)S1->NativeInstance, *(::TopoDS_Shape*)S2->NativeInstance, *(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 Macad::Occt::BRepAlgoAPI_Common::BRepAlgoAPI_Common(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2)
 	: Macad::Occt::BRepAlgoAPI_BooleanOperation(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepAlgoAPI_Common(*(::TopoDS_Shape*)S1->NativeInstance, *(::TopoDS_Shape*)S2->NativeInstance);
+	_NativeInstance = new ::BRepAlgoAPI_Common(*(::TopoDS_Shape*)S1->NativeInstance, *(::TopoDS_Shape*)S2->NativeInstance, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepAlgoAPI_Common::BRepAlgoAPI_Common(Macad::Occt::BRepAlgoAPI_Common^ parameter1)
@@ -381,10 +415,16 @@ Macad::Occt::BRepAlgoAPI_Cut::BRepAlgoAPI_Cut()
 	_NativeInstance = new ::BRepAlgoAPI_Cut();
 }
 
+Macad::Occt::BRepAlgoAPI_Cut::BRepAlgoAPI_Cut(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2, Macad::Occt::Message_ProgressRange^ theRange)
+	: Macad::Occt::BRepAlgoAPI_BooleanOperation(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepAlgoAPI_Cut(*(::TopoDS_Shape*)S1->NativeInstance, *(::TopoDS_Shape*)S2->NativeInstance, *(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 Macad::Occt::BRepAlgoAPI_Cut::BRepAlgoAPI_Cut(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2)
 	: Macad::Occt::BRepAlgoAPI_BooleanOperation(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepAlgoAPI_Cut(*(::TopoDS_Shape*)S1->NativeInstance, *(::TopoDS_Shape*)S2->NativeInstance);
+	_NativeInstance = new ::BRepAlgoAPI_Cut(*(::TopoDS_Shape*)S1->NativeInstance, *(::TopoDS_Shape*)S2->NativeInstance, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepAlgoAPI_Cut::BRepAlgoAPI_Cut(Macad::Occt::BRepAlgoAPI_Cut^ parameter1)
@@ -441,9 +481,14 @@ Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepAlgoAPI_Defeaturing::FacesTo
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopTools_ListOfShape(_result);
 }
 
+void Macad::Occt::BRepAlgoAPI_Defeaturing::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepAlgoAPI_Defeaturing*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepAlgoAPI_Defeaturing::Build()
 {
-	((::BRepAlgoAPI_Defeaturing*)_NativeInstance)->Build();
+	((::BRepAlgoAPI_Defeaturing*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 void Macad::Occt::BRepAlgoAPI_Defeaturing::SetToFillHistory(bool theFlag)
@@ -510,10 +555,16 @@ Macad::Occt::BRepAlgoAPI_Fuse::BRepAlgoAPI_Fuse()
 	_NativeInstance = new ::BRepAlgoAPI_Fuse();
 }
 
+Macad::Occt::BRepAlgoAPI_Fuse::BRepAlgoAPI_Fuse(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2, Macad::Occt::Message_ProgressRange^ theRange)
+	: Macad::Occt::BRepAlgoAPI_BooleanOperation(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::BRepAlgoAPI_Fuse(*(::TopoDS_Shape*)S1->NativeInstance, *(::TopoDS_Shape*)S2->NativeInstance, *(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 Macad::Occt::BRepAlgoAPI_Fuse::BRepAlgoAPI_Fuse(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2)
 	: Macad::Occt::BRepAlgoAPI_BooleanOperation(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepAlgoAPI_Fuse(*(::TopoDS_Shape*)S1->NativeInstance, *(::TopoDS_Shape*)S2->NativeInstance);
+	_NativeInstance = new ::BRepAlgoAPI_Fuse(*(::TopoDS_Shape*)S1->NativeInstance, *(::TopoDS_Shape*)S2->NativeInstance, ::Message_ProgressRange());
 }
 
 Macad::Occt::BRepAlgoAPI_Fuse::BRepAlgoAPI_Fuse(Macad::Occt::BRepAlgoAPI_Fuse^ parameter1)
@@ -670,9 +721,14 @@ void Macad::Occt::BRepAlgoAPI_Section::ComputePCurveOn2(bool B)
 	((::BRepAlgoAPI_Section*)_NativeInstance)->ComputePCurveOn2(B);
 }
 
+void Macad::Occt::BRepAlgoAPI_Section::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepAlgoAPI_Section*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepAlgoAPI_Section::Build()
 {
-	((::BRepAlgoAPI_Section*)_NativeInstance)->Build();
+	((::BRepAlgoAPI_Section*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 bool Macad::Occt::BRepAlgoAPI_Section::HasAncestorFaceOn1(Macad::Occt::TopoDS_Shape^ E, Macad::Occt::TopoDS_Shape^ F)
@@ -716,9 +772,14 @@ Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepAlgoAPI_Splitter::Tools()
 	 return _result==nullptr ? nullptr : gcnew Macad::Occt::TopTools_ListOfShape(_result);
 }
 
+void Macad::Occt::BRepAlgoAPI_Splitter::Build(Macad::Occt::Message_ProgressRange^ theRange)
+{
+	((::BRepAlgoAPI_Splitter*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
+}
+
 void Macad::Occt::BRepAlgoAPI_Splitter::Build()
 {
-	((::BRepAlgoAPI_Splitter*)_NativeInstance)->Build();
+	((::BRepAlgoAPI_Splitter*)_NativeInstance)->Build(::Message_ProgressRange());
 }
 
 

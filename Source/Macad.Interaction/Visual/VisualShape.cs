@@ -123,8 +123,8 @@ namespace Macad.Interaction.Visual
 
         //--------------------------------------------------------------------------------------------------
 
-        [ModuleInitializer]
-        public static void Register()
+        [AutoRegister]
+        internal static void Register()
         {
             VisualObjectManager.Register<Body>(Create);
         }

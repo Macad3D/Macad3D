@@ -8,6 +8,17 @@ namespace Macad
 namespace Occt
 {
 //---------------------------------------------------------------------
+//  Enum  TopTools_FormatVersion
+//---------------------------------------------------------------------
+public enum class TopTools_FormatVersion
+{
+	TopTools_FormatVersion_VERSION_1 = 1,
+	TopTools_FormatVersion_VERSION_2 = 2,
+	TopTools_FormatVersion_VERSION_3 = 3,
+	TopTools_FormatVersion_CURRENT = 3
+}; // enum  class TopTools_FormatVersion
+
+//---------------------------------------------------------------------
 //  Class  TopTools_ListOfShape
 //---------------------------------------------------------------------
 public ref class TopTools_ListOfShape sealed : public BaseClass<::TopTools_ListOfShape>

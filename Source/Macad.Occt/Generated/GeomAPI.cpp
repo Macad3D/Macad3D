@@ -5,277 +5,51 @@
 
 using namespace System::Runtime::InteropServices; // for class Marshal
 
-#include "gp.h"
-#include "Geom.h"
-#include "Standard.h"
-#include "GeomAPI.h"
-#include "Extrema.h"
-#include "TColgp.h"
-#include "GeomAbs.h"
-#include "TColStd.h"
 #include "Geom2d.h"
+#include "Geom.h"
+#include "gp.h"
+#include "Standard.h"
+#include "Extrema.h"
+#include "GeomAPI.h"
+#include "TColgp.h"
+#include "TColStd.h"
+#include "GeomAbs.h"
 
 
 //---------------------------------------------------------------------
-//  Class  GeomAPI_ProjectPointOnCurve
+//  Class  GeomAPI
 //---------------------------------------------------------------------
 
-Macad::Occt::GeomAPI_ProjectPointOnCurve::GeomAPI_ProjectPointOnCurve()
-	: BaseClass<::GeomAPI_ProjectPointOnCurve>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::GeomAPI::GeomAPI()
+	: BaseClass<::GeomAPI>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::GeomAPI_ProjectPointOnCurve();
+	_NativeInstance = new ::GeomAPI();
 }
 
-Macad::Occt::GeomAPI_ProjectPointOnCurve::GeomAPI_ProjectPointOnCurve(Macad::Occt::Pnt P, Macad::Occt::Geom_Curve^ Curve)
-	: BaseClass<::GeomAPI_ProjectPointOnCurve>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::GeomAPI::GeomAPI(Macad::Occt::GeomAPI^ parameter1)
+	: BaseClass<::GeomAPI>(BaseClass::InitMode::Uninitialized)
 {
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	Handle(::Geom_Curve) h_Curve = Curve->NativeInstance;
-	_NativeInstance = new ::GeomAPI_ProjectPointOnCurve(*(gp_Pnt*)pp_P, h_Curve);
-	Curve->NativeInstance = h_Curve.get();
+	_NativeInstance = new ::GeomAPI(*(::GeomAPI*)parameter1->NativeInstance);
 }
 
-Macad::Occt::GeomAPI_ProjectPointOnCurve::GeomAPI_ProjectPointOnCurve(Macad::Occt::Pnt P, Macad::Occt::Geom_Curve^ Curve, double Umin, double Usup)
-	: BaseClass<::GeomAPI_ProjectPointOnCurve>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::Geom2d_Curve^ Macad::Occt::GeomAPI::To2d(Macad::Occt::Geom_Curve^ C, Macad::Occt::Pln P)
 {
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	Handle(::Geom_Curve) h_Curve = Curve->NativeInstance;
-	_NativeInstance = new ::GeomAPI_ProjectPointOnCurve(*(gp_Pnt*)pp_P, h_Curve, Umin, Usup);
-	Curve->NativeInstance = h_Curve.get();
+	Handle(::Geom_Curve) h_C = C->NativeInstance;
+	pin_ptr<Macad::Occt::Pln> pp_P = &P;
+	Handle(::Geom2d_Curve) _result;
+	_result = ::GeomAPI::To2d(h_C, *(gp_Pln*)pp_P);
+	C->NativeInstance = h_C.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_Curve::CreateDowncasted( _result.get());
 }
 
-Macad::Occt::GeomAPI_ProjectPointOnCurve::GeomAPI_ProjectPointOnCurve(Macad::Occt::GeomAPI_ProjectPointOnCurve^ parameter1)
-	: BaseClass<::GeomAPI_ProjectPointOnCurve>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::Geom_Curve^ Macad::Occt::GeomAPI::To3d(Macad::Occt::Geom2d_Curve^ C, Macad::Occt::Pln P)
 {
-	_NativeInstance = new ::GeomAPI_ProjectPointOnCurve(*(::GeomAPI_ProjectPointOnCurve*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::GeomAPI_ProjectPointOnCurve::Init(Macad::Occt::Pnt P, Macad::Occt::Geom_Curve^ Curve)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	Handle(::Geom_Curve) h_Curve = Curve->NativeInstance;
-	((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Init(*(gp_Pnt*)pp_P, h_Curve);
-	Curve->NativeInstance = h_Curve.get();
-}
-
-void Macad::Occt::GeomAPI_ProjectPointOnCurve::Init(Macad::Occt::Pnt P, Macad::Occt::Geom_Curve^ Curve, double Umin, double Usup)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	Handle(::Geom_Curve) h_Curve = Curve->NativeInstance;
-	((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Init(*(gp_Pnt*)pp_P, h_Curve, Umin, Usup);
-	Curve->NativeInstance = h_Curve.get();
-}
-
-void Macad::Occt::GeomAPI_ProjectPointOnCurve::Init(Macad::Occt::Geom_Curve^ Curve, double Umin, double Usup)
-{
-	Handle(::Geom_Curve) h_Curve = Curve->NativeInstance;
-	((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Init(h_Curve, Umin, Usup);
-	Curve->NativeInstance = h_Curve.get();
-}
-
-void Macad::Occt::GeomAPI_ProjectPointOnCurve::Perform(Macad::Occt::Pnt P)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Perform(*(gp_Pnt*)pp_P);
-}
-
-int Macad::Occt::GeomAPI_ProjectPointOnCurve::NbPoints()
-{
-	return ((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->NbPoints();
-}
-
-Macad::Occt::Pnt Macad::Occt::GeomAPI_ProjectPointOnCurve::Point(int Index)
-{
-	return Macad::Occt::Pnt(((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Point(Index));
-}
-
-double Macad::Occt::GeomAPI_ProjectPointOnCurve::Parameter(int Index)
-{
-	return ((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Parameter(Index);
-}
-
-void Macad::Occt::GeomAPI_ProjectPointOnCurve::Parameter(int Index, double% U)
-{
-	pin_ptr<double> pp_U = &U;
-	((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Parameter(Index, *(Standard_Real*)pp_U);
-}
-
-double Macad::Occt::GeomAPI_ProjectPointOnCurve::Distance(int Index)
-{
-	return ((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Distance(Index);
-}
-
-Macad::Occt::Pnt Macad::Occt::GeomAPI_ProjectPointOnCurve::NearestPoint()
-{
-	return Macad::Occt::Pnt(((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->NearestPoint());
-}
-
-double Macad::Occt::GeomAPI_ProjectPointOnCurve::LowerDistanceParameter()
-{
-	return ((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->LowerDistanceParameter();
-}
-
-double Macad::Occt::GeomAPI_ProjectPointOnCurve::LowerDistance()
-{
-	return ((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->LowerDistance();
-}
-
-Macad::Occt::Extrema_ExtPC^ Macad::Occt::GeomAPI_ProjectPointOnCurve::Extrema()
-{
-	::Extrema_ExtPC* _result = new ::Extrema_ExtPC();
-	*_result =  (::Extrema_ExtPC)((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Extrema();
-	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Extrema_ExtPC(_result);
-}
-
-
-
-
-//---------------------------------------------------------------------
-//  Class  GeomAPI_ProjectPointOnSurf
-//---------------------------------------------------------------------
-
-Macad::Occt::GeomAPI_ProjectPointOnSurf::GeomAPI_ProjectPointOnSurf()
-	: BaseClass<::GeomAPI_ProjectPointOnSurf>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::GeomAPI_ProjectPointOnSurf();
-}
-
-Macad::Occt::GeomAPI_ProjectPointOnSurf::GeomAPI_ProjectPointOnSurf(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface)
-	: BaseClass<::GeomAPI_ProjectPointOnSurf>(BaseClass::InitMode::Uninitialized)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
-	_NativeInstance = new ::GeomAPI_ProjectPointOnSurf(*(gp_Pnt*)pp_P, h_Surface, Extrema_ExtAlgo_Grad);
-	Surface->NativeInstance = h_Surface.get();
-}
-
-Macad::Occt::GeomAPI_ProjectPointOnSurf::GeomAPI_ProjectPointOnSurf(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface, double Tolerance)
-	: BaseClass<::GeomAPI_ProjectPointOnSurf>(BaseClass::InitMode::Uninitialized)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
-	_NativeInstance = new ::GeomAPI_ProjectPointOnSurf(*(gp_Pnt*)pp_P, h_Surface, Tolerance, Extrema_ExtAlgo_Grad);
-	Surface->NativeInstance = h_Surface.get();
-}
-
-Macad::Occt::GeomAPI_ProjectPointOnSurf::GeomAPI_ProjectPointOnSurf(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface, double Umin, double Usup, double Vmin, double Vsup, double Tolerance)
-	: BaseClass<::GeomAPI_ProjectPointOnSurf>(BaseClass::InitMode::Uninitialized)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
-	_NativeInstance = new ::GeomAPI_ProjectPointOnSurf(*(gp_Pnt*)pp_P, h_Surface, Umin, Usup, Vmin, Vsup, Tolerance, Extrema_ExtAlgo_Grad);
-	Surface->NativeInstance = h_Surface.get();
-}
-
-Macad::Occt::GeomAPI_ProjectPointOnSurf::GeomAPI_ProjectPointOnSurf(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface, double Umin, double Usup, double Vmin, double Vsup)
-	: BaseClass<::GeomAPI_ProjectPointOnSurf>(BaseClass::InitMode::Uninitialized)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
-	_NativeInstance = new ::GeomAPI_ProjectPointOnSurf(*(gp_Pnt*)pp_P, h_Surface, Umin, Usup, Vmin, Vsup, Extrema_ExtAlgo_Grad);
-	Surface->NativeInstance = h_Surface.get();
-}
-
-Macad::Occt::GeomAPI_ProjectPointOnSurf::GeomAPI_ProjectPointOnSurf(Macad::Occt::GeomAPI_ProjectPointOnSurf^ parameter1)
-	: BaseClass<::GeomAPI_ProjectPointOnSurf>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::GeomAPI_ProjectPointOnSurf(*(::GeomAPI_ProjectPointOnSurf*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::GeomAPI_ProjectPointOnSurf::Init(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface, double Tolerance)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
-	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Init(*(gp_Pnt*)pp_P, h_Surface, Tolerance, Extrema_ExtAlgo_Grad);
-	Surface->NativeInstance = h_Surface.get();
-}
-
-void Macad::Occt::GeomAPI_ProjectPointOnSurf::Init(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
-	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Init(*(gp_Pnt*)pp_P, h_Surface, Extrema_ExtAlgo_Grad);
-	Surface->NativeInstance = h_Surface.get();
-}
-
-void Macad::Occt::GeomAPI_ProjectPointOnSurf::Init(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface, double Umin, double Usup, double Vmin, double Vsup, double Tolerance)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
-	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Init(*(gp_Pnt*)pp_P, h_Surface, Umin, Usup, Vmin, Vsup, Tolerance, Extrema_ExtAlgo_Grad);
-	Surface->NativeInstance = h_Surface.get();
-}
-
-void Macad::Occt::GeomAPI_ProjectPointOnSurf::Init(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface, double Umin, double Usup, double Vmin, double Vsup)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
-	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Init(*(gp_Pnt*)pp_P, h_Surface, Umin, Usup, Vmin, Vsup, Extrema_ExtAlgo_Grad);
-	Surface->NativeInstance = h_Surface.get();
-}
-
-void Macad::Occt::GeomAPI_ProjectPointOnSurf::Init(Macad::Occt::Geom_Surface^ Surface, double Umin, double Usup, double Vmin, double Vsup, double Tolerance)
-{
-	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
-	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Init(h_Surface, Umin, Usup, Vmin, Vsup, Tolerance, Extrema_ExtAlgo_Grad);
-	Surface->NativeInstance = h_Surface.get();
-}
-
-void Macad::Occt::GeomAPI_ProjectPointOnSurf::Init(Macad::Occt::Geom_Surface^ Surface, double Umin, double Usup, double Vmin, double Vsup)
-{
-	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
-	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Init(h_Surface, Umin, Usup, Vmin, Vsup, Extrema_ExtAlgo_Grad);
-	Surface->NativeInstance = h_Surface.get();
-}
-
-void Macad::Occt::GeomAPI_ProjectPointOnSurf::Perform(Macad::Occt::Pnt P)
-{
-	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
-	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Perform(*(gp_Pnt*)pp_P);
-}
-
-bool Macad::Occt::GeomAPI_ProjectPointOnSurf::IsDone()
-{
-	return ((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->IsDone();
-}
-
-int Macad::Occt::GeomAPI_ProjectPointOnSurf::NbPoints()
-{
-	return ((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->NbPoints();
-}
-
-Macad::Occt::Pnt Macad::Occt::GeomAPI_ProjectPointOnSurf::Point(int Index)
-{
-	return Macad::Occt::Pnt(((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Point(Index));
-}
-
-void Macad::Occt::GeomAPI_ProjectPointOnSurf::Parameters(int Index, double% U, double% V)
-{
-	pin_ptr<double> pp_U = &U;
-	pin_ptr<double> pp_V = &V;
-	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Parameters(Index, *(Standard_Real*)pp_U, *(Standard_Real*)pp_V);
-}
-
-double Macad::Occt::GeomAPI_ProjectPointOnSurf::Distance(int Index)
-{
-	return ((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Distance(Index);
-}
-
-Macad::Occt::Pnt Macad::Occt::GeomAPI_ProjectPointOnSurf::NearestPoint()
-{
-	return Macad::Occt::Pnt(((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->NearestPoint());
-}
-
-void Macad::Occt::GeomAPI_ProjectPointOnSurf::LowerDistanceParameters(double% U, double% V)
-{
-	pin_ptr<double> pp_U = &U;
-	pin_ptr<double> pp_V = &V;
-	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->LowerDistanceParameters(*(Standard_Real*)pp_U, *(Standard_Real*)pp_V);
-}
-
-double Macad::Occt::GeomAPI_ProjectPointOnSurf::LowerDistance()
-{
-	return ((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->LowerDistance();
+	Handle(::Geom2d_Curve) h_C = C->NativeInstance;
+	pin_ptr<Macad::Occt::Pln> pp_P = &P;
+	Handle(::Geom_Curve) _result;
+	_result = ::GeomAPI::To3d(h_C, *(gp_Pln*)pp_P);
+	C->NativeInstance = h_C.get();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Curve::CreateDowncasted( _result.get());
 }
 
 
@@ -309,12 +83,6 @@ Macad::Occt::GeomAPI_ExtremaCurveCurve::GeomAPI_ExtremaCurveCurve(Macad::Occt::G
 	_NativeInstance = new ::GeomAPI_ExtremaCurveCurve(h_C1, h_C2, U1min, U1max, U2min, U2max);
 	C1->NativeInstance = h_C1.get();
 	C2->NativeInstance = h_C2.get();
-}
-
-Macad::Occt::GeomAPI_ExtremaCurveCurve::GeomAPI_ExtremaCurveCurve(Macad::Occt::GeomAPI_ExtremaCurveCurve^ parameter1)
-	: BaseClass<::GeomAPI_ExtremaCurveCurve>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::GeomAPI_ExtremaCurveCurve(*(::GeomAPI_ExtremaCurveCurve*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::GeomAPI_ExtremaCurveCurve::Init(Macad::Occt::Geom_Curve^ C1, Macad::Occt::Geom_Curve^ C2)
@@ -357,6 +125,11 @@ void Macad::Occt::GeomAPI_ExtremaCurveCurve::Parameters(int Index, double% U1, d
 double Macad::Occt::GeomAPI_ExtremaCurveCurve::Distance(int Index)
 {
 	return ((::GeomAPI_ExtremaCurveCurve*)_NativeInstance)->Distance(Index);
+}
+
+bool Macad::Occt::GeomAPI_ExtremaCurveCurve::IsParallel()
+{
+	return ((::GeomAPI_ExtremaCurveCurve*)_NativeInstance)->IsParallel();
 }
 
 void Macad::Occt::GeomAPI_ExtremaCurveCurve::NearestPoints(Macad::Occt::Pnt% P1, Macad::Occt::Pnt% P2)
@@ -430,12 +203,6 @@ Macad::Occt::GeomAPI_ExtremaCurveSurface::GeomAPI_ExtremaCurveSurface(Macad::Occ
 	Surface->NativeInstance = h_Surface.get();
 }
 
-Macad::Occt::GeomAPI_ExtremaCurveSurface::GeomAPI_ExtremaCurveSurface(Macad::Occt::GeomAPI_ExtremaCurveSurface^ parameter1)
-	: BaseClass<::GeomAPI_ExtremaCurveSurface>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::GeomAPI_ExtremaCurveSurface(*(::GeomAPI_ExtremaCurveSurface*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::GeomAPI_ExtremaCurveSurface::Init(Macad::Occt::Geom_Curve^ Curve, Macad::Occt::Geom_Surface^ Surface)
 {
 	Handle(::Geom_Curve) h_Curve = Curve->NativeInstance;
@@ -477,6 +244,11 @@ void Macad::Occt::GeomAPI_ExtremaCurveSurface::Parameters(int Index, double% W, 
 double Macad::Occt::GeomAPI_ExtremaCurveSurface::Distance(int Index)
 {
 	return ((::GeomAPI_ExtremaCurveSurface*)_NativeInstance)->Distance(Index);
+}
+
+bool Macad::Occt::GeomAPI_ExtremaCurveSurface::IsParallel()
+{
+	return ((::GeomAPI_ExtremaCurveSurface*)_NativeInstance)->IsParallel();
 }
 
 void Macad::Occt::GeomAPI_ExtremaCurveSurface::NearestPoints(Macad::Occt::Pnt% PC, Macad::Occt::Pnt% PS)
@@ -582,6 +354,11 @@ double Macad::Occt::GeomAPI_ExtremaSurfaceSurface::Distance(int Index)
 	return ((::GeomAPI_ExtremaSurfaceSurface*)_NativeInstance)->Distance(Index);
 }
 
+bool Macad::Occt::GeomAPI_ExtremaSurfaceSurface::IsParallel()
+{
+	return ((::GeomAPI_ExtremaSurfaceSurface*)_NativeInstance)->IsParallel();
+}
+
 void Macad::Occt::GeomAPI_ExtremaSurfaceSurface::NearestPoints(Macad::Occt::Pnt% P1, Macad::Occt::Pnt% P2)
 {
 	pin_ptr<Macad::Occt::Pnt> pp_P1 = &P1;
@@ -601,6 +378,224 @@ void Macad::Occt::GeomAPI_ExtremaSurfaceSurface::LowerDistanceParameters(double%
 double Macad::Occt::GeomAPI_ExtremaSurfaceSurface::LowerDistance()
 {
 	return ((::GeomAPI_ExtremaSurfaceSurface*)_NativeInstance)->LowerDistance();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  GeomAPI_IntCS
+//---------------------------------------------------------------------
+
+Macad::Occt::GeomAPI_IntCS::GeomAPI_IntCS()
+	: BaseClass<::GeomAPI_IntCS>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::GeomAPI_IntCS();
+}
+
+Macad::Occt::GeomAPI_IntCS::GeomAPI_IntCS(Macad::Occt::Geom_Curve^ C, Macad::Occt::Geom_Surface^ S)
+	: BaseClass<::GeomAPI_IntCS>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::Geom_Curve) h_C = C->NativeInstance;
+	Handle(::Geom_Surface) h_S = S->NativeInstance;
+	_NativeInstance = new ::GeomAPI_IntCS(h_C, h_S);
+	C->NativeInstance = h_C.get();
+	S->NativeInstance = h_S.get();
+}
+
+Macad::Occt::GeomAPI_IntCS::GeomAPI_IntCS(Macad::Occt::GeomAPI_IntCS^ parameter1)
+	: BaseClass<::GeomAPI_IntCS>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::GeomAPI_IntCS(*(::GeomAPI_IntCS*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::GeomAPI_IntCS::Perform(Macad::Occt::Geom_Curve^ C, Macad::Occt::Geom_Surface^ S)
+{
+	Handle(::Geom_Curve) h_C = C->NativeInstance;
+	Handle(::Geom_Surface) h_S = S->NativeInstance;
+	((::GeomAPI_IntCS*)_NativeInstance)->Perform(h_C, h_S);
+	C->NativeInstance = h_C.get();
+	S->NativeInstance = h_S.get();
+}
+
+bool Macad::Occt::GeomAPI_IntCS::IsDone()
+{
+	return ((::GeomAPI_IntCS*)_NativeInstance)->IsDone();
+}
+
+int Macad::Occt::GeomAPI_IntCS::NbPoints()
+{
+	return ((::GeomAPI_IntCS*)_NativeInstance)->NbPoints();
+}
+
+Macad::Occt::Pnt Macad::Occt::GeomAPI_IntCS::Point(int Index)
+{
+	return Macad::Occt::Pnt(((::GeomAPI_IntCS*)_NativeInstance)->Point(Index));
+}
+
+void Macad::Occt::GeomAPI_IntCS::Parameters(int Index, double% U, double% V, double% W)
+{
+	pin_ptr<double> pp_U = &U;
+	pin_ptr<double> pp_V = &V;
+	pin_ptr<double> pp_W = &W;
+	((::GeomAPI_IntCS*)_NativeInstance)->Parameters(Index, *(Standard_Real*)pp_U, *(Standard_Real*)pp_V, *(Standard_Real*)pp_W);
+}
+
+int Macad::Occt::GeomAPI_IntCS::NbSegments()
+{
+	return ((::GeomAPI_IntCS*)_NativeInstance)->NbSegments();
+}
+
+Macad::Occt::Geom_Curve^ Macad::Occt::GeomAPI_IntCS::Segment(int Index)
+{
+	Handle(::Geom_Curve) _result;
+	_result = ((::GeomAPI_IntCS*)_NativeInstance)->Segment(Index);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Curve::CreateDowncasted( _result.get());
+}
+
+void Macad::Occt::GeomAPI_IntCS::Parameters(int Index, double% U1, double% V1, double% U2, double% V2)
+{
+	pin_ptr<double> pp_U1 = &U1;
+	pin_ptr<double> pp_V1 = &V1;
+	pin_ptr<double> pp_U2 = &U2;
+	pin_ptr<double> pp_V2 = &V2;
+	((::GeomAPI_IntCS*)_NativeInstance)->Parameters(Index, *(Standard_Real*)pp_U1, *(Standard_Real*)pp_V1, *(Standard_Real*)pp_U2, *(Standard_Real*)pp_V2);
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  GeomAPI_Interpolate
+//---------------------------------------------------------------------
+
+Macad::Occt::GeomAPI_Interpolate::GeomAPI_Interpolate(Macad::Occt::TColgp_HArray1OfPnt^ Points, bool PeriodicFlag, double Tolerance)
+	: BaseClass<::GeomAPI_Interpolate>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::TColgp_HArray1OfPnt) h_Points = Points->NativeInstance;
+	_NativeInstance = new ::GeomAPI_Interpolate(h_Points, PeriodicFlag, Tolerance);
+	Points->NativeInstance = h_Points.get();
+}
+
+Macad::Occt::GeomAPI_Interpolate::GeomAPI_Interpolate(Macad::Occt::TColgp_HArray1OfPnt^ Points, Macad::Occt::TColStd_HArray1OfReal^ Parameters, bool PeriodicFlag, double Tolerance)
+	: BaseClass<::GeomAPI_Interpolate>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::TColgp_HArray1OfPnt) h_Points = Points->NativeInstance;
+	Handle(::TColStd_HArray1OfReal) h_Parameters = Parameters->NativeInstance;
+	_NativeInstance = new ::GeomAPI_Interpolate(h_Points, h_Parameters, PeriodicFlag, Tolerance);
+	Points->NativeInstance = h_Points.get();
+	Parameters->NativeInstance = h_Parameters.get();
+}
+
+Macad::Occt::GeomAPI_Interpolate::GeomAPI_Interpolate(Macad::Occt::GeomAPI_Interpolate^ parameter1)
+	: BaseClass<::GeomAPI_Interpolate>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::GeomAPI_Interpolate(*(::GeomAPI_Interpolate*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::GeomAPI_Interpolate::Load(Macad::Occt::Vec InitialTangent, Macad::Occt::Vec FinalTangent, bool Scale)
+{
+	pin_ptr<Macad::Occt::Vec> pp_InitialTangent = &InitialTangent;
+	pin_ptr<Macad::Occt::Vec> pp_FinalTangent = &FinalTangent;
+	((::GeomAPI_Interpolate*)_NativeInstance)->Load(*(gp_Vec*)pp_InitialTangent, *(gp_Vec*)pp_FinalTangent, Scale);
+}
+
+void Macad::Occt::GeomAPI_Interpolate::Load(Macad::Occt::Vec InitialTangent, Macad::Occt::Vec FinalTangent)
+{
+	pin_ptr<Macad::Occt::Vec> pp_InitialTangent = &InitialTangent;
+	pin_ptr<Macad::Occt::Vec> pp_FinalTangent = &FinalTangent;
+	((::GeomAPI_Interpolate*)_NativeInstance)->Load(*(gp_Vec*)pp_InitialTangent, *(gp_Vec*)pp_FinalTangent, true);
+}
+
+void Macad::Occt::GeomAPI_Interpolate::Load(Macad::Occt::TColgp_Array1OfVec^ Tangents, Macad::Occt::TColStd_HArray1OfBoolean^ TangentFlags, bool Scale)
+{
+	Handle(::TColStd_HArray1OfBoolean) h_TangentFlags = TangentFlags->NativeInstance;
+	((::GeomAPI_Interpolate*)_NativeInstance)->Load(*(::TColgp_Array1OfVec*)Tangents->NativeInstance, h_TangentFlags, Scale);
+	TangentFlags->NativeInstance = h_TangentFlags.get();
+}
+
+void Macad::Occt::GeomAPI_Interpolate::Load(Macad::Occt::TColgp_Array1OfVec^ Tangents, Macad::Occt::TColStd_HArray1OfBoolean^ TangentFlags)
+{
+	Handle(::TColStd_HArray1OfBoolean) h_TangentFlags = TangentFlags->NativeInstance;
+	((::GeomAPI_Interpolate*)_NativeInstance)->Load(*(::TColgp_Array1OfVec*)Tangents->NativeInstance, h_TangentFlags, true);
+	TangentFlags->NativeInstance = h_TangentFlags.get();
+}
+
+void Macad::Occt::GeomAPI_Interpolate::ClearTangents()
+{
+	throw gcnew System::NotImplementedException("Unresolved external symbol");
+}
+
+void Macad::Occt::GeomAPI_Interpolate::Perform()
+{
+	((::GeomAPI_Interpolate*)_NativeInstance)->Perform();
+}
+
+Macad::Occt::Geom_BSplineCurve^ Macad::Occt::GeomAPI_Interpolate::Curve()
+{
+	Handle(::Geom_BSplineCurve) _result;
+	_result = ((::GeomAPI_Interpolate*)_NativeInstance)->Curve();
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_BSplineCurve::CreateDowncasted( _result.get());
+}
+
+bool Macad::Occt::GeomAPI_Interpolate::IsDone()
+{
+	return ((::GeomAPI_Interpolate*)_NativeInstance)->IsDone();
+}
+
+
+
+
+//---------------------------------------------------------------------
+//  Class  GeomAPI_IntSS
+//---------------------------------------------------------------------
+
+Macad::Occt::GeomAPI_IntSS::GeomAPI_IntSS()
+	: BaseClass<::GeomAPI_IntSS>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::GeomAPI_IntSS();
+}
+
+Macad::Occt::GeomAPI_IntSS::GeomAPI_IntSS(Macad::Occt::Geom_Surface^ S1, Macad::Occt::Geom_Surface^ S2, double Tol)
+	: BaseClass<::GeomAPI_IntSS>(BaseClass::InitMode::Uninitialized)
+{
+	Handle(::Geom_Surface) h_S1 = S1->NativeInstance;
+	Handle(::Geom_Surface) h_S2 = S2->NativeInstance;
+	_NativeInstance = new ::GeomAPI_IntSS(h_S1, h_S2, Tol);
+	S1->NativeInstance = h_S1.get();
+	S2->NativeInstance = h_S2.get();
+}
+
+Macad::Occt::GeomAPI_IntSS::GeomAPI_IntSS(Macad::Occt::GeomAPI_IntSS^ parameter1)
+	: BaseClass<::GeomAPI_IntSS>(BaseClass::InitMode::Uninitialized)
+{
+	_NativeInstance = new ::GeomAPI_IntSS(*(::GeomAPI_IntSS*)parameter1->NativeInstance);
+}
+
+void Macad::Occt::GeomAPI_IntSS::Perform(Macad::Occt::Geom_Surface^ S1, Macad::Occt::Geom_Surface^ S2, double Tol)
+{
+	Handle(::Geom_Surface) h_S1 = S1->NativeInstance;
+	Handle(::Geom_Surface) h_S2 = S2->NativeInstance;
+	((::GeomAPI_IntSS*)_NativeInstance)->Perform(h_S1, h_S2, Tol);
+	S1->NativeInstance = h_S1.get();
+	S2->NativeInstance = h_S2.get();
+}
+
+bool Macad::Occt::GeomAPI_IntSS::IsDone()
+{
+	return ((::GeomAPI_IntSS*)_NativeInstance)->IsDone();
+}
+
+int Macad::Occt::GeomAPI_IntSS::NbLines()
+{
+	return ((::GeomAPI_IntSS*)_NativeInstance)->NbLines();
+}
+
+Macad::Occt::Geom_Curve^ Macad::Occt::GeomAPI_IntSS::Line(int Index)
+{
+	Handle(::Geom_Curve) _result;
+	_result = ((::GeomAPI_IntSS*)_NativeInstance)->Line(Index);
+	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Curve::CreateDowncasted( _result.get());
 }
 
 
@@ -992,257 +987,259 @@ bool Macad::Occt::GeomAPI_PointsToBSplineSurface::IsDone()
 
 
 //---------------------------------------------------------------------
-//  Class  GeomAPI_Interpolate
+//  Class  GeomAPI_ProjectPointOnCurve
 //---------------------------------------------------------------------
 
-Macad::Occt::GeomAPI_Interpolate::GeomAPI_Interpolate(Macad::Occt::TColgp_HArray1OfPnt^ Points, bool PeriodicFlag, double Tolerance)
-	: BaseClass<::GeomAPI_Interpolate>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::GeomAPI_ProjectPointOnCurve::GeomAPI_ProjectPointOnCurve()
+	: BaseClass<::GeomAPI_ProjectPointOnCurve>(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::TColgp_HArray1OfPnt) h_Points = Points->NativeInstance;
-	_NativeInstance = new ::GeomAPI_Interpolate(h_Points, PeriodicFlag, Tolerance);
-	Points->NativeInstance = h_Points.get();
+	_NativeInstance = new ::GeomAPI_ProjectPointOnCurve();
 }
 
-Macad::Occt::GeomAPI_Interpolate::GeomAPI_Interpolate(Macad::Occt::TColgp_HArray1OfPnt^ Points, Macad::Occt::TColStd_HArray1OfReal^ Parameters, bool PeriodicFlag, double Tolerance)
-	: BaseClass<::GeomAPI_Interpolate>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::GeomAPI_ProjectPointOnCurve::GeomAPI_ProjectPointOnCurve(Macad::Occt::Pnt P, Macad::Occt::Geom_Curve^ Curve)
+	: BaseClass<::GeomAPI_ProjectPointOnCurve>(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::TColgp_HArray1OfPnt) h_Points = Points->NativeInstance;
-	Handle(::TColStd_HArray1OfReal) h_Parameters = Parameters->NativeInstance;
-	_NativeInstance = new ::GeomAPI_Interpolate(h_Points, h_Parameters, PeriodicFlag, Tolerance);
-	Points->NativeInstance = h_Points.get();
-	Parameters->NativeInstance = h_Parameters.get();
+	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
+	Handle(::Geom_Curve) h_Curve = Curve->NativeInstance;
+	_NativeInstance = new ::GeomAPI_ProjectPointOnCurve(*(gp_Pnt*)pp_P, h_Curve);
+	Curve->NativeInstance = h_Curve.get();
 }
 
-Macad::Occt::GeomAPI_Interpolate::GeomAPI_Interpolate(Macad::Occt::GeomAPI_Interpolate^ parameter1)
-	: BaseClass<::GeomAPI_Interpolate>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::GeomAPI_ProjectPointOnCurve::GeomAPI_ProjectPointOnCurve(Macad::Occt::Pnt P, Macad::Occt::Geom_Curve^ Curve, double Umin, double Usup)
+	: BaseClass<::GeomAPI_ProjectPointOnCurve>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::GeomAPI_Interpolate(*(::GeomAPI_Interpolate*)parameter1->NativeInstance);
+	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
+	Handle(::Geom_Curve) h_Curve = Curve->NativeInstance;
+	_NativeInstance = new ::GeomAPI_ProjectPointOnCurve(*(gp_Pnt*)pp_P, h_Curve, Umin, Usup);
+	Curve->NativeInstance = h_Curve.get();
 }
 
-void Macad::Occt::GeomAPI_Interpolate::Load(Macad::Occt::Vec InitialTangent, Macad::Occt::Vec FinalTangent, bool Scale)
+Macad::Occt::GeomAPI_ProjectPointOnCurve::GeomAPI_ProjectPointOnCurve(Macad::Occt::GeomAPI_ProjectPointOnCurve^ parameter1)
+	: BaseClass<::GeomAPI_ProjectPointOnCurve>(BaseClass::InitMode::Uninitialized)
 {
-	pin_ptr<Macad::Occt::Vec> pp_InitialTangent = &InitialTangent;
-	pin_ptr<Macad::Occt::Vec> pp_FinalTangent = &FinalTangent;
-	((::GeomAPI_Interpolate*)_NativeInstance)->Load(*(gp_Vec*)pp_InitialTangent, *(gp_Vec*)pp_FinalTangent, Scale);
+	_NativeInstance = new ::GeomAPI_ProjectPointOnCurve(*(::GeomAPI_ProjectPointOnCurve*)parameter1->NativeInstance);
 }
 
-void Macad::Occt::GeomAPI_Interpolate::Load(Macad::Occt::Vec InitialTangent, Macad::Occt::Vec FinalTangent)
+void Macad::Occt::GeomAPI_ProjectPointOnCurve::Init(Macad::Occt::Pnt P, Macad::Occt::Geom_Curve^ Curve)
 {
-	pin_ptr<Macad::Occt::Vec> pp_InitialTangent = &InitialTangent;
-	pin_ptr<Macad::Occt::Vec> pp_FinalTangent = &FinalTangent;
-	((::GeomAPI_Interpolate*)_NativeInstance)->Load(*(gp_Vec*)pp_InitialTangent, *(gp_Vec*)pp_FinalTangent, true);
+	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
+	Handle(::Geom_Curve) h_Curve = Curve->NativeInstance;
+	((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Init(*(gp_Pnt*)pp_P, h_Curve);
+	Curve->NativeInstance = h_Curve.get();
 }
 
-void Macad::Occt::GeomAPI_Interpolate::Load(Macad::Occt::TColgp_Array1OfVec^ Tangents, Macad::Occt::TColStd_HArray1OfBoolean^ TangentFlags, bool Scale)
+void Macad::Occt::GeomAPI_ProjectPointOnCurve::Init(Macad::Occt::Pnt P, Macad::Occt::Geom_Curve^ Curve, double Umin, double Usup)
 {
-	Handle(::TColStd_HArray1OfBoolean) h_TangentFlags = TangentFlags->NativeInstance;
-	((::GeomAPI_Interpolate*)_NativeInstance)->Load(*(::TColgp_Array1OfVec*)Tangents->NativeInstance, h_TangentFlags, Scale);
-	TangentFlags->NativeInstance = h_TangentFlags.get();
+	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
+	Handle(::Geom_Curve) h_Curve = Curve->NativeInstance;
+	((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Init(*(gp_Pnt*)pp_P, h_Curve, Umin, Usup);
+	Curve->NativeInstance = h_Curve.get();
 }
 
-void Macad::Occt::GeomAPI_Interpolate::Load(Macad::Occt::TColgp_Array1OfVec^ Tangents, Macad::Occt::TColStd_HArray1OfBoolean^ TangentFlags)
+void Macad::Occt::GeomAPI_ProjectPointOnCurve::Init(Macad::Occt::Geom_Curve^ Curve, double Umin, double Usup)
 {
-	Handle(::TColStd_HArray1OfBoolean) h_TangentFlags = TangentFlags->NativeInstance;
-	((::GeomAPI_Interpolate*)_NativeInstance)->Load(*(::TColgp_Array1OfVec*)Tangents->NativeInstance, h_TangentFlags, true);
-	TangentFlags->NativeInstance = h_TangentFlags.get();
+	Handle(::Geom_Curve) h_Curve = Curve->NativeInstance;
+	((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Init(h_Curve, Umin, Usup);
+	Curve->NativeInstance = h_Curve.get();
 }
 
-void Macad::Occt::GeomAPI_Interpolate::ClearTangents()
+void Macad::Occt::GeomAPI_ProjectPointOnCurve::Perform(Macad::Occt::Pnt P)
 {
-	throw gcnew System::NotImplementedException("Unresolved external symbol");
+	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
+	((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Perform(*(gp_Pnt*)pp_P);
 }
 
-void Macad::Occt::GeomAPI_Interpolate::Perform()
+int Macad::Occt::GeomAPI_ProjectPointOnCurve::NbPoints()
 {
-	((::GeomAPI_Interpolate*)_NativeInstance)->Perform();
+	return ((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->NbPoints();
 }
 
-Macad::Occt::Geom_BSplineCurve^ Macad::Occt::GeomAPI_Interpolate::Curve()
+Macad::Occt::Pnt Macad::Occt::GeomAPI_ProjectPointOnCurve::Point(int Index)
 {
-	Handle(::Geom_BSplineCurve) _result;
-	_result = ((::GeomAPI_Interpolate*)_NativeInstance)->Curve();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_BSplineCurve::CreateDowncasted( _result.get());
+	return Macad::Occt::Pnt(((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Point(Index));
 }
 
-bool Macad::Occt::GeomAPI_Interpolate::IsDone()
+double Macad::Occt::GeomAPI_ProjectPointOnCurve::Parameter(int Index)
 {
-	return ((::GeomAPI_Interpolate*)_NativeInstance)->IsDone();
+	return ((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Parameter(Index);
 }
 
-
-
-
-//---------------------------------------------------------------------
-//  Class  GeomAPI_IntSS
-//---------------------------------------------------------------------
-
-Macad::Occt::GeomAPI_IntSS::GeomAPI_IntSS()
-	: BaseClass<::GeomAPI_IntSS>(BaseClass::InitMode::Uninitialized)
+void Macad::Occt::GeomAPI_ProjectPointOnCurve::Parameter(int Index, double% U)
 {
-	_NativeInstance = new ::GeomAPI_IntSS();
+	pin_ptr<double> pp_U = &U;
+	((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Parameter(Index, *(Standard_Real*)pp_U);
 }
 
-Macad::Occt::GeomAPI_IntSS::GeomAPI_IntSS(Macad::Occt::Geom_Surface^ S1, Macad::Occt::Geom_Surface^ S2, double Tol)
-	: BaseClass<::GeomAPI_IntSS>(BaseClass::InitMode::Uninitialized)
+double Macad::Occt::GeomAPI_ProjectPointOnCurve::Distance(int Index)
 {
-	Handle(::Geom_Surface) h_S1 = S1->NativeInstance;
-	Handle(::Geom_Surface) h_S2 = S2->NativeInstance;
-	_NativeInstance = new ::GeomAPI_IntSS(h_S1, h_S2, Tol);
-	S1->NativeInstance = h_S1.get();
-	S2->NativeInstance = h_S2.get();
+	return ((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Distance(Index);
 }
 
-Macad::Occt::GeomAPI_IntSS::GeomAPI_IntSS(Macad::Occt::GeomAPI_IntSS^ parameter1)
-	: BaseClass<::GeomAPI_IntSS>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::Pnt Macad::Occt::GeomAPI_ProjectPointOnCurve::NearestPoint()
 {
-	_NativeInstance = new ::GeomAPI_IntSS(*(::GeomAPI_IntSS*)parameter1->NativeInstance);
+	return Macad::Occt::Pnt(((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->NearestPoint());
 }
 
-void Macad::Occt::GeomAPI_IntSS::Perform(Macad::Occt::Geom_Surface^ S1, Macad::Occt::Geom_Surface^ S2, double Tol)
+double Macad::Occt::GeomAPI_ProjectPointOnCurve::LowerDistanceParameter()
 {
-	Handle(::Geom_Surface) h_S1 = S1->NativeInstance;
-	Handle(::Geom_Surface) h_S2 = S2->NativeInstance;
-	((::GeomAPI_IntSS*)_NativeInstance)->Perform(h_S1, h_S2, Tol);
-	S1->NativeInstance = h_S1.get();
-	S2->NativeInstance = h_S2.get();
+	return ((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->LowerDistanceParameter();
 }
 
-bool Macad::Occt::GeomAPI_IntSS::IsDone()
+double Macad::Occt::GeomAPI_ProjectPointOnCurve::LowerDistance()
 {
-	return ((::GeomAPI_IntSS*)_NativeInstance)->IsDone();
+	return ((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->LowerDistance();
 }
 
-int Macad::Occt::GeomAPI_IntSS::NbLines()
+Macad::Occt::Extrema_ExtPC^ Macad::Occt::GeomAPI_ProjectPointOnCurve::Extrema()
 {
-	return ((::GeomAPI_IntSS*)_NativeInstance)->NbLines();
-}
-
-Macad::Occt::Geom_Curve^ Macad::Occt::GeomAPI_IntSS::Line(int Index)
-{
-	Handle(::Geom_Curve) _result;
-	_result = ((::GeomAPI_IntSS*)_NativeInstance)->Line(Index);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Curve::CreateDowncasted( _result.get());
+	::Extrema_ExtPC* _result = new ::Extrema_ExtPC();
+	*_result =  (::Extrema_ExtPC)((::GeomAPI_ProjectPointOnCurve*)_NativeInstance)->Extrema();
+	 return _result==nullptr ? nullptr : gcnew Macad::Occt::Extrema_ExtPC(_result);
 }
 
 
 
 
 //---------------------------------------------------------------------
-//  Class  GeomAPI_IntCS
+//  Class  GeomAPI_ProjectPointOnSurf
 //---------------------------------------------------------------------
 
-Macad::Occt::GeomAPI_IntCS::GeomAPI_IntCS()
-	: BaseClass<::GeomAPI_IntCS>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::GeomAPI_ProjectPointOnSurf::GeomAPI_ProjectPointOnSurf()
+	: BaseClass<::GeomAPI_ProjectPointOnSurf>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::GeomAPI_IntCS();
+	_NativeInstance = new ::GeomAPI_ProjectPointOnSurf();
 }
 
-Macad::Occt::GeomAPI_IntCS::GeomAPI_IntCS(Macad::Occt::Geom_Curve^ C, Macad::Occt::Geom_Surface^ S)
-	: BaseClass<::GeomAPI_IntCS>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::GeomAPI_ProjectPointOnSurf::GeomAPI_ProjectPointOnSurf(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface)
+	: BaseClass<::GeomAPI_ProjectPointOnSurf>(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Geom_Curve) h_C = C->NativeInstance;
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	_NativeInstance = new ::GeomAPI_IntCS(h_C, h_S);
-	C->NativeInstance = h_C.get();
-	S->NativeInstance = h_S.get();
+	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
+	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
+	_NativeInstance = new ::GeomAPI_ProjectPointOnSurf(*(gp_Pnt*)pp_P, h_Surface, Extrema_ExtAlgo_Grad);
+	Surface->NativeInstance = h_Surface.get();
 }
 
-Macad::Occt::GeomAPI_IntCS::GeomAPI_IntCS(Macad::Occt::GeomAPI_IntCS^ parameter1)
-	: BaseClass<::GeomAPI_IntCS>(BaseClass::InitMode::Uninitialized)
+Macad::Occt::GeomAPI_ProjectPointOnSurf::GeomAPI_ProjectPointOnSurf(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface, double Tolerance)
+	: BaseClass<::GeomAPI_ProjectPointOnSurf>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::GeomAPI_IntCS(*(::GeomAPI_IntCS*)parameter1->NativeInstance);
+	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
+	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
+	_NativeInstance = new ::GeomAPI_ProjectPointOnSurf(*(gp_Pnt*)pp_P, h_Surface, Tolerance, Extrema_ExtAlgo_Grad);
+	Surface->NativeInstance = h_Surface.get();
 }
 
-void Macad::Occt::GeomAPI_IntCS::Perform(Macad::Occt::Geom_Curve^ C, Macad::Occt::Geom_Surface^ S)
+Macad::Occt::GeomAPI_ProjectPointOnSurf::GeomAPI_ProjectPointOnSurf(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface, double Umin, double Usup, double Vmin, double Vsup, double Tolerance)
+	: BaseClass<::GeomAPI_ProjectPointOnSurf>(BaseClass::InitMode::Uninitialized)
 {
-	Handle(::Geom_Curve) h_C = C->NativeInstance;
-	Handle(::Geom_Surface) h_S = S->NativeInstance;
-	((::GeomAPI_IntCS*)_NativeInstance)->Perform(h_C, h_S);
-	C->NativeInstance = h_C.get();
-	S->NativeInstance = h_S.get();
+	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
+	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
+	_NativeInstance = new ::GeomAPI_ProjectPointOnSurf(*(gp_Pnt*)pp_P, h_Surface, Umin, Usup, Vmin, Vsup, Tolerance, Extrema_ExtAlgo_Grad);
+	Surface->NativeInstance = h_Surface.get();
 }
 
-bool Macad::Occt::GeomAPI_IntCS::IsDone()
+Macad::Occt::GeomAPI_ProjectPointOnSurf::GeomAPI_ProjectPointOnSurf(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface, double Umin, double Usup, double Vmin, double Vsup)
+	: BaseClass<::GeomAPI_ProjectPointOnSurf>(BaseClass::InitMode::Uninitialized)
 {
-	return ((::GeomAPI_IntCS*)_NativeInstance)->IsDone();
+	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
+	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
+	_NativeInstance = new ::GeomAPI_ProjectPointOnSurf(*(gp_Pnt*)pp_P, h_Surface, Umin, Usup, Vmin, Vsup, Extrema_ExtAlgo_Grad);
+	Surface->NativeInstance = h_Surface.get();
 }
 
-int Macad::Occt::GeomAPI_IntCS::NbPoints()
+void Macad::Occt::GeomAPI_ProjectPointOnSurf::Init(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface, double Tolerance)
 {
-	return ((::GeomAPI_IntCS*)_NativeInstance)->NbPoints();
+	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
+	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
+	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Init(*(gp_Pnt*)pp_P, h_Surface, Tolerance, Extrema_ExtAlgo_Grad);
+	Surface->NativeInstance = h_Surface.get();
 }
 
-Macad::Occt::Pnt Macad::Occt::GeomAPI_IntCS::Point(int Index)
+void Macad::Occt::GeomAPI_ProjectPointOnSurf::Init(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface)
 {
-	return Macad::Occt::Pnt(((::GeomAPI_IntCS*)_NativeInstance)->Point(Index));
+	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
+	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
+	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Init(*(gp_Pnt*)pp_P, h_Surface, Extrema_ExtAlgo_Grad);
+	Surface->NativeInstance = h_Surface.get();
 }
 
-void Macad::Occt::GeomAPI_IntCS::Parameters(int Index, double% U, double% V, double% W)
+void Macad::Occt::GeomAPI_ProjectPointOnSurf::Init(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface, double Umin, double Usup, double Vmin, double Vsup, double Tolerance)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
+	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
+	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Init(*(gp_Pnt*)pp_P, h_Surface, Umin, Usup, Vmin, Vsup, Tolerance, Extrema_ExtAlgo_Grad);
+	Surface->NativeInstance = h_Surface.get();
+}
+
+void Macad::Occt::GeomAPI_ProjectPointOnSurf::Init(Macad::Occt::Pnt P, Macad::Occt::Geom_Surface^ Surface, double Umin, double Usup, double Vmin, double Vsup)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
+	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
+	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Init(*(gp_Pnt*)pp_P, h_Surface, Umin, Usup, Vmin, Vsup, Extrema_ExtAlgo_Grad);
+	Surface->NativeInstance = h_Surface.get();
+}
+
+void Macad::Occt::GeomAPI_ProjectPointOnSurf::Init(Macad::Occt::Geom_Surface^ Surface, double Umin, double Usup, double Vmin, double Vsup, double Tolerance)
+{
+	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
+	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Init(h_Surface, Umin, Usup, Vmin, Vsup, Tolerance, Extrema_ExtAlgo_Grad);
+	Surface->NativeInstance = h_Surface.get();
+}
+
+void Macad::Occt::GeomAPI_ProjectPointOnSurf::Init(Macad::Occt::Geom_Surface^ Surface, double Umin, double Usup, double Vmin, double Vsup)
+{
+	Handle(::Geom_Surface) h_Surface = Surface->NativeInstance;
+	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Init(h_Surface, Umin, Usup, Vmin, Vsup, Extrema_ExtAlgo_Grad);
+	Surface->NativeInstance = h_Surface.get();
+}
+
+void Macad::Occt::GeomAPI_ProjectPointOnSurf::Perform(Macad::Occt::Pnt P)
+{
+	pin_ptr<Macad::Occt::Pnt> pp_P = &P;
+	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Perform(*(gp_Pnt*)pp_P);
+}
+
+bool Macad::Occt::GeomAPI_ProjectPointOnSurf::IsDone()
+{
+	return ((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->IsDone();
+}
+
+int Macad::Occt::GeomAPI_ProjectPointOnSurf::NbPoints()
+{
+	return ((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->NbPoints();
+}
+
+Macad::Occt::Pnt Macad::Occt::GeomAPI_ProjectPointOnSurf::Point(int Index)
+{
+	return Macad::Occt::Pnt(((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Point(Index));
+}
+
+void Macad::Occt::GeomAPI_ProjectPointOnSurf::Parameters(int Index, double% U, double% V)
 {
 	pin_ptr<double> pp_U = &U;
 	pin_ptr<double> pp_V = &V;
-	pin_ptr<double> pp_W = &W;
-	((::GeomAPI_IntCS*)_NativeInstance)->Parameters(Index, *(Standard_Real*)pp_U, *(Standard_Real*)pp_V, *(Standard_Real*)pp_W);
+	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Parameters(Index, *(Standard_Real*)pp_U, *(Standard_Real*)pp_V);
 }
 
-int Macad::Occt::GeomAPI_IntCS::NbSegments()
+double Macad::Occt::GeomAPI_ProjectPointOnSurf::Distance(int Index)
 {
-	return ((::GeomAPI_IntCS*)_NativeInstance)->NbSegments();
+	return ((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->Distance(Index);
 }
 
-Macad::Occt::Geom_Curve^ Macad::Occt::GeomAPI_IntCS::Segment(int Index)
+Macad::Occt::Pnt Macad::Occt::GeomAPI_ProjectPointOnSurf::NearestPoint()
 {
-	Handle(::Geom_Curve) _result;
-	_result = ((::GeomAPI_IntCS*)_NativeInstance)->Segment(Index);
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Curve::CreateDowncasted( _result.get());
+	return Macad::Occt::Pnt(((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->NearestPoint());
 }
 
-void Macad::Occt::GeomAPI_IntCS::Parameters(int Index, double% U1, double% V1, double% U2, double% V2)
+void Macad::Occt::GeomAPI_ProjectPointOnSurf::LowerDistanceParameters(double% U, double% V)
 {
-	pin_ptr<double> pp_U1 = &U1;
-	pin_ptr<double> pp_V1 = &V1;
-	pin_ptr<double> pp_U2 = &U2;
-	pin_ptr<double> pp_V2 = &V2;
-	((::GeomAPI_IntCS*)_NativeInstance)->Parameters(Index, *(Standard_Real*)pp_U1, *(Standard_Real*)pp_V1, *(Standard_Real*)pp_U2, *(Standard_Real*)pp_V2);
+	pin_ptr<double> pp_U = &U;
+	pin_ptr<double> pp_V = &V;
+	((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->LowerDistanceParameters(*(Standard_Real*)pp_U, *(Standard_Real*)pp_V);
 }
 
-
-
-
-//---------------------------------------------------------------------
-//  Class  GeomAPI
-//---------------------------------------------------------------------
-
-Macad::Occt::GeomAPI::GeomAPI()
-	: BaseClass<::GeomAPI>(BaseClass::InitMode::Uninitialized)
+double Macad::Occt::GeomAPI_ProjectPointOnSurf::LowerDistance()
 {
-	_NativeInstance = new ::GeomAPI();
-}
-
-Macad::Occt::GeomAPI::GeomAPI(Macad::Occt::GeomAPI^ parameter1)
-	: BaseClass<::GeomAPI>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::GeomAPI(*(::GeomAPI*)parameter1->NativeInstance);
-}
-
-Macad::Occt::Geom2d_Curve^ Macad::Occt::GeomAPI::To2d(Macad::Occt::Geom_Curve^ C, Macad::Occt::Pln P)
-{
-	Handle(::Geom_Curve) h_C = C->NativeInstance;
-	pin_ptr<Macad::Occt::Pln> pp_P = &P;
-	Handle(::Geom2d_Curve) _result;
-	_result = ::GeomAPI::To2d(h_C, *(gp_Pln*)pp_P);
-	C->NativeInstance = h_C.get();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_Curve::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::Geom_Curve^ Macad::Occt::GeomAPI::To3d(Macad::Occt::Geom2d_Curve^ C, Macad::Occt::Pln P)
-{
-	Handle(::Geom2d_Curve) h_C = C->NativeInstance;
-	pin_ptr<Macad::Occt::Pln> pp_P = &P;
-	Handle(::Geom_Curve) _result;
-	_result = ::GeomAPI::To3d(h_C, *(gp_Pln*)pp_P);
-	C->NativeInstance = h_C.get();
-	 return _result.IsNull() ? nullptr : Macad::Occt::Geom_Curve::CreateDowncasted( _result.get());
+	return ((::GeomAPI_ProjectPointOnSurf*)_NativeInstance)->LowerDistance();
 }
 
 

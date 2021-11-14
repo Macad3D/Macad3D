@@ -9,7 +9,7 @@ public:
 
     void EnableBackground(double theTransparency);
 	void SetBackgroundColor(const Quantity_Color& theColor);
-    void Compute(const opencascade::handle<PrsMgr_PresentationManager3d>&,
+    void Compute(const opencascade::handle<PrsMgr_PresentationManager>&,
                  const opencascade::handle<Prs3d_Presentation>& aPresentation, Standard_Integer aMode) override;
 
 private:

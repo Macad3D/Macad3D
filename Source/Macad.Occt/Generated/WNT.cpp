@@ -5,110 +5,11 @@
 
 using namespace System::Runtime::InteropServices; // for class Marshal
 
+#include "TCollection.h"
 #include "Standard.h"
 #include "WNT.h"
-#include "Graphic3d.h"
-#include "TCollection.h"
 #include "Quantity.h"
 #include "Aspect.h"
-
-
-//---------------------------------------------------------------------
-//  Class  WNT_ClassDefinitionError
-//---------------------------------------------------------------------
-
-Macad::Occt::WNT_ClassDefinitionError::WNT_ClassDefinitionError()
-	: Macad::Occt::Standard_ConstructionError(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::WNT_ClassDefinitionError();
-}
-
-Macad::Occt::WNT_ClassDefinitionError::WNT_ClassDefinitionError(System::String^ theMessage)
-	: Macad::Occt::Standard_ConstructionError(BaseClass::InitMode::Uninitialized)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	NativeInstance = new ::WNT_ClassDefinitionError(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-Macad::Occt::WNT_ClassDefinitionError::WNT_ClassDefinitionError(Macad::Occt::WNT_ClassDefinitionError^ parameter1)
-	: Macad::Occt::Standard_ConstructionError(BaseClass::InitMode::Uninitialized)
-{
-	NativeInstance = new ::WNT_ClassDefinitionError(*(::WNT_ClassDefinitionError*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::WNT_ClassDefinitionError::Raise(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	::WNT_ClassDefinitionError::Raise(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-void Macad::Occt::WNT_ClassDefinitionError::Raise()
-{
-	::WNT_ClassDefinitionError::Raise("");
-}
-
-Macad::Occt::WNT_ClassDefinitionError^ Macad::Occt::WNT_ClassDefinitionError::NewInstance(System::String^ theMessage)
-{
-	const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-	Handle(::WNT_ClassDefinitionError) _result;
-	_result = ::WNT_ClassDefinitionError::NewInstance(sz_theMessage);
-	Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-	 return _result.IsNull() ? nullptr : Macad::Occt::WNT_ClassDefinitionError::CreateDowncasted( _result.get());
-}
-
-Macad::Occt::WNT_ClassDefinitionError^ Macad::Occt::WNT_ClassDefinitionError::NewInstance()
-{
-	Handle(::WNT_ClassDefinitionError) _result;
-	_result = ::WNT_ClassDefinitionError::NewInstance("");
-	 return _result.IsNull() ? nullptr : Macad::Occt::WNT_ClassDefinitionError::CreateDowncasted( _result.get());
-}
-
-
-Macad::Occt::WNT_ClassDefinitionError^ Macad::Occt::WNT_ClassDefinitionError::CreateDowncasted(::WNT_ClassDefinitionError* instance)
-{
-	return gcnew Macad::Occt::WNT_ClassDefinitionError( instance );
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  WNT_HIDSpaceMouse
-//---------------------------------------------------------------------
-
-Macad::Occt::WNT_HIDSpaceMouse::WNT_HIDSpaceMouse(Macad::Occt::WNT_HIDSpaceMouse^ parameter1)
-	: BaseClass<::WNT_HIDSpaceMouse>(BaseClass::InitMode::Uninitialized)
-{
-	_NativeInstance = new ::WNT_HIDSpaceMouse(*(::WNT_HIDSpaceMouse*)parameter1->NativeInstance);
-}
-
-bool Macad::Occt::WNT_HIDSpaceMouse::IsTranslation()
-{
-	return ((::WNT_HIDSpaceMouse*)_NativeInstance)->IsTranslation();
-}
-
-bool Macad::Occt::WNT_HIDSpaceMouse::IsRotation()
-{
-	return ((::WNT_HIDSpaceMouse*)_NativeInstance)->IsRotation();
-}
-
-bool Macad::Occt::WNT_HIDSpaceMouse::IsKeyState()
-{
-	return ((::WNT_HIDSpaceMouse*)_NativeInstance)->IsKeyState();
-}
-
-unsigned int Macad::Occt::WNT_HIDSpaceMouse::KeyState()
-{
-	return ((::WNT_HIDSpaceMouse*)_NativeInstance)->KeyState();
-}
-
-unsigned int Macad::Occt::WNT_HIDSpaceMouse::HidToSpaceKey(unsigned short theKeyBit)
-{
-	return ((::WNT_HIDSpaceMouse*)_NativeInstance)->HidToSpaceKey(theKeyBit);
-}
-
-
 
 
 //---------------------------------------------------------------------
@@ -241,16 +142,16 @@ Macad::Occt::WNT_Window::WNT_Window(System::String^ theTitle, Macad::Occt::WNT_W
 	theClass->NativeInstance = h_theClass.get();
 }
 
-Macad::Occt::WNT_Window::WNT_Window(System::IntPtr aHandle, Macad::Occt::Quantity_NameOfColor aBackColor)
+Macad::Occt::WNT_Window::WNT_Window(System::IntPtr theHandle, Macad::Occt::Quantity_NameOfColor theBackColor)
 	: Macad::Occt::Aspect_Window(BaseClass::InitMode::Uninitialized)
 {
-	NativeInstance = new ::WNT_Window(aHandle.ToPointer(), (::Quantity_NameOfColor)aBackColor);
+	NativeInstance = new ::WNT_Window(theHandle.ToPointer(), (::Quantity_NameOfColor)theBackColor);
 }
 
-Macad::Occt::WNT_Window::WNT_Window(System::IntPtr aHandle)
+Macad::Occt::WNT_Window::WNT_Window(System::IntPtr theHandle)
 	: Macad::Occt::Aspect_Window(BaseClass::InitMode::Uninitialized)
 {
-	NativeInstance = new ::WNT_Window(aHandle.ToPointer(), Quantity_NOC_MATRAGRAY);
+	NativeInstance = new ::WNT_Window(theHandle.ToPointer(), Quantity_NOC_MATRAGRAY);
 }
 
 Macad::Occt::WNT_Window::WNT_Window(Macad::Occt::WNT_Window^ parameter1)
@@ -274,9 +175,9 @@ unsigned int Macad::Occt::WNT_Window::MouseButtonsAsync()
 	return ::WNT_Window::MouseButtonsAsync();
 }
 
-void Macad::Occt::WNT_Window::SetCursor(System::IntPtr aCursor)
+void Macad::Occt::WNT_Window::SetCursor(System::IntPtr theCursor)
 {
-	((::WNT_Window*)_NativeInstance)->SetCursor(aCursor.ToPointer());
+	((::WNT_Window*)_NativeInstance)->SetCursor(theCursor.ToPointer());
 }
 
 void Macad::Occt::WNT_Window::Map()
@@ -284,9 +185,9 @@ void Macad::Occt::WNT_Window::Map()
 	((::WNT_Window*)_NativeInstance)->Map();
 }
 
-void Macad::Occt::WNT_Window::Map(int aMapMode)
+void Macad::Occt::WNT_Window::Map(int theMapMode)
 {
-	((::WNT_Window*)_NativeInstance)->Map(aMapMode);
+	((::WNT_Window*)_NativeInstance)->Map(theMapMode);
 }
 
 void Macad::Occt::WNT_Window::Unmap()
@@ -335,16 +236,6 @@ void Macad::Occt::WNT_Window::Size(int% Width, int% Height)
 	((::WNT_Window*)_NativeInstance)->Size(*(Standard_Integer*)pp_Width, *(Standard_Integer*)pp_Height);
 }
 
-System::IntPtr Macad::Occt::WNT_Window::HWindow()
-{
-	return System::IntPtr(((::WNT_Window*)_NativeInstance)->HWindow());
-}
-
-System::IntPtr Macad::Occt::WNT_Window::HParentWindow()
-{
-	return System::IntPtr(((::WNT_Window*)_NativeInstance)->HParentWindow());
-}
-
 System::IntPtr Macad::Occt::WNT_Window::NativeHandle()
 {
 	return System::IntPtr(((::WNT_Window*)_NativeInstance)->NativeHandle());
@@ -355,26 +246,24 @@ System::IntPtr Macad::Occt::WNT_Window::NativeParentHandle()
 	return System::IntPtr(((::WNT_Window*)_NativeInstance)->NativeParentHandle());
 }
 
-System::IntPtr Macad::Occt::WNT_Window::NativeFBConfig()
-{
-	return System::IntPtr(((::WNT_Window*)_NativeInstance)->NativeFBConfig());
-}
-
 void Macad::Occt::WNT_Window::SetTitle(Macad::Occt::TCollection_AsciiString^ theTitle)
 {
 	((::WNT_Window*)_NativeInstance)->SetTitle(*(::TCollection_AsciiString*)theTitle->NativeInstance);
 }
 
-void Macad::Occt::WNT_Window::InvalidateContent(Macad::Occt::Aspect_DisplayConnection^ theDisp)
-{
-	Handle(::Aspect_DisplayConnection) h_theDisp = theDisp->NativeInstance;
-	((::WNT_Window*)_NativeInstance)->InvalidateContent(h_theDisp);
-	theDisp->NativeInstance = h_theDisp.get();
-}
-
 void Macad::Occt::WNT_Window::InvalidateContent()
 {
-	((::WNT_Window*)_NativeInstance)->InvalidateContent(0);
+	((::WNT_Window*)_NativeInstance)->InvalidateContent(::opencascade::handle<::Aspect_DisplayConnection>());
+}
+
+System::IntPtr Macad::Occt::WNT_Window::HWindow()
+{
+	return System::IntPtr(((::WNT_Window*)_NativeInstance)->HWindow());
+}
+
+System::IntPtr Macad::Occt::WNT_Window::HParentWindow()
+{
+	return System::IntPtr(((::WNT_Window*)_NativeInstance)->HParentWindow());
 }
 
 int Macad::Occt::WNT_Window::RegisterRawInputDevices(unsigned int theRawDeviceMask)

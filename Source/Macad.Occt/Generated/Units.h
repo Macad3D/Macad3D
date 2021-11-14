@@ -1184,12 +1184,14 @@ public:
 public:
 	Units_NoSuchType();
 	Units_NoSuchType(System::String^ theMessage);
+	Units_NoSuchType(System::String^ theMessage, System::String^ theStackTrace);
 	Units_NoSuchType(Macad::Occt::Units_NoSuchType^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Units_NoSuchType^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Units_NoSuchType^ NewInstance();
+	static Macad::Occt::Units_NoSuchType^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Units_NoSuchType
 
 //---------------------------------------------------------------------
@@ -1225,12 +1227,14 @@ public:
 public:
 	Units_NoSuchUnit();
 	Units_NoSuchUnit(System::String^ theMessage);
+	Units_NoSuchUnit(System::String^ theMessage, System::String^ theStackTrace);
 	Units_NoSuchUnit(Macad::Occt::Units_NoSuchUnit^ parameter1);
 	static void Raise(System::String^ theMessage);
 	static void Raise();
 	/* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
 	static Macad::Occt::Units_NoSuchUnit^ NewInstance(System::String^ theMessage);
 	static Macad::Occt::Units_NoSuchUnit^ NewInstance();
+	static Macad::Occt::Units_NoSuchUnit^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
 }; // class Units_NoSuchUnit
 
 }; // namespace Occt
