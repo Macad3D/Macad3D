@@ -44,3 +44,8 @@ Generating the OCCT wrapper code depends on several packages to work hand in han
 For this reason, the generated wrapper code for the above mentioned version of the library is checked in. If you want to re-generate the wrapper code, start the generation with the script console command ```> occt generate```.
 
 If you are missing something in the wrapper, it maybe excluded because of several reasons: Maybe it cannot be automatically wrapped yet, it did make trouble in any prior version, or it was simply not needed yet and excluded for saving compilation (and especially linking) time. Check the [configuration file](Source/WrapperGenerator/Configuration.cs) for the wrapper generator and enable what you need, then regenerate the wrapper code.
+
+## Acknowledgments
+Thanks to [JetBrains](https://www.jetbrains.com) for providing a free license of [ReSharper](https://www.jetbrains.com/resharper/).
+
+[<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/ReSharper.svg" height="75" alt="ReSharper logo.">](https://www.jetbrains.com/resharper/)
