@@ -22,15 +22,10 @@
                     <Border
                         Visibility="{Binding HudElements.Count, Converter={mmp:EqualityToInvisibleCollapsedConverter}, ConverterParameter=0}"
                         CornerRadius="3"
-                        BorderThickness="0" BorderBrush="#BF000000"
+                        BorderThickness="0" 
+                        BorderBrush="{StaticResource Macad.Brushes.HudElement.Border}"
+                        Background="{StaticResource Macad.Brushes.HudElement.Background}"
                         Margin="20" Padding="5,2">
-
-                        <Border.Background>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="#7F3B424F" Offset="0" />
-                                <GradientStop Color="#7F4F535D" Offset="1" />
-                            </LinearGradientBrush>
-                        </Border.Background>
 
                         <mmp:TemplateItemsControl
                             ItemsSource="{Binding HudElements}" Foreground="White"
@@ -42,7 +37,7 @@
                 </Grid>
             </Border>
 
-            <ContentPresenter x:Name="OverlayContentPresenter" />
+            <ContentPresenter x:Name="OverlayContentPresenter"  />
         </Grid>
 
 </mmp:AirspaceOverlay>

@@ -109,7 +109,10 @@
     <ColorAndBrush x:Key="ScrollBar.Foreground">Macad.Colors.Base70</ColorAndBrush>
     
     <ColorAndBrush x:Key="Separator">Macad.Colors.Base70</ColorAndBrush>
-    
+
+    <ColorAndBrush x:Key="HudElement.Background">#7F3B424F</ColorAndBrush>
+    <ColorAndBrush x:Key="HudElement.Border">#BF000000</ColorAndBrush>
+
     <!--#endregion-->
 
 </ResourceDictionary>

@@ -165,7 +165,7 @@ namespace Macad.Core
         {
             get
             {
-                return V3dView.Convert(1);
+                return V3dView.IfWindow() ? V3dView.Convert(1) : 1.0;
             }
         }
 

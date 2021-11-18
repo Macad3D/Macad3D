@@ -4,7 +4,7 @@ title: License
 ---
 # Macad\|3D License
 
-[!code[Main](Macad.txt)]
+[!code[Main](Macad3D.txt)]
 
 # 3rd Party Licenses
 

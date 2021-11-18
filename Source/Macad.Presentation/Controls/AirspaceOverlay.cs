@@ -64,6 +64,10 @@ namespace Macad.Presentation
 
             _TransparentInputWindow.SetValue(AutomationProperties.AutomationIdProperty, "AirspaceOverlay");
             _TransparentInputWindow.PreviewMouseDown += _TransparentInputWindow_PreviewMouseDown;
+            _TransparentInputWindow.MouseDown += _TransparentInputWindow_ForwardMouseEvent;
+            _TransparentInputWindow.MouseUp += _TransparentInputWindow_ForwardMouseEvent;
+            _TransparentInputWindow.MouseMove += _TransparentInputWindow_ForwardMouseEvent;
+            _TransparentInputWindow.MouseWheel += _TransparentInputWindow_ForwardMouseEvent;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -71,6 +75,14 @@ namespace Macad.Presentation
         void _TransparentInputWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             this.Focus();
+            RaiseEvent(e);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _TransparentInputWindow_ForwardMouseEvent(object sender, MouseEventArgs e)
+        {
+            RaiseEvent(e);
         }
 
         //--------------------------------------------------------------------------------------------------

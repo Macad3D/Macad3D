@@ -317,7 +317,7 @@
     <Content Include="Tutorial\AmerigoDoor.md" />
     <Content Include="Welcome.md" />
     <Content Include="License\License.md" />
-    <Content Include="License\Macad.txt" />
+    <Content Include="License\Macad3D.txt" />
     <Content Include="License\TreeViewEx.txt" />
     <Content Include="License\IntelTbb.txt" />
     <Content Include="License\AvalonDock.txt" />

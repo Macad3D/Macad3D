@@ -108,6 +108,7 @@ namespace Macad.Interaction.Panels
         #region Members and c'tor
 
         bool _SuppressContextMenu;
+        bool _RightMouseBtnDown;
         Point _MouseDownPosition;
 
         public ViewportPanel()
@@ -147,7 +148,7 @@ namespace Macad.Interaction.Panels
             var pos = e.GetPosition(this);
 
             // Supress context menu if mouse was moved significantly
-            if (e.RightButton == MouseButtonState.Pressed && (_MouseDownPosition - pos).LengthSquared > 9)
+            if (_RightMouseBtnDown && (_MouseDownPosition - pos).LengthSquared > 9)
             {
                 _SuppressContextMenu = true;
             }
@@ -189,6 +190,7 @@ namespace Macad.Interaction.Panels
 
             CaptureMouse();
             _MouseDownPosition = e.GetPosition(this);
+            _RightMouseBtnDown = e.RightButton == MouseButtonState.Pressed;
 
             var dpiScale = VisualTreeHelper.GetDpi(this);
             MouseControl?.MouseDown(new Point(_MouseDownPosition.X * dpiScale.DpiScaleX, _MouseDownPosition.Y * dpiScale.DpiScaleY), e.ChangedButton, e.MouseDevice);
@@ -202,7 +204,8 @@ namespace Macad.Interaction.Panels
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             base.OnMouseUp(e);
-        
+            _RightMouseBtnDown = e.RightButton == MouseButtonState.Pressed;
+
             if (e.ChangedButton == MouseButton.Right && ContextMenu != null && !_SuppressContextMenu)
             {
                 ContextMenu.IsOpen = true;

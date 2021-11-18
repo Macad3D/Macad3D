@@ -48,4 +48,4 @@ If you are missing something in the wrapper, it maybe excluded because of severa
 ## Acknowledgments
 Thanks to [JetBrains](https://www.jetbrains.com) for providing a free license of [ReSharper](https://www.jetbrains.com/resharper/).
 
-[<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/ReSharper.svg" height="75" alt="ReSharper logo.">](https://www.jetbrains.com/resharper/)
+[<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/ReSharper_icon.svg" height="50" alt="ReSharper logo.">](https://www.jetbrains.com/resharper/)

@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:mmi="clr-namespace:Macad.Interaction;assembly=Macad.Interaction"
              xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
              xmlns:panels="clr-namespace:Macad.Interaction.Panels;assembly=Macad.Interaction"
              mc:Ignorable="d" 
@@ -17,7 +16,7 @@
 
         <DockPanel LastChildFill="False">
             
-            <!-- Update message -->
+            <!--region Update message -->
             <Border  DockPanel.Dock="Top"
                      Height="Auto"
                      Background="{StaticResource Macad.Brushes.MessageBar.Background}"
@@ -49,10 +48,18 @@
                     </Button>
                 </DockPanel>
             </Border>
+            <!--endregion -->
 
-            <!-- Tool and Error message -->
+            <!--region Tool and Error message -->
             <panels:ViewportMessageBar DockPanel.Dock="Top" />
+            <!--endregion -->
 
+            <!--region Grid Info -->
+            <panels:ViewportGridInfo DockPanel.Dock="Bottom"
+                                     HorizontalAlignment="Right"
+                                     Margin="0,0,50,30"
+                                     />
+            <!--endregion-->
         </DockPanel>
     </panels:ViewportPanel>
 </UserControl>
