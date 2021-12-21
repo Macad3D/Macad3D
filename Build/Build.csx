@@ -129,7 +129,6 @@ bool _BuildDocumentation(string configuration)
     var shfbPath = Packages.FindPackageFile($"EWSoftware.SHFB.20*", "tools\\SandcastleHelpFileBuilder.targets");
 	if(string.IsNullOrEmpty(shfbPath))
 		return false;
-    shfbPath = Path.GetDirectoryName(shfbPath);
 
     // Ensure .Net Reflection Package
     var shfbNetReflectionPath = Packages.FindPackageFile($"EWSoftware.SHFB.NET.*", "build\\EWSoftware.SHFB.NET.props");
@@ -146,7 +145,7 @@ bool _BuildDocumentation(string configuration)
 
     var pathToProject = Path.Combine(Common.GetRootFolder(), @"Source\Macad.UserGuide\Macad.UserGuide.shfbproj");
 
-    var commandLine = $"\"{pathToProject}\" /p:Configuration={configuration} /p:SHFBROOT=\"{shfbPath}\" /p:SHFBNETFRAMEWORK=\"{shfbNetReflectionPath}\" /p:HelpFileVersion=\"{major}.{minor}{flagsStr}\" /m /nologo /ds /verbosity:minimal /clp:Summary;EnableMPLogging";
+    var commandLine = $"\"{pathToProject}\" /p:Configuration={configuration} /p:SHFBNETFRAMEWORK=\"{shfbNetReflectionPath}\" /p:HelpFileVersion=\"{major}.{minor}{flagsStr}\" /m /nologo /ds /verbosity:minimal /clp:Summary;EnableMPLogging";
     if (_OptionClean)
     {
         if (Common.Run(_VS.PathToMSBuild, commandLine + " /t:clean") != 0)
