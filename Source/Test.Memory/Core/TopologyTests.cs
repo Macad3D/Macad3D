@@ -43,11 +43,11 @@ namespace Macad.Test.Memory.Core
                 var model = CoreContext.Current.Document;
                 var boxBody = Body.Create(Box.Create(20, 20, 10));
                 boxBody.Position = new Pnt(-10, -10, 0);
-                model.AddChild(boxBody);
+                model.Add(boxBody);
 
                 var cylBody = Body.Create(Sphere.Create(20));
                 cylBody.Position = new Pnt(-15, 0, 0);
-                model.AddChild(cylBody);
+                model.Add(cylBody);
 
                 BooleanCut.Create(boxBody, new BodyShapeOperand(cylBody));
 

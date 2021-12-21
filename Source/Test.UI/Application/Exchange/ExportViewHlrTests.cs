@@ -22,7 +22,7 @@ namespace Macad.Test.UI.Application.Exchange
             var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "hlr.svg");
 
             // Do Export
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
             MainWindow.Ribbon.ClickButton("ExportViewHlr");
             var dlg = new WindowAdaptor(MainWindow, "ExportViewportHlr");
             dlg.ClickButton("Ok");
@@ -48,7 +48,7 @@ namespace Macad.Test.UI.Application.Exchange
             var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "hlr.svg");
 
             // Cancel export settings
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
             MainWindow.Ribbon.ClickButton("ExportViewHlr");
             var dlg = new WindowAdaptor(MainWindow, "ExportViewportHlr");
             dlg.ClickButton("Ok");
@@ -72,7 +72,7 @@ namespace Macad.Test.UI.Application.Exchange
         public void ExportHlrCancelFileDlg()
         {
             // Cancel FileDlg
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
             MainWindow.Ribbon.ClickButton("ExportViewHlr");
             var dlg = new WindowAdaptor(MainWindow, "ExportViewportHlr");
             dlg.ClickButton("Ok");
@@ -89,7 +89,7 @@ namespace Macad.Test.UI.Application.Exchange
         public void ExportHlrCancel()
         {
             // Cancel dialog
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
             MainWindow.Ribbon.ClickButton("ExportViewHlr");
             var dlg = new WindowAdaptor(MainWindow, "ExportViewportHlr");
             dlg.ClickButton("Cancel");
@@ -104,7 +104,7 @@ namespace Macad.Test.UI.Application.Exchange
             var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "hlr.dxf");
 
             // Do Export
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
             MainWindow.Ribbon.ClickButton("ExportViewHlr");
             var dlg = new WindowAdaptor(MainWindow, "ExportViewportHlr");
             dlg.ClickButton("Ok");

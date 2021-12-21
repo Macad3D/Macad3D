@@ -123,7 +123,7 @@ namespace Macad.Interaction.Editors.Shapes
             var body = Body.Create(sketch);
             body.Position = _Plane.Location;
             body.Rotation = _Plane.Rotation();
-            InteractiveContext.Current.Document.AddChild(body);
+            InteractiveContext.Current.Document.Add(body);
             InteractiveContext.Current.UndoHandler.Commit();
 
             InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(body);

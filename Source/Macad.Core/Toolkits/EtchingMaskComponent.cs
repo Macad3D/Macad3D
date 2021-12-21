@@ -342,7 +342,7 @@ namespace Macad.Core.Toolkits
                     Stroke = new StrokeStyle(Color.Black, 0.1f, LineStyle.Solid),
                     Fill = new FillStyle(Color.Black)
                 };
-                drawing.AddChild(drawingLayer);
+                drawing.Add(drawingLayer);
             }
             return exporter.DoExport(fileName, drawing);
         }

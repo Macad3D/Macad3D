@@ -257,7 +257,7 @@ namespace Macad.Interaction.Editors.Shapes
             body.Position = _Position;
             body.Rotation = _Rotation;
 
-            InteractiveContext.Current.Document.AddChild(body);
+            InteractiveContext.Current.Document.Add(body);
             InteractiveContext.Current.UndoHandler.Commit();
 
             Stop();

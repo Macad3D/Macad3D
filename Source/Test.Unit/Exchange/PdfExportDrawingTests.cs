@@ -229,7 +229,7 @@ namespace Macad.Test.Unit.Exchange
             };
 
             Drawing drawing = new();
-            drawing.AddChild(dim);
+            drawing.Add(dim);
 
             var pdf = PdfDrawingExporter.Export(drawing);
             Assert.IsNotNull(pdf);
@@ -255,7 +255,7 @@ namespace Macad.Test.Unit.Exchange
 
             var pipeDrawing = PipeDrawing.Create(pipe.Body);
             Drawing drawing = new();
-            drawing.AddChild(pipeDrawing);
+            drawing.Add(pipeDrawing);
 
             var dxf = PdfDrawingExporter.Export(drawing);
             AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "MultipleDimensions.pdf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
@@ -267,7 +267,7 @@ namespace Macad.Test.Unit.Exchange
         public void TextWithUmlauts()
         {
             Drawing drawing = new();
-            drawing.AddChild(new TextElement("ö 23°", DrawingRenderHelper.GetDefaultFontStyle()));
+            drawing.Add(new TextElement("ö 23°", DrawingRenderHelper.GetDefaultFontStyle()));
 
             var pdf = PdfDrawingExporter.Export(drawing);
             Assert.IsNotNull(pdf);
@@ -282,7 +282,7 @@ namespace Macad.Test.Unit.Exchange
         public void TextWithUnicode()
         {
             Drawing drawing = new();
-            drawing.AddChild(new TextElement("κόσμε", DrawingRenderHelper.GetDefaultFontStyle()));
+            drawing.Add(new TextElement("κόσμε", DrawingRenderHelper.GetDefaultFontStyle()));
 
             var pdf = PdfDrawingExporter.Export(drawing);
             Assert.IsNotNull(pdf);
@@ -297,7 +297,7 @@ namespace Macad.Test.Unit.Exchange
         public void FontIsNonStandard()
         {
             Drawing drawing = new();
-            drawing.AddChild(new TextElement("Hello World!", new FontStyle("Comic Sans MS", 3.0f)));
+            drawing.Add(new TextElement("Hello World!", new FontStyle("Comic Sans MS", 3.0f)));
 
             var pdf = PdfDrawingExporter.Export(drawing);
             Assert.IsNotNull(pdf);
@@ -319,7 +319,7 @@ namespace Macad.Test.Unit.Exchange
             hlrBrepDrawing.UseTriangulation = useTriangulation;
 
             var drawing = new Drawing();
-            drawing.AddChild(hlrBrepDrawing);
+            drawing.Add(hlrBrepDrawing);
 
             return PdfDrawingExporter.Export(drawing);
         }

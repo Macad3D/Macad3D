@@ -109,18 +109,18 @@ namespace Macad.Test.UI.Framework
 
         //--------------------------------------------------------------------------------------------------
 
-        public static string DoSaveModel(WindowAdaptor mainWindow, string filename = "Saved_Model")
+        public static string DoSaveModel(WindowAdaptor mainWindow, string filename = "Saved_Model.Model", bool checkFile = true)
         {
             Directory.CreateDirectory(GetTempPath());
 
-            var path = Path.Combine(GetTempPath(), $"{filename}.Model");
+            var path = Path.Combine(GetTempPath(), filename);
             File.Delete(path);
 
             var fileDlg = new FileDialogAdaptor(mainWindow);
             Assert.That(fileDlg, Is.Not.Null);
             Assert.That(fileDlg.Title, Is.EqualTo("Saving Model..."));
 
-            fileDlg.Save(path);
+            fileDlg.Save(path, checkFile: checkFile);
             return path;
         }
 

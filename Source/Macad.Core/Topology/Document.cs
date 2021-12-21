@@ -118,7 +118,7 @@ namespace Macad.Core.Topology
             var typedInstance = instance as T;
             Debug.Assert(typedInstance != null);
 
-            AddChild(typedInstance);
+            Add(typedInstance);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -128,7 +128,7 @@ namespace Macad.Core.Topology
             var typedInstance = instance as T;
             Debug.Assert(typedInstance != null);
 
-            RemoveChild(typedInstance);
+            Remove(typedInstance);
             typedInstance.Remove();
         }
 
@@ -145,18 +145,18 @@ namespace Macad.Core.Topology
 
         #region Childs
 
-        public override void AddChild(T entity, bool update = true)
+        public override void Add(T entity, bool update = true)
         {
             CoreContext.Current?.UndoHandler?.AddTopologyChange(UndoHandler.TopologyAction.Added, this, entity);
-            base.AddChild(entity, update);
+            base.Add(entity, update);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void RemoveChild(T entity, bool update = true)
+        public override void Remove(T entity, bool update = true)
         {
             CoreContext.Current?.UndoHandler?.AddTopologyChange(UndoHandler.TopologyAction.Removed, this, entity);
-            base.RemoveChild(entity, update);
+            base.Remove(entity, update);
         }
 
         //--------------------------------------------------------------------------------------------------

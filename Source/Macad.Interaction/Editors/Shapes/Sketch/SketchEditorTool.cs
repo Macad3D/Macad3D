@@ -349,7 +349,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void EnrichContextMenu(CustomMenuItems itemList)
+        public override void EnrichContextMenu(ContextMenuItems itemList)
         {
             void __AddIfExecutable(IActionCommand command, object param)
             {
@@ -623,7 +623,7 @@ namespace Macad.Interaction.Editors.Shapes
                 StopTool();
                 Elements.DeselectAll();
                 Elements.Select(null, segmentMap.Values);
-                _UpdateSelections();
+                _OnSelectionChanged(null);
             }
         }
 

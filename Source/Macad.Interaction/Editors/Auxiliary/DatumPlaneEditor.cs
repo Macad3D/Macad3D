@@ -26,7 +26,7 @@ namespace Macad.Interaction.Editors.Auxiliary
         
         //--------------------------------------------------------------------------------------------------
 
-        public override void EnrichContextMenu(CustomMenuItems itemList)
+        public override void EnrichContextMenu(ContextMenuItems itemList)
         {
             itemList.AddCommand(AuxiliaryCommands.SetWorkingPlaneToDatumPlane);
         }

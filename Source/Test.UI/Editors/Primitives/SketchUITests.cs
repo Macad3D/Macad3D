@@ -20,11 +20,11 @@ namespace Macad.Test.UI.Editors.Primitives
         [Test]
         public void CreateSketch()
         {
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
 
             // Button not lit
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateSketch"));
 
             // Body and shape created
@@ -53,7 +53,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             TestDataGenerator.GenerateBox(MainWindow);
 
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.OpenSplitButtonMenu("CreateSketch");
             var contextMenu = new ContextMenuAdaptor(MainWindow);
             contextMenu.ClickMenuItem("CreateSketchInteractive");
@@ -68,7 +68,7 @@ namespace Macad.Test.UI.Editors.Primitives
             MainWindow.Viewport.ClickRelative(0.5, 0.5);
 
             // Button unlit
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateSketch"));
 
             // Body and shape created
@@ -95,10 +95,10 @@ namespace Macad.Test.UI.Editors.Primitives
         [Test]
         public void CreateLineSegment()
         {
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
 
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("CreateLineSegment");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateLineSegment"));
 
@@ -112,10 +112,10 @@ namespace Macad.Test.UI.Editors.Primitives
         [Test]
         public void CreateHorizontalVerticalDistanceConstraints()
         {
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
 
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("CreateLineSegment");
             MainWindow.Viewport.ClickRelative(0.4, 0.5);
             MainWindow.Viewport.ClickRelative(0.6, 0.5);
@@ -162,10 +162,10 @@ namespace Macad.Test.UI.Editors.Primitives
         [Test]
         public void CreateHorizontalVerticalConstraints()
         {
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
 
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("CreateLineSegment");
             MainWindow.Viewport.ClickRelative(0.4, 0.5);
             MainWindow.Viewport.ClickRelative(0.6, 0.5);
@@ -198,10 +198,10 @@ namespace Macad.Test.UI.Editors.Primitives
         public void RecenterGrid()
         {
             // Create Sketch
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
 
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("CreateLineSegment");
             MainWindow.Viewport.ClickRelative(0.4, 0.5);
             MainWindow.Viewport.ClickRelative(0.6, 0.5);
@@ -241,10 +241,10 @@ namespace Macad.Test.UI.Editors.Primitives
         public void SplitSegment()
         {
             // Create Sketch
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
 
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("CreateLineSegment");
             MainWindow.Viewport.ClickRelative(0.4, 0.5);
             MainWindow.Viewport.ClickRelative(0.6, 0.5);
@@ -274,9 +274,9 @@ namespace Macad.Test.UI.Editors.Primitives
         [Test]
         public void ConvertSegment()
         {
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("ConvertSegment");
             var menu = new ContextMenuAdaptor(MainWindow);
@@ -303,9 +303,9 @@ namespace Macad.Test.UI.Editors.Primitives
         [Test]
         public void CreateCircleWithValueHudElement()
         {
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateCircleSegment");
             MainWindow.Viewport.ClickRelative(0.4, 0.5);
@@ -323,9 +323,9 @@ namespace Macad.Test.UI.Editors.Primitives
         [Test]
         public void CreateLineWithValueHudElement()
         {
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateLineSegment");
             MainWindow.Viewport.ClickRelative(0.4, 0.5);
@@ -343,9 +343,9 @@ namespace Macad.Test.UI.Editors.Primitives
         [Test]
         public void CreateArcCenterWithValueHudElement()
         {
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateArcCenterSegment");
             MainWindow.Viewport.ClickRelative(0.4, 0.5);
@@ -366,9 +366,9 @@ namespace Macad.Test.UI.Editors.Primitives
         [Test]
         public void CreateArcRimWithValueHudElement()
         {
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateArcRimSegment");
             MainWindow.Viewport.ClickRelative(0.4, 0.5);
@@ -387,9 +387,9 @@ namespace Macad.Test.UI.Editors.Primitives
         [Test]
         public void CreateEllipseWithValueHudElement()
         {
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateEllipseCenterSegment");
             MainWindow.Viewport.ClickRelative(0.4, 0.5);
@@ -408,9 +408,9 @@ namespace Macad.Test.UI.Editors.Primitives
         [Test]
         public void CreateBezier2WithValueHudElement()
         {
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateBezier2Segment");
             MainWindow.Viewport.ClickRelative(0.4, 0.5);
@@ -429,9 +429,9 @@ namespace Macad.Test.UI.Editors.Primitives
         [Test]
         public void CreateBezier3WithValueHudElement()
         {
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateBezier3Segment");
             MainWindow.Viewport.ClickRelative(0.4, 0.5);
@@ -451,9 +451,9 @@ namespace Macad.Test.UI.Editors.Primitives
         [Test]
         public void CreateRectangleWithValueHudElement()
         {
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateRectangleSegment");
             MainWindow.Viewport.ClickRelative(0.4, 0.5);

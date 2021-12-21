@@ -162,12 +162,12 @@ namespace Macad.Test.Unit.Infrastructure
         {
             var model = CoreContext.Current.Document;
             var body = TestGeomGenerator.CreateImprint().Body;
-            model.AddChild(body);
-            Assume.That(CoreContext.Current.Document.ChildCount, Is.EqualTo(1));
+            model.Add(body);
+            Assume.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(1));
             Assume.That(CoreContext.Current.Document.Instances.Count, Is.EqualTo(6));
 
             model.SafeDelete(new[] {body});
-            Assert.That(CoreContext.Current.Document.ChildCount, Is.EqualTo(0));
+            Assert.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(0));
             Assume.That(CoreContext.Current.Document.Instances.Count, Is.EqualTo(2));
         }
 
@@ -178,17 +178,17 @@ namespace Macad.Test.Unit.Infrastructure
         {
             var model = CoreContext.Current.Document;
             var body = TestGeomGenerator.CreateImprint().Body;
-            model.AddChild(body);
+            model.Add(body);
             model.UndoHandler.Commit();
-            Assume.That(CoreContext.Current.Document.ChildCount, Is.EqualTo(1));
+            Assume.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(1));
 
             model.SafeDelete(new[] {body});
             model.UndoHandler.Commit();
-            Assert.That(CoreContext.Current.Document.ChildCount, Is.EqualTo(0));
+            Assert.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(0));
 
             Assert.That(CoreContext.Current.UndoHandler.UndoStack.Count, Is.EqualTo(2));
             CoreContext.Current.UndoHandler.DoUndo(1);
-            Assert.That(CoreContext.Current.Document.ChildCount, Is.EqualTo(1));
+            Assert.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(1));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -204,16 +204,16 @@ namespace Macad.Test.Unit.Infrastructure
                 DimensionZ = 10,
             });
             boxBody.Position = new Pnt(-10, -10, 0);
-            model.AddChild(boxBody);
+            model.Add(boxBody);
 
             var cylBody = Body.Create(new Sphere()
             {
                 Radius = 15
             });
             cylBody.Position = new Pnt(-10, -10, 0);
-            model.AddChild(cylBody);
+            model.Add(cylBody);
 
-            Assume.That(CoreContext.Current.Document.ChildCount, Is.EqualTo(2));
+            Assume.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(2));
 
             var boolOp = BooleanCut.Create(boxBody, new BodyShapeOperand(cylBody));
             model.UndoHandler.Commit();
@@ -222,7 +222,7 @@ namespace Macad.Test.Unit.Infrastructure
 
             model.SafeDelete(new[] {cylBody});
             model.UndoHandler.Commit();
-            Assert.AreEqual(1, CoreContext.Current.Document.ChildCount);
+            Assert.AreEqual(1, CoreContext.Current.Document.EntityCount);
             Assert.IsFalse(boxBody.Shape.IsValid);
             Assert.That((boxBody.Shape as ModifierBase)?.Operands[1] is Solid);
             Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
@@ -230,7 +230,7 @@ namespace Macad.Test.Unit.Infrastructure
 
             // Check Undo
             CoreContext.Current.UndoHandler.DoUndo(1);
-            Assert.AreEqual(2, CoreContext.Current.Document.ChildCount);
+            Assert.AreEqual(2, CoreContext.Current.Document.EntityCount);
             Assert.That((boxBody.Shape as ModifierBase)?.Operands[1] is BodyShapeOperand);
             Assert.IsTrue(ModelCompare.CompareShape(boxBody.Shape, Path.Combine(_BasePath, "DeleteReferencedBody")));
         }
@@ -242,21 +242,21 @@ namespace Macad.Test.Unit.Infrastructure
         {
             var model = CoreContext.Current.Document;
             var body1 = TestGeomGenerator.CreateBody(Box.Create(5, 5, 5), new Pnt());
-            model.AddChild(body1);
+            model.Add(body1);
             var body2 = TestGeomGenerator.CreateBody(Box.Create(5, 5, 5), new Pnt(2, 2, 0));
-            model.AddChild(body2);
+            model.Add(body2);
             BooleanFuse.Create(body2, new BodyShapeOperand(body1));
             model.UndoHandler.Commit();
-            Assume.That(model.ChildCount, Is.EqualTo(2));
+            Assume.That(model.EntityCount, Is.EqualTo(2));
 
             model.SafeDelete(new []{body2});
             model.UndoHandler.Commit();
-            Assume.That(model.ChildCount, Is.EqualTo(1));
+            Assume.That(model.EntityCount, Is.EqualTo(1));
 
             // Undo should link to the SAME body as before
             CoreContext.Current.UndoHandler.DoUndo(1);
-            Assert.AreEqual(2, model.ChildCount);
-            var newBody2 = model.GetChild(1) as Body;
+            Assert.AreEqual(2, model.EntityCount);
+            var newBody2 = model.Get(1) as Body;
             Assert.AreSame(body1, ((newBody2.RootShape as ModifierBase)?.Operands[1] as BodyShapeOperand)?.Body);
         }
 

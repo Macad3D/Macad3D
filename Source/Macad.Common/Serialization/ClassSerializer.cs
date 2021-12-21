@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace Macad.Common.Serialization
 {
@@ -287,9 +288,33 @@ namespace Macad.Common.Serialization
         //--------------------------------------------------------------------------------------------------
 
         #region Static Helper Functions
-        
-        public static (Type type, Guid guid, object instance) AnticipateType(Reader reader)
+
+        public class AnticipatedType
         {
+            public readonly Type Type;
+            public readonly Guid Guid;
+            public readonly object Instance;
+
+            public AnticipatedType(Type type, Guid guid, object instance)
+            {
+                Type = type;
+                Guid = guid;
+                Instance = instance;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        public static AnticipatedType AnticipateType(Reader reader, SerializationContext context)
+        {
+            // Get cache
+            Dictionary<Guid, AnticipatedType> cache = null;
+            if (context != null && !context.TryGetInstance(out cache))
+            {
+                cache = new();
+                context.SetInstance(cache);
+            }
+
             Type type = null;
             Guid guid = Guid.Empty;
             object instance = null;
@@ -306,6 +331,11 @@ namespace Macad.Common.Serialization
                     {
                         instance = foundObj;
                         type = foundObj.GetType();
+                    }
+                    else if(cache?.TryGetValue(guid, out var cachedValue) ?? false)
+                    {
+                        reader.PopState();
+                        return cachedValue;
                     }
                 }
             }
@@ -336,7 +366,19 @@ namespace Macad.Common.Serialization
             }
 
             reader.PopState();
-            return (type, guid, instance);
+
+            AnticipatedType anticipatedType = new(type, guid, instance);
+            if (guid != Guid.Empty && cache != null)
+            {
+                // Save to cache
+                if (cache.TryGetValue(guid, out var cachedValue))
+                {
+                    return cachedValue;
+                }
+
+                cache.Add(guid, anticipatedType);
+            }
+            return anticipatedType;
         }
 
         //--------------------------------------------------------------------------------------------------

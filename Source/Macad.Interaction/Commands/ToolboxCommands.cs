@@ -198,7 +198,7 @@ namespace Macad.Interaction
                 {
                     Name = "Pipe"
                 };
-                drawing.AddChild(PipeDrawing.Create(body));
+                drawing.Add(PipeDrawing.Create(body));
 
                 if (!exporter.DoExport(fileName, drawing))
                 {

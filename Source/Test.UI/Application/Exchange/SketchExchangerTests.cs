@@ -23,7 +23,7 @@ namespace Macad.Test.UI.Application.Exchange
             TestDataGenerator.GenerateSketch(MainWindow);
 
             // Do Export
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("SketchExchange");
             var menu = new ContextMenuAdaptor(MainWindow);
             menu.ClickMenuItem("ExportAllToFile");
@@ -45,7 +45,7 @@ namespace Macad.Test.UI.Application.Exchange
             TestDataGenerator.GenerateSketch(MainWindow);
 
             // Do Export
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("SketchExchange");
             var menu = new ContextMenuAdaptor(MainWindow);
             menu.ClickMenuItem("ExportAllToFile");
@@ -72,7 +72,7 @@ namespace Macad.Test.UI.Application.Exchange
             TestDataGenerator.GenerateSketch(MainWindow);
 
             // Do Export
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("SketchExchange");
             var menu = new ContextMenuAdaptor(MainWindow);
             menu.ClickMenuItem("ExportAllToFile");
@@ -99,7 +99,7 @@ namespace Macad.Test.UI.Application.Exchange
             TestDataGenerator.GenerateSketch(MainWindow);
 
             // Do Export
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("SketchExchange");
             var menu = new ContextMenuAdaptor(MainWindow);
             menu.ClickMenuItem("ExportAllToFile");
@@ -124,7 +124,7 @@ namespace Macad.Test.UI.Application.Exchange
         {
             TestDataGenerator.GenerateSketch(MainWindow);
 
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("SketchExchange");
             var menu = new ContextMenuAdaptor(MainWindow);
             menu.ClickMenuItem("ImportFromFile");
@@ -145,7 +145,7 @@ namespace Macad.Test.UI.Application.Exchange
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportSketch.svg"));
             TestDataGenerator.GenerateSketch(MainWindow);
 
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("SketchExchange");
             var menu = new ContextMenuAdaptor(MainWindow);
             menu.ClickMenuItem("ImportFromFile");
@@ -171,7 +171,7 @@ namespace Macad.Test.UI.Application.Exchange
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportSketch.svg"));
             TestDataGenerator.GenerateSketch(MainWindow);
 
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("SketchExchange");
             var menu = new ContextMenuAdaptor(MainWindow);
             menu.ClickMenuItem("ImportFromFile");
@@ -197,7 +197,7 @@ namespace Macad.Test.UI.Application.Exchange
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportSketch.svg"));
             TestDataGenerator.GenerateSketch(MainWindow);
 
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("SketchExchange");
             var menu = new ContextMenuAdaptor(MainWindow);
             menu.ClickMenuItem("ReplaceFromFile");
@@ -223,7 +223,7 @@ namespace Macad.Test.UI.Application.Exchange
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportSketch.dxf"));
             TestDataGenerator.GenerateSketch(MainWindow);
 
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("SketchExchange");
             var menu = new ContextMenuAdaptor(MainWindow);
             menu.ClickMenuItem("ImportFromFile");
@@ -260,7 +260,7 @@ namespace Macad.Test.UI.Application.Exchange
             dlg.ClickButton("Ok");
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
-            Assert.That(Pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+            Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -282,7 +282,7 @@ namespace Macad.Test.UI.Application.Exchange
             dlg.ClickButton("Ok");
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
-            Assert.That(Pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+            Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
         }
     }
 }

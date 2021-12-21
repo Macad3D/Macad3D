@@ -276,12 +276,13 @@ namespace Macad.Test.Unit.Serialization
         [Test]
         public void AnticipateTypeDefinition()
         {
+            var ctx = new SerializationContext();
             var r = new Reader("!Test.PropertyClassGuid{MyGuid:fb82b37ccc56415ebaea773f4bbe7203}");
 
-            var anticipated = ClassSerializer.AnticipateType(r);
-            Assert.AreEqual(new Guid("fb82b37ccc56415ebaea773f4bbe7203"), anticipated.guid);
-            Assert.AreEqual(typeof(PropertyClassGuid), anticipated.type);
-            Assert.IsNull(anticipated.instance);
+            var anticipated = ClassSerializer.AnticipateType(r, ctx);
+            Assert.AreEqual(new Guid("fb82b37ccc56415ebaea773f4bbe7203"), anticipated.Guid);
+            Assert.AreEqual(typeof(PropertyClassGuid), anticipated.Type);
+            Assert.IsNull(anticipated.Instance);
 
             Assert.IsNotNull(r.ReadType<PropertyClassGuid>(null, null));
         }
@@ -291,19 +292,52 @@ namespace Macad.Test.Unit.Serialization
         [Test]
         public void AnticipateTypeReference()
         {
+            var ctx = new SerializationContext();
             var r = new Reader("!Test.PropertyClassGuid{MyGuid:fb82b37ccc56415ebaea773f4bbe7203}?fb82b37ccc56415ebaea773f4bbe7203");
             var obj = r.ReadType<PropertyClassGuid>(null, null);
             Assert.IsNotNull(obj);
 
-            var anticipated = ClassSerializer.AnticipateType(r);
-            Assert.AreEqual(new Guid("fb82b37ccc56415ebaea773f4bbe7203"), anticipated.guid);
-            Assert.AreEqual(typeof(PropertyClassGuid), anticipated.type);
-            Assert.AreSame(obj, anticipated.instance);
+            var anticipated = ClassSerializer.AnticipateType(r, ctx);
+            Assert.AreEqual(new Guid("fb82b37ccc56415ebaea773f4bbe7203"), anticipated.Guid);
+            Assert.AreEqual(typeof(PropertyClassGuid), anticipated.Type);
+            Assert.AreSame(obj, anticipated.Instance);
 
             Assert.AreSame(obj, r.ReadType<PropertyClassGuid>(null, null));
         }
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void AnticipateSkippedTypeReference()
+        {
+            var ctx = new SerializationContext();
+            var r = new Reader("[!Test.PropertyClassGuid{MyGuid:fb82b37ccc56415ebaea773f4bbe7203},?fb82b37ccc56415ebaea773f4bbe7203]");
+            Assume.That(r.BeginList());
+            Assume.That(r.BeginListValue());
+            var anticipated = ClassSerializer.AnticipateType(r, ctx);
+            Assert.AreEqual(new Guid("fb82b37ccc56415ebaea773f4bbe7203"), anticipated.Guid);
+            Assert.AreEqual(typeof(PropertyClassGuid), anticipated.Type);
+            r.SkipListOrMapValue();
+
+            Assume.That(r.BeginListValue());
+            anticipated = ClassSerializer.AnticipateType(r, ctx);
+            Assert.AreEqual(new Guid("fb82b37ccc56415ebaea773f4bbe7203"), anticipated.Guid);
+            Assert.AreEqual(typeof(PropertyClassGuid), anticipated.Type);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void AnticipateTypeNoContext()
+        {
+            var r = new Reader("!Test.PropertyClassGuid{MyGuid:fb82b37ccc56415ebaea773f4bbe7203}");
+
+            var anticipated = ClassSerializer.AnticipateType(r, null);
+            Assert.AreEqual(new Guid("fb82b37ccc56415ebaea773f4bbe7203"), anticipated.Guid);
+            Assert.AreEqual(typeof(PropertyClassGuid), anticipated.Type);
+            Assert.IsNull(anticipated.Instance);
+
+            Assert.IsNotNull(r.ReadType<PropertyClassGuid>(null, null));
+        }
     }
 }

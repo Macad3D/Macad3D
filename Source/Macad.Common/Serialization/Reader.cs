@@ -19,7 +19,7 @@ namespace Macad.Common.Serialization
     {
         #region Members
 
-        struct State
+        public struct State
         {
             internal int Position;
             internal bool IsFirstElement;
@@ -34,7 +34,7 @@ namespace Macad.Common.Serialization
         readonly string _Source;
         readonly int _Length;
         readonly ReadOptions _Options;
-        State _State = new State();
+        State _State;
 
         static readonly char[] _ValueStringLimiter = {' ', '\r', '\n', '\0', ':', ',', '{', '}', '[', ']'};
         static readonly char[] _WhiteSpaceChars = {' ', '\r', '\n', '\t'};
@@ -179,7 +179,21 @@ namespace Macad.Common.Serialization
         }
 
         //--------------------------------------------------------------------------------------------------
-        
+
+        public State GetState()
+        {
+            return _State;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void ResetState(State state = default)
+        {
+            _State = state;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
         #region Map

@@ -177,7 +177,7 @@ namespace Macad.Test.UI.Application.Exchange
             fileDlg.Cancel();
             Assert.IsFalse(FileDialogAdaptor.IsDialogOpen(MainWindow));
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
-            Assert.That(Pipe.GetValue<int>("$Context.Document.ChildCount") == 0);
+            Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") == 0);
         }
                                                 
         //--------------------------------------------------------------------------------------------------
@@ -198,7 +198,7 @@ namespace Macad.Test.UI.Application.Exchange
             Assert.IsNotNull(dlg);
             dlg.ClickButton("Cancel");
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
-            Assert.That(Pipe.GetValue<int>("$Context.Document.ChildCount") == 0);
+            Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") == 0);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -216,7 +216,7 @@ namespace Macad.Test.UI.Application.Exchange
             Assert.IsFalse(FileDialogAdaptor.IsDialogOpen(MainWindow));
 
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
-            Assert.That(Pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+            Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
         }
                                 
         //--------------------------------------------------------------------------------------------------
@@ -237,7 +237,7 @@ namespace Macad.Test.UI.Application.Exchange
             Assert.IsNotNull(dlg);
             dlg.ClickButton("Ok");
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
-            Assert.That(Pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+            Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
         }
                                 
         //--------------------------------------------------------------------------------------------------
@@ -258,7 +258,7 @@ namespace Macad.Test.UI.Application.Exchange
             Assert.IsNotNull(dlg);
             dlg.ClickButton("Ok");
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
-            Assert.That(Pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+            Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -279,7 +279,7 @@ namespace Macad.Test.UI.Application.Exchange
             Assert.IsNotNull(dlg);
             dlg.ClickButton("Ok");
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
-            Assert.That(Pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+            Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -297,8 +297,64 @@ namespace Macad.Test.UI.Application.Exchange
             Assert.IsFalse(FileDialogAdaptor.IsDialogOpen(MainWindow));
 
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
-            Assert.That(Pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+            Assert.That(Pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
+        }
+                
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void ExportWithDifferentExtension()
+        {
+            var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "testexport.stl");
+            TestDataGenerator.GenerateBox(MainWindow);
+
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ExportSelectedBrep");
+
+            var fileDlg = new FileDialogAdaptor(MainWindow);
+            fileDlg.SelectFileType(".obj");
+            fileDlg.Save(path, checkFile:false);
+            Assert.IsFalse(FileDialogAdaptor.IsDialogOpen(MainWindow));
+
+            var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
+            Assert.IsNotNull(dlg);
+            dlg.ClickButton("Ok");
+            Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
+
+            FileDialogAdaptor.CheckFileExists(path);
+
+            // Validate this is a STL file
+            using var reader = File.OpenText(path);
+            Assert.That(reader.ReadLine()?.StartsWith("solid ") ?? false);
         }
 
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void ExportWithInvalidExtension()
+        {
+            var typoPath = Path.Combine(FileDialogAdaptor.GetTempPath(), "testexport.invalid");
+            var path = typoPath + ".stl";
+            File.Delete(path);
+
+            TestDataGenerator.GenerateBox(MainWindow);
+
+            MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ExportSelectedBrep");
+
+            var fileDlg = new FileDialogAdaptor(MainWindow);
+            fileDlg.SelectFileType(".stl");
+            fileDlg.Save(typoPath, checkFile:false);
+            Assert.IsFalse(FileDialogAdaptor.IsDialogOpen(MainWindow));
+
+            var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
+            Assert.IsNotNull(dlg);
+            dlg.ClickButton("Ok");
+            Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
+
+            FileDialogAdaptor.CheckFileExists(path);
+
+            // Validate this is a STL file
+            using var reader = File.OpenText(path);
+            Assert.That(reader.ReadLine()?.StartsWith("solid ") ?? false);
+        }
     }
 }

@@ -183,7 +183,7 @@ namespace Macad.Core.Topology
 
             foreach (var entity in interactiveEntities)
             {
-                RemoveChild(entity);
+                Remove(entity);
                 entity.Remove();
             }
         }

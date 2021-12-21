@@ -4,6 +4,8 @@
 #include <STEPControl_Writer.hxx>
 #include <STEPControl_Reader.hxx>
 
+#using "Macad.Occt.dll" as_friend
+
 using namespace System;
 using namespace System::Runtime::InteropServices;
 

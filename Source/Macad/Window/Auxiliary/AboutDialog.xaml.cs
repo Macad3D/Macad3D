@@ -66,7 +66,7 @@ namespace Macad.Window
 
         void _Website_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(@"https://macad3d.net"));
+            Process.Start(new ProcessStartInfo(@"https://macad3d.net") { UseShellExecute = true });
         }
 
         //--------------------------------------------------------------------------------------------------

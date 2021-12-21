@@ -7,4 +7,4 @@ var box = new Box()
 
 var body = Body.Create(box);
 
-Document.AddChild(body);
+Document.Add(body);

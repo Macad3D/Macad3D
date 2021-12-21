@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
@@ -31,6 +33,12 @@ namespace Macad.Window
             {
                 Messages.Info("Welcome to Macad|3D.");
 
+                // Check for update
+                if (!AppContext.IsInSandbox && VersionCheck.IsAutoCheckEnabled)
+                {
+                    VersionCheck.BeginCheckForUpdate();
+                }
+                
                 var cmdArgs = AppContext.CommandLine;
 
                 // Check for command line option to load project
@@ -48,26 +56,7 @@ namespace Macad.Window
                     DocumentCommands.CreateNewModel.Execute();
                 }
 
-                // Check for command line option to run script
-                if (cmdArgs.HasScriptToRun)
-                {
-                    ToolboxCommands.RunScriptCommand.Execute(cmdArgs.ScriptToRun);
-                }
-            });
-
-        //--------------------------------------------------------------------------------------------------
-
-        public static RelayCommand FinishWindowInit { get; } = new(
-            () =>
-            {
-                // Check for update
-                if (!AppContext.IsInSandbox && VersionCheck.IsAutoCheckEnabled)
-                {
-                    VersionCheck.BeginCheckForUpdate();
-                }
-                
                 // Load other files than models
-                var cmdArgs = AppContext.CommandLine;
                 if (cmdArgs.HasPathToOpen 
                     && DocumentCommands.OpenFile.CanExecute(cmdArgs.PathToOpen)
                     && !PathUtils.GetExtensionWithoutPoint(cmdArgs.PathToOpen).Equals(Model.FileExtension))
@@ -75,6 +64,11 @@ namespace Macad.Window
                     Dispatcher.CurrentDispatcher.InvokeAsync(() => DocumentCommands.OpenFile.Execute(cmdArgs.PathToOpen), DispatcherPriority.Loaded);
                 }
 
+                // Check for command line option to run script
+                if (cmdArgs.HasScriptToRun)
+                {
+                    ToolboxCommands.RunScriptCommand.Execute(cmdArgs.ScriptToRun);
+                }
             });
 
         //--------------------------------------------------------------------------------------------------
@@ -159,15 +153,9 @@ namespace Macad.Window
         public static ActionCommand<string> ShowHelpTopic { get; } = new(
             (topicId) =>
             {
-                var windowHandle = new HandleRef(null, IntPtr.Zero);
-                if (string.IsNullOrEmpty(topicId))
-                {
-                    Win32Api.HtmlHelp(windowHandle, "Macad.UserGuide.chm", Win32Api.HtmlHelpCommand.HH_DISPLAY_TOC, "");
-                }
-                else
-                {
-                    Win32Api.HtmlHelp(windowHandle, "Macad.UserGuide.chm", Win32Api.HtmlHelpCommand.HH_DISPLAY_TOPIC, $"html/"+topicId+".htm");
-                }
+                var version = Assembly.GetExecutingAssembly().GetName().Version;
+                var url = $"https://macad3d.net/userguide/go/?version={version.Major}.{version.Minor}&guid={topicId}";
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
             })
         {
             Header = (topicId) => "Show User Guide",

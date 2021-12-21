@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
 
-namespace Macad.Test.UI.Application.File
+namespace Macad.Test.UI.Application.Window
 {
     [TestFixture]
-    public class CreateNewTests : UITestBase
+    public class ModelFileTests : UITestBase
     {
         [SetUp]
         public void SetUp()
@@ -111,12 +112,26 @@ namespace Macad.Test.UI.Application.File
 
             // Save model as
             MainWindow.Ribbon.ClickFileMenuItem("SaveModelAs");
-            var pathname = FileDialogAdaptor.DoSaveModel(MainWindow, "SavedAsModel");
+            var pathname = FileDialogAdaptor.DoSaveModel(MainWindow, "SavedAsModel.model");
             Assert.That(System.IO.File.Exists(pathname));
             Assert.That(MainWindow.Title.StartsWith("SavedAsModel "));
         }
-
+                        
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void ModelSaveAsWithDifferentExtension()
+        {
+            var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "testexport.stl");
+            TestDataGenerator.GenerateBox(MainWindow);
+
+            MainWindow.Ribbon.ClickFileMenuItem("SaveModelAs");
+            var pathname = FileDialogAdaptor.DoSaveModel(MainWindow, Path.GetFileName(path), false);
+            FileDialogAdaptor.CheckFileExists(path + ".model");
+
+            // Validate this is a model file
+            using var reader = File.OpenText(path + ".model");
+            Assert.That(reader.ReadLine()?.StartsWith("PK") ?? false);
+        }
     }
 }

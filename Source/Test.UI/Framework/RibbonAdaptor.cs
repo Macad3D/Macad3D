@@ -27,16 +27,16 @@ namespace Macad.Test.UI.Framework
 
         //--------------------------------------------------------------------------------------------------
 
-        public void SelectGroup(string id, bool jump = true)
+        public void SelectTab(string id, bool jump = true)
         {
-            var groupControl = _RibbonControl.FindFirstDescendant(cf => cf.ByAutomationId(id));
-            Assume.That(groupControl, Is.Not.Null, $"Ribbon group control {id} not found.");
+            var tabControl = _RibbonControl.FindFirstDescendant(cf => cf.ByAutomationId(id));
+            Assume.That(tabControl, Is.Not.Null, $"Ribbon tab control {id} not found.");
             //groupControl.Click(!jump);
-            groupControl.Patterns.SelectionItem.Pattern.Select();
+            tabControl.Patterns.SelectionItem.Pattern.Select();
             Wait.UntilInputIsProcessed();
             Wait.UntilResponsive(_RibbonControl);
 
-            _ButtonBarControl = groupControl;
+            _ButtonBarControl = tabControl;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -121,10 +121,10 @@ namespace Macad.Test.UI.Framework
 
         public void ClickFileMenuItem(string id1, string id2=null, bool jump = true)
         {
-            var groupControl = _RibbonControl.FindFirstDescendant(cf => cf.ByAutomationId("File"));
-            Assume.That(groupControl, Is.Not.Null, $"Ribbon group control File not found.");
-            Assume.That(groupControl.Patterns.ExpandCollapse.IsSupported, $"Ribbon group control File does not support ExpandCollapsePattern.");
-            groupControl.Patterns.ExpandCollapse.Pattern.Expand();
+            var tabControl = _RibbonControl.FindFirstDescendant(cf => cf.ByAutomationId("File"));
+            Assume.That(tabControl, Is.Not.Null, $"Ribbon tab control File not found.");
+            Assume.That(tabControl.Patterns.ExpandCollapse.IsSupported, $"Ribbon tab control File does not support ExpandCollapsePattern.");
+            tabControl.Patterns.ExpandCollapse.Pattern.Expand();
             Wait.UntilInputIsProcessed();
             Wait.UntilResponsive(_RibbonControl);
 

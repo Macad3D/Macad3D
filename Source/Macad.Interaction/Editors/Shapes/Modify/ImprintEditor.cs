@@ -36,7 +36,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void EnrichContextMenu(CustomMenuItems itemList)
+        public override void EnrichContextMenu(ContextMenuItems itemList)
         {
             if (Entity.Sketch != null)
                 itemList.AddCommand(SketchCommands.StartSketchEditor, Entity.Sketch);

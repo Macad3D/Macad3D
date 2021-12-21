@@ -2,6 +2,8 @@
 #include "ManagedPCH.h"
 #include "OpenGl_GraphicDriver.hxx"
 
+#using "Macad.Occt.dll" as_friend
+
 namespace Macad
 {
 	namespace Occt

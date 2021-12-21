@@ -11,7 +11,7 @@ using System.Linq;
 
 if (Args.Count() < 1)
 {
-    Printer.Line("Usage: build <all, debug, release, publish, doc, webdoc> [/clean] [/log]");
+    Printer.Line("Usage: build <all, debug, release, publish, webdoc> [/clean] [/log]");
     return -1;
 }
 
@@ -37,10 +37,6 @@ if (buildDebug)
 
 if (buildRelease)
     if (!_BuildConfiguration("Release"))
-        return -1;
-
-if (config == "all" || config == "doc")
-    if (!_BuildDocumentation("Doc"))
         return -1;
 
 if (config == "all" || config == "publish")
@@ -130,25 +126,17 @@ bool _BuildDocumentation(string configuration)
         return false;
 
     // Ensure SHFB
-    var shfbPath = Packages.FindPackageFile($"EWSoftware.SHFB.20*", "Tools\\BuildAssembler.exe");
+    var shfbPath = Packages.FindPackageFile($"EWSoftware.SHFB.20*", "tools\\SandcastleHelpFileBuilder.targets");
 	if(string.IsNullOrEmpty(shfbPath))
 		return false;
-    Environment.SetEnvironmentVariable("SHFBROOT", Path.GetDirectoryName(shfbPath));
+    shfbPath = Path.GetDirectoryName(shfbPath);
 
     // Ensure .Net Reflection Package
     var shfbNetReflectionPath = Packages.FindPackageFile($"EWSoftware.SHFB.NET.*", "build\\EWSoftware.SHFB.NET.props");
 	if(string.IsNullOrEmpty(shfbNetReflectionPath))
 		return false;
-    Environment.SetEnvironmentVariable("SHFBNETFRAMEWORK", Path.GetDirectoryName(shfbNetReflectionPath));
+    shfbNetReflectionPath = Path.GetDirectoryName(shfbNetReflectionPath);
 
-    // Ensure HtmlHelp
-    var setupCompilerPath = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\HTML Help Workshop", "InstallDir", "") as string;
-    if(string.IsNullOrEmpty(setupCompilerPath) || !File.Exists(Path.Combine(setupCompilerPath, "hhc.exe")))
-    {
-        Printer.Error("Cannot find HTML Help Workshop. Please install it.");
-        return false;
-    }
-       
     if(!Version.ReadCurrentVersion(out var major, out var minor, out var revision, out var flags))
     {
         Printer.Error("Cannot read version information.");
@@ -158,7 +146,7 @@ bool _BuildDocumentation(string configuration)
 
     var pathToProject = Path.Combine(Common.GetRootFolder(), @"Source\Macad.UserGuide\Macad.UserGuide.shfbproj");
 
-    var commandLine = $"\"{pathToProject}\" /p:Configuration={configuration} /p:HelpFileVersion=\"{major}.{minor}{flagsStr}\" /m /nologo /ds /verbosity:minimal /clp:Summary;EnableMPLogging";
+    var commandLine = $"\"{pathToProject}\" /p:Configuration={configuration} /p:SHFBROOT=\"{shfbPath}\" /p:SHFBNETFRAMEWORK=\"{shfbNetReflectionPath}\" /p:HelpFileVersion=\"{major}.{minor}{flagsStr}\" /m /nologo /ds /verbosity:minimal /clp:Summary;EnableMPLogging";
     if (_OptionClean)
     {
         if (Common.Run(_VS.PathToMSBuild, commandLine + " /t:clean") != 0)

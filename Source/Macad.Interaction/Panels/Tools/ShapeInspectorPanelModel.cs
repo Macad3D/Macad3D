@@ -172,7 +172,7 @@ namespace Macad.Interaction.Panels
             {
                 Console.WriteLine(e);
             }
-            WorkspaceController.Invalidate();
+            WorkspaceController?.Invalidate();
         }
 
         //--------------------------------------------------------------------------------------------------

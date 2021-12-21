@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Threading;
 using Fluent;
 using Macad.Common;
 using Macad.Common.Interop;
@@ -62,9 +63,9 @@ namespace Macad.Window
             // Init Space Navigator
             SpaceNavigator.Init(this);
 
-            Docking.Viewport.Focus();
+            Dispatcher.CurrentDispatcher.BeginInvoke(AppCommands.InitApplication.Execute);
 
-            AppCommands.FinishWindowInit.Execute();
+            Docking.Viewport.Focus();
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -24,7 +24,7 @@ namespace Macad.Test.UI.Editors.Primitives
             Assume.That(_Viewport, Is.Not.Null);
 
             // Start tool
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateBox");
             Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
 

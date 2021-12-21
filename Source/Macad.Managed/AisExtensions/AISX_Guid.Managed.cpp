@@ -2,6 +2,7 @@
 
 #include "AISX_Guid.h"
 
+#using "Macad.Occt.dll" as_friend
 using namespace System;
 
 namespace Macad
@@ -13,7 +14,7 @@ namespace Macad
 			public ref class AISX_Guid sealed : public Standard_Transient
 			{
 			public:
-				IMPLEMENT_TRANSIENT(AISX_Guid, Standard_Transient);
+				IMPLEMENT_TRANSIENT(AISX_Guid, Standard_Transient)
 
                 //--------------------------------------------------------------------------------------------------
 

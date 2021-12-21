@@ -314,14 +314,14 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
                 DimensionZ = 10,
             });
             boxBody.Position = new Pnt(-10, -10, 0);
-            model.AddChild(boxBody);
+            model.Add(boxBody);
 
             var cylBody = Body.Create(new Sphere()
             {
                 Radius = 20
             });
             cylBody.Position = new Pnt(-15, 0, 0);
-            model.AddChild(cylBody);
+            model.Add(cylBody);
 
             BooleanCut.Create(boxBody, new BodyShapeOperand(cylBody));
 
@@ -344,10 +344,10 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             // visible without any other action.
             var ctx = Context.Current;
             var body = TestGeomGenerator.CreateBox().Body;
-            ctx.Document.AddChild(body);
+            ctx.Document.Add(body);
             ctx.WorkspaceController.Selection.SelectEntity(body);
             ctx.WorkspaceController.Duplicate();
-            Assume.That(ctx.Document.ChildCount == 2);
+            Assume.That(ctx.Document.EntityCount == 2);
 
             // Deselect and hide original
             ctx.WorkspaceController.Selection.SelectEntity(null);
@@ -368,11 +368,11 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             // visible without any other action.
             var ctx = Context.Current;
             var body = TestGeomGenerator.CreateBox().Body;
-            ctx.Document.AddChild(body);
+            ctx.Document.Add(body);
             ctx.WorkspaceController.Selection.SelectEntity(body);
             ctx.WorkspaceController.CopyToClipboard();
             ctx.WorkspaceController.PasteFromClipboard();
-            Assume.That(ctx.Document.ChildCount == 2);
+            Assume.That(ctx.Document.EntityCount == 2);
 
             // Deselect and hide original
             ctx.WorkspaceController.Selection.SelectEntity(null);

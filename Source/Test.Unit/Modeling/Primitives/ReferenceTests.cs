@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -9,7 +11,7 @@ using NUnit.Framework;
 namespace Macad.Test.Unit.Modeling.Primitives
 {
     [TestFixture]
-    public class References
+    public class ReferenceTests
     {
         const string _BasePath = @"Modeling\Primitives\Reference";
 
@@ -56,10 +58,10 @@ namespace Macad.Test.Unit.Modeling.Primitives
         {
             var model = new Model();
             var body1 = TestGeomGenerator.CreateBox().Body;
-            model.AddChild(body1);
+            model.Add(body1);
             var body2 = Reference.Create(body1);
             body2.Position = new Pnt(20, 0, 0);
-            model.AddChild(body2);
+            model.Add(body2);
 
             Assert.IsTrue(body2.Shape.Make(Shape.MakeFlags.None));
             Assert.IsInstanceOf<Reference>(body2.Shape);
@@ -72,5 +74,22 @@ namespace Macad.Test.Unit.Modeling.Primitives
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        [TestCase(true, TestName = "CloneReferencedBody")]
+        [TestCase(false, TestName = "ReuseReferencedBody")]
+        public void CloneMultipleReferences(bool cloneReferencedBody)
+        {
+            var ctx = Context.InitWithDefault();
+            var body1 = TestGeomGenerator.CreateBox().Body;
+            ctx.Document.Add(body1);
+            var refs = new List<InteractiveEntity> { Reference.Create(body1), Reference.Create(body1) };
+            refs.ForEach(r => ctx.Document.Add(r));
+            Assume.That(ctx.DocumentController.CanDuplicate(refs));
+
+            var clones = ctx.DocumentController.Duplicate(refs, new CloneOptions(cloneReferencedBody)).Cast<Body>().ToList();
+            Assert.AreEqual(2, clones.Count());
+            Assert.IsTrue(clones[0].Shape.IsValid);
+            Assert.IsTrue(clones[1].Shape.IsValid);
+        }
     }
 }

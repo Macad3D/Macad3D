@@ -74,7 +74,7 @@ namespace Macad.Test.Unit.Drawings
                 Name = "Pipe"
             };
 
-            drawing.AddChild(pipeDrawing);
+            drawing.Add(pipeDrawing);
 
             return SvgDrawingExporter.Export(drawing);
         }

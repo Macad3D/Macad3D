@@ -22,5 +22,5 @@ if (!importer.DoImport("MyExportedShape.stl", out newBodies))
 // Add to model
 foreach (var newBody in newBodies)
 {
-    Document.AddChild(newBody);
+    Document.Add(newBody);
 }

@@ -9,7 +9,7 @@ using Macad.Presentation;
 
 namespace Macad.Interaction
 {
-    public abstract class ToolAction : ICustomMenuProvider
+    public abstract class ToolAction : IContextMenuItemProvider
     {
         #region Events
 
@@ -151,7 +151,7 @@ namespace Macad.Interaction
         
         #region IActionCommandProvider
 
-        public virtual void EnrichContextMenu(CustomMenuItems itemList)
+        public virtual void EnrichContextMenu(ContextMenuItems itemList)
         {
             return;
         }

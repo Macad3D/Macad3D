@@ -368,7 +368,7 @@ namespace Macad.Test.Unit.Exchange
             };
 
             Drawing drawing = new();
-            drawing.AddChild(dim);
+            drawing.Add(dim);
 
             var svg = SvgDrawingExporter.Export(drawing);
             Assert.IsNotNull(svg);
@@ -390,7 +390,7 @@ namespace Macad.Test.Unit.Exchange
             hlrBrepDrawing.UseTriangulation = useTriangulation;
 
             var drawing = new Drawing();
-            drawing.AddChild(hlrBrepDrawing);
+            drawing.Add(hlrBrepDrawing);
 
             return SvgDrawingExporter.Export(drawing);
         }

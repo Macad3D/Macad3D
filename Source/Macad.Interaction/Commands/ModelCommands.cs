@@ -476,7 +476,7 @@ namespace Macad.Interaction
                 var body = Reference.Create(_WorkspaceController.Selection.SelectedEntities.First() as Body);
                 if (body != null)
                 {
-                    InteractiveContext.Current.Document.AddChild(body);
+                    InteractiveContext.Current.Document.Add(body);
                     InteractiveContext.Current?.UndoHandler.Commit();
                     _WorkspaceController.Selection.SelectEntity(body);
                 }

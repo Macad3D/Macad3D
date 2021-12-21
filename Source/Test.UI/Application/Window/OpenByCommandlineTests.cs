@@ -3,7 +3,7 @@ using FlaUI.Core.Input;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
 
-namespace Macad.Test.UI.Application.File
+namespace Macad.Test.UI.Application.Window
 {
     [TestFixture]
     public class OpenByCommandlineTests
@@ -38,7 +38,7 @@ namespace Macad.Test.UI.Application.File
             Wait.UntilResponsive(MainWindow.Window);
 
             var pipe = new DebugPipeClient();
-            Assert.That(pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+            Assert.That(pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
         }
                 
         //--------------------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ namespace Macad.Test.UI.Application.File
             Wait.UntilResponsive(MainWindow.Window);
 
             var pipe = new DebugPipeClient();
-            Assert.That(pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+            Assert.That(pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
         }
                         
         //--------------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ namespace Macad.Test.UI.Application.File
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
             var pipe = new DebugPipeClient();
-            Assert.That(pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+            Assert.That(pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
         }
                                 
         //--------------------------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ namespace Macad.Test.UI.Application.File
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
             var pipe = new DebugPipeClient();
-            Assert.That(pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+            Assert.That(pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
         }
                                         
         //--------------------------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ namespace Macad.Test.UI.Application.File
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
             var pipe = new DebugPipeClient();
-            Assert.That(pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+            Assert.That(pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
         }
                                                 
         //--------------------------------------------------------------------------------------------------
@@ -133,7 +133,7 @@ namespace Macad.Test.UI.Application.File
             Wait.UntilResponsive(MainWindow.Window);
 
             var pipe = new DebugPipeClient();
-            Assert.That(pipe.GetValue<int>("$Context.Document.ChildCount") > 0);
+            Assert.That(pipe.GetValue<int>("$Context.Document.EntityCount") > 0);
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -149,8 +149,24 @@ namespace Macad.Test.UI.Application.File
             Wait.UntilResponsive(MainWindow.Window);
 
             var pipe = new DebugPipeClient();
-            Assert.AreEqual(1, pipe.GetValue<int>("$Context.Document.ChildCount"));
+            Assert.AreEqual(1, pipe.GetValue<int>("$Context.Document.EntityCount"));
            
+        }
+                
+        //--------------------------------------------------------------------------------------------------
+                
+        [Test]
+        public void RunScriptWithErrorsByCommandLine()
+        {
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, _BasePath, "CompilerError.csx"));
+            
+            App = new ApplicationAdaptor();
+            App.Init($"-runscript=\"{path}\"");
+            MainWindow = new MainWindowAdaptor(App);
+            Wait.UntilResponsive(MainWindow.Window);
+
+            var dlg = new TaskDialogAdaptor(MainWindow);
+            Assert.IsNotNull(dlg);
         }
                 
         //--------------------------------------------------------------------------------------------------
@@ -167,7 +183,7 @@ namespace Macad.Test.UI.Application.File
             Wait.UntilResponsive(MainWindow.Window);
 
             var pipe = new DebugPipeClient();
-            Assert.AreEqual(2, pipe.GetValue<int>("$Context.Document.ChildCount"));
+            Assert.AreEqual(2, pipe.GetValue<int>("$Context.Document.EntityCount"));
            
         }
     }

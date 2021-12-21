@@ -17,9 +17,6 @@ Official homepage and download: https://macad3d.net
   - C++/CLI support component 
 - OpenCASCADE Technology (OCCT) 7.6.0
   - Get it from [OpenCASCADE Download Center](https://dev.opencascade.org/release)
-- HTML Help Workshop 1.3
-  - needed only for building the user guide
-  - Get it from [Microsoft](https://docs.microsoft.com/en-us/previous-versions/windows/desktop/htmlhelp/microsoft-html-help-downloads)
 
 ## Building from source
 
@@ -33,7 +30,7 @@ Start ```ScriptConsole.cmd``` and enter the following commands:
 
     ```> occt config <pathToOcct>```
 
-3. Build the whole thing. Replace `all` with `debug`, `release` or `doc` if only one these should be built (e.g. you have no debug build of OCCT).
+3. Build the whole thing. Replace `all` with `debug` or `release` if only one these should be built (e.g. you have no debug build of OCCT).
 
     ```> build all```
     

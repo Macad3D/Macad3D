@@ -74,7 +74,7 @@ Finally the new bodies must be added to the model.
 ```cs
 foreach (var newBody in newBodies)
 {
-  Document.AddChild(newBody);
+  Document.Add(newBody);
 }
 ```
 

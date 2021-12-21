@@ -46,7 +46,7 @@ namespace Macad.Test.UI.Editors.Modifier
             _Panel.ClickButton("ProfileCustom");
             Assert.AreEqual("SketchEditorTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
             Assert.AreEqual("Profile", Pipe.GetValue<string>("$Sketch.Name"));
-            MainWindow.Ribbon.SelectGroup("Sketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
             Assert.AreEqual("Custom", Pipe.GetValue("$Selected.Shape.Profile"));
@@ -62,7 +62,7 @@ namespace Macad.Test.UI.Editors.Modifier
             MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
             // Create pipe on existing sketch
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreatePipe");
         }
     }

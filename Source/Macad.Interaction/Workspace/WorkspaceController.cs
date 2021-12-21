@@ -13,7 +13,7 @@ using Macad.Occt;
 
 namespace Macad.Interaction
 {
-    public sealed class WorkspaceController : BaseObject, ICustomMenuProvider, IDisposable
+    public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, IDisposable
     {
         #region Properties
 
@@ -992,7 +992,7 @@ namespace Macad.Interaction
         
         #region IActionCommandProvider
 
-        public void EnrichContextMenu(CustomMenuItems itemList)
+        public void EnrichContextMenu(ContextMenuItems itemList)
         {
             if (CurrentTool == null)
             {

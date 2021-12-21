@@ -2,6 +2,8 @@
 
 #include "AISX_Plane.h"
 
+#using "Macad.Occt.dll" as_friend
+
 namespace Macad
 {
 	namespace Occt
@@ -11,7 +13,7 @@ namespace Macad
 			public ref class AISX_Plane sealed : public AIS_InteractiveObject
 			{
 			public:
-				IMPLEMENT_TRANSIENT(AISX_Plane, AIS_InteractiveObject);
+				IMPLEMENT_TRANSIENT(AISX_Plane, AIS_InteractiveObject)
 
 			    AISX_Plane()
 					: AIS_InteractiveObject(InitMode::Uninitialized)

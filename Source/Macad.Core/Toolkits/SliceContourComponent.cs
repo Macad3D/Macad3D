@@ -341,7 +341,7 @@ namespace Macad.Core.Toolkits
                     Source = new TopoDSBrepSource(_Layers[layer].BRep),
                     Stroke = new StrokeStyle(Color.Black, 0.1f, LineStyle.Solid)
                 };
-                drawing.AddChild(drawingLayer);
+                drawing.Add(drawingLayer);
             }
             return exporter.DoExport(fileName, drawing);
         }

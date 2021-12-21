@@ -11,19 +11,27 @@ namespace Macad.Interaction
     public class ViewportHwndHost : HwndHost
     {
         readonly ViewportController _ViewportController;
+        readonly Int32Rect _InitialRect;
 
         //--------------------------------------------------------------------------------------------------
 
-        public ViewportHwndHost(ViewportController viewportController)
+        public ViewportHwndHost(ViewportController viewportController, UIElement parent)
         {
             _ViewportController = viewportController;
+
+            var dpiScale = VisualTreeHelper.GetDpi(parent);
+            var pos = parent.TranslatePoint(new Point(), Application.Current.MainWindow);
+            _InitialRect.Width = (int)(parent.RenderSize.Width * dpiScale.DpiScaleX);
+            _InitialRect.Height = (int)(parent.RenderSize.Height * dpiScale.DpiScaleY);
+            _InitialRect.X = (int)(pos.X * dpiScale.DpiScaleX);
+            _InitialRect.Y = (int)(pos.Y * dpiScale.DpiScaleY);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
-            IntPtr windowHandle = _ViewportController.InitWindow(hwndParent.Handle);
+            IntPtr windowHandle = _ViewportController.InitWindow(hwndParent.Handle, _InitialRect);
 
             return new HandleRef(this, windowHandle);
         }

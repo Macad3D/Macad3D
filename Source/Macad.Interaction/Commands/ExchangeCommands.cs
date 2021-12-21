@@ -45,7 +45,7 @@ namespace Macad.Interaction
                     }
                     foreach (var newBody in newBodies)
                     {
-                        CoreContext.Current?.Document?.AddChild(newBody);
+                        CoreContext.Current?.Document?.Add(newBody);
                     }
                     _UndoHandler?.Commit();
                     _WorkspaceController.Selection.SelectEntities(newBodies);
@@ -164,7 +164,7 @@ namespace Macad.Interaction
 
                         foreach (var newBody in newBodies)
                         {
-                            CoreContext.Current?.Document?.AddChild(newBody);
+                            CoreContext.Current?.Document?.Add(newBody);
                         }
 
                         _UndoHandler?.Commit();
@@ -191,7 +191,7 @@ namespace Macad.Interaction
                         var sketch = Sketch.Create();
                         sketch.AddElements(points, null, segments, constraints);
                         var newBody = Body.Create(sketch);
-                        CoreContext.Current?.Document?.AddChild(newBody);
+                        CoreContext.Current?.Document?.Add(newBody);
 
                         _UndoHandler?.Commit();
                         _WorkspaceController.Selection.SelectEntity(newBody);
@@ -241,7 +241,7 @@ namespace Macad.Interaction
                     var sketch = Sketch.Create();
                     sketch.AddElements(points, null, segments, constraints);
                     var newBody = Body.Create(sketch);
-                    CoreContext.Current?.Document?.AddChild(newBody);
+                    CoreContext.Current?.Document?.Add(newBody);
                     _UndoHandler?.Commit();
                     _WorkspaceController.Selection.SelectEntity(newBody);
                 }

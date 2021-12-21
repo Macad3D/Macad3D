@@ -16,7 +16,7 @@ namespace Macad.Test.UI.Application.Edit
         [Test]
         public void GridEnabled()
         {
-            MainWindow.Ribbon.SelectGroup("Edit");
+            MainWindow.Ribbon.SelectTab("Edit");
             var enabled = Pipe.GetValue<bool>("$Context.WorkspaceController.Workspace.GridEnabled");
             Assert.AreEqual(enabled, MainWindow.Ribbon.IsButtonChecked("ShowGrid"));
 
@@ -36,7 +36,7 @@ namespace Macad.Test.UI.Application.Edit
         [Test]
         public void GridType()
         {
-            MainWindow.Ribbon.SelectGroup("Edit");
+            MainWindow.Ribbon.SelectTab("Edit");
             MainWindow.Ribbon.OpenSplitButtonMenu("ShowGrid");
             var menu = new ContextMenuAdaptor(MainWindow);
             menu.ClickMenuItem("CircGrid");

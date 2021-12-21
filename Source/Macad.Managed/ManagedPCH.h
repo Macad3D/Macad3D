@@ -12,11 +12,9 @@
 
 #include "OcctIncludes.h"
 
-#using "Macad.Occt.dll" as_friend
-
 #define STRUCT_PIN(value, managed, native) pin_ptr<managed> value##_pinptr(&value); ::native* value##_ptr = reinterpret_cast<::native*>(value##_pinptr);
 #define STRUCT_PINREF(value, managed, native) pin_ptr<managed> value##_pinptr(&*value); ::native* value##_ptr = reinterpret_cast<::native*>(value##_pinptr);
 
 #define IMPLEMENT_TRANSIENT(klass, base) \
 	property ::klass* NativeInstance { ::klass* get() {	return static_cast<::klass*>(_NativeInstance); } } \
-	klass(::klass* instance) : Macad::Occt::base(instance) {} \
+	klass(::klass* instance) : Macad::Occt::base(instance) {}

@@ -16,8 +16,6 @@ namespace Macad.Window
         public MainWindowModel()
         {
             AppContext.Current.MessageHandler.ProgressMessage += _MessageHandler_ProgressMessage;
-
-            AppCommands.InitApplication.Execute();
         }
 
         //--------------------------------------------------------------------------------------------------

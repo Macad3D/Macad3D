@@ -4,7 +4,7 @@ using FlaUI.Core.Input;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
 
-namespace Macad.Test.UI.Application.File
+namespace Macad.Test.UI.Application.Window
 {
     [TestFixture]
     public class WelcomeDialogTests

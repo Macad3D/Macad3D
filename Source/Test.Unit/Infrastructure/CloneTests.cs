@@ -41,9 +41,9 @@ namespace Macad.Test.Unit.Infrastructure
         {
             var model = CoreContext.Current.Document;
             var operandBody1 = TestGeomGenerator.CreateBody(Box.Create(5, 5, 5), new Pnt());
-            model.AddChild(operandBody1);
+            model.Add(operandBody1);
             var targetBody1 = TestGeomGenerator.CreateBody(Box.Create(5, 5, 5), new Pnt(2, 2, 0));
-            model.AddChild(targetBody1);
+            model.Add(targetBody1);
             BooleanFuse.Create(targetBody1, new BodyShapeOperand(operandBody1));
             var serialized = Serializer.Serialize(targetBody1, new SerializationContext());
 

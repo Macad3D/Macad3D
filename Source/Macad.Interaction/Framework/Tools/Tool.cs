@@ -8,7 +8,7 @@ using Macad.Presentation;
 
 namespace Macad.Interaction
 {
-    public abstract class Tool : BaseObject, ICustomMenuProvider
+    public abstract class Tool : BaseObject, IContextMenuItemProvider
     {
         #region Properties
 
@@ -197,7 +197,7 @@ namespace Macad.Interaction
 
         #region IActionCommandProvider
 
-        public virtual void EnrichContextMenu(CustomMenuItems itemList)
+        public virtual void EnrichContextMenu(ContextMenuItems itemList)
         {
             return;
         }

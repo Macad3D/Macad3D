@@ -23,7 +23,7 @@ namespace Macad.Test.Unit.Drawings.Dimension
             };
 
             Drawing drawing = new();
-            drawing.AddChild(dim);
+            drawing.Add(dim);
 
             var svg = SvgDrawingExporter.Export(drawing);
             Assert.IsNotNull(svg);
@@ -43,7 +43,7 @@ namespace Macad.Test.Unit.Drawings.Dimension
             };
 
             Drawing drawing = new();
-            drawing.AddChild(dim);
+            drawing.Add(dim);
 
             var svg = SvgDrawingExporter.Export(drawing);
             Assert.IsNotNull(svg);
@@ -63,7 +63,7 @@ namespace Macad.Test.Unit.Drawings.Dimension
             };
 
             Drawing drawing = new();
-            drawing.AddChild(dim);
+            drawing.Add(dim);
 
             var svg = SvgDrawingExporter.Export(drawing);
             Assert.IsNotNull(svg);
@@ -84,7 +84,7 @@ namespace Macad.Test.Unit.Drawings.Dimension
             };
 
             Drawing drawing = new();
-            drawing.AddChild(dim);
+            drawing.Add(dim);
 
             var svg = SvgDrawingExporter.Export(drawing);
             Assert.IsNotNull(svg);
@@ -104,7 +104,7 @@ namespace Macad.Test.Unit.Drawings.Dimension
             };
 
             Drawing drawing = new();
-            drawing.AddChild(dim);
+            drawing.Add(dim);
 
             var svg = SvgDrawingExporter.Export(drawing);
             Assert.IsNotNull(svg);

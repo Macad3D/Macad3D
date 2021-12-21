@@ -19,7 +19,7 @@ namespace Macad.Test.UI.Application.Edit
         public void SyncAfterDuplicate()
         {
             TestDataGenerator.GenerateBox(MainWindow);
-            MainWindow.Ribbon.SelectGroup("Edit");
+            MainWindow.Ribbon.SelectTab("Edit");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Duplicate"));
             MainWindow.Ribbon.ClickButton("Duplicate");
 
@@ -40,7 +40,7 @@ namespace Macad.Test.UI.Application.Edit
         [Test]
         public void RubberbandMode()
         {
-            MainWindow.Ribbon.SelectGroup("Edit");
+            MainWindow.Ribbon.SelectTab("Edit");
             MainWindow.Ribbon.ClickButton("RubberbandMode");
             var menu = new ContextMenuAdaptor(MainWindow);
             menu.ClickMenuItem("RubberbandModeRectangle");

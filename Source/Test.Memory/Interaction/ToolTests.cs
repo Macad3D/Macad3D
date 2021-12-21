@@ -140,7 +140,7 @@ namespace Macad.Test.Memory.Interaction
                 var ctx = Context.Current;
                 var body = TestGeomGenerator.CreateImprint()?.Body;
                 Assume.That(body != null);
-                ctx.Document.AddChild(body);
+                ctx.Document.Add(body);
                 ctx.WorkspaceController.Selection.SelectEntity(body);
             
                 Assume.That(ToolboxCommands.CreateSliceContour.CanExecute());
@@ -173,7 +173,7 @@ namespace Macad.Test.Memory.Interaction
                 var ctx = Context.Current;
                 var body = TestGeomGenerator.CreateImprint()?.Body;
                 Assume.That(body != null);
-                ctx.Document.AddChild(body);
+                ctx.Document.Add(body);
                 ctx.WorkspaceController.Selection.SelectEntity(body);
             
                 Assume.That(ToolboxCommands.CreateEtchingMask.CanExecute());

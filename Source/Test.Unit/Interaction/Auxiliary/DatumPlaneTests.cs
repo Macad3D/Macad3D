@@ -39,7 +39,7 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
 
             var plane = DatumPlane.Create();
             Assert.AreEqual("DatumPlane_1", plane.Name);
-            ctx.Document.AddChild(plane);
+            ctx.Document.Add(plane);
 
             ctx.ViewportController.ZoomFitAll();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Create01"));
@@ -53,7 +53,7 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
             var ctx = Context.Current;
 
             var datumPlane = DatumPlane.Create();
-            ctx.Document.AddChild(datumPlane);
+            ctx.Document.Add(datumPlane);
 
             Assert.Multiple(() =>
             {
@@ -78,7 +78,7 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
 
             var plane = DatumPlane.Create();
             Assert.AreEqual("DatumPlane_1", plane.Name);
-            ctx.Document.AddChild(plane);
+            ctx.Document.Add(plane);
             ctx.ViewportController.ZoomFitAll();
 
             Assert.Multiple(() =>
@@ -107,7 +107,7 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
 
             var imagePlane = DatumPlane.Create();
             imagePlane.ImageFilePath = _SourceImagePath;
-            ctx.Document.AddChild(imagePlane);
+            ctx.Document.Add(imagePlane);
 
             ctx.ViewportController.ZoomFitAll();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateWithImage01"));
@@ -122,7 +122,7 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
 
             var imagePlane = DatumPlane.Create();
             imagePlane.ImageFilePath = _SourceImagePath;
-            ctx.Document.AddChild(imagePlane);
+            ctx.Document.Add(imagePlane);
 
             Assert.Multiple(() =>
             {
@@ -145,7 +145,7 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
             var ctx = Context.Current;
 
             var plane = DatumPlane.Create();
-            ctx.Document.AddChild(plane);
+            ctx.Document.Add(plane);
 
             ctx.ViewportController.ZoomFitAll();
 
@@ -175,7 +175,7 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
             var ctx = Context.Current;
 
             var datumPlane = DatumPlane.Create();
-            ctx.Document.AddChild(datumPlane);
+            ctx.Document.Add(datumPlane);
             ctx.ViewportController.ZoomFitAll();
 
             Assert.Multiple(() =>
@@ -199,7 +199,7 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
             var ctx = Context.Current;
 
             var datumPlane = DatumPlane.Create();
-            ctx.Document.AddChild(datumPlane);
+            ctx.Document.Add(datumPlane);
             ctx.ViewportController.ZoomFitAll();
 
             Assert.Multiple(() =>
@@ -224,7 +224,7 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
             var ctx = Context.Current;
 
             var datumPlane = DatumPlane.Create();
-            ctx.Document.AddChild(datumPlane);
+            ctx.Document.Add(datumPlane);
             ctx.ViewportController.ZoomFitAll();
             var body1 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
 
@@ -252,7 +252,7 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
 
             var datumPlane = DatumPlane.Create();
             datumPlane.Position = new Pnt(5, 10, 10);
-            ctx.Document.AddChild(datumPlane);
+            ctx.Document.Add(datumPlane);
             ctx.ViewportController.ZoomFitAll();
 
             Assert.Multiple(() =>
@@ -274,7 +274,7 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
 
             var datumPlane = DatumPlane.Create();
             datumPlane.Position = new Pnt(5, 10, 10);
-            ctx.Document.AddChild(datumPlane);
+            ctx.Document.Add(datumPlane);
             ctx.WorkspaceController.Selection.SelectEntity(datumPlane);
 
             Assert.IsTrue(WorkspaceCommands.DuplicateEntity.CanExecute());
@@ -292,18 +292,18 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
 
             Assert.IsTrue(AuxiliaryCommands.CreateDatumPlane.CanExecute());
             AuxiliaryCommands.CreateDatumPlane.Execute();
-            Assert.AreEqual(1, ctx.Document.ChildCount);
-            var planeGuid = ctx.Document.GetChild(0).Guid;
+            Assert.AreEqual(1, ctx.Document.EntityCount);
+            var planeGuid = ctx.Document.Get(0).Guid;
             Assert.IsTrue(ctx.UndoHandler.CanUndo);
 
             ctx.UndoHandler.DoUndo(1);
-            Assert.AreEqual(0, ctx.Document.ChildCount);
+            Assert.AreEqual(0, ctx.Document.EntityCount);
             Assert.IsNull(ctx.Document.FindInstance(planeGuid));
             Assert.IsFalse(ctx.UndoHandler.CanUndo);
             Assert.IsTrue(ctx.UndoHandler.CanRedo);
 
             ctx.UndoHandler.DoRedo(1);
-            Assert.AreEqual(1, ctx.Document.ChildCount);
+            Assert.AreEqual(1, ctx.Document.EntityCount);
             Assert.IsNotNull(ctx.Document.FindInstance(planeGuid));
             Assert.IsTrue(ctx.UndoHandler.CanUndo);
             Assert.IsFalse(ctx.UndoHandler.CanRedo);

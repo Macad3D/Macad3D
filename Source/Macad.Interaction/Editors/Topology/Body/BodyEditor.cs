@@ -120,7 +120,7 @@ namespace Macad.Interaction.Editors.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void EnrichContextMenu(CustomMenuItems itemList)
+        public override void EnrichContextMenu(ContextMenuItems itemList)
         {
             _ShapePanel.EnrichMainContextMenu(itemList);
         }

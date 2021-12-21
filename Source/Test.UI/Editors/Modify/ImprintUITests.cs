@@ -22,7 +22,7 @@ namespace Macad.Test.UI.Editors.Modifier
             TestDataGenerator.GenerateBox(MainWindow);
 
             // Create imprint on any face
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateImprint");
             Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateImprint"), Is.True);
             viewport.ClickRelative(0.5, 0.5);

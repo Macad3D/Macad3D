@@ -149,7 +149,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             var body = Body.Create(_PreviewShape);
             body.Position = _Point;
-            InteractiveContext.Current.Document.AddChild(body);
+            InteractiveContext.Current.Document.Add(body);
             InteractiveContext.Current.UndoHandler.Commit();
 
             ((Tool) this).Stop();

@@ -37,9 +37,10 @@ namespace Macad.Test.UI.Application.Edit
         [Test]
         public void EscapeClosesContextMenu()
         {
-            MainWindow.Ribbon.SelectGroup("Model");
-            MainWindow.Ribbon.ClickButton("CreateBox");
-            Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"));
+            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.ClickButton("CreateSphere");
+            Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+            MainWindow.Viewport.ClickRelative(0.5, 0.5);
 
             MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
             Assert.IsTrue(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
@@ -47,7 +48,7 @@ namespace Macad.Test.UI.Application.Edit
             Pipe.TypeKey(VirtualKeyShort.ESCAPE);
             Thread.Sleep(1000); // Allow fadeout
             Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
-            Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"));
+            Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
 
             // Select button prior to ESC
             MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
@@ -56,7 +57,33 @@ namespace Macad.Test.UI.Application.Edit
             Pipe.TypeKey(VirtualKeyShort.ESCAPE);
             Thread.Sleep(1000); // Allow fadeout
             Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
-            Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"));
+            Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        [Test]
+        public void LeftClickClosesContextMenu()
+        {
+            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.ClickButton("CreateSphere");
+            Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+            MainWindow.Viewport.ClickRelative(0.5, 0.5);
+
+            MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
+            Assert.IsTrue(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+            MainWindow.Viewport.ClickRelative(0.3, 0.3, MouseButton.Left);
+            Thread.Sleep(1000); // Allow fadeout
+            Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+            Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+
+            // Select button prior to LMB
+            MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
+            var menu = new ContextMenuAdaptor(MainWindow, "ViewportContextMenu");
+            menu.ClickButton("SnappingEnabled");
+            MainWindow.Viewport.ClickRelative(0.3, 0.3, MouseButton.Left);
+            Thread.Sleep(1000); // Allow fadeout
+            Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+            Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -71,7 +98,7 @@ namespace Macad.Test.UI.Application.Edit
             var menu = new ContextMenuAdaptor(MainWindow, "ViewportContextMenu");
             menu.ClickMenuItem("Transform Entity");
 
-            MainWindow.Ribbon.SelectGroup("Edit");
+            MainWindow.Ribbon.SelectTab("Edit");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("TransformShape"));
         }
 
@@ -81,10 +108,10 @@ namespace Macad.Test.UI.Application.Edit
         public void HudValueElement_EnterValues()
         {
             // Init
-            MainWindow.Ribbon.SelectGroup("Edit");
+            MainWindow.Ribbon.SelectTab("Edit");
             MainWindow.Ribbon.ClickButton("SnapEnable");
             MainWindow.Ribbon.ClickButton("SnapToGrid");
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateBox");
 
             Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);

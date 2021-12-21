@@ -8,17 +8,17 @@ using Macad.Presentation;
 
 namespace Macad.Interaction
 {
-    public interface ICustomMenuProvider
+    public interface IContextMenuItemProvider
     {
-        void EnrichContextMenu(CustomMenuItems itemList);
+        void EnrichContextMenu(ContextMenuItems itemList);
     }
     
     //--------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------
 
-    public sealed class CustomMenuItems : ObservableCollection<Control>
+    public sealed class ContextMenuItems : ObservableCollection<Control>
     {
-        readonly Stack<MenuItem> _GroupItems = new Stack<MenuItem>();
+        readonly Stack<MenuItem> _GroupItems = new();
 
         //--------------------------------------------------------------------------------------------------
 

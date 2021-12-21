@@ -1,6 +1,8 @@
 
 #include "ManagedPCH.h"
 
+#using "Macad.Occt.dll" as_friend
+
 using namespace System;
 using namespace System::Collections::Generic;
 

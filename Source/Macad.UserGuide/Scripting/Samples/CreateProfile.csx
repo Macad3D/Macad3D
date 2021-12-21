@@ -16,7 +16,7 @@ sketch.Segments.Add(1, new SketchSegmentLine(2, 0));
 
 // Create Body and add to model
 var body = Body.Create(sketch);
-Document.AddChild(body);
+Document.Add(body);
 
 // Extrude
 var extrude = Extrude.Create(body);

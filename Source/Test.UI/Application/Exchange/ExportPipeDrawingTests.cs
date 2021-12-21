@@ -20,7 +20,7 @@ namespace Macad.Test.UI.Application.Exchange
         {
             TestDataGenerator.GenerateBox(MainWindow);
             
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
             Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
         }
         
@@ -34,11 +34,11 @@ namespace Macad.Test.UI.Application.Exchange
             TestDataGenerator.GenerateSketch(MainWindow);
             MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             Assume.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
             MainWindow.Ribbon.ClickButton("CreatePipe");
             
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
             MainWindow.Ribbon.ClickButton("ExportPipeDrawing");
 
@@ -66,11 +66,11 @@ namespace Macad.Test.UI.Application.Exchange
             TestDataGenerator.GenerateSketch(MainWindow);
             MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             Assume.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
             MainWindow.Ribbon.ClickButton("CreatePipe");
             
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
             MainWindow.Ribbon.ClickButton("ExportPipeDrawing");
 
@@ -96,11 +96,11 @@ namespace Macad.Test.UI.Application.Exchange
             TestDataGenerator.GenerateSketch(MainWindow);
             MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             Assume.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
             MainWindow.Ribbon.ClickButton("CreatePipe");
             
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
             MainWindow.Ribbon.ClickButton("ExportPipeDrawing");
 

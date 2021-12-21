@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Windows;
 using Microsoft.Win32;
 using Macad.Common;
@@ -43,7 +44,14 @@ namespace Macad.Interaction.Dialogs
 
             // Do export
             fileName = dlg.FileName;
-            exporter = exchangers[dlg.FilterIndex-1];
+
+            var fileExt = PathUtils.GetExtensionWithoutPoint(fileName);
+            if (!fileExt.IsNullOrEmpty())
+            {
+                exporter = ExchangeRegistry.FindExchanger<T>(fileExt);
+            }
+            exporter ??= exchangers[dlg.FilterIndex-1];
+
             _LastFilterIndex = dlg.FilterIndex;
 
             return true;

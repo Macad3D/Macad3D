@@ -34,7 +34,7 @@ namespace Macad.Test.UI.Editors.Topology
             Assert.That(bodyPanel, Is.Null);
 
             // Undo
-            MainWindow.Ribbon.SelectGroup("Edit");
+            MainWindow.Ribbon.SelectTab("Edit");
             MainWindow.Ribbon.ClickButton("Undo");
 
             // Then box is selectable again

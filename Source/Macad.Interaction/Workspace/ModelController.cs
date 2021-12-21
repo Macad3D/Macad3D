@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Shell;
@@ -160,6 +161,8 @@ namespace Macad.Interaction
             var dlg = new SaveFileDialog()
             {
                 Title = "Saving Model...",
+                InitialDirectory = Path.GetDirectoryName(InteractiveContext.Current.Document.FilePath),
+                FileName = Path.GetFileName(InteractiveContext.Current.Document.FilePath),
                 CheckPathExists = true,
                 Filter = "Macad3D Models|*." + Model.FileExtension,
                 DefaultExt = Model.FileExtension
@@ -167,9 +170,13 @@ namespace Macad.Interaction
             var result = dlg.ShowDialog(Application.Current.MainWindow);
             if (result ?? false)
             {
-                var relativeFilePath = dlg.FileName;
+                var filePath = dlg.FileName;
+                if (PathUtils.GetExtensionWithoutPoint(filePath).ToLower() != Model.FileExtension)
+                {
+                    filePath += "." + Model.FileExtension;
+                }
                 var model = InteractiveContext.Current.Document;
-                if (model.SaveToFile(relativeFilePath))
+                if (model.SaveToFile(filePath))
                 {
                     AddToMruList(model.FilePath);
                     return true;
@@ -279,7 +286,7 @@ namespace Macad.Interaction
                 {
                     foreach (var newBody in newBodies)
                     {
-                        CoreContext.Current?.Document?.AddChild(newBody);
+                        CoreContext.Current?.Document?.Add(newBody);
                     }
 
                     InteractiveContext.Current.ViewportController.ZoomFitAll();
@@ -378,34 +385,35 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        internal void Duplicate(List<InteractiveEntity> entities)
+        internal IEnumerable<InteractiveEntity> Duplicate(List<InteractiveEntity> entities, CloneOptions options = null)
         {
             if (!CanDuplicate(entities))
-                return;
+                return null;
 
             var context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(InteractiveContext.Current.Document);
             context.SetInstance<IDocument>(InteractiveContext.Current.Document);
             var serialized = Serializer.Serialize(entities, context);
-            
+
             context = new SerializationContext(SerializationScope.CopyPaste);
             context.SetInstance(InteractiveContext.Current.Document);
             context.SetInstance<IDocument>(InteractiveContext.Current.Document);
             context.SetInstance(ReadOptions.RecreateGuids);
-            var cloneOptions = new InteractiveCloneOptions();
+            var cloneOptions = options ?? new InteractiveCloneOptions();
             context.SetInstance<CloneOptions>(cloneOptions);
             var cloned = Serializer.Deserialize<InteractiveEntity[]>(serialized, context);
-            
-            if (cloneOptions.IsCanceled)
-                return;
+
+            if ((cloneOptions as InteractiveCloneOptions)?.IsCanceled ?? false)
+                return null;
 
             foreach (var entity in context.GetInstanceList<InteractiveEntity>())
             {
-                InteractiveContext.Current.Document.AddChild(entity);
+                InteractiveContext.Current.Document.Add(entity);
                 entity.RaiseVisualChanged();
             }
 
             InteractiveContext.Current.WorkspaceController.Selection.SelectEntities(cloned);
+            return cloned;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -471,7 +479,7 @@ namespace Macad.Interaction
             var cloned = Serializer.Deserialize<InteractiveEntity[]>(reader, context);
             foreach (var entity in context.GetInstanceList<InteractiveEntity>())
             {
-                InteractiveContext.Current.Document.AddChild(entity);
+                InteractiveContext.Current.Document.Add(entity);
                 entity.RaiseVisualChanged();
             }
 

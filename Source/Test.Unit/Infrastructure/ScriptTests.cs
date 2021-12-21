@@ -179,7 +179,7 @@ namespace Macad.Test.Unit.Infrastructure
 
             // Create one body -> State 1
             var body1 = TestGeomGenerator.CreateBox().Body;
-            asm.AddChild(body1);
+            asm.Add(body1);
             Context.Current.UndoHandler.Commit();
             var state1 = Serializer.Serialize(asm, new SerializationContext());
 
@@ -240,20 +240,6 @@ namespace Macad.Test.Unit.Infrastructure
                 Assert.IsNotNull(script);
                 Assert.IsTrue(script.Run());
                 Assert.AreEqual("-Version Else-", output.GetOutput());
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        [Test]
-        public void DocExamplesCompilation()
-        {
-            var path = Path.Combine(TestData.TestDataDirectory, @"..\..\Source\Macad.UserGuide\Scripting\Samples");
-            foreach (var file in Directory.EnumerateFiles(path, "*.csx"))
-            {
-                Console.WriteLine(Path.GetFileName(file));
-                var script = ScriptInstance.LoadScriptFromFile(GetScriptFilename(file), InteractiveScriptContext.Default, true);
-                Assert.IsNotNull(script);
             }
         }
 

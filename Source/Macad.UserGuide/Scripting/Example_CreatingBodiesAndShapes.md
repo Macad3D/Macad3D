@@ -47,7 +47,7 @@ var body = Body.Create(sketch);
 The body needs to be added to the current model to get available outside the script.
 
 ```cs
-Document.AddChild(body);
+Document.Add(body);
 ```
 
 That's it, we have created a new sketch with a simple profile.

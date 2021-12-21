@@ -81,11 +81,11 @@ namespace Macad.Core.Topology
             }
 
             // Try to find referenced body shapes in current model
-            var anticipated = ClassSerializer.AnticipateType(reader);
-            if (anticipated.type != null && typeof(Body).IsAssignableFrom(anticipated.type))
+            var anticipated = ClassSerializer.AnticipateType(reader, context);
+            if (anticipated.Type != null && typeof(Body).IsAssignableFrom(anticipated.Type))
             {
                 // Try finding body in model?
-                var body = document.FindInstance(anticipated.guid) as Body;
+                var body = document.FindInstance(anticipated.Guid) as Body;
                 if (body != null)
                 {
                     // Ask if options are available, otherwise assume re-using

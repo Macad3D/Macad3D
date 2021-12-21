@@ -38,32 +38,34 @@ namespace Macad.Test.Utils
 
         //--------------------------------------------------------------------------------------------------
 
-        public static void InitEmpty()
+        public static Context InitEmpty()
         {
             Current = new Context();
+            return Current;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public static void InitWithDefault()
+        public static Context InitWithDefault()
         {
             Current = new Context
             {
                 Document = new Model(), 
                 DocumentController = new ModelController()
             };
+            return Current;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public static void InitWithView(int viewportSize)
+        public static Context InitWithView(int viewportSize)
         {
             Current = new Context
             {
                 Document = new Model(), 
                 DocumentController = new ModelController()
             };
-            Current.ViewportController.InitWindow(IntPtr.Zero, viewportSize, viewportSize);
+            Current.ViewportController.InitWindow(IntPtr.Zero, new Int32Rect(0, 0, viewportSize, viewportSize));
 
             // Neutralize View
             var ocView = Current.Viewport.V3dView;
@@ -75,6 +77,7 @@ namespace Macad.Test.Utils
             Current.Workspace.GridEnabled = false;
             Current.Workspace.GridStep = 10;
             Current.Workspace.V3dViewer.DisplayPrivilegedPlane(false);
+            return Current;
         }
 
         //--------------------------------------------------------------------------------------------------

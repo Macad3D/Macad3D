@@ -18,7 +18,7 @@ namespace Macad.Test.UI.Editors.Toolkits
         [Test]
         public void RunScript()
         {
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
 
             // Abort file window
             MainWindow.Ribbon.ClickButton("RunScript");
@@ -33,7 +33,7 @@ namespace Macad.Test.UI.Editors.Toolkits
             fileDlg.Load(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UnitTests\SourceData\Scripts\CreateBoxBody.csx"));
 
             // Check for body
-            Assert.AreEqual(1, Pipe.GetValue<int>("$Context.Document.ChildCount"));
+            Assert.AreEqual(1, Pipe.GetValue<int>("$Context.Document.EntityCount"));
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ namespace Macad.Test.UI.Editors.Toolkits
         [Test]
         public void RunScriptError()
         {
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
 
             MainWindow.Ribbon.ClickButton("RunScript");
             var fileDlg = new FileDialogAdaptor(MainWindow);
@@ -59,18 +59,18 @@ namespace Macad.Test.UI.Editors.Toolkits
         [Test]
         public void ScriptAddToMru()
         {
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
             MainWindow.Ribbon.ClickButton("RunScript");
             var fileDlg = new FileDialogAdaptor(MainWindow);
             Assert.That(fileDlg.Title, Is.EqualTo("Open Script..."));
             fileDlg.Load(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UnitTests\SourceData\Scripts\CreateBoxBody.csx"));
-            Assert.AreEqual(1, Pipe.GetValue<int>("$Context.Document.ChildCount"));
+            Assert.AreEqual(1, Pipe.GetValue<int>("$Context.Document.EntityCount"));
             
             MainWindow.Ribbon.OpenSplitButtonMenu("RunScript");
             Assert.IsTrue(ContextMenuAdaptor.IsContextMenuOpen(MainWindow));
             var context = new ContextMenuAdaptor(MainWindow);
             context.ClickMenuItem("CreateBoxBody");
-            Assert.AreEqual(2, Pipe.GetValue<int>("$Context.Document.ChildCount"));
+            Assert.AreEqual(2, Pipe.GetValue<int>("$Context.Document.EntityCount"));
         }
 
     }

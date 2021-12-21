@@ -33,7 +33,7 @@ namespace Macad.Interaction
                 var plane = DatumPlane.Create();
                 plane.Position = _WorkspaceController.Workspace.WorkingPlane.Location;
                 plane.Rotation = _WorkspaceController.Workspace.WorkingPlane.Rotation();
-                InteractiveContext.Current?.Document.AddChild(plane);
+                InteractiveContext.Current?.Document.Add(plane);
                 InteractiveContext.Current?.UndoHandler.Commit();
 
                 _WorkspaceController.Selection.SelectEntity(plane);

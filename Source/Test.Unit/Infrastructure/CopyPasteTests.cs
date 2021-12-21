@@ -27,7 +27,7 @@ namespace Macad.Test.Unit.Infrastructure
         {
             var context = InteractiveContext.Current;
             var body1 = Body.Create(Box.Create(1, 1, 1));
-            context.Document.AddChild(body1);
+            context.Document.Add(body1);
 
             context.WorkspaceController.Selection.SelectEntity(body1);
             context.WorkspaceController.CopyToClipboard();

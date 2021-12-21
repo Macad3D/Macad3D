@@ -1,5 +1,7 @@
 ﻿#include "ManagedPCH.h"
 
+#using "Macad.Occt.dll" as_friend
+
 using namespace System;
 
 // macro to compare two types of shapes

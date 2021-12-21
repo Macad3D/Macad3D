@@ -25,14 +25,14 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-        public int ChildCount
+        public int EntityCount
         {
             get { return EntityList.Count; }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual void AddChild(T entity, bool update = true)
+        public virtual void Add(T entity, bool update = true)
         {
             EntityList.Add(entity);
             if (update)
@@ -43,7 +43,7 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual void RemoveChild(T entity, bool update = true)
+        public virtual void Remove(T entity, bool update = true)
         {
             var index = EntityList.IndexOf(entity);
             if (index < 0)
@@ -59,7 +59,7 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual T GetChild(int index)
+        public virtual T Get(int index)
         {
             return EntityList[index];
         }

@@ -7,7 +7,7 @@ using Macad.Core.Geom;
 // Create new Box and Body
 var box = Box.Create(10.0, 10.0, 1.0);
 var body = Body.Create(box);
-Document.AddChild(body);
+Document.Add(body);
 
 // Get geometry from box
 var boxBRep = box.GetBRep();

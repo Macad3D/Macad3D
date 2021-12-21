@@ -59,7 +59,6 @@ static Dictionary<string, List<string>> FileSets = new Dictionary<string, List<s
         @"Bin\Publish\*.exe",
         @"Bin\Publish\*.dll",
         @"Bin\Publish\*.runtimeconfig.json",
-        @"Bin\Doc\Macad.UserGuide.chm",
     }},
     { "shellext", new List<string> {
         @"Bin\Release\Macad.ShellExtension.dll",

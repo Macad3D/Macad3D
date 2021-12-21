@@ -240,9 +240,9 @@ namespace Macad.Test.Unit.Modeling.Assemble
         {
             var model = CoreContext.Current.Document;
             var body1 = TestGeomGenerator.CreateBody(Box.Create(10, 2, 10), new Pnt(-5, -5, -5));
-            model.AddChild(body1);
+            model.Add(body1);
             var body2 = TestGeomGenerator.CreateBody(Box.Create(2, 10, 10), new Pnt(-5, -5, -5));
-            model.AddChild(body2);
+            model.Add(body2);
 
             var (first, second) = BoxJoint.Create(body1, body2);
             model.UndoHandler.Commit();

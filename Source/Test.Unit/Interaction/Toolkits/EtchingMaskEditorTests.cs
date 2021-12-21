@@ -35,7 +35,7 @@ namespace Macad.Test.Unit.Interaction.Toolkits
             var ctx = Context.Current;
             var body = TestGeomGenerator.CreateImprint()?.Body;
             Assume.That(body != null);
-            ctx.Document.AddChild(body);
+            ctx.Document.Add(body);
             ctx.WorkspaceController.Selection.SelectEntity(body);
             
             Assert.IsTrue(ToolboxCommands.CreateEtchingMask.CanExecute());
@@ -59,7 +59,7 @@ namespace Macad.Test.Unit.Interaction.Toolkits
             var ctx = Context.Current;
             var body = TestGeomGenerator.CreateImprint()?.Body;
             Assume.That(body != null);
-            ctx.Document.AddChild(body);
+            ctx.Document.Add(body);
             ctx.ViewportController.ZoomFitAll();
 
             Assert.Multiple(() =>
@@ -94,7 +94,7 @@ namespace Macad.Test.Unit.Interaction.Toolkits
             var ctx = Context.Current;
             var body = TestGeomGenerator.CreateImprint()?.Body;
             Assume.That(body != null);
-            ctx.Document.AddChild(body);
+            ctx.Document.Add(body);
             ctx.ViewportController.ZoomFitAll();
 
             Assert.Multiple(() =>
@@ -149,7 +149,7 @@ namespace Macad.Test.Unit.Interaction.Toolkits
             taper.BaseParameter = 0.0;
             Assert.IsTrue(taper.Make(Shape.MakeFlags.None));
             
-            ctx.Document.AddChild(body);
+            ctx.Document.Add(body);
             ctx.ViewportController.ZoomFitAll();
 
             // Start tool
@@ -186,7 +186,7 @@ namespace Macad.Test.Unit.Interaction.Toolkits
             var ctx = Context.Current;
             var body = TestGeomGenerator.CreateImprint()?.Body;
             Assume.That(body != null);
-            ctx.Document.AddChild(body);
+            ctx.Document.Add(body);
 
             var otherBody = TestGeomGenerator.CreateBox()?.Body;
             Assume.That(otherBody != null);

@@ -9,7 +9,7 @@ namespace Macad.Interaction.Panels
     /// </summary>
     public partial class ViewportContextMenu : ToolbarContextMenu
     {
-        public CustomMenuItems DynamicContextMenuItems { get; } = new();
+        public ContextMenuItems DynamicContextMenuItems { get; } = new();
 
         //--------------------------------------------------------------------------------------------------
 
@@ -38,7 +38,7 @@ namespace Macad.Interaction.Panels
 
         void _UpdateContextActions()
         {
-            void __AddCommands(ICustomMenuProvider provider)
+            void __AddCommands(IContextMenuItemProvider provider)
             {
                 if (provider == null)
                     return;

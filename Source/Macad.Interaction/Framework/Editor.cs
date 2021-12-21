@@ -7,7 +7,7 @@ using Macad.Presentation;
 
 namespace Macad.Interaction
 {
-    public abstract class Editor : BaseObject, ICustomMenuProvider
+    public abstract class Editor : BaseObject, IContextMenuItemProvider
     {
         public abstract void Init(WorkspaceController workspaceController, Entity entity);
         public abstract void Start();
@@ -58,7 +58,7 @@ namespace Macad.Interaction
 
         #region IActionCommandProvider
 
-        public virtual void EnrichContextMenu(CustomMenuItems itemList)
+        public virtual void EnrichContextMenu(ContextMenuItems itemList)
         {
         }
 

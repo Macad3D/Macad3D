@@ -233,7 +233,7 @@ namespace Macad.Interaction.Dialogs
                 hlrBrepDrawing.UseTriangulation = Settings.UseTriangulation;
 
                 var drawing = new Drawing();
-                drawing.AddChild(hlrBrepDrawing);
+                drawing.Add(hlrBrepDrawing);
 
                 return exporter.DoExport(filename, drawing);
             }

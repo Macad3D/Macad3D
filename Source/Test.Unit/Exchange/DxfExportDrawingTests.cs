@@ -359,7 +359,7 @@ namespace Macad.Test.Unit.Exchange
             };
 
             Drawing drawing = new();
-            drawing.AddChild(dim);
+            drawing.Add(dim);
 
             var dxf = DxfDrawingExporter.Export(drawing, DxfVersion.AC1009);
             AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "LengthDimension.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
@@ -384,7 +384,7 @@ namespace Macad.Test.Unit.Exchange
             };
 
             Drawing drawing = new();
-            drawing.AddChild(dim);
+            drawing.Add(dim);
 
             var dxf = DxfDrawingExporter.Export(drawing, DxfVersion.AC1009);
             AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "AngleDimension.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
@@ -410,7 +410,7 @@ namespace Macad.Test.Unit.Exchange
             };
 
             Drawing drawing = new();
-            drawing.AddChild(dim);
+            drawing.Add(dim);
 
             var dxf = DxfDrawingExporter.Export(drawing, DxfVersion.AC1009);
             Assert.IsNotNull(dxf);
@@ -436,7 +436,7 @@ namespace Macad.Test.Unit.Exchange
 
             var pipeDrawing = PipeDrawing.Create(pipe.Body);
             Drawing drawing = new();
-            drawing.AddChild(pipeDrawing);
+            drawing.Add(pipeDrawing);
 
             var dxf = DxfDrawingExporter.Export(drawing, DxfVersion.AC1015);
             AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "MultipleDimensionEntities.dxf"), dxf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
@@ -455,7 +455,7 @@ namespace Macad.Test.Unit.Exchange
             hlrBrepDrawing.UseTriangulation = useTriangulation;
 
             var drawing = new Drawing();
-            drawing.AddChild(hlrBrepDrawing);
+            drawing.Add(hlrBrepDrawing);
 
             return DxfDrawingExporter.Export(drawing, version, flags);
         }

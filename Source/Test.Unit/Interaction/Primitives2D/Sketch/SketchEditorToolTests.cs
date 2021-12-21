@@ -590,9 +590,10 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             // Create another Segment
             sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
+            Assert.IsFalse(ctx.WorkspaceController.CurrentToolAction is MoveSketchPointAction);
             ctx.ClickAt(300, 300); // Create Point 1
             ctx.ClickAt(450, 450); // Create Point 2
-            Assert.IsFalse(ctx.WorkspaceController.CurrentToolAction is MoveSketchPointAction);
+            Assert.IsTrue(ctx.WorkspaceController.CurrentToolAction is MoveSketchPointAction);
         }
 
         //--------------------------------------------------------------------------------------------------

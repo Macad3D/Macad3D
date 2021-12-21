@@ -22,7 +22,7 @@ namespace Macad.Test.UI.Editors.Toolkits
         public void GenerateBox()
         {
             // Start tool
-            MainWindow.Ribbon.SelectGroup("Model");
+            MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateBox");
             Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
 
@@ -44,7 +44,7 @@ namespace Macad.Test.UI.Editors.Toolkits
             GenerateBox();
 
             // Click button to start tool
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
             MainWindow.Ribbon.ClickButton("CreateEtchingMask");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateEtchingMask"));
 
@@ -72,7 +72,7 @@ namespace Macad.Test.UI.Editors.Toolkits
             GenerateBox();
 
             // Click button to start tool
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
             MainWindow.Ribbon.ClickButton("CreateEtchingMask");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateEtchingMask"));
 
@@ -98,7 +98,7 @@ namespace Macad.Test.UI.Editors.Toolkits
             GenerateBox();
 
             // Click button to start tool
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
             MainWindow.Ribbon.ClickButton("CreateEtchingMask");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateEtchingMask"));
 
@@ -144,7 +144,7 @@ namespace Macad.Test.UI.Editors.Toolkits
             GenerateBox();
 
             // Click button to start tool
-            MainWindow.Ribbon.SelectGroup("Toolbox");
+            MainWindow.Ribbon.SelectTab("Toolbox");
             MainWindow.Ribbon.ClickButton("CreateEtchingMask");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateEtchingMask"));
 

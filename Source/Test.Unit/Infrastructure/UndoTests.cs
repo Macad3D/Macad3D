@@ -145,15 +145,15 @@ namespace Macad.Test.Unit.Infrastructure
             var state1 = Serializer.Serialize(asm, new SerializationContext());
 
             // Add bodies -> State 2
-            asm.AddChild(body1);
-            asm.AddChild(body2);
+            asm.Add(body1);
+            asm.Add(body2);
             Context.Current.UndoHandler.Commit();
             Assert.IsTrue(Context.Current.UndoHandler.CanUndo);
             Assert.IsFalse(Context.Current.UndoHandler.CanRedo);
             var state2 = Serializer.Serialize(asm, new SerializationContext());
 
             // Remove body -> State 3
-            asm.RemoveChild(body2);
+            asm.Remove(body2);
             body2.Remove();
             Context.Current.UndoHandler.Commit();
             Assert.IsTrue(Context.Current.UndoHandler.CanUndo);

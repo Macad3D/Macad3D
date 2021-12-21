@@ -364,7 +364,7 @@ namespace Macad.Interaction.Editors.Topology
 
         //--------------------------------------------------------------------------------------------------
         
-        public void EnrichMainContextMenu(CustomMenuItems itemList)
+        public void EnrichMainContextMenu(ContextMenuItems itemList)
         {
             _SelectedEditor?.EnrichContextMenu(itemList);
         }

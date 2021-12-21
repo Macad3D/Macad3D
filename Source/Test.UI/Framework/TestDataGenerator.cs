@@ -7,7 +7,7 @@ namespace Macad.Test.UI.Framework
         public static void GenerateBox(MainWindowAdaptor mainWindow)
         {
             // Start tool
-            mainWindow.Ribbon.SelectGroup("Model");
+            mainWindow.Ribbon.SelectTab("Model");
             mainWindow.Ribbon.ClickButton("CreateBox");
             Assert.IsTrue(mainWindow.Ribbon.IsButtonChecked("CreateBox"));
 
@@ -25,7 +25,7 @@ namespace Macad.Test.UI.Framework
             var viewport = mainWindow.Viewport;
 
             // Create Box
-            mainWindow.Ribbon.SelectGroup("Model");
+            mainWindow.Ribbon.SelectTab("Model");
             mainWindow.Ribbon.ClickButton("CreateBox");
             Assert.IsTrue(mainWindow.Ribbon.IsButtonChecked("CreateBox"));
             viewport.ClickRelative(0.3, 0.3);
@@ -52,11 +52,11 @@ namespace Macad.Test.UI.Framework
             var viewport = mainWindow.Viewport;
 
             // Create Sketch
-            mainWindow.Ribbon.SelectGroup("Model");
+            mainWindow.Ribbon.SelectTab("Model");
             mainWindow.Ribbon.ClickButton("CreateSketch");
 
             // Draw
-            mainWindow.Ribbon.SelectGroup("Sketch");
+            mainWindow.Ribbon.SelectTab("Sketch");
             mainWindow.Ribbon.ClickButton("CreatePolyLineSegment");
             Assert.IsTrue(mainWindow.Ribbon.IsButtonChecked("CreatePolyLineSegment"));
             viewport.ClickRelative(0.3, 0.3);

@@ -229,7 +229,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             var datumPlane = DatumPlane.Create();
             datumPlane.Position = new Pnt(5, 10, 10);
-            ctx.Document.AddChild(datumPlane);
+            ctx.Document.Add(datumPlane);
             ctx.ViewportController.ZoomFitAll();
 
             ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.Interactive));

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.Windows;
 using Macad.Common;
 using Macad.Common.Interop;
@@ -138,7 +139,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public IntPtr InitWindow(IntPtr parentHWnd, int width=64, int height=64)
+        public IntPtr InitWindow(IntPtr parentHWnd, Int32Rect initialRect)
         {
             Debug.Assert(Viewport.V3dView != null);
 
@@ -150,8 +151,8 @@ namespace Macad.Interaction
                 _OcWindowClass = new WNT_WClass(new TCollection_AsciiString("WorkspaceView"), IntPtr.Zero, style, 0);
             }
 
-            style = Win32Api.WS_VISIBLE | ((parentHWnd == IntPtr.Zero) ? Win32Api.WS_POPUP : Win32Api.WS_CHILD);
-            _OcWindow = new WNT_Window("WorkspaceView", _OcWindowClass, style, 0, 0, width, height, Quantity_NameOfColor.Quantity_NOC_GRAY50, parentHWnd);
+            style = Win32Api.WS_VISIBLE | (parentHWnd == IntPtr.Zero ? Win32Api.WS_POPUP : Win32Api.WS_CHILD);
+            _OcWindow = new WNT_Window("WorkspaceView", _OcWindowClass, style, initialRect.X, initialRect.Y, initialRect.Width, initialRect.Height, Quantity_NameOfColor.Quantity_NOC_GRAY50, parentHWnd);
             _OcWindow.Map();
 
             if (Viewport.V3dView != null)

@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Media.Converters;
 using Macad.Presentation;
 
 namespace Macad.Interaction.Panels
@@ -88,7 +89,7 @@ namespace Macad.Interaction.Panels
             viewportController.Viewport.DpiScale = (dpiScale.DpiScaleX + dpiScale.DpiScaleY) / 2.0;
 
             // Create host for OpenGL window
-            Child = new ViewportHwndHost(viewportController);
+            Child = new ViewportHwndHost(viewportController, this);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -110,6 +111,7 @@ namespace Macad.Interaction.Panels
         bool _SuppressContextMenu;
         bool _RightMouseBtnDown;
         Point _MouseDownPosition;
+        bool _ContextMenuIsOpen;
 
         public ViewportPanel()
         {
@@ -129,6 +131,41 @@ namespace Macad.Interaction.Panels
         #endregion
 
         #region Callbacks
+
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.Property == ContextMenuProperty)
+            {
+                if (e.NewValue is ContextMenu oldMenu)
+                {
+                    oldMenu.Opened -= _ContextMenu_Opened;
+                    oldMenu.Closed -= _ContextMenu_Closed;
+                }
+
+                if (e.NewValue is ContextMenu newMenu)
+                {
+                    newMenu.Opened += _ContextMenu_Opened;
+                    newMenu.Closed += _ContextMenu_Closed;
+                }
+            }
+            base.OnPropertyChanged(e);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _ContextMenu_Closed(object sender, RoutedEventArgs e)
+        {
+            _ContextMenuIsOpen = false;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _ContextMenu_Opened(object sender, RoutedEventArgs e)
+        {
+            _ContextMenuIsOpen = true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         protected override void OnContextMenuOpening(ContextMenuEventArgs e)
         {
@@ -214,9 +251,13 @@ namespace Macad.Interaction.Panels
 
             _SuppressContextMenu = false;
 
-            var pos = e.GetPosition(this);
-            var dpiScale = VisualTreeHelper.GetDpi(this);
-            MouseControl?.MouseUp(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY), e.ChangedButton, e.ClickCount, e.MouseDevice);
+            if (!_ContextMenuIsOpen)
+            {
+                var pos = e.GetPosition(this);
+                var dpiScale = VisualTreeHelper.GetDpi(this);
+                MouseControl?.MouseUp(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY), e.ChangedButton, e.ClickCount, e.MouseDevice);
+            }
+
             ReleaseMouseCapture();
         }
 

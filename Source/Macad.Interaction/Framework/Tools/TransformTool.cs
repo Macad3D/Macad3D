@@ -354,7 +354,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void EnrichContextMenu(CustomMenuItems itemList)
+        public override void EnrichContextMenu(ContextMenuItems itemList)
         {
             itemList.AddSeparator("Pivot Point");
 

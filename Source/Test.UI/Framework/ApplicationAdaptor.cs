@@ -46,6 +46,7 @@ namespace Macad.Test.UI.Framework
             Application = FlaUI.Core.Application.Launch(processStartInfo);
             Assume.That(Application, Is.Not.Null);
             Application.WaitWhileMainHandleIsMissing();
+            Application.WaitWhileBusy(new TimeSpan(0, 1, 0));
         }
 
         //--------------------------------------------------------------------------------------------------
