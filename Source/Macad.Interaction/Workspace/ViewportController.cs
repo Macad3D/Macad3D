@@ -151,6 +151,11 @@ namespace Macad.Interaction
                 _OcWindowClass = new WNT_WClass(new TCollection_AsciiString("WorkspaceView"), IntPtr.Zero, style, 0);
             }
 
+            if (initialRect.IsEmpty)
+            {
+                initialRect = new Int32Rect(0, 0, 64, 64);
+            }
+
             style = Win32Api.WS_VISIBLE | (parentHWnd == IntPtr.Zero ? Win32Api.WS_POPUP : Win32Api.WS_CHILD);
             _OcWindow = new WNT_Window("WorkspaceView", _OcWindowClass, style, initialRect.X, initialRect.Y, initialRect.Width, initialRect.Height, Quantity_NameOfColor.Quantity_NOC_GRAY50, parentHWnd);
             _OcWindow.Map();

@@ -63,7 +63,8 @@ namespace Macad.Window
             // Init Space Navigator
             SpaceNavigator.Init(this);
 
-            Dispatcher.CurrentDispatcher.BeginInvoke(AppCommands.InitApplication.Execute);
+            AppCommands.InitApplication.Execute();
+            Dispatcher.CurrentDispatcher.BeginInvoke(AppCommands.RunStartupCommands.Execute, DispatcherPriority.Loaded);
 
             Docking.Viewport.Focus();
         }

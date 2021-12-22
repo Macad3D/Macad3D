@@ -43,7 +43,9 @@ namespace Macad.Interaction.Panels
 
         protected IPropertyPanelManager PanelManager { get; private set; }
 
-        protected BaseObject Instance { get; set; }
+        // The instance will be consumed by property view, so must be public
+        // ReSharper disable once MemberCanBeProtected.Global
+        public BaseObject Instance { get; set; } 
 
         bool _IsDisposed = false;
         

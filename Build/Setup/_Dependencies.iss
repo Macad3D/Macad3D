@@ -41,8 +41,8 @@ var
 begin
   Result := '';
  	DependencyPage.SetText('Installing Microsoft Visual C++ {#VcRedistDisplayedVersion} Runtime...', '');
-  ExtractTemporaryFile('vcredist_x64.exe');
-  if not Exec(ExpandConstant('{tmp}\vcredist_x64.exe'), '/q /norestart', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
+  ExtractTemporaryFile('vc_redist.x64.exe');
+  if not Exec(ExpandConstant('{tmp}\vc_redist.x64.exe'), '/q /norestart', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then
   begin
     Result := 'Installation of Microsoft Visual C++ Runtime cannot be started due to the following error: ' +
               + 'Code ' + IntToStr(ResultCode) + ' - ' + SysErrorMessage(ResultCode) + '.' + #13#10;

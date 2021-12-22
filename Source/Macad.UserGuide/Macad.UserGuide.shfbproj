@@ -1,9 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Import the common props to support NuGet packages via PackageReference -->
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <!-- A framework version is required for NuGet restore, can be any valid version -->
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <PublishableProject>false</PublishableProject>
+  </PropertyGroup>
   <Import Project="$(SHFBNETFRAMEWORK)\EWSoftware.SHFB.NET.props" Condition="'$(SHFBNETFRAMEWORK)'!=''" />
   <PropertyGroup>
-    <!-- NOTE: Update the version number in the path (YYYY.M.D.R) to match the package version -->
-    <SHFBROOT Condition=" '$(SHFBROOT)' == '' ">$(MSBuildThisFileDirectory)..\..\Packages\EWSoftware.SHFB.2021.11.7\Tools\</SHFBROOT>
     <!-- The configuration and platform will be used to determine which assemblies to include from solution and
 				 project documentation sources -->
     <Configuration Condition=" '$(Configuration)' == '' ">WebDoc</Configuration>
@@ -43,12 +48,12 @@
     <ComponentConfigurations>
       <ComponentConfig id="Code Block Component" enabled="True">
         <component id="Code Block Component">
-  <basePath value="{@HtmlEncProjectFolder}" />
-  <outputPaths>{@HelpFormatOutputPaths}</outputPaths>
-  <allowMissingSource value="false" />
-  <removeRegionMarkers value="false" />
-  <colorizer syntaxFile="{@CoreComponentsFolder}Colorizer\highlight.xml" styleFile="{@CoreComponentsFolder}Colorizer\highlight.xsl" stylesheet="{@CoreComponentsFolder}Colorizer\highlight.css" scriptFile="{@CoreComponentsFolder}Colorizer\highlight.js" disabled="{@DisableCodeBlockComponent}" language="cs" tabSize="0" numberLines="false" outlining="false" keepSeeTags="false" defaultTitle="false" />
-</component>
+          <basePath value="{@HtmlEncProjectFolder}" />
+          <outputPaths>{@HelpFormatOutputPaths}</outputPaths>
+          <allowMissingSource value="false" />
+          <removeRegionMarkers value="false" />
+          <colorizer syntaxFile="{@CoreComponentsFolder}Colorizer\highlight.xml" styleFile="{@CoreComponentsFolder}Colorizer\highlight.xsl" stylesheet="{@CoreComponentsFolder}Colorizer\highlight.css" scriptFile="{@CoreComponentsFolder}Colorizer\highlight.js" disabled="{@DisableCodeBlockComponent}" language="cs" tabSize="0" numberLines="false" outlining="false" keepSeeTags="false" defaultTitle="false" />
+        </component>
       </ComponentConfig>
     </ComponentConfigurations>
     <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
@@ -81,15 +86,20 @@
     <MaximumGroupParts>2</MaximumGroupParts>
     <ApiFilter>
       <Filter entryType="Namespace" fullName="Macad.Core" isExposed="False">
-  <Filter entryType="Class" fullName="Macad.Core.ExchangeRegistry" filterName="ExchangeRegistry" isExposed="True">
-    <Filter entryType="Method" fullName="Macad.Core.ExchangeRegistry.FindExchangerSettingsPanel" filterName="FindExchangerSettingsPanel" isExposed="False" />
-    <Filter entryType="Method" fullName="Macad.Core.ExchangeRegistry.LoadSettings" filterName="LoadSettings" isExposed="False" />
-    <Filter entryType="Method" fullName="Macad.Core.ExchangeRegistry.SaveSettings" filterName="SaveSettings" isExposed="False" />
+  <Filter entryType="Class" fullName="Macad.Core.ExchangeRegistry" filterName="ExchangeRegistry" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.ExchangeRegistry.EnumerateExchanger" filterName="EnumerateExchanger" isExposed="True" />
+    <Filter entryType="Method" fullName="Macad.Core.ExchangeRegistry.FindExchanger" filterName="FindExchanger" isExposed="True" />
   </Filter>
   <Filter entryType="Interface" fullName="Macad.Core.IBodyExporter" filterName="IBodyExporter" isExposed="True" />
   <Filter entryType="Interface" fullName="Macad.Core.IBodyImporter" filterName="IBodyImporter" isExposed="True" />
   <Filter entryType="Interface" fullName="Macad.Core.IDrawingExporter" filterName="IDrawingExporter" isExposed="True" />
-  <Filter entryType="Interface" fullName="Macad.Core.IExchanger" filterName="IExchanger" isExposed="True" />
+  <Filter entryType="Interface" fullName="Macad.Core.IExchanger" filterName="IExchanger" isExposed="True">
+    <Filter entryType="Method" fullName="Macad.Core.IExchanger.CanExportToClipboard" filterName="CanExportToClipboard" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.IExchanger.CanImportFromClipboard" filterName="CanImportFromClipboard" isExposed="False" />
+    <Filter entryType="Property" fullName="Macad.Core.IExchanger.Description" filterName="Description" isExposed="False" />
+    <Filter entryType="Property" fullName="Macad.Core.IExchanger.Extensions" filterName="Extensions" isExposed="False" />
+    <Filter entryType="Property" fullName="Macad.Core.IExchanger.Settings" filterName="Settings" isExposed="False" />
+  </Filter>
   <Filter entryType="Interface" fullName="Macad.Core.ISketchExporter" filterName="ISketchExporter" isExposed="True" />
   <Filter entryType="Interface" fullName="Macad.Core.ISketchImporter" filterName="ISketchImporter" isExposed="True" />
   <Filter entryType="Enumeration" fullName="Macad.Core.LineStyle" filterName="LineStyle" isExposed="True" />
@@ -113,54 +123,267 @@
     <Filter entryType="Property" fullName="Macad.Core.Viewport.Workspace" filterName="Workspace" isExposed="False" />
   </Filter>
   <Filter entryType="Enumeration" fullName="Macad.Core.Viewport.RenderModes" filterName="Viewport.RenderModes" isExposed="True" />
-  <Filter entryType="Class" fullName="Macad.Core.Workspace" filterName="Workspace" isExposed="True">
-    <Filter entryType="Constructor" fullName="Macad.Core.Workspace.#ctor" filterName=".ctor" isExposed="False" />
-    <Filter entryType="Method" fullName="Macad.Core.Workspace.Dispose" filterName="Dispose" isExposed="False" />
-    <Filter entryType="Method" fullName="Macad.Core.Workspace.InitAisContext" filterName="InitAisContext" isExposed="False" />
-    <Filter entryType="Method" fullName="Macad.Core.Workspace.InitV3dViewer" filterName="InitV3dViewer" isExposed="False" />
-    <Filter entryType="Method" fullName="Macad.Core.Workspace.MarkAsUnsaved" filterName="MarkAsUnsaved" isExposed="False" />
-    <Filter entryType="Method" fullName="Macad.Core.Workspace.OnBeginDeserializing" filterName="OnBeginDeserializing" isExposed="False" />
-    <Filter entryType="Property" fullName="Macad.Core.Workspace.AisContext" filterName="AisContext" isExposed="False" />
-    <Filter entryType="Property" fullName="Macad.Core.Workspace.Model" filterName="Model" isExposed="False" />
-    <Filter entryType="Property" fullName="Macad.Core.Workspace.NeedsImmediateRedraw" filterName="NeedsImmediateRedraw" isExposed="False" />
-    <Filter entryType="Property" fullName="Macad.Core.Workspace.NeedsRedraw" filterName="NeedsRedraw" isExposed="False" />
-    <Filter entryType="Property" fullName="Macad.Core.Workspace.V3dViewer" filterName="V3dViewer" isExposed="False" />
+  <Filter entryType="Class" fullName="Macad.Core.Workspace" filterName="Workspace" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Workspace.ComputeGridPoint" filterName="ComputeGridPoint" isExposed="True" />
+    <Filter entryType="Method" fullName="Macad.Core.Workspace.GetWorkingPlaneRotation" filterName="GetWorkingPlaneRotation" isExposed="True" />
+    <Filter entryType="Method" fullName="Macad.Core.Workspace.SetDefaultWorkingPlane" filterName="SetDefaultWorkingPlane" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Workspace.GridDivisions" filterName="GridDivisions" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Workspace.GridEnabled" filterName="GridEnabled" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Workspace.GridRotation" filterName="GridRotation" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Workspace.GridStep" filterName="GridStep" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Workspace.GridType" filterName="GridType" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Workspace.Viewports" filterName="Viewports" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Workspace.WorkingPlane" filterName="WorkingPlane" isExposed="True" />
   </Filter>
   <Filter entryType="Enumeration" fullName="Macad.Core.Workspace.GridTypes" filterName="Workspace.GridTypes" isExposed="True" />
 </Filter>
+<Filter entryType="Namespace" fullName="Macad.Core.Auxiliary" isExposed="True">
+  <Filter entryType="Class" fullName="Macad.Core.Auxiliary.DatumPlane" filterName="DatumPlane" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Auxiliary.DatumPlane.#ctor" filterName=".ctor" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Auxiliary.DatumPlane.GetCoordinateSystem" filterName="GetCoordinateSystem" isExposed="False" />
+  </Filter>
+</Filter>
 <Filter entryType="Namespace" fullName="Macad.Core.Components" isExposed="False" />
-<Filter entryType="Namespace" fullName="Macad.Core.Drawing" isExposed="False">
-  <Filter entryType="Class" fullName="Macad.Core.Drawing.AngleDimension" filterName="AngleDimension" isExposed="True">
-    <Filter entryType="Method" fullName="Macad.Core.Drawing.AngleDimension.ComputeParameters" filterName="ComputeParameters" isExposed="False" />
-    <Filter entryType="Method" fullName="Macad.Core.Drawing.AngleDimension.Render" filterName="Render" isExposed="False" />
+<Filter entryType="Namespace" fullName="Macad.Core.Drawing" isExposed="False" />
+<Filter entryType="Namespace" fullName="Macad.Core.Geom" isExposed="False" />
+<Filter entryType="Namespace" fullName="Macad.Core.Shapes" isExposed="True">
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.BooleanCommon" filterName="BooleanCommon" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.BooleanCommon.Create" filterName="Create" isExposed="True" />
   </Filter>
-  <Filter entryType="Structure" fullName="Macad.Core.Drawing.AngleDimension.Parameters" filterName="AngleDimension.Parameters" isExposed="False" />
-  <Filter entryType="Class" fullName="Macad.Core.Drawing.BRepDrawing" filterName="BRepDrawing" isExposed="True">
-    <Filter entryType="Method" fullName="Macad.Core.Drawing.BRepDrawing.Render" filterName="Render" isExposed="False" />
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.BooleanCut" filterName="BooleanCut" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.BooleanCut.Create" filterName="Create" isExposed="True" />
   </Filter>
-  <Filter entryType="Class" fullName="Macad.Core.Drawing.Drawing" filterName="Drawing" isExposed="False">
-    <Filter entryType="Constructor" fullName="Macad.Core.Drawing.Drawing.#ctor" filterName=".ctor" isExposed="True" />
-    <Filter entryType="Property" fullName="Macad.Core.Drawing.Drawing.Name" filterName="Name" isExposed="True" />
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.BooleanFuse" filterName="BooleanFuse" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.BooleanFuse.Create" filterName="Create" isExposed="True" />
   </Filter>
-  <Filter entryType="Class" fullName="Macad.Core.Drawing.DrawingElement" filterName="DrawingElement" isExposed="True">
-    <Filter entryType="Method" fullName="Macad.Core.Drawing.DrawingElement.Render" filterName="Render" isExposed="False" />
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Box" filterName="Box" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.Box.#ctor" filterName=".ctor" isExposed="False" />
   </Filter>
-  <Filter entryType="Class" fullName="Macad.Core.Drawing.FillStyle" filterName="FillStyle" isExposed="True" />
-  <Filter entryType="Class" fullName="Macad.Core.Drawing.FontStyle" filterName="FontStyle" isExposed="True" />
-  <Filter entryType="Class" fullName="Macad.Core.Drawing.HlrDrawing" filterName="HlrDrawing" isExposed="True">
-    <Filter entryType="Method" fullName="Macad.Core.Drawing.HlrDrawing.Render" filterName="Render" isExposed="False" />
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.BoxJoint" filterName="BoxJoint" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.BoxJoint.#ctor" filterName=".ctor" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.BoxJoint.CanReplaceOperand" filterName="CanReplaceOperand" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.BoxJoint.OnDeserialized" filterName="OnDeserialized" isExposed="False" />
   </Filter>
-  <Filter entryType="Interface" fullName="Macad.Core.Drawing.IBrepSource" filterName="IBrepSource" isExposed="True" />
-  <Filter entryType="Class" fullName="Macad.Core.Drawing.LengthDimension" filterName="LengthDimension" isExposed="True">
-    <Filter entryType="Method" fullName="Macad.Core.Drawing.LengthDimension.ComputeParameters" filterName="ComputeParameters" isExposed="False" />
-    <Filter entryType="Method" fullName="Macad.Core.Drawing.LengthDimension.Render" filterName="Render" isExposed="False" />
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Chamfer" filterName="Chamfer" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.Chamfer.#ctor" filterName=".ctor" isExposed="False" />
   </Filter>
-  <Filter entryType="Structure" fullName="Macad.Core.Drawing.LengthDimension.Parameters" filterName="LengthDimension.Parameters" isExposed="False" />
-  <Filter entryType="Class" fullName="Macad.Core.Drawing.PipeDrawing" filterName="PipeDrawing" isExposed="True">
-    <Filter entryType="Method" fullName="Macad.Core.Drawing.PipeDrawing._EnsureElements" filterName="_EnsureElements" isExposed="False" />
-    <Filter entryType="Method" fullName="Macad.Core.Drawing.PipeDrawing.FindPipeModifier" filterName="FindPipeModifier" isExposed="False" />
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.CircularArray" filterName="CircularArray" isExposed="True">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.CircularArray.Create" filterName="Create" isExposed="False" />
   </Filter>
-  <Filter entryType="Class" fullName="Macad.Core.Drawing.StrokeStyle" filterName="StrokeStyle" isExposed="True" />
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Cylinder" filterName="Cylinder" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.Cylinder.#ctor" filterName=".ctor" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Extrude" filterName="Extrude" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.Extrude.#ctor" filterName=".ctor" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Fillet" filterName="Fillet" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.Fillet.#ctor" filterName=".ctor" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.FlangeSheet" filterName="FlangeSheet" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.FlangeSheet.#ctor" filterName=".ctor" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Imprint" filterName="Imprint" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.Imprint.#ctor" filterName=".ctor" isExposed="False" />
+  </Filter>
+  <Filter entryType="Interface" fullName="Macad.Core.Shapes.IShapeDependent" filterName="IShapeDependent" isExposed="False" />
+  <Filter entryType="Interface" fullName="Macad.Core.Shapes.IShapeOperand" filterName="IShapeOperand" isExposed="False" />
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.LinearArray" filterName="LinearArray" isExposed="True">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.LinearArray.Create" filterName="Create" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Loft" filterName="Loft" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.Loft.#ctor" filterName=".ctor" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Mesh" filterName="Mesh" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Mesh.Create" filterName="Create" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Mesh.ShapeType" filterName="ShapeType" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Mirror" filterName="Mirror" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.Mirror.#ctor" filterName=".ctor" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.ModifierBase" filterName="ModifierBase" isExposed="True">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.ModifierBase.BindToPlane" filterName="BindToPlane" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.ModifierBase.OnDeserialized" filterName="OnDeserialized" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Pipe" filterName="Pipe" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.Pipe.#ctor" filterName=".ctor" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Reference" filterName="Reference" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Reference.Create" filterName="Create" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Reference.ShapeType" filterName="ShapeType" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Revolve" filterName="Revolve" isExposed="False">
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Revolve.Axis" filterName="Axis" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Revolve.Offset" filterName="Offset" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Revolve.SegmentAngle" filterName="SegmentAngle" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Revolve.ShapeType" filterName="ShapeType" isExposed="True" />
+  </Filter>
+  <Filter entryType="Enumeration" fullName="Macad.Core.Shapes.Revolve.RevolveAxis" filterName="Revolve.RevolveAxis" isExposed="True" />
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Shape" filterName="Shape" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Shape.FindSubshape" filterName="FindSubshape" isExposed="True" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Shape.GetBRep" filterName="GetBRep" isExposed="True" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Shape.GetCoordinateSystem" filterName="GetCoordinateSystem" isExposed="True" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Shape.GetTransformedBRep" filterName="GetTransformedBRep" isExposed="True" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Shape.Invalidate" filterName="Invalidate" isExposed="True" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Shape.Make" filterName="Make" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Shape.Body" filterName="Body" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Shape.HasErrors" filterName="HasErrors" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Shape.IsSkipped" filterName="IsSkipped" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Shape.IsValid" filterName="IsValid" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Shape.IsVisible" filterName="IsVisible" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Shape.Name" filterName="Name" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Shape.Predecessor" filterName="Predecessor" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Shape.ShapeType" filterName="ShapeType" isExposed="True" />
+  </Filter>
+  <Filter entryType="Enumeration" fullName="Macad.Core.Shapes.Shape.MakeFlags" filterName="Shape.MakeFlags" isExposed="True" />
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Shape2D" filterName="Shape2D" isExposed="False">
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Shape2D.BoundTo" filterName="BoundTo" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Shape2D.BoundToPlane" filterName="BoundToPlane" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Shape2D.Plane" filterName="Plane" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Sketch" filterName="Sketch" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.Sketch.#ctor" filterName=".ctor" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Sketch.OnAfterUndo" filterName="OnAfterUndo" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Sketch.OnElementsChanged" filterName="OnElementsChanged" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Sketch.SaveUndo" filterName="SaveUndo" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Sketch.SolveConstraints" filterName="SolveConstraints" isExposed="False" />
+    <Filter entryType="Event" fullName="Macad.Core.Shapes.Sketch.ElementsChanged" filterName="ElementsChanged" isExposed="False" />
+  </Filter>
+  <Filter entryType="Delegate" fullName="Macad.Core.Shapes.Sketch.SketchElementChange" filterName="Sketch.SketchElementChange" isExposed="False" />
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraint" filterName="SketchConstraint" isExposed="True">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraint.Clone" filterName="Clone" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraint.MakeConstraint" filterName="MakeConstraint" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintAngle" filterName="SketchConstraintAngle" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintAngle.Create" filterName="Create" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SketchConstraintAngle.Angle" filterName="Angle" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintConcentric" filterName="SketchConstraintConcentric" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintConcentric.Create" filterName="Create" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintEqual" filterName="SketchConstraintEqual" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintEqual.Create" filterName="Create" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintFixed" filterName="SketchConstraintFixed" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintFixed.Create" filterName="Create" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SketchConstraintFixed.Target" filterName="Target" isExposed="True" />
+  </Filter>
+  <Filter entryType="Enumeration" fullName="Macad.Core.Shapes.SketchConstraintFixed.TargetType" filterName="SketchConstraintFixed.TargetType" isExposed="True" />
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintHorizontal" filterName="SketchConstraintHorizontal" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintHorizontal.Create" filterName="Create" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintHorizontalDistance" filterName="SketchConstraintHorizontalDistance" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintHorizontalDistance.Create" filterName="Create" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SketchConstraintHorizontalDistance.Distance" filterName="Distance" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintLength" filterName="SketchConstraintLength" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintLength.Create" filterName="Create" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SketchConstraintLength.Length" filterName="Length" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintParallel" filterName="SketchConstraintParallel" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintParallel.Create" filterName="Create" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintPerpendicular" filterName="SketchConstraintPerpendicular" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintPerpendicular.Create" filterName="Create" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintPointOnMidpoint" filterName="SketchConstraintPointOnMidpoint" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintPointOnMidpoint.Create" filterName="Create" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintPointOnSegment" filterName="SketchConstraintPointOnSegment" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintPointOnSegment.Create" filterName="Create" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintRadius" filterName="SketchConstraintRadius" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintRadius.Create" filterName="Create" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SketchConstraintRadius.Radius" filterName="Radius" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintSmoothCorner" filterName="SketchConstraintSmoothCorner" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintSmoothCorner.Create" filterName="Create" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SketchConstraintSmoothCorner.Symmetric" filterName="Symmetric" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintSolver" filterName="SketchConstraintSolver" isExposed="False" />
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintTangent" filterName="SketchConstraintTangent" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintTangent.Create" filterName="Create" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintVertical" filterName="SketchConstraintVertical" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintVertical.Create" filterName="Create" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchConstraintVerticalDistance" filterName="SketchConstraintVerticalDistance" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchConstraintVerticalDistance.Create" filterName="Create" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SketchConstraintVerticalDistance.Distance" filterName="Distance" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchSegment" filterName="SketchSegment" isExposed="True">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchSegment.Clone" filterName="Clone" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchSegment.Invalidate" filterName="Invalidate" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchSegment.IsConnected" filterName="IsConnected" isExposed="False" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SketchSegment.CachedCurve" filterName="CachedCurve" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchSegmentArc" filterName="SketchSegmentArc" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.SketchSegmentArc.#ctor" filterName=".ctor" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchSegmentArc.Clone" filterName="Clone" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchSegmentArc.MakeCurve" filterName="MakeCurve" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchSegmentBezier" filterName="SketchSegmentBezier" isExposed="False">
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SketchSegmentBezier.Degree" filterName="Degree" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SketchSegmentBezier.EndPoint" filterName="EndPoint" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SketchSegmentBezier.StartPoint" filterName="StartPoint" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchSegmentCircle" filterName="SketchSegmentCircle" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.SketchSegmentCircle.#ctor" filterName=".ctor" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchSegmentCircle.Clone" filterName="Clone" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchSegmentCircle.MakeCurve" filterName="MakeCurve" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchSegmentEllipse" filterName="SketchSegmentEllipse" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.SketchSegmentEllipse.#ctor" filterName=".ctor" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchSegmentEllipse.Clone" filterName="Clone" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchSegmentEllipse.MakeCurve" filterName="MakeCurve" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchSegmentEllipticalArc" filterName="SketchSegmentEllipticalArc" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.SketchSegmentEllipticalArc.#ctor" filterName=".ctor" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchSegmentEllipticalArc.Clone" filterName="Clone" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchSegmentEllipticalArc.MakeCurve" filterName="MakeCurve" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SketchSegmentLine" filterName="SketchSegmentLine" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.SketchSegmentLine.#ctor" filterName=".ctor" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchSegmentLine.Clone" filterName="Clone" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.SketchSegmentLine.MakeCurve" filterName="MakeCurve" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Solid" filterName="Solid" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Solid.Create" filterName="Create" isExposed="True" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Solid.UpdateShape" filterName="UpdateShape" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.Solid.ShapeType" filterName="ShapeType" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Sphere" filterName="Sphere" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.Sphere.#ctor" filterName=".ctor" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.SubshapeReference" filterName="SubshapeReference" isExposed="False">
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SubshapeReference.Index" filterName="Index" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SubshapeReference.Name" filterName="Name" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SubshapeReference.ShapeId" filterName="ShapeId" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Shapes.SubshapeReference.Type" filterName="Type" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.Taper" filterName="Taper" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.Taper.#ctor" filterName=".ctor" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Taper.CalculateBaseParameter" filterName="CalculateBaseParameter" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Taper.ComputeAxisFromEdge" filterName="ComputeAxisFromEdge" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Shapes.Taper.ComputeAxisFromVertex" filterName="ComputeAxisFromVertex" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Shapes.UnfoldSheet" filterName="UnfoldSheet" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Shapes.UnfoldSheet.#ctor" filterName=".ctor" isExposed="False" />
+  </Filter>
+</Filter>
+<Filter entryType="Namespace" fullName="Macad.Core.Toolkits" isExposed="True">
+  <Filter entryType="Class" fullName="Macad.Core.Toolkits.EtchingMaskComponent" filterName="EtchingMaskComponent" isExposed="True">
+    <Filter entryType="Method" fullName="Macad.Core.Toolkits.EtchingMaskComponent.Invalidate" filterName="Invalidate" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Toolkits.EtchingMaskComponent.Make" filterName="Make" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Toolkits.EtchingMaskComponent.OnShapeInvalidated" filterName="OnShapeInvalidated" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Toolkits.EtchingMaskComponent.OnTransformInvalidated" filterName="OnTransformInvalidated" isExposed="False" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Toolkits.SliceContourComponent" filterName="SliceContourComponent" isExposed="True">
+    <Filter entryType="Constructor" fullName="Macad.Core.Toolkits.SliceContourComponent.#ctor" filterName=".ctor" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Toolkits.SliceContourComponent.Invalidate" filterName="Invalidate" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Toolkits.SliceContourComponent.Make" filterName="Make" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Toolkits.SliceContourComponent.OnShapeInvalidated" filterName="OnShapeInvalidated" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Toolkits.SliceContourComponent.OnTransformInvalidated" filterName="OnTransformInvalidated" isExposed="False" />
+  </Filter>
 </Filter>
 <Filter entryType="Namespace" fullName="Macad.Core.Topology" isExposed="False">
   <Filter entryType="Class" fullName="Macad.Core.Topology.Body" filterName="Body" isExposed="True">
@@ -180,21 +403,38 @@
     <Filter entryType="Method" fullName="Macad.Core.Topology.Body.SetUndoDataBlob" filterName="SetUndoDataBlob" isExposed="False" />
     <Filter entryType="Method" fullName="Macad.Core.Topology.Body.UpdateErrorState" filterName="UpdateErrorState" isExposed="False" />
   </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Topology.Document`1" filterName="Document`1" isExposed="False">
+    <Filter entryType="Method" fullName="Macad.Core.Topology.Document`1.Add" filterName="Add" isExposed="True" />
+    <Filter entryType="Method" fullName="Macad.Core.Topology.Document`1.FindInstance" filterName="FindInstance" isExposed="True" />
+    <Filter entryType="Method" fullName="Macad.Core.Topology.Document`1.FindInstances" filterName="FindInstances" isExposed="True" />
+    <Filter entryType="Method" fullName="Macad.Core.Topology.Document`1.MarkAsUnsaved" filterName="MarkAsUnsaved" isExposed="True" />
+    <Filter entryType="Method" fullName="Macad.Core.Topology.Document`1.Save" filterName="Save" isExposed="True" />
+    <Filter entryType="Method" fullName="Macad.Core.Topology.Document`1.SaveToFile" filterName="SaveToFile" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Topology.Document`1.FilePath" filterName="FilePath" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Topology.Document`1.Name" filterName="Name" isExposed="True" />
+  </Filter>
+  <Filter entryType="Class" fullName="Macad.Core.Topology.Entity" filterName="Entity" isExposed="False">
+    <Filter entryType="Property" fullName="Macad.Core.Topology.Entity.Guid" filterName="Guid" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Topology.Entity.HasErrors" filterName="HasErrors" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Topology.Entity.Name" filterName="Name" isExposed="True" />
+    <Filter entryType="Property" fullName="Macad.Core.Topology.Entity.TypeName" filterName="TypeName" isExposed="True" />
+  </Filter>
   <Filter entryType="Class" fullName="Macad.Core.Topology.Layer" filterName="Layer" isExposed="True">
-    <Filter entryType="Constructor" fullName="Macad.Core.Topology.Layer.#ctor" filterName=".ctor" isExposed="False" />
     <Filter entryType="Method" fullName="Macad.Core.Topology.Layer.OnBeginDeserializing" filterName="OnBeginDeserializing" isExposed="False" />
     <Filter entryType="Method" fullName="Macad.Core.Topology.Layer.RaiseInteractivityChanged" filterName="RaiseInteractivityChanged" isExposed="False" />
     <Filter entryType="Method" fullName="Macad.Core.Topology.Layer.RaisePresentationChanged" filterName="RaisePresentationChanged" isExposed="False" />
-    <Filter entryType="Property" fullName="Macad.Core.Topology.Layer.Collection" filterName="Collection" isExposed="False" />
     <Filter entryType="Event" fullName="Macad.Core.Topology.Layer.InteractivityChanged" filterName="InteractivityChanged" isExposed="False" />
     <Filter entryType="Event" fullName="Macad.Core.Topology.Layer.PresentationChanged" filterName="PresentationChanged" isExposed="False" />
   </Filter>
   <Filter entryType="Delegate" fullName="Macad.Core.Topology.Layer.LayerChangedEventHandler" filterName="Layer.LayerChangedEventHandler" isExposed="False" />
   <Filter entryType="Class" fullName="Macad.Core.Topology.LayerCollection" filterName="LayerCollection" isExposed="True">
-    <Filter entryType="Property" fullName="Macad.Core.Topology.LayerCollection.Model" filterName="Model" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Topology.LayerCollection.GetEnumerator" filterName="GetEnumerator" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Topology.LayerCollection.OnActivated" filterName="OnActivated" isExposed="False" />
+    <Filter entryType="Method" fullName="Macad.Core.Topology.LayerCollection.OnBeginDeserializing" filterName="OnBeginDeserializing" isExposed="False" />
     <Filter entryType="Event" fullName="Macad.Core.Topology.LayerCollection.CollectionChanged" filterName="CollectionChanged" isExposed="False" />
   </Filter>
   <Filter entryType="Class" fullName="Macad.Core.Topology.Model" filterName="Model" isExposed="False">
+    <Filter entryType="Constructor" fullName="Macad.Core.Topology.Model.#ctor" filterName=".ctor" isExposed="True" />
     <Filter entryType="Method" fullName="Macad.Core.Topology.Model.CreateFromFile" filterName="CreateFromFile" isExposed="True" />
     <Filter entryType="Method" fullName="Macad.Core.Topology.Model.SaveToFile" filterName="SaveToFile" isExposed="True" />
     <Filter entryType="Property" fullName="Macad.Core.Topology.Model.Layers" filterName="Layers" isExposed="True" />
@@ -233,8 +473,15 @@
       </PlugInConfig>
     </PlugInConfigurations>
   </PropertyGroup>
-  <!-- Import the SHFB build targets -->
-  <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />
+  <!-- Import the SHFB packages -->
+  <ItemGroup>
+    <PackageReference Include="EWSoftware.SHFB" Version="2021.11.7" />
+    <PackageReference Include="EWSoftware.SHFB.NET" Version="5.0.0" />
+  </ItemGroup>
+  <!-- Import the common build targets during NuGet restore, because $(SHFBROOT) is not set yet -->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists('$(SHFBROOT)\SandcastleHelpFileBuilder.targets')" />
+  <!-- Import the SHFB build targets during build -->
+  <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" Condition="Exists('$(SHFBROOT)\SandcastleHelpFileBuilder.targets')" />
   <!-- Import the custom build targets -->
   <ItemGroup>
     <None Include="Concepts\Editing.aml" />
@@ -290,19 +537,12 @@
       <AlternateText>Main Logo-64</AlternateText>
       <CopyToMedia>True</CopyToMedia>
     </Content>
+    <Content Include="Changelog\Changelog-v2.md" />
     <Content Include="Concepts\Editing.md" />
     <Content Include="Concepts\ImportExport.md" />
     <Content Include="Concepts\Sketches.md" />
     <Content Include="Concepts\StandardTools.md" />
     <Content Include="Concepts\Topology.md" />
-    <Content Include="License\Apache20.txt" />
-    <Content Include="License\MIT.txt" />
-    <Content Include="Modeling\Assemble\BoxJoint.md" />
-    <Content Include="Modeling\Modify\BooleanCommon.md" />
-    <Content Include="Modeling\Modify\BooleanCut.md" />
-    <Content Include="Modeling\Modify\BooleanFuse.md" />
-    <Content Include="Modeling\Modify\Imprint.md" />
-    <Content Include="Modeling\Modify\Taper.md" />
     <Content Include="Scripting\Example_CreatingBodiesAndShapes.md" />
     <Content Include="Scripting\Example_CreatingInteractiveTools.md" />
     <Content Include="Scripting\Example_ExportImport.md" />
@@ -321,6 +561,14 @@
     <Content Include="License\SketchSolve.txt" />
     <Content Include="License\OcctException.txt" />
     <Content Include="License\Occt.txt" />
+    <Content Include="License\Apache20.txt" />
+    <Content Include="License\MIT.txt" />
+    <Content Include="Modeling\Assemble\BoxJoint.md" />
+    <Content Include="Modeling\Modify\BooleanCommon.md" />
+    <Content Include="Modeling\Modify\BooleanCut.md" />
+    <Content Include="Modeling\Modify\BooleanFuse.md" />
+    <Content Include="Modeling\Modify\Imprint.md" />
+    <Content Include="Modeling\Modify\Taper.md" />
     <Content Include="Modeling\Form\Extrude.md" />
     <Content Include="Modeling\Form\Loft.md" />
     <Content Include="Modeling\Form\Revolve.md" />
@@ -338,6 +586,7 @@
     <Content Include="Modeling\Auxiliary\DatumPlane.md" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Changelog\" />
     <Folder Include="Modeling\Auxiliary\" />
     <Folder Include="Modeling\Multiply\" />
     <Folder Include="Modeling\Form\" />

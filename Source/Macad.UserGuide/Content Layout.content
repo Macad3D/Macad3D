@@ -1,6 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Topics>
   <Topic id="d7fa988c-877d-45b0-9a69-67414b24767e" visible="True" isDefault="true" />
+  <Topic id="ac5f4e2f-1719-43f5-adb8-8b1d26faf5f4" visible="True" noFile="true" isExpanded="true" title="Version History">
+    <Topic id="1d99404b-3c0d-4c51-af29-258459c9a236" visible="True" title="What's new in Macad|3D 2.0">
+        <HelpKeyword index="K" term="Changelog" />
+        <HelpKeyword index="K" term="Pipe" />
+        <HelpKeyword index="K" term="DatumPlane" />
+        <HelpKeyword index="K" term="PDF" />
+        <HelpKeyword index="K" term="3D-PDF" />
+        <HelpKeyword index="K" term="U3D" />
+    </Topic>
+  </Topic>
   <Topic id="df895828-0885-40e9-adcc-ee65eeff4dfb" visible="True" noFile="true" isExpanded="true" title="Basic Concepts">
     <Topic id="980d397f-67bc-4874-a24d-42cc80029ef6" visible="True" title="Topology Model">
       <HelpKeywords>

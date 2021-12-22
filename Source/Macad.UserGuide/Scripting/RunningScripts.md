@@ -18,5 +18,12 @@ Generally there are two different kinds of scripts: Interactive scripts do a one
 3. The script will now be run. Depending on the script content, it maybe show some ui or make other changes to your model.
 4. If you are unhappy with what the script did, you can revert it's work with one single __Undo__ step.
 
+# Running Scripts via Command Line
+Scripts can be started via command line to enable automated processes. For this the path to the script is passed as follows:
+
+`Macad.exe /runscript=<scriptfile.csx>`
+
+The script will be executed immediately after program start. If a document is passed for opening via the command line at the same time, the document is opened first, then the script is executed.
+
 # Running Extension Scripts
 Extension scripts do not work immediately, but register extensions with the application. This can be a new importer or exporter supporting a new file format, for example. Currently, this scripts must run once to register it's extension, using the same procedure as interactive scripts. Registration of extensions cannot be reverted via __Undo__.

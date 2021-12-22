@@ -8,7 +8,11 @@ This page explains some of the standard editing tools.
 
 One of the most relevant helper in modelling is the working plane. On this plane the grid is laid out and new primitives and sketches are made. Even if there is always the possibility of changing the position and orientation of bodies, it is very helpful to have the plane and the snapping grid available when creating new bodies.
 
-The working plane can be moved using commands in the __Working Plane__ ribbon group in the __Edit__ tab or using the context menu in the viewport. The three world maps are available as a default; the plane can also be aligned with a face, an edge or a vertex.
+The working plane can be moved using commands in the __Working Plane__ ribbon group in the __Edit__ tab or using the context menu in the viewport. The three world maps are available as a default; the plane can also be aligned with a face, an edge or a vertex. 
+
+The work plane can also be saved in order to recreate it later in the same position. This is done by creating the auxiliary object __[Datum Plane](xref:322f5cc2-0fc7-43f9-bb80-5e87cb3e3651)__ using the corresponding ribbon button on the __Model__ tab.
+
+> [!Tip] The currently set grid spacing is displayed in its original size at the bottom right of the viewport, provided that it can be displayed in terms of size. When the mouse pointer is on this display, the grid spacing can be conveniently enlarged or reduced using the mouse wheel.
 
 # Transform
 

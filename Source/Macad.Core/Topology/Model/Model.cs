@@ -22,7 +22,7 @@ namespace Macad.Core.Topology
         //--------------------------------------------------------------------------------------------------
 
         public const string FileExtension = "model";
-        public const uint FileVersionMajor = 1;
+        public const uint FileVersionMajor = 2;
         public const uint FileVersionMinor = 0;
 
         //--------------------------------------------------------------------------------------------------
@@ -30,8 +30,6 @@ namespace Macad.Core.Topology
         public Model()
         {
             Layers = new LayerCollection(this);
-
-            // Create default setup
             Workspaces = new List<Workspace> {new (this)};
             
             CoreContext.Current.MessageHandler.ClearAllEntityMessages();
@@ -127,8 +125,7 @@ namespace Macad.Core.Topology
 
         static bool _VerifyVersion(uint major, uint minor)
         {
-            if (major > FileVersionMajor
-                || major == FileVersionMajor && minor > FileVersionMinor)
+            if (major > FileVersionMajor)
             {
                 return false;
             }
@@ -151,6 +148,8 @@ namespace Macad.Core.Topology
         //--------------------------------------------------------------------------------------------------
 
         #endregion
+
+        #region Content handling
 
         public void SafeDelete(IEnumerable<InteractiveEntity> entitiesToDelete)
         {
@@ -189,6 +188,8 @@ namespace Macad.Core.Topology
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        #endregion
 
     }
 }

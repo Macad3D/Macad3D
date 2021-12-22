@@ -126,15 +126,14 @@ bool _BuildDocumentation(string configuration)
         return false;
 
     // Ensure SHFB
-    var shfbPath = Packages.FindPackageFile($"EWSoftware.SHFB.20*", "tools\\SandcastleHelpFileBuilder.targets");
+    var shfbPath = Packages.FindPackageFile($"EWSoftware.SHFB\\*", "tools\\SandcastleHelpFileBuilder.targets");
 	if(string.IsNullOrEmpty(shfbPath))
 		return false;
 
     // Ensure .Net Reflection Package
-    var shfbNetReflectionPath = Packages.FindPackageFile($"EWSoftware.SHFB.NET.*", "build\\EWSoftware.SHFB.NET.props");
+    var shfbNetReflectionPath = Packages.FindPackageFile($"EWSoftware.SHFB.NET\\*", "build\\EWSoftware.SHFB.NET.props");
 	if(string.IsNullOrEmpty(shfbNetReflectionPath))
 		return false;
-    shfbNetReflectionPath = Path.GetDirectoryName(shfbNetReflectionPath);
 
     if(!Version.ReadCurrentVersion(out var major, out var minor, out var revision, out var flags))
     {
@@ -145,7 +144,7 @@ bool _BuildDocumentation(string configuration)
 
     var pathToProject = Path.Combine(Common.GetRootFolder(), @"Source\Macad.UserGuide\Macad.UserGuide.shfbproj");
 
-    var commandLine = $"\"{pathToProject}\" /p:Configuration={configuration} /p:SHFBNETFRAMEWORK=\"{shfbNetReflectionPath}\" /p:HelpFileVersion=\"{major}.{minor}{flagsStr}\" /m /nologo /ds /verbosity:minimal /clp:Summary;EnableMPLogging";
+    var commandLine = $"\"{pathToProject}\" /p:Configuration={configuration} /p:HelpFileVersion=\"{major}.{minor}{flagsStr}\" /m /nologo /ds /verbosity:minimal /clp:Summary;EnableMPLogging";
     if (_OptionClean)
     {
         if (Common.Run(_VS.PathToMSBuild, commandLine + " /t:clean") != 0)

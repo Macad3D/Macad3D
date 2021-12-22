@@ -95,7 +95,7 @@ namespace Macad.Interaction.Panels
 
         void _Context_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "WorkspaceController")
+            if (e.PropertyName == nameof(InteractiveContext.WorkspaceController))
             {
                 WorkspaceController = (sender as InteractiveContext)?.WorkspaceController;
             }

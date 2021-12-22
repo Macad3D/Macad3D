@@ -33,12 +33,20 @@ namespace Macad.Window
             {
                 Messages.Info("Welcome to Macad|3D.");
 
+                DocumentCommands.CreateNewModel.Execute();
+
                 // Check for update
                 if (!AppContext.IsInSandbox && VersionCheck.IsAutoCheckEnabled)
                 {
-                    VersionCheck.BeginCheckForUpdate();
+                    Dispatcher.CurrentDispatcher.BeginInvoke(VersionCheck.BeginCheckForUpdate, DispatcherPriority.ApplicationIdle);
                 }
-                
+            });
+
+        //--------------------------------------------------------------------------------------------------
+        
+        internal static RelayCommand RunStartupCommands { get; } = new(
+            () =>
+            {
                 var cmdArgs = AppContext.CommandLine;
 
                 // Check for command line option to load project
