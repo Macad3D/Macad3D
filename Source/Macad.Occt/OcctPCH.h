@@ -33,6 +33,7 @@ typedef void* Aspect_FBConfig;
 #include "Extensions/BOPTools_Ex.h"
 #include "Extensions/BRep_Ex.h"
 #include "Extensions/Graphic3d_Ex.h"
+#include "Extensions/Geom2dAPI_Ex.h"
 #include "Extensions/ShapeFix_Ex.h"
 #include "Extensions/TColStd_Ex.h"
 #include "Extensions/TopLoc_Ex.h"

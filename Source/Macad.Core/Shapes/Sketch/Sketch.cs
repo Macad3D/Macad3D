@@ -148,9 +148,10 @@ namespace Macad.Core.Shapes
             SaveUndo(ElementType.Point);
             SaveUndo(ElementType.Segment);
 
-            Points[with] = Points[replace];
+            Points[replace] = Points[with];
 
             bool changedSegments = false;
+            List<SketchSegment> segmentsToRemove = null;
             foreach (var segment in Segments.Values)
             {
                 for (var i = 0; i < segment.Points.Length; i++)
@@ -162,6 +163,11 @@ namespace Macad.Core.Shapes
                     }
                     if (segment.Points[i] == replace)
                         segment.Points[i] = with;
+                }
+
+                if (segment.StartPoint == segment.EndPoint)
+                {
+                    (segmentsToRemove ??= new()).Add(segment);
                 }
             }
 
@@ -184,6 +190,7 @@ namespace Macad.Core.Shapes
             }
 
             Points.Remove(replace);
+            segmentsToRemove?.ForEach(seg => DeleteSegment(seg));
 
             Invalidate();
 

@@ -474,6 +474,9 @@
     <ClInclude Include="Extensions\ShapeFix_Ex.h">
       <Filter>Extensions</Filter>
     </ClInclude>
+    <ClInclude Include="Extensions\Geom2dAPI_Ex.h">
+      <Filter>Extensions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -822,6 +825,9 @@
       <Filter>Generated\Visualization\TKV3d</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Macad.VersionInfo.cpp" />
+    <ClCompile Include="Extensions\Geom2dAPI_Ex.cpp">
+      <Filter>Extensions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="occt.natvis">

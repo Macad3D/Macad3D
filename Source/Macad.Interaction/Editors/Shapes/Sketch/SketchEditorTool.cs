@@ -396,6 +396,7 @@ namespace Macad.Interaction.Editors.Shapes
             itemList.CloseGroup();
 
             itemList.AddCommand(SketchCommands.SplitElement);
+            itemList.AddCommand(SketchCommands.WeldElements);
 
             itemList.AddGroup("Convert Segment");
             __AddIfExecutable(SketchCommands.ConvertSegment, SketchCommands.Segments.Line);

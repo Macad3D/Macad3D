@@ -779,6 +779,9 @@
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.SplitElement}"
                                      AutomationProperties.AutomationId="SplitElement"/>
 
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:SketchCommands.WeldElements}"
+                               AutomationProperties.AutomationId="WeldElements"/>
+
                 <Fluent:DropDownButton Header="Convert Segment"
                                        Icon="{mmp:IconResource Sketch-ConvertSegment}"
                                        LargeIcon="{mmp:IconResource Sketch-ConvertSegment}"

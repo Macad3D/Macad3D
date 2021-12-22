@@ -691,5 +691,193 @@ namespace Macad.Core.Shapes
         //--------------------------------------------------------------------------------------------------
 
         #endregion
+
+        #region Welding
+
+        public static bool WeldPoints(Sketch sketch, IEnumerable<int> pointIndices)
+        {
+            XY targetXY = default;
+            int count = 0;
+            var pointIndicesList = pointIndices.Distinct().ToList();
+            foreach (var pointIndex in pointIndicesList)
+            {
+                targetXY.Add(sketch.Points[pointIndex].ToXY());
+                count++;
+            }
+            if (count < 2)
+                return false;
+
+            int targetIndex = sketch.AddPoint(targetXY.Divided(count).ToPnt());
+            foreach (var pointIndex in pointIndicesList)
+            {
+                sketch.MergePoints(pointIndex, targetIndex);
+            }
+
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static bool WeldPointsWithSegments(Sketch sketch, IEnumerable<SketchSegment> segments, IEnumerable<int> pointIndices)
+        {
+            bool result = false;
+            var segmentList = segments.ToList();
+
+            foreach (var pointIndex in pointIndices.Distinct())
+            {
+                var point = sketch.Points[pointIndex];
+
+                foreach (var segment in segmentList)
+                {
+                    if (segment.Points.Contains(pointIndex))
+                        continue;
+
+                    var curve = segment.MakeCurve(sketch.Points);
+                    Geom2dAPI_ProjectPointOnCurve projector = new(point, curve);
+                    if(projector.NbPoints() == 0 || projector.LowerDistance() > 0.01)
+                        continue;
+
+                    double u = projector.LowerDistanceParameter();
+                    if(u <= curve.FirstParameter() || u >= curve.LastParameter())
+                        continue;
+
+                    var splitResult = SplitSegment(sketch, segment, u);
+                    if(splitResult == SplitSegmentFailed)
+                        continue;
+
+                    sketch.MergePoints(pointIndex, splitResult.splitPoint);
+                    segmentList.Remove(segment);
+                    segmentList.AddRange(splitResult.newSegments.Select(segIdx => sketch.Segments[segIdx]));
+                    result = true;
+
+                    break; // Don't try with other segments if we already found a candidate
+                }
+            }
+
+            return result;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static bool WeldSegments(Sketch sketch, IEnumerable<SketchSegment> segments)
+        {
+            // Currently only two segments are processed - otherwise we had to check every segment to every other
+            var segment1 = segments.ElementAtOrDefault(0);
+            var segment2 = segments.ElementAtOrDefault(1);
+            if (segment1 == null || segment2 == null)
+                return false;
+
+            var curve1 = segment1.MakeCurve(sketch.Points);
+            var curve2 = segment2.MakeCurve(sketch.Points);
+            if (curve1 == null || curve2 == null)
+                return false;
+
+            // Process tangent mode (point lies on other segment)
+            if (_TryWeldTangentSegments(sketch, segment1, curve1, segment2)
+                || _TryWeldTangentSegments(sketch, segment2, curve2, segment1))
+            {
+                return true;
+            }
+
+            // Process intersection mode
+            Geom2dAPI_InterCurveCurve interCC = new(curve1, curve2);
+            if (interCC.NbPoints() == 0)
+            {
+                return false;
+            }
+
+            bool result = false;
+            Dictionary<SketchSegment, Geom2d_Curve> segs1 = new() { { segment1, curve1 } };
+            Dictionary<SketchSegment, Geom2d_Curve> segs2 = new() { { segment2, curve2 } };
+            for (int i = 0; i < interCC.NbPoints(); i++)
+            {
+                Pnt2d point = interCC.Point(i + 1);
+                var splitPoint1 = _SplitSegmentAtPoint(sketch, segs1, point);
+                var splitPoint2 = _SplitSegmentAtPoint(sketch, segs2, point);
+                if(splitPoint1 == -1 || splitPoint2 == -1)
+                    continue;
+
+                sketch.MergePoints(splitPoint2, splitPoint1);
+                result = true;
+            }
+
+            return result;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        static bool _TryWeldTangentSegments(Sketch sketch, SketchSegment segment, Geom2d_Curve curve, SketchSegment toolSeg)
+        {
+            // Try to find if a point lies on a segment
+            bool foundUs = _FindParameter(curve, sketch.Points[toolSeg.StartPoint], out var us);
+            bool foundUe = _FindParameter(curve, sketch.Points[toolSeg.EndPoint], out var ue);
+            if (foundUs && foundUe)
+            {
+                if(WeldPointsWithSegments(sketch, new[] { segment }, new[] { toolSeg.StartPoint, toolSeg.EndPoint }))
+                {
+                    sketch.DeleteSegment(toolSeg);
+                    return true;
+                }
+            }
+            else if(foundUs)
+            {
+                return WeldPointsWithSegments(sketch, new[] { segment }, new[] { toolSeg.StartPoint });
+            }
+            else if(foundUe)
+            {
+                return WeldPointsWithSegments(sketch, new[] { segment }, new[] { toolSeg.EndPoint });
+            }
+            return false;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        static int _SplitSegmentAtPoint(Sketch sketch, Dictionary<SketchSegment, Geom2d_Curve> segInfos, Pnt2d point)
+        {
+            foreach (var segInfo in segInfos)
+            {
+                var segment = segInfo.Key;
+                var curve = segInfo.Value;
+
+                if (!_FindParameter(curve, point, out double u))
+                    continue;
+
+                var splitResult = SplitSegment(sketch, segment, u);
+                if(splitResult == SplitSegmentFailed)
+                    continue;
+
+                segInfos.Remove(segment);
+                foreach (var newSegIndex in splitResult.newSegments)
+                {
+                    var newSegment = sketch.Segments[newSegIndex];
+                    segInfos.Add(newSegment, newSegment.MakeCurve(sketch.Points));
+                }
+
+                return splitResult.splitPoint;
+            }
+
+            return -1;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        static bool _FindParameter(Geom2d_Curve curve, Pnt2d point, out double u)
+        {
+            u = 0.0;
+
+            Geom2dAPI_ProjectPointOnCurve projector = new(point, curve);
+            if (projector.NbPoints() == 0 || projector.LowerDistance() > 0.01)
+                return false;
+
+            u = projector.LowerDistanceParameter();
+            if (u <= curve.FirstParameter() || u >= curve.LastParameter())
+                return false;
+
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
     }
 }

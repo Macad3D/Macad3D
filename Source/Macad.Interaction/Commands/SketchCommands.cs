@@ -524,7 +524,8 @@ namespace Macad.Interaction
             Icon = () => "Sketch-SplitTool",
             IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveSketchTool)}", BindingMode.OneWay,
                                                     EqualityToBoolConverter.Instance, nameof(SplitElementSketchTool)),
-            Description = () => "1. Split a segment into two parts by selecting the position where to split.\n2. Split a shared point into separate points for each segment."
+            Description = () => "1. Split a segment into two parts by selecting the position where to split.\n" 
+                                + "2. Split a shared point into separate points for each segment."
         };
         
         //--------------------------------------------------------------------------------------------------
@@ -590,5 +591,53 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
+        public static ActionCommand WeldElements { get; } = new(
+            () =>
+            {
+                var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
+                if (sketchEditTool == null)
+                    return;
+
+                bool success = false;
+                if (sketchEditTool.SelectedPoints.Count > 0 && sketchEditTool.SelectedSegments.Count > 0)
+                {
+                    success = SketchUtils.WeldPointsWithSegments(sketchEditTool.Sketch, sketchEditTool.SelectedSegments, sketchEditTool.SelectedPoints);
+                }
+                else if (sketchEditTool.SelectedPoints.Count > 1)
+                {
+                    success = SketchUtils.WeldPoints(sketchEditTool.Sketch, sketchEditTool.SelectedPoints);
+                }
+                else if (sketchEditTool.SelectedSegments.Count == 2)
+                {
+                    success = SketchUtils.WeldSegments(sketchEditTool.Sketch, sketchEditTool.SelectedSegments);
+                }
+
+                if (success)
+                {
+                    InteractiveContext.Current?.UndoHandler?.Commit();
+                    sketchEditTool.Select(null, null);
+                }
+            },
+            () =>
+            {
+                var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
+                if (sketchEditTool == null)
+                    return false;
+
+                return sketchEditTool.SelectedPoints.Count > 0 && sketchEditTool.SelectedSegments.Count > 0
+                       || sketchEditTool.SelectedPoints.Count > 1
+                       || sketchEditTool.SelectedSegments.Count == 2;
+            }
+        )
+        {
+            Header = () => "Weld",
+            Icon = () => "Sketch-WeldTool",
+            Description = () => "Weld selected elements based on selection.\n" 
+                                + "1. Points will be welded to the geometric center of all points.\n" 
+                                + "2. Points will be welded on segments they are lying on.\n" 
+                                + "3. Segments will be welded where they are tangent or intersecting."
+        };
+
+        //--------------------------------------------------------------------------------------------------
     }
 }

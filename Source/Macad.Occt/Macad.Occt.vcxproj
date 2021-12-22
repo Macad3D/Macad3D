@@ -90,6 +90,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Extensions\Geom2dAPI_Ex.cpp" />
     <ClCompile Include="Generated\BRepClass3d.cpp" />
     <ClCompile Include="Generated\BRepOffset.cpp" />
     <ClCompile Include="Generated\GeomPlate.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="BaseClass.h" />
     <ClInclude Include="Extensions\BOPTools_Ex.h" />
     <ClInclude Include="Extensions\BRep_Ex.h" />
+    <ClInclude Include="Extensions\Geom2dAPI_Ex.h" />
     <ClInclude Include="Extensions\ShapeFix_Ex.h" />
     <ClInclude Include="Extensions\TColStd_Ex.h" />
     <ClInclude Include="Extensions\Graphic3d_Ex.h" />

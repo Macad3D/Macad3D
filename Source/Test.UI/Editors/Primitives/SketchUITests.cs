@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using FlaUI.Core.AutomationElements;
+using FlaUI.Core.Input;
 using FlaUI.Core.WindowsAPI;
 using Macad.Common;
 using Macad.Test.UI.Framework;
@@ -466,5 +468,33 @@ namespace Macad.Test.UI.Editors.Primitives
 
             Assert.AreEqual(4, Pipe.GetValue<int>("$Sketch.Segments.Count"));
         }
+                                        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void WeldPoints()
+        {
+            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
+
+            MainWindow.Ribbon.ClickButton("CreateRectangleSegment");
+            MainWindow.Viewport.ClickRelative(0.3, 0.3);
+            MainWindow.Viewport.ClickRelative(0.7, 0.7);
+            
+            MainWindow.Viewport.ClickRelative(0.3, 0.3);
+            Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("WeldElements"));
+
+            Keyboard.Press(VirtualKeyShort.SHIFT);
+            MainWindow.Viewport.ClickRelative(0.7, 0.3);
+            Keyboard.Release(VirtualKeyShort.SHIFT);
+            Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("WeldElements"));
+
+            MainWindow.Ribbon.ClickButton("WeldElements");
+
+            Assert.AreEqual(3, Pipe.GetValue<int>("$Sketch.Segments.Count"));
+            Assert.AreEqual(3, Pipe.GetValue<int>("$Sketch.Points.Count"));
+        }
+
     }
 }
