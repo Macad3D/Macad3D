@@ -16,7 +16,7 @@ This page lists all new features and changes of the version 2.0 compared to the 
 
 ## New Features
 
-* **Split Segments** New tool for splitting segments into two sub-segments. The split point can b:e determined interactively. 
+* **Split Segments** New tool for splitting segments into two sub-segments. The split point can be determined interactively. 
   
 * **Split Points:** New tool to split points used by more than one segment into separate points for each segment. So, the opposite of 'merge points'.
 * **Weld:** New tool for welding several points into one point, points within segments, and segments among each other, e.g. via intersection points.

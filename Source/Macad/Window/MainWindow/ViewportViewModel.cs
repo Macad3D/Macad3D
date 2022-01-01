@@ -87,7 +87,7 @@ namespace Macad.Window
                 bool disableCheck = false;
                 if (Dialogs.InformUpdateAvailable(_UpdateInfo.UpdateVersion, _UpdateInfo.UpdateUrl, ref disableCheck))
                 {
-                    Process.Start(_UpdateInfo.UpdateUrl);
+                    Process.Start(new ProcessStartInfo(_UpdateInfo.UpdateUrl) { UseShellExecute = true });
                 }
                 VersionCheck.IsAutoCheckEnabled = !disableCheck;
             }
