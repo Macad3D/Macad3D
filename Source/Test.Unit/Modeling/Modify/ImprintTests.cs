@@ -221,5 +221,27 @@ namespace Macad.Test.Unit.Modeling.Modify
             
             Assert.IsTrue(ModelCompare.CompareShape(shape, Path.Combine(_BasePath, "EmptySketch")));
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        [TestCase(5, 2, Imprint.ImprintMode.Raise)]
+        [TestCase(5, 2, Imprint.ImprintMode.Lower)]
+        [TestCase(11, 2, Imprint.ImprintMode.Raise)]
+        [TestCase(11, 2, Imprint.ImprintMode.Lower)]
+        public void ChamferFaces(int edgeToChamfer, int faceToImprint, Imprint.ImprintMode mode)
+        {
+            var body = TestGeomGenerator.CreateBox().Body;
+            var chamfer = Chamfer.Create(body, new[] { body.Shape.GetSubshapeReference(SubshapeType.Edge, edgeToChamfer) });
+            chamfer.Distance = 5.0;
+            var imprint = Imprint.Create(body, body.Shape.GetSubshapeReference(SubshapeType.Face, faceToImprint));
+            var center = imprint.Sketch.AddPoint(new Pnt2d(0, 0));
+            var rim = imprint.Sketch.AddPoint(new Pnt2d(0, 2));
+            imprint.Sketch.AddSegment(new SketchSegmentCircle(center, rim));
+            imprint.Mode = mode;
+
+            Assert.IsTrue(imprint.Make(Shape.MakeFlags.None));
+            Assert.IsTrue(ModelCompare.CompareShape(body.Shape, Path.Combine(_BasePath, $"ChamferFaces_{edgeToChamfer}_{mode}")));
+        }
     }
 }

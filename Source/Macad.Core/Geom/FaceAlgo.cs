@@ -62,8 +62,11 @@ namespace Macad.Core.Geom
             double centerV = brepAdaptor.FirstVParameter() + (brepAdaptor.LastVParameter() - brepAdaptor.FirstVParameter()) / 2;
             var centerPnt = brepAdaptor.Value(centerU, centerV);
 
+            var pos = brepAdaptor.Plane().Position;
             var dir = brepAdaptor.Plane().Position.Direction;
             if (face.Orientation() == TopAbs_Orientation.TopAbs_REVERSED)
+                dir.Reverse();
+            if(pos.Direction.DotCross(pos.XDirection, pos.YDirection) < 0)
                 dir.Reverse();
 
             plane = new Pln(centerPnt, dir);
