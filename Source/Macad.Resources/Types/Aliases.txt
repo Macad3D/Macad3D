@@ -21,6 +21,7 @@ Shapes-Solid=..\Icons\Prim-Box.xaml
 Shapes-Sphere=..\Icons\Prim-Sphere.xaml
 Shapes-Taper=..\Icons\Form-Taper.xaml
 Shapes-UnfoldSheet=..\Icons\Mod-UnfoldSheet.xaml
+Shapes-Offset=..\Icons\Mod-Offset.xaml
 
 Toolkits-SliceContour=..\Icons\Make-SliceContour.xaml
 Toolkits-EtchingMask=..\Icons\Make-EtchingMask.xaml

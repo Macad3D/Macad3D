@@ -531,6 +531,28 @@ namespace Macad.Interaction
         };
 
         //--------------------------------------------------------------------------------------------------
+        
+        public static ActionCommand CreateOffset { get; } = new(
+            () =>
+            {
+                var body = InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.First() as Body;
+                if (body?.Shape?.ShapeType != ShapeType.Sketch 
+                    && body?.Shape?.ShapeType != ShapeType.Solid)
+                    return;
+
+                Offset.Create(body);
+                InteractiveContext.Current?.UndoHandler.Commit();
+                _WorkspaceController.Invalidate();
+            },
+            () => _CanExecuteSketchModifier() || _CanExecuteSolidModifier())
+        {
+            Header = () => "Offset",
+            Description = () => "Offsets a sketch or solid.",
+            Icon = () => "Mod-Offset",
+            HelpTopic = "AF5F6317-5201-4C55-B56D-DA368F359324"
+        };
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
 

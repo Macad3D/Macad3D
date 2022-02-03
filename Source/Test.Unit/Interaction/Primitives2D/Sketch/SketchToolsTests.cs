@@ -1,6 +1,4 @@
 ﻿using System.IO;
-using System.Linq;
-using System.Windows;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Interaction;
@@ -38,7 +36,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Rectangle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -77,7 +75,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Circle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Circle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -111,7 +109,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Rectangle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -162,7 +160,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Rectangle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -204,7 +202,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Rectangle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 

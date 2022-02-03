@@ -39,7 +39,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.MultiCircle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -92,7 +92,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.MultiCircle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -122,7 +122,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {            
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.MultiCircle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -158,7 +158,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Rectangle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -208,7 +208,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Rectangle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -243,7 +243,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Circle, true);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Circle, true);
             ctx.ViewportController.ZoomFitAll();
             var tool = new SketchEditorTool(sketch);
             ctx.WorkspaceController.StartTool(tool);
@@ -271,7 +271,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Circle, true);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Circle, true);
             ctx.ViewportController.ZoomFitAll();
             var tool = new SketchEditorTool(sketch);
             ctx.WorkspaceController.StartTool(tool);
@@ -299,7 +299,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Rectangle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -346,7 +346,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             var ctx = Context.Current;
             var clipboard = TestClipboard.Init();
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Rectangle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -391,7 +391,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             var ctx = Context.Current;
             var clipboard = TestClipboard.Init();
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Rectangle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -428,7 +428,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.MultiCircle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -603,7 +603,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.MultiCircle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -657,7 +657,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.MultiCircle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -689,7 +689,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Rectangle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -739,7 +739,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             // Check that RecenterGrid also updates the reference grid for snapping
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.MultiCircle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 
@@ -767,7 +767,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             // Check that segment creation tools also respect the recentered grid
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.MultiCircle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
             var body = TestGeomGenerator.CreateBody(sketch);
             ctx.ViewportController.ZoomFitAll();
 

@@ -214,7 +214,7 @@ public class BooleanToolTests
         body1.Position = new Pnt(-8, -8, 0);
         var body2 = TestGeomGenerator.CreateBox().Body;
         body2.Position = new Pnt(8, -8, 0);
-        var body3 = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Rectangle, true).Body;
+        var body3 = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle, true).Body;
         ctx.ViewportController.ZoomFitAll();
 //        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AAA"));
 

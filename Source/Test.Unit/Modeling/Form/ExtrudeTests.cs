@@ -46,7 +46,7 @@ namespace Macad.Test.Unit.Modeling.Form
         [Test]
         public void Ring()
         {
-            var shape = TestGeomGenerator.CreateExtrude(TestGeomGenerator.SketchType.Ring);
+            var shape = TestGeomGenerator.CreateExtrude(TestSketchGenerator.SketchType.Ring);
             Assert.IsNotNull(shape);
 
             shape.Depth = 2.5;
@@ -60,7 +60,7 @@ namespace Macad.Test.Unit.Modeling.Form
         [Test]
         public void MultiCircle()
         {
-            var shape = TestGeomGenerator.CreateExtrude(TestGeomGenerator.SketchType.MultiCircle);
+            var shape = TestGeomGenerator.CreateExtrude(TestSketchGenerator.SketchType.MultiCircle);
             Assert.IsNotNull(shape);
 
             shape.Depth = 2.5;

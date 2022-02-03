@@ -130,7 +130,7 @@ namespace Macad.Test.Unit.Modeling.Modify
         [Test]
         public void FaceSelection()
         {
-            var imprint = TestGeomGenerator.CreateImprint(TestGeomGenerator.SketchType.Circle);
+            var imprint = TestGeomGenerator.CreateImprint(TestSketchGenerator.SketchType.Circle);
             Assume.That(imprint, Is.Not.Null);
             imprint.Depth = 5.0;
 
@@ -149,7 +149,7 @@ namespace Macad.Test.Unit.Modeling.Modify
         [Test]
         public void FaceSelectionSwapped()
         {
-            var imprint = TestGeomGenerator.CreateImprint(TestGeomGenerator.SketchType.Circle);
+            var imprint = TestGeomGenerator.CreateImprint(TestSketchGenerator.SketchType.Circle);
             Assume.That(imprint, Is.Not.Null);
             imprint.Depth = 5.0;
 
@@ -169,7 +169,7 @@ namespace Macad.Test.Unit.Modeling.Modify
         [Test]
         public void LostEdge()
         {
-            var extrude = TestGeomGenerator.CreateExtrude(TestGeomGenerator.SketchType.Rectangle);
+            var extrude = TestGeomGenerator.CreateExtrude(TestSketchGenerator.SketchType.Rectangle);
             var fillet = Fillet.Create(extrude.Body);
             fillet.AddEdge(extrude.GetSubshapeReference(SubshapeType.Edge, 11));
             Assert.IsTrue(fillet.Make(Shape.MakeFlags.None));

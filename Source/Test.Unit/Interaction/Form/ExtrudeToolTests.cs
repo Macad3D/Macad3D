@@ -33,7 +33,7 @@ namespace Macad.Test.Unit.Interaction.Form
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch();
+            var sketch = TestSketchGenerator.CreateSketch();
             var body = TestGeomGenerator.CreateBody(sketch, new Pnt(10, 10, 0));
             ctx.WorkspaceController.Selection.SelectEntity(body);
             ctx.ViewportController.ZoomFitAll();
@@ -102,7 +102,7 @@ namespace Macad.Test.Unit.Interaction.Form
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch();
+            var sketch = TestSketchGenerator.CreateSketch();
             var body = TestGeomGenerator.CreateBody(sketch, new Pnt(10, 10, 0));
             ctx.WorkspaceController.Selection.SelectEntity(body);
             ctx.ViewportController.ZoomFitAll();

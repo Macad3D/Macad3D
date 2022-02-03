@@ -139,5 +139,12 @@ namespace Macad.Test.UI.Framework
 
         //--------------------------------------------------------------------------------------------------
 
+        public bool ControlExists(string id)
+        {
+            return _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id)) != null;
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

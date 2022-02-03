@@ -365,7 +365,7 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
         [Test]
         public void SplitPoint()
         {
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.Rectangle);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
 
             Assert.IsTrue(SketchUtils.CanSplitPoint(sketch, 0));
             var newPoints = SketchUtils.SplitPoint(sketch, 0);

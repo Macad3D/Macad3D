@@ -116,7 +116,7 @@ namespace Macad.Test.Unit.Exchange
         public void Ellipse()
         {
             // Create simple geometry
-            var imprint = TestGeomGenerator.CreateImprint(TestGeomGenerator.SketchType.Ellipse);
+            var imprint = TestGeomGenerator.CreateImprint(TestSketchGenerator.SketchType.Ellipse);
             Assert.IsTrue(imprint.Make(Shape.MakeFlags.None));
 
             // Create Hlr Exporter
@@ -132,7 +132,7 @@ namespace Macad.Test.Unit.Exchange
         public void EllipseArc()
         {
             // Create simple geometry
-            var imprint = TestGeomGenerator.CreateImprint(TestGeomGenerator.SketchType.Ellipse);
+            var imprint = TestGeomGenerator.CreateImprint(TestSketchGenerator.SketchType.Ellipse);
             Assert.IsTrue(imprint.Make(Shape.MakeFlags.None));
 
             // Cut circle

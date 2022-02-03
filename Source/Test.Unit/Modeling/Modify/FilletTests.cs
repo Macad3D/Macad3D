@@ -90,7 +90,7 @@ namespace Macad.Test.Unit.Modeling.Modify
         [Test]
         public void LostEdge()
         {
-            var extrude = TestGeomGenerator.CreateExtrude(TestGeomGenerator.SketchType.Rectangle);
+            var extrude = TestGeomGenerator.CreateExtrude(TestSketchGenerator.SketchType.Rectangle);
             var fillet = Fillet.Create(extrude.Body);
             fillet.AddEdge(extrude.GetSubshapeReference(SubshapeType.Edge, 11));
             Assert.IsTrue(fillet.Make(Shape.MakeFlags.None));

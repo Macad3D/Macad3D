@@ -17,7 +17,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
         [Test]
         public void SketchDefault()
         {
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.SimpleAsymmetric, true);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
 
             var array = CircularArray.Create(sketch.Body);
             array.Quantity = 4;
@@ -35,7 +35,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
         [Test]
         public void SketchKeepOrientation()
         {
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.SimpleAsymmetric, true);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
 
             var array = CircularArray.Create(sketch.Body);
             array.Quantity = 4;
@@ -51,7 +51,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
         [Test]
         public void SketchOriginalAngle()
         {
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.SimpleAsymmetric, true);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
 
             var array = CircularArray.Create(sketch.Body);
             array.Quantity = 4;
@@ -67,7 +67,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
         [Test]
         public void SketchRange()
         {
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.SimpleAsymmetric, true);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
 
             var array = CircularArray.Create(sketch.Body);
             array.Quantity = 4;
@@ -83,7 +83,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
         [Test]
         public void SketchAlignFirst()
         {
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.SimpleAsymmetric, true);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
 
             var array = CircularArray.Create(sketch.Body);
             array.Quantity = 4;
@@ -100,7 +100,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
         [Test]
         public void SketchAlignCenter()
         {
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.SimpleAsymmetric, true);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
 
             var array = CircularArray.Create(sketch.Body);
             array.Quantity = 4;
@@ -117,7 +117,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
         [Test]
         public void SketchAlignLast()
         {
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.SimpleAsymmetric, true);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
 
             var array = CircularArray.Create(sketch.Body);
             array.Quantity = 4;

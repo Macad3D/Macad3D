@@ -16,7 +16,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
         [Test]
         public void Mirror2DOnEdge()
         {
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.SimpleAsymmetric, true);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
             var subshape = sketch.GetSubshapeReference(SubshapeType.Edge, 0);
             Assume.That(subshape != null);
 
@@ -34,7 +34,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
         [Test]
         public void Mirror2DOnEdgeOffset()
         {
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.SimpleAsymmetric, true);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
             var subshape = sketch.GetSubshapeReference(SubshapeType.Edge, 0);
             Assume.That(subshape != null);
 
@@ -51,7 +51,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
         [Test]
         public void Mirror2DOnEdgeOffsetReversed()
         {
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.SimpleAsymmetric, true);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
             var subshape = sketch.GetSubshapeReference(SubshapeType.Edge, 1);
             Assume.That(subshape != null);
 
@@ -67,7 +67,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
         [Test]
         public void Mirror2DOnCurvedEdge()
         {
-            var sketch = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.SimpleAsymmetric, true);
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
             var subshape = sketch.GetSubshapeReference(SubshapeType.Edge, 2);
             Assume.That(subshape != null);
 

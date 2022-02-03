@@ -86,7 +86,7 @@ namespace Macad.Test.Unit.Interaction.Multiply
         {
             var ctx = Context.Current;
 
-            var body = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.SimpleAsymmetric, true).Body;
+            var body = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true).Body;
 
             ctx.ViewportController.ZoomFitAll();
 
@@ -116,7 +116,7 @@ namespace Macad.Test.Unit.Interaction.Multiply
         {
             var ctx = Context.Current;
 
-            var body = TestGeomGenerator.CreateSketch(TestGeomGenerator.SketchType.SimpleAsymmetric, true).Body;
+            var body = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true).Body;
 
             ctx.ViewportController.ZoomFitAll();
 

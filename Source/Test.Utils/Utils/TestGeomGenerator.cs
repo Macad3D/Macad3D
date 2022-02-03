@@ -8,18 +8,6 @@ namespace Macad.Test.Utils
 {
     public class TestGeomGenerator
     {
-        public enum SketchType
-        {
-            Circle,
-            Ring,
-            MultiCircle,
-            Ellipse,
-            Rectangle,
-            SimpleAsymmetric
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         public static Body CreateBody(Shape shape, Pnt? position=null, XYZ? rotation=null )
         {
             var body = Body.Create(shape);
@@ -82,7 +70,7 @@ namespace Macad.Test.Utils
 
         //--------------------------------------------------------------------------------------------------
 
-        public static Imprint CreateImprint(SketchType sketchType = SketchType.Circle)
+        public static Imprint CreateImprint(TestSketchGenerator.SketchType sketchType = TestSketchGenerator.SketchType.Circle)
         {
             var baseShape = new Box
             {
@@ -97,94 +85,23 @@ namespace Macad.Test.Utils
             var sketch = imprint.Operands[1] as Sketch;
             Assert.IsNotNull(sketch);
 
-            FillSketch(sketch, sketchType);
+            TestSketchGenerator.FillSketch(sketch, sketchType);
 
             return imprint;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public static Extrude CreateExtrude(SketchType sketchType = SketchType.Circle)
+        public static Extrude CreateExtrude(TestSketchGenerator.SketchType sketchType = TestSketchGenerator.SketchType.Circle)
         {
             var sketch = new Sketch();
             var body = CreateBody(sketch);
 
-            FillSketch(sketch, sketchType);
+            TestSketchGenerator.FillSketch(sketch, sketchType);
 
             return Extrude.Create(body);
         }
 
-        //--------------------------------------------------------------------------------------------------
-
-        public static Sketch CreateSketch(SketchType sketchType = SketchType.Circle, bool createBody = false)
-        {
-            var sketch = new Sketch();
-            FillSketch(sketch, sketchType);
-            if(createBody)
-                CreateBody(sketch);
-            return sketch;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        static void FillSketch(Sketch sketch, SketchType sketchType)
-        {
-            if (sketchType == SketchType.Ellipse)
-            {
-                sketch.Points.Add(0, new Pnt2d(0, 0));
-                sketch.Points.Add(1, new Pnt2d(1.5, 5));
-                sketch.Points.Add(2, new Pnt2d(2.5, 2.5));
-                sketch.Segments.Add(0, new SketchSegmentEllipse(0, 1, 2));
-            }
-            else if (sketchType == SketchType.Rectangle)
-            {
-                sketch.Points.Add(0, new Pnt2d(5, 5));
-                sketch.Points.Add(1, new Pnt2d(-5, 5));
-                sketch.Points.Add(2, new Pnt2d(-5, -5));
-                sketch.Points.Add(3, new Pnt2d(5, -5));
-                sketch.Segments.Add(0, new SketchSegmentLine(0, 1));
-                sketch.Segments.Add(1, new SketchSegmentLine(1, 2));
-                sketch.Segments.Add(2, new SketchSegmentLine(2, 3));
-                sketch.Segments.Add(3, new SketchSegmentLine(3, 0));
-                sketch.Constraints.Add(new SketchConstraintPerpendicular(0, 1));
-                sketch.Constraints.Add(new SketchConstraintPerpendicular(1, 2));
-                sketch.Constraints.Add(new SketchConstraintPerpendicular(2, 3));
-                sketch.Constraints.Add(new SketchConstraintPerpendicular(3, 0));
-            }
-            else if (sketchType == SketchType.SimpleAsymmetric)
-            {
-                sketch.Points.Add(0, new Pnt2d(0, 10));
-                sketch.Points.Add(1, new Pnt2d(2, -10));
-                sketch.Points.Add(2, new Pnt2d(7, 7));
-                sketch.Points.Add(3, new Pnt2d(10, -2));
-
-                sketch.Segments.Add(0, new SketchSegmentLine(0, 1));
-                sketch.Segments.Add(1, new SketchSegmentLine(0, 2));
-                sketch.Segments.Add(2, new SketchSegmentArc(1, 2, 3));
-            }
-            else
-            {
-                sketch.Points.Add(0, new Pnt2d(0, 0));
-                sketch.Points.Add(1, new Pnt2d(5, 5));
-                sketch.Segments.Add(0, new SketchSegmentCircle(0, 1));
-
-                if (sketchType == SketchType.Ring)
-                {
-                    sketch.Points.Add(2, new Pnt2d(2.5, 2.5));
-                    sketch.Segments.Add(1, new SketchSegmentCircle(0, 2));
-                }
-                else if (sketchType == SketchType.MultiCircle)
-                {
-                    sketch.Points.Add(2, new Pnt2d(8, 8));
-                    sketch.Points.Add(3, new Pnt2d(9.5, 9.5));
-                    sketch.Segments.Add(1, new SketchSegmentCircle(2, 3));
-                    sketch.Points.Add(4, new Pnt2d(-8, -8));
-                    sketch.Points.Add(5, new Pnt2d(-9.5, -9.5));
-                    sketch.Segments.Add(2, new SketchSegmentCircle(4, 5));
-                }
-            }
-        }
-        
         //--------------------------------------------------------------------------------------------------
 
         public static (Body target, IShapeOperand[] operands) CreateBooleanBodies(bool bigsize)

@@ -75,7 +75,7 @@ namespace Macad.Test.Unit.Interaction.Multiply
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(createBody: true);
+            var sketch = TestSketchGenerator.CreateSketch(createBody: true);
 
             var array = CircularArray.Create(sketch.Body);
             array.Quantity = 4;
@@ -107,7 +107,7 @@ namespace Macad.Test.Unit.Interaction.Multiply
         {
             var ctx = Context.Current;
 
-            var sketch = TestGeomGenerator.CreateSketch(createBody: true);
+            var sketch = TestSketchGenerator.CreateSketch(createBody: true);
 
             var array = CircularArray.Create(sketch.Body);
             array.Quantity = 4;

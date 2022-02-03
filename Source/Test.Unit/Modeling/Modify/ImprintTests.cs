@@ -65,7 +65,7 @@ namespace Macad.Test.Unit.Modeling.Modify
         [Test]
         public void RingFace()
         {
-            var shape = TestGeomGenerator.CreateImprint(TestGeomGenerator.SketchType.Ring);
+            var shape = TestGeomGenerator.CreateImprint(TestSketchGenerator.SketchType.Ring);
             Assert.IsNotNull(shape);
 
             shape.Depth = 2.5;
@@ -80,7 +80,7 @@ namespace Macad.Test.Unit.Modeling.Modify
         [Test]
         public void MultiFace()
         {
-            var shape = TestGeomGenerator.CreateImprint(TestGeomGenerator.SketchType.MultiCircle);
+            var shape = TestGeomGenerator.CreateImprint(TestSketchGenerator.SketchType.MultiCircle);
             Assert.IsNotNull(shape);
 
             shape.Depth = 2.5;
@@ -143,7 +143,7 @@ namespace Macad.Test.Unit.Modeling.Modify
         [Test]
         public void RingFaceDraft()
         {
-            var shape = TestGeomGenerator.CreateImprint(TestGeomGenerator.SketchType.Ring);
+            var shape = TestGeomGenerator.CreateImprint(TestSketchGenerator.SketchType.Ring);
             Assert.IsNotNull(shape);
 
             shape.Depth = 2.5;
@@ -163,7 +163,7 @@ namespace Macad.Test.Unit.Modeling.Modify
         [Test]
         public void MultiFaceDraft()
         {
-            var shape = TestGeomGenerator.CreateImprint(TestGeomGenerator.SketchType.MultiCircle);
+            var shape = TestGeomGenerator.CreateImprint(TestSketchGenerator.SketchType.MultiCircle);
             Assert.IsNotNull(shape);
 
             shape.Depth = 2.5;
