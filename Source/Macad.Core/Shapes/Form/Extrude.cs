@@ -222,11 +222,23 @@ namespace Macad.Core.Shapes
             // Do it!
             var makePrism = new BRepFeat_MakePrism(solid, face, face, direction, Depth > 0 ? 1 : 0, false);
             makePrism.Perform(Depth);
+            if (!makePrism.IsDone())
+            {
+                Messages.Error("Failed extruding the selected face with this parameters.");
+                return false;
+            }
+
+            var bRep = makePrism.Shape();
+            if (bRep.Solids().Count == 0)
+            {
+                Messages.Error("Failed extruding the selected face with this parameters.");
+                return false;
+            }
 
 			UpdateModifiedSubshapes(solid, makePrism);
 
             // Get final shape
-            BRep = makePrism.Shape();
+            BRep = bRep;
             return true;
         }
 

@@ -151,5 +151,15 @@ namespace Macad.Test.Unit.Modeling.Form
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void CheckForEmptyResult()
+        {
+            var cyl = TestGeomGenerator.CreateCylinder();
+            var extrude = Extrude.Create(cyl.Body, cyl.GetSubshapeReference(SubshapeType.Face, 0));
+            Assert.IsFalse(extrude.Make(Shape.MakeFlags.None));
+
+            cyl.SegmentAngle = 160.0;
+            Assert.IsTrue(extrude.Make(Shape.MakeFlags.None));
+        }
     }
 }
