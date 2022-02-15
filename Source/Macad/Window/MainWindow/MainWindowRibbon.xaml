@@ -98,41 +98,14 @@
                         <Separator/>
                         <ItemsControl ItemsSource="{Binding Context.DocumentController.MruList}" 
                                       HorizontalContentAlignment="Stretch">
-                            <ItemsControl.Resources>
-                                <Style TargetType="Fluent:MenuItem">
-                                    <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Black}"/>
-                                    <Setter Property="Margin" Value="2,0"/>
-                                    <Setter Property="RecognizesAccessKey" Value="false"/>
-                                    <Setter Property="HeaderTemplate">
-                                        <Setter.Value>
-                                            <DataTemplate>
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding Converter={mmp:ExtractFileNameNoExtensionConverter}}"
-                                                               FontWeight="SemiBold"
-                                                               FontSize="13"
-                                                               HorizontalAlignment="Left"
-                                                               MaxWidth="275"
-                                                               TextTrimming="CharacterEllipsis"/>
-                                                    <TextBlock FontSize="10"
-                                                               HorizontalAlignment="Left"
-                                                               MaxWidth="275"
-                                                               Foreground="{StaticResource Macad.Brushes.TextLight}">
-                                                        <mmp:Behaviors.Behavior>
-                                                            <mmp:PathEllipsisTextBehaviour OriginalPath="{Binding Converter={mmp:ExtractFileDirectoryConverter}}" />
-                                                        </mmp:Behaviors.Behavior>
-                                                    </TextBlock>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ItemsControl.Resources>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Fluent:MenuItem CommandParameter="{Binding}"
                                                      Command="{x:Static mmi:DocumentCommands.OpenRecentFile}"
                                                      Header="{Binding}"
                                                      Icon="{mmp:IconResource App-OpenRecent}"
+                                                     Style="{StaticResource Macad.Styles.MenuItem.MRU}"
+                                                     ToolTipService.InitialShowDelay="100"
                                                      Click="_RecentFilesMenuItem_Click">
                                         <Fluent:MenuItem.ToolTip>
                                             <ToolTip Placement="Right"

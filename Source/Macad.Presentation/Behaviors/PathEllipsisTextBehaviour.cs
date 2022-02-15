@@ -81,7 +81,7 @@ namespace Macad.Presentation
 
         string _TrimPath(string originalPath, double maxWidth)
         {
-            if (originalPath.IsNullOrEmpty() || maxWidth==0)
+            if (originalPath.IsNullOrEmpty() || maxWidth==0 || _Measure(originalPath)<=maxWidth)
                 return originalPath;
 
             var path = originalPath;
