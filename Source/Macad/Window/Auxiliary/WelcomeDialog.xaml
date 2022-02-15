@@ -103,7 +103,7 @@
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel>
+                    <DockPanel ToolTipService.InitialShowDelay="100">
                         <DockPanel.ToolTip>
                             <ToolTip Placement="Right"
                                      HorizontalOffset="-80" VerticalOffset="-5"
