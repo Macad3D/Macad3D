@@ -12,7 +12,7 @@
     <!--region ApplicationMenu-->
 
     <Style TargetType="{x:Type Fluent:ApplicationMenu}">
-        <Setter Property="Background" Value="{StaticResource Fluent.Ribbon.Brushes.MenuItem.Background}" />
+        <Setter Property="Background" Value="{StaticResource Macad.Brushes.Base80}" />
         <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.White}" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">

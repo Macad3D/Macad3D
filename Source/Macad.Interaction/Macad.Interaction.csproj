@@ -13,8 +13,8 @@
 
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="5.0.1" />
-    <PackageReference Include="Fluent.Ribbon" Version="8.0.3" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.37" />
+    <PackageReference Include="Fluent.Ribbon" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Macad.Common\Macad.Common.csproj" />

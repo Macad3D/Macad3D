@@ -39,7 +39,7 @@
 
     <!-- Menu -->
     <SolidColorBrush x:Key="Fluent.Ribbon.Brushes.Ribbon.Background">Macad.Colors.Window.Background</SolidColorBrush> 
-    <SolidColorBrush x:Key="Fluent.Ribbon.Brushes.MenuItem.Background">Macad.Colors.Base80</SolidColorBrush>
+    <SolidColorBrush x:Key="Fluent.Ribbon.Brushes.MenuItem.Background">Macad.Colors.Base30</SolidColorBrush>
     <SolidColorBrush x:Key="Fluent.Ribbon.Brushes.GroupSeparator.Background">Macad.Colors.Base30</SolidColorBrush>
     
     <!-- Window -->
