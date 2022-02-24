@@ -49,15 +49,15 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.ClickAt(250, 250); // Center point
                 ctx.ClickAt(100, 250); // Rim point
                 ctx.MoveTo(50, 50); // Move crsr out of the way
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchInXY1"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchInXY1"), 1.0);
 
                 // Leave editor
                 sketchEditTool.Stop();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchInXY2"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchInXY2"), 1.0);
 
                 // Selectable
                 ctx.MoveTo(100, 250); // Rim point
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchInXY3"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchInXY3"), 1.0);
             });
         }
 
@@ -79,10 +79,10 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             Assert.Multiple(() =>
             {
                 ctx.MoveTo(90, 250);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchOnFace1"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchOnFace1"), 1.0);
 
                 ctx.SelectAt(90, 250);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchOnFace2"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchOnFace2"), 1.0);
                 Assert.That(ctx.WorkspaceController.CurrentTool, Is.TypeOf(typeof(SketchEditorTool)));
             });
         }
@@ -105,10 +105,10 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             Assert.Multiple(() =>
             {
                 ctx.MoveTo(200, 277);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateOnFaceSelectionFilter1"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateOnFaceSelectionFilter1"), 1.0);
 
                 ctx.MoveTo(220, 265);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateOnFaceSelectionFilter2"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateOnFaceSelectionFilter2"), 1.0);
             });
         }
 
@@ -135,17 +135,17 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             Assert.Multiple(() =>
             {
                 ctx.MoveTo(180, 180);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchOnBoundFace01"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchOnBoundFace01"), 1.0);
 
                 ctx.SelectAt(180, 180);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchOnBoundFace02"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchOnBoundFace02"), 1.0);
                 var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
                 Assert.That(sketchEditTool, Is.Not.Null);
 
                 sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
                 ctx.ClickAt(250, 250); // Center point
                 ctx.ClickAt(200, 250); // Rim point
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchOnBoundFace03"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchOnBoundFace03"), 1.0);
             });
         }
 
@@ -164,29 +164,29 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             Assert.Multiple(() =>
             {
                 // In Editor, no marker
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EmptySketchMarker01"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EmptySketchMarker01"), 1.0);
                 sketchEditTool.Stop();
 
                 // Out of Editor, marker
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EmptySketchMarker02"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EmptySketchMarker02"), 1.0);
 
                 // Enter editor, no marker
                 sketchEditTool = new SketchEditorTool(sketch);
                 ctx.WorkspaceController.StartTool(sketchEditTool);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EmptySketchMarker01"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EmptySketchMarker01"), 1.0);
 
                 // Create Circle, no marker
                 sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
                 ctx.ClickAt(200, 200); // Center point
                 ctx.MoveTo(100, 100);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EmptySketchMarker03"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EmptySketchMarker03"), 1.0);
                 ctx.ClickAt(100, 250); // Rim point
                 ctx.MoveTo(50, 50); // Move crsr out of the way
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EmptySketchMarker04"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EmptySketchMarker04"), 1.0);
 
                 // Leave editor, no marker
                 sketchEditTool.Stop();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EmptySketchMarker05"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EmptySketchMarker05"), 1.0);
             });
         }
 
@@ -213,7 +213,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.ClickAt(250, 250); // Center point
                 ctx.ClickAt(100, 250); // Rim point
                 ctx.MoveTo(50, 50); // Move crsr out of the way
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SegmentsVisibleOverClippedObjects1"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SegmentsVisibleOverClippedObjects1"), 1.0);
             });
 
         }

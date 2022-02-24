@@ -200,12 +200,26 @@ namespace Macad.Core
         //--------------------------------------------------------------------------------------------------
 
         #endregion
+        
+        #region Events
+
+        public delegate void ViewportChangedEventHandler(Viewport sender);
+        
+        public static event ViewportChangedEventHandler ViewportChanged;
+
+        void _RaiseViewportChanged()
+        {
+            ViewportChanged?.Invoke(this);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
 
         #region Member Variables
 
         Pnt _EyePoint = new Pnt(10, 10, 10);
         Pnt _TargetPoint = new Pnt(0, 0, 0);
-        Dir _UpDirection = Dir.DZ;
         double _Twist = 0.0f;
         double _Scale = 100.0f;
         RenderModes _RenderMode;
@@ -330,26 +344,29 @@ namespace Macad.Core
         {
             try
             {
-                double xv = 0, yv = 0, zv = 0;
-                double vx = 0, vy = 0, vz = 0;
-
-                V3dView.Convert(screenX, screenY, ref xv, ref yv, ref zv);
-                V3dView.Proj(ref vx, ref vy, ref vz);
-
-                gp_Lin line = new gp_Lin(new Pnt(xv, yv, zv), new Dir(vx, vy, vz));
-                IntAna_IntConicQuad intersection = new IntAna_IntConicQuad(line, plane, Precision.Angular(), 0, 0);
-
-                if (intersection.IsDone()
-                    && !intersection.IsParallel()
-                    && intersection.NbPoints() > 0)
+                if (V3dView.IfWindow())
                 {
-                    resultPnt = intersection.Point(1);
-                    return true;
+                    double xv = 0, yv = 0, zv = 0;
+                    double vx = 0, vy = 0, vz = 0;
+
+                    V3dView.Convert(screenX, screenY, ref xv, ref yv, ref zv);
+                    V3dView.Proj(ref vx, ref vy, ref vz);
+
+                    gp_Lin line = new gp_Lin(new Pnt(xv, yv, zv), new Dir(vx, vy, vz));
+                    IntAna_IntConicQuad intersection = new IntAna_IntConicQuad(line, plane, Precision.Angular(), 0, 0);
+
+                    if (intersection.IsDone()
+                        && !intersection.IsParallel()
+                        && intersection.NbPoints() > 0)
+                    {
+                        resultPnt = intersection.Point(1);
+                        return true;
+                    }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Debug.Assert(false);
+                Debug.Assert(false, e.Message);
             }
 
             resultPnt = new Pnt();
@@ -523,6 +540,7 @@ namespace Macad.Core
             V3dView.MustBeResized();
             RaisePropertyChanged(nameof(PixelSize));
             RaisePropertyChanged(nameof(GizmoScale));
+            _RaiseViewportChanged();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -535,6 +553,7 @@ namespace Macad.Core
             RaisePropertyChanged(nameof(TargetPoint));
             RaisePropertyChanged(nameof(Twist));
             RaisePropertyChanged(nameof(Scale));
+            _RaiseViewportChanged();
         }
 
         //--------------------------------------------------------------------------------------------------

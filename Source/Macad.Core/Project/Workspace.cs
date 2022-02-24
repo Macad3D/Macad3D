@@ -35,6 +35,7 @@ namespace Macad.Core
                     _GridEnabled = value;
                     Model.MarkAsUnsaved();
                     RaisePropertyChanged();
+                    _RaiseGridChanged();
                 }
             }
         }
@@ -51,6 +52,7 @@ namespace Macad.Core
                     _CurrentWorkingContext.GridType = value;
                     Model.MarkAsUnsaved();
                     RaisePropertyChanged();
+                    _RaiseGridChanged();
                 }
             }
         }
@@ -67,6 +69,7 @@ namespace Macad.Core
                     _CurrentWorkingContext.GridStep = value;
                     Model.MarkAsUnsaved();
                     RaisePropertyChanged();
+                    _RaiseGridChanged();
                 }
             }
         }
@@ -83,6 +86,7 @@ namespace Macad.Core
                     _CurrentWorkingContext.GridRotation = value;
                     Model.MarkAsUnsaved();
                     RaisePropertyChanged();
+                    _RaiseGridChanged();
                 }
             }
         }
@@ -102,6 +106,7 @@ namespace Macad.Core
                     _CurrentWorkingContext.GridDivisions = value;
                     Model.MarkAsUnsaved();
                     RaisePropertyChanged();
+                    _RaiseGridChanged();
                 }
             }
         }
@@ -123,8 +128,9 @@ namespace Macad.Core
                 //Console.WriteLine("New working plane: {0}  {1}  {2}", value.Position().Location().x, value.Position().Location().z, value.Position().Location().z);
                 //Console.WriteLine("Global working plane: {0}  {1}  {2}", _GlobalWorkingContext.WorkingPlane.Position().Location().x, _GlobalWorkingContext.WorkingPlane.Position().Location().z, _GlobalWorkingContext.WorkingPlane.Position().Location().z);
                 _CurrentWorkingContext.WorkingPlane = value;
-                RaisePropertyChanged();
                 Model.MarkAsUnsaved();
+                RaisePropertyChanged();
+                _RaiseGridChanged();
             }
         }
 
@@ -141,6 +147,7 @@ namespace Macad.Core
                 RaisePropertyChanged(nameof(GridStep));
                 RaisePropertyChanged(nameof(GridRotation));
                 RaisePropertyChanged(nameof(GridDivisions));
+                _RaiseGridChanged();
                 _ApplyWorkingContext();
             }
         }
@@ -152,6 +159,21 @@ namespace Macad.Core
         {
             get { return _GlobalWorkingContext; }
             set { _GlobalWorkingContext.CopyFrom(value); }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+                
+        #region Events
+
+        public delegate void GridChangedEventHandler(Workspace sender);
+        
+        public event GridChangedEventHandler GridChanged;
+
+        void _RaiseGridChanged()
+        {
+            GridChanged?.Invoke(this);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -290,12 +312,6 @@ namespace Macad.Core
 
             base.OnBeginDeserializing(context);
         }
-
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
-
-        #region Isolation
 
         //--------------------------------------------------------------------------------------------------
 
