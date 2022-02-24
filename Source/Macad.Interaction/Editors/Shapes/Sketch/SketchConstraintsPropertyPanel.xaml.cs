@@ -232,8 +232,11 @@ namespace Macad.Interaction.Editors.Shapes
             if (constraintData.ParameterName.IsNullOrEmpty())
                 return;
 
-            if(SketchEditorTool.Sketch.SetConstraintParameter(constraintData.Constraint, constraintData.Parameter))
+            if (SketchEditorTool.Sketch.SetConstraintParameter(constraintData.Constraint, constraintData.Parameter))
+            {
+                SketchEditorTool.Sketch.SolveConstraints(true);
                 CommmitChange();
+            }
         }
 
         //--------------------------------------------------------------------------------------------------

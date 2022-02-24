@@ -496,5 +496,59 @@ namespace Macad.Test.UI.Editors.Primitives
             Assert.AreEqual(3, Pipe.GetValue<int>("$Sketch.Points.Count"));
         }
 
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void UpdateOnManualPointEdit()
+        {
+            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
+            
+            MainWindow.Ribbon.ClickButton("CreateRectangleSegment");
+            MainWindow.Viewport.ClickRelative(0.3, 0.3);
+            MainWindow.Viewport.ClickRelative(0.7, 0.7);
+            
+            // Select rectangle
+            MainWindow.Viewport.ClickRelative(0.3, 0.3);
+            var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");
+            Assert.That(sketchPanel, Is.Not.Null);
+
+            var oldX = Pipe.GetValue<double>("$Sketch.Points.[1].X");
+            var oldY = Pipe.GetValue<double>("$Sketch.Points.[1].Y");
+
+            sketchPanel.EnterValue("PointX", 0.0);
+            sketchPanel.EnterValue("PointY", 0.0);
+
+            Assert.AreNotEqual(oldX, Pipe.GetValue<double>("$Sketch.Points.[1].X"));
+            Assert.AreNotEqual(oldY, Pipe.GetValue<double>("$Sketch.Points.[1].Y"));
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void UpdateOnManualConstraintParameterEdit()
+        {
+            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Ribbon.SelectTab("Sketch");
+
+            MainWindow.Ribbon.ClickButton("CreateCircleSegment");
+            MainWindow.Viewport.ClickRelative(0.4, 0.5);
+            MainWindow.Viewport.ClickRelative(0.6, 0.5);
+
+            MainWindow.Ribbon.ClickButton("CreateCircleRadiusConstraint");
+           
+            var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchConstraintsPropertyPanel");
+            Assert.That(sketchPanel, Is.Not.Null);
+
+            var oldX0 = Pipe.GetValue<double>("$Sketch.Points.[0].X");
+            var oldX1 = Pipe.GetValue<double>("$Sketch.Points.[1].X");
+
+            sketchPanel.EnterValue("ParamValue", 3.0);
+
+            Assert.AreNotEqual(oldX0, Pipe.GetValue<double>("$Sketch.Points.[0].X"));
+            Assert.AreNotEqual(oldX1, Pipe.GetValue<double>("$Sketch.Points.[1].X"));
+        }
     }
 }

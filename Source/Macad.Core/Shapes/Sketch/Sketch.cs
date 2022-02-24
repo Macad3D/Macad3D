@@ -135,6 +135,7 @@ namespace Macad.Core.Shapes
             SaveUndo(ElementType.Point);
             var index = Points.Keys.Any() ? Points.Keys.Max() + 1 : 0;
             Points.Add(index, point);
+            Invalidate();
             RaisePropertyChanged(nameof(Points));
             OnElementsChanged(ElementType.Point);
             return index;
@@ -216,8 +217,8 @@ namespace Macad.Core.Shapes
             SaveUndo(ElementType.Point);
             Points[index] = pnt2d;
 
+            Invalidate();
             RaisePropertyChanged(nameof(Points));
-
             OnElementsChanged(ElementType.Point);
             return true;
         }
@@ -309,6 +310,8 @@ namespace Macad.Core.Shapes
             SaveUndo(ElementType.Segment);
             var index = Segments.Keys.Any() ? Segments.Keys.Max() + 1 : 0;
             Segments.Add(index, segment);
+
+            Invalidate();
             RaisePropertyChanged(nameof(Segments));
             OnElementsChanged(ElementType.Segment);
             return index;
@@ -320,6 +323,8 @@ namespace Macad.Core.Shapes
         {
             SaveUndo(ElementType.Constraint);
             Constraints.Add(constraint);
+
+            Invalidate();
             RaisePropertyChanged(nameof(Constraints));
             OnElementsChanged(ElementType.Constraint);
             return Constraints.Count - 1;
@@ -335,9 +340,7 @@ namespace Macad.Core.Shapes
             SaveUndo(ElementType.Constraint);
             constraint.Parameter = parameter;
 
-            if(SolveConstraints(false))
-                SolveConstraints(true);
-
+            Invalidate();
             RaisePropertyChanged(nameof(Constraints));
             OnElementsChanged(ElementType.Constraint);
             return true;
@@ -352,6 +355,7 @@ namespace Macad.Core.Shapes
             // Remove constraint
             _Constraints.Remove(conToDelete);
 
+            Invalidate();
             RaisePropertyChanged(nameof(Constraints));
             OnElementsChanged(ElementType.Constraint);
         }

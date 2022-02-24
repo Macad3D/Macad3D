@@ -93,8 +93,13 @@ namespace Macad.Interaction.Editors.Shapes
             var pointData = (e.OriginalSource as Control)?.Tag as PointData;
             if (pointData == null) return;
 
-            if(SketchEditorTool.Sketch.SetPoint(pointData.Index, new Pnt2d(pointData.X, pointData.Y)))
+            if (SketchEditorTool.Sketch.SetPoint(pointData.Index, new Pnt2d(pointData.X, pointData.Y)))
+            {
+                // Run solver 
+                SketchEditorTool.Sketch.SolveConstraints(true);
+
                 CommmitChange();
+            }
         }
 
         //--------------------------------------------------------------------------------------------------

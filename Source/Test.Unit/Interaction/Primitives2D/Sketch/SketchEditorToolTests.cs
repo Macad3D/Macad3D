@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using Macad.Test.Utils;
 using Macad.Common;
@@ -501,6 +502,49 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             sketchEditTool.Stop();
             ctx.WorkspaceController.StartTool(new SketchEditorTool(sketch));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext11"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+                
+        [Test]
+        public void RestoreWorkingContextWithTopView()
+        {
+            var ctx = Context.Current;
+            var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+            viewportParameterSet.ShowViewCube = true;
+
+            // Create sketch
+            ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+            var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+            Assert.That(sketchEditTool, Is.Not.Null);
+            var sketch = sketchEditTool.Sketch;
+
+            // Fill in anything
+            sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
+            ctx.ClickAt(250, 250); // Center point
+            ctx.ClickAt(100, 250); // Rim point
+
+            // Exit editor
+            sketchEditTool.Stop();
+
+            // Select predefined topview
+            ctx.WorkspaceController.ActiveViewControlller.SetPredefinedView(ViewportController.PredefinedViews.Top);
+            Thread.Sleep(500);
+            ctx.WorkspaceController.Invalidate(forceRedraw:true);
+//            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext22"));
+            
+            // Enter editor
+            sketchEditTool = new SketchEditorTool(sketch);
+            ctx.WorkspaceController.StartTool(sketchEditTool);
+
+            // move the viewport
+            ctx.MoveTo(250, 250);
+            ctx.ViewportController.MouseMove(new Point(150, 250), ViewportController.MouseMoveMode.Panning);
+
+            // Leave editor
+            sketchEditTool.Stop();
+
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext21"));
         }
 
         //--------------------------------------------------------------------------------------------------

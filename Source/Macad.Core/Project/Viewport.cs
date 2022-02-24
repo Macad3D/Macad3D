@@ -468,6 +468,10 @@ namespace Macad.Core
 
         public double[] GetViewParameters()
         {
+            // If distance is 0, the parameters cannot be restored
+            if(V3dView.Camera().Distance() == 0.0)
+                V3dView.Camera().SetDistance(0.00001);
+
             return new[]
             {
                 EyePoint.X, EyePoint.Y, EyePoint.Z,
@@ -481,11 +485,15 @@ namespace Macad.Core
 
         public void RestoreViewParameters(double[] parameters)
         {
-            Debug.Assert(parameters.Length == 8);
+            if (parameters.Length != 8) 
+                return;
+
             EyePoint = new Pnt(parameters[0], parameters[1], parameters[2]);
             TargetPoint = new Pnt(parameters[3], parameters[4], parameters[5]);
             Twist = parameters[6];
             Scale = parameters[7];
+
+            OnViewMoved();
         }
 
         //--------------------------------------------------------------------------------------------------
