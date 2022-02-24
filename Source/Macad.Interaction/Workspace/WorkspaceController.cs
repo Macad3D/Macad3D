@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -17,7 +18,7 @@ namespace Macad.Interaction
     {
         #region Properties
 
-        public Workspace Workspace { get; private set; }
+        public Workspace Workspace { get; }
 
         public Viewport ActiveViewport { get; set; }
 
@@ -33,7 +34,7 @@ namespace Macad.Interaction
         
         public bool IsSelecting { get; private set; }
 
-        public VisualObjectManager VisualObjects { get; set; }
+        public VisualObjectManager VisualObjects { get; init; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -44,6 +45,8 @@ namespace Macad.Interaction
         readonly List<ViewportController> _ViewControllers = new List<ViewportController>();
 
         readonly DispatcherTimer _RedrawTimer;
+        
+        readonly AIS_Line[] _WorkingPlaneAxes = new AIS_Line[2];
 
         //--------------------------------------------------------------------------------------------------
 
@@ -56,6 +59,7 @@ namespace Macad.Interaction
             Debug.Assert(workspace != null);
 
             Workspace = workspace;
+            workspace.PropertyChanged += _Workspace_OnPropertyChanged;
 
             VisualObjects = new VisualObjectManager(this);
 
@@ -112,6 +116,10 @@ namespace Macad.Interaction
 
             VisualObjects.Dispose();
 
+            _WorkingPlaneAxes[0] = null;
+            _WorkingPlaneAxes[1] = null;
+
+            Workspace.PropertyChanged += _Workspace_OnPropertyChanged;
             Workspace.Dispose();
             foreach (var viewCtrl in _ViewControllers)
             {
@@ -123,6 +131,21 @@ namespace Macad.Interaction
             GC.SuppressFinalize(this);
         }
         
+        //--------------------------------------------------------------------------------------------------
+        
+        void _Workspace_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Workspace.GridEnabled)
+                || e.PropertyName == nameof(Workspace.GridType)
+                || e.PropertyName == nameof(Workspace.GridStep)
+                || e.PropertyName == nameof(Workspace.GridRotation)
+                || e.PropertyName == nameof(Workspace.GridDivisions)
+                || e.PropertyName == nameof(Workspace.WorkingPlane))
+            {
+                _UpdateGrid();
+            }
+        }
+
         //--------------------------------------------------------------------------------------------------
 
         void _VisualParameterSet_ParameterChanged(OverridableParameterSet set, string key)
@@ -145,6 +168,7 @@ namespace Macad.Interaction
             }
 
             VisualObjects.InitEntities();
+            _UpdateGrid();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -902,7 +926,81 @@ namespace Macad.Interaction
         }
 
         //--------------------------------------------------------------------------------------------------
-           
+        
+        void _UpdateGrid()
+        {
+            WorkingContext wc = Workspace.WorkingContext;
+
+            void __UpdateWorkingPlaneAxis(int index, Ax1 axis)
+            {
+                if (Workspace.AisContext == null)
+                    return;
+
+                Geom_CartesianPoint p1 = new(axis.Location.Translated(axis.Direction.Reversed().ToVec(100 * wc.GridStep)));
+                Geom_CartesianPoint p2 = new(axis.Location.Translated(axis.Direction.ToVec(100 * wc.GridStep)));
+
+                if (_WorkingPlaneAxes[index] == null)
+                {
+                    _WorkingPlaneAxes[index] = new AIS_Line(p1, p2);
+                    _WorkingPlaneAxes[index].SetColor(new Quantity_Color(index == 0 ? 0.5 : 0.0, index == 1 ? 0.6 : 0.0, 0.0, Quantity_TypeOfColor.Quantity_TOC_RGB));
+                    _WorkingPlaneAxes[index].SetPolygonOffsets(2 /* Aspect_POM_Line */, 1.0f, -1.0f);
+                    Workspace.AisContext?.Display(_WorkingPlaneAxes[index], 0, -1, false, false);
+                    _WorkingPlaneAxes[index].SetInfiniteState(true);
+                }
+                else
+                {
+                    _WorkingPlaneAxes[index].SetPoints(p1, p2);
+                    Workspace.AisContext?.RecomputePrsOnly(_WorkingPlaneAxes[index], false);
+                }
+            }
+
+            //--------------------------------------------------------------------------------------------------
+
+            var v3dViewer = Workspace.V3dViewer;
+            if (v3dViewer is null)
+                return;
+
+            if (Workspace.GridEnabled)
+            {
+                if (wc.GridType == Workspace.GridTypes.Rectangular)
+                {
+                    v3dViewer.ActivateGrid(Aspect_GridType.Aspect_GT_Rectangular, Aspect_GridDrawMode.Aspect_GDM_Lines);
+                    v3dViewer.SetRectangularGridValues(0, 0, wc.GridStep, wc.GridStep, wc.GridRotation.ToRad());
+                    v3dViewer.SetRectangularGridGraphicValues(100 * wc.GridStep, 100 * wc.GridStep, -0.0001);
+                }
+                else
+                {
+                    v3dViewer.ActivateGrid(Aspect_GridType.Aspect_GT_Circular, Aspect_GridDrawMode.Aspect_GDM_Lines);
+                    v3dViewer.SetCircularGridValues(0, 0, wc.GridStep, wc.GridDivisions, wc.GridRotation.ToRad());
+                    v3dViewer.SetCircularGridGraphicValues(100 * wc.GridStep, -0.0001);
+                }
+                v3dViewer.SetGridEcho(true);
+
+                Pln displacedPlane = wc.WorkingPlane
+                                       .Rotated(wc.WorkingPlane.Axis, -wc.GridRotation.ToRad())
+                                       .Translated(wc.WorkingPlane.Axis.Direction.ToVec(0.0001));
+                __UpdateWorkingPlaneAxis(0, displacedPlane.XAxis);
+                __UpdateWorkingPlaneAxis(1, displacedPlane.YAxis);
+            }
+            else
+            {
+                v3dViewer.SetGridEcho(false);
+                v3dViewer.DeactivateGrid();
+
+                for (int index = 0; index < 2; index++)
+                {
+                    if (_WorkingPlaneAxes[index] != null)
+                    {
+                        Workspace.AisContext?.Erase(_WorkingPlaneAxes[index], false);
+                        _WorkingPlaneAxes[index] = null;
+                    }
+                }
+            }
+
+            Invalidate();
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
 
@@ -1006,5 +1104,6 @@ namespace Macad.Interaction
         //--------------------------------------------------------------------------------------------------
 
         #endregion
+
     }
 }

@@ -4,6 +4,7 @@ using Macad.Core.Topology;
 using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Occt;
+using Macad.Occt.Ext;
 
 namespace Macad.Core
 {
@@ -32,7 +33,6 @@ namespace Macad.Core
                 if (_GridEnabled != value)
                 {
                     _GridEnabled = value;
-                    _UpdateGrid();
                     Model.MarkAsUnsaved();
                     RaisePropertyChanged();
                 }
@@ -50,7 +50,6 @@ namespace Macad.Core
                 {
                     _CurrentWorkingContext.GridType = value;
                     Model.MarkAsUnsaved();
-                    _UpdateGrid();
                     RaisePropertyChanged();
                 }
             }
@@ -67,7 +66,6 @@ namespace Macad.Core
                 {
                     _CurrentWorkingContext.GridStep = value;
                     Model.MarkAsUnsaved();
-                    _UpdateGrid();
                     RaisePropertyChanged();
                 }
             }
@@ -84,7 +82,6 @@ namespace Macad.Core
                 {
                     _CurrentWorkingContext.GridRotation = value;
                     Model.MarkAsUnsaved();
-                    _UpdateGrid();
                     RaisePropertyChanged();
                 }
             }
@@ -104,7 +101,6 @@ namespace Macad.Core
                 {
                     _CurrentWorkingContext.GridDivisions = value;
                     Model.MarkAsUnsaved();
-                    _UpdateGrid();
                     RaisePropertyChanged();
                 }
             }
@@ -123,10 +119,10 @@ namespace Macad.Core
                 {
                     V3dViewer.SetPrivilegedPlane(value.Position);
                 }
+
                 //Console.WriteLine("New working plane: {0}  {1}  {2}", value.Position().Location().x, value.Position().Location().z, value.Position().Location().z);
                 //Console.WriteLine("Global working plane: {0}  {1}  {2}", _GlobalWorkingContext.WorkingPlane.Position().Location().x, _GlobalWorkingContext.WorkingPlane.Position().Location().z, _GlobalWorkingContext.WorkingPlane.Position().Location().z);
                 _CurrentWorkingContext.WorkingPlane = value;
-                _UpdateGrid();
                 RaisePropertyChanged();
                 Model.MarkAsUnsaved();
             }
@@ -252,7 +248,6 @@ namespace Macad.Core
 
             // Reinit viewer parameters
             _ApplyWorkingContext();
-            _UpdateGrid();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -271,7 +266,7 @@ namespace Macad.Core
             AisContext.SetAutoActivateSelection(true);
             AisContext.SetPickingStrategy(SelectMgr_PickingStrategy.SelectMgr_PickingStrategy_OnlyTopmost);
             AisContext.SetDisplayMode((int)AIS_DisplayMode.AIS_Shaded, false);
-            V3dViewer.DisplayPrivilegedPlane(true, 1.0);
+            V3dViewer.DisplayPrivilegedPlane(false, 1.0);
             AisContext.EnableDrawHiddenLine();
 
             // Reinit ais parameters
@@ -347,40 +342,7 @@ namespace Macad.Core
             V3dViewer.Grid().Compute(coord.X, coord.Y, ref resX, ref resY);
             return new XY(resX, resY);
         }
-
-        //--------------------------------------------------------------------------------------------------
-
-        void _UpdateGrid()
-        {
-            if (V3dViewer is null)
-                return;
-
-            if (_GridEnabled)
-            {
-                if (_CurrentWorkingContext.GridType == GridTypes.Rectangular)
-                {
-                    V3dViewer.ActivateGrid(Aspect_GridType.Aspect_GT_Rectangular, Aspect_GridDrawMode.Aspect_GDM_Lines);
-                    V3dViewer.SetRectangularGridValues(0, 0, _CurrentWorkingContext.GridStep, _CurrentWorkingContext.GridStep, _CurrentWorkingContext.GridRotation.ToRad());
-                    V3dViewer.SetRectangularGridGraphicValues(100 * _CurrentWorkingContext.GridStep, 100 * _CurrentWorkingContext.GridStep, -0.0001);
-                }
-                else
-                {
-                    V3dViewer.ActivateGrid(Aspect_GridType.Aspect_GT_Circular, Aspect_GridDrawMode.Aspect_GDM_Lines);
-                    V3dViewer.SetCircularGridValues(0, 0, _CurrentWorkingContext.GridStep, _CurrentWorkingContext.GridDivisions, _CurrentWorkingContext.GridRotation.ToRad());
-                    V3dViewer.SetCircularGridGraphicValues(100 * _CurrentWorkingContext.GridStep, -0.0001);
-                }
-                V3dViewer.SetGridEcho(true);
-            }
-            else
-            {
-                V3dViewer.SetGridEcho(false);
-                V3dViewer.DeactivateGrid();
-            }
-
-            NeedsRedraw = true;
-            NeedsImmediateRedraw = true;
-        }
-
+        
         //--------------------------------------------------------------------------------------------------
 
         #endregion
@@ -390,7 +352,6 @@ namespace Macad.Core
         void _ApplyWorkingContext()
         {
             WorkingPlane = _CurrentWorkingContext.WorkingPlane;
-            _UpdateGrid();
         }
 
         //--------------------------------------------------------------------------------------------------
