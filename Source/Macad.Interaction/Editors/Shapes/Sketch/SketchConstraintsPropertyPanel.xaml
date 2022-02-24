@@ -54,7 +54,8 @@
                                               Margin="10,0,0,0"
                                               Units="{Binding Units}" 
                                               Tag="{Binding}"
-                                              Value="{Binding Parameter, NotifyOnSourceUpdated=True}"  />
+                                              Value="{Binding Parameter, NotifyOnSourceUpdated=True}" 
+                                              AutomationProperties.AutomationId="ParamValue"/>
 
                         </Grid>
 

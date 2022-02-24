@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
-             xmlns:mmi="clr-namespace:Macad.Interaction"
              xmlns:panels="clr-namespace:Macad.Interaction.Panels"
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -30,10 +29,14 @@
                                    HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" />
                         <mmp:ValueEditBox Grid.Column="1" 
                                           Tag="{Binding}"
-                                          Value="{Binding X, NotifyOnSourceUpdated=True}" HorizontalAlignment="Left" />
+                                          Value="{Binding X, NotifyOnSourceUpdated=True}" 
+                                          HorizontalAlignment="Left"
+                                          AutomationProperties.AutomationId="PointX"/>
                         <mmp:ValueEditBox Grid.Column="2" 
                                           Tag="{Binding}"
-                                          Value="{Binding Y, NotifyOnSourceUpdated=True}" HorizontalAlignment="Left" />
+                                          Value="{Binding Y, NotifyOnSourceUpdated=True}" 
+                                          HorizontalAlignment="Left"
+                                          AutomationProperties.AutomationId="PointY"/>
                     </Grid>
                 </DataTemplate>
             </mmp:TemplateItemsControl.ItemTemplate>
