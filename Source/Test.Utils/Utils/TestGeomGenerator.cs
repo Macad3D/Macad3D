@@ -11,9 +11,11 @@ namespace Macad.Test.Utils
         public static Body CreateBody(Shape shape, Pnt? position=null, XYZ? rotation=null )
         {
             var body = Body.Create(shape);
-            
+
             if (position != null)
+            {
                 body.Position = position.Value;
+            }
 
             if (rotation != null)
             {

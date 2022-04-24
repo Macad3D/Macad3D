@@ -473,8 +473,13 @@ namespace Macad.Core
             Pnt eyePoint = new Pnt(xEye, yEye, zEye);
             Pnt atPoint = new Pnt(xAt, yAt, zAt);
             var eyeVector = new Vec(eyePoint, atPoint);
+            if (eyeVector.SquareMagnitude() == 0.0)
+            {
+                V3dView.Camera().SetDistance(0.00001);
+                return GetOrbitSphere();
+            }
 
-            return new gp_Sphere(new Ax3(atPoint, Dir.DZ, -Dir.DY.Rotated(Ax1.OZ, V3dView.Twist())), eyeVector.Magnitude());
+            return new gp_Sphere(new Ax3(atPoint, Dir.DZ, -Dir.DY.Rotated(Ax1.OZ, V3dView.Twist())), Math.Max(eyeVector.Magnitude(), 0.00001));
         }
 
         //--------------------------------------------------------------------------------------------------
