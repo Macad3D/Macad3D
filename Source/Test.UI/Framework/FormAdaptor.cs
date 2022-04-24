@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
@@ -133,8 +135,38 @@ namespace Macad.Test.UI.Framework
             {
                 return _FormControl.Parent.Patterns.ExpandCollapse.Pattern.ExpandCollapseState.Value == ExpandCollapseState.Collapsed;
             }
-            Assert.Fail("Neither the form nore its parent does support ExpandCollapsePattern.");
+            Assert.Fail("Neither the form nor its parent does support ExpandCollapsePattern.");
             return false;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public bool ControlExists(string id)
+        {
+            return _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id)) != null;
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public void SelectTreeItem(string controlId, string itemId)
+        {
+            var treeControl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(controlId)).AsTree();
+            Assume.That(treeControl, Is.Not.Null);
+
+            var item = treeControl.Items.First(ti => ti.AutomationId == itemId);
+            Assert.NotNull(item, $"No item with id {itemId} found in tree {controlId}");
+            SelectTreeItem(item);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public void SelectTreeItem(TreeItem item)
+        {
+            var rect = item.BoundingRectangle;
+            var pnt = new Point((int)(rect.Left + rect.Width * 0.5), (int)(rect.Top + rect.Height * 0.5));
+            Mouse.Click(pnt, MouseButton.Left);
+            Wait.UntilInputIsProcessed();
+            Wait.UntilResponsive(_FormControl);
         }
 
         //--------------------------------------------------------------------------------------------------
