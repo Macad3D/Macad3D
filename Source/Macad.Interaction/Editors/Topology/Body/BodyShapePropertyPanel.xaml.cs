@@ -9,6 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
@@ -219,6 +220,17 @@ namespace Macad.Interaction.Editors.Topology
 
         //--------------------------------------------------------------------------------------------------
 
+        void _TreeView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                _DeleteSelected();
+                e.Handled = true;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         void _Callback_ToolTipOpening(object sender, ToolTipEventArgs e)
         {
             var senderElement = e.OriginalSource as FrameworkElement;
@@ -254,6 +266,49 @@ namespace Macad.Interaction.Editors.Topology
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        #region Helper
+
+        void _DeleteSelected()
+        {
+            bool anyDeleted = false;
+            IShapeOperand nextSelected = null;
+            var shapes = _SelectedItems.OfType<BodyShapeTreeShape>()
+                                       .Select(treeItem => treeItem.Shape)
+                                       .OfType<ModifierBase>()
+                                       .ToList();
+            foreach (var shape in shapes)
+            {
+                var predecessor = shape.Predecessor;
+                var body = shape.Body;
+                if (body.RemoveShape(shape))
+                {
+                    nextSelected = predecessor;
+                    anyDeleted = true;
+                }
+            }
+
+            if (!anyDeleted)
+                return;
+
+            InteractiveContext.Current.UndoHandler?.Commit();
+            
+            SelectedItems.Clear();
+            if (nextSelected != null)
+            {
+                var nextSelectedTreeItem = _Items.FirstOrDefault(treeItem => treeItem.FindSame(nextSelected) != null);
+                if (nextSelectedTreeItem != null)
+                {
+                    var tvItem = TreeView.GetTreeViewItemFor(nextSelectedTreeItem);
+                    tvItem.IsSelected = true;
+                    tvItem.Focus();
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
 
         #region Commands
 
