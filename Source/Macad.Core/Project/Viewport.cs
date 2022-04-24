@@ -380,6 +380,19 @@ namespace Macad.Core
 
         //--------------------------------------------------------------------------------------------------
 
+        #endregion
+
+        #region View Geometry
+
+        void _ValidateViewGeometry()
+        {
+            // If distance is 0, the parameters cannot be restored
+            if(V3dView.Camera().Distance() == 0.0)
+                V3dView.Camera().SetDistance(0.00001);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public Pln GetViewPlane()
         {
             var eyeDir = GetViewDirection();
@@ -390,9 +403,8 @@ namespace Macad.Core
 
         public Dir GetViewDirection()
         {
+            _ValidateViewGeometry();
             var eyeVector = new Vec(EyePoint, TargetPoint);
-            if(eyeVector.SquareMagnitude() == 0.0)
-                return Dir.DY;
 
             return new Dir(eyeVector);
         }
@@ -450,6 +462,8 @@ namespace Macad.Core
 
         public gp_Sphere GetOrbitSphere()
         {
+            _ValidateViewGeometry();
+            
             double xEye = 0, yEye = 0, zEye = 0, xAt = 0, yAt = 0, zAt = 0;
             V3dView.Eye(ref xEye, ref yEye, ref zEye);
             V3dView.At(ref xAt, ref yAt, ref zAt);
@@ -473,9 +487,7 @@ namespace Macad.Core
 
         public double[] GetViewParameters()
         {
-            // If distance is 0, the parameters cannot be restored
-            if(V3dView.Camera().Distance() == 0.0)
-                V3dView.Camera().SetDistance(0.00001);
+            _ValidateViewGeometry();
 
             return new[]
             {

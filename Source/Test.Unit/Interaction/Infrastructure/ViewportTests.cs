@@ -118,5 +118,38 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
 
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ReleaseLockInTopview01"));
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void EnsureViewVector()
+        {
+            var ctx = Context.Current;
+            var vc = ctx.ViewportController;
+
+            var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+            viewportParameterSet.ShowViewCube = true;
+
+            // Create sketch with segment
+            ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+            var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+            Assert.That(sketchEditTool, Is.Not.Null);
+            sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
+            ctx.ClickAt(50, 50); // Left point
+            ctx.ClickAt(450, 450); // Right point
+            sketchEditTool.Stop();
+
+            // Select topview
+            ctx.ClickAt(400, 80);
+            vc.WorkspaceController.Invalidate(forceRedraw: true);
+            Thread.Sleep(1000); // Wait for animation to finish
+            vc.WorkspaceController.Invalidate(forceRedraw: true);
+
+            // Try to create e.g. box
+            ctx.WorkspaceController.StartTool(new CreateBoxTool());
+            ctx.ClickAt(150, 150); // Start point
+            ctx.ClickAt(350, 350); // Rectangle
+            Assert.DoesNotThrow(() => ctx.ClickAt(350, 200)); // Height
+        }
     }
 }
