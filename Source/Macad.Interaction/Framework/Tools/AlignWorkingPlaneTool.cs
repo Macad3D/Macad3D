@@ -110,7 +110,10 @@ namespace Macad.Interaction
                             double centerV = brepAdaptor.FirstVParameter() + (brepAdaptor.LastVParameter() - brepAdaptor.FirstVParameter()) / 2;
                             var centerPnt = brepAdaptor.Value(centerU, centerV);
 
-                            WorkspaceController.Workspace.WorkingPlane = new Pln(centerPnt, brepAdaptor.Plane().Axis.Direction);
+                            var dir = brepAdaptor.Plane().Axis.Direction;
+                            if(face.Orientation() == TopAbs_Orientation.TopAbs_REVERSED)
+                                dir.Reverse();
+                            WorkspaceController.Workspace.WorkingPlane = new Pln(centerPnt, dir);
                             finished = true;
                         }
 

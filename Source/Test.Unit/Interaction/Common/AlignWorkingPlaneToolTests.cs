@@ -1,6 +1,9 @@
 ﻿using System.IO;
+using Macad.Common;
+using Macad.Core.Topology;
 using Macad.Test.Utils;
 using Macad.Interaction;
+using Macad.Occt;
 using NUnit.Framework;
 
 namespace Macad.Test.Unit.Interaction.Common
@@ -34,18 +37,46 @@ namespace Macad.Test.Unit.Interaction.Common
         {
             var ctx = Context.Current;
 
-            var body = TestGeomGenerator.CreateBox().Body;
+            var body = TestGeomGenerator.CreateImprint().Body;
             ctx.WorkspaceController.Selection.SelectEntity(body);
             ctx.ViewportController.ZoomFitAll();
 
-            var tool = new AlignWorkingPlaneTool(AlignWorkingPlaneTool.AlignWorkingPlaneModes.All);
-            Assert.That(ctx.WorkspaceController.StartTool(tool));
+            Assert.Multiple(() =>
+            {
+                var tool = new AlignWorkingPlaneTool(AlignWorkingPlaneTool.AlignWorkingPlaneModes.All);
+                Assert.That(ctx.WorkspaceController.StartTool(tool));
 
-            ctx.MoveTo(90, 250);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AlignOnFace1"));
+                ctx.MoveTo(350, 330);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AlignOnFace1"));
 
-            ctx.SelectAt(90, 250);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AlignOnFace2"));
+                ctx.SelectAt(350, 330);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AlignOnFace2"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void AlignOnReversedFace()
+        {
+            var ctx = Context.Current;
+
+            var body = TestGeomGenerator.CreateImprint().Body;
+            ctx.WorkspaceController.Selection.SelectEntity(body);
+            ctx.ViewportController.ZoomFitAll();
+            TransformUtils.Rotate(body, Ax1.OZ, 180.0.ToRad());
+
+            Assert.Multiple(() =>
+            {
+                var tool = new AlignWorkingPlaneTool(AlignWorkingPlaneTool.AlignWorkingPlaneModes.All);
+                Assert.That(ctx.WorkspaceController.StartTool(tool));
+
+                ctx.MoveTo(350, 330);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AlignOnReversedFace1"));
+
+                ctx.SelectAt(350, 330);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AlignOnReversedFace2"));
+            });
         }
 
         //--------------------------------------------------------------------------------------------------
