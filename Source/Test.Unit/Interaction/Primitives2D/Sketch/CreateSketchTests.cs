@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Macad.Common;
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Auxiliary;
@@ -68,7 +69,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         {
             var ctx = Context.Current;
 
-            var body = TestGeomGenerator.CreateBox().Body;
+            var body = TestGeomGenerator.CreateImprint().Body;
             ctx.WorkspaceController.Selection.SelectEntity(body);
             ctx.ViewportController.ZoomFitAll();
 
@@ -87,6 +88,33 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             });
         }
         
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateSketchOnReversedFace()
+        {
+            var ctx = Context.Current;
+
+            var body = TestGeomGenerator.CreateImprint().Body;
+            ctx.WorkspaceController.Selection.SelectEntity(body);
+            ctx.ViewportController.ZoomFitAll();
+            TransformUtils.Rotate(body, Ax1.OZ, 180.0.ToRad());
+
+            var sketchEditTool = new CreateSketchTool(CreateSketchTool.CreateMode.Interactive);
+            Assert.That(ctx.WorkspaceController.StartTool(sketchEditTool));
+            Assert.That(sketchEditTool, Is.Not.Null);
+
+            Assert.Multiple(() =>
+            {
+                ctx.MoveTo(350, 332);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchOnReversedFace1"), 0.1);
+
+                ctx.SelectAt(350, 332);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSketchOnReversedFace2"), 0.1);
+                Assert.That(ctx.WorkspaceController.CurrentTool, Is.TypeOf(typeof(SketchEditorTool)));
+            });
+        }
+
         //--------------------------------------------------------------------------------------------------
 
         [Test]
