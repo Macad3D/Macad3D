@@ -64,13 +64,16 @@ namespace Macad.Core.Auxiliary
                     _SizeX = Math.Max(0.01, value);
                     RaisePropertyChanged();
 
-                    if (_KeepAspectRatio)
+                    if (!IsDeserializing)
                     {
-                        SizeY = _SizeX / _AspectRatio;
-                    }
-                    else
-                    {
-                        _AspectRatio = _SizeX / _SizeY;
+                        if (_KeepAspectRatio)
+                        {
+                            SizeY = _SizeX / _AspectRatio;
+                        }
+                        else
+                        {
+                            _AspectRatio = _SizeX / _SizeY;
+                        }
                     }
 
                     RaiseVisualChanged();
@@ -91,14 +94,17 @@ namespace Macad.Core.Auxiliary
                     SaveUndo();
                     _SizeY = Math.Max(0.01, value);
                     RaisePropertyChanged();
-                    
-                    if (_KeepAspectRatio)
+
+                    if (!IsDeserializing)
                     {
-                        SizeX = _SizeY * _AspectRatio;
-                    }
-                    else
-                    {
-                        _AspectRatio = _SizeX / _SizeY;
+                        if (_KeepAspectRatio)
+                        {
+                            SizeX = _SizeY * _AspectRatio;
+                        }
+                        else
+                        {
+                            _AspectRatio = _SizeX / _SizeY;
+                        }
                     }
 
                     RaiseVisualChanged();

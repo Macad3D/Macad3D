@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using Macad.Common;
+using Macad.Common.Serialization;
 using Macad.Core.Auxiliary;
 using Macad.Core.Topology;
 using Macad.Interaction;
@@ -320,6 +321,22 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
             Assert.IsTrue(WorkspaceCommands.DeleteEntity.CanExecute());
             WorkspaceCommands.DeleteEntity.Execute();
             Assert.AreEqual(0, ctx.Document.Cast<DatumPlane>().Count());
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void IgnoreAspectOnDeserialization()
+        {
+            var datumPlane = DatumPlane.Create();
+            datumPlane.KeepAspectRatio = false;
+            datumPlane.SizeX = 9.0;
+            datumPlane.SizeY = 12.0;
+            datumPlane.KeepAspectRatio = true;
+            var serialized = Serializer.Serialize(datumPlane);
+            var datumPlane2 = Serializer.Deserialize<DatumPlane>(serialized);
+            Assert.AreEqual(9.0, datumPlane2.SizeX);
+            Assert.AreEqual(12.0, datumPlane2.SizeY);
         }
     }
 }

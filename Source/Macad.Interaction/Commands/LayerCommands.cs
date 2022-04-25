@@ -168,14 +168,9 @@ namespace Macad.Interaction
 
             foreach (var entity in InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities)
             {
-                switch (entity)
-                {
-                    case Body body:
-                        body.Layer = layer;
-                        break;
-                }
+                entity.Layer = layer;
             }
-            CoreContext.Current?.UndoHandler?.Commit();
+            CoreContext.Current.UndoHandler?.Commit();
 
             CoreContext.Current.Document?.MarkAsUnsaved();
             InteractiveContext.Current.WorkspaceController.Invalidate();
