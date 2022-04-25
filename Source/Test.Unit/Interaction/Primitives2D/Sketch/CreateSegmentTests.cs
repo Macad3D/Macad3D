@@ -46,16 +46,16 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
                 ctx.ClickAt(50, 50); // Left point
                 ctx.MoveTo(300, 300);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLine1"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLine1"), 0.1);
                 ctx.ClickAt(450, 450); // Right point
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLine2"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLine2"), 0.1);
                 Assert.AreEqual(2, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
                 Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
 
                 //Cleanup
                 sketchEditTool.Stop();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLine9"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLine9"), 0.1);
             });
         }
 
@@ -75,18 +75,18 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>(true);
                 ctx.ClickAt(50, 50); // Left point
                 ctx.MoveTo(300, 300);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLineContinued1"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLineContinued1"), 0.1);
                 ctx.ClickAt(450, 450); // Right point
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLineContinued2"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLineContinued2"), 0.1);
                 ctx.ClickAt(250, 50); // top point
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLineContinued3"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLineContinued3"), 0.1);
                 Assert.AreEqual(3, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(2, sketchEditTool.Sketch.Segments.Count);
                 Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
 
                 //Cleanup
                 sketchEditTool.Stop();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLineContinued9"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLineContinued9"), 0.1);
             });
         }
 
@@ -106,19 +106,19 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 sketchEditTool.StartSegmentCreation<SketchSegmentBezier2Creator>();
                 ctx.ClickAt(50, 50); // Left point
                 ctx.MoveTo(300, 300);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier21"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier21"), 0.1);
                 ctx.ClickAt(450, 450); // Right point
                 ctx.MoveTo(150, 300);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier22"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier22"), 0.1);
                 ctx.ClickAt(150, 300); // Control point
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier23"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier23"), 0.1);
                 Assert.AreEqual(3, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
                 Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
 
                 //Cleanup
                 sketchEditTool.Stop();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier29"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier29"), 0.1);
             });
         }
 
@@ -138,22 +138,22 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 sketchEditTool.StartSegmentCreation<SketchSegmentBezier3Creator>();
                 ctx.ClickAt(50, 50); // Left point
                 ctx.MoveTo(300, 300);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier31"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier31"), 0.1);
                 ctx.ClickAt(450, 450); // Right point
                 ctx.MoveTo(150, 300);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier32"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier32"), 0.1);
                 ctx.ClickAt(150, 300); // Control point 1
                 ctx.MoveTo(250, 50);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier33"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier33"), 0.1);
                 ctx.ClickAt(250, 50); // Control point 2
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier34"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier34"), 0.1);
                 Assert.AreEqual(4, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
                 Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
 
                 //Cleanup
                 sketchEditTool.Stop();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier39"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier39"), 0.1);
             });
         }
 
@@ -173,16 +173,16 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 sketchEditTool.StartSegmentCreation<SketchSegmentRectangleCreator>();
                 ctx.ClickAt(50, 50); // LeftTop point
                 ctx.MoveTo(300, 300);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateRectangle1"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateRectangle1"), 0.1);
                 ctx.ClickAt(450, 450); // BottomRight point
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateRectangle2"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateRectangle2"), 0.1);
                 Assert.AreEqual(4, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(4, sketchEditTool.Sketch.Segments.Count);
                 Assert.AreEqual(4, sketchEditTool.Sketch.Constraints.Count);
 
                 //Cleanup
                 sketchEditTool.Stop();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateRectangle9"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateRectangle9"), 0.1);
             });
         }
 
@@ -202,16 +202,16 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
                 ctx.ClickAt(250, 250); // Center point
                 ctx.MoveTo(80, 250);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCircle1"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCircle1"), 0.1);
                 ctx.ClickAt(100, 250); // Rim point
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCircle2"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCircle2"), 0.1);
                 Assert.AreEqual(2, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
                 Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
 
                 //Cleanup
                 sketchEditTool.Stop();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCircle9"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCircle9"), 0.1);
             });
         }
 
@@ -231,19 +231,19 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 sketchEditTool.StartSegmentCreation<SketchSegmentArcCenterCreator>();
                 ctx.ClickAt(250, 250); // Center point
                 ctx.MoveTo(80, 250);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter1"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter1"), 0.1);
                 ctx.ClickAt(100, 250); // Edge point 1
                 ctx.MoveTo(200, 100);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter2"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter2"), 0.1);
                 ctx.ClickAt(100, 250); // Edge point 2
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter3"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter3"), 0.1);
                 Assert.AreEqual(3, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
                 Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
 
                 //Cleanup
                 sketchEditTool.Stop();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter9"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter9"), 0.1);
             });
         }
 
@@ -263,19 +263,19 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 sketchEditTool.StartSegmentCreation<SketchSegmentArcRimCreator>();
                 ctx.ClickAt(100, 250); // Edge point 1
                 ctx.MoveTo(200, 100);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcRim1"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcRim1"), 0.1);
                 ctx.ClickAt(250, 100); // Edge point 2
                 ctx.MoveTo(130, 180);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcRim2"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcRim2"), 0.1);
                 ctx.ClickAt(150, 150); // Rim point
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcRim3"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcRim3"), 0.1);
                 Assert.AreEqual(3, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
                 Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
 
                 //Cleanup
                 sketchEditTool.Stop();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcRim9"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcRim9"), 0.1);
             });
         }
 
@@ -295,19 +295,19 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 sketchEditTool.StartSegmentCreation<SketchSegmentEllipseCenterCreator>();
                 ctx.ClickAt(250, 250); // Center point
                 ctx.MoveTo(80, 250);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipseCenter1"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipseCenter1"), 0.1);
                 ctx.ClickAt(100, 250); // Rim point1
                 ctx.MoveTo(150, 200);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipseCenter2"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipseCenter2"), 0.1);
                 ctx.ClickAt(150, 200); // Rim point2
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipseCenter3"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipseCenter3"), 0.1);
                 Assert.AreEqual(3, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
                 Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
 
                 //Cleanup
                 sketchEditTool.Stop();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipseCenter9"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipseCenter9"), 0.1);
             });
         }
 
@@ -327,19 +327,19 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 sketchEditTool.StartSegmentCreation<SketchSegmentEllipticalArcCenterCreator>();
                 ctx.ClickAt(250, 250); // Center point
                 ctx.MoveTo(80, 250);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter1"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter1"), 0.1);
                 ctx.ClickAt(100, 250); // Rim point1
                 ctx.MoveTo(150, 200);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter2"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter2"), 0.1);
                 ctx.ClickAt(150, 200); // Rim point2
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter3"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter3"), 0.1);
                 Assert.AreEqual(3, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
                 Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
 
                 //Cleanup
                 sketchEditTool.Stop();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter9"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter9"), 0.1);
             });
         }
 
@@ -363,10 +363,10 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
                 ctx.MoveTo(50, 50); 
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MergeHilight01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MergeHilight01"), 0.1);
                 sketchEditTool.StopTool();
                 ctx.MoveTo(10, 10);  // Move away to get a clear picture
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MergeHilight02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MergeHilight02"), 0.1);
             });
         }
 
@@ -633,7 +633,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.MoveTo(400, 100);
                 ctx.MoveTo(250, 250);
             });
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCircle_MinSizeHints01"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCircle_MinSizeHints01"), 0.1);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -655,11 +655,11 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(250, 250); // Center point
             ctx.MoveTo(400, 100); // Preview start point
             ctx.MoveTo(250, 250);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter_MinSizeHints01"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter_MinSizeHints01"), 0.1);
             ctx.ClickAt(250, 100); // Set start point
             ctx.MoveTo(400, 250);
             ctx.MoveTo(250, 50); // Preview end point
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter_MinSizeHints02"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter_MinSizeHints02"), 0.1);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -681,11 +681,11 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(250, 250); // Center point
             ctx.MoveTo(400, 100); // Preview start point
             ctx.MoveTo(250, 250);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter_MinSizeHints01"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter_MinSizeHints01"), 0.1);
             ctx.ClickAt(250, 100); // Set start point
             ctx.MoveTo(400, 250);
             ctx.MoveTo(250, 100); // Preview end point
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter_MinSizeHints02"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter_MinSizeHints02"), 0.1);
         }
 
         //--------------------------------------------------------------------------------------------------

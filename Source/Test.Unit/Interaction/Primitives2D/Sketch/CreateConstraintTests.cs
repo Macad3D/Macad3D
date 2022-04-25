@@ -49,7 +49,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(50, 240);
             ctx.ClickAt(400, 400);
             ctx.MoveTo(0, 0);
-            //AssertHelper.IsSameViewport(Path.Combine(BasePath, @"CreateConstraint_AngleAcute1"), 1.0);
+            //AssertHelper.IsSameViewport(Path.Combine(BasePath, @"CreateConstraint_AngleAcute1"), 0.1);
 
             // Create Constraint
             ctx.ClickAt(250, 131);
@@ -65,7 +65,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
                 Assert.AreEqual(53.0, ((SketchConstraintAngle) sketchEditTool.Sketch.Constraints[0]).Angle, 1.0);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AngleAcute2"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AngleAcute2"), 0.1);
             });
         }
 
@@ -88,7 +88,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(400, 400);
             ctx.ClickAt(50, 240);
             ctx.MoveTo(0, 0);
-            //AssertHelper.IsSameViewport(Path.Combine(BasePath, @"CreateConstraint_AngleAcute1"), 1.0);
+            //AssertHelper.IsSameViewport(Path.Combine(BasePath, @"CreateConstraint_AngleAcute1"), 0.1);
 
             // Create Constraint
             ctx.ClickAt(250, 131);
@@ -104,7 +104,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
                 Assert.AreEqual(53.0, ((SketchConstraintAngle) sketchEditTool.Sketch.Constraints[0]).Angle, 2.0);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AngleAcuteReverse2"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AngleAcuteReverse2"), 0.1);
             });
         }
 
@@ -127,7 +127,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(50, 240);
             ctx.ClickAt(400, 400);
             ctx.MoveTo(0, 0);
-            //AssertHelper.IsSameViewport(Path.Combine(BasePath, @"CreateConstraint_AngleAcute1"), 1.0);
+            //AssertHelper.IsSameViewport(Path.Combine(BasePath, @"CreateConstraint_AngleAcute1"), 0.1);
 
             // Create Constraint
             ctx.ClickAt(250, 332);
@@ -143,7 +143,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
                 Assert.AreEqual(53.0, ((SketchConstraintAngle) sketchEditTool.Sketch.Constraints[0]).Angle, 2.0);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AngleAcuteSwapSelection2"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AngleAcuteSwapSelection2"), 0.1);
             });
         }
 
@@ -166,7 +166,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(100, 240);
             ctx.ClickAt(240, 400);
             ctx.MoveTo(0, 0);
-            //AssertHelper.IsSameViewport(Path.Combine(BasePath, @"CreateConstraint_AngleObtuse1"), 1.0);
+            //AssertHelper.IsSameViewport(Path.Combine(BasePath, @"CreateConstraint_AngleObtuse1"), 0.1);
 
             // Create Constraint
             ctx.ClickAt(140, 184);
@@ -182,7 +182,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
                 Assert.AreEqual(102.0, ((SketchConstraintAngle) sketchEditTool.Sketch.Constraints[0]).Angle, 1.0);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AngleObtuse2"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AngleObtuse2"), 0.1);
             });
         }
 
@@ -205,7 +205,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(60, 250);
             ctx.ClickAt(410, 410);
             ctx.MoveTo(0, 0);
-            //AssertHelper.IsSameViewport(Path.Combine(BasePath, @"CreateConstraint_AngleUnconnected1"), 1.0);
+            //AssertHelper.IsSameViewport(Path.Combine(BasePath, @"CreateConstraint_AngleUnconnected1"), 0.1);
 
             // Create Constraint
             ctx.ClickAt(250, 131);
@@ -221,7 +221,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
                 Assert.AreEqual(53.0, ((SketchConstraintAngle) sketchEditTool.Sketch.Constraints[0]).Angle, 1.0);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AngleUnconnected2"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AngleUnconnected2"), 0.1);
             });
         }
 
@@ -244,7 +244,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(410, 410);
             ctx.ClickAt(60, 250);
             ctx.MoveTo(0, 0);
-            //AssertHelper.IsSameViewport(Path.Combine(BasePath, @"CreateConstraint_AngleUnconnected1"), 1.0);
+            //AssertHelper.IsSameViewport(Path.Combine(BasePath, @"CreateConstraint_AngleUnconnected1"), 0.1);
 
             // Create Constraint
             ctx.ClickAt(250, 131);
@@ -260,7 +260,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
                 Assert.AreEqual(53.0, ((SketchConstraintAngle) sketchEditTool.Sketch.Constraints[0]).Angle, 1.0);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AngleUnconnectedReverse2"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AngleUnconnectedReverse2"), 0.1);
             });
         }
 
@@ -296,7 +296,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Perpendicular"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Perpendicular"), 0.1);
             });
         }
 
@@ -328,7 +328,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
                 Assert.AreEqual(4.24, ((SketchConstraintRadius) sketchEditTool.Sketch.Constraints[0]).Radius, 0.01);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Radius"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Radius"), 0.1);
             });
         }
 
@@ -364,7 +364,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Concentric"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Concentric"), 0.1);
             });
         }
 
@@ -395,10 +395,10 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Horizontal"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Horizontal"), 0.1);
 
                 sketchEditTool.RotateView(90);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "HorizontalRotated"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "HorizontalRotated"), 0.1);
             });
         }
 
@@ -429,10 +429,10 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Vertical"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Vertical"), 0.1);
 
                 sketchEditTool.RotateView(90);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "VerticalRotated"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "VerticalRotated"), 0.1);
             });
         }
 
@@ -464,7 +464,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
                 Assert.AreEqual(8, ((SketchConstraintLength) sketchEditTool.Sketch.Constraints[0]).Length, 0.01);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LineLength"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LineLength"), 0.1);
             });
         }
 
@@ -499,7 +499,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EqualLine"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EqualLine"), 0.1);
             });
         }
 
@@ -534,7 +534,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EqualCircle"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EqualCircle"), 0.1);
             });
         }
 
@@ -569,7 +569,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ParallelLine"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ParallelLine"), 0.1);
             });
         }
 
@@ -602,10 +602,10 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
                 Assert.AreEqual(-4.0, ((SketchConstraintHorizontalDistance) constraints[0]).Distance, 0.01);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "HorizontalDistance"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "HorizontalDistance"), 0.1);
 
                 sketchEditTool.RotateView(90);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "HorizontalDistanceRotated"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "HorizontalDistanceRotated"), 0.1);
             });
         }
 
@@ -638,10 +638,10 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
                 Assert.AreEqual(1.0, ((SketchConstraintVerticalDistance) constraints[0]).Distance, 0.03);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "VerticalDistance"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "VerticalDistance"), 0.1);
 
                 sketchEditTool.RotateView(90);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "VerticalDistanceRotated"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "VerticalDistanceRotated"), 0.1);
             });
         }
 
@@ -673,7 +673,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "FixedPoint"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "FixedPoint"), 0.1);
             });
         }
 
@@ -704,7 +704,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "FixedSegment"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "FixedSegment"), 0.1);
             });
         }
 
@@ -741,7 +741,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "PointOnSegment"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "PointOnSegment"), 0.1);
             });
         }
 
@@ -777,7 +777,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "TangentToCircle"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "TangentToCircle"), 0.1);
             });
         }
 
@@ -813,7 +813,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "TangentToArc"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "TangentToArc"), 0.1);
             });
         }
 
@@ -850,7 +850,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "PointOnMidpoint"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "PointOnMidpoint"), 0.1);
             });
         }
 
@@ -890,7 +890,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SmoothCorner_BezierBezier"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SmoothCorner_BezierBezier"), 0.1);
             });
         }
 
@@ -928,7 +928,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SmoothCorner_BezierLine"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SmoothCorner_BezierLine"), 0.1);
             });
         }
         
@@ -967,7 +967,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
                 Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SmoothCorner_BezierArc"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SmoothCorner_BezierArc"), 0.1);
             });
         }
 
@@ -1004,16 +1004,16 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             
             ctx.MoveTo(0,0);
 
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MarkerStacking01"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MarkerStacking01"), 0.1);
 
             // Zoom should adjust 
             ctx.ViewportController.Zoom(-0.5);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MarkerStacking02"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MarkerStacking02"), 0.1);
 
             // Delete Constraint
             ctx.ClickAt(130, 250);
             sketchEditTool.Delete();
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MarkerStacking03"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MarkerStacking03"), 0.1);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -1045,7 +1045,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             Assert.IsTrue(ctx.UndoHandler.CanUndo);
             ctx.UndoHandler.DoUndo(1);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Undo01"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Undo01"), 0.1);
         }
     }
 }

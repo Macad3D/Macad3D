@@ -1009,7 +1009,7 @@ namespace Macad.Interaction
             {
                 _WorkingPlaneAxes[index] = new AIS_Line(p1, p2);
                 _WorkingPlaneAxes[index].SetColor(new Quantity_Color(index == 0 ? 0.5 : 0.0, index == 1 ? 0.6 : 0.0, 0.0, Quantity_TypeOfColor.Quantity_TOC_RGB));
-                _WorkingPlaneAxes[index].SetPolygonOffsets(2 /* Aspect_POM_Line */, 1.0f, -2.0f);
+                _WorkingPlaneAxes[index].SetPolygonOffsets(2 /* Aspect_POM_Line */, 1.0f, index - 3.0f);
                 Workspace.AisContext?.Display(_WorkingPlaneAxes[index], 0, -1, false);
                 _WorkingPlaneAxes[index].SetInfiniteState(true);
             }

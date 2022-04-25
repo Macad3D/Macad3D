@@ -52,17 +52,17 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 var splitTool = new SplitElementSketchTool();
                 tool.StartTool(splitTool);
                 ctx.MoveTo(150, 50);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitSegment01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitSegment01"), 0.1);
                 ctx.MoveTo(150, 88);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitSegment02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitSegment02"), 0.1);
                 ctx.ClickAt(150, 88);
                 ctx.MoveTo(200, 88);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitSegment03"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitSegment03"), 0.1);
                 ctx.ClickAt(200, 88);
 
                 // Cleanup
                 tool.StopTool();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitSegment04"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitSegment04"), 0.1);
             });
 
             tool.Stop();
@@ -91,12 +91,12 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 var splitTool = new SplitElementSketchTool();
                 tool.StartTool(splitTool);
                 ctx.MoveTo(184, 103);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitPeriodicSegment01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitPeriodicSegment01"), 0.1);
                 ctx.ClickAt(184, 103);
 
                 // Cleanup
                 tool.StopTool();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitPeriodicSegment02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitPeriodicSegment02"), 0.1);
             });
 
             tool.Stop();
@@ -176,12 +176,12 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 var splitTool = new SplitElementSketchTool();
                 tool.StartTool(splitTool);
                 ctx.MoveTo(88, 88);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitPoint01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitPoint01"), 0.1);
                 ctx.ClickAt(88, 88);
 
                 // Cleanup
                 tool.StopTool();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitPoint02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitPoint02"), 0.1);
 
                 // Move
                 ctx.ClickAt(88, 88);
@@ -189,7 +189,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.ViewportController.MouseDown();
                 ctx.MoveTo(150, 40);
                 ctx.ViewportController.MouseUp(false);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitPoint03"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitPoint03"), 0.1);
             });
 
             tool.Stop();
@@ -264,14 +264,14 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 sketchEditTool.StopTool();
                 Assert.AreEqual(3, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(2, sketchEditTool.Sketch.Segments.Count);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeletePointLineLine01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeletePointLineLine01"), 0.1);
 
                 // Delete Point
                 ctx.ClickAt(250, 300);
                 sketchEditTool.Delete();
                 Assert.AreEqual(2, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeletePointLineLine02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeletePointLineLine02"), 0.1);
 
                 //Cleanup
                 sketchEditTool.Stop();
@@ -301,14 +301,14 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.ClickAt(400, 250);
                 Assert.AreEqual(5, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(2, sketchEditTool.Sketch.Segments.Count);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeletePointArcArc01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeletePointArcArc01"), 0.1);
 
                 // Delete Point
                 ctx.ClickAt(250, 50);
                 sketchEditTool.Delete();
                 Assert.AreEqual(3, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeletePointArcArc02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeletePointArcArc02"), 0.1);
 
                 //Cleanup
                 sketchEditTool.Stop();
@@ -339,14 +339,14 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.ClickAt(400, 220);
                 Assert.AreEqual(6, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(2, sketchEditTool.Sketch.Segments.Count);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeletePointBezierBezier01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeletePointBezierBezier01"), 0.1);
 
                 // Delete Point
                 ctx.ClickAt(250, 250);
                 sketchEditTool.Delete();
                 Assert.AreEqual(4, sketchEditTool.Sketch.Points.Count);
                 Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeletePointBezierBezier02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeletePointBezierBezier02"), 0.1);
 
                 //Cleanup
                 sketchEditTool.Stop();

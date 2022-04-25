@@ -50,39 +50,39 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             Assert.Multiple(() =>
             {
                 // MovePoints Idle
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint01"), 0.1);
                 // Hilite Point
                 ctx.ViewportController.MouseMove(new Point(377, 122));
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint02"), 0.1);
                 // Select Point, move gizmo shown
                 ctx.ViewportController.MouseDown();
                 ctx.ViewportController.MouseUp(false);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint03"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint03"), 0.1);
                 // Hilite Gizmo X-Axis
                 ctx.ViewportController.MouseMove(new Point(459, 122));
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint04"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint04"), 0.1);
                 // Hilite Gizmo Y-Axis
                 ctx.ViewportController.MouseMove(new Point(377, 38));
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint05"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint05"), 0.1);
                 // Hilite Gizmo XY-Plane
                 ctx.ViewportController.MouseMove(new Point(392, 104));
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint06"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint06"), 0.1);
                 // Move on progress
                 ctx.ViewportController.MouseDown();
                 ctx.ViewportController.MouseMove(new Point(387, 141));
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint07"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint07"), 0.1);
                 // Move released
                 ctx.ViewportController.MouseUp(false);
                 ctx.ViewportController.MouseMove(new Point(1, 1));
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint08"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint08"), 0.1);
                 // Return to idle
                 ctx.ViewportController.MouseDown();
                 ctx.ViewportController.MouseUp(false);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint09"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint09"), 0.1);
 
                 // Cleanup
                 tool.Stop();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint10"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint10"), 0.1);
             });
         }
 
@@ -108,12 +108,12 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.WorkspaceController.MouseDown(ctx.ViewportController);
             ctx.MoveTo(265, 245);
             // Hilighted MergePoint
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointMerge01"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointMerge01"), 0.1);
 
             // End
             ctx.WorkspaceController.CancelTool(tool, false);
             // Check Cleanup
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointMerge02"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointMerge02"), 0.1);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -140,11 +140,11 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.MoveTo(390, 108);
                 ctx.ViewportController.MouseDown();
                 ctx.ViewportController.MouseMove(new Point(257, 83));
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap01"), 0.1);
                 // Move released
                 ctx.ViewportController.MouseUp(false);
                 ctx.ClickAt(1,1);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap02"), 0.1);
 
                 // Cleanup
                 tool.Stop();
@@ -179,15 +179,15 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.Workspace.GridRotation = 0;
                 ctx.EditorState.SnapToGridSelected = false;
                 ctx.MoveTo(60, 60);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToGrid01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToGrid01"), 0.1);
 
                 // Snap to rect grid
                 ctx.EditorState.SnapToGridSelected = true;
                 ctx.MoveTo(60, 60);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToGrid11"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToGrid11"), 0.1);
                 ctx.Workspace.GridRotation = 20;
                 ctx.MoveTo(162, 219);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToGrid12"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToGrid12"), 0.1);
 
                 // Snap to circ grid
                 ctx.Workspace.GridType = Workspace.GridTypes.Circular;
@@ -195,10 +195,10 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.Workspace.GridRotation = 0;
                 ctx.EditorState.SnapToGridSelected = true;
                 ctx.MoveTo(184, 185);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToGrid21"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToGrid21"), 0.1);
                 ctx.Workspace.GridRotation = 20;
                 ctx.MoveTo(182, 187);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToGrid22"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToGrid22"), 0.1);
             });
         }
 
@@ -223,17 +223,17 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.SelectAt(411, 88);
                 Assert.IsTrue(ctx.WorkspaceController.CanDelete());
                 ctx.WorkspaceController.Delete();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeleteElements01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeleteElements01"), 0.1);
 
                 // Delete Segment
                 ctx.SelectAt(90, 230);
                 Assert.IsTrue(ctx.WorkspaceController.CanDelete());
                 ctx.WorkspaceController.Delete();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeleteElements02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeleteElements02"), 0.1);
 
                 // Undo twice
                 ctx.UndoHandler.DoUndo(2);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeleteElements03"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DeleteElements03"), 0.1);
             });
         }
 
@@ -328,14 +328,14 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 Assert.AreEqual(2, tool.SelectedSegments.Count);
                 Assert.That(tool.SelectedPoints.SequenceEqual(new[] {4, 5, 6}));
                 Assert.That(tool.SelectedSegmentIndices.SequenceEqual(new[] {4, 5}));
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DuplicateElements01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DuplicateElements01"), 0.1);
 
                 // Try move
                 ctx.MoveTo(328, 170);
                 ctx.ViewportController.MouseDown();
                 ctx.MoveTo(350, 150);
                 ctx.ViewportController.MouseUp(false);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DuplicateElements02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DuplicateElements02"), 0.1);
             });
         }
 
@@ -374,14 +374,14 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             Assert.AreEqual(2, tool.SelectedSegments.Count);
             Assert.That(tool.SelectedPoints.SequenceEqual(new[] {4, 5, 6}));
             Assert.That(tool.SelectedSegmentIndices.SequenceEqual(new[] {4, 5}));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DuplicateElements01"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DuplicateElements01"), 0.1);
 
             // Try move
             ctx.MoveTo(328, 170);
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(350, 150);
             ctx.ViewportController.MouseUp(false);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DuplicateElements02"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DuplicateElements02"), 0.1);
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -441,7 +441,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle, false);
             ctx.MoveTo(450, 300);
             ctx.ViewportController.MouseUp(false);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RubberbandSelection01"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RubberbandSelection01"), 0.1);
             Assert.AreEqual(4, tool.SelectedPoints.Count);
             Assert.AreEqual(1, tool.SelectedSegments.Count);
 
@@ -466,7 +466,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(250, 250); // Center point
             ctx.ClickAt(100, 250); // Rim point
             ctx.MoveTo(50, 50); // Move crsr out of the way
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext01"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext01"), 0.1);
 
             // Leave editor
             sketchEditTool.Stop();
@@ -475,7 +475,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             sketch.Invalidate();
             // Restart Editor
             ctx.WorkspaceController.StartTool(new SketchEditorTool(sketch));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext02"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext02"), 0.1);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -496,12 +496,12 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(100, 250); // Rim point
             ctx.MoveTo(50, 50); // Move crsr out of the way
             sketchEditTool.RotateView(90);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext10"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext10"), 0.1);
 
             // Restart Editor
             sketchEditTool.Stop();
             ctx.WorkspaceController.StartTool(new SketchEditorTool(sketch));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext11"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext11"), 0.1);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -531,7 +531,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.WorkspaceController.ActiveViewControlller.SetPredefinedView(ViewportController.PredefinedViews.Top);
             Thread.Sleep(500);
             ctx.WorkspaceController.Invalidate(forceRedraw:true);
-//            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext22"), 1.0);
+//            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext22"), 0.1);
             
             // Enter editor
             sketchEditTool = new SketchEditorTool(sketch);
@@ -544,7 +544,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             // Leave editor
             sketchEditTool.Stop();
 
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext21"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext21"), 0.1);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -565,11 +565,11 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             ctx.WorkspaceController.StartTool(new SketchEditorTool(sketch));
             ctx.ViewportController.ZoomFitAll();
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ClipPlane01"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ClipPlane01"), 0.1);
 
             ctx.WorkspaceController.CancelTool(ctx.WorkspaceController.CurrentTool, false);
             ctx.ViewportController.ZoomFitAll();
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ClipPlane02"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ClipPlane02"), 0.1);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -593,23 +593,23 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 var sketchEditTool = new SketchEditorTool(sketch);
                 ctx.WorkspaceController.StartTool(sketchEditTool);
                 ctx.ViewportController.ZoomFitAll();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToggleClipPlane01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToggleClipPlane01"), 0.1);
 
                 sketchEditTool.EnableClipPlane(false);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToggleClipPlane02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToggleClipPlane02"), 0.1);
 
                 sketchEditTool.EnableClipPlane(true);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToggleClipPlane01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToggleClipPlane01"), 0.1);
 
                 // Setting saved?
                 sketchEditTool.EnableClipPlane(false);
                 ctx.WorkspaceController.CancelTool(ctx.WorkspaceController.CurrentTool, false);
                 sketchEditTool = new SketchEditorTool(sketch);
                 ctx.WorkspaceController.StartTool(sketchEditTool);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToggleClipPlane02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToggleClipPlane02"), 0.1);
 
                 sketchEditTool.EnableClipPlane(true);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToggleClipPlane01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToggleClipPlane01"), 0.1);
             });
         }
 
@@ -691,7 +691,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             ctx.WorkspaceController.StartTool(new SketchEditorTool(sketch));
             ctx.ViewportController.ZoomFitAll();
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ConstraintsOverClipPlane01"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ConstraintsOverClipPlane01"), 0.1);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -715,10 +715,10 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 Assert.IsInstanceOf<RecenterGridSketchTool>(sketchEditor.CurrentTool);
 
                 ctx.MoveTo(200, 200);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGrid01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGrid01"), 0.1);
 
                 ctx.ClickAt(200, 200);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGrid02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGrid02"), 0.1);
 
                 // Elements selectable again
                 ctx.ClickAt(288, 143);
@@ -751,9 +751,9 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.EditorState.SnapToGridSelected = true;
                 SketchCommands.RecenterGrid.Execute();
                 ctx.MoveTo(61, 61);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapping01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapping01"), 0.1);
                 ctx.ClickAt(61, 61);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapping02"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapping02"), 0.1);
                 ctx.WorkspaceController.Workspace.WorkingPlane = savedWorkingPlane;
 
                 // Snap to Vertex
@@ -761,15 +761,15 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.EditorState.SnapToVertexSelected = true;
                 SketchCommands.RecenterGrid.Execute();
                 ctx.MoveTo(409, 93);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapping11"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapping11"), 0.1);
                 ctx.ClickAt(409, 93);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapping12"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapping12"), 0.1);
                 // Snap to origin
                 SketchCommands.RecenterGrid.Execute();
                 ctx.MoveTo(252, 252);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapping13"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapping13"), 0.1);
                 ctx.ClickAt(252, 252);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapping14"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapping14"), 0.1);
                 ctx.EditorState.SnapToVertexSelected = false;
                 ctx.WorkspaceController.Workspace.WorkingPlane = savedWorkingPlane;
             });
@@ -800,7 +800,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.EditorState.SnappingEnabled = true;
             ctx.EditorState.SnapToGridSelected = true;
             ctx.MoveTo(44, 44);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapRef01"), 1.0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapRef01"), 0.1);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -828,10 +828,10 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 sketchEditor.StartSegmentCreation<SketchSegmentArcCenterCreator>();
                 ctx.ClickAt(120, 120); // Center point
                 ctx.MoveTo(120, 160);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSegmentTools01"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSegmentTools01"), 0.1);
                 ctx.ClickAt(120, 160); // Edge point 1
                 ctx.ClickAt(160, 120); // Edge point 2
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSegmentTools03"), 1.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSegmentTools03"), 0.1);
             });
         }
 
