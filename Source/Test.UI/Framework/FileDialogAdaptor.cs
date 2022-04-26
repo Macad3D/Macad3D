@@ -30,6 +30,17 @@ namespace Macad.Test.UI.Framework
         {
             return mainWindow.Window.FindFirstChild(cf => cf.ByClassName("#32770"))?.AsWindow() != null;
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public override void ClickButton(string id, bool jump = true)
+        {
+            var buttonCtrl = _FormControl.FindFirstDescendant(cf => cf.ByClassName("Button").And(cf.ByAutomationId(id)))?.AsButton();
+            Assert.That(buttonCtrl, Is.Not.Null, $"Button {id} not found in form.");
+            buttonCtrl.Click(!jump);
+            Wait.UntilInputIsProcessed();
+            Wait.UntilResponsive(_FormControl);
+        }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -104,7 +115,16 @@ namespace Macad.Test.UI.Framework
 
         public void SelectFileType(string pattern)
         {
-            SelectComboBoxItem("FileTypeControlHost", pattern);
+            // File Save
+            var boxCtrl = _FormControl.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox).And(cf.ByAutomationId("FileTypeControlHost")))?.AsComboBox();
+            if (boxCtrl == null)
+            {
+                // File Open
+                boxCtrl = _FormControl.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox).And(cf.ByAutomationId("1136")))?.AsComboBox();
+            }
+            Assert.IsNotNull(boxCtrl, $"ComboBox not found in dialog.");
+
+            SelectComboBoxItem(boxCtrl.AutomationId, pattern);
         }
 
         //--------------------------------------------------------------------------------------------------

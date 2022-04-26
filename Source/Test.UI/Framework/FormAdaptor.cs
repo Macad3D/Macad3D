@@ -7,19 +7,26 @@ using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using FlaUI.Core.WindowsAPI;
+using Macad.Common;
 using NUnit.Framework;
 
 namespace Macad.Test.UI.Framework
 {
     public class FormAdaptor
     {
-        readonly AutomationElement _FormControl;
+        protected AutomationElement _FormControl;
 
         //--------------------------------------------------------------------------------------------------
 
         public FormAdaptor(AutomationElement formControl)
         {
             _FormControl = formControl;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected FormAdaptor()
+        {
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -94,7 +101,7 @@ namespace Macad.Test.UI.Framework
 
         //--------------------------------------------------------------------------------------------------
 
-        public void ClickButton(string id, bool jump = true)
+        public virtual void ClickButton(string id, bool jump = true)
         {
             var control = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id).And(cf.ByControlType(ControlType.Button)));
             Assert.That(control, Is.Not.Null, $"Button {id} not found in form.");
@@ -104,7 +111,8 @@ namespace Macad.Test.UI.Framework
                 Mouse.MoveTo(center);
             Mouse.LeftClick(center);
             Wait.UntilInputIsProcessed();
-            Wait.UntilResponsive(_FormControl);
+            if(_FormControl.IsAvailable)
+                Wait.UntilResponsive(_FormControl);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -167,6 +175,62 @@ namespace Macad.Test.UI.Framework
             Mouse.Click(pnt, MouseButton.Left);
             Wait.UntilInputIsProcessed();
             Wait.UntilResponsive(_FormControl);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        
+        public void ExpandComboBox(string id, bool expandOrColapse=true)
+        {
+            var boxCtrl = _FormControl.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox).And(cf.ByAutomationId(id)))?.AsComboBox();
+            Assert.IsNotNull(boxCtrl, $"ComboBox {id} not found in dialog.");
+
+            if(expandOrColapse)
+                boxCtrl.Expand();
+            else
+                boxCtrl.Collapse();
+            Wait.UntilInputIsProcessed();
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public void SelectComboBoxItem(string boxid, string pattern, bool jump = true)
+        {
+            var boxCtrl = _FormControl.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox).And(cf.ByAutomationId(boxid)))?.AsComboBox();
+            Assert.IsNotNull(boxCtrl, $"ComboBox {boxid} not found in dialog.");
+
+            boxCtrl.Expand();
+            Wait.UntilInputIsProcessed();
+            Wait.UntilResponsive(_FormControl);
+
+            var listCtrl = _FormControl.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByName(boxCtrl.Name)))?.AsListBox();
+            if (listCtrl != null)
+            {
+                var index = listCtrl.Items.IndexOfFirst(item => item.Text.Contains(pattern));
+                Assert.AreNotEqual(-1, index, $"List index of pattern {pattern} not found in combobox {boxid}. Items found: {string.Join(",", listCtrl.Items.Select(item => item.Text).ToArray())}");
+
+                listCtrl.Items[index].Click(!jump);
+                return;
+            }
+
+            // Try to find item as direct child
+            var items = boxCtrl.FindAllDescendants(cf => cf.ByControlType(ControlType.ListItem));
+            foreach (var item in items)
+            {
+                var text = item.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
+                if (text == null || !text.Name.Contains(pattern))
+                    continue;
+
+                var center = item.BoundingRectangle.Center();
+                if(!jump)
+                    Mouse.MoveTo(center);
+                Mouse.LeftClick(center);
+                Wait.UntilInputIsProcessed();
+                Wait.UntilResponsive(_FormControl);
+                return;
+            }
+
+            Assert.IsNotNull(listCtrl, $"Itemlist of combobox {boxid} not found.");
         }
 
         //--------------------------------------------------------------------------------------------------

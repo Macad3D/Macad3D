@@ -22,15 +22,21 @@
         <ToolBarTray IsLocked="true"
                      DockPanel.Dock="Top">
             <ToolBar>
-                <Button mmp:Command.Action="{x:Static mmi:LayerCommands.CreateNewLayer}" />
+                <Button mmp:Command.Action="{x:Static mmi:LayerCommands.CreateNewLayer}"
+                        AutomationProperties.AutomationId="CreateLayer"/>
                 <Button CommandParameter="{Binding SelectedLayer}"
-                        mmp:Command.Action="{x:Static mmi:LayerCommands.DeleteLayer}" />
-                <Button mmp:Command.Action="{Binding StartRenamingCommand}" />
+                        mmp:Command.Action="{x:Static mmi:LayerCommands.DeleteLayer}" 
+                        AutomationProperties.AutomationId="DeleteLayer"/>
+                <Button mmp:Command.Action="{Binding StartRenamingCommand}"
+                        AutomationProperties.AutomationId="RenameLayer"/>
                 <Button CommandParameter="{Binding SelectedLayer}"
-                        mmp:Command.Action="{x:Static mmi:LayerCommands.MoveEntityToLayer}" />
+                        mmp:Command.Action="{x:Static mmi:LayerCommands.MoveEntityToLayer}"
+                        AutomationProperties.AutomationId="MoveEntityToLayer"/>
                 <Button CommandParameter="{Binding SelectedLayer}"
-                        mmp:Command.Action="{x:Static mmi:LayerCommands.SelectAllEntities}" />
-                <ToggleButton mmp:Command.Action="{x:Static mmi:LayerCommands.ToggleIsolation}" />
+                        mmp:Command.Action="{x:Static mmi:LayerCommands.SelectAllEntities}"
+                        AutomationProperties.AutomationId="SelectAllEntities"/>
+                <ToggleButton mmp:Command.Action="{x:Static mmi:LayerCommands.ToggleIsolation}"
+                        AutomationProperties.AutomationId="ToggleIsolation"/>
             </ToolBar>
         </ToolBarTray>
 
@@ -146,7 +152,8 @@
                                 Style="{StaticResource Macad.Styles.Button.Grid}"
                                 Width="18" Height="18"
                                 Padding="2"
-                                HorizontalAlignment="Right" />
+                                HorizontalAlignment="Right"
+                                AutomationProperties.AutomationId="ToggleIsLocked"/>
 
                         <!-- Visible -->
                         <Button DockPanel.Dock="Right"
@@ -155,7 +162,8 @@
                                 Style="{StaticResource Macad.Styles.Button.Grid}"
                                 Width="18" Height="18"
                                 Padding="2"
-                                HorizontalAlignment="Right" />
+                                HorizontalAlignment="Right"
+                                AutomationProperties.AutomationId="ToggleIsVisible"/>
                         
                     </DockPanel>
                 </DataTemplate>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FlaUI.Core.WindowsAPI;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
@@ -63,5 +64,29 @@ namespace Macad.Test.UI.Editors.Topology
             Assert.AreEqual("Box", Pipe.GetValue<string>("$Selected.Shape.Name"));
         }
 
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void ChangeLayer()
+        {
+            TestDataGenerator.GenerateBox(MainWindow);
+            var bodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");
+            Assert.That(bodyPanel, Is.Not.Null);
+
+            var layer = MainWindow.Layers.AddLayer();
+            MainWindow.Layers.ToggleIsLocked(layer);
+            
+            Assert.AreEqual("0 (Default)", Pipe.GetValue<string>("$Selected.Layer.Name"));
+            bodyPanel.SelectComboBoxItem("LayerBox", "Unnamed");
+            Assert.AreEqual("Unnamed", Pipe.GetValue<string>("$Selected.Layer.Name"));
+
+            // Deselect
+            MainWindow.Viewport.ClickRelative(0.1, 0.9);
+            Assert.AreEqual(0, MainWindow.Document.GetSelectedItems().Count());
+
+            // Try to reselect, since layer is locked, it should not work
+            MainWindow.Viewport.ClickRelative(0.5, 0.5);
+            Assert.AreEqual(0, MainWindow.Document.GetSelectedItems().Count());
+        }
     }
 }

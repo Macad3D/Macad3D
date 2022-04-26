@@ -2,24 +2,24 @@
 using System.Drawing;
 using System.Linq;
 using FlaUI.Core.AutomationElements;
-using FlaUI.Core.AutomationElements.Infrastructure;
+using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
+using FlaUI.Core.Tools;
 using NUnit.Framework;
 
 namespace Macad.Test.UI.Framework
 {
-    public class LayersAdaptor
+    public class LayersAdaptor : FormAdaptor
     {
-        readonly AutomationElement _ViewControl;
         readonly ListBox _ListControl;
 
         //--------------------------------------------------------------------------------------------------
 
         public LayersAdaptor(Window window)
         {
-            _ViewControl = window.FindFirstDescendant(cf => cf.ByClassName("LayersPanel"));
-            Assume.That(_ViewControl, Is.Not.Null);
-            _ListControl = _ViewControl.FindFirstDescendant(cf => cf.ByAutomationId("LayerList")).AsListBox();
+            _FormControl = window.FindFirstDescendant(cf => cf.ByClassName("LayersPanel"));
+            Assume.That(_FormControl, Is.Not.Null);
+            _ListControl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId("LayerList")).AsListBox();
             Assume.That(_ListControl, Is.Not.Null);
         }
 
@@ -53,7 +53,7 @@ namespace Macad.Test.UI.Framework
             var pnt = new Point((int)(rect.Left + rect.Width * 0.5), (int)(rect.Top + rect.Height * 0.5));
             Mouse.Click(pnt, MouseButton.Left);
             Wait.UntilInputIsProcessed();
-            Wait.UntilResponsive(_ViewControl);
+            Wait.UntilResponsive(_FormControl);
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -64,7 +64,42 @@ namespace Macad.Test.UI.Framework
             var pnt = new Point((int)(rect.Left + rect.Width * 0.5), (int)(rect.Top + rect.Height * 0.5));
             Mouse.Click(pnt, MouseButton.Left);
             Wait.UntilInputIsProcessed();
-            Wait.UntilResponsive(_ViewControl);
+            Wait.UntilResponsive(_FormControl);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public ListBoxItem AddLayer()
+        {
+            ClickButton("CreateLayer");
+            return GetLayerItems().Last();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _ClickLayerButton(ListBoxItem layer, string id)
+        {
+            var control = layer.FindFirstDescendant(cf => cf.ByAutomationId(id).And(cf.ByControlType(ControlType.Button)));
+            Assert.That(control, Is.Not.Null, $"Button {id} not found in form.");
+
+            var center = control.BoundingRectangle.Center();
+            Mouse.LeftClick(center);
+            Wait.UntilInputIsProcessed();
+            Wait.UntilResponsive(_FormControl);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void ToggleIsLocked(ListBoxItem layer)
+        {
+            _ClickLayerButton(layer, "ToggleIsLocked");
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public void ToggleIsVisible(ListBoxItem layer)
+        {
+            _ClickLayerButton(layer, "ToggleIsLVisible");
         }
     }
 }

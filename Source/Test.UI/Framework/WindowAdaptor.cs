@@ -12,9 +12,9 @@ using NUnit.Framework;
 
 namespace Macad.Test.UI.Framework
 {
-    public class WindowAdaptor
+    public class WindowAdaptor : FormAdaptor
     {
-        public Window Window { get; protected set; }
+        public Window Window => _FormControl as Window;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -38,14 +38,14 @@ namespace Macad.Test.UI.Framework
             int retryCount = 3;
             while (retryCount > 0)
             {
-                Window = mainWindow.Window.FindFirstChild(conditionFunc)?.AsWindow();
-                if (Window != null)
+                _FormControl = mainWindow.Window.FindFirstChild(conditionFunc)?.AsWindow();
+                if (_FormControl != null)
                     break;
 
                 retryCount--;
                 Wait.UntilInputIsProcessed();
             }
-            Assert.That(Window, Is.Not.Null);
+            Assert.That(_FormControl, Is.Not.Null);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -53,8 +53,8 @@ namespace Macad.Test.UI.Framework
         public WindowAdaptor(WindowAdaptor mainWindow, string automationId)
         {
             Wait.UntilResponsive(mainWindow.Window);
-            Window = mainWindow.Window.FindFirstChild(automationId)?.AsWindow();
-            Assert.That(Window, Is.Not.Null);
+            _FormControl = mainWindow.Window.FindFirstChild(automationId)?.AsWindow();
+            Assert.That(_FormControl, Is.Not.Null);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -66,11 +66,11 @@ namespace Macad.Test.UI.Framework
             {
                 do
                 {
-                    Window = app.FindWindow((win)=>win.AutomationId==automationId);
-                } while (Window == null);
+                    _FormControl = app.FindWindow((win)=>win.AutomationId==automationId);
+                } while (_FormControl == null);
 
-                Window.Focus();
-                Wait.UntilResponsive(Window);
+                _FormControl.Focus();
+                Wait.UntilResponsive(_FormControl);
             }
         }
 
@@ -84,16 +84,6 @@ namespace Macad.Test.UI.Framework
         public static bool IsWindowOpen(MainWindowAdaptor mainWindow, string automationId)
         {
             return mainWindow.Window.FindFirstChild(automationId)?.AsWindow() != null;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void ClickButton(string id, bool jump = true)
-        {
-            var buttonCtrl = Window.FindFirstDescendant(cf => cf.ByClassName("Button").And(cf.ByAutomationId(id)))?.AsButton();
-            Assert.IsNotNull(buttonCtrl, $"Button {id} not found in dialog.");
-            buttonCtrl.Click(!jump);
-            Wait.UntilInputIsProcessed();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -116,44 +106,6 @@ namespace Macad.Test.UI.Framework
             listCtrl.Items[index].Click(!jump);
         }
         
-        //--------------------------------------------------------------------------------------------------
-
-        public void ExpandComboBox(string id, bool expandOrColapse=true)
-        {
-            var boxCtrl = Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox).And(cf.ByAutomationId(id)))?.AsComboBox();
-            Assert.IsNotNull(boxCtrl, $"ComboBox {id} not found in dialog.");
-
-            if(expandOrColapse)
-                boxCtrl.Expand();
-            else
-                boxCtrl.Collapse();
-            Wait.UntilInputIsProcessed();
-        }
-        
-        //--------------------------------------------------------------------------------------------------
-
-        public void SelectComboBoxItem(string boxid, string pattern, bool jump = true)
-        {
-            // File Save
-            var boxCtrl = Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox).And(cf.ByAutomationId(boxid)))?.AsComboBox();
-            if (boxCtrl == null)
-            {
-                // File Open
-                boxCtrl = Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox).And(cf.ByAutomationId("1136")))?.AsComboBox();
-            }
-            Assert.IsNotNull(boxCtrl, $"ComboBox {boxid} not found in dialog.");
-
-            boxCtrl.Expand();
-
-            var listCtrl = Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByName(boxCtrl.Name)))?.AsListBox();
-            Assert.IsNotNull(listCtrl, $"Itemlist of combobox {boxid} not found.");
-
-            var index = listCtrl.Items.IndexOfFirst(item => item.Text.Contains(pattern));
-            Assert.AreNotEqual(-1, index, $"List index of pattern {pattern} not found in combobox {boxid}. Items found: {string.Join(",", listCtrl.Items.Select(item => item.Text).ToArray())}");
-
-            listCtrl.Items[index].Click(!jump);
-        }
-
         //--------------------------------------------------------------------------------------------------
 
         public void Close()
