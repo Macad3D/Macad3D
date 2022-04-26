@@ -9,16 +9,16 @@ namespace Macad.Test.UI.Framework
     {
         public ContextMenuAdaptor(MainWindowAdaptor mainWindow)
         {
-            Window = _FindHostingWindow(mainWindow, null);
-            Assert.That(Window, Is.Not.Null);
+            _FormControl = _FindHostingWindow(mainWindow, null);
+            Assert.That(_FormControl, Is.Not.Null);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public ContextMenuAdaptor(MainWindowAdaptor mainWindow, string contextMenuId)
         {
-            Window = _FindHostingWindow(mainWindow, contextMenuId);
-            Assert.That(Window, Is.Not.Null);
+            _FormControl = _FindHostingWindow(mainWindow, contextMenuId);
+            Assert.That(_FormControl, Is.Not.Null);
         }
         
         //--------------------------------------------------------------------------------------------------

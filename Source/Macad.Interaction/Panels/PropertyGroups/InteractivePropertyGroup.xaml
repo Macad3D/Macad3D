@@ -48,7 +48,8 @@
         <ComboBox x:Name="LayerBox" 
                   Grid.Row="1" Grid.Column="1" 
                   SelectedValue="{Binding Entity.Layer, NotifyOnSourceUpdated=True}"
-                  ItemsSource="{Binding Context.Layers}">
+                  ItemsSource="{Binding Context.Layers}"
+                  AutomationProperties.AutomationId="LayerBox">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

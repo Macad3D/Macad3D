@@ -290,7 +290,6 @@ namespace Macad.Interaction.Visual
             if (_AisShape == null)
             {
                 _EnsureAisObject();
-                _UpdateInteractivityStatus();
             }
             else
             {
@@ -308,7 +307,7 @@ namespace Macad.Interaction.Visual
                         _AisShape.Set(ocShape);
                         _UpdatePresentation();
                         AisContext.RecomputeSelectionOnly(_AisShape);
-                        _UpdateSelectionSensitivity();
+                        _UpdateInteractivityStatus();
                     }
                 }
                 else
