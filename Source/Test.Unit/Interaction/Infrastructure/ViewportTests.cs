@@ -104,6 +104,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             ctx.ClickAt(50, 50); // Left point
             ctx.ClickAt(450, 450); // Right point
             sketchEditTool.Stop();
+            vc.WorkspaceController.Invalidate(forceRedraw: true);
 
             // Select topview
             ctx.ClickAt(400, 80);

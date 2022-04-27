@@ -10,6 +10,8 @@ namespace Macad.Interaction
         public uint   ViewCubeSize                { get => GetValue<uint>();   set => SetValue(value); }
         public double ViewCubeAnimationDuration   { get => GetValue<double>(); set => SetValue(value); }
 
+        public bool   ShowTrihedron               { get => GetValue<bool>();   set => SetValue(value); }
+
         //--------------------------------------------------------------------------------------------------
 
         public ViewportParameterSet()
@@ -19,6 +21,8 @@ namespace Macad.Interaction
             SetDefaultValue(nameof(ShowViewCube),                true);
             SetDefaultValue(nameof(ViewCubeSize),                (uint)50);
             SetDefaultValue(nameof(ViewCubeAnimationDuration),   0.3);
+
+            SetDefaultValue(nameof(ShowTrihedron),               true);
         }
     }
 }

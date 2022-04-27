@@ -250,7 +250,6 @@ namespace Macad.Core
             AisAnimationCamera = new AIS_AnimationCamera(new TCollection_AsciiString("ViewCamera"), V3dView);
 
             V3dView.SetBgGradientColors(Quantity_NameOfColor.Quantity_NOC_SLATEGRAY3.ToColor(), Quantity_NameOfColor.Quantity_NOC_SLATEGRAY4.ToColor(), Aspect_GradientFillMethod.Aspect_GFM_VER, false);
-            _ShowTriedron(true);
 
             var renderParams = V3dView.ChangeRenderingParams();
             renderParams.NbMsaaSamples = 4;
@@ -280,20 +279,6 @@ namespace Macad.Core
 
             V3dView?.Dispose();
             V3dView = null;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        void _ShowTriedron(bool visible)
-        {
-            if (visible)
-            {
-                V3dView.TriedronDisplay(Aspect_TypeOfTriedronPosition.Aspect_TOTP_LEFT_LOWER, Quantity_NameOfColor.Quantity_NOC_ALICEBLUE.ToColor(), 0.1, V3d_TypeOfVisualization.V3d_ZBUFFER);
-            }
-            else
-            {
-                V3dView.TriedronErase();
-            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -547,34 +532,6 @@ namespace Macad.Core
             RaisePropertyChanged(nameof(TargetPoint));
             RaisePropertyChanged(nameof(Twist));
             RaisePropertyChanged(nameof(Scale));
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
-
-        #region Image
-
-        public Bitmap RenderToBitmap(uint width, uint height)
-        {
-            if (V3dView == null || width == 0 || height == 0)
-                return null;
-
-            try
-            {
-                _ShowTriedron(false);
-                var pixmap = new Image_AlienPixMap();
-                pixmap.InitZero(Image_Format.Image_Format_RGB, width, height);
-                V3dView.ToPixMap(pixmap, (int)width, (int)height);
-                _ShowTriedron(true);
-
-                return Occt.Helper.PixMapHelper.ConvertToBitmap(pixmap);
-            }
-            catch (Exception )
-            {
-                _ShowTriedron(true);
-                return null;
-            }
         }
 
         //--------------------------------------------------------------------------------------------------
