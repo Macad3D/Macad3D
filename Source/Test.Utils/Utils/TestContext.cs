@@ -22,6 +22,7 @@ namespace Macad.Test.Utils
 
             var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
             viewportParameterSet.ShowViewCube = false;
+            viewportParameterSet.ShowTrihedron = false;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -71,7 +72,6 @@ namespace Macad.Test.Utils
             var ocView = Current.Viewport.V3dView;
             ocView.SetBgGradientStyle(Aspect_GradientFillMethod.Aspect_GFM_NONE, false);
             ocView.SetBackgroundColor(Quantity_NameOfColor.Quantity_NOC_BLACK.ToColor());
-            ocView.TriedronErase();
             ocView.ChangeRenderingParams().NbMsaaSamples = 0;
 
             Current.Workspace.GridEnabled = false;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Windows;
 using Macad.Common;
 using Macad.Common.Interop;
@@ -8,6 +9,7 @@ using Macad.Core;
 using Macad.Occt;
 using Macad.Occt.Helper;
 using Macad.Resources;
+using Point = System.Windows.Point;
 
 namespace Macad.Interaction
 {
@@ -45,8 +47,11 @@ namespace Macad.Interaction
                     if (value)
                     {
                         SetPredefinedView(PredefinedViews.WorkingPlane);
+                        
                     }
                     _LockedToPlane = value;
+                    _SetViewCube(!value);
+                    _SetTrihedron(!value && _ShowTrihedron);
                     RaisePropertyChanged();
                 }
             }
@@ -74,6 +79,7 @@ namespace Macad.Interaction
         Point _StartedMousePosition;
         Point _LastMousePosition;
         bool _LockedToPlane;
+        bool _ShowTrihedron;
 
         AIS_RubberBand _AisRubberBand;
         RubberbandSelectionMode _RubberbandMode;
@@ -190,7 +196,9 @@ namespace Macad.Interaction
         void _UpdateParameter()
         {
             var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
-            _ShowViewCube(parameterSet.ShowViewCube, parameterSet.ViewCubeSize, parameterSet.ViewCubeAnimationDuration);
+            _SetViewCube(parameterSet.ShowViewCube, parameterSet.ViewCubeSize, parameterSet.ViewCubeAnimationDuration);
+            _SetTrihedron(parameterSet.ShowTrihedron);
+            _ShowTrihedron = parameterSet.ShowTrihedron;
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -494,21 +502,41 @@ namespace Macad.Interaction
 
         #endregion
 
-        #region ViewCube
+        #region Usability Tools
 
-        void _ShowViewCube(bool isVisible, uint size, double duration)
+        void _SetViewCube(bool isVisible)
+        {
+            var aisContext = WorkspaceController.Workspace.AisContext;
+
+            if (_AisViewCube == null)
+                return;
+
+            if (isVisible && !aisContext.IsDisplayed(_AisViewCube))
+            {
+                aisContext.Display(_AisViewCube, false);
+                WorkspaceController.Invalidate(true);
+            }
+            else if (!isVisible && aisContext.IsDisplayed(_AisViewCube))
+            {
+                aisContext.Remove(_AisViewCube, false);
+                WorkspaceController.Invalidate(true);
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _SetViewCube(bool isVisible, uint size, double duration)
         {
             var aisContext = WorkspaceController.Workspace.AisContext;
             
             if (_AisViewCube != null)
             {
-                if (aisContext.IsDisplayed(_AisViewCube))
-                {
-                    aisContext.Remove(_AisViewCube, false);
-                    _AisViewCube.Dispose();
-                    _AisViewCube = null;
-                }
+                _SetViewCube(isVisible);
+                return;
             }
+
+            if (!isVisible)
+                return;
 
             var bitmap = ResourceUtils.ReadBitmapFromResource(@"Visual\ViewCubeSides.png");
             if (bitmap == null)
@@ -571,7 +599,21 @@ namespace Macad.Interaction
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        void _SetTrihedron(bool visible)
+        {
+            if (visible)
+            {
+                Viewport?.V3dView?.TriedronDisplay(Aspect_TypeOfTriedronPosition.Aspect_TOTP_LEFT_LOWER, Quantity_NameOfColor.Quantity_NOC_ALICEBLUE.ToColor(), 0.1, V3d_TypeOfVisualization.V3d_ZBUFFER);
+            }
+            else
+            {
+                Viewport?.V3dView?.TriedronErase();
+            }
+        }
 
+        //--------------------------------------------------------------------------------------------------
+        
         #endregion
 
         #region Rubberband Selection
@@ -692,6 +734,37 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
+
+        #endregion
+        
+        #region Image
+
+        public Bitmap RenderToBitmap(uint width, uint height)
+        {
+            if (Viewport?.V3dView == null || width == 0 || height == 0)
+                return null;
+
+            try
+            {
+                _SetTrihedron(false);
+                _SetViewCube(false);
+                var pixmap = new Image_AlienPixMap();
+                pixmap.InitZero(Image_Format.Image_Format_RGB, width, height);
+                Viewport?.V3dView?.ToPixMap(pixmap, (int)width, (int)height);
+                _SetTrihedron(_ShowTrihedron);
+                _SetViewCube(true);
+
+                return Occt.Helper.PixMapHelper.ConvertToBitmap(pixmap);
+            }
+            catch (Exception )
+            {
+                _SetTrihedron(_ShowTrihedron);
+                _SetTrihedron(true);
+                return null;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
     }

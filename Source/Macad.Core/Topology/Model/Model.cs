@@ -49,7 +49,6 @@ namespace Macad.Core.Topology
 
         protected override bool SaveData(FileSystem fileSystem)
         {
-            _SaveThumbnailImage(fileSystem);
             _SaveShapeCaches(fileSystem);
             return base.SaveData(fileSystem);
         }
@@ -93,24 +92,6 @@ namespace Macad.Core.Topology
 
                     shape.LoadShapeCache(fileSystem);
                 }
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        void _SaveThumbnailImage(FileSystem fileSystem)
-        {
-            if (CoreContext.Current?.Document != this)
-                return; // This model is not active
-
-            var bitmap = CoreContext.Current?.Viewport?.RenderToBitmap(500, 500);
-            if (bitmap == null)
-                return;
-
-            using (var ms = new MemoryStream())
-            {
-                bitmap.Save(ms, ImageFormat.Png);
-                fileSystem.Write("thumbnail.png", ms.GetBuffer());
             }
         }
 

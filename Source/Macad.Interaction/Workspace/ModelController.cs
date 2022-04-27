@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -36,6 +37,8 @@ namespace Macad.Interaction
             {
                 MruList.RemoveAt(MruList.Count-1);
             }
+
+            Model.AdditionalDataSaving += _Model_AdditionalDataSaving;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -339,6 +342,24 @@ namespace Macad.Interaction
             }
 
             InteractiveContext.Current.SaveLocalSettings("MRU", MruList);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        void _Model_AdditionalDataSaving(Document<InteractiveEntity> sender, FileSystem fileSystem)
+        {
+            if (InteractiveContext.Current?.Document != sender)
+                return; // This model is not active
+
+            var bitmap = InteractiveContext.Current?.ViewportController.RenderToBitmap(500, 500);
+            if (bitmap == null)
+                return;
+
+            using (var ms = new MemoryStream())
+            {
+                bitmap.Save(ms, ImageFormat.Png);
+                fileSystem.Write("thumbnail.png", ms.GetBuffer());
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
