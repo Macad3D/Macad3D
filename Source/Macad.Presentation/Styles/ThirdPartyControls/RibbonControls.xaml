@@ -107,7 +107,6 @@
         <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Black}"/>
         <Setter Property="Margin" Value="2,0"/>
         <Setter Property="RecognizesAccessKey" Value="false"/>
-        <Setter Property="Fluent:RibbonProperties.IconSize" Value="Medium" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
@@ -164,12 +163,14 @@
                                 <mmp:PathEllipsisTextBehaviour OriginalPath="{Binding Header, RelativeSource={RelativeSource TemplatedParent}, Converter={mmp:ExtractFileDirectoryConverter}}" />
                             </mmp:Behaviors.Behavior>
                         </TextBlock>
-                        <Fluent:IconPresenter x:Name="iconImage"
-                                              Margin="3 4 2 2"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              IconSize="{Binding Path=(Fluent:RibbonProperties.IconSize), RelativeSource={RelativeSource TemplatedParent}}"
-                                              LargeIcon="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <ContentPresenter x:Name="iconImage"
+                                          HorizontalAlignment="Center"
+                                          Height="24"
+                                          VerticalAlignment="Center"
+                                          Content="{Fluent:ObjectToImageConverter {Binding Icon, RelativeSource={RelativeSource TemplatedParent}}, '24,24', {Binding RelativeSource={RelativeSource TemplatedParent}}}"
+                                          Width="24"
+                                          Margin="3,2,2,2"
+                                          SnapsToDevicePixels="True" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>

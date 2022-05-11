@@ -49,24 +49,6 @@ namespace Macad.Test.UI.Editors.Topology
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void ShapeStackDelKey()
-        {
-            TestDataGenerator.GenerateBox(MainWindow);
-            MainWindow.Ribbon.SelectTab("Model");
-            MainWindow.Ribbon.ClickButton("CreateOffset");
-            Assert.AreEqual("Offset", Pipe.GetValue<string>("$Selected.Shape.Name"));
-
-            var shapePanel = MainWindow.PropertyView.FindPanelByClass("BodyShapePropertyPanel");
-            Assert.That(shapePanel, Is.Not.Null);
-
-            shapePanel.SelectTreeItem("ShapeTree", "Offset");
-            Pipe.TypeKey(VirtualKeyShort.DELETE);
-            Assert.AreEqual("Box", Pipe.GetValue<string>("$Selected.Shape.Name"));
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        [Test]
         public void ChangeLayer()
         {
             TestDataGenerator.GenerateBox(MainWindow);
