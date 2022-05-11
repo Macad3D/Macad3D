@@ -2,7 +2,7 @@
 <Topics>
   <Topic id="d7fa988c-877d-45b0-9a69-67414b24767e" visible="True" isDefault="true" />
   <Topic id="ac5f4e2f-1719-43f5-adb8-8b1d26faf5f4" visible="True" noFile="true" isExpanded="true" title="Version History">
-    <Topic id="1d99404b-3c0d-4c51-af29-258459c9a236" visible="True" title="What's new in Macad|3D 2.0">
+    <Topic id="1d99404b-3c0d-4c51-af29-258459c9a236" visible="True" title="What's new in Release 2">
         <HelpKeyword index="K" term="Changelog" />
         <HelpKeyword index="K" term="Pipe" />
         <HelpKeyword index="K" term="DatumPlane" />

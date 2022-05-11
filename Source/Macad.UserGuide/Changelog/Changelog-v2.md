@@ -1,6 +1,6 @@
 ---
 uid: 1d99404b-3c0d-4c51-af29-258459c9a236
-title: What's new in Macad\|3D 2.0
+title: What's new in Macad\|3D Release 2
 ---
 This page lists all new features and changes of the version 2.0 compared to the previous version.
 
@@ -67,3 +67,9 @@ A long number of bug fixes have been made and overall stability has been increas
 
 Macad\|3D is now based on the latest framework .Net 6, therefore the operating system requirements increase to: 
 Windows 8.1 64-bit and newer is supported.
+
+# Updates
+
+## Version 2.1 
+
+This is a maintenance release containing several bug fixes.
