@@ -16,6 +16,13 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
+        public Layer this[int i]
+        {
+            get { return Layers[i]; }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public Layer Default
         {
             get { return Layers.Count > 0 ? Layers[0] : null; }
@@ -105,6 +112,8 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
+        #region Collection Ops
+
         public Layer Find(Guid? guid)
         {
             if (guid == null)
@@ -152,6 +161,32 @@ namespace Macad.Core.Topology
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        public bool Move(Layer layer, int newIndex)
+        {
+            int oldIndex = Layers.IndexOf(layer);
+            if (layer == null)
+                return false;
+
+            if (oldIndex == newIndex)
+                return false;
+
+            if (oldIndex < newIndex)
+                newIndex--;
+
+            Layers.Remove(layer);
+            Layers.Insert(newIndex, layer);
+
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, layer, oldIndex));
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, layer, newIndex));
+
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+
+        #endregion
 
         #region IEnumerable
 
@@ -205,10 +240,14 @@ namespace Macad.Core.Topology
             return Find(instanceGuid);
         }
 
+        //--------------------------------------------------------------------------------------------------
+
         Entity IUndoableTopology.GetParent(Entity instance)
         {
             return Layers.Contains(instance) ? this : null;
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         void IUndoableTopology.AddChildFromUndo(Entity instance, Entity parent)
         {
@@ -217,6 +256,8 @@ namespace Macad.Core.Topology
 
             Add(typedInstance);
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         void IUndoableTopology.RemoveChildFromUndo(Entity instance)
         {
@@ -227,11 +268,15 @@ namespace Macad.Core.Topology
             typedInstance.Remove();
         }
 
+        //--------------------------------------------------------------------------------------------------
+
         void IUndoableTopology.MoveChildFromUndo(Entity instance, Entity newParent)
         {
             throw new NotImplementedException();
         }
 
+        //--------------------------------------------------------------------------------------------------
+        
         #endregion
 
     }

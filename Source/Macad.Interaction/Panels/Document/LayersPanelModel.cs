@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
@@ -20,6 +23,13 @@ namespace Macad.Interaction.Panels
                 RaisePropertyChanged();
             }
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public ObservableCollection<Layer> SelectedLayers
+        {
+            get { return _SelectedLayers; }
+        }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -28,12 +38,18 @@ namespace Macad.Interaction.Panels
             get { return _SelectedLayer; }
             set
             {
-                if(_SelectedLayer != value)
+                if (_SelectedLayer != value)
                 {
                     IsNameEditing = false;
+                    _SelectedLayer = value;
+                    RaisePropertyChanged();
                 }
-                _SelectedLayer = value;
-                RaisePropertyChanged();
+
+                if(_SelectedLayers.FirstOrDefault() != value)
+                {
+                    _SelectedLayers.Clear();
+                    _SelectedLayers.Add(value);
+                }
             }
         }
 
@@ -56,6 +72,7 @@ namespace Macad.Interaction.Panels
         #region Members
 
         LayerCollection _Layers;
+        ObservableCollection<Layer> _SelectedLayers;
         Layer _SelectedLayer;
         bool _IsNameEditing;
         Layer _RenamingLayer;
@@ -152,8 +169,21 @@ namespace Macad.Interaction.Panels
 
             Layers = InteractiveContext.Current.Layers;
             InteractiveContext.Current.PropertyChanged += AppContext_PropertyChanged;
+            _SelectedLayers = new ObservableCollection<Layer>();
+            SelectedLayers.CollectionChanged += _SelectedLayers_CollectionChanged;
 
             _IsNameEditing = false;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region Callbacks
+
+        void _SelectedLayers_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            SelectedLayer = _SelectedLayers.FirstOrDefault();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -161,6 +191,34 @@ namespace Macad.Interaction.Panels
         void AppContext_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             Layers = (sender as InteractiveContext)?.Layers;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region Drag'n'Drop
+        
+        public bool CanMove(Layer layer)
+        {
+            return layer != Layers.Default;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        public bool CanDrop(Layer dropToLayer)
+        {
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void MoveToIndex(Layer layer, int newIndex)
+        {
+            if (_Layers.Move(layer, newIndex))
+            {
+                InteractiveContext.Current.UndoHandler.Commit();
+            }
         }
 
         //--------------------------------------------------------------------------------------------------

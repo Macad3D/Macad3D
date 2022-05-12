@@ -6,6 +6,7 @@
              xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
              xmlns:mmi="clr-namespace:Macad.Interaction"
              xmlns:panels="clr-namespace:Macad.Interaction.Panels"
+             xmlns:treeView="clr-namespace:Macad.Presentation.TreeView;assembly=Macad.Presentation"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="1000" 
              TextOptions.TextFormattingMode="Display"
@@ -45,22 +46,25 @@
                    Stroke="{StaticResource Macad.Brushes.Separator}" />
 
         <!--List-->
-        <ListBox ItemsSource="{Binding Layers}"
-                 SelectedItem="{Binding SelectedLayer}"
-                 Background="{StaticResource Macad.Brushes.Panel.Background}"
-                 BorderBrush="{StaticResource Macad.Brushes.Panel.Border}"
-                 BorderThickness="0" 
-                 Margin="0,1"
-                 HorizontalContentAlignment="Stretch"
-                 VerticalContentAlignment="Stretch"
-                 SelectionMode="Single"
-                 AutomationProperties.AutomationId="LayerList">
+        <treeView:TreeViewEx ItemsSource="{Binding Layers}"
+                             SelectedItems="{Binding SelectedLayers, Mode=OneWay}"
+                             Background="{StaticResource Macad.Brushes.Panel.Background}"
+                             BorderBrush="{StaticResource Macad.Brushes.Panel.Border}"
+                             BorderThickness="0" 
+                             Margin="0,1"
+                             HorizontalContentAlignment="Stretch"
+                             VerticalContentAlignment="Stretch"
+                             AutomationProperties.AutomationId="LayerList"
+                             AllowMultiSelection="False"
+                             IsDragNDropEnabled="True"
+                             DragCommand="{Binding DragCommand, RelativeSource={RelativeSource AncestorType={x:Type panels:LayersPanel}}}"
+                             DropCommand="{Binding DropCommand, RelativeSource={RelativeSource AncestorType={x:Type panels:LayersPanel}}}">
 
             <mmp:Behaviors.Behavior>
                 <mmp:DoubleClickCommandBehavior Command="{Binding ActivateLayerCommand}" />
             </mmp:Behaviors.Behavior>
 
-            <ListBox.ContextMenu>
+            <treeView:TreeViewEx.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Layer"
                               Style="{StaticResource Macad.Styles.MenuItem.GroupHeader}" />
@@ -76,11 +80,12 @@
                               CommandParameter="{Binding SelectedLayer}"
                               mmp:Command.Action="{x:Static mmi:LayerCommands.SelectAllEntities}" />
                 </ContextMenu>
-            </ListBox.ContextMenu>
+            </treeView:TreeViewEx.ContextMenu>
 
-            <ListBox.ItemTemplate>
+            <treeView:TreeViewEx.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel HorizontalAlignment="Stretch">
+                    <DockPanel HorizontalAlignment="Stretch"
+                               Margin="-14,0,0,0">
 
                         <!-- Color -->
                         <Border DockPanel.Dock="Left" 
@@ -92,43 +97,6 @@
                             <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                         Fill="{Binding Color, Converter={mmp:ColorToBrushConverter}}" />
                         </Border>
-
-                        <!-- Name -->
-                        <Grid Margin="5,0">
-                            <TextBlock Text="{Binding Name}" 
-                                       VerticalAlignment="Center">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                                <Setter Property="FontWeight" Value="Bold" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                            <TextBox
-                                LostFocus="TextBox_LostFocus"
-                                IsVisibleChanged="TextBox_IsVisibleChanged"
-                                KeyDown="TextBox_KeyDown"
-                                BorderThickness="0"
-                                VerticalContentAlignment="Center"
-                                Margin="-2,0,0,0"
-                                Height="18">
-                                <TextBox.Visibility>
-                                    <MultiBinding>
-                                        <MultiBinding.Converter>
-                                            <mmp:GroupConverter
-                                                MultiValueConverter="{mmp:BooleanAndMultiConverter}">
-                                                <mmp:BoolToVisibleHiddenConverter />
-                                            </mmp:GroupConverter>
-                                        </MultiBinding.Converter>
-                                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type ListBoxItem}}" Path="IsSelected" />
-                                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type ListBox}}" Path="DataContext.IsNameEditing" />
-                                    </MultiBinding>
-                                </TextBox.Visibility>
-                            </TextBox>
-                        </Grid>
 
                         <!-- Menu -->
                         <Button DockPanel.Dock="Right" 
@@ -164,11 +132,52 @@
                                 Padding="2"
                                 HorizontalAlignment="Right"
                                 AutomationProperties.AutomationId="ToggleIsVisible"/>
+
+                        <!-- Name -->
+                        <Grid Margin="5,0">
+                            <TextBlock Text="{Binding Name}" 
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Stretch">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                <Setter Property="FontWeight" Value="Bold" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox
+                                LostKeyboardFocus="_TextBox_LostFocus"
+                                LostFocus="_TextBox_LostFocus"
+                                IsVisibleChanged="_TextBox_IsVisibleChanged"
+                                PreviewKeyDown="_TextBox_PreviewKeyDown"
+                                BorderThickness="0"
+                                VerticalContentAlignment="Center"
+                                Margin="-2,0,0,0"
+                                Padding="0"
+                                Height="18"
+                                AutomationProperties.AutomationId="LayerRenameBox">
+                                <TextBox.Visibility>
+                                    <MultiBinding>
+                                        <MultiBinding.Converter>
+                                            <mmp:GroupConverter
+                                                MultiValueConverter="{mmp:BooleanAndMultiConverter}">
+                                                <mmp:BoolToVisibleHiddenConverter />
+                                            </mmp:GroupConverter>
+                                        </MultiBinding.Converter>
+                                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type treeView:TreeViewExItem}}" Path="IsSelected" />
+                                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type treeView:TreeViewEx}}" Path="DataContext.IsNameEditing" />
+                                    </MultiBinding>
+                                </TextBox.Visibility>
+                            </TextBox>
+                        </Grid>
                         
                     </DockPanel>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
+            </treeView:TreeViewEx.ItemTemplate>
 
-        </ListBox>
+        </treeView:TreeViewEx>
     </DockPanel>
 </UserControl>

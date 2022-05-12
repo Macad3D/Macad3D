@@ -11,7 +11,7 @@ namespace Macad.Test.UI.Framework
 {
     public class LayersAdaptor : FormAdaptor
     {
-        readonly ListBox _ListControl;
+        readonly Tree _ListControl;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -19,13 +19,13 @@ namespace Macad.Test.UI.Framework
         {
             _FormControl = window.FindFirstDescendant(cf => cf.ByClassName("LayersPanel"));
             Assume.That(_FormControl, Is.Not.Null);
-            _ListControl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId("LayerList")).AsListBox();
+            _ListControl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId("LayerList")).AsTree();
             Assume.That(_ListControl, Is.Not.Null);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public ListBoxItem GetLayerItem(int index)
+        public TreeItem GetLayerItem(int index)
         {
             Assume.That(_ListControl.Items.Length, Is.GreaterThan(index));
             return _ListControl.Items[index];
@@ -33,14 +33,14 @@ namespace Macad.Test.UI.Framework
 
         //--------------------------------------------------------------------------------------------------
 
-        public IEnumerable<ListBoxItem> GetLayerItems()
+        public IEnumerable<TreeItem> GetLayerItems()
         {
             return _ListControl.Items;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public IEnumerable<ListBoxItem> GetSelectedItems()
+        public IEnumerable<TreeItem> GetSelectedItems()
         {
             return GetLayerItems().Where(lbi => lbi.IsSelected);
         }
@@ -69,7 +69,18 @@ namespace Macad.Test.UI.Framework
 
         //--------------------------------------------------------------------------------------------------
 
-        public ListBoxItem AddLayer()
+        public void DragItem(int index, int distance)
+        {
+            var rect = GetLayerItem(index).BoundingRectangle;
+            var pnt = new Point((int)(rect.Left + rect.Width * 0.5), (int)(rect.Top + rect.Height * 0.5));
+            Mouse.DragVertically(pnt, distance, MouseButton.Left);
+            Wait.UntilInputIsProcessed();
+            Wait.UntilResponsive(_FormControl);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public TreeItem AddLayer()
         {
             ClickButton("CreateLayer");
             return GetLayerItems().Last();
@@ -77,7 +88,7 @@ namespace Macad.Test.UI.Framework
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ClickLayerButton(ListBoxItem layer, string id)
+        void _ClickLayerButton(TreeItem layer, string id)
         {
             var control = layer.FindFirstDescendant(cf => cf.ByAutomationId(id).And(cf.ByControlType(ControlType.Button)));
             Assert.That(control, Is.Not.Null, $"Button {id} not found in form.");
@@ -90,16 +101,16 @@ namespace Macad.Test.UI.Framework
 
         //--------------------------------------------------------------------------------------------------
 
-        public void ToggleIsLocked(ListBoxItem layer)
+        public void ToggleIsLocked(TreeItem layer)
         {
             _ClickLayerButton(layer, "ToggleIsLocked");
         }
         
         //--------------------------------------------------------------------------------------------------
 
-        public void ToggleIsVisible(ListBoxItem layer)
+        public void ToggleIsVisible(TreeItem layer)
         {
-            _ClickLayerButton(layer, "ToggleIsLVisible");
+            _ClickLayerButton(layer, "ToggleIsVisible");
         }
     }
 }

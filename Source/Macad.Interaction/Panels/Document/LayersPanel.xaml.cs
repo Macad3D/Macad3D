@@ -1,9 +1,12 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Macad.Core.Topology;
+using Macad.Presentation;
+using Macad.Presentation.TreeView;
 
 namespace Macad.Interaction.Panels
 {
@@ -20,6 +23,7 @@ namespace Macad.Interaction.Panels
         {
             DataContext = new LayersPanelModel();
 
+            _CreateCommands();
             InitializeComponent();
             AddHandler(KeyDownEvent, new RoutedEventHandler(HandleHandledKeyDown), true);
         }
@@ -29,7 +33,7 @@ namespace Macad.Interaction.Panels
 
         #region Renaming Textbox
 
-        void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        void _TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             var box = sender as TextBox;
             Debug.Assert(box != null, "box != null");
@@ -38,8 +42,11 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        void TextBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        void _TextBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if (Model.SelectedLayer == null)
+                return;
+
             var box = sender as TextBox;
             Debug.Assert(box != null, "box != null");
             if (box.Visibility == Visibility.Visible)
@@ -52,20 +59,82 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        void TextBox_KeyDown(object sender, KeyEventArgs e)
+        void _TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             var box = sender as TextBox;
             Debug.Assert(box != null, "box != null");
             if (e.Key == Key.Escape)
             {
                 Model.CancelRenaming();
+                e.Handled = true;
             }
             else if (e.Key == Key.Enter)
             {
                 Model.FinishRenaming(box.Text);
+                e.Handled = true;
             }
         }
         
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region Commands
+
+        public RelayCommand<DragParameters> DragCommand { get; private set; }
+
+        //--------------------------------------------------------------------------------------------------
+
+        bool _CanExecuteDrag(DragParameters parameter)
+        {
+            var layer = parameter.DragItem?.DataContext as Layer;
+            return layer != null && Model.CanMove(layer);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _ExecuteDrag(DragParameters parameter)
+        {
+            // Empty by intention
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        public RelayCommand<DropParameters> DropCommand { get; private set; }
+
+        //--------------------------------------------------------------------------------------------------
+
+        bool _CanExecuteDrop(DropParameters parameter)
+        {
+            if (parameter.IsInsertion)
+            {
+                return parameter.InsertAtIndex > 0;
+            }
+            return false;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _ExecuteDrop(DropParameters parameter)
+        {
+            Layer droppedLayer = parameter.DroppedObjects.FirstOrDefault() as Layer;
+            if (droppedLayer == null)
+                return;
+
+            if(parameter.IsInsertion)
+            {
+                Model.MoveToIndex(droppedLayer, parameter.InsertAtIndex);
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _CreateCommands()
+        {
+            DragCommand = new RelayCommand<DragParameters>(_ExecuteDrag, _CanExecuteDrag);
+            DropCommand = new RelayCommand<DropParameters>(_ExecuteDrop, _CanExecuteDrop);
+        }
+
         //--------------------------------------------------------------------------------------------------
 
         #endregion

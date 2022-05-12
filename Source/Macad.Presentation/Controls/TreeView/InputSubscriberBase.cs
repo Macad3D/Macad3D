@@ -77,17 +77,17 @@ namespace Macad.Presentation.TreeView
         protected TreeViewExItem GetTreeViewItemUnderMouse(Point positionRelativeToTree)
         {
             HitTestResult hitTestResult = VisualTreeHelper.HitTest(TreeView, positionRelativeToTree);
-            if (hitTestResult == null || hitTestResult.VisualHit == null) return null;
+            if (hitTestResult?.VisualHit == null) return null;
 
             FrameworkElement child = hitTestResult.VisualHit as FrameworkElement;
             
-            do
+            while (child != null)
             {
-                if (child is TreeViewExItem) return GetVisible(child as TreeViewExItem);
-                if (child.DataContext is InsertContent) return  GetVisible((child.DataContext as InsertContent).Item);
+                if (child is TreeViewExItem treeViewExItem) return GetVisible(treeViewExItem);
+                if (child.DataContext is InsertContent insertContent) return  GetVisible(insertContent.Item);
                 if (child is TreeViewEx) return null;
                 child = VisualTreeHelper.GetParent(child) as FrameworkElement;
-            } while (child != null);
+            }
 
             return null;
         }

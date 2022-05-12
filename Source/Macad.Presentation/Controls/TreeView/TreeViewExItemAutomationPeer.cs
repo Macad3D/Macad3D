@@ -73,14 +73,32 @@ namespace Macad.Presentation.TreeView
         {
             List<AutomationPeer> children = new List<AutomationPeer>();
 
-            for (int i = 0; i < treeViewExItem.Items.Count; i++)
-            {
-                TreeViewExItem child = treeViewExItem.ItemContainerGenerator.ContainerFromIndex(i) as TreeViewExItem;
-                if (child == null) continue;
-                children.Add(new TreeViewExItemAutomationPeer(child, treeViewExAutomationPeer));
-            }
+            children = GetChildPeers(treeViewExItem);
 
             return children;
+        }
+
+        private List<AutomationPeer> GetChildPeers(UIElement element)
+        {
+            var list = new List<AutomationPeer>();
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(element); i++)
+            {
+                var child = VisualTreeHelper.GetChild(element, i) as UIElement;
+                if (child != null)
+                {
+                    AutomationPeer childPeer;
+                    childPeer = UIElementAutomationPeer.CreatePeerForElement(child);
+                    if (childPeer != null)
+                    {
+                        list.Add(childPeer);
+                    }
+                    else
+                    {
+                        list.AddRange(GetChildPeers(child));
+                    }
+                }
+            }
+            return list;
         }
 
         protected override string GetClassNameCore()

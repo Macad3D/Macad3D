@@ -266,6 +266,7 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="InsertionMarkerBrush" Value="{StaticResource Macad.Brushes.Glyph}" />
         <Setter Property="Panel.Background" Value="{StaticResource Macad.Brushes.ListView.Background}" />
         <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="False" />
         <Setter Property="Border.BorderBrush" Value="#FF828790" />
