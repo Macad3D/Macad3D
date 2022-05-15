@@ -19,10 +19,10 @@
     <ProjectReference Include="..\Macad.Occt\Macad.Occt.vcxproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.dotMemoryUnit" Version="3.1.20200127.214830" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+    <PackageReference Include="JetBrains.dotMemoryUnit" Version="3.2.20220510" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
   </ItemGroup>
 
 </Project>

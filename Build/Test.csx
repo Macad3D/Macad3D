@@ -109,7 +109,7 @@ static string _GetNUnitCommandLine(string target)
 
 static string _GetNUnitPath()
 {
-	return Packages.FindPackageFile(@"NUnit.ConsoleRunner.NetCore.*", @"tools\netcoreapp3.1\any\nunit3-console.exe");
+	return Packages.FindPackageFile(@"NUnit.ConsoleRunner.NetCore.*", @"tools\net6.0\any\nunit3-console.exe");
 }
 
 /***************************************************************/
