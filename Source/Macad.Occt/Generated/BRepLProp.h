@@ -10,6 +10,11 @@ namespace Occt
 //---------------------------------------------------------------------
 //  Class  BRepLProp
 //---------------------------------------------------------------------
+/// <summary>
+/// These global functions compute the degree of
+/// continuity of a curve built by concatenation of two
+/// edges at their junction point.
+/// </summary>
 public ref class BRepLProp sealed : public BaseClass<::BRepLProp>
 {
 
@@ -38,7 +43,16 @@ public:
 public:
 	BRepLProp();
 	BRepLProp(Macad::Occt::BRepLProp^ parameter1);
+	/// <summary>
+	/// Computes the regularity at the junction between C1 and
+	/// C2. The point u1 on C1 and the point u2 on  C2 must be
+	/// confused.   tl  and ta  are  the  linear  and  angular
+	/// tolerance used two compare the derivative.
+	/// </summary>
 	static Macad::Occt::GeomAbs_Shape Continuity(Macad::Occt::BRepAdaptor_Curve^ C1, Macad::Occt::BRepAdaptor_Curve^ C2, double u1, double u2, double tl, double ta);
+	/// <summary>
+	/// The same as preceding but using the standard tolerances from package Precision.
+	/// </summary>
 	static Macad::Occt::GeomAbs_Shape Continuity(Macad::Occt::BRepAdaptor_Curve^ C1, Macad::Occt::BRepAdaptor_Curve^ C2, double u1, double u2);
 }; // class BRepLProp
 
@@ -73,12 +87,41 @@ public:
 public:
 	BRepLProp_CurveTool();
 	BRepLProp_CurveTool(Macad::Occt::BRepLProp_CurveTool^ parameter1);
+	/// <summary>
+	/// Computes the point <P> of parameter <U> on the curve <C>.
+	/// </summary>
 	static void Value(Macad::Occt::BRepAdaptor_Curve^ C, double U, Macad::Occt::Pnt% P);
+	/// <summary>
+	/// Computes the point <P> and first derivative <V1> of
+	/// parameter <U> on the curve <C>.
+	/// </summary>
 	static void D1(Macad::Occt::BRepAdaptor_Curve^ C, double U, Macad::Occt::Pnt% P, Macad::Occt::Vec% V1);
+	/// <summary>
+	/// Computes the point <P>, the first derivative <V1> and second
+	/// derivative <V2> of parameter <U> on the curve <C>.
+	/// </summary>
 	static void D2(Macad::Occt::BRepAdaptor_Curve^ C, double U, Macad::Occt::Pnt% P, Macad::Occt::Vec% V1, Macad::Occt::Vec% V2);
+	/// <summary>
+	/// Computes the point <P>, the first derivative <V1>, the
+	/// second derivative <V2> and third derivative <V3> of
+	/// parameter <U> on the curve <C>.
+	/// </summary>
 	static void D3(Macad::Occt::BRepAdaptor_Curve^ C, double U, Macad::Occt::Pnt% P, Macad::Occt::Vec% V1, Macad::Occt::Vec% V2, Macad::Occt::Vec% V3);
+	/// <summary>
+	/// returns the order of continuity of the curve <C>.
+	/// returns 1 : first derivative only is computable
+	/// returns 2 : first and second derivative only are computable.
+	/// returns 3 : first, second and third are computable.
+	/// </summary>
 	static int Continuity(Macad::Occt::BRepAdaptor_Curve^ C);
+	/// <summary>
+	/// returns the first parameter bound of the curve.
+	/// </summary>
 	static double FirstParameter(Macad::Occt::BRepAdaptor_Curve^ C);
+	/// <summary>
+	/// returns the last parameter bound of the curve.
+	/// FirstParameter must be less than LastParamenter.
+	/// </summary>
 	static double LastParameter(Macad::Occt::BRepAdaptor_Curve^ C);
 }; // class BRepLProp_CurveTool
 
@@ -111,20 +154,84 @@ public:
 	}
 
 public:
+	/// <summary>
+	/// Initializes the local properties of the curve <C>
+	/// The current point and the derivatives are
+	/// computed at the same time, which allows an
+	/// optimization of the computation time.
+	/// <N> indicates the maximum number of derivations to
+	/// be done (0, 1, 2 or 3). For example, to compute
+	/// only the tangent, N should be equal to 1.
+	/// <Resolution> is the linear tolerance (it is used to test
+	/// if a vector is null).
+	/// </summary>
 	BRepLProp_CLProps(Macad::Occt::BRepAdaptor_Curve^ C, int N, double Resolution);
+	/// <summary>
+	/// Same as previous constructor but here the parameter is
+	/// set to the value <U>.
+	/// All the computations done will be related to <C> and <U>.
+	/// </summary>
 	BRepLProp_CLProps(Macad::Occt::BRepAdaptor_Curve^ C, double U, int N, double Resolution);
+	/// <summary>
+	/// Same as previous constructor but here the parameter is
+	/// set to the value <U> and the curve is set
+	/// with SetCurve.
+	/// the curve can have a empty constructor
+	/// All the computations done will be related to <C> and <U>
+	/// when the functions "set" will be done.
+	/// </summary>
 	BRepLProp_CLProps(int N, double Resolution);
 	BRepLProp_CLProps(Macad::Occt::BRepLProp_CLProps^ parameter1);
+	/// <summary>
+	/// Initializes the local properties of the curve
+	/// for the parameter value <U>.
+	/// </summary>
 	void SetParameter(double U);
+	/// <summary>
+	/// Initializes the local properties of the curve
+	/// for the new curve.
+	/// </summary>
 	void SetCurve(Macad::Occt::BRepAdaptor_Curve^ C);
+	/// <summary>
+	/// Returns the Point.
+	/// </summary>
 	Macad::Occt::Pnt Value();
+	/// <summary>
+	/// Returns the first derivative.
+	/// The derivative is computed if it has not been yet.
+	/// </summary>
 	Macad::Occt::Vec D1();
+	/// <summary>
+	/// Returns the second derivative.
+	/// The derivative is computed if it has not been yet.
+	/// </summary>
 	Macad::Occt::Vec D2();
+	/// <summary>
+	/// Returns the third derivative.
+	/// The derivative is computed if it has not been yet.
+	/// </summary>
 	Macad::Occt::Vec D3();
+	/// <summary>
+	/// Returns True if the tangent is defined.
+	/// For example, the tangent is not defined if the
+	/// three first derivatives are all null.
+	/// </summary>
 	bool IsTangentDefined();
+	/// <summary>
+	/// output  the tangent direction <D>
+	/// </summary>
 	void Tangent(Macad::Occt::Dir% D);
+	/// <summary>
+	/// Returns the curvature.
+	/// </summary>
 	double Curvature();
+	/// <summary>
+	/// Returns the normal direction <N>.
+	/// </summary>
 	void Normal(Macad::Occt::Dir% N);
+	/// <summary>
+	/// Returns the centre of curvature <P>.
+	/// </summary>
 	void CentreOfCurvature(Macad::Occt::Pnt% P);
 }; // class BRepLProp_CLProps
 
@@ -159,11 +266,31 @@ public:
 public:
 	BRepLProp_SurfaceTool();
 	BRepLProp_SurfaceTool(Macad::Occt::BRepLProp_SurfaceTool^ parameter1);
+	/// <summary>
+	/// Computes the point <P> of parameter <U> and <V> on the
+	/// Surface <S>.
+	/// </summary>
 	static void Value(Macad::Occt::BRepAdaptor_Surface^ S, double U, double V, Macad::Occt::Pnt% P);
+	/// <summary>
+	/// Computes the point <P> and first derivative <D1*> of
+	/// parameter <U> and <V> on the Surface <S>.
+	/// </summary>
 	static void D1(Macad::Occt::BRepAdaptor_Surface^ S, double U, double V, Macad::Occt::Pnt% P, Macad::Occt::Vec% D1U, Macad::Occt::Vec% D1V);
+	/// <summary>
+	/// Computes the point <P>, the first derivative <D1*> and second
+	/// derivative <D2*> of parameter <U> and <V> on the Surface <S>.
+	/// </summary>
 	static void D2(Macad::Occt::BRepAdaptor_Surface^ S, double U, double V, Macad::Occt::Pnt% P, Macad::Occt::Vec% D1U, Macad::Occt::Vec% D1V, Macad::Occt::Vec% D2U, Macad::Occt::Vec% D2V, Macad::Occt::Vec% DUV);
 	static Macad::Occt::Vec DN(Macad::Occt::BRepAdaptor_Surface^ S, double U, double V, int IU, int IV);
+	/// <summary>
+	/// returns the order of continuity of the Surface <S>.
+	/// returns 1 : first derivative only is computable
+	/// returns 2 : first and second derivative only are computable.
+	/// </summary>
 	static int Continuity(Macad::Occt::BRepAdaptor_Surface^ S);
+	/// <summary>
+	/// returns the bounds of the Surface.
+	/// </summary>
 	static void Bounds(Macad::Occt::BRepAdaptor_Surface^ S, double% U1, double% V1, double% U2, double% V2);
 }; // class BRepLProp_SurfaceTool
 
@@ -196,30 +323,127 @@ public:
 	}
 
 public:
+	/// <summary>
+	/// Initializes the local properties of the surface <S>
+	/// for the parameter values (<U>, <V>).
+	/// The current point and the derivatives are
+	/// computed at the same time, which allows an
+	/// optimization of the computation time.
+	/// <N> indicates the maximum number of derivations to
+	/// be done (0, 1, or 2). For example, to compute
+	/// only the tangent, N should be equal to 1.
+	/// <Resolution> is the linear tolerance (it is used to test
+	/// if a vector is null).
+	/// </summary>
 	BRepLProp_SLProps(Macad::Occt::BRepAdaptor_Surface^ S, double U, double V, int N, double Resolution);
+	/// <summary>
+	/// idem as previous constructor but without setting the value
+	/// of parameters <U> and <V>.
+	/// </summary>
 	BRepLProp_SLProps(Macad::Occt::BRepAdaptor_Surface^ S, int N, double Resolution);
+	/// <summary>
+	/// idem as previous constructor but without setting the value
+	/// of parameters <U> and <V> and the surface.
+	/// the surface can have an empty constructor.
+	/// </summary>
 	BRepLProp_SLProps(int N, double Resolution);
 	BRepLProp_SLProps(Macad::Occt::BRepLProp_SLProps^ parameter1);
+	/// <summary>
+	/// Initializes the local properties of the surface S
+	/// for the new surface.
+	/// </summary>
 	void SetSurface(Macad::Occt::BRepAdaptor_Surface^ S);
+	/// <summary>
+	/// Initializes the local properties of the surface S
+	/// for the new parameter values (<U>, <V>).
+	/// </summary>
 	void SetParameters(double U, double V);
+	/// <summary>
+	/// Returns the point.
+	/// </summary>
 	Macad::Occt::Pnt Value();
+	/// <summary>
+	/// Returns the first U derivative.
+	/// The derivative is computed if it has not been yet.
+	/// </summary>
 	Macad::Occt::Vec D1U();
+	/// <summary>
+	/// Returns the first V derivative.
+	/// The derivative is computed if it has not been yet.
+	/// </summary>
 	Macad::Occt::Vec D1V();
+	/// <summary>
+	/// Returns the second U derivatives
+	/// The derivative is computed if it has not been yet.
+	/// </summary>
 	Macad::Occt::Vec D2U();
+	/// <summary>
+	/// Returns the second V derivative.
+	/// The derivative is computed if it has not been yet.
+	/// </summary>
 	Macad::Occt::Vec D2V();
+	/// <summary>
+	/// Returns the second UV cross-derivative.
+	/// The derivative is computed if it has not been yet.
+	/// </summary>
 	Macad::Occt::Vec DUV();
+	/// <summary>
+	/// returns True if the U tangent is defined.
+	/// For example, the tangent is not defined if the
+	/// two first U derivatives are null.
+	/// </summary>
 	bool IsTangentUDefined();
+	/// <summary>
+	/// Returns the tangent direction <D> on the iso-V.
+	/// </summary>
 	void TangentU(Macad::Occt::Dir% D);
+	/// <summary>
+	/// returns if the V tangent is defined.
+	/// For example, the tangent is not defined if the
+	/// two first V derivatives are null.
+	/// </summary>
 	bool IsTangentVDefined();
+	/// <summary>
+	/// Returns the tangent direction <D> on the iso-V.
+	/// </summary>
 	void TangentV(Macad::Occt::Dir% D);
+	/// <summary>
+	/// Tells if the normal is defined.
+	/// </summary>
 	bool IsNormalDefined();
+	/// <summary>
+	/// Returns the normal direction.
+	/// </summary>
 	Macad::Occt::Dir Normal();
+	/// <summary>
+	/// returns True if the curvature is defined.
+	/// </summary>
 	bool IsCurvatureDefined();
+	/// <summary>
+	/// returns True if the point is umbilic (i.e. if the
+	/// curvature is constant).
+	/// </summary>
 	bool IsUmbilic();
+	/// <summary>
+	/// Returns the maximum curvature
+	/// </summary>
 	double MaxCurvature();
+	/// <summary>
+	/// Returns the minimum curvature
+	/// </summary>
 	double MinCurvature();
+	/// <summary>
+	/// Returns the direction of the maximum and minimum curvature
+	/// <MaxD> and <MinD>
+	/// </summary>
 	void CurvatureDirections(Macad::Occt::Dir% MaxD, Macad::Occt::Dir% MinD);
+	/// <summary>
+	/// Returns the mean curvature.
+	/// </summary>
 	double MeanCurvature();
+	/// <summary>
+	/// Returns the Gaussian curvature
+	/// </summary>
 	double GaussianCurvature();
 }; // class BRepLProp_SLProps
 

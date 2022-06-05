@@ -50,11 +50,21 @@ namespace Macad.Occt.Generator
 
         //--------------------------------------------------------------------------------------------------
 
+        public class CommentDefintion
+        {
+            public string Filename;
+            public uint BeginOffset;
+            public uint EndOffset;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public class ClassDefinition
         {
             public string Name;
             public string BaseClassName;
             public string Package;
+            public CommentDefintion Comment;
 
             public bool IsStruct;
             public bool IsBase;
@@ -218,6 +228,7 @@ namespace Macad.Occt.Generator
             public string Name;
             public string Package;
             public ClassDefinition OuterClass;
+            public CommentDefintion Comment;
 
             public Dictionary<string, string> Enumerators = new Dictionary<string, string>();
 
@@ -237,6 +248,7 @@ namespace Macad.Occt.Generator
         public class FunctionDefintion
         {
             public string Name;
+            public CommentDefintion Comment;
 
             public TypeDefinition Type;
             public bool IsStatic;

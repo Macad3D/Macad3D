@@ -11,6 +11,10 @@ namespace Occt
 //---------------------------------------------------------------------
 //  Enum  Quantity_NameOfColor
 //---------------------------------------------------------------------
+/// <summary>
+/// Definition of names of known colors.
+/// The names come (mostly) from the X11 specification.
+/// </summary>
 public enum class Quantity_NameOfColor
 {
 	Quantity_NOC_BLACK = 0,
@@ -539,6 +543,9 @@ public enum class Quantity_NameOfColor
 //---------------------------------------------------------------------
 //  Enum  Quantity_TypeOfColor
 //---------------------------------------------------------------------
+/// <summary>
+/// Identifies color definition systems.
+/// </summary>
 public enum class Quantity_TypeOfColor
 {
 	Quantity_TOC_RGB = 0,
@@ -551,6 +558,9 @@ public enum class Quantity_TypeOfColor
 //---------------------------------------------------------------------
 //  Enum  Quantity_PhysicalQuantity
 //---------------------------------------------------------------------
+/// <summary>
+/// List of all physical quantities(Afnor)
+/// </summary>
 public enum class Quantity_PhysicalQuantity
 {
 	Quantity_MASS = 0,
@@ -732,6 +742,9 @@ public:
 //---------------------------------------------------------------------
 //  Class  Quantity_ColorHasher
 //---------------------------------------------------------------------
+/// <summary>
+/// Hasher of Quantity_Color.
+/// </summary>
 public ref class Quantity_ColorHasher sealed : public BaseClass<::Quantity_ColorHasher>
 {
 
@@ -760,13 +773,31 @@ public:
 public:
 	Quantity_ColorHasher();
 	Quantity_ColorHasher(Macad::Occt::Quantity_ColorHasher^ parameter1);
+	/// <summary>
+	/// Returns hash code for the given RGB color, in the range [1, theUpperBound]
+	/// </summary>
+	/// <param name="theColor">
+	/// the RGB color object which hash code is to be computed
+	/// </param>
+	/// <param name="theUpperBound">
+	/// the upper bound of the range a computing range must be within
+	/// </param>
+	/// <returns>
+	/// a computed hash code, in the range [1, theUpperBound]
+	/// </returns>
 	static int HashCode(Macad::Occt::Quantity_Color^ theColor, int theUpperBound);
+	/// <summary>
+	/// Returns true if two colors are equal.
+	/// </summary>
 	static bool IsEqual(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2);
 }; // class Quantity_ColorHasher
 
 //---------------------------------------------------------------------
 //  Class  Quantity_ColorRGBAHasher
 //---------------------------------------------------------------------
+/// <summary>
+/// Hasher of Quantity_ColorRGBA.
+/// </summary>
 public ref class Quantity_ColorRGBAHasher sealed : public BaseClass<::Quantity_ColorRGBAHasher>
 {
 
@@ -795,13 +826,36 @@ public:
 public:
 	Quantity_ColorRGBAHasher();
 	Quantity_ColorRGBAHasher(Macad::Occt::Quantity_ColorRGBAHasher^ parameter1);
+	/// <summary>
+	/// Returns hash code for the given RGBA color, in the range [1, theUpperBound]
+	/// </summary>
+	/// <param name="theColor">
+	/// the RGBA color object which hash code is to be computed
+	/// </param>
+	/// <param name="theUpperBound">
+	/// the upper bound of the range a computing hash code must be within
+	/// </param>
+	/// <returns>
+	/// a computed hash code, in the range [1, theUpperBound]
+	/// </returns>
 	static int HashCode(Macad::Occt::Quantity_ColorRGBA^ theColor, int theUpperBound);
+	/// <summary>
+	/// Returns true if two colors are equal.
+	/// </summary>
 	static bool IsEqual(Macad::Occt::Quantity_ColorRGBA^ theColor1, Macad::Occt::Quantity_ColorRGBA^ theColor2);
 }; // class Quantity_ColorRGBAHasher
 
 //---------------------------------------------------------------------
 //  Class  Quantity_Color
 //---------------------------------------------------------------------
+/// <summary>
+/// This class allows the definition of an RGB color as triplet of 3 normalized floating point values (red, green, blue).
+/// 
+/// Although Quantity_Color can be technically used for pass-through storage of RGB triplet in any color space,
+/// other OCCT interfaces taking/returning Quantity_Color would expect them in linear space.
+/// Therefore, take a look into methods converting to and from non-linear sRGB color space, if needed;
+/// for instance, application usually providing color picking within 0..255 range in sRGB color space.
+/// </summary>
 public ref class Quantity_Color sealed : public BaseClass<::Quantity_Color>
 {
 
@@ -828,69 +882,286 @@ public:
 	}
 
 public:
+	/// <summary>
+	/// Creates Quantity_NOC_YELLOW color (for historical reasons).
+	/// </summary>
 	Quantity_Color();
+	/// <summary>
+	/// Creates the color from enumeration value.
+	/// </summary>
 	Quantity_Color(Macad::Occt::Quantity_NameOfColor theName);
+	/// <summary>
+	/// Creates a color according to the definition system theType.
+	/// Throws exception if values are out of range.
+	/// </summary>
 	Quantity_Color(double theC1, double theC2, double theC3, Macad::Occt::Quantity_TypeOfColor theType);
+	/// <summary>
+	/// Define color from linear RGB values.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Quantity_Color(NCollection_Vec3<float> theRgb, ) */
 	Quantity_Color(Macad::Occt::Quantity_Color^ parameter1);
+	/// <summary>
+	/// Returns the name of the nearest color from the Quantity_NameOfColor enumeration.
+	/// </summary>
 	Macad::Occt::Quantity_NameOfColor Name();
+	/// <summary>
+	/// Updates the color from specified named color.
+	/// </summary>
 	void SetValues(Macad::Occt::Quantity_NameOfColor theName);
+	/// <summary>
+	/// Return the color as vector of 3 float elements.
+	/// </summary>
 	/* Method skipped due to unknown mapping: NCollection_Vec3<float> Rgb() */
+	/// <summary>
+	/// Returns in theC1, theC2 and theC3 the components of this color
+	/// according to the color system definition theType.
+	/// </summary>
 	void Values(double% theC1, double% theC2, double% theC3, Macad::Occt::Quantity_TypeOfColor theType);
+	/// <summary>
+	/// Updates a color according to the mode specified by theType.
+	/// Throws exception if values are out of range.
+	/// </summary>
 	void SetValues(double theC1, double theC2, double theC3, Macad::Occt::Quantity_TypeOfColor theType);
+	/// <summary>
+	/// Returns the Red component (quantity of red) of the color within range [0.0; 1.0].
+	/// </summary>
 	double Red();
+	/// <summary>
+	/// Returns the Green component (quantity of green) of the color within range [0.0; 1.0].
+	/// </summary>
 	double Green();
+	/// <summary>
+	/// Returns the Blue component (quantity of blue) of the color within range [0.0; 1.0].
+	/// </summary>
 	double Blue();
+	/// <summary>
+	/// Returns the Hue component (hue angle) of the color
+	/// in degrees within range [0.0; 360.0], 0.0 being Red.
+	/// -1.0 is a special value reserved for grayscale color (S should be 0.0)
+	/// </summary>
 	double Hue();
+	/// <summary>
+	/// Returns the Light component (value of the lightness) of the color within range [0.0; 1.0].
+	/// </summary>
 	double Light();
+	/// <summary>
+	/// Increases or decreases the intensity (variation of the lightness).
+	/// The delta is a percentage. Any value greater than zero will increase the intensity.
+	/// The variation is expressed as a percentage of the current value.
+	/// </summary>
 	void ChangeIntensity(double theDelta);
+	/// <summary>
+	/// Returns the Saturation component (value of the saturation) of the color within range [0.0; 1.0].
+	/// </summary>
 	double Saturation();
+	/// <summary>
+	/// Increases or decreases the contrast (variation of the saturation).
+	/// The delta is a percentage. Any value greater than zero will increase the contrast.
+	/// The variation is expressed as a percentage of the current value.
+	/// </summary>
 	void ChangeContrast(double theDelta);
+	/// <summary>
+	/// Returns TRUE if the distance between two colors is greater than Epsilon().
+	/// </summary>
 	bool IsDifferent(Macad::Occt::Quantity_Color^ theOther);
+	/// <summary>
+	/// Returns TRUE if the distance between two colors is no greater than Epsilon().
+	/// </summary>
 	bool IsEqual(Macad::Occt::Quantity_Color^ theOther);
+	/// <summary>
+	/// Returns the distance between two colors. It's a value between 0 and the square root of 3 (the black/white distance).
+	/// </summary>
 	double Distance(Macad::Occt::Quantity_Color^ theColor);
+	/// <summary>
+	/// Returns the square of distance between two colors.
+	/// </summary>
 	double SquareDistance(Macad::Occt::Quantity_Color^ theColor);
+	/// <summary>
+	/// Returns the percentage change of contrast and intensity between this and another color.
+	/// <DC> and <DI> are percentages, either positive or negative.
+	/// The calculation is with respect to this color.
+	/// If <DC> is positive then <me> is more contrasty.
+	/// If <DI> is positive then <me> is more intense.
+	/// </summary>
 	void Delta(Macad::Occt::Quantity_Color^ theColor, double% DC, double% DI);
+	/// <summary>
+	/// Returns the value of the perceptual difference between this color
+	/// and @p theOther, computed using the CIEDE2000 formula.
+	/// The difference is in range [0, 100.], with 1 approximately corresponding
+	/// to the minimal percievable difference (usually difference 5 or greater is
+	/// needed for the difference to be recognizable in practice).
+	/// </summary>
 	double DeltaE2000(Macad::Occt::Quantity_Color^ theOther);
+	/// <summary>
+	/// Returns the color from Quantity_NameOfColor enumeration nearest to specified RGB values.
+	/// </summary>
 	static Macad::Occt::Quantity_NameOfColor Name(double theR, double theG, double theB);
+	/// <summary>
+	/// Returns the name of the color identified by the given Quantity_NameOfColor enumeration value.
+	/// </summary>
 	static System::String^ StringName(Macad::Occt::Quantity_NameOfColor theColor);
+	/// <summary>
+	/// Finds color from predefined names.
+	/// For example, the name of the color which corresponds to "BLACK" is Quantity_NOC_BLACK.
+	/// Returns FALSE if name is unknown.
+	/// </summary>
 	static bool ColorFromName(System::String^ theName, Macad::Occt::Quantity_NameOfColor% theColor);
+	/// <summary>
+	/// Finds color from predefined names.
+	/// </summary>
+	/// <param name="theColorNameString">
+	/// the color name
+	/// </param>
+	/// <param name="theColor">
+	/// a found color
+	/// </param>
+	/// <returns>
+	/// false if the color name is unknown, or true if the search by color name was successful
+	/// </returns>
 	static bool ColorFromName(System::String^ theColorNameString, Macad::Occt::Quantity_Color^ theColor);
+	/// <summary>
+	/// Parses the string as a hex color (like "#FF0" for short sRGB color, or "#FFFF00" for sRGB color)
+	/// </summary>
+	/// <param name="theHexColorString">
+	/// the string to be parsed
+	/// </param>
+	/// <param name="theColor">
+	/// a color that is a result of parsing
+	/// </param>
+	/// <returns>
+	/// true if parsing was successful, or false otherwise
+	/// </returns>
 	static bool ColorFromHex(System::String^ theHexColorString, Macad::Occt::Quantity_Color^ theColor);
+	/// <summary>
+	/// Returns hex sRGB string in format "#FFAAFF".
+	/// </summary>
 	static Macad::Occt::TCollection_AsciiString^ ColorToHex(Macad::Occt::Quantity_Color^ theColor, bool theToPrefixHash);
+	/// <summary>
+	/// Returns hex sRGB string in format "#FFAAFF".
+	/// </summary>
 	static Macad::Occt::TCollection_AsciiString^ ColorToHex(Macad::Occt::Quantity_Color^ theColor);
+	/// <summary>
+	/// Converts sRGB components into HLS ones.
+	/// </summary>
 	/* Method skipped due to unknown mapping: NCollection_Vec3<float> Convert_sRGB_To_HLS(NCollection_Vec3<float> theRgb, ) */
+	/// <summary>
+	/// Converts HLS components into RGB ones.
+	/// </summary>
 	/* Method skipped due to unknown mapping: NCollection_Vec3<float> Convert_HLS_To_sRGB(NCollection_Vec3<float> theHls, ) */
+	/// <summary>
+	/// Converts Linear RGB components into HLS ones.
+	/// </summary>
 	/* Method skipped due to unknown mapping: NCollection_Vec3<float> Convert_LinearRGB_To_HLS(NCollection_Vec3<float> theRgb, ) */
+	/// <summary>
+	/// Converts HLS components into linear RGB ones.
+	/// </summary>
 	/* Method skipped due to unknown mapping: NCollection_Vec3<float> Convert_HLS_To_LinearRGB(NCollection_Vec3<float> theHls, ) */
+	/// <summary>
+	/// Converts linear RGB components into CIE Lab ones.
+	/// </summary>
 	/* Method skipped due to unknown mapping: NCollection_Vec3<float> Convert_LinearRGB_To_Lab(NCollection_Vec3<float> theRgb, ) */
+	/// <summary>
+	/// Converts CIE Lab components into CIE Lch ones.
+	/// </summary>
 	/* Method skipped due to unknown mapping: NCollection_Vec3<float> Convert_Lab_To_Lch(NCollection_Vec3<float> theLab, ) */
+	/// <summary>
+	/// Converts CIE Lab components into linear RGB ones.
+	/// Note that the resulting values may be out of the valid range for RGB.
+	/// </summary>
 	/* Method skipped due to unknown mapping: NCollection_Vec3<float> Convert_Lab_To_LinearRGB(NCollection_Vec3<float> theLab, ) */
+	/// <summary>
+	/// Converts CIE Lch components into CIE Lab ones.
+	/// </summary>
 	/* Method skipped due to unknown mapping: NCollection_Vec3<float> Convert_Lch_To_Lab(NCollection_Vec3<float> theLch, ) */
+	/// <summary>
+	/// Convert the color value to ARGB integer value, with alpha equals to 0.
+	/// So the output is formatted as 0x00RRGGBB.
+	/// Note that this unpacking does NOT involve non-linear sRGB -> linear RGB conversion,
+	/// as would be usually expected for RGB color packed into 4 bytes.
+	/// </summary>
+	/// <param name="theColor">
+	/// [in] color to convert
+	/// </param>
+	/// <param name="theARGB">
+	/// [out] result color encoded as integer
+	/// </param>
 	static void Color2argb(Macad::Occt::Quantity_Color^ theColor, int% theARGB);
+	/// <summary>
+	/// Convert integer ARGB value to Color. Alpha bits are ignored.
+	/// Note that this packing does NOT involve linear -> non-linear sRGB conversion,
+	/// as would be usually expected to preserve higher (for human eye) color precision in 4 bytes.
+	/// </summary>
 	static void Argb2color(int theARGB, Macad::Occt::Quantity_Color^ theColor);
+	/// <summary>
+	/// Convert linear RGB component into sRGB using OpenGL specs formula (double precision), also known as gamma correction.
+	/// </summary>
 	static double Convert_LinearRGB_To_sRGB(double theLinearValue);
+	/// <summary>
+	/// Convert linear RGB component into sRGB using OpenGL specs formula (single precision), also known as gamma correction.
+	/// </summary>
 	static float Convert_LinearRGB_To_sRGB(float theLinearValue);
+	/// <summary>
+	/// Convert sRGB component into linear RGB using OpenGL specs formula (double precision), also known as gamma correction.
+	/// </summary>
 	static double Convert_sRGB_To_LinearRGB(double thesRGBValue);
+	/// <summary>
+	/// Convert sRGB component into linear RGB using OpenGL specs formula (single precision), also known as gamma correction.
+	/// </summary>
 	static float Convert_sRGB_To_LinearRGB(float thesRGBValue);
 	/* Method skipped due to unknown mapping: NCollection_Vec3<float> Convert_LinearRGB_To_sRGB(NCollection_Vec3<float> theRGB, ) */
 	/* Method skipped due to unknown mapping: NCollection_Vec3<float> Convert_sRGB_To_LinearRGB(NCollection_Vec3<float> theRGB, ) */
+	/// <summary>
+	/// Convert linear RGB component into sRGB using approximated uniform gamma coefficient 2.2.
+	/// </summary>
 	static float Convert_LinearRGB_To_sRGB_approx22(float theLinearValue);
+	/// <summary>
+	/// Convert sRGB component into linear RGB using approximated uniform gamma coefficient 2.2
+	/// </summary>
 	static float Convert_sRGB_To_LinearRGB_approx22(float thesRGBValue);
+	/// <summary>
+	/// Convert linear RGB components into sRGB using approximated uniform gamma coefficient 2.2
+	/// </summary>
 	/* Method skipped due to unknown mapping: NCollection_Vec3<float> Convert_LinearRGB_To_sRGB_approx22(NCollection_Vec3<float> theRGB, ) */
+	/// <summary>
+	/// Convert sRGB components into linear RGB using approximated uniform gamma coefficient 2.2
+	/// </summary>
 	/* Method skipped due to unknown mapping: NCollection_Vec3<float> Convert_sRGB_To_LinearRGB_approx22(NCollection_Vec3<float> theRGB, ) */
+	/// <summary>
+	/// Converts HLS components into sRGB ones.
+	/// </summary>
 	static void HlsRgb(double theH, double theL, double theS, double% theR, double% theG, double% theB);
+	/// <summary>
+	/// Converts sRGB components into HLS ones.
+	/// </summary>
 	static void RgbHls(double theR, double theG, double theB, double% theH, double% theL, double% theS);
+	/// <summary>
+	/// Returns the value used to compare two colors for equality; 0.0001 by default.
+	/// </summary>
 	static double Epsilon();
+	/// <summary>
+	/// Set the value used to compare two colors for equality.
+	/// </summary>
 	static void SetEpsilon(double theEpsilon);
+	/// <summary>
+	/// Dumps the content of me into the stream
+	/// </summary>
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/// <summary>
+	/// Dumps the content of me into the stream
+	/// </summary>
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/// <summary>
+	/// Inits the content of me from the stream
+	/// </summary>
 	/* Method skipped due to unknown mapping: Standard_Boolean InitFromJson(stringstream theSStream, Standard_Integer theStreamPos, ) */
 }; // class Quantity_Color
 
 //---------------------------------------------------------------------
 //  Class  Quantity_ColorRGBA
 //---------------------------------------------------------------------
+/// <summary>
+/// The pair of Quantity_Color and Alpha component (1.0 opaque, 0.0 transparent).
+/// </summary>
 public ref class Quantity_ColorRGBA sealed : public BaseClass<::Quantity_ColorRGBA>
 {
 
@@ -917,29 +1188,137 @@ public:
 	}
 
 public:
+	/// <summary>
+	/// Creates a color with the default value.
+	/// </summary>
 	Quantity_ColorRGBA();
+	/// <summary>
+	/// Creates the color with specified RGB value.
+	/// </summary>
 	Quantity_ColorRGBA(Macad::Occt::Quantity_Color^ theRgb);
+	/// <summary>
+	/// Creates the color with specified RGBA values.
+	/// </summary>
 	Quantity_ColorRGBA(Macad::Occt::Quantity_Color^ theRgb, float theAlpha);
+	/// <summary>
+	/// Creates the color from RGBA vector.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Quantity_ColorRGBA(NCollection_Vec4<float> theRgba, ) */
+	/// <summary>
+	/// Creates the color from RGBA values.
+	/// </summary>
 	Quantity_ColorRGBA(float theRed, float theGreen, float theBlue, float theAlpha);
 	Quantity_ColorRGBA(Macad::Occt::Quantity_ColorRGBA^ parameter1);
+	/// <summary>
+	/// Assign new values to the color.
+	/// </summary>
 	void SetValues(float theRed, float theGreen, float theBlue, float theAlpha);
+	/// <summary>
+	/// Return RGB color value.
+	/// </summary>
 	Macad::Occt::Quantity_Color^ GetRGB();
+	/// <summary>
+	/// Modify RGB color components without affecting alpha value.
+	/// </summary>
 	Macad::Occt::Quantity_Color^ ChangeRGB();
+	/// <summary>
+	/// Assign RGB color components without affecting alpha value.
+	/// </summary>
 	void SetRGB(Macad::Occt::Quantity_Color^ theRgb);
+	/// <summary>
+	/// Return alpha value (1.0 means opaque, 0.0 means fully transparent).
+	/// </summary>
 	float Alpha();
+	/// <summary>
+	/// Assign the alpha value.
+	/// </summary>
 	void SetAlpha(float theAlpha);
+	/// <summary>
+	/// Returns true if the distance between colors is greater than Epsilon().
+	/// </summary>
 	bool IsDifferent(Macad::Occt::Quantity_ColorRGBA^ theOther);
+	/// <summary>
+	/// Two colors are considered to be equal if their distance is no greater than Epsilon().
+	/// </summary>
 	bool IsEqual(Macad::Occt::Quantity_ColorRGBA^ theOther);
+	/// <summary>
+	/// Finds color from predefined names.
+	/// For example, the name of the color which corresponds to "BLACK" is Quantity_NOC_BLACK.
+	/// An alpha component is set to 1.0.
+	/// </summary>
+	/// <param name="theColorNameString">
+	/// the color name
+	/// </param>
+	/// <param name="theColor">
+	/// a found color
+	/// </param>
+	/// <returns>
+	/// false if the color name is unknown, or true if the search by color name was successful
+	/// </returns>
 	static bool ColorFromName(System::String^ theColorNameString, Macad::Occt::Quantity_ColorRGBA^ theColor);
+	/// <summary>
+	/// Parses the string as a hex color (like "#FF0" for short sRGB color, "#FF0F" for short sRGBA color,
+	/// "#FFFF00" for RGB color, or "#FFFF00FF" for RGBA color)
+	/// </summary>
+	/// <param name="theHexColorString">
+	/// the string to be parsed
+	/// </param>
+	/// <param name="theColor">
+	/// a color that is a result of parsing
+	/// </param>
+	/// <param name="theAlphaComponentIsOff">
+	/// the flag that indicates if a color alpha component is presented
+	/// in the input string (false) or not (true)
+	/// </param>
+	/// <returns>
+	/// true if parsing was successful, or false otherwise
+	/// </returns>
 	static bool ColorFromHex(char theHexColorString, Macad::Occt::Quantity_ColorRGBA^ theColor, bool theAlphaComponentIsOff);
+	/// <summary>
+	/// Parses the string as a hex color (like "#FF0" for short sRGB color, "#FF0F" for short sRGBA color,
+	/// "#FFFF00" for RGB color, or "#FFFF00FF" for RGBA color)
+	/// </summary>
+	/// <param name="theHexColorString">
+	/// the string to be parsed
+	/// </param>
+	/// <param name="theColor">
+	/// a color that is a result of parsing
+	/// </param>
+	/// <param name="theAlphaComponentIsOff">
+	/// the flag that indicates if a color alpha component is presented
+	/// in the input string (false) or not (true)
+	/// </param>
+	/// <returns>
+	/// true if parsing was successful, or false otherwise
+	/// </returns>
 	static bool ColorFromHex(char theHexColorString, Macad::Occt::Quantity_ColorRGBA^ theColor);
+	/// <summary>
+	/// Returns hex sRGBA string in format "#RRGGBBAA".
+	/// </summary>
 	static Macad::Occt::TCollection_AsciiString^ ColorToHex(Macad::Occt::Quantity_ColorRGBA^ theColor, bool theToPrefixHash);
+	/// <summary>
+	/// Returns hex sRGBA string in format "#RRGGBBAA".
+	/// </summary>
 	static Macad::Occt::TCollection_AsciiString^ ColorToHex(Macad::Occt::Quantity_ColorRGBA^ theColor);
+	/// <summary>
+	/// Convert linear RGB components into sRGB using OpenGL specs formula.
+	/// </summary>
 	/* Method skipped due to unknown mapping: NCollection_Vec4<float> Convert_LinearRGB_To_sRGB(NCollection_Vec4<float> theRGB, ) */
+	/// <summary>
+	/// Convert sRGB components into linear RGB using OpenGL specs formula.
+	/// </summary>
 	/* Method skipped due to unknown mapping: NCollection_Vec4<float> Convert_sRGB_To_LinearRGB(NCollection_Vec4<float> theRGB, ) */
+	/// <summary>
+	/// Dumps the content of me into the stream
+	/// </summary>
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/// <summary>
+	/// Dumps the content of me into the stream
+	/// </summary>
 	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+	/// <summary>
+	/// Inits the content of me from the stream
+	/// </summary>
 	/* Method skipped due to unknown mapping: Standard_Boolean InitFromJson(stringstream theSStream, Standard_Integer theStreamPos, ) */
 }; // class Quantity_ColorRGBA
 
@@ -989,6 +1368,11 @@ public:
 //---------------------------------------------------------------------
 //  Class  Quantity_Period
 //---------------------------------------------------------------------
+/// <summary>
+/// Manages date intervals. For example, a Period object
+/// gives the interval between two dates.
+/// A period is expressed in seconds and microseconds.
+/// </summary>
 public ref class Quantity_Period sealed : public BaseClass<::Quantity_Period>
 {
 
@@ -1015,34 +1399,208 @@ public:
 	}
 
 public:
+	/// <summary>
+	/// Creates a Period
+	/// With:      0 <= dd
+	/// 0 <= hh
+	/// 0 <= mn
+	/// 0 <= ss
+	/// 0 <= mis
+	/// 0 <= mics
+	/// </summary>
 	Quantity_Period(int dd, int hh, int mn, int ss, int mis, int mics);
+	/// <summary>
+	/// Creates a Period
+	/// With:      0 <= dd
+	/// 0 <= hh
+	/// 0 <= mn
+	/// 0 <= ss
+	/// 0 <= mis
+	/// 0 <= mics
+	/// </summary>
 	Quantity_Period(int dd, int hh, int mn, int ss, int mis);
+	/// <summary>
+	/// Creates a Period
+	/// With:      0 <= dd
+	/// 0 <= hh
+	/// 0 <= mn
+	/// 0 <= ss
+	/// 0 <= mis
+	/// 0 <= mics
+	/// </summary>
 	Quantity_Period(int dd, int hh, int mn, int ss);
+	/// <summary>
+	/// Creates a Period with a number of seconds and microseconds.
+	/// Exceptions
+	/// Quantity_PeriodDefinitionError:
+	/// -   if the number of seconds expressed either by:
+	/// -   dd days, hh hours, mn minutes and ss seconds, or
+	/// -   Ss
+	/// is less than 0.
+	/// -   if the number of microseconds expressed either by:
+	/// -   mis milliseconds and mics microseconds, or
+	/// -   Mics
+	/// is less than 0.
+	/// </summary>
 	Quantity_Period(int ss, int mics);
+	/// <summary>
+	/// Creates a Period with a number of seconds and microseconds.
+	/// Exceptions
+	/// Quantity_PeriodDefinitionError:
+	/// -   if the number of seconds expressed either by:
+	/// -   dd days, hh hours, mn minutes and ss seconds, or
+	/// -   Ss
+	/// is less than 0.
+	/// -   if the number of microseconds expressed either by:
+	/// -   mis milliseconds and mics microseconds, or
+	/// -   Mics
+	/// is less than 0.
+	/// </summary>
 	Quantity_Period(int ss);
 	Quantity_Period(Macad::Occt::Quantity_Period^ parameter1);
+	/// <summary>
+	/// Decomposes this period into a number of days,hours,
+	/// minutes,seconds,milliseconds and microseconds
+	/// Example of return values:
+	/// 2 days, 15 hours, 0 minute , 0 second
+	/// 0 millisecond and 0 microsecond
+	/// </summary>
 	void Values(int% dd, int% hh, int% mn, int% ss, int% mis, int% mics);
+	/// <summary>
+	/// Returns the number of seconds in Ss and the
+	/// number of remainding microseconds in Mics of this period.
+	/// Example of return values: 3600 seconds and 0 microseconds
+	/// </summary>
 	void Values(int% ss, int% mics);
+	/// <summary>
+	/// Assigns to this period the time interval defined
+	/// -   with dd days, hh hours, mn minutes, ss
+	/// seconds, mis (defaulted to 0) milliseconds and
+	/// mics (defaulted to 0) microseconds; or
+	/// </summary>
 	void SetValues(int dd, int hh, int mn, int ss, int mis, int mics);
+	/// <summary>
+	/// Assigns to this period the time interval defined
+	/// -   with dd days, hh hours, mn minutes, ss
+	/// seconds, mis (defaulted to 0) milliseconds and
+	/// mics (defaulted to 0) microseconds; or
+	/// </summary>
 	void SetValues(int dd, int hh, int mn, int ss, int mis);
+	/// <summary>
+	/// Assigns to this period the time interval defined
+	/// -   with dd days, hh hours, mn minutes, ss
+	/// seconds, mis (defaulted to 0) milliseconds and
+	/// mics (defaulted to 0) microseconds; or
+	/// </summary>
 	void SetValues(int dd, int hh, int mn, int ss);
+	/// <summary>
+	/// Assigns to this period the time interval defined
+	/// -   with Ss seconds and Mics (defaulted to 0) microseconds.
+	/// Exceptions
+	/// Quantity_PeriodDefinitionError:
+	/// -   if the number of seconds expressed either by:
+	/// -   dd days, hh hours, mn minutes and ss seconds, or
+	/// -   Ss
+	/// is less than 0.
+	/// -   if the number of microseconds expressed either by:
+	/// -   mis milliseconds and mics microseconds, or
+	/// -   Mics
+	/// is less than 0.
+	/// </summary>
 	void SetValues(int ss, int mics);
+	/// <summary>
+	/// Assigns to this period the time interval defined
+	/// -   with Ss seconds and Mics (defaulted to 0) microseconds.
+	/// Exceptions
+	/// Quantity_PeriodDefinitionError:
+	/// -   if the number of seconds expressed either by:
+	/// -   dd days, hh hours, mn minutes and ss seconds, or
+	/// -   Ss
+	/// is less than 0.
+	/// -   if the number of microseconds expressed either by:
+	/// -   mis milliseconds and mics microseconds, or
+	/// -   Mics
+	/// is less than 0.
+	/// </summary>
 	void SetValues(int ss);
+	/// <summary>
+	/// Subtracts one Period from another and returns the difference.
+	/// </summary>
 	Macad::Occt::Quantity_Period^ Subtract(Macad::Occt::Quantity_Period^ anOther);
+	/// <summary>
+	/// Adds one Period to another one.
+	/// </summary>
 	Macad::Occt::Quantity_Period^ Add(Macad::Occt::Quantity_Period^ anOther);
+	/// <summary>
+	/// Returns TRUE if both <me> and <other> are equal.
+	/// </summary>
 	bool IsEqual(Macad::Occt::Quantity_Period^ anOther);
+	/// <summary>
+	/// Returns TRUE if <me> is shorter than <other>.
+	/// </summary>
 	bool IsShorter(Macad::Occt::Quantity_Period^ anOther);
+	/// <summary>
+	/// Returns TRUE if <me> is longer then <other>.
+	/// </summary>
 	bool IsLonger(Macad::Occt::Quantity_Period^ anOther);
+	/// <summary>
+	/// Checks the validity of a Period in form (dd,hh,mn,ss,mil,mic)
+	/// With:      0 <= dd
+	/// 0 <= hh
+	/// 0 <= mn
+	/// 0 <= ss
+	/// 0 <= mis
+	/// 0 <= mics
+	/// </summary>
 	static bool IsValid(int dd, int hh, int mn, int ss, int mis, int mics);
+	/// <summary>
+	/// Checks the validity of a Period in form (dd,hh,mn,ss,mil,mic)
+	/// With:      0 <= dd
+	/// 0 <= hh
+	/// 0 <= mn
+	/// 0 <= ss
+	/// 0 <= mis
+	/// 0 <= mics
+	/// </summary>
 	static bool IsValid(int dd, int hh, int mn, int ss, int mis);
+	/// <summary>
+	/// Checks the validity of a Period in form (dd,hh,mn,ss,mil,mic)
+	/// With:      0 <= dd
+	/// 0 <= hh
+	/// 0 <= mn
+	/// 0 <= ss
+	/// 0 <= mis
+	/// 0 <= mics
+	/// </summary>
 	static bool IsValid(int dd, int hh, int mn, int ss);
+	/// <summary>
+	/// Checks the validity of a Period in form (ss,mic)
+	/// With:      0 <= ss
+	/// 0 <= mics
+	/// </summary>
 	static bool IsValid(int ss, int mics);
+	/// <summary>
+	/// Checks the validity of a Period in form (ss,mic)
+	/// With:      0 <= ss
+	/// 0 <= mics
+	/// </summary>
 	static bool IsValid(int ss);
 }; // class Quantity_Period
 
 //---------------------------------------------------------------------
 //  Class  Quantity_Date
 //---------------------------------------------------------------------
+/// <summary>
+/// This class provides services to manage date information.
+/// A date represents the following time intervals:
+/// year, month, day, hour, minute, second,
+/// millisecond and microsecond.
+/// Current time is expressed in elapsed seconds
+/// and microseconds beginning from 00:00 GMT,
+/// January 1, 1979 (zero hour). The valid date can
+/// only be later than this one.
+/// Note: a Period object gives the interval between two dates.
+/// </summary>
 public ref class Quantity_Date sealed : public BaseClass<::Quantity_Date>
 {
 
@@ -1069,32 +1627,236 @@ public:
 	}
 
 public:
+	/// <summary>
+	/// Constructs a default date
+	/// (00:00 GMT, January 1, 1979 (zero hour)); use the function
+	/// SetValues to define the required date; or
+	/// </summary>
 	Quantity_Date();
+	/// <summary>
+	/// Constructs a date from the year yyyy, the
+	/// month mm, the day dd, the hour hh, the minute
+	/// mn, the second ss, the millisecond mis
+	/// (defaulted to 0) and the microsecond mics (defaulted to 0)..
+	/// With:      1 <= mm <= 12
+	/// 1 <= dd <= max number of days of <mm>
+	/// 1979 <= yyyy
+	/// 0 <= hh <= 23
+	/// 0 <= mn <= 59
+	/// 0 <= ss <= 59
+	/// 0 <= mis <= 999
+	/// 0 <= mics <= 999
+	/// Exceptions
+	/// Quantity_DateDefinitionError if mm, dd, hh,
+	/// mn, ss, mis and mics are not the components of the valid date.
+	/// </summary>
 	Quantity_Date(int mm, int dd, int yyyy, int hh, int mn, int ss, int mis, int mics);
+	/// <summary>
+	/// Constructs a date from the year yyyy, the
+	/// month mm, the day dd, the hour hh, the minute
+	/// mn, the second ss, the millisecond mis
+	/// (defaulted to 0) and the microsecond mics (defaulted to 0)..
+	/// With:      1 <= mm <= 12
+	/// 1 <= dd <= max number of days of <mm>
+	/// 1979 <= yyyy
+	/// 0 <= hh <= 23
+	/// 0 <= mn <= 59
+	/// 0 <= ss <= 59
+	/// 0 <= mis <= 999
+	/// 0 <= mics <= 999
+	/// Exceptions
+	/// Quantity_DateDefinitionError if mm, dd, hh,
+	/// mn, ss, mis and mics are not the components of the valid date.
+	/// </summary>
 	Quantity_Date(int mm, int dd, int yyyy, int hh, int mn, int ss, int mis);
+	/// <summary>
+	/// Constructs a date from the year yyyy, the
+	/// month mm, the day dd, the hour hh, the minute
+	/// mn, the second ss, the millisecond mis
+	/// (defaulted to 0) and the microsecond mics (defaulted to 0)..
+	/// With:      1 <= mm <= 12
+	/// 1 <= dd <= max number of days of <mm>
+	/// 1979 <= yyyy
+	/// 0 <= hh <= 23
+	/// 0 <= mn <= 59
+	/// 0 <= ss <= 59
+	/// 0 <= mis <= 999
+	/// 0 <= mics <= 999
+	/// Exceptions
+	/// Quantity_DateDefinitionError if mm, dd, hh,
+	/// mn, ss, mis and mics are not the components of the valid date.
+	/// </summary>
 	Quantity_Date(int mm, int dd, int yyyy, int hh, int mn, int ss);
 	Quantity_Date(Macad::Occt::Quantity_Date^ parameter1);
+	/// <summary>
+	/// Gets a complete Date.
+	/// -   in mm - the month,
+	/// -   in dd - the day,
+	/// -   in yyyy - the year,
+	/// -   in hh - the hour,
+	/// -   in mn - the minute,
+	/// -   in ss - the second,
+	/// -   in mis - the millisecond, and
+	/// -   in mics - the microsecond
+	/// </summary>
 	void Values(int% mm, int% dd, int% yy, int% hh, int% mn, int% ss, int% mis, int% mics);
+	/// <summary>
+	/// Assigns to this date the year yyyy, the month
+	/// mm, the day dd, the hour hh, the minute mn, the
+	/// second ss, the millisecond mis (defaulted to 0)
+	/// and the microsecond mics (defaulted to 0).
+	/// Exceptions
+	/// Quantity_DateDefinitionError if mm, dd, hh,
+	/// mn, ss, mis and mics are not components of a valid date.
+	/// </summary>
 	void SetValues(int mm, int dd, int yy, int hh, int mn, int ss, int mis, int mics);
+	/// <summary>
+	/// Assigns to this date the year yyyy, the month
+	/// mm, the day dd, the hour hh, the minute mn, the
+	/// second ss, the millisecond mis (defaulted to 0)
+	/// and the microsecond mics (defaulted to 0).
+	/// Exceptions
+	/// Quantity_DateDefinitionError if mm, dd, hh,
+	/// mn, ss, mis and mics are not components of a valid date.
+	/// </summary>
 	void SetValues(int mm, int dd, int yy, int hh, int mn, int ss, int mis);
+	/// <summary>
+	/// Assigns to this date the year yyyy, the month
+	/// mm, the day dd, the hour hh, the minute mn, the
+	/// second ss, the millisecond mis (defaulted to 0)
+	/// and the microsecond mics (defaulted to 0).
+	/// Exceptions
+	/// Quantity_DateDefinitionError if mm, dd, hh,
+	/// mn, ss, mis and mics are not components of a valid date.
+	/// </summary>
 	void SetValues(int mm, int dd, int yy, int hh, int mn, int ss);
+	/// <summary>
+	/// Subtracts one Date from another one to find the period
+	/// between and returns the value.
+	/// The result is the absolute value between the difference
+	/// of two dates.
+	/// </summary>
 	Macad::Occt::Quantity_Period^ Difference(Macad::Occt::Quantity_Date^ anOther);
+	/// <summary>
+	/// Subtracts a period from a Date and returns the new Date.
+	/// Raises an exception if the result date is anterior to
+	/// Jan 1, 1979.
+	/// </summary>
 	Macad::Occt::Quantity_Date^ Subtract(Macad::Occt::Quantity_Period^ aPeriod);
+	/// <summary>
+	/// Adds a Period to a Date and returns the new Date.
+	/// </summary>
 	Macad::Occt::Quantity_Date^ Add(Macad::Occt::Quantity_Period^ aPeriod);
+	/// <summary>
+	/// Returns year of a Date.
+	/// </summary>
 	int Year();
+	/// <summary>
+	/// Returns month of a Date.
+	/// </summary>
 	int Month();
+	/// <summary>
+	/// Returns Day of a Date.
+	/// </summary>
 	int Day();
+	/// <summary>
+	/// Returns Hour of a Date.
+	/// </summary>
 	int Hour();
+	/// <summary>
+	/// Returns minute of a Date.
+	/// </summary>
 	int Minute();
+	/// <summary>
+	/// Returns seconde of a Date.
+	/// </summary>
 	int Second();
+	/// <summary>
+	/// Returns millisecond of a Date.
+	/// </summary>
 	int MilliSecond();
+	/// <summary>
+	/// Returns microsecond of a Date.
+	/// </summary>
 	int MicroSecond();
+	/// <summary>
+	/// Returns TRUE if both <me> and <other> are equal.
+	/// This method is an alias of operator ==.
+	/// </summary>
 	bool IsEqual(Macad::Occt::Quantity_Date^ anOther);
+	/// <summary>
+	/// Returns TRUE if <me> is earlier than <other>.
+	/// </summary>
 	bool IsEarlier(Macad::Occt::Quantity_Date^ anOther);
+	/// <summary>
+	/// Returns TRUE if <me> is later then <other>.
+	/// </summary>
 	bool IsLater(Macad::Occt::Quantity_Date^ anOther);
+	/// <summary>
+	/// Checks the validity of a date - returns true if a
+	/// date defined from the year yyyy, the month mm,
+	/// the day dd, the hour hh, the minute mn, the
+	/// second ss, the millisecond mis (defaulted to 0)
+	/// and the microsecond mics (defaulted to 0) is valid.
+	/// A date must satisfy the conditions above:
+	/// -   yyyy is greater than or equal to 1979,
+	/// -   mm lies within the range [1, 12] (with 1
+	/// corresponding to January and 12 to December),
+	/// -   dd lies within a valid range for the month mm
+	/// (from 1 to 28, 29, 30 or 31 depending on
+	/// mm and whether yyyy is a leap year or not),
+	/// -   hh lies within the range [0, 23],
+	/// -   mn lies within the range [0, 59],
+	/// -   ss lies within the range [0, 59],
+	/// -   mis lies within the range [0, 999],
+	/// -   mics lies within the range [0, 999].C
+	/// </summary>
 	static bool IsValid(int mm, int dd, int yy, int hh, int mn, int ss, int mis, int mics);
+	/// <summary>
+	/// Checks the validity of a date - returns true if a
+	/// date defined from the year yyyy, the month mm,
+	/// the day dd, the hour hh, the minute mn, the
+	/// second ss, the millisecond mis (defaulted to 0)
+	/// and the microsecond mics (defaulted to 0) is valid.
+	/// A date must satisfy the conditions above:
+	/// -   yyyy is greater than or equal to 1979,
+	/// -   mm lies within the range [1, 12] (with 1
+	/// corresponding to January and 12 to December),
+	/// -   dd lies within a valid range for the month mm
+	/// (from 1 to 28, 29, 30 or 31 depending on
+	/// mm and whether yyyy is a leap year or not),
+	/// -   hh lies within the range [0, 23],
+	/// -   mn lies within the range [0, 59],
+	/// -   ss lies within the range [0, 59],
+	/// -   mis lies within the range [0, 999],
+	/// -   mics lies within the range [0, 999].C
+	/// </summary>
 	static bool IsValid(int mm, int dd, int yy, int hh, int mn, int ss, int mis);
+	/// <summary>
+	/// Checks the validity of a date - returns true if a
+	/// date defined from the year yyyy, the month mm,
+	/// the day dd, the hour hh, the minute mn, the
+	/// second ss, the millisecond mis (defaulted to 0)
+	/// and the microsecond mics (defaulted to 0) is valid.
+	/// A date must satisfy the conditions above:
+	/// -   yyyy is greater than or equal to 1979,
+	/// -   mm lies within the range [1, 12] (with 1
+	/// corresponding to January and 12 to December),
+	/// -   dd lies within a valid range for the month mm
+	/// (from 1 to 28, 29, 30 or 31 depending on
+	/// mm and whether yyyy is a leap year or not),
+	/// -   hh lies within the range [0, 23],
+	/// -   mn lies within the range [0, 59],
+	/// -   ss lies within the range [0, 59],
+	/// -   mis lies within the range [0, 999],
+	/// -   mics lies within the range [0, 999].C
+	/// </summary>
 	static bool IsValid(int mm, int dd, int yy, int hh, int mn, int ss);
+	/// <summary>
+	/// Returns true if a year is a leap year.
+	/// The leap years are divisible by 4 and not by 100 except
+	/// the years divisible by 400.
+	/// </summary>
 	static bool IsLeap(int yy);
 }; // class Quantity_Date
 

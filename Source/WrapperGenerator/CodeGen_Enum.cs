@@ -12,6 +12,8 @@ namespace Macad.Occt.Generator
             wh.WriteLine($"{prefix}//  Enum  {ed.Name}");
             wh.WriteLine($"{prefix}//---------------------------------------------------------------------");
 
+            GenerateComment(wh, prefix, ed.Comment);
+
             if (!inner)
             {
                 wh.Write("public ");

@@ -350,6 +350,25 @@ namespace Macad.Occt.Generator
 
         //--------------------------------------------------------------------------------------------------
 
+        Definitions.CommentDefintion _GetComment(string commentId)
+        {
+            if (string.IsNullOrEmpty(commentId))
+                return null;
+
+            if (!_Db.Comments.TryGetValue(commentId, out var itemsComment))
+                return null;
+
+            var c = new Definitions.CommentDefintion()
+            {
+                Filename = _CurrentFileSet[itemsComment.file],
+                BeginOffset = itemsComment.begin_offset,
+                EndOffset = itemsComment.end_offset
+            };
+
+            return c;
+        }
+        //--------------------------------------------------------------------------------------------------
+
         bool _AddEnum(CastXml.ItemsEnumeration enumeration, string enumId, string package, Definitions.ClassDefinition c = null)
         {
             var name = enumeration.name;
@@ -378,7 +397,8 @@ namespace Macad.Occt.Generator
             {
                 Name = name,
                 Package = package,
-                OuterClass = c
+                OuterClass = c,
+                Comment = _GetComment(enumeration.comment)
             };
 
             if (c == null)
@@ -437,7 +457,8 @@ namespace Macad.Occt.Generator
                 Name = className,
                 Package = package,
                 IsStruct = isStruct,
-                IsAbstract = record.IsAbstract
+                IsAbstract = record.IsAbstract,
+                Comment = _GetComment(record.comment)
             };
             Definitions.ClassItems.Add(c);
 
@@ -550,6 +571,7 @@ namespace Macad.Occt.Generator
             {
                 Class = klass,
                 Name = fName,
+                Comment = _GetComment(method.comment),
                 Type = (funcType == 0) ? _GetTypeDefinition(method.returns) : _VoidTypeDefinition,
                 IsStatic = method.IsStatic,
                 IsPublic = method.IsPublic,

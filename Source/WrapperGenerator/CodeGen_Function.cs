@@ -8,8 +8,8 @@ namespace Macad.Occt.Generator
         void GenerateFunctionDeclaration(StringWriter w, Definitions.FunctionDefintion fd, int maxParameterCount)
         {
             StringWriter wf = new StringWriter();
-            
-            if(!GenerateFunctionDecl(wf, fd, true, maxParameterCount))
+            w.Write("\t");
+            if (!GenerateFunctionDecl(wf, fd, true, maxParameterCount))
             {
                 w.Write("/* Method skipped due to unknown mapping: {0} {1}(", fd.Type.Name, fd.Name);
                 foreach (var pd in fd.Parameters)
@@ -20,6 +20,7 @@ namespace Macad.Occt.Generator
             }
             else
             {
+                GenerateComment(w, "\t", fd.Comment);
                 w.Write(wf.ToString());
             }
         }

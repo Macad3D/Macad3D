@@ -8,15 +8,26 @@ namespace Macad.Occt.Generator.CastXml
 {
     public partial class CastXML
     {
+        [XmlIgnore]
         public List<Record> Classes = new();
+        [XmlIgnore]
         public List<Method> Constructors = new();
+        [XmlIgnore]
         public List<Method> Destructors = new();
+        [XmlIgnore]
         public List<ItemsEnumeration> Enumerations = new();
+        [XmlIgnore]
         public List<ItemsFile> Files = new();
+        [XmlIgnore]
         public List<Method> Methods = new();
+        [XmlIgnore]
         public List<Record> Structs = new();
+        [XmlIgnore]
         public List<ItemsTypedef> Typedefs = new();
+        [XmlIgnore]
+        public Dictionary<string,ItemsComment> Comments = new();
 
+        [XmlIgnore]
         Dictionary<string, int> _IdLookup = new();
 
         //--------------------------------------------------------------------------------------------------
@@ -91,6 +102,10 @@ namespace Macad.Occt.Generator.CastXml
                         var typedef = (ItemsTypedef) Items1[i];
                         _IdLookup.Add(typedef.id, i);
                         Typedefs.Add(typedef);
+                        break;
+                    case Items1ChoiceType.Comment:
+                        var comment = (ItemsComment) Items1[i];
+                        Comments.Add(comment.id, comment);
                         break;
                 }
             }

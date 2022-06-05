@@ -14,6 +14,8 @@ namespace Macad.Occt.Generator
                 w.WriteLine("//---------------------------------------------------------------------");
             }
 
+            GenerateComment(w, inner ? "\t" : "", cd.Comment);
+            
             if(!inner)
                 w.Write("public ");
 
@@ -66,7 +68,6 @@ namespace Macad.Occt.Generator
                     if (cd.Functions.Any(ffd => (ffd != fd) && ffd.IsEqual(fd, i)))
                         break;
 
-                    w.Write("\t");
                     GenerateFunctionDeclaration(w, fd, i);
                 }
             }

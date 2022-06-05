@@ -3161,6 +3161,9 @@ public:
 //---------------------------------------------------------------------
 //  Class  TColStd_HPackedMapOfInteger
 //---------------------------------------------------------------------
+/// <summary>
+/// Extension of TColStd_PackedMapOfInteger class to be manipulated by handle.
+/// </summary>
 public ref class TColStd_HPackedMapOfInteger sealed : public Macad::Occt::Standard_Transient
 {
 

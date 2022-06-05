@@ -52,6 +52,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile>OcctPCH.h</PrecompiledHeaderFile>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <AdditionalOptions>/IGNOREIDL /KEYFILE:$(MMRootDir)Source\sn.snk %(AdditionalOptions)</AdditionalOptions>
@@ -78,6 +79,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeaderFile>OcctPCH.h</PrecompiledHeaderFile>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <AdditionalDependencies>msvcrt.lib;%(AdditionalDependencies)</AdditionalDependencies>

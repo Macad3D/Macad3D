@@ -10,6 +10,9 @@ namespace Occt
 //---------------------------------------------------------------------
 //  Enum  TopTools_FormatVersion
 //---------------------------------------------------------------------
+/// <summary>
+/// Defined TopTools format version
+/// </summary>
 public enum class TopTools_FormatVersion
 {
 	TopTools_FormatVersion_VERSION_1 = 1,
@@ -1264,6 +1267,9 @@ public:
 //---------------------------------------------------------------------
 //  Class  TopTools_ShapeMapHasher
 //---------------------------------------------------------------------
+/// <summary>
+/// Hash tool, used for generating maps of shapes in topology.
+/// </summary>
 public ref class TopTools_ShapeMapHasher sealed : public BaseClass<::TopTools_ShapeMapHasher>
 {
 
@@ -1292,7 +1298,24 @@ public:
 public:
 	TopTools_ShapeMapHasher();
 	TopTools_ShapeMapHasher(Macad::Occt::TopTools_ShapeMapHasher^ parameter1);
+	/// <summary>
+	/// Computes a hash code for the given shape, in the range [1, theUpperBound]
+	/// </summary>
+	/// <param name="theShape">
+	/// the shape which hash code is to be computed
+	/// </param>
+	/// <param name="theUpperBound">
+	/// the upper bound of the range a computing hash code must be within
+	/// </param>
+	/// <returns>
+	/// a computed hash code, in the range [1, theUpperBound]
+	/// </returns>
 	static int HashCode(Macad::Occt::TopoDS_Shape^ theShape, int theUpperBound);
+	/// <summary>
+	/// Returns True  when the two  keys are the same. Two
+	/// same  keys  must   have  the  same  hashcode,  the
+	/// contrary is not necessary.
+	/// </summary>
 	static bool IsEqual(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2);
 }; // class TopTools_ShapeMapHasher
 
@@ -1327,13 +1350,40 @@ public:
 public:
 	TopTools_OrientedShapeMapHasher();
 	TopTools_OrientedShapeMapHasher(Macad::Occt::TopTools_OrientedShapeMapHasher^ parameter1);
+	/// <summary>
+	/// Computes a hash code for the given shape, in the range [1, theUpperBound]
+	/// </summary>
+	/// <param name="theShape">
+	/// the shape which hash code is to be computed
+	/// </param>
+	/// <param name="theUpperBound">
+	/// the upper bound of the range a computing hash code must be within
+	/// </param>
+	/// <returns>
+	/// a computed hash code, in the range [1, theUpperBound]
+	/// </returns>
 	static int HashCode(Macad::Occt::TopoDS_Shape^ theShape, int theUpperBound);
+	/// <summary>
+	/// Returns True when the two keys are equal. Two same
+	/// keys must have the same hashcode,  the contrary is
+	/// not necessary.
+	/// </summary>
 	static bool IsEqual(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2);
 }; // class TopTools_OrientedShapeMapHasher
 
 //---------------------------------------------------------------------
 //  Class  TopTools_LocationSet
 //---------------------------------------------------------------------
+/// <summary>
+/// The class LocationSet stores a set of location in
+/// a relocatable state.
+/// 
+/// It can be created from Locations.
+/// 
+/// It can create Locations.
+/// 
+/// It can be write and read from a stream.
+/// </summary>
 public ref class TopTools_LocationSet sealed : public BaseClass<::TopTools_LocationSet>
 {
 
@@ -1360,22 +1410,64 @@ public:
 	}
 
 public:
+	/// <summary>
+	/// Returns an empty set of locations.
+	/// </summary>
 	TopTools_LocationSet();
 	TopTools_LocationSet(Macad::Occt::TopTools_LocationSet^ parameter1);
+	/// <summary>
+	/// Clears the content of the set.
+	/// </summary>
 	void Clear();
+	/// <summary>
+	/// Incorporate a new Location in the  set and returns
+	/// its index.
+	/// </summary>
 	int Add(Macad::Occt::TopLoc_Location^ L);
+	/// <summary>
+	/// Returns the location of index <I>.
+	/// </summary>
 	Macad::Occt::TopLoc_Location^ Location(int I);
+	/// <summary>
+	/// Returns the index of <L>.
+	/// </summary>
 	int Index(Macad::Occt::TopLoc_Location^ L);
+	/// <summary>
+	/// Dumps the content of me on the stream <OS>.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Dump(ostream OS, ) */
+	/// <summary>
+	/// Writes the content of  me  on the stream <OS> in a
+	/// format that can be read back by Read.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theProgress, ) */
+	/// <summary>
+	/// Writes the content of  me  on the stream <OS> in a
+	/// format that can be read back by Read.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theProgress, ) */
+	/// <summary>
+	/// Reads the content of me from the  stream  <IS>. me
+	/// is first cleared.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange theProgress, ) */
+	/// <summary>
+	/// Reads the content of me from the  stream  <IS>. me
+	/// is first cleared.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange theProgress, ) */
 }; // class TopTools_LocationSet
 
 //---------------------------------------------------------------------
 //  Class  TopTools_ShapeSet
 //---------------------------------------------------------------------
+/// <summary>
+/// A ShapeSets    contains  a  Shape    and all   its
+/// sub-shapes and locations.  It  can be dump,  write
+/// and read.
+/// 
+/// Methods to handle the geometry can be redefined.
+/// </summary>
 public ref class TopTools_ShapeSet : public BaseClass<::TopTools_ShapeSet>
 {
 
@@ -1407,43 +1499,243 @@ public:
 	}
 
 public:
+	/// <summary>
+	/// Builds an empty ShapeSet.
+	/// </summary>
 	TopTools_ShapeSet();
 	TopTools_ShapeSet(Macad::Occt::TopTools_ShapeSet^ parameter1);
+	/// <summary>
+	/// Sets the TopTools_FormatVersion
+	/// </summary>
 	void SetFormatNb(int theFormatNb);
+	/// <summary>
+	/// Returns the TopTools_FormatVersion
+	/// </summary>
 	int FormatNb();
+	/// <summary>
+	/// Clears the content of the set.  This method can be
+	/// redefined.
+	/// </summary>
 	void Clear();
+	/// <summary>
+	/// Stores <S> and its sub-shape. Returns the index of <S>.
+	/// The method AddGeometry is called on each sub-shape.
+	/// </summary>
 	int Add(Macad::Occt::TopoDS_Shape^ S);
+	/// <summary>
+	/// Returns the sub-shape of index <I>.
+	/// </summary>
 	Macad::Occt::TopoDS_Shape^ Shape(int I);
+	/// <summary>
+	/// Returns the index of <S>.
+	/// </summary>
 	int Index(Macad::Occt::TopoDS_Shape^ S);
 	Macad::Occt::TopTools_LocationSet^ Locations();
 	Macad::Occt::TopTools_LocationSet^ ChangeLocations();
+	/// <summary>
+	/// Dumps the number of objects in me on the stream <OS>.
+	/// (Number of shapes of each type)
+	/// </summary>
 	/* Method skipped due to unknown mapping: ostream DumpExtent(ostream OS, ) */
+	/// <summary>
+	/// Dumps the number of objects in me in the string S
+	/// (Number of shapes of each type)
+	/// </summary>
 	void DumpExtent(Macad::Occt::TCollection_AsciiString^ S);
+	/// <summary>
+	/// Dumps the content of me on the stream <OS>.
+	/// 
+	/// Dumps the shapes from first to last.
+	/// For each Shape
+	/// Dump the type, the flags, the subshapes
+	/// calls DumpGeometry(S)
+	/// 
+	/// Dumps the geometry calling DumpGeometry.
+	/// 
+	/// Dumps the locations.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Dump(ostream OS, ) */
+	/// <summary>
+	/// Writes the content of  me  on the stream <OS> in a
+	/// format that can be read back by Read.
+	/// 
+	/// Writes the locations.
+	/// 
+	/// Writes the geometry calling WriteGeometry.
+	/// 
+	/// Dumps the shapes from last to first.
+	/// For each shape  :
+	/// Write the type.
+	/// calls WriteGeometry(S).
+	/// Write the flags, the subshapes.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theProgress, ) */
+	/// <summary>
+	/// Writes the content of  me  on the stream <OS> in a
+	/// format that can be read back by Read.
+	/// 
+	/// Writes the locations.
+	/// 
+	/// Writes the geometry calling WriteGeometry.
+	/// 
+	/// Dumps the shapes from last to first.
+	/// For each shape  :
+	/// Write the type.
+	/// calls WriteGeometry(S).
+	/// Write the flags, the subshapes.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Write(ostream OS, Message_ProgressRange theProgress, ) */
+	/// <summary>
+	/// Reads the content of me from the  stream  <IS>. me
+	/// is first cleared.
+	/// 
+	/// Reads the locations.
+	/// 
+	/// Reads the geometry calling ReadGeometry.
+	/// 
+	/// Reads the shapes.
+	/// For each shape
+	/// Reads the type.
+	/// calls ReadGeometry(T,S).
+	/// Reads the flag, the subshapes.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange theProgress, ) */
+	/// <summary>
+	/// Reads the content of me from the  stream  <IS>. me
+	/// is first cleared.
+	/// 
+	/// Reads the locations.
+	/// 
+	/// Reads the geometry calling ReadGeometry.
+	/// 
+	/// Reads the shapes.
+	/// For each shape
+	/// Reads the type.
+	/// calls ReadGeometry(T,S).
+	/// Reads the flag, the subshapes.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Read(istream IS, Message_ProgressRange theProgress, ) */
+	/// <summary>
+	/// Dumps   on  <OS>    the  shape  <S>.   Dumps   the
+	/// orientation, the index of the TShape and the index
+	/// of the Location.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Dump(TopoDS_Shape S, ostream OS, ) */
+	/// <summary>
+	/// Writes   on  <OS>   the shape   <S>.    Writes the
+	/// orientation, the index of the TShape and the index
+	/// of the Location.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Write(TopoDS_Shape S, ostream OS, ) */
+	/// <summary>
+	/// Reads from <IS> a shape and returns it in S.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Read(TopoDS_Shape S, istream IS, ) */
+	/// <summary>
+	/// Stores the geometry of <S>.
+	/// </summary>
 	void AddGeometry(Macad::Occt::TopoDS_Shape^ S);
+	/// <summary>
+	/// Dumps the geometry of me on the stream <OS>.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void DumpGeometry(ostream OS, ) */
+	/// <summary>
+	/// Writes the geometry of  me  on the stream <OS> in a
+	/// format that can be read back by Read.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void WriteGeometry(ostream OS, Message_ProgressRange theProgress, ) */
+	/// <summary>
+	/// Writes the geometry of  me  on the stream <OS> in a
+	/// format that can be read back by Read.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void WriteGeometry(ostream OS, Message_ProgressRange theProgress, ) */
+	/// <summary>
+	/// Reads the geometry of me from the  stream  <IS>.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void ReadGeometry(istream IS, Message_ProgressRange theProgress, ) */
+	/// <summary>
+	/// Reads the geometry of me from the  stream  <IS>.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void ReadGeometry(istream IS, Message_ProgressRange theProgress, ) */
+	/// <summary>
+	/// Dumps the geometry of <S> on the stream <OS>.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void DumpGeometry(TopoDS_Shape S, ostream OS, ) */
+	/// <summary>
+	/// Writes the geometry of <S>  on the stream <OS> in a
+	/// format that can be read back by Read.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void WriteGeometry(TopoDS_Shape S, ostream OS, ) */
+	/// <summary>
+	/// Reads the geometry of a shape of type <T> from the
+	/// stream <IS> and returns it in <S>.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void ReadGeometry(TopAbs_ShapeEnum T, istream IS, TopoDS_Shape S, ) */
+	/// <summary>
+	/// Inserts  the shape <S2> in  the  shape <S1>.  This
+	/// method must be   redefined  to  use   the  correct
+	/// builder.
+	/// </summary>
 	void AddShapes(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2);
+	/// <summary>
+	/// This method is   called after  each  new  completed
+	/// shape. <T> is the  type. <S> is  the shape. In this
+	/// class it does nothing, but it gives the opportunity
+	/// in derived  classes to perform  extra  treatment on
+	/// shapes.
+	/// </summary>
 	void Check(Macad::Occt::TopAbs_ShapeEnum T, Macad::Occt::TopoDS_Shape^ S);
+	/// <summary>
+	/// Returns number of shapes read from file.
+	/// </summary>
 	int NbShapes();
 }; // class TopTools_ShapeSet
 
 //---------------------------------------------------------------------
 //  Class  TopTools
 //---------------------------------------------------------------------
+/// <summary>
+/// The  TopTools package provides   utilities for the
+/// topological data structure.
+/// 
+/// * ShapeMapHasher. Hash a  Shape base on the TShape
+/// and the Location. The Orientation is not used.
+/// 
+/// * OrientedShapeMapHasher. Hash a Shape base on the
+/// TShape ,the Location and the Orientation.
+/// 
+/// * Instantiations of TCollection for Shapes :
+/// MapOfShape
+/// IndexedMapOfShape
+/// DataMapOfIntegerShape
+/// DataMapOfShapeInteger
+/// DataMapOfShapeReal
+/// Array1OfShape
+/// HArray1OfShape
+/// SequenceOfShape
+/// HSequenceOfShape
+/// ListOfShape
+/// Array1OfListShape
+/// HArray1OfListShape
+/// DataMapOfIntegerListOfShape
+/// DataMapOfShapeListOfShape
+/// DataMapOfShapeListOfInteger
+/// IndexedDataMapOfShapeShape
+/// IndexedDataMapOfShapeListOfShape
+/// DataMapOfShapeShape
+/// IndexedMapOfOrientedShape
+/// DataMapOfShapeSequenceOfShape
+/// IndexedDataMapOfShapeAddress
+/// DataMapOfOrientedShapeShape
+/// 
+/// * LocationSet : to write sets of locations.
+/// 
+/// * ShapeSet : to writes sets of TShapes.
+/// 
+/// Package Methods :
+/// 
+/// Dump : To dump the topology of a Shape.
+/// </summary>
 public ref class TopTools sealed : public BaseClass<::TopTools>
 {
 
@@ -1472,7 +1764,18 @@ public:
 public:
 	TopTools();
 	TopTools(Macad::Occt::TopTools^ parameter1);
+	/// <summary>
+	/// A set of Shapes. Can be dump, wrote or read.
+	/// Dumps the topological structure  of <Sh>  on the
+	/// stream <S>.
+	/// </summary>
 	/* Method skipped due to unknown mapping: void Dump(TopoDS_Shape Sh, ostream S, ) */
+	/// <summary>
+	/// This is to bypass an extraction bug. It will force
+	/// the  inclusion    of  Standard_Integer.hxx  itself
+	/// including Standard_OStream.hxx  at   the   correct
+	/// position.
+	/// </summary>
 	static void Dummy(int I);
 }; // class TopTools
 
@@ -1722,6 +2025,10 @@ public:
 //---------------------------------------------------------------------
 //  Class  TopTools_MutexForShapeProvider
 //---------------------------------------------------------------------
+/// <summary>
+/// Class TopTools_MutexForShapeProvider
+/// This class is used to create and store mutexes associated with shapes.
+/// </summary>
 public ref class TopTools_MutexForShapeProvider sealed : public BaseClass<::TopTools_MutexForShapeProvider>
 {
 
@@ -1748,10 +2055,26 @@ public:
 	}
 
 public:
+	/// <summary>
+	/// Constructor
+	/// </summary>
 	TopTools_MutexForShapeProvider();
+	/// <summary>
+	/// Creates and associates mutexes with each sub-shape of type theType in theShape.
+	/// </summary>
 	void CreateMutexesForSubShapes(Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::TopAbs_ShapeEnum theType);
+	/// <summary>
+	/// Creates and associates mutex with theShape
+	/// </summary>
 	void CreateMutexForShape(Macad::Occt::TopoDS_Shape^ theShape);
+	/// <summary>
+	/// Returns pointer to mutex associated with theShape.
+	/// In case when mutex not found returns NULL.
+	/// </summary>
 	/* Method skipped due to unknown mapping: Standard_Mutex GetMutex(TopoDS_Shape theShape, ) */
+	/// <summary>
+	/// Removes all mutexes
+	/// </summary>
 	void RemoveAllMutexes();
 }; // class TopTools_MutexForShapeProvider
 

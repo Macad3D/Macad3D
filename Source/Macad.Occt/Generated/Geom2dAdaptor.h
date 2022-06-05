@@ -11,6 +11,11 @@ namespace Occt
 //---------------------------------------------------------------------
 //  Class  Geom2dAdaptor
 //---------------------------------------------------------------------
+/// <summary>
+/// this package  contains the geometric definition of
+/// 2d  curves compatible  with  the  Adaptor  package
+/// templates.
+/// </summary>
 public ref class Geom2dAdaptor sealed : public BaseClass<::Geom2dAdaptor>
 {
 
@@ -39,12 +44,27 @@ public:
 public:
 	Geom2dAdaptor();
 	Geom2dAdaptor(Macad::Occt::Geom2dAdaptor^ parameter1);
+	/// <summary>
+	/// Inherited  from    GHCurve.   Provides a  curve
+	/// handled by reference.
+	/// Creates  a 2d  curve  from  a  HCurve2d.  This
+	/// cannot process the OtherCurves.
+	/// </summary>
 	static Macad::Occt::Geom2d_Curve^ MakeCurve(Macad::Occt::Adaptor2d_Curve2d^ HC);
 }; // class Geom2dAdaptor
 
 //---------------------------------------------------------------------
 //  Class  Geom2dAdaptor_Curve
 //---------------------------------------------------------------------
+/// <summary>
+/// An interface between the services provided by any
+/// curve from the package Geom2d and those required
+/// of the curve by algorithms which use it.
+/// 
+/// Polynomial coefficients of BSpline curves used for their evaluation are
+/// cached for better performance. Therefore these evaluations are not
+/// thread-safe and parallel evaluations need to be prevented.
+/// </summary>
 public ref class Geom2dAdaptor_Curve : public Macad::Occt::Adaptor2d_Curve2d
 {
 
@@ -80,28 +100,92 @@ public:
 public:
 	Geom2dAdaptor_Curve();
 	Geom2dAdaptor_Curve(Macad::Occt::Geom2d_Curve^ C);
+	/// <summary>
+	/// Standard_ConstructionError is raised if Ufirst>Ulast
+	/// </summary>
 	Geom2dAdaptor_Curve(Macad::Occt::Geom2d_Curve^ C, double UFirst, double ULast);
 	Geom2dAdaptor_Curve(Macad::Occt::Geom2dAdaptor_Curve^ parameter1);
+	/// <summary>
+	/// Shallow copy of adaptor
+	/// </summary>
 	Macad::Occt::Adaptor2d_Curve2d^ ShallowCopy();
+	/// <summary>
+	/// Reset currently loaded curve (undone Load()).
+	/// </summary>
 	void Reset();
 	void Load(Macad::Occt::Geom2d_Curve^ theCurve);
+	/// <summary>
+	/// Standard_ConstructionError is raised if theUFirst>theULast
+	/// </summary>
 	void Load(Macad::Occt::Geom2d_Curve^ theCurve, double theUFirst, double theULast);
 	Macad::Occt::Geom2d_Curve^ Curve();
 	double FirstParameter();
 	double LastParameter();
 	Macad::Occt::GeomAbs_Shape Continuity();
+	/// <summary>
+	/// If necessary,  breaks the  curve in  intervals  of
+	/// continuity  <S>.    And  returns   the number   of
+	/// intervals.
+	/// </summary>
 	int NbIntervals(Macad::Occt::GeomAbs_Shape S);
+	/// <summary>
+	/// Stores in <T> the  parameters bounding the intervals
+	/// of continuity <S>.
+	/// 
+	/// The array must provide  enough room to  accommodate
+	/// for the parameters. i.e. T.Length() > NbIntervals()
+	/// </summary>
 	void Intervals(Macad::Occt::TColStd_Array1OfReal^ T, Macad::Occt::GeomAbs_Shape S);
+	/// <summary>
+	/// Returns    a  curve equivalent   of  <me>  between
+	/// parameters <First>  and <Last>. <Tol>  is used  to
+	/// test for 3d points confusion.
+	/// If <First> >= <Last>
+	/// </summary>
 	Macad::Occt::Adaptor2d_Curve2d^ Trim(double First, double Last, double Tol);
 	bool IsClosed();
 	bool IsPeriodic();
 	double Period();
+	/// <summary>
+	/// Computes the point of parameter U on the curve
+	/// </summary>
 	Macad::Occt::Pnt2d Value(double U);
+	/// <summary>
+	/// Computes the point of parameter U.
+	/// </summary>
 	void D0(double U, Macad::Occt::Pnt2d% P);
+	/// <summary>
+	/// Computes the point of parameter U on the curve with its
+	/// first derivative.
+	/// Raised if the continuity of the current interval
+	/// is not C1.
+	/// </summary>
 	void D1(double U, Macad::Occt::Pnt2d% P, Macad::Occt::Vec2d% V);
+	/// <summary>
+	/// Returns the point P of parameter U, the first and second
+	/// derivatives V1 and V2.
+	/// Raised if the continuity of the current interval
+	/// is not C2.
+	/// </summary>
 	void D2(double U, Macad::Occt::Pnt2d% P, Macad::Occt::Vec2d% V1, Macad::Occt::Vec2d% V2);
+	/// <summary>
+	/// Returns the point P of parameter U, the first, the second
+	/// and the third derivative.
+	/// Raised if the continuity of the current interval
+	/// is not C3.
+	/// </summary>
 	void D3(double U, Macad::Occt::Pnt2d% P, Macad::Occt::Vec2d% V1, Macad::Occt::Vec2d% V2, Macad::Occt::Vec2d% V3);
+	/// <summary>
+	/// The returned vector gives the value of the derivative for the
+	/// order of derivation N.
+	/// Raised if the continuity of the current interval
+	/// is not CN.
+	/// Raised if N < 1.
+	/// </summary>
 	Macad::Occt::Vec2d DN(double U, int N);
+	/// <summary>
+	/// returns the parametric resolution
+	/// </summary>
 	double Resolution(double Ruv);
 	Macad::Occt::GeomAbs_CurveType GetGeomType();
 	Macad::Occt::gp_Lin2d^ Line();

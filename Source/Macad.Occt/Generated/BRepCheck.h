@@ -163,6 +163,10 @@ public:
 //---------------------------------------------------------------------
 //  Class  BRepCheck
 //---------------------------------------------------------------------
+/// <summary>
+/// This package  provides tools to check the validity
+/// of the BRep.
+/// </summary>
 public ref class BRepCheck sealed : public BaseClass<::BRepCheck>
 {
 
@@ -194,7 +198,13 @@ public:
 	static void Add(Macad::Occt::BRepCheck_ListOfStatus^ List, Macad::Occt::BRepCheck_Status Stat);
 	/* Method skipped due to unknown mapping: void Print(BRepCheck_Status Stat, ostream OS, ) */
 	static bool SelfIntersection(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2);
+	/// <summary>
+	/// Returns the resolution on the 3d curve
+	/// </summary>
 	static double PrecCurve(Macad::Occt::Adaptor3d_Curve^ aAC3D);
+	/// <summary>
+	/// Returns the resolution on the surface
+	/// </summary>
 	static double PrecSurface(Macad::Occt::Adaptor3d_Surface^ aAHSurf);
 }; // class BRepCheck
 
@@ -256,6 +266,15 @@ public:
 //---------------------------------------------------------------------
 //  Class  BRepCheck_Analyzer
 //---------------------------------------------------------------------
+/// <summary>
+/// A framework to check the overall
+/// validity of a shape. For a shape to be valid in Open
+/// CASCADE, it - or its component subshapes - must respect certain
+/// criteria. These criteria are checked by the function IsValid.
+/// Once you have determined whether a shape is valid or not, you can
+/// diagnose its specific anomalies and correct them using the services of
+/// the ShapeAnalysis, ShapeUpgrade, and ShapeFix packages.
+/// </summary>
 public ref class BRepCheck_Analyzer sealed : public BaseClass<::BRepCheck_Analyzer>
 {
 
@@ -282,14 +301,171 @@ public:
 	}
 
 public:
+	/// <summary>
+	/// Constructs a shape validation object defined by the shape S.
+	/// <S> is the  shape  to control.  <GeomControls>  If
+	/// False   only topological informaions  are checked.
+	/// The geometricals controls are
+	/// For a Vertex :
+	/// BRepCheck_InvalidToleranceValue  NYI
+	/// For an Edge :
+	/// BRepCheck_InvalidCurveOnClosedSurface,
+	/// BRepCheck_InvalidCurveOnSurface,
+	/// BRepCheck_InvalidSameParameterFlag,
+	/// BRepCheck_InvalidToleranceValue  NYI
+	/// For a face :
+	/// BRepCheck_UnorientableShape,
+	/// BRepCheck_IntersectingWires,
+	/// BRepCheck_InvalidToleranceValue  NYI
+	/// For a wire :
+	/// BRepCheck_SelfIntersectingWire
+	/// </summary>
 	BRepCheck_Analyzer(Macad::Occt::TopoDS_Shape^ S, bool GeomControls, bool theIsParallel);
+	/// <summary>
+	/// Constructs a shape validation object defined by the shape S.
+	/// <S> is the  shape  to control.  <GeomControls>  If
+	/// False   only topological informaions  are checked.
+	/// The geometricals controls are
+	/// For a Vertex :
+	/// BRepCheck_InvalidToleranceValue  NYI
+	/// For an Edge :
+	/// BRepCheck_InvalidCurveOnClosedSurface,
+	/// BRepCheck_InvalidCurveOnSurface,
+	/// BRepCheck_InvalidSameParameterFlag,
+	/// BRepCheck_InvalidToleranceValue  NYI
+	/// For a face :
+	/// BRepCheck_UnorientableShape,
+	/// BRepCheck_IntersectingWires,
+	/// BRepCheck_InvalidToleranceValue  NYI
+	/// For a wire :
+	/// BRepCheck_SelfIntersectingWire
+	/// </summary>
 	BRepCheck_Analyzer(Macad::Occt::TopoDS_Shape^ S, bool GeomControls);
+	/// <summary>
+	/// Constructs a shape validation object defined by the shape S.
+	/// <S> is the  shape  to control.  <GeomControls>  If
+	/// False   only topological informaions  are checked.
+	/// The geometricals controls are
+	/// For a Vertex :
+	/// BRepCheck_InvalidToleranceValue  NYI
+	/// For an Edge :
+	/// BRepCheck_InvalidCurveOnClosedSurface,
+	/// BRepCheck_InvalidCurveOnSurface,
+	/// BRepCheck_InvalidSameParameterFlag,
+	/// BRepCheck_InvalidToleranceValue  NYI
+	/// For a face :
+	/// BRepCheck_UnorientableShape,
+	/// BRepCheck_IntersectingWires,
+	/// BRepCheck_InvalidToleranceValue  NYI
+	/// For a wire :
+	/// BRepCheck_SelfIntersectingWire
+	/// </summary>
 	BRepCheck_Analyzer(Macad::Occt::TopoDS_Shape^ S);
 	BRepCheck_Analyzer(Macad::Occt::BRepCheck_Analyzer^ parameter1);
+	/// <summary>
+	/// <S> is the  shape  to control.  <GeomControls>  If
+	/// False   only topological informaions  are checked.
+	/// The geometricals controls are
+	/// For a Vertex :
+	/// BRepCheck_InvalidTolerance  NYI
+	/// For an Edge :
+	/// BRepCheck_InvalidCurveOnClosedSurface,
+	/// BRepCheck_InvalidCurveOnSurface,
+	/// BRepCheck_InvalidSameParameterFlag,
+	/// BRepCheck_InvalidTolerance  NYI
+	/// For a face :
+	/// BRepCheck_UnorientableShape,
+	/// BRepCheck_IntersectingWires,
+	/// BRepCheck_InvalidTolerance  NYI
+	/// For a wire :
+	/// BRepCheck_SelfIntersectingWire
+	/// </summary>
 	void Init(Macad::Occt::TopoDS_Shape^ S, bool GeomControls, bool theIsParallel);
+	/// <summary>
+	/// <S> is the  shape  to control.  <GeomControls>  If
+	/// False   only topological informaions  are checked.
+	/// The geometricals controls are
+	/// For a Vertex :
+	/// BRepCheck_InvalidTolerance  NYI
+	/// For an Edge :
+	/// BRepCheck_InvalidCurveOnClosedSurface,
+	/// BRepCheck_InvalidCurveOnSurface,
+	/// BRepCheck_InvalidSameParameterFlag,
+	/// BRepCheck_InvalidTolerance  NYI
+	/// For a face :
+	/// BRepCheck_UnorientableShape,
+	/// BRepCheck_IntersectingWires,
+	/// BRepCheck_InvalidTolerance  NYI
+	/// For a wire :
+	/// BRepCheck_SelfIntersectingWire
+	/// </summary>
 	void Init(Macad::Occt::TopoDS_Shape^ S, bool GeomControls);
+	/// <summary>
+	/// <S> is the  shape  to control.  <GeomControls>  If
+	/// False   only topological informaions  are checked.
+	/// The geometricals controls are
+	/// For a Vertex :
+	/// BRepCheck_InvalidTolerance  NYI
+	/// For an Edge :
+	/// BRepCheck_InvalidCurveOnClosedSurface,
+	/// BRepCheck_InvalidCurveOnSurface,
+	/// BRepCheck_InvalidSameParameterFlag,
+	/// BRepCheck_InvalidTolerance  NYI
+	/// For a face :
+	/// BRepCheck_UnorientableShape,
+	/// BRepCheck_IntersectingWires,
+	/// BRepCheck_InvalidTolerance  NYI
+	/// For a wire :
+	/// BRepCheck_SelfIntersectingWire
+	/// </summary>
 	void Init(Macad::Occt::TopoDS_Shape^ S);
+	/// <summary>
+	/// <S> is a  subshape of the  original shape. Returns
+	/// <STandard_True> if no default has been detected on
+	/// <S> and any of its subshape.
+	/// </summary>
 	bool IsValid(Macad::Occt::TopoDS_Shape^ S);
+	/// <summary>
+	/// Returns true if no defect is
+	/// detected on the shape S or any of its subshapes.
+	/// Returns true if the shape S is valid.
+	/// This function checks whether a given shape is valid by checking that:
+	/// -      the topology is correct
+	/// -      parameterization of edges in particular is correct.
+	/// For the topology to be correct, the following conditions must be satisfied:
+	/// -      edges should have at least two vertices if they are not
+	/// degenerate edges. The vertices should be within the range of
+	/// the bounding edges at the tolerance specified in the vertex,
+	/// -      edges should share at least one face. The representation of
+	/// the edges should be within the tolerance criterion assigned to them.
+	/// -      wires defining a face should not self-intersect and should be closed,
+	/// - there should be one wire which contains all other wires inside a face,
+	/// -      wires should be correctly oriented with respect to each of the edges,
+	/// -      faces should be correctly oriented, in particular with
+	/// respect to adjacent faces if these faces define a solid,
+	/// -      shells defining a solid should be closed. There should
+	/// be one enclosing shell if the shape is a solid;
+	/// To check parameterization of edge, there are 2 approaches depending on
+	/// the edge?s contextual situation.
+	/// -      if the edge is either single, or it is in the context
+	/// of a wire or a compound, its parameterization is defined by
+	/// the parameterization of its 3D curve and is considered as    valid.
+	/// -      If the edge is in the context of a face, it should
+	/// have SameParameter and SameRange flags set to Standard_True. To
+	/// check these flags, you should call the function
+	/// BRep_Tool::SameParameter and BRep_Tool::SameRange for an
+	/// edge. If at least one of these flags is set to Standard_False,
+	/// the edge is considered as invalid without any additional check.
+	/// If the edge is contained by a face, and it has SameParameter and
+	/// SameRange flags set to Standard_True, IsValid checks
+	/// whether representation of the edge on face, in context of which the
+	/// edge is considered, has the same parameterization up to the
+	/// tolerance value coded on the edge. For a given parameter t on the edge
+	/// having C as a 3D curve and one PCurve P on a surface S (base
+	/// surface of the reference face), this checks that |C(t) - S(P(t))|
+	/// is less than or equal to tolerance, where tolerance is the tolerance
+	/// value coded on the edge.
+	/// </summary>
 	bool IsValid();
 	Macad::Occt::BRepCheck_Result^ Result(Macad::Occt::TopoDS_Shape^ theSubS);
 }; // class BRepCheck_Analyzer
@@ -333,7 +509,14 @@ public:
 	bool GeometricControls();
 	void GeometricControls(bool B);
 	double Tolerance();
+	/// <summary>
+	/// Sets status of Edge;
+	/// </summary>
 	void SetStatus(Macad::Occt::BRepCheck_Status theStatus);
+	/// <summary>
+	/// Checks, if polygon on triangulation of heEdge
+	/// is out of 3D-curve of this edge.
+	/// </summary>
 	Macad::Occt::BRepCheck_Status CheckPolygonOnTriangulation(Macad::Occt::TopoDS_Edge^ theEdge);
 }; // class BRepCheck_Edge
 
@@ -380,6 +563,9 @@ public:
 	Macad::Occt::BRepCheck_Status OrientationOfWires(bool Update);
 	Macad::Occt::BRepCheck_Status OrientationOfWires();
 	void SetUnorientable();
+	/// <summary>
+	/// Sets status of Face;
+	/// </summary>
 	void SetStatus(Macad::Occt::BRepCheck_Status theStatus);
 	bool IsUnorientable();
 	bool GeometricControls();
@@ -422,9 +608,33 @@ public:
 	void InContext(Macad::Occt::TopoDS_Shape^ ContextShape);
 	void Minimum();
 	void Blind();
+	/// <summary>
+	/// Checks if the oriented  faces of the shell  give a
+	/// closed shell.    If the  wire is  closed,  returns
+	/// BRepCheck_NoError.If      <Update>     is  set  to
+	/// Standard_True, registers the status in the list.
+	/// </summary>
 	Macad::Occt::BRepCheck_Status Closed(bool Update);
+	/// <summary>
+	/// Checks if the oriented  faces of the shell  give a
+	/// closed shell.    If the  wire is  closed,  returns
+	/// BRepCheck_NoError.If      <Update>     is  set  to
+	/// Standard_True, registers the status in the list.
+	/// </summary>
 	Macad::Occt::BRepCheck_Status Closed();
+	/// <summary>
+	/// Checks if the   oriented faces  of  the shell  are
+	/// correctly oriented.  An internal  call is  made to
+	/// the  method  Closed.   If  <Update>    is set   to
+	/// Standard_True, registers the status in the list.
+	/// </summary>
 	Macad::Occt::BRepCheck_Status Orientation(bool Update);
+	/// <summary>
+	/// Checks if the   oriented faces  of  the shell  are
+	/// correctly oriented.  An internal  call is  made to
+	/// the  method  Closed.   If  <Update>    is set   to
+	/// Standard_True, registers the status in the list.
+	/// </summary>
 	Macad::Occt::BRepCheck_Status Orientation();
 	void SetUnorientable();
 	bool IsUnorientable();
@@ -434,6 +644,9 @@ public:
 //---------------------------------------------------------------------
 //  Class  BRepCheck_Solid
 //---------------------------------------------------------------------
+/// <summary>
+/// The class is to check a solid.
+/// </summary>
 public ref class BRepCheck_Solid sealed : public Macad::Occt::BRepCheck_Result
 {
 
@@ -462,10 +675,41 @@ public:
 	static Macad::Occt::BRepCheck_Solid^ CreateDowncasted(::BRepCheck_Solid* instance);
 
 public:
+	/// <summary>
+	/// Constructor
+	/// <theS> is the solid to check
+	/// </summary>
 	BRepCheck_Solid(Macad::Occt::TopoDS_Solid^ theS);
 	BRepCheck_Solid(Macad::Occt::BRepCheck_Solid^ parameter1);
+	/// <summary>
+	/// Checks the solid in context of
+	/// the shape <theContextShape>
+	/// </summary>
 	void InContext(Macad::Occt::TopoDS_Shape^ theContextShape);
+	/// <summary>
+	/// Checks the solid per se.
+	/// 
+	/// The scan area is:
+	/// 1.  Shells that overlaps each other
+	/// Status:  BRepCheck_InvalidImbricationOfShells
+	/// 
+	/// 2.  Detached parts of the solid (vertices, edges)
+	/// that have non-internal orientation
+	/// Status:  BRepCheck_BadOrientationOfSubshape
+	/// 
+	/// 3.  For closed, non-internal shells:
+	/// 3.1 Shells containing entities  of the solid that
+	/// are outside towards the shells
+	/// Status:  BRepCheck_SubshapeNotInShape
+	/// 
+	/// 3.2 Shells that encloses other Shells
+	/// (for non-holes)
+	/// Status:  BRepCheck_EnclosedRegion
+	/// </summary>
 	void Minimum();
+	/// <summary>
+	/// see the parent class for more details
+	/// </summary>
 	void Blind();
 }; // class BRepCheck_Solid
 
@@ -541,19 +785,136 @@ public:
 public:
 	BRepCheck_Wire(Macad::Occt::TopoDS_Wire^ W);
 	BRepCheck_Wire(Macad::Occt::BRepCheck_Wire^ parameter1);
+	/// <summary>
+	/// if <ContextShape> is  a  face, consequently checks
+	/// SelfIntersect(),   Closed(),   Orientation()   and
+	/// Closed2d until faulty is found
+	/// </summary>
 	void InContext(Macad::Occt::TopoDS_Shape^ ContextShape);
+	/// <summary>
+	/// checks that the  wire  is  not empty and "connex".
+	/// Called by constructor
+	/// </summary>
 	void Minimum();
+	/// <summary>
+	/// Does nothing
+	/// </summary>
 	void Blind();
+	/// <summary>
+	/// Checks if the  oriented  edges of the wire  give a
+	/// closed  wire.   If the  wire   is closed,  returns
+	/// BRepCheck_NoError.    Warning :  if the first  and
+	/// last  edge   are  infinite,   the  wire   will  be
+	/// considered as a closed one.  If <Update> is set to
+	/// Standard_True, registers the status in the list.
+	/// May return (and registers):
+	/// **BRepCheck_NotConnected,   if    wire    is   not
+	/// topologically closed
+	/// **BRepCheck_RedundantEdge, if an  edge  is in wire
+	/// more than 3 times  or  in  case of 2 occurrences if
+	/// not with FORWARD and REVERSED orientation.
+	/// **BRepCheck_NoError
+	/// </summary>
 	Macad::Occt::BRepCheck_Status Closed(bool Update);
+	/// <summary>
+	/// Checks if the  oriented  edges of the wire  give a
+	/// closed  wire.   If the  wire   is closed,  returns
+	/// BRepCheck_NoError.    Warning :  if the first  and
+	/// last  edge   are  infinite,   the  wire   will  be
+	/// considered as a closed one.  If <Update> is set to
+	/// Standard_True, registers the status in the list.
+	/// May return (and registers):
+	/// **BRepCheck_NotConnected,   if    wire    is   not
+	/// topologically closed
+	/// **BRepCheck_RedundantEdge, if an  edge  is in wire
+	/// more than 3 times  or  in  case of 2 occurrences if
+	/// not with FORWARD and REVERSED orientation.
+	/// **BRepCheck_NoError
+	/// </summary>
 	Macad::Occt::BRepCheck_Status Closed();
+	/// <summary>
+	/// Checks if edges of the  wire give a wire closed in
+	/// 2d space.
+	/// Returns BRepCheck_NoError,  or BRepCheck_NotClosed
+	/// If <Update> is set to Standard_True, registers the
+	/// status in the list.
+	/// </summary>
 	Macad::Occt::BRepCheck_Status Closed2d(Macad::Occt::TopoDS_Face^ F, bool Update);
+	/// <summary>
+	/// Checks if edges of the  wire give a wire closed in
+	/// 2d space.
+	/// Returns BRepCheck_NoError,  or BRepCheck_NotClosed
+	/// If <Update> is set to Standard_True, registers the
+	/// status in the list.
+	/// </summary>
 	Macad::Occt::BRepCheck_Status Closed2d(Macad::Occt::TopoDS_Face^ F);
+	/// <summary>
+	/// Checks   if  the oriented edges   of  the wire are
+	/// correctly oriented.  An  internal call is made  to
+	/// the  method Closed.   If no face  exists, call the
+	/// method with   a  null  face  (TopoDS_face()).   If
+	/// <Update> is  set  to Standard_True,  registers the
+	/// status in the list.
+	/// May return (and registers):
+	/// BRepCheck_InvalidDegeneratedFlag,
+	/// BRepCheck_BadOrientationOfSubshape,
+	/// BRepCheck_NotClosed,
+	/// BRepCheck_NoError
+	/// </summary>
 	Macad::Occt::BRepCheck_Status Orientation(Macad::Occt::TopoDS_Face^ F, bool Update);
+	/// <summary>
+	/// Checks   if  the oriented edges   of  the wire are
+	/// correctly oriented.  An  internal call is made  to
+	/// the  method Closed.   If no face  exists, call the
+	/// method with   a  null  face  (TopoDS_face()).   If
+	/// <Update> is  set  to Standard_True,  registers the
+	/// status in the list.
+	/// May return (and registers):
+	/// BRepCheck_InvalidDegeneratedFlag,
+	/// BRepCheck_BadOrientationOfSubshape,
+	/// BRepCheck_NotClosed,
+	/// BRepCheck_NoError
+	/// </summary>
 	Macad::Occt::BRepCheck_Status Orientation(Macad::Occt::TopoDS_Face^ F);
+	/// <summary>
+	/// Checks if  the wire intersect   itself on the face
+	/// <F>.  <E1>  and <E2>   are the first  intersecting
+	/// edges  found.  <E2>  may  be a  null  edge when  a
+	/// self-intersecting edge is found.If <Update> is set
+	/// to Standard_True,   registers  the  status in  the
+	/// list.
+	/// May return (and register):
+	/// BRepCheck_EmptyWire,
+	/// BRepCheck_SelfIntersectingWire,
+	/// BRepCheck_NoCurveOnSurface,
+	/// BRepCheck_NoError
+	/// </summary>
 	Macad::Occt::BRepCheck_Status SelfIntersect(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2, bool Update);
+	/// <summary>
+	/// Checks if  the wire intersect   itself on the face
+	/// <F>.  <E1>  and <E2>   are the first  intersecting
+	/// edges  found.  <E2>  may  be a  null  edge when  a
+	/// self-intersecting edge is found.If <Update> is set
+	/// to Standard_True,   registers  the  status in  the
+	/// list.
+	/// May return (and register):
+	/// BRepCheck_EmptyWire,
+	/// BRepCheck_SelfIntersectingWire,
+	/// BRepCheck_NoCurveOnSurface,
+	/// BRepCheck_NoError
+	/// </summary>
 	Macad::Occt::BRepCheck_Status SelfIntersect(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2);
+	/// <summary>
+	/// report SelfIntersect() check would be (is) done
+	/// </summary>
 	bool GeometricControls();
+	/// <summary>
+	/// set SelfIntersect() to be checked
+	/// </summary>
 	void GeometricControls(bool B);
+	/// <summary>
+	/// Sets status of Wire;
+	/// </summary>
 	void SetStatus(Macad::Occt::BRepCheck_Status theStatus);
 }; // class BRepCheck_Wire
 
