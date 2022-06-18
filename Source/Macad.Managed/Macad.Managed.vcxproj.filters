@@ -69,6 +69,12 @@
     <ClInclude Include="AisExtensions\AISX_Guid.h">
       <Filter>AisExtensions</Filter>
     </ClInclude>
+    <ClInclude Include="AisExtensions\AISX_Arrow.h">
+      <Filter>AisExtensions</Filter>
+    </ClInclude>
+    <ClInclude Include="AisExtensions\AISX_Circle.h">
+      <Filter>AisExtensions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -184,6 +190,18 @@
       <Filter>AisExtensions</Filter>
     </ClCompile>
     <ClCompile Include="AisExtensions\AISX_Guid.Managed.cpp">
+      <Filter>AisExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="AisExtensions\AISX_Arrow.cpp">
+      <Filter>AisExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="AisExtensions\AISX_Arrow.Managed.cpp">
+      <Filter>AisExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="AisExtensions\AISX_Circle.cpp">
+      <Filter>AisExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="AisExtensions\AISX_Circle.Managed.cpp">
       <Filter>AisExtensions</Filter>
     </ClCompile>
   </ItemGroup>

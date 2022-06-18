@@ -200,7 +200,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool OnMouseUp(MouseEventData data, bool shiftSelected)
+        public override bool OnMouseUp(MouseEventData data, bool additive)
         {
             if (_MoveMode != MoveMode.None)
             {
@@ -224,7 +224,7 @@ namespace Macad.Interaction
                 WorkspaceController.Invalidate();
                 return true;
             }
-            return base.OnMouseUp(data, shiftSelected);
+            return base.OnMouseUp(data, additive);
         }
 
         //--------------------------------------------------------------------------------------------------

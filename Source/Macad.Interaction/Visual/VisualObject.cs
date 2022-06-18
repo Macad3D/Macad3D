@@ -31,6 +31,23 @@ namespace Macad.Interaction.Visual
             // ReSharper disable once ValueParameterNotUsed
             set {  }
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public bool IsSelected
+        {
+            set
+            {
+                if (AisContext.IsSelected(AisObject) != value)
+                {
+                    AisContext.AddOrRemoveSelected(AisObject, false);
+                }
+            }
+            get
+            {
+                return AisContext.IsSelected(AisObject);
+            }
+        }
 
         //--------------------------------------------------------------------------------------------------
 

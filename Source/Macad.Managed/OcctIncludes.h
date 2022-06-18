@@ -38,6 +38,12 @@
 #include <GeomAdaptor_Surface.hxx>
 
 #include <ElSLib.hxx>
+#include <ElCLib.hxx>
+
+#include <Prs3d_Arrow.hxx>
+#include <Prs3d_ToolSector.hxx>
+#include <Prs3d_ToolDisk.hxx>
+#include <Prs3d_ToolCylinder.hxx>
 
 #include <Quantity_Color.hxx>
 #include <Quantity_NameOfColor.hxx>
@@ -126,6 +132,7 @@
 #include <Select3D_SensitiveFace.hxx>
 #include <Select3D_SensitiveTriangulation.hxx>
 #include <Select3D_SensitiveCircle.hxx>
+#include <Select3D_SensitiveCylinder.hxx>
 
 #include <AIS_KindOfInteractive.hxx>
 #include <AIS_InteractiveObject.hxx>

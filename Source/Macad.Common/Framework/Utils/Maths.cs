@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Macad.Common
 {
@@ -46,6 +47,23 @@ namespace Macad.Common
             }
             return value;
         }
+                
+        //--------------------------------------------------------------------------------------------------
+        
+        public static double NormalizeAngleDegree(double value, double min, double max)
+        {
+            Debug.Assert(max-min >= 360.0);
+
+            while (value >= max)
+            {
+                value -= 360.0;
+            }
+            while (value < min)
+            {
+                value += 360.0;
+            }
+            return value;
+        }
 
         //--------------------------------------------------------------------------------------------------
         
@@ -61,6 +79,23 @@ namespace Macad.Common
                 if (value < 0.0)
                     value += DoublePI;
                 return value;
+            }
+            return value;
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+        
+        public static double NormalizeAngleRad(double value, double min, double max)
+        {
+            Debug.Assert(max-min >= DoublePI);
+
+            while (value >= max)
+            {
+                value -= DoublePI;
+            }
+            while (value < min)
+            {
+                value += DoublePI;
             }
             return value;
         }

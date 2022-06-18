@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Macad.Common;
 using Macad.Core;
 using Macad.Occt;
 
@@ -14,6 +15,9 @@ namespace Macad.Interaction.Visual
         Dashed      = 3,
         Solid       = 4,
 
+        Boundary    = 1 << 14,
+        Translucent = 1 << 15,
+        
         Topmost     = 1 << 16,
         NoResize    = 1 << 32
     }
@@ -55,6 +59,13 @@ namespace Macad.Interaction.Visual
                 drawer.SetLineAspect(new Prs3d_LineAspect(Quantity_NameOfColor.Quantity_NOC_GRAY.ToColor(), Aspect_TypeOfLine.Aspect_TOL_SOLID, 2.0));
                 obj.SetTransparency(0.5);
                 break;
+            }
+
+            drawer.SetFaceBoundaryDraw(style.Has(HintStyle.Boundary));
+
+            if ((style & HintStyle.Translucent) > 0)
+            {
+                obj.SetTransparency(0.75);
             }
 
             if ((style & HintStyle.Topmost) > 0)

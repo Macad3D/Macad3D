@@ -8,7 +8,7 @@ using Macad.Presentation;
 
 namespace Macad.Interaction
 {
-    public abstract class Tool : BaseObject, IContextMenuItemProvider
+    public abstract class Tool : BaseObject, IMouseEventHandler, IContextMenuItemProvider
     {
         #region Properties
 
@@ -98,7 +98,7 @@ namespace Macad.Interaction
 
         #endregion
 
-        #region Event Callbacks
+        #region IMouseEventHandler
 
         public virtual bool OnMouseMove(MouseEventData data)
         {
@@ -114,10 +114,14 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual bool OnMouseUp(MouseEventData data, bool shiftSelected)
+        public virtual bool OnMouseUp(MouseEventData data, bool additive)
         {
             return false;
         }
+
+        #endregion
+        
+        #region Event Callbacks
 
         //--------------------------------------------------------------------------------------------------
 

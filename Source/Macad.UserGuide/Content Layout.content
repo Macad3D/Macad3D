@@ -137,6 +137,13 @@
           <HelpKeyword index="K" term="Merge" />
         </HelpKeywords>
       </Topic>
+      <Topic id="86065E4D-C0FC-46E2-AAE4-4B385FB47409" visible="True" title="Cross Section">
+        <HelpKeywords>
+          <HelpKeyword index="K" term="Boolean" />
+          <HelpKeyword index="K" term="Cross Section" />
+          <HelpKeyword index="K" term="Section" />
+        </HelpKeywords>
+      </Topic>
     </Topic>
     <Topic id="f4130d1f-604b-451e-b712-57c44ba0a6fc" visible="True" noFile="true" isExpanded="true" title="Form">
       <Topic id="240A3C08-F9A0-4E31-88E0-7B034C1D9F9D" visible="True">

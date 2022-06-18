@@ -152,7 +152,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool OnMouseUp(MouseEventData data, bool shiftSelected)
+        public override bool OnMouseUp(MouseEventData data, bool additive)
         {
             if (!IsFinished)
             {

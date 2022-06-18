@@ -180,5 +180,24 @@ namespace Macad.Test.Utils
             pipe.Profile = Pipe.ProfileType.HollowCircle;
             return pipe;
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static BooleanCut CreateHollowCylinder()
+        {
+            var cylinder = new Cylinder()
+            {
+                Radius = 10,
+                Height = 10
+            };
+            var cylinder2 = new Cylinder()
+            {
+                Radius = 7,
+                Height = 10
+            };
+
+            var body = Body.Create(cylinder);
+            return BooleanCut.Create(body, cylinder2);
+        }
     }
 }

@@ -347,6 +347,20 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
+        IEnumerable<IMouseEventHandler> _MouseEventHandlers()
+        {
+            if (_CurrentTool != null)
+                yield return _CurrentTool;
+
+            foreach (var toolAction in _ToolActions)
+                yield return toolAction;
+
+            foreach (var liveAction in _LiveActions)
+                yield return liveAction;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public bool IsCursorPositionValid
         {
             get
@@ -422,22 +436,11 @@ namespace Macad.Interaction
                 CursorPosition = planePoint;
                 CursorPosition2d = Workspace.WorkingPlane.Parameters(planePoint);
                 IsCursorPositionValid = true;
-                bool handled = false;
 
-                if (CurrentTool != null)
+                foreach (var handler in _MouseEventHandlers())
                 {
-                    handled = CurrentTool.OnMouseMove(_MouseEventData);
-                }
-
-                if (_ToolActions.Any() && !handled)
-                {
-                    foreach (var toolAction in _ToolActions)
-                    {
-                        if (toolAction.OnMouseMove(_MouseEventData))
-                        {
-                            break;
-                        }
-                    }
+                    if (handler.OnMouseMove(_MouseEventData))
+                        break;
                 }
 
                 if (_MouseEventData.ForceReDetection)
@@ -466,69 +469,50 @@ namespace Macad.Interaction
                 return;
             }
 
-            if (CurrentTool != null)
+            foreach (var handler in _MouseEventHandlers())
             {
-                if (CurrentTool.OnMouseDown(_MouseEventData))
-                {
-                    // Handled by tool
+                if (handler.OnMouseDown(_MouseEventData))
                     return;
-                }
             }
 
-            if (_ToolActions.Any())
-            {
-                foreach (var toolAction in _ToolActions)
-                {
-                    if (toolAction.OnMouseDown(_MouseEventData))
-                    {
-                        // Handled by tool action
-                        return;
-                    }
-                }
-            }
             IsSelecting = true;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void MouseUp(bool shiftKey, ViewportController viewportController)
+        public void MouseUp(bool additive, ViewportController viewportController)
         {
             bool wasSelecting = IsSelecting;
             IsSelecting = false;
-
-            if (CurrentTool != null)
+            
+            bool handled = false;
+            foreach (var handler in _MouseEventHandlers())
             {
-                if (CurrentTool.OnMouseUp(_MouseEventData, shiftKey))
-                {
-                    // Handled by tool
-                    return;
-                }
+                handled = handler.OnMouseUp(_MouseEventData, additive);
+                if (handled)
+                    break;
+            }
+            
+            if (_MouseEventData.ForceReDetection)
+            {
+                MouseMove(_LastMouseMovePosition, viewportController);
             }
 
-            if (_ToolActions.Any())
-            {
-                foreach (var toolAction in _ToolActions)
-                {
-                    if (toolAction.OnMouseUp(_MouseEventData, shiftKey))
-                    {
-                        // Handled by tool action
-                        return;
-                    }
-                }
-            }
+            if (handled)
+                return;
 
             if (wasSelecting)
             {
                 if (_MouseEventData.DetectedEntities.Any())
                 {
                     // Shape selected
-                    Selection.SelectEntities(_MouseEventData.DetectedEntities, !shiftKey);
+                    Selection.SelectEntities(_MouseEventData.DetectedEntities, !additive);
                     Invalidate();
                 }
                 else
                 {
                     // Empty click
-                    if (!shiftKey)
+                    if (!additive)
                     {
                         Selection.SelectEntity(null);
                         Invalidate();
@@ -681,7 +665,11 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        readonly List<ToolAction> _ToolActions = new List<ToolAction>();
+        readonly List<ToolAction> _ToolActions = new();
+
+        //--------------------------------------------------------------------------------------------------
+
+        readonly List<LiveAction> _LiveActions = new();
 
         //--------------------------------------------------------------------------------------------------
 
@@ -816,7 +804,10 @@ namespace Macad.Interaction
                     toolAction.WorkspaceController = this;
                     if (!toolAction.Start())
                         return false;
+
+                    _LiveActions.ForEach(action => action.Deactivate());
                     _ToolActions.Insert(0, toolAction);
+
                     RaisePropertyChanged(nameof(CurrentToolAction));
                 }
                 return true;
@@ -835,7 +826,49 @@ namespace Macad.Interaction
             if (_ToolActions.Contains(toolAction))
             {
                 _ToolActions.Remove(toolAction);
+
+                if(_ToolActions.Count == 0)
+                    _LiveActions.ForEach(action => action.Activate());
+
                 RaisePropertyChanged(nameof(CurrentToolAction));
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public bool StartLiveAction(LiveAction liveAction)
+        {
+            try
+            {
+                if (liveAction == null) 
+                    return false;
+
+                liveAction.WorkspaceController = this;
+                if (!liveAction.Start())
+                    return false;
+
+                _LiveActions.Insert(0, liveAction);
+
+                if(_ToolActions.Count == 0)
+                    liveAction.Activate();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return false;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void RemoveLiveAction(LiveAction liveAction)
+        {
+            if (_LiveActions.Contains(liveAction))
+            {
+                _LiveActions.Remove(liveAction);
+                liveAction.Stop();
             }
         }
 

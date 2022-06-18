@@ -9,7 +9,7 @@ using Macad.Presentation;
 
 namespace Macad.Interaction
 {
-    public abstract class ToolAction : IContextMenuItemProvider
+    public abstract class ToolAction : IMouseEventHandler, IContextMenuItemProvider
     {
         #region Events
 
@@ -112,6 +112,8 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
+        #region IMouseEventHandler
+
         public virtual bool OnMouseMove(MouseEventData data)
         {
             LastMouseEventData = data;
@@ -128,12 +130,14 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual bool OnMouseUp(MouseEventData data, bool shiftSelected)
+        public virtual bool OnMouseUp(MouseEventData data, bool additive)
         {
             return false;
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        #endregion
 
         public virtual bool OnKeyPressed(Key key)
         {

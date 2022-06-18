@@ -227,7 +227,8 @@
                                      mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetWorkingPlane}"/>
                 </Fluent:DropDownButton>
 
-                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.AlignWorkingPlane}"/>
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.AlignWorkingPlane}"
+                                     AutomationProperties.AutomationId="AlignWorkingPlane"/>
             </Fluent:RibbonGroupBox>
 
             <Fluent:RibbonGroupBox Header="Grid"
@@ -510,6 +511,8 @@
                 <Fluent:ToggleButton CommandParameter="Common"
                                      mmp:Command.Action="{x:Static mmi:ModelCommands.CreateBoolean}"
                                      AutomationProperties.AutomationId="CreateBooleanCommon"/>
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateCrossSection}"
+                               AutomationProperties.AutomationId="CreateCrossSection"/>
             </Fluent:RibbonGroupBox>
 
             <Fluent:RibbonGroupBox Header="Form"

@@ -7,10 +7,11 @@ public:
 
     //--------------------------------------------------------------------------------------------------
 
-    void SetPlane(const Handle(Geom_Plane)& thePlane);
+    void SetPlane(const gp_Pln& thePlane);
     void SetColor(const Quantity_Color& theColor) override;
-    void SetSize(double sizeX, double sizeY);
+    void SetSize(double theSizeX, double theSizeY);
     void SetTexture(const Handle(Image_PixMap)& thePixMap);
+    void SetTransparency(const Standard_Real theValue) override;
 
     void Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
                  const Handle(Prs3d_Presentation)& thePrs, const Standard_Integer theMode) override;
@@ -28,7 +29,7 @@ public:
 
     Standard_Boolean AcceptDisplayMode(const Standard_Integer theMode) const override
     {
-        return theMode==0;
+        return theMode>=0 && theMode<=1;
     }
 
     Standard_Integer Signature() const override
@@ -51,9 +52,7 @@ private:
     void _CreateQuad(Handle(Graphic3d_ArrayOfTriangles)& theTris, Handle(Graphic3d_ArrayOfSegments)& theSegs);
     void _InitDrawerAttributes();
 
-    Handle(Geom_Plane) _Plane;
+    gp_Pln _Plane;
     double _SizeX, _SizeY;
-
-    Handle(Prs3d_Drawer) _HilightDrawer;
 };
 

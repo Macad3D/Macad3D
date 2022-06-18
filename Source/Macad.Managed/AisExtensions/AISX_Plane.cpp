@@ -15,7 +15,7 @@ AISX_Plane::AISX_Plane()
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Plane::SetPlane(const Handle(Geom_Plane)& thePlane)
+void AISX_Plane::SetPlane(const gp_Pln& thePlane)
 {
     _Plane = thePlane;
     SetToUpdate();
@@ -31,15 +31,26 @@ void AISX_Plane::SetColor(const Quantity_Color& theColor)
     myDrawer->ShadingAspect()->SetColor(theColor);
     myDrawer->ShadingAspect()->Aspect()->SetEdgeColor(theColor);
     myDrawer->ShadingAspect()->Aspect()->SetShadingModel(Graphic3d_TOSM_UNLIT);
+
     SynchronizeAspects();
 }
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Plane::SetSize(double sizeX, double sizeY)
+void AISX_Plane::SetTransparency(const Standard_Real theValue)
 {
-    _SizeX = sizeX;
-    _SizeY = sizeY;
+    __super::SetTransparency(theValue);
+    myDrawer->ShadingAspect()->SetTransparency(theValue);
+
+    SynchronizeAspects();
+}
+
+//--------------------------------------------------------------------------------------------------
+
+void AISX_Plane::SetSize(double theSizeX, double theSizeY)
+{
+    _SizeX = theSizeX;
+    _SizeY = theSizeY;
     SetToUpdate();
     UpdatePresentations();
     UpdateSelection();
@@ -68,17 +79,22 @@ void AISX_Plane::SetTexture(const Handle(Image_PixMap)& thePixMap)
 void AISX_Plane::Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
                          const Handle(Prs3d_Presentation)& thePrs, const Standard_Integer theMode)
 {
-    if(_Plane.IsNull())
-        return;
-
     Handle(Graphic3d_ArrayOfTriangles) aTriArray;
     Handle(Graphic3d_ArrayOfSegments) aSegArray;
     _CreateQuad(aTriArray, aSegArray);
 
     Handle(Graphic3d_Group) aGroup = thePrs->CurrentGroup();
     aGroup->SetPrimitivesAspect(myDrawer->ShadingAspect()->Aspect());
-    aGroup->AddPrimitiveArray(aTriArray);
-    if(myDrawer->FaceBoundaryDraw())
+
+    if(theMode == 0)
+    {
+        aGroup->AddPrimitiveArray(aTriArray);
+        if(myDrawer->FaceBoundaryDraw())
+        {
+            aGroup->AddPrimitiveArray(aSegArray);
+        }
+    }
+    else if(theMode == 1)
     {
         aGroup->AddPrimitiveArray(aSegArray);
     }
@@ -89,41 +105,14 @@ void AISX_Plane::Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
 void AISX_Plane::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const Handle(Prs3d_Drawer)& theStyle, 
                                        const Handle(SelectMgr_EntityOwner)& theOwner)
 {
-    if(theOwner.IsNull() || _Plane.IsNull())
-    {
-        return;
-    }
-
-    Handle(Prs3d_Presentation) aHiPrs = GetHilightPresentation(thePrsMgr);
-    if(aHiPrs.IsNull())
-    {
-        return;
-    }
-
-	aHiPrs->Clear();
-	aHiPrs->SetZLayer(theStyle->ZLayer() != Graphic3d_ZLayerId_UNKNOWN ? theStyle->ZLayer() : myDrawer->ZLayer());
-
-    Handle(Graphic3d_ArrayOfTriangles) aTriArray;
-    Handle(Graphic3d_ArrayOfSegments) aSegArray;
-    _CreateQuad(aTriArray, aSegArray);
-
-    Handle(Graphic3d_Group) aGroup = aHiPrs->NewGroup();
-    _HilightDrawer->ShadingAspect()->Aspect()->SetColor(theStyle->Color());
-    aGroup->SetPrimitivesAspect(_HilightDrawer->ShadingAspect()->Aspect());
-    aGroup->AddPrimitiveArray(aTriArray);
-    aGroup->AddPrimitiveArray(aSegArray);
-
-    if(thePrsMgr->IsImmediateModeOn())
-    {
-        thePrsMgr->AddToImmediateList(aHiPrs);
-    }
+    thePrsMgr->Color(this, GetContext()->HighlightStyle(Prs3d_TypeOfHighlight_Dynamic), myDynHilightDrawer->DisplayMode());
 }
 
 //--------------------------------------------------------------------------------------------------
 
 void AISX_Plane::HilightSelected(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const SelectMgr_SequenceOfOwner& theSeq)
 {
-    thePrsMgr->Color(this, GetContext()->SelectionStyle(), 0);
+    thePrsMgr->Color(this, myHilightDrawer, myHilightDrawer->DisplayMode());
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -134,10 +123,10 @@ void AISX_Plane::_CreateQuad(Handle(Graphic3d_ArrayOfTriangles)& theTris, Handle
     const Standard_Real halfY = 0.5*_SizeY;
 
     gp_Pnt p1, p2, p3, p4;
-    _Plane->D0(-halfX,  halfY, p1);
-    _Plane->D0( halfX,  halfY, p2);
-    _Plane->D0( halfX, -halfY, p3);
-    _Plane->D0(-halfX, -halfY, p4);
+    ElSLib::PlaneD0(-halfX,  halfY, _Plane.Position(), p1);
+    ElSLib::PlaneD0( halfX,  halfY, _Plane.Position(), p2);
+    ElSLib::PlaneD0( halfX, -halfY, _Plane.Position(), p3);
+    ElSLib::PlaneD0(-halfX, -halfY, _Plane.Position(), p4);
 
     gp_Pnt2d uv1, uv2, uv3, uv4;
     uv1 = gp_Pnt2d(0, 1);
@@ -170,18 +159,15 @@ void AISX_Plane::ComputeSelection(const Handle(SelectMgr_Selection)& theSelectio
 {
     theSelection->Clear();
 
-    if(_Plane.IsNull())
-        return;
-
     Handle(Poly_Triangulation) sensitivePoly;
     const Standard_Real halfX = 0.5*_SizeX;
     const Standard_Real halfY = 0.5*_SizeY;
 
     TColgp_Array1OfPnt rectanglePoints(1, 4);
-    _Plane->D0 ( halfX,  halfY, rectanglePoints.ChangeValue(1));
-    _Plane->D0 ( halfX, -halfY, rectanglePoints.ChangeValue(2));
-    _Plane->D0 (-halfX, -halfY, rectanglePoints.ChangeValue(3));
-    _Plane->D0 (-halfX,  halfY, rectanglePoints.ChangeValue(4));
+    ElSLib::PlaneD0( halfX,  halfY, _Plane.Position(), rectanglePoints.ChangeValue(1));
+    ElSLib::PlaneD0( halfX, -halfY, _Plane.Position(), rectanglePoints.ChangeValue(2));
+    ElSLib::PlaneD0(-halfX, -halfY, _Plane.Position(), rectanglePoints.ChangeValue(3));
+    ElSLib::PlaneD0(-halfX,  halfY, _Plane.Position(), rectanglePoints.ChangeValue(4));
 
     Poly_Array1OfTriangle triangles(1, 2);
     triangles.ChangeValue(1) = Poly_Triangle(1, 2, 3);
@@ -206,15 +192,23 @@ void AISX_Plane::_InitDrawerAttributes()
     shasp->Aspect()->SetPolygonOffsets(Aspect_POM_Fill, 1.0f, -3);
     myDrawer->SetShadingAspect(shasp);
     myDrawer->SetFaceBoundaryDraw(true);
+    myDrawer->SetDisplayMode(0);
 
 	shasp = new Prs3d_ShadingAspect();
-    shasp->SetTransparency(0.33f);
+//    shasp->SetTransparency(0.33f);
     shasp->Aspect()->SetEdgeWidth(2);
     shasp->Aspect()->SetPolygonOffsets(Aspect_POM_Fill, 1.0f, -3);
-    _HilightDrawer = new Prs3d_Drawer();
-    _HilightDrawer->Link(myDrawer);
-    _HilightDrawer->SetShadingAspect(shasp);
-    _HilightDrawer->SetFaceBoundaryDraw(true);
+    myDynHilightDrawer = new Prs3d_Drawer();
+    myDynHilightDrawer->Link(myDrawer);
+//    myDynHilightDrawer->SetShadingAspect(shasp);
+    myDynHilightDrawer->SetFaceBoundaryDraw(true);
+    myDynHilightDrawer->SetDisplayMode(1);
+
+    myHilightDrawer = new Prs3d_Drawer();
+    myHilightDrawer->Link(myDrawer);
+    myHilightDrawer->SetShadingAspect(shasp);
+    myHilightDrawer->SetFaceBoundaryDraw(true);
+    myHilightDrawer->SetDisplayMode(1);
 }
 
 //--------------------------------------------------------------------------------------------------

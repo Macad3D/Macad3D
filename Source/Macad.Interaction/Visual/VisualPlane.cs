@@ -30,9 +30,23 @@ namespace Macad.Interaction.Visual
 
         //--------------------------------------------------------------------------------------------------
 
+        public float Transparency
+        {
+            get { return _Transparency; }
+            private set
+            {
+                _Transparency = value;
+                _UpdatePresentation();
+            }
+        }
+
+
+        //--------------------------------------------------------------------------------------------------
+
         AISX_Plane _AisObject;
         readonly DatumPlane _DatumPlane;
         Image_PixMap _Texture;
+        float _Transparency = 0.8f;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -158,9 +172,13 @@ namespace Macad.Interaction.Visual
 
         void _UpdatePresentation()
         {
-            _AisObject.SetPlane(new Geom_Plane(new Pln(_DatumPlane.GetCoordinateSystem())));
+            if (_AisObject == null)
+                return;
+
+            _AisObject.SetPlane(new Pln(_DatumPlane.GetCoordinateSystem()));
             _AisObject.SetSize(_DatumPlane.SizeX, _DatumPlane.SizeY);
             _AisObject.SetColor(_DatumPlane.Layer?.Color.ToQuantityColor() ?? Colors.Auxillary);
+            _AisObject.SetTransparency(_Transparency);
 
             if (!_DatumPlane.ImageFilePath.IsNullOrEmpty())
             {

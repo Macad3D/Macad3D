@@ -58,6 +58,9 @@ namespace Macad.Core
         public static readonly Quantity_Color SketchEditorSelection = Quantity_NameOfColor.Quantity_NOC_RED.ToColor();
         public static readonly Quantity_Color SketchEditorCreating = Quantity_NameOfColor.Quantity_NOC_GOLDENROD2.ToColor();
         public static readonly Quantity_Color SketchEditorAuxillary = Quantity_NameOfColor.Quantity_NOC_DEEPSKYBLUE3.ToColor();
+        public static readonly Quantity_Color ActionBlue = new Color(0.2f, 0.2f, 0.8f).ToQuantityColor();
+        public static readonly Quantity_Color ActionRed = new Color(0.8f, 0.2f, 0.2f).ToQuantityColor();
+        public static readonly Quantity_Color ActionGreen = new Color(0.2f, 0.8f, 0.2f).ToQuantityColor();
     }
 
     //--------------------------------------------------------------------------------------------------

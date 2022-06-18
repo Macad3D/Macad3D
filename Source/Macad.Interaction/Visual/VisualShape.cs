@@ -381,20 +381,22 @@ namespace Macad.Interaction.Visual
             _AisShape.SetDisplayMode((int)AIS_DisplayMode.AIS_Shaded);
             var ghostDrawer = new Prs3d_Drawer();
             ghostDrawer.Link(_AisShape.Attributes());
+            ghostDrawer.SetDisplayMode((int)AIS_DisplayMode.AIS_Shaded);
 
             var shadingAspect = new Prs3d_ShadingAspect();
             shadingAspect.SetColor(Colors.Ghost);
-            shadingAspect.SetTransparency(0.5);
+            shadingAspect.SetMaterial(Graphic3d_NameOfMaterial.Graphic3d_NOM_DEFAULT.ToAspect());
+            shadingAspect.SetTransparency(0.75);
             ghostDrawer.SetShadingAspect(shadingAspect);
 
-            var lineAspect = new Prs3d_LineAspect(Colors.Ghost, Aspect_TypeOfLine.Aspect_TOL_SOLID, 2.0);
+            var lineAspect = new Prs3d_LineAspect(Colors.Ghost, Aspect_TypeOfLine.Aspect_TOL_SOLID, 0.5);
             ghostDrawer.SetLineAspect(lineAspect);
             ghostDrawer.SetSeenLineAspect(lineAspect);
             ghostDrawer.SetWireAspect(lineAspect);
             ghostDrawer.SetFaceBoundaryAspect(lineAspect);
             ghostDrawer.SetFreeBoundaryAspect(lineAspect);
             ghostDrawer.SetUnFreeBoundaryAspect(lineAspect);
-            ghostDrawer.SetPointAspect(new Prs3d_PointAspect(Aspect_TypeOfMarker.Aspect_TOM_O_POINT, Colors.Ghost, 2.0));
+            ghostDrawer.SetPointAspect(new Prs3d_PointAspect(Aspect_TypeOfMarker.Aspect_TOM_O_POINT, Colors.Ghost, 0.5));
             ghostDrawer.SetFaceBoundaryDraw(true);
            
             _AisShape.SetAttributes(ghostDrawer);
@@ -539,7 +541,7 @@ namespace Macad.Interaction.Visual
         {
             var shape = (Entity as Body)?.Shape;
 
-            if (_AisShape != null && shape != null && !shape.IsValid)
+            if (_AisShape != null && shape != null && shape.HasErrors)
             {
                 if (_ErrorMarker == null)
                 {

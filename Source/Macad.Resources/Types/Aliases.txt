@@ -5,6 +5,7 @@ Shapes-Box=..\Icons\Prim-Box.xaml
 Shapes-BoxJoint=..\Icons\Feature-BoxJoint.xaml
 Shapes-CircularArray=..\Icons\Multiply-CircularArray.xaml
 Shapes-Chamfer=..\Icons\Mod-Chamfer.xaml
+Shapes-CrossSection=..\Icons\Mod-CrossSection.xaml
 Shapes-Cylinder=..\Icons\Prim-Cylinder.xaml
 Shapes-Extrude=..\Icons\Form-Extrude.xaml
 Shapes-Fillet=..\Icons\Mod-Fillet.xaml

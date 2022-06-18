@@ -22,9 +22,10 @@ namespace Macad
 				}
 
 			public:
-				void SetPlane(Geom_Plane^ plane)
+				void SetPlane(Pln plane)
 				{
-				    NativeInstance->SetPlane(plane->NativeInstance);
+					STRUCT_PIN(plane, Pln, gp_Pln);
+				    NativeInstance->SetPlane(*plane_ptr);
 				}
 
                 void SetSize(double sizeX, double sizeY)

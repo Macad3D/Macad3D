@@ -24,6 +24,13 @@ namespace Macad.Core
 
         //--------------------------------------------------------------------------------------------------
 
+        public static Pnt Scaled(this Pnt pnt, double scale)
+        {
+            return new Pnt(pnt.X * scale, pnt.Y * scale, pnt.Z * scale);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
         #region Pnt2d

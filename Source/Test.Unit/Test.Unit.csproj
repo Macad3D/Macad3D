@@ -24,5 +24,8 @@
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" PrivateAssets="all" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interaction\Modify2D\" />
+  </ItemGroup>
 
 </Project>

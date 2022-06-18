@@ -77,5 +77,16 @@ namespace Macad.Common
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action) 
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            foreach (var item in source)
+            {
+                action(item);
+            }
+        }
     }
 }

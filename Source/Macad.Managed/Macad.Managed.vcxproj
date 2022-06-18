@@ -83,6 +83,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AisExtensions\AISX_Arrow.h" />
+    <ClInclude Include="AisExtensions\AISX_Circle.h" />
     <ClInclude Include="AisExtensions\AISX_Guid.h" />
     <ClInclude Include="AisExtensions\AISX_Plane.h" />
     <ClInclude Include="OcctExtensions\AIS_CircleEx.h" />
@@ -100,6 +102,10 @@
     <ClInclude Include="SketchSolve\solve.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AisExtensions\AISX_Arrow.cpp" />
+    <ClCompile Include="AisExtensions\AISX_Arrow.Managed.cpp" />
+    <ClCompile Include="AisExtensions\AISX_Circle.cpp" />
+    <ClCompile Include="AisExtensions\AISX_Circle.Managed.cpp" />
     <ClCompile Include="AisExtensions\AISX_Guid.cpp" />
     <ClCompile Include="AisExtensions\AISX_Guid.Managed.cpp" />
     <ClCompile Include="AisExtensions\AISX_Plane.cpp" />

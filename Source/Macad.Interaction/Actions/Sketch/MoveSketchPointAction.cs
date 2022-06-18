@@ -202,7 +202,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool OnMouseUp(MouseEventData data, bool shiftSelected)
+        public override bool OnMouseUp(MouseEventData data, bool additive)
         {
             if (_Moving)
             {
@@ -228,7 +228,7 @@ namespace Macad.Interaction
 
                 return true;
             }
-            return base.OnMouseUp(data, shiftSelected);
+            return base.OnMouseUp(data, additive);
         }
 
         //--------------------------------------------------------------------------------------------------

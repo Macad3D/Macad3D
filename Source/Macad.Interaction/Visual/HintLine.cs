@@ -6,11 +6,28 @@ namespace Macad.Interaction.Visual
 {
     public class HintLine : Hint
     {
+        public Quantity_Color Color
+        {
+            get { return _Color; }
+            set
+            {
+                if (_Color != null && _Color.Equals(value)) 
+                    return;
+
+                _Color = value;
+                if (_AisLine != null)
+                    Update();
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         AIS_Line _AisLine;
         readonly HintStyle _Style;
         Geom_Point _P1;
         Geom_Point _P2;
         Geom_Line _GeomLine;
+        Quantity_Color _Color;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -66,6 +83,7 @@ namespace Macad.Interaction.Visual
                     _AisLine.SetPoints(_P1, _P2);
                 AisContext.RecomputePrsOnly(_AisLine, false);
             }
+            _UpdatePresentation();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -123,6 +141,14 @@ namespace Macad.Interaction.Visual
             AisContext.Display(_AisLine, false);
             AisContext.Deactivate(_AisLine);
             return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _UpdatePresentation()
+        {
+            if(_Color != null)
+                _AisLine.SetColor(_Color);
         }
 
         //--------------------------------------------------------------------------------------------------

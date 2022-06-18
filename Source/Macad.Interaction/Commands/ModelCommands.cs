@@ -553,6 +553,27 @@ namespace Macad.Interaction
         };
 
         //--------------------------------------------------------------------------------------------------
+                
+        public static ActionCommand CreateCrossSection { get; } = new(
+            () =>
+            {
+                var body = InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.First() as Body;
+                if (body?.Shape?.ShapeType != ShapeType.Solid)
+                    return;
+
+                CrossSection.Create(body, CrossSection.ProposePlane(body, _WorkspaceController.Workspace.WorkingPlane));
+                InteractiveContext.Current?.UndoHandler.Commit();
+                _WorkspaceController.Invalidate();
+            },
+            () => _CanExecuteSolidModifier())
+        {
+            Header = () => "Cross Section",
+            Description = () => "Creates a cross section sketch by cutting the solid with a plane.",
+            Icon = () => "Mod-CrossSection",
+            HelpTopic = "86065E4D-C0FC-46E2-AAE4-4B385FB47409"
+        };
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
 
