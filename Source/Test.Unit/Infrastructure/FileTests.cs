@@ -16,12 +16,18 @@ public class FileTests
         var testBytes = TestData.GetTestData(Path.Combine("SourceData", "Images", "coat-of-arms.png"));
         var filePath = Path.Combine(TestData.TempDirectory, "PartialReadsInDeflateStream.zip");
 
-        FileSystem fileSystem = new FileSystem(filePath);
-        fileSystem.Write("TestBlob", testBytes);
-        fileSystem.Commit();
+        FileSystem fileSystem;
+        using (fileSystem = new(filePath))
+        {
+            fileSystem.Write("TestBlob", testBytes);
+            fileSystem.Commit();
+        }
 
-        fileSystem = new FileSystem(filePath);
-        var reReadData = fileSystem.Read("TestBlob");
-        Assert.AreEqual(testBytes.Length, reReadData.Length);
+        using (fileSystem = new(filePath))
+        {
+            fileSystem = new FileSystem(filePath);
+            var reReadData = fileSystem.Read("TestBlob");
+            Assert.AreEqual(testBytes.Length, reReadData.Length);
+        }
     }
 }

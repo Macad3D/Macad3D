@@ -263,7 +263,7 @@ namespace Macad.Core.Topology
             // Save
             try
             {
-                var fileSystem = new FileSystem(filePath);
+                using FileSystem fileSystem = new(filePath);
 
                 if (!fileSystem.Serialize(GetType().Name, this, context))
                     return false;
@@ -291,7 +291,7 @@ namespace Macad.Core.Topology
         {
             try
             {
-                var fileSystem = new FileSystem(filePath);
+                using FileSystem fileSystem = new(filePath);
                 var newDoc = fileSystem.Deserialize<TD>(typeof(TD).Name, context, verifyVersion);
 
                 if (newDoc != null)
