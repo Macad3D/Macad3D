@@ -115,11 +115,18 @@ namespace Macad.Common
 
                     using (var instream = entry.Open())
                     {
-                        var length = entry.Length;
+                        int length = (int)entry.Length;
                         buffer = new byte[length];
-                        if (instream.Read(buffer, 0, (int) length) != length)
+
+                        int totalRead = 0;
+                        while (totalRead < length)
                         {
-                            throw new Exception($"File reading failed for file {name} from archive {Path}.");
+                            var bytesRead = instream.Read(buffer, totalRead, length-totalRead);
+                            if (bytesRead == 0)
+                            {
+                                throw new Exception("Less bytes read than expected.");
+                            }
+                            totalRead += bytesRead;
                         }
                     }
                 }
