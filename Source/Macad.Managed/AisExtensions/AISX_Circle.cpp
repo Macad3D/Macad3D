@@ -168,7 +168,7 @@ void AISX_Circle::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)
                                        const Handle(SelectMgr_EntityOwner)& theOwner)
 {
     myDynHilightDrawer->SetColor(GetContext()->HighlightStyle()->Color());
-    thePrsMgr->Color(this, myDynHilightDrawer, 1, nullptr, myDynHilightDrawer->ZLayer());
+    thePrsMgr->Color(this, myDynHilightDrawer, 1, nullptr, myDrawer->ZLayer());
 }
 
 //--------------------------------------------------------------------------------------------------

@@ -37,6 +37,22 @@ void AISX_Plane::SetColor(const Quantity_Color& theColor)
 
 //--------------------------------------------------------------------------------------------------
 
+void AISX_Plane::SetColor(const Quantity_Color& theColor, bool theIncludeHilight)
+{
+    SetColor(theColor);
+
+    if(theIncludeHilight)
+    {
+        Graphic3d_Vec3 hlsColor = Quantity_Color::Convert_LinearRGB_To_HLS(Graphic3d_Vec3((float)theColor.Red(), (float)theColor.Green(), (float)theColor.Blue()));
+        hlsColor.y() = __min(hlsColor.y() + 0.2f, 1.0f);
+        myHilightDrawer->SetColor(Quantity_Color(hlsColor.x(), hlsColor.y(), hlsColor.z(), Quantity_TOC_HLS));
+    }
+
+    SynchronizeAspects();
+}
+
+//--------------------------------------------------------------------------------------------------
+
 void AISX_Plane::SetTransparency(const Standard_Real theValue)
 {
     __super::SetTransparency(theValue);

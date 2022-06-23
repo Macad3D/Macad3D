@@ -68,7 +68,7 @@ public class TranslateAxisLiveAction : LiveAction
 
         Arrow.Style style = Arrow.Style.Headless;
         if (_Length == 0)
-            style |= Arrow.Style.AutoScale;
+            style |= Arrow.Style.NoResize;
         _Arrow = new Arrow(WorkspaceController, style)
         {
             IsSelectable = true,

@@ -9,6 +9,7 @@ public:
 
     void SetPlane(const gp_Pln& thePlane);
     void SetColor(const Quantity_Color& theColor) override;
+    void SetColor(const Quantity_Color& theColor, bool theIncludeHilight);
     void SetSize(double theSizeX, double theSizeY);
     void SetTexture(const Handle(Image_PixMap)& thePixMap);
     void SetTransparency(const Standard_Real theValue) override;

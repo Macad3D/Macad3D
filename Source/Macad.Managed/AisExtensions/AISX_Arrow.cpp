@@ -119,7 +119,7 @@ void AISX_Arrow::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)&
                                        const Handle(SelectMgr_EntityOwner)& theOwner)
 {
     myDynHilightDrawer->SetColor(GetContext()->HighlightStyle()->Color());
-    thePrsMgr->Color(this, myDynHilightDrawer, myDrawer->DisplayMode(), nullptr, myDynHilightDrawer->ZLayer());
+    thePrsMgr->Color(this, myDynHilightDrawer, myDrawer->DisplayMode(), nullptr, myDrawer->ZLayer());
 }
 
 //--------------------------------------------------------------------------------------------------

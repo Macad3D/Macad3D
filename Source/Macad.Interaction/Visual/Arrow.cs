@@ -13,8 +13,9 @@ public sealed class Arrow : VisualObject
     public enum Style
     {
         None = 0,
-        AutoScale = 1 << 0,
         Headless = 1 << 1,
+        Topmost  = 1 << 16,
+        NoResize = 1 << 18,
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -149,13 +150,13 @@ public sealed class Arrow : VisualObject
         if (_AisObject == null)
             return;
 
-        if (_Style.Has(Style.AutoScale))
+        if (_Style.Has(Style.NoResize))
         {
             Graphic3d_TransformPers transformPers = new(Graphic3d_TransModeFlags.Graphic3d_TMF_ZoomPers, _Axis.Location);
             _AisObject.SetTransformPersistence(transformPers);
 
             _AisObject.SetLocalTransformation(new Trsf(new Ax3(Pnt.Origin, _Axis.Direction), Ax3.XOY));
-            double size = 5.0 * WorkspaceController.ActiveViewport.DpiScale;
+            double size = _Length * 5.0 * WorkspaceController.ActiveViewport.DpiScale;
             _AisObject.SetSize(size * 10.0, size);
         }
         else
@@ -177,6 +178,9 @@ public sealed class Arrow : VisualObject
             return;
 
         _AisObject = new AISX_Arrow();
+        
+        if (_Style.HasFlag(Style.Topmost))
+            _AisObject.SetZLayer(-3); // TOPMOST
 
         _UpdatePresentation();
 

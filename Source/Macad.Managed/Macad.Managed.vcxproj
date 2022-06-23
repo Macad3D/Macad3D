@@ -87,12 +87,7 @@
     <ClInclude Include="AisExtensions\AISX_Circle.h" />
     <ClInclude Include="AisExtensions\AISX_Guid.h" />
     <ClInclude Include="AisExtensions\AISX_Plane.h" />
-    <ClInclude Include="OcctExtensions\AIS_CircleEx.h" />
     <ClInclude Include="OcctExtensions\AIS_PointEx.h" />
-    <ClInclude Include="OcctExtensions\AIS_RotationGizmo.h" />
-    <ClInclude Include="OcctExtensions\AIS_RotationGizmo_Managed.h" />
-    <ClInclude Include="OcctExtensions\AIS_TranslationGizmo.h" />
-    <ClInclude Include="OcctExtensions\AIS_TranslationGizmo_Managed.h" />
     <ClInclude Include="OcctExtensions\AIS_AxisEx.h" />
     <ClInclude Include="OcctExtensions\AIS_PlaneEx.h" />
     <ClInclude Include="OcctExtensions\AIS_TranslationGizmo2D_Managed.h" />
@@ -116,7 +111,6 @@
     <ClCompile Include="Interop\SpaceNavigatorInterop.cpp" />
     <ClCompile Include="OcctExtensions\AIS_AxisEx.cpp" />
     <ClCompile Include="OcctExtensions\AIS_AxisEx_Managed.cpp" />
-    <ClCompile Include="OcctExtensions\AIS_CircleEx.cpp" />
     <ClCompile Include="OcctExtensions\AIS_PlaneEx.cpp" />
     <ClCompile Include="OcctExtensions\AIS_PointEx.cpp" />
     <ClCompile Include="OcctExtensions\AIS_PointEx_Managed.cpp" />
@@ -128,10 +122,6 @@
     </ClCompile>
     <ClInclude Include="OcctExtensions\AIS_TranslationGizmo2D.h" />
     <ClCompile Include="OcctExtensions\AIS_TranslationGizmo2D_Managed.cpp" />
-    <ClCompile Include="OcctExtensions\AIS_RotationGizmo.cpp" />
-    <ClCompile Include="OcctExtensions\AIS_RotationGizmo_Managed.cpp" />
-    <ClCompile Include="OcctExtensions\AIS_TranslationGizmo.cpp" />
-    <ClCompile Include="OcctExtensions\AIS_TranslationGizmo_Managed.cpp" />
     <ClCompile Include="OcctExtensions\AIS_ViewCubeEx.cpp" />
     <ClCompile Include="OcctExtensions\AIS_ViewCubeEx_Managed.cpp" />
     <ClCompile Include="OcctHelper\AisHelper.cpp" />

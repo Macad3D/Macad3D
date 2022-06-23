@@ -12,7 +12,8 @@ public class Circle: VisualObject
     public enum Style
     {
         None = 0,
-        AutoScale = 1 << 0
+        Topmost     = 1 << 16,
+        NoResize    = 1 << 18
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -181,13 +182,13 @@ public class Circle: VisualObject
         if (_AisObject == null)
             return;
 
-        if (_Style.Has(Style.AutoScale))
+        if (_Style.Has(Style.NoResize))
         {
             Graphic3d_TransformPers transformPers = new(Graphic3d_TransModeFlags.Graphic3d_TMF_ZoomPers, _Position.Location);
             _AisObject.SetTransformPersistence(transformPers);
 
             _AisObject.SetLocalTransformation(new Trsf(new Ax3(Pnt.Origin, _Position.Direction, _Position.XDirection), Ax3.XOY));
-            double size = 50.0 * WorkspaceController.ActiveViewport.DpiScale;
+            double size = _Radius * 50.0 * WorkspaceController.ActiveViewport.DpiScale;
             _AisObject.SetCircle(new gp_Circ(Ax2.XOY, size));
         }
         else
@@ -210,6 +211,9 @@ public class Circle: VisualObject
             return;
 
         _AisObject = new AISX_Circle();
+
+        if (_Style.HasFlag(Style.Topmost))
+            _AisObject.SetZLayer(-3); // TOPMOST
 
         _UpdatePresentation();
 

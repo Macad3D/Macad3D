@@ -27,21 +27,6 @@
     <ClInclude Include="OcctExtensions\AIS_AxisEx.h">
       <Filter>OcctExtensions</Filter>
     </ClInclude>
-    <ClInclude Include="OcctExtensions\AIS_TranslationGizmo_Managed.h">
-      <Filter>OcctExtensions</Filter>
-    </ClInclude>
-    <ClInclude Include="OcctExtensions\AIS_TranslationGizmo.h">
-      <Filter>OcctExtensions</Filter>
-    </ClInclude>
-    <ClInclude Include="OcctExtensions\AIS_RotationGizmo.h">
-      <Filter>OcctExtensions</Filter>
-    </ClInclude>
-    <ClInclude Include="OcctExtensions\AIS_RotationGizmo_Managed.h">
-      <Filter>OcctExtensions</Filter>
-    </ClInclude>
-    <ClInclude Include="OcctExtensions\AIS_CircleEx.h">
-      <Filter>OcctExtensions</Filter>
-    </ClInclude>
     <ClInclude Include="ManagedPCH.h">
       <Filter>Std</Filter>
     </ClInclude>
@@ -94,21 +79,6 @@
     </ClCompile>
     <ClCompile Include="Interop\SpaceNavigatorInterop.cpp">
       <Filter>Interop</Filter>
-    </ClCompile>
-    <ClCompile Include="OcctExtensions\AIS_TranslationGizmo_Managed.cpp">
-      <Filter>OcctExtensions</Filter>
-    </ClCompile>
-    <ClCompile Include="OcctExtensions\AIS_TranslationGizmo.cpp">
-      <Filter>OcctExtensions</Filter>
-    </ClCompile>
-    <ClCompile Include="OcctExtensions\AIS_RotationGizmo.cpp">
-      <Filter>OcctExtensions</Filter>
-    </ClCompile>
-    <ClCompile Include="OcctExtensions\AIS_RotationGizmo_Managed.cpp">
-      <Filter>OcctExtensions</Filter>
-    </ClCompile>
-    <ClCompile Include="OcctExtensions\AIS_CircleEx.cpp">
-      <Filter>OcctExtensions</Filter>
     </ClCompile>
     <ClCompile Include="OcctHelper\HLRBRepAlgo.cpp">
       <Filter>OcctHelper</Filter>

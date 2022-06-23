@@ -88,12 +88,12 @@ internal class CrossSectionEditor : Editor<CrossSection>
         // Plane
         _TranslatedPlane = Entity.GetCenteredPlane(out _PlaneSize).Transformed(trsf);
 
-        _PlaneVisual ??= new Plane(WorkspaceController);
+        _PlaneVisual ??= new Plane(WorkspaceController, Plane.Style.None);
         _PlaneVisual.Transparency = 0.7;
         _PlaneVisual.Boundary = false;
         _PlaneVisual.Color = Colors.ActionBlue;
+        _PlaneVisual.Size = new XY(_PlaneSize, _PlaneSize);
         _PlaneVisual.Set(_TranslatedPlane);
-        _PlaneVisual.SetSize(_PlaneSize, _PlaneSize);
         _PlaneVisual.SetLocalTransformation(null);
     }
 

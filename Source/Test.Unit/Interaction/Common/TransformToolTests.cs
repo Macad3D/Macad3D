@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using Macad.Core;
 using Macad.Test.Utils;
 using Macad.Core.Shapes;
 using Macad.Interaction;
@@ -30,9 +29,9 @@ namespace Macad.Test.Unit.Interaction.Common
         }
 
         //--------------------------------------------------------------------------------------------------
-
+        
         [Test]
-        public void Rendering()
+        public void RenderingTranslate()
         {
             var ctx = Context.Current;
 
@@ -66,7 +65,24 @@ namespace Macad.Test.Unit.Interaction.Common
                 // Translate Hilite XZ
                 ctx.ViewportController.MouseMove(new Point(296, 136));
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingTranslateHiliteXZ"));
+            });
+        }
 
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void RenderingRotation()
+        {
+            var ctx = Context.Current;
+
+            var body = TestGeomGenerator.CreateBody(Box.Create(10, 5, 2));
+            ctx.ViewportController.ZoomFitAll();
+
+            var tool = new TransformTool(new[] {body}, TransformTool.PivotPoint.EntityPivot, TransformTool.Options.None);
+            ctx.WorkspaceController.StartTool(tool);
+
+            Assert.Multiple(() =>
+            {
                 // Rotate Idle
                 tool.ToggleTransformMode();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RenderingRotateIdle"));

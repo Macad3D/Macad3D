@@ -267,6 +267,7 @@ namespace Macad.Interaction
             }
 
             InteractiveContext.Current.UndoHandler.Commit();
+            WorkspaceController.Invalidate();
 
             _UpdateTransformations(null);
 

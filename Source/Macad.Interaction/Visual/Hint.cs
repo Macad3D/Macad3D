@@ -19,7 +19,7 @@ namespace Macad.Interaction.Visual
         Translucent = 1 << 15,
         
         Topmost     = 1 << 16,
-        NoResize    = 1 << 32
+        NoResize    = 1 << 18
     }
 
     //--------------------------------------------------------------------------------------------------

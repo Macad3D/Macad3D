@@ -22,6 +22,11 @@ namespace Macad
 				}
 
 			public:
+				void SetColor(Quantity_Color^ theColor, bool theIncludeHilight)
+				{
+				    NativeInstance->SetColor(*theColor->NativeInstance, theIncludeHilight);
+				}
+
 				void SetPlane(Pln plane)
 				{
 					STRUCT_PIN(plane, Pln, gp_Pln);

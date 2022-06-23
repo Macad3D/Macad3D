@@ -82,7 +82,7 @@ public class RotateLiveAction : LiveAction
         if (_Circle != null)
             return;
 
-        Circle.Style style = _Radius==0 ? Circle.Style.AutoScale : Circle.Style.None;
+        Circle.Style style = _Radius==0 ? Circle.Style.NoResize : Circle.Style.None;
         _Circle = new Circle(WorkspaceController, style)
         {
             Radius = _Radius,
