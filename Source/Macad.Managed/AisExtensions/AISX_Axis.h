@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-class AISX_Arrow : public AIS_InteractiveObject
+class AISX_Axis : public AIS_InteractiveObject
 {
 public:
-    AISX_Arrow();
+    AISX_Axis();
 
     //--------------------------------------------------------------------------------------------------
 
@@ -38,7 +38,7 @@ public:
 
     //--------------------------------------------------------------------------------------------------
 
-    DEFINE_STANDARD_RTTIEXT(AISX_Arrow, AIS_InteractiveObject)
+    DEFINE_STANDARD_RTTIEXT(AISX_Axis, AIS_InteractiveObject)
 
     //--------------------------------------------------------------------------------------------------
 

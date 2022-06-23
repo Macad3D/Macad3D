@@ -7,7 +7,7 @@ using Macad.Occt.Extensions;
 
 namespace Macad.Interaction.Visual;
 
-public sealed class Arrow : VisualObject
+public sealed class Axis : VisualObject
 {
     [Flags]
     public enum Style
@@ -84,7 +84,7 @@ public sealed class Arrow : VisualObject
     //--------------------------------------------------------------------------------------------------
 
     readonly Style _Style;
-    AISX_Arrow _AisObject;
+    AISX_Axis _AisObject;
     Ax1 _Axis = Ax1.OZ;
     bool _IsSelectable;
     double _Length = 10.0;
@@ -93,7 +93,7 @@ public sealed class Arrow : VisualObject
 
     //--------------------------------------------------------------------------------------------------
 
-    public Arrow(WorkspaceController workspaceController, Style style)
+    public Axis(WorkspaceController workspaceController, Style style)
         : base(workspaceController, null)
     {
         _Style = style;
@@ -156,8 +156,8 @@ public sealed class Arrow : VisualObject
             _AisObject.SetTransformPersistence(transformPers);
 
             _AisObject.SetLocalTransformation(new Trsf(new Ax3(Pnt.Origin, _Axis.Direction), Ax3.XOY));
-            double size = _Length * 5.0 * WorkspaceController.ActiveViewport.DpiScale;
-            _AisObject.SetSize(size * 10.0, size);
+            double scale = WorkspaceController.ActiveViewport.DpiScale;
+            _AisObject.SetSize(_Length * scale * 50.0, _Width * scale);
         }
         else
         {
@@ -177,7 +177,7 @@ public sealed class Arrow : VisualObject
         if (_AisObject != null)
             return;
 
-        _AisObject = new AISX_Arrow();
+        _AisObject = new AISX_Axis();
         
         if (_Style.HasFlag(Style.Topmost))
             _AisObject.SetZLayer(-3); // TOPMOST

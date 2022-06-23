@@ -83,22 +83,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AisExtensions\AISX_Arrow.h" />
+    <ClInclude Include="AisExtensions\AISX_Axis.h" />
     <ClInclude Include="AisExtensions\AISX_Circle.h" />
     <ClInclude Include="AisExtensions\AISX_Guid.h" />
     <ClInclude Include="AisExtensions\AISX_Plane.h" />
     <ClInclude Include="OcctExtensions\AIS_PointEx.h" />
-    <ClInclude Include="OcctExtensions\AIS_AxisEx.h" />
-    <ClInclude Include="OcctExtensions\AIS_PlaneEx.h" />
-    <ClInclude Include="OcctExtensions\AIS_TranslationGizmo2D_Managed.h" />
     <ClInclude Include="OcctExtensions\AIS_ViewCubeEx.h" />
     <ClInclude Include="ManagedPCH.h" />
     <ClInclude Include="OcctIncludes.h" />
     <ClInclude Include="SketchSolve\solve.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AisExtensions\AISX_Arrow.cpp" />
-    <ClCompile Include="AisExtensions\AISX_Arrow.Managed.cpp" />
+    <ClCompile Include="AisExtensions\AISX_Axis.cpp" />
+    <ClCompile Include="AisExtensions\AISX_Axis.Managed.cpp" />
     <ClCompile Include="AisExtensions\AISX_Circle.cpp" />
     <ClCompile Include="AisExtensions\AISX_Circle.Managed.cpp" />
     <ClCompile Include="AisExtensions\AISX_Guid.cpp" />
@@ -109,19 +106,13 @@
     <ClCompile Include="Interop\ExceptionHelper.cpp" />
     <ClCompile Include="Interop\FileOperation.cpp" />
     <ClCompile Include="Interop\SpaceNavigatorInterop.cpp" />
-    <ClCompile Include="OcctExtensions\AIS_AxisEx.cpp" />
-    <ClCompile Include="OcctExtensions\AIS_AxisEx_Managed.cpp" />
-    <ClCompile Include="OcctExtensions\AIS_PlaneEx.cpp" />
     <ClCompile Include="OcctExtensions\AIS_PointEx.cpp" />
     <ClCompile Include="OcctExtensions\AIS_PointEx_Managed.cpp" />
-    <ClCompile Include="OcctExtensions\AIS_TranslationGizmo2D.cpp" />
     <ClCompile Include="OcctHelper\MessageRouter.cpp" />
     <ClCompile Include="SketchSolve\solveimpl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClInclude Include="OcctExtensions\AIS_TranslationGizmo2D.h" />
-    <ClCompile Include="OcctExtensions\AIS_TranslationGizmo2D_Managed.cpp" />
     <ClCompile Include="OcctExtensions\AIS_ViewCubeEx.cpp" />
     <ClCompile Include="OcctExtensions\AIS_ViewCubeEx_Managed.cpp" />
     <ClCompile Include="OcctHelper\AisHelper.cpp" />

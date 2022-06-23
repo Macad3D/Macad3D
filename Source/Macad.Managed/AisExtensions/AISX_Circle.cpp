@@ -136,8 +136,13 @@ void AISX_Circle::_ComputeCircle(const Handle(Prs3d_Presentation)& thePrs, const
 
     if(_LimitStartParam != _LimitEndParam)
     {
-        double startParam = Min(_LimitStartParam, _SectorStartParam);
-        double endParam = Max(_LimitEndParam, _SectorEndParam);
+        double startParam = _LimitStartParam;
+        double endParam = _LimitEndParam;
+        if(_SectorStartParam != _SectorEndParam)
+        {
+            startParam = Min(startParam, _SectorStartParam);
+            endParam = Max(endParam, _SectorEndParam);
+        }
 	    StdPrs_DeflectionCurve::Add(thePrs, GeomAdaptor_Curve(curv, startParam, endParam), theDrawer);
     }
     else

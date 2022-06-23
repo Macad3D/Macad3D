@@ -37,7 +37,7 @@ namespace Macad.Interaction.Editors.Shapes
         TopoDS_Shape _TargetBrep;
 
         List<TopoDS_Shape> _SubshapesOfFace;
-        HintAxis _DirectionPreview;
+        Axis _DirectionPreview;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -126,13 +126,13 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 if (_GetPreviewAxis(toolAction as SelectSubshapeAction, out var axis))
                 {
-                    if (_DirectionPreview == null)
+                    _DirectionPreview ??= new Axis(WorkspaceController, Axis.Style.NoResize)
                     {
-                        _DirectionPreview = new HintAxis(WorkspaceController, HintStyle.NoResize);
-                    }
-                    _DirectionPreview.SetAxis(axis);
-                    _DirectionPreview.SetLength(75.0);
-                    _DirectionPreview.SetColor(Colors.Highlight);
+                        Length = 1.5,
+                        Width = 3.0,
+                        Color = Colors.Highlight
+                    };
+                    _DirectionPreview.Set(axis);
                 }
                 else
                 {

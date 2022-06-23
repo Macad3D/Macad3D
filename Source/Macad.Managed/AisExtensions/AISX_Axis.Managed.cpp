@@ -1,6 +1,6 @@
 ﻿#include "ManagedPCH.h"
 
-#include "AISX_Arrow.h"
+#include "AISX_Axis.h"
 
 #using "Macad.Occt.dll" as_friend
 
@@ -10,15 +10,15 @@ namespace Macad
 	{
 		namespace Extensions
 		{
-			public ref class AISX_Arrow sealed : public AIS_InteractiveObject
+			public ref class AISX_Axis sealed : public AIS_InteractiveObject
 			{
 			public:
-				IMPLEMENT_TRANSIENT(AISX_Arrow, AIS_InteractiveObject)
+				IMPLEMENT_TRANSIENT(AISX_Axis, AIS_InteractiveObject)
 
-			    AISX_Arrow()
+			    AISX_Axis()
 					: AIS_InteractiveObject(InitMode::Uninitialized)
 				{
-					NativeInstance = new ::AISX_Arrow();
+					NativeInstance = new ::AISX_Axis();
 				}
 
 			public:

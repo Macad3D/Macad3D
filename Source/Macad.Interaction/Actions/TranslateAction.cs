@@ -43,7 +43,7 @@ public class TranslateAction : ToolAction
     Ax1 _MoveAxis;
     Pln _MovePlane;
 
-    readonly Arrow[] _AxisGizmos = new Arrow[3];
+    readonly Axis[] _AxisGizmos = new Axis[3];
     readonly Plane[] _PlaneGizmos = new Plane[3];
     Coord3dHudElement _Coord3dHudElement;
     Delta3DHudElement _Delta3DHudElement;
@@ -88,7 +88,7 @@ public class TranslateAction : ToolAction
         for (int i = 0; i < _AxisGizmos.Length; i++)
         {
             var mode = (MoveMode)i+1;
-            _AxisGizmos[i] ??= new Arrow(WorkspaceController, Arrow.Style.Headless | Arrow.Style.NoResize | Arrow.Style.Topmost)
+            _AxisGizmos[i] ??= new Axis(WorkspaceController, Axis.Style.Headless | Axis.Style.NoResize | Axis.Style.Topmost)
             {
                 Color = _GetColorByMode(mode),
                 IsSelectable = true,

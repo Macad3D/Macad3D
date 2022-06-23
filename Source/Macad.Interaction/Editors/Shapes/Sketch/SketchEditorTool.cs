@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
 using Macad.Interaction.Visual;
 using Macad.Common;
 using Macad.Common.Serialization;
@@ -513,20 +512,32 @@ namespace Macad.Interaction.Editors.Shapes
 
         #region Movement
 
-        Dictionary<int, Pnt2d> _ApplyMoveDelta(IEnumerable<int> points, Vec2d moveDelta)
+        bool _ApplyMoveActionDelta()
         {
-            foreach (var pointIndex in points)
+            if (_MoveAction.IsMoving)
             {
-                _TempPoints[pointIndex] = Sketch.Points[pointIndex].Translated(moveDelta);
+                foreach (var pointIndex in _MoveAction.Points)
+                {
+                    _TempPoints[pointIndex] = Sketch.Points[pointIndex].Translated(_MoveAction.MoveDelta);
+                }
+            }
+            else if (_MoveAction.IsRotating)
+            {
+                foreach (var pointIndex in _MoveAction.Points)
+                {
+                    _TempPoints[pointIndex] = Sketch.Points[pointIndex].Rotated(_MoveAction.RotateCenter, _MoveAction.RotateDelta);
+                }
+            }
+            else
+            {
+                // No movement
+                return false;
             }
 
             SketchConstraintSolver.Solve(Sketch, _TempPoints, false);
             Elements.OnPointsChanged(_TempPoints, Sketch.Segments);
             WorkspaceController.Invalidate();
-
-            //Debug.WriteLine("ApplyMoveDelta");
-
-            return _TempPoints;
+            return true;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -536,10 +547,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (CurrentTool != null)
                 return;
 
-            if (_MoveAction.MoveDelta.Magnitude() > Double.Epsilon)
-            {
-                _ApplyMoveDelta(_MoveAction.Points, _MoveAction.MoveDelta);
-            }
+            _ApplyMoveActionDelta();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -558,9 +566,9 @@ namespace Macad.Interaction.Editors.Shapes
                 return;
             }
 
-            if (_MoveAction.MoveDelta.Magnitude() > 0)
+            if (_ApplyMoveActionDelta())
             {
-                Sketch.Points = new Dictionary<int, Pnt2d>(_ApplyMoveDelta(_MoveAction.Points, _MoveAction.MoveDelta));
+                Sketch.Points = new Dictionary<int, Pnt2d>(_TempPoints);
 
                 // Check if points can be merged, and merge them
                 var mergeCandidates = _MoveAction.CheckMergePoints(Vec2d.Zero);

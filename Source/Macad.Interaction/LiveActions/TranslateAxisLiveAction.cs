@@ -24,7 +24,7 @@ public class TranslateAxisLiveAction : LiveAction
                 return;
 
             _Axis = value;
-            _Arrow?.Set(_Axis);
+            _AxisGizmo?.Set(_Axis);
         }
     }
 
@@ -38,7 +38,7 @@ public class TranslateAxisLiveAction : LiveAction
 
     //--------------------------------------------------------------------------------------------------
 
-    Arrow _Arrow;
+    Axis _AxisGizmo;
     double _Length;
     Ax1 _Axis;
     Ax1 _StartAxis;
@@ -63,20 +63,20 @@ public class TranslateAxisLiveAction : LiveAction
 
     public override void Activate()
     {
-        if (_Arrow != null)
+        if (_AxisGizmo != null)
             return;
 
-        Arrow.Style style = Arrow.Style.Headless;
+        Axis.Style style = Visual.Axis.Style.Headless;
         if (_Length == 0)
-            style |= Arrow.Style.NoResize;
-        _Arrow = new Arrow(WorkspaceController, style)
+            style |= Visual.Axis.Style.NoResize;
+        _AxisGizmo = new Axis(WorkspaceController, style)
         {
             IsSelectable = true,
             Color = Color,
             Length = _Length,
             Width = 4.0,
         };
-        _Arrow.Set(_Axis);
+        _AxisGizmo.Set(_Axis);
 
         WorkspaceController.Invalidate();
     }
@@ -85,8 +85,8 @@ public class TranslateAxisLiveAction : LiveAction
 
     public override void Deactivate()
     {
-        _Arrow?.Remove();
-        _Arrow = null;
+        _AxisGizmo?.Remove();
+        _AxisGizmo = null;
 
         WorkspaceController.Invalidate();
     }
@@ -119,7 +119,7 @@ public class TranslateAxisLiveAction : LiveAction
 
     public override bool OnMouseDown(MouseEventData data)
     {
-        if (data.DetectedAisInteractives.Contains(_Arrow?.AisObject))
+        if (data.DetectedAisInteractives.Contains(_AxisGizmo?.AisObject))
         {
             var value = _ProcessMouseInput(data);
             if (value != null)
@@ -129,8 +129,8 @@ public class TranslateAxisLiveAction : LiveAction
 
                 _SelectionContext = WorkspaceController.Selection.OpenContext();
 
-                _Arrow.IsSelectable = false;
-                _Arrow.IsSelected = true;
+                _AxisGizmo.IsSelectable = false;
+                _AxisGizmo.IsSelected = true;
 
                 _HintLine = new HintLine(WorkspaceController, HintStyle.WorkingAxis);
                 _HintLine.Set(_Axis.Location, _Axis.Location);
@@ -190,8 +190,8 @@ public class TranslateAxisLiveAction : LiveAction
             _HintLine.Remove();
             _HintLine = null;
 
-            _Arrow.IsSelected = false;
-            _Arrow.IsSelectable = true;
+            _AxisGizmo.IsSelected = false;
+            _AxisGizmo.IsSelectable = true;
 
             WorkspaceController.Selection.CloseContext(_SelectionContext);
 

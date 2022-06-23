@@ -1,12 +1,12 @@
 ﻿#include "ManagedPCH.h"
 
-#include "AISX_Arrow.h"
+#include "AISX_Axis.h"
 
-IMPLEMENT_STANDARD_RTTIEXT(AISX_Arrow, AIS_InteractiveObject)
+IMPLEMENT_STANDARD_RTTIEXT(AISX_Axis, AIS_InteractiveObject)
 
 //--------------------------------------------------------------------------------------------------
 
-AISX_Arrow::AISX_Arrow()
+AISX_Axis::AISX_Axis()
     : _Length(10)
     , _Thickness(1)
 {
@@ -17,7 +17,7 @@ AISX_Arrow::AISX_Arrow()
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Arrow::SetAxis(const gp_Ax1& theAxis)
+void AISX_Axis::SetAxis(const gp_Ax1& theAxis)
 {
     _Axis = theAxis;
     SetToUpdate();
@@ -27,7 +27,7 @@ void AISX_Arrow::SetAxis(const gp_Ax1& theAxis)
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Arrow::SetColor(const Quantity_Color& theColor)
+void AISX_Axis::SetColor(const Quantity_Color& theColor)
 {
     __super::SetColor(theColor);
 
@@ -45,7 +45,7 @@ void AISX_Arrow::SetColor(const Quantity_Color& theColor)
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Arrow::SetWidth(double theWidth)
+void AISX_Axis::SetWidth(double theWidth)
 {
     myOwnWidth = (float)theWidth;
     myDrawer->LineAspect()->SetWidth(theWidth);
@@ -58,7 +58,7 @@ void AISX_Arrow::SetWidth(double theWidth)
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Arrow::SetSize(double length, double thickness)
+void AISX_Axis::SetSize(double length, double thickness)
 {
     _Length = length;
     _Thickness = thickness;
@@ -69,16 +69,16 @@ void AISX_Arrow::SetSize(double length, double thickness)
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Arrow::_ComputeArrow(const Handle(Graphic3d_Group)& theGroup)
+void AISX_Axis::_ComputeArrow(const Handle(Graphic3d_Group)& theGroup)
 {
     Handle(Graphic3d_ArrayOfTriangles) aTriArray = 
-        Prs3d_Arrow::DrawShaded(_Axis, _Thickness, _Length, _Thickness*2.0, _Thickness*4, 20);
+        Prs3d_Arrow::DrawShaded(_Axis, _Thickness*0.5, _Length, _Thickness*2.0, _Thickness*6.0, 20);
     theGroup->AddPrimitiveArray(aTriArray);
 }
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Arrow::_ComputeCylinder(const Handle(Graphic3d_Group)& theGroup)
+void AISX_Axis::_ComputeCylinder(const Handle(Graphic3d_Group)& theGroup)
 {
     gp_Trsf trsf;
     trsf.SetTransformation(gp_Ax3(), gp_Ax3(_Axis.Location(), _Axis.Direction()));
@@ -91,7 +91,7 @@ void AISX_Arrow::_ComputeCylinder(const Handle(Graphic3d_Group)& theGroup)
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Arrow::_ComputeLine(const Handle(Prs3d_Presentation)& thePrs, const Handle(Prs3d_Drawer)& theDrawer)
+void AISX_Axis::_ComputeLine(const Handle(Prs3d_Presentation)& thePrs, const Handle(Prs3d_Drawer)& theDrawer)
 {
     Handle(Geom_Line) curv = new Geom_Line(_Axis.Location(), _Axis.Direction());
     StdPrs_Curve::Add(thePrs, GeomAdaptor_Curve(curv, 0.0, _Length), theDrawer);
@@ -99,7 +99,7 @@ void AISX_Arrow::_ComputeLine(const Handle(Prs3d_Presentation)& thePrs, const Ha
     
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Arrow::Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
+void AISX_Axis::Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
                          const Handle(Prs3d_Presentation)& thePrs, const Standard_Integer theMode)
 {
     thePrs->Clear();
@@ -115,7 +115,7 @@ void AISX_Arrow::Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Arrow::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const Handle(Prs3d_Drawer)& theStyle, 
+void AISX_Axis::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const Handle(Prs3d_Drawer)& theStyle, 
                                        const Handle(SelectMgr_EntityOwner)& theOwner)
 {
     myDynHilightDrawer->SetColor(GetContext()->HighlightStyle()->Color());
@@ -124,14 +124,14 @@ void AISX_Arrow::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)&
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Arrow::HilightSelected(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const SelectMgr_SequenceOfOwner& theSeq)
+void AISX_Axis::HilightSelected(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const SelectMgr_SequenceOfOwner& theSeq)
 {
     thePrsMgr->Color(this, myHilightDrawer, myDrawer->DisplayMode());
 }
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Arrow::ComputeSelection(const Handle(SelectMgr_Selection)& theSelection, const Standard_Integer theMode)
+void AISX_Axis::ComputeSelection(const Handle(SelectMgr_Selection)& theSelection, const Standard_Integer theMode)
 {
     theSelection->Clear();
 
@@ -155,7 +155,7 @@ void AISX_Arrow::ComputeSelection(const Handle(SelectMgr_Selection)& theSelectio
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Arrow::_InitDrawerAttributes()
+void AISX_Axis::_InitDrawerAttributes()
 {
 	Handle(Prs3d_LineAspect) lasp = new Prs3d_LineAspect(Quantity_NOC_GRAY40, Aspect_TypeOfLine::Aspect_TOL_SOLID, myOwnWidth);
     myDrawer->SetLineAspect(lasp);

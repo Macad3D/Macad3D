@@ -21,12 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OcctExtensions\AIS_PlaneEx.h">
-      <Filter>OcctExtensions</Filter>
-    </ClInclude>
-    <ClInclude Include="OcctExtensions\AIS_AxisEx.h">
-      <Filter>OcctExtensions</Filter>
-    </ClInclude>
     <ClInclude Include="ManagedPCH.h">
       <Filter>Std</Filter>
     </ClInclude>
@@ -39,12 +33,6 @@
     <ClInclude Include="SketchSolve\solve.h">
       <Filter>SketchSolve</Filter>
     </ClInclude>
-    <ClInclude Include="OcctExtensions\AIS_TranslationGizmo2D.h">
-      <Filter>OcctExtensions</Filter>
-    </ClInclude>
-    <ClInclude Include="OcctExtensions\AIS_TranslationGizmo2D_Managed.h">
-      <Filter>OcctExtensions</Filter>
-    </ClInclude>
     <ClInclude Include="OcctExtensions\AIS_PointEx.h">
       <Filter>OcctExtensions</Filter>
     </ClInclude>
@@ -54,7 +42,7 @@
     <ClInclude Include="AisExtensions\AISX_Guid.h">
       <Filter>AisExtensions</Filter>
     </ClInclude>
-    <ClInclude Include="AisExtensions\AISX_Arrow.h">
+    <ClInclude Include="AisExtensions\AISX_Axis.h">
       <Filter>AisExtensions</Filter>
     </ClInclude>
     <ClInclude Include="AisExtensions\AISX_Circle.h">
@@ -64,12 +52,6 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
       <Filter>Std</Filter>
-    </ClCompile>
-    <ClCompile Include="OcctExtensions\AIS_PlaneEx.cpp">
-      <Filter>OcctExtensions</Filter>
-    </ClCompile>
-    <ClCompile Include="OcctExtensions\AIS_AxisEx.cpp">
-      <Filter>OcctExtensions</Filter>
     </ClCompile>
     <ClCompile Include="SketchSolve\SketchSolve_Solver.cpp">
       <Filter>SketchSolve</Filter>
@@ -116,9 +98,6 @@
     <ClCompile Include="ManagedPCH.cpp">
       <Filter>Std</Filter>
     </ClCompile>
-    <ClCompile Include="OcctExtensions\AIS_AxisEx_Managed.cpp">
-      <Filter>OcctExtensions</Filter>
-    </ClCompile>
     <ClCompile Include="OcctHelper\Version.cpp">
       <Filter>OcctHelper</Filter>
     </ClCompile>
@@ -135,12 +114,6 @@
       <Filter>SketchSolve</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Macad.VersionInfo.cpp" />
-    <ClCompile Include="OcctExtensions\AIS_TranslationGizmo2D.cpp">
-      <Filter>OcctExtensions</Filter>
-    </ClCompile>
-    <ClCompile Include="OcctExtensions\AIS_TranslationGizmo2D_Managed.cpp">
-      <Filter>OcctExtensions</Filter>
-    </ClCompile>
     <ClCompile Include="OcctExtensions\AIS_PointEx_Managed.cpp">
       <Filter>OcctExtensions</Filter>
     </ClCompile>
@@ -162,10 +135,10 @@
     <ClCompile Include="AisExtensions\AISX_Guid.Managed.cpp">
       <Filter>AisExtensions</Filter>
     </ClCompile>
-    <ClCompile Include="AisExtensions\AISX_Arrow.cpp">
+    <ClCompile Include="AisExtensions\AISX_Axis.cpp">
       <Filter>AisExtensions</Filter>
     </ClCompile>
-    <ClCompile Include="AisExtensions\AISX_Arrow.Managed.cpp">
+    <ClCompile Include="AisExtensions\AISX_Axis.Managed.cpp">
       <Filter>AisExtensions</Filter>
     </ClCompile>
     <ClCompile Include="AisExtensions\AISX_Circle.cpp">

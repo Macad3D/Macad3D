@@ -168,7 +168,7 @@ public class Plane : VisualObject
                                                   .Reversed());
         var vecMargin = ElSLib.PlaneValue(_Margin.X, _Margin.Y, planeOrigin.Position).ToVec();
 
-        if (_Style.Has(Arrow.Style.NoResize))
+        if (_Style.Has(Style.NoResize))
         {
             Graphic3d_TransformPers transformPers = new(Graphic3d_TransModeFlags.Graphic3d_TMF_ZoomPers, _Plane.Location);
             _AisObject.SetTransformPersistence(transformPers);

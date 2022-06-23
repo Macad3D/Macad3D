@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
+using Macad.Common;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Interaction.Visual;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Occt;
-using Macad.Occt.Ext;
+using Macad.Presentation;
 
 namespace Macad.Interaction
 {
@@ -14,10 +16,21 @@ namespace Macad.Interaction
     {
         public List<int> Points { get; private set; }
         public Vec2d MoveDelta { get; private set; }
+        public double RotateDelta { get; private set; }
+        public Pnt2d RotateCenter { get; private set; }
+
+        //--------------------------------------------------------------------------------------------------
 
         public bool IsMoving
         {
-            get { return _Moving && (MoveDelta != Vec2d.Zero); }
+            get { return _Moving && MoveDelta.Magnitude() > double.Epsilon; }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public bool IsRotating
+        {
+            get { return _Rotating && RotateDelta.Abs() > double.Epsilon; }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -27,20 +40,25 @@ namespace Macad.Interaction
         //--------------------------------------------------------------------------------------------------
 
         Sketch _Sketch;
-        AIS_TranslationGizmo2D Gizmo;
-        Geom_Plane _GizmoPlane;
-        Geom_Plane _GeomPlane;
+        Axis _AxisGizmoX;
+        Axis _AxisGizmoY;
+        Plane _PlaneGizmo;
+        Circle _CircleGizmo;
+        Pln _MovePlane;
         Pnt2d _Center2D;
         Pnt2d _Center2DOnWorkingPlane;
         Pnt2d _MoveStartPoint;
+        double _RotateStartValue;
         Coord2DHudElement _Coord2DHudElement;
         Delta2DHudElement _Delta2DHudElement;
+        ValueHudElement _ValueHudElement;
 
         readonly List<Marker> _MergePreviewMarkers = new List<Marker>();
 
         bool _MoveConstraintX;
         bool _MoveConstraintY;
         bool _Moving;
+        bool _Rotating;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -66,7 +84,7 @@ namespace Macad.Interaction
             _Sketch.ElementsChanged += _Sketch_ElementsChanged;
             Points = points;
 
-            _UpdateTrihedron();
+            _UpdateGizmos();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -87,13 +105,13 @@ namespace Macad.Interaction
                     RaiseFinished();
                 }
 
-                _UpdateTrihedron();
+                _UpdateGizmos();
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _UpdateTrihedron()
+        void _UpdateGizmos()
         {
             if(!Points.Any())
                 return;
@@ -124,35 +142,69 @@ namespace Macad.Interaction
              
 
             // Use plane from sketch, but translate it to center position
-            var plane = _Sketch.Plane;
-            plane.Location = center3D;
-            _GizmoPlane = new Geom_Plane(plane);
-            _GeomPlane = new Geom_Plane(plane);
+            _MovePlane = _Sketch.Plane;
+            _MovePlane.Location = center3D;
 
-            // Create Gizmo
-            if (Gizmo == null)
+            // Create Gizmos
+            _AxisGizmoX ??= new Axis(WorkspaceController, Axis.Style.Headless | Axis.Style.NoResize | Axis.Style.Topmost)
             {
-                Gizmo = new AIS_TranslationGizmo2D(_GizmoPlane);
-                Gizmo.SetLength(100);
-                WorkspaceController.Workspace.AisContext.Display(Gizmo, false);
-            }
-            else
+                Color = Colors.ActionRed,
+                IsSelectable = true,
+                Width = 4.0,
+                Length = 2.0
+            };
+            _AxisGizmoX.Set(_MovePlane.XAxis);
+
+            _AxisGizmoY ??= new Axis(WorkspaceController, Axis.Style.Headless | Axis.Style.NoResize | Axis.Style.Topmost)
             {
-                Gizmo.SetComponent(_GeomPlane);
-                WorkspaceController.Workspace.AisContext.Redisplay(Gizmo, false);
-            }
+                Color = Colors.ActionGreen,
+                IsSelectable = true,
+                Width = 4.0,
+                Length = 2.0
+            };
+            _AxisGizmoY.Set(_MovePlane.YAxis);
+            
+            _PlaneGizmo ??= new Plane(WorkspaceController, Plane.Style.NoResize | Plane.Style.Topmost)
+            {
+                Color = Colors.ActionBlue,
+                IsSelectable = true,
+                Boundary = true,
+                Size = new XY(1, 1),
+                Margin = new Vec2d(0.75, 0.75),
+                Transparency = 0.5
+            };
+            _PlaneGizmo.Set(_MovePlane);
+
+            _CircleGizmo ??= new Circle(WorkspaceController, Circle.Style.NoResize | Circle.Style.Topmost)
+            {
+                Color = Colors.ActionBlue,
+                IsSelectable = true,
+                Radius = 1.0,
+                Limits = (Maths.HalfPI+0.3, Maths.DoublePI-0.3)
+            };
+            _CircleGizmo.Set(_MovePlane.Position.ToAx2());
+            _CircleGizmo.Sector = (0, 0);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public override void Stop()
         {
-            Gizmo?.Remove();
+            _AxisGizmoX?.Remove();
+            _AxisGizmoX = null;
+            _AxisGizmoY?.Remove();
+            _AxisGizmoY = null;
+            _PlaneGizmo?.Remove();
+            _PlaneGizmo = null;
+            _CircleGizmo?.Remove();
+            _CircleGizmo = null;
 
             WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
             _Coord2DHudElement = null;
             WorkspaceController.HudManager?.RemoveElement(_Delta2DHudElement);
             _Coord2DHudElement = null;
+            WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
+            _ValueHudElement = null;
 
             _MergePreviewMarkers.ForEach(m => m.Remove());
             _MergePreviewMarkers.Clear();
@@ -167,28 +219,58 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
+        void _ActivateGizmos(bool activate)
+        {
+            _AxisGizmoX.IsSelectable = activate;
+            _AxisGizmoY.IsSelectable = activate;
+            _PlaneGizmo.IsSelectable = activate;
+            _CircleGizmo.IsSelectable = activate;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public override bool OnMouseDown(MouseEventData data)
         {
             if (data.DetectedEntities.Count == 0)
             {
                 double u = 0, v = 0;
-                if (Gizmo.IsPartDetected(AIS_TranslationGizmo2D.Part.Part_Plane))
+                if (data.DetectedAisInteractives.Contains(_PlaneGizmo?.AisObject))
                 {
                     _MoveConstraintX = false;
                     _MoveConstraintY = false;
+                    _ActivateGizmos(false);
+                    _PlaneGizmo.IsSelected = true;
                     _Moving = true;
                 }
-                else if (Gizmo.IsPartDetected(AIS_TranslationGizmo2D.Part.Part_XAxis))
+                else if (data.DetectedAisInteractives.Contains(_AxisGizmoX?.AisObject))
                 {
                     _MoveConstraintX = false;
                     _MoveConstraintY = true;
+                    _ActivateGizmos(false);
+                    _AxisGizmoX.IsSelected = true;
                     _Moving = true;
                 }
-                else if (Gizmo.IsPartDetected(AIS_TranslationGizmo2D.Part.Part_YAxis))
+                else if (data.DetectedAisInteractives.Contains(_AxisGizmoY?.AisObject))
                 {
                     _MoveConstraintX = true;
                     _MoveConstraintY = false;
+                    _ActivateGizmos(false);
+                    _AxisGizmoY.IsSelected = true;
                     _Moving = true;
+                }
+                else if (data.DetectedAisInteractives.Contains(_CircleGizmo?.AisObject))
+                {
+                    Pnt resultPnt;
+                    if (WorkspaceController.ActiveViewport.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
+                    {
+                        var planeDelta = ProjLib.Project(_MovePlane, resultPnt);
+                        _RotateStartValue = Dir2d.DX.Angle(new Dir2d(planeDelta.Coord));
+
+                        _ActivateGizmos(false);
+                        _CircleGizmo.IsSelected = true;
+                        RotateCenter = _Center2D;
+                        _Rotating = true;
+                    }
                 }
                 if (_Moving)
                 {
@@ -204,24 +286,28 @@ namespace Macad.Interaction
 
         public override bool OnMouseUp(MouseEventData data, bool additive)
         {
-            if (_Moving)
+            if (_Moving || _Rotating)
             {
-                _Moving = false;
-
-                if (MoveDelta != Vec2d.Zero)
+                if (IsMoving || IsRotating) // Check if delta is significant
                 {
                     // Commit
                     RaiseFinished();
                     MoveDelta = Vec2d.Zero;
-
-                    // Set new center
-                    _UpdateTrihedron();
+                    RotateDelta = 0;
                 }
+                _Moving = false;
+                _Rotating = false;
+
+                // Set new center
+                _UpdateGizmos();
+                _ActivateGizmos(true);
 
                 WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
                 _Coord2DHudElement = null;
                 WorkspaceController.HudManager?.RemoveElement(_Delta2DHudElement);
                 _Coord2DHudElement = null;
+                WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
+                _ValueHudElement = null;
 
                 _MergePreviewMarkers.ForEach(m => m.Remove());
                 _MergePreviewMarkers.Clear();
@@ -252,8 +338,11 @@ namespace Macad.Interaction
 
                 // Calc new 3D center
                 var newPos3D = ElSLib.Value(_Center2D.X + MoveDelta.X, _Center2D.Y + MoveDelta.Y, _Sketch.Plane);
-                _GizmoPlane.SetLocation(newPos3D);
-                Gizmo.SetComponent(_GizmoPlane);
+                _MovePlane.Location = newPos3D;
+                _AxisGizmoX.Set(_MovePlane.XAxis);
+                _AxisGizmoY.Set(_MovePlane.YAxis);
+                _PlaneGizmo.Set(_MovePlane);
+                _CircleGizmo.Set(_MovePlane.Position.ToAx2());
 
                 // Check for point merge candidates
                 _MergePreviewMarkers.ForEach(m => m.Remove());
@@ -276,6 +365,33 @@ namespace Macad.Interaction
 
                 _Delta2DHudElement ??= WorkspaceController.HudManager?.CreateElement<Delta2DHudElement>(this);
                 _Delta2DHudElement?.SetValues(MoveDelta.X, MoveDelta.Y);
+            }
+            else if (_Rotating)
+            {
+                Pnt resultPnt;
+                if (!WorkspaceController.ActiveViewport.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
+                    return false;
+
+                var planeDelta = ProjLib.Project(_MovePlane, resultPnt);
+                RotateDelta = Dir2d.DX.Angle(new Dir2d(planeDelta.Coord)) - _RotateStartValue;
+                if (RotateDelta > Maths.PI)
+                    RotateDelta -= Maths.DoublePI;
+                if (RotateDelta < -Maths.PI)
+                    RotateDelta += Maths.DoublePI;
+
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                {
+                    RotateDelta = Maths.RoundToNearest(RotateDelta, 5.0.ToRad());
+                }
+
+                _CircleGizmo.Sector = _Rotating ? (_RotateStartValue, _RotateStartValue + RotateDelta) : (0, 0);
+
+                _ValueHudElement ??= WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
+                if (_ValueHudElement != null)
+                {
+                    _ValueHudElement.Units = ValueUnits.Degree;
+                }
+                _ValueHudElement?.SetValue(RotateDelta.ToDeg());
             }
 
             return base.OnMouseMove(data);

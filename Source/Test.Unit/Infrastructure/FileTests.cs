@@ -25,9 +25,10 @@ public class FileTests
 
         using (fileSystem = new(filePath))
         {
-            fileSystem = new FileSystem(filePath);
             var reReadData = fileSystem.Read("TestBlob");
             Assert.AreEqual(testBytes.Length, reReadData.Length);
         }
+
+        File.Delete(filePath);
     }
 }

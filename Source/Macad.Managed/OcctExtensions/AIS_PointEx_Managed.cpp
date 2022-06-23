@@ -1,6 +1,5 @@
 #include "ManagedPCH.h"
 
-#include "AIS_AxisEx.h"
 #include "AIS_PointEx.h"
 
 #using "Macad.Occt.dll" as_friend

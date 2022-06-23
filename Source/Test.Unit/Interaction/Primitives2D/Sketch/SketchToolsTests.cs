@@ -185,7 +185,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
                 // Move
                 ctx.ClickAt(88, 88);
-                ctx.MoveTo(95, 80);
+                ctx.MoveTo(108, 62);
                 ctx.ViewportController.MouseDown();
                 ctx.MoveTo(150, 40);
                 ctx.ViewportController.MouseUp(false);
