@@ -165,7 +165,7 @@ public class RotateLiveAction : LiveAction
 
     public override bool OnMouseMove(MouseEventData data)
     {
-        if (_IsMoving)
+        if (_IsMoving && _Circle != null)
         {
             var value = _ProcessMouseInput(data);
             if (value != null)

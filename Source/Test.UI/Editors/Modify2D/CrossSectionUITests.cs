@@ -70,6 +70,7 @@ public class CrossSectionUITests : UITestBase
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    [TestCase("OrientationY")]
     [TestCase("OrientationP")]
     [TestCase("OrientationR")]
     [TestCase("Offset")]

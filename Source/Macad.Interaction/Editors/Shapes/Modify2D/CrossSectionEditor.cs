@@ -47,6 +47,8 @@ internal class CrossSectionEditor : Editor<CrossSection>
         _RotateActionX = null;
         _RotateActionY?.Stop();
         _RotateActionY = null;
+        _RotateActionZ?.Stop();
+        _RotateActionZ = null;
         WorkspaceController.Invalidate();
 
         InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
@@ -61,6 +63,7 @@ internal class CrossSectionEditor : Editor<CrossSection>
             _TranslateAction.Deactivate();
             _RotateActionX.Deactivate();
             _RotateActionY.Deactivate();
+            _RotateActionZ.Deactivate();
 
             _UpdateHints();
             _UpdateActions();
@@ -101,6 +104,7 @@ internal class CrossSectionEditor : Editor<CrossSection>
     TranslateAxisLiveAction _TranslateAction;
     RotateLiveAction _RotateActionX;
     RotateLiveAction _RotateActionY;
+    RotateLiveAction _RotateActionZ;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -146,6 +150,19 @@ internal class CrossSectionEditor : Editor<CrossSection>
         _RotateActionY.Radius = _PlaneSize / 3;
         _RotateActionY.Position = new Ax2(_TranslatedPlane.Location, _TranslatedPlane.YAxis.Direction, _TranslatedPlane.Axis.Direction);
         WorkspaceController.StartLiveAction(_RotateActionY);
+        
+        if (_RotateActionZ == null)
+        {
+            _RotateActionZ = new(this)
+            {
+                Color = Colors.ActionBlue,
+            };
+            _RotateActionZ.Previewed += _RotateActionZPreviewed;
+            _RotateActionZ.Finished += _RotateActionZFinished;
+        }
+        _RotateActionZ.Radius = _PlaneSize / 3;
+        _RotateActionZ.Position = new Ax2(_TranslatedPlane.Location, _TranslatedPlane.Axis.Direction, _TranslatedPlane.YAxis.Direction);
+        WorkspaceController.StartLiveAction(_RotateActionZ);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -158,6 +175,7 @@ internal class CrossSectionEditor : Editor<CrossSection>
             _PlaneVisual.Transparency = 0.0;
             _RotateActionX.Deactivate();
             _RotateActionY.Deactivate();
+            _RotateActionZ.Deactivate();
         }
     }
 
@@ -179,6 +197,7 @@ internal class CrossSectionEditor : Editor<CrossSection>
         {
             _TranslateAction.Deactivate();
             _RotateActionY.Deactivate();
+            _RotateActionZ.Deactivate();
             _PlaneVisual.SetLocalTransformation(new Trsf(_TranslatedPlane.XAxis, _RotateActionX.Delta));
             _PlaneVisual.Transparency = 0.0;
         }
@@ -202,6 +221,7 @@ internal class CrossSectionEditor : Editor<CrossSection>
         {
             _TranslateAction.Deactivate();
             _RotateActionX.Deactivate();
+            _RotateActionZ.Deactivate();
             _PlaneVisual.SetLocalTransformation(new Trsf(_TranslatedPlane.YAxis, _RotateActionY.Delta));
             _PlaneVisual.Transparency = 0.0;
         }
@@ -213,6 +233,30 @@ internal class CrossSectionEditor : Editor<CrossSection>
     {
         _RotateActionY.Deactivate();
         Entity.Plane = _TranslatedPlane.Rotated(_TranslatedPlane.YAxis, _RotateActionY.Delta)
+                                       .Transformed(Entity.Body.GetTransformation().Inverted());
+        InteractiveContext.Current.UndoHandler.Commit();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+        
+    void _RotateActionZPreviewed(LiveAction liveAction)
+    {
+        if (_PlaneVisual != null)
+        {
+            _TranslateAction.Deactivate();
+            _RotateActionX.Deactivate();
+            _RotateActionY.Deactivate();
+            _PlaneVisual.SetLocalTransformation(new Trsf(_TranslatedPlane.Axis, _RotateActionZ.Delta));
+            _PlaneVisual.Transparency = 0.0;
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _RotateActionZFinished(LiveAction liveAction)
+    {
+        _RotateActionZ.Deactivate();
+        Entity.Plane = _TranslatedPlane.Rotated(_TranslatedPlane.Axis, _RotateActionZ.Delta)
                                        .Transformed(Entity.Body.GetTransformation().Inverted());
         InteractiveContext.Current.UndoHandler.Commit();
     }

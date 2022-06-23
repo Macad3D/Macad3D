@@ -137,6 +137,35 @@ public class CrossSectionTests
     }
 
     //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void LiveRotateZ()
+    {
+        var ctx = Context.Current;
+
+        var section = _SetupTestGeom();
+        var editor = Editor.CreateEditor(section);
+        editor.Start();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(356, 203);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateZ01"));
+
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(393, 258);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateZ02"));
+            
+            ctx.ViewportController.MouseUp(false);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateZ03"));
+
+            // Cleanup
+            editor.Stop();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateZ99"));
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
     [Test]
     public void LiveActionsCombined()
@@ -172,6 +201,12 @@ public class CrossSectionTests
             ctx.MoveTo(330, 90);
             ctx.ViewportController.MouseUp(false);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveActionsCombined04"));
+            
+            ctx.MoveTo(226, 275);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(345, 288);
+            ctx.ViewportController.MouseUp(false);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveActionsCombined05"));
 
             // Cleanup
             editor.Stop();

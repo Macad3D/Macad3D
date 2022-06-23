@@ -35,6 +35,24 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
+        public double RotationYaw
+        {
+            get { return _RotationYaw; }
+            set
+            {
+                if (_RotationYaw != value)
+                {
+                    _RotationYaw = value;
+                    RaisePropertyChanged();
+                    _RecalcPlane();
+                }
+            }
+        }
+
+        double _RotationYaw;
+
+        //--------------------------------------------------------------------------------------------------
+
         public double RotationPitch
         {
             get { return _RotationPitch; }
@@ -74,8 +92,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _RecalcPlane()
         {
-            var euler = CrossSection.Plane.Rotation().ToEuler();
-            Quaternion rotation = new Quaternion(euler.yaw, _RotationPitch.ToRad(), _RotationRoll.ToRad());
+            Quaternion rotation = new Quaternion(_RotationYaw.ToRad(), _RotationPitch.ToRad(), _RotationRoll.ToRad());
             var loc = new Pnt(0, 0, _Offset);
             CrossSection.Plane = new Pln(rotation.ToAx3(loc));
         }
@@ -85,8 +102,10 @@ namespace Macad.Interaction.Editors.Shapes
         void _UpdateFromPlane()
         {
             var euler = CrossSection.Plane.Rotation().ToEuler();
+            _RotationYaw = euler.yaw.ToDeg();
             _RotationPitch = euler.pitch.ToDeg();
             _RotationRoll = euler.roll.ToDeg();
+            RaisePropertyChanged(nameof(RotationYaw));
             RaisePropertyChanged(nameof(RotationPitch));
             RaisePropertyChanged(nameof(RotationRoll));
 

@@ -14,7 +14,7 @@
     
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="90" />
+            <ColumnDefinition Width="80" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -52,16 +52,21 @@
         <!-- Cut Plane Orientation -->
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Orientation"  Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
-            <mmp:ValueEditBox Width="80"
+            <mmp:ValueEditBox Width="57"
                               Units="Degree"  
                               mmp:GroupControls.Position="Left"
-                              Value="{Binding RotationRoll, NotifyOnSourceUpdated=True}"
-                              AutomationProperties.AutomationId="OrientationR" />
-            <mmp:ValueEditBox Width="80"
+                              Value="{Binding RotationYaw, NotifyOnSourceUpdated=True}"
+                              AutomationProperties.AutomationId="OrientationY" />
+            <mmp:ValueEditBox Width="56"
                               Units="Degree"  
-                              mmp:GroupControls.Position="Right"
+                              mmp:GroupControls.Position="HCenter"
                               Value="{Binding RotationPitch, NotifyOnSourceUpdated=True}"
                               AutomationProperties.AutomationId="OrientationP" />
+            <mmp:ValueEditBox Width="57"
+                              Units="Degree"  
+                              mmp:GroupControls.Position="Right"
+                              Value="{Binding RotationRoll, NotifyOnSourceUpdated=True}"
+                              AutomationProperties.AutomationId="OrientationR" />
         </StackPanel>   
 
         <!-- Cut Plane Offset -->
