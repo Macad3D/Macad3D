@@ -571,12 +571,12 @@ namespace Macad.Interaction.Editors.Shapes
                 Sketch.Points = new Dictionary<int, Pnt2d>(_TempPoints);
 
                 // Check if points can be merged, and merge them
-                var mergeCandidates = _MoveAction.CheckMergePoints(Vec2d.Zero);
+                var mergeCandidates = _MoveAction.CheckMergePoints(false);
 
                 if (mergeCandidates.Any())
                 {
                     var pointString = mergeCandidates.Select(mc => String.Format("({0},{1})", mc.Value, mc.Key)).ToList().Join(", ");
-                    if (MessageBox.Show(Application.Current.MainWindow, "Merge this points?\n " + pointString, "Merge points", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+                    if (Dialogs.Dialogs.AskSketchPointMerge(pointString))
                     {
                         // Do merge
                         foreach (var mc in mergeCandidates)

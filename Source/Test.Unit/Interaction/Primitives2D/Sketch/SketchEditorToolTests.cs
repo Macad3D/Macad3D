@@ -85,7 +85,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint10"), 0.1);
             });
         }
-
+        
         //--------------------------------------------------------------------------------------------------
         
         [Test]
@@ -150,6 +150,41 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.WorkspaceController.CancelTool(tool, false);
             // Check Cleanup
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointMerge02"), 0.1);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void RotatePointMerge()
+        {
+            var ctx = Context.Current;
+
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
+            SketchBuilder sb = new(sketch);
+            sb.Circle(0, 0, 7.5);
+
+            var body = TestGeomGenerator.CreateBody(sketch);
+            ctx.ViewportController.ZoomFitAll();
+
+            var tool = new SketchEditorTool(sketch);
+            ctx.WorkspaceController.StartTool(tool);
+
+            Assert.Multiple(() =>
+            {
+                // SelectSegment
+                tool.Select(new []{0, 1, 2, 3}, new []{0, 1, 2, 3});
+                ctx.ViewportController.MouseMove(new Point(286, 281));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(200, 251));
+
+                // Hilighted MergePoint
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotatePointMerge01"), 0.1);
+
+                // End
+                ctx.WorkspaceController.CancelTool(tool, false);
+                // Check Cleanup
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotatePointMerge02"), 0.1);
+            });
         }
 
         //--------------------------------------------------------------------------------------------------

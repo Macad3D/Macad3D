@@ -175,15 +175,18 @@ namespace Macad.Interaction
             };
             _PlaneGizmo.Set(_MovePlane);
 
-            _CircleGizmo ??= new Circle(WorkspaceController, Circle.Style.NoResize | Circle.Style.Topmost)
+            if (Points.Count > 1)
             {
-                Color = Colors.ActionBlue,
-                IsSelectable = true,
-                Radius = 1.0,
-                Limits = (Maths.HalfPI+0.3, Maths.DoublePI-0.3)
-            };
-            _CircleGizmo.Set(_MovePlane.Position.ToAx2());
-            _CircleGizmo.Sector = (0, 0);
+                _CircleGizmo ??= new Circle(WorkspaceController, Circle.Style.NoResize | Circle.Style.Topmost)
+                {
+                    Color = Colors.ActionBlue,
+                    IsSelectable = true,
+                    Radius = 1.0,
+                    Limits = (Maths.HalfPI + 0.3, Maths.DoublePI - 0.3)
+                };
+                _CircleGizmo.Set(_MovePlane.Position.ToAx2());
+                _CircleGizmo.Sector = (0, 0);
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -224,7 +227,10 @@ namespace Macad.Interaction
             _AxisGizmoX.IsSelectable = activate;
             _AxisGizmoY.IsSelectable = activate;
             _PlaneGizmo.IsSelectable = activate;
-            _CircleGizmo.IsSelectable = activate;
+            if (_CircleGizmo != null)
+            {
+                _CircleGizmo.IsSelectable = activate;
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -258,7 +264,7 @@ namespace Macad.Interaction
                     _AxisGizmoY.IsSelected = true;
                     _Moving = true;
                 }
-                else if (data.DetectedAisInteractives.Contains(_CircleGizmo?.AisObject))
+                else if (_CircleGizmo != null && data.DetectedAisInteractives.Contains(_CircleGizmo.AisObject))
                 {
                     Pnt resultPnt;
                     if (WorkspaceController.ActiveViewport.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
@@ -342,12 +348,54 @@ namespace Macad.Interaction
                 _AxisGizmoX.Set(_MovePlane.XAxis);
                 _AxisGizmoY.Set(_MovePlane.YAxis);
                 _PlaneGizmo.Set(_MovePlane);
-                _CircleGizmo.Set(_MovePlane.Position.ToAx2());
+                if (_CircleGizmo != null)
+                {
+                    _CircleGizmo.Set(_MovePlane.Position.ToAx2());
+                }
 
+                _Coord2DHudElement ??= WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
+                _Coord2DHudElement?.SetValues( _Center2DOnWorkingPlane.X + MoveDelta.X, _Center2DOnWorkingPlane.Y + MoveDelta.Y);
+
+                _Delta2DHudElement ??= WorkspaceController.HudManager?.CreateElement<Delta2DHudElement>(this);
+                _Delta2DHudElement?.SetValues(MoveDelta.X, MoveDelta.Y);
+            }
+            else if (_Rotating)
+            {
+                Pnt resultPnt;
+                if (!WorkspaceController.ActiveViewport.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
+                    return false;
+
+                var planeDelta = ProjLib.Project(_MovePlane, resultPnt);
+                RotateDelta = Dir2d.DX.Angle(new Dir2d(planeDelta.Coord)) - _RotateStartValue;
+                if (RotateDelta > Maths.PI)
+                    RotateDelta -= Maths.DoublePI;
+                if (RotateDelta < -Maths.PI)
+                    RotateDelta += Maths.DoublePI;
+
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                {
+                    RotateDelta = Maths.RoundToNearest(RotateDelta, 5.0.ToRad());
+                }
+
+                if (_CircleGizmo != null)
+                {
+                    _CircleGizmo.Sector = _Rotating ? (_RotateStartValue, _RotateStartValue + RotateDelta) : (0, 0);
+                }
+
+                _ValueHudElement ??= WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
+                if (_ValueHudElement != null)
+                {
+                    _ValueHudElement.Units = ValueUnits.Degree;
+                }
+                _ValueHudElement?.SetValue(RotateDelta.ToDeg());
+            }
+
+            if (_Moving || _Rotating)
+            {
                 // Check for point merge candidates
                 _MergePreviewMarkers.ForEach(m => m.Remove());
                 _MergePreviewMarkers.Clear();
-                foreach (var candidate in CheckMergePoints(MoveDelta))
+                foreach (var candidate in CheckMergePoints(true))
                 {
                     var point = _Sketch.Points[candidate.Value];
                     var geomPoint = new Geom_CartesianPoint(point.X, point.Y, 0);
@@ -359,12 +407,6 @@ namespace Macad.Interaction
                 }
 
                 data.ForceReDetection = true;
-
-                _Coord2DHudElement ??= WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
-                _Coord2DHudElement?.SetValues( _Center2DOnWorkingPlane.X + MoveDelta.X, _Center2DOnWorkingPlane.Y + MoveDelta.Y);
-
-                _Delta2DHudElement ??= WorkspaceController.HudManager?.CreateElement<Delta2DHudElement>(this);
-                _Delta2DHudElement?.SetValues(MoveDelta.X, MoveDelta.Y);
             }
             else if (_Rotating)
             {
@@ -436,7 +478,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public Dictionary<int, int> CheckMergePoints(Vec2d moveDelta)
+        public Dictionary<int, int> CheckMergePoints(bool applyDelta)
         {
             double mergeDistance = WorkspaceController.ActiveViewport.GizmoScale * 0.2; 
             var mergeCandidates = new Dictionary<int, int>();
@@ -444,9 +486,14 @@ namespace Macad.Interaction
             foreach (var point in Points)
             {
                 var movedPoint = _Sketch.Points[point];
-                if (moveDelta != Vec2d.Zero)
-                    movedPoint = movedPoint.Translated(moveDelta);
-
+                if (applyDelta)
+                {
+                    if (IsMoving)
+                        movedPoint = movedPoint.Translated(MoveDelta);
+                    if (IsRotating)
+                        movedPoint = movedPoint.Rotated(RotateCenter, RotateDelta);
+                }
+                
                 // Distance to other points
                 foreach (var pointKvp in _Sketch.Points)
                 {

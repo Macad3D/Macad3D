@@ -159,5 +159,14 @@ namespace Macad.Interaction.Dialogs
 
         //--------------------------------------------------------------------------------------------------
 
+        public static bool AskSketchPointMerge(string pointList)
+        {
+            return TaskDialog.ShowMessage(Application.Current.MainWindow,
+                                          $"Merge coincident points?",
+                                          $"The following points are very close in position. These could be combined into one point if they should be coincident.\n Points: {pointList}",
+                                          $"Merge Points",
+                                          TaskDialogCommonButtons.YesNo, TaskDialogIcon.Question) == TaskDialogResults.Yes;
+           
+        }
     }
 }
