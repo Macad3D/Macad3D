@@ -115,6 +115,7 @@ namespace Macad.Test.UI.Editors.Auxiliary
 
             // Create sketch on new plane
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
             Assert.AreEqual("SketchEditorTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
 
             // Exit sketch editor

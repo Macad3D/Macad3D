@@ -1,11 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Macad.Common;
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Auxiliary;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
-using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
@@ -73,7 +73,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.WorkspaceController.Selection.SelectEntity(body);
             ctx.ViewportController.ZoomFitAll();
 
-            var sketchEditTool = new CreateSketchTool(CreateSketchTool.CreateMode.Interactive);
+            var sketchEditTool = new CreateSketchTool();
             Assert.That(ctx.WorkspaceController.StartTool(sketchEditTool));
             Assert.That(sketchEditTool, Is.Not.Null);
 
@@ -100,7 +100,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ViewportController.ZoomFitAll();
             TransformUtils.Rotate(body, Ax1.OZ, 180.0.ToRad());
 
-            var sketchEditTool = new CreateSketchTool(CreateSketchTool.CreateMode.Interactive);
+            var sketchEditTool = new CreateSketchTool();
             Assert.That(ctx.WorkspaceController.StartTool(sketchEditTool));
             Assert.That(sketchEditTool, Is.Not.Null);
 
@@ -126,16 +126,16 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.WorkspaceController.Selection.SelectEntity(body);
             ctx.ViewportController.ZoomFitAll();
 
-            var sketchEditTool = new CreateSketchTool(CreateSketchTool.CreateMode.Interactive);
+            var sketchEditTool = new CreateSketchTool();
             Assert.That(ctx.WorkspaceController.StartTool(sketchEditTool));
             Assert.That(sketchEditTool, Is.Not.Null);
 
             Assert.Multiple(() =>
             {
-                ctx.MoveTo(200, 277);
+                ctx.MoveTo(160, 260);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateOnFaceSelectionFilter1"), 0.1);
 
-                ctx.MoveTo(220, 265);
+                ctx.MoveTo(212, 190);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateOnFaceSelectionFilter2"), 0.1);
             });
         }
@@ -260,11 +260,53 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.Document.Add(datumPlane);
             ctx.ViewportController.ZoomFitAll();
 
-            ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.Interactive));
-            ctx.ClickAt(300, 300);
+            ctx.WorkspaceController.StartTool(new CreateSketchTool());
+            ctx.ClickAt(360, 240);
             var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
             Assert.NotNull(sketchEditTool);
             Assert.AreEqual(sketchEditTool.Sketch.Body.Position, datumPlane.Position);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        [TestCase(CreateSketchTool.CreateMode.WorkplaneXY)]
+        [TestCase(CreateSketchTool.CreateMode.WorkplaneXZ)]
+        [TestCase(CreateSketchTool.CreateMode.WorkplaneYZ)]
+        public void CreateSketchOnDefaultPlane(CreateSketchTool.CreateMode mode)
+        {
+            (int x, int y) coords = default;
+            switch (mode)
+            {
+                case CreateSketchTool.CreateMode.WorkplaneXY:
+                    coords = (250, 290);
+                    break;
+                case CreateSketchTool.CreateMode.WorkplaneXZ:
+                    coords = (204, 240);
+                    break;
+                case CreateSketchTool.CreateMode.WorkplaneYZ:
+                    coords = (290, 240);
+                    break;
+            }
+
+            var ctx = Context.Current;
+
+            ctx.WorkspaceController.StartTool(new CreateSketchTool());
+            ctx.MoveTo(coords.x, coords.y);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"CreateSketchInDefault{mode}1"), 0.1);
+            ctx.ClickAt(coords.x, coords.y);
+            var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+            Assert.NotNull(sketchEditTool);
+
+            // Create Circle
+            sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
+            ctx.ClickAt(250, 250); // Center point
+            ctx.ClickAt(100, 250); // Rim point
+            ctx.MoveTo(50, 50); // Move crsr out of the way
+
+            // Leave editor
+            sketchEditTool.Stop();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"CreateSketchInDefault{mode}2"), 0.1);
         }
     }
 }

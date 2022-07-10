@@ -408,33 +408,6 @@ namespace Macad.Interaction
 
                 data.ForceReDetection = true;
             }
-            else if (_Rotating)
-            {
-                Pnt resultPnt;
-                if (!WorkspaceController.ActiveViewport.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
-                    return false;
-
-                var planeDelta = ProjLib.Project(_MovePlane, resultPnt);
-                RotateDelta = Dir2d.DX.Angle(new Dir2d(planeDelta.Coord)) - _RotateStartValue;
-                if (RotateDelta > Maths.PI)
-                    RotateDelta -= Maths.DoublePI;
-                if (RotateDelta < -Maths.PI)
-                    RotateDelta += Maths.DoublePI;
-
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-                {
-                    RotateDelta = Maths.RoundToNearest(RotateDelta, 5.0.ToRad());
-                }
-
-                _CircleGizmo.Sector = _Rotating ? (_RotateStartValue, _RotateStartValue + RotateDelta) : (0, 0);
-
-                _ValueHudElement ??= WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
-                if (_ValueHudElement != null)
-                {
-                    _ValueHudElement.Units = ValueUnits.Degree;
-                }
-                _ValueHudElement?.SetValue(RotateDelta.ToDeg());
-            }
 
             return base.OnMouseMove(data);
         }

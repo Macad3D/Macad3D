@@ -105,7 +105,7 @@ namespace Macad.Interaction.Visual
             if (_Circle == null)
                 return false;
 
-            if (_Circle.Radius() <= 0)
+            if (_Circle.Radius() <= 0.0000001)
                 return false;
 
             _AisCircle = new AIS_Circle(_Circle);

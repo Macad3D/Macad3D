@@ -24,6 +24,8 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSketch"));
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
 
             // Button not lit
             MainWindow.Ribbon.SelectTab("Model");
@@ -67,7 +69,7 @@ namespace Macad.Test.UI.Editors.Primitives
             Assert.AreEqual("CreateSketchTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
 
             // Select
-            MainWindow.Viewport.ClickRelative(0.5, 0.5);
+            MainWindow.Viewport.ClickRelative(0.5, 0.3);
 
             // Button unlit
             MainWindow.Ribbon.SelectTab("Model");
@@ -99,6 +101,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
 
             MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("CreateLineSegment");
@@ -116,6 +119,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
 
             MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("CreateLineSegment");
@@ -166,6 +170,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
 
             MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("CreateLineSegment");
@@ -202,6 +207,7 @@ namespace Macad.Test.UI.Editors.Primitives
             // Create Sketch
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
 
             MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("CreateLineSegment");
@@ -245,6 +251,7 @@ namespace Macad.Test.UI.Editors.Primitives
             // Create Sketch
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
 
             MainWindow.Ribbon.SelectTab("Sketch");
             MainWindow.Ribbon.ClickButton("CreateLineSegment");
@@ -278,6 +285,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
             MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("ConvertSegment");
@@ -307,6 +315,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
             MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateCircleSegment");
@@ -327,6 +336,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
             MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateLineSegment");
@@ -347,6 +357,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
             MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateArcCenterSegment");
@@ -370,6 +381,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
             MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateArcRimSegment");
@@ -391,6 +403,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
             MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateEllipseCenterSegment");
@@ -412,6 +425,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
             MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateBezier2Segment");
@@ -433,6 +447,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
             MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateBezier3Segment");
@@ -455,6 +470,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
             MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateRectangleSegment");
@@ -476,6 +492,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
             MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateRectangleSegment");
@@ -503,6 +520,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
             MainWindow.Ribbon.SelectTab("Sketch");
             
             MainWindow.Ribbon.ClickButton("CreateRectangleSegment");
@@ -531,6 +549,7 @@ namespace Macad.Test.UI.Editors.Primitives
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSketch");
+            MainWindow.Viewport.ClickRelative(0.5, 0.55);
             MainWindow.Ribbon.SelectTab("Sketch");
 
             MainWindow.Ribbon.ClickButton("CreateCircleSegment");

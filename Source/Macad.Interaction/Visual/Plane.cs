@@ -117,6 +117,10 @@ public class Plane : VisualObject
         : base(workspaceController, null)
     {
         _Style = style;
+        if (_Style.Has(Style.NoResize))
+        {
+            _Size = new XY(1, 1);
+        }
     }
 
     //--------------------------------------------------------------------------------------------------

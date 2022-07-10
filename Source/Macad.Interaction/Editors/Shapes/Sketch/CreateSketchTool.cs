@@ -16,13 +16,15 @@ namespace Macad.Interaction.Editors.Shapes
             Interactive,
             WorkplaneXY,
             WorkplaneXZ,
-            WorkplaneYZ
+            WorkplaneYZ,
         }
 
         //--------------------------------------------------------------------------------------------------
 
         readonly CreateMode _InitialCreateMode;
         Pln _Plane = Pln.XOY;
+        Pln _SavedWorkingPlane;
+        readonly Plane[] _DefaultPlanes = new Plane[3];
 
         //--------------------------------------------------------------------------------------------------
 
@@ -36,17 +38,21 @@ namespace Macad.Interaction.Editors.Shapes
         public override bool Start()
         {
             InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(null, true);
+            _SavedWorkingPlane = WorkspaceController.Workspace.WorkingPlane;
 
             if (_InitialCreateMode == CreateMode.Interactive)
             {
-                var selectionFilter =new OrSelectionFilter(new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane), 
-                                                           new SignatureSelectionFilter(VisualPlane.SelectionSignature));
+                _CreateDefaultPlanes();
+
+                var selectionFilter = new OrSelectionFilter(new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane),
+                                                            new SignatureSelectionFilter(VisualPlane.SelectionSignature));
                 var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, null, selectionFilter);
                 if (!WorkspaceController.StartToolAction(toolAction))
                     return false;
                 toolAction.Finished += _OnActionFinished;
+                toolAction.Previewed += _OnActionPreviewed;
 
-                StatusText = "Select face to which the new sketch should be aligned.";
+                StatusText = "Select face or plane to which the new sketch should be aligned.";
                 WorkspaceController.HudManager?.SetCursor(Cursors.SelectFace);
                 return true;
             }
@@ -75,16 +81,64 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        public override void Stop()
         {
-            bool finished = false;
-            var selectAction = toolAction as SelectSubshapeAction;
-            Debug.Assert(selectAction != null);
+            if (WorkspaceController.Workspace.WorkingPlane != _SavedWorkingPlane)
+            {
+                WorkspaceController.Workspace.WorkingPlane = _SavedWorkingPlane;
+            }
 
+            for (var i = 0; i < _DefaultPlanes.Length; i++)
+            {
+                _DefaultPlanes[i]?.Remove();
+                _DefaultPlanes[i] = null;
+            }
+
+            base.Stop();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _CreateDefaultPlanes()
+        {
+            var workingPlane = WorkspaceController.Workspace.WorkingPlane;
+
+            _DefaultPlanes[0] = new Plane(WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
+            {
+                IsSelectable = true,
+                Size = new XY(2,2),
+                Margin = new Vec2d(1, 1),
+                Color = Colors.ActionBlue
+            };
+            _DefaultPlanes[0].Set(workingPlane);
+
+            _DefaultPlanes[1] = new Plane(WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
+            {
+                IsSelectable = true,
+                Size = new XY(2,2),
+                Margin = new Vec2d(1, 1),
+                Color = Colors.ActionGreen
+            };
+            _DefaultPlanes[1].Set(new Pln(workingPlane.Location, workingPlane.YAxis.Direction));
+
+            _DefaultPlanes[2] = new Plane(WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
+            {
+                IsSelectable = true,
+                Size = new XY(2,2),
+                Margin = new Vec2d(1, -1),
+                Color = Colors.ActionRed
+            };
+            _DefaultPlanes[2].Set(new Pln(workingPlane.Location, workingPlane.XAxis.Direction));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        bool _GetPlaneFromAction(SelectSubshapeAction selectAction)
+        {
             if (selectAction.SelectedEntity is DatumPlane datumPlane)
             {
                 _Plane = new Pln(datumPlane.GetCoordinateSystem());
-                finished = true;
+                return true;
             }
             else if (selectAction.SelectedSubshapeType == SubshapeTypes.Face)
             {
@@ -97,11 +151,49 @@ namespace Macad.Interaction.Editors.Shapes
                 else
                 {
                     FaceAlgo.GetCenteredPlaneFromFace(face, out _Plane);
-                    finished = true;
+                    return true;
+                }
+            }
+            else if (selectAction.SelectedAisObject != null)
+            {
+                if (selectAction.SelectedAisObject.Equals(_DefaultPlanes[0].AisObject))
+                {
+                    _Plane = _SavedWorkingPlane;
+                    return true;
+                }
+                else if (selectAction.SelectedAisObject.Equals(_DefaultPlanes[1].AisObject))
+                {
+                    _Plane = new Pln(_SavedWorkingPlane.Location, _SavedWorkingPlane.YAxis.Direction.Reversed());
+                    return true;
+                }
+                else if (selectAction.SelectedAisObject.Equals(_DefaultPlanes[2].AisObject))
+                {
+                    _Plane = new Pln(_SavedWorkingPlane.Location, _SavedWorkingPlane.XAxis.Direction.Reversed());
+                    return true;
                 }
             }
 
-            if (finished)
+            return false;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        void _OnActionPreviewed(ToolAction toolAction)
+        {
+            var selectAction = toolAction as SelectSubshapeAction;
+            Debug.Assert(selectAction != null);
+
+            WorkspaceController.Workspace.WorkingPlane = _GetPlaneFromAction(selectAction) ? _Plane : _SavedWorkingPlane;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _OnActionFinished(ToolAction toolAction)
+        {
+            var selectAction = toolAction as SelectSubshapeAction;
+            Debug.Assert(selectAction != null);
+
+            if (_GetPlaneFromAction(selectAction))
             {
                 selectAction.Stop();
                 Stop();
@@ -131,6 +223,5 @@ namespace Macad.Interaction.Editors.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
-
     }
 }

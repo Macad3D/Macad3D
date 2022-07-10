@@ -124,7 +124,7 @@ namespace Macad.Interaction
         public static ActionCommand CreateSketch { get; } = new(
             () =>
             {
-                _WorkspaceController?.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+                _WorkspaceController?.StartTool(new CreateSketchTool());
             },
             _CanStartTool)
         {
@@ -150,11 +150,11 @@ namespace Macad.Interaction
             {
                 switch (mode)
                 {
-                    case CreateSketchTool.CreateMode.Interactive: return "Select Plane or Face";
-                    case CreateSketchTool.CreateMode.WorkplaneXY: return "Working Plane XY";
-                    case CreateSketchTool.CreateMode.WorkplaneXZ: return "Working Plane XZ";
-                    case CreateSketchTool.CreateMode.WorkplaneYZ: return "Working Plane YZ";
-                    default: return "Sketch";
+                    case CreateSketchTool.CreateMode.Interactive:     return "Select Plane or Face";
+                    case CreateSketchTool.CreateMode.WorkplaneXY:     return "Working Plane XY";
+                    case CreateSketchTool.CreateMode.WorkplaneXZ:     return "Working Plane XZ";
+                    case CreateSketchTool.CreateMode.WorkplaneYZ:     return "Working Plane YZ";
+                    default:                                          return "Sketch";
                 }
             },
             Icon = (mode) => "Prim-Sketch",

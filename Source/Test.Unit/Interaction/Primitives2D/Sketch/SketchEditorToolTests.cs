@@ -87,42 +87,6 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         }
         
         //--------------------------------------------------------------------------------------------------
-        
-        [Test]
-        public void RotatePoint()
-        {
-            var ctx = Context.Current;
-
-            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
-            var body = TestGeomGenerator.CreateBody(sketch);
-            ctx.ViewportController.ZoomFitAll();
-
-            var tool = new SketchEditorTool(sketch);
-            ctx.WorkspaceController.StartTool(tool);
-
-            Assert.Multiple(() =>
-            {
-                // SelectSegment
-                ctx.ClickAt(410, 169);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotatePoint01"), 0.1);
-                // Hilite Gizmo Circle
-                ctx.ViewportController.MouseMove(new Point(382, 292));
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotatePoint02"), 0.1);
-                // Move on progress
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseMove(new Point(362, 264));
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotatePoint03"), 0.1);
-                // Move released
-                ctx.ViewportController.MouseUp(false);
-                ctx.ViewportController.MouseMove(new Point(1, 1));
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotatePoint04"), 0.1);
-
-                // Cleanup
-                tool.Stop();
-            });
-        }
-
-        //--------------------------------------------------------------------------------------------------
 
         [Test]
         public void MovePointMerge()

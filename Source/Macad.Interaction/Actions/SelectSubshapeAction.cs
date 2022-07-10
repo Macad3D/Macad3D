@@ -14,6 +14,7 @@ namespace Macad.Interaction
         public TopoDS_Shape SelectedSubshape { get; private set; }
         public InteractiveEntity SelectedEntity { get; private set; }
         public SubshapeTypes SelectedSubshapeType { get; private set; }
+        public AIS_InteractiveObject SelectedAisObject { get; private set; }
 
         SelectionContext _SelectionContext;
         readonly InteractiveEntity _SourceEntity;
@@ -84,6 +85,7 @@ namespace Macad.Interaction
         void ProcessMouseInput(MouseEventData data)
         {
             SelectedEntity = data.DetectedEntities.FirstOrDefault();
+            SelectedAisObject = data.DetectedAisInteractives.FirstOrDefault();
 
             if (data.DetectedShapes.Count == 0)
             {
@@ -140,7 +142,7 @@ namespace Macad.Interaction
             if (!IsFinished)
             {
                 ProcessMouseInput(data);
-                IsFinished = SelectedEntity != null || SelectedSubshape != null;
+                IsFinished = SelectedEntity != null || SelectedSubshape != null || SelectedAisObject != null;
             }
             return true;
         }
