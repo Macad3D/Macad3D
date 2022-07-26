@@ -23,9 +23,8 @@
 
     <!-- Warnings Disabled:
       1573,1591: XML Documentation errors
-      CA2255: The 'ModuleInitializer' attribute is only intended to be used in application code or advanced source generator scenarios
     -->
-    <NoWarn>1573,1591,CA2255</NoWarn>
+    <NoWarn>1573,1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

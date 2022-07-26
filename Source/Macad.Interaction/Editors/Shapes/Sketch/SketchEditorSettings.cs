@@ -36,7 +36,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        [ModuleInitializer]
+        [AutoRegister]
         public static void Init()
         {
             Model.AdditionalDataSaving += _Model_OnAdditionalDataSaving;
