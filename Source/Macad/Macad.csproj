@@ -13,8 +13,8 @@
 
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="5.0.1" />
-    <PackageReference Include="Dirkster.AvalonDock" Version="4.70.1" />
-    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.70.1" />
+    <PackageReference Include="Dirkster.AvalonDock" Version="4.70.2" />
+    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.70.2" />
     <PackageReference Include="Fluent.Ribbon" Version="9.0.4" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
