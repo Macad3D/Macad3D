@@ -6,7 +6,6 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <Resource Include="Marker\**\*.png" />
     <Resource Include="Visual\**\*.png" />
     <Resource Include="Cursors\**\*.cur" />
     <Resource Include="Controls\**\*.png" />
@@ -23,6 +22,13 @@
       <KeyPrefix>TypeIcon</KeyPrefix>
     </IconSet>
     <UpToDateCheckInput Include="Types\**\*.svg" />
+    <IconSet Include="Marker\Marker.xaml">
+      <KeyPrefix>Marker</KeyPrefix>
+    </IconSet>
+    <UpToDateCheckInput Include="Marker\**\*.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Marker\HelloWorld.png" />
   </ItemGroup>
 
   <ItemGroup>

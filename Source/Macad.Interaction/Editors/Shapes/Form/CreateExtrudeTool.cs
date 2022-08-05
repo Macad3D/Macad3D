@@ -81,7 +81,7 @@ namespace Macad.Interaction.Editors.Shapes
                     return false;
                 toolAction.Finished += _OnActionFinished;
 
-                StatusText = "Select face to extrude.";
+                WorkspaceController.HudManager?.SetHintMessage(this, "Select face to extrude.");
                 WorkspaceController.HudManager?.SetCursor(Cursors.SelectFace);
                 return true;
             }

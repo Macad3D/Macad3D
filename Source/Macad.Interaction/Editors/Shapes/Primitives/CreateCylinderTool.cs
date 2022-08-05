@@ -49,7 +49,7 @@ namespace Macad.Interaction.Editors.Shapes
             pointAction.Finished += _FinishPivotPoint;
 
             _CurrentPhase = Phase.PivotPoint;
-            StatusText = "Select center point.";
+            WorkspaceController.HudManager?.SetHintMessage(this, "Select center point.");
             _Coord2DHudElement = WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
             WorkspaceController.HudManager?.SetCursor(Cursors.SetPoint);
             return true;
@@ -90,7 +90,7 @@ namespace Macad.Interaction.Editors.Shapes
             pointAction.Finished += _FinishRadius;
 
             _CurrentPhase = Phase.Radius;
-            StatusText = "Select radius.";
+            WorkspaceController.HudManager?.SetHintMessage(this, "Select radius.");
 
             _ValueHudElement = WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
             if (_ValueHudElement != null)
@@ -147,7 +147,7 @@ namespace Macad.Interaction.Editors.Shapes
             WorkspaceController.Workspace.AisContext.Display(_AisPreviewSolid, false);
             WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewSolid);
 
-            StatusText = $"Select radius: {_Radius:0.00}";
+            WorkspaceController.HudManager?.SetHintMessage(this, $"Select radius: {_Radius:0.00}");
             if (_ValueHudElement != null)
                 _ValueHudElement.Value = _Radius;
 
@@ -170,7 +170,7 @@ namespace Macad.Interaction.Editors.Shapes
             axisValueAction.Finished += _FinishHeight;
 
             _CurrentPhase = Phase.Height;
-            StatusText = "Select height.";
+            WorkspaceController.HudManager?.SetHintMessage(this, "Select height.");
 
             if (_ValueHudElement != null)
             {
@@ -240,7 +240,7 @@ namespace Macad.Interaction.Editors.Shapes
                 WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewSolid);
             }
 
-            StatusText = $"Selected height: {height:0.00}";
+            WorkspaceController.HudManager?.SetHintMessage(this, $"Selected height: {height:0.00}");
             if (_ValueHudElement != null)
                 _ValueHudElement.Value = height;
         }

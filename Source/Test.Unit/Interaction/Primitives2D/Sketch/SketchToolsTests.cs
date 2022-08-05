@@ -188,7 +188,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.MoveTo(108, 62);
                 ctx.ViewportController.MouseDown();
                 ctx.MoveTo(150, 40);
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitPoint03"), 0.1);
             });
 

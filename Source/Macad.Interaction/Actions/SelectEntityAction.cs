@@ -95,7 +95,7 @@ public class SelectEntityAction<T> : ToolAction where T: InteractiveEntity
 
     //--------------------------------------------------------------------------------------------------
 
-    public override bool OnMouseUp(MouseEventData data, bool additive)
+    public override bool OnMouseUp(MouseEventData data)
     {
         if (!IsFinished)
         {

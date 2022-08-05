@@ -12,18 +12,6 @@ namespace Macad.Interaction
     {
         #region Properties
 
-        public string StatusText
-        {
-            get { return _StatusText; }
-            set
-            {
-                _StatusText = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         public string Id { get; protected set; }
 
         //--------------------------------------------------------------------------------------------------
@@ -49,7 +37,6 @@ namespace Macad.Interaction
 
         #region Member
 
-        string _StatusText;
         WorkspaceController _WorkspaceController;
 
         //--------------------------------------------------------------------------------------------------
@@ -82,6 +69,7 @@ namespace Macad.Interaction
         {
             IsClosed = true;
             WorkspaceController.HudManager?.SetCursor(null);
+            WorkspaceController.HudManager?.SetHintMessage(this, null);
             WorkspaceController.RemoveTool(this);
             WorkspaceController.Invalidate();
         }
@@ -114,7 +102,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual bool OnMouseUp(MouseEventData data, bool additive)
+        public virtual bool OnMouseUp(MouseEventData data)
         {
             return false;
         }

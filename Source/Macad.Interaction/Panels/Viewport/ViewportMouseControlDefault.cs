@@ -14,21 +14,23 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        public void MouseMove(Point pos, MouseDevice mouseDevice)
+        public void MouseMove(Point pos, MouseDevice mouseDevice, ModifierKeys modifierKeys)
         {
             if (ViewportController == null)
                 return;
 
             if(_CurrentMouseMoveMode != ViewportController.MouseMoveMode.None)
             {
-                ViewportController.MouseMove(pos, _CurrentMouseMoveMode);
+                ViewportController.MouseMove(pos, Keyboard.Modifiers, _CurrentMouseMoveMode);
             }
             else
             {
                 if (mouseDevice?.LeftButton == MouseButtonState.Pressed)
                 {
-                    ViewportController.MouseMove(pos);
-                    if (Keyboard.IsKeyDown(Key.LeftCtrl) && !ViewportController.IsInRubberbandSelection && ViewportController.WorkspaceController.IsSelecting)
+                    ViewportController.MouseMove(pos, modifierKeys);
+                    if (modifierKeys.HasFlag(ModifierKeys.Control) 
+                        && !ViewportController.IsInRubberbandSelection 
+                        && ViewportController.WorkspaceController.IsSelecting)
                     {
                         ViewportController.StartRubberbandSelection(
                             InteractiveContext.Current.EditorState.RubberbandSelectionMode,
@@ -37,20 +39,20 @@ namespace Macad.Interaction.Panels
                 } 
                 else 
                 {
-                    ViewportController.MouseMove(pos);
+                    ViewportController.MouseMove(pos, modifierKeys);
                 }
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void MouseWheel(Point pos, MouseWheel wheel, int delta, InputDevice device)
+        public void MouseWheel(Point pos, MouseWheel wheel, int delta, InputDevice device, ModifierKeys modifierKeys)
         {
             if (ViewportController == null || delta == 0)
                 return;
 
             double scaledDelta = delta;
-            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            if (modifierKeys.HasFlag(ModifierKeys.Control))
             {
                 // Increase precision
                 scaledDelta /= 10.0;
@@ -65,53 +67,52 @@ namespace Macad.Interaction.Panels
                     ViewportController.Rotate(0, scaledDelta / 50.0, 0);
                     break;
             }
-            ViewportController.MouseMove(pos);
+            ViewportController.MouseMove(pos, modifierKeys);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void MouseDown(Point pos, MouseButton changedButton, MouseDevice mouseDevice)
+        public void MouseDown(Point pos, MouseButton changedButton, MouseDevice mouseDevice, ModifierKeys modifierKeys)
         {
             if (ViewportController == null)
                 return;
 
             if (changedButton == MouseButton.Left)
             {
-                ViewportController.MouseDown();
+                ViewportController.MouseDown(modifierKeys);
             }
-            _UpdateMouseMoveMode(mouseDevice);
+            _UpdateMouseMoveMode(mouseDevice, modifierKeys);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void MouseUp(Point pos, MouseButton changedButton, int clickCount, MouseDevice mouseDevice)
+        public void MouseUp(Point pos, MouseButton changedButton, int clickCount, MouseDevice mouseDevice, ModifierKeys modifierKeys)
         {
             if (ViewportController == null)
                 return;
 
             if (changedButton == MouseButton.Left)
             {
-                bool shiftKey = Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift);
-                ViewportController.MouseUp(shiftKey);
+                ViewportController.MouseUp(modifierKeys);
             }
-            _UpdateMouseMoveMode(mouseDevice);
+            _UpdateMouseMoveMode(mouseDevice, modifierKeys);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public void Cancel()
         {
-            ViewportController?.MouseMove(new Point(-1,-1), ViewportController.MouseMoveMode.None);
+            ViewportController?.MouseMove(new Point(-1,-1));
             _CurrentMouseMoveMode = ViewportController.MouseMoveMode.None;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _UpdateMouseMoveMode(MouseDevice mouseDevice)
+        void _UpdateMouseMoveMode(MouseDevice mouseDevice, ModifierKeys modifierKeys)
         {
             if (mouseDevice?.MiddleButton == MouseButtonState.Pressed)
             {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                if (modifierKeys.HasFlag(ModifierKeys.Control))
                 {
                     _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Twisting;
                 }
@@ -126,7 +127,7 @@ namespace Macad.Interaction.Panels
             }
             else if (mouseDevice?.RightButton == MouseButtonState.Pressed)
             {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                if (modifierKeys.HasFlag(ModifierKeys.Control))
                 {
                     _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Zooming;
                 }

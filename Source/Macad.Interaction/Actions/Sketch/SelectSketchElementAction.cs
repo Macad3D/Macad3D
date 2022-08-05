@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using Macad.Common;
 using Macad.Interaction.Editors.Shapes;
-using Macad.Occt;
 
 namespace Macad.Interaction
 {
@@ -39,11 +36,11 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool OnMouseUp(MouseEventData data, bool additive)
+        public override bool OnMouseUp(MouseEventData data)
         {
             if (!IsFinished)
             {
-                if (!additive)
+                if (!data.ModifierKeys.Has(ModifierKeys.Shift))
                 {
                     _SketchEditorTool.Elements.DeselectAll();
                 }

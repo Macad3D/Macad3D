@@ -61,6 +61,7 @@ namespace Macad.Core
         public static readonly Quantity_Color ActionBlue = new Color(0.2f, 0.2f, 0.8f).ToQuantityColor();
         public static readonly Quantity_Color ActionRed = new Color(0.8f, 0.2f, 0.2f).ToQuantityColor();
         public static readonly Quantity_Color ActionGreen = new Color(0.2f, 0.8f, 0.2f).ToQuantityColor();
+        public static readonly Quantity_Color ActionWhite = new Color(0.8f, 0.8f, 0.8f).ToQuantityColor();
     }
 
     //--------------------------------------------------------------------------------------------------

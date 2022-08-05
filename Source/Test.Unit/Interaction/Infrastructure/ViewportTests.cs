@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Macad.Test.Utils;
 using Macad.Core.Shapes;
 using Macad.Interaction;
@@ -114,7 +115,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
 
             // Try to rotate
             vc.MouseMove(new Point(300, 300));
-            vc.MouseMove(new Point(200, 200), ViewportController.MouseMoveMode.Rotating);
+            vc.MouseMove(new Point(200, 200), ModifierKeys.None, ViewportController.MouseMoveMode.Rotating);
             vc.WorkspaceController.Invalidate(forceRedraw: true);
 
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ReleaseLockInTopview01"));

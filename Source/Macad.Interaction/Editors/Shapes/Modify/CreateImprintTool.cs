@@ -84,7 +84,7 @@ namespace Macad.Interaction.Editors.Shapes
                 return false;
             toolAction.Finished += _OnActionFinished;
 
-            StatusText = "Select face to imprint.";
+            WorkspaceController.HudManager?.SetHintMessage(this, "Select face to imprint.");
             WorkspaceController.HudManager?.SetCursor(Cursors.SelectFace);
             return true;
         }
@@ -103,7 +103,7 @@ namespace Macad.Interaction.Editors.Shapes
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
                 if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
                 {
-                    StatusText = "Selected face is not a plane type surface.";
+                    WorkspaceController.HudManager?.SetHintMessage(this, "Selected face is not a plane type surface.");
                 }
                 else
                 {

@@ -27,13 +27,6 @@ namespace Macad.Window
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual InteractiveContext Context
-        {
-            get { return InteractiveContext.Current; }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         #endregion
 
         #region Members and n'tor

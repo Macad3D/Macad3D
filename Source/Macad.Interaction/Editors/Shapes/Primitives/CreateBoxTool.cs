@@ -48,7 +48,7 @@ namespace Macad.Interaction.Editors.Shapes
             pointAction.Finished += _FinishPivotPoint;
 
             _CurrentPhase = Phase.PivotPoint;
-            StatusText = "Select corner point.";
+            WorkspaceController.HudManager?.SetHintMessage(this, "Select corner point.");
             _Coord2DHudElement = WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
             WorkspaceController.HudManager?.SetCursor(Cursors.SetPoint);
             return true;
@@ -90,7 +90,7 @@ namespace Macad.Interaction.Editors.Shapes
                 return;
 
             _CurrentPhase = Phase.BaseRect;
-            StatusText = "Select opposite corner point.";
+            WorkspaceController.HudManager?.SetHintMessage(this, "Select opposite corner point.");
 
             _MultiValueHudElement = WorkspaceController.HudManager?.CreateElement<MultiValueHudElement>(this);
             if (_MultiValueHudElement != null)
@@ -137,7 +137,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             var dim1 = Math.Abs(_PointPlane1.X - _PointPlane2.X);
             var dim2 = Math.Abs(_PointPlane1.Y - _PointPlane2.Y);
-            StatusText = $"Select opposite corner point. Size: {dim1:0.00} x {dim2:0.00}";
+            WorkspaceController.HudManager?.SetHintMessage(this, $"Select opposite corner point. Size: {dim1:0.00} x {dim2:0.00}");
 
             if (_Coord2DHudElement != null)
             {
@@ -171,7 +171,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
             _CurrentPhase = Phase.Height;
-            StatusText = "Select height.";
+            WorkspaceController.HudManager?.SetHintMessage(this, "Select height.");
 
             WorkspaceController.HudManager?.RemoveElement(_MultiValueHudElement);
             _ValueHudElement = WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
@@ -231,7 +231,7 @@ namespace Macad.Interaction.Editors.Shapes
                 WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewSolid);
             }
 
-            StatusText = $"Selected height: {height:0.00}";
+            WorkspaceController.HudManager?.SetHintMessage(this, $"Selected height: {height:0.00}");
             if (_ValueHudElement != null)
             {
                 _ValueHudElement.Value = height;

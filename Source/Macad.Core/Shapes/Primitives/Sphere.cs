@@ -21,12 +21,14 @@ namespace Macad.Core.Shapes
                 if (_Radius != value)
                 {
                     SaveUndo();
-                    _Radius = value;
+                    _Radius = value > 0.0 ? value : 0.001;
                     Invalidate();
                     RaisePropertyChanged();
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         [SerializeMember]
         public double SegmentAngle
@@ -37,12 +39,14 @@ namespace Macad.Core.Shapes
                 if (_SegmentAngle != value)
                 {
                     SaveUndo();
-                    _SegmentAngle = value;
+                    _SegmentAngle = value.Clamp(0, 360);
                     Invalidate();
                     RaisePropertyChanged();
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         [SerializeMember]
         public double MaxLatitude
@@ -53,12 +57,14 @@ namespace Macad.Core.Shapes
                 if (_MaxLatitude != value)
                 {
                     SaveUndo();
-                    _MaxLatitude = value;
+                    _MaxLatitude = value.Clamp(-90, 90);
                     Invalidate();
                     RaisePropertyChanged();
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         [SerializeMember]
         public double MinLatitude
@@ -69,12 +75,14 @@ namespace Macad.Core.Shapes
                 if (_MinLatitude != value)
                 {
                     SaveUndo();
-                    _MinLatitude = value;
+                    _MinLatitude = value.Clamp(-90, 90);
                     Invalidate();
                     RaisePropertyChanged();
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
 
@@ -122,6 +130,8 @@ namespace Macad.Core.Shapes
 
         protected override bool MakeInternal(MakeFlags flags)
         {
+            var radius = Radius > 0.0 ? Radius : 0.001;
+
             double? segAngle = null;
             if (SegmentAngle > 0)
                 segAngle = SegmentAngle.Clamp(0, 360);
@@ -137,10 +147,8 @@ namespace Macad.Core.Shapes
             bool useLatitudeExtents = (topAngle.HasValue || bottomAngle.HasValue);
             if (useLatitudeExtents)
             {
-                if (!topAngle.HasValue)
-                    topAngle = 90;
-                if (!bottomAngle.HasValue)
-                    bottomAngle = -90;
+                topAngle ??= 90;
+                bottomAngle ??= -90;
 
                 if (topAngle.Value <= bottomAngle.Value)
                 {
@@ -153,29 +161,30 @@ namespace Macad.Core.Shapes
             {
                 if (useLatitudeExtents)
                 {
-                    makeSphere = new BRepPrimAPI_MakeSphere(Radius, bottomAngle.Value.ToRad(), topAngle.Value.ToRad(), segAngle.Value.ToRad());
+                    makeSphere = new BRepPrimAPI_MakeSphere(radius, bottomAngle.Value.ToRad(), topAngle.Value.ToRad(), segAngle.Value.ToRad());
                 }
                 else
                 {
-                    makeSphere = new BRepPrimAPI_MakeSphere(Radius, segAngle.Value.ToRad());
+                    makeSphere = new BRepPrimAPI_MakeSphere(radius, segAngle.Value.ToRad());
                 }
             }
             else
             {
                 if (useLatitudeExtents)
                 {
-                    makeSphere = new BRepPrimAPI_MakeSphere(Radius, bottomAngle.Value.ToRad(), topAngle.Value.ToRad());
+                    makeSphere = new BRepPrimAPI_MakeSphere(radius, bottomAngle.Value.ToRad(), topAngle.Value.ToRad());
                 }
                 else
                 {
-                    makeSphere = new BRepPrimAPI_MakeSphere(Radius);
+                    makeSphere = new BRepPrimAPI_MakeSphere(radius);
                 }
             }
+
             BRep = makeSphere.Solid();
             return base.MakeInternal(flags);
         }
 
-
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
     }

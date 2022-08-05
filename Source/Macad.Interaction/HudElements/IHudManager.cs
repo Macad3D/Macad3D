@@ -11,5 +11,6 @@ namespace Macad.Interaction
         void RemoveElements(Func<HudElement, bool> predicate);
 
         void SetCursor(Cursor cursor);
+        void SetHintMessage(object owner, string message);
     }
 }

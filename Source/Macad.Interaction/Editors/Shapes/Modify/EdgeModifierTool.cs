@@ -37,7 +37,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (!UpdateEdgesToTool())
                 return false;
 
-            StatusText = "Select edges to apply modifier on.";
+            WorkspaceController.HudManager?.SetHintMessage(this, "Select edges to apply modifier on.");
             WorkspaceController.HudManager?.SetCursor(Cursors.SelectEdge);
 
             WorkspaceController.Invalidate();

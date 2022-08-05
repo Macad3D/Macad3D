@@ -73,7 +73,7 @@ namespace Macad.Interaction
             }
             toolAction.Finished += _OnActionFinished;
 
-            StatusText = "Select compnent to align to, or select X / Y / Z for default direction.";
+            WorkspaceController.HudManager?.SetHintMessage(this, "Select compnent to align to, or select X / Y / Z for default direction.");
             WorkspaceController.HudManager?.SetCursor(Cursors.WorkingPlane);
 
             return true;
@@ -102,7 +102,7 @@ namespace Macad.Interaction
                         var brepAdaptor = new BRepAdaptor_Surface(face, true);
                         if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
                         {
-                            StatusText = "Selected face is not a plane type surface.";
+                            WorkspaceController.HudManager?.SetHintMessage(this, "Selected face is not a plane type surface.");
                         }
                         else
                         {

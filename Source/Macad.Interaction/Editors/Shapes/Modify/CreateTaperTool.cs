@@ -96,7 +96,7 @@ namespace Macad.Interaction.Editors.Shapes
             toolAction.Previewed += _OnActionPreview;
             toolAction.Finished += _OnActionFinished;
 
-            StatusText = "Select face to taper.";
+            WorkspaceController.HudManager?.SetHintMessage(this, "Select face to taper.");
             WorkspaceController.HudManager?.SetCursor(Cursors.SelectFace);
             return true;
         }
@@ -156,7 +156,7 @@ namespace Macad.Interaction.Editors.Shapes
                     && brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Cylinder
                     && brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Cone)
                 {
-                    StatusText = "Selected face is not a plane, cylinder or cone type surface.";
+                    WorkspaceController.HudManager?.SetHintMessage(this, "Selected face is not a plane, cylinder or cone type surface.");
                     selectAction.Reset();
                     return;
                 }
@@ -191,7 +191,7 @@ namespace Macad.Interaction.Editors.Shapes
                 newAction.Previewed += _OnActionPreview;
                 newAction.Finished += _OnActionFinished;
 
-                StatusText = "Select base edge or vertex to define direction of taper.";
+                WorkspaceController.HudManager?.SetHintMessage(this, "Select base edge or vertex to define direction of taper.");
                 WorkspaceController.HudManager?.SetCursor(Cursors.SelectEdge);
             }
         }

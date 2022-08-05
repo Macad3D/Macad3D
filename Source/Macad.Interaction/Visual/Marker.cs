@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using Macad.Common;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Macad.Core;
 using Macad.Occt;
 using Macad.Occt.Ext;
 using Macad.Occt.Helper;
 using Macad.Resources;
+using Colors = Macad.Core.Colors;
 
 namespace Macad.Interaction.Visual
 {
@@ -21,8 +22,39 @@ namespace Macad.Interaction.Visual
             ModeMask   = 0x000f,
 
             Topmost    = 1 << 16,
-            Selectable = 1 << 17,
             Background = 1 << 18,
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public Quantity_Color Color
+        {
+            get { return _Color; }
+            set
+            {
+                if (_Color != null && _Color.Equals(value)) 
+                    return;
+
+                _Color = value;
+                if (_AisPoint != null)
+                    Update();
+            }
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public Quantity_Color BackgroundColor
+        {
+            get { return _ColorBg; }
+            set
+            {
+                if (_ColorBg != null && _ColorBg.Equals(value)) 
+                    return;
+
+                _ColorBg = value;
+                if (_AisPoint != null)
+                    Update();
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -35,11 +67,12 @@ namespace Macad.Interaction.Visual
             }
             set
             {
-                if (value != _IsSelectable && _Styles.HasFlag(Styles.Selectable))
-                {
-                    _IsSelectable = value;
-                    _UpdateActivation();
-                }
+                if (_IsSelectable == value)
+                    return;
+
+                _IsSelectable = value;
+                if (_AisPoint != null)
+                    Update();
             }
         }
 
@@ -61,14 +94,14 @@ namespace Macad.Interaction.Visual
             _Styles = styles;
             _Image = image;
         }
-        
+
         //--------------------------------------------------------------------------------------------------
 
-        public Marker(WorkspaceController workspaceController, Styles styles, string imageName)
+        public Marker(WorkspaceController workspaceController, Styles styles, string imageName, int size)
             : base(workspaceController, null)
         {
             _Styles = styles;
-            _Image = _GetMarkerImage(imageName);
+            _Image = _GetMarkerImage(imageName, size);
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -98,9 +131,23 @@ namespace Macad.Interaction.Visual
         public override void Update()
         {
             if (_AisPoint == null)
+            {
                 _EnsureAisObject();
+            }
             else
+            {
+                _UpdatePresentation();
                 AisContext.Redisplay(_AisPoint, false);
+            }
+
+            if (_IsSelectable)
+            {
+                AisContext.Activate(_AisPoint);
+            }
+            else
+            {
+                AisContext.Deactivate(_AisPoint);
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -120,7 +167,7 @@ namespace Macad.Interaction.Visual
                 return;
 
             _AisPoint.SetComponent(_P);
-            AisContext.Redisplay(_AisPoint, false);
+            Update();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -131,31 +178,6 @@ namespace Macad.Interaction.Visual
             ElSLib.D0(p.X, p.Y, plane, ref pnt);
 
             Set(pnt);
-        }
-        
-        //--------------------------------------------------------------------------------------------------
-
-        public void SetColor(Quantity_Color color)
-        {
-            _Color = color ?? Colors.BallMarker;
-
-            if (!_EnsureAisObject())
-                return;
-
-            _AisPoint.SetColor(_Color);
-            AisContext.RecomputePrsOnly(_AisPoint, false);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void SetBackgroundColor(Quantity_Color color)
-        {
-            _ColorBg = color ?? Colors.AttributeMarkerBackground;
-
-            if (!_EnsureAisObject())
-                return;
-
-            _AisPoint.SetBackgroundColor(_ColorBg);
         }
                 
         //--------------------------------------------------------------------------------------------------
@@ -170,52 +192,56 @@ namespace Macad.Interaction.Visual
             Remove();
             _EnsureAisObject();
         }
+        //--------------------------------------------------------------------------------------------------
+
+        void _UpdatePresentation()
+        {
+            if (_AisPoint == null)
+                return;
+            
+            _AisPoint.SetMarker(Aspect_TypeOfMarker.Aspect_TOM_USERDEFINED);
+
+            Prs3d_PointAspect pointAspect = null;
+            switch (_Styles & Styles.ModeMask)
+            {
+                case Styles.Bitmap:
+                    pointAspect = CreateBitmapPointAspect(_Image, _Color);
+                    break;
+
+                case Styles.Image:
+                    pointAspect = CreateImagePointAspect(_Image);
+                    break;
+            }
+
+            if (pointAspect == null)
+                return;
+
+            _AisPoint.Attributes().SetPointAspect(pointAspect);
+            _AisPoint.HilightAttributes().SetPointAspect(pointAspect);
+            _AisPoint.HilightAttributes().SetColor(Colors.Highlight);
+            _AisPoint.DynamicHilightAttributes().SetPointAspect(pointAspect);
+            _AisPoint.DynamicHilightAttributes().SetColor(Colors.Highlight);
+
+            if (_Styles.HasFlag(Styles.Background))
+            {
+                _AisPoint.EnableBackground(0.75);
+                _AisPoint.SetBackgroundColor(_ColorBg ?? Colors.AttributeMarkerBackground);
+            }
+        }
 
         //--------------------------------------------------------------------------------------------------
 
         bool _EnsureAisObject()
         {
             if (_AisPoint != null)
-            {
                 return true;
-            }
 
             if (_P == null)
                 return false;
 
-            Prs3d_PointAspect pointAspect;
             _AisPoint = new AIS_PointEx(_P);
 
-            switch (_Styles & Styles.ModeMask)
-            {
-                case Styles.Bitmap:
-                    _AisPoint.SetMarker(Aspect_TypeOfMarker.Aspect_TOM_USERDEFINED);
-                    _AisPoint.SetColor(_Color);
-
-                    pointAspect = CreateBitmapPointAspect(_Image, Colors.BallMarker);
-                    _AisPoint.Attributes().SetPointAspect(pointAspect);
-                    _AisPoint.HilightAttributes().SetPointAspect(pointAspect);
-                    _AisPoint.HilightAttributes().SetColor(Colors.Highlight);
-                    _AisPoint.DynamicHilightAttributes().SetPointAspect(pointAspect);
-                    _AisPoint.DynamicHilightAttributes().SetColor(Colors.Highlight);
-                    break;
-
-                case Styles.Image:
-                    _AisPoint.SetMarker(Aspect_TypeOfMarker.Aspect_TOM_USERDEFINED);
-
-                    pointAspect = CreateImagePointAspect(_Image);
-                    _AisPoint.Attributes().SetPointAspect(pointAspect);
-                    _AisPoint.HilightAttributes().SetPointAspect(pointAspect);
-                    _AisPoint.HilightAttributes().SetColor(Colors.Highlight);
-                    _AisPoint.DynamicHilightAttributes().SetPointAspect(pointAspect);
-                    _AisPoint.DynamicHilightAttributes().SetColor(Colors.Highlight);
-
-                    if (_Styles.HasFlag(Styles.Background))
-                    {
-                        _AisPoint.EnableBackground(0.75);
-                    }
-                    break;
-            }
+            _UpdatePresentation();
 
             if (_Styles.HasFlag(Styles.Topmost))
             {
@@ -224,40 +250,20 @@ namespace Macad.Interaction.Visual
                 _AisPoint.DynamicHilightAttributes().SetZLayer(-4);
             }
 
-            AisContext.Display(_AisPoint, 0, _Styles.HasFlag(Styles.Selectable) ? 0 : -1, false);
-            AisContext.SetSelectionSensitivity(_AisPoint, 0, Math.Min(_Image.Height, _Image.Width));
-
-            _UpdateActivation();
+            AisContext.Display(_AisPoint, 0, 0, false);
+            if (_Image != null)
+            {
+                AisContext.SetSelectionSensitivity(_AisPoint, 0, Math.Min(_Image.Height, _Image.Width));
+            }
 
             return true;
         }
         
         //--------------------------------------------------------------------------------------------------
 
-        #region Selection
-
-        void _UpdateActivation()
-        {
-            if (_AisPoint == null)
-                return;
-
-            if (_IsSelectable)
-            {
-                AisContext.Activate(_AisPoint, 0, false);
-            }
-            else
-            {
-                AisContext.Deactivate(_AisPoint);
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
-
         #region Images
 
-        public struct Image
+        public class Image
         {
             public Image_PixMap PixMap;
             public int Width;
@@ -267,65 +273,132 @@ namespace Macad.Interaction.Visual
 
         //--------------------------------------------------------------------------------------------------
 
-        static readonly Dictionary<string, Image> _ImageCache = new Dictionary<string, Image>();
+        static readonly Dictionary<string, Image> _ImageCache = new();
 
         //--------------------------------------------------------------------------------------------------
 
-        public static Image BallImage = _GetMarkerImage("Marker_Ball");
-        public static Image RectImage = _GetMarkerImage("Marker_Rect");
-        public static Image RingImage = _GetMarkerImage("Marker_Ring");
-        public static Image XImage = _GetMarkerImage("Marker_X");
-        public static Image ErrorImage = _GetMarkerImage("Marker_Error");
+        public static readonly Image BallImage = _GetMarkerImage("Ball", 8);
+        public static readonly Image RectImage = _GetMarkerImage("Rect", 8);
+        public static readonly Image RingImage = _GetMarkerImage("Ring", 16);
+        public static readonly Image XImage = _GetMarkerImage("X", 16);
+        public static readonly Image ErrorImage = _GetMarkerImage("Error", 24);
 
         //--------------------------------------------------------------------------------------------------
 
-        static Image _GetMarkerImage(string name)
+        static Image _GetMarkerImage(string name, int size)
         {
-            if (_ImageCache.TryGetValue(name, out var image))
+            string cacheName = $"{name}@{size}";
+
+            if (_ImageCache.TryGetValue(cacheName, out var image))
             {
                 return image;
             }
 
+            var pixmap = _TryGetMarkerAsXaml(name, size) ?? _TryGetMarkerAsImage(name);
+            if (pixmap == null)
+            {
+                Messages.Error($"Could not load marker image {name} from resource.");
+                _ImageCache.Add(cacheName, null);
+                return null;
+            }
+
+            image = new Image()
+            {
+                PixMap = pixmap,
+                Width = (int) pixmap.Width(),
+                Height = (int) pixmap.Height(),
+                Bytes = new Graphic3d_MarkerImage(pixmap).GetBitMapArray()
+            };
+            _ImageCache.Add(cacheName, image);
+            return image;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        static Image_PixMap _TryGetMarkerAsImage(string name)
+        {
             var bitmap = ResourceUtils.ReadBitmapFromResource(Path.Combine("Marker", name) + ".png");
             if (bitmap == null)
             {
-                Messages.Error($"Could not load marker image {name} from resource.");
+                return null;
             }
-            else
+
+            var pixmap = PixMapHelper.ConvertFromBitmap(bitmap);
+            if (pixmap == null)
             {
-                var pixmap = PixMapHelper.ConvertFromBitmap(bitmap);
+                Messages.Error($"Could not load marker image {name} into pixmap.");
+                return null;
+            }
+
+            return pixmap;
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        static Image_PixMap _TryGetMarkerAsXaml(string name, int size)
+        {
+            try
+            {
+                double dpiScale = InteractiveContext.Current.WorkspaceController?.ActiveViewport?.DpiScale ?? 1.0;
+                int finalSize = (int)(size * dpiScale);
+
+                var drawing = ResourceUtils.GetDictionaryElement<Drawing>(ResourceUtils.Category.Marker, "Marker_" + name);
+                if (drawing == null)
+                    return null;
+
+                var drawingImage = new DrawingImage(drawing);
+                drawingImage.Freeze();
+
+                DrawingVisual drawingVisual = new DrawingVisual();
+                using(DrawingContext drawingContext = drawingVisual.RenderOpen())
+                {
+                    drawingContext.PushTransform(new ScaleTransform(finalSize / drawingImage.Width, finalSize / drawingImage.Height, 0, 0));
+                    drawingContext.DrawDrawing(drawing);
+                }
+
+                RenderTargetBitmap renderTarget = new RenderTargetBitmap(finalSize, finalSize, 96, 96, PixelFormats.Pbgra32);
+                renderTarget.Render(drawingVisual);
+
+                int stride = renderTarget.PixelWidth * (renderTarget.Format.BitsPerPixel / 8);
+                byte[] pixels = new byte[renderTarget.PixelHeight * stride];
+                renderTarget.CopyPixels(pixels, stride, 0);
+                var pixmap = PixMapHelper.CreateFromBytes(pixels, renderTarget.PixelHeight, renderTarget.PixelWidth, renderTarget.Format.BitsPerPixel / 8);
                 if (pixmap == null)
                 {
                     Messages.Error($"Could not load marker image {name} into pixmap.");
+                    return null;
                 }
-                else
-                {
-                    image = new Image()
-                    {
-                        PixMap = pixmap,
-                        Width = (int) pixmap.Width(),
-                        Height = (int) pixmap.Height(),
-                        Bytes = new Graphic3d_MarkerImage(pixmap).GetBitMapArray()
-                    };
-                }
+
+                return pixmap;
             }
-            _ImageCache.Add(name, image);
-            return image;
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return null;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public static Prs3d_PointAspect CreateBitmapPointAspect(Image image, Quantity_Color color)
         {
-            Debug.Assert(image.Bytes!=null);
-            return new Prs3d_PointAspect(color, image.Width, image.Height, image.Bytes);
+            if (image?.Bytes == null)
+            {
+                return new Prs3d_PointAspect(Aspect_TypeOfMarker.Aspect_TOM_BALL, color ?? Colors.BallMarker, 1.0);
+            }
+
+            return new Prs3d_PointAspect(color ?? Colors.BallMarker, image.Width, image.Height, image.Bytes);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         static Prs3d_PointAspect CreateImagePointAspect(Image image)
         {
-            Debug.Assert(image.PixMap!=null);
+            if (image?.PixMap == null)
+            {
+                return new Prs3d_PointAspect(Aspect_TypeOfMarker.Aspect_TOM_BALL, Colors.BallMarker, 1.0);
+            }
+
             var aspectMarker = new Graphic3d_AspectMarker3d(image.PixMap);
             var aspectPoint = new Prs3d_PointAspect(aspectMarker);
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
@@ -8,7 +9,15 @@ namespace Macad.Resources
 {
     public class ResourceUtils
     {
+        public enum Category
+        {
+            Marker
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         static readonly string _AssemblyName;
+        static readonly Dictionary<Category, ResourceDictionary> _Resources = new();
 
         static ResourceUtils()
         {
@@ -43,6 +52,29 @@ namespace Macad.Resources
                 return null;
             }
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public static T GetDictionaryElement<T>(Category category, string name) where T : class
+        {
+            try
+            {
+                if (!_Resources.TryGetValue(category, out var dict))
+                {
+                    dict = new ResourceDictionary();
+                    dict.Source = GetResourceUri($"{category}/{category}.xaml");
+                    _Resources[category] = dict;
+                }
+
+                return dict[name] as T;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
         //--------------------------------------------------------------------------------------------------
 
         public static bool ResourceExists(string filename)

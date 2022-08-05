@@ -69,7 +69,7 @@ public class CrossSectionTests
             ctx.MoveTo(150, 200);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveTranslate02"));
             
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveTranslate03"));
 
             // Cleanup
@@ -98,7 +98,7 @@ public class CrossSectionTests
             ctx.MoveTo(420, 170);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateX02"));
             
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateX03"));
 
             // Cleanup
@@ -127,7 +127,7 @@ public class CrossSectionTests
             ctx.MoveTo(212, 171);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateY02"));
             
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateY03"));
 
             // Cleanup
@@ -156,7 +156,7 @@ public class CrossSectionTests
             ctx.MoveTo(393, 258);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateZ02"));
             
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateZ03"));
 
             // Cleanup
@@ -181,31 +181,31 @@ public class CrossSectionTests
             ctx.MoveTo(278, 131);
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(212, 171);
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveActionsCombined01"));
 
             ctx.MoveTo(209, 218);
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(302, 377);
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveActionsCombined02"));
             
             ctx.MoveTo(212, 328);
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(307, 164);
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveActionsCombined03"));
             
             ctx.MoveTo(314, 113);
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(330, 90);
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveActionsCombined04"));
             
             ctx.MoveTo(226, 275);
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(345, 288);
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveActionsCombined05"));
 
             // Cleanup
@@ -230,7 +230,7 @@ public class CrossSectionTests
         ctx.MoveTo(250, 240);
         ctx.ViewportController.MouseDown();
         ctx.MoveTo(150, 200);
-        ctx.ViewportController.MouseUp(false);
+        ctx.ViewportController.MouseUp();
 
         Assert.AreNotEqual(pln, section.Plane);
         Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);
@@ -261,7 +261,7 @@ public class CrossSectionTests
         ctx.MoveTo(268, 155);
         ctx.ViewportController.MouseDown();
         ctx.MoveTo(420, 170);
-        ctx.ViewportController.MouseUp(false);
+        ctx.ViewportController.MouseUp();
 
         Assert.AreNotEqual(pln, section.Plane);
         Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);
@@ -292,7 +292,7 @@ public class CrossSectionTests
         ctx.MoveTo(278, 131);
         ctx.ViewportController.MouseDown();
         ctx.MoveTo(212, 171);
-        ctx.ViewportController.MouseUp(false);
+        ctx.ViewportController.MouseUp();
 
         Assert.AreNotEqual(pln, section.Plane);
         Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);

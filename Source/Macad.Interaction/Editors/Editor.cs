@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Macad.Common;
 using Macad.Core.Topology;
-using Macad.Presentation;
 
 namespace Macad.Interaction
 {
@@ -18,7 +17,7 @@ namespace Macad.Interaction
 
         #region Static Registration and Create
 
-        static readonly Dictionary<Type, Type> _RegisteredEditors = new Dictionary<Type, Type>();
+        static readonly Dictionary<Type, Type> _RegisteredEditors = new();
         
         //--------------------------------------------------------------------------------------------------
 

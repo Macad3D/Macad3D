@@ -32,7 +32,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             _Coord2DHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
 
-            _SketchEditorTool.StatusText = "Select first corner of the rectangle.";
+            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select first corner of the rectangle.");
 
             return true;
         }
@@ -52,6 +52,7 @@ namespace Macad.Interaction.Editors.Shapes
             _Coord2DHudElement = null;
             _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
             _ValueHudElement = null;
+            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, null);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -118,7 +119,7 @@ namespace Macad.Interaction.Editors.Shapes
                         _Elements[i].OnPointsChanged(_Points, null);
                     }
 
-                    _SketchEditorTool.StatusText = "Select second corner or the rectangle.";
+                    _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select second corner or the rectangle.");
 
                     _PointAction.Reset();
                 } 

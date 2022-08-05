@@ -127,7 +127,7 @@ namespace Macad
 					pm->SetTopDown(false);
 
 					auto bitmapData = bitmap->LockBits(Drawing::Rectangle(0, 0, width, height), ImageLockMode::ReadOnly, bitmap->PixelFormat);
-					auto source = (char*)bitmapData->Scan0.ToPointer();
+					unsigned char* source = (unsigned char*)bitmapData->Scan0.ToPointer();
 
 					// copy it bottom-up, OCCT doesn't handle top-down images in all cases
 					const int stride = bitmapData->Stride * -1;
@@ -135,10 +135,10 @@ namespace Macad
 						source += stride * (1 - bitmap->Height);
 					}
 
-					auto target = pm->ChangeData();
+					unsigned char* target = pm->ChangeData();
 					for(int iy=0; iy<height; iy++)
 					{
-						char* row = source + iy * stride;
+						unsigned char* row = source + iy * stride;
 						for(int ix=0; ix<width; ix++)
 						{
 							target[0] = row[0];
@@ -158,6 +158,65 @@ namespace Macad
 
 					return gcnew Macad::Occt::Image_PixMap(pm);
 				}
+
+				//--------------------------------------------------------------------------------------------------
+
+				static Macad::Occt::Image_PixMap^ CreateFromBytes( array<byte>^ byteArray, int height, int width, int pixelSize )
+				{
+					if(byteArray == nullptr || byteArray->Length == 0)
+						return nullptr;
+
+					::Image_Format fmt(pixelSize==4 ? ::Image_Format_BGRA : ::Image_Format_BGR);
+
+					auto pm = new ::Image_PixMap();
+					if(!pm->InitTrash(fmt, width, height ))
+						return nullptr;
+					pm->SetTopDown(false);
+
+					pin_ptr<byte> sourcePinPtr = &byteArray[0];
+					unsigned char* source = reinterpret_cast<unsigned char*>(sourcePinPtr);
+
+					// copy it bottom-up, OCCT doesn't handle top-down images in all cases
+					int stride = width * pixelSize * -1;
+					source += stride * (1 - height);
+
+					auto target = pm->ChangeData();
+					for(int iy=0; iy<height; iy++)
+					{
+						unsigned char* row = source + iy * stride;
+						for(int ix=0; ix<width; ix++)
+						{
+							if(pixelSize == 4)
+							{
+								if(row[3] > 0)
+								{
+									float alpha = (float)row[3] / 255.0f;
+									target[0] = (unsigned char)(row[0] / alpha);
+									target[1] = (unsigned char)(row[1] / alpha);
+									target[2] = (unsigned char)(row[2] / alpha);
+								}
+								else
+								{
+									target[0] = row[0];
+									target[1] = row[1];
+									target[2] = row[2];
+								}
+								target[3] = row[3];
+							} else {
+								target[0] = row[0];
+								target[1] = row[1];
+								target[2] = row[2];
+							}
+							row += pixelSize;
+							target += pm->SizePixelBytes();
+						}
+						target += pm->RowExtraBytes();
+					}
+
+					return gcnew Macad::Occt::Image_PixMap(pm);
+				}
+
+				//--------------------------------------------------------------------------------------------------
 			};
 		}
 	}

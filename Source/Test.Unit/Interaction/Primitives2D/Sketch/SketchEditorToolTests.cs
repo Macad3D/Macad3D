@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using Macad.Test.Utils;
 using Macad.Common;
 using Macad.Core;
@@ -56,7 +57,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint02"), 0.1);
                 // Select Point, move gizmo shown
                 ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint03"), 0.1);
                 // Hilite Gizmo X-Axis
                 ctx.ViewportController.MouseMove(new Point(459, 122));
@@ -72,12 +73,12 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.ViewportController.MouseMove(new Point(387, 141));
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint07"), 0.1);
                 // Move released
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 ctx.ViewportController.MouseMove(new Point(1, 1));
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint08"), 0.1);
                 // Return to idle
                 ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint09"), 0.1);
 
                 // Cleanup
@@ -105,7 +106,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             Assume.That(ctx.WorkspaceController.CurrentToolAction is MoveSketchPointAction);
             // Move to MergePoint
             ctx.MoveTo(416, 78);
-            ctx.WorkspaceController.MouseDown(ctx.ViewportController);
+            ctx.WorkspaceController.MouseDown(ctx.ViewportController, ModifierKeys.None);
             ctx.MoveTo(290, 206);
             // Hilighted MergePoint
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointMerge01"), 0.1);
@@ -177,7 +178,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.ViewportController.MouseMove(new Point(257, 83));
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap01"), 0.1);
                 // Move released
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 ctx.ClickAt(1,1);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap02"), 0.1);
 
@@ -345,8 +346,8 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             // Select 
             ctx.SelectAt(254, 88);
-            ctx.SelectAt(411, 236, true);
-            ctx.SelectAt(387, 115, true);
+            ctx.SelectAt(411, 236, ModifierKeys.Shift);
+            ctx.SelectAt(387, 115, ModifierKeys.Shift);
             Assume.That(tool.SelectedSegments.Count, Is.EqualTo(2));
 
             // Do it
@@ -369,7 +370,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 ctx.MoveTo(328, 170);
                 ctx.ViewportController.MouseDown();
                 ctx.MoveTo(350, 150);
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DuplicateElements02"), 0.1);
             });
         }
@@ -392,8 +393,8 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             // Select 
             ctx.SelectAt(254, 88);
-            ctx.SelectAt(411, 236, true);
-            ctx.SelectAt(387, 115, true);
+            ctx.SelectAt(411, 236, ModifierKeys.Shift);
+            ctx.SelectAt(387, 115, ModifierKeys.Shift);
             Assume.That(tool.SelectedSegments.Count, Is.EqualTo(2));
 
             // Do it
@@ -415,7 +416,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.MoveTo(328, 170);
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(350, 150);
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "DuplicateElements02"), 0.1);
         }
         
@@ -438,8 +439,8 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             // Select 
             ctx.SelectAt(254, 88);
-            ctx.SelectAt(411, 236, true);
-            ctx.SelectAt(387, 115, true);
+            ctx.SelectAt(411, 236, ModifierKeys.Shift);
+            ctx.SelectAt(387, 115, ModifierKeys.Shift);
             Assume.That(tool.SelectedSegments.Count, Is.EqualTo(2));
 
             // Do it
@@ -475,7 +476,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ViewportController.MouseDown();
             ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle, false);
             ctx.MoveTo(450, 300);
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RubberbandSelection01"), 0.1);
             Assert.AreEqual(4, tool.SelectedPoints.Count);
             Assert.AreEqual(1, tool.SelectedSegments.Count);
@@ -574,7 +575,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             // move the viewport
             ctx.MoveTo(250, 250);
-            ctx.ViewportController.MouseMove(new Point(150, 250), ViewportController.MouseMoveMode.Panning);
+            ctx.ViewportController.MouseMove(new Point(150, 250), ModifierKeys.None, ViewportController.MouseMoveMode.Panning);
 
             // Leave editor
             sketchEditTool.Stop();
@@ -695,12 +696,12 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.MoveTo(392, 104);
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(387, 141);
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
 
             // Return to idle
             ctx.ClickAt(1, 1);
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             Assert.AreEqual(0, tool.SelectedPoints.Count);
 
             // Try to select point

@@ -137,7 +137,7 @@ namespace Macad.Interaction
                     {
                         _Marker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, 
                                              SelectedElementType == Sketch.ElementType.Segment ? Marker.XImage : Marker.RingImage);
-                        _Marker.SetColor(Colors.SketchEditorHighlight);
+                        _Marker.Color = Colors.BallMarker;
                         _MarkerType = SelectedElementType;
                     }
                     _Marker.Set(_SelectedPoint);
@@ -152,7 +152,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool OnMouseUp(MouseEventData data, bool additive)
+        public override bool OnMouseUp(MouseEventData data)
         {
             if (!IsFinished)
             {

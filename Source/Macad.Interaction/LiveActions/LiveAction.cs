@@ -4,7 +4,7 @@ namespace Macad.Interaction;
 
 public abstract class LiveAction : BaseObject, IMouseEventHandler
 {
-        public MouseEventData LastMouseEventData { get; private set; }
+        public MouseEventData LastMouseEventData { get; protected set; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -46,6 +46,8 @@ public abstract class LiveAction : BaseObject, IMouseEventHandler
             Deactivate();
             WorkspaceController.HudManager?.SetCursor(null);
             WorkspaceController.RemoveLiveAction(this);
+            Previewed = null;
+            Finished = null;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -96,13 +98,15 @@ public abstract class LiveAction : BaseObject, IMouseEventHandler
 
         public virtual bool OnMouseDown(MouseEventData data)
         {
+            LastMouseEventData = data;
             return false;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual bool OnMouseUp(MouseEventData data, bool additive)
+        public virtual bool OnMouseUp(MouseEventData data)
         {
+            LastMouseEventData = data;
             return false;
         }
 

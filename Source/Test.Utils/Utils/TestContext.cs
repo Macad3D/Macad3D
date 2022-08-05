@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Input;
 using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Core.Topology;
@@ -107,28 +108,28 @@ namespace Macad.Test.Utils
 
         //--------------------------------------------------------------------------------------------------
 
-        public void ClickAt(int x, int y, bool shiftSelect = false)
+        public void ClickAt(int x, int y, ModifierKeys modifierKeys = ModifierKeys.None)
         {
-            ViewportController.MouseMove(new Point(x, y));
-            ViewportController.MouseDown();
-            ViewportController.MouseUp(shiftSelect);
+            ViewportController.MouseMove(new Point(x, y), modifierKeys);
+            ViewportController.MouseDown(modifierKeys);
+            ViewportController.MouseUp(modifierKeys);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void SelectAt(int x, int y, bool shiftSelect=false)
+        public void SelectAt(int x, int y, ModifierKeys modifierKeys = ModifierKeys.None)
         {
-            ViewportController.MouseMove(new Point(x, y));
-            ViewportController.MouseDown();
-            ViewportController.MouseUp(shiftSelect);
-            ViewportController.MouseMove(new Point(0, 0));
+            ViewportController.MouseMove(new Point(x, y), modifierKeys);
+            ViewportController.MouseDown(modifierKeys);
+            ViewportController.MouseUp(modifierKeys);
+            ViewportController.MouseMove(new Point(0, 0), modifierKeys);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void MoveTo(int x, int y)
+        public void MoveTo(int x, int y, ModifierKeys modifierKeys = ModifierKeys.None)
         {
-            ViewportController.MouseMove(new Point(x, y));
+            ViewportController.MouseMove(new Point(x, y), modifierKeys);
         }
 
         //--------------------------------------------------------------------------------------------------

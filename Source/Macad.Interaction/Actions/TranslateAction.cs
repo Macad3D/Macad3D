@@ -254,7 +254,7 @@ public class TranslateAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public override bool OnMouseUp(MouseEventData data, bool additive)
+    public override bool OnMouseUp(MouseEventData data)
     {
         if (_MoveMode != MoveMode.None)
         {
@@ -278,7 +278,7 @@ public class TranslateAction : ToolAction
             WorkspaceController.Invalidate();
             return true;
         }
-        return base.OnMouseUp(data, additive);
+        return base.OnMouseUp(data);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -339,7 +339,7 @@ public class TranslateAction : ToolAction
             _Delta.Transform(_InverseRotation);
             //Debug.WriteLine("<< {0}  {1}  {2}", Delta.x, Delta.y, Delta.z);
 
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            if (data.ModifierKeys.HasFlag(ModifierKeys.Control))
             {
                 _Delta.X = Maths.RoundToNearest(_Delta.X, WorkspaceController.Workspace.GridStep);
                 _Delta.Y = Maths.RoundToNearest(_Delta.Y, WorkspaceController.Workspace.GridStep);

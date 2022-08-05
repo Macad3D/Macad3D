@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Macad.Common;
+using System.Windows.Input;
 
 namespace Macad.Interaction.Panels
 {
@@ -23,7 +23,7 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        public void TouchDown(int id, Point pos)
+        public void TouchDown(int id, Point pos, ModifierKeys modifierKeys)
         {
             if (ViewportController == null)
                 return;
@@ -44,7 +44,7 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        public void TouchUp(int id, Point pos)
+        public void TouchUp(int id, Point pos, ModifierKeys modifierKeys)
         {
             if (_FirstId == id)
             {
@@ -58,7 +58,7 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        public void TouchMove(int id, Point pos)
+        public void TouchMove(int id, Point pos, ModifierKeys modifierKeys)
         {
             if (ViewportController == null)
                 return;

@@ -211,7 +211,7 @@ namespace Macad.Interaction
                     _TranslateAction = new TranslateAction(this, _CoordinateSystem);
                     if (!WorkspaceController.StartToolAction(_TranslateAction, false))
                         return;
-                    StatusText = "Move entity using gizmo, press 'CTRL' to round to grid stepping. Press 'T' for rotation.";
+                    WorkspaceController.HudManager?.SetHintMessage(this, "Move entity using gizmo, press 'CTRL' to round to grid stepping. Press 'T' for rotation.");
                     _TranslateAction.Previewed += _OnActionPreview;
                     _TranslateAction.Finished += _OnActionFinished;
                     break;
@@ -220,7 +220,7 @@ namespace Macad.Interaction
                     _RotateAction = new RotateAction(this, _CoordinateSystem);
                     if (!WorkspaceController.StartToolAction(_RotateAction, false))
                         return;
-                    StatusText = "Rotate entity using gizmo, press 'CTRL' to round to 5°. Press 'T' for translation.";
+                    WorkspaceController.HudManager?.SetHintMessage(this, "Rotate entity using gizmo, press 'CTRL' to round to 5°. Press 'T' for translation.");
                     _RotateAction.Previewed += _OnActionPreview;
                     _RotateAction.Finished += _OnActionFinished;
                     break;

@@ -172,7 +172,7 @@ public class RotateLiveAction : LiveAction
             {
                 Delta = Maths.NormalizeAngleRad(value.Value - _StartValue, -Maths.PI, Maths.PI);
 
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                if (data.ModifierKeys.HasFlag(ModifierKeys.Control))
                 {
                     Delta = Maths.RoundToNearest(Delta, 5.0.ToRad());
                 }
@@ -194,7 +194,7 @@ public class RotateLiveAction : LiveAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public override bool OnMouseUp(MouseEventData data, bool additive)
+    public override bool OnMouseUp(MouseEventData data)
     {
         if (_IsMoving)
         {
@@ -217,7 +217,7 @@ public class RotateLiveAction : LiveAction
             RaiseFinished();
             return true;
         }
-        return base.OnMouseUp(data, additive);
+        return base.OnMouseUp(data);
     }
 
     //--------------------------------------------------------------------------------------------------

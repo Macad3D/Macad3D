@@ -21,12 +21,14 @@ namespace Macad.Core.Shapes
                 if (_Radius != value)
                 {
                     SaveUndo();
-                    _Radius = value;
+                    _Radius = value > 0.0 ? value : 0.001;
                     Invalidate();
                     RaisePropertyChanged();
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         [SerializeMember]
         public double Height
@@ -40,12 +42,14 @@ namespace Macad.Core.Shapes
                 if (_Height != value)
                 {
                     SaveUndo();
-                    _Height = value;
+                    _Height = value != 0.0 ? value : 0.001;
                     Invalidate();
                     RaisePropertyChanged();
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         [SerializeMember]
         public double SegmentAngle
@@ -56,12 +60,14 @@ namespace Macad.Core.Shapes
                 if (_SegmentAngle != value)
                 {
                     SaveUndo();
-                    _SegmentAngle = value;
+                    _SegmentAngle = value.Clamp(0, 360);
                     Invalidate();
                     RaisePropertyChanged();
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
 
@@ -108,9 +114,12 @@ namespace Macad.Core.Shapes
 
         protected override bool MakeInternal(MakeFlags flags)
         {
-            var makeCylinder = ((SegmentAngle <= 0) || (SegmentAngle >= 360))
-                ? new BRepPrimAPI_MakeCylinder(Radius, Height) 
-                : new BRepPrimAPI_MakeCylinder(Radius, Height, SegmentAngle.Clamp(0.001, 360.0).ToRad());
+            var radius = Radius > 0.0 ? Radius : 0.001;
+            var height = Height != 0.0 ? Height : 0.001;
+
+            var makeCylinder = SegmentAngle is <= 0 or >= 360
+                                   ? new BRepPrimAPI_MakeCylinder(radius, height) 
+                                   : new BRepPrimAPI_MakeCylinder(radius, height, SegmentAngle.Clamp(0.001, 360.0).ToRad());
 
             BRep = makeCylinder.Solid();
             return base.MakeInternal(flags);

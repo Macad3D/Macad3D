@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using Macad.Common;
+using Macad.Core.Topology;
 
 namespace Macad.Interaction.Panels
 {
@@ -64,9 +64,38 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
+        public string HintMessage
+        {
+            get { return _HintMessage; }
+            set
+            {
+                _HintMessage = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        public string ErrorMessage
+        {
+            get { return _ErrorMessage; }
+            private set
+            {
+                if (_ErrorMessage != value)
+                {
+                    _ErrorMessage = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         WorkspaceController _WorkspaceController;
         ViewportController _ViewportController;
         Cursor _Cursor;
+        string _HintMessage;
+        object _HintMessageOwner;
+        string _ErrorMessage;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -76,6 +105,7 @@ namespace Macad.Interaction.Panels
 
         internal ViewportPanelModel()
         {
+            Entity.ErrorStateChanged += _Entity_ErrorStateChanged;
             InteractiveContext.Current.PropertyChanged += Context_PropertyChanged;
             WorkspaceController = InteractiveContext.Current.WorkspaceController;
             ViewportController = InteractiveContext.Current.ViewportController;
@@ -83,13 +113,29 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
+        ~ViewportPanelModel()
+        {
+            Entity.ErrorStateChanged -= _Entity_ErrorStateChanged;
+            InteractiveContext.Current.PropertyChanged -= Context_PropertyChanged;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         void Context_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "WorkspaceController")
+            if (e.PropertyName == nameof(InteractiveContext.WorkspaceController))
             {
+                if (_WorkspaceController != null)
+                {
+                    _WorkspaceController.Selection.SelectionChanged -= _Selection_SelectionChanged;
+                }
                 WorkspaceController = (sender as InteractiveContext)?.WorkspaceController;
+                if (_WorkspaceController != null)
+                {
+                    _WorkspaceController.Selection.SelectionChanged += _Selection_SelectionChanged;
+                }
             }
-            else if (e.PropertyName == "ViewportController")
+            else if (e.PropertyName == nameof(InteractiveContext.ViewportController))
             {
                 ViewportController = (sender as InteractiveContext)?.ViewportController;
             }
@@ -146,6 +192,20 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
+        public void SetHintMessage(object owner, string message)
+        {
+            if (message == null && owner != null)
+            {
+                if (owner != _HintMessageOwner)
+                    return;
+            }
+
+            HintMessage = message;
+            _HintMessageOwner = owner;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public void RemoveElement(HudElement element)
         {
             if (HudElements.Contains(element))
@@ -161,6 +221,61 @@ namespace Macad.Interaction.Panels
             {
                 HudElements.Remove(element);
             }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        #endregion
+        
+        #region Error Message
+
+        void _Selection_SelectionChanged(SelectionManager selectionManager)
+        {
+            _UpdateErrorMessage();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        void _Entity_ErrorStateChanged(Entity entity)
+        {
+            if (InteractiveContext.Current.WorkspaceController?.Selection.SelectedEntities.Contains(entity) ?? false)
+            {
+                _UpdateErrorMessage();
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _UpdateErrorMessage()
+        {
+            var entities = InteractiveContext.Current.WorkspaceController?.Selection.SelectedEntities;
+            if (entities?.Count == 1)
+            {
+                var shape = (entities[0] as Body)?.Shape;
+                if (shape != null && shape.HasErrors)
+                {
+                    var messageList = InteractiveContext.Current.MessageHandler.GetEntityMessages(shape);
+                    if (messageList != null && messageList.Count != 0)
+                    {
+                        ErrorMessage = $"Error: {messageList[0].Text}{(messageList[0].Text.EndsWith(".")?"":".")} See log for details.";
+                    }
+                    else
+                    {
+                        ErrorMessage = "Error: Shape making failed for unknown reason. See log for details.";
+                    }
+                    return;
+                }
+            }
+            else
+            {
+                if (entities.Any(ent => (ent as Body)?.Shape?.HasErrors ?? false))
+                {
+                    ErrorMessage = "Error: One or more of the selected bodies have errors. See log for details.";
+                    return;
+                }
+            }
+
+            ErrorMessage = "";
         }
 
         //--------------------------------------------------------------------------------------------------

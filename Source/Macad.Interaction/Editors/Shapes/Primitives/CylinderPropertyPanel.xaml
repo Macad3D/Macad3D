@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
-             xmlns:mmi="clr-namespace:Macad.Interaction"
              xmlns:panels="clr-namespace:Macad.Interaction.Panels"
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -27,12 +26,14 @@
             <mmp:ValueEditBox  Grid.Row="0" Grid.Column="1"  Width="100"
                                Units="Length" 
                                Value="{Binding Cylinder.Radius, NotifyOnSourceUpdated=True}" 
+                               MinValue="0.01"
                                AutomationProperties.AutomationId="CylinderRadius"/>
 
             <TextBlock  Grid.Row="1" Grid.Column="0" Text="Height"  Style="{DynamicResource Macad.Styles.TextBlock.Property}"  />
             <mmp:ValueEditBox  Grid.Row="1" Grid.Column="1"  Width="100"
-                               Units="Length" 
+                               Units="Length"
                                Value="{Binding Cylinder.Height, NotifyOnSourceUpdated=True}"
+                               MinValue="0.01"
                                AutomationProperties.AutomationId="CylinderHeight"/>
 
             <TextBlock  Grid.Row="2" Grid.Column="0" Text="Segment"  Style="{DynamicResource Macad.Styles.TextBlock.Property}"  />

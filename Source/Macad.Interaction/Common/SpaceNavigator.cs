@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
 using Macad.Common;
 using Macad.Core;
@@ -138,7 +139,7 @@ namespace Macad.Interaction
                             }
 
                             viewportController.Rotate(rotX, rotY, rotZ);
-                            viewportController.MouseMove();
+                            viewportController.MouseMove(Keyboard.Modifiers);
                             break;
                     }
                 }

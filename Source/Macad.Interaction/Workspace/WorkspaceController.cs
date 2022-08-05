@@ -285,9 +285,9 @@ namespace Macad.Interaction
 
         #region Workspace navigation
 
-        readonly MouseEventData _MouseEventData = new MouseEventData();
+        readonly MouseEventData _MouseEventData = new();
 
-        bool _IsMouseEventDataValid = false;
+        bool _IsMouseEventDataValid;
         public bool IsMouseEventDataValid
         {
             get
@@ -338,10 +338,11 @@ namespace Macad.Interaction
             }
         }
 
-        bool _IsCursorPositionValid = false;
+        bool _IsCursorPositionValid;
         
         Point _LastMouseMovePosition;
         ViewportController _LastMouseMoveViewportController;
+        ModifierKeys _LastModifierKeys;
         AIS_InteractiveObject _LastDetectedInteractive;
         SelectMgr_EntityOwner _LastDetectedOwner;
 
@@ -379,10 +380,11 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public void MouseMove(Point pos, ViewportController viewportController)
+        public void MouseMove(ViewportController viewportController, Point pos, ModifierKeys modifierKeys)
         {
             _LastMouseMovePosition = pos;
             _LastMouseMoveViewportController = viewportController;
+            _LastModifierKeys = modifierKeys;
 
             Selection.Update();
 
@@ -430,7 +432,7 @@ namespace Macad.Interaction
                     detectedEntity ??= VisualObjects.GetVisibleEntity(_LastDetectedInteractive);
                 }
 
-                _MouseEventData.Set(viewportController.Viewport, pos, rawPoint, planePoint, detectedEntity, _LastDetectedInteractive, detectedShape);
+                _MouseEventData.Set(viewportController.Viewport, pos, rawPoint, planePoint, detectedEntity, _LastDetectedInteractive, detectedShape, modifierKeys);
                 IsMouseEventDataValid = true;
 
                 CursorPosition = planePoint;
@@ -457,8 +459,11 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public void MouseDown(ViewportController viewportController)
+        public void MouseDown(ViewportController viewportController, ModifierKeys modifierKeys)
         {
+            _LastModifierKeys = modifierKeys;
+            _MouseEventData.ModifierKeys = modifierKeys;
+
             if (_LastDetectedInteractive is AIS_ViewCube viewCube
                 && _LastDetectedOwner is AIS_ViewCubeOwner viewCubeOwner)
             {
@@ -480,22 +485,25 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public void MouseUp(bool additive, ViewportController viewportController)
+        public void MouseUp(ViewportController viewportController, ModifierKeys modifierKeys)
         {
+            _LastModifierKeys = modifierKeys;
+            _MouseEventData.ModifierKeys = modifierKeys;
+
             bool wasSelecting = IsSelecting;
             IsSelecting = false;
-            
+
             bool handled = false;
             foreach (var handler in _MouseEventHandlers())
             {
-                handled = handler.OnMouseUp(_MouseEventData, additive);
+                handled = handler.OnMouseUp(_MouseEventData);
                 if (handled)
                     break;
             }
             
             if (_MouseEventData.ForceReDetection)
             {
-                MouseMove(_LastMouseMovePosition, viewportController);
+                MouseMove(viewportController, _LastMouseMovePosition, modifierKeys);
             }
 
             if (handled)
@@ -506,13 +514,13 @@ namespace Macad.Interaction
                 if (_MouseEventData.DetectedEntities.Any())
                 {
                     // Shape selected
-                    Selection.SelectEntities(_MouseEventData.DetectedEntities, !additive);
+                    Selection.SelectEntities(_MouseEventData.DetectedEntities, !modifierKeys.Has(ModifierKeys.Shift));
                     Invalidate();
                 }
                 else
                 {
                     // Empty click
-                    if (!additive)
+                    if (!modifierKeys.Has(ModifierKeys.Shift))
                     {
                         Selection.SelectEntity(null);
                         Invalidate();
@@ -597,7 +605,7 @@ namespace Macad.Interaction
             if (_LastMouseMoveViewportController == null)
                 return;
             Selection.Update();
-            MouseMove(_LastMouseMovePosition, _LastMouseMoveViewportController);
+            MouseMove(_LastMouseMoveViewportController, _LastMouseMovePosition, _LastModifierKeys);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -621,11 +629,10 @@ namespace Macad.Interaction
 
         public void StopEditor()
         {
-            if (_CurrentEditor == null)
-                return;
+            CurrentEditor?.Stop();
+            CurrentEditor = null;
 
-            _CurrentEditor.Stop();
-            _CurrentEditor = null;
+            _LiveActions.ToArray().ForEach(RemoveLiveAction);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -641,11 +648,11 @@ namespace Macad.Interaction
             }
 
             var entity = Selection.SelectedEntities.First();
-            if (entity != _CurrentEditor?.GetEntity())
+            if (entity != CurrentEditor?.GetEntity())
             {
                 StopEditor();
-                _CurrentEditor = Editor.CreateEditor(entity);
-                _CurrentEditor?.Start();
+                CurrentEditor = Editor.CreateEditor(entity);
+                CurrentEditor?.Start();
             }
         }
 

@@ -187,7 +187,7 @@ namespace Macad.Interaction.Editors.Shapes
                 return false;
             _SelectAction.Finished += _OnSelectionChanged;
 
-            StatusText = UnselectedStatusText;
+            WorkspaceController.HudManager?.SetHintMessage(this, UnselectedStatusText);
 
             return true;
         }
@@ -467,24 +467,24 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (SelectedSegments.Any() && !SelectedPoints.Any() && !SelectedConstraints.Any())
             {
-                StatusText = SelectedSegments.Count == 1 ? string.Format(SegmentSelectedStatusText, SelectedSegments[0].GetType().Name) : string.Format(MultiSegmentSelectedStatusText, SelectedSegments.Count);
+                WorkspaceController.HudManager?.SetHintMessage(this, SelectedSegments.Count == 1 ? string.Format(SegmentSelectedStatusText, SelectedSegments[0].GetType().Name) : string.Format(MultiSegmentSelectedStatusText, SelectedSegments.Count));
             }
             else if (!SelectedSegments.Any() && SelectedPoints.Any() && !SelectedConstraints.Any())
             {
-                StatusText = SelectedPoints.Count == 1 ? string.Format(PointSelectedStatusText, SelectedPoints[0]) : string.Format(MultiPointSelectedStatusText, SelectedPoints.Count);
+                WorkspaceController.HudManager?.SetHintMessage(this, SelectedPoints.Count == 1 ? string.Format(PointSelectedStatusText, SelectedPoints[0]) : string.Format(MultiPointSelectedStatusText, SelectedPoints.Count));
             }
             else if (!SelectedSegments.Any() && !SelectedPoints.Any() && SelectedConstraints.Any())
             {
-                StatusText = SelectedConstraints.Count == 1 ? string.Format(ConstraintSelectedStatusText, SelectedConstraints[0].GetType().Name) : string.Format(MultiConstraintSelectedStatusText, SelectedConstraints.Count);
+                WorkspaceController.HudManager?.SetHintMessage(this, SelectedConstraints.Count == 1 ? string.Format(ConstraintSelectedStatusText, SelectedConstraints[0].GetType().Name) : string.Format(MultiConstraintSelectedStatusText, SelectedConstraints.Count));
             }
             else
                 if (SelectedSegments.Any() || SelectedPoints.Any() || SelectedConstraints.Any())
                 {
-                    StatusText = MixedSelectedStatusText;
+                    WorkspaceController.HudManager?.SetHintMessage(this, MixedSelectedStatusText);
                 }
                 else
                 {
-                    StatusText = UnselectedStatusText;
+                    WorkspaceController.HudManager?.SetHintMessage(this, UnselectedStatusText);
                 }
         }
 

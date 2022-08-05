@@ -52,7 +52,7 @@ namespace Macad.Interaction.Editors.Shapes
                 toolAction.Finished += _OnActionFinished;
                 toolAction.Previewed += _OnActionPreviewed;
 
-                StatusText = "Select face or plane to which the new sketch should be aligned.";
+                WorkspaceController.HudManager?.SetHintMessage(this, "Select face or plane to which the new sketch should be aligned.");
                 WorkspaceController.HudManager?.SetCursor(Cursors.SelectFace);
                 return true;
             }
@@ -146,7 +146,7 @@ namespace Macad.Interaction.Editors.Shapes
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
                 if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
                 {
-                    StatusText = "Selected face is not a plane type surface.";
+                    WorkspaceController.HudManager?.SetHintMessage(this, "Selected face is not a plane type surface.");
                 }
                 else
                 {

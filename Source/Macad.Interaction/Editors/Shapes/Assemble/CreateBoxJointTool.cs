@@ -60,7 +60,7 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 text += ": " + shapeName;
             }
-            StatusText = text;
+            WorkspaceController.HudManager?.SetHintMessage(this, text);
         }
 
         //--------------------------------------------------------------------------------------------------

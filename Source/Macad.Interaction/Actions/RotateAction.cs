@@ -153,7 +153,7 @@ public class RotateAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public override bool OnMouseUp(MouseEventData data, bool additive)
+    public override bool OnMouseUp(MouseEventData data)
     {
         if (_RotateMode != RotateMode.None)
         {
@@ -176,7 +176,7 @@ public class RotateAction : ToolAction
             WorkspaceController.Invalidate();
             return true;
         }
-        return base.OnMouseUp(data, additive);
+        return base.OnMouseUp(data);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -197,7 +197,7 @@ public class RotateAction : ToolAction
             //Delta.Transform(_InverseRotation);
             //Debug.WriteLine("<< {0}  {1}  {2}", Delta.x, Delta.y, Delta.z);
 
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            if (data.ModifierKeys.HasFlag(ModifierKeys.Control))
             {
                 Delta = Maths.RoundToNearest(Delta, 5.0.ToRad());
             }

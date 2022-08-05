@@ -33,12 +33,15 @@ namespace Macad.Interaction.Editors.Shapes
             // Re-enable elements for snapping
             _SketchEditorTool.Elements.Activate(true, false, false);
 
-            _SketchEditorTool.StatusText = "Select new workspace center position.";
+            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select new workspace center position.");
             _SketchEditorTool.WorkspaceController.HudManager?.SetCursor(Cursors.WorkingPlane);
 
-            _OriginMarker = new Marker(_SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost | Marker.Styles.Selectable, Marker.BallImage);
+            _OriginMarker = new Marker(_SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage)
+            {
+                IsSelectable = true
+            };
             _OriginMarker.Set(_SketchEditorTool.Sketch.Plane.Location);
-            _OriginMarker.SetColor(Quantity_NameOfColor.Quantity_NOC_WHITE.ToColor());
+            _OriginMarker.Color = Quantity_NameOfColor.Quantity_NOC_WHITE.ToColor();
 
             return true;
         }

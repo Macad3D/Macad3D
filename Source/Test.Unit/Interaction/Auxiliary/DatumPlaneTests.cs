@@ -163,7 +163,7 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
                 ctx.MoveTo(151,313);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Transform02")); // AIS local transformation working
 
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Transform03")); // Updating transformation working
             });
         }

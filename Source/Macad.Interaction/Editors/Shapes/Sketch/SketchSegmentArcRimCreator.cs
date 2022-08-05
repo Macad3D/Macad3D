@@ -35,7 +35,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             _Coord2DHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
 
-            _SketchEditorTool.StatusText = "Select start point for circular arc.";
+            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select start point for circular arc.");
 
             return true;
         }
@@ -113,7 +113,7 @@ namespace Macad.Interaction.Editors.Shapes
                         _MergePointIndices[0] = _PointAction.MergeCandidateIndex;
                         _PointsCompleted++;
 
-                        _SketchEditorTool.StatusText = "Select end point for circular arc.";
+                        _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select end point for circular arc.");
 
                         _PointAction.Reset();
                         break;
@@ -137,7 +137,7 @@ namespace Macad.Interaction.Editors.Shapes
                         _Element.IsCreating = true;
                         _Element.OnPointsChanged(_Points, null);
 
-                        _SketchEditorTool.StatusText = "Select rim point for circular arc.";
+                        _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select rim point for circular arc.");
 
                         _PointAction.Reset();
                         break;

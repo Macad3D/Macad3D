@@ -60,7 +60,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (!_StartToolAction())
                 return false;
 
-            StatusText = "Select section sketches.";
+            WorkspaceController.HudManager?.SetHintMessage(this, "Select section sketches.");
             WorkspaceController.HudManager?.SetCursor(Cursors.SelectShape);
             return true;
         }

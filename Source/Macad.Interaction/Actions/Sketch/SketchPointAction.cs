@@ -125,7 +125,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool OnMouseUp(MouseEventData data, bool additive)
+        public override bool OnMouseUp(MouseEventData data)
         {
             if (!IsFinished)
             {
@@ -211,8 +211,8 @@ namespace Macad.Interaction
                 if (_MergePreviewMarker == null)
                 {
                     _MergePreviewMarker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.RingImage);
+                    _MergePreviewMarker.Color = Colors.Highlight;
                     _MergePreviewMarker.Set(geomPoint);
-                    _MergePreviewMarker.SetColor(Colors.Highlight);
                 }
                 else
                 {

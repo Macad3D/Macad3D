@@ -137,7 +137,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool OnMouseUp(MouseEventData data, bool additive)
+        public override bool OnMouseUp(MouseEventData data)
         {
             if (!IsFinished)
             {

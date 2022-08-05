@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace Macad.Interaction.Panels
 {
@@ -6,8 +7,8 @@ namespace Macad.Interaction.Panels
     {
         ViewportController ViewportController { set; }
 
-        void TouchDown(int id, Point pos);
-        void TouchUp(int id, Point pos);
-        void TouchMove(int id, Point pos);
+        void TouchDown(int id, Point pos, ModifierKeys modifierKeys);
+        void TouchUp(int id, Point pos, ModifierKeys modifierKeys);
+        void TouchMove(int id, Point pos, ModifierKeys modifierKeys);
     }
 }

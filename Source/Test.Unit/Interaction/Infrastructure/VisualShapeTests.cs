@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -45,7 +46,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "InteractionModeHilighted"));
 
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             ctx.ViewportController.MouseMove(new Point(0,0));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "InteractionModeSelected"));
         }
@@ -67,7 +68,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "InteractionModeNormal"));
 
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             ctx.ViewportController.MouseMove(new Point(0, 0));
             // Expected: No selection
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "InteractionModeNormal"));
@@ -99,12 +100,12 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             // Expected: Both layers are selectable
             ctx.ViewportController.MouseMove(new Point(125, 250));
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             Assert.That(ctx.WorkspaceController.Selection.SelectedEntities.Contains(body1));
 
             ctx.ViewportController.MouseMove(new Point(375, 250));
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             Assert.That(ctx.WorkspaceController.Selection.SelectedEntities.Contains(body2));
 
             // Isolate Layer 2
@@ -114,12 +115,12 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
 
             ctx.ViewportController.MouseMove(new Point(125, 250));
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             Assert.That(ctx.WorkspaceController.Selection.SelectedEntities.Contains(body1), Is.False);
 
             ctx.ViewportController.MouseMove(new Point(375, 250));
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             Assert.That(ctx.WorkspaceController.Selection.SelectedEntities.Contains(body2));
 
             // De-Isolate layer 2, lock layer 2
@@ -129,12 +130,12 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
 
             ctx.ViewportController.MouseMove(new Point(125, 250));
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             Assert.That(ctx.WorkspaceController.Selection.SelectedEntities.Contains(body1));
 
             ctx.ViewportController.MouseMove(new Point(375, 250));
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             Assert.That(ctx.WorkspaceController.Selection.SelectedEntities.Contains(body2), Is.False);
 
             // Hide layer 2
@@ -185,7 +186,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ColorsHilighted"));
 
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             ctx.ViewportController.MouseMove(new Point(0, 0));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ColorsSelected"));
         }
@@ -294,7 +295,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "TransparencyHilighted"));
 
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             ctx.ViewportController.MouseMove(new Point(0, 0));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "TransparencySelected"));
         }
@@ -411,7 +412,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "IsolateSelection01"));
 
             // Multi-Select
-            ctx.SelectAt(230, 330, true);
+            ctx.SelectAt(230, 330, ModifierKeys.Shift);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "IsolateSelection11"));
 
             Assert.IsTrue(WorkspaceCommands.ToggleIsolateSelection.CanExecute());
@@ -509,7 +510,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
                 ctx.MoveTo(280, 175);
                 ctx.ViewportController.MouseDown();
                 ctx.MoveTo(280, 50);
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 ctx.ViewportController.ZoomFitAll();
                 //AssertHelper.IsSameViewport(Path.Combine(BasePath, "SelectionHighlightAfterTransform03"));
                 ctx.ClickAt(1, 1);

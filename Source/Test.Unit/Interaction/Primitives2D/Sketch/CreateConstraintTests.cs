@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Windows.Input;
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -53,7 +54,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             // Create Constraint
             ctx.ClickAt(250, 131);
-            ctx.ClickAt(250, 332, true);
+            ctx.ClickAt(250, 332, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
             Assert.AreEqual(2, sketchEditTool.SelectedSegments.Count);
             Assert.IsTrue(sketchEditTool.CanCreateConstraint<SketchConstraintAngle>());
@@ -92,7 +93,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             // Create Constraint
             ctx.ClickAt(250, 131);
-            ctx.ClickAt(250, 332, true);
+            ctx.ClickAt(250, 332, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
             Assert.AreEqual(2, sketchEditTool.SelectedSegments.Count);
             Assert.IsTrue(sketchEditTool.CanCreateConstraint<SketchConstraintAngle>());
@@ -131,7 +132,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             // Create Constraint
             ctx.ClickAt(250, 332);
-            ctx.ClickAt(250, 131, true);
+            ctx.ClickAt(250, 131, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
             Assert.AreEqual(2, sketchEditTool.SelectedSegments.Count);
             Assert.IsTrue(sketchEditTool.CanCreateConstraint<SketchConstraintAngle>());
@@ -170,7 +171,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             // Create Constraint
             ctx.ClickAt(140, 184);
-            ctx.ClickAt(140, 287, true);
+            ctx.ClickAt(140, 287, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
             Assert.AreEqual(2, sketchEditTool.SelectedSegments.Count);
             Assert.IsTrue(sketchEditTool.CanCreateConstraint<SketchConstraintAngle>());
@@ -209,7 +210,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             // Create Constraint
             ctx.ClickAt(250, 131);
-            ctx.ClickAt(250, 338, true);
+            ctx.ClickAt(250, 338, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
             Assert.AreEqual(2, sketchEditTool.SelectedSegments.Count);
             Assert.IsTrue(sketchEditTool.CanCreateConstraint<SketchConstraintAngle>());
@@ -248,7 +249,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             // Create Constraint
             ctx.ClickAt(250, 131);
-            ctx.ClickAt(250, 338, true);
+            ctx.ClickAt(250, 338, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
             Assert.AreEqual(2, sketchEditTool.SelectedSegments.Count);
             Assert.IsTrue(sketchEditTool.CanCreateConstraint<SketchConstraintAngle>());
@@ -285,7 +286,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.MoveTo(0, 0);
 
             // Create Constraint
-            ctx.ClickAt(115, 250, true);
+            ctx.ClickAt(115, 250, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
             Assert.AreEqual(2, sketchEditTool.SelectedSegments.Count);
             Assert.IsTrue(sketchEditTool.CanCreateConstraint<SketchConstraintPerpendicular>());
@@ -353,7 +354,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.MoveTo(0, 0);
 
             // Create Constraint
-            ctx.ClickAt(250, 100, true);
+            ctx.ClickAt(250, 100, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
             Assert.AreEqual(2, sketchEditTool.SelectedSegments.Count);
             Assert.IsTrue(sketchEditTool.CanCreateConstraint<SketchConstraintConcentric>());
@@ -486,7 +487,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
             ctx.ClickAt(100, 350);
             ctx.ClickAt(400, 350);
-            ctx.ClickAt(200, 150, true);
+            ctx.ClickAt(200, 150, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
 
             // Create Constraint
@@ -521,7 +522,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
             ctx.ClickAt(375, 250);
             ctx.ClickAt(400, 250);
-            ctx.ClickAt(125, 175, true);
+            ctx.ClickAt(125, 175, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
 
             // Create Constraint
@@ -556,7 +557,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
             ctx.ClickAt(100, 360);
             ctx.ClickAt(400, 340);
-            ctx.ClickAt(250, 150, true);
+            ctx.ClickAt(250, 150, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
 
             // Create Constraint
@@ -727,7 +728,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(350, 250);
             ctx.ClickAt(450, 350);
 
-            ctx.ClickAt(370, 200, true);
+            ctx.ClickAt(370, 200, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
 
             // Create Constraint
@@ -764,7 +765,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(350, 250);
             ctx.ClickAt(450, 350);
 
-            ctx.ClickAt(300, 200, true);
+            ctx.ClickAt(300, 200, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
 
             // Create Constraint
@@ -800,7 +801,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(222, 290);
             ctx.ClickAt(383, 185);
 
-            ctx.ClickAt(300, 200, true);
+            ctx.ClickAt(300, 200, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
 
             // Create Constraint
@@ -836,7 +837,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(400, 444);
             ctx.ClickAt(290, 30);
 
-            ctx.ClickAt(370, 200, true);
+            ctx.ClickAt(370, 200, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
 
             // Create Constraint
@@ -876,7 +877,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(300, 220);
             ctx.ClickAt(400, 260);
 
-            ctx.ClickAt(200, 200, false);
+            ctx.ClickAt(200, 200);
             ctx.MoveTo(0, 0);
 
             // Create Constraint
@@ -914,7 +915,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(200, 200);
             ctx.ClickAt(400, 200);
 
-            ctx.ClickAt(200, 200, false);
+            ctx.ClickAt(200, 200);
             ctx.MoveTo(0, 0);
 
             // Create Constraint
@@ -953,7 +954,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(350, 350);
             ctx.ClickAt(400, 200);
 
-            ctx.ClickAt(200, 200, false);
+            ctx.ClickAt(200, 200);
             ctx.MoveTo(0, 0);
 
             // Create Constraint
@@ -993,13 +994,13 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(100, 250);
             Assume.That(sketchEditTool.CreateConstraint<SketchConstraintLength>().Count > 0);
             ctx.ClickAt(100, 250);
-            ctx.ClickAt(250, 100, true);
+            ctx.ClickAt(250, 100, ModifierKeys.Shift);
             Assume.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
             ctx.ClickAt(100, 250);
-            ctx.ClickAt(400, 250, true);
+            ctx.ClickAt(400, 250, ModifierKeys.Shift);
             Assume.That(sketchEditTool.CreateConstraint<SketchConstraintParallel>().Count > 0);
             ctx.ClickAt(400, 250);
-            ctx.ClickAt(250, 400, true);    
+            ctx.ClickAt(250, 400, ModifierKeys.Shift);    
             Assume.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
             
             ctx.MoveTo(0,0);
@@ -1037,7 +1038,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.MoveTo(0, 0);
 
             // Create Constraint
-            ctx.ClickAt(115, 250, true);
+            ctx.ClickAt(115, 250, ModifierKeys.Shift);
             ctx.MoveTo(0, 0);
             Assert.AreEqual(2, sketchEditTool.SelectedSegments.Count);
             Assert.IsTrue(sketchEditTool.CanCreateConstraint<SketchConstraintPerpendicular>());

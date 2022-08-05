@@ -42,7 +42,7 @@ namespace Macad.Interaction.Editors.Shapes
             pointAction.Finished += _FinishPivotPoint;
 
             _CurrentPhase = Phase.PivotPoint;
-            StatusText = "Select center point.";
+            WorkspaceController.HudManager?.SetHintMessage(this, "Select center point.");
             _Coord2DHudElement = WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
             WorkspaceController.HudManager?.SetCursor(Cursors.SetPoint);
 
@@ -82,7 +82,7 @@ namespace Macad.Interaction.Editors.Shapes
             axisValueAction.Finished += _FinishRadius;
 
             _CurrentPhase = Phase.Radius;
-            StatusText = "Select Radius.";
+            WorkspaceController.HudManager?.SetHintMessage(this, "Select Radius.");
 
             WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
             _ValueHudElement = WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
@@ -133,7 +133,7 @@ namespace Macad.Interaction.Editors.Shapes
                 WorkspaceController.Workspace.AisContext.Display(_AisPreviewSolid, false);
                 WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewSolid);
 
-                StatusText = $"Select Radius: {radius:0.00}";
+                WorkspaceController.HudManager?.SetHintMessage(this, $"Select Radius: {radius:0.00}");
                 if (_ValueHudElement != null)
                     _ValueHudElement.Value = radius;
             }

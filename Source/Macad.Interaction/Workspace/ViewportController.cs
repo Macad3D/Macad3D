@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows;
+using System.Windows.Input;
 using Macad.Common;
 using Macad.Common.Interop;
 using Macad.Core;
@@ -277,7 +278,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public void MouseMove(Point pos, MouseMoveMode mode = ViewportController.MouseMoveMode.None)
+        public void MouseMove(Point pos, ModifierKeys modifierKeys = ModifierKeys.None, MouseMoveMode mode = MouseMoveMode.None)
         {
             if (IsInRubberbandSelection)
             {
@@ -322,7 +323,7 @@ namespace Macad.Interaction
                     break;
             }
 
-            WorkspaceController.MouseMove(pos, this);
+            WorkspaceController.MouseMove(this, pos, modifierKeys);
             WorkspaceController.Invalidate();
 
             _LastMousePosition = pos;
@@ -330,30 +331,30 @@ namespace Macad.Interaction
         
         //--------------------------------------------------------------------------------------------------
 
-        public void MouseMove()
+        public void MouseMove(ModifierKeys modifierKeys = ModifierKeys.None)
         {
             if (_AisRubberBand != null)
                 return;
 
-            WorkspaceController.MouseMove(_LastMousePosition, this);
+            WorkspaceController.MouseMove(this, _LastMousePosition, modifierKeys);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void MouseDown()
+        public void MouseDown(ModifierKeys modifierKeys = ModifierKeys.None)
         {
-            WorkspaceController.MouseDown(this);
+            WorkspaceController.MouseDown(this, modifierKeys);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void MouseUp(bool shiftKey)
+        public void MouseUp(ModifierKeys modifierKeys = ModifierKeys.None)
         {
             if (IsInRubberbandSelection)
             {
                 _StopRubberbandSelection();
             }
-            WorkspaceController.MouseUp(shiftKey, this);
+            WorkspaceController.MouseUp(this, modifierKeys);
         }
 
         //--------------------------------------------------------------------------------------------------

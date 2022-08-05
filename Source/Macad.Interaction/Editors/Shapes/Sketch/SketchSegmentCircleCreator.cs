@@ -33,7 +33,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             _Coord2DHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
 
-            _SketchEditorTool.StatusText = "Select center point of the circle.";
+            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select center point of the circle.");
 
             return true;
         }
@@ -109,7 +109,7 @@ namespace Macad.Interaction.Editors.Shapes
 
                     _SketchEditorTool.WorkspaceController.Invalidate();
 
-                    _SketchEditorTool.StatusText = "Select any rim point of the circle.";
+                    _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select any rim point of the circle.");
 
                     _PointAction.Reset();
                 } 

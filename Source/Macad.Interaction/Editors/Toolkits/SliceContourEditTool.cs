@@ -276,7 +276,7 @@ namespace Macad.Interaction.Editors.Toolkits
             {
                 _SelectFaceAction.Cancel(true);
                 _SelectFaceAction = null;
-                StatusText = "";
+                WorkspaceController.HudManager?.SetHintMessage(this, null);
                 WorkspaceController.HudManager?.SetCursor(null);
                 RaisePropertyChanged(nameof(IsSelectingFace));
 
@@ -309,7 +309,7 @@ namespace Macad.Interaction.Editors.Toolkits
                     return;
                 }
                 _SelectFaceAction.Finished += _SelectFaceAction_OnFinished;
-                StatusText = "Select plane base face.";
+                WorkspaceController.HudManager?.SetHintMessage(this, "Select plane base face.");
                 WorkspaceController.HudManager?.SetCursor(Cursors.SelectFace);
             }
             RaisePropertyChanged(nameof(IsSelectingFace));
@@ -327,7 +327,7 @@ namespace Macad.Interaction.Editors.Toolkits
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
                 if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
                 {
-                    StatusText = "Selected face is not a plane type surface.";
+                    WorkspaceController.HudManager?.SetHintMessage(this, "Selected face is not a plane type surface.");
                     _SelectFaceAction.Reset();
                     return;
                 }

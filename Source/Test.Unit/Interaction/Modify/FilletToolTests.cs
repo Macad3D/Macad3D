@@ -85,7 +85,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EdgeSelectionFailure1"));
 
                 ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 ctx.ViewportController.MouseMove(new Point(0, 0));
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EdgeSelectionFailure2"));
             });

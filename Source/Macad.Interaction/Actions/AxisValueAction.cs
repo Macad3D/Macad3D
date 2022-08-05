@@ -58,6 +58,10 @@ namespace Macad.Interaction
         double? _ProcessMouseInputForAxis(MouseEventData data, out double distance)
         {
             var planeDir = WorkspaceController.ActiveViewport.GetRightDirection();
+            if (planeDir.IsParallel(_Axis.Direction, 0.1))
+            {
+                planeDir = WorkspaceController.ActiveViewport.GetUpDirection();
+            }
             planeDir.Cross(_Axis.Direction);
             //Console.WriteLine("PlaneDir: {0:0.00} | {1:0.00} | {2:0.00}", planeDir.X(), planeDir.Y(), planeDir.Z());
             var plane = new Pln(new Ax3(_Axis.Location, planeDir, _Axis.Direction));
@@ -111,7 +115,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool OnMouseUp(MouseEventData data, bool additive)
+        public override bool OnMouseUp(MouseEventData data)
         {
             if (!IsFinished)
             {

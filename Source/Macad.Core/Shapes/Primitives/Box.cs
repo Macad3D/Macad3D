@@ -20,12 +20,14 @@ namespace Macad.Core.Shapes
                 if (_DimensionX != value)
                 {
                     SaveUndo();
-                    _DimensionX = value;
+                    _DimensionX = value != 0.0 ? value : 0.001;
                     Invalidate();
                     RaisePropertyChanged();
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         [SerializeMember]
         public double DimensionY
@@ -39,12 +41,14 @@ namespace Macad.Core.Shapes
                 if (_DimensionY != value)
                 {
                     SaveUndo();
-                    _DimensionY = value;
+                    _DimensionY = value != 0.0 ? value : 0.001;
                     Invalidate();
                     RaisePropertyChanged();
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         [SerializeMember]
         public double DimensionZ
@@ -58,12 +62,14 @@ namespace Macad.Core.Shapes
                 if (_DimensionZ != value)
                 {
                     SaveUndo();
-                    _DimensionZ = value;
+                    _DimensionZ = value != 0.0 ? value : 0.001;
                     Invalidate();
                     RaisePropertyChanged();
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
 
@@ -105,7 +111,11 @@ namespace Macad.Core.Shapes
 
         protected override bool MakeInternal(Shape.MakeFlags flags)
         {
-            var makeBox = new BRepPrimAPI_MakeBox(DimensionX, DimensionY, DimensionZ);
+            var dimX = DimensionX != 0.0 ? DimensionX : 0.001;
+            var dimY = DimensionY != 0.0 ? DimensionY : 0.001;
+            var dimZ = DimensionZ != 0.0 ? DimensionZ : 0.001;
+
+            var makeBox = new BRepPrimAPI_MakeBox(dimX, dimY, dimZ);
             BRep = makeBox.Solid();
 
             return base.MakeInternal(flags);

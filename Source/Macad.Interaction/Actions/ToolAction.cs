@@ -130,7 +130,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual bool OnMouseUp(MouseEventData data, bool additive)
+        public virtual bool OnMouseUp(MouseEventData data)
         {
             return false;
         }

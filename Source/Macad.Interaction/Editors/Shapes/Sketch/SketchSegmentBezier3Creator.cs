@@ -33,7 +33,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             _Coord2DHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
 
-            sketchEditorTool.StatusText = "Select start point for line.";
+            sketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select start point for line.");
 
             return true;
         }
@@ -42,6 +42,8 @@ namespace Macad.Interaction.Editors.Shapes
 
         public void Stop()
         {
+            _HintLine?.Remove();
+            _HintLine = null;
             _Element?.Remove();
             _PointAction.Stop();
             _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
@@ -69,7 +71,7 @@ namespace Macad.Interaction.Editors.Shapes
                 return false;
 
             _PointsFinished = 1;
-            _SketchEditorTool.StatusText = "Select end point for line.";
+            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select end point for line.");
             return true;
         }
 
@@ -119,7 +121,7 @@ namespace Macad.Interaction.Editors.Shapes
                         _HintLine = new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
                         _HintLine.Set(_PointAction.Point, _PointAction.Point, _SketchEditorTool.Sketch.Plane);
 
-                        _SketchEditorTool.StatusText = "Select end point for line.";
+                        _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select end point for line.");
 
                         if (_ValueHudElement == null && _SketchEditorTool.WorkspaceController.HudManager != null)
                         {
@@ -144,7 +146,7 @@ namespace Macad.Interaction.Editors.Shapes
 
                         _Element.OnPointsChanged(_Points, null);
 
-                        _SketchEditorTool.StatusText = "Select second control point for line.";
+                        _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select second control point for line.");
 
                         _PointAction.Reset();
                         _PointsFinished++;
@@ -191,7 +193,7 @@ namespace Macad.Interaction.Editors.Shapes
 
                 _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
                 _ValueHudElement = null;
-                _SketchEditorTool.StatusText = "Select first control point for line.";
+                _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select first control point for line.");
 
                 _PointAction.Reset();
                 _PointsFinished++;

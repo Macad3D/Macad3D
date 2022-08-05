@@ -20,7 +20,7 @@ namespace Macad.Interaction.Editors.Shapes
                 return false;
             _PointAction.Finished += _PointAction_Finished;
 
-            _SketchEditorTool.StatusText = _Message;
+            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, _Message);
             return true;
         }
 
@@ -46,7 +46,7 @@ namespace Macad.Interaction.Editors.Shapes
             }
 
             _PointAction.Reset();
-            _SketchEditorTool.StatusText = _Message;
+            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, _Message);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -55,6 +55,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             _PointAction.Stop();
             _PointAction.Finished -= _PointAction_Finished;
+            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, null);
         }
 
         //--------------------------------------------------------------------------------------------------

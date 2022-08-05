@@ -46,7 +46,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateFlange1"));
 
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             ctx.ViewportController.MouseMove(new Point(0, 0));
             ctx.ViewportController.ZoomFitAll();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateFlange2"));
@@ -102,7 +102,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateTwoFlangesOnTheSameFace1"));
 
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             ctx.ViewportController.ZoomFitAll();
             ctx.ViewportController.MouseMove(new Point(0, 0));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateTwoFlangesOnTheSameFace2"));

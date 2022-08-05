@@ -40,12 +40,16 @@ namespace Macad.Interaction.Editors.Shapes
                 {
                     visualobj.IsSelectable = _IsSelectable;
                 }
-                _Marker?.UpdateVisual(points, segments, Plane, SketchEditorTool.WorkspaceController.ActiveViewport.PixelSize, markerCounts);
+                _Marker?.UpdateVisual(points, segments, Plane, 
+                                      SketchEditorTool.WorkspaceController.ActiveViewport.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewport.DpiScale, 
+                                      markerCounts);
                 UpdateVisual();
             }
             else
             {
-                _Marker?.UpdateVisual(points, segments, Plane, SketchEditorTool.WorkspaceController.ActiveViewport.PixelSize, markerCounts);
+                _Marker?.UpdateVisual(points, segments, Plane, 
+                                      SketchEditorTool.WorkspaceController.ActiveViewport.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewport.DpiScale,
+                                      markerCounts);
             }
         }
 
@@ -53,7 +57,9 @@ namespace Macad.Interaction.Editors.Shapes
 
         public void OnGizmoScaleChanged(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, Dictionary<int, int> markerCounts)
         {
-            _Marker?.UpdateVisual(points, segments, Plane, SketchEditorTool.WorkspaceController.ActiveViewport.PixelSize, markerCounts);
+            _Marker?.UpdateVisual(points, segments, Plane, 
+                                  SketchEditorTool.WorkspaceController.ActiveViewport.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewport.DpiScale,
+                                  markerCounts);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -142,9 +148,13 @@ namespace Macad.Interaction.Editors.Shapes
                     for (var index = 0; index < _Constraint.Points.Length; index++)
                     {
                         var marker = new Marker(sketchEditorTool.WorkspaceController,
-                                                Marker.Styles.Image | Marker.Styles.Background | Marker.Styles.Topmost | Marker.Styles.Selectable, image);
-                        marker.Tag = index;
-                        marker.SetBackgroundColor(Colors.AttributeMarkerBackground);
+                                                Marker.Styles.Image | Marker.Styles.Background | Marker.Styles.Topmost, image, 24)
+                        {
+                            IsSelectable = true,
+                            Tag = index,
+                            BackgroundColor = Colors.AttributeMarkerBackground
+                        };
+
                         _Marker.Add(marker);
                     }
                 }
@@ -153,9 +163,13 @@ namespace Macad.Interaction.Editors.Shapes
                     for (var index = 0; index < _Constraint.Segments.Length; index++)
                     {
                         var marker = new Marker(sketchEditorTool.WorkspaceController,
-                                                Marker.Styles.Image | Marker.Styles.Background | Marker.Styles.Topmost | Marker.Styles.Selectable, image);
-                        marker.Tag = index | TagIsSegment;
-                        marker.SetBackgroundColor(Colors.AttributeMarkerBackground);
+                                                Marker.Styles.Image | Marker.Styles.Background | Marker.Styles.Topmost, image, 24)
+                        {
+                            IsSelectable = true,
+                            Tag = index | TagIsSegment,
+                            BackgroundColor = Colors.AttributeMarkerBackground
+                        };
+
                         _Marker.Add(marker);
                     }
                 }
@@ -218,7 +232,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             public void SetColor(Quantity_Color color)
             {
-                _Marker.ForEach(marker => marker.SetBackgroundColor(color));
+                _Marker.ForEach(marker => marker.BackgroundColor = color);
             }
 
             //--------------------------------------------------------------------------------------------------
@@ -259,57 +273,26 @@ namespace Macad.Interaction.Editors.Shapes
                 swapOrientation = ((int) ((InteractiveContext.Current?.WorkspaceController?.ActiveViewport?.Twist ?? 0.0 + 45.0) / 90.0) & 0x01) == 1;
             }
 
-            switch (Constraint)
+            marker = Constraint switch
             {
-                case SketchConstraintRadius _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, "Marker_SketchConstraintCircleRadius");
-                    break;
-                case SketchConstraintConcentric _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, "Marker_SketchConstraintConcentric");
-                    break;
-                case SketchConstraintAngle _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, "Marker_SketchConstraintAngle");
-                    break;
-                case SketchConstraintEqual _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, "Marker_SketchConstraintEqual");
-                    break;
-                case SketchConstraintFixed _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, "Marker_SketchConstraintFixed");
-                    break;
-                case SketchConstraintHorizontal _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, swapOrientation ? "Marker_SketchConstraintVertical" : "Marker_SketchConstraintHorizontal");
-                    break;
-                case SketchConstraintHorizontalDistance _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, swapOrientation ?  "Marker_SketchConstraintVerticalDistance" : "Marker_SketchConstraintHorizontalDistance");
-                    break;
-                case SketchConstraintLength _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, "Marker_SketchConstraintLineLength");
-                    break;
-                case SketchConstraintParallel _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, "Marker_SketchConstraintParallel");
-                    break;
-                case SketchConstraintPerpendicular _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, "Marker_SketchConstraintPerpendicular");
-                    break;
-                case SketchConstraintPointOnSegment _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, "Marker_SketchConstraintPointOnSegment");
-                    break;
-                case SketchConstraintPointOnMidpoint _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, "Marker_SketchConstraintPointOnMidpoint");
-                    break;
-                case SketchConstraintVertical _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, swapOrientation ? "Marker_SketchConstraintHorizontal" : "Marker_SketchConstraintVertical");
-                    break;
-                case SketchConstraintVerticalDistance _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, swapOrientation ? "Marker_SketchConstraintHorizontalDistance" : "Marker_SketchConstraintVerticalDistance");
-                    break;
-                case SketchConstraintTangent _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, "Marker_SketchConstraintTangent");
-                    break;
-                case SketchConstraintSmoothCorner _:
-                    marker = new ConstraintMarker(SketchEditorTool, Constraint, "Marker_SketchConstraintSmoothCorner");
-                    break;
-            }
+                SketchConstraintRadius _ => new ConstraintMarker(SketchEditorTool, Constraint, "SketchConstraintCircleRadius"),
+                SketchConstraintConcentric _ => new ConstraintMarker(SketchEditorTool, Constraint, "SketchConstraintConcentric"),
+                SketchConstraintAngle _ => new ConstraintMarker(SketchEditorTool, Constraint, "SketchConstraintAngle"),
+                SketchConstraintEqual _ => new ConstraintMarker(SketchEditorTool, Constraint, "SketchConstraintEqual"),
+                SketchConstraintFixed _ => new ConstraintMarker(SketchEditorTool, Constraint, "SketchConstraintFixed"),
+                SketchConstraintHorizontal _ => new ConstraintMarker(SketchEditorTool, Constraint, swapOrientation ? "SketchConstraintVertical" : "SketchConstraintHorizontal"),
+                SketchConstraintHorizontalDistance _ => new ConstraintMarker(SketchEditorTool, Constraint, swapOrientation ? "SketchConstraintVerticalDistance" : "SketchConstraintHorizontalDistance"),
+                SketchConstraintLength _ => new ConstraintMarker(SketchEditorTool, Constraint, "SketchConstraintLineLength"),
+                SketchConstraintParallel _ => new ConstraintMarker(SketchEditorTool, Constraint, "SketchConstraintParallel"),
+                SketchConstraintPerpendicular _ => new ConstraintMarker(SketchEditorTool, Constraint, "SketchConstraintPerpendicular"),
+                SketchConstraintPointOnSegment _ => new ConstraintMarker(SketchEditorTool, Constraint, "SketchConstraintPointOnSegment"),
+                SketchConstraintPointOnMidpoint _ => new ConstraintMarker(SketchEditorTool, Constraint, "SketchConstraintPointOnMidpoint"),
+                SketchConstraintVertical _ => new ConstraintMarker(SketchEditorTool, Constraint, swapOrientation ? "SketchConstraintHorizontal" : "SketchConstraintVertical"),
+                SketchConstraintVerticalDistance _ => new ConstraintMarker(SketchEditorTool, Constraint, swapOrientation ? "SketchConstraintHorizontalDistance" : "SketchConstraintVerticalDistance"),
+                SketchConstraintTangent _ => new ConstraintMarker(SketchEditorTool, Constraint, "SketchConstraintTangent"),
+                SketchConstraintSmoothCorner _ => new ConstraintMarker(SketchEditorTool, Constraint, "SketchConstraintSmoothCorner"),
+                _ => marker
+            };
 
             return marker;
         }

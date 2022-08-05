@@ -137,10 +137,15 @@ public sealed class Axis : VisualObject
         {
             AisContext.Redisplay(_AisObject, false);
         }
-        if(_IsSelectable)
+
+        if (_IsSelectable)
+        {
             AisContext.Activate(_AisObject);
+        }
         else
+        {
             AisContext.Deactivate(_AisObject);
+        }
     }
 
     //--------------------------------------------------------------------------------------------------

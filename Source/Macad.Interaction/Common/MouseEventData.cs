@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Input;
 using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Occt;
@@ -10,10 +12,10 @@ public interface IMouseEventHandler
 {
     bool OnMouseMove(MouseEventData data);
     bool OnMouseDown(MouseEventData data);
-    bool OnMouseUp(MouseEventData data, bool additive);
+    bool OnMouseUp(MouseEventData data);
 }
 
-//--------------------------------------------------------------------------------------------------
+
 //--------------------------------------------------------------------------------------------------
 
 public class MouseEventData
@@ -25,6 +27,8 @@ public class MouseEventData
     public Pnt RawPoint { get; private set; }
 
     public Pnt PointOnPlane { get; private set; }
+
+    public ModifierKeys ModifierKeys { get; set; }
 
     public List<AIS_InteractiveObject> DetectedAisInteractives { get; } = new();
 
@@ -71,12 +75,13 @@ public class MouseEventData
     //--------------------------------------------------------------------------------------------------
 
     public void Set(in Viewport viewport, in Point screenPoint, in Pnt rawPoint, in Pnt pointOnPlane, in InteractiveEntity detectedEntity, 
-                    in AIS_InteractiveObject detectedInteractive, in TopoDS_Shape detectedShape)
+                    in AIS_InteractiveObject detectedInteractive, in TopoDS_Shape detectedShape, in ModifierKeys modifierKeys)
     {
         Viewport = viewport;
         ScreenPoint = screenPoint;
         RawPoint = rawPoint;
         PointOnPlane = pointOnPlane;
+        ModifierKeys = modifierKeys;
 
         DetectedAisInteractives.Clear();
         if(detectedInteractive != null)

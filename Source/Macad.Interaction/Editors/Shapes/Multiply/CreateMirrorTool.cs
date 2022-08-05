@@ -69,13 +69,13 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 case ShapeType.Sketch:
                     toolAction = new SelectSubshapeAction(this, SubshapeTypes.Edge, _TargetBody);
-                    StatusText = "Select edge as reference for the mirror axis.";
+                    WorkspaceController.HudManager?.SetHintMessage(this, "Select edge as reference for the mirror axis.");
                     WorkspaceController.HudManager?.SetCursor(Cursors.SelectEdge);
                     break;
 
                 case ShapeType.Solid:
                     toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _TargetBody);
-                    StatusText = "Select face as reference for the mirror plane.";
+                    WorkspaceController.HudManager?.SetHintMessage(this, "Select face as reference for the mirror plane.");
                     WorkspaceController.HudManager?.SetCursor(Cursors.SelectFace);
                     break;
 

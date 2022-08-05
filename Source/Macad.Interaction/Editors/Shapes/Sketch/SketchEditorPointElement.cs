@@ -18,8 +18,12 @@ namespace Macad.Interaction.Editors.Shapes
 
             var geomPoint = new Geom_CartesianPoint(point.X, point.Y, 0);
             geomPoint.Transform(Transform);
-            _Marker = new Marker(SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost | Marker.Styles.Selectable, 
-                                 SketchUtils.IsUnconnectedEndpoint(SketchEditorTool.Sketch, PointIndex) ? Marker.RectImage : Marker.BallImage );
+            _Marker = new Marker(SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, 
+                                 SketchUtils.IsUnconnectedEndpoint(SketchEditorTool.Sketch, PointIndex) ? Marker.RectImage : Marker.BallImage )
+            {
+                IsSelectable = true
+            };
+
             _Marker.Set(geomPoint);
         }
 
@@ -27,7 +31,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override void UpdateVisual()
         {
-            _Marker.SetColor(IsSelected ? Colors.SketchEditorSelection : null);
+            _Marker.Color = IsSelected ? Colors.SketchEditorSelection : null;
         }
 
         //--------------------------------------------------------------------------------------------------

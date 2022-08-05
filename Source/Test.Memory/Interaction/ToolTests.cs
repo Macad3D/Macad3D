@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using JetBrains.dotMemoryUnit;
 using Macad.Test.Utils;
 using Macad.Core.Shapes;
@@ -40,13 +41,13 @@ namespace Macad.Test.Memory.Interaction
                 ctx.WorkspaceController.StartTool(new CreateBoxTool());
                 ctx.ViewportController.MouseMove(new Point(50, 250));
                 ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 ctx.ViewportController.MouseMove(new Point(450, 250));
                 ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 ctx.ViewportController.MouseMove(new Point(450, 200));
                 ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 ctx.ViewportController.MouseMove(new Point(0, 0));
 
                 Assume.That(ctx.WorkspaceController.CurrentToolAction, Is.Null);
@@ -75,13 +76,13 @@ namespace Macad.Test.Memory.Interaction
                 ctx.WorkspaceController.StartTool(new CreateCylinderTool());
                 ctx.ViewportController.MouseMove(new Point(250, 250));
                 ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 ctx.ViewportController.MouseMove(new Point(450, 250));
                 ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 ctx.ViewportController.MouseMove(new Point(450, 200));
                 ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 ctx.ViewportController.MouseMove(new Point(0, 0));
 
                 Assume.That(ctx.WorkspaceController.CurrentToolAction, Is.Null);
@@ -110,10 +111,10 @@ namespace Macad.Test.Memory.Interaction
                 ctx.WorkspaceController.StartTool(new CreateSphereTool());
                 ctx.ViewportController.MouseMove(new Point(250, 250));
                 ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 ctx.ViewportController.MouseMove(new Point(450, 250));
                 ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 ctx.ViewportController.MouseMove(new Point(0, 0));
 
                 Assume.That(ctx.WorkspaceController.CurrentToolAction, Is.Null);
@@ -220,13 +221,13 @@ namespace Macad.Test.Memory.Interaction
                 ctx.ClickAt(100, 250);
                 Assume.That(sketchEditTool.CreateConstraint<SketchConstraintLength>().Count > 0);
                 ctx.ClickAt(100, 250);
-                ctx.ClickAt(250, 100, true);
+                ctx.ClickAt(250, 100, ModifierKeys.Shift);
                 Assume.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
                 ctx.ClickAt(100, 250);
-                ctx.ClickAt(400, 250, true);
+                ctx.ClickAt(400, 250, ModifierKeys.Shift);
                 Assume.That(sketchEditTool.CreateConstraint<SketchConstraintParallel>().Count > 0);
                 ctx.ClickAt(400, 250);
-                ctx.ClickAt(250, 400, true);
+                ctx.ClickAt(250, 400, ModifierKeys.Shift);
                 Assume.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
                 ctx.WorkspaceController.Invalidate(forceRedraw: true);
 

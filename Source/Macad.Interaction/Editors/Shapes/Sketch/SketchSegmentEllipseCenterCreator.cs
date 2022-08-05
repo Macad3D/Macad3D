@@ -36,7 +36,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             _Coord2DHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
 
-            _SketchEditorTool.StatusText = "Select center point of the ellipse.";
+            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select center point of the ellipse.");
 
             return true;
         }
@@ -155,7 +155,7 @@ namespace Macad.Interaction.Editors.Shapes
             _Marker[0] = new Marker(_SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage);
             _Marker[0].Set(point, _SketchEditorTool.Sketch.Plane);
 
-            _SketchEditorTool.StatusText = "Select first rim point of the ellipse.";
+            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select first rim point of the ellipse.");
 
             _PointAction.Reset();
         }
@@ -217,7 +217,7 @@ namespace Macad.Interaction.Editors.Shapes
             _Element.IsCreating = true;
             _Element.OnPointsChanged(_Points, null);
 
-            _SketchEditorTool.StatusText = "Select second rim point of the ellipse.";
+            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select second rim point of the ellipse.");
             _PointAction.Reset();
             _SketchEditorTool.WorkspaceController.Invalidate();
             _SketchEditorTool.WorkspaceController.UpdateSelection();

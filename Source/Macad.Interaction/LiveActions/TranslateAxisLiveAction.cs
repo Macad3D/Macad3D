@@ -100,6 +100,10 @@ public class TranslateAxisLiveAction : LiveAction
     double? _ProcessMouseInput(MouseEventData data)
     {
         var planeDir = WorkspaceController.ActiveViewport.GetRightDirection();
+        if (planeDir.IsParallel(_Axis.Direction, 0.1))
+        {
+            planeDir = WorkspaceController.ActiveViewport.GetUpDirection();
+        }
         planeDir.Cross(_Axis.Direction);
         var plane = new Pln(new Ax3(_Axis.Location, planeDir, _Axis.Direction));
         Pnt convertedPoint;
@@ -162,7 +166,7 @@ public class TranslateAxisLiveAction : LiveAction
             if (value != null)
             {
                 var tempAxis = _Axis.Translated(_Axis.Direction.ToVec(value.Value - _StartValue));
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                if (data.ModifierKeys.HasFlag(ModifierKeys.Control))
                 {
                     tempAxis.Translate(new Vec(0, 0, Maths.RoundToNearest(tempAxis.Location.Z, WorkspaceController.Workspace.GridStep) - tempAxis.Location.Z));
                 }
@@ -181,7 +185,7 @@ public class TranslateAxisLiveAction : LiveAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public override bool OnMouseUp(MouseEventData data, bool additive)
+    public override bool OnMouseUp(MouseEventData data)
     {
         if (_IsMoving)
         {
@@ -203,7 +207,7 @@ public class TranslateAxisLiveAction : LiveAction
             RaiseFinished();
             return true;
         }
-        return base.OnMouseUp(data, additive);
+        return base.OnMouseUp(data);
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Windows.Input;
 using Macad.Test.Utils;
 using Macad.Common;
 using Macad.Core.Shapes;
@@ -164,7 +165,7 @@ namespace Macad.Test.Unit.Interaction.Form
                 ctx.SelectAt(176, 405);
 
                 // Select Second and Start
-                ctx.SelectAt(161, 300, true);
+                ctx.SelectAt(161, 300, ModifierKeys.Shift);
                 ctx.WorkspaceController.StartTool(new CreateLoftTool());
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultipleSections01"));
 

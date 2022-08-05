@@ -105,7 +105,7 @@ public class BooleanOperationTool : Tool
         {
             text += ": " + shapeName;
         }
-        StatusText = text;
+        WorkspaceController.HudManager?.SetHintMessage(this, text);
     }
 
     //--------------------------------------------------------------------------------------------------

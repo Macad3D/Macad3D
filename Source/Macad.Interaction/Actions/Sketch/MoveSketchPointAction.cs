@@ -290,7 +290,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool OnMouseUp(MouseEventData data, bool additive)
+        public override bool OnMouseUp(MouseEventData data)
         {
             if (_Moving || _Rotating)
             {
@@ -320,7 +320,7 @@ namespace Macad.Interaction
 
                 return true;
             }
-            return base.OnMouseUp(data, additive);
+            return base.OnMouseUp(data);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -372,7 +372,7 @@ namespace Macad.Interaction
                 if (RotateDelta < -Maths.PI)
                     RotateDelta += Maths.DoublePI;
 
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                if (data.ModifierKeys.HasFlag(ModifierKeys.Control))
                 {
                     RotateDelta = Maths.RoundToNearest(RotateDelta, 5.0.ToRad());
                 }
@@ -402,7 +402,7 @@ namespace Macad.Interaction
                     geomPoint.Transform(_Sketch.GetTransformation());
                     var marker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.RingImage);
                     marker.Set(geomPoint);
-                    marker.SetColor(Colors.Highlight);
+                    marker.Color = Colors.Highlight;
                     _MergePreviewMarkers.Add(marker);
                 }
 

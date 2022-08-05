@@ -7,7 +7,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Media.Converters;
 using Macad.Presentation;
 
 namespace Macad.Interaction.Panels
@@ -18,23 +17,12 @@ namespace Macad.Interaction.Panels
         #region Properties
 
         public static readonly DependencyProperty OverlayContentProperty = DependencyProperty.Register(
-            "OverlayContent", typeof(object), typeof(ViewportPanel), new PropertyMetadata(default(object), _OverlayContentChanged));
+            "OverlayContent", typeof(object), typeof(ViewportPanel), new PropertyMetadata(default(object)));
 
         public object OverlayContent
         {
             get { return (object) GetValue(OverlayContentProperty); }
             set { SetValue(OverlayContentProperty, value); }
-        }
-
-        static void _OverlayContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue is FrameworkElement overlayChildElement)
-            {
-                if (overlayChildElement.DataContext == null)
-                {
-                    overlayChildElement.SetBinding(DataContextProperty, BindingHelper.Create(((FrameworkElement)d).Parent, nameof(DataContext), BindingMode.OneWay));
-                }
-            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -111,6 +99,7 @@ namespace Macad.Interaction.Panels
         bool _SuppressContextMenu;
         bool _RightMouseBtnDown;
         Point _MouseDownPosition;
+        Point _MouseMovePosition;
         bool _ContextMenuIsOpen;
 
         public ViewportPanel()
@@ -120,10 +109,26 @@ namespace Macad.Interaction.Panels
 
             InitializeComponent();
             OverlayContentPresenter.SetBinding(ContentPresenter.ContentProperty, BindingHelper.Create(this, nameof(OverlayContent), BindingMode.OneWay));
+            HudContainer.SizeChanged += (_, _) => _UpdateHud(_MouseMovePosition);
 
             MouseHorizontalWheelEnabler.AddMouseHorizontalWheelHandler(this, OnMouseHorizontalWheel);
 
             _ViewportControllerChanged();
+
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region HUD
+
+        void _UpdateHud(Point pos)
+        {
+            // Update HUD Container
+            double left = ((ActualWidth - HudContainer.ActualWidth - pos.X) > 0) ? pos.X : pos.X - HudContainer.ActualWidth;
+            double top = ((pos.Y - HudContainer.ActualHeight) > 0) ? pos.Y - HudContainer.ActualHeight : pos.Y;
+            HudContainer.Margin = new Thickness(left, top, 0, 0);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -182,21 +187,20 @@ namespace Macad.Interaction.Panels
             if (ContextMenu != null && ContextMenu.IsOpen)
                 return;
 
-            var pos = e.GetPosition(this);
+            _MouseMovePosition = e.GetPosition(this);
 
             // Supress context menu if mouse was moved significantly
-            if (_RightMouseBtnDown && (_MouseDownPosition - pos).LengthSquared > 9)
+            if (_RightMouseBtnDown && (_MouseDownPosition - _MouseMovePosition).LengthSquared > 9)
             {
                 _SuppressContextMenu = true;
             }
 
             var dpiScale = VisualTreeHelper.GetDpi(this);
-            MouseControl?.MouseMove(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY), e.MouseDevice);
+            MouseControl?.MouseMove(
+                new Point(_MouseMovePosition.X * dpiScale.DpiScaleX, _MouseMovePosition.Y * dpiScale.DpiScaleY),
+                e.MouseDevice, Keyboard.Modifiers);
 
-            // Update HUD Container
-            double left = ((ActualWidth - HudContainer.ActualWidth - pos.X) > 0) ? pos.X : pos.X - HudContainer.ActualWidth;
-            double top = ((pos.Y - HudContainer.ActualHeight) > 0) ? pos.Y - HudContainer.ActualHeight : pos.Y;
-            HudContainer.Margin = new Thickness(left, top, 0, 0);
+            _UpdateHud(_MouseMovePosition);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -207,7 +211,8 @@ namespace Macad.Interaction.Panels
 
             var pos = e.GetPosition(this);
             var dpiScale = VisualTreeHelper.GetDpi(this);
-            MouseControl?.MouseWheel(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY), Panels.MouseWheel.Vertical, e.Delta, e.MouseDevice);
+            MouseControl?.MouseWheel(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY),
+                                     Panels.MouseWheel.Vertical, e.Delta, e.MouseDevice, Keyboard.Modifiers);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -216,7 +221,8 @@ namespace Macad.Interaction.Panels
         {
             var pos = e.GetPosition(this);
             var dpiScale = VisualTreeHelper.GetDpi(this);
-            MouseControl?.MouseWheel(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY), Panels.MouseWheel.Horizontal, e.Delta, e.MouseDevice);
+            MouseControl?.MouseWheel(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY),
+                                     Panels.MouseWheel.Horizontal, e.Delta, e.MouseDevice, Keyboard.Modifiers);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -230,7 +236,9 @@ namespace Macad.Interaction.Panels
             _RightMouseBtnDown = e.RightButton == MouseButtonState.Pressed;
 
             var dpiScale = VisualTreeHelper.GetDpi(this);
-            MouseControl?.MouseDown(new Point(_MouseDownPosition.X * dpiScale.DpiScaleX, _MouseDownPosition.Y * dpiScale.DpiScaleY), e.ChangedButton, e.MouseDevice);
+            MouseControl?.MouseDown(
+                new Point(_MouseDownPosition.X * dpiScale.DpiScaleX, _MouseDownPosition.Y * dpiScale.DpiScaleY),
+                e.ChangedButton, e.MouseDevice, Keyboard.Modifiers);
 
             if (Model?.HudElements.Any() == true)
                 Focus();
@@ -255,7 +263,8 @@ namespace Macad.Interaction.Panels
             {
                 var pos = e.GetPosition(this);
                 var dpiScale = VisualTreeHelper.GetDpi(this);
-                MouseControl?.MouseUp(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY), e.ChangedButton, e.ClickCount, e.MouseDevice);
+                MouseControl?.MouseUp(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY),
+                                      e.ChangedButton, e.ClickCount, e.MouseDevice, Keyboard.Modifiers);
             }
 
             ReleaseMouseCapture();
@@ -295,7 +304,9 @@ namespace Macad.Interaction.Panels
 
             var point = e.GetTouchPoint(this);
             var dpiScale = VisualTreeHelper.GetDpi(this);
-            TouchControl?.TouchMove(point.TouchDevice.Id, new Point(point.Position.X * dpiScale.DpiScaleX, point.Position.Y * dpiScale.DpiScaleY));
+            TouchControl?.TouchMove(point.TouchDevice.Id,
+                                    new Point(point.Position.X * dpiScale.DpiScaleX,
+                                              point.Position.Y * dpiScale.DpiScaleY), Keyboard.Modifiers);
             e.Handled = true;
         }
 
@@ -309,7 +320,9 @@ namespace Macad.Interaction.Panels
 
             var point = e.GetTouchPoint(this);
             var dpiScale = VisualTreeHelper.GetDpi(this);
-            TouchControl?.TouchDown(point.TouchDevice.Id, new Point(point.Position.X * dpiScale.DpiScaleX, point.Position.Y * dpiScale.DpiScaleY));
+            TouchControl?.TouchDown(point.TouchDevice.Id,
+                                    new Point(point.Position.X * dpiScale.DpiScaleX,
+                                              point.Position.Y * dpiScale.DpiScaleY), Keyboard.Modifiers);
             e.Handled = true;
         }
 
@@ -321,7 +334,9 @@ namespace Macad.Interaction.Panels
         
             var point = e.GetTouchPoint(this);
             var dpiScale = VisualTreeHelper.GetDpi(this);
-            TouchControl?.TouchUp(point.TouchDevice.Id, new Point(point.Position.X * dpiScale.DpiScaleX, point.Position.Y * dpiScale.DpiScaleY));
+            TouchControl?.TouchUp(point.TouchDevice.Id,
+                                  new Point(point.Position.X * dpiScale.DpiScaleX,
+                                            point.Position.Y * dpiScale.DpiScaleY), Keyboard.Modifiers);
             ReleaseTouchCapture(e.TouchDevice);
             e.Handled = true;
         }

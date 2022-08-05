@@ -4,7 +4,6 @@
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
            xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
-           xmlns:mmi="clr-namespace:Macad.Interaction"
            xmlns:panels="clr-namespace:Macad.Interaction.Panels"
            mc:Ignorable="d" 
            FontSize="14"
@@ -33,8 +32,8 @@
         <Border Height="Auto"
                 BorderBrush="{StaticResource Macad.Brushes.Panel.Border}"
                 BorderThickness="0,0,0,1"
-                Visibility="{Binding ToolMessage, Converter={mmp:StringNotEmptyToVisibleCollapsedConverter}}">
-            <TextBlock Text="{Binding ToolMessage}"
+                Visibility="{Binding HintMessage, Converter={mmp:StringNotEmptyToVisibleCollapsedConverter}}">
+            <TextBlock Text="{Binding HintMessage}"
                        TextWrapping="NoWrap"
                        TextTrimming="WordEllipsis"
                        Margin="20,1,5,1"/>

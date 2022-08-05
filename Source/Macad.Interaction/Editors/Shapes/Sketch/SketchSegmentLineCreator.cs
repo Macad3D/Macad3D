@@ -31,7 +31,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             _Coord2DHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
 
-            _SketchEditorTool.StatusText = "Select start point for line.";
+            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select start point for line.");
 
             return true;
         }
@@ -115,7 +115,7 @@ namespace Macad.Interaction.Editors.Shapes
                     }
                     _ValueHudElement?.SetValue(_Segment.Length(_Points));
 
-                    _SketchEditorTool.StatusText = "Select end point for line.";
+                    _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select end point for line.");
 
                     _PointAction.Reset();
                 } 

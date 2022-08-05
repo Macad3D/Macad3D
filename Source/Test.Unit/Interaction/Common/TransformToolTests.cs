@@ -119,21 +119,21 @@ namespace Macad.Test.Unit.Interaction.Common
             ctx.ViewportController.MouseMove(new Point(90, 363));
             ctx.ViewportController.MouseDown();
             ctx.ViewportController.MouseMove(new Point(100, 363));
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveInTopView01"));
 
             // Y-Axis
             ctx.ViewportController.MouseMove(new Point(31, 300));
             ctx.ViewportController.MouseDown();
             ctx.ViewportController.MouseMove(new Point(31, 280));
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveInTopView02"));
 
             // Z-Axis
             ctx.ViewportController.MouseMove(new Point(33, 343));
             ctx.ViewportController.MouseDown();
             ctx.ViewportController.MouseMove(new Point(50, 320));
-            ctx.ViewportController.MouseUp(false);
+            ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveInTopView03"));
         }
 
@@ -158,7 +158,7 @@ namespace Macad.Test.Unit.Interaction.Common
                 ctx.ViewportController.MouseMove(new Point(267, 186));
                 ctx.ViewportController.MouseDown();
                 ctx.ViewportController.MouseMove(new Point(230, 215));
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 Assert.AreEqual(oldpos.Y, body.Position.Y, Double.Epsilon);
                 Assert.AreEqual(oldpos.Z, body.Position.Z, Double.Epsilon);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Move01"));
@@ -168,7 +168,7 @@ namespace Macad.Test.Unit.Interaction.Common
                 ctx.ViewportController.MouseMove(new Point(339, 212));
                 ctx.ViewportController.MouseDown();
                 ctx.ViewportController.MouseMove(new Point(357, 240));
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 Assert.AreEqual(oldpos.X, body.Position.X, Double.Epsilon);
                 Assert.AreEqual(oldpos.Z, body.Position.Z, Double.Epsilon);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Move02"));
@@ -178,7 +178,7 @@ namespace Macad.Test.Unit.Interaction.Common
                 ctx.ViewportController.MouseMove(new Point(314, 133));
                 ctx.ViewportController.MouseDown();
                 ctx.ViewportController.MouseMove(new Point(325, 119));
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 Assert.AreEqual(oldpos.X, body.Position.X, Double.Epsilon);
                 Assert.AreEqual(oldpos.Y, body.Position.Y, Double.Epsilon);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Move03"));
@@ -188,7 +188,7 @@ namespace Macad.Test.Unit.Interaction.Common
                 ctx.ViewportController.MouseMove(new Point(320, 216));
                 ctx.ViewportController.MouseDown();
                 ctx.ViewportController.MouseMove(new Point(293, 246));
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 Assert.AreEqual(oldpos.Z, body.Position.Z, Double.Epsilon);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Move04"));
 
@@ -197,7 +197,7 @@ namespace Macad.Test.Unit.Interaction.Common
                 ctx.ViewportController.MouseMove(new Point(315, 200));
                 ctx.ViewportController.MouseDown();
                 ctx.ViewportController.MouseMove(new Point(351, 183));
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 Assert.AreEqual(oldpos.X, body.Position.X, Double.Epsilon);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Move05"));
 
@@ -206,7 +206,7 @@ namespace Macad.Test.Unit.Interaction.Common
                 ctx.ViewportController.MouseMove(new Point(297, 175));
                 ctx.ViewportController.MouseDown();
                 ctx.ViewportController.MouseMove(new Point(269, 167));
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 Assert.AreEqual(oldpos.Y, body.Position.Y, Double.Epsilon);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Move06"));
             });
@@ -234,7 +234,7 @@ namespace Macad.Test.Unit.Interaction.Common
                 ctx.ViewportController.MouseMove(new Point(374, 123));
                 ctx.ViewportController.MouseDown();
                 ctx.ViewportController.MouseMove(new Point(390, 154));
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 Assert.AreEqual(oldpos, body.Position);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Rotate01"));
 
@@ -242,7 +242,7 @@ namespace Macad.Test.Unit.Interaction.Common
                 ctx.ViewportController.MouseMove(new Point(310, 120));
                 ctx.ViewportController.MouseDown();
                 ctx.ViewportController.MouseMove(new Point(291, 143));
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 Assert.AreEqual(oldpos, body.Position);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Rotate02"));
 
@@ -250,7 +250,7 @@ namespace Macad.Test.Unit.Interaction.Common
                 ctx.ViewportController.MouseMove(new Point(420, 178));
                 ctx.ViewportController.MouseDown();
                 ctx.ViewportController.MouseMove(new Point(411, 214));
-                ctx.ViewportController.MouseUp(false);
+                ctx.ViewportController.MouseUp();
                 Assert.AreEqual(oldpos, body.Position);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Rotate03"));
             });

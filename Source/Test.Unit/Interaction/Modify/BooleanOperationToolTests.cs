@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Windows.Input;
 using Macad.Test.Utils;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
@@ -66,11 +67,11 @@ public class BooleanToolTests
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "FirstSelected"));
 
         // Select Second
-        ctx.SelectAt(230, 330, true);
+        ctx.SelectAt(230, 330, ModifierKeys.Shift);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "TwoSelected"));
 
         // Select Third
-        ctx.SelectAt(350, 150, true);
+        ctx.SelectAt(350, 150, ModifierKeys.Shift);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ThreeSelected"));
 
         // Do it
@@ -117,11 +118,11 @@ public class BooleanToolTests
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "FirstSelected"));
 
         // Select Second
-        ctx.SelectAt(230, 330, true);
+        ctx.SelectAt(230, 330, ModifierKeys.Shift);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "TwoSelected"));
 
         // Select Third
-        ctx.SelectAt(350, 150, true);
+        ctx.SelectAt(350, 150, ModifierKeys.Shift);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ThreeSelected"));
 
         // Do it
@@ -168,11 +169,11 @@ public class BooleanToolTests
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "FirstSelected"));
 
         // Select Second
-        ctx.SelectAt(230, 330, true);
+        ctx.SelectAt(230, 330, ModifierKeys.Shift);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "TwoSelected"));
 
         // Select Third
-        ctx.SelectAt(350, 150, true);
+        ctx.SelectAt(350, 150, ModifierKeys.Shift);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ThreeSelected"));
 
         // Do it
