@@ -15,6 +15,7 @@ internal class CrossSectionEditor : Editor<CrossSection>
     Plane _PlaneVisual;
     Pln _TranslatedPlane;
     double _PlaneSize;
+    bool _IsMoving;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -59,7 +60,7 @@ internal class CrossSectionEditor : Editor<CrossSection>
 
     void _InteractiveEntity_VisualChanged(InteractiveEntity entity)
     {
-        if (entity == Entity.Body)
+        if (entity == Entity.Body && !_IsMoving)
         {
             _TranslateAction.Deactivate();
             _RotateActionX.Deactivate();
@@ -68,6 +69,7 @@ internal class CrossSectionEditor : Editor<CrossSection>
 
             _UpdateHints();
             _UpdateActions();
+
             WorkspaceController.Invalidate();
         }
     }
@@ -87,15 +89,13 @@ internal class CrossSectionEditor : Editor<CrossSection>
         _GhostVisual.SetLocalTransformation(trsf);
 
         // Plane
-        _TranslatedPlane = Entity.GetCenteredPlane(out _PlaneSize).Transformed(trsf);
-
         _PlaneVisual ??= new Plane(WorkspaceController, Plane.Style.None);
         _PlaneVisual.Transparency = 0.7;
         _PlaneVisual.Boundary = false;
         _PlaneVisual.Color = Colors.ActionBlue;
+        _PlaneVisual.Set(Entity.GetCenteredPlane(out _PlaneSize));
         _PlaneVisual.Size = new XY(_PlaneSize, _PlaneSize);
-        _PlaneVisual.Set(_TranslatedPlane);
-        _PlaneVisual.SetLocalTransformation(null);
+        _PlaneVisual.SetLocalTransformation(trsf);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -111,6 +111,8 @@ internal class CrossSectionEditor : Editor<CrossSection>
 
     void _UpdateActions()
     {
+        _TranslatedPlane = Entity.GetCenteredPlane(out _PlaneSize).Transformed(Entity.Body.GetTransformation());
+
         if (_TranslateAction == null)
         {
             _TranslateAction = new(this)
@@ -170,11 +172,14 @@ internal class CrossSectionEditor : Editor<CrossSection>
 
     void _TranslateActionPreviewed(LiveAction liveAction)
     {
+        _IsMoving = true;
+        Entity.Plane = _TranslatedPlane.Translated(_TranslatedPlane.Location, _TranslateAction.Axis.Location)
+                                       .Transformed(Entity.Body.GetTransformation().Inverted());
         if (_PlaneVisual != null)
         {
             WorkspaceController.HudManager?.SetHintMessage(this, "Move cut plane using gizmo, press 'CTRL' to round to grid stepping.");
-            _PlaneVisual.SetLocalTransformation(new Trsf(_TranslatedPlane.Location, _TranslateAction.Axis.Location));
-            _PlaneVisual.Transparency = 0.0;
+            _PlaneVisual.Set(Entity.GetCenteredPlane(out _PlaneSize));
+            _PlaneVisual.Size = new XY(_PlaneSize, _PlaneSize);
             _RotateActionX.Deactivate();
             _RotateActionY.Deactivate();
             _RotateActionZ.Deactivate();
@@ -185,25 +190,28 @@ internal class CrossSectionEditor : Editor<CrossSection>
 
     void _TranslateActionFinished(LiveAction liveAction)
     {
+        _IsMoving = false;
         _TranslateAction.Deactivate();
-        Entity.Plane = _TranslatedPlane.Translated(_TranslatedPlane.Location, _TranslateAction.Axis.Location)
-                                       .Transformed(Entity.Body.GetTransformation().Inverted());
         InteractiveContext.Current.UndoHandler.Commit();
         WorkspaceController.HudManager?.SetHintMessage(this, null);
+        _UpdateActions();
     }
     
     //--------------------------------------------------------------------------------------------------
 
     void _RotateActionXPreviewed(LiveAction liveAction)
     {
+        _IsMoving = true;
+        Entity.Plane = _TranslatedPlane.Rotated(_TranslatedPlane.XAxis, _RotateActionX.Delta)
+                                       .Transformed(Entity.Body.GetTransformation().Inverted());
         WorkspaceController.HudManager?.SetHintMessage(this, "Rotate cut plane using gizmo, press 'CTRL' to round to 5°.");
         if (_PlaneVisual != null)
         {
             _TranslateAction.Deactivate();
             _RotateActionY.Deactivate();
             _RotateActionZ.Deactivate();
-            _PlaneVisual.SetLocalTransformation(new Trsf(_TranslatedPlane.XAxis, _RotateActionX.Delta));
-            _PlaneVisual.Transparency = 0.0;
+            _PlaneVisual.Set(Entity.GetCenteredPlane(out _PlaneSize));
+            _PlaneVisual.Size = new XY(_PlaneSize, _PlaneSize);
         }
     }
 
@@ -211,25 +219,28 @@ internal class CrossSectionEditor : Editor<CrossSection>
 
     void _RotateActionXFinished(LiveAction liveAction)
     {
+        _IsMoving = false;
         _RotateActionX.Deactivate();
-        Entity.Plane = _TranslatedPlane.Rotated(_TranslatedPlane.XAxis, _RotateActionX.Delta)
-                                       .Transformed(Entity.Body.GetTransformation().Inverted());
         InteractiveContext.Current.UndoHandler.Commit();
         WorkspaceController.HudManager?.SetHintMessage(this, null);
+        _UpdateActions();
     }
 
     //--------------------------------------------------------------------------------------------------
     
     void _RotateActionYPreviewed(LiveAction liveAction)
     {
+        _IsMoving = true;
+        Entity.Plane = _TranslatedPlane.Rotated(_TranslatedPlane.YAxis, _RotateActionY.Delta)
+                                       .Transformed(Entity.Body.GetTransformation().Inverted());
         WorkspaceController.HudManager?.SetHintMessage(this, "Rotate cut plane using gizmo, press 'CTRL' to round to 5°.");
         if (_PlaneVisual != null)
         {
             _TranslateAction.Deactivate();
             _RotateActionX.Deactivate();
             _RotateActionZ.Deactivate();
-            _PlaneVisual.SetLocalTransformation(new Trsf(_TranslatedPlane.YAxis, _RotateActionY.Delta));
-            _PlaneVisual.Transparency = 0.0;
+            _PlaneVisual.Set(Entity.GetCenteredPlane(out _PlaneSize));
+            _PlaneVisual.Size = new XY(_PlaneSize, _PlaneSize);
         }
     }
 
@@ -237,25 +248,28 @@ internal class CrossSectionEditor : Editor<CrossSection>
 
     void _RotateActionYFinished(LiveAction liveAction)
     {
+        _IsMoving = false;
         _RotateActionY.Deactivate();
-        Entity.Plane = _TranslatedPlane.Rotated(_TranslatedPlane.YAxis, _RotateActionY.Delta)
-                                       .Transformed(Entity.Body.GetTransformation().Inverted());
         InteractiveContext.Current.UndoHandler.Commit();
         WorkspaceController.HudManager?.SetHintMessage(this, null);
+        _UpdateActions();
     }
 
     //--------------------------------------------------------------------------------------------------
         
     void _RotateActionZPreviewed(LiveAction liveAction)
     {
+        _IsMoving = true;
+        Entity.Plane = _TranslatedPlane.Rotated(_TranslatedPlane.Axis, _RotateActionZ.Delta)
+                                       .Transformed(Entity.Body.GetTransformation().Inverted());
         WorkspaceController.HudManager?.SetHintMessage(this, "Rotate cut plane using gizmo, press 'CTRL' to round to 5°.");
         if (_PlaneVisual != null)
         {
             _TranslateAction.Deactivate();
             _RotateActionX.Deactivate();
             _RotateActionY.Deactivate();
-            _PlaneVisual.SetLocalTransformation(new Trsf(_TranslatedPlane.Axis, _RotateActionZ.Delta));
-            _PlaneVisual.Transparency = 0.0;
+            _PlaneVisual.Set(Entity.GetCenteredPlane(out _PlaneSize));
+            _PlaneVisual.Size = new XY(_PlaneSize, _PlaneSize);
         }
     }
 
@@ -263,11 +277,11 @@ internal class CrossSectionEditor : Editor<CrossSection>
 
     void _RotateActionZFinished(LiveAction liveAction)
     {
+        _IsMoving = false;
         _RotateActionZ.Deactivate();
-        Entity.Plane = _TranslatedPlane.Rotated(_TranslatedPlane.Axis, _RotateActionZ.Delta)
-                                       .Transformed(Entity.Body.GetTransformation().Inverted());
         InteractiveContext.Current.UndoHandler.Commit();
         WorkspaceController.HudManager?.SetHintMessage(this, null);
+        _UpdateActions();
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Input;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Core;
 using Macad.Interaction.Visual;
 using Macad.Occt;
@@ -48,15 +46,18 @@ public class BoxScaleLiveAction : LiveAction
     //--------------------------------------------------------------------------------------------------
 
     Bnd_Box _Box;
-    readonly HintLine[] _Lines = new HintLine[12];
+    readonly HintLine[] _Lines;
     readonly (XYZ p1, XYZ p2)[] _LinePositions =
     {
+        // 2D & 3D
         (new (0, 0, 0), new (1, 0, 0)),
-        (new (0, 0, 0), new (0, 1, 0)),
-        (new (0, 0, 0), new (0, 0, 1)),
         (new (1, 0, 0), new (1, 1, 0)),
-        (new (1, 0, 0), new (1, 0, 1)),
+        (new (0, 0, 0), new (0, 1, 0)),
         (new (0, 1, 0), new (1, 1, 0)),
+
+        // 3D
+        (new (0, 0, 0), new (0, 0, 1)),
+        (new (1, 0, 0), new (1, 0, 1)),
         (new (0, 1, 0), new (0, 1, 1)),
         (new (0, 0, 1), new (1, 0, 1)),
         (new (0, 0, 1), new (0, 1, 1)),
@@ -65,18 +66,20 @@ public class BoxScaleLiveAction : LiveAction
         (new (1, 0, 1), new (1, 1, 1)),
     };
     
-    readonly Marker[] _Handles = new Marker[8];
+    readonly Marker[] _Handles;
     readonly XYZ[] _HandlePositions =
     {
-        // Corners
-        new (0, 0, 0), new (1, 0, 0), new (1, 1, 0), new (1, 0, 1),
-        new (1, 1, 1), new (0, 1, 1), new (0, 1, 0), new (0, 0, 1),
-        // Edges
-        new (0.5, 0, 0), new (0, 0.5, 0), new (0, 0, 0.5),
-        new (0.5, 1, 0), new (1, 0.5, 0), new (1, 0, 0.5),
-        new (0.5, 0, 1), new (0, 0.5, 1), new (0, 1, 0.5),
-        new (0.5, 1, 1), new (1, 0.5, 1), new (1, 1, 0.5),
-        // Faces
+        // 2D & 3D Corners
+        new (0, 0, 0), new (1, 0, 0), new (1, 1, 0), new (0, 1, 0),
+        // 2D & 3D Edges
+        new (0.5, 0, 0), new (0, 0.5, 0), new (0.5, 1, 0), new (1, 0.5, 0), 
+
+        // 3D Corners
+        new (0, 0, 1), new (1, 0, 1), new (0, 1, 1), new (1, 1, 1), 
+        // 3D Edges
+        new (0, 0, 0.5), new (1, 0, 0.5), new (0, 1, 0.5), new (1, 1, 0.5),
+        new (0.5, 0, 1), new (0, 0.5, 1), new (0.5, 1, 1), new (1, 0.5, 1), 
+        // 3D Faces
         new (0.5, 0.5, 0), new (0, 0.5, 0.5), new (0.5, 0, 0.5),
         new (0.5, 0.5, 1), new (1, 0.5, 0.5), new (0.5, 1, 0.5),
     };
@@ -95,11 +98,11 @@ public class BoxScaleLiveAction : LiveAction
 
     #region Creation and Activation
 
-    public BoxScaleLiveAction(object owner) 
+    public BoxScaleLiveAction(object owner, bool isXY=false) 
         : base(owner)
     {
-        _Lines = new HintLine[_LinePositions.Length];
-        _Handles = new Marker[_HandlePositions.Length];
+        _Lines = new HintLine[isXY ? 4 : _LinePositions.Length];
+        _Handles = new Marker[isXY ? 8 : _HandlePositions.Length];
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -239,7 +242,6 @@ public class BoxScaleLiveAction : LiveAction
     {
         for (int i = 0; i < _Handles.Length; i++)
         {
-            var gizmo = _Handles[i];
             if (data.DetectedAisInteractives.Contains(_Handles[i]?.AisObject))
             {
                 Pnt min = _Box.CornerMin();

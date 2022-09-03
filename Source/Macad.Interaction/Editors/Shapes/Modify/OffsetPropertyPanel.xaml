@@ -27,8 +27,7 @@
         <!-- Thickness -->
         <TextBlock Grid.Row="0" Grid.Column="0" 
                    Text="Distance" 
-                   Style="{StaticResource Macad.Styles.TextBlock.Property}"
-                   Visibility="{Binding ProfileIsHollow, Converter={mmp:BoolToVisibleCollapsedConverter}, ConverterParameter=Custom}"/>
+                   Style="{StaticResource Macad.Styles.TextBlock.Property}"/>
         <mmp:ValueEditBox Grid.Row="0" Grid.Column="1" 
                           Units="Length"
                           Value="{Binding Offset.Distance, NotifyOnSourceUpdated=True}"

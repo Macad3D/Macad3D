@@ -119,11 +119,11 @@
         <TextBlock Grid.Row="4" Grid.Column="0" 
                    Text="Wall Thickness" 
                    Style="{StaticResource Macad.Styles.TextBlock.Property}"
-                   Visibility="{Binding ProfileIsHollow, Converter={mmp:BoolToVisibleCollapsedConverter}, ConverterParameter=Custom}"/>
+                   Visibility="{Binding ProfileIsHollow, Converter={mmp:BoolToVisibleCollapsedConverter}}"/>
         <mmp:ValueEditBox Grid.Row="4" Grid.Column="1" 
                           Units="Length" MinValue="0.01"
                           Value="{Binding Pipe.Thickness, NotifyOnSourceUpdated=True}"
-                          Visibility="{Binding ProfileIsHollow, Converter={mmp:BoolToVisibleCollapsedConverter}, ConverterParameter=Custom}"
+                          Visibility="{Binding ProfileIsHollow, Converter={mmp:BoolToVisibleCollapsedConverter}}"
                           AutomationProperties.AutomationId="Thickness"/>
 
         <!-- Bend Radius -->

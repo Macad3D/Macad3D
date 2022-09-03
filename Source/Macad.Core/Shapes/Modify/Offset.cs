@@ -130,8 +130,11 @@ public class Offset : ModifierBase
 
     protected override bool MakeInternal(MakeFlags flags)
     {
-        ClearSubshapeLists();
+        if (_Distance == 0)
+            return Skip();
 
+        ClearSubshapeLists();
+        
         // We take only one source shape
         if (Operands.Count != 1)
         {

@@ -100,27 +100,33 @@ namespace Macad.Interaction.Editors.Shapes
                 Math.Sign(_ScaleAction.Direction.Z) != Math.Sign(Entity.DimensionZ),
             };
 
-            XYZ scale = new XYZ(_ScaleAction.Delta * _ScaleAction.Direction.X,
-                                _ScaleAction.Delta * _ScaleAction.Direction.Y,
-                                _ScaleAction.Delta * _ScaleAction.Direction.Z);
+            XYZ scale = new XYZ(_ScaleAction.Delta * _ScaleAction.Direction.X * (_ScaleAxisReversed[0] ? -1 : 1),
+                                _ScaleAction.Delta * _ScaleAction.Direction.Y * (_ScaleAxisReversed[1] ? -1 : 1),
+                                _ScaleAction.Delta * _ScaleAction.Direction.Z * (_ScaleAxisReversed[2] ? -1 : 1));
 
             if (liveAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
             {
                 if (scale.X != 0)
                 {
-                    scale.X = Maths.RoundToNearest(scale.X, WorkspaceController.Workspace.GridStep);
+                    var newDimX = Entity.DimensionX + scale.X;
+                    newDimX = Maths.RoundToNearest(newDimX, WorkspaceController.Workspace.GridStep);
+                    scale.X = newDimX - Entity.DimensionX;
                     if (scale.X == 0)
                         return;
                 }
                 if (scale.Y != 0)
                 {
-                    scale.Y = Maths.RoundToNearest(scale.Y, WorkspaceController.Workspace.GridStep);
+                    var newDimY = Entity.DimensionY + scale.Y;
+                    newDimY = Maths.RoundToNearest(newDimY, WorkspaceController.Workspace.GridStep);
+                    scale.Y = newDimY - Entity.DimensionY;
                     if (scale.Y == 0)
                         return;
                 }
                 if (scale.Z != 0)
                 {
-                    scale.Z = Maths.RoundToNearest(scale.Z, WorkspaceController.Workspace.GridStep);
+                    var newDimZ = Entity.DimensionZ + scale.Z;
+                    newDimZ = Maths.RoundToNearest(newDimZ, WorkspaceController.Workspace.GridStep);
+                    scale.Z = newDimZ - Entity.DimensionZ;
                     if (scale.Z == 0)
                         return;
                 }
@@ -134,16 +140,10 @@ namespace Macad.Interaction.Editors.Shapes
            
             if (scale.X != 0)
             {
-                if (_ScaleAxisReversed[0])
+                Entity.DimensionX += scale.X;
+                if (_ScaleAxisReversed[0] || center)
                 {
-                    offset.X += scale.X;
-                    Entity.DimensionX -= scale.X;
-                }
-                else
-                {
-                    if(center)
-                        offset.X -= scale.X;
-                    Entity.DimensionX += scale.X;
+                    offset.X -= scale.X;
                 }
 
                 _HudElements[0] ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
@@ -152,38 +152,26 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (scale.Y != 0)
             {
-                if (_ScaleAxisReversed[1])
+                Entity.DimensionY += scale.Y;
+                if (_ScaleAxisReversed[1] || center)
                 {
-                    offset.Y += scale.Y;
-                    Entity.DimensionY -= scale.Y;
-                }
-                else
-                {
-                    if(center)
-                        offset.Y -= scale.Y;
-                    Entity.DimensionY += scale.Y;
+                    offset.Y -= scale.Y;
                 }
 
                 _HudElements[1] ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
-                _HudElements[1]?.SetValue($"Width:  {Entity.DimensionX.ToInvariantString("F2")} mm");
+                _HudElements[1]?.SetValue($"Width:  {Entity.DimensionY.ToInvariantString("F2")} mm");
             }
             
             if (scale.Z != 0)
             {
-                if (_ScaleAxisReversed[2])
+                Entity.DimensionZ += scale.Z;
+                if (_ScaleAxisReversed[2] || center)
                 {
-                    offset.Z += scale.Z;
-                    Entity.DimensionZ -= scale.Z;
-                }
-                else
-                {
-                    if(center)
-                        offset.Z -= scale.Z;
-                    Entity.DimensionZ += scale.Z;
+                    offset.Z -= scale.Z;
                 }
 
                 _HudElements[2] ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
-                _HudElements[2]?.SetValue($"Height:  {Entity.DimensionX.ToInvariantString("F2")} mm");
+                _HudElements[2]?.SetValue($"Height:  {Entity.DimensionZ.ToInvariantString("F2")} mm");
             }
 
             if (center)
