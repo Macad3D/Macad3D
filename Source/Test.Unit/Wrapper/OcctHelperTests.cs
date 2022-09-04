@@ -12,7 +12,7 @@ namespace Macad.Test.Unit.Wrapper
     {
         [Test]
         public void PixMapToBitmapHelper24bpp()
-        {/*
+        {
             // Load Pixmap
             var refFile = Path.Combine(TestData.TestDataDirectory, @"Misc\OcctHelper_PixMapToBitmap24bpp.png");
             var resultFile = Path.Combine(TestData.TestDataDirectory, @"Misc\OcctHelper_PixMapToBitmap24bpp_TestResult.png");
@@ -26,14 +26,14 @@ namespace Macad.Test.Unit.Wrapper
 
             // Compare
             AssertHelper.IsSameFile(refFile, resultFile, 0x53);
-            File.Delete(resultFile);*/
+            File.Delete(resultFile);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         [Test]
         public void PixMapToBitmapHelper32bpp()
-        {/*
+        {
             // Load Pixmap
             var refFile = Path.Combine(TestData.TestDataDirectory, @"Misc\OcctHelper_PixMapToBitmap32bpp.png");
             var resultFile = Path.Combine(TestData.TestDataDirectory, @"Misc\OcctHelper_PixMapToBitmap32bpp_TestResult.png");
@@ -47,14 +47,14 @@ namespace Macad.Test.Unit.Wrapper
 
             // Compare
             AssertHelper.IsSameFile(refFile, resultFile, 0x53);
-            File.Delete(resultFile);*/
+            File.Delete(resultFile);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         [Test]
         public void BitmapToPixMapHelper24bpp()
-        {/*
+        {
             // Load Pixmap
             var refFile = Path.Combine(TestData.TestDataDirectory, @"Misc\OcctHelper_PixMapToBitmap24bpp.png");
             var resultFile = Path.Combine(TestData.TestDataDirectory, @"Misc\OcctHelper_BitmapToPixMap24bpp_TestResult.png");
@@ -75,14 +75,14 @@ namespace Macad.Test.Unit.Wrapper
             differ.SetBorderFilterOn(false);
             Assert.AreEqual(0, differ.Compare());
             
-            File.Delete(resultFile);*/
+            File.Delete(resultFile);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         [Test]
         public void BitmapToPixMapHelper32bpp()
-        {/*
+        {
             // Load Pixmap
             var refFile = Path.Combine(TestData.TestDataDirectory, @"Misc\OcctHelper_PixMapToBitmap32bpp.png");
             var resultFile = Path.Combine(TestData.TestDataDirectory, @"Misc\OcctHelper_BitmapToPixMap32bpp_TestResult.png");
@@ -103,7 +103,7 @@ namespace Macad.Test.Unit.Wrapper
             differ.SetBorderFilterOn(false);
             Assert.AreEqual(0, differ.Compare());
 
-            File.Delete(resultFile);*/
+            File.Delete(resultFile);
         }
 
         //--------------------------------------------------------------------------------------------------
