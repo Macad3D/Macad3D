@@ -269,12 +269,6 @@ namespace Macad.Core.Shapes
 
         public bool GetFinalExtrusionAxis(out Ax1 axis, bool result)
         {
-            if (!IsValid)
-            {
-                axis = Ax1.OZ;
-                return false;
-            }
-
             if (ExtrusionAxis == null)
             {
                 if (!EnsureHistory() || ExtrusionAxis == null)

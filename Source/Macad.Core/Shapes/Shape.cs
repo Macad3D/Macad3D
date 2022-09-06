@@ -284,14 +284,14 @@ namespace Macad.Core.Shapes
                 return;
             _IsInvalidating = true;
 
+            CoreContext.Current.MessageHandler.ClearEntityMessages(this);
+            HasErrors = false;
+
             BRep = null;
             InvalidateDependents();
 
             if (IsVisible)
                 Body?.RaiseVisualChanged();
-
-            CoreContext.Current.MessageHandler.ClearEntityMessages(this);
-            HasErrors = false;
 
             _IsInvalidating = false;
         }
@@ -331,6 +331,11 @@ namespace Macad.Core.Shapes
                     if (IsValid)
                     {
                         Invalidate();
+                        if (IsValid)
+                        {
+                            // This is the case when triggering invalidation leads to recursivly remaking the shape
+                            return true;
+                        }
                     }
 
                     if (MakeInternal(flags))
