@@ -12,6 +12,7 @@ public class TranslateAxisLiveAction : LiveAction
     #region Properties and Members
 
     public Quantity_Color Color { get; set; } = Colors.Auxillary;
+    DeltaHudElement _HudElement;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -25,6 +26,7 @@ public class TranslateAxisLiveAction : LiveAction
 
             _Axis = value;
             _AxisGizmo?.Set(_Axis);
+            _HintLine?.Set(_StartAxis.Location, _Axis.Location);
         }
     }
 
@@ -38,15 +40,34 @@ public class TranslateAxisLiveAction : LiveAction
 
     //--------------------------------------------------------------------------------------------------
 
+    public double Distance
+    {
+        get { return _Distance; }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public Cursor Cursor { get; init; }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public bool ShowHudElement { get; init; }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public bool NoResize { get; init; }
+
+    //--------------------------------------------------------------------------------------------------
+
     Axis _AxisGizmo;
     double _Length;
     Ax1 _Axis;
     Ax1 _StartAxis;
     bool _IsMoving;
     double _StartValue;
+    double _Distance;
     SelectionContext _SelectionContext;
     HintLine _HintLine;
-    DeltaHudElement _HudElement;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -67,7 +88,7 @@ public class TranslateAxisLiveAction : LiveAction
             return;
 
         Axis.Style style = Visual.Axis.Style.Headless;
-        if (_Length == 0)
+        if (NoResize)
             style |= Visual.Axis.Style.NoResize;
         _AxisGizmo = new Axis(WorkspaceController, style)
         {
@@ -130,6 +151,7 @@ public class TranslateAxisLiveAction : LiveAction
             {
                 _StartValue = value.Value;
                 _StartAxis = _Axis;
+                _Distance = 0;
 
                 _SelectionContext = WorkspaceController.Selection.OpenContext();
 
@@ -140,12 +162,15 @@ public class TranslateAxisLiveAction : LiveAction
                 _HintLine.Set(_Axis.Location, _Axis.Location);
                 _HintLine.Color = Color;
 
-                WorkspaceController.HudManager?.SetCursor(Cursors.Move);
-                _HudElement ??= WorkspaceController.HudManager?.CreateElement<DeltaHudElement>(this);
-                if (_HudElement != null)
+                WorkspaceController.HudManager?.SetCursor(Cursor);
+                if (ShowHudElement)
                 {
-                    _HudElement.Units = ValueUnits.Length;
-                    _HudElement.Delta = 0;
+                    _HudElement ??= WorkspaceController.HudManager?.CreateElement<DeltaHudElement>(this);
+                    if (_HudElement != null)
+                    {
+                        _HudElement.Units = ValueUnits.Length;
+                        _HudElement.Delta = 0;
+                    }
                 }
 
                 _IsMoving = true;
@@ -165,15 +190,11 @@ public class TranslateAxisLiveAction : LiveAction
             var value = _ProcessMouseInput(data);
             if (value != null)
             {
-                var tempAxis = _Axis.Translated(_Axis.Direction.ToVec(value.Value - _StartValue));
-                if (data.ModifierKeys.HasFlag(ModifierKeys.Control))
-                {
-                    tempAxis.Translate(new Vec(0, 0, Maths.RoundToNearest(tempAxis.Location.Z, WorkspaceController.Workspace.GridStep) - tempAxis.Location.Z));
-                }
-                Axis = tempAxis;
+                Axis = _Axis.Translated(_Axis.Direction.ToVec(value.Value - _StartValue));
+                _Distance = ElCLib.LineParameter(_StartAxis, _Axis.Location);
                 _HintLine.Set(_StartAxis.Location, _Axis.Location);
                 if (_HudElement != null)
-                    _HudElement.Delta = _StartAxis.Location.Distance(_Axis.Location);
+                    _HudElement.Delta = _Distance;
 
                 RaisePreviewed();
             }

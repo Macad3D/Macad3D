@@ -1,4 +1,5 @@
-﻿using Macad.Common;
+﻿using System.Windows.Input;
+using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
@@ -16,6 +17,10 @@ internal class CrossSectionEditor : Editor<CrossSection>
     Pln _TranslatedPlane;
     double _PlaneSize;
     bool _IsMoving;
+    TranslateAxisLiveAction _TranslateAction;
+    RotateLiveAction _RotateActionX;
+    RotateLiveAction _RotateActionY;
+    RotateLiveAction _RotateActionZ;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -100,14 +105,7 @@ internal class CrossSectionEditor : Editor<CrossSection>
 
     //--------------------------------------------------------------------------------------------------
 
-    #region Translate Action
-
-    TranslateAxisLiveAction _TranslateAction;
-    RotateLiveAction _RotateActionX;
-    RotateLiveAction _RotateActionY;
-    RotateLiveAction _RotateActionZ;
-
-    //--------------------------------------------------------------------------------------------------
+    #region Live Actions
 
     void _UpdateActions()
     {
@@ -118,6 +116,8 @@ internal class CrossSectionEditor : Editor<CrossSection>
             _TranslateAction = new(this)
             {
                 Color = Colors.ActionBlue,
+                Cursor = Cursors.Move,
+                ShowHudElement = true
             };
             _TranslateAction.Previewed += _TranslateActionPreviewed;
             _TranslateAction.Finished += _TranslateActionFinished;
@@ -173,8 +173,15 @@ internal class CrossSectionEditor : Editor<CrossSection>
     void _TranslateActionPreviewed(LiveAction liveAction)
     {
         _IsMoving = true;
-        Entity.Plane = _TranslatedPlane.Translated(_TranslatedPlane.Location, _TranslateAction.Axis.Location)
+        var newLocation = _TranslateAction.Axis.Location;
+        if (liveAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+        {
+            newLocation.Z = Maths.RoundToNearest(newLocation.Z, WorkspaceController.Workspace.GridStep);
+        }
+        Entity.Plane = _TranslatedPlane.Translated(_TranslatedPlane.Location, newLocation)
                                        .Transformed(Entity.Body.GetTransformation().Inverted());
+        _TranslateAction.Axis = _TranslatedPlane.Axis.Translated(_TranslatedPlane.Axis.Location, newLocation);
+
         if (_PlaneVisual != null)
         {
             WorkspaceController.HudManager?.SetHintMessage(this, "Move cut plane using gizmo, press 'CTRL' to round to grid stepping.");

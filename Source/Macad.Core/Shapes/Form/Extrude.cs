@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Macad.Core.Geom;
 using Macad.Core.Topology;
 using Macad.Common.Serialization;
@@ -53,7 +54,7 @@ namespace Macad.Core.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
-        
+
         [SerializeMember]
         public SubshapeReference Face
         {
@@ -69,6 +70,18 @@ namespace Macad.Core.Shapes
                 }
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public bool IsSketchBased
+        {
+            get { return GetOperand(0).GetShapeType() == ShapeType.Sketch; }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [SerializeMember]
+        public Ax1? ExtrusionAxis { get; private set; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -130,6 +143,7 @@ namespace Macad.Core.Shapes
         protected override bool MakeInternal(MakeFlags flags)
         {
             ClearSubshapeLists();
+            ExtrusionAxis = null;
 
             // Currently we work with 1 source shape only
             if (Operands.Count != 1)
@@ -166,6 +180,8 @@ namespace Macad.Core.Shapes
             if (!FaceAlgo.GetPlaneOfFaces(faceShape, out var plane))
                 return false;
 
+            ExtrusionAxis = new Ax1(faceShape.CenterOfMass(), plane.Axis.Direction);
+
             // If extrusion vector has zero length, just copy the source shape converted to faces
             if (Depth == 0)
             {
@@ -186,6 +202,11 @@ namespace Macad.Core.Shapes
 
             // Do it!
             var makePrism = new BRepPrimAPI_MakePrism(faceShape, vector);
+            if (!makePrism.IsDone())
+            {
+                Messages.Error("Extrusion failed.");
+                return false;
+            }
 
             // Get final shape
             BRep = makePrism.Shape();
@@ -217,7 +238,9 @@ namespace Macad.Core.Shapes
             }
 
             // Generate direction vector
-            var direction = FaceAlgo.GetFaceCenterNormal(face).Direction;
+            var axis = FaceAlgo.GetFaceCenterNormal(face);
+            var direction = axis.Direction;
+            ExtrusionAxis = axis;
 
             // Do it!
             var makePrism = new BRepFeat_MakePrism(solid, face, face, direction, Depth > 0 ? 1 : 0, false);
@@ -243,6 +266,46 @@ namespace Macad.Core.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        public bool GetFinalExtrusionAxis(out Ax1 axis, bool result)
+        {
+            if (!IsValid)
+            {
+                axis = Ax1.OZ;
+                return false;
+            }
+
+            if (ExtrusionAxis == null)
+            {
+                if (!EnsureHistory() || ExtrusionAxis == null)
+                {
+                    axis = Ax1.OZ;
+                    return false;
+                }
+            }
+
+            axis = ExtrusionAxis.Value;
+            switch (GetOperand(0).GetShapeType())
+            {
+                case ShapeType.Sketch:
+                    axis.Translate(Symmetric 
+                                       ? axis.Direction.ToVec(Depth * 0.5) 
+                                       : axis.Direction.ToVec(Depth));
+                    if(Depth < 0)
+                        axis.Reverse();
+                    return true;
+
+                case ShapeType.Solid:
+                    axis.Translate(axis.Direction.ToVec(Depth));
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
 
         #endregion
     }
