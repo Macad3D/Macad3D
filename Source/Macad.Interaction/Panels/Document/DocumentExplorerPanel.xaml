@@ -94,8 +94,8 @@
                                 <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                                     <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Text}" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Shape.HasErrors}" Value="True">
-                                            <Setter Property="Foreground" Value="DarkRed"/>
+                                        <DataTrigger Binding="{Binding HasErrors}" Value="True">
+                                            <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Error}"/>
                                             <Setter Property="FontWeight" Value="Bold"/>
                                         </DataTrigger>
                                     </Style.Triggers>

@@ -48,7 +48,7 @@ namespace Macad.Interaction.Editors.Shapes
         public Sketch Sketch { get; private set; }
         public Trsf Transform { get; private set; } = Trsf.Identity;
 
-        public SketchEditElements Elements { get; }
+        public SketchEditorElements Elements { get; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -125,7 +125,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             Sketch = sketch;
             Debug.Assert(Sketch != null);
-            Elements = new SketchEditElements(this);
+            Elements = new SketchEditorElements(this);
         }
 
         //--------------------------------------------------------------------------------------------------

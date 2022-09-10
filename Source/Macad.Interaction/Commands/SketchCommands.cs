@@ -67,7 +67,7 @@ namespace Macad.Interaction
             () => InteractiveContext.Current?.WorkspaceController?.CurrentTool is SketchEditorTool)
         {
             Title = () => "Close Sketch Editor",
-            Header = () => "Close Editor",
+            Header = () => "Close",
             Icon = () => "Generic-CloseTool",
             Description = () => "Closes the editor and saves the current state."
         };

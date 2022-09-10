@@ -690,7 +690,7 @@ namespace Macad.Interaction
             Header = () => "Isolate Selection",
             Description = () => "Hides all elements which are not selected to get a undisguised look at the selected elements.",
             Icon = () => "Selection-Isolate",
-            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(_WorkspaceController)}.{nameof(_WorkspaceController.VisualObjects)}.{nameof(VisualObjectManager.EntityIsolationEnabled)}", BindingMode.OneWay)
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(InteractiveContext.WorkspaceController)}.{nameof(InteractiveContext.WorkspaceController.VisualObjects)}.{nameof(VisualObjectManager.EntityIsolationEnabled)}", BindingMode.OneWay)
         };
 
         //--------------------------------------------------------------------------------------------------

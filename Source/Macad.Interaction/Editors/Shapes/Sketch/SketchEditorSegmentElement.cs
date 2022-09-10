@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Macad.Interaction.Visual;
 using Macad.Common;
 using Macad.Core;
@@ -95,47 +96,36 @@ namespace Macad.Interaction.Editors.Shapes
 
         void UpdateHints(Dictionary<int, Pnt2d> points)
         {
-            if (Segment is SketchSegmentCircle)
+            if (Segment is SketchSegmentCircle circle)
             {
-                var seg = (SketchSegmentCircle) Segment;
-                if (Hints == null)
+                Hints ??= new HintLine[]
                 {
-                    Hints = new HintLine[]
-                    {
-                        new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost)
-                    };
-                }
-                Hints[0].Set(points[seg.CenterPoint], points[seg.RimPoint], Plane);
+                    new(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost)
+                };
+                Hints[0].Set(points[circle.CenterPoint], points[circle.RimPoint], Plane);
                 return;
             }
-            if (Segment is SketchSegmentEllipticalArc)
+            if (Segment is SketchSegmentEllipticalArc arc)
             {
-                var seg = (SketchSegmentEllipticalArc)Segment;
-                if (Hints == null)
+                Hints ??= new HintLine[]
                 {
-                    Hints = new HintLine[]
-                    {
-                        new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost),
-                        new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost)
-                    };
-                }
-                Hints[0].Set(points[seg.CenterPoint], points[seg.StartPoint], Plane);
-                Hints[1].Set(points[seg.CenterPoint], points[seg.EndPoint], Plane);
+                    new(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost),
+                    new(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost)
+                };
+                Hints[0].Set(points[arc.CenterPoint], points[arc.StartPoint], Plane);
+                Hints[1].Set(points[arc.CenterPoint], points[arc.EndPoint], Plane);
                 return;
             }
-            if (Segment is SketchSegmentBezier)
+            if (Segment is SketchSegmentBezier bezier)
             {
-                var seg = (SketchSegmentBezier)Segment;
-                if (Hints == null)
+                Hints ??= bezier.Points
+                                .Skip(1)
+                                .Select(_ => new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost))
+                                .ToArray();
+                for (int i = 0; i < Hints.Length; i++)
                 {
-                    Hints = new HintLine[]
-                    {
-                        new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost),
-                        new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost)
-                    };
+                    Hints[i].Set(points[bezier.Points[i]], points[bezier.Points[i+1]], Plane);
                 }
-                Hints[0].Set(points[seg.StartPoint], points[seg.Points[1]], Plane);
-                Hints[1].Set(points[seg.EndPoint], points[seg.Points[(seg.Points.Length > 3)?2:1]], Plane);
                 return;
             }
         }

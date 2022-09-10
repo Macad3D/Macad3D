@@ -64,21 +64,21 @@ namespace Macad.Interaction.Editors.Shapes
     //--------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------
 
-    public sealed class SketchEditElements
+    public sealed class SketchEditorElements
     {
-        List<SketchEditorSegmentElement> SegmentElements { get; } = new List<SketchEditorSegmentElement>();
-        List<SketchEditorConstraintElement> ConstraintElements { get; } = new List<SketchEditorConstraintElement>();
-        List<SketchEditorPointElement> PointElements { get; } = new List<SketchEditorPointElement>();
-        List<SketchEditorElement> Elements { get; } = new List<SketchEditorElement>();
+        List<SketchEditorSegmentElement> SegmentElements { get; } = new();
+        List<SketchEditorConstraintElement> ConstraintElements { get; } = new();
+        List<SketchEditorPointElement> PointElements { get; } = new();
+        List<SketchEditorElement> Elements { get; } = new();
 
         //--------------------------------------------------------------------------------------------------
 
         readonly SketchEditorTool _SketchEditorTool;
-        readonly Dictionary<int, int> _MarkerCounts = new Dictionary<int, int>();
+        readonly Dictionary<int, int> _MarkerCounts = new();
 
         //--------------------------------------------------------------------------------------------------
 
-        internal SketchEditElements(SketchEditorTool sketchEditorTool)
+        internal SketchEditorElements(SketchEditorTool sketchEditorTool)
         {
             _SketchEditorTool = sketchEditorTool;
         }

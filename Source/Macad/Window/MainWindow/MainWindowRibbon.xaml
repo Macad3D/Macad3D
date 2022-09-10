@@ -820,10 +820,8 @@
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.RecenterGrid}"
                                      AutomationProperties.AutomationId="RecenterGrid"/>
             
-                <Fluent:RibbonGroupBox Name="Close" Header="Close">
-                    <Fluent:Button mmp:Command.Action="{x:Static mmi:SketchCommands.CloseSketchEditor}"
-                                   AutomationProperties.AutomationId="CloseSketchEditor"/>
-                </Fluent:RibbonGroupBox>
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:SketchCommands.CloseSketchEditor}"
+                               AutomationProperties.AutomationId="CloseSketchEditor"/>
             </Fluent:RibbonGroupBox>
         </Fluent:RibbonTabItem>
         <!--endregion-->
