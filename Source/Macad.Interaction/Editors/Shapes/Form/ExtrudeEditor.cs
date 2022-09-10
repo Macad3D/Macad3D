@@ -71,7 +71,7 @@ public class ExtrudeEditor : Editor<Extrude>
 
     void _UpdateActions()
     {
-        if (!Entity.GetFinalExtrusionAxis(out Ax1 axis, true))
+        if (!Entity.GetFinalExtrusionAxis(out Ax1 axis))
             return;
         axis.Transform(Entity.Body.GetTransformation());
 
@@ -125,7 +125,7 @@ public class ExtrudeEditor : Editor<Extrude>
         }
 
         Entity.Depth = newDepth;
-        if (Entity.GetFinalExtrusionAxis(out Ax1 axis, true))
+        if (Entity.GetFinalExtrusionAxis(out Ax1 axis))
         {
             if (Entity.IsSketchBased && Math.Sign(_StartDepth) != Math.Sign(newDepth))
                 axis.Reverse();

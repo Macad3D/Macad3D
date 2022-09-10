@@ -267,7 +267,7 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public bool GetFinalExtrusionAxis(out Ax1 axis, bool result)
+        public bool GetFinalExtrusionAxis(out Ax1 axis)
         {
             if (ExtrusionAxis == null)
             {

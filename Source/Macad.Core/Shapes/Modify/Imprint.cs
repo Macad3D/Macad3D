@@ -98,6 +98,11 @@ namespace Macad.Core.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        [SerializeMember]
+        public Ax1? ExtrusionAxis { get; private set; }
+
+        //--------------------------------------------------------------------------------------------------
 
         public Sketch Sketch
         {
@@ -173,9 +178,10 @@ namespace Macad.Core.Shapes
         protected override bool MakeInternal(MakeFlags flags)
         {
             ClearSubshapeLists();
+            ExtrusionAxis = null;
 
             // Currently we work with 2 source shape only
-            if ((Operands.Count != 2) || (_Face == null))
+            if (Operands.Count != 2 || _Face == null)
                 return false;
 
             // Get Target
@@ -220,6 +226,8 @@ namespace Macad.Core.Shapes
             {
                 return Skip();
             }
+
+            ExtrusionAxis = facePlane.Axis;
 
             // Do it!
             if (useDraft)
@@ -267,5 +275,27 @@ namespace Macad.Core.Shapes
 
         #endregion
 
+        #region Helper
+        
+        public bool GetFinalExtrusionAxis(out Ax1 axis)
+        {
+            if (ExtrusionAxis == null)
+            {
+                if (!EnsureHistory() || ExtrusionAxis == null)
+                {
+                    axis = Ax1.OZ;
+                    return false;
+                }
+            }
+
+            axis = ExtrusionAxis.Value;
+            axis.Translate(axis.Direction.ToVec(Mode != ImprintMode.Raise ? -Depth : Depth));
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+
+        #endregion
     }
 }
