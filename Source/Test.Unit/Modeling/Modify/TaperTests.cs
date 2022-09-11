@@ -170,6 +170,21 @@ namespace Macad.Test.Unit.Modeling.Modify
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void BoxByEdgeOffsetReversed()
+        {
+            var box = TestGeomGenerator.CreateBox();
+            var face = box.GetSubshapeReference(SubshapeType.Face, 5);
+            var edge = box.GetSubshapeReference(SubshapeType.Edge, 9);
+            var taper = Taper.Create(box.Body, face, edge, 22.5);
+            taper.Offset = 2;
+
+            Assert.IsTrue(taper.Make(Shape.MakeFlags.None));
+            AssertHelper.IsSameModel(taper, Path.Combine(_BasePath, "BoxByEdgeOffsetReversed"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         [Test]
         public void BoxByVertexOffset()

@@ -6,6 +6,7 @@ using Macad.Core.Topology;
 using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Occt;
+using static Macad.Core.Shapes.Imprint;
 
 namespace Macad.Core.Shapes
 {
@@ -163,8 +164,9 @@ namespace Macad.Core.Shapes
         class MakeContext
         {
             public TopoDS_Shape Source;
+            public TopoDS_Edge BaseEdge;
+            public TopoDS_Vertex BaseVertex;
             public TopoDS_Face Face;
-            public bool ReversedFaceSense;
             public Pln NeutralPlane;
             public Dir Direction;
             public TopoDS_Shape Result;
@@ -175,8 +177,8 @@ namespace Macad.Core.Shapes
         protected override bool MakeInternal(MakeFlags flags)
         {
             ClearSubshapeLists();
-            var context = new MakeContext();
 
+            var context = new MakeContext();
             if (!_DoInitContext(context))
                 return false;
 
@@ -244,21 +246,20 @@ namespace Macad.Core.Shapes
 
         bool _DoComputeArgumentsByEdge(MakeContext context)
         {
-            var edge = GetOperandEdge(0, _BaseEdgeOrVertex, context.Face);
-            if (edge == null)
+            context.BaseEdge = GetOperandEdge(0, _BaseEdgeOrVertex, context.Face);
+            if (context.BaseEdge == null)
             {
                 Messages.Error("The face is not valid, check source shape or re-select face.");
                 return false;
             }
 
-            if (!ComputeAxisFromEdge(context.Face, edge, _BaseParameter, out var axis))
+            if (!ComputeAxisFromEdge(context.Face, context.BaseEdge, _BaseParameter, out var axis))
             {
                 Messages.Error("The axis can not be computed by the base edge. Please re-select edge.");
             }
 
             context.Direction = axis.Direction;
             context.NeutralPlane = new Pln(axis.Location, axis.Direction);
-            context.ReversedFaceSense = edge.Orientation() == TopAbs_Orientation.TopAbs_REVERSED;
             return true;
         }
 
@@ -266,14 +267,14 @@ namespace Macad.Core.Shapes
 
         bool _DoComputeArgumentsByVertex(MakeContext context)
         {
-            var vertex = GetOperandVertex(0, _BaseEdgeOrVertex);
-            if (vertex == null)
+            context.BaseVertex = GetOperandVertex(0, _BaseEdgeOrVertex);
+            if (context.BaseVertex == null)
             {
                 Messages.Error("The vertex is not valid, check source shape or re-select vertex.");
                 return false;
             }
 
-            if (!ComputeAxisFromVertex(context.Face, vertex, out var axis))
+            if (!ComputeAxisFromVertex(context.Face, context.BaseVertex, out var axis))
             {
                 Messages.Error("The axis can not be computed by the base vertex. Please re-select vertex.");
             }
@@ -281,7 +282,6 @@ namespace Macad.Core.Shapes
             // Calc Direction and NeutralPlane
             context.Direction = axis.Direction;
             context.NeutralPlane = new Pln(axis.Location, axis.Direction);
-            context.ReversedFaceSense = context.Face.Orientation() != TopAbs_Orientation.TopAbs_REVERSED;
             return true;
         }
 
@@ -311,9 +311,6 @@ namespace Macad.Core.Shapes
                 return false;
             }
 
-            if (context.ReversedFaceSense)
-                newEdge.Orientation(TopAbs_Orientation.TopAbs_REVERSED);
-
             // Split face with section edge
             var splitShape = new BRepFeat_SplitShape(context.Source);
             splitShape.Add(newEdge, context.Face);
@@ -324,8 +321,7 @@ namespace Macad.Core.Shapes
                 return false;
             }
             var newShape = splitShape.Shape();
-            var newFace = splitShape.DirectLeft().First().ToFace();
-            
+
             // Reduce continuity of new edge to C0 to allow the draft algo to make a sharp corner
             var (face1, face2) = EdgeAlgo.FindAdjacentFaces(newShape, newEdge);
             if (face1 == null || face2 == null)
@@ -335,6 +331,23 @@ namespace Macad.Core.Shapes
             }
             var builder = new BRep_Builder();
             builder.Continuity(newEdge, face1, face2, GeomAbs_Shape.GeomAbs_C0);
+            
+            // Find proper face
+            var newFace = face1;
+            if (context.BaseEdge != null)
+            {
+                if (newFace.Edges().Any(edge => edge.IsSame(context.BaseEdge)))
+                {
+                    newFace = face2;
+                }
+            } 
+            else if (context.BaseVertex != null)
+            {
+                if (newFace.Vertices().Any(vertex => vertex.IsSame(context.BaseVertex)))
+                {
+                    newFace = face2;
+                }
+            } 
 
             // Set results
             context.NeutralPlane = newPlane;
