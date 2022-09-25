@@ -317,20 +317,18 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             boxBody.Position = new Pnt(-10, -10, 0);
             model.Add(boxBody);
 
-            var cylBody = Body.Create(new Sphere()
+            var sphereBody = Body.Create(new Sphere()
             {
                 Radius = 20
             });
-            cylBody.Position = new Pnt(-15, 0, 0);
-            model.Add(cylBody);
+            sphereBody.Position = new Pnt(-15, 0, 0);
+            model.Add(sphereBody);
 
-            BooleanCut.Create(boxBody, new BodyShapeOperand(cylBody));
+            BooleanCut.Create(boxBody, new BodyShapeOperand(sphereBody));
 
             Context.Current.ViewportController.ZoomFitAll();
-            //AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CollapsedToSolidTransform1"));
 
-            model.SafeDelete(new[] {cylBody});
-            //AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CollapsedToSolidTransform2"));
+            model.SafeDelete(new[] {sphereBody});
 
             boxBody.Shape = (boxBody.RootShape as ModifierBase).Operands[1] as Shape;
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CollapsedToSolidTransform3"));

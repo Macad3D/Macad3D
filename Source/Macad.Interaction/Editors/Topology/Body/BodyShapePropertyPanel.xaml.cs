@@ -125,6 +125,8 @@ namespace Macad.Interaction.Editors.Topology
             Body = instance as Body;
             Debug.Assert(Body != null);
 
+            _UpdateTree();
+
             if(Application.Current != null)
                 InitializeComponent();
 

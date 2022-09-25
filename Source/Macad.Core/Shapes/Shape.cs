@@ -30,7 +30,6 @@ namespace Macad.Core.Shapes
         public enum MakeFlags
         {
             None = 0,
-            NoTransformation = 1 << 0,
             DebugOutput = 1 << 1,
         }
 
@@ -184,7 +183,8 @@ namespace Macad.Core.Shapes
             set
             {
                 _BRep = value;
-                TransformedBRep = BRep?.Located(new TopLoc_Location(GetTransformation()));                
+                TransformedBRep = BRep?.Moved(new TopLoc_Location(GetTransformation()));                
+                RaisePropertyChanged();
             }
         }
 
@@ -303,6 +303,7 @@ namespace Macad.Core.Shapes
             if (TransformedBRep != null)
             {
                 TransformedBRep.Location(new TopLoc_Location(GetTransformation()));
+                RaiseShapeChanged();
                 if(IsVisible)
                     Body?.RaiseVisualChanged();
             }
@@ -342,6 +343,7 @@ namespace Macad.Core.Shapes
                     {
                         HasErrors = false;
                         _IsLoadedFromCache = false;
+                        RaiseShapeChanged();
                         return true;
                     }
                     Messages.Error("Shape making failed.");
@@ -377,13 +379,20 @@ namespace Macad.Core.Shapes
         {
             if (BRep != null)
             {
-                if (!flags.HasFlag(MakeFlags.NoTransformation))
-                {
-                    TransformedBRep = BRep.Moved(new TopLoc_Location(GetTransformation()));
-                }
                 return true;
             }
             return false;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        public delegate void ShapeEventHandler(Shape shape);
+        public static event ShapeEventHandler ShapeChanged;
+
+        public void RaiseShapeChanged()
+        {
+            if (!IsDeserializing)
+                ShapeChanged?.Invoke(this);
         }
 
         //--------------------------------------------------------------------------------------------------

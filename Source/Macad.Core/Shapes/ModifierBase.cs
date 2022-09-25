@@ -299,7 +299,7 @@ namespace Macad.Core.Shapes
                     // Transform to local space if needed
                     BRep = baseBRep;
                     HasErrors = false;
-                    return base.MakeInternal(MakeFlags.NoTransformation);
+                    return base.MakeInternal(MakeFlags.None);
                 }
                 HasErrors = true;
                 return true;

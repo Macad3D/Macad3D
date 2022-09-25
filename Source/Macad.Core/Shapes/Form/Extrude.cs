@@ -186,7 +186,7 @@ namespace Macad.Core.Shapes
             if (Depth == 0)
             {
                 BRep = faceShape;
-                return base.MakeInternal(MakeFlags.NoTransformation);
+                return base.MakeInternal(MakeFlags.None);
             }
 
             // Generate vector
@@ -222,11 +222,11 @@ namespace Macad.Core.Shapes
             if (solid == null || _Face == null)
                 return false;
             
-            // If extrusion vector has zero length, just copy the source shape converted to faces
+            // If extrusion vector has zero length, just copy the source shape
             if (Depth == 0)
             {
                 BRep = solid;
-                return base.MakeInternal(MakeFlags.NoTransformation);
+                return base.MakeInternal(MakeFlags.None);
             }
 
             // Get face

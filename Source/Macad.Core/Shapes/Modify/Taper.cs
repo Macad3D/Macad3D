@@ -78,7 +78,7 @@ namespace Macad.Core.Shapes
                 if (_Angle != value)
                 {
                     SaveUndo();
-                    _Angle = value;
+                    _Angle = value.Clamp(-89.999, 89.999);
                     Invalidate();
                     RaisePropertyChanged();
                 }
@@ -102,6 +102,11 @@ namespace Macad.Core.Shapes
                 }
             }
         }
+        
+        //--------------------------------------------------------------------------------------------------
+        
+        [SerializeMember]
+        public Ax2? ReferenceAxis { get; private set; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -177,6 +182,7 @@ namespace Macad.Core.Shapes
         protected override bool MakeInternal(MakeFlags flags)
         {
             ClearSubshapeLists();
+            ReferenceAxis = null;
 
             var context = new MakeContext();
             if (!_DoInitContext(context))
@@ -186,6 +192,8 @@ namespace Macad.Core.Shapes
                 return false;
 
             _DoOffset(context); // Offset can fail
+
+            ReferenceAxis = context.NeutralPlane.Position.ToAx2();
 
             if (!_DoDraft(context))
                 return false;
@@ -259,7 +267,7 @@ namespace Macad.Core.Shapes
             }
 
             context.Direction = axis.Direction;
-            context.NeutralPlane = new Pln(axis.Location, axis.Direction);
+            context.NeutralPlane = new Pln(new Ax3(axis));
             return true;
         }
 
@@ -281,7 +289,7 @@ namespace Macad.Core.Shapes
 
             // Calc Direction and NeutralPlane
             context.Direction = axis.Direction;
-            context.NeutralPlane = new Pln(axis.Location, axis.Direction);
+            context.NeutralPlane = new Pln(new Ax3(axis));
             return true;
         }
 
@@ -412,9 +420,9 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public static bool ComputeAxisFromEdge(TopoDS_Face face, TopoDS_Edge edge, double parameter, out Ax1 axis)
+        public static bool ComputeAxisFromEdge(TopoDS_Face face, TopoDS_Edge edge, double parameter, out Ax2 axis)
         {
-            axis = new Ax1();
+            axis = new Ax2();
 
             // Get edge point and tangent
             var adaptorEdge = edge.Adaptor();
@@ -443,13 +451,13 @@ namespace Macad.Core.Shapes
             Vec faceNormal = Vec.Zero;
             new BRepGProp_Face(face).Normal(centerUV.X, centerUV.Y, ref centerPoint, ref faceNormal );
 
-            axis = new Ax1(centerPoint, faceNormal.ToDir().Crossed(edgeTangent.ToDir()));
+            axis = new Ax2(centerPoint, faceNormal.ToDir().Crossed(edgeTangent.ToDir()), faceNormal.ToDir());
             return true;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public static bool ComputeAxisFromVertex(TopoDS_Face face, TopoDS_Vertex vertex, out Ax1 axis)
+        public static bool ComputeAxisFromVertex(TopoDS_Face face, TopoDS_Vertex vertex, out Ax2 axis)
         {
             // Get normal at point of vertex
             var uv = BRep_Tool.Parameters(vertex, face);
@@ -461,7 +469,7 @@ namespace Macad.Core.Shapes
             var edges = face.Edges(false).Where(edge => edge.Vertices().ContainsSame(vertex)).ToList();
             if (edges.Count != 2)
             {
-                axis = new Ax1();
+                axis = new Ax2();
                 return false;
             }
 
@@ -500,7 +508,24 @@ namespace Macad.Core.Shapes
                 direction.Reverse();
             }
 
-            axis = new Ax1(centerPoint, direction.ToDir());
+            axis = new Ax2(centerPoint, direction.ToDir(), faceNormal.ToDir());
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        public bool GetReferenceAxis(out Ax2 axis)
+        {
+            if (ReferenceAxis == null)
+            {
+                if (!EnsureHistory() || ReferenceAxis == null)
+                {
+                    axis = Ax2.XOY;
+                    return false;
+                }
+            }
+
+            axis = ReferenceAxis.Value;
             return true;
         }
 

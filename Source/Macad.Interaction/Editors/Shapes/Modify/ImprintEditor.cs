@@ -1,10 +1,8 @@
 ﻿using Macad.Common;
 using Macad.Core.Shapes;
-using Macad.Core.Topology;
 using Macad.Interaction.Panels;
 using Macad.Occt;
 using System.Windows.Input;
-using System;
 using Macad.Core;
 
 namespace Macad.Interaction.Editors.Shapes;
@@ -22,7 +20,7 @@ public class ImprintEditor : Editor<Imprint>
 
     public override void Start()
     {
-        InteractiveEntity.VisualChanged += _InteractiveEntity_VisualChanged;
+        Shape.ShapeChanged += _Shape_ShapeChanged;
 
         _Panel = PropertyPanel.CreatePanel<ImprintPropertyPanel>(Entity);
         InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Shapes);
@@ -41,7 +39,7 @@ public class ImprintEditor : Editor<Imprint>
 
     public override void Stop()
     {
-        InteractiveEntity.VisualChanged -= _InteractiveEntity_VisualChanged;
+        Shape.ShapeChanged -= _Shape_ShapeChanged;
 
         InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_SketchPanel);
         InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
@@ -56,12 +54,20 @@ public class ImprintEditor : Editor<Imprint>
                 
     //--------------------------------------------------------------------------------------------------
 
-    void _InteractiveEntity_VisualChanged(InteractiveEntity entity)
+    void _Shape_ShapeChanged(Shape shape)
     {
-        if (entity == Entity.Body && !_IsMoving)
+        if (shape == Entity)
         {
-            _TranslateAction?.Deactivate();
-            _UpdateActions();
+            if (!_IsMoving)
+            {
+                _TranslateAction?.Deactivate();
+                _UpdateActions();
+            }
+            else if (_TranslateAction != null && Entity.GetFinalExtrusionAxis(out Ax1 axis))
+            {
+                _TranslateAction.Axis = axis.Transformed(Entity.Body.GetTransformation());
+            }
+
             WorkspaceController.Invalidate();
         }
     }

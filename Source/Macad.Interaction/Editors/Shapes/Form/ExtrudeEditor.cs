@@ -21,7 +21,7 @@ public class ExtrudeEditor : Editor<Extrude>
 
     public override void Start()
     {
-        InteractiveEntity.VisualChanged += _InteractiveEntity_VisualChanged;
+        Shape.ShapeChanged += _Shape_ShapeChanged;
 
         _Panel = PropertyPanel.CreatePanel<ExtrudePropertyPanel>(Entity);
         InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Shapes);
@@ -34,7 +34,8 @@ public class ExtrudeEditor : Editor<Extrude>
 
     public override void Stop()
     {
-        InteractiveEntity.VisualChanged -= _InteractiveEntity_VisualChanged;
+        Shape.ShapeChanged -= _Shape_ShapeChanged;
+
         InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
 
         _TranslateAction?.Stop();
@@ -44,15 +45,25 @@ public class ExtrudeEditor : Editor<Extrude>
         WorkspaceController.HudManager?.RemoveElement(_HudElement);
         _HudElement = null;
     }
-        
+                
     //--------------------------------------------------------------------------------------------------
 
-    void _InteractiveEntity_VisualChanged(InteractiveEntity entity)
+    void _Shape_ShapeChanged(Shape shape)
     {
-        if (entity == Entity.Body && !_IsMoving)
+        if (shape == Entity)
         {
-            _TranslateAction?.Deactivate();
-            _UpdateActions();
+            if (!_IsMoving)
+            {
+                _TranslateAction?.Deactivate();
+                _UpdateActions();
+            }
+            else if (_TranslateAction != null && Entity.GetFinalExtrusionAxis(out Ax1 axis))
+            {
+                if (Entity.IsSketchBased && Math.Sign(_StartDepth) != Math.Sign(Entity.Depth))
+                    axis.Reverse();
+                _TranslateAction.Axis = axis.Transformed(Entity.Body.GetTransformation());
+            }
+
             WorkspaceController.Invalidate();
         }
     }

@@ -169,6 +169,27 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
+        [SerializeMember]
+        public Ax2? ToolAxis
+        {
+            get
+            {
+                if (_ToolAxis == null && !IsDeserializing)
+                {
+                    EnsureHistory();
+                }
+                return _ToolAxis;
+            }
+            private set { _ToolAxis = value; }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [SerializeMember]
+        public double Thickness { get; private set; }
+
+        //--------------------------------------------------------------------------------------------------
+
         public override ShapeType ShapeType
         {
             get { return ShapeType.Solid; }
@@ -188,6 +209,7 @@ namespace Macad.Core.Shapes
         ReliefFlags _Relief;
         double _StartGap;
         double _EndGap;
+        Ax2? _ToolAxis;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -242,6 +264,7 @@ namespace Macad.Core.Shapes
             internal TopoDS_Face FlangeFace;
             internal TopoDS_Edge BendEdge;
             internal TopoDS_Edge OppositeEdge;
+            internal double Thickness;
             internal Dir TopDirection;
             internal TopoDS_Shape StartGapFace;
             internal TopoDS_Shape EndGapFace;
@@ -257,6 +280,7 @@ namespace Macad.Core.Shapes
         protected override bool MakeInternal(MakeFlags flags)
         {
             ClearSubshapeLists();
+            ToolAxis = null;
 
             // Currently we work with 1 source shape only
             if (Operands.Count != 1 || _Face == null)
@@ -325,11 +349,20 @@ namespace Macad.Core.Shapes
                 return false;
             }
 
+            var distTool = new BRepExtrema_DistShapeShape(context.BendEdge, context.OppositeEdge);
+            context.Thickness = distTool.Value();
             context.TopDirection = context.BendAxis.Direction.Crossed(facePlane.Axis.Direction);
 
             // Move axis by radius to the center of the revolve
             var radius = Math.Max(0.001, _Radius);
             context.BendAxis.Translate(context.TopDirection.ToVec().Multiplied(radius));
+
+            // Find tool axis
+            ToolAxis = new Ax2(facePlane.Location.Translated(context.TopDirection.ToVec().Multiplied(radius + context.Thickness * 0.5)), 
+                               context.BendAxis.Direction, 
+                               facePlane.XAxis.Direction);
+            Thickness = distTool.Value();
+
             return true;
         }
 
@@ -489,8 +522,7 @@ namespace Macad.Core.Shapes
             if (_Relief.HasFlag(Relief & ReliefFlags.Rectangular))
             {
                 // Get notch depth = half distance between both bend and op edge
-                var distTool = new BRepExtrema_DistShapeShape(context.BendEdge, context.OppositeEdge);
-                var notchDepth = distTool.Value() * 0.5;
+                var notchDepth = context.Thickness * 0.5;
                 var notchVector = context.TopDirection.ToVec().Multiplied(-notchDepth);
 
                 // Get edge points

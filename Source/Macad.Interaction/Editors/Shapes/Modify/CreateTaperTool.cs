@@ -132,7 +132,7 @@ namespace Macad.Interaction.Editors.Shapes
                         Width = 3.0,
                         Color = Colors.Highlight
                     };
-                    _DirectionPreview.Set(axis);
+                    _DirectionPreview.Set(axis.Axis);
                 }
                 else
                 {
@@ -219,7 +219,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        bool _GetPreviewAxis(SelectSubshapeAction selectAction, out Ax1 axis)
+        bool _GetPreviewAxis(SelectSubshapeAction selectAction, out Ax2 axis)
         {
             if (selectAction.SelectedSubshapeType == SubshapeTypes.Edge)
             {
@@ -234,7 +234,7 @@ namespace Macad.Interaction.Editors.Shapes
                 return Taper.ComputeAxisFromVertex(_TargetFace, vertex, out axis);
             }
 
-            axis = Ax1.OX;
+            axis = Ax2.XOY;
             return false;
         }
 

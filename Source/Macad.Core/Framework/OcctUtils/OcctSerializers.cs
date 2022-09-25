@@ -26,6 +26,8 @@ namespace Macad.Core
             }
         }
 
+        //--------------------------------------------------------------------------------------------------
+
         class OcctSerializer_Pnt : ISerializer
         {
             public bool Write(Writer writer, object obj, SerializationContext context)
@@ -45,6 +47,8 @@ namespace Macad.Core
                 return null;
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         class OcctSerializer_Vec : ISerializer
         {
@@ -66,6 +70,8 @@ namespace Macad.Core
             }
         }
 
+        //--------------------------------------------------------------------------------------------------
+
         class OcctSerializer_Dir : ISerializer
         {
             public bool Write(Writer writer, object obj, SerializationContext context)
@@ -86,6 +92,8 @@ namespace Macad.Core
             }
         }
 
+        //--------------------------------------------------------------------------------------------------
+
         class OcctSerializer_Quaternion : ISerializer
         {
             public bool Write(Writer writer, object obj, SerializationContext context)
@@ -105,6 +113,8 @@ namespace Macad.Core
                 return null;
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         class OcctSerializer_Ax1 : ISerializer
         {
@@ -131,6 +141,39 @@ namespace Macad.Core
             }
         }
 
+        //--------------------------------------------------------------------------------------------------
+        
+        class OcctSerializer_Ax2 : ISerializer
+        {
+            public bool Write(Writer writer, object obj, SerializationContext context)
+            {
+                var ax2 = (Ax2)obj;
+                double[] values = new double[9];
+                var pos = ax2.Location;
+                values[0] = pos.X; values[1] = pos.Y; values[2] = pos.Z;
+                var dir = ax2.Direction;
+                values[3] = dir.X; values[4] = dir.Y; values[5] = dir.Z;
+                var xdir = ax2.XDirection;
+                values[6] = xdir.X; values[7] = xdir.Y; values[8] = xdir.Z;
+
+                return _DoubleArraySerializer.Write(writer, values, context);
+            }
+
+            public object Read(Reader reader, object obj, SerializationContext context)
+            {
+                var values = (double[])_DoubleArraySerializer.Read(reader, null, context);
+                if (values is { Length: 9 })
+                {
+                    return new Ax2(new Pnt(values[0], values[1], values[2]), 
+                                   new Dir(values[3], values[4], values[5]), 
+                                   new Dir(values[6], values[7], values[8]));
+                }
+                return null;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         class OcctSerializer_Pln : ISerializer
         {
             public bool Write(Writer writer, object obj, SerializationContext context)
@@ -156,6 +199,8 @@ namespace Macad.Core
             }
         }
 
+        //--------------------------------------------------------------------------------------------------
+
         static bool _IsInitialized;
         static ISerializer _DoubleArraySerializer;
 
@@ -171,10 +216,13 @@ namespace Macad.Core
             Serializer.AddSerializer(typeof(Dir), new OcctSerializer_Dir());
             Serializer.AddSerializer(typeof(Quaternion), new OcctSerializer_Quaternion());
             Serializer.AddSerializer(typeof(Ax1), new OcctSerializer_Ax1());
+            Serializer.AddSerializer(typeof(Ax2), new OcctSerializer_Ax2());
             Serializer.AddSerializer(typeof(Pln), new OcctSerializer_Pln());
 
             _IsInitialized = true;
         }
+
+        //--------------------------------------------------------------------------------------------------
 
     }
 }

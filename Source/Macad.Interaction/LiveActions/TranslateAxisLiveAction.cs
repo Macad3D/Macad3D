@@ -1,5 +1,4 @@
 ﻿using System.Windows.Input;
-using Macad.Common;
 using Macad.Core;
 using Macad.Interaction.Visual;
 using Macad.Occt;
@@ -192,11 +191,13 @@ public class TranslateAxisLiveAction : LiveAction
             {
                 Axis = _Axis.Translated(_Axis.Direction.ToVec(value.Value - _StartValue));
                 _Distance = ElCLib.LineParameter(_StartAxis, _Axis.Location);
+
+                RaisePreviewed();
+
+                _Distance = ElCLib.LineParameter(_StartAxis, _Axis.Location);
                 _HintLine.Set(_StartAxis.Location, _Axis.Location);
                 if (_HudElement != null)
                     _HudElement.Delta = _Distance;
-
-                RaisePreviewed();
             }
 
             return true;

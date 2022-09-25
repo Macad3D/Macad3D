@@ -1,4 +1,5 @@
 ﻿using Macad.Presentation;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Macad.Interaction
 {
@@ -43,8 +44,19 @@ namespace Macad.Interaction
         {
             InitializeComponent();
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public void SetValue(double value)
+        {
+            Delta = value;
+        }
 
         //--------------------------------------------------------------------------------------------------
 
+        public void SetUnits(ValueUnits valueUnits)
+        {
+            Units = valueUnits;
+        }
     }
 }

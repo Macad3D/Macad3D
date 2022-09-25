@@ -2,7 +2,6 @@
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
-using Macad.Core.Topology;
 using Macad.Interaction.Panels;
 using Macad.Interaction.Visual;
 using Macad.Occt;
@@ -28,8 +27,8 @@ internal class CrossSectionEditor : Editor<CrossSection>
     {
         _Panel = PropertyPanel.CreatePanel<CrossSectionPropertyPanel>(Entity);
         InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Shapes);
-
-        InteractiveEntity.VisualChanged += _InteractiveEntity_VisualChanged;     
+        
+        Shape.ShapeChanged += _Shape_ShapeChanged;
 
         _UpdateHints();
         _UpdateActions();
@@ -41,7 +40,9 @@ internal class CrossSectionEditor : Editor<CrossSection>
 
     public override void Stop()
     {
-        InteractiveEntity.VisualChanged -= _InteractiveEntity_VisualChanged;                 
+        Shape.ShapeChanged -= _Shape_ShapeChanged;
+
+        InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
         
         _GhostVisual?.Remove();
         _GhostVisual = null;
@@ -55,22 +56,21 @@ internal class CrossSectionEditor : Editor<CrossSection>
         _RotateActionY = null;
         _RotateActionZ?.Stop();
         _RotateActionZ = null;
-        WorkspaceController.Invalidate();
 
         WorkspaceController.HudManager?.SetHintMessage(this, null);
-        InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
+        WorkspaceController.Invalidate();
     }
-            
+
     //--------------------------------------------------------------------------------------------------
 
-    void _InteractiveEntity_VisualChanged(InteractiveEntity entity)
+    void _Shape_ShapeChanged(Shape shape)
     {
-        if (entity == Entity.Body && !_IsMoving)
+        if (shape == Entity && !_IsMoving)
         {
-            _TranslateAction.Deactivate();
-            _RotateActionX.Deactivate();
-            _RotateActionY.Deactivate();
-            _RotateActionZ.Deactivate();
+            _TranslateAction?.Deactivate();
+            _RotateActionX?.Deactivate();
+            _RotateActionY?.Deactivate();
+            _RotateActionZ?.Deactivate();
 
             _UpdateHints();
             _UpdateActions();
@@ -132,6 +132,9 @@ internal class CrossSectionEditor : Editor<CrossSection>
             {
                 Color = Colors.ActionRed,
                 VisualLimits = (-Maths.HalfPI, Maths.HalfPI),
+                SectorAutoUpdate = true,
+                ShowAxisHint = true,
+                ShowHudElement = true
             };
             _RotateActionX.Previewed += _RotateActionXPreviewed;
             _RotateActionX.Finished += _RotateActionXFinished;
@@ -145,7 +148,10 @@ internal class CrossSectionEditor : Editor<CrossSection>
             _RotateActionY = new(this)
             {
                 Color = Colors.ActionGreen,
-                VisualLimits = (-Maths.HalfPI, Maths.HalfPI)
+                VisualLimits = (-Maths.HalfPI, Maths.HalfPI),
+                SectorAutoUpdate = true,
+                ShowAxisHint = true,
+                ShowHudElement = true
             };
             _RotateActionY.Previewed += _RotateActionYPreviewed;
             _RotateActionY.Finished += _RotateActionYFinished;
@@ -159,6 +165,9 @@ internal class CrossSectionEditor : Editor<CrossSection>
             _RotateActionZ = new(this)
             {
                 Color = Colors.ActionBlue,
+                SectorAutoUpdate = true,
+                ShowAxisHint = true,
+                ShowHudElement = true
             };
             _RotateActionZ.Previewed += _RotateActionZPreviewed;
             _RotateActionZ.Finished += _RotateActionZFinished;
@@ -209,9 +218,19 @@ internal class CrossSectionEditor : Editor<CrossSection>
     void _RotateActionXPreviewed(LiveAction liveAction)
     {
         _IsMoving = true;
-        Entity.Plane = _TranslatedPlane.Rotated(_TranslatedPlane.XAxis, _RotateActionX.Delta)
+
+        var delta = _RotateActionX.Delta;
+        if (_RotateActionX.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+        {
+            delta = Maths.RoundToNearest(delta, 5.0.ToRad());
+            _RotateActionX.Delta = delta;
+        }
+
+        Entity.Plane = _TranslatedPlane.Rotated(_TranslatedPlane.XAxis, delta)
                                        .Transformed(Entity.Body.GetTransformation().Inverted());
+
         WorkspaceController.HudManager?.SetHintMessage(this, "Rotate cut plane using gizmo, press 'CTRL' to round to 5°.");
+
         if (_PlaneVisual != null)
         {
             _TranslateAction.Deactivate();
@@ -238,9 +257,18 @@ internal class CrossSectionEditor : Editor<CrossSection>
     void _RotateActionYPreviewed(LiveAction liveAction)
     {
         _IsMoving = true;
-        Entity.Plane = _TranslatedPlane.Rotated(_TranslatedPlane.YAxis, _RotateActionY.Delta)
+        var delta = _RotateActionY.Delta;
+        if (_RotateActionY.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+        {
+            delta = Maths.RoundToNearest(delta, 5.0.ToRad());
+            _RotateActionY.Delta = delta;
+        }
+
+        Entity.Plane = _TranslatedPlane.Rotated(_TranslatedPlane.YAxis, delta)
                                        .Transformed(Entity.Body.GetTransformation().Inverted());
+
         WorkspaceController.HudManager?.SetHintMessage(this, "Rotate cut plane using gizmo, press 'CTRL' to round to 5°.");
+
         if (_PlaneVisual != null)
         {
             _TranslateAction.Deactivate();
@@ -267,9 +295,18 @@ internal class CrossSectionEditor : Editor<CrossSection>
     void _RotateActionZPreviewed(LiveAction liveAction)
     {
         _IsMoving = true;
-        Entity.Plane = _TranslatedPlane.Rotated(_TranslatedPlane.Axis, _RotateActionZ.Delta)
+        var delta = _RotateActionZ.Delta;
+        if (_RotateActionZ.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+        {
+            delta = Maths.RoundToNearest(delta, 5.0.ToRad());
+            _RotateActionZ.Delta = delta;
+        }
+
+        Entity.Plane = _TranslatedPlane.Rotated(_TranslatedPlane.Axis, delta)
                                        .Transformed(Entity.Body.GetTransformation().Inverted());
+
         WorkspaceController.HudManager?.SetHintMessage(this, "Rotate cut plane using gizmo, press 'CTRL' to round to 5°.");
+
         if (_PlaneVisual != null)
         {
             _TranslateAction.Deactivate();

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -77,6 +78,35 @@ public class CrossSectionTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveTranslate99"));
         });
     }
+                
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveTranslateClamp()
+    {
+        var ctx = Context.Current;
+        ctx.WorkspaceController.Workspace.GridStep = 1.0;
+
+        var section = _SetupTestGeom();
+        var editor = Editor.CreateEditor(section);
+        editor.Start();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(250, 240);
+
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(150, 200);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveTranslateClamp01"));
+            
+            ctx.MoveTo(150, 200, ModifierKeys.Control);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveTranslateClamp02"));
+            ctx.ViewportController.MouseUp();
+
+            // Cleanup
+            editor.Stop();
+        });
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -108,6 +138,34 @@ public class CrossSectionTests
     }
     
     //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void LiveRotateXClamp()
+    {
+        var ctx = Context.Current;
+
+        var section = _SetupTestGeom();
+        var editor = Editor.CreateEditor(section);
+        editor.Start();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(268, 155);
+
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(420, 170);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateXClamp01"));
+
+            ctx.MoveTo(420, 170, ModifierKeys.Control);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateXClamp02"));
+            ctx.ViewportController.MouseUp();
+
+            // Cleanup
+            editor.Stop();
+        });
+    }
+    
+    //--------------------------------------------------------------------------------------------------
 
     [Test]
     public void LiveRotateY()
@@ -133,6 +191,34 @@ public class CrossSectionTests
             // Cleanup
             editor.Stop();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateY99"));
+        });
+    }
+        
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveRotateYClamp()
+    {
+        var ctx = Context.Current;
+
+        var section = _SetupTestGeom();
+        var editor = Editor.CreateEditor(section);
+        editor.Start();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(278, 131);
+
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(212, 171);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateYClamp01"));
+            
+            ctx.MoveTo(212, 171, ModifierKeys.Control);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateYClamp02"));
+            ctx.ViewportController.MouseUp();
+
+            // Cleanup
+            editor.Stop();
         });
     }
 
@@ -162,6 +248,34 @@ public class CrossSectionTests
             // Cleanup
             editor.Stop();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateZ99"));
+        });
+    }
+            
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveRotateZClamp()
+    {
+        var ctx = Context.Current;
+
+        var section = _SetupTestGeom();
+        var editor = Editor.CreateEditor(section);
+        editor.Start();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(356, 203);
+
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(393, 258);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateZClamp01"));
+            
+            ctx.MoveTo(393, 258, ModifierKeys.Control);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateZClamp02"));
+            ctx.ViewportController.MouseUp();
+
+            // Cleanup
+            editor.Stop();
         });
     }
 

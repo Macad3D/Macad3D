@@ -4,6 +4,7 @@ using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using NUnit.Framework;
+using Macad.Interaction;
 
 namespace Macad.Test.Unit.Modeling.Modify
 {
@@ -254,6 +255,7 @@ namespace Macad.Test.Unit.Modeling.Modify
         }
 
         //--------------------------------------------------------------------------------------------------
+
 
     }
 }

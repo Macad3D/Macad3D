@@ -20,8 +20,8 @@ namespace Macad.Interaction.Editors.Shapes
         {
             _Panel = PropertyPanel.CreatePanel<CylinderPropertyPanel>(Entity);
             InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Shapes);
-                        
-            InteractiveEntity.VisualChanged += _InteractiveEntity_VisualChanged;     
+
+            Shape.ShapeChanged += _Shape_ShapeChanged;
 
             _UpdateActions();
         }
@@ -30,7 +30,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override void Stop()
         {
-            InteractiveEntity.VisualChanged -= _InteractiveEntity_VisualChanged;                 
+            Shape.ShapeChanged -= _Shape_ShapeChanged;
 
             InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
                         
@@ -47,9 +47,9 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
         
-        void _InteractiveEntity_VisualChanged(InteractiveEntity entity)
+        void _Shape_ShapeChanged(Shape shape)
         {
-            if (entity == Entity.Body)
+            if (shape == Entity)
             {
                 _UpdateActions();
                 WorkspaceController.Invalidate();

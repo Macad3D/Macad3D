@@ -107,7 +107,7 @@ public class Circle: VisualObject
 
     readonly Style _Style;
     AISX_Circle _AisObject;
-    Ax2 _Position = Ax2.XOY;
+    Ax3 _Position = Ax3.XOY;
     double _Radius = 1.0;
     bool _IsSelectable;
     double _Width = 3.0;
@@ -130,10 +130,25 @@ public class Circle: VisualObject
         _Radius = circle.Radius();
         Set(circle.Position());
     }
-    
+        
     //--------------------------------------------------------------------------------------------------
 
     public void Set(Ax2 position)
+    {   
+        _Position = new Ax3(position);
+        if (_AisObject != null)
+        {
+            _UpdatePresentation();
+        }
+        else
+        {
+            Update();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void Set(Ax3 position)
     {   
         _Position = position;
         if (_AisObject != null)
