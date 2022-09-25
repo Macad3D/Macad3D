@@ -73,3 +73,10 @@ Windows 8.1 64-bit and newer is supported.
 ## Version 2.1 
 
 This is a maintenance release containing several bug fixes.
+
+## Version 2.2
+
+This is a maintenance release containing the following bug fixes:
+
+* Model files cannot be loaded if they contain large imported solids or meshes.
+* Taper direction is incorrect in certain cases.
