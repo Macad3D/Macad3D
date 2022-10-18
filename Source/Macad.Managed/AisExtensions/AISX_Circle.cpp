@@ -1,6 +1,7 @@
 ﻿#include "ManagedPCH.h"
 
 #include "AISX_Circle.h"
+#include "AISX_PrsTool.h"
 
 IMPLEMENT_STANDARD_RTTIEXT(AISX_Circle, AIS_InteractiveObject)
 
@@ -12,6 +13,7 @@ AISX_Circle::AISX_Circle()
     , _LimitEndParam(0.0)
     , _SectorStartParam(0.0)
     , _SectorEndParam(0.0)
+    , _KnobPosition(-DBL_MAX)
 {
     myOwnWidth = 3.0f;
     _InitDrawerAttributes();
@@ -63,6 +65,16 @@ void AISX_Circle::SetSector(double theStartParam, double theEndParam)
 
 //--------------------------------------------------------------------------------------------------
 
+void AISX_Circle::SetKnobPosition(double theParam)
+{
+    _KnobPosition = theParam;
+
+    UpdatePresentations(true);
+    SetToUpdate();
+}
+
+//--------------------------------------------------------------------------------------------------
+
 void AISX_Circle::SetColor(const Quantity_Color& theColor)
 {
     __super::SetColor(theColor);
@@ -71,6 +83,7 @@ void AISX_Circle::SetColor(const Quantity_Color& theColor)
     myDrawer->LineAspect()->SetColor(theColor);
     myDrawer->FaceBoundaryAspect()->SetColor(theColor);
     myDrawer->ShadingAspect()->SetColor(theColor);
+    _SectorAspect->SetColor(theColor);
 
     Graphic3d_Vec3 hlsColor = Quantity_Color::Convert_LinearRGB_To_HLS(Graphic3d_Vec3((float)theColor.Red(), (float)theColor.Green(), (float)theColor.Blue()));
     hlsColor.y() = __min(hlsColor.y() + 0.2f, 1.0f);
@@ -112,7 +125,7 @@ void AISX_Circle::_ComputeSector(const Handle(Prs3d_Presentation)& thePrs, const
     aTool.FillArray(aTriArray, aTransform);
 
     Handle(Graphic3d_Group) aGroup = thePrs->CurrentGroup();
-    aGroup->SetPrimitivesAspect(theDrawer->ShadingAspect()->Aspect());
+    aGroup->SetPrimitivesAspect(_SectorAspect->Aspect());
     aGroup->AddPrimitiveArray(aTriArray);
 
     // Edges
@@ -155,6 +168,26 @@ void AISX_Circle::_ComputeCircle(const Handle(Prs3d_Presentation)& thePrs, const
 
 //--------------------------------------------------------------------------------------------------
 
+void AISX_Circle::_ComputeKnob(const Handle(Prs3d_Presentation)& thePrs, const Handle(Prs3d_Drawer)& theDrawer)
+{
+    if( _KnobPosition == -DBL_MAX
+        || (_LimitStartParam != _LimitEndParam && (_KnobPosition < _LimitStartParam || _KnobPosition > _LimitEndParam)))
+    {
+        return;
+    }
+
+    Handle(Graphic3d_Group) aGroup = thePrs->CurrentGroup();
+    aGroup->SetPrimitivesAspect(theDrawer->ShadingAspect()->Aspect());
+
+    gp_Pnt position;
+    gp_Vec tangent;
+    ElCLib::CircleD1(_KnobPosition, _Circle.Position(), _Circle.Radius(), position, tangent);
+	Handle(Graphic3d_ArrayOfTriangles) aTriArray = AISX_PrsTool::CreateCylinder(gp_Ax1(position, gp_Dir(tangent)), myOwnWidth*1.50, myOwnWidth*2.0, 10);
+    aGroup->AddPrimitiveArray(aTriArray);
+}
+
+//--------------------------------------------------------------------------------------------------
+
 void AISX_Circle::Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const Handle(Prs3d_Presentation)& thePrs, 
                           const Standard_Integer theMode)
 {
@@ -165,6 +198,7 @@ void AISX_Circle::Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr, c
         _ComputeSector(thePrs, myDrawer);
     }
     _ComputeCircle(thePrs, myDrawer);
+    _ComputeKnob(thePrs, myDrawer);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -211,8 +245,11 @@ void AISX_Circle::_InitDrawerAttributes()
 
     Handle(Prs3d_ShadingAspect) shasp = new Prs3d_ShadingAspect();
     shasp->SetMaterial(Graphic3d_NameOfMaterial_DEFAULT);
-    shasp->SetTransparency(0.5f);
     myDrawer->SetShadingAspect(shasp);
+
+    _SectorAspect = new Prs3d_ShadingAspect();
+    _SectorAspect->SetMaterial(Graphic3d_NameOfMaterial_DEFAULT);
+    _SectorAspect->SetTransparency(0.5f);
     
     myDynHilightDrawer = new Prs3d_Drawer();
     myDynHilightDrawer->Link(myDrawer);

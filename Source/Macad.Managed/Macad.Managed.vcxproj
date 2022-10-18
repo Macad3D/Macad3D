@@ -87,6 +87,7 @@
     <ClInclude Include="AisExtensions\AISX_Circle.h" />
     <ClInclude Include="AisExtensions\AISX_Guid.h" />
     <ClInclude Include="AisExtensions\AISX_Plane.h" />
+    <ClInclude Include="AisExtensions\AISX_PrsTool.h" />
     <ClInclude Include="OcctExtensions\AIS_PointEx.h" />
     <ClInclude Include="OcctExtensions\AIS_ViewCubeEx.h" />
     <ClInclude Include="ManagedPCH.h" />
@@ -102,6 +103,7 @@
     <ClCompile Include="AisExtensions\AISX_Guid.Managed.cpp" />
     <ClCompile Include="AisExtensions\AISX_Plane.cpp" />
     <ClCompile Include="AisExtensions\AISX_Plane.Managed.cpp" />
+    <ClCompile Include="AisExtensions\AISX_PrsTool.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Interop\ExceptionHelper.cpp" />
     <ClCompile Include="Interop\FileOperation.cpp" />

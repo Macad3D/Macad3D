@@ -138,9 +138,9 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             {
                 // SelectSegment
                 tool.Select(new []{0, 1, 2, 3}, new []{0, 1, 2, 3});
-                ctx.ViewportController.MouseMove(new Point(286, 281));
+                ctx.ViewportController.MouseMove(new Point(275, 294));
                 ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseMove(new Point(200, 251));
+                ctx.ViewportController.MouseMove(new Point(203, 235));
 
                 // Hilighted MergePoint
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotatePointMerge01"), 0.1);

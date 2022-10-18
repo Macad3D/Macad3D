@@ -86,9 +86,9 @@ public class TranslateAxisLiveAction : LiveAction
         if (_AxisGizmo != null)
             return;
 
-        Axis.Style style = Visual.Axis.Style.Headless;
+        Axis.Style style = Visual.Axis.Style.None;
         if (NoResize)
-            style |= Visual.Axis.Style.NoResize;
+            style |= Visual.Axis.Style.NoResize | Visual.Axis.Style.KnobHead;
         _AxisGizmo = new Axis(WorkspaceController, style)
         {
             IsSelectable = true,

@@ -1,5 +1,4 @@
-﻿using System.Windows.Media.Animation;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Core;
 using Macad.Interaction.Visual;
 using Macad.Occt;
@@ -11,7 +10,7 @@ public class RotateLiveAction : LiveAction
 {
     #region Properties and Members
     
-    public Quantity_Color Color { get; set; } = Colors.Auxillary;
+    public Quantity_Color Color { get; init; } = Colors.Auxillary;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -20,8 +19,14 @@ public class RotateLiveAction : LiveAction
         set
         {
             _VisualLimits = value;
-            if(_Circle != null)
+            if (_Circle != null)
+            {
                 _Circle.Limits = value;
+                if (ShowKnob)
+                {
+                    _Circle.KnobPosition = _VisualLimits.start.Lerp(_VisualLimits.end, 0.5);
+                }
+            }
         }
     }
 
@@ -79,6 +84,10 @@ public class RotateLiveAction : LiveAction
     public bool ShowAxisHint { get; init; }
 
     //--------------------------------------------------------------------------------------------------
+
+    public bool ShowKnob { get; init; }
+
+    //--------------------------------------------------------------------------------------------------
     
     public bool ShowHudElement { get; init; }
 
@@ -132,6 +141,10 @@ public class RotateLiveAction : LiveAction
             Limits = _VisualLimits,
             Sector = _VisualSector
         };
+        if (ShowKnob)
+        {
+            _Circle.KnobPosition = _VisualLimits.start.Lerp(_VisualLimits.end, 0.5);
+        }
         _Circle.Set(_Position);
 
         WorkspaceController.Invalidate();

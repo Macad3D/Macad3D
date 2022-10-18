@@ -21,21 +21,37 @@ namespace Macad
 					NativeInstance = new ::AISX_Circle();
 				}
 
+				//--------------------------------------------------------------------------------------------------
+
 			public:
 				void SetCircle(gp_Circ^ circle)
 				{
 				    NativeInstance->SetCircle(*circle->NativeInstance);
 				}
 
+				//--------------------------------------------------------------------------------------------------
+
 				void SetLimits(double startParam, double endParam)
 				{
 				    NativeInstance->SetLimits(startParam, endParam);
 				}
+
+				//--------------------------------------------------------------------------------------------------
 				
 				void SetSector(double startParam, double endParam)
 				{
 				    NativeInstance->SetSector(startParam, endParam);
 				}
+
+				//--------------------------------------------------------------------------------------------------
+
+			    void SetKnobPosition(double param)
+				{
+				    NativeInstance->SetKnobPosition(param);
+				}
+
+				//--------------------------------------------------------------------------------------------------
+
 			};
 		};
 	}

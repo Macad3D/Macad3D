@@ -13,6 +13,16 @@ namespace Macad
 			public ref class AISX_Axis sealed : public AIS_InteractiveObject
 			{
 			public:
+				enum class Mode
+				{
+					Headless = 0,
+					Arrow = 1,
+					Knob = 2
+				};
+
+				//--------------------------------------------------------------------------------------------------
+
+			public:
 				IMPLEMENT_TRANSIENT(AISX_Axis, AIS_InteractiveObject)
 
 			    AISX_Axis()
@@ -21,6 +31,8 @@ namespace Macad
 					NativeInstance = new ::AISX_Axis();
 				}
 
+				//--------------------------------------------------------------------------------------------------
+
 			public:
 				void SetAxis(Ax1 axis)
 				{
@@ -28,10 +40,19 @@ namespace Macad
 				    NativeInstance->SetAxis(*axis_ptr);
 				}
 
-                void SetSize(double length, double thickness)
+				//--------------------------------------------------------------------------------------------------
+
+				void SetSize(double length, double thickness)
                 {
                     NativeInstance->SetSize(length, thickness);
                 }
+
+				//--------------------------------------------------------------------------------------------------
+
+				void SetDisplayMode(Mode mode)
+				{
+					SetDisplayMode((int)mode);
+				}
 			};
 		};
 	}

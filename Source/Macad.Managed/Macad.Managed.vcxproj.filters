@@ -48,6 +48,9 @@
     <ClInclude Include="AisExtensions\AISX_Circle.h">
       <Filter>AisExtensions</Filter>
     </ClInclude>
+    <ClInclude Include="AisExtensions\AISX_PrsTool.h">
+      <Filter>AisExtensions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -145,6 +148,9 @@
       <Filter>AisExtensions</Filter>
     </ClCompile>
     <ClCompile Include="AisExtensions\AISX_Circle.Managed.cpp">
+      <Filter>AisExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="AisExtensions\AISX_PrsTool.cpp">
       <Filter>AisExtensions</Filter>
     </ClCompile>
   </ItemGroup>

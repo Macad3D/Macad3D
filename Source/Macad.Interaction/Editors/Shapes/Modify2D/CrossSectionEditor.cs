@@ -117,7 +117,8 @@ internal class CrossSectionEditor : Editor<CrossSection>
             {
                 Color = Colors.ActionBlue,
                 Cursor = Cursors.Move,
-                ShowHudElement = true
+                ShowHudElement = true,
+                
             };
             _TranslateAction.Previewed += _TranslateActionPreviewed;
             _TranslateAction.Finished += _TranslateActionFinished;

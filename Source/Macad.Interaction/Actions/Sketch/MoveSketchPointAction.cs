@@ -53,7 +53,7 @@ namespace Macad.Interaction
         Delta2DHudElement _Delta2DHudElement;
         ValueHudElement _ValueHudElement;
 
-        readonly List<Marker> _MergePreviewMarkers = new List<Marker>();
+        readonly List<Marker> _MergePreviewMarkers = new();
 
         bool _MoveConstraintX;
         bool _MoveConstraintY;
@@ -146,7 +146,7 @@ namespace Macad.Interaction
             _MovePlane.Location = center3D;
 
             // Create Gizmos
-            _AxisGizmoX ??= new Axis(WorkspaceController, Axis.Style.Headless | Axis.Style.NoResize | Axis.Style.Topmost)
+            _AxisGizmoX ??= new Axis(WorkspaceController, Axis.Style.KnobHead | Axis.Style.NoResize | Axis.Style.Topmost)
             {
                 Color = Colors.ActionRed,
                 IsSelectable = true,
@@ -155,7 +155,7 @@ namespace Macad.Interaction
             };
             _AxisGizmoX.Set(_MovePlane.XAxis);
 
-            _AxisGizmoY ??= new Axis(WorkspaceController, Axis.Style.Headless | Axis.Style.NoResize | Axis.Style.Topmost)
+            _AxisGizmoY ??= new Axis(WorkspaceController, Axis.Style.KnobHead | Axis.Style.NoResize | Axis.Style.Topmost)
             {
                 Color = Colors.ActionGreen,
                 IsSelectable = true,
@@ -182,8 +182,9 @@ namespace Macad.Interaction
                     Color = Colors.ActionBlue,
                     IsSelectable = true,
                     Radius = 1.0,
-                    Limits = (Maths.HalfPI + 0.3, Maths.DoublePI - 0.3)
                 };
+                _CircleGizmo.Limits = (Maths.PI - 0.6, Maths.PI * 1.5 + 0.6);
+                _CircleGizmo.KnobPosition = Maths.PI * 1.25;
                 _CircleGizmo.Set(_MovePlane.Position.ToAx2());
                 _CircleGizmo.Sector = (0, 0);
             }
@@ -379,7 +380,9 @@ namespace Macad.Interaction
 
                 if (_CircleGizmo != null)
                 {
-                    _CircleGizmo.Sector = _Rotating ? (_RotateStartValue, _RotateStartValue + RotateDelta) : (0, 0);
+                    _CircleGizmo.Sector = (_RotateStartValue, _RotateStartValue + RotateDelta);
+                    _CircleGizmo.Limits = (0, 0);
+                    _CircleGizmo.KnobPosition = Maths.PI * 1.25 + RotateDelta;
                 }
 
                 _ValueHudElement ??= WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);

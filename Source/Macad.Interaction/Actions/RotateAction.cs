@@ -63,7 +63,8 @@ public class RotateAction : ToolAction
                 Color = _GetColorByMode(mode),
                 IsSelectable = true,
                 Width = 4.0,
-                Radius = 2.0
+                Radius = 2.0,
+                KnobPosition = 0.0
             };
 
             _Gizmos[i].Sector = _RotateMode == mode
@@ -72,7 +73,7 @@ public class RotateAction : ToolAction
         }
 
         Ax3 rotatedCS = _RotateMode == RotateMode.None ? _CoordinateSystem : _CoordinateSystem.Rotated(RotationAxis, Delta);
-        _Gizmos[0].Set(new Ax2(rotatedCS.Location, rotatedCS.XDirection, rotatedCS.Direction));
+        _Gizmos[0].Set(new Ax2(rotatedCS.Location, rotatedCS.XDirection, rotatedCS.YDirection));
         _Gizmos[1].Set(new Ax2(rotatedCS.Location, rotatedCS.YDirection, rotatedCS.Direction));
         _Gizmos[2].Set(new Ax2(rotatedCS.Location, rotatedCS.Direction, rotatedCS.XDirection));
     }

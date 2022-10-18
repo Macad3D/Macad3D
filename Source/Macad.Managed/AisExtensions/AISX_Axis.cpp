@@ -1,6 +1,7 @@
 ﻿#include "ManagedPCH.h"
 
 #include "AISX_Axis.h"
+#include "AISX_PrsTool.h"
 
 IMPLEMENT_STANDARD_RTTIEXT(AISX_Axis, AIS_InteractiveObject)
 
@@ -49,7 +50,6 @@ void AISX_Axis::SetWidth(double theWidth)
 {
     myOwnWidth = (float)theWidth;
     myDrawer->LineAspect()->SetWidth(theWidth);
-
     SynchronizeAspects();
     UpdatePresentations(true);
     UpdateSelection();
@@ -78,23 +78,27 @@ void AISX_Axis::_ComputeArrow(const Handle(Graphic3d_Group)& theGroup)
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Axis::_ComputeCylinder(const Handle(Graphic3d_Group)& theGroup)
+void AISX_Axis::_ComputeLine(const Handle(Graphic3d_Group)& theGroup)
 {
-    gp_Trsf trsf;
-    trsf.SetTransformation(gp_Ax3(), gp_Ax3(_Axis.Location(), _Axis.Direction()));
-    Handle(Graphic3d_ArrayOfTriangles) aTriArray = new Graphic3d_ArrayOfTriangles(Prs3d_ToolCylinder::VerticesNb(20, 2), 
-                                                                                  Prs3d_ToolCylinder::TrianglesNb(20, 2) * 3, 
-                                                                                  Graphic3d_ArrayFlags_None);
-    aTriArray = Prs3d_ToolCylinder::Create(_Thickness, _Thickness, _Length, 20, 2, trsf);
-    theGroup->AddPrimitiveArray(aTriArray);
+    theGroup->SetPrimitivesAspect(myDrawer->LineAspect()->Aspect());
+
+    gp_Pnt p1 = _Axis.Location();
+    gp_Pnt p2 = _Axis.Location().Translated(gp_Vec(_Axis.Direction()).Multiplied(_Length));
+
+    Handle(Graphic3d_ArrayOfSegments) aPrims = new Graphic3d_ArrayOfSegments(2);
+    aPrims->AddVertex(p1);
+    aPrims->AddVertex(p2);
+    theGroup->AddPrimitiveArray(aPrims);
 }
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Axis::_ComputeLine(const Handle(Prs3d_Presentation)& thePrs, const Handle(Prs3d_Drawer)& theDrawer)
+void AISX_Axis::_ComputeKnob(const Handle(Graphic3d_Group)& theGroup)
 {
-    Handle(Geom_Line) curv = new Geom_Line(_Axis.Location(), _Axis.Direction());
-    StdPrs_Curve::Add(thePrs, GeomAdaptor_Curve(curv, 0.0, _Length), theDrawer);
+    gp_Pnt p2 = _Axis.Location().Translated(gp_Vec(_Axis.Direction()).Multiplied(_Length));
+    gp_Dir dir = _Length < 0 ? _Axis.Direction().Reversed() : _Axis.Direction();
+	Handle(Graphic3d_ArrayOfTriangles) aTriArray = AISX_PrsTool::CreateCylinder(gp_Ax1(p2, dir), _Thickness, _Thickness*1.5, 10);
+    theGroup->AddPrimitiveArray(aTriArray);
 }
     
 //--------------------------------------------------------------------------------------------------
@@ -107,10 +111,19 @@ void AISX_Axis::Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
     Handle(Graphic3d_Group) aGroup = thePrs->CurrentGroup();
     aGroup->SetPrimitivesAspect(myDrawer->ShadingAspect()->Aspect());
 
-    if(theMode == 1)
-        _ComputeLine(thePrs, myDrawer);
-    else
+    switch(theMode)
+    {
+    case 0: // Headless
+        _ComputeLine(aGroup);
+        break;
+    case 1: // Arrow
         _ComputeArrow(aGroup);
+        break;
+    case 2: // Knob
+        _ComputeLine(aGroup);
+        _ComputeKnob(aGroup);
+        break;
+    }
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -137,18 +150,18 @@ void AISX_Axis::ComputeSelection(const Handle(SelectMgr_Selection)& theSelection
 
     Handle(SelectMgr_EntityOwner) sensitiveOwner = new SelectMgr_EntityOwner(this, 10);
 
-    if(myDrawer->DisplayMode()==1)
-    {
-        gp_Pnt endPoint = _Axis.Location().Translated(gp_Vec(_Axis.Direction()).Multiplied(_Length));
-        Handle(Select3D_SensitiveSegment) sensitive = new Select3D_SensitiveSegment(sensitiveOwner, _Axis.Location(), endPoint);
-        sensitive->SetSensitivityFactor(10);
-        theSelection->Add(sensitive);
-    }
-    else
+    if(myDrawer->DisplayMode()==1) // Arrow
     {
         gp_Trsf trsf;
         trsf.SetTransformation(gp_Ax3(), gp_Ax3(_Axis.Location(), _Axis.Direction()));
         Handle(Select3D_SensitiveCylinder) sensitive = new Select3D_SensitiveCylinder(sensitiveOwner, _Thickness, _Thickness, _Length, trsf);
+        theSelection->Add(sensitive);
+    }
+    else
+    {
+        gp_Pnt endPoint = _Axis.Location().Translated(gp_Vec(_Axis.Direction()).Multiplied(_Length));
+        Handle(Select3D_SensitiveSegment) sensitive = new Select3D_SensitiveSegment(sensitiveOwner, _Axis.Location(), endPoint);
+        sensitive->SetSensitivityFactor(10);
         theSelection->Add(sensitive);
     }
 }

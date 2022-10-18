@@ -126,7 +126,7 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 if (_GetPreviewAxis(toolAction as SelectSubshapeAction, out var axis))
                 {
-                    _DirectionPreview ??= new Axis(WorkspaceController, Axis.Style.NoResize)
+                    _DirectionPreview ??= new Axis(WorkspaceController, Axis.Style.NoResize | Axis.Style.ArrowHead)
                     {
                         Length = 1.5,
                         Width = 3.0,

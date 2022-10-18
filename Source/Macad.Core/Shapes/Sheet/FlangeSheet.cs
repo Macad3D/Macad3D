@@ -170,29 +170,50 @@ namespace Macad.Core.Shapes
         //--------------------------------------------------------------------------------------------------
 
         [SerializeMember]
-        public Ax2? ToolAxis
+        public ToolSupportData ToolSupport
         {
             get
             {
-                if (_ToolAxis == null && !IsDeserializing)
+                if (_ToolSupport == null && !IsDeserializing)
                 {
                     EnsureHistory();
                 }
-                return _ToolAxis;
+                return _ToolSupport;
             }
-            private set { _ToolAxis = value; }
+            private set
+            {
+                _ToolSupport = value;
+                RaisePropertyChanged();
+            }
         }
-
-        //--------------------------------------------------------------------------------------------------
-
-        [SerializeMember]
-        public double Thickness { get; private set; }
 
         //--------------------------------------------------------------------------------------------------
 
         public override ShapeType ShapeType
         {
             get { return ShapeType.Solid; }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region Tool Support
+
+        [SerializeType]
+        public class ToolSupportData
+        {
+            [SerializeMember]
+            public Ax2 BendCenterAxis { get; internal set; }
+
+            [SerializeMember]
+            public Ax1 FlangeExtrudeAxis { get; internal set; }
+
+            [SerializeMember]
+            public double Thickness { get; internal set; }
+
+            [SerializeMember]
+            public double BendEdgeWidth { get; internal set; }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -209,7 +230,7 @@ namespace Macad.Core.Shapes
         ReliefFlags _Relief;
         double _StartGap;
         double _EndGap;
-        Ax2? _ToolAxis;
+        ToolSupportData _ToolSupport;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -273,6 +294,8 @@ namespace Macad.Core.Shapes
             internal TopoDS_Shape BendSectionShape;
             internal TopoDS_Shape FlangeShape;
             internal TopoDS_Shape ResultShape;
+
+            internal ToolSupportData ToolSupport = new();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -280,7 +303,7 @@ namespace Macad.Core.Shapes
         protected override bool MakeInternal(MakeFlags flags)
         {
             ClearSubshapeLists();
-            ToolAxis = null;
+            ToolSupport = null;
 
             // Currently we work with 1 source shape only
             if (Operands.Count != 1 || _Face == null)
@@ -321,6 +344,7 @@ namespace Macad.Core.Shapes
             if (context.ResultShape == null)
                 return Skip();
 
+            ToolSupport = context.ToolSupport;
             BRep = context.ResultShape;
 
             return base.MakeInternal(flags);
@@ -351,6 +375,7 @@ namespace Macad.Core.Shapes
 
             var distTool = new BRepExtrema_DistShapeShape(context.BendEdge, context.OppositeEdge);
             context.Thickness = distTool.Value();
+            context.ToolSupport.Thickness = distTool.Value();
             context.TopDirection = context.BendAxis.Direction.Crossed(facePlane.Axis.Direction);
 
             // Move axis by radius to the center of the revolve
@@ -358,10 +383,14 @@ namespace Macad.Core.Shapes
             context.BendAxis.Translate(context.TopDirection.ToVec().Multiplied(radius));
 
             // Find tool axis
-            ToolAxis = new Ax2(facePlane.Location.Translated(context.TopDirection.ToVec().Multiplied(radius + context.Thickness * 0.5)), 
-                               context.BendAxis.Direction, 
-                               facePlane.XAxis.Direction);
-            Thickness = distTool.Value();
+            context.ToolSupport.BendCenterAxis = new Ax2(facePlane.Location
+                                                                  .Translated(context.TopDirection
+                                                                                     .ToVec()
+                                                                                     .Multiplied(radius + context.Thickness * 0.5)),
+                                                         context.BendAxis.Direction,
+                                                         context.BendEdge.Orientation() == TopAbs_Orientation.TopAbs_FORWARD
+                                                             ? context.TopDirection
+                                                             : context.TopDirection.Reversed());
 
             return true;
         }
@@ -370,18 +399,21 @@ namespace Macad.Core.Shapes
 
         bool _MakeFlangeFace(MakeContext context)
         {
-            if (_StartGap <= 0 && _EndGap <= 0)
-            {
-                context.FlangeFace = context.TargetFace;
-                return true;
-            }
-
             // Get points from bend edge and opposite edge
             var points = new Pnt[4];
             var bendEdgeAdaptor = new BRepAdaptor_Curve(context.BendEdge);
             points[0] = bendEdgeAdaptor.Value(bendEdgeAdaptor.FirstParameter());
             points[1] = bendEdgeAdaptor.Value(bendEdgeAdaptor.LastParameter());
-            if (points[0].Distance(points[1]) <= (_StartGap + _EndGap))
+            context.ToolSupport.BendEdgeWidth = points[0].Distance(points[1]);
+
+            if (_StartGap <= 0 && _EndGap <= 0)
+            {
+                // Easy going, just take the whole face
+                context.FlangeFace = context.TargetFace;
+                return true;
+            }
+
+            if (context.ToolSupport.BendEdgeWidth <= _StartGap + _EndGap)
             {
                 Messages.Error("The sum of start and end gap is higher than the length of the bending edge.");
                 return false;
@@ -590,6 +622,10 @@ namespace Macad.Core.Shapes
             }
 
             context.FlangeShape = flangeShape;
+
+            context.ToolSupport.FlangeExtrudeAxis = FaceAlgo.GetFaceCenterNormal(context.FlangeFace)
+                                                            .Rotated(context.BendAxis, _Angle.Clamp(0.0, 180.0).ToRad());
+
             return true;
         }
 

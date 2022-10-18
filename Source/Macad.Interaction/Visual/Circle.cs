@@ -102,7 +102,19 @@ public class Circle: VisualObject
                 Update();
         }
     }
-    
+
+    //--------------------------------------------------------------------------------------------------
+
+    public double KnobPosition
+    {
+        get { return _KnobPosition; }
+        set
+        {
+            _KnobPosition = value;
+            _UpdatePresentation();
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     readonly Style _Style;
@@ -114,6 +126,7 @@ public class Circle: VisualObject
     (double start, double end) _Limits;
     (double start, double end) _Sector;
     Quantity_Color _Color = Colors.Auxillary;
+    double _KnobPosition = Double.MinValue;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -215,6 +228,7 @@ public class Circle: VisualObject
         _AisObject.SetColor(_Color);
         _AisObject.SetWidth(_Width);
         _AisObject.SetLimits(_Limits.start, _Limits.end);
+        _AisObject.SetKnobPosition(_KnobPosition);
         _AisObject.SetSector(_Sector.start, _Sector.end);
     }
 

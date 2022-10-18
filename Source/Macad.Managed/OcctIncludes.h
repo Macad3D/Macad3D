@@ -41,6 +41,7 @@
 #include <ElCLib.hxx>
 
 #include <Prs3d_Arrow.hxx>
+#include <Prs3d_BndBox.hxx>
 #include <Prs3d_ToolSector.hxx>
 #include <Prs3d_ToolDisk.hxx>
 #include <Prs3d_ToolCylinder.hxx>

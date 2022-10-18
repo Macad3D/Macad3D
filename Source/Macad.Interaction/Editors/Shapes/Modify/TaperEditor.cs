@@ -5,8 +5,6 @@ using Macad.Interaction.Panels;
 using Macad.Occt;
 using System.Windows.Input;
 using Macad.Core;
-using Macad.Core.Topology;
-using Macad.Interaction.Visual;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -71,12 +69,6 @@ public class TaperEditor : Editor<Taper>
                 {
                     _OffsetAction.Axis = Entity.Angle < 0.0 ? axis.Axis.Reversed() : axis.Axis;
                 }
-                if (_IsMovingAngle)
-                {
-                    _AngleAction.Position = new Ax2(axis.Location, axis.YDirection.Reversed(), axis.Direction);
-                    _AngleAction.VisualLimits = (Entity.Angle.ToRad(), -Maths.PI);
-                    _AngleAction.VisualSector = (Entity.Angle.ToRad(), _StartAngle);
-                }
             }
 
             WorkspaceController.Invalidate();
@@ -124,6 +116,7 @@ public class TaperEditor : Editor<Taper>
             {
                 Color = Colors.ActionGreen,
                 NoResize = true,
+                ShowKnob = true
             };
             _AngleAction.Previewed += _AngleAction_Previewed;
             _AngleAction.Finished += _AngleAction_Finished;
@@ -153,21 +146,23 @@ public class TaperEditor : Editor<Taper>
         {
             newAngle = Maths.RoundToNearest(newAngle, 5.0.ToRad());
         }
-        double delta = newAngle - _StartAngle;
 
         if (Entity.Angle == newAngle.ToDeg())
         {
-            if (Entity.GetReferenceAxis(out Ax2 axis))
-            {
-                axis.Transform(Entity.Body.GetTransformation());
-                _AngleAction.Position = new Ax2(axis.Location, axis.YDirection.Reversed(), axis.Direction);
-            }
+            _AngleAction.Delta = newAngle - _StartAngle;
         }
         else
         {
             Entity.Angle = newAngle.ToDeg();
         }
 
+        if (Entity.GetReferenceAxis(out Ax2 axis))
+        {
+            axis.Transform(Entity.Body.GetTransformation());
+            _AngleAction.Position = new Ax2(axis.Location, axis.YDirection.Reversed(), axis.Direction);
+            _AngleAction.VisualLimits = (Entity.Angle.ToRad(), -Maths.PI);
+            _AngleAction.VisualSector = (Entity.Angle.ToRad(), _StartAngle);
+        }
 
         _HudElement ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
         _HudElement?.SetValue($"Angle: {Entity.Angle.ToInvariantString("F2")} °");

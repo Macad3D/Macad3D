@@ -88,7 +88,7 @@ public class TranslateAction : ToolAction
         for (int i = 0; i < _AxisGizmos.Length; i++)
         {
             var mode = (MoveMode)i+1;
-            _AxisGizmos[i] ??= new Axis(WorkspaceController, Axis.Style.Headless | Axis.Style.NoResize | Axis.Style.Topmost)
+            _AxisGizmos[i] ??= new Axis(WorkspaceController, Axis.Style.KnobHead | Axis.Style.NoResize | Axis.Style.Topmost)
             {
                 Color = _GetColorByMode(mode),
                 IsSelectable = true,

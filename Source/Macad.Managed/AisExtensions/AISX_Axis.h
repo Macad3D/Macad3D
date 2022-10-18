@@ -23,7 +23,7 @@ public:
 
     Standard_Boolean AcceptDisplayMode(const Standard_Integer theMode) const override
     {
-        return theMode==0 || theMode==1;
+        return theMode >= 0 && theMode <= 2;
     }
 
     Standard_Integer Signature() const override
@@ -44,8 +44,8 @@ public:
 
 private:
     void _ComputeArrow(const Handle(Graphic3d_Group)& theGroup);
-    void _ComputeCylinder(const Handle(Graphic3d_Group)& theGroup);
-    void _ComputeLine(const Handle(Prs3d_Presentation)& thePrs, const Handle(Prs3d_Drawer)& theDrawer);
+    void _ComputeLine(const Handle(Graphic3d_Group)& theGroup);
+    void _ComputeKnob(const Handle(Graphic3d_Group)& theGroup);
     void _InitDrawerAttributes();
 
     gp_Ax1 _Axis;

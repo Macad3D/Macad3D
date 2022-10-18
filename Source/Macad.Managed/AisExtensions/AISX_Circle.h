@@ -12,6 +12,7 @@ public:
     void SetWidth(double theWidth) override;
     void SetLimits(double theStartParam, double theEndParam);
     void SetSector(double theStartParam, double theEndParam);
+    void SetKnobPosition(double theParam);
 
     void Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
                  const Handle(Prs3d_Presentation)& thePrs, const Standard_Integer theMode) override;
@@ -46,6 +47,7 @@ public:
 private:
     void _ComputeCircle(const Handle(Prs3d_Presentation)& thePrs, const Handle(Prs3d_Drawer)& theDrawer);
     void _ComputeSector(const Handle(Prs3d_Presentation)& thePrs, const Handle(Prs3d_Drawer)& theDrawer);
+    void _ComputeKnob(const Handle(Prs3d_Presentation)& thePrs, const Handle(Prs3d_Drawer)& theDrawer);
     void _InitDrawerAttributes();
 
     gp_Circ _Circle;
@@ -53,5 +55,8 @@ private:
     double _LimitEndParam;
     double _SectorStartParam;
     double _SectorEndParam;
+    double _KnobPosition;
+
+    Handle(Prs3d_ShadingAspect) _SectorAspect;
 };
 

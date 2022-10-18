@@ -13,9 +13,10 @@ public sealed class Axis : VisualObject
     public enum Style
     {
         None = 0,
-        Headless = 1 << 1,
-        Topmost  = 1 << 16,
-        NoResize = 1 << 18,
+        ArrowHead = 1 << 1,
+        KnobHead  = 1 << 2,
+        Topmost   = 1 << 16,
+        NoResize  = 1 << 18,
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -172,7 +173,13 @@ public sealed class Axis : VisualObject
 
         _AisObject.SetColor(_Color);
         _AisObject.SetWidth(_Width);
-        _AisObject.SetDisplayMode(_Style.Has(Style.Headless) ? 1 : 0);
+
+        if(_Style.Has(Style.ArrowHead))
+            _AisObject.SetDisplayMode(AISX_Axis.Mode.Arrow);
+        else if(_Style.Has(Style.KnobHead))
+            _AisObject.SetDisplayMode(AISX_Axis.Mode.Knob);
+        else
+            _AisObject.SetDisplayMode(AISX_Axis.Mode.Headless);
     }
 
     //--------------------------------------------------------------------------------------------------

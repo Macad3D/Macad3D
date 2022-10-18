@@ -499,7 +499,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 ctx.MoveTo(157, 292, ModifierKeys.Control);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetClamp02"));
                 ctx.ViewportController.MouseUp();
-                Assert.AreEqual(3.0, taper.Offset);
+                Assert.AreEqual(4.0, taper.Offset);
 
                 // Cleanup
                 editor.Stop();
