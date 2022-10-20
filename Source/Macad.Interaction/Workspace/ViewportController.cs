@@ -141,9 +141,10 @@ namespace Macad.Interaction
 
         void Init()
         {
-            Viewport.Init();
-
             ViewportParameterSet.ParameterChanged += _ViewportParameterSet_ParameterChanged;
+
+            var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+            Viewport.Init(parameterSet.EnableAntialiasing);
         }
 
         //--------------------------------------------------------------------------------------------------

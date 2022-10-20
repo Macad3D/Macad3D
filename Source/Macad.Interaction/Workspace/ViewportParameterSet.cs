@@ -12,6 +12,8 @@ namespace Macad.Interaction
 
         public bool   ShowTrihedron               { get => GetValue<bool>();   set => SetValue(value); }
 
+        public bool   EnableAntialiasing          { get => GetValue<bool>();   set => SetValue(value); }
+
         //--------------------------------------------------------------------------------------------------
 
         public ViewportParameterSet()
@@ -23,6 +25,8 @@ namespace Macad.Interaction
             SetDefaultValue(nameof(ViewCubeAnimationDuration),   0.3);
 
             SetDefaultValue(nameof(ShowTrihedron),               true);
+
+            SetDefaultValue(nameof(EnableAntialiasing),          true);
         }
     }
 }

@@ -71,6 +71,11 @@ namespace Macad.Test.Utils
                 Document = new Model(), 
                 DocumentController = new ModelController()
             };
+            
+            // Set render parameter
+            var parameterSet = Current.Parameters.Get<ViewportParameterSet>();
+            parameterSet.EnableAntialiasing = false;
+
             Current.ViewportController.InitWindow(IntPtr.Zero, new Int32Rect(0, 0, viewportSize, viewportSize));
 
             // Neutralize View
@@ -82,6 +87,7 @@ namespace Macad.Test.Utils
             Current.Workspace.GridEnabled = false;
             Current.Workspace.GridStep = 10;
             Current.Workspace.V3dViewer.DisplayPrivilegedPlane(false);
+
             return Current;
         }
 

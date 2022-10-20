@@ -254,7 +254,7 @@ namespace Macad.Core
 
         //--------------------------------------------------------------------------------------------------
 
-        public void Init()
+        public void Init(bool useMsaa)
         {
             if (V3dView != null)
                 return;
@@ -266,14 +266,13 @@ namespace Macad.Core
             V3dView.SetBgGradientColors(Quantity_NameOfColor.Quantity_NOC_SLATEGRAY3.ToColor(), Quantity_NameOfColor.Quantity_NOC_SLATEGRAY4.ToColor(), Aspect_GradientFillMethod.Aspect_GFM_VER, false);
 
             var renderParams = V3dView.ChangeRenderingParams();
-            renderParams.NbMsaaSamples = 4;
-            renderParams.IsAntialiasingEnabled = true;
+            renderParams.NbMsaaSamples = useMsaa ? 4 : 0;
+            renderParams.IsAntialiasingEnabled = useMsaa;
             renderParams.TransparencyMethod = Graphic3d_RenderTransparentMethod.Graphic3d_RTM_BLEND_OIT;
             renderParams.Method = Graphic3d_RenderingMode.Graphic3d_RM_RASTERIZATION;
             renderParams.RaytracingDepth = 3;
             renderParams.IsShadowEnabled = true;
             renderParams.IsReflectionEnabled = true;
-            renderParams.IsAntialiasingEnabled = true;
             renderParams.IsTransparentShadowEnabled = true;
 
             // Reinit view parameters

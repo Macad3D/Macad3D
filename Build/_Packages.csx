@@ -130,16 +130,8 @@ public class Packages
             if(package.Method=="unzip")
             {
                 Printer.Line($"Extracting web package {package.Name}... ");
-                if(Path.GetExtension(targetFileName).ToLower() == ".zip")
-                {
-                    System.IO.Compression.ZipFile.ExtractToDirectory(targetFileName, localPath);
-                } 
-                else 
-                {
-                    var args = $"x -aoa -y \"{targetFileName}\"";
-                    if(Common.Run(Path.Combine(Common.GetRootFolder(), "Packages", "7Zip", "7za.exe"), args, localPath) != 0)
-                        throw new Exception("Execution of 7-Zip failed.");
-                }
+                System.IO.Compression.ZipFile.ExtractToDirectory(targetFileName, localPath);
+                File.Delete(targetFileName);
             }
             else if(package.Method.StartsWith("execute "))
             {
