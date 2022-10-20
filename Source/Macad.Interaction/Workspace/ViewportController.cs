@@ -109,12 +109,15 @@ namespace Macad.Interaction
 
         ~ViewportController()
         {
-            Dispose();
+            Dispose(false);
         }
 
-        //--------------------------------------------------------------------------------------------------
-
         public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        void Dispose(bool disposing)
         {
             ViewportParameterSet.ParameterChanged -= _ViewportParameterSet_ParameterChanged;
 
@@ -166,21 +169,19 @@ namespace Macad.Interaction
             _OcWindow = new WNT_Window("WorkspaceView", _OcWindowClass, style, initialRect.X, initialRect.Y, initialRect.Width, initialRect.Height, Quantity_NameOfColor.Quantity_NOC_GRAY50, parentHWnd);
             _OcWindow.Map();
 
-            if (Viewport.V3dView != null)
+            Viewport.V3dView.SetWindow(_OcWindow);
+            //Viewport.InitV3dView();
+            if (_ZoomFitAllOnInit)
             {
-                Viewport.V3dView.SetWindow(_OcWindow);
-                //Viewport.InitV3dView();
-                if (_ZoomFitAllOnInit)
-                {
-                    _ZoomFitAllOnInit = false;
-                    ZoomFitAll();
-                }
-                Viewport.V3dView.Update();
-                Viewport.V3dView.MustBeResized();
-                Viewport.V3dView.SetImmediateUpdate(false);
-
-                _UpdateParameter();
+                _ZoomFitAllOnInit = false;
+                ZoomFitAll();
             }
+            Viewport.V3dView.Update();
+            Viewport.V3dView.MustBeResized();
+            Viewport.V3dView.SetImmediateUpdate(false);
+
+            _UpdateParameter();
+
             var handle = _OcWindow.HWindow();
             return handle;
         }
@@ -768,5 +769,6 @@ namespace Macad.Interaction
         //--------------------------------------------------------------------------------------------------
 
         #endregion
+
     }
 }

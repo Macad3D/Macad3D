@@ -64,8 +64,8 @@ namespace Macad.Interaction
 
         public void SetValues(double deltaX, double deltaY)
         {
-            _DeltaX = deltaX;
-            _DeltaY = deltaY;
+            DeltaX = deltaX;
+            DeltaY = deltaY;
         }
     }
 }

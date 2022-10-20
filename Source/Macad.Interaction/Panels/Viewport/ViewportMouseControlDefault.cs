@@ -25,22 +25,7 @@ namespace Macad.Interaction.Panels
             }
             else
             {
-                if (mouseDevice?.LeftButton == MouseButtonState.Pressed)
-                {
-                    ViewportController.MouseMove(pos, modifierKeys);
-                    if (modifierKeys.HasFlag(ModifierKeys.Control) 
-                        && !ViewportController.IsInRubberbandSelection 
-                        && ViewportController.WorkspaceController.IsSelecting)
-                    {
-                        ViewportController.StartRubberbandSelection(
-                            InteractiveContext.Current.EditorState.RubberbandSelectionMode,
-                            InteractiveContext.Current.EditorState.RubberbandIncludeTouched);
-                    }
-                } 
-                else 
-                {
-                    ViewportController.MouseMove(pos, modifierKeys);
-                }
+                ViewportController.MouseMove(pos, modifierKeys);
             }
         }
 
@@ -136,10 +121,22 @@ namespace Macad.Interaction.Panels
                     _CurrentMouseMoveMode = ViewportController.MouseMoveMode.Panning;
                 }
             }
-            else 
+            else
             {
                 _CurrentMouseMoveMode = ViewportController.MouseMoveMode.None;
             }
+            
+            if (mouseDevice?.LeftButton == MouseButtonState.Pressed)
+            {
+                if (modifierKeys.HasFlag(ModifierKeys.Control) 
+                    && !ViewportController.IsInRubberbandSelection 
+                    && ViewportController.WorkspaceController.IsSelecting)
+                {
+                    ViewportController.StartRubberbandSelection(
+                        InteractiveContext.Current.EditorState.RubberbandSelectionMode,
+                        InteractiveContext.Current.EditorState.RubberbandIncludeTouched);
+                }
+            } 
         }
 
         //--------------------------------------------------------------------------------------------------

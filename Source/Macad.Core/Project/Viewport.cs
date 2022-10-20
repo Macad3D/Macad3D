@@ -291,8 +291,12 @@ namespace Macad.Core
             AisAnimationCamera?.Dispose();
             AisAnimationCamera = null;
 
-            V3dView?.Dispose();
-            V3dView = null;
+            if (V3dView != null)
+            {
+                V3dView.Remove();
+                V3dView.Dispose();
+                V3dView = null;
+            }
         }
 
         //--------------------------------------------------------------------------------------------------

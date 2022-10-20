@@ -72,7 +72,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             var body = TestGeomGenerator.CreateImprint().Body;
             ctx.WorkspaceController.Selection.SelectEntity(body);
             ctx.ViewportController.ZoomFitAll();
-
+            
             var sketchEditTool = new CreateSketchTool();
             Assert.That(ctx.WorkspaceController.StartTool(sketchEditTool));
             Assert.That(sketchEditTool, Is.Not.Null);

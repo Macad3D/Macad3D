@@ -95,7 +95,7 @@ namespace Macad.Interaction
             Dispose(true);
         }
 
-        public void Dispose(bool disposing)
+        void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -123,14 +123,15 @@ namespace Macad.Interaction
 
             Viewport.ViewportChanged -= _Viewport_ViewportChanged;
 
-            Workspace.GridChanged += _Workspace_GridChanged;
-            Workspace.Dispose();
             foreach (var viewCtrl in _ViewControllers)
             {
                 viewCtrl.Dispose();
             }
             _ViewControllers.Clear();
             _LastDetectedInteractive?.Dispose();
+
+            Workspace.GridChanged -= _Workspace_GridChanged;
+            Workspace.Dispose();
 
             GC.SuppressFinalize(this);
         }

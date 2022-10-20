@@ -293,7 +293,7 @@ namespace Macad.Core
 
             // Reinit ais parameters
             _ApplyWorkingContext();
-            AisContext?.SetPixelTolerance(2);
+            AisContext.SetPixelTolerance(2);
 
             var drawer = AisContext.DefaultDrawer();
             drawer.SetWireAspect(new Prs3d_LineAspect(Colors.Selection, Aspect_TypeOfLine.Aspect_TOL_SOLID, 1.0));

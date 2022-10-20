@@ -114,7 +114,6 @@ namespace Macad.Interaction.Panels
             MouseHorizontalWheelEnabler.AddMouseHorizontalWheelHandler(this, OnMouseHorizontalWheel);
 
             _ViewportControllerChanged();
-
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -75,5 +75,14 @@ namespace Macad.Interaction
         {
             InitializeComponent();
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public void SetValues(double deltaX, double deltaY, double deltaZ)
+        {
+            DeltaX = deltaX;
+            DeltaY = deltaY;
+            DeltaZ = deltaZ;
+        }
     }
 }

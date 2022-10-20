@@ -206,7 +206,7 @@ namespace Macad.Interaction
             WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
             _Coord2DHudElement = null;
             WorkspaceController.HudManager?.RemoveElement(_Delta2DHudElement);
-            _Coord2DHudElement = null;
+            _Delta2DHudElement = null;
             WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
             _ValueHudElement = null;
 
@@ -312,7 +312,7 @@ namespace Macad.Interaction
                 WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
                 _Coord2DHudElement = null;
                 WorkspaceController.HudManager?.RemoveElement(_Delta2DHudElement);
-                _Coord2DHudElement = null;
+                _Delta2DHudElement = null;
                 WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
                 _ValueHudElement = null;
 
@@ -340,7 +340,17 @@ namespace Macad.Interaction
 
                 // Apply constraints
                 ApplyConstraints();
-                Snap();
+                if (data.ModifierKeys.HasFlag(ModifierKeys.Control))
+                {
+                    var tempCoord = _Center2DOnWorkingPlane.Translated(MoveDelta);
+                    tempCoord = new Pnt2d(Maths.RoundToNearest(tempCoord.X, WorkspaceController.Workspace.GridStep),
+                                          Maths.RoundToNearest(tempCoord.Y, WorkspaceController.Workspace.GridStep));
+                    MoveDelta = tempCoord.Translated(_Center2DOnWorkingPlane.ToVec().Reversed()).ToVec();
+                }
+                else
+                {
+                    Snap();
+                }
                 ApplyConstraints();
 
                 // Calc new 3D center

@@ -116,9 +116,63 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             // Check Cleanup
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointMerge02"), 0.1);
         }
-        
+
         //--------------------------------------------------------------------------------------------------
-        
+
+        [Test]
+        public void RotatePoint()
+        {
+            var ctx = Context.Current;
+
+            var sketch = TestSketchGenerator.CreateRectangle(5, 5);
+            ctx.ViewportController.ZoomFitAll();
+
+            var tool = new SketchEditorTool(sketch);
+            ctx.WorkspaceController.StartTool(tool);
+
+            Assert.Multiple(() =>
+            {
+                // SelectSegment
+                tool.Select(new []{0, 1, 2, 3}, new []{0, 1, 2, 3});
+                ctx.ViewportController.MouseMove(new Point(275, 294));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(234, 281));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotatePoint01"), 0.1);
+                ctx.ViewportController.MouseUp();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotatePoint02"), 0.1);
+                ctx.WorkspaceController.CancelTool(tool, false);
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void RotatePointClamp()
+        {
+            var ctx = Context.Current;
+
+            var sketch = TestSketchGenerator.CreateRectangle(5, 5);
+            ctx.ViewportController.ZoomFitAll();
+
+            var tool = new SketchEditorTool(sketch);
+            ctx.WorkspaceController.StartTool(tool);
+
+            Assert.Multiple(() =>
+            {
+                // SelectSegment
+                tool.Select(new []{0, 1, 2, 3}, new []{0, 1, 2, 3});
+                ctx.ViewportController.MouseMove(new Point(275, 294));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(234, 281));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotatePointClamp01"), 0.1);
+                ctx.ViewportController.MouseMove(new Point(234, 281), ModifierKeys.Control);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotatePointClamp02"), 0.1);
+                ctx.WorkspaceController.CancelTool(tool, false);
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         [Test]
         public void RotatePointMerge()
         {
@@ -155,6 +209,38 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         //--------------------------------------------------------------------------------------------------
 
         [Test]
+        public void MovePointClamp()
+        {            
+            var ctx = Context.Current;
+
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
+            var body = TestGeomGenerator.CreateBody(sketch);
+            ctx.ViewportController.ZoomFitAll();
+
+            var tool = new SketchEditorTool(sketch);
+            ctx.WorkspaceController.StartTool(tool);
+
+            Assert.Multiple(() =>
+            {
+                // Select Point
+                ctx.ClickAt(377, 122);
+                // Move on progress
+                ctx.MoveTo(390, 108);
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(188, 131));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointClamp01"), 0.1);
+                ctx.ViewportController.MouseMove(new Point(188, 131), ModifierKeys.Control);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointClamp02"), 0.1);
+                ctx.ViewportController.MouseUp();
+
+                // Cleanup
+                tool.Stop();
+            });
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
         public void MovePointSnap()
         {            
             var ctx = Context.Current;
@@ -185,7 +271,6 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
                 // Cleanup
                 tool.Stop();
             });
-            
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -497,21 +582,33 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             Assert.That(sketchEditTool, Is.Not.Null);
             var sketch = sketchEditTool.Sketch;
 
-            // Create Circle
-            sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
-            ctx.ClickAt(250, 250); // Center point
-            ctx.ClickAt(100, 250); // Rim point
-            ctx.MoveTo(50, 50); // Move crsr out of the way
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext01"), 0.1);
+            Assert.Multiple(() =>
+            {
+                // Create Circle
+                sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
+                ctx.ClickAt(250, 250); // Center point
+                ctx.ClickAt(100, 250); // Rim point
+                ctx.MoveTo(50, 50); // Move crsr out of the way
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext01"), 0.1);
 
-            // Leave editor
-            sketchEditTool.Stop();
-            // Rotate
-            sketch.Body.Rotation = new Quaternion(0.0, 90.0.ToRad(), 0.0);
-            sketch.Invalidate();
-            // Restart Editor
-            ctx.WorkspaceController.StartTool(new SketchEditorTool(sketch));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext02"), 0.1);
+                // Leave editor
+                sketchEditTool.Stop();
+                // Rotate
+                sketch.Body.Rotation = new Quaternion(0.0, 90.0.ToRad(), 0.0);
+                sketch.Invalidate();
+                // Restart Editor
+                ctx.WorkspaceController.StartTool(new SketchEditorTool(sketch));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext02"), 0.1);
+
+                // Leave editor
+                sketchEditTool.Stop();
+                // Rotate
+                sketch.Body.Rotation = new Quaternion(45.0.ToRad(), 45.0.ToRad(), 45.0.ToRad());
+                sketch.Invalidate();
+                // Restart Editor
+                ctx.WorkspaceController.StartTool(new SketchEditorTool(sketch));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContext03"), 0.1);
+            });
         }
 
         //--------------------------------------------------------------------------------------------------

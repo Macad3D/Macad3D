@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using Macad.Common.Interop;
 using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Core.Topology;
@@ -42,6 +43,7 @@ namespace Macad.Test.Utils
 
         public static Context InitEmpty()
         {
+            Current?.Dispose();
             Current = new Context();
             return Current;
         }
@@ -50,6 +52,7 @@ namespace Macad.Test.Utils
 
         public static Context InitWithDefault()
         {
+            Current?.Dispose();
             Current = new Context
             {
                 Document = new Model(), 
@@ -62,6 +65,7 @@ namespace Macad.Test.Utils
 
         public static Context InitWithView(int viewportSize)
         {
+            Current?.Dispose();
             Current = new Context
             {
                 Document = new Model(), 
@@ -102,7 +106,6 @@ namespace Macad.Test.Utils
 
         public void Deinit()
         {
-            Dispose();
             InitEmpty();
         }
 
