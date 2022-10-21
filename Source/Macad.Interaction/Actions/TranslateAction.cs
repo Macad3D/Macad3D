@@ -45,7 +45,7 @@ public class TranslateAction : ToolAction
 
     readonly Axis[] _AxisGizmos = new Axis[3];
     readonly Plane[] _PlaneGizmos = new Plane[3];
-    Coord3dHudElement _Coord3dHudElement;
+    Coord3DHudElement _Coord3DHudElement;
     Delta3DHudElement _Delta3DHudElement;
     HintLine _AxisHintLine;
 
@@ -263,8 +263,8 @@ public class TranslateAction : ToolAction
 
             _AxisHintLine?.Remove();
 
-            WorkspaceController.HudManager?.RemoveElement(_Coord3dHudElement);
-            _Coord3dHudElement = null;
+            WorkspaceController.HudManager?.RemoveElement(_Coord3DHudElement);
+            _Coord3DHudElement = null;
             WorkspaceController.HudManager?.RemoveElement(_Delta3DHudElement);
             _Delta3DHudElement = null;
 
@@ -349,18 +349,18 @@ public class TranslateAction : ToolAction
             UpdateGizmo();
             data.ForceReDetection = true;
 
-            if (_Coord3dHudElement == null)
+            if (_Coord3DHudElement == null)
             {
-                _Coord3dHudElement = WorkspaceController.HudManager?.CreateElement<Coord3dHudElement>(this);
+                _Coord3DHudElement = WorkspaceController.HudManager?.CreateElement<Coord3DHudElement>(this);
                 _Delta3DHudElement = WorkspaceController.HudManager?.CreateElement<Delta3DHudElement>(this);
             }
 
-            if (_Coord3dHudElement != null)
+            if (_Coord3DHudElement != null)
             {
                 var coord = _CoordinateSystem.Location.Translated(_Delta);
-                _Coord3dHudElement.CoordinateX = coord.X;
-                _Coord3dHudElement.CoordinateY = coord.Y;
-                _Coord3dHudElement.CoordinateZ = coord.Z;
+                _Coord3DHudElement.CoordinateX = coord.X;
+                _Coord3DHudElement.CoordinateY = coord.Y;
+                _Coord3DHudElement.CoordinateZ = coord.Z;
             }
 
             if (_Delta3DHudElement != null)

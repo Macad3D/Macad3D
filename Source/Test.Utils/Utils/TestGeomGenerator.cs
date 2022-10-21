@@ -199,5 +199,26 @@ namespace Macad.Test.Utils
             var body = Body.Create(cylinder);
             return BooleanCut.Create(body, cylinder2);
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static Revolve CreateRevolve()
+        {
+            var sketch = new Sketch();
+            var body = CreateBody(sketch, new Pnt(10, 0, 0));
+
+            SketchBuilder sb = new SketchBuilder(sketch);
+            sb.StartPath(0, 30);
+            sb.LineTo(20, 30);
+            sb.ArcTo(30, 0, 30, 20);
+            sb.BezierTo(0, -20, 10, 0);
+            sb.LineTo(5, 0);
+            sb.ClosePath();
+
+            var revolve = Revolve.Create(body);
+            revolve.Axis = Revolve.RevolveAxis.LocalY;
+            revolve.Offset = new Vec(0, 0, 10);
+            return revolve;
+        }
     }
 }

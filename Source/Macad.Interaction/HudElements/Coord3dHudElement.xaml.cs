@@ -1,6 +1,6 @@
 ﻿namespace Macad.Interaction
 {
-    public partial class Coord3dHudElement : HudElement
+    public partial class Coord3DHudElement : HudElement
     {
         public double CoordinateX
         {
@@ -53,7 +53,7 @@
 
         //--------------------------------------------------------------------------------------------------
 
-        public Coord3dHudElement()
+        public Coord3DHudElement()
         {
             InitializeComponent();
         }

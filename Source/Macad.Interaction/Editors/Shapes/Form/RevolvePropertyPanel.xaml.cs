@@ -162,28 +162,7 @@ namespace Macad.Interaction.Editors.Shapes
             RaisePropertyChanged(nameof(OffsetX));
             RaisePropertyChanged(nameof(OffsetY));
             RaisePropertyChanged(nameof(OffsetZ));
-
-            if((_AxisHintLine == null)&&(Revolve.IsVisible))
-                _AxisHintLine = new HintLine(WorkspaceController, HintStyle.WorkingAxis);
-            if (_AxisHintLine != null)
-            {
-                if (!Revolve.IsVisible)
-                {
-                    _AxisHintLine.Remove();
-                    _AxisHintLine = null;
-                }
-                else
-                {
-                    var computeAxis = Revolve.ComputeAxis();
-                    if (computeAxis != null)
-                        _AxisHintLine.Set(computeAxis.Value.Transformed(Revolve.GetTransformation()));
-                }
-            }
         }
-
-        //--------------------------------------------------------------------------------------------------
-
-        HintLine _AxisHintLine;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -215,11 +194,6 @@ namespace Macad.Interaction.Editors.Shapes
             if (Revolve != null)
             {
                 Revolve.PropertyChanged -= Revolve_PropertyChanged;
-            }
-            if (_AxisHintLine != null)
-            {
-                _AxisHintLine.Remove();
-                _AxisHintLine = null;
             }
         }
 
