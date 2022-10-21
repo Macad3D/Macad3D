@@ -9,6 +9,8 @@
   </PropertyGroup>
   <Import Project="$(SHFBNETFRAMEWORK)\EWSoftware.SHFB.NET.props" Condition="'$(SHFBNETFRAMEWORK)'!=''" />
   <PropertyGroup>
+    <!-- A target framework version is required by Visual Studio.  It can be any version with a targeting pack installed. -->
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <!-- The configuration and platform will be used to determine which assemblies to include from solution and
 				 project documentation sources -->
     <Configuration Condition=" '$(Configuration)' == '' ">WebDoc</Configuration>
@@ -476,8 +478,8 @@
   </PropertyGroup>
   <!-- Import the SHFB packages -->
   <ItemGroup>
-    <PackageReference Include="EWSoftware.SHFB" Version="2021.11.7" />
-    <PackageReference Include="EWSoftware.SHFB.NET" Version="5.0.0" />
+    <PackageReference Include="EWSoftware.SHFB" Version="2022.10.15" />
+    <PackageReference Include="EWSoftware.SHFB.NET" Version="5.0.0.2" />
   </ItemGroup>
   <!-- Import the common build targets during NuGet restore, because $(SHFBROOT) is not set yet -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists('$(SHFBROOT)\SandcastleHelpFileBuilder.targets')" />
