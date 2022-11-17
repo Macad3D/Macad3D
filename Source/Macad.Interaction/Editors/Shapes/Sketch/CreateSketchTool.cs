@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Macad.Common;
 using Macad.Core;
 using Macad.Core.Auxiliary;
 using Macad.Core.Geom;
@@ -60,17 +61,15 @@ namespace Macad.Interaction.Editors.Shapes
             switch (_InitialCreateMode)
             {
                 case CreateMode.WorkplaneXY:
-                    _Plane = InteractiveContext.Current.Workspace.WorkingPlane;
+                    _Plane = _SavedWorkingPlane;
                     break;
 
                 case CreateMode.WorkplaneXZ:
-                    _Plane = new Pln(InteractiveContext.Current.Workspace.WorkingPlane.Location, 
-                        InteractiveContext.Current.Workspace.WorkingPlane.YAxis.Direction.Reversed());
+                    _Plane =new Pln(new Ax3(_SavedWorkingPlane.Location, _SavedWorkingPlane.YAxis.Direction.Reversed(), _SavedWorkingPlane.XAxis.Direction));
                     break;
 
                 case CreateMode.WorkplaneYZ:
-                    _Plane = new Pln(InteractiveContext.Current.Workspace.WorkingPlane.Location,
-                        InteractiveContext.Current.Workspace.WorkingPlane.XAxis.Direction.Reversed());
+                    _Plane = new Pln(new Ax3(_SavedWorkingPlane.Location, _SavedWorkingPlane.XAxis.Direction, _SavedWorkingPlane.YAxis.Direction));
                     break;
             }
 
@@ -119,7 +118,7 @@ namespace Macad.Interaction.Editors.Shapes
                 Margin = new Vec2d(1, 1),
                 Color = Colors.ActionGreen
             };
-            _DefaultPlanes[1].Set(new Pln(workingPlane.Location, workingPlane.YAxis.Direction));
+            _DefaultPlanes[1].Set(new Pln(new Ax3(workingPlane.Location, workingPlane.YAxis.Direction, workingPlane.Axis.Direction)));
 
             _DefaultPlanes[2] = new Plane(WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
             {
@@ -128,7 +127,7 @@ namespace Macad.Interaction.Editors.Shapes
                 Margin = new Vec2d(1, -1),
                 Color = Colors.ActionRed
             };
-            _DefaultPlanes[2].Set(new Pln(workingPlane.Location, workingPlane.XAxis.Direction));
+            _DefaultPlanes[2].Set(new Pln(new Ax3(workingPlane.Location, workingPlane.XAxis.Direction, workingPlane.Axis.Direction)));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -159,18 +158,27 @@ namespace Macad.Interaction.Editors.Shapes
                 if (selectAction.SelectedAisObject.Equals(_DefaultPlanes[0].AisObject))
                 {
                     _Plane = _SavedWorkingPlane;
-                    return true;
                 }
                 else if (selectAction.SelectedAisObject.Equals(_DefaultPlanes[1].AisObject))
                 {
-                    _Plane = new Pln(_SavedWorkingPlane.Location, _SavedWorkingPlane.YAxis.Direction.Reversed());
-                    return true;
+                    _Plane = new Pln(new Ax3(_SavedWorkingPlane.Location, _SavedWorkingPlane.YAxis.Direction.Reversed(), _SavedWorkingPlane.XAxis.Direction));
                 }
                 else if (selectAction.SelectedAisObject.Equals(_DefaultPlanes[2].AisObject))
                 {
-                    _Plane = new Pln(_SavedWorkingPlane.Location, _SavedWorkingPlane.XAxis.Direction.Reversed());
-                    return true;
+                    _Plane = new Pln(new Ax3(_SavedWorkingPlane.Location, _SavedWorkingPlane.XAxis.Direction, _SavedWorkingPlane.YAxis.Direction));
                 }
+                else
+                {
+                    return false;
+                }
+
+                bool flip = !selectAction.LastMouseEventData.PickAxis.IsOpposite(_Plane.Axis, Maths.HalfPI);
+                if (flip)
+                {
+                    _Plane = new Pln(new Ax3(_Plane.Location, _Plane.Axis.Direction.Reversed(), _Plane.XAxis.Direction.Reversed()));
+                }
+
+                return true;
             }
 
             return false;

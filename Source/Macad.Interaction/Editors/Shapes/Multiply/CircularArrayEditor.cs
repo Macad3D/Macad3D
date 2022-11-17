@@ -59,12 +59,14 @@ namespace Macad.Interaction.Editors.Shapes
                 return;
             }
 
-            if (_HintCircle == null)
+            _HintCircle ??= new HintCircle(WorkspaceController, HintStyle.Solid);
+            Ax3 circAxis = axis.Value;
+            if (Entity.Radius < 0)
             {
-                _HintCircle = new HintCircle(WorkspaceController, HintStyle.Solid);
+                circAxis.XReverse();
             }
+            _HintCircle.Set(new gp_Circ(circAxis.ToAx2(), Entity.Radius.Abs()));
 
-            _HintCircle.Set(new gp_Circ(axis.Value.ToAx2(), Entity.Radius));
             var (startAngle, endAngle) = Entity.GetStartEndAngles();
             _HintCircle.SetRange(startAngle, endAngle);
 

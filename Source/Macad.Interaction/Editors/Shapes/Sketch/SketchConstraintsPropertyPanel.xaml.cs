@@ -209,7 +209,7 @@ namespace Macad.Interaction.Editors.Shapes
             bool swapOrientation = false;
             if(InteractiveContext.Current?.WorkspaceController?.LockWorkingPlane ?? false)
             {
-                swapOrientation = ((int) ((InteractiveContext.Current?.WorkspaceController?.ActiveViewport?.Twist ?? 0.0 + 45.0) / 90.0) & 0x01) == 1;
+                swapOrientation = ((int) ((SketchEditorTool.ViewRotation + 45.0) / 90.0) & 0x01) == 1;
             }
 
             var newConstraints = new List<ConstraintData>();

@@ -1,8 +1,10 @@
 ﻿using System.IO;
 using System.Windows.Input;
+using Macad.Common;
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
+using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
@@ -1047,6 +1049,40 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             Assert.IsTrue(ctx.UndoHandler.CanUndo);
             ctx.UndoHandler.DoUndo(1);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Undo01"), 0.1);
+        }
+                
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void OrientationSwap()
+        {
+            var ctx = Context.Current;
+
+            var sketch = TestSketchGenerator.CreateRectangle(10, 10);
+            sketch.Body.Rotation = new Quaternion(0, -90.0.ToRad(), -90.0.ToRad());
+            var sketchEditTool = new SketchEditorTool(sketch);
+            ctx.WorkspaceController.StartTool(sketchEditTool);
+
+            // Create segments
+            sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
+            ctx.ClickAt(50, 240);
+            ctx.ClickAt(450, 260);
+            ctx.MoveTo(0, 0);
+
+            // Create Constraint
+            Assert.AreEqual(1, sketchEditTool.SelectedSegments.Count);
+            SketchCommands.CreateConstraint.Execute(SketchCommands.Constraints.Horizontal);
+
+            // Check
+            Assert.Multiple(() =>
+            {
+                Assert.IsNotEmpty(sketchEditTool.Sketch.Constraints);
+                Assert.IsTrue(sketchEditTool.Sketch.SolveConstraints(true), "Constraint not solved.");
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OrientationSwap01"), 0.1);
+
+                sketchEditTool.RotateView(90);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OrientationSwap02"), 0.1);
+            });
         }
     }
 }

@@ -386,6 +386,7 @@ namespace Macad.Interaction
             _LastMouseMovePosition = pos;
             _LastMouseMoveViewportController = viewportController;
             _LastModifierKeys = modifierKeys;
+            _MouseEventData.Clear();
 
             Selection.Update();
 
@@ -475,11 +476,21 @@ namespace Macad.Interaction
                 return;
             }
 
+            bool handled = false;
             foreach (var handler in _MouseEventHandlers())
             {
-                if (handler.OnMouseDown(_MouseEventData))
-                    return;
+                handled = handler.OnMouseDown(_MouseEventData);
+                if (handled)
+                    break;
             }
+                        
+            if (_MouseEventData.ForceReDetection)
+            {
+                MouseMove(viewportController, _LastMouseMovePosition, modifierKeys);
+            }
+            
+            if (handled)
+                return;
 
             IsSelecting = true;
         }
@@ -534,9 +545,7 @@ namespace Macad.Interaction
 
         public void SelectByRectangle(int[] corners, bool includeTouched, ViewportController viewportController)
         {
-            _MouseEventData.DetectedAisInteractives.Clear();
-            _MouseEventData.DetectedEntities.Clear();
-            _MouseEventData.DetectedShapes.Clear();
+            _MouseEventData.Clear();
 
             if (Occt.Helper.Ais.PickFromContext(Workspace.AisContext, corners[0], corners[1], corners[2], corners[3], includeTouched,
                                                 viewportController.Viewport.V3dView, 

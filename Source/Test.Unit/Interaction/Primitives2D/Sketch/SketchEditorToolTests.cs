@@ -612,6 +612,45 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void RotateView()
+        {
+            var ctx = Context.Current;
+
+            ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+            var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+            Assert.That(sketchEditTool, Is.Not.Null);
+            var sketch = sketchEditTool.Sketch;
+            ctx.WorkspaceController.Invalidate(forceRedraw: true);
+
+            Assert.Multiple(() =>
+            {
+                // Create Circle
+                sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
+                ctx.ClickAt(375, 125); // Center point
+                ctx.ClickAt(375, 250); // Rim point
+                ctx.MoveTo(50, 50); // Move crsr out of the way
+                ctx.WorkspaceController.Invalidate(forceRedraw: true);
+
+                sketchEditTool.RotateView(90.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotateView01"), 0.1);
+
+                sketchEditTool.RotateView(90.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotateView02"), 0.1);
+
+                sketchEditTool.RotateView(90.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotateView03"), 0.1);
+
+                sketchEditTool.RotateView(-270.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotateView04"), 0.1);
+
+                sketchEditTool.RotateView(-90.0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotateView05"), 0.1);
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
         
         [Test]
         public void RestoreWorkingContextTwist()

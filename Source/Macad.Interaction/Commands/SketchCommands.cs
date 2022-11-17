@@ -215,7 +215,7 @@ namespace Macad.Interaction
                 bool swapOrientation = false;
                 if(InteractiveContext.Current?.WorkspaceController?.LockWorkingPlane ?? false)
                 {
-                    swapOrientation = ((int) ((InteractiveContext.Current?.WorkspaceController?.ActiveViewport?.Twist ?? 0.0 + 45.0) / 90.0) & 0x01) == 1;
+                    swapOrientation = ((int) ((sketchEditTool.ViewRotation + 45.0) / 90.0) & 0x01) == 1;
                 }
 
                 switch (constraintType)
@@ -291,7 +291,7 @@ namespace Macad.Interaction
                 bool swapOrientation = false;
                 if(InteractiveContext.Current?.WorkspaceController?.LockWorkingPlane ?? false)
                 {
-                    swapOrientation = ((int) ((InteractiveContext.Current?.WorkspaceController?.ActiveViewport?.Twist ?? 0.0 + 45.0) / 90.0) & 0x01) == 1;
+                    swapOrientation = ((int) ((sketchEditTool.ViewRotation + 45.0) / 90.0) & 0x01) == 1;
                 }
 
                 switch (constraintType)
@@ -305,15 +305,11 @@ namespace Macad.Interaction
                     case Constraints.Parallel:
                         return sketchEditTool.CanCreateConstraint<SketchConstraintParallel>();
                     case Constraints.Horizontal:
-                        if(swapOrientation)
-                            return sketchEditTool.CanCreateConstraint<SketchConstraintVertical>();
-                        else
-                            return sketchEditTool.CanCreateConstraint<SketchConstraintHorizontal>();
+                        return swapOrientation ? sketchEditTool.CanCreateConstraint<SketchConstraintVertical>() 
+                                               : sketchEditTool.CanCreateConstraint<SketchConstraintHorizontal>();
                     case Constraints.Vertical:
-                        if(swapOrientation)
-                            return sketchEditTool.CanCreateConstraint<SketchConstraintHorizontal>();
-                        else
-                            return sketchEditTool.CanCreateConstraint<SketchConstraintVertical>();
+                        return swapOrientation ? sketchEditTool.CanCreateConstraint<SketchConstraintHorizontal>() 
+                                               : sketchEditTool.CanCreateConstraint<SketchConstraintVertical>();
                     case Constraints.Angle:
                         return sketchEditTool.CanCreateConstraint<SketchConstraintAngle>();
                     case Constraints.Concentric:
@@ -325,15 +321,11 @@ namespace Macad.Interaction
                     case Constraints.PointOnMidpoint:
                         return sketchEditTool.CanCreateConstraint<SketchConstraintPointOnMidpoint>();
                     case Constraints.HorizontalDistance:
-                        if(swapOrientation)
-                            return sketchEditTool.CanCreateConstraint<SketchConstraintVerticalDistance>();
-                        else
-                            return sketchEditTool.CanCreateConstraint<SketchConstraintHorizontalDistance>();
+                        return swapOrientation ? sketchEditTool.CanCreateConstraint<SketchConstraintVerticalDistance>() 
+                                               : sketchEditTool.CanCreateConstraint<SketchConstraintHorizontalDistance>();
                     case Constraints.VerticalDistance:
-                        if(swapOrientation)
-                            return sketchEditTool.CanCreateConstraint<SketchConstraintHorizontalDistance>();
-                        else
-                            return sketchEditTool.CanCreateConstraint<SketchConstraintVerticalDistance>();
+                        return swapOrientation ? sketchEditTool.CanCreateConstraint<SketchConstraintHorizontalDistance>() 
+                                               : sketchEditTool.CanCreateConstraint<SketchConstraintVerticalDistance>();
                     case Constraints.Fixed:
                         return sketchEditTool.CanCreateConstraint<SketchConstraintFixed>();
                     case Constraints.Tangent:

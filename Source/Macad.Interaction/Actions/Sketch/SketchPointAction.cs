@@ -136,6 +136,7 @@ namespace Macad.Interaction
                     Point = _SketchEditorTool.Sketch.Points[MergeCandidateIndex];
                 }
                 IsFinished = true;
+                data.ForceReDetection = true;
             }
             return true;
         }

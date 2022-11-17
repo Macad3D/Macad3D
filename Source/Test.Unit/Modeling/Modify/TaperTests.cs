@@ -4,7 +4,6 @@ using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using NUnit.Framework;
-using Macad.Interaction;
 
 namespace Macad.Test.Unit.Modeling.Modify
 {
@@ -256,6 +255,25 @@ namespace Macad.Test.Unit.Modeling.Modify
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void BoxByEdgeOffsetTwice()
+        {
+            var box = TestGeomGenerator.CreateBox();
+            var face = box.GetSubshapeReference(SubshapeType.Face, 1);
+            var edge = box.GetSubshapeReference(SubshapeType.Edge, 4);
+            var taper = Taper.Create(box.Body, face, edge, 22.5);
+            taper.Offset = 2;
+
+            face = taper.GetSubshapeReference(SubshapeType.Face, 6);
+            Assert.IsNotNull(face);
+            edge = taper.GetSubshapeReference(SubshapeType.Edge, 12);
+            Assert.IsNotNull(edge);
+            var taper2 = Taper.Create(box.Body, face, edge, 22.5);
+            taper2.Offset = 3;
+
+            Assert.IsTrue(taper2.Make(Shape.MakeFlags.None));
+            AssertHelper.IsSameModel(taper2, Path.Combine(_BasePath, "BoxByEdgeOffsetTwice"));
+        }
 
     }
 }

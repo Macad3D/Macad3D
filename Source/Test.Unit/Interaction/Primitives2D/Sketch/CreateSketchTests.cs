@@ -298,15 +298,58 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
             Assert.NotNull(sketchEditTool);
 
-            // Create Circle
+            // Create Circle in the top right
             sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
-            ctx.ClickAt(250, 250); // Center point
-            ctx.ClickAt(100, 250); // Rim point
+            ctx.ClickAt(375, 125); // Center point
+            ctx.ClickAt(375, 250); // Rim point
             ctx.MoveTo(50, 50); // Move crsr out of the way
 
             // Leave editor
             sketchEditTool.Stop();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"CreateSketchInDefault{mode}2"), 0.1);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        [TestCase(CreateSketchTool.CreateMode.WorkplaneXY)]
+        [TestCase(CreateSketchTool.CreateMode.WorkplaneXZ)]
+        [TestCase(CreateSketchTool.CreateMode.WorkplaneYZ)]
+        public void CreateSketchOnDefaultPlaneOpposite(CreateSketchTool.CreateMode mode)
+        {
+            (int x, int y) coords = default;
+            switch (mode)
+            {
+                case CreateSketchTool.CreateMode.WorkplaneXY:
+                    coords = (250, 290);
+                    break;
+                case CreateSketchTool.CreateMode.WorkplaneXZ:
+                    coords = (290, 240);
+                    break;
+                case CreateSketchTool.CreateMode.WorkplaneYZ:
+                    coords = (204, 240);
+                    break;
+            }
+
+            var ctx = Context.Current;
+            ctx.Viewport.EyePoint = ctx.Viewport.EyePoint.Scaled(Pnt.Origin, -1);
+
+            ctx.WorkspaceController.StartTool(new CreateSketchTool());
+            ctx.MoveTo(coords.x, coords.y);
+            //AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"CreateSketchInDefaultOpposite{mode}1"), 0.1);
+            ctx.ClickAt(coords.x, coords.y);
+            var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+            Assert.NotNull(sketchEditTool);
+
+            // Create Circle in the top right
+            sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
+            ctx.ClickAt(375, 125); // Center point
+            ctx.ClickAt(375, 250); // Rim point
+            ctx.MoveTo(50, 50); // Move crsr out of the way
+
+            // Leave editor
+            sketchEditTool.Stop();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"CreateSketchInDefaultOpposite{mode}2"), 0.1);
         }
     }
 }

@@ -29,7 +29,8 @@ namespace Macad.Interaction.Editors.Topology
             _UpdateComponents();
 
             Entity.PropertyChanged += _Body_PropertyChanged;
-            InteractiveEntity.VisualChanged += _InteractiveEntity_VisualChanged;                 
+            InteractiveEntity.VisualChanged += _InteractiveEntity_VisualChanged;
+            Layer.InteractivityChanged += _Layer_InteractivityChanged;
 
             _UpdateGhost();
         }
@@ -38,6 +39,7 @@ namespace Macad.Interaction.Editors.Topology
 
         public override void Stop() 
         {
+            Layer.InteractivityChanged -= _Layer_InteractivityChanged;
             InteractiveEntity.VisualChanged -= _InteractiveEntity_VisualChanged;                 
             Entity.PropertyChanged -= _Body_PropertyChanged;
 
@@ -77,6 +79,16 @@ namespace Macad.Interaction.Editors.Topology
             if (entity == Entity)
             {
                 _GhostVisualObject?.Update();
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        void _Layer_InteractivityChanged(Layer layer)
+        {
+            if (Entity?.Layer == layer)
+            {
+                _UpdateGhost();
             }
         }
 

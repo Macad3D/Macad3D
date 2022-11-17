@@ -96,6 +96,10 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
+        public double ViewRotation { get; private set; }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
         #region Member
@@ -105,7 +109,6 @@ namespace Macad.Interaction.Editors.Shapes
         double _LastGizmoScale;
         double _LastPixelSize;
         double[] _SavedViewParameters;
-        double _ViewRotation;
         ClipPlane _ClipPlane;
 
         SelectSketchElementAction _SelectAction;
@@ -225,7 +228,7 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 var editorSettings = SketchEditorSettingsCache.GetOrCreate(Sketch);
                 editorSettings.ViewParameters = vc.Viewport.GetViewParameters();
-                editorSettings.ViewRotation = _ViewRotation;
+                editorSettings.ViewRotation = ViewRotation;
                 editorSettings.ClipPlaneEnabled = ClipPlaneEnabled;
             }
 
@@ -297,8 +300,8 @@ namespace Macad.Interaction.Editors.Shapes
 
         public void RotateView(double degree)
         {
-            _ViewRotation = Maths.NormalizeAngleDegree(_ViewRotation + degree);
-            double twist = Maths.NormalizeAngleDegree(WorkspaceController.ActiveViewport.Twist + _ViewRotation);
+            ViewRotation = Maths.NormalizeAngleDegree(ViewRotation + degree);
+            double twist = Maths.NormalizeAngleDegree(WorkspaceController.ActiveViewport.Twist + degree);
             WorkspaceController.ActiveViewport.Twist = twist;
             Elements.OnViewRotated(_TempPoints, Sketch.Segments);
             WorkspaceController.Invalidate();

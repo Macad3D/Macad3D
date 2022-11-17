@@ -158,6 +158,7 @@ namespace Macad.Interaction
             {
                 ProcessMouseInput(data);
                 IsFinished = true;
+                data.ForceReDetection = true;
             }
             return true;
         }

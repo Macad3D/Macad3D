@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using Macad.Test.Utils;
@@ -6,6 +7,7 @@ using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction;
+using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
 
@@ -296,6 +298,45 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RubberbandSelection22"));
                 Assert.AreEqual(2, sel.SelectedEntities.Count);
             });
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        [Description("Bug: Rubberband selection does not work after using the sketch editor")]
+        public void RubberbandSelectionAfterSketchEditor()
+        {
+            var ctx = Context.Current;
+            var sel = ctx.WorkspaceController.Selection;
+
+            var sketch = TestSketchGenerator.CreateSketch(createBody: true);
+            ctx.ViewportController.ZoomFitAll();
+            
+            // Test if it works before sketch editing
+            Assert.AreEqual(0, sel.SelectedEntities.Count);
+            ctx.MoveTo(10, 10);
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle, false);
+            ctx.MoveTo(490, 490);
+            ctx.ViewportController.MouseUp();
+            Assert.AreEqual(1, sel.SelectedEntities.Count);
+
+            // Enter and leave sketch editor
+            var tool = new SketchEditorTool(sketch);
+            ctx.WorkspaceController.StartTool(tool);
+            ctx.MoveTo(100, 100);
+            ctx.WorkspaceController.CancelTool(tool, false);
+            ctx.WorkspaceController.Invalidate(forceRedraw:true);
+
+            // Test if it works after sketch editing
+            sel.SelectEntity(null);
+            Assert.AreEqual(0, sel.SelectedEntities.Count);
+            ctx.MoveTo(10, 10);
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle, false);
+            ctx.MoveTo(490, 490);
+            ctx.ViewportController.MouseUp();
+            Assert.AreEqual(1, sel.SelectedEntities.Count);
         }
     }
 }
