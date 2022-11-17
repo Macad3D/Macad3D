@@ -19,7 +19,6 @@ namespace Macad.Interaction.Visual
         public delegate VisualObject CreateVisualObjectDelegate(WorkspaceController workspaceController, InteractiveEntity entity);
         static readonly Dictionary<Type, CreateVisualObjectDelegate> _RegisteredVisualTypes = new();
 
-        readonly Dictionary<TopoDS_Shape, InteractiveEntity> _BRepToInteractiveDictionary = new();
         readonly Dictionary<InteractiveEntity, VisualObject> _InteractiveToVisualDictionary = new();
         readonly Dictionary<Guid, InteractiveEntity> _GuidToInteractiveDictionary = new();
         readonly List<InteractiveEntity> _InvalidatedInteractiveEntities = new();
@@ -80,7 +79,6 @@ namespace Macad.Interaction.Visual
             InteractiveEntity.VisualChanged -= _InteractiveEntity_VisualChanged;
             Entity.EntityRemoved -= _Entity_EntityRemoved;
             
-            _BRepToInteractiveDictionary.Clear();
             _InteractiveToVisualDictionary.Clear();
             _GuidToInteractiveDictionary.Clear();
             _InvalidatedInteractiveEntities.Clear();
@@ -174,17 +172,6 @@ namespace Macad.Interaction.Visual
 
         public VisualObject Add(InteractiveEntity entity)
         {
-            foreach (var item in _BRepToInteractiveDictionary.Where(kvp => kvp.Value == entity).ToList())
-            {
-                _BRepToInteractiveDictionary.Remove(item.Key);
-            }
-
-            var ocShape = entity.GetTransformedBRep();
-            if (ocShape != null)
-            {
-                _BRepToInteractiveDictionary.Add(ocShape, entity);
-            }
-
             var visualObject = Get(entity);
             if (visualObject != null)
             {
@@ -232,17 +219,6 @@ namespace Macad.Interaction.Visual
                 return;
             }
 
-            var ocShape = entity.GetTransformedBRep();
-            if (ocShape != null)
-            {
-                foreach (var item in _BRepToInteractiveDictionary.Where(kvp => kvp.Value == entity).ToList())
-                {
-                    _BRepToInteractiveDictionary.Remove(item.Key);
-                }
-
-                _BRepToInteractiveDictionary.Add(ocShape, entity);
-            }
-
             visualObject.Update();
         }
 
@@ -257,11 +233,6 @@ namespace Macad.Interaction.Visual
                 _InteractiveToVisualDictionary.Remove(entity);
                 _GuidToInteractiveDictionary.Remove(entity.Guid);
             }
-
-            foreach (var item in _BRepToInteractiveDictionary.Where(kvp => kvp.Value == entity).ToList())
-            {
-                _BRepToInteractiveDictionary.Remove(item.Key);
-            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -274,22 +245,6 @@ namespace Macad.Interaction.Visual
             {
                 return entity;
             }
-            if (aisInteractiveObject.Type() == AIS_KindOfInteractive.AIS_KOI_Shape)
-            {
-                var brep = (aisInteractiveObject as AIS_Shape)?.Shape();
-                return GetVisibleEntity(brep);
-            }
-            return null;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public InteractiveEntity GetVisibleEntity(TopoDS_Shape brep)
-        {
-            if (_BRepToInteractiveDictionary.TryGetValue(brep, out var value))
-            {
-                return value;
-            }
             return null;
         }
 
@@ -298,13 +253,6 @@ namespace Macad.Interaction.Visual
         public IEnumerable<InteractiveEntity> GetVisibleEntities()
         {
             return _InteractiveToVisualDictionary.Keys;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public IEnumerable<TopoDS_Shape> GetVisibleBReps()
-        {
-            return _BRepToInteractiveDictionary.Keys;
         }
 
         //--------------------------------------------------------------------------------------------------

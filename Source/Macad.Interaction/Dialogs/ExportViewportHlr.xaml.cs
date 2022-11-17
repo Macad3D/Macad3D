@@ -7,6 +7,7 @@ using Macad.Common;
 using Macad.Core;
 using Macad.Common.Serialization;
 using Macad.Core.Drawing;
+using Macad.Core.Topology;
 using Macad.Occt;
 using Macad.Occt.Helper;
 using Macad.Presentation;
@@ -228,7 +229,11 @@ namespace Macad.Interaction.Dialogs
                 if (Settings.HiddenSewn)
                     hlrEdgeTypes |= HlrEdgeTypes.HiddenSewn;
 
-                var source = new TopoDSBrepSource(InteractiveContext.Current.WorkspaceController.VisualObjects.GetVisibleBReps().ToArray());
+                var breps = InteractiveContext.Current.WorkspaceController.VisualObjects.GetVisibleEntities()
+                                                                                        .OfType<Body>()
+                                                                                        .Select(body => body.GetTransformedBRep())
+                                                                                        .Where(shape => shape != null);
+                var source = new TopoDSBrepSource(breps.ToArray());
                 var hlrBrepDrawing = HlrDrawing.Create(projection, hlrEdgeTypes, source);
                 hlrBrepDrawing.UseTriangulation = Settings.UseTriangulation;
 

@@ -7,6 +7,7 @@ using Macad.Core.Components;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
+using Macad.Occt.Extensions;
 
 namespace Macad.Interaction.Visual
 {
@@ -332,6 +333,7 @@ namespace Macad.Interaction.Visual
                 return false;
 
             _AisShape = new AIS_Shape(brep);
+            _AisShape.SetOwner(new AISX_Guid(Entity.Guid));
 
             _UpdatePresentation();
             _UpdateInteractivityStatus();
