@@ -114,6 +114,7 @@ namespace Macad.Core.Toolkits
 
         #region Members and infrastructure
 
+        internal static bool DebugOutput;
         int _LayerCount;
         SubshapeReference _ReferenceFace;
         Guid _ShapeGuid;
@@ -297,7 +298,7 @@ namespace Macad.Core.Toolkits
         bool _Slice(MakeContext context)
         {
             context.Slicer = new SliceByPlanes(context.SourceShape, context.ReferenceFace, LayerCount);
-            if(!context.Slicer.CreateSlices(false))
+            if(!context.Slicer.CreateSlices(DebugOutput))
             {
                 return false;
             }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -432,7 +433,6 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             // Select 
             ctx.SelectAt(254, 88);
             ctx.SelectAt(411, 236, ModifierKeys.Shift);
-            ctx.SelectAt(387, 115, ModifierKeys.Shift);
             Assume.That(tool.SelectedSegments.Count, Is.EqualTo(2));
 
             // Do it
@@ -462,6 +462,78 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
         //--------------------------------------------------------------------------------------------------
         
+        [Test]
+        public void DuplicateNoPoints()
+        {
+            var ctx = Context.Current;
+
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
+            var body = TestGeomGenerator.CreateBody(sketch);
+            ctx.ViewportController.ZoomFitAll();
+
+            var tool = new SketchEditorTool(sketch);
+            ctx.WorkspaceController.StartTool(tool);
+            Assert.IsFalse(ctx.WorkspaceController.CanDuplicate());
+
+
+            // Do it
+            Assert.Multiple(() =>
+            {
+                // Select Point
+                ctx.SelectAt(89, 412);
+                Assert.AreEqual(1, tool.SelectedPoints.Count);
+                Assert.IsFalse(ctx.WorkspaceController.CanDuplicate());
+
+                ctx.SelectAt(411, 236, ModifierKeys.Shift);
+                Assert.AreEqual(1, tool.SelectedSegments.Count);
+                Assert.IsTrue(ctx.WorkspaceController.CanDuplicate());
+                ctx.WorkspaceController.Duplicate();
+
+                // Check results
+                Assert.AreEqual(6, sketch.Points.Count);
+                Assert.AreEqual(5, sketch.Segments.Count);
+                Assert.AreEqual(4, sketch.Constraints.Count);
+            });
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void DuplicateNoConstraints()
+        {
+            var ctx = Context.Current;
+
+            var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
+            var body = TestGeomGenerator.CreateBody(sketch);
+            ctx.ViewportController.ZoomFitAll();
+
+            var tool = new SketchEditorTool(sketch);
+            ctx.WorkspaceController.StartTool(tool);
+            Assert.IsFalse(ctx.WorkspaceController.CanDuplicate());
+
+
+            // Do it
+            Assert.Multiple(() =>
+            {
+                // Select Point
+                ctx.SelectAt(461, 254);
+                Assert.AreEqual(1, tool.SelectedConstraints.Count);
+                Assert.IsFalse(ctx.WorkspaceController.CanDuplicate());
+
+                ctx.SelectAt(411, 236, ModifierKeys.Shift);
+                Assert.AreEqual(1, tool.SelectedSegments.Count);
+                Assert.IsTrue(ctx.WorkspaceController.CanDuplicate());
+                ctx.WorkspaceController.Duplicate();
+
+                // Check results
+                Assert.AreEqual(6, sketch.Points.Count);
+                Assert.AreEqual(5, sketch.Segments.Count);
+                Assert.AreEqual(4, sketch.Constraints.Count);
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         [Test]
         public void CopyToAndPasteFromClipboard()
         {

@@ -102,7 +102,7 @@ namespace Macad.Interaction.Dialogs
                 MainInstruction = $"The new bodies contain references to foreign bodies.",
                 CommandButtons = new[]
                 {
-                    "Use exiting bodies\nThe bodies in the model will be used for the new bodies as reference.",
+                    "Use existing bodies\nThe bodies in the model will be used for the new bodies as reference.",
                     "Duplicate referenced bodies\nAll foreign bodies will be duplicated and be referenced by the new bodies."
                 },
                 CommonButtons = TaskDialogCommonButtons.None

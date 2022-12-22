@@ -100,7 +100,9 @@ namespace Macad.Core.Topology
             }
 
             // Not in Model
+            Body oldBody = context.GetInstance<Body>();
             Body = reader.ReadType<Body>(null, context);
+            context.SetInstance(oldBody);
             return true;
         }
 

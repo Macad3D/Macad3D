@@ -170,7 +170,31 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 editor.Stop();
             });
         }
+                                
+        //--------------------------------------------------------------------------------------------------
         
+        [Test]
+        public void LiveScaleRotatedRolled()
+        {
+            var ctx = Context.Current;
+            var box = TestGeomGenerator.CreateBox();
+            box.Body.Rotation = new Quaternion(0, 0, 180.0.ToRad());
+            var startHeight = box.DimensionZ;
+
+            var editor = Editor.CreateEditor(box);
+            editor.Start();
+
+            ctx.ViewportController.ZoomFitAll();
+            ctx.MoveTo(250, 132);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(249, 93);
+            ctx.ViewportController.MouseUp();
+            Assert.Greater(box.DimensionZ, startHeight);
+
+            // Cleanup
+            editor.Stop();
+        }
+
         //--------------------------------------------------------------------------------------------------
 
         [Test]

@@ -35,13 +35,7 @@ public class BoxScaleLiveAction : LiveAction
 
     public double Delta { get; private set; }
     public double DeltaSum { get; private set; }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public Dir Direction
-    {
-        get { return _Axis.Direction; }
-    }
+    public Dir Direction { get; private set; }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -170,7 +164,6 @@ public class BoxScaleLiveAction : LiveAction
 
             _AxisHintLine = new HintLine(WorkspaceController, HintStyle.ThinDashed);
             _AxisHintLine.Set(_Axis);
-            _AxisHintLine.SetLocalTransformation(_Transformation);
 
             WorkspaceController.HudManager?.SetCursor(Cursors.Move);
             WorkspaceController.Invalidate();
@@ -247,7 +240,8 @@ public class BoxScaleLiveAction : LiveAction
                 Pnt min = _Box.CornerMin();
                 XYZ extent = new Vec(min, _Box.CornerMax()).ToXYZ();
                 Pnt startPoint = min.Translated(extent.Multiplied(_HandlePositions[i]).ToVec());
-                _Axis = new Ax1(startPoint, new Vec(min.Translated(extent.Multiplied(0.5).ToVec()), startPoint).ToDir());
+                Direction = new Vec(min.Translated(extent.Multiplied(0.5).ToVec()), startPoint).ToDir();
+                _Axis = new Ax1(startPoint, Direction).Transformed(_Transformation);
                 return i;
             }
         }

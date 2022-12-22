@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using Macad.Common;
 using Macad.Core.Shapes;
-using Macad.Core.Topology;
 using Macad.Interaction.Panels;
 using Macad.Occt;
 
@@ -63,7 +62,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _UpdateActions()
         {
-            if (Entity == null || Entity.Body == null)
+            if (Entity?.Body == null)
             {
                 _ScaleAction?.Deactivate();
                 _ScaleAction = null;
@@ -179,8 +178,6 @@ namespace Macad.Interaction.Editors.Shapes
                 offset.Scale(0.5);
             }
             Entity.Body.Position = Entity.Body.Position.Translated(offset.Transformed(new Trsf(Entity.Body.Rotation)));
-
-            _UpdateActions();
         }
 
         //--------------------------------------------------------------------------------------------------

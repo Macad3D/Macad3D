@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using Macad.Common;
 using Macad.Core.Shapes;
-using Macad.Core.Topology;
 using Macad.Interaction.Panels;
 using Macad.Occt;
 
@@ -121,6 +120,9 @@ namespace Macad.Interaction.Editors.Shapes
             double heightDelta = _ScaleAction.Delta * _ScaleAction.Direction.Z;
             if (heightDelta != 0)
             {
+                if (_ScaleAction.Direction.Z < 0)
+                    heightDelta *= -1;
+
                 if (center)
                     heightDelta *= 2.0;
 
@@ -140,13 +142,17 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (newHeight != 0)
             {
-                Entity.Height = newHeight;
-
                 if (center)
                 {
                     Entity.Body.Position = Entity.Body.Position.Translated(Dir.DZ.ToVec(heightDelta * -0.5)
                                                                                  .Transformed(new Trsf(Entity.Body.Rotation)));
+                } 
+                else if (_ScaleAction.Direction.Z < 0)
+                {
+                    Entity.Body.Position = Entity.Body.Position.Translated(Dir.DZ.ToVec(-heightDelta)
+                                                                              .Transformed(new Trsf(Entity.Body.Rotation)));
                 }
+                Entity.Height = newHeight;
 
                 _HudElements[1] ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
                 _HudElements[1]?.SetValue($"Height: {Entity.Height.ToInvariantString("F2")} mm");
@@ -165,8 +171,6 @@ namespace Macad.Interaction.Editors.Shapes
                 _HudElements[0] ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
                 _HudElements[0]?.SetValue($"Radius:  {Entity.Radius.ToInvariantString("F2")} mm");
             }
-
-            _UpdateActions();
         }
 
         //--------------------------------------------------------------------------------------------------

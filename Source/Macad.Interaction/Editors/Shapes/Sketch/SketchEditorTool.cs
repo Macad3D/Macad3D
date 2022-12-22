@@ -731,19 +731,19 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override bool CanDuplicate()
         {
-            return SelectedPoints?.Count > 0 || SelectedSegments?.Count > 0 || SelectedConstraints?.Count > 0;
+            return SelectedSegments?.Count > 0;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         SketchCloneContent _CreateCloneContentFromSelection()
         {
-            var pointIndices = SelectedPoints.Union(SelectedSegments.SelectMany(seg => seg.Points)).ToArray();
-            var pointDict = pointIndices.ToDictionary(index => index, index => Sketch.Points[index]);
             var segmentDict = SelectedSegmentIndices.ToDictionary(index => index, index => Sketch.Segments[index]);
+            var pointIndices = SelectedSegments.SelectMany(seg => seg.Points).Distinct().ToArray();
+            var pointDict = pointIndices.ToDictionary(index => index, index => Sketch.Points[index]);
             var constraints = Sketch.Constraints.Where(constraint =>
-                (constraint.Points == null || pointIndices.ContainsAll(constraint.Points))
-                && (constraint.Segments == null || SelectedSegmentIndices.ContainsAll(constraint.Segments))).ToArray();
+                                                           (constraint.Points == null || pointIndices.ContainsAll(constraint.Points))
+                                                           && (constraint.Segments == null || SelectedSegmentIndices.ContainsAll(constraint.Segments))).ToArray();
 
             return new SketchCloneContent
             {

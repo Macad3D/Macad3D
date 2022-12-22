@@ -333,7 +333,17 @@ namespace Macad.Core.Geom
                     case FaceDistanceMethod.UseFacePlane:
                         if (!GetPlaneFromFace(face, out var facePlane))
                             continue;
-                        dist = facePlane.Distance(refPlane);
+                        if (refPlane.Axis.IsParallel(facePlane.Axis, gp.Resolution))
+                        {
+                            dist = facePlane.Distance(refPlane);
+                        }
+                        else
+                        {
+                            // Faceplane is not exact parallel, so we need to equalize orientation
+                            var rotatedPlane = new Pln(facePlane.Location, refPlane.Axis.Direction);
+                            dist = rotatedPlane.Distance(refPlane);
+                        }
+
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(distanceMethod), distanceMethod, null);

@@ -203,6 +203,30 @@ namespace Macad.Test.Unit.Interaction.Primitives
         //--------------------------------------------------------------------------------------------------
 
         [Test]
+        public void LiveScaleHeightFromBottom()
+        {
+            var ctx = Context.Current;
+            var cylinder = TestGeomGenerator.CreateCylinder();
+            cylinder.Body.Rotation = new Quaternion(0, 0, 180.0.ToRad());
+            var startHeight = cylinder.Height;
+
+            var editor = Editor.CreateEditor(cylinder);
+            editor.Start();
+
+            ctx.ViewportController.ZoomFitAll();
+            ctx.MoveTo(250, 182);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(249, 112);
+            ctx.ViewportController.MouseUp();
+            Assert.Greater(cylinder.Height, startHeight);
+
+            // Cleanup
+            editor.Stop();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
         public void LiveScaleRadiusLimit()
         {
             var ctx = Context.Current;
