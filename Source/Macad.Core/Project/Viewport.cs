@@ -485,14 +485,23 @@ namespace Macad.Core
 
         #region ViewParameters
 
-        public double[] GetViewParameters()
+        public double[] GetViewParameters(Trsf transform = default)
         {
             _ValidateViewGeometry();
 
+            var eyePoint = EyePoint;
+            var targetPoint = TargetPoint;
+
+            if (transform != default)
+            {
+                eyePoint.Transform(transform);
+                targetPoint.Transform(transform);
+            }
+
             return new[]
             {
-                EyePoint.X, EyePoint.Y, EyePoint.Z,
-                TargetPoint.X, TargetPoint.Y, TargetPoint.Z,
+                eyePoint.X, eyePoint.Y, eyePoint.Z,
+                targetPoint.X, targetPoint.Y, targetPoint.Z,
                 Twist,
                 Scale
             };
@@ -500,13 +509,22 @@ namespace Macad.Core
 
         //--------------------------------------------------------------------------------------------------
 
-        public void RestoreViewParameters(double[] parameters)
+        public void RestoreViewParameters(double[] parameters, Trsf transform = default)
         {
-            if (parameters.Length != 8) 
+            if (parameters.Length != 8)
                 return;
 
-            EyePoint = new Pnt(parameters[0], parameters[1], parameters[2]);
-            TargetPoint = new Pnt(parameters[3], parameters[4], parameters[5]);
+            Pnt eyePoint = new(parameters[0], parameters[1], parameters[2]);
+            Pnt targetPoint = new(parameters[3], parameters[4], parameters[5]);
+
+            if (transform != default)
+            {
+                eyePoint.Transform(transform);
+                targetPoint.Transform(transform);
+            }
+
+            EyePoint = eyePoint;
+            TargetPoint = targetPoint;
             Twist = parameters[6];
             Scale = parameters[7];
 
@@ -515,7 +533,7 @@ namespace Macad.Core
 
         //--------------------------------------------------------------------------------------------------
 
-        internal void UpdateRenderMode()
+        void UpdateRenderMode()
         {
             if (V3dView == null)
                 return;

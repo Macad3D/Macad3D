@@ -685,6 +685,34 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test] public void RestoreWorkingContextAfterMove()
+        {
+            var ctx = Context.Current;
+
+            ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+            var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+            Assert.That(sketchEditTool, Is.Not.Null);
+            var sketch = sketchEditTool.Sketch;
+
+            // Create Circle
+            sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
+            ctx.ClickAt(250, 250); // Center point
+            ctx.ClickAt(100, 250); // Rim point
+            ctx.ClickAt(50, 50); // Move crsr out of the way
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContextMove01"), 0.1);
+
+            // Leave editor
+            sketchEditTool.Stop();
+            // Move
+            sketch.Body.Position = new Pnt(100.0, 0.0, 0.0);
+            sketch.Invalidate();
+            // Restart Editor
+            ctx.WorkspaceController.StartTool(new SketchEditorTool(sketch));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RestoreWorkingContextMove01"), 0.1);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         [Test]
         public void RotateView()
         {

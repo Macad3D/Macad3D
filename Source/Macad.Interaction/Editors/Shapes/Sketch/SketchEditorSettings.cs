@@ -66,7 +66,7 @@ namespace Macad.Interaction.Editors.Shapes
             writer.BeginMapKey();
             writer.WriteRawString("Version");
             writer.BeginMapValue();
-            writer.WriteRawString("1");
+            writer.WriteRawString("2");
 
             foreach (var sketch in sketches)
             {
@@ -101,7 +101,7 @@ namespace Macad.Interaction.Editors.Shapes
                   && reader.BeginMapKey()
                   && reader.ReadValueString() == "Version"
                   && reader.BeginMapValue()
-                  && reader.ReadValueString() == "1"))
+                  && reader.ReadValueString() == "2"))
                 return;
 
             while (reader.BeginMapKey())

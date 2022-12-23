@@ -141,11 +141,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             var editorSettings = SketchEditorSettingsCache.GetOrCreate(Sketch);
 
-            if(editorSettings.WorkingContext == null)
-            {
-                editorSettings.WorkingContext = workspace.WorkingContext.Clone();
-            } 
-            
+            editorSettings.WorkingContext ??= workspace.WorkingContext.Clone();
             workspace.WorkingContext = editorSettings.WorkingContext;
             WorkspaceController.LockWorkingPlane = true;
             workspace.WorkingPlane = Sketch.Plane;
@@ -156,7 +152,7 @@ namespace Macad.Interaction.Editors.Shapes
             
             if (editorSettings.ViewParameters != null)
             {
-                vc.Viewport.RestoreViewParameters(editorSettings.ViewParameters);
+                vc.Viewport.RestoreViewParameters(editorSettings.ViewParameters, Sketch.GetTransformation());
                 // Update direction
                 vc.SetPredefinedView(ViewportController.PredefinedViews.WorkingPlane);
                 RotateView(editorSettings.ViewRotation);
@@ -227,7 +223,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (Sketch != null)
             {
                 var editorSettings = SketchEditorSettingsCache.GetOrCreate(Sketch);
-                editorSettings.ViewParameters = vc.Viewport.GetViewParameters();
+                editorSettings.ViewParameters = vc.Viewport.GetViewParameters(Sketch.GetTransformation().Inverted());
                 editorSettings.ViewRotation = ViewRotation;
                 editorSettings.ClipPlaneEnabled = ClipPlaneEnabled;
             }
