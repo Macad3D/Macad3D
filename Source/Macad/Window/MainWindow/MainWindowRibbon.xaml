@@ -304,7 +304,7 @@
             <Fluent:RibbonGroupBox Header="Arrange"
                                    Name="ArrangeGroup">
                 <Fluent:SplitButton mmp:Command.Action="{x:Static mmi:WorkspaceCommands.Transform}"
-                                    AutomationProperties.AutomationId="TransformShape">
+                                    AutomationProperties.AutomationId="Transform">
 
                     <Fluent:GroupSeparatorMenuItem Header="Pivot Point" />
 

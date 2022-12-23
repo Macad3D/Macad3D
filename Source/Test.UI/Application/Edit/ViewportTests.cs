@@ -99,7 +99,7 @@ namespace Macad.Test.UI.Application.Edit
             menu.ClickMenuItem("Transform Entity");
 
             MainWindow.Ribbon.SelectTab("Edit");
-            Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("TransformShape"));
+            Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("Transform"));
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -432,6 +432,14 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
         
+        public virtual void GetLinkedBodies(List<Body> bodyList)
+        {
+            // Default implementation
+            GetReferencedBodies(bodyList);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         ShapeType IShapeOperand.GetShapeType()
         {
             return ShapeType;

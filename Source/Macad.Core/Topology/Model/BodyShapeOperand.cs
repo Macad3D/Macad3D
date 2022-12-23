@@ -284,6 +284,12 @@ namespace Macad.Core.Topology
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        void IShapeOperand.GetLinkedBodies(List<Body> bodyList)
+        {
+            (this as IShapeOperand).GetReferencedBodies(bodyList);
+        }
 
+        //--------------------------------------------------------------------------------------------------
     }
 }

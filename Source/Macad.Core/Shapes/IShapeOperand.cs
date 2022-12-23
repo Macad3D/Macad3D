@@ -31,6 +31,7 @@ namespace Macad.Core.Shapes
         List<TopoDS_Shape> FindSubshape(SubshapeReference reference, Ax3? targetFrame);
 
         void GetReferencedBodies(List<Body> bodyList);
+        void GetLinkedBodies(List<Body> bodyList);
 
         Shape Collapse(Ax3 targetFrame);
     }

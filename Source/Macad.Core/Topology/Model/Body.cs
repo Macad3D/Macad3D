@@ -188,7 +188,9 @@ namespace Macad.Core.Topology
 
         public IEnumerable<ITransformable> GetLinkedTransformables()
         {
-            return GetReferencedBodies();
+            List<Body> bodies = new List<Body>();
+            (Shape as IShapeOperand)?.GetLinkedBodies(bodies);
+            return bodies;
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -230,6 +230,9 @@ namespace Macad.Interaction.Panels
         {
             base.OnMouseDown(e);
 
+            if (_ContextMenuIsOpen)
+                return;
+
             CaptureMouse();
             _MouseDownPosition = e.GetPosition(this);
             _RightMouseBtnDown = e.RightButton == MouseButtonState.Pressed;
