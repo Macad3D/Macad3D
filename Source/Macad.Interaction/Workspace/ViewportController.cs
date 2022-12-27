@@ -675,38 +675,38 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public void StartRubberbandSelection(RubberbandSelectionMode mode, bool includeTouched)
+        public void StartRubberbandSelection(RubberbandSelectionMode mode, bool includeTouched, Point? position=null)
         {
-            _StartedMousePosition = _LastMousePosition;
+            if (_AisRubberBand != null) 
+                return;
+
+            _StartedMousePosition = position ?? _LastMousePosition;
             _RubberbandIncludeTouched = includeTouched;
 
-            if (_AisRubberBand == null)
+            var aisContext = WorkspaceController.Workspace.AisContext;
+            _AisRubberBand = new AIS_RubberBand(
+                new Quantity_Color(Quantity_NameOfColor.Quantity_NOC_BLUE1), 
+                Aspect_TypeOfLine.Aspect_TOL_DASH, 
+                new Quantity_Color(Quantity_NameOfColor.Quantity_NOC_BLUE1),
+                0.9, 2, true);
+
+            _RubberbandMode = mode;
+            _RubberbandPoints.Clear();
+            if (_RubberbandMode != RubberbandSelectionMode.Rectangle)
             {
-                var aisContext = WorkspaceController.Workspace.AisContext;
-                _AisRubberBand = new AIS_RubberBand(
-                    new Quantity_Color(Quantity_NameOfColor.Quantity_NOC_BLUE1), 
-                    Aspect_TypeOfLine.Aspect_TOL_DASH, 
-                    new Quantity_Color(Quantity_NameOfColor.Quantity_NOC_BLUE1),
-                    0.9, 2, true);
-
-                _RubberbandMode = mode;
-                _RubberbandPoints.Clear();
-                if (_RubberbandMode != RubberbandSelectionMode.Rectangle)
-                {
-                    var startPoint = ((int) _LastMousePosition.X, (int) _LastMousePosition.Y);
-                    _RubberbandPoints.Add(startPoint);
-                    _RubberbandPoints.Add(startPoint);
-                }
-                _UpdateRubberbandSelection();
-
-                aisContext.Display(_AisRubberBand, false);
-
-                foreach (var viewport in WorkspaceController.Workspace.Viewports)
-                {
-                    aisContext.SetViewAffinity(_AisRubberBand, viewport.V3dView, ReferenceEquals(viewport, Viewport));
-                }
-                WorkspaceController.Invalidate(true);
+                var startPoint = ((int) _StartedMousePosition.X, (int) _StartedMousePosition.Y);
+                _RubberbandPoints.Add(startPoint);
+                _RubberbandPoints.Add(startPoint);
             }
+            _UpdateRubberbandSelection();
+
+            aisContext.Display(_AisRubberBand, false);
+
+            foreach (var viewport in WorkspaceController.Workspace.Viewports)
+            {
+                aisContext.SetViewAffinity(_AisRubberBand, viewport.V3dView, ReferenceEquals(viewport, Viewport));
+            }
+            WorkspaceController.Invalidate(true);
         }
         
         //--------------------------------------------------------------------------------------------------

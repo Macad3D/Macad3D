@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Windows;
 using Macad.Common;
-using Macad.Core;
 using Macad.Core.Topology;
 
 namespace Macad.Interaction
 {
     public sealed class SelectionManager : IDisposable
     {
+        public enum SelectionMode
+        {
+            Exclusive,
+            Add,
+            Toggle
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public List<InteractiveEntity> SelectedEntities
         {
             get
@@ -30,6 +36,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
+        static readonly List<InteractiveEntity> _EmptyList = new(0);
         readonly WorkspaceController _WorkspaceController;
 
         //--------------------------------------------------------------------------------------------------
@@ -55,69 +62,66 @@ namespace Macad.Interaction
 
         #region Selection
 
-        void ClearSelection(bool suppressEvent = false)
-        {
-            if (!suppressEvent && _RaiseSelectionChanging(null, SelectedEntities))
-                return;
+        //--------------------------------------------------------------------------------------------------
 
-            SelectedEntities.Clear();
+        public void ClearSelection()
+        {
+            ChangeEntitySelection(_EmptyList, SelectedEntities);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void SelectEntity(InteractiveEntity entity, bool exclusiveSelection = true)
+        public void SelectEntity(InteractiveEntity entity, SelectionMode mode = SelectionMode.Exclusive)
         {
-            if (_RaiseSelectionChanging(
-                entity != null ? new List<InteractiveEntity>() { entity } : new List<InteractiveEntity>(),
-                exclusiveSelection ? SelectedEntities : null))
-                return;
-
-            if (exclusiveSelection)
-            {
-                ClearSelection(true);
-            }
-
-            if (entity != null)
-            {
-                _AddEntityToSelectionList(entity);
-                _SyncToAisSelection();
-            }
-            else
-            {
-                _WorkspaceController.Workspace.AisContext.ClearSelected(false);
-            }
-
-            _RaiseSelectionChanged();
+            SelectEntities(new []{entity}, mode);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void SelectEntities(IEnumerable<InteractiveEntity> entities, bool exclusiveSelection = true)
+        public void SelectEntities(IEnumerable<InteractiveEntity> entities, SelectionMode mode = SelectionMode.Exclusive)
         {
-            var entityList = entities?.ToList() ?? new List<InteractiveEntity>();
-            if (_RaiseSelectionChanging(entityList,
-                exclusiveSelection ? SelectedEntities : null))
+            List<InteractiveEntity> toSelect = null;
+            List<InteractiveEntity> toDeselect = null;
+            entities ??= _EmptyList;
+
+            switch (mode)
+            {
+                case SelectionMode.Exclusive:
+                    toSelect = entities.Except(SelectedEntities).ToList();
+                    toDeselect = SelectedEntities.Except(entities).ToList();
+                    break;
+                case SelectionMode.Add:
+                    toSelect = entities.Except(SelectedEntities).ToList();
+                    toDeselect = _EmptyList;
+                    break;
+                case SelectionMode.Toggle:
+                    toSelect = entities.Except(SelectedEntities).ToList();
+                    toDeselect = SelectedEntities.Intersect(entities).ToList();
+                    break;
+            }
+
+            ChangeEntitySelection(toSelect, toDeselect);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public void DeselectEntity(InteractiveEntity entity)
+        {
+            DeselectEntities(new []{entity});
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void DeselectEntities(IEnumerable<InteractiveEntity> entities)
+        {
+            if (entities == null)
                 return;
 
-            if (exclusiveSelection)
-            {
-                ClearSelection(true);
-            }
+            List<InteractiveEntity> toDeselect = entities.Intersect(SelectedEntities).ToList();
+            if (toDeselect.Count == 0)
+                return;
 
-            if (entities != null)
-            {
-                foreach (var entity in entityList)
-                {
-                    _AddEntityToSelectionList(entity);
-                }
-                _SyncToAisSelection();
-            }
-            else
-            {
-                _WorkspaceController.Workspace.AisContext.ClearSelected(false);
-            }
-
-            _RaiseSelectionChanged();
+            ChangeEntitySelection(_EmptyList, toDeselect);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -128,14 +132,8 @@ namespace Macad.Interaction
             if (_RaiseSelectionChanging(entitiesToSelect, entitiesToUnSelect))
                 return;
 
-            foreach (var entity in entitiesToUnSelect)
-            {
-                _RemoveEntityFromSelectionList(entity);
-            }
-            foreach (var entity in entitiesToSelect)
-            {
-                _AddEntityToSelectionList(entity);
-            }
+            entitiesToUnSelect.ForEach(_RemoveEntityFromSelectionList);
+            entitiesToSelect.ForEach(_AddEntityToSelectionList);
 
             _SyncToAisSelection();
             _RaiseSelectionChanged();
@@ -145,7 +143,7 @@ namespace Macad.Interaction
 
         void _AddEntityToSelectionList(InteractiveEntity entity)
         {
-            if (entity == null)
+            if (entity == null || SelectedEntities.Contains(entity))
                 return;
 
             SelectedEntities.Add(entity);

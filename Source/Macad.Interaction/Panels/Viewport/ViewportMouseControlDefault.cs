@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using Macad.Common;
 
 namespace Macad.Interaction.Panels
 {
@@ -11,6 +12,7 @@ namespace Macad.Interaction.Panels
         //--------------------------------------------------------------------------------------------------
 
         ViewportController.MouseMoveMode _CurrentMouseMoveMode;
+        Point _MouseDownPos;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -25,8 +27,20 @@ namespace Macad.Interaction.Panels
             }
             else
             {
+                if (mouseDevice?.LeftButton == MouseButtonState.Pressed
+                    && (pos.X - _MouseDownPos.X).Abs() + (pos.Y - _MouseDownPos.Y).Abs() > 10
+                    && !ViewportController.IsInRubberbandSelection
+                    && ViewportController.WorkspaceController.IsSelecting)
+                {
+                    ViewportController.StartRubberbandSelection(
+                        InteractiveContext.Current.EditorState.RubberbandSelectionMode,
+                        InteractiveContext.Current.EditorState.RubberbandIncludeTouched,
+                        _MouseDownPos);
+                }
+
                 ViewportController.MouseMove(pos, modifierKeys);
             }
+            _UpdateMouseMoveMode(mouseDevice, modifierKeys);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -66,6 +80,8 @@ namespace Macad.Interaction.Panels
             {
                 ViewportController.MouseDown(modifierKeys);
             }
+
+            _MouseDownPos = pos;
             _UpdateMouseMoveMode(mouseDevice, modifierKeys);
         }
 
@@ -125,18 +141,6 @@ namespace Macad.Interaction.Panels
             {
                 _CurrentMouseMoveMode = ViewportController.MouseMoveMode.None;
             }
-            
-            if (mouseDevice?.LeftButton == MouseButtonState.Pressed)
-            {
-                if (modifierKeys.HasFlag(ModifierKeys.Control) 
-                    && !ViewportController.IsInRubberbandSelection 
-                    && ViewportController.WorkspaceController.IsSelecting)
-                {
-                    ViewportController.StartRubberbandSelection(
-                        InteractiveContext.Current.EditorState.RubberbandSelectionMode,
-                        InteractiveContext.Current.EditorState.RubberbandIncludeTouched);
-                }
-            } 
         }
 
         //--------------------------------------------------------------------------------------------------

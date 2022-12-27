@@ -378,6 +378,18 @@ namespace Macad.Interaction
                 }
             }
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public SelectionManager.SelectionMode _GetSelectionModeFromKeys(ModifierKeys mode)
+        {
+            return mode switch
+            {
+                ModifierKeys.Control => SelectionManager.SelectionMode.Toggle,
+                ModifierKeys.Shift => SelectionManager.SelectionMode.Add,
+                _ => SelectionManager.SelectionMode.Exclusive
+            };
+        }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -522,13 +534,13 @@ namespace Macad.Interaction
                 if (_MouseEventData.DetectedEntities.Any())
                 {
                     // Shape selected
-                    Selection.SelectEntities(_MouseEventData.DetectedEntities, !modifierKeys.Has(ModifierKeys.Shift));
+                    Selection.SelectEntities(_MouseEventData.DetectedEntities, _GetSelectionModeFromKeys(modifierKeys));
                     Invalidate();
                 }
                 else
                 {
                     // Empty click
-                    if (!modifierKeys.Has(ModifierKeys.Shift))
+                    if (_GetSelectionModeFromKeys(modifierKeys) == SelectionManager.SelectionMode.Exclusive)
                     {
                         Selection.SelectEntity(null);
                         Invalidate();

@@ -38,7 +38,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override bool Start()
         {
-            InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(null, true);
+            InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(null);
             _SavedWorkingPlane = WorkspaceController.Workspace.WorkingPlane;
 
             if (_InitialCreateMode == CreateMode.Interactive)
