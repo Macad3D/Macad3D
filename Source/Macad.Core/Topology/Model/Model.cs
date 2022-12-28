@@ -23,7 +23,7 @@ namespace Macad.Core.Topology
 
         public const string FileExtension = "model";
         public const uint FileVersionMajor = 2;
-        public const uint FileVersionMinor = 1;
+        public const uint FileVersionMinor = 3;
 
         //--------------------------------------------------------------------------------------------------
 

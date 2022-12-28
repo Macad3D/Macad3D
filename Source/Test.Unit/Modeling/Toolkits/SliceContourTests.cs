@@ -122,5 +122,21 @@ namespace Macad.Test.Unit.Modeling.Toolkits
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        [Description("Algo did not find the imprinted faces on top due to not exactly matching plane rotations.")]
+        public void LowPrecisionFacePlaneOrientation()
+        {
+            var body = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "LowPrecisionFacePlaneOrientation_Source.brep"));
+
+            var template = new SliceContourComponent
+            {
+                Owner = body,
+                LayerCount = 4,
+                ReferenceFace = body.Shape.GetSubshapeReference(SubshapeType.Face, 3)
+            };
+
+            Assert.IsTrue(template.Make());
+            AssertHelper.IsSameModel(template.Layers[3].BRep, Path.Combine(_BasePath, "LowPrecisionFacePlaneOrientation"));
+        }
     }
 }

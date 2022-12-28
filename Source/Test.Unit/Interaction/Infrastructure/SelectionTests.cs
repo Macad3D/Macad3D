@@ -5,6 +5,7 @@ using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction;
+using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
 
@@ -89,23 +90,17 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection01"));
 
             // Select both
-            ctx.ViewportController.MouseMove(new Point(350, 180));
-            ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
-            ctx.ViewportController.MouseMove(new Point(150, 290));
-            ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(true);
-            ctx.ViewportController.MouseMove(new Point(0, 0));
+            ctx.ClickAt(350, 180);
+            ctx.ClickAt(150, 290, true);
+            ctx.MoveTo(0, 0);
             Assert.That(sel.SelectedEntities.Count, Is.EqualTo(2));
             Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
             Assert.That(sel.SelectedEntities[1], Is.EqualTo(body2));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiSelection02"));
 
             // Select single again
-            ctx.ViewportController.MouseMove(new Point(150, 290));
-            ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseUp(false);
-            ctx.ViewportController.MouseMove(new Point(0, 0));
+            ctx.ClickAt(150, 290);
+            ctx.MoveTo(0, 0);
             Assert.That(sel.SelectedEntities.Count, Is.EqualTo(1));
             Assert.That(sel.SelectedEntities[0], Is.EqualTo(body2));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection03"));
@@ -115,6 +110,50 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             ctx.ViewportController.MouseUp(false);
             Assert.That(sel.SelectedEntities.Count, Is.EqualTo(0));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection04"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+              
+        [Test]
+        public void MultiSelectionToggle()
+        {
+            var ctx = Context.Current;
+            var sel = ctx.WorkspaceController.Selection;
+
+            var body1 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
+            body1.Position = new Pnt(-15, 0, 0);
+            var body2 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
+            body2.Position = new Pnt(15, 0, 0);
+            var body3 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
+            body3.Position = new Pnt(0, 30, 0);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() => {
+            // Select All
+            ctx.ClickAt(250, 155);
+            ctx.ClickAt(115, 235, true);
+            ctx.ClickAt(315, 280, true);
+            Assert.That(sel.SelectedEntities.Count, Is.EqualTo(3));
+            Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
+            Assert.That(sel.SelectedEntities[1], Is.EqualTo(body2));
+            Assert.That(sel.SelectedEntities[2], Is.EqualTo(body3));
+
+            // Click again, should stay selected
+            ctx.ClickAt(315, 280, true);
+            Assert.That(sel.SelectedEntities.Count, Is.EqualTo(2));
+            Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
+            Assert.That(sel.SelectedEntities[1], Is.EqualTo(body2));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiSelectionToggle01"));
+
+            ctx.ClickAt(115, 235, true);
+            Assert.That(sel.SelectedEntities.Count, Is.EqualTo(1));
+            Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiSelectionToggle02"));
+
+            ctx.ClickAt(250, 155, true);
+            Assert.That(sel.SelectedEntities.Count, Is.EqualTo(0));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiSelectionToggle03"));
+                });
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -184,9 +223,17 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             ctx.ViewportController.MouseDown();
             ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle, false);
             ctx.MoveTo(290, 420);
+            ctx.ViewportController.MouseUp(true);
+            Assert.AreEqual(2, sel.SelectedEntities.Count);
+            
+            // Exclusive selection
+            ctx.MoveTo(30, 120);
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle, false);
+            ctx.MoveTo(290, 420);
             ctx.ViewportController.MouseUp(false);
             Assert.AreEqual(1, sel.SelectedEntities.Count);
-            
+
             // Empty selection
             ctx.MoveTo(10, 10);
             ctx.ViewportController.MouseDown();
@@ -195,7 +242,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             ctx.ViewportController.MouseUp(false);
             Assert.AreEqual(0, sel.SelectedEntities.Count);
         }
-
+        
         //--------------------------------------------------------------------------------------------------
 
         [Test]
@@ -296,5 +343,45 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
                 Assert.AreEqual(2, sel.SelectedEntities.Count);
             });
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        [Description("Bug: Rubberband selection does not work after using the sketch editor")]
+        public void RubberbandSelectionAfterSketchEditor()
+        {
+            var ctx = Context.Current;
+            var sel = ctx.WorkspaceController.Selection;
+
+            var sketch = TestGeomGenerator.CreateSketch(createBody: true);
+            ctx.ViewportController.ZoomFitAll();
+            
+            // Test if it works before sketch editing
+            Assert.AreEqual(0, sel.SelectedEntities.Count);
+            ctx.MoveTo(10, 10);
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle, false);
+            ctx.MoveTo(490, 490);
+            ctx.ViewportController.MouseUp(false);
+            Assert.AreEqual(1, sel.SelectedEntities.Count);
+
+            // Enter and leave sketch editor
+            var tool = new SketchEditorTool(sketch);
+            ctx.WorkspaceController.StartTool(tool);
+            ctx.MoveTo(100, 100);
+            ctx.WorkspaceController.CancelTool(tool, false);
+            ctx.WorkspaceController.Invalidate(forceRedraw:true);
+
+            // Test if it works after sketch editing
+            sel.SelectEntity(null);
+            Assert.AreEqual(0, sel.SelectedEntities.Count);
+            ctx.MoveTo(10, 10);
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.StartRubberbandSelection(ViewportController.RubberbandSelectionMode.Rectangle, false);
+            ctx.MoveTo(490, 490);
+            ctx.ViewportController.MouseUp(false);
+            Assert.AreEqual(1, sel.SelectedEntities.Count);
+        }
+        
     }
 }

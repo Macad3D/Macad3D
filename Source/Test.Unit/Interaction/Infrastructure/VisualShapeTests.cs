@@ -601,5 +601,26 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Ghosting02"));
             });
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void GhostingTriggeredByLayerToggle()
+        {
+            var ctx = Context.Current;
+
+            var box = TestGeomGenerator.CreateBox();
+            ctx.WorkspaceController.Selection.SelectEntity(box.Body);
+            ctx.ViewportController.ZoomFitAll();
+            
+            Assert.Multiple(() =>
+            {
+                // Toggle layer visibility AFTER selection
+                box.Body.Layer.IsVisible = false;
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "GhostingTriggeredByLayerToggle01"));
+                box.Body.Layer.IsVisible = true;
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "GhostingTriggeredByLayerToggle02"));
+            });
+        }
     }
 }

@@ -418,6 +418,14 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
         
+        public virtual void GetLinkedBodies(List<Body> bodyList)
+        {
+            // Default implementation
+            GetReferencedBodies(bodyList);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         ShapeType IShapeOperand.GetShapeType()
         {
             return ShapeType;
@@ -622,28 +630,37 @@ namespace Macad.Core.Shapes
             EnsureHistory();
 
             // Search in freshly built shape
+            TopoDS_Shape subshape = null;
             switch (type)
             {
                 case SubshapeType.Face:
                     var faces = GetBRep()?.Faces();
                     if (faces == null || index >= faces.Count)
                         return null;
-                    return GetSubshapeReference(faces[index]);
+                    subshape = faces[index];
+                    break;
 
                 case SubshapeType.Edge:
                     var edges = GetBRep()?.Edges();
                     if (edges == null || index >= edges.Count)
                         return null;
-                    return GetSubshapeReference(edges[index]);
+                    subshape = edges[index];
+                    break;
 
                 case SubshapeType.Vertex:
                     var vertices = GetBRep()?.Vertices();
                     if (vertices == null || index >= vertices.Count)
                         return null;
-                    return GetSubshapeReference(vertices[index]);
+                    subshape = vertices[index];
+                    break;
             }
 
-            return null;
+            if (subshape == null)
+            {
+                return null;
+            }
+
+            return GetSubshapeReference(subshape) ?? new SubshapeReference(type, Guid, index);
         }
 
         //--------------------------------------------------------------------------------------------------

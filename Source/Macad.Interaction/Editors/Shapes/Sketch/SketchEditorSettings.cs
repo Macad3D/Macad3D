@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows.Shapes;
 using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Core;
@@ -22,6 +19,9 @@ namespace Macad.Interaction.Editors.Shapes
 
         [SerializeMember]
         public bool ClipPlaneEnabled  { get; set; } = true;
+
+        [SerializeMember]
+        public double ViewRotation  { get; set; } = 0;
     }
 
     //--------------------------------------------------------------------------------------------------

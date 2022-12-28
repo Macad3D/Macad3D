@@ -106,6 +106,7 @@ namespace Macad.Interaction.Editors.Shapes
         double _LastGizmoScale;
         double _LastPixelSize;
         double[] _SavedViewParameters;
+        double _ViewRotation;
         ClipPlane _ClipPlane;
 
         SelectSketchElementAction _SelectAction;
@@ -155,12 +156,10 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 vc.Viewport.RestoreViewParameters(editorSettings.ViewParameters);
                 // Update direction
-                var twist = vc.Viewport.Twist;
                 vc.SetPredefinedView(ViewportController.PredefinedViews.WorkingPlane);
-                vc.Viewport.Twist = twist;
+                RotateView(editorSettings.ViewRotation);
             } else {
                 _CenterView();
-                RotateView(0);
             }
             vc.Viewport.PropertyChanged += _Viewport_PropertyChanged;
 
@@ -227,6 +226,7 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 var editorSettings = SketchEditorSettingsCache.GetOrCreate(Sketch);
                 editorSettings.ViewParameters = vc.Viewport.GetViewParameters();
+                editorSettings.ViewRotation = _ViewRotation;
                 editorSettings.ClipPlaneEnabled = ClipPlaneEnabled;
             }
 
@@ -298,6 +298,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         public void RotateView(double degree)
         {
+            _ViewRotation = Maths.NormalizeAngleDegree(_ViewRotation + degree);
             double twist = Maths.NormalizeAngleDegree(WorkspaceController.ActiveViewport.Twist + degree);
             WorkspaceController.ActiveViewport.Twist = twist;
             Elements.OnViewRotated(_TempPoints, Sketch.Segments);
@@ -314,8 +315,6 @@ namespace Macad.Interaction.Editors.Shapes
 
             // Update direction
             WorkspaceController.ActiveViewControlller.SetPredefinedView(ViewportController.PredefinedViews.WorkingPlane);
-
-            WorkspaceController.ActiveViewport.Twist = 0;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -329,7 +328,17 @@ namespace Macad.Interaction.Editors.Shapes
                 
                 var sketchPlane = Sketch.Plane;
                 var reversedPlane = new Pln(new Ax3(sketchPlane.Location, sketchPlane.Axis.Direction.Reversed()));
-                reversedPlane.Translate(reversedPlane.Axis.Direction.Reversed().ToVec().Scaled(0.0001));
+                
+                // Try to find a clip plane distance which does not screw up the grid
+                var dir = sketchPlane.Axis.Direction;
+                double offset = -0.00011;
+                double isPp = Math.Max(dir.X.Abs(), Math.Max(dir.Y.Abs(), dir.Z.Abs()));
+                if (isPp < 1.0)
+                {
+                    offset -= 0.0001 / isPp;
+                }
+                reversedPlane.Translate(reversedPlane.Axis.Direction.ToVec(offset));
+
                 _ClipPlane = new ClipPlane(reversedPlane);
                 _ClipPlane.AddViewport(WorkspaceController.ActiveViewport);
                 WorkspaceController.Invalidate();
@@ -711,19 +720,19 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override bool CanDuplicate()
         {
-            return SelectedPoints?.Count > 0 || SelectedSegments?.Count > 0 || SelectedConstraints?.Count > 0;
+            return SelectedSegments?.Count > 0;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         SketchCloneContent _CreateCloneContentFromSelection()
         {
-            var pointIndices = SelectedPoints.Union(SelectedSegments.SelectMany(seg => seg.Points)).ToArray();
-            var pointDict = pointIndices.ToDictionary(index => index, index => Sketch.Points[index]);
             var segmentDict = SelectedSegmentIndices.ToDictionary(index => index, index => Sketch.Segments[index]);
+            var pointIndices = SelectedSegments.SelectMany(seg => seg.Points).Distinct().ToArray();
+            var pointDict = pointIndices.ToDictionary(index => index, index => Sketch.Points[index]);
             var constraints = Sketch.Constraints.Where(constraint =>
-                (constraint.Points == null || pointIndices.ContainsAll(constraint.Points))
-                && (constraint.Segments == null || SelectedSegmentIndices.ContainsAll(constraint.Segments))).ToArray();
+                                                           (constraint.Points == null || pointIndices.ContainsAll(constraint.Points))
+                                                           && (constraint.Segments == null || SelectedSegmentIndices.ContainsAll(constraint.Segments))).ToArray();
 
             return new SketchCloneContent
             {

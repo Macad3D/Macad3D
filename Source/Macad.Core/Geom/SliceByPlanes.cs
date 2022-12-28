@@ -104,13 +104,6 @@ namespace Macad.Core.Geom
                 return false;
             }
 
-            if (_DebugOutput)
-            {
-                Messages.Trace($"Reference face index {SourceShape.Faces().IndexOf(ReferenceFace)}, " +
-                                                    $"opposite face has index {SourceShape.Faces().IndexOf(opFace)}, " +
-                                                    $"thickness is {SliceThickness}");
-            }
-
             // Calc cutting plane
             if (!(FaceAlgo.GetCenteredPlaneFromFace(ReferenceFace, out var cutPlane)
                 && FaceAlgo.GetCenteredPlaneFromFace(opFace, out var opPlane)))
@@ -122,6 +115,13 @@ namespace Macad.Core.Geom
             SliceThickness = cutPlane.Distance(opPlane);
             SliceDirection = cutPlane.Axis.Direction.Reversed();
             _RefPlane = new Pln(new Ax3(cutPlane.Location, SliceDirection));
+
+            if (_DebugOutput)
+            {
+                Messages.Trace($"Reference face index {SourceShape.Faces().IndexOf(ReferenceFace)}, " +
+                               $"opposite face has index {SourceShape.Faces().IndexOf(opFace)}, " +
+                               $"thickness is {SliceThickness}");
+            }
 
             return true;
         }

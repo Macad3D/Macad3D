@@ -159,8 +159,8 @@ bool _BuildSetup()
     defFile.WriteLine("");
     
     // Write VCRedist definitions
-    defFile.WriteLine($"#define VcRedistDisplayedVersion 2019");
     defFile.WriteLine($"#define VcRedistDir '{redistDir}'");
+    defFile.WriteLine($"#define VcRedistRelease '{redistVersion[0]}.{redistVersion[1]}'");
     defFile.WriteLine($"#define VcRedistMajor {redistVersion[0]}");
     defFile.WriteLine($"#define VcRedistMinor {redistVersion[1]}");
     defFile.WriteLine($"#define VcRedistBuild {redistVersion[2]}");

@@ -5,9 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
-using Macad.Core.Shapes;
 using Macad.Core.Topology;
-using Macad.Interaction.Visual;
 using Macad.Occt;
 
 namespace Macad.Interaction

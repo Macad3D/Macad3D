@@ -148,5 +148,16 @@ namespace Macad.Core.Shapes
         //--------------------------------------------------------------------------------------------------
 
         #endregion
+
+        #region Overrides
+
+        public override void GetLinkedBodies(List<Body> bodyList)
+        {
+            // Left empty to ignore referenced bodies in transformation
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
     }
 }

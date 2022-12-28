@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Macad.Common;
 using Macad.Core;
 using Macad.Core.Auxiliary;
 using Macad.Core.Geom;
@@ -16,13 +17,14 @@ namespace Macad.Interaction.Editors.Shapes
             Interactive,
             WorkplaneXY,
             WorkplaneXZ,
-            WorkplaneYZ
+            WorkplaneYZ,
         }
 
         //--------------------------------------------------------------------------------------------------
 
         readonly CreateMode _InitialCreateMode;
         Pln _Plane = Pln.XOY;
+        Pln _SavedWorkingPlane;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -35,12 +37,13 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override bool Start()
         {
-            InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(null, true);
+            InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(null);
+            _SavedWorkingPlane = WorkspaceController.Workspace.WorkingPlane;
 
             if (_InitialCreateMode == CreateMode.Interactive)
             {
-                var selectionFilter =new OrSelectionFilter(new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane), 
-                                                           new SignatureSelectionFilter(VisualPlane.SelectionSignature));
+                var selectionFilter = new OrSelectionFilter(new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane),
+                                                            new SignatureSelectionFilter(VisualPlane.SelectionSignature));
                 var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, null, selectionFilter);
                 if (!WorkspaceController.StartToolAction(toolAction))
                     return false;
@@ -54,17 +57,15 @@ namespace Macad.Interaction.Editors.Shapes
             switch (_InitialCreateMode)
             {
                 case CreateMode.WorkplaneXY:
-                    _Plane = InteractiveContext.Current.Workspace.WorkingPlane;
+                    _Plane = _SavedWorkingPlane;
                     break;
 
                 case CreateMode.WorkplaneXZ:
-                    _Plane = new Pln(InteractiveContext.Current.Workspace.WorkingPlane.Location, 
-                        InteractiveContext.Current.Workspace.WorkingPlane.YAxis.Direction.Reversed());
+                    _Plane =new Pln(new Ax3(_SavedWorkingPlane.Location, _SavedWorkingPlane.YAxis.Direction.Reversed(), _SavedWorkingPlane.XAxis.Direction));
                     break;
 
                 case CreateMode.WorkplaneYZ:
-                    _Plane = new Pln(InteractiveContext.Current.Workspace.WorkingPlane.Location,
-                        InteractiveContext.Current.Workspace.WorkingPlane.XAxis.Direction.Reversed());
+                    _Plane = new Pln(new Ax3(_SavedWorkingPlane.Location, _SavedWorkingPlane.XAxis.Direction, _SavedWorkingPlane.YAxis.Direction));
                     break;
             }
 
@@ -131,6 +132,5 @@ namespace Macad.Interaction.Editors.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
-
     }
 }

@@ -102,5 +102,31 @@ namespace Macad.Test.Unit.Infrastructure
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        [Description("When cloning with body refs, the copy has incorrect bodies set on sequently deserialized shapes.")]
+        public void CloneCascadedBodyReferences()
+        {
+            var model = CoreContext.Current.Document;
+            var operandBody1 = TestGeomGenerator.CreateBody(Box.Create(5, 5, 5), new Pnt());
+            model.Add(operandBody1);
+            var targetBody1 = TestGeomGenerator.CreateBody(Box.Create(5, 5, 5), new Pnt(2, 2, 0));
+            model.Add(targetBody1);
+            BooleanFuse.Create(targetBody1, new BodyShapeOperand(operandBody1));
+            Imprint.Create(targetBody1, targetBody1.Shape.GetSubshapeReference(SubshapeType.Face, 0));
+            var serialized = Serializer.Serialize(targetBody1, new SerializationContext());
+
+            // Deserialize with cloning referenced bodies
+            SerializationContext context = new(SerializationScope.CopyPaste);
+            context.SetInstance(model);
+            context.SetInstance<IDocument>(model);
+            context.SetInstance(ReadOptions.RecreateGuids);
+            context.SetInstance(new CloneOptions(true));
+            var targetBody2 = Serializer.Deserialize<Entity>(serialized, context) as Body;
+            Assert.IsNotNull(targetBody2);
+            var imprint = targetBody2.Shape as Imprint;
+            Assert.IsNotNull(imprint);
+            Assert.AreEqual(targetBody2, imprint.Body);
+            Assert.AreEqual(targetBody2, imprint.Sketch.Body);
+        }
     }
 }

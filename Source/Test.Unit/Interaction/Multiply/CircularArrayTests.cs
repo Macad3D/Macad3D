@@ -34,19 +34,10 @@ namespace Macad.Test.Unit.Interaction.Multiply
         public void HintLinesSolid()
         {
             var ctx = Context.Current;
-
-            var solid = TestGeomGenerator.CreateImprint();
-
-            var array = CircularArray.Create(solid.Body);
-            array.Quantity = 4;
-            array.Radius = 50;
-            array.OriginalAngle = 20;
-            array.Range = 220;
-            array.Alignment = CircularArray.AlignmentMode.Center;
-            Assume.That(array.Make(Shape.MakeFlags.None));
-
+            var array = _CreateSolidArray();
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Selection.SelectEntity(array.Body);
+
             var editor = Editor.CreateEditor(array);
             editor.Start();
 
@@ -67,6 +58,31 @@ namespace Macad.Test.Unit.Interaction.Multiply
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "HintLinesSolid_Clean"));
             });
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void HintLinesNegativeValues()
+        {
+            var ctx = Context.Current;
+            var array = _CreateSolidArray();
+            ctx.ViewportController.ZoomFitAll();
+            ctx.WorkspaceController.Selection.SelectEntity(array.Body);
+
+            var editor = Editor.CreateEditor(array);
+            editor.Start();
+
+            Assert.Multiple(() =>
+            {
+                array.Plane = CircularArray.PlaneType.XY;
+                array.Radius *= -1;
+                ctx.ViewportController.ZoomFitAll();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "HintLinesSolid_NegRadius"));
+
+                // Cleanup
+                editor.Stop();
+            });
+        }
 
         //--------------------------------------------------------------------------------------------------
         
@@ -74,17 +90,7 @@ namespace Macad.Test.Unit.Interaction.Multiply
         public void HintLinesSketch()
         {
             var ctx = Context.Current;
-
-            var sketch = TestGeomGenerator.CreateSketch(createBody: true);
-
-            var array = CircularArray.Create(sketch.Body);
-            array.Quantity = 4;
-            array.Radius = 50;
-            array.OriginalAngle = 20;
-            array.Range = 220;
-            array.Alignment = CircularArray.AlignmentMode.Center;
-            Assume.That(array.Make(Shape.MakeFlags.None));
-
+            var array = _CreateSketchArray();
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Selection.SelectEntity(array.Body);
             var editor = Editor.CreateEditor(array);
@@ -106,21 +112,11 @@ namespace Macad.Test.Unit.Interaction.Multiply
         public void HintLinesOnlyIfEffectiveShape()
         {
             var ctx = Context.Current;
-
-            var sketch = TestGeomGenerator.CreateSketch(createBody: true);
-
-            var array = CircularArray.Create(sketch.Body);
-            array.Quantity = 4;
-            array.Radius = 50;
-            array.OriginalAngle = 20;
-            array.Range = 220;
-            array.Alignment = CircularArray.AlignmentMode.Center;
-            Assume.That(array.Make(Shape.MakeFlags.None));
-
+            var array = _CreateSketchArray();
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Selection.SelectEntity(array.Body);
 
-            sketch.Body.Shape = sketch;
+            array.Body.Shape = array.Predecessor as Sketch;
             var editor = Editor.CreateEditor(array);
             editor.Start();
 
@@ -132,6 +128,35 @@ namespace Macad.Test.Unit.Interaction.Multiply
         }
 
         //--------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------
 
+        CircularArray _CreateSolidArray()
+        {
+            var solid = TestGeomGenerator.CreateImprint();
+            var array = CircularArray.Create(solid.Body);
+            array.Quantity = 4;
+            array.Radius = 50;
+            array.OriginalAngle = 20;
+            array.Range = 220;
+            array.Alignment = CircularArray.AlignmentMode.Center;
+            Assume.That(array.Make(Shape.MakeFlags.None));
+
+            return array;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        CircularArray _CreateSketchArray()
+        {
+            var sketch = TestGeomGenerator.CreateSketch(createBody: true);
+            var array = CircularArray.Create(sketch.Body);
+            array.Quantity = 4;
+            array.Radius = 50;
+            array.OriginalAngle = 20;
+            array.Range = 220;
+            array.Alignment = CircularArray.AlignmentMode.Center;
+            Assume.That(array.Make(Shape.MakeFlags.None));
+            return array;
+        }
     }
 }

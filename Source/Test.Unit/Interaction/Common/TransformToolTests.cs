@@ -239,5 +239,126 @@ namespace Macad.Test.Unit.Interaction.Common
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Rotate03"));
             });
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void MoveMultiple()
+        {
+            var ctx = Context.Current;
+
+            var bodies = TestGeomGenerator.CreateBoxCylinderSphere();
+            ctx.ViewportController.ZoomFitAll();
+
+            var tool = new TransformTool(bodies, TransformTool.PivotPoint.EntityPivot, TransformTool.Options.None);
+            ctx.WorkspaceController.StartTool(tool);
+
+            Assert.Multiple(() =>
+            {
+                ctx.ViewportController.MouseMove(new Point(250, 278));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(250, 400));
+                ctx.ViewportController.MouseUp(false);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveMultiple01"));
+            });
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void MoveMultipleFirstEntityPivot()
+        {
+            var ctx = Context.Current;
+
+            var bodies = TestGeomGenerator.CreateBoxCylinderSphere();
+            ctx.ViewportController.ZoomFitAll();
+
+            var tool = new TransformTool(bodies, TransformTool.PivotPoint.EntityPivot, TransformTool.Options.MultipleUseFirst);
+            ctx.WorkspaceController.StartTool(tool);
+
+            Assert.Multiple(() =>
+            {
+                ctx.ViewportController.MouseMove(new Point(317, 190));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(317, 300));
+                ctx.ViewportController.MouseUp(false);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveMultipleFirstEntityPivot01"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void MoveMultipleExcludeLinked()
+        {
+            var ctx = Context.Current;
+
+            var (body, shapes) = TestGeomGenerator.CreateBooleanBodies(false);
+            BooleanFuse.Create(body, shapes);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                var tool = new TransformTool(new []{body}, TransformTool.PivotPoint.EntityPivot, TransformTool.Options.None);
+                ctx.WorkspaceController.StartTool(tool);
+
+                ctx.ViewportController.MouseMove(new Point(250, 236));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(250, 400));
+                ctx.ViewportController.MouseUp(false);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveMultipleExcludeLinked01"));
+            });
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+                
+        [Test]
+        public void MoveMultipleIncludeLinked()
+        {
+            var ctx = Context.Current;
+
+            var (body, shapes) = TestGeomGenerator.CreateBooleanBodies(false);
+            BooleanFuse.Create(body, shapes);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                var tool = new TransformTool(new []{body}, TransformTool.PivotPoint.EntityPivot, TransformTool.Options.LinkForeignOperands);
+                ctx.WorkspaceController.StartTool(tool);
+
+                ctx.ViewportController.MouseMove(new Point(250, 236));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(250, 400));
+                ctx.ViewportController.MouseUp(false);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveMultipleIncludeLinked01"));
+            });
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+                        
+        [Test]
+        public void MoveMultipleNoReferences()
+        {
+            var ctx = Context.Current;
+
+            var body = TestGeomGenerator.CreateBox().Body;
+            var bodyRef = Reference.Create(body);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                var tool = new TransformTool(new []{bodyRef}, TransformTool.PivotPoint.EntityPivot, TransformTool.Options.LinkForeignOperands);
+                ctx.WorkspaceController.StartTool(tool);
+
+                ctx.ViewportController.MouseMove(new Point(250, 280));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(250, 400));
+                ctx.ViewportController.MouseUp(false);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveMultipleNoReferences01"));
+            });
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

@@ -39,7 +39,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override bool Start()
         {
-            InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(null, true);
+            InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(null);
 
             var pointAction = new PointAction(this);
             if (!WorkspaceController.StartToolAction(pointAction))

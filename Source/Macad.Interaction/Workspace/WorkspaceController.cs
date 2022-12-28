@@ -485,7 +485,8 @@ namespace Macad.Interaction
                 if (_MouseEventData.DetectedEntities.Any())
                 {
                     // Shape selected
-                    Selection.SelectEntities(_MouseEventData.DetectedEntities, !shiftKey);
+                    Selection.SelectEntities(_MouseEventData.DetectedEntities, shiftKey ? SelectionManager.SelectionMode.Toggle 
+                                                                                        : SelectionManager.SelectionMode.Exclusive);
                     Invalidate();
                 }
                 else

@@ -1,5 +1,4 @@
-﻿using System.Windows.Input;
-using FlaUI.Core.WindowsAPI;
+﻿using FlaUI.Core.WindowsAPI;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
 
@@ -23,8 +22,8 @@ namespace Macad.Test.UI.Application.Edit
 
             // Start transform
             MainWindow.Ribbon.SelectTab("Edit");
-            Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("TransformShape"));
-            MainWindow.Ribbon.ClickButton("TransformShape");
+            Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Transform"));
+            MainWindow.Ribbon.ClickButton("Transform");
             Assert.AreEqual("TransformTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
 
             // Select tree view
