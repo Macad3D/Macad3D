@@ -80,3 +80,26 @@ This is a maintenance release containing the following bug fixes:
 
 * Model files cannot be loaded if they contain large imported solids or meshes.
 * Taper direction is incorrect in certain cases.
+
+## Version 2.3
+
+This is a maintenance release containing the following improvements and bug fixes:
+
+* Sketch Editor
+  * Fixed application of view rotation.
+  * Improve clip plane on the plane angle.
+  * No more cloning of single points without segments.
+* Taper
+  * Fixed tapering a second time did not work correctly in some cases.
+* Circular Array
+  * Fixed crash if radius is negative.
+* Body
+  * Update ghost shape when layer visibility is toggled.
+  * Inconsistencies in body-shape topology can occur in cloned bodies in seldom cases.
+* Slice Contour, Etching Mask
+  * Slicer did not find the correct height in seldom cases.
+* Transform Tool
+  * Do not operate on references if option LinkForeignOperands is activated.
+  * Keep tool active if context menu is closed with left mouse button click.
+* Workspace
+  * Fix incorrect behavior of deselection of entities.
