@@ -159,8 +159,8 @@ namespace Macad.Interaction.Panels
                     _AisShape = new AIS_Shape(ocShape);
                     _AisShape.SetLocalTransformation(trsf.Value);
                     _AisShape.SetZLayer(-2); // Graphic3d_ZLayerId_Top
-                    _AisShape.SetColor(Quantity_NameOfColor.Quantity_NOC_BLUE1.ToColor());
-                    _AisShape.Attributes().LineAspect().SetColor(Quantity_NameOfColor.Quantity_NOC_BLUE1.ToColor());
+                    _AisShape.SetColor(Quantity_NameOfColor.BLUE1.ToColor());
+                    _AisShape.Attributes().LineAspect().SetColor(Quantity_NameOfColor.BLUE1.ToColor());
                     _AisShape.SetWidth(3);
                     _AisShape.Attributes().PointAspect().SetScale(3);
 

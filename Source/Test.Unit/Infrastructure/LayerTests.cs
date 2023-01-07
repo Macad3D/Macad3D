@@ -117,7 +117,7 @@ namespace Macad.Test.Unit.Infrastructure
                 Name = "Second",
                 IsVisible = false,
                 IsLocked = true,
-                Color = OcctColorUtils.Color(Quantity_NameOfColor.Quantity_NOC_GOLD),
+                Color = OcctColorUtils.Color(Quantity_NameOfColor.GOLD),
                 Transparency = 0.4f,
                 LineThickness = LineThickness.Thin,
                 LineStyle = LineStyle.DotDash,

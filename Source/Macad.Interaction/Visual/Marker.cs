@@ -199,7 +199,7 @@ namespace Macad.Interaction.Visual
             if (_AisPoint == null)
                 return;
             
-            _AisPoint.SetMarker(Aspect_TypeOfMarker.Aspect_TOM_USERDEFINED);
+            _AisPoint.SetMarker(Aspect_TypeOfMarker.USERDEFINED);
 
             Prs3d_PointAspect pointAspect = null;
             switch (_Styles & Styles.ModeMask)
@@ -384,7 +384,7 @@ namespace Macad.Interaction.Visual
         {
             if (image?.Bytes == null)
             {
-                return new Prs3d_PointAspect(Aspect_TypeOfMarker.Aspect_TOM_BALL, color ?? Colors.BallMarker, 1.0);
+                return new Prs3d_PointAspect(Aspect_TypeOfMarker.BALL, color ?? Colors.BallMarker, 1.0);
             }
 
             return new Prs3d_PointAspect(color ?? Colors.BallMarker, image.Width, image.Height, image.Bytes);
@@ -396,7 +396,7 @@ namespace Macad.Interaction.Visual
         {
             if (image?.PixMap == null)
             {
-                return new Prs3d_PointAspect(Aspect_TypeOfMarker.Aspect_TOM_BALL, Colors.BallMarker, 1.0);
+                return new Prs3d_PointAspect(Aspect_TypeOfMarker.BALL, Colors.BallMarker, 1.0);
             }
 
             var aspectMarker = new Graphic3d_AspectMarker3d(image.PixMap);

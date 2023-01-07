@@ -85,7 +85,7 @@ namespace Macad.Core.Shapes
                 return Skip();
             }
 
-            var makeFillet = new BRepFilletAPI_MakeFillet(sourceShape, ChFi3d_FilletShape.ChFi3d_Rational);
+            var makeFillet = new BRepFilletAPI_MakeFillet(sourceShape, ChFi3d_FilletShape.Rational);
 
             // Select edges
             var edges = GetOcEdges().ToArray();

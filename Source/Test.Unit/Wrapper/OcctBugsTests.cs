@@ -10,11 +10,11 @@ namespace Macad.Test.Unit.Wrapper
         public void ImageDiffWithTolerance_OCCT29847()
         {
             var imageNew = new Image_PixMap();
-            imageNew.InitTrash(Image_Format.Image_Format_RGB, 1, 1);
-            imageNew.SetPixelColor(0, 0, new Quantity_Color(0.5, 0.5, 0.5, Quantity_TypeOfColor.Quantity_TOC_RGB) );
+            imageNew.InitTrash(Image_Format.RGB, 1, 1);
+            imageNew.SetPixelColor(0, 0, new Quantity_Color(0.5, 0.5, 0.5, Quantity_TypeOfColor.RGB) );
             var imageRef = new Image_PixMap();
-            imageRef.InitTrash(Image_Format.Image_Format_RGB, 1, 1);
-            imageRef.SetPixelColor(0, 0, new Quantity_Color(0.6, 0.6, 0.6, Quantity_TypeOfColor.Quantity_TOC_RGB) );
+            imageRef.InitTrash(Image_Format.RGB, 1, 1);
+            imageRef.SetPixelColor(0, 0, new Quantity_Color(0.6, 0.6, 0.6, Quantity_TypeOfColor.RGB) );
 
             var imageDiff = new Image_Diff();
             imageDiff.Init(imageRef, imageNew);

@@ -195,33 +195,36 @@ namespace Macad.Interaction
 
             // Higlight Selected
             var selectionDrawer = new Prs3d_Drawer();
+            selectionDrawer.SetupOwnDefaults();
             selectionDrawer.SetColor(Colors.Selection);
             selectionDrawer.SetDisplayMode(0);
             selectionDrawer.SetZLayer(0); // Graphic3d_ZLayerId_Default
-            selectionDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.Aspect_TOD_RELATIVE);
+            selectionDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.RELATIVE);
             selectionDrawer.SetDeviationAngle(aisContext.DeviationAngle());
             selectionDrawer.SetDeviationCoefficient(aisContext.DeviationCoefficient());
             aisContext.SetSelectionStyle(selectionDrawer);
-            aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Prs3d_TypeOfHighlight_Selected, selectionDrawer);
-            aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Prs3d_TypeOfHighlight_LocalSelected, selectionDrawer);
-            aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Prs3d_TypeOfHighlight_SubIntensity, selectionDrawer);
+            aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Selected, selectionDrawer);
+            aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.LocalSelected, selectionDrawer);
+            aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.SubIntensity, selectionDrawer);
 
             // Higlight Dynamic
             var hilightDrawer = new Prs3d_Drawer();
+            hilightDrawer.SetupOwnDefaults();
             hilightDrawer.SetColor(Colors.Highlight);
             hilightDrawer.SetDisplayMode(0);
             hilightDrawer.SetZLayer(-2); // Graphic3d_ZLayerId_Top
-            hilightDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.Aspect_TOD_RELATIVE);
+            hilightDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.RELATIVE);
             hilightDrawer.SetDeviationAngle(aisContext.DeviationAngle());
             hilightDrawer.SetDeviationCoefficient(aisContext.DeviationCoefficient());
-            aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Prs3d_TypeOfHighlight_Dynamic, hilightDrawer);
+            aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Dynamic, hilightDrawer);
 
             // Higlight Local
             var hilightLocalDrawer = new Prs3d_Drawer();
+            hilightLocalDrawer.SetupOwnDefaults();
             hilightLocalDrawer.SetColor(Colors.Highlight);
             hilightLocalDrawer.SetDisplayMode(1);
             hilightLocalDrawer.SetZLayer(-2); // Graphic3d_ZLayerId_Top
-            hilightLocalDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.Aspect_TOD_RELATIVE);
+            hilightLocalDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.RELATIVE);
             hilightLocalDrawer.SetDeviationAngle(aisContext.DeviationAngle());
             hilightLocalDrawer.SetDeviationCoefficient(aisContext.DeviationCoefficient());
 
@@ -230,11 +233,11 @@ namespace Macad.Interaction
             shadingAspect.SetTransparency(0);
 
             var aspectFill = new Graphic3d_AspectFillArea3d(shadingAspect.Aspect());
-            aspectFill.SetPolygonOffsets((int)Aspect_PolygonOffsetMode.Aspect_POM_Fill, 0.99f, 0.0f );
+            aspectFill.SetPolygonOffsets((int)Aspect_PolygonOffsetMode.Fill, 0.99f, 0.0f);
             shadingAspect.SetAspect(aspectFill);
             hilightLocalDrawer.SetShadingAspect(shadingAspect);
 
-            var lineAspect = new Prs3d_LineAspect(Colors.Highlight, Aspect_TypeOfLine.Aspect_TOL_SOLID, 3.0);
+            var lineAspect = new Prs3d_LineAspect(Colors.Highlight, Aspect_TypeOfLine.SOLID, 3.0);
             hilightLocalDrawer.SetLineAspect(lineAspect);
             hilightLocalDrawer.SetSeenLineAspect(lineAspect);
             hilightLocalDrawer.SetWireAspect(lineAspect);
@@ -243,7 +246,7 @@ namespace Macad.Interaction
             hilightLocalDrawer.SetUnFreeBoundaryAspect(lineAspect);
             hilightLocalDrawer.SetPointAspect(Marker.CreateBitmapPointAspect(Marker.BallImage, Colors.Highlight));
 
-            aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.Prs3d_TypeOfHighlight_LocalDynamic, hilightLocalDrawer);
+            aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.LocalDynamic, hilightLocalDrawer);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -413,7 +416,7 @@ namespace Macad.Interaction
             var status = Workspace.AisContext.MoveTo(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), viewportController.Viewport.V3dView, false);
             Invalidate(true);
 
-            if (status != AIS_StatusOfDetection.AIS_SOD_Error)
+            if (status != AIS_StatusOfDetection.Error)
             {
                 Pnt rawPoint;
                 if (!viewportController.Viewport.ScreenToPoint(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), out rawPoint))
@@ -535,7 +538,7 @@ namespace Macad.Interaction
                 {
                     // Shape selected
                     Selection.SelectEntities(_MouseEventData.DetectedEntities, _GetSelectionModeFromKeys(modifierKeys));
-                    Invalidate();
+                    MouseMove(viewportController, _LastMouseMovePosition, modifierKeys);
                 }
                 else
                 {
@@ -1070,7 +1073,7 @@ namespace Macad.Interaction
             if (_WorkingPlaneAxes[index] == null)
             {
                 _WorkingPlaneAxes[index] = new AIS_Line(p1, p2);
-                _WorkingPlaneAxes[index].SetColor(new Quantity_Color(index == 0 ? 0.5 : 0.0, index == 1 ? 0.6 : 0.0, 0.0, Quantity_TypeOfColor.Quantity_TOC_RGB));
+                _WorkingPlaneAxes[index].SetColor(new Quantity_Color(index == 0 ? 0.5 : 0.0, index == 1 ? 0.6 : 0.0, 0.0, Quantity_TypeOfColor.RGB));
                 _WorkingPlaneAxes[index].SetPolygonOffsets(2 /* Aspect_POM_Line */, 1.0f, index - 3.0f);
                 Workspace.AisContext?.Display(_WorkingPlaneAxes[index], 0, -1, false);
                 _WorkingPlaneAxes[index].SetInfiniteState(true);
@@ -1099,13 +1102,13 @@ namespace Macad.Interaction
             {
                 if (wc.GridType == Workspace.GridTypes.Rectangular)
                 {
-                    v3dViewer.ActivateGrid(Aspect_GridType.Aspect_GT_Rectangular, Aspect_GridDrawMode.Aspect_GDM_Lines);
+                    v3dViewer.ActivateGrid(Aspect_GridType.Rectangular, Aspect_GridDrawMode.Lines);
                     v3dViewer.SetRectangularGridValues(0, 0, wc.GridStep, wc.GridStep, wc.GridRotation.ToRad());
                     v3dViewer.SetRectangularGridGraphicValues(_LastGridSize.X, _LastGridSize.Y, -0.0001);
                 }
                 else
                 {
-                    v3dViewer.ActivateGrid(Aspect_GridType.Aspect_GT_Circular, Aspect_GridDrawMode.Aspect_GDM_Lines);
+                    v3dViewer.ActivateGrid(Aspect_GridType.Circular, Aspect_GridDrawMode.Lines);
                     v3dViewer.SetCircularGridValues(0, 0, wc.GridStep, wc.GridDivisions, wc.GridRotation.ToRad());
                     v3dViewer.SetCircularGridGraphicValues(_LastGridSize.X, -0.0001);
                 }

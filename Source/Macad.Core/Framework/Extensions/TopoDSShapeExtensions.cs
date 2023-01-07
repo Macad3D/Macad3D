@@ -11,7 +11,7 @@ namespace Macad.Core
         {
             var compSolids = new List<TopoDS_CompSolid>();
 
-            var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.TopAbs_COMPSOLID, TopAbs_ShapeEnum.TopAbs_SHAPE);
+            var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.COMPSOLID, TopAbs_ShapeEnum.SHAPE);
             while (exp.More())
             {
                 var compSolid = TopoDS.CompSolid(exp.Current());
@@ -33,7 +33,7 @@ namespace Macad.Core
         {
             var solids = new List<TopoDS_Solid>();
 
-            var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.TopAbs_SOLID, TopAbs_ShapeEnum.TopAbs_SHAPE);
+            var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.SOLID, TopAbs_ShapeEnum.SHAPE);
             while (exp.More())
             {
                 var solid = TopoDS.Solid(exp.Current());
@@ -55,7 +55,7 @@ namespace Macad.Core
         {
             var shells = new List<TopoDS_Shell>();
 
-            var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.TopAbs_SHELL, TopAbs_ShapeEnum.TopAbs_SHAPE);
+            var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.SHELL, TopAbs_ShapeEnum.SHAPE);
             while (exp.More())
             {
                 var shell = TopoDS.Shell(exp.Current());
@@ -79,7 +79,7 @@ namespace Macad.Core
             
             var faces = new List<TopoDS_Face>();
 
-            var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.TopAbs_FACE, TopAbs_ShapeEnum.TopAbs_SHAPE);
+            var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.FACE, TopAbs_ShapeEnum.SHAPE);
             while (exp.More())
             {
                 var face = TopoDS.Face(exp.Current());
@@ -90,8 +90,8 @@ namespace Macad.Core
                     var otherIndex = faces.FindIndex(e => e.IsSame(face));
                     if (otherIndex >= 0)
                     {
-                        if (faces[otherIndex].Orientation() == TopAbs_Orientation.TopAbs_REVERSED
-                            && face.Orientation() == TopAbs_Orientation.TopAbs_FORWARD)
+                        if (faces[otherIndex].Orientation() == TopAbs_Orientation.REVERSED
+                            && face.Orientation() == TopAbs_Orientation.FORWARD)
                         {
                             // Replace with forward face, this is prefered
                             faces[otherIndex] = face;
@@ -112,7 +112,7 @@ namespace Macad.Core
         {
             var wires = new List<TopoDS_Wire>();
 
-            var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.TopAbs_WIRE, TopAbs_ShapeEnum.TopAbs_SHAPE);
+            var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.WIRE, TopAbs_ShapeEnum.SHAPE);
             while (exp.More())
             {
                 var wire = TopoDS.Wire(exp.Current());
@@ -123,8 +123,8 @@ namespace Macad.Core
                     var otherEdgeIndex = wires.FindIndex(e => e.IsSame(wire));
                     if (otherEdgeIndex >= 0)
                     {
-                        if (wires[otherEdgeIndex].Orientation() == TopAbs_Orientation.TopAbs_REVERSED
-                            && wire.Orientation() == TopAbs_Orientation.TopAbs_FORWARD)
+                        if (wires[otherEdgeIndex].Orientation() == TopAbs_Orientation.REVERSED
+                            && wire.Orientation() == TopAbs_Orientation.FORWARD)
                         {
                             // Replace with forward wire, this is prefered
                             wires[otherEdgeIndex] = wire;
@@ -146,7 +146,7 @@ namespace Macad.Core
         {
             var edges = new List<TopoDS_Edge>();
 
-            var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.TopAbs_EDGE, TopAbs_ShapeEnum.TopAbs_SHAPE);
+            var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.EDGE, TopAbs_ShapeEnum.SHAPE);
             while (exp.More())
             {
                 var edge = TopoDS.Edge(exp.Current());
@@ -157,8 +157,8 @@ namespace Macad.Core
                     var otherEdgeIndex = edges.FindIndex(e => e.IsSame(edge));
                     if (otherEdgeIndex >= 0)
                     {
-                        if (edges[otherEdgeIndex].Orientation() == TopAbs_Orientation.TopAbs_REVERSED
-                            && edge.Orientation() == TopAbs_Orientation.TopAbs_FORWARD)
+                        if (edges[otherEdgeIndex].Orientation() == TopAbs_Orientation.REVERSED
+                            && edge.Orientation() == TopAbs_Orientation.FORWARD)
                         {
                             // Replace with forward edge, this is prefered
                             edges[otherEdgeIndex] = edge;
@@ -180,7 +180,7 @@ namespace Macad.Core
         {
             var faces = new List<TopoDS_Vertex>();
 
-            var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.TopAbs_VERTEX, TopAbs_ShapeEnum.TopAbs_SHAPE);
+            var exp = new TopExp_Explorer(shape, TopAbs_ShapeEnum.VERTEX, TopAbs_ShapeEnum.SHAPE);
             while (exp.More())
             {
                 var vertex = TopoDS.Vertex(exp.Current());

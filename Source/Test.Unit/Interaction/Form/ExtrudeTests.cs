@@ -343,12 +343,14 @@ namespace Macad.Test.Unit.Interaction.Form
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthSolidChangeSign01"));
 
                 ctx.ViewportController.MouseUp();
+                ctx.MoveTo(250, 250);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthSolidChangeSign02"));
                 Assert.Less(extrude.Depth, oldDepth);
 
                 // Neg to Pos
+                ctx.MoveTo(250, 230);
                 ctx.ViewportController.MouseDown();
-                ctx.MoveTo(250, 180);
+                ctx.MoveTo(250, 160);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthSolidChangeSign03"));
 
                 ctx.ViewportController.MouseUp();

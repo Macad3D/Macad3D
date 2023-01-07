@@ -397,9 +397,9 @@ namespace Macad.Core.Shapes
 
             // Get tolerance
             var anaTolerance = new ShapeAnalysis_ShapeTolerance();
-            var tolerance = anaTolerance.Tolerance(context.Result, 1, TopAbs_ShapeEnum.TopAbs_SHAPE); // Get max of all
+            var tolerance = anaTolerance.Tolerance(context.Result, 1, TopAbs_ShapeEnum.SHAPE); // Get max of all
 
-            var joinType = _ThickenCornerType == CornerType.Round ? GeomAbs_JoinType.GeomAbs_Arc : GeomAbs_JoinType.GeomAbs_Intersection;
+            var joinType = _ThickenCornerType == CornerType.Round ? GeomAbs_JoinType.Arc : GeomAbs_JoinType.Intersection;
 
             if (context.AllWiresClosed)
             {
@@ -419,7 +419,7 @@ namespace Macad.Core.Shapes
                 var makeThick = new BRepOffsetAPI_MakeThickSolid();
                 var thicknessSign = ThickenDirection == Direction.Inwards ? -1 : 1;
                 makeThick.MakeThickSolidByJoin(context.Result, removeFaceList, Thickness * thicknessSign, tolerance, 
-                    BRepOffset_Mode.BRepOffset_Skin, true, false, joinType);
+                    BRepOffset_Mode.Skin, true, false, joinType);
 
                 if (!makeThick.IsDone())
                 {
@@ -442,7 +442,7 @@ namespace Macad.Core.Shapes
                 var makeThick = new BRepOffset_MakeOffset();
                 var thicknessSign = ThickenDirection == Direction.Inwards ? -1 : 1;
                 makeThick.Initialize(shell, Thickness * thicknessSign, tolerance, 
-                    BRepOffset_Mode.BRepOffset_Skin, true, false, joinType, true);
+                    BRepOffset_Mode.Skin, true, false, joinType, true);
                 makeThick.MakeOffsetShape();
 
                 if (!makeThick.IsDone())

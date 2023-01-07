@@ -98,7 +98,7 @@ namespace Macad.Interaction
                 var detectedShape = mouseEvent.DetectedShapes[0];
                 if (SupportedSnapModes.HasFlag(SnapMode.Vertex) 
                     && InteractiveContext.Current.EditorState.SnapToVertexSelected 
-                    && (detectedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_VERTEX))
+                    && (detectedShape.ShapeType() == TopAbs_ShapeEnum.VERTEX))
                 {
                     // On Vertex
                     var vertex = TopoDS.Vertex(detectedShape);
@@ -110,7 +110,7 @@ namespace Macad.Interaction
                 }
                 else if (SupportedSnapModes.HasFlag(SnapMode.Edge)
                     && InteractiveContext.Current.EditorState.SnapToEdgeSelected
-                    && (detectedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_EDGE))
+                    && (detectedShape.ShapeType() == TopAbs_ShapeEnum.EDGE))
                 {
                     // On Edge
                     var edge = TopoDS.Edge(detectedShape);

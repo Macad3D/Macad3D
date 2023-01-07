@@ -224,9 +224,9 @@ void AISX_Circle::ComputeSelection(const Handle(SelectMgr_Selection)& theSelecti
     theSelection->Clear();
 
     Handle(SelectMgr_EntityOwner) sensitiveOwner = new SelectMgr_EntityOwner(this, 10);
-    Handle(Select3D_SensitiveCircle) sensitive;
+    Handle(Select3D_SensitiveEntity) sensitive;
     if(_LimitStartParam != _LimitEndParam)
-        sensitive = new Select3D_SensitiveCircle(sensitiveOwner, _Circle, _LimitStartParam, _LimitEndParam, false);
+        sensitive = new Select3D_SensitivePoly(sensitiveOwner, _Circle, _LimitStartParam, _LimitEndParam, false);
     else
         sensitive = new Select3D_SensitiveCircle(sensitiveOwner, _Circle, false);
 	sensitive->SetSensitivityFactor(10);

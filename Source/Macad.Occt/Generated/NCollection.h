@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "NCollection.h"
 
 namespace Macad
 {
@@ -16,92 +15,94 @@ namespace Occt
 /// </summary>
 public enum class NCollection_CellFilter_Action
 {
-	CellFilter_Keep = 0,
-	CellFilter_Purge = 1
+    CellFilter_Keep = 0,
+    CellFilter_Purge = 1
 }; // enum  class NCollection_CellFilter_Action
 
 //---------------------------------------------------------------------
 //  Class  NCollection_CellFilter_InspectorXYZ
 //---------------------------------------------------------------------
-public ref class NCollection_CellFilter_InspectorXYZ sealed : public BaseClass<::NCollection_CellFilter_InspectorXYZ>
+public ref class NCollection_CellFilter_InspectorXYZ sealed
+    : public Macad::Occt::BaseClass<::NCollection_CellFilter_InspectorXYZ>
 {
 
 #ifdef Include_NCollection_CellFilter_InspectorXYZ_h
 public:
-	Include_NCollection_CellFilter_InspectorXYZ_h
+    Include_NCollection_CellFilter_InspectorXYZ_h
 #endif
 
 public:
-	NCollection_CellFilter_InspectorXYZ(::NCollection_CellFilter_InspectorXYZ* nativeInstance)
-		: BaseClass<::NCollection_CellFilter_InspectorXYZ>( nativeInstance, true )
-	{}
+    NCollection_CellFilter_InspectorXYZ(::NCollection_CellFilter_InspectorXYZ* nativeInstance)
+        : Macad::Occt::BaseClass<::NCollection_CellFilter_InspectorXYZ>( nativeInstance, true )
+    {}
 
-	NCollection_CellFilter_InspectorXYZ(::NCollection_CellFilter_InspectorXYZ& nativeInstance)
-		: BaseClass<::NCollection_CellFilter_InspectorXYZ>( &nativeInstance, false )
-	{}
+    NCollection_CellFilter_InspectorXYZ(::NCollection_CellFilter_InspectorXYZ& nativeInstance)
+        : Macad::Occt::BaseClass<::NCollection_CellFilter_InspectorXYZ>( &nativeInstance, false )
+    {}
 
-	property ::NCollection_CellFilter_InspectorXYZ* NativeInstance
-	{
-		::NCollection_CellFilter_InspectorXYZ* get()
-		{
-			return static_cast<::NCollection_CellFilter_InspectorXYZ*>(_NativeInstance);
-		}
-	}
+    property ::NCollection_CellFilter_InspectorXYZ* NativeInstance
+    {
+        ::NCollection_CellFilter_InspectorXYZ* get()
+        {
+            return static_cast<::NCollection_CellFilter_InspectorXYZ*>(_NativeInstance);
+        }
+    }
 
 public:
-	NCollection_CellFilter_InspectorXYZ();
-	NCollection_CellFilter_InspectorXYZ(Macad::Occt::NCollection_CellFilter_InspectorXYZ^ parameter1);
-	/// <summary>
-	/// Access to coordinate
-	/// </summary>
-	static double Coord(int i, Macad::Occt::XYZ thePnt);
-	/// <summary>
-	/// Auxiliary method to shift point by each coordinate on given value;
-	/// useful for preparing a points range for Inspect with tolerance
-	/// </summary>
-	Macad::Occt::XYZ Shift(Macad::Occt::XYZ thePnt, double theTol);
+    NCollection_CellFilter_InspectorXYZ();
+    NCollection_CellFilter_InspectorXYZ(Macad::Occt::NCollection_CellFilter_InspectorXYZ^ parameter1);
+    /// <summary>
+    /// Access to coordinate
+    /// </summary>
+    static double Coord(int i, Macad::Occt::XYZ thePnt);
+    /// <summary>
+    /// Auxiliary method to shift point by each coordinate on given value;
+    /// useful for preparing a points range for Inspect with tolerance
+    /// </summary>
+    Macad::Occt::XYZ Shift(Macad::Occt::XYZ thePnt, double theTol);
 }; // class NCollection_CellFilter_InspectorXYZ
 
 //---------------------------------------------------------------------
 //  Class  NCollection_CellFilter_InspectorXY
 //---------------------------------------------------------------------
-public ref class NCollection_CellFilter_InspectorXY sealed : public BaseClass<::NCollection_CellFilter_InspectorXY>
+public ref class NCollection_CellFilter_InspectorXY sealed
+    : public Macad::Occt::BaseClass<::NCollection_CellFilter_InspectorXY>
 {
 
 #ifdef Include_NCollection_CellFilter_InspectorXY_h
 public:
-	Include_NCollection_CellFilter_InspectorXY_h
+    Include_NCollection_CellFilter_InspectorXY_h
 #endif
 
 public:
-	NCollection_CellFilter_InspectorXY(::NCollection_CellFilter_InspectorXY* nativeInstance)
-		: BaseClass<::NCollection_CellFilter_InspectorXY>( nativeInstance, true )
-	{}
+    NCollection_CellFilter_InspectorXY(::NCollection_CellFilter_InspectorXY* nativeInstance)
+        : Macad::Occt::BaseClass<::NCollection_CellFilter_InspectorXY>( nativeInstance, true )
+    {}
 
-	NCollection_CellFilter_InspectorXY(::NCollection_CellFilter_InspectorXY& nativeInstance)
-		: BaseClass<::NCollection_CellFilter_InspectorXY>( &nativeInstance, false )
-	{}
+    NCollection_CellFilter_InspectorXY(::NCollection_CellFilter_InspectorXY& nativeInstance)
+        : Macad::Occt::BaseClass<::NCollection_CellFilter_InspectorXY>( &nativeInstance, false )
+    {}
 
-	property ::NCollection_CellFilter_InspectorXY* NativeInstance
-	{
-		::NCollection_CellFilter_InspectorXY* get()
-		{
-			return static_cast<::NCollection_CellFilter_InspectorXY*>(_NativeInstance);
-		}
-	}
+    property ::NCollection_CellFilter_InspectorXY* NativeInstance
+    {
+        ::NCollection_CellFilter_InspectorXY* get()
+        {
+            return static_cast<::NCollection_CellFilter_InspectorXY*>(_NativeInstance);
+        }
+    }
 
 public:
-	NCollection_CellFilter_InspectorXY();
-	NCollection_CellFilter_InspectorXY(Macad::Occt::NCollection_CellFilter_InspectorXY^ parameter1);
-	/// <summary>
-	/// Access to coordinate
-	/// </summary>
-	static double Coord(int i, Macad::Occt::XY thePnt);
-	/// <summary>
-	/// Auxiliary method to shift point by each coordinate on given value;
-	/// useful for preparing a points range for Inspect with tolerance
-	/// </summary>
-	Macad::Occt::XY Shift(Macad::Occt::XY thePnt, double theTol);
+    NCollection_CellFilter_InspectorXY();
+    NCollection_CellFilter_InspectorXY(Macad::Occt::NCollection_CellFilter_InspectorXY^ parameter1);
+    /// <summary>
+    /// Access to coordinate
+    /// </summary>
+    static double Coord(int i, Macad::Occt::XY thePnt);
+    /// <summary>
+    /// Auxiliary method to shift point by each coordinate on given value;
+    /// useful for preparing a points range for Inspect with tolerance
+    /// </summary>
+    Macad::Occt::XY Shift(Macad::Occt::XY thePnt, double theTol);
 }; // class NCollection_CellFilter_InspectorXY
 
 //---------------------------------------------------------------------
@@ -121,94 +122,142 @@ public:
 /// *              Note that this object is managed by Handle.
 /// */
 /// </summary>
-public ref class NCollection_BaseAllocator : public Macad::Occt::Standard_Transient
+public ref class NCollection_BaseAllocator
+    : public Macad::Occt::Standard_Transient
 {
 
 #ifdef Include_NCollection_BaseAllocator_h
 public:
-	Include_NCollection_BaseAllocator_h
+    Include_NCollection_BaseAllocator_h
 #endif
 
 protected:
-	NCollection_BaseAllocator(InitMode init)
-		: Macad::Occt::Standard_Transient( init )
-	{}
+    NCollection_BaseAllocator(InitMode init)
+        : Macad::Occt::Standard_Transient( init )
+    {}
 
 public:
-	NCollection_BaseAllocator(::NCollection_BaseAllocator* nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
+    NCollection_BaseAllocator(::NCollection_BaseAllocator* nativeInstance)
+        : Macad::Occt::Standard_Transient( nativeInstance )
+    {}
 
-	NCollection_BaseAllocator(::NCollection_BaseAllocator& nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
+    NCollection_BaseAllocator(::NCollection_BaseAllocator& nativeInstance)
+        : Macad::Occt::Standard_Transient( nativeInstance )
+    {}
 
-	property ::NCollection_BaseAllocator* NativeInstance
-	{
-		::NCollection_BaseAllocator* get()
-		{
-			return static_cast<::NCollection_BaseAllocator*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::NCollection_BaseAllocator^ CreateDowncasted(::NCollection_BaseAllocator* instance);
+    property ::NCollection_BaseAllocator* NativeInstance
+    {
+        ::NCollection_BaseAllocator* get()
+        {
+            return static_cast<::NCollection_BaseAllocator*>(_NativeInstance);
+        }
+    }
 
 public:
-	System::IntPtr Allocate(unsigned __int64 size);
-	void Free(System::IntPtr anAddress);
-	/// <summary>
-	/// CommonBaseAllocator
-	/// This method is designed to have the only one BaseAllocator (to avoid
-	/// useless copying of collections). However one can use operator new to
-	/// create more BaseAllocators, but it is injurious.
-	/// </summary>
-	static Macad::Occt::NCollection_BaseAllocator^ CommonBaseAllocator();
-	/// <summary>
-	/// Callback function to register alloc/free calls
-	/// </summary>
-	static void StandardCallBack(bool theIsAlloc, System::IntPtr theStorage, size_t theRoundSize, size_t theSize);
-	/// <summary>
-	/// Prints memory usage statistics cumulated by StandardCallBack
-	/// </summary>
-	static void PrintMemUsageStatistics();
+    System::IntPtr Allocate(long long unsigned int size);
+    void Free(System::IntPtr anAddress);
+    /// <summary>
+    /// CommonBaseAllocator
+    /// This method is designed to have the only one BaseAllocator (to avoid
+    /// useless copying of collections). However one can use operator new to
+    /// create more BaseAllocators, but it is injurious.
+    /// </summary>
+    static Macad::Occt::NCollection_BaseAllocator^ CommonBaseAllocator();
+    /// <summary>
+    /// Callback function to register alloc/free calls
+    /// </summary>
+    static void StandardCallBack(bool theIsAlloc, System::IntPtr theStorage, long long unsigned int theRoundSize, long long unsigned int theSize);
+    /// <summary>
+    /// Prints memory usage statistics cumulated by StandardCallBack
+    /// </summary>
+    static void PrintMemUsageStatistics();
+    static Macad::Occt::NCollection_BaseAllocator^ CreateDowncasted(::NCollection_BaseAllocator* instance);
 }; // class NCollection_BaseAllocator
 
 //---------------------------------------------------------------------
 //  Class  NCollection_BaseList
 //---------------------------------------------------------------------
-public ref class NCollection_BaseList sealed : public BaseClass<::NCollection_BaseList>
+public ref class NCollection_BaseList
+    : public Macad::Occt::BaseClass<::NCollection_BaseList>
 {
 
 #ifdef Include_NCollection_BaseList_h
 public:
-	Include_NCollection_BaseList_h
+    Include_NCollection_BaseList_h
 #endif
 
-public:
-	NCollection_BaseList(::NCollection_BaseList* nativeInstance)
-		: BaseClass<::NCollection_BaseList>( nativeInstance, true )
-	{}
-
-	NCollection_BaseList(::NCollection_BaseList& nativeInstance)
-		: BaseClass<::NCollection_BaseList>( &nativeInstance, false )
-	{}
-
-	property ::NCollection_BaseList* NativeInstance
-	{
-		::NCollection_BaseList* get()
-		{
-			return static_cast<::NCollection_BaseList*>(_NativeInstance);
-		}
-	}
+protected:
+    NCollection_BaseList(InitMode init)
+        : Macad::Occt::BaseClass<::NCollection_BaseList>( init )
+    {}
 
 public:
-	NCollection_BaseList(Macad::Occt::NCollection_BaseList^ parameter1);
-	int Extent();
-	bool IsEmpty();
-	/// <summary>
-	/// Returns attached allocator
-	/// </summary>
-	Macad::Occt::NCollection_BaseAllocator^ Allocator();
+    NCollection_BaseList(::NCollection_BaseList* nativeInstance)
+        : Macad::Occt::BaseClass<::NCollection_BaseList>( nativeInstance, true )
+    {}
+
+    NCollection_BaseList(::NCollection_BaseList& nativeInstance)
+        : Macad::Occt::BaseClass<::NCollection_BaseList>( &nativeInstance, false )
+    {}
+
+    property ::NCollection_BaseList* NativeInstance
+    {
+        ::NCollection_BaseList* get()
+        {
+            return static_cast<::NCollection_BaseList*>(_NativeInstance);
+        }
+    }
+
+public:
+    /// <summary>
+    /// Memory allocation
+    /// </summary>
+    ref class Iterator sealed
+        : public Macad::Occt::BaseClass<::NCollection_BaseList::Iterator>
+    {
+
+#ifdef Include_NCollection_BaseList_Iterator_h
+    public:
+        Include_NCollection_BaseList_Iterator_h
+#endif
+
+    public:
+        Iterator(::NCollection_BaseList::Iterator* nativeInstance)
+            : Macad::Occt::BaseClass<::NCollection_BaseList::Iterator>( nativeInstance, true )
+        {}
+
+        Iterator(::NCollection_BaseList::Iterator& nativeInstance)
+            : Macad::Occt::BaseClass<::NCollection_BaseList::Iterator>( &nativeInstance, false )
+        {}
+
+        property ::NCollection_BaseList::Iterator* NativeInstance
+        {
+            ::NCollection_BaseList::Iterator* get()
+            {
+                return static_cast<::NCollection_BaseList::Iterator*>(_NativeInstance);
+            }
+        }
+
+    public:
+        Iterator();
+        Iterator(Macad::Occt::NCollection_BaseList^ theList);
+        Iterator(Macad::Occt::NCollection_BaseList::Iterator^ parameter1);
+        void Init(Macad::Occt::NCollection_BaseList^ theList);
+        void Initialize(Macad::Occt::NCollection_BaseList^ theList);
+        bool More();
+        /// <summary>
+        /// Performs comparison of two iterators
+        /// </summary>
+        bool IsEqual(Macad::Occt::NCollection_BaseList::Iterator^ theOther);
+    }; // class Iterator
+
+    NCollection_BaseList(Macad::Occt::NCollection_BaseList^ parameter1);
+    int Extent();
+    bool IsEmpty();
+    /// <summary>
+    /// Returns attached allocator
+    /// </summary>
+    Macad::Occt::NCollection_BaseAllocator^ Allocator();
 }; // class NCollection_BaseList
 
 //---------------------------------------------------------------------
@@ -234,47 +283,51 @@ public:
 /// To  define  the size  of  memory  blocks  requested  from the OS,  use the
 /// parameter of the constructor (measured in bytes).
 /// </summary>
-public ref class NCollection_AccAllocator sealed : public Macad::Occt::NCollection_BaseAllocator
+public ref class NCollection_AccAllocator sealed
+    : public Macad::Occt::NCollection_BaseAllocator
 {
 
 #ifdef Include_NCollection_AccAllocator_h
 public:
-	Include_NCollection_AccAllocator_h
+    Include_NCollection_AccAllocator_h
 #endif
 
 public:
-	NCollection_AccAllocator(::NCollection_AccAllocator* nativeInstance)
-		: Macad::Occt::NCollection_BaseAllocator( nativeInstance )
-	{}
+    NCollection_AccAllocator(::NCollection_AccAllocator* nativeInstance)
+        : Macad::Occt::NCollection_BaseAllocator( nativeInstance )
+    {}
 
-	NCollection_AccAllocator(::NCollection_AccAllocator& nativeInstance)
-		: Macad::Occt::NCollection_BaseAllocator( nativeInstance )
-	{}
+    NCollection_AccAllocator(::NCollection_AccAllocator& nativeInstance)
+        : Macad::Occt::NCollection_BaseAllocator( nativeInstance )
+    {}
 
-	property ::NCollection_AccAllocator* NativeInstance
-	{
-		::NCollection_AccAllocator* get()
-		{
-			return static_cast<::NCollection_AccAllocator*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::NCollection_AccAllocator^ CreateDowncasted(::NCollection_AccAllocator* instance);
+    property ::NCollection_AccAllocator* NativeInstance
+    {
+        ::NCollection_AccAllocator* get()
+        {
+            return static_cast<::NCollection_AccAllocator*>(_NativeInstance);
+        }
+    }
 
 public:
-	/// <summary>
-	/// Constructor
-	/// </summary>
-	NCollection_AccAllocator(unsigned __int64 theBlockSize);
-	/// <summary>
-	/// Allocate memory with given size
-	/// </summary>
-	System::IntPtr Allocate(unsigned __int64 theSize);
-	/// <summary>
-	/// Free a previously allocated memory;
-	/// memory is returned to the OS when all allocations in some block are freed
-	/// </summary>
-	void Free(System::IntPtr theAddress);
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    NCollection_AccAllocator(long long unsigned int theBlockSize);
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    NCollection_AccAllocator();
+    /// <summary>
+    /// Allocate memory with given size
+    /// </summary>
+    System::IntPtr Allocate(long long unsigned int theSize);
+    /// <summary>
+    /// Free a previously allocated memory;
+    /// memory is returned to the OS when all allocations in some block are freed
+    /// </summary>
+    void Free(System::IntPtr theAddress);
+    static Macad::Occt::NCollection_AccAllocator^ CreateDowncasted(::NCollection_AccAllocator* instance);
 }; // class NCollection_AccAllocator
 
 //---------------------------------------------------------------------
@@ -283,48 +336,48 @@ public:
 /// <summary>
 /// NCollection allocator with managed memory alignment capabilities.
 /// </summary>
-public ref class NCollection_AlignedAllocator sealed : public Macad::Occt::NCollection_BaseAllocator
+public ref class NCollection_AlignedAllocator sealed
+    : public Macad::Occt::NCollection_BaseAllocator
 {
 
 #ifdef Include_NCollection_AlignedAllocator_h
 public:
-	Include_NCollection_AlignedAllocator_h
+    Include_NCollection_AlignedAllocator_h
 #endif
 
 public:
-	NCollection_AlignedAllocator(::NCollection_AlignedAllocator* nativeInstance)
-		: Macad::Occt::NCollection_BaseAllocator( nativeInstance )
-	{}
+    NCollection_AlignedAllocator(::NCollection_AlignedAllocator* nativeInstance)
+        : Macad::Occt::NCollection_BaseAllocator( nativeInstance )
+    {}
 
-	NCollection_AlignedAllocator(::NCollection_AlignedAllocator& nativeInstance)
-		: Macad::Occt::NCollection_BaseAllocator( nativeInstance )
-	{}
+    NCollection_AlignedAllocator(::NCollection_AlignedAllocator& nativeInstance)
+        : Macad::Occt::NCollection_BaseAllocator( nativeInstance )
+    {}
 
-	property ::NCollection_AlignedAllocator* NativeInstance
-	{
-		::NCollection_AlignedAllocator* get()
-		{
-			return static_cast<::NCollection_AlignedAllocator*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::NCollection_AlignedAllocator^ CreateDowncasted(::NCollection_AlignedAllocator* instance);
+    property ::NCollection_AlignedAllocator* NativeInstance
+    {
+        ::NCollection_AlignedAllocator* get()
+        {
+            return static_cast<::NCollection_AlignedAllocator*>(_NativeInstance);
+        }
+    }
 
 public:
-	/// <summary>
-	/// Constructor. The alignment should be specified explicitly:
-	/// 16 bytes for SSE instructions
-	/// 32 bytes for AVX instructions
-	/// </summary>
-	NCollection_AlignedAllocator(unsigned __int64 theAlignment);
-	/// <summary>
-	/// Allocate memory with given size. Returns NULL on failure.
-	/// </summary>
-	System::IntPtr Allocate(unsigned __int64 theSize);
-	/// <summary>
-	/// Free a previously allocated memory.
-	/// </summary>
-	void Free(System::IntPtr thePtr);
+    /// <summary>
+    /// Constructor. The alignment should be specified explicitly:
+    /// 16 bytes for SSE instructions
+    /// 32 bytes for AVX instructions
+    /// </summary>
+    NCollection_AlignedAllocator(long long unsigned int theAlignment);
+    /// <summary>
+    /// Allocate memory with given size. Returns NULL on failure.
+    /// </summary>
+    System::IntPtr Allocate(long long unsigned int theSize);
+    /// <summary>
+    /// Free a previously allocated memory.
+    /// </summary>
+    void Free(System::IntPtr thePtr);
+    static Macad::Occt::NCollection_AlignedAllocator^ CreateDowncasted(::NCollection_AlignedAllocator* instance);
 }; // class NCollection_AlignedAllocator
 
 //---------------------------------------------------------------------
@@ -333,116 +386,133 @@ public:
 /// <summary>
 /// Low-level buffer object.
 /// </summary>
-public ref class NCollection_Buffer sealed : public Macad::Occt::Standard_Transient
+public ref class NCollection_Buffer
+    : public Macad::Occt::Standard_Transient
 {
 
 #ifdef Include_NCollection_Buffer_h
 public:
-	Include_NCollection_Buffer_h
+    Include_NCollection_Buffer_h
 #endif
 
-public:
-	NCollection_Buffer(::NCollection_Buffer* nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	NCollection_Buffer(::NCollection_Buffer& nativeInstance)
-		: Macad::Occt::Standard_Transient( nativeInstance )
-	{}
-
-	property ::NCollection_Buffer* NativeInstance
-	{
-		::NCollection_Buffer* get()
-		{
-			return static_cast<::NCollection_Buffer*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::NCollection_Buffer^ CreateDowncasted(::NCollection_Buffer* instance);
+protected:
+    NCollection_Buffer(InitMode init)
+        : Macad::Occt::Standard_Transient( init )
+    {}
 
 public:
-	/// <summary>
-	/// Default constructor.
-	/// When theData is NULL but theSize is not 0 than buffer of specified size will be allocated.
-	/// </summary>
-	/// <param name="theAlloc">
-	/// memory allocator
-	/// </param>
-	/// <param name="theSize">
-	///  buffer size
-	/// </param>
-	/// <param name="theData">
-	///  buffer data allocated by theAlloc
-	/// </param>
-	NCollection_Buffer(Macad::Occt::NCollection_BaseAllocator^ theAlloc, size_t theSize, unsigned char% theData);
-	/// <summary>
-	/// Default constructor.
-	/// When theData is NULL but theSize is not 0 than buffer of specified size will be allocated.
-	/// </summary>
-	/// <param name="theAlloc">
-	/// memory allocator
-	/// </param>
-	/// <param name="theSize">
-	///  buffer size
-	/// </param>
-	/// <param name="theData">
-	///  buffer data allocated by theAlloc
-	/// </param>
-	NCollection_Buffer(Macad::Occt::NCollection_BaseAllocator^ theAlloc, size_t theSize);
-	/// <summary>
-	/// Default constructor.
-	/// When theData is NULL but theSize is not 0 than buffer of specified size will be allocated.
-	/// </summary>
-	/// <param name="theAlloc">
-	/// memory allocator
-	/// </param>
-	/// <param name="theSize">
-	///  buffer size
-	/// </param>
-	/// <param name="theData">
-	///  buffer data allocated by theAlloc
-	/// </param>
-	NCollection_Buffer(Macad::Occt::NCollection_BaseAllocator^ theAlloc);
-	NCollection_Buffer(Macad::Occt::NCollection_Buffer^ parameter1);
-	/// <summary>
-	/// </summary>
-	/// <returns>
-	/// true if buffer is not allocated
-	/// </returns>
-	bool IsEmpty();
-	/// <summary>
-	/// Return buffer length in bytes.
-	/// </summary>
-	size_t Size();
-	/// <summary>
-	/// </summary>
-	/// <returns>
-	/// buffer allocator
-	/// </returns>
-	Macad::Occt::NCollection_BaseAllocator^ Allocator();
-	/// <summary>
-	/// Assign new buffer allocator with de-allocation of buffer.
-	/// </summary>
-	void SetAllocator(Macad::Occt::NCollection_BaseAllocator^ theAlloc);
-	/// <summary>
-	/// Allocate the buffer.
-	/// </summary>
-	/// <param name="theSize">
-	/// buffer length in bytes
-	/// </param>
-	bool Allocate(size_t theSize);
-	/// <summary>
-	/// De-allocate buffer.
-	/// </summary>
-	void Free();
-	/// <summary>
-	/// Dumps the content of me into the stream
-	/// </summary>
-	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
-	/// <summary>
-	/// Dumps the content of me into the stream
-	/// </summary>
-	/* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, Standard_Integer theDepth, ) */
+    NCollection_Buffer(::NCollection_Buffer* nativeInstance)
+        : Macad::Occt::Standard_Transient( nativeInstance )
+    {}
+
+    NCollection_Buffer(::NCollection_Buffer& nativeInstance)
+        : Macad::Occt::Standard_Transient( nativeInstance )
+    {}
+
+    property ::NCollection_Buffer* NativeInstance
+    {
+        ::NCollection_Buffer* get()
+        {
+            return static_cast<::NCollection_Buffer*>(_NativeInstance);
+        }
+    }
+
+public:
+    /// <summary>
+    /// Default constructor.
+    /// When theData is NULL but theSize is not 0 than buffer of specified size will be allocated.
+    /// </summary>
+    /// <param name="theAlloc">
+    /// memory allocator
+    /// </param>
+    /// <param name="theSize">
+    ///  buffer size
+    /// </param>
+    /// <param name="theData">
+    ///  buffer data allocated by theAlloc
+    /// </param>
+    NCollection_Buffer(Macad::Occt::NCollection_BaseAllocator^ theAlloc, long long unsigned int theSize, unsigned char% theData);
+    /// <summary>
+    /// Default constructor.
+    /// When theData is NULL but theSize is not 0 than buffer of specified size will be allocated.
+    /// </summary>
+    /// <param name="theAlloc">
+    /// memory allocator
+    /// </param>
+    /// <param name="theSize">
+    ///  buffer size
+    /// </param>
+    /// <param name="theData">
+    ///  buffer data allocated by theAlloc
+    /// </param>
+    NCollection_Buffer(Macad::Occt::NCollection_BaseAllocator^ theAlloc, long long unsigned int theSize);
+    /// <summary>
+    /// Default constructor.
+    /// When theData is NULL but theSize is not 0 than buffer of specified size will be allocated.
+    /// </summary>
+    /// <param name="theAlloc">
+    /// memory allocator
+    /// </param>
+    /// <param name="theSize">
+    ///  buffer size
+    /// </param>
+    /// <param name="theData">
+    ///  buffer data allocated by theAlloc
+    /// </param>
+    NCollection_Buffer(Macad::Occt::NCollection_BaseAllocator^ theAlloc);
+    NCollection_Buffer(Macad::Occt::NCollection_Buffer^ parameter1);
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// buffer data
+    /// </returns>
+    unsigned char Data();
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// buffer data
+    /// </returns>
+    unsigned char ChangeData();
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// true if buffer is not allocated
+    /// </returns>
+    bool IsEmpty();
+    /// <summary>
+    /// Return buffer length in bytes.
+    /// </summary>
+    long long unsigned int Size();
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// buffer allocator
+    /// </returns>
+    Macad::Occt::NCollection_BaseAllocator^ Allocator();
+    /// <summary>
+    /// Assign new buffer allocator with de-allocation of buffer.
+    /// </summary>
+    void SetAllocator(Macad::Occt::NCollection_BaseAllocator^ theAlloc);
+    /// <summary>
+    /// Allocate the buffer.
+    /// </summary>
+    /// <param name="theSize">
+    /// buffer length in bytes
+    /// </param>
+    bool Allocate(long long unsigned int theSize);
+    /// <summary>
+    /// De-allocate buffer.
+    /// </summary>
+    void Free();
+    /// <summary>
+    /// Dumps the content of me into the stream
+    /// </summary>
+    void DumpJson(System::IO::TextWriter^ theOStream, int theDepth);
+    /// <summary>
+    /// Dumps the content of me into the stream
+    /// </summary>
+    void DumpJson(System::IO::TextWriter^ theOStream);
+    static Macad::Occt::NCollection_Buffer^ CreateDowncasted(::NCollection_Buffer* instance);
 }; // class NCollection_Buffer
 
 //---------------------------------------------------------------------
@@ -462,90 +532,113 @@ public:
 /// *  type "aligned_t". To  modify the size of memory  blocks requested from the
 /// *  OS,  use the parameter  of the  constructor (measured  in bytes);  if this
 /// *  parameter is  smaller than  25 bytes on  32bit or  49 bytes on  64bit, the
-/// *  block size will be the default 24 kbytes
+/// *  block size will be the default 12 kbytes.
+/// *
+/// *  It is not recommended  to use memory blocks  larger than 16KB  on  Windows
+/// *  platform  for the repeated operations  because  Low Fragmentation Heap  is
+/// *  not going to be  used  for  these  allocations  which  may lead  to memory
+/// *  fragmentation and the general performance slow down.
 /// *
 /// *  Note that this allocator is most suitable for single-threaded algorithms
 /// *  (consider creating dedicated allocators per working thread),
 /// *  and thread-safety of allocations is DISABLED by default (see SetThreadSafe()).
 /// */
 /// </summary>
-public ref class NCollection_IncAllocator sealed : public Macad::Occt::NCollection_BaseAllocator
+public ref class NCollection_IncAllocator sealed
+    : public Macad::Occt::NCollection_BaseAllocator
 {
 
 #ifdef Include_NCollection_IncAllocator_h
 public:
-	Include_NCollection_IncAllocator_h
+    Include_NCollection_IncAllocator_h
 #endif
 
 public:
-	NCollection_IncAllocator(::NCollection_IncAllocator* nativeInstance)
-		: Macad::Occt::NCollection_BaseAllocator( nativeInstance )
-	{}
+    NCollection_IncAllocator(::NCollection_IncAllocator* nativeInstance)
+        : Macad::Occt::NCollection_BaseAllocator( nativeInstance )
+    {}
 
-	NCollection_IncAllocator(::NCollection_IncAllocator& nativeInstance)
-		: Macad::Occt::NCollection_BaseAllocator( nativeInstance )
-	{}
+    NCollection_IncAllocator(::NCollection_IncAllocator& nativeInstance)
+        : Macad::Occt::NCollection_BaseAllocator( nativeInstance )
+    {}
 
-	property ::NCollection_IncAllocator* NativeInstance
-	{
-		::NCollection_IncAllocator* get()
-		{
-			return static_cast<::NCollection_IncAllocator*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::NCollection_IncAllocator^ CreateDowncasted(::NCollection_IncAllocator* instance);
+    property ::NCollection_IncAllocator* NativeInstance
+    {
+        ::NCollection_IncAllocator* get()
+        {
+            return static_cast<::NCollection_IncAllocator*>(_NativeInstance);
+        }
+    }
 
 public:
-	/// <summary>
-	/// Constructor.
-	/// Note that this constructor does NOT setup mutex for using allocator concurrently from different threads,
-	/// see SetThreadSafe() method.
-	/// </summary>
-	NCollection_IncAllocator(unsigned __int64 theBlockSize);
-	/// <summary>
-	/// Setup mutex for thread-safe allocations.
-	/// </summary>
-	void SetThreadSafe(bool theIsThreadSafe);
-	/// <summary>
-	/// Setup mutex for thread-safe allocations.
-	/// </summary>
-	void SetThreadSafe();
-	/// <summary>
-	/// Allocate memory with given size. Returns NULL on failure
-	/// </summary>
-	System::IntPtr Allocate(unsigned __int64 size);
-	/// <summary>
-	/// Free a previously allocated memory. Does nothing
-	/// </summary>
-	void Free(System::IntPtr anAddress);
-	/// <summary>
-	/// Diagnostic method, returns the total allocated size
-	/// </summary>
-	unsigned __int64 GetMemSize();
-	/// <summary>
-	/// Reallocation: it is always allowed but is only efficient with the
-	/// last allocated item
-	/// </summary>
-	System::IntPtr Reallocate(System::IntPtr anAddress, unsigned __int64 oldSize, unsigned __int64 newSize);
-	/// <summary>
-	/// Re-initialize the allocator so that the next Allocate call should
-	/// start allocating in the very beginning as though the allocator is just
-	/// constructed. Warning: make sure that all previously allocated data are
-	/// no more used in your code!
-	/// </summary>
-	/// True - release all previously allocated memory, False - preserve it
-	/// for future allocations.
-	void Reset(bool doReleaseMem);
-	/// <summary>
-	/// Re-initialize the allocator so that the next Allocate call should
-	/// start allocating in the very beginning as though the allocator is just
-	/// constructed. Warning: make sure that all previously allocated data are
-	/// no more used in your code!
-	/// </summary>
-	/// True - release all previously allocated memory, False - preserve it
-	/// for future allocations.
-	void Reset();
+    /// <summary>
+    /// Constructor.
+    /// Note that this constructor does NOT setup mutex for using allocator concurrently from different threads,
+    /// see SetThreadSafe() method.
+    /// 
+    /// The default size of the memory blocks is 12KB.
+    /// It is not recommended to use memory blocks larger than 16KB on Windows
+    /// platform for the repeated operations (and thus multiple allocations)
+    /// because Low Fragmentation Heap is not going to be used for these allocations,
+    /// leading to memory fragmentation and eventual performance slow down.
+    /// </summary>
+    NCollection_IncAllocator(long long unsigned int theBlockSize);
+    /// <summary>
+    /// Constructor.
+    /// Note that this constructor does NOT setup mutex for using allocator concurrently from different threads,
+    /// see SetThreadSafe() method.
+    /// 
+    /// The default size of the memory blocks is 12KB.
+    /// It is not recommended to use memory blocks larger than 16KB on Windows
+    /// platform for the repeated operations (and thus multiple allocations)
+    /// because Low Fragmentation Heap is not going to be used for these allocations,
+    /// leading to memory fragmentation and eventual performance slow down.
+    /// </summary>
+    NCollection_IncAllocator();
+    /// <summary>
+    /// Setup mutex for thread-safe allocations.
+    /// </summary>
+    void SetThreadSafe(bool theIsThreadSafe);
+    /// <summary>
+    /// Setup mutex for thread-safe allocations.
+    /// </summary>
+    void SetThreadSafe();
+    /// <summary>
+    /// Allocate memory with given size. Returns NULL on failure
+    /// </summary>
+    System::IntPtr Allocate(long long unsigned int size);
+    /// <summary>
+    /// Free a previously allocated memory. Does nothing
+    /// </summary>
+    void Free(System::IntPtr anAddress);
+    /// <summary>
+    /// Diagnostic method, returns the total allocated size
+    /// </summary>
+    long long unsigned int GetMemSize();
+    /// <summary>
+    /// Reallocation: it is always allowed but is only efficient with the
+    /// last allocated item
+    /// </summary>
+    System::IntPtr Reallocate(System::IntPtr anAddress, long long unsigned int oldSize, long long unsigned int newSize);
+    /// <summary>
+    /// Re-initialize the allocator so that the next Allocate call should
+    /// start allocating in the very beginning as though the allocator is just
+    /// constructed. Warning: make sure that all previously allocated data are
+    /// no more used in your code!
+    /// </summary>
+    /// True - release all previously allocated memory, False - preserve it
+    /// for future allocations.
+    void Reset(bool doReleaseMem);
+    /// <summary>
+    /// Re-initialize the allocator so that the next Allocate call should
+    /// start allocating in the very beginning as though the allocator is just
+    /// constructed. Warning: make sure that all previously allocated data are
+    /// no more used in your code!
+    /// </summary>
+    /// True - release all previously allocated memory, False - preserve it
+    /// for future allocations.
+    void Reset();
+    static Macad::Occt::NCollection_IncAllocator^ CreateDowncasted(::NCollection_IncAllocator* instance);
 }; // class NCollection_IncAllocator
 
 //---------------------------------------------------------------------
@@ -556,37 +649,37 @@ public:
 /// * Allocator that uses the global dynamic heap (malloc / free).
 /// */
 /// </summary>
-public ref class NCollection_HeapAllocator sealed : public Macad::Occt::NCollection_BaseAllocator
+public ref class NCollection_HeapAllocator sealed
+    : public Macad::Occt::NCollection_BaseAllocator
 {
 
 #ifdef Include_NCollection_HeapAllocator_h
 public:
-	Include_NCollection_HeapAllocator_h
+    Include_NCollection_HeapAllocator_h
 #endif
 
 public:
-	NCollection_HeapAllocator(::NCollection_HeapAllocator* nativeInstance)
-		: Macad::Occt::NCollection_BaseAllocator( nativeInstance )
-	{}
+    NCollection_HeapAllocator(::NCollection_HeapAllocator* nativeInstance)
+        : Macad::Occt::NCollection_BaseAllocator( nativeInstance )
+    {}
 
-	NCollection_HeapAllocator(::NCollection_HeapAllocator& nativeInstance)
-		: Macad::Occt::NCollection_BaseAllocator( nativeInstance )
-	{}
+    NCollection_HeapAllocator(::NCollection_HeapAllocator& nativeInstance)
+        : Macad::Occt::NCollection_BaseAllocator( nativeInstance )
+    {}
 
-	property ::NCollection_HeapAllocator* NativeInstance
-	{
-		::NCollection_HeapAllocator* get()
-		{
-			return static_cast<::NCollection_HeapAllocator*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::NCollection_HeapAllocator^ CreateDowncasted(::NCollection_HeapAllocator* instance);
+    property ::NCollection_HeapAllocator* NativeInstance
+    {
+        ::NCollection_HeapAllocator* get()
+        {
+            return static_cast<::NCollection_HeapAllocator*>(_NativeInstance);
+        }
+    }
 
 public:
-	System::IntPtr Allocate(size_t theSize);
-	void Free(System::IntPtr anAddress);
-	static Macad::Occt::NCollection_HeapAllocator^ GlobalHeapAllocator();
+    System::IntPtr Allocate(long long unsigned int theSize);
+    void Free(System::IntPtr anAddress);
+    static Macad::Occt::NCollection_HeapAllocator^ GlobalHeapAllocator();
+    static Macad::Occt::NCollection_HeapAllocator^ CreateDowncasted(::NCollection_HeapAllocator* instance);
 }; // class NCollection_HeapAllocator
 
 //---------------------------------------------------------------------
@@ -607,46 +700,50 @@ public:
 /// and you shoould control that allocator is alive along all objects
 /// allocated with him.
 /// </summary>
-public ref class NCollection_WinHeapAllocator sealed : public Macad::Occt::NCollection_BaseAllocator
+public ref class NCollection_WinHeapAllocator sealed
+    : public Macad::Occt::NCollection_BaseAllocator
 {
 
 #ifdef Include_NCollection_WinHeapAllocator_h
 public:
-	Include_NCollection_WinHeapAllocator_h
+    Include_NCollection_WinHeapAllocator_h
 #endif
 
 public:
-	NCollection_WinHeapAllocator(::NCollection_WinHeapAllocator* nativeInstance)
-		: Macad::Occt::NCollection_BaseAllocator( nativeInstance )
-	{}
+    NCollection_WinHeapAllocator(::NCollection_WinHeapAllocator* nativeInstance)
+        : Macad::Occt::NCollection_BaseAllocator( nativeInstance )
+    {}
 
-	NCollection_WinHeapAllocator(::NCollection_WinHeapAllocator& nativeInstance)
-		: Macad::Occt::NCollection_BaseAllocator( nativeInstance )
-	{}
+    NCollection_WinHeapAllocator(::NCollection_WinHeapAllocator& nativeInstance)
+        : Macad::Occt::NCollection_BaseAllocator( nativeInstance )
+    {}
 
-	property ::NCollection_WinHeapAllocator* NativeInstance
-	{
-		::NCollection_WinHeapAllocator* get()
-		{
-			return static_cast<::NCollection_WinHeapAllocator*>(_NativeInstance);
-		}
-	}
-
-	static Macad::Occt::NCollection_WinHeapAllocator^ CreateDowncasted(::NCollection_WinHeapAllocator* instance);
+    property ::NCollection_WinHeapAllocator* NativeInstance
+    {
+        ::NCollection_WinHeapAllocator* get()
+        {
+            return static_cast<::NCollection_WinHeapAllocator*>(_NativeInstance);
+        }
+    }
 
 public:
-	/// <summary>
-	/// Main constructor
-	/// </summary>
-	NCollection_WinHeapAllocator(unsigned __int64 theInitSizeBytes);
-	/// <summary>
-	/// Allocate memory
-	/// </summary>
-	System::IntPtr Allocate(size_t theSize);
-	/// <summary>
-	/// Release memory
-	/// </summary>
-	void Free(System::IntPtr theAddress);
+    /// <summary>
+    /// Main constructor
+    /// </summary>
+    NCollection_WinHeapAllocator(long long unsigned int theInitSizeBytes);
+    /// <summary>
+    /// Main constructor
+    /// </summary>
+    NCollection_WinHeapAllocator();
+    /// <summary>
+    /// Allocate memory
+    /// </summary>
+    System::IntPtr Allocate(long long unsigned int theSize);
+    /// <summary>
+    /// Release memory
+    /// </summary>
+    void Free(System::IntPtr theAddress);
+    static Macad::Occt::NCollection_WinHeapAllocator^ CreateDowncasted(::NCollection_WinHeapAllocator* instance);
 }; // class NCollection_WinHeapAllocator
 
 }; // namespace Occt

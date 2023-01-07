@@ -13,7 +13,7 @@ using System.Xml;
 
 if(Args.Count() < 1)
 {
-	Printer.Line("Usage: occt <config, import, generate, patch>");
+	Printer.Line("Usage: occt <config, import, generate, patch, ssindex>");
 	return -1;
 }
 
@@ -28,8 +28,15 @@ if(Args[0].ToLower() == "config")
 		Printer.Error("Missing parameter. Usage: occt config <path_to_occt>");
 		return -1;
 	}
-	if(!_ConfigOcctPaths(Args[1]))
-		return -1;
+	if(Args[1].ToLower()=="package")
+	{
+		_ConfigOcctPaths("");
+		Printer.Success("The pre-built package will be used again.");
+	} else
+	{
+		if(!_ConfigOcctPaths(Args[1]))
+			return -1;
+	}
 }
 else if(Args[0].ToLower() == "import")
 {
@@ -44,6 +51,17 @@ else if(Args[0].ToLower() == "import")
 	if(!_ApplyPatch())
 		return -1;
 	_ConfigOcctPaths("");
+}
+else if(Args[0].ToLower() == "ssindex")
+{
+	// SSIndex the OCCT distri
+	if(Args.Count() < 2)
+	{
+		Printer.Error("Missing parameter. Usage: occt ssindex <path_to_occt>");
+		return -1;
+	}
+	if(!_SSIndexOcctPackage(Args[1]))
+		return -1;
 }
 else if(Args[0].ToLower() == "generate")
 {
@@ -68,7 +86,7 @@ SSIndex _SSIndex = null;
 
 /***************************************************************/
 		
-#region 
+#region Config
 
 bool _ConfigOcctPaths(string occtPath)
 {
@@ -118,6 +136,10 @@ bool _ConfigOcctPaths(string occtPath)
 }
 
 /***************************************************************/
+
+#endregion
+
+#region Import
 	
 bool _ImportFromOcctPackage(string occtPath)
 {
@@ -133,13 +155,6 @@ bool _ImportFromOcctPackage(string occtPath)
 	{
 		Printer.Error("Importing OCCT is only supported with dependencies Freetype and TBB. Please disable all other and rebuild OCCT.");
 		return false;
-	}
-	
-	_SSIndex = new SSIndex();
-	if(!_SSIndex.Init(occtPath))
-	{
-		Printer.Warning("Source indexing is disabled.");
-		_SSIndex = null;
 	}
 
 	bool successful =
@@ -197,20 +212,19 @@ bool _CopyIncludes(string rootPath)
 
 bool _CopyBinaries(string rootPath)
 {
-	return _CopyBinaries(Occt.GetLibrarySourcePath(false), Occt.GetLibraryFiles(), Path.Combine(rootPath, Occt.OcctPath, "lib"), true)
-		&& _CopyBinaries(Occt.GetLibrarySourcePath(true), Occt.GetLibraryFiles(), Path.Combine(rootPath, Occt.OcctPath, "libd"), true)
-		&& _CopyBinaries(Occt.GetBinarySourcePath(false), Occt.GetBinaryFiles(), Path.Combine(rootPath, Occt.OcctPath, "bin"), true)
-		&& _CopyBinaries(Occt.GetBinarySourcePath(true), Occt.GetBinaryFiles(), Path.Combine(rootPath, Occt.OcctPath, "bind"), true)
-		&& _CopyBinaries(Occt.FreetypeSourcePath, Occt.FreetypeBinaries, Path.Combine(rootPath, Occt.FreetypePath, "bin"), false)
-		&& _CopyBinaries(Occt.TbbSourcePath, Occt.TbbBinariesRelease, Path.Combine(rootPath, Occt.TbbPath, "bin"), false)
-		&& _CopyBinaries(Occt.TbbSourcePath, Occt.TbbBinariesDebug, Path.Combine(rootPath, Occt.TbbPath, "bind"), false);
+	return _CopyBinaries(Occt.GetLibrarySourcePath(false), Occt.GetLibraryFiles(), Path.Combine(rootPath, Occt.OcctPath, "lib"))
+		&& _CopyBinaries(Occt.GetLibrarySourcePath(true), Occt.GetLibraryFiles(), Path.Combine(rootPath, Occt.OcctPath, "libd"))
+		&& _CopyBinaries(Occt.GetBinarySourcePath(false), Occt.GetBinaryFiles(), Path.Combine(rootPath, Occt.OcctPath, "bin"))
+		&& _CopyBinaries(Occt.GetBinarySourcePath(true), Occt.GetBinaryFiles(), Path.Combine(rootPath, Occt.OcctPath, "bind"))
+		&& _CopyBinaries(Occt.FreetypeSourcePath, Occt.FreetypeBinaries, Path.Combine(rootPath, Occt.FreetypePath, "bin"))
+		&& _CopyBinaries(Occt.TbbSourcePath, Occt.TbbBinariesRelease.Concat(Occt.TbbBinariesDebug), Path.Combine(rootPath, Occt.TbbPath, "bin"));
 
 	return true;
 }
 
 /***************************************************************/
 
-bool _CopyBinaries(string sourcePath, IEnumerable<string> sourceList, string targetPath, bool ssindex)
+bool _CopyBinaries(string sourcePath, IEnumerable<string> sourceList, string targetPath)
 {
 	Printer.Line($"Copying files to {targetPath}...");
 	Directory.CreateDirectory(targetPath);
@@ -237,11 +251,6 @@ bool _CopyBinaries(string sourcePath, IEnumerable<string> sourceList, string tar
 		{
 			File.Copy(sourceFilepath, targetFilepath, true);
 			copyCount++;
-			
-			if(ssindex && _SSIndex != null && Path.GetExtension(targetFilepath).ToLower() == ".pdb")
-			{
-				_SSIndex.ProcessPdb(targetFilepath);
-			}
 		}
 	}
 
@@ -371,5 +380,60 @@ bool _ApplyPatch()
 
 	return true;
 }
+
+#endregion
+
+/***************************************************************/
+
+#region SSIndex
+	
+bool _SSIndexOcctPackage(string occtPath)
+{
+	_occtSourceDir = occtPath;
+	var rootPath = Common.GetRootFolder();
+
+	if(!Occt.SetOcctSourcePath(occtPath))
+	{
+		return false;
+	}
+	
+	_SSIndex = new SSIndex();
+	if(!_SSIndex.Init(occtPath))
+	{
+		Printer.Warning("Source indexing is not available.");
+		_SSIndex = null;
+		return false;
+	}
+
+	bool successful =
+		_SSIndexBinaries(Occt.GetBinaryFiles(), Path.Combine(rootPath, Occt.OcctPath, "bin"))
+		&& _SSIndexBinaries(Occt.GetBinaryFiles(), Path.Combine(rootPath, Occt.OcctPath, "bind"));
+
+	if (!successful)
+		Printer.Error("Not completed.");
+		
+	return successful;
+}
+
+/***************************************************************/
+
+bool _SSIndexBinaries(IEnumerable<string> sourceList, string targetPath)
+{
+	Printer.Line($"Indexing files in {targetPath}...");
+
+	var filesToDelete = Directory.EnumerateFiles(targetPath).Select(fn => Path.GetFileName(fn)).ToList();
+
+	foreach (var filename in sourceList)
+	{
+		var targetFilepath = Path.Combine(targetPath, filename);
+		if(Path.GetExtension(targetFilepath).ToLower() == ".pdb")
+		{
+			_SSIndex.ProcessPdb(targetFilepath);
+		}
+	}
+	return true;
+}
+
+/***************************************************************/
 
 #endregion

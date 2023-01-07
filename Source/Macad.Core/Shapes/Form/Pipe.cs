@@ -472,7 +472,7 @@ namespace Macad.Core.Shapes
             spine.ArcPoints[0] = circle.Value(-spine.Angle/2);
             spine.ArcPoints[1] = circle.Value(spine.Angle/2);
 
-            if (spine.Edges.All(e => e.CurveAdaptor.GetGeomType() == GeomAbs_CurveType.GeomAbs_Line))
+            if (spine.Edges.All(e => e.CurveAdaptor.GetCurveType() == GeomAbs_CurveType.Line))
             {
                 // Simple case: lines can be connected via arc
                 return new BRepBuilderAPI_MakeEdge(circle, -spine.Angle/2, spine.Angle/2).Edge();

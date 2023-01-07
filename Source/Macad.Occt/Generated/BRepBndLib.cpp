@@ -7,7 +7,6 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 
 #include "TopoDS.h"
 #include "Bnd.h"
-#include "Standard.h"
 
 
 //---------------------------------------------------------------------
@@ -15,66 +14,65 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 //---------------------------------------------------------------------
 
 Macad::Occt::BRepBndLib::BRepBndLib()
-	: BaseClass<::BRepBndLib>(BaseClass::InitMode::Uninitialized)
+    : Macad::Occt::BaseClass<::BRepBndLib>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepBndLib();
+    _NativeInstance = new ::BRepBndLib();
 }
 
 Macad::Occt::BRepBndLib::BRepBndLib(Macad::Occt::BRepBndLib^ parameter1)
-	: BaseClass<::BRepBndLib>(BaseClass::InitMode::Uninitialized)
+    : Macad::Occt::BaseClass<::BRepBndLib>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::BRepBndLib(*(::BRepBndLib*)parameter1->NativeInstance);
+    _NativeInstance = new ::BRepBndLib(*(::BRepBndLib*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepBndLib::Add(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::Bnd_Box^ B, bool useTriangulation)
 {
-	::BRepBndLib::Add(*(::TopoDS_Shape*)S->NativeInstance, *(::Bnd_Box*)B->NativeInstance, useTriangulation);
+    ::BRepBndLib::Add(*(::TopoDS_Shape*)S->NativeInstance, *(::Bnd_Box*)B->NativeInstance, useTriangulation);
 }
 
 void Macad::Occt::BRepBndLib::Add(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::Bnd_Box^ B)
 {
-	::BRepBndLib::Add(*(::TopoDS_Shape*)S->NativeInstance, *(::Bnd_Box*)B->NativeInstance, true);
+    ::BRepBndLib::Add(*(::TopoDS_Shape*)S->NativeInstance, *(::Bnd_Box*)B->NativeInstance, true);
 }
 
 void Macad::Occt::BRepBndLib::AddClose(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::Bnd_Box^ B)
 {
-	::BRepBndLib::AddClose(*(::TopoDS_Shape*)S->NativeInstance, *(::Bnd_Box*)B->NativeInstance);
+    ::BRepBndLib::AddClose(*(::TopoDS_Shape*)S->NativeInstance, *(::Bnd_Box*)B->NativeInstance);
 }
 
 void Macad::Occt::BRepBndLib::AddOptimal(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::Bnd_Box^ B, bool useTriangulation, bool useShapeTolerance)
 {
-	::BRepBndLib::AddOptimal(*(::TopoDS_Shape*)S->NativeInstance, *(::Bnd_Box*)B->NativeInstance, useTriangulation, useShapeTolerance);
+    ::BRepBndLib::AddOptimal(*(::TopoDS_Shape*)S->NativeInstance, *(::Bnd_Box*)B->NativeInstance, useTriangulation, useShapeTolerance);
 }
 
 void Macad::Occt::BRepBndLib::AddOptimal(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::Bnd_Box^ B, bool useTriangulation)
 {
-	::BRepBndLib::AddOptimal(*(::TopoDS_Shape*)S->NativeInstance, *(::Bnd_Box*)B->NativeInstance, useTriangulation, false);
+    ::BRepBndLib::AddOptimal(*(::TopoDS_Shape*)S->NativeInstance, *(::Bnd_Box*)B->NativeInstance, useTriangulation, false);
 }
 
 void Macad::Occt::BRepBndLib::AddOptimal(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::Bnd_Box^ B)
 {
-	::BRepBndLib::AddOptimal(*(::TopoDS_Shape*)S->NativeInstance, *(::Bnd_Box*)B->NativeInstance, true, false);
+    ::BRepBndLib::AddOptimal(*(::TopoDS_Shape*)S->NativeInstance, *(::Bnd_Box*)B->NativeInstance, true, false);
 }
 
 void Macad::Occt::BRepBndLib::AddOBB(Macad::Occt::TopoDS_Shape^ theS, Macad::Occt::Bnd_OBB^ theOBB, bool theIsTriangulationUsed, bool theIsOptimal, bool theIsShapeToleranceUsed)
 {
-	::BRepBndLib::AddOBB(*(::TopoDS_Shape*)theS->NativeInstance, *(::Bnd_OBB*)theOBB->NativeInstance, theIsTriangulationUsed, theIsOptimal, theIsShapeToleranceUsed);
+    ::BRepBndLib::AddOBB(*(::TopoDS_Shape*)theS->NativeInstance, *(::Bnd_OBB*)theOBB->NativeInstance, theIsTriangulationUsed, theIsOptimal, theIsShapeToleranceUsed);
 }
 
 void Macad::Occt::BRepBndLib::AddOBB(Macad::Occt::TopoDS_Shape^ theS, Macad::Occt::Bnd_OBB^ theOBB, bool theIsTriangulationUsed, bool theIsOptimal)
 {
-	::BRepBndLib::AddOBB(*(::TopoDS_Shape*)theS->NativeInstance, *(::Bnd_OBB*)theOBB->NativeInstance, theIsTriangulationUsed, theIsOptimal, true);
+    ::BRepBndLib::AddOBB(*(::TopoDS_Shape*)theS->NativeInstance, *(::Bnd_OBB*)theOBB->NativeInstance, theIsTriangulationUsed, theIsOptimal, true);
 }
 
 void Macad::Occt::BRepBndLib::AddOBB(Macad::Occt::TopoDS_Shape^ theS, Macad::Occt::Bnd_OBB^ theOBB, bool theIsTriangulationUsed)
 {
-	::BRepBndLib::AddOBB(*(::TopoDS_Shape*)theS->NativeInstance, *(::Bnd_OBB*)theOBB->NativeInstance, theIsTriangulationUsed, false, true);
+    ::BRepBndLib::AddOBB(*(::TopoDS_Shape*)theS->NativeInstance, *(::Bnd_OBB*)theOBB->NativeInstance, theIsTriangulationUsed, false, true);
 }
 
 void Macad::Occt::BRepBndLib::AddOBB(Macad::Occt::TopoDS_Shape^ theS, Macad::Occt::Bnd_OBB^ theOBB)
 {
-	::BRepBndLib::AddOBB(*(::TopoDS_Shape*)theS->NativeInstance, *(::Bnd_OBB*)theOBB->NativeInstance, true, false, true);
+    ::BRepBndLib::AddOBB(*(::TopoDS_Shape*)theS->NativeInstance, *(::Bnd_OBB*)theOBB->NativeInstance, true, false, true);
 }
-
 
 

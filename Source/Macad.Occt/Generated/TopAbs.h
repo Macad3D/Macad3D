@@ -34,10 +34,10 @@ namespace Occt
 /// </summary>
 public enum class TopAbs_Orientation
 {
-	TopAbs_FORWARD = 0,
-	TopAbs_REVERSED = 1,
-	TopAbs_INTERNAL = 2,
-	TopAbs_EXTERNAL = 3
+    FORWARD = 0,
+    REVERSED = 1,
+    INTERNAL = 2,
+    EXTERNAL = 3
 }; // enum  class TopAbs_Orientation
 
 //---------------------------------------------------------------------
@@ -72,15 +72,15 @@ public enum class TopAbs_Orientation
 /// </summary>
 public enum class TopAbs_ShapeEnum
 {
-	TopAbs_COMPOUND = 0,
-	TopAbs_COMPSOLID = 1,
-	TopAbs_SOLID = 2,
-	TopAbs_SHELL = 3,
-	TopAbs_FACE = 4,
-	TopAbs_WIRE = 5,
-	TopAbs_EDGE = 6,
-	TopAbs_VERTEX = 7,
-	TopAbs_SHAPE = 8
+    COMPOUND = 0,
+    COMPSOLID = 1,
+    SOLID = 2,
+    SHELL = 3,
+    FACE = 4,
+    WIRE = 5,
+    EDGE = 6,
+    VERTEX = 7,
+    SHAPE = 8
 }; // enum  class TopAbs_ShapeEnum
 
 //---------------------------------------------------------------------
@@ -95,10 +95,10 @@ public enum class TopAbs_ShapeEnum
 /// </summary>
 public enum class TopAbs_State
 {
-	TopAbs_IN = 0,
-	TopAbs_OUT = 1,
-	TopAbs_ON = 2,
-	TopAbs_UNKNOWN = 3
+    INSIDE = 0,
+    OUTSIDE = 1,
+    ON = 2,
+    UNKNOWN = 3
 }; // enum  class TopAbs_State
 
 //---------------------------------------------------------------------
@@ -122,163 +122,164 @@ public enum class TopAbs_State
 /// 
 /// * Methods to manage the enumerations.
 /// </summary>
-public ref class TopAbs sealed : public BaseClass<::TopAbs>
+public ref class TopAbs sealed
+    : public Macad::Occt::BaseClass<::TopAbs>
 {
 
 #ifdef Include_TopAbs_h
 public:
-	Include_TopAbs_h
+    Include_TopAbs_h
 #endif
 
 public:
-	TopAbs(::TopAbs* nativeInstance)
-		: BaseClass<::TopAbs>( nativeInstance, true )
-	{}
+    TopAbs(::TopAbs* nativeInstance)
+        : Macad::Occt::BaseClass<::TopAbs>( nativeInstance, true )
+    {}
 
-	TopAbs(::TopAbs& nativeInstance)
-		: BaseClass<::TopAbs>( &nativeInstance, false )
-	{}
+    TopAbs(::TopAbs& nativeInstance)
+        : Macad::Occt::BaseClass<::TopAbs>( &nativeInstance, false )
+    {}
 
-	property ::TopAbs* NativeInstance
-	{
-		::TopAbs* get()
-		{
-			return static_cast<::TopAbs*>(_NativeInstance);
-		}
-	}
+    property ::TopAbs* NativeInstance
+    {
+        ::TopAbs* get()
+        {
+            return static_cast<::TopAbs*>(_NativeInstance);
+        }
+    }
 
 public:
-	TopAbs();
-	TopAbs(Macad::Occt::TopAbs^ parameter1);
-	/// <summary>
-	/// Compose  the Orientation    <Or1>  and  <Or2>.    This
-	/// composition is not symmetric (if  you switch <Or1> and
-	/// <Or2> the result  is different). It assumes that <Or1>
-	/// is the Orientation of a Shape S1 containing a Shape S2
-	/// of Orientation   Or2.  The result    is the  cumulated
-	/// orientation of S2 in S1.  The composition law is :
-	/// 
-	/// \ Or2     FORWARD  REVERSED INTERNAL EXTERNAL
-	/// Or1       -------------------------------------
-	/// FORWARD   | FORWARD  REVERSED INTERNAL EXTERNAL
-	/// |
-	/// REVERSED  | REVERSED FORWARD  INTERNAL EXTERNAL
-	/// |
-	/// INTERNAL  | INTERNAL INTERNAL INTERNAL INTERNAL
-	/// |
-	/// EXTERNAL  | EXTERNAL EXTERNAL EXTERNAL EXTERNAL
-	/// Note: The top corner in the table is the most important
-	/// for the purposes of Open CASCADE topology and shape sharing.
-	/// </summary>
-	static Macad::Occt::TopAbs_Orientation Compose(Macad::Occt::TopAbs_Orientation Or1, Macad::Occt::TopAbs_Orientation Or2);
-	/// <summary>
-	/// xchanges the interior/exterior status of the two
-	/// sides. This is what happens when the sense of
-	/// direction is reversed. The following rules apply:
-	/// 
-	/// FORWARD          REVERSED
-	/// REVERSED         FORWARD
-	/// INTERNAL         INTERNAL
-	/// EXTERNAL         EXTERNAL
-	/// 
-	/// Reverse exchange the material sides.
-	/// </summary>
-	static Macad::Occt::TopAbs_Orientation Reverse(Macad::Occt::TopAbs_Orientation Or);
-	/// <summary>
-	/// Reverses the interior/exterior status of each side of
-	/// the object. So, to take the complement of an object
-	/// means to reverse the interior/exterior status of its
-	/// boundary, i.e. inside becomes outside.
-	/// The method returns the complementary orientation,
-	/// following the rules in the table below:
-	/// FORWARD          REVERSED
-	/// REVERSED         FORWARD
-	/// INTERNAL         EXTERNAL
-	/// EXTERNAL         INTERNAL
-	/// 
-	/// Complement  complements   the  material  side.  Inside
-	/// becomes outside.
-	/// </summary>
-	static Macad::Occt::TopAbs_Orientation Complement(Macad::Occt::TopAbs_Orientation Or);
-	/// <summary>
-	/// Prints the name of Shape type as a String on the Stream.
-	/// </summary>
-	/* Method skipped due to unknown mapping: ostream Print(TopAbs_ShapeEnum theShapeType, ostream theStream, ) */
-	/// <summary>
-	/// Prints the name of the Orientation as a String on the Stream.
-	/// </summary>
-	/* Method skipped due to unknown mapping: ostream Print(TopAbs_Orientation theOrientation, ostream theStream, ) */
-	/// <summary>
-	/// Prints the name of the State <St> as a String on
-	/// the Stream <S> and returns <S>.
-	/// </summary>
-	/* Method skipped due to unknown mapping: ostream Print(TopAbs_State St, ostream S, ) */
-	/// <summary>
-	/// Returns the string name for a given shape type.
-	/// </summary>
-	/// <param name="theType">
-	/// shape type
-	/// </param>
-	/// <returns>
-	/// string identifier from the list COMPOUND, COMPSOLID, SOLID, SHELL, FACE, WIRE, EDGE, VERTEX, SHAPE
-	/// </returns>
-	static System::String^ ShapeTypeToString(Macad::Occt::TopAbs_ShapeEnum theType);
-	/// <summary>
-	/// Returns the shape type from the given string identifier (using case-insensitive comparison).
-	/// </summary>
-	/// <param name="theTypeString">
-	/// string identifier
-	/// </param>
-	/// <returns>
-	/// shape type or TopAbs_SHAPE if string identifier is invalid
-	/// </returns>
-	static Macad::Occt::TopAbs_ShapeEnum ShapeTypeFromString(System::String^ theTypeString);
-	/// <summary>
-	/// Determines the shape type from the given string identifier (using case-insensitive comparison).
-	/// </summary>
-	/// <param name="theTypeString">
-	/// string identifier
-	/// </param>
-	/// <param name="theType">
-	/// detected shape type
-	/// </param>
-	/// <returns>
-	/// TRUE if string identifier is known
-	/// </returns>
-	static bool ShapeTypeFromString(System::String^ theTypeString, Macad::Occt::TopAbs_ShapeEnum% theType);
-	/// <summary>
-	/// Returns the string name for a given shape orientation.
-	/// </summary>
-	/// <param name="theOrientation">
-	/// shape orientation
-	/// </param>
-	/// <returns>
-	/// string identifier from the list FORWARD, REVERSED, INTERNAL, EXTERNAL
-	/// </returns>
-	static System::String^ ShapeOrientationToString(Macad::Occt::TopAbs_Orientation theOrientation);
-	/// <summary>
-	/// Returns the shape orientation from the given string identifier (using case-insensitive comparison).
-	/// </summary>
-	/// <param name="theOrientationString">
-	/// string identifier
-	/// </param>
-	/// <returns>
-	/// shape orientation or TopAbs_FORWARD if string identifier is invalid
-	/// </returns>
-	static Macad::Occt::TopAbs_Orientation ShapeOrientationFromString(System::String^ theOrientationString);
-	/// <summary>
-	/// Determines the shape orientation from the given string identifier (using case-insensitive comparison).
-	/// </summary>
-	/// <param name="theOrientationString">
-	/// string identifier
-	/// </param>
-	/// <param name="theOrientation">
-	/// detected shape orientation
-	/// </param>
-	/// <returns>
-	/// TRUE if string identifier is known
-	/// </returns>
-	static bool ShapeOrientationFromString(System::String^ theOrientationString, Macad::Occt::TopAbs_Orientation% theOrientation);
+    TopAbs();
+    TopAbs(Macad::Occt::TopAbs^ parameter1);
+    /// <summary>
+    /// Compose  the Orientation    <Or1>  and  <Or2>.    This
+    /// composition is not symmetric (if  you switch <Or1> and
+    /// <Or2> the result  is different). It assumes that <Or1>
+    /// is the Orientation of a Shape S1 containing a Shape S2
+    /// of Orientation   Or2.  The result    is the  cumulated
+    /// orientation of S2 in S1.  The composition law is :
+    /// 
+    /// \ Or2     FORWARD  REVERSED INTERNAL EXTERNAL
+    /// Or1       -------------------------------------
+    /// FORWARD   | FORWARD  REVERSED INTERNAL EXTERNAL
+    /// |
+    /// REVERSED  | REVERSED FORWARD  INTERNAL EXTERNAL
+    /// |
+    /// INTERNAL  | INTERNAL INTERNAL INTERNAL INTERNAL
+    /// |
+    /// EXTERNAL  | EXTERNAL EXTERNAL EXTERNAL EXTERNAL
+    /// Note: The top corner in the table is the most important
+    /// for the purposes of Open CASCADE topology and shape sharing.
+    /// </summary>
+    static Macad::Occt::TopAbs_Orientation Compose(Macad::Occt::TopAbs_Orientation Or1, Macad::Occt::TopAbs_Orientation Or2);
+    /// <summary>
+    /// xchanges the interior/exterior status of the two
+    /// sides. This is what happens when the sense of
+    /// direction is reversed. The following rules apply:
+    /// 
+    /// FORWARD          REVERSED
+    /// REVERSED         FORWARD
+    /// INTERNAL         INTERNAL
+    /// EXTERNAL         EXTERNAL
+    /// 
+    /// Reverse exchange the material sides.
+    /// </summary>
+    static Macad::Occt::TopAbs_Orientation Reverse(Macad::Occt::TopAbs_Orientation Or);
+    /// <summary>
+    /// Reverses the interior/exterior status of each side of
+    /// the object. So, to take the complement of an object
+    /// means to reverse the interior/exterior status of its
+    /// boundary, i.e. inside becomes outside.
+    /// The method returns the complementary orientation,
+    /// following the rules in the table below:
+    /// FORWARD          REVERSED
+    /// REVERSED         FORWARD
+    /// INTERNAL         EXTERNAL
+    /// EXTERNAL         INTERNAL
+    /// 
+    /// Complement  complements   the  material  side.  Inside
+    /// becomes outside.
+    /// </summary>
+    static Macad::Occt::TopAbs_Orientation Complement(Macad::Occt::TopAbs_Orientation Or);
+    /// <summary>
+    /// Prints the name of Shape type as a String on the Stream.
+    /// </summary>
+    static System::IO::TextWriter^ Print(Macad::Occt::TopAbs_ShapeEnum theShapeType, System::IO::TextWriter^ theStream);
+    /// <summary>
+    /// Prints the name of the Orientation as a String on the Stream.
+    /// </summary>
+    static System::IO::TextWriter^ Print(Macad::Occt::TopAbs_Orientation theOrientation, System::IO::TextWriter^ theStream);
+    /// <summary>
+    /// Prints the name of the State <St> as a String on
+    /// the Stream <S> and returns <S>.
+    /// </summary>
+    static System::IO::TextWriter^ Print(Macad::Occt::TopAbs_State St, System::IO::TextWriter^ S);
+    /// <summary>
+    /// Returns the string name for a given shape type.
+    /// </summary>
+    /// <param name="theType">
+    /// shape type
+    /// </param>
+    /// <returns>
+    /// string identifier from the list COMPOUND, COMPSOLID, SOLID, SHELL, FACE, WIRE, EDGE, VERTEX, SHAPE
+    /// </returns>
+    static System::String^ ShapeTypeToString(Macad::Occt::TopAbs_ShapeEnum theType);
+    /// <summary>
+    /// Returns the shape type from the given string identifier (using case-insensitive comparison).
+    /// </summary>
+    /// <param name="theTypeString">
+    /// string identifier
+    /// </param>
+    /// <returns>
+    /// shape type or TopAbs_SHAPE if string identifier is invalid
+    /// </returns>
+    static Macad::Occt::TopAbs_ShapeEnum ShapeTypeFromString(System::String^ theTypeString);
+    /// <summary>
+    /// Determines the shape type from the given string identifier (using case-insensitive comparison).
+    /// </summary>
+    /// <param name="theTypeString">
+    /// string identifier
+    /// </param>
+    /// <param name="theType">
+    /// detected shape type
+    /// </param>
+    /// <returns>
+    /// TRUE if string identifier is known
+    /// </returns>
+    static bool ShapeTypeFromString(System::String^ theTypeString, Macad::Occt::TopAbs_ShapeEnum% theType);
+    /// <summary>
+    /// Returns the string name for a given shape orientation.
+    /// </summary>
+    /// <param name="theOrientation">
+    /// shape orientation
+    /// </param>
+    /// <returns>
+    /// string identifier from the list FORWARD, REVERSED, INTERNAL, EXTERNAL
+    /// </returns>
+    static System::String^ ShapeOrientationToString(Macad::Occt::TopAbs_Orientation theOrientation);
+    /// <summary>
+    /// Returns the shape orientation from the given string identifier (using case-insensitive comparison).
+    /// </summary>
+    /// <param name="theOrientationString">
+    /// string identifier
+    /// </param>
+    /// <returns>
+    /// shape orientation or TopAbs_FORWARD if string identifier is invalid
+    /// </returns>
+    static Macad::Occt::TopAbs_Orientation ShapeOrientationFromString(System::String^ theOrientationString);
+    /// <summary>
+    /// Determines the shape orientation from the given string identifier (using case-insensitive comparison).
+    /// </summary>
+    /// <param name="theOrientationString">
+    /// string identifier
+    /// </param>
+    /// <param name="theOrientation">
+    /// detected shape orientation
+    /// </param>
+    /// <returns>
+    /// TRUE if string identifier is known
+    /// </returns>
+    static bool ShapeOrientationFromString(System::String^ theOrientationString, Macad::Occt::TopAbs_Orientation% theOrientation);
 }; // class TopAbs
 
 }; // namespace Occt

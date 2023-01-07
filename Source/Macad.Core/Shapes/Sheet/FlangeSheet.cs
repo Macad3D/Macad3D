@@ -388,7 +388,7 @@ namespace Macad.Core.Shapes
                                                                                      .ToVec()
                                                                                      .Multiplied(radius + context.Thickness * 0.5)),
                                                          context.BendAxis.Direction,
-                                                         context.BendEdge.Orientation() == TopAbs_Orientation.TopAbs_FORWARD
+                                                         context.BendEdge.Orientation() == TopAbs_Orientation.FORWARD
                                                              ? context.TopDirection
                                                              : context.TopDirection.Reversed());
 
@@ -432,7 +432,7 @@ namespace Macad.Core.Shapes
             points[3] = points[1].Translated(upVector);
 
             // Sort points, Short edges must be 1->2 and 3->0
-            if (context.BendEdge.Orientation() == TopAbs_Orientation.TopAbs_REVERSED)
+            if (context.BendEdge.Orientation() == TopAbs_Orientation.REVERSED)
                 points.Swap(0, 1);
             if (points[0].Distance(points[3]) > points[0].Distance(points[2]))
                 points.Swap(2, 3);
@@ -596,13 +596,13 @@ namespace Macad.Core.Shapes
                 return true;
 
             var brepAdaptor = new BRepAdaptor_Surface(context.FlangeFace);
-            if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
+            if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
             {
                 Messages.Error("Flanges can only be added to planar faces.");
                 return false;
             }
             var direction = brepAdaptor.Plane().Position.Direction;
-            if (context.FlangeFace.Orientation() == TopAbs_Orientation.TopAbs_REVERSED)
+            if (context.FlangeFace.Orientation() == TopAbs_Orientation.REVERSED)
                 direction.Reverse();
 
             // Extrude
@@ -645,7 +645,7 @@ namespace Macad.Core.Shapes
             var fuseOp = new BRepAlgoAPI_Fuse();
             fuseOp.SetArguments(shapeListArgs);
             fuseOp.SetTools(shapeListTools);
-            fuseOp.SetGlue(BOPAlgo_GlueEnum.BOPAlgo_GlueShift);
+            fuseOp.SetGlue(BOPAlgo_GlueEnum.GlueShift);
             fuseOp.Build();
             if (!fuseOp.IsDone())
             {

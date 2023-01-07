@@ -1,3 +1,5 @@
+#load "_Packages.csx"
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -5,7 +7,8 @@ using System.Linq;
 
 public static class Occt
 {
-    public const string OcctPath = @"ThirdParty\OCCT";
+    public static string PackagePath { get; private set; } = @"Packages\OCCT";
+    public static string OcctPath => @$"{PackagePath}\opencascade";
     static string _OcctSourcePath = "";
     const string _OcctPlatformPath = @"win64\vc14";
     static readonly string[] _OcctToolkits = new string[]
@@ -34,26 +37,32 @@ public static class Occt
     };
 
     public static string FreetypeSourcePath = "";
-    public const string FreetypePath = @"ThirdParty\freetype";
+    public static string FreetypePath => @$"{PackagePath}\freetype";
     public static readonly string[] FreetypeBinaries = new string[]
     {
         "freetype.dll"
     };
 
     public static string TbbSourcePath = "";
-    public const string TbbPath = @"ThirdParty\tbb";
+    public static string TbbPath => @$"{PackagePath}\tbb";
     public static readonly string[] TbbBinariesRelease = new string[]
     {
-        "tbb.dll",
+        "tbb12.dll",
         "tbbmalloc.dll",
     };
     public static readonly string[] TbbBinariesDebug = new string[]
     {
-        "tbb_debug.dll",
+        "tbb12_debug.dll",
         "tbbmalloc_debug.dll",
     };
 
     public static List<string> AdditionalDependenciesSourcePaths = new List<string>();
+
+    static Occt()
+    {
+        var version = Packages.FindPackageVersion("OCCT");
+        PackagePath = $"{PackagePath}.{version}";
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -91,7 +100,7 @@ public static class Occt
         FreetypeSourcePath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("freetype")) ?? "");
         if(!File.Exists(Path.Combine(FreetypeSourcePath, FreetypeBinaries[0])))
         {
-            Printer.Error($"The file freetype.dll could not be found in folder {FreetypeSourcePath}.");
+            Printer.Error($"The file {FreetypeBinaries[0]} could not be found in folder {FreetypeSourcePath}.");
             return false;
         }
         Printer.Success($"Freetype found in folder {FreetypeSourcePath}");
@@ -100,7 +109,7 @@ public static class Occt
         TbbSourcePath = Path.GetFullPath(binPaths.FirstOrDefault(s => s.Contains("tbb")) ?? "");
         if(!File.Exists(Path.Combine(TbbSourcePath, TbbBinariesRelease[0])))
         {
-            Printer.Error($"The file tbb.dll could not be found in folder {TbbSourcePath}.");
+            Printer.Error($"The file {TbbBinariesRelease[0]} could not be found in folder {TbbSourcePath}.");
             return false;
         }
         Printer.Success($"TBB found in folder {TbbSourcePath}");
@@ -223,9 +232,13 @@ public static class Occt
         {
             yield return Path.Combine(OcctPath, $"bin\\{tk}.dll");
         }
-        
-        yield return Path.Combine(FreetypePath, @"bin\freetype.dll");
-        yield return Path.Combine(TbbPath, @"bin\tbb.dll");
-        yield return Path.Combine(TbbPath, @"bin\tbbmalloc.dll");
+        foreach (var binary in FreetypeBinaries)
+        {
+            yield return Path.Combine(FreetypePath, $"bin\\{binary}");
+        }
+        foreach (var binary in TbbBinariesRelease)
+        {
+            yield return Path.Combine(TbbPath, $"bin\\{binary}");
+        }
     }
 }

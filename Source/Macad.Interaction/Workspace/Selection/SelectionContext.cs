@@ -234,14 +234,14 @@ namespace Macad.Interaction
                 foreach (var mode in activatedModes)
                 {
                     if(!modesToBeActivated[mode])
-                        aisContext.SetSelectionModeActive(aisObject, mode, false, AIS_SelectionModesConcurrency.AIS_SelectionModesConcurrency_Multiple);
+                        aisContext.SetSelectionModeActive(aisObject, mode, false, AIS_SelectionModesConcurrency.Multiple);
                 }
             
                 // Activate all requested modes
                 for (int mode = 0; mode < 5; mode++)
                 {
                     if(modesToBeActivated[mode])
-                        aisContext.SetSelectionModeActive(aisObject, mode, true, AIS_SelectionModesConcurrency.AIS_SelectionModesConcurrency_Multiple);
+                        aisContext.SetSelectionModeActive(aisObject, mode, true, AIS_SelectionModesConcurrency.Multiple);
                 }
             }
             else

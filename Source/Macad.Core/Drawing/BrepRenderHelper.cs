@@ -69,7 +69,7 @@ namespace Macad.Core.Drawing
             {
                 var first = BRep_Tool.Pnt(TopExp.FirstVertex(edge));
                 var last = BRep_Tool.Pnt(TopExp.LastVertex(edge));
-                if (edge.Orientation() == TopAbs_Orientation.TopAbs_FORWARD)
+                if (edge.Orientation() == TopAbs_Orientation.FORWARD)
                     order.Add(first.Coord, last.Coord);
                 else
                     order.Add(last.Coord, first.Coord);
@@ -113,7 +113,7 @@ namespace Macad.Core.Drawing
         {
             var res = true;
 
-            reverse ^= edge.Orientation() == TopAbs_Orientation.TopAbs_REVERSED;
+            reverse ^= edge.Orientation() == TopAbs_Orientation.REVERSED;
 
             double first = 0, last = 0;
             if (face != null)
@@ -196,7 +196,7 @@ namespace Macad.Core.Drawing
         {
             if (renderer.Capabilities.CircleAsCurve)
             {
-                var bsplineCurve = ShapeConstruct.ConvertCurveToBSpline(circle, first, last, 0.001, GeomAbs_Shape.GeomAbs_C2, 100, 3);
+                var bsplineCurve = ShapeConstruct.ConvertCurveToBSpline(circle, first, last, 0.001, GeomAbs_Shape.C2, 100, 3);
                 if (bsplineCurve != null)
                 {
                     return RenderBSplineCurve(renderer, bsplineCurve, first, last, reverse);
@@ -230,7 +230,7 @@ namespace Macad.Core.Drawing
         {
             if (renderer.Capabilities.EllipseAsCurve)
             {
-                var bsplineCurve = ShapeConstruct.ConvertCurveToBSpline(ellipse, first, last, 0.001, GeomAbs_Shape.GeomAbs_C1, 100, 3);
+                var bsplineCurve = ShapeConstruct.ConvertCurveToBSpline(ellipse, first, last, 0.001, GeomAbs_Shape.C1, 100, 3);
                 if (bsplineCurve != null)
                 {
                     return RenderBSplineCurve(renderer, bsplineCurve, first, last, reverse);
@@ -271,8 +271,8 @@ namespace Macad.Core.Drawing
                 {
                     // Try to reduce the order of the curve
                     var continuity = bspline.Continuity();
-                    if (continuity != GeomAbs_Shape.GeomAbs_C0)
-                        continuity = GeomAbs_Shape.GeomAbs_C1;
+                    if (continuity != GeomAbs_Shape.C0)
+                        continuity = GeomAbs_Shape.C1;
 
                     var converter = new Geom2dConvert_ApproxCurve(bspline, 0.0001, continuity, 100, 3);
                     if (!(converter.IsDone() && converter.HasResult()))
@@ -341,8 +341,8 @@ namespace Macad.Core.Drawing
                 {
                     // Try to reduce the order of the curve
                     var continuity = bezier.Continuity();
-                    if (continuity != GeomAbs_Shape.GeomAbs_C0)
-                        continuity = GeomAbs_Shape.GeomAbs_C1;
+                    if (continuity != GeomAbs_Shape.C0)
+                        continuity = GeomAbs_Shape.C1;
 
                     var converter = new Geom2dConvert_ApproxCurve(bezier, 0.0001, continuity, 1000, maxDegree);
                     if (!(converter.IsDone() && converter.HasResult()))

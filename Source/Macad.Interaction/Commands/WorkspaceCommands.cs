@@ -265,15 +265,15 @@ namespace Macad.Interaction
                 switch (param)
                 {
                     case 0: // XY
-                        workspace.SetDefaultWorkingPlane(AIS_TypeOfPlane.AIS_TOPL_XYPlane);
+                        workspace.SetDefaultWorkingPlane(AIS_TypeOfPlane.TOPL_XYPlane);
                         break;
 
                     case 1: // XZ
-                        workspace.SetDefaultWorkingPlane(AIS_TypeOfPlane.AIS_TOPL_XZPlane);
+                        workspace.SetDefaultWorkingPlane(AIS_TypeOfPlane.TOPL_XZPlane);
                         break;
 
                     case 2: // YZ
-                        workspace.SetDefaultWorkingPlane(AIS_TypeOfPlane.AIS_TOPL_YZPlane);
+                        workspace.SetDefaultWorkingPlane(AIS_TypeOfPlane.TOPL_YZPlane);
                         break;
                 }
                 _WorkspaceController.Invalidate();

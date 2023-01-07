@@ -252,7 +252,7 @@ namespace Macad.Interaction.Editors.Shapes
             InteractiveContext.Current.Document.Add(body);
             InteractiveContext.Current.UndoHandler.Commit();
 
-            ((Tool) this).Stop();
+            Stop();
             InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(body);
             WorkspaceController.Invalidate();
         }

@@ -541,6 +541,7 @@
       <CopyToMedia>True</CopyToMedia>
     </Content>
     <Content Include="Changelog\Changelog-v2.md" />
+    <Content Include="Changelog\Changelog-v3.md" />
     <Content Include="Concepts\Editing.md" />
     <Content Include="Concepts\ImportExport.md" />
     <Content Include="Concepts\Sketches.md" />

@@ -19,7 +19,7 @@ namespace Macad.Test.Unit.Interaction.Multiply
         public void SetUp()
         {
             Context.InitWithView(500);
-            Context.Current.Viewport.V3dView.SetBackgroundColor(Quantity_NameOfColor.Quantity_NOC_BLACK.ToColor());
+            Context.Current.Viewport.V3dView.SetBackgroundColor(Quantity_NameOfColor.BLACK.ToColor());
         }
 
         [TearDown]

@@ -38,7 +38,7 @@ namespace Macad.Core
 
         public static Quantity_Color ToQuantityColor(this Color color)
         {
-            return new Quantity_Color(color.Red, color.Green, color.Blue, Quantity_TypeOfColor.Quantity_TOC_sRGB);
+            return new Quantity_Color(color.Red, color.Green, color.Blue, Quantity_TypeOfColor.sRGB);
         }
 
         //--------------------------------------------------------------------------------------------------

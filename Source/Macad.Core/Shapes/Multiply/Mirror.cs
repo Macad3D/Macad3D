@@ -246,7 +246,7 @@ namespace Macad.Core.Shapes
             Vec normal = d1U.Crossed(d1V).Normalized();
 
             var axis = new Ax2(midPoint, normal.ToDir(), d1U.ToDir());
-            if(face.Orientation() == TopAbs_Orientation.TopAbs_REVERSED)
+            if(face.Orientation() == TopAbs_Orientation.REVERSED)
                 normal.Reverse();
 
             axis.Translate(normal.Multiplied(_Offset));
@@ -325,7 +325,7 @@ namespace Macad.Core.Shapes
             curve.D1(midParam, ref midPoint, ref tangent);
 
             var axis = new Ax2d(midPoint, new Dir2d(tangent));
-            var dir = axis.Direction.Rotated( edge.Orientation() == TopAbs_Orientation.TopAbs_FORWARD ? -90 : 90 );
+            var dir = axis.Direction.Rotated( edge.Orientation() == TopAbs_Orientation.FORWARD ? -90 : 90 );
             axis.Translate(dir.ToVec().Multiplied(_Offset));
 
             transform.SetMirror(axis);

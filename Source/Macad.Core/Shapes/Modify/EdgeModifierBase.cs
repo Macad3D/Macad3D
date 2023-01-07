@@ -154,7 +154,7 @@ namespace Macad.Core.Shapes
         {
             var analysis = new ShapeAnalysis_Edge();
             var mapOfEdgesToFaces = new TopTools_IndexedDataMapOfShapeListOfShape(1);
-            TopExp.MapShapesAndAncestors(sourceShape, TopAbs_ShapeEnum.TopAbs_EDGE, TopAbs_ShapeEnum.TopAbs_FACE, mapOfEdgesToFaces);
+            TopExp.MapShapesAndAncestors(sourceShape, TopAbs_ShapeEnum.EDGE, TopAbs_ShapeEnum.FACE, mapOfEdgesToFaces);
 
             foreach (var edge in sourceShape.Edges())
             {
@@ -188,7 +188,7 @@ namespace Macad.Core.Shapes
 
             // Create a Map of Edges and connected Faces
             var mapOfEdgesToFaces = new TopTools_IndexedDataMapOfShapeListOfShape(1);
-            TopExp.MapShapesAndAncestors(sourceShape, TopAbs_ShapeEnum.TopAbs_EDGE, TopAbs_ShapeEnum.TopAbs_FACE, mapOfEdgesToFaces);
+            TopExp.MapShapesAndAncestors(sourceShape, TopAbs_ShapeEnum.EDGE, TopAbs_ShapeEnum.FACE, mapOfEdgesToFaces);
 
             foreach (var edge in edges)
             {
@@ -229,7 +229,7 @@ namespace Macad.Core.Shapes
                         continue;
                     }
                     // If all faces are of equal size, take forward orientated face as reference for distance
-                    if (faceShape.Orientation() == (reverseOrientation ? TopAbs_Orientation.TopAbs_REVERSED : TopAbs_Orientation.TopAbs_FORWARD))
+                    if (faceShape.Orientation() == (reverseOrientation ? TopAbs_Orientation.REVERSED : TopAbs_Orientation.FORWARD))
                     {
                         face = faceShape.ToFace();
                         lastSize = size;

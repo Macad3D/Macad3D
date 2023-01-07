@@ -90,7 +90,7 @@ namespace Macad.Interaction
                 if (subshape != null)
                 {
                     subshape.IsSelected = !subshape.IsSelected;
-                    subshape.AisShape.SetColor(subshape.IsSelected ? Quantity_NameOfColor.Quantity_NOC_RED.ToColor() : Quantity_NameOfColor.Quantity_NOC_BLUE1.ToColor());
+                    subshape.AisShape.SetColor(subshape.IsSelected ? Quantity_NameOfColor.RED.ToColor() : Quantity_NameOfColor.BLUE1.ToColor());
                     ChangedSubshape = subshape;
                     RaiseFinished();
                     break;

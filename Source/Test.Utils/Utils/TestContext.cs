@@ -80,8 +80,8 @@ namespace Macad.Test.Utils
 
             // Neutralize View
             var ocView = Current.Viewport.V3dView;
-            ocView.SetBgGradientStyle(Aspect_GradientFillMethod.Aspect_GFM_NONE, false);
-            ocView.SetBackgroundColor(Quantity_NameOfColor.Quantity_NOC_BLACK.ToColor());
+            ocView.SetBgGradientStyle(Aspect_GradientFillMethod.NONE, false);
+            ocView.SetBackgroundColor(Quantity_NameOfColor.BLACK.ToColor());
             ocView.ChangeRenderingParams().NbMsaaSamples = 0;
 
             Current.Workspace.GridEnabled = false;

@@ -71,7 +71,7 @@ namespace Macad.Interaction
             if (_Marker == null)
             {
                 _Marker = new AIS_Point(new Geom_CartesianPoint(0, 0, 0));
-                _Marker.SetMarker(Aspect_TypeOfMarker.Aspect_TOM_PLUS);
+                _Marker.SetMarker(Aspect_TypeOfMarker.PLUS);
                 _Marker.SetWidth(2.0);
                 _Marker.SetZLayer(-3); // TOPMOST
                 WorkspaceController.Workspace.AisContext.Display(_Marker, false);

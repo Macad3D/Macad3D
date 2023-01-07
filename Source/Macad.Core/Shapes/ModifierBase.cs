@@ -178,7 +178,7 @@ namespace Macad.Core.Shapes
                 return null;
 
             // Check if we already have faces
-            var exp = new TopExp_Explorer(sourceBrep, TopAbs_ShapeEnum.TopAbs_FACE, TopAbs_ShapeEnum.TopAbs_SHAPE);
+            var exp = new TopExp_Explorer(sourceBrep, TopAbs_ShapeEnum.FACE, TopAbs_ShapeEnum.SHAPE);
             if (exp.More())
                 return sourceBrep;
 

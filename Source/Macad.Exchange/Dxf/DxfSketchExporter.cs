@@ -192,7 +192,7 @@ namespace Macad.Exchange.Dxf
 
         void _AddPolygonCurve(Geom2d_Curve curve)
         {
-            var converter = new Geom2dConvert_ApproxCurve(curve, _Precision, GeomAbs_Shape.GeomAbs_C0, 500, 1);
+            var converter = new Geom2dConvert_ApproxCurve(curve, _Precision, GeomAbs_Shape.C0, 500, 1);
             if (!(converter.IsDone() && converter.HasResult()))
             {
                 Messages.Error($"Cannot tesselate curve to polyline.");

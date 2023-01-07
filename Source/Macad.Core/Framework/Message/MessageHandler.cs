@@ -64,7 +64,7 @@ namespace Macad.Core
             
             _MessageRouter = new MessageRouter();
             _MessageRouter.MessageArrived += _MessageRouter_MessageArrived;
-            _MessageRouter.TraceLevel = Message_Gravity.Message_Warning;
+            _MessageRouter.TraceLevel = Message_Gravity.Warning;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -103,19 +103,19 @@ namespace Macad.Core
             MessageSeverity severity;
             switch (gravity)
             {
-                case Message_Gravity.Message_Trace:
+                case Message_Gravity.Trace:
                     severity = MessageSeverity.Trace;
                     break;
-                case Message_Gravity.Message_Info:
+                case Message_Gravity.Info:
                     severity = MessageSeverity.Info;
                     break;
-                case Message_Gravity.Message_Warning:
+                case Message_Gravity.Warning:
                     severity = MessageSeverity.Warning;
                     break;
-                case Message_Gravity.Message_Alarm:
+                case Message_Gravity.Alarm:
                     severity = MessageSeverity.Warning;
                     break;
-                case Message_Gravity.Message_Fail:
+                case Message_Gravity.Fail:
                     severity = MessageSeverity.Error;
                     break;
                 default:

@@ -24,14 +24,14 @@ namespace Macad.Core.Geom
             foreach (var edge in edges)
             {
                 var brepAdaptor = new BRepAdaptor_Curve(edge);
-                if (brepAdaptor.GetGeomType() != GeomAbs_CurveType.GeomAbs_Line)
+                if (brepAdaptor.GetCurveType() != GeomAbs_CurveType.Line)
                     break;
 
                 var v1 = brepAdaptor.Value(brepAdaptor.FirstParameter());
                 var v2 = brepAdaptor.Value(brepAdaptor.LastParameter());
                 var len = v1.Distance(v2);
                 var axis = new Ax1(v1, new Vec(v1, v2).ToDir());
-                if (edge.Orientation() == TopAbs_Orientation.TopAbs_REVERSED)
+                if (edge.Orientation() == TopAbs_Orientation.REVERSED)
                 {
                     axis.Reverse();
                 }
@@ -40,8 +40,8 @@ namespace Macad.Core.Geom
                 if (foundEdge != null && foundEdge.IsSame(edge))
                 {
                     // Same edge with another orientation
-                    if (foundEdge.Orientation() == TopAbs_Orientation.TopAbs_REVERSED
-                        && edge.Orientation() == TopAbs_Orientation.TopAbs_FORWARD)
+                    if (foundEdge.Orientation() == TopAbs_Orientation.REVERSED
+                        && edge.Orientation() == TopAbs_Orientation.FORWARD)
                     {
                         // Prefer forward edges
                         foundEdge = edge;
@@ -88,7 +88,7 @@ namespace Macad.Core.Geom
         {
             // Create a Map of Edge and connected Faces
             var mapOfEdgesToFaces = new TopTools_IndexedDataMapOfShapeListOfShape(1);
-            TopExp.MapShapesAndAncestors(shape, TopAbs_ShapeEnum.TopAbs_EDGE, TopAbs_ShapeEnum.TopAbs_FACE, mapOfEdgesToFaces);
+            TopExp.MapShapesAndAncestors(shape, TopAbs_ShapeEnum.EDGE, TopAbs_ShapeEnum.FACE, mapOfEdgesToFaces);
 
             var faceDict = new Dictionary<TopoDS_Face, double>();
 
@@ -125,7 +125,7 @@ namespace Macad.Core.Geom
         {
             // Create a Map of Edge and connected Faces
             var mapOfEdgesToFaces = new TopTools_IndexedDataMapOfShapeListOfShape(1);
-            TopExp.MapShapesAndAncestors(shape, TopAbs_ShapeEnum.TopAbs_EDGE, TopAbs_ShapeEnum.TopAbs_FACE, mapOfEdgesToFaces);
+            TopExp.MapShapesAndAncestors(shape, TopAbs_ShapeEnum.EDGE, TopAbs_ShapeEnum.FACE, mapOfEdgesToFaces);
 
             var faces = mapOfEdgesToFaces.FindFromKey(edgeShape).ToList();
             var face1 = faces.Count > 0 ? faces[0].ToFace() : null;

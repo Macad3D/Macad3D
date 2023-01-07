@@ -44,20 +44,20 @@ namespace Macad.Core
     
     public static class Colors
     {
-        public static readonly Quantity_Color Selection = Quantity_NameOfColor.Quantity_NOC_ANTIQUEWHITE.ToColor();
-        public static readonly Quantity_Color Highlight = Quantity_NameOfColor.Quantity_NOC_GOLDENROD2.ToColor();
-        public static readonly Quantity_Color FilteredSubshapes = Quantity_NameOfColor.Quantity_NOC_DEEPSKYBLUE2.ToColor();
-        public static readonly Quantity_Color FilteredSubshapesHot = Quantity_NameOfColor.Quantity_NOC_RED.ToColor();
-        public static readonly Quantity_Color Ghost = Quantity_NameOfColor.Quantity_NOC_LIGHTGRAY.ToColor();
-        public static readonly Quantity_Color Auxillary = Quantity_NameOfColor.Quantity_NOC_GRAY25.ToColor();
-        public static readonly Quantity_Color BallMarker = Quantity_NameOfColor.Quantity_NOC_YELLOW.ToColor();
+        public static readonly Quantity_Color Selection = Quantity_NameOfColor.ANTIQUEWHITE.ToColor();
+        public static readonly Quantity_Color Highlight = Quantity_NameOfColor.GOLDENROD2.ToColor();
+        public static readonly Quantity_Color FilteredSubshapes = Quantity_NameOfColor.DEEPSKYBLUE2.ToColor();
+        public static readonly Quantity_Color FilteredSubshapesHot = Quantity_NameOfColor.RED.ToColor();
+        public static readonly Quantity_Color Ghost = Quantity_NameOfColor.LIGHTGRAY.ToColor();
+        public static readonly Quantity_Color Auxillary = Quantity_NameOfColor.GRAY25.ToColor();
+        public static readonly Quantity_Color BallMarker = Quantity_NameOfColor.YELLOW.ToColor();
         public static readonly Quantity_Color AttributeMarkerBackground = new Color(0.2f, 0.3f, 0.6f).ToQuantityColor();
         public static readonly Quantity_Color AttributeMarkerSelection = new Color(0.7f, 0.3f, 0.3f).ToQuantityColor();
-        public static readonly Quantity_Color SketchEditorSegments = Quantity_NameOfColor.Quantity_NOC_WHITE.ToColor();
-        public static readonly Quantity_Color SketchEditorHighlight = Quantity_NameOfColor.Quantity_NOC_GOLDENROD2.ToColor();
-        public static readonly Quantity_Color SketchEditorSelection = Quantity_NameOfColor.Quantity_NOC_RED.ToColor();
-        public static readonly Quantity_Color SketchEditorCreating = Quantity_NameOfColor.Quantity_NOC_GOLDENROD2.ToColor();
-        public static readonly Quantity_Color SketchEditorAuxillary = Quantity_NameOfColor.Quantity_NOC_DEEPSKYBLUE3.ToColor();
+        public static readonly Quantity_Color SketchEditorSegments = Quantity_NameOfColor.WHITE.ToColor();
+        public static readonly Quantity_Color SketchEditorHighlight = Quantity_NameOfColor.GOLDENROD2.ToColor();
+        public static readonly Quantity_Color SketchEditorSelection = Quantity_NameOfColor.RED.ToColor();
+        public static readonly Quantity_Color SketchEditorCreating = Quantity_NameOfColor.GOLDENROD2.ToColor();
+        public static readonly Quantity_Color SketchEditorAuxillary = Quantity_NameOfColor.DEEPSKYBLUE3.ToColor();
         public static readonly Quantity_Color ActionBlue = new Color(0.2f, 0.2f, 0.8f).ToQuantityColor();
         public static readonly Quantity_Color ActionRed = new Color(0.8f, 0.2f, 0.2f).ToQuantityColor();
         public static readonly Quantity_Color ActionGreen = new Color(0.2f, 0.8f, 0.2f).ToQuantityColor();
@@ -135,12 +135,12 @@ namespace Macad.Core
         {
             return lineStyle switch
             {
-                LineStyle.Solid => Aspect_TypeOfLine.Aspect_TOL_SOLID,
-                LineStyle.Dash => Aspect_TypeOfLine.Aspect_TOL_DASH,
-                LineStyle.ShortDash => Aspect_TypeOfLine.Aspect_TOL_USERDEFINED,
-                LineStyle.Dot => Aspect_TypeOfLine.Aspect_TOL_DOT,
-                LineStyle.DotDash => Aspect_TypeOfLine.Aspect_TOL_DOTDASH,
-                _ => Aspect_TypeOfLine.Aspect_TOL_SOLID
+                LineStyle.Solid => Aspect_TypeOfLine.SOLID,
+                LineStyle.Dash => Aspect_TypeOfLine.DASH,
+                LineStyle.ShortDash => Aspect_TypeOfLine.USERDEFINED,
+                LineStyle.Dot => Aspect_TypeOfLine.DOT,
+                LineStyle.DotDash => Aspect_TypeOfLine.DOTDASH,
+                _ => Aspect_TypeOfLine.SOLID
             };
         }
 
@@ -150,17 +150,17 @@ namespace Macad.Core
         {
             var tol = lineStyle switch
             {
-                LineStyle.Solid => Aspect_TypeOfLine.Aspect_TOL_SOLID,
-                LineStyle.Dash => Aspect_TypeOfLine.Aspect_TOL_DASH,
-                LineStyle.ShortDash => Aspect_TypeOfLine.Aspect_TOL_USERDEFINED,
-                LineStyle.Dot => Aspect_TypeOfLine.Aspect_TOL_DOT,
-                LineStyle.DotDash => Aspect_TypeOfLine.Aspect_TOL_DOTDASH,
-                _ => Aspect_TypeOfLine.Aspect_TOL_SOLID
+                LineStyle.Solid => Aspect_TypeOfLine.SOLID,
+                LineStyle.Dash => Aspect_TypeOfLine.DASH,
+                LineStyle.ShortDash => Aspect_TypeOfLine.USERDEFINED,
+                LineStyle.Dot => Aspect_TypeOfLine.DOT,
+                LineStyle.DotDash => Aspect_TypeOfLine.DOTDASH,
+                _ => Aspect_TypeOfLine.SOLID
             };
             
             aspect.SetTypeOfLine(tol);
 
-            if (tol == Aspect_TypeOfLine.Aspect_TOL_USERDEFINED)
+            if (tol == Aspect_TypeOfLine.USERDEFINED)
             {
                 UInt16 pattern = lineStyle switch
                 {

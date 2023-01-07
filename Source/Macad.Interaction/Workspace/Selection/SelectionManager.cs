@@ -197,20 +197,21 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         void _SyncToAisSelection()
         {
             var aisContext = _WorkspaceController.Workspace.AisContext;
             _WorkspaceController.VisualObjects.UpdateInvalidatedEntities();
+
             aisContext.ClearSelected(false);
-            
-            foreach (var entity in SelectedEntities)
+            var aisObjToSelect = SelectedEntities.Select(entity => _WorkspaceController.VisualObjects.Get(entity)?.AisObject)
+                                                 .Where(vo => vo != null);
+            foreach (var selected in aisObjToSelect)
             {
-                var visualShape = _WorkspaceController.VisualObjects.Get(entity);
-                if (visualShape != null)
-                {
-                    aisContext.AddOrRemoveSelected(visualShape.AisObject, false);
-                }
+                aisContext.AddOrRemoveSelected(selected, false);
             }
+            aisContext.UpdateSelected(false);
+            aisContext.ClearDetected(false);
         }
 
         //--------------------------------------------------------------------------------------------------

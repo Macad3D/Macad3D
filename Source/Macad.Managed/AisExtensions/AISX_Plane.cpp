@@ -76,7 +76,7 @@ void AISX_Plane::SetSize(double theSizeX, double theSizeY)
 
 void AISX_Plane::SetTexture(const Handle(Image_PixMap)& thePixMap)
 {
-	Handle(Graphic3d_Texture2Dmanual) aTexture = new Graphic3d_Texture2Dmanual(thePixMap);
+	Handle(Graphic3d_Texture2D) aTexture = new Graphic3d_Texture2D(thePixMap);
 	aTexture->SetAnisoFilter(Graphic3d_LOTA_QUALITY);
 
 	myDrawer->ShadingAspect()->Aspect()->SetTextureMap(aTexture);

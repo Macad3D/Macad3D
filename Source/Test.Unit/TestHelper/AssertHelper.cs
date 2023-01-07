@@ -63,7 +63,7 @@ namespace Macad.Test.Unit
 
             // Get screenshot
             var screenshot = new Image_AlienPixMap();
-            screenshot.InitZero(Image_Format.Image_Format_RGB, (ulong)width, (ulong)height);
+            screenshot.InitZero(Image_Format.RGB, (ulong)width, (ulong)height);
             Context.Current.Viewport.V3dView.ToPixMap(screenshot, (int)width, (int)height);
 
             // Load Reference

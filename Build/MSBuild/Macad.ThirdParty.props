@@ -1,30 +1,33 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <OcctIncPath Condition="'$(OcctIncPath)' == ''">$(MMRootDir)ThirdParty\OCCT\inc</OcctIncPath>
-    <FreeTypeBinPath Condition="'$(FreeTypeBinPath)' == ''">$(MMRootDir)ThirdParty\freetype\bin</FreeTypeBinPath>
+    <OcctPackagePath>$(MMRootDir)Packages\OCCT.7.7.0\</OcctPackagePath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OcctIncPath Condition="'$(OcctIncPath)' == ''">$(OcctPackagePath)opencascade\inc</OcctIncPath>
+    <TbbBinPath Condition="'$(TbbBinPath)' == ''">$(OcctPackagePath)tbb\bin</TbbBinPath>
+    <FreeTypeBinPath Condition="'$(FreeTypeBinPath)' == ''">$(OcctPackagePath)freetype\bin</FreeTypeBinPath>
     <_3DxWareIncPath Condition="'$(_3DxWareIncPath)' == ''">$(MMRootDir)ThirdParty\3DxWare\inc</_3DxWareIncPath>
     <_3DxWareLibPath Condition="'$(_3DxWareLibPath)' == ''">$(MMRootDir)ThirdParty\3DxWare\lib</_3DxWareLibPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OcctLibPath Condition="'$(OcctLibPath)' == ''">$(MMRootDir)ThirdParty\OCCT\libd</OcctLibPath>
-    <OcctBinPath Condition="'$(OcctBinPath)' == ''">$(MMRootDir)ThirdParty\OCCT\bind</OcctBinPath>
-    <TbbBinPath Condition="'$(TbbBinPath)' == ''">$(MMRootDir)ThirdParty\tbb\bind</TbbBinPath>
+    <OcctLibPath Condition="'$(OcctLibPath)' == ''">$(OcctPackagePath)opencascade\libd</OcctLibPath>
+    <OcctBinPath Condition="'$(OcctBinPath)' == ''">$(OcctPackagePath)opencascade\bind</OcctBinPath>
     <TbbSuffix>_debug</TbbSuffix>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OcctLibPath Condition="'$(OcctLibPath)' == ''">$(MMRootDir)ThirdParty\OCCT\lib</OcctLibPath>
-    <OcctBinPath Condition="'$(OcctBinPath)' == ''">$(MMRootDir)ThirdParty\OCCT\bin</OcctBinPath>
-    <TbbBinPath Condition="'$(TbbBinPath)' == ''">$(MMRootDir)ThirdParty\tbb\bin</TbbBinPath>
+    <OcctLibPath Condition="'$(OcctLibPath)' == ''">$(OcctPackagePath)opencascade\lib</OcctLibPath>
+    <OcctBinPath Condition="'$(OcctBinPath)' == ''">$(OcctPackagePath)opencascade\bin</OcctBinPath>
     <TbbSuffix></TbbSuffix>
   </PropertyGroup>
 
   <ItemGroup>
     <OcctDeployFiles Include="$(FreeTypeBinPath)\freetype.dll" />
-    <OcctDeployFiles Include="$(TbbBinPath)\tbb$(TbbSuffix).dll" />
-    <OcctDeployFiles Include="$(TbbBinPath)\tbbmalloc$(TbbSuffix).dll" />
+    <OcctDeployFiles Include="$(TbbBinPath)\tbb12$(TbbSuffix).dll" />
+    <OcctDeployFiles Include="$(TbbBinPath)\tbbmalloc.dll" />
     <OcctDeployFiles Include="$(OcctBinPath)\TKernel.*" />
     <OcctDeployFiles Include="$(OcctBinPath)\TKMath.*" />
     <OcctDeployFiles Include="$(OcctBinPath)\TKG2d.*" />

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Components;
@@ -92,6 +91,7 @@ namespace Macad.Interaction.Visual
             public AttributeSet()
             {
                 Drawer = new Prs3d_Drawer();
+                Drawer.SetupOwnDefaults();
                 HilightDrawer = new Prs3d_Drawer();
                 HilightDrawer.Link(Drawer);
             }
@@ -165,7 +165,7 @@ namespace Macad.Interaction.Visual
             if (!_DrawerCache.TryGetValue(layer, out var drawer))
                 return;
 
-            var newDisplayMode = (int)(layer.PresentationMode == PresentationMode.Wireframe ? AIS_DisplayMode.AIS_WireFrame : AIS_DisplayMode.AIS_Shaded);
+            var newDisplayMode = (int)(layer.PresentationMode == PresentationMode.Wireframe ? AIS_DisplayMode.WireFrame : AIS_DisplayMode.Shaded);
             var displayModeChanged = drawer.Drawer.DisplayMode() != newDisplayMode;
             _UpdateAttributesForLayer(layer, ref drawer);
 
@@ -195,11 +195,11 @@ namespace Macad.Interaction.Visual
             // Normal mode Drawer
             var shadingAspect = new Prs3d_ShadingAspect();
             shadingAspect.SetColor(layer.Color.ToQuantityColor());
-            shadingAspect.SetMaterial(Graphic3d_NameOfMaterial.Graphic3d_NOM_PLASTIC.ToAspect());
+            shadingAspect.SetMaterial(Graphic3d_NameOfMaterial.PLASTIC.ToAspect());
             shadingAspect.SetTransparency(layer.Transparency);
             attributeSet.Drawer.SetShadingAspect(shadingAspect);
 
-            var lineAspect = new Prs3d_LineAspect(layer.Color.ToQuantityColor(), Aspect_TypeOfLine.Aspect_TOL_SOLID, layer.LineThickness.LineWidth());
+            var lineAspect = new Prs3d_LineAspect(layer.Color.ToQuantityColor(), Aspect_TypeOfLine.SOLID, layer.LineThickness.LineWidth());
             layer.LineStyle.ApplyToAspect(lineAspect);
             attributeSet.Drawer.SetLineAspect(lineAspect);
             attributeSet.Drawer.SetSeenLineAspect(lineAspect);
@@ -207,21 +207,21 @@ namespace Macad.Interaction.Visual
             attributeSet.Drawer.SetFaceBoundaryAspect(lineAspect);
             attributeSet.Drawer.SetFreeBoundaryAspect(lineAspect);
             attributeSet.Drawer.SetUnFreeBoundaryAspect(lineAspect);
-            attributeSet.Drawer.SetPointAspect(new Prs3d_PointAspect(Aspect_TypeOfMarker.Aspect_TOM_O_POINT, layer.Color.ToQuantityColor(), 2.0));
+            attributeSet.Drawer.SetPointAspect(new Prs3d_PointAspect(Aspect_TypeOfMarker.O_POINT, layer.Color.ToQuantityColor(), 2.0));
 
             attributeSet.Drawer.SetFaceBoundaryDraw(layer.PresentationMode == PresentationMode.SolidWithBoundary);
-            attributeSet.Drawer.SetDisplayMode((int)(layer.PresentationMode == PresentationMode.Wireframe ? AIS_DisplayMode.AIS_WireFrame : AIS_DisplayMode.AIS_Shaded));
+            attributeSet.Drawer.SetDisplayMode((int)(layer.PresentationMode == PresentationMode.Wireframe ? AIS_DisplayMode.WireFrame : AIS_DisplayMode.Shaded));
 
-            attributeSet.Drawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.Aspect_TOD_RELATIVE);
+            attributeSet.Drawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.RELATIVE);
 
             // Hilight Drawer
             shadingAspect = new Prs3d_ShadingAspect();
             shadingAspect.SetColor(layer.Color.ToQuantityColor());
-            shadingAspect.SetMaterial(Graphic3d_NameOfMaterial.Graphic3d_NOM_PLASTIC.ToAspect());
+            shadingAspect.SetMaterial(Graphic3d_NameOfMaterial.PLASTIC.ToAspect());
             shadingAspect.SetTransparency(0);
             attributeSet.HilightDrawer.SetShadingAspect(shadingAspect);
 
-            lineAspect = new Prs3d_LineAspect(Colors.Selection, Aspect_TypeOfLine.Aspect_TOL_SOLID, 3.0);
+            lineAspect = new Prs3d_LineAspect(Colors.Selection, Aspect_TypeOfLine.SOLID, 3.0);
             attributeSet.HilightDrawer.SetLineAspect(lineAspect);
             attributeSet.HilightDrawer.SetSeenLineAspect(lineAspect);
             attributeSet.HilightDrawer.SetWireAspect(lineAspect);
@@ -230,9 +230,9 @@ namespace Macad.Interaction.Visual
             attributeSet.HilightDrawer.SetUnFreeBoundaryAspect(lineAspect);
             attributeSet.HilightDrawer.SetPointAspect(Marker.CreateBitmapPointAspect(Marker.BallImage, Colors.Selection));
 
-            //TODO attributeSet.HilightDrawer.SetHighlightStyle(new Graphic3d_HighlightStyle(Aspect_TypeOfHighlightMethod.Aspect_TOHM_COLOR, new Quantity_Color(Quantity_NameOfColor.Quantity_NOC_ALICEBLUE)));
+            //TODO attributeSet.HilightDrawer.SetHighlightStyle(new Graphic3d_HighlightStyle(Aspect_TypeOfHighlightMethod.Aspect_TOHM_COLOR, new Quantity_Color(Quantity_NameOfColor.ALICEBLUE)));
 
-            attributeSet.HilightDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.Aspect_TOD_RELATIVE);
+            attributeSet.HilightDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.RELATIVE);
             attributeSet.HilightDrawer.SetFaceBoundaryDraw(layer.PresentationMode == PresentationMode.SolidWithBoundary);
             attributeSet.HilightDrawer.SetDisplayMode(0);
         }
@@ -297,19 +297,8 @@ namespace Macad.Interaction.Visual
                 var ocShape = OverrideBrep ?? Entity.GetTransformedBRep();
                 if (ocShape != null)
                 {
-                    if (_AisShape.Shape().ShapeType() != ocShape.ShapeType())
-                    {
-                        // If shape type changes, recompute can lead to crashes. It's better to redisplay AIS_Shape
-                        Remove();
-                        Update();
-                    }
-                    else
-                    {
-                        _AisShape.Set(ocShape);
-                        _UpdatePresentation();
-                        AisContext.RecomputeSelectionOnly(_AisShape);
-                        _UpdateInteractivityStatus();
-                    }
+                    Remove();
+                    _EnsureAisObject();
                 }
                 else
                 {
@@ -325,7 +314,7 @@ namespace Macad.Interaction.Visual
             if (_AisShape != null)
                 return true;
 
-            if ((Entity == null) || (AisContext == null))
+            if (Entity == null || AisContext == null)
                 return false;
 
             var brep = OverrideBrep ?? Entity.GetTransformedBRep();
@@ -363,8 +352,6 @@ namespace Macad.Interaction.Visual
             }
 
             _AisShape.SetAttributes(attributeSet.Drawer);
-            //_AisShape.SetHilightAttributes(attributeSet.HilightDrawer);
-
             _AisShape.SynchronizeAspects();
 
             if (_Options.HasFlag(Options.Ghosting))
@@ -372,7 +359,6 @@ namespace Macad.Interaction.Visual
                 _UpdatePresentationForGhost();
             } 
 
-            //TODO maybe not needed due to call to SynchronizeAspects
             AisContext.RecomputePrsOnly(_AisShape, false, true);
         }
 
@@ -380,25 +366,25 @@ namespace Macad.Interaction.Visual
 
         void _UpdatePresentationForGhost()
         {
-            _AisShape.SetDisplayMode((int)AIS_DisplayMode.AIS_Shaded);
+            _AisShape.SetDisplayMode((int)AIS_DisplayMode.Shaded);
             var ghostDrawer = new Prs3d_Drawer();
             ghostDrawer.Link(_AisShape.Attributes());
-            ghostDrawer.SetDisplayMode((int)AIS_DisplayMode.AIS_Shaded);
+            ghostDrawer.SetDisplayMode((int)AIS_DisplayMode.Shaded);
 
             var shadingAspect = new Prs3d_ShadingAspect();
             shadingAspect.SetColor(Colors.Ghost);
-            shadingAspect.SetMaterial(Graphic3d_NameOfMaterial.Graphic3d_NOM_DEFAULT.ToAspect());
+            shadingAspect.SetMaterial(Graphic3d_NameOfMaterial.DEFAULT.ToAspect());
             shadingAspect.SetTransparency(0.75);
             ghostDrawer.SetShadingAspect(shadingAspect);
 
-            var lineAspect = new Prs3d_LineAspect(Colors.Ghost, Aspect_TypeOfLine.Aspect_TOL_SOLID, 0.5);
+            var lineAspect = new Prs3d_LineAspect(Colors.Ghost, Aspect_TypeOfLine.SOLID, 0.5);
             ghostDrawer.SetLineAspect(lineAspect);
             ghostDrawer.SetSeenLineAspect(lineAspect);
             ghostDrawer.SetWireAspect(lineAspect);
             ghostDrawer.SetFaceBoundaryAspect(lineAspect);
             ghostDrawer.SetFreeBoundaryAspect(lineAspect);
             ghostDrawer.SetUnFreeBoundaryAspect(lineAspect);
-            ghostDrawer.SetPointAspect(new Prs3d_PointAspect(Aspect_TypeOfMarker.Aspect_TOM_O_POINT, Colors.Ghost, 0.5));
+            ghostDrawer.SetPointAspect(new Prs3d_PointAspect(Aspect_TypeOfMarker.O_POINT, Colors.Ghost, 0.5));
             ghostDrawer.SetFaceBoundaryDraw(true);
            
             _AisShape.SetAttributes(ghostDrawer);
@@ -467,7 +453,8 @@ namespace Macad.Interaction.Visual
 
                 _UpdateSelectionSensitivity();
 
-                if (WorkspaceController.Selection.SelectedEntities.Contains(Entity) && !AisContext.IsSelected(_AisShape))
+                if (WorkspaceController.Selection.SelectedEntities.Contains(Entity)
+                    && !AisContext.IsSelected(_AisShape))
                 {
                     AisContext.AddOrRemoveSelected(_AisShape, false);
                 }

@@ -15,8 +15,6 @@ Official homepage and download: https://macad3d.net
   - C++ Desktop workload
   - .Net 6 support component
   - C++/CLI support component 
-- OpenCASCADE Technology (OCCT) 7.6.0
-  - Get it from [OpenCASCADE Download Center](https://dev.opencascade.org/release)
 
 ## Building from source
 
@@ -24,25 +22,39 @@ Start ```ScriptConsole.cmd``` and enter the following commands:
    
 1. Get dependencies from web and nuget.
 
-    ```> restore```
-   
-2. Configure the path to OCCT and it's dependencies. The OCCT installer only contains a release build, if a debug build is to be used, it must be created yourself. For this, please refer to the documentation from OCCT.
+        > restore
 
-    ```> occt config <pathToOcct>```
+2. Build the whole thing. Replace `all` with `debug` or `release` if only one these should be built.
 
-3. Build the whole thing. Replace `all` with `debug` or `release` if only one these should be built (e.g. you have no debug build of OCCT).
+        > build all
 
-    ```> build all```
+3. Optionally run tests to verify your build.
+
+        > test all
+
+## About OpenCASCADE Technology
+
+The restore script downloads a pre-built version of OpenCASCADE Technology (OCCT) so that the project can be built immediately. This package contains only the parts that are used in this project. The complete OCCT distribution can be downloaded from the [OpenCASCADE Download Center](https://dev.opencascade.org/release). This allows to use additional parts, to build the package with other build options or to make code changes. The currently used version can be found in the about dialog. 
+
+To use an own build of OCCT, you need to configure the path to OCCT and it's dependencies using the following script console command:
+
+    > occt config <pathToOcct>
     
-## Regenerating OCCT wrapper
+Please note: The OCCT installer only contains a release build, if a debug build is to be used, it must be created yourself. For this, please refer to the documentation from OCCT.
+To use the pre-built package again, use the following command:
+
+    > occt config package
 
 Generating the OCCT wrapper code depends on several packages to work hand in hand. If any of this packages changes, it can be at least time-consuming to track down the error and either update other packages as well or find a way around.
 
-For this reason, the generated wrapper code for the above mentioned version of the library is checked in. If you want to re-generate the wrapper code, start the generation with the script console command ```> occt generate```.
+For this reason, the generated wrapper code for the above mentioned version of the library is checked in. If you have to to re-generate the wrapper code, start the generation with the following script console command:
 
-If you are missing something in the wrapper, it maybe excluded because of several reasons: Maybe it cannot be automatically wrapped yet, it did make trouble in any prior version, or it was simply not needed yet and excluded for saving compilation (and especially linking) time. Check the [configuration file](Source/WrapperGenerator/Configuration.cs) for the wrapper generator and enable what you need, then regenerate the wrapper code.
+    > occt generate
+
+If you are missing something in the wrapper, it maybe excluded because of several reasons: Maybe it cannot be automatically wrapped yet, it did make trouble in any prior version, or it was simply not needed yet and excluded for saving compilation (and especially linking) time. Check the [configuration files](Source/WrapperGenerator/Configuration) for the wrapper generator and enable what you need, then regenerate the wrapper code.
 
 ## Acknowledgments
+
 Thanks to [JetBrains](https://www.jetbrains.com) for providing a free license of [ReSharper](https://www.jetbrains.com/resharper/).
 
 [<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/ReSharper_icon.svg" height="50" alt="ReSharper logo.">](https://www.jetbrains.com/resharper/)

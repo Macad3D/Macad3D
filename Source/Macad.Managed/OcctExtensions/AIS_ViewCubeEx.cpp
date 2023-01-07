@@ -214,7 +214,7 @@ void AIS_ViewCubeEx::createBoxSideTriangles(const opencascade::handle<Graphic3d_
 
 void AIS_ViewCubeEx::SetTexture(const opencascade::handle<Image_PixMap>& thePixMap)
 {
-	Handle(Graphic3d_Texture2Dmanual) aTexture = new Graphic3d_Texture2Dmanual(thePixMap);
+	Handle(Graphic3d_Texture2D) aTexture = new Graphic3d_Texture2D(thePixMap);
 	aTexture->SetAnisoFilter(Graphic3d_LOTA_QUALITY);
 
 	myDrawer->ShadingAspect()->Aspect()->SetTextureMap(aTexture);

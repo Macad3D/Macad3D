@@ -58,16 +58,16 @@ namespace Macad.Core
         {
             switch (topAbsShapeEnum)
             {
-                case TopAbs_ShapeEnum.TopAbs_FACE:
+                case TopAbs_ShapeEnum.FACE:
                     return SubshapeType.Face;
 
-                case TopAbs_ShapeEnum.TopAbs_EDGE:
+                case TopAbs_ShapeEnum.EDGE:
                     return SubshapeType.Edge;
 
-                case TopAbs_ShapeEnum.TopAbs_WIRE:
+                case TopAbs_ShapeEnum.WIRE:
                     return SubshapeType.Wire;
 
-                case TopAbs_ShapeEnum.TopAbs_VERTEX:
+                case TopAbs_ShapeEnum.VERTEX:
                     return SubshapeType.Vertex;
 
                 default:
@@ -88,16 +88,16 @@ namespace Macad.Core
         {
             switch (topAbsShapeEnum)
             {
-                case TopAbs_ShapeEnum.TopAbs_FACE:
+                case TopAbs_ShapeEnum.FACE:
                     return SubshapeTypes.Face;
 
-                case TopAbs_ShapeEnum.TopAbs_EDGE:
+                case TopAbs_ShapeEnum.EDGE:
                     return SubshapeTypes.Edge;
 
-                case TopAbs_ShapeEnum.TopAbs_WIRE:
+                case TopAbs_ShapeEnum.WIRE:
                     return SubshapeTypes.Wire;
 
-                case TopAbs_ShapeEnum.TopAbs_VERTEX:
+                case TopAbs_ShapeEnum.VERTEX:
                     return SubshapeTypes.Vertex;
 
                 default:
@@ -112,13 +112,13 @@ namespace Macad.Core
             switch (type)
             {
                 case SubshapeType.Vertex:
-                    return TopAbs_ShapeEnum.TopAbs_VERTEX;
+                    return TopAbs_ShapeEnum.VERTEX;
                 case SubshapeType.Edge:
-                    return TopAbs_ShapeEnum.TopAbs_EDGE;
+                    return TopAbs_ShapeEnum.EDGE;
                 case SubshapeType.Wire:
-                    return TopAbs_ShapeEnum.TopAbs_WIRE;
+                    return TopAbs_ShapeEnum.WIRE;
                 case SubshapeType.Face:
-                    return TopAbs_ShapeEnum.TopAbs_FACE;
+                    return TopAbs_ShapeEnum.FACE;
                 default:
                     throw new NotImplementedException();
             }

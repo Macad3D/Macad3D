@@ -167,7 +167,7 @@ namespace Macad.Interaction
             }
 
             style = Win32Api.WS_VISIBLE | (parentHWnd == IntPtr.Zero ? Win32Api.WS_POPUP : Win32Api.WS_CHILD);
-            _OcWindow = new WNT_Window("WorkspaceView", _OcWindowClass, style, initialRect.X, initialRect.Y, initialRect.Width, initialRect.Height, Quantity_NameOfColor.Quantity_NOC_GRAY50, parentHWnd);
+            _OcWindow = new WNT_Window("WorkspaceView", _OcWindowClass, style, initialRect.X, initialRect.Y, initialRect.Width, initialRect.Height, Quantity_NameOfColor.GRAY50, parentHWnd);
             _OcWindow.Map();
 
             Viewport.V3dView.SetWindow(_OcWindow);
@@ -239,22 +239,22 @@ namespace Macad.Interaction
             switch (predefinedView)
             {
                 case PredefinedViews.Top:
-                    orientation = V3d_TypeOfOrientation.V3d_TypeOfOrientation_Zup_Top;
+                    orientation = V3d_TypeOfOrientation.Zup_Top;
                     break;
                 case PredefinedViews.Bottom:
-                    orientation = V3d_TypeOfOrientation.V3d_TypeOfOrientation_Zup_Bottom;
+                    orientation = V3d_TypeOfOrientation.Zup_Bottom;
                     break;
                 case PredefinedViews.Left:
-                    orientation = V3d_TypeOfOrientation.V3d_TypeOfOrientation_Zup_Left;
+                    orientation = V3d_TypeOfOrientation.Zup_Left;
                     break;
                 case PredefinedViews.Right:
-                    orientation = V3d_TypeOfOrientation.V3d_TypeOfOrientation_Zup_Right;
+                    orientation = V3d_TypeOfOrientation.Zup_Right;
                     break;
                 case PredefinedViews.Front:
-                    orientation = V3d_TypeOfOrientation.V3d_TypeOfOrientation_Zup_Front;
+                    orientation = V3d_TypeOfOrientation.Zup_Front;
                     break;
                 case PredefinedViews.Back:
-                    orientation = V3d_TypeOfOrientation.V3d_TypeOfOrientation_Zup_Back;
+                    orientation = V3d_TypeOfOrientation.Zup_Back;
                     break;
                 default:
                     return;
@@ -426,7 +426,7 @@ namespace Macad.Interaction
 
                 if (Math.Abs(dZ) > 0.001)
                 {
-                    Viewport.V3dView.Turn(V3d_TypeOfAxe.V3d_Z, dZ.ToRad(), true);
+                    Viewport.V3dView.Turn(V3d_TypeOfAxe.Z, dZ.ToRad(), true);
                 }
             }
 
@@ -565,8 +565,8 @@ namespace Macad.Interaction
             _AisViewCube.SetResetCamera(true);
             _AisViewCube.SetFitSelected(true);
             _AisViewCube.SetTexture(pixmap);
-            _AisViewCube.SetTransformPersistence(new Graphic3d_TransformPers(Graphic3d_TransModeFlags.Graphic3d_TMF_TriedronPers,
-                Aspect_TypeOfTriedronPosition.Aspect_TOTP_RIGHT_UPPER, new Graphic3d_Vec2i(100, 100)));
+            _AisViewCube.SetTransformPersistence(new Graphic3d_TransformPers(Graphic3d_TransModeFlags.TriedronPers,
+                Aspect_TypeOfTriedronPosition.RIGHT_UPPER, new Graphic3d_Vec2i(100, 100)));
 
             var color = new Quantity_Color();
             Quantity_Color.ColorFromHex("d9dfe5", color);
@@ -578,11 +578,11 @@ namespace Macad.Interaction
             Quantity_Color.ColorFromHex("a6b4c3", color);
             _AisViewCube.BoxCornerStyle().SetColor(color);
 
-            var material = new Graphic3d_MaterialAspect(Graphic3d_NameOfMaterial.Graphic3d_NOM_DEFAULT);
-            material.SetAmbientColor(Quantity_NameOfColor.Quantity_NOC_GRAY80.ToColor());
-            material.SetDiffuseColor(Quantity_NameOfColor.Quantity_NOC_GRAY20.ToColor());
-            material.SetEmissiveColor(Quantity_NameOfColor.Quantity_NOC_BLACK.ToColor());
-            material.SetSpecularColor(Quantity_NameOfColor.Quantity_NOC_BLACK.ToColor());
+            var material = new Graphic3d_MaterialAspect(Graphic3d_NameOfMaterial.DEFAULT);
+            material.SetAmbientColor(Quantity_NameOfColor.GRAY80.ToColor());
+            material.SetDiffuseColor(Quantity_NameOfColor.GRAY20.ToColor());
+            material.SetEmissiveColor(Quantity_NameOfColor.BLACK.ToColor());
+            material.SetSpecularColor(Quantity_NameOfColor.BLACK.ToColor());
             _AisViewCube.SetMaterial(material);
 
             _AisViewCube.DynamicHilightAttributes().ShadingAspect().SetColor(Colors.Highlight);
@@ -607,7 +607,7 @@ namespace Macad.Interaction
         {
             if (visible)
             {
-                Viewport?.V3dView?.TriedronDisplay(Aspect_TypeOfTriedronPosition.Aspect_TOTP_LEFT_LOWER, Quantity_NameOfColor.Quantity_NOC_ALICEBLUE.ToColor(), 0.1, V3d_TypeOfVisualization.V3d_ZBUFFER);
+                Viewport?.V3dView?.TriedronDisplay(Aspect_TypeOfTriedronPosition.LEFT_LOWER, Quantity_NameOfColor.ALICEBLUE.ToColor(), 0.1, V3d_TypeOfVisualization.ZBUFFER);
             }
             else
             {
@@ -685,9 +685,9 @@ namespace Macad.Interaction
 
             var aisContext = WorkspaceController.Workspace.AisContext;
             _AisRubberBand = new AIS_RubberBand(
-                new Quantity_Color(Quantity_NameOfColor.Quantity_NOC_BLUE1), 
-                Aspect_TypeOfLine.Aspect_TOL_DASH, 
-                new Quantity_Color(Quantity_NameOfColor.Quantity_NOC_BLUE1),
+                new Quantity_Color(Quantity_NameOfColor.BLUE1), 
+                Aspect_TypeOfLine.DASH, 
+                new Quantity_Color(Quantity_NameOfColor.BLUE1),
                 0.9, 2, true);
 
             _RubberbandMode = mode;
@@ -752,7 +752,7 @@ namespace Macad.Interaction
                 _SetTrihedron(false);
                 _SetViewCube(false);
                 var pixmap = new Image_AlienPixMap();
-                pixmap.InitZero(Image_Format.Image_Format_RGB, width, height);
+                pixmap.InitZero(Image_Format.RGB, width, height);
                 Viewport?.V3dView?.ToPixMap(pixmap, (int)width, (int)height);
                 _SetTrihedron(_ShowTrihedron);
                 _SetViewCube(true);

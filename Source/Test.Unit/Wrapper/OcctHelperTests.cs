@@ -117,9 +117,9 @@ namespace Macad.Test.Unit.Wrapper
             // generate a failing operation
             var op = new BOPAlgo_Builder();
             var listOfShapes = new TopTools_ListOfShape();
-            op.BuildBOP(listOfShapes, listOfShapes, BOPAlgo_Operation.BOPAlgo_FUSE, new Message_ProgressRange());
+            op.BuildBOP(listOfShapes, listOfShapes, BOPAlgo_Operation.FUSE, new Message_ProgressRange());
             var report = op.GetReport();
-            var alerts = report.GetAlerts(Message_Gravity.Message_Fail);
+            var alerts = report.GetAlerts(Message_Gravity.Fail);
             Assert.AreEqual(1, alerts.Size());
 
             report.SendMessages(Message.DefaultMessenger());

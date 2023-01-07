@@ -19,7 +19,7 @@ namespace Macad.Test.Unit.Exchange
             // Read in
             var originalShape = BRepExchange.ReadASCII(originalBytes);
             Assert.IsNotNull(originalShape);
-            Assert.AreEqual(TopAbs_ShapeEnum.TopAbs_COMPOUND, originalShape.ShapeType());
+            Assert.AreEqual(TopAbs_ShapeEnum.COMPOUND, originalShape.ShapeType());
 
             // Write out
             var writtenBytes = BRepExchange.WriteASCII(originalShape, false);
@@ -29,7 +29,7 @@ namespace Macad.Test.Unit.Exchange
             // Re-read in
             var rereadShape = BRepExchange.ReadASCII(writtenBytes);
             Assert.IsNotNull(rereadShape);
-            Assert.AreEqual(TopAbs_ShapeEnum.TopAbs_COMPOUND, rereadShape.ShapeType());
+            Assert.AreEqual(TopAbs_ShapeEnum.COMPOUND, rereadShape.ShapeType());
             Assert.IsFalse(_HasTriangulation(rereadShape), "HasTriangulation");
 
             Assert.IsTrue(ModelCompare.CompareShape(rereadShape, @"SourceData\Brep\ImprintRingFace"));
@@ -46,7 +46,7 @@ namespace Macad.Test.Unit.Exchange
             // Read in as ASCII
             var originalShape = BRepExchange.ReadASCII(originalBytes);
             Assert.IsNotNull(originalShape);
-            Assert.AreEqual(TopAbs_ShapeEnum.TopAbs_COMPOUND, originalShape.ShapeType());
+            Assert.AreEqual(TopAbs_ShapeEnum.COMPOUND, originalShape.ShapeType());
 
             // Write out
             var writtenBytes = BRepExchange.WriteBinary(originalShape, false);
@@ -56,7 +56,7 @@ namespace Macad.Test.Unit.Exchange
             // Re-read in
             var rereadShape = BRepExchange.ReadBinary(writtenBytes);
             Assert.IsNotNull(rereadShape);
-            Assert.AreEqual(TopAbs_ShapeEnum.TopAbs_COMPOUND, rereadShape.ShapeType());
+            Assert.AreEqual(TopAbs_ShapeEnum.COMPOUND, rereadShape.ShapeType());
             Assert.IsFalse(_HasTriangulation(rereadShape), "HasTriangulation");
 
             Assert.IsTrue(ModelCompare.CompareShape(rereadShape, @"SourceData\Brep\ImprintRingFace"));
@@ -73,7 +73,7 @@ namespace Macad.Test.Unit.Exchange
             // Read in
             var originalShape = BRepExchange.ReadASCII(originalBytes);
             Assert.IsNotNull(originalShape);
-            Assert.AreEqual(TopAbs_ShapeEnum.TopAbs_COMPOUND, originalShape.ShapeType());
+            Assert.AreEqual(TopAbs_ShapeEnum.COMPOUND, originalShape.ShapeType());
 
             // Write out with triangulation
             var writtenBytes = BRepExchange.WriteASCII(originalShape, true);
@@ -83,7 +83,7 @@ namespace Macad.Test.Unit.Exchange
             // Re-read in with triangulation
             var rereadShape = BRepExchange.ReadASCII(writtenBytes);
             Assert.IsNotNull(rereadShape);
-            Assert.AreEqual(TopAbs_ShapeEnum.TopAbs_COMPOUND, rereadShape.ShapeType());
+            Assert.AreEqual(TopAbs_ShapeEnum.COMPOUND, rereadShape.ShapeType());
             Assert.IsTrue(_HasTriangulation(rereadShape), "HasTriangulation");
             Assert.IsTrue(ModelCompare.CompareShape(rereadShape, @"SourceData\Brep\Motor-c"));
 
@@ -95,7 +95,7 @@ namespace Macad.Test.Unit.Exchange
             // Re-read in w/o triangulation
             rereadShape = BRepExchange.ReadASCII(writtenBytes);
             Assert.IsNotNull(rereadShape);
-            Assert.AreEqual(TopAbs_ShapeEnum.TopAbs_COMPOUND, rereadShape.ShapeType());
+            Assert.AreEqual(TopAbs_ShapeEnum.COMPOUND, rereadShape.ShapeType());
             Assert.IsFalse(_HasTriangulation(rereadShape), "HasTriangulation");
             Assert.IsTrue(ModelCompare.CompareShape(rereadShape, @"SourceData\Brep\Motor-c"));
         }
@@ -111,7 +111,7 @@ namespace Macad.Test.Unit.Exchange
             // Read in
             var originalShape = BRepExchange.ReadASCII(originalBytes);
             Assert.IsNotNull(originalShape);
-            Assert.AreEqual(TopAbs_ShapeEnum.TopAbs_COMPOUND, originalShape.ShapeType());
+            Assert.AreEqual(TopAbs_ShapeEnum.COMPOUND, originalShape.ShapeType());
 
             // Write out with triangulation
             var writtenBytes = BRepExchange.WriteBinary(originalShape, true);
@@ -121,7 +121,7 @@ namespace Macad.Test.Unit.Exchange
             // Re-read in with triangulation
             var rereadShape = BRepExchange.ReadBinary(writtenBytes);
             Assert.IsNotNull(rereadShape);
-            Assert.AreEqual(TopAbs_ShapeEnum.TopAbs_COMPOUND, rereadShape.ShapeType());
+            Assert.AreEqual(TopAbs_ShapeEnum.COMPOUND, rereadShape.ShapeType());
             Assert.IsTrue(_HasTriangulation(rereadShape), "HasTriangulation");
             Assert.IsTrue(ModelCompare.CompareShape(rereadShape, @"SourceData\Brep\Motor-c"));
 
@@ -133,7 +133,7 @@ namespace Macad.Test.Unit.Exchange
             // Re-read in w/o triangulation
             rereadShape = BRepExchange.ReadBinary(writtenBytes);
             Assert.IsNotNull(rereadShape);
-            Assert.AreEqual(TopAbs_ShapeEnum.TopAbs_COMPOUND, rereadShape.ShapeType());
+            Assert.AreEqual(TopAbs_ShapeEnum.COMPOUND, rereadShape.ShapeType());
             Assert.IsFalse(_HasTriangulation(rereadShape), "HasTriangulation");
             Assert.IsTrue(ModelCompare.CompareShape(rereadShape, @"SourceData\Brep\Motor-c"));
         }

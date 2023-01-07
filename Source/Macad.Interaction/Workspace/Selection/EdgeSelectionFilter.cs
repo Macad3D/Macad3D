@@ -37,11 +37,11 @@ namespace Macad.Interaction
             switch (type)
             {
                 case EdgeType.Any:
-                    return StdSelect_TypeOfEdge.StdSelect_AnyEdge;
+                    return StdSelect_TypeOfEdge.AnyEdge;
                 case EdgeType.Line:
-                    return StdSelect_TypeOfEdge.StdSelect_Line;
+                    return StdSelect_TypeOfEdge.Line;
                 case EdgeType.Circle:
-                    return StdSelect_TypeOfEdge.StdSelect_Circle;
+                    return StdSelect_TypeOfEdge.Circle;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

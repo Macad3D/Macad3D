@@ -260,13 +260,13 @@ namespace Macad.Core
             }
 
             V3dViewer.SetDefaultViewSize(1000.0);
-            V3dViewer.SetDefaultViewProj(V3d_TypeOfOrientation.V3d_XposYposZpos);
-            V3dViewer.SetDefaultBackgroundColor(Quantity_NameOfColor.Quantity_NOC_GRAY30.ToColor());
-            V3dViewer.SetDefaultVisualization(V3d_TypeOfVisualization.V3d_ZBUFFER);
-            V3dViewer.SetLightOn(new V3d_DirectionalLight(V3d_TypeOfOrientation.V3d_Zneg, Quantity_NameOfColor.Quantity_NOC_WHITE.ToColor(), true));
-            V3dViewer.SetLightOn(new V3d_AmbientLight(Quantity_NameOfColor.Quantity_NOC_WHITE.ToColor()));
+            V3dViewer.SetDefaultViewProj(V3d_TypeOfOrientation.XposYposZpos);
+            V3dViewer.SetDefaultBackgroundColor(Quantity_NameOfColor.GRAY30.ToColor());
+            V3dViewer.SetDefaultVisualization(V3d_TypeOfVisualization.ZBUFFER);
+            V3dViewer.SetLightOn(new V3d_DirectionalLight(V3d_TypeOfOrientation.Zneg, Quantity_NameOfColor.WHITE.ToColor(), true));
+            V3dViewer.SetLightOn(new V3d_AmbientLight(Quantity_NameOfColor.WHITE.ToColor()));
 
-            V3dViewer.Grid().SetColors(Quantity_NameOfColor.Quantity_NOC_GRAY45.ToColor(), Quantity_NameOfColor.Quantity_NOC_GRAY30.ToColor());
+            V3dViewer.Grid().SetColors(Quantity_NameOfColor.GRAY45.ToColor(), Quantity_NameOfColor.GRAY30.ToColor());
 
             // Reinit viewer parameters
             _ApplyWorkingContext();
@@ -286,8 +286,9 @@ namespace Macad.Core
             }
 
             AisContext.SetAutoActivateSelection(true);
-            AisContext.SetPickingStrategy(SelectMgr_PickingStrategy.SelectMgr_PickingStrategy_OnlyTopmost);
-            AisContext.SetDisplayMode((int)AIS_DisplayMode.AIS_Shaded, false);
+            AisContext.SetToHilightSelected(false);
+            AisContext.SetPickingStrategy(SelectMgr_PickingStrategy.OnlyTopmost);
+            AisContext.SetDisplayMode((int)AIS_DisplayMode.Shaded, false);
             V3dViewer.DisplayPrivilegedPlane(false, 1.0);
             AisContext.EnableDrawHiddenLine();
 
@@ -296,9 +297,8 @@ namespace Macad.Core
             AisContext.SetPixelTolerance(2);
 
             var drawer = AisContext.DefaultDrawer();
-            drawer.SetWireAspect(new Prs3d_LineAspect(Colors.Selection, Aspect_TypeOfLine.Aspect_TOL_SOLID, 1.0));
-            //drawer.SetTypeOfHLR(Prs3d_TypeOfHLR.Prs3d_TOH_Algo);
-            drawer.SetTypeOfHLR(Prs3d_TypeOfHLR.Prs3d_TOH_PolyAlgo);
+            drawer.SetWireAspect(new Prs3d_LineAspect(Colors.Selection, Aspect_TypeOfLine.SOLID, 1.0));
+            drawer.SetTypeOfHLR(Prs3d_TypeOfHLR.TOH_PolyAlgo);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -336,15 +336,15 @@ namespace Macad.Core
         {
             switch (type)
             {
-                case AIS_TypeOfPlane.AIS_TOPL_XYPlane:
+                case AIS_TypeOfPlane.TOPL_XYPlane:
                     WorkingPlane = Pln.XOY;
                     break;
 
-                case AIS_TypeOfPlane.AIS_TOPL_YZPlane:
+                case AIS_TypeOfPlane.TOPL_YZPlane:
                     WorkingPlane = Pln.YOZ;
                     break;
 
-                case AIS_TypeOfPlane.AIS_TOPL_XZPlane:
+                case AIS_TypeOfPlane.TOPL_XZPlane:
                     WorkingPlane = Pln.ZOX;
                     break;
             }

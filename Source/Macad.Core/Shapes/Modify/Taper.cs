@@ -338,7 +338,7 @@ namespace Macad.Core.Shapes
                 return false;
             }
             var builder = new BRep_Builder();
-            builder.Continuity(newEdge, face1, face2, GeomAbs_Shape.GeomAbs_C0);
+            builder.Continuity(newEdge, face1, face2, GeomAbs_Shape.C0);
             
             // Find proper face
             var newFace = face1;
@@ -433,7 +433,7 @@ namespace Macad.Core.Shapes
             Vec edgeTangent = Vec.Zero;
             adaptorEdge.D1(centerParam, ref centerPoint, ref edgeTangent);
 
-            if (edge.Orientation() == TopAbs_Orientation.TopAbs_REVERSED)
+            if (edge.Orientation() == TopAbs_Orientation.REVERSED)
             {
                 edgeTangent.Reverse();
             }
@@ -491,7 +491,7 @@ namespace Macad.Core.Shapes
                 if (parameterReversed)
                     edgeTangent.Reverse();
 
-                if (edgeIndex == 0 && parameterReversed != (edge.Orientation() == TopAbs_Orientation.TopAbs_REVERSED))
+                if (edgeIndex == 0 && parameterReversed != (edge.Orientation() == TopAbs_Orientation.REVERSED))
                     order = true; // face is on the right of edge1
                     
                 tangents[edgeIndex] = edgeTangent.Normalized();

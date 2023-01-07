@@ -97,25 +97,25 @@ namespace Macad.Interaction
             var detectedShape = data.DetectedShapes[0];
 
             if (_SubshapeTypes.HasFlag(SubshapeTypes.Vertex)
-                && (detectedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_VERTEX))
+                && (detectedShape.ShapeType() == TopAbs_ShapeEnum.VERTEX))
             {
                 SelectedSubshape = detectedShape;
                 SelectedSubshapeType = SubshapeTypes.Vertex;
             }
             else if (_SubshapeTypes.HasFlag(SubshapeTypes.Edge)
-                     && (detectedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_EDGE))
+                     && (detectedShape.ShapeType() == TopAbs_ShapeEnum.EDGE))
             {
                 SelectedSubshape = detectedShape;
                 SelectedSubshapeType = SubshapeTypes.Edge;
             }
             else if (_SubshapeTypes.HasFlag(SubshapeTypes.Wire)
-                     && (detectedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_WIRE))
+                     && (detectedShape.ShapeType() == TopAbs_ShapeEnum.WIRE))
             {
                 SelectedSubshape = detectedShape;
                 SelectedSubshapeType = SubshapeTypes.Wire;
             }
             else if (_SubshapeTypes.HasFlag(SubshapeTypes.Face)
-                     && (detectedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_FACE))
+                     && (detectedShape.ShapeType() == TopAbs_ShapeEnum.FACE))
             {
                 SelectedSubshape = detectedShape;
                 SelectedSubshapeType = SubshapeTypes.Face;

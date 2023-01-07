@@ -13,7 +13,7 @@ namespace Macad.Core.Geom
         public static bool GetPlaneFromFace(TopoDS_Face face, out Pln plane)
         {
             var surfaceAdaptor = new BRepAdaptor_Surface(face);
-            if (surfaceAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
+            if (surfaceAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
             {
                 plane = new Pln();
                 return false;
@@ -51,7 +51,7 @@ namespace Macad.Core.Geom
         public static bool GetCenteredPlaneFromFace(TopoDS_Face face, out Pln plane)
         {
             var brepAdaptor = new BRepAdaptor_Surface(face, true);
-            if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
+            if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
             {
                 Messages.Error("Selected face is not a plane type surface.");
                 plane = Pln.XOY;
@@ -64,7 +64,7 @@ namespace Macad.Core.Geom
 
             var pos = brepAdaptor.Plane().Position;
             var dir = brepAdaptor.Plane().Position.Direction;
-            if (face.Orientation() == TopAbs_Orientation.TopAbs_REVERSED)
+            if (face.Orientation() == TopAbs_Orientation.REVERSED)
                 dir.Reverse();
             if(pos.Direction.DotCross(pos.XDirection, pos.YDirection) < 0)
                 dir.Reverse();
@@ -81,7 +81,7 @@ namespace Macad.Core.Geom
 
             // Get map of all faces with their ancestors
             var faceMap = new TopTools_IndexedDataMapOfShapeListOfShape(50);
-            TopExp.MapShapesAndAncestors(shape, TopAbs_ShapeEnum.TopAbs_EDGE, TopAbs_ShapeEnum.TopAbs_FACE, faceMap);
+            TopExp.MapShapesAndAncestors(shape, TopAbs_ShapeEnum.EDGE, TopAbs_ShapeEnum.FACE, faceMap);
 
             foreach (var edge in face.Edges())
             {
@@ -107,7 +107,7 @@ namespace Macad.Core.Geom
         {
             // Get map of all faces with their ancestors
             var faceMap = new TopTools_IndexedDataMapOfShapeListOfShape(50);
-            TopExp.MapShapesAndAncestors(shape, TopAbs_ShapeEnum.TopAbs_EDGE, TopAbs_ShapeEnum.TopAbs_FACE, faceMap);
+            TopExp.MapShapesAndAncestors(shape, TopAbs_ShapeEnum.EDGE, TopAbs_ShapeEnum.FACE, faceMap);
 
             foreach (var edge in face.Edges())
             {
@@ -142,7 +142,7 @@ namespace Macad.Core.Geom
             foreach (var face in faces)
             {
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
-                if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
+                if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
                 {
                     Messages.Error("Cannot get plane of faces, shape has faces which are not plane.");
                     return false;
@@ -199,12 +199,12 @@ namespace Macad.Core.Geom
             foreach (var face in faces)
             {
                 var brepAdaptor = new BRepAdaptor_Surface(face);
-                if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
+                if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
                     continue;
 
                 var area = face.Area();
                 var plane = brepAdaptor.Plane();
-                if (face.Orientation() == TopAbs_Orientation.TopAbs_REVERSED)
+                if (face.Orientation() == TopAbs_Orientation.REVERSED)
                 {
                     plane.Position.ZReverse();
                 }
@@ -213,8 +213,8 @@ namespace Macad.Core.Geom
                 if (foundFace != null && foundFace.IsSame(face))
                 {
                     // Same edge with another orientation
-                    if (foundFace.Orientation() == TopAbs_Orientation.TopAbs_REVERSED
-                        && face.Orientation() == TopAbs_Orientation.TopAbs_FORWARD)
+                    if (foundFace.Orientation() == TopAbs_Orientation.REVERSED
+                        && face.Orientation() == TopAbs_Orientation.FORWARD)
                     {
                         // Prefer forward edges
                         foundFace = face;

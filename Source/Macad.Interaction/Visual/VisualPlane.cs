@@ -83,7 +83,7 @@ namespace Macad.Interaction.Visual
 
         //--------------------------------------------------------------------------------------------------
 
-        public static SelectionSignature SelectionSignature => new (AIS_KindOfInteractive.AIS_KOI_Datum, 7);
+        public static SelectionSignature SelectionSignature => new (AIS_KindOfInteractive.Datum, 7);
 
         //--------------------------------------------------------------------------------------------------
 

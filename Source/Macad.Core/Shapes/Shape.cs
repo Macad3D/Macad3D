@@ -683,19 +683,19 @@ namespace Macad.Core.Shapes
         {
             switch (subShape.ShapeType())
             {
-                case TopAbs_ShapeEnum.TopAbs_FACE:
+                case TopAbs_ShapeEnum.FACE:
                     var faceIndex = referenceShape.Faces().IndexOfSame(subShape);
                     if (faceIndex >= 0)
                         return GetSubshapeReference(SubshapeType.Face, faceIndex);
                     break;
 
-                case TopAbs_ShapeEnum.TopAbs_EDGE:
+                case TopAbs_ShapeEnum.EDGE:
                     var edgeIndex = referenceShape.Edges().IndexOfSame(subShape);
                     if (edgeIndex >= 0)
                         return GetSubshapeReference(SubshapeType.Edge, edgeIndex);
                     break;
 
-                case TopAbs_ShapeEnum.TopAbs_VERTEX:
+                case TopAbs_ShapeEnum.VERTEX:
                     var vertexIndex = referenceShape.Vertices().IndexOfSame(subShape);
                     if (vertexIndex >= 0)
                         return GetSubshapeReference(SubshapeType.Vertex, vertexIndex);

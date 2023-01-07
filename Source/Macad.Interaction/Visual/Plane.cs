@@ -174,7 +174,7 @@ public class Plane : VisualObject
 
         if (_Style.Has(Style.NoResize))
         {
-            Graphic3d_TransformPers transformPers = new(Graphic3d_TransModeFlags.Graphic3d_TMF_ZoomPers, _Plane.Location);
+            Graphic3d_TransformPers transformPers = new(Graphic3d_TransModeFlags.ZoomPers, _Plane.Location);
             _AisObject.SetTransformPersistence(transformPers);
 
             double scale = 50.0 * WorkspaceController.ActiveViewport.DpiScale;

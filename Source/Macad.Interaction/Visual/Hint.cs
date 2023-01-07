@@ -42,21 +42,21 @@ namespace Macad.Interaction.Visual
             switch (style & HintStyle.Styles)
             {
             case HintStyle.ThinDashed:
-                drawer.SetLineAspect(new Prs3d_LineAspect(Quantity_NameOfColor.Quantity_NOC_GRAY.ToColor(), Aspect_TypeOfLine.Aspect_TOL_DASH, 0.5));
+                drawer.SetLineAspect(new Prs3d_LineAspect(Quantity_NameOfColor.GRAY.ToColor(), Aspect_TypeOfLine.DASH, 0.5));
                 obj.SetTransparency(0.5);
                 break;
 
             case HintStyle.WorkingAxis:
-                drawer.SetLineAspect(new Prs3d_LineAspect(Quantity_NameOfColor.Quantity_NOC_YELLOW.ToColor(), Aspect_TypeOfLine.Aspect_TOL_DASH, 2.0));
+                drawer.SetLineAspect(new Prs3d_LineAspect(Quantity_NameOfColor.YELLOW.ToColor(), Aspect_TypeOfLine.DASH, 2.0));
                 break;
 
             case HintStyle.Dashed:
-                drawer.SetLineAspect(new Prs3d_LineAspect(Quantity_NameOfColor.Quantity_NOC_GRAY.ToColor(), Aspect_TypeOfLine.Aspect_TOL_DASH, 2.0));
+                drawer.SetLineAspect(new Prs3d_LineAspect(Quantity_NameOfColor.GRAY.ToColor(), Aspect_TypeOfLine.DASH, 2.0));
                 obj.SetTransparency(0.5);
                 break;
 
             case HintStyle.Solid:
-                drawer.SetLineAspect(new Prs3d_LineAspect(Quantity_NameOfColor.Quantity_NOC_GRAY.ToColor(), Aspect_TypeOfLine.Aspect_TOL_SOLID, 2.0));
+                drawer.SetLineAspect(new Prs3d_LineAspect(Quantity_NameOfColor.GRAY.ToColor(), Aspect_TypeOfLine.SOLID, 2.0));
                 obj.SetTransparency(0.5);
                 break;
             }

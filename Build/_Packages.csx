@@ -49,6 +49,14 @@ public class Packages
 
     //--------------------------------------------------------------------------------------------------
 
+    public static string FindPackageVersion(string packageName)
+    {
+        var webPackage = _WebPackages.FirstOrDefault(pkg => pkg.Name == packageName);
+        return webPackage.Version;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     static bool _PackageExists(string packageName)
     {
         var packagePath = Path.Combine(Common.GetRootFolder(), "Packages");
@@ -137,7 +145,7 @@ public class Packages
                 else 
                 {
                     var args = $"x -aoa -y -bsp0 -bso0 \"{targetFileName}\"";
-                    if(Common.Run(Path.Combine(Common.GetRootFolder(), "Packages", "7Zip", "7zr.exe"), args, localPath) != 0)
+                    if(Common.Run(Path.Combine(Common.GetRootFolder(), "Packages", "7Zip.2", "7zr.exe"), args, localPath) != 0)
                         throw new Exception("Execution of 7-Zip failed.");
                 }
                 File.Delete(targetFileName);

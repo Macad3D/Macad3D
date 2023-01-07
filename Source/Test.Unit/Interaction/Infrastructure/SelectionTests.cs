@@ -51,26 +51,19 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection01"));
 
                 // Select first
-                ctx.ViewportController.MouseMove(new Point(350, 180));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.ViewportController.MouseMove(new Point(0, 0));
+                ctx.ClickAt(350, 180);
                 Assert.That(sel.SelectedEntities.Count, Is.EqualTo(1));
                 Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection02"));
 
                 // Select second
-                ctx.ViewportController.MouseMove(new Point(150, 290));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.ViewportController.MouseMove(new Point(0, 0));
+                ctx.ClickAt(150, 290);
                 Assert.That(sel.SelectedEntities.Count, Is.EqualTo(1));
                 Assert.That(sel.SelectedEntities[0], Is.EqualTo(body2));
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection03"));
 
                 // Unselect
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
+                ctx.ClickAt(0, 0);
                 Assert.That(sel.SelectedEntities.Count, Is.EqualTo(0));
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection04"));
             });
@@ -102,12 +95,12 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
 
             // Select single again
             ctx.ClickAt(150, 290);
-            ctx.MoveTo(0, 0);
             Assert.That(sel.SelectedEntities.Count, Is.EqualTo(1));
             Assert.That(sel.SelectedEntities[0], Is.EqualTo(body2));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SingleSelection03"));
 
             // Unselect
+            ctx.MoveTo(0, 0);
             ctx.ViewportController.MouseDown();
             ctx.ViewportController.MouseUp();
             Assert.That(sel.SelectedEntities.Count, Is.EqualTo(0));
@@ -147,6 +140,8 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
             Assert.That(sel.SelectedEntities[1], Is.EqualTo(body2));
             Assert.That(sel.SelectedEntities[2], Is.EqualTo(body3));
+
+            ctx.MoveTo(0, 0);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiSelectionAdd01"));
         }
 
@@ -166,32 +161,36 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             body3.Position = new Pnt(0, 30, 0);
             ctx.ViewportController.ZoomFitAll();
 
-            Assert.Multiple(() => {
-            // Select All
-            ctx.ClickAt(250, 155);
-            ctx.ClickAt(115, 235, ModifierKeys.Control);
-            ctx.ClickAt(315, 280, ModifierKeys.Control);
-            Assert.That(sel.SelectedEntities.Count, Is.EqualTo(3));
-            Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
-            Assert.That(sel.SelectedEntities[1], Is.EqualTo(body2));
-            Assert.That(sel.SelectedEntities[2], Is.EqualTo(body3));
+            Assert.Multiple(() =>
+            {
+                // Select All
+                ctx.ClickAt(250, 155);
+                ctx.ClickAt(115, 235, ModifierKeys.Control);
+                ctx.ClickAt(315, 280, ModifierKeys.Control);
+                Assert.That(sel.SelectedEntities.Count, Is.EqualTo(3));
+                Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
+                Assert.That(sel.SelectedEntities[1], Is.EqualTo(body2));
+                Assert.That(sel.SelectedEntities[2], Is.EqualTo(body3));
 
-            // Click again, should stay selected
-            ctx.ClickAt(315, 280, ModifierKeys.Control);
-            Assert.That(sel.SelectedEntities.Count, Is.EqualTo(2));
-            Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
-            Assert.That(sel.SelectedEntities[1], Is.EqualTo(body2));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiSelectionToggle01"));
+                // Click again, should stay selected
+                ctx.ClickAt(315, 280, ModifierKeys.Control);
+                Assert.That(sel.SelectedEntities.Count, Is.EqualTo(2));
+                Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
+                Assert.That(sel.SelectedEntities[1], Is.EqualTo(body2));
+                ctx.MoveTo(0, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiSelectionToggle01"));
 
-            ctx.ClickAt(115, 235, ModifierKeys.Control);
-            Assert.That(sel.SelectedEntities.Count, Is.EqualTo(1));
-            Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiSelectionToggle02"));
+                ctx.ClickAt(115, 235, ModifierKeys.Control);
+                Assert.That(sel.SelectedEntities.Count, Is.EqualTo(1));
+                Assert.That(sel.SelectedEntities[0], Is.EqualTo(body1));
+                ctx.MoveTo(0, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiSelectionToggle02"));
 
-            ctx.ClickAt(250, 155, ModifierKeys.Control);
-            Assert.That(sel.SelectedEntities.Count, Is.EqualTo(0));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiSelectionToggle03"));
-                });
+                ctx.ClickAt(250, 155, ModifierKeys.Control);
+                Assert.That(sel.SelectedEntities.Count, Is.EqualTo(0));
+                ctx.MoveTo(0, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MultiSelectionToggle03"));
+            });
         }
 
         //--------------------------------------------------------------------------------------------------

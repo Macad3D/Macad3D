@@ -21,7 +21,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             Context.InitWithView(500);
             Context.Current.Workspace.GridEnabled = true;
             // Set background color to black to better the helper lines
-            Context.Current.Viewport.V3dView.SetBackgroundColor(Quantity_NameOfColor.Quantity_NOC_BLACK.ToColor());
+            Context.Current.Viewport.V3dView.SetBackgroundColor(Quantity_NameOfColor.BLACK.ToColor());
         }
 
         [TearDown]

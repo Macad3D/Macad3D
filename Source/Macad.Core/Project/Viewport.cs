@@ -263,13 +263,13 @@ namespace Macad.Core
 
             AisAnimationCamera = new AIS_AnimationCamera(new TCollection_AsciiString("ViewCamera"), V3dView);
 
-            V3dView.SetBgGradientColors(Quantity_NameOfColor.Quantity_NOC_SLATEGRAY3.ToColor(), Quantity_NameOfColor.Quantity_NOC_SLATEGRAY4.ToColor(), Aspect_GradientFillMethod.Aspect_GFM_VER, false);
+            V3dView.SetBgGradientColors(Quantity_NameOfColor.SLATEGRAY3.ToColor(), Quantity_NameOfColor.SLATEGRAY4.ToColor(), Aspect_GradientFillMethod.VER, false);
 
             var renderParams = V3dView.ChangeRenderingParams();
             renderParams.NbMsaaSamples = useMsaa ? 4 : 0;
             renderParams.IsAntialiasingEnabled = useMsaa;
-            renderParams.TransparencyMethod = Graphic3d_RenderTransparentMethod.Graphic3d_RTM_BLEND_OIT;
-            renderParams.Method = Graphic3d_RenderingMode.Graphic3d_RM_RASTERIZATION;
+            renderParams.TransparencyMethod = Graphic3d_RenderTransparentMethod.BLEND_OIT;
+            renderParams.Method = Graphic3d_RenderingMode.RASTERIZATION;
             renderParams.RaytracingDepth = 3;
             renderParams.IsShadowEnabled = true;
             renderParams.IsReflectionEnabled = true;
@@ -543,11 +543,11 @@ namespace Macad.Core
             var renderParams = V3dView.ChangeRenderingParams();
             if (_RenderMode == RenderModes.Raytraced)
             {
-                renderParams.Method = Graphic3d_RenderingMode.Graphic3d_RM_RAYTRACING;
+                renderParams.Method = Graphic3d_RenderingMode.RAYTRACING;
             }
             else
             {
-                renderParams.Method = Graphic3d_RenderingMode.Graphic3d_RM_RASTERIZATION;
+                renderParams.Method = Graphic3d_RenderingMode.RASTERIZATION;
             }
         }
 

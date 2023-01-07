@@ -47,7 +47,7 @@ namespace Macad.Core.Geom
             foreach (var wire in wires)
             {
                 var checkWire = new BRepCheck_Wire(wire);
-                if (checkWire.Closed() != BRepCheck_Status.BRepCheck_NoError)
+                if (checkWire.Closed() != BRepCheck_Status.NoError)
                 {
                     openWireCount++;
                     continue;
@@ -96,7 +96,7 @@ namespace Macad.Core.Geom
         {
             var classifier = new BRepClass3d_SolidClassifier(solid);
             classifier.PerformInfinitePoint(Precision.Confusion());
-            if (classifier.State() == TopAbs_State.TopAbs_IN)
+            if (classifier.State() == TopAbs_State.INSIDE)
             {
                 solid.Reverse();
             }
@@ -115,7 +115,7 @@ namespace Macad.Core.Geom
             {
                 var classifier = new BRepClass3d_SolidClassifier(solid);
                 classifier.PerformInfinitePoint(Precision.Confusion());
-                if (classifier.State() == TopAbs_State.TopAbs_IN)
+                if (classifier.State() == TopAbs_State.INSIDE)
                 {
                     solid = new TopoDS_Solid();
                     builder.MakeSolid(solid); 
@@ -132,7 +132,7 @@ namespace Macad.Core.Geom
         {
             // Get map of all faces with their ancestors
             var edgeMap = new TopTools_IndexedDataMapOfShapeListOfShape(4);
-            TopExp.MapShapesAndAncestors(shape, TopAbs_ShapeEnum.TopAbs_VERTEX, TopAbs_ShapeEnum.TopAbs_EDGE, edgeMap);
+            TopExp.MapShapesAndAncestors(shape, TopAbs_ShapeEnum.VERTEX, TopAbs_ShapeEnum.EDGE, edgeMap);
 
             return edgeMap.FindFromKey(vertex).ToList();
         }

@@ -134,6 +134,7 @@
 #include <Select3D_SensitiveTriangulation.hxx>
 #include <Select3D_SensitiveCircle.hxx>
 #include <Select3D_SensitiveCylinder.hxx>
+#include <Select3D_SensitivePoly.hxx>
 
 #include <AIS_KindOfInteractive.hxx>
 #include <AIS_InteractiveObject.hxx>

@@ -88,7 +88,7 @@ namespace Macad.Core.Components
 
         public VisualStyle() 
         {
-            _Color = OcctColorUtils.Color(Quantity_NameOfColor.Quantity_NOC_GOLDENROD2);
+            _Color = OcctColorUtils.Color(Quantity_NameOfColor.GOLDENROD2);
             _Transparency = 0;
         }
 

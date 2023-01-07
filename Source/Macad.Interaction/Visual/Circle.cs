@@ -212,7 +212,7 @@ public class Circle: VisualObject
 
         if (_Style.Has(Style.NoResize))
         {
-            Graphic3d_TransformPers transformPers = new(Graphic3d_TransModeFlags.Graphic3d_TMF_ZoomPers, _Position.Location);
+            Graphic3d_TransformPers transformPers = new(Graphic3d_TransModeFlags.ZoomPers, _Position.Location);
             _AisObject.SetTransformPersistence(transformPers);
 
             _AisObject.SetLocalTransformation(new Trsf(new Ax3(Pnt.Origin, _Position.Direction, _Position.XDirection), Ax3.XOY));

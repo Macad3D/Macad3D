@@ -148,23 +148,23 @@ namespace Macad.Core
         {
             switch (shapeType)
             {
-                case TopAbs_ShapeEnum.TopAbs_COMPOUND:
+                case TopAbs_ShapeEnum.COMPOUND:
                     return "Compound";
-                case TopAbs_ShapeEnum.TopAbs_COMPSOLID:
+                case TopAbs_ShapeEnum.COMPSOLID:
                     return "CompSolid";
-                case TopAbs_ShapeEnum.TopAbs_SOLID:
+                case TopAbs_ShapeEnum.SOLID:
                     return "Solid";
-                case TopAbs_ShapeEnum.TopAbs_SHELL:
+                case TopAbs_ShapeEnum.SHELL:
                     return "Shell";
-                case TopAbs_ShapeEnum.TopAbs_FACE:
+                case TopAbs_ShapeEnum.FACE:
                     return "Face";
-                case TopAbs_ShapeEnum.TopAbs_WIRE:
+                case TopAbs_ShapeEnum.WIRE:
                     return "Wire";
-                case TopAbs_ShapeEnum.TopAbs_EDGE:
+                case TopAbs_ShapeEnum.EDGE:
                     return "Edge";
-                case TopAbs_ShapeEnum.TopAbs_VERTEX:
+                case TopAbs_ShapeEnum.VERTEX:
                     return "Vertex";
-                case TopAbs_ShapeEnum.TopAbs_SHAPE:
+                case TopAbs_ShapeEnum.SHAPE:
                     return "Shape";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(shapeType), shapeType, null);
@@ -199,7 +199,7 @@ namespace Macad.Core
 
             switch (BrepShape.ShapeType())
             {
-                case TopAbs_ShapeEnum.TopAbs_COMPOUND:
+                case TopAbs_ShapeEnum.COMPOUND:
                     _AddShapeCollection(BrepShape.Solids(), true);
                     _AddShapeCollection(BrepShape.Shells(), true);
                     _AddShapeCollection(BrepShape.Faces(), true);
@@ -208,11 +208,11 @@ namespace Macad.Core
                     _AddShapeCollection(BrepShape.Vertices(), true);
                     break;
 
-                case TopAbs_ShapeEnum.TopAbs_COMPSOLID:
+                case TopAbs_ShapeEnum.COMPSOLID:
                     _AddShapeCollection(BrepShape.Solids());
                     break;
 
-                case TopAbs_ShapeEnum.TopAbs_SOLID:
+                case TopAbs_ShapeEnum.SOLID:
                     _AddShapeCollection(BrepShape.Shells(), true);
                     _AddShapeCollection(BrepShape.Faces(), true);
                     _AddShapeCollection(BrepShape.Wires(), true);
@@ -220,22 +220,22 @@ namespace Macad.Core
                     _AddShapeCollection(BrepShape.Vertices(), true);
                     break;
 
-                case TopAbs_ShapeEnum.TopAbs_SHELL:
+                case TopAbs_ShapeEnum.SHELL:
                     _AddShapeCollection(BrepShape.Faces(), true);
                     _AddShapeCollection(BrepShape.Wires(), true);
                     _AddShapeCollection(BrepShape.Edges(), true);
                     _AddShapeCollection(BrepShape.Vertices(), true);
                     break;
 
-                case TopAbs_ShapeEnum.TopAbs_FACE:
+                case TopAbs_ShapeEnum.FACE:
                     _AddShapeCollection(BrepShape.Wires());
                     break;
 
-                case TopAbs_ShapeEnum.TopAbs_WIRE:
+                case TopAbs_ShapeEnum.WIRE:
                     _AddShapeCollection(BrepShape.Edges());
                     break;
 
-                case TopAbs_ShapeEnum.TopAbs_EDGE:
+                case TopAbs_ShapeEnum.EDGE:
                     _AddShapeCollection(BrepShape.Vertices());
                     break;
             }
@@ -259,23 +259,23 @@ namespace Macad.Core
 
                 switch (BrepShape.ShapeType())
                 {
-                    case TopAbs_ShapeEnum.TopAbs_SHELL:
+                    case TopAbs_ShapeEnum.SHELL:
                         _AddShellProperties(BrepShape as TopoDS_Shell ?? TopoDS.Shell(BrepShape));
                         break;
 
-                    case TopAbs_ShapeEnum.TopAbs_FACE:
+                    case TopAbs_ShapeEnum.FACE:
                         _AddFaceProperties(BrepShape as TopoDS_Face ?? TopoDS.Face(BrepShape));
                         break;
 
-                    case TopAbs_ShapeEnum.TopAbs_WIRE:
+                    case TopAbs_ShapeEnum.WIRE:
                         _AddWireProperties(BrepShape as TopoDS_Wire ?? TopoDS.Wire(BrepShape));
                         break;
 
-                    case TopAbs_ShapeEnum.TopAbs_EDGE:
+                    case TopAbs_ShapeEnum.EDGE:
                         _AddEdgeProperties(BrepShape as TopoDS_Edge ?? TopoDS.Edge(BrepShape));
                         break;
 
-                    case TopAbs_ShapeEnum.TopAbs_VERTEX:
+                    case TopAbs_ShapeEnum.VERTEX:
                         _AddVertexProperties(BrepShape as TopoDS_Vertex ?? TopoDS.Vertex(BrepShape));
                         break;
                 }

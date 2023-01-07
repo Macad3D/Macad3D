@@ -81,12 +81,12 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
         {
             var ctx = Context.Current;
 
-            var layer1 = new Layer {Color = OcctColorUtils.Color(Quantity_NameOfColor.Quantity_NOC_RED)};
+            var layer1 = new Layer {Color = OcctColorUtils.Color(Quantity_NameOfColor.RED)};
             ctx.Layers.Add(layer1);
             var body1 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
             body1.Layer = layer1;
 
-            var layer2 = new Layer { Color = OcctColorUtils.Color(Quantity_NameOfColor.Quantity_NOC_GREEN) };
+            var layer2 = new Layer { Color = OcctColorUtils.Color(Quantity_NameOfColor.GREEN) };
             ctx.Layers.Add(layer2);
             var body2 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
             body2.Layer = layer2;
@@ -150,12 +150,12 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
         {
             var ctx = Context.Current;
 
-            var layer1 = new Layer {Name = "Red", Color = OcctColorUtils.Color(Quantity_NameOfColor.Quantity_NOC_RED)};
+            var layer1 = new Layer {Name = "Red", Color = OcctColorUtils.Color(Quantity_NameOfColor.RED)};
             ctx.Layers.Add(layer1);
             var body1 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
             body1.Layer = layer1;
 
-            var layer2 = new Layer {Name = "Green", Color = OcctColorUtils.Color(Quantity_NameOfColor.Quantity_NOC_GREEN)};
+            var layer2 = new Layer {Name = "Green", Color = OcctColorUtils.Color(Quantity_NameOfColor.GREEN)};
             ctx.Layers.Add(layer2);
 
             ctx.ViewportController.ZoomFitAll();
@@ -179,7 +179,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             var body = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
             ctx.ViewportController.ZoomFitAll();
 
-            body.Layer.Color = OcctColorUtils.Color(Quantity_NameOfColor.Quantity_NOC_GREEN);
+            body.Layer.Color = OcctColorUtils.Color(Quantity_NameOfColor.GREEN);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Colors"));
 
             ctx.ViewportController.MouseMove(new Point(250, 250));

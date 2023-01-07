@@ -411,13 +411,13 @@ namespace Macad.Core.Shapes
             var faceAdaptor = new BRepAdaptor_Surface(baseFace);
 
             // Surface is flat, but two edges are of circle and coplanar
-            if (faceAdaptor.GetGeomType() == GeomAbs_SurfaceType.GeomAbs_Plane)
+            if (faceAdaptor.GetSurfaceType() == GeomAbs_SurfaceType.Plane)
             {
                 // Ignore them for the moment, but sign them as bend section face
                 return true;
             }
 
-            if (faceAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Cylinder)
+            if (faceAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Cylinder)
             {
                 // Surface must be of type Cylinder, other are not supported currently
                 return false;
@@ -491,7 +491,7 @@ namespace Macad.Core.Shapes
             foreach (var edge in edges)
             {
                 var edgeAdaptor = new BRepAdaptor_Curve(edge);
-                if (edgeAdaptor.GetGeomType() == GeomAbs_CurveType.GeomAbs_Circle)
+                if (edgeAdaptor.GetCurveType() == GeomAbs_CurveType.Circle)
                 {
                     foundCircularEdges++;
 
@@ -615,7 +615,7 @@ namespace Macad.Core.Shapes
 
             context.Sewer.Perform();
             var sewedShape = context.Sewer.SewedShape();
-            if (sewedShape.ShapeType() == TopAbs_ShapeEnum.TopAbs_SHELL)
+            if (sewedShape.ShapeType() == TopAbs_ShapeEnum.SHELL)
             {
                 var makeSolid = new BRepBuilderAPI_MakeSolid(sewedShape.ToShell());
                 if (makeSolid.IsDone())

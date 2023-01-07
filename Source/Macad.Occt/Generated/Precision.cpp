@@ -5,7 +5,6 @@
 
 using namespace System::Runtime::InteropServices; // for class Marshal
 
-#include "Standard.h"
 
 
 //---------------------------------------------------------------------
@@ -13,106 +12,123 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 //---------------------------------------------------------------------
 
 Macad::Occt::Precision::Precision()
-	: BaseClass<::Precision>(BaseClass::InitMode::Uninitialized)
+    : Macad::Occt::BaseClass<::Precision>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::Precision();
+    _NativeInstance = new ::Precision();
 }
 
 Macad::Occt::Precision::Precision(Macad::Occt::Precision^ parameter1)
-	: BaseClass<::Precision>(BaseClass::InitMode::Uninitialized)
+    : Macad::Occt::BaseClass<::Precision>(BaseClass::InitMode::Uninitialized)
 {
-	_NativeInstance = new ::Precision(*(::Precision*)parameter1->NativeInstance);
+    _NativeInstance = new ::Precision(*(::Precision*)parameter1->NativeInstance);
 }
 
 double Macad::Occt::Precision::Angular()
 {
-	return ::Precision::Angular();
+    double _result = ::Precision::Angular();
+    return _result;
 }
 
 double Macad::Occt::Precision::Confusion()
 {
-	return ::Precision::Confusion();
+    double _result = ::Precision::Confusion();
+    return _result;
 }
 
 double Macad::Occt::Precision::SquareConfusion()
 {
-	return ::Precision::SquareConfusion();
+    double _result = ::Precision::SquareConfusion();
+    return _result;
 }
 
 double Macad::Occt::Precision::Intersection()
 {
-	return ::Precision::Intersection();
+    double _result = ::Precision::Intersection();
+    return _result;
 }
 
 double Macad::Occt::Precision::Approximation()
 {
-	return ::Precision::Approximation();
+    double _result = ::Precision::Approximation();
+    return _result;
 }
 
 double Macad::Occt::Precision::Parametric(double P, double T)
 {
-	return ::Precision::Parametric(P, T);
+    double _result = ::Precision::Parametric(P, T);
+    return _result;
 }
 
 double Macad::Occt::Precision::PConfusion(double T)
 {
-	return ::Precision::PConfusion(T);
+    double _result = ::Precision::PConfusion(T);
+    return _result;
 }
 
 double Macad::Occt::Precision::SquarePConfusion()
 {
-	return ::Precision::SquarePConfusion();
+    double _result = ::Precision::SquarePConfusion();
+    return _result;
 }
 
 double Macad::Occt::Precision::PIntersection(double T)
 {
-	return ::Precision::PIntersection(T);
+    double _result = ::Precision::PIntersection(T);
+    return _result;
 }
 
 double Macad::Occt::Precision::PApproximation(double T)
 {
-	return ::Precision::PApproximation(T);
+    double _result = ::Precision::PApproximation(T);
+    return _result;
 }
 
 double Macad::Occt::Precision::Parametric(double P)
 {
-	return ::Precision::Parametric(P);
+    double _result = ::Precision::Parametric(P);
+    return _result;
 }
 
 double Macad::Occt::Precision::PConfusion()
 {
-	return ::Precision::PConfusion();
+    double _result = ::Precision::PConfusion();
+    return _result;
 }
 
 double Macad::Occt::Precision::PIntersection()
 {
-	return ::Precision::PIntersection();
+    double _result = ::Precision::PIntersection();
+    return _result;
 }
 
 double Macad::Occt::Precision::PApproximation()
 {
-	return ::Precision::PApproximation();
+    double _result = ::Precision::PApproximation();
+    return _result;
 }
 
 bool Macad::Occt::Precision::IsInfinite(double R)
 {
-	return ::Precision::IsInfinite(R);
+    bool _result = ::Precision::IsInfinite(R);
+    return _result;
 }
 
 bool Macad::Occt::Precision::IsPositiveInfinite(double R)
 {
-	return ::Precision::IsPositiveInfinite(R);
+    bool _result = ::Precision::IsPositiveInfinite(R);
+    return _result;
 }
 
 bool Macad::Occt::Precision::IsNegativeInfinite(double R)
 {
-	return ::Precision::IsNegativeInfinite(R);
+    bool _result = ::Precision::IsNegativeInfinite(R);
+    return _result;
 }
 
 double Macad::Occt::Precision::Infinite()
 {
-	return ::Precision::Infinite();
+    double _result = ::Precision::Infinite();
+    return _result;
 }
-
 
 

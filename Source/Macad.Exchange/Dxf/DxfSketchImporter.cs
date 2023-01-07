@@ -369,8 +369,8 @@ namespace Macad.Exchange.Dxf
                 default:
                     // Try to reduce the order of the curve
                     var continuity = geom2DBezier.Continuity();
-                    if (continuity != GeomAbs_Shape.GeomAbs_C0)
-                        continuity = GeomAbs_Shape.GeomAbs_C1;
+                    if (continuity != GeomAbs_Shape.C0)
+                        continuity = GeomAbs_Shape.C1;
 
                     var trimmedCurve = new Geom2d_TrimmedCurve(geom2DBezier, firstParameter, lastParameter);
 

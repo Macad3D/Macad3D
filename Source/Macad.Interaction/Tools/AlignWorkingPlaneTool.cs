@@ -100,7 +100,7 @@ namespace Macad.Interaction
                     {
                         var face = TopoDS.Face(selectAction.SelectedSubshape);
                         var brepAdaptor = new BRepAdaptor_Surface(face, true);
-                        if (brepAdaptor.GetGeomType() != GeomAbs_SurfaceType.GeomAbs_Plane)
+                        if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
                         {
                             WorkspaceController.HudManager?.SetHintMessage(this, "Selected face is not a plane type surface.");
                         }
@@ -111,7 +111,7 @@ namespace Macad.Interaction
                             var centerPnt = brepAdaptor.Value(centerU, centerV);
 
                             var dir = brepAdaptor.Plane().Axis.Direction;
-                            if(face.Orientation() == TopAbs_Orientation.TopAbs_REVERSED)
+                            if(face.Orientation() == TopAbs_Orientation.REVERSED)
                                 dir.Reverse();
                             WorkspaceController.Workspace.WorkingPlane = new Pln(centerPnt, dir);
                             finished = true;
@@ -164,15 +164,15 @@ namespace Macad.Interaction
             switch (key)
             {
                 case Key.Z:
-                    WorkspaceController.Workspace.SetDefaultWorkingPlane(AIS_TypeOfPlane.AIS_TOPL_XYPlane);
+                    WorkspaceController.Workspace.SetDefaultWorkingPlane(AIS_TypeOfPlane.TOPL_XYPlane);
                     break;
 
                 case Key.Y:
-                    WorkspaceController.Workspace.SetDefaultWorkingPlane(AIS_TypeOfPlane.AIS_TOPL_XZPlane);
+                    WorkspaceController.Workspace.SetDefaultWorkingPlane(AIS_TypeOfPlane.TOPL_XZPlane);
                     break;
 
                 case Key.X:
-                    WorkspaceController.Workspace.SetDefaultWorkingPlane(AIS_TypeOfPlane.AIS_TOPL_YZPlane);
+                    WorkspaceController.Workspace.SetDefaultWorkingPlane(AIS_TypeOfPlane.TOPL_YZPlane);
                     break;
 
                 default:

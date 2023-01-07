@@ -41,7 +41,7 @@ namespace Macad.Interaction.Editors.Shapes
                 IsSelectable = true
             };
             _OriginMarker.Set(_SketchEditorTool.Sketch.Plane.Location);
-            _OriginMarker.Color = Quantity_NameOfColor.Quantity_NOC_WHITE.ToColor();
+            _OriginMarker.Color = Quantity_NameOfColor.WHITE.ToColor();
 
             return true;
         }

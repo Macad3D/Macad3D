@@ -24,7 +24,7 @@ namespace Macad.Interaction
 
         SelectMgr_Filter ISelectionFilter.GetNativeFilter()
         {
-            return new StdSelect_ShapeTypeFilter(TopAbs_ShapeEnum.TopAbs_VERTEX);
+            return new StdSelect_ShapeTypeFilter(TopAbs_ShapeEnum.VERTEX);
         }
 
         //--------------------------------------------------------------------------------------------------

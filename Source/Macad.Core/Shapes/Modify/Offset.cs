@@ -177,7 +177,7 @@ public class Offset : ModifierBase
                         .Where(wire =>
                         {
                             var checkWire = new BRepCheck_Wire(wire);
-                            return checkWire.Closed() == BRepCheck_Status.BRepCheck_NoError;
+                            return checkWire.Closed() == BRepCheck_Status.NoError;
                         })
                         .ToList();
         if (wires.Count == 0)
@@ -241,10 +241,10 @@ public class Offset : ModifierBase
         {
             // Get tolerance
             var anaTolerance = new ShapeAnalysis_ShapeTolerance();
-            var tolerance = anaTolerance.Tolerance(brep, 1, TopAbs_ShapeEnum.TopAbs_SHAPE); // Get max of all
+            var tolerance = anaTolerance.Tolerance(brep, 1, TopAbs_ShapeEnum.SHAPE); // Get max of all
 
             BRepOffsetAPI_MakeOffsetShape offsetAlgo = new();
-            offsetAlgo.PerformByJoin(solid, _Distance, tolerance, BRepOffset_Mode.BRepOffset_Skin, true, false, _GetJoinType());
+            offsetAlgo.PerformByJoin(solid, _Distance, tolerance, BRepOffset_Mode.Skin, true, false, _GetJoinType());
             if (!offsetAlgo.IsDone())
             {
                 Messages.Error("The modifier failed to offset the input shape. Please check input shape and parameter.");
@@ -292,11 +292,11 @@ public class Offset : ModifierBase
         switch (Corner)
         {
             case CornerType.Round:
-                return GeomAbs_JoinType.GeomAbs_Arc;
+                return GeomAbs_JoinType.Arc;
             case CornerType.Angular:
-                return GeomAbs_JoinType.GeomAbs_Intersection;
+                return GeomAbs_JoinType.Intersection;
             default:
-                return GeomAbs_JoinType.GeomAbs_Arc;
+                return GeomAbs_JoinType.Arc;
         }
     }
 

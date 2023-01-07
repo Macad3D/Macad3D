@@ -428,11 +428,11 @@ namespace Macad.Core.Shapes
                 if (curve1 == null || curve2 == null)
                     return null;
 
-                var concatCurves = new Geom2dConvert_CompCurveToBSplineCurve(curve1, Convert_ParameterisationType.Convert_TgtThetaOver2);
+                var concatCurves = new Geom2dConvert_CompCurveToBSplineCurve(curve1, Convert_ParameterisationType.TgtThetaOver2);
                 if (!concatCurves.Add(curve2, 0.001))
                     return null;
 
-                var approx = new Geom2dConvert_ApproxCurve(concatCurves.BSplineCurve(), 0.001, GeomAbs_Shape.GeomAbs_C1, 1, 3);
+                var approx = new Geom2dConvert_ApproxCurve(concatCurves.BSplineCurve(), 0.001, GeomAbs_Shape.C1, 1, 3);
                 if (!approx.HasResult())
                     return null;
                 var bspline = approx.Curve();
@@ -616,7 +616,7 @@ namespace Macad.Core.Shapes
                 if (origCurve == null)
                     return -1;
 
-                var approx = new Geom2dConvert_ApproxCurve(origCurve, 0.001, GeomAbs_Shape.GeomAbs_C1, 1, 3);
+                var approx = new Geom2dConvert_ApproxCurve(origCurve, 0.001, GeomAbs_Shape.C1, 1, 3);
                 if (!approx.HasResult())
                     return -1;
                 var bspline = approx.Curve();

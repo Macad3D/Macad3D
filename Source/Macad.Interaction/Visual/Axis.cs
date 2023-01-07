@@ -158,7 +158,7 @@ public sealed class Axis : VisualObject
 
         if (_Style.Has(Style.NoResize))
         {
-            Graphic3d_TransformPers transformPers = new(Graphic3d_TransModeFlags.Graphic3d_TMF_ZoomPers, _Axis.Location);
+            Graphic3d_TransformPers transformPers = new(Graphic3d_TransModeFlags.ZoomPers, _Axis.Location);
             _AisObject.SetTransformPersistence(transformPers);
 
             _AisObject.SetLocalTransformation(new Trsf(new Ax3(Pnt.Origin, _Axis.Direction), Ax3.XOY));

@@ -41,19 +41,19 @@ namespace Macad.Interaction
             switch (type)
             {
                 case FaceType.Any:
-                    return StdSelect_TypeOfFace.StdSelect_AnyFace;
+                    return StdSelect_TypeOfFace.AnyFace;
                 case FaceType.Plane:
-                    return StdSelect_TypeOfFace.StdSelect_Plane;
+                    return StdSelect_TypeOfFace.Plane;
                 case FaceType.Cylinder:
-                    return StdSelect_TypeOfFace.StdSelect_Cylinder;
+                    return StdSelect_TypeOfFace.Cylinder;
                 case FaceType.Sphere:
-                    return StdSelect_TypeOfFace.StdSelect_Sphere;
+                    return StdSelect_TypeOfFace.Sphere;
                 case FaceType.Torus:
-                    return StdSelect_TypeOfFace.StdSelect_Torus;
+                    return StdSelect_TypeOfFace.Torus;
                 case FaceType.Revolution:
-                    return StdSelect_TypeOfFace.StdSelect_Revol;
+                    return StdSelect_TypeOfFace.Revol;
                 case FaceType.Cone:
-                    return StdSelect_TypeOfFace.StdSelect_Cone;
+                    return StdSelect_TypeOfFace.Cone;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
