@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
+using System.Linq;
 using Macad.Common;
 using Macad.Core.Topology;
 using Macad.Occt;

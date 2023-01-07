@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.IO;
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Geom;
@@ -72,5 +73,49 @@ namespace Macad.Test.Unit.Wrapper
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void IndexEnumerator()
+        {
+            TColStd_Array1OfInteger arrayOfInt = new TColStd_Array1OfInteger(1,3);
+            arrayOfInt.SetValue(1, 11);
+            arrayOfInt.SetValue(2, 12);
+            arrayOfInt.SetValue(3, 13);
+
+            var list = arrayOfInt.ToList();
+            Assert.AreEqual(3, list.Count);
+            Assert.AreEqual(11, list[0]);
+            Assert.AreEqual(12, list[1]);
+            Assert.AreEqual(13, list[2]);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void IteratorEnumerator()
+        {
+            TColStd_ListOfInteger listOfInt = new TColStd_ListOfInteger();
+            listOfInt.Append(11);
+            listOfInt.Append(12);
+            listOfInt.Append(13);
+
+            var list = listOfInt.ToList();
+            Assert.AreEqual(3, list.Count);
+            Assert.AreEqual(11, list[0]);
+            Assert.AreEqual(12, list[1]);
+            Assert.AreEqual(13, list[2]);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void DumpJsonToString()
+        {
+            var shape = TestGeomGenerator.CreateBox().GetBRep();
+            using StringWriter sw = new();
+            shape.DumpJson(sw);
+            var s = sw.ToString();
+            Assert.That(s.Length > 0);
+            Assert.That(s.Contains("className\": \"TopoDS_Shape"));
+        }
     }
 }

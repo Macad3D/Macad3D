@@ -641,7 +641,7 @@ namespace Macad.Core.Shapes
             ShapeFix_Wire wireFixer = new(wire, new TopoDS_Face(), 0.0001);
             if (BRep_Tool.IsClosed(sourceWire))
             {
-                wireFixer.SetClosedWireMode(true);
+                wireFixer.ClosedWireMode = true;
             }
 
             wireFixer.Perform();

@@ -8,12 +8,4 @@
     <RootNamespace>Macad.Occt.Generator</RootNamespace>
     <DisableWinExeOutputInference>true</DisableWinExeOutputInference>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Properties\launchSettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
 </Project>

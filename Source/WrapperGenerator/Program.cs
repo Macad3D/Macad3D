@@ -1,54 +1,72 @@
-﻿using System.Diagnostics;
-using System.Windows;
+﻿using System.IO;
 
 namespace Macad.Occt.Generator
 {
     class Program
     {
+        static bool _TryGetPathFromArg(string arg, string key, ref string target)
+        {
+            if (!arg.StartsWith(key))
+                return false;
+            target = arg.Substring(arg.IndexOf('=') + 1).Trim('"');
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         static int Main(string[] args)
         {
-#if DEBUG
-            MessageBox.Show($"If you want to debug me, you can now attach the debugger to process {Process.GetCurrentProcess().ProcessName} (PID {Process.GetCurrentProcess().Id})", "Wrapper Generator", MessageBoxButton.OK, MessageBoxImage.Information);
+#if _DEBUG
+            MessageBox.Show(
+                $"If you want to debug me, you can now attach the debugger to process {Process.GetCurrentProcess().ProcessName} (PID {Process.GetCurrentProcess().Id})",
+                "Wrapper Generator", MessageBoxButton.OK, MessageBoxImage.Information);
 #endif
+            Context context = new();
+
             foreach (var arg in args)
             {
                 var argl = arg.ToLower();
-                if (argl.StartsWith("occt"))
-                    Configuration.OcctIncludePath = arg.Substring(arg.IndexOf('=') + 1).Trim('"');
-                else if (argl.StartsWith("out"))
-                    Configuration.Output = arg.Substring(arg.IndexOf('=') + 1).Trim('"');
-                else if (argl.StartsWith("castxml"))
-                    Configuration.CastXmlPath = arg.Substring(arg.IndexOf('=') + 1).Trim('"');
-                else if (argl.StartsWith("cache"))
-                    Configuration.CachePath = arg.Substring(arg.IndexOf('=') + 1).Trim('"');
-                else if (argl.StartsWith("msvc"))
-                    Configuration.VisualCppPath = arg.Substring(arg.IndexOf('=') + 1).Trim('"');
-                else if (argl.StartsWith("ucrt"))
-                    Configuration.UcrtPath = arg.Substring(arg.IndexOf('=') + 1).Trim('"');
-                else if (argl.StartsWith("winsdk"))
-                    Configuration.WinSDKPath = arg.Substring(arg.IndexOf('=') + 1).Trim('"');
+                if(_TryGetPathFromArg(argl, "occt", ref context.Settings.OcctIncludePath))
+                    continue;
+                if (_TryGetPathFromArg(argl, "out", ref context.Settings.OutputPath))
+                    continue;
+                if (_TryGetPathFromArg(argl, "castxml", ref context.Settings.CastXmlPath))
+                    continue;
+                if (_TryGetPathFromArg(argl, "cache", ref context.Settings.CachePath))
+                    continue;
+                if (_TryGetPathFromArg(argl, "msvc", ref context.Settings.VisualCppPath))
+                    continue;
+                if (_TryGetPathFromArg(argl, "ucrt", ref context.Settings.UcrtPath))
+                    continue;
+                if (_TryGetPathFromArg(argl, "winsdk", ref context.Settings.WinSDKPath))
+                    continue;
             }
 
-            if (string.IsNullOrEmpty(Configuration.OcctIncludePath)
-                || string.IsNullOrEmpty(Configuration.Output)
-                || string.IsNullOrEmpty(Configuration.CastXmlPath)
-                || string.IsNullOrEmpty(Configuration.CachePath)
-                || string.IsNullOrEmpty(Configuration.VisualCppPath)
-                || string.IsNullOrEmpty(Configuration.UcrtPath)
-                || string.IsNullOrEmpty(Configuration.WinSDKPath))
+            Logger.SetOutputFilepath(Path.Combine(context.Settings.CachePath, "WrapperGeneratorLog.txt"));
+
+            if (context.Settings.AreSettingsMissing())
             {
                 Logger.WriteLine(false, "Missing parameter.");
                 Logger.WriteLine(false, "You need to specify the following paths:");
-                Logger.WriteLine(false, "\tocct,out,castxml,msvc,ucrt,winsdk");
+                Logger.WriteLine(false, "\tocct, out, castxml, msvc, ucrt, winsdk, cache");
+                Logger.Flush();
+                return -1; 
             }
 
-            var success = false;
-            var browser = new ClassBrowser();
-            var generator = new CodeGen();
-            success = browser.Execute() && generator.Generate();
+            foreach (var pass in Configuration.Passes)
+            {
+                Logger.WriteLine(false, $"=== {pass.GetType().Name} ===");
+                
+                pass.Context = context;
+                if (!pass.Process())
+                {
+                    Logger.Flush();
+                    return -1;
+                }
+            }
 
             Logger.Flush();
-            return success ? 0 : -1;
+            return 0;
         }
     }
 }
