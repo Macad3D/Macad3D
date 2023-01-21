@@ -613,5 +613,59 @@ namespace Macad.Test.Unit.Serialization
 
     //--------------------------------------------------------------------------------------------------
 
+    [SerializeType]
+    public struct InterfaceStruct1 : ISerializableInterface
+    {
+        [SerializeMember]
+        public double Value1 { get; set; }
+
+        public double GetValue()
+        {
+            return Value1;
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [SerializeType]
+    public struct InterfaceStruct2 : ISerializableInterface
+    {
+        [SerializeMember]
+        public double Value2 { get; set; }
+
+        public double GetValue()
+        {
+            return Value2;
+        }
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    [SerializeType]
+    public struct InterfaceStruct3
+    {
+        [SerializeMember]
+        public ISerializableInterface C1 { get; set; }
+
+        [SerializeMember]
+        public ISerializableInterface C2 { get; set; }
+
+        public InterfaceStruct3()
+        { }
+
+        public InterfaceStruct3(double factor)
+        {
+            C1 = new InterfaceStruct1() {Value1 = factor};
+            C2 = new InterfaceStruct2() {Value2 = factor * 2.0f};
+        }
+
+        public bool? IsSame(InterfaceStruct3 result)
+        {
+            return (C1.GetValue() == result.C1.GetValue()) && (C2.GetValue() == result.C2.GetValue());
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 
 }

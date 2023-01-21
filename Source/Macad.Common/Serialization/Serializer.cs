@@ -36,29 +36,37 @@ namespace Macad.Common.Serialization
         internal static ISerializer GetSerializer(string alias)
         {
             ISerializer serializer = null;
-            if (!_SerializersByAlias.TryGetValue(alias, out serializer))
+            if (_SerializersByAlias.TryGetValue(alias, out serializer))
             {
-                // Decompose alias
-                var typeFullName = ResolveNamespaceAlias(alias);
-                Type type = null;
-                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-                {
-                    type = assembly.GetType(typeFullName);
-                    if (type != null)
-                        break;
-                }
+                return serializer;
+            }
 
-                if (type == null)
-                {
-                    Console.WriteLine("Type not found for type " + typeFullName);
-                    return null;
-                }
-                serializer = _CreateSerializer(type);
-                if (serializer == null)
-                {
-                    Console.WriteLine("Serializer not found for type " + typeFullName);
-                    return null;
-                }
+            // Decompose alias
+            var typeFullName = ResolveNamespaceAlias(alias);
+            Type type = null;
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                type = assembly.GetType(typeFullName);
+                if (type != null)
+                    break;
+            }
+
+            if (type == null)
+            {
+                Console.WriteLine("Type not found for type " + typeFullName);
+                return null;
+            }
+
+            if (_SerializersByType.TryGetValue(type, out serializer))
+            {
+                return serializer;
+            }
+
+            serializer = _CreateSerializer(type);
+            if (serializer == null)
+            {
+                Console.WriteLine("Serializer not found for type " + typeFullName);
+                return null;
             }
             return serializer;
         }
@@ -124,9 +132,10 @@ namespace Macad.Common.Serialization
         public static void AddSerializer(Type type, ISerializer serializer)
         {
             _SerializersByType.Add(type, serializer);
-            if (type.IsClass && !type.IsValueType)
+            var alias = ApplyNamespaceAlias(type.FullName);
+            if (alias != type.FullName)
             {
-                _SerializersByAlias.Add(ApplyNamespaceAlias(type.FullName), serializer);
+                _SerializersByAlias.Add(alias, serializer);
             }
         }
         
