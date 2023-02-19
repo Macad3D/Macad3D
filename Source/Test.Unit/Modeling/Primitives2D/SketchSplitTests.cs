@@ -101,6 +101,26 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
             Assert.AreEqual(SketchUtils.SplitSegmentFailed, SketchUtils.SplitSegment(sketch, sketch.Segments[s1], Maths.DoublePI));
             Assert.AreEqual(SketchUtils.SplitSegmentFailed, SketchUtils.SplitSegment(sketch, sketch.Segments[s1], -Maths.DoublePI));
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void SplitCircleRimOffset()
+        {
+            var sketch = Sketch.Create();
+            int p1 = sketch.AddPoint(new Pnt2d(0, 0));
+            int p2 = sketch.AddPoint(new Pnt2d(0, 10));
+            int s1 = sketch.AddSegment(new SketchSegmentCircle(p1, p2));
+
+            (int p3, int[] segs) = SketchUtils.SplitSegment(sketch, sketch.Segments[s1], Maths.PI*0.75 );
+            Assert.AreNotEqual(SketchUtils.SplitSegmentFailed, (p3, segs));
+
+            Assert.AreEqual(4, sketch.Points.Count);
+            Assert.AreEqual(2, sketch.Segments.Count);
+            Assert.IsTrue(sketch.Make(Shape.MakeFlags.None));
+            ModelCompare.CompareShape2D(sketch, Path.Combine(_BasePath, "SplitCircleRimOffset"));
+
+        }
 
         //--------------------------------------------------------------------------------------------------
 

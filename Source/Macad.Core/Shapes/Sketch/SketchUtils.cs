@@ -163,11 +163,17 @@ namespace Macad.Core.Shapes
 
             int splitPointIndex = sketch.AddPoint(curve.Value(u));
 
-            int rim1Index = sketch.AddPoint(curve.Value(u * 0.5));
+            var pointOnCurve = new Geom2dAPI_ProjectPointOnCurve(sketch.Points[circle.RimPoint], curve);
+            if (pointOnCurve.NbPoints() < 1)
+                return SplitSegmentFailed;
+            double oldRimParameter = pointOnCurve.LowerDistanceParameter();
+            double rimOffset = (u - oldRimParameter) * 0.5;
+
+            int rim1Index = sketch.AddPoint(curve.Value(oldRimParameter + rimOffset));
             var newArc1 = new SketchSegmentArc(circle.RimPoint, splitPointIndex, rim1Index);
             int seg1Index = sketch.AddSegment(newArc1);
 
-            int rim2Index = sketch.AddPoint(curve.Value(u + (Maths.DoublePI - u) * 0.5));
+            int rim2Index = sketch.AddPoint(curve.Value(oldRimParameter + Maths.PI + rimOffset));
             var newArc2 = new SketchSegmentArc(splitPointIndex, circle.RimPoint, rim2Index);
             int seg2Index = sketch.AddSegment(newArc2);
 
