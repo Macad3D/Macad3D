@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Macad.Presentation;
 
 namespace Macad.Interaction.Panels
@@ -66,6 +67,22 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (ActualHeight != 0 && ActualHeight != 0)
+            {
+                var relPosition = e.GetPosition(this);
+                if (relPosition.X < -50
+                    || relPosition.Y < -50
+                    || relPosition.X > ActualWidth + 50
+                    || relPosition.Y > ActualHeight + 50)
+                {
+                    IsOpen = false;
+                }
+            }
+
+            base.OnMouseMove(e);
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
