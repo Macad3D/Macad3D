@@ -61,8 +61,36 @@ namespace Macad.Test.UI.Application.Edit
         }
 
         //--------------------------------------------------------------------------------------------------
+
         [Test]
         public void LeftClickClosesContextMenu()
+        {
+            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.ClickButton("CreateSphere");
+            Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+            MainWindow.Viewport.ClickRelative(0.5, 0.5);
+
+            MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
+            Assert.IsTrue(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+            MainWindow.Viewport.ClickRelative(0.35, 0.35, MouseButton.Left);
+            Thread.Sleep(1000); // Allow fadeout
+            Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+            Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+
+            // Select button prior to LMB
+            MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
+            var menu = new ContextMenuAdaptor(MainWindow, "ViewportContextMenu");
+            menu.ClickButton("SnappingEnabled");
+            MainWindow.Viewport.ClickRelative(0.35, 0.35, MouseButton.Left);
+            Thread.Sleep(1000); // Allow fadeout
+            Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+            Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void MoveAwayClosesContextMenu()
         {
             MainWindow.Ribbon.SelectTab("Model");
             MainWindow.Ribbon.ClickButton("CreateSphere");
@@ -74,16 +102,7 @@ namespace Macad.Test.UI.Application.Edit
             MainWindow.Viewport.ClickRelative(0.3, 0.3, MouseButton.Left);
             Thread.Sleep(1000); // Allow fadeout
             Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
-            Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
-
-            // Select button prior to LMB
-            MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
-            var menu = new ContextMenuAdaptor(MainWindow, "ViewportContextMenu");
-            menu.ClickButton("SnappingEnabled");
-            MainWindow.Viewport.ClickRelative(0.3, 0.3, MouseButton.Left);
-            Thread.Sleep(1000); // Allow fadeout
-            Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
-            Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+            Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
         }
 
         //--------------------------------------------------------------------------------------------------
