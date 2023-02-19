@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Windows;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
+using Macad.Presentation;
 
 namespace Macad.Interaction.Panels
 {
@@ -11,10 +14,10 @@ namespace Macad.Interaction.Panels
     {
         #region Properties
 
-        public WorkspaceController WorkspaceController
+        WorkspaceController WorkspaceController
         {
             get { return _WorkspaceController; }
-            private set
+            set
             {
                 if (_WorkspaceController != value)
                 {
@@ -45,8 +48,7 @@ namespace Macad.Interaction.Panels
                 RaisePropertyChanged();
             }
         }
-
-
+        
         //--------------------------------------------------------------------------------------------------
 
         public Shape SelectedShape
@@ -61,22 +63,12 @@ namespace Macad.Interaction.Panels
 
         //--------------------------------------------------------------------------------------------------
 
-        public ObservableCollection<BRepTopologyTreeNode> RootNodes { get; } = new ObservableCollection<BRepTopologyTreeNode>();
+        public ObservableCollection<BRepTopologyTreeNode> RootNodes { get; } = new();
 
         //--------------------------------------------------------------------------------------------------
 
         #endregion
-
-        #region Commands
-
-        void CreateCommands()
-        {
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
-
+        
         #region n'tors / Members
 
         AIS_Shape _AisShape;
@@ -88,10 +80,32 @@ namespace Macad.Interaction.Panels
 
         public ShapeInspectorPanelModel()
         {
-            CreateCommands();
             InteractiveContext.Current.PropertyChanged += Context_PropertyChanged;
             WorkspaceController = InteractiveContext.Current.WorkspaceController;
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+        
+        #region Commands
+
+        public static RelayCommand<TopoDS_Shape> DumpJsonCommand { get; } = new (
+            (brepShape) =>
+            {
+                if (brepShape == null)
+                    return;
+                
+                using (new ProcessingScope(null, "Creating JSON dump."))
+                {
+                    StringWriter writer = new();
+                    brepShape.DumpJson(writer);
+                    writer.Write('\0');
+                    Core.Clipboard.Current.SetData(DataFormats.UnicodeText, writer.ToString());
+                }
+            },
+            () => true
+        );
 
         //--------------------------------------------------------------------------------------------------
 

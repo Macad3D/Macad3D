@@ -30,6 +30,7 @@
             <RowDefinition Height="2*" />
             <RowDefinition Height="5" />
             <RowDefinition Height="1*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0"
@@ -98,7 +99,6 @@
         <GridSplitter Grid.Row="2" 
                       Height="5" 
                       HorizontalAlignment="Stretch" 
-                      
                       Background="{StaticResource Macad.Brushes.Panel.Background}"/>
 
         <mmp:PanningScrollViewer Grid.Row="3"
@@ -139,6 +139,17 @@
                 </ItemsControl.GroupStyle>
             </ItemsControl>
         </mmp:PanningScrollViewer>
+
+        <TextBlock Grid.Row="4" 
+                   Background="{StaticResource Macad.Brushes.Panel.Background}"
+                   TextAlignment="Center"
+                   Padding="5"
+                   Visibility="{Binding SelectedNode, Converter={mmp:NotNullToVisibleCollapsedConverter}}">
+            <Hyperlink Command="{Binding DumpJsonCommand}"
+                       CommandParameter="{Binding SelectedNode.BrepShape}">
+                Dump Json to Clipboard
+            </Hyperlink>
+        </TextBlock>
     </Grid>
 </UserControl>
 
