@@ -45,7 +45,37 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
             Assert.AreEqual(3, sketch.Points.Count);
             Assert.AreEqual(3, sketch.Segments.Count);
         }
-                
+                                
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void WeldPointsRemoveCircleSegment()
+        {
+            var sketch = Sketch.Create();
+            var sb = new SketchBuilder(sketch);
+            sb.Circle(0.0, 0.0, 0.0, 1.0); // 0, 1
+
+            Assert.IsTrue(SketchUtils.WeldPoints(sketch, new[] { 1, 0 }));
+
+            Assert.AreEqual(0, sketch.Points.Count);
+            Assert.AreEqual(0, sketch.Segments.Count);
+        }                     
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void WeldPointsRemoveEllipseSegment()
+        {
+            var sketch = Sketch.Create();
+            var sb = new SketchBuilder(sketch);
+            sb.Ellipse(0.0, 0.0, 1.0, 1.0, 0.0); // 0, 1, 2
+
+            Assert.IsTrue(SketchUtils.WeldPoints(sketch, new[] { 2, 1, 0 }));
+
+            Assert.AreEqual(0, sketch.Points.Count);
+            Assert.AreEqual(0, sketch.Segments.Count);
+        }
+        
         //--------------------------------------------------------------------------------------------------
 
         [Test]
@@ -228,9 +258,9 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        [TestCase(0, TestName = "WeldOverlapSegments_Forward")]
-        [TestCase(1, TestName = "WeldOverlapSegments_Reverse")]
-        public void WeldOverlapSegments(int segOrder)
+        [TestCase(0, TestName = "WeldOverlapSegments_LineLine_Forward")]
+        [TestCase(1, TestName = "WeldOverlapSegments_LineLine_Reverse")]
+        public void WeldOverlapSegments_LineLine(int segOrder)
         {
             var sketch = Sketch.Create();
             var sb = new SketchBuilder(sketch);
@@ -250,6 +280,41 @@ namespace Macad.Test.Unit.Modeling.Primitives2D
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        [TestCase(0, TestName = "WeldOverlapSegments_LineCircle_Forward")]
+        [TestCase(1, TestName = "WeldOverlapSegments_LineCircle_Reverse")]
+        public void WeldOverlapSegments_LineCircle(int segOrder)
+        {
+            var sketch = Sketch.Create();
+            var sb = new SketchBuilder(sketch);
+            sb.Line(-10.0, 0.0, 0.0, 10.0); 
+            sb.Circle(0.0, 0.0, 7.5, 0.0);
 
+            Assert.IsTrue(SketchUtils.WeldSegments(sketch, new[] { sketch.Segments[0 + segOrder], sketch.Segments[1 - segOrder] }));
+
+            Assert.AreEqual(8, sketch.Points.Count);
+            Assert.AreEqual(6, sketch.Segments.Count);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+                
+        [Test]
+        [TestCase(0, TestName = "WeldOverlapSegments_CircleCircle_Forward")]
+        [TestCase(1, TestName = "WeldOverlapSegments_CircleCircle_Reverse")]
+        public void WeldOverlapSegments_CircleCircle(int segOrder)
+        {
+            var sketch = Sketch.Create();
+            var sb = new SketchBuilder(sketch);
+            sb.Circle(5.0, 5.0, 5.0, 15.0);
+            sb.Circle(0.0, 0.0, 0.0, 10.0); 
+
+            Assert.IsTrue(SketchUtils.WeldSegments(sketch, new[] { sketch.Segments[0 + segOrder], sketch.Segments[1 - segOrder] }));
+
+            Assert.AreEqual(10, sketch.Points.Count);
+            Assert.AreEqual(6, sketch.Segments.Count);
+        }
+
+        //--------------------------------------------------------------------------------------------------
     }
 }

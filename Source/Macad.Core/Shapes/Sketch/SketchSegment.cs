@@ -21,6 +21,13 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
+        public bool IsPeriodic
+        {
+            get { return StartPoint == -1 && EndPoint == -1; }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public abstract int StartPoint { get; }
         public abstract int EndPoint { get; }
 

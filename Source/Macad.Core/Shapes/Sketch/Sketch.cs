@@ -166,8 +166,17 @@ namespace Macad.Core.Shapes
                         segment.Points[i] = with;
                 }
 
-                if (segment.StartPoint == segment.EndPoint)
+                if (segment.IsPeriodic)
                 {
+                    // Remove if min 2 points are identical
+                    if (segment.Points.Count(p => p == with) > 1)
+                    {
+                        (segmentsToRemove ??= new()).Add(segment);
+                    }
+                }
+                else if (segment.StartPoint == segment.EndPoint)
+                {
+                    // Remove if start and end point are identical
                     (segmentsToRemove ??= new()).Add(segment);
                 }
             }

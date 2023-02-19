@@ -524,7 +524,7 @@ namespace Macad.Core.Shapes
                 {
                     return bezier.Degree == 2;
                 }
-                return segment.StartPoint != -1 && segment.EndPoint != -1;
+                return !segment.IsPeriodic;
             }
 
             if (targetType == segment.GetType())
@@ -532,7 +532,7 @@ namespace Macad.Core.Shapes
 
             if (targetType == typeof(SketchSegmentLine))
             {
-                return segment.StartPoint != -1 && segment.EndPoint != -1;
+                return !segment.IsPeriodic;
             }
             if (targetType == typeof(SketchSegmentArc))
             {
@@ -580,7 +580,7 @@ namespace Macad.Core.Shapes
         {
             int startPoint = segment.StartPoint;
             int endPoint = segment.EndPoint;
-            if (startPoint == -1 || endPoint == -1)
+            if (segment.IsPeriodic)
                 return -1;
 
             var newSegment = new SketchSegmentLine(startPoint, endPoint);
@@ -597,7 +597,7 @@ namespace Macad.Core.Shapes
 
             int startPoint = segment.StartPoint;
             int endPoint = segment.EndPoint;
-            if (startPoint == -1 || endPoint == -1)
+            if (segment.IsPeriodic)
                 return -1;
 
             if(segment is SketchSegmentLine)
@@ -713,9 +713,20 @@ namespace Macad.Core.Shapes
             if (count < 2)
                 return false;
 
-            int targetIndex = sketch.AddPoint(targetXY.Divided(count).ToPnt());
+            Pnt2d targetPoint = targetXY.Divided(count).ToPnt();
+            int targetIndex = sketch.AddPoint(targetPoint);
             foreach (var pointIndex in pointIndicesList)
             {
+                if (!sketch.Points.ContainsKey(pointIndex))
+                {
+                    // Point deleted in prior operation, just skip
+                    continue; 
+                }
+                if (!sketch.Points.ContainsKey(targetIndex))
+                {
+                    // Target point deleted by segment deletion, rebuild
+                    targetIndex = sketch.AddPoint(targetPoint);
+                }
                 sketch.MergePoints(pointIndex, targetIndex);
             }
 
@@ -814,6 +825,9 @@ namespace Macad.Core.Shapes
 
         static bool _TryWeldTangentSegments(Sketch sketch, SketchSegment segment, Geom2d_Curve curve, SketchSegment toolSeg)
         {
+            if (toolSeg.IsPeriodic)
+                return false;
+
             // Try to find if a point lies on a segment
             bool foundUs = _FindParameter(curve, sketch.Points[toolSeg.StartPoint], out var us);
             bool foundUe = _FindParameter(curve, sketch.Points[toolSeg.EndPoint], out var ue);
