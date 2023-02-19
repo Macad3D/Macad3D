@@ -556,8 +556,6 @@ namespace Macad.Interaction
 
         public void SelectByRectangle(int[] corners, bool includeTouched, ViewportController viewportController)
         {
-            _MouseEventData.Clear();
-
             if (Occt.Helper.Ais.PickFromContext(Workspace.AisContext, corners[0], corners[1], corners[2], corners[3], includeTouched,
                                                 viewportController.Viewport.V3dView, 
                                                 _MouseEventData.DetectedAisInteractives, _MouseEventData.DetectedShapes) > 0)
