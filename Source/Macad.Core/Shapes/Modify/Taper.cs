@@ -1,12 +1,10 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using Macad.Core.Geom;
 using Macad.Core.Topology;
 using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Occt;
-using static Macad.Core.Shapes.Imprint;
 
 namespace Macad.Core.Shapes
 {
@@ -191,9 +189,7 @@ namespace Macad.Core.Shapes
             if (!_DoComputeArguments(context))
                 return false;
 
-            _DoOffset(context); // Offset can fail
-
-            ReferenceAxis = context.NeutralPlane.Position.ToAx2();
+            _DoOffset(context); // Offset is allowed to fail
 
             if (!_DoDraft(context))
                 return false;
@@ -298,10 +294,14 @@ namespace Macad.Core.Shapes
         bool _DoOffset(MakeContext context)
         {
             if (_Offset <= 0)
-                return false; 
+            {
+                ReferenceAxis = context.NeutralPlane.Position.ToAx2();
+                return false;
+            }
 
             // Move neutral plane
-            var newPlane = context.NeutralPlane.Translated(context.Direction.ToVec().Multiplied(_Offset));
+            Pln newPlane = context.NeutralPlane.Translated(context.Direction.ToVec().Multiplied(_Offset));
+            ReferenceAxis = newPlane.Position.ToAx2();
 
             // Create section edge
             var faceOfPlane = new BRepBuilderAPI_MakeFace(new Geom_Plane(newPlane), Precision.Confusion()).Shape();
@@ -518,7 +518,9 @@ namespace Macad.Core.Shapes
         {
             if (ReferenceAxis == null)
             {
-                if (!EnsureHistory() || ReferenceAxis == null)
+                // The ref axis may be valid even if the make has failed
+                EnsureHistory();
+                if (ReferenceAxis == null)
                 {
                     axis = Ax2.XOY;
                     return false;

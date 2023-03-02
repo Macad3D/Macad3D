@@ -85,9 +85,9 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ScaleAction_Previewed(LiveAction liveAction)
+        void _ScaleAction_Previewed(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
         {
-            if (liveAction != _ScaleAction)
+            if (sender != _ScaleAction)
                 return;
 
             WorkspaceController.HudManager?.SetHintMessage(this, "Scale cylinder using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to scale relative to center.");
@@ -95,16 +95,16 @@ namespace Macad.Interaction.Editors.Shapes
             double newHeight = 0;
             double newRadius = 0;
             
-            bool center = liveAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Shift);
+            bool center = sender.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Shift);
 
-            double radiusDelta = _ScaleAction.Delta * 0.5 * Math.Max(_ScaleAction.Direction.X.Abs(), _ScaleAction.Direction.Y.Abs());
+            double radiusDelta = args.Delta * 0.5 * Math.Max(args.Direction.X.Abs(), args.Direction.Y.Abs());
             if (radiusDelta != 0)
             {
                 if (center)
                     radiusDelta *= 2.0;
 
                 newRadius = Entity.Radius + radiusDelta;
-                if (liveAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+                if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
                 {
                     newRadius = Maths.RoundToNearest(newRadius, WorkspaceController.Workspace.GridStep);
                 }
@@ -117,17 +117,17 @@ namespace Macad.Interaction.Editors.Shapes
                     return;
             }
 
-            double heightDelta = _ScaleAction.Delta * _ScaleAction.Direction.Z;
+            double heightDelta = args.Delta * args.Direction.Z;
             if (heightDelta != 0)
             {
-                if (_ScaleAction.Direction.Z < 0)
+                if (args.Direction.Z < 0)
                     heightDelta *= -1;
 
                 if (center)
                     heightDelta *= 2.0;
 
                 newHeight = Entity.Height + heightDelta;
-                if (liveAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+                if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
                 {
                     newHeight = Maths.RoundToNearest(newHeight, WorkspaceController.Workspace.GridStep);
                 }
@@ -147,7 +147,7 @@ namespace Macad.Interaction.Editors.Shapes
                     Entity.Body.Position = Entity.Body.Position.Translated(Dir.DZ.ToVec(heightDelta * -0.5)
                                                                                  .Transformed(new Trsf(Entity.Body.Rotation)));
                 } 
-                else if (_ScaleAction.Direction.Z < 0)
+                else if (args.Direction.Z < 0)
                 {
                     Entity.Body.Position = Entity.Body.Position.Translated(Dir.DZ.ToVec(-heightDelta)
                                                                               .Transformed(new Trsf(Entity.Body.Rotation)));
@@ -162,7 +162,7 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 Entity.Radius = newRadius;
 
-                Vec offset = new Vec(Math.Sign(_ScaleAction.Direction.X), Math.Sign(_ScaleAction.Direction.Y), 0);
+                Vec offset = new Vec(Math.Sign(args.Direction.X), Math.Sign(args.Direction.Y), 0);
                 if (offset != Vec.Zero && !center)
                 {
                     Entity.Body.Position = Entity.Body.Position.Translated(offset.Scaled(radiusDelta)
@@ -175,12 +175,12 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ScaleAction_Finished(LiveAction liveAction)
+        void _ScaleAction_Finished(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
         {
-            if (liveAction != _ScaleAction)
+            if (sender != _ScaleAction)
                 return;
 
-            if (!_ScaleAction.DeltaSum.IsEqual(0.0, double.Epsilon))
+            if (!args.DeltaSum.IsEqual(0.0, double.Epsilon))
             {
                 InteractiveContext.Current.UndoHandler.Commit();
             }

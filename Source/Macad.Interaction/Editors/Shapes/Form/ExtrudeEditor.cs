@@ -38,12 +38,7 @@ public class ExtrudeEditor : Editor<Extrude>
 
         InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
 
-        _TranslateAction?.Stop();
-        _TranslateAction = null;
-        WorkspaceController.Invalidate();
-        WorkspaceController.HudManager?.SetHintMessage(this, null);
-        WorkspaceController.HudManager?.RemoveElement(_HudElement);
-        _HudElement = null;
+        _HideActions();
     }
                 
     //--------------------------------------------------------------------------------------------------
@@ -80,6 +75,18 @@ public class ExtrudeEditor : Editor<Extrude>
 
     #region Live Actions
 
+    void _HideActions()
+    {
+        _TranslateAction?.Stop();
+        _TranslateAction = null;
+        WorkspaceController.HudManager?.SetHintMessage(this, null);
+        WorkspaceController.HudManager?.RemoveElement(_HudElement);
+        _HudElement = null;
+        WorkspaceController.Invalidate();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _UpdateActions()
     {
         if (!Entity.GetFinalExtrusionAxis(out Ax1 axis))
@@ -99,13 +106,17 @@ public class ExtrudeEditor : Editor<Extrude>
             _TranslateAction.Finished += _TranslateActionFinished;
         }
         _TranslateAction.Axis = axis;
-        _StartDepth = Entity.Depth;
+        if (!_IsMoving)
+        {
+            _StartDepth = Entity.Depth;
+        }
+
         WorkspaceController.StartLiveAction(_TranslateAction);
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void _TranslateActionPreviewed(LiveAction liveAction)
+    void _TranslateActionPreviewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = true;
 
@@ -114,7 +125,7 @@ public class ExtrudeEditor : Editor<Extrude>
         {
             WorkspaceController.HudManager?.SetHintMessage(this, "Scale extrusion depth using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to extrude symmetric to both sides.");
 
-            bool shallSymmetric = _TranslateAction.LastMouseEventData.ModifierKeys.Has(ModifierKeys.Shift);
+            bool shallSymmetric = args.MouseEventData.ModifierKeys.Has(ModifierKeys.Shift);
             if (shallSymmetric != Entity.Symmetric)
             {
                 Entity.Symmetric = shallSymmetric;
@@ -122,34 +133,29 @@ public class ExtrudeEditor : Editor<Extrude>
                                   ? _StartDepth * 2
                                   : _StartDepth * 0.5;
             }
-            newDepth = _StartDepth + _TranslateAction.Distance * (_StartDepth < 0 ? -1.0 : 1.0);
+            newDepth = _StartDepth + args.Distance * (_StartDepth < 0 ? -1.0 : 1.0);
         }
         else
         {
             WorkspaceController.HudManager?.SetHintMessage(this, "Scale extrusion depth using gizmo, press 'CTRL' to round to grid stepping.");
-            newDepth = _StartDepth + _TranslateAction.Distance;
+            newDepth = _StartDepth + args.Distance;
         }
 
-        if (_TranslateAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+        if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
         {
             newDepth = Maths.RoundToNearest(newDepth, WorkspaceController.Workspace.GridStep);
         }
 
         Entity.Depth = newDepth;
-        if (Entity.GetFinalExtrusionAxis(out Ax1 axis))
-        {
-            if (Entity.IsSketchBased && Math.Sign(_StartDepth) != Math.Sign(newDepth))
-                axis.Reverse();
-            _TranslateAction.Axis = axis.Transformed(Entity.Body.GetTransformation());
-        }
 
+        _UpdateActions();
         _HudElement ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
         _HudElement?.SetValue($"Depth: {Entity.Depth.ToInvariantString("F2")} mm");
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void _TranslateActionFinished(LiveAction liveAction)
+    void _TranslateActionFinished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = false;
         _TranslateAction.Deactivate();

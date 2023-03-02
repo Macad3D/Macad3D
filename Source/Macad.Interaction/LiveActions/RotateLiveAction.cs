@@ -6,7 +6,7 @@ using Macad.Presentation;
 
 namespace Macad.Interaction;
 
-public class RotateLiveAction : LiveAction
+public sealed class RotateLiveAction : LiveAction
 {
     #region Properties and Members
     
@@ -49,13 +49,11 @@ public class RotateLiveAction : LiveAction
         get { return _Position; }
         set
         {
-            Delta = 0;
             if (_Position == value) 
                 return;
 
             _Position = value;
             _Circle?.Set(_Position);
-            _RotationPlane = new Pln(new Ax3(_Position.Location, _Position.Direction, _Position.XDirection));
         }
     }
 
@@ -69,15 +67,18 @@ public class RotateLiveAction : LiveAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public double Delta { get; set; }
-    
-    //--------------------------------------------------------------------------------------------------
-
     public bool NoResize { get; init; }
 
     //--------------------------------------------------------------------------------------------------
 
-    public bool SectorAutoUpdate { get; init; }
+    public enum SectorAutoMode
+    {
+        None,
+        Forward,
+        Reverse
+    }
+
+    public SectorAutoMode SectorAutoUpdate { get; init; }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -96,9 +97,10 @@ public class RotateLiveAction : LiveAction
     Circle _Circle;
     double _Radius;
     Ax2 _Position;
-    Ax2 _StartPosition;
     bool _IsMoving;
     double _StartValue;
+    double _Delta;
+    double _DeltaSum;
     SelectionContext _SelectionContext;
     HintLine _HintLine;
     DeltaHudElement _HudElement;
@@ -117,7 +119,6 @@ public class RotateLiveAction : LiveAction
     public RotateLiveAction(object owner) 
         : base(owner)
     {
-        Delta = 0;
         _Radius = 0;
     }
 
@@ -162,8 +163,52 @@ public class RotateLiveAction : LiveAction
 
     //--------------------------------------------------------------------------------------------------
 
+    public override void Stop()
+    {
+        Previewed = null;
+        Finished = null;
+        base.Stop();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     #endregion
-    
+                
+    #region Events
+
+    public class EventArgs : System.EventArgs
+    {
+        public double Delta { get; init; }
+        public double DeltaSum { get; init; }
+        public double CircleValue { get; init; }
+        public MouseEventData MouseEventData { get; init; }
+        public double? DeltaSumOverride { get; set; }
+    }
+
+    public delegate void EventHandler(RotateLiveAction sender, EventArgs args);
+
+    //--------------------------------------------------------------------------------------------------
+
+    public event EventHandler Previewed;
+
+    void RaisePreviewed(EventArgs args)
+    {
+        Previewed?.Invoke(this, args);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public event EventHandler Finished;
+
+    void RaiseFinished(EventArgs args)
+    {
+        Finished?.Invoke(this, args);
+    }
+        
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
     #region IMouseEventHandler
 
     double? _ProcessMouseInput(MouseEventData data)
@@ -184,11 +229,12 @@ public class RotateLiveAction : LiveAction
     {
         if (data.DetectedAisInteractives.Contains(_Circle?.AisObject))
         {
+            _RotationPlane = new Pln(new Ax3(_Position.Location, _Position.Direction, _Position.XDirection));
             var value = _ProcessMouseInput(data);
             if (value != null)
             {
-                _StartPosition = _Position;
                 _StartValue = value.Value;
+                _DeltaSum = 0;
 
                 _SelectionContext = WorkspaceController.Selection.OpenContext();
 
@@ -230,21 +276,41 @@ public class RotateLiveAction : LiveAction
             var value = _ProcessMouseInput(data);
             if (value != null)
             {
-                Delta = Delta switch
+                double lastDeltaSum = _DeltaSum;
+                _DeltaSum = _DeltaSum switch
                 {
                     < -0.5 => Maths.NormalizeAngleRad(value.Value - _StartValue, -Maths.DoublePI, 0),
                     >  0.5 => Maths.NormalizeAngleRad(value.Value - _StartValue, 0, Maths.DoublePI),
                     _      => Maths.NormalizeAngleRad(value.Value - _StartValue, -Maths.PI, Maths.PI)
                 };
+                _Delta = _DeltaSum - lastDeltaSum;
 
-                RaisePreviewed();
+                EventArgs eventArgs = new()
+                {
+                    Delta = _Delta,
+                    DeltaSum = _DeltaSum,
+                    CircleValue = value.Value,
+                    MouseEventData = data
+                };
+                RaisePreviewed(eventArgs);
 
-                _Position = _StartPosition.Rotated(new Ax1(_StartPosition.Location, _StartPosition.Direction), Delta);
-                _Circle.Set(_Position);
-                if(SectorAutoUpdate)
-                    _Circle.Sector = (_StartValue - Delta, _StartValue);
+                if (eventArgs.DeltaSumOverride.HasValue)
+                {
+                    _DeltaSum = eventArgs.DeltaSumOverride.Value;
+                }
+
+                switch (SectorAutoUpdate)
+                {
+                    case SectorAutoMode.Forward:
+                        _Circle.Sector = (_StartValue, _StartValue + _DeltaSum);
+                        break;
+                    case SectorAutoMode.Reverse:
+                        _Circle.Sector = (_StartValue, _StartValue - _DeltaSum);
+                        break;
+                }
+
                 _HintLine?.Set(_Position.Axis);
-                _HudElement?.SetValue(Delta.ToDeg());
+                _HudElement?.SetValue(_DeltaSum.ToDeg());
             }
 
             return true;
@@ -265,8 +331,10 @@ public class RotateLiveAction : LiveAction
 
             _Circle.IsSelected = false;
             _Circle.IsSelectable = true;
-            if(SectorAutoUpdate)
+            if (SectorAutoUpdate != SectorAutoMode.None)
+            {
                 _Circle.Sector = (0.0, 0.0);
+            }
 
             WorkspaceController.Selection.CloseContext(_SelectionContext);
 
@@ -274,8 +342,14 @@ public class RotateLiveAction : LiveAction
             WorkspaceController.HudManager?.RemoveElement(_HudElement);
             _HudElement = null;
 
+            EventArgs eventArgs = new()
+            {
+                Delta = _Delta,
+                MouseEventData = data
+            };
+            RaiseFinished(eventArgs);
+
             data.ForceReDetection = true;
-            RaiseFinished();
             return true;
         }
         return base.OnMouseUp(data);

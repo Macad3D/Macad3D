@@ -31,25 +31,19 @@ public class ImprintEditor : Editor<Imprint>
             InteractiveContext.Current.PropertyPanelManager?.AddPanel(_SketchPanel, _Panel);
         }
 
-        _UpdateActions();
-        WorkspaceController.Invalidate();
+        _ShowActions();
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public override void Stop()
     {
+        _HideActions();
+
         Shape.ShapeChanged -= _Shape_ShapeChanged;
 
         InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_SketchPanel);
         InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
-            
-        _TranslateAction?.Stop();
-        _TranslateAction = null;
-        WorkspaceController.Invalidate();
-        WorkspaceController.HudManager?.SetHintMessage(this, null);
-        WorkspaceController.HudManager?.RemoveElement(_HudElement);
-        _HudElement = null;
     }
                 
     //--------------------------------------------------------------------------------------------------
@@ -58,15 +52,16 @@ public class ImprintEditor : Editor<Imprint>
     {
         if (shape == Entity)
         {
-            if (!_IsMoving)
-            {
-                _TranslateAction?.Deactivate();
-                _UpdateActions();
-            }
-            else if (_TranslateAction != null && Entity.GetFinalExtrusionAxis(out Ax1 axis))
-            {
-                _TranslateAction.Axis = axis.Transformed(Entity.Body.GetTransformation());
-            }
+            //if (!_IsMoving)
+            //{
+            //    _TranslateAction?.Deactivate();
+            //    _UpdateActions();
+            //}
+            //else if (_TranslateAction != null && Entity.GetFinalExtrusionAxis(out Ax1 axis))
+            //{
+            //    _TranslateAction.Axis = axis.Transformed(Entity.Body.GetTransformation());
+            //}
+            _UpdateActions();
 
             WorkspaceController.Invalidate();
         }
@@ -92,19 +87,34 @@ public class ImprintEditor : Editor<Imprint>
 
     #region Live Actions
 
+    void _ShowActions()
+    {
+        _UpdateActions();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _HideActions()
+    {
+        _TranslateAction?.Stop();
+        _TranslateAction = null;
+        WorkspaceController.HudManager?.SetHintMessage(this, null);
+        WorkspaceController.HudManager?.RemoveElement(_HudElement);
+        _HudElement = null;
+        WorkspaceController.Invalidate();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _UpdateActions()
     {
-        if (Entity.Mode == Imprint.ImprintMode.Cutout)
+        if (Entity.Mode == Imprint.ImprintMode.Cutout
+            || !Entity.GetFinalExtrusionAxis(out Ax1 axis))
         {
-            _TranslateAction?.Stop();
-            _TranslateAction = null;
+            _HideActions();
             return;
         }
-
-        if (!Entity.GetFinalExtrusionAxis(out Ax1 axis))
-            return;
-        axis.Transform(Entity.Body.GetTransformation());
-
+        
         if (_TranslateAction == null)
         {
             _TranslateAction = new(this)
@@ -118,23 +128,31 @@ public class ImprintEditor : Editor<Imprint>
             _TranslateAction.Finished += _TranslateActionFinished;
         }
 
+        axis.Transform(Entity.Body.GetTransformation());
         _TranslateAction.Axis = axis;
-        _StartDepth = Entity.Depth;
+        if (!_IsMoving)
+        {
+            _StartDepth = Entity.Depth;
+        }
+
         WorkspaceController.StartLiveAction(_TranslateAction);
+        WorkspaceController.Invalidate();
+
+        return;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void _TranslateActionPreviewed(LiveAction liveAction)
+    void _TranslateActionPreviewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = true;
         WorkspaceController.HudManager?.SetHintMessage(this, "Scale imprint depth using gizmo, press 'CTRL' to round to grid stepping.");
 
         double newDepth = _StartDepth + (Entity.Mode == Imprint.ImprintMode.Raise
-                                             ? _TranslateAction.Distance
-                                             : -_TranslateAction.Distance);
+                                             ? args.Distance
+                                             : -args.Distance);
 
-        if (_TranslateAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+        if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
         {
             newDepth = Maths.RoundToNearest(newDepth, WorkspaceController.Workspace.GridStep);
         }
@@ -147,18 +165,15 @@ public class ImprintEditor : Editor<Imprint>
         }
 
         Entity.Depth = newDepth.Abs();
-        if (Entity.GetFinalExtrusionAxis(out Ax1 axis))
-        {
-            _TranslateAction.Axis = axis.Transformed(Entity.Body.GetTransformation());
-        }
 
+        _UpdateActions();
         _HudElement ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
         _HudElement?.SetValue($"Depth: {Entity.Depth.ToInvariantString("F2")} mm");
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void _TranslateActionFinished(LiveAction liveAction)
+    void _TranslateActionFinished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = false;
         _TranslateAction.Deactivate();
@@ -166,7 +181,7 @@ public class ImprintEditor : Editor<Imprint>
         WorkspaceController.HudManager?.RemoveElement(_HudElement);
         _HudElement = null;
         WorkspaceController.HudManager?.SetHintMessage(this, null);
-        _UpdateActions();
+        _ShowActions();
     }
     
     //--------------------------------------------------------------------------------------------------

@@ -85,21 +85,21 @@ public sealed class OffsetEditor : Editor<Offset>
 
     //--------------------------------------------------------------------------------------------------
 
-    void _ScaleAction_Previewed(LiveAction liveAction)
+    void _ScaleAction_Previewed(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
     {
-        if (liveAction != _ScaleAction)
+        if (sender != _ScaleAction)
             return;
 
         WorkspaceController.HudManager?.SetHintMessage(this, "Change distance box using gizmo, press 'CTRL' to round to grid stepping.");
 
-        double delta = _ScaleAction.Delta * Math.Max(_ScaleAction.Direction.X.Abs(),
-                                                     Math.Max(_ScaleAction.Direction.Y.Abs(),
-                                                              _ScaleAction.Direction.Z.Abs()));
+        double delta = args.Delta * Math.Max(args.Direction.X.Abs(),
+                                             Math.Max(args.Direction.Y.Abs(),
+                                             args.Direction.Z.Abs()));
         if (delta == 0)
             return;
 
         double newDistance = Entity.Distance + delta;
-        if (liveAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+        if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
         {
             newDistance = Maths.RoundToNearest(newDistance, WorkspaceController.Workspace.GridStep);
         }
@@ -118,12 +118,12 @@ public sealed class OffsetEditor : Editor<Offset>
 
     //--------------------------------------------------------------------------------------------------
 
-    void _ScaleAction_Finished(LiveAction liveAction)
+    void _ScaleAction_Finished(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
     {
-        if (liveAction != _ScaleAction)
+        if (sender != _ScaleAction)
             return;
 
-        if (!_ScaleAction.DeltaSum.IsEqual(0.0, double.Epsilon))
+        if (!args.DeltaSum.IsEqual(0.0, double.Epsilon))
         {
             InteractiveContext.Current.UndoHandler.Commit();
         }

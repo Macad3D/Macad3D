@@ -5,7 +5,7 @@ using Macad.Occt;
 
 namespace Macad.Interaction;
 
-public class BoxScaleLiveAction : LiveAction
+public sealed class BoxScaleLiveAction : LiveAction
 {
     #region Properties and Members
 
@@ -30,12 +30,6 @@ public class BoxScaleLiveAction : LiveAction
             _Update();
         }
     }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public double Delta { get; private set; }
-    public double DeltaSum { get; private set; }
-    public Dir Direction { get; private set; }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -78,13 +72,17 @@ public class BoxScaleLiveAction : LiveAction
         new (0.5, 0.5, 1), new (1, 0.5, 0.5), new (0.5, 1, 0.5),
     };
 
-    int _MoveMode = -1;
     Ax1 _Axis;
     HintLine _AxisHintLine;
     double _StartValue;
     bool _ResetStartValue;
     SelectionContext _SelectionContext;
     Trsf _Transformation;
+    
+    int _MoveMode = -1;
+    double _LastDelta;
+    double _DeltaSum;
+    Dir _Direction;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -136,10 +134,53 @@ public class BoxScaleLiveAction : LiveAction
     }
 
     //--------------------------------------------------------------------------------------------------
+    
+    public override void Stop()
+    {
+        Previewed = null;
+        Finished = null;
+        base.Stop();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+            
+    #region Events
+
+    public class EventArgs : System.EventArgs
+    {
+        public Dir Direction { get; init; }
+        public double Delta { get; init; }
+        public double DeltaSum { get; init; }
+        public MouseEventData MouseEventData { get; init; }
+    }
+
+    public delegate void EventHandler(BoxScaleLiveAction sender, EventArgs args);
+
+    //--------------------------------------------------------------------------------------------------
+
+    public event EventHandler Previewed;
+
+    void RaisePreviewed(EventArgs args)
+    {
+        Previewed?.Invoke(this, args);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public event EventHandler Finished;
+
+    void RaiseFinished(EventArgs args)
+    {
+        Finished?.Invoke(this, args);
+    }
+        
+    //--------------------------------------------------------------------------------------------------
 
     #endregion
 
-    #region Mouse Events
+    #region IMouseEventHandler
 
     public override bool OnMouseDown(MouseEventData data)
     {
@@ -160,7 +201,7 @@ public class BoxScaleLiveAction : LiveAction
 
             var axisDelta = _ProcessMouseInput(data);
             _StartValue = axisDelta ?? 0.0;
-            DeltaSum = 0.0;
+            _DeltaSum = 0.0;
 
             _AxisHintLine = new HintLine(WorkspaceController, HintStyle.ThinDashed);
             _AxisHintLine.Set(_Axis);
@@ -181,8 +222,8 @@ public class BoxScaleLiveAction : LiveAction
         if (_ResetStartValue)
         {
             _ResetStartValue = false;
-            _StartValue += Delta;
-            Delta = 0;
+            _StartValue += _LastDelta;
+            _LastDelta = 0;
         }
 
         if (_MoveMode >= 0)
@@ -191,11 +232,18 @@ public class BoxScaleLiveAction : LiveAction
             if (!axisDelta.HasValue)
                 return false;
 
-            Delta = axisDelta.Value - _StartValue;
-            DeltaSum += Delta;
+            _LastDelta = axisDelta.Value - _StartValue;
+            _DeltaSum += _LastDelta;
             LastMouseEventData = data;
 
-            RaisePreviewed();
+            EventArgs eventArgs = new()
+            {
+                Direction = _Direction,
+                Delta = _LastDelta,
+                DeltaSum = _DeltaSum,
+                MouseEventData = data
+            };
+            RaisePreviewed(eventArgs);
 
             return true;
         }
@@ -219,7 +267,15 @@ public class BoxScaleLiveAction : LiveAction
 
             _AxisHintLine?.Remove();
 
-            RaiseFinished();
+            EventArgs eventArgs = new()
+            {
+                Direction = _Direction,
+                Delta = _LastDelta,
+                DeltaSum = _DeltaSum,
+                MouseEventData = data
+            };
+            RaiseFinished(eventArgs);
+
             _Update();
             WorkspaceController.Invalidate();
             data.ForceReDetection = true;
@@ -240,8 +296,8 @@ public class BoxScaleLiveAction : LiveAction
                 Pnt min = _Box.CornerMin();
                 XYZ extent = new Vec(min, _Box.CornerMax()).ToXYZ();
                 Pnt startPoint = min.Translated(extent.Multiplied(_HandlePositions[i]).ToVec());
-                Direction = new Vec(min.Translated(extent.Multiplied(0.5).ToVec()), startPoint).ToDir();
-                _Axis = new Ax1(startPoint, Direction).Transformed(_Transformation);
+                _Direction = new Vec(min.Translated(extent.Multiplied(0.5).ToVec()), startPoint).ToDir();
+                _Axis = new Ax1(startPoint, _Direction).Transformed(_Transformation);
                 return i;
             }
         }

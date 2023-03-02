@@ -36,7 +36,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
                     
         Shape.ShapeChanged += _Shape_ShapeChanged;
 
-        _UpdateActions();
+        _ShowActions();
         _UpdateHints();
 
         WorkspaceController.Invalidate();
@@ -49,24 +49,12 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         Shape.ShapeChanged -= _Shape_ShapeChanged;
 
         InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
-
-        _AngleAction?.Stop();
-        _AngleAction = null;
-        _LengthAction?.Stop();
-        _LengthAction = null;
-        _RadiusAction?.Stop();
-        _RadiusAction = null;
-        _StartGapAction?.Stop();
-        _StartGapAction = null;
-        _EndGapAction?.Stop();
-        _EndGapAction = null;
         
         _BendAxisHint.Remove();
         _BendAxisHint = null;
 
-        WorkspaceController.HudManager?.RemoveElement(_HudElement);
-        _HudElement = null;
-        WorkspaceController.HudManager?.SetHintMessage(this, null);
+        _HideActions();
+
         WorkspaceController.Invalidate();
     }
         
@@ -77,7 +65,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         if (shape == Entity)
         {
             _UpdateHints();
-            if(!_IsMoving)
+            //if(!_IsMoving)
                 _UpdateActions();
             WorkspaceController.Invalidate();
         }
@@ -103,11 +91,30 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
     //--------------------------------------------------------------------------------------------------
 
     #region Live Actions
-        
-    void _UpdateActions()
+
+    void _HideActions()
     {
-        _LastSupportData = Entity.ToolSupport;
-        if (_LastSupportData == null)
+        _AngleAction?.Stop();
+        _AngleAction = null;
+        _LengthAction?.Stop();
+        _LengthAction = null;
+        _RadiusAction?.Stop();
+        _RadiusAction = null;
+        _StartGapAction?.Stop();
+        _StartGapAction = null;
+        _EndGapAction?.Stop();
+        _EndGapAction = null;
+        WorkspaceController.HudManager?.RemoveElement(_HudElement);
+        _HudElement = null;
+        WorkspaceController.HudManager?.SetHintMessage(this, null);
+        WorkspaceController.Invalidate();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _ShowActions()
+    {
+        if (Entity.ToolSupport == null)
         {
             return;
         }
@@ -118,17 +125,11 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             _AngleAction = new(this)
             {
                 Color = Colors.ActionRed,
-                SectorAutoUpdate = true,
+                SectorAutoUpdate = RotateLiveAction.SectorAutoMode.Forward,
             };
             _AngleAction.Previewed += _AngleAction_Previewed;
-            _AngleAction.Finished += _Actions_Finished;
+            _AngleAction.Finished += _RotateActions_Finished;
         }
-        Ax2 bendAxis = _LastSupportData.BendCenterAxis.Transformed(Entity.GetTransformation());
-        _AngleAction.Radius = _LastSupportData.Thickness + Entity.Radius * 1.5;
-        _AngleAction.Position = bendAxis;
-        _StartAngle = Entity.Angle.ToRad();
-        _WasReverse = Entity.Reverse;
-        WorkspaceController.StartLiveAction(_AngleAction);
 
         // Length
         if (_LengthAction == null)
@@ -140,17 +141,9 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
                 Length = 1.0,
             };
             _LengthAction.Previewed += _LengthAction_Previewed;
-            _LengthAction.Finished += _Actions_Finished;
+            _LengthAction.Finished += _TranslateAxisActions_Finished;
         }
-        Ax1 extrudeAxis = _LastSupportData.FlangeExtrudeAxis
-                                          .Translated(_LastSupportData.FlangeExtrudeAxis
-                                                                      .Direction
-                                                                      .ToVec(Entity.Length))
-                                          .Transformed(Entity.GetTransformation());
-        _LengthAction.Axis = extrudeAxis;
-        _StartLength = Entity.Length;
-        WorkspaceController.StartLiveAction(_LengthAction);
-        
+
         // Radius
         if (_RadiusAction == null)
         {
@@ -161,16 +154,8 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
                 Length = 1.0,
             };
             _RadiusAction.Previewed += _RadiusAction_Previewed;
-            _RadiusAction.Finished += _Actions_Finished;
+            _RadiusAction.Finished += _TranslateAxisActions_Finished;
         }
-
-        var radiusAxis = new Ax1(bendAxis.Location, bendAxis.XDirection).Rotated(bendAxis.Axis, Entity.Angle.ToRad() * 0.5);
-        if(Entity.Reverse)
-            radiusAxis.Reverse();
-        radiusAxis.Translate(radiusAxis.Direction.ToVec(Entity.Radius + _LastSupportData.Thickness));
-        _RadiusAction.Axis = radiusAxis;
-        _StartRadius = Entity.Radius;
-        WorkspaceController.StartLiveAction(_RadiusAction);
 
         // Start Gap
         if (_StartGapAction == null)
@@ -182,20 +167,9 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
                 Length = 1.0
             };
             _StartGapAction.Previewed += _StartGapAction_Previewed;
-            _StartGapAction.Finished += _Actions_Finished;
+            _StartGapAction.Finished += _TranslateAxisActions_Finished;
         }
 
-        Ax1 startGapAxis = new Ax1(_LastSupportData.FlangeExtrudeAxis.Location
-                                              .Translated(_LastSupportData.FlangeExtrudeAxis.Direction
-                                                                          .ToVec(Entity.Length / 2))
-                                              .Translated(_LastSupportData.BendCenterAxis.Direction.Reversed()
-                                                                          .ToVec((_LastSupportData.BendEdgeWidth - Entity.StartGap - Entity.EndGap) / 2)),
-                              _LastSupportData.BendCenterAxis.Direction.Reversed())
-                      .Transformed(Entity.GetTransformation());
-        _StartGapAction.Axis = startGapAxis;
-        _StartStartGap = Entity.StartGap;
-        WorkspaceController.StartLiveAction(_StartGapAction);
-        
         // End Gap
         if (_EndGapAction == null)
         {
@@ -206,24 +180,100 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
                 Length = 1.0
             };
             _EndGapAction.Previewed += _EndGapAction_Previewed;
-            _EndGapAction.Finished += _Actions_Finished;
+            _EndGapAction.Finished += _TranslateAxisActions_Finished;
         }
 
-        Ax1 endGapAxis = new Ax1(_LastSupportData.FlangeExtrudeAxis.Location
-                                              .Translated(_LastSupportData.FlangeExtrudeAxis.Direction
-                                                                          .ToVec(Entity.Length / 2))
-                                              .Translated(_LastSupportData.BendCenterAxis.Direction
-                                                                          .ToVec((_LastSupportData.BendEdgeWidth - Entity.EndGap - Entity.StartGap) / 2)),
-                              _LastSupportData.BendCenterAxis.Direction)
-            .Transformed(Entity.GetTransformation());
-        _EndGapAction.Axis = endGapAxis;
-        _StartEndGap = Entity.EndGap;
+        _UpdateActions();
+
+        WorkspaceController.StartLiveAction(_AngleAction);
+        WorkspaceController.StartLiveAction(_LengthAction);
+        WorkspaceController.StartLiveAction(_RadiusAction);
+        WorkspaceController.StartLiveAction(_StartGapAction);
         WorkspaceController.StartLiveAction(_EndGapAction);
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void _AngleAction_Previewed(LiveAction liveAction)
+    void _UpdateActions()
+    {
+        _LastSupportData = Entity.ToolSupport ?? _LastSupportData;
+        if (_LastSupportData == null)
+        {
+            return;
+        }
+        Ax2 bendAxis = _LastSupportData.BendCenterAxis.Transformed(Entity.GetTransformation());
+
+        // Angle
+        if (_AngleAction != null)
+        {
+            _AngleAction.Radius = _LastSupportData.Thickness + Entity.Radius * 1.5;
+            if (!_IsMoving)
+            {
+                _AngleAction.Position = bendAxis;
+            }
+        }
+
+        // Length
+        if (_LengthAction != null)
+        {
+            Ax1 extrudeAxis = _LastSupportData.FlangeExtrudeAxis
+                                              .Translated(_LastSupportData.FlangeExtrudeAxis
+                                                                          .Direction
+                                                                          .ToVec(Entity.Length))
+                                              .Transformed(Entity.GetTransformation());
+            _LengthAction.Axis = extrudeAxis;
+        }
+        
+        // Radius
+        if (_RadiusAction != null)
+        {
+            var radiusAxis = new Ax1(bendAxis.Location, bendAxis.XDirection).Rotated(bendAxis.Axis, Entity.Angle.ToRad() * 0.5);
+            if (Entity.Reverse)
+                radiusAxis.Reverse();
+            radiusAxis.Translate(radiusAxis.Direction.ToVec(Entity.Radius + _LastSupportData.Thickness));
+            _RadiusAction.Axis = radiusAxis;
+        }
+
+        // Start Gap
+        if (_StartGapAction != null)
+        {
+            Ax1 startGapAxis = new Ax1(_LastSupportData.FlangeExtrudeAxis.Location
+                                                       .Translated(_LastSupportData.FlangeExtrudeAxis.Direction
+                                                                                   .ToVec(Entity.Length / 2))
+                                                       .Translated(_LastSupportData.BendCenterAxis.Direction.Reversed()
+                                                                                   .ToVec((_LastSupportData.BendEdgeWidth - Entity.StartGap - Entity.EndGap) / 2)),
+                                       _LastSupportData.BendCenterAxis.Direction.Reversed())
+                .Transformed(Entity.GetTransformation());
+            _StartGapAction.Axis = startGapAxis;
+        }
+
+        // End Gap
+        if (_EndGapAction != null)
+        {
+            Ax1 endGapAxis = new Ax1(_LastSupportData.FlangeExtrudeAxis.Location
+                                                     .Translated(_LastSupportData.FlangeExtrudeAxis.Direction
+                                                                                 .ToVec(Entity.Length / 2))
+                                                     .Translated(_LastSupportData.BendCenterAxis.Direction
+                                                                                 .ToVec((_LastSupportData.BendEdgeWidth - Entity.EndGap - Entity.StartGap) / 2)),
+                                     _LastSupportData.BendCenterAxis.Direction)
+                .Transformed(Entity.GetTransformation());
+            _EndGapAction.Axis = endGapAxis;
+        }
+
+        if (!_IsMoving)
+        {
+            _StartAngle = Entity.Angle.ToRad();
+            _WasReverse = Entity.Reverse;
+            _StartLength = Entity.Length;
+            _StartRadius = Entity.Radius;
+            _StartStartGap = Entity.StartGap;
+            _StartEndGap = Entity.EndGap;
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _AngleAction_Previewed(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         if (!_IsMoving)
         {
@@ -235,13 +285,13 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             _EndGapAction.Deactivate();
         }
 
-        double newAngle = _StartAngle + _AngleAction.Delta;
-        if (_AngleAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+        double newAngle = _StartAngle + args.DeltaSum;
+        if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
         {
             newAngle = Maths.RoundToNearest(newAngle, 5.0.ToRad());
         }
 
-        _AngleAction.Delta = newAngle - _StartAngle;
+        args.DeltaSumOverride = newAngle - _StartAngle;
 
         if(newAngle < 0 == (_WasReverse == Entity.Reverse) )
         {
@@ -255,7 +305,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
     
     //--------------------------------------------------------------------------------------------------
 
-    void _LengthAction_Previewed(LiveAction liveAction)
+    void _LengthAction_Previewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         if (!_IsMoving)
         {
@@ -267,8 +317,8 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             _EndGapAction.Deactivate();
         }
 
-        var newLength = _StartLength + _LengthAction.Distance;
-        if (_LengthAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+        var newLength = _StartLength + args.Distance;
+        if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
         {
             newLength = Maths.RoundToNearest(newLength, WorkspaceController.Workspace.GridStep);
         }
@@ -282,11 +332,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             Entity.Length = newLength;
         }
 
-        _LengthAction.Axis = _LastSupportData.FlangeExtrudeAxis
-                                             .Translated(_LastSupportData.FlangeExtrudeAxis
-                                                                         .Direction
-                                                                         .ToVec(Entity.Length))
-                                             .Transformed(Entity.GetTransformation());
+        _UpdateActions();
 
         _HudElement ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
         _HudElement?.SetValue($"Length: {Entity.Length.ToInvariantString("F2")} mm");
@@ -294,7 +340,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
 
     //--------------------------------------------------------------------------------------------------
     
-    void _RadiusAction_Previewed(LiveAction liveAction)
+    void _RadiusAction_Previewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         if (!_IsMoving)
         {
@@ -306,8 +352,8 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             _EndGapAction.Deactivate();
         }
 
-        var newRadius = _StartRadius + _RadiusAction.Distance;
-        if (_RadiusAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+        var newRadius = _StartRadius + args.Distance;
+        if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
         {
             newRadius = Maths.RoundToNearest(newRadius, WorkspaceController.Workspace.GridStep);
         }
@@ -321,20 +367,13 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             Entity.Radius = newRadius;
         }
 
-        Ax2 bendAxis = _LastSupportData.BendCenterAxis.Transformed(Entity.GetTransformation());
-        var radiusAxis = new Ax1(bendAxis.Location, bendAxis.XDirection).Rotated(bendAxis.Axis, Entity.Angle.ToRad() * 0.5);
-        if (Entity.Reverse)
-            radiusAxis.Reverse();
-        radiusAxis.Translate(radiusAxis.Direction.ToVec(Entity.Radius + _LastSupportData.Thickness));
-        _RadiusAction.Axis = radiusAxis;
-
         _HudElement ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
         _HudElement?.SetValue($"Radius: {Entity.Radius.ToInvariantString("F2")} mm");
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void _StartGapAction_Previewed(LiveAction liveAction)
+    void _StartGapAction_Previewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         if (!_IsMoving)
         {
@@ -346,8 +385,8 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             _EndGapAction.Deactivate();
         }
 
-        var newGap = _StartStartGap - _StartGapAction.Distance;
-        if (_StartGapAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+        var newGap = _StartStartGap - args.Distance;
+        if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
         {
             newGap = Maths.RoundToNearest(newGap, WorkspaceController.Workspace.GridStep);
         }
@@ -365,13 +404,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             Entity.StartGap = newGap;
         }
 
-        _StartGapAction.Axis = new Ax1(_LastSupportData.FlangeExtrudeAxis.Location
-                                                   .Translated(_LastSupportData.FlangeExtrudeAxis.Direction
-                                                                               .ToVec(Entity.Length / 2))
-                                                   .Translated(_LastSupportData.BendCenterAxis.Direction.Reversed()
-                                                                               .ToVec((_LastSupportData.BendEdgeWidth - _StartStartGap - Entity.EndGap) / 2 - newGap + _StartStartGap)),
-                                   _LastSupportData.BendCenterAxis.Direction.Reversed())
-                           .Transformed(Entity.GetTransformation());
+        _UpdateActions();
 
         _HudElement ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
         _HudElement?.SetValue($"Start Gap: {Entity.StartGap.ToInvariantString("F2")} mm");
@@ -379,7 +412,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
     
     //--------------------------------------------------------------------------------------------------
 
-    void _EndGapAction_Previewed(LiveAction liveAction)
+    void _EndGapAction_Previewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         if (!_IsMoving)
         {
@@ -391,8 +424,8 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             _StartGapAction.Deactivate();
         }
 
-        var newGap = _StartEndGap - _EndGapAction.Distance;
-        if (_EndGapAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+        var newGap = _StartEndGap - args.Distance;
+        if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
         {
             newGap = Maths.RoundToNearest(newGap, WorkspaceController.Workspace.GridStep);
         }
@@ -410,21 +443,15 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             Entity.EndGap = newGap;
         }
 
-        _EndGapAction.Axis = new Ax1(_LastSupportData.FlangeExtrudeAxis.Location
-                                                     .Translated(_LastSupportData.FlangeExtrudeAxis.Direction
-                                                                                 .ToVec(Entity.Length / 2))
-                                                     .Translated(_LastSupportData.BendCenterAxis.Direction
-                                                                                 .ToVec((_LastSupportData.BendEdgeWidth - _StartEndGap - Entity.StartGap) / 2 - newGap + _StartEndGap)),
-                                     _LastSupportData.BendCenterAxis.Direction)
-                             .Transformed(Entity.GetTransformation());
+        _UpdateActions();
 
         _HudElement ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
         _HudElement?.SetValue($"End Gap: {Entity.EndGap.ToInvariantString("F2")} mm");
     }
-
+    
     //--------------------------------------------------------------------------------------------------
-
-    void _Actions_Finished(LiveAction liveAction)
+    
+    void _Actions_Finished()
     {
         _IsMoving = false;
         _AngleAction.Deactivate();
@@ -433,12 +460,26 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         WorkspaceController.HudManager?.RemoveElement(_HudElement);
         _HudElement = null;
         WorkspaceController.HudManager?.SetHintMessage(this, null);
-        _UpdateActions();
+        _ShowActions();
     }
 
-    #endregion
+    //--------------------------------------------------------------------------------------------------
+
+    void _RotateActions_Finished(RotateLiveAction sender, RotateLiveAction.EventArgs args)
+    {
+        _Actions_Finished();
+    }
 
     //--------------------------------------------------------------------------------------------------
+
+    void _TranslateAxisActions_Finished(TranslateAxisLiveAction translateAxisLiveAction, TranslateAxisLiveAction.EventArgs eventArgs)
+    {
+        _Actions_Finished();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
 
     [AutoRegister]
     internal static void Register()

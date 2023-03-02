@@ -43,11 +43,12 @@ public abstract class LiveAction : BaseObject, IMouseEventHandler
 
         public virtual void Stop()
         {
+            if (WorkspaceController == null)
+                return;
+
             Deactivate();
             WorkspaceController.HudManager?.SetCursor(null);
             WorkspaceController.RemoveLiveAction(this);
-            Previewed = null;
-            Finished = null;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -59,32 +60,6 @@ public abstract class LiveAction : BaseObject, IMouseEventHandler
         public virtual void Deactivate() {}
 
         //--------------------------------------------------------------------------------------------------
-        
-        #region Events
-
-        public delegate void LiveActionEventHandler(LiveAction liveAction);
-
-        //--------------------------------------------------------------------------------------------------
-
-        public event LiveActionEventHandler Previewed;
-
-        protected void RaisePreviewed()
-        {
-            Previewed?.Invoke(this);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public event LiveActionEventHandler Finished;
-
-        protected void RaiseFinished()
-        {
-            Finished?.Invoke(this);
-        }
-        
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
 
         #region IMouseEventHandler
 

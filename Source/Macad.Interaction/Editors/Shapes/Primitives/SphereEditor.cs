@@ -82,20 +82,20 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ScaleAction_Previewed(LiveAction liveAction)
+        void _ScaleAction_Previewed(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
         {
-            if (liveAction != _ScaleAction)
+            if (sender != _ScaleAction)
                 return;
 
             WorkspaceController.HudManager?.SetHintMessage(this, "Scale sphere using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to scale relative to center.");
 
-            double radiusDelta = _ScaleAction.Delta * 0.5 * Math.Max(_ScaleAction.Direction.X.Abs(), 
-                                                                     Math.Max(_ScaleAction.Direction.Y.Abs(), 
-                                                                              _ScaleAction.Direction.Z.Abs()));
-            Vec offset = new Vec(Math.Sign(_ScaleAction.Direction.X), Math.Sign(_ScaleAction.Direction.Y), Math.Sign(_ScaleAction.Direction.Z));
+            double radiusDelta = args.Delta * 0.5 * Math.Max(args.Direction.X.Abs(), 
+                                                                     Math.Max(args.Direction.Y.Abs(), 
+                                                                              args.Direction.Z.Abs()));
+            Vec offset = new Vec(Math.Sign(args.Direction.X), Math.Sign(args.Direction.Y), Math.Sign(args.Direction.Z));
 
             double tempRadius = Entity.Radius + radiusDelta;
-            if (liveAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+            if (sender.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
             {
                 tempRadius = Maths.RoundToNearest(tempRadius, WorkspaceController.Workspace.GridStep);
             }
@@ -107,7 +107,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             Entity.Radius = tempRadius;
 
-            if (!liveAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Shift))
+            if (!sender.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Shift))
             {
                 Entity.Body.Position = Entity.Body.Position.Translated(offset.Scaled(radiusDelta)
                                                                              .Transformed(new Trsf(Entity.Body.Rotation)));
@@ -121,12 +121,12 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ScaleAction_Finished(LiveAction liveAction)
+        void _ScaleAction_Finished(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
         {
-            if (liveAction != _ScaleAction)
+            if (sender != _ScaleAction)
                 return;
 
-            if (!_ScaleAction.DeltaSum.IsEqual(0.0, double.Epsilon))
+            if (!args.DeltaSum.IsEqual(0.0, double.Epsilon))
             {
                 InteractiveContext.Current.UndoHandler.Commit();
             }

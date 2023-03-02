@@ -39,13 +39,6 @@ public class TranslateAxisLiveAction : LiveAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public double Distance
-    {
-        get { return _Distance; }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     public Cursor Cursor { get; init; }
 
     //--------------------------------------------------------------------------------------------------
@@ -68,6 +61,39 @@ public class TranslateAxisLiveAction : LiveAction
     SelectionContext _SelectionContext;
     HintLine _HintLine;
 
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+                    
+    #region Events
+
+    public class EventArgs : System.EventArgs
+    {
+        public double Distance { get; init; }
+        public Ax1 Axis { get; init; }
+        public MouseEventData MouseEventData { get; init; }
+    }
+
+    public delegate void EventHandler(TranslateAxisLiveAction sender, EventArgs args);
+
+    //--------------------------------------------------------------------------------------------------
+
+    public event EventHandler Previewed;
+
+    void RaisePreviewed(EventArgs args)
+    {
+        Previewed?.Invoke(this, args);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public event EventHandler Finished;
+
+    void RaiseFinished(EventArgs args)
+    {
+        Finished?.Invoke(this, args);
+    }
+        
     //--------------------------------------------------------------------------------------------------
 
     #endregion
@@ -109,6 +135,15 @@ public class TranslateAxisLiveAction : LiveAction
         _AxisGizmo = null;
 
         WorkspaceController.Invalidate();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    public override void Stop()
+    {
+        Previewed = null;
+        Finished = null;
+        base.Stop();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -192,7 +227,13 @@ public class TranslateAxisLiveAction : LiveAction
                 Axis = _Axis.Translated(_Axis.Direction.ToVec(value.Value - _StartValue));
                 _Distance = ElCLib.LineParameter(_StartAxis, _Axis.Location);
 
-                RaisePreviewed();
+                EventArgs eventArgs = new()
+                {
+                    Distance = _Distance,
+                    Axis = Axis,
+                    MouseEventData = data
+                };
+                RaisePreviewed(eventArgs);
 
                 _Distance = ElCLib.LineParameter(_StartAxis, _Axis.Location);
                 _HintLine.Set(_StartAxis.Location, _Axis.Location);
@@ -225,8 +266,14 @@ public class TranslateAxisLiveAction : LiveAction
             WorkspaceController.HudManager?.RemoveElement(_HudElement);
             _HudElement = null;
 
+            EventArgs eventArgs = new()
+            {
+                Distance = _Distance,
+                Axis = Axis,
+                MouseEventData = data
+            };
+            RaiseFinished(eventArgs);
             data.ForceReDetection = true;
-            RaiseFinished();
             return true;
         }
         return base.OnMouseUp(data);

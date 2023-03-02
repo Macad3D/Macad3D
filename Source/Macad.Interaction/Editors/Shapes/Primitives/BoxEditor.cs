@@ -85,25 +85,25 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ScaleAction_Previewed(LiveAction liveAction)
+        void _ScaleAction_Previewed(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
         {
-            if (liveAction != _ScaleAction)
+            if (sender != _ScaleAction)
                 return;
 
             WorkspaceController.HudManager?.SetHintMessage(this, "Scale box using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to scale relative to center.");
 
             _ScaleAxisReversed ??= new[]
             {
-                Math.Sign(_ScaleAction.Direction.X) != Math.Sign(Entity.DimensionX),
-                Math.Sign(_ScaleAction.Direction.Y) != Math.Sign(Entity.DimensionY),
-                Math.Sign(_ScaleAction.Direction.Z) != Math.Sign(Entity.DimensionZ),
+                Math.Sign(args.Direction.X) != Math.Sign(Entity.DimensionX),
+                Math.Sign(args.Direction.Y) != Math.Sign(Entity.DimensionY),
+                Math.Sign(args.Direction.Z) != Math.Sign(Entity.DimensionZ),
             };
 
-            XYZ scale = new XYZ(_ScaleAction.Delta * _ScaleAction.Direction.X * (_ScaleAxisReversed[0] ? -1 : 1),
-                                _ScaleAction.Delta * _ScaleAction.Direction.Y * (_ScaleAxisReversed[1] ? -1 : 1),
-                                _ScaleAction.Delta * _ScaleAction.Direction.Z * (_ScaleAxisReversed[2] ? -1 : 1));
 
-            if (liveAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
+            XYZ scale = new XYZ(args.Delta * args.Direction.X * (_ScaleAxisReversed[0] ? -1 : 1),
+                                args.Delta * args.Direction.Y * (_ScaleAxisReversed[1] ? -1 : 1),
+                                args.Delta * args.Direction.Z * (_ScaleAxisReversed[2] ? -1 : 1));
+            if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
             {
                 if (scale.X != 0)
                 {
@@ -131,7 +131,7 @@ namespace Macad.Interaction.Editors.Shapes
                 }
             }
 
-            bool center = liveAction.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Shift);
+            bool center = args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Shift);
             if (center)
                 scale.Multiply(2.0);
 
@@ -182,12 +182,12 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ScaleAction_Finished(LiveAction liveAction)
+        void _ScaleAction_Finished(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
         {
-            if (liveAction != _ScaleAction)
+            if (sender != _ScaleAction)
                 return;
 
-            if (!_ScaleAction.DeltaSum.IsEqual(0.0, double.Epsilon))
+            if (!args.DeltaSum.IsEqual(0.0, double.Epsilon))
             {
                 InteractiveContext.Current.UndoHandler.Commit();
             }

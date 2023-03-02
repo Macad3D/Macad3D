@@ -683,14 +683,18 @@ namespace Macad.Test.Unit.Interaction.Modify
             {
                 ctx.MoveTo(153, 364);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngleOutOfRange01"));
-
+                
                 ctx.ViewportController.MouseDown();
                 ctx.MoveTo(202, 362);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngleOutOfRange02"));
-                ctx.MoveTo(104, 322);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngleOutOfRange03"));
-            
                 ctx.ViewportController.MouseUp();
+
+                ctx.MoveTo(153, 364);
+                ctx.ViewportController.MouseDown();
+                ctx.MoveTo(104, 262);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngleOutOfRange03"));
+                ctx.ViewportController.MouseUp();
+            
 
                 // Cleanup
                 editor.Stop();
