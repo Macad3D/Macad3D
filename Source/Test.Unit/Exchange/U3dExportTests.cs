@@ -1,7 +1,10 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Windows.Documents;
 using Macad.Common;
+using Macad.Core;
 using Macad.Core.Topology;
+using Macad.Exchange;
 using Macad.Exchange.U3d;
 using Macad.Test.Utils;
 using NUnit.Framework;
@@ -83,6 +86,21 @@ namespace Macad.Test.Unit.Exchange
             Assert.IsNotNull(u3d);
             Assert.That(u3d.Length > 0);
             AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "OrientedNormals.u3d"), u3d, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+                
+        [Test]
+        public void UnicodePath()
+        {
+            // Write
+            var body = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "OrientedNormals_Source.brep"));
+            var exchanger = new PdfExchanger();
+            var path = Path.Combine(TestData.TempDirectory, $"U3d_Unicode_{TestData.UnicodeTestString}.u3d");
+            File.Delete(path);
+            Assert.IsTrue((exchanger as IBodyExporter).DoExport(path, new []{body}));
+            Assert.That(File.Exists(path));
+            File.Delete(path);
         }
 
         //--------------------------------------------------------------------------------------------------

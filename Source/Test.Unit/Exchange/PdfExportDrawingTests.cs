@@ -305,6 +305,22 @@ namespace Macad.Test.Unit.Exchange
             // Write to file and compare
             AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "FontIsNonStandard.pdf"), pdf, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
         }
+                
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void UnicodePath()
+        {
+            // Write
+            Drawing drawing = new();
+            drawing.Add(new TextElement("Hello World!", new FontStyle("Comic Sans MS", 3.0f)));
+            var exchanger = new PdfExchanger();
+            var path = Path.Combine(TestData.TempDirectory, $"Pdf_Unicode_{TestData.UnicodeTestString}.pdf");
+            File.Delete(path);
+            Assert.IsTrue((exchanger as IDrawingExporter).DoExport(path, drawing));
+            Assert.That(File.Exists(path));
+            File.Delete(path);
+        }
 
         //--------------------------------------------------------------------------------------------------
 

@@ -37,7 +37,7 @@ namespace Macad.Interaction.Visual
                 {
                     if (reloadIfExist && cachedPixMap is Image_AlienPixMap alienPixMap)
                     {
-                        alienPixMap.Load(new TCollection_AsciiString(path));
+                        alienPixMap.Load(new TCollection_AsciiString(new TCollection_ExtendedString(path)));
                     }
                     return cachedPixMap;
                 }
@@ -49,7 +49,7 @@ namespace Macad.Interaction.Visual
             }
 
             Image_AlienPixMap pixMap = new();
-            if(!pixMap.Load(new TCollection_AsciiString(path)))
+            if(!pixMap.Load(new TCollection_AsciiString(new TCollection_ExtendedString(path))))
             {
                 return null;
             }

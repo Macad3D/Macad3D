@@ -338,5 +338,26 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
             Assert.AreEqual(9.0, datumPlane2.SizeX);
             Assert.AreEqual(12.0, datumPlane2.SizeY);
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void UnicodePath()
+        {
+            // Write
+            var filePath = Path.Combine(TestData.TempDirectory, $"TestImage_{TestData.UnicodeTestString}.png");
+            File.Copy(_SourceImagePath, filePath, true);
+
+            var ctx = Context.Current;
+
+            var imagePlane = DatumPlane.Create();
+            imagePlane.ImageFilePath = filePath;
+            ctx.Document.Add(imagePlane);
+
+            ctx.ViewportController.ZoomFitAll();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateWithImage01"));
+
+            File.Delete(filePath);
+        }
     }
 }

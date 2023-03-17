@@ -127,6 +127,23 @@ namespace Macad.Test.Unit.Exchange
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void UnicodePath()
+        {
+            // Write
+            var bodies = TestGeomGenerator.CreateBoxCylinderSphere();
+            var exchanger = new ObjExchanger();
+            var path = Path.Combine(TestData.TempDirectory, $"Obj_Unicode_{TestData.UnicodeTestString}.obj");
+            File.Delete(path);
 
+            Assert.IsTrue((exchanger as IBodyExporter).DoExport(path, bodies));
+            Assert.That(File.Exists(path));
+
+            // Read
+            Assert.IsTrue((exchanger as IBodyImporter).DoImport(path, out var readbodies));
+            Assert.IsNotNull(readbodies);
+            File.Delete(path);
+        }
     }
 }

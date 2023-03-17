@@ -1,8 +1,11 @@
 ﻿using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 using Macad.Test.Utils;
 using Macad.Exchange.Dxf;
 using Macad.Core.Shapes;
 using NUnit.Framework;
+using Macad.Core;
+using Macad.Exchange;
 
 namespace Macad.Test.Unit.Exchange
 {
@@ -231,6 +234,27 @@ namespace Macad.Test.Unit.Exchange
                 sketch.Clear();
             }
             sketch.AddElements(points, null, segments, null);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void UnicodePath()
+        {
+            // Write
+            var sketch = Sketch.Create();
+            var sb = new SketchBuilder(sketch);
+            sb.Line(1, 1, 5, 5);
+            var exchanger = new DxfExchanger();
+            var path = Path.Combine(TestData.TempDirectory, $"Dxf_Unicode_{TestData.UnicodeTestString}.dxf");
+            File.Delete(path);
+            Assert.IsTrue((exchanger as ISketchExporter).DoExport(path, sketch));
+            Assert.That(File.Exists(path));
+
+            // Read
+            Assert.IsTrue((exchanger as ISketchImporter).DoImport(path, out var points, out var segments, out var constraints));
+            Assert.IsNotNull(points);
+            File.Delete(path);
         }
     }
 }

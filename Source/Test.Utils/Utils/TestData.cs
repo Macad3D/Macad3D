@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Macad.Common;
+using Macad.Core;
 using Macad.Exchange;
 using Macad.Core.Topology;
 using Macad.Occt;
 using NUnit.Framework;
+using System.Text;
 
 namespace Macad.Test.Utils
 {
@@ -13,11 +14,13 @@ namespace Macad.Test.Utils
     {
         public static string TestDataDirectory { get; }
         public static string TempDirectory { get; }
+        public static string UnicodeTestString { get; } = Encoding.Unicode.GetString("[&Z&]&^&\\&"u8);
 
         static TestData()
         {
             TestDataDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UnitTests");
             TempDirectory = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UnitTests\Temp"));
+            Directory.CreateDirectory(TempDirectory);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -78,7 +81,7 @@ namespace Macad.Test.Utils
 
         public static Body GetBodyFromBRep(string path)
         {
-            var importer = new OpenCascadeExchanger();
+            var importer = new OpenCascadeExchanger() as IBodyImporter;
             Assume.That(importer != null);
             Assume.That(importer.DoImport(Path.Combine(TestDataDirectory, path), out var newBodies));
             Assume.That(newBodies != null);

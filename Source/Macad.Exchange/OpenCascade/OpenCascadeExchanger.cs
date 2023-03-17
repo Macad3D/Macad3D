@@ -120,7 +120,7 @@ namespace Macad.Exchange
 
         #region IBrepImporter
 
-        public bool DoImport(string fileName, out IEnumerable<Body> bodies)
+        bool IBodyImporter.DoImport(string fileName, out IEnumerable<Body> bodies)
         {
             bodies = null;
             try

@@ -15,7 +15,7 @@ namespace Macad.Test.Unit.Exchange
 
         //--------------------------------------------------------------------------------------------------
 
-        [Test]
+        [Test, Order(1)]
         public void WriteSolid()
         {
             var bodies = TestGeomGenerator.CreateBoxCylinderSphere();
@@ -26,7 +26,7 @@ namespace Macad.Test.Unit.Exchange
             Assert.IsTrue((exchanger as IBodyExporter).DoExport(path, bodies));
 
             // Skip header bytes, it contains the export date and time
-            AssertHelper.IsSameFile(Path.Combine(_BasePath, "WriteSolid.stp"), path, 235);
+            AssertHelper.IsSameFile(Path.Combine(_BasePath, "WriteSolid.stp"), path, 229);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -66,5 +66,24 @@ namespace Macad.Test.Unit.Exchange
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void UnicodePath()
+        {
+            // Write
+            var bodies = TestGeomGenerator.CreateBoxCylinderSphere();
+            var exchanger = new StepExchanger();
+            var path = Path.Combine(TestData.TempDirectory, $"Step_Unicode_{TestData.UnicodeTestString}.stp");
+            File.Delete(path);
+
+            Assert.IsTrue(exchanger.DoExport(path, bodies));
+            Assert.That(File.Exists(path));
+
+            // Read
+            exchanger.Settings.ImportSingleBody = true;
+            Assert.IsTrue(exchanger.DoImport(path, out var readbodies));
+            Assert.IsNotNull(readbodies);
+            Assert.AreEqual(1, readbodies.Count());
+            File.Delete(path);
+        }
     }
 }

@@ -38,9 +38,9 @@ namespace Macad
 
 				bool WriteToFile(String^ path)
 				{
-					char* pathCString = static_cast<char*>(Marshal::StringToHGlobalAnsi(path).ToPointer());
+					char* pathCString = static_cast<char*>(Marshal::StringToCoTaskMemUTF8(path).ToPointer());
 					bool result = _Writer->Write(pathCString);
-					Marshal::FreeHGlobal((IntPtr)pathCString);
+					Marshal::FreeCoTaskMem((IntPtr)pathCString);
 					return result;
 				}
 			};
@@ -74,9 +74,9 @@ namespace Macad
 
 				bool ReadFromFile(String^ path)
 				{
-					char* pathCString = static_cast<char*>(Marshal::StringToHGlobalAnsi(path).ToPointer());
+					char* pathCString = static_cast<char*>(Marshal::StringToCoTaskMemUTF8(path).ToPointer());
 					bool result = _Reader->ReadFile(pathCString) == IFSelect_RetDone;
-					Marshal::FreeHGlobal((IntPtr)pathCString);
+					Marshal::FreeCoTaskMem((IntPtr)pathCString);
 					return result;
 				}
 			};
