@@ -3,7 +3,6 @@ using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
-using Macad.Core.Topology;
 using Macad.Interaction.Panels;
 using Macad.Occt;
 
@@ -11,45 +10,40 @@ namespace Macad.Interaction.Editors.Shapes;
 
 public sealed class OffsetEditor : Editor<Offset>
 {
-    OffsetPropertyPanel _Panel;
     BoxScaleLiveAction _ScaleAction;
     LabelHudElement _HudElement;
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void Start()
+    protected override void OnStart()
     {
-        _Panel = PropertyPanel.CreatePanel<OffsetPropertyPanel>(Entity);
-        InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Shapes);
-        
-        InteractiveEntity.VisualChanged += _InteractiveEntity_VisualChanged;     
+        CreatePanel<OffsetPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
+    }
 
+    //--------------------------------------------------------------------------------------------------
+
+    protected override void OnToolsStart()
+    {
+        Shape.ShapeChanged += _Shape_ShapeChanged;
         _UpdateActions();
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void Stop()
+    protected override void OnToolsStop()
     {
-        InteractiveEntity.VisualChanged -= _InteractiveEntity_VisualChanged;                 
-
-        InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
-            
-        _ScaleAction?.Stop();
+        _HudElement = null;
         _ScaleAction = null;
-
-        WorkspaceController.HudManager?.RemoveElement(_HudElement);
-        WorkspaceController.HudManager?.SetHintMessage(this, null);
+        Shape.ShapeChanged -= _Shape_ShapeChanged;              
     }
-    
+
     //--------------------------------------------------------------------------------------------------
         
-    void _InteractiveEntity_VisualChanged(InteractiveEntity entity)
+    void _Shape_ShapeChanged(Shape shape)
     {
-        if (entity == Entity.Body)
+        if (shape == Entity)
         {
             _UpdateActions();
-            WorkspaceController.Invalidate();
         }
     }
     
@@ -59,9 +53,9 @@ public sealed class OffsetEditor : Editor<Offset>
 
     void _UpdateActions()
     {
-        if (Entity == null || Entity.Body == null)
+        if (Entity?.Body == null)
         {
-            _ScaleAction?.Deactivate();
+            RemoveLiveActions();
             _ScaleAction = null;
             return;
         }
@@ -80,17 +74,14 @@ public sealed class OffsetEditor : Editor<Offset>
         _ScaleAction.Box = box;
         _ScaleAction.Transformation = Entity.Body.GetTransformation();
 
-        WorkspaceController.StartLiveAction(_ScaleAction);
+        AddLiveAction(_ScaleAction);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     void _ScaleAction_Previewed(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
     {
-        if (sender != _ScaleAction)
-            return;
-
-        WorkspaceController.HudManager?.SetHintMessage(this, "Change distance box using gizmo, press 'CTRL' to round to grid stepping.");
+        SetHintMessage("Change distance box using gizmo, press 'CTRL' to round to grid stepping.");
 
         double delta = args.Delta * Math.Max(args.Direction.X.Abs(),
                                              Math.Max(args.Direction.Y.Abs(),
@@ -110,7 +101,7 @@ public sealed class OffsetEditor : Editor<Offset>
 
         Entity.Distance = newDistance;
 
-        _HudElement ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
+        _HudElement ??= CreateHudElement<LabelHudElement>();
         _HudElement?.SetValue($"Distance: {Entity.Distance.ToInvariantString("F2")} mm");
 
         _UpdateActions();
@@ -120,17 +111,12 @@ public sealed class OffsetEditor : Editor<Offset>
 
     void _ScaleAction_Finished(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
     {
-        if (sender != _ScaleAction)
-            return;
-
         if (!args.DeltaSum.IsEqual(0.0, double.Epsilon))
         {
             InteractiveContext.Current.UndoHandler.Commit();
         }
 
-        WorkspaceController.HudManager?.RemoveElement(_HudElement);
-        _HudElement = null;
-        WorkspaceController.HudManager?.SetHintMessage(this, null);
+        StartTools();
     }
 
     //--------------------------------------------------------------------------------------------------

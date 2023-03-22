@@ -716,6 +716,7 @@ namespace Macad.Interaction
                 {
                     tool.WorkspaceController = this;
                     _CurrentTool = tool;
+                    CurrentEditor?.StopTools();
                     if (!tool.Start() && !tool.IsClosed)
                     {
                         CancelTool(tool, true);
@@ -793,6 +794,11 @@ namespace Macad.Interaction
             RaisePropertyChanged(nameof(CurrentTool));
             Invalidate();
             UpdateSelection();
+
+            if (CurrentTool == null)
+            {
+                _CurrentEditor?.StartTools();
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -831,7 +837,6 @@ namespace Macad.Interaction
                     if (!toolAction.Start())
                         return false;
 
-                    _LiveActions.ForEach(action => action.Deactivate());
                     _ToolActions.Insert(0, toolAction);
 
                     RaisePropertyChanged(nameof(CurrentToolAction));
@@ -853,9 +858,6 @@ namespace Macad.Interaction
             {
                 _ToolActions.Remove(toolAction);
 
-                if(_ToolActions.Count == 0)
-                    _LiveActions.ForEach(action => action.Activate());
-
                 RaisePropertyChanged(nameof(CurrentToolAction));
             }
         }
@@ -866,9 +868,9 @@ namespace Macad.Interaction
         {
             try
             {
-                if (liveAction == null) 
+                if (liveAction == null || _LiveActions.Contains(liveAction)) 
                     return false;
-
+                
                 liveAction.WorkspaceController = this;
                 if (!liveAction.Start())
                     return false;
@@ -876,7 +878,7 @@ namespace Macad.Interaction
                 _LiveActions.Insert(0, liveAction);
 
                 if(_ToolActions.Count == 0)
-                    liveAction.Activate();
+                    liveAction.Start();
 
                 return true;
             }

@@ -1,29 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Macad.Common;
-using Macad.Core.Shapes;
+﻿using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
-using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
     public class SketchEditor : Editor<Sketch>
     {
-        SketchPropertyPanel _Panel;
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Start()
+        protected override void OnStart()
         {
-            _Panel = PropertyPanel.CreatePanel<SketchPropertyPanel>(Entity);
-            InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Shapes);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Stop()
-        {
-            InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
+            CreatePanel<SketchPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
         }
 
         //--------------------------------------------------------------------------------------------------

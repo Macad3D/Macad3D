@@ -1,20 +1,129 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using Macad.Common;
 using Macad.Core.Topology;
 
 namespace Macad.Interaction
 {
-    public abstract class Editor : BaseObject, IContextMenuItemProvider
+    public abstract class Editor : WorkspaceControl, IContextMenuItemProvider
     {
-        public abstract void Init(WorkspaceController workspaceController, Entity entity);
-        public abstract void Start();
-        public abstract void Stop();
         public abstract Entity GetEntity();
 
         //--------------------------------------------------------------------------------------------------
 
+        #region Show and Hide
+
+        public virtual void Init(WorkspaceController workspaceController, Entity entity)
+        {
+            WorkspaceController = workspaceController;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void Start()
+        {
+            OnStart();
+            StartTools();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void Stop()
+        {
+            StopTools();
+            OnStop();
+            Cleanup();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected virtual void OnStart()
+        {}
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected virtual void OnStop()
+        {
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+        
+        #region Tools
+
+        public bool ToolsActive { get; private set; }
+        List<LiveAction> _LiveActions;
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void StartTools()
+        {
+            if (ToolsActive)
+            {
+                // Re-initialize
+                StopTools(); 
+            }
+
+            OnToolsStart();
+            ToolsActive = true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void StopTools()
+        {
+            if(!ToolsActive)
+                return;
+
+            OnToolsStop();
+            RemoveHintMessage();
+            RemoveHudElements();
+            RemoveLiveActions();
+            ToolsActive = false;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected virtual void OnToolsStart()
+        {}
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected virtual void OnToolsStop()
+        {}
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected void AddLiveAction(LiveAction liveAction)
+        {
+            WorkspaceController.StartLiveAction(liveAction);
+            _LiveActions ??= new();
+            _LiveActions.Add(liveAction);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        protected void RemoveLiveAction(LiveAction liveAction)
+        {
+            WorkspaceController.RemoveLiveAction(liveAction);
+            _LiveActions?.Remove(liveAction);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected void RemoveLiveActions()
+        {
+            if (_LiveActions == null)
+                return;
+
+            _LiveActions.ForEach(WorkspaceController.RemoveLiveAction);
+            _LiveActions.Clear();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+        
         #region Static Registration and Create
 
         static readonly Dictionary<Type, Type> _RegisteredEditors = new();
@@ -71,29 +180,13 @@ namespace Macad.Interaction
 
     public abstract class Editor<T> : Editor where T: Entity
     {
-        public WorkspaceController WorkspaceController
-        {
-            get { return _WorkspaceController; }
-            set
-            {
-                Debug.Assert(_WorkspaceController == null || _WorkspaceController == value, "WorkspaceController cannot be changed");
-                _WorkspaceController = value;
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         public T Entity { get; private set; }
-
-        //--------------------------------------------------------------------------------------------------
-
-        WorkspaceController _WorkspaceController;
 
         //--------------------------------------------------------------------------------------------------
 
         public override void Init(WorkspaceController workspaceController, Entity entity)
         {
-            _WorkspaceController = workspaceController;
+            base.Init(workspaceController, entity);
             Entity = entity as T;
         }
 
@@ -103,7 +196,7 @@ namespace Macad.Interaction
         {
             return Entity;
         }
-
+        
         //--------------------------------------------------------------------------------------------------
 
         protected static void RegisterEditor<TEditor>() where TEditor : Editor
@@ -112,6 +205,5 @@ namespace Macad.Interaction
         }
 
         //--------------------------------------------------------------------------------------------------
-
     }
 }

@@ -1,4 +1,4 @@
-﻿using Macad.Common;
+﻿ using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Occt;
@@ -9,8 +9,6 @@ namespace Macad.Interaction.Editors.Shapes;
 
 public class ImprintEditor : Editor<Imprint>
 {
-    ImprintPropertyPanel _Panel;
-    SketchPropertyPanel _SketchPanel;
     TranslateAxisLiveAction _TranslateAction;
     LabelHudElement _HudElement;
     bool _IsMoving;
@@ -18,52 +16,40 @@ public class ImprintEditor : Editor<Imprint>
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void Start()
+    protected override void OnStart()
     {
-        Shape.ShapeChanged += _Shape_ShapeChanged;
-
-        _Panel = PropertyPanel.CreatePanel<ImprintPropertyPanel>(Entity);
-        InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Shapes);
+        var panel = CreatePanel<ImprintPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
 
         if (Entity.Sketch != null)
         {
-            _SketchPanel = PropertyPanel.CreatePanel<SketchPropertyPanel>(Entity.Sketch);
-            InteractiveContext.Current.PropertyPanelManager?.AddPanel(_SketchPanel, _Panel);
+            CreatePanel<SketchPropertyPanel>(Entity.Sketch, panel);
         }
+    }
+                
+    //--------------------------------------------------------------------------------------------------
 
-        _ShowActions();
+    protected override void OnToolsStart()
+    {
+        Shape.ShapeChanged += _Shape_ShapeChanged;
+        _UpdateActions();
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void Stop()
+    protected override void OnToolsStop()
     {
-        _HideActions();
-
-        Shape.ShapeChanged -= _Shape_ShapeChanged;
-
-        InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_SketchPanel);
-        InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
+        _HudElement = null;
+        _TranslateAction = null;
+        Shape.ShapeChanged -= _Shape_ShapeChanged;              
     }
-                
+
     //--------------------------------------------------------------------------------------------------
 
     void _Shape_ShapeChanged(Shape shape)
     {
         if (shape == Entity)
         {
-            //if (!_IsMoving)
-            //{
-            //    _TranslateAction?.Deactivate();
-            //    _UpdateActions();
-            //}
-            //else if (_TranslateAction != null && Entity.GetFinalExtrusionAxis(out Ax1 axis))
-            //{
-            //    _TranslateAction.Axis = axis.Transformed(Entity.Body.GetTransformation());
-            //}
             _UpdateActions();
-
-            WorkspaceController.Invalidate();
         }
     }
 
@@ -77,14 +63,6 @@ public class ImprintEditor : Editor<Imprint>
 
     //--------------------------------------------------------------------------------------------------
 
-    [AutoRegister]
-    internal static void Register()
-    {
-        RegisterEditor<ImprintEditor>();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     #region Live Actions
 
     void _ShowActions()
@@ -94,24 +72,14 @@ public class ImprintEditor : Editor<Imprint>
 
     //--------------------------------------------------------------------------------------------------
 
-    void _HideActions()
-    {
-        _TranslateAction?.Stop();
-        _TranslateAction = null;
-        WorkspaceController.HudManager?.SetHintMessage(this, null);
-        WorkspaceController.HudManager?.RemoveElement(_HudElement);
-        _HudElement = null;
-        WorkspaceController.Invalidate();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     void _UpdateActions()
     {
-        if (Entity.Mode == Imprint.ImprintMode.Cutout
+        if (Entity?.Body == null
+            || Entity.Mode == Imprint.ImprintMode.Cutout
             || !Entity.GetFinalExtrusionAxis(out Ax1 axis))
         {
-            _HideActions();
+            RemoveLiveActions();
+            _TranslateAction = null;
             return;
         }
         
@@ -135,10 +103,7 @@ public class ImprintEditor : Editor<Imprint>
             _StartDepth = Entity.Depth;
         }
 
-        WorkspaceController.StartLiveAction(_TranslateAction);
-        WorkspaceController.Invalidate();
-
-        return;
+        AddLiveAction(_TranslateAction);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -146,7 +111,7 @@ public class ImprintEditor : Editor<Imprint>
     void _TranslateActionPreviewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = true;
-        WorkspaceController.HudManager?.SetHintMessage(this, "Scale imprint depth using gizmo, press 'CTRL' to round to grid stepping.");
+        SetHintMessage("Scale imprint depth using gizmo, press 'CTRL' to round to grid stepping.");
 
         double newDepth = _StartDepth + (Entity.Mode == Imprint.ImprintMode.Raise
                                              ? args.Distance
@@ -167,7 +132,7 @@ public class ImprintEditor : Editor<Imprint>
         Entity.Depth = newDepth.Abs();
 
         _UpdateActions();
-        _HudElement ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
+        _HudElement ??= CreateHudElement<LabelHudElement>();
         _HudElement?.SetValue($"Depth: {Entity.Depth.ToInvariantString("F2")} mm");
     }
 
@@ -176,16 +141,19 @@ public class ImprintEditor : Editor<Imprint>
     void _TranslateActionFinished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = false;
-        _TranslateAction.Deactivate();
         InteractiveContext.Current.UndoHandler.Commit();
-        WorkspaceController.HudManager?.RemoveElement(_HudElement);
-        _HudElement = null;
-        WorkspaceController.HudManager?.SetHintMessage(this, null);
-        _ShowActions();
+        StartTools();
     }
     
     //--------------------------------------------------------------------------------------------------
 
-
     #endregion
+
+    [AutoRegister]
+    internal static void Register()
+    {
+        RegisterEditor<ImprintEditor>();
+    }
+
+    //--------------------------------------------------------------------------------------------------
 }

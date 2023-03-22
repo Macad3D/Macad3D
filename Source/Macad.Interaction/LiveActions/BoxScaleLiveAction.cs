@@ -99,9 +99,9 @@ public sealed class BoxScaleLiveAction : LiveAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void Activate()
+    protected override void OnStart()
     {
-        base.Activate();
+        base.OnStart();
 
         if (_Box == null)
             return;
@@ -111,7 +111,7 @@ public sealed class BoxScaleLiveAction : LiveAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void Deactivate()
+    public override void OnStop()
     {
         foreach (var hintLine in _Lines)
         {
@@ -129,17 +129,10 @@ public sealed class BoxScaleLiveAction : LiveAction
         _AxisHintLine = null;
 
         WorkspaceController.Invalidate();
-
-        base.Deactivate();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    
-    public override void Stop()
-    {
         Previewed = null;
         Finished = null;
-        base.Stop();
+
+        base.OnStop();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -277,7 +270,6 @@ public sealed class BoxScaleLiveAction : LiveAction
             RaiseFinished(eventArgs);
 
             _Update();
-            WorkspaceController.Invalidate();
             data.ForceReDetection = true;
 
             return true;

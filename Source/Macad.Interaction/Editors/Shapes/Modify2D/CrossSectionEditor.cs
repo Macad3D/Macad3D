@@ -10,7 +10,6 @@ namespace Macad.Interaction.Editors.Shapes;
 
 internal sealed class CrossSectionEditor : Editor<CrossSection>
 {
-    CrossSectionPropertyPanel _Panel;
     VisualShape _GhostVisual;
     Plane _PlaneVisual;
     Pln _TranslatedPlane;
@@ -20,37 +19,47 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     RotateLiveAction _RotateActionX;
     RotateLiveAction _RotateActionY;
     RotateLiveAction _RotateActionZ;
-    LabelHudElement _HudElement;
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void Start()
+    protected override void OnStart()
     {
-        _Panel = PropertyPanel.CreatePanel<CrossSectionPropertyPanel>(Entity);
-        InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Shapes);
+        CreatePanel<CrossSectionPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
         
         Shape.ShapeChanged += _Shape_ShapeChanged;
 
         _UpdateHints();
-        _ShowActions();
-
-        WorkspaceController.Invalidate();
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void Stop()
+    protected override void OnStop()
     {
         Shape.ShapeChanged -= _Shape_ShapeChanged;
-
-        InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
         
         _GhostVisual?.Remove();
         _GhostVisual = null;
         _PlaneVisual?.Remove();
         _PlaneVisual = null;
+    }
+    
+    //--------------------------------------------------------------------------------------------------
 
-        _HideActions();
+    protected override void OnToolsStart()
+    {
+        Shape.ShapeChanged += _Shape_ShapeChanged;
+        _ShowActions();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    protected override void OnToolsStop()
+    {
+        _TranslateAction = null;
+        _RotateActionX = null;
+        _RotateActionY = null;
+        _RotateActionZ = null;
+        Shape.ShapeChanged -= _Shape_ShapeChanged;              
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -61,8 +70,6 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
         {
             _UpdateHints();
             _UpdateActions();
-
-            WorkspaceController.Invalidate();
         }
     }
     
@@ -88,6 +95,8 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
         _PlaneVisual.Set(Entity.GetCenteredPlane(out _PlaneSize));
         _PlaneVisual.Size = new XY(_PlaneSize, _PlaneSize);
         _PlaneVisual.SetLocalTransformation(trsf);
+
+        WorkspaceController.Invalidate();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -152,29 +161,10 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
 
         _UpdateActions();
 
-        WorkspaceController.StartLiveAction(_TranslateAction);
-        WorkspaceController.StartLiveAction(_RotateActionX);
-        WorkspaceController.StartLiveAction(_RotateActionY);
-        WorkspaceController.StartLiveAction(_RotateActionZ);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    void _HideActions()
-    {
-        _TranslateAction?.Stop();
-        _TranslateAction = null;
-        _RotateActionX?.Stop();
-        _RotateActionX = null;
-        _RotateActionY?.Stop();
-        _RotateActionY = null;
-        _RotateActionZ?.Stop();
-        _RotateActionZ = null;
-
-        WorkspaceController.HudManager?.SetHintMessage(this, null);
-        WorkspaceController.HudManager?.RemoveElement(_HudElement);
-        _HudElement = null;
-        WorkspaceController.Invalidate();
+        AddLiveAction(_TranslateAction);
+        AddLiveAction(_RotateActionX);
+        AddLiveAction(_RotateActionY);
+        AddLiveAction(_RotateActionZ);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -213,7 +203,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
         if (!_IsMoving)
         {
             _IsMoving = true;
-            WorkspaceController.HudManager?.SetHintMessage(this, "Move cut plane using gizmo, press 'CTRL' to round to grid stepping.");
+            SetHintMessage("Move cut plane using gizmo, press 'CTRL' to round to grid stepping.");
         }
 
         var newLocation = args.Axis.Location;
@@ -231,9 +221,9 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
         {
             _PlaneVisual.Set(Entity.GetCenteredPlane(out _PlaneSize));
             _PlaneVisual.Size = new XY(_PlaneSize, _PlaneSize);
-            _RotateActionX.Deactivate();
-            _RotateActionY.Deactivate();
-            _RotateActionZ.Deactivate();
+            _RotateActionX.OnStop();
+            _RotateActionY.OnStop();
+            _RotateActionZ.OnStop();
         }
     }
 
@@ -242,10 +232,8 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     void _TranslateActionFinished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = false;
-        _TranslateAction.Deactivate();
         InteractiveContext.Current.UndoHandler.Commit();
-        WorkspaceController.HudManager?.SetHintMessage(this, null);
-        _ShowActions();
+        StartTools();
     }
     
     //--------------------------------------------------------------------------------------------------
@@ -255,7 +243,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
         if (!_IsMoving)
         {
             _IsMoving = true;
-            WorkspaceController.HudManager?.SetHintMessage(this, "Rotate cut plane using gizmo, press 'CTRL' to round to 5°.");
+            SetHintMessage("Rotate cut plane using gizmo, press 'CTRL' to round to 5°.");
         }
 
         var delta = args.Delta;
@@ -275,7 +263,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
 
         if (_PlaneVisual != null)
         {
-            _TranslateAction.Deactivate();
+            _TranslateAction.OnStop();
             _PlaneVisual.Set(Entity.GetCenteredPlane(out _PlaneSize));
             _PlaneVisual.Size = new XY(_PlaneSize, _PlaneSize);
         }
@@ -286,12 +274,8 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     void _RotateActionFinished(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         _IsMoving = false;
-        _HideActions();
         InteractiveContext.Current.UndoHandler.Commit();
-        WorkspaceController.HudManager?.RemoveElement(_HudElement);
-        _HudElement = null;
-        WorkspaceController.HudManager?.SetHintMessage(this, null);
-        _ShowActions();
+        StartTools();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -299,8 +283,8 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     void _RotateActionXPreviewed(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         _RotateActionPreviewed(args, _TranslatedPlane.XAxis);
-        _RotateActionY.Deactivate();
-        _RotateActionZ.Deactivate();
+        _RotateActionY.OnStop();
+        _RotateActionZ.OnStop();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -308,8 +292,8 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     void _RotateActionYPreviewed(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         _RotateActionPreviewed(args, _TranslatedPlane.YAxis);
-        _RotateActionX.Deactivate();
-        _RotateActionZ.Deactivate();
+        _RotateActionX.OnStop();
+        _RotateActionZ.OnStop();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -317,8 +301,8 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     void _RotateActionZPreviewed(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         _RotateActionPreviewed(args, _TranslatedPlane.Axis);
-        _RotateActionX.Deactivate();
-        _RotateActionY.Deactivate();
+        _RotateActionX.OnStop();
+        _RotateActionY.OnStop();
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -3,7 +3,6 @@ using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
-using Macad.Core.Topology;
 using Macad.Interaction.Panels;
 using Macad.Occt;
 
@@ -11,7 +10,6 @@ namespace Macad.Interaction.Editors.Shapes;
 
 public class ExtrudeEditor : Editor<Extrude>
 {
-    ExtrudePropertyPanel _Panel;
     TranslateAxisLiveAction _TranslateAction;
     LabelHudElement _HudElement;
     bool _IsMoving;
@@ -19,28 +17,28 @@ public class ExtrudeEditor : Editor<Extrude>
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void Start()
+    protected override void OnStart()
+    {
+        CreatePanel<ExtrudePropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    protected override void OnToolsStart()
     {
         Shape.ShapeChanged += _Shape_ShapeChanged;
-
-        _Panel = PropertyPanel.CreatePanel<ExtrudePropertyPanel>(Entity);
-        InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Shapes);
-       
         _UpdateActions();
-        WorkspaceController.Invalidate();
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void Stop()
+    protected override void OnToolsStop()
     {
-        Shape.ShapeChanged -= _Shape_ShapeChanged;
-
-        InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
-
-        _HideActions();
+        _HudElement = null;
+        _TranslateAction = null;
+        Shape.ShapeChanged -= _Shape_ShapeChanged;              
     }
-                
+
     //--------------------------------------------------------------------------------------------------
 
     void _Shape_ShapeChanged(Shape shape)
@@ -49,8 +47,7 @@ public class ExtrudeEditor : Editor<Extrude>
         {
             if (!_IsMoving)
             {
-                _TranslateAction?.Deactivate();
-                _UpdateActions();
+                StartTools();
             }
             else if (_TranslateAction != null && Entity.GetFinalExtrusionAxis(out Ax1 axis))
             {
@@ -75,20 +72,11 @@ public class ExtrudeEditor : Editor<Extrude>
 
     #region Live Actions
 
-    void _HideActions()
-    {
-        _TranslateAction?.Stop();
-        _TranslateAction = null;
-        WorkspaceController.HudManager?.SetHintMessage(this, null);
-        WorkspaceController.HudManager?.RemoveElement(_HudElement);
-        _HudElement = null;
-        WorkspaceController.Invalidate();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     void _UpdateActions()
     {
+        if (Entity?.Body == null)
+            return;
+
         if (!Entity.GetFinalExtrusionAxis(out Ax1 axis))
             return;
         axis.Transform(Entity.Body.GetTransformation());
@@ -111,7 +99,7 @@ public class ExtrudeEditor : Editor<Extrude>
             _StartDepth = Entity.Depth;
         }
 
-        WorkspaceController.StartLiveAction(_TranslateAction);
+        AddLiveAction(_TranslateAction);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -120,10 +108,10 @@ public class ExtrudeEditor : Editor<Extrude>
     {
         _IsMoving = true;
 
-        double newDepth = Entity.Depth;
+        double newDepth;
         if (Entity.IsSketchBased)
         {
-            WorkspaceController.HudManager?.SetHintMessage(this, "Scale extrusion depth using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to extrude symmetric to both sides.");
+            SetHintMessage("Scale extrusion depth using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to extrude symmetric to both sides.");
 
             bool shallSymmetric = args.MouseEventData.ModifierKeys.Has(ModifierKeys.Shift);
             if (shallSymmetric != Entity.Symmetric)
@@ -137,7 +125,7 @@ public class ExtrudeEditor : Editor<Extrude>
         }
         else
         {
-            WorkspaceController.HudManager?.SetHintMessage(this, "Scale extrusion depth using gizmo, press 'CTRL' to round to grid stepping.");
+            SetHintMessage("Scale extrusion depth using gizmo, press 'CTRL' to round to grid stepping.");
             newDepth = _StartDepth + args.Distance;
         }
 
@@ -149,7 +137,7 @@ public class ExtrudeEditor : Editor<Extrude>
         Entity.Depth = newDepth;
 
         _UpdateActions();
-        _HudElement ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
+        _HudElement ??= CreateHudElement<LabelHudElement>();
         _HudElement?.SetValue($"Depth: {Entity.Depth.ToInvariantString("F2")} mm");
     }
 
@@ -158,12 +146,9 @@ public class ExtrudeEditor : Editor<Extrude>
     void _TranslateActionFinished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = false;
-        _TranslateAction.Deactivate();
         InteractiveContext.Current.UndoHandler.Commit();
-        WorkspaceController.HudManager?.RemoveElement(_HudElement);
-        _HudElement = null;
-        WorkspaceController.HudManager?.SetHintMessage(this, null);
-        _UpdateActions();
+
+        StartTools();
     }
     
     //--------------------------------------------------------------------------------------------------

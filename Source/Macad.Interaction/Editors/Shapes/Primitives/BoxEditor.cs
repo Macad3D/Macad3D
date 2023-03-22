@@ -9,40 +9,32 @@ namespace Macad.Interaction.Editors.Shapes
 {
     public class BoxEditor : Editor<Box>
     {
-        BoxPropertyPanel _Panel;
         BoxScaleLiveAction _ScaleAction;
         bool[] _ScaleAxisReversed;
         LabelHudElement[] _HudElements = new LabelHudElement[3];
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Start()
+        protected override void OnStart()
         {
-            _Panel = PropertyPanel.CreatePanel<BoxPropertyPanel>(Entity);
-            InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Shapes);
-            
-            Shape.ShapeChanged += _Shape_ShapeChanged;
+            CreatePanel<BoxPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
+        }
 
+        //--------------------------------------------------------------------------------------------------
+
+        protected override void OnToolsStart()
+        {
+            Shape.ShapeChanged += _Shape_ShapeChanged;
             _UpdateActions();
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Stop()
+        protected override void OnToolsStop()
         {
-            Shape.ShapeChanged -= _Shape_ShapeChanged;              
-
-            InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
-            
-            _ScaleAction?.Stop();
-            _ScaleAction = null;
-
-            foreach (var element in _HudElements)
-            {
-                WorkspaceController.HudManager?.RemoveElement(element);
-            }
             _HudElements.Fill(null);
-            WorkspaceController.HudManager?.SetHintMessage(this, null);
+            _ScaleAction = null;
+            Shape.ShapeChanged -= _Shape_ShapeChanged;              
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -52,19 +44,18 @@ namespace Macad.Interaction.Editors.Shapes
             if (shape == Entity)
             {
                 _UpdateActions();
-                WorkspaceController.Invalidate();
             }
         }
 
         //--------------------------------------------------------------------------------------------------
-        
+
         #region Scale Action
 
         void _UpdateActions()
         {
             if (Entity?.Body == null)
             {
-                _ScaleAction?.Deactivate();
+                RemoveLiveActions();
                 _ScaleAction = null;
                 return;
             }
@@ -79,18 +70,16 @@ namespace Macad.Interaction.Editors.Shapes
             Bnd_Box box = new Bnd_Box(Pnt.Origin, new Pnt(Entity.DimensionX, Entity.DimensionY, Entity.DimensionZ));
             _ScaleAction.Box = box;
             _ScaleAction.Transformation = Entity.Body.GetTransformation();
+            _ScaleAxisReversed = null;
 
-            WorkspaceController.StartLiveAction(_ScaleAction);
+            AddLiveAction(_ScaleAction);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _ScaleAction_Previewed(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
         {
-            if (sender != _ScaleAction)
-                return;
-
-            WorkspaceController.HudManager?.SetHintMessage(this, "Scale box using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to scale relative to center.");
+            SetHintMessage("Scale box using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to scale relative to center.");
 
             _ScaleAxisReversed ??= new[]
             {
@@ -137,7 +126,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             Vec offset = new();
            
-            if (scale.X != 0)
+            if (scale.X != 0) 
             {
                 Entity.DimensionX += scale.X;
                 if (_ScaleAxisReversed[0] || center)
@@ -145,7 +134,7 @@ namespace Macad.Interaction.Editors.Shapes
                     offset.X -= scale.X;
                 }
 
-                _HudElements[0] ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
+                _HudElements[0] ??= CreateHudElement<LabelHudElement>();
                 _HudElements[0]?.SetValue($"Length: {Entity.DimensionX.ToInvariantString("F2")} mm");
             }
 
@@ -157,7 +146,7 @@ namespace Macad.Interaction.Editors.Shapes
                     offset.Y -= scale.Y;
                 }
 
-                _HudElements[1] ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
+                _HudElements[1] ??= CreateHudElement<LabelHudElement>();
                 _HudElements[1]?.SetValue($"Width:  {Entity.DimensionY.ToInvariantString("F2")} mm");
             }
             
@@ -169,7 +158,7 @@ namespace Macad.Interaction.Editors.Shapes
                     offset.Z -= scale.Z;
                 }
 
-                _HudElements[2] ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
+                _HudElements[2] ??= CreateHudElement<LabelHudElement>();
                 _HudElements[2]?.SetValue($"Height:  {Entity.DimensionZ.ToInvariantString("F2")} mm");
             }
 
@@ -184,22 +173,12 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _ScaleAction_Finished(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
         {
-            if (sender != _ScaleAction)
-                return;
-
             if (!args.DeltaSum.IsEqual(0.0, double.Epsilon))
             {
                 InteractiveContext.Current.UndoHandler.Commit();
             }
 
-            _ScaleAxisReversed = null;
-
-            foreach (var element in _HudElements)
-            {
-                WorkspaceController.HudManager?.RemoveElement(element);
-            }
-            _HudElements.Fill(null);
-            WorkspaceController.HudManager?.SetHintMessage(this, null);
+            StartTools();
         }
 
         //--------------------------------------------------------------------------------------------------

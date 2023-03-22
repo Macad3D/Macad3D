@@ -1,30 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Macad.Interaction.Visual;
-using Macad.Common;
 using Macad.Core.Components;
 using Macad.Core.Topology;
 using Macad.Interaction.Panels;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 
 namespace Macad.Interaction.Editors.Topology
 {
     public sealed class BodyEditor : Editor<Body>
     {
-        BodyPropertyPanel _Panel;
-        BodyShapePropertyPanel _ShapePanel;
         VisualShape _GhostVisualObject;
-        readonly Dictionary<Component, Editor> _ComponentEditors = new Dictionary<Component, Editor>();
+        BodyShapePropertyPanel _ShapePanel;
+        readonly Dictionary<Component, Editor> _ComponentEditors = new();
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Start()
+        protected override void OnStart()
         {
-            _Panel = PropertyPanel.CreatePanel<BodyPropertyPanel>(Entity);
-            InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Body);
-
-            _ShapePanel = PropertyPanel.CreatePanel<BodyShapePropertyPanel>(Entity);
-            InteractiveContext.Current.PropertyPanelManager?.AddPanel(_ShapePanel, PropertyPanelSortingKey.BodyShape);
+            CreatePanel<BodyPropertyPanel>(Entity, PropertyPanelSortingKey.Body);
+            _ShapePanel = CreatePanel<BodyShapePropertyPanel>(Entity, PropertyPanelSortingKey.BodyShape);
 
             _UpdateComponents();
 
@@ -37,7 +32,7 @@ namespace Macad.Interaction.Editors.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Stop() 
+        protected override void OnStop() 
         {
             Layer.InteractivityChanged -= _Layer_InteractivityChanged;
             InteractiveEntity.VisualChanged -= _InteractiveEntity_VisualChanged;                 
@@ -46,16 +41,27 @@ namespace Macad.Interaction.Editors.Topology
             _GhostVisualObject?.Remove();
             _GhostVisualObject = null;
 
+            _ShapePanel = null;
+
             foreach (var componentEditor in _ComponentEditors.Values)
             {
                 componentEditor.Stop();
             }
             _ComponentEditors.Clear();
+        }
 
-            InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_ShapePanel);
-            _ShapePanel = null;
-            InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
-            _Panel = null;
+        //--------------------------------------------------------------------------------------------------
+
+        protected override void OnToolsStart()
+        {
+            _ShapePanel?.SelectedEditor?.StartTools();
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        protected override void OnToolsStop()
+        {
+            _ShapePanel?.SelectedEditor?.StopTools();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -134,7 +140,7 @@ namespace Macad.Interaction.Editors.Topology
 
         public override void EnrichContextMenu(ContextMenuItems itemList)
         {
-            _ShapePanel.EnrichMainContextMenu(itemList);
+            _ShapePanel?.SelectedEditor?.EnrichContextMenu(itemList);
         }
 
         //--------------------------------------------------------------------------------------------------

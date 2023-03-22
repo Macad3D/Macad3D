@@ -9,39 +9,31 @@ namespace Macad.Interaction.Editors.Shapes
 {
     public class CylinderEditor : Editor<Cylinder>
     {
-        CylinderPropertyPanel _Panel;
         BoxScaleLiveAction _ScaleAction;
         LabelHudElement[] _HudElements = new LabelHudElement[2];
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Start()
+        protected override void OnStart()
         {
-            _Panel = PropertyPanel.CreatePanel<CylinderPropertyPanel>(Entity);
-            InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Shapes);
+            CreatePanel<CylinderPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
+        }
 
+        //--------------------------------------------------------------------------------------------------
+        
+        protected override void OnToolsStart()
+        {
             Shape.ShapeChanged += _Shape_ShapeChanged;
-
             _UpdateActions();
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Stop()
+        protected override void OnToolsStop()
         {
-            Shape.ShapeChanged -= _Shape_ShapeChanged;
-
-            InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
-                        
-            _ScaleAction?.Stop();
-            _ScaleAction = null;
-
-            foreach (var element in _HudElements)
-            {
-                WorkspaceController.HudManager?.RemoveElement(element);
-            }
             _HudElements.Fill(null);
-            WorkspaceController.HudManager?.SetHintMessage(this, null);
+            _ScaleAction = null;
+            Shape.ShapeChanged -= _Shape_ShapeChanged;              
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -51,7 +43,6 @@ namespace Macad.Interaction.Editors.Shapes
             if (shape == Entity)
             {
                 _UpdateActions();
-                WorkspaceController.Invalidate();
             }
         }
 
@@ -61,9 +52,9 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _UpdateActions()
         {
-            if (Entity == null || Entity.Body == null)
+            if (Entity?.Body == null)
             {
-                _ScaleAction?.Deactivate();
+                RemoveLiveActions();
                 _ScaleAction = null;
                 return;
             }
@@ -80,17 +71,14 @@ namespace Macad.Interaction.Editors.Shapes
             _ScaleAction.Box = box;
             _ScaleAction.Transformation = Entity.Body.GetTransformation();
 
-            WorkspaceController.StartLiveAction(_ScaleAction);
+            AddLiveAction(_ScaleAction);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _ScaleAction_Previewed(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
         {
-            if (sender != _ScaleAction)
-                return;
-
-            WorkspaceController.HudManager?.SetHintMessage(this, "Scale cylinder using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to scale relative to center.");
+            SetHintMessage("Scale cylinder using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to scale relative to center.");
 
             double newHeight = 0;
             double newRadius = 0;
@@ -154,7 +142,7 @@ namespace Macad.Interaction.Editors.Shapes
                 }
                 Entity.Height = newHeight;
 
-                _HudElements[1] ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
+                _HudElements[1] ??= CreateHudElement<LabelHudElement>();
                 _HudElements[1]?.SetValue($"Height: {Entity.Height.ToInvariantString("F2")} mm");
             }
 
@@ -168,7 +156,7 @@ namespace Macad.Interaction.Editors.Shapes
                     Entity.Body.Position = Entity.Body.Position.Translated(offset.Scaled(radiusDelta)
                                                                                  .Transformed(new Trsf(Entity.Body.Rotation)));
                 }
-                _HudElements[0] ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
+                _HudElements[0] ??= CreateHudElement<LabelHudElement>();
                 _HudElements[0]?.SetValue($"Radius:  {Entity.Radius.ToInvariantString("F2")} mm");
             }
         }
@@ -177,20 +165,12 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _ScaleAction_Finished(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
         {
-            if (sender != _ScaleAction)
-                return;
-
             if (!args.DeltaSum.IsEqual(0.0, double.Epsilon))
             {
                 InteractiveContext.Current.UndoHandler.Commit();
             }
 
-            foreach (var element in _HudElements)
-            {
-                WorkspaceController.HudManager?.RemoveElement(element);
-            }
-            _HudElements.Fill(null);
-            WorkspaceController.HudManager?.SetHintMessage(this, null);
+            StartTools();
         }
 
         //--------------------------------------------------------------------------------------------------

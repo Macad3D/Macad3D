@@ -23,6 +23,10 @@ public abstract class LiveAction : BaseObject, IMouseEventHandler
 
         //--------------------------------------------------------------------------------------------------
 
+        public bool IsActive { get; private set; }
+
+        //--------------------------------------------------------------------------------------------------
+
         WorkspaceController _WorkspaceController;
 
         //--------------------------------------------------------------------------------------------------
@@ -34,30 +38,38 @@ public abstract class LiveAction : BaseObject, IMouseEventHandler
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual bool Start()
+        public bool Start()
         {
+            if (WorkspaceController == null)
+                return false;
+
+            OnStart();
+
+            IsActive = true;
             return true;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual void Stop()
+        public void Stop()
         {
-            if (WorkspaceController == null)
+            if (!IsActive)
                 return;
 
-            Deactivate();
+            OnStop();
             WorkspaceController.HudManager?.SetCursor(null);
             WorkspaceController.RemoveLiveAction(this);
+            WorkspaceController = null;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual void Activate() {}
+        protected virtual void OnStart() {}
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual void Deactivate() {}
+        // TODO make protected
+        public virtual void OnStop() {}
 
         //--------------------------------------------------------------------------------------------------
 

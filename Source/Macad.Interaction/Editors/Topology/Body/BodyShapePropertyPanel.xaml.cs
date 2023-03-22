@@ -69,6 +69,21 @@ namespace Macad.Interaction.Editors.Topology
 
         //--------------------------------------------------------------------------------------------------
 
+        public Editor SelectedEditor
+        {
+            get
+            {
+                return _SelectedEditor;
+            }
+            private set
+            {
+                _SelectedEditor = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         BodyShapeTreeItem _SelectedItem;
         Editor _SelectedEditor;
 
@@ -78,16 +93,16 @@ namespace Macad.Interaction.Editors.Topology
         {
             if (SelectedItems.Count != 1)
             {
-                _SelectedEditor?.Stop();
-                _SelectedEditor = null;
+                SelectedEditor?.Stop();
+                SelectedEditor = null;
                 return;
             }
             if (_SelectedItem != SelectedItems[0])
             {
                 _SelectedItem = SelectedItems[0];
-                _SelectedEditor?.Stop();
-                _SelectedEditor = _SelectedItem.CreateEditor();
-                _SelectedEditor?.Start();
+                SelectedEditor?.Stop();
+                SelectedEditor = _SelectedItem.CreateEditor();
+                SelectedEditor?.Start();
             }
         }
 
@@ -137,8 +152,8 @@ namespace Macad.Interaction.Editors.Topology
 
         public override void Cleanup()
         {
-            _SelectedEditor?.Stop();
-            _SelectedEditor = null;
+            SelectedEditor?.Stop();
+            SelectedEditor = null;
            
             Body.PropertyChanged -= Body_PropertyChanged;
             Body = null;
@@ -211,13 +226,6 @@ namespace Macad.Interaction.Editors.Topology
 
                 TreeView?.BringIntoView(item);
             }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-        
-        void _TreeView_Loaded(object sender, RoutedEventArgs e)
-        {
-            _UpdateTree();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -418,13 +426,6 @@ namespace Macad.Interaction.Editors.Topology
             },
             shape => shape != null
         );
-
-        //--------------------------------------------------------------------------------------------------
-        
-        public void EnrichMainContextMenu(ContextMenuItems itemList)
-        {
-            _SelectedEditor?.EnrichContextMenu(itemList);
-        }
 
         //--------------------------------------------------------------------------------------------------
 

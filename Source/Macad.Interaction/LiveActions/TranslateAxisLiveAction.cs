@@ -107,7 +107,7 @@ public class TranslateAxisLiveAction : LiveAction
     
     //--------------------------------------------------------------------------------------------------
 
-    public override void Activate()
+    protected override void OnStart()
     {
         if (_AxisGizmo != null)
             return;
@@ -129,21 +129,14 @@ public class TranslateAxisLiveAction : LiveAction
     
     //--------------------------------------------------------------------------------------------------
 
-    public override void Deactivate()
+    public override void OnStop()
     {
         _AxisGizmo?.Remove();
         _AxisGizmo = null;
 
         WorkspaceController.Invalidate();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    
-    public override void Stop()
-    {
         Previewed = null;
         Finished = null;
-        base.Stop();
     }
 
     //--------------------------------------------------------------------------------------------------

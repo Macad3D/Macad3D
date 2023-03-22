@@ -1,34 +1,18 @@
-﻿using System.Runtime.CompilerServices;
-using Macad.Core.Shapes;
+﻿using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 
 namespace Macad.Interaction.Editors.Shapes
 {
     public class PipeEditor : Editor<Pipe>
     {
-        PipePropertyPanel _Panel;
-        SketchPropertyPanel _SketchPanel;
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Start()
+        protected override void OnStart()
         {
-            _Panel = PropertyPanel.CreatePanel<PipePropertyPanel>(Entity);
-            InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Shapes);
+            var panel = CreatePanel<PipePropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
 
             if (Entity.Predecessor is Sketch sketch)
             {
-                _SketchPanel = PropertyPanel.CreatePanel<SketchPropertyPanel>(sketch);
-                InteractiveContext.Current.PropertyPanelManager?.AddPanel(_SketchPanel, _Panel);
+                CreatePanel<SketchPropertyPanel>(sketch, panel);
             }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Stop()
-        {
-            InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_SketchPanel);
-            InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
         }
         
         //--------------------------------------------------------------------------------------------------

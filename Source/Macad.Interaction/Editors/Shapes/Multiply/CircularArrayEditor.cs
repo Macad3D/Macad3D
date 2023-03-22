@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Macad.Interaction.Visual;
+﻿using Macad.Interaction.Visual;
 using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
@@ -9,38 +8,35 @@ namespace Macad.Interaction.Editors.Shapes
 {
     public class CircularArrayEditor : Editor<CircularArray>
     {
-        CircularArrayPropertyPanel _Panel;
         HintCircle _HintCircle;
         HintLine[] _HintAngles;
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Start()
+        protected override void OnStart()
         {
-            _Panel = PropertyPanel.CreatePanel<CircularArrayPropertyPanel>(Entity);
-            InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Shapes);
+            CreatePanel<CircularArrayPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
 
-            Entity.PropertyChanged += _Entity_PropertyChanged;
-
+            Shape.ShapeChanged += _Shape_ShapeChanged;
             _UpdateHints();
         }
 
         //--------------------------------------------------------------------------------------------------
         
-        public override void Stop()
+        protected override void OnStop()
         {
-            InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
-
-            Entity.PropertyChanged -= _Entity_PropertyChanged;
-
+            Shape.ShapeChanged -= _Shape_ShapeChanged;
             _ClearHints();
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _Entity_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        void _Shape_ShapeChanged(Shape shape)
         {
-            _UpdateHints();
+            if (shape == Entity)
+            {
+                _UpdateHints();
+            }
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -124,7 +124,7 @@ public sealed class RotateLiveAction : LiveAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void Activate()
+    protected override void OnStart()
     {
         if (_Circle != null)
             return;
@@ -153,21 +153,14 @@ public sealed class RotateLiveAction : LiveAction
     
     //--------------------------------------------------------------------------------------------------
 
-    public override void Deactivate()
+    public override void OnStop()
     {
         _Circle?.Remove();
         _Circle = null;
 
         WorkspaceController.Invalidate();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public override void Stop()
-    {
         Previewed = null;
         Finished = null;
-        base.Stop();
     }
 
     //--------------------------------------------------------------------------------------------------

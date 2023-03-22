@@ -37,7 +37,6 @@
                     TextOptions.TextFormattingMode="Display" 
                     HorizontalContentAlignment="Stretch"
                     Margin="2" 
-                    Loaded="_TreeView_Loaded" 
                     KeyDown="_TreeView_KeyDown">
 
                     <treeView:TreeViewEx.ItemContainerStyle>
