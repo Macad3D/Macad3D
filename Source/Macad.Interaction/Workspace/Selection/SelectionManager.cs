@@ -310,11 +310,15 @@ namespace Macad.Interaction
         {
             if (_SelectionContexts.Contains(context))
             {
+                bool wasCurrent = context == CurrentContext;
                 context.DeActivate();
                 context.ParametersChanged -= _Context_ParametersChanged;
                 _SelectionContexts.Remove(context);
-                _SyncToAisSelection();
-                (CurrentContext ?? _BaseContext).Activate();
+                if (wasCurrent)
+                {
+                    (CurrentContext ?? _BaseContext).Activate();
+                    _SyncToAisSelection();
+                }
             }
             Invalidate();
         }

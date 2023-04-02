@@ -78,17 +78,15 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Stop()
+        protected override void OnStop()
         {
-            _TranslateAction?.Stop();
-            _RotateAction?.Stop();
+            StopAction(_TranslateAction);
+            StopAction(_RotateAction);
 
             foreach (var targetEntity in _TargetEntities)
             {
                 targetEntity.PropertyChanged -= _TargetEntity_PropertyChanged;
             }
-
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -109,7 +107,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             _Mode = Mode.Translate;
             _RestartAction();
@@ -194,31 +192,25 @@ namespace Macad.Interaction
         {
             _ComputeCoordinateSystem();
 
-            if (_TranslateAction is {IsFinished: false})
-            {
-                _TranslateAction.Stop();
-            }
-            if (_RotateAction is {IsFinished: false})
-            {
-                _RotateAction.Stop();
-            }
+            StopAction(_TranslateAction);
+            StopAction(_RotateAction);
 
             switch (_Mode)
             {
                 case Mode.Translate:
-                    _TranslateAction = new TranslateAction(this, _CoordinateSystem);
-                    if (!WorkspaceController.StartToolAction(_TranslateAction, false))
+                    _TranslateAction = new TranslateAction(_CoordinateSystem);
+                    if (!StartAction(_TranslateAction, false))
                         return;
-                    WorkspaceController.HudManager?.SetHintMessage(this, "Move entity using gizmo, press 'CTRL' to round to grid stepping. Press 'T' for rotation.");
+                    SetHintMessage("Move entity using gizmo, press 'CTRL' to round to grid stepping. Press 'T' for rotation.");
                     _TranslateAction.Previewed += _OnActionPreview;
                     _TranslateAction.Finished += _OnActionFinished;
                     break;
 
                 case Mode.Rotate:
                     _RotateAction = new RotateAction(this, _CoordinateSystem);
-                    if (!WorkspaceController.StartToolAction(_RotateAction, false))
+                    if (!StartAction(_RotateAction, false))
                         return;
-                    WorkspaceController.HudManager?.SetHintMessage(this, "Rotate entity using gizmo, press 'CTRL' to round to 5°. Press 'T' for translation.");
+                    SetHintMessage("Rotate entity using gizmo, press 'CTRL' to round to 5°. Press 'T' for translation.");
                     _RotateAction.Previewed += _OnActionPreview;
                     _RotateAction.Finished += _OnActionFinished;
                     break;
@@ -264,7 +256,7 @@ namespace Macad.Interaction
                 }
             }
 
-            InteractiveContext.Current.UndoHandler.Commit();
+            CommitChanges();
             WorkspaceController.Invalidate();
 
             _UpdateTransformations(null);
@@ -311,7 +303,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool OnEntitySelectionChanging(IEnumerable<Entity> entitiesToSelect, IEnumerable<Entity> entitiesToUnSelect)
+        public override bool OnEntitySelectionChanging(IEnumerable<InteractiveEntity> entitiesToSelect, IEnumerable<InteractiveEntity> entitiesToUnSelect)
         {
             Stop();
             return false;
@@ -323,7 +315,7 @@ namespace Macad.Interaction
         {
             if (_Mode == Mode.Translate)
             {
-                if ((_TranslateAction == null) || !_TranslateAction.IsMoving)
+                if (_TranslateAction is not { IsMoving: true })
                 {
                     _Mode = Mode.Rotate;
                     _RestartAction();
@@ -331,7 +323,7 @@ namespace Macad.Interaction
             }
             else if (_Mode == Mode.Rotate)
             {
-                if ((_RotateAction == null) || !_RotateAction.IsRotating)
+                if (_RotateAction is not { IsRotating: true })
                 {
                     _Mode = Mode.Translate;
                     _RestartAction();

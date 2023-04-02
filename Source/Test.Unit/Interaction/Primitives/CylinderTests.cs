@@ -7,6 +7,7 @@ using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
+using Macad.Core.Shapes;
 
 namespace Macad.Test.Unit.Interaction.Primitives
 {
@@ -68,9 +69,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var cylinder = TestGeomGenerator.CreateCylinder();
-
-            var editor = Editor.CreateEditor(cylinder);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(cylinder);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -78,7 +77,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
                             
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
             });
         }
@@ -90,9 +89,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var cylinder = TestGeomGenerator.CreateCylinder();
-
-            var editor = Editor.CreateEditor(cylinder);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(cylinder);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -108,7 +105,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleHeight03"));
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                         
@@ -119,9 +116,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var cylinder = TestGeomGenerator.CreateCylinder();
-
-            var editor = Editor.CreateEditor(cylinder);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(cylinder);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -137,7 +132,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleRadius03"));
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -148,9 +143,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var cylinder = TestGeomGenerator.CreateCylinder();
-
-            var editor = Editor.CreateEditor(cylinder);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(cylinder);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -166,7 +159,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCorner03"));
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                         
@@ -178,9 +171,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
             var ctx = Context.Current;
             var cylinder = TestGeomGenerator.CreateCylinder();
             cylinder.Body.Rotation = new Quaternion(35.0.ToRad(), 0, 0);
-
-            var editor = Editor.CreateEditor(cylinder);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(cylinder);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -196,7 +187,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleRotated03"));
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -209,9 +200,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
             var cylinder = TestGeomGenerator.CreateCylinder();
             cylinder.Body.Rotation = new Quaternion(0, 0, 180.0.ToRad());
             var startHeight = cylinder.Height;
-
-            var editor = Editor.CreateEditor(cylinder);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(cylinder);
 
             ctx.ViewportController.ZoomFitAll();
             ctx.MoveTo(250, 182);
@@ -221,7 +210,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
             Assert.Greater(cylinder.Height, startHeight);
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -231,9 +220,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var cylinder = TestGeomGenerator.CreateCylinder();
-
-            var editor = Editor.CreateEditor(cylinder);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(cylinder);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -246,7 +233,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleRadiusLimit01"));
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                 
@@ -257,9 +244,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var cylinder = TestGeomGenerator.CreateCylinder();
-
-            var editor = Editor.CreateEditor(cylinder);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(cylinder);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -272,7 +257,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleHeightLimit01"));
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -283,9 +268,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var cylinder = TestGeomGenerator.CreateCylinder();
-
-            var editor = Editor.CreateEditor(cylinder);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(cylinder);
 
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 5.0;
@@ -304,7 +287,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 ctx.ViewportController.MouseUp();
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -315,9 +298,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var cylinder = TestGeomGenerator.CreateCylinder();
-
-            var editor = Editor.CreateEditor(cylinder);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(cylinder);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -332,7 +313,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 ctx.ViewportController.MouseUp();
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
@@ -50,17 +49,17 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             if (_TargetShape.ShapeType == ShapeType.Sketch)
             {
                 var modifierShape = Extrude.Create(_TargetBody);
                 if (modifierShape != null)
                 {
-                    InteractiveContext.Current.UndoHandler.Commit();
+                    CommitChanges();
                 }
 
-                InteractiveContext.Current.WorkspaceController.Invalidate();
+                WorkspaceController.Invalidate();
                 Stop();
                 return false;
             }
@@ -68,21 +67,16 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 if (_Mode == ToolMode.ReselectFace)
                 {
-                    var visualShape = WorkspaceController.VisualObjects.Get(_TargetBody) as VisualShape;
-                    if (visualShape != null)
-                    {
-                        visualShape.OverrideBrep = _TargetShape.GetTransformedBRep();
-                        WorkspaceController.Invalidate();
-                    }
+                    OverrideVisualShape(_TargetBody, _TargetShape.GetTransformedBRep());
                 }
 
                 var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _TargetBody);
-                if (!WorkspaceController.StartToolAction(toolAction))
+                if (!StartAction(toolAction))
                     return false;
                 toolAction.Finished += _OnActionFinished;
 
-                WorkspaceController.HudManager?.SetHintMessage(this, "Select face to extrude.");
-                WorkspaceController.HudManager?.SetCursor(Cursors.SelectFace);
+                SetHintMessage("Select face to extrude.");
+                SetCursor(Cursors.SelectFace);
                 return true;
             }
         }
@@ -98,7 +92,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (selectAction.SelectedSubshapeType == SubshapeTypes.Face)
             {
                 var face = TopoDS.Face(selectAction.SelectedSubshape);
-                selectAction.Stop();
+                StopAction(selectAction);
                 Stop();
                 finished = true;
                 var faceRef = _TargetShape.GetSubshapeReference(_TargetShape.GetTransformedBRep(), face);
@@ -114,8 +108,8 @@ namespace Macad.Interaction.Editors.Shapes
                     var extrude = Extrude.Create(_TargetBody, faceRef);
                     if (extrude != null)
                     {
-                        InteractiveContext.Current.UndoHandler.Commit();
-                        InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(_TargetBody);
+                        CommitChanges();
+                        WorkspaceController.Selection.SelectEntity(_TargetBody);
                     }
                 }
                 else if (_Mode == ToolMode.ReselectFace)
@@ -123,7 +117,7 @@ namespace Macad.Interaction.Editors.Shapes
                     // Reselected face
                     _ExtrudeToChange.Face = faceRef;
                     _ExtrudeToChange.Invalidate();
-                    InteractiveContext.Current.UndoHandler.Commit();
+                    CommitChanges();
                 }
 
             }
@@ -134,18 +128,6 @@ namespace Macad.Interaction.Editors.Shapes
             }
 
             WorkspaceController.Invalidate();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Stop()
-        {
-            var visualShape = WorkspaceController.VisualObjects.Get(_TargetBody) as VisualShape;
-            if (visualShape != null)
-            {
-                visualShape.OverrideBrep = null;
-            }
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------

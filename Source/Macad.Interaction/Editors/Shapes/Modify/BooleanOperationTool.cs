@@ -43,7 +43,7 @@ public class BooleanOperationTool : Tool
 
     //--------------------------------------------------------------------------------------------------
 
-    public override bool Start()
+    protected override bool OnStart()
     {
         _SourceBody = WorkspaceController.Selection.SelectedEntities.First() as Body;
 
@@ -63,7 +63,7 @@ public class BooleanOperationTool : Tool
         {
             var toolAction = new SelectEntityAction<Body>(this);
             toolAction.SetFilter(body => body.Shape?.ShapeType == ShapeType.Solid);
-            if (!WorkspaceController.StartToolAction(toolAction))
+            if (!StartAction(toolAction))
             {
                 return false;
             }
@@ -72,7 +72,7 @@ public class BooleanOperationTool : Tool
             toolAction.Exclude(_SourceBody);
 
             UpdateStatusText(null);
-            WorkspaceController.HudManager?.SetCursor(Cursors.SelectShape);
+            SetCursor(Cursors.SelectShape);
             return true;
         }
     }
@@ -105,42 +105,40 @@ public class BooleanOperationTool : Tool
         {
             text += ": " + shapeName;
         }
-        WorkspaceController.HudManager?.SetHintMessage(this, text);
+        SetHintMessage(text);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     void _OnActionPreview(ToolAction toolAction)
     {
-        var ta = toolAction as SelectEntityAction<Body>;
-        if (ta == null)
+        if (toolAction is not SelectEntityAction<Body> selectAction)
             return;
 
-        UpdateStatusText(ta.SelectedEntity?.Name);
+        UpdateStatusText(selectAction.SelectedEntity?.Name);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     void _OnActionFinished(ToolAction toolAction)
     {
-        var ta = toolAction as SelectEntityAction<Body>;
-        if (ta == null)
+        if (toolAction is not SelectEntityAction<Body> selectAction)
             return;
 
-        ta.Stop();
+        StopAction(selectAction);
 
         ModifierBase boolOpShape = null;
-        if (ta.SelectedEntity != null)
+        if (selectAction.SelectedEntity != null)
         {
-            boolOpShape = Execute(_SourceBody, new IShapeOperand[] { new BodyShapeOperand(ta.SelectedEntity) });
+            boolOpShape = Execute(_SourceBody, new IShapeOperand[] { new BodyShapeOperand(selectAction.SelectedEntity) });
         }
 
         Stop();
 
         if (boolOpShape != null)
         {
-            InteractiveContext.Current.UndoHandler.Commit();
-            InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(_SourceBody);
+            CommitChanges();
+            WorkspaceController.Selection.SelectEntity(_SourceBody);
         }
 
         WorkspaceController.Invalidate();
@@ -150,7 +148,7 @@ public class BooleanOperationTool : Tool
 
     ModifierBase Execute(Body body, IShapeOperand[] operands)
     {
-        InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(null);
+        WorkspaceController.Selection.SelectEntity(null);
 
         ModifierBase boolOpShape = null;
         switch (Operation)
@@ -178,7 +176,7 @@ public class BooleanOperationTool : Tool
 
     //--------------------------------------------------------------------------------------------------
 
-    public override bool OnEntitySelectionChanging(IEnumerable<Entity> entitiesToSelect, IEnumerable<Entity> entitiesToUnSelect)
+    public override bool OnEntitySelectionChanging(IEnumerable<InteractiveEntity> entitiesToSelect, IEnumerable<InteractiveEntity> entitiesToUnSelect)
     {
         // Allow shape selections
         return false;

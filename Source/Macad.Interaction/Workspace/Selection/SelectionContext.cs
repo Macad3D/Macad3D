@@ -158,7 +158,8 @@ namespace Macad.Interaction
 
         public void DeActivate()
         {
-            Debug.Assert(_IsActive);
+            if (!_IsActive)
+                return;
 
             VisualObject.AisObjectChanged -= _VisualObject_AisObjectChanged;
 

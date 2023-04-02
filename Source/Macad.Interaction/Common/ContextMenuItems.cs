@@ -56,6 +56,16 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
+        public void AddCommandIfExecutable(IActionCommand command, object param, string overrideTitle = null)
+        {
+            if (command.CanExecute(param))
+            {
+                AddCommand(command, param, overrideTitle);
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public void AddSeparator(string header = null)
         {
             Control newSeperator = header.IsNullOrEmpty() ? new Separator() 

@@ -104,7 +104,7 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
 
             // Select Point
             ctx.ClickAt(377, 122);
-            Assume.That(ctx.WorkspaceController.CurrentToolAction is MoveSketchPointAction);
+            Assume.That(ctx.WorkspaceController.CurrentTool.CurrentAction is MoveSketchPointAction);
             // Move to MergePoint
             ctx.MoveTo(416, 78);
             ctx.WorkspaceController.MouseDown(ctx.ViewportController, ModifierKeys.None);
@@ -902,14 +902,14 @@ namespace Macad.Test.Unit.Interaction.Primitives2D.Sketch
             ctx.ClickAt(250, 250); // Create Point 2
 
             ctx.ClickAt(250, 250); // Select Point, Move Action started
-            Assume.That(ctx.WorkspaceController.CurrentToolAction is MoveSketchPointAction);
+            Assume.That(ctx.WorkspaceController.CurrentTool.CurrentAction is MoveSketchPointAction);
 
             // Create another Segment
             sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
-            Assert.IsFalse(ctx.WorkspaceController.CurrentToolAction is MoveSketchPointAction);
+            Assert.IsFalse(ctx.WorkspaceController.CurrentTool.CurrentAction is MoveSketchPointAction);
             ctx.ClickAt(300, 300); // Create Point 1
             ctx.ClickAt(450, 450); // Create Point 2
-            Assert.IsTrue(ctx.WorkspaceController.CurrentToolAction is MoveSketchPointAction);
+            Assert.IsTrue(ctx.WorkspaceController.CurrentTool.CurrentAction is MoveSketchPointAction);
         }
 
         //--------------------------------------------------------------------------------------------------

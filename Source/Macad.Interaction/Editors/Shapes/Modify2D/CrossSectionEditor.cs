@@ -107,7 +107,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     {
         if (_TranslateAction == null)
         {
-            _TranslateAction = new(this)
+            _TranslateAction = new()
             {
                 Color = Colors.ActionBlue,
                 Cursor = Cursors.Move,
@@ -120,7 +120,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
 
         if (_RotateActionX == null)
         {
-            _RotateActionX = new(this)
+            _RotateActionX = new()
             {
                 Color = Colors.ActionRed,
                 VisualLimits = (-Maths.HalfPI, Maths.HalfPI),
@@ -134,7 +134,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
 
         if (_RotateActionY == null)
         {
-            _RotateActionY = new(this)
+            _RotateActionY = new()
             {
                 Color = Colors.ActionGreen,
                 VisualLimits = (-Maths.HalfPI, Maths.HalfPI),
@@ -148,7 +148,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
         
         if (_RotateActionZ == null)
         {
-            _RotateActionZ = new(this)
+            _RotateActionZ = new()
             {
                 Color = Colors.ActionBlue,
                 ShowAxisHint = true,
@@ -161,10 +161,10 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
 
         _UpdateActions();
 
-        AddLiveAction(_TranslateAction);
-        AddLiveAction(_RotateActionX);
-        AddLiveAction(_RotateActionY);
-        AddLiveAction(_RotateActionZ);
+        StartAction(_TranslateAction);
+        StartAction(_RotateActionX);
+        StartAction(_RotateActionY);
+        StartAction(_RotateActionZ);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -221,9 +221,12 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
         {
             _PlaneVisual.Set(Entity.GetCenteredPlane(out _PlaneSize));
             _PlaneVisual.Size = new XY(_PlaneSize, _PlaneSize);
-            _RotateActionX.OnStop();
-            _RotateActionY.OnStop();
-            _RotateActionZ.OnStop();
+            StopAction(_RotateActionX);
+            _RotateActionX = null;
+            StopAction(_RotateActionY);
+            _RotateActionY = null;
+            StopAction(_RotateActionZ);
+            _RotateActionZ = null;
         }
     }
 
@@ -263,7 +266,8 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
 
         if (_PlaneVisual != null)
         {
-            _TranslateAction.OnStop();
+            StopAction(_TranslateAction);
+            _TranslateAction = null;
             _PlaneVisual.Set(Entity.GetCenteredPlane(out _PlaneSize));
             _PlaneVisual.Size = new XY(_PlaneSize, _PlaneSize);
         }
@@ -274,7 +278,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     void _RotateActionFinished(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         _IsMoving = false;
-        InteractiveContext.Current.UndoHandler.Commit();
+        CommitChanges();
         StartTools();
     }
 
@@ -283,8 +287,10 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     void _RotateActionXPreviewed(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         _RotateActionPreviewed(args, _TranslatedPlane.XAxis);
-        _RotateActionY.OnStop();
-        _RotateActionZ.OnStop();
+        StopAction(_RotateActionY);
+        _RotateActionY = null;
+        StopAction(_RotateActionZ);
+        _RotateActionZ = null;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -292,8 +298,10 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     void _RotateActionYPreviewed(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         _RotateActionPreviewed(args, _TranslatedPlane.YAxis);
-        _RotateActionX.OnStop();
-        _RotateActionZ.OnStop();
+        StopAction(_RotateActionX);
+        _RotateActionX = null;
+        StopAction(_RotateActionZ);
+        _RotateActionZ = null;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -301,8 +309,10 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     void _RotateActionZPreviewed(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         _RotateActionPreviewed(args, _TranslatedPlane.Axis);
-        _RotateActionX.OnStop();
-        _RotateActionY.OnStop();
+        StopAction(_RotateActionX);
+        _RotateActionX = null;
+        StopAction(_RotateActionY);
+        _RotateActionY = null;
     }
 
     //--------------------------------------------------------------------------------------------------

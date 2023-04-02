@@ -38,7 +38,6 @@ public class TranslateAction : ToolAction
 
     readonly Ax3 _CoordinateSystem;
     readonly Trsf _InverseRotation;
-    SelectionContext _SelectionContext;
     Pnt2d _MoveStartValue;
     Ax1 _MoveAxis;
     Pln _MovePlane;
@@ -53,10 +52,8 @@ public class TranslateAction : ToolAction
     Vec _Delta;
 
     //--------------------------------------------------------------------------------------------------
-
-
-    public TranslateAction(object owner, Ax3 coordinateSystem)
-        : base(owner)
+    
+    public TranslateAction(Ax3 coordinateSystem)
     {
         _CoordinateSystem = coordinateSystem;
 
@@ -69,12 +66,10 @@ public class TranslateAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public override bool Start()
-    { 
-        _SelectionContext = WorkspaceController.Selection.OpenContext();
-
+    protected override bool OnStart()
+    {
+        OpenSelectionContext();
         UpdateGizmo();
-
         return true;
     }
 
@@ -88,13 +83,17 @@ public class TranslateAction : ToolAction
         for (int i = 0; i < _AxisGizmos.Length; i++)
         {
             var mode = (MoveMode)i+1;
-            _AxisGizmos[i] ??= new Axis(WorkspaceController, Axis.Style.KnobHead | Axis.Style.NoResize | Axis.Style.Topmost)
+            if (_AxisGizmos[i] == null)
             {
-                Color = _GetColorByMode(mode),
-                IsSelectable = true,
-                Width = 4.0,
-                Length = 2.0
-            };
+                _AxisGizmos[i] = new Axis(WorkspaceController, Axis.Style.KnobHead | Axis.Style.NoResize | Axis.Style.Topmost)
+                {
+                    Color = _GetColorByMode(mode),
+                    IsSelectable = true,
+                    Width = 4.0,
+                    Length = 2.0
+                };
+                Add(_AxisGizmos[i]);
+            }
         }
 
         _AxisGizmos[0].Set(new Ax1(translatedCS.Location, translatedCS.XDirection));
@@ -105,43 +104,24 @@ public class TranslateAction : ToolAction
         for (int i = 0; i < _PlaneGizmos.Length; i++)
         {
             var mode = (MoveMode)(i + 1 << 2);
-            _PlaneGizmos[i] ??= new Plane(WorkspaceController, Plane.Style.NoResize | Plane.Style.Topmost)
+            if (_PlaneGizmos[i] == null)
             {
-                Color = _GetColorByMode(mode),
-                IsSelectable = true,
-                Boundary = true,
-                Size = new XY(1, 1),
-                Margin = new Vec2d(0.75, 0.75),
-                Transparency = 0.5
-            };
+                _PlaneGizmos[i] = new Plane(WorkspaceController, Plane.Style.NoResize | Plane.Style.Topmost)
+                {
+                    Color = _GetColorByMode(mode),
+                    IsSelectable = true,
+                    Boundary = true,
+                    Size = new XY(1, 1),
+                    Margin = new Vec2d(0.75, 0.75),
+                    Transparency = 0.5
+                };
+                Add(_PlaneGizmos[i]);
+            }
         }
 
         _PlaneGizmos[0].Set(new Pln(new Ax3(translatedCS.Location, translatedCS.XDirection, translatedCS.YDirection)));
         _PlaneGizmos[1].Set(new Pln(new Ax3(translatedCS.Location, translatedCS.YDirection, translatedCS.Direction)));
         _PlaneGizmos[2].Set(new Pln(new Ax3(translatedCS.Location, translatedCS.Direction, translatedCS.XDirection)));
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public override void Stop()
-    {
-        for (var i = 0; i < _AxisGizmos.Length; i++)
-        {
-            _AxisGizmos[i]?.Remove();
-            _AxisGizmos[i] = null;
-        }
-        for (var i = 0; i < _PlaneGizmos.Length; i++)
-        {
-            _PlaneGizmos[i]?.Remove();
-            _PlaneGizmos[i] = null;
-        }
-
-        _AxisHintLine?.Remove();
-
-        WorkspaceController.Selection.CloseContext(_SelectionContext);
-        _SelectionContext = null;
-
-        base.Stop();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -228,24 +208,26 @@ public class TranslateAction : ToolAction
                 _MoveStartValue.Y = 0;
             }
 
-            _AxisHintLine = new HintLine(WorkspaceController, HintStyle.ThinDashed);
-            _AxisHintLine.Color = _GetColorByMode(_MoveMode);
+            _AxisHintLine = new HintLine(WorkspaceController, HintStyle.ThinDashed)
+            {
+                Color = _GetColorByMode(_MoveMode)
+            };
+            Add(_AxisHintLine);
             _AxisHintLine.Set(_MoveAxis);
             WorkspaceController.Invalidate();
-            WorkspaceController.HudManager?.SetCursor(Cursors.Move);
+            SetCursor(Cursors.Move);
             return true;
         }
 
         if ((_MoveMode & MoveMode.Plane) != 0)
         {
-            Pnt resultPnt;
-            if (WorkspaceController.ActiveViewport.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
+            if (WorkspaceController.ActiveViewport.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var resultPnt))
             {
                 _MoveStartValue = ProjLib.Project(_MovePlane, resultPnt);
             }
 
             WorkspaceController.Invalidate();
-            WorkspaceController.HudManager?.SetCursor(Cursors.Move);
+            SetCursor(Cursors.Move);
             return true;
         }
 
@@ -259,19 +241,18 @@ public class TranslateAction : ToolAction
         if (_MoveMode != MoveMode.None)
         {
             _MoveMode = MoveMode.None;
-            WorkspaceController.HudManager?.SetCursor(null);
+            SetCursor(null);
 
-            _AxisHintLine?.Remove();
-
-            WorkspaceController.HudManager?.RemoveElement(_Coord3DHudElement);
+            Remove(_AxisHintLine);
+            _AxisHintLine = null;
+            Remove(_Coord3DHudElement);
             _Coord3DHudElement = null;
-            WorkspaceController.HudManager?.RemoveElement(_Delta3DHudElement);
+            Remove(_Delta3DHudElement);
             _Delta3DHudElement = null;
 
             if (_Delta.SquareMagnitude() > 0)
             {
                 // Commit
-                Stop();
                 IsFinished = true;
             }
 
@@ -335,10 +316,7 @@ public class TranslateAction : ToolAction
             }
 
             // Transform into unrotated frame
-            //Debug.WriteLine(">> {0}  {1}  {2}", Delta.x, Delta.y, Delta.z);
             _Delta.Transform(_InverseRotation);
-            //Debug.WriteLine("<< {0}  {1}  {2}", Delta.x, Delta.y, Delta.z);
-
             if (data.ModifierKeys.HasFlag(ModifierKeys.Control))
             {
                 _Delta.X = Maths.RoundToNearest(_Delta.X, WorkspaceController.Workspace.GridStep);
@@ -351,24 +329,15 @@ public class TranslateAction : ToolAction
 
             if (_Coord3DHudElement == null)
             {
-                _Coord3DHudElement = WorkspaceController.HudManager?.CreateElement<Coord3DHudElement>(this);
-                _Delta3DHudElement = WorkspaceController.HudManager?.CreateElement<Delta3DHudElement>(this);
+                _Coord3DHudElement = new Coord3DHudElement();
+                Add(_Coord3DHudElement);
+                _Delta3DHudElement = new Delta3DHudElement();
+                Add(_Delta3DHudElement);
             }
 
-            if (_Coord3DHudElement != null)
-            {
-                var coord = _CoordinateSystem.Location.Translated(_Delta);
-                _Coord3DHudElement.CoordinateX = coord.X;
-                _Coord3DHudElement.CoordinateY = coord.Y;
-                _Coord3DHudElement.CoordinateZ = coord.Z;
-            }
-
-            if (_Delta3DHudElement != null)
-            {
-                _Delta3DHudElement.DeltaX = Delta.X;
-                _Delta3DHudElement.DeltaY = Delta.Y;
-                _Delta3DHudElement.DeltaZ = Delta.Z;
-            }
+            var coord = _CoordinateSystem.Location.Translated(_Delta);
+            _Coord3DHudElement.SetValues(coord.X, coord.Y, coord.Z);
+            _Delta3DHudElement.SetValues(Delta.X, Delta.Y, Delta.Z);
 
             return base.OnMouseMove(data);
         }
@@ -385,7 +354,6 @@ public class TranslateAction : ToolAction
             planeDir = WorkspaceController.ActiveViewport.GetUpDirection();
         }
         planeDir.Cross(_MoveAxis.Direction);
-        //Console.WriteLine("PlaneDir: {0:0.00} | {1:0.00} | {2:0.00}", planeDir.X(), planeDir.Y(), planeDir.Z());
         var plane = new Pln(new Ax3(_MoveAxis.Location, planeDir, _MoveAxis.Direction));
 
         Pnt convertedPoint;
@@ -416,4 +384,7 @@ public class TranslateAction : ToolAction
             _ => Colors.Auxillary,
         };
     }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

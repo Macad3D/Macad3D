@@ -100,8 +100,7 @@ public class TranslateAxisLiveAction : LiveAction
 
     #region Creation and Activation
 
-    public TranslateAxisLiveAction(object owner) 
-        : base(owner)
+    public TranslateAxisLiveAction() 
     {
     }
     
@@ -123,20 +122,18 @@ public class TranslateAxisLiveAction : LiveAction
             Width = 4.0,
         };
         _AxisGizmo.Set(_Axis);
+        Add(_AxisGizmo);
 
         WorkspaceController.Invalidate();
     }
     
     //--------------------------------------------------------------------------------------------------
 
-    public override void OnStop()
+    protected override void Cleanup()
     {
-        _AxisGizmo?.Remove();
-        _AxisGizmo = null;
-
-        WorkspaceController.Invalidate();
         Previewed = null;
         Finished = null;
+        base.Cleanup();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -180,7 +177,7 @@ public class TranslateAxisLiveAction : LiveAction
                 _StartAxis = _Axis;
                 _Distance = 0;
 
-                _SelectionContext = WorkspaceController.Selection.OpenContext();
+                _SelectionContext = OpenSelectionContext();
 
                 _AxisGizmo.IsSelectable = false;
                 _AxisGizmo.IsSelected = true;
@@ -188,16 +185,17 @@ public class TranslateAxisLiveAction : LiveAction
                 _HintLine = new HintLine(WorkspaceController, HintStyle.WorkingAxis);
                 _HintLine.Set(_Axis.Location, _Axis.Location);
                 _HintLine.Color = Color;
+                Add(_HintLine);
 
-                WorkspaceController.HudManager?.SetCursor(Cursor);
-                if (ShowHudElement)
+                SetCursor(Cursor);
+                if (ShowHudElement && _HudElement == null)
                 {
-                    _HudElement ??= WorkspaceController.HudManager?.CreateElement<DeltaHudElement>(this);
-                    if (_HudElement != null)
+                    _HudElement = new DeltaHudElement
                     {
-                        _HudElement.Units = ValueUnits.Length;
-                        _HudElement.Delta = 0;
-                    }
+                        Units = ValueUnits.Length,
+                        Delta = 0
+                    };
+                    Add(_HudElement);
                 }
 
                 _IsMoving = true;
@@ -230,8 +228,7 @@ public class TranslateAxisLiveAction : LiveAction
 
                 _Distance = ElCLib.LineParameter(_StartAxis, _Axis.Location);
                 _HintLine.Set(_StartAxis.Location, _Axis.Location);
-                if (_HudElement != null)
-                    _HudElement.Delta = _Distance;
+                _HudElement?.SetValue(_Distance);
             }
 
             return true;
@@ -247,16 +244,16 @@ public class TranslateAxisLiveAction : LiveAction
         {
             _IsMoving = false;
 
-            _HintLine.Remove();
+            Remove(_HintLine);
             _HintLine = null;
 
             _AxisGizmo.IsSelected = false;
             _AxisGizmo.IsSelectable = true;
 
-            WorkspaceController.Selection.CloseContext(_SelectionContext);
+            CloseSelectionContext(_SelectionContext);
 
-            WorkspaceController.HudManager?.SetCursor(null);
-            WorkspaceController.HudManager?.RemoveElement(_HudElement);
+            SetCursor(null);
+            Remove(_HudElement);
             _HudElement = null;
 
             EventArgs eventArgs = new()

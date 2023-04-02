@@ -19,15 +19,15 @@ public class SelectEntityAction<T> : ToolAction where T: InteractiveEntity
     //--------------------------------------------------------------------------------------------------
 
     public SelectEntityAction(object owner)
-        : base(owner)
+        : base()
     {
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public override bool Start()
+    protected override bool OnStart()
     {
-        _SelectionContext = WorkspaceController.Selection.OpenContext(SelectionContext.Options.None);
+        _SelectionContext = OpenSelectionContext();
 
         foreach (var entity in WorkspaceController.VisualObjects.GetVisibleEntities())
         {
@@ -123,16 +123,6 @@ public class SelectEntityAction<T> : ToolAction where T: InteractiveEntity
             IsFinished = SelectedEntity!=null;
         }
         return true;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public override void Stop()
-    {
-        WorkspaceController.Selection.CloseContext(_SelectionContext);
-        _SelectionContext = null;
-
-        base.Stop();
     }
 
     //--------------------------------------------------------------------------------------------------

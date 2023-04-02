@@ -129,7 +129,7 @@ namespace Macad.Interaction.Editors.Shapes
             var computeAxis = Entity.ComputeAxis();
             if (computeAxis == null)
             {
-                RemoveLiveActions();
+                StopAllActions();
                 return;
             }
 
@@ -145,7 +145,7 @@ namespace Macad.Interaction.Editors.Shapes
             // Offset X
             if (_OffsetXAction == null)
             {
-                _OffsetXAction = new(this)
+                _OffsetXAction = new()
                 {
                     Color = Colors.ActionRed,
                     NoResize = true,
@@ -158,7 +158,7 @@ namespace Macad.Interaction.Editors.Shapes
             // Offset Y
             if (_OffsetYAction == null)
             {
-                _OffsetYAction = new(this)
+                _OffsetYAction = new()
                 {
                     Color = Colors.ActionGreen,
                     NoResize = true,
@@ -171,7 +171,7 @@ namespace Macad.Interaction.Editors.Shapes
             // Offset Z
             if (_OffsetZAction == null)
             {
-                _OffsetZAction = new(this)
+                _OffsetZAction = new()
                 {
                     Color = Colors.ActionBlue,
                     NoResize = true,
@@ -200,9 +200,9 @@ namespace Macad.Interaction.Editors.Shapes
                 _OffsetZAction.Axis = new Ax1(_OffsetActionPivot, localCS.Direction);
             }
 
-            AddLiveAction(_OffsetXAction);
-            AddLiveAction(_OffsetYAction);
-            AddLiveAction(_OffsetZAction);
+            StartAction(_OffsetXAction);
+            StartAction(_OffsetYAction);
+            StartAction(_OffsetZAction);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -212,8 +212,8 @@ namespace Macad.Interaction.Editors.Shapes
             if (!_IsMoving)
             {
                 _IsMoving = true;
-                _OffsetYAction.OnStop();
-                _OffsetZAction.OnStop();
+                StopAction(_OffsetYAction);
+                StopAction(_OffsetZAction);
                 SetHintMessage( "Adjust offset using gizmo, press 'CTRL' to round to grid stepping.");
             }
 
@@ -229,7 +229,11 @@ namespace Macad.Interaction.Editors.Shapes
             }
             _OffsetXAction.Axis = new Ax1(_OffsetActionPivot.Translated(_OffsetXAction.Axis.Direction.ToVec(newOffset - _StartOffset.X)), _OffsetXAction.Axis.Direction);
 
-            _HudElement ??= CreateHudElement<LabelHudElement>();
+            if (_HudElement == null)
+            {
+                _HudElement = new LabelHudElement();
+                Add(_HudElement);
+            }
             _HudElement?.SetValue($"Offset X: {Entity.Offset.X.ToInvariantString("F2")} mm");
         }
 
@@ -240,8 +244,8 @@ namespace Macad.Interaction.Editors.Shapes
             if (!_IsMoving)
             {
                 _IsMoving = true;
-                _OffsetXAction.OnStop();
-                _OffsetZAction.OnStop();
+                StopAction(_OffsetXAction);
+                StopAction(_OffsetZAction);
                 SetHintMessage("Adjust offset using gizmo, press 'CTRL' to round to grid stepping.");
             }
 
@@ -257,7 +261,11 @@ namespace Macad.Interaction.Editors.Shapes
             }
             _OffsetYAction.Axis = new Ax1(_OffsetActionPivot.Translated(_OffsetYAction.Axis.Direction.ToVec(newOffset - _StartOffset.Y)), _OffsetYAction.Axis.Direction);
 
-            _HudElement ??= CreateHudElement<LabelHudElement>();
+            if (_HudElement == null)
+            {
+                _HudElement = new LabelHudElement();
+                Add(_HudElement);
+            }
             _HudElement?.SetValue($"Offset Y: {Entity.Offset.Y.ToInvariantString("F2")} mm");
         }
 
@@ -268,8 +276,8 @@ namespace Macad.Interaction.Editors.Shapes
             if (!_IsMoving)
             {
                 _IsMoving = true;
-                _OffsetXAction.OnStop();
-                _OffsetYAction.OnStop();
+                StopAction(_OffsetXAction);
+                StopAction(_OffsetYAction);
                 SetHintMessage("Adjust offset using gizmo, press 'CTRL' to round to grid stepping.");
             }
 
@@ -285,7 +293,11 @@ namespace Macad.Interaction.Editors.Shapes
             }
             _OffsetZAction.Axis = new Ax1(_OffsetActionPivot.Translated(_OffsetZAction.Axis.Direction.ToVec(newOffset - _StartOffset.Z)), _OffsetZAction.Axis.Direction);
 
-            _HudElement ??= CreateHudElement<LabelHudElement>();
+            if (_HudElement == null)
+            {
+                _HudElement = new LabelHudElement();
+                Add(_HudElement);
+            }
             _HudElement?.SetValue($"Offset Z: {Entity.Offset.Z.ToInvariantString("F2")} mm");
         }
 
@@ -294,7 +306,7 @@ namespace Macad.Interaction.Editors.Shapes
         void _Actions_Finished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
         {
             _IsMoving = false;
-            InteractiveContext.Current.UndoHandler.Commit();
+            CommitChanges();
 
             StartTools();
         }

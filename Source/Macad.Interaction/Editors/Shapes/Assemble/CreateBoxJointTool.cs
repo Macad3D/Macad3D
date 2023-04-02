@@ -22,19 +22,19 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             if (_TargetBody2 != null)
             {
-                var boxJoint = BoxJoint.Create(_TargetBody1, _TargetBody2);
-                InteractiveContext.Current.UndoHandler.Commit();
+                BoxJoint.Create(_TargetBody1, _TargetBody2);
+                CommitChanges();
                 Stop();
                 WorkspaceController.Invalidate();
                 return false;
             }
 
             var toolAction = new SelectEntityAction<Body>(this);
-            if (!WorkspaceController.StartToolAction(toolAction))
+            if (!StartAction(toolAction))
             {
                 return false;
             }
@@ -42,7 +42,7 @@ namespace Macad.Interaction.Editors.Shapes
             toolAction.Finished += _OnActionFinished;
             toolAction.Exclude(_TargetBody1);
             UpdateStatusText(null);
-            WorkspaceController.HudManager?.SetCursor(Cursors.SelectShape);
+            SetCursor(Cursors.SelectShape);
             return true;
         }
 
@@ -60,41 +60,32 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 text += ": " + shapeName;
             }
-            WorkspaceController.HudManager?.SetHintMessage(this, text);
+            SetHintMessage(text);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _OnActionPreview(ToolAction toolAction)
         {
-            var ta = toolAction as SelectEntityAction<Body>;
-            if (ta == null)
+            if (toolAction is not SelectEntityAction<Body> selectAction)
                 return;
 
-            if (ta.SelectedEntity != null)
-            {
-                UpdateStatusText(ta.SelectedEntity.Name);
-            }
-            else
-            {
-                UpdateStatusText(null);
-            }
+            UpdateStatusText(selectAction.SelectedEntity?.Name);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _OnActionFinished(ToolAction toolAction)
         {
-            var ta = toolAction as SelectEntityAction<Body>;
-            if (ta == null)
+            if (toolAction is not SelectEntityAction<Body> selectAction)
                 return;
 
-            ta.Stop();
+            StopAction(selectAction);
 
-            if (ta.SelectedEntity != null)
+            if (selectAction.SelectedEntity != null)
             {
-                var boxJoint = BoxJoint.Create(_TargetBody1, ta.SelectedEntity);
-                InteractiveContext.Current.UndoHandler.Commit();
+                BoxJoint.Create(_TargetBody1, selectAction.SelectedEntity);
+                CommitChanges();
             }
 
             Stop();
@@ -104,7 +95,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool OnEntitySelectionChanging(IEnumerable<Entity> entitiesToSelect, IEnumerable<Entity> entitiesToUnSelect)
+        public override bool OnEntitySelectionChanging(IEnumerable<InteractiveEntity> entitiesToSelect, IEnumerable<InteractiveEntity> entitiesToUnSelect)
         {
             // Allow shape selections
             return false;

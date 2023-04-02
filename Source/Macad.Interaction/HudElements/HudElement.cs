@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,11 +10,17 @@ namespace Macad.Interaction
 {
     public abstract class HudElement: UserControl, INotifyPropertyChanged, IDisposable
     {
-        public WorkspaceController WorkspaceController { get; private set; }
-
-        public BaseObject Instance { get; set; }
-
-        public object Owner { get; private set; }
+        public WorkspaceController WorkspaceController
+        {
+            get { return _WorkspaceController; }
+            set
+            {
+                Debug.Assert(_WorkspaceController == null || _WorkspaceController == value, "WorkspaceController cannot be changed");
+                _WorkspaceController = value;
+            }
+        }
+        
+        WorkspaceController _WorkspaceController;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -42,7 +49,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public virtual void Initialize(BaseObject instance)
+        public virtual void Initialize()
         {
         }
 
@@ -50,19 +57,18 @@ namespace Macad.Interaction
 
         public virtual void Cleanup()
         {
+            PropertyChanged = null;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public static T CreateElement<T>(object owner, BaseObject instance, WorkspaceController workspaceController) where T: HudElement
+        public static T CreateElement<T>(BaseObject instance, WorkspaceController workspaceController) where T: HudElement
         {
             var element = Activator.CreateInstance(typeof(T)) as T;
             if (element != null)
             {
-                element.Owner = owner;
                 element.WorkspaceController = workspaceController;
-                element.Instance = instance;
-                element.Initialize(instance);
+                element.Initialize();
             }
             return element;
         }

@@ -44,9 +44,9 @@ namespace Macad.Test.Unit.Interaction.Form
             ctx.MoveTo(90, 250);
 
             var tool = new CreateExtrudeTool(body);
-            Assert.That(ctx.WorkspaceController.StartTool(tool));
+            Assert.IsFalse(ctx.WorkspaceController.StartTool(tool));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateExtrude01"));
-            Assert.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            Assert.IsNull(ctx.WorkspaceController.CurrentTool);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -114,8 +114,8 @@ namespace Macad.Test.Unit.Interaction.Form
 
             // Create Extrude from sketch
             var tool = new CreateExtrudeTool(body);
-            Assert.That(ctx.WorkspaceController.StartTool(tool));
-            Assert.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            Assert.IsFalse(ctx.WorkspaceController.StartTool(tool));
+            Assert.IsNull(ctx.WorkspaceController.CurrentTool);
             ctx.WorkspaceController.Invalidate(false, true);
 
             // Make sure that the whole shape is selectable
@@ -155,8 +155,7 @@ namespace Macad.Test.Unit.Interaction.Form
             var ctx = Context.Current;
 
             var extrude = TestGeomGenerator.CreateExtrude();
-            var editor = Editor.CreateEditor(extrude);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(extrude);
 
             var oldDepth = extrude.Depth;
             ctx.ViewportController.ZoomFitAll();
@@ -175,7 +174,7 @@ namespace Macad.Test.Unit.Interaction.Form
                 Assert.Greater(extrude.Depth, oldDepth);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepth99"));
             });
         }
@@ -189,8 +188,7 @@ namespace Macad.Test.Unit.Interaction.Form
 
             var extrude = TestGeomGenerator.CreateExtrude();
             extrude.Body.Rotation = new Quaternion(0, -45.0.ToRad(), 0);
-            var editor = Editor.CreateEditor(extrude);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(extrude);
 
             var oldDepth = extrude.Depth;
             ctx.ViewportController.ZoomFitAll();
@@ -218,7 +216,7 @@ namespace Macad.Test.Unit.Interaction.Form
                 Assert.Greater(extrude.Depth, oldDepth);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -231,8 +229,7 @@ namespace Macad.Test.Unit.Interaction.Form
 
             var extrude = TestGeomGenerator.CreateExtrude();
             extrude.Body.Rotation = new Quaternion(0, -45.0.ToRad(), 0);
-            var editor = Editor.CreateEditor(extrude);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(extrude);
 
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 1.0;
@@ -249,7 +246,7 @@ namespace Macad.Test.Unit.Interaction.Form
                 Assert.AreEqual(3.0, extrude.Depth);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -262,8 +259,7 @@ namespace Macad.Test.Unit.Interaction.Form
 
             var extrude = TestGeomGenerator.CreateExtrude();
             extrude.Body.Rotation = new Quaternion(0, -45.0.ToRad(), 0);
-            var editor = Editor.CreateEditor(extrude);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(extrude);
 
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 1.0;
@@ -281,7 +277,7 @@ namespace Macad.Test.Unit.Interaction.Form
                 ctx.ViewportController.MouseUp();
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -295,8 +291,7 @@ namespace Macad.Test.Unit.Interaction.Form
             var extrude = Extrude.Create(shape.Body, subshapeRef);
 
             var ctx = Context.Current;
-            var editor = Editor.CreateEditor(extrude);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(extrude);
 
             var oldDepth = extrude.Depth;
             ctx.ViewportController.ZoomFitAll();
@@ -314,7 +309,7 @@ namespace Macad.Test.Unit.Interaction.Form
                 Assert.Greater(extrude.Depth, oldDepth);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -328,8 +323,7 @@ namespace Macad.Test.Unit.Interaction.Form
             var extrude = Extrude.Create(shape.Body, subshapeRef);
 
             var ctx = Context.Current;
-            var editor = Editor.CreateEditor(extrude);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(extrude);
 
             var oldDepth = extrude.Depth;
             ctx.ViewportController.ZoomFitAll();
@@ -357,7 +351,7 @@ namespace Macad.Test.Unit.Interaction.Form
                 Assert.AreEqual(oldDepth, extrude.Depth, 0.0001);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -369,8 +363,7 @@ namespace Macad.Test.Unit.Interaction.Form
             var ctx = Context.Current;
 
             var extrude = TestGeomGenerator.CreateExtrude();
-            var editor = Editor.CreateEditor(extrude);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(extrude);
             ctx.UndoHandler.Commit();
             Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
 
@@ -380,7 +373,7 @@ namespace Macad.Test.Unit.Interaction.Form
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(250, 189);
             ctx.ViewportController.MouseUp();
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
 
             Assert.Greater(extrude.Depth, oldDepth);
             Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);

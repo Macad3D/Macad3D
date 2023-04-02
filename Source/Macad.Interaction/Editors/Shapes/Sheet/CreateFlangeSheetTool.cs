@@ -55,27 +55,22 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             if (_Mode == ToolMode.ReselectFace)
             {
-                var visualShape = WorkspaceController.VisualObjects.Get(_TargetBody) as VisualShape;
-                if (visualShape != null)
-                {
-                    visualShape.OverrideBrep = _TargetShape.GetTransformedBRep();
-                    WorkspaceController.Invalidate();
-                }
+                OverrideVisualShape(_TargetBody, _TargetShape.GetTransformedBRep());
             }
 
             var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _TargetBody, new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane));
-            if (!WorkspaceController.StartToolAction(toolAction))
+            if (!StartAction(toolAction))
             {
                 return false;
             }
             toolAction.Finished += _OnActionFinished;
 
-            WorkspaceController.HudManager?.SetHintMessage(this, "Select face to create flange to.");
-            WorkspaceController.HudManager?.SetCursor(Cursors.SelectFace);
+            SetHintMessage("Select face to create flange to.");
+            SetCursor(Cursors.SelectFace);
             return true;
         }
 
@@ -93,11 +88,11 @@ namespace Macad.Interaction.Editors.Shapes
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
                 if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
                 {
-                    WorkspaceController.HudManager?.SetHintMessage(this, "Selected face is not a plane type surface.");
+                    SetHintMessage("Selected face is not a plane type surface.");
                 }
                 else
                 {
-                    selectAction.Stop();
+                    StopAction(selectAction);
                     Stop();
                     finished = true;
 
@@ -114,8 +109,8 @@ namespace Macad.Interaction.Editors.Shapes
                         var flangeSheet = FlangeSheet.Create(_TargetBody, faceRef);
                         if (flangeSheet != null)
                         {
-                            InteractiveContext.Current.UndoHandler.Commit();
-                            InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(_TargetBody);
+                            CommitChanges();
+                            WorkspaceController.Selection.SelectEntity(_TargetBody);
                         }
                     }
                     else if(_Mode == ToolMode.ReselectFace)
@@ -123,7 +118,7 @@ namespace Macad.Interaction.Editors.Shapes
                         // Reselected face
                         _FlangeToChange.Face = faceRef;
                         _FlangeToChange.Invalidate();
-                        InteractiveContext.Current.UndoHandler.Commit();
+                        CommitChanges();
                     }
                 }
             }
@@ -134,19 +129,6 @@ namespace Macad.Interaction.Editors.Shapes
             }
 
             WorkspaceController.Invalidate();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-        
-        public override void Stop()
-        {
-            var visualShape = WorkspaceController.VisualObjects.Get(_TargetBody) as VisualShape;
-            if (visualShape != null)
-            {
-                visualShape.OverrideBrep = null;
-                WorkspaceController.Invalidate();
-            }
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------

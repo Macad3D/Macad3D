@@ -23,7 +23,6 @@ public class RotateAction : ToolAction
 
     readonly Ax3 _CoordinateSystem;
     readonly Circle[] _Gizmos = new Circle[3];
-    SelectionContext _SelectionContext;
     double _StartValue;
     Pln _RotationPlane = Pln.XOY;
     public Ax1 RotationAxis { get; private set; }
@@ -36,17 +35,16 @@ public class RotateAction : ToolAction
     //--------------------------------------------------------------------------------------------------
 
     public RotateAction(object owner, Ax3 coordinateSystem)
-        : base(owner)
+        : base()
     {
         _CoordinateSystem = coordinateSystem;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public override bool Start()
-    { 
-        _SelectionContext = WorkspaceController.Selection.OpenContext();
-
+    protected override bool OnStart()
+    {
+        OpenSelectionContext();
         _UpdateGizmo();
         return true;
     }
@@ -58,14 +56,18 @@ public class RotateAction : ToolAction
         for (int i = 0; i < _Gizmos.Length; i++)
         {
             var mode = (RotateMode)i;
-            _Gizmos[i] ??= new Circle(WorkspaceController, Circle.Style.NoResize | Circle.Style.Topmost)
+            if (_Gizmos[i] == null)
             {
-                Color = _GetColorByMode(mode),
-                IsSelectable = true,
-                Width = 4.0,
-                Radius = 2.0,
-                KnobPosition = 0.0
-            };
+                _Gizmos[i] ??= new Circle(WorkspaceController, Circle.Style.NoResize | Circle.Style.Topmost)
+                {
+                    Color = _GetColorByMode(mode),
+                    IsSelectable = true,
+                    Width = 4.0,
+                    Radius = 2.0,
+                    KnobPosition = 0.0
+                };
+                Add(_Gizmos[i]);
+            }
 
             _Gizmos[i].Sector = _RotateMode == mode
                                     ? (_StartValue - Delta, _StartValue)
@@ -76,24 +78,6 @@ public class RotateAction : ToolAction
         _Gizmos[0].Set(new Ax2(rotatedCS.Location, rotatedCS.XDirection, rotatedCS.YDirection));
         _Gizmos[1].Set(new Ax2(rotatedCS.Location, rotatedCS.YDirection, rotatedCS.Direction));
         _Gizmos[2].Set(new Ax2(rotatedCS.Location, rotatedCS.Direction, rotatedCS.XDirection));
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public override void Stop()
-    {
-        for (var i = 0; i < _Gizmos.Length; i++)
-        {
-            _Gizmos[i]?.Remove();
-            _Gizmos[i] = null;
-        }
-
-        _AxisHintLine?.Remove();
-
-        WorkspaceController.Selection.CloseContext(_SelectionContext);
-        _SelectionContext = null;
-
-        base.Stop();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -143,10 +127,11 @@ public class RotateAction : ToolAction
             }
 
             _AxisHintLine = new HintLine(WorkspaceController, HintStyle.ThinDashed);
+            Add(_AxisHintLine);
             _AxisHintLine.Set(RotationAxis);
             WorkspaceController.Invalidate();
 
-            WorkspaceController.HudManager?.SetCursor(Cursors.Rotate);
+            SetCursor(Cursors.Rotate);
             return true;
         }
         return base.OnMouseDown(data);
@@ -159,18 +144,17 @@ public class RotateAction : ToolAction
         if (_RotateMode != RotateMode.None)
         {
             _RotateMode = RotateMode.None;
-            WorkspaceController.HudManager?.SetCursor(null);
+            SetCursor(null);
 
-            _AxisHintLine?.Remove();
+            Remove(_AxisHintLine);
             _AxisHintLine = null;
 
-            WorkspaceController.HudManager?.RemoveElement(_DeltaHudElement);
+            Remove(_DeltaHudElement);
             _DeltaHudElement = null;
 
             if (Delta != 0)
             {
                 // Commit
-                Stop();
                 IsFinished = true;
             }
 
@@ -206,13 +190,16 @@ public class RotateAction : ToolAction
             _UpdateGizmo();
             data.ForceReDetection = true;
 
-            _DeltaHudElement ??= WorkspaceController.HudManager?.CreateElement<DeltaHudElement>(this);
-            if (_DeltaHudElement != null)
+            if (_DeltaHudElement == null)
             {
-                _DeltaHudElement.Units = ValueUnits.Degree;
-                _DeltaHudElement.Delta = Delta.ToDeg();
+                _DeltaHudElement = new DeltaHudElement
+                {
+                    Units = ValueUnits.Degree,
+                };
+                Add(_DeltaHudElement);
             }
-
+            _DeltaHudElement.Delta = Delta.ToDeg();
+             
             return base.OnMouseMove(data);
         }
         return false;

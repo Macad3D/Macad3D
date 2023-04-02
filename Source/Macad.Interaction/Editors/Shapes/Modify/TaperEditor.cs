@@ -74,7 +74,7 @@ public class TaperEditor : Editor<Taper>
         {
             if (_OffsetAction == null)
             {
-                _OffsetAction = new(this)
+                _OffsetAction = new()
                 {
                     Color = Colors.ActionRed,
                     Cursor = Cursors.SetHeight,
@@ -91,7 +91,7 @@ public class TaperEditor : Editor<Taper>
                 _StartOffset = Entity.Offset;
             }
 
-            AddLiveAction(_OffsetAction);
+            StartAction(_OffsetAction);
         }
 
         // Angle
@@ -99,7 +99,7 @@ public class TaperEditor : Editor<Taper>
         {
             if (_AngleAction == null)
             {
-                _AngleAction = new(this)
+                _AngleAction = new()
                 {
                     Color = Colors.ActionGreen,
                     NoResize = true,
@@ -121,7 +121,7 @@ public class TaperEditor : Editor<Taper>
             {
                 _AngleAction.VisualSector = (Entity.Angle.ToRad(), _StartAngle);
             }
-            AddLiveAction(_AngleAction);
+            StartAction(_AngleAction);
         }
 
     }
@@ -133,7 +133,7 @@ public class TaperEditor : Editor<Taper>
         if (!_IsMovingAngle)
         {
             _IsMovingAngle = true;
-            RemoveLiveAction(_OffsetAction);
+            StopAction(_OffsetAction);
             SetHintMessage("Adjust angle using gizmo, press 'CTRL' to round to 5°.");
         }
 
@@ -154,7 +154,11 @@ public class TaperEditor : Editor<Taper>
 
         _UpdateActions();
 
-        _HudElement ??= CreateHudElement<LabelHudElement>();
+        if (_HudElement == null)
+        {
+            _HudElement = new LabelHudElement();
+            Add(_HudElement);
+        }
         _HudElement?.SetValue($"Angle: {Entity.Angle.ToInvariantString("F2")} °");
     }
 
@@ -174,7 +178,7 @@ public class TaperEditor : Editor<Taper>
         if (!_IsMovingOffset)
         {
             _IsMovingOffset = true;
-            RemoveLiveAction(_AngleAction);
+            StopAction(_AngleAction);
             SetHintMessage("Adjust offset using gizmo, press 'CTRL' to round to grid stepping.");
         }
 
@@ -192,7 +196,11 @@ public class TaperEditor : Editor<Taper>
         Entity.Offset = newOffset;
         
         _UpdateActions();
-        _HudElement ??= CreateHudElement<LabelHudElement>();
+        if (_HudElement == null)
+        {
+            _HudElement = new LabelHudElement();
+            Add(_HudElement);
+        }
         _HudElement?.SetValue($"Offset: {Entity.Offset.ToInvariantString("F2")} mm");
     }
 
@@ -200,7 +208,7 @@ public class TaperEditor : Editor<Taper>
 
     void _OffsetAction_Finished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
-        InteractiveContext.Current.UndoHandler.Commit();
+        CommitChanges();
         _IsMovingOffset = false;
         StartTools();
     }

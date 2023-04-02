@@ -56,13 +56,15 @@ namespace Macad.Interaction.Panels
 
             DynamicContextMenuItems.Clear();
             var workspaceController = InteractiveContext.Current.WorkspaceController;
-            __AddCommands(workspaceController.CurrentToolAction);
-            __AddCommands(workspaceController.CurrentTool);
-            if (workspaceController.CurrentTool == null)
+            __AddCommands(workspaceController);
+            if (workspaceController.CurrentTool != null)
+            {
+                __AddCommands(workspaceController.CurrentTool);
+            }
+            else if (workspaceController.CurrentEditor != null)
             {
                 __AddCommands(workspaceController.CurrentEditor);
             }
-            __AddCommands(workspaceController);
         }
 
         //--------------------------------------------------------------------------------------------------

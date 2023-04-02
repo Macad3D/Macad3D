@@ -21,47 +21,28 @@ namespace Macad.Interaction
         readonly SketchEditorTool _SketchEditorTool;
         Marker _Marker;
         Sketch.ElementType _MarkerType;
-        SelectionContext _SelectionContext;
         Pnt _SelectedPoint;
 
         //--------------------------------------------------------------------------------------------------
 
         public SplitSketchElementAction(SketchEditorTool sketchEditorTool)
-            : base(sketchEditorTool)
+            : base()
         {
             _SketchEditorTool = sketchEditorTool;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             Debug.Assert(_SketchEditorTool != null);
 
-            _SelectionContext = WorkspaceController.Selection.OpenContext();
+            OpenSelectionContext();
             _SketchEditorTool.Elements.Activate(true, true, false);
 
             return true;
         }
         
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Stop()
-        {
-            if (_Marker != null)
-            {
-                _Marker.Remove();
-                _Marker = null;
-            }
-
-            WorkspaceController.Selection.CloseContext(_SelectionContext);
-            _SelectionContext = null;
-
-            WorkspaceController.Invalidate();
-
-            base.Stop();
-        }
-
         //--------------------------------------------------------------------------------------------------
                 
         void ProcessMouseInput(MouseEventData data)
@@ -126,7 +107,7 @@ namespace Macad.Interaction
 
                 if (_MarkerType != SelectedElementType)
                 {
-                    _Marker?.Remove();
+                    Remove(_Marker);
                     _Marker = null;
                     _MarkerType = Sketch.ElementType.None;
                 }
@@ -136,8 +117,11 @@ namespace Macad.Interaction
                     if (_Marker == null )
                     {
                         _Marker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, 
-                                             SelectedElementType == Sketch.ElementType.Segment ? Marker.XImage : Marker.RingImage);
-                        _Marker.Color = Colors.BallMarker;
+                                             SelectedElementType == Sketch.ElementType.Segment ? Marker.XImage : Marker.RingImage)
+                        {
+                            Color = Colors.BallMarker
+                        };
+                        Add(_Marker);
                         _MarkerType = SelectedElementType;
                     }
                     _Marker.Set(_SelectedPoint);
@@ -169,7 +153,7 @@ namespace Macad.Interaction
         {
             base.Reset();
             SelectedElementType = Sketch.ElementType.None;
-            _Marker?.Remove();
+            Remove(_Marker);
             _Marker = null;
             _MarkerType = Sketch.ElementType.None;
         }

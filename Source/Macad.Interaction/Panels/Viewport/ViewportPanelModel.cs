@@ -92,6 +92,7 @@ namespace Macad.Interaction.Panels
 
         WorkspaceController _WorkspaceController;
         ViewportController _ViewportController;
+        object _CursorOwner;
         Cursor _Cursor;
         string _HintMessage;
         object _HintMessageOwner;
@@ -176,18 +177,16 @@ namespace Macad.Interaction.Panels
 
         #region IHudManager
 
-        public T CreateElement<T>(object owner, BaseObject instance = null) where T : HudElement
+        public void SetCursor(object owner, Cursor cursor)
         {
-            var element = HudElement.CreateElement<T>(owner, instance, WorkspaceController);
-            HudElements.Add(element);
-            return element;
-        }
+            if (Cursor == null && owner != null)
+            {
+                if (owner != _CursorOwner)
+                    return;
+            }
 
-        //--------------------------------------------------------------------------------------------------
-
-        public void SetCursor(Cursor cursor)
-        {
             Cursor = cursor;
+            _CursorOwner = owner;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -202,6 +201,18 @@ namespace Macad.Interaction.Panels
 
             HintMessage = message;
             _HintMessageOwner = owner;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        public void AddElement(HudElement element)
+        {
+            if (HudElements.Contains(element))
+                return;
+
+            element.WorkspaceController = WorkspaceController;
+            element.Initialize();
+            HudElements.Add(element);
         }
 
         //--------------------------------------------------------------------------------------------------

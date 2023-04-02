@@ -159,7 +159,7 @@ namespace Macad.Test.Unit.Interaction.Toolkits
 
             var tool = ctx.WorkspaceController.CurrentTool as EtchingMaskEditTool;
             Assert.IsNotNull(tool);
-            Assert.IsNotNull(ctx.WorkspaceController.CurrentToolAction);
+            Assert.IsNotNull(ctx.WorkspaceController.CurrentTool.CurrentAction);
 
             // Check selection filter
             ctx.MoveTo(150, 300);
@@ -169,7 +169,7 @@ namespace Macad.Test.Unit.Interaction.Toolkits
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "NoAutoFaceDetection01"));
 
             ctx.ClickAt(250, 250);
-            Assert.IsNull(ctx.WorkspaceController.CurrentToolAction);
+            Assert.IsNull(ctx.WorkspaceController.CurrentTool.CurrentAction);
 
             // Component should exist, even if it can not work correctly
             var component = body.FindComponent<EtchingMaskComponent>();

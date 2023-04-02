@@ -8,6 +8,7 @@ using Macad.Test.Utils;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
+using Macad.Core.Shapes;
 
 namespace Macad.Test.Unit.Interaction.Primitives
 {
@@ -63,9 +64,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var sphere = TestGeomGenerator.CreateSphere();
-
-            var editor = Editor.CreateEditor(sphere);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(sphere);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -73,7 +72,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
                             
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
             });
         }
@@ -85,9 +84,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var sphere = TestGeomGenerator.CreateSphere();
-
-            var editor = Editor.CreateEditor(sphere);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(sphere);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -103,7 +100,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScale03"));
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                 
@@ -114,9 +111,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var sphere = TestGeomGenerator.CreateSphere();
-
-            var editor = Editor.CreateEditor(sphere);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(sphere);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -132,7 +127,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCorner03"));
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                         
@@ -144,9 +139,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
             var ctx = Context.Current;
             var sphere = TestGeomGenerator.CreateSphere();
             sphere.Body.Rotation = new Quaternion(35.0.ToRad(), 0, 0);
-
-            var editor = Editor.CreateEditor(sphere);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(sphere);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -162,7 +155,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleRotated03"));
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                 
@@ -173,9 +166,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var sphere = TestGeomGenerator.CreateSphere();
-
-            var editor = Editor.CreateEditor(sphere);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(sphere);
 
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 3.0;
@@ -193,7 +184,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 ctx.ViewportController.MouseUp();
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                         
@@ -204,9 +195,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var sphere = TestGeomGenerator.CreateSphere();
-
-            var editor = Editor.CreateEditor(sphere);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(sphere);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -221,7 +210,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 ctx.ViewportController.MouseUp();
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
     }

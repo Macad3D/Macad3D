@@ -68,9 +68,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var box = TestGeomGenerator.CreateBox();
-
-            var editor = Editor.CreateEditor(box);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(box);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -78,7 +76,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
                             
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
             });
         }
@@ -90,9 +88,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var box = TestGeomGenerator.CreateBox();
-
-            var editor = Editor.CreateEditor(box);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(box);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -108,7 +104,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScale03"));
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -119,9 +115,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
         {
             var ctx = Context.Current;
             var box = TestGeomGenerator.CreateBox();
-
-            var editor = Editor.CreateEditor(box);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(box);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -137,7 +131,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCorner03"));
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                         
@@ -149,9 +143,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
             var ctx = Context.Current;
             var box = TestGeomGenerator.CreateBox();
             box.Body.Rotation = new Quaternion(35.0.ToRad(), 0, 0);
-
-            var editor = Editor.CreateEditor(box);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(box);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -167,7 +159,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleRotated03"));
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                                 
@@ -181,8 +173,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
             box.Body.Rotation = new Quaternion(0, 0, 180.0.ToRad());
             var startHeight = box.DimensionZ;
 
-            var editor = Editor.CreateEditor(box);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(box);
 
             ctx.ViewportController.ZoomFitAll();
             ctx.MoveTo(250, 132);
@@ -192,7 +183,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
             Assert.Greater(box.DimensionZ, startHeight);
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -203,8 +194,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
             var ctx = Context.Current;
             var box = TestGeomGenerator.CreateBox();
 
-            var editor = Editor.CreateEditor(box);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(box);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -228,7 +218,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleChangeSign03"));
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -240,8 +230,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
             var ctx = Context.Current;
             var box = TestGeomGenerator.CreateBox();
 
-            var editor = Editor.CreateEditor(box);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(box);
 
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 5.0;
@@ -259,7 +248,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 ctx.ViewportController.MouseUp();
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -271,8 +260,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
             var ctx = Context.Current;
             var box = TestGeomGenerator.CreateBox();
 
-            var editor = Editor.CreateEditor(box);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(box);
 
             ctx.ViewportController.ZoomFitAll();
             Assert.Multiple(() =>
@@ -287,7 +275,7 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 ctx.ViewportController.MouseUp();
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
     }

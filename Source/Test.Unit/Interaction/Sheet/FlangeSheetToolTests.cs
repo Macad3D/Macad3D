@@ -152,8 +152,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var ctx = Context.Current;
 
             var flange = _CreateFlange();
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
             ctx.ViewportController.ZoomFitAll();
 
             Assert.Multiple(() =>
@@ -161,7 +160,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
             
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
             });
         }
@@ -174,8 +173,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var ctx = Context.Current;
 
             var flange = _CreateFlange();
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             var oldAngle = flange.Angle;
             ctx.ViewportController.ZoomFitAll();
@@ -194,7 +192,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.Less(flange.Angle, oldAngle);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngle99"));
             });
         }
@@ -208,8 +206,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
 
             var flange = _CreateFlange();
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             var oldAngle = flange.Angle;
             ctx.ViewportController.ZoomFitAll();
@@ -224,7 +221,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.Greater(flange.Angle, oldAngle);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -237,8 +234,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
 
             var flange = _CreateFlange();
             flange.Angle = 20;
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             var oldAngle = flange.Angle;
             ctx.ViewportController.ZoomFitAll();
@@ -254,7 +250,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.IsTrue(flange.Reverse);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -267,8 +263,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
 
             var flange = _CreateFlange();
             flange.Angle = 150;
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             var oldAngle = flange.Angle;
             ctx.ViewportController.ZoomFitAll();
@@ -287,7 +282,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.IsTrue(flange.Reverse);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                 
@@ -300,8 +295,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
 
             var flange = _CreateFlange();
             flange.Angle = 150;
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             ctx.ViewportController.ZoomFitAll();
 
@@ -314,7 +308,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.AreEqual(150.0, flange.Angle);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -326,8 +320,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var ctx = Context.Current;
 
             var flange = _CreateFlange();
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             ctx.ViewportController.ZoomFitAll();
 
@@ -344,7 +337,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.AreEqual(50.0, flange.Angle);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -356,8 +349,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var ctx = Context.Current;
 
             var flange = _CreateFlange();
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
             ctx.ViewportController.ZoomFitAll();
 
             ctx.UndoHandler.Commit();
@@ -368,7 +360,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(174, 370, ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
             
             Assert.AreEqual(50.0, flange.Angle);
             Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);
@@ -387,8 +379,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var ctx = Context.Current;
 
             var flange = _CreateFlange();
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             var oldLength = flange.Length;
             ctx.ViewportController.ZoomFitAll();
@@ -407,7 +398,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.Greater(flange.Length, oldLength);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveLength99"));
             });
         }
@@ -421,8 +412,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
 
             var flange = _CreateFlange();
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             var oldLength = flange.Length;
             ctx.ViewportController.ZoomFitAll();
@@ -437,7 +427,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.Less(flange.Length, oldLength);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                
@@ -450,8 +440,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
 
             var flange = _CreateFlange();
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             var oldLength = flange.Length;
             ctx.ViewportController.ZoomFitAll();
@@ -466,7 +455,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.AreEqual(0.001, flange.Length);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -477,8 +466,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
         {
             var ctx = Context.Current;
             var flange = _CreateFlange();
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 1.0;
 
@@ -494,7 +482,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.AreEqual(2.0, flange.Length);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -506,8 +494,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var ctx = Context.Current;
 
             var flange = _CreateFlange();
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 1.0;
 
@@ -519,7 +506,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(165, 307, ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
             
             Assert.AreEqual(2.0, flange.Length);
             Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);
@@ -538,8 +525,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var ctx = Context.Current;
 
             var flange = _CreateFlange();
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             var oldRadius = flange.Radius;
             ctx.ViewportController.ZoomFitAll();
@@ -558,7 +544,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.Greater(flange.Radius, oldRadius);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRadius99"));
             });
         }
@@ -572,8 +558,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
 
             var flange = _CreateFlange();
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             var oldRadius = flange.Radius;
             ctx.ViewportController.ZoomFitAll();
@@ -588,7 +573,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.Greater(flange.Radius, oldRadius);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                
@@ -601,8 +586,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
 
             var flange = _CreateFlange();
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             ctx.ViewportController.ZoomFitAll();
 
@@ -616,7 +600,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.AreEqual(0.001, flange.Radius);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         //--------------------------------------------------------------------------------------------------
@@ -627,8 +611,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var ctx = Context.Current;
             var flange = _CreateFlange();
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 1.0;
 
@@ -644,7 +627,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.AreEqual(5.0, flange.Radius);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -657,8 +640,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
 
             var flange = _CreateFlange();
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 1.0;
 
@@ -670,7 +652,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(271, 431, ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
             
             Assert.AreEqual(5.0, flange.Radius);
             Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);
@@ -689,8 +671,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var ctx = Context.Current;
 
             var flange = _CreateFlange();
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             var oldGap = flange.StartGap;
             ctx.ViewportController.ZoomFitAll();
@@ -709,7 +690,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.Greater(flange.StartGap, oldGap);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveStartGap99"));
             });
         }
@@ -723,8 +704,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
 
             var flange = _CreateFlange();
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             var oldGap = flange.StartGap;
             ctx.ViewportController.ZoomFitAll();
@@ -739,7 +719,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.Greater(flange.StartGap, oldGap);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                
@@ -753,8 +733,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var flange = _CreateFlange();
             flange.StartGap = 5.0;
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             ctx.ViewportController.ZoomFitAll();
 
@@ -768,7 +747,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.AreEqual(0.00, flange.StartGap);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                        
@@ -782,8 +761,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var flange = _CreateFlange();
             flange.EndGap = 5.0;
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             ctx.ViewportController.ZoomFitAll();
 
@@ -797,7 +775,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.AreEqual(5.00, flange.StartGap, 0.002);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -809,8 +787,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var ctx = Context.Current;
             var flange = _CreateFlange();
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 1.0;
 
@@ -826,7 +803,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.AreEqual(4.0, flange.StartGap);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -839,8 +816,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
 
             var flange = _CreateFlange();
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 1.0;
 
@@ -852,7 +828,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(183, 257, ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
             
             Assert.AreEqual(4.0, flange.StartGap);
             Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);
@@ -871,8 +847,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var ctx = Context.Current;
 
             var flange = _CreateFlange();
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             var oldGap = flange.EndGap;
             ctx.ViewportController.ZoomFitAll();
@@ -891,7 +866,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.Greater(flange.EndGap, oldGap);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveEndGap99"));
             });
         }
@@ -905,8 +880,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
 
             var flange = _CreateFlange();
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             var oldGap = flange.EndGap;
             ctx.ViewportController.ZoomFitAll();
@@ -921,7 +895,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.Greater(flange.EndGap, oldGap);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                
@@ -935,8 +909,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var flange = _CreateFlange();
             flange.EndGap = 5.0;
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             ctx.ViewportController.ZoomFitAll();
 
@@ -950,7 +923,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.AreEqual(0.00, flange.EndGap);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                        
@@ -964,8 +937,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var flange = _CreateFlange();
             flange.StartGap = 5.0;
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
 
             ctx.ViewportController.ZoomFitAll();
 
@@ -979,7 +951,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.AreEqual(5.00, flange.EndGap, 0.002);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -991,8 +963,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             var ctx = Context.Current;
             var flange = _CreateFlange();
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 1.0;
 
@@ -1008,7 +979,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 Assert.AreEqual(4.0, flange.EndGap);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -1021,8 +992,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
 
             var flange = _CreateFlange();
             flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
-            var editor = Editor.CreateEditor(flange);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(flange);
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 1.0;
 
@@ -1034,7 +1004,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(149, 311, ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
             
             Assert.AreEqual(4.0, flange.EndGap);
             Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
 using Macad.Common;
 using Macad.Core;
-using Macad.Common.Serialization;
 using Macad.Occt;
 
 namespace Macad.Interaction
@@ -52,34 +49,29 @@ namespace Macad.Interaction
         //--------------------------------------------------------------------------------------------------
 
         SnapMode _SupportedSnapModes = SnapMode.None;
-        readonly WorkspaceController _WorkspaceController;
+        WorkspaceController _WorkspaceController;
 
         //--------------------------------------------------------------------------------------------------
 
         public SnapHandler(WorkspaceController workspaceController)
         {
             _WorkspaceController = workspaceController;
-            _WorkspaceController.PropertyChanged += _WorkspaceController_PropertyChanged;
+            Tool.ToolActionChanged += _Tool_ToolActionChanged;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public void Dispose()
         {
-            if (_WorkspaceController != null)
-            {
-                _WorkspaceController.PropertyChanged -= _WorkspaceController_PropertyChanged;
-            }
+            Tool.ToolActionChanged -= _Tool_ToolActionChanged;
+            _WorkspaceController = null;
         }
 
         //--------------------------------------------------------------------------------------------------
-
-        void _WorkspaceController_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        
+        void _Tool_ToolActionChanged(Tool sender, ToolAction action)
         {
-            if(e.PropertyName == nameof(WorkspaceController.CurrentToolAction))
-            {
-                SupportedSnapModes = _WorkspaceController.CurrentToolAction?.SupportedSnapModes ?? SnapMode.None;
-            }
+            SupportedSnapModes = action?.SupportedSnapModes ?? SnapMode.None;
         }
 
         //--------------------------------------------------------------------------------------------------

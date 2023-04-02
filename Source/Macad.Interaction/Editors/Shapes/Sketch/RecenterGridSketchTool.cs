@@ -5,22 +5,19 @@ using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes
 {
-    public class RecenterGridSketchTool : ISketchTool
+    public class RecenterGridSketchTool : SketchTool
     {
         SketchPointAction _PointAction;
-        SketchEditorTool _SketchEditorTool;
         HintLine _HintLineH;
         HintLine _HintLineV;
         Marker _OriginMarker;
 
         //--------------------------------------------------------------------------------------------------
 
-        public bool Start(SketchEditorTool sketchEditorTool)
+        protected override bool OnStart()
         {
-            _SketchEditorTool = sketchEditorTool;
-
-            _PointAction = new SketchPointAction(_SketchEditorTool);
-            if (!_SketchEditorTool.WorkspaceController.StartToolAction(_PointAction, false))
+            _PointAction = new SketchPointAction(SketchEditorTool);
+            if (!StartAction(_PointAction))
             {
                 return false;
             }
@@ -31,17 +28,18 @@ namespace Macad.Interaction.Editors.Shapes
             _PointAction.Finished += _PointAction_OnFinished;
 
             // Re-enable elements for snapping
-            _SketchEditorTool.Elements.Activate(true, false, false);
+            SketchEditorTool.Elements.Activate(true, false, false);
 
-            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select new workspace center position.");
-            _SketchEditorTool.WorkspaceController.HudManager?.SetCursor(Cursors.WorkingPlane);
+            SetHintMessage("Select new workspace center position.");
+            SetCursor(Cursors.WorkingPlane);
 
-            _OriginMarker = new Marker(_SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage)
+            _OriginMarker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage)
             {
                 IsSelectable = true
             };
-            _OriginMarker.Set(_SketchEditorTool.Sketch.Plane.Location);
+            _OriginMarker.Set(SketchEditorTool.Sketch.Plane.Location);
             _OriginMarker.Color = Quantity_NameOfColor.WHITE.ToColor();
+            Add(_OriginMarker);
 
             return true;
         }
@@ -50,37 +48,26 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _PointAction_Previewed(ToolAction toolAction)
         {
-            var workingPlane = _SketchEditorTool.WorkspaceController.Workspace.WorkingPlane;
-            var point = _SketchEditorTool.Sketch.Plane.Value(_PointAction.Point);
+            var workingPlane = WorkspaceController.Workspace.WorkingPlane;
+            var point = Sketch.Plane.Value(_PointAction.Point);
 
-            _HintLineH ??= new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.WorkingAxis);
+            _HintLineH ??= new HintLine(WorkspaceController, HintStyle.WorkingAxis);
             _HintLineH.Set(new Ax1(point, workingPlane.XAxis.Direction));
+            Add(_HintLineH);
 
-            _HintLineV ??= new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.WorkingAxis);
+            _HintLineV ??= new HintLine(WorkspaceController, HintStyle.WorkingAxis);
             _HintLineV.Set(new Ax1(point, workingPlane.YAxis.Direction));
+            Add(_HintLineV);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _PointAction_OnFinished(ToolAction toolaction)
         {
-            var workingPlane = _SketchEditorTool.WorkspaceController.Workspace.WorkingPlane;
-            workingPlane.Location = _SketchEditorTool.Sketch.Plane.Value(_PointAction.Point);
-            _SketchEditorTool.WorkspaceController.Workspace.WorkingPlane = workingPlane;
-            _SketchEditorTool.StopTool();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void Stop()
-        {
-            _PointAction?.Cancel(true);
-            _SketchEditorTool.WorkspaceController.HudManager?.SetCursor(null);
-            _HintLineH?.Remove();
-            _HintLineV?.Remove();
-            _OriginMarker?.Remove();
-
-            _SketchEditorTool.WorkspaceController.Invalidate();
+            var workingPlane = WorkspaceController.Workspace.WorkingPlane;
+            workingPlane.Location = Sketch.Plane.Value(_PointAction.Point);
+            WorkspaceController.Workspace.WorkingPlane = workingPlane;
+            Stop();
         }
 
         //--------------------------------------------------------------------------------------------------

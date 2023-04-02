@@ -36,7 +36,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(null);
             _SavedWorkingPlane = WorkspaceController.Workspace.WorkingPlane;
@@ -48,13 +48,13 @@ namespace Macad.Interaction.Editors.Shapes
                 var selectionFilter = new OrSelectionFilter(new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane),
                                                             new SignatureSelectionFilter(VisualPlane.SelectionSignature));
                 var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, null, selectionFilter);
-                if (!WorkspaceController.StartToolAction(toolAction))
+                if (!StartAction(toolAction))
                     return false;
                 toolAction.Finished += _OnActionFinished;
                 toolAction.Previewed += _OnActionPreviewed;
 
-                WorkspaceController.HudManager?.SetHintMessage(this, "Select face or plane to which the new sketch should be aligned.");
-                WorkspaceController.HudManager?.SetCursor(Cursors.SelectFace);
+                SetHintMessage("Select face or plane to which the new sketch should be aligned.");
+                SetCursor(Cursors.SelectFace);
                 return true;
             }
 
@@ -80,7 +80,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Stop()
+        protected override void OnStop()
         {
             if (WorkspaceController.Workspace.WorkingPlane != _SavedWorkingPlane)
             {
@@ -92,8 +92,6 @@ namespace Macad.Interaction.Editors.Shapes
                 _DefaultPlanes[i]?.Remove();
                 _DefaultPlanes[i] = null;
             }
-
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -145,7 +143,7 @@ namespace Macad.Interaction.Editors.Shapes
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
                 if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
                 {
-                    WorkspaceController.HudManager?.SetHintMessage(this, "Selected face is not a plane type surface.");
+                    SetHintMessage("Selected face is not a plane type surface.");
                 }
                 else
                 {
@@ -203,7 +201,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (_GetPlaneFromAction(selectAction))
             {
-                selectAction.Stop();
+                StopAction(selectAction);
                 Stop();
                 CreateSketch();
             }

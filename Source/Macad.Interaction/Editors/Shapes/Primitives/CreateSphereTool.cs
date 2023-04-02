@@ -31,112 +31,112 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
-            InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(null);
+            WorkspaceController.Selection.SelectEntity(null);
 
-            var pointAction = new PointAction(this);
-            if (!WorkspaceController.StartToolAction(pointAction))
+            var pointAction = new PointAction();
+            if (!StartAction(pointAction))
                 return false;
             pointAction.Previewed += _PreviewPivotPoint;
             pointAction.Finished += _FinishPivotPoint;
 
             _CurrentPhase = Phase.PivotPoint;
-            WorkspaceController.HudManager?.SetHintMessage(this, "Select center point.");
-            _Coord2DHudElement = WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
-            WorkspaceController.HudManager?.SetCursor(Cursors.SetPoint);
+            SetHintMessage("Select center point.");
+            _Coord2DHudElement = new Coord2DHudElement();
+            Add(_Coord2DHudElement);
+            SetCursor(Cursors.SetPoint);
 
             return true;
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        protected override void OnStop()
+        {
+            _ClearPreviews();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _PreviewPivotPoint(ToolAction toolAction)
         {
-            if(!(toolAction is PointAction pointAction))
+            if(toolAction is not PointAction pointAction)
                 return;
 
             _ClearPreviews();
-
-            if (_Coord2DHudElement != null)
-            {
-                _Coord2DHudElement.CoordinateX = pointAction.PointOnPlane.X;
-                _Coord2DHudElement.CoordinateY = pointAction.PointOnPlane.Y;
-            }
+            _Coord2DHudElement?.SetValues(pointAction.PointOnPlane.X, pointAction.PointOnPlane.Y);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _FinishPivotPoint(ToolAction toolAction)
         {
-            if(!(toolAction is PointAction pointAction))
+            if(toolAction is not PointAction pointAction)
                 return;
 
             _Point = pointAction.Point.Rounded();
             pointAction.Stop();
 
             var axisValueAction = new AxisValueAction(this, new Ax1(_Point, Dir.DZ));
-            if (!WorkspaceController.StartToolAction(axisValueAction))
+            if (!StartAction(axisValueAction))
                 return;
             axisValueAction.Previewed += _PreviewRadius;
             axisValueAction.Finished += _FinishRadius;
 
             _CurrentPhase = Phase.Radius;
-            WorkspaceController.HudManager?.SetHintMessage(this, "Select Radius.");
+            SetHintMessage("Select Radius.");
 
-            WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
-            _ValueHudElement = WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
-            if (_ValueHudElement != null)
+            Remove(_Coord2DHudElement);
+            if (_ValueHudElement == null)
             {
-                _ValueHudElement.Label = "Radius:";
-                _ValueHudElement.Units = ValueUnits.Length;
+                _ValueHudElement = new ValueHudElement
+                {
+                    Label = "Radius:",
+                    Units = ValueUnits.Length
+                };
                 _ValueHudElement.ValueEntered += _ValueEntered;
+                Add(_ValueHudElement);
             }
-
-            WorkspaceController.HudManager?.SetCursor(Cursors.SetRadius);
+            SetCursor(Cursors.SetRadius);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _PreviewRadius(ToolAction toolAction)
         {
-            if(!(toolAction is AxisValueAction axisValueAction))
+            if(toolAction is not AxisValueAction axisValueAction)
                 return;
 
             _ClearPreviews();
 
-            if (_PreviewShape == null)
+            _PreviewShape ??= new Sphere()
             {
-                // Create solid
-                _PreviewShape = new Sphere()
-                {
-                    Radius = 0.1
-                };
-            }
+                Radius = 0.1
+            };
 
             var radius = axisValueAction.Distance.Round();
 
-            if (radius > 0)
-            {
-                var trsf = new Trsf(_Point.ToVec());
-                _PreviewShape.Radius = radius;
+            if (radius <= 0) 
+                return;
 
-                _AisPreviewEdges = new AIS_Shape(_PreviewShape.GetTransformedBRep());
-                _AisPreviewEdges.SetDisplayMode(0);
-                _AisPreviewEdges.SetLocalTransformation(trsf);
-                WorkspaceController.Workspace.AisContext.Display(_AisPreviewEdges, false);
-                WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewEdges);
+            var trsf = new Trsf(_Point.ToVec());
+            _PreviewShape.Radius = radius;
 
-                _AisPreviewSolid = new AIS_Shape(_PreviewShape.GetTransformedBRep());
-                _AisPreviewSolid.SetDisplayMode(1);
-                _AisPreviewSolid.SetLocalTransformation(trsf);
-                WorkspaceController.Workspace.AisContext.Display(_AisPreviewSolid, false);
-                WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewSolid);
+            _AisPreviewEdges = new AIS_Shape(_PreviewShape.GetTransformedBRep());
+            _AisPreviewEdges.SetDisplayMode(0);
+            _AisPreviewEdges.SetLocalTransformation(trsf);
+            WorkspaceController.Workspace.AisContext.Display(_AisPreviewEdges, false);
+            WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewEdges);
 
-                WorkspaceController.HudManager?.SetHintMessage(this, $"Select Radius: {radius:0.00}");
-                if (_ValueHudElement != null)
-                    _ValueHudElement.Value = radius;
-            }
+            _AisPreviewSolid = new AIS_Shape(_PreviewShape.GetTransformedBRep());
+            _AisPreviewSolid.SetDisplayMode(1);
+            _AisPreviewSolid.SetLocalTransformation(trsf);
+            WorkspaceController.Workspace.AisContext.Display(_AisPreviewSolid, false);
+            WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewSolid);
+
+            SetHintMessage($"Select Radius: {radius:0.00}");
+            _ValueHudElement?.SetValue(radius);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -145,16 +145,16 @@ namespace Macad.Interaction.Editors.Shapes
         {
             _ClearPreviews();
 
-            toolAction?.Stop();
+            StopAction(toolAction);
 
             var body = Body.Create(_PreviewShape);
             body.Position = _Point;
             InteractiveContext.Current.Document.Add(body);
-            InteractiveContext.Current.UndoHandler.Commit();
+            CommitChanges();
 
-            ((Tool) this).Stop();
+            Stop();
 
-            InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(body);
+            WorkspaceController.Selection.SelectEntity(body);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -182,19 +182,6 @@ namespace Macad.Interaction.Editors.Shapes
                 WorkspaceController.Workspace.AisContext.Remove(_AisPreviewEdges, false);
                 _AisPreviewEdges = null;
             }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Stop()
-        {
-            WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
-            _Coord2DHudElement = null;
-            WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
-            _ValueHudElement = null;
-
-            _ClearPreviews();
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -20,11 +20,7 @@ public class Circle: VisualObject
 
     public override AIS_InteractiveObject AisObject
     {
-        get
-        {
-            _EnsureAisObject();
-            return _AisObject;
-        }
+        get { return _AisObject; }
     }
 
     //--------------------------------------------------------------------------------------------------

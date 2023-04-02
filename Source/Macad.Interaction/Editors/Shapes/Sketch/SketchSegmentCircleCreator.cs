@@ -7,9 +7,8 @@ using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
-    public sealed class SketchSegmentCircleCreator : ISketchSegmentCreator
+    public sealed class SketchSegmentCircleCreator : SketchSegmentCreator
     {
-        SketchEditorTool _SketchEditorTool;
         SketchPointAction _PointAction;
         SketchSegmentCircle _Segment;
         SketchEditorSegmentElement _Element;
@@ -21,44 +20,28 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public bool Start(SketchEditorTool sketchEditorTool)
+        protected override bool OnStart()
         {
-            _SketchEditorTool = sketchEditorTool;
-
-            _PointAction = new SketchPointAction(_SketchEditorTool);
-            if (!_SketchEditorTool.WorkspaceController.StartToolAction(_PointAction, false))
+            _PointAction = new SketchPointAction(SketchEditorTool);
+            if (!StartAction(_PointAction))
                 return false;
             _PointAction.Previewed += _OnActionPreview;
             _PointAction.Finished += _OnActionFinished;
 
-            _Coord2DHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
+            _Coord2DHudElement = new Coord2DHudElement();
+            Add(_Coord2DHudElement);
 
-            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select center point of the circle.");
+            SetHintMessage("Select center point of the circle.");
 
             return true;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void Stop()
+        protected override void Cleanup()
         {
-            _Marker?.Remove();
             _Element?.Remove();
-
-            _PointAction.Stop();
-            _SketchEditorTool.WorkspaceController.Invalidate();
-
-            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
-            _Coord2DHudElement = null;
-            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
-            _ValueHudElement = null;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public bool Continue(int continueWithPoint)
-        {
-            return false;
+            base.Cleanup();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -71,19 +54,22 @@ namespace Macad.Interaction.Editors.Shapes
                 {
                     _Points[1] = _PointAction.Point;
                     _Element.OnPointsChanged(_Points, null);
-                    _SketchEditorTool.WorkspaceController.Invalidate();
+                    SketchEditorTool.WorkspaceController.Invalidate();
 
-                    if (_ValueHudElement == null && _SketchEditorTool.WorkspaceController.HudManager != null)
+                    if (_ValueHudElement == null)
                     {
-                        _ValueHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
-                        _ValueHudElement.Label = "Radius:";
-                        _ValueHudElement.Units = ValueUnits.Length;
+                        _ValueHudElement = new ValueHudElement
+                        {
+                            Label = "Radius:",
+                            Units = ValueUnits.Length
+                        };
                         _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
+                        Add(_ValueHudElement);
                     }
-                    _ValueHudElement?.SetValue(_Segment.Radius(_Points));
+                    _ValueHudElement.SetValue(_Segment.Radius(_Points));
                 }
 
-                _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
+                _Coord2DHudElement.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
             }
         }
 
@@ -100,17 +86,19 @@ namespace Macad.Interaction.Editors.Shapes
                     _Points.Add(1, _PointAction.Point);
                     _Segment = new SketchSegmentCircle(0, 1);
 
-                    _Marker = new Marker(_SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage);
-                    _Marker.Set(_PointAction.Point, _SketchEditorTool.Sketch.Plane);
+                    _Marker = new Marker(SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage);
+                    _Marker.Set(_PointAction.Point, SketchEditorTool.Sketch.Plane);
+                    Add(_Marker);
 
-                    _Element = new SketchEditorSegmentElement(_SketchEditorTool, -1, _Segment, _SketchEditorTool.Transform, _SketchEditorTool.Sketch.Plane);
-                    _Element.IsCreating = true;
+                    _Element = new SketchEditorSegmentElement(SketchEditorTool, -1, _Segment, SketchEditorTool.Transform, SketchEditorTool.Sketch.Plane)
+                    {
+                        IsCreating = true
+                    };
                     _Element.OnPointsChanged(_Points, null);
 
-                    _SketchEditorTool.WorkspaceController.Invalidate();
-
-                    _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select any rim point of the circle.");
-
+                    SketchEditorTool.WorkspaceController.Invalidate();
+                    
+                    SetHintMessage("Select any rim point of the circle.");
                     _PointAction.Reset();
                 } 
                 else
@@ -125,9 +113,9 @@ namespace Macad.Interaction.Editors.Shapes
                     _Points[1] = _PointAction.Point;
                     _MergePointIndices[1] = _PointAction.MergeCandidateIndex;
 
-                    _PointAction.Stop();
+                    StopAction(_PointAction);
 
-                    _SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
+                    SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
                 }
             }
         }
@@ -145,8 +133,8 @@ namespace Macad.Interaction.Editors.Shapes
 
             _Points[1] = _Points[0].Translated(vec.Normalized().Scaled(newValue));
             _MergePointIndices[1] = -1;
-            _PointAction.Stop();
-            _SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
+            StopAction(_PointAction);
+            SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
         }
 
         //--------------------------------------------------------------------------------------------------

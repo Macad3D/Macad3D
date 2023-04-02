@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows;
 using Macad.Interaction.Visual;
 using Macad.Common;
 using Macad.Common.Serialization;
@@ -10,7 +9,6 @@ using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
-using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
@@ -31,7 +29,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         #region Public Properties
 
-        public ISketchTool CurrentTool
+        public SketchTool CurrentTool
         {
             get { return _CurrentTool; }
             set
@@ -104,7 +102,6 @@ namespace Macad.Interaction.Editors.Shapes
 
         #region Member
 
-        SelectionContext _SelectionContext;
         Dictionary<int, Pnt2d> _TempPoints;
         double _LastGizmoScale;
         double _LastPixelSize;
@@ -113,7 +110,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         SelectSketchElementAction _SelectAction;
         MoveSketchPointAction _MoveAction;
-        ISketchTool _CurrentTool;
+        SketchTool _CurrentTool;
         bool _ContinuesSegmentCreation;
         List<int> _SelectedPoints;
         List<SketchSegment> _SelectedSegments;
@@ -134,9 +131,9 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
-            _SelectionContext = WorkspaceController.Selection.OpenContext(SelectionContext.Options.NewSelectedList);
+            OpenSelectionContext(SelectionContext.Options.NewSelectedList);
             var workspace = WorkspaceController.Workspace;
 
             var editorSettings = SketchEditorSettingsCache.GetOrCreate(Sketch);
@@ -181,18 +178,18 @@ namespace Macad.Interaction.Editors.Shapes
             Sketch.ElementsChanged += _Sketch_ElementsChanged;
 
             _SelectAction = new SelectSketchElementAction(this);
-            if (!WorkspaceController.StartToolAction(_SelectAction))
+            if (!StartAction(_SelectAction))
                 return false;
             _SelectAction.Finished += _OnSelectionChanged;
 
-            WorkspaceController.HudManager?.SetHintMessage(this, UnselectedStatusText);
+            SetHintMessage(UnselectedStatusText);
 
             return true;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Stop()
+        protected override void OnStop()
         {
             if (CurrentTool != null)
             {
@@ -210,9 +207,6 @@ namespace Macad.Interaction.Editors.Shapes
 
                 Sketch.ElementsChanged -= _Sketch_ElementsChanged;
             }
-
-            WorkspaceController.Selection.CloseContext(_SelectionContext);
-            _SelectionContext = null;
 
             Elements.RemoveAll();
 
@@ -238,22 +232,19 @@ namespace Macad.Interaction.Editors.Shapes
             EnableClipPlane(false);
 
             WorkspaceController.Invalidate();
-
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Cancel(bool force)
+        protected override bool OnCancel()
         {
             if (CurrentTool != null)
             {
                 StopTool();
-                if(!force)
-                    return false;
+                return false;
             }
 
-            return base.Cancel(force);
+            return true;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -358,16 +349,6 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override void EnrichContextMenu(ContextMenuItems itemList)
         {
-            void __AddIfExecutable(IActionCommand command, object param)
-            {
-                if (command.CanExecute(param))
-                {
-                    itemList.AddCommand(command, param);
-                }
-            }
-
-            //--------------------------------------------------------------------------------------------------
-
             itemList.AddCommand(SketchCommands.CloseSketchEditor, null);
 
             itemList.AddGroup("Create Segment");
@@ -384,32 +365,32 @@ namespace Macad.Interaction.Editors.Shapes
             itemList.CloseGroup();
 
             itemList.AddGroup("Create Constraint");
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Fixed);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.LineLength);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Angle);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.CircleRadius);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Equal);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Perpendicular);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Parallel);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Concentric);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Horizontal);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Vertical);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.HorizontalDistance);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.VerticalDistance);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Tangent);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.PointOnSegment);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.PointOnMidpoint);
-            __AddIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.SmoothCorner);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Fixed);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.LineLength);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Angle);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.CircleRadius);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Equal);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Perpendicular);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Parallel);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Concentric);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Horizontal);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Vertical);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.HorizontalDistance);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.VerticalDistance);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.Tangent);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.PointOnSegment);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.PointOnMidpoint);
+            itemList.AddCommandIfExecutable(SketchCommands.CreateConstraint, SketchCommands.Constraints.SmoothCorner);
             itemList.CloseGroup();
 
             itemList.AddCommand(SketchCommands.SplitElement);
             itemList.AddCommand(SketchCommands.WeldElements);
 
             itemList.AddGroup("Convert Segment");
-            __AddIfExecutable(SketchCommands.ConvertSegment, SketchCommands.Segments.Line);
-            __AddIfExecutable(SketchCommands.ConvertSegment, SketchCommands.Segments.Bezier);
-            __AddIfExecutable(SketchCommands.ConvertSegment, SketchCommands.Segments.Arc);
-            __AddIfExecutable(SketchCommands.ConvertSegment, SketchCommands.Segments.EllipticalArc);
+            itemList.AddCommandIfExecutable(SketchCommands.ConvertSegment, SketchCommands.Segments.Line);
+            itemList.AddCommandIfExecutable(SketchCommands.ConvertSegment, SketchCommands.Segments.Bezier);
+            itemList.AddCommandIfExecutable(SketchCommands.ConvertSegment, SketchCommands.Segments.Arc);
+            itemList.AddCommandIfExecutable(SketchCommands.ConvertSegment, SketchCommands.Segments.EllipticalArc);
             itemList.CloseGroup();
 
             itemList.AddCommand(SketchCommands.RecenterGrid);
@@ -428,7 +409,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (_MoveAction != null)
             {
-                _MoveAction.Stop();
+                StopAction(_MoveAction);
                 _MoveAction = null;
             }
 
@@ -437,7 +418,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (SelectedSegments.Any() || SelectedPoints.Any())
             {
                 _MoveAction = new MoveSketchPointAction(this);
-                if (!WorkspaceController.StartToolAction(_MoveAction, false))
+                if (!StartAction(_MoveAction, false))
                     return;
                 _MoveAction.Previewed += _OnMoveActionPreview;
                 _MoveAction.Finished += _OnMoveActionFinished;
@@ -475,25 +456,30 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (SelectedSegments.Any() && !SelectedPoints.Any() && !SelectedConstraints.Any())
             {
-                WorkspaceController.HudManager?.SetHintMessage(this, SelectedSegments.Count == 1 ? string.Format(SegmentSelectedStatusText, SelectedSegments[0].GetType().Name) : string.Format(MultiSegmentSelectedStatusText, SelectedSegments.Count));
+                SetHintMessage(SelectedSegments.Count == 1 
+                                   ? string.Format(SegmentSelectedStatusText, SelectedSegments[0].GetType().Name) 
+                                   : string.Format(MultiSegmentSelectedStatusText, SelectedSegments.Count));
             }
             else if (!SelectedSegments.Any() && SelectedPoints.Any() && !SelectedConstraints.Any())
             {
-                WorkspaceController.HudManager?.SetHintMessage(this, SelectedPoints.Count == 1 ? string.Format(PointSelectedStatusText, SelectedPoints[0]) : string.Format(MultiPointSelectedStatusText, SelectedPoints.Count));
+                SetHintMessage(SelectedPoints.Count == 1 
+                                   ? string.Format(PointSelectedStatusText, SelectedPoints[0]) 
+                                   : string.Format(MultiPointSelectedStatusText, SelectedPoints.Count));
             }
             else if (!SelectedSegments.Any() && !SelectedPoints.Any() && SelectedConstraints.Any())
             {
-                WorkspaceController.HudManager?.SetHintMessage(this, SelectedConstraints.Count == 1 ? string.Format(ConstraintSelectedStatusText, SelectedConstraints[0].GetType().Name) : string.Format(MultiConstraintSelectedStatusText, SelectedConstraints.Count));
+                SetHintMessage(SelectedConstraints.Count == 1 
+                                   ? string.Format(ConstraintSelectedStatusText, SelectedConstraints[0].GetType().Name) 
+                                   : string.Format(MultiConstraintSelectedStatusText, SelectedConstraints.Count));
+            }
+            else if (SelectedSegments.Any() || SelectedPoints.Any() || SelectedConstraints.Any())
+            {
+                SetHintMessage(MixedSelectedStatusText);
             }
             else
-                if (SelectedSegments.Any() || SelectedPoints.Any() || SelectedConstraints.Any())
-                {
-                    WorkspaceController.HudManager?.SetHintMessage(this, MixedSelectedStatusText);
-                }
-                else
-                {
-                    WorkspaceController.HudManager?.SetHintMessage(this, UnselectedStatusText);
-                }
+            {
+                SetHintMessage(UnselectedStatusText);
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -568,7 +554,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (!_MoveAction.Points.Any())
             {
                 // MoveAction has lost all it's point, stop it now
-                _MoveAction.Stop();
+                StopAction(_MoveAction);
                 _MoveAction = null;
                 WorkspaceController.Invalidate();
                 return;
@@ -583,7 +569,7 @@ namespace Macad.Interaction.Editors.Shapes
 
                 if (mergeCandidates.Any())
                 {
-                    var pointString = mergeCandidates.Select(mc => String.Format("({0},{1})", mc.Value, mc.Key)).ToList().Join(", ");
+                    var pointString = mergeCandidates.Select(mc => $"({mc.Value},{mc.Key})").ToList().Join(", ");
                     if (Dialogs.Dialogs.AskSketchPointMerge(pointString))
                     {
                         // Do merge
@@ -598,7 +584,7 @@ namespace Macad.Interaction.Editors.Shapes
                 Sketch.SolveConstraints(true);
 
                 // Commit changes
-                InteractiveContext.Current.UndoHandler.Commit();
+                CommitChanges();
             }
         }
 
@@ -608,7 +594,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         #region Segment Creation
 
-        public bool StartSegmentCreation<T>(bool continuesCreation = false) where T : ISketchSegmentCreator, new()
+        public bool StartSegmentCreation<T>(bool continuesCreation = false) where T : SketchSegmentCreator, new()
         {
             Select(null, null);
             StopTool();
@@ -628,12 +614,12 @@ namespace Macad.Interaction.Editors.Shapes
         public void FinishSegmentCreation(Dictionary<int, Pnt2d> points, int[] mergePointIndices, IEnumerable<SketchSegment> segments, IEnumerable<SketchConstraint> constraints, int continueWithPoint = -1)
         {
             var (pointMap, segmentMap, _) = Sketch.AddElements(points, mergePointIndices, segments.ToIndexedDictionary(), constraints);
-            InteractiveContext.Current.UndoHandler.Commit();
+            CommitChanges();
             WorkspaceController.UpdateSelection();
 
             if (_ContinuesSegmentCreation && continueWithPoint >= 0 && pointMap.ContainsKey(continueWithPoint))
             {
-                (CurrentTool as ISketchSegmentCreator)?.Continue(pointMap[continueWithPoint]);
+                (CurrentTool as SketchSegmentCreator)?.Continue(pointMap[continueWithPoint]);
             }
             else
             {
@@ -672,9 +658,9 @@ namespace Macad.Interaction.Editors.Shapes
                 Sketch.AddElements(null, null, null, constraints);
                 Sketch.SolveConstraints(false);
                 Sketch.SolveConstraints(true);
-                InteractiveContext.Current.UndoHandler.Commit();
+                CommitChanges();
 
-                _MoveAction?.Stop();
+                StopAction(_MoveAction);
                 Elements.DeselectAll();
                 Elements.Select(constraints);
                 _UpdateSelections();
@@ -695,11 +681,11 @@ namespace Macad.Interaction.Editors.Shapes
         class SketchCloneContent
         {
             [SerializeMember]
-            internal Dictionary<int, Pnt2d> Points { get; set; }
+            internal Dictionary<int, Pnt2d> Points { get; init; }
             [SerializeMember]
-            internal Dictionary<int, SketchSegment> Segments { get; set; }
+            internal Dictionary<int, SketchSegment> Segments { get; init; }
             [SerializeMember]
-            internal SketchConstraint[] Constraints { get; set; }
+            internal SketchConstraint[] Constraints { get; init; }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -718,7 +704,7 @@ namespace Macad.Interaction.Editors.Shapes
             SelectedPoints.ForEach(p => SketchUtils.DeletePointTrySubstituteSegments(Sketch, p));
 
             Sketch.SolveConstraints(true);
-            InteractiveContext.Current.UndoHandler.Commit();
+            CommitChanges();
 
             Select(null, null);
         }
@@ -755,7 +741,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             var (pointMap, segmentMap, _) = Sketch.AddElements(content.Points, null, content.Segments, content.Constraints);
             Sketch.SolveConstraints(true);
-            InteractiveContext.Current.UndoHandler.Commit();
+            CommitChanges();
 
             Select(pointMap.Values.Distinct(), segmentMap.Values.Distinct());
         }
@@ -824,7 +810,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         #region Tools
 
-        public void StartTool(ISketchTool tool)
+        public void StartTool(SketchTool tool)
         {
             StopTool();
 
@@ -851,7 +837,24 @@ namespace Macad.Interaction.Editors.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        internal bool StartToolAction(ToolAction toolAction)
+        {
+            // Forward for sketch tool
+            return StartAction(toolAction, false);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+        
+        internal void StopToolAction(ToolAction toolAction)
+        {
+            // Forward for sketch tool
+            StopAction(toolAction);
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
+
     }
 }

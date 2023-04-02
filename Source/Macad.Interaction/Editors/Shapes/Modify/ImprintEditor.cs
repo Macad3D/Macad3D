@@ -78,14 +78,14 @@ public class ImprintEditor : Editor<Imprint>
             || Entity.Mode == Imprint.ImprintMode.Cutout
             || !Entity.GetFinalExtrusionAxis(out Ax1 axis))
         {
-            RemoveLiveActions();
+            StopAllActions();
             _TranslateAction = null;
             return;
         }
         
         if (_TranslateAction == null)
         {
-            _TranslateAction = new(this)
+            _TranslateAction = new()
             {
                 Color = Colors.ActionBlue,
                 Cursor = Cursors.SetHeight,
@@ -103,7 +103,7 @@ public class ImprintEditor : Editor<Imprint>
             _StartDepth = Entity.Depth;
         }
 
-        AddLiveAction(_TranslateAction);
+        StartAction(_TranslateAction);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -132,7 +132,11 @@ public class ImprintEditor : Editor<Imprint>
         Entity.Depth = newDepth.Abs();
 
         _UpdateActions();
-        _HudElement ??= CreateHudElement<LabelHudElement>();
+        if (_HudElement == null)
+        {
+            _HudElement = new LabelHudElement();
+            Add(_HudElement);
+        }
         _HudElement?.SetValue($"Depth: {Entity.Depth.ToInvariantString("F2")} mm");
     }
 
@@ -141,7 +145,7 @@ public class ImprintEditor : Editor<Imprint>
     void _TranslateActionFinished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = false;
-        InteractiveContext.Current.UndoHandler.Commit();
+        CommitChanges();
         StartTools();
     }
     

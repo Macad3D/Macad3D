@@ -108,11 +108,7 @@ namespace Macad.Interaction.Visual
 
         public override AIS_InteractiveObject AisObject
         {
-            get
-            {
-                _EnsureAisObject();
-                return _AisPoint;
-            }
+            get { return _AisPoint; }
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
@@ -52,16 +51,11 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             if (_Mode == ToolMode.Reselect)
             {
-                var visualShape = WorkspaceController.VisualObjects.Get(_TargetBody) as VisualShape;
-                if (visualShape != null)
-                {
-                    visualShape.OverrideBrep = _TargetShape.GetTransformedBRep();
-                    WorkspaceController.Invalidate();
-                }
+                OverrideVisualShape(_TargetBody, _TargetShape.GetTransformedBRep());
             }
 
             SelectSubshapeAction toolAction;
@@ -69,14 +63,14 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 case ShapeType.Sketch:
                     toolAction = new SelectSubshapeAction(this, SubshapeTypes.Edge, _TargetBody);
-                    WorkspaceController.HudManager?.SetHintMessage(this, "Select edge as reference for the mirror axis.");
-                    WorkspaceController.HudManager?.SetCursor(Cursors.SelectEdge);
+                    SetHintMessage("Select edge as reference for the mirror axis.");
+                    SetCursor(Cursors.SelectEdge);
                     break;
 
                 case ShapeType.Solid:
                     toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _TargetBody);
-                    WorkspaceController.HudManager?.SetHintMessage(this, "Select face as reference for the mirror plane.");
-                    WorkspaceController.HudManager?.SetCursor(Cursors.SelectFace);
+                    SetHintMessage("Select face as reference for the mirror plane.");
+                    SetCursor(Cursors.SelectFace);
                     break;
 
                 default:
@@ -84,7 +78,7 @@ namespace Macad.Interaction.Editors.Shapes
                     return false;
             }
            
-            if (!WorkspaceController.StartToolAction(toolAction))
+            if (!StartAction(toolAction))
                 return false;
             toolAction.Finished += _OnActionFinished;
 
@@ -121,7 +115,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (subshapeRef != null)
             {
-                selectAction.Stop();
+                StopAction(selectAction);
                 Stop();
 
                 if (_Mode == ToolMode.CreateNew)
@@ -129,8 +123,7 @@ namespace Macad.Interaction.Editors.Shapes
                     var mirror = Mirror.Create(_TargetBody, subshapeRef);
                     if (mirror != null)
                     {
-                        InteractiveContext.Current.UndoHandler.Commit();
-                        //InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(_TargetBody);
+                        CommitChanges();
                     }
                 }
                 else if (_Mode == ToolMode.Reselect)
@@ -138,7 +131,7 @@ namespace Macad.Interaction.Editors.Shapes
                     // Reselected face or edge
                     _ModifierToChange.ReferenceShape = subshapeRef;
                     _ModifierToChange.Invalidate();
-                    InteractiveContext.Current.UndoHandler.Commit();
+                    CommitChanges();
                 }
             }
             else
@@ -147,18 +140,6 @@ namespace Macad.Interaction.Editors.Shapes
             }
 
             WorkspaceController.Invalidate();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Stop()
-        {
-            var visualShape = WorkspaceController.VisualObjects.Get(_TargetBody) as VisualShape;
-            if (visualShape != null)
-            {
-                visualShape.OverrideBrep = null;
-            }
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -274,8 +274,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             var ctx = Context.Current;
 
             var taper = _CreateTaperedBoxByEdge();
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
             ctx.ViewportController.ZoomFitAll();
 
             Assert.Multiple(() =>
@@ -283,7 +282,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
             
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
             });
         }
@@ -298,8 +297,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             var taper = _CreateTaperedBoxByEdge();
             var box = taper.Predecessor as Box;
             Assume.That(box != null);
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
             ctx.ViewportController.ZoomFitAll();
 
             Assert.Multiple(() =>
@@ -310,7 +308,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorReselectTarget01"));
             
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -322,9 +320,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             var ctx = Context.Current;
 
             var taper = _CreateTaperedBoxByEdge();
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
-
+            ctx.WorkspaceController.StartEditor(taper);
             var oldOffset = taper.Offset;
             ctx.ViewportController.ZoomFitAll();
 
@@ -342,7 +338,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.Greater(taper.Offset, oldOffset);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetEdge99"));
             });
         }
@@ -356,8 +352,7 @@ namespace Macad.Test.Unit.Interaction.Modify
 
             var taper = _CreateTaperedBoxByVertex();
             taper.Body.Rotation = new Quaternion(60.0.ToRad(), 0.0, 0.0);
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
 
             var oldOffset = taper.Offset;
             ctx.ViewportController.ZoomFitAll();
@@ -376,7 +371,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.Greater(taper.Offset, oldOffset);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetVertex99"));
             });
         }
@@ -390,8 +385,7 @@ namespace Macad.Test.Unit.Interaction.Modify
 
             var taper = _CreateTaperedBoxByEdge();
             taper.Angle *= -1;
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
 
             var oldOffset = taper.Offset;
             ctx.ViewportController.ZoomFitAll();
@@ -410,7 +404,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.Greater(taper.Offset, oldOffset);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -423,8 +417,7 @@ namespace Macad.Test.Unit.Interaction.Modify
 
             var taper = _CreateTaperedBoxByEdge();
             taper.Body.Rotation = new Quaternion(0, 30.0.ToRad(), 0);
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
 
             var oldOffset = taper.Offset;
             ctx.ViewportController.ZoomFitAll();
@@ -440,7 +433,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.Greater(taper.Offset, oldOffset);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                 
@@ -452,8 +445,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             var ctx = Context.Current;
 
             var taper = _CreateTaperedBoxByEdge();
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
 
             ctx.ViewportController.ZoomFitAll();
 
@@ -472,7 +464,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.AreEqual(0.0, taper.Offset);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -484,8 +476,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             var ctx = Context.Current;
 
             var taper = _CreateTaperedBoxByEdge();
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
 
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 1.0;
@@ -502,7 +493,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.AreEqual(4.0, taper.Offset);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -514,8 +505,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             var ctx = Context.Current;
 
             var taper = _CreateTaperedBoxByEdge();
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
             ctx.UndoHandler.Commit();
             Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
 
@@ -526,7 +516,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(157, 292);
             ctx.ViewportController.MouseUp();
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
 
             Assert.Greater(taper.Offset, oldOffset);
             Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);
@@ -545,8 +535,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             var ctx = Context.Current;
 
             var taper = _CreateTaperedBoxByEdge();
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
 
             var oldAngle = taper.Angle;
             ctx.ViewportController.ZoomFitAll();
@@ -565,7 +554,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.Greater(taper.Angle, oldAngle);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngleEdge99"));
             });
         }
@@ -579,8 +568,7 @@ namespace Macad.Test.Unit.Interaction.Modify
 
             var taper = _CreateTaperedBoxByVertex();
             taper.Body.Rotation = new Quaternion(60.0.ToRad(), 0.0, 0.0);
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
 
             var oldAngle = taper.Angle;
             ctx.ViewportController.ZoomFitAll();
@@ -599,7 +587,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.Greater(taper.Angle, oldAngle);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngleVertex99"));
             });
         }
@@ -612,8 +600,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             var ctx = Context.Current;
 
             var taper = _CreateTaperedBoxByEdge();
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
 
             ctx.ViewportController.ZoomFitAll();
 
@@ -631,7 +618,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.Less(taper.Angle, 0.0);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -644,8 +631,7 @@ namespace Macad.Test.Unit.Interaction.Modify
 
             var taper = _CreateTaperedBoxByEdge();
             taper.Body.Rotation = new Quaternion(0, 30.0.ToRad(), 0);
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
 
             var oldAngle = taper.Angle;
             ctx.ViewportController.ZoomFitAll();
@@ -661,7 +647,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.Greater(taper.Angle, oldAngle);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
                         
@@ -674,8 +660,7 @@ namespace Macad.Test.Unit.Interaction.Modify
 
             var taper = _CreateTaperedBoxByEdge();
             taper.Body.Rotation = new Quaternion(45.0.ToRad(), 0, 0);
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
 
             ctx.ViewportController.ZoomFitAll();
 
@@ -697,7 +682,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -709,8 +694,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             var ctx = Context.Current;
 
             var taper = _CreateTaperedBoxByEdge();
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
 
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 1.0;
@@ -727,7 +711,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.AreEqual(40.0, taper.Angle);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
             
@@ -739,8 +723,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             var ctx = Context.Current;
 
             var taper = _CreateTaperedBoxByEdge();
-            var editor = Editor.CreateEditor(taper);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(taper);
             ctx.UndoHandler.Commit();
             Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
 
@@ -751,7 +734,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(74, 278);
             ctx.ViewportController.MouseUp();
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
 
             Assert.Greater(taper.Angle, oldAngle);
             Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);

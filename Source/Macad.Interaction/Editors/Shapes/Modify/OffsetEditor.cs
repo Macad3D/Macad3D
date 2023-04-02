@@ -55,7 +55,7 @@ public sealed class OffsetEditor : Editor<Offset>
     {
         if (Entity?.Body == null)
         {
-            RemoveLiveActions();
+            StopAllActions();
             _ScaleAction = null;
             return;
         }
@@ -66,15 +66,14 @@ public sealed class OffsetEditor : Editor<Offset>
 
         if (_ScaleAction == null)
         {
-            _ScaleAction = new BoxScaleLiveAction(this, Entity.ShapeType==ShapeType.Sketch);
+            _ScaleAction = new BoxScaleLiveAction(Entity.ShapeType==ShapeType.Sketch);
             _ScaleAction.Previewed += _ScaleAction_Previewed;
             _ScaleAction.Finished += _ScaleAction_Finished;
+            StartAction(_ScaleAction);
         }
 
         _ScaleAction.Box = box;
         _ScaleAction.Transformation = Entity.Body.GetTransformation();
-
-        AddLiveAction(_ScaleAction);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -101,7 +100,11 @@ public sealed class OffsetEditor : Editor<Offset>
 
         Entity.Distance = newDistance;
 
-        _HudElement ??= CreateHudElement<LabelHudElement>();
+        if (_HudElement == null)
+        {
+            _HudElement = new LabelHudElement();
+            Add(_HudElement);
+        }
         _HudElement?.SetValue($"Distance: {Entity.Distance.ToInvariantString("F2")} mm");
 
         _UpdateActions();
@@ -113,7 +116,7 @@ public sealed class OffsetEditor : Editor<Offset>
     {
         if (!args.DeltaSum.IsEqual(0.0, double.Epsilon))
         {
-            InteractiveContext.Current.UndoHandler.Commit();
+            CommitChanges();
         }
 
         StartTools();

@@ -50,7 +50,7 @@ namespace Macad.Test.Memory.Interaction
                 ctx.ViewportController.MouseUp();
                 ctx.ViewportController.MouseMove(new Point(0, 0));
 
-                Assume.That(ctx.WorkspaceController.CurrentToolAction, Is.Null);
+                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
                 Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
             }
 
@@ -85,7 +85,7 @@ namespace Macad.Test.Memory.Interaction
                 ctx.ViewportController.MouseUp();
                 ctx.ViewportController.MouseMove(new Point(0, 0));
 
-                Assume.That(ctx.WorkspaceController.CurrentToolAction, Is.Null);
+                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
                 Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
             }
 
@@ -117,7 +117,7 @@ namespace Macad.Test.Memory.Interaction
                 ctx.ViewportController.MouseUp();
                 ctx.ViewportController.MouseMove(new Point(0, 0));
 
-                Assume.That(ctx.WorkspaceController.CurrentToolAction, Is.Null);
+                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
                 Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
             }
 
@@ -151,7 +151,7 @@ namespace Macad.Test.Memory.Interaction
                 Assume.That(tool, Is.Not.Null);
 
                 ctx.WorkspaceController.CancelTool(tool, false);
-                Assume.That(ctx.WorkspaceController.CurrentToolAction, Is.Null);
+                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
                 Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
             }
 
@@ -184,7 +184,7 @@ namespace Macad.Test.Memory.Interaction
                 Assume.That(tool, Is.Not.Null);
 
                 ctx.WorkspaceController.CancelTool(tool, false);
-                Assume.That(ctx.WorkspaceController.CurrentToolAction, Is.Null);
+                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
                 Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
             }
 
@@ -232,7 +232,7 @@ namespace Macad.Test.Memory.Interaction
                 ctx.WorkspaceController.Invalidate(forceRedraw: true);
 
                 ctx.WorkspaceController.CancelTool(sketchEditTool, false);
-                Assume.That(ctx.WorkspaceController.CurrentToolAction, Is.Null);
+                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
                 Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
 
                 InteractiveContext.Current.WorkspaceController.Delete();

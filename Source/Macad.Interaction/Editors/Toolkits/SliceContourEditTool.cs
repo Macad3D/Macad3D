@@ -30,7 +30,6 @@ namespace Macad.Interaction.Editors.Toolkits
         readonly Body _Body;
         SliceContourComponent _Component;
         SliceContourPropertyPanel _Panel;
-        SelectionContext _SelectionContext;
 
         #region Tool implementation
 
@@ -44,7 +43,7 @@ namespace Macad.Interaction.Editors.Toolkits
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             if (_Component != null)
             {
@@ -80,11 +79,10 @@ namespace Macad.Interaction.Editors.Toolkits
         {
             if (_Panel == null)
             {
-                _Panel = PropertyPanel.CreatePanel<SliceContourPropertyPanel>(this);
-                InteractiveContext.Current.PropertyPanelManager?.AddPanel(_Panel, PropertyPanelSortingKey.Tools);
-                InteractiveContext.Current.PropertyPanelManager?.HidePanels(PropertyPanelSortingKey.BodyShape, PropertyPanelSortingKey.Tools - 1);
+                _Panel = CreatePanel<SliceContourPropertyPanel>(this, PropertyPanelSortingKey.Tools);
+                HidePanels(PropertyPanelSortingKey.BodyShape, PropertyPanelSortingKey.Tools - 1);
 
-                _SelectionContext = InteractiveContext.Current.WorkspaceController.Selection.OpenContext();
+                OpenSelectionContext();
 
                 _Component.PropertyChanged += _Component_OnPropertyChanged;
                 InteractiveEntity.VisualChanged += _InteractiveEntity_OnVisualChanged;
@@ -95,42 +93,33 @@ namespace Macad.Interaction.Editors.Toolkits
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Stop()
+        protected override void OnStop()
         {
             if (IsSelectingFace)
             {
                 ToggleFaceSelection();
             }
 
-            InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_Panel);
-            InteractiveContext.Current.PropertyPanelManager?.HidePanels(0, 0);
             _RemoveReconstructed();
-
-            InteractiveContext.Current.WorkspaceController.Selection.CloseContext(_SelectionContext);
 
             InteractiveEntity.VisualChanged -= _InteractiveEntity_OnVisualChanged;
             if (_Component != null)
             {
                 _Component.PropertyChanged -= _Component_OnPropertyChanged;
             }
-
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Cancel(bool force)
+        protected override bool OnCancel()
         {
-            if (!force)
+            if (IsSelectingFace)
             {
-                if (IsSelectingFace)
-                {
-                    ToggleFaceSelection();
-                    return false;
-                }
+                ToggleFaceSelection();
+                return false;
             }
 
-            return base.Cancel(force);
+            return true;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -274,10 +263,10 @@ namespace Macad.Interaction.Editors.Toolkits
         {
             if (_SelectFaceAction != null)
             {
-                _SelectFaceAction.Cancel(true);
+                StopAction(_SelectFaceAction);
                 _SelectFaceAction = null;
-                WorkspaceController.HudManager?.SetHintMessage(this, null);
-                WorkspaceController.HudManager?.SetCursor(null);
+                RemoveHintMessage();
+                RemoveCursor();
                 RaisePropertyChanged(nameof(IsSelectingFace));
 
                 if (_Component == null)
@@ -303,14 +292,14 @@ namespace Macad.Interaction.Editors.Toolkits
                 visObject.OverrideBrep = selectionBRep;
 
                 _SelectFaceAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _Body, new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane));
-                if (!WorkspaceController.StartToolAction(_SelectFaceAction))
+                if (!StartAction(_SelectFaceAction))
                 {
                     _SelectFaceAction = null;
                     return;
                 }
                 _SelectFaceAction.Finished += _SelectFaceAction_OnFinished;
-                WorkspaceController.HudManager?.SetHintMessage(this, "Select plane base face.");
-                WorkspaceController.HudManager?.SetCursor(Cursors.SelectFace);
+                SetHintMessage("Select plane base face.");
+                SetCursor(Cursors.SelectFace);
             }
             RaisePropertyChanged(nameof(IsSelectingFace));
         }
@@ -327,7 +316,7 @@ namespace Macad.Interaction.Editors.Toolkits
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
                 if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
                 {
-                    WorkspaceController.HudManager?.SetHintMessage(this, "Selected face is not a plane type surface.");
+                    SetHintMessage("Selected face is not a plane type surface.");
                     _SelectFaceAction.Reset();
                     return;
                 }
@@ -341,7 +330,7 @@ namespace Macad.Interaction.Editors.Toolkits
                         _CreateComponent();
                     }
                     _Component.ReferenceFace = subshapeReference;
-                    InteractiveContext.Current.UndoHandler.Commit();
+                    CommitChanges();
                 }
                 else
                 {

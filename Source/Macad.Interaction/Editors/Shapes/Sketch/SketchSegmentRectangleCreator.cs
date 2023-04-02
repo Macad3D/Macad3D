@@ -7,59 +7,43 @@ using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
-    public sealed class SketchSegmentRectangleCreator : ISketchSegmentCreator
+    public sealed class SketchSegmentRectangleCreator : SketchSegmentCreator
     {
-        SketchEditorTool _SketchEditorTool;
         SketchPointAction _PointAction;
         SketchSegmentLine[] _Segments;
         SketchEditorSegmentElement[] _Elements;
         Coord2DHudElement _Coord2DHudElement;
         MultiValueHudElement _ValueHudElement;
-        readonly Dictionary<int, Pnt2d> _Points = new Dictionary<int, Pnt2d>(4);
+        readonly Dictionary<int, Pnt2d> _Points = new(4);
         readonly int[] _MergePointIndices = new int[4];
 
         //--------------------------------------------------------------------------------------------------
 
-        public bool Start(SketchEditorTool sketchEditorTool)
+        protected override bool OnStart()
         {
-            _SketchEditorTool = sketchEditorTool;
-
-            _PointAction = new SketchPointAction(_SketchEditorTool);
-            if (!_SketchEditorTool.WorkspaceController.StartToolAction(_PointAction, false))
+            _PointAction = new SketchPointAction(SketchEditorTool);
+            if (!StartAction(_PointAction))
                 return false;
             _PointAction.Previewed += _OnActionPreview;
             _PointAction.Finished += _OnActionFinished;
 
-            _Coord2DHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
-
-            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select first corner of the rectangle.");
+            _Coord2DHudElement = new Coord2DHudElement();
+            Add(_Coord2DHudElement);
+            SetHintMessage("Select first corner of the rectangle.");
 
             return true;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void Stop()
+        protected override void Cleanup()
         {
-            _PointAction.Stop();
             if (_Elements != null)
             {
                 foreach (var element in _Elements)
                     element.Remove();
             }
-
-            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
-            _Coord2DHudElement = null;
-            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
-            _ValueHudElement = null;
-            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, null);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public bool Continue(int continueWithPoint)
-        {
-            return false;
+            base.Cleanup();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -76,20 +60,23 @@ namespace Macad.Interaction.Editors.Shapes
                         component.OnPointsChanged(_Points, null);
                     }
 
-                    if (_ValueHudElement == null && _SketchEditorTool.WorkspaceController.HudManager != null)
+                    if (_ValueHudElement == null)
                     {
-                        _ValueHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<MultiValueHudElement>(this);
-                        _ValueHudElement.Label1 = "Size X:";
-                        _ValueHudElement.Units1 = ValueUnits.Length;
-                        _ValueHudElement.Label2 = "Size Y:";
-                        _ValueHudElement.Units2 = ValueUnits.Length;
+                        _ValueHudElement = new MultiValueHudElement
+                        {
+                            Label1 = "Size X:",
+                            Units1 = ValueUnits.Length,
+                            Label2 = "Size Y:",
+                            Units2 = ValueUnits.Length
+                        };
                         _ValueHudElement.MultiValueEntered += _ValueHudElement_MultiValueEntered;
+                        Add(_ValueHudElement);
                     }
-                    _ValueHudElement?.SetValue1(_Points[2].X - _Points[0].X);
-                    _ValueHudElement?.SetValue2(_Points[2].Y - _Points[0].Y);
+                    _ValueHudElement.SetValue1(_Points[2].X - _Points[0].X);
+                    _ValueHudElement.SetValue2(_Points[2].Y - _Points[0].Y);
                 }
 
-                _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
+                _Coord2DHudElement.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
             }
         }
 
@@ -114,13 +101,12 @@ namespace Macad.Interaction.Editors.Shapes
                     _Elements = new SketchEditorSegmentElement[4];
                     for (int i = 0; i < _Elements.Length; i++)
                     {
-                        _Elements[i] = new SketchEditorSegmentElement(_SketchEditorTool, -1, _Segments[i], _SketchEditorTool.Transform, _SketchEditorTool.Sketch.Plane);
+                        _Elements[i] = new SketchEditorSegmentElement(SketchEditorTool, -1, _Segments[i], SketchEditorTool.Transform, SketchEditorTool.Sketch.Plane);
                         _Elements[i].IsCreating = true;
                         _Elements[i].OnPointsChanged(_Points, null);
                     }
 
-                    _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select second corner or the rectangle.");
-
+                    SetHintMessage("Select second corner or the rectangle.");
                     _PointAction.Reset();
                 } 
                 else
@@ -155,7 +141,7 @@ namespace Macad.Interaction.Editors.Shapes
             constraints[2] = new SketchConstraintPerpendicular(2, 3);
             constraints[3] = new SketchConstraintPerpendicular(3, 0);
 
-            _SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, _Segments, constraints);
+            SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, _Segments, constraints);
         }
 
         //--------------------------------------------------------------------------------------------------

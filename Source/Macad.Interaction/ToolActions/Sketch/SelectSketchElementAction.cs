@@ -11,14 +11,14 @@ namespace Macad.Interaction
         //--------------------------------------------------------------------------------------------------
 
         public SelectSketchElementAction(SketchEditorTool sketchEditorTool) 
-            : base(sketchEditorTool)
+            : base()
         {
             _SketchEditorTool = sketchEditorTool;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             return _SketchEditorTool != null;
         }
@@ -79,8 +79,7 @@ namespace Macad.Interaction
                     _SketchEditorTool.Sketch.DeletePoint(point);
                 }
 
-                InteractiveContext.Current.UndoHandler.Commit();
-
+                CommitChanges();
                 RaiseFinished();
                 return true;
             }

@@ -26,7 +26,6 @@ namespace Macad.Interaction
         AIS_Point _Marker;
         Marker _MergePreviewMarker;
         Pnt2d _MergeCandidatePoint;
-        SelectionContext _SelectionContext;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -46,7 +45,7 @@ namespace Macad.Interaction
         #endregion
 
         public SketchPointAction(SketchEditorTool sketchEditorTool)
-            : base(sketchEditorTool)
+            : base()
         {
             _SketchEditorTool = sketchEditorTool;
             EnablePointMerge = true;
@@ -54,11 +53,11 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             Debug.Assert(_SketchEditorTool != null);
 
-            _SelectionContext = WorkspaceController.Selection.OpenContext();
+            OpenSelectionContext();
             _SketchEditorTool.Elements.Activate(true, false, false);
 
             return true;
@@ -143,25 +142,16 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override void Stop()
+        protected override void Cleanup()
         {
             if (_Marker != null)
             {
                 WorkspaceController.Workspace.AisContext.Remove(_Marker, false);
                 _Marker = null;
             }
-            if (_MergePreviewMarker != null)
-            {
-                _MergePreviewMarker.Remove();
-                _MergePreviewMarker = null;
-            }
 
-            WorkspaceController.Selection.CloseContext(_SelectionContext);
-            _SelectionContext = null;
-
-            WorkspaceController.Invalidate();
-
-            base.Stop();
+            ConstraintPoint = null;
+            base.Cleanup();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -211,22 +201,18 @@ namespace Macad.Interaction
                 geomPoint.Transform(_SketchEditorTool.Transform);
                 if (_MergePreviewMarker == null)
                 {
-                    _MergePreviewMarker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.RingImage);
-                    _MergePreviewMarker.Color = Colors.Highlight;
-                    _MergePreviewMarker.Set(geomPoint);
+                    _MergePreviewMarker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.RingImage)
+                    {
+                        Color = Colors.Highlight
+                    };
+                    Add(_MergePreviewMarker);
                 }
-                else
-                {
-                    _MergePreviewMarker.Set(geomPoint);
-                }
+                _MergePreviewMarker.Set(geomPoint);
             }
             else
             {
-                if (_MergePreviewMarker != null)
-                {
-                    _MergePreviewMarker.Remove();
-                    _MergePreviewMarker = null;
-                }
+                Remove(_MergePreviewMarker);
+                _MergePreviewMarker = null;
             }
 
             WorkspaceController.Invalidate();

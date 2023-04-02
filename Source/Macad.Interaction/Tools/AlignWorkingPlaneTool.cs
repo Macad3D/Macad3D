@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Printing;
 using System.Windows.Input;
 using Macad.Core;
 using Macad.Core.Auxiliary;
-using Macad.Core.Topology;
 using Macad.Interaction.Visual;
 using Macad.Occt;
 
@@ -36,7 +34,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             var selectionFilters = new List<ISelectionFilter>();
             var allowedTypes = SubshapeTypes.None;
@@ -67,14 +65,14 @@ namespace Macad.Interaction
             var toolAction = new SelectSubshapeAction(this, allowedTypes, null,
                                                       selectionFilters.Count > 0 ? new OrSelectionFilter(selectionFilters.ToArray()) : null);
 
-            if (!WorkspaceController.StartToolAction(toolAction))
+            if (!StartAction(toolAction))
             {
                 return false;
             }
             toolAction.Finished += _OnActionFinished;
 
-            WorkspaceController.HudManager?.SetHintMessage(this, "Select compnent to align to, or select X / Y / Z for default direction.");
-            WorkspaceController.HudManager?.SetCursor(Cursors.WorkingPlane);
+            SetHintMessage("Select compnent to align to, or select X / Y / Z for default direction.");
+            SetCursor(Cursors.WorkingPlane);
 
             return true;
         }
@@ -102,7 +100,7 @@ namespace Macad.Interaction
                         var brepAdaptor = new BRepAdaptor_Surface(face, true);
                         if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
                         {
-                            WorkspaceController.HudManager?.SetHintMessage(this, "Selected face is not a plane type surface.");
+                            SetHintMessage("Selected face is not a plane type surface.");
                         }
                         else
                         {
@@ -146,7 +144,7 @@ namespace Macad.Interaction
 
             if (finished)
             {
-                selectAction.Stop();
+                StopAction(selectAction);
                 Stop();
             }
             else

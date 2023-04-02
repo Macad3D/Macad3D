@@ -10,8 +10,6 @@ namespace Macad.Interaction
         public double Distance { get; private set; }
 
         readonly Ax1 _Axis;
-        SelectionContext _SelectionContext;
-        HintLine _HintLine;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -20,18 +18,19 @@ namespace Macad.Interaction
         //--------------------------------------------------------------------------------------------------
 
         public AxisValueAction(object owner, Ax1 axis) 
-            : base(owner)
+            : base()
         {
             _Axis = axis;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
-            _SelectionContext = WorkspaceController.Selection.OpenContext();
-            _HintLine = new HintLine(WorkspaceController, HintStyle.ThinDashed);
-            _HintLine.Set(_Axis);
+            OpenSelectionContext();
+            HintLine hintLine = new(WorkspaceController, HintStyle.ThinDashed);
+            Add(hintLine);
+            hintLine.Set(_Axis);
             return true;
         }
 
@@ -133,19 +132,6 @@ namespace Macad.Interaction
         public override bool OnMouseDown(MouseEventData data)
         {
             return true; // Supress Rubberband Selection
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Stop()
-        {
-            _HintLine.Remove();
-
-            WorkspaceController.Selection.CloseContext(_SelectionContext);
-            _SelectionContext = null;
-            WorkspaceController.Invalidate();
-
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------

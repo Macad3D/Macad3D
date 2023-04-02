@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Windows.Forms;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 
@@ -13,14 +11,8 @@ namespace Macad.Interaction.Editors.Shapes
         Loft _LoftShape;
 
         //--------------------------------------------------------------------------------------------------
-        
-        public CreateLoftTool()
-        {
-        }
 
-        //--------------------------------------------------------------------------------------------------
-
-        public override bool Start()
+        protected override bool OnStart()
         {
             _TargetBody = WorkspaceController.Selection.SelectedEntities.FirstOrDefault() as Body;
             if (_TargetBody == null)
@@ -28,9 +20,9 @@ namespace Macad.Interaction.Editors.Shapes
 
             if(_TargetBody?.Shape?.ShapeType != ShapeType.Sketch)
             {
-                if (_TargetBody.Shape is Loft)
+                if (_TargetBody.Shape is Loft loft)
                 {
-                    _LoftShape = _TargetBody.Shape as Loft;
+                    _LoftShape = loft;
                 }
                 else
                 {
@@ -48,10 +40,9 @@ namespace Macad.Interaction.Editors.Shapes
 
                     _AddOperand(body);
                 }
-                InteractiveContext.Current.UndoHandler.Commit();
-
-                Stop();
                 
+                CommitChanges();
+                Stop();
                 WorkspaceController.Selection.SelectEntity(_TargetBody);
                 WorkspaceController.Invalidate();
                 return false;
@@ -60,8 +51,8 @@ namespace Macad.Interaction.Editors.Shapes
             if (!_StartToolAction())
                 return false;
 
-            WorkspaceController.HudManager?.SetHintMessage(this, "Select section sketches.");
-            WorkspaceController.HudManager?.SetCursor(Cursors.SelectShape);
+            SetHintMessage("Select section sketches.");
+            SetCursor(Cursors.SelectShape);
             return true;
         }
 
@@ -71,10 +62,10 @@ namespace Macad.Interaction.Editors.Shapes
         {
             var selectAction = toolAction as SelectEntityAction<Body>;
             Debug.Assert(selectAction != null);
-            selectAction.Stop();
+            StopAction(selectAction);
 
             _AddOperand(selectAction.SelectedEntity);
-            InteractiveContext.Current.UndoHandler.Commit();
+            CommitChanges();
             WorkspaceController.Invalidate();
 
             _StartToolAction();
@@ -86,12 +77,13 @@ namespace Macad.Interaction.Editors.Shapes
         {
             var toolAction = new SelectEntityAction<Body>(this);
             toolAction.SetFilter((body) => body.Shape.ShapeType == ShapeType.Sketch);
-            if (!WorkspaceController.StartToolAction(toolAction))
+            if (!StartAction(toolAction))
+            {
                 return false;
+            }
+
             toolAction.Finished += _OnActionFinished;
-
             toolAction.Exclude(_TargetBody);
-
             return true;
         }
 

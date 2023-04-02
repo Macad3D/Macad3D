@@ -32,7 +32,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             if (!_Flags.HasFlag(Flags.ForceManualSelect)
                 && UnfoldSheet.CanFindStartFace(_TargetBody.GetBRep()))
@@ -41,21 +41,21 @@ namespace Macad.Interaction.Editors.Shapes
                 var unfoldSheet = UnfoldSheet.Create(_TargetBody);
                 if (unfoldSheet != null)
                 {
-                    ((Tool) this).Stop();
-                    InteractiveContext.Current.UndoHandler.Commit();
-                    InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(_TargetBody);
+                    Stop();
+                    CommitChanges();
+                    WorkspaceController.Selection.SelectEntity(_TargetBody);
                     WorkspaceController.Invalidate();
                     return false;
                 }
             }
 
             var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _TargetBody, new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane));
-            if (!WorkspaceController.StartToolAction(toolAction))
+            if (!StartAction(toolAction))
                 return false;
             toolAction.Finished += _OnActionFinished;
 
-            WorkspaceController.HudManager?.SetHintMessage(this, "Select start face for unfolding.");
-            WorkspaceController.HudManager?.SetCursor(Cursors.SelectFace);
+            SetHintMessage("Select start face for unfolding.");
+            SetCursor(Cursors.SelectFace);
             return true;
         }
 
@@ -73,12 +73,12 @@ namespace Macad.Interaction.Editors.Shapes
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
                 if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
                 {
-                    WorkspaceController.HudManager?.SetHintMessage(this, "Selected face is not a plane type surface.");
+                    SetHintMessage("Selected face is not a plane type surface.");
                 }
                 else
                 {
-                    selectAction.Stop();
-                    ((Tool) this).Stop();
+                    StopAction(selectAction);
+                    Stop();
                     finished = true;
 
                     // We have found a plane
@@ -86,8 +86,8 @@ namespace Macad.Interaction.Editors.Shapes
                     var unfoldSheet = UnfoldSheet.Create(_TargetBody, startFaceRef);
                     if (unfoldSheet != null)
                     {
-                        InteractiveContext.Current.UndoHandler.Commit();
-                        InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(_TargetBody);
+                        CommitChanges();
+                        WorkspaceController.Selection.SelectEntity(_TargetBody);
                     }
                 }
             }

@@ -6,9 +6,8 @@ using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
-    public sealed class SketchSegmentBezier3Creator : ISketchSegmentCreator
+    public sealed class SketchSegmentBezier3Creator : SketchSegmentCreator
     {
-        SketchEditorTool _SketchEditorTool;
         SketchPointAction _PointAction;
         SketchSegmentBezier _Segment;
         SketchEditorSegmentElement _Element;
@@ -21,57 +20,50 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public bool Start(SketchEditorTool sketchEditorTool)
+        protected override bool OnStart()
         {
-            _SketchEditorTool = sketchEditorTool;
-
-            _PointAction = new SketchPointAction(_SketchEditorTool);
-            if (!_SketchEditorTool.WorkspaceController.StartToolAction(_PointAction, false))
+            _PointAction = new SketchPointAction(SketchEditorTool);
+            if (!StartAction(_PointAction))
                 return false;
             _PointAction.Previewed += _OnActionPreview;
             _PointAction.Finished += _OnActionFinished;
 
-            _Coord2DHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
+            _Coord2DHudElement = new Coord2DHudElement();
+            Add(_Coord2DHudElement);
 
-            sketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select start point for line.");
+            SetHintMessage("Select start point for line.");
 
             return true;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void Stop()
+        protected override void Cleanup()
         {
-            _HintLine?.Remove();
-            _HintLine = null;
             _Element?.Remove();
-            _PointAction.Stop();
-            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
-            _Coord2DHudElement = null;
-            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
-            _ValueHudElement = null;
+            base.Cleanup();
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public bool Continue(int continueWithPoint)
+        public override bool Continue(int continueWithPoint)
         {
             // Start the next line with the first point already catched
-            _Points[0] = _SketchEditorTool.Sketch.Points[continueWithPoint];
+            _Points[0] = SketchEditorTool.Sketch.Points[continueWithPoint];
             _MergePointIndices[0] = continueWithPoint;
 
             _Segment = null;
             _Element?.Remove();
             _Element = null;
-            _HintLine = new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-            _HintLine.Set(_Points[0], _Points[0], _SketchEditorTool.Sketch.Plane);
+            _HintLine = new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+            _HintLine.Set(_Points[0], _Points[0], SketchEditorTool.Sketch.Plane);
 
-            _PointAction = new SketchPointAction(_SketchEditorTool);
-            if (!_SketchEditorTool.WorkspaceController.StartToolAction(_PointAction, false))
+            _PointAction = new SketchPointAction(SketchEditorTool);
+            if (!StartAction(_PointAction))
                 return false;
 
             _PointsFinished = 1;
-            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select end point for line.");
+            SetHintMessage("Select end point for line.");
             return true;
         }
 
@@ -85,7 +77,7 @@ namespace Macad.Interaction.Editors.Shapes
                 {
                     case 1:
                         _Points[3] = _PointAction.Point;
-                        _HintLine?.Set(_Points[0], _PointAction.Point, _SketchEditorTool.Sketch.Plane);
+                        _HintLine?.Set(_Points[0], _PointAction.Point, SketchEditorTool.Sketch.Plane);
                         _ValueHudElement?.SetValue(_Points[0].Distance(_Points[3]));
                         break;
 
@@ -101,7 +93,7 @@ namespace Macad.Interaction.Editors.Shapes
                         break;
                 }
 
-                _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
+                _Coord2DHudElement.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
             }
         }
 
@@ -109,112 +101,115 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _OnActionFinished(ToolAction toolAction)
         {
-            if (toolAction == _PointAction)
+            switch (_PointsFinished)
             {
-                switch (_PointsFinished)
-                {
-                    case 0:
-                        // Start point
-                        _Points[0] = _PointAction.Point;
-                        _MergePointIndices[0] = _PointAction.MergeCandidateIndex;
+                case 0:
+                    // Start point
+                    _Points[0] = _PointAction.Point;
+                    _MergePointIndices[0] = _PointAction.MergeCandidateIndex;
 
-                        _HintLine = new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        _HintLine.Set(_PointAction.Point, _PointAction.Point, _SketchEditorTool.Sketch.Plane);
+                    _HintLine = new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                    _HintLine.Set(_PointAction.Point, _PointAction.Point, SketchEditorTool.Sketch.Plane);
+                    Add(_HintLine);
 
-                        _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select end point for line.");
+                    SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select end point for line.");
 
-                        if (_ValueHudElement == null && _SketchEditorTool.WorkspaceController.HudManager != null)
+                    if (_ValueHudElement == null && SketchEditorTool.WorkspaceController.HudManager != null)
+                    {
+                        _ValueHudElement = new ValueHudElement
                         {
-                            _ValueHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
-                            _ValueHudElement.Label = "Distance:";
-                            _ValueHudElement.Units = ValueUnits.Length;
-                            _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
-                        }
+                            Label = "Distance:",
+                            Units = ValueUnits.Length
+                        };
+                        _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
+                        Add(_ValueHudElement);
+                    }
 
-                        _PointAction.Reset();
-                        _PointsFinished++;
-                        break;
-
-                    case 1:
-                        _SetEndPoint(_PointAction.Point, _PointAction.MergeCandidateIndex);
-                        break;
-
-                    case 2:
-                        // First control point, finished
-                        _Points[1] = _PointAction.Point;
-                        _MergePointIndices[1] = _PointAction.MergeCandidateIndex;
-
-                        _Element.OnPointsChanged(_Points, null);
-
-                        _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select second control point for line.");
-
-                        _PointAction.Reset();
-                        _PointsFinished++;
-                        break;
-
-                    case 3:
-                        // Second control point, finished
-                        _PointAction.Stop();
-
-                        _Points[2] = _PointAction.Point;
-                        _MergePointIndices[2] = _PointAction.MergeCandidateIndex;
-
-                        _SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] {_Segment}, null, _MergePointIndices[1] >= 0 ? -1 : 3);
-                        _PointsFinished++;
-                        break;
-                }
-            }
-
-            //--------------------------------------------------------------------------------------------------
-
-            void _SetEndPoint(Pnt2d point, int mergeCandidateIndex)
-            {
-                // End point
-                if (_Points[0].Distance(_PointAction.Point) < 0.001)
-                {
-                    // Minimum length not met
                     _PointAction.Reset();
-                    return;
-                }
+                    _PointsFinished++;
+                    break;
 
-                _Points[1] = point;
-                _Points[2] = point;
-                _Points[3] = point;
-                _MergePointIndices[3] = mergeCandidateIndex;
+                case 1:
+                    _SetEndPoint(_PointAction.Point, _PointAction.MergeCandidateIndex);
+                    break;
 
-                _Segment = new SketchSegmentBezier(0, 1, 2, 3);
+                case 2:
+                    // First control point, finished
+                    _Points[1] = _PointAction.Point;
+                    _MergePointIndices[1] = _PointAction.MergeCandidateIndex;
 
-                _Element = new SketchEditorSegmentElement(_SketchEditorTool, -1, _Segment, _SketchEditorTool.Transform, _SketchEditorTool.Sketch.Plane);
-                _Element.IsCreating = true;
-                _Element.OnPointsChanged(_Points, null);
+                    _Element.OnPointsChanged(_Points, null);
 
-                _HintLine.Remove();
-                _HintLine = null;
+                    SetHintMessage("Select second control point for line.");
 
-                _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
-                _ValueHudElement = null;
-                _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select first control point for line.");
+                    _PointAction.Reset();
+                    _PointsFinished++;
+                    break;
 
-                _PointAction.Reset();
-                _PointsFinished++;
+                case 3:
+                    // Second control point, finished
+                    StopAction(_PointAction);
 
-                _SketchEditorTool.WorkspaceController.Invalidate();
-                _SketchEditorTool.WorkspaceController.UpdateSelection();
+                    _Points[2] = _PointAction.Point;
+                    _MergePointIndices[2] = _PointAction.MergeCandidateIndex;
+
+                    SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null, _MergePointIndices[1] >= 0 ? -1 : 3);
+                    _PointsFinished++;
+                    break;
             }
+        }
 
-            //--------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------
 
-            void _ValueHudElement_ValueEntered(ValueHudElement hudElement, double newValue)
+        void _SetEndPoint(Pnt2d point, int mergeCandidateIndex)
+        {
+            // End point
+            if (_Points[0].Distance(_PointAction.Point) < 0.001)
             {
-                if (newValue <= 0)
-                    return;
-
-                Vec2d vec = new(_Points[0], _Points[3]);
-                if (vec.Magnitude() == 0)
-                    return;
-
-                _SetEndPoint(_Points[0].Translated(vec.Normalized().Scaled(newValue)), -1);
+                // Minimum length not met
+                _PointAction.Reset();
+                return;
             }
+
+            _Points[1] = point;
+            _Points[2] = point;
+            _Points[3] = point;
+            _MergePointIndices[3] = mergeCandidateIndex;
+
+            _Segment = new SketchSegmentBezier(0, 1, 2, 3);
+
+            _Element = new SketchEditorSegmentElement(SketchEditorTool, -1, _Segment, SketchEditorTool.Transform, SketchEditorTool.Sketch.Plane)
+            {
+                IsCreating = true
+            };
+            _Element.OnPointsChanged(_Points, null);
+
+            Remove(_HintLine);
+            _HintLine = null;
+
+            Remove(_ValueHudElement);
+            _ValueHudElement = null;
+            SetHintMessage("Select first control point for line.");
+
+            _PointAction.Reset();
+            _PointsFinished++;
+
+            SketchEditorTool.WorkspaceController.Invalidate();
+            SketchEditorTool.WorkspaceController.UpdateSelection();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _ValueHudElement_ValueEntered(ValueHudElement hudElement, double newValue)
+        {
+            if (newValue <= 0)
+                return;
+
+            Vec2d vec = new(_Points[0], _Points[3]);
+            if (vec.Magnitude() == 0)
+                return;
+
+            _SetEndPoint(_Points[0].Translated(vec.Normalized().Scaled(newValue)), -1);
         }
     }
 }

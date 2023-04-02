@@ -99,6 +99,14 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
+        public override void Cleanup()
+        {
+            ValueEntered = null;
+            base.Cleanup();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         void _OnSourceUpdated(object sender, DataTransferEventArgs eventArgs)
         {
             if (eventArgs.TargetObject == ValueEditBox)

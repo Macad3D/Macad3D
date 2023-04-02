@@ -177,6 +177,14 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
+        public override void Cleanup()
+        {
+            MultiValueEntered = null;
+            base.Cleanup();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         void _OnSourceUpdated(object sender, DataTransferEventArgs eventArgs)
         {
             if (eventArgs.TargetObject == ValueEditBox1)
@@ -193,7 +201,15 @@ namespace Macad.Interaction
                 MultiValueEntered?.Invoke(this, Value1, Value2);
             }
         }
-        
+                
+        //--------------------------------------------------------------------------------------------------
+
+        public void SetValues(double value1, double value2)
+        {
+            Value1 = value1;
+            Value2 = value2;
+        }
+
         //--------------------------------------------------------------------------------------------------
 
         public void SetValue1(double value)

@@ -52,19 +52,24 @@ namespace Macad.Interaction.Editors.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-        protected override void OnToolsStart()
+        #region Forwarding Editor Events
+
+        protected override IEnumerable<WorkspaceControl> GetChildren()
         {
-            _ShapePanel?.SelectedEditor?.StartTools();
+            if (_ShapePanel?.SelectedEditor != null)
+            {
+                yield return _ShapePanel?.SelectedEditor;
+            }
+
+            foreach (var editor in _ComponentEditors.Values)
+            {
+                yield return editor;
+            }
         }
-        
+
         //--------------------------------------------------------------------------------------------------
 
-        protected override void OnToolsStop()
-        {
-            _ShapePanel?.SelectedEditor?.StopTools();
-        }
-
-        //--------------------------------------------------------------------------------------------------
+        #endregion
 
         void _Body_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

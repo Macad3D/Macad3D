@@ -55,16 +55,17 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (Entity?.Body == null)
             {
-                RemoveLiveActions();
+                StopAllActions();
                 _ScaleAction = null;
                 return;
             }
 
             if (_ScaleAction == null)
             {
-                _ScaleAction = new BoxScaleLiveAction(this);
+                _ScaleAction = new BoxScaleLiveAction();
                 _ScaleAction.Previewed += _ScaleAction_Previewed;
                 _ScaleAction.Finished += _ScaleAction_Finished;
+	            StartAction(_ScaleAction);
             }
 
             Bnd_Box box = new Bnd_Box(Pnt.Origin, new Pnt(Entity.DimensionX, Entity.DimensionY, Entity.DimensionZ));
@@ -72,7 +73,6 @@ namespace Macad.Interaction.Editors.Shapes
             _ScaleAction.Transformation = Entity.Body.GetTransformation();
             _ScaleAxisReversed = null;
 
-            AddLiveAction(_ScaleAction);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -134,8 +134,12 @@ namespace Macad.Interaction.Editors.Shapes
                     offset.X -= scale.X;
                 }
 
-                _HudElements[0] ??= CreateHudElement<LabelHudElement>();
-                _HudElements[0]?.SetValue($"Length: {Entity.DimensionX.ToInvariantString("F2")} mm");
+                if (_HudElements[0] == null)
+                {
+                    _HudElements[0] = new LabelHudElement();
+                    Add(_HudElements[0]);
+                }
+                _HudElements[0].SetValue($"Length: {Entity.DimensionX.ToInvariantString("F2")} mm");
             }
 
             if (scale.Y != 0)
@@ -146,8 +150,12 @@ namespace Macad.Interaction.Editors.Shapes
                     offset.Y -= scale.Y;
                 }
 
-                _HudElements[1] ??= CreateHudElement<LabelHudElement>();
-                _HudElements[1]?.SetValue($"Width:  {Entity.DimensionY.ToInvariantString("F2")} mm");
+                if (_HudElements[1] == null)
+                {
+                    _HudElements[1] = new LabelHudElement();
+                    Add(_HudElements[1]);
+                }
+                _HudElements[1].SetValue($"Width:  {Entity.DimensionY.ToInvariantString("F2")} mm");
             }
             
             if (scale.Z != 0)
@@ -158,8 +166,12 @@ namespace Macad.Interaction.Editors.Shapes
                     offset.Z -= scale.Z;
                 }
 
-                _HudElements[2] ??= CreateHudElement<LabelHudElement>();
-                _HudElements[2]?.SetValue($"Height:  {Entity.DimensionZ.ToInvariantString("F2")} mm");
+                if (_HudElements[2] == null)
+                {
+                    _HudElements[2] = new LabelHudElement();
+                    Add(_HudElements[2]);
+                }
+                _HudElements[2].SetValue($"Height:  {Entity.DimensionZ.ToInvariantString("F2")} mm");
             }
 
             if (center)
@@ -175,7 +187,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (!args.DeltaSum.IsEqual(0.0, double.Epsilon))
             {
-                InteractiveContext.Current.UndoHandler.Commit();
+                CommitChanges();
             }
 
             StartTools();

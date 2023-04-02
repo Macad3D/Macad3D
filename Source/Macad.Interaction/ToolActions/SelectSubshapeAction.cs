@@ -26,7 +26,7 @@ namespace Macad.Interaction
         //--------------------------------------------------------------------------------------------------
 
         public SelectSubshapeAction(object owner, SubshapeTypes subshapeTypes, InteractiveEntity sourceEntity = null, ISelectionFilter selectionFilter = null) 
-            : base(owner)
+            : base()
         {
             _SubshapeTypes = subshapeTypes;
             _SourceEntity = sourceEntity;
@@ -36,7 +36,7 @@ namespace Macad.Interaction
         //--------------------------------------------------------------------------------------------------
 
         public SelectSubshapeAction(object owner, List<TopoDS_Shape> shapes) 
-            : base(owner)
+            : base()
         {
             _SubshapeTypes = SubshapeTypes.All;
             _Shapes = shapes;
@@ -44,16 +44,16 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             if (_SourceEntity != null)
             {
-                _SelectionContext = WorkspaceController.Selection.OpenContext();
+                _SelectionContext = OpenSelectionContext();
                 _SelectionContext.Include(_SourceEntity);
             }
             else if (_Shapes != null)
             {
-                _SelectionContext = WorkspaceController.Selection.OpenContext();
+                _SelectionContext = OpenSelectionContext();
 
                 _AisShapes = new List<AIS_Shape>(_Shapes.Count);
                 foreach (var shape in _Shapes)
@@ -72,12 +72,20 @@ namespace Macad.Interaction
             }
             else
             {
-                _SelectionContext = WorkspaceController.Selection.OpenContext(SelectionContext.Options.IncludeAll);
+                _SelectionContext = OpenSelectionContext(SelectionContext.Options.IncludeAll);
             }
             _SelectionContext.SetSubshapeSelection(_SubshapeTypes);
             _SelectionContext.SetSelectionFilter(_SelectionFilter);
 
             return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected override void Cleanup()
+        {
+            _AisShapes?.ForEach(aisShape => WorkspaceController.Workspace.AisContext.Remove(aisShape, false));
+            base.Cleanup();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -129,7 +137,6 @@ namespace Macad.Interaction
             if (!IsFinished)
             {
                 ProcessMouseInput(data);
-
                 return base.OnMouseMove(data);
             }
             return false;
@@ -145,17 +152,6 @@ namespace Macad.Interaction
                 IsFinished = SelectedEntity != null || SelectedSubshape != null || SelectedAisObject != null;
             }
             return true;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Stop()
-        {
-            _AisShapes?.ForEach(aisShape => WorkspaceController.Workspace.AisContext.Remove(aisShape, false));
-            WorkspaceController.Selection.CloseContext(_SelectionContext);
-            _SelectionContext = null;
-
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------

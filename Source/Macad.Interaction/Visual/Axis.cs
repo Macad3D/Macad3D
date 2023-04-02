@@ -23,11 +23,7 @@ public sealed class Axis : VisualObject
 
     public override AIS_InteractiveObject AisObject
     {
-        get
-        {
-            _EnsureAisObject();
-            return _AisObject;
-        }
+        get { return _AisObject; }
     }
 
     //--------------------------------------------------------------------------------------------------

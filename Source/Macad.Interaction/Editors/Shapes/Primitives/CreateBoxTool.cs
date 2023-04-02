@@ -37,44 +37,47 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
-            InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(null);
+            WorkspaceController.Selection.SelectEntity(null);
 
-            var pointAction = new PointAction(this);
-            if (!WorkspaceController.StartToolAction(pointAction))
+            var pointAction = new PointAction();
+            if (!StartAction(pointAction))
                 return false;
             pointAction.Previewed += _PreviewPivot;
             pointAction.Finished += _FinishPivotPoint;
 
             _CurrentPhase = Phase.PivotPoint;
-            WorkspaceController.HudManager?.SetHintMessage(this, "Select corner point.");
-            _Coord2DHudElement = WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
-            WorkspaceController.HudManager?.SetCursor(Cursors.SetPoint);
+            SetHintMessage("Select corner point.");
+            _Coord2DHudElement = new Coord2DHudElement();
+            Add(_Coord2DHudElement);
+            SetCursor(Cursors.SetPoint);
             return true;
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        protected override void OnStop()
+        {
+            _ClearPreviews();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _PreviewPivot(ToolAction toolAction)
         {
-            if(!(toolAction is PointAction pointAction))
+            if(toolAction is not PointAction pointAction)
                 return;
 
             _ClearPreviews();
-
-            if (_Coord2DHudElement != null)
-            {
-                _Coord2DHudElement.CoordinateX = pointAction.PointOnPlane.X;
-                _Coord2DHudElement.CoordinateY = pointAction.PointOnPlane.Y;
-            }
+            _Coord2DHudElement?.SetValues(pointAction.PointOnPlane.X, pointAction.PointOnPlane.Y);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _FinishPivotPoint(ToolAction toolAction)
         {
-            if(!(toolAction is PointAction pointAction))
+            if(toolAction is not PointAction pointAction)
                 return;
 
             _ClearPreviews();
@@ -82,24 +85,27 @@ namespace Macad.Interaction.Editors.Shapes
             _Plane = WorkspaceController.Workspace.WorkingPlane;
             _PointPlane1 = pointAction.PointOnPlane;
 
-            pointAction.Stop();
-            pointAction = new PointAction(this);
+            StopAction(pointAction);
+            pointAction = new PointAction();
             pointAction.Previewed += _PreviewBaseRect;
             pointAction.Finished += _FinishBaseRect;
-            if (!WorkspaceController.StartToolAction(pointAction))
+            if (!StartAction(pointAction))
                 return;
 
             _CurrentPhase = Phase.BaseRect;
-            WorkspaceController.HudManager?.SetHintMessage(this, "Select opposite corner point.");
+            SetHintMessage("Select opposite corner point.");
 
-            _MultiValueHudElement = WorkspaceController.HudManager?.CreateElement<MultiValueHudElement>(this);
-            if (_MultiValueHudElement != null)
+            if (_MultiValueHudElement == null)
             {
-                _MultiValueHudElement.Label1 = "Length:";
-                _MultiValueHudElement.Units1 = ValueUnits.Length;
-                _MultiValueHudElement.Label2 = "Width:";
-                _MultiValueHudElement.Units2 = ValueUnits.Length;
+                _MultiValueHudElement = new MultiValueHudElement()
+                {
+                    Label1 = "Length:",
+                    Units1 = ValueUnits.Length,
+                    Label2 = "Width:",
+                    Units2 = ValueUnits.Length
+                };
                 _MultiValueHudElement.MultiValueEntered += _MultiValueEntered;
+                Add(_MultiValueHudElement);
             }
         }
 
@@ -107,7 +113,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _PreviewBaseRect(ToolAction toolAction)
         {
-            if(!(toolAction is PointAction pointAction))
+            if(toolAction is not PointAction pointAction)
                 return;
             
             _ClearPreviews();
@@ -137,20 +143,10 @@ namespace Macad.Interaction.Editors.Shapes
 
             var dim1 = Math.Abs(_PointPlane1.X - _PointPlane2.X);
             var dim2 = Math.Abs(_PointPlane1.Y - _PointPlane2.Y);
-            WorkspaceController.HudManager?.SetHintMessage(this, $"Select opposite corner point. Size: {dim1:0.00} x {dim2:0.00}");
+            SetHintMessage($"Select opposite corner point. Size: {dim1:0.00} x {dim2:0.00}");
 
-            if (_Coord2DHudElement != null)
-            {
-                _Coord2DHudElement.CoordinateX = pointAction.PointOnPlane.X;
-                _Coord2DHudElement.CoordinateY = pointAction.PointOnPlane.Y;
-            }
-
-            if (_MultiValueHudElement != null)
-            {
-
-                _MultiValueHudElement.Value1 = dim1;
-                _MultiValueHudElement.Value2 = dim2;
-            }
+            _Coord2DHudElement?.SetValues(pointAction.PointOnPlane.X, pointAction.PointOnPlane.Y);
+            _MultiValueHudElement?.SetValues(dim1, dim2);
 
             WorkspaceController.Invalidate();
         }
@@ -159,31 +155,33 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _FinishBaseRect(ToolAction toolAction)
         {
-            toolAction?.Stop();
+            StopAction(toolAction);
 
             var axisPosition = ElSLib.Value(_PointPlane2.X, _PointPlane2.Y, _Plane);
             var axisValueAction = new AxisValueAction(this, new Ax1(axisPosition, _Plane.Axis.Direction));
             axisValueAction.Previewed += _PreviewHeight;
             axisValueAction.Finished += _FinishHeight;
 
-            if (!WorkspaceController.StartToolAction(axisValueAction))
+            if (!StartAction(axisValueAction))
                 return;
 
-            WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
+            Remove(_Coord2DHudElement);
             _CurrentPhase = Phase.Height;
-            WorkspaceController.HudManager?.SetHintMessage(this, "Select height.");
+            SetHintMessage("Select height.");
 
-            WorkspaceController.HudManager?.RemoveElement(_MultiValueHudElement);
-            _ValueHudElement = WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
-            if (_ValueHudElement != null)
+            Remove(_MultiValueHudElement);
+            if (_ValueHudElement == null)
             {
-                _ValueHudElement.Label = "Height:";
+                _ValueHudElement = new ValueHudElement()
+                {
+                    Label = "Height:",
+                    Units = ValueUnits.Length
+                };
                 _ValueHudElement.ValueEntered += _ValueEntered;
-                _ValueHudElement.Units = ValueUnits.Length;
+                Add(_ValueHudElement);
             }
 
-            WorkspaceController.HudManager?.SetCursor(Cursors.SetHeight);
-                
+            SetCursor(Cursors.SetHeight);
             _PreviewHeight(axisValueAction);
         }
 
@@ -191,7 +189,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _PreviewHeight(ToolAction toolAction)
         {
-            if(!(toolAction is AxisValueAction axisValueAction))
+            if(toolAction is not AxisValueAction axisValueAction)
                 return;
 
             _ClearPreviews();
@@ -210,7 +208,7 @@ namespace Macad.Interaction.Editors.Shapes
             }
 
             var height = axisValueAction.Value.Round();
-            _PreviewShape.DimensionZ =  (Math.Abs(height) >= 0.001) ? height : 0.001;
+            _PreviewShape.DimensionZ =  Math.Abs(height) >= 0.001 ? height : 0.001;
 
             var ocShape = _PreviewShape.GetTransformedBRep();
 
@@ -231,11 +229,8 @@ namespace Macad.Interaction.Editors.Shapes
                 WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewSolid);
             }
 
-            WorkspaceController.HudManager?.SetHintMessage(this, $"Selected height: {height:0.00}");
-            if (_ValueHudElement != null)
-            {
-                _ValueHudElement.Value = height;
-            }
+            SetHintMessage($"Selected height: {height:0.00}");
+            _ValueHudElement?.SetValue(height);
 
             WorkspaceController.Invalidate();
         }
@@ -244,16 +239,16 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _FinishHeight(ToolAction toolAction)
         {
-            toolAction?.Stop();
+            StopAction(toolAction);
 
             var body = Body.Create(_PreviewShape);
             body.Position = _Position;
             body.Rotation = _Rotation;
             InteractiveContext.Current.Document.Add(body);
-            InteractiveContext.Current.UndoHandler.Commit();
+            CommitChanges();
 
             Stop();
-            InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(body);
+            WorkspaceController.Selection.SelectEntity(body);
             WorkspaceController.Invalidate();
         }
 
@@ -263,7 +258,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (_CurrentPhase == Phase.Height)
             {
-                _PreviewShape.DimensionZ = (Math.Abs(newValue) >= 0.001) ? newValue : 0.001;
+                _PreviewShape.DimensionZ = Math.Abs(newValue) >= 0.001 ? newValue : 0.001;
                 _FinishHeight(null);
             }
         }
@@ -294,22 +289,6 @@ namespace Macad.Interaction.Editors.Shapes
                 _AisPreviewEdges = null;
             }
             WorkspaceController.Invalidate();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Stop()
-        {
-            WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
-            _Coord2DHudElement = null;
-            WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
-            _ValueHudElement = null;
-            WorkspaceController.HudManager?.RemoveElement(_MultiValueHudElement);
-            _MultiValueHudElement = null;
-
-            _ClearPreviews();
-
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------

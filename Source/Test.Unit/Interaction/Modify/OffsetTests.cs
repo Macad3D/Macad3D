@@ -58,9 +58,7 @@ public class OffsetTests
         var ctx = Context.Current;
         var box = TestGeomGenerator.CreateBox();
         var offset = Offset.Create(box.Body);
-
-        var editor = Editor.CreateEditor(offset);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(offset);
 
         ctx.ViewportController.ZoomFitAll();
         Assert.Multiple(() =>
@@ -76,7 +74,7 @@ public class OffsetTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistance03"));
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
         });
     }
             
@@ -88,9 +86,7 @@ public class OffsetTests
         var ctx = Context.Current;
         var box = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle, true);
         var offset = Offset.Create(box.Body);
-
-        var editor = Editor.CreateEditor(offset);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(offset);
 
         ctx.ViewportController.ZoomFitAll();
         Assert.Multiple(() =>
@@ -106,7 +102,7 @@ public class OffsetTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceSketch03"));
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
         });
     }
             
@@ -118,9 +114,7 @@ public class OffsetTests
         var ctx = Context.Current;
         var box = TestGeomGenerator.CreateBox();
         var offset = Offset.Create(box.Body);
-
-        var editor = Editor.CreateEditor(offset);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(offset);
 
         ctx.ViewportController.ZoomFitAll();
         Assert.Multiple(() =>
@@ -136,7 +130,7 @@ public class OffsetTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceCorner03"));
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
         });
     }
                     
@@ -149,9 +143,7 @@ public class OffsetTests
         var box = TestGeomGenerator.CreateBox();
         var offset = Offset.Create(box.Body);
         offset.Body.Rotation = new Quaternion(35.0.ToRad(), 0, 0);
-
-        var editor = Editor.CreateEditor(offset);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(offset);
 
         ctx.ViewportController.ZoomFitAll();
         Assert.Multiple(() =>
@@ -167,7 +159,7 @@ public class OffsetTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceRotated03"));
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
         });
     }
         
@@ -179,9 +171,8 @@ public class OffsetTests
         var ctx = Context.Current;
         var box = TestGeomGenerator.CreateBox();
         var offset = Offset.Create(box.Body);
+        ctx.WorkspaceController.StartEditor(offset);
 
-        var editor = Editor.CreateEditor(offset);
-        editor.Start();
         ctx.UndoHandler.Commit();
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
 

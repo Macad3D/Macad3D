@@ -22,35 +22,27 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             _ModifierShape.PropertyChanged += _ModifierShape_PropertyChanged;
 
             if (_ModifierShape.Operands.Count == 0)
                 return false;
 
-            _Action = new ToggleSubshapesAction(this);
-            if (!WorkspaceController.StartToolAction(_Action))
+            _Action = new ToggleSubshapesAction();
+            if (!StartAction(_Action))
                 return false;
             _Action.Finished += _OnActionFinished;
 
             if (!UpdateEdgesToTool())
                 return false;
 
-            WorkspaceController.HudManager?.SetHintMessage(this, "Select edges to apply modifier on.");
-            WorkspaceController.HudManager?.SetCursor(Cursors.SelectEdge);
+            SetHintMessage("Select edges to apply modifier on.");
+            SetCursor(Cursors.SelectEdge);
 
             WorkspaceController.Invalidate();
 
             return true;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Stop()
-        {
-            //_Action?.Stop();
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -100,14 +92,16 @@ namespace Macad.Interaction.Editors.Shapes
                 _ModifierShape.RemoveEdge(reference);
             }
             
-            InteractiveContext.Current.UndoHandler.Commit();
+            CommitChanges();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _ModifierShape_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if ((e.PropertyName == "Edges") && (_Action != null) && (WorkspaceController.CurrentToolAction == _Action))
+            if (e.PropertyName == nameof(EdgeModifierBase.Edges) 
+                && _Action != null 
+                && WorkspaceController.CurrentTool?.CurrentAction == _Action)
             {
                 UpdateEdgesToTool();
             }

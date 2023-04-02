@@ -116,8 +116,7 @@ public sealed class RotateLiveAction : LiveAction
 
     #region Creation and Activation
 
-    public RotateLiveAction(object owner) 
-        : base(owner)
+    public RotateLiveAction() 
     {
         _Radius = 0;
     }
@@ -142,6 +141,7 @@ public sealed class RotateLiveAction : LiveAction
             Limits = _VisualLimits,
             Sector = _VisualSector
         };
+        Add(_Circle);
         if (ShowKnob)
         {
             _Circle.KnobPosition = _VisualLimits.start.Lerp(_VisualLimits.end, 0.5);
@@ -153,14 +153,11 @@ public sealed class RotateLiveAction : LiveAction
     
     //--------------------------------------------------------------------------------------------------
 
-    public override void OnStop()
+    protected override void Cleanup()
     {
-        _Circle?.Remove();
-        _Circle = null;
-
-        WorkspaceController.Invalidate();
         Previewed = null;
         Finished = null;
+        base.Cleanup();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -229,7 +226,7 @@ public sealed class RotateLiveAction : LiveAction
                 _StartValue = value.Value;
                 _DeltaSum = 0;
 
-                _SelectionContext = WorkspaceController.Selection.OpenContext();
+                _SelectionContext = OpenSelectionContext();
 
                 _Circle.IsSelectable = false;
                 _Circle.IsSelected = true;
@@ -239,12 +236,17 @@ public sealed class RotateLiveAction : LiveAction
                     _HintLine = new HintLine(WorkspaceController, HintStyle.WorkingAxis);
                     _HintLine.Set(_Position.Axis);
                     _HintLine.Color = Color;
+                    Add(_HintLine);
                 }
 
-                WorkspaceController.HudManager?.SetCursor(Cursors.Rotate);
+                SetCursor(Cursors.Rotate);
                 if (ShowHudElement)
                 {
-                    _HudElement ??= WorkspaceController.HudManager?.CreateElement<DeltaHudElement>(this);
+                    if (_HudElement == null)
+                    {
+                        _HudElement = new DeltaHudElement();
+                        Add(_HudElement);
+                    }
                     if (_HudElement != null)
                     {
                         _HudElement.Units = ValueUnits.Degree;
@@ -319,7 +321,7 @@ public sealed class RotateLiveAction : LiveAction
         {
             _IsMoving = false;
 
-            _HintLine?.Remove();
+            Remove(_HintLine);
             _HintLine = null;
 
             _Circle.IsSelected = false;
@@ -329,10 +331,10 @@ public sealed class RotateLiveAction : LiveAction
                 _Circle.Sector = (0.0, 0.0);
             }
 
-            WorkspaceController.Selection.CloseContext(_SelectionContext);
+            CloseSelectionContext(_SelectionContext);
 
-            WorkspaceController.HudManager?.SetCursor(null);
-            WorkspaceController.HudManager?.RemoveElement(_HudElement);
+            SetCursor(null);
+            Remove(_HudElement);
             _HudElement = null;
 
             EventArgs eventArgs = new()

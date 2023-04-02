@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Macad.Interaction.Visual;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
@@ -22,7 +20,6 @@ namespace Macad.Interaction
         readonly string _StatusText;
         readonly SubshapeType _SubshapeType;
         readonly ISelectionFilter _SelectionFilter;
-        VisualShape _OverriddenVisualShape;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -42,40 +39,35 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             if (_TargetShape != _TargetBody?.Shape)
             {
-                _OverriddenVisualShape = WorkspaceController.VisualObjects.Get(_TargetBody) as VisualShape;
-                if (_OverriddenVisualShape != null)
-                {
-                    _OverriddenVisualShape.OverrideBrep = _TargetShape.GetTransformedBRep();
-                    WorkspaceController.Invalidate();
-                }
+                OverrideVisualShape(_TargetBody, _TargetShape.GetTransformedBRep());
             }
 
             var toolAction = new SelectSubshapeAction(this, SubshapeTypeHelper.GetTypes(_SubshapeType), _TargetBody, _SelectionFilter);
-            if (!WorkspaceController.StartToolAction(toolAction))
+            if (!StartAction(toolAction))
             {
                 return false;
             }
             toolAction.Finished += _OnActionFinished;
 
-            WorkspaceController.HudManager?.SetHintMessage(this, _StatusText);
+            SetHintMessage(_StatusText);
 
             switch (_SubshapeType)
             {
                 case SubshapeType.Vertex:
-                    WorkspaceController.HudManager?.SetCursor(Cursors.SelectVertex);
+                    SetCursor(Cursors.SelectVertex);
                     break;
                 case SubshapeType.Edge:
-                    WorkspaceController.HudManager?.SetCursor(Cursors.SelectEdge);
+                    SetCursor(Cursors.SelectEdge);
                     break;
                 case SubshapeType.Wire:
-                    WorkspaceController.HudManager?.SetCursor(Cursors.SelectWire);
+                    SetCursor(Cursors.SelectWire);
                     break;
                 case SubshapeType.Face:
-                    WorkspaceController.HudManager?.SetCursor(Cursors.SelectFace);
+                    SetCursor(Cursors.SelectFace);
                     break;
             }
             return true;
@@ -104,7 +96,7 @@ namespace Macad.Interaction
             if(finished)
             {
                 var subshapeReference = _TargetShape.GetSubshapeReference(_TargetShape.GetTransformedBRep(), selectAction.SelectedSubshape);
-                selectAction.Stop();
+                StopAction(selectAction);
                 Stop();
 
                 if (subshapeReference == null)
@@ -125,20 +117,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
         
-        public override void Stop()
-        {
-            if (_OverriddenVisualShape != null)
-            {
-                _OverriddenVisualShape.OverrideBrep = null;
-                WorkspaceController.Invalidate();
-                _OverriddenVisualShape = null;
-            }
-            base.Stop();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-        
-        public override bool OnEntitySelectionChanging(IEnumerable<Entity> entitiesToSelect, IEnumerable<Entity> entitiesToUnSelect)
+        public override bool OnEntitySelectionChanging(IEnumerable<InteractiveEntity> entitiesToSelect, IEnumerable<InteractiveEntity> entitiesToUnSelect)
         {
             return entitiesToSelect.Any();
         }

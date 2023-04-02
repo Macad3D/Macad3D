@@ -64,16 +64,27 @@ namespace Macad.Interaction
 
 
         public MoveSketchPointAction(object owner)
-            : base(owner)
+            : base()
         {
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
             WorkspaceController.Workspace.AisContext.UnhilightCurrents(false);
             return true;
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        protected override void Cleanup()
+        {
+            if (_Sketch != null)
+            {
+                _Sketch.ElementsChanged -= _Sketch_ElementsChanged;
+            }
+            base.Cleanup();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -122,11 +133,8 @@ namespace Macad.Interaction
             center.Divide(Points.Count);
             _Center2D = center.ToPnt();
 
-            //Debug.WriteLine("MoveSketchPointAction - Center {0} {1}", center.X(), center.Y());
-
             // Project center point onto sketch plane
             var center3D = ElSLib.Value(center.X, center.Y, _Sketch.Plane);
-            //Debug.WriteLine("MoveSketchPointAction - Center3D {0} {1} {2}", center3D.X(), center3D.Y(), center3D.Z());
 
             // Calculate center point on working plane
             if (_Sketch.Plane.Location.IsEqual(WorkspaceController.Workspace.WorkingPlane.Location, 0.00001))
@@ -146,79 +154,64 @@ namespace Macad.Interaction
             _MovePlane.Location = center3D;
 
             // Create Gizmos
-            _AxisGizmoX ??= new Axis(WorkspaceController, Axis.Style.KnobHead | Axis.Style.NoResize | Axis.Style.Topmost)
+            if (_AxisGizmoX == null)
             {
-                Color = Colors.ActionRed,
-                IsSelectable = true,
-                Width = 4.0,
-                Length = 2.0
-            };
+                _AxisGizmoX = new Axis(WorkspaceController, Axis.Style.KnobHead | Axis.Style.NoResize | Axis.Style.Topmost)
+                {
+                    Color = Colors.ActionRed,
+                    IsSelectable = true,
+                    Width = 4.0,
+                    Length = 2.0
+                };
+                Add(_AxisGizmoX);
+            }
             _AxisGizmoX.Set(_MovePlane.XAxis);
 
-            _AxisGizmoY ??= new Axis(WorkspaceController, Axis.Style.KnobHead | Axis.Style.NoResize | Axis.Style.Topmost)
+            if (_AxisGizmoY == null)
             {
-                Color = Colors.ActionGreen,
-                IsSelectable = true,
-                Width = 4.0,
-                Length = 2.0
-            };
+                _AxisGizmoY = new Axis(WorkspaceController, Axis.Style.KnobHead | Axis.Style.NoResize | Axis.Style.Topmost)
+                {
+                    Color = Colors.ActionGreen,
+                    IsSelectable = true,
+                    Width = 4.0,
+                    Length = 2.0
+                };
+                Add(_AxisGizmoY);
+            }
             _AxisGizmoY.Set(_MovePlane.YAxis);
             
-            _PlaneGizmo ??= new Plane(WorkspaceController, Plane.Style.NoResize | Plane.Style.Topmost)
+            if (_PlaneGizmo == null)
             {
-                Color = Colors.ActionBlue,
-                IsSelectable = true,
-                Boundary = true,
-                Size = new XY(1, 1),
-                Margin = new Vec2d(0.75, 0.75),
-                Transparency = 0.5
-            };
+                _PlaneGizmo = new Plane(WorkspaceController, Plane.Style.NoResize | Plane.Style.Topmost)
+                {
+                    Color = Colors.ActionBlue,
+                    IsSelectable = true,
+                    Boundary = true,
+                    Size = new XY(1, 1),
+                    Margin = new Vec2d(0.75, 0.75),
+                    Transparency = 0.5
+                };
+                Add(_PlaneGizmo);
+            }
             _PlaneGizmo.Set(_MovePlane);
 
             if (Points.Count > 1)
             {
-                _CircleGizmo ??= new Circle(WorkspaceController, Circle.Style.NoResize | Circle.Style.Topmost)
+                if (_CircleGizmo == null)
                 {
-                    Color = Colors.ActionBlue,
-                    IsSelectable = true,
-                    Radius = 1.0,
-                };
+                    _CircleGizmo = new Circle(WorkspaceController, Circle.Style.NoResize | Circle.Style.Topmost)
+                    {
+                        Color = Colors.ActionBlue,
+                        IsSelectable = true,
+                        Radius = 1.0,
+                    };
+                    Add(_CircleGizmo);
+                }
                 _CircleGizmo.Limits = (Maths.PI - 0.6, Maths.PI * 1.5 + 0.6);
                 _CircleGizmo.KnobPosition = Maths.PI * 1.25;
                 _CircleGizmo.Set(_MovePlane.Position.ToAx2());
                 _CircleGizmo.Sector = (0, 0);
             }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Stop()
-        {
-            _AxisGizmoX?.Remove();
-            _AxisGizmoX = null;
-            _AxisGizmoY?.Remove();
-            _AxisGizmoY = null;
-            _PlaneGizmo?.Remove();
-            _PlaneGizmo = null;
-            _CircleGizmo?.Remove();
-            _CircleGizmo = null;
-
-            WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
-            _Coord2DHudElement = null;
-            WorkspaceController.HudManager?.RemoveElement(_Delta2DHudElement);
-            _Delta2DHudElement = null;
-            WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
-            _ValueHudElement = null;
-
-            _MergePreviewMarkers.ForEach(m => m.Remove());
-            _MergePreviewMarkers.Clear();
-
-            if (_Sketch != null)
-            {
-                _Sketch.ElementsChanged -= _Sketch_ElementsChanged;
-            }
-
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -309,14 +302,14 @@ namespace Macad.Interaction
                 _UpdateGizmos();
                 _ActivateGizmos(true);
 
-                WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
+                Remove(_Coord2DHudElement);
                 _Coord2DHudElement = null;
-                WorkspaceController.HudManager?.RemoveElement(_Delta2DHudElement);
+                Remove(_Delta2DHudElement);
                 _Delta2DHudElement = null;
-                WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
+                Remove(_ValueHudElement);
                 _ValueHudElement = null;
 
-                _MergePreviewMarkers.ForEach(m => m.Remove());
+                _MergePreviewMarkers.ForEach(m => Remove(m));
                 _MergePreviewMarkers.Clear();
 
                 return true;
@@ -359,16 +352,21 @@ namespace Macad.Interaction
                 _AxisGizmoX.Set(_MovePlane.XAxis);
                 _AxisGizmoY.Set(_MovePlane.YAxis);
                 _PlaneGizmo.Set(_MovePlane);
-                if (_CircleGizmo != null)
+                _CircleGizmo?.Set(_MovePlane.Position.ToAx2());
+
+                if (_Coord2DHudElement == null)
                 {
-                    _CircleGizmo.Set(_MovePlane.Position.ToAx2());
+                    _Coord2DHudElement = new Coord2DHudElement();
+                    Add(_Coord2DHudElement);
                 }
+                _Coord2DHudElement.SetValues( _Center2DOnWorkingPlane.X + MoveDelta.X, _Center2DOnWorkingPlane.Y + MoveDelta.Y);
 
-                _Coord2DHudElement ??= WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
-                _Coord2DHudElement?.SetValues( _Center2DOnWorkingPlane.X + MoveDelta.X, _Center2DOnWorkingPlane.Y + MoveDelta.Y);
-
-                _Delta2DHudElement ??= WorkspaceController.HudManager?.CreateElement<Delta2DHudElement>(this);
-                _Delta2DHudElement?.SetValues(MoveDelta.X, MoveDelta.Y);
+                if (_Delta2DHudElement == null)
+                {
+                    _Delta2DHudElement = new Delta2DHudElement();
+                    Add(_Delta2DHudElement);
+                }
+                _Delta2DHudElement.SetValues(MoveDelta.X, MoveDelta.Y);
             }
             else if (_Rotating)
             {
@@ -395,27 +393,34 @@ namespace Macad.Interaction
                     _CircleGizmo.KnobPosition = Maths.PI * 1.25 + RotateDelta;
                 }
 
-                _ValueHudElement ??= WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
-                if (_ValueHudElement != null)
+                if (_ValueHudElement == null)
                 {
-                    _ValueHudElement.Units = ValueUnits.Degree;
+                    _ValueHudElement = new ValueHudElement()
+                    {
+                        Units = ValueUnits.Degree
+                    };
+                    Add(_ValueHudElement);
                 }
-                _ValueHudElement?.SetValue(RotateDelta.ToDeg());
+
+                _ValueHudElement.SetValue(RotateDelta.ToDeg());
             }
 
             if (_Moving || _Rotating)
             {
                 // Check for point merge candidates
-                _MergePreviewMarkers.ForEach(m => m.Remove());
+                _MergePreviewMarkers.ForEach(m => Remove(m));
                 _MergePreviewMarkers.Clear();
                 foreach (var candidate in CheckMergePoints(true))
                 {
                     var point = _Sketch.Points[candidate.Value];
                     var geomPoint = new Geom_CartesianPoint(point.X, point.Y, 0);
                     geomPoint.Transform(_Sketch.GetTransformation());
-                    var marker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.RingImage);
+                    var marker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.RingImage)
+                    {
+                        Color = Colors.Highlight
+                    };
                     marker.Set(geomPoint);
-                    marker.Color = Colors.Highlight;
+                    Add(marker);
                     _MergePreviewMarkers.Add(marker);
                 }
 

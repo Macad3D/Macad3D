@@ -117,6 +117,7 @@ namespace Macad.Interaction
             Selection.Dispose();
 
             VisualObjects.Dispose();
+            SnapHandler.Dispose();
 
             _WorkingPlaneAxes[0] = null;
             _WorkingPlaneAxes[1] = null;
@@ -352,20 +353,6 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        IEnumerable<IMouseEventHandler> _MouseEventHandlers()
-        {
-            if (_CurrentTool != null)
-                yield return _CurrentTool;
-
-            foreach (var toolAction in _ToolActions)
-                yield return toolAction;
-
-            foreach (var liveAction in _LiveActions)
-                yield return liveAction;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         public bool IsCursorPositionValid
         {
             get
@@ -452,7 +439,7 @@ namespace Macad.Interaction
                 CursorPosition2d = Workspace.WorkingPlane.Parameters(planePoint);
                 IsCursorPositionValid = true;
 
-                foreach (var handler in _MouseEventHandlers())
+                foreach (var handler in EnumerateControls())
                 {
                     if (handler.OnMouseMove(_MouseEventData))
                         break;
@@ -488,7 +475,7 @@ namespace Macad.Interaction
             }
 
             bool handled = false;
-            foreach (var handler in _MouseEventHandlers())
+            foreach (var handler in EnumerateControls())
             {
                 handled = handler.OnMouseDown(_MouseEventData);
                 if (handled)
@@ -517,7 +504,7 @@ namespace Macad.Interaction
             IsSelecting = false;
 
             bool handled = false;
-            foreach (var handler in _MouseEventHandlers())
+            foreach (var handler in EnumerateControls())
             {
                 handled = handler.OnMouseUp(_MouseEventData);
                 if (handled)
@@ -593,28 +580,7 @@ namespace Macad.Interaction
 
         public bool KeyPressed(Key key)
         {
-            if (CurrentTool != null)
-            {
-                if (CurrentTool.OnKeyPressed(key))
-                {
-                    return true;
-                }
-            }
-
-            if (_ToolActions.Any())
-            {
-                foreach (var toolAction in _ToolActions)
-                {
-                    if (toolAction.OnKeyPressed(key))
-                    {
-                        // Handled by tool action
-                        //Workspace.V3dViewer.Redraw();
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            return EnumerateControls().Any(control => control.OnKeyPressed(key));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -650,8 +616,15 @@ namespace Macad.Interaction
         {
             CurrentEditor?.Stop();
             CurrentEditor = null;
+        }
 
-            _LiveActions.ToArray().ForEach(RemoveLiveAction);
+        //--------------------------------------------------------------------------------------------------
+
+        public void StartEditor(Entity entity)
+        {
+            StopEditor();
+            CurrentEditor = Editor.CreateEditor(entity);
+            CurrentEditor?.Start();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -669,15 +642,26 @@ namespace Macad.Interaction
             var entity = Selection.SelectedEntities.First();
             if (entity != CurrentEditor?.GetEntity())
             {
-                StopEditor();
-                CurrentEditor = Editor.CreateEditor(entity);
-                CurrentEditor?.Start();
+                StartEditor(entity);
             }
         }
 
+        //--------------------------------------------------------------------------------------------------
+
+        internal IEnumerable<WorkspaceControl> EnumerateControls()
+        {
+            if (_CurrentTool != null)
+                yield return _CurrentTool;
+
+            if (_CurrentEditor != null)
+                yield return _CurrentEditor;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
-        #region Tools and Context
+        #region Tools
 
         public Tool CurrentTool
         {
@@ -688,20 +672,6 @@ namespace Macad.Interaction
             }
         }
         Tool _CurrentTool;
-
-        //--------------------------------------------------------------------------------------------------
-
-        readonly List<ToolAction> _ToolActions = new();
-
-        //--------------------------------------------------------------------------------------------------
-
-        readonly List<LiveAction> _LiveActions = new();
-
-        //--------------------------------------------------------------------------------------------------
-
-        public ToolAction CurrentToolAction {
-            get { return _ToolActions.Count > 0 ? _ToolActions[0] : null; }
-        }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -717,9 +687,8 @@ namespace Macad.Interaction
                     tool.WorkspaceController = this;
                     _CurrentTool = tool;
                     CurrentEditor?.StopTools();
-                    if (!tool.Start() && !tool.IsClosed)
+                    if (!tool.Start())
                     {
-                        CancelTool(tool, true);
                         return false;
                     }
                     RaisePropertyChanged(nameof(CurrentTool));
@@ -757,15 +726,6 @@ namespace Macad.Interaction
             if (isCancelled)
             {
                 _CurrentTool = null;
-                while (CurrentToolAction?.Owner == tool)
-                {
-                    if (!(CurrentToolAction.IsFinished || CurrentToolAction.Cancel(force)))
-                    {
-                        Debug.WriteLine("CancelTool -> CurrentToolAction.Cancel() denied.");
-                        isCancelled = false;
-                    }
-                }
-                HudManager?.RemoveElements(e => e.Owner == tool);
                 RaisePropertyChanged(nameof(CurrentTool));
             }
 
@@ -783,13 +743,6 @@ namespace Macad.Interaction
                 return;
 
             _CurrentTool = null;
-
-            while (CurrentToolAction?.Owner == tool)
-            {
-                if (!CurrentToolAction.IsFinished)
-                    CurrentToolAction.Cancel(true);
-            }
-            HudManager?.RemoveElements(e => e.Owner == tool);
 
             RaisePropertyChanged(nameof(CurrentTool));
             Invalidate();
@@ -813,112 +766,16 @@ namespace Macad.Interaction
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region Selection Change
         
-        public bool StartToolAction(ToolAction toolAction, bool exclusive = true)
-        {
-            try
-            {
-                if (exclusive)
-                {
-                    while (_ToolActions.Any())
-                    {
-                        if (!(CurrentToolAction.IsFinished || CurrentToolAction.Cancel(true)))
-                        {
-                            Debug.WriteLine("StartToolAction -> CurrentToolAction.Cancel() denied.");
-                            return false;
-                        }
-                    }
-                }
-
-                if (toolAction != null)
-                {
-                    Debug.WriteLine("Starting tool action " + toolAction.GetType().Name);
-                    toolAction.WorkspaceController = this;
-                    if (!toolAction.Start())
-                        return false;
-
-                    _ToolActions.Insert(0, toolAction);
-
-                    RaisePropertyChanged(nameof(CurrentToolAction));
-                }
-                return true;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-                return false;
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void RemoveToolAction(ToolAction toolAction)
-        {
-            if (_ToolActions.Contains(toolAction))
-            {
-                _ToolActions.Remove(toolAction);
-
-                RaisePropertyChanged(nameof(CurrentToolAction));
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public bool StartLiveAction(LiveAction liveAction)
-        {
-            try
-            {
-                if (liveAction == null || _LiveActions.Contains(liveAction)) 
-                    return false;
-                
-                liveAction.WorkspaceController = this;
-                if (!liveAction.Start())
-                    return false;
-
-                _LiveActions.Insert(0, liveAction);
-
-                if(_ToolActions.Count == 0)
-                    liveAction.Start();
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-                return false;
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void RemoveLiveAction(LiveAction liveAction)
-        {
-            if (_LiveActions.Contains(liveAction))
-            {
-                _LiveActions.Remove(liveAction);
-                liveAction.Stop();
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         void _Selection_SelectionChanging(SelectionManager selectionManager, SelectionManager.SelectionChangingCancelEventArgs eventArgs)
         {
-            if (CurrentTool != null)
+            if (EnumerateControls().Any(child => child.OnEntitySelectionChanging(eventArgs.EntitiesToSelect, eventArgs.EntitiesToUnSelect)))
             {
-                if (CurrentTool.OnEntitySelectionChanging(eventArgs.EntitiesToSelect, eventArgs.EntitiesToUnSelect))
-                {
-                    eventArgs.Cancel = true;
-                    return;
-                }
-            }
-            if (CurrentToolAction != null)
-            {
-                if (CurrentToolAction.OnEntitySelectionChanging(eventArgs.EntitiesToSelect, eventArgs.EntitiesToUnSelect))
-                {
-                    eventArgs.Cancel = true;
-                    return;
-                }
+                eventArgs.Cancel = true;
             }
         }
 

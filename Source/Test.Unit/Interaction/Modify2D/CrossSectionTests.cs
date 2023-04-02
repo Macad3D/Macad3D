@@ -37,15 +37,14 @@ public class CrossSectionTests
         var ctx = Context.Current;
 
         var section = _SetupTestGeom();
-        var editor = Editor.CreateEditor(section);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(section);
 
         Assert.Multiple(() =>
         {
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
             
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
         });
     }
@@ -58,8 +57,7 @@ public class CrossSectionTests
         var ctx = Context.Current;
 
         var section = _SetupTestGeom();
-        var editor = Editor.CreateEditor(section);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(section);
 
         Assert.Multiple(() =>
         {
@@ -74,7 +72,7 @@ public class CrossSectionTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveTranslate03"));
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveTranslate99"));
         });
     }
@@ -88,8 +86,7 @@ public class CrossSectionTests
         ctx.WorkspaceController.Workspace.GridStep = 1.0;
 
         var section = _SetupTestGeom();
-        var editor = Editor.CreateEditor(section);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(section);
 
         Assert.Multiple(() =>
         {
@@ -104,7 +101,7 @@ public class CrossSectionTests
             ctx.ViewportController.MouseUp();
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
         });
     }
 
@@ -116,8 +113,7 @@ public class CrossSectionTests
         var ctx = Context.Current;
 
         var section = _SetupTestGeom();
-        var editor = Editor.CreateEditor(section);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(section);
 
         Assert.Multiple(() =>
         {
@@ -132,7 +128,7 @@ public class CrossSectionTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateX03"));
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateX99"));
         });
     }
@@ -145,8 +141,7 @@ public class CrossSectionTests
         var ctx = Context.Current;
 
         var section = _SetupTestGeom();
-        var editor = Editor.CreateEditor(section);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(section);
 
         Assert.Multiple(() =>
         {
@@ -161,7 +156,7 @@ public class CrossSectionTests
             ctx.ViewportController.MouseUp();
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
         });
     }
     
@@ -173,8 +168,7 @@ public class CrossSectionTests
         var ctx = Context.Current;
 
         var section = _SetupTestGeom();
-        var editor = Editor.CreateEditor(section);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(section);
 
         Assert.Multiple(() =>
         {
@@ -189,7 +183,7 @@ public class CrossSectionTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateY03"));
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateY99"));
         });
     }
@@ -202,8 +196,7 @@ public class CrossSectionTests
         var ctx = Context.Current;
 
         var section = _SetupTestGeom();
-        var editor = Editor.CreateEditor(section);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(section);
 
         Assert.Multiple(() =>
         {
@@ -218,7 +211,7 @@ public class CrossSectionTests
             ctx.ViewportController.MouseUp();
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
         });
     }
 
@@ -230,8 +223,7 @@ public class CrossSectionTests
         var ctx = Context.Current;
 
         var section = _SetupTestGeom();
-        var editor = Editor.CreateEditor(section);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(section);
 
         Assert.Multiple(() =>
         {
@@ -246,7 +238,7 @@ public class CrossSectionTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateZ03"));
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateZ99"));
         });
     }
@@ -259,8 +251,7 @@ public class CrossSectionTests
         var ctx = Context.Current;
 
         var section = _SetupTestGeom();
-        var editor = Editor.CreateEditor(section);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(section);
 
         Assert.Multiple(() =>
         {
@@ -275,7 +266,7 @@ public class CrossSectionTests
             ctx.ViewportController.MouseUp();
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
         });
     }
 
@@ -287,8 +278,7 @@ public class CrossSectionTests
         var ctx = Context.Current;
 
         var section = _SetupTestGeom();
-        var editor = Editor.CreateEditor(section);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(section);
 
         Assert.Multiple(() =>
         {
@@ -323,7 +313,7 @@ public class CrossSectionTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveActionsCombined05"));
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
         });
     }
 
@@ -335,8 +325,7 @@ public class CrossSectionTests
         var ctx = Context.Current;
 
         var section = _SetupTestGeom();
-        var editor = Editor.CreateEditor(section);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(section);
         ctx.UndoHandler.Commit();
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
         var pln = section.Plane;
@@ -355,7 +344,7 @@ public class CrossSectionTests
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
 
         // Cleanup
-        editor.Stop();
+        ctx.WorkspaceController.StopEditor();
     }
     
     //--------------------------------------------------------------------------------------------------
@@ -366,8 +355,7 @@ public class CrossSectionTests
         var ctx = Context.Current;
 
         var section = _SetupTestGeom();
-        var editor = Editor.CreateEditor(section);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(section);
         ctx.UndoHandler.Commit();
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
         var pln = section.Plane;
@@ -386,7 +374,7 @@ public class CrossSectionTests
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
 
         // Cleanup
-        editor.Stop();
+        ctx.WorkspaceController.StopEditor();
     }
         
     //--------------------------------------------------------------------------------------------------
@@ -397,8 +385,7 @@ public class CrossSectionTests
         var ctx = Context.Current;
 
         var section = _SetupTestGeom();
-        var editor = Editor.CreateEditor(section);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(section);
         ctx.UndoHandler.Commit();
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
         var pln = section.Plane;
@@ -417,7 +404,7 @@ public class CrossSectionTests
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
 
         // Cleanup
-        editor.Stop();
+        ctx.WorkspaceController.StopEditor();
     }
 
     //--------------------------------------------------------------------------------------------------

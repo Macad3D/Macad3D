@@ -172,8 +172,7 @@ namespace Macad.Test.Unit.Interaction.Modify
 
             var imprint = TestGeomGenerator.CreateImprint();
             imprint.Mode = Imprint.ImprintMode.Raise;
-            var editor = Editor.CreateEditor(imprint);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(imprint);
 
             var oldDepth = imprint.Depth;
             ctx.ViewportController.ZoomFitAll();
@@ -192,7 +191,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.Greater(imprint.Depth, oldDepth);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthRaise99"));
             });
         }
@@ -206,8 +205,7 @@ namespace Macad.Test.Unit.Interaction.Modify
 
             var imprint = TestGeomGenerator.CreateImprint();
             imprint.Mode = Imprint.ImprintMode.Lower;
-            var editor = Editor.CreateEditor(imprint);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(imprint);
 
             var oldDepth = imprint.Depth;
             ctx.ViewportController.ZoomFitAll();
@@ -226,7 +224,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.Greater(imprint.Depth, oldDepth);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthLower99"));
             });
         }
@@ -240,8 +238,8 @@ namespace Macad.Test.Unit.Interaction.Modify
 
             var imprint = TestGeomGenerator.CreateImprint();
             imprint.Mode = Imprint.ImprintMode.Cutout;
-            var editor = Editor.CreateEditor(imprint);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(imprint);
+
 
             ctx.ViewportController.ZoomFitAll();
 
@@ -254,7 +252,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthCutout03"));
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -268,8 +266,8 @@ namespace Macad.Test.Unit.Interaction.Modify
             var imprint = TestGeomGenerator.CreateImprint();
             imprint.Mode = Imprint.ImprintMode.Raise;
             imprint.Body.Rotation = new Quaternion(0, -45.0.ToRad(), 0);
-            var editor = Editor.CreateEditor(imprint);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(imprint);
+
 
             var oldDepth = imprint.Depth;
             ctx.ViewportController.ZoomFitAll();
@@ -285,7 +283,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.Greater(imprint.Depth, oldDepth);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -298,8 +296,7 @@ namespace Macad.Test.Unit.Interaction.Modify
 
             var imprint = TestGeomGenerator.CreateImprint();
             imprint.Mode = Imprint.ImprintMode.Lower;
-            var editor = Editor.CreateEditor(imprint);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(imprint);
 
             ctx.ViewportController.ZoomFitAll();
 
@@ -322,7 +319,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.AreEqual(Imprint.ImprintMode.Lower, imprint.Mode);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
 
@@ -335,8 +332,7 @@ namespace Macad.Test.Unit.Interaction.Modify
 
             var imprint = TestGeomGenerator.CreateImprint();
             imprint.Body.Rotation = new Quaternion(0, -45.0.ToRad(), 0);
-            var editor = Editor.CreateEditor(imprint);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(imprint);
 
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 1.0;
@@ -353,7 +349,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 Assert.AreEqual(2.0, imprint.Depth);
 
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
             });
         }
         
@@ -365,8 +361,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             var ctx = Context.Current;
 
             var imprint = TestGeomGenerator.CreateImprint();
-            var editor = Editor.CreateEditor(imprint);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(imprint);
             ctx.UndoHandler.Commit();
             Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
 
@@ -376,7 +371,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(250, 170);
             ctx.ViewportController.MouseUp();
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
 
             Assert.Greater(imprint.Depth, oldDepth);
             Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);

@@ -83,7 +83,7 @@ public class ExtrudeEditor : Editor<Extrude>
 
         if (_TranslateAction == null)
         {
-            _TranslateAction = new(this)
+            _TranslateAction = new()
             {
                 Color = Colors.ActionBlue,
                 Cursor = Cursors.SetHeight,
@@ -99,7 +99,7 @@ public class ExtrudeEditor : Editor<Extrude>
             _StartDepth = Entity.Depth;
         }
 
-        AddLiveAction(_TranslateAction);
+        StartAction(_TranslateAction);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -137,7 +137,11 @@ public class ExtrudeEditor : Editor<Extrude>
         Entity.Depth = newDepth;
 
         _UpdateActions();
-        _HudElement ??= CreateHudElement<LabelHudElement>();
+        if (_HudElement == null)
+        {
+            _HudElement = new LabelHudElement();
+            Add(_HudElement);
+        }
         _HudElement?.SetValue($"Depth: {Entity.Depth.ToInvariantString("F2")} mm");
     }
 
@@ -146,7 +150,7 @@ public class ExtrudeEditor : Editor<Extrude>
     void _TranslateActionFinished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = false;
-        InteractiveContext.Current.UndoHandler.Commit();
+        CommitChanges();
 
         StartTools();
     }

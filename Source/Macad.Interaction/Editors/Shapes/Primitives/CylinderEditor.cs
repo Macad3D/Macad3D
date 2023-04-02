@@ -54,24 +54,23 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (Entity?.Body == null)
             {
-                RemoveLiveActions();
+                StopAllActions();
                 _ScaleAction = null;
                 return;
             }
 
             if (_ScaleAction == null)
             {
-                _ScaleAction = new BoxScaleLiveAction(this);
+                _ScaleAction = new BoxScaleLiveAction();
                 _ScaleAction.Previewed += _ScaleAction_Previewed;
                 _ScaleAction.Finished += _ScaleAction_Finished;
+                StartAction(_ScaleAction);
             }
 
             Bnd_Box box = new Bnd_Box(new Pnt(-Entity.Radius, -Entity.Radius, 0.0), 
                                       new Pnt( Entity.Radius,  Entity.Radius, Entity.Height));
             _ScaleAction.Box = box;
             _ScaleAction.Transformation = Entity.Body.GetTransformation();
-
-            AddLiveAction(_ScaleAction);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -83,7 +82,7 @@ namespace Macad.Interaction.Editors.Shapes
             double newHeight = 0;
             double newRadius = 0;
             
-            bool center = sender.LastMouseEventData.ModifierKeys.HasFlag(ModifierKeys.Shift);
+            bool center = args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Shift);
 
             double radiusDelta = args.Delta * 0.5 * Math.Max(args.Direction.X.Abs(), args.Direction.Y.Abs());
             if (radiusDelta != 0)
@@ -142,7 +141,11 @@ namespace Macad.Interaction.Editors.Shapes
                 }
                 Entity.Height = newHeight;
 
-                _HudElements[1] ??= CreateHudElement<LabelHudElement>();
+                if (_HudElements[1] == null)
+                {
+                    _HudElements[1] = new LabelHudElement();
+                    Add(_HudElements[1]);
+                }
                 _HudElements[1]?.SetValue($"Height: {Entity.Height.ToInvariantString("F2")} mm");
             }
 
@@ -156,7 +159,11 @@ namespace Macad.Interaction.Editors.Shapes
                     Entity.Body.Position = Entity.Body.Position.Translated(offset.Scaled(radiusDelta)
                                                                                  .Transformed(new Trsf(Entity.Body.Rotation)));
                 }
-                _HudElements[0] ??= CreateHudElement<LabelHudElement>();
+                if (_HudElements[0] == null)
+                {
+                    _HudElements[0] = new LabelHudElement();
+                    Add(_HudElements[0]);
+                }
                 _HudElements[0]?.SetValue($"Radius:  {Entity.Radius.ToInvariantString("F2")} mm");
             }
         }
@@ -167,7 +174,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (!args.DeltaSum.IsEqual(0.0, double.Epsilon))
             {
-                InteractiveContext.Current.UndoHandler.Commit();
+                CommitChanges();
             }
 
             StartTools();

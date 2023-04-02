@@ -34,7 +34,7 @@ public sealed class BoxScaleLiveAction : LiveAction
     //--------------------------------------------------------------------------------------------------
 
     Bnd_Box _Box;
-    readonly HintLine[] _Lines;
+    HintLine[] _Lines;
     readonly (XYZ p1, XYZ p2)[] _LinePositions =
     {
         // 2D & 3D
@@ -53,8 +53,8 @@ public sealed class BoxScaleLiveAction : LiveAction
         (new (0, 1, 1), new (1, 1, 1)),
         (new (1, 0, 1), new (1, 1, 1)),
     };
-    
-    readonly Marker[] _Handles;
+
+    Marker[] _Handles;
     readonly XYZ[] _HandlePositions =
     {
         // 2D & 3D Corners
@@ -78,7 +78,8 @@ public sealed class BoxScaleLiveAction : LiveAction
     bool _ResetStartValue;
     SelectionContext _SelectionContext;
     Trsf _Transformation;
-    
+
+    bool _IsXY;
     int _MoveMode = -1;
     double _LastDelta;
     double _DeltaSum;
@@ -90,11 +91,9 @@ public sealed class BoxScaleLiveAction : LiveAction
 
     #region Creation and Activation
 
-    public BoxScaleLiveAction(object owner, bool isXY=false) 
-        : base(owner)
+    public BoxScaleLiveAction(bool isXY = false)
     {
-        _Lines = new HintLine[isXY ? 4 : _LinePositions.Length];
-        _Handles = new Marker[isXY ? 8 : _HandlePositions.Length];
+        _IsXY = isXY;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -103,36 +102,24 @@ public sealed class BoxScaleLiveAction : LiveAction
     {
         base.OnStart();
 
-        if (_Box == null)
-            return;
+        _Lines = new HintLine[_IsXY ? 4 : _LinePositions.Length];
+        _Handles = new Marker[_IsXY ? 8 : _HandlePositions.Length];
 
-        _Update();
+        if (_Box != null)
+        {
+            _Update();
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void OnStop()
+    protected override void Cleanup()
     {
-        foreach (var hintLine in _Lines)
-        {
-            hintLine?.Remove();
-        }
-        _Lines.Fill(null);
-
-        foreach (var handle in _Handles)
-        {
-            handle?.Remove();
-        }
-        _Handles.Fill(null);
-
-        _AxisHintLine?.Remove();
-        _AxisHintLine = null;
-
-        WorkspaceController.Invalidate();
         Previewed = null;
         Finished = null;
-
-        base.OnStop();
+        _Lines = null;
+        _Handles = null;
+        base.Cleanup();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -181,7 +168,7 @@ public sealed class BoxScaleLiveAction : LiveAction
 
         if (_MoveMode >= 0)
         {
-            _SelectionContext = WorkspaceController.Selection.OpenContext();
+            _SelectionContext = OpenSelectionContext();
 
             _Handles[_MoveMode].IsSelectable = false;
             _Handles[_MoveMode].IsSelected = true;
@@ -189,7 +176,8 @@ public sealed class BoxScaleLiveAction : LiveAction
             {
                 if(i == _MoveMode)
                     continue;
-                _Handles[i].Remove();
+                Remove(_Handles[i]);
+                _Handles[i] = null;
             }
 
             var axisDelta = _ProcessMouseInput(data);
@@ -198,8 +186,9 @@ public sealed class BoxScaleLiveAction : LiveAction
 
             _AxisHintLine = new HintLine(WorkspaceController, HintStyle.ThinDashed);
             _AxisHintLine.Set(_Axis);
+            Add(_AxisHintLine);
 
-            WorkspaceController.HudManager?.SetCursor(Cursors.Move);
+            SetCursor(Cursors.Move);
             WorkspaceController.Invalidate();
 
             return true;
@@ -227,7 +216,6 @@ public sealed class BoxScaleLiveAction : LiveAction
 
             _LastDelta = axisDelta.Value - _StartValue;
             _DeltaSum += _LastDelta;
-            LastMouseEventData = data;
 
             EventArgs eventArgs = new()
             {
@@ -250,15 +238,15 @@ public sealed class BoxScaleLiveAction : LiveAction
     {
         if (_MoveMode >= 0)
         {
-            WorkspaceController.Selection.CloseContext(_SelectionContext);
+            CloseSelectionContext(_SelectionContext);
 
             _Handles[_MoveMode].IsSelected = false;
             _Handles[_MoveMode].IsSelectable = true;
 
             _MoveMode = -1;
-            WorkspaceController.HudManager?.SetCursor(null);
+            SetCursor(null);
 
-            _AxisHintLine?.Remove();
+            Remove(_AxisHintLine);
 
             EventArgs eventArgs = new()
             {
@@ -329,7 +317,7 @@ public sealed class BoxScaleLiveAction : LiveAction
 
     void _Update()
     {
-        if (WorkspaceController == null)
+        if (!IsActive)
             return; // not activated
 
         Pnt min = _Box.CornerMin();
@@ -339,8 +327,14 @@ public sealed class BoxScaleLiveAction : LiveAction
         // Lines
         for (var i = 0; i < _Lines.Length; i++)
         {
-            _Lines[i] ??= new HintLine(WorkspaceController, HintStyle.Solid);
-            _Lines[i].Color = Colors.ActionWhite;
+            if (_Lines[i] == null)
+            {
+                _Lines[i] = new HintLine(WorkspaceController, HintStyle.Solid)
+                {
+                    Color = Colors.ActionWhite
+                };
+                Add(_Lines[i]);
+            }
             _Lines[i].Set(min.Translated(extent.Multiplied(_LinePositions[i].p1).ToVec()),
                           min.Translated(extent.Multiplied(_LinePositions[i].p2).ToVec()));
             _Lines[i].SetLocalTransformation(_Transformation);
@@ -349,11 +343,15 @@ public sealed class BoxScaleLiveAction : LiveAction
         // Handles
         for (int i = _MoveMode < 0 ? 0 : _MoveMode; i < _Handles.Length; i++)
         {
-            _Handles[i] ??= new Marker(WorkspaceController, Marker.Styles.Bitmap, "Ball", 12)
+            if (_Handles[i] == null)
             {
-                IsSelectable = true,
-                Color = Colors.ActionWhite
-            };
+                _Handles[i] = new Marker(WorkspaceController, Marker.Styles.Bitmap, "Ball", 12)
+                {
+                    IsSelectable = true,
+                    Color = Colors.ActionWhite
+                };
+                Add(_Handles[i]);
+            }
             _Handles[i].Set(min.Translated(extent.Multiplied(_HandlePositions[i]).ToVec()));
             _Handles[i].SetLocalTransformation(_Transformation);
 

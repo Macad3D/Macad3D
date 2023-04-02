@@ -26,22 +26,34 @@ namespace Macad.Interaction
         //--------------------------------------------------------------------------------------------------
 
         AIS_Point _Marker;
-        SelectionContext _SelectionContext;
         HintLine _HintLine;
 
         //--------------------------------------------------------------------------------------------------
 
-        public PointAction(object owner)
-            : base(owner)
+        public PointAction()
         {
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public override bool Start()
+        protected override bool OnStart()
         {
-            _SelectionContext = WorkspaceController.Selection.OpenContext();
+            OpenSelectionContext();
             return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        protected override void Cleanup()
+        {
+            if (_Marker != null)
+            {
+                WorkspaceController.Workspace.AisContext.Remove(_Marker, false);
+                _Marker = null;
+            }
+            WorkspaceController.Invalidate();
+
+            base.Cleanup();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -73,19 +85,20 @@ namespace Macad.Interaction
                     if (_HintLine == null)
                     {
                         _HintLine = new HintLine(WorkspaceController, HintStyle.ThinDashed);
+                        Add(_HintLine);
                     }
 
                     _HintLine.Set(snapInfo.Point, Point);
                 }
                 else
                 {
-                    _HintLine?.Remove();
+                    Remove(_HintLine);
                 }
             }
             else
             {
                 Point = data.PointOnPlane;
-                _HintLine?.Remove();
+                Remove(_HintLine);
             }
         }
 
@@ -127,25 +140,6 @@ namespace Macad.Interaction
         public override bool OnMouseDown(MouseEventData data)
         {
             return true; // Supress Rubberband Selection
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Stop()
-        {
-            if (_Marker != null)
-            {
-                WorkspaceController.Workspace.AisContext.Remove(_Marker, false);
-                _Marker = null;
-            }
-
-            _HintLine?.Remove();
-
-            WorkspaceController.Selection.CloseContext(_SelectionContext);
-            _SelectionContext = null;
-            WorkspaceController.Invalidate();
-
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------

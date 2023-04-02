@@ -111,7 +111,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         // Angle
         if (_AngleAction == null)
         {
-            _AngleAction = new(this)
+            _AngleAction = new()
             {
                 Color = Colors.ActionRed,
                 SectorAutoUpdate = RotateLiveAction.SectorAutoMode.Forward,
@@ -123,7 +123,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         // Length
         if (_LengthAction == null)
         {
-            _LengthAction = new(this)
+            _LengthAction = new()
             {
                 Color = Colors.ActionBlue,
                 NoResize = true,
@@ -136,7 +136,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         // Radius
         if (_RadiusAction == null)
         {
-            _RadiusAction = new(this)
+            _RadiusAction = new()
             {
                 Color = Colors.ActionGreen,
                 NoResize = true,
@@ -149,7 +149,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         // Start Gap
         if (_StartGapAction == null)
         {
-            _StartGapAction = new(this)
+            _StartGapAction = new()
             {
                 Color = Colors.ActionRed,
                 NoResize = true,
@@ -162,7 +162,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         // End Gap
         if (_EndGapAction == null)
         {
-            _EndGapAction = new(this)
+            _EndGapAction = new()
             {
                 Color = Colors.ActionRed,
                 NoResize = true,
@@ -174,11 +174,11 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
 
         _UpdateActions();
 
-        AddLiveAction(_AngleAction);
-        AddLiveAction(_LengthAction);
-        AddLiveAction(_RadiusAction);
-        AddLiveAction(_StartGapAction);
-        AddLiveAction(_EndGapAction);
+        StartAction(_AngleAction);
+        StartAction(_LengthAction);
+        StartAction(_RadiusAction);
+        StartAction(_StartGapAction);
+        StartAction(_EndGapAction);
 
         WorkspaceController.Invalidate();
     }
@@ -270,10 +270,14 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         {
             _IsMoving = true;
             WorkspaceController.HudManager?.SetHintMessage(this, "Adjust angle using gizmo, press 'CTRL' to round to 5°.");
-            _LengthAction.OnStop();
-            _RadiusAction.OnStop();
-            _StartGapAction.OnStop();
-            _EndGapAction.OnStop();
+            StopAction(_LengthAction);
+            _LengthAction = null;
+            StopAction(_RadiusAction);
+            _RadiusAction = null;
+            StopAction(_StartGapAction);
+            _StartGapAction = null;
+            StopAction(_EndGapAction);
+            _EndGapAction = null;
         }
 
         double newAngle = _StartAngle + args.DeltaSum;
@@ -290,7 +294,11 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         }
         Entity.Angle = newAngle.Clamp(-Maths.PI, Maths.PI).Abs().ToDeg();
 
-        _HudElement ??= InteractiveContext.Current.WorkspaceController.HudManager?.CreateElement<LabelHudElement>(this);
+        if (_HudElement == null)
+        {
+            _HudElement = new LabelHudElement();
+            Add(_HudElement);
+        }
         _HudElement?.SetValue($"Angle: {Entity.Angle.ToInvariantString("F2")} °");
     }
     
@@ -302,10 +310,14 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         {
             _IsMoving = true;
             SetHintMessage("Adjust length using gizmo, press 'CTRL' to round to grid stepping.");
-            RemoveLiveAction(_AngleAction);
-            RemoveLiveAction(_RadiusAction);
-            RemoveLiveAction(_StartGapAction);
-            RemoveLiveAction(_EndGapAction);
+            StopAction(_AngleAction);
+            _AngleAction = null;
+            StopAction(_RadiusAction);
+            _RadiusAction = null;
+            StopAction(_StartGapAction);
+            _StartGapAction = null;
+            StopAction(_EndGapAction);
+            _EndGapAction = null;
         }
 
         var newLength = _StartLength + args.Distance;
@@ -325,7 +337,11 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
 
         _UpdateActions();
 
-        _HudElement ??= CreateHudElement<LabelHudElement>();
+        if (_HudElement == null)
+        {
+            _HudElement = new LabelHudElement();
+            Add(_HudElement);
+        }
         _HudElement?.SetValue($"Length: {Entity.Length.ToInvariantString("F2")} mm");
     }
 
@@ -337,10 +353,14 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         {
             _IsMoving = true;
             SetHintMessage("Adjust radius using gizmo, press 'CTRL' to round to grid stepping.");
-            RemoveLiveAction(_AngleAction);
-            RemoveLiveAction(_LengthAction);
-            RemoveLiveAction(_StartGapAction);
-            RemoveLiveAction(_EndGapAction);
+            StopAction(_AngleAction);
+            _AngleAction = null;
+            StopAction(_LengthAction);
+            _LengthAction = null;
+            StopAction(_StartGapAction);
+            _StartGapAction = null;
+            StopAction(_EndGapAction);
+            _EndGapAction = null;
         }
 
         var newRadius = _StartRadius + args.Distance;
@@ -358,7 +378,11 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             Entity.Radius = newRadius;
         }
 
-        _HudElement ??= CreateHudElement<LabelHudElement>();
+        if (_HudElement == null)
+        {
+            _HudElement = new LabelHudElement();
+            Add(_HudElement);
+        }
         _HudElement?.SetValue($"Radius: {Entity.Radius.ToInvariantString("F2")} mm");
     }
 
@@ -370,10 +394,14 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         {
             _IsMoving = true;
             SetHintMessage("Adjust gap width using gizmo, press 'CTRL' to round to grid stepping.");
-            RemoveLiveAction(_AngleAction);
-            RemoveLiveAction(_RadiusAction);
-            RemoveLiveAction(_LengthAction);
-            RemoveLiveAction(_EndGapAction);
+            StopAction(_AngleAction);
+            _AngleAction = null;
+            StopAction(_LengthAction);
+            _LengthAction = null;
+            StopAction(_RadiusAction);
+            _RadiusAction = null;
+            StopAction(_EndGapAction);
+            _EndGapAction = null;
         }
 
         var newGap = _StartStartGap - args.Distance;
@@ -397,7 +425,11 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
 
         _UpdateActions();
 
-        _HudElement ??= CreateHudElement<LabelHudElement>();
+        if (_HudElement == null)
+        {
+            _HudElement = new LabelHudElement();
+            Add(_HudElement);
+        }
         _HudElement?.SetValue($"Start Gap: {Entity.StartGap.ToInvariantString("F2")} mm");
     }
     
@@ -409,10 +441,14 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         {
             _IsMoving = true;
             SetHintMessage( "Adjust gap width using gizmo, press 'CTRL' to round to grid stepping.");
-            RemoveLiveAction(_AngleAction);
-            RemoveLiveAction(_RadiusAction);
-            RemoveLiveAction(_LengthAction);
-            RemoveLiveAction(_StartGapAction);
+            StopAction(_AngleAction);
+            _AngleAction = null;
+            StopAction(_LengthAction);
+            _LengthAction = null;
+            StopAction(_RadiusAction);
+            _RadiusAction = null;
+            StopAction(_StartGapAction);
+            _StartGapAction = null;
         }
 
         var newGap = _StartEndGap - args.Distance;
@@ -436,7 +472,11 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
 
         _UpdateActions();
 
-        _HudElement ??= CreateHudElement<LabelHudElement>();
+        if (_HudElement == null)
+        {
+            _HudElement = new LabelHudElement();
+            Add(_HudElement);
+        }
         _HudElement?.SetValue($"End Gap: {Entity.EndGap.ToInvariantString("F2")} mm");
     }
     
@@ -445,7 +485,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
     void _Actions_Finished()
     {
         _IsMoving = false;
-        InteractiveContext.Current.UndoHandler.Commit();
+        CommitChanges();
         StartTools();
     }
 

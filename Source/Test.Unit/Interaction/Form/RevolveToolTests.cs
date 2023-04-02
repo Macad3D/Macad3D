@@ -61,8 +61,7 @@ public class RevolveToolTests
         var ctx = Context.Current;
 
         var revolve = TestGeomGenerator.CreateRevolve();
-        var editor = Editor.CreateEditor(revolve);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(revolve);
 
         var oldOffset = revolve.Offset.Magnitude();
         ctx.ViewportController.ZoomFitAll();
@@ -81,7 +80,7 @@ public class RevolveToolTests
             Assert.Greater(revolve.Offset.Magnitude(), oldOffset);
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"LiveOffset{axis}99"));
         });
     }
@@ -98,8 +97,7 @@ public class RevolveToolTests
 
         var revolve = TestGeomGenerator.CreateRevolve();
         revolve.Body.Rotation = new Quaternion(45.0.ToRad(), 0, 0);
-        var editor = Editor.CreateEditor(revolve);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(revolve);
 
         var oldOffset = revolve.Offset.Magnitude();
         ctx.ViewportController.ZoomFitAll();
@@ -114,7 +112,7 @@ public class RevolveToolTests
             Assert.Greater(revolve.Offset.Magnitude(), oldOffset);
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
         });
     }
                
@@ -129,8 +127,7 @@ public class RevolveToolTests
         var ctx = Context.Current;
 
         var revolve = TestGeomGenerator.CreateRevolve();
-        var editor = Editor.CreateEditor(revolve);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(revolve);
         ctx.ViewportController.ZoomFitAll();
         
         var oldOffset = revolve.Offset;
@@ -147,7 +144,7 @@ public class RevolveToolTests
             Assert.AreEqual(0.0, Math.IEEERemainder(revolve.Offset.Subtracted(oldOffset).Magnitude().Abs(), 10.0), 0.00001);
 
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
         });
     }
                
@@ -162,8 +159,7 @@ public class RevolveToolTests
         var ctx = Context.Current;
 
         var revolve = TestGeomGenerator.CreateRevolve();
-        var editor = Editor.CreateEditor(revolve);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(revolve);
         ctx.ViewportController.ZoomFitAll();
         ctx.WorkspaceController.Workspace.GridStep = 1.0;
 
@@ -175,7 +171,7 @@ public class RevolveToolTests
         ctx.ViewportController.MouseDown();
         ctx.MoveTo(x2, y2);
         ctx.ViewportController.MouseUp();
-        editor.Stop();
+        ctx.WorkspaceController.StopEditor();
             
         Assert.AreNotEqual(oldOffset, revolve.Offset);
         Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);

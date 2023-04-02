@@ -7,9 +7,8 @@ using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
-    public sealed class SketchSegmentEllipseCenterCreator : ISketchSegmentCreator
+    public sealed class SketchSegmentEllipseCenterCreator : SketchSegmentCreator
     {
-        SketchEditorTool _SketchEditorTool;
         SketchPointAction _PointAction;
         SketchSegmentEllipse _Segment;
         SketchEditorSegmentElement _Element;
@@ -18,107 +17,85 @@ namespace Macad.Interaction.Editors.Shapes
         HintCircle _HintCircle;
         HintLine _HintLine;
         readonly Marker[] _Marker = new Marker[2];
-        readonly Dictionary<int, Pnt2d> _Points = new Dictionary<int, Pnt2d>(3);
+        readonly Dictionary<int, Pnt2d> _Points = new(3);
         readonly int[] _MergePointIndices = new int[3];
         int _PointsCompleted = 0;
 
         //--------------------------------------------------------------------------------------------------
 
-        public bool Start(SketchEditorTool sketchEditorTool)
+        protected override bool OnStart()
         {
-            _SketchEditorTool = sketchEditorTool;
-
-            _PointAction = new SketchPointAction(_SketchEditorTool);
-            if (!_SketchEditorTool.WorkspaceController.StartToolAction(_PointAction, false))
+            _PointAction = new SketchPointAction(SketchEditorTool);
+            if (!StartAction(_PointAction))
                 return false;
             _PointAction.Previewed += _OnActionPreview;
             _PointAction.Finished += _OnActionFinished;
 
-            _Coord2DHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<Coord2DHudElement>(this);
+            _Coord2DHudElement = new Coord2DHudElement();
+            Add(_Coord2DHudElement);
 
-            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select center point of the ellipse.");
-
+            SetHintMessage("Select center point of the ellipse.");
+            
             return true;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void Stop()
+        protected override void Cleanup()
         {
-            if (_HintCircle != null)
-            {
-                _HintCircle.Remove();
-                _HintCircle = null;
-            }
-            if (_HintLine != null)
-            {
-                _HintLine.Remove();
-                _HintLine = null;
-            }
-            for (int i = 0; i < _Marker.Length; i++)
-            {
-                if (_Marker[i] != null)
-                    _Marker[i].Remove();
-                _Marker[i] = null;
-            }
-
             _Element?.Remove();
-            _PointAction?.Stop();
-
-            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_Coord2DHudElement);
-            _Coord2DHudElement = null;
-            _SketchEditorTool.WorkspaceController.HudManager?.RemoveElement(_ValueHudElement);
-            _ValueHudElement = null;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public bool Continue(int continueWithPoint)
-        {
-            return false;
+            base.Cleanup();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _OnActionPreview(ToolAction toolAction)
         {
-            if (toolAction == _PointAction)
+            switch (_PointsCompleted)
             {
-                switch (_PointsCompleted)
-                {
-                    case 1:
-                        _HintCircle ??= new HintCircle(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        _HintLine ??= new HintLine(_SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        var p1 = _Points[0];
-                        var p2 = _PointAction.Point;
-                        var circ = new gce_MakeCirc2d(p1, p2).Value();
-                        _HintCircle.Set(circ, _SketchEditorTool.Sketch.Plane);
-                        _HintLine.Set(p1, p2, _SketchEditorTool.Sketch.Plane);
-                        
-                        if (_ValueHudElement == null && _SketchEditorTool.WorkspaceController.HudManager != null)
+                case 1:
+                    if (_HintCircle == null)
+                    {
+                        _HintCircle = new HintCircle(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                        Add(_HintCircle);
+                    }
+                    if (_HintLine == null)
+                    {
+                        _HintLine = new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                        Add(_HintLine);
+                    }
+                    var p1 = _Points[0];
+                    var p2 = _PointAction.Point;
+                    var circ = new gce_MakeCirc2d(p1, p2).Value();
+                    _HintCircle.Set(circ, SketchEditorTool.Sketch.Plane);
+                    _HintLine.Set(p1, p2, SketchEditorTool.Sketch.Plane);
+                    
+                    if (_ValueHudElement == null)
+                    {
+                        _ValueHudElement = new ValueHudElement
                         {
-                            _ValueHudElement = _SketchEditorTool.WorkspaceController.HudManager?.CreateElement<ValueHudElement>(this);
-                            _ValueHudElement.Label = "Distance:";
-                            _ValueHudElement.Units = ValueUnits.Length;
-                            _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
-                        }
-                        _ValueHudElement?.SetValue(_Points[0].Distance(_PointAction.Point));
-                        _Points[1] = p2;
-                        break;
+                            Label = "Distance:",
+                            Units = ValueUnits.Length
+                        };
+                        Add(_ValueHudElement);
+                        _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
+                    }
+                    _ValueHudElement.SetValue(_Points[0].Distance(_PointAction.Point));
+                    _Points[1] = p2;
+                    break;
 
-                    case 2:
-                        if (_Segment != null)
-                        {
-                            _Points[2] = _PointAction.Point;
-                            _Element.OnPointsChanged(_Points, null);
-                        }
-                        _ValueHudElement?.SetValue(_Points[0].Distance(_PointAction.Point));
+                case 2:
+                    if (_Segment != null)
+                    {
                         _Points[2] = _PointAction.Point;
-                        break;
-                }
-                
-                _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
+                        _Element.OnPointsChanged(_Points, null);
+                    }
+                    _ValueHudElement.SetValue(_Points[0].Distance(_PointAction.Point));
+                    _Points[2] = _PointAction.Point;
+                    break;
             }
+            
+            _Coord2DHudElement.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -152,10 +129,11 @@ namespace Macad.Interaction.Editors.Shapes
             _MergePointIndices[0] = mergeCandidateIndex;
             _PointsCompleted++;
 
-            _Marker[0] = new Marker(_SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage);
-            _Marker[0].Set(point, _SketchEditorTool.Sketch.Plane);
+            _Marker[0] = new Marker(SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage);
+            _Marker[0].Set(point, SketchEditorTool.Sketch.Plane);
+            Add(_Marker[0]);
 
-            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select first rim point of the ellipse.");
+            SetHintMessage("Select first rim point of the ellipse.");
 
             _PointAction.Reset();
         }
@@ -175,9 +153,9 @@ namespace Macad.Interaction.Editors.Shapes
             _Points[2] = point;
             _MergePointIndices[2] = mergeCandidateIndex;
 
-            _PointAction.Stop();
+            StopAction(_PointAction);
 
-            _SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] {_Segment}, null);
+            SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] {_Segment}, null);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -191,36 +169,32 @@ namespace Macad.Interaction.Editors.Shapes
                 return;
             }
 
-            if (_HintCircle != null)
-            {
-                _HintCircle.Remove();
-                _HintCircle = null;
-            }
-
-            if (_HintLine != null)
-            {
-                _HintLine.Remove();
-                _HintLine = null;
-            }
+            Remove(_HintCircle);
+            _HintCircle = null;
+            Remove(_HintLine);
+            _HintLine = null;
 
             _Points[1] = point;
             _MergePointIndices[1] = mergeCandidateIndex;
             _PointsCompleted++;
 
-            _Marker[1] = new Marker(_SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage);
-            _Marker[1].Set(point, _SketchEditorTool.Sketch.Plane);
+            _Marker[1] = new Marker(SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage);
+            _Marker[1].Set(point, SketchEditorTool.Sketch.Plane);
+            Add(_Marker[1]);
 
             _Points[2] = point;
             _Segment = new SketchSegmentEllipse(0, 1, 2);
 
-            _Element = new SketchEditorSegmentElement(_SketchEditorTool, -1, _Segment, _SketchEditorTool.Transform, _SketchEditorTool.Sketch.Plane);
-            _Element.IsCreating = true;
+            _Element = new SketchEditorSegmentElement(SketchEditorTool, -1, _Segment, SketchEditorTool.Transform, SketchEditorTool.Sketch.Plane)
+            {
+                IsCreating = true
+            };
             _Element.OnPointsChanged(_Points, null);
 
-            _SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select second rim point of the ellipse.");
+            SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select second rim point of the ellipse.");
             _PointAction.Reset();
-            _SketchEditorTool.WorkspaceController.Invalidate();
-            _SketchEditorTool.WorkspaceController.UpdateSelection();
+            SketchEditorTool.WorkspaceController.Invalidate();
+            SketchEditorTool.WorkspaceController.UpdateSelection();
         }
 
         //--------------------------------------------------------------------------------------------------

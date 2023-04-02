@@ -11,33 +11,29 @@ namespace Macad.Interaction
         {
             public TopoDS_Shape Shape;
             public AIS_Shape AisShape;
-            public int RefId;
             public bool IsSelected;
+            public int RefId;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public List<Subshape> Subshapes { get; private set; }
+        public List<Subshape> Subshapes { get; } = new();
         public Subshape ChangedSubshape { get; private set; }
 
         //--------------------------------------------------------------------------------------------------
 
-        SelectionContext _SelectionContext;
-
-        //--------------------------------------------------------------------------------------------------
-
-        public ToggleSubshapesAction(object owner)
-            : base(owner)
+        protected override bool OnStart()
         {
-            Subshapes = new List<Subshape>();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override bool Start()
-        {
-            _SelectionContext = WorkspaceController.Selection.OpenContext(SelectionContext.Options.NewSelectedList);
+            OpenSelectionContext(SelectionContext.Options.NewSelectedList);
             return true;
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        protected override void Cleanup()
+        {
+            ClearSubshapes();
+            base.Cleanup();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -118,17 +114,6 @@ namespace Macad.Interaction
                 _ProcessMouseSelect(data);
             }
             return true;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Stop()
-        {
-            ClearSubshapes();
-            WorkspaceController.Selection.CloseContext(_SelectionContext);
-            _SelectionContext = null;
-
-            base.Stop();
         }
 
         //--------------------------------------------------------------------------------------------------
