@@ -114,7 +114,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
                 ShowHudElement = true,
                 
             };
-            _TranslateAction.Previewed += _TranslateActionPreviewed;
+            _TranslateAction.Preview += _TranslateAction_Preview;
             _TranslateAction.Finished += _TranslateActionFinished;
         }
 
@@ -128,7 +128,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
                 ShowHudElement = true,
                 SectorAutoUpdate = RotateLiveAction.SectorAutoMode.Reverse
             };
-            _RotateActionX.Previewed += _RotateActionXPreviewed;
+            _RotateActionX.Preview += _RotateActionX_Preview;
             _RotateActionX.Finished += _RotateActionFinished;
         }
 
@@ -142,7 +142,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
                 ShowHudElement = true,
                 SectorAutoUpdate = RotateLiveAction.SectorAutoMode.Reverse
             };
-            _RotateActionY.Previewed += _RotateActionYPreviewed;
+            _RotateActionY.Preview += _RotateActionY_Preview;
             _RotateActionY.Finished += _RotateActionFinished;
         }
         
@@ -155,7 +155,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
                 ShowHudElement = true,
                 SectorAutoUpdate = RotateLiveAction.SectorAutoMode.Reverse
             };
-            _RotateActionZ.Previewed += _RotateActionZPreviewed;
+            _RotateActionZ.Preview += _RotateActionZ_Preview;
             _RotateActionZ.Finished += _RotateActionFinished;
         }
 
@@ -198,7 +198,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
 
     //--------------------------------------------------------------------------------------------------
 
-    void _TranslateActionPreviewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
+    void _TranslateAction_Preview(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         if (!_IsMoving)
         {
@@ -284,7 +284,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
 
     //--------------------------------------------------------------------------------------------------
 
-    void _RotateActionXPreviewed(RotateLiveAction sender, RotateLiveAction.EventArgs args)
+    void _RotateActionX_Preview(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         _RotateActionPreviewed(args, _TranslatedPlane.XAxis);
         StopAction(_RotateActionY);
@@ -295,7 +295,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
 
     //--------------------------------------------------------------------------------------------------
     
-    void _RotateActionYPreviewed(RotateLiveAction sender, RotateLiveAction.EventArgs args)
+    void _RotateActionY_Preview(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         _RotateActionPreviewed(args, _TranslatedPlane.YAxis);
         StopAction(_RotateActionX);
@@ -306,7 +306,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
 
     //--------------------------------------------------------------------------------------------------
         
-    void _RotateActionZPreviewed(RotateLiveAction sender, RotateLiveAction.EventArgs args)
+    void _RotateActionZ_Preview(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         _RotateActionPreviewed(args, _TranslatedPlane.Axis);
         StopAction(_RotateActionX);

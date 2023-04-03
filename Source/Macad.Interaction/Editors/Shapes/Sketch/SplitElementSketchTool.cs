@@ -4,17 +4,17 @@ namespace Macad.Interaction.Editors.Shapes
 {
     public class SplitElementSketchTool : SketchTool
     {
-        SplitSketchElementAction _PointAction;
+        SplitSketchElementAction _ToolAction;
         const string _Message = "Select a shared point or a position on a segment to split.";
 
         //--------------------------------------------------------------------------------------------------
 
         protected override bool OnStart()
         {
-            _PointAction = new SplitSketchElementAction(SketchEditorTool);
-            if (!StartAction(_PointAction))
+            _ToolAction = new SplitSketchElementAction(SketchEditorTool);
+            if (!StartAction(_ToolAction))
                 return false;
-            _PointAction.Finished += _PointAction_Finished;
+            _ToolAction.Finished += _ToolAction_Finished;
 
             SetHintMessage(_Message);
             return true;
@@ -22,26 +22,26 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _PointAction_Finished(ToolAction toolAction)
+        void _ToolAction_Finished(SplitSketchElementAction sender, SplitSketchElementAction.EventArgs args)
         {
-            if (_PointAction.SelectedElementType == Sketch.ElementType.Segment && _PointAction.SelectedSegment != null)
+            if (args.SelectedElementType == Sketch.ElementType.Segment && args.SelectedSegment != null)
             {
                 Sketch.SaveUndo(Sketch.ElementType.All);
-                if (SketchUtils.SplitSegment(Sketch, _PointAction.SelectedSegment, _PointAction.SelectedParameter) != SketchUtils.SplitSegmentFailed)
+                if (SketchUtils.SplitSegment(Sketch, args.SelectedSegment, args.SelectedParameter) != SketchUtils.SplitSegmentFailed)
                 {
                     CommitChanges();
                 }
             }
-            else if (_PointAction.SelectedElementType == Sketch.ElementType.Point && _PointAction.SelectedPointIndex > -1)
+            else if (args.SelectedElementType == Sketch.ElementType.Point && args.SelectedPointIndex > -1)
             {
                 Sketch.SaveUndo(Sketch.ElementType.Point | Sketch.ElementType.Segment);
-                if (SketchUtils.SplitPoint(Sketch, _PointAction.SelectedPointIndex) != SketchUtils.SplitPointFailed)
+                if (SketchUtils.SplitPoint(Sketch, args.SelectedPointIndex) != SketchUtils.SplitPointFailed)
                 {
                     CommitChanges();
                 }
             }
 
-            _PointAction.Reset();
+            _ToolAction.Reset();
             SetHintMessage(_Message);
         }
 

@@ -21,12 +21,12 @@ if (body == null)
 ```
 
 # Create the Tool
-All interactions in the workspace are driven by a tool class, which we need to implement in our script. It is derived from the abstract class [](Macad.Interaction.Tool). There is only one function which must be implemented ([](Macad.Interaction.Tool.Start)) and which is called by the WorkspaceController to activate our tool.
+All interactions in the workspace are driven by a tool class, which we need to implement in our script. It is derived from the abstract class [](Macad.Interaction.Tool). There is only one function which must be implemented ([](Macad.Interaction.Tool.OnStart)) and which is called when our tool is being started.
 
 ```cs
 public class HoleOnFaceTool : Tool
 {
-  public override bool Start()
+  protected override bool OnStart()
   {
     // ...
   }
@@ -45,7 +45,7 @@ public HoleOnFaceTool(Body targetBody)
 ```
 Now let's fill our start function. The tool does not need to implement the concrete interaction with the viewport, it just controls them by using so called ToolActions. We use the class [](Macad.Interaction.SelectSubshapeAction) which provides an implementation of selecting any subshape from a set of bodies. Here, we ask for selecting a face out of the shape of the target body.
 
-We then tell the WorkspaceController to start the action. Note that since the tool is already running in the context of the current WorkspaceController, we have a class property to get it from.
+The action is started by calling the base class function [](Macad.Interaction.Tool.StartAction). 
 
 Finally, we set a help text and a special face selection cursor, so it is clear to the user what we expect from him to do.
 
@@ -53,7 +53,7 @@ Finally, we set a help text and a special face selection cursor, so it is clear 
 public override bool Start()
 {
   var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _TargetBody);
-  if (!WorkspaceController.StartToolAction(toolAction))
+  if (!StartAction(toolAction))
     return false;
   toolAction.Finished += _OnActionFinished;
 
@@ -67,20 +67,18 @@ public override bool Start()
 Once the user has selected a face, we get the event callback from the action that it has finished it's job.
 
 ```cs
-public override void OnActionFinished(ToolAction toolAction)
+public override void OnActionFinished(SelectSubshapeAction toolAction, SelectSubshapeAction.EventArgs args)
 {
-  var selectAction = toolAction as SelectSubshapeAction;
-  if (selectAction.SelectedSubshapeType == SubshapeTypes.Face)
+  if (args.SelectedSubshapeType == SubshapeTypes.Face)
   {
     // ...
   }
 }
 ```
 
-If the ToolAction has found a face, we can close both the ToolAction and also our Tool.
+If the ToolAction has found a face, we can close our Tool. The ToolAction is closed automatically together with the Tool it belongs to.
 
 ```cs
-selectAction.Stop();
 Stop();
 ```
 
@@ -90,7 +88,7 @@ Now we take the selected face from the ToolAction and perform the same procedure
 
 ```cs
 // Create face reference
-var faceRef = _TargetBody.Shape.GetSubshapeReference(_TargetBody.Shape.GetTransformedBRep(), selectAction.SelectedSubshape);
+var faceRef = _TargetBody.Shape.GetSubshapeReference(_TargetBody.Shape.GetTransformedBRep(), args.SelectedSubshape);
 if (faceRef == null)
 {
   Messages.Error("A subshape reference could not be produced for this face.");
@@ -111,7 +109,7 @@ sketch.Segments.Add(0, new SketchSegmentCircle(0, 1));
 > [!Important] After calling a script run function, the host does automatically commit all changes for us. Since the tool runs outside of this call, we need to do this ourselves, when we are finished with all changes. This is mandatory for the undo/redo system to save our changes to a single step.
 
 ```cs
-_TargetBody.Model.UndoHandler.Commit();
+CommitChanges();
 ```
 
 # Calling our Tool

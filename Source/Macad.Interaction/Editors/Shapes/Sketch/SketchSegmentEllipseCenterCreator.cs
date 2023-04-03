@@ -28,8 +28,8 @@ namespace Macad.Interaction.Editors.Shapes
             _PointAction = new SketchPointAction(SketchEditorTool);
             if (!StartAction(_PointAction))
                 return false;
-            _PointAction.Previewed += _OnActionPreview;
-            _PointAction.Finished += _OnActionFinished;
+            _PointAction.Preview += _PointAction_Preview;
+            _PointAction.Finished += _PointAction_Finished;
 
             _Coord2DHudElement = new Coord2DHudElement();
             Add(_Coord2DHudElement);
@@ -49,7 +49,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionPreview(ToolAction toolAction)
+        void _PointAction_Preview(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
             switch (_PointsCompleted)
             {
@@ -65,7 +65,7 @@ namespace Macad.Interaction.Editors.Shapes
                         Add(_HintLine);
                     }
                     var p1 = _Points[0];
-                    var p2 = _PointAction.Point;
+                    var p2 = args.Point;
                     var circ = new gce_MakeCirc2d(p1, p2).Value();
                     _HintCircle.Set(circ, SketchEditorTool.Sketch.Plane);
                     _HintLine.Set(p1, p2, SketchEditorTool.Sketch.Plane);
@@ -80,44 +80,41 @@ namespace Macad.Interaction.Editors.Shapes
                         Add(_ValueHudElement);
                         _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
                     }
-                    _ValueHudElement.SetValue(_Points[0].Distance(_PointAction.Point));
+                    _ValueHudElement.SetValue(_Points[0].Distance(args.Point));
                     _Points[1] = p2;
                     break;
 
                 case 2:
                     if (_Segment != null)
                     {
-                        _Points[2] = _PointAction.Point;
+                        _Points[2] = args.Point;
                         _Element.OnPointsChanged(_Points, null);
                     }
-                    _ValueHudElement.SetValue(_Points[0].Distance(_PointAction.Point));
-                    _Points[2] = _PointAction.Point;
+                    _ValueHudElement.SetValue(_Points[0].Distance(args.Point));
+                    _Points[2] = args.Point;
                     break;
             }
             
-            _Coord2DHudElement.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
+            _Coord2DHudElement.SetValues(args.PointOnWorkingPlane.X, args.PointOnWorkingPlane.Y);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        void _PointAction_Finished(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
-            if (toolAction == _PointAction)
+            switch (_PointsCompleted)
             {
-                switch (_PointsCompleted)
-                {
-                    case 0:
-                        _SetCenterPoint(_PointAction.Point, _PointAction.MergeCandidateIndex);
-                        break;
+                case 0:
+                    _SetCenterPoint(args.Point, args.MergeCandidateIndex);
+                    break;
 
-                    case 1:
-                        _SetFirstRimPoint(_PointAction.Point, _PointAction.MergeCandidateIndex);
-                        break;
+                case 1:
+                    _SetFirstRimPoint(args.Point, args.MergeCandidateIndex);
+                    break;
 
-                    case 2:
-                        _SetSecondRimPoint(_PointAction.Point, _PointAction.MergeCandidateIndex);
-                        break;
-                }
+                case 2:
+                    _SetSecondRimPoint(args.Point, args.MergeCandidateIndex);
+                    break;
             }
         }
 

@@ -24,8 +24,8 @@ namespace Macad.Interaction.Editors.Shapes
             _PointAction = new SketchPointAction(SketchEditorTool);
             if (!StartAction(_PointAction))
                 return false;
-            _PointAction.Previewed += _OnActionPreview;
-            _PointAction.Finished += _OnActionFinished;
+            _PointAction.Preview += _PointAction_Preview;
+            _PointAction.Finished += _PointAction_Finished;
 
             _Coord2DHudElement = new Coord2DHudElement();
             Add(_Coord2DHudElement);
@@ -48,71 +48,65 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionPreview(ToolAction toolAction)
+        void _PointAction_Preview(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
-            if (toolAction == _PointAction)
+            if (_Segments != null)
             {
-                if (_Segments != null)
+                _UpdateCornerPoints(args.Point);
+                foreach (var component in _Elements)
                 {
-                    _UpdateCornerPoints(_PointAction.Point);
-                    foreach (var component in _Elements)
-                    {
-                        component.OnPointsChanged(_Points, null);
-                    }
-
-                    if (_ValueHudElement == null)
-                    {
-                        _ValueHudElement = new MultiValueHudElement
-                        {
-                            Label1 = "Size X:",
-                            Units1 = ValueUnits.Length,
-                            Label2 = "Size Y:",
-                            Units2 = ValueUnits.Length
-                        };
-                        _ValueHudElement.MultiValueEntered += _ValueHudElement_MultiValueEntered;
-                        Add(_ValueHudElement);
-                    }
-                    _ValueHudElement.SetValue1(_Points[2].X - _Points[0].X);
-                    _ValueHudElement.SetValue2(_Points[2].Y - _Points[0].Y);
+                    component.OnPointsChanged(_Points, null);
                 }
 
-                _Coord2DHudElement.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
+                if (_ValueHudElement == null)
+                {
+                    _ValueHudElement = new MultiValueHudElement
+                    {
+                        Label1 = "Size X:",
+                        Units1 = ValueUnits.Length,
+                        Label2 = "Size Y:",
+                        Units2 = ValueUnits.Length
+                    };
+                    _ValueHudElement.MultiValueEntered += _ValueHudElement_MultiValueEntered;
+                    Add(_ValueHudElement);
+                }
+                _ValueHudElement.SetValue1(_Points[2].X - _Points[0].X);
+                _ValueHudElement.SetValue2(_Points[2].Y - _Points[0].Y);
             }
+
+            _Coord2DHudElement.SetValues(args.PointOnWorkingPlane.X, args.PointOnWorkingPlane.Y);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        void _PointAction_Finished(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
-            if (toolAction == _PointAction)
+            if (_Segments == null)
             {
-                if (_Segments == null)
+                _Points.Add(0, args.Point);
+                _MergePointIndices[0] = args.MergeCandidateIndex;
+                _UpdateCornerPoints(args.Point);
+
+                _Segments = new SketchSegmentLine[4];
+                _Segments[0] = new SketchSegmentLine(0, 1);
+                _Segments[1] = new SketchSegmentLine(1, 2);
+                _Segments[2] = new SketchSegmentLine(2, 3);
+                _Segments[3] = new SketchSegmentLine(3, 0);
+
+                _Elements = new SketchEditorSegmentElement[4];
+                for (int i = 0; i < _Elements.Length; i++)
                 {
-                    _Points.Add(0, _PointAction.Point);
-                    _MergePointIndices[0] = _PointAction.MergeCandidateIndex;
-                    _UpdateCornerPoints(_PointAction.Point);
-
-                    _Segments = new SketchSegmentLine[4];
-                    _Segments[0] = new SketchSegmentLine(0, 1);
-                    _Segments[1] = new SketchSegmentLine(1, 2);
-                    _Segments[2] = new SketchSegmentLine(2, 3);
-                    _Segments[3] = new SketchSegmentLine(3, 0);
-
-                    _Elements = new SketchEditorSegmentElement[4];
-                    for (int i = 0; i < _Elements.Length; i++)
-                    {
-                        _Elements[i] = new SketchEditorSegmentElement(SketchEditorTool, -1, _Segments[i], SketchEditorTool.Transform, SketchEditorTool.Sketch.Plane);
-                        _Elements[i].IsCreating = true;
-                        _Elements[i].OnPointsChanged(_Points, null);
-                    }
-
-                    SetHintMessage("Select second corner or the rectangle.");
-                    _PointAction.Reset();
-                } 
-                else
-                {
-                    _SetSecondPoint(_PointAction.Point, _PointAction.MergeCandidateIndex);
+                    _Elements[i] = new SketchEditorSegmentElement(SketchEditorTool, -1, _Segments[i], SketchEditorTool.Transform, SketchEditorTool.Sketch.Plane);
+                    _Elements[i].IsCreating = true;
+                    _Elements[i].OnPointsChanged(_Points, null);
                 }
+
+                SetHintMessage("Select second corner or the rectangle.");
+                _PointAction.Reset();
+            } 
+            else
+            {
+                _SetSecondPoint(args.Point, args.MergeCandidateIndex);
             }
         }
 

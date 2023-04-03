@@ -67,7 +67,7 @@ public class TranslateAxisLiveAction : LiveAction
                     
     #region Events
 
-    public class EventArgs : System.EventArgs
+    public class EventArgs
     {
         public double Distance { get; init; }
         public Ax1 Axis { get; init; }
@@ -75,25 +75,9 @@ public class TranslateAxisLiveAction : LiveAction
     }
 
     public delegate void EventHandler(TranslateAxisLiveAction sender, EventArgs args);
-
-    //--------------------------------------------------------------------------------------------------
-
-    public event EventHandler Previewed;
-
-    void RaisePreviewed(EventArgs args)
-    {
-        Previewed?.Invoke(this, args);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
+    public event EventHandler Preview;
     public event EventHandler Finished;
 
-    void RaiseFinished(EventArgs args)
-    {
-        Finished?.Invoke(this, args);
-    }
-        
     //--------------------------------------------------------------------------------------------------
 
     #endregion
@@ -131,7 +115,7 @@ public class TranslateAxisLiveAction : LiveAction
 
     protected override void Cleanup()
     {
-        Previewed = null;
+        Preview = null;
         Finished = null;
         base.Cleanup();
     }
@@ -224,7 +208,7 @@ public class TranslateAxisLiveAction : LiveAction
                     Axis = Axis,
                     MouseEventData = data
                 };
-                RaisePreviewed(eventArgs);
+                Preview?.Invoke(this, eventArgs);
 
                 _Distance = ElCLib.LineParameter(_StartAxis, _Axis.Location);
                 _HintLine.Set(_StartAxis.Location, _Axis.Location);
@@ -262,7 +246,7 @@ public class TranslateAxisLiveAction : LiveAction
                 Axis = Axis,
                 MouseEventData = data
             };
-            RaiseFinished(eventArgs);
+            Finished?.Invoke(this, eventArgs);
             data.ForceReDetection = true;
             return true;
         }

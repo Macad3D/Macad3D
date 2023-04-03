@@ -62,7 +62,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (_ScaleAction == null)
             {
                 _ScaleAction = new BoxScaleLiveAction();
-                _ScaleAction.Previewed += _ScaleAction_Previewed;
+                _ScaleAction.Preview += _ScaleAction_Preview;
                 _ScaleAction.Finished += _ScaleAction_Finished;
                 StartAction(_ScaleAction);
             }
@@ -75,7 +75,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ScaleAction_Previewed(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
+        void _ScaleAction_Preview(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
         {
             SetHintMessage("Scale cylinder using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to scale relative to center.");
 

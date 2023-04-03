@@ -92,7 +92,7 @@ public class ImprintEditor : Editor<Imprint>
                 NoResize = true,
                 Length = 1.0,
             };
-            _TranslateAction.Previewed += _TranslateActionPreviewed;
+            _TranslateAction.Preview += _TranslateAction_Preview;
             _TranslateAction.Finished += _TranslateActionFinished;
         }
 
@@ -108,7 +108,7 @@ public class ImprintEditor : Editor<Imprint>
 
     //--------------------------------------------------------------------------------------------------
 
-    void _TranslateActionPreviewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
+    void _TranslateAction_Preview(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = true;
         SetHintMessage("Scale imprint depth using gizmo, press 'CTRL' to round to grid stepping.");

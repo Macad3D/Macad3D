@@ -51,7 +51,7 @@ namespace Macad.Interaction
             {
                 return false;
             }
-            toolAction.Finished += _OnActionFinished;
+            toolAction.Finished += _ToolAction_Finished;
 
             SetHintMessage(_StatusText);
 
@@ -75,15 +75,12 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        void _ToolAction_Finished(SelectSubshapeAction action, SelectSubshapeAction.EventArgs args)
         {
             bool finished = false;
-            var selectAction = toolAction as SelectSubshapeAction;
-            Debug.Assert(selectAction != null);
-
-            if (selectAction.SelectedSubshapeType == SubshapeTypes.Face)
+            if (args.SelectedSubshapeType == SubshapeTypes.Face)
             {
-                var face = TopoDS.Face(selectAction.SelectedSubshape);
+                var face = TopoDS.Face(args.SelectedSubshape);
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
                 if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
                 {
@@ -95,8 +92,8 @@ namespace Macad.Interaction
 
             if(finished)
             {
-                var subshapeReference = _TargetShape.GetSubshapeReference(_TargetShape.GetTransformedBRep(), selectAction.SelectedSubshape);
-                StopAction(selectAction);
+                var subshapeReference = _TargetShape.GetSubshapeReference(_TargetShape.GetTransformedBRep(), args.SelectedSubshape);
+                StopAction(action);
                 Stop();
 
                 if (subshapeReference == null)
@@ -109,7 +106,7 @@ namespace Macad.Interaction
             }
             else
             {
-                selectAction.Reset();
+                action.Reset();
             }
 
             WorkspaceController.Invalidate();

@@ -67,7 +67,7 @@ public sealed class OffsetEditor : Editor<Offset>
         if (_ScaleAction == null)
         {
             _ScaleAction = new BoxScaleLiveAction(Entity.ShapeType==ShapeType.Sketch);
-            _ScaleAction.Previewed += _ScaleAction_Previewed;
+            _ScaleAction.Preview += _ScaleAction_Preview;
             _ScaleAction.Finished += _ScaleAction_Finished;
             StartAction(_ScaleAction);
         }
@@ -78,7 +78,7 @@ public sealed class OffsetEditor : Editor<Offset>
 
     //--------------------------------------------------------------------------------------------------
 
-    void _ScaleAction_Previewed(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
+    void _ScaleAction_Preview(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
     {
         SetHintMessage("Change distance box using gizmo, press 'CTRL' to round to grid stepping.");
 

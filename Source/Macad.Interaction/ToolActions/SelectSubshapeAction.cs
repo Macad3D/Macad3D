@@ -9,12 +9,20 @@ namespace Macad.Interaction
 {
     public class SelectSubshapeAction : ToolAction
     {
-        //--------------------------------------------------------------------------------------------------
+        public class EventArgs
+        {
+            public TopoDS_Shape SelectedSubshape { get; init; }
+            public InteractiveEntity SelectedEntity { get; init; }
+            public SubshapeTypes SelectedSubshapeType { get; init; }
+            public AIS_InteractiveObject SelectedAisObject { get; init; }
+            public MouseEventData MouseEventData { get; init; }
+        }
 
-        public TopoDS_Shape SelectedSubshape { get; private set; }
-        public InteractiveEntity SelectedEntity { get; private set; }
-        public SubshapeTypes SelectedSubshapeType { get; private set; }
-        public AIS_InteractiveObject SelectedAisObject { get; private set; }
+        public delegate void EventHandler(SelectSubshapeAction sender, EventArgs args);
+        public event EventHandler Preview;
+        public event EventHandler Finished;
+
+        //--------------------------------------------------------------------------------------------------
 
         SelectionContext _SelectionContext;
         readonly InteractiveEntity _SourceEntity;
@@ -85,49 +93,58 @@ namespace Macad.Interaction
         protected override void Cleanup()
         {
             _AisShapes?.ForEach(aisShape => WorkspaceController.Workspace.AisContext.Remove(aisShape, false));
+            Preview = null;
+            Finished = null;
             base.Cleanup();
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void ProcessMouseInput(MouseEventData data)
+        EventArgs ProcessMouseInput(MouseEventData data)
         {
-            SelectedEntity = data.DetectedEntities.FirstOrDefault();
-            SelectedAisObject = data.DetectedAisInteractives.FirstOrDefault();
+            InteractiveEntity selectedEntity = data.DetectedEntities.FirstOrDefault();
+            AIS_InteractiveObject selectedAisObject = data.DetectedAisInteractives.FirstOrDefault();
+            TopoDS_Shape selectedSubshape = null;
+            SubshapeTypes selectedSubshapeType = SubshapeTypes.None;
 
-            if (data.DetectedShapes.Count == 0)
+            if (data.DetectedShapes.Count > 0)
             {
-                SelectedSubshape = null;
-                SelectedSubshapeType = SubshapeTypes.None;
-                return;
+                var detectedShape = data.DetectedShapes[0];
+
+                if (_SubshapeTypes.HasFlag(SubshapeTypes.Vertex)
+                    && detectedShape.ShapeType() == TopAbs_ShapeEnum.VERTEX)
+                {
+                    selectedSubshape = detectedShape;
+                    selectedSubshapeType = SubshapeTypes.Vertex;
+                }
+                else if (_SubshapeTypes.HasFlag(SubshapeTypes.Edge)
+                         && detectedShape.ShapeType() == TopAbs_ShapeEnum.EDGE)
+                {
+                    selectedSubshape = detectedShape;
+                    selectedSubshapeType = SubshapeTypes.Edge;
+                }
+                else if (_SubshapeTypes.HasFlag(SubshapeTypes.Wire)
+                         && detectedShape.ShapeType() == TopAbs_ShapeEnum.WIRE)
+                {
+                    selectedSubshape = detectedShape;
+                    selectedSubshapeType = SubshapeTypes.Wire;
+                }
+                else if (_SubshapeTypes.HasFlag(SubshapeTypes.Face)
+                         && detectedShape.ShapeType() == TopAbs_ShapeEnum.FACE)
+                {
+                    selectedSubshape = detectedShape;
+                    selectedSubshapeType = SubshapeTypes.Face;
+                }
             }
 
-            var detectedShape = data.DetectedShapes[0];
-
-            if (_SubshapeTypes.HasFlag(SubshapeTypes.Vertex)
-                && (detectedShape.ShapeType() == TopAbs_ShapeEnum.VERTEX))
+            return new EventArgs()
             {
-                SelectedSubshape = detectedShape;
-                SelectedSubshapeType = SubshapeTypes.Vertex;
-            }
-            else if (_SubshapeTypes.HasFlag(SubshapeTypes.Edge)
-                     && (detectedShape.ShapeType() == TopAbs_ShapeEnum.EDGE))
-            {
-                SelectedSubshape = detectedShape;
-                SelectedSubshapeType = SubshapeTypes.Edge;
-            }
-            else if (_SubshapeTypes.HasFlag(SubshapeTypes.Wire)
-                     && (detectedShape.ShapeType() == TopAbs_ShapeEnum.WIRE))
-            {
-                SelectedSubshape = detectedShape;
-                SelectedSubshapeType = SubshapeTypes.Wire;
-            }
-            else if (_SubshapeTypes.HasFlag(SubshapeTypes.Face)
-                     && (detectedShape.ShapeType() == TopAbs_ShapeEnum.FACE))
-            {
-                SelectedSubshape = detectedShape;
-                SelectedSubshapeType = SubshapeTypes.Face;
-            }
+                SelectedSubshape = selectedSubshape,
+                SelectedSubshapeType = selectedSubshapeType,
+                SelectedAisObject = selectedAisObject,
+                SelectedEntity = selectedEntity,
+                MouseEventData = data
+            };
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -136,7 +153,8 @@ namespace Macad.Interaction
         {
             if (!IsFinished)
             {
-                ProcessMouseInput(data);
+                EventArgs args = ProcessMouseInput(data);
+                Preview?.Invoke(this, args);
                 return base.OnMouseMove(data);
             }
             return false;
@@ -148,8 +166,12 @@ namespace Macad.Interaction
         {
             if (!IsFinished)
             {
-                ProcessMouseInput(data);
-                IsFinished = SelectedEntity != null || SelectedSubshape != null || SelectedAisObject != null;
+                EventArgs args = ProcessMouseInput(data);
+                if (args.SelectedEntity != null || args.SelectedSubshape != null || args.SelectedAisObject != null)
+                {
+                    IsFinished = true;
+                    Finished?.Invoke(this, args);
+                }
             }
             return true;
         }

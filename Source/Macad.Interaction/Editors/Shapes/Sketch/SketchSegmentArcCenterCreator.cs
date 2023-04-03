@@ -20,6 +20,7 @@ namespace Macad.Interaction.Editors.Shapes
         readonly int[] _MergePointIndices = new int[3];
         int _PointsCompleted = 0;
         Pnt2d _CenterPoint;
+        Pnt2d _LastActionPoint;
         double _LastEndParameter = 0;
         bool _ArcDirection = false;
 
@@ -30,8 +31,8 @@ namespace Macad.Interaction.Editors.Shapes
             _PointAction = new SketchPointAction(SketchEditorTool);
             if (!StartAction(_PointAction))
                 return false;
-            _PointAction.Previewed += _OnActionPreview;
-            _PointAction.Finished += _OnActionFinished;
+            _PointAction.Preview += _PointAction_Preview;
+            _PointAction.Finished += _PointAction_Finished;
 
             _Coord2DHudElement = new ();
 
@@ -50,68 +51,66 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionPreview(ToolAction toolAction)
+        void _PointAction_Preview(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
-            if (toolAction == _PointAction)
+            switch (_PointsCompleted)
             {
-                switch (_PointsCompleted)
-                {
-                    case 1:
-                        _PreviewLine ??= new HintCircle(WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        Add(_PreviewLine);
-                        _HintLines[0] ??= new HintLine(WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        Add(_HintLines[0]);
-                        var circ = new gce_MakeCirc2d(_CenterPoint, _PointAction.Point).Value();
-                        _PreviewLine.Set(circ, Sketch.Plane);
-                        _HintLines[0].Set(_CenterPoint, _PointAction.Point, Sketch.Plane);
+                case 1:
+                    _PreviewLine ??= new HintCircle(WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                    Add(_PreviewLine);
+                    _HintLines[0] ??= new HintLine(WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                    Add(_HintLines[0]);
+                    var circ = new gce_MakeCirc2d(_CenterPoint, args.Point).Value();
+                    _PreviewLine.Set(circ, Sketch.Plane);
+                    _HintLines[0].Set(_CenterPoint, args.Point, Sketch.Plane);
 
-                        if (_ValueHudElement == null)
+                    if (_ValueHudElement == null)
+                    {
+                        _ValueHudElement = new()
                         {
-                            _ValueHudElement = new()
-                            {
-                                Label = "Radius:",
-                                Units = ValueUnits.Length
-                            };
-                            _ValueHudElement.ValueEntered += _ValueHudElement_RadiusEntered;
-                            Add(_ValueHudElement);
-                        }
-                        _ValueHudElement.SetValue(circ.Radius());
-                        break;
+                            Label = "Radius:",
+                            Units = ValueUnits.Length
+                        };
+                        _ValueHudElement.ValueEntered += _ValueHudElement_RadiusEntered;
+                        Add(_ValueHudElement);
+                    }
+                    _ValueHudElement.SetValue(circ.Radius());
+                    break;
 
-                    case 2:
-                        _HintLines[1] ??= new HintLine(WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        Add(_HintLines[1]);
-                        _HintLines[1].Set(_CenterPoint, _PointAction.Point, Sketch.Plane);
+                case 2:
+                    _HintLines[1] ??= new HintLine(WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                    Add(_HintLines[1]);
+                    _HintLines[1].Set(_CenterPoint, args.Point, Sketch.Plane);
 
-                        if (_ValueHudElement == null)
+                    if (_ValueHudElement == null)
+                    {
+                        _ValueHudElement = new()
                         {
-                            _ValueHudElement = new()
-                            {
-                                Label = "Angle:",
-                                Units = ValueUnits.Degree
-                            };
-                            _ValueHudElement.ValueEntered += _ValueHudElement_AngleEntered;
-                            Add(_ValueHudElement);
-                        }
+                            Label = "Angle:",
+                            Units = ValueUnits.Degree
+                        };
+                        _ValueHudElement.ValueEntered += _ValueHudElement_AngleEntered;
+                        Add(_ValueHudElement);
+                    }
 
-                        if (_Segment != null)
+                    if (_Segment != null)
+                    {
+                        if (_CalcArcRimPoints(args.Point))
                         {
-                            if (_CalcArcRimPoints(_PointAction.Point))
-                            {
-                                _Element.OnPointsChanged(_Points, null);
-                                _ValueHudElement?.SetValue(_Segment.Angle(_Points).ToDeg());
-                            }
-                            else
-                            {
-                                _Element.Remove();
-                                _ValueHudElement?.SetValue(0);
-                            }
+                            _Element.OnPointsChanged(_Points, null);
+                            _ValueHudElement?.SetValue(_Segment.Angle(_Points).ToDeg());
                         }
-                        break;
-                }
-
-                _Coord2DHudElement?.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
+                        else
+                        {
+                            _Element.Remove();
+                            _ValueHudElement?.SetValue(0);
+                        }
+                    }
+                    break;
             }
+
+            _Coord2DHudElement?.SetValues(args.PointOnWorkingPlane.X, args.PointOnWorkingPlane.Y);
+            _LastActionPoint = args.Point;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -150,42 +149,39 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        void _PointAction_Finished(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
-            if (toolAction == _PointAction)
+            switch (_PointsCompleted)
             {
-                switch (_PointsCompleted)
-                {
-                    case 0:
-                        _CenterPoint = _PointAction.Point;
-                        _PointsCompleted++;
+                case 0:
+                    _CenterPoint = args.Point;
+                    _PointsCompleted++;
 
-                        SetHintMessage("Select start point for circular arc.");
+                    SetHintMessage("Select start point for circular arc.");
 
+                    _PointAction.Reset();
+                    break;
+
+                case 1:
+                    _SetStartPoint(args.Point, args.MergeCandidateIndex);
+                    break;
+
+                case 2:
+                    if (!_CalcArcRimPoints(args.Point)
+                        || _Points[0].Distance(_Points[2]) < 0.001)
+                    {
+                        // Minimum length not met
                         _PointAction.Reset();
-                        break;
+                        return;
+                    }
 
-                    case 1:
-                        _SetStartPoint(_PointAction.Point, _PointAction.MergeCandidateIndex);
-                        break;
+                    _PointAction.Stop();
 
-                    case 2:
-                        if (!_CalcArcRimPoints(_PointAction.Point)
-                            || _Points[0].Distance(_Points[2]) < 0.001)
-                        {
-                            // Minimum length not met
-                            _PointAction.Reset();
-                            return;
-                        }
+                    _MergePointIndices[1] = args.MergeCandidateIndex;
+                    _MergePointIndices[2] = -1;
 
-                        _PointAction.Stop();
-
-                        _MergePointIndices[1] = _PointAction.MergeCandidateIndex;
-                        _MergePointIndices[2] = -1;
-
-                        SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
-                        break;
-                }
+                    SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
+                    break;
             }
         }
 
@@ -249,7 +245,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (newValue <= 0)
                 return;
 
-            Vec2d vec = new(_CenterPoint, _PointAction.Point);
+            Vec2d vec = new(_CenterPoint, _LastActionPoint);
             if (vec.Magnitude() == 0)
                 return;
 

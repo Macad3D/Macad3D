@@ -202,8 +202,8 @@ namespace Macad.Interaction
                     if (!StartAction(_TranslateAction, false))
                         return;
                     SetHintMessage("Move entity using gizmo, press 'CTRL' to round to grid stepping. Press 'T' for rotation.");
-                    _TranslateAction.Previewed += _OnActionPreview;
-                    _TranslateAction.Finished += _OnActionFinished;
+                    _TranslateAction.Preview += _TranslateAction_Preview;
+                    _TranslateAction.Finished += _TranslateAction_Finished;
                     break;
 
                 case Mode.Rotate:
@@ -211,8 +211,8 @@ namespace Macad.Interaction
                     if (!StartAction(_RotateAction, false))
                         return;
                     SetHintMessage("Rotate entity using gizmo, press 'CTRL' to round to 5°. Press 'T' for translation.");
-                    _RotateAction.Previewed += _OnActionPreview;
-                    _RotateAction.Finished += _OnActionFinished;
+                    _RotateAction.Preview += _RotateAction_Preview;
+                    _RotateAction.Finished += _RotateAction_Finished;
                     break;
             }
             WorkspaceController.Invalidate();
@@ -235,52 +235,61 @@ namespace Macad.Interaction
         }
 
         //--------------------------------------------------------------------------------------------------
-
-        void _OnActionFinished(ToolAction toolAction)
+        
+        void _TranslateAction_Finished(TranslateAction sender, TranslateAction.EventArgs args)
         {
             _UpdatingEntityProperties = true;
             var targetEntities = _Options.Has(Options.LinkForeignOperands) ? _TargetAndLinkedEntities : _TargetEntities;
 
-            if (toolAction == _TranslateAction)
+            foreach (var targetEntity in targetEntities)
             {
-                foreach (var targetEntity in targetEntities)
-                {
-                    TransformUtils.Translate(targetEntity, _TranslateAction.Delta);
-                }
-            }
-            else if (toolAction == _RotateAction)
-            {
-                foreach (var targetEntity in targetEntities)
-                {
-                    TransformUtils.Rotate(targetEntity, _RotateAction.RotationAxis, _RotateAction.Delta);
-                }
+                TransformUtils.Translate(targetEntity, args.Delta);
             }
 
             CommitChanges();
             WorkspaceController.Invalidate();
-
             _UpdateTransformations(null);
 
             // Restart
             _RestartAction();
-
             _UpdatingEntityProperties = false;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionPreview(ToolAction toolAction)
+        void _TranslateAction_Preview(TranslateAction sender, TranslateAction.EventArgs args)
         {
-            if (toolAction == _TranslateAction)
+            var transformation = new Trsf(args.Delta);
+            _UpdateTransformations(transformation);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _RotateAction_Finished(RotateAction sender, RotateAction.EventArgs args)
+        {
+            _UpdatingEntityProperties = true;
+            var targetEntities = _Options.Has(Options.LinkForeignOperands) ? _TargetAndLinkedEntities : _TargetEntities;
+
+            foreach (var targetEntity in targetEntities)
             {
-                var transformation = new Trsf(_TranslateAction.Delta);
-                _UpdateTransformations(transformation);
+                TransformUtils.Rotate(targetEntity, args.Axis, args.Delta);
             }
-            else if (toolAction == _RotateAction)
-            {
-                var transformation = new Trsf(_RotateAction.RotationAxis, _RotateAction.Delta);
-                _UpdateTransformations(transformation);
-            }
+
+            CommitChanges();
+            WorkspaceController.Invalidate();
+            _UpdateTransformations(null);
+
+            // Restart
+            _RestartAction();
+            _UpdatingEntityProperties = false;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _RotateAction_Preview(RotateAction sender, RotateAction.EventArgs args)
+        {
+            var transformation = new Trsf(args.Axis, args.Delta);
+            _UpdateTransformations(transformation);
         }
 
         //--------------------------------------------------------------------------------------------------

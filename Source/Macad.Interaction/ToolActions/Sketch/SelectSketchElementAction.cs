@@ -6,6 +6,15 @@ namespace Macad.Interaction
 {
     public sealed class SelectSketchElementAction : ToolAction
     {
+        #region Events
+
+        public delegate void EventHandler(SelectSketchElementAction sender);
+        public event EventHandler Finished;
+        
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
         readonly SketchEditorTool _SketchEditorTool;
 
         //--------------------------------------------------------------------------------------------------
@@ -21,6 +30,14 @@ namespace Macad.Interaction
         protected override bool OnStart()
         {
             return _SketchEditorTool != null;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected override void Cleanup()
+        {
+            Finished = null;
+            base.Cleanup();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -50,7 +67,7 @@ namespace Macad.Interaction
                     _SketchEditorTool.Elements.Select(detectedObject);
                 }
 
-                RaiseFinished();
+                Finished?.Invoke(this);
             }
             return true;
         }
@@ -80,7 +97,7 @@ namespace Macad.Interaction
                 }
 
                 CommitChanges();
-                RaiseFinished();
+                Finished?.Invoke(this);
                 return true;
             }
             return base.OnKeyPressed(key);

@@ -9,30 +9,30 @@ namespace Macad.Interaction
 {
     public class PointAction : ToolAction
     {
-        public Pnt Point { get; private set; }
+        #region Events
 
-        public Pnt2d PointOnPlane
+        public class EventArgs
         {
-            get
-            {
-                return ProjLib.Project(WorkspaceController.Workspace.WorkingPlane, Point);
-            }
+            public Pnt Point { get; init; }
+            public Pnt2d PointOnPlane { get; init; }
+            public MouseEventData MouseEventData { get; init; }
         }
 
+        public delegate void EventHandler(PointAction sender, EventArgs args);
+        public event EventHandler Preview;
+        public event EventHandler Finished;
+        
         //--------------------------------------------------------------------------------------------------
 
-        public override SnapMode SupportedSnapModes => SnapMode.Grid | SnapMode.Vertex | SnapMode.Edge;
+        #endregion
 
-        //--------------------------------------------------------------------------------------------------
-
+        Pnt _CurrentPoint;
         AIS_Point _Marker;
         HintLine _HintLine;
 
         //--------------------------------------------------------------------------------------------------
 
-        public PointAction()
-        {
-        }
+        public override SnapMode SupportedSnapModes => SnapMode.Grid | SnapMode.Vertex | SnapMode.Edge;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -53,6 +53,8 @@ namespace Macad.Interaction
             }
             WorkspaceController.Invalidate();
 
+            Preview = null;
+            Finished = null;
             base.Cleanup();
         }
 
@@ -79,7 +81,7 @@ namespace Macad.Interaction
             if (snapPoint != null)
             {
                 // Point is snapped
-                Point = ElSLib.Value(snapPoint.Value.X, snapPoint.Value.Y, WorkspaceController.Workspace.WorkingPlane);
+                _CurrentPoint = ElSLib.Value(snapPoint.Value.X, snapPoint.Value.Y, WorkspaceController.Workspace.WorkingPlane);
                 if (snapInfo.SnapMode != SnapMode.Grid)
                 {
                     if (_HintLine == null)
@@ -88,7 +90,7 @@ namespace Macad.Interaction
                         Add(_HintLine);
                     }
 
-                    _HintLine.Set(snapInfo.Point, Point);
+                    _HintLine.Set(snapInfo.Point, _CurrentPoint);
                 }
                 else
                 {
@@ -97,7 +99,7 @@ namespace Macad.Interaction
             }
             else
             {
-                Point = data.PointOnPlane;
+                _CurrentPoint = data.PointOnPlane;
                 Remove(_HintLine);
             }
         }
@@ -112,11 +114,17 @@ namespace Macad.Interaction
 
                 ProcessMouseInput(data);
 
-                _Marker.SetComponent(new Geom_CartesianPoint(Point));
+                _Marker.SetComponent(new Geom_CartesianPoint(_CurrentPoint));
                 WorkspaceController.Workspace.AisContext.RecomputePrsOnly(_Marker, false);
-
                 WorkspaceController.Invalidate();
 
+                EventArgs args = new()
+                {
+                    Point = _CurrentPoint,
+                    PointOnPlane = ProjLib.Project(WorkspaceController.Workspace.WorkingPlane, _CurrentPoint),
+                    MouseEventData = data
+                };
+                Preview?.Invoke(this, args);
                 return base.OnMouseMove(data);
             }
             return false;
@@ -131,6 +139,14 @@ namespace Macad.Interaction
                 ProcessMouseInput(data);
                 WorkspaceController.Invalidate();
                 IsFinished = true;
+
+                EventArgs args = new()
+                {
+                    Point = _CurrentPoint,
+                    PointOnPlane = ProjLib.Project(WorkspaceController.Workspace.WorkingPlane, _CurrentPoint),
+                    MouseEventData = data
+                };
+                Finished?.Invoke(this, args);
             }
             return true;
         }

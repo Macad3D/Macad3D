@@ -44,8 +44,8 @@ namespace Macad.Interaction.Editors.Shapes
             var pointAction = new PointAction();
             if (!StartAction(pointAction))
                 return false;
-            pointAction.Previewed += _PreviewPivot;
-            pointAction.Finished += _FinishPivotPoint;
+            pointAction.Preview += _PivotAction_Preview;
+            pointAction.Finished += _PivotAction_Finished;
 
             _CurrentPhase = Phase.PivotPoint;
             SetHintMessage("Select corner point.");
@@ -64,32 +64,26 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _PreviewPivot(ToolAction toolAction)
+        void _PivotAction_Preview(PointAction action, PointAction.EventArgs args)
         {
-            if(toolAction is not PointAction pointAction)
-                return;
-
             _ClearPreviews();
-            _Coord2DHudElement?.SetValues(pointAction.PointOnPlane.X, pointAction.PointOnPlane.Y);
+            _Coord2DHudElement?.SetValues(args.PointOnPlane.X, args.PointOnPlane.Y);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _FinishPivotPoint(ToolAction toolAction)
+        void _PivotAction_Finished(PointAction action, PointAction.EventArgs args)
         {
-            if(toolAction is not PointAction pointAction)
-                return;
-
             _ClearPreviews();
 
             _Plane = WorkspaceController.Workspace.WorkingPlane;
-            _PointPlane1 = pointAction.PointOnPlane;
+            _PointPlane1 = args.PointOnPlane;
 
-            StopAction(pointAction);
-            pointAction = new PointAction();
-            pointAction.Previewed += _PreviewBaseRect;
-            pointAction.Finished += _FinishBaseRect;
-            if (!StartAction(pointAction))
+            StopAction(action);
+            var newAction = new PointAction();
+            newAction.Preview += _BaseRectAction_Preview;
+            newAction.Finished += _BaseRectAction_Finished;
+            if (!StartAction(newAction))
                 return;
 
             _CurrentPhase = Phase.BaseRect;
@@ -111,14 +105,11 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _PreviewBaseRect(ToolAction toolAction)
+        void _BaseRectAction_Preview(PointAction action, PointAction.EventArgs args)
         {
-            if(toolAction is not PointAction pointAction)
-                return;
-            
             _ClearPreviews();
 
-            _PointPlane2 = pointAction.PointOnPlane;
+            _PointPlane2 = args.PointOnPlane;
 
             if (_PointPlane1.IsEqual(_PointPlane2, Double.Epsilon))
             {
@@ -145,7 +136,7 @@ namespace Macad.Interaction.Editors.Shapes
             var dim2 = Math.Abs(_PointPlane1.Y - _PointPlane2.Y);
             SetHintMessage($"Select opposite corner point. Size: {dim1:0.00} x {dim2:0.00}");
 
-            _Coord2DHudElement?.SetValues(pointAction.PointOnPlane.X, pointAction.PointOnPlane.Y);
+            _Coord2DHudElement?.SetValues(args.PointOnPlane.X, args.PointOnPlane.Y);
             _MultiValueHudElement?.SetValues(dim1, dim2);
 
             WorkspaceController.Invalidate();
@@ -153,14 +144,12 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _FinishBaseRect(ToolAction toolAction)
+        void _BaseRectAction_Finished(PointAction action, PointAction.EventArgs args)
         {
-            StopAction(toolAction);
-
             var axisPosition = ElSLib.Value(_PointPlane2.X, _PointPlane2.Y, _Plane);
             var axisValueAction = new AxisValueAction(this, new Ax1(axisPosition, _Plane.Axis.Direction));
-            axisValueAction.Previewed += _PreviewHeight;
-            axisValueAction.Finished += _FinishHeight;
+            axisValueAction.Preview += _HeightAction_Preview;
+            axisValueAction.Finished += _HeightAction_Finished;
 
             if (!StartAction(axisValueAction))
                 return;
@@ -182,16 +171,13 @@ namespace Macad.Interaction.Editors.Shapes
             }
 
             SetCursor(Cursors.SetHeight);
-            _PreviewHeight(axisValueAction);
+            _HeightAction_Preview(axisValueAction, new AxisValueAction.EventArgs());
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _PreviewHeight(ToolAction toolAction)
+        void _HeightAction_Preview(AxisValueAction action, AxisValueAction.EventArgs args)
         {
-            if(toolAction is not AxisValueAction axisValueAction)
-                return;
-
             _ClearPreviews();
 
             _Position = ElSLib.Value(Math.Min(_PointPlane1.X, _PointPlane2.X), Math.Min(_PointPlane1.Y, _PointPlane2.Y), _Plane).Rounded();
@@ -207,7 +193,7 @@ namespace Macad.Interaction.Editors.Shapes
                 };
             }
 
-            var height = axisValueAction.Value.Round();
+            var height = args.Value.Round();
             _PreviewShape.DimensionZ =  Math.Abs(height) >= 0.001 ? height : 0.001;
 
             var ocShape = _PreviewShape.GetTransformedBRep();
@@ -237,10 +223,8 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _FinishHeight(ToolAction toolAction)
+        void _HeightAction_Finished(AxisValueAction action, AxisValueAction.EventArgs args)
         {
-            StopAction(toolAction);
-
             var body = Body.Create(_PreviewShape);
             body.Position = _Position;
             body.Rotation = _Rotation;
@@ -259,7 +243,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (_CurrentPhase == Phase.Height)
             {
                 _PreviewShape.DimensionZ = Math.Abs(newValue) >= 0.001 ? newValue : 0.001;
-                _FinishHeight(null);
+                _HeightAction_Finished(null, null);
             }
         }
 
@@ -270,7 +254,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (_CurrentPhase == Phase.BaseRect)
             {
                 _PointPlane2 = new Pnt2d(_PointPlane1.X + newValue1, _PointPlane1.Y + newValue2);
-                _FinishBaseRect(null);
+                _BaseRectAction_Finished(null, null);
             }
         }
 

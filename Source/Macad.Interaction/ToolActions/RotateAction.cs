@@ -5,11 +5,14 @@ using Macad.Common;
 using Macad.Core;
 using Macad.Occt;
 using Macad.Presentation;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Macad.Interaction;
 
 public class RotateAction : ToolAction
 {
+    #region Enums
+
     [Flags]
     enum RotateMode
     {
@@ -21,18 +24,46 @@ public class RotateAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
+    #endregion
+
+    #region Properties and Members
+
+    public bool IsRotating { get { return _RotateMode != RotateMode.None; } }
+
+    //--------------------------------------------------------------------------------------------------
+
     readonly Ax3 _CoordinateSystem;
     readonly Circle[] _Gizmos = new Circle[3];
     double _StartValue;
     Pln _RotationPlane = Pln.XOY;
-    public Ax1 RotationAxis { get; private set; }
-    public double Delta;
-    public bool IsRotating { get { return _RotateMode != RotateMode.None; } }
+    Ax1 _RotationAxis;
+    double _Delta;
     DeltaHudElement _DeltaHudElement;
     RotateMode _RotateMode = RotateMode.None;
     HintLine _AxisHintLine;
 
     //--------------------------------------------------------------------------------------------------
+
+    #endregion
+                            
+    #region Events
+
+    public class EventArgs
+    {
+        public Ax1 Axis { get; init; }
+        public double Delta { get; init; }
+        public MouseEventData MouseEventData { get; init; }
+    }
+
+    public delegate void EventHandler(RotateAction sender, EventArgs args);
+    public event EventHandler Preview;
+    public event EventHandler Finished;
+        
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Create'n'Start
 
     public RotateAction(object owner, Ax3 coordinateSystem)
         : base()
@@ -50,6 +81,19 @@ public class RotateAction : ToolAction
     }
 
     //--------------------------------------------------------------------------------------------------
+    
+    protected override void Cleanup()
+    {
+        Preview = null;
+        Finished = null;
+        base.Cleanup();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Gizmo
 
     void _UpdateGizmo()
     {
@@ -70,17 +114,34 @@ public class RotateAction : ToolAction
             }
 
             _Gizmos[i].Sector = _RotateMode == mode
-                                    ? (_StartValue - Delta, _StartValue)
+                                    ? (_StartValue - _Delta, _StartValue)
                                     : (0, 0);
         }
 
-        Ax3 rotatedCS = _RotateMode == RotateMode.None ? _CoordinateSystem : _CoordinateSystem.Rotated(RotationAxis, Delta);
+        Ax3 rotatedCS = _RotateMode == RotateMode.None ? _CoordinateSystem : _CoordinateSystem.Rotated(_RotationAxis, _Delta);
         _Gizmos[0].Set(new Ax2(rotatedCS.Location, rotatedCS.XDirection, rotatedCS.YDirection));
         _Gizmos[1].Set(new Ax2(rotatedCS.Location, rotatedCS.YDirection, rotatedCS.Direction));
         _Gizmos[2].Set(new Ax2(rotatedCS.Location, rotatedCS.Direction, rotatedCS.XDirection));
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    Quantity_Color _GetColorByMode(RotateMode mode)
+    {
+        return mode switch
+        {
+            RotateMode.AxisX => Colors.ActionRed,
+            RotateMode.AxisY => Colors.ActionGreen,
+            RotateMode.AxisZ => Colors.ActionBlue,
+            _ => Colors.Auxillary
+        };
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region IMouseEventHandler
 
     public override bool OnMouseDown(MouseEventData data)
     {
@@ -108,7 +169,7 @@ public class RotateAction : ToolAction
                         rightDir = _CoordinateSystem.XDirection;
                         break;
                 }
-                RotationAxis = new Ax1(_CoordinateSystem.Location, axisDir);
+                _RotationAxis = new Ax1(_CoordinateSystem.Location, axisDir);
                 _RotationPlane = new Pln(new Ax3(_CoordinateSystem.Location, axisDir, rightDir));
 
                 _Gizmos.ForEach(gizmo => gizmo.IsSelectable = false);
@@ -128,7 +189,7 @@ public class RotateAction : ToolAction
 
             _AxisHintLine = new HintLine(WorkspaceController, HintStyle.ThinDashed);
             Add(_AxisHintLine);
-            _AxisHintLine.Set(RotationAxis);
+            _AxisHintLine.Set(_RotationAxis);
             WorkspaceController.Invalidate();
 
             SetCursor(Cursors.Rotate);
@@ -152,10 +213,17 @@ public class RotateAction : ToolAction
             Remove(_DeltaHudElement);
             _DeltaHudElement = null;
 
-            if (Delta != 0)
+            if (_Delta != 0)
             {
                 // Commit
                 IsFinished = true;
+                EventArgs args = new()
+                {
+                    Axis = _RotationAxis,
+                    Delta = _Delta,
+                    MouseEventData = data
+                };
+                Finished?.Invoke(this, args);
             }
 
             WorkspaceController.Invalidate();
@@ -175,7 +243,7 @@ public class RotateAction : ToolAction
                 return false;
 
             var planeDelta = ProjLib.Project(_RotationPlane, resultPnt);
-            Delta = Dir2d.DX.Angle(new Dir2d(planeDelta.Coord)) - _StartValue;
+            _Delta = Dir2d.DX.Angle(new Dir2d(planeDelta.Coord)) - _StartValue;
 
             // Transform into unrotated frame
             //Debug.WriteLine(">> {0}  {1}  {2}", Delta.x, Delta.y, Delta.z);
@@ -184,7 +252,7 @@ public class RotateAction : ToolAction
 
             if (data.ModifierKeys.HasFlag(ModifierKeys.Control))
             {
-                Delta = Maths.RoundToNearest(Delta, 5.0.ToRad());
+                _Delta = Maths.RoundToNearest(_Delta, 5.0.ToRad());
             }
 
             _UpdateGizmo();
@@ -198,23 +266,19 @@ public class RotateAction : ToolAction
                 };
                 Add(_DeltaHudElement);
             }
-            _DeltaHudElement.Delta = Delta.ToDeg();
+            _DeltaHudElement.Delta = _Delta.ToDeg();
              
+            EventArgs args = new()
+            {
+                Axis = _RotationAxis,
+                Delta = _Delta,
+                MouseEventData = data
+            };
+            Preview?.Invoke(this, args);
             return base.OnMouseMove(data);
         }
         return false;
     }
 
-    //--------------------------------------------------------------------------------------------------
-
-    Quantity_Color _GetColorByMode(RotateMode mode)
-    {
-        return mode switch
-        {
-            RotateMode.AxisX => Colors.ActionRed,
-            RotateMode.AxisY => Colors.ActionGreen,
-            RotateMode.AxisZ => Colors.ActionBlue,
-            _ => Colors.Auxillary
-        };
-    }
+    #endregion
 }

@@ -8,20 +8,7 @@ public abstract class ToolAction : WorkspaceControl
 {
     #region Properties
 
-    public MouseEventData LastMouseEventData { get; private set; }
-
-    public bool IsFinished
-    {
-        get { return _IsFinished; }
-        protected set
-        {
-            _IsFinished = value;
-            if (_IsFinished)
-            {
-                RaiseFinished();
-            }
-        }
-    }
+    public bool IsFinished { get; protected set; }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -32,8 +19,6 @@ public abstract class ToolAction : WorkspaceControl
     #endregion
 
     #region Members
-
-    bool _IsFinished;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -78,59 +63,15 @@ public abstract class ToolAction : WorkspaceControl
 
     //--------------------------------------------------------------------------------------------------
 
-    protected override void Cleanup()
-    {
-        Previewed = null;
-        Finished = null;
-        base.Cleanup();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     #endregion
 
     #region Overrides
-
-    public override bool OnMouseMove(MouseEventData data)
-    {
-        LastMouseEventData = data;
-        RaisePreviewed();
-        return false;
-    }
-
-    //--------------------------------------------------------------------------------------------------
 
     public override bool OnEntitySelectionChanging(IEnumerable<InteractiveEntity> entitiesToSelect, IEnumerable<InteractiveEntity> entitiesToUnSelect)
     {
         return true;
     }
 
-    //--------------------------------------------------------------------------------------------------
-
-    #endregion
-
-    #region Events
-
-    public delegate void ToolActionEventHandler(ToolAction toolAction);
-
-    //--------------------------------------------------------------------------------------------------
-
-    public event ToolActionEventHandler Previewed;
-
-    protected void RaisePreviewed()
-    {
-        Previewed?.Invoke(this);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public event ToolActionEventHandler Finished;
-
-    protected void RaiseFinished()
-    {
-        Finished?.Invoke(this);
-    }
-        
     //--------------------------------------------------------------------------------------------------
 
     #endregion

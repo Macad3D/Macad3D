@@ -28,7 +28,6 @@ namespace Macad.Interaction.Editors.Shapes
         //--------------------------------------------------------------------------------------------------
 
         readonly ToolMode _Mode;
-        Phase _Phase;
 
         readonly Body _TargetBody;
         readonly Shape _TargetShape;
@@ -81,90 +80,39 @@ namespace Macad.Interaction.Editors.Shapes
                 OverrideVisualShape(_TargetBody, _TargetBrep);
             }
 
-            _Phase = Phase.Face;
             var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _TargetBody,
                 new OrSelectionFilter(new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane), 
                                       new FaceSelectionFilter(FaceSelectionFilter.FaceType.Cone),
                                       new FaceSelectionFilter(FaceSelectionFilter.FaceType.Cylinder)));
             if (!StartAction(toolAction))
                 return false;
-            toolAction.Previewed += _OnActionPreview;
-            toolAction.Finished += _OnActionFinished;
+            toolAction.Finished += _SelectFaceAction_Finished;
 
             SetHintMessage("Select face to taper.");
             SetCursor(Cursors.SelectFace);
             return true;
         }
-
+        
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        void _SelectFaceAction_Finished(SelectSubshapeAction action, SelectSubshapeAction.EventArgs args)
         {
-            switch (_Phase)
+            if (args.SelectedSubshapeType == SubshapeTypes.Face)
             {
-                case Phase.Face:
-                    _OnFaceSelected(toolAction as SelectSubshapeAction);
-                    break;
-                case Phase.BaseEdgeOrVertex:
-                    _OnEdgeOrVertexSelected(toolAction as SelectSubshapeAction);
-                    break;
-            }
-
-            WorkspaceController.Invalidate();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        void _OnActionPreview(ToolAction toolAction)
-        {
-            if (_Phase == Phase.BaseEdgeOrVertex)
-            {
-                if (_GetPreviewAxis(toolAction as SelectSubshapeAction, out var axis))
-                {
-                    if (_DirectionPreview == null)
-                    {
-                        _DirectionPreview = new Axis(WorkspaceController, Axis.Style.NoResize | Axis.Style.ArrowHead)
-                        {
-                            Length = 1.5,
-                            Width = 3.0,
-                            Color = Colors.Highlight
-                        };
-                        Add(_DirectionPreview);
-                    }
-
-                    _DirectionPreview.Set(axis.Axis);
-                }
-                else
-                {
-                    Remove(_DirectionPreview);
-                    _DirectionPreview = null;
-                }
-
-                WorkspaceController.Invalidate();
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        void _OnFaceSelected(SelectSubshapeAction selectAction)
-        {
-            if (selectAction.SelectedSubshapeType == SubshapeTypes.Face)
-            {
-                var face = TopoDS.Face(selectAction.SelectedSubshape);
+                var face = TopoDS.Face(args.SelectedSubshape);
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
                 if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane
                     && brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Cylinder
                     && brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Cone)
                 {
                     SetHintMessage("Selected face is not a plane, cylinder or cone type surface.");
-                    selectAction.Reset();
+                    action.Reset();
                     return;
                 }
 
-                selectAction.Stop();
+                StopAction(action);
 
                 _TargetFace = face;
-                _Phase = Phase.BaseEdgeOrVertex;
                 _SubshapesOfFace = new List<TopoDS_Shape>();
                 var edges = face.Edges().Where(
                     edge =>
@@ -188,22 +136,22 @@ namespace Macad.Interaction.Editors.Shapes
                     Stop();
                     return;
                 }
-                newAction.Previewed += _OnActionPreview;
-                newAction.Finished += _OnActionFinished;
+                newAction.Preview += _SelectBaseAction_Preview;
+                newAction.Finished += _SelectBaseAction_Finished;
 
                 SetHintMessage("Select base edge or vertex to define direction of taper.");
                 SetCursor(Cursors.SelectEdge);
+                WorkspaceController.Invalidate();
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        double _FindEdgeParam(TopoDS_Edge edge, SelectSubshapeAction selectAction)
+        double _FindEdgeParam(TopoDS_Edge edge, Ax1 viewAxis)
         {
             // Calculate parameter on the edge
             double umin = 0, umax = 0;
             var curve = BRep_Tool.Curve(edge, ref umin, ref umax);
-            var viewAxis = selectAction.LastMouseEventData.PickAxis;
             var extrema = new GeomAPI_ExtremaCurveCurve(curve, new Geom_Line(viewAxis));
             if (extrema.NbExtrema() > 0)
             {
@@ -219,18 +167,18 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        bool _GetPreviewAxis(SelectSubshapeAction selectAction, out Ax2 axis)
+        bool _GetPreviewAxis(SelectSubshapeAction.EventArgs args, out Ax2 axis)
         {
-            if (selectAction.SelectedSubshapeType == SubshapeTypes.Edge)
+            if (args.SelectedSubshapeType == SubshapeTypes.Edge)
             {
-                var edge = selectAction.SelectedSubshape.ToEdge();
-                var edgeParam = _FindEdgeParam(edge, selectAction);
+                var edge = args.SelectedSubshape.ToEdge();
+                var edgeParam = _FindEdgeParam(edge, args.MouseEventData.PickAxis);
                 return Taper.ComputeAxisFromEdge(_TargetFace, edge, edgeParam, out axis);
             }
             
-            if (selectAction.SelectedSubshapeType == SubshapeTypes.Vertex)
+            if (args.SelectedSubshapeType == SubshapeTypes.Vertex)
             {
-                var vertex = selectAction.SelectedSubshape.ToVertex();
+                var vertex = args.SelectedSubshape.ToVertex();
                 return Taper.ComputeAxisFromVertex(_TargetFace, vertex, out axis);
             }
 
@@ -240,14 +188,42 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnEdgeOrVertexSelected(SelectSubshapeAction selectAction)
+        void _SelectBaseAction_Preview(SelectSubshapeAction action, SelectSubshapeAction.EventArgs args)
         {
-            if (selectAction.SelectedSubshapeType is not (SubshapeTypes.Edge or SubshapeTypes.Vertex))
+            if (_GetPreviewAxis(args, out var axis))
+            {
+                if (_DirectionPreview == null)
+                {
+                    _DirectionPreview = new Axis(WorkspaceController, Axis.Style.NoResize | Axis.Style.ArrowHead)
+                    {
+                        Length = 1.5,
+                        Width = 3.0,
+                        Color = Colors.Highlight
+                    };
+                    Add(_DirectionPreview);
+                }
+
+                _DirectionPreview.Set(axis.Axis);
+            }
+            else
+            {
+                Remove(_DirectionPreview);
+                _DirectionPreview = null;
+            }
+
+            WorkspaceController.Invalidate();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _SelectBaseAction_Finished(SelectSubshapeAction action, SelectSubshapeAction.EventArgs args)
+        {
+            if (args.SelectedSubshapeType is not (SubshapeTypes.Edge or SubshapeTypes.Vertex))
             {
                 return;
             }
 
-            StopAction(selectAction);
+            StopAction(action);
             Stop();
                 
             var faceRef = _TargetShape.GetSubshapeReference(_TargetBrep, _TargetFace);
@@ -258,7 +234,7 @@ namespace Macad.Interaction.Editors.Shapes
                 return;
             }
 
-            var baseSubshapeRef = _TargetShape.GetSubshapeReference(_TargetBrep, selectAction.SelectedSubshape);
+            var baseSubshapeRef = _TargetShape.GetSubshapeReference(_TargetBrep, args.SelectedSubshape);
             if (baseSubshapeRef == null)
             {
                 Messages.Error("A subshape reference could not be produced for the selected edge or vertex.");
@@ -267,9 +243,9 @@ namespace Macad.Interaction.Editors.Shapes
 
             // Calculate parameter on the edge, if any
             double? edgeParam = null;
-            if (selectAction.SelectedSubshapeType == SubshapeTypes.Edge)
+            if (args.SelectedSubshapeType == SubshapeTypes.Edge)
             {
-                edgeParam = _FindEdgeParam(selectAction.SelectedSubshape.ToEdge(), selectAction);
+                edgeParam = _FindEdgeParam(args.SelectedSubshape.ToEdge(), args.MouseEventData.PickAxis);
             }
 
             // Create or update
@@ -297,6 +273,8 @@ namespace Macad.Interaction.Editors.Shapes
                 _TaperToChange.Invalidate();
                 CommitChanges();
             }
+
+            WorkspaceController.Invalidate();
         }
 
         //--------------------------------------------------------------------------------------------------

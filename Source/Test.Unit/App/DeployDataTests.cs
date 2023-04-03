@@ -74,6 +74,7 @@ namespace Macad.Test.Unit.App
         public void DocScriptExamples(string file)
         {
             var script = ScriptInstance.LoadScriptFromFile(Path.Combine(TestData.TestDataDirectory, @"..\..\Source\Macad.UserGuide\Scripting\Samples", file), InteractiveScriptContext.Default, true);
+            Assert.IsNotNull(script);
         }
 
         //--------------------------------------------------------------------------------------------------

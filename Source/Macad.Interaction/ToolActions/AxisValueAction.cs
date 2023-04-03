@@ -6,9 +6,25 @@ namespace Macad.Interaction
 {
     public class AxisValueAction : ToolAction
     {
-        public double Value { get; private set; }
-        public double Distance { get; private set; }
+        #region Events
 
+        public class EventArgs
+        {
+            public double Value { get; init; }
+            public double Distance { get; init; }
+            public MouseEventData MouseEventData { get; init; }
+        }
+
+        public delegate void EventHandler(AxisValueAction sender, EventArgs args);
+        public event EventHandler Preview;
+        public event EventHandler Finished;
+        
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        double _CurrentValue;
+        double _CurrentDistance;
         readonly Ax1 _Axis;
 
         //--------------------------------------------------------------------------------------------------
@@ -36,6 +52,15 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
+        protected override void Cleanup()
+        {
+            Preview = null;
+            Finished = null;
+            base.Cleanup();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         bool _ProcessMouseInput(MouseEventData data)
         {
             bool anyResult = false;
@@ -44,8 +69,8 @@ namespace Macad.Interaction
             double? value = _ProcessMouseInputForAxis(data, out distance);
             if (value.HasValue)
             {
-                Value = value.Value;
-                Distance = distance;
+                _CurrentValue = value.Value;
+                _CurrentDistance = distance;
                 anyResult = true;
             }
 
@@ -106,10 +131,17 @@ namespace Macad.Interaction
                 if (_ProcessMouseInput(data))
                 {
                     WorkspaceController.Invalidate();
-                    return base.OnMouseMove(data);
+
+                    EventArgs args = new()
+                    {
+                        Value = _CurrentValue,
+                        Distance = _CurrentDistance,
+                        MouseEventData = data
+                    };
+                    Preview?.Invoke(this, args);
                 }
             }
-            return false;
+            return base.OnMouseMove(data);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -122,6 +154,14 @@ namespace Macad.Interaction
                 {
                     WorkspaceController.Invalidate();
                     IsFinished = true;
+
+                    EventArgs args = new()
+                    {
+                        Value = _CurrentValue,
+                        Distance = _CurrentDistance,
+                        MouseEventData = data
+                    };
+                    Finished?.Invoke(this, args);
                 }
             }
             return true;

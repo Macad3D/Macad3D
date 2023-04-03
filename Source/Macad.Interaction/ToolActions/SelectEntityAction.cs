@@ -7,7 +7,15 @@ namespace Macad.Interaction;
 
 public class SelectEntityAction<T> : ToolAction where T: InteractiveEntity
 {
-    public T SelectedEntity { get; private set; }
+    public class EventArgs
+    {
+        public T SelectedEntity { get; init; }
+        public MouseEventData MouseEventData { get; init; }
+    }
+
+    public delegate void EventHandler(SelectEntityAction<T> sender, EventArgs args);
+    public event EventHandler Preview;
+    public event EventHandler Finished;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -15,6 +23,7 @@ public class SelectEntityAction<T> : ToolAction where T: InteractiveEntity
 
     SelectionContext _SelectionContext;
     SelectionFilter _FilterFunc;
+    T _SelectedEntity;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -49,6 +58,15 @@ public class SelectEntityAction<T> : ToolAction where T: InteractiveEntity
     }
 
     //--------------------------------------------------------------------------------------------------
+    
+    protected override void Cleanup()
+    {
+        Preview = null;
+        Finished = null;
+        base.Cleanup();
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
     public void Exclude(InteractiveEntity excludeShape)
     {
@@ -72,11 +90,11 @@ public class SelectEntityAction<T> : ToolAction where T: InteractiveEntity
     {
         if (data.DetectedEntities.Count == 1)
         {
-            SelectedEntity = data.DetectedEntities[0] as T;
+            _SelectedEntity = data.DetectedEntities[0] as T;
         }
         else
         {
-            SelectedEntity = null;
+            _SelectedEntity = null;
         }
     }
 
@@ -87,6 +105,13 @@ public class SelectEntityAction<T> : ToolAction where T: InteractiveEntity
         if (!IsFinished)
         {
             ProcessMouseInput(data);
+
+            EventArgs args = new()
+            {
+                SelectedEntity = _SelectedEntity,
+                MouseEventData = data
+            };
+            Preview?.Invoke(this, args);
 
             return base.OnMouseMove(data);
         }
@@ -100,7 +125,17 @@ public class SelectEntityAction<T> : ToolAction where T: InteractiveEntity
         if (!IsFinished)
         {
             ProcessMouseInput(data);
-            IsFinished = SelectedEntity!=null;
+
+            if (_SelectedEntity != null)
+            {
+                IsFinished = true;
+                EventArgs args = new()
+                {
+                    SelectedEntity = _SelectedEntity,
+                    MouseEventData = data
+                };
+                Finished?.Invoke(this, args);
+            }
         }
         return true;
     }
@@ -119,8 +154,8 @@ public class SelectEntityAction<T> : ToolAction where T: InteractiveEntity
         var selectedEntity = entitiesToSelect.FirstOrDefault();
         if (selectedEntity != null)
         {
-            SelectedEntity = selectedEntity as T;
-            IsFinished = SelectedEntity!=null;
+            _SelectedEntity = selectedEntity as T;
+            IsFinished = _SelectedEntity!=null;
         }
         return true;
     }

@@ -115,7 +115,7 @@ public sealed class BoxScaleLiveAction : LiveAction
 
     protected override void Cleanup()
     {
-        Previewed = null;
+        Preview = null;
         Finished = null;
         _Lines = null;
         _Handles = null;
@@ -128,7 +128,7 @@ public sealed class BoxScaleLiveAction : LiveAction
             
     #region Events
 
-    public class EventArgs : System.EventArgs
+    public class EventArgs
     {
         public Dir Direction { get; init; }
         public double Delta { get; init; }
@@ -137,24 +137,8 @@ public sealed class BoxScaleLiveAction : LiveAction
     }
 
     public delegate void EventHandler(BoxScaleLiveAction sender, EventArgs args);
-
-    //--------------------------------------------------------------------------------------------------
-
-    public event EventHandler Previewed;
-
-    void RaisePreviewed(EventArgs args)
-    {
-        Previewed?.Invoke(this, args);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
+    public event EventHandler Preview;
     public event EventHandler Finished;
-
-    void RaiseFinished(EventArgs args)
-    {
-        Finished?.Invoke(this, args);
-    }
         
     //--------------------------------------------------------------------------------------------------
 
@@ -224,7 +208,7 @@ public sealed class BoxScaleLiveAction : LiveAction
                 DeltaSum = _DeltaSum,
                 MouseEventData = data
             };
-            RaisePreviewed(eventArgs);
+            Preview?.Invoke(this, eventArgs);
 
             return true;
         }
@@ -255,7 +239,7 @@ public sealed class BoxScaleLiveAction : LiveAction
                 DeltaSum = _DeltaSum,
                 MouseEventData = data
             };
-            RaiseFinished(eventArgs);
+            Finished?.Invoke(this, eventArgs);
 
             _Update();
             data.ForceReDetection = true;

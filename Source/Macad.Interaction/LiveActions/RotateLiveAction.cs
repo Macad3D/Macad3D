@@ -155,7 +155,7 @@ public sealed class RotateLiveAction : LiveAction
 
     protected override void Cleanup()
     {
-        Previewed = null;
+        Preview = null;
         Finished = null;
         base.Cleanup();
     }
@@ -166,7 +166,7 @@ public sealed class RotateLiveAction : LiveAction
                 
     #region Events
 
-    public class EventArgs : System.EventArgs
+    public class EventArgs
     {
         public double Delta { get; init; }
         public double DeltaSum { get; init; }
@@ -176,24 +176,8 @@ public sealed class RotateLiveAction : LiveAction
     }
 
     public delegate void EventHandler(RotateLiveAction sender, EventArgs args);
-
-    //--------------------------------------------------------------------------------------------------
-
-    public event EventHandler Previewed;
-
-    void RaisePreviewed(EventArgs args)
-    {
-        Previewed?.Invoke(this, args);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
+    public event EventHandler Preview;
     public event EventHandler Finished;
-
-    void RaiseFinished(EventArgs args)
-    {
-        Finished?.Invoke(this, args);
-    }
         
     //--------------------------------------------------------------------------------------------------
 
@@ -287,7 +271,7 @@ public sealed class RotateLiveAction : LiveAction
                     CircleValue = value.Value,
                     MouseEventData = data
                 };
-                RaisePreviewed(eventArgs);
+                Preview?.Invoke(this, eventArgs);
 
                 if (eventArgs.DeltaSumOverride.HasValue)
                 {
@@ -342,7 +326,7 @@ public sealed class RotateLiveAction : LiveAction
                 Delta = _Delta,
                 MouseEventData = data
             };
-            RaiseFinished(eventArgs);
+            Finished?.Invoke(this, eventArgs);
 
             data.ForceReDetection = true;
             return true;

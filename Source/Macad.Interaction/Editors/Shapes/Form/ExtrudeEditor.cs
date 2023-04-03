@@ -90,7 +90,7 @@ public class ExtrudeEditor : Editor<Extrude>
                 NoResize = true,
                 Length = 1.0,
             };
-            _TranslateAction.Previewed += _TranslateActionPreviewed;
+            _TranslateAction.Preview += _TranslateAction_Preview;
             _TranslateAction.Finished += _TranslateActionFinished;
         }
         _TranslateAction.Axis = axis;
@@ -104,7 +104,7 @@ public class ExtrudeEditor : Editor<Extrude>
 
     //--------------------------------------------------------------------------------------------------
 
-    void _TranslateActionPreviewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
+    void _TranslateAction_Preview(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = true;
 

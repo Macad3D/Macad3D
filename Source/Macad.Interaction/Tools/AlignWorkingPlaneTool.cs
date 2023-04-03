@@ -69,7 +69,7 @@ namespace Macad.Interaction
             {
                 return false;
             }
-            toolAction.Finished += _OnActionFinished;
+            toolAction.Finished += _ToolAction_Finished;
 
             SetHintMessage("Select compnent to align to, or select X / Y / Z for default direction.");
             SetCursor(Cursors.WorkingPlane);
@@ -79,24 +79,21 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        void _ToolAction_Finished(SelectSubshapeAction action, SelectSubshapeAction.EventArgs args)
         {
             bool finished = false;
-            var selectAction = toolAction as SelectSubshapeAction;
-            Debug.Assert(selectAction != null);
-
-            if (selectAction.SelectedEntity is DatumPlane plane)
+            if (args.SelectedEntity is DatumPlane plane)
             {
                 WorkspaceController.Workspace.WorkingPlane = new Pln(plane.GetCoordinateSystem());
                 finished = true;
             }
             else
             {
-                switch (selectAction.SelectedSubshapeType)
+                switch (args.SelectedSubshapeType)
                 {
                     case SubshapeTypes.Face:
                     {
-                        var face = TopoDS.Face(selectAction.SelectedSubshape);
+                        var face = TopoDS.Face(args.SelectedSubshape);
                         var brepAdaptor = new BRepAdaptor_Surface(face, true);
                         if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
                         {
@@ -119,7 +116,7 @@ namespace Macad.Interaction
                     }
                     case SubshapeTypes.Edge:
                     {
-                        var edge = TopoDS.Edge(selectAction.SelectedSubshape);
+                        var edge = TopoDS.Edge(args.SelectedSubshape);
                         double firstParam = 0, lastParam = 0;
                         var curve = BRep_Tool.Curve(edge, ref firstParam, ref lastParam);
                         if (curve != null)
@@ -134,7 +131,7 @@ namespace Macad.Interaction
                     }
                     case SubshapeTypes.Vertex:
                     {
-                        var vertex = TopoDS.Vertex(selectAction.SelectedSubshape);
+                        var vertex = TopoDS.Vertex(args.SelectedSubshape);
                         WorkspaceController.Workspace.WorkingPlane = new Pln(BRep_Tool.Pnt(vertex), WorkspaceController.Workspace.WorkingPlane.Axis.Direction);
                         finished = true;
                         break;
@@ -144,12 +141,12 @@ namespace Macad.Interaction
 
             if (finished)
             {
-                StopAction(selectAction);
+                StopAction(action);
                 Stop();
             }
             else
             {
-                selectAction.Reset();
+                action.Reset();
             }
 
             WorkspaceController.Invalidate();

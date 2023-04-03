@@ -14,11 +14,22 @@ namespace Macad.Interaction
             public bool IsSelected;
             public int RefId;
         }
+        
+        //--------------------------------------------------------------------------------------------------
+        
+        public class EventArgs
+        {
+            public Subshape ChangedSubshape { get; init; }
+            public MouseEventData MouseEventData { get; init; }
+        }
+
+        public delegate void EventHandler(ToggleSubshapesAction sender, EventArgs args);
+        public event EventHandler Finished;
 
         //--------------------------------------------------------------------------------------------------
 
-        public List<Subshape> Subshapes { get; } = new();
-        public Subshape ChangedSubshape { get; private set; }
+        Subshape _ChangedSubshape;
+        readonly List<Subshape> _Subshapes = new();
 
         //--------------------------------------------------------------------------------------------------
 
@@ -33,6 +44,7 @@ namespace Macad.Interaction
         protected override void Cleanup()
         {
             ClearSubshapes();
+            Finished = null;
             base.Cleanup();
         }
 
@@ -59,21 +71,21 @@ namespace Macad.Interaction
             WorkspaceController.Workspace.AisContext.Activate(subshape.AisShape, 0, false);
             WorkspaceController.Workspace.AisContext.SetSelectionSensitivity(subshape.AisShape, 0, 10);
 
-            Subshapes.Add(subshape);
+            _Subshapes.Add(subshape);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public void ClearSubshapes()
         {
-            foreach (var subshape in Subshapes)
+            foreach (var subshape in _Subshapes)
             {
                 if (subshape.AisShape != null)
                 {
                     WorkspaceController.Workspace.AisContext.Remove(subshape.AisShape, false);
                 }
             }
-            Subshapes.Clear();
+            _Subshapes.Clear();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -82,13 +94,19 @@ namespace Macad.Interaction
         {
             foreach (var detectedShape in data.DetectedShapes)
             {
-                var subshape = Subshapes.FirstOrDefault(sh => sh.Shape.IsEqual(detectedShape));
+                var subshape = _Subshapes.FirstOrDefault(sh => sh.Shape.IsEqual(detectedShape));
                 if (subshape != null)
                 {
                     subshape.IsSelected = !subshape.IsSelected;
                     subshape.AisShape.SetColor(subshape.IsSelected ? Quantity_NameOfColor.RED.ToColor() : Quantity_NameOfColor.BLUE1.ToColor());
-                    ChangedSubshape = subshape;
-                    RaiseFinished();
+                    _ChangedSubshape = subshape;
+
+                    EventArgs args = new()
+                    {
+                        ChangedSubshape = _ChangedSubshape,
+                        MouseEventData = data
+                    };
+                    Finished?.Invoke(this, args);
                     break;
                 }
             }

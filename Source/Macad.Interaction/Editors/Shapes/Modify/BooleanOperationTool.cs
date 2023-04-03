@@ -67,8 +67,8 @@ public class BooleanOperationTool : Tool
             {
                 return false;
             }
-            toolAction.Previewed += _OnActionPreview;
-            toolAction.Finished += _OnActionFinished;
+            toolAction.Preview += _ToolAction_Preview;
+            toolAction.Finished += _ToolAction_Finished;
             toolAction.Exclude(_SourceBody);
 
             UpdateStatusText(null);
@@ -109,28 +109,22 @@ public class BooleanOperationTool : Tool
     }
 
     //--------------------------------------------------------------------------------------------------
-
-    void _OnActionPreview(ToolAction toolAction)
+    
+    void _ToolAction_Preview(SelectEntityAction<Body> action, SelectEntityAction<Body>.EventArgs args)
     {
-        if (toolAction is not SelectEntityAction<Body> selectAction)
-            return;
-
-        UpdateStatusText(selectAction.SelectedEntity?.Name);
+        UpdateStatusText(args.SelectedEntity?.Name);
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void _OnActionFinished(ToolAction toolAction)
+    void _ToolAction_Finished(SelectEntityAction<Body> action, SelectEntityAction<Body>.EventArgs args)
     {
-        if (toolAction is not SelectEntityAction<Body> selectAction)
-            return;
-
-        StopAction(selectAction);
+        StopAction(action);
 
         ModifierBase boolOpShape = null;
-        if (selectAction.SelectedEntity != null)
+        if (args.SelectedEntity != null)
         {
-            boolOpShape = Execute(_SourceBody, new IShapeOperand[] { new BodyShapeOperand(selectAction.SelectedEntity) });
+            boolOpShape = Execute(_SourceBody, new IShapeOperand[] { new BodyShapeOperand(args.SelectedEntity) });
         }
 
         Stop();

@@ -24,8 +24,8 @@ namespace Macad.Interaction.Editors.Shapes
 
             _PointAction.EnablePointMerge = false;
             _PointAction.AdditionalSnapPoints = new List<Pnt2d> {Pnt2d.Origin};
-            _PointAction.Previewed += _PointAction_Previewed;
-            _PointAction.Finished += _PointAction_OnFinished;
+            _PointAction.Preview += _PointAction_Preview;
+            _PointAction.Finished += _PointAction_Finished;
 
             // Re-enable elements for snapping
             SketchEditorTool.Elements.Activate(true, false, false);
@@ -46,10 +46,10 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _PointAction_Previewed(ToolAction toolAction)
+        void _PointAction_Preview(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
             var workingPlane = WorkspaceController.Workspace.WorkingPlane;
-            var point = Sketch.Plane.Value(_PointAction.Point);
+            var point = Sketch.Plane.Value(args.Point);
 
             _HintLineH ??= new HintLine(WorkspaceController, HintStyle.WorkingAxis);
             _HintLineH.Set(new Ax1(point, workingPlane.XAxis.Direction));
@@ -62,10 +62,10 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _PointAction_OnFinished(ToolAction toolaction)
+        void _PointAction_Finished(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
             var workingPlane = WorkspaceController.Workspace.WorkingPlane;
-            workingPlane.Location = Sketch.Plane.Value(_PointAction.Point);
+            workingPlane.Location = Sketch.Plane.Value(args.Point);
             WorkspaceController.Workspace.WorkingPlane = workingPlane;
             Stop();
         }

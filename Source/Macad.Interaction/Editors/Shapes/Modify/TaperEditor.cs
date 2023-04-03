@@ -81,7 +81,7 @@ public class TaperEditor : Editor<Taper>
                     NoResize = true,
                     Length = 1.0,
                 };
-                _OffsetAction.Previewed += _OffsetAction_Previewed;
+                _OffsetAction.Preview += _OffsetAction_Preview;
                 _OffsetAction.Finished += _OffsetAction_Finished;
             }
 
@@ -105,7 +105,7 @@ public class TaperEditor : Editor<Taper>
                     NoResize = true,
                     ShowKnob = true
                 };
-                _AngleAction.Previewed += _AngleAction_Previewed;
+                _AngleAction.Preview += _AngleAction_Preview;
                 _AngleAction.Finished += _AngleAction_Finished;
             }
 
@@ -128,7 +128,7 @@ public class TaperEditor : Editor<Taper>
 
     //--------------------------------------------------------------------------------------------------
 
-    void _AngleAction_Previewed(RotateLiveAction sender, RotateLiveAction.EventArgs args)
+    void _AngleAction_Preview(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         if (!_IsMovingAngle)
         {
@@ -173,7 +173,7 @@ public class TaperEditor : Editor<Taper>
 
     //--------------------------------------------------------------------------------------------------
 
-    void _OffsetAction_Previewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
+    void _OffsetAction_Preview(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         if (!_IsMovingOffset)
         {

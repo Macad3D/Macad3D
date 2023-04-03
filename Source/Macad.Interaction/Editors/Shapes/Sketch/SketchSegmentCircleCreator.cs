@@ -25,8 +25,8 @@ namespace Macad.Interaction.Editors.Shapes
             _PointAction = new SketchPointAction(SketchEditorTool);
             if (!StartAction(_PointAction))
                 return false;
-            _PointAction.Previewed += _OnActionPreview;
-            _PointAction.Finished += _OnActionFinished;
+            _PointAction.Preview += _PointAction_Preview;
+            _PointAction.Finished += _PointAction_Finished;
 
             _Coord2DHudElement = new Coord2DHudElement();
             Add(_Coord2DHudElement);
@@ -46,77 +46,71 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionPreview(ToolAction toolAction)
+        void _PointAction_Preview(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
-            if (toolAction == _PointAction)
+            if (_Segment != null)
             {
-                if (_Segment != null)
+                _Points[1] = args.Point;
+                _Element.OnPointsChanged(_Points, null);
+                SketchEditorTool.WorkspaceController.Invalidate();
+
+                if (_ValueHudElement == null)
                 {
-                    _Points[1] = _PointAction.Point;
-                    _Element.OnPointsChanged(_Points, null);
-                    SketchEditorTool.WorkspaceController.Invalidate();
-
-                    if (_ValueHudElement == null)
+                    _ValueHudElement = new ValueHudElement
                     {
-                        _ValueHudElement = new ValueHudElement
-                        {
-                            Label = "Radius:",
-                            Units = ValueUnits.Length
-                        };
-                        _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
-                        Add(_ValueHudElement);
-                    }
-                    _ValueHudElement.SetValue(_Segment.Radius(_Points));
+                        Label = "Radius:",
+                        Units = ValueUnits.Length
+                    };
+                    _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
+                    Add(_ValueHudElement);
                 }
-
-                _Coord2DHudElement.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
+                _ValueHudElement.SetValue(_Segment.Radius(_Points));
             }
+
+            _Coord2DHudElement.SetValues(args.PointOnWorkingPlane.X, args.PointOnWorkingPlane.Y);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        void _PointAction_Finished(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
-            if (toolAction == _PointAction)
+            if (_Segment == null)
             {
-                if (_Segment == null)
+                _Points.Add(0, args.Point);
+                _MergePointIndices[0] = args.MergeCandidateIndex;
+                _Points.Add(1, args.Point);
+                _Segment = new SketchSegmentCircle(0, 1);
+
+                _Marker = new Marker(SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage);
+                _Marker.Set(args.Point, SketchEditorTool.Sketch.Plane);
+                Add(_Marker);
+
+                _Element = new SketchEditorSegmentElement(SketchEditorTool, -1, _Segment, SketchEditorTool.Transform, SketchEditorTool.Sketch.Plane)
                 {
-                    _Points.Add(0, _PointAction.Point);
-                    _MergePointIndices[0] = _PointAction.MergeCandidateIndex;
-                    _Points.Add(1, _PointAction.Point);
-                    _Segment = new SketchSegmentCircle(0, 1);
+                    IsCreating = true
+                };
+                _Element.OnPointsChanged(_Points, null);
 
-                    _Marker = new Marker(SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage);
-                    _Marker.Set(_PointAction.Point, SketchEditorTool.Sketch.Plane);
-                    Add(_Marker);
-
-                    _Element = new SketchEditorSegmentElement(SketchEditorTool, -1, _Segment, SketchEditorTool.Transform, SketchEditorTool.Sketch.Plane)
-                    {
-                        IsCreating = true
-                    };
-                    _Element.OnPointsChanged(_Points, null);
-
-                    SketchEditorTool.WorkspaceController.Invalidate();
-                    
-                    SetHintMessage("Select any rim point of the circle.");
+                SketchEditorTool.WorkspaceController.Invalidate();
+                
+                SetHintMessage("Select any rim point of the circle.");
+                _PointAction.Reset();
+            } 
+            else
+            {
+                if (_Points[0].Distance(args.Point) < 0.001)
+                {
+                    // Minimum length not met
                     _PointAction.Reset();
-                } 
-                else
-                {
-                    if (_Points[0].Distance(_PointAction.Point) < 0.001)
-                    {
-                        // Minimum length not met
-                        _PointAction.Reset();
-                        return;
-                    }
-
-                    _Points[1] = _PointAction.Point;
-                    _MergePointIndices[1] = _PointAction.MergeCandidateIndex;
-
-                    StopAction(_PointAction);
-
-                    SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
+                    return;
                 }
+
+                _Points[1] = args.Point;
+                _MergePointIndices[1] = args.MergeCandidateIndex;
+
+                StopAction(_PointAction);
+
+                SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
             }
         }
 

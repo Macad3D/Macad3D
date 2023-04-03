@@ -11,13 +11,29 @@ namespace Macad.Interaction
 {
     public class SplitSketchElementAction : ToolAction
     {
-        public Sketch.ElementType SelectedElementType { get; private set; }
-        public SketchSegment SelectedSegment { get; private set; }
-        public double SelectedParameter { get; private set; }
-        public int SelectedPointIndex { get; private set; }
+        #region Events
 
+        public class EventArgs
+        {
+            public Sketch.ElementType SelectedElementType { get; init; }
+            public SketchSegment SelectedSegment { get; init; }
+            public double SelectedParameter { get; init; }
+            public int SelectedPointIndex { get; init; }
+            public MouseEventData MouseEventData { get; init; }
+        }
+
+        public delegate void EventHandler(SplitSketchElementAction sender, EventArgs args);
+        public event EventHandler Preview;
+        public event EventHandler Finished;
+        
         //--------------------------------------------------------------------------------------------------
 
+        #endregion
+
+        Sketch.ElementType _SelectedElementType;
+        SketchSegment _SelectedSegment;
+        double _SelectedParameter;
+        int _SelectedPointIndex;
         readonly SketchEditorTool _SketchEditorTool;
         Marker _Marker;
         Sketch.ElementType _MarkerType;
@@ -44,12 +60,21 @@ namespace Macad.Interaction
         }
         
         //--------------------------------------------------------------------------------------------------
-                
+
+        protected override void Cleanup()
+        {
+            Preview = null;
+            Finished = null;
+            base.Cleanup();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         void ProcessMouseInput(MouseEventData data)
         {
-            SelectedSegment = null;
-            SelectedPointIndex = -1;
-            SelectedElementType = Sketch.ElementType.None;
+            _SelectedSegment = null;
+            _SelectedPointIndex = -1;
+            _SelectedElementType = Sketch.ElementType.None;
 
             var element = _SketchEditorTool.Elements.FindOwner(data.DetectedAisInteractives.FirstOrDefault());
             if(element == null)
@@ -77,10 +102,10 @@ namespace Macad.Interaction
                 if (pointOnCurve.NbPoints() < 1)
                     return;
 
-                SelectedParameter = pointOnCurve.LowerDistanceParameter();
-                SelectedSegment = segment;
-                _SelectedPoint = _SketchEditorTool.Sketch.Plane.Value(curve.Value(SelectedParameter));
-                SelectedElementType = Sketch.ElementType.Segment;
+                _SelectedParameter = pointOnCurve.LowerDistanceParameter();
+                _SelectedSegment = segment;
+                _SelectedPoint = _SketchEditorTool.Sketch.Plane.Value(curve.Value(_SelectedParameter));
+                _SelectedElementType = Sketch.ElementType.Segment;
             }
             else if (element is SketchEditorPointElement pointElement)
             {
@@ -91,9 +116,9 @@ namespace Macad.Interaction
                 if (!SketchUtils.CanSplitPoint(_SketchEditorTool.Sketch, pointIndex))
                     return;
 
-                SelectedPointIndex = pointIndex;
+                _SelectedPointIndex = pointIndex;
                 _SelectedPoint = _SketchEditorTool.Sketch.Plane.Value(_SketchEditorTool.Sketch.Points[pointIndex]);
-                SelectedElementType = Sketch.ElementType.Point;
+                _SelectedElementType = Sketch.ElementType.Point;
             }
         }
         
@@ -105,33 +130,41 @@ namespace Macad.Interaction
             {
                 ProcessMouseInput(data);
 
-                if (_MarkerType != SelectedElementType)
+                if (_MarkerType != _SelectedElementType)
                 {
                     Remove(_Marker);
                     _Marker = null;
                     _MarkerType = Sketch.ElementType.None;
                 }
 
-                if (SelectedElementType != Sketch.ElementType.None)
+                if (_SelectedElementType != Sketch.ElementType.None)
                 {
                     if (_Marker == null )
                     {
                         _Marker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, 
-                                             SelectedElementType == Sketch.ElementType.Segment ? Marker.XImage : Marker.RingImage)
+                                             _SelectedElementType == Sketch.ElementType.Segment ? Marker.XImage : Marker.RingImage)
                         {
                             Color = Colors.BallMarker
                         };
                         Add(_Marker);
-                        _MarkerType = SelectedElementType;
+                        _MarkerType = _SelectedElementType;
                     }
                     _Marker.Set(_SelectedPoint);
                 }
 
                 WorkspaceController.Invalidate();
 
-                return base.OnMouseMove(data);
+                EventArgs args = new()
+                {
+                    SelectedElementType = _SelectedElementType,
+                    SelectedSegment = _SelectedSegment,
+                    SelectedParameter = _SelectedParameter,
+                    SelectedPointIndex = _SelectedPointIndex,
+                    MouseEventData = data
+                };
+                Preview?.Invoke(this, args);
             }
-            return false;
+            return base.OnMouseMove(data);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -142,6 +175,15 @@ namespace Macad.Interaction
             {
                 ProcessMouseInput(data);
                 IsFinished = true;
+                EventArgs args = new()
+                {
+                    SelectedElementType = _SelectedElementType,
+                    SelectedSegment = _SelectedSegment,
+                    SelectedParameter = _SelectedParameter,
+                    SelectedPointIndex = _SelectedPointIndex,
+                    MouseEventData = data
+                };
+                Finished?.Invoke(this, args);
                 data.ForceReDetection = true;
             }
             return true;
@@ -152,7 +194,7 @@ namespace Macad.Interaction
         public override void Reset()
         {
             base.Reset();
-            SelectedElementType = Sketch.ElementType.None;
+            _SelectedElementType = Sketch.ElementType.None;
             Remove(_Marker);
             _Marker = null;
             _MarkerType = Sketch.ElementType.None;

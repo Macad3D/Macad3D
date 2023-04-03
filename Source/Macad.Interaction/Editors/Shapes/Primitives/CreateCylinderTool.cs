@@ -45,8 +45,8 @@ namespace Macad.Interaction.Editors.Shapes
             var pointAction = new PointAction();
             if (!StartAction(pointAction))
                 return false;
-            pointAction.Previewed += _PreviewPivotPoint;
-            pointAction.Finished += _FinishPivotPoint;
+            pointAction.Preview += _PivotAction_Preview;
+            pointAction.Finished += _PivotAction_Finished;
 
             _CurrentPhase = Phase.PivotPoint;
             SetHintMessage("Select center point.");
@@ -65,32 +65,26 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _PreviewPivotPoint(ToolAction toolAction)
+        void _PivotAction_Preview(PointAction sender, PointAction.EventArgs args)
         {
-            if(toolAction is not PointAction pointAction)
-                return;
-
             _ClearPreviews();
-            _Coord2DHudElement?.SetValues(pointAction.PointOnPlane.X, pointAction.PointOnPlane.Y);
+            _Coord2DHudElement?.SetValues(args.PointOnPlane.X, args.PointOnPlane.Y);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _FinishPivotPoint(ToolAction toolAction)
+        void _PivotAction_Finished(PointAction action, PointAction.EventArgs args)
         {
-            if(toolAction is not PointAction pointAction)
-                return;
-            
             _Plane = WorkspaceController.Workspace.WorkingPlane;
-            _PointPlane1 = pointAction.PointOnPlane;
-            _PivotPoint = pointAction.Point;
+            _PointPlane1 = args.PointOnPlane;
+            _PivotPoint = args.Point;
 
-            pointAction.Stop();
-            pointAction = new PointAction();
+            StopAction(action);
+            var pointAction = new PointAction();
             if (!StartAction(pointAction))
                 return;
-            pointAction.Previewed += _PreviewRadius;
-            pointAction.Finished += _FinishRadius;
+            pointAction.Preview += _RadiusAction_Preview;
+            pointAction.Finished += _RadiusAction_Finished;
 
             _CurrentPhase = Phase.Radius;
             SetHintMessage("Select radius.");
@@ -111,14 +105,11 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _PreviewRadius(ToolAction toolAction)
+        void _RadiusAction_Preview(PointAction sender, PointAction.EventArgs args)
         {
-            if(!(toolAction is PointAction pointAction))
-                return;
-
             _ClearPreviews();
 
-            _PointPlane2 = pointAction.PointOnPlane;
+            _PointPlane2 = args.PointOnPlane;
 
             if (_PointPlane1.IsEqual(_PointPlane2, Double.Epsilon))
                 return;
@@ -155,19 +146,18 @@ namespace Macad.Interaction.Editors.Shapes
 
             SetHintMessage($"Select radius: {_Radius:0.00}");
             _ValueHudElement?.SetValue(_Radius);
-            _Coord2DHudElement?.SetValues(pointAction.PointOnPlane.X, pointAction.PointOnPlane.Y);
+            _Coord2DHudElement?.SetValues(args.PointOnPlane.X, args.PointOnPlane.Y);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _FinishRadius(ToolAction toolAction)
+        void _RadiusAction_Finished(PointAction action, PointAction.EventArgs args)
         {
-            StopAction(toolAction);
             var axisValueAction = new AxisValueAction(this, new Ax1(_PivotPoint.Rounded(), _Plane.Axis.Direction));
             if (!StartAction(axisValueAction))
                 return;
-            axisValueAction.Previewed += _PreviewHeight;
-            axisValueAction.Finished += _FinishHeight;
+            axisValueAction.Preview += _HeightAction_Preview;
+            axisValueAction.Finished += _HeightAction_Finished;
 
             _CurrentPhase = Phase.Height;
             SetHintMessage("Select height.");
@@ -181,16 +171,13 @@ namespace Macad.Interaction.Editors.Shapes
             Remove(_Coord2DHudElement);
             SetCursor(Cursors.SetHeight);
 
-            _PreviewHeight(axisValueAction);
+            _HeightAction_Preview(axisValueAction, new AxisValueAction.EventArgs());
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _PreviewHeight(ToolAction toolAction)
+        void _HeightAction_Preview(AxisValueAction action, AxisValueAction.EventArgs args)
         {
-            if(toolAction is not AxisValueAction axisValueAction)
-                return;
-
             _Position = _PivotPoint.Rounded();
             _Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
 
@@ -206,7 +193,7 @@ namespace Macad.Interaction.Editors.Shapes
                 };
             }
 
-            var height = axisValueAction.Value.Round();
+            var height = args.Value.Round();
             if (Math.Abs(height) < 0.001)
                 height = 0.001;
 
@@ -246,11 +233,9 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _FinishHeight(ToolAction toolAction)
+        void _HeightAction_Finished(AxisValueAction action, AxisValueAction.EventArgs args)
         {
             _ClearPreviews();
-
-            StopAction(toolAction);
 
             var body = Body.Create(_PreviewShape);
             body.Position = _Position;
@@ -271,7 +256,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (_CurrentPhase == Phase.Radius)
             {
                 _Radius = (Math.Abs(newValue) >= 0.001) ? newValue : 0.001;
-                _FinishRadius(null);
+                _RadiusAction_Finished(null, null);
             }
             else if (_CurrentPhase == Phase.Height)
             {
@@ -285,7 +270,7 @@ namespace Macad.Interaction.Editors.Shapes
                     _Position = _PivotPoint.Translated(_Plane.Axis.Direction.ToVec().Multiplied(newValue)).Rounded();
                     _PreviewShape.Height = -newValue;
                 }
-                _FinishHeight(null);
+                _HeightAction_Finished(null, null);
             }
         }
 

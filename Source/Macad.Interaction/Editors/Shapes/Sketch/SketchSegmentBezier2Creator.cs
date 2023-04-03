@@ -25,8 +25,8 @@ namespace Macad.Interaction.Editors.Shapes
             _PointAction = new SketchPointAction(SketchEditorTool);
             if (!StartAction(_PointAction))
                 return false;
-            _PointAction.Previewed += _OnActionPreview;
-            _PointAction.Finished += _OnActionFinished;
+            _PointAction.Preview += _PointAction_Preview;
+            _PointAction.Finished += _PointAction_Finished;
 
             _Coord2DHudElement = new Coord2DHudElement();
             Add(_Coord2DHudElement);
@@ -69,77 +69,71 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionPreview(ToolAction toolAction)
+        void _PointAction_Preview(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
-            if (toolAction == _PointAction)
+            switch (pointsFinished)
             {
-                switch (pointsFinished)
-                {
-                    case 1:
-                        _Points[2] = _PointAction.Point;
-                        _HintLine?.Set(_Points[0], _PointAction.Point, SketchEditorTool.Sketch.Plane);
-                        _ValueHudElement.SetValue(_Points[0].Distance(_Points[2]));
-                        break;
+                case 1:
+                    _Points[2] = args.Point;
+                    _HintLine?.Set(_Points[0], args.Point, SketchEditorTool.Sketch.Plane);
+                    _ValueHudElement.SetValue(_Points[0].Distance(_Points[2]));
+                    break;
 
-                    case 2:
-                        _Points[1] = _PointAction.Point;
-                        _Element?.OnPointsChanged(_Points, null);
-                        break;
-                }
-
-                _Coord2DHudElement.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
+                case 2:
+                    _Points[1] = args.Point;
+                    _Element?.OnPointsChanged(_Points, null);
+                    break;
             }
+
+            _Coord2DHudElement.SetValues(args.PointOnWorkingPlane.X, args.PointOnWorkingPlane.Y);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        void _PointAction_Finished(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
-            if (toolAction == _PointAction)
+            switch (pointsFinished)
             {
-                switch (pointsFinished)
-                {
-                    case 0:
-                        // Start point
-                        _Points[0] = _PointAction.Point;
-                        _MergePointIndices[0] = _PointAction.MergeCandidateIndex;
+                case 0:
+                    // Start point
+                    _Points[0] = args.Point;
+                    _MergePointIndices[0] = args.MergeCandidateIndex;
 
-                        _HintLine = new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                        _HintLine.Set(_PointAction.Point, _PointAction.Point, SketchEditorTool.Sketch.Plane);
-                        Add(_HintLine);
+                    _HintLine = new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                    _HintLine.Set(args.Point, args.Point, SketchEditorTool.Sketch.Plane);
+                    Add(_HintLine);
 
-                        SetHintMessage("Select end point for line.");
+                    SetHintMessage("Select end point for line.");
 
-                        if (_ValueHudElement == null)
+                    if (_ValueHudElement == null)
+                    {
+                        _ValueHudElement = new ValueHudElement
                         {
-                            _ValueHudElement = new ValueHudElement
-                            {
-                                Label = "Distance:",
-                                Units = ValueUnits.Length
-                            };
-                            _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
-                            Add(_ValueHudElement);
-                        }
+                            Label = "Distance:",
+                            Units = ValueUnits.Length
+                        };
+                        _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
+                        Add(_ValueHudElement);
+                    }
 
-                        _PointAction.Reset();
-                        pointsFinished++;
-                        break;
+                    _PointAction.Reset();
+                    pointsFinished++;
+                    break;
 
-                    case 1:
-                        _SetEndPoint(_PointAction.Point, _PointAction.MergeCandidateIndex);
-                        break;
+                case 1:
+                    _SetEndPoint(args.Point, args.MergeCandidateIndex);
+                    break;
 
-                    case 2:
-                        // Control point, finished
-                        StopAction(_PointAction);
+                case 2:
+                    // Control point, finished
+                    StopAction(_PointAction);
 
-                        _Points[1] = _PointAction.Point;
-                        _MergePointIndices[1] = _PointAction.MergeCandidateIndex;
+                    _Points[1] = args.Point;
+                    _MergePointIndices[1] = args.MergeCandidateIndex;
 
-                        SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] {_Segment}, null, _MergePointIndices[1] >= 0 ? -1 : 2);
-                        pointsFinished++;
-                        break;
-                }
+                    SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] {_Segment}, null, _MergePointIndices[1] >= 0 ? -1 : 2);
+                    pointsFinished++;
+                    break;
             }
         }
 

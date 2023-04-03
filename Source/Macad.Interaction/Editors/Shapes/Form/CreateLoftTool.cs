@@ -58,13 +58,11 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        void _ToolAction_Finished(SelectEntityAction<Body> action, SelectEntityAction<Body>.EventArgs args)
         {
-            var selectAction = toolAction as SelectEntityAction<Body>;
-            Debug.Assert(selectAction != null);
-            StopAction(selectAction);
+            StopAction(action);
 
-            _AddOperand(selectAction.SelectedEntity);
+            _AddOperand(args.SelectedEntity);
             CommitChanges();
             WorkspaceController.Invalidate();
 
@@ -82,7 +80,7 @@ namespace Macad.Interaction.Editors.Shapes
                 return false;
             }
 
-            toolAction.Finished += _OnActionFinished;
+            toolAction.Finished += _ToolAction_Finished;
             toolAction.Exclude(_TargetBody);
             return true;
         }

@@ -116,7 +116,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
                 Color = Colors.ActionRed,
                 SectorAutoUpdate = RotateLiveAction.SectorAutoMode.Forward,
             };
-            _AngleAction.Previewed += _AngleAction_Previewed;
+            _AngleAction.Preview += _AngleAction_Preview;
             _AngleAction.Finished += _RotateActions_Finished;
         }
 
@@ -129,7 +129,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
                 NoResize = true,
                 Length = 1.0,
             };
-            _LengthAction.Previewed += _LengthAction_Previewed;
+            _LengthAction.Preview += _LengthAction_Preview;
             _LengthAction.Finished += _TranslateAxisActions_Finished;
         }
 
@@ -142,7 +142,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
                 NoResize = true,
                 Length = 1.0,
             };
-            _RadiusAction.Previewed += _RadiusAction_Previewed;
+            _RadiusAction.Preview += _RadiusAction_Preview;
             _RadiusAction.Finished += _TranslateAxisActions_Finished;
         }
 
@@ -155,7 +155,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
                 NoResize = true,
                 Length = 1.0
             };
-            _StartGapAction.Previewed += _StartGapAction_Previewed;
+            _StartGapAction.Preview += _StartGapAction_Preview;
             _StartGapAction.Finished += _TranslateAxisActions_Finished;
         }
 
@@ -168,7 +168,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
                 NoResize = true,
                 Length = 1.0
             };
-            _EndGapAction.Previewed += _EndGapAction_Previewed;
+            _EndGapAction.Preview += _EndGapAction_Preview;
             _EndGapAction.Finished += _TranslateAxisActions_Finished;
         }
 
@@ -264,7 +264,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
 
     //--------------------------------------------------------------------------------------------------
 
-    void _AngleAction_Previewed(RotateLiveAction sender, RotateLiveAction.EventArgs args)
+    void _AngleAction_Preview(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         if (!_IsMoving)
         {
@@ -304,7 +304,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
     
     //--------------------------------------------------------------------------------------------------
 
-    void _LengthAction_Previewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
+    void _LengthAction_Preview(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         if (!_IsMoving)
         {
@@ -347,7 +347,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
 
     //--------------------------------------------------------------------------------------------------
     
-    void _RadiusAction_Previewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
+    void _RadiusAction_Preview(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         if (!_IsMoving)
         {
@@ -388,7 +388,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
 
     //--------------------------------------------------------------------------------------------------
 
-    void _StartGapAction_Previewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
+    void _StartGapAction_Preview(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         if (!_IsMoving)
         {
@@ -435,7 +435,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
     
     //--------------------------------------------------------------------------------------------------
 
-    void _EndGapAction_Previewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
+    void _EndGapAction_Preview(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         if (!_IsMoving)
         {

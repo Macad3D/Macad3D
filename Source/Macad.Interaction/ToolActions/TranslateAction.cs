@@ -9,6 +9,8 @@ namespace Macad.Interaction;
 
 public class TranslateAction : ToolAction
 {
+    #region Enums
+
     [Flags]
     enum MoveMode
     {
@@ -27,10 +29,25 @@ public class TranslateAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public Vec Delta
+    #endregion
+                        
+    #region Events
+
+    public class EventArgs
     {
-        get { return _Delta; }
+        public Vec Delta { get; init; }
+        public MouseEventData MouseEventData { get; init; }
     }
+
+    public delegate void EventHandler(TranslateAction sender, EventArgs args);
+    public event EventHandler Preview;
+    public event EventHandler Finished;
+        
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Properties and Members
 
     public bool IsMoving { get { return _MoveMode != MoveMode.None; } }
 
@@ -52,7 +69,11 @@ public class TranslateAction : ToolAction
     Vec _Delta;
 
     //--------------------------------------------------------------------------------------------------
-    
+
+    #endregion
+
+    #region Create'n'Start
+
     public TranslateAction(Ax3 coordinateSystem)
     {
         _CoordinateSystem = coordinateSystem;
@@ -75,9 +96,22 @@ public class TranslateAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
+    protected override void Cleanup()
+    {
+        Preview = null;
+        Finished = null;
+        base.Cleanup();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Gizmo
+
     void UpdateGizmo()
     {
-        Ax3 translatedCS = _MoveMode == MoveMode.None ? _CoordinateSystem : _CoordinateSystem.Translated(Delta);
+        Ax3 translatedCS = _MoveMode == MoveMode.None ? _CoordinateSystem : _CoordinateSystem.Translated(_Delta);
 
         /* Axes */
         for (int i = 0; i < _AxisGizmos.Length; i++)
@@ -186,6 +220,26 @@ public class TranslateAction : ToolAction
     }
 
     //--------------------------------------------------------------------------------------------------
+    
+    Quantity_Color _GetColorByMode(MoveMode mode)
+    {
+        return mode switch
+        {
+            MoveMode.AxisX => Colors.ActionRed,
+            MoveMode.AxisY => Colors.ActionGreen,
+            MoveMode.AxisZ => Colors.ActionBlue,
+            MoveMode.PlaneXY => Colors.ActionBlue,
+            MoveMode.PlaneXZ => Colors.ActionGreen,
+            MoveMode.PlaneYZ => Colors.ActionRed,
+            _ => Colors.Auxillary,
+        };
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region IMouseEventHandler
 
     public override bool OnMouseDown(MouseEventData data)
     {
@@ -254,6 +308,12 @@ public class TranslateAction : ToolAction
             {
                 // Commit
                 IsFinished = true;
+                EventArgs args = new()
+                {
+                    Delta = _Delta,
+                    MouseEventData = data
+                };
+                Finished?.Invoke(this, args);
             }
 
             WorkspaceController.Invalidate();
@@ -337,7 +397,14 @@ public class TranslateAction : ToolAction
 
             var coord = _CoordinateSystem.Location.Translated(_Delta);
             _Coord3DHudElement.SetValues(coord.X, coord.Y, coord.Z);
-            _Delta3DHudElement.SetValues(Delta.X, Delta.Y, Delta.Z);
+            _Delta3DHudElement.SetValues(_Delta.X, _Delta.Y, _Delta.Z);
+
+            EventArgs args = new()
+            {
+                Delta = _Delta,
+                MouseEventData = data
+            };
+            Preview?.Invoke(this, args);
 
             return base.OnMouseMove(data);
         }
@@ -371,20 +438,6 @@ public class TranslateAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    Quantity_Color _GetColorByMode(MoveMode mode)
-    {
-        return mode switch
-        {
-            MoveMode.AxisX => Colors.ActionRed,
-            MoveMode.AxisY => Colors.ActionGreen,
-            MoveMode.AxisZ => Colors.ActionBlue,
-            MoveMode.PlaneXY => Colors.ActionBlue,
-            MoveMode.PlaneXZ => Colors.ActionGreen,
-            MoveMode.PlaneYZ => Colors.ActionRed,
-            _ => Colors.Auxillary,
-        };
-    }
-
-    //--------------------------------------------------------------------------------------------------
+    #endregion
 
 }

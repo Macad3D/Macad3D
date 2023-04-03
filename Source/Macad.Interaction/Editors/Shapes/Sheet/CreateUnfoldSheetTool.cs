@@ -52,7 +52,7 @@ namespace Macad.Interaction.Editors.Shapes
             var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _TargetBody, new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane));
             if (!StartAction(toolAction))
                 return false;
-            toolAction.Finished += _OnActionFinished;
+            toolAction.Finished += _ToolAction_Finished;
 
             SetHintMessage("Select start face for unfolding.");
             SetCursor(Cursors.SelectFace);
@@ -61,15 +61,12 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        void _ToolAction_Finished(SelectSubshapeAction action, SelectSubshapeAction.EventArgs args)
         {
             bool finished = false;
-            var selectAction = toolAction as SelectSubshapeAction;
-            Debug.Assert(selectAction != null);
-
-            if (selectAction.SelectedSubshapeType == SubshapeTypes.Face)
+            if (args.SelectedSubshapeType == SubshapeTypes.Face)
             {
-                var face = TopoDS.Face(selectAction.SelectedSubshape);
+                var face = TopoDS.Face(args.SelectedSubshape);
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
                 if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
                 {
@@ -77,7 +74,7 @@ namespace Macad.Interaction.Editors.Shapes
                 }
                 else
                 {
-                    StopAction(selectAction);
+                    StopAction(action);
                     Stop();
                     finished = true;
 
@@ -94,7 +91,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (!finished)
             {
-                selectAction.Reset();
+                action.Reset();
             }
 
             WorkspaceController.Invalidate();

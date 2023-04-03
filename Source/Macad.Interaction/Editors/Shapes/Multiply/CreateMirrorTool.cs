@@ -80,33 +80,29 @@ namespace Macad.Interaction.Editors.Shapes
            
             if (!StartAction(toolAction))
                 return false;
-            toolAction.Finished += _OnActionFinished;
+            toolAction.Finished += _ToolAction_Finished;
 
             return true;
         }
 
         //--------------------------------------------------------------------------------------------------
         
-        void _OnActionFinished(ToolAction toolAction)
+        void _ToolAction_Finished(SelectSubshapeAction action, SelectSubshapeAction.EventArgs args)
         {
-            var selectAction = toolAction as SelectSubshapeAction;
-            Debug.Assert(selectAction != null);
-
             SubshapeReference subshapeRef = null;
-
             switch (_TargetShape.ShapeType)
             {
                 case ShapeType.Sketch:
-                    if (selectAction.SelectedSubshapeType == SubshapeTypes.Edge)
+                    if (args.SelectedSubshapeType == SubshapeTypes.Edge)
                     {
-                        subshapeRef = _TargetShape.GetSubshapeReference(_TargetShape.GetTransformedBRep(), TopoDS.Edge(selectAction.SelectedSubshape));
+                        subshapeRef = _TargetShape.GetSubshapeReference(_TargetShape.GetTransformedBRep(), TopoDS.Edge(args.SelectedSubshape));
                     }
                     break;
 
                 case ShapeType.Solid:
-                    if (selectAction.SelectedSubshapeType == SubshapeTypes.Face)
+                    if (args.SelectedSubshapeType == SubshapeTypes.Face)
                     {
-                        subshapeRef = _TargetShape.GetSubshapeReference(_TargetShape.GetTransformedBRep(), TopoDS.Face(selectAction.SelectedSubshape));
+                        subshapeRef = _TargetShape.GetSubshapeReference(_TargetShape.GetTransformedBRep(), TopoDS.Face(args.SelectedSubshape));
                     }
                     break;
                 default:
@@ -115,7 +111,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (subshapeRef != null)
             {
-                StopAction(selectAction);
+                StopAction(action);
                 Stop();
 
                 if (_Mode == ToolMode.CreateNew)
@@ -136,7 +132,7 @@ namespace Macad.Interaction.Editors.Shapes
             }
             else
             {
-                selectAction.Reset();
+                action.Reset();
             }
 
             WorkspaceController.Invalidate();

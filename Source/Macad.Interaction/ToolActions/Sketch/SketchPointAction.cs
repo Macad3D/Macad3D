@@ -10,9 +10,27 @@ namespace Macad.Interaction
 {
     public class SketchPointAction : ToolAction
     {
-        public Pnt2d Point { get; private set; }
-        public Pnt2d PointOnWorkingPlane { get; private set; }
-        public int MergeCandidateIndex { get; private set; }
+        #region Events
+
+        public class EventArgs
+        {
+            public Pnt2d Point { get; init; }
+            public Pnt2d PointOnWorkingPlane { get; init; }
+            public int MergeCandidateIndex { get; init; }
+            public MouseEventData MouseEventData { get; init; }
+        }
+
+        public delegate void EventHandler(SketchPointAction sender, EventArgs args);
+        public event EventHandler Preview;
+        public event EventHandler Finished;
+        
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        Pnt2d _Point;
+        Pnt2d _PointOnWorkingPlane;
+        int _MergeCandidateIndex;
         public bool EnablePointMerge { get; set; }
         public IEnumerable<Pnt2d> AdditionalSnapPoints { get; set; }
 
@@ -87,17 +105,17 @@ namespace Macad.Interaction
             ElSLib.Parameters(_SketchEditorTool.Sketch.Plane, data.PointOnPlane, ref u, ref v);
             var sketchPoint = new Pnt2d(u, v);
 
-            Point = Snap(sketchPoint);
+            _Point = Snap(sketchPoint);
 
             // Recalculate point on working plane
             if (_SketchEditorTool.Sketch.Plane.Location.IsEqual(WorkspaceController.Workspace.WorkingPlane.Location, 0.00001))
             {
-                PointOnWorkingPlane = Point;
+                _PointOnWorkingPlane = _Point;
             }
             else
             {
                 ElSLib.Parameters(WorkspaceController.Workspace.WorkingPlane, _SketchEditorTool.Sketch.Plane.Location, ref u, ref v);
-                PointOnWorkingPlane = Point.Translated(new Vec2d(u, v));
+                _PointOnWorkingPlane = _Point.Translated(new Vec2d(u, v));
             }
         }
 
@@ -111,11 +129,20 @@ namespace Macad.Interaction
 
                 ProcessMouseInput(data);
 
-                _Marker.SetComponent(new Geom_CartesianPoint(ElSLib.Value(Point.X, Point.Y, _SketchEditorTool.Sketch.Plane)));
+                _Marker.SetComponent(new Geom_CartesianPoint(ElSLib.Value(_Point.X, _Point.Y, _SketchEditorTool.Sketch.Plane)));
                 WorkspaceController.Workspace.AisContext.RecomputePrsOnly(_Marker, false);
                 WorkspaceController.Invalidate();
 
                 UpdateMergeMarker();
+
+                EventArgs args = new()
+                {
+                    Point = _Point,
+                    PointOnWorkingPlane = _PointOnWorkingPlane,
+                    MergeCandidateIndex = _MergeCandidateIndex,
+                    MouseEventData = data
+                };
+                Preview?.Invoke(this, args);
 
                 return base.OnMouseMove(data);
             }
@@ -130,11 +157,21 @@ namespace Macad.Interaction
             {
                 ProcessMouseInput(data);
 
-                if (MergeCandidateIndex >= 0)
+                if (_MergeCandidateIndex >= 0)
                 {
-                    Point = _SketchEditorTool.Sketch.Points[MergeCandidateIndex];
+                    _Point = _SketchEditorTool.Sketch.Points[_MergeCandidateIndex];
                 }
                 IsFinished = true;
+                
+                EventArgs args = new()
+                {
+                    Point = _Point,
+                    PointOnWorkingPlane = _PointOnWorkingPlane,
+                    MergeCandidateIndex = _MergeCandidateIndex,
+                    MouseEventData = data
+                };
+                Finished?.Invoke(this, args);
+
                 data.ForceReDetection = true;
             }
             return true;
@@ -151,6 +188,8 @@ namespace Macad.Interaction
             }
 
             ConstraintPoint = null;
+            Preview = null;
+            Finished = null;
             base.Cleanup();
         }
 
@@ -173,7 +212,7 @@ namespace Macad.Interaction
 
             // Find merge candidate
             double mergeDistance = WorkspaceController.ActiveViewport.GizmoScale*0.2;
-            MergeCandidateIndex = -1;
+            _MergeCandidateIndex = -1;
 
             if (EnablePointMerge)
             {
@@ -183,7 +222,7 @@ namespace Macad.Interaction
                     if (distance < mergeDistance)
                     {
                         _MergeCandidatePoint = pointKvp.Value;
-                        MergeCandidateIndex = pointKvp.Key;
+                        _MergeCandidateIndex = pointKvp.Key;
                     }
                 }
             }
@@ -195,7 +234,7 @@ namespace Macad.Interaction
 
         void UpdateMergeMarker()
         {
-            if (MergeCandidateIndex >= 0)
+            if (_MergeCandidateIndex >= 0)
             {
                 var geomPoint = new Geom_CartesianPoint(_MergeCandidatePoint.X, _MergeCandidatePoint.Y, 0);
                 geomPoint.Transform(_SketchEditorTool.Transform);

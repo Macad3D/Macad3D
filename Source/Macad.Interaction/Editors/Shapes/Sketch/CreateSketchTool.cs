@@ -50,8 +50,8 @@ namespace Macad.Interaction.Editors.Shapes
                 var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, null, selectionFilter);
                 if (!StartAction(toolAction))
                     return false;
-                toolAction.Finished += _OnActionFinished;
-                toolAction.Previewed += _OnActionPreviewed;
+                toolAction.Finished += _ToolAction_Finished;
+                toolAction.Preview += ToolActionPreview;
 
                 SetHintMessage("Select face or plane to which the new sketch should be aligned.");
                 SetCursor(Cursors.SelectFace);
@@ -130,16 +130,16 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        bool _GetPlaneFromAction(SelectSubshapeAction selectAction)
+        bool _GetPlaneFromAction(SelectSubshapeAction.EventArgs args)
         {
-            if (selectAction.SelectedEntity is DatumPlane datumPlane)
+            if (args.SelectedEntity is DatumPlane datumPlane)
             {
                 _Plane = new Pln(datumPlane.GetCoordinateSystem());
                 return true;
             }
-            else if (selectAction.SelectedSubshapeType == SubshapeTypes.Face)
+            else if (args.SelectedSubshapeType == SubshapeTypes.Face)
             {
-                var face = TopoDS.Face(selectAction.SelectedSubshape);
+                var face = TopoDS.Face(args.SelectedSubshape);
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
                 if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
                 {
@@ -151,17 +151,17 @@ namespace Macad.Interaction.Editors.Shapes
                     return true;
                 }
             }
-            else if (selectAction.SelectedAisObject != null)
+            else if (args.SelectedAisObject != null)
             {
-                if (selectAction.SelectedAisObject.Equals(_DefaultPlanes[0].AisObject))
+                if (args.SelectedAisObject.Equals(_DefaultPlanes[0].AisObject))
                 {
                     _Plane = _SavedWorkingPlane;
                 }
-                else if (selectAction.SelectedAisObject.Equals(_DefaultPlanes[1].AisObject))
+                else if (args.SelectedAisObject.Equals(_DefaultPlanes[1].AisObject))
                 {
                     _Plane = new Pln(new Ax3(_SavedWorkingPlane.Location, _SavedWorkingPlane.YAxis.Direction.Reversed(), _SavedWorkingPlane.XAxis.Direction));
                 }
-                else if (selectAction.SelectedAisObject.Equals(_DefaultPlanes[2].AisObject))
+                else if (args.SelectedAisObject.Equals(_DefaultPlanes[2].AisObject))
                 {
                     _Plane = new Pln(new Ax3(_SavedWorkingPlane.Location, _SavedWorkingPlane.XAxis.Direction, _SavedWorkingPlane.YAxis.Direction));
                 }
@@ -170,7 +170,7 @@ namespace Macad.Interaction.Editors.Shapes
                     return false;
                 }
 
-                bool flip = !selectAction.LastMouseEventData.PickAxis.IsOpposite(_Plane.Axis, Maths.HalfPI);
+                bool flip = !args.MouseEventData.PickAxis.IsOpposite(_Plane.Axis, Maths.HalfPI);
                 if (flip)
                 {
                     _Plane = new Pln(new Ax3(_Plane.Location, _Plane.Axis.Direction.Reversed(), _Plane.XAxis.Direction.Reversed()));
@@ -184,30 +184,24 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
         
-        void _OnActionPreviewed(ToolAction toolAction)
+        void ToolActionPreview(SelectSubshapeAction action, SelectSubshapeAction.EventArgs args)
         {
-            var selectAction = toolAction as SelectSubshapeAction;
-            Debug.Assert(selectAction != null);
-
-            WorkspaceController.Workspace.WorkingPlane = _GetPlaneFromAction(selectAction) ? _Plane : _SavedWorkingPlane;
+            WorkspaceController.Workspace.WorkingPlane = _GetPlaneFromAction(args) ? _Plane : _SavedWorkingPlane;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        void _ToolAction_Finished(SelectSubshapeAction action, SelectSubshapeAction.EventArgs args)
         {
-            var selectAction = toolAction as SelectSubshapeAction;
-            Debug.Assert(selectAction != null);
-
-            if (_GetPlaneFromAction(selectAction))
+            if (_GetPlaneFromAction(args))
             {
-                StopAction(selectAction);
+                StopAction(action);
                 Stop();
                 CreateSketch();
             }
             else
             {
-                selectAction.Reset();
+                action.Reset();
             }
 
             WorkspaceController.Invalidate();

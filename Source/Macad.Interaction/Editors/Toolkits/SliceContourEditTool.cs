@@ -306,13 +306,11 @@ namespace Macad.Interaction.Editors.Toolkits
 
         //--------------------------------------------------------------------------------------------------
 
-        void _SelectFaceAction_OnFinished(ToolAction toolaction)
+        void _SelectFaceAction_OnFinished(SelectSubshapeAction sender, SelectSubshapeAction.EventArgs args)
         {
-            Debug.Assert(toolaction == _SelectFaceAction);
-
-            if (_SelectFaceAction.SelectedSubshapeType == SubshapeTypes.Face)
+            if (args.SelectedSubshapeType == SubshapeTypes.Face)
             {
-                var face = TopoDS.Face(_SelectFaceAction.SelectedSubshape);
+                var face = TopoDS.Face(args.SelectedSubshape);
                 var brepAdaptor = new BRepAdaptor_Surface(face, true);
                 if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
                 {
@@ -321,7 +319,7 @@ namespace Macad.Interaction.Editors.Toolkits
                     return;
                 }
 
-                var subshapeReference = _Body.Shape.GetSubshapeReference(_ShapeForFaceSelection.GetTransformedBRep(), _SelectFaceAction.SelectedSubshape);
+                var subshapeReference = _Body.Shape.GetSubshapeReference(_ShapeForFaceSelection.GetTransformedBRep(), args.SelectedSubshape);
 
                 if (subshapeReference != null)
                 {

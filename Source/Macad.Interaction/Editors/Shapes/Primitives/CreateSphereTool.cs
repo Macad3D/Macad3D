@@ -38,8 +38,8 @@ namespace Macad.Interaction.Editors.Shapes
             var pointAction = new PointAction();
             if (!StartAction(pointAction))
                 return false;
-            pointAction.Previewed += _PreviewPivotPoint;
-            pointAction.Finished += _FinishPivotPoint;
+            pointAction.Preview += _PivotAction_Preview;
+            pointAction.Finished += _PivotAction_Finished;
 
             _CurrentPhase = Phase.PivotPoint;
             SetHintMessage("Select center point.");
@@ -59,30 +59,24 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _PreviewPivotPoint(ToolAction toolAction)
+        void _PivotAction_Preview(PointAction sender, PointAction.EventArgs args)
         {
-            if(toolAction is not PointAction pointAction)
-                return;
-
             _ClearPreviews();
-            _Coord2DHudElement?.SetValues(pointAction.PointOnPlane.X, pointAction.PointOnPlane.Y);
+            _Coord2DHudElement?.SetValues(args.PointOnPlane.X, args.PointOnPlane.Y);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _FinishPivotPoint(ToolAction toolAction)
+        void _PivotAction_Finished(PointAction action, PointAction.EventArgs args)
         {
-            if(toolAction is not PointAction pointAction)
-                return;
-
-            _Point = pointAction.Point.Rounded();
-            pointAction.Stop();
+            _Point = args.Point.Rounded();
+            StopAction(action);
 
             var axisValueAction = new AxisValueAction(this, new Ax1(_Point, Dir.DZ));
             if (!StartAction(axisValueAction))
                 return;
-            axisValueAction.Previewed += _PreviewRadius;
-            axisValueAction.Finished += _FinishRadius;
+            axisValueAction.Preview += _RadiusAction_Preview;
+            axisValueAction.Finished += _RadiusAction_Finished;
 
             _CurrentPhase = Phase.Radius;
             SetHintMessage("Select Radius.");
@@ -103,11 +97,8 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _PreviewRadius(ToolAction toolAction)
+        void _RadiusAction_Preview(AxisValueAction action, AxisValueAction.EventArgs args)
         {
-            if(toolAction is not AxisValueAction axisValueAction)
-                return;
-
             _ClearPreviews();
 
             _PreviewShape ??= new Sphere()
@@ -115,7 +106,7 @@ namespace Macad.Interaction.Editors.Shapes
                 Radius = 0.1
             };
 
-            var radius = axisValueAction.Distance.Round();
+            var radius = args.Distance.Round();
 
             if (radius <= 0) 
                 return;
@@ -141,11 +132,9 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _FinishRadius(ToolAction toolAction)
+        void _RadiusAction_Finished(AxisValueAction action, AxisValueAction.EventArgs args)
         {
             _ClearPreviews();
-
-            StopAction(toolAction);
 
             var body = Body.Create(_PreviewShape);
             body.Position = _Point;
@@ -164,7 +153,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (_CurrentPhase == Phase.Radius)
             {
                 _PreviewShape.Radius = (Math.Abs(newValue) >= 0.001) ? newValue : 0.001;
-                _FinishRadius(null);
+                _RadiusAction_Finished(null, null);
             }
         }
 

@@ -29,8 +29,8 @@ namespace Macad.Interaction.Editors.Shapes
             _PointAction = new SketchPointAction(SketchEditorTool);
             if (!StartAction(_PointAction))
                 return false;
-            _PointAction.Previewed += _OnActionPreview;
-            _PointAction.Finished += _OnActionFinished;
+            _PointAction.Preview += _PointAction_Preview;
+            _PointAction.Finished += _PointAction_Finished;
 
             _Coord2DHudElement = new Coord2DHudElement();
             Add(_Coord2DHudElement);
@@ -50,7 +50,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionPreview(ToolAction toolAction)
+        void _PointAction_Preview(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
             switch (_PointsCompleted)
             {
@@ -60,7 +60,7 @@ namespace Macad.Interaction.Editors.Shapes
                         _HintLines[0] = new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
                         Add(_HintLines[0]);
                     }
-                    _HintLines[0].Set(_CenterPoint, _PointAction.Point, SketchEditorTool.Sketch.Plane);
+                    _HintLines[0].Set(_CenterPoint, args.Point, SketchEditorTool.Sketch.Plane);
                     break;
 
                 case 2:
@@ -69,11 +69,11 @@ namespace Macad.Interaction.Editors.Shapes
                         _HintLines[1] = new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
                         Add(_HintLines[1]);
                     }
-                    _HintLines[1].Set(_CenterPoint, _PointAction.Point, SketchEditorTool.Sketch.Plane);
+                    _HintLines[1].Set(_CenterPoint, args.Point, SketchEditorTool.Sketch.Plane);
 
                     if (_Segment != null)
                     {
-                        if (_CalcArcRimPoints(_PointAction.Point))
+                        if (_CalcArcRimPoints(args.Point))
                         {
                             _Element.OnPointsChanged(_Points, null);
                         }
@@ -85,7 +85,7 @@ namespace Macad.Interaction.Editors.Shapes
                     break;
             }
 
-            _Coord2DHudElement.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
+            _Coord2DHudElement.SetValues(args.PointOnWorkingPlane.X, args.PointOnWorkingPlane.Y);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -144,63 +144,59 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        void _PointAction_Finished(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
-            if (toolAction == _PointAction)
+            switch (_PointsCompleted)
             {
-                switch (_PointsCompleted)
-                {
-                    case 0:
-                        _CenterPoint = _PointAction.Point;
-                        _Points.Add(0, _PointAction.Point);
-                        _MergePointIndices[0] = _PointAction.MergeCandidateIndex;
-                        _PointsCompleted++;
+                case 0:
+                    _CenterPoint = args.Point;
+                    _Points.Add(0, args.Point);
+                    _MergePointIndices[0] = args.MergeCandidateIndex;
+                    _PointsCompleted++;
 
-                        SetHintMessage("Select start point for elliptical arc.");
+                    SetHintMessage("Select start point for elliptical arc.");
+                    _PointAction.Reset();
+                    break;
+
+                case 1:
+                    if (_CenterPoint.Distance(args.Point) < 0.001)
+                    {
+                        // Minimum distance not met
                         _PointAction.Reset();
-                        break;
+                        return;
+                    }
 
-                    case 1:
-                        if (_CenterPoint.Distance(_PointAction.Point) < 0.001)
-                        {
-                            // Minimum distance not met
-                            _PointAction.Reset();
-                            return;
-                        }
+                    _StartPoint = args.Point;
+                    _StartPointMergeIndex = args.MergeCandidateIndex;
+                    _PointsCompleted++;
 
-                        _StartPoint = _PointAction.Point;
-                        _StartPointMergeIndex = _PointAction.MergeCandidateIndex;
-                        _PointsCompleted++;
+                    _Points.Add(1, args.Point);
+                    _Points.Add(2, args.Point);
+                    _Segment = new SketchSegmentEllipticalArc(1, 2, 0);
 
-                        _Points.Add(1, _PointAction.Point);
-                        _Points.Add(2, _PointAction.Point);
-                        _Segment = new SketchSegmentEllipticalArc(1, 2, 0);
+                    _Element = new SketchEditorSegmentElement(SketchEditorTool, -1, _Segment, SketchEditorTool.Transform, SketchEditorTool.Sketch.Plane)
+                    {
+                        IsCreating = true
+                    };
+                    _Element.OnPointsChanged(_Points, null);
 
-                        _Element = new SketchEditorSegmentElement(SketchEditorTool, -1, _Segment, SketchEditorTool.Transform, SketchEditorTool.Sketch.Plane)
-                        {
-                            IsCreating = true
-                        };
-                        _Element.OnPointsChanged(_Points, null);
+                    SetHintMessage("Select end point for elliptical arc.");
+                    _PointAction.Reset();
+                    break;
 
-                        SetHintMessage("Select end point for elliptical arc.");
+                case 2:
+                    if (!_CalcArcRimPoints(args.Point, args.MergeCandidateIndex))
+                    {
+                        // Minimum length not met
                         _PointAction.Reset();
-                        break;
+                        return;
+                    }
 
-                    case 2:
-                        if (!_CalcArcRimPoints(_PointAction.Point, _PointAction.MergeCandidateIndex))
-                        {
-                            // Minimum length not met
-                            _PointAction.Reset();
-                            return;
-                        }
-
-                        StopAction(_PointAction);
-                        SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
-                        break;
-                }
+                    StopAction(_PointAction);
+                    SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
+                    break;
             }
         }
-
     }
 
 }

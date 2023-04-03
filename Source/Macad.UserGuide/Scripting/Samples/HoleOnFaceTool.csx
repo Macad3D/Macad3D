@@ -26,36 +26,33 @@ public class HoleOnFaceTool : Tool
         _TargetBody = targetBody;
     }
 
-    // Start is called by the WorkspaceController to activate the tool
-    public override bool Start()
+    // Start is called when the tool gets started
+    protected override bool OnStart()
     {
         // Initialize ToolAction to select subshape from type Face
         var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _TargetBody);
-        if (!WorkspaceController.StartToolAction(toolAction))
+        if (!StartAction(toolAction))
         {
             return false;
         }
         toolAction.Finished += _OnActionFinished;
 
         // Set some UI hints
-        StatusText = "Select face.";
-        WorkspaceController.HudManager.SetCursor(Cursors.SelectFace);
+        SetHintMessage("Select face.");
+        SetCursor(Cursors.SelectFace);
         return true;
     }
 
     // _OnActionFinished is called by the ToolAction when a face has been selected
-    void _OnActionFinished(ToolAction toolAction)
+    void _OnActionFinished(SelectSubshapeAction toolAction, SelectSubshapeAction.EventArgs args)
     {
-        var selectAction = toolAction as SelectSubshapeAction;
-
-        if (selectAction.SelectedSubshapeType == SubshapeTypes.Face)
+        if (args.SelectedSubshapeType == SubshapeTypes.Face)
         {
-            // Stop Action and Tool
-            selectAction.Stop();
+            // Stop Tool
             Stop();
 
             // Create face reference
-            var faceRef = _TargetBody.Shape.GetSubshapeReference(_TargetBody.Shape.GetTransformedBRep(), selectAction.SelectedSubshape);
+            var faceRef = _TargetBody.Shape.GetSubshapeReference(_TargetBody.Shape.GetTransformedBRep(), args.SelectedSubshape);
             if (faceRef == null)
             {
                 Messages.Error("A subshape reference could not be produced for this face.");
@@ -73,7 +70,7 @@ public class HoleOnFaceTool : Tool
             sketch.Segments.Add(0, new SketchSegmentCircle(0, 1));
 
             // Commit changes manually
-            _TargetBody.Model.UndoHandler.Commit();
+            CommitChanges();
         }
     }
 }

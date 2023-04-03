@@ -151,7 +151,7 @@ namespace Macad.Interaction.Editors.Shapes
                     NoResize = true,
                     Length = 1.0
                 };
-                _OffsetXAction.Previewed += _OffsetXAction_Previewed;
+                _OffsetXAction.Preview += _OffsetXAction_Preview;
                 _OffsetXAction.Finished += _Actions_Finished;
             }
             
@@ -164,7 +164,7 @@ namespace Macad.Interaction.Editors.Shapes
                     NoResize = true,
                     Length = 1.0
                 };
-                _OffsetYAction.Previewed += _OffsetYAction_Previewed;
+                _OffsetYAction.Preview += _OffsetYAction_Preview;
                 _OffsetYAction.Finished += _Actions_Finished;
             }
             
@@ -177,7 +177,7 @@ namespace Macad.Interaction.Editors.Shapes
                     NoResize = true,
                     Length = 1.0
                 };
-                _OffsetZAction.Previewed += _OffsetZAction_Previewed;
+                _OffsetZAction.Preview += _OffsetZAction_Preview;
                 _OffsetZAction.Finished += _Actions_Finished;
             }
 
@@ -207,7 +207,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OffsetXAction_Previewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
+        void _OffsetXAction_Preview(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
         {
             if (!_IsMoving)
             {
@@ -239,7 +239,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OffsetYAction_Previewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
+        void _OffsetYAction_Preview(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
         {
             if (!_IsMoving)
             {
@@ -271,7 +271,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OffsetZAction_Previewed(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
+        void _OffsetZAction_Preview(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
         {
             if (!_IsMoving)
             {

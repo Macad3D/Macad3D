@@ -38,8 +38,8 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 return false;
             }
-            toolAction.Previewed += _OnActionPreview;
-            toolAction.Finished += _OnActionFinished;
+            toolAction.Preview += _ToolAction_Preview;
+            toolAction.Finished += _ToolAction_Finished;
             toolAction.Exclude(_TargetBody1);
             UpdateStatusText(null);
             SetCursor(Cursors.SelectShape);
@@ -64,33 +64,27 @@ namespace Macad.Interaction.Editors.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
-
-        void _OnActionPreview(ToolAction toolAction)
+        
+        void _ToolAction_Finished(SelectEntityAction<Body> action, SelectEntityAction<Body>.EventArgs args)
         {
-            if (toolAction is not SelectEntityAction<Body> selectAction)
-                return;
+            StopAction(action);
 
-            UpdateStatusText(selectAction.SelectedEntity?.Name);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        void _OnActionFinished(ToolAction toolAction)
-        {
-            if (toolAction is not SelectEntityAction<Body> selectAction)
-                return;
-
-            StopAction(selectAction);
-
-            if (selectAction.SelectedEntity != null)
+            if (args.SelectedEntity != null)
             {
-                BoxJoint.Create(_TargetBody1, selectAction.SelectedEntity);
+                BoxJoint.Create(_TargetBody1, args.SelectedEntity);
                 CommitChanges();
             }
 
             Stop();
 
             WorkspaceController.Invalidate();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _ToolAction_Preview(SelectEntityAction<Body> action, SelectEntityAction<Body>.EventArgs args)
+        {
+            UpdateStatusText(args.SelectedEntity?.Name);
         }
 
         //--------------------------------------------------------------------------------------------------

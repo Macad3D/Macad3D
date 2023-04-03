@@ -25,8 +25,8 @@ namespace Macad.Interaction.Editors.Shapes
             _PointAction = new SketchPointAction(SketchEditorTool);
             if (!StartAction(_PointAction))
                 return false;
-            _PointAction.Previewed += _OnActionPreview;
-            _PointAction.Finished += _OnActionFinished;
+            _PointAction.Preview += _PointAction_Preview;
+            _PointAction.Finished += _PointAction_Finished;
 
             _Coord2DHudElement = new Coord2DHudElement();
             Add(_Coord2DHudElement);
@@ -69,47 +69,44 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionPreview(ToolAction toolAction)
+        void _PointAction_Preview(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
-            if (toolAction == _PointAction)
+            switch (_PointsFinished)
             {
-                switch (_PointsFinished)
-                {
-                    case 1:
-                        _Points[3] = _PointAction.Point;
-                        _HintLine?.Set(_Points[0], _PointAction.Point, SketchEditorTool.Sketch.Plane);
-                        _ValueHudElement?.SetValue(_Points[0].Distance(_Points[3]));
-                        break;
+                case 1:
+                    _Points[3] = args.Point;
+                    _HintLine?.Set(_Points[0], args.Point, SketchEditorTool.Sketch.Plane);
+                    _ValueHudElement?.SetValue(_Points[0].Distance(_Points[3]));
+                    break;
 
-                    case 2:
-                        _Points[1] = _PointAction.Point;
-                        _Points[2] = _PointAction.Point;
-                        _Element?.OnPointsChanged(_Points, null);
-                        break;
+                case 2:
+                    _Points[1] = args.Point;
+                    _Points[2] = args.Point;
+                    _Element?.OnPointsChanged(_Points, null);
+                    break;
 
-                    case 3:
-                        _Points[2] = _PointAction.Point;
-                        _Element?.OnPointsChanged(_Points, null);
-                        break;
-                }
-
-                _Coord2DHudElement.SetValues(_PointAction.PointOnWorkingPlane.X, _PointAction.PointOnWorkingPlane.Y);
+                case 3:
+                    _Points[2] = args.Point;
+                    _Element?.OnPointsChanged(_Points, null);
+                    break;
             }
+
+            _Coord2DHudElement.SetValues(args.PointOnWorkingPlane.X, args.PointOnWorkingPlane.Y);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        void _PointAction_Finished(SketchPointAction sender, SketchPointAction.EventArgs args)
         {
             switch (_PointsFinished)
             {
                 case 0:
                     // Start point
-                    _Points[0] = _PointAction.Point;
-                    _MergePointIndices[0] = _PointAction.MergeCandidateIndex;
+                    _Points[0] = args.Point;
+                    _MergePointIndices[0] = args.MergeCandidateIndex;
 
                     _HintLine = new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                    _HintLine.Set(_PointAction.Point, _PointAction.Point, SketchEditorTool.Sketch.Plane);
+                    _HintLine.Set(args.Point, args.Point, SketchEditorTool.Sketch.Plane);
                     Add(_HintLine);
 
                     SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select end point for line.");
@@ -130,13 +127,13 @@ namespace Macad.Interaction.Editors.Shapes
                     break;
 
                 case 1:
-                    _SetEndPoint(_PointAction.Point, _PointAction.MergeCandidateIndex);
+                    _SetEndPoint(args.Point, args.MergeCandidateIndex);
                     break;
 
                 case 2:
                     // First control point, finished
-                    _Points[1] = _PointAction.Point;
-                    _MergePointIndices[1] = _PointAction.MergeCandidateIndex;
+                    _Points[1] = args.Point;
+                    _MergePointIndices[1] = args.MergeCandidateIndex;
 
                     _Element.OnPointsChanged(_Points, null);
 
@@ -150,8 +147,8 @@ namespace Macad.Interaction.Editors.Shapes
                     // Second control point, finished
                     StopAction(_PointAction);
 
-                    _Points[2] = _PointAction.Point;
-                    _MergePointIndices[2] = _PointAction.MergeCandidateIndex;
+                    _Points[2] = args.Point;
+                    _MergePointIndices[2] = args.MergeCandidateIndex;
 
                     SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null, _MergePointIndices[1] >= 0 ? -1 : 3);
                     _PointsFinished++;
@@ -164,7 +161,7 @@ namespace Macad.Interaction.Editors.Shapes
         void _SetEndPoint(Pnt2d point, int mergeCandidateIndex)
         {
             // End point
-            if (_Points[0].Distance(_PointAction.Point) < 0.001)
+            if (_Points[0].Distance(point) < 0.001)
             {
                 // Minimum length not met
                 _PointAction.Reset();

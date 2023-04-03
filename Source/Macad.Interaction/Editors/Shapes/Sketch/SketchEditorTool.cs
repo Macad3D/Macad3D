@@ -180,7 +180,7 @@ namespace Macad.Interaction.Editors.Shapes
             _SelectAction = new SelectSketchElementAction(this);
             if (!StartAction(_SelectAction))
                 return false;
-            _SelectAction.Finished += _OnSelectionChanged;
+            _SelectAction.Finished += _SelectAction_Finished;
 
             SetHintMessage(UnselectedStatusText);
 
@@ -402,7 +402,14 @@ namespace Macad.Interaction.Editors.Shapes
 
         #region Selection
 
-        void _OnSelectionChanged(ToolAction toolAction)
+        void _SelectAction_Finished(ToolAction toolAction)
+        {
+            _OnSelectionChanged();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _OnSelectionChanged()
         {
             if (CurrentTool != null)
                 return;
@@ -420,8 +427,8 @@ namespace Macad.Interaction.Editors.Shapes
                 _MoveAction = new MoveSketchPointAction(this);
                 if (!StartAction(_MoveAction, false))
                     return;
-                _MoveAction.Previewed += _OnMoveActionPreview;
-                _MoveAction.Finished += _OnMoveActionFinished;
+                _MoveAction.Preview += _MoveAction_Preview;
+                _MoveAction.Finished += _MoveAction_Finished;
 
                 var segPoints = SelectedSegments.SelectMany(seg => seg.Points);
                 _MoveAction.SetSketchElements(Sketch, SelectedPoints.Union(segPoints).ToList());
@@ -446,7 +453,7 @@ namespace Macad.Interaction.Editors.Shapes
         public void Select(IEnumerable<int> pointIndices, IEnumerable<int> segmentIndices)
         {
             Elements.Select(pointIndices, segmentIndices);
-            _OnSelectionChanged(null);
+            _OnSelectionChanged();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -506,20 +513,20 @@ namespace Macad.Interaction.Editors.Shapes
 
         #region Movement
 
-        bool _ApplyMoveActionDelta()
+        bool _ApplyMoveActionDelta(MoveSketchPointAction.EventArgs args)
         {
             if (_MoveAction.IsMoving)
             {
-                foreach (var pointIndex in _MoveAction.Points)
+                foreach (var pointIndex in args.Points)
                 {
-                    _TempPoints[pointIndex] = Sketch.Points[pointIndex].Translated(_MoveAction.MoveDelta);
+                    _TempPoints[pointIndex] = Sketch.Points[pointIndex].Translated(args.MoveDelta);
                 }
             }
             else if (_MoveAction.IsRotating)
             {
-                foreach (var pointIndex in _MoveAction.Points)
+                foreach (var pointIndex in args.Points)
                 {
-                    _TempPoints[pointIndex] = Sketch.Points[pointIndex].Rotated(_MoveAction.RotateCenter, _MoveAction.RotateDelta);
+                    _TempPoints[pointIndex] = Sketch.Points[pointIndex].Rotated(args.RotateCenter, args.RotateDelta);
                 }
             }
             else
@@ -536,22 +543,22 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnMoveActionPreview(ToolAction toolAction)
+        void _MoveAction_Preview(MoveSketchPointAction sender, MoveSketchPointAction.EventArgs args)
         {
             if (CurrentTool != null)
                 return;
 
-            _ApplyMoveActionDelta();
+            _ApplyMoveActionDelta(args);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnMoveActionFinished(ToolAction toolAction)
+        void _MoveAction_Finished(MoveSketchPointAction sender, MoveSketchPointAction.EventArgs args)
         {
             if (CurrentTool != null)
                 return;
 
-            if (!_MoveAction.Points.Any())
+            if (!args.Points.Any())
             {
                 // MoveAction has lost all it's point, stop it now
                 StopAction(_MoveAction);
@@ -560,7 +567,7 @@ namespace Macad.Interaction.Editors.Shapes
                 return;
             }
 
-            if (_ApplyMoveActionDelta())
+            if (_ApplyMoveActionDelta(args))
             {
                 Sketch.Points = new Dictionary<int, Pnt2d>(_TempPoints);
 
@@ -626,7 +633,7 @@ namespace Macad.Interaction.Editors.Shapes
                 StopTool();
                 Elements.DeselectAll();
                 Elements.Select(null, segmentMap.Values);
-                _OnSelectionChanged(null);
+                _OnSelectionChanged();
             }
         }
 
@@ -832,7 +839,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             // Update activation, since we have switched the local context
             Elements.Activate(true, true, true);
-            _OnSelectionChanged(null);
+            _OnSelectionChanged();
             _UpdateStatusText();
         }
 

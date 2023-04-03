@@ -32,7 +32,7 @@ namespace Macad.Interaction.Editors.Shapes
             _Action = new ToggleSubshapesAction();
             if (!StartAction(_Action))
                 return false;
-            _Action.Finished += _OnActionFinished;
+            _Action.Finished += _Action_Finished;
 
             if (!UpdateEdgesToTool())
                 return false;
@@ -69,25 +69,22 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _OnActionFinished(ToolAction toolAction)
+        void _Action_Finished(ToggleSubshapesAction sender, ToggleSubshapesAction.EventArgs args)
         {
-            if (toolAction != _Action)
-                return;
-
             var sourceShape = _ModifierShape.Predecessor as Shape;
             if (sourceShape == null) return;
 
-            if (_Action.ChangedSubshape.IsSelected)
+            if (args.ChangedSubshape.IsSelected)
             {
                 // Added
-                var reference = sourceShape.GetSubshapeReference(_EdgeSourceShape, _Action.ChangedSubshape.Shape);
+                var reference = sourceShape.GetSubshapeReference(_EdgeSourceShape, args.ChangedSubshape.Shape);
                 if (reference == null) return;
                 _ModifierShape.AddEdge(reference);
             }
             else
             {
                 // Removed
-                var reference = _ModifierShape.FindContourReference(_Action.ChangedSubshape.Shape.ToEdge());
+                var reference = _ModifierShape.FindContourReference(args.ChangedSubshape.Shape.ToEdge());
                 if (reference == null) return;
                 _ModifierShape.RemoveEdge(reference);
             }
