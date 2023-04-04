@@ -3,6 +3,7 @@ using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Interaction.Visual;
 using Macad.Occt;
 using Macad.Presentation;
 
@@ -19,12 +20,10 @@ namespace Macad.Interaction.Editors.Shapes
         //--------------------------------------------------------------------------------------------------
 
         Phase _CurrentPhase;
-        Pnt _Point;
-
-        AIS_Shape _AisPreviewEdges;
-        AIS_Shape _AisPreviewSolid;
+        Pnt _Position;
 
         Sphere _PreviewShape;
+        VisualObject _VisualShape;
 
         Coord2DHudElement _Coord2DHudElement;
         ValueHudElement _ValueHudElement;
@@ -52,16 +51,20 @@ namespace Macad.Interaction.Editors.Shapes
         
         //--------------------------------------------------------------------------------------------------
 
-        protected override void OnStop()
+        protected override void Cleanup()
         {
-            _ClearPreviews();
+            if (_VisualShape != null)
+            {
+                WorkspaceController.VisualObjects.Remove(_VisualShape.Entity);
+                _VisualShape = null;
+            }
+            base.Cleanup();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _PivotAction_Preview(PointAction sender, PointAction.EventArgs args)
         {
-            _ClearPreviews();
             _Coord2DHudElement?.SetValues(args.PointOnPlane.X, args.PointOnPlane.Y);
         }
 
@@ -69,10 +72,10 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _PivotAction_Finished(PointAction action, PointAction.EventArgs args)
         {
-            _Point = args.Point.Rounded();
+            _Position = args.Point.Rounded();
             StopAction(action);
 
-            var axisValueAction = new AxisValueAction(this, new Ax1(_Point, Dir.DZ));
+            var axisValueAction = new AxisValueAction(this, new Ax1(_Position, Dir.DZ));
             if (!StartAction(axisValueAction))
                 return;
             axisValueAction.Preview += _RadiusAction_Preview;
@@ -99,32 +102,24 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _RadiusAction_Preview(AxisValueAction action, AxisValueAction.EventArgs args)
         {
-            _ClearPreviews();
-
-            _PreviewShape ??= new Sphere()
-            {
-                Radius = 0.1
-            };
-
             var radius = args.Distance.Round();
-
             if (radius <= 0) 
                 return;
 
-            var trsf = new Trsf(_Point.ToVec());
+            if (_PreviewShape == null)
+            {
+                // Create solid
+                _PreviewShape = new Sphere
+                {
+                    Radius = radius
+                };
+                var body = Body.Create(_PreviewShape);
+                _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
+                _PreviewShape.Body.Position = _Position;
+                _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
+                _VisualShape.IsSelectable = false;
+            }
             _PreviewShape.Radius = radius;
-
-            _AisPreviewEdges = new AIS_Shape(_PreviewShape.GetTransformedBRep());
-            _AisPreviewEdges.SetDisplayMode(0);
-            _AisPreviewEdges.SetLocalTransformation(trsf);
-            WorkspaceController.Workspace.AisContext.Display(_AisPreviewEdges, false);
-            WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewEdges);
-
-            _AisPreviewSolid = new AIS_Shape(_PreviewShape.GetTransformedBRep());
-            _AisPreviewSolid.SetDisplayMode(1);
-            _AisPreviewSolid.SetLocalTransformation(trsf);
-            WorkspaceController.Workspace.AisContext.Display(_AisPreviewSolid, false);
-            WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewSolid);
 
             SetHintMessage($"Select Radius: {radius:0.00}");
             _ValueHudElement?.SetValue(radius);
@@ -134,16 +129,14 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _RadiusAction_Finished(AxisValueAction action, AxisValueAction.EventArgs args)
         {
-            _ClearPreviews();
-
-            var body = Body.Create(_PreviewShape);
-            body.Position = _Point;
-            InteractiveContext.Current.Document.Add(body);
+            InteractiveContext.Current.Document.Add(_PreviewShape.Body);
+            _VisualShape.IsSelectable = true;
+            _VisualShape = null; // Prevent removing
             CommitChanges();
 
             Stop();
-
-            WorkspaceController.Selection.SelectEntity(body);
+            WorkspaceController.Selection.SelectEntity(_PreviewShape.Body);
+            WorkspaceController.Invalidate();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -159,20 +152,5 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ClearPreviews()
-        {
-            if (_AisPreviewSolid != null)
-            {
-                WorkspaceController.Workspace.AisContext.Remove(_AisPreviewSolid, false);
-                _AisPreviewSolid = null;
-            }
-            if (_AisPreviewEdges != null)
-            {
-                WorkspaceController.Workspace.AisContext.Remove(_AisPreviewEdges, false);
-                _AisPreviewEdges = null;
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
     }
 }

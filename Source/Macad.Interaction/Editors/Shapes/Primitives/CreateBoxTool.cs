@@ -3,6 +3,7 @@ using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Interaction.Visual;
 using Macad.Occt;
 using Macad.Presentation;
 
@@ -23,13 +24,8 @@ namespace Macad.Interaction.Editors.Shapes
         Pln _Plane;
         Pnt2d _PointPlane1;
         Pnt2d _PointPlane2;
-
-        AIS_Shape _AisPreviewEdges;
-        AIS_Shape _AisPreviewSolid;
-
         Box _PreviewShape;
-        Pnt _Position;
-        Quaternion _Rotation = Quaternion.Identity;
+        VisualObject _VisualShape;
 
         Coord2DHudElement _Coord2DHudElement;
         ValueHudElement _ValueHudElement;
@@ -41,13 +37,13 @@ namespace Macad.Interaction.Editors.Shapes
         {
             WorkspaceController.Selection.SelectEntity(null);
 
+            _CurrentPhase = Phase.PivotPoint;
             var pointAction = new PointAction();
             if (!StartAction(pointAction))
                 return false;
             pointAction.Preview += _PivotAction_Preview;
             pointAction.Finished += _PivotAction_Finished;
 
-            _CurrentPhase = Phase.PivotPoint;
             SetHintMessage("Select corner point.");
             _Coord2DHudElement = new Coord2DHudElement();
             Add(_Coord2DHudElement);
@@ -57,16 +53,20 @@ namespace Macad.Interaction.Editors.Shapes
         
         //--------------------------------------------------------------------------------------------------
 
-        protected override void OnStop()
+        protected override void Cleanup()
         {
-            _ClearPreviews();
+            if (_VisualShape != null)
+            {
+                WorkspaceController.VisualObjects.Remove(_VisualShape.Entity);
+                _VisualShape = null;
+            }
+            base.Cleanup();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _PivotAction_Preview(PointAction action, PointAction.EventArgs args)
         {
-            _ClearPreviews();
             _Coord2DHudElement?.SetValues(args.PointOnPlane.X, args.PointOnPlane.Y);
         }
 
@@ -74,8 +74,6 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _PivotAction_Finished(PointAction action, PointAction.EventArgs args)
         {
-            _ClearPreviews();
-
             _Plane = WorkspaceController.Workspace.WorkingPlane;
             _PointPlane1 = args.PointOnPlane;
 
@@ -107,8 +105,6 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _BaseRectAction_Preview(PointAction action, PointAction.EventArgs args)
         {
-            _ClearPreviews();
-
             _PointPlane2 = args.PointOnPlane;
 
             if (_PointPlane1.IsEqual(_PointPlane2, Double.Epsilon))
@@ -116,28 +112,29 @@ namespace Macad.Interaction.Editors.Shapes
                 return;
             }
 
-            var face = new BRepBuilderAPI_MakeFace(WorkspaceController.Workspace.WorkingPlane,
-                Math.Min(_PointPlane1.X, _PointPlane2.X),
-                Math.Max(_PointPlane1.X, _PointPlane2.X),
-                Math.Min(_PointPlane1.Y, _PointPlane2.Y),
-                Math.Max(_PointPlane1.Y, _PointPlane2.Y)).Face();
+            if (_PreviewShape == null)
+            {
+                // Create solid
+                _PreviewShape = new Box
+                {
+                    DimensionZ = 0.01
+                };
+                var body = Body.Create(_PreviewShape);
+                _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
+                _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
+                _VisualShape.IsSelectable = false;
+            }
 
-            _AisPreviewEdges = new AIS_Shape(face);
-            _AisPreviewEdges.SetDisplayMode(0);
-            WorkspaceController.Workspace.AisContext.Display(_AisPreviewEdges, false);
-            WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewEdges);
+            _PreviewShape.Body.Position = ElSLib.Value(Math.Min(_PointPlane1.X, _PointPlane2.X), Math.Min(_PointPlane1.Y, _PointPlane2.Y), _Plane).Rounded();;
+            var dimX = Math.Abs(_PointPlane1.X - _PointPlane2.X).Round();
+            var dimY = Math.Abs(_PointPlane1.Y - _PointPlane2.Y).Round();
+            _PreviewShape.DimensionX = dimX;
+            _PreviewShape.DimensionY = dimY;
 
-            _AisPreviewSolid = new AIS_Shape(face);
-            _AisPreviewSolid.SetDisplayMode(1);
-            WorkspaceController.Workspace.AisContext.Display(_AisPreviewSolid, false);
-            WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewSolid);
-
-            var dim1 = Math.Abs(_PointPlane1.X - _PointPlane2.X);
-            var dim2 = Math.Abs(_PointPlane1.Y - _PointPlane2.Y);
-            SetHintMessage($"Select opposite corner point. Size: {dim1:0.00} x {dim2:0.00}");
-
+            SetHintMessage($"Select opposite corner point. Size: {dimX:0.00} x {dimY:0.00}");
+            
             _Coord2DHudElement?.SetValues(args.PointOnPlane.X, args.PointOnPlane.Y);
-            _MultiValueHudElement?.SetValues(dim1, dim2);
+            _MultiValueHudElement?.SetValues(dimX, dimY);
 
             WorkspaceController.Invalidate();
         }
@@ -178,61 +175,23 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _HeightAction_Preview(AxisValueAction action, AxisValueAction.EventArgs args)
         {
-            _ClearPreviews();
-
-            _Position = ElSLib.Value(Math.Min(_PointPlane1.X, _PointPlane2.X), Math.Min(_PointPlane1.Y, _PointPlane2.Y), _Plane).Rounded();
-            _Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
-            if (_PreviewShape == null)
-            {
-                // Create solid
-                _PreviewShape = new Box
-                {
-                    DimensionX = Math.Abs(_PointPlane1.X - _PointPlane2.X).Round(),
-                    DimensionY = Math.Abs(_PointPlane1.Y - _PointPlane2.Y).Round(),
-                    DimensionZ = 0.1
-                };
-            }
-
             var height = args.Value.Round();
             _PreviewShape.DimensionZ =  Math.Abs(height) >= 0.001 ? height : 0.001;
-
-            var ocShape = _PreviewShape.GetTransformedBRep();
-
-            if (ocShape != null)
-            {
-                var trsf = new Trsf(_Rotation, _Position.ToVec());
-
-                _AisPreviewEdges = new AIS_Shape(ocShape);
-                _AisPreviewEdges.SetDisplayMode(0);
-                _AisPreviewEdges.SetLocalTransformation(trsf);
-                WorkspaceController.Workspace.AisContext.Display(_AisPreviewEdges, false);
-                WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewEdges);
-
-                _AisPreviewSolid = new AIS_Shape(ocShape);
-                _AisPreviewSolid.SetDisplayMode(1);
-                _AisPreviewSolid.SetLocalTransformation(trsf);
-                WorkspaceController.Workspace.AisContext.Display(_AisPreviewSolid, false);
-                WorkspaceController.Workspace.AisContext.Deactivate(_AisPreviewSolid);
-            }
-
             SetHintMessage($"Selected height: {height:0.00}");
             _ValueHudElement?.SetValue(height);
-
-            WorkspaceController.Invalidate();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _HeightAction_Finished(AxisValueAction action, AxisValueAction.EventArgs args)
         {
-            var body = Body.Create(_PreviewShape);
-            body.Position = _Position;
-            body.Rotation = _Rotation;
-            InteractiveContext.Current.Document.Add(body);
+            InteractiveContext.Current.Document.Add(_PreviewShape.Body);
+            _VisualShape.IsSelectable = true;
+            _VisualShape = null; // Prevent removing
             CommitChanges();
 
             Stop();
-            WorkspaceController.Selection.SelectEntity(body);
+            WorkspaceController.Selection.SelectEntity(_PreviewShape.Body);
             WorkspaceController.Invalidate();
         }
 
@@ -260,22 +219,6 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ClearPreviews()
-        {
-            if (_AisPreviewSolid != null)
-            {
-                WorkspaceController.Workspace.AisContext.Remove(_AisPreviewSolid, false);
-                _AisPreviewSolid = null;
-            }
-            if (_AisPreviewEdges != null)
-            {
-                WorkspaceController.Workspace.AisContext.Remove(_AisPreviewEdges, false);
-                _AisPreviewEdges = null;
-            }
-            WorkspaceController.Invalidate();
-        }
-
-        //--------------------------------------------------------------------------------------------------
 
     }
 }

@@ -232,6 +232,7 @@ namespace Macad.Interaction.Visual
                 visualShape.Remove();
                 _InteractiveToVisualDictionary.Remove(entity);
                 _GuidToInteractiveDictionary.Remove(entity.Guid);
+                _InvalidatedInteractiveEntities.Remove(entity);
             }
         }
 

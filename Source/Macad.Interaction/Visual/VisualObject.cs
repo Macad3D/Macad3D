@@ -31,7 +31,7 @@ namespace Macad.Interaction.Visual
             // ReSharper disable once ValueParameterNotUsed
             set {  }
         }
-        
+
         //--------------------------------------------------------------------------------------------------
 
         public bool IsSelected

@@ -63,7 +63,14 @@ namespace Macad.Interaction.Visual
 
         public override bool IsSelectable
         {
-            get { return _IsSelectable(); }
+            get { return !_IsFreezed && _IsSelectable(); }
+            set {
+                if (_IsFreezed != !value)
+                {
+                    _IsFreezed = !value;
+                    _UpdateInteractivityStatus();
+                }
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -74,6 +81,7 @@ namespace Macad.Interaction.Visual
 
         AIS_Shape _AisShape;
         bool _IsHidden;
+        bool _IsFreezed;
         VisualStyle _VisualStyle;
         readonly Options _Options;
         TopoDS_Shape _OverrideBrep;

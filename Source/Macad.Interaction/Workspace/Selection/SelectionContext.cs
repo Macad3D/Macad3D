@@ -186,12 +186,10 @@ namespace Macad.Interaction
         public void UpdateAis()
         {
             // Update shapes
-            bool includeByDefault = _Options.HasFlag(Options.IncludeAll);
             var visShapes = _WorkspaceController.VisualObjects.GetAll();
             foreach (var visualShape in visShapes)
             {
-                bool isInOrExcluded = _InOrExcludedShapes.Contains(visualShape);
-                UpdateShape(visualShape, includeByDefault ? !isInOrExcluded : isInOrExcluded);
+                _UpdateShape(visualShape);
             }
         }
             
@@ -200,20 +198,22 @@ namespace Macad.Interaction
 
         public void UpdateShape(VisualObject visualObject)
         {
-            bool includeByDefault = _Options.HasFlag(Options.IncludeAll);
-            bool isInOrExcluded = _InOrExcludedShapes.Contains(visualObject);
-            UpdateShape(visualObject, includeByDefault ? !isInOrExcluded : isInOrExcluded);
+            _UpdateShape(visualObject);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void UpdateShape(VisualObject visualObject, bool activate)
+        void _UpdateShape(VisualObject visualObject)
         {
             var aisContext = _WorkspaceController?.Workspace?.AisContext;
-            if (aisContext == null)
+            var aisObject = visualObject?.AisObject;
+            if (aisContext == null || aisObject == null)
                 return;
 
-            var aisObject = visualObject.AisObject;
+            bool includeByDefault = _Options.HasFlag(Options.IncludeAll);
+            bool isInOrExcluded = _InOrExcludedShapes.Contains(visualObject);
+            bool activate = includeByDefault ? !isInOrExcluded : isInOrExcluded;
+
             if (visualObject.IsSelectable)
             {
                 // Get already activated modes
@@ -226,10 +226,14 @@ namespace Macad.Interaction
                 var snapHandler = _WorkspaceController.SnapHandler;
 
                 modesToBeActivated[0] = activate && _SubshapeTypes == SubshapeTypes.None;
-                modesToBeActivated[SubshapeType.Vertex.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Vertex) || snapHandler.NeedActiveSubshapes(SubshapeType.Vertex);
-                modesToBeActivated[SubshapeType.Edge.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Edge) || snapHandler.NeedActiveSubshapes(SubshapeType.Edge);
-                modesToBeActivated[SubshapeType.Wire.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Wire) || snapHandler.NeedActiveSubshapes(SubshapeType.Wire);
-                modesToBeActivated[SubshapeType.Face.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Face) || snapHandler.NeedActiveSubshapes(SubshapeType.Face);
+                modesToBeActivated[SubshapeType.Vertex.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Vertex)
+                                                                               || snapHandler.NeedActiveSubshapes(SubshapeType.Vertex);
+                modesToBeActivated[SubshapeType.Edge.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Edge) 
+                                                                             || snapHandler.NeedActiveSubshapes(SubshapeType.Edge);
+                modesToBeActivated[SubshapeType.Wire.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Wire) 
+                                                                             || snapHandler.NeedActiveSubshapes(SubshapeType.Wire);
+                modesToBeActivated[SubshapeType.Face.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Face) 
+                                                                             || snapHandler.NeedActiveSubshapes(SubshapeType.Face);
 
                 // Deactivate all modes which are not requested
                 foreach (var mode in activatedModes)
@@ -247,7 +251,7 @@ namespace Macad.Interaction
             }
             else
             {
-                aisContext.Deactivate(visualObject.AisObject);
+                aisContext.Deactivate(aisObject);
             }
         }
 

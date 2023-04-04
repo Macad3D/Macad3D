@@ -4,6 +4,7 @@ using JetBrains.dotMemoryUnit;
 using Macad.Test.Utils;
 using Macad.Core.Shapes;
 using Macad.Core.Toolkits;
+using Macad.Core.Topology;
 using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Interaction.Editors.Toolkits;
@@ -65,6 +66,44 @@ namespace Macad.Test.Memory.Interaction
         }
 
         //--------------------------------------------------------------------------------------------------
+                
+        [Test]
+        public void CreateBoxCancelled()
+        {
+            void __CreateAndReleaseTool()
+            {
+                var ctx = Context.Current;
+
+                ctx.WorkspaceController.StartTool(new CreateBoxTool());
+                ctx.ViewportController.MouseMove(new Point(50, 250));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseUp();
+                ctx.WorkspaceController.Invalidate(forceRedraw:true);
+                ctx.ViewportController.MouseMove(new Point(450, 250));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseUp();
+                ctx.WorkspaceController.Invalidate(forceRedraw:true);
+                ctx.ViewportController.MouseMove(new Point(450, 200));
+                ctx.WorkspaceController.CancelTool(ctx.WorkspaceController.CurrentTool, false);
+                ctx.WorkspaceController.Invalidate(forceRedraw:true);
+                ctx.ViewportController.MouseMove(new Point(0,0));
+
+                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+                Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            }
+
+            __CreateAndReleaseTool();
+
+            dotMemory.Check(memory =>
+            {
+                Assert.AreEqual(0, memory.ObjectsCount<CreateBoxTool>(), "Tool is still alive");
+                Assert.AreEqual(0, memory.ObjectsCount<Body>(), "Body is alive");
+                Assert.AreEqual(0, memory.ObjectsCount<Box>(), "Box is alive");
+                Assert.AreEqual(0, memory.ObjectsCount<VisualShape>(), "VisualShape is alive");
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         [Test]
         public void CreateCylinder()
@@ -100,6 +139,44 @@ namespace Macad.Test.Memory.Interaction
         }
         
         //--------------------------------------------------------------------------------------------------
+                
+        [Test]
+        public void CreateCylinderCancelled()
+        {
+            void __CreateAndReleaseTool()
+            {
+                var ctx = Context.Current;
+
+                ctx.WorkspaceController.StartTool(new CreateCylinderTool());
+                ctx.ViewportController.MouseMove(new Point(250, 250));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseUp();
+                ctx.WorkspaceController.Invalidate(forceRedraw:true);
+                ctx.ViewportController.MouseMove(new Point(450, 250));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseUp();
+                ctx.WorkspaceController.Invalidate(forceRedraw:true);
+                ctx.ViewportController.MouseMove(new Point(450, 200));
+                ctx.WorkspaceController.CancelTool(ctx.WorkspaceController.CurrentTool, false);
+                ctx.WorkspaceController.Invalidate(forceRedraw:true);
+                ctx.ViewportController.MouseMove(new Point(0,0));
+
+                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+                Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            }
+
+            __CreateAndReleaseTool();
+
+            dotMemory.Check(memory =>
+            {
+                Assert.AreEqual(0, memory.ObjectsCount<CreateBoxTool>(), "Tool is still alive");
+                Assert.AreEqual(0, memory.ObjectsCount<Body>(), "Body is alive");
+                Assert.AreEqual(0, memory.ObjectsCount<Cylinder>(), "Cylinder is alive");
+                Assert.AreEqual(0, memory.ObjectsCount<VisualShape>(), "VisualShape is alive");
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         [Test]
         public void CreateSphere()
@@ -128,6 +205,40 @@ namespace Macad.Test.Memory.Interaction
                 Assert.AreEqual(0, memory.ObjectsCount<CreateSphereTool>(), "Tool is still alive");
                 Assert.AreEqual(0, memory.ObjectsCount<PointAction>(), "PointAction is alive");
                 Assert.AreEqual(0, memory.ObjectsCount<AxisValueAction>(), "AxisValueAction is alive");
+            });
+        }
+           
+        //--------------------------------------------------------------------------------------------------
+    
+        [Test]
+        public void CreateSphereCancelled()
+        {
+            void __CreateAndReleaseTool()
+            {
+                var ctx = Context.Current;
+
+                ctx.WorkspaceController.StartTool(new CreateSphereTool());
+                ctx.ViewportController.MouseMove(new Point(250, 250));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseUp();
+                ctx.WorkspaceController.Invalidate(forceRedraw:true);
+                ctx.ViewportController.MouseMove(new Point(450, 250));
+                ctx.WorkspaceController.CancelTool(ctx.WorkspaceController.CurrentTool, false);
+                ctx.WorkspaceController.Invalidate(forceRedraw:true);
+                ctx.ViewportController.MouseMove(new Point(0,0));
+
+                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+                Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            }
+
+            __CreateAndReleaseTool();
+
+            dotMemory.Check(memory =>
+            {
+                Assert.AreEqual(0, memory.ObjectsCount<CreateBoxTool>(), "Tool is still alive");
+                Assert.AreEqual(0, memory.ObjectsCount<Body>(), "Body is alive");
+                Assert.AreEqual(0, memory.ObjectsCount<Sphere>(), "Sphere is alive");
+                Assert.AreEqual(0, memory.ObjectsCount<VisualShape>(), "VisualShape is alive");
             });
         }
 
