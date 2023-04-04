@@ -26,6 +26,7 @@ namespace Macad.Interaction.Editors.Shapes
         Pnt2d _PointPlane1;
         Pnt2d _PointPlane2;
         double _Radius;
+        double _Height;
 
         Cylinder _PreviewShape;
         VisualObject _VisualShape;
@@ -117,21 +118,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (_Radius <= Double.Epsilon)
                 return;
 
-            if (_PreviewShape == null)
-            {
-                // Create solid
-                _PreviewShape = new Cylinder()
-                {
-                    Height = 0.01
-                };
-                var body = Body.Create(_PreviewShape);
-                _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
-                _VisualShape.IsSelectable = false;
-                _PreviewShape.Body.Position = _PivotPoint.Rounded();
-                _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
-            }
-
-            _PreviewShape.Radius = _Radius;
+            _UpdatePreview();
 
             SetHintMessage($"Select radius: {_Radius:0.00}");
             _ValueHudElement?.SetValue(_Radius);
@@ -167,23 +154,14 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _HeightAction_Preview(AxisValueAction action, AxisValueAction.EventArgs args)
         {
-            var height = args.Value.Round();
-            if (Math.Abs(height) < 0.001)
-                height = 0.001;
+            _Height = args.Value.Round();
+            if (Math.Abs(_Height) < 0.001)
+                _Height = 0.001;
+            
+            _UpdatePreview();
 
-            if (height > 0)
-            {
-                _PreviewShape.Body.Position = _PivotPoint.Rounded();
-                _PreviewShape.Height = height;
-            }
-            else
-            {
-                _PreviewShape.Body.Position = _PivotPoint.Translated(_Plane.Axis.Direction.ToVec().Multiplied(height)).Rounded();
-                _PreviewShape.Height = -height;
-            }
-
-            SetHintMessage($"Selected height: {height:0.00}");
-            _ValueHudElement?.SetValue(height);
+            SetHintMessage($"Selected height: {_Height:0.00}");
+            _ValueHudElement?.SetValue(_Height);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -207,25 +185,52 @@ namespace Macad.Interaction.Editors.Shapes
             if (_CurrentPhase == Phase.Radius)
             {
                 _Radius = (Math.Abs(newValue) >= 0.001) ? newValue : 0.001;
+                _UpdatePreview();
                 _RadiusAction_Finished(null, null);
             }
             else if (_CurrentPhase == Phase.Height)
             {
-                if (newValue > 0)
-                {
-                    _PreviewShape.Body.Position = _PivotPoint.Rounded();
-                    _PreviewShape.Height = newValue;
-                }
-                else
-                {
-                    _PreviewShape.Body.Position = _PivotPoint.Translated(_Plane.Axis.Direction.ToVec().Multiplied(newValue)).Rounded();
-                    _PreviewShape.Height = -newValue;
-                }
+                _Height = newValue;
+                _UpdatePreview();
                 _HeightAction_Finished(null, null);
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
+        void _UpdatePreview()
+        {
+            if (_PreviewShape == null)
+            {
+                // Create solid
+                _PreviewShape = new Cylinder()
+                {
+                    Height = 0.01
+                };
+                var body = Body.Create(_PreviewShape);
+                _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
+                _VisualShape.IsSelectable = false;
+                _PreviewShape.Body.Position = _PivotPoint.Rounded();
+                _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
+            }
+
+            if (_CurrentPhase == Phase.Radius)
+            {
+                _PreviewShape.Radius = _Radius;
+            } 
+            else if (_CurrentPhase == Phase.Height)
+            {
+                if (_Height > 0)
+                {
+                    _PreviewShape.Body.Position = _PivotPoint.Rounded();
+                    _PreviewShape.Height = _Height;
+                }
+                else
+                {
+                    _PreviewShape.Body.Position = _PivotPoint.Translated(_Plane.Axis.Direction.ToVec().Multiplied(_Height)).Rounded();
+                    _PreviewShape.Height = -_Height;
+                }
+            }
+        }
     }
 }

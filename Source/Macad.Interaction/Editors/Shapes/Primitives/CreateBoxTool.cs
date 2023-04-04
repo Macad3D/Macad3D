@@ -107,33 +107,13 @@ namespace Macad.Interaction.Editors.Shapes
         {
             _PointPlane2 = args.PointOnPlane;
 
-            if (_PointPlane1.IsEqual(_PointPlane2, Double.Epsilon))
-            {
-                return;
-            }
+            _UpdatePreview();
 
-            if (_PreviewShape == null)
-            {
-                // Create solid
-                _PreviewShape = new Box
-                {
-                    DimensionZ = 0.01
-                };
-                var body = Body.Create(_PreviewShape);
-                _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
-                _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
-                _VisualShape.IsSelectable = false;
-            }
-
-            _PreviewShape.Body.Position = ElSLib.Value(Math.Min(_PointPlane1.X, _PointPlane2.X), Math.Min(_PointPlane1.Y, _PointPlane2.Y), _Plane).Rounded();;
             var dimX = Math.Abs(_PointPlane1.X - _PointPlane2.X).Round();
             var dimY = Math.Abs(_PointPlane1.Y - _PointPlane2.Y).Round();
-            _PreviewShape.DimensionX = dimX;
-            _PreviewShape.DimensionY = dimY;
-
             SetHintMessage($"Select opposite corner point. Size: {dimX:0.00} x {dimY:0.00}");
             
-            _Coord2DHudElement?.SetValues(args.PointOnPlane.X, args.PointOnPlane.Y);
+            _Coord2DHudElement?.SetValues(_PointPlane2.X, _PointPlane2.Y);
             _MultiValueHudElement?.SetValues(dimX, dimY);
 
             WorkspaceController.Invalidate();
@@ -202,6 +182,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (_CurrentPhase == Phase.Height)
             {
                 _PreviewShape.DimensionZ = Math.Abs(newValue) >= 0.001 ? newValue : 0.001;
+                _UpdatePreview();
                 _HeightAction_Finished(null, null);
             }
         }
@@ -213,12 +194,36 @@ namespace Macad.Interaction.Editors.Shapes
             if (_CurrentPhase == Phase.BaseRect)
             {
                 _PointPlane2 = new Pnt2d(_PointPlane1.X + newValue1, _PointPlane1.Y + newValue2);
+                _UpdatePreview();
                 _BaseRectAction_Finished(null, null);
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
+        void _UpdatePreview()
+        {
+            if (_PointPlane1.IsEqual(_PointPlane2, Double.Epsilon))
+            {
+                return;
+            }
 
+            if (_PreviewShape == null)
+            {
+                // Create solid
+                _PreviewShape = new Box
+                {
+                    DimensionZ = 0.01
+                };
+                var body = Body.Create(_PreviewShape);
+                _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
+                _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
+                _VisualShape.IsSelectable = false;
+            }
+
+            _PreviewShape.Body.Position = ElSLib.Value(Math.Min(_PointPlane1.X, _PointPlane2.X), Math.Min(_PointPlane1.Y, _PointPlane2.Y), _Plane).Rounded();;
+            _PreviewShape.DimensionX = Math.Abs(_PointPlane1.X - _PointPlane2.X).Round();
+            _PreviewShape.DimensionY = Math.Abs(_PointPlane1.Y - _PointPlane2.Y).Round();
+        }
     }
 }

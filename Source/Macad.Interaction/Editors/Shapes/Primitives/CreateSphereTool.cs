@@ -21,6 +21,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         Phase _CurrentPhase;
         Pnt _Position;
+        double _Radius;
 
         Sphere _PreviewShape;
         VisualObject _VisualShape;
@@ -102,27 +103,14 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _RadiusAction_Preview(AxisValueAction action, AxisValueAction.EventArgs args)
         {
-            var radius = args.Distance.Round();
-            if (radius <= 0) 
-                return;
+            _Radius = args.Distance.Round();
+            if (_Radius < 0.001)
+                _Radius = 0.001;
 
-            if (_PreviewShape == null)
-            {
-                // Create solid
-                _PreviewShape = new Sphere
-                {
-                    Radius = radius
-                };
-                var body = Body.Create(_PreviewShape);
-                _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
-                _PreviewShape.Body.Position = _Position;
-                _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
-                _VisualShape.IsSelectable = false;
-            }
-            _PreviewShape.Radius = radius;
+            _UpdatePreview();
 
-            SetHintMessage($"Select Radius: {radius:0.00}");
-            _ValueHudElement?.SetValue(radius);
+            SetHintMessage($"Select Radius: {_Radius:0.00}");
+            _ValueHudElement?.SetValue(_Radius);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -145,12 +133,30 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (_CurrentPhase == Phase.Radius)
             {
-                _PreviewShape.Radius = (Math.Abs(newValue) >= 0.001) ? newValue : 0.001;
+                _Radius = Math.Abs(newValue) >= 0.001 ? newValue : 0.001;
+                _UpdatePreview();
                 _RadiusAction_Finished(null, null);
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
+        void _UpdatePreview()
+        {
+            if (_PreviewShape == null)
+            {
+                // Create solid
+                _PreviewShape = new Sphere
+                {
+                    Radius = _Radius
+                };
+                var body = Body.Create(_PreviewShape);
+                _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
+                _PreviewShape.Body.Position = _Position;
+                _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
+                _VisualShape.IsSelectable = false;
+            }
+            _PreviewShape.Radius = _Radius;
+        }
     }
 }
