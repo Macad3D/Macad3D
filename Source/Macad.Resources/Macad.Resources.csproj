@@ -30,6 +30,9 @@
   <ItemGroup>
     <None Remove="Marker\HelloWorld.png" />
   </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Marker\Plus.svg" />
+  </ItemGroup>
 
   <ItemGroup>
     <InternalsVisibleToSigned Include="Test.Unit" />

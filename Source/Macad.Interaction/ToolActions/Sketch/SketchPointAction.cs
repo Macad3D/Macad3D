@@ -41,7 +41,7 @@ namespace Macad.Interaction
         //--------------------------------------------------------------------------------------------------
 
         readonly SketchEditorTool _SketchEditorTool;
-        AIS_Point _Marker;
+        Marker _Marker;
         Marker _MergePreviewMarker;
         Pnt2d _MergeCandidatePoint;
 
@@ -87,12 +87,8 @@ namespace Macad.Interaction
         {
             if (_Marker == null)
             {
-                _Marker = new AIS_Point(new Geom_CartesianPoint(0, 0, 0));
-                _Marker.SetMarker(Aspect_TypeOfMarker.PLUS);
-                _Marker.SetWidth(2.0);
-                _Marker.SetZLayer(-3); // TOPMOST
-                WorkspaceController.Workspace.AisContext.Display(_Marker, false);
-                WorkspaceController.Workspace.AisContext.Deactivate(_Marker);
+                _Marker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.PlusImage);
+                Add(_Marker);
             }
         }
 
@@ -129,8 +125,7 @@ namespace Macad.Interaction
 
                 ProcessMouseInput(data);
 
-                _Marker.SetComponent(new Geom_CartesianPoint(ElSLib.Value(_Point.X, _Point.Y, _SketchEditorTool.Sketch.Plane)));
-                WorkspaceController.Workspace.AisContext.RecomputePrsOnly(_Marker, false);
+                _Marker.Set(ElSLib.Value(_Point.X, _Point.Y, _SketchEditorTool.Sketch.Plane));
                 WorkspaceController.Invalidate();
 
                 UpdateMergeMarker();
@@ -181,12 +176,6 @@ namespace Macad.Interaction
 
         protected override void Cleanup()
         {
-            if (_Marker != null)
-            {
-                WorkspaceController.Workspace.AisContext.Remove(_Marker, false);
-                _Marker = null;
-            }
-
             ConstraintPoint = null;
             Preview = null;
             Finished = null;

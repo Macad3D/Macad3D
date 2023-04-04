@@ -276,6 +276,7 @@ namespace Macad.Interaction.Visual
         public static readonly Image BallImage = _GetMarkerImage("Ball", 8);
         public static readonly Image RectImage = _GetMarkerImage("Rect", 8);
         public static readonly Image RingImage = _GetMarkerImage("Ring", 16);
+        public static readonly Image PlusImage = _GetMarkerImage("Plus", 16);
         public static readonly Image XImage = _GetMarkerImage("X", 16);
         public static readonly Image ErrorImage = _GetMarkerImage("Error", 24);
 

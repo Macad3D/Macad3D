@@ -27,7 +27,7 @@ namespace Macad.Interaction
         #endregion
 
         Pnt _CurrentPoint;
-        AIS_Point _Marker;
+        Marker _Marker;
         HintLine _HintLine;
 
         //--------------------------------------------------------------------------------------------------
@@ -46,13 +46,6 @@ namespace Macad.Interaction
         
         protected override void Cleanup()
         {
-            if (_Marker != null)
-            {
-                WorkspaceController.Workspace.AisContext.Remove(_Marker, false);
-                _Marker = null;
-            }
-            WorkspaceController.Invalidate();
-
             Preview = null;
             Finished = null;
             base.Cleanup();
@@ -60,15 +53,12 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        void EnsureMarker()
+        void _EnsureMarker()
         {
             if (_Marker == null)
             {
-                _Marker = new AIS_Point(new Geom_CartesianPoint(0, 0, 0));
-                _Marker.SetMarker(Aspect_TypeOfMarker.PLUS);
-                _Marker.SetWidth(2.0);
-                WorkspaceController.Workspace.AisContext.Display(_Marker, false);
-                WorkspaceController.Workspace.AisContext.Deactivate(_Marker);
+                _Marker = new Marker(WorkspaceController, Marker.Styles.Bitmap, Marker.PlusImage);
+                Add(_Marker);
             }
         }
 
@@ -110,12 +100,11 @@ namespace Macad.Interaction
         {
             if (!IsFinished)
             {
-                EnsureMarker();
+                _EnsureMarker();
 
                 ProcessMouseInput(data);
 
-                _Marker.SetComponent(new Geom_CartesianPoint(_CurrentPoint));
-                WorkspaceController.Workspace.AisContext.RecomputePrsOnly(_Marker, false);
+                _Marker.Set(_CurrentPoint);
                 WorkspaceController.Invalidate();
 
                 EventArgs args = new()
