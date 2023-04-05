@@ -110,6 +110,7 @@ namespace Macad.Interaction.Panels
             InitializeComponent();
             OverlayContentPresenter.SetBinding(ContentPresenter.ContentProperty, BindingHelper.Create(this, nameof(OverlayContent), BindingMode.OneWay));
             HudContainer.SizeChanged += (_, _) => _UpdateHud(_MouseMovePosition);
+            Model.HudElements.CollectionChanged += _HudElements_CollectionChanged;
 
             MouseHorizontalWheelEnabler.AddMouseHorizontalWheelHandler(this, OnMouseHorizontalWheel);
 
@@ -153,6 +154,16 @@ namespace Macad.Interaction.Panels
                 }
             }
             base.OnPropertyChanged(e);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _HudElements_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (Model?.HudElements.Any() == true)
+            {
+                Focus();
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -348,6 +359,13 @@ namespace Macad.Interaction.Panels
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
+
+            // Do not tab away
+            if (e.Key == Key.Tab)
+            {
+                e.Handled = true;
+                return;
+            }
 
             // Skip inputs if already handled
             // Textboxes do not set Handled to true for regular inputs
