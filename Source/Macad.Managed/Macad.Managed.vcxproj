@@ -54,7 +54,7 @@
       <AdditionalDependencies>Shell32.lib;msvcrtd.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(_3DxWareLibPath);$(OcctLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <CLRUnmanagedCodeCheck>false</CLRUnmanagedCodeCheck>
-      <AdditionalOptions>/ignore:4099 /KEYFILE:$(MMRootDir)Source\sn.snk %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
       <IgnoreSpecificDefaultLibraries>nochkclr.obj</IgnoreSpecificDefaultLibraries>
       <ForceSymbolReferences>_DllMainCRTStartup</ForceSymbolReferences>
     </Link>
@@ -75,7 +75,7 @@
       <AdditionalDependencies>Shell32.lib;msvcrt.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(_3DxWareLibPath);$(OcctLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <CLRUnmanagedCodeCheck>false</CLRUnmanagedCodeCheck>
-      <AdditionalOptions>/ignore:4099 /KEYFILE:$(MMRootDir)Source\sn.snk %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
       <LinkTimeCodeGeneration>
       </LinkTimeCodeGeneration>
       <IgnoreSpecificDefaultLibraries>nochkclr.obj</IgnoreSpecificDefaultLibraries>

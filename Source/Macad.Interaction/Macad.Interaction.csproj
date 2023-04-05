@@ -27,8 +27,8 @@
     <ProjectReference Include="..\SourceGenerator\SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
   <ItemGroup>
-    <InternalsVisibleToSigned Include="Test.Unit" />
-    <InternalsVisibleToSigned Include="Test.Memory" />
+    <InternalsVisibleTo Include="Test.Unit" />
+    <InternalsVisibleTo Include="Test.Memory" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Panels\Viewport\ViewportMessageBar.xaml.cs">

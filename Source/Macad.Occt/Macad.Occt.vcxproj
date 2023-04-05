@@ -55,7 +55,7 @@
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/IGNOREIDL /KEYFILE:$(MMRootDir)Source\sn.snk %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/IGNOREIDL %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>msvcrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OcctLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>nochkclr.obj;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -88,7 +88,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <CLRUnmanagedCodeCheck>false</CLRUnmanagedCodeCheck>
       <SubSystem>Windows</SubSystem>
-      <AdditionalOptions>/IGNOREIDL /KEYFILE:$(MMRootDir)Source\sn.snk /LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/IGNOREIDL /LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

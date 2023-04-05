@@ -36,8 +36,8 @@
     <ProjectReference Include="..\Macad.Resources\Macad.Resources.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <InternalsVisibleToSigned Include="Test.Unit" />
-    <InternalsVisibleToSigned Include="Test.Memory" />
+    <InternalsVisibleTo Include="Test.Unit" />
+    <InternalsVisibleTo Include="Test.Memory" />
   </ItemGroup>
   <ItemGroup>
     <SplashScreen Include="Properties\SplashScreen.png" />

@@ -35,8 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleToSigned Include="Test.Unit" />
-    <InternalsVisibleToSigned Include="Test.Memory" />
+    <InternalsVisibleTo Include="Test.Unit" />
+    <InternalsVisibleTo Include="Test.Memory" />
   </ItemGroup>
 
   <!-- Import the custom build targets -->
