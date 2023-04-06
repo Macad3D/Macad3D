@@ -62,7 +62,17 @@ public sealed class RotateLiveAction : LiveAction
     public double Radius
     {
         get { return _Radius; }
-        set { _Radius = value; }
+        set
+        {
+            if (_Radius == value)
+                return;
+
+            _Radius = value;
+            if (_Circle != null)
+            {
+                _Circle.Radius = _Radius;
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -95,8 +105,8 @@ public sealed class RotateLiveAction : LiveAction
     //--------------------------------------------------------------------------------------------------
 
     Circle _Circle;
-    double _Radius;
-    Ax2 _Position;
+    double _Radius = 1.0; 
+    Ax2 _Position = Ax2.XOY;
     bool _IsMoving;
     double _StartValue;
     double _Delta;
@@ -116,19 +126,12 @@ public sealed class RotateLiveAction : LiveAction
 
     #region Creation and Activation
 
-    public RotateLiveAction() 
-    {
-        _Radius = 0;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     protected override void OnStart()
     {
         if (_Circle != null)
             return;
 
-        Circle.Style style = _Radius==0 ? Circle.Style.NoResize : Circle.Style.None;
+        Circle.Style style = Circle.Style.None;
         if (NoResize)
             style |= Circle.Style.NoResize;
 

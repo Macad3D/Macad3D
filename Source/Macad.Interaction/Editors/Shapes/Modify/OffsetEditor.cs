@@ -118,8 +118,7 @@ public sealed class OffsetEditor : Editor<Offset>
         {
             CommitChanges();
         }
-
-        StartTools();
+        _UpdateActions();
     }
 
     //--------------------------------------------------------------------------------------------------

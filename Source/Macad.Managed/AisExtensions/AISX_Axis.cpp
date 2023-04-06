@@ -22,7 +22,6 @@ void AISX_Axis::SetAxis(const gp_Ax1& theAxis)
 {
     _Axis = theAxis;
     SetToUpdate();
-    UpdatePresentations(true);
     UpdateSelection();
 }
 
@@ -51,7 +50,6 @@ void AISX_Axis::SetWidth(double theWidth)
     myOwnWidth = (float)theWidth;
     myDrawer->LineAspect()->SetWidth(theWidth);
     SynchronizeAspects();
-    UpdatePresentations(true);
     UpdateSelection();
     SetToUpdate();
 }
@@ -63,7 +61,6 @@ void AISX_Axis::SetSize(double length, double thickness)
     _Length = length;
     _Thickness = thickness;
     SetToUpdate();
-    UpdatePresentations();
     UpdateSelection();
 }
 

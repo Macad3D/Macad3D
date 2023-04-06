@@ -226,6 +226,7 @@ public class Circle: VisualObject
         _AisObject.SetLimits(_Limits.start, _Limits.end);
         _AisObject.SetKnobPosition(_KnobPosition);
         _AisObject.SetSector(_Sector.start, _Sector.end);
+        AisContext.Update(_AisObject, false);
     }
 
     //--------------------------------------------------------------------------------------------------

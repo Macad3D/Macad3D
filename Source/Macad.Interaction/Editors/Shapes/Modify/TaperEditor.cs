@@ -83,6 +83,7 @@ public class TaperEditor : Editor<Taper>
                 };
                 _OffsetAction.Preview += _OffsetAction_Preview;
                 _OffsetAction.Finished += _OffsetAction_Finished;
+                StartAction(_OffsetAction);
             }
 
             _OffsetAction.Axis = Entity.Angle < 0.0 ? axis.Axis.Reversed() : axis.Axis;
@@ -90,8 +91,6 @@ public class TaperEditor : Editor<Taper>
             {
                 _StartOffset = Entity.Offset;
             }
-
-            StartAction(_OffsetAction);
         }
 
         // Angle
@@ -107,6 +106,7 @@ public class TaperEditor : Editor<Taper>
                 };
                 _AngleAction.Preview += _AngleAction_Preview;
                 _AngleAction.Finished += _AngleAction_Finished;
+                StartAction(_AngleAction);
             }
 
             _AngleAction.Position = new Ax2(axis.Location, axis.YDirection.Reversed(), axis.Direction);
@@ -121,7 +121,6 @@ public class TaperEditor : Editor<Taper>
             {
                 _AngleAction.VisualSector = (Entity.Angle.ToRad(), _StartAngle);
             }
-            StartAction(_AngleAction);
         }
 
     }
@@ -134,6 +133,7 @@ public class TaperEditor : Editor<Taper>
         {
             _IsMovingAngle = true;
             StopAction(_OffsetAction);
+            _OffsetAction = null;
             SetHintMessage("Adjust angle using gizmo, press 'CTRL' to round to 5°.");
         }
 
@@ -168,7 +168,7 @@ public class TaperEditor : Editor<Taper>
     {
         InteractiveContext.Current.UndoHandler.Commit();
         _IsMovingAngle = false;
-        StartTools();
+        _UpdateActions();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -179,6 +179,7 @@ public class TaperEditor : Editor<Taper>
         {
             _IsMovingOffset = true;
             StopAction(_AngleAction);
+            _AngleAction = null;
             SetHintMessage("Adjust offset using gizmo, press 'CTRL' to round to grid stepping.");
         }
 
@@ -210,7 +211,7 @@ public class TaperEditor : Editor<Taper>
     {
         CommitChanges();
         _IsMovingOffset = false;
-        StartTools();
+        _UpdateActions();
     }
     
     //--------------------------------------------------------------------------------------------------

@@ -70,7 +70,7 @@ namespace Macad.Interaction.Editors.Shapes
                 _UpdateHints();
                 if (!_IsMoving)
                 {
-                    StartTools();
+                    _UpdateActions();
                 }
             }
         }
@@ -141,6 +141,7 @@ namespace Macad.Interaction.Editors.Shapes
                 axis.Location = axis.Location.Translated(axis.Direction.ToVec(size));
             }
             _OffsetActionPivot = axis.Location;
+            var localCS = Entity.GetCoordinateSystem();
 
             // Offset X
             if (_OffsetXAction == null)
@@ -153,8 +154,10 @@ namespace Macad.Interaction.Editors.Shapes
                 };
                 _OffsetXAction.Preview += _OffsetXAction_Preview;
                 _OffsetXAction.Finished += _Actions_Finished;
+                StartAction(_OffsetXAction);
             }
-            
+            _OffsetXAction.Axis = new Ax1(_OffsetActionPivot, localCS.XDirection);
+
             // Offset Y
             if (_OffsetYAction == null)
             {
@@ -166,8 +169,10 @@ namespace Macad.Interaction.Editors.Shapes
                 };
                 _OffsetYAction.Preview += _OffsetYAction_Preview;
                 _OffsetYAction.Finished += _Actions_Finished;
+                StartAction(_OffsetYAction);
             }
-            
+            _OffsetYAction.Axis = new Ax1(_OffsetActionPivot, localCS.YDirection);
+
             // Offset Z
             if (_OffsetZAction == null)
             {
@@ -179,30 +184,14 @@ namespace Macad.Interaction.Editors.Shapes
                 };
                 _OffsetZAction.Preview += _OffsetZAction_Preview;
                 _OffsetZAction.Finished += _Actions_Finished;
+                StartAction(_OffsetZAction);
             }
+            _OffsetZAction.Axis = new Ax1(_OffsetActionPivot, localCS.Direction);
 
             if (!_IsMoving)
             {
                 _StartOffset = Entity.Offset;
             }
-
-            var localCS = Entity.GetCoordinateSystem();
-            if (_OffsetXAction != null)
-            {
-                _OffsetXAction.Axis = new Ax1(_OffsetActionPivot, localCS.XDirection);
-            }
-            if (_OffsetYAction != null)
-            {
-                _OffsetYAction.Axis = new Ax1(_OffsetActionPivot, localCS.YDirection);
-            }
-            if (_OffsetZAction != null)
-            {
-                _OffsetZAction.Axis = new Ax1(_OffsetActionPivot, localCS.Direction);
-            }
-
-            StartAction(_OffsetXAction);
-            StartAction(_OffsetYAction);
-            StartAction(_OffsetZAction);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -213,7 +202,9 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 _IsMoving = true;
                 StopAction(_OffsetYAction);
+                _OffsetYAction = null;
                 StopAction(_OffsetZAction);
+                _OffsetZAction = null;
                 SetHintMessage( "Adjust offset using gizmo, press 'CTRL' to round to grid stepping.");
             }
 
@@ -245,7 +236,9 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 _IsMoving = true;
                 StopAction(_OffsetXAction);
+                _OffsetXAction = null;
                 StopAction(_OffsetZAction);
+                _OffsetZAction = null;
                 SetHintMessage("Adjust offset using gizmo, press 'CTRL' to round to grid stepping.");
             }
 
@@ -277,7 +270,9 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 _IsMoving = true;
                 StopAction(_OffsetXAction);
+                _OffsetXAction = null;
                 StopAction(_OffsetYAction);
+                _OffsetYAction = null;
                 SetHintMessage("Adjust offset using gizmo, press 'CTRL' to round to grid stepping.");
             }
 
@@ -307,8 +302,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             _IsMoving = false;
             CommitChanges();
-
-            StartTools();
+            _UpdateActions();
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -65,13 +65,6 @@ public class ImprintEditor : Editor<Imprint>
 
     #region Live Actions
 
-    void _ShowActions()
-    {
-        _UpdateActions();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     void _UpdateActions()
     {
         if (Entity?.Body == null
@@ -82,7 +75,8 @@ public class ImprintEditor : Editor<Imprint>
             _TranslateAction = null;
             return;
         }
-        
+        axis.Transform(Entity.Body.GetTransformation());
+
         if (_TranslateAction == null)
         {
             _TranslateAction = new()
@@ -94,16 +88,14 @@ public class ImprintEditor : Editor<Imprint>
             };
             _TranslateAction.Preview += _TranslateAction_Preview;
             _TranslateAction.Finished += _TranslateActionFinished;
+            StartAction(_TranslateAction);
         }
 
-        axis.Transform(Entity.Body.GetTransformation());
         _TranslateAction.Axis = axis;
         if (!_IsMoving)
         {
             _StartDepth = Entity.Depth;
         }
-
-        StartAction(_TranslateAction);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -146,7 +138,7 @@ public class ImprintEditor : Editor<Imprint>
     {
         _IsMoving = false;
         CommitChanges();
-        StartTools();
+        _UpdateActions();
     }
     
     //--------------------------------------------------------------------------------------------------

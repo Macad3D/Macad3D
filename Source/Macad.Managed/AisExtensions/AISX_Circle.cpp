@@ -25,7 +25,6 @@ AISX_Circle::AISX_Circle()
 void AISX_Circle::SetCircle(const gp_Circ& theCircle)
 {
     _Circle = theCircle;
-    UpdatePresentations(true);
     UpdateSelection();
     SetToUpdate();
 }
@@ -42,7 +41,6 @@ void AISX_Circle::SetLimits(double theStartParam, double theEndParam)
         std::swap(_LimitStartParam, _LimitEndParam);
     }
 
-    UpdatePresentations(true);
     UpdateSelection();
     SetToUpdate();
 }
@@ -59,7 +57,6 @@ void AISX_Circle::SetSector(double theStartParam, double theEndParam)
         std::swap(_SectorStartParam, _SectorEndParam);
     }
 
-    UpdatePresentations(true);
     SetToUpdate();
 }
 
@@ -69,7 +66,6 @@ void AISX_Circle::SetKnobPosition(double theParam)
 {
     _KnobPosition = theParam;
 
-    UpdatePresentations(true);
     SetToUpdate();
 }
 
@@ -101,7 +97,6 @@ void AISX_Circle::SetWidth(double theWidth)
     myDrawer->LineAspect()->SetWidth(theWidth);
 
     SynchronizeAspects();
-    UpdatePresentations(true);
     UpdateSelection();
     SetToUpdate();
 }

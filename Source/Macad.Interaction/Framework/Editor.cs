@@ -28,6 +28,10 @@ public abstract class Editor : WorkspaceControl
 
     public void Start()
     {
+        if (Active)
+            return;
+        Active = true;
+
         OnStart();
         StartTools();
     }
@@ -36,6 +40,10 @@ public abstract class Editor : WorkspaceControl
 
     public void Stop()
     {
+        if (!Active)
+            return;
+        Active = false;
+
         StopTools();
         OnStop();
         Cleanup();
@@ -58,6 +66,7 @@ public abstract class Editor : WorkspaceControl
         
     #region Tools
 
+    public bool Active { get; private set; }
     public bool ToolsActive { get; private set; }
     List<LiveAction> _Actions;
 
@@ -66,13 +75,10 @@ public abstract class Editor : WorkspaceControl
     public void StartTools()
     {
         if (ToolsActive)
-        {
-            // Re-initialize
-            StopTools(); 
-        }
+            return;
+        ToolsActive = true;
 
         OnToolsStart();
-        ToolsActive = true;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -81,12 +87,12 @@ public abstract class Editor : WorkspaceControl
     {
         if(!ToolsActive)
             return;
+        ToolsActive = false;
 
         OnToolsStop();
         RemoveHintMessage();
         RemoveHudElements();
         StopAllActions();
-        ToolsActive = false;
     }
 
     //--------------------------------------------------------------------------------------------------

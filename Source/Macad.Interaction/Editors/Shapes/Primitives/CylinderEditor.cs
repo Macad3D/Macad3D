@@ -176,8 +176,7 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 CommitChanges();
             }
-
-            StartTools();
+            _UpdateActions();
         }
 
         //--------------------------------------------------------------------------------------------------

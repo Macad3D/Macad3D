@@ -112,10 +112,10 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
                 Color = Colors.ActionBlue,
                 Cursor = Cursors.Move,
                 ShowHudElement = true,
-                
             };
             _TranslateAction.Preview += _TranslateAction_Preview;
             _TranslateAction.Finished += _TranslateActionFinished;
+            StartAction(_TranslateAction);
         }
 
         if (_RotateActionX == null)
@@ -130,6 +130,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
             };
             _RotateActionX.Preview += _RotateActionX_Preview;
             _RotateActionX.Finished += _RotateActionFinished;
+            StartAction(_RotateActionX);
         }
 
         if (_RotateActionY == null)
@@ -144,6 +145,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
             };
             _RotateActionY.Preview += _RotateActionY_Preview;
             _RotateActionY.Finished += _RotateActionFinished;
+            StartAction(_RotateActionY);
         }
         
         if (_RotateActionZ == null)
@@ -157,14 +159,10 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
             };
             _RotateActionZ.Preview += _RotateActionZ_Preview;
             _RotateActionZ.Finished += _RotateActionFinished;
+            StartAction(_RotateActionZ);
         }
 
         _UpdateActions();
-
-        StartAction(_TranslateAction);
-        StartAction(_RotateActionX);
-        StartAction(_RotateActionY);
-        StartAction(_RotateActionZ);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -172,26 +170,38 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     void _UpdateActions()
     {
         _TranslatedPlane = Entity.GetCenteredPlane(out _PlaneSize).Transformed(Entity.Body.GetTransformation());
-
+        
         if(_TranslateAction != null)
         {
-            _TranslateAction.Length = _PlaneSize / 2;
+            if (!_IsMoving)
+            {
+                _TranslateAction.Length = _PlaneSize / 2;
+            }
             _TranslateAction.Axis = _TranslatedPlane.Axis;
         }
         if (_RotateActionX != null)
         {
-            _RotateActionX.Radius = _PlaneSize / 3;
+            if (!_IsMoving)
+            {
+                _RotateActionX.Radius = _PlaneSize / 3;
+            }
             _RotateActionX.Position = new Ax2(_TranslatedPlane.Location, _TranslatedPlane.XAxis.Direction, _TranslatedPlane.Axis.Direction);
         }
         if (_RotateActionY != null)
         {
-            _RotateActionY.Radius = _PlaneSize / 3;
+            if (!_IsMoving)
+            {
+                _RotateActionY.Radius = _PlaneSize / 3;
+            }
             _RotateActionY.Position = new Ax2(_TranslatedPlane.Location, _TranslatedPlane.YAxis.Direction, _TranslatedPlane.Axis.Direction);
 
         }
         if (_RotateActionZ != null)
         {
-            _RotateActionZ.Radius = _PlaneSize / 3;
+            if (!_IsMoving)
+            {
+                _RotateActionZ.Radius = _PlaneSize / 3;
+            }
             _RotateActionZ.Position = new Ax2(_TranslatedPlane.Location, _TranslatedPlane.Axis.Direction, _TranslatedPlane.YAxis.Direction);
         }
     }
@@ -236,7 +246,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     {
         _IsMoving = false;
         InteractiveContext.Current.UndoHandler.Commit();
-        StartTools();
+        _ShowActions();
     }
     
     //--------------------------------------------------------------------------------------------------
@@ -279,7 +289,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     {
         _IsMoving = false;
         CommitChanges();
-        StartTools();
+        _ShowActions();
     }
 
     //--------------------------------------------------------------------------------------------------

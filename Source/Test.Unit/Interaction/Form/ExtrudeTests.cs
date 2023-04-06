@@ -385,5 +385,52 @@ namespace Macad.Test.Unit.Interaction.Form
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void LiveDepthZero()
+        {
+            var ctx = Context.Current;
+
+            var extrude = TestGeomGenerator.CreateExtrude();
+            extrude.Depth = 0;
+            ctx.WorkspaceController.StartEditor(extrude);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                ctx.MoveTo(250, 216);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthZero01"));
+
+                // Cleanup
+                ctx.WorkspaceController.StopEditor();
+            });
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void LiveDepthSolidZero()
+        {
+            var ctx = Context.Current;
+
+            var shape = TestGeomGenerator.CreateImprint();
+            var subshapeRef = shape.GetSubshapeReference(SubshapeType.Face, 7);
+            var extrude = Extrude.Create(shape.Body, subshapeRef);
+            extrude.Depth = 0;
+            ctx.WorkspaceController.StartEditor(extrude);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                ctx.MoveTo(250, 216);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthSolidZero01"));
+
+                // Cleanup
+                ctx.WorkspaceController.StopEditor();
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

@@ -118,6 +118,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             };
             _AngleAction.Preview += _AngleAction_Preview;
             _AngleAction.Finished += _RotateActions_Finished;
+            StartAction(_AngleAction);
         }
 
         // Length
@@ -131,6 +132,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             };
             _LengthAction.Preview += _LengthAction_Preview;
             _LengthAction.Finished += _TranslateAxisActions_Finished;
+            StartAction(_LengthAction);
         }
 
         // Radius
@@ -144,6 +146,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             };
             _RadiusAction.Preview += _RadiusAction_Preview;
             _RadiusAction.Finished += _TranslateAxisActions_Finished;
+            StartAction(_RadiusAction);
         }
 
         // Start Gap
@@ -157,6 +160,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             };
             _StartGapAction.Preview += _StartGapAction_Preview;
             _StartGapAction.Finished += _TranslateAxisActions_Finished;
+            StartAction(_StartGapAction);
         }
 
         // End Gap
@@ -170,15 +174,10 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             };
             _EndGapAction.Preview += _EndGapAction_Preview;
             _EndGapAction.Finished += _TranslateAxisActions_Finished;
+            StartAction(_EndGapAction);
         }
 
         _UpdateActions();
-
-        StartAction(_AngleAction);
-        StartAction(_LengthAction);
-        StartAction(_RadiusAction);
-        StartAction(_StartGapAction);
-        StartAction(_EndGapAction);
 
         WorkspaceController.Invalidate();
     }
@@ -486,7 +485,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
     {
         _IsMoving = false;
         CommitChanges();
-        StartTools();
+        _ShowActions();
     }
 
     //--------------------------------------------------------------------------------------------------

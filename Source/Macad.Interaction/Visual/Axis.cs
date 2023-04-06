@@ -176,6 +176,8 @@ public sealed class Axis : VisualObject
             _AisObject.SetDisplayMode(AISX_Axis.Mode.Knob);
         else
             _AisObject.SetDisplayMode(AISX_Axis.Mode.Headless);
+        
+        AisContext.Update(_AisObject, false);
     }
 
     //--------------------------------------------------------------------------------------------------

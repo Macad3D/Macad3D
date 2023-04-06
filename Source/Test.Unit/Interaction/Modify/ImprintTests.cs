@@ -383,5 +383,26 @@ namespace Macad.Test.Unit.Interaction.Modify
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void LiveDepthZero()
+        {
+            var ctx = Context.Current;
+
+            var imprint = TestGeomGenerator.CreateImprint();
+            imprint.Mode = Imprint.ImprintMode.Raise;
+            imprint.Depth = 0;
+            ctx.WorkspaceController.StartEditor(imprint);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                ctx.MoveTo(250, 191);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthZero01"));
+
+                // Cleanup
+                ctx.WorkspaceController.StopEditor();
+            });
+        }
     }
 }

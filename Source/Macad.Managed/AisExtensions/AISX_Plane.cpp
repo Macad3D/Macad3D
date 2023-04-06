@@ -19,7 +19,6 @@ void AISX_Plane::SetPlane(const gp_Pln& thePlane)
 {
     _Plane = thePlane;
     SetToUpdate();
-    UpdatePresentations();
     UpdateSelection();
 }
 
@@ -68,7 +67,6 @@ void AISX_Plane::SetSize(double theSizeX, double theSizeY)
     _SizeX = theSizeX;
     _SizeY = theSizeY;
     SetToUpdate();
-    UpdatePresentations();
     UpdateSelection();
 }
 
@@ -83,9 +81,6 @@ void AISX_Plane::SetTexture(const Handle(Image_PixMap)& thePixMap)
 	myDrawer->ShadingAspect()->Aspect()->SetTextureMapOn(true);
     myDrawer->ShadingAspect()->Aspect()->SetColor(Quantity_NOC_WHITE);
     myDrawer->SetFaceBoundaryDraw(false);
-
-	//_HilightDrawer->ShadingAspect()->Aspect()->SetTextureMap(aTexture);
-	//_HilightDrawer->ShadingAspect()->Aspect()->SetTextureMapOn(true);
 
 	SynchronizeAspects();
 }
@@ -211,12 +206,10 @@ void AISX_Plane::_InitDrawerAttributes()
     myDrawer->SetDisplayMode(0);
 
 	shasp = new Prs3d_ShadingAspect();
-//    shasp->SetTransparency(0.33f);
     shasp->Aspect()->SetEdgeWidth(2);
     shasp->Aspect()->SetPolygonOffsets(Aspect_POM_Fill, 1.0f, -3);
     myDynHilightDrawer = new Prs3d_Drawer();
     myDynHilightDrawer->Link(myDrawer);
-//    myDynHilightDrawer->SetShadingAspect(shasp);
     myDynHilightDrawer->SetFaceBoundaryDraw(true);
     myDynHilightDrawer->SetDisplayMode(1);
 

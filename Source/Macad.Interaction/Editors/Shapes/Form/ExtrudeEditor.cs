@@ -45,40 +45,26 @@ public class ExtrudeEditor : Editor<Extrude>
     {
         if (shape == Entity)
         {
-            if (!_IsMoving)
-            {
-                StartTools();
-            }
-            else if (_TranslateAction != null && Entity.GetFinalExtrusionAxis(out Ax1 axis))
-            {
-                if (Entity.IsSketchBased && Math.Sign(_StartDepth) != Math.Sign(Entity.Depth))
-                    axis.Reverse();
-                _TranslateAction.Axis = axis.Transformed(Entity.Body.GetTransformation());
-            }
-
+            _UpdateActions();
             WorkspaceController.Invalidate();
         }
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    [AutoRegister]
-    internal static void Register()
-    {
-        RegisterEditor<ExtrudeEditor>();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     #region Live Actions
+    
+    //--------------------------------------------------------------------------------------------------
 
     void _UpdateActions()
     {
-        if (Entity?.Body == null)
+        if (Entity?.Body == null
+            || !Entity.GetFinalExtrusionAxis(out Ax1 axis))
+        {
+            StopAllActions();
+            _TranslateAction = null;
             return;
-
-        if (!Entity.GetFinalExtrusionAxis(out Ax1 axis))
-            return;
+        }
         axis.Transform(Entity.Body.GetTransformation());
 
         if (_TranslateAction == null)
@@ -92,14 +78,19 @@ public class ExtrudeEditor : Editor<Extrude>
             };
             _TranslateAction.Preview += _TranslateAction_Preview;
             _TranslateAction.Finished += _TranslateActionFinished;
+            StartAction(_TranslateAction);
         }
-        _TranslateAction.Axis = axis;
+
         if (!_IsMoving)
         {
             _StartDepth = Entity.Depth;
+        } 
+        else
+        {
+            if (Entity.IsSketchBased && Math.Sign(_StartDepth) != Math.Sign(Entity.Depth))
+                axis.Reverse();
         }
-
-        StartAction(_TranslateAction);
+        _TranslateAction.Axis = axis;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -151,12 +142,19 @@ public class ExtrudeEditor : Editor<Extrude>
     {
         _IsMoving = false;
         CommitChanges();
-
-        StartTools();
+        _UpdateActions();
     }
     
     //--------------------------------------------------------------------------------------------------
-
-
+    
     #endregion
+    
+    [AutoRegister]
+    internal static void Register()
+    {
+        RegisterEditor<ExtrudeEditor>();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

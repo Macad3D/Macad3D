@@ -3,6 +3,7 @@ using Macad.Core;
 using Macad.Interaction.Visual;
 using Macad.Occt;
 using Macad.Presentation;
+using Macad.SketchSolve;
 
 namespace Macad.Interaction;
 
@@ -34,7 +35,17 @@ public class TranslateAxisLiveAction : LiveAction
     public double Length
     {
         get { return _Length; }
-        set { _Length = value; }
+        set
+        {
+            if (_Length == value)
+                return;
+
+            _Length = value;
+            if (_AxisGizmo != null)
+            {
+                _AxisGizmo.Length = _Length;
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -52,9 +63,9 @@ public class TranslateAxisLiveAction : LiveAction
     //--------------------------------------------------------------------------------------------------
 
     Axis _AxisGizmo;
-    double _Length;
-    Ax1 _Axis;
-    Ax1 _StartAxis;
+    double _Length = 1.0;
+    Ax1 _Axis = Ax1.OZ;
+    Ax1 _StartAxis = Ax1.OZ;
     bool _IsMoving;
     double _StartValue;
     double _Distance;
@@ -83,12 +94,6 @@ public class TranslateAxisLiveAction : LiveAction
     #endregion
 
     #region Creation and Activation
-
-    public TranslateAxisLiveAction() 
-    {
-    }
-    
-    //--------------------------------------------------------------------------------------------------
 
     protected override void OnStart()
     {

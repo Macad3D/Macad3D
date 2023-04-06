@@ -221,13 +221,6 @@ namespace Macad.Core.Shapes
             var solid = GetOperandBRep(0);
             if (solid == null || _Face == null)
                 return false;
-            
-            // If extrusion vector has zero length, just copy the source shape
-            if (Depth == 0)
-            {
-                BRep = solid;
-                return base.MakeInternal(MakeFlags.None);
-            }
 
             // Get face
             var face = GetOperandFace(0, _Face);
@@ -241,6 +234,13 @@ namespace Macad.Core.Shapes
             var axis = FaceAlgo.GetFaceCenterNormal(face);
             var direction = axis.Direction;
             ExtrusionAxis = axis;
+            
+            // If extrusion vector has zero length, just copy the source shape
+            if (Depth == 0)
+            {
+                BRep = solid;
+                return base.MakeInternal(MakeFlags.None);
+            }
 
             // Do it!
             var makePrism = new BRepFeat_MakePrism(solid, face, face, direction, Depth > 0 ? 1 : 0, false);

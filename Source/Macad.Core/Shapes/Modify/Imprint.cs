@@ -221,13 +221,13 @@ namespace Macad.Core.Shapes
                 }
             }
 
+            ExtrusionAxis = facePlane.Axis;
+
             // If extrusion vector has zero length, or the shape is empty, just copy the source shape
             if (Depth == 0 || !baseFacesShape.Faces().Any())
             {
                 return Skip();
             }
-
-            ExtrusionAxis = facePlane.Axis;
 
             // Do it!
             if (useDraft)
@@ -281,7 +281,8 @@ namespace Macad.Core.Shapes
         {
             if (ExtrusionAxis == null)
             {
-                if (!EnsureHistory() || ExtrusionAxis == null)
+                EnsureHistory();
+                if (ExtrusionAxis == null)
                 {
                     axis = Ax1.OZ;
                     return false;
