@@ -47,6 +47,8 @@ public abstract class Editor : WorkspaceControl
         StopTools();
         OnStop();
         Cleanup();
+
+        Debug.Assert(CleanedUp);
     }
 
     //--------------------------------------------------------------------------------------------------

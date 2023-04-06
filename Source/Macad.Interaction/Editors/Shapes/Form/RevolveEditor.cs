@@ -36,29 +36,27 @@ namespace Macad.Interaction.Editors.Shapes
         protected override void OnStop()
         {
             Shape.ShapeChanged -= _Shape_ShapeChanged;
-            
-            _AxisHint?.Remove();
-            _AxisHint = null;
-            _OriginHint?.Remove();
             _OriginHint = null;
+            _AxisHint = null;
+            base.OnStop();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         protected override void OnToolsStart()
         {
-            Shape.ShapeChanged += _Shape_ShapeChanged;
-            _UpdateActions();
+            _ShowActions();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         protected override void OnToolsStop()
         {
-            _HudElement = null;
             _OffsetXAction = null;
             _OffsetYAction = null;
             _OffsetZAction = null;
+            _HudElement = null;
+            base.OnToolsStop();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -68,10 +66,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (shape == Entity)
             {
                 _UpdateHints();
-                if (!_IsMoving)
-                {
-                    _UpdateActions();
-                }
+                _UpdateActions();
             }
         }
 
@@ -84,15 +79,20 @@ namespace Macad.Interaction.Editors.Shapes
             var computeAxis = Entity.ComputeAxis();
             if (computeAxis == null)
             {
-                _AxisHint?.Remove();
+                Remove(_AxisHint);
                 _AxisHint = null;
-                _OriginHint?.Remove();
+                Remove(_OriginHint);
                 _OriginHint = null;
                 return;
             }
 
-            _AxisHint ??= new HintLine(WorkspaceController, HintStyle.WorkingAxis);
-            _OriginHint ??= new HintLine(WorkspaceController, HintStyle.Dashed);
+            if (_AxisHint == null)
+            {
+                _AxisHint = new HintLine(WorkspaceController, HintStyle.WorkingAxis);
+                Add(_AxisHint);
+                _OriginHint = new HintLine(WorkspaceController, HintStyle.Dashed);
+                Add(_OriginHint);
+            }
 
             var bbox = Entity.GetBRep()?.BoundingBox();
             if (bbox != null)
@@ -124,6 +124,62 @@ namespace Macad.Interaction.Editors.Shapes
 
         #region Actions
 
+        void _ShowActions()
+        {
+            var computeAxis = Entity.ComputeAxis();
+            if (computeAxis == null)
+            {
+                StopAllActions();
+                return;
+            }
+
+            // Offset X
+            if (_OffsetXAction == null)
+            {
+                _OffsetXAction = new()
+                {
+                    Color = Colors.ActionRed,
+                    NoResize = true,
+                    Length = 1.0
+                };
+                _OffsetXAction.Preview += _OffsetXAction_Preview;
+                _OffsetXAction.Finished += _Actions_Finished;
+                StartAction(_OffsetXAction);
+            }
+        
+            // Offset Y
+            if (_OffsetYAction == null)
+            {
+                _OffsetYAction = new()
+                {
+                    Color = Colors.ActionGreen,
+                    NoResize = true,
+                    Length = 1.0
+                };
+                _OffsetYAction.Preview += _OffsetYAction_Preview;
+                _OffsetYAction.Finished += _Actions_Finished;
+                StartAction(_OffsetYAction);
+            }
+
+            // Offset Z
+            if (_OffsetZAction == null)
+            {
+                _OffsetZAction = new()
+                {
+                    Color = Colors.ActionBlue,
+                    NoResize = true,
+                    Length = 1.0
+                };
+                _OffsetZAction.Preview += _OffsetZAction_Preview;
+                _OffsetZAction.Finished += _Actions_Finished;
+                StartAction(_OffsetZAction);
+            }
+
+            _UpdateActions();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         void _UpdateActions()
         {
             var computeAxis = Entity.ComputeAxis();
@@ -143,50 +199,20 @@ namespace Macad.Interaction.Editors.Shapes
             _OffsetActionPivot = axis.Location;
             var localCS = Entity.GetCoordinateSystem();
 
-            // Offset X
-            if (_OffsetXAction == null)
+            if (_OffsetXAction != null)
             {
-                _OffsetXAction = new()
-                {
-                    Color = Colors.ActionRed,
-                    NoResize = true,
-                    Length = 1.0
-                };
-                _OffsetXAction.Preview += _OffsetXAction_Preview;
-                _OffsetXAction.Finished += _Actions_Finished;
-                StartAction(_OffsetXAction);
+                _OffsetXAction.Axis = new Ax1(_OffsetActionPivot, localCS.XDirection);
             }
-            _OffsetXAction.Axis = new Ax1(_OffsetActionPivot, localCS.XDirection);
 
-            // Offset Y
-            if (_OffsetYAction == null)
+            if (_OffsetYAction != null)
             {
-                _OffsetYAction = new()
-                {
-                    Color = Colors.ActionGreen,
-                    NoResize = true,
-                    Length = 1.0
-                };
-                _OffsetYAction.Preview += _OffsetYAction_Preview;
-                _OffsetYAction.Finished += _Actions_Finished;
-                StartAction(_OffsetYAction);
+                _OffsetYAction.Axis = new Ax1(_OffsetActionPivot, localCS.YDirection);
             }
-            _OffsetYAction.Axis = new Ax1(_OffsetActionPivot, localCS.YDirection);
 
-            // Offset Z
-            if (_OffsetZAction == null)
+            if (_OffsetZAction != null)
             {
-                _OffsetZAction = new()
-                {
-                    Color = Colors.ActionBlue,
-                    NoResize = true,
-                    Length = 1.0
-                };
-                _OffsetZAction.Preview += _OffsetZAction_Preview;
-                _OffsetZAction.Finished += _Actions_Finished;
-                StartAction(_OffsetZAction);
+                _OffsetZAction.Axis = new Ax1(_OffsetActionPivot, localCS.Direction);
             }
-            _OffsetZAction.Axis = new Ax1(_OffsetActionPivot, localCS.Direction);
 
             if (!_IsMoving)
             {
@@ -302,7 +328,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             _IsMoving = false;
             CommitChanges();
-            _UpdateActions();
+            _ShowActions();
         }
 
         //--------------------------------------------------------------------------------------------------
