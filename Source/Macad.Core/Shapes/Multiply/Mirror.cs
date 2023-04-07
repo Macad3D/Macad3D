@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using Macad.Common;
 using Macad.Core.Geom;
 using Macad.Core.Topology;
 using Macad.Common.Serialization;
@@ -75,6 +76,11 @@ namespace Macad.Core.Shapes
                 }
             }
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [SerializeMember]
+        public Ax2? MirrorAxis { get; private set; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -134,6 +140,7 @@ namespace Macad.Core.Shapes
         protected override bool MakeInternal(MakeFlags flags)
         {
             ClearSubshapeLists();
+            MirrorAxis = null;
 
             // Currently we work with 1 source shape only
             if (Operands.Count != 1)
@@ -245,13 +252,13 @@ namespace Macad.Core.Shapes
             adaptor.Surface().D1(midParamU, midParamV, ref midPoint, ref d1U, ref d1V);
             Vec normal = d1U.Crossed(d1V).Normalized();
 
-            var axis = new Ax2(midPoint, normal.ToDir(), d1U.ToDir());
             if(face.Orientation() == TopAbs_Orientation.REVERSED)
                 normal.Reverse();
+            var axis = new Ax2(midPoint, normal.ToDir(), d1U.ToDir());
 
             axis.Translate(normal.Multiplied(_Offset));
-
             transform.SetMirror(axis);
+            MirrorAxis = axis;
 
             return true;
         }
@@ -325,10 +332,20 @@ namespace Macad.Core.Shapes
             curve.D1(midParam, ref midPoint, ref tangent);
 
             var axis = new Ax2d(midPoint, new Dir2d(tangent));
-            var dir = axis.Direction.Rotated( edge.Orientation() == TopAbs_Orientation.FORWARD ? -90 : 90 );
+            var dir = axis.Direction.Rotated( edge.Orientation() == TopAbs_Orientation.FORWARD ? -Maths.HalfPI : Maths.HalfPI );
             axis.Translate(dir.ToVec().Multiplied(_Offset));
-
             transform.SetMirror(axis);
+
+            // Create 3D axis for tool
+            if (curveRep.Surface() is Geom_Plane plane)
+            {
+                var dirN = axis.Direction;
+                if(edge.Orientation() == TopAbs_Orientation.REVERSED)
+                    dirN.Reverse();
+                MirrorAxis = new Ax2(plane.Value(axis.Location.X, axis.Location.Y),
+                                     plane.Value(dirN.X, dirN.Y).ToDir(),
+                                     plane.Axis().Direction);
+            }
 
             // If edge is linear and offset is 0, the edge should be eliminated
             if (Offset == 0 && curve is Geom2d_Line)
@@ -342,6 +359,29 @@ namespace Macad.Core.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region Helper
+
+        public bool GetMirrorAxis(out Ax2 axis)
+        {
+            if (MirrorAxis == null)
+            {
+                EnsureHistory();
+                if (MirrorAxis == null)
+                {
+                    axis = Ax2.YOZ;
+                    return false;
+                }
+            }
+
+            axis = MirrorAxis.Value;
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
 
         #endregion
     }

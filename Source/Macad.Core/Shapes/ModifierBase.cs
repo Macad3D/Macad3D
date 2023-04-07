@@ -203,7 +203,7 @@ namespace Macad.Core.Shapes
 
             // Find target face
             var faces = operand.FindSubshape(faceRef, GetCoordinateSystem());
-            if (faces == null || faces.Count == 0)
+            if (faces == null || faces.Count == 0 || faces.Any(face => face.ShapeType() != TopAbs_ShapeEnum.FACE))
             {
                 Messages.Error("The face index is invalid and must be re-selected.");
                 return null;
@@ -222,7 +222,7 @@ namespace Macad.Core.Shapes
 
             // Find target edge
             var edges = operand.FindSubshape(edgeRef, GetCoordinateSystem());
-            if (edges == null || edges.Count == 0)
+            if (edges == null || edges.Count == 0 || edges.Any(edge => edge.ShapeType() != TopAbs_ShapeEnum.EDGE))
             {
                 Messages.Error("The edge index is invalid and must be re-selected.");
                 return null;
@@ -247,7 +247,7 @@ namespace Macad.Core.Shapes
 
             // Find target vertex
             var vertices = operand.FindSubshape(vertexRef, GetCoordinateSystem());
-            if (vertices == null || vertices.Count == 0)
+            if (vertices == null || vertices.Count == 0 || vertices.Any(vertex => vertex.ShapeType() != TopAbs_ShapeEnum.VERTEX))
             {
                 Messages.Error("The vertex index is invalid and must be re-selected.");
                 return null;
