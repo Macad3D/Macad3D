@@ -30,7 +30,7 @@ public class TaperEditor : Editor<Taper>
     protected override void OnToolsStart()
     {
         Shape.ShapeChanged += _Shape_ShapeChanged;
-        _UpdateActions();
+        _ShowActions();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -57,6 +57,46 @@ public class TaperEditor : Editor<Taper>
 
     #region Live Actions
 
+    void _ShowActions()
+    {
+        if (Entity?.Body == null)
+        {
+            StopAllActions();
+            _OffsetAction = null;
+            return;
+        }
+
+        if (_OffsetAction == null)
+        {
+            _OffsetAction = new()
+            {
+                Color = Colors.ActionRed,
+                Cursor = Cursors.SetHeight,
+                NoResize = true,
+                Length = 1.0,
+            };
+            _OffsetAction.Preview += _OffsetAction_Preview;
+            _OffsetAction.Finished += _OffsetAction_Finished;
+            StartAction(_OffsetAction);
+        }
+
+        if (_AngleAction == null)
+        {
+            _AngleAction = new()
+            {
+                Color = Colors.ActionGreen,
+                NoResize = true,
+                ShowKnob = true
+            };
+            _AngleAction.Preview += _AngleAction_Preview;
+            _AngleAction.Finished += _AngleAction_Finished;
+            StartAction(_AngleAction);
+        }
+        _UpdateActions();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _UpdateActions()
     {
         if (!Entity.GetReferenceAxis(out Ax2 axis))
@@ -70,22 +110,8 @@ public class TaperEditor : Editor<Taper>
         axis.Transform(Entity.Body.GetTransformation());
 
         // Offset
-        if (!_IsMovingAngle)
+        if (_OffsetAction != null)
         {
-            if (_OffsetAction == null)
-            {
-                _OffsetAction = new()
-                {
-                    Color = Colors.ActionRed,
-                    Cursor = Cursors.SetHeight,
-                    NoResize = true,
-                    Length = 1.0,
-                };
-                _OffsetAction.Preview += _OffsetAction_Preview;
-                _OffsetAction.Finished += _OffsetAction_Finished;
-                StartAction(_OffsetAction);
-            }
-
             _OffsetAction.Axis = Entity.Angle < 0.0 ? axis.Axis.Reversed() : axis.Axis;
             if (!_IsMovingOffset)
             {
@@ -94,21 +120,8 @@ public class TaperEditor : Editor<Taper>
         }
 
         // Angle
-        if (!_IsMovingOffset)
+        if (_AngleAction != null)
         {
-            if (_AngleAction == null)
-            {
-                _AngleAction = new()
-                {
-                    Color = Colors.ActionGreen,
-                    NoResize = true,
-                    ShowKnob = true
-                };
-                _AngleAction.Preview += _AngleAction_Preview;
-                _AngleAction.Finished += _AngleAction_Finished;
-                StartAction(_AngleAction);
-            }
-
             _AngleAction.Position = new Ax2(axis.Location, axis.YDirection.Reversed(), axis.Direction);
             _AngleAction.Radius = 1.0;
             _AngleAction.VisualLimits = (Entity.Angle.ToRad(), -Maths.PI);
@@ -122,7 +135,6 @@ public class TaperEditor : Editor<Taper>
                 _AngleAction.VisualSector = (Entity.Angle.ToRad(), _StartAngle);
             }
         }
-
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -166,9 +178,7 @@ public class TaperEditor : Editor<Taper>
 
     void _AngleAction_Finished(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
-        InteractiveContext.Current.UndoHandler.Commit();
-        _IsMovingAngle = false;
-        _UpdateActions();
+        _ActionFinished();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -209,14 +219,24 @@ public class TaperEditor : Editor<Taper>
 
     void _OffsetAction_Finished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
+        _ActionFinished();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _ActionFinished()
+    {
         CommitChanges();
         _IsMovingOffset = false;
-        _UpdateActions();
+        _IsMovingAngle = false;
+        Remove(_HudElement);
+        _HudElement = null;
+        RemoveHintMessage();
+        _ShowActions();
     }
     
     //--------------------------------------------------------------------------------------------------
-
-
+    
     #endregion
     
     [AutoRegister]

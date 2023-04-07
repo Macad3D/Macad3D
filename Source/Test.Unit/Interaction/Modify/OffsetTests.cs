@@ -35,21 +35,46 @@ public class OffsetTests
         var ctx = Context.Current;
         var box = TestGeomGenerator.CreateBox();
         var offset = Offset.Create(box.Body);
-
-        var editor = Editor.CreateEditor(offset);
-        editor.Start();
-
+        ctx.WorkspaceController.StartEditor(offset);
         ctx.ViewportController.ZoomFitAll();
+
         Assert.Multiple(() =>
         {
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
                         
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
         });
     }
     
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void EditorStartStopTools()
+    {
+        var ctx = Context.Current;
+        var box = TestGeomGenerator.CreateBox();
+        var offset = Offset.Create(box.Body);
+        ctx.WorkspaceController.StartEditor(offset);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
+            ctx.WorkspaceController.CurrentEditor.StopTools();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle02"));
+            offset.RaiseShapeChanged();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle02"));
+            ctx.WorkspaceController.CurrentEditor.StartTools();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle04"));
+                        
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
+        });
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     [Test]
@@ -72,6 +97,9 @@ public class OffsetTests
         
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistance03"));
+                            
+            Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
+            Assert.IsEmpty(ctx.TestHudManager.HudElements);
 
             // Cleanup
             ctx.WorkspaceController.StopEditor();

@@ -485,6 +485,9 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
     {
         _IsMoving = false;
         CommitChanges();
+        Remove(_HudElement);
+        _HudElement = null;
+        RemoveHintMessage();
         _ShowActions();
     }
 

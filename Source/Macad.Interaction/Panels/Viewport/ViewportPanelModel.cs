@@ -197,10 +197,15 @@ namespace Macad.Interaction.Panels
             {
                 if (owner != _HintMessageOwner)
                     return;
-            }
 
-            HintMessage = message;
-            _HintMessageOwner = owner;
+                HintMessage = null;
+                _HintMessageOwner = null;
+            }
+            else
+            {
+                HintMessage = message;
+                _HintMessageOwner = owner;
+            }
         }
 
         //--------------------------------------------------------------------------------------------------

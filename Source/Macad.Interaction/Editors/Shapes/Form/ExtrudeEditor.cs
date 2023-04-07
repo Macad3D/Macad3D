@@ -27,7 +27,7 @@ public class ExtrudeEditor : Editor<Extrude>
     protected override void OnToolsStart()
     {
         Shape.ShapeChanged += _Shape_ShapeChanged;
-        _UpdateActions();
+        _ShowActions();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -53,19 +53,15 @@ public class ExtrudeEditor : Editor<Extrude>
     //--------------------------------------------------------------------------------------------------
 
     #region Live Actions
-    
-    //--------------------------------------------------------------------------------------------------
 
-    void _UpdateActions()
+    void _ShowActions()
     {
-        if (Entity?.Body == null
-            || !Entity.GetFinalExtrusionAxis(out Ax1 axis))
+        if (Entity?.Body == null)
         {
             StopAllActions();
             _TranslateAction = null;
             return;
         }
-        axis.Transform(Entity.Body.GetTransformation());
 
         if (_TranslateAction == null)
         {
@@ -81,6 +77,22 @@ public class ExtrudeEditor : Editor<Extrude>
             StartAction(_TranslateAction);
         }
 
+        _UpdateActions();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _UpdateActions()
+    {
+        if (_TranslateAction == null
+            || !Entity.GetFinalExtrusionAxis(out Ax1 axis))
+        {
+            StopAllActions();
+            _TranslateAction = null;
+            return;
+        }
+        axis.Transform(Entity.Body.GetTransformation());
+        
         if (!_IsMoving)
         {
             _StartDepth = Entity.Depth;
@@ -141,6 +153,9 @@ public class ExtrudeEditor : Editor<Extrude>
     void _TranslateActionFinished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = false;
+        Remove(_HudElement);
+        _HudElement = null;
+        RemoveHintMessage();
         CommitChanges();
         _UpdateActions();
     }

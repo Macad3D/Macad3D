@@ -34,10 +34,8 @@ public class RevolveToolTests
     public void EditorIdle()
     {
         var ctx = Context.Current;
-
         var revolve = TestGeomGenerator.CreateRevolve();
-        var editor = Editor.CreateEditor(revolve);
-        editor.Start();
+        ctx.WorkspaceController.StartEditor(revolve);
         ctx.ViewportController.ZoomFitAll();
 
         Assert.Multiple(() =>
@@ -45,13 +43,39 @@ public class RevolveToolTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
             
             // Cleanup
-            editor.Stop();
+            ctx.WorkspaceController.StopEditor();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
         });
     }
 
     //--------------------------------------------------------------------------------------------------
-    
+
+    [Test]
+    public void EditorStartStopTools()
+    {
+        var ctx = Context.Current;
+        var revolve = TestGeomGenerator.CreateRevolve();
+        ctx.WorkspaceController.StartEditor(revolve);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
+            ctx.WorkspaceController.CurrentEditor.StopTools();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle02"));
+            revolve.RaiseShapeChanged();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle03"));
+            ctx.WorkspaceController.CurrentEditor.StartTools();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle04"));
+                        
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     [Test]
     [TestCase(347, 328, 305, 350, "X", TestName = "LiveOffsetX")]
     [TestCase(380, 326, 390, 335, "Y", TestName = "LiveOffsetY")]
@@ -78,6 +102,9 @@ public class RevolveToolTests
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"LiveOffset{axis}03"));
             Assert.Greater(revolve.Offset.Magnitude(), oldOffset);
+                            
+            Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
+            Assert.IsEmpty(ctx.TestHudManager.HudElements);
 
             // Cleanup
             ctx.WorkspaceController.StopEditor();

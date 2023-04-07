@@ -35,14 +35,40 @@ public class CrossSectionTests
     public void EditorIdle()
     {
         var ctx = Context.Current;
-
         var section = _SetupTestGeom();
         ctx.WorkspaceController.StartEditor(section);
+        ctx.ViewportController.ZoomFitAll();
 
         Assert.Multiple(() =>
         {
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
             
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void EditorStartStopTools()
+    {
+        var ctx = Context.Current;
+        var section = _SetupTestGeom();
+        ctx.WorkspaceController.StartEditor(section);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
+            ctx.WorkspaceController.CurrentEditor.StopTools();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle02"));
+            section.RaiseShapeChanged();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle02"));
+            ctx.WorkspaceController.CurrentEditor.StartTools();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
+                        
             // Cleanup
             ctx.WorkspaceController.StopEditor();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
@@ -70,6 +96,9 @@ public class CrossSectionTests
             
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveTranslate03"));
+                            
+            Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
+            Assert.IsEmpty(ctx.TestHudManager.HudElements);
 
             // Cleanup
             ctx.WorkspaceController.StopEditor();
@@ -126,6 +155,9 @@ public class CrossSectionTests
             
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateX03"));
+                            
+            Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
+            Assert.IsEmpty(ctx.TestHudManager.HudElements);
 
             // Cleanup
             ctx.WorkspaceController.StopEditor();
@@ -181,6 +213,9 @@ public class CrossSectionTests
             
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateY03"));
+                            
+            Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
+            Assert.IsEmpty(ctx.TestHudManager.HudElements);
 
             // Cleanup
             ctx.WorkspaceController.StopEditor();
@@ -236,6 +271,9 @@ public class CrossSectionTests
             
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateZ03"));
+                            
+            Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
+            Assert.IsEmpty(ctx.TestHudManager.HudElements);
 
             // Cleanup
             ctx.WorkspaceController.StopEditor();

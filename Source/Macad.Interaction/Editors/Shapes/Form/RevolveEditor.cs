@@ -25,19 +25,12 @@ namespace Macad.Interaction.Editors.Shapes
         protected override void OnStart()
         {
             CreatePanel<RevolvePropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
-                                
-            Shape.ShapeChanged += _Shape_ShapeChanged;
-
-            _UpdateHints();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         protected override void OnStop()
         {
-            Shape.ShapeChanged -= _Shape_ShapeChanged;
-            _OriginHint = null;
-            _AxisHint = null;
             base.OnStop();
         }
 
@@ -45,6 +38,8 @@ namespace Macad.Interaction.Editors.Shapes
 
         protected override void OnToolsStart()
         {
+            Shape.ShapeChanged += _Shape_ShapeChanged;
+            _UpdateHints();
             _ShowActions();
         }
 
@@ -52,6 +47,11 @@ namespace Macad.Interaction.Editors.Shapes
 
         protected override void OnToolsStop()
         {
+            Shape.ShapeChanged -= _Shape_ShapeChanged;
+            Remove(_OriginHint);
+            _OriginHint = null;
+            Remove(_AxisHint);
+            _AxisHint = null;
             _OffsetXAction = null;
             _OffsetYAction = null;
             _OffsetZAction = null;
@@ -327,6 +327,9 @@ namespace Macad.Interaction.Editors.Shapes
         void _Actions_Finished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
         {
             _IsMoving = false;
+            Remove(_HudElement);
+            _HudElement = null;
+            RemoveHintMessage();
             CommitChanges();
             _ShowActions();
         }

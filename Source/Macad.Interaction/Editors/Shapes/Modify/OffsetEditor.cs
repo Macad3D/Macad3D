@@ -25,7 +25,7 @@ public sealed class OffsetEditor : Editor<Offset>
     protected override void OnToolsStart()
     {
         Shape.ShapeChanged += _Shape_ShapeChanged;
-        _UpdateActions();
+        _ShowActions();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ public sealed class OffsetEditor : Editor<Offset>
     
     #region Scale Action
 
-    void _UpdateActions()
+    void _ShowActions()
     {
         if (Entity?.Body == null)
         {
@@ -60,10 +60,6 @@ public sealed class OffsetEditor : Editor<Offset>
             return;
         }
 
-        Bnd_Box box = Entity.GetBRep()?.BoundingBox();
-        if (box == null)
-            return;
-
         if (_ScaleAction == null)
         {
             _ScaleAction = new BoxScaleLiveAction(Entity.ShapeType==ShapeType.Sketch);
@@ -71,6 +67,20 @@ public sealed class OffsetEditor : Editor<Offset>
             _ScaleAction.Finished += _ScaleAction_Finished;
             StartAction(_ScaleAction);
         }
+
+        _UpdateActions();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _UpdateActions()
+    {
+        if (_ScaleAction == null)
+            return;
+
+        Bnd_Box box = Entity.GetBRep()?.BoundingBox();
+        if (box == null)
+            return;
 
         _ScaleAction.Box = box;
         _ScaleAction.Transformation = Entity.Body.GetTransformation();
@@ -118,6 +128,9 @@ public sealed class OffsetEditor : Editor<Offset>
         {
             CommitChanges();
         }
+        Remove(_HudElement);
+        _HudElement = null;
+        RemoveHintMessage();
         _UpdateActions();
     }
 

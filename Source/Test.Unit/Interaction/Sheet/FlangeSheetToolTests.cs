@@ -150,7 +150,6 @@ namespace Macad.Test.Unit.Interaction.Sheet
         public void EditorIdle()
         {
             var ctx = Context.Current;
-
             var flange = _CreateFlange();
             ctx.WorkspaceController.StartEditor(flange);
             ctx.ViewportController.ZoomFitAll();
@@ -159,6 +158,32 @@ namespace Macad.Test.Unit.Interaction.Sheet
             {
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
             
+                // Cleanup
+                ctx.WorkspaceController.StopEditor();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void EditorStartStopTools()
+        {
+            var ctx = Context.Current;
+            var flange = _CreateFlange();
+            ctx.WorkspaceController.StartEditor(flange);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
+                ctx.WorkspaceController.CurrentEditor.StopTools();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle02"));
+                flange.RaiseShapeChanged();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle02"));
+                ctx.WorkspaceController.CurrentEditor.StartTools();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
+                        
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
@@ -190,6 +215,9 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 ctx.ViewportController.MouseUp();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngle03"));
                 Assert.Less(flange.Angle, oldAngle);
+                                
+                Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
+                Assert.IsEmpty(ctx.TestHudManager.HudElements);
 
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();
@@ -396,6 +424,9 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 ctx.ViewportController.MouseUp();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveLength03"));
                 Assert.Greater(flange.Length, oldLength);
+                                
+                Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
+                Assert.IsEmpty(ctx.TestHudManager.HudElements);
 
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();
@@ -542,6 +573,9 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 ctx.ViewportController.MouseUp();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRadius03"));
                 Assert.Greater(flange.Radius, oldRadius);
+                                
+                Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
+                Assert.IsEmpty(ctx.TestHudManager.HudElements);
 
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();
@@ -688,6 +722,9 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 ctx.ViewportController.MouseUp();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveStartGap03"));
                 Assert.Greater(flange.StartGap, oldGap);
+                                
+                Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
+                Assert.IsEmpty(ctx.TestHudManager.HudElements);
 
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();
@@ -864,6 +901,9 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 ctx.ViewportController.MouseUp();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveEndGap03"));
                 Assert.Greater(flange.EndGap, oldGap);
+                                
+                Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
+                Assert.IsEmpty(ctx.TestHudManager.HudElements);
 
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();

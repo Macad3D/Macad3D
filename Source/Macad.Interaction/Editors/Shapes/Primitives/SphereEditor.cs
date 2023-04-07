@@ -24,7 +24,7 @@ namespace Macad.Interaction.Editors.Shapes
         protected override void OnToolsStart()
         {
             Shape.ShapeChanged += _Shape_ShapeChanged;
-            _UpdateActions();
+            _ShowActions();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         #region Scale Action
 
-        void _UpdateActions()
+        void _ShowActions()
         {
             if (Entity?.Body == null)
             {
@@ -64,13 +64,23 @@ namespace Macad.Interaction.Editors.Shapes
                 _ScaleAction = new BoxScaleLiveAction();
                 _ScaleAction.Preview += _ScaleAction_Preview;
                 _ScaleAction.Finished += _ScaleAction_Finished;
-	            StartAction(_ScaleAction);
+                StartAction(_ScaleAction);
             }
+
+            _UpdateActions();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _UpdateActions()
+        {
+            if (_ScaleAction == null)
+                return;
+
             Bnd_Box box = new Bnd_Box(new Pnt(-Entity.Radius, -Entity.Radius, -Entity.Radius),
                                       new Pnt( Entity.Radius,  Entity.Radius,  Entity.Radius));
             _ScaleAction.Box = box;
             _ScaleAction.Transformation = Entity.Body.GetTransformation();
-
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -124,6 +134,9 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 CommitChanges();
             }
+            Remove(_HudElement);
+            _HudElement = null;
+            RemoveHintMessage();
             _UpdateActions();
         }
 

@@ -31,7 +31,7 @@ public class ImprintEditor : Editor<Imprint>
     protected override void OnToolsStart()
     {
         Shape.ShapeChanged += _Shape_ShapeChanged;
-        _UpdateActions();
+        _ShowActions();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -49,7 +49,10 @@ public class ImprintEditor : Editor<Imprint>
     {
         if (shape == Entity)
         {
-            _UpdateActions();
+            if (ToolsActive)
+            {
+                _ShowActions();
+            }
         }
     }
 
@@ -65,17 +68,15 @@ public class ImprintEditor : Editor<Imprint>
 
     #region Live Actions
 
-    void _UpdateActions()
+    void _ShowActions()
     {
         if (Entity?.Body == null
-            || Entity.Mode == Imprint.ImprintMode.Cutout
-            || !Entity.GetFinalExtrusionAxis(out Ax1 axis))
+            || Entity.Mode == Imprint.ImprintMode.Cutout)
         {
             StopAllActions();
             _TranslateAction = null;
             return;
         }
-        axis.Transform(Entity.Body.GetTransformation());
 
         if (_TranslateAction == null)
         {
@@ -91,6 +92,22 @@ public class ImprintEditor : Editor<Imprint>
             StartAction(_TranslateAction);
         }
 
+        _UpdateActions();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _UpdateActions()
+    {
+        if (_TranslateAction == null
+            || Entity.Mode == Imprint.ImprintMode.Cutout
+            || !Entity.GetFinalExtrusionAxis(out Ax1 axis))
+        {
+            StopAllActions();
+            _TranslateAction = null;
+            return;
+        }
+        axis.Transform(Entity.Body.GetTransformation());
         _TranslateAction.Axis = axis;
         if (!_IsMoving)
         {
@@ -137,6 +154,9 @@ public class ImprintEditor : Editor<Imprint>
     void _TranslateActionFinished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = false;
+        Remove(_HudElement);
+        _HudElement = null;
+        RemoveHintMessage();
         CommitChanges();
         _UpdateActions();
     }

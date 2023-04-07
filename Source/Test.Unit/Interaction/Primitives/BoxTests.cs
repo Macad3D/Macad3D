@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Input;
 using Macad.Common;
-using Macad.Interaction;
 using Macad.Test.Utils;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
@@ -69,8 +68,8 @@ namespace Macad.Test.Unit.Interaction.Primitives
             var ctx = Context.Current;
             var box = TestGeomGenerator.CreateBox();
             ctx.WorkspaceController.StartEditor(box);
-
             ctx.ViewportController.ZoomFitAll();
+
             Assert.Multiple(() =>
             {
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
@@ -81,6 +80,32 @@ namespace Macad.Test.Unit.Interaction.Primitives
             });
         }
                 
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void EditorStartStopTools()
+        {
+            var ctx = Context.Current;
+            var box = TestGeomGenerator.CreateBox();
+            ctx.WorkspaceController.StartEditor(box);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
+                ctx.WorkspaceController.CurrentEditor.StopTools();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle02"));
+                box.RaiseShapeChanged();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle02"));
+                ctx.WorkspaceController.CurrentEditor.StartTools();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
+                        
+                // Cleanup
+                ctx.WorkspaceController.StopEditor();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
+            });
+        }
+
         //--------------------------------------------------------------------------------------------------
 
         [Test]
@@ -102,6 +127,9 @@ namespace Macad.Test.Unit.Interaction.Primitives
             
                 ctx.ViewportController.MouseUp();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScale03"));
+                
+                Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
+                Assert.IsEmpty(ctx.TestHudManager.HudElements);
 
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();

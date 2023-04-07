@@ -245,7 +245,8 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     void _TranslateActionFinished(TranslateAxisLiveAction sender, TranslateAxisLiveAction.EventArgs args)
     {
         _IsMoving = false;
-        InteractiveContext.Current.UndoHandler.Commit();
+        RemoveHintMessage();
+        CommitChanges();
         _ShowActions();
     }
     
@@ -288,6 +289,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     void _RotateActionFinished(RotateLiveAction sender, RotateLiveAction.EventArgs args)
     {
         _IsMoving = false;
+        RemoveHintMessage();
         CommitChanges();
         _ShowActions();
     }
@@ -324,7 +326,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
         StopAction(_RotateActionY);
         _RotateActionY = null;
     }
-
+    
     //--------------------------------------------------------------------------------------------------
 
     #endregion

@@ -147,10 +147,8 @@ namespace Macad.Test.Unit.Interaction.Modify
         public void EditorIdle()
         {
             var ctx = Context.Current;
-
             var imprint = TestGeomGenerator.CreateImprint();
-            var editor = Editor.CreateEditor(imprint);
-            editor.Start();
+            ctx.WorkspaceController.StartEditor(imprint);
             ctx.ViewportController.ZoomFitAll();
 
             Assert.Multiple(() =>
@@ -158,7 +156,33 @@ namespace Macad.Test.Unit.Interaction.Modify
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
             
                 // Cleanup
-                editor.Stop();
+                ctx.WorkspaceController.StopEditor();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void EditorStartStopTools()
+        {
+            var ctx = Context.Current;
+            var imprint = TestGeomGenerator.CreateImprint();
+            ctx.WorkspaceController.StartEditor(imprint);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
+                ctx.WorkspaceController.CurrentEditor.StopTools();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle02"));
+                imprint.RaiseShapeChanged();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle02"));
+                ctx.WorkspaceController.CurrentEditor.StartTools();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle01"));
+                        
+                // Cleanup
+                ctx.WorkspaceController.StopEditor();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdle99"));
             });
         }
@@ -189,6 +213,9 @@ namespace Macad.Test.Unit.Interaction.Modify
                 ctx.ViewportController.MouseUp();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthRaise03"));
                 Assert.Greater(imprint.Depth, oldDepth);
+                                
+                Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
+                Assert.IsEmpty(ctx.TestHudManager.HudElements);
 
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();
@@ -222,6 +249,9 @@ namespace Macad.Test.Unit.Interaction.Modify
                 ctx.ViewportController.MouseUp();
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthLower03"));
                 Assert.Greater(imprint.Depth, oldDepth);
+                                
+                Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
+                Assert.IsEmpty(ctx.TestHudManager.HudElements);
 
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();

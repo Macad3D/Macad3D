@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
-using Macad.Common.Interop;
 using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Core.Topology;
@@ -15,6 +14,10 @@ namespace Macad.Test.Utils
     public sealed class Context : InteractiveContext
     {
         public new static Context Current { get; private set; }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public TestHudManager TestHudManager => WorkspaceController.HudManager as TestHudManager;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -56,8 +59,9 @@ namespace Macad.Test.Utils
             Current = new Context
             {
                 Document = new Model(), 
-                DocumentController = new ModelController()
+                DocumentController = new ModelController(),
             };
+            Current.WorkspaceController.HudManager = new TestHudManager();
             return Current;
         }
 
@@ -65,12 +69,7 @@ namespace Macad.Test.Utils
 
         public static Context InitWithView(int viewportSize)
         {
-            Current?.Dispose();
-            Current = new Context
-            {
-                Document = new Model(), 
-                DocumentController = new ModelController()
-            };
+            InitWithDefault();
             
             // Set render parameter
             var parameterSet = Current.Parameters.Get<ViewportParameterSet>();
