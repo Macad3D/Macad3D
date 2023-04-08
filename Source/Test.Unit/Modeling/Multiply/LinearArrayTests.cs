@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using Macad.Test.Utils;
-using Macad.Core;
 using Macad.Core.Shapes;
 using NUnit.Framework;
 
@@ -23,8 +22,10 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var array = LinearArray.Create(sketch.Body);
             array.Quantity1 = 4;
             array.Distance1 = 10;
+            array.DistanceMode1 = LinearArray.DistanceMode.Interval;
             array.Quantity2 = 3;
             array.Distance2 = 25;
+            array.DistanceMode2 = LinearArray.DistanceMode.Interval;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, array.ShapeType);
             AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SketchDefault"));
@@ -100,8 +101,10 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var array = LinearArray.Create(sketch.Body);
             array.Quantity1 = 4;
             array.Distance1 = 10;
+            array.DistanceMode1 = LinearArray.DistanceMode.Interval;
             array.Quantity2 = 3;
             array.Distance2 = 25;
+            array.DistanceMode2 = LinearArray.DistanceMode.Interval;
             array.Border = true;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, array.ShapeType);
@@ -118,9 +121,11 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var array = LinearArray.Create(sketch.Body);
             array.Quantity1 = 4;
             array.Distance1 = 10;
+            array.DistanceMode1 = LinearArray.DistanceMode.Interval;
             array.Alignment1 = LinearArray.AlignmentMode.Center;
             array.Quantity2 = 3;
             array.Distance2 = 25;
+            array.DistanceMode2 = LinearArray.DistanceMode.Interval;
             array.Alignment2 = LinearArray.AlignmentMode.Center;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, array.ShapeType);
@@ -138,9 +143,11 @@ namespace Macad.Test.Unit.Modeling.Multiply
             array.Quantity1 = 4;
             array.Distance1 = 10;
             array.Alignment1 = LinearArray.AlignmentMode.Last;
+            array.DistanceMode1 = LinearArray.DistanceMode.Interval;
             array.Quantity2 = 3;
             array.Distance2 = 25;
             array.Alignment2 = LinearArray.AlignmentMode.Last;
+            array.DistanceMode2 = LinearArray.DistanceMode.Interval;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, array.ShapeType);
             AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SketchAlignLast"));
@@ -156,8 +163,10 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var array = LinearArray.Create(sketch.Body);
             array.Quantity1 = 4;
             array.Distance1 = 10;
+            array.DistanceMode1 = LinearArray.DistanceMode.Interval;
             array.Quantity2 = 3;
             array.Distance2 = 25;
+            array.DistanceMode2 = LinearArray.DistanceMode.Interval;
             array.Rotation = 45;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, array.ShapeType);
@@ -174,9 +183,11 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var array = LinearArray.Create(sketch.Body);
             array.Quantity1 = 4;
             array.Distance1 = 10;
+            array.DistanceMode1 = LinearArray.DistanceMode.Interval;
             array.Alignment1 = LinearArray.AlignmentMode.Center;
             array.Quantity2 = 3;
             array.Distance2 = 25;
+            array.DistanceMode2 = LinearArray.DistanceMode.Interval;
             array.Alignment2 = LinearArray.AlignmentMode.Center;
             array.Rotation = 45;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
@@ -198,8 +209,10 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var array = LinearArray.Create(solid.Body);
             array.Quantity1 = 4;
             array.Distance1 = 25;
+            array.DistanceMode1 = LinearArray.DistanceMode.Interval;
             array.Quantity2 = 3;
             array.Distance2 = 30;
+            array.DistanceMode2 = LinearArray.DistanceMode.Interval;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, array.ShapeType);
             AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SolidDefault"));
@@ -213,11 +226,13 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var solid = TestGeomGenerator.CreateImprint();
 
             var array = LinearArray.Create(solid.Body);
-            array.Plane = LinearArray.PlaneType.ZX; 
+            array.Plane = LinearArray.PlaneType.XZ; 
             array.Quantity1 = 4;
             array.Distance1 = 25;
+            array.DistanceMode1 = LinearArray.DistanceMode.Interval;
             array.Quantity2 = 3;
             array.Distance2 = 30;
+            array.DistanceMode2 = LinearArray.DistanceMode.Interval;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, array.ShapeType);
             AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SolidPlaneZX"));
@@ -234,8 +249,10 @@ namespace Macad.Test.Unit.Modeling.Multiply
             array.Plane = LinearArray.PlaneType.YZ;
             array.Quantity1 = 4;
             array.Distance1 = 25;
+            array.DistanceMode1 = LinearArray.DistanceMode.Interval;
             array.Quantity2 = 3;
             array.Distance2 = 30;
+            array.DistanceMode2 = LinearArray.DistanceMode.Interval;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, array.ShapeType);
             AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SolidPlaneYZ"));
@@ -317,7 +334,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
             Assert.AreEqual(ShapeType.Solid, array.ShapeType);
             AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SolidSpacingYZ"));
 
-            array.Plane = LinearArray.PlaneType.ZX;
+            array.Plane = LinearArray.PlaneType.XZ;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, array.ShapeType);
             AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SolidSpacingZX"));
@@ -333,8 +350,10 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var array = LinearArray.Create(solid.Body);
             array.Quantity1 = 4;
             array.Distance1 = 25;
+            array.DistanceMode1 = LinearArray.DistanceMode.Interval;
             array.Quantity2 = 3;
             array.Distance2 = 30;
+            array.DistanceMode2 = LinearArray.DistanceMode.Interval;
             array.Border = true;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, array.ShapeType);
@@ -351,9 +370,11 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var array = LinearArray.Create(solid.Body);
             array.Quantity1 = 4;
             array.Distance1 = 25;
+            array.DistanceMode1 = LinearArray.DistanceMode.Interval;
             array.Alignment1 = LinearArray.AlignmentMode.Center;
             array.Quantity2 = 3;
             array.Distance2 = 30;
+            array.DistanceMode2 = LinearArray.DistanceMode.Interval;
             array.Alignment2 = LinearArray.AlignmentMode.Center;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, array.ShapeType);
@@ -370,9 +391,11 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var array = LinearArray.Create(solid.Body);
             array.Quantity1 = 4;
             array.Distance1 = 25;
+            array.DistanceMode1 = LinearArray.DistanceMode.Interval;
             array.Alignment1 = LinearArray.AlignmentMode.Last;
             array.Quantity2 = 3;
             array.Distance2 = 30;
+            array.DistanceMode2 = LinearArray.DistanceMode.Interval;
             array.Alignment2 = LinearArray.AlignmentMode.Last;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, array.ShapeType);
@@ -389,8 +412,10 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var array = LinearArray.Create(solid.Body);
             array.Quantity1 = 4;
             array.Distance1 = 25;
+            array.DistanceMode1 = LinearArray.DistanceMode.Interval;
             array.Quantity2 = 3;
             array.Distance2 = 30;
+            array.DistanceMode2 = LinearArray.DistanceMode.Interval;
             array.Rotation = 45;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, array.ShapeType);
@@ -407,9 +432,11 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var array = LinearArray.Create(solid.Body);
             array.Quantity1 = 4;
             array.Distance1 = 25;
+            array.DistanceMode1 = LinearArray.DistanceMode.Interval;
             array.Alignment1 = LinearArray.AlignmentMode.Center;
             array.Quantity2 = 3;
             array.Distance2 = 30;
+            array.DistanceMode2 = LinearArray.DistanceMode.Interval;
             array.Alignment2 = LinearArray.AlignmentMode.Center;
             array.Rotation = 45;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));

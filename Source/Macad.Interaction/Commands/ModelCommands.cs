@@ -394,19 +394,17 @@ namespace Macad.Interaction
         public static ActionCommand CreateLinearArray { get; } = new(
             () =>
             {
-                var modifierShape = LinearArray.Create(InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.First() as Body);
-                if (modifierShape != null)
-                {
-                    InteractiveContext.Current?.UndoHandler.Commit();
-                }
-                _WorkspaceController.Invalidate();
+                var tool = new CreateLinearArrayTool(_WorkspaceController.Selection.SelectedEntities.First() as Body);
+                InteractiveContext.Current.WorkspaceController.StartTool(tool);
             },
             () => _CanExecuteSolidModifier() || _CanExecuteSketchModifier())
         {
             Header = () => "Linear Array",
             Description = () => "Adds a number of copies of a sketch or solid, which are arranged in a linear pattern, to the shape.",
             Icon = () => "Multiply-LinearArray",
-            HelpTopic = "c867c6ad-f4ce-432b-a097-99596e31fea1"
+            HelpTopic = "c867c6ad-f4ce-432b-a097-99596e31fea1",
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.OneWay,
+                                                    EqualityToBoolConverter.Instance, nameof(CreateLinearArrayTool))
         };
 
         //--------------------------------------------------------------------------------------------------

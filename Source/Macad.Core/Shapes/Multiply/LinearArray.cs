@@ -17,7 +17,7 @@ namespace Macad.Core.Shapes
         public enum PlaneType
         {
             XY,
-            ZX,
+            XZ,
             YZ
         }
 
@@ -282,13 +282,13 @@ namespace Macad.Core.Shapes
 
             _Plane = PlaneType.XY;
             _Rotation = 0;
-            _Quantity1 = 1;
+            _Quantity1 = 2;
             _Distance1 = 1.0;
-            _DistanceMode1 = DistanceMode.Interval;
+            _DistanceMode1 = DistanceMode.Spacing;
             _Alignment1 = AlignmentMode.First;
-            _Quantity2 = 1;
+            _Quantity2 = 2;
             _Distance2 = 1.0;
-            _DistanceMode2 = DistanceMode.Interval;
+            _DistanceMode2 = DistanceMode.Spacing;
             _Alignment2 = AlignmentMode.First;
             _Border = false;
         }
@@ -424,7 +424,7 @@ namespace Macad.Core.Shapes
                 case PlaneType.XY:
                     plane = Ax3.XOY.Rotated(Ax1.OZ, _Rotation.ToRad());
                     break;
-                case PlaneType.ZX:
+                case PlaneType.XZ:
                     plane = Ax3.ZOX.Rotated(Ax1.OY, _Rotation.ToRad());
                     break;
                 case PlaneType.YZ:

@@ -25,22 +25,12 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     protected override void OnStart()
     {
         CreatePanel<CrossSectionPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
-        
-        Shape.ShapeChanged += _Shape_ShapeChanged;
-
-        _UpdateHints();
     }
 
     //--------------------------------------------------------------------------------------------------
 
     protected override void OnStop()
     {
-        Shape.ShapeChanged -= _Shape_ShapeChanged;
-        
-        _GhostVisual?.Remove();
-        _GhostVisual = null;
-        _PlaneVisual?.Remove();
-        _PlaneVisual = null;
     }
     
     //--------------------------------------------------------------------------------------------------
@@ -48,6 +38,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     protected override void OnToolsStart()
     {
         Shape.ShapeChanged += _Shape_ShapeChanged;
+        _UpdateHints();
         _ShowActions();
     }
 
@@ -55,6 +46,10 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
 
     protected override void OnToolsStop()
     {
+        Remove(_GhostVisual);
+        _GhostVisual = null;
+        Remove(_PlaneVisual);
+        _PlaneVisual = null;
         _TranslateAction = null;
         _RotateActionX = null;
         _RotateActionY = null;
@@ -83,15 +78,25 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
             return;
         
         // Ghost
-        _GhostVisual ??= new VisualShape(WorkspaceController, Entity.Body, VisualShape.Options.Ghosting);
+        if (_GhostVisual == null)
+        {
+            _GhostVisual = new VisualShape(WorkspaceController, Entity.Body, VisualShape.Options.Ghosting);
+            Add(_GhostVisual);
+        }
         _GhostVisual.OverrideBrep = brep;
         _GhostVisual.SetLocalTransformation(trsf);
 
         // Plane
-        _PlaneVisual ??= new Plane(WorkspaceController, Plane.Style.None);
-        _PlaneVisual.Transparency = 0.7;
-        _PlaneVisual.Boundary = false;
-        _PlaneVisual.Color = Colors.ActionBlue;
+        if (_PlaneVisual == null)
+        {
+            _PlaneVisual = new Plane(WorkspaceController, Plane.Style.None)
+            {
+                Transparency = 0.7,
+                Boundary = false,
+                Color = Colors.ActionBlue
+            };
+            Add(_PlaneVisual);
+        }
         _PlaneVisual.Set(Entity.GetCenteredPlane(out _PlaneSize));
         _PlaneVisual.Size = new XY(_PlaneSize, _PlaneSize);
         _PlaneVisual.SetLocalTransformation(trsf);

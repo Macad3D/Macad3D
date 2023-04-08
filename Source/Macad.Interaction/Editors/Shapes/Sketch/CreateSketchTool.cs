@@ -51,7 +51,7 @@ namespace Macad.Interaction.Editors.Shapes
                 if (!StartAction(toolAction))
                     return false;
                 toolAction.Finished += _ToolAction_Finished;
-                toolAction.Preview += ToolActionPreview;
+                toolAction.Preview += _ToolActionPreview;
 
                 SetHintMessage("Select face or plane to which the new sketch should be aligned.");
                 SetCursor(Cursors.SelectFace);
@@ -74,13 +74,13 @@ namespace Macad.Interaction.Editors.Shapes
             }
 
             Stop();
-            CreateSketch();
+            _CreateSketch();
             return false;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        protected override void OnStop()
+        protected override void Cleanup()
         {
             if (WorkspaceController.Workspace.WorkingPlane != _SavedWorkingPlane)
             {
@@ -92,6 +92,8 @@ namespace Macad.Interaction.Editors.Shapes
                 _DefaultPlanes[i]?.Remove();
                 _DefaultPlanes[i] = null;
             }
+
+            base.Cleanup();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -184,7 +186,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
         
-        void ToolActionPreview(SelectSubshapeAction action, SelectSubshapeAction.EventArgs args)
+        void _ToolActionPreview(SelectSubshapeAction action, SelectSubshapeAction.EventArgs args)
         {
             WorkspaceController.Workspace.WorkingPlane = _GetPlaneFromAction(args) ? _Plane : _SavedWorkingPlane;
         }
@@ -197,7 +199,7 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 StopAction(action);
                 Stop();
-                CreateSketch();
+                _CreateSketch();
             }
             else
             {
@@ -209,7 +211,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void CreateSketch()
+        void _CreateSketch()
         {
             var sketch = new Sketch();
             var body = Body.Create(sketch);

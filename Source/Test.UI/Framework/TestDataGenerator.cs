@@ -54,6 +54,7 @@ namespace Macad.Test.UI.Framework
             // Create Sketch
             mainWindow.Ribbon.SelectTab("Model");
             mainWindow.Ribbon.ClickButton("CreateSketch");
+            viewport.ClickRelative(0.5, 0.55);
 
             // Draw
             mainWindow.Ribbon.SelectTab("Sketch");

@@ -31,20 +31,12 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
     protected override void OnStart()
     {
         CreatePanel<FlangeSheetPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
-                    
-        Shape.ShapeChanged += _Shape_ShapeChanged;
-
-        _UpdateHints();
     }
 
     //--------------------------------------------------------------------------------------------------
 
     protected override void OnStop()
     {
-        Shape.ShapeChanged -= _Shape_ShapeChanged;
-       
-        _BendAxisHint.Remove();
-        _BendAxisHint = null;
     }
         
     //--------------------------------------------------------------------------------------------------
@@ -52,6 +44,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
     protected override void OnToolsStart()
     {
         Shape.ShapeChanged += _Shape_ShapeChanged;
+        _UpdateHints();
         _ShowActions();
     }
 
@@ -65,7 +58,9 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         _RadiusAction = null;
         _StartGapAction = null;
         _EndGapAction = null;
-        Shape.ShapeChanged -= _Shape_ShapeChanged;              
+        Shape.ShapeChanged -= _Shape_ShapeChanged;
+        Remove(_BendAxisHint);
+        _BendAxisHint = null;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -85,7 +80,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
     {
         if (Entity.ToolSupport == null)
         {
-            _BendAxisHint?.Remove();
+            Remove(_BendAxisHint);
             return;
         }
 
@@ -94,6 +89,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         _BendAxisHint ??= new HintLine(WorkspaceController, HintStyle.Dashed);
         _BendAxisHint.Set(bendAxis.Location.Translated(bendAxis.Direction.ToVec(Entity.ToolSupport.BendEdgeWidth * 0.6)),
                           bendAxis.Location.Translated(bendAxis.Direction.Reversed().ToVec(Entity.ToolSupport.BendEdgeWidth * 0.6)));
+        Add(_BendAxisHint);
         WorkspaceController.Invalidate();
     }
 

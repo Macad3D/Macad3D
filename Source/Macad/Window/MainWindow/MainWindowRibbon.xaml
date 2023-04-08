@@ -534,8 +534,8 @@
 
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateMirror}" 
                                      AutomationProperties.AutomationId="CreateMirror"/>
-                <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateLinearArray}" 
-                               AutomationProperties.AutomationId="CreateLinearArray"/>
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateLinearArray}" 
+                                     AutomationProperties.AutomationId="CreateLinearArray"/>
                 <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateCircularArray}" 
                                AutomationProperties.AutomationId="CreateCircularArray"/>
 
