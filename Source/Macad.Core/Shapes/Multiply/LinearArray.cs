@@ -17,7 +17,7 @@ namespace Macad.Core.Shapes
         public enum PlaneType
         {
             XY,
-            XZ,
+            ZX,
             YZ
         }
 
@@ -342,10 +342,11 @@ namespace Macad.Core.Shapes
                     return false;
             }
 
+            RaisePropertyChanged(nameof(ShapeType));
+
             return base.MakeInternal(flags);
         }
-
-
+        
         //--------------------------------------------------------------------------------------------------
 
         bool _MakeSketch(IShapeOperand sourceShape)
@@ -353,6 +354,13 @@ namespace Macad.Core.Shapes
             var sourceBRep = GetOperandBRep(0);
             if (sourceBRep == null)
                 return false;
+
+            // Sanitize properties
+            if (_Plane != PlaneType.XY)
+            {
+                Plane = PlaneType.XY;
+                RaisePropertyChanged(nameof(Plane));
+            }
 
             // Calculate Offsets
             var extents = sourceBRep.BoundingBox().Extents();
@@ -424,7 +432,7 @@ namespace Macad.Core.Shapes
                 case PlaneType.XY:
                     plane = Ax3.XOY.Rotated(Ax1.OZ, _Rotation.ToRad());
                     break;
-                case PlaneType.XZ:
+                case PlaneType.ZX:
                     plane = Ax3.ZOX.Rotated(Ax1.OY, _Rotation.ToRad());
                     break;
                 case PlaneType.YZ:
@@ -448,7 +456,7 @@ namespace Macad.Core.Shapes
                     interval1 *= -1;
                     break;
             }
-            
+
             var interval2 = plane.YDirection.ToVec() * _CalculateOffset(DistanceMode2, Quantity2, Distance2, extents.Y);
             switch (_Alignment2)
             {

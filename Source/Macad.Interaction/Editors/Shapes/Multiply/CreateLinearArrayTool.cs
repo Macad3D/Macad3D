@@ -116,7 +116,7 @@ public class CreateLinearArrayTool : Tool
             }
             else if (args.SelectedAisObject.Equals(_DefaultPlanes[1].AisObject))
             {
-                return LinearArray.PlaneType.XZ;
+                return LinearArray.PlaneType.ZX;
             }
             else if (args.SelectedAisObject.Equals(_DefaultPlanes[2].AisObject))
             {

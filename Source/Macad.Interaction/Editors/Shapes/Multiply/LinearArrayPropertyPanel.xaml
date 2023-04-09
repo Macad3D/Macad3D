@@ -38,8 +38,8 @@
                                   IsChecked="{Binding Shape.Plane, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=XY}"
                                   Command="{Binding SwitchPlaneTypeCommand}" CommandParameter="XY" />
                 <mmp:ToggleButton Content="XZ" mmp:GroupControls.Position="HCenter" Grid.Column="1" Padding="0"
-                                  IsChecked="{Binding Shape.Plane, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=XZ}"
-                                  Command="{Binding SwitchPlaneTypeCommand}" CommandParameter="XZ" />
+                                  IsChecked="{Binding Shape.Plane, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=ZX}"
+                                  Command="{Binding SwitchPlaneTypeCommand}" CommandParameter="ZX" />
                 <mmp:ToggleButton Content="YZ" mmp:GroupControls.Position="Right" Grid.Column="2" Padding="0"
                                   IsChecked="{Binding Shape.Plane, Converter={mmp:EqualityToBoolConverter}, ConverterParameter=YZ}"
                                   Command="{Binding SwitchPlaneTypeCommand}" CommandParameter="YZ" />

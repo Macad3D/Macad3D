@@ -3,7 +3,6 @@ using Macad.Core;
 using Macad.Interaction.Visual;
 using Macad.Occt;
 using Macad.Presentation;
-using Macad.SketchSolve;
 
 namespace Macad.Interaction;
 
@@ -11,8 +10,21 @@ public class TranslateAxisLiveAction : LiveAction
 {
     #region Properties and Members
 
-    public Quantity_Color Color { get; set; } = Colors.Auxillary;
-    DeltaHudElement _HudElement;
+    public Quantity_Color Color
+    {
+        get { return _Color; }
+        set
+        {
+            if (_Color == value)
+                return;
+
+            _Color = value;
+            if (_AxisGizmo != null)
+            {
+                _AxisGizmo.Color = _Color;
+            }
+        }
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -71,6 +83,8 @@ public class TranslateAxisLiveAction : LiveAction
     double _Distance;
     SelectionContext _SelectionContext;
     HintLine _HintLine;
+    Quantity_Color _Color = Colors.Auxillary;
+    DeltaHudElement _HudElement;
 
     //--------------------------------------------------------------------------------------------------
 

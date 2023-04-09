@@ -226,7 +226,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var solid = TestGeomGenerator.CreateImprint();
 
             var array = LinearArray.Create(solid.Body);
-            array.Plane = LinearArray.PlaneType.XZ; 
+            array.Plane = LinearArray.PlaneType.ZX; 
             array.Quantity1 = 4;
             array.Distance1 = 25;
             array.DistanceMode1 = LinearArray.DistanceMode.Interval;
@@ -334,7 +334,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
             Assert.AreEqual(ShapeType.Solid, array.ShapeType);
             AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SolidSpacingYZ"));
 
-            array.Plane = LinearArray.PlaneType.XZ;
+            array.Plane = LinearArray.PlaneType.ZX;
             Assert.IsTrue(array.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, array.ShapeType);
             AssertHelper.IsSameModel(array, Path.Combine(_BasePath, "SolidSpacingZX"));
