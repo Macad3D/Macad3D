@@ -179,33 +179,28 @@ namespace Macad.Interaction.Panels
 
         public void SetCursor(object owner, Cursor cursor)
         {
-            if (Cursor == null && owner != null)
+            if (_Cursor != null && owner != null)
             {
                 if (owner != _CursorOwner)
                     return;
             }
 
             Cursor = cursor;
-            _CursorOwner = owner;
+            _CursorOwner = cursor != null ? owner : null;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public void SetHintMessage(object owner, string message)
         {
-            if (message == null && owner != null)
+            if (_HintMessage != null && owner != null)
             {
                 if (owner != _HintMessageOwner)
                     return;
+            }
 
-                HintMessage = null;
-                _HintMessageOwner = null;
-            }
-            else
-            {
-                HintMessage = message;
-                _HintMessageOwner = owner;
-            }
+            HintMessage = message;
+            _HintMessageOwner = message != null ? owner : null;
         }
 
         //--------------------------------------------------------------------------------------------------

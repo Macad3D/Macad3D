@@ -39,32 +39,27 @@ public class TestHudManager : IHudManager
 
     public void SetCursor(object owner, Cursor cursor)
     {
-        if (CurrentCursor == null && owner != null)
+        if (CurrentCursor != null && owner != null)
         {
             if (owner != CursorOwner)
                 return;
         }
 
         CurrentCursor = cursor;
-        CursorOwner = owner;
+        CursorOwner = cursor != null ? owner : null;
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public void SetHintMessage(object owner, string message)
     {
-        if (message == null && owner != null)
+        if (HintMessage != null && owner != null)
         {
             if (owner != HintMessageOwner)
                 return;
+        }
 
-            HintMessage = null;
-            HintMessageOwner = null;
-        }
-        else
-        {
-            HintMessage = message;
-            HintMessageOwner = owner;
-        }
+        HintMessage = message;
+        HintMessageOwner = message != null ? owner : null;
     }
 }
