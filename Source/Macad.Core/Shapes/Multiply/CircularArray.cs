@@ -191,7 +191,7 @@ namespace Macad.Core.Shapes
         {
             Name = "Circular Array";
 
-            _Quantity = 1;
+            _Quantity = 4;
             Radius = 10;
             KeepOrientation = false;
             _OriginalAngle = 0;

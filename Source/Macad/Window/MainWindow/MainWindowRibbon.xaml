@@ -536,8 +536,8 @@
                                      AutomationProperties.AutomationId="CreateMirror"/>
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateLinearArray}" 
                                      AutomationProperties.AutomationId="CreateLinearArray"/>
-                <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateCircularArray}" 
-                               AutomationProperties.AutomationId="CreateCircularArray"/>
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateCircularArray}" 
+                                     AutomationProperties.AutomationId="CreateCircularArray"/>
 
             </Fluent:RibbonGroupBox>
 

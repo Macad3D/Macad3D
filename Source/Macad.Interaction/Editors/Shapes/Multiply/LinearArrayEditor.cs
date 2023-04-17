@@ -2,9 +2,7 @@
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
-using Macad.Core.Topology;
 using Macad.Interaction.Panels;
-using Macad.Interaction.Visual;
 using Macad.Occt;
 using System.Windows.Input;
 
@@ -30,7 +28,6 @@ namespace Macad.Interaction.Editors.Shapes
         protected override void OnToolsStart()
         {
             Shape.ShapeChanged += _Shape_ShapeChanged;
-            //_UpdateHints();
             _ShowActions();
         }
 
@@ -101,7 +98,6 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _UpdateActions()
         {
-
             var bbox = Entity?.GetBRep()?.BoundingBox();
 
             if (Entity?.Body == null

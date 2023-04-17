@@ -137,6 +137,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             _RadiusAction = new()
             {
                 Color = Colors.ActionGreen,
+                Cursor = Cursors.SetRadius,
                 NoResize = true,
                 Length = 1.0,
             };

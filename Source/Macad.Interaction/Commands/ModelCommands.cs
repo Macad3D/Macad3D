@@ -412,19 +412,17 @@ namespace Macad.Interaction
         public static ActionCommand CreateCircularArray { get; } = new(
             () =>
             {
-                var modifierShape = CircularArray.Create(InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.First() as Body);
-                if (modifierShape != null)
-                {
-                    InteractiveContext.Current?.UndoHandler.Commit();
-                }
-                _WorkspaceController.Invalidate();
+                var tool = new CreateCircularArrayTool(_WorkspaceController.Selection.SelectedEntities.First() as Body);
+                InteractiveContext.Current.WorkspaceController.StartTool(tool);
             },
             () => _CanExecuteSolidModifier() || _CanExecuteSketchModifier())
         {
             Header = () => "Circular Array",
             Description = () => "Adds a number of copies of a sketch or a solid, which are arranged on a circle, to the shape.",
             Icon = () => "Multiply-CircularArray",
-            HelpTopic = "07407809-3236-4469-ad99-526aab13b6e7"
+            HelpTopic = "07407809-3236-4469-ad99-526aab13b6e7",
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.OneWay,
+                                                    EqualityToBoolConverter.Instance, nameof(CreateCircularArrayTool))
         };
 
         //--------------------------------------------------------------------------------------------------

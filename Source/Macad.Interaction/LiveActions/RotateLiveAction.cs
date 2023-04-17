@@ -1,4 +1,5 @@
-﻿using Macad.Common;
+﻿using System.Windows.Input;
+using Macad.Common;
 using Macad.Core;
 using Macad.Interaction.Visual;
 using Macad.Occt;
@@ -101,6 +102,10 @@ public sealed class RotateLiveAction : LiveAction
     //--------------------------------------------------------------------------------------------------
     
     public bool ShowHudElement { get; init; }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    public Cursor Cursor { get; init; } = Cursors.Rotate;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -226,7 +231,7 @@ public sealed class RotateLiveAction : LiveAction
                     Add(_HintLine);
                 }
 
-                SetCursor(Cursors.Rotate);
+                SetCursor(Cursor);
                 if (ShowHudElement)
                 {
                     if (_HudElement == null)

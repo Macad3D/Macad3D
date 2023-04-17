@@ -92,7 +92,7 @@
             <Button Grid.Row ="3" Grid.Column="1"
                     Content="{Binding Shape.DistanceMode1}"
                     HorizontalAlignment="Left"
-                    Width="100" 
+                    Width="120" 
                     Style="{DynamicResource Macad.Styles.Button.DropDown}">
                 <mmp:Behaviors.Behavior>
                     <mmp:DropDownButtonBehavior />
@@ -169,7 +169,7 @@
             <Button Grid.Row ="3" Grid.Column="1"
                     Content="{Binding Shape.DistanceMode2}"
                     HorizontalAlignment="Left"
-                    Width="100" 
+                    Width="120" 
                     Style="{DynamicResource Macad.Styles.Button.DropDown}">
                 <mmp:Behaviors.Behavior>
                     <mmp:DropDownButtonBehavior />
