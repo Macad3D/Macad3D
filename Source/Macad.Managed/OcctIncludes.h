@@ -85,6 +85,7 @@
 
 #include <Aspect_DisplayConnection.hxx>
 #include <Aspect_TypeOfLine.hxx>
+#include <Aspect_RectangularGrid.hxx>
 
 #include <PrsMgr_PresentationManager.hxx>
 

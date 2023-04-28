@@ -85,6 +85,7 @@
   <ItemGroup>
     <ClInclude Include="AisExtensions\AISX_Axis.h" />
     <ClInclude Include="AisExtensions\AISX_Circle.h" />
+    <ClInclude Include="AisExtensions\AISX_Grid.h" />
     <ClInclude Include="AisExtensions\AISX_Guid.h" />
     <ClInclude Include="AisExtensions\AISX_InstanceFilter.h" />
     <ClInclude Include="AisExtensions\AISX_Plane.h" />
@@ -100,6 +101,8 @@
     <ClCompile Include="AisExtensions\AISX_Axis.Managed.cpp" />
     <ClCompile Include="AisExtensions\AISX_Circle.cpp" />
     <ClCompile Include="AisExtensions\AISX_Circle.Managed.cpp" />
+    <ClCompile Include="AisExtensions\AISX_Grid.cpp" />
+    <ClCompile Include="AisExtensions\AISX_Grid.Managed.cpp" />
     <ClCompile Include="AisExtensions\AISX_Guid.cpp" />
     <ClCompile Include="AisExtensions\AISX_Guid.Managed.cpp" />
     <ClCompile Include="AisExtensions\AISX_InstanceFilter.cpp" />

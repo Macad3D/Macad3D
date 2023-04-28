@@ -288,8 +288,6 @@
                     <mmp:ValueEditBox Value="{Binding Context.Workspace.GridDivisions, NotifyOnSourceUpdated=True}" 
                                       Units="None" Precision="0" MinValue="1" MaxValue="60"
                                       HorizontalAlignment="Stretch" Width="Auto" SourceUpdated="_CloseMenuOnSourceUpdated" />
-                    <Fluent:MenuItem CommandParameter="1" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
-                    <Fluent:MenuItem CommandParameter="2" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
                     <Fluent:MenuItem CommandParameter="3" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
                     <Fluent:MenuItem CommandParameter="4" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
                     <Fluent:MenuItem CommandParameter="5" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
@@ -297,6 +295,7 @@
                     <Fluent:MenuItem CommandParameter="8" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
                     <Fluent:MenuItem CommandParameter="12" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
                     <Fluent:MenuItem CommandParameter="18" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
+                    <Fluent:MenuItem CommandParameter="36" mmp:Command.Action="{x:Static mmi:WorkspaceCommands.SetGridDivisionsValue}" />
                 </Fluent:DropDownButton>
 
             </Fluent:RibbonGroupBox>

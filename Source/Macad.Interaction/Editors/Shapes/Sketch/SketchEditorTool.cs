@@ -317,16 +317,7 @@ namespace Macad.Interaction.Editors.Shapes
                 
                 var sketchPlane = Sketch.Plane;
                 var reversedPlane = new Pln(new Ax3(sketchPlane.Location, sketchPlane.Axis.Direction.Reversed()));
-                
-                // Try to find a clip plane distance which does not screw up the grid
-                var dir = sketchPlane.Axis.Direction;
-                double offset = -0.00011;
-                double isPp = Math.Max(dir.X.Abs(), Math.Max(dir.Y.Abs(), dir.Z.Abs()));
-                if (isPp < 1.0)
-                {
-                    offset -= 0.0001 / isPp;
-                }
-                reversedPlane.Translate(reversedPlane.Axis.Direction.ToVec(offset));
+                reversedPlane.Translate(reversedPlane.Axis.Direction.ToVec(-0.000001));
 
                 _ClipPlane = new ClipPlane(reversedPlane);
                 _ClipPlane.AddViewport(WorkspaceController.ActiveViewport);

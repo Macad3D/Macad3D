@@ -54,6 +54,9 @@
     <ClInclude Include="AisExtensions\AISX_InstanceFilter.h">
       <Filter>AisExtensions</Filter>
     </ClInclude>
+    <ClInclude Include="AisExtensions\AISX_Grid.h">
+      <Filter>AisExtensions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -160,6 +163,12 @@
       <Filter>AisExtensions</Filter>
     </ClCompile>
     <ClCompile Include="AisExtensions\AISX_InstanceFilter.Managed.cpp">
+      <Filter>AisExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="AisExtensions\AISX_Grid.cpp">
+      <Filter>AisExtensions</Filter>
+    </ClCompile>
+    <ClCompile Include="AisExtensions\AISX_Grid.Managed.cpp">
       <Filter>AisExtensions</Filter>
     </ClCompile>
   </ItemGroup>

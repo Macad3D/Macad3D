@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Occt;
 
@@ -12,15 +13,14 @@ namespace Macad.Interaction.Editors.Shapes
         {
             var workspace = InteractiveContext.Current.WorkspaceController.Workspace;
 
-            if (workspace.V3dViewer.Grid().IsActive())
+            if (workspace.GridEnabled)
             {
-                double u = 0, v = 0;
-                ElSLib.Parameters(sketch.Plane, workspace.WorkingPlane.Location, ref u, ref v);
-                var wpOffset = new XY(u, v);
-                var coordOnWp = point.ToXY() - wpOffset;
-                var flipY = new XY(1, -1);
-                var snapCoordOnWp = workspace.ComputeGridPoint(coordOnWp * flipY) * flipY;
-                snapPoint = (snapCoordOnWp + wpOffset).ToPnt();
+                var wpOffset = sketch.Plane.Parameters(workspace.WorkingPlane.Location);
+                var coordOnWp = point - wpOffset;
+                coordOnWp.Y *= -1;
+                var snapCoordOnWp = workspace.ComputeGridPoint(coordOnWp);
+                snapCoordOnWp.Y *= -1;
+                snapPoint = snapCoordOnWp + wpOffset;
                 distance = point.Distance(snapPoint);
                 return true;
             }

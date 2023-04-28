@@ -144,14 +144,20 @@ namespace Macad.Interaction
             }
             else if (SupportedSnapModes.HasFlag(SnapMode.Grid)
                 && InteractiveContext.Current.EditorState.SnapToGridSelected
-                && _WorkspaceController.Workspace.V3dViewer.Grid().IsActive())
+                && _WorkspaceController.Workspace.GridEnabled)
             {
-                // On Grid
-                info = new SnapInfo()
+                if (_WorkspaceController.Workspace.ProjectToGrid(_WorkspaceController.ActiveViewport,
+                                                                 Convert.ToInt32(mouseEvent.ScreenPoint.X),
+                                                                 Convert.ToInt32(mouseEvent.ScreenPoint.Y),
+                                                                 out Pnt gridPnt))
                 {
-                    Point = _WorkspaceController.ActiveViewport.ProjectToGrid(Convert.ToInt32(mouseEvent.ScreenPoint.X), Convert.ToInt32(mouseEvent.ScreenPoint.Y)),
-                    SnapMode = SnapMode.Grid
-                };
+                    // On Grid
+                    info = new SnapInfo()
+                    {
+                        Point = gridPnt,
+                        SnapMode = SnapMode.Grid
+                    };
+                }
             }
 
             if (info != null)

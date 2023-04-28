@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -11,6 +10,7 @@ using Macad.Common;
 using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Occt;
+using Macad.Occt.Extensions;
 
 namespace Macad.Interaction
 {
@@ -44,8 +44,8 @@ namespace Macad.Interaction
 
         readonly List<ViewportController> _ViewControllers = new();
         readonly DispatcherTimer _RedrawTimer;
-        readonly AIS_Line[] _WorkingPlaneAxes = new AIS_Line[2];
-        XY _LastGridSize = new XY(100.0, 100.0);
+        AISX_Grid _Grid;
+        XY _LastGridSize = new(200.0, 200.0);
         bool _GridNeedsUpdate;
 
         //--------------------------------------------------------------------------------------------------
@@ -106,6 +106,7 @@ namespace Macad.Interaction
 
             _CurrentTool = null;
             _CurrentEditor = null;
+            _Grid = null;
             
             _RedrawTimer.Stop();
             _RedrawTimer.Tick -= _RedrawTimer_Tick;
@@ -118,9 +119,6 @@ namespace Macad.Interaction
 
             VisualObjects.Dispose();
             SnapHandler.Dispose();
-
-            _WorkingPlaneAxes[0] = null;
-            _WorkingPlaneAxes[1] = null;
 
             Viewport.ViewportChanged -= _Viewport_ViewportChanged;
 
@@ -181,6 +179,9 @@ namespace Macad.Interaction
                 var viewCtrl = new ViewportController(view, this);
                 _ViewControllers.Add(viewCtrl);
             }
+
+            _Grid = new AISX_Grid();
+            Workspace.AisContext?.Display(_Grid, 0, -1, false);
 
             VisualObjects.InitEntities();
             _UpdateGrid();
@@ -870,7 +871,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        XY _RecalculateGridSize()
+        void _RecalculateGridSize()
         {
             Pnt[] corners = new Pnt[4];
             double u = 0;
@@ -903,42 +904,13 @@ namespace Macad.Interaction
             }
 
             // Take the maximum, overprovision by 10, and clamp to a (unrealistic) maximum
-            XY newGridSize = new XY(
-                sizeX = Math.Min(sizeX + 10.0, Workspace.GridStep * 1000.0),
-                sizeY = Math.Min(sizeY + 10.0, Workspace.GridStep * 1000.0));
+            XY newGridSize = new XY(Math.Min(sizeX + 10.0, Workspace.GridStep * 1000.0),
+                                    Math.Min(sizeY + 10.0, Workspace.GridStep * 1000.0));
             XY diff = _LastGridSize - newGridSize;
             if (diff.X is < 0 or > 50.0 || diff.Y is < 0 or > 50.0)
             {
                 _LastGridSize = newGridSize;
                 _GridNeedsUpdate = true;
-            }
-
-            return new XY(sizeX, sizeY);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        void _UpdateWorkingPlaneAxis(int index, Ax1 axis, double size)
-        {
-            if (Workspace.AisContext == null
-                || size <= 0)
-                return;
-
-            Geom_CartesianPoint p1 = new(axis.Location.Translated(axis.Direction.Reversed().ToVec(size)));
-            Geom_CartesianPoint p2 = new(axis.Location.Translated(axis.Direction.ToVec(size)));
-
-            if (_WorkingPlaneAxes[index] == null)
-            {
-                _WorkingPlaneAxes[index] = new AIS_Line(p1, p2);
-                _WorkingPlaneAxes[index].SetColor(new Quantity_Color(index == 0 ? 0.5 : 0.0, index == 1 ? 0.6 : 0.0, 0.0, Quantity_TypeOfColor.RGB));
-                _WorkingPlaneAxes[index].SetPolygonOffsets(2 /* Aspect_POM_Line */, 1.0f, index - 3.0f);
-                Workspace.AisContext?.Display(_WorkingPlaneAxes[index], 0, -1, false);
-                _WorkingPlaneAxes[index].SetInfiniteState(true);
-            }
-            else
-            {
-                _WorkingPlaneAxes[index].SetPoints(p1, p2);
-                Workspace.AisContext?.RecomputePrsOnly(_WorkingPlaneAxes[index], false);
             }
         }
 
@@ -949,48 +921,34 @@ namespace Macad.Interaction
             if (!_GridNeedsUpdate) 
                 return;
 
-            var v3dViewer = Workspace.V3dViewer;
-            if (v3dViewer is null)
+            if (_Grid is null)
                 return;
 
             WorkingContext wc = Workspace.WorkingContext;
 
             if (Workspace.GridEnabled)
             {
+                Ax3 position = wc.WorkingPlane.Position;
+                if (wc.GridRotation != 0)
+                {
+                    position.Rotate(wc.WorkingPlane.Axis, wc.GridRotation.ToRad());
+                }
+                _Grid.SetPosition(position);
+                _Grid.SetExtents(_LastGridSize.X, _LastGridSize.Y);
+                _Grid.SetDivisions(wc.GridStep, wc.GridDivisions);
+
                 if (wc.GridType == Workspace.GridTypes.Rectangular)
                 {
-                    v3dViewer.ActivateGrid(Aspect_GridType.Rectangular, Aspect_GridDrawMode.Lines);
-                    v3dViewer.SetRectangularGridValues(0, 0, wc.GridStep, wc.GridStep, wc.GridRotation.ToRad());
-                    v3dViewer.SetRectangularGridGraphicValues(_LastGridSize.X, _LastGridSize.Y, -0.0001);
+                    Workspace.AisContext?.SetDisplayMode(_Grid, 1, false);
                 }
                 else
                 {
-                    v3dViewer.ActivateGrid(Aspect_GridType.Circular, Aspect_GridDrawMode.Lines);
-                    v3dViewer.SetCircularGridValues(0, 0, wc.GridStep, wc.GridDivisions, wc.GridRotation.ToRad());
-                    v3dViewer.SetCircularGridGraphicValues(_LastGridSize.X, -0.0001);
+                    Workspace.AisContext?.SetDisplayMode(_Grid, 2, false);
                 }
-
-                v3dViewer.SetGridEcho(true);
-
-                Pln displacedPlane = wc.WorkingPlane
-                                       .Rotated(wc.WorkingPlane.Axis, -wc.GridRotation.ToRad())
-                                       .Translated(wc.WorkingPlane.Axis.Direction.ToVec(0.0001));
-                _UpdateWorkingPlaneAxis(0, displacedPlane.XAxis, _LastGridSize.X);
-                _UpdateWorkingPlaneAxis(1, displacedPlane.YAxis, _LastGridSize.Y);
             }
             else
             {
-                v3dViewer.SetGridEcho(false);
-                v3dViewer.DeactivateGrid();
-
-                for (int index = 0; index < 2; index++)
-                {
-                    if (_WorkingPlaneAxes[index] != null)
-                    {
-                        Workspace.AisContext?.Erase(_WorkingPlaneAxes[index], false);
-                        _WorkingPlaneAxes[index] = null;
-                    }
-                }
+                Workspace.AisContext?.SetDisplayMode(_Grid, 0, false);
             }
 
             _GridNeedsUpdate = false;

@@ -447,24 +447,6 @@ namespace Macad.Core
 
         //--------------------------------------------------------------------------------------------------
 
-        public Pnt ProjectToGrid(Pnt point)
-        {
-            double px = 0, py = 0, pz = 0;
-            V3dView.ConvertToGrid(point.X, point.Y, point.Z, ref px, ref py, ref pz);
-            return new Pnt(px, py, pz);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public Pnt ProjectToGrid(int screenX, int screenY)
-        {
-            double px = 0, py = 0, pz = 0;
-            V3dView.ConvertToGrid(screenX, screenY, ref px, ref py, ref pz);
-            return new Pnt(px, py, pz);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         public gp_Sphere GetOrbitSphere()
         {
             _ValidateViewGeometry();

@@ -266,8 +266,6 @@ namespace Macad.Core
             V3dViewer.SetLightOn(new V3d_DirectionalLight(V3d_TypeOfOrientation.Zneg, Quantity_NameOfColor.WHITE.ToColor(), true));
             V3dViewer.SetLightOn(new V3d_AmbientLight(Quantity_NameOfColor.WHITE.ToColor()));
 
-            V3dViewer.Grid().SetColors(Quantity_NameOfColor.GRAY45.ToColor(), Quantity_NameOfColor.GRAY30.ToColor());
-
             // Reinit viewer parameters
             _ApplyWorkingContext();
         }
@@ -349,16 +347,46 @@ namespace Macad.Core
                     break;
             }
         }
-
+        
+        //--------------------------------------------------------------------------------------------------
+        
+        public Pnt2d ComputeGridPoint(Pnt2d coord)
+        {
+            if (GridType == GridTypes.Circular)
+            {
+                double angle = gp.DX2d.Angle(coord.ToDir());
+                double circStep = Maths.PI / GridDivisions;
+                int iseg = (angle / circStep).ToRoundedInt();
+                int icirc = (coord.Distance(Pnt2d.Origin) / GridStep).ToRoundedInt();
+                return new Pnt2d(GridStep * icirc, 0).Rotated(Pnt2d.Origin, circStep * iseg);
+            }
+            else // GridTypes.Rectangular
+            {
+                int ix = (coord.X / GridStep).ToRoundedInt();
+                int iy = (coord.Y / GridStep).ToRoundedInt();
+                return new Pnt2d(GridStep * ix, GridStep * iy);
+            }
+        } 
+        
         //--------------------------------------------------------------------------------------------------
 
-        public XY ComputeGridPoint(XY coord)
+        public bool ProjectToGrid(Viewport viewport, int screenX, int screenY, out Pnt pnt)
         {
-            double resX = 0, resY = 0;
-            V3dViewer.Grid().Compute(coord.X, coord.Y, ref resX, ref resY);
-            return new XY(resX, resY);
+            Pln plane = WorkingPlane;
+            if (GridRotation != 0)
+            {
+                plane.Rotate(WorkingPlane.Axis, GridRotation.ToRad());
+            }
+
+            if(!viewport.ScreenToPoint(plane, screenX, screenY, out pnt))
+                return false;
+
+            Pnt2d uv = plane.Parameters(pnt);
+            Pnt2d gridUv = ComputeGridPoint(uv);
+            pnt = plane.Value(gridUv);
+            return true;
         }
-        
+
         //--------------------------------------------------------------------------------------------------
 
         #endregion
@@ -380,7 +408,6 @@ namespace Macad.Core
         //--------------------------------------------------------------------------------------------------
 
         #endregion
-
     }
 }
 
