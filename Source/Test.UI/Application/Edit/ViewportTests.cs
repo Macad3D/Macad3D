@@ -37,7 +37,7 @@ namespace Macad.Test.UI.Application.Edit
         [Test]
         public void EscapeClosesContextMenu()
         {
-            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
             MainWindow.Ribbon.ClickButton("CreateSphere");
             Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
             MainWindow.Viewport.ClickRelative(0.5, 0.5);
@@ -65,7 +65,7 @@ namespace Macad.Test.UI.Application.Edit
         [Test]
         public void LeftClickClosesContextMenu()
         {
-            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
             MainWindow.Ribbon.ClickButton("CreateSphere");
             Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
             MainWindow.Viewport.ClickRelative(0.5, 0.5);
@@ -92,7 +92,7 @@ namespace Macad.Test.UI.Application.Edit
         [Test]
         public void MoveAwayClosesContextMenu()
         {
-            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
             MainWindow.Ribbon.ClickButton("CreateSphere");
             Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
             MainWindow.Viewport.ClickRelative(0.5, 0.5);
@@ -117,39 +117,9 @@ namespace Macad.Test.UI.Application.Edit
             var menu = new ContextMenuAdaptor(MainWindow, "ViewportContextMenu");
             menu.ClickMenuItem("Transform Entity");
 
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("Transform"));
         }
 
-        //--------------------------------------------------------------------------------------------------
-
-        [Test]
-        public void HudValueElement_EnterValues()
-        {
-            // Init
-            MainWindow.Ribbon.SelectTab("Edit");
-            MainWindow.Ribbon.ClickButton("SnapEnable");
-            MainWindow.Ribbon.ClickButton("SnapToGrid");
-            MainWindow.Ribbon.SelectTab("Model");
-            MainWindow.Ribbon.ClickButton("CreateBox");
-
-            Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
-            MainWindow.Viewport.ClickRelative(0.3, 0.3);
-            MainWindow.Viewport.MoveRelative(0.55, 0.6);
-
-            // Enter numbers
-            Pipe.TypeText("2");
-            Pipe.TypeKey(VirtualKeyShort.ENTER);
-            Pipe.TypeText("4");
-            Pipe.TypeKey(VirtualKeyShort.ENTER);
-            Pipe.TypeText("1");
-            Pipe.TypeKey(VirtualKeyShort.ENTER);
-
-            Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
-            Assert.AreEqual("Box_1", Pipe.GetValue<string>("$Selected.Name"));
-            Assert.AreEqual(2, Pipe.GetValue<double>("$Selected.Shape.DimensionX"));
-            Assert.AreEqual(4, Pipe.GetValue<double>("$Selected.Shape.DimensionY"));
-            Assert.AreEqual(1, Pipe.GetValue<double>("$Selected.Shape.DimensionZ"));
-        }
     }
 }

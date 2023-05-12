@@ -61,6 +61,7 @@ public class TranslateAction : ToolAction
 
     readonly Axis[] _AxisGizmos = new Axis[3];
     readonly Plane[] _PlaneGizmos = new Plane[3];
+    Marker _CenterMarker;
     Coord3DHudElement _Coord3DHudElement;
     Delta3DHudElement _Delta3DHudElement;
     HintLine _AxisHintLine;
@@ -124,7 +125,8 @@ public class TranslateAction : ToolAction
                     Color = _GetColorByMode(mode),
                     IsSelectable = true,
                     Width = 4.0,
-                    Length = 2.0
+                    Length = 2.0,
+                    Margin = 0.25
                 };
                 Add(_AxisGizmos[i]);
             }
@@ -156,6 +158,18 @@ public class TranslateAction : ToolAction
         _PlaneGizmos[0].Set(new Pln(new Ax3(translatedCS.Location, translatedCS.XDirection, translatedCS.YDirection)));
         _PlaneGizmos[1].Set(new Pln(new Ax3(translatedCS.Location, translatedCS.YDirection, translatedCS.Direction)));
         _PlaneGizmos[2].Set(new Pln(new Ax3(translatedCS.Location, translatedCS.Direction, translatedCS.XDirection)));
+
+        /* Center Marker */
+        if (_CenterMarker == null)
+        {
+            _CenterMarker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage)
+            {
+                Color = Colors.ActionWhite,
+                IsSelectable = false
+            };
+            Add(_CenterMarker);
+        }
+        _CenterMarker.Set(translatedCS.Location);
     }
 
     //--------------------------------------------------------------------------------------------------

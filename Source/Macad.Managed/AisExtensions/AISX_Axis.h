@@ -10,7 +10,8 @@ public:
     void SetAxis(const gp_Ax1& theAxis);
     void SetColor(const Quantity_Color& theColor) override;
     void SetWidth(double theWidth) override;
-    void SetSize(double length, double thickness);
+    void SetSize(double theLength, double theThickness);
+    void SetMargin(double theMargin);
 
     void Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
                  const Handle(Prs3d_Presentation)& thePrs, const Standard_Integer theMode) override;
@@ -49,6 +50,8 @@ private:
     void _InitDrawerAttributes();
 
     gp_Ax1 _Axis;
-    double _Length, _Thickness;
+    double _Length;
+    double _Thickness;
+    double _Margin;
 };
 

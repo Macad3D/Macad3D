@@ -19,7 +19,7 @@ public class TransformTests : UITestBase
     public void CloseOnClick()
     {
         TestDataGenerator.GenerateBox(MainWindow);
-        MainWindow.Ribbon.SelectTab("Edit");
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
         Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Transform"));
         MainWindow.Ribbon.ClickButton("Transform");
         Assert.AreEqual("TransformTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
@@ -33,7 +33,7 @@ public class TransformTests : UITestBase
     public void ContextMenu()
     {
         TestDataGenerator.GenerateBox(MainWindow);
-        MainWindow.Ribbon.SelectTab("Edit");
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
         Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Transform"));
         MainWindow.Ribbon.ClickButton("Transform");
         Assert.AreEqual("TransformTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));

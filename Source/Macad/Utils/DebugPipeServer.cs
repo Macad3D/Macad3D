@@ -12,6 +12,7 @@ using Macad.Common.Interop;
 using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Interaction.Editors.Shapes;
+using Macad.Presentation;
 
 namespace Macad.Window
 {
@@ -254,6 +255,12 @@ namespace Macad.Window
                 if (focusElement == null || sourceElement == null)
                     return;
 
+                ModifierKeys modifiers = ModifierKeys.None;
+                if ((key & 0x0100) > 0)  modifiers = modifiers.Added(ModifierKeys.Shift);
+                if ((key & 0x0200) > 0)  modifiers = modifiers.Added(ModifierKeys.Control);
+                if ((key & 0x0400) > 0)  modifiers = modifiers.Added(ModifierKeys.Alt);
+                InputHelper.SimulatedModifiers = modifiers;
+
                 var tunnelArgs = new KeyEventArgs(Keyboard.PrimaryDevice, sourceElement, 0, KeyInterop.KeyFromVirtualKey(vkey));
                 tunnelArgs.RoutedEvent = isUp ? Keyboard.PreviewKeyUpEvent : Keyboard.PreviewKeyDownEvent;
                 focusElement.RaiseEvent(tunnelArgs);
@@ -278,6 +285,7 @@ namespace Macad.Window
                     }
                 }
 
+                InputHelper.SimulatedModifiers = ModifierKeys.None;
                 success = true;
             });
             return success;

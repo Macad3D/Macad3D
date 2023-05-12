@@ -3,13 +3,22 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
-using FlaUI.UIA3.Patterns;
 using Macad.Common;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 
 namespace Macad.Test.UI.Framework
 {
+    public enum RibbonTabs
+    {
+        File,
+        Edit,
+        Model,
+        Sketch,
+        Toolbox
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public class RibbonAdaptor
     {
         readonly AutomationElement _RibbonControl;
@@ -27,9 +36,9 @@ namespace Macad.Test.UI.Framework
 
         //--------------------------------------------------------------------------------------------------
 
-        public void SelectTab(string id, bool jump = true)
+        public void SelectTab(RibbonTabs id, bool jump = true)
         {
-            var tabControl = _RibbonControl.FindFirstDescendant(cf => cf.ByAutomationId(id));
+            var tabControl = _RibbonControl.FindFirstDescendant(cf => cf.ByAutomationId(id.ToString()));
             Assume.That(tabControl, Is.Not.Null, $"Ribbon tab control {id} not found.");
             //groupControl.Click(!jump);
             tabControl.Patterns.SelectionItem.Pattern.Select();
@@ -121,7 +130,7 @@ namespace Macad.Test.UI.Framework
 
         public void ClickFileMenuItem(string id1, string id2=null, bool jump = true)
         {
-            var tabControl = _RibbonControl.FindFirstDescendant(cf => cf.ByAutomationId("File"));
+            var tabControl = _RibbonControl.FindFirstDescendant(cf => cf.ByAutomationId(RibbonTabs.File.ToString()));
             Assume.That(tabControl, Is.Not.Null, $"Ribbon tab control File not found.");
             Assume.That(tabControl.Patterns.ExpandCollapse.IsSupported, $"Ribbon tab control File does not support ExpandCollapsePattern.");
             tabControl.Patterns.ExpandCollapse.Pattern.Expand();
@@ -145,6 +154,15 @@ namespace Macad.Test.UI.Framework
                 Wait.UntilInputIsProcessed();
                 Wait.UntilResponsive(_RibbonControl);
             }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void SetButtonChecked(string id, bool isChecked)
+        {
+            if(IsButtonChecked(id) == isChecked)
+                return;
+            ClickButton(id);
         }
 
         //--------------------------------------------------------------------------------------------------

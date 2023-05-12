@@ -21,7 +21,7 @@ namespace Macad.Test.UI.Editors.Topology
         [Test]
         public void SelectColorFromRibbon()
         {
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             MainWindow.Ribbon.ClickButton("ActiveLayerVisual");
             Assert.IsTrue(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "LayerVisualPanel"));
             var visualPanel = new ContextMenuAdaptor(MainWindow, "LayerVisualPanel");

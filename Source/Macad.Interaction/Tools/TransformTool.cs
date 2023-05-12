@@ -75,6 +75,15 @@ namespace Macad.Interaction
             Debug.Assert(_TargetEntities.Any());
             Debug.Assert(_TargetAndLinkedEntities.Any());
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        protected override bool OnStart()
+        {
+            _Mode = Mode.Translate;
+            _RestartAction();
+            return true;
+        }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -103,15 +112,6 @@ namespace Macad.Interaction
         {
             _Options = newOptions;
             _RestartAction();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        protected override bool OnStart()
-        {
-            _Mode = Mode.Translate;
-            _RestartAction();
-            return true;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -207,7 +207,7 @@ namespace Macad.Interaction
                     break;
 
                 case Mode.Rotate:
-                    _RotateAction = new RotateAction(this, _CoordinateSystem);
+                    _RotateAction = new RotateAction(_CoordinateSystem);
                     if (!StartAction(_RotateAction, false))
                         return;
                     SetHintMessage("Rotate entity using gizmo, press 'CTRL' to round to 5°. Press 'T' for translation.");

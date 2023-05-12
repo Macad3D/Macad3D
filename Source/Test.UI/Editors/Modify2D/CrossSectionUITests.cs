@@ -32,7 +32,7 @@ public class CrossSectionUITests : UITestBase
         TestDataGenerator.GenerateSketch(MainWindow);
 
         // Create imprint on any face
-        MainWindow.Ribbon.SelectTab("Model");
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateCrossSection"));
     }
 
@@ -99,7 +99,7 @@ public class CrossSectionUITests : UITestBase
     public void PropPanelTakeWorkingPlane()
     {
         // Create reference object for aligning working plane
-        MainWindow.Ribbon.SelectTab("Model");
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateCylinder");
         var viewport = MainWindow.Viewport;
         viewport.ClickRelative(0.1, 0.1);
@@ -109,7 +109,7 @@ public class CrossSectionUITests : UITestBase
         _CreateCrossSection();
 
         // Select new working plane
-        MainWindow.Ribbon.SelectTab("Edit");
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
         MainWindow.Ribbon.ClickButton("AlignWorkingPlane");
         viewport.ClickRelative(0.1, 0.1);
         var wpln = Pipe.GetValue("$Context.Workspace.WorkingPlane");
@@ -129,7 +129,7 @@ public class CrossSectionUITests : UITestBase
         TestDataGenerator.GenerateBox(MainWindow);
 
         // Create imprint on any face
-        MainWindow.Ribbon.SelectTab("Model");
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateCrossSection"));
         MainWindow.Ribbon.ClickButton("CreateCrossSection");
     }

@@ -36,7 +36,7 @@ namespace Macad.Test.UI.Application.Edit
         public void DeleteBodyViaRibbon()
         {
             TestDataGenerator.GenerateBox(MainWindow);
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Delete"));
             MainWindow.Ribbon.ClickButton("Delete");
             
@@ -51,7 +51,7 @@ namespace Macad.Test.UI.Application.Edit
         public void Duplicate()
         {
             TestDataGenerator.GenerateBox(MainWindow);
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Duplicate"));
             MainWindow.Ribbon.ClickButton("Duplicate");
 
@@ -66,7 +66,7 @@ namespace Macad.Test.UI.Application.Edit
         public void DuplicateReuseBodyReference()
         {
             TestDataGenerator.GenerateBodyReference(MainWindow);
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Duplicate"));
             MainWindow.Ribbon.ClickButton("Duplicate");
 
@@ -86,7 +86,7 @@ namespace Macad.Test.UI.Application.Edit
         public void DuplicateCloneBodyReference()
         {
             TestDataGenerator.GenerateBodyReference(MainWindow);
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Duplicate"));
             MainWindow.Ribbon.ClickButton("Duplicate");
 
@@ -106,7 +106,7 @@ namespace Macad.Test.UI.Application.Edit
         public void DuplicateCancelBodyReferenceDialog()
         {
             TestDataGenerator.GenerateBodyReference(MainWindow);
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Duplicate"));
             MainWindow.Ribbon.ClickButton("Duplicate");
 
@@ -125,7 +125,7 @@ namespace Macad.Test.UI.Application.Edit
         public void CopyToAndPasteFromClipboard()
         {
             TestDataGenerator.GenerateBox(MainWindow);
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CopyClipboard"));
             MainWindow.Ribbon.ClickButton("CopyClipboard");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("PasteClipboard"));
@@ -142,7 +142,7 @@ namespace Macad.Test.UI.Application.Edit
         public void CutToAndPasteFromClipboard()
         {
             TestDataGenerator.GenerateBox(MainWindow);
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CutClipboard"));
             MainWindow.Ribbon.ClickButton("CutClipboard");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("PasteClipboard"));
@@ -159,7 +159,7 @@ namespace Macad.Test.UI.Application.Edit
         public void CopyPasteWithBodyReference()
         {
             TestDataGenerator.GenerateBodyReference(MainWindow);
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CopyClipboard"));
             MainWindow.Ribbon.ClickButton("CopyClipboard");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("PasteClipboard"));
@@ -181,7 +181,7 @@ namespace Macad.Test.UI.Application.Edit
         public void CutPasteWithBodyReference()
         {
             TestDataGenerator.GenerateBodyReference(MainWindow);
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CutClipboard"));
             MainWindow.Ribbon.ClickButton("CutClipboard");
 
@@ -204,7 +204,7 @@ namespace Macad.Test.UI.Application.Edit
         public void CopyWithBodyReferenceToNewModel()
         {
             TestDataGenerator.GenerateBodyReference(MainWindow);
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CutClipboard"));
             MainWindow.Ribbon.ClickButton("CutClipboard");
 

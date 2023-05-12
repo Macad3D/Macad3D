@@ -124,7 +124,7 @@ namespace Macad.Interaction
                             double zoom = motionData.Tz / _ZoomDataDivisor;
                             viewportController.Zoom(zoom);
 
-                            double rotX = -motionData.Rx / _RotateDataDivisor;
+                            double rotX = motionData.Rx / _RotateDataDivisor;
                             double rotY = motionData.Ry / _RotateDataDivisor;
                             double rotZ = -motionData.Rz / _RotateDataDivisor;
 
@@ -138,7 +138,7 @@ namespace Macad.Interaction
                                 rotZ -= (rotZ > 0) ? _RollDeadZone : -_RollDeadZone;
                             }
 
-                            viewportController.Rotate(rotX, rotY, rotZ);
+                            viewportController.Rotate(rotY, rotX, rotZ);
                             viewportController.MouseMove(Keyboard.Modifiers);
                             break;
                     }

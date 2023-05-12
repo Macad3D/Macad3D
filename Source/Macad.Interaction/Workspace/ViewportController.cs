@@ -79,6 +79,7 @@ namespace Macad.Interaction
         MouseMoveMode _CurrentMouseMoveMode;
         Point _StartedMousePosition;
         Point _LastMousePosition;
+        Pnt? _GravityPoint;
         bool _LockedToPlane;
         bool _ShowTrihedron;
 
@@ -316,7 +317,7 @@ namespace Macad.Interaction
 
                 case MouseMoveMode.Rotating:
                     // Turntable
-                    Rotate((pos.Y - _LastMousePosition.Y) / 6.0, (_LastMousePosition.X - pos.X) / 6.0, 0);
+                    Rotate((_LastMousePosition.X - pos.X) / 6.0, (_LastMousePosition.Y - pos.Y) / 6.0, 0);
                     break;
 
                 case MouseMoveMode.Zooming:
@@ -371,6 +372,7 @@ namespace Macad.Interaction
 
                 case MouseMoveMode.Rotating:
                     _CurrentMouseMoveMode = MouseMoveMode.Rotating;
+                    _GravityPoint ??= Viewport.V3dView.GravityPoint();
                     break;
 
                 case MouseMoveMode.Twisting:
@@ -388,45 +390,49 @@ namespace Macad.Interaction
 
         void _ResetMouseMoveMode()
         {
+            _GravityPoint = null;
             _CurrentMouseMoveMode = MouseMoveMode.None;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public void Rotate(double dX, double dY, double dZ)
+        public void Rotate(double yawDeg, double pitchDeg, double rollDeg)
         {
             if (!_LockedToPlane)
             {
-                if ((Math.Abs(dX) > 0.001) || (Math.Abs(dY) > 0.001))
+                if (Math.Abs(yawDeg) > 0.001 || Math.Abs(pitchDeg) > 0.001)
                 {
                     if (Viewport.Twist == 180)
                     {
                         Viewport.Twist = 0;
                     }
+                    
+                    var pitch = pitchDeg.ToRad();
+                    var yaw = yawDeg.ToRad();
 
-                    var sphere = Viewport.GetOrbitSphere();
-                    var projPoint = ProjLib.Project(sphere, Viewport.EyePoint);
-
-                    projPoint.Translate(new Vec2d(dY.ToRad(), dX.ToRad()));
-
-                    // Constraint polar regions to avoid singularity troubles
-                    if (projPoint.Y > _OrbitProjectionConstraint)
+                    // Constraint polar regions, do not go 'overhead'
+                    var upDir = Viewport.GetUpDirection();
+                    var viewDir = Viewport.GetViewDirection();
+                    var angleLeft = _OrbitProjectionConstraint - Ax2.XOY.Angle(new Ax2(Pnt.Origin, upDir));
+                    if (viewDir.Z < 0 && pitch < -angleLeft)
                     {
-                        projPoint.Y = _OrbitProjectionConstraint;
+                        pitch = -angleLeft;
                     }
-                    if (projPoint.Y < -_OrbitProjectionConstraint)
+                    else if (viewDir.Z > 0 && pitch > angleLeft)
                     {
-                        projPoint.Y = -_OrbitProjectionConstraint;
+                        pitch = angleLeft;
                     }
-
-                    Viewport.EyePoint = ElSLib.Value(projPoint.X, projPoint.Y, sphere);
-
-//                    Debug.WriteLine("[RotateView] x={0}  y={1}  px={2}  py={3}", dX, dY, projPoint.X, projPoint.Y);
+                
+                    var gravityPoint = _GravityPoint ?? Viewport.V3dView.GravityPoint();
+                    Trsf trsf1 = new Trsf(new Ax1(gravityPoint, Viewport.GetRightDirection()), pitch);
+                    Viewport.V3dView.Camera().Transform(trsf1);
+                    Trsf trsf2 = new Trsf(new Ax1(gravityPoint, Dir.DZ), yaw);
+                    Viewport.V3dView.Camera().Transform(trsf2);
                 }
 
-                if (Math.Abs(dZ) > 0.001)
+                if (Math.Abs(rollDeg) > 0.001)
                 {
-                    Viewport.V3dView.Turn(V3d_TypeOfAxe.Z, dZ.ToRad(), true);
+                    Viewport.V3dView.Turn(V3d_TypeOfAxe.Z, rollDeg.ToRad(), true);
                 }
             }
 

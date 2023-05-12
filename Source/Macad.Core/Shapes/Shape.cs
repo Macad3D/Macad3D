@@ -120,6 +120,36 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
+        public bool IsVisible
+        {
+            get
+            {
+                return _Body?.Shape == this;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public virtual bool IsValid
+        {
+            get { return BRep != null; }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected TopoDS_Shape BRep
+        {
+            get { return _BRep; }
+            set
+            {
+                _BRep = value;
+                _TransformedBRep = BRep?.Moved(new TopLoc_Location(GetTransformation()));                
+                RaisePropertyChanged();
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
         #region Members
@@ -130,6 +160,8 @@ namespace Macad.Core.Shapes
         Body _Body;
         string _Name;
         TopoDS_Shape _BRep;
+        TopoDS_Shape _TransformedBRep;
+        readonly List<NamedSubshape> _NamedSubshapes = new();
 
         #endregion
 
@@ -157,43 +189,7 @@ namespace Macad.Core.Shapes
         #endregion
 
         #region Make
-
-        //--------------------------------------------------------------------------------------------------
-
-        public bool IsVisible
-        {
-            get
-            {
-                return _Body?.Shape == this;
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public virtual bool IsValid
-        {
-            get { return BRep != null; }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        protected virtual TopoDS_Shape BRep
-        {
-            get { return _BRep; }
-            set
-            {
-                _BRep = value;
-                TransformedBRep = BRep?.Moved(new TopLoc_Location(GetTransformation()));                
-                RaisePropertyChanged();
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        protected virtual TopoDS_Shape TransformedBRep { get; private set; }
-
-        //--------------------------------------------------------------------------------------------------
-            
+ 
         public TopoDS_Shape GetBRep()
         {
             if (_EnsureBRep())
@@ -210,7 +206,7 @@ namespace Macad.Core.Shapes
         {
             if (_EnsureBRep())
             {
-                return TransformedBRep;
+                return _TransformedBRep;
             }
 
             return null;
@@ -300,9 +296,9 @@ namespace Macad.Core.Shapes
 
         public virtual void InvalidateTransformation()
         {
-            if (TransformedBRep != null)
+            if (_TransformedBRep != null)
             {
-                TransformedBRep.Location(new TopLoc_Location(GetTransformation()));
+                _TransformedBRep.Location(new TopLoc_Location(GetTransformation()));
                 RaiseShapeChanged();
                 if(IsVisible)
                     Body?.RaiseVisualChanged();
@@ -570,8 +566,6 @@ namespace Macad.Core.Shapes
             internal int Index;
             internal TopoDS_Shape Shape;
         }
-
-        readonly List<NamedSubshape> _NamedSubshapes = new List<NamedSubshape>();
 
         //--------------------------------------------------------------------------------------------------
 

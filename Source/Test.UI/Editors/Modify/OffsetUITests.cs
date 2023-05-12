@@ -21,7 +21,7 @@ public class OffsetUITests : UITestBase
         MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
         // Create pipe on existing sketch
-        MainWindow.Ribbon.SelectTab("Model");
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateOffset");
 
         Assert.AreEqual("Offset", Pipe.GetValue<string>("$Selected.Shape.Name"));
@@ -35,7 +35,7 @@ public class OffsetUITests : UITestBase
         TestDataGenerator.GenerateBox(MainWindow);
 
         // Create pipe on existing sketch
-        MainWindow.Ribbon.SelectTab("Model");
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateOffset");
 
         Assert.AreEqual("Offset", Pipe.GetValue<string>("$Selected.Shape.Name"));
@@ -50,7 +50,7 @@ public class OffsetUITests : UITestBase
         MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
         // Create pipe on existing sketch
-        MainWindow.Ribbon.SelectTab("Model");
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateOffset");
 
         var _Panel = MainWindow.PropertyView.FindPanelByClass("OffsetPropertyPanel");
@@ -81,7 +81,7 @@ public class OffsetUITests : UITestBase
         TestDataGenerator.GenerateBox(MainWindow);
 
         // Create pipe on existing sketch
-        MainWindow.Ribbon.SelectTab("Model");
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateOffset");
 
         var _Panel = MainWindow.PropertyView.FindPanelByClass("OffsetPropertyPanel");

@@ -24,7 +24,7 @@ namespace Macad.Test.UI.Editors.Primitives
             Assume.That(_Viewport, Is.Not.Null);
 
             // Start tool
-            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
             MainWindow.Ribbon.ClickButton("CreateCylinder");
             Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateCylinder"), Is.True);
 

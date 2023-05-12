@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using Macad.Common;
+using Macad.Common.Interop;
 
 namespace Macad.Presentation
 {
@@ -168,7 +170,7 @@ namespace Macad.Presentation
             _TextBoxElement = GetTemplateChild("PART_TextBox") as FrameworkElement;
             if (_TextBoxElement != null)
             {
-                _TextBoxElement.PreviewMouseLeftButtonDown += TextBoxElementOnPreviewMouseLeftButtonDown;
+                _TextBoxElement.PreviewMouseLeftButtonDown += _TextBoxElement_OnPreviewMouseLeftButtonDown;
             }
         }
 
@@ -178,14 +180,14 @@ namespace Macad.Presentation
         {
             if (_TextBoxElement != null)
             {
-                _TextBoxElement.MouseLeftButtonDown -= TextBoxElementOnPreviewMouseLeftButtonDown;
+                _TextBoxElement.PreviewMouseLeftButtonDown -= _TextBoxElement_OnPreviewMouseLeftButtonDown;
                 _TextBoxElement = null;
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void TextBoxElementOnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void _TextBoxElement_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // If text is selected, each mouse click starts new selection
             // only if already focused
@@ -248,7 +250,7 @@ namespace Macad.Presentation
 
         public ValueEditBox()
         {
-            DataObject.AddPastingHandler(this, PastingHandler);
+            DataObject.AddPastingHandler(this, _PastingHandler);
             DataObject.AddCopyingHandler(this, (sender, e) => { if (e.IsDragDrop) e.CancelCommand(); });
             Text = "0";
         }
@@ -271,7 +273,7 @@ namespace Macad.Presentation
 
         //--------------------------------------------------------------------------------------------------
 
-        void CommitTextChange()
+        void _CommitTextChange()
         {
             BindingExpression exp = GetBindingExpression(TextBox.TextProperty);
             exp?.UpdateSource();
@@ -284,7 +286,7 @@ namespace Macad.Presentation
                 {
                     // Evaluate Expression
                     //string error;
-                    double? result = EvaluateExpression();
+                    double? result = _EvaluateExpression();
                     if (!result.HasValue)
                     {
                         return;
@@ -311,7 +313,7 @@ namespace Macad.Presentation
 
         //--------------------------------------------------------------------------------------------------
 
-        double? EvaluateExpression()
+        double? _EvaluateExpression()
         {
             if (Text.StartsWith("="))
             {
@@ -327,12 +329,12 @@ namespace Macad.Presentation
 
         //--------------------------------------------------------------------------------------------------
 
-        void PastingHandler(object sender, DataObjectPastingEventArgs e)
+        void _PastingHandler(object sender, DataObjectPastingEventArgs e)
         {
             if (e.DataObject.GetDataPresent(typeof(String)))
             {
                 String text = (String)e.DataObject.GetData(typeof(String));
-                if (!IsTextAllowed(text))
+                if (!_IsTextAllowed(text))
                 {
                     e.CancelCommand();
                 }
@@ -345,7 +347,7 @@ namespace Macad.Presentation
 
         //--------------------------------------------------------------------------------------------------
 
-        bool IsTextAllowed(string text)
+        bool _IsTextAllowed(string text)
         {
             if (Text.StartsWith("=") || ((CaretIndex==0) && text.StartsWith("=")))
                 return true;
@@ -367,7 +369,7 @@ namespace Macad.Presentation
         protected override void OnLostFocus(RoutedEventArgs e)
         {
             base.OnLostFocus(e);
-            CommitTextChange();
+            _CommitTextChange();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -376,7 +378,7 @@ namespace Macad.Presentation
         {
             if (e.Key == Key.Return)
             {
-                CommitTextChange();
+                _CommitTextChange();
 
                 TraversalRequest tRequest = new TraversalRequest(FocusNavigationDirection.Next);
                 UIElement keyboardFocus = Keyboard.FocusedElement as UIElement;
@@ -385,17 +387,16 @@ namespace Macad.Presentation
 
                 e.Handled = true;
             } 
-            else if ((e.Key == Key.OemPeriod) || (e.Key == Key.OemComma) || (e.Key == Key.Decimal))
+            else if (e.Key is Key.OemPeriod or Key.OemComma or Key.Decimal)
             {
                 if (Text.Contains(".") && !IsEvaluating)
                 {
                     e.Handled = true;
                 }
             }
-            else if ((e.Key == Key.OemMinus) || (e.Key == Key.Subtract))
+            else if (e.Key is Key.OemMinus or Key.Subtract)
             {
-                if ((CaretIndex != 0 && SelectionStart != 0 
-                     || Text.Contains("-") && ! SelectedText.Contains("-")) 
+                if ((CaretIndex != 0 && SelectionStart != 0 || Text.Contains("-") && ! SelectedText.Contains("-")) 
                     && !IsEvaluating)
                 {
                     e.Handled = true;
@@ -409,7 +410,7 @@ namespace Macad.Presentation
 
         protected override void OnPreviewTextInput(TextCompositionEventArgs e)
         {
-            e.Handled = !IsTextAllowed(e.Text); 
+            e.Handled = !_IsTextAllowed(e.Text); 
             base.OnTextInput(e);
         }
 
@@ -431,46 +432,43 @@ namespace Macad.Presentation
             if (e.Key == Key.Enter)
             {
                 // Enter value
-                CommitTextChange();
+                _CommitTextChange();
                 e.Handled = true;
                 return;
             }
+            
+            if (Text == "0")
+            {
+                clearTextOnValidEntry = true;
+            }
 
-            var keyChar = (char)0;
-            if (e.Key >= Key.D0 && e.Key <= Key.D9)
+            if (e.Key is Key.OemPeriod or Key.OemComma or Key.Decimal)
             {
-                keyChar = (char) (int) (e.Key - Key.D0 + '0');
-            }
-            else if (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
-            {
-                keyChar = (char)(int)(e.Key - Key.NumPad0 + '0');
-            }
-            else
-            {
-                switch (e.Key)
+                if (Text.Contains(".") && !IsEvaluating && !clearTextOnValidEntry)
                 {
-                    case Key.OemComma:
-                    case Key.OemPeriod:
-                    case Key.Decimal:
-                            keyChar = '.';
-                        break;
-
-                    case Key.OemMinus:
-                    case Key.Subtract:
-                        if (clearTextOnValidEntry)
-                            keyChar = '-';
-                        break;
+                    return;
+                }
+            }
+            else if (e.Key is Key.OemMinus or Key.Subtract)
+            {
+                if ((CaretIndex != 0 && SelectionStart != 0 || Text.Contains("-") && SelectedText.Contains("-")) 
+                    && !IsEvaluating
+                    && !clearTextOnValidEntry)
+                {
+                    return;
                 }
             }
 
-            // No key found?
-            if (keyChar == 0)
+            if (clearTextOnValidEntry || Text == "0")
+            {
+                SelectAll();
+            }
+
+            string keyText = InputHelper.ConvertKeyToText(e);
+            if (!_IsTextAllowed((clearTextOnValidEntry ? "" : Text) + keyText))
                 return;
 
-            string newtext = (clearTextOnValidEntry ? "" : Text) + keyChar;
-            if (IsTextAllowed(newtext))
-                Text = newtext;
-
+            TextCompositionManager.StartComposition(new TextComposition(InputManager.Current, this, keyText));
             e.Handled = true;
         }
 
@@ -505,7 +503,7 @@ namespace Macad.Presentation
                 }
             }
 
-            EvaluateExpression();
+            _EvaluateExpression();
 
             base.OnTextChanged(e);
         }

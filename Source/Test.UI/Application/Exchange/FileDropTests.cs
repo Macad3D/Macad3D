@@ -52,7 +52,7 @@ namespace Macad.Test.UI.Application.Exchange
             Assert.AreEqual(2, MainWindow.Document.GetBodyItems().Count());
 
             // Undo action
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             MainWindow.Ribbon.ClickButton("Undo");
             Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
             Assert.AreEqual("Box_1", MainWindow.Document.GetBodyItems().First().Name);
@@ -83,7 +83,7 @@ namespace Macad.Test.UI.Application.Exchange
             Assert.AreEqual("ImprintRingFace", MainWindow.Document.GetBodyItems().First().Name);
 
             // Undo action not available, box is not there
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             MainWindow.Ribbon.ClickButton("Undo");
             Assert.AreEqual(0, MainWindow.Document.GetBodyItems().Count());
         }
@@ -169,7 +169,7 @@ namespace Macad.Test.UI.Application.Exchange
             Assert.AreEqual(2, MainWindow.Document.GetBodyItems().Count());
 
             // Undo action
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             MainWindow.Ribbon.ClickButton("Undo");
 
             // Check that box is still here

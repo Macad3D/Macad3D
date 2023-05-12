@@ -1,4 +1,6 @@
-﻿namespace Macad.Interaction
+﻿using Macad.Common.Serialization;
+
+namespace Macad.Interaction
 {
     [AutoRegisterHost]
     public static partial class InteractionModule
@@ -11,6 +13,8 @@
         {
             if (_IsInitialized)
                 return;
+
+            Serializer.RegisterNamespaceAlias("Editors", "Macad.Interaction.Editors");
 
             _DoAutoRegister(); 
 

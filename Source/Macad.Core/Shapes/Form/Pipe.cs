@@ -235,13 +235,13 @@ namespace Macad.Core.Shapes
             Debug.Assert(targetBody != null);
 
             var pipe = new Pipe();
+            targetBody.AddShape(pipe);
+
             if (profile != null)
             {
                 pipe.Profile = ProfileType.Custom;
                 pipe.AddOperand(profile);
             }
-
-            targetBody.AddShape(pipe);
 
             return pipe;
         }

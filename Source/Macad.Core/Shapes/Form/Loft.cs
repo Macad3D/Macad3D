@@ -173,12 +173,12 @@ namespace Macad.Core.Shapes
             Debug.Assert(targetBody != null);
 
             var loft = new Loft();
+            targetBody.AddShape(loft);
 
             foreach (var operand in sections)
             {
                 loft.AddOperand(operand);
             }
-            targetBody.AddShape(loft);
 
             return loft;
         }
@@ -190,7 +190,6 @@ namespace Macad.Core.Shapes
             Debug.Assert(targetBody != null);
 
             var loft = new Loft();
-
             targetBody.AddShape(loft);
 
             return loft;

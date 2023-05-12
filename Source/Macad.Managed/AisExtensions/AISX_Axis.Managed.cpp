@@ -49,6 +49,13 @@ namespace Macad
 
 				//--------------------------------------------------------------------------------------------------
 
+				void SetMargin(double margin)
+				{
+                    NativeInstance->SetMargin(margin);
+				}
+
+				//--------------------------------------------------------------------------------------------------
+
 				void SetDisplayMode(Mode mode)
 				{
 					SetDisplayMode((int)mode);

@@ -1,4 +1,5 @@
-﻿#include "ManagedPCH.h"
+﻿
+#include "ManagedPCH.h"
 
 #include "AISX_Axis.h"
 #include "AISX_PrsTool.h"
@@ -10,6 +11,7 @@ IMPLEMENT_STANDARD_RTTIEXT(AISX_Axis, AIS_InteractiveObject)
 AISX_Axis::AISX_Axis()
     : _Length(10)
     , _Thickness(1)
+    , _Margin(0)
 {
     myOwnWidth = 3.0f;
     _InitDrawerAttributes();
@@ -56,10 +58,19 @@ void AISX_Axis::SetWidth(double theWidth)
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Axis::SetSize(double length, double thickness)
+void AISX_Axis::SetSize(double theLength, double theThickness)
 {
-    _Length = length;
-    _Thickness = thickness;
+    _Length = theLength;
+    _Thickness = theThickness;
+    SetToUpdate();
+    UpdateSelection();
+}
+
+//--------------------------------------------------------------------------------------------------
+
+void AISX_Axis::SetMargin(double theMargin)
+{
+    _Margin = theMargin;
     SetToUpdate();
     UpdateSelection();
 }
@@ -68,8 +79,9 @@ void AISX_Axis::SetSize(double length, double thickness)
 
 void AISX_Axis::_ComputeArrow(const Handle(Graphic3d_Group)& theGroup)
 {
-    Handle(Graphic3d_ArrayOfTriangles) aTriArray = 
-        Prs3d_Arrow::DrawShaded(_Axis, _Thickness*0.5, _Length, _Thickness*2.0, _Thickness*6.0, 20);
+    Handle(Graphic3d_ArrayOfTriangles) aTriArray =
+        Prs3d_Arrow::DrawShaded(_Axis.Translated(gp_Vec(_Axis.Direction()).Multiplied(_Margin)),
+            _Thickness * 0.5, _Length - _Margin, _Thickness * 2.0, _Thickness * 6.0, 20);
     theGroup->AddPrimitiveArray(aTriArray);
 }
 
@@ -79,7 +91,7 @@ void AISX_Axis::_ComputeLine(const Handle(Graphic3d_Group)& theGroup)
 {
     theGroup->SetPrimitivesAspect(myDrawer->LineAspect()->Aspect());
 
-    gp_Pnt p1 = _Axis.Location();
+    gp_Pnt p1 = _Axis.Location().Translated(gp_Vec(_Axis.Direction()).Multiplied(_Margin));
     gp_Pnt p2 = _Axis.Location().Translated(gp_Vec(_Axis.Direction()).Multiplied(_Length));
 
     Handle(Graphic3d_ArrayOfSegments) aPrims = new Graphic3d_ArrayOfSegments(2);
@@ -94,21 +106,21 @@ void AISX_Axis::_ComputeKnob(const Handle(Graphic3d_Group)& theGroup)
 {
     gp_Pnt p2 = _Axis.Location().Translated(gp_Vec(_Axis.Direction()).Multiplied(_Length));
     gp_Dir dir = _Length < 0 ? _Axis.Direction().Reversed() : _Axis.Direction();
-	Handle(Graphic3d_ArrayOfTriangles) aTriArray = AISX_PrsTool::CreateCylinder(gp_Ax1(p2, dir), _Thickness, _Thickness*1.5, 10);
+    Handle(Graphic3d_ArrayOfTriangles) aTriArray = AISX_PrsTool::CreateCylinder(gp_Ax1(p2, dir), _Thickness, _Thickness * 1.5, 10);
     theGroup->AddPrimitiveArray(aTriArray);
 }
-    
+
 //--------------------------------------------------------------------------------------------------
 
 void AISX_Axis::Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
-                         const Handle(Prs3d_Presentation)& thePrs, const Standard_Integer theMode)
+    const Handle(Prs3d_Presentation)& thePrs, const Standard_Integer theMode)
 {
     thePrs->Clear();
 
     Handle(Graphic3d_Group) aGroup = thePrs->CurrentGroup();
     aGroup->SetPrimitivesAspect(myDrawer->ShadingAspect()->Aspect());
 
-    switch(theMode)
+    switch (theMode)
     {
     case 0: // Headless
         _ComputeLine(aGroup);
@@ -125,8 +137,8 @@ void AISX_Axis::Compute(const Handle(PrsMgr_PresentationManager)& thePrsMgr,
 
 //--------------------------------------------------------------------------------------------------
 
-void AISX_Axis::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const Handle(Prs3d_Drawer)& theStyle, 
-                                       const Handle(SelectMgr_EntityOwner)& theOwner)
+void AISX_Axis::HilightOwnerWithColor(const Handle(PrsMgr_PresentationManager)& thePrsMgr, const Handle(Prs3d_Drawer)& theStyle,
+    const Handle(SelectMgr_EntityOwner)& theOwner)
 {
     myDynHilightDrawer->SetColor(GetContext()->HighlightStyle()->Color());
     thePrsMgr->Color(this, myDynHilightDrawer, myDrawer->DisplayMode(), nullptr, myDrawer->ZLayer());
@@ -147,17 +159,18 @@ void AISX_Axis::ComputeSelection(const Handle(SelectMgr_Selection)& theSelection
 
     Handle(SelectMgr_EntityOwner) sensitiveOwner = new SelectMgr_EntityOwner(this, 10);
 
-    if(myDrawer->DisplayMode()==1) // Arrow
+    if (myDrawer->DisplayMode() == 1) // Arrow
     {
         gp_Trsf trsf;
-        trsf.SetTransformation(gp_Ax3(), gp_Ax3(_Axis.Location(), _Axis.Direction()));
-        Handle(Select3D_SensitiveCylinder) sensitive = new Select3D_SensitiveCylinder(sensitiveOwner, _Thickness, _Thickness, _Length, trsf);
+        trsf.SetTransformation(gp_Ax3(), gp_Ax3(_Axis.Location().Translated(gp_Vec(_Axis.Direction()).Multiplied(_Margin)), _Axis.Direction()));
+        Handle(Select3D_SensitiveCylinder) sensitive = new Select3D_SensitiveCylinder(sensitiveOwner, _Thickness, _Thickness, _Length - _Margin, trsf);
         theSelection->Add(sensitive);
     }
     else
     {
+        gp_Pnt firstPoint = _Axis.Location().Translated(gp_Vec(_Axis.Direction()).Multiplied(_Margin));
         gp_Pnt endPoint = _Axis.Location().Translated(gp_Vec(_Axis.Direction()).Multiplied(_Length));
-        Handle(Select3D_SensitiveSegment) sensitive = new Select3D_SensitiveSegment(sensitiveOwner, _Axis.Location(), endPoint);
+        Handle(Select3D_SensitiveSegment) sensitive = new Select3D_SensitiveSegment(sensitiveOwner, firstPoint, endPoint);
         sensitive->SetSensitivityFactor(10);
         theSelection->Add(sensitive);
     }
@@ -167,7 +180,7 @@ void AISX_Axis::ComputeSelection(const Handle(SelectMgr_Selection)& theSelection
 
 void AISX_Axis::_InitDrawerAttributes()
 {
-	Handle(Prs3d_LineAspect) lasp = new Prs3d_LineAspect(Quantity_NOC_GRAY40, Aspect_TypeOfLine::Aspect_TOL_SOLID, myOwnWidth);
+    Handle(Prs3d_LineAspect) lasp = new Prs3d_LineAspect(Quantity_NOC_GRAY40, Aspect_TypeOfLine::Aspect_TOL_SOLID, myOwnWidth);
     myDrawer->SetLineAspect(lasp);
 
     Handle(Prs3d_ShadingAspect) shasp = new Prs3d_ShadingAspect();

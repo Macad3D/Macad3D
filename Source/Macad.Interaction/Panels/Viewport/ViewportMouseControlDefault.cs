@@ -63,7 +63,7 @@ namespace Macad.Interaction.Panels
                     ViewportController.Zoom(pos, scaledDelta / 200.0);
                     break;
                 case Panels.MouseWheel.Horizontal:
-                    ViewportController.Rotate(0, scaledDelta / 50.0, 0);
+                    ViewportController.Rotate(scaledDelta / -50.0, 0, 0);
                     break;
             }
             ViewportController.MouseMove(pos, modifierKeys);

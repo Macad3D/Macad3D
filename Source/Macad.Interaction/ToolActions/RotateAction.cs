@@ -5,7 +5,6 @@ using Macad.Common;
 using Macad.Core;
 using Macad.Occt;
 using Macad.Presentation;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Macad.Interaction;
 
@@ -34,6 +33,7 @@ public class RotateAction : ToolAction
 
     readonly Ax3 _CoordinateSystem;
     readonly Circle[] _Gizmos = new Circle[3];
+    Marker _CenterMarker;
     double _StartValue;
     Pln _RotationPlane = Pln.XOY;
     Ax1 _RotationAxis;
@@ -65,8 +65,7 @@ public class RotateAction : ToolAction
 
     #region Create'n'Start
 
-    public RotateAction(object owner, Ax3 coordinateSystem)
-        : base()
+    public RotateAction(Ax3 coordinateSystem)
     {
         _CoordinateSystem = coordinateSystem;
     }
@@ -122,6 +121,18 @@ public class RotateAction : ToolAction
         _Gizmos[0].Set(new Ax2(rotatedCS.Location, rotatedCS.XDirection, rotatedCS.YDirection));
         _Gizmos[1].Set(new Ax2(rotatedCS.Location, rotatedCS.YDirection, rotatedCS.Direction));
         _Gizmos[2].Set(new Ax2(rotatedCS.Location, rotatedCS.Direction, rotatedCS.XDirection));
+        
+        /* Center Marker */
+        if (_CenterMarker == null)
+        {
+            _CenterMarker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage)
+            {
+                Color = Colors.ActionWhite,
+                IsSelectable = false
+            };
+            Add(_CenterMarker);
+        }
+        _CenterMarker.Set(rotatedCS.Location);
     }
 
     //--------------------------------------------------------------------------------------------------

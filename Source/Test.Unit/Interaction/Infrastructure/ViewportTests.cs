@@ -9,6 +9,7 @@ using Macad.Core.Shapes;
 using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Interaction.Visual;
+using Macad.Occt;
 using NUnit.Framework;
 
 namespace Macad.Test.Unit.Interaction.Infrastructure
@@ -30,7 +31,7 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
                 
         //--------------------------------------------------------------------------------------------------
 
-        const string _BasePath = @"Interaction\Infrastructure\Viewport\";
+        const string _BasePath = @"Interaction\Infrastructure\Viewport";
 
         //--------------------------------------------------------------------------------------------------
 
@@ -48,16 +49,16 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             Assert.Multiple(() =>
             {
                 // ViewCube is visible
-                AssertHelper.IsSameViewport(_BasePath + "ViewCubeVisible");
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ViewCubeVisible"));
 
                 // Higlight
                 ctx.MoveTo(360, 120);
-                AssertHelper.IsSameViewport(_BasePath + "ViewCubeHighlight");
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ViewCubeHighlight"));
 
                 // Moved camera
                 ctx.ClickAt(360, 120);
                 Thread.Sleep(1000); // Wait for animation to finish
-                AssertHelper.IsSameViewport(_BasePath + "ViewCubeMoved");
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ViewCubeMoved"));
             });
         }
         
@@ -152,6 +153,99 @@ namespace Macad.Test.Unit.Interaction.Infrastructure
             ctx.ClickAt(150, 150); // Start point
             ctx.ClickAt(350, 350); // Rectangle
             Assert.DoesNotThrow(() => ctx.ClickAt(350, 200)); // Height
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void Rotation()
+        {
+            var ctx = Context.Current;
+            var vc = ctx.ViewportController;
+
+            var body1 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
+            body1.Position = new Pnt(-20, 20, 0);
+            var body2 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
+            body2.Position = new Pnt(20, 20, 0);
+            vc.ZoomFitAll();
+   
+            Assert.Multiple(() =>
+            {
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Rotation01"));
+                vc.Rotate(20, 0, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Rotation02"));
+                vc.Rotate(-20, 0, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Rotation01"));
+                vc.Rotate(0, 20, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Rotation03"));
+                vc.Rotate(0, -20, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Rotation01"));
+                vc.Rotate(0, 0, 20);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Rotation04"));
+                vc.Rotate(0, 0, -20);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Rotation01"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void RotationConstrainPoles()
+        {
+            var ctx = Context.Current;
+            var vc = ctx.ViewportController;
+
+            var body1 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
+            body1.Position = new Pnt(-20, 20, 0);
+            var body2 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
+            body2.Position = new Pnt(20, 20, 0);
+            vc.ZoomFitAll();
+            var viewParams = vc.Viewport.GetViewParameters();
+
+            Assert.Multiple(() =>
+            {
+                vc.Rotate(0, -40, 0);
+                //AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotationConstrainPoles01"));
+                vc.Rotate(0, -40, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotationConstrainPoles02"));
+
+                vc.Viewport.RestoreViewParameters(viewParams);
+                vc.Rotate(0, 110, 0);
+                //AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotationConstrainPoles03"));
+                vc.Rotate(0, 40, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotationConstrainPoles04"));
+            });
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void RotationTwistedConstrainPoles()
+        {
+            var ctx = Context.Current;
+            var vc = ctx.ViewportController;
+
+            var body1 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
+            body1.Position = new Pnt(-20, 20, 0);
+            var body2 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
+            body2.Position = new Pnt(20, 20, 0);
+            vc.ZoomFitAll();
+            vc.Rotate(0, 0, 20);
+            var viewParams = vc.Viewport.GetViewParameters();
+
+            Assert.Multiple(() =>
+            {
+                vc.Rotate(0, -40, 0);
+                //AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotationConstrainPoles11"));
+                vc.Rotate(0, -40, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotationConstrainPoles12"));
+
+                vc.Viewport.RestoreViewParameters(viewParams);
+                vc.Rotate(0, 110, 0);
+                //AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotationConstrainPoles13"));
+                vc.Rotate(0, 40, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotationConstrainPoles14"));
+            });
         }
     }
 }

@@ -9,7 +9,6 @@ using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Occt;
 using Macad.Presentation;
-using static Macad.Interop.SpaceNavigatorInterop;
 
 namespace Macad.Interaction
 {
@@ -190,7 +189,8 @@ namespace Macad.Interaction
                     Color = Colors.ActionRed,
                     IsSelectable = true,
                     Width = 4.0,
-                    Length = 2.0
+                    Length = 2.0,
+                    Margin = 0.25
                 };
                 Add(_AxisGizmoX);
             }
@@ -203,7 +203,8 @@ namespace Macad.Interaction
                     Color = Colors.ActionGreen,
                     IsSelectable = true,
                     Width = 4.0,
-                    Length = 2.0
+                    Length = 2.0,
+                    Margin = 0.25
                 };
                 Add(_AxisGizmoY);
             }

@@ -99,9 +99,9 @@ namespace Macad.Interaction.Panels
                 // Single touch, rotate
                 if (_FirstId == id )
                 {
-                    var dx = (pos.X - _FirstPos.X) * 0.25;
-                    var dy = (pos.Y - _FirstPos.Y) * 0.25;
-                    ViewportController.Rotate(dy, -dx, 0.0);
+                    var dx = (_FirstPos.X - pos.X) * 0.25;
+                    var dy = (_FirstPos.Y - pos.Y) * 0.25;
+                    ViewportController.Rotate(dx, dy, 0.0);
                     _FirstPos = pos;
                     _MoveCallCount++;
                 }

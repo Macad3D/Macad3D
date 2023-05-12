@@ -24,7 +24,7 @@ Shapes-Taper=..\Icons\Form-Taper.xaml
 Shapes-UnfoldSheet=..\Icons\Mod-UnfoldSheet.xaml
 Shapes-Offset=..\Icons\Mod-Offset.xaml
 
-Toolkits-SliceContour=..\Icons\Make-SliceContour.xaml
-Toolkits-EtchingMask=..\Icons\Make-EtchingMask.xaml
+Editors-Toolkits-SliceContourEditTool=..\Icons\Make-SliceContour.xaml
+Editors-Toolkits-EtchingMaskEditTool=..\Icons\Make-EtchingMask.xaml
 
 Topology-Model=..\Icons\App-OpenModel.xaml

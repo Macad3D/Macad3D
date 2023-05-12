@@ -148,8 +148,8 @@ namespace Macad.Core.Shapes
             var modifierShape = new Imprint(){
                 _Face = faceRef
             };
-            modifierShape.AddOperand(sketch);
             body.AddShape(modifierShape);
+            modifierShape.AddOperand(sketch);
 
             return modifierShape;
         }

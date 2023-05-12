@@ -36,7 +36,7 @@ namespace Macad.Test.UI.Editors.Topology
             Assert.That(bodyPanel, Is.Null);
 
             // Undo
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             MainWindow.Ribbon.ClickButton("Undo");
 
             // Then box is selectable again
@@ -52,7 +52,7 @@ namespace Macad.Test.UI.Editors.Topology
         public void ShapeStackDelKey()
         {
             TestDataGenerator.GenerateBox(MainWindow);
-            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
             MainWindow.Ribbon.ClickButton("CreateOffset");
             Assert.AreEqual("Offset", Pipe.GetValue<string>("$Selected.Shape.Name"));
 

@@ -61,6 +61,18 @@ public sealed class Axis : VisualObject
             _UpdatePresentation();
         }
     }
+        
+    //--------------------------------------------------------------------------------------------------
+    
+    public double Margin
+    {
+        get { return _Margin; }
+        set
+        {
+            _Margin = value;
+            _UpdatePresentation();
+        }
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -86,6 +98,7 @@ public sealed class Axis : VisualObject
     bool _IsSelectable;
     double _Length = 10.0;
     double _Width = 3.0;
+    double _Margin = 0.0;
     Quantity_Color _Color = Colors.Auxillary;
 
     //--------------------------------------------------------------------------------------------------
@@ -160,11 +173,13 @@ public sealed class Axis : VisualObject
             _AisObject.SetLocalTransformation(new Trsf(new Ax3(Pnt.Origin, _Axis.Direction), Ax3.XOY));
             double scale = WorkspaceController.ActiveViewport.DpiScale;
             _AisObject.SetSize(_Length * scale * 50.0, _Width * scale);
+            _AisObject.SetMargin(_Margin * scale * 50.0);
         }
         else
         {
             _AisObject.SetLocalTransformation(new Trsf(new Ax3(_Axis.Location, _Axis.Direction), Ax3.XOY));
             _AisObject.SetSize(_Length, _Width);
+            _AisObject.SetMargin(_Margin);
         }
 
         _AisObject.SetColor(_Color);

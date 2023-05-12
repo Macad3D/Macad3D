@@ -39,7 +39,7 @@ public class LinearArrayUITests : UITestBase
         MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
         // Create pipe on existing sketch
-        MainWindow.Ribbon.SelectTab("Model");
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateLinearArray");
     }
 
@@ -50,7 +50,7 @@ public class LinearArrayUITests : UITestBase
         TestDataGenerator.GenerateBox(MainWindow);
 
         // Create pipe on existing sketch
-        MainWindow.Ribbon.SelectTab("Model");
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateLinearArray");
         Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateLinearArray"));
 

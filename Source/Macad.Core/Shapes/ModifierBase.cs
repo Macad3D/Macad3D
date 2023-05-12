@@ -71,6 +71,14 @@ namespace Macad.Core.Shapes
 
         public bool AddOperand(IShapeOperand operandShape)
         {
+            if(operandShape is Shape { Body: not null } shape 
+               && shape.Body != Body)
+            {
+                // Wrap to ensure transformation between different local spaces
+                Body foreignBody = shape.Body;
+                Shape foreignShape = foreignBody.Shape != shape ? shape : null;
+                operandShape = new BodyShapeOperand(foreignBody, foreignShape);
+            }
             Operands.Add(operandShape);
             operandShape.AddDependent(this);
 

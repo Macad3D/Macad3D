@@ -22,7 +22,7 @@ namespace Macad.Test.UI.Editors.Toolkits
         public void GenerateBox()
         {
             // Start tool
-            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
             MainWindow.Ribbon.ClickButton("CreateBox");
             Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
 
@@ -44,7 +44,7 @@ namespace Macad.Test.UI.Editors.Toolkits
             GenerateBox();
 
             // Click button to start tool
-            MainWindow.Ribbon.SelectTab("Toolbox");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
             MainWindow.Ribbon.ClickButton("CreateSliceContour");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSliceContour"));
 
@@ -72,7 +72,7 @@ namespace Macad.Test.UI.Editors.Toolkits
             GenerateBox();
 
             // Click button to start tool
-            MainWindow.Ribbon.SelectTab("Toolbox");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
             MainWindow.Ribbon.ClickButton("CreateSliceContour");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSliceContour"));
 
@@ -98,7 +98,7 @@ namespace Macad.Test.UI.Editors.Toolkits
             GenerateBox();
 
             // Click button to start tool
-            MainWindow.Ribbon.SelectTab("Toolbox");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
             MainWindow.Ribbon.ClickButton("CreateSliceContour");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSliceContour"));
 
@@ -146,7 +146,7 @@ namespace Macad.Test.UI.Editors.Toolkits
             GenerateBox();
 
             // Click button to start tool
-            MainWindow.Ribbon.SelectTab("Toolbox");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
             MainWindow.Ribbon.ClickButton("CreateSliceContour");
             Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSliceContour"));
 

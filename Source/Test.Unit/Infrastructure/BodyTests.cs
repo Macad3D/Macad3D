@@ -284,6 +284,16 @@ namespace Macad.Test.Unit.Infrastructure
         
         //--------------------------------------------------------------------------------------------------
         
+        [Test]
+        public void WrapShapeOperandOnAdd()
+        {
+            var body1 = Body.Create(new Box());
+            var body2 = Body.Create(new Box());
+            var boolean = BooleanFuse.Create(body1, body2.Shape);
+            Assert.IsInstanceOf<BodyShapeOperand>(boolean.Operands[1]);
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
     }
 }

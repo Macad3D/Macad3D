@@ -13,7 +13,7 @@ namespace Macad.Test.UI.Editors.Auxiliary
         public void CreateDatumPlane()
         {
             // Start tool
-            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
             MainWindow.Ribbon.ClickButton("CreateDatumPlane");
 
             // Check for instance
@@ -31,7 +31,7 @@ namespace Macad.Test.UI.Editors.Auxiliary
         public void PropertyPanelDimension()
         {
             // Start tool
-            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
             MainWindow.Ribbon.ClickButton("CreateDatumPlane");
             var panel = MainWindow.PropertyView.FindPanelByClass("DatumPlanePropertyPanel");
             Assert.NotNull(panel);
@@ -60,7 +60,7 @@ namespace Macad.Test.UI.Editors.Auxiliary
             string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\Image_300x150.png"));
 
             // Start tool
-            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
             MainWindow.Ribbon.ClickButton("CreateDatumPlane");
             var panel = MainWindow.PropertyView.FindPanelByClass("DatumPlanePropertyPanel");
             Assert.NotNull(panel);
@@ -104,7 +104,7 @@ namespace Macad.Test.UI.Editors.Auxiliary
         public void CreateSketchOnPlane()
         {
             // Start tool
-            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
             MainWindow.Ribbon.ClickButton("CreateDatumPlane");
 
             // Select as WorkingPlane

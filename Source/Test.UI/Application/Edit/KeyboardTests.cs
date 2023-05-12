@@ -21,7 +21,7 @@ namespace Macad.Test.UI.Application.Edit
             TestDataGenerator.GenerateBox(MainWindow);
 
             // Start transform
-            MainWindow.Ribbon.SelectTab("Edit");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("Transform"));
             MainWindow.Ribbon.ClickButton("Transform");
             Assert.AreEqual("TransformTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
@@ -60,7 +60,7 @@ namespace Macad.Test.UI.Application.Edit
             MainWindow.Document.SelectModelItem();
 
             // Init
-            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
             MainWindow.Ribbon.ClickButton("CreateBox");
             Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
             MainWindow.Viewport.ClickRelative(0.3, 0.3);
@@ -119,7 +119,7 @@ namespace Macad.Test.UI.Application.Edit
             MainWindow.Layers.SelectItem(0);
 
             // Init
-            MainWindow.Ribbon.SelectTab("Model");
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
             MainWindow.Ribbon.ClickButton("CreateBox");
             Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
             MainWindow.Viewport.ClickRelative(0.3, 0.3);

@@ -115,26 +115,29 @@ namespace Macad.Test.Unit.Interaction.Common
             var tool = new TransformTool(new[] {body}, TransformTool.PivotPoint.EntityPivot, TransformTool.Options.None);
             ctx.WorkspaceController.StartTool(tool);
 
-            // X-Axis
-            ctx.ViewportController.MouseMove(new Point(90, 363));
-            ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseMove(new Point(100, 363));
-            ctx.ViewportController.MouseUp();
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveInTopView01"));
+            Assert.Multiple(() =>
+            {
+                // X-Axis
+                ctx.ViewportController.MouseMove(new Point(90, 363));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(100, 363));
+                ctx.ViewportController.MouseUp();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveInTopView01"));
 
-            // Y-Axis
-            ctx.ViewportController.MouseMove(new Point(31, 300));
-            ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseMove(new Point(31, 280));
-            ctx.ViewportController.MouseUp();
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveInTopView02"));
+                // Y-Axis
+                ctx.ViewportController.MouseMove(new Point(31, 300));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(31, 280));
+                ctx.ViewportController.MouseUp();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveInTopView02"));
 
-            // Z-Axis
-            ctx.ViewportController.MouseMove(new Point(33, 343));
-            ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseMove(new Point(50, 320));
-            ctx.ViewportController.MouseUp();
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveInTopView03"));
+                // Z-Axis
+                ctx.ViewportController.MouseMove(new Point(33, 343));
+                ctx.ViewportController.MouseDown();
+                ctx.ViewportController.MouseMove(new Point(50, 320));
+                ctx.ViewportController.MouseUp();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MoveInTopView03"));
+            });
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -887,13 +887,12 @@ namespace Macad.Interaction
                 if (viewport == null)
                     continue;
 
-                int screenWidth = (int)(viewport.Size.Width / viewport.PixelSize);
-                int screenHeight = (int)(viewport.Size.Height / viewport.PixelSize);
+                var screenSize = viewport.ScreenSize;
 
-                viewport.ScreenToPoint(plane, 0,            0,            out corners[0]);
-                viewport.ScreenToPoint(plane, 0,            screenHeight, out corners[1]);
-                viewport.ScreenToPoint(plane, screenWidth,  screenHeight, out corners[2]);
-                viewport.ScreenToPoint(plane, screenWidth,  0,            out corners[3]);
+                viewport.ScreenToPoint(plane, 0,                0,                 out corners[0]);
+                viewport.ScreenToPoint(plane, 0,                screenSize.Height, out corners[1]);
+                viewport.ScreenToPoint(plane, screenSize.Width, screenSize.Height, out corners[2]);
+                viewport.ScreenToPoint(plane, screenSize.Width, 0,                 out corners[3]);
 
                 foreach (var corner in corners)
                 {

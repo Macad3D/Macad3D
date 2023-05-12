@@ -4,7 +4,6 @@ using Macad.Core.Topology;
 using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Occt;
-using Macad.Occt.Ext;
 
 namespace Macad.Core
 {

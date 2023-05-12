@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Windows.Controls;
 using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Occt;
@@ -142,6 +143,19 @@ namespace Macad.Core
                 double width = 0, height = 0;
                 V3dView.Size(ref width, ref height);
                 return (width, height);
+            }
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public (int Width, int Height) ScreenSize
+        {
+            get
+            {
+                double pixelSize = PixelSize;
+                double width = 0, height = 0;
+                V3dView.Size(ref width, ref height);
+                return ((int)(width / pixelSize), (int)(height / pixelSize));
             }
         }
 
@@ -332,6 +346,8 @@ namespace Macad.Core
         {
             try
             {
+                _ValidateViewGeometry();
+
                 if (V3dView.IfWindow())
                 {
                     double xv = 0, yv = 0, zv = 0;
@@ -443,22 +459,6 @@ namespace Macad.Core
 //            Console.WriteLine("ViewRight: {0:0.00} | {1:0.00} | {2:0.00}", eyeDir.X(), eyeDir.Y(), eyeDir.Z());
 
             return eyeDir;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public gp_Sphere GetOrbitSphere()
-        {
-            _ValidateViewGeometry();
-            
-            double xEye = 0, yEye = 0, zEye = 0, xAt = 0, yAt = 0, zAt = 0;
-            V3dView.Eye(ref xEye, ref yEye, ref zEye);
-            V3dView.At(ref xAt, ref yAt, ref zAt);
-            Pnt eyePoint = new Pnt(xEye, yEye, zEye);
-            Pnt atPoint = new Pnt(xAt, yAt, zAt);
-            var eyeVector = new Vec(eyePoint, atPoint);
-
-            return new gp_Sphere(new Ax3(atPoint, Dir.DZ, -Dir.DY.Rotated(Ax1.OZ, V3dView.Twist())), eyeVector.Magnitude());
         }
 
         //--------------------------------------------------------------------------------------------------
