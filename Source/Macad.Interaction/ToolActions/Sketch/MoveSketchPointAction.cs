@@ -309,7 +309,8 @@ namespace Macad.Interaction
                     return true;
                 }
             }
-            return base.OnMouseDown(data);
+
+            return _Moving || _Rotating; // Supress Rubberband Selection
         }
 
         //--------------------------------------------------------------------------------------------------
