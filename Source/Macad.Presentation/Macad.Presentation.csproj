@@ -5,10 +5,10 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="5.0.1" />
-    <PackageReference Include="Dirkster.AvalonDock" Version="4.70.2" />
-    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.70.2" />
-    <PackageReference Include="Fluent.Ribbon" Version="9.0.4" />
+    <PackageReference Include="ControlzEx" Version="6.0.0" />
+    <PackageReference Include="Dirkster.AvalonDock" Version="4.72.0" />
+    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.72.0" />
+    <PackageReference Include="Fluent.Ribbon" Version="10.0.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
 
@@ -25,7 +25,9 @@
     <None Include="Styles\**\*.xaml" />
     <UpToDateCheckInput Include="Styles\**\*.xaml" />
     <None Remove="Styles\CommonControls\CheckBox.xaml" />
+    <None Remove="Styles\ThirdPartyControls\DockControls.xaml" />
     <UpToDateCheckInput Remove="Styles\CommonControls\CheckBox.xaml" />
+    <UpToDateCheckInput Remove="Styles\ThirdPartyControls\DockControls.xaml" />
     <None Include="Styles\StylesSource.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -46,6 +48,9 @@
   
   <ItemGroup>
     <Page Include="Styles\CommonControls\CheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ThirdPartyControls\DockControls.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

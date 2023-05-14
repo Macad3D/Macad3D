@@ -97,6 +97,7 @@ namespace Macad.Interaction.Panels
         #region Members and c'tor
 
         bool _SuppressContextMenu;
+        bool _SupressButtonUp;
         bool _RightMouseBtnDown;
         Point _MouseDownPosition;
         Point _MouseMovePosition;
@@ -242,7 +243,10 @@ namespace Macad.Interaction.Panels
             base.OnMouseDown(e);
 
             if (_ContextMenuIsOpen)
+            {
+                _SupressButtonUp = e.LeftButton == MouseButtonState.Pressed;
                 return;
+            }
 
             CaptureMouse();
             _MouseDownPosition = e.GetPosition(this);
@@ -272,7 +276,7 @@ namespace Macad.Interaction.Panels
 
             _SuppressContextMenu = false;
 
-            if (!_ContextMenuIsOpen)
+            if (!_ContextMenuIsOpen && !_SupressButtonUp)
             {
                 var pos = e.GetPosition(this);
                 var dpiScale = VisualTreeHelper.GetDpi(this);
@@ -280,6 +284,7 @@ namespace Macad.Interaction.Panels
                                       e.ChangedButton, e.ClickCount, e.MouseDevice, Keyboard.Modifiers);
             }
 
+            _SupressButtonUp = false;
             ReleaseMouseCapture();
         }
 

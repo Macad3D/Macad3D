@@ -26,13 +26,13 @@
 
     <!--region MenuGroupSeparator-->
 
-    <Style x:Key="MenuGroupSeparatorStyle"
+    <Style x:Key="Fluent.Ribbon.Styles.MenuGroupSeparator"
            TargetType="{x:Type Fluent:GroupSeparatorMenuItem}">
         <Setter Property="Template"
-                Value="{StaticResource MenuGroupSeparatorControlTemplate}" />
+                Value="{StaticResource Fluent.Ribbon.Templates.MenuGroupSeparator}" />
     </Style>
     
-    <ControlTemplate x:Key="MenuGroupSeparatorControlTemplate"
+    <ControlTemplate x:Key="Fluent.Ribbon.Templates.MenuGroupSeparator"
                      TargetType="{x:Type Fluent:GroupSeparatorMenuItem}">
         <Grid Height="Auto"
               Background="{StaticResource Fluent.Ribbon.Brushes.GroupSeparator.Background}">
@@ -115,7 +115,7 @@
                     <ControlTemplate.Resources>
                         <ResourceDictionary>
                             <Style x:Key="{x:Type ScrollViewer}"
-                                   BasedOn="{StaticResource MenuScrollViewer}"
+                                   BasedOn="{StaticResource Fluent.Ribbon.Styles.MenuScrollViewer}"
                                    TargetType="{x:Type ScrollViewer}" />
                         </ResourceDictionary>
                     </ControlTemplate.Resources>
@@ -139,7 +139,7 @@
                                     Margin="0"
                                     HorizontalAlignment="Stretch"
                                     Background="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.Background}"
-                                    BorderBrush="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.BorderBrush}"
+                                    BorderBrush="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.Border}"
                                     BorderThickness="1"
                                     CornerRadius="2"
                                     Visibility="Collapsed" />
@@ -191,6 +191,24 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--endregion-->
+
+    <!--region FocusStyle -->
+
+    <Style x:Key="Fluent.Ribbon.Styles.FocusVisual.Rectangle"
+           TargetType="{x:Type Rectangle}">
+        <Setter Property="Margin" Value="-1" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Stroke" Value="{StaticResource Macad.Brushes.Black}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeDashArray" Value="2 2" />
+    </Style>
+
+    <ControlTemplate x:Key="Fluent.Ribbon.Templates.FocusVisual.Empty"
+                     TargetType="{x:Type Control}">
+        <Rectangle Stroke="Transparent" />
+    </ControlTemplate>
+
     <!--endregion-->
 
 </ResourceDictionary>

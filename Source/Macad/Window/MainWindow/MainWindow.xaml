@@ -14,7 +14,11 @@
                      TextOptions.TextRenderingMode="ClearType"
                      SnapsToDevicePixels="True" 
                      UseLayoutRounding="False"
-	                 WindowStyle="ThreeDBorderWindow"
+	                 WindowStyle="SingleBorderWindow"
+                     BorderThickness="1"
+                     BorderBrush="Black"
+                     NonActiveBorderBrush="{StaticResource Macad.Brushes.Window.Background}"
+                     GlowDepth="0"
                      AutomationProperties.AutomationId="MacadMainWindow"
                      Icon="pack://application:,,,/Macad.Resources;Component/Icons/App/App-MainLogo.ico"
                      >

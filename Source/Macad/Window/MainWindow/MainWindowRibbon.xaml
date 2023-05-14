@@ -30,7 +30,7 @@
                                              Header="Sketch" 
                                              Background="Green"
                                              Visibility="{Binding Context.EditorState.SketchGroupVisible, Converter={mmp:BoolToVisibleCollapsedConverter}}" 
-                                             IsVisibleChanged="ContextualGroup_IsVisibleChanged"/>
+                                             IsVisibleChanged="_ContextualGroup_IsVisibleChanged"/>
         </Fluent:Ribbon.ContextualGroups>
         <!--endregion-->
 

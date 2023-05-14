@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="5.0.1" />
-    <PackageReference Include="Fluent.Ribbon" Version="9.0.4" />
+    <PackageReference Include="ControlzEx" Version="6.0.0" />
+    <PackageReference Include="Fluent.Ribbon" Version="10.0.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
   <ItemGroup>

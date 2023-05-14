@@ -43,7 +43,7 @@ public class TransformTests : UITestBase
         Assert.IsTrue(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
 
         // Close context menu via LMB, tool should keep active
-        MainWindow.Viewport.ClickRelative(0.1, 0.1);
+        MainWindow.Viewport.ClickRelative(0.4, 0.4);
         Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
         Assert.AreEqual("TransformTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
     }

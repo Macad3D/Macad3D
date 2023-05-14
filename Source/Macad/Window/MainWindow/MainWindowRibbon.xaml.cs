@@ -20,11 +20,19 @@ namespace Macad.Window
         {
             InitializeComponent();
             RibbonLocalization.Current.Culture = CultureInfo.InvariantCulture;
+            Ribbon.PreviewGotKeyboardFocus += _Ribbon_PreviewGotKeyboardFocus;
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void ContextualGroup_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        void _Ribbon_PreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void _ContextualGroup_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if ((!(bool)e.OldValue) && (bool)e.NewValue)
             {
