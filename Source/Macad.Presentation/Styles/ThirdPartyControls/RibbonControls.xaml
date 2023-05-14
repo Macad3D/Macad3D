@@ -101,7 +101,7 @@
 
     <!--endregion-->
 
-    <!--region Menu Item Template -->
+    <!--region Menu Item MRU Template -->
 
     <Style x:Key="Macad.Styles.MenuItem.MRU"  TargetType="Fluent:MenuItem">
         <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Black}"/>
@@ -119,58 +119,65 @@
                                    TargetType="{x:Type ScrollViewer}" />
                         </ResourceDictionary>
                     </ControlTemplate.Resources>
-                    <Grid Width="Auto"
-                          Height="Auto"
-                          Background="Transparent">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Border x:Name="border"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="3"
-                                Width="Auto"
-                                Margin="0"
-                                HorizontalAlignment="Stretch"
-                                Background="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.Background}"
-                                BorderBrush="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.BorderBrush}"
-                                BorderThickness="1"
-                                CornerRadius="2"
-                                Visibility="Collapsed" />
-                        <TextBlock x:Name="textBlock"
-                                   Grid.Column="1"
-                                   Width="Auto"
-                                   Height="Auto"
-                                   Margin="9 5 3 3"
-                                   VerticalAlignment="Top"
-                                   FontWeight="Bold"
-                                   Text="{Binding Header, RelativeSource={RelativeSource TemplatedParent}, Converter={mmp:ExtractFileNameNoExtensionConverter}}"
-                                   TextTrimming="CharacterEllipsis"
-                                   d:LayoutOverrides="Width" />
-                        <TextBlock x:Name="textBlockDesc"
-                                   Grid.Column="1"
-                                   Width="Auto"
-                                   Height="Auto"
-                                   FontSize="10"
-                                   MaxWidth="275"
-                                   Margin="9 22 3 3"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Top"
-                                   TextWrapping="Wrap"
-                                   d:LayoutOverrides="Width"
-                                   Foreground="{StaticResource Macad.Brushes.TextLight}">
-                            <mmp:Behaviors.Behavior>
-                                <mmp:PathEllipsisTextBehaviour OriginalPath="{Binding Header, RelativeSource={RelativeSource TemplatedParent}, Converter={mmp:ExtractFileDirectoryConverter}}" />
-                            </mmp:Behaviors.Behavior>
-                        </TextBlock>
-                        <Fluent:IconPresenter x:Name="iconImage"
-                                              Margin="3 4 2 2"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              IconSize="{Binding Path=(Fluent:RibbonProperties.IconSize), RelativeSource={RelativeSource TemplatedParent}}"
-                                              LargeIcon="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}" />
-                    </Grid>
+                    <mmp:StretchPanel>
+                        <Grid Width="340"
+                              HorizontalAlignment="Left"
+                              Height="Auto"
+                              Background="Transparent">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Border x:Name="border"
+                                    Grid.ColumnSpan="2"
+                                    Grid.RowSpan="2"
+                                    Width="Auto"
+                                    Margin="0"
+                                    HorizontalAlignment="Stretch"
+                                    Background="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.Background}"
+                                    BorderBrush="{DynamicResource Fluent.Ribbon.Brushes.Button.MouseOver.BorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="2"
+                                    Visibility="Collapsed" />
+                            <TextBlock x:Name="textBlock"
+                                       Grid.Column="1"
+                                       Width="Auto"
+                                       Height="Auto"
+                                       Margin="3 3 3 0"
+                                       VerticalAlignment="Top"
+                                       FontWeight="Bold"
+                                       Text="{Binding Header, RelativeSource={RelativeSource TemplatedParent}, Converter={mmp:ExtractFileNameNoExtensionConverter}}"
+                                       TextTrimming="CharacterEllipsis"
+                                       d:LayoutOverrides="Width" />
+                            <TextBlock x:Name="textBlockDesc"
+                                       Grid.Column="1"
+                                       Grid.Row="1"
+                                       Width="Auto"
+                                       Height="Auto"
+                                       FontSize="10"
+                                       Margin="3 0 3 3"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Top"
+                                       TextWrapping="Wrap"
+                                       d:LayoutOverrides="Width"
+                                       Foreground="{StaticResource Macad.Brushes.TextLight}">
+                                <mmp:Behaviors.Behavior>
+                                    <mmp:PathEllipsisTextBehaviour OriginalPath="{Binding Header, RelativeSource={RelativeSource TemplatedParent}, Converter={mmp:ExtractFileDirectoryConverter}}" />
+                                </mmp:Behaviors.Behavior>
+                            </TextBlock>
+                            <Fluent:IconPresenter x:Name="iconImage"
+                                                  Grid.RowSpan="2"
+                                                  Margin="3 3 3 3"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  IconSize="{Binding Path=(Fluent:RibbonProperties.IconSize), RelativeSource={RelativeSource TemplatedParent}}"
+                                                  LargeIcon="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Grid>
+                    </mmp:StretchPanel>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
