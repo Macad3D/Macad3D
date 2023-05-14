@@ -210,7 +210,7 @@ public sealed class FileSystem : IDisposable
 
     #region Serialization
 
-    public T Deserialize<T>(string name, SerializationContext context, Func<uint, uint, bool> verifyVersion) where T : class
+    public T Deserialize<T>(string name, SerializationContext context, Func<Version, bool> verifyVersion) where T : class
     {
         try
         {
@@ -225,10 +225,9 @@ public sealed class FileSystem : IDisposable
 
             var doc = Serializer.Deserialize<DocumentHeader>(reader, context);
             Debug.Assert(doc.ContentType == typeof(T).Name);
-            context.MajorVersion = doc.MajorVersion;
-            context.MinorVersion = doc.MinorVersion;
+            context.Version = new Version(doc.MajorVersion, doc.MinorVersion);
 
-            if (!(verifyVersion?.Invoke(doc.MajorVersion, doc.MinorVersion) ?? true))
+            if (!(verifyVersion?.Invoke(context.Version) ?? true))
             {
                 context.Result = SerializationResult.VersionMismatch;
                 return null;
@@ -259,8 +258,8 @@ public sealed class FileSystem : IDisposable
             var document = new DocumentHeader()
             {
                 ContentType = instance.GetType().Name,
-                MajorVersion = context.MajorVersion,
-                MinorVersion = context.MinorVersion
+                MajorVersion = context.Version.Major,
+                MinorVersion = context.Version.Minor
             };
             var writer = new Writer();
             if (!Serializer.Serialize(writer, document, context)

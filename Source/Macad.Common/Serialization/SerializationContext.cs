@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Macad.Common.Serialization
@@ -41,8 +42,7 @@ namespace Macad.Common.Serialization
 
         //--------------------------------------------------------------------------------------------------
 
-        public uint MajorVersion { get; set; }
-        public uint MinorVersion { get; set; }
+        public Version Version { get; set; }
 
         //--------------------------------------------------------------------------------------------------
 

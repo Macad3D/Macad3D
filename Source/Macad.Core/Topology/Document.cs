@@ -286,7 +286,7 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-        protected static TD CreateFromFile<TD>(string filePath, SerializationContext context, Func<uint, uint, bool> verifyVersion)
+        protected static TD CreateFromFile<TD>(string filePath, SerializationContext context, Func<Version, bool> verifyVersion)
             where TD : Document<T>
         {
             try

@@ -2,6 +2,7 @@
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
+using Macad.Core.Topology;
 using NUnit.Framework;
 
 namespace Macad.Test.Unit.Modeling.Multiply

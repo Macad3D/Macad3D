@@ -239,7 +239,7 @@ namespace Macad.Core.Shapes
                 var singleBaseFaces = baseFacesShape.Faces();
                 foreach (var singleBaseFace in singleBaseFaces)
                 {
-                    var makePrism = new BRepFeat_MakeDPrism(targetShape, singleBaseFace, faceShape, _DraftAngle.ToRad()*sign, _Mode == ImprintMode.Raise ? 1 : 0, true);
+                    var makePrism = new BRepFeat_MakeDPrism(targetShape, singleBaseFace, faceShape, _DraftAngle.ToRad()*sign, _Mode == ImprintMode.Raise ? 1 : 0, false);
                     if (_Mode == ImprintMode.Cutout)
                         makePrism.PerformThruAll();
                     else
@@ -257,7 +257,7 @@ namespace Macad.Core.Shapes
                 var direction = _Mode == ImprintMode.Raise ? facePlane.Axis.Direction : facePlane.Axis.Direction.Reversed();
 
                 // Make w/o draft
-                var makePrism = new BRepFeat_MakePrism(targetShape, baseFacesShape, faceShape, direction, _Mode == ImprintMode.Raise ? 1 : 0, true);
+                var makePrism = new BRepFeat_MakePrism(targetShape, baseFacesShape, faceShape, direction, _Mode == ImprintMode.Raise ? 1 : 0, false);
                 if (_Mode == ImprintMode.Cutout)
                     makePrism.PerformThruAll();
                 else

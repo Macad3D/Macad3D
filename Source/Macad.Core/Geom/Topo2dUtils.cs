@@ -28,6 +28,9 @@ namespace Macad.Core.Geom
                             builder.Add(newShape, edge);
 
                         var tedge = edge.TShape() as BRep_TEdge;
+                        if(tedge == null)
+                            continue;
+
                         var curves = tedge.CurvesList();
                         foreach (BRep_CurveOnSurface curveRep in curves.OfType<BRep_CurveOnSurface>())
                         {

@@ -85,6 +85,11 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
+        [SerializeMember]
+        public bool Compatibility_NoCopyOnMakePrism { get; set; }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
         #region Members
@@ -201,7 +206,7 @@ namespace Macad.Core.Shapes
             }
 
             // Do it!
-            var makePrism = new BRepPrimAPI_MakePrism(faceShape, vector);
+            var makePrism = new BRepPrimAPI_MakePrism(faceShape, vector, !Compatibility_NoCopyOnMakePrism);
             if (!makePrism.IsDone())
             {
                 Messages.Error("Extrusion failed.");
@@ -300,6 +305,21 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
+        #endregion
+
+        #region Compatibility
+
+        public override void OnBeginDeserializing(SerializationContext context)
+        {
+            if (context.Version < new Version(3, 1))
+            {
+                Compatibility_NoCopyOnMakePrism = true;
+            }
+
+            base.OnBeginDeserializing(context);
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
     }

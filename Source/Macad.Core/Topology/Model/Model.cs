@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -22,8 +23,8 @@ namespace Macad.Core.Topology
         //--------------------------------------------------------------------------------------------------
 
         public const string FileExtension = "model";
-        public const uint FileVersionMajor = 3;
-        public const uint FileVersionMinor = 0;
+        public const int FileVersionMajor = 3;
+        public const int FileVersionMinor = 1;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -104,9 +105,9 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-        static bool _VerifyVersion(uint major, uint minor)
+        static bool _VerifyVersion(Version version)
         {
-            if (major > FileVersionMajor)
+            if (version.Major > FileVersionMajor)
             {
                 return false;
             }
@@ -120,8 +121,7 @@ namespace Macad.Core.Topology
         {
             var context = new SerializationContext(SerializationScope.Storage)
             {
-                MajorVersion = FileVersionMajor,
-                MinorVersion = FileVersionMinor
+                Version = new Version(FileVersionMajor, FileVersionMinor)
             };
             return base.SaveToFile(filePath, context);
         }

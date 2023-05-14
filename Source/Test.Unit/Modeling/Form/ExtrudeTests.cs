@@ -3,6 +3,7 @@ using Macad.Test.Utils;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
+using Macad.Core.Topology;
 using Macad.Occt;
 using NUnit.Framework;
 
@@ -161,5 +162,42 @@ namespace Macad.Test.Unit.Modeling.Form
             cyl.SegmentAngle = 160.0;
             Assert.IsTrue(extrude.Make(Shape.MakeFlags.None));
         }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void DoNotModifyEdges()
+        {
+            var sketch = new Sketch();
+            var body = Body.Create(sketch);
+            SketchBuilder sb = new(sketch);
+            sb.StartPath(0, 0);
+            sb.LineTo(0, 14);
+            sb.LineTo(14, 14);
+            sb.LineTo(24, 0);
+            sb.LineTo(0, 0);
+            sb.ClosePath();
+            var mirror = Mirror.Create(body, sketch.GetSubshapeReference(SubshapeType.Edge, 0));
+            var extrude = Extrude.Create(body);
+            extrude.Depth = 10.0;
+            var imprint = Imprint.Create(body, body.Shape.GetSubshapeReference(SubshapeType.Face, 7));
+            imprint.Depth = 5.0;
+            imprint.Mode = Imprint.ImprintMode.Lower;
+            sb = new SketchBuilder(imprint.Sketch);
+            sb.StartPath(12.0, 4.5);
+            sb.LineTo(15.4, 7.0);
+            sb.LineTo(20.0, 0.5);
+            sb.LineTo(16.6, -2.0);
+            sb.LineTo(12.0, 4.5);
+            sb.ClosePath();
+
+            Assume.That(body.Shape.Make(Shape.MakeFlags.None));
+            mirror.Invalidate();
+            Assume.That(body.Shape.Make(Shape.MakeFlags.None));
+            AssertHelper.IsSameModel2D(mirror, Path.Combine(_BasePath, $"DoNotModifyEdges"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

@@ -9,9 +9,9 @@ namespace Macad.Common
         public string ContentType { get; set; }
 
         [SerializeMember]
-        public uint MajorVersion { get; set; }
+        public int MajorVersion { get; set; }
 
         [SerializeMember]
-        public uint MinorVersion { get; set; }
+        public int MinorVersion { get; set; }
     }
 }
