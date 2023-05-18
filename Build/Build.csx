@@ -107,7 +107,7 @@ bool _BuildPublish()
 
     var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.sln");
     var pathToProject = Path.Combine(Common.GetRootFolder(), @"Source\Macad\Macad.csproj");
-    var commandLine = $"\"{pathToProject}\" /t:Publish /p:Configuration=Release /p:Platform=x64 /p:PublishProfile=\"$(MMRootDir)Build\\MSBuild\\Macad.Publish.pubxml\" /nologo /verbosity:minimal ";
+    var commandLine = $"\"{pathToProject}\" /t:Publish /p:Configuration=Release /p:Platform=x64 /nologo /verbosity:minimal ";
 
     if (Common.Run(_VS.PathToMSBuild, commandLine) != 0)
     {
