@@ -83,6 +83,24 @@ namespace Macad.Core.Shapes
         public Ax2? MirrorAxis { get; private set; }
 
         //--------------------------------------------------------------------------------------------------
+        
+        [SerializeMember]
+        public bool KeepOriginal
+        {
+            get { return _KeepOriginal; }
+            set
+            {
+                if (_KeepOriginal != value)
+                {
+                    SaveUndo();
+                    _KeepOriginal = value;
+                    Invalidate();
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         public override ShapeType ShapeType
         {
@@ -101,6 +119,7 @@ namespace Macad.Core.Shapes
         MirrorMode _Mode;
         SubshapeReference _ReferenceShape;
         double _Offset;
+        bool _KeepOriginal;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -111,6 +130,7 @@ namespace Macad.Core.Shapes
         public Mirror()
         {
             _Mode = MirrorMode.EdgeOrFace;
+            _KeepOriginal = true;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -206,9 +226,16 @@ namespace Macad.Core.Shapes
                 return false;
             }
 
+            if (!_KeepOriginal)
+            {
+                BRep = makeTransform.Shape();
+                UpdateModifiedSubshapes(sourceBRep, makeTransform);
+                return true;
+            }
+
+            // Merge Original and Copy
             var shapeListArgs = new TopTools_ListOfShape();
             shapeListArgs.Append(sourceBRep);
-
             var shapeListTools = new TopTools_ListOfShape();
             shapeListTools.Append(makeTransform.Shape());
 
@@ -222,8 +249,7 @@ namespace Macad.Core.Shapes
                 return false;
             }
 
-
-            // Finalize
+            UpdateModifiedSubshapes(sourceBRep, algo);
             BRep = algo.Shape();
             return true;
         }
@@ -290,7 +316,7 @@ namespace Macad.Core.Shapes
             }
 
             // Do it!
-            var resultShape = Topo2dUtils.TransformSketchShape(sourceBRep, new[] {transform}, true);
+            var resultShape = Topo2dUtils.TransformSketchShape(sourceBRep, new[] {transform}, _KeepOriginal);
             if (resultShape == null)
                 return false;
 
@@ -348,7 +374,7 @@ namespace Macad.Core.Shapes
             }
 
             // If edge is linear and offset is 0, the edge should be eliminated
-            if (Offset == 0 && curve is Geom2d_Line)
+            if (Offset == 0 && _KeepOriginal && curve is Geom2d_Line)
             {
                 var reShape = new BRepTools_ReShape();
                 reShape.Remove(edge);

@@ -21,28 +21,43 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Offset"  Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
-        <mmp:ValueEditBox Grid.Row="1" Grid.Column="1" 
+        <!-- Offset -->
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Offset"  Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <mmp:ValueEditBox Grid.Row="0" Grid.Column="1" 
                           Units="Length" 
-                          Value="{Binding Shape.Offset, NotifyOnSourceUpdated=True}" />
+                          Value="{Binding Shape.Offset, NotifyOnSourceUpdated=True}"
+                          AutomationProperties.AutomationId="Offset"/>
        
+        
+        <!-- Keep Original -->
+        <CheckBox Grid.Row="1" Grid.Column="1"
+                  Margin="0,8,0,4"
+                  VerticalAlignment="Center" HorizontalAlignment="Left"
+                  Content="Keep Original"
+                  IsChecked="{Binding Shape.KeepOriginal}"
+                  AutomationProperties.AutomationId="KeepOriginal"/>  
+
+        <!-- Reselect Edge/Face -->
         <mmp:ToggleButton Grid.Row="3" Grid.ColumnSpan="2" 
-                          Visibility="{Binding Shape.ShapeType, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=Sketch}"
-                          Content="Reselect Reference Edge" 
                           IsChecked="{Binding IsToolActive}"
                           Command="{Binding ReselectCommand}"
                           HorizontalAlignment="Center" 
-                          Margin="0,20,0,2" />
-        <mmp:ToggleButton Grid.Row="3" Grid.ColumnSpan="2" 
-                          Visibility="{Binding Shape.ShapeType, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=Solid}"
-                          Content="Reselect Reference Face" 
-                          IsChecked="{Binding IsToolActive}"
-                          Command="{Binding ReselectCommand}"
-                          HorizontalAlignment="Center" 
-                          Margin="0,20,0,2" />
+                          Margin="0,2,0,2"
+                          AutomationProperties.AutomationId="ReselectReference">
+            <mmp:ToggleButton.Content>
+                <Binding Path="Shape.ShapeType">
+                    <Binding.Converter>
+                        <mmp:SwitchConverter>
+                            <mmp:SwitchCase When="Sketch" Then="Reselect Reference Edge" />
+                            <mmp:SwitchCase When="Solid" Then="Reselect Reference Face" />
+                        </mmp:SwitchConverter>
+                    </Binding.Converter>
+                </Binding>
+            </mmp:ToggleButton.Content>
+        </mmp:ToggleButton>
     </Grid>
 </panels:PropertyPanel>

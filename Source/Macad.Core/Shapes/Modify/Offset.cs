@@ -58,6 +58,8 @@ public class Offset : ModifierBase
         }
     }
 
+    //--------------------------------------------------------------------------------------------------
+
     [SerializeMember]
     public CornerType Corner
     {
