@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Macad.Common;
 using Macad.Core.Geom;
 using Macad.Core.Topology;
 using Macad.Common.Serialization;
@@ -86,7 +87,7 @@ namespace Macad.Core.Shapes
         //--------------------------------------------------------------------------------------------------
 
         [SerializeMember]
-        public bool Compatibility_NoCopyOnMakePrism { get; set; }
+        public CompatibilityFlags Compatibility { get; set; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -206,7 +207,8 @@ namespace Macad.Core.Shapes
             }
 
             // Do it!
-            var makePrism = new BRepPrimAPI_MakePrism(faceShape, vector, !Compatibility_NoCopyOnMakePrism);
+            bool copyMode = !Compatibility.HasFlag(CompatibilityFlags.NoCopyOnMakePrism);
+            var makePrism = new BRepPrimAPI_MakePrism(faceShape, vector, copyMode);
             if (!makePrism.IsDone())
             {
                 Messages.Error("Extrusion failed.");
@@ -308,12 +310,21 @@ namespace Macad.Core.Shapes
         #endregion
 
         #region Compatibility
+        
+        [Flags]
+        public enum CompatibilityFlags
+        {
+            None = 0,
+            NoCopyOnMakePrism = 1 << 0,
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         public override void OnBeginDeserializing(SerializationContext context)
         {
             if (context.Version < new Version(3, 1))
             {
-                Compatibility_NoCopyOnMakePrism = true;
+                Compatibility = Compatibility.Added(CompatibilityFlags.NoCopyOnMakePrism);
             }
 
             base.OnBeginDeserializing(context);
