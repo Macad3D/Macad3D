@@ -15,7 +15,7 @@
                      SnapsToDevicePixels="True" 
                      UseLayoutRounding="False"
 	                 WindowStyle="SingleBorderWindow"
-                     BorderThickness="1"
+                     BorderThickness="0"
                      BorderBrush="Black"
                      NonActiveBorderBrush="{StaticResource Macad.Brushes.Window.Background}"
                      GlowDepth="0"
