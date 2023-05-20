@@ -61,48 +61,62 @@ public class Trihedron : VisualObject
 
     void _CreateVisuals(Components components)
     {
-        Plane plane;
+        void __CreatePlane(Components component, Quantity_Color color)
+        {
+            var plane = new Plane(_WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
+            {
+                IsSelectable = true,
+                Size = new XY(2, 2),
+                Margin = new Vec2d(1.25, 1.25),
+                Color = color,
+                Tag = component
+            };
+            plane.Set(new Pln(GetCoordinateSystem(component)));
+            _Gizmos.Add(plane);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        void __CreateAxis(Components component, Quantity_Color color)
+        {
+            var axis = new Axis(WorkspaceController, Axis.Style.NoResize | Axis.Style.Topmost)
+            {
+                Color = color,
+                IsSelectable = true,
+                Width = 4.0,
+                Length = 2.0,
+                Margin = 0.25,
+                Tag = component
+            };
+            axis.Set(GetCoordinateSystem(component).Axis);
+            _Gizmos.Add(axis);
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         if (components.HasFlag(Components.PlaneXY))
         {
-            plane = new Plane(_WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
-            {
-                IsSelectable = true,
-                Size = new XY(2, 2),
-                Margin = new Vec2d(1.25, 1.25),
-                Color = Colors.ActionBlue,
-                Tag = Components.PlaneXY
-            };
-            plane.Set(new Pln(GetCoordinateSystem(Components.PlaneXY)));
-            _Gizmos.Add(plane);
+            __CreatePlane(Components.PlaneXY, Colors.ActionBlue);
         }
-
         if (components.HasFlag(Components.PlaneZX))
         {
-            plane = new Plane(_WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
-            {
-                IsSelectable = true,
-                Size = new XY(2, 2),
-                Margin = new Vec2d(1.25, 1.25),
-                Color = Colors.ActionGreen,
-                Tag = Components.PlaneZX
-            };
-            plane.Set(new Pln(GetCoordinateSystem(Components.PlaneZX)));
-            _Gizmos.Add(plane);
+            __CreatePlane(Components.PlaneZX, Colors.ActionGreen);
         }
-
         if (components.HasFlag(Components.PlaneYZ))
         {
-            plane = new Plane(_WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
-            {
-                IsSelectable = true,
-                Size = new XY(2, 2),
-                Margin = new Vec2d(1.25, -1.25),
-                Color = Colors.ActionRed,
-                Tag = Components.PlaneYZ
-            };
-            plane.Set(new Pln(GetCoordinateSystem(Components.PlaneYZ)));
-            _Gizmos.Add(plane);
+            __CreatePlane(Components.PlaneYZ, Colors.ActionRed);
+        }
+        if (components.HasFlag(Components.AxisX))
+        {
+            __CreateAxis(Components.AxisX, Colors.ActionRed);
+        }
+        if (components.HasFlag(Components.AxisY))
+        {
+            __CreateAxis(Components.AxisY, Colors.ActionGreen);
+        }
+        if (components.HasFlag(Components.AxisZ))
+        {
+            __CreateAxis(Components.AxisZ, Colors.ActionBlue);
         }
     }
     
@@ -112,9 +126,12 @@ public class Trihedron : VisualObject
     {
         return component switch
         {
+            Components.AxisX => new Ax3(_CoordinateSystem.Location, _CoordinateSystem.XDirection, _CoordinateSystem.Direction),
+            Components.AxisY => new Ax3(_CoordinateSystem.Location, _CoordinateSystem.YDirection, _CoordinateSystem.Direction),
+            Components.AxisZ => _CoordinateSystem,
             Components.PlaneXY => _CoordinateSystem,
             Components.PlaneZX => new Ax3(_CoordinateSystem.Location, _CoordinateSystem.YDirection, _CoordinateSystem.Direction),
-            Components.PlaneYZ => new Ax3(_CoordinateSystem.Location, _CoordinateSystem.XDirection, _CoordinateSystem.Direction),
+            Components.PlaneYZ => new Ax3(_CoordinateSystem.Location, _CoordinateSystem.XDirection, _CoordinateSystem.YDirection),
             _ => throw new ArgumentOutOfRangeException(nameof(component), component, null)
         };
     }
@@ -123,6 +140,9 @@ public class Trihedron : VisualObject
 
     public Components? GetComponent(AIS_InteractiveObject aisObj)
     {
+        if (aisObj == null)
+            return null;
+
         var obj = _Gizmos.FirstOrDefault(obj => aisObj.Equals(obj.AisObject));
         return obj?.Tag as Components?;
     }
@@ -131,10 +151,14 @@ public class Trihedron : VisualObject
 
     public Ax3? GetCoordinateSystem(AIS_InteractiveObject aisObj)
     {
+        if (aisObj == null)
+            return null;
+
         var obj = _Gizmos.FirstOrDefault(obj => aisObj.Equals(obj.AisObject));
         var component = obj?.Tag as Components?;
         if (component == null)
             return null;
+
         return GetCoordinateSystem(component.Value);
     }
 

@@ -50,8 +50,7 @@ public class CreateCircularArrayTool : Tool
 
     protected override bool OnCancel()
     {
-        _Shape.Plane = CircularArray.PlaneType.XY;
-        CommitChanges();
+        _TargetBody.RemoveShape(_Shape, false);
         return base.OnCancel();
     }
     

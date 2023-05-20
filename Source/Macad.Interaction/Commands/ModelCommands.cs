@@ -273,19 +273,16 @@ namespace Macad.Interaction
         public static ActionCommand CreateRevolve { get; } = new(
             () =>
             {
-                var modifierShape = Revolve.Create(InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.First() as Body);
-                if (modifierShape != null)
-                {
-                    InteractiveContext.Current?.UndoHandler.Commit();
-                }
-                _WorkspaceController.Invalidate();
+                _WorkspaceController.StartTool(new CreateRevolveTool(_WorkspaceController.Selection.SelectedEntities.First() as Body));
             },
             _CanExecuteSketchModifier)        
         {
             Header = () => "Revolve",
             Description = () => "Creates a solid by revolving a sketch contour.",
             Icon = () => "Form-Revolve",
-            HelpTopic = "74C0AAB4-7847-4DCB-83E9-6ED639F4591C"
+            HelpTopic = "74C0AAB4-7847-4DCB-83E9-6ED639F4591C",
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.OneWay,
+                                                    EqualityToBoolConverter.Instance, nameof(CreateRevolveTool))
         };
 
         //--------------------------------------------------------------------------------------------------

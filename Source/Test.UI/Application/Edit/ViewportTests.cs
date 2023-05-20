@@ -84,7 +84,7 @@ namespace Macad.Test.UI.Application.Edit
             MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Left);
             Thread.Sleep(1000); // Allow fadeout
             Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
-            Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+            Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -99,9 +99,11 @@ namespace Macad.Test.UI.Application.Edit
 
             MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
             Assert.IsTrue(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
-            MainWindow.Viewport.ClickRelative(0.3, 0.3, MouseButton.Left);
+            MainWindow.Viewport.MoveRelative(0.3, 0.3);
             Thread.Sleep(1000); // Allow fadeout
             Assert.IsFalse(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+            Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+            MainWindow.Viewport.ClickRelative(0.3, 0.3, MouseButton.Left);
             Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
         }
 

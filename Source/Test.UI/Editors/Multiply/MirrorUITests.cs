@@ -67,7 +67,7 @@ public class MirrorUITests : UITestBase
         Assert.IsNotNull(panel);
         Assert.IsTrue(panel.ControlExists("ReselectReference"));
         panel.ClickButton("ReselectReference");
-        MainWindow.Viewport.ClickRelative(0.5, 0.5);
+        MainWindow.Viewport.ClickRelative(0.45, 0.45);
         Assert.AreEqual("Axis", Pipe.GetValue("$Selected.Shape.Mode"));
     }
 
@@ -81,7 +81,7 @@ public class MirrorUITests : UITestBase
         Assert.IsNotNull(panel);
         Assert.IsTrue(panel.ControlExists("Offset"));
         panel.ClickButton("ReselectReference");
-        MainWindow.Viewport.ClickRelative(0.5, 0.5);
+        MainWindow.Viewport.ClickRelative(0.45, 0.45);
         Assert.IsFalse(panel.ControlExists("Offset"));
     }
 

@@ -519,8 +519,8 @@
 
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateExtrude}"
                                      AutomationProperties.AutomationId="CreateExtrude"/>
-                <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateRevolve}"
-                               AutomationProperties.AutomationId="CreateRevolve"/>
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateRevolve}"
+                                     AutomationProperties.AutomationId="CreateRevolve"/>
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateLoft}"
                                      AutomationProperties.AutomationId="CreateLoft"/>
                 <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreatePipe}"

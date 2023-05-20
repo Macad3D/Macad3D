@@ -20,14 +20,6 @@ namespace Macad.Window
         {
             InitializeComponent();
             RibbonLocalization.Current.Culture = CultureInfo.InvariantCulture;
-            Ribbon.PreviewGotKeyboardFocus += _Ribbon_PreviewGotKeyboardFocus;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        void _Ribbon_PreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            e.Handled = true;
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -33,7 +33,7 @@ public abstract class Editor : WorkspaceControl
         Active = true;
 
         OnStart();
-        StartTools();
+        _UpdateToolsState();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -71,6 +71,19 @@ public abstract class Editor : WorkspaceControl
     public bool Active { get; private set; }
     public bool ToolsActive { get; private set; }
     List<LiveAction> _Actions;
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _UpdateToolsState()
+    {
+        // Conditions for tools start
+        bool toStart = WorkspaceController.CurrentTool == null;
+
+        if(toStart && !ToolsActive)
+            StartTools();
+        else if(!toStart && ToolsActive)
+            StopTools();
+    }
 
     //--------------------------------------------------------------------------------------------------
 

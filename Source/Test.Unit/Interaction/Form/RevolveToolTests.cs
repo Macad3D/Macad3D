@@ -2,7 +2,9 @@
 using System.IO;
 using System.Windows.Input;
 using Macad.Common;
-using Macad.Interaction;
+using Macad.Core.Shapes;
+using Macad.Core.Topology;
+using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
@@ -26,6 +28,31 @@ public class RevolveToolTests
     public void TearDown()
     {
         Context.Current.Deinit();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CreateFromSketch()
+    {
+        var ctx = Context.Current;
+        var body = _CreateSketch();
+        var tool = new CreateRevolveTool(body);
+        ctx.WorkspaceController.StartTool(tool);
+        Assert.AreEqual(tool, ctx.WorkspaceController.CurrentTool);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateFromSketch01"));
+            ctx.MoveTo(350, 240);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateFromSketch02"));
+            ctx.MoveTo(319, 155);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateFromSketch03"));
+            ctx.ClickAt(265, 241);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateFromSketch04"));
+            Assert.IsNull(ctx.WorkspaceController.CurrentTool);
+        });
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -210,5 +237,21 @@ public class RevolveToolTests
     }
                
     //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
+    Body _CreateSketch()
+    {
+        var sketch = new Sketch();
+        var body = Body.Create(sketch);
+
+        SketchBuilder sb = new SketchBuilder(sketch);
+        sb.StartPath(0, 30);
+        sb.LineTo(20, 30);
+        sb.ArcTo(30, 1, 30, 20);
+        sb.BezierTo(0, 1, 10, 0);
+        sb.LineTo(5, 1);
+        sb.ClosePath();
+
+        return body;
+    }
 }
