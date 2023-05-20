@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using Macad.Common;
 using Macad.Core.Geom;
@@ -16,7 +15,8 @@ namespace Macad.Core.Shapes
 
         public enum MirrorMode
         {
-            EdgeOrFace
+            EdgeOrFace,
+            Axis
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -76,14 +76,30 @@ namespace Macad.Core.Shapes
                 }
             }
         }
-        
+
         //--------------------------------------------------------------------------------------------------
 
         [SerializeMember]
-        public Ax2? MirrorAxis { get; private set; }
+        public Ax2? MirrorAxis
+        {
+            get { return _MirrorAxis; }
+            set
+            {
+                if (_MirrorAxis != value)
+                {
+                    if (Mode == MirrorMode.Axis)
+                    {
+                        SaveUndo();
+                        Invalidate();
+                    }
+                    _MirrorAxis = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
         //--------------------------------------------------------------------------------------------------
-        
+
         [SerializeMember]
         public bool KeepOriginal
         {
@@ -120,6 +136,7 @@ namespace Macad.Core.Shapes
         SubshapeReference _ReferenceShape;
         double _Offset;
         bool _KeepOriginal;
+        Ax2? _MirrorAxis;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -152,6 +169,23 @@ namespace Macad.Core.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        public static Mirror Create(Body targetBody, Ax2 mirrorAxis)
+        {
+            Debug.Assert(targetBody != null);
+
+            var mirror = new Mirror()
+            {
+                _Mode = MirrorMode.Axis,
+                _MirrorAxis = mirrorAxis
+            };
+
+            targetBody.AddShape(mirror);
+
+            return mirror;
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
 
@@ -160,7 +194,10 @@ namespace Macad.Core.Shapes
         protected override bool MakeInternal(MakeFlags flags)
         {
             ClearSubshapeLists();
-            MirrorAxis = null;
+            if (Mode != MirrorMode.Axis)
+            {
+                MirrorAxis = null;
+            }
 
             // Currently we work with 1 source shape only
             if (Operands.Count != 1)
@@ -193,7 +230,7 @@ namespace Macad.Core.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
-
+        
         #endregion
 
         #region Solid Type
@@ -210,6 +247,11 @@ namespace Macad.Core.Shapes
             {
                 case MirrorMode.EdgeOrFace:
                     if (!_CreateMirrorTransform_Face(sourceShape, out transform))
+                        return false;
+                    break;
+
+                case MirrorMode.Axis:
+                    if(!_CreateMirrorTransform_Axis(out transform))
                         return false;
                     break;
 
@@ -253,7 +295,7 @@ namespace Macad.Core.Shapes
             BRep = algo.Shape();
             return true;
         }
-        
+
         //--------------------------------------------------------------------------------------------------
 
         bool _CreateMirrorTransform_Face(IShapeOperand sourceShape, out Trsf transform)
@@ -286,6 +328,19 @@ namespace Macad.Core.Shapes
             transform.SetMirror(axis);
             MirrorAxis = axis;
 
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        bool _CreateMirrorTransform_Axis(out Trsf transform)
+        {
+            transform = new Trsf();
+
+            if (!_MirrorAxis.HasValue)
+                return false;
+
+            transform.SetMirror(_MirrorAxis.Value);
             return true;
         }
 

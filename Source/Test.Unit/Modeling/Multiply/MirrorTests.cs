@@ -2,6 +2,7 @@
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
+using Macad.Occt;
 using NUnit.Framework;
 
 namespace Macad.Test.Unit.Modeling.Multiply
@@ -169,6 +170,18 @@ namespace Macad.Test.Unit.Modeling.Multiply
             Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, mirror.ShapeType);
             AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "DiscardOriginal"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void MirrorOnAxis()
+        {
+            var imprint = TestGeomGenerator.CreateImprint();
+            var mirror = Mirror.Create(imprint.Body, new Ax2(new Pnt(50, 50, 40), Dir.DX));
+            Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
+            Assert.AreEqual(ShapeType.Solid, mirror.ShapeType);
+            AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "OnAxis"));
         }
 
         //--------------------------------------------------------------------------------------------------

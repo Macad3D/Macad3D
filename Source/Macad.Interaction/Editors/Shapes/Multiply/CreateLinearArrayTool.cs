@@ -3,7 +3,6 @@ using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction.Visual;
-using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -11,7 +10,7 @@ public class CreateLinearArrayTool : Tool
 {
     readonly Body _TargetBody;
     LinearArray _Shape;
-    readonly Plane[] _DefaultPlanes = new Plane[3];
+    Trihedron _DefaultPlanes;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -34,10 +33,9 @@ public class CreateLinearArrayTool : Tool
         }
 
         // Select plane
-        _CreateDefaultPlanes();
-
-        var selectionFilter = new InstanceSelectionFilter(_DefaultPlanes);
-        var toolAction = new SelectSubshapeAction(this, SubshapeTypes.None, null, selectionFilter);
+        _DefaultPlanes = new(WorkspaceController, _TargetBody.GetCoordinateSystem(), Trihedron.Components.Planes);
+        Add(_DefaultPlanes);
+        var toolAction = new SelectSubshapeAction(this, SubshapeTypes.None, null, _DefaultPlanes.GetSelectionFilter());
         if (!StartAction(toolAction))
             return false;
         toolAction.Finished += _ToolAction_Finished;
@@ -56,75 +54,18 @@ public class CreateLinearArrayTool : Tool
         CommitChanges();
         return base.OnCancel();
     }
-
-    //--------------------------------------------------------------------------------------------------
-
-    protected override void Cleanup()
-    {
-        for (var i = 0; i < _DefaultPlanes.Length; i++)
-        {
-            _DefaultPlanes[i]?.Remove();
-            _DefaultPlanes[i] = null;
-        }
-
-        base.Cleanup();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    void _CreateDefaultPlanes()
-    {
-        var coord = _TargetBody.GetCoordinateSystem();
-
-        _DefaultPlanes[0] = new Plane(WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
-        {
-            IsSelectable = true,
-            Size = new XY(2, 2),
-            Margin = new Vec2d(1, 1),
-            Color = Colors.ActionBlue
-        };
-        _DefaultPlanes[0].Set(new Pln(coord));
-
-        _DefaultPlanes[1] = new Plane(WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
-        {
-            IsSelectable = true,
-            Size = new XY(2, 2),
-            Margin = new Vec2d(1, 1),
-            Color = Colors.ActionGreen
-        };
-        _DefaultPlanes[1].Set(new Pln(new Ax3(coord.Location, coord.YDirection, coord.Direction)));
-
-        _DefaultPlanes[2] = new Plane(WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
-        {
-            IsSelectable = true,
-            Size = new XY(2, 2),
-            Margin = new Vec2d(1, -1),
-            Color = Colors.ActionRed
-        };
-        _DefaultPlanes[2].Set(new Pln(new Ax3(coord.Location, coord.XDirection, coord.Direction)));
-    }
-
+    
     //--------------------------------------------------------------------------------------------------
 
     LinearArray.PlaneType? _GetPlaneFromAction(SelectSubshapeAction.EventArgs args)
     {
-        if (args.SelectedAisObject != null)
+        return _DefaultPlanes.GetComponent(args.SelectedAisObject) switch
         {
-            if (args.SelectedAisObject.Equals(_DefaultPlanes[0].AisObject))
-            {
-                return LinearArray.PlaneType.XY;
-            }
-            else if (args.SelectedAisObject.Equals(_DefaultPlanes[1].AisObject))
-            {
-                return LinearArray.PlaneType.ZX;
-            }
-            else if (args.SelectedAisObject.Equals(_DefaultPlanes[2].AisObject))
-            {
-                return LinearArray.PlaneType.YZ;
-            }
-        }
-
-        return null;
+            Trihedron.Components.PlaneXY => LinearArray.PlaneType.XY,
+            Trihedron.Components.PlaneZX => LinearArray.PlaneType.ZX,
+            Trihedron.Components.PlaneYZ => LinearArray.PlaneType.YZ,
+            _ => null
+        };
     }
 
     //--------------------------------------------------------------------------------------------------

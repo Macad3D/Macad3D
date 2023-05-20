@@ -56,6 +56,34 @@ public class MirrorUITests : UITestBase
         panel.ClickToggle("KeepOriginal");
         Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
     }
+    
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void ReselectReference()
+    {
+        _CreateSolidBased();
+        var panel = MainWindow.PropertyView.FindPanelByClass("MirrorPropertyPanel");
+        Assert.IsNotNull(panel);
+        Assert.IsTrue(panel.ControlExists("ReselectReference"));
+        panel.ClickButton("ReselectReference");
+        MainWindow.Viewport.ClickRelative(0.5, 0.5);
+        Assert.AreEqual("Axis", Pipe.GetValue("$Selected.Shape.Mode"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void ByAxisMode()
+    {
+        _CreateSolidBased();
+        var panel = MainWindow.PropertyView.FindPanelByClass("MirrorPropertyPanel");
+        Assert.IsNotNull(panel);
+        Assert.IsTrue(panel.ControlExists("Offset"));
+        panel.ClickButton("ReselectReference");
+        MainWindow.Viewport.ClickRelative(0.5, 0.5);
+        Assert.IsFalse(panel.ControlExists("Offset"));
+    }
 
     //--------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------
@@ -80,7 +108,6 @@ public class MirrorUITests : UITestBase
     {
         TestDataGenerator.GenerateBox(MainWindow);
 
-        // Create on existing sketch
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateMirror"));
         MainWindow.Ribbon.ClickButton("CreateMirror");

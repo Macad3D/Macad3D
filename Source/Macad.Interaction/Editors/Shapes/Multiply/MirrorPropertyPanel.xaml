@@ -26,10 +26,14 @@
         </Grid.RowDefinitions>
 
         <!-- Offset -->
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Offset"  Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
+        <TextBlock Grid.Row="0" Grid.Column="0" 
+                   Text="Offset"  
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}"
+                   Visibility="{Binding Shape.Mode, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=EdgeOrFace}"/>
         <mmp:ValueEditBox Grid.Row="0" Grid.Column="1" 
                           Units="Length" 
                           Value="{Binding Shape.Offset, NotifyOnSourceUpdated=True}"
+                          Visibility="{Binding Shape.Mode, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=EdgeOrFace}"
                           AutomationProperties.AutomationId="Offset"/>
        
         
@@ -53,7 +57,7 @@
                     <Binding.Converter>
                         <mmp:SwitchConverter>
                             <mmp:SwitchCase When="Sketch" Then="Reselect Reference Edge" />
-                            <mmp:SwitchCase When="Solid" Then="Reselect Reference Face" />
+                            <mmp:SwitchCase When="Solid" Then="Reselect Plane or Reference Face" />
                         </mmp:SwitchConverter>
                     </Binding.Converter>
                 </Binding>

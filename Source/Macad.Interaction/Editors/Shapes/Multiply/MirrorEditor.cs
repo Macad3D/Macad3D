@@ -177,7 +177,8 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _ShowActions()
         {            
-            if (Entity?.Body == null)
+            if (Entity?.Body == null
+                || Entity.Mode == Mirror.MirrorMode.Axis)
             {
                 StopAllActions();
                 _OffsetAction1 = null;

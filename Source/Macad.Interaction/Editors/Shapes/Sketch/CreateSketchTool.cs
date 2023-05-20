@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Macad.Common;
+﻿using Macad.Common;
 using Macad.Core;
 using Macad.Core.Auxiliary;
 using Macad.Core.Geom;
@@ -25,7 +24,7 @@ namespace Macad.Interaction.Editors.Shapes
         readonly CreateMode _InitialCreateMode;
         Pln _Plane = Pln.XOY;
         Pln _SavedWorkingPlane;
-        readonly Plane[] _DefaultPlanes = new Plane[3];
+        Trihedron _DefaultPlanes;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -43,10 +42,10 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (_InitialCreateMode == CreateMode.Interactive)
             {
-                _CreateDefaultPlanes();
-
-                var selectionFilter = new OrSelectionFilter(new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane),
-                                                            new SignatureSelectionFilter(VisualPlane.SelectionSignature));
+                _DefaultPlanes = new(WorkspaceController, _SavedWorkingPlane.Position, Trihedron.Components.Planes);
+                Add(_DefaultPlanes);
+                var selectionFilter = new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane)
+                                          .Or(new SignatureSelectionFilter(VisualPlane.SelectionSignature));
                 var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, null, selectionFilter);
                 if (!StartAction(toolAction))
                     return false;
@@ -87,49 +86,9 @@ namespace Macad.Interaction.Editors.Shapes
                 WorkspaceController.Workspace.WorkingPlane = _SavedWorkingPlane;
             }
 
-            for (var i = 0; i < _DefaultPlanes.Length; i++)
-            {
-                _DefaultPlanes[i]?.Remove();
-                _DefaultPlanes[i] = null;
-            }
-
             base.Cleanup();
         }
-
-        //--------------------------------------------------------------------------------------------------
-
-        void _CreateDefaultPlanes()
-        {
-            var workingPlane = WorkspaceController.Workspace.WorkingPlane;
-
-            _DefaultPlanes[0] = new Plane(WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
-            {
-                IsSelectable = true,
-                Size = new XY(2,2),
-                Margin = new Vec2d(1, 1),
-                Color = Colors.ActionBlue
-            };
-            _DefaultPlanes[0].Set(workingPlane);
-
-            _DefaultPlanes[1] = new Plane(WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
-            {
-                IsSelectable = true,
-                Size = new XY(2,2),
-                Margin = new Vec2d(1, 1),
-                Color = Colors.ActionGreen
-            };
-            _DefaultPlanes[1].Set(new Pln(new Ax3(workingPlane.Location, workingPlane.YAxis.Direction, workingPlane.Axis.Direction)));
-
-            _DefaultPlanes[2] = new Plane(WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
-            {
-                IsSelectable = true,
-                Size = new XY(2,2),
-                Margin = new Vec2d(1, -1),
-                Color = Colors.ActionRed
-            };
-            _DefaultPlanes[2].Set(new Pln(new Ax3(workingPlane.Location, workingPlane.XAxis.Direction, workingPlane.Axis.Direction)));
-        }
-
+        
         //--------------------------------------------------------------------------------------------------
 
         bool _GetPlaneFromAction(SelectSubshapeAction.EventArgs args)
@@ -155,22 +114,20 @@ namespace Macad.Interaction.Editors.Shapes
             }
             else if (args.SelectedAisObject != null)
             {
-                if (args.SelectedAisObject.Equals(_DefaultPlanes[0].AisObject))
+                switch(_DefaultPlanes.GetComponent(args.SelectedAisObject))
                 {
-                    _Plane = _SavedWorkingPlane;
-                }
-                else if (args.SelectedAisObject.Equals(_DefaultPlanes[1].AisObject))
-                {
-                    _Plane = new Pln(new Ax3(_SavedWorkingPlane.Location, _SavedWorkingPlane.YAxis.Direction.Reversed(), _SavedWorkingPlane.XAxis.Direction));
-                }
-                else if (args.SelectedAisObject.Equals(_DefaultPlanes[2].AisObject))
-                {
-                    _Plane = new Pln(new Ax3(_SavedWorkingPlane.Location, _SavedWorkingPlane.XAxis.Direction, _SavedWorkingPlane.YAxis.Direction));
-                }
-                else
-                {
-                    return false;
-                }
+                    case Trihedron.Components.PlaneXY:
+                        _Plane = _SavedWorkingPlane;
+                        break;
+                    case Trihedron.Components.PlaneZX:
+                        _Plane = new Pln(new Ax3(_SavedWorkingPlane.Location, _SavedWorkingPlane.YAxis.Direction.Reversed(), _SavedWorkingPlane.XAxis.Direction));
+                        break;
+                    case Trihedron.Components.PlaneYZ:
+                        _Plane = new Pln(new Ax3(_SavedWorkingPlane.Location, _SavedWorkingPlane.XAxis.Direction, _SavedWorkingPlane.YAxis.Direction));
+                        break;
+                    default:
+                        return false;
+                };
 
                 bool flip = !args.MouseEventData.PickAxis.IsOpposite(_Plane.Axis, Maths.HalfPI);
                 if (flip)

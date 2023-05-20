@@ -6,6 +6,7 @@ using Macad.Core.Shapes;
 using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
 using NUnit.Framework;
+using Macad.Occt;
 
 namespace Macad.Test.Unit.Interaction.Multiply
 {
@@ -43,10 +44,10 @@ namespace Macad.Test.Unit.Interaction.Multiply
 
             Assert.Multiple(() =>
             {
-                ctx.MoveTo(300, 350);
+                ctx.MoveTo(300, 375);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateByFace01"));
 
-                ctx.ClickAt(300, 350);
+                ctx.ClickAt(300, 375);
                 Assert.IsNull(ctx.WorkspaceController.CurrentTool);
                 Assert.That(body.Shape is Mirror);
 
@@ -155,7 +156,27 @@ namespace Macad.Test.Unit.Interaction.Multiply
         }
 
         //--------------------------------------------------------------------------------------------------
-                
+
+        [Test]
+        public void EditorIdleByAxis()
+        {
+            var ctx = Context.Current;
+            var imprint = TestGeomGenerator.CreateImprint();
+            var mirror = Mirror.Create(imprint.Body, new Ax2(new Pnt(30, 30, 20), Dir.DX));
+            ctx.ViewportController.ZoomFitAll();
+            ctx.WorkspaceController.StartEditor(mirror);
+
+            Assert.Multiple(() =>
+            {
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorIdleByAxis01"));
+                        
+                // Cleanup
+                ctx.WorkspaceController.StopEditor();
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         [Test]
         public void EditorReversedFaceIdle()
         {
