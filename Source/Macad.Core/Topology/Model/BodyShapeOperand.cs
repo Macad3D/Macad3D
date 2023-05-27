@@ -75,31 +75,28 @@ namespace Macad.Core.Topology
                     break;
             }
 
-            if (!reuseModelBodies || document == null )
+            if (reuseModelBodies && document != null)
             {
-                return false; // Use standard serializer
-            }
-
-            // Try to find referenced body shapes in current model
-            var anticipated = ClassSerializer.AnticipateType(reader, context);
-            if (anticipated.Type != null && typeof(Body).IsAssignableFrom(anticipated.Type))
-            {
-                // Try finding body in model?
-                var body = document.FindInstance(anticipated.Guid) as Body;
-                if (body != null)
+                // Try to find referenced body shapes in current model
+                var anticipated = ClassSerializer.AnticipateType(reader, context);
+                if (anticipated.Type != null && typeof(Body).IsAssignableFrom(anticipated.Type))
                 {
-                    // Ask if options are available, otherwise assume re-using
-                    if (!(cloneOptions?.CloneReferencedBodies ?? false))
+                    // Try finding body in model?
+                    var body = document.FindInstance(anticipated.Guid) as Body;
+                    if (body != null)
                     {
-                        // operand already in model, use this
-                        Body = body;
-                        reader.SkipListOrMapValue();
-                        return true;
+                        // Ask if options are available, otherwise assume re-using
+                        if (!(cloneOptions?.CloneReferencedBodies ?? false))
+                        {
+                            // operand already in model, use this
+                            Body = body;
+                            reader.SkipListOrMapValue();
+                            return true;
+                        }
                     }
                 }
             }
 
-            // Not in Model
             Body oldBody = context.GetInstance<Body>();
             Body = reader.ReadType<Body>(null, context);
             context.SetInstance(oldBody);

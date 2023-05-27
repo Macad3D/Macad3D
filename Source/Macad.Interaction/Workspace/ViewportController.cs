@@ -672,7 +672,7 @@ namespace Macad.Interaction
                     {
                         _RubberbandPoints[_RubberbandPoints.Count - 1] = (currentPointX, currentPointY);
                     }
-                    Occt.Helper.Ais.SetRubberbandPoints(_OcWindow, _AisRubberBand, _RubberbandPoints);
+                    AisHelper.SetRubberbandPoints(_OcWindow, _AisRubberBand, _RubberbandPoints);
                     break;
             }
 
@@ -763,7 +763,7 @@ namespace Macad.Interaction
                 _SetTrihedron(_ShowTrihedron);
                 _SetViewCube(true);
 
-                return Occt.Helper.PixMapHelper.ConvertToBitmap(pixmap);
+                return PixMapHelper.ConvertToBitmap(pixmap);
             }
             catch (Exception )
             {

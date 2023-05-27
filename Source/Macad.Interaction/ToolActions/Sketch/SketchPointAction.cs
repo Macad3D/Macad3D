@@ -87,7 +87,9 @@ namespace Macad.Interaction
         {
             if (_Marker == null)
             {
-                _Marker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.PlusImage);
+                _Marker = new Marker(WorkspaceController, 
+                                     Marker.Styles.Bitmap | Marker.Styles.Topmost | Marker.Styles.NoClipPlane, 
+                                     Marker.PlusImage);
                 Add(_Marker);
             }
         }
@@ -229,7 +231,9 @@ namespace Macad.Interaction
                 geomPoint.Transform(_SketchEditorTool.Transform);
                 if (_MergePreviewMarker == null)
                 {
-                    _MergePreviewMarker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.RingImage)
+                    _MergePreviewMarker = new Marker(WorkspaceController, 
+                                                     Marker.Styles.Bitmap | Marker.Styles.Topmost | Marker.Styles.NoClipPlane, 
+                                                     Marker.RingImage)
                     {
                         Color = Colors.Highlight
                     };

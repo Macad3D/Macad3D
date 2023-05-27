@@ -17,12 +17,13 @@ namespace Macad.Interaction.Visual
         [Flags]
         public enum Styles
         {
-            Bitmap     = 1,
-            Image      = 2,
-            ModeMask   = 0x000f,
+            Bitmap      = 1,
+            Image       = 2,
+            ModeMask    = 0x000f,
 
-            Topmost    = 1 << 16,
-            Background = 1 << 18,
+            NoClipPlane = 1 << 15,
+            Topmost     = 1 << 16,
+            Background  = 1 << 18,
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -236,6 +237,9 @@ namespace Macad.Interaction.Visual
                 return false;
 
             _AisPoint = new AIS_PointEx(_P);
+
+            if(_Styles.HasFlag(Styles.NoClipPlane))
+                AisHelper.DisableGlobalClipPlanes(_AisPoint);
 
             _UpdatePresentation();
 

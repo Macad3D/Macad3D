@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Macad.Common.Serialization;
 using Macad.Core.Topology;
 using Macad.Occt;
@@ -188,6 +189,22 @@ namespace Macad.Core.Auxiliary
             _SizeY = 100;
             _KeepAspectRatio = true;
             _AspectRatio = _SizeX / _SizeY;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region Entity
+
+        protected override void RaisePropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            base.RaisePropertyChanged(propertyName);
+            if (!IsDeserializing)
+            {
+                if (CoreContext.Current.Workspace != null)
+                    CoreContext.Current.Workspace.MarkAsUnsaved();
+            }
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -11,6 +11,7 @@ using Macad.Core;
 using Macad.Core.Topology;
 using Macad.Occt;
 using Macad.Occt.Extensions;
+using Macad.Occt.Helper;
 
 namespace Macad.Interaction
 {
@@ -181,6 +182,7 @@ namespace Macad.Interaction
             }
 
             _Grid = new AISX_Grid();
+            AisHelper.DisableGlobalClipPlanes(_Grid);
             Workspace.AisContext?.Display(_Grid, 0, -1, false);
 
             VisualObjects.InitEntities();
@@ -429,7 +431,7 @@ namespace Macad.Interaction
                 {
                     _LastDetectedInteractive = Workspace.AisContext.DetectedInteractive();
                     _LastDetectedOwner = Workspace.AisContext.DetectedOwner();
-                    detectedShape = Occt.Helper.Ais.GetDetectedShapeFromContext(Workspace.AisContext);
+                    detectedShape = AisHelper.GetDetectedShapeFromContext(Workspace.AisContext);
                     detectedEntity = VisualObjects.GetVisibleEntity(_LastDetectedInteractive);
                 }
 
@@ -544,9 +546,9 @@ namespace Macad.Interaction
 
         public void SelectByRectangle(int[] corners, bool includeTouched, ViewportController viewportController)
         {
-            if (Occt.Helper.Ais.PickFromContext(Workspace.AisContext, corners[0], corners[1], corners[2], corners[3], includeTouched,
-                                                viewportController.Viewport.V3dView, 
-                                                _MouseEventData.DetectedAisInteractives, _MouseEventData.DetectedShapes) > 0)
+            if (AisHelper.PickFromContext(Workspace.AisContext, corners[0], corners[1], corners[2], corners[3], includeTouched,
+                                          viewportController.Viewport.V3dView, 
+                                          _MouseEventData.DetectedAisInteractives, _MouseEventData.DetectedShapes) > 0)
             {
                 var entities = _MouseEventData.DetectedAisInteractives.Select(VisualObjects.GetVisibleEntity).Where(entity => entity != null);
                 _MouseEventData.DetectedEntities.AddRange(entities);
@@ -561,7 +563,7 @@ namespace Macad.Interaction
             _MouseEventData.DetectedEntities.Clear();
             _MouseEventData.DetectedShapes.Clear();
             
-            if (Occt.Helper.Ais.PickFromContext(Workspace.AisContext, pointList, includeTouched,
+            if (AisHelper.PickFromContext(Workspace.AisContext, pointList, includeTouched,
                                                 viewportController.Viewport.V3dView, 
                                                 _MouseEventData.DetectedAisInteractives, _MouseEventData.DetectedShapes) > 0)
             {

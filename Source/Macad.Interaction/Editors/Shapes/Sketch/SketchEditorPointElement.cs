@@ -18,7 +18,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             var geomPoint = new Geom_CartesianPoint(point.X, point.Y, 0);
             geomPoint.Transform(Transform);
-            _Marker = new Marker(SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, 
+            _Marker = new Marker(SketchEditorTool.WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost | Marker.Styles.NoClipPlane, 
                                  SketchUtils.IsUnconnectedEndpoint(SketchEditorTool.Sketch, PointIndex) ? Marker.RectImage : Marker.BallImage )
             {
                 IsSelectable = true

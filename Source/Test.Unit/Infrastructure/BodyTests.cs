@@ -295,5 +295,41 @@ namespace Macad.Test.Unit.Infrastructure
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        [TestCase(false, TestName = "SecondBodyAlreadySerialized")]
+        [TestCase(true, TestName = "SecondBodyInlineSerialized")]
+        public void KeepBodyReferenceAcrossBodyOperand(bool order)
+        {
+            var model = CoreContext.Current.Document;
+            var body1 = Body.Create(new Box());
+            var body2 = Body.Create(new Box());
+            var boolean = BooleanFuse.Create(body1, body2.Shape);
+            var imprint = Imprint.Create(body1, body1.Shape.GetSubshapeReference(SubshapeType.Face, 1));
+            if (order)
+            {
+                model.Add(body1);
+                model.Add(body2);
+            }
+            else
+            {
+                model.Add(body2);
+                model.Add(body1);
+            }
+            var serialized = Serializer.Serialize(model, new SerializationContext());
+            Console.WriteLine(Serializer.Format(serialized));
+
+            Context.InitWithDefault();
+            model = Serializer.Deserialize<Model>(serialized, new SerializationContext());
+            body1 = model.FindInstance(body1.Guid) as Body;
+            Assert.IsNotNull(body1);
+            body2 = model.FindInstance(body2.Guid) as Body;
+            Assert.IsNotNull(body2);
+
+            // The imprint shape and it's sketch must be part of body1, even if the context changed to body2
+            // while deserializing the second boolean fuse operand.
+            imprint = body1.Shape as Imprint;
+            Assert.AreEqual(body1, imprint.Body);
+            Assert.AreEqual(body1, imprint.Sketch.Body);
+        }
     }
 }

@@ -148,7 +148,8 @@ namespace Macad.Interaction.Editors.Shapes
                     for (var index = 0; index < _Constraint.Points.Length; index++)
                     {
                         var marker = new Marker(sketchEditorTool.WorkspaceController,
-                                                Marker.Styles.Image | Marker.Styles.Background | Marker.Styles.Topmost, image, 24)
+                                                Marker.Styles.Image | Marker.Styles.Background | Marker.Styles.Topmost | Marker.Styles.NoClipPlane, 
+                                                image, 24)
                         {
                             IsSelectable = true,
                             Tag = index,
@@ -163,7 +164,8 @@ namespace Macad.Interaction.Editors.Shapes
                     for (var index = 0; index < _Constraint.Segments.Length; index++)
                     {
                         var marker = new Marker(sketchEditorTool.WorkspaceController,
-                                                Marker.Styles.Image | Marker.Styles.Background | Marker.Styles.Topmost, image, 24)
+                                                Marker.Styles.Image | Marker.Styles.Background | Marker.Styles.Topmost | Marker.Styles.NoClipPlane,
+                                                image, 24)
                         {
                             IsSelectable = true,
                             Tag = index | TagIsSegment,

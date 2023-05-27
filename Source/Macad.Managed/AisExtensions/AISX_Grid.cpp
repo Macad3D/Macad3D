@@ -226,11 +226,6 @@ void AISX_Grid::_InitAttributes()
     _MajorAspect = new Graphic3d_AspectLine3d(Quantity_NameOfColor::Quantity_NOC_GRAY30, Aspect_TOL_SOLID, 1.0);
     _XAxisAspect = new Graphic3d_AspectLine3d(Quantity_Color(0.5, 0.0, 0.0, Quantity_TypeOfColor::Quantity_TOC_RGB), Aspect_TOL_SOLID, 1.0);
     _YAxisAspect = new Graphic3d_AspectLine3d(Quantity_Color(0.0, 0.6, 0.0, Quantity_TypeOfColor::Quantity_TOC_RGB), Aspect_TOL_SOLID, 1.0);
-
-    // Disable clipping planes
-    Handle(Graphic3d_SequenceOfHClipPlane) aPlanes = new Graphic3d_SequenceOfHClipPlane();
-    aPlanes->SetOverrideGlobal(true);
-    SetClipPlanes(aPlanes);
 }
 
 //--------------------------------------------------------------------------------------------------

@@ -5,6 +5,7 @@ using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Occt;
+using Macad.Occt.Helper;
 
 namespace Macad.Interaction.Editors.Shapes
 {
@@ -64,6 +65,7 @@ namespace Macad.Interaction.Editors.Shapes
                 var aisShape = new AIS_Shape(edge.Located(new TopLoc_Location(Transform)));
                 aisShape.SetZLayer(-3); // TOP
                 aisShape.SetWidth(2.0);
+                AisHelper.DisableGlobalClipPlanes(aisShape);
 
                 if (_HighlightDrawer == null)
                 {
@@ -177,10 +179,5 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        #region Statics
-
-        
-
-        #endregion
     }
 }
