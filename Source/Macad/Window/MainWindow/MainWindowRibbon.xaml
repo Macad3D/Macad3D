@@ -571,6 +571,13 @@
         <Fluent:RibbonTabItem Header="TOOLBOX"
                               AutomationProperties.AutomationId="Toolbox">
             
+            <Fluent:RibbonGroupBox Header="Convert">
+
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:ToolboxCommands.ConvertToEditableSketch}"
+                               AutomationProperties.AutomationId="ConvertToEditableSketch"/>
+
+            </Fluent:RibbonGroupBox>
+            
             <Fluent:RibbonGroupBox Header="Templates">
 
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ToolboxCommands.CreateSliceContour}"

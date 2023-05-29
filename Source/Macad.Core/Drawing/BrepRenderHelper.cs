@@ -135,7 +135,8 @@ namespace Macad.Core.Drawing
                     curves.Reverse();
                 }
 
-                foreach (var curveOnSurface in curves.OfType<BRep_CurveOnSurface>())
+                foreach (var curveOnSurface in curves.OfType<BRep_CurveOnSurface>()
+                                                     .Where(cos => cos.Surface() is Geom_Plane))
                 {
                     var curve = curveOnSurface.PCurve();
                     first = curveOnSurface.First();
@@ -194,7 +195,10 @@ namespace Macad.Core.Drawing
 
         public static bool RenderCircle(IDrawingRenderer renderer, Geom2d_Circle circle, double first, double last, bool reverse)
         {
-            if (renderer.Capabilities.CircleAsCurve)
+            bool fullCircle = first.Distance(last).IsEqual(Maths.DoublePI, 0.00001);
+            bool renderAsCurve = fullCircle ? renderer.Capabilities.CircleAsCurve : renderer.Capabilities.CircularArcAsCurve;
+
+            if (renderAsCurve)
             {
                 var bsplineCurve = ShapeConstruct.ConvertCurveToBSpline(circle, first, last, 0.001, GeomAbs_Shape.C2, 100, 3);
                 if (bsplineCurve != null)
@@ -220,7 +224,6 @@ namespace Macad.Core.Drawing
             }
 
             renderer.Circle(center, radius, first - rotation, last - rotation);
-
             return true;
         }
 
@@ -228,7 +231,10 @@ namespace Macad.Core.Drawing
 
         public static bool RenderEllipse(IDrawingRenderer renderer, Geom2d_Ellipse ellipse, double first, double last, bool reverse)
         {
-            if (renderer.Capabilities.EllipseAsCurve)
+            bool fullEllipse = first.Distance(last).IsEqual(Maths.DoublePI, 0.00001);
+            bool renderAsCurve = fullEllipse ? renderer.Capabilities.EllipseAsCurve : renderer.Capabilities.EllipticalArcAsCurve;
+
+            if (renderAsCurve)
             {
                 var bsplineCurve = ShapeConstruct.ConvertCurveToBSpline(ellipse, first, last, 0.001, GeomAbs_Shape.C1, 100, 3);
                 if (bsplineCurve != null)
@@ -241,7 +247,7 @@ namespace Macad.Core.Drawing
             var center = ellipse.Location();
             var majorRadius = ellipse.MajorRadius();
             var minorRadius = ellipse.MinorRadius();
-            double rotation = ellipse.XAxis().Direction.Angle(Dir2d.DX);
+            double rotation = Dir2d.DX.Angle(ellipse.XAxis().Direction);
 
             if (ellipse.Position().Sense() > 0)
             {
@@ -255,8 +261,7 @@ namespace Macad.Core.Drawing
             }
 
             renderer.Ellipse(center, majorRadius, minorRadius, rotation, first, last);
-
-            return false;
+            return true;
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -409,10 +409,6 @@ namespace Macad.Core
             _AddProperty(edgecat, "Is Closed", $"{(BRep_Tool.IsClosed(edge) ? "Yes" : "No")}");
             _AddProperty(edgecat, "Curve Type", $"{(BRep_Tool.IsGeometric(edge) ? "Geometric Curve" : "Curve on Surface")}");
 
-            var props = new GProp_GProps();
-            BRepGProp.LinearProperties(BrepShape, props);
-            _AddProperty(edgecat, "Length", $"{props.Mass()}");
-
             _AddProperty(edgecat, "Tolerance", $"{BRep_Tool.Tolerance(edge)}");
             if (!flags.IsEmpty())
                 _AddProperty(edgecat, "Flags", flags);
@@ -430,6 +426,10 @@ namespace Macad.Core
                     if (curve.IsPeriodic())
                         _AddProperty(curvecat, "Period", $"{curve.Period()}");
                     _AddProperty(curvecat, "Continuity", curve.Continuity().ToString().Replace("GeomAbs_", ""));
+
+                    var props = new GProp_GProps();
+                    BRepGProp.LinearProperties(BrepShape, props);
+                    _AddProperty(edgecat, "Length", $"{props.Mass()}");
 
                     switch (curve)
                     {

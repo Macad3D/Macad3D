@@ -241,18 +241,18 @@ namespace Macad.Exchange.Svg
             {
                 // Full ellipse
                 var segment = new SvgDomEllipse(center, majorRadius, minorRadius) {Style = CurrentStyle};
-                segment.Transforms.Add(new SvgRotateTransform(Maths.NormalizeAngleDegree(rotation.ToDeg())));
+                segment.Transforms.Add(new SvgRotateTransform(Maths.NormalizeAngleDegree(-rotation.ToDeg())));
                 CurrentDomGroup.Children.Add(segment);
             }
             else
             {
                 // Ellipse arc
-                Geom2d_Ellipse geom2DEllipse = new(new Ax2d(center, Dir2d.DX.Rotated(-rotation)), majorRadius, minorRadius);
+                Geom2d_Ellipse geom2DEllipse = new(new Ax2d(center, Dir2d.DX.Rotated(rotation)), majorRadius, minorRadius);
                 var start = geom2DEllipse.Value(startAngle);
                 var end = geom2DEllipse.Value(endAngle);
 
                 // Get parameters of ellipse
-                double angleX = Maths.NormalizeAngleDegree(rotation.ToDeg());
+                double angleX = Maths.NormalizeAngleDegree(-rotation.ToDeg());
                 SvgArcSize size = startAngle.Distance(endAngle) < Maths.PI ? SvgArcSize.Small : SvgArcSize.Large;
                 SvgArcSweep sweep = SvgArcSweep.Negative;
                 if (endAngle < startAngle)

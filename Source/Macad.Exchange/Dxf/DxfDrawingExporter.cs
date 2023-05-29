@@ -213,7 +213,7 @@ namespace Macad.Exchange.Dxf
 
             if (_Document.Flags.HasFlag(DxfFlags.ExportEllipseAsPolygon))
             {
-                Geom2d_Ellipse geom2DEllipse = new(new Ax2d(center, Dir2d.DX.Rotated(-rotation)), majorRadius, minorRadius);
+                Geom2d_Ellipse geom2DEllipse = new(new Ax2d(center, Dir2d.DX.Rotated(rotation)), majorRadius, minorRadius);
                 if (startAngle.Distance(endAngle).IsEqual(Maths.DoublePI, 0.00001))
                 {
                     // Full ellipse
@@ -227,7 +227,7 @@ namespace Macad.Exchange.Dxf
                 return;
             }
 
-            var majorAxisPointOffset = Dir2d.DX.ToVec().Rotated(-rotation).Multiplied(majorRadius);
+            var majorAxisPointOffset = Dir2d.DX.ToVec().Rotated(rotation).Multiplied(majorRadius);
             var ratio = minorRadius / majorRadius;
 
             if (startAngle.Distance(endAngle).IsEqual(Maths.DoublePI, 0.00001))

@@ -38,6 +38,15 @@ namespace Macad.Interaction
                    && _WorkspaceController.Selection.SelectedEntities.Count == 1
                    && (_WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape?.ShapeType == ShapeType.Solid;
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        static bool _CanExecuteOnSingleSketch()
+        {
+            return _WorkspaceController?.Selection != null
+                   && _WorkspaceController.Selection.SelectedEntities.Count == 1
+                   && (_WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape?.ShapeType == ShapeType.Sketch;
+        }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -212,6 +221,32 @@ namespace Macad.Interaction
             Description = () => "Create and export a drawing with dimensions for bending pipes.",
             Icon = () => "Make-PipeDrawing",
             HelpTopic = "69425fd0-ff1a-4dc3-9014-12860684e057"
+        };
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static ActionCommand ConvertToEditableSketch { get; } = new(
+            () =>
+            {
+                var body = _WorkspaceController.Selection.SelectedEntities.First() as Body;
+                if (body == null || body.Shape.ShapeType != ShapeType.Sketch)
+                    return; // That shouldn't ever happen
+
+                if (!Core.Toolkits.ConvertToEditableSketch.CollapseShapeStack(body))
+                {
+                    ErrorDialogs.CommandExecutionFailed("The selected shape cannot be converted to a editable sketch.");
+                    return;
+                }
+
+                InteractiveContext.Current.UndoHandler.Commit();
+            },
+            () => _CanExecuteOnSingleSketch() && (_WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape.ShapeType == ShapeType.Sketch)
+        {
+            Header = () => "Convert to Sketch",
+            Title = () => "Convert to editable Sketch",
+            Description = () => "Convert the current shape into an editable sketch and replace the shape stack of the selected body with it.",
+            Icon = () => "Tool-ConvertToSketch",
+            HelpTopic = "6ce2c1bf-b08b-4f62-a37a-50ac16fb2845"
         };
 
         //--------------------------------------------------------------------------------------------------

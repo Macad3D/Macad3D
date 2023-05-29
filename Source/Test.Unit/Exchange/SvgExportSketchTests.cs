@@ -94,7 +94,7 @@ namespace Macad.Test.Unit.Exchange
             var sb = new SketchBuilder(sketch);
 
             sb.Line(0, 0, 5, 5);
-            sb.Ellipse(3, 2.5, 2, 3, 45);
+            sb.Ellipse(3, 2.5, 2, 3, -45);
 
             var svg = SvgSketchExporter.Export(sketch);
 

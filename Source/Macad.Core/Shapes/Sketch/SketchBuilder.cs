@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Windows.Media.Imaging;
 using Macad.Common;
 using Macad.Occt;
 
@@ -26,6 +27,19 @@ namespace Macad.Core.Shapes
             _StartPointIndex = _Sketch.AddPoint(new Pnt2d(x, y));
             _EndPointIndex = _StartPointIndex;
             return _StartPointIndex;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        public void EndPath(bool checkIfClosed=true, double tolerance=0.000001)
+        {
+            if (_StartPointIndex != _EndPointIndex
+                && _Sketch.Points[_StartPointIndex].IsEqual(_Sketch.Points[_EndPointIndex], tolerance))
+            {
+                ClosePath();
+            }
+            _StartPointIndex = -1;
+            _EndPointIndex = -1;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -88,8 +102,8 @@ namespace Macad.Core.Shapes
         public int Ellipse(double centerX, double centerY, double radiusX, double radiusY, double angleDeg)
         {
             var pntCenter = new Pnt2d(centerX, centerY);
-            var pntRim1 = pntCenter.Translated(new Vec2d(0, radiusX).Rotated(angleDeg.ToRad()));
-            var pntRim2 = pntCenter.Translated(new Vec2d(0, radiusY).Rotated((angleDeg+90.0).ToRad()));
+            var pntRim1 = pntCenter.Translated(new Vec2d(radiusX, 0).Rotated(angleDeg.ToRad()));
+            var pntRim2 = pntCenter.Translated(new Vec2d(0, radiusY).Rotated(angleDeg.ToRad()));
             var center = _Sketch.AddPoint(pntCenter);
             var rim1 = _Sketch.AddPoint(pntRim1);
             var rim2 = _Sketch.AddPoint(pntRim2);

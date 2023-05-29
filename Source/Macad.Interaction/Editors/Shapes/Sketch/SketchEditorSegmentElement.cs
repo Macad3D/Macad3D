@@ -102,9 +102,20 @@ namespace Macad.Interaction.Editors.Shapes
             {
                 Hints ??= new HintLine[]
                 {
-                    new(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost)
+                    new(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost )
                 };
                 Hints[0].Set(points[circle.CenterPoint], points[circle.RimPoint], Plane);
+                return;
+            }
+            if (Segment is SketchSegmentEllipse ellipse)
+            {
+                Hints ??= new HintLine[]
+                {
+                    new(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost ),
+                    new(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost )
+                };
+                Hints[0].Set(points[ellipse.CenterPoint], points[ellipse.RimPoint1], Plane);
+                Hints[1].Set(points[ellipse.CenterPoint], points[ellipse.RimPoint2], Plane);
                 return;
             }
             if (Segment is SketchSegmentEllipticalArc arc)

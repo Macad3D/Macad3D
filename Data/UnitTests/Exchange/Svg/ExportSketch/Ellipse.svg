@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100mm" height="100mm" viewBox="0, 0, 377.9528, 377.9528" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg">
+<svg width="100mm" height="100mm" viewBox="0, 0, 377.95276, 377.95276" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg">
   <sodipodi:namedview inkscape:document-units="mm" />
-  <g id="Sketch" stroke-width="0.3779528" style="stroke:black;fill:none;">
-    <path d="M0,0 L18.89764,-18.89764" />
-    <ellipse cx="11.33858" cy="-9.448819" rx="11.33858" ry="7.559055" transform="rotate(135,11.33858,-9.448819)" />
+  <g id="Sketch" stroke-width="0.37795275" style="stroke:black;fill:none;">
+    <path d="M0,-0 L18.897638,-18.897638" />
+    <ellipse cx="11.338583" cy="-9.448819" rx="11.338583" ry="7.5590553" transform="rotate(-45,11.338583,-9.448819)" />
   </g>
 </svg>

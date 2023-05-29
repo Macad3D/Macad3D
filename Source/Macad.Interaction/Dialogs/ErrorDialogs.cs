@@ -179,6 +179,17 @@ namespace Macad.Interaction.Dialogs
                                    "Image loading failed",
                                    TaskDialogCommonButtons.Close, TaskDialogIcon.Error);
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public static void CommandExecutionFailed(string detail)
+        {
+            TaskDialog.ShowMessage(Application.Current?.MainWindow,
+                                   "Command execution failed.",
+                                   $"The selected command did not execute successfully. {detail} Please check log for details.",
+                                   "Command failed",
+                                   TaskDialogCommonButtons.Close, TaskDialogIcon.Error);
+        }
 
         //--------------------------------------------------------------------------------------------------
 

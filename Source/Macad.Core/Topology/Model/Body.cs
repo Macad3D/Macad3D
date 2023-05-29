@@ -332,7 +332,43 @@ namespace Macad.Core.Topology
         }
 
         //--------------------------------------------------------------------------------------------------
-        
+
+        public void CollapseShapeStack(Shape newRootShape, bool saveUndo = true)
+        {
+            if (saveUndo)
+                SaveTopologyUndo();
+
+            Shape shape = RootShape;
+            while (shape != null)
+            {
+                foreach (var dependent in shape.GetDependents().ToList())
+                {
+                    var dependentModifier = dependent as ModifierBase;
+                    if (dependentModifier == null)
+                        continue;
+
+                    for (var opIndex = 0; opIndex < dependentModifier.Operands.Count; opIndex++)
+                    {
+                        if (dependentModifier.Operands[opIndex] == shape)
+                            dependentModifier.ReplaceOperand(opIndex, shape);
+                    }
+                }
+                shape.Body = null;
+                shape = (shape as ModifierBase)?.Predecessor as Shape;
+            }
+
+            newRootShape.Body = this;
+            RootShape = newRootShape;
+            _CurrentShape = null;
+            
+            Invalidate();
+            RaisePropertyChanged("RootShape");
+            RaisePropertyChanged("Shape");
+            RaiseVisualChanged();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
         #region Initialization / Serialization

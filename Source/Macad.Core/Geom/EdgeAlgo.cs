@@ -146,6 +146,50 @@ namespace Macad.Core.Geom
             }
             return null;
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public static bool GetPlaneOfEdges(TopoDS_Shape shape, out Pln plane)
+        {
+            plane = Pln.XOY;
+            var edges = shape.Edges();
+            if (edges.Count == 0)
+            {
+                Messages.Error("Cannot get plane of edges, shape doesn't have edges.");
+                return false;
+            }
+
+            bool havePlane = false;
+            foreach (var edge in edges)
+            {
+                if (!(edge.TShape() is BRep_TEdge tedge))
+                    continue;
+
+                var curves = tedge.CurvesList();
+                foreach (var curveOnSurface in curves.OfType<BRep_CurveOnSurface>())
+                {
+                    var geomPlane = curveOnSurface.Surface() as Geom_Plane;
+                    if (geomPlane == null)
+                        continue;
+
+                    if (havePlane)
+                    {
+                        if (!plane.Position.IsCoplanar(geomPlane.Position(), 0.00001, 0.00001))
+                        {
+                            Messages.Error("Cannot get plane of edges, not all edges are coplanar.");
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        plane = geomPlane.Pln();
+                        havePlane = true;
+                    }
+                }
+            }
+
+            return havePlane;
+        }
 
         //--------------------------------------------------------------------------------------------------
 
