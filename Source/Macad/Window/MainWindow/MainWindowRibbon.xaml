@@ -576,6 +576,9 @@
                 <Fluent:Button mmp:Command.Action="{x:Static mmi:ToolboxCommands.ConvertToEditableSketch}"
                                AutomationProperties.AutomationId="ConvertToEditableSketch"/>
 
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:ToolboxCommands.ConvertToSolid}"
+                               AutomationProperties.AutomationId="ConvertToSolid"/>
+
             </Fluent:RibbonGroupBox>
             
             <Fluent:RibbonGroupBox Header="Templates">

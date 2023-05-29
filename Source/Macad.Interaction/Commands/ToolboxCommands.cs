@@ -240,13 +240,37 @@ namespace Macad.Interaction
 
                 InteractiveContext.Current.UndoHandler.Commit();
             },
-            () => _CanExecuteOnSingleSketch() && (_WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape.ShapeType == ShapeType.Sketch)
+            () => _CanExecuteOnSingleSketch())
         {
             Header = () => "Convert to Sketch",
             Title = () => "Convert to editable Sketch",
             Description = () => "Convert the current shape into an editable sketch and replace the shape stack of the selected body with it.",
             Icon = () => "Tool-ConvertToSketch",
-            HelpTopic = "6ce2c1bf-b08b-4f62-a37a-50ac16fb2845"
+        };
+
+        //--------------------------------------------------------------------------------------------------
+        
+        public static ActionCommand ConvertToSolid { get; } = new(
+            () =>
+            {
+                var body = _WorkspaceController.Selection.SelectedEntities.First() as Body;
+                if (body == null || body.Shape.ShapeType != ShapeType.Solid)
+                    return; // That shouldn't ever happen
+
+                if (!Core.Toolkits.ConvertToSolid.CollapseShapeStack(body))
+                {
+                    ErrorDialogs.CommandExecutionFailed("The selected shape cannot be converted to a solid.");
+                    return;
+                }
+
+                InteractiveContext.Current.UndoHandler.Commit();
+            },
+            () => _CanExecuteOnSingleSolid())
+        {
+            Header = () => "Convert to Solid",
+            Title = () => "Convert to Solid",
+            Description = () => "Convert the current shape into a single solid shape and replace the whole shape stack of the selected body with it.",
+            Icon = () => "Tool-ConvertToSolid",
         };
 
         //--------------------------------------------------------------------------------------------------
