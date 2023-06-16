@@ -130,6 +130,19 @@ namespace Macad.Test.Unit.Modeling.Multiply
         }
 
         //--------------------------------------------------------------------------------------------------
+                    
+        [Test]
+        public void SketchTransformedPlane()
+        {
+            var section = TestGeomGenerator.CreateCrossSection();
+            var array = CircularArray.Create(section.Body);
+            array.Quantity = 4;
+            array.Radius = 50;
+            Assert.IsTrue(array.Make(Shape.MakeFlags.None));
+            AssertHelper.IsSameModel2D(array, Path.Combine(_BasePath, "SketchTransformedPlane"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
 

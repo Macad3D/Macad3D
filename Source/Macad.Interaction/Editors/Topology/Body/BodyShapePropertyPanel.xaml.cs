@@ -283,14 +283,18 @@ namespace Macad.Interaction.Editors.Topology
         {
             bool anyDeleted = false;
             IShapeOperand nextSelected = null;
-            var shapes = _SelectedItems.OfType<BodyShapeTreeShape>()
-                                       .Select(treeItem => treeItem.Shape)
-                                       .OfType<ModifierBase>()
-                                       .ToList();
-            foreach (var shape in shapes)
+            var shapesToDelete = _SelectedItems.OfType<BodyShapeTreeShape>()
+                                               .Select(treeItem => treeItem.Shape)
+                                               .OfType<ModifierBase>()
+                                               .ToList();
+
+            if (InteractiveContext.Current.WorkspaceController.CurrentTool != null)
+                return;
+            
+            foreach (var shape in shapesToDelete)
             {
-                var predecessor = shape.Predecessor;
                 var body = shape.Body;
+                var predecessor = shape.Predecessor;
                 if (body.RemoveShape(shape))
                 {
                     nextSelected = predecessor;
@@ -324,28 +328,30 @@ namespace Macad.Interaction.Editors.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-        public static RelayCommand<Body> JumpToBodyCommand { get; } = new RelayCommand<Body>(
+        public static RelayCommand<Body> JumpToBodyCommand { get; } = new(
             body =>
             {
                 InteractiveContext.Current.WorkspaceController.Selection.SelectEntity(body);
             },
-            body => body != null
+            body => InteractiveContext.Current.WorkspaceController.CurrentTool == null 
+                    && body != null 
         );
 
         //--------------------------------------------------------------------------------------------------
 
-        public static RelayCommand<Shape> ToggleSkippedCommand { get; } = new RelayCommand<Shape>(
+        public static RelayCommand<Shape> ToggleSkippedCommand { get; } = new(
             shape =>
             {
                 shape.IsSkipped = !shape.IsSkipped;
                 InteractiveContext.Current.UndoHandler?.Commit();
             },
-            shape => shape is ModifierBase
+            shape => InteractiveContext.Current.WorkspaceController.CurrentTool == null 
+                     && shape is ModifierBase 
         );
 
         //--------------------------------------------------------------------------------------------------
 
-        public static RelayCommand<Shape> SetCurrentShapeCommand { get; } = new RelayCommand<Shape>(
+        public static RelayCommand<Shape> SetCurrentShapeCommand { get; } = new(
             shape =>
             {
                 if (shape.Body.Shape != shape)
@@ -354,26 +360,31 @@ namespace Macad.Interaction.Editors.Topology
                     InteractiveContext.Current.UndoHandler?.Commit();
                 }
             },
-            shape => shape != null
+            shape => InteractiveContext.Current.WorkspaceController.CurrentTool == null 
+                     && shape != null 
         );
 
         //--------------------------------------------------------------------------------------------------
 
-        public static RelayCommand<Shape> DeleteShapeCommand { get; } = new RelayCommand<Shape>(
+        public static RelayCommand<Shape> DeleteShapeCommand { get; } = new(
             shape =>
             {
+                if (InteractiveContext.Current.WorkspaceController.CurrentTool != null)
+                    return;
+
                 var body = shape.Body;
                 if (body.RemoveShape(shape))
                 {
                     InteractiveContext.Current.UndoHandler?.Commit();
                 }
             },
-            shape => shape is ModifierBase
+            shape => InteractiveContext.Current.WorkspaceController.CurrentTool == null 
+                     && shape is ModifierBase 
         );
 
         //--------------------------------------------------------------------------------------------------
               
-        public static RelayCommand<BodyShapeTreeBody> BodySelectTopCommand { get; } = new RelayCommand<BodyShapeTreeBody>(
+        public static RelayCommand<BodyShapeTreeBody> BodySelectTopCommand { get; } = new(
             item =>
             {
                 var newOp = new BodyShapeOperand(item.BodyOperand.Body);
@@ -382,13 +393,15 @@ namespace Macad.Interaction.Editors.Topology
                 InteractiveContext.Current.UndoHandler?.Commit();
                 item.UpdateBodyOperand(newOp);
             },
-            item => item?.ParentShape != null && item.ParentShape.CanReplaceOperand(item.BodyOperand) 
-                                              && item.BodyOperand.ShapeId != Guid.Empty
+            item => InteractiveContext.Current.WorkspaceController.CurrentTool == null
+                    && item?.ParentShape != null 
+                    && item.ParentShape.CanReplaceOperand(item.BodyOperand) 
+                    && item.BodyOperand.ShapeId != Guid.Empty
         );
         
         //--------------------------------------------------------------------------------------------------
               
-        public static RelayCommand<BodyShapeTreeBody> BodySelectCurrentCommand { get; } = new RelayCommand<BodyShapeTreeBody>(
+        public static RelayCommand<BodyShapeTreeBody> BodySelectCurrentCommand { get; } = new(
             item =>
             {
                 var newOp = new BodyShapeOperand(item.BodyOperand.Body, item.BodyOperand.Body.Shape);
@@ -397,12 +410,14 @@ namespace Macad.Interaction.Editors.Topology
                 InteractiveContext.Current.UndoHandler?.Commit();
                 item.UpdateBodyOperand(newOp);
             },
-            item => item?.ParentShape != null && item.ParentShape.CanReplaceOperand(item.BodyOperand) 
+            item =>  InteractiveContext.Current.WorkspaceController.CurrentTool == null
+                     && item?.ParentShape != null 
+                     && item.ParentShape.CanReplaceOperand(item.BodyOperand) 
         );
                 
         //--------------------------------------------------------------------------------------------------
               
-        public static RelayCommand<BodyShapeTreeBody> BodySetSelectedAsCurrentCommand { get; } = new RelayCommand<BodyShapeTreeBody>(
+        public static RelayCommand<BodyShapeTreeBody> BodySetSelectedAsCurrentCommand { get; } = new(
             item =>
             {
                 var body = item.BodyOperand.Body;
@@ -414,17 +429,20 @@ namespace Macad.Interaction.Editors.Topology
                 InteractiveContext.Current.UndoHandler?.Commit();
                 item.UpdateBodyOperand(item.BodyOperand);
             },
-            item => item?.ParentShape != null && (item.BodyOperand.ShapeId == Guid.Empty || item.BodyOperand.Shape != null)
+            item => InteractiveContext.Current.WorkspaceController.CurrentTool == null 
+                    && item?.ParentShape != null 
+                    && (item.BodyOperand.ShapeId == Guid.Empty || item.BodyOperand.Shape != null)
         );
         
         //--------------------------------------------------------------------------------------------------
 
-        public static RelayCommand<Shape> RemakeShapeCommand { get; } = new RelayCommand<Shape>(
+        public static RelayCommand<Shape> RemakeShapeCommand { get; } = new(
             shape =>
             {
                 shape.Invalidate();
             },
-            shape => shape != null
+            shape => InteractiveContext.Current.WorkspaceController.CurrentTool == null 
+                     && shape != null
         );
 
         //--------------------------------------------------------------------------------------------------
@@ -452,7 +470,7 @@ namespace Macad.Interaction.Editors.Topology
             }
         }
 
-        public static IsCurrentShape IsCurrentShapeConverter = new IsCurrentShape();
+        public static IsCurrentShape IsCurrentShapeConverter = new();
 
         //--------------------------------------------------------------------------------------------------
 
@@ -475,7 +493,7 @@ namespace Macad.Interaction.Editors.Topology
             }
         }
 
-        public static IsItemSkippableToVisibility IsItemSkippableToVisibilityConverter = new IsItemSkippableToVisibility();
+        public static IsItemSkippableToVisibility IsItemSkippableToVisibilityConverter = new();
 
         //--------------------------------------------------------------------------------------------------
 

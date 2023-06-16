@@ -156,5 +156,16 @@ public class OffsetTests
     }
 
     //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void SketchTransformedPlane()
+    {
+        var section = TestGeomGenerator.CreateCrossSection();
+        var offset = Offset.Create(section.Body, 1.0);
+        Assert.IsTrue(offset.Make(Shape.MakeFlags.None));
+        AssertHelper.IsSameModel(offset, Path.Combine(_BasePath, "SketchTransformedPlane"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
 }

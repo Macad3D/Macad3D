@@ -1,27 +1,44 @@
-﻿using Macad.Core.Shapes;
+﻿using System.Linq;
+using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Occt;
 
 namespace Macad.Core.Toolkits;
 
-public class ConvertToSolid
+public static class ConvertToSolid
 {
-    public static bool CollapseShapeStack(Body body, bool saveUndo = true)
+    public static bool CollapseShapeStack(Body[] bodies, bool saveUndo = true)
     {
-        Shape originalShape = body.Shape;
-        if (originalShape is Solid)
-            return true; // Nothing to do
+        var result = true;
 
-        if (originalShape.ShapeType != ShapeType.Solid)
-            return false;
+        Shape[] originalShapes = bodies.Select(body => body.Shape)
+                                       .Where(shape => shape.ShapeType == ShapeType.Solid)
+                                       .ToArray();
+        if (originalShapes.Length == 0)
+            return false; // Nothing to do
 
-        var brep = originalShape.GetBRep();
-        if (brep == null)
-            return false;
+        TopoDS_Shape[] originalBreps = originalShapes.Select(shape => shape.GetBRep())
+                                                     .ToArray();
 
-        Solid solid = Solid.Create(brep);
-        body.CollapseShapeStack(solid, saveUndo);
+        for (var i = 0; i < bodies.Length; i++)
+        {
+            var originalShape = originalShapes[i];
+            if (originalShape is Solid)
+            {
+                continue;
+            }
 
-        return true;
+            if (originalBreps[i] == null)
+            {
+                result = false;
+                continue;
+            }
+
+            Solid solid = Solid.Create(originalBreps[i]);
+            bodies[i].CollapseShapeStack(solid, saveUndo);
+        }
+
+        return result;
     }
 
     //--------------------------------------------------------------------------------------------------

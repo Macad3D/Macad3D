@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
+using Macad.Core.Geom;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Occt;
@@ -78,12 +79,20 @@ public sealed class OffsetEditor : Editor<Offset>
         if (_ScaleAction == null)
             return;
 
-        Bnd_Box box = Entity.GetBRep()?.BoundingBox();
-        if (box == null)
+        var brep = Entity.GetBRep();
+        if(brep == null)
             return;
+        var trsf = Entity.Body.GetTransformation();
 
-        _ScaleAction.Box = box;
-        _ScaleAction.Transformation = Entity.Body.GetTransformation();
+        if (Entity.ShapeType == ShapeType.Sketch
+            && EdgeAlgo.GetPlaneOfEdges(brep, out Pln plane))
+        {
+            brep = brep.Located(new TopLoc_Location(new Trsf(Ax3.XOY, plane.Position)));
+            trsf.Multiply(new Trsf(plane.Position, Ax3.XOY));
+        }
+
+        _ScaleAction.Box = brep.BoundingBox();
+        _ScaleAction.Transformation = trsf;
     }
 
     //--------------------------------------------------------------------------------------------------

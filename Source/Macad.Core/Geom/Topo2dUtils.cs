@@ -32,21 +32,25 @@ namespace Macad.Core.Geom
                             continue;
 
                         var curves = tedge.CurvesList();
-                        foreach (BRep_CurveOnSurface curveRep in curves.OfType<BRep_CurveOnSurface>())
+                        foreach (BRep_CurveOnSurface curveRep in curves.OfType<BRep_CurveOnSurface>()
+                                                                       .Where(cos => cos.Surface() is Geom_Plane))
                         {
                             // Transform PCurve
                             var curve = curveRep.PCurve();
+                            var plane = curveRep.Surface() as Geom_Plane;
                             double first = curve.FirstParameter();
                             double last = curve.LastParameter();
                             var newCurve = shapeBuildEdge.TransformPCurve(curve, transform, 1.0, ref first, ref last);
 
                             // Transform UVs
-                            Pnt2d uv0 = new Pnt2d();
                             Pnt2d uv1 = new Pnt2d();
-                            curveRep.UVPoints(ref uv0, ref uv1);
-                            uv0.Transform(transform);
+                            Pnt2d uv2 = new Pnt2d();
+                            curveRep.UVPoints(ref uv1, ref uv2);
                             uv1.Transform(transform);
-                            var makeEdge = new BRepBuilderAPI_MakeEdge2d(newCurve, uv0, uv1);
+                            uv2.Transform(transform);
+                            Pnt p1 = plane.Value(uv1.X, uv1.Y);
+                            Pnt p2 = plane.Value(uv2.X, uv2.Y);
+                            var makeEdge = new BRepBuilderAPI_MakeEdge(newCurve, plane, p1, p2);
                             builder.Add(newShape, makeEdge.Edge());
                         }
                     }

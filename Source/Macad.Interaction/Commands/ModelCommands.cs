@@ -5,72 +5,20 @@ using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Presentation;
 
+using static Macad.Interaction.CommandHelper;
+
 namespace Macad.Interaction
 {
     public static class ModelCommands
     {
-        #region Helper
-
-        static WorkspaceController _WorkspaceController
-        {
-            get { return InteractiveContext.Current?.WorkspaceController; }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        static bool _CanStartTool()
-        {
-            return (_WorkspaceController != null);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        static bool _CanExecuteSketchModifier()
-        {
-            return _WorkspaceController?.Selection != null
-                   && _WorkspaceController.Selection.SelectedEntities.Count == 1
-                   && (_WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape?.ShapeType == ShapeType.Sketch;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-        
-        static bool _CanExecuteSketchModifierMany()
-        {
-            return _WorkspaceController?.Selection != null
-                   && _WorkspaceController.Selection.SelectedEntities.Count > 0
-                   && _WorkspaceController.Selection.SelectedEntities.All(e => (e as Body)?.Shape?.ShapeType == ShapeType.Sketch);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        static bool _CanExecuteSolidModifier()
-        {
-            return _WorkspaceController?.Selection != null
-                   && _WorkspaceController.Selection.SelectedEntities.Count == 1
-                   && (_WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape?.ShapeType == ShapeType.Solid;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        static bool _CanExecuteSolidModifierMany()
-        {
-            return _WorkspaceController?.Selection != null
-                && _WorkspaceController.Selection.SelectedEntities.Count > 0
-                && _WorkspaceController.Selection.SelectedEntities.All(e => (e as Body)?.Shape?.ShapeType == ShapeType.Solid);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
-
         #region Primitives
 
         public static ActionCommand CreateBox { get; } = new(
             () =>
             {
-                _WorkspaceController?.StartTool(new CreateBoxTool());
+                StartTool(new CreateBoxTool());
             },
-            _CanStartTool)
+            CanStartTool)
         {
             Header = () => "Box",
             Title = () => "Create Box",
@@ -86,9 +34,9 @@ namespace Macad.Interaction
         public static ActionCommand CreateSphere { get; } = new(
             () =>
             {
-                _WorkspaceController?.StartTool(new CreateSphereTool());
+                StartTool(new CreateSphereTool());
             },
-            _CanStartTool)
+            CanStartTool)
         {
             Header = () => "Sphere",
             Title = () => "Create Sphere",
@@ -100,14 +48,13 @@ namespace Macad.Interaction
         };
 
         //--------------------------------------------------------------------------------------------------
-
-
+        
         public static ActionCommand CreateCylinder { get; } = new(
             () =>
             {
-                _WorkspaceController?.StartTool(new CreateCylinderTool());
+                StartTool(new CreateCylinderTool());
             },
-            _CanStartTool)        
+            CanStartTool)        
         {
             Header = () => "Cylinder",
             Title = () => "Create Cylinder",
@@ -119,14 +66,13 @@ namespace Macad.Interaction
         };
         
         //--------------------------------------------------------------------------------------------------
-
-
+        
         public static ActionCommand CreateSketch { get; } = new(
             () =>
             {
-                _WorkspaceController?.StartTool(new CreateSketchTool());
+                StartTool(new CreateSketchTool());
             },
-            _CanStartTool)
+            CanStartTool)
         {
             Header = () => "Sketch",
             Title = () => "Create Sketch",
@@ -142,9 +88,9 @@ namespace Macad.Interaction
         public static ActionCommand<CreateSketchTool.CreateMode> CreateSketchAligned { get; } = new(
             (mode) =>
             {
-                _WorkspaceController?.StartTool(new CreateSketchTool(mode));
+                StartTool(new CreateSketchTool(mode));
             },
-            _CanStartTool)
+            CanStartTool)
         {
             Header = (mode) =>
             {
@@ -173,7 +119,7 @@ namespace Macad.Interaction
             {
                 InteractiveContext.Current.WorkspaceController.StartTool(new BooleanOperationTool(op));
             },
-            _CanExecuteSolidModifierMany)
+            CanExecuteOnMultiSolid)
         {
             Header = (op) => op.ToString(),
             Icon = (op) => $"Boolean-{op.ToString()}",
@@ -218,11 +164,11 @@ namespace Macad.Interaction
                 if (modifierShape != null)
                 {
                     InteractiveContext.Current?.UndoHandler.Commit();
-                    _WorkspaceController.StartTool( new EdgeModifierTool(modifierShape));
+                    StartTool( new EdgeModifierTool(modifierShape));
                 }
-                _WorkspaceController.Invalidate();
+                Invalidate();
             },
-            _CanExecuteSolidModifier)        
+            CanExecuteOnSingleSolid)        
         {
             Header = () => "Chamfer",
             Description = () => "Chamfers edges of a solid.",
@@ -239,11 +185,11 @@ namespace Macad.Interaction
                 if (modifierShape != null)
                 {
                     InteractiveContext.Current?.UndoHandler.Commit();
-                    _WorkspaceController.StartTool(new EdgeModifierTool(modifierShape));
+                    StartTool(new EdgeModifierTool(modifierShape));
                 }
-                _WorkspaceController.Invalidate();
+                Invalidate();
             },
-            _CanExecuteSolidModifier)
+            CanExecuteOnSingleSolid)
         {
             Header = () => "Fillet",
             Description = () => "Fillets edges of a solid.",
@@ -256,9 +202,9 @@ namespace Macad.Interaction
         public static ActionCommand CreateExtrude { get; } = new(
             () =>
             {
-                _WorkspaceController.StartTool(new CreateExtrudeTool(_WorkspaceController.Selection.SelectedEntities.First() as Body));
+                StartTool(new CreateExtrudeTool(Selection.SelectedEntities.First() as Body));
             },
-            () => _CanExecuteSketchModifier() || _CanExecuteSolidModifier())
+            () => CanExecuteOnSingleSketch() || CanExecuteOnSingleSolid())
         {
             Header = () => "Extrude",
             Description = () => "Extrudes a shape or a single face of a solid.",
@@ -273,9 +219,9 @@ namespace Macad.Interaction
         public static ActionCommand CreateRevolve { get; } = new(
             () =>
             {
-                _WorkspaceController.StartTool(new CreateRevolveTool(_WorkspaceController.Selection.SelectedEntities.First() as Body));
+                StartTool(new CreateRevolveTool(Selection.SelectedEntities.First() as Body));
             },
-            _CanExecuteSketchModifier)        
+            CanExecuteOnSingleSketch)        
         {
             Header = () => "Revolve",
             Description = () => "Creates a solid by revolving a sketch contour.",
@@ -290,9 +236,9 @@ namespace Macad.Interaction
         public static ActionCommand<Imprint.ImprintMode> CreateImprint { get; } = new(
             (mode) =>
             {
-                _WorkspaceController.StartTool(new CreateImprintTool(_WorkspaceController.Selection.SelectedEntities.First() as Body, mode));
+                StartTool(new CreateImprintTool(Selection.SelectedEntities.First() as Body, mode));
             },
-            _CanExecuteSolidModifier)
+            CanExecuteOnSingleSolid)
         {
             Header = (mode) =>
             {
@@ -337,9 +283,9 @@ namespace Macad.Interaction
         public static ActionCommand CreateFlangeSheet { get; } = new(
             () =>
             {
-                InteractiveContext.Current.WorkspaceController.StartTool(new CreateFlangeSheetTool(_WorkspaceController.Selection.SelectedEntities.First() as Body));
+                InteractiveContext.Current.WorkspaceController.StartTool(new CreateFlangeSheetTool(Selection.SelectedEntities.First() as Body));
             },
-            _CanExecuteSolidModifier)
+            CanExecuteOnSingleSolid)
         {
             Header = () => "Flange Sheet",
             Title = () => "Create Flange on Sheet",
@@ -355,9 +301,9 @@ namespace Macad.Interaction
         public static ActionCommand CreateUnfoldSheet { get; } = new(
             () =>
             {
-                InteractiveContext.Current.WorkspaceController.StartTool(new CreateUnfoldSheetTool(_WorkspaceController.Selection.SelectedEntities.First() as Body));
+                InteractiveContext.Current.WorkspaceController.StartTool(new CreateUnfoldSheetTool(Selection.SelectedEntities.First() as Body));
             },
-            _CanExecuteSolidModifier)
+            CanExecuteOnSingleSolid)
         {
             Header = () => "Unfold Sheet",
             Title = () => "Unfold a folded Sheet",
@@ -373,10 +319,10 @@ namespace Macad.Interaction
         public static ActionCommand CreateMirror { get; } = new(
             () =>
             {
-                var tool = new CreateMirrorTool(_WorkspaceController.Selection.SelectedEntities.First() as Body);
+                var tool = new CreateMirrorTool(Selection.SelectedEntities.First() as Body);
                 InteractiveContext.Current.WorkspaceController.StartTool(tool);
             },
-            () => _CanExecuteSolidModifier() || _CanExecuteSketchModifier())
+            () => CanExecuteOnSingleSolid() || CanExecuteOnSingleSketch())
         {
             Header = () => "Mirror",
             Description = () => "Adds a mirrored copy of a sketch or a solid to the shape.",
@@ -391,10 +337,10 @@ namespace Macad.Interaction
         public static ActionCommand CreateLinearArray { get; } = new(
             () =>
             {
-                var tool = new CreateLinearArrayTool(_WorkspaceController.Selection.SelectedEntities.First() as Body);
+                var tool = new CreateLinearArrayTool(Selection.SelectedEntities.First() as Body);
                 InteractiveContext.Current.WorkspaceController.StartTool(tool);
             },
-            () => _CanExecuteSolidModifier() || _CanExecuteSketchModifier())
+            () => CanExecuteOnSingleSolid() || CanExecuteOnSingleSketch())
         {
             Header = () => "Linear Array",
             Description = () => "Adds a number of copies of a sketch or solid, which are arranged in a linear pattern, to the shape.",
@@ -409,10 +355,10 @@ namespace Macad.Interaction
         public static ActionCommand CreateCircularArray { get; } = new(
             () =>
             {
-                var tool = new CreateCircularArrayTool(_WorkspaceController.Selection.SelectedEntities.First() as Body);
+                var tool = new CreateCircularArrayTool(Selection.SelectedEntities.First() as Body);
                 InteractiveContext.Current.WorkspaceController.StartTool(tool);
             },
-            () => _CanExecuteSolidModifier() || _CanExecuteSketchModifier())
+            () => CanExecuteOnSingleSolid() || CanExecuteOnSingleSketch())
         {
             Header = () => "Circular Array",
             Description = () => "Adds a number of copies of a sketch or a solid, which are arranged on a circle, to the shape.",
@@ -427,12 +373,12 @@ namespace Macad.Interaction
         public static ActionCommand CreateBoxJoint { get; } = new(
             () =>
             {
-                var body1 = _WorkspaceController.Selection.SelectedEntities[0] as Body;
-                var body2 = _WorkspaceController.Selection.SelectedEntities.Count > 1 ? _WorkspaceController.Selection.SelectedEntities[1] as Body : null;
+                var body1 = Selection.SelectedEntities[0] as Body;
+                var body2 = Selection.SelectedEntities.Count > 1 ? Selection.SelectedEntities[1] as Body : null;
                 var tool = new CreateBoxJointTool(body1, body2);
                 InteractiveContext.Current.WorkspaceController.StartTool(tool); 
             },
-            () => _CanExecuteSolidModifierMany() && _WorkspaceController.Selection.SelectedEntities.Count <= 2)
+            () => CanExecuteOnMultiSolid() && Selection.SelectedEntities.Count <= 2)
         {
             Header = () => "Box Joint",
             Description = () => "Build a junction of two solids by using interlocking profiles.",
@@ -450,8 +396,8 @@ namespace Macad.Interaction
                 var tool = new CreateLoftTool();
                 InteractiveContext.Current.WorkspaceController.StartTool(tool);
             },
-            () => _CanExecuteSketchModifierMany()
-                  || (_WorkspaceController?.Selection?.SelectedEntities?.FirstOrDefault() as Body)?.Shape is Loft)
+            () => CanExecuteOnMultiSketch()
+                  || (Selection?.SelectedEntities?.FirstOrDefault() as Body)?.Shape is Loft)
         {
             Header = () => "Loft",
             Description = () => "Creates a solid or hollowed shape from a number of section sketches.",
@@ -466,16 +412,16 @@ namespace Macad.Interaction
         public static ActionCommand CreateReference { get; } = new(
             () =>
             {
-                var body = Reference.Create(_WorkspaceController.Selection.SelectedEntities.First() as Body);
+                var body = Reference.Create(Selection.SelectedEntities.First() as Body);
                 if (body != null)
                 {
                     InteractiveContext.Current.Document.Add(body);
                     InteractiveContext.Current?.UndoHandler.Commit();
-                    _WorkspaceController.Selection.SelectEntity(body);
+                    Selection.SelectEntity(body);
                 }
-                _WorkspaceController.Invalidate();
+                Invalidate();
             },
-            () => _CanExecuteSolidModifier() || _CanExecuteSketchModifier())
+            () => CanExecuteOnSingleSolid() || CanExecuteOnSingleSketch())
             {
                 Header = () => "Create Reference",
                 Title = () => "Create a Reference",
@@ -488,11 +434,11 @@ namespace Macad.Interaction
         public static ActionCommand CreateTaper { get; } = new(
             () =>
             {
-                var body1 = _WorkspaceController.Selection.SelectedEntities[0] as Body;
+                var body1 = Selection.SelectedEntities[0] as Body;
                 var tool = new CreateTaperTool(body1);
                 InteractiveContext.Current.WorkspaceController.StartTool(tool); 
             },
-            _CanExecuteSolidModifier)
+            CanExecuteOnSingleSolid)
         {
             Header = () => "Taper",
             Description = () => "Tapers a face of a solid guided by a base edge or vertex.",
@@ -513,9 +459,9 @@ namespace Macad.Interaction
 
                 Pipe.Create(body);
                 InteractiveContext.Current?.UndoHandler.Commit();
-                _WorkspaceController.Invalidate();
+                Invalidate();
             },
-            _CanExecuteSketchModifier)
+            CanExecuteOnSingleSketch)
         {
             Header = () => "Pipe",
             Description = () => "Creates a pipe by sweeping a profile along a sketch based path.",
@@ -535,9 +481,9 @@ namespace Macad.Interaction
 
                 Offset.Create(body);
                 InteractiveContext.Current?.UndoHandler.Commit();
-                _WorkspaceController.Invalidate();
+                Invalidate();
             },
-            () => _CanExecuteSketchModifier() || _CanExecuteSolidModifier())
+            () => CanExecuteOnSingleSketch() || CanExecuteOnSingleSolid())
         {
             Header = () => "Offset",
             Description = () => "Offsets a sketch or solid.",
@@ -554,11 +500,11 @@ namespace Macad.Interaction
                 if (body?.Shape?.ShapeType != ShapeType.Solid)
                     return;
 
-                CrossSection.Create(body, CrossSection.ProposePlane(body, _WorkspaceController.Workspace.WorkingPlane));
+                CrossSection.Create(body, CrossSection.ProposePlane(body, InteractiveContext.Current.Workspace.WorkingPlane));
                 InteractiveContext.Current?.UndoHandler.Commit();
-                _WorkspaceController.Invalidate();
+                Invalidate();
             },
-            () => _CanExecuteSolidModifier())
+            () => CanExecuteOnSingleSolid())
         {
             Header = () => "Cross Section",
             Description = () => "Creates a cross section sketch by cutting the solid with a plane.",

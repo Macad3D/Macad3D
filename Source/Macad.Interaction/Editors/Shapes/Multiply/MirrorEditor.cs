@@ -1,11 +1,11 @@
 ﻿using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
+using Macad.Core.Geom;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Interaction.Visual;
 using Macad.Occt;
-using Macad.Occt.Helper;
 
 namespace Macad.Interaction.Editors.Shapes
 {
@@ -75,7 +75,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (Entity.ShapeType == ShapeType.Sketch)
             {
-                _UpdateHint2D();
+                _UpdateHintSketch();
             }
             else
             {
@@ -88,7 +88,7 @@ namespace Macad.Interaction.Editors.Shapes
 
             if (Entity.ShapeType == ShapeType.Solid)
             {
-                _UpdateHint3D();
+                _UpdateHintSolid();
             }
             else
             {
@@ -102,7 +102,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _UpdateHint2D()
+        void _UpdateHintSketch()
         {
             if (!Entity.GetMirrorAxis(out Ax2 mirrorAxis))
             {
@@ -117,11 +117,13 @@ namespace Macad.Interaction.Editors.Shapes
                 Add(_AxisHint);
             }
 
-            var bbox = Entity.Predecessor?.GetBRep(Entity.GetCoordinateSystem())?.BoundingBox();
-            if (bbox != null)
+            var brep = Entity.Predecessor?.GetBRep(Entity.GetCoordinateSystem());
+            if (brep != null)
             {
+                var bbox = brep.BoundingBox();
                 var size = new Vec(bbox.CornerMin(), bbox.CornerMax()).Magnitude()*0.65;
-                var axis = mirrorAxis.Transformed(Entity.GetTransformation());
+                var axis = mirrorAxis;
+                axis.Transform(Entity.GetTransformation());
                 Pnt p1 = axis.Location.Translated(axis.Direction.ToVec(size));
                 Pnt p2 = axis.Location.Translated(axis.Direction.ToVec(-size));
                 _AxisHint.Set(p1, p2);
@@ -137,7 +139,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _UpdateHint3D()
+        void _UpdateHintSolid()
         {
             if (!Entity.GetMirrorAxis(out Ax2 mirrorAxis))
             {

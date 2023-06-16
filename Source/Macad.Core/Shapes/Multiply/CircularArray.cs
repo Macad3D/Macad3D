@@ -391,7 +391,13 @@ namespace Macad.Core.Shapes
 
                 case ShapeType.Sketch:
                     var center = new Pnt(-_Radius, 0, 0).Rotated(Ax1.OZ, _OriginalAngle.ToRad());
-                    return new Ax3(center, Dir.DZ, Dir.DX.Rotated(Ax1.OZ, _OriginalAngle.ToRad()));
+                    var axis = new Ax3(center, Dir.DZ, Dir.DX.Rotated(Ax1.OZ, _OriginalAngle.ToRad()));
+                    var brep = GetBRep();
+                    if (brep != null && EdgeAlgo.GetPlaneOfEdges(brep, out Pln plane))
+                    {
+                        axis.Transform(new Trsf(plane.Position, Ax3.XOY));
+                    }
+                    return axis;
 
                 default:
                     return null;

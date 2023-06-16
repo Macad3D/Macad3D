@@ -9,49 +9,14 @@ using Macad.Presentation;
 using Macad.Common;
 using Macad.Core.Drawing;
 using Macad.Core.Shapes;
-using Macad.Core.Toolkits;
 using Macad.Core.Topology;
+
+using static Macad.Interaction.CommandHelper;
 
 namespace Macad.Interaction
 {
     public static class ToolboxCommands
     {
-        #region Helper
-
-        static WorkspaceController _WorkspaceController
-        {
-            get { return InteractiveContext.Current?.WorkspaceController; }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        static UndoHandler _UndoHandler
-        {
-            get { return InteractiveContext.Current?.UndoHandler; }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        static bool _CanExecuteOnSingleSolid()
-        {
-            return _WorkspaceController?.Selection != null
-                   && _WorkspaceController.Selection.SelectedEntities.Count == 1
-                   && (_WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape?.ShapeType == ShapeType.Solid;
-        }
-        
-        //--------------------------------------------------------------------------------------------------
-
-        static bool _CanExecuteOnSingleSketch()
-        {
-            return _WorkspaceController?.Selection != null
-                   && _WorkspaceController.Selection.SelectedEntities.Count == 1
-                   && (_WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape?.ShapeType == ShapeType.Sketch;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
-
         public static ActionCommand RunScriptFrom { get; } = new(
             () =>
             {
@@ -99,7 +64,7 @@ namespace Macad.Interaction
                 }
 
                 InteractiveContext.Current.AddToScriptMruList(script.Path);
-                InteractiveContext.Current?.WorkspaceController?.Invalidate();
+                Invalidate();
             },
             (param) => true
         )
@@ -131,21 +96,21 @@ namespace Macad.Interaction
         public static ActionCommand CreateSliceContour { get; } = new(
             () =>
             {
-                if (_WorkspaceController.CurrentTool is SliceContourEditTool)
+                if (CurrentTool is SliceContourEditTool)
                 {
-                    _WorkspaceController.CurrentTool.Stop();
+                    CurrentTool.Stop();
                 }
                 else
                 {
-                    var body = _WorkspaceController?.Selection?.SelectedEntities?.First() as Body;
+                    var body = Selection?.SelectedEntities?.First() as Body;
                     if (body == null)
                         return;
 
                     var tool = new SliceContourEditTool(body);
-                    _WorkspaceController.StartTool(tool);
+                    StartTool(tool);
                 }
             },
-            () => _CanExecuteOnSingleSolid() || _WorkspaceController?.CurrentTool is SliceContourEditTool)
+            () => CanExecuteOnSingleSolid() || CurrentTool is SliceContourEditTool)
         {
             Header = () => "Slice Contour",
             Title = () => "Create Slice Contour",
@@ -161,21 +126,21 @@ namespace Macad.Interaction
         public static ActionCommand CreateEtchingMask { get; } = new(
             () =>
             {
-                if (_WorkspaceController.CurrentTool is EtchingMaskEditTool)
+                if (CurrentTool is EtchingMaskEditTool)
                 {
-                    _WorkspaceController.CurrentTool.Stop();
+                    CurrentTool.Stop();
                 }
                 else
                 {
-                    var body = _WorkspaceController?.Selection?.SelectedEntities?.First() as Body;
+                    var body = Selection?.SelectedEntities?.First() as Body;
                     if (body == null)
                         return;
 
                     var tool = new EtchingMaskEditTool(body);
-                    _WorkspaceController.StartTool(tool);
+                    StartTool(tool);
                 }
             },
-            () => _CanExecuteOnSingleSolid() || _WorkspaceController?.CurrentTool is EtchingMaskEditTool)
+            () => CanExecuteOnSingleSolid() || CurrentTool is EtchingMaskEditTool)
         {
             Header = () => "Etching Mask",
             Title = () => "Create Etching Mask",
@@ -191,7 +156,7 @@ namespace Macad.Interaction
         public static ActionCommand ExportPipeDrawing { get; } = new(
             () =>
             {
-                var body = _WorkspaceController.Selection.SelectedEntities.First() as Body;
+                var body = Selection.SelectedEntities.First() as Body;
                 if (body == null || PipeDrawing.FindPipeModifier(body) == null)
                 {
                     return; // That shouldn't ever happen
@@ -214,7 +179,8 @@ namespace Macad.Interaction
                     ErrorDialogs.CannotExport(fileName);
                 }
             },
-            () => _CanExecuteOnSingleSolid() && PipeDrawing.FindPipeModifier(_WorkspaceController.Selection.SelectedEntities.First() as Body) != null)
+            () => CanExecuteOnSingleSolid() 
+                  && PipeDrawing.FindPipeModifier(Selection.SelectedEntities.First() as Body) != null)
         {
             Header = () => "Pipe Drawing",
             Title = () => "Create Pipe Drawing",
@@ -228,19 +194,23 @@ namespace Macad.Interaction
         public static ActionCommand ConvertToEditableSketch { get; } = new(
             () =>
             {
-                var body = _WorkspaceController.Selection.SelectedEntities.First() as Body;
-                if (body == null || body.Shape.ShapeType != ShapeType.Sketch)
-                    return; // That shouldn't ever happen
+                var bodies = Selection.SelectedEntities
+                                      .OfType<Body>()
+                                      .Where(body => body.Shape.ShapeType == ShapeType.Sketch)
+                                      .ToArray();
 
-                if (!Core.Toolkits.ConvertToEditableSketch.CollapseShapeStack(body))
+                if (bodies.Length == 0)
+                    return;
+
+                if (!Core.Toolkits.ConvertToEditableSketch.CollapseShapeStack(bodies))
                 {
                     ErrorDialogs.CommandExecutionFailed("The selected shape cannot be converted to a editable sketch.");
                     return;
                 }
 
-                InteractiveContext.Current.UndoHandler.Commit();
+                Commit();
             },
-            () => _CanExecuteOnSingleSketch())
+            CanExecuteOnMultiSketch)
         {
             Header = () => "Convert to Sketch",
             Title = () => "Convert to editable Sketch",
@@ -253,19 +223,23 @@ namespace Macad.Interaction
         public static ActionCommand ConvertToSolid { get; } = new(
             () =>
             {
-                var body = _WorkspaceController.Selection.SelectedEntities.First() as Body;
-                if (body == null || body.Shape.ShapeType != ShapeType.Solid)
-                    return; // That shouldn't ever happen
+                var bodies = Selection.SelectedEntities
+                                    .OfType<Body>()
+                                    .Where(body => body.Shape.ShapeType == ShapeType.Solid)
+                                    .ToArray();
 
-                if (!Core.Toolkits.ConvertToSolid.CollapseShapeStack(body))
+                if (bodies.Length == 0)
+                    return;
+
+                if (!Core.Toolkits.ConvertToSolid.CollapseShapeStack(bodies))
                 {
                     ErrorDialogs.CommandExecutionFailed("The selected shape cannot be converted to a solid.");
                     return;
                 }
 
-                InteractiveContext.Current.UndoHandler.Commit();
+                Commit();
             },
-            () => _CanExecuteOnSingleSolid())
+            CanExecuteOnMultiSolid)
         {
             Header = () => "Convert to Solid",
             Title = () => "Convert to Solid",

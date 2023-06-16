@@ -459,5 +459,31 @@ namespace Macad.Test.Unit.Interaction.Form
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void LiveDepthTransformedPlane()
+        {
+            var ctx = Context.Current;
+
+            var section = TestGeomGenerator.CreateCrossSection();
+            var extrude = Extrude.Create(section.Body);
+            ctx.WorkspaceController.StartEditor(extrude);
+
+            var oldDepth = extrude.Depth;
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                ctx.MoveTo(283, 228);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthTransformedPlane01"));
+                ctx.ViewportController.MouseDown();
+                ctx.MoveTo(322, 194);
+                ctx.ViewportController.MouseUp();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthTransformedPlane02"));
+                Assert.Greater(extrude.Depth, oldDepth);
+
+                // Cleanup
+                ctx.WorkspaceController.StopEditor();
+            });
+        }
     }
 }

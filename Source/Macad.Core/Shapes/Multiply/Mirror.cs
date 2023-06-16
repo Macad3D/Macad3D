@@ -393,11 +393,14 @@ namespace Macad.Core.Shapes
                 return false;
             }
 
+
             var tedge = edge.TShape() as BRep_TEdge;
-            var curveRep = tedge.CurvesList().FirstOrDefault() as BRep_CurveOnSurface;
+            var curveRep = tedge?.CurvesList()
+                                 .OfType<BRep_CurveOnSurface>()
+                                 .FirstOrDefault(cos => cos.Surface() is Geom_Plane);
             if (curveRep == null)
             {
-                Messages.Error("The selected mirror edge must be sketch curve.");
+                Messages.Error("The selected mirror edge must be a sketch curve.");
                 return false;
             }
 
@@ -411,7 +414,7 @@ namespace Macad.Core.Shapes
             Pnt2d midPoint = new Pnt2d();
             Vec2d tangent = new Vec2d();
             curve.D1(midParam, ref midPoint, ref tangent);
-
+            
             var axis = new Ax2d(midPoint, new Dir2d(tangent));
             var dir = axis.Direction.Rotated( edge.Orientation() == TopAbs_Orientation.FORWARD ? -Maths.HalfPI : Maths.HalfPI );
             axis.Translate(dir.ToVec().Multiplied(_Offset));
@@ -424,7 +427,7 @@ namespace Macad.Core.Shapes
                 if(edge.Orientation() == TopAbs_Orientation.REVERSED)
                     dirN.Reverse();
                 MirrorAxis = new Ax2(plane.Value(axis.Location.X, axis.Location.Y),
-                                     plane.Value(dirN.X, dirN.Y).ToDir(),
+                                     new Vec(plane.Location(), plane.Value(dirN.X, dirN.Y)).ToDir(),
                                      plane.Axis().Direction);
             }
 

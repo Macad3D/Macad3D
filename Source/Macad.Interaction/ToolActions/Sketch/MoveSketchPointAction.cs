@@ -35,14 +35,14 @@ namespace Macad.Interaction
 
         public bool IsMoving
         {
-            get { return _Moving && _MoveDelta.Magnitude() > double.Epsilon; }
+            get { return _Moving && _FirstDelta; }
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public bool IsRotating
         {
-            get { return _Rotating && _RotateDelta.Abs() > double.Epsilon; }
+            get { return _Rotating && _FirstDelta; }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -76,6 +76,7 @@ namespace Macad.Interaction
         bool _MoveConstraintY;
         bool _Moving;
         bool _Rotating;
+        bool _FirstDelta;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -290,8 +291,7 @@ namespace Macad.Interaction
                 }
                 else if (_CircleGizmo != null && data.DetectedAisInteractives.Contains(_CircleGizmo.AisObject))
                 {
-                    Pnt resultPnt;
-                    if (WorkspaceController.ActiveViewport.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
+                    if (WorkspaceController.ActiveViewport.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var resultPnt))
                     {
                         var planeDelta = ProjLib.Project(_MovePlane, resultPnt);
                         _RotateStartValue = Dir2d.DX.Angle(new Dir2d(planeDelta.Coord));
@@ -300,12 +300,14 @@ namespace Macad.Interaction
                         _CircleGizmo.IsSelected = true;
                         _RotateCenter = _Center2D;
                         _Rotating = true;
+                        _FirstDelta = false;
                     }
                 }
                 if (_Moving)
                 {
                     ElSLib.Parameters(_Sketch.Plane, data.PointOnPlane, ref u, ref v);
                     _MoveStartPoint = new Pnt2d(u, v);
+                    _FirstDelta = false;
                     return true;
                 }
             }
@@ -385,6 +387,11 @@ namespace Macad.Interaction
                     Snap();
                 }
                 ApplyConstraints();
+                
+                if (!_FirstDelta && _MoveDelta.Magnitude() > double.Epsilon)
+                {
+                    _FirstDelta = true;
+                }
 
                 // Calc new 3D center
                 var newPos3D = ElSLib.Value(_Center2D.X + _MoveDelta.X, _Center2D.Y + _MoveDelta.Y, _Sketch.Plane);
@@ -426,13 +433,18 @@ namespace Macad.Interaction
                     _RotateDelta = Maths.RoundToNearest(_RotateDelta, 5.0.ToRad());
                 }
 
+                if (!_FirstDelta && _RotateDelta.Abs() > double.Epsilon)
+                {
+                    _FirstDelta = true;
+                }
+
                 if (_CircleGizmo != null)
                 {
                     _CircleGizmo.Sector = (_RotateStartValue, _RotateStartValue + _RotateDelta);
                     _CircleGizmo.Limits = (0, 0);
                     _CircleGizmo.KnobPosition = Maths.PI * 1.25 + _RotateDelta;
                 }
-
+                
                 if (_ValueHudElement == null)
                 {
                     _ValueHudElement = new ValueHudElement()

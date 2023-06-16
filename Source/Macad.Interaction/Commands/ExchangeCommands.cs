@@ -8,28 +8,12 @@ using Macad.Core.Topology;
 using Macad.Exchange;
 using Macad.Presentation;
 
+using static Macad.Interaction.CommandHelper;
+
 namespace Macad.Interaction
 {
     public static class ExchangeCommands
     {
-        #region Helper
-
-        static WorkspaceController _WorkspaceController
-        {
-            get { return InteractiveContext.Current?.WorkspaceController; }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        static UndoHandler _UndoHandler
-        {
-            get { return InteractiveContext.Current?.UndoHandler; }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
-
         public static ActionCommand ImportFileToModel { get; } = new(
             () =>
             {
@@ -47,8 +31,8 @@ namespace Macad.Interaction
                     {
                         CoreContext.Current?.Document?.Add(newBody);
                     }
-                    _UndoHandler?.Commit();
-                    _WorkspaceController.Selection.SelectEntities(newBodies);
+                    Commit();
+                    Selection.SelectEntities(newBodies);
                 }
             },
             () => !(InteractiveContext.Current?.Document is null))
@@ -72,7 +56,7 @@ namespace Macad.Interaction
                     bool success;
                     using (new ProcessingScope(null, "Exporting geometry..."))
                     {
-                        success = exporter.DoExport(filename, _WorkspaceController.VisualObjects.GetVisibleEntities().OfType<Body>());
+                        success = exporter.DoExport(filename, InteractiveContext.Current.WorkspaceController.VisualObjects.GetVisibleEntities().OfType<Body>());
                     }
 
                     if (!success)
@@ -81,7 +65,7 @@ namespace Macad.Interaction
                     }
                 }
             },
-            () => _WorkspaceController.VisualObjects.GetVisibleEntities().Any(entity => entity is Body))
+            () => InteractiveContext.Current.WorkspaceController.VisualObjects.GetVisibleEntities().Any(entity => entity is Body))
         {
             Header = () => "Export Visible...",
             Title = () => "Export Visible Bodies",
@@ -102,7 +86,7 @@ namespace Macad.Interaction
                     bool success;
                     using (new ProcessingScope(null, "Exporting geometry..."))
                     {
-                        success = exporter.DoExport(filename, _WorkspaceController.Selection.SelectedEntities.OfType<Body>());
+                        success = exporter.DoExport(filename, Selection.SelectedEntities.OfType<Body>());
                     }
 
                     if (!success)
@@ -111,8 +95,8 @@ namespace Macad.Interaction
                     }
                 }
             },
-            () => _WorkspaceController?.Selection.SelectedEntities.Count > 0 
-                  && _WorkspaceController.Selection.SelectedEntities.TrueForAll(entity => entity is Body))
+            () => Selection.SelectedEntities.Count > 0 
+                  && Selection.SelectedEntities.TrueForAll(entity => entity is Body))
         {
             Header = () => "Export Selected...",
             Title = () => "Export Selected Bodies",
@@ -167,8 +151,8 @@ namespace Macad.Interaction
                             CoreContext.Current?.Document?.Add(newBody);
                         }
 
-                        _UndoHandler?.Commit();
-                        _WorkspaceController.Selection.SelectEntities(newBodies);
+                        Commit();
+                        Selection.SelectEntities(newBodies);
                     }
                 }
                 
@@ -193,8 +177,8 @@ namespace Macad.Interaction
                         var newBody = Body.Create(sketch);
                         CoreContext.Current?.Document?.Add(newBody);
 
-                        _UndoHandler?.Commit();
-                        _WorkspaceController.Selection.SelectEntity(newBody);
+                        Commit();
+                        Selection.SelectEntity(newBody);
                     }
                 }
 
@@ -242,8 +226,8 @@ namespace Macad.Interaction
                     sketch.AddElements(points, null, segments, constraints);
                     var newBody = Body.Create(sketch);
                     CoreContext.Current?.Document?.Add(newBody);
-                    _UndoHandler?.Commit();
-                    _WorkspaceController.Selection.SelectEntity(newBody);
+                    Commit();
+                    Selection.SelectEntity(newBody);
                 }
             },
             () => !(InteractiveContext.Current?.Document is null))

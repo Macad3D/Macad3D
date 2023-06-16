@@ -36,14 +36,20 @@ namespace Macad.Core.Geom
 
         //--------------------------------------------------------------------------------------------------
 
-        public static TopoDS_Shape CreateFacesFromWires(TopoDS_Shape sourceShape, Pln plane)
+        public static TopoDS_Shape CreateFacesFromWires(TopoDS_Shape sourceShape, Pln plane, bool copy)
         {
-            var wires = sourceShape.Wires();
+            if (copy)
+            {
+                // BRepBuilderAPI_Copy has problems and produces invalid results here
+                BRepBuilderAPI_Transform makeCopy = new(sourceShape, new Trsf(), true);
+                sourceShape = makeCopy.Shape();
+            }
 
             // Create faces from closed wires
+            var wires = sourceShape.Wires();
             var openWireCount = 0;
             var closedWireCount = 0;
-            var makeFace = new BRepBuilderAPI_MakeFace(plane);
+            BRepBuilderAPI_MakeFace makeFace = new(plane);
             foreach (var wire in wires)
             {
                 var checkWire = new BRepCheck_Wire(wire);
@@ -52,6 +58,7 @@ namespace Macad.Core.Geom
                     openWireCount++;
                     continue;
                 }
+
                 makeFace.Add(wire);
                 closedWireCount++;
             }

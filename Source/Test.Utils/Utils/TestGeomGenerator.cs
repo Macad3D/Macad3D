@@ -1,4 +1,5 @@
-﻿using Macad.Core;
+﻿using Macad.Common;
+using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
@@ -220,5 +221,32 @@ namespace Macad.Test.Utils
             revolve.Offset = new Vec(0, 0, 10);
             return revolve;
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static CrossSection CreateCrossSection()
+        {
+            var cylinder = new Cylinder()
+            {
+                Radius = 10,
+                Height = 115
+            };
+            var body = Body.Create(cylinder);
+            var cylinder2 = new Cylinder()
+            {
+                Radius = 3.5,
+                Height = 116
+            };
+            BooleanCut.Create(body, cylinder2);
+            body.Position = new Pnt(-140, 0, 26);
+            Quaternion rotation = new Quaternion(0.0, -43.0.ToRad(), -34.0.ToRad());
+            var plane = new Pln(rotation.ToAx3(new Pnt(0, 0, 22.5)));
+            var section = CrossSection.Create(body, plane, true);
+            Assert.IsNotNull(section);
+            return section;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

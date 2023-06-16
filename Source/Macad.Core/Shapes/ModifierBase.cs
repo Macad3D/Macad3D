@@ -6,6 +6,7 @@ using Macad.Core.Geom;
 using Macad.Core.Topology;
 using Macad.Common.Serialization;
 using Macad.Occt;
+using System.Numerics;
 
 namespace Macad.Core.Shapes
 {
@@ -176,10 +177,16 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        protected TopoDS_Shape GetOperand2DFaces(int operandIndex, Pln? boundToPlane)
+        protected TopoDS_Shape GetOperand2DFaces(int operandIndex, Pln? boundToPlane, bool copy=true)
         {
-            if(boundToPlane.HasValue)
-                GetOperand(operandIndex)?.BindToPlane(GetCoordinateSystem(), this, boundToPlane);
+            var operand = GetOperand(operandIndex);
+            if (operand == null)
+                return null;
+
+            if (boundToPlane.HasValue)
+            {
+                operand.BindToPlane(GetCoordinateSystem(), this, boundToPlane);
+            }
 
             var sourceBrep = GetOperandBRep(operandIndex);
             if (sourceBrep == null)
@@ -188,9 +195,22 @@ namespace Macad.Core.Shapes
             // Check if we already have faces
             var exp = new TopExp_Explorer(sourceBrep, TopAbs_ShapeEnum.FACE, TopAbs_ShapeEnum.SHAPE);
             if (exp.More())
+            {
                 return sourceBrep;
+            }
 
-            var baseFacesShape = TopoUtils.CreateFacesFromWires(sourceBrep, Pln.XOY);
+            // Check if we have any wire at all
+            exp = new TopExp_Explorer(sourceBrep, TopAbs_ShapeEnum.WIRE, TopAbs_ShapeEnum.SHAPE);
+            if (!exp.More())
+            {
+                TopoDS_Shape shape = new();
+                return shape;
+            }
+
+            Pln facePlane;
+            if (!EdgeAlgo.GetPlaneOfEdges(sourceBrep, out facePlane))
+                return null;
+            var baseFacesShape = TopoUtils.CreateFacesFromWires(sourceBrep, facePlane, copy);
 
             if (boundToPlane != null && baseFacesShape != null)
             {

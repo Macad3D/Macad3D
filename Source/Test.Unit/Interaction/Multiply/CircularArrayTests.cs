@@ -7,6 +7,7 @@ using Macad.Occt;
 using NUnit.Framework;
 using Macad.Interaction.Editors.Shapes;
 using System.Windows.Input;
+using System;
 
 namespace Macad.Test.Unit.Interaction.Multiply;
 
@@ -408,6 +409,35 @@ public class CircularArrayEditorTests
 
         Assert.AreEqual(oldAngle, array.OriginalAngle);
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveRadiusSketchTransformedPlane()
+    {
+        var ctx = Context.Current;
+        var section = TestGeomGenerator.CreateCrossSection();
+        var circularArray = CircularArray.Create(section.Body);
+        circularArray.Radius = 50;
+        ctx.WorkspaceController.StartEditor(circularArray);
+
+        var oldRadius = circularArray.Radius;
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(271, 260);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRadiusSketchTransformedPlane01"));
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(310, 277);
+            ctx.ViewportController.MouseUp();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRadiusSketchTransformedPlane02"));
+            Assert.Greater(circularArray.Radius, oldRadius);
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
     }
 
     //--------------------------------------------------------------------------------------------------

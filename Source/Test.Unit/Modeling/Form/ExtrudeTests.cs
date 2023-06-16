@@ -191,10 +191,21 @@ namespace Macad.Test.Unit.Modeling.Form
             sb.LineTo(12.0, 4.5);
             sb.ClosePath();
 
-            Assume.That(body.Shape.Make(Shape.MakeFlags.None));
+            Assert.IsTrue(body.Shape.Make(Shape.MakeFlags.None));
             mirror.Invalidate();
-            Assume.That(body.Shape.Make(Shape.MakeFlags.None));
+            Assert.IsTrue(body.Shape.Make(Shape.MakeFlags.None));
             AssertHelper.IsSameModel2D(mirror, Path.Combine(_BasePath, $"DoNotModifyEdges"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void TransformedPlane()
+        {
+            var section = TestGeomGenerator.CreateCrossSection();
+            var extrude = Extrude.Create(section.Body);
+            Assert.IsTrue(extrude.Make(Shape.MakeFlags.None));
+            AssertHelper.IsSameModel(extrude, Path.Combine(_BasePath, "TransformedPlane"));
         }
 
         //--------------------------------------------------------------------------------------------------

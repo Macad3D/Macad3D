@@ -25,6 +25,7 @@
     <ColorAndBrush x:Key="Complementary">#285eff</ColorAndBrush>
     
     <ColorAndBrush x:Key="Error">#ffb22222</ColorAndBrush>
+    <ColorAndBrush x:Key="ErrorLight">#ffe28888</ColorAndBrush>
     <ColorAndBrush x:Key="Warning">#ffef6c00</ColorAndBrush>
     
     <ColorAndBrush x:Key="Text">Macad.Colors.Black</ColorAndBrush>
@@ -84,7 +85,7 @@
     <ColorAndBrush x:Key="TextBox.Disabled.Background">Macad.Colors.Base20</ColorAndBrush>
     <ColorAndBrush x:Key="TextBox.Disabled.Border">Macad.Colors.Base50</ColorAndBrush>
     <ColorAndBrush x:Key="TextBox.Disabled.Text">Macad.Colors.Base50</ColorAndBrush>
-    <ColorAndBrush x:Key="TextBox.Invalid.Background">Macad.Colors.Error</ColorAndBrush>
+    <ColorAndBrush x:Key="TextBox.Invalid.Background">Macad.Colors.ErrorLight</ColorAndBrush>
     
     <ColorAndBrush x:Key="ListView.Text">Macad.Colors.Text</ColorAndBrush>
     <ColorAndBrush x:Key="ListView.Border">Macad.Colors.Black</ColorAndBrush>

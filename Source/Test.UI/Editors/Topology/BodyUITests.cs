@@ -65,6 +65,30 @@ namespace Macad.Test.UI.Editors.Topology
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void ShapeStackDelKey_BlockedByTool()
+        {
+            TestDataGenerator.GenerateBox(MainWindow);
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+            MainWindow.Ribbon.ClickButton("CreateLinearArray");
+            Assert.AreEqual("Linear Array", Pipe.GetValue<string>("$Selected.Shape.Name"));
+            Assert.AreEqual("CreateLinearArrayTool", Pipe.GetValue<string>("$Context.WorkspaceController.CurrentTool.Id"));
+
+            var shapePanel = MainWindow.PropertyView.FindPanelByClass("BodyShapePropertyPanel");
+            Assert.That(shapePanel, Is.Not.Null);
+
+            shapePanel.SelectTreeItem("ShapeTree", "Linear Array");
+            Pipe.TypeKey(VirtualKeyShort.DELETE);
+            shapePanel.SelectTreeItem("ShapeTree", "Linear Array");
+
+            Pipe.TypeKey(VirtualKeyShort.ESCAPE);
+            Assert.AreEqual("?null", Pipe.GetValue("$Context.WorkspaceController.CurrentTool"));
+            Pipe.TypeKey(VirtualKeyShort.DELETE);
+            Assert.AreEqual("Box", Pipe.GetValue<string>("$Selected.Shape.Name"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         [Test]
         public void ChangeLayer()

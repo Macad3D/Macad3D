@@ -364,6 +364,34 @@ public class LinearArrayTests
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveDistanceSketchTransformedPlane()
+    {
+        var ctx = Context.Current;
+        var section = TestGeomGenerator.CreateCrossSection();
+        var linearArray = LinearArray.Create(section.Body);
+        ctx.WorkspaceController.StartEditor(linearArray);
+
+        var oldDistance = linearArray.Distance2;
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(299, 377);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceSketchTransformedPlane01"));
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(319, 430);
+            ctx.ViewportController.MouseUp();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceSketchTransformedPlane02"));
+            Assert.Greater(linearArray.Distance2, oldDistance);
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------
 
     LinearArray _CreateSolidArray()
@@ -381,4 +409,5 @@ public class LinearArrayTests
         var linearArray = LinearArray.Create(sketch.Body);
         return linearArray;
     }
+
 }

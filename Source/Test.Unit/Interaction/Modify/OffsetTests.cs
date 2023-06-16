@@ -218,5 +218,32 @@ public class OffsetTests
         Assert.AreEqual(1.0, offset.Distance);
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
     }
+        
+    //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void LiveDistanceSketchTransformedPlane()
+    {
+        var ctx = Context.Current;
+        var section = TestGeomGenerator.CreateCrossSection();
+        var offset = Offset.Create(section.Body);
+        ctx.WorkspaceController.StartEditor(offset);
+
+        var oldDistance = offset.Distance;
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(289, 186);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceSketchTransformedPlane01"));
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(314, 160);
+            ctx.ViewportController.MouseUp();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceSketchTransformedPlane02"));
+            Assert.Greater(offset.Distance, oldDistance);
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
 }

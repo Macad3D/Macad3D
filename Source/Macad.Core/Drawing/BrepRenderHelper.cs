@@ -135,8 +135,9 @@ namespace Macad.Core.Drawing
                     curves.Reverse();
                 }
 
-                foreach (var curveOnSurface in curves.OfType<BRep_CurveOnSurface>()
-                                                     .Where(cos => cos.Surface() is Geom_Plane))
+                var curveOnSurface = curves.OfType<BRep_CurveOnSurface>()
+                                           .FirstOrDefault(cos => cos.Surface() is Geom_Plane);
+                if(curveOnSurface != null)
                 {
                     var curve = curveOnSurface.PCurve();
                     first = curveOnSurface.First();

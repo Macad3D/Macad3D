@@ -177,8 +177,10 @@ namespace Macad.Core.Shapes
 
         bool _Make2D()
         {
+            bool copyMode = !Compatibility.HasFlag(CompatibilityFlags.NoCopyOpShape2D);
+
             // We work with 2D shapes as source
-            var faceShape = GetOperand2DFaces(0, null);
+            var faceShape = GetOperand2DFaces(0, null, copyMode);
             if (faceShape == null)
                 return false;
 
@@ -207,8 +209,7 @@ namespace Macad.Core.Shapes
             }
 
             // Do it!
-            bool copyMode = !Compatibility.HasFlag(CompatibilityFlags.NoCopyOnMakePrism);
-            var makePrism = new BRepPrimAPI_MakePrism(faceShape, vector, copyMode);
+            var makePrism = new BRepPrimAPI_MakePrism(faceShape, vector, false);
             if (!makePrism.IsDone())
             {
                 Messages.Error("Extrusion failed.");
@@ -315,7 +316,7 @@ namespace Macad.Core.Shapes
         public enum CompatibilityFlags
         {
             None = 0,
-            NoCopyOnMakePrism = 1 << 0,
+            NoCopyOpShape2D = 1 << 0,
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -324,7 +325,7 @@ namespace Macad.Core.Shapes
         {
             if (context.Version < new Version(3, 1))
             {
-                Compatibility = Compatibility.Added(CompatibilityFlags.NoCopyOnMakePrism);
+                Compatibility = Compatibility.Added(CompatibilityFlags.NoCopyOpShape2D);
             }
 
             base.OnBeginDeserializing(context);

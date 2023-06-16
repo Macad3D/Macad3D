@@ -15,7 +15,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void Mirror2DOnEdge()
+        public void SketchOnEdge()
         {
             var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
             var subshape = sketch.GetSubshapeReference(SubshapeType.Edge, 0);
@@ -24,16 +24,16 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var mirror = Mirror.Create(sketch.Body, subshape);
             Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, mirror.ShapeType);
-            AssertHelper.IsSameModel2D(mirror, Path.Combine(_BasePath, "2DOnEdge"));
+            AssertHelper.IsSameModel2D(mirror, Path.Combine(_BasePath, "SketchOnEdge"));
 
             // Ensure that original shape is still unmodified
-            AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "2DOnEdge2"));
+            AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "SketchOnEdge2"));
         }
 
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void Mirror2DOnEdgeOffset()
+        public void SketchOnEdgeOffset()
         {
             var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
             var subshape = sketch.GetSubshapeReference(SubshapeType.Edge, 0);
@@ -43,14 +43,14 @@ namespace Macad.Test.Unit.Modeling.Multiply
             mirror.Offset = 10;
             Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, mirror.ShapeType);
-            AssertHelper.IsSameModel2D(mirror, Path.Combine(_BasePath, "2DOnEdgeOffset"));
+            AssertHelper.IsSameModel2D(mirror, Path.Combine(_BasePath, "SketchOnEdgeOffset"));
         }
 
         //--------------------------------------------------------------------------------------------------
 
 
         [Test]
-        public void Mirror2DOnEdgeOffsetReversed()
+        public void SketchOnEdgeOffsetReversed()
         {
             var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
             var subshape = sketch.GetSubshapeReference(SubshapeType.Edge, 1);
@@ -60,13 +60,13 @@ namespace Macad.Test.Unit.Modeling.Multiply
             mirror.Offset = 10;
             Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, mirror.ShapeType);
-            AssertHelper.IsSameModel2D(mirror, Path.Combine(_BasePath, "2DOnEdgeOffsetReversed"));
+            AssertHelper.IsSameModel2D(mirror, Path.Combine(_BasePath, "SketchOnEdgeOffsetReversed"));
         }
 
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void Mirror2DOnCurvedEdge()
+        public void SketchOnCurvedEdge()
         {
             var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
             var subshape = sketch.GetSubshapeReference(SubshapeType.Edge, 2);
@@ -75,13 +75,13 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var mirror = Mirror.Create(sketch.Body, subshape);
             Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, mirror.ShapeType);
-            AssertHelper.IsSameModel2D(mirror, Path.Combine(_BasePath, "2DOnCurvedEdge"));
+            AssertHelper.IsSameModel2D(mirror, Path.Combine(_BasePath, "SketchOnCurvedEdge"));
         }
 
         //--------------------------------------------------------------------------------------------------
         
         [Test]
-        public void Mirror2DDiscardOrginal()
+        public void SketchDiscardOrginal()
         {
             var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
             var subshape = sketch.GetSubshapeReference(SubshapeType.Edge, 0);
@@ -91,13 +91,29 @@ namespace Macad.Test.Unit.Modeling.Multiply
             mirror.KeepOriginal = false;
             Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Sketch, mirror.ShapeType);
-            AssertHelper.IsSameModel2D(mirror, Path.Combine(_BasePath, "2DDiscardOrginal"));
+            AssertHelper.IsSameModel2D(mirror, Path.Combine(_BasePath, "SketchDiscardOrginal"));
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+                    
+        [Test]
+        public void SketchTransformedPlane()
+        {
+            var section = TestGeomGenerator.CreateCrossSection();
+            var subshape = section.GetSubshapeReference(SubshapeType.Edge, 0);
+            Assume.That(subshape != null);
+
+            var mirror = Mirror.Create(section.Body, subshape);
+            Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
+            Assert.AreEqual(ShapeType.Sketch, mirror.ShapeType);
+
+            AssertHelper.IsSameModel2D(mirror, Path.Combine(_BasePath, "SketchTransformedPlane"));
         }
 
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void MirrorOnFace()
+        public void SolidOnFace()
         {
             var imprint = TestGeomGenerator.CreateImprint();
             var subshape = imprint.GetSubshapeReference(SubshapeType.Face, 5);
@@ -106,13 +122,13 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var mirror = Mirror.Create(imprint.Body, subshape);
             Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, mirror.ShapeType);
-            AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "OnFace"));
+            AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "SolidOnFace"));
         }
         
         //--------------------------------------------------------------------------------------------------
         
         [Test]
-        public void MirrorOnFaceOffset()
+        public void SolidOnFaceOffset()
         {
             var imprint = TestGeomGenerator.CreateImprint();
             var subshape = imprint.GetSubshapeReference(SubshapeType.Face, 5);
@@ -122,13 +138,13 @@ namespace Macad.Test.Unit.Modeling.Multiply
             mirror.Offset = 10;
             Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, mirror.ShapeType);
-            AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "OnFaceOffset"));
+            AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "SolidOnFaceOffset"));
         }
         
         //--------------------------------------------------------------------------------------------------
                 
         [Test]
-        public void MirrorOnFaceOffsetReversed()
+        public void SolidOnFaceOffsetReversed()
         {
             var imprint = TestGeomGenerator.CreateImprint();
             var subshape = imprint.GetSubshapeReference(SubshapeType.Face, 0);
@@ -138,13 +154,13 @@ namespace Macad.Test.Unit.Modeling.Multiply
             mirror.Offset = 5;
             Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, mirror.ShapeType);
-            AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "OnFaceOffsetReversed"));
+            AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "SolidOnFaceOffsetReversed"));
         }
         
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void MirrorOnCurvedFace()
+        public void SolidOnCurvedFace()
         {
             var imprint = TestGeomGenerator.CreateImprint();
             var subshape = imprint.GetSubshapeReference(SubshapeType.Face, 6);
@@ -153,13 +169,13 @@ namespace Macad.Test.Unit.Modeling.Multiply
             var mirror = Mirror.Create(imprint.Body, subshape);
             Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, mirror.ShapeType);
-            AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "OnCurvedFace"));
+            AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "SolidOnCurvedFace"));
         }
 
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void MirrorDiscardOriginal()
+        public void SolidDiscardOriginal()
         {
             var imprint = TestGeomGenerator.CreateImprint();
             var subshape = imprint.GetSubshapeReference(SubshapeType.Face, 5);
@@ -169,19 +185,19 @@ namespace Macad.Test.Unit.Modeling.Multiply
             mirror.KeepOriginal = false;
             Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, mirror.ShapeType);
-            AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "DiscardOriginal"));
+            AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "SolidDiscardOriginal"));
         }
 
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void MirrorOnAxis()
+        public void SolidOnAxis()
         {
             var imprint = TestGeomGenerator.CreateImprint();
             var mirror = Mirror.Create(imprint.Body, new Ax2(new Pnt(50, 50, 40), Dir.DX));
             Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
             Assert.AreEqual(ShapeType.Solid, mirror.ShapeType);
-            AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "OnAxis"));
+            AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "SolidOnAxis"));
         }
 
         //--------------------------------------------------------------------------------------------------

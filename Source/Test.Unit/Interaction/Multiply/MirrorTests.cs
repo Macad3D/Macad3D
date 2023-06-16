@@ -84,7 +84,7 @@ namespace Macad.Test.Unit.Interaction.Multiply
         //--------------------------------------------------------------------------------------------------
         
         [Test]
-        public void Create2DByEdge()
+        public void CreateSketchByEdge()
         {
             var ctx = Context.Current;
 
@@ -114,7 +114,7 @@ namespace Macad.Test.Unit.Interaction.Multiply
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void Reselect2DEdge()
+        public void ReselectSketchEdge()
         {
             var ctx = Context.Current;
 
@@ -282,27 +282,27 @@ namespace Macad.Test.Unit.Interaction.Multiply
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void Editor2DIdle()
+        public void EditorSketchIdle()
         {
             var ctx = Context.Current;
-            var mirror = _CreateSimpleMirror2D();
+            var mirror = _CreateSimpleMirrorSketch();
             ctx.ViewportController.Zoom(-3);
             ctx.WorkspaceController.StartEditor(mirror);
 
             Assert.Multiple(() =>
             {
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Editor2DIdle01"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorSketchIdle01"));
                         
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Editor2DIdle99"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorSketchIdle99"));
             });
         }
 
         //--------------------------------------------------------------------------------------------------
         
         [Test]
-        public void Editor2DReversedEdgeIdle()
+        public void EditorSketchReversedEdgeIdle()
         {
             var ctx = Context.Current;
             var mirror = _CreateSimpleMirror2DReversedEdge();
@@ -311,7 +311,7 @@ namespace Macad.Test.Unit.Interaction.Multiply
 
             Assert.Multiple(() =>
             {
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Editor2DIdle21"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorSketchIdle21"));
                         
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();
@@ -321,36 +321,36 @@ namespace Macad.Test.Unit.Interaction.Multiply
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void Editor2DStartStopTools()
+        public void EditorSketchStartStopTools()
         {
             var ctx = Context.Current;
-            var mirror = _CreateSimpleMirror2D();
+            var mirror = _CreateSimpleMirrorSketch();
             ctx.ViewportController.Zoom(-3);
             ctx.WorkspaceController.StartEditor(mirror);
 
             Assert.Multiple(() =>
             {
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Editor2DIdle01"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorSketchIdle01"));
                 ctx.WorkspaceController.CurrentEditor.StopTools();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Editor2DIdle02"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorSketchIdle02"));
                 mirror.RaiseShapeChanged();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Editor2DIdle03"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorSketchIdle03"));
                 ctx.WorkspaceController.CurrentEditor.StartTools();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Editor2DIdle04"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorSketchIdle04"));
                         
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Editor2DIdle99"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorSketchIdle99"));
             });
         }
 
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void LiveOffset2D()
+        public void LiveOffsetSketch()
         {
             var ctx = Context.Current;
-            var mirror = _CreateSimpleMirror2D();
+            var mirror = _CreateSimpleMirrorSketch();
             ctx.WorkspaceController.StartEditor(mirror);
 
             var oldOffset = mirror.Offset;
@@ -359,14 +359,14 @@ namespace Macad.Test.Unit.Interaction.Multiply
             Assert.Multiple(() =>
             {
                 ctx.MoveTo(124, 172);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffset2D01"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetSketch01"));
 
                 ctx.ViewportController.MouseDown();
                 ctx.MoveTo(170, 140);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffset2D02"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetSketch02"));
             
                 ctx.ViewportController.MouseUp();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffset2D03"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetSketch03"));
                 Assert.Greater(mirror.Offset, oldOffset);
 
                 Assert.IsNull(ctx.TestHudManager.HintMessageOwner);
@@ -374,17 +374,17 @@ namespace Macad.Test.Unit.Interaction.Multiply
 
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffset2D99"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetSketch99"));
             });
         }
 
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void LiveOffset2DClamp()
+        public void LiveOffsetSketchClamp()
         {
             var ctx = Context.Current;
-            var mirror = _CreateSimpleMirror2D();
+            var mirror = _CreateSimpleMirrorSketch();
             ctx.WorkspaceController.StartEditor(mirror);
             ctx.ViewportController.ZoomFitAll();
             ctx.WorkspaceController.Workspace.GridStep = 1.0;
@@ -395,7 +395,7 @@ namespace Macad.Test.Unit.Interaction.Multiply
                 ctx.ViewportController.MouseDown();
                 ctx.MoveTo(170, 140, ModifierKeys.Control);
                 ctx.ViewportController.MouseUp();
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffset2DClamp01"));
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetSketchClamp01"));
                 Assert.AreEqual(5.0, mirror.Offset);
 
                 // Cleanup
@@ -409,7 +409,7 @@ namespace Macad.Test.Unit.Interaction.Multiply
         public void LiveOffsetUndo()
         {
             var ctx = Context.Current;
-            var mirror = _CreateSimpleMirror2D();
+            var mirror = _CreateSimpleMirrorSketch();
             ctx.WorkspaceController.StartEditor(mirror);
             ctx.UndoHandler.Commit();
             Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
@@ -433,6 +433,33 @@ namespace Macad.Test.Unit.Interaction.Multiply
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void LiveOffsetSketchTransformedPlane()
+        {
+            var ctx = Context.Current;
+            var section = TestGeomGenerator.CreateCrossSection();
+            var subshape = section.GetSubshapeReference(SubshapeType.Edge, 0);
+            var mirror = Mirror.Create(section.Body, subshape);
+            ctx.WorkspaceController.StartEditor(mirror);
+
+            var oldOffset = mirror.Offset;
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                ctx.MoveTo(358, 403);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetSketchTransformedPlane01"));
+                ctx.ViewportController.MouseDown();
+                ctx.MoveTo(373, 393);
+                ctx.ViewportController.MouseUp();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetSketchTransformedPlane02"));
+                Assert.Greater(mirror.Offset, oldOffset);
+
+                // Cleanup
+                ctx.WorkspaceController.StopEditor();
+            });
+        }
+
         //--------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------
 
@@ -452,7 +479,7 @@ namespace Macad.Test.Unit.Interaction.Multiply
 
         //--------------------------------------------------------------------------------------------------
 
-        Mirror _CreateSimpleMirror2D()
+        Mirror _CreateSimpleMirrorSketch()
         {
             var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
             return Mirror.Create(sketch.Body, sketch.GetSubshapeReference(SubshapeType.Edge, 0));

@@ -1,4 +1,5 @@
-﻿using Macad.Common;
+﻿using System.Linq;
+using Macad.Common;
 using Macad.Core.Drawing;
 using Macad.Core.Geom;
 using Macad.Core.Shapes;
@@ -18,32 +19,51 @@ public class ConvertToEditableSketch : IDrawingRenderer, IRendererCapabilities
 
     //--------------------------------------------------------------------------------------------------
 
-    public static bool CollapseShapeStack(Body body, bool saveUndo = true)
+    public static bool CollapseShapeStack(Body[] bodies, bool saveUndo = true)
     {
-        Shape originalShape = body.Shape;
-        if (originalShape is Sketch)
-            return true; // Nothing to do
+        var result = true;
 
-        if (originalShape.ShapeType != ShapeType.Sketch)
-            return false;
+        Shape[] originalShapes = bodies.Select(body => body.Shape)
+                                       .Where(shape => shape.ShapeType == ShapeType.Sketch)
+                                       .ToArray();
+        if (originalShapes.Length == 0)
+            return false; // Nothing to do
 
-        var brep = originalShape.GetBRep();
-        if (brep == null)
-            return false;
+        TopoDS_Shape[] originalBreps = originalShapes.Select(shape => shape.GetBRep())
+                                                     .ToArray();
 
-        Sketch newSketch = Convert(brep);
-        body.CollapseShapeStack(newSketch, saveUndo);
-
-        // Correct transformation
-        if(EdgeAlgo.GetPlaneOfEdges(brep, out Pln plane))
+        for (var i = 0; i < bodies.Length; i++)
         {
-            var worldPosition = plane.Position.Transformed(body.GetTransformation());
-            Trsf trsf = new Trsf(new Ax3(Pnt.Origin, worldPosition.Direction, worldPosition.XDirection), Ax3.XOY);
-            body.Position = worldPosition.Location;
-            body.Rotation = trsf.GetRotation();
+            var originalShape = originalShapes[i];
+            if (originalShape is Sketch)
+            {
+                continue;
+            }
+
+            if (originalBreps[i] == null)
+            {
+                result = false;
+                continue;
+            }
+
+            Sketch newSketch = Convert(originalBreps[i]);
+            
+            Body body = bodies[i];
+            body.CollapseShapeStack(newSketch, saveUndo);
+
+            // Correct transformation
+            if(EdgeAlgo.GetPlaneOfEdges(originalBreps[i], out Pln plane))
+            {
+                var worldPosition = plane.Position.Transformed(body.GetTransformation());
+                Trsf trsf = new Trsf(new Ax3(Pnt.Origin, worldPosition.Direction, worldPosition.XDirection), Ax3.XOY);
+                body.Position = worldPosition.Location;
+                body.Rotation = trsf.GetRotation();
+            }
         }
 
-        return true;
+
+
+        return result;
     }
 
     //--------------------------------------------------------------------------------------------------

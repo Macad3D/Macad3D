@@ -73,8 +73,9 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     void _UpdateHints()
     {
         var trsf = Entity.Body.GetTransformation();
-        var brep = Entity.Predecessor.GetBRep(Entity.Body.GetCoordinateSystem());
-        if(brep == null)
+        var brep = Entity.GetBRep();
+        var preBrep = Entity.Predecessor.GetBRep(Entity.Body.GetCoordinateSystem());
+        if(brep == null || preBrep == null)
             return;
         
         // Ghost
@@ -83,7 +84,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
             _GhostVisual = new VisualShape(WorkspaceController, Entity.Body, VisualShape.Options.Ghosting);
             Add(_GhostVisual);
         }
-        _GhostVisual.OverrideBrep = brep;
+        _GhostVisual.OverrideBrep = preBrep;
         _GhostVisual.SetLocalTransformation(trsf);
 
         // Plane

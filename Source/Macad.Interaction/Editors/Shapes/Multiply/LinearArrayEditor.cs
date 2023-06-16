@@ -5,6 +5,7 @@ using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Occt;
 using System.Windows.Input;
+using Macad.Core.Geom;
 
 namespace Macad.Interaction.Editors.Shapes
 {
@@ -98,12 +99,12 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _UpdateActions()
         {
-            var bbox = Entity?.GetBRep()?.BoundingBox();
+            var brep = Entity?.GetBRep();
 
             if (Entity?.Body == null
                 || _Distance1Action == null
                 || _Distance2Action == null
-                || bbox == null)
+                || brep == null)
             {
                 StopAllActions();
                 _Distance1Action = null;
@@ -112,6 +113,14 @@ namespace Macad.Interaction.Editors.Shapes
             }
 
             var trsf = Entity.GetTransformation();
+
+            if (Entity.ShapeType == ShapeType.Sketch
+                && EdgeAlgo.GetPlaneOfEdges(brep, out Pln plane))
+            {
+                brep = brep.Located(new TopLoc_Location(new Trsf(Ax3.XOY, plane.Position)));
+                trsf.Multiply(new Trsf(plane.Position, Ax3.XOY));
+            }
+            var bbox = brep.BoundingBox();
             var extents = bbox.Extents();
 
             __UpdateAction(_Distance1Action, false);

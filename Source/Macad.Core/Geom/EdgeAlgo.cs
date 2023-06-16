@@ -166,25 +166,24 @@ namespace Macad.Core.Geom
                     continue;
 
                 var curves = tedge.CurvesList();
-                foreach (var curveOnSurface in curves.OfType<BRep_CurveOnSurface>())
-                {
-                    var geomPlane = curveOnSurface.Surface() as Geom_Plane;
-                    if (geomPlane == null)
-                        continue;
+                var geomPlane = curves.OfType<BRep_CurveOnSurface>()
+                                      .FirstOrDefault(cos => cos.Surface() is Geom_Plane)?
+                                      .Surface() as Geom_Plane;
+                if (geomPlane == null)
+                    continue;
 
-                    if (havePlane)
+                if (havePlane)
+                {
+                    if (!plane.Position.IsCoplanar(geomPlane.Position(), 0.00001, 0.00001))
                     {
-                        if (!plane.Position.IsCoplanar(geomPlane.Position(), 0.00001, 0.00001))
-                        {
-                            Messages.Error("Cannot get plane of edges, not all edges are coplanar.");
-                            return false;
-                        }
+                        Messages.Error("Cannot get plane of edges, not all edges are coplanar.");
+                        return false;
                     }
-                    else
-                    {
-                        plane = geomPlane.Pln();
-                        havePlane = true;
-                    }
+                }
+                else
+                {
+                    plane = geomPlane.Pln();
+                    havePlane = true;
                 }
             }
 
