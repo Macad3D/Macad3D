@@ -86,11 +86,6 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        [SerializeMember]
-        public CompatibilityFlags Compatibility { get; set; }
-
-        //--------------------------------------------------------------------------------------------------
-
         #endregion
 
         #region Members
@@ -177,10 +172,8 @@ namespace Macad.Core.Shapes
 
         bool _Make2D()
         {
-            bool copyMode = !Compatibility.HasFlag(CompatibilityFlags.NoCopyOpShape2D);
-
             // We work with 2D shapes as source
-            var faceShape = GetOperand2DFaces(0, null, copyMode);
+            var faceShape = GetOperand2DFaces(0, null);
             if (faceShape == null)
                 return false;
 
@@ -304,31 +297,6 @@ namespace Macad.Core.Shapes
                 default:
                     return false;
             }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
-
-        #region Compatibility
-        
-        [Flags]
-        public enum CompatibilityFlags
-        {
-            None = 0,
-            NoCopyOpShape2D = 1 << 0,
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void OnBeginDeserializing(SerializationContext context)
-        {
-            if (context.Version < new Version(3, 1))
-            {
-                Compatibility = Compatibility.Added(CompatibilityFlags.NoCopyOpShape2D);
-            }
-
-            base.OnBeginDeserializing(context);
         }
 
         //--------------------------------------------------------------------------------------------------

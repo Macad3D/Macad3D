@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Macad.Common;
 using Macad.Occt;
@@ -149,45 +150,59 @@ namespace Macad.Core.Geom
         
         //--------------------------------------------------------------------------------------------------
 
-        public static bool GetPlaneOfEdges(TopoDS_Shape shape, out Pln plane)
+        public static bool GetPlaneOfEdges(TopoDS_Shape shape, out Geom_Plane geomPlane)
         {
-            plane = Pln.XOY;
-            var edges = shape.Edges();
-            if (edges.Count == 0)
+            return GetPlaneOfEdges(shape.Edges(), out geomPlane);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static bool GetPlaneOfEdges(IEnumerable<TopoDS_Edge> edges, out Geom_Plane geomPlane)
+        {
+            geomPlane = new Geom_Plane(Pln.XOY);
+            if (!edges.Any())
             {
                 Messages.Error("Cannot get plane of edges, shape doesn't have edges.");
                 return false;
             }
 
-            bool havePlane = false;
+            List<Geom_Plane> _Candidates = new();
             foreach (var edge in edges)
             {
                 if (!(edge.TShape() is BRep_TEdge tedge))
                     continue;
 
                 var curves = tedge.CurvesList();
-                var geomPlane = curves.OfType<BRep_CurveOnSurface>()
-                                      .FirstOrDefault(cos => cos.Surface() is Geom_Plane)?
-                                      .Surface() as Geom_Plane;
-                if (geomPlane == null)
+                var geomPlanes = curves.Where(cos => (cos as BRep_CurveOnSurface)?.Surface() is Geom_Plane)
+                                       .Select(cos => (Geom_Plane)cos.Surface());
+                if (!geomPlanes.Any())
                     continue;
 
-                if (havePlane)
+                if (_Candidates.Count == 0)
                 {
-                    if (!plane.Position.IsCoplanar(geomPlane.Position(), 0.00001, 0.00001))
-                    {
-                        Messages.Error("Cannot get plane of edges, not all edges are coplanar.");
-                        return false;
-                    }
+                    _Candidates.AddRange(geomPlanes);
+                    continue;
                 }
-                else
+
+                var commons = _Candidates.Where(a => geomPlanes.Any(b => a.Pln().Position.IsCoplanar(b.Pln().Position, 0.00001, 0.00001)));
+                int commonsCount = commons.Count();
+                if (commonsCount == 0)
                 {
-                    plane = geomPlane.Pln();
-                    havePlane = true;
+                    Messages.Error("Cannot get plane of edges, not all edges are coplanar.");
+                    return false;
                 }
+                if(commonsCount == _Candidates.Count)
+                    continue;
+                _Candidates = commons.ToList();
             }
 
-            return havePlane;
+            if (_Candidates.Count <= 0)
+            {
+                return false;
+            }
+
+            geomPlane = _Candidates.First();
+            return true;
         }
 
         //--------------------------------------------------------------------------------------------------

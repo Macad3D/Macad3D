@@ -115,10 +115,10 @@ namespace Macad.Interaction.Editors.Shapes
             var trsf = Entity.GetTransformation();
 
             if (Entity.ShapeType == ShapeType.Sketch
-                && EdgeAlgo.GetPlaneOfEdges(brep, out Pln plane))
+                && EdgeAlgo.GetPlaneOfEdges(brep, out Geom_Plane plane))
             {
-                brep = brep.Located(new TopLoc_Location(new Trsf(Ax3.XOY, plane.Position)));
-                trsf.Multiply(new Trsf(plane.Position, Ax3.XOY));
+                brep = brep.Located(new TopLoc_Location(new Trsf(Ax3.XOY, plane.Position())));
+                trsf.Multiply(new Trsf(plane.Position(), Ax3.XOY));
             }
             var bbox = brep.BoundingBox();
             var extents = bbox.Extents();

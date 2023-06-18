@@ -36,15 +36,8 @@ namespace Macad.Core.Geom
 
         //--------------------------------------------------------------------------------------------------
 
-        public static TopoDS_Shape CreateFacesFromWires(TopoDS_Shape sourceShape, Pln plane, bool copy)
+        public static TopoDS_Shape CreateFacesFromWires(TopoDS_Shape sourceShape, Pln plane)
         {
-            if (copy)
-            {
-                // BRepBuilderAPI_Copy has problems and produces invalid results here
-                BRepBuilderAPI_Transform makeCopy = new(sourceShape, new Trsf(), true);
-                sourceShape = makeCopy.Shape();
-            }
-
             // Create faces from closed wires
             var wires = sourceShape.Wires();
             var openWireCount = 0;

@@ -210,5 +210,17 @@ namespace Macad.Test.Unit.Modeling.Form
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void MultipleUnorderedPCurves()
+        {
+            var body = TestData.GetBodyFromBRep(@"SourceData\BRep\WallWithWindows.brep");
+            var crossSection = CrossSection.Create(body, new Pln(new Quaternion(0, 70.0.ToRad(), 0).ToAx3(new Pnt(-25, 0, 13.54))));
+            var extrude = Extrude.Create(body);
+            Assert.IsTrue(extrude.Make(Shape.MakeFlags.None));
+            AssertHelper.IsSameModel(extrude, Path.Combine(_BasePath, "MultipleUnorderedPCurves"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

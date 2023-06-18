@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Macad.Common;
+using Macad.Core.Geom;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
@@ -132,14 +133,12 @@ namespace Macad.Core.Drawing
                 return false;
             }
 
-            BRepBuilderAPI_FindPlane findPlane = new(_SpineWires[0], 1e-7);
-            if (!findPlane.Found())
+            var edges = pipe.GetOperandWires().SelectMany(wire => wire.Edges());
+            if (!EdgeAlgo.GetPlaneOfEdges(edges, out _Plane))
             {
                 Messages.Error("The path of the pipe does not lie on the same plane.");
                 return false;
             }
-
-            _Plane = findPlane.Plane();
 
             return true;
         }

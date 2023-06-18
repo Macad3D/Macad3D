@@ -384,7 +384,7 @@ namespace Macad.Core.Shapes
                 }
             }
 
-            var face = TopoUtils.CreateFacesFromWires(result, plane, false);
+            var face = TopoUtils.CreateFacesFromWires(result, plane);
             return face;
         }
 

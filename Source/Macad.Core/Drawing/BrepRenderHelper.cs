@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Macad.Common;
+using Macad.Core.Geom;
 using Macad.Occt;
 
 namespace Macad.Core.Drawing
@@ -28,13 +29,24 @@ namespace Macad.Core.Drawing
             if (faces.Count == 0)
             {
                 // Drawings may only contain lines, not faces
-                res = RenderEdges(renderer, brepShape.Edges(), null);
+                var wires = brepShape.Wires();
+                if (wires.Count > 0)
+                {
+                    foreach (var wire in wires)
+                    {
+                        res &= RenderEdges(renderer, wire.Edges(), null);
+                    }
+                }
+                else
+                {
+                    // no wires, just render loose edges
+                    res &= RenderEdges(renderer, brepShape.Edges(), null);
+                }
             }
             else
             {
                 foreach (var face in faces)
                 {
-
                     var outerWire = BRepTools.OuterWire(face);
                     if (outerWire == null)
                         continue;
@@ -56,12 +68,27 @@ namespace Macad.Core.Drawing
 
             return res;
         }
-        
+
         //--------------------------------------------------------------------------------------------------
 
         public static bool RenderEdges(IDrawingRenderer renderer, List<TopoDS_Edge> edges, TopoDS_Face face)
         {
             var res = true;
+
+            // Find plane
+            Geom_Plane geomPlane;
+            if (face?.Surface() is Geom_Plane facePlane)
+            {
+                geomPlane = new Geom_Plane(Pln.XOY);
+            }
+            else
+            {
+                if (!EdgeAlgo.GetPlaneOfEdges(edges, out var edgesPlane))
+                {
+                    return false;
+                }
+                geomPlane = edgesPlane;
+            }
 
             // Order edges
             var order = new ShapeAnalysis_WireOrder(true, 0.0001);
@@ -92,7 +119,7 @@ namespace Macad.Core.Drawing
                     {
                         int orderIndex = order.Ordered(index);
                         int originalIndex = Math.Abs(orderIndex) - 1; // order index is 1-based
-                        res &= RenderEdge(renderer, edges[originalIndex], orderIndex < 0, face);
+                        res &= RenderEdge(renderer, edges[originalIndex], orderIndex < 0, geomPlane);
                     }
                     renderer.EndPathSegment();
                 }
@@ -101,7 +128,7 @@ namespace Macad.Core.Drawing
             {
                 // Cannot sort, just pump out all edges
                 foreach (var edge in edges)
-                    res &= RenderEdge(renderer, edge, false, face);
+                    res &= RenderEdge(renderer, edge, false, geomPlane);
             }
 
             return res;
@@ -109,44 +136,16 @@ namespace Macad.Core.Drawing
 
         //--------------------------------------------------------------------------------------------------
 
-        public static bool RenderEdge(IDrawingRenderer renderer, TopoDS_Edge edge, bool reverse, TopoDS_Face face)
+        public static bool RenderEdge(IDrawingRenderer renderer, TopoDS_Edge edge, bool reverse, Geom_Plane plane)
         {
-            var res = true;
+            double first = 0, last = 0;
+            bool store = false;
+            var curve = BRep_Tool.CurveOnSurface(edge, plane, new TopLoc_Location(), ref first, ref last, ref store);
+            if (curve == null)
+                return false;
 
             reverse ^= edge.Orientation() == TopAbs_Orientation.REVERSED;
-
-            double first = 0, last = 0;
-            if (face != null)
-            {
-                var curve = BRep_Tool.CurveOnSurface(edge, new Geom_Plane(Ax3.XOY), new TopLoc_Location(),  ref first, ref last);
-                if (curve == null)
-                    return false;
-
-                res &= RenderCurve(renderer, curve, first, last, reverse);
-            }
-            else
-            {
-                if (!(edge.TShape() is BRep_TEdge tedge))
-                    return res;
-
-                var curves = tedge.CurvesList();
-                if(reverse)
-                {
-                    curves.Reverse();
-                }
-
-                var curveOnSurface = curves.OfType<BRep_CurveOnSurface>()
-                                           .FirstOrDefault(cos => cos.Surface() is Geom_Plane);
-                if(curveOnSurface != null)
-                {
-                    var curve = curveOnSurface.PCurve();
-                    first = curveOnSurface.First();
-                    last = curveOnSurface.Last();
-                    res &= RenderCurve(renderer, curve, first, last, reverse);
-                }
-            }
-
-            return res;
+            return RenderCurve(renderer, curve, first, last, reverse);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -169,6 +168,9 @@ namespace Macad.Core.Drawing
 
                 case Geom2d_BezierCurve bezier:
                     return RenderBezierCurve(renderer, bezier, first, last, reverse);
+
+                case Geom2d_TrimmedCurve trimmed:
+                    return RenderCurve(renderer, trimmed.BasisCurve(), Math.Max(first, trimmed.FirstParameter()), Math.Min(last, trimmed.LastParameter()), reverse);
 
                 default:
                     // Try to create B-Spline curve

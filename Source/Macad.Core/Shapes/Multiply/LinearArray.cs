@@ -363,12 +363,12 @@ namespace Macad.Core.Shapes
             }
 
             // Calculate Offsets
-            if (!EdgeAlgo.GetPlaneOfEdges(sourceBRep, out var realPlane))
+            if (!EdgeAlgo.GetPlaneOfEdges(sourceBRep, out Geom_Plane realPlane))
             {
                 Messages.Error("The plane of the sketch could not be determined.");
                 return false;
             }
-            var extents = sourceBRep.BoundingBox().Transformed(new Trsf(realPlane.Position, Ax3.XOY)).Extents();
+            var extents = sourceBRep.BoundingBox().Transformed(new Trsf(realPlane.Position(), Ax3.XOY)).Extents();
             var interval1 = new Vec2d(_CalculateOffset(DistanceMode1, Quantity1, Distance1, extents.X), 0);
             interval1.Rotate(_Rotation.ToRad());
             var offset = Vec2d.Zero;

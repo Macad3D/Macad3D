@@ -163,6 +163,7 @@ public class CrossSection : ModifierBase
 
         // Create contour
         BRepAlgoAPI_Common section = new(sourceBrep, cutPlaneFace);
+        section.SetNonDestructive(true);
         if (!section.IsDone())
         {
             Messages.Error("Cannot create section from shape.");

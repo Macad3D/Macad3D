@@ -52,9 +52,9 @@ public class ConvertToEditableSketch : IDrawingRenderer, IRendererCapabilities
             body.CollapseShapeStack(newSketch, saveUndo);
 
             // Correct transformation
-            if(EdgeAlgo.GetPlaneOfEdges(originalBreps[i], out Pln plane))
+            if(EdgeAlgo.GetPlaneOfEdges(originalBreps[i], out Geom_Plane plane))
             {
-                var worldPosition = plane.Position.Transformed(body.GetTransformation());
+                var worldPosition = plane.Position().Transformed(body.GetTransformation());
                 Trsf trsf = new Trsf(new Ax3(Pnt.Origin, worldPosition.Direction, worldPosition.XDirection), Ax3.XOY);
                 body.Position = worldPosition.Location;
                 body.Rotation = trsf.GetRotation();
@@ -204,14 +204,14 @@ public class ConvertToEditableSketch : IDrawingRenderer, IRendererCapabilities
 
     //--------------------------------------------------------------------------------------------------
 
-    void IDrawingRenderer.BeginPath()
+    void IDrawingRenderer.BeginPathSegment()
     {
         _InPath = true;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void IDrawingRenderer.EndPath()
+    void IDrawingRenderer.EndPathSegment()
     {
         if (_InPath && _PathIsOpen)
         {

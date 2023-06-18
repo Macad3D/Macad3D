@@ -177,7 +177,7 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        protected TopoDS_Shape GetOperand2DFaces(int operandIndex, Pln? boundToPlane, bool copy=true)
+        protected TopoDS_Shape GetOperand2DFaces(int operandIndex, Pln? boundToPlane)
         {
             var operand = GetOperand(operandIndex);
             if (operand == null)
@@ -207,10 +207,10 @@ namespace Macad.Core.Shapes
                 return shape;
             }
 
-            Pln facePlane;
-            if (!EdgeAlgo.GetPlaneOfEdges(sourceBrep, out facePlane))
+            Geom_Plane geomPlane;
+            if (!EdgeAlgo.GetPlaneOfEdges(sourceBrep, out geomPlane))
                 return null;
-            var baseFacesShape = TopoUtils.CreateFacesFromWires(sourceBrep, facePlane, copy);
+            var baseFacesShape = TopoUtils.CreateFacesFromWires(sourceBrep, geomPlane.Pln());
 
             if (boundToPlane != null && baseFacesShape != null)
             {

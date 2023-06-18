@@ -12,12 +12,17 @@ namespace Macad.Core.Geom
 
         public static TopoDS_Shape TransformSketchShape(TopoDS_Shape original, IEnumerable<Trsf2d> transforms, bool includeOriginal)
         {
+            if (!EdgeAlgo.GetPlaneOfEdges(original, out Geom_Plane geomPlane))
+            {
+                return original;
+            }
+
             // Make copies
             var builder = new BRep_Builder();
             var shapeBuildEdge = new ShapeBuild_Edge();
             var newShape = new TopoDS_Compound();
             builder.MakeCompound(newShape);
-
+            
             foreach (var transform in transforms)
             {
                 foreach (var wire in original.Wires())
@@ -28,12 +33,12 @@ namespace Macad.Core.Geom
                             builder.Add(newShape, edge);
 
                         var tedge = edge.TShape() as BRep_TEdge;
-                        if(tedge == null)
+                        if (tedge == null)
                             continue;
 
                         var curves = tedge.CurvesList();
                         foreach (BRep_CurveOnSurface curveRep in curves.OfType<BRep_CurveOnSurface>()
-                                                                       .Where(cos => cos.Surface() is Geom_Plane))
+                                                                       .Where(cos => cos.Surface().Equals(geomPlane)))
                         {
                             // Transform PCurve
                             var curve = curveRep.PCurve();

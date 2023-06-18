@@ -93,8 +93,8 @@ namespace Macad.Interaction.Editors.Shapes
         void _RecalcPlane()
         {
             Quaternion rotation = new Quaternion(_RotationYaw.ToRad(), _RotationPitch.ToRad(), _RotationRoll.ToRad());
-            var loc = new Pnt(0, 0, _Offset);
-            CrossSection.Plane = new Pln(rotation.ToAx3(loc));
+            var loc = CrossSection.Plane.Location;
+            CrossSection.Plane = new Pln(rotation.ToAx3(new Pnt(loc.X, loc.Y, _Offset)));
         }
 
         //--------------------------------------------------------------------------------------------------
