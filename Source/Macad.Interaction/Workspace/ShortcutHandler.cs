@@ -83,7 +83,7 @@ namespace Macad.Interaction
                 new(Key.Delete, WorkspaceCommands.DeleteEntity),
                 new(Key.D, ModifierKeys.Control, WorkspaceCommands.DuplicateEntity),
                 new(Key.R, ModifierKeys.Control, ModelCommands.CreateReference),
-                new(Key.Space, WorkspaceCommands.ToggleIsolateSelection),
+                new(Key.I, WorkspaceCommands.ToggleIsolateSelection),
                 new(Key.Escape, WorkspaceCommands.Escape),
             });
 
