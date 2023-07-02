@@ -21,6 +21,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="20" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -44,9 +45,25 @@
                   Content="Keep Original"
                   IsChecked="{Binding Shape.KeepOriginal}"
                   AutomationProperties.AutomationId="KeepOriginal"/>  
+       
+        
+        <!-- Keep Original -->
+        <CheckBox Grid.Row="2" Grid.Column="1"
+                  Margin="0,8,0,4"
+                  VerticalAlignment="Center" HorizontalAlignment="Left"
+                  Content="Merge Faces"
+                  IsChecked="{Binding Shape.MergeFaces}"
+                  AutomationProperties.AutomationId="MergeFaces">
+            <CheckBox.Visibility>
+                <MultiBinding Converter="{mmp:BooleanAndToVisibleCollapsedMultiConverter}">
+                    <Binding Path="Shape.KeepOriginal" />
+                    <Binding Path="Shape.ShapeType" Converter="{mmp:EqualityToBoolConverter}" ConverterParameter="Solid" />
+                </MultiBinding>
+            </CheckBox.Visibility>  
+        </CheckBox>
 
         <!-- Reselect Edge/Face -->
-        <mmp:ToggleButton Grid.Row="3" Grid.ColumnSpan="2" 
+        <mmp:ToggleButton Grid.Row="4" Grid.ColumnSpan="2" 
                           IsChecked="{Binding IsToolActive}"
                           Command="{Binding ReselectCommand}"
                           HorizontalAlignment="Center" 

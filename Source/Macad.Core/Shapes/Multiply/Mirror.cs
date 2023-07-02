@@ -118,6 +118,24 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
+        [SerializeMember]
+        public bool MergeFaces
+        {
+            get { return _MergeFaces; }
+            set
+            {
+                if (_MergeFaces != value)
+                {
+                    SaveUndo();
+                    _MergeFaces = value;
+                    Invalidate();
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public override ShapeType ShapeType
         {
             get
@@ -136,6 +154,7 @@ namespace Macad.Core.Shapes
         SubshapeReference _ReferenceShape;
         double _Offset;
         bool _KeepOriginal;
+        bool _MergeFaces;
         Ax2? _MirrorAxis;
 
         //--------------------------------------------------------------------------------------------------
@@ -160,7 +179,8 @@ namespace Macad.Core.Shapes
             var mirror = new Mirror()
             {
                 _Mode = MirrorMode.EdgeOrFace,
-                _ReferenceShape = mirrorEdgeOrFace
+                _ReferenceShape = mirrorEdgeOrFace,
+                _MergeFaces = true
             };
 
             targetBody.AddShape(mirror);
@@ -177,7 +197,8 @@ namespace Macad.Core.Shapes
             var mirror = new Mirror()
             {
                 _Mode = MirrorMode.Axis,
-                _MirrorAxis = mirrorAxis
+                _MirrorAxis = mirrorAxis,
+                _MergeFaces = true
             };
 
             targetBody.AddShape(mirror);
@@ -289,6 +310,10 @@ namespace Macad.Core.Shapes
             {
                 Messages.Error("Failed fusing operation failed.");
                 return false;
+            }
+            if (_KeepOriginal && _MergeFaces)
+            {
+                algo.SimplifyResult(true, true);
             }
 
             UpdateModifiedSubshapes(sourceBRep, algo);

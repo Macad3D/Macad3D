@@ -12,6 +12,9 @@ Offset
 Keep Original
 :   If checked, the original shape will be included in the result. Otherwise, the result will only contain the mirrored copy.
 
+Merge Faces
+:   If checked, copied faces will be merged to a single face if they are coplanar. Only available for solid shapes and _Keep Original_ selected.
+
 Reselect Reference
 :   Starts reselection of the mirror plane or the edge/face defining the mirror line/plane.
 

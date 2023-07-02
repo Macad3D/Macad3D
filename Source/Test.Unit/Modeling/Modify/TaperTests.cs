@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Windows.Forms.VisualStyles;
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -274,6 +275,24 @@ namespace Macad.Test.Unit.Modeling.Modify
             Assert.IsTrue(taper2.Make(Shape.MakeFlags.None));
             AssertHelper.IsSameModel(taper2, Path.Combine(_BasePath, "BoxByEdgeOffsetTwice"));
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        [Ignore("OCCT doc says the transformation is propagated to tangential faces - this seems not to work. TODO.")]
+        public void Propagate()
+        {
+            var body = TestGeomGenerator.CreateBox().Body;
+            var extrude = Extrude.Create(body, body.Shape.GetSubshapeReference(SubshapeType.Face, 1));
+            var face = extrude.GetSubshapeReference(SubshapeType.Face, 1);
+            var edge = extrude.GetSubshapeReference(SubshapeType.Edge, 4);
+            var taper = Taper.Create(body, face, edge, 22.5);
+
+            Assert.IsTrue(taper.Make(Shape.MakeFlags.None));
+            AssertHelper.IsSameModel(taper, Path.Combine(_BasePath, "Propagate"));   
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
     }
 }

@@ -70,9 +70,60 @@ public class MirrorUITests : UITestBase
         MainWindow.Viewport.ClickRelative(0.45, 0.45);
         Assert.AreEqual("Axis", Pipe.GetValue("$Selected.Shape.Mode"));
     }
+        
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void MergeFacesOnSketch()
+    {
+        _CreateSketchBased();
+        var panel = MainWindow.PropertyView.FindPanelByClass("MirrorPropertyPanel");
+        Assert.IsNotNull(panel);
+        Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
+        Assert.IsFalse(panel.ControlExists("MergeFaces"));
+        panel.ClickToggle("KeepOriginal");
+        Assert.AreEqual(false, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
+        Assert.IsFalse(panel.ControlExists("MergeFaces"));
+        panel.ClickToggle("KeepOriginal");
+        Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
+        Assert.IsFalse(panel.ControlExists("MergeFaces"));
+    }
 
     //--------------------------------------------------------------------------------------------------
     
+    [Test]
+    public void MergeFacesOnSolid()
+    {
+        _CreateSolidBased();
+        var panel = MainWindow.PropertyView.FindPanelByClass("MirrorPropertyPanel");
+        Assert.IsNotNull(panel);
+        Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
+        Assert.IsTrue(panel.ControlExists("MergeFaces"));
+        panel.ClickToggle("KeepOriginal");
+        Assert.AreEqual(false, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
+        Assert.IsFalse(panel.ControlExists("MergeFaces"));
+        panel.ClickToggle("KeepOriginal");
+        Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.KeepOriginal"));
+        Assert.IsTrue(panel.ControlExists("MergeFaces"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void ToggleMergeFaces()
+    {
+        _CreateSolidBased();
+        var panel = MainWindow.PropertyView.FindPanelByClass("MirrorPropertyPanel");
+        Assert.IsNotNull(panel);
+        Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.MergeFaces"));
+        panel.ClickToggle("MergeFaces");
+        Assert.AreEqual(false, Pipe.GetValue<bool>("$Selected.Shape.MergeFaces"));
+        panel.ClickToggle("MergeFaces");
+        Assert.AreEqual(true, Pipe.GetValue<bool>("$Selected.Shape.MergeFaces"));
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+
     [Test]
     public void ByAxisMode()
     {
