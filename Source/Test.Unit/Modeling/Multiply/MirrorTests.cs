@@ -217,6 +217,22 @@ namespace Macad.Test.Unit.Modeling.Multiply
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void SolidOnTransformedFace()
+        {
+            var imprint = TestGeomGenerator.CreateImprint();
+            var subshape = imprint.GetSubshapeReference(SubshapeType.Face, 7);
+            Assume.That(subshape != null);
+
+            var mirror = Mirror.Create(imprint.Body, subshape);
+            mirror.MergeFaces = false;
+            Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
+            Assert.AreEqual(ShapeType.Solid, mirror.ShapeType);
+            AssertHelper.IsSameModel(mirror, Path.Combine(_BasePath, "SolidOnTransformedFace"));
+        }
+        
+        //--------------------------------------------------------------------------------------------------
 
         [Test]
         [Ignore("OCCT bug 33421")]

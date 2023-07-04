@@ -348,6 +348,7 @@ namespace Macad.Core.Shapes
             if(face.Orientation() == TopAbs_Orientation.REVERSED)
                 normal.Reverse();
             var axis = new Ax2(midPoint, normal.ToDir(), d1U.ToDir());
+            axis.Transform(adaptor.Trsf());
 
             axis.Translate(normal.Multiplied(_Offset));
             transform.SetMirror(axis);
