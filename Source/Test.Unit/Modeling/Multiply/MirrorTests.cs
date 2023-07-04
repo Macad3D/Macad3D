@@ -218,5 +218,16 @@ namespace Macad.Test.Unit.Modeling.Multiply
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        [Ignore("OCCT bug 33421")]
+        public void MergeFacesThrowsException()
+        {
+            var cylinder = TestGeomGenerator.CreateCylinder();
+            var mirror = Mirror.Create(cylinder.Body, cylinder.GetSubshapeReference(SubshapeType.Face, 1));
+            Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
     }
 }
