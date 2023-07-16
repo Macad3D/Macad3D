@@ -1,9 +1,9 @@
 ﻿using System.IO;
-using System.Windows.Forms.VisualStyles;
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Occt;
 using NUnit.Framework;
 
 namespace Macad.Test.Unit.Modeling.Modify
@@ -279,7 +279,6 @@ namespace Macad.Test.Unit.Modeling.Modify
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        [Ignore("OCCT doc says the transformation is propagated to tangential faces - this seems not to work. TODO.")]
         public void Propagate()
         {
             var body = TestGeomGenerator.CreateBox().Body;
@@ -293,6 +292,44 @@ namespace Macad.Test.Unit.Modeling.Modify
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void PropagateWithOffset()
+        {
+            var body = TestGeomGenerator.CreateBox().Body;
+            var extrude = Extrude.Create(body, body.Shape.GetSubshapeReference(SubshapeType.Face, 1));
+            var face = extrude.GetSubshapeReference(SubshapeType.Face, 1);
+            var edge = extrude.GetSubshapeReference(SubshapeType.Edge, 4);
+            var taper = Taper.Create(body, face, edge, 22.5);
+            taper.Offset = 1.0;
 
+            Assert.IsTrue(taper.Make(Shape.MakeFlags.None));
+            AssertHelper.IsSameModel(taper, Path.Combine(_BasePath, "PropagateWithOffset"));   
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void PropagateComplex()
+        {
+            // The resulting shape is not valid, which is ok as long as the boolean fuse
+            // does not unified the faces. This test shall show that the algorithm does
+            // not crash due to complex contour.
+
+            var body = TestGeomGenerator.CreateBox().Body;
+            var cyl= TestGeomGenerator.CreateCylinder();
+            cyl.Radius = 5.0;
+            cyl.Body.Position = new Pnt(5.0, 0, 0);
+            var fuse = BooleanFuse.Create(body, cyl);
+            var face = fuse.GetSubshapeReference(SubshapeType.Face, 5);
+            var edge = fuse.GetSubshapeReference(SubshapeType.Edge, 12);
+            var taper = Taper.Create(body, face, edge, 22.5);
+            taper.Offset = 1.0;
+
+            Assert.IsTrue(taper.Make(Shape.MakeFlags.None));
+            AssertHelper.IsSameModel(taper, Path.Combine(_BasePath, "PropagateComplex"));   
+        }
+
+        //--------------------------------------------------------------------------------------------------
     }
 }

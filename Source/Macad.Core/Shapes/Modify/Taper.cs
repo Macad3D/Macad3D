@@ -100,9 +100,9 @@ namespace Macad.Core.Shapes
                 }
             }
         }
-        
+
         //--------------------------------------------------------------------------------------------------
-        
+
         [SerializeMember]
         public Ax2? ReferenceAxis { get; private set; }
 
@@ -224,8 +224,10 @@ namespace Macad.Core.Shapes
                 return false;
             }
 
-            return true;
+            // Update regularity to enable the algorithm to propagate to tangential faces
+            BRepLib.EncodeRegularity(context.Source);
 
+            return true;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -290,7 +292,33 @@ namespace Macad.Core.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
-        
+
+        bool _GetSplitEdgeForFace(TopoDS_Face face, TopoDS_Shape faceOfPlane, out TopoDS_Edge splitEdge)
+        {
+            splitEdge = null;
+
+            // Create section edge
+            var section = new BRepAlgoAPI_Section(face, faceOfPlane);
+            section.Build();
+            if (!section.IsDone())
+            {
+                Messages.Warning("The offset can not be performed, section operation failed.");
+                return false;
+            }
+
+            var newEdge = section.Shape().Edges().FirstOrDefault();
+            if (!section.IsDone() || newEdge == null)
+            {
+                Messages.Warning("The offset value seems to be out of range.");
+                return false;
+            }
+
+            splitEdge = newEdge;
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         bool _DoOffset(MakeContext context)
         {
             if (_Offset <= 0)
@@ -300,69 +328,102 @@ namespace Macad.Core.Shapes
             }
 
             // Move neutral plane
-            Pln newPlane = context.NeutralPlane.Translated(context.Direction.ToVec().Multiplied(_Offset));
-            ReferenceAxis = newPlane.Position.ToAx2();
+            Pln currentPlane = context.NeutralPlane.Translated(context.Direction.ToVec().Multiplied(_Offset));
+            ReferenceAxis = currentPlane.Position.ToAx2();
 
-            // Create section edge
-            var faceOfPlane = new BRepBuilderAPI_MakeFace(new Geom_Plane(newPlane), Precision.Confusion()).Shape();
-            var section = new BRepAlgoAPI_Section(context.Face, faceOfPlane);
-            section.Build();
-            if (!section.IsDone())
+            // Init algorithm to get connected faces
+            var draftAngle = new BRepOffsetAPI_DraftAngle(context.Source);
+            draftAngle.Add(context.Face, context.Direction, _Angle.ToRad(), currentPlane);
+            if (!draftAngle.AddDone())
             {
-                Messages.Warning("The offset can not be performed, section operation failed.");
-                return false;
-            }
-            var newEdge = section.Shape().Edges().FirstOrDefault();
-            if (!section.IsDone() || newEdge == null)
-            {
-                Messages.Warning("The offset value seems to be out of range.");
+                Messages.Error("The tapering has failed due to invalid input data while processing offset. Please review your inputs.");
                 return false;
             }
 
-            // Split face with section edge
-            var splitShape = new BRepFeat_SplitShape(context.Source);
-            splitShape.Add(newEdge, context.Face);
-            splitShape.Build();
-            if (!splitShape.IsDone())
+            draftAngle.Build();
+            if (!draftAngle.IsDone())
             {
-                Messages.Warning("The offset can not be performed, the face split operation failed.");
+                Messages.Error("Make draft angle failed while processing offset.");
                 return false;
             }
-            var newShape = splitShape.Shape();
 
-            // Reduce continuity of new edge to C0 to allow the draft algo to make a sharp corner
-            var (face1, face2) = EdgeAlgo.FindAdjacentFaces(newShape, newEdge);
-            if (face1 == null || face2 == null)
+            var faces = draftAngle.ConnectedFaces(context.Face)
+                                  .Select(shape => shape.ToFace())
+                                  .ToList();
+
+            // Split faces with section edge
+            TopoDS_Shape currentShape = context.Source;
+            TopoDS_Face currentFace = context.Face;
+            var faceOfPlane = new BRepBuilderAPI_MakeFace(new Geom_Plane(currentPlane), Precision.Confusion()).Shape();
+            for (var index = 0; index < faces.Count; index++)
             {
-                Messages.Warning("The offset can not be performed, invalid face count after split operation.");
-                return false;
-            }
-            var builder = new BRep_Builder();
-            builder.Continuity(newEdge, face1, face2, GeomAbs_Shape.C0);
-            
-            // Find proper face
-            var newFace = face1;
-            if (context.BaseEdge != null)
-            {
-                if (newFace.Edges().Any(edge => edge.IsSame(context.BaseEdge)))
+                var face = faces[index];
+                if (!_GetSplitEdgeForFace(face, faceOfPlane, out var splitEdge))
+                    return false;
+
+                var splitShape = new BRepFeat_SplitShape(currentShape);
+                splitShape.Add(splitEdge, face);
+                splitShape.Build();
+                if (!splitShape.IsDone())
                 {
-                    newFace = face2;
+                    Messages.Warning("The offset can not be performed, the face split operation failed.");
+                    return false;
                 }
-            } 
-            else if (context.BaseVertex != null)
-            {
-                if (newFace.Vertices().Any(vertex => vertex.IsSame(context.BaseVertex)))
+
+                UpdateModifiedSubshapes(currentShape, splitShape);
+                currentShape = splitShape.Shape();
+
+                // Remap coming faces
+                TopTools_ListOfShape modFaces;
+                for (var fi = index + 1; fi < faces.Count; fi++)
                 {
-                    newFace = face2;
+                    modFaces = splitShape.Modified(faces[fi]);
+                    if (modFaces.Any())
+                        faces[fi] = modFaces.First().ToFace();
+                    if (modFaces.Count() > 1)
+                    {
+                        modFaces.Skip(1).ForEach(newFace => faces.Add(newFace.ToFace()));
+                    }
                 }
-            } 
+
+                // Update edges and faces
+                var builder = new BRep_Builder();
+                modFaces = splitShape.Modified(face);
+                if (modFaces.Size() != 2)
+                {
+                    continue;
+                }
+
+                var face1 = modFaces.First().ToFace();
+                var face2 = modFaces.Last().ToFace();
+                var edge = FaceAlgo.FindSharedEdge(face1, face2);
+                if (edge == null)
+                {
+                    Messages.Warning("The offset can not be performed, the face split operation returned faces not sharing an edge.");
+                    return false;
+                }
+
+                // Reduce continuity of new edges to C0 to allow the draft algo to make a sharp corner
+                builder.Continuity(edge, face1, face2, GeomAbs_Shape.C0);
+
+                // Update face selection
+                if (face.IsEqual(currentFace))
+                {
+                    if (context.BaseEdge != null)
+                    {
+                        currentFace = face1.Edges().ContainsSame(context.BaseEdge) ? face2 : face1;
+                    }
+                    else if (context.BaseVertex != null)
+                    {
+                        currentFace = face1.Vertices().ContainsSame(context.BaseVertex) ? face2 : face1;
+                    }
+                }
+            }
 
             // Set results
-            context.NeutralPlane = newPlane;
-            context.Source = newShape;
-            context.Face = newFace;
-            UpdateModifiedSubshapes(context.Source, splitShape);
-
+            context.Source = currentShape;
+            context.Face = currentFace;
+            context.NeutralPlane = currentPlane;
             return true;
         }
 

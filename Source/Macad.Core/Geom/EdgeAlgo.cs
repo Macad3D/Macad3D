@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Macad.Common;
 using Macad.Occt;
 
 namespace Macad.Core.Geom
@@ -202,6 +200,20 @@ namespace Macad.Core.Geom
             }
 
             geomPlane = _Candidates.First();
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static bool SetContinuity(TopoDS_Shape shape, TopoDS_Edge edge, GeomAbs_Shape newContinuity)
+        {
+            var (face1, face2) = FindAdjacentFaces(shape, edge);
+            if (face1 == null || face2 == null)
+            {
+                return false;
+            }
+            var builder = new BRep_Builder();
+            builder.Continuity(edge, face1, face2, newContinuity);
             return true;
         }
 

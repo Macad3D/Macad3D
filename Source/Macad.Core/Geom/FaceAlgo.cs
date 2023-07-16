@@ -360,5 +360,12 @@ namespace Macad.Core.Geom
 
         //--------------------------------------------------------------------------------------------------
 
+        public static TopoDS_Edge FindSharedEdge(TopoDS_Face face1, TopoDS_Face face2)
+        {
+            var edges1 = face1.Edges();
+            var edges2 = face2.Edges();
+
+            return edges1.FirstOrDefault(edge => edges2.ContainsSame(edge));
+        }
     }
 }
