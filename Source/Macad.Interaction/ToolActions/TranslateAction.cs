@@ -389,17 +389,12 @@ public class TranslateAction : ToolAction
                 }
             }
 
-            // Transform into unrotated frame
-            _Delta.Transform(_InverseRotation);
             if (data.ModifierKeys.HasFlag(ModifierKeys.Control))
             {
                 _Delta.X = Maths.RoundToNearest(_Delta.X, WorkspaceController.Workspace.GridStep);
                 _Delta.Y = Maths.RoundToNearest(_Delta.Y, WorkspaceController.Workspace.GridStep);
                 _Delta.Z = Maths.RoundToNearest(_Delta.Z, WorkspaceController.Workspace.GridStep);
             }
-
-            UpdateGizmo();
-            data.ForceReDetection = true;
 
             if (_Coord3DHudElement == null)
             {
@@ -412,6 +407,11 @@ public class TranslateAction : ToolAction
             var coord = _CoordinateSystem.Location.Translated(_Delta);
             _Coord3DHudElement.SetValues(coord.X, coord.Y, coord.Z);
             _Delta3DHudElement.SetValues(_Delta.X, _Delta.Y, _Delta.Z);
+            
+            // Transform into unrotated frame
+            _Delta.Transform(_InverseRotation);
+            UpdateGizmo();
+            data.ForceReDetection = true;
 
             EventArgs args = new()
             {
