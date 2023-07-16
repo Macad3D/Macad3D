@@ -123,5 +123,28 @@ namespace Macad.Test.UI.Application.Edit
             Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("Transform"));
         }
 
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void MouseClickBlockedByViewCube()
+        {
+            // Start tool
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+            MainWindow.Ribbon.ClickButton("CreateBox");
+            Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateBox"));
+
+            // Three point creation
+            var viewport = MainWindow.Viewport;
+            viewport.ClickRelative(0.3, 0.3);
+            viewport.ClickRelative(0.6, 0.6);
+
+            // Klick to ViewCube
+            viewport.ClickRelative(0.9, 0.1);
+            Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateBox"));
+
+            // Final click
+            viewport.ClickRelative(0.6, 0.3);
+            Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateBox"));
+        }
     }
 }

@@ -502,6 +502,12 @@ namespace Macad.Interaction
         {
             _LastModifierKeys = modifierKeys;
             _MouseEventData.ModifierKeys = modifierKeys;
+            
+            if (_LastDetectedInteractive is AIS_ViewCube viewCube
+                && _LastDetectedOwner is AIS_ViewCubeOwner viewCubeOwner)
+            {
+                return;
+            }
 
             bool wasSelecting = IsSelecting;
             IsSelecting = false;
