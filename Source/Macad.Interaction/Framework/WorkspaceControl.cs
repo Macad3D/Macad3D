@@ -56,6 +56,7 @@ public abstract class WorkspaceControl : BaseObject, IMouseEventHandler, IContex
         CloseSelectionContexts();
         RemoveHintMessage();
         RemoveCursor();
+        WorkspaceController.Invalidate();
         CleanedUp = true;
     }
 

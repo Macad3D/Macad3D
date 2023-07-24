@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Macad.Common;
+using Macad.Core.Shapes;
 using Macad.Core.Topology;
 
 namespace Macad.Interaction;
@@ -33,7 +34,7 @@ public abstract class Editor : WorkspaceControl
         Active = true;
 
         OnStart();
-        _UpdateToolsState();
+        UpdateToolsState();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -74,10 +75,15 @@ public abstract class Editor : WorkspaceControl
 
     //--------------------------------------------------------------------------------------------------
 
-    void _UpdateToolsState()
+    public void UpdateToolsState()
     {
         // Conditions for tools start
         bool toStart = WorkspaceController.CurrentTool == null;
+        if (GetEntity() is Shape shape)
+        {
+            toStart &= shape.Body is { IsVisible: true } 
+                       && shape.Body.IsShapeEffective(shape);
+        }
 
         if(toStart && !ToolsActive)
             StartTools();

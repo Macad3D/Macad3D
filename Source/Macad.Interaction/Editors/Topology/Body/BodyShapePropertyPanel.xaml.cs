@@ -108,7 +108,7 @@ namespace Macad.Interaction.Editors.Topology
 
         //--------------------------------------------------------------------------------------------------
 
-        void Body_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        void _Body_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (sender == Body)
             {
@@ -122,6 +122,13 @@ namespace Macad.Interaction.Editors.Topology
                     _UpdateTree();
                 }
             }
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        void _InteractiveEntity_VisualChanged(InteractiveEntity entity)
+        {
+            Dispatcher.InvokeAsync(() => SelectedEditor?.UpdateToolsState());
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -145,7 +152,8 @@ namespace Macad.Interaction.Editors.Topology
             if(Application.Current != null)
                 InitializeComponent();
 
-            Body.PropertyChanged += Body_PropertyChanged;
+            Body.PropertyChanged += _Body_PropertyChanged;
+            InteractiveEntity.VisualChanged += _InteractiveEntity_VisualChanged;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -155,8 +163,9 @@ namespace Macad.Interaction.Editors.Topology
             SelectedEditor?.Stop();
             SelectedEditor = null;
            
-            Body.PropertyChanged -= Body_PropertyChanged;
+            Body.PropertyChanged -= _Body_PropertyChanged;
             Body = null;
+            InteractiveEntity.VisualChanged -= _InteractiveEntity_VisualChanged;
             
             SelectedItems.Clear();
             SelectedItems.CollectionChanged -= _SelectedItems_CollectionChanged;
@@ -322,11 +331,18 @@ namespace Macad.Interaction.Editors.Topology
 
         //--------------------------------------------------------------------------------------------------
 
+        public void Select(Shape shape)
+        {
+            var item = Items.OfType<BodyShapeTreeShape>().FirstOrDefault(item => item.Shape == shape);
+            SelectedItems.Clear();
+            SelectedItems.Add(item);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
         #region Commands
-
-        //--------------------------------------------------------------------------------------------------
 
         public static RelayCommand<Body> JumpToBodyCommand { get; } = new(
             body =>

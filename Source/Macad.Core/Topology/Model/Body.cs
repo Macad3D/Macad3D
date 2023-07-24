@@ -369,6 +369,35 @@ namespace Macad.Core.Topology
 
         //--------------------------------------------------------------------------------------------------
 
+        public bool IsShapeEffective(Shape shape)
+        {
+            if(shape.IsSkipped)
+                return false;
+
+            var current = Shape;
+            while (current != null)
+            {
+                if (shape == current)
+                    return true;
+
+                var pred = current.Predecessor;
+                switch (pred)
+                {
+                    case BodyShapeOperand bodyOp:
+                        current = bodyOp.Shape;
+                        break;
+                    case Shape shapeOp:
+                        current = shapeOp;
+                        break;
+                    default:
+                        return false;
+                }
+            }
+            return false;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         #endregion
 
         #region Initialization / Serialization

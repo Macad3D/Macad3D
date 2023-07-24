@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Windows.Input;
 using Macad.Common;
 using Macad.Core.Shapes;
@@ -10,7 +11,7 @@ namespace Macad.Interaction.Editors.Shapes
     public class BoxEditor : Editor<Box>
     {
         BoxScaleLiveAction _ScaleAction;
-        bool[] _ScaleAxisReversed;
+        BitVector32 _ScaleAxisReversed;
         LabelHudElement[] _HudElements = new LabelHudElement[3];
 
         //--------------------------------------------------------------------------------------------------
@@ -80,8 +81,7 @@ namespace Macad.Interaction.Editors.Shapes
             Bnd_Box box = new Bnd_Box(Pnt.Origin, new Pnt(Entity.DimensionX, Entity.DimensionY, Entity.DimensionZ));
             _ScaleAction.Box = box;
             _ScaleAction.Transformation = Entity.Body.GetTransformation();
-            _ScaleAxisReversed = null;
-
+            _ScaleAxisReversed[1 << 3] = false;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -90,17 +90,17 @@ namespace Macad.Interaction.Editors.Shapes
         {
             SetHintMessage("Scale box using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to scale relative to center.");
 
-            _ScaleAxisReversed ??= new[]
+            if (!_ScaleAxisReversed[1 << 3])
             {
-                Math.Sign(args.Direction.X) != Math.Sign(Entity.DimensionX),
-                Math.Sign(args.Direction.Y) != Math.Sign(Entity.DimensionY),
-                Math.Sign(args.Direction.Z) != Math.Sign(Entity.DimensionZ),
-            };
+                _ScaleAxisReversed[1 << 0] = Math.Sign(args.Direction.X) != Math.Sign(Entity.DimensionX);
+                _ScaleAxisReversed[1 << 1] = Math.Sign(args.Direction.Y) != Math.Sign(Entity.DimensionY);
+                _ScaleAxisReversed[1 << 2] = Math.Sign(args.Direction.Z) != Math.Sign(Entity.DimensionZ);
+                _ScaleAxisReversed[1 << 3] = true;
+            }
 
-
-            XYZ scale = new XYZ(args.Delta * args.Direction.X * (_ScaleAxisReversed[0] ? -1 : 1),
-                                args.Delta * args.Direction.Y * (_ScaleAxisReversed[1] ? -1 : 1),
-                                args.Delta * args.Direction.Z * (_ScaleAxisReversed[2] ? -1 : 1));
+            XYZ scale = new XYZ(args.Delta * args.Direction.X * (_ScaleAxisReversed[1 << 0] ? -1 : 1),
+                                args.Delta * args.Direction.Y * (_ScaleAxisReversed[1 << 1] ? -1 : 1),
+                                args.Delta * args.Direction.Z * (_ScaleAxisReversed[1 << 2] ? -1 : 1));
             if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
             {
                 if (scale.X != 0)
@@ -138,7 +138,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (scale.X != 0) 
             {
                 Entity.DimensionX += scale.X;
-                if (_ScaleAxisReversed[0] || center)
+                if (_ScaleAxisReversed[1 << 0] || center)
                 {
                     offset.X -= scale.X;
                 }
@@ -154,7 +154,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (scale.Y != 0)
             {
                 Entity.DimensionY += scale.Y;
-                if (_ScaleAxisReversed[1] || center)
+                if (_ScaleAxisReversed[1 << 1] || center)
                 {
                     offset.Y -= scale.Y;
                 }
@@ -170,7 +170,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (scale.Z != 0)
             {
                 Entity.DimensionZ += scale.Z;
-                if (_ScaleAxisReversed[2] || center)
+                if (_ScaleAxisReversed[1 << 2] || center)
                 {
                     offset.Z -= scale.Z;
                 }
