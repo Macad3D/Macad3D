@@ -1,9 +1,10 @@
-﻿ using Macad.Common;
+﻿using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Occt;
 using System.Windows.Input;
 using Macad.Core;
+using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -58,10 +59,13 @@ public class ImprintEditor : Editor<Imprint>
 
     //--------------------------------------------------------------------------------------------------
 
-    public override void EnrichContextMenu(ContextMenuItems itemList)
+    public override (IActionCommand, object) GetStartEditingCommand()
     {
         if (Entity.Sketch != null)
-            itemList.AddCommand(SketchCommands.StartSketchEditor, Entity.Sketch);
+        {
+            return (SketchCommands.StartSketchEditor, Entity.Sketch);
+        }
+        return base.GetStartEditingCommand();
     }
 
     //--------------------------------------------------------------------------------------------------

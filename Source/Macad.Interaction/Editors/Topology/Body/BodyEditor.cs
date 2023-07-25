@@ -4,6 +4,7 @@ using Macad.Interaction.Visual;
 using Macad.Core.Components;
 using Macad.Core.Topology;
 using Macad.Interaction.Panels;
+using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Topology
 {
@@ -64,6 +65,13 @@ namespace Macad.Interaction.Editors.Topology
             {
                 yield return editor;
             }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public override (IActionCommand, object) GetStartEditingCommand()
+        {
+            return _ShapePanel?.SelectedEditor?.GetStartEditingCommand() ?? base.GetStartEditingCommand();
         }
 
         //--------------------------------------------------------------------------------------------------

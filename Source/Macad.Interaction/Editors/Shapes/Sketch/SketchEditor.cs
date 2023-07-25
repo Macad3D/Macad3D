@@ -4,6 +4,7 @@ using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Interaction.Visual;
 using Macad.Occt;
+using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
@@ -22,12 +23,20 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override void EnrichContextMenu(ContextMenuItems itemList)
         {
-            itemList.AddCommand(SketchCommands.StartSketchEditor, Entity);
             itemList.AddCommand(ModelCommands.CreateExtrude, Entity);
             itemList.AddCommand(ModelCommands.CreateRevolve, Entity);
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        public override (IActionCommand, object) GetStartEditingCommand()
+        {
+            return (SketchCommands.StartSketchEditor, Entity);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #region Hint
 
         protected override void OnToolsStart()
         {
@@ -96,6 +105,8 @@ namespace Macad.Interaction.Editors.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        #endregion
 
         [AutoRegister]
         internal static void Register()

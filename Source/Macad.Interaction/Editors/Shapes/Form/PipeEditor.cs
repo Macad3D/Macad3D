@@ -1,5 +1,6 @@
 ﻿using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
+using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
@@ -15,14 +16,22 @@ namespace Macad.Interaction.Editors.Shapes
             }
         }
         
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public override (IActionCommand, object) GetStartEditingCommand()
+        {
+            if (Entity.Predecessor is Sketch sketch)
+            {
+                return (SketchCommands.StartSketchEditor, sketch);
+            }
+            return base.GetStartEditingCommand();
+        }
+
         //--------------------------------------------------------------------------------------------------
 
         public override void EnrichContextMenu(ContextMenuItems itemList)
         {
-            if (Entity.Predecessor is Sketch sketch)
-            {
-                itemList.AddCommand(SketchCommands.StartSketchEditor, sketch);
-            }
             if (Entity.Profile == Pipe.ProfileType.Custom && Entity.Operands.Count > 1 && Entity.Operands[1] is Sketch profile)
             {
                 itemList.AddCommand(SketchCommands.StartSketchEditor, profile, "Edit Profile");

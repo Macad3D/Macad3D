@@ -1053,12 +1053,14 @@ namespace Macad.Interaction
 
         public void EnrichContextMenu(ContextMenuItems itemList)
         {
-            if (CurrentTool == null)
+            if (CurrentTool != null) 
+                return;
+
+            itemList.AddCommandIfExecutable(WorkspaceCommands.StartEditing, null);
+
+            if (Selection.SelectedEntities.Count > 0)
             {
-                if (Selection.SelectedEntities.Count > 0)
-                {
-                    itemList.AddCommand(WorkspaceCommands.Transform);
-                }
+                itemList.AddCommand(WorkspaceCommands.Transform);
             }
         }
 

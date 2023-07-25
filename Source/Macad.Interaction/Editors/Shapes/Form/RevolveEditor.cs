@@ -5,6 +5,7 @@ using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Interaction.Visual;
 using Macad.Occt;
+using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes
 {
@@ -32,6 +33,17 @@ namespace Macad.Interaction.Editors.Shapes
         protected override void OnStop()
         {
             base.OnStop();
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public override (IActionCommand, object) GetStartEditingCommand()
+        {
+            if (Entity.Predecessor is Sketch sketch)
+            {
+                return (SketchCommands.StartSketchEditor, sketch);
+            }
+            return base.GetStartEditingCommand();
         }
 
         //--------------------------------------------------------------------------------------------------

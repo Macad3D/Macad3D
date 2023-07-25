@@ -14,6 +14,8 @@ namespace Macad.Interaction
 {
     public static class WorkspaceCommands
     {
+        #region Tools
+
         public static RelayCommand Escape { get; } = new(
             () =>
             {
@@ -26,7 +28,75 @@ namespace Macad.Interaction
             () => true);
 
         //--------------------------------------------------------------------------------------------------
-            
+
+        public static ActionCommand StartEditing { get; } = new(
+            () =>
+            {
+                var editor = InteractiveContext.Current?.WorkspaceController?.CurrentEditor;
+                if (editor == null)
+                    return;
+
+                var command = editor.GetStartEditingCommand();
+                if (command.Command?.CanExecute(command.Parameter) ?? false)
+                {
+                    command.Command.Execute(command.Parameter);
+                }
+            },
+            () =>
+            {
+                var startEditingCommand = InteractiveContext.Current?.WorkspaceController?.CurrentEditor?.GetStartEditingCommand();
+                if (startEditingCommand == null)
+                    return false;
+
+                return startEditingCommand.Value.Command?.CanExecute(startEditingCommand.Value.Parameter) ?? false;
+            })
+        {
+            Title = () =>
+            {
+                var startEditingCommand = InteractiveContext.Current?.WorkspaceController?.CurrentEditor?.GetStartEditingCommand();
+                if (startEditingCommand?.Command != null)
+                {
+                    return startEditingCommand.Value.Command.GetTitle(startEditingCommand.Value.Parameter);
+                }
+
+                return "Start Editing";
+            },
+            Header = () =>
+            {
+                var startEditingCommand = InteractiveContext.Current?.WorkspaceController?.CurrentEditor?.GetStartEditingCommand();
+                if (startEditingCommand?.Command != null)
+                {
+                    return startEditingCommand.Value.Command.GetHeader(startEditingCommand.Value.Parameter);
+                }
+
+                return "Edit";
+            },
+            Description = () =>
+            {
+                var startEditingCommand = InteractiveContext.Current?.WorkspaceController?.CurrentEditor?.GetStartEditingCommand();
+                if (startEditingCommand?.Command != null)
+                {
+                    return startEditingCommand.Value.Command.GetDescription(startEditingCommand.Value.Parameter);
+                }
+
+                return "Starts the editing tool of the current selected entity.";
+            },
+            Icon = () =>
+            {
+                var startEditingCommand = InteractiveContext.Current?.WorkspaceController?.CurrentEditor?.GetStartEditingCommand();
+                if (startEditingCommand?.Command != null)
+                {
+                    return startEditingCommand.Value.Command.GetIcon(startEditingCommand.Value.Parameter);
+                }
+
+                return "Tool-SketchEditor";
+            },
+        };
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
         #region Grid
 
         public static ActionCommand ToggleGrid { get; } = new(

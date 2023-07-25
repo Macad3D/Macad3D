@@ -5,6 +5,7 @@ using System.Linq;
 using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Presentation;
 
 namespace Macad.Interaction;
 
@@ -198,7 +199,18 @@ public abstract class Editor : WorkspaceControl
     //--------------------------------------------------------------------------------------------------
 
     #endregion
-        
+    
+    #region Start Editing
+
+    public virtual (IActionCommand Command, object Parameter) GetStartEditingCommand()
+    {
+        return (null, null);
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+    
+    #endregion
+
     #region Static Registration and Create
 
     static readonly Dictionary<Type, Type> _RegisteredEditors = new();
