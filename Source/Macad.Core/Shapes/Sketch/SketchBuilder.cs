@@ -1,7 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows.Media.Imaging;
 using Macad.Common;
 using Macad.Occt;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 namespace Macad.Core.Shapes
 {
@@ -195,5 +197,42 @@ namespace Macad.Core.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        public void PolyLine(params (double x, double y)[] coords)
+        {
+            Debug.Assert(coords.Length > 2);
+
+            int length = coords.Length;
+            bool closed = coords[0].x.IsEqual(coords[^1].x, double.Epsilon)
+                          && coords[0].y.IsEqual(coords[^1].y, double.Epsilon);
+            if (closed)
+            {
+                length -= 1;
+            }
+
+            int p0 = _Sketch.AddPoint(new Pnt2d(coords[0].x, coords[0].y));
+            int p1 = p0;
+            for (var i = 1; i < length; i++)
+            {
+                int p2 = _Sketch.AddPoint(new Pnt2d(coords[i].x, coords[i].y));
+                _Sketch.AddSegment(new SketchSegmentLine(p1, p2));
+                p1 = p2;
+            }
+
+            if (closed)
+            {
+                _Sketch.AddSegment(new SketchSegmentLine(p1, p0));
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void Rectangle(double x1, double y1, double x2, double y2)
+        {
+            PolyLine((x1, y1), (x2, y1), (x2, y2), (x1, y2), (x1, y1));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

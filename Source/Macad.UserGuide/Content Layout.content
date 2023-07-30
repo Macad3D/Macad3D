@@ -215,6 +215,15 @@
       <Topic id="c0d4325e-1684-4449-b71d-5fa1c875dd5c" visible="True" title="Box Joint">
         <HelpKeywords>
           <HelpKeyword index="K" term="Box Joint" />
+          <HelpKeyword index="K" term="Finger Joint" />
+          <HelpKeyword index="K" term="Joint" />
+        </HelpKeywords>
+      </Topic>
+      <Topic id="ee35e475-eb9c-4871-9da8-e04e53faef6a" visible="True" title="Halved Joint">
+        <HelpKeywords>
+          <HelpKeyword index="K" term="Halved Joint" />
+          <HelpKeyword index="K" term="Lap Joint" />
+          <HelpKeyword index="K" term="Half-Lap Joint" />
           <HelpKeyword index="K" term="Joint" />
         </HelpKeywords>
       </Topic>

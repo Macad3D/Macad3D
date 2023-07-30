@@ -22,16 +22,11 @@
       <KeyPrefix>TypeIcon</KeyPrefix>
     </IconSet>
     <UpToDateCheckInput Include="Types\**\*.svg" />
+    <UpToDateCheckInput Include="Types\Aliases.txt" />
     <IconSet Include="Marker\Marker.xaml">
       <KeyPrefix>Marker</KeyPrefix>
     </IconSet>
     <UpToDateCheckInput Include="Marker\**\*.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Marker\HelloWorld.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Marker\Plus.svg" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net;
 using System.Linq;
 using Macad.Common;
-using Macad.Core.Topology;
 using Macad.Occt;
 
 namespace Macad.Core.Geom
@@ -135,6 +133,42 @@ namespace Macad.Core.Geom
             TopExp.MapShapesAndAncestors(shape, TopAbs_ShapeEnum.VERTEX, TopAbs_ShapeEnum.EDGE, edgeMap);
 
             return edgeMap.FindFromKey(vertex).ToList();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        public static TopoDS_Compound CreateCompound(IEnumerable<TopoDS_Shape> shapes)
+        {
+            TopoDS_Compound comp = new();
+            BRep_Builder builder = new();
+            builder.MakeCompound(comp);
+            shapes.ForEach(shape => builder.Add(comp, shape));
+            return comp;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static TopoDS_Compound CreateCompound(params TopoDS_Shape[] shapes)
+        {
+            return CreateCompound(shapes as IEnumerable<TopoDS_Shape>);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static TopoDS_CompSolid CreateCompound(IEnumerable<TopoDS_Solid> solids)
+        {
+            TopoDS_CompSolid comp = new();
+            BRep_Builder builder = new();
+            builder.MakeCompSolid(comp);
+            solids.ForEach(shape => builder.Add(comp, shape));
+            return comp;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        public static TopoDS_CompSolid CreateCompound(params TopoDS_Solid[] solids)
+        {
+            return CreateCompound(solids as IEnumerable<TopoDS_Solid>);
         }
 
         //--------------------------------------------------------------------------------------------------

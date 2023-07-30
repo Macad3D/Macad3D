@@ -390,6 +390,26 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
+        public static ActionCommand CreateHalvedJoint { get; } = new(
+            () =>
+            {
+                var body1 = Selection.SelectedEntities[0] as Body;
+                var body2 = Selection.SelectedEntities.Count > 1 ? Selection.SelectedEntities[1] as Body : null;
+                var tool = new CreateHalvedJointTool(body1, body2);
+                InteractiveContext.Current.WorkspaceController.StartTool(tool); 
+            },
+            () => CanExecuteOnMultiSolid() && Selection.SelectedEntities.Count <= 2)
+        {
+            Header = () => "Halved Joint",
+            Description = () => "Build a junction of two solids by using a halved lap joint.",
+            Icon = () => "Feature-HalvedJoint",
+            HelpTopic = "ee35e475-eb9c-4871-9da8-e04e53faef6a",
+            IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.OneWay,
+                                                    EqualityToBoolConverter.Instance, nameof(CreateHalvedJointTool))
+        };
+
+        //--------------------------------------------------------------------------------------------------
+
         public static ActionCommand CreateLoft { get; } = new(
             () =>
             {

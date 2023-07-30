@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Macad.Core.Geom;
 using Macad.Core.Topology;
@@ -10,7 +9,7 @@ using Macad.Occt;
 
 namespace Macad.Core.Shapes
 {
-    public sealed class BoxJoint : ModifierBase
+    public sealed class BoxJoint : AssociatedModifier<BoxJoint>
     {
         #region Properties
 
@@ -58,13 +57,6 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        public BoxJoint AssociatedShape
-        {
-            get { return _AssociatedShape ?? _UpdateAssociatedShape(); }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         [SerializeMember]
         public bool ReverseOrder
         {
@@ -75,24 +67,6 @@ namespace Macad.Core.Shapes
                 {
                     SaveUndo();
                     _ReverseOrder = value;
-                    Invalidate();
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        [SerializeMember]
-        public bool IsFirst
-        {
-            get { return _IsFirst; }
-            set
-            {
-                if (_IsFirst != value)
-                {
-                    SaveUndo();
-                    _IsFirst = value;
                     Invalidate();
                     RaisePropertyChanged();
                 }
@@ -141,11 +115,9 @@ namespace Macad.Core.Shapes
 
         #region Members
 
-        BoxJoint _AssociatedShape;
         int _BoxCount;
         bool _RemoveExcess;
         bool _ReverseOrder;
-        bool _IsFirst;
         double _Ratio;        
         double[] _CustomBoxRatios;
 
@@ -162,34 +134,15 @@ namespace Macad.Core.Shapes
             _BoxCount = 5;
             _ReverseOrder = false;
             _RemoveExcess = false;
-            _IsFirst = false;
             _Ratio = 0.5;
-            // OnDeserialized and _AssociatedShape_PropertyChanged needs to be updated for every synced property
+            // SyncProperties to be updated for every synced property
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public static (BoxJoint First, BoxJoint Second) Create(Body body1, Body body2)
+        public new static (BoxJoint First, BoxJoint Second) Create(Body body1, Body body2)
         {
-            Debug.Assert(body1 != null);
-            Debug.Assert(body2 != null);
-
-            var boxJoint1 = new BoxJoint();
-            var boxJoint2 = new BoxJoint();
-
-            boxJoint1.AddOperand(new BodyShapeOperand(body2, boxJoint2));
-            boxJoint2.AddOperand(new BodyShapeOperand(body1, boxJoint1));
-
-            body1.AddShape(boxJoint1);
-            body2.AddShape(boxJoint2);
-
-            boxJoint1._UpdateAssociatedShape();
-            boxJoint2._UpdateAssociatedShape();
-
-            boxJoint1.IsFirst = true;
-            boxJoint2.IsFirst = false;
-
-            return (boxJoint1, boxJoint2);
+            return AssociatedModifier<BoxJoint>.Create(body1, body2);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -203,7 +156,7 @@ namespace Macad.Core.Shapes
             internal TopoDS_Shape OwnBrep;
             internal TopoDS_Shape OtherBrep;
             internal List<TopoDS_Solid> Common;
-            internal List<List<TopoDS_Solid>> Boxes = new List<List<TopoDS_Solid>>();
+            internal List<List<TopoDS_Solid>> Boxes = new();
             internal TopoDS_Shape Result;
         }
 
@@ -258,20 +211,6 @@ namespace Macad.Core.Shapes
                 return false;
             }
 
-            // The second operand must be a body
-            var op1Body = GetOperand(1) as BodyShapeOperand;
-            if (op1Body == null)
-            {
-                Messages.Error("The associated operand is not a valid body.");
-                return false;
-            }
-
-            if (AssociatedShape.Body != op1Body.Body)
-            {
-                Messages.Error("The associated shape is not found on the operand body.");
-                return false;
-            }
-
             // Get BReps
             context.OwnBrep = GetOperandBRep(0);
             if (context.OwnBrep == null)
@@ -280,7 +219,7 @@ namespace Macad.Core.Shapes
                 return false;
             }
 
-            context.OtherBrep = AssociatedShape.GetSourceBRep(GetCoordinateSystem());
+            context.OtherBrep = GetAssociatedSourceBRep();
             if (context.OtherBrep == null)
             {
                 Messages.Error("The associated shape is not valid.");
@@ -295,7 +234,7 @@ namespace Macad.Core.Shapes
         bool _DoMakeCommon(MakeContext context)
         {
             // Make common
-            var makeCommon = _IsFirst
+            var makeCommon = IsFirst
                     ? new BRepAlgoAPI_Common(context.OwnBrep, context.OtherBrep)
                     : new BRepAlgoAPI_Common(context.OtherBrep, context.OwnBrep);
 
@@ -351,7 +290,7 @@ namespace Macad.Core.Shapes
                 else
                 {
                     // Create by ratio
-                    var firstPart = _IsFirst != _ReverseOrder ? _Ratio : 1.0 - _Ratio;
+                    var firstPart = IsFirst != _ReverseOrder ? _Ratio : 1.0 - _Ratio;
                     var sumParts = (BoxCount >> 1) * 1.0 + (_BoxCount & 1) * firstPart;
                     var planeOffset = 0.0;
 
@@ -401,7 +340,7 @@ namespace Macad.Core.Shapes
             var listOfTools = new TopTools_ListOfShape();
             foreach (var boxes in context.Boxes)
             {
-                for (int boxIndex = _ReverseOrder == _IsFirst ? 0 : 1; boxIndex < boxes.Count; boxIndex += 2)
+                for (int boxIndex = _ReverseOrder == IsFirst ? 0 : 1; boxIndex < boxes.Count; boxIndex += 2)
                 {
                     listOfTools.Append(boxes[boxIndex]);
                 }
@@ -486,134 +425,17 @@ namespace Macad.Core.Shapes
 
         #region Interconnectivity Functions
 
-        TopoDS_Shape GetSourceBRep(Ax3 targetFrame)
+        protected override void SyncProperties(BoxJoint source)
         {
-            var transformedBrep = GetOperandBRep(0)?.Moved(new TopLoc_Location(new Trsf(Body.GetCoordinateSystem(), targetFrame)));
-            return transformedBrep;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-        
-        void _AssociatedShape_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (sender != _AssociatedShape)
-                return;
-
-            if (e.PropertyName == nameof(BoxCount))
-            {
-                BoxCount = _AssociatedShape.BoxCount;
-            }
-            else if (e.PropertyName == nameof(ReverseOrder))
-            {
-                ReverseOrder = _AssociatedShape.ReverseOrder;
-            }
-            else if (e.PropertyName == nameof(Ratio))
-            {
-                Ratio = 1.0 - _AssociatedShape.Ratio;
-            }
-            else if (e.PropertyName == nameof(CustomBoxRatios))
-            {
-                CustomBoxRatios = _AssociatedShape.CustomBoxRatios;
-            }
-            else if (e.PropertyName == nameof(Body))
-            {
-                if (_AssociatedShape != null && _AssociatedShape.Body == null)
-                {
-                    _AssociatedShape = null;
-                    Body?.RemoveShape(this);
-                }
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        BoxJoint _UpdateAssociatedShape()
-        {
-            if (_AssociatedShape != null)
-            {
-                _AssociatedShape.PropertyChanged -= _AssociatedShape_PropertyChanged;
-                _AssociatedShape.RemoveDependent(this);
-            }
-
-            _AssociatedShape = null;
-
-            if (Operands.Count != 2)
-                return null;
-
-            var secondBodyOperand = GetOperand(1) as BodyShapeOperand;
-            if(secondBodyOperand == null)
-                return null;
-
-            _AssociatedShape = secondBodyOperand.Shape as BoxJoint;
-            if (_AssociatedShape == null)
-                return null;
-
-            _AssociatedShape.PropertyChanged += _AssociatedShape_PropertyChanged;
-            _AssociatedShape.AddDependent(this);
-
-            return _AssociatedShape;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void OnDeserialized(SerializationContext context)
-        {
-            base.OnDeserialized(context);
-
-            if (context.Scope == SerializationScope.CopyPaste && _UpdateAssociatedShape() != null)
-            {
-                // Check if the back reference is still valid
-                if (_AssociatedShape.Guid != Guid)
-                {
-                    // Create Clone
-                    var boxJoint2 = new BoxJoint();
-                    boxJoint2.AddOperand(new BodyShapeOperand(Body, this));
-                    boxJoint2.RemoveExcess = _RemoveExcess;
-                    boxJoint2.IsFirst = !_IsFirst;
-                    boxJoint2.ReverseOrder = _ReverseOrder;
-                    boxJoint2.Ratio = 1.0 - _Ratio;
-                    boxJoint2.CustomBoxRatios = _CustomBoxRatios;
-
-                    _AssociatedShape.Body.AddShape(boxJoint2);
-                    Operands[1] = new BodyShapeOperand(boxJoint2.Body, boxJoint2);
-
-                    RaisePropertyChanged(nameof(BoxCount));
-                    RaisePropertyChanged(nameof(ReverseOrder));
-                    RaisePropertyChanged(nameof(Ratio));
-                    RaisePropertyChanged(nameof(CustomBoxRatios));
-                }
-            }
-
-            _UpdateAssociatedShape();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override bool CanReplaceOperand(int operandIndex)
-        {
-            return operandIndex == 0;
+            BoxCount = source.BoxCount;
+            ReverseOrder = source.ReverseOrder;
+            Ratio = 1.0 - source.Ratio;
+            CustomBoxRatios = source.CustomBoxRatios;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         #endregion
 
-        #region Invalidation
-
-        protected override void OnOperandShapeInvalidated(IShapeOperand operand)
-        {
-            // Only invalidate if this comes directly from our associated shape
-            // or our direct predecessor, 
-            // since we're not interested in changed in shapes after that.
-            // Also not in the general body notification (e.g. changes to root shape)
-            if(operand != Predecessor && operand != _AssociatedShape)
-                return;
-
-            base.OnOperandShapeInvalidated(operand);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
     }
 }

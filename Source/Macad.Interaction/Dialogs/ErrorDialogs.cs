@@ -193,5 +193,16 @@ namespace Macad.Interaction.Dialogs
 
         //--------------------------------------------------------------------------------------------------
 
+        public static void CannotStartTool(string message)
+        {
+            TaskDialog.ShowMessage(Application.Current?.MainWindow,
+                                   "This Tool cannot be started.",
+                                   message,
+                                   "Tool failed",
+                                   TaskDialogCommonButtons.Close, TaskDialogIcon.Error);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

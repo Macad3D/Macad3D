@@ -28,6 +28,7 @@ namespace Macad.Interaction
         readonly InteractiveEntity _SourceEntity;
         readonly SubshapeTypes _SubshapeTypes;
         readonly List<TopoDS_Shape> _Shapes;
+        readonly Trsf? _LocalTransformation;
         List<AIS_Shape> _AisShapes;
         readonly ISelectionFilter _SelectionFilter;
 
@@ -43,11 +44,12 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public SelectSubshapeAction(object owner, List<TopoDS_Shape> shapes) 
+        public SelectSubshapeAction(object owner, List<TopoDS_Shape> shapes, Trsf? localTransformation=null)
             : base()
         {
             _SubshapeTypes = SubshapeTypes.All;
             _Shapes = shapes;
+            _LocalTransformation = localTransformation;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -67,10 +69,15 @@ namespace Macad.Interaction
                 foreach (var shape in _Shapes)
                 {
                     var aisShape = new AIS_Shape(shape);
-                    aisShape.SetColor(Colors.FilteredSubshapes);
+                    if (_LocalTransformation != null)
+                    {
+                        aisShape.SetLocalTransformation(_LocalTransformation.Value);
+                    }
 
+                    aisShape.SetColor(Colors.FilteredSubshapes);
                     aisShape.Attributes().SetPointAspect(Marker.CreateBitmapPointAspect(Marker.BallImage, Colors.FilteredSubshapes));
                     aisShape.Attributes().WireAspect().SetWidth(2);
+                    aisShape.SetPolygonOffsets(0, 1.01f, 1.0f);
                     aisShape.SetZLayer(-2);
                     WorkspaceController.Workspace.AisContext.Display(aisShape, false);
                     WorkspaceController.Workspace.AisContext.Activate(aisShape, 0, false);

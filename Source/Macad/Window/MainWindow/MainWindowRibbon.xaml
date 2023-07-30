@@ -545,6 +545,8 @@
 
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateBoxJoint}"
                                      AutomationProperties.AutomationId="CreateBoxJoint"/>
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:ModelCommands.CreateHalvedJoint}"
+                                     AutomationProperties.AutomationId="CreateHalvedJoint"/>
 
             </Fluent:RibbonGroupBox>
 

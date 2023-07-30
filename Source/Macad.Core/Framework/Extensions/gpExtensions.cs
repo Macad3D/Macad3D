@@ -32,7 +32,7 @@ namespace Macad.Core
         //--------------------------------------------------------------------------------------------------
 
         #endregion
-
+        
         #region Pnt2d
 
         public static Pnt2d Rounded(this Pnt2d pnt)
@@ -65,6 +65,41 @@ namespace Macad.Core
         public static Vec2d Lerped(this Vec2d value, Vec2d other, double amount)
         {
             return new Vec2d(value.X.Lerp(other.X, amount), value.Y.Lerp(other.Y, amount));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
+        #region Dir
+
+        public static Dir Slerped(this Dir value, Dir other, double amount)
+        {
+            double dotProduct = value.Dot(other);
+
+            // Determine the direction of the shortest rotation between the vectors.
+            if (dotProduct < 0)
+            {
+                // Invert one of the vectors to ensure the angle is less than 90 degrees.
+                other.Reverse();
+                dotProduct = -dotProduct;
+            }
+
+            // Calculate the angle of rotation between the two vectors.
+            double angle = Math.Acos(dotProduct);
+
+            // If the angle is very close to zero, the vectors are almost parallel, and no interpolation is needed.
+            if (Math.Abs(angle) < 0.000001f)
+            {
+                return value;
+            }
+
+            // Interpolate the two vectors using Slerp formula.
+            double invSinAngle = 1f / Math.Sin(angle);
+            double factorA = Math.Sin((1f - amount) * angle) * invSinAngle;
+            double factorB = Math.Sin(amount * angle) * invSinAngle;
+
+            return new Dir(value.ToVec(factorA) + other.ToVec(factorB));
         }
 
         //--------------------------------------------------------------------------------------------------

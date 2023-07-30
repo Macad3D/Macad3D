@@ -6,21 +6,22 @@ namespace Macad.Core
 {
     public static class ListExtensions
     {
-        public static bool ContainsSame<T>(this IList<T> list, TopoDS_Shape item) where T : TopoDS_Shape
+        public static bool ContainsSame<T>(this IEnumerable<T> list, TopoDS_Shape shape) where T : TopoDS_Shape
         {
-            int size = list.Count;
-            if (item == null)
+            if (shape == null)
             {
-                for (int i = 0; i < size; i++)
-                    if (list[i] == null)
+                foreach (var item in list)
+                {
+                    if (item == null)
                         return true;
+                }
                 return false;
             }
             else
             {
-                for (int i = 0; i < size; i++)
+                foreach (var item in list)
                 {
-                    if (item.IsSame(list[i]))
+                    if (shape.IsSame(item))
                         return true;
                 }
                 return false;
@@ -29,21 +30,22 @@ namespace Macad.Core
 
         //--------------------------------------------------------------------------------------------------
 
-        public static bool ContainsPartner<T>(this IList<T> list, TopoDS_Shape item) where T : TopoDS_Shape
+        public static bool ContainsPartner<T>(this IEnumerable<T> list, TopoDS_Shape shape) where T : TopoDS_Shape
         {
-            int size = list.Count;
-            if (item == null)
+            if (shape == null)
             {
-                for (int i = 0; i < size; i++)
-                    if (list[i] == null)
+                foreach (var item in list)
+                {
+                    if (item == null)
                         return true;
+                }
                 return false;
             }
             else
             {
-                for (int i = 0; i < size; i++)
+                foreach (var item in list)
                 {
-                    if (item.IsPartner(list[i]))
+                    if (shape.IsPartner(item))
                         return true;
                 }
                 return false;
@@ -70,22 +72,6 @@ namespace Macad.Core
                         return i;
                 }
                 return -1;
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public static void Shuffle<T>(this IList<T> list)
-        {
-            Random rng = new Random();
-            int n = list.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = rng.Next(n + 1);
-                T value = list[k];
-                list[k] = list[n];
-                list[n] = value;
             }
         }
 

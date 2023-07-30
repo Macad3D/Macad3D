@@ -547,6 +547,7 @@
     <Content Include="Concepts\Sketches.md" />
     <Content Include="Concepts\StandardTools.md" />
     <Content Include="Concepts\Topology.md" />
+    <Content Include="Modeling\Assemble\HalvedJoint.md" />
     <Content Include="Scripting\Example_CreatingBodiesAndShapes.md" />
     <Content Include="Scripting\Example_CreatingInteractiveTools.md" />
     <Content Include="Scripting\Example_ExportImport.md" />
@@ -660,6 +661,26 @@
     <Image Include="Modeling\Assemble\BoxJointSizeRatio.png">
       <ImageId>BoxJointSizeRatio</ImageId>
       <AlternateText>Box Joint Size Ratio</AlternateText>
+    </Image>
+    <Image Include="Modeling\Assemble\HalvedJointCaseCorner.png">
+      <ImageId>HalvedJointCaseCorner</ImageId>
+      <AlternateText>Halved Joint Case Corner</AlternateText>
+    </Image>
+    <Image Include="Modeling\Assemble\HalvedJointCaseCross.png">
+      <ImageId>HalvedJointCaseCross</ImageId>
+      <AlternateText>Halved Joint Case Cross</AlternateText>
+    </Image>
+    <Image Include="Modeling\Assemble\HalvedJointCaseParallel.png">
+      <ImageId>HalvedJointCaseParallel</ImageId>
+      <AlternateText>Halved Joint Case Parallel</AlternateText>
+    </Image>
+    <Image Include="Modeling\Assemble\HalvedJointCaseTee.png">
+      <ImageId>HalvedJointCaseTee</ImageId>
+      <AlternateText>Halved Joint Case Tee</AlternateText>
+    </Image>
+    <Image Include="Modeling\Assemble\HalvedJointSizeRatio.png">
+      <ImageId>HalvedJointSizeRatio</ImageId>
+      <AlternateText>Halved Joint Size Ratio</AlternateText>
     </Image>
     <Image Include="Modeling\Form\RevolveOffset.png">
       <ImageId>RevolveOffset</ImageId>

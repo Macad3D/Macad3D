@@ -296,7 +296,8 @@ namespace Macad.Core.Geom
         //--------------------------------------------------------------------------------------------------
 
         public static TopoDS_Face FindOppositeFace(TopoDS_Shape sourceShape, TopoDS_Face refFace, bool farthest=false, 
-                                                   FaceDistanceMethod distanceMethod=FaceDistanceMethod.UseNormalCenter )
+                                                   FaceDistanceMethod distanceMethod=FaceDistanceMethod.UseNormalCenter,
+                                                   double angularTolerance=0.01)
         {
             if(sourceShape == null || refFace == null)
                 return null;
@@ -321,7 +322,7 @@ namespace Macad.Core.Geom
                     continue;
 
                 var faceNormal = GetFaceCenterNormal(face);
-                if (!faceNormal.IsOpposite(refNormal, 0.01))
+                if (!faceNormal.IsOpposite(refNormal, angularTolerance))
                     continue;
 
                 double dist = 0;

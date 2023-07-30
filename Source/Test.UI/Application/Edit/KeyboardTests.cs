@@ -37,7 +37,7 @@ namespace Macad.Test.UI.Application.Edit
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        public void ForwardSpaceFromTreeView()
+        public void ForwardKeysFromTreeView()
         {
             // Init
             TestDataGenerator.GenerateBox(MainWindow);
@@ -47,7 +47,7 @@ namespace Macad.Test.UI.Application.Edit
             MainWindow.Document.SelectItem("Box_1");
 
             // Press Escape, tool should be canceled
-            Pipe.TypeKey(VirtualKeyShort.SPACE);
+            Pipe.TypeKey(VirtualKeyShort.KEY_I);
             Assert.IsTrue(Pipe.GetValue<bool>("$Context.WorkspaceController.VisualObjects.EntityIsolationEnabled"));
         }
                         
@@ -93,23 +93,6 @@ namespace Macad.Test.UI.Application.Edit
             Assert.AreNotEqual(gridEnabled, Pipe.GetValue<bool>("$Context.WorkspaceController.Workspace.GridEnabled"));
         }
                 
-        //--------------------------------------------------------------------------------------------------
-
-        [Test]
-        public void ForwardSpaceFromLayers()
-        {
-            // Init
-            TestDataGenerator.GenerateBox(MainWindow);
-            Assert.IsFalse(Pipe.GetValue<bool>("$Context.WorkspaceController.VisualObjects.EntityIsolationEnabled"));
-
-            // Select layers
-            MainWindow.Layers.SelectItem(0);
-
-            // Press Escape, tool should be canceled
-            Pipe.TypeKey(VirtualKeyShort.SPACE);
-            Assert.IsTrue(Pipe.GetValue<bool>("$Context.WorkspaceController.VisualObjects.EntityIsolationEnabled"));
-        }
-                                
         //--------------------------------------------------------------------------------------------------
 
         [Test]
