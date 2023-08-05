@@ -114,7 +114,7 @@ namespace Macad.Interaction
 
         #region Modifier
 
-        public static ActionCommand<BooleanOperationTool.Operations> CreateBoolean { get; } = new(
+        public static ActionCommand<BooleanOperationTool.Operation> CreateBoolean { get; } = new(
             (op) =>
             {
                 InteractiveContext.Current.WorkspaceController.StartTool(new BooleanOperationTool(op));
@@ -127,11 +127,11 @@ namespace Macad.Interaction
             {
                 switch (op)
                 {
-                    case BooleanOperationTool.Operations.Cut:
+                    case BooleanOperationTool.Operation.Cut:
                         return "Cuts the solid shape of one ore more bodies from the shape of another body.";
-                    case BooleanOperationTool.Operations.Fuse:
+                    case BooleanOperationTool.Operation.Fuse:
                         return "Fuses the solid shapes of one ore more bodies.";
-                    case BooleanOperationTool.Operations.Common:
+                    case BooleanOperationTool.Operation.Common:
                         return "Combines the solid shape of two or more bodies by calculating the common part of all shapes.";
                     default:
                         return "Boolean operation of two or more bodies.";
@@ -141,11 +141,11 @@ namespace Macad.Interaction
             {
                 switch (op)
                 {
-                    case BooleanOperationTool.Operations.Cut:
+                    case BooleanOperationTool.Operation.Cut:
                         return "d678cf8c-0e7f-46cd-8bbc-de964ddfecc6";
-                    case BooleanOperationTool.Operations.Fuse:
+                    case BooleanOperationTool.Operation.Fuse:
                         return "dff138bf-06a6-485c-a94d-890ef71a1372";
-                    case BooleanOperationTool.Operations.Common:
+                    case BooleanOperationTool.Operation.Common:
                         return "79be5f3d-4bf0-4c76-9bc6-50428e6ed621";
                     default:
                         return "";

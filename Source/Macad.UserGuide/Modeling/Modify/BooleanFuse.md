@@ -5,9 +5,12 @@ title: Boolean Fuse
 Fuses the solid shapes of one ore more bodies.
 
 # Property Panel
-This modifier does currently not have any editable parameters.
+
+Merge Faces
+:   If checked, resulting faces will be merged to a single face if they are coplanar. Enabled by default.
 
 # Remarks
+
 If more than two bodies are selected, the resulting shape will be fused with all input shapes.
 
 # Creating a Boolean Common

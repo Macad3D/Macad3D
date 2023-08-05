@@ -26,7 +26,11 @@ namespace Macad.Core.Shapes
         {
             Debug.Assert(targetBody != null);
 
-            var boolean = new BooleanFuse();
+            var boolean = new BooleanFuse()
+            {
+                MergeFaces = true
+            };
+
             targetBody.AddShape(boolean);
             boolean.AddOperand(operand);
 
@@ -39,7 +43,11 @@ namespace Macad.Core.Shapes
         {
             Debug.Assert(targetBody != null);
 
-            var boolean = new BooleanFuse();
+            var boolean = new BooleanFuse()
+            {
+                MergeFaces = true
+            };
+
             targetBody.AddShape(boolean);
             foreach (var shapeOperand in operands)
             {

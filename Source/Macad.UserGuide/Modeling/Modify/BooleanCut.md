@@ -5,9 +5,12 @@ title: Boolean Cut
 Cuts the solid shape of one ore more bodies from the shape of another body.
 
 # Property Panel
-This modifier does currently not have any editable parameters.
+
+Merge Faces
+:   If checked, resulting faces will be merged to a single face if they are coplanar. Disabled by default.
 
 # Remarks
+
 If more than two bodies are selected, the resulting shape will be cut by each input shape.
 
 # Creating a Boolean Common

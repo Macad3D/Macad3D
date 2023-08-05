@@ -47,7 +47,7 @@
                   AutomationProperties.AutomationId="KeepOriginal"/>  
        
         
-        <!-- Keep Original -->
+        <!-- Merge Faces -->
         <CheckBox Grid.Row="2" Grid.Column="1"
                   Margin="0,8,0,4"
                   VerticalAlignment="Center" HorizontalAlignment="Left"

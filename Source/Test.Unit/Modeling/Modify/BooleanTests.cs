@@ -24,6 +24,20 @@ namespace Macad.Test.Unit.Modeling.Modify
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void FuseNoMergeFaces()
+        {
+            var shapes = TestGeomGenerator.CreateBooleanBodies(false);
+
+            var boolOp = BooleanFuse.Create(shapes.target, shapes.operands);
+            boolOp.MergeFaces = false;
+
+            Assert.IsTrue(boolOp.Make(Shape.MakeFlags.None));
+            Assert.IsTrue(ModelCompare.CompareShape(boolOp, Path.Combine(_BasePath, "FuseNoMergeFaces")));
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         [Test]
         public void Common()

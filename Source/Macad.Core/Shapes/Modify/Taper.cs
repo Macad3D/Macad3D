@@ -234,7 +234,7 @@ namespace Macad.Core.Shapes
 
         bool _DoComputeArguments(MakeContext context)
         {
-            switch (_BaseEdgeOrVertex.Type)
+            switch (_BaseEdgeOrVertex?.Type)
             {
                 case SubshapeType.Edge:
                     return _DoComputeArgumentsByEdge(context);
@@ -243,7 +243,7 @@ namespace Macad.Core.Shapes
                     return _DoComputeArgumentsByVertex(context);
 
                 default:
-                    Messages.Error("The base subshape is not an edge or a vertex.");
+                    Messages.Error("The base subshape is invalid or not an edge or a vertex.");
                     return false;
             }
         }
@@ -461,7 +461,7 @@ namespace Macad.Core.Shapes
 
         public void CalculateBaseParameter(double normalizedParameter)
         {
-            if (_BaseEdgeOrVertex.Type == SubshapeType.Edge)
+            if (_BaseEdgeOrVertex?.Type == SubshapeType.Edge)
             {
                 var edge = GetOperandEdge(0, _BaseEdgeOrVertex);
                 if (edge != null)

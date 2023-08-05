@@ -312,17 +312,13 @@ namespace Macad.Test.Unit.Modeling.Modify
         [Test]
         public void PropagateComplex()
         {
-            // The resulting shape is not valid, which is ok as long as the boolean fuse
-            // does not unified the faces. This test shall show that the algorithm does
-            // not crash due to complex contour.
-
             var body = TestGeomGenerator.CreateBox().Body;
             var cyl= TestGeomGenerator.CreateCylinder();
             cyl.Radius = 5.0;
             cyl.Body.Position = new Pnt(5.0, 0, 0);
             var fuse = BooleanFuse.Create(body, cyl);
-            var face = fuse.GetSubshapeReference(SubshapeType.Face, 5);
-            var edge = fuse.GetSubshapeReference(SubshapeType.Edge, 12);
+            var face = fuse.GetSubshapeReference(SubshapeType.Face, 2);
+            var edge = fuse.GetSubshapeReference(SubshapeType.Edge, 7);
             var taper = Taper.Create(body, face, edge, 22.5);
             taper.Offset = 1.0;
 

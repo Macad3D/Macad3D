@@ -7,7 +7,7 @@ namespace Macad.Interaction.Editors.Shapes;
 
 public class BooleanOperationTool : Tool
 {
-    public enum Operations
+    public enum Operation
     {
         Cut,
         Fuse,
@@ -16,26 +16,23 @@ public class BooleanOperationTool : Tool
 
     //--------------------------------------------------------------------------------------------------
 
-    public Operations Operation { get; }
-
-    //--------------------------------------------------------------------------------------------------
-
     Body _SourceBody;
+    readonly Operation _Operation;
 
     //--------------------------------------------------------------------------------------------------
 
-    public BooleanOperationTool(Operations operation) 
+    public BooleanOperationTool(Operation operation) 
     {
-        Operation = operation;
-        switch (Operation)
+        _Operation = operation;
+        switch (_Operation)
         {
-            case BooleanOperationTool.Operations.Cut:
+            case Operation.Cut:
                 Id = "BooleanCutTool";
                 break;
-            case BooleanOperationTool.Operations.Fuse:
+            case Operation.Fuse:
                 Id = "BooleanFuseTool";
                 break;
-            case BooleanOperationTool.Operations.Common:
+            case Operation.Common:
                 Id = "BooleanCommonTool";
                 break;
         }
@@ -82,17 +79,17 @@ public class BooleanOperationTool : Tool
     void UpdateStatusText(string shapeName)
     {
         string text = "Select shape as operator to the ";
-        switch(Operation)
+        switch(_Operation)
         {
-            case Operations.Cut:
+            case Operation.Cut:
                 text += "cut operation";
                 break;
 
-            case Operations.Fuse:
+            case Operation.Fuse:
                 text += "fuse operation";
                 break;
 
-            case Operations.Common:
+            case Operation.Common:
                 text += "common operation";
                 break;
         }
@@ -145,17 +142,17 @@ public class BooleanOperationTool : Tool
         WorkspaceController.Selection.SelectEntity(null);
 
         ModifierBase boolOpShape = null;
-        switch (Operation)
+        switch (_Operation)
         {
-            case Operations.Cut:
+            case Operation.Cut:
                 boolOpShape = BooleanCut.Create(body, operands);
                 break;
 
-            case Operations.Common:
+            case Operation.Common:
                 boolOpShape = BooleanCommon.Create(body, operands);
                 break;
 
-            case Operations.Fuse:
+            case Operation.Fuse:
                 boolOpShape = BooleanFuse.Create(body, operands);
                 break;
         }

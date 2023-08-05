@@ -1,15 +1,42 @@
-﻿using Macad.Occt;
+﻿using Macad.Common.Serialization;
+using Macad.Occt;
 
 namespace Macad.Core.Shapes
 {
     public abstract class BooleanBase : ModifierBase
     {
+        [SerializeMember]
+        public bool MergeFaces
+        {
+            get { return _MergeFaces; }
+            set
+            {
+                if (_MergeFaces != value)
+                {
+                    SaveUndo();
+                    _MergeFaces = value;
+                    Invalidate();
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public override ShapeType ShapeType
         {
             get { return ShapeType.Solid; }
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        #region Members
+
+        bool _MergeFaces;
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
 
         #region Make
 
@@ -51,9 +78,16 @@ namespace Macad.Core.Shapes
                 return false;
             }
 
+            if (_MergeFaces)
+            {
+                algo.SimplifyResult(true, true);
+            }
+
             var resultShape = algo.Shape();
             if (resultShape == null)
+            {
                 return false;
+            }
 
             UpdateModifiedSubshapes(shapeA, algo);
             foreach (var shapeB in shapeListTools.ToList())
@@ -66,10 +100,9 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        protected virtual BRepAlgoAPI_BooleanOperation CreateAlgoApi()
-        {
-            return null;
-        }
+        protected abstract BRepAlgoAPI_BooleanOperation CreateAlgoApi();
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
 

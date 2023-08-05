@@ -43,7 +43,7 @@ public class BooleanToolTests
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "FirstSelected"));
 
         // Hilight Second
-        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operations.Common));
+        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operation.Common));
         ctx.MoveTo(230, 330);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SecondHiglighted"));
 
@@ -75,7 +75,7 @@ public class BooleanToolTests
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ThreeSelected"));
 
         // Do it
-        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operations.Common));
+        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operation.Common));
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CommonPreselect"));
     }
 
@@ -94,7 +94,7 @@ public class BooleanToolTests
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "FirstSelected"));
 
         // Hilight Second
-        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operations.Cut));
+        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operation.Cut));
         ctx.MoveTo(230, 330);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SecondHiglighted"));
 
@@ -126,7 +126,7 @@ public class BooleanToolTests
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ThreeSelected"));
 
         // Do it
-        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operations.Cut));
+        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operation.Cut));
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CutPreselect"));
     }
 
@@ -145,7 +145,7 @@ public class BooleanToolTests
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "FirstSelected"));
 
         // Hilight Second
-        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operations.Fuse));
+        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operation.Fuse));
         ctx.MoveTo(230, 330);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SecondHiglighted"));
 
@@ -177,7 +177,7 @@ public class BooleanToolTests
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ThreeSelected"));
 
         // Do it
-        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operations.Fuse));
+        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operation.Fuse));
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "FusePreselect"));
     }
 
@@ -194,7 +194,7 @@ public class BooleanToolTests
 
         // Use Boolean Tool
         ctx.SelectAt(220, 200);
-        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operations.Common));
+        ctx.WorkspaceController.StartTool(new BooleanOperationTool(BooleanOperationTool.Operation.Common));
         ctx.SelectAt(230, 330);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CommonSimple"));
 
@@ -222,7 +222,7 @@ public class BooleanToolTests
         // Select solid body
         ctx.SelectAt(333, 111);
         // Start boolean
-        var tool = new BooleanOperationTool(BooleanOperationTool.Operations.Cut);
+        var tool = new BooleanOperationTool(BooleanOperationTool.Operation.Cut);
         ctx.WorkspaceController.StartTool(tool);
         // Selection of sketch should not be possible
         ctx.SelectAt(333, 357);

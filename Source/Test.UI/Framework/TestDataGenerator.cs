@@ -19,6 +19,22 @@ namespace Macad.Test.UI.Framework
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        public static void GenerateCylinder(MainWindowAdaptor mainWindow)
+        {
+            // Start tool
+            mainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+            mainWindow.Ribbon.ClickButton("CreateCylinder");
+            Assert.IsTrue(mainWindow.Ribbon.IsButtonChecked("CreateCylinder"));
+
+            // Three point creation
+            var viewport = mainWindow.Viewport;
+            viewport.ClickRelative(0.5, 0.5);
+            viewport.ClickRelative(0.6, 0.6);
+            viewport.ClickRelative(0.6, 0.3);
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         public static void GenerateBodyReference(MainWindowAdaptor mainWindow)
         {
