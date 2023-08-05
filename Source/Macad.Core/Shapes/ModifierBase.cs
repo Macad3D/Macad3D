@@ -452,6 +452,49 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
+        protected void UpdateModifiedSubshapes(TopoDS_Shape sourceShape, BRepTools_History history)
+        {
+            bool hasModified = history.HasModified();
+            bool hasGenerated = history.HasGenerated();
+            bool hasRemoved = history.HasRemoved();
+
+            __Process(sourceShape.Faces());
+            __Process(sourceShape.Edges());
+            __Process(sourceShape.Vertices());
+
+            //-----
+
+            void __Process(IEnumerable<TopoDS_Shape> shapes)
+            {
+                foreach (var shape in shapes)
+                {
+                    if (hasModified)
+                    {
+                        var modList = history.Modified(shape);
+                        if (modList.Size() != 0)
+                        {
+                            AddModifiedSubshape(shape, modList.ToList());
+                        }
+                    }
+
+                    if (hasGenerated)
+                    {
+                        AddModifiedSubshape(shape, history.Generated(shape).ToList());
+                    }
+
+                    if (hasRemoved)
+                    {
+                        if (history.IsRemoved(shape))
+                        {
+                            RemoveModifiedSubshape(shape);
+                        }
+                    }
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         protected void AddNamedSubshapes(string name, TopoDS_Shape sourceShape, BRepBuilderAPI_MakeShape makeShape)
         {
             __ProcessShapes(sourceShape.Faces());

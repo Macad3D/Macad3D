@@ -24,17 +24,30 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!-- Depth -->
         <TextBlock Grid.Column="0" Text="Depth" Style="{DynamicResource Macad.Styles.TextBlock.Property}" />
         <mmp:ValueEditBox Grid.Column="1" 
                         Units="Length" Value="{Binding Extrude.Depth, NotifyOnSourceUpdated=True}" />
         
+        <!-- Symmetric -->
         <CheckBox Grid.Row="1" Grid.Column="1"
                   Margin="0,8,0,8"
                   VerticalAlignment="Center" HorizontalAlignment="Left"
                   Content="Symmetric"
+                  AutomationProperties.AutomationId="Symmetric"
                   Visibility="{Binding Extrude.Predecessor.ShapeType, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=Sketch}"
                   IsChecked="{Binding Extrude.Symmetric, NotifyOnSourceUpdated=True}" />
 
+        <!-- Merge Faces -->
+        <CheckBox Grid.Row="2" Grid.Column="1"
+                  Margin="0,8,0,4"
+                  VerticalAlignment="Center" HorizontalAlignment="Left"
+                  Content="Merge Faces"
+                  AutomationProperties.AutomationId="MergeFaces"
+                  Visibility="{Binding Extrude.Predecessor.ShapeType, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=Solid}"
+                  IsChecked="{Binding Extrude.MergeFaces}" />
+
+        <!-- Reselect Target Face -->
         <mmp:ToggleButton Grid.Row="2" Grid.ColumnSpan="2" 
                           Content="Reselect Target Face" 
                           Visibility="{Binding Extrude.Predecessor.ShapeType, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=Solid}"

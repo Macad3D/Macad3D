@@ -102,6 +102,22 @@ namespace Macad.Test.Unit.Modeling.Form
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void SolidFaceNoMergeFaces()
+        {
+            var shape = TestGeomGenerator.CreateImprint();
+            Assume.That(shape != null);
+
+            var subshapeRef = shape.GetSubshapeReference(SubshapeType.Face, 7);
+            var extrude = Extrude.Create(shape.Body, subshapeRef);
+            extrude.MergeFaces = false;
+
+            AssertHelper.IsMade(extrude);
+            AssertHelper.IsSameModel(extrude, Path.Combine(_BasePath, "SolidFaceNoMergeFaces"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         [Test]
         public void SolidFaceCut()

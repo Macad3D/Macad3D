@@ -12,6 +12,10 @@ Symmetric
 :   _Only for sketch type bodies._
     If checked, extrudes the sketch symmetrically both directions.
 
+Merge Faces
+:   _Only for solid type bodies._
+    If checked, faces will be merged if they are coplanar.
+
 Reselect Face
 :   _Only for solid type bodies._
     Starts reselection of the face to extrude.

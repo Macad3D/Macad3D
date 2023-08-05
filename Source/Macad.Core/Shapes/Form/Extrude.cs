@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using Macad.Common;
 using Macad.Core.Geom;
 using Macad.Core.Topology;
 using Macad.Common.Serialization;
@@ -73,6 +72,24 @@ namespace Macad.Core.Shapes
         }
 
         //--------------------------------------------------------------------------------------------------
+       
+        [SerializeMember]
+        public bool MergeFaces
+        {
+            get { return _MergeFaces; }
+            set
+            {
+                if (_MergeFaces != value)
+                {
+                    SaveUndo();
+                    _MergeFaces = value;
+                    Invalidate();
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         public bool IsSketchBased
         {
@@ -92,6 +109,7 @@ namespace Macad.Core.Shapes
 
         double _Depth;        
         bool _Symmetric;
+        bool _MergeFaces;
         SubshapeReference _Face;
 
         //--------------------------------------------------------------------------------------------------
@@ -112,7 +130,10 @@ namespace Macad.Core.Shapes
             Debug.Assert(body != null);
             Debug.Assert(body.Shape.ShapeType == ShapeType.Sketch);
 
-            var extrude = new Extrude();
+            var extrude = new Extrude()
+            {
+                MergeFaces = true
+            };
             body.AddShape(extrude);
 
             return extrude;
@@ -128,7 +149,8 @@ namespace Macad.Core.Shapes
 
             var extrude = new Extrude
             {
-                Face = faceRef
+                Face = faceRef,
+                MergeFaces = true
             };
             body.AddShape(extrude);
 
@@ -252,8 +274,8 @@ namespace Macad.Core.Shapes
                 return false;
             }
 
-            var bRep = makePrism.Shape();
-            if (bRep.Solids().Count == 0)
+            var shape = makePrism.Shape();
+            if (shape.Solids().Count == 0)
             {
                 Messages.Error("Failed extruding the selected face with this parameters.");
                 return false;
@@ -261,8 +283,16 @@ namespace Macad.Core.Shapes
 
 			UpdateModifiedSubshapes(solid, makePrism);
 
+            if (_MergeFaces)
+            {
+                ShapeUpgrade_UnifySameDomain unify = new(shape, true, true);
+                unify.Build();
+                UpdateModifiedSubshapes(shape, unify.History());
+                shape = unify.Shape() ?? shape;
+            }
+
             // Get final shape
-            BRep = bRep;
+            BRep = shape;
             return true;
         }
 

@@ -283,6 +283,7 @@ namespace Macad.Test.Unit.Modeling.Modify
         {
             var body = TestGeomGenerator.CreateBox().Body;
             var extrude = Extrude.Create(body, body.Shape.GetSubshapeReference(SubshapeType.Face, 1));
+            extrude.MergeFaces = false;
             var face = extrude.GetSubshapeReference(SubshapeType.Face, 1);
             var edge = extrude.GetSubshapeReference(SubshapeType.Edge, 4);
             var taper = Taper.Create(body, face, edge, 22.5);
@@ -298,6 +299,7 @@ namespace Macad.Test.Unit.Modeling.Modify
         {
             var body = TestGeomGenerator.CreateBox().Body;
             var extrude = Extrude.Create(body, body.Shape.GetSubshapeReference(SubshapeType.Face, 1));
+            extrude.MergeFaces = false;
             var face = extrude.GetSubshapeReference(SubshapeType.Face, 1);
             var edge = extrude.GetSubshapeReference(SubshapeType.Edge, 4);
             var taper = Taper.Create(body, face, edge, 22.5);
