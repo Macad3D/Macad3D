@@ -374,6 +374,9 @@ namespace Macad.Common.Interop
 
         [DllImport("user32.dll")]
         public static extern bool RedrawWindow(HandleRef hWnd, IntPtr lprcUpdate, IntPtr hrgnUpdate, RedrawWindowFlags flags);
+        
+        [DllImport("user32.dll", EntryPoint = "RegisterWindowMessageW", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern uint RegisterWindowMessage(string lpString);
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);

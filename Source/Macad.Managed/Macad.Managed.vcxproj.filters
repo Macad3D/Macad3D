@@ -68,9 +68,6 @@
     <ClCompile Include="SketchSolve\solve.cpp">
       <Filter>SketchSolve</Filter>
     </ClCompile>
-    <ClCompile Include="Interop\SpaceNavigatorInterop.cpp">
-      <Filter>Interop</Filter>
-    </ClCompile>
     <ClCompile Include="OcctHelper\HLRBRepAlgo.cpp">
       <Filter>OcctHelper</Filter>
     </ClCompile>
