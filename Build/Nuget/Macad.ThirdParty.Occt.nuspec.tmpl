@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Macad.ThirdParty.Occt</id>
+        <version>$version$</version>
+        <title>OCCT precompiled package.</title>
+        <authors>Macad3D, OpenCASCADE</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <license type="file">native\opencascade\LICENSE_LGPL_21.txt</license>
+        <description>Precompiled version of OpenCASCADE Technologies as used by Macad3D.</description>
+        <projectUrl>https://dev.opencascade.org/</projectUrl>
+        <tags>Native, native</tags>
+    </metadata>
+    <files>
+        <file src="$propdir$\Macad.ThirdParty.Occt.props" target="build\Macad.ThirdParty.Occt.props" />
+        <file src="$propdir$\Macad.ThirdParty.Occt.targets" target="build\Macad.ThirdParty.Occt.targets" />
+        <file src="LICENSE_LGPL_21.txt" target="native\opencascade" />
+        <file src="OCCT_LGPL_EXCEPTION.txt" target="native\opencascade" />
+        $additionalFiles$
+    </files>
+</package>

@@ -1,57 +1,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <OcctPackagePath>$(MMRootDir)Packages\OCCT.7.7.0\</OcctPackagePath>
   </PropertyGroup>
-
-  <PropertyGroup>
-    <OcctIncPath Condition="'$(OcctIncPath)' == ''">$(OcctPackagePath)opencascade\inc</OcctIncPath>
-    <TbbBinPath Condition="'$(TbbBinPath)' == ''">$(OcctPackagePath)tbb\bin</TbbBinPath>
-    <FreeTypeBinPath Condition="'$(FreeTypeBinPath)' == ''">$(OcctPackagePath)freetype\bin</FreeTypeBinPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OcctLibPath Condition="'$(OcctLibPath)' == ''">$(OcctPackagePath)opencascade\libd</OcctLibPath>
-    <OcctBinPath Condition="'$(OcctBinPath)' == ''">$(OcctPackagePath)opencascade\bind</OcctBinPath>
-    <TbbSuffix>_debug</TbbSuffix>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OcctLibPath Condition="'$(OcctLibPath)' == ''">$(OcctPackagePath)opencascade\lib</OcctLibPath>
-    <OcctBinPath Condition="'$(OcctBinPath)' == ''">$(OcctPackagePath)opencascade\bin</OcctBinPath>
-    <TbbSuffix></TbbSuffix>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <OcctDeployFiles Include="$(FreeTypeBinPath)\freetype.dll" />
-    <OcctDeployFiles Include="$(TbbBinPath)\tbb12$(TbbSuffix).dll" />
-    <OcctDeployFiles Include="$(TbbBinPath)\tbbmalloc.dll" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKernel.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKMath.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKG2d.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKG3d.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKGeomBase.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKBRep.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKMesh.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKGeomAlgo.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKTopAlgo.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKPrim.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKBO.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKFeat.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKShHealing.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKFillet.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKOffset.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKBool.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKService.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKV3d.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKOpenGl.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKXSBase.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKIGES.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKSTEPBase.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKSTEPAttr.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKSTEP209.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKSTEP.*" />
-    <OcctDeployFiles Include="$(OcctBinPath)\TKHLR.*" />
-  </ItemGroup>
 
 </Project>

@@ -20,9 +20,8 @@ namespace Macad.Test.Unit
             new FrameworkElement();
 
             // Install Mesa3D
-            //var mesaDir = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Packages\Mesa3D.20.1.8"));
-            var mesaDir = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Packages\Mesa3D.22.2.1"));
-            Assume.That(File.Exists(Path.Combine(mesaDir, "opengl32.dll")), "Mesa3D OpenGL driver not found, please call 'restore' in script console.");
+            var mesaDir = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, "Mesa"));
+            Assume.That(File.Exists(Path.Combine(mesaDir, "opengl32.dll")), "Mesa3D OpenGL driver not found, please rebuild project.");
             Win32Api.SetDllDirectory(mesaDir);
             Environment.SetEnvironmentVariable("GALLIUM_DRIVER", "llvmpipe");
             Environment.SetEnvironmentVariable("LIBGL_ALWAYS_SOFTWARE", "true");

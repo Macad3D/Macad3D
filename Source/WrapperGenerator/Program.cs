@@ -26,19 +26,17 @@ namespace Macad.Occt.Generator
             foreach (var arg in args)
             {
                 var argl = arg.ToLower();
-                if(_TryGetPathFromArg(argl, "occt", ref context.Settings.OcctIncludePath))
+                if (_TryGetPathFromArg(argl, "castxml", ref context.Settings.CastXmlPath))
+                    continue;
+                if (_TryGetPathFromArg(argl, "occt", ref context.Settings.OcctIncludePath))
                     continue;
                 if (_TryGetPathFromArg(argl, "out", ref context.Settings.OutputPath))
                     continue;
-                if (_TryGetPathFromArg(argl, "castxml", ref context.Settings.CastXmlPath))
-                    continue;
                 if (_TryGetPathFromArg(argl, "cache", ref context.Settings.CachePath))
                     continue;
-                if (_TryGetPathFromArg(argl, "msvc", ref context.Settings.VisualCppPath))
+                if (_TryGetPathFromArg(argl, "includes", ref context.Settings.IncludePaths))
                     continue;
-                if (_TryGetPathFromArg(argl, "ucrt", ref context.Settings.UcrtPath))
-                    continue;
-                if (_TryGetPathFromArg(argl, "winsdk", ref context.Settings.WinSDKPath))
+                if (_TryGetPathFromArg(argl, "msvc", ref context.Settings.ClPath))
                     continue;
             }
 
@@ -48,7 +46,7 @@ namespace Macad.Occt.Generator
             {
                 Logger.WriteLine(false, "Missing parameter.");
                 Logger.WriteLine(false, "You need to specify the following paths:");
-                Logger.WriteLine(false, "\tocct, out, castxml, msvc, ucrt, winsdk, cache");
+                Logger.WriteLine(false, "\tocct, out, msvc, cache");
                 Logger.Flush();
                 return -1; 
             }

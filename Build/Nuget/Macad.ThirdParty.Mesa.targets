@@ -1,0 +1,11 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Copy files to output directory -->  
+  <Target Name="_Mesa_CopyFiles" AfterTargets="Build">
+    <ItemGroup>
+        <FilesToCopy Include="$(MSBuildThisFileDirectory)\..\content\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(TargetDir)\Mesa\%(RecursiveDir)" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

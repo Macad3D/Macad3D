@@ -13,7 +13,7 @@ using System.Net;
 
 public class Packages
 {
-    struct WebPackage
+    class WebPackage
     {
         public string Name;
         public string Version;
@@ -21,27 +21,35 @@ public class Packages
         public string FullName;
         public string Method;
     }
+    
     static List<WebPackage> _WebPackages = new List<WebPackage>();
+
+    const string _PackageBasePath = @".intermediate\Build";
 
     //--------------------------------------------------------------------------------------------------
 
-    public static string FindPackageFile(string packageName, string packageFile)
+    public static string FindPackageFile(string packageName, string packageFile, string forceVersion="")
     {
-        var packagePath = Path.Combine(Common.GetRootFolder(), "Packages");
-        Directory.CreateDirectory(packagePath);
-        var dirs = Directory.EnumerateDirectories(packagePath, packageName).ToList();
-        if(dirs.Count == 0)
+        var package = _WebPackages.FirstOrDefault(pkg => pkg.Name == packageName && (forceVersion=="" || pkg.Version == forceVersion));
+        if(package == null)
         {
-            Printer.Error("Package directory not found: " + packageName);
-            Printer.Error("Try restoring packages.");
+            Printer.Error($"Package not found in package list: {packageName} {forceVersion}");
             return "";
         }
-        dirs.Sort();
-        var filePath = Path.Combine(dirs.Last(), packageFile);
+
+        var packagePath = Path.Combine(Common.GetRootFolder(), _PackageBasePath, package.FullName);
+        if(!Directory.Exists(packagePath))
+        {
+            if(!_DownloadPackage(package))
+            {
+                return "";
+            }
+        }
+
+        var filePath = Path.Combine(packagePath, packageFile);
         if(!File.Exists(filePath))
         {
-            Printer.Error($"Package not complete: {packageName} in {dirs.Last()}.");
-            Printer.Error("Try restoring packages.");
+            Printer.Error($"Package not complete: {packageName} in {packagePath}.");
             return "";
         }
         return filePath;
@@ -70,24 +78,6 @@ public class Packages
 
     //--------------------------------------------------------------------------------------------------
 
-    static bool _NugetRestore(string configFile)
-    {
-        var nugetPath = FindPackageFile("NuGet", "NuGet.exe");
-        if(string.IsNullOrEmpty(nugetPath))
-            return false;
-
-        var commandLine = $"restore {configFile} -PackagesDirectory {Common.GetRootFolder()}\\Packages";
-
-        if (Common.Run(nugetPath, commandLine) != 0)
-        {
-            Printer.Error("Restoring packages failed for " + configFile);
-            return false;
-        }
-        return true;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     public static bool RestorePackages()
     {
         Printer.Line("Restoring packages...");
@@ -98,12 +88,6 @@ public class Packages
                 _DownloadPackage(webPackage);
             }
         }
-        
-        // Nuget
-        if(!_NugetRestore(Path.Combine(Common.GetRootFolder(), "Build\\Packages.config")))
-            return false;
-        if(!_NugetRestore(Path.Combine(Common.GetRootFolder(), "Macad3D.sln")))
-            return false;
 
         return true;
     }
@@ -114,7 +98,7 @@ public class Packages
     {
         try
         {
-            var localPath = Path.Combine(Common.GetRootFolder(), "Packages", package.FullName);
+            var localPath = Path.Combine(Common.GetRootFolder(), _PackageBasePath, package.FullName);
             Directory.CreateDirectory(localPath);
 
             var fileName = Path.GetFileName(package.Source);
@@ -138,16 +122,7 @@ public class Packages
             if(package.Method=="unzip")
             {
                 Printer.Line($"Extracting web package {package.Name}... ");
-                if(Path.GetExtension(targetFileName).ToLower() == ".zip")
-                {
-                    System.IO.Compression.ZipFile.ExtractToDirectory(targetFileName, localPath);
-                } 
-                else 
-                {
-                    var args = $"x -aoa -y -bsp0 -bso0 \"{targetFileName}\"";
-                    if(Common.Run(Path.Combine(Common.GetRootFolder(), "Packages", "7Zip.2", "7zr.exe"), args, localPath) != 0)
-                        throw new Exception("Execution of 7-Zip failed.");
-                }
+                System.IO.Compression.ZipFile.ExtractToDirectory(targetFileName, localPath);
                 File.Delete(targetFileName);
             }
             else if(package.Method.StartsWith("execute "))

@@ -1,0 +1,35 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <OcctPackagePath>$(MSBuildThisFileDirectory)..\</OcctPackagePath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OcctIncPath Condition="'$(OcctIncPath)' == ''">$(OcctPackagePath)native\opencascade\inc</OcctIncPath>
+    <TbbBinPath Condition="'$(TbbBinPath)' == ''">$(OcctPackagePath)native\tbb\win-x64\bin</TbbBinPath>
+    <FreeTypeBinPath Condition="'$(FreeTypeBinPath)' == ''">$(OcctPackagePath)native\freetype\win-x64\bin</FreeTypeBinPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OcctLibPath Condition="'$(OcctLibPath)' == ''">$(OcctPackagePath)native\opencascade\win-x64\libd</OcctLibPath>
+    <OcctBinPath Condition="'$(OcctBinPath)' == ''">$(OcctPackagePath)native\opencascade\win-x64\bind</OcctBinPath>
+    <TbbSuffix>_debug</TbbSuffix>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OcctLibPath Condition="'$(OcctLibPath)' == ''">$(OcctPackagePath)native\opencascade\win-x64\lib</OcctLibPath>
+    <OcctBinPath Condition="'$(OcctBinPath)' == ''">$(OcctPackagePath)native\opencascade\win-x64\bin</OcctBinPath>
+    <TbbSuffix></TbbSuffix>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(OcctIncPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/external:I"$(OcctIncPath)" %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(OcctLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+
+</Project>

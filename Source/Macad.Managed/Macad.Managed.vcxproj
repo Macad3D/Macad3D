@@ -43,7 +43,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;WNT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(OcctIncPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(OutDir)</AdditionalUsingDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeTypeInfo>
@@ -52,7 +52,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>Shell32.lib;msvcrtd.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OcctLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <CLRUnmanagedCodeCheck>false</CLRUnmanagedCodeCheck>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
       <IgnoreSpecificDefaultLibraries>nochkclr.obj</IgnoreSpecificDefaultLibraries>
@@ -64,7 +64,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;WNT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(OcctIncPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>$(OutDir)</AdditionalUsingDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeTypeInfo>
@@ -73,7 +73,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>Shell32.lib;msvcrt.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OcctLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <CLRUnmanagedCodeCheck>false</CLRUnmanagedCodeCheck>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
       <LinkTimeCodeGeneration>
@@ -162,9 +162,8 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <ItemGroup>
-    <CopyToOutput Include="@(OcctDeployFiles)" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="SketchSolve\License.txt" />
+    <PackageReference Include="Macad.ThirdParty.Occt" Version="7.7.0">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>

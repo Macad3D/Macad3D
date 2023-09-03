@@ -120,12 +120,6 @@
     <ClInclude Include="Generated\TShort.h">
       <Filter>Generated\FoundationClasses\TKKernel</Filter>
     </ClInclude>
-    <ClInclude Include="Generated\Units.h">
-      <Filter>Generated\FoundationClasses\TKKernel</Filter>
-    </ClInclude>
-    <ClInclude Include="Generated\UnitsAPI.h">
-      <Filter>Generated\FoundationClasses\TKKernel</Filter>
-    </ClInclude>
     <ClInclude Include="Generated\BSplCLib.h">
       <Filter>Generated\FoundationClasses\TKMath</Filter>
     </ClInclude>

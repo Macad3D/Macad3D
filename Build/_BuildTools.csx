@@ -35,10 +35,7 @@ public class VisualStudio
 
     public bool Clean(string pathToSolution, string projectName, string configuration, string platform)
     {
-        Printer.Success($"\nCleaning configuration {configuration}...");
-
         var target = "Clean";
-
         if (!string.IsNullOrEmpty(projectName))
             target = projectName.Replace(".", "_") + ":Clean";
 
@@ -54,20 +51,26 @@ public class VisualStudio
 
     //--------------------------------------------------------------------------------------------------
 
-    public bool Build(string pathToSolution, string projectName, string configuration, string platform)
+    public bool Build(string pathToSolution, string targetName, string configuration, string platform, string additionalOptions="")
     {
-        Printer.Success($"\nBuilding configuration {configuration}...");
-
         //Environment.SetEnvironmentVariable("MSBuildEmitSolution", "1");
 
-        string target = string.IsNullOrEmpty(projectName) ? "Build" : projectName.Replace(".", "_");
+        string target = string.IsNullOrEmpty(targetName) ? "Build" : targetName.Replace(".", "_");
+        var commandLine = $"\"{pathToSolution}\" /t:{target}";
 
-        var commandLine = $"\"{pathToSolution}\" /t:{target} /p:Configuration={configuration} /p:Platform=\"{platform}\" /m /nologo /ds /verbosity:minimal /clp:Summary;EnableMPLogging";
+        if(!string.IsNullOrEmpty(configuration))
+            commandLine += $" /p:Configuration={configuration}";
+
+        if(!string.IsNullOrEmpty(platform))
+            commandLine += $" /p:Platform=\"{platform}\"";
+
+        commandLine += " /m /nologo /ds /verbosity:minimal /clp:NoSummary;EnableMPLogging";
+
         if(LogToFile)
-        {
             commandLine += $" /fl /flp:logfile=\"{Path.ChangeExtension(pathToSolution, ".MSBuild.log")}\";verbosity=Detailed"; // Detailed, Diagnostic
-        }
+
         commandLine += " /nr:false"; // Disable node reuse to prevent locking of MSBuilExtension.dll
+        commandLine += " " + additionalOptions;
 
         if (Common.Run(PathToMSBuild, commandLine) != 0)
         {

@@ -11,6 +11,8 @@
     <TargetFramework>$(MMFramework)</TargetFramework>
     <CLRSupport>NetCore</CLRSupport>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <EnableManagedPackageReferenceSupport>true</EnableManagedPackageReferenceSupport>
+    <MSBuildProjectExtensionsPath>$(MMRootDir).intermediate\$(MSBuildProjectName)\</MSBuildProjectExtensionsPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

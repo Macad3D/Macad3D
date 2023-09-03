@@ -1,0 +1,25 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <Target Name="Test">
+    <PropertyGroup>
+        <_RunnerCommand>$(PkgNUnit_ConsoleRunner)\tools\nunit3-console.exe</_RunnerCommand>
+        <_ResultSuffix>$(TargetName.Replace("Test.", ""))</_ResultSuffix>
+        <_TestResult>--result=TestResult_$(_ResultSuffix).xml</_TestResult>
+        <_TestOutput>--out=TestOutput_$(_ResultSuffix).txt</_TestOutput>
+        <_NunitOptions>--noheader --workers=1</_NunitOptions>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$(AdditionalTestOptions) != ''">
+        <_NunitOptions>$(_NunitOptions) $(AdditionalTestOptions)</_NunitOptions>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$(PkgJetBrains_dotMemoryUnit) != ''">
+        <_RunnerCommand>$(PkgJetBrains_dotMemoryUnit)\lib\tools\dotMemoryUnit.exe $(_RunnerCommand) --propagate-exit-code -- </_RunnerCommand>
+    </PropertyGroup>
+
+    <Exec Command="$(_RunnerCommand) $(TargetPath) $(_NunitOptions) $(_TestResult) $(_TestOutput)" WorkingDirectory="$(TargetDir)" />
+  </Target>
+
+</Project>

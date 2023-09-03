@@ -47,7 +47,6 @@ if (config == "webdoc")
     if (!_BuildDocumentation("WebDoc"))
         return -1;
 
-Printer.Success("\nBuild succeeded.");
 return 0;
 
 //--------------------------------------------------------------------------------------------------
@@ -77,9 +76,11 @@ bool _CleanConfiguration(string configuration)
 
     var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.sln");
 
+    Printer.Success($"\nCleaning configuration {configuration}...");
     if (!_VS.Clean(solutionFile, "", configuration, "x64"))
         return false;
 
+    Printer.Success("\nClean succeeded.");
     return true;
 }
 
@@ -92,9 +93,11 @@ bool _BuildConfiguration(string configuration)
 
     var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.sln");
 
-    if (!_VS.Build(solutionFile, "", configuration, "x64"))
+    Printer.Success($"\nBuilding configuration {configuration}...");
+    if (!_VS.Build(solutionFile, "", configuration, "x64", "-restore"))
         return false;
 
+    Printer.Success("\nBuild succeeded.");
     return true;
 }
 
@@ -109,12 +112,14 @@ bool _BuildPublish()
     var pathToProject = Path.Combine(Common.GetRootFolder(), @"Source\Macad\Macad.csproj");
     var commandLine = $"\"{pathToProject}\" /t:Publish /p:Configuration=Release /p:Platform=x64 /nologo /verbosity:minimal ";
 
+    Printer.Success($"\nPublishing...");
     if (Common.Run(_VS.PathToMSBuild, commandLine) != 0)
     {
         Printer.Error("Publish failed.");
         return false;
     }
 
+    Printer.Success("\nPublish succeeded.");
     return true;
 }
 
@@ -160,6 +165,7 @@ bool _BuildDocumentation(string configuration)
         return false;
     }
 
+    Printer.Success("\nBuild succeeded.");
     return true;
 }
 

@@ -1,0 +1,32 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Target Name="GenerateWrapper">
+    <PropertyGroup>
+      <_Occt>$([System.IO.Path]::GetFullPath($(OcctIncPath)))</_Occt>
+      <_CastXml>$([System.IO.Path]::GetFullPath($(CastXmlPath)))</_CastXml>
+      <_Cache>$(MSBuildProjectExtensionsPath)castxml</_Cache>
+      <_Generated>$(ProjectDir)Generated</_Generated>
+      <_Msvc>$(ClCompilerPath)</_Msvc>
+      <_Includes>$(VC_IncludePath);$(WindowsSDK_IncludePath)</_Includes>
+
+      <Arguments>castxml="$(_CastXml)" cache="$(_Cache)" occt="$(_Occt)" out="$(_Generated)" msvc="$(_Msvc)" includes="$(_Includes)"</Arguments>
+    </PropertyGroup>
+
+    <Message Importance="High" Text="Launching generator with arguments: $(Arguments)" />
+    <Exec Command="$(OutDir)\WrapperGenerator.exe $(Arguments)" ConsoleToMsBuild="true" />
+  </Target>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <Target Name="CleanWrapper">
+    <ItemGroup>
+      <FilesToDelete Include="$(MSBuildProjectExtensionsPath)\castxml\*.*" />
+    </ItemGroup>
+
+    <Message Importance="High" Text="Cleaning CastXml cache." />
+    <Delete Files="@(FilesToDelete)" />
+  </Target>
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+</Project>

@@ -8,7 +8,6 @@ namespace Macad.Occt.Generator
     {
         public static string Context = "";
         static TextWriter FileWriter;
-        static bool InProgressLine;
         static float LastProgressValue;
 
         //--------------------------------------------------------------------------------------------------
@@ -29,7 +28,6 @@ namespace Macad.Occt.Generator
             if (!trace)
             {
                 Console.WriteLine(line);
-                InProgressLine = false;
             }
             FileWriter?.WriteLine(line);
         }
@@ -49,16 +47,7 @@ namespace Macad.Occt.Generator
             {
                 LastProgressValue = value;
             }
-
-            if (InProgressLine)
-            {
-                Console.CursorTop -= 1;
-            }
-            Console.CursorLeft = 0;
-            InProgressLine = true;
-
-            Console.Write(new string(' ', Console.WindowWidth - 1));
-            Console.WriteLine($"\r[ {LastProgressValue:P0} ]  {line}");
+            Console.WriteLine($"[ {LastProgressValue:P0} ]  {line}");
         }
 
         //--------------------------------------------------------------------------------------------------

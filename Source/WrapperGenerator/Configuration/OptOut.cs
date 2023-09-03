@@ -52,6 +52,7 @@ public static partial class Configuration
         "Aspect_NeutralWindow", // warning LNK4248: unresolved typeref token for '__GLXFBConfigRec'; 
         "MyDirectPolynomialRoots", // unresolved external symbol
         "ShapeFix_WireSegment::ShapeFix_WireSegment", // unresolved external symbol
+        "Bnd_BoundSortBox2d", // seems to be completely missing from the library (as of 7.7.0)
 
         /*
          * Replaced with hand-wrapped code

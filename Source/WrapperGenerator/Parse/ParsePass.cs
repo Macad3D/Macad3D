@@ -20,8 +20,6 @@ namespace Macad.Occt.Generator
         public override bool Process()
         {
             _Compiler = new Compiler(Context);
-            bool result = true;
-
             _CachePath = Path.GetFullPath(Context.Settings.CachePath);
             Directory.CreateDirectory(_CachePath);
 
@@ -32,13 +30,17 @@ namespace Macad.Occt.Generator
                 Logger.WriteProgress((float)i / Configuration.Packages.Count, $"Parsing package {package}");
 
                 PackageDecl packageDecl = new() { Name = package, NativeName = package };
-                result = result && _AddPackage(packageDecl);
+                if(!_AddPackage(packageDecl))
+                {
+                    Logger.WriteLine(false, $"Parsing pass failed.");
+                    return false;
+                }
                 Context.Packages.Add(packageDecl);
             }
-            Logger.WriteProgress(1.0f, $"Parsing pass finished.");
+            Logger.WriteLine(false, $"Parsing pass finished.");
 
             Logger.Context = "";
-            return result;
+            return true;
         }
 
         //--------------------------------------------------------------------------------------------------

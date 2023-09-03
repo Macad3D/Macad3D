@@ -1,0 +1,14 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  
+  <!-- Copy files to output directory -->  
+  <Target Name="_Occt_CopyFiles" AfterTargets="Build">
+    <ItemGroup>
+      <FilesToCopy Include="$(FreeTypeBinPath)\freetype.dll" />
+      <FilesToCopy Include="$(TbbBinPath)\tbb12$(TbbSuffix).dll" />
+      <FilesToCopy Include="$(TbbBinPath)\tbbmalloc.dll" />
+      <FilesToCopy Include="$(OcctBinPath)\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

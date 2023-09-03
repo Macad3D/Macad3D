@@ -20,7 +20,7 @@ Official homepage and download: https://macad3d.net
 
 Start ```ScriptConsole.cmd``` and enter the following commands:
    
-1. Get dependencies from web and nuget.
+1. Update dependencies from nuget servers.
 
         > restore
 
@@ -34,20 +34,19 @@ Start ```ScriptConsole.cmd``` and enter the following commands:
 
 ## About OpenCASCADE Technology
 
-The restore script downloads a pre-built version of OpenCASCADE Technology (OCCT) so that the project can be built immediately. This package contains only the parts that are used in this project. The complete OCCT distribution can be downloaded from the [OpenCASCADE Download Center](https://dev.opencascade.org/release). This allows to use additional parts, to build the package with other build options or to make code changes. The currently used version can be found in the about dialog. 
+The restore script downloads a pre-built version of OpenCASCADE Technology (OCCT) so that the project can be built immediately. This package contains only the parts that are used in this project. The complete OCCT distribution can be downloaded from the [OpenCASCADE Download Center](https://dev.opencascade.org/release). This allows to use additional parts, build the library with other build options or to make code changes. The currently used version can be found in the about dialog. 
 
 To use an own build of OCCT, you need to configure the path to OCCT and it's dependencies using the following script console command:
 
     > occt config <pathToOcct>
     
-Please note: The OCCT installer only contains a release build, if a debug build is to be used, it must be created yourself. For this, please refer to the documentation from OCCT.
 To use the pre-built package again, use the following command:
 
     > occt config package
 
-Generating the OCCT wrapper code depends on several packages to work hand in hand. If any of this packages changes, it can be at least time-consuming to track down the error and either update other packages as well or find a way around.
+Please note: The OCCT installer only contains a release build, if a debug build is to be used, it must be created yourself. For this, please refer to the documentation from OCCT.
 
-For this reason, the generated wrapper code for the above mentioned version of the library is checked in. If you have to to re-generate the wrapper code, start the generation with the following script console command:
+Generating the OCCT wrapper code depends on several packages to work hand in hand. If any of this packages changes, it can be at least time-consuming to track down the error and either update other packages as well or find a way around. For this reason, the generated wrapper code for the above mentioned version of the library is checked in. If you have to to re-generate the wrapper code, start the generation with the following script console command:
 
     > occt generate
 

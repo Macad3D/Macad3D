@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace Macad.Occt.Generator;
 
 public class Compiler
 {
     Context _Context;
+    string _CompilerPath;
     string _CompilerOptions;
     string _TemplateDefinitionSource;
 
@@ -17,6 +19,7 @@ public class Compiler
     public Compiler(Context context)
     {
         _Context = context;
+        _CompilerPath = context.Settings.CastXmlPath;
         _CreateCompilerOptions();
         _CreateTemplateDefinition();
     }
@@ -27,29 +30,29 @@ public class Compiler
     {
         var options = new List<string>
         {
-            @"--castxml-output=1",
-            @"--castxml-cc-msvc """ + Path.Combine(_Context.Settings.VisualCppPath, @"bin\Hostx64\x64\cl.exe") + @"""",
+            "--castxml-output=1",
+            $"--castxml-cc-msvc \"{_Context.Settings.ClPath}\"",
 
             // Include paths
-            @"-I """ + _Context.Settings.OcctIncludePath + @"""",
-            @"-I """ + _Context.Settings.OcctIncludePath + @"\..\..\freetype\include""",
-            @"-I """ + Path.Combine(_Context.Settings.VisualCppPath, @"include") + @"""",
-            @"-I """ + _Context.Settings.UcrtPath + @"""",
-            @"-I """ + Path.Combine(_Context.Settings.WinSDKPath, @"um") + @"""",
-            @"-I """ + Path.Combine(_Context.Settings.WinSDKPath, @"shared") + @"""",
+            $"-I \"{_Context.Settings.OcctIncludePath}\"",
 
             // Defines
-            @"-D WNT",
-            @"-D __WRAPPER_GENERATOR__",
-            @"-D __clang__",
-            @"-D _ALLOW_COMPILER_AND_STL_VERSION_MISMATCH",
+            "-D WNT",
+            "-D __WRAPPER_GENERATOR__",
+            "-D __clang__",
+            "-D _ALLOW_COMPILER_AND_STL_VERSION_MISMATCH",
 
             // Options for Clang
             "-fcxx-exceptions", // Enable C++ exceptions
-
-            // Source file
-                
         };
+
+        // Additional include paths
+        string[] paths = _Context.Settings.IncludePaths.Split(";", StringSplitOptions.RemoveEmptyEntries);
+        foreach(var path in paths)
+        {
+            options.Add( $"-I \"{path}\"" );
+        }
+
         _CompilerOptions = string.Join(" ", options);
     }
 
@@ -117,8 +120,8 @@ public class Compiler
         {
             StartInfo =
             {
-                Arguments = $"{_CompilerOptions} {Path.Combine(_Context.Settings.CachePath, package)}.cxx",
-                FileName = _Context.Settings.CastXmlPath,
+                Arguments = $"{_CompilerOptions} \"{Path.Combine(_Context.Settings.CachePath, package)}.cxx\"",
+                FileName = _CompilerPath,
                 WorkingDirectory = _Context.Settings.CachePath,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,

@@ -1,6 +1,5 @@
 #load "_Common.csx"
 #load "_BuildTools.csx"
-#load "_ThirdParty.csx"
 #load "_SSIndex.csx"
 #load "_Version.csx"
 #load "_Packages.csx"
@@ -122,7 +121,7 @@ bool _BuildSetup()
     _EnsureVS();
 
     // Ensure installer
-    var setupCompilerPath = Packages.FindPackageFile($"Tools.InnoSetup.*", "tools\\iscc.exe");
+    var setupCompilerPath = Packages.FindPackageFile($"InnoSetup", "tools\\iscc.exe");
 	if(string.IsNullOrEmpty(setupCompilerPath))
 		return false;
 
@@ -132,7 +131,7 @@ bool _BuildSetup()
         return false;
     Printer.Line($"Added prerequisite: DotNet version {dotNetFullVersion}.");
 
-    string dotNetRedistPath = Packages.FindPackageFile($"DotNetRedist.{dotNetFullVersion}", $"windowsdesktop-runtime-{dotNetFullVersion}-win-x64.exe");
+    string dotNetRedistPath = Packages.FindPackageFile($"DotNetRedist", $"windowsdesktop-runtime-{dotNetFullVersion}-win-x64.exe", dotNetFullVersion);
     if(string.IsNullOrEmpty(dotNetRedistPath))
         return false;
 

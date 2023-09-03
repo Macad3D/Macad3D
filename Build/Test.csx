@@ -1,21 +1,20 @@
 #load "_Common.csx"
 #load "_BuildTools.csx"
-#load "_Packages.csx"
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
-if(Args.Count() < 1)
+if (Args.Count() < 1)
 {
 	Printer.Line("Usage: Test <all, unit, ui, memory> [/debug] [/stop] [/log]");
 	return -1;
 }
 
 _OptionDebug = Args.Any(s => s.ToLower() == "/debug");
-_PathToBinaries = Path.Combine(Common.GetRootFolder(), "bin", _OptionDebug ? "Debug" : "Release");
 _OptionStopOnError = Args.Any(s => s.ToLower() == "/stop");
 _OptionSaveLog = Args.Any(s => s.ToLower() == "/log");
 _OptionWhere = string.Join(" ", Args.Skip(1).Where(s => !s.StartsWith("/")));
@@ -43,19 +42,8 @@ switch(Args[0].ToLower())
 		return -1;
 }
 
-foreach(var target in targets)
-{
-	if(target.Contains("Memory"))
-	{
-		if(!_RunTestsDotMemoryUnit(target))
-			res = -1;
-	} 
-	else 
-	{
-		if(!_RunTestsNunit(target))
-			res = -1;
-	}
-}
+if(!_RunTestsNunit(targets))
+	res = -1;
 
 if(res == 0)
 {
@@ -74,79 +62,42 @@ static bool _OptionDebug = false;
 static bool _OptionStopOnError = false;
 static bool _OptionSaveLog = false;
 static string _OptionWhere = "";
-static string _PathToBinaries = "";
 
 /***************************************************************/
 
-static string _GetNUnitCommandLine(string target)
+static string _GetAdditionalOptions()
 {
-	var resultSuffix = target.Replace("Test.", null);
-
-	var commandLine = $"--runtimeconfig \"{Path.Combine(_PathToBinaries, $"{target}.runtimeconfig.json")}\" {target}.dll"; // --process:Separate";
-	commandLine += " --noheader --workers=1";
-	commandLine += $" --result=TestResult_{resultSuffix}.xml --out=TestOutput_{resultSuffix}.txt";
-
+	string options = "";
 	if(!string.IsNullOrEmpty(_OptionWhere))
 	{
-		commandLine += $" --where \"{_OptionWhere}\"";
+		options += $" --where \"{_OptionWhere}\"";
 	}
-
-/*	if(!_OptionDebug)
-		commandLine += " --timeout=30000";
-	else
-		commandLine += " --pause"; --debug */
 
 	if(_OptionStopOnError)
-		commandLine += " --stoponerror";
+		options += " --stoponerror";
 
 	if(_OptionSaveLog)
-		commandLine += " --trace=verbose";
+		options += " --trace=verbose";
 
-	return commandLine;
+	return options;
 }
 
 /***************************************************************/
 
-static string _GetNUnitPath()
+static bool _RunTestsNunit(List<string> targets)
 {
-	return Packages.FindPackageFile(@"NUnit.ConsoleRunner.NetCore.*", @"tools\net6.0\any\nunit3-console.exe");
-}
-
-/***************************************************************/
-
-static bool _RunTestsNunit(string target)
-{
-	var pathToRunner = _GetNUnitPath();
-	if(string.IsNullOrEmpty(pathToRunner))
+	var vs = new VisualStudio();
+	if(!vs.IsReady)
 		return false;
 
-	Printer.Line($"\nLaunching test runner...");
-	if(Common.Run(pathToRunner, _GetNUnitCommandLine(target), _PathToBinaries) != 0)
+	bool result = true;
+	foreach(var target in targets)
 	{
-		Printer.Error("Testrun failed.");
-		return false;
+		var projectFile = Path.Combine(Common.GetRootFolder(), "Source", target, $"{target}.csproj");
+		if (!vs.Build(projectFile, "Test", _OptionDebug ? "Debug" : "Release", "x64", $"/p:AdditionalTestOptions=\"{_GetAdditionalOptions()}\""))
+		{
+			result = false;
+		}
 	}
-	return true;
-}
-
-/***************************************************************/
-
-static bool _RunTestsDotMemoryUnit(string target)
-{
-	var pathToRunner = _GetNUnitPath();
-	if(string.IsNullOrEmpty(pathToRunner))
-		return false;
-
-	var pathToMemRunner = Packages.FindPackageFile(@"JetBrains.dotMemoryUnit\*", @"lib\tools\dotMemoryUnit.exe");
-	if(string.IsNullOrEmpty(pathToMemRunner))
-		return false;
-
-	Printer.Line($"\nLaunching memory test runner...");
-	var commandLine = $"\"{pathToRunner}\" --propagate-exit-code -- {_GetNUnitCommandLine(target)}";
-	if(Common.Run(pathToMemRunner, commandLine, _PathToBinaries) != 0)
-	{
-		Printer.Error("Testrun failed.");
-		return false;
-	}
-	return true;
+	return result;
 }

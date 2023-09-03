@@ -1,7 +1,6 @@
 #load "_Common.csx"
-#load "_ThirdParty.csx"
+#load "_ThirdParty_Occt.csx"
 #load "_BuildTools.csx"
-#load "_SSIndex.csx"
 #load "_Packages.csx"
 
 using System;
@@ -10,10 +9,11 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Linq;
 using System.Xml;
+using System.Text;
 
 if(Args.Count() < 1)
 {
-	Printer.Line("Usage: occt <config, import, generate, patch, ssindex>");
+	Printer.Line("Usage: occt <config, generate>");
 	return -1;
 }
 
@@ -38,41 +38,10 @@ if(Args[0].ToLower() == "config")
 			return -1;
 	}
 }
-else if(Args[0].ToLower() == "import")
-{
-	// Import from OCCT distri
-	if(Args.Count() < 2)
-	{
-		Printer.Error("Missing parameter. Usage: occt import <path_to_occt>");
-		return -1;
-	}
-	if(!_ImportFromOcctPackage(Args[1]))
-		return -1;
-	if(!_ApplyPatch())
-		return -1;
-	_ConfigOcctPaths("");
-}
-else if(Args[0].ToLower() == "ssindex")
-{
-	// SSIndex the OCCT distri
-	if(Args.Count() < 2)
-	{
-		Printer.Error("Missing parameter. Usage: occt ssindex <path_to_occt>");
-		return -1;
-	}
-	if(!_SSIndexOcctPackage(Args[1]))
-		return -1;
-}
 else if(Args[0].ToLower() == "generate")
 {
 	// Generate Wrapper
 	if(!_GenerateWrapper())
-		return -1;
-}
-else if(Args[0].ToLower() == "patch")
-{
-	// Patch include files for fixing compilation errors
-	if(!_ApplyPatch())
 		return -1;
 }
 return 0;
@@ -82,7 +51,6 @@ return 0;
 bool _OptionDebug = false;
 bool _OptionClean = false;
 string _occtSourceDir;
-SSIndex _SSIndex = null;
 
 /***************************************************************/
 		
@@ -96,25 +64,25 @@ bool _ConfigOcctPaths(string occtPath)
 
 	if(!string.IsNullOrEmpty(occtPath))
 	{
-		if(!Occt.SetOcctSourcePath(occtPath))
+		if(!Occt.SetOcctPath(occtPath))
 		{
 			return false;
 		}
 
 		sb.AppendLine("  <PropertyGroup>");
 		sb.AppendLine("    <OcctIncPath>" + Path.Combine(occtPath, "inc") + "</OcctIncPath>");
-		sb.AppendLine("    <FreeTypeBinPath>" + Occt.FreetypeSourcePath + "</FreeTypeBinPath>");
-		sb.AppendLine("    <TbbBinPath>" + Occt.TbbSourcePath + "</TbbBinPath>");
+		sb.AppendLine("    <FreeTypeBinPath>" + Occt.FreetypePath + "</FreeTypeBinPath>");
+		sb.AppendLine("    <TbbBinPath>" + Occt.TbbPath + "</TbbBinPath>");
 		sb.AppendLine("  </PropertyGroup>");
 
 		sb.AppendLine("  <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='Debug|x64'\">");
-		sb.AppendLine("    <OcctLibPath>" + Occt.GetLibrarySourcePath(true) + "</OcctLibPath>");
-		sb.AppendLine("    <OcctBinPath>" + Occt.GetBinarySourcePath(true) + "</OcctBinPath>");
+		sb.AppendLine("    <OcctLibPath>" + Occt.GetLibraryPath(true) + "</OcctLibPath>");
+		sb.AppendLine("    <OcctBinPath>" + Occt.GetBinaryPath(true) + "</OcctBinPath>");
 		sb.AppendLine("  </PropertyGroup>");
 
 		sb.AppendLine("  <PropertyGroup Condition=\"'$(Configuration)|$(Platform)'=='Release|x64'\">");
-		sb.AppendLine("    <OcctLibPath>" + Occt.GetLibrarySourcePath(false) + "</OcctLibPath>");
-		sb.AppendLine("    <OcctBinPath>" + Occt.GetBinarySourcePath(false) + "</OcctBinPath>");
+		sb.AppendLine("    <OcctLibPath>" + Occt.GetLibraryPath(false) + "</OcctLibPath>");
+		sb.AppendLine("    <OcctBinPath>" + Occt.GetBinaryPath(false) + "</OcctBinPath>");
 		sb.AppendLine("  </PropertyGroup>");
 
 		if(Occt.AdditionalDependenciesSourcePaths.Count > 0)
@@ -138,302 +106,39 @@ bool _ConfigOcctPaths(string occtPath)
 /***************************************************************/
 
 #endregion
-
-#region Import
-	
-bool _ImportFromOcctPackage(string occtPath)
-{
-	_occtSourceDir = occtPath;
-	var rootPath = Common.GetRootFolder();
-
-	if(!Occt.SetOcctSourcePath(occtPath))
-	{
-		return false;
-	}
-
-	if(Occt.AdditionalDependenciesSourcePaths.Count > 0)
-	{
-		Printer.Error("Importing OCCT is only supported with dependencies Freetype and TBB. Please disable all other and rebuild OCCT.");
-		return false;
-	}
-
-	bool successful =
-		_CopyIncludes(rootPath)
-		&& _CopyBinaries(rootPath);
-
-	if (!successful)
-		Printer.Error("Not completed.");
-		
-	return successful;
-}
-
-/***************************************************************/
-
-bool _CopyIncludes(string rootPath)
-{
-	Printer.Line("Copying include files...");
-
-	var targetPath = Path.Combine(rootPath, Occt.OcctPath, "inc");
-	Directory.CreateDirectory(targetPath);
-
-	var filesToDelete = Directory.EnumerateFiles(targetPath).Select(fn => Path.GetFileName(fn)).ToList();
-
-	var sourceList = Occt.GetIncludeFiles();
-
-	var copyCount = 0;
-	var deleteCount = 0;
-
-	foreach (var sourceFilepath in sourceList)
-	{
-		var filename = Path.GetFileName(sourceFilepath);
-		filesToDelete.Remove(filename);
-
-		var targetFilepath = Path.Combine(targetPath, filename);
-
-		if (File.GetLastWriteTime(sourceFilepath).CompareTo(File.GetLastWriteTime(targetFilepath)) > 0)
-		{
-			File.Copy(sourceFilepath, targetFilepath, true);
-			copyCount++;
-		}
-	}
-
-	foreach (var file in filesToDelete)
-	{
-		File.Delete(Path.Combine(targetPath, file));
-		deleteCount++;
-	}
-
-	Printer.Success($"Copied {copyCount} missing or newer files to include directory, deleted {deleteCount} obsolete files.");
-
-	return true;
-}
-
-/***************************************************************/
-
-bool _CopyBinaries(string rootPath)
-{
-	return _CopyBinaries(Occt.GetLibrarySourcePath(false), Occt.GetLibraryFiles(), Path.Combine(rootPath, Occt.OcctPath, "lib"))
-		&& _CopyBinaries(Occt.GetLibrarySourcePath(true), Occt.GetLibraryFiles(), Path.Combine(rootPath, Occt.OcctPath, "libd"))
-		&& _CopyBinaries(Occt.GetBinarySourcePath(false), Occt.GetBinaryFiles(), Path.Combine(rootPath, Occt.OcctPath, "bin"))
-		&& _CopyBinaries(Occt.GetBinarySourcePath(true), Occt.GetBinaryFiles(), Path.Combine(rootPath, Occt.OcctPath, "bind"))
-		&& _CopyBinaries(Occt.FreetypeSourcePath, Occt.FreetypeBinaries, Path.Combine(rootPath, Occt.FreetypePath, "bin"))
-		&& _CopyBinaries(Occt.TbbSourcePath, Occt.TbbBinariesRelease.Concat(Occt.TbbBinariesDebug), Path.Combine(rootPath, Occt.TbbPath, "bin"));
-
-	return true;
-}
-
-/***************************************************************/
-
-bool _CopyBinaries(string sourcePath, IEnumerable<string> sourceList, string targetPath)
-{
-	Printer.Line($"Copying files to {targetPath}...");
-	Directory.CreateDirectory(targetPath);
-
-	var filesToDelete = Directory.EnumerateFiles(targetPath).Select(fn => Path.GetFileName(fn)).ToList();
-
-	var copyCount = 0;
-	var deleteCount = 0;
-
-	foreach (var filename in sourceList)
-	{
-		filesToDelete.Remove(filename);
-		
-		var sourceFilepath = Path.Combine(sourcePath, filename);
-		if(!File.Exists(sourceFilepath))
-		{
-			Printer.Warning($"The file {filename} was not found in source path.");
-			continue;
-		}
-
-		var targetFilepath = Path.Combine(targetPath, filename);
-
-		if (File.GetLastWriteTime(sourceFilepath).CompareTo(File.GetLastWriteTime(targetFilepath)) > 0)
-		{
-			File.Copy(sourceFilepath, targetFilepath, true);
-			copyCount++;
-		}
-	}
-
-	foreach (var file in filesToDelete)
-	{
-		File.Delete(Path.Combine(targetPath, file));
-		deleteCount++;
-	}
-
-	Printer.Success($"Copied {copyCount} missing or newer files, deleted {deleteCount} obsolete files.");
-
-	return true;
-}
-
-#endregion
-
-/***************************************************************/
 		
 #region Generate Wrapper
 
 const string _CachePath = @".intermediate\Macad.Occt\CastXml";
 const string _WrapperBinPath = @"bin\{0}\WrapperGenerator.exe";
 const string _WrapperProjectName = @"WrapperGenerator";
+const string _TargetProjectName = @"Macad.Occt";
 const string _GeneratedSourcePath = @"Source\Macad.Occt\Generated";
-const string _PatchFileName = @"OcctCompilationFixes.patch";
-string _CastXmlPath = @"Tools\CastXML";
 
 bool _GenerateWrapper()
 {
-	var _CastXmlPath = Packages.FindPackageFile("CastXml.0.4.4", "castxml\\bin\\castxml.exe");
+	var _CastXmlPath = Packages.FindPackageFile("CastXml", "castxml\\bin\\castxml.exe");
 	if(string.IsNullOrEmpty(_CastXmlPath))
 		return false;
 
 	var vs = new VisualStudio();
 	if(!vs.IsReady)
 		return false;
-	
+
 	var solutionFile = Path.Combine(Common.GetRootFolder(), "Macad3D.sln");
-	if(!vs.Build(solutionFile, _WrapperProjectName, _OptionDebug ? "Debug" : "Release", "x64"))
-		return false;
-	
-	// Determine Occt path from settings
-	var occtIncludePath = Path.Combine(Common.GetRootFolder(), Occt.OcctPath, "inc");
-	var propsPath = Path.Combine(Common.GetRootFolder(), "Build", "MSBuild", "LocalSettings.props");
-	if(File.Exists(propsPath))
-	{
-		var xmldoc = new XmlDocument();
-		xmldoc.Load(propsPath);
-		var path = xmldoc.GetElementsByTagName("OcctIncPath")?[0]?.InnerText;
-		Printer.Line(path);
-		if(!string.IsNullOrEmpty(path))
-		{
-			occtIncludePath = path;
-		}
-	}
-	
-	// Clean
+	var targets = $"{_WrapperProjectName}";
 	if(_OptionClean)
 	{
-		Printer.Line("Cleaning CastXml cache...");
-		int count = 0;
-		foreach (var file in Directory.EnumerateFiles(Path.Combine(Common.GetRootFolder(), _CachePath)))
-		{
-			File.Delete(file);
-			count++;
-		}
-		Printer.Success($"Cleaned {count} files from cache.");
+		targets += $";{_TargetProjectName}:CleanWrapper";
 	}
+	targets += $";{_TargetProjectName}:GenerateWrapper";
+	if (!vs.Build(solutionFile, targets, _OptionDebug ? "Debug" : "Release", "x64", $"/p:CastXmlPath=\"{_CastXmlPath}\""))
+        return false;
 
-	// Prepare command line
-	string modulePath = Path.Combine(Common.GetRootFolder(), string.Format(_WrapperBinPath,_OptionDebug ? "Debug" : "Release" ));
-	string commandLine = "";
-	commandLine += " occt=\"" + occtIncludePath + "\" ";
-	commandLine += " out=\"" + Path.Combine(Common.GetRootFolder(), _GeneratedSourcePath) + "\" ";
-	commandLine += " castxml=\"" + Path.Combine(Common.GetRootFolder(), _CastXmlPath) + "\" ";
-	commandLine += " cache=\"" + Path.Combine(Common.GetRootFolder(), _CachePath) + "\" ";
-	commandLine += " msvc=\"" + vs.GetPathToMSVC() + "\" ";
-	commandLine += " ucrt=\"" + vs.GetPathToUCRT() + "\" ";
-	commandLine += " winsdk=\"" + VisualStudio.GetPathToWindowsSDK() + "\" ";
+    return true;
 
-	Printer.Success($"\nLaunching wrapper generator...");
-	Printer.Line($"Command line: {commandLine}\n");
-	
-	if(Common.Run(modulePath, commandLine)==0)
-	{
-		Printer.Success("\nWrapper source file generation completed.");
-		return true;
-	} else {
-		Printer.Error("\nError while generating wrapper source files.");
-		return false;
-	}
 }
 
 #endregion
 
 /***************************************************************/
-
-#region Apply Patch
-
-bool _ApplyPatch()
-{
-	var rootPath = Common.GetRootFolder();
-	var patchPath = Path.Combine(rootPath, "Build", "Patches", _PatchFileName);
-	if(!File.Exists(patchPath))
-	{
-		Printer.Line($"Patch file not found, currently no patch needed.");
-		return true;
-	}
-
-	var svnPath = Packages.FindPackageFile($"Subversion", @"bin\svn.exe");
-	if(string.IsNullOrEmpty(svnPath))
-		return false;
-
-	Printer.Line($"\nApplying patch to fix compilation issues...\n");
-
-	var targetPath = Path.Combine(rootPath, Occt.OcctPath, "inc");
-	var commandLine = $"patch \"{patchPath}\" \"{targetPath}\"";
-	var svnOutput = new List<string>();
-
-	if (Common.Run(svnPath, commandLine) != 0)
-	{
-		Printer.Error("Patch process failed.");
-		return false;
-	}
-
-	Printer.Success($"\nFinished.");
-
-	return true;
-}
-
-#endregion
-
-/***************************************************************/
-
-#region SSIndex
-	
-bool _SSIndexOcctPackage(string occtPath)
-{
-	_occtSourceDir = occtPath;
-	var rootPath = Common.GetRootFolder();
-
-	if(!Occt.SetOcctSourcePath(occtPath))
-	{
-		return false;
-	}
-	
-	_SSIndex = new SSIndex();
-	if(!_SSIndex.Init(occtPath))
-	{
-		Printer.Warning("Source indexing is not available.");
-		_SSIndex = null;
-		return false;
-	}
-
-	bool successful =
-		_SSIndexBinaries(Occt.GetBinaryFiles(), Path.Combine(rootPath, Occt.OcctPath, "bin"))
-		&& _SSIndexBinaries(Occt.GetBinaryFiles(), Path.Combine(rootPath, Occt.OcctPath, "bind"));
-
-	if (!successful)
-		Printer.Error("Not completed.");
-		
-	return successful;
-}
-
-/***************************************************************/
-
-bool _SSIndexBinaries(IEnumerable<string> sourceList, string targetPath)
-{
-	Printer.Line($"Indexing files in {targetPath}...");
-
-	var filesToDelete = Directory.EnumerateFiles(targetPath).Select(fn => Path.GetFileName(fn)).ToList();
-
-	foreach (var filename in sourceList)
-	{
-		var targetFilepath = Path.Combine(targetPath, filename);
-		if(Path.GetExtension(targetFilepath).ToLower() == ".pdb")
-		{
-			_SSIndex.ProcessPdb(targetFilepath);
-		}
-	}
-	return true;
-}
-
-/***************************************************************/
-
-#endregion

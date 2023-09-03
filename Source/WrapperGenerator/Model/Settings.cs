@@ -4,11 +4,10 @@ public class Settings
 {
     public string OutputPath = "";
     public string OcctIncludePath = "";
-    public string CastXmlPath = "";
-    public string VisualCppPath = "";
-    public string UcrtPath = "";
-    public string WinSDKPath = "";
+    public string ClPath = "";
+    public string IncludePaths = "";
     public string CachePath = "";
+    public string CastXmlPath = "";
 
     public string Namespace = "Macad::Occt";
 
@@ -18,10 +17,9 @@ public class Settings
     {
         return string.IsNullOrEmpty(OutputPath) 
                || string.IsNullOrEmpty(OcctIncludePath) 
-               || string.IsNullOrEmpty(CastXmlPath) 
-               || string.IsNullOrEmpty(VisualCppPath) 
-               || string.IsNullOrEmpty(UcrtPath)
-               || string.IsNullOrEmpty(WinSDKPath)
-               || string.IsNullOrEmpty(CachePath);
+               || string.IsNullOrEmpty(ClPath)
+               || string.IsNullOrEmpty(IncludePaths) 
+               || string.IsNullOrEmpty(CachePath)
+               || string.IsNullOrEmpty(CastXmlPath);
     }
 }
