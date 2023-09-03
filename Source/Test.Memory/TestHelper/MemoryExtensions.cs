@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace Macad.Test.Memory.TestHelper
+namespace Macad.Test.Memory
 {
     public static class MemoryExtensions
     {

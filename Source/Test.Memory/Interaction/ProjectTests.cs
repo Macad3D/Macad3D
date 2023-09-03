@@ -4,7 +4,6 @@ using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction;
-using Macad.Test.Memory.TestHelper;
 using NUnit.Framework;
 
 namespace Macad.Test.Memory.Interaction
