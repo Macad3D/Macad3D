@@ -21,9 +21,7 @@ public class VisualStudio
     public VisualStudio()
     {
 		// Check VS and Win SDK
-		if( !_FindVSInstance()
-			|| string.IsNullOrEmpty( GetPathToUCRT() ) 
-			|| string.IsNullOrEmpty( GetPathToWindowsSDK() ) )
+		if( !_FindVSInstance() )
 		{
 			// VS or SDK missing
 			PathToVS = "";
