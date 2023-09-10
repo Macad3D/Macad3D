@@ -251,15 +251,15 @@ bool _StoreSymbols(string pathToSymstore)
 {
     Printer.Line($"\nStoring symbol files to {pathToSymstore}...");
 
-    var exePath = Path.Combine(VisualStudio.GetPathToWindowsSDK(), @"..\..\Debuggers\x64\symstore.exe");
+    var exePath = Path.Combine(VisualStudio.GetPathToDebuggingTools(), @"x64\symstore.exe");
 
     if (!File.Exists(exePath))
     {
-        Printer.Error("SymStore not found in path " + exePath);
-        Printer.Error("Make sure that the Windows Debugging Tools are installed.");
+        Printer.Error("The program symstore.exe could not be found. Do you have this component installed with the Windows Debugging Tools?");
+        Printer.Error("Path: " + exePath);
         return false;
     }
-    
+
     // Get version
     int major, minor, build, revision;
     if(!Version.ReadCurrentVersion(out major, out minor, out build, out revision))

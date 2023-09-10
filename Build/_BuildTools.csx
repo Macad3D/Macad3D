@@ -134,57 +134,24 @@ public class VisualStudio
 
     //--------------------------------------------------------------------------------------------------
 
-    public string GetPathToUCRT()
+    public static string GetPathToDebuggingTools()
     {
-		var pathToWinSDK = GetPathToWindowsSDK();
-        if (string.IsNullOrEmpty( pathToWinSDK ))
-            return null;
-
-        var pathToUCRT = Path.Combine(pathToWinSDK, "ucrt");
-
-        if (!File.Exists(Path.Combine(pathToUCRT, "stddef.h")))
+        var pathToDebuggingTools = Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows Kits\Installed Roots", "WindowsDebuggersRoot10", "") as string;
+        if(string.IsNullOrEmpty(pathToDebuggingTools) || !Directory.Exists(pathToDebuggingTools))
         {
-            Printer.Error("Path to Universal C Runtime (UCRT) not found.");
-            return null;
+            pathToDebuggingTools = Path.Combine(Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Kits\Installed Roots", "KitsRoot10", "") as string ?? "", "Debuggers");
+            if(string.IsNullOrEmpty(pathToDebuggingTools) || !Directory.Exists(pathToDebuggingTools))
+            {
+                pathToDebuggingTools = @"c:\Program Files (x86)\Windows Kits\10\Debuggers";
+                if(!Directory.Exists(pathToDebuggingTools))
+                {
+                    Printer.Error("Debugging Tools for Windows not found.");
+                    return "";
+                }
+            }
         }
 
-        return pathToUCRT;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public static string GetPathToWindowsSDK()
-    {
-        var pathToWinSdk = Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Microsoft SDKs\Windows\v10.0", "InstallationFolder", "") as string;
-        if(string.IsNullOrEmpty(pathToWinSdk))
-        {
-            Printer.Error("No installed Windows SDK 10 found.");
-            return null;
-        }
-
-        var pathToWinSdkInclude = Path.Combine(pathToWinSdk, "Include");
-		
-        string maxVersion = "";
-        foreach (var version in Directory.EnumerateDirectories(pathToWinSdkInclude))
-        {
-            if (string.Compare(version, maxVersion, false) > 0)
-                maxVersion = version;
-        }
-
-        if (string.IsNullOrEmpty(maxVersion))
-        {
-            Printer.Error("Path to Windows Kits 10 not found.");
-            return null;
-        }
-
-		string pathToLastWinSdkInclude = Path.Combine(pathToWinSdkInclude, maxVersion);
-        if (!File.Exists(Path.Combine(pathToLastWinSdkInclude, @"um\windows.h")))
-        {
-            Printer.Error("Path to Windows Kits 10 not found.");
-            return null;
-        }
-
-        return pathToLastWinSdkInclude;
+        return pathToDebuggingTools;
     }
 
     //--------------------------------------------------------------------------------------------------

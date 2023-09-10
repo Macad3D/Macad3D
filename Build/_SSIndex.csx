@@ -81,13 +81,13 @@ class SSIndex
 
     public bool ProcessPdb(string pdbFile)
     {
-        var exePath = Path.Combine(VisualStudio.GetPathToWindowsSDK(), @"..\..\Debuggers\x64\srcsrv\srctool.exe");
+        var exePath = Path.Combine(VisualStudio.GetPathToDebuggingTools(), @"x64\srcsrv\srctool.exe");
         var commandLine = $"\"{pdbFile}\" -r";
         var srcToolOutput = new List<string>();
 
         if (!File.Exists(exePath))
         {
-            Printer.Error("The program srctool.exe could not be found. Do you have the Windows Debugging Tools installed?");
+            Printer.Error("The program srctool.exe could not be found. Do you have this component installed with the Windows Debugging Tools?");
             Printer.Error("Path: " + exePath);
             return false;
         }
@@ -173,12 +173,12 @@ class SSIndex
     {
         string streamFilePath = Path.ChangeExtension(pdbFile, ".srcsrv.txt");
 
-        var exePath = Path.Combine(VisualStudio.GetPathToWindowsSDK(), @"..\..\Debuggers\x64\srcsrv\pdbstr.exe");
+        var exePath = Path.Combine(VisualStudio.GetPathToDebuggingTools(), @"x64\srcsrv\pdbstr.exe");
         var commandLine = $"-w -s:srcsrv -p:\"{pdbFile}\" -i:\"{streamFilePath}\"";
 
         if (!File.Exists(exePath))
         {
-            Printer.Error("The program pdbstr.exe could not be found. Do you have the Windows Debugging Tools installed?");
+            Printer.Error("The program pdbstr.exe could not be found. Do you have this component installed with the Windows Debugging Tools?");
         }
 
         if (Common.Run(exePath, commandLine) != 0)
