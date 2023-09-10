@@ -1,0 +1,19 @@
+image: Visual Studio 2022
+configuration: Release
+platform: x64
+shallow_clone: true
+before_build:
+  - cmd: .\ScriptConsole.cmd restore
+build:
+  verbosity: minimal
+test_script:
+  - ps: |
+      & .\ScriptConsole.cmd test unit
+      $testRunExitCode = $LASTEXITCODE
+      # upload results to AppVeyor
+      $wc = New-Object 'System.Net.WebClient'
+      $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit3/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\bin\release\TestResult_Unit.xml))
+      $host.SetShouldExit($testRunExitCode)
+artifacts:
+  - path: bin\release\TestResult_Unit.xml
+    name: Unit_Test_Results
