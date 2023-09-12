@@ -459,6 +459,26 @@ namespace Macad.Test.Unit.Interaction.Multiply
                 ctx.WorkspaceController.StopEditor();
             });
         }
+        
+        //--------------------------------------------------------------------------------------------------
+                
+        [Test]
+        [Apartment(System.Threading.ApartmentState.STA)]
+        public void PropPanelCleanup()
+        {
+            var ctx = Context.Current;
+            var panelMgr = ctx.EnablePropertyPanels();
+
+            var mirror = _CreateSimpleMirror();
+            ctx.WorkspaceController.StartEditor(mirror);
+
+            var propPanel = panelMgr.FindFirst<MirrorPropertyPanel>();
+            propPanel.ReselectCommand.Execute(null);
+            Assert.IsAssignableFrom<CreateMirrorTool>(ctx.WorkspaceController.CurrentTool);
+
+            ctx.WorkspaceController.StopEditor();
+            Assert.IsNull(ctx.WorkspaceController.CurrentTool);
+        }
 
         //--------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------
@@ -492,5 +512,6 @@ namespace Macad.Test.Unit.Interaction.Multiply
             var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
             return Mirror.Create(sketch.Body, sketch.GetSubshapeReference(SubshapeType.Edge, 1));
         }
+
     }
 }

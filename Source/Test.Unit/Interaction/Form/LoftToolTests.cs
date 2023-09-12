@@ -4,6 +4,7 @@ using Macad.Test.Utils;
 using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
@@ -176,6 +177,26 @@ namespace Macad.Test.Unit.Interaction.Form
                 // Finish
                 Assert.IsNull(ctx.WorkspaceController.CurrentTool);
             });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+                
+        [Test]
+        [Apartment(System.Threading.ApartmentState.STA)]
+        public void PropPanelCleanup()
+        {
+            var ctx = Context.Current;
+            var panelMgr = ctx.EnablePropertyPanels();
+
+            var loft = TestGeomGenerator.CreateLoft();
+            ctx.WorkspaceController.Selection.SelectEntity(loft.Body);
+
+            var propPanel = panelMgr.FindFirst<LoftPropertyPanel>();
+            propPanel.AddSectionCommand.Execute(null);
+            Assert.IsAssignableFrom<CreateLoftTool>(ctx.WorkspaceController.CurrentTool);
+
+            ctx.WorkspaceController.StopEditor();
+            Assert.IsNull(ctx.WorkspaceController.CurrentTool);
         }
 
         //--------------------------------------------------------------------------------------------------

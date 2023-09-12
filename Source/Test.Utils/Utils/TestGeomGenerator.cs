@@ -1,4 +1,5 @@
-﻿using Macad.Common;
+﻿using System.IO;
+using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
@@ -244,6 +245,25 @@ namespace Macad.Test.Utils
             var section = CrossSection.Create(body, plane, true);
             Assert.IsNotNull(section);
             return section;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static Loft CreateLoft()
+        {
+            var body1 = TestSketchGenerator.CreateRectangle(5.0, 5.0).Body;
+
+            var body2 = TestSketchGenerator.CreateCircleWithArcs(3.0, 4).Body;
+            body2.Position = body2.Position.Translated(new Vec(0, 0, 10.0));
+            body2.Rotation = new Quaternion(20.0.ToRad(), 20.0.ToRad(), 0.0);
+
+            var body3 = TestSketchGenerator.CreateRectangle(5.0, 5.0).Body;
+            body3.Position = body3.Position.Translated(new Vec(0, 5.0, 20.0));
+            body3.Rotation = new Quaternion(40.0.ToRad(), 40.0.ToRad(), 0.0);
+
+            var loft = Loft.Create(body1, new[] {new BodyShapeOperand(body2), new BodyShapeOperand(body3)});
+            Assert.IsNotNull(loft);
+            return loft;
         }
 
         //--------------------------------------------------------------------------------------------------

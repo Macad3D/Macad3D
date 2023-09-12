@@ -306,5 +306,33 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 ctx.WorkspaceController.StopEditor();
             });
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateBoxLayerHidden()
+        {
+            var ctx = Context.Current;
+            ctx.Layers.Default.IsVisible = false;
+            ctx.WorkspaceController.StartTool(new CreateBoxTool());
+
+            Assert.Multiple(() =>
+            {
+                ctx.ClickAt(50, 250);
+                ctx.MoveTo(450, 250);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBoxHidden01"));
+                ctx.ClickAt(450, 250);
+                ctx.MoveTo(450, 200);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBoxHidden02"));
+                ctx.ClickAt(450, 200);
+                ctx.MoveTo(0, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBoxHidden03"));
+                ctx.ClickAt(0, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBoxHidden04"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

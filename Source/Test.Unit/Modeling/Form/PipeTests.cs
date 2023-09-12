@@ -404,5 +404,17 @@ namespace Macad.Test.Unit.Modeling.Form
             Assert.IsTrue(ModelCompare.CompareShape(pipe, Path.Combine(_BasePath, "SpineStartOffset02")));
         }
 
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void InitCustomProfile()
+        {
+            var pipe = TestGeomGenerator.CreatePipe();
+            pipe.InitCustomProfile();
+            pipe.Profile = Pipe.ProfileType.Custom;
+            Assert.IsTrue(pipe.Make(Shape.MakeFlags.None));
+            Assert.AreEqual(2, pipe.Operands.Count);
+            AssertHelper.IsSameModel2D(pipe.Operands[1].GetBRep(Ax3.XOY), Path.Combine(_BasePath, "InitCustomProfile01"));
+        }
     }
 }

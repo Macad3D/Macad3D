@@ -783,6 +783,26 @@ namespace Macad.Test.Unit.Interaction.Modify
         }
 
         //--------------------------------------------------------------------------------------------------
+                
+        [Test]
+        [Apartment(System.Threading.ApartmentState.STA)]
+        public void PropPanelCleanup()
+        {
+            var ctx = Context.Current;
+            var panelMgr = ctx.EnablePropertyPanels();
+
+            var taper = _CreateTaperedBoxByEdge();
+            ctx.WorkspaceController.StartEditor(taper);
+
+            var propPanel = panelMgr.FindFirst<TaperPropertyPanel>();
+            propPanel.ReselectFaceCommand.Execute(null);
+            Assert.IsAssignableFrom<CreateTaperTool>(ctx.WorkspaceController.CurrentTool);
+
+            ctx.WorkspaceController.StopEditor();
+            Assert.IsNull(ctx.WorkspaceController.CurrentTool);
+        }
+
+        //--------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------
 
         Taper _CreateTaperedBoxByEdge()

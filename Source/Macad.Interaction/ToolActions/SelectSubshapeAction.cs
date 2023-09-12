@@ -34,7 +34,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public SelectSubshapeAction(object owner, SubshapeTypes subshapeTypes, InteractiveEntity sourceEntity = null, ISelectionFilter selectionFilter = null) 
+        public SelectSubshapeAction(SubshapeTypes subshapeTypes, InteractiveEntity sourceEntity = null, ISelectionFilter selectionFilter = null) 
             : base()
         {
             _SubshapeTypes = subshapeTypes;
@@ -44,7 +44,7 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public SelectSubshapeAction(object owner, List<TopoDS_Shape> shapes, Trsf? localTransformation=null)
+        public SelectSubshapeAction(List<TopoDS_Shape> shapes, Trsf? localTransformation = null)
             : base()
         {
             _SubshapeTypes = SubshapeTypes.All;

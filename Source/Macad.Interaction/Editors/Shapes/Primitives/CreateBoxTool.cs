@@ -24,8 +24,10 @@ namespace Macad.Interaction.Editors.Shapes
         Pln _Plane;
         Pnt2d _PointPlane1;
         Pnt2d _PointPlane2;
+        double _Height;
         Box _PreviewShape;
         VisualObject _VisualShape;
+        bool _IsTemporaryVisual;
 
         Coord2DHudElement _Coord2DHudElement;
         ValueHudElement _ValueHudElement;
@@ -58,6 +60,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (_VisualShape != null)
             {
                 WorkspaceController.VisualObjects.Remove(_VisualShape.Entity);
+                _VisualShape.Remove();
                 _VisualShape = null;
             }
             base.Cleanup();
@@ -155,10 +158,11 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _HeightAction_Preview(AxisValueAction action, AxisValueAction.EventArgs args)
         {
-            var height = args.Value.Round();
-            _PreviewShape.DimensionZ =  Math.Abs(height) >= 0.001 ? height : 0.001;
-            SetHintMessage($"Selected height: {height:0.00}");
-            _ValueHudElement?.SetValue(height);
+            _Height = args.Value.Round();
+            _UpdatePreview();
+
+            SetHintMessage($"Selected height: {_Height:0.00}");
+            _ValueHudElement?.SetValue(_Height);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -166,8 +170,12 @@ namespace Macad.Interaction.Editors.Shapes
         void _HeightAction_Finished(AxisValueAction action, AxisValueAction.EventArgs args)
         {
             InteractiveContext.Current.Document.Add(_PreviewShape.Body);
-            _VisualShape.IsSelectable = true;
-            _VisualShape = null; // Prevent removing
+            if (!_IsTemporaryVisual)
+            {
+                _VisualShape.IsSelectable = true;
+                _VisualShape = null; // Prevent removing
+            }
+
             CommitChanges();
 
             Stop();
@@ -182,7 +190,6 @@ namespace Macad.Interaction.Editors.Shapes
             if (_CurrentPhase == Phase.Height)
             {
                 _PreviewShape.DimensionZ = Math.Abs(newValue) >= 0.001 ? newValue : 0.001;
-                _UpdatePreview();
                 _HeightAction_Finished(null, null);
             }
         }
@@ -217,13 +224,30 @@ namespace Macad.Interaction.Editors.Shapes
                 };
                 var body = Body.Create(_PreviewShape);
                 _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
-                _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
+                if (body.Layer.IsVisible)
+                {
+                    _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
+                    _IsTemporaryVisual = false;
+                }
+                else
+                {
+                    _VisualShape = new VisualShape(WorkspaceController, body, VisualShape.Options.Ghosting);
+                    _IsTemporaryVisual = true;
+                }
                 _VisualShape.IsSelectable = false;
             }
 
-            _PreviewShape.Body.Position = ElSLib.Value(Math.Min(_PointPlane1.X, _PointPlane2.X), Math.Min(_PointPlane1.Y, _PointPlane2.Y), _Plane).Rounded();;
-            _PreviewShape.DimensionX = Math.Abs(_PointPlane1.X - _PointPlane2.X).Round();
-            _PreviewShape.DimensionY = Math.Abs(_PointPlane1.Y - _PointPlane2.Y).Round();
+            if (_CurrentPhase == Phase.BaseRect)
+            {
+                _PreviewShape.Body.Position = ElSLib.Value(Math.Min(_PointPlane1.X, _PointPlane2.X), Math.Min(_PointPlane1.Y, _PointPlane2.Y), _Plane).Rounded();
+                _PreviewShape.DimensionX = Math.Abs(_PointPlane1.X - _PointPlane2.X).Round();
+                _PreviewShape.DimensionY = Math.Abs(_PointPlane1.Y - _PointPlane2.Y).Round();
+            }
+            else if (_CurrentPhase == Phase.Height)
+            {
+                _PreviewShape.DimensionZ =  Math.Abs(_Height) >= 0.001 ? _Height : 0.001;
+            }
+            _VisualShape.Update();
         }
     }
 }

@@ -4,6 +4,7 @@ using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
 using NUnit.Framework;
 
@@ -90,6 +91,51 @@ namespace Macad.Test.Unit.Interaction.Modify
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EdgeSelectionFailure2"));
             });
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void HighlightInnerOriginalEdges()
+        {
+            var ctx = Context.Current;
+            var imprint = TestGeomGenerator.CreateImprint(TestSketchGenerator.SketchType.Rectangle);
+            imprint.Mode = Imprint.ImprintMode.Cutout;
+            ctx.ViewportController.ZoomFitAll();
+            
+            var shape = Fillet.Create(imprint.Body);
+            shape.Radius = 4.0f;
+            ctx.WorkspaceController.StartTool(new EdgeModifierTool(shape));
+
+            Assert.Multiple(() =>
+            {
+                ctx.ClickAt(250, 185);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "HighlightInnerOriginalEdges01"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        [Apartment(System.Threading.ApartmentState.STA)]
+        public void PropPanelCleanup()
+        {
+            var ctx = Context.Current;
+            var panelMgr = ctx.EnablePropertyPanels();
+
+            var box = TestGeomGenerator.CreateBox();
+            var fillet = Fillet.Create(box.Body);
+            fillet.Radius = 2.0;            
+            ctx.WorkspaceController.StartEditor(fillet);
+
+            var propPanel = panelMgr.FindFirst<FilletPropertyPanel>();
+            propPanel.StartToolCommand.Execute(null);
+            Assert.IsAssignableFrom<EdgeModifierTool>(ctx.WorkspaceController.CurrentTool);
+
+            ctx.WorkspaceController.StopEditor();
+            Assert.IsNull(ctx.WorkspaceController.CurrentTool);
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
     }
 }

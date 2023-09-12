@@ -49,7 +49,7 @@ namespace Macad.Interaction.Editors.Shapes
                 }
             }
 
-            var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _TargetBody, new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane));
+            var toolAction = new SelectSubshapeAction(SubshapeTypes.Face, _TargetBody, new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane));
             if (!StartAction(toolAction))
                 return false;
             toolAction.Finished += _ToolAction_Finished;

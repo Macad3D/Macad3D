@@ -524,6 +524,8 @@ namespace Macad.Interaction
             () => CanExecuteOnViewport())
         {
             Header = () => "Zoom All",
+            Title = () => "Zoom to Fit All",
+            Description = () => "Adjusts the position and scale of the viewport so all visible entities are in view.",
             Icon = () => "Zoom-All"
         };
 
@@ -537,6 +539,8 @@ namespace Macad.Interaction
             () => CanExecuteOnViewport() && Selection.SelectedEntities.Any())
         {
             Header = () => "Zoom Selection",
+            Title = () => "Zoom to Fit Selected",
+            Description = () => "Adjusts the position and scale of the viewport so all visible and selected entities are in view.",
             Icon = () => "Zoom-Selection"
         };
 

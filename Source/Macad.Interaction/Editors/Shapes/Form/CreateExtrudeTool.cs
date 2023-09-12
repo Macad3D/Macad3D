@@ -70,7 +70,7 @@ namespace Macad.Interaction.Editors.Shapes
                     OverrideVisualShape(_TargetBody, _TargetShape.GetTransformedBRep());
                 }
 
-                var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _TargetBody);
+                var toolAction = new SelectSubshapeAction(SubshapeTypes.Face, _TargetBody);
                 if (!StartAction(toolAction))
                     return false;
                 toolAction.Finished += _ToolAction_Finished;

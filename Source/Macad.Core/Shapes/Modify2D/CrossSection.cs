@@ -118,11 +118,8 @@ public class CrossSection : ModifierBase
         if (!bb.IsOut(basePlane))
             return basePlane; // Plane is inside shape, this is OK.
 
-        // estimate the size, then translate plane to the middle
-        var transformedBb = bb.Transformed(new Trsf(Ax3.XOY, basePlane.Position));
-        double size = transformedBb.CornerMax().Z - transformedBb.CornerMin().Z;
-        double mid = transformedBb.CornerMin().Z + size / 2.0;
-        return basePlane.Translated(new Vec(0, 0, mid)); 
+        // use body syste, translate plane to the middle
+        return new Pln(targetBody.GetCoordinateSystem()).Translated(Pnt.Origin, bb.Center()-targetBody.Position);
     }
 
     //--------------------------------------------------------------------------------------------------

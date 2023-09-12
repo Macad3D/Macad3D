@@ -30,6 +30,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         Cylinder _PreviewShape;
         VisualObject _VisualShape;
+        bool _IsTemporaryVisual;
 
         Coord2DHudElement _Coord2DHudElement;
         ValueHudElement _ValueHudElement;
@@ -61,6 +62,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (_VisualShape != null)
             {
                 WorkspaceController.VisualObjects.Remove(_VisualShape.Entity);
+                _VisualShape.Remove();
                 _VisualShape = null;
             }
             base.Cleanup();
@@ -169,8 +171,11 @@ namespace Macad.Interaction.Editors.Shapes
         void _HeightAction_Finished(AxisValueAction action, AxisValueAction.EventArgs args)
         {
             InteractiveContext.Current.Document.Add(_PreviewShape.Body);
-            _VisualShape.IsSelectable = true;
-            _VisualShape = null; // Prevent removing
+            if (!_IsTemporaryVisual)
+            {
+                _VisualShape.IsSelectable = true;
+                _VisualShape = null; // Prevent removing
+            }
             CommitChanges();
 
             Stop();
@@ -208,7 +213,16 @@ namespace Macad.Interaction.Editors.Shapes
                     Height = 0.01
                 };
                 var body = Body.Create(_PreviewShape);
-                _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
+                if (body.Layer.IsVisible)
+                {
+                    _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
+                    _IsTemporaryVisual = false;
+                }
+                else
+                {
+                    _VisualShape = new VisualShape(WorkspaceController, body, VisualShape.Options.Ghosting);
+                    _IsTemporaryVisual = true;
+                }
                 _VisualShape.IsSelectable = false;
                 _PreviewShape.Body.Position = _PivotPoint.Rounded();
                 _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
@@ -231,6 +245,7 @@ namespace Macad.Interaction.Editors.Shapes
                     _PreviewShape.Height = -_Height;
                 }
             }
+            _VisualShape.Update();
         }
     }
 }

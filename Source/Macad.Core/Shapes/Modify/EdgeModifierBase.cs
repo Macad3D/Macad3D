@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Macad.Common.Serialization;
 using Macad.Occt;
@@ -33,8 +34,8 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        SubshapeReference[] _Edges = new SubshapeReference[0];
-        protected Dictionary<TopoDS_Edge, TopoDS_Edge[]> ContourEdges = new Dictionary<TopoDS_Edge, TopoDS_Edge[]>();
+        SubshapeReference[] _Edges = Array.Empty<SubshapeReference>();
+        protected readonly Dictionary<TopoDS_Edge, TopoDS_Edge[]> ContourEdges = new ();
 
         //--------------------------------------------------------------------------------------------------
 

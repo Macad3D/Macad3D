@@ -44,4 +44,24 @@ public class ConvertToSolidTests
         Assert.IsTrue(body2.Shape.Make(Shape.MakeFlags.None));
         AssertHelper.IsSameModel(body2.Shape, Path.Combine(_BasePath, "CollapseMultipleBodies2"));
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CollapseWithAssociated()
+    {
+        var body1 = TestGeomGenerator.CreateBody(Box.Create(10,  2, 2), new Pnt(-5, -1, 0));
+        var body2 = TestGeomGenerator.CreateBody(Box.Create( 2, 10, 2), new Pnt(-1, -5, 0));
+
+        var (first, second) = HalvedJoint.Create(body1, body2);
+        Assert.IsTrue(first.Make(Shape.MakeFlags.None));
+        Assert.IsTrue(second.Make(Shape.MakeFlags.None));
+
+        Assert.IsTrue(ConvertToSolid.CollapseShapeStack(new []{body1}));
+        Assert.IsInstanceOf<Solid>(body1.RootShape);
+        Assert.IsInstanceOf<Box>(body2.RootShape);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

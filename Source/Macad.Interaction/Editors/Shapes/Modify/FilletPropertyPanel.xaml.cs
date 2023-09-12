@@ -41,8 +41,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (IsToolActive)
             {
-                var tool = WorkspaceController.CurrentTool as EdgeModifierTool;
-                tool?.Stop();
+                (WorkspaceController.CurrentTool as EdgeModifierTool)?.Stop();
             }
             else
             {
@@ -98,6 +97,10 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override void Cleanup()
         {
+            if (IsToolActive)
+            {
+                (WorkspaceController.CurrentTool as EdgeModifierTool)?.Stop();
+            }
             WorkspaceController.PropertyChanged -= workspaceController_PropertyChanged;
         }
 

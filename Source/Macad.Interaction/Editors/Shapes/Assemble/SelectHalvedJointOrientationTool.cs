@@ -35,7 +35,7 @@ public class SelectHalvedJointOrientationTool : Tool
             return false;
         }
 
-        var action = new SelectSubshapeAction(this, faces, _TargetShape.GetTransformation());
+        var action = new SelectSubshapeAction(faces, _TargetShape.GetTransformation());
         action.Finished += _Action_OnFinished;
         StartAction(action);
         SetCursor(Cursors.SelectFace);

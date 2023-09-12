@@ -117,4 +117,29 @@ public class HalvedJointTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SelectOrientationTwoJoints02"));
         });
     }
+    
+    //--------------------------------------------------------------------------------------------------
+                
+    [Test]
+    [Apartment(System.Threading.ApartmentState.STA)]
+    public void PropPanelCleanup()
+    {
+        var ctx = Context.Current;
+        var panelMgr = ctx.EnablePropertyPanels();
+
+        var body1 = TestGeomGenerator.CreateBody(Box.Create(10, 2, 2), new Pnt(-9, -1, 0));
+        var body2 = TestGeomGenerator.CreateBody(Box.Create(2, 10, 2), new Pnt(-1, -9, 0));
+        var (first, second) = HalvedJoint.Create(body1, body2);
+        ctx.WorkspaceController.StartEditor(first);
+
+        var propPanel = panelMgr.FindFirst<HalvedJointPropertyPanel>();
+        propPanel.SelectOrientationCommand.Execute(null);
+        Assert.IsAssignableFrom<SelectHalvedJointOrientationTool>(ctx.WorkspaceController.CurrentTool);
+
+        ctx.WorkspaceController.StopEditor();
+        Assert.IsNull(ctx.WorkspaceController.CurrentTool);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

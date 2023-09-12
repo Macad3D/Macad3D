@@ -13,6 +13,20 @@ public sealed partial class HalvedJointPropertyPanel : PropertyPanel
 
     //--------------------------------------------------------------------------------------------------
     
+    public bool IsToolActive
+    {
+        get { return _IsToolActive; }
+        private set
+        {
+            _IsToolActive = value;
+            RaisePropertyChanged();
+        }
+    }
+        
+    bool _IsToolActive;
+
+    //--------------------------------------------------------------------------------------------------
+
     public ICommand SetOrientationCommand { get; private set; }
 
     void ExecuteSetOrientation(string mode)
@@ -33,13 +47,24 @@ public sealed partial class HalvedJointPropertyPanel : PropertyPanel
 
     void ExecuteSelectOrientation()
     {
-        var tool = new SelectHalvedJointOrientationTool(HalvedJoint);
-        if (!WorkspaceController.StartTool(tool))
+        if (IsToolActive)
         {
-            ErrorDialogs.CannotStartTool("The modifier did not detect any candidates for building joints. Check the overlap area of the two shapes.");
+            (WorkspaceController.CurrentTool as SelectHalvedJointOrientationTool)?.Stop();
+        }
+        else
+        {
+
+            var tool = new SelectHalvedJointOrientationTool(HalvedJoint);
+            if (!WorkspaceController.StartTool(tool))
+            {
+                ErrorDialogs.CannotStartTool("The modifier did not detect any candidates for building joints. Check the overlap area of the two shapes.");
+                return;
+            }
+
+            IsToolActive = true;
         }
     }
-        
+
     //--------------------------------------------------------------------------------------------------
 
     public override void Initialize(BaseObject instance)
@@ -49,13 +74,34 @@ public sealed partial class HalvedJointPropertyPanel : PropertyPanel
         SetOrientationCommand = new RelayCommand<string>(ExecuteSetOrientation);
         SelectOrientationCommand = new RelayCommand(ExecuteSelectOrientation);
 
+        WorkspaceController.PropertyChanged += _workspaceController_PropertyChanged;
+
         InitializeComponent();
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
+    void _workspaceController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == "CurrentTool")
+        {
+            if (!(WorkspaceController.CurrentTool is CreateTaperTool))
+                IsToolActive = false;
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public override void Cleanup()
     {
+        if (IsToolActive)
+        {
+            (WorkspaceController.CurrentTool as SelectHalvedJointOrientationTool)?.Stop();
+        }
+        WorkspaceController.PropertyChanged -= _workspaceController_PropertyChanged;
     }
+
+    //--------------------------------------------------------------------------------------------------
+
 
 }

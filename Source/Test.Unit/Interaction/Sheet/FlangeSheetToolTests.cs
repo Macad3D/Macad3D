@@ -1054,6 +1054,26 @@ namespace Macad.Test.Unit.Interaction.Sheet
             Assert.AreEqual(oldGap, flange.EndGap);
             Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
         }
+        
+        //--------------------------------------------------------------------------------------------------
+                
+        [Test]
+        [Apartment(System.Threading.ApartmentState.STA)]
+        public void PropPanelCleanup()
+        {
+            var ctx = Context.Current;
+            var panelMgr = ctx.EnablePropertyPanels();
+
+            var taper = _CreateFlange();
+            ctx.WorkspaceController.StartEditor(taper);
+
+            var propPanel = panelMgr.FindFirst<FlangeSheetPropertyPanel>();
+            propPanel.ReselectFaceCommand.Execute(null);
+            Assert.IsAssignableFrom<CreateFlangeSheetTool>(ctx.WorkspaceController.CurrentTool);
+
+            ctx.WorkspaceController.StopEditor();
+            Assert.IsNull(ctx.WorkspaceController.CurrentTool);
+        }
 
         //--------------------------------------------------------------------------------------------------
         //--------------------------------------------------------------------------------------------------

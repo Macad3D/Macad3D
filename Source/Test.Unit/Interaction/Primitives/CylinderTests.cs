@@ -348,5 +348,30 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 ctx.WorkspaceController.StopEditor();
             });
         }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void CreateCylinderLayerHidden()
+        {
+            var ctx = Context.Current;
+            ctx.Layers.Default.IsVisible = false;
+            ctx.WorkspaceController.StartTool(new CreateCylinderTool());
+
+            Assert.Multiple(() =>
+            {
+                ctx.ClickAt(250, 250);
+                ctx.MoveTo(450, 250);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCylinderHidden01"));
+                ctx.ClickAt(450, 250);
+                ctx.MoveTo(450, 200);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCylinderHidden02"));
+                ctx.ClickAt(450, 200);
+                ctx.MoveTo(0, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCylinderHidden03"));
+                ctx.ClickAt(0, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCylinderHidden04"));
+            });
+        }
     }
 }

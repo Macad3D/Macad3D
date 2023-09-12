@@ -35,7 +35,7 @@ public class CreateCircularArrayTool : Tool
         // Select plane
         _DefaultPlanes = new(WorkspaceController, _TargetBody.GetCoordinateSystem(), Trihedron.Components.Planes);
         Add(_DefaultPlanes);
-        var toolAction = new SelectSubshapeAction(this, SubshapeTypes.None, null, _DefaultPlanes.GetSelectionFilter());
+        var toolAction = new SelectSubshapeAction(SubshapeTypes.None, null, _DefaultPlanes.GetSelectionFilter());
         if (!StartAction(toolAction))
             return false;
         toolAction.Finished += _ToolAction_Finished;

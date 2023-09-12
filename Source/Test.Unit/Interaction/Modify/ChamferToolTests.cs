@@ -105,5 +105,50 @@ namespace Macad.Test.Unit.Interaction.Modify
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EnhanceContinuesEdges5"));
             });
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void HighlightInnerOriginalEdges()
+        {
+            var ctx = Context.Current;
+            var imprint = TestGeomGenerator.CreateImprint(TestSketchGenerator.SketchType.Rectangle);
+            imprint.Mode = Imprint.ImprintMode.Cutout;
+            ctx.ViewportController.ZoomFitAll();
+            
+            var shape = Chamfer.Create(imprint.Body);
+            shape.Distance = 4.0f;
+            ctx.WorkspaceController.StartTool(new EdgeModifierTool(shape));
+
+            Assert.Multiple(() =>
+            {
+                ctx.ClickAt(250, 185);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "HighlightInnerOriginalEdges01"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        [Apartment(System.Threading.ApartmentState.STA)]
+        public void PropPanelCleanup()
+        {
+            var ctx = Context.Current;
+            var panelMgr = ctx.EnablePropertyPanels();
+
+            var box = TestGeomGenerator.CreateBox();
+            var chamfer = Chamfer.Create(box.Body);
+            chamfer.Distance = 2.0;            
+            ctx.WorkspaceController.StartEditor(chamfer);
+
+            var propPanel = panelMgr.FindFirst<ChamferPropertyPanel>();
+            propPanel.StartToolCommand.Execute(null);
+            Assert.IsAssignableFrom<EdgeModifierTool>(ctx.WorkspaceController.CurrentTool);
+
+            ctx.WorkspaceController.StopEditor();
+            Assert.IsNull(ctx.WorkspaceController.CurrentTool);
+        }
+
+        //--------------------------------------------------------------------------------------------------
     }
 }

@@ -62,7 +62,7 @@ namespace Macad.Interaction
                 selectionFilters.Add(new SignatureSelectionFilter(VisualPlane.SelectionSignature));
             }
 
-            var toolAction = new SelectSubshapeAction(this, allowedTypes, null,
+            var toolAction = new SelectSubshapeAction(allowedTypes, null,
                                                       selectionFilters.Count > 0 ? new OrSelectionFilter(selectionFilters.ToArray()) : null);
 
             if (!StartAction(toolAction))

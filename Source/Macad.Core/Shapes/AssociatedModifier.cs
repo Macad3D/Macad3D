@@ -130,7 +130,11 @@ public abstract class AssociatedModifier<TModifier> : ModifierBase where TModifi
         {
             if (_AssociatedShape != null && _AssociatedShape.Body == null)
             {
-                _AssociatedShape = null;
+                if (Operands.Count > 1)
+                {
+                    Operands[1] = null;
+                }
+                _UpdateAssociatedShape();
                 Body?.RemoveShape(this);
             }
         }

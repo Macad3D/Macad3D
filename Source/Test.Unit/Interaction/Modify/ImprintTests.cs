@@ -434,5 +434,28 @@ namespace Macad.Test.Unit.Interaction.Modify
                 ctx.WorkspaceController.StopEditor();
             });
         }
+
+        //--------------------------------------------------------------------------------------------------
+                
+        [Test]
+        [Apartment(System.Threading.ApartmentState.STA)]
+        public void PropPanelCleanup()
+        {
+            var ctx = Context.Current;
+            var panelMgr = ctx.EnablePropertyPanels();
+
+            var imprint = TestGeomGenerator.CreateImprint();
+            ctx.WorkspaceController.StartEditor(imprint);
+
+            var propPanel = panelMgr.FindFirst<ImprintPropertyPanel>();
+            propPanel.ReselectFaceCommand.Execute(null);
+            Assert.IsAssignableFrom<CreateImprintTool>(ctx.WorkspaceController.CurrentTool);
+
+            ctx.WorkspaceController.StopEditor();
+            Assert.IsNull(ctx.WorkspaceController.CurrentTool);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

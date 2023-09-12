@@ -4,12 +4,12 @@ using Macad.Core.Shapes;
 using Macad.Interaction.Editors.Shapes;
 using NUnit.Framework;
 
-namespace Macad.Test.Unit.Interaction.Modify
+namespace Macad.Test.Unit.Interaction.Assemble
 {
     [TestFixture]
     public class BoxJointTests
     {
-        const string _BasePath = @"Interaction\Modify\BoxJoint";
+        const string _BasePath = @"Interaction\Assemble\BoxJoint";
 
         //--------------------------------------------------------------------------------------------------
 
@@ -55,7 +55,7 @@ namespace Macad.Test.Unit.Interaction.Modify
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSingleSelected02"));
             });
         }
-        
+
         //--------------------------------------------------------------------------------------------------
 
         [Test]
@@ -78,7 +78,7 @@ namespace Macad.Test.Unit.Interaction.Modify
             ctx.MoveTo(0, 0);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateDoubleSelected01"));
         }
-        
+
         //--------------------------------------------------------------------------------------------------
 
     }

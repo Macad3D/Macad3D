@@ -50,8 +50,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (IsToolActive)
             {
-                var tool = WorkspaceController.CurrentTool as CreateImprintTool;
-                tool?.Stop();
+                (WorkspaceController.CurrentTool as CreateImprintTool)?.Stop();
             }
             else
             {
@@ -90,6 +89,10 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override void Cleanup()
         {
+            if (IsToolActive)
+            {
+                (WorkspaceController.CurrentTool as CreateImprintTool)?.Stop();
+            }
             WorkspaceController.PropertyChanged -= workspaceController_PropertyChanged;
         }
 

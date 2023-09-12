@@ -46,9 +46,16 @@
                               Command="{Binding SetOrientationCommand}" CommandParameter="Custom" />
         </StackPanel>
         
-        <Button Grid.Row="4" Grid.Column="1" Content="Select Orientation" 
-                HorizontalAlignment="Left" Width="120"
-                Visibility="{Binding HalvedJoint.ReferenceFaces, Converter={mmp:NotNullToVisibleCollapsedConverter}}"
-                Command="{Binding SelectOrientationCommand}" />
+        <mmp:ToggleButton Grid.Row="4" Grid.Column="1" Content="Select Orientation" 
+                          HorizontalAlignment="Left" Width="120"
+                          IsChecked="{Binding IsToolActive}"
+                          Command="{Binding SelectOrientationCommand}">
+            <mmp:ToggleButton.Visibility>
+                <MultiBinding Converter="{mmp:BooleanOrToVisibleCollapsedMultiConverter}" >
+                    <Binding Path="HalvedJoint.ReferenceFaces" Converter="{mmp:NotNullToBoolConverter}" />
+                    <Binding Path="IsToolActive" />
+                </MultiBinding>
+            </mmp:ToggleButton.Visibility>
+        </mmp:ToggleButton>
     </Grid>
 </panels:PropertyPanel>

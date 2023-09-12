@@ -61,7 +61,7 @@ namespace Macad.Interaction.Editors.Shapes
             var trsf = _ModifierShape.GetTransformation();
             for (var i = 0; i < edges.Length; i++)
             {
-                _Action.AddSubshape(edges[i], trsf, selected.Contains(edges[i]), i);
+                _Action.AddSubshape(edges[i], trsf, selected.Contains(edges[i]));
             }
 
             return true;

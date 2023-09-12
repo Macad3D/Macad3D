@@ -485,5 +485,27 @@ namespace Macad.Test.Unit.Interaction.Form
                 ctx.WorkspaceController.StopEditor();
             });
         }
+        
+        //--------------------------------------------------------------------------------------------------
+                
+        [Test]
+        [Apartment(System.Threading.ApartmentState.STA)]
+        public void PropPanelCleanup()
+        {
+            var ctx = Context.Current;
+            var panelMgr = ctx.EnablePropertyPanels();
+
+            var shape = TestGeomGenerator.CreateImprint();
+            var subshapeRef = shape.GetSubshapeReference(SubshapeType.Face, 7);
+            var extrude = Extrude.Create(shape.Body, subshapeRef);
+            ctx.WorkspaceController.StartEditor(extrude);
+
+            var propPanel = panelMgr.FindFirst<ExtrudePropertyPanel>();
+            propPanel.ReselectFaceCommand.Execute(null);
+            Assert.IsAssignableFrom<CreateExtrudeTool>(ctx.WorkspaceController.CurrentTool);
+
+            ctx.WorkspaceController.StopEditor();
+            Assert.IsNull(ctx.WorkspaceController.CurrentTool);
+        }
     }
 }

@@ -138,7 +138,7 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        protected void RemoveOperand(int operandIndex)
+        public void RemoveOperand(int operandIndex)
         {
             var oldOp = Operands[operandIndex];
             oldOp?.RemoveDependent(this);

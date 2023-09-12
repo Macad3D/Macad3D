@@ -78,6 +78,8 @@ namespace Macad.Interaction
             {
                 new(Key.G, WorkspaceCommands.ToggleGrid),
                 new(Key.S, WorkspaceCommands.ToggleSnappingEnabled),
+                new(Key.F, WorkspaceCommands.ZoomFitSelected),
+                new(Key.F, ModifierKeys.Control, WorkspaceCommands.ZoomFitAll),
                 new(Key.T, WorkspaceCommands.Transform),
                 new(Key.W, WorkspaceCommands.AlignWorkingPlane),
                 new(Key.Delete, WorkspaceCommands.DeleteEntity),

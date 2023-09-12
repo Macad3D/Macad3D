@@ -38,8 +38,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (IsToolActive)
             {
-                var tool = WorkspaceController.CurrentTool as CreateExtrudeTool;
-                tool?.Stop();
+                (WorkspaceController.CurrentTool as CreateExtrudeTool)?.Stop();
             }
             else
             {
@@ -55,18 +54,18 @@ namespace Macad.Interaction.Editors.Shapes
             Extrude = instance as Extrude;
             ReselectFaceCommand = new RelayCommand(ExecuteReselectFace);
 
-            WorkspaceController.PropertyChanged += workspaceController_PropertyChanged;
+            WorkspaceController.PropertyChanged += _workspaceController_PropertyChanged;
 
             InitializeComponent();
         }
         
         //--------------------------------------------------------------------------------------------------
 
-        void workspaceController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        void _workspaceController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "CurrentTool")
             {
-                if (!(WorkspaceController.CurrentTool is CreateImprintTool))
+                if (!(WorkspaceController.CurrentTool is CreateExtrudeTool))
                     IsToolActive = false;
             }
         }
@@ -75,7 +74,11 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override void Cleanup()
         {
-            WorkspaceController.PropertyChanged -= workspaceController_PropertyChanged;
+            if (IsToolActive)
+            {
+                (WorkspaceController.CurrentTool as CreateExtrudeTool)?.Stop();
+            }
+            WorkspaceController.PropertyChanged -= _workspaceController_PropertyChanged;
         }
 
         //--------------------------------------------------------------------------------------------------

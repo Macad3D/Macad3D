@@ -78,7 +78,7 @@
         <!-- Size -->
         <TextBlock Grid.Row="1" Grid.Column="0" 
                    Text="Dimension" 
-                   Style="{StaticResource Macad.Styles.TextBlock.Property}"
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}"
                    Visibility="{Binding Pipe.Profile, Converter={mmp:EqualityToInvisibleCollapsedConverter}, ConverterParameter=Custom}"/>
         <StackPanel Grid.Row="1" Grid.Column="1"
                     Orientation="Horizontal"
@@ -107,7 +107,7 @@
         <!-- Rotation -->
         <TextBlock Grid.Row="3" Grid.Column="0" 
                    Text="Rotation" 
-                   Style="{StaticResource Macad.Styles.TextBlock.Property}"
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}"
                    Visibility="{Binding Pipe.Profile, Converter={mmp:EqualityToInvisibleCollapsedConverter}, ConverterParameter=Custom}"/>
         <mmp:ValueEditBox Grid.Row="3" Grid.Column="1" 
                           Units="Degree" MinValue="-359.9" MaxValue="359.9"
@@ -118,7 +118,7 @@
         <!-- Thickness -->
         <TextBlock Grid.Row="4" Grid.Column="0" 
                    Text="Wall Thickness" 
-                   Style="{StaticResource Macad.Styles.TextBlock.Property}"
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}"
                    Visibility="{Binding ProfileIsHollow, Converter={mmp:BoolToVisibleCollapsedConverter}}"/>
         <mmp:ValueEditBox Grid.Row="4" Grid.Column="1" 
                           Units="Length" MinValue="0.01"
@@ -129,7 +129,7 @@
         <!-- Bend Radius -->
         <TextBlock Grid.Row="6" Grid.Column="0" 
                    Text="Bend Radius" 
-                   Style="{StaticResource Macad.Styles.TextBlock.Property}"/>
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}"/>
         <mmp:ValueEditBox Grid.Row="6" Grid.Column="1" 
                           Units="Length" MinValue="0.01"
                           Value="{Binding Pipe.BendRadius, NotifyOnSourceUpdated=True}"
@@ -146,9 +146,9 @@
         <!-- Length -->
         <TextBlock Grid.Row="9" Grid.Column="0" 
                    Text="Overall length" 
-                   Style="{StaticResource Macad.Styles.TextBlock.Property}"/>
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}"/>
         <TextBlock Grid.Row="9" Grid.Column="1" 
                    Text="{Binding Pipe.MeasuredOverallLength, StringFormat={}{0:f2} mm}" 
-                   Style="{StaticResource Macad.Styles.TextBlock.Property}"/>
+                   Style="{DynamicResource Macad.Styles.TextBlock.Property}"/>
     </Grid>
 </panels:PropertyPanel>

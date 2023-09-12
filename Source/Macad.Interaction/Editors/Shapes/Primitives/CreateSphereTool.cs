@@ -25,6 +25,7 @@ namespace Macad.Interaction.Editors.Shapes
 
         Sphere _PreviewShape;
         VisualObject _VisualShape;
+        bool _IsTemporaryVisual;
 
         Coord2DHudElement _Coord2DHudElement;
         ValueHudElement _ValueHudElement;
@@ -57,6 +58,7 @@ namespace Macad.Interaction.Editors.Shapes
             if (_VisualShape != null)
             {
                 WorkspaceController.VisualObjects.Remove(_VisualShape.Entity);
+                _VisualShape.Remove();
                 _VisualShape = null;
             }
             base.Cleanup();
@@ -118,8 +120,12 @@ namespace Macad.Interaction.Editors.Shapes
         void _RadiusAction_Finished(AxisValueAction action, AxisValueAction.EventArgs args)
         {
             InteractiveContext.Current.Document.Add(_PreviewShape.Body);
-            _VisualShape.IsSelectable = true;
-            _VisualShape = null; // Prevent removing
+            if (!_IsTemporaryVisual)
+            {
+                _VisualShape.IsSelectable = true;
+                _VisualShape = null; // Prevent removing
+            }
+
             CommitChanges();
 
             Stop();
@@ -153,7 +159,16 @@ namespace Macad.Interaction.Editors.Shapes
                 var body = Body.Create(_PreviewShape);
                 _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
                 _PreviewShape.Body.Position = _Position;
-                _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
+                if (body.Layer.IsVisible)
+                {
+                    _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
+                    _IsTemporaryVisual = false;
+                }
+                else
+                {
+                    _VisualShape = new VisualShape(WorkspaceController, body, VisualShape.Options.Ghosting);
+                    _IsTemporaryVisual = true;
+                }
                 _VisualShape.IsSelectable = false;
             }
             _PreviewShape.Radius = _Radius;

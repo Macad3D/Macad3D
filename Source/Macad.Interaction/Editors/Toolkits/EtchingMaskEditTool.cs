@@ -245,7 +245,7 @@ namespace Macad.Interaction.Editors.Toolkits
                     return;
                 visObject.OverrideBrep = selectionBRep;
 
-                _SelectFaceAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _Body, new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane));
+                _SelectFaceAction = new SelectSubshapeAction(SubshapeTypes.Face, _Body, new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane));
                 if (!StartAction(_SelectFaceAction))
                 {
                     _SelectFaceAction = null;

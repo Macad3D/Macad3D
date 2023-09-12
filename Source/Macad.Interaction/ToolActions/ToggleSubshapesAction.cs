@@ -12,7 +12,6 @@ namespace Macad.Interaction
             public TopoDS_Shape Shape;
             public AIS_Shape AisShape;
             public bool IsSelected;
-            public int RefId;
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -30,6 +29,7 @@ namespace Macad.Interaction
 
         Subshape _ChangedSubshape;
         readonly List<Subshape> _Subshapes = new();
+        Prs3d_Drawer _TopmostHighlightDrawer;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -50,14 +50,13 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public void AddSubshape(TopoDS_Shape shape, Trsf trsf, bool isSelected, int refId)
+        public void AddSubshape(TopoDS_Shape shape, Trsf trsf, bool isSelected)
         {
             var subshape = new Subshape()
             {
                 Shape = shape,
                 IsSelected = isSelected,
-                AisShape = new AIS_Shape(shape),
-                RefId = refId
+                AisShape = new AIS_Shape(shape)
             };
 
             //Debug.WriteLine(string.Format("Added component to sum: {0}", Subshapes.Count));
@@ -66,7 +65,14 @@ namespace Macad.Interaction
             subshape.AisShape.SetColor(isSelected ? Colors.FilteredSubshapesHot : Colors.FilteredSubshapes);
 
             subshape.AisShape.Attributes().WireAspect().SetWidth(2);
-            subshape.AisShape.SetZLayer(-2);
+            subshape.AisShape.SetZLayer(-2 /* Top */);
+
+            if (_TopmostHighlightDrawer == null)
+            {
+                _TopmostHighlightDrawer = new Prs3d_Drawer(WorkspaceController.Workspace.AisContext.HighlightStyle(Prs3d_TypeOfHighlight.Dynamic));
+                _TopmostHighlightDrawer.SetZLayer(-3 /* TopMost */);
+            }
+            subshape.AisShape.SetDynamicHilightAttributes(_TopmostHighlightDrawer);
             WorkspaceController.Workspace.AisContext.Display(subshape.AisShape, false);
             WorkspaceController.Workspace.AisContext.Activate(subshape.AisShape, 0, false);
             WorkspaceController.Workspace.AisContext.SetSelectionSensitivity(subshape.AisShape, 0, 10);
@@ -107,6 +113,7 @@ namespace Macad.Interaction
                         MouseEventData = data
                     };
                     Finished?.Invoke(this, args);
+                    data.ForceReDetection = true;
                     break;
                 }
             }

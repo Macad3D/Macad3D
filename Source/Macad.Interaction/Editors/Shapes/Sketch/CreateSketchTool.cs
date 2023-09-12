@@ -46,7 +46,7 @@ namespace Macad.Interaction.Editors.Shapes
                 Add(_DefaultPlanes);
                 var selectionFilter = new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane)
                                           .Or(new SignatureSelectionFilter(VisualPlane.SelectionSignature));
-                var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, null, selectionFilter);
+                var toolAction = new SelectSubshapeAction(SubshapeTypes.Face, null, selectionFilter);
                 if (!StartAction(toolAction))
                     return false;
                 toolAction.Finished += _ToolAction_Finished;

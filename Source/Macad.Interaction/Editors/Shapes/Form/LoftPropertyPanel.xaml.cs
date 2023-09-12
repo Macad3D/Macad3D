@@ -91,12 +91,11 @@ namespace Macad.Interaction.Editors.Shapes
 
         public ICommand AddSectionCommand { get; private set; }
 
-        void ExecuteReselectFace()
+        void ExecuteAddSection()
         {
             if (IsToolActive)
             {
-                var tool = WorkspaceController.CurrentTool as CreateLoftTool;
-                tool?.Stop();
+                (WorkspaceController.CurrentTool as CreateLoftTool)?.Stop();
             }
             else
             {
@@ -116,7 +115,7 @@ namespace Macad.Interaction.Editors.Shapes
             SwitchEndCappingCommand = new RelayCommand<Loft.CappingMode>(ExecuteSwitchEndCapping);
             SwitchThickenDirectionCommand = new RelayCommand<Loft.Direction>(ExecuteSwitchThickenDirection);
             SwitchThickenCornerTypeCommand = new RelayCommand<Loft.CornerType>(ExecuteSwitchThickenCornerType);
-            AddSectionCommand = new RelayCommand(ExecuteReselectFace);
+            AddSectionCommand = new RelayCommand(ExecuteAddSection);
 
             WorkspaceController.PropertyChanged += workspaceController_PropertyChanged;
 
@@ -138,6 +137,10 @@ namespace Macad.Interaction.Editors.Shapes
 
         public override void Cleanup()
         {
+            if (IsToolActive)
+            {
+                (WorkspaceController.CurrentTool as CreateLoftTool)?.Stop();
+            }
             WorkspaceController.PropertyChanged -= workspaceController_PropertyChanged;
         }
 

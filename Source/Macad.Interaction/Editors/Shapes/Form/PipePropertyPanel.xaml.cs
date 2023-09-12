@@ -30,16 +30,24 @@ namespace Macad.Interaction.Editors.Shapes
             if (Pipe.Profile != profile)
             {
                 Sketch profileSketch = null;
-                Pipe.Profile = profile;
 
-                if (profile == Pipe.ProfileType.Custom && Pipe.Operands.Count < 2)
+                if (profile == Pipe.ProfileType.Custom)
                 {
-                    Pipe.Body.SaveTopologyUndo();
-                    profileSketch = Sketch.Create();
-                    profileSketch.Body = Pipe.Body;
-                    profileSketch.Name = "Profile";
-                    Pipe.AddOperand(profileSketch);
+                    if (Pipe.Operands.Count < 2)
+                    {
+                        Pipe.Body.SaveTopologyUndo();
+                        Pipe.InitCustomProfile();
+                        profileSketch = Pipe.Operands.Count > 1 ? Pipe.Operands[1] as Sketch : null;
+                    }
                 }
+                else // proile == custom
+                {
+                    if (Pipe.Operands.Count > 1)
+                    {
+                        Pipe.RemoveOperand(1);
+                    }
+                }
+                Pipe.Profile = profile;
                 CommmitChange();
 
                 RaisePropertyChanged(nameof(ProfileIsHollow));

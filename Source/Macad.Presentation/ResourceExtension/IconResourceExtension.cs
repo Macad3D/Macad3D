@@ -28,7 +28,7 @@ namespace Macad.Presentation
                 return null;
 
             // Treat as XAML resource
-            var drawing = Application.Current.FindResource("Icon_" + IconName) as Drawing;
+            var drawing = Application.Current?.FindResource("Icon_" + IconName) as Drawing;
             if (drawing == null)
                 return null;
 

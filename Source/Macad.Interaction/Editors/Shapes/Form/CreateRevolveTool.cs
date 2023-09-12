@@ -29,7 +29,7 @@ public class CreateRevolveTool : Tool
         // Select plane
         _DefaultAxes = new(WorkspaceController, _TargetBody.GetCoordinateSystem(), Trihedron.Components.Axes);
         Add(_DefaultAxes);
-        var toolAction = new SelectSubshapeAction(this, SubshapeTypes.None, null, _DefaultAxes.GetSelectionFilter());
+        var toolAction = new SelectSubshapeAction(SubshapeTypes.None, null, _DefaultAxes.GetSelectionFilter());
         if (!StartAction(toolAction))
             return false;
         toolAction.Finished += _ToolAction_Finished;

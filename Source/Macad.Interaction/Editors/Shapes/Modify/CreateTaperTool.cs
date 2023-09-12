@@ -80,10 +80,10 @@ namespace Macad.Interaction.Editors.Shapes
                 OverrideVisualShape(_TargetBody, _TargetBrep);
             }
 
-            var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _TargetBody,
-                new OrSelectionFilter(new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane), 
-                                      new FaceSelectionFilter(FaceSelectionFilter.FaceType.Cone),
-                                      new FaceSelectionFilter(FaceSelectionFilter.FaceType.Cylinder)));
+            var toolAction = new SelectSubshapeAction(SubshapeTypes.Face, _TargetBody,
+                                                      new OrSelectionFilter(new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane), 
+                                                                            new FaceSelectionFilter(FaceSelectionFilter.FaceType.Cone),
+                                                                            new FaceSelectionFilter(FaceSelectionFilter.FaceType.Cylinder)));
             if (!StartAction(toolAction))
                 return false;
             toolAction.Finished += _SelectFaceAction_Finished;
@@ -130,7 +130,7 @@ namespace Macad.Interaction.Editors.Shapes
                     });
                 _SubshapesOfFace.AddRange(vertices);
 
-                var newAction = new SelectSubshapeAction(this, _SubshapesOfFace);
+                var newAction = new SelectSubshapeAction(_SubshapesOfFace);
                 if (!StartAction(newAction))
                 {
                     Stop();

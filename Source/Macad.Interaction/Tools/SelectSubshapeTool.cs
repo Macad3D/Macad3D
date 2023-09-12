@@ -46,7 +46,7 @@ namespace Macad.Interaction
                 OverrideVisualShape(_TargetBody, _TargetShape.GetTransformedBRep());
             }
 
-            var toolAction = new SelectSubshapeAction(this, SubshapeTypeHelper.GetTypes(_SubshapeType), _TargetBody, _SelectionFilter);
+            var toolAction = new SelectSubshapeAction(SubshapeTypeHelper.GetTypes(_SubshapeType), _TargetBody, _SelectionFilter);
             if (!StartAction(toolAction))
             {
                 return false;

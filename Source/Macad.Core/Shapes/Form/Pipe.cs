@@ -7,6 +7,7 @@ using System.Windows.Documents;
 using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Core.Geom;
+using Macad.Core.Toolkits;
 using Macad.Core.Topology;
 using Macad.Occt;
 using Macad.Occt.Helper;
@@ -334,6 +335,13 @@ namespace Macad.Core.Shapes
             firstSpineCurve.D1(firstParam, ref location, ref edgeTangent);
             Pln plane = new Pln(location, edgeTangent.ToDir());
 
+            return _CreateProfile(plane);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        TopoDS_Shape _CreateProfile(Pln plane)
+        {
             // Custom sketch
             if (_Profile == ProfileType.Custom)
             {
@@ -815,6 +823,21 @@ namespace Macad.Core.Shapes
             EnsureHistory();
             return _ArcInfos;
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void InitCustomProfile()
+        {
+            if (_Profile == ProfileType.Custom)
+                return;
+
+            var profileSketch = ConvertToEditableSketch.Convert(_CreateProfile(Pln.XOY));
+            profileSketch.Body = Body;
+            profileSketch.Name = "Profile";
+            AddOperand(profileSketch);
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
     }

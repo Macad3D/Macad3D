@@ -239,5 +239,27 @@ namespace Macad.Test.Unit.Interaction.Primitives
                 ctx.WorkspaceController.StopEditor();
             });
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateSphereLayerHidden()
+        {
+            var ctx = Context.Current;
+            ctx.Layers.Default.IsVisible = false;
+            ctx.WorkspaceController.StartTool(new CreateSphereTool());
+
+            Assert.Multiple(() =>
+            {
+                ctx.ClickAt(250, 250);
+                ctx.MoveTo(450, 250);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSphereHidden01"));
+                ctx.ClickAt(450, 250);
+                ctx.MoveTo(0, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSphereHidden02"));
+                ctx.ClickAt(0, 0);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSphereHidden03"));
+            });
+        }
     }
 }
