@@ -30,7 +30,7 @@ public class HoleOnFaceTool : Tool
     protected override bool OnStart()
     {
         // Initialize ToolAction to select subshape from type Face
-        var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _TargetBody);
+        var toolAction = new SelectSubshapeAction(SubshapeTypes.Face, _TargetBody);
         if (!StartAction(toolAction))
         {
             return false;

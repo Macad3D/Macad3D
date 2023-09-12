@@ -52,7 +52,7 @@ Finally, we set a help text and a special face selection cursor, so it is clear 
 ```cs
 public override bool Start()
 {
-  var toolAction = new SelectSubshapeAction(this, SubshapeTypes.Face, _TargetBody);
+  var toolAction = new SelectSubshapeAction(SubshapeTypes.Face, _TargetBody);
   if (!StartAction(toolAction))
     return false;
   toolAction.Finished += _OnActionFinished;
