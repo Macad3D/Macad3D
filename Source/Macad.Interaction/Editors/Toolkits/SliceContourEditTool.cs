@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -255,6 +254,7 @@ namespace Macad.Interaction.Editors.Toolkits
         }
 
         SelectSubshapeAction _SelectFaceAction;
+        TopoDS_Shape _BrepForFaceSelection;
         Shape _ShapeForFaceSelection;
 
         //--------------------------------------------------------------------------------------------------
@@ -283,13 +283,13 @@ namespace Macad.Interaction.Editors.Toolkits
             else
             {
                 _ShapeForFaceSelection = _Component?.GetShape() ?? _Body.Shape;
-                var selectionBRep = _ShapeForFaceSelection.GetTransformedBRep();
-                if (selectionBRep == null)
+                _BrepForFaceSelection = _ShapeForFaceSelection.GetTransformedBRep();
+                if (_BrepForFaceSelection == null)
                     return;
                 var visObject = WorkspaceController.VisualObjects.Get(_Body, true) as VisualShape;
                 if (visObject == null)
                     return;
-                visObject.OverrideBrep = selectionBRep;
+                visObject.OverrideBrep = _BrepForFaceSelection;
 
                 _SelectFaceAction = new SelectSubshapeAction(SubshapeTypes.Face, _Body, new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane));
                 if (!StartAction(_SelectFaceAction))
@@ -319,7 +319,7 @@ namespace Macad.Interaction.Editors.Toolkits
                     return;
                 }
 
-                var subshapeReference = _Body.Shape.GetSubshapeReference(_ShapeForFaceSelection.GetTransformedBRep(), args.SelectedSubshape);
+                var subshapeReference = _ShapeForFaceSelection.GetSubshapeReference(_BrepForFaceSelection, args.SelectedSubshape);
 
                 if (subshapeReference != null)
                 {

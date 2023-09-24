@@ -216,5 +216,34 @@ namespace Macad.Test.Unit.Interaction.Toolkits
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SelectionContext02"));
             });
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        [Description("Ensure face selection on other source shapes than the current.")]
+        public void ReselectWithDifferentShape()
+        {
+            var ctx = Context.InitWithView(500);
+            var box = TestGeomGenerator.CreateBox();
+            var array = LinearArray.Create(box.Body);
+            array.Quantity1 = 1;
+            array.Quantity2 = 3;
+
+            ctx.ViewportController.ZoomFitAll();
+
+            // Start tool
+            ctx.WorkspaceController.Selection.SelectEntity(box.Body);
+            Assert.IsTrue(ToolboxCommands.CreateSliceContour.CanExecute());
+            ToolboxCommands.CreateSliceContour.Execute();
+            var tool = ctx.WorkspaceController.CurrentTool as SliceContourEditTool;
+            Assert.IsNotNull(tool);
+            Assert.IsTrue(tool.Component.IsValid);
+
+            tool.Component.ShapeGuid = box.Guid;
+            tool.ToggleFaceSelection();
+            ctx.ClickAt(150,100);
+            Assert.IsTrue(tool.Component.IsValid);
+            Assert.AreEqual(box.Guid, tool.Component.ReferenceFace.ShapeId);
+        }
     }
 }

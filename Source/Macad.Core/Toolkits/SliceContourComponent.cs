@@ -282,7 +282,7 @@ namespace Macad.Core.Toolkits
             }
             else
             {
-                context.ReferenceFace = shape.FindSubshape(ReferenceFace, null).FirstOrDefault()?.ToFace();
+                context.ReferenceFace = shape.FindSubshape(ReferenceFace, null)?.FirstOrDefault()?.ToFace();
                 if (context.ReferenceFace == null)
                 {
                     Messages.Error("Manual reference face cannot be found and needs to be reselected.");
