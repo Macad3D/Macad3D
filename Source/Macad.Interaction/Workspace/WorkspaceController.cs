@@ -432,7 +432,7 @@ namespace Macad.Interaction
                     _LastDetectedInteractive = Workspace.AisContext.DetectedInteractive();
                     _LastDetectedOwner = Workspace.AisContext.DetectedOwner();
                     detectedShape = AisHelper.GetDetectedShapeFromContext(Workspace.AisContext);
-                    detectedEntity = VisualObjects.GetVisibleEntity(_LastDetectedInteractive);
+                    detectedEntity = VisualObjects.GetEntity(_LastDetectedInteractive);
                 }
 
                 _MouseEventData.Set(viewportController.Viewport, pos, rawPoint, planePoint, detectedEntity, _LastDetectedInteractive, detectedShape, modifierKeys);
@@ -556,7 +556,7 @@ namespace Macad.Interaction
                                           viewportController.Viewport.V3dView, 
                                           _MouseEventData.DetectedAisInteractives, _MouseEventData.DetectedShapes) > 0)
             {
-                var entities = _MouseEventData.DetectedAisInteractives.Select(VisualObjects.GetVisibleEntity).Where(entity => entity != null);
+                var entities = _MouseEventData.DetectedAisInteractives.Select(VisualObjects.GetEntity).Where(entity => entity != null);
                 _MouseEventData.DetectedEntities.AddRange(entities);
             }
         }
@@ -573,7 +573,7 @@ namespace Macad.Interaction
                                                 viewportController.Viewport.V3dView, 
                                                 _MouseEventData.DetectedAisInteractives, _MouseEventData.DetectedShapes) > 0)
             {
-                var entities = _MouseEventData.DetectedAisInteractives.Select(VisualObjects.GetVisibleEntity).Where(entity => entity != null);
+                var entities = _MouseEventData.DetectedAisInteractives.Select(VisualObjects.GetEntity).Where(entity => entity != null);
                 _MouseEventData.DetectedEntities.AddRange(entities);
             }
         }

@@ -286,6 +286,7 @@ namespace Macad.Test.Unit.Interaction.Form
 
             var extrude = TestGeomGenerator.CreateExtrude();
             extrude.Body.Rotation = new Quaternion(0, -45.0.ToRad(), 0);
+            extrude.Symmetric = true;
             ctx.WorkspaceController.StartEditor(extrude);
 
             ctx.ViewportController.ZoomFitAll();
@@ -293,15 +294,19 @@ namespace Macad.Test.Unit.Interaction.Form
 
             Assert.Multiple(() =>
             {
-                ctx.MoveTo(270, 217);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthSymmetric01"));
+                ctx.MoveTo(271, 213);
                 ctx.ViewportController.MouseDown();
-                ctx.MoveTo(280, 180);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthSymmetric01"));
-                ctx.MoveTo(280, 180, ModifierKeys.Shift);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthSymmetric02"));
-                ctx.MoveTo(280, 180);
-                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthSymmetric01"));
+                ctx.MoveTo(300, 126);
                 ctx.ViewportController.MouseUp();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthSymmetric02"));
+                ctx.MoveTo(184, 362);
+                ctx.ViewportController.MouseDown();
+                ctx.MoveTo(204, 324);
+                ctx.ViewportController.MouseUp();
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthSymmetric03"));
+                extrude.Symmetric = false;
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthSymmetric04"));
 
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();

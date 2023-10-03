@@ -80,10 +80,22 @@ public abstract class Editor : WorkspaceControl
     {
         // Conditions for tools start
         bool toStart = WorkspaceController.CurrentTool == null;
-        if (GetEntity() is Shape shape)
+        var entity = GetEntity();
+        var body = entity as Body;
+
+        if (entity is Shape shape)
         {
-            toStart &= shape.Body is { IsVisible: true } 
-                       && shape.Body.IsShapeEffective(shape);
+            body = shape.Body;
+            toStart &= shape.Body.IsShapeEffective(shape);
+        }
+
+        if (body != null)
+        {
+            toStart &= body.IsVisible;
+            if (body.Layer != null)
+            {
+                toStart &= body.Layer.IsVisible;
+            }
         }
 
         if(toStart && !ToolsActive)

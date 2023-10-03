@@ -163,6 +163,7 @@ namespace Macad.Interaction.Visual
             foreach (var visualShape in workspaceController.VisualObjects.Where(entity => entity.Layer == layer).OfType<VisualShape>())
             {
                 visualShape._UpdateInteractivityStatus();
+                visualShape._UpdatePresentation();
             }
         }
 
@@ -415,6 +416,7 @@ namespace Macad.Interaction.Visual
                 return false;
 
             if (_IsHidden 
+                || !Entity.IsVisible
                 || !layer.IsVisible
                 || layer.IsLocked
                 || CoreContext.Current.Layers.IsolateActiveLayer && CoreContext.Current.Layers.ActiveLayer != layer)
@@ -442,7 +444,7 @@ namespace Macad.Interaction.Visual
             if (layer == null)
                 return;
 
-            bool isVisible = !_IsHidden && layer.IsVisible;
+            bool isVisible = !_IsHidden && Entity.IsVisible && layer.IsVisible;
             if (WorkspaceController.VisualObjects.EntityIsolationEnabled)
             {
                 isVisible &= WorkspaceController.VisualObjects.GetIsolatedEntities().Contains(Entity);

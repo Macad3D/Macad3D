@@ -40,9 +40,6 @@ public class SelectEntityAction<T> : ToolAction where T: InteractiveEntity
 
         foreach (var entity in WorkspaceController.VisualObjects.GetVisibleEntities())
         {
-            if(!entity.IsVisible)
-                continue;
-
             var castedEntity = entity as T;
             if(castedEntity == null)
                 continue;

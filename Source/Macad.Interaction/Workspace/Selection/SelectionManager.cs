@@ -169,7 +169,7 @@ namespace Macad.Interaction
             aisContext.InitSelected();
             while (aisContext.MoreSelected())
             {
-                var selected = _WorkspaceController.VisualObjects.GetVisibleEntity(aisContext.SelectedInteractive());
+                var selected = _WorkspaceController.VisualObjects.GetEntity(aisContext.SelectedInteractive());
                 if (selected != null)
                     aisSelected.Add(selected);
 

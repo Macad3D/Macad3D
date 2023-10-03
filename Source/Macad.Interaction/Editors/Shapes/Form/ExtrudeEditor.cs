@@ -10,7 +10,7 @@ namespace Macad.Interaction.Editors.Shapes;
 
 public class ExtrudeEditor : Editor<Extrude>
 {
-    TranslateAxisLiveAction _TranslateAction;
+    TranslateAxisLiveAction[] _TranslateActions;
     LabelHudElement _HudElement;
     bool _IsMoving;
     double _StartDepth;
@@ -35,7 +35,7 @@ public class ExtrudeEditor : Editor<Extrude>
     protected override void OnToolsStop()
     {
         _HudElement = null;
-        _TranslateAction = null;
+        _TranslateActions = null;
         Shape.ShapeChanged -= _Shape_ShapeChanged;              
     }
 
@@ -56,39 +56,50 @@ public class ExtrudeEditor : Editor<Extrude>
 
     void _ShowActions()
     {
+        //--------------------------------------------------------------------------------------------------
+
         if (Entity?.Body == null)
         {
             StopAllActions();
-            _TranslateAction = null;
+            _TranslateActions = null;
             return;
         }
 
-        if (_TranslateAction == null)
+        _TranslateActions ??= new[]
         {
-            _TranslateAction = new()
-            {
-                Color = Colors.ActionBlue,
-                Cursor = Cursors.SetHeight,
-                NoResize = true,
-                Length = 1.0,
-            };
-            _TranslateAction.Preview += _TranslateAction_Preview;
-            _TranslateAction.Finished += _TranslateActionFinished;
-            StartAction(_TranslateAction);
-        }
+            _CreateAction(),
+            Entity.Symmetric ? _CreateAction() : null
+        };
 
         _UpdateActions();
     }
 
     //--------------------------------------------------------------------------------------------------
 
+    TranslateAxisLiveAction _CreateAction()
+    {
+        TranslateAxisLiveAction action = new()
+        {
+            Color = Colors.ActionBlue,
+            Cursor = Cursors.SetHeight,
+            NoResize = true,
+            Length = 1.0,
+        };
+        action.Preview += _TranslateAction_Preview;
+        action.Finished += _TranslateActionFinished;
+        StartAction(action);
+        return action;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _UpdateActions()
     {
-        if (_TranslateAction == null
+        if (_TranslateActions == null
             || !Entity.GetFinalExtrusionAxis(out Ax1 axis))
         {
             StopAllActions();
-            _TranslateAction = null;
+            _TranslateActions = null;
             return;
         }
         axis.Transform(Entity.Body.GetTransformation());
@@ -102,7 +113,20 @@ public class ExtrudeEditor : Editor<Extrude>
             if (Entity.IsSketchBased && Math.Sign(_StartDepth) != Math.Sign(Entity.Depth))
                 axis.Reverse();
         }
-        _TranslateAction.Axis = axis;
+        _TranslateActions[0].Axis = axis;
+        if (Entity.Symmetric)
+        {
+            _TranslateActions[1] ??= _CreateAction();
+            _TranslateActions[1].Axis = axis.Reversed().Translated(axis.Direction.Reversed().ToVec(Entity.Depth));
+        }
+        else
+        {
+            if (_TranslateActions[1] != null)
+            {
+                StopAction(_TranslateActions[1]);
+                _TranslateActions[1] = null;
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -114,17 +138,9 @@ public class ExtrudeEditor : Editor<Extrude>
         double newDepth;
         if (Entity.IsSketchBased)
         {
-            SetHintMessage("Scale extrusion depth using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to extrude symmetric to both sides.");
+            SetHintMessage("Scale extrusion depth using gizmo, press 'CTRL' to round to grid stepping.");
 
-            bool shallSymmetric = args.MouseEventData.ModifierKeys.Has(ModifierKeys.Shift);
-            if (shallSymmetric != Entity.Symmetric)
-            {
-                Entity.Symmetric = shallSymmetric;
-                _StartDepth = shallSymmetric
-                                  ? _StartDepth * 2
-                                  : _StartDepth * 0.5;
-            }
-            newDepth = _StartDepth + args.Distance * (_StartDepth < 0 ? -1.0 : 1.0);
+            newDepth = _StartDepth + args.Distance * (Entity.Symmetric ? 2.0 : 1.0) * (_StartDepth < 0 ? -1.0 : 1.0);
         }
         else
         {

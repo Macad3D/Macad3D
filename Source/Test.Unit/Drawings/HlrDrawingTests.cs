@@ -1,6 +1,9 @@
 ﻿using System.IO;
+using System.Linq;
 using Macad.Test.Utils;
 using Macad.Core.Shapes;
+using Macad.Core.Topology;
+using Macad.Interaction;
 using Macad.Occt;
 using Macad.Occt.Helper;
 using NUnit.Framework;
@@ -114,6 +117,43 @@ namespace Macad.Test.Unit.Drawings
             var visibleSharp = hlrAlgo.GetResult(HlrEdgeTypes.VisibleSharp);
             Assert.IsNotNull(visibleSharp);
             Assert.IsTrue(ModelCompare.CompareShape(visibleSharp, Path.Combine(_BasePath, "PolyMultiShape_VisSharp")));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        [TestCase(false, true, TestName = "EntityHidden")]
+        [TestCase(true, false, TestName = "LayerHidden")]
+        public void IgnoreInvisibleShapes(bool entityIsVisible, bool layerIsVisible)
+        {
+            var ctx = Context.InitWithView(500);
+
+            // Create simple geometry
+            var layer = new Layer
+            {
+                IsVisible = layerIsVisible,
+            };
+            ctx.Document.Layers.Add(layer);
+            var imprint = TestGeomGenerator.CreateImprint();
+            var box = TestGeomGenerator.CreateBox();
+            box.Body.IsVisible = entityIsVisible;
+            box.Body.Layer = layer;
+
+            ctx.WorkspaceController.Invalidate(forceRedraw: true);
+
+            var breps = ctx.WorkspaceController.VisualObjects.GetVisibleEntities()
+                           .OfType<Body>()
+                           .Select(body => body.GetTransformedBRep());
+
+            // Create HLR Algo
+            var hlrAlgo = new HlrBRepAlgo(breps);
+            hlrAlgo.SetProjection(_Projection);
+            hlrAlgo.Update();
+
+            // Get Hlr Shape
+            var visibleSharp = hlrAlgo.GetResult(HlrEdgeTypes.VisibleSharp);
+            Assert.IsNotNull(visibleSharp);
+            Assert.IsTrue(ModelCompare.CompareShape(visibleSharp, Path.Combine(_BasePath, "IgnoreInvisible")));
         }
 
         //--------------------------------------------------------------------------------------------------

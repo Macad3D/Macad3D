@@ -70,8 +70,7 @@ namespace Macad.Interaction
                 if (cl == null)
                     return;
                 
-                if (layer == null)
-                    layer = cl.ActiveLayer;
+                layer ??= cl.ActiveLayer;
                 if (layer == null)
                     return;
 
@@ -101,8 +100,7 @@ namespace Macad.Interaction
                 if (cl == null)
                     return;
 
-                if (layer == null)
-                    layer = cl.ActiveLayer;
+                layer ??= cl.ActiveLayer;
                 if (layer == null)
                     return;
 

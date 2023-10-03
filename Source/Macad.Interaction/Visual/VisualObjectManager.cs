@@ -70,12 +70,14 @@ namespace Macad.Interaction.Visual
 
             Entity.EntityRemoved += _Entity_EntityRemoved;
             InteractiveEntity.VisualChanged += _InteractiveEntity_VisualChanged;
+            Layer.InteractivityChanged += _Layer_InteractivityChanged;
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public void Dispose()
         {
+            Layer.InteractivityChanged -= _Layer_InteractivityChanged;
             InteractiveEntity.VisualChanged -= _InteractiveEntity_VisualChanged;
             Entity.EntityRemoved -= _Entity_EntityRemoved;
             
@@ -206,7 +208,7 @@ namespace Macad.Interaction.Visual
 
         public void Update(InteractiveEntity entity)
         {
-            if (!entity.IsVisible)
+            if (!entity.IsVisible || (!entity.Layer?.IsVisible ?? false))
             {
                 Remove(entity);
                 return;
@@ -238,7 +240,7 @@ namespace Macad.Interaction.Visual
 
         //--------------------------------------------------------------------------------------------------
 
-        public InteractiveEntity GetVisibleEntity(AIS_InteractiveObject aisInteractiveObject)
+        public InteractiveEntity GetEntity(AIS_InteractiveObject aisInteractiveObject)
         {
             var owner = aisInteractiveObject.GetOwner();
             if (AISX_Guid.TryGetGuid(owner, out var guid)
@@ -253,7 +255,7 @@ namespace Macad.Interaction.Visual
 
         public IEnumerable<InteractiveEntity> GetVisibleEntities()
         {
-            return _InteractiveToVisualDictionary.Keys;
+            return _InteractiveToVisualDictionary.Keys.Where(ie => ie.IsVisible && (ie.Layer?.IsVisible ?? true));
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -275,6 +277,17 @@ namespace Macad.Interaction.Visual
         {
             if(!_InvalidatedInteractiveEntities.Contains(entity))
                 _InvalidatedInteractiveEntities.Add(entity);
+
+            _WorkspaceController.Invalidate();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        void _Layer_InteractivityChanged(Layer layer)
+        {
+            _InvalidatedInteractiveEntities.AddRange(
+                InteractiveContext.Current.Document.Where(body => body.Layer == layer)
+                                  .Except(_InvalidatedInteractiveEntities));
 
             _WorkspaceController.Invalidate();
         }

@@ -2,6 +2,7 @@
 using System.Linq;
 using Macad.Core;
 using Macad.Core.Shapes;
+using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Interaction.Editors.Topology;
 using Macad.Presentation;
@@ -118,15 +119,17 @@ public class EditorTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void ToolsIfBodyInvisible()
+    [TestCase(false, true, TestName="Entity Hidden")]
+    [TestCase(true, false, TestName="Layer Hidden")]
+    public void ToolsIfBodyInvisible(bool isEntityVisible, bool isLayerVisible)
     {
         var ctx = Context.Current;
         var panelMgr = Context.Current.EnablePropertyPanels();
         var imprint = TestGeomGenerator.CreateImprint();
         var body = imprint.Body;
+        ctx.Document.Add(body);
         ctx.ViewportController.ZoomFitAll();
         ctx.WorkspaceController.Selection.SelectEntity(body);
-        
 
         Assert.Multiple(() =>
         {
@@ -134,11 +137,20 @@ public class EditorTests
             Assert.IsInstanceOf<ImprintEditor>(shapePanel.SelectedEditor);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolsIfBodyInvisible01"));
 
-            body.IsVisible = false;
+            body.IsVisible = isEntityVisible;
+            body.Layer.IsVisible = isLayerVisible;
+            DispatcherHelper.DoEventsSync(); // Editor Update comes via Dispatcher
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolsIfBodyInvisible02"));
+
+            // Reselect
+            ctx.WorkspaceController.Selection.DeselectEntity(body);
+            DispatcherHelper.DoEventsSync(); // Editor Update comes via Dispatcher
+            ctx.WorkspaceController.Selection.SelectEntity(body);
             DispatcherHelper.DoEventsSync(); // Editor Update comes via Dispatcher
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolsIfBodyInvisible02"));
 
             body.IsVisible = true;
+            body.Layer.IsVisible = true;
             DispatcherHelper.DoEventsSync(); // Editor Update comes via Dispatcher
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolsIfBodyInvisible01"));
         });
@@ -173,4 +185,7 @@ public class EditorTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolsAfterUndo01"));
         });
     }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

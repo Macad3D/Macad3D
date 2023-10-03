@@ -133,6 +133,16 @@ namespace Macad.Interaction.Editors.Topology
 
         //--------------------------------------------------------------------------------------------------
 
+        void _Layer_InteractivityChanged(Layer layer)
+        {
+            if (Body.Layer == layer)
+            {
+                Dispatcher.InvokeAsync(() => SelectedEditor?.UpdateToolsState());
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public BodyShapePropertyPanel()
         {
             Items = new ObservableCollection<BodyShapeTreeItem>();
@@ -154,6 +164,7 @@ namespace Macad.Interaction.Editors.Topology
 
             Body.PropertyChanged += _Body_PropertyChanged;
             InteractiveEntity.VisualChanged += _InteractiveEntity_VisualChanged;
+            Layer.InteractivityChanged += _Layer_InteractivityChanged;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -165,6 +176,7 @@ namespace Macad.Interaction.Editors.Topology
            
             Body.PropertyChanged -= _Body_PropertyChanged;
             Body = null;
+            Layer.InteractivityChanged -= _Layer_InteractivityChanged;
             InteractiveEntity.VisualChanged -= _InteractiveEntity_VisualChanged;
             
             SelectedItems.Clear();
