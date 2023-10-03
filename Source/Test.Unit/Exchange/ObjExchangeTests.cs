@@ -12,6 +12,20 @@ namespace Macad.Test.Unit.Exchange
     public class ObjExchangeTests
     {
         const string _BasePath = @"Exchange\Obj";
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [SetUp]
+        public void SetUp()
+        {
+            Context.InitEmpty();
+        }
+        
+        [TearDown]
+        public void TearDown()
+        {
+            Context.Current.Deinit();
+        }
 
         //--------------------------------------------------------------------------------------------------
 
