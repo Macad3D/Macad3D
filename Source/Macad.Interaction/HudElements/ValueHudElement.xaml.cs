@@ -76,10 +76,27 @@ namespace Macad.Interaction
 
         public override void SimulatedKeyDown(KeyEventArgs eventArgs)
         {
-            ValueEditBox.SimulatedKeyDown(eventArgs, !IsInKeyboardMode);
+            // Set keyboard mode in assumption that the input is valid
+            bool wasKeyboardMode = IsInKeyboardMode;
+            _IsInKeyboardMode = true;
+
+            ValueEditBox.SimulatedKeyDown(eventArgs, !wasKeyboardMode);
+
             if (eventArgs.Handled)
             {
-                IsInKeyboardMode = true;
+                if (wasKeyboardMode != _IsInKeyboardMode)
+                {
+                    // Key was valid, accept new keyboard mode
+                    RaisePropertyChanged(nameof(IsInKeyboardMode));
+                }
+            }
+            else
+            {
+                if (wasKeyboardMode != _IsInKeyboardMode)
+                {
+                    // Reset keyboard mode
+                    _IsInKeyboardMode = false;
+                }
             }
         }
 

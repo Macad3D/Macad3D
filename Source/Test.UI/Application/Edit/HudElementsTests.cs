@@ -123,6 +123,31 @@ public class HudElementsTests : UITestBase
         Assert.AreEqual(45, Pipe.GetValue<double>("$Selected.Shape.DimensionY"));
         Assert.AreEqual(0.8, Pipe.GetValue<double>("$Selected.Shape.DimensionZ"));
     }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ValueElement_EnterSubsequentValues()
+    {
+        // Init
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        MainWindow.Ribbon.ClickButton("CreateCylinder");
+
+        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateCylinder"), Is.True);
+        MainWindow.Viewport.ClickRelative(0.3, 0.3);
+        MainWindow.Viewport.MoveRelative(0.55, 0.6);
+
+        // Enter numbers
+        Pipe.TypeText("2");
+        Pipe.TypeKey(VirtualKeyShort.ENTER);
+        Pipe.TypeText("4");
+        Pipe.TypeKey(VirtualKeyShort.ENTER);
+
+        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateCylinder"), Is.False);
+        Assert.AreEqual("Cylinder_1", Pipe.GetValue<string>("$Selected.Name"));
+        Assert.AreEqual(2, Pipe.GetValue<double>("$Selected.Shape.Radius"));
+        Assert.AreEqual(4, Pipe.GetValue<double>("$Selected.Shape.Height"));
+    }
 
     //--------------------------------------------------------------------------------------------------
 
