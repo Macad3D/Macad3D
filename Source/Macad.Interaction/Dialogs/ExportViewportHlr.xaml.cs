@@ -151,6 +151,11 @@ namespace Macad.Interaction.Dialogs
 
         //--------------------------------------------------------------------------------------------------
 
+        public bool SelectedElementsOptionAvailable { get; set; }
+        public bool IncludeSelectedElementsOnly { get; set; }
+
+        //--------------------------------------------------------------------------------------------------
+
         #region Logic
 
         static int _LastFilterIndex = 1;
@@ -229,10 +234,12 @@ namespace Macad.Interaction.Dialogs
                 if (Settings.HiddenSewn)
                     hlrEdgeTypes |= HlrEdgeTypes.HiddenSewn;
 
-                var breps = InteractiveContext.Current.WorkspaceController.VisualObjects.GetVisibleEntities()
-                                                                                        .OfType<Body>()
-                                                                                        .Select(body => body.GetTransformedBRep())
-                                                                                        .Where(shape => shape != null);
+                var breps = (SelectedElementsOptionAvailable && IncludeSelectedElementsOnly
+                                ? InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities
+                                : InteractiveContext.Current.WorkspaceController.VisualObjects.GetVisibleEntities())
+                                                    .OfType<Body>()
+                                                    .Select(body => body.GetTransformedBRep())
+                                                    .Where(shape => shape != null);
                 var source = new TopoDSBrepSource(breps.ToArray());
                 var hlrBrepDrawing = HlrDrawing.Create(projection, hlrEdgeTypes, source);
                 hlrBrepDrawing.UseTriangulation = Settings.UseTriangulation;
@@ -262,6 +269,8 @@ namespace Macad.Interaction.Dialogs
             _Viewport = viewport;
 
             Settings = InteractiveContext.Current.LoadLocalSettings<ExportViewportHlrSettings>("ExportViewportHlr") ?? new ExportViewportHlrSettings();
+            SelectedElementsOptionAvailable = InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.Count > 0;
+            IncludeSelectedElementsOnly = SelectedElementsOptionAvailable;
 
             ExportCommand = new RelayCommand(ExecuteExport);
 

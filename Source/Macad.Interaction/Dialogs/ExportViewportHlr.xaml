@@ -82,6 +82,12 @@
                 Content="Use Triangulation (Polylines instead of curves)"
                 IsChecked="{Binding Settings.UseTriangulation}" />
 
+        <CheckBox Margin="0,10,0,0"
+                  Content="Include Selected Elements Only"
+                  IsChecked="{Binding IncludeSelectedElementsOnly}" 
+                  Visibility="{Binding SelectedElementsOptionAvailable, Converter={mmp:BoolToVisibleCollapsedConverter}}"
+                  AutomationProperties.AutomationId="IncludeSelectedElementsOnly"/>
+
     </StackPanel>
 </mmp:Dialog>
 
