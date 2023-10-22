@@ -26,7 +26,7 @@ namespace Macad.Interaction.Editors.Shapes
                 var tool = InteractiveContext.Current?.WorkspaceController?.CurrentTool;
                 if (tool == null)
                 {
-                    tool = new EdgeModifierTool(fillet);
+                    tool = new FilletEditorTool(fillet);
                     InteractiveContext.Current?.WorkspaceController?.StartTool(tool);
                 }
             },

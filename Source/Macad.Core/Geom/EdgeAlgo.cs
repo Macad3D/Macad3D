@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Macad.Common;
 using Macad.Occt;
 
 namespace Macad.Core.Geom
@@ -215,6 +216,30 @@ namespace Macad.Core.Geom
             var builder = new BRep_Builder();
             builder.Continuity(edge, face1, face2, newContinuity);
             return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static Pnt GetCenter(TopoDS_Edge edge)
+        {
+            var adaptor = edge.Adaptor();
+            var u1 = adaptor.FirstParameter();
+            var u2 = adaptor.LastParameter();
+            Pnt location = default;
+            adaptor.D0(u1.Lerp(u2, 0.5), ref location);
+            return location;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        public static void GetCenter(TopoDS_Edge edge, out Pnt location, out Vec tangent)
+        {
+            var adaptor = edge.Adaptor();
+            var u1 = adaptor.FirstParameter();
+            var u2 = adaptor.LastParameter();
+            location = default;
+            tangent = default;
+            adaptor.D1(u1.Lerp(u2, 0.5), ref location, ref tangent);
         }
 
         //--------------------------------------------------------------------------------------------------

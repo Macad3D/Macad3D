@@ -67,7 +67,6 @@ namespace Macad.Core.Shapes
         protected override bool MakeInternal(MakeFlags flags = MakeFlags.None)
         {
             ClearSubshapeLists();
-            ContourEdges.Clear();
 
             if (Operands.Count < 1)
             {
@@ -101,8 +100,7 @@ namespace Macad.Core.Shapes
 
             // Get final shape
             BRep = makeFillet.Shape();
-            UpdateModifiedSubshapes(sourceShape, makeFillet);
-            UpdateContourEdges(makeFillet, edges);
+            UpdateModifiedSubshapes(sourceShape, makeFillet, edges);
 
             return base.MakeInternal(flags);
         }

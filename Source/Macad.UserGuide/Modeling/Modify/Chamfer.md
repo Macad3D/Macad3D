@@ -21,7 +21,7 @@ Angle
 # Remarks
 To select the edges to chamfer click the editor button in the property panel. Unselected edges will be shown in blue, selected edges are shown in red. Re-click the editor button or press __ESC__ to close the editor. To select all possible edges, click __Select All__, to clear the selection click __Select None__.
 
-The chamfer modifier works on continous edges. When an edge is selected, additional edges may be selected too.
+The chamfer modifier works on continous edges. When an edge is selected, additional edges may be automatically included.
 
 > [!Note] The distance cannot be greater that the thickness of the face. If you want to chamfer the complete face, use [](xref:ef7f7484-88f2-45d7-8062-771c8c0ad04e) instead.
 

@@ -42,11 +42,11 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (IsToolActive)
             {
-                (WorkspaceController.CurrentTool as EdgeModifierTool)?.Stop();
+                (WorkspaceController.CurrentTool as ChamferEditorTool)?.Stop();
             }
             else
             {
-                WorkspaceController.StartTool(new EdgeModifierTool(Chamfer));
+                WorkspaceController.StartTool(new ChamferEditorTool(Chamfer));
             }
         }
 
@@ -102,7 +102,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (e.PropertyName == "CurrentTool")
             {
-                IsToolActive = WorkspaceController.CurrentTool is EdgeModifierTool;
+                IsToolActive = WorkspaceController.CurrentTool is ChamferEditorTool;
             }
         }
 
@@ -129,7 +129,7 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (IsToolActive)
             {
-                (WorkspaceController.CurrentTool as EdgeModifierTool)?.Stop();
+                (WorkspaceController.CurrentTool as ChamferEditorTool)?.Stop();
             }
             WorkspaceController.PropertyChanged -= workspaceController_PropertyChanged;
         }

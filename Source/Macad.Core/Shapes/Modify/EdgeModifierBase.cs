@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Occt;
 
@@ -35,23 +36,24 @@ namespace Macad.Core.Shapes
         //--------------------------------------------------------------------------------------------------
 
         SubshapeReference[] _Edges = Array.Empty<SubshapeReference>();
-        protected readonly Dictionary<TopoDS_Edge, TopoDS_Edge[]> ContourEdges = new ();
+        readonly Dictionary<TopoDS_Edge, TopoDS_Edge[]> _ContourEdges = new ();
+        readonly Dictionary<TopoDS_Edge, TopoDS_Face[]> _CreatedFaces = new ();
 
         //--------------------------------------------------------------------------------------------------
 
-        public IEnumerable<TopoDS_Edge> GetOcEdges()
+        protected IEnumerable<TopoDS_Edge> GetOcEdges()
         {
             bool inLocalSpace = Operands[0] is Shape;
             foreach (var edgeRef in _Edges)
             {
-                foreach (var edge in GetOcEdges(edgeRef))
+                foreach (var edge in _GetOcEdges(edgeRef))
                     yield return edge;
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public IEnumerable<TopoDS_Edge> GetOcEdges(SubshapeReference edgeRef)
+        IEnumerable<TopoDS_Edge> _GetOcEdges(SubshapeReference edgeRef)
         {
             var edgeList = Operands[0].FindSubshape(edgeRef, GetCoordinateSystem());
             if(edgeList == null)
@@ -72,12 +74,38 @@ namespace Macad.Core.Shapes
             foreach (var baseEdge in GetOcEdges())
             {
                 yield return baseEdge;
-                if (!ContourEdges.TryGetValue(baseEdge, out var contourEdges))
-                    continue;
 
+                if (!_ContourEdges.TryGetValue(baseEdge, out var contourEdges))
+                    continue;
                 foreach (var edge in contourEdges)
                     yield return edge;
             }
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public IEnumerable<TopoDS_Face> GetCreatedFaces(TopoDS_Edge edge)
+        {
+            EnsureHistory();
+
+            var faces = _CreatedFaces.FirstOrDefault(kvp => kvp.Key.IsSame(edge)).Value;
+            if(faces == null)
+                yield break;
+
+            foreach (var face in faces)
+            {
+                yield return face;
+            }
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public IEnumerable<TopoDS_Face> GetCreatedFaces(TopoDS_Face face)
+        {
+            EnsureHistory();
+
+            return GetSubshapeModifications(face).Where(shape => shape.ShapeType() == TopAbs_ShapeEnum.FACE)
+                                                 .Select(shape => shape.ToFace());
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -86,13 +114,13 @@ namespace Macad.Core.Shapes
         {
             foreach (var edgeRef in _Edges)
             {
-                var edges = GetOcEdges(edgeRef);
+                var edges = _GetOcEdges(edgeRef);
                 foreach (var baseEdge in edges)
                 {
                     if (Equals(baseEdge, contourEdge))
                         return edgeRef;
 
-                    if (!ContourEdges.TryGetValue(baseEdge, out var contourEdges))
+                    if (!_ContourEdges.TryGetValue(baseEdge, out var contourEdges))
                         continue;
 
                     if(contourEdges.Contains(contourEdge))
@@ -100,6 +128,19 @@ namespace Macad.Core.Shapes
                 }
             }
             return null;
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public SubshapeReference FindContourReference(TopoDS_Face contourFace)
+        {
+            var edge = _CreatedFaces.FirstOrDefault(kvp => kvp.Value.ContainsSame(contourFace)).Key;
+            if (edge == null || edge.ShapeType() != TopAbs_ShapeEnum.EDGE)
+            {
+                return null;
+            }
+
+            return FindContourReference(edge.ToEdge());
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -110,7 +151,7 @@ namespace Macad.Core.Shapes
                 return;
             var newEdges = new SubshapeReference[_Edges.Length + 1];
             _Edges.CopyTo(newEdges, 0);
-            newEdges[newEdges.Length - 1] = reference;
+            newEdges[^1] = reference;
             Edges = newEdges;
         }
 
@@ -146,13 +187,15 @@ namespace Macad.Core.Shapes
 
         public void RemoveAllEdges()
         {
-            Edges = new SubshapeReference[0];
+            Edges = Array.Empty<SubshapeReference>();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public IEnumerable<TopoDS_Edge> FindValidEdges(TopoDS_Shape sourceShape)
         {
+            EnsureHistory();
+
             var analysis = new ShapeAnalysis_Edge();
             var mapOfEdgesToFaces = new TopTools_IndexedDataMapOfShapeListOfShape(1);
             TopExp.MapShapesAndAncestors(sourceShape, TopAbs_ShapeEnum.EDGE, TopAbs_ShapeEnum.FACE, mapOfEdgesToFaces);
@@ -177,13 +220,17 @@ namespace Macad.Core.Shapes
                 }
 
                 if (valid)
-                    yield return edge;
+                {
+                    yield return GetSubshapeModifications(edge)?.FirstOrDefault(shp => shp.ShapeType() == TopAbs_ShapeEnum.EDGE)
+                                                               ?.ToEdge() 
+                                                               ?? edge;
+                }
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        protected Dictionary<TopoDS_Edge, TopoDS_Face> FindReferenceFaces(TopoDS_Shape sourceShape, IEnumerable<TopoDS_Edge> edges, bool reverseOrientation)
+        public Dictionary<TopoDS_Edge, TopoDS_Face> FindReferenceFaces(TopoDS_Shape sourceShape, IEnumerable<TopoDS_Edge> edges, bool reverseOrientation)
         {
             var dict = new Dictionary<TopoDS_Edge, TopoDS_Face> ();
 
@@ -244,12 +291,12 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        protected void UpdateContourEdges(BRepFilletAPI_LocalOperation filletOp, TopoDS_Edge[] edges)
+        void _UpdateContourEdges(BRepFilletAPI_LocalOperation filletOp, TopoDS_Edge[] edges)
         {
             var enhEdges = new List<TopoDS_Edge>();
             foreach (var baseEdge in edges)
             {
-                if (ContourEdges.ContainsKey(baseEdge))
+                if (_ContourEdges.ContainsKey(baseEdge))
                     continue;
 
                 int contour = filletOp.Contour(baseEdge);
@@ -262,13 +309,45 @@ namespace Macad.Core.Shapes
                 }
                 if (enhEdges.Any())
                 {
-                    ContourEdges.Add(baseEdge, enhEdges.ToArray());
+                    _ContourEdges.Add(baseEdge, enhEdges.ToArray());
                     enhEdges.Clear();
                 }
             }
         }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        void _UpdateCreatedFaces(BRepFilletAPI_LocalOperation filletOp, TopoDS_Edge[] edges)
+        {
+            List<TopoDS_Edge> edgeList = new(edges);
+            _ContourEdges.ForEach(kvp => edgeList.AddRange(kvp.Value));
+            foreach (var edge in edgeList.Distinct(new TopoDSShapeComparer(TopoDSShapeComparer.CompareMode.Same)))
+            {
+                var faces = filletOp.Generated(edge)
+                                    .Where(gf => gf.ShapeType() == TopAbs_ShapeEnum.FACE)
+                                    .Select(gf => gf.ToFace())
+                                    .ToArray();
+                _CreatedFaces[edge.ToEdge()] = faces;
+            }
+        }
 
         //--------------------------------------------------------------------------------------------------
+
+        protected void UpdateModifiedSubshapes(TopoDS_Shape sourceShape, BRepFilletAPI_LocalOperation filletOp, TopoDS_Edge[] edges)
+        {
+            _UpdateContourEdges(filletOp, edges);
+            _UpdateCreatedFaces(filletOp, edges);
+            UpdateModifiedSubshapes(sourceShape, filletOp);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        protected override void ClearSubshapeLists()
+        {
+            _ContourEdges.Clear();
+            _CreatedFaces.Clear();
+            base.ClearSubshapeLists();
+        }
 
     }
 }

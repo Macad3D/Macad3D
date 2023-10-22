@@ -63,16 +63,19 @@ namespace Macad.Interaction
 
             subshape.AisShape.SetLocalTransformation(trsf);
             subshape.AisShape.SetColor(isSelected ? Colors.FilteredSubshapesHot : Colors.FilteredSubshapes);
-
-            subshape.AisShape.Attributes().WireAspect().SetWidth(2);
+            subshape.AisShape.Attributes().WireAspect().SetWidth(4);
+            subshape.AisShape.SetMaterial(new Graphic3d_MaterialAspect(Graphic3d_NameOfMaterial.Plastified));
+            subshape.AisShape.SetPolygonOffsets(1, 0.999f, -5.0f);
             subshape.AisShape.SetZLayer(-2 /* Top */);
 
             if (_TopmostHighlightDrawer == null)
             {
                 _TopmostHighlightDrawer = new Prs3d_Drawer(WorkspaceController.Workspace.AisContext.HighlightStyle(Prs3d_TypeOfHighlight.Dynamic));
-                _TopmostHighlightDrawer.SetZLayer(-3 /* TopMost */);
+                _TopmostHighlightDrawer.SetZLayer(-2 /* Top */);
+                _TopmostHighlightDrawer.SetDisplayMode(1);
             }
             subshape.AisShape.SetDynamicHilightAttributes(_TopmostHighlightDrawer);
+
             WorkspaceController.Workspace.AisContext.Display(subshape.AisShape, false);
             WorkspaceController.Workspace.AisContext.Activate(subshape.AisShape, 0, false);
             WorkspaceController.Workspace.AisContext.SetSelectionSensitivity(subshape.AisShape, 0, 10);
@@ -104,7 +107,7 @@ namespace Macad.Interaction
                 if (subshape != null)
                 {
                     subshape.IsSelected = !subshape.IsSelected;
-                    subshape.AisShape.SetColor(subshape.IsSelected ? Quantity_NameOfColor.RED.ToColor() : Quantity_NameOfColor.BLUE1.ToColor());
+                    subshape.AisShape.SetColor(subshape.IsSelected ? Colors.FilteredSubshapesHot : Colors.FilteredSubshapes);
                     _ChangedSubshape = subshape;
 
                     EventArgs args = new()

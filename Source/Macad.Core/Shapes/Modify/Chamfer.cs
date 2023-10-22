@@ -169,7 +169,6 @@ namespace Macad.Core.Shapes
         protected override bool MakeInternal(MakeFlags flags)
         {
             ClearSubshapeLists();
-            ContourEdges.Clear();
 
             if (Operands.Count < 1)
             {
@@ -231,8 +230,7 @@ namespace Macad.Core.Shapes
 
             // Get final shape
             BRep = makeChamfer.Shape();
-            UpdateModifiedSubshapes(sourceShape, makeChamfer);
-            UpdateContourEdges(makeChamfer, edges);
+            UpdateModifiedSubshapes(sourceShape, makeChamfer, edges);
 
             return base.MakeInternal(flags);
         }

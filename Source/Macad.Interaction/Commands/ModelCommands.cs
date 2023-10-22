@@ -164,7 +164,7 @@ namespace Macad.Interaction
                 if (modifierShape != null)
                 {
                     InteractiveContext.Current?.UndoHandler.Commit();
-                    StartTool( new EdgeModifierTool(modifierShape));
+                    StartTool( new ChamferEditorTool(modifierShape));
                 }
                 Invalidate();
             },
@@ -185,7 +185,7 @@ namespace Macad.Interaction
                 if (modifierShape != null)
                 {
                     InteractiveContext.Current?.UndoHandler.Commit();
-                    StartTool(new EdgeModifierTool(modifierShape));
+                    StartTool(new FilletEditorTool(modifierShape));
                 }
                 Invalidate();
             },

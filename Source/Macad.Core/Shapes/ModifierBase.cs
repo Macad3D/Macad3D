@@ -7,6 +7,7 @@ using Macad.Core.Topology;
 using Macad.Common.Serialization;
 using Macad.Occt;
 using System.Numerics;
+using System.Windows.Shapes;
 
 namespace Macad.Core.Shapes
 {
@@ -359,11 +360,11 @@ namespace Macad.Core.Shapes
 
         #region Subshapes
 
-        readonly Dictionary<TopoDS_Shape, List<TopoDS_Shape>> _ModifiedShapes = new Dictionary<TopoDS_Shape, List<TopoDS_Shape>>();
+        readonly Dictionary<TopoDS_Shape, List<TopoDS_Shape>> _ModifiedShapes = new();
 
         //--------------------------------------------------------------------------------------------------
 
-        void AddModifiedSubshape(TopoDS_Shape original, List<TopoDS_Shape> shapes)
+        protected void AddModifiedSubshape(TopoDS_Shape original, List<TopoDS_Shape> shapes)
         {
             if ((shapes == null) || (shapes.Count == 0))
                 return;
@@ -391,7 +392,27 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void RemoveModifiedSubshape(TopoDS_Shape original)
+        protected List<TopoDS_Shape> GetSubshapeModifications(TopoDS_Shape original)
+        {
+            var kvpModif = _ModifiedShapes.FirstOrDefault(kvp => kvp.Key.IsSame(original));
+            if (kvpModif.Key != null)
+            {
+                return kvpModif.Value;
+            }
+            return null;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        protected TopoDS_Shape FindOriginalSubshape(TopoDS_Shape modifiedOrCreated)
+        {
+            var kvpModif = _ModifiedShapes.FirstOrDefault(kvp => kvp.Value.Any(s => s.IsSame(modifiedOrCreated)));
+            return kvpModif.Key;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected void RemoveModifiedSubshape(TopoDS_Shape original)
         {
             if (original == null)
                 return;

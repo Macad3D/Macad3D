@@ -182,6 +182,25 @@ namespace Macad.Core.Geom
         }
 
         //--------------------------------------------------------------------------------------------------
+
+        public static bool GetFaceNormal(TopoDS_Face face, Pnt location, out Dir normal)
+        {
+            normal = Dir.DX;
+
+            GeomAPI_ProjectPointOnSurf proj = new(location, face.Surface());
+            if(proj.NbPoints() < 1)
+                return false;
+
+            double u=0, v=0;
+            proj.Parameters(1, ref u, ref v);
+            Pnt centerPoint = Pnt.Origin;
+            Vec faceNormal = Vec.Zero;
+            new BRepGProp_Face(face).Normal(u, v, ref centerPoint, ref faceNormal);
+            normal = faceNormal.ToDir();
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
         /// <summary>
         /// Searches for the face of a shape, and find the parallel face, both by area comparison
         /// </summary>

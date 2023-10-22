@@ -26,7 +26,7 @@ namespace Macad.Interaction.Editors.Shapes
                 var tool = InteractiveContext.Current?.WorkspaceController?.CurrentTool;
                 if (tool == null)
                 {
-                    tool = new EdgeModifierTool(chamfer);
+                    tool = new ChamferEditorTool(chamfer);
                     InteractiveContext.Current?.WorkspaceController?.StartTool(tool);
                 }
             },

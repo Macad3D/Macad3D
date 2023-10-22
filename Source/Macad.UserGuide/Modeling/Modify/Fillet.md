@@ -11,7 +11,7 @@ Radius
 # Remarks
 To select the edges to fillet click the editor button in the property panel. Unselected edges will be shown in blue, selected edges are shown in red. Re-click the editor button or press __ESC__ to close the editor. To select all possible edges, click __Select All__, to clear the selection click __Select None__.
 
-The fillet modifier works on continous edges. When an edge is selected, additional edges may be selected too.
+The fillet modifier works on continous edges. When an edge is selected, additional edges may be automatically included.
 
 > [!Note] The radius cannot be greater that the thickness of the face. 
 

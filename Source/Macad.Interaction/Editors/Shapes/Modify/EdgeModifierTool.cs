@@ -1,44 +1,42 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Macad.Core;
+using Macad.Core.Geom;
 using Macad.Core.Shapes;
 using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes
 {
-    public class EdgeModifierTool : Tool
+    public abstract class EdgeModifierTool : Tool
     {
-        readonly EdgeModifierBase _ModifierShape;
-        ToggleSubshapesAction _Action;
-        TopoDS_Shape _EdgeSourceShape;
+        protected readonly EdgeModifierBase ModifierShape;
+        protected TopoDS_Shape EdgeSourceShape;
+        protected TopoDS_Edge[] ContourEdges;
+        protected TopoDS_Edge[] ValidEdges;
+
+        ToggleSubshapesAction _ToggleAction;
 
         //--------------------------------------------------------------------------------------------------
 
-        public EdgeModifierTool(EdgeModifierBase modifierShape)
+        protected EdgeModifierTool(EdgeModifierBase modifierShape)
         {
-            _ModifierShape = modifierShape;
-            Debug.Assert(_ModifierShape != null);
+            ModifierShape = modifierShape;
+            Debug.Assert(ModifierShape != null);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         protected override bool OnStart()
         {
-            _ModifierShape.PropertyChanged += _ModifierShape_PropertyChanged;
+            Shape.ShapeChanged += _EdgeModifierBase_ShapeChanged;
 
-            if (_ModifierShape.Operands.Count == 0)
+            if (ModifierShape.Operands.Count == 0)
                 return false;
 
-            _Action = new ToggleSubshapesAction();
-            if (!StartAction(_Action))
+            if (!_UpdateShapeProperties() || !UpdateActions())
                 return false;
-            _Action.Finished += _Action_Finished;
-
-            if (!UpdateEdgesToTool())
-                return false;
-
-            SetHintMessage("Select edges to apply modifier on.");
-            SetCursor(Cursors.SelectEdge);
 
             WorkspaceController.Invalidate();
 
@@ -47,21 +45,68 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        bool UpdateEdgesToTool()
+        protected override void OnStop()
         {
-            var sourceShape = _ModifierShape.Predecessor as Shape;
+            Shape.ShapeChanged -= _EdgeModifierBase_ShapeChanged;
+            _StopAction();
+            base.OnStop();
+        }
 
-            _EdgeSourceShape = sourceShape?.GetBRep(); 
-            if (_EdgeSourceShape == null) return false;
+        //--------------------------------------------------------------------------------------------------
 
-            _Action.ClearSubshapes();
-
-            var edges = _ModifierShape.FindValidEdges(_EdgeSourceShape).ToArray();
-            var selected = _ModifierShape.GetAllContourEdges().ToArray();
-            var trsf = _ModifierShape.GetTransformation();
-            for (var i = 0; i < edges.Length; i++)
+        void _StopAction()
+        {
+            if (_ToggleAction != null)
             {
-                _Action.AddSubshape(edges[i], trsf, selected.Contains(edges[i]));
+                _ToggleAction.Finished -= _ToggleAction_Finished;
+            }
+            StopAction(_ToggleAction);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        bool _UpdateShapeProperties()
+        {
+            ContourEdges = null;
+            ValidEdges = null;
+
+            var sourceShape = ModifierShape.Predecessor as Shape;
+            EdgeSourceShape = sourceShape?.GetBRep(); 
+            if (EdgeSourceShape == null) return false;
+
+            ContourEdges = ModifierShape.GetAllContourEdges().ToArray();
+            ValidEdges = ModifierShape.FindValidEdges(EdgeSourceShape).ToArray();
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected virtual bool UpdateActions()
+        {
+            _StopAction();
+
+            _ToggleAction = new ToggleSubshapesAction();
+            if (!StartAction(_ToggleAction, true))
+                return false;
+            _ToggleAction.Finished += _ToggleAction_Finished;
+            
+            // Create all edges
+            var trsf = ModifierShape.GetTransformation();
+            foreach (var edge in ValidEdges)
+            {
+                if (ContourEdges.Any(sel => sel.IsSame(edge)))
+                    continue;
+
+                _ToggleAction.AddSubshape(edge, trsf, false);
+            }
+
+            // Create all faces
+            foreach (var contourEdge in ContourEdges)
+            {
+                foreach (var face in ModifierShape.GetCreatedFaces(contourEdge))
+                {
+                    _ToggleAction.AddSubshape(face, trsf, true);
+                }
             }
 
             return true;
@@ -69,38 +114,41 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        void _Action_Finished(ToggleSubshapesAction sender, ToggleSubshapesAction.EventArgs args)
+        void _ToggleAction_Finished(ToggleSubshapesAction sender, ToggleSubshapesAction.EventArgs args)
         {
-            var sourceShape = _ModifierShape.Predecessor as Shape;
+            var sourceShape = ModifierShape.Predecessor as Shape;
             if (sourceShape == null) return;
 
-            if (args.ChangedSubshape.IsSelected)
+            if (args.ChangedSubshape.Shape.ShapeType() == TopAbs_ShapeEnum.FACE)
             {
-                // Added
-                var reference = sourceShape.GetSubshapeReference(_EdgeSourceShape, args.ChangedSubshape.Shape);
+                // Removed, find reference in original contour
+                var reference = ModifierShape.FindContourReference(args.ChangedSubshape.Shape.ToFace());
                 if (reference == null) return;
-                _ModifierShape.AddEdge(reference);
+                ModifierShape.RemoveEdge(reference);
             }
-            else
+            else if (args.ChangedSubshape.Shape.ShapeType() == TopAbs_ShapeEnum.EDGE)
             {
-                // Removed
-                var reference = _ModifierShape.FindContourReference(args.ChangedSubshape.Shape.ToEdge());
+                // Added, find reference in original shape (modified edges are automatically mapped)
+                var reference = ModifierShape.GetSubshapeReference(args.ChangedSubshape.Shape);
                 if (reference == null) return;
-                _ModifierShape.RemoveEdge(reference);
+                ModifierShape.AddEdge(reference);
             }
-            
+
             CommitChanges();
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _ModifierShape_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        void _EdgeModifierBase_ShapeChanged(Shape shape)
         {
-            if (e.PropertyName == nameof(EdgeModifierBase.Edges) 
-                && _Action != null 
-                && WorkspaceController.CurrentTool?.CurrentAction == _Action)
+            if (shape == ModifierShape 
+                && _ToggleAction != null 
+                && WorkspaceController.CurrentTool?.CurrentAction == _ToggleAction)
             {
-                UpdateEdgesToTool();
+                if (_UpdateShapeProperties())
+                {
+                    UpdateActions();
+                }
             }
         }
 
