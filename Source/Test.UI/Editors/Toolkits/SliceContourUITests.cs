@@ -19,22 +19,6 @@ namespace Macad.Test.UI.Editors.Toolkits
 
         //--------------------------------------------------------------------------------------------------
 
-        public void GenerateBox()
-        {
-            // Start tool
-            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-            MainWindow.Ribbon.ClickButton("CreateBox");
-            Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
-
-            // Three point creation
-            var viewport = MainWindow.Viewport;
-            viewport.ClickRelative(0.2, 0.2);
-            viewport.ClickRelative(0.8, 0.8);
-            viewport.ClickRelative(0.8, 0.7);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         [Test]
         public void ToolStartAndStop()
         {
@@ -182,5 +166,145 @@ namespace Macad.Test.UI.Editors.Toolkits
 
         //--------------------------------------------------------------------------------------------------
 
+        [Test]
+        public void CustomInterval()
+        {
+            // Create box
+            GenerateBox();
+
+            // Click button to start tool
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
+            MainWindow.Ribbon.ClickButton("CreateSliceContour");
+            var propPanel = MainWindow.PropertyView.FindPanelByClass("SliceContourPropertyPanel");
+            Assert.IsNotNull(propPanel);
+
+            // Select Custom
+            propPanel.ClickButton("CustomInterval");
+            Assert.IsNotNull(Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval"));
+            Assert.IsTrue(propPanel.ControlExists("CustomIntervalValue0"));
+
+            // Select Auto
+            propPanel.ClickButton("AutoInterval");
+            Assert.IsNull(Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval"));
+            Assert.IsFalse(propPanel.ControlExists("CustomIntervalValue0"));
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CustomIntervalChangeCount()
+        {
+            // Create box
+            GenerateBox();
+
+            // Click button to start tool
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
+            MainWindow.Ribbon.ClickButton("CreateSliceContour");
+            var propPanel = MainWindow.PropertyView.FindPanelByClass("SliceContourPropertyPanel");
+            Assert.IsNotNull(propPanel);
+
+            // Select Custom
+            propPanel.ClickButton("CustomInterval");
+            Assert.AreEqual(1, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval").Length);
+            Assert.IsTrue(propPanel.ControlExists("CustomIntervalValue0"));
+            Assert.IsFalse(propPanel.ControlExists("CustomIntervalValue1"));
+
+            // Inc 
+            propPanel.EnterValue("LayerCount", 2);
+            Assert.AreEqual(2, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval").Length);
+            Assert.IsTrue(propPanel.ControlExists("CustomIntervalValue1"));
+
+            // Dec
+            propPanel.EnterValue("LayerCount", 1);
+            Assert.AreEqual(1, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval").Length);
+            Assert.IsFalse(propPanel.ControlExists("CustomIntervalValue1"));
+        }
+                
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CustomIntervalValueChange()
+        {
+            // Create box
+            GenerateBox();
+
+            // Click button to start tool
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
+            MainWindow.Ribbon.ClickButton("CreateSliceContour");
+            var propPanel = MainWindow.PropertyView.FindPanelByClass("SliceContourPropertyPanel");
+            Assert.IsNotNull(propPanel);
+
+            // Select Custom
+            propPanel.EnterValue("LayerCount", 2);
+            propPanel.ClickButton("CustomInterval");
+            Assert.AreEqual(2, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval").Length);
+
+            // Set Values
+            propPanel.EnterValue("CustomIntervalValue0", 2);
+            Assert.AreEqual(2, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval")[0]);
+            Assert.AreEqual(2, propPanel.GetValue<double>("CustomIntervalOffset0"));
+
+            propPanel.EnterValue("CustomIntervalValue1", 3);
+            Assert.AreEqual(3, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval")[1]);
+            Assert.AreEqual(5, propPanel.GetValue<double>("CustomIntervalOffset1"));
+
+            // Set Offset
+            propPanel.EnterValue("CustomIntervalOffset0", 3);
+            Assert.AreEqual(3, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval")[0]);
+            Assert.AreEqual(3, propPanel.GetValue<double>("CustomIntervalValue0"));
+
+            propPanel.EnterValue("CustomIntervalOffset1", 5);
+            Assert.AreEqual(2, Pipe.GetValue<double[]>("$Selected.Components.[0].CustomLayerInterval")[1]);
+            Assert.AreEqual(2, propPanel.GetValue<double>("CustomIntervalValue1"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void ToggleReconstruction()
+        {
+            // Create box
+            GenerateBox();
+
+            // Click button to start tool
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
+            MainWindow.Ribbon.ClickButton("CreateSliceContour");
+            var propPanel = MainWindow.PropertyView.FindPanelByClass("SliceContourPropertyPanel");
+            Assert.IsNotNull(propPanel);
+
+            Assert.IsTrue(Pipe.GetValue<bool>("$Tool.ShowReconstruction"));
+            Assert.IsTrue(propPanel.GetToggle("ShowReconstruction"));
+
+            propPanel.ClickToggle("ShowReconstruction");
+            Assert.IsFalse(Pipe.GetValue<bool>("$Tool.ShowReconstruction"));
+            Assert.IsFalse(propPanel.GetToggle("ShowReconstruction"));
+
+            propPanel.ClickToggle("ShowReconstruction");
+            Assert.IsTrue(Pipe.GetValue<bool>("$Tool.ShowReconstruction"));
+            Assert.IsTrue(propPanel.GetToggle("ShowReconstruction"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------
+
+        #region Helper
+
+        public void GenerateBox()
+        {
+            // Start tool
+            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+            MainWindow.Ribbon.ClickButton("CreateBox");
+            Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
+
+            // Three point creation
+            var viewport = MainWindow.Viewport;
+            viewport.ClickRelative(0.2, 0.2);
+            viewport.ClickRelative(0.8, 0.8);
+            viewport.ClickRelative(0.8, 0.7);
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
     }
 }

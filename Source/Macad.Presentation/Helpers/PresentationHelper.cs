@@ -79,24 +79,21 @@ namespace Macad.Presentation
 
         //--------------------------------------------------------------------------------------------------
 
-        public static T FindVisualChild<T>(Visual visual) where T: Visual
+        public static T FindVisualChild<T>(DependencyObject visual) where T: DependencyObject
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(visual); i++) 
             { 
-                var child = VisualTreeHelper.GetChild(visual, i) as Visual; 
-                if (child != null) 
+                var child = VisualTreeHelper.GetChild(visual, i); 
+                T correctlyTyped = child as T; 
+                if (correctlyTyped != null) 
                 { 
-                    T correctlyTyped = child as T; 
-                    if (correctlyTyped != null) 
-                    { 
-                        return correctlyTyped; 
-                    } 
- 
-                    T descendent = FindVisualChild<T>(child); 
-                    if (descendent != null) 
-                    { 
-                        return descendent; 
-                    } 
+                    return correctlyTyped; 
+                } 
+
+                T descendent = FindVisualChild<T>(child); 
+                if (descendent != null) 
+                { 
+                    return descendent; 
                 } 
             } 
  

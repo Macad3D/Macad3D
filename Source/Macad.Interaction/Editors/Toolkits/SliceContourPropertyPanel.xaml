@@ -33,6 +33,9 @@
                 <RowDefinition Height="10" />
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row ="0" Grid.Column="0" Style="{DynamicResource Macad.Styles.TextBlock.Property}"
@@ -56,23 +59,108 @@
                     </ContextMenu>
                 </Button.ContextMenu>
             </Button>
-
-                    
-            <TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource Macad.Styles.TextBlock.Property}"
-                       Text="Layer Count" />
-            <mmp:ValueEditBox  Grid.Row="1" Grid.Column="1"
-                               Units="None" MinValue="1" MaxValue="1000" Precision="0" IncDecButtons="True"
-                               Value="{Binding Tool.Component.LayerCount, NotifyOnSourceUpdated=True}" />
             
-            <mmp:ToggleButton Grid.Row="3" Grid.ColumnSpan="2" 
+            <!-- Reselect face -->
+            <mmp:ToggleButton Grid.Row="1" Grid.ColumnSpan="2" 
                               HorizontalAlignment="Center"  Width="118"
                               Content="Reselect Base Face" 
                               IsChecked="{Binding Tool.IsSelectingFace, Mode=OneWay}"
                               Command="{Binding SelectFaceCommand}"
                               AutomationProperties.AutomationId="ReselectBaseFace"/>
+
+            <!-- Layer Count -->
+            <TextBlock Grid.Row="3" Grid.Column="0" 
+                       Style="{DynamicResource Macad.Styles.TextBlock.Property}"
+                       Text="Layer Count" />
+            <mmp:ValueEditBox  Grid.Row="3" Grid.Column="1"
+                               Units="None" MinValue="1" MaxValue="1000" Precision="0" IncDecButtons="True"
+                               Value="{Binding Tool.Component.LayerCount, NotifyOnSourceUpdated=True}"
+                               AutomationProperties.AutomationId="LayerCount"/>
+
+            <!-- Layer Position -->
+            <TextBlock Grid.Row="4" Grid.Column="0" 
+                       Style="{DynamicResource Macad.Styles.TextBlock.Property}"
+                       Text="Layer Interval" />
+            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" >
+                <mmp:ToggleButton Content="Auto" mmp:GroupControls.Position="Left" Width="72"
+                                  IsChecked="{Binding Tool.Component.CustomLayerInterval, Converter={mmp:NotNullToNotBoolConverter}}"
+                                  Command="{Binding SetLayerIntervalModeCommand}" CommandParameter="Auto"
+                                  AutomationProperties.AutomationId="AutoInterval" />
+                <mmp:ToggleButton Content="Custom" mmp:GroupControls.Position="Right" Width="72"
+                                  IsChecked="{Binding Tool.Component.CustomLayerInterval, Converter={mmp:NotNullToBoolConverter}}"
+                                  Command="{Binding SetLayerIntervalModeCommand}" CommandParameter="Custom"
+                                  AutomationProperties.AutomationId="CustomInterval" />
+            </StackPanel>
+
+            <!-- Custom Layer Interval -->
+            <Grid Grid.Row="5" Grid.ColumnSpan="2" Margin="0, 5, 0, 0" HorizontalAlignment="Center"
+                  Visibility="{Binding Tool.Component.CustomLayerInterval, Converter={mmp:NotNullToVisibleCollapsedConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="72" />
+                        <ColumnDefinition Width="72" />
+                    </Grid.ColumnDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Foreground" Value="{DynamicResource Macad.Brushes.Popup.Header.Text}" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="FontSize" Value="10" />
+                    </Style>
+                </Grid.Resources>
+
+                <TextBlock Text="Layer" Grid.Column="0" />
+                <TextBlock Text="Interval" Grid.Column="1" />
+                <TextBlock Text="Offset" Grid.Column="2" />
+            </Grid>
+
+            <mmp:TemplateItemsControl Grid.Row="6" Grid.ColumnSpan="2" 
+                                      Padding="0" Margin="0" HorizontalAlignment="Center"
+                                      Background="{x:Null}" BorderThickness="0"
+                                      Visibility="{Binding Tool.Component.CustomLayerInterval, Converter={mmp:NotNullToVisibleCollapsedConverter}}"
+                                      ItemsSource="{Binding CustomLayerIntervalItems}" 
+                                      SourceUpdated="_CustomInterval_OnSourceUpdated"
+                                      AutomationProperties.AutomationId="CustomIntervalList">
+                <mmp:TemplateItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="72" />
+                                <ColumnDefinition Width="72" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding Index, StringFormat={}{0} :}" 
+                                       HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Width="Auto" />
+                            <mmp:ValueEditBox Name="CustomValueBox"
+                                              Grid.Column="1" 
+                                              Tag="{Binding}"
+                                              Value="{Binding Value, NotifyOnSourceUpdated=True}" 
+                                              HorizontalAlignment="Left" Width="72"
+                                              mmp:GroupControls.Position="Left" 
+                                              AutomationProperties.AutomationId="{Binding Index, StringFormat={}CustomIntervalValue{0}}"/>
+                            <mmp:ValueEditBox Name="CustomOffsetBox"
+                                              Grid.Column="2" 
+                                              Tag="{Binding}"
+                                              Value="{Binding Offset, NotifyOnSourceUpdated=True}" 
+                                              HorizontalAlignment="Left" Width="72"
+                                              mmp:GroupControls.Position="Right"
+                                              AutomationProperties.AutomationId="{Binding Index, StringFormat={}CustomIntervalOffset{0}}"/>
+                        </Grid>
+                    </DataTemplate>
+                </mmp:TemplateItemsControl.ItemTemplate>
+            </mmp:TemplateItemsControl>
+            
+            <!-- Show Reconstruction -->
+            <CheckBox Grid.Row="7" Grid.Column="1"
+                      Margin="0,8,0,4"
+                      VerticalAlignment="Center" HorizontalAlignment="Left"
+                      Content="Show Reconstruction"
+                      AutomationProperties.AutomationId="ShowReconstruction"
+                      IsChecked="{Binding Tool.ShowReconstruction}" />
         </Grid>
 
-        <Button Width="150" Margin="0,20,0,0" HorizontalAlignment="Center"
+        <!-- Export -->
+        <Button Width="150" Margin="0,10,0,0" HorizontalAlignment="Center"
                 Command="{Binding ExportCommand}"
                 AutomationProperties.AutomationId="ExportVectorFile">
             <StackPanel Orientation="Horizontal">

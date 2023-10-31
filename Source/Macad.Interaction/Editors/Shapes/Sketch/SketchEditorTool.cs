@@ -136,7 +136,7 @@ namespace Macad.Interaction.Editors.Shapes
             OpenSelectionContext(SelectionContext.Options.NewSelectedList);
             var workspace = WorkspaceController.Workspace;
 
-            var editorSettings = SketchEditorSettingsCache.GetOrCreate(Sketch);
+            var editorSettings = SketchEditorSettings.GetOrCreate(Sketch);
 
             editorSettings.WorkingContext ??= workspace.WorkingContext.Clone();
             workspace.WorkingContext = editorSettings.WorkingContext;
@@ -216,7 +216,7 @@ namespace Macad.Interaction.Editors.Shapes
             var vc = WorkspaceController.ActiveViewControlller;
             if (Sketch != null)
             {
-                var editorSettings = SketchEditorSettingsCache.GetOrCreate(Sketch);
+                var editorSettings = SketchEditorSettings.GetOrCreate(Sketch);
                 editorSettings.ViewParameters = vc.Viewport.GetViewParameters(Sketch.GetTransformation().Inverted());
                 editorSettings.ViewRotation = ViewRotation;
                 editorSettings.ClipPlaneEnabled = ClipPlaneEnabled;

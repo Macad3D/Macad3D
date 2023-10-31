@@ -47,9 +47,9 @@ Cut plans are line drawings from a single body to serve as pattern for laser cut
 
 1. Select the body. Optionally, set the shape to current you want to use (see 4.).
 2. Click __Slice Contour__ on the ribbon tab __Toolbox__.
-3. The settings for the slice contour exporter will be shown in the property pane, and the viewport will show a preview of the contours as red lines and the reconstructed shape with straight walls.
+3. The settings for the slice contour exporter will be shown in the property pane, and the viewport will show a preview of the contours as red lines and the reconstructed shape with straight walls. The reconstruction can be switched off in the property panel.
 4. The tool tries to guess the correct direction of slicing. If it is not correct, click __Reselect Base Face__ and select a face parallel to the desired slice planes.
-5. Select the desired layer count. All layers will have equal thickness, and the slice planes will always be positioned in the middle of each layer.
+5. Select the desired layer count. When the Layer interval is set to __Auto__, all layers will have equal thickness, and the slice planes will always be positioned in the middle of each layer. To adjust the layer intervals yourself set them to __Custom__ and enter the desired distances, or move the layers interactively in the viewport.
 6. If you do not want to use the top shape - e.g. because of other process steps like taper coming after production of the part so far - you can lock the export to the current shape.
 7. Click on __Export Vector File__ and save your file.
 

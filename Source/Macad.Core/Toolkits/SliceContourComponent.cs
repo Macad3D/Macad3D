@@ -72,6 +72,24 @@ namespace Macad.Core.Toolkits
 
         //--------------------------------------------------------------------------------------------------
 
+        [SerializeMember]
+        public double[] CustomLayerInterval
+        {
+            get { return _CustomLayerInterval; }
+            set
+            {
+                if (_CustomLayerInterval != value)
+                {
+                    SaveUndo();
+                    _CustomLayerInterval = value;
+                    Invalidate();
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         public bool IsValid
         {
             get
@@ -119,6 +137,7 @@ namespace Macad.Core.Toolkits
         SubshapeReference _ReferenceFace;
         Guid _ShapeGuid;
         bool _HasErrors;
+        double[] _CustomLayerInterval;
         SliceByPlanes.Slice[] _Layers;
         TopoDS_Shape _ReconstructedBRep;
 
@@ -297,7 +316,7 @@ namespace Macad.Core.Toolkits
         
         bool _Slice(MakeContext context)
         {
-            context.Slicer = new SliceByPlanes(context.SourceShape, context.ReferenceFace, LayerCount);
+            context.Slicer = new SliceByPlanes(context.SourceShape, context.ReferenceFace, _LayerCount, _CustomLayerInterval);
             if(!context.Slicer.CreateSlices(DebugOutput))
             {
                 return false;

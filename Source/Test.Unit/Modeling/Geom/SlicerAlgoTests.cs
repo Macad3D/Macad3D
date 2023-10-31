@@ -66,7 +66,7 @@ namespace Macad.Test.Unit.Modeling.Geom
             var slicer = new SliceByPlanes(source.GetBRep(), source.GetBRep().Faces()[0], 1);
             Assert.IsTrue(slicer.CreateSlices(true));
             Assert.AreEqual(1, slicer.Slices.Length);
-            Assert.AreEqual(10.0, slicer.SliceThickness, 1e-10);
+            Assert.AreEqual(5.0, slicer.Slices[0].Interval, 1e-10);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -81,7 +81,21 @@ namespace Macad.Test.Unit.Modeling.Geom
             var slicer = new SliceByPlanes(source.GetBRep(), source.GetBRep().Faces()[4], 1);
             Assert.IsTrue(slicer.CreateSlices(true));
             Assert.AreEqual(1, slicer.Slices.Length);
-            Assert.AreEqual(15.0, slicer.SliceThickness, 1e-10);
+            Assert.AreEqual(7.5, slicer.Slices[0].Interval, 1e-10);
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CustomInterval()
+        {
+            var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "TwoLayers_Source.brep"));
+            Assume.That(source?.GetBRep() != null);
+
+            var slicer = new SliceByPlanes(source.GetBRep(), source.GetBRep().Faces()[0], 3, new []{ 0.2, 0.5, 0.15 });
+            Assert.IsTrue(slicer.CreateSlices(true));
+            Assert.AreEqual(3, slicer.Slices.Length);
+            AssertHelper.IsSameModel(slicer.Reconstruct(), Path.Combine(_BasePath, "CustomInterval1"));
         }
 
         //--------------------------------------------------------------------------------------------------

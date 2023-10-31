@@ -1,9 +1,5 @@
-﻿using System;
+﻿using System.Diagnostics;
 using Macad.Common;
-using Macad.Common.Serialization;
-using Macad.Core.Geom;
-using Macad.Core.Shapes;
-using Macad.Core.Topology;
 using Macad.Occt;
 
 namespace Macad.Core.Geom
@@ -16,11 +12,13 @@ namespace Macad.Core.Geom
         {
             public TopoDS_Shape BRep { get; }
             public Pln CutPlane { get; }
+            public double Interval { get; }
 
-            public Slice(TopoDS_Shape brep, Pln cutPlane)
+            public Slice(TopoDS_Shape brep, Pln cutPlane, double interval)
             {
                 BRep = brep;
                 CutPlane = cutPlane;
+                Interval = interval;
             }
         }
 
@@ -34,7 +32,6 @@ namespace Macad.Core.Geom
         public TopoDS_Face ReferenceFace { get; }
         public int SliceCount { get; }
         public Dir SliceDirection { get; private set; }
-        public double SliceThickness { get; private set; }
 
         public Slice[] Slices
         {
@@ -50,12 +47,18 @@ namespace Macad.Core.Geom
 
         #region Create
 
-        public SliceByPlanes(TopoDS_Shape sourceShape, TopoDS_Face refFace, int sliceCount)
+        public SliceByPlanes(TopoDS_Shape sourceShape, TopoDS_Face refFace, int sliceCount, double[] intervals = null)
         {
             SourceShape = sourceShape;
             SliceCount = sliceCount;
             ReferenceFace = refFace;
             _Slices = new Slice[sliceCount];
+
+            if (intervals != null)
+            {
+                Debug.Assert(intervals.Length == sliceCount);
+                _Intervals = intervals;
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -65,7 +68,9 @@ namespace Macad.Core.Geom
         #region Make
 
         readonly Slice[] _Slices;
+        double[] _Intervals;
         Pln _RefPlane;
+        double _TotalThickness;
         bool _DebugOutput;
         bool _Successful;
 
@@ -112,7 +117,15 @@ namespace Macad.Core.Geom
                 return false;
             }
 
-            SliceThickness = cutPlane.Distance(opPlane);
+            _TotalThickness = cutPlane.Distance(opPlane);
+            var sliceThickness = _TotalThickness / SliceCount;
+            if (_Intervals == null)
+            {
+                _Intervals = new double[SliceCount];
+                _Intervals.Fill(sliceThickness);
+                _Intervals[0] = sliceThickness * 0.5;
+            }
+
             SliceDirection = cutPlane.Axis.Direction.Reversed();
             _RefPlane = new Pln(new Ax3(cutPlane.Location, SliceDirection));
 
@@ -120,7 +133,7 @@ namespace Macad.Core.Geom
             {
                 Messages.Trace($"Reference face index {SourceShape.Faces().IndexOf(ReferenceFace)}, " +
                                $"opposite face has index {SourceShape.Faces().IndexOf(opFace)}, " +
-                               $"thickness is {SliceThickness}");
+                               $"thickness is {sliceThickness}");
             }
 
             return true;
@@ -130,10 +143,10 @@ namespace Macad.Core.Geom
 
         bool _CreateSlices()
         {
-            var sliceInterval = SliceThickness / SliceCount;
+            double sliceOffset = 0;
             for (int sliceIndex = 0; sliceIndex < SliceCount; sliceIndex++)
             {
-                var sliceOffset = sliceInterval * (sliceIndex + 0.5);
+                sliceOffset += _Intervals[sliceIndex];
                 var cutPlane = _RefPlane.Translated(SliceDirection.ToVec().Multiplied(sliceOffset));
                 var cutPlaneFace = new TopoDS_Face();
                 new BRep_Builder().MakeFace(cutPlaneFace, new Geom_Plane(cutPlane), 1e-7);
@@ -152,7 +165,7 @@ namespace Macad.Core.Geom
                 var transformer = new BRepBuilderAPI_Transform(bodySpaceShape, transform, true);
                 var shape = transformer.Shape();
 
-                var slice = new Slice(shape, cutPlane);
+                var slice = new Slice(shape, cutPlane, _Intervals[sliceIndex]);
 
                 _Slices[sliceIndex] = slice;
             }
@@ -168,18 +181,45 @@ namespace Macad.Core.Geom
             var builder = new BRep_Builder();
             builder.MakeCompound(compound);
 
-            var thicknessVector = SliceDirection.ToVec().Multiplied(SliceThickness / Slices.Length);
-            if (thicknessVector.SquareMagnitude() == 0)
-            {
-                Messages.Error("Sliced shape has no thickness.");
-                return compound;
-            }
-
+            double thicknessLeft = _TotalThickness;
             for (int index = 0; index < Slices.Length; index++)
             {
-                var basePlane = Slices[index].CutPlane.Translated(thicknessVector.Multiplied(0.5).ToPnt(), Pnt.Origin);
+                var slice = Slices[index];
+                double start = slice.Interval;
+                if (index > 0)
+                {
+                    start *= 0.5;
+                }
+                var startVector = SliceDirection.ToVec().Multiplied(start);
+
+                double thickness = start;
+                if (Slices.Length == 1)
+                {
+                    thickness = _TotalThickness > 0 ? _TotalThickness : slice.Interval;
+                } 
+                else if (index == Slices.Length - 1)
+                {
+                    if (thicknessLeft > thickness)
+                    {
+                        thickness = thicknessLeft;
+                    }
+                    else
+                    {
+                        thickness += slice.Interval * 0.5;
+                    }
+                }
+                else
+                {
+                    thickness += _Slices[index + 1].Interval * 0.5;
+                }
+                if(thickness <= 0)
+                    continue; // Slice has no thickness
+                thicknessLeft -= thickness;
+                var thicknessVector = SliceDirection.ToVec().Multiplied(thickness);
+
+                var basePlane = slice.CutPlane.Translated(startVector.ToPnt(), Pnt.Origin);
                 var location = new TopLoc_Location(new Trsf(basePlane.Position, Ax3.XOY));
-                var relocatedShape = Slices[index].BRep.Located(location);
+                var relocatedShape = slice.BRep.Located(location);
                 var thickener = new BRepPrimAPI_MakePrism(relocatedShape, thicknessVector, true);
                 builder.Add(compound, thickener.Shape());
             }

@@ -138,5 +138,33 @@ namespace Macad.Test.Unit.Modeling.Toolkits
             Assert.IsTrue(template.Make());
             AssertHelper.IsSameModel(template.Layers[3].BRep, Path.Combine(_BasePath, "LowPrecisionFacePlaneOrientation"));
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CustomInterval()
+        {
+            var body = TestGeomGenerator.CreateImprint().Body;
+            var template = new SliceContourComponent
+            {
+                Owner = body,
+                LayerCount = 2
+            };
+
+            Assert.IsTrue(template.Make());
+            AssertHelper.IsSameModel(template.ReconstructedBRep, Path.Combine(_BasePath, "CustomInterval1"));
+
+            template.CustomLayerInterval = new[] { 2.5, 3.0 };
+            Assert.IsTrue(template.Make());
+            AssertHelper.IsSameModel(template.Layers[1].BRep, Path.Combine(_BasePath, "CustomInterval2"));
+            AssertHelper.IsSameModel(template.ReconstructedBRep, Path.Combine(_BasePath, "CustomInterval3"));
+
+            template.CustomLayerInterval = null;
+            Assert.IsTrue(template.Make());
+            AssertHelper.IsSameModel(template.ReconstructedBRep, Path.Combine(_BasePath, "CustomInterval1"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

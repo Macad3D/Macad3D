@@ -169,6 +169,10 @@ namespace Macad.Window
                     obj = AppContext.Current?.WorkspaceController?.Selection?.SelectedEntities?.FirstOrDefault();
                     return true;
 
+                case "$Tool":
+                    obj = AppContext.Current?.WorkspaceController?.CurrentTool;
+                    return true;
+
                 case "$Sketch":
                     obj = (AppContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool)?.Sketch;
                     return true;

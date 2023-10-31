@@ -99,6 +99,9 @@ public abstract class WorkspaceControl : BaseObject, IMouseEventHandler, IContex
 
     protected void RemovePanels()
     {
+        if (_Panels == null || _Panels.Count == 0)
+            return;
+
         if (InteractiveContext.Current.PropertyPanelManager != null)
         {
             if (_PanelsHidden)

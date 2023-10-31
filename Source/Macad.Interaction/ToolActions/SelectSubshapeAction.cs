@@ -9,6 +9,10 @@ namespace Macad.Interaction
 {
     public class SelectSubshapeAction : ToolAction
     {
+        public bool SelectOnMouseDown { get; set; }
+
+        //--------------------------------------------------------------------------------------------------
+
         public class EventArgs
         {
             public TopoDS_Shape SelectedSubshape { get; init; }
@@ -28,9 +32,10 @@ namespace Macad.Interaction
         readonly InteractiveEntity _SourceEntity;
         readonly SubshapeTypes _SubshapeTypes;
         readonly List<TopoDS_Shape> _Shapes;
-        readonly Trsf? _LocalTransformation;
+        Trsf? _LocalTransformation;
         List<AIS_Shape> _AisShapes;
         readonly ISelectionFilter _SelectionFilter;
+        readonly Quantity_Color _SubshapeColor;
 
         //--------------------------------------------------------------------------------------------------
 
@@ -44,12 +49,13 @@ namespace Macad.Interaction
 
         //--------------------------------------------------------------------------------------------------
 
-        public SelectSubshapeAction(List<TopoDS_Shape> shapes, Trsf? localTransformation = null)
+        public SelectSubshapeAction(IEnumerable<TopoDS_Shape> shapes, Trsf? localTransformation = null, Quantity_Color color = null)
             : base()
         {
             _SubshapeTypes = SubshapeTypes.All;
-            _Shapes = shapes;
+            _Shapes = shapes.ToList();
             _LocalTransformation = localTransformation;
+            _SubshapeColor = color ?? Colors.FilteredSubshapes;
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -65,7 +71,7 @@ namespace Macad.Interaction
             {
                 _SelectionContext = OpenSelectionContext();
 
-                _AisShapes = new List<AIS_Shape>(_Shapes.Count);
+                _AisShapes = new List<AIS_Shape>();
                 foreach (var shape in _Shapes)
                 {
                     var aisShape = new AIS_Shape(shape);
@@ -74,8 +80,8 @@ namespace Macad.Interaction
                         aisShape.SetLocalTransformation(_LocalTransformation.Value);
                     }
 
-                    aisShape.SetColor(Colors.FilteredSubshapes);
-                    aisShape.Attributes().SetPointAspect(Marker.CreateBitmapPointAspect(Marker.BallImage, Colors.FilteredSubshapes));
+                    aisShape.SetColor(_SubshapeColor);
+                    aisShape.Attributes().SetPointAspect(Marker.CreateBitmapPointAspect(Marker.BallImage, _SubshapeColor));
                     aisShape.Attributes().WireAspect().SetWidth(2);
                     aisShape.SetPolygonOffsets(0, 1.01f, 1.0f);
                     aisShape.SetZLayer(-2);
@@ -103,6 +109,32 @@ namespace Macad.Interaction
             Preview = null;
             Finished = null;
             base.Cleanup();
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void UpdateShapes(IEnumerable<TopoDS_Shape> shapes, Trsf? localTransformation = null)
+        {
+            if (localTransformation != null)
+            {
+                _LocalTransformation = localTransformation;
+            }
+
+            int index = 0;
+            foreach (var shape in shapes)
+            {
+                if(index > _Shapes.Count)
+                    return;
+
+                _Shapes[index] = shape;
+                _AisShapes[index].SetShape(shape);
+                if (_LocalTransformation != null)
+                {
+                    _AisShapes[index].SetLocalTransformation(_LocalTransformation.Value);
+                }
+                WorkspaceController.Workspace.AisContext.Redisplay(_AisShapes[index], false, true);
+                index++;
+            }
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -142,6 +174,11 @@ namespace Macad.Interaction
                     selectedSubshape = detectedShape;
                     selectedSubshapeType = SubshapeTypes.Face;
                 }
+                else if (_SubshapeTypes.HasFlag(SubshapeTypes.All))
+                {
+                    selectedSubshape = detectedShape;
+                    selectedSubshapeType = SubshapeTypes.All;
+                }
             }
 
             return new EventArgs()
@@ -166,12 +203,28 @@ namespace Macad.Interaction
             }
             return false;
         }
-
+        
         //--------------------------------------------------------------------------------------------------
 
         public override bool OnMouseUp(MouseEventData data)
         {
-            if (!IsFinished)
+            if (!IsFinished && !SelectOnMouseDown)
+            {
+                EventArgs args = ProcessMouseInput(data);
+                if (args.SelectedEntity != null || args.SelectedSubshape != null || args.SelectedAisObject != null)
+                {
+                    IsFinished = true;
+                    Finished?.Invoke(this, args);
+                }
+            }
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public override bool OnMouseDown(MouseEventData data)
+        {
+            if (!IsFinished && SelectOnMouseDown)
             {
                 EventArgs args = ProcessMouseInput(data);
                 if (args.SelectedEntity != null || args.SelectedSubshape != null || args.SelectedAisObject != null)

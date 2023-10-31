@@ -22,6 +22,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!-- Depth -->
@@ -48,7 +49,7 @@
                   IsChecked="{Binding Extrude.MergeFaces}" />
 
         <!-- Reselect Target Face -->
-        <mmp:ToggleButton Grid.Row="2" Grid.ColumnSpan="2" 
+        <mmp:ToggleButton Grid.Row="3" Grid.ColumnSpan="2" 
                           Content="Reselect Target Face" 
                           Visibility="{Binding Extrude.Predecessor.ShapeType, Converter={mmp:EqualityToVisibleCollapsedConverter}, ConverterParameter=Solid}"
                           IsChecked="{Binding IsToolActive}"
