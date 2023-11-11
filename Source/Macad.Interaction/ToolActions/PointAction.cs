@@ -16,6 +16,7 @@ namespace Macad.Interaction
             public Pnt Point { get; init; }
             public Pnt2d PointOnPlane { get; init; }
             public MouseEventData MouseEventData { get; init; }
+            public Pnt MarkerPosition { get; set; }
         }
 
         public delegate void EventHandler(PointAction sender, EventArgs args);
@@ -104,16 +105,18 @@ namespace Macad.Interaction
 
                 ProcessMouseInput(data);
 
-                _Marker.Set(_CurrentPoint);
-                WorkspaceController.Invalidate();
-
                 EventArgs args = new()
                 {
                     Point = _CurrentPoint,
                     PointOnPlane = ProjLib.Project(WorkspaceController.Workspace.WorkingPlane, _CurrentPoint),
+                    MarkerPosition = _CurrentPoint,
                     MouseEventData = data
                 };
                 Preview?.Invoke(this, args);
+
+                _Marker.Set(args.MarkerPosition);
+                WorkspaceController.Invalidate();
+
                 return base.OnMouseMove(data);
             }
             return false;
@@ -133,6 +136,7 @@ namespace Macad.Interaction
                 {
                     Point = _CurrentPoint,
                     PointOnPlane = ProjLib.Project(WorkspaceController.Workspace.WorkingPlane, _CurrentPoint),
+                    MarkerPosition = _CurrentPoint,
                     MouseEventData = data
                 };
                 Finished?.Invoke(this, args);

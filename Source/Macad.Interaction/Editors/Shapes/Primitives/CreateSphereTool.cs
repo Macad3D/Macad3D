@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -85,7 +86,7 @@ namespace Macad.Interaction.Editors.Shapes
             axisValueAction.Finished += _RadiusAction_Finished;
 
             _CurrentPhase = Phase.Radius;
-            SetHintMessage("Select Radius.");
+            SetHintMessage("Select Radius, press 'CTRL' to round to grid stepping.");
 
             Remove(_Coord2DHudElement);
             if (_ValueHudElement == null)
@@ -109,9 +110,16 @@ namespace Macad.Interaction.Editors.Shapes
             if (_Radius < 0.001)
                 _Radius = 0.001;
 
-            _UpdatePreview();
+            if (args.MouseEventData.ModifierKeys.Has(ModifierKeys.Control))
+            {
+                _Radius = Maths.RoundToNearest(_Radius, WorkspaceController.Workspace.GridStep);
+            }
 
-            SetHintMessage($"Select Radius: {_Radius:0.00}");
+            _EnsurePreviewShape();
+            _PreviewShape.Radius = _Radius;
+            if(_IsTemporaryVisual)
+                _VisualShape?.Update();
+
             _ValueHudElement?.SetValue(_Radius);
         }
 
@@ -140,38 +148,38 @@ namespace Macad.Interaction.Editors.Shapes
             if (_CurrentPhase == Phase.Radius)
             {
                 _Radius = Math.Abs(newValue) >= 0.001 ? newValue : 0.001;
-                _UpdatePreview();
+                _EnsurePreviewShape();
+                _PreviewShape.Radius = _Radius;
                 _RadiusAction_Finished(null, null);
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _UpdatePreview()
+        void _EnsurePreviewShape()
         {
-            if (_PreviewShape == null)
+            if (_PreviewShape != null) 
+                return;
+
+            // Create solid
+            _PreviewShape = new Sphere
             {
-                // Create solid
-                _PreviewShape = new Sphere
-                {
-                    Radius = _Radius
-                };
-                var body = Body.Create(_PreviewShape);
-                _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
-                _PreviewShape.Body.Position = _Position;
-                if (body.Layer.IsVisible)
-                {
-                    _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
-                    _IsTemporaryVisual = false;
-                }
-                else
-                {
-                    _VisualShape = new VisualShape(WorkspaceController, body, VisualShape.Options.Ghosting);
-                    _IsTemporaryVisual = true;
-                }
-                _VisualShape.IsSelectable = false;
+                Radius = _Radius
+            };
+            var body = Body.Create(_PreviewShape);
+            _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
+            _PreviewShape.Body.Position = _Position;
+            if (body.Layer.IsVisible)
+            {
+                _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
+                _IsTemporaryVisual = false;
             }
-            _PreviewShape.Radius = _Radius;
+            else
+            {
+                _VisualShape = new VisualShape(WorkspaceController, body, VisualShape.Options.Ghosting);
+                _IsTemporaryVisual = true;
+            }
+            _VisualShape.IsSelectable = false;
         }
     }
 }

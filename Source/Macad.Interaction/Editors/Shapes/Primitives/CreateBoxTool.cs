@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -88,7 +89,7 @@ namespace Macad.Interaction.Editors.Shapes
                 return;
 
             _CurrentPhase = Phase.BaseRect;
-            SetHintMessage("Select opposite corner point.");
+            SetHintMessage("Select opposite corner point, press 'CTRL' to round length and width to grid stepping.");
 
             if (_MultiValueHudElement == null)
             {
@@ -108,14 +109,65 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _BaseRectAction_Preview(PointAction action, PointAction.EventArgs args)
         {
-            _PointPlane2 = args.PointOnPlane;
-
-            _UpdatePreview();
+            if (args != null)
+            {
+                _PointPlane2 = args.PointOnPlane;
+            }
 
             var dimX = Math.Abs(_PointPlane1.X - _PointPlane2.X).Round();
             var dimY = Math.Abs(_PointPlane1.Y - _PointPlane2.Y).Round();
-            SetHintMessage($"Select opposite corner point. Size: {dimX:0.00} x {dimY:0.00}");
-            
+            if (args?.MouseEventData.ModifierKeys.Has(ModifierKeys.Control) ?? false)
+            {
+                dimX = Maths.RoundToNearest(dimX, WorkspaceController.Workspace.GridStep);
+                dimY = Maths.RoundToNearest(dimY, WorkspaceController.Workspace.GridStep);
+            }
+
+            if (Math.Abs(dimX) <= 0)
+            {
+                dimX = 0.001;
+            }
+            if (Math.Abs(dimY) <= 0)
+            {
+                dimY = 0.001;
+            }
+
+            double posX;
+            if (_PointPlane1.X < _PointPlane2.X)
+            {
+                posX = _PointPlane1.X;
+                _PointPlane2.X = _PointPlane1.X + dimX;
+            }
+            else
+            {
+                posX = _PointPlane1.X - dimX;
+                _PointPlane2.X = posX;
+            }
+
+            double posY;
+            if (_PointPlane1.Y < _PointPlane2.Y)
+            {
+                posY = _PointPlane1.Y;
+                _PointPlane2.Y = _PointPlane1.Y + dimY;
+            }
+            else
+            {
+                posY = _PointPlane1.Y - dimY;
+                _PointPlane2.Y = posY;
+            }
+
+            _EnsurePreviewShape();
+            var position = ElSLib.Value(posX, posY, _Plane).Rounded();
+            _PreviewShape.Body.Position = position;
+            _PreviewShape.DimensionX = dimX;
+            _PreviewShape.DimensionY = dimY;
+            if(_IsTemporaryVisual)
+                _VisualShape?.Update();
+
+            if (args != null)
+            {
+                args.MarkerPosition = ElSLib.Value(_PointPlane2.X, _PointPlane2.Y, _Plane).Rounded();
+            }
+
             _Coord2DHudElement?.SetValues(_PointPlane2.X, _PointPlane2.Y);
             _MultiValueHudElement?.SetValues(dimX, dimY);
 
@@ -135,10 +187,12 @@ namespace Macad.Interaction.Editors.Shapes
                 return;
 
             Remove(_Coord2DHudElement);
-            _CurrentPhase = Phase.Height;
-            SetHintMessage("Select height.");
-
             Remove(_MultiValueHudElement);
+
+            _CurrentPhase = Phase.Height;
+            SetCursor(Cursors.SetHeight);
+            SetHintMessage($"Select height, press 'CTRL' to round to grid stepping.");
+
             if (_ValueHudElement == null)
             {
                 _ValueHudElement = new ValueHudElement()
@@ -149,9 +203,8 @@ namespace Macad.Interaction.Editors.Shapes
                 _ValueHudElement.ValueEntered += _ValueEntered;
                 Add(_ValueHudElement);
             }
-
-            SetCursor(Cursors.SetHeight);
-            _HeightAction_Preview(axisValueAction, new AxisValueAction.EventArgs());
+            
+            _EnsurePreviewShape();
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -159,9 +212,22 @@ namespace Macad.Interaction.Editors.Shapes
         void _HeightAction_Preview(AxisValueAction action, AxisValueAction.EventArgs args)
         {
             _Height = args.Value.Round();
-            _UpdatePreview();
 
-            SetHintMessage($"Selected height: {_Height:0.00}");
+            if (args.MouseEventData.ModifierKeys.Has(ModifierKeys.Control))
+            {
+                _Height = Maths.RoundToNearest(_Height, WorkspaceController.Workspace.GridStep);
+            }
+
+            if (Math.Abs(_Height) <= 0)
+            {
+                _Height = 0.001;
+            }
+
+            _EnsurePreviewShape();
+            _PreviewShape.DimensionZ = _Height;
+            if(_IsTemporaryVisual)
+                _VisualShape?.Update();
+
             _ValueHudElement?.SetValue(_Height);
         }
 
@@ -201,53 +267,37 @@ namespace Macad.Interaction.Editors.Shapes
             if (_CurrentPhase == Phase.BaseRect)
             {
                 _PointPlane2 = new Pnt2d(_PointPlane1.X + newValue1, _PointPlane1.Y + newValue2);
-                _UpdatePreview();
+                _BaseRectAction_Preview(null, null);
+                _EnsurePreviewShape();
                 _BaseRectAction_Finished(null, null);
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _UpdatePreview()
+        void _EnsurePreviewShape()
         {
-            if (_PointPlane1.IsEqual(_PointPlane2, Double.Epsilon))
-            {
+            if (_PreviewShape != null) 
                 return;
-            }
 
-            if (_PreviewShape == null)
+            // Create solid
+            _PreviewShape = new Box
             {
-                // Create solid
-                _PreviewShape = new Box
-                {
-                    DimensionZ = 0.01
-                };
-                var body = Body.Create(_PreviewShape);
-                _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
-                if (body.Layer.IsVisible)
-                {
-                    _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
-                    _IsTemporaryVisual = false;
-                }
-                else
-                {
-                    _VisualShape = new VisualShape(WorkspaceController, body, VisualShape.Options.Ghosting);
-                    _IsTemporaryVisual = true;
-                }
-                _VisualShape.IsSelectable = false;
-            }
-
-            if (_CurrentPhase == Phase.BaseRect)
+                DimensionZ = 0.01
+            };
+            var body = Body.Create(_PreviewShape);
+            _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
+            if (body.Layer.IsVisible)
             {
-                _PreviewShape.Body.Position = ElSLib.Value(Math.Min(_PointPlane1.X, _PointPlane2.X), Math.Min(_PointPlane1.Y, _PointPlane2.Y), _Plane).Rounded();
-                _PreviewShape.DimensionX = Math.Abs(_PointPlane1.X - _PointPlane2.X).Round();
-                _PreviewShape.DimensionY = Math.Abs(_PointPlane1.Y - _PointPlane2.Y).Round();
+                _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
+                _IsTemporaryVisual = false;
             }
-            else if (_CurrentPhase == Phase.Height)
+            else
             {
-                _PreviewShape.DimensionZ =  Math.Abs(_Height) >= 0.001 ? _Height : 0.001;
+                _VisualShape = new VisualShape(WorkspaceController, body, VisualShape.Options.Ghosting);
+                _IsTemporaryVisual = true;
             }
-            _VisualShape.Update();
+            _VisualShape.IsSelectable = false;
         }
     }
 }

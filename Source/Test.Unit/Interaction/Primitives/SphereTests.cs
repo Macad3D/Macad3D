@@ -1,7 +1,10 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Macad.Common;
+using Macad.Core.Shapes;
+using Macad.Core.Topology;
 using Macad.Test.Utils;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
@@ -52,6 +55,30 @@ namespace Macad.Test.Unit.Interaction.Primitives
             ctx.ViewportController.MouseUp();
             ctx.ViewportController.MouseMove(new Point(0, 0));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSphere3"));
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateSphereClamp()
+        {
+            var ctx = Context.Current;
+
+            ctx.Workspace.GridStep = 1.5;
+            ctx.WorkspaceController.StartTool(new CreateSphereTool());
+
+            Assert.Multiple(() =>
+            {
+                // Center point
+                ctx.ClickAt(250, 250);
+                // Radius
+                ctx.MoveTo(450, 250, ModifierKeys.Control);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSphereClamp1"));
+                ctx.ClickAt(450, 250, ModifierKeys.Control);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSphereClamp2"));
+                var sphere = ((ctx.WorkspaceController.Selection.SelectedEntities.FirstOrDefault() as Body)?.Shape as Sphere);
+                Assert.AreEqual(4.5, sphere.Radius);
+            });
         }
 
         //--------------------------------------------------------------------------------------------------

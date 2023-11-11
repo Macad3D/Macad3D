@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
@@ -91,7 +92,7 @@ namespace Macad.Interaction.Editors.Shapes
             pointAction.Finished += _RadiusAction_Finished;
 
             _CurrentPhase = Phase.Radius;
-            SetHintMessage("Select radius.");
+            SetHintMessage("Select radius, press 'CTRL' to round to grid stepping.");
 
             if (_ValueHudElement == null)
             {
@@ -117,12 +118,24 @@ namespace Macad.Interaction.Editors.Shapes
                 return;
 
             _Radius = new Vec2d(_PointPlane1, _PointPlane2).Magnitude().Round();
-            if (_Radius <= Double.Epsilon)
-                return;
+            if (args.MouseEventData.ModifierKeys.Has(ModifierKeys.Control))
+            {
+                _Radius = Maths.RoundToNearest(_Radius, WorkspaceController.Workspace.GridStep);
+            }
 
-            _UpdatePreview();
+            if (Math.Abs(_Radius) <= 0)
+            {
+                _Radius = 0.001;
+            }
 
-            SetHintMessage($"Select radius: {_Radius:0.00}");
+            _PointPlane2 = _PointPlane1.Translated(new Vec2d(_PointPlane1, _PointPlane2).Normalized().Scaled(_Radius));
+            args.MarkerPosition = ElSLib.Value(_PointPlane2.X, _PointPlane2.Y, _Plane).Rounded();
+
+            _EnsurePreviewShape();
+            _PreviewShape.Radius = _Radius;
+            if(_IsTemporaryVisual)
+                _VisualShape?.Update();
+
             _ValueHudElement?.SetValue(_Radius);
             _Coord2DHudElement?.SetValues(args.PointOnPlane.X, args.PointOnPlane.Y);
         }
@@ -131,14 +144,15 @@ namespace Macad.Interaction.Editors.Shapes
 
         void _RadiusAction_Finished(PointAction action, PointAction.EventArgs args)
         {
-            var axisValueAction = new AxisValueAction(this, new Ax1(_PivotPoint.Rounded(), _Plane.Axis.Direction));
+            var axisPosition = ElSLib.Value(_PointPlane2.X, _PointPlane2.Y, _Plane);
+            var axisValueAction = new AxisValueAction(this, new Ax1(axisPosition, _Plane.Axis.Direction));
             if (!StartAction(axisValueAction))
                 return;
             axisValueAction.Preview += _HeightAction_Preview;
             axisValueAction.Finished += _HeightAction_Finished;
 
             _CurrentPhase = Phase.Height;
-            SetHintMessage("Select height.");
+            SetHintMessage("Select height, press 'CTRL' to round to grid stepping.");
 
             if (_ValueHudElement != null)
             {
@@ -149,20 +163,40 @@ namespace Macad.Interaction.Editors.Shapes
             Remove(_Coord2DHudElement);
             SetCursor(Cursors.SetHeight);
 
-            _HeightAction_Preview(axisValueAction, new AxisValueAction.EventArgs());
+            _EnsurePreviewShape();
         }
 
         //--------------------------------------------------------------------------------------------------
 
         void _HeightAction_Preview(AxisValueAction action, AxisValueAction.EventArgs args)
         {
-            _Height = args.Value.Round();
+            if (args != null)
+            {
+                _Height = args.Value.Round();
+
+                if (args.MouseEventData.ModifierKeys.Has(ModifierKeys.Control))
+                {
+                    _Height = Maths.RoundToNearest(_Height, WorkspaceController.Workspace.GridStep);
+                }
+            }
+
             if (Math.Abs(_Height) < 0.001)
                 _Height = 0.001;
-            
-            _UpdatePreview();
 
-            SetHintMessage($"Selected height: {_Height:0.00}");
+            _EnsurePreviewShape();
+            if (_Height > 0)
+            {
+                _PreviewShape.Body.Position = _PivotPoint.Rounded();
+                _PreviewShape.Height = _Height;
+            }
+            else
+            {
+                _PreviewShape.Body.Position = _PivotPoint.Translated(_Plane.Axis.Direction.ToVec().Multiplied(_Height)).Rounded();
+                _PreviewShape.Height = -_Height;
+            }
+            if(_IsTemporaryVisual)
+                _VisualShape?.Update();
+
             _ValueHudElement?.SetValue(_Height);
         }
 
@@ -189,63 +223,46 @@ namespace Macad.Interaction.Editors.Shapes
         {
             if (_CurrentPhase == Phase.Radius)
             {
-                _Radius = (Math.Abs(newValue) >= 0.001) ? newValue : 0.001;
-                _UpdatePreview();
+                _Radius = Math.Abs(newValue) >= 0.001 ? newValue : 0.001;
+                _EnsurePreviewShape();
+                _PreviewShape.Radius = _Radius;
                 _RadiusAction_Finished(null, null);
             }
             else if (_CurrentPhase == Phase.Height)
             {
                 _Height = newValue;
-                _UpdatePreview();
+                _EnsurePreviewShape();
+                _HeightAction_Preview(null, null);
                 _HeightAction_Finished(null, null);
             }
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        void _UpdatePreview()
+        void _EnsurePreviewShape()
         {
-            if (_PreviewShape == null)
-            {
-                // Create solid
-                _PreviewShape = new Cylinder()
-                {
-                    Height = 0.01
-                };
-                var body = Body.Create(_PreviewShape);
-                if (body.Layer.IsVisible)
-                {
-                    _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
-                    _IsTemporaryVisual = false;
-                }
-                else
-                {
-                    _VisualShape = new VisualShape(WorkspaceController, body, VisualShape.Options.Ghosting);
-                    _IsTemporaryVisual = true;
-                }
-                _VisualShape.IsSelectable = false;
-                _PreviewShape.Body.Position = _PivotPoint.Rounded();
-                _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
-            }
+            if (_PreviewShape != null)
+                return;
 
-            if (_CurrentPhase == Phase.Radius)
+            // Create solid
+            _PreviewShape = new Cylinder()
             {
-                _PreviewShape.Radius = _Radius;
-            } 
-            else if (_CurrentPhase == Phase.Height)
+                Height = 0.01
+            };
+            var body = Body.Create(_PreviewShape);
+            if (body.Layer.IsVisible)
             {
-                if (_Height > 0)
-                {
-                    _PreviewShape.Body.Position = _PivotPoint.Rounded();
-                    _PreviewShape.Height = _Height;
-                }
-                else
-                {
-                    _PreviewShape.Body.Position = _PivotPoint.Translated(_Plane.Axis.Direction.ToVec().Multiplied(_Height)).Rounded();
-                    _PreviewShape.Height = -_Height;
-                }
+                _VisualShape = WorkspaceController.VisualObjects.Get(body, true);
+                _IsTemporaryVisual = false;
             }
-            _VisualShape.Update();
+            else
+            {
+                _VisualShape = new VisualShape(WorkspaceController, body, VisualShape.Options.Ghosting);
+                _IsTemporaryVisual = true;
+            }
+            _VisualShape.IsSelectable = false;
+            _PreviewShape.Body.Position = _PivotPoint.Rounded();
+            _PreviewShape.Body.Rotation = WorkspaceController.Workspace.GetWorkingPlaneRotation();
         }
     }
 }

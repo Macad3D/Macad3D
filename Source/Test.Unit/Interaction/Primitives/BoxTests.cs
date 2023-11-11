@@ -6,6 +6,9 @@ using Macad.Test.Utils;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
+using Macad.Core.Shapes;
+using System.Linq;
+using Macad.Core.Topology;
 
 namespace Macad.Test.Unit.Interaction.Primitives
 {
@@ -58,6 +61,72 @@ namespace Macad.Test.Unit.Interaction.Primitives
             ctx.ViewportController.MouseUp();
             ctx.ViewportController.MouseMove(new Point(0, 0));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBox4"));
+        }
+
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void CreateBoxClamp()
+        {
+            var ctx = Context.Current;
+            ctx.Workspace.GridStep = 1.5;
+            ctx.WorkspaceController.StartTool(new CreateBoxTool());
+
+            Assert.Multiple(() =>
+            {
+                // Left corner
+                ctx.ClickAt(50, 250);
+
+                // Right corner
+                ctx.MoveTo(450, 250, ModifierKeys.Control);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBoxClamp1"));
+                ctx.ClickAt(450, 250, ModifierKeys.Control);
+
+                // Height
+                ctx.MoveTo(450, 200, ModifierKeys.Control);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBoxClamp2"));
+                ctx.ClickAt(450, 200, ModifierKeys.Control);
+
+                // Create
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBoxClamp3"));
+                var box = (ctx.WorkspaceController.Selection.SelectedEntities.FirstOrDefault() as Body)?.Shape as Box;
+                Assert.AreEqual(6.0, box.DimensionX);
+                Assert.AreEqual(6.0, box.DimensionY);
+                Assert.AreEqual(1.5, box.DimensionZ);
+            });
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void CreateBoxClampNegative()
+        {
+            var ctx = Context.Current;
+            ctx.Workspace.GridStep = 1.5;
+            ctx.WorkspaceController.StartTool(new CreateBoxTool());
+
+            Assert.Multiple(() =>
+            {
+                // Left corner
+                ctx.ClickAt(450, 200);
+
+                // Right corner
+                ctx.MoveTo(50, 200, ModifierKeys.Control);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBoxClampNegative1"));
+                ctx.ClickAt(50, 200, ModifierKeys.Control);
+
+                // Height
+                ctx.MoveTo(50, 250, ModifierKeys.Control);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBoxClampNegative2"));
+                ctx.ClickAt(50, 250, ModifierKeys.Control);
+
+                // Create
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBoxClampNegative3"));
+                var box = (ctx.WorkspaceController.Selection.SelectedEntities.FirstOrDefault() as Body)?.Shape as Box;
+                Assert.AreEqual(6.0, box.DimensionX);
+                Assert.AreEqual(6.0, box.DimensionY);
+                Assert.AreEqual(-1.5, box.DimensionZ);
+            });
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -6,6 +6,9 @@ using Macad.Test.Utils;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
+using Macad.Core.Shapes;
+using System.Linq;
+using Macad.Core.Topology;
 
 namespace Macad.Test.Unit.Interaction.Primitives
 {
@@ -60,6 +63,37 @@ namespace Macad.Test.Unit.Interaction.Primitives
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCylinder4"));
         }
         
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void CreateCylinderClamp()
+        {
+            var ctx = Context.Current;
+            ctx.Workspace.GridStep = 1.5;
+            ctx.WorkspaceController.StartTool(new CreateCylinderTool());
+
+            Assert.Multiple(() => 
+            {
+                // Center point
+                ctx.ClickAt(250, 250);
+                // Radius
+                ctx.MoveTo(450, 250, ModifierKeys.Control);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCylinderClamp1"));
+                ctx.ClickAt(450, 250, ModifierKeys.Control);
+
+                // Height
+                ctx.MoveTo(450, 200, ModifierKeys.Control);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCylinderClamp2"));
+                ctx.ClickAt(450, 200, ModifierKeys.Control);
+
+                // Create
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCylinderClamp3"));
+                var cyl = (ctx.WorkspaceController.Selection.SelectedEntities.FirstOrDefault() as Body)?.Shape as Cylinder;
+                Assert.AreEqual(4.5, cyl.Radius);
+                Assert.AreEqual(1.5, cyl.Height);
+            });
+        }
+
         //--------------------------------------------------------------------------------------------------
 
         [Test]
