@@ -3,7 +3,6 @@
   "components": [
     "Microsoft.VisualStudio.Workload.ManagedDesktop",
     "Microsoft.VisualStudio.Workload.NativeDesktop",
-    "Microsoft.NetCore.Component.Runtime.6.0",
     "Microsoft.NetCore.Component.SDK",
     "Microsoft.VisualStudio.Component.Roslyn.Compiler",
     "Microsoft.VisualStudio.Component.Roslyn.LanguageServices",
