@@ -148,12 +148,6 @@ Macad::Occt::IntCurvesFace_ShapeIntersector::IntCurvesFace_ShapeIntersector()
     _NativeInstance = new ::IntCurvesFace_ShapeIntersector();
 }
 
-Macad::Occt::IntCurvesFace_ShapeIntersector::IntCurvesFace_ShapeIntersector(Macad::Occt::IntCurvesFace_ShapeIntersector^ parameter1)
-    : Macad::Occt::BaseClass<::IntCurvesFace_ShapeIntersector>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntCurvesFace_ShapeIntersector(*(::IntCurvesFace_ShapeIntersector*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::IntCurvesFace_ShapeIntersector::Load(Macad::Occt::TopoDS_Shape^ Sh, double Tol)
 {
     ((::IntCurvesFace_ShapeIntersector*)_NativeInstance)->Load(*(::TopoDS_Shape*)Sh->NativeInstance, Tol);

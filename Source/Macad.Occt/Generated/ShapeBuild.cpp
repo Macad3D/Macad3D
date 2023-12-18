@@ -23,12 +23,6 @@ Macad::Occt::ShapeBuild::ShapeBuild()
     _NativeInstance = new ::ShapeBuild();
 }
 
-Macad::Occt::ShapeBuild::ShapeBuild(Macad::Occt::ShapeBuild^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeBuild>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeBuild(*(::ShapeBuild*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Geom_Plane^ Macad::Occt::ShapeBuild::PlaneXOY()
 {
     Handle(::Geom_Plane) _result = ::ShapeBuild::PlaneXOY();
@@ -45,12 +39,6 @@ Macad::Occt::ShapeBuild_Edge::ShapeBuild_Edge()
     : Macad::Occt::BaseClass<::ShapeBuild_Edge>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeBuild_Edge();
-}
-
-Macad::Occt::ShapeBuild_Edge::ShapeBuild_Edge(Macad::Occt::ShapeBuild_Edge^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeBuild_Edge>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeBuild_Edge(*(::ShapeBuild_Edge*)parameter1->NativeInstance);
 }
 
 Macad::Occt::TopoDS_Edge^ Macad::Occt::ShapeBuild_Edge::CopyReplaceVertices(Macad::Occt::TopoDS_Edge^ edge, Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2)
@@ -72,7 +60,7 @@ void Macad::Occt::ShapeBuild_Edge::CopyRanges(Macad::Occt::TopoDS_Edge^ toedge, 
 
 void Macad::Occt::ShapeBuild_Edge::CopyRanges(Macad::Occt::TopoDS_Edge^ toedge, Macad::Occt::TopoDS_Edge^ fromedge)
 {
-    ((::ShapeBuild_Edge*)_NativeInstance)->CopyRanges(*(::TopoDS_Edge*)toedge->NativeInstance, *(::TopoDS_Edge*)fromedge->NativeInstance, 0, 1);
+    ((::ShapeBuild_Edge*)_NativeInstance)->CopyRanges(*(::TopoDS_Edge*)toedge->NativeInstance, *(::TopoDS_Edge*)fromedge->NativeInstance, 0.0, 1);
 }
 
 void Macad::Occt::ShapeBuild_Edge::SetRange3d(Macad::Occt::TopoDS_Edge^ edge, double first, double last)
@@ -187,12 +175,6 @@ Macad::Occt::ShapeBuild_ReShape::ShapeBuild_ReShape()
     NativeInstance = new ::ShapeBuild_ReShape();
 }
 
-Macad::Occt::ShapeBuild_ReShape::ShapeBuild_ReShape(Macad::Occt::ShapeBuild_ReShape^ parameter1)
-    : Macad::Occt::BRepTools_ReShape(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeBuild_ReShape(*(::ShapeBuild_ReShape*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TopoDS_Shape^ Macad::Occt::ShapeBuild_ReShape::Apply(Macad::Occt::TopoDS_Shape^ shape, Macad::Occt::TopAbs_ShapeEnum until, int buildmode)
 {
     ::TopoDS_Shape* _result = new ::TopoDS_Shape();
@@ -241,12 +223,6 @@ Macad::Occt::ShapeBuild_Vertex::ShapeBuild_Vertex()
     : Macad::Occt::BaseClass<::ShapeBuild_Vertex>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeBuild_Vertex();
-}
-
-Macad::Occt::ShapeBuild_Vertex::ShapeBuild_Vertex(Macad::Occt::ShapeBuild_Vertex^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeBuild_Vertex>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeBuild_Vertex(*(::ShapeBuild_Vertex*)parameter1->NativeInstance);
 }
 
 Macad::Occt::TopoDS_Vertex^ Macad::Occt::ShapeBuild_Vertex::CombineVertex(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, double tolFactor)

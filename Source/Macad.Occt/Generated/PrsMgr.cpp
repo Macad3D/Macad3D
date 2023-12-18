@@ -35,12 +35,6 @@ Macad::Occt::PrsMgr_ListOfPresentableObjects::PrsMgr_ListOfPresentableObjects(Ma
     _NativeInstance = new ::PrsMgr_ListOfPresentableObjects(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::PrsMgr_ListOfPresentableObjects::PrsMgr_ListOfPresentableObjects(Macad::Occt::PrsMgr_ListOfPresentableObjects^ theOther)
-    : Macad::Occt::NCollection_BaseList(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::PrsMgr_ListOfPresentableObjects(*(::PrsMgr_ListOfPresentableObjects*)theOther->NativeInstance);
-}
-
 int Macad::Occt::PrsMgr_ListOfPresentableObjects::Size()
 {
     int _result = ((::PrsMgr_ListOfPresentableObjects*)_NativeInstance)->Size();
@@ -82,25 +76,10 @@ Macad::Occt::PrsMgr_PresentableObject^ Macad::Occt::PrsMgr_ListOfPresentableObje
     return _result.IsNull() ? nullptr : Macad::Occt::PrsMgr_PresentableObject::CreateDowncasted(_result.get());
 }
 
-void Macad::Occt::PrsMgr_ListOfPresentableObjects::Append(Macad::Occt::PrsMgr_PresentableObject^ theItem, Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator^ theIter)
-{
-    ((::PrsMgr_ListOfPresentableObjects*)_NativeInstance)->Append(Handle(::PrsMgr_PresentableObject)(theItem->NativeInstance), *(::PrsMgr_ListOfPresentableObjects::Iterator*)theIter->NativeInstance);
-}
-
-void Macad::Occt::PrsMgr_ListOfPresentableObjects::Append(Macad::Occt::PrsMgr_ListOfPresentableObjects^ theOther)
-{
-    ((::PrsMgr_ListOfPresentableObjects*)_NativeInstance)->Append(*(::PrsMgr_ListOfPresentableObjects*)theOther->NativeInstance);
-}
-
 Macad::Occt::PrsMgr_PresentableObject^ Macad::Occt::PrsMgr_ListOfPresentableObjects::Prepend(Macad::Occt::PrsMgr_PresentableObject^ theItem)
 {
     Handle(::PrsMgr_PresentableObject) _result = ((::PrsMgr_ListOfPresentableObjects*)_NativeInstance)->Prepend(Handle(::PrsMgr_PresentableObject)(theItem->NativeInstance));
     return _result.IsNull() ? nullptr : Macad::Occt::PrsMgr_PresentableObject::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::PrsMgr_ListOfPresentableObjects::Prepend(Macad::Occt::PrsMgr_ListOfPresentableObjects^ theOther)
-{
-    ((::PrsMgr_ListOfPresentableObjects*)_NativeInstance)->Prepend(*(::PrsMgr_ListOfPresentableObjects*)theOther->NativeInstance);
 }
 
 void Macad::Occt::PrsMgr_ListOfPresentableObjects::RemoveFirst()
@@ -119,20 +98,10 @@ Macad::Occt::PrsMgr_PresentableObject^ Macad::Occt::PrsMgr_ListOfPresentableObje
     return _result.IsNull() ? nullptr : Macad::Occt::PrsMgr_PresentableObject::CreateDowncasted(_result.get());
 }
 
-void Macad::Occt::PrsMgr_ListOfPresentableObjects::InsertBefore(Macad::Occt::PrsMgr_ListOfPresentableObjects^ theOther, Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator^ theIter)
-{
-    ((::PrsMgr_ListOfPresentableObjects*)_NativeInstance)->InsertBefore(*(::PrsMgr_ListOfPresentableObjects*)theOther->NativeInstance, *(::PrsMgr_ListOfPresentableObjects::Iterator*)theIter->NativeInstance);
-}
-
 Macad::Occt::PrsMgr_PresentableObject^ Macad::Occt::PrsMgr_ListOfPresentableObjects::InsertAfter(Macad::Occt::PrsMgr_PresentableObject^ theItem, Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator^ theIter)
 {
     Handle(::PrsMgr_PresentableObject) _result = ((::PrsMgr_ListOfPresentableObjects*)_NativeInstance)->InsertAfter(Handle(::PrsMgr_PresentableObject)(theItem->NativeInstance), *(::PrsMgr_ListOfPresentableObjects::Iterator*)theIter->NativeInstance);
     return _result.IsNull() ? nullptr : Macad::Occt::PrsMgr_PresentableObject::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::PrsMgr_ListOfPresentableObjects::InsertAfter(Macad::Occt::PrsMgr_ListOfPresentableObjects^ theOther, Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator^ theIter)
-{
-    ((::PrsMgr_ListOfPresentableObjects*)_NativeInstance)->InsertAfter(*(::PrsMgr_ListOfPresentableObjects*)theOther->NativeInstance, *(::PrsMgr_ListOfPresentableObjects::Iterator*)theIter->NativeInstance);
 }
 
 void Macad::Occt::PrsMgr_ListOfPresentableObjects::Reverse()
@@ -150,18 +119,6 @@ Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator::Iterator()
     : Macad::Occt::BaseClass<::PrsMgr_ListOfPresentableObjects::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::PrsMgr_ListOfPresentableObjects::Iterator();
-}
-
-Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator::Iterator(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::PrsMgr_ListOfPresentableObjects::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::PrsMgr_ListOfPresentableObjects::Iterator(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator::Iterator(Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::PrsMgr_ListOfPresentableObjects::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::PrsMgr_ListOfPresentableObjects::Iterator(*(::PrsMgr_ListOfPresentableObjects::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator::More()
@@ -205,12 +162,6 @@ Macad::Occt::PrsMgr_ListOfPresentableObjectsIter::PrsMgr_ListOfPresentableObject
     _NativeInstance = new ::PrsMgr_ListOfPresentableObjectsIter(*(::NCollection_BaseList*)theList->NativeInstance);
 }
 
-Macad::Occt::PrsMgr_ListOfPresentableObjectsIter::PrsMgr_ListOfPresentableObjectsIter(Macad::Occt::PrsMgr_ListOfPresentableObjectsIter^ parameter1)
-    : Macad::Occt::BaseClass<::PrsMgr_ListOfPresentableObjectsIter>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::PrsMgr_ListOfPresentableObjectsIter(*(::PrsMgr_ListOfPresentableObjectsIter*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::PrsMgr_ListOfPresentableObjectsIter::More()
 {
     bool _result = ((::PrsMgr_ListOfPresentableObjectsIter*)_NativeInstance)->More();
@@ -250,12 +201,6 @@ Macad::Occt::PrsMgr_ListOfPresentations::PrsMgr_ListOfPresentations(Macad::Occt:
     : Macad::Occt::NCollection_BaseList(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::PrsMgr_ListOfPresentations(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
-}
-
-Macad::Occt::PrsMgr_ListOfPresentations::PrsMgr_ListOfPresentations(Macad::Occt::PrsMgr_ListOfPresentations^ theOther)
-    : Macad::Occt::NCollection_BaseList(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::PrsMgr_ListOfPresentations(*(::PrsMgr_ListOfPresentations*)theOther->NativeInstance);
 }
 
 int Macad::Occt::PrsMgr_ListOfPresentations::Size()
@@ -299,25 +244,10 @@ Macad::Occt::Graphic3d_Structure^ Macad::Occt::PrsMgr_ListOfPresentations::Appen
     return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Structure::CreateDowncasted(_result.get());
 }
 
-void Macad::Occt::PrsMgr_ListOfPresentations::Append(Macad::Occt::Graphic3d_Structure^ theItem, Macad::Occt::PrsMgr_ListOfPresentations::Iterator^ theIter)
-{
-    ((::PrsMgr_ListOfPresentations*)_NativeInstance)->Append(Handle(::Graphic3d_Structure)(theItem->NativeInstance), *(::PrsMgr_ListOfPresentations::Iterator*)theIter->NativeInstance);
-}
-
-void Macad::Occt::PrsMgr_ListOfPresentations::Append(Macad::Occt::PrsMgr_ListOfPresentations^ theOther)
-{
-    ((::PrsMgr_ListOfPresentations*)_NativeInstance)->Append(*(::PrsMgr_ListOfPresentations*)theOther->NativeInstance);
-}
-
 Macad::Occt::Graphic3d_Structure^ Macad::Occt::PrsMgr_ListOfPresentations::Prepend(Macad::Occt::Graphic3d_Structure^ theItem)
 {
     Handle(::Graphic3d_Structure) _result = ((::PrsMgr_ListOfPresentations*)_NativeInstance)->Prepend(Handle(::Graphic3d_Structure)(theItem->NativeInstance));
     return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Structure::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::PrsMgr_ListOfPresentations::Prepend(Macad::Occt::PrsMgr_ListOfPresentations^ theOther)
-{
-    ((::PrsMgr_ListOfPresentations*)_NativeInstance)->Prepend(*(::PrsMgr_ListOfPresentations*)theOther->NativeInstance);
 }
 
 void Macad::Occt::PrsMgr_ListOfPresentations::RemoveFirst()
@@ -336,20 +266,10 @@ Macad::Occt::Graphic3d_Structure^ Macad::Occt::PrsMgr_ListOfPresentations::Inser
     return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Structure::CreateDowncasted(_result.get());
 }
 
-void Macad::Occt::PrsMgr_ListOfPresentations::InsertBefore(Macad::Occt::PrsMgr_ListOfPresentations^ theOther, Macad::Occt::PrsMgr_ListOfPresentations::Iterator^ theIter)
-{
-    ((::PrsMgr_ListOfPresentations*)_NativeInstance)->InsertBefore(*(::PrsMgr_ListOfPresentations*)theOther->NativeInstance, *(::PrsMgr_ListOfPresentations::Iterator*)theIter->NativeInstance);
-}
-
 Macad::Occt::Graphic3d_Structure^ Macad::Occt::PrsMgr_ListOfPresentations::InsertAfter(Macad::Occt::Graphic3d_Structure^ theItem, Macad::Occt::PrsMgr_ListOfPresentations::Iterator^ theIter)
 {
     Handle(::Graphic3d_Structure) _result = ((::PrsMgr_ListOfPresentations*)_NativeInstance)->InsertAfter(Handle(::Graphic3d_Structure)(theItem->NativeInstance), *(::PrsMgr_ListOfPresentations::Iterator*)theIter->NativeInstance);
     return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_Structure::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::PrsMgr_ListOfPresentations::InsertAfter(Macad::Occt::PrsMgr_ListOfPresentations^ theOther, Macad::Occt::PrsMgr_ListOfPresentations::Iterator^ theIter)
-{
-    ((::PrsMgr_ListOfPresentations*)_NativeInstance)->InsertAfter(*(::PrsMgr_ListOfPresentations*)theOther->NativeInstance, *(::PrsMgr_ListOfPresentations::Iterator*)theIter->NativeInstance);
 }
 
 void Macad::Occt::PrsMgr_ListOfPresentations::Reverse()
@@ -367,18 +287,6 @@ Macad::Occt::PrsMgr_ListOfPresentations::Iterator::Iterator()
     : Macad::Occt::BaseClass<::PrsMgr_ListOfPresentations::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::PrsMgr_ListOfPresentations::Iterator();
-}
-
-Macad::Occt::PrsMgr_ListOfPresentations::Iterator::Iterator(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::PrsMgr_ListOfPresentations::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::PrsMgr_ListOfPresentations::Iterator(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-Macad::Occt::PrsMgr_ListOfPresentations::Iterator::Iterator(Macad::Occt::PrsMgr_ListOfPresentations::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::PrsMgr_ListOfPresentations::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::PrsMgr_ListOfPresentations::Iterator(*(::PrsMgr_ListOfPresentations::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::PrsMgr_ListOfPresentations::Iterator::More()
@@ -420,12 +328,6 @@ Macad::Occt::PrsMgr_Presentations::PrsMgr_Presentations(Macad::Occt::NCollection
     : Macad::Occt::BaseClass<::PrsMgr_Presentations>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::PrsMgr_Presentations(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
-}
-
-Macad::Occt::PrsMgr_Presentations::PrsMgr_Presentations(Macad::Occt::PrsMgr_Presentations^ theOther)
-    : Macad::Occt::BaseClass<::PrsMgr_Presentations>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::PrsMgr_Presentations(*(::PrsMgr_Presentations*)theOther->NativeInstance);
 }
 
 int Macad::Occt::PrsMgr_Presentations::Size()
@@ -490,24 +392,9 @@ void Macad::Occt::PrsMgr_Presentations::Remove(Macad::Occt::PrsMgr_Presentations
     ((::PrsMgr_Presentations*)_NativeInstance)->Remove(*(::PrsMgr_Presentations::Iterator*)thePosition->NativeInstance);
 }
 
-void Macad::Occt::PrsMgr_Presentations::Remove(int theIndex)
-{
-    ((::PrsMgr_Presentations*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::PrsMgr_Presentations::Remove(int theFromIndex, int theToIndex)
-{
-    ((::PrsMgr_Presentations*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
 void Macad::Occt::PrsMgr_Presentations::Append(Macad::Occt::PrsMgr_Presentation^ theItem)
 {
     ((::PrsMgr_Presentations*)_NativeInstance)->Append(Handle(::PrsMgr_Presentation)(theItem->NativeInstance));
-}
-
-void Macad::Occt::PrsMgr_Presentations::Append(Macad::Occt::PrsMgr_Presentations^ theSeq)
-{
-    ((::PrsMgr_Presentations*)_NativeInstance)->Append(*(::PrsMgr_Presentations*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::PrsMgr_Presentations::Prepend(Macad::Occt::PrsMgr_Presentation^ theItem)
@@ -515,34 +402,14 @@ void Macad::Occt::PrsMgr_Presentations::Prepend(Macad::Occt::PrsMgr_Presentation
     ((::PrsMgr_Presentations*)_NativeInstance)->Prepend(Handle(::PrsMgr_Presentation)(theItem->NativeInstance));
 }
 
-void Macad::Occt::PrsMgr_Presentations::Prepend(Macad::Occt::PrsMgr_Presentations^ theSeq)
-{
-    ((::PrsMgr_Presentations*)_NativeInstance)->Prepend(*(::PrsMgr_Presentations*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::PrsMgr_Presentations::InsertBefore(int theIndex, Macad::Occt::PrsMgr_Presentation^ theItem)
 {
     ((::PrsMgr_Presentations*)_NativeInstance)->InsertBefore(theIndex, Handle(::PrsMgr_Presentation)(theItem->NativeInstance));
 }
 
-void Macad::Occt::PrsMgr_Presentations::InsertBefore(int theIndex, Macad::Occt::PrsMgr_Presentations^ theSeq)
-{
-    ((::PrsMgr_Presentations*)_NativeInstance)->InsertBefore(theIndex, *(::PrsMgr_Presentations*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::PrsMgr_Presentations::InsertAfter(Macad::Occt::PrsMgr_Presentations::Iterator^ thePosition, Macad::Occt::PrsMgr_Presentation^ theItem)
 {
     ((::PrsMgr_Presentations*)_NativeInstance)->InsertAfter(*(::PrsMgr_Presentations::Iterator*)thePosition->NativeInstance, Handle(::PrsMgr_Presentation)(theItem->NativeInstance));
-}
-
-void Macad::Occt::PrsMgr_Presentations::InsertAfter(int theIndex, Macad::Occt::PrsMgr_Presentations^ theSeq)
-{
-    ((::PrsMgr_Presentations*)_NativeInstance)->InsertAfter(theIndex, *(::PrsMgr_Presentations*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::PrsMgr_Presentations::InsertAfter(int theIndex, Macad::Occt::PrsMgr_Presentation^ theItem)
-{
-    ((::PrsMgr_Presentations*)_NativeInstance)->InsertAfter(theIndex, Handle(::PrsMgr_Presentation)(theItem->NativeInstance));
 }
 
 void Macad::Occt::PrsMgr_Presentations::Split(int theIndex, Macad::Occt::PrsMgr_Presentations^ theSeq)
@@ -613,24 +480,6 @@ Macad::Occt::PrsMgr_Presentations::Iterator::Iterator()
     _NativeInstance = new ::PrsMgr_Presentations::Iterator();
 }
 
-Macad::Occt::PrsMgr_Presentations::Iterator::Iterator(Macad::Occt::PrsMgr_Presentations^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::PrsMgr_Presentations::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::PrsMgr_Presentations::Iterator(*(::PrsMgr_Presentations*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::PrsMgr_Presentations::Iterator::Iterator(Macad::Occt::PrsMgr_Presentations^ theSeq)
-    : Macad::Occt::BaseClass<::PrsMgr_Presentations::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::PrsMgr_Presentations::Iterator(*(::PrsMgr_Presentations*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::PrsMgr_Presentations::Iterator::Iterator(Macad::Occt::PrsMgr_Presentations::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::PrsMgr_Presentations::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::PrsMgr_Presentations::Iterator(*(::PrsMgr_Presentations::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::PrsMgr_Presentations::Iterator::More()
 {
     bool _result = ((::PrsMgr_Presentations::Iterator*)_NativeInstance)->More();
@@ -660,17 +509,30 @@ bool Macad::Occt::PrsMgr_Presentations::Iterator::IsEqual(Macad::Occt::PrsMgr_Pr
     return _result;
 }
 
+bool Macad::Occt::PrsMgr_Presentations::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::PrsMgr_Presentations::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
 //  Class  PrsMgr_PresentableObject
 //---------------------------------------------------------------------
-
-Macad::Occt::PrsMgr_PresentableObject::PrsMgr_PresentableObject(Macad::Occt::PrsMgr_PresentableObject^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
 
 Macad::Occt::PrsMgr_Presentations^ Macad::Occt::PrsMgr_PresentableObject::Presentations()
 {
@@ -1203,12 +1065,6 @@ Macad::Occt::PrsMgr_PresentationManager::PrsMgr_PresentationManager(Macad::Occt:
     NativeInstance = new ::PrsMgr_PresentationManager(Handle(::Graphic3d_StructureManager)(theStructureManager->NativeInstance));
 }
 
-Macad::Occt::PrsMgr_PresentationManager::PrsMgr_PresentationManager(Macad::Occt::PrsMgr_PresentationManager^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::PrsMgr_PresentationManager(*(::PrsMgr_PresentationManager*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::PrsMgr_PresentationManager::Display(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject, int theMode)
 {
     ((::PrsMgr_PresentationManager*)_NativeInstance)->Display(Handle(::PrsMgr_PresentableObject)(thePrsObject->NativeInstance), theMode);
@@ -1348,12 +1204,12 @@ void Macad::Occt::PrsMgr_PresentationManager::Color(Macad::Occt::PrsMgr_Presenta
 
 void Macad::Occt::PrsMgr_PresentationManager::Color(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject, Macad::Occt::Prs3d_Drawer^ theStyle, int theMode)
 {
-    ((::PrsMgr_PresentationManager*)_NativeInstance)->Color(Handle(::PrsMgr_PresentableObject)(thePrsObject->NativeInstance), Handle(::Prs3d_Drawer)(theStyle->NativeInstance), theMode, 0, Graphic3d_ZLayerId_Topmost);
+    ((::PrsMgr_PresentationManager*)_NativeInstance)->Color(Handle(::PrsMgr_PresentableObject)(thePrsObject->NativeInstance), Handle(::Prs3d_Drawer)(theStyle->NativeInstance), theMode, nullptr, Graphic3d_ZLayerId_Topmost);
 }
 
 void Macad::Occt::PrsMgr_PresentationManager::Color(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject, Macad::Occt::Prs3d_Drawer^ theStyle)
 {
-    ((::PrsMgr_PresentationManager*)_NativeInstance)->Color(Handle(::PrsMgr_PresentableObject)(thePrsObject->NativeInstance), Handle(::Prs3d_Drawer)(theStyle->NativeInstance), 0, 0, Graphic3d_ZLayerId_Topmost);
+    ((::PrsMgr_PresentationManager*)_NativeInstance)->Color(Handle(::PrsMgr_PresentableObject)(thePrsObject->NativeInstance), Handle(::Prs3d_Drawer)(theStyle->NativeInstance), 0, nullptr, Graphic3d_ZLayerId_Topmost);
 }
 
 void Macad::Occt::PrsMgr_PresentationManager::Connect(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject, Macad::Occt::PrsMgr_PresentableObject^ theOtherObject, int theMode, int theOtherMode)
@@ -1407,19 +1263,19 @@ Macad::Occt::PrsMgr_Presentation^ Macad::Occt::PrsMgr_PresentationManager::Prese
 
 Macad::Occt::PrsMgr_Presentation^ Macad::Occt::PrsMgr_PresentationManager::Presentation(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject, int theMode, bool theToCreate)
 {
-    Handle(::PrsMgr_Presentation) _result = ((::PrsMgr_PresentationManager*)_NativeInstance)->Presentation(Handle(::PrsMgr_PresentableObject)(thePrsObject->NativeInstance), theMode, theToCreate, 0);
+    Handle(::PrsMgr_Presentation) _result = ((::PrsMgr_PresentationManager*)_NativeInstance)->Presentation(Handle(::PrsMgr_PresentableObject)(thePrsObject->NativeInstance), theMode, theToCreate, nullptr);
     return _result.IsNull() ? nullptr : Macad::Occt::PrsMgr_Presentation::CreateDowncasted(_result.get());
 }
 
 Macad::Occt::PrsMgr_Presentation^ Macad::Occt::PrsMgr_PresentationManager::Presentation(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject, int theMode)
 {
-    Handle(::PrsMgr_Presentation) _result = ((::PrsMgr_PresentationManager*)_NativeInstance)->Presentation(Handle(::PrsMgr_PresentableObject)(thePrsObject->NativeInstance), theMode, false, 0);
+    Handle(::PrsMgr_Presentation) _result = ((::PrsMgr_PresentationManager*)_NativeInstance)->Presentation(Handle(::PrsMgr_PresentableObject)(thePrsObject->NativeInstance), theMode, false, nullptr);
     return _result.IsNull() ? nullptr : Macad::Occt::PrsMgr_Presentation::CreateDowncasted(_result.get());
 }
 
 Macad::Occt::PrsMgr_Presentation^ Macad::Occt::PrsMgr_PresentationManager::Presentation(Macad::Occt::PrsMgr_PresentableObject^ thePrsObject)
 {
-    Handle(::PrsMgr_Presentation) _result = ((::PrsMgr_PresentationManager*)_NativeInstance)->Presentation(Handle(::PrsMgr_PresentableObject)(thePrsObject->NativeInstance), 0, false, 0);
+    Handle(::PrsMgr_Presentation) _result = ((::PrsMgr_PresentationManager*)_NativeInstance)->Presentation(Handle(::PrsMgr_PresentableObject)(thePrsObject->NativeInstance), 0, false, nullptr);
     return _result.IsNull() ? nullptr : Macad::Occt::PrsMgr_Presentation::CreateDowncasted(_result.get());
 }
 
@@ -1430,12 +1286,12 @@ void Macad::Occt::PrsMgr_PresentationManager::UpdateHighlightTrsf(Macad::Occt::V
 
 void Macad::Occt::PrsMgr_PresentationManager::UpdateHighlightTrsf(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt::PrsMgr_PresentableObject^ theObj, int theMode)
 {
-    ((::PrsMgr_PresentationManager*)_NativeInstance)->UpdateHighlightTrsf(Handle(::V3d_Viewer)(theViewer->NativeInstance), Handle(::PrsMgr_PresentableObject)(theObj->NativeInstance), theMode, 0);
+    ((::PrsMgr_PresentationManager*)_NativeInstance)->UpdateHighlightTrsf(Handle(::V3d_Viewer)(theViewer->NativeInstance), Handle(::PrsMgr_PresentableObject)(theObj->NativeInstance), theMode, nullptr);
 }
 
 void Macad::Occt::PrsMgr_PresentationManager::UpdateHighlightTrsf(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt::PrsMgr_PresentableObject^ theObj)
 {
-    ((::PrsMgr_PresentationManager*)_NativeInstance)->UpdateHighlightTrsf(Handle(::V3d_Viewer)(theViewer->NativeInstance), Handle(::PrsMgr_PresentableObject)(theObj->NativeInstance), 0, 0);
+    ((::PrsMgr_PresentationManager*)_NativeInstance)->UpdateHighlightTrsf(Handle(::V3d_Viewer)(theViewer->NativeInstance), Handle(::PrsMgr_PresentableObject)(theObj->NativeInstance), 0, nullptr);
 }
 
 Macad::Occt::PrsMgr_PresentationManager^ Macad::Occt::PrsMgr_PresentationManager::CreateDowncasted(::PrsMgr_PresentationManager* instance)
@@ -1448,12 +1304,6 @@ Macad::Occt::PrsMgr_PresentationManager^ Macad::Occt::PrsMgr_PresentationManager
 //---------------------------------------------------------------------
 //  Class  PrsMgr_Presentation
 //---------------------------------------------------------------------
-
-Macad::Occt::PrsMgr_Presentation::PrsMgr_Presentation(Macad::Occt::PrsMgr_Presentation^ parameter1)
-    : Macad::Occt::Graphic3d_Structure(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::PrsMgr_Presentation(*(::PrsMgr_Presentation*)parameter1->NativeInstance);
-}
 
 Macad::Occt::Graphic3d_Structure^ Macad::Occt::PrsMgr_Presentation::Presentation()
 {

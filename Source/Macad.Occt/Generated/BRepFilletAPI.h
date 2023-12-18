@@ -46,7 +46,6 @@ public:
     }
 
 public:
-    BRepFilletAPI_LocalOperation(Macad::Occt::BRepFilletAPI_LocalOperation^ parameter1);
     BRepFilletAPI_LocalOperation();
     /// <summary>
     /// Adds a  contour in  the  builder  (builds a
@@ -166,7 +165,6 @@ public:
     /// The edges on which chamfers are built are defined using the Add function.
     /// </summary>
     BRepFilletAPI_MakeChamfer(Macad::Occt::TopoDS_Shape^ S);
-    BRepFilletAPI_MakeChamfer(Macad::Occt::BRepFilletAPI_MakeChamfer^ parameter1);
     /// <summary>
     /// Adds edge E to the table of edges used by this
     /// algorithm to build chamfers, where the parameters
@@ -491,7 +489,6 @@ public:
     /// representation of circles.
     /// </summary>
     BRepFilletAPI_MakeFillet(Macad::Occt::TopoDS_Shape^ S);
-    BRepFilletAPI_MakeFillet(Macad::Occt::BRepFilletAPI_MakeFillet^ parameter1);
     void SetParams(double Tang, double Tesp, double T2d, double TApp3d, double TolApp2d, double Fleche);
     /// <summary>
     /// Changes     the      parameters     of  continiuity
@@ -897,7 +894,6 @@ public:
     /// -   ChFi2d_NoFace if F is a null face.
     /// </summary>
     BRepFilletAPI_MakeFillet2d(Macad::Occt::TopoDS_Face^ F);
-    BRepFilletAPI_MakeFillet2d(Macad::Occt::BRepFilletAPI_MakeFillet2d^ parameter1);
     /// <summary>
     /// Initializes this algorithm for constructing fillets or
     /// chamfers with the face F.

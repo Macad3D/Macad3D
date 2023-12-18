@@ -26,12 +26,6 @@ Macad::Occt::gp_TrsfNLerp::gp_TrsfNLerp(Macad::Occt::Trsf theStart, Macad::Occt:
     _NativeInstance = new ::gp_TrsfNLerp(*(gp_Trsf*)pp_theStart, *(gp_Trsf*)pp_theEnd);
 }
 
-Macad::Occt::gp_TrsfNLerp::gp_TrsfNLerp(Macad::Occt::gp_TrsfNLerp^ parameter1)
-    : Macad::Occt::BaseClass<::gp_TrsfNLerp>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_TrsfNLerp(*(::gp_TrsfNLerp*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::gp_TrsfNLerp::Init(Macad::Occt::Trsf theStart, Macad::Occt::Trsf theEnd)
 {
     pin_ptr<Macad::Occt::Trsf> pp_theStart = &theStart;
@@ -61,12 +55,6 @@ Macad::Occt::gp_Vec2f::gp_Vec2f(float theX, float theY)
     : Macad::Occt::BaseClass<::gp_Vec2f>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::gp_Vec2f(theX, theY);
-}
-
-Macad::Occt::gp_Vec2f::gp_Vec2f(Macad::Occt::gp_Vec2f^ theOtherVec2)
-    : Macad::Occt::BaseClass<::gp_Vec2f>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Vec2f(*(::gp_Vec2f*)theOtherVec2->NativeInstance);
 }
 
 int Macad::Occt::gp_Vec2f::Length()
@@ -183,6 +171,25 @@ Macad::Occt::gp_Vec2f^ Macad::Occt::gp_Vec2f::DY()
     throw gcnew System::NotImplementedException();
 }
 
+bool Macad::Occt::gp_Vec2f::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::gp_Vec2f::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((gp_Vec2f^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -219,12 +226,6 @@ Macad::Occt::gp_Vec3f::gp_Vec3f(Macad::Occt::gp_Vec2f^ theVec2)
     _NativeInstance = new ::gp_Vec3f(*(::gp_Vec2f*)theVec2->NativeInstance, 0.0f);
 }
 
-Macad::Occt::gp_Vec3f::gp_Vec3f(Macad::Occt::gp_Vec3f^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Vec3f>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Vec3f(*(::gp_Vec3f*)parameter1->NativeInstance);
-}
-
 int Macad::Occt::gp_Vec3f::Length()
 {
     int _result = ::gp_Vec3f::Length();
@@ -234,11 +235,6 @@ int Macad::Occt::gp_Vec3f::Length()
 void Macad::Occt::gp_Vec3f::SetValues(float theX, float theY, float theZ)
 {
     ((::gp_Vec3f*)_NativeInstance)->SetValues(theX, theY, theZ);
-}
-
-void Macad::Occt::gp_Vec3f::SetValues(Macad::Occt::gp_Vec2f^ theVec2, float theZ)
-{
-    ((::gp_Vec3f*)_NativeInstance)->SetValues(*(::gp_Vec2f*)theVec2->NativeInstance, theZ);
 }
 
 float Macad::Occt::gp_Vec3f::x()
@@ -475,6 +471,25 @@ Macad::Occt::gp_Vec3f^ Macad::Occt::gp_Vec3f::DZ()
     return _result==nullptr ? nullptr : gcnew Macad::Occt::gp_Vec3f(_result);
 }
 
+bool Macad::Occt::gp_Vec3f::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::gp_Vec3f::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((gp_Vec3f^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -503,12 +518,6 @@ Macad::Occt::gp_VectorWithNullMagnitude::gp_VectorWithNullMagnitude(System::Stri
     NativeInstance = new ::gp_VectorWithNullMagnitude(sz_theMessage, sz_theStackTrace);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::gp_VectorWithNullMagnitude::gp_VectorWithNullMagnitude(Macad::Occt::gp_VectorWithNullMagnitude^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::gp_VectorWithNullMagnitude(*(::gp_VectorWithNullMagnitude*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::gp_VectorWithNullMagnitude::Raise(System::String^ theMessage)
@@ -569,12 +578,6 @@ Macad::Occt::gp_Circ::gp_Circ(Macad::Occt::Ax2 theA2, double theRadius)
 {
     pin_ptr<Macad::Occt::Ax2> pp_theA2 = &theA2;
     _NativeInstance = new ::gp_Circ(*(gp_Ax2*)pp_theA2, theRadius);
-}
-
-Macad::Occt::gp_Circ::gp_Circ(Macad::Occt::gp_Circ^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Circ>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Circ(*(::gp_Circ*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::gp_Circ::SetAxis(Macad::Occt::Ax1 theA1)
@@ -814,12 +817,6 @@ Macad::Occt::gp_Circ2d::gp_Circ2d(Macad::Occt::Ax22d theAxis, double theRadius)
 {
     pin_ptr<Macad::Occt::Ax22d> pp_theAxis = &theAxis;
     _NativeInstance = new ::gp_Circ2d(*(gp_Ax22d*)pp_theAxis, theRadius);
-}
-
-Macad::Occt::gp_Circ2d::gp_Circ2d(Macad::Occt::gp_Circ2d^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Circ2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Circ2d(*(::gp_Circ2d*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::gp_Circ2d::SetLocation(Macad::Occt::Pnt2d theP)
@@ -1068,12 +1065,6 @@ Macad::Occt::gp_Cone::gp_Cone(Macad::Occt::Ax3 theA3, double theAng, double theR
     _NativeInstance = new ::gp_Cone(*(gp_Ax3*)pp_theA3, theAng, theRadius);
 }
 
-Macad::Occt::gp_Cone::gp_Cone(Macad::Occt::gp_Cone^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Cone>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Cone(*(::gp_Cone*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::gp_Cone::SetAxis(Macad::Occt::Ax1 theA1)
 {
     pin_ptr<Macad::Occt::Ax1> pp_theA1 = &theA1;
@@ -1314,12 +1305,6 @@ Macad::Occt::gp_Cylinder::gp_Cylinder(Macad::Occt::Ax3 theA3, double theRadius)
     _NativeInstance = new ::gp_Cylinder(*(gp_Ax3*)pp_theA3, theRadius);
 }
 
-Macad::Occt::gp_Cylinder::gp_Cylinder(Macad::Occt::gp_Cylinder^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Cylinder>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Cylinder(*(::gp_Cylinder*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::gp_Cylinder::SetAxis(Macad::Occt::Ax1 theA1)
 {
     pin_ptr<Macad::Occt::Ax1> pp_theA1 = &theA1;
@@ -1541,12 +1526,6 @@ Macad::Occt::gp_Elips::gp_Elips(Macad::Occt::Ax2 theA2, double theMajorRadius, d
 {
     pin_ptr<Macad::Occt::Ax2> pp_theA2 = &theA2;
     _NativeInstance = new ::gp_Elips(*(gp_Ax2*)pp_theA2, theMajorRadius, theMinorRadius);
-}
-
-Macad::Occt::gp_Elips::gp_Elips(Macad::Occt::gp_Elips^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Elips>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Elips(*(::gp_Elips*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::gp_Elips::SetAxis(Macad::Occt::Ax1 theA1)
@@ -1812,12 +1791,6 @@ Macad::Occt::gp_Elips2d::gp_Elips2d(Macad::Occt::Ax22d theA, double theMajorRadi
 {
     pin_ptr<Macad::Occt::Ax22d> pp_theA = &theA;
     _NativeInstance = new ::gp_Elips2d(*(gp_Ax22d*)pp_theA, theMajorRadius, theMinorRadius);
-}
-
-Macad::Occt::gp_Elips2d::gp_Elips2d(Macad::Occt::gp_Elips2d^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Elips2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Elips2d(*(::gp_Elips2d*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::gp_Elips2d::SetLocation(Macad::Occt::Pnt2d theP)
@@ -2094,12 +2067,6 @@ Macad::Occt::gp_GTrsf::gp_GTrsf(Macad::Occt::Mat theM, Macad::Occt::XYZ theV)
     _NativeInstance = new ::gp_GTrsf(*(gp_Mat*)pp_theM, *(gp_XYZ*)pp_theV);
 }
 
-Macad::Occt::gp_GTrsf::gp_GTrsf(Macad::Occt::gp_GTrsf^ parameter1)
-    : Macad::Occt::BaseClass<::gp_GTrsf>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_GTrsf(*(::gp_GTrsf*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::gp_GTrsf::SetAffinity(Macad::Occt::Ax1 theA1, double theRatio)
 {
     pin_ptr<Macad::Occt::Ax1> pp_theA1 = &theA1;
@@ -2278,12 +2245,6 @@ Macad::Occt::gp_GTrsf2d::gp_GTrsf2d(Macad::Occt::Mat2d theM, Macad::Occt::XY the
     _NativeInstance = new ::gp_GTrsf2d(*(gp_Mat2d*)pp_theM, *(gp_XY*)pp_theV);
 }
 
-Macad::Occt::gp_GTrsf2d::gp_GTrsf2d(Macad::Occt::gp_GTrsf2d^ parameter1)
-    : Macad::Occt::BaseClass<::gp_GTrsf2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_GTrsf2d(*(::gp_GTrsf2d*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::gp_GTrsf2d::SetAffinity(Macad::Occt::Ax2d theA, double theRatio)
 {
     pin_ptr<Macad::Occt::Ax2d> pp_theA = &theA;
@@ -2433,12 +2394,6 @@ Macad::Occt::gp_Hypr::gp_Hypr(Macad::Occt::Ax2 theA2, double theMajorRadius, dou
 {
     pin_ptr<Macad::Occt::Ax2> pp_theA2 = &theA2;
     _NativeInstance = new ::gp_Hypr(*(gp_Ax2*)pp_theA2, theMajorRadius, theMinorRadius);
-}
-
-Macad::Occt::gp_Hypr::gp_Hypr(Macad::Occt::gp_Hypr^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Hypr>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Hypr(*(::gp_Hypr*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::gp_Hypr::SetAxis(Macad::Occt::Ax1 theA1)
@@ -2731,12 +2686,6 @@ Macad::Occt::gp_Hypr2d::gp_Hypr2d(Macad::Occt::Ax22d theA, double theMajorRadius
 {
     pin_ptr<Macad::Occt::Ax22d> pp_theA = &theA;
     _NativeInstance = new ::gp_Hypr2d(*(gp_Ax22d*)pp_theA, theMajorRadius, theMinorRadius);
-}
-
-Macad::Occt::gp_Hypr2d::gp_Hypr2d(Macad::Occt::gp_Hypr2d^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Hypr2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Hypr2d(*(::gp_Hypr2d*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::gp_Hypr2d::SetLocation(Macad::Occt::Pnt2d theP)
@@ -3040,12 +2989,6 @@ Macad::Occt::gp_Lin::gp_Lin(Macad::Occt::Pnt theP, Macad::Occt::Dir theV)
     _NativeInstance = new ::gp_Lin(*(gp_Pnt*)pp_theP, *(gp_Dir*)pp_theV);
 }
 
-Macad::Occt::gp_Lin::gp_Lin(Macad::Occt::gp_Lin^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Lin>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Lin(*(::gp_Lin*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::gp_Lin::Reverse()
 {
     ((::gp_Lin*)_NativeInstance)->Reverse();
@@ -3288,12 +3231,6 @@ Macad::Occt::gp_Lin2d::gp_Lin2d(double theA, double theB, double theC)
     _NativeInstance = new ::gp_Lin2d(theA, theB, theC);
 }
 
-Macad::Occt::gp_Lin2d::gp_Lin2d(Macad::Occt::gp_Lin2d^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Lin2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Lin2d(*(::gp_Lin2d*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::gp_Lin2d::Reverse()
 {
     ((::gp_Lin2d*)_NativeInstance)->Reverse();
@@ -3522,12 +3459,6 @@ Macad::Occt::gp_Parab::gp_Parab(Macad::Occt::Ax1 theD, Macad::Occt::Pnt theF)
     pin_ptr<Macad::Occt::Ax1> pp_theD = &theD;
     pin_ptr<Macad::Occt::Pnt> pp_theF = &theF;
     _NativeInstance = new ::gp_Parab(*(gp_Ax1*)pp_theD, *(gp_Pnt*)pp_theF);
-}
-
-Macad::Occt::gp_Parab::gp_Parab(Macad::Occt::gp_Parab^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Parab>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Parab(*(::gp_Parab*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::gp_Parab::SetAxis(Macad::Occt::Ax1 theA1)
@@ -3770,12 +3701,6 @@ Macad::Occt::gp_Parab2d::gp_Parab2d(Macad::Occt::Ax2d theDirectrix, Macad::Occt:
     _NativeInstance = new ::gp_Parab2d(*(gp_Ax2d*)pp_theDirectrix, *(gp_Pnt2d*)pp_theFocus, true);
 }
 
-Macad::Occt::gp_Parab2d::gp_Parab2d(Macad::Occt::gp_Parab2d^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Parab2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Parab2d(*(::gp_Parab2d*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::gp_Parab2d::SetFocal(double theFocal)
 {
     ((::gp_Parab2d*)_NativeInstance)->SetFocal(theFocal);
@@ -3990,12 +3915,6 @@ Macad::Occt::gp_QuaternionNLerp::gp_QuaternionNLerp(Macad::Occt::Quaternion theQ
     _NativeInstance = new ::gp_QuaternionNLerp(*(gp_Quaternion*)pp_theQStart, *(gp_Quaternion*)pp_theQEnd);
 }
 
-Macad::Occt::gp_QuaternionNLerp::gp_QuaternionNLerp(Macad::Occt::gp_QuaternionNLerp^ parameter1)
-    : Macad::Occt::BaseClass<::gp_QuaternionNLerp>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_QuaternionNLerp(*(::gp_QuaternionNLerp*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Quaternion Macad::Occt::gp_QuaternionNLerp::Interpolate(Macad::Occt::Quaternion theQStart, Macad::Occt::Quaternion theQEnd, double theT)
 {
     pin_ptr<Macad::Occt::Quaternion> pp_theQStart = &theQStart;
@@ -4044,12 +3963,6 @@ Macad::Occt::gp_QuaternionSLerp::gp_QuaternionSLerp(Macad::Occt::Quaternion theQ
     _NativeInstance = new ::gp_QuaternionSLerp(*(gp_Quaternion*)pp_theQStart, *(gp_Quaternion*)pp_theQEnd);
 }
 
-Macad::Occt::gp_QuaternionSLerp::gp_QuaternionSLerp(Macad::Occt::gp_QuaternionSLerp^ parameter1)
-    : Macad::Occt::BaseClass<::gp_QuaternionSLerp>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_QuaternionSLerp(*(::gp_QuaternionSLerp*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Quaternion Macad::Occt::gp_QuaternionSLerp::Interpolate(Macad::Occt::Quaternion theQStart, Macad::Occt::Quaternion theQEnd, double theT)
 {
     pin_ptr<Macad::Occt::Quaternion> pp_theQStart = &theQStart;
@@ -4095,12 +4008,6 @@ Macad::Occt::gp_Sphere::gp_Sphere(Macad::Occt::Ax3 theA3, double theRadius)
 {
     pin_ptr<Macad::Occt::Ax3> pp_theA3 = &theA3;
     _NativeInstance = new ::gp_Sphere(*(gp_Ax3*)pp_theA3, theRadius);
-}
-
-Macad::Occt::gp_Sphere::gp_Sphere(Macad::Occt::gp_Sphere^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Sphere>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Sphere(*(::gp_Sphere*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::gp_Sphere::SetLocation(Macad::Occt::Pnt theLoc)
@@ -4324,12 +4231,6 @@ Macad::Occt::gp_Torus::gp_Torus(Macad::Occt::Ax3 theA3, double theMajorRadius, d
 {
     pin_ptr<Macad::Occt::Ax3> pp_theA3 = &theA3;
     _NativeInstance = new ::gp_Torus(*(gp_Ax3*)pp_theA3, theMajorRadius, theMinorRadius);
-}
-
-Macad::Occt::gp_Torus::gp_Torus(Macad::Occt::gp_Torus^ parameter1)
-    : Macad::Occt::BaseClass<::gp_Torus>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gp_Torus(*(::gp_Torus*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::gp_Torus::SetAxis(Macad::Occt::Ax1 theA1)

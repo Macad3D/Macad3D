@@ -20,12 +20,6 @@ Macad::Occt::BRepLProp::BRepLProp()
     _NativeInstance = new ::BRepLProp();
 }
 
-Macad::Occt::BRepLProp::BRepLProp(Macad::Occt::BRepLProp^ parameter1)
-    : Macad::Occt::BaseClass<::BRepLProp>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLProp(*(::BRepLProp*)parameter1->NativeInstance);
-}
-
 Macad::Occt::GeomAbs_Shape Macad::Occt::BRepLProp::Continuity(Macad::Occt::BRepAdaptor_Curve^ C1, Macad::Occt::BRepAdaptor_Curve^ C2, double u1, double u2, double tl, double ta)
 {
     ::GeomAbs_Shape _result = ::BRepLProp::Continuity(*(::BRepAdaptor_Curve*)C1->NativeInstance, *(::BRepAdaptor_Curve*)C2->NativeInstance, u1, u2, tl, ta);
@@ -48,12 +42,6 @@ Macad::Occt::BRepLProp_CurveTool::BRepLProp_CurveTool()
     : Macad::Occt::BaseClass<::BRepLProp_CurveTool>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepLProp_CurveTool();
-}
-
-Macad::Occt::BRepLProp_CurveTool::BRepLProp_CurveTool(Macad::Occt::BRepLProp_CurveTool^ parameter1)
-    : Macad::Occt::BaseClass<::BRepLProp_CurveTool>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLProp_CurveTool(*(::BRepLProp_CurveTool*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepLProp_CurveTool::Value(Macad::Occt::BRepAdaptor_Curve^ C, double U, Macad::Occt::Pnt% P)
@@ -126,12 +114,6 @@ Macad::Occt::BRepLProp_CLProps::BRepLProp_CLProps(int N, double Resolution)
     : Macad::Occt::BaseClass<::BRepLProp_CLProps>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepLProp_CLProps(N, Resolution);
-}
-
-Macad::Occt::BRepLProp_CLProps::BRepLProp_CLProps(Macad::Occt::BRepLProp_CLProps^ parameter1)
-    : Macad::Occt::BaseClass<::BRepLProp_CLProps>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLProp_CLProps(*(::BRepLProp_CLProps*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepLProp_CLProps::SetParameter(double U)
@@ -210,12 +192,6 @@ Macad::Occt::BRepLProp_SurfaceTool::BRepLProp_SurfaceTool()
     _NativeInstance = new ::BRepLProp_SurfaceTool();
 }
 
-Macad::Occt::BRepLProp_SurfaceTool::BRepLProp_SurfaceTool(Macad::Occt::BRepLProp_SurfaceTool^ parameter1)
-    : Macad::Occt::BaseClass<::BRepLProp_SurfaceTool>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLProp_SurfaceTool(*(::BRepLProp_SurfaceTool*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepLProp_SurfaceTool::Value(Macad::Occt::BRepAdaptor_Surface^ S, double U, double V, Macad::Occt::Pnt% P)
 {
     pin_ptr<Macad::Occt::Pnt> pp_P = &P;
@@ -284,12 +260,6 @@ Macad::Occt::BRepLProp_SLProps::BRepLProp_SLProps(int N, double Resolution)
     : Macad::Occt::BaseClass<::BRepLProp_SLProps>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepLProp_SLProps(N, Resolution);
-}
-
-Macad::Occt::BRepLProp_SLProps::BRepLProp_SLProps(Macad::Occt::BRepLProp_SLProps^ parameter1)
-    : Macad::Occt::BaseClass<::BRepLProp_SLProps>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLProp_SLProps(*(::BRepLProp_SLProps*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepLProp_SLProps::SetSurface(Macad::Occt::BRepAdaptor_Surface^ S)

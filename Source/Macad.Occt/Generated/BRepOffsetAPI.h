@@ -68,19 +68,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfShape^ theSeq, bool isStart);
-        Iterator(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfShape^ theSeq);
-        Iterator(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfShape::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TopTools_SequenceOfShape^ Value();
         Macad::Occt::TopTools_SequenceOfShape^ ChangeValue();
         bool IsEqual(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfShape::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     BRepOffsetAPI_SequenceOfSequenceOfShape();
     BRepOffsetAPI_SequenceOfSequenceOfShape(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    BRepOffsetAPI_SequenceOfSequenceOfShape(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfShape^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -93,17 +90,10 @@ public:
     void Clear();
     Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfShape^ Assign(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfShape^ theOther);
     void Remove(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfShape::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::TopTools_SequenceOfShape^ theItem);
-    void Append(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfShape^ theSeq);
     void Prepend(Macad::Occt::TopTools_SequenceOfShape^ theItem);
-    void Prepend(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfShape^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::TopTools_SequenceOfShape^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfShape^ theSeq);
     void InsertAfter(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfShape::Iterator^ thePosition, Macad::Occt::TopTools_SequenceOfShape^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfShape^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::TopTools_SequenceOfShape^ theItem);
     void Split(int theIndex, Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfShape^ theSeq);
     Macad::Occt::TopTools_SequenceOfShape^ First();
     Macad::Occt::TopTools_SequenceOfShape^ ChangeFirst();
@@ -175,19 +165,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfReal^ theSeq, bool isStart);
-        Iterator(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfReal^ theSeq);
-        Iterator(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfReal::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TColStd_SequenceOfReal^ Value();
         Macad::Occt::TColStd_SequenceOfReal^ ChangeValue();
         bool IsEqual(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfReal::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     BRepOffsetAPI_SequenceOfSequenceOfReal();
     BRepOffsetAPI_SequenceOfSequenceOfReal(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    BRepOffsetAPI_SequenceOfSequenceOfReal(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfReal^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -200,17 +187,10 @@ public:
     void Clear();
     Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfReal^ Assign(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfReal^ theOther);
     void Remove(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfReal::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::TColStd_SequenceOfReal^ theItem);
-    void Append(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfReal^ theSeq);
     void Prepend(Macad::Occt::TColStd_SequenceOfReal^ theItem);
-    void Prepend(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfReal^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::TColStd_SequenceOfReal^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfReal^ theSeq);
     void InsertAfter(Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfReal::Iterator^ thePosition, Macad::Occt::TColStd_SequenceOfReal^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfReal^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_SequenceOfReal^ theItem);
     void Split(int theIndex, Macad::Occt::BRepOffsetAPI_SequenceOfSequenceOfReal^ theSeq);
     Macad::Occt::TColStd_SequenceOfReal^ First();
     Macad::Occt::TColStd_SequenceOfReal^ ChangeFirst();
@@ -290,7 +270,6 @@ public:
     /// S will be referred to as the initial shape of the algorithm.
     /// </summary>
     BRepOffsetAPI_DraftAngle(Macad::Occt::TopoDS_Shape^ S);
-    BRepOffsetAPI_DraftAngle(Macad::Occt::BRepOffsetAPI_DraftAngle^ parameter1);
     /// <summary>
     /// Cancels the results of all taper-adding transformations
     /// performed by this algorithm on the initial shape. These
@@ -531,7 +510,6 @@ public:
     /// analysis of degenerated shapes.
     /// </summary>
     BRepOffsetAPI_FindContigousEdges();
-    BRepOffsetAPI_FindContigousEdges(Macad::Occt::BRepOffsetAPI_FindContigousEdges^ parameter1);
     /// <summary>
     /// Initializes this algorithm for identifying contiguous edges
     /// on shapes using the tolerance of contiguity tolerance.
@@ -681,7 +659,6 @@ public:
     /// Topo_DS_Face or TopoDS_Shell with free boundaries.
     /// </summary>
     BRepOffsetAPI_MakeDraft(Macad::Occt::TopoDS_Shape^ Shape, Macad::Occt::Dir Dir, double Angle);
-    BRepOffsetAPI_MakeDraft(Macad::Occt::BRepOffsetAPI_MakeDraft^ parameter1);
     /// <summary>
     /// Sets the options of this draft tool.
     /// If a transition has to be performed, it can be defined by
@@ -921,7 +898,6 @@ public:
     /// See description to this class for detailed information.
     /// </summary>
     BRepOffsetAPI_MakeEvolved(Macad::Occt::TopoDS_Shape^ theSpine, Macad::Occt::TopoDS_Wire^ theProfile);
-    BRepOffsetAPI_MakeEvolved(Macad::Occt::BRepOffsetAPI_MakeEvolved^ parameter1);
     /* Method skipped due to unknown mapping: BRepFill_Evolved Evolved() */
     /// <summary>
     /// Builds the resulting shape (redefined from MakeShape).
@@ -1218,7 +1194,6 @@ public:
     /// example, extremely long.
     /// </summary>
     BRepOffsetAPI_MakeFilling();
-    BRepOffsetAPI_MakeFilling(Macad::Occt::BRepOffsetAPI_MakeFilling^ parameter1);
     /// <summary>
     /// Sets the values of Tolerances used to control the constraint.
     /// Tol2d:
@@ -1588,7 +1563,6 @@ public:
     BRepOffsetAPI_MakeOffset(Macad::Occt::TopoDS_Wire^ Spine, Macad::Occt::GeomAbs_JoinType Join, bool IsOpenResult);
     BRepOffsetAPI_MakeOffset(Macad::Occt::TopoDS_Wire^ Spine, Macad::Occt::GeomAbs_JoinType Join);
     BRepOffsetAPI_MakeOffset(Macad::Occt::TopoDS_Wire^ Spine);
-    BRepOffsetAPI_MakeOffset(Macad::Occt::BRepOffsetAPI_MakeOffset^ parameter1);
     /// <summary>
     /// Initializes the algorithm to construct parallels to the spine Spine.
     /// Join defines the type of parallel generated by the
@@ -1735,7 +1709,6 @@ public:
     /// Constructor does nothing.
     /// </summary>
     BRepOffsetAPI_MakeOffsetShape();
-    BRepOffsetAPI_MakeOffsetShape(Macad::Occt::BRepOffsetAPI_MakeOffsetShape^ parameter1);
     /// <summary>
     /// Constructs offset shape for the given one using simple algorithm without intersections computation.
     /// </summary>
@@ -2235,7 +2208,6 @@ public:
     BRepOffsetAPI_MakePipe(Macad::Occt::TopoDS_Wire^ Spine, Macad::Occt::TopoDS_Shape^ Profile);
     /* Method skipped due to unknown mapping: void BRepOffsetAPI_MakePipe(TopoDS_Wire Spine, TopoDS_Shape Profile, GeomFill_Trihedron aMode, bool ForceApproxC1, ) */
     /* Method skipped due to unknown mapping: void BRepOffsetAPI_MakePipe(TopoDS_Wire Spine, TopoDS_Shape Profile, GeomFill_Trihedron aMode, bool ForceApproxC1, ) */
-    BRepOffsetAPI_MakePipe(Macad::Occt::BRepOffsetAPI_MakePipe^ parameter1);
     /* Method skipped due to unknown mapping: BRepFill_Pipe Pipe() */
     /// <summary>
     /// Builds the resulting shape (redefined from MakeShape).
@@ -2314,7 +2286,6 @@ public:
     /// If no mode are set, the mode use in MakePipe is used
     /// </summary>
     BRepOffsetAPI_MakePipeShell(Macad::Occt::TopoDS_Wire^ Spine);
-    BRepOffsetAPI_MakePipeShell(Macad::Occt::BRepOffsetAPI_MakePipeShell^ parameter1);
     /// <summary>
     /// Sets a Frenet or a CorrectedFrenet trihedron
     /// to  perform  the  sweeping
@@ -2690,7 +2661,6 @@ public:
     /// Constructor does nothing.
     /// </summary>
     BRepOffsetAPI_MakeThickSolid();
-    BRepOffsetAPI_MakeThickSolid(Macad::Occt::BRepOffsetAPI_MakeThickSolid^ parameter1);
     /// <summary>
     /// Constructs solid using simple algorithm.
     /// According to its nature it is not possible to set list of the closing faces.
@@ -3049,7 +3019,6 @@ public:
     /// a wire or a face
     /// </summary>
     BRepOffsetAPI_MiddlePath(Macad::Occt::TopoDS_Shape^ aShape, Macad::Occt::TopoDS_Shape^ StartShape, Macad::Occt::TopoDS_Shape^ EndShape);
-    BRepOffsetAPI_MiddlePath(Macad::Occt::BRepOffsetAPI_MiddlePath^ parameter1);
     void Build(Macad::Occt::Message_ProgressRange^ theRange);
     void Build();
 }; // class BRepOffsetAPI_MiddlePath
@@ -3103,7 +3072,6 @@ public:
     /// , InternalContinuity = GeomAbs_C2, MaxDegree = 14, MaxSeg = 16.
     /// </summary>
     BRepOffsetAPI_NormalProjection(Macad::Occt::TopoDS_Shape^ S);
-    BRepOffsetAPI_NormalProjection(Macad::Occt::BRepOffsetAPI_NormalProjection^ parameter1);
     /// <summary>
     /// Initializes the empty constructor framework with the shape S.
     /// </summary>
@@ -3303,7 +3271,6 @@ public:
     /// successive sections of the shell or solid to be built.
     /// </summary>
     BRepOffsetAPI_ThruSections();
-    BRepOffsetAPI_ThruSections(Macad::Occt::BRepOffsetAPI_ThruSections^ parameter1);
     /// <summary>
     /// Initializes this algorithm for building a shell or a solid
     /// passing through a set of sections, where:
@@ -3467,6 +3434,7 @@ public:
     /// Returns the current mutable input state
     /// </summary>
     bool IsMutableInput();
+    /* Method skipped due to unknown mapping: BRepFill_ThruSectionErrorStatus GetStatus() */
 }; // class BRepOffsetAPI_ThruSections
 
 }; // namespace Occt

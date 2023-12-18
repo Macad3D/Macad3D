@@ -176,15 +176,12 @@ public class Compiler
 
         foreach (var td in Configuration.Templates)
         {
-            writer.Write(@$"class TI_{td.Name} : public {td.Name}<");
-            writer.Write(string.Join(',', paramNames.Take(td.TemplateParameterCount)));
-            writer.WriteLine("> {};");
+            var tmplParamList = string.Join(',', paramNames.Take(td.TemplateParameterCount));
+            writer.WriteLine($"class TI_{td.Name} : public {td.Name}<{tmplParamList}> {{}};");
             
             if (td.IncludeIterator)
             {
-                writer.Write(@$"class TI_{td.Name}_Iterator : public {td.Name}<");
-                writer.Write(string.Join(',', paramNames.Take(td.TemplateParameterCount)));
-                writer.WriteLine(">::Iterator {};");
+                writer.WriteLine($"class TI_{td.Name}_Iterator : public {td.Name}<{tmplParamList}>::Iterator {{}};");
             }
         }
         writer.WriteLine();

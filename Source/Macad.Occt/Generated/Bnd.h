@@ -66,24 +66,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::Bnd_Array1OfBox^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::Bnd_Array1OfBox^ theArray);
-        Iterator(Macad::Occt::Bnd_Array1OfBox::Iterator^ parameter1);
-        void Init(Macad::Occt::Bnd_Array1OfBox^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::Bnd_Array1OfBox::Iterator^ theOther);
-        Macad::Occt::Bnd_Box^ Value();
-        Macad::Occt::Bnd_Box^ ChangeValue();
-        bool IsEqual(Macad::Occt::Bnd_Array1OfBox::Iterator^ theOther);
     }; // class Iterator
 
     Bnd_Array1OfBox();
     Bnd_Array1OfBox(int theLower, int theUpper);
-    Bnd_Array1OfBox(Macad::Occt::Bnd_Array1OfBox^ theOther);
+    /* Method skipped due to unknown mapping: void Bnd_Array1OfBox(allocator_type theAlloc, int theLower, int theUpper, ) */
+    Bnd_Array1OfBox(Macad::Occt::Bnd_Box^ theBegin, int theLower, int theUpper, bool theUseBuffer);
     Bnd_Array1OfBox(Macad::Occt::Bnd_Box^ theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::Bnd_Box^ theValue);
     int Size();
@@ -91,8 +79,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::Bnd_Array1OfBox^ Assign(Macad::Occt::Bnd_Array1OfBox^ theOther);
     Macad::Occt::Bnd_Array1OfBox^ Move(Macad::Occt::Bnd_Array1OfBox^ theOther);
     Macad::Occt::Bnd_Box^ First();
@@ -102,7 +88,10 @@ public:
     virtual Macad::Occt::Bnd_Box^ Value(int theIndex);
     Macad::Occt::Bnd_Box^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Bnd_Box^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Bnd_Box^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class Bnd_Array1OfBox
@@ -165,24 +154,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::Bnd_Array1OfBox2d^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::Bnd_Array1OfBox2d^ theArray);
-        Iterator(Macad::Occt::Bnd_Array1OfBox2d::Iterator^ parameter1);
-        void Init(Macad::Occt::Bnd_Array1OfBox2d^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::Bnd_Array1OfBox2d::Iterator^ theOther);
-        Macad::Occt::Bnd_Box2d^ Value();
-        Macad::Occt::Bnd_Box2d^ ChangeValue();
-        bool IsEqual(Macad::Occt::Bnd_Array1OfBox2d::Iterator^ theOther);
     }; // class Iterator
 
     Bnd_Array1OfBox2d();
     Bnd_Array1OfBox2d(int theLower, int theUpper);
-    Bnd_Array1OfBox2d(Macad::Occt::Bnd_Array1OfBox2d^ theOther);
+    /* Method skipped due to unknown mapping: void Bnd_Array1OfBox2d(allocator_type theAlloc, int theLower, int theUpper, ) */
+    Bnd_Array1OfBox2d(Macad::Occt::Bnd_Box2d^ theBegin, int theLower, int theUpper, bool theUseBuffer);
     Bnd_Array1OfBox2d(Macad::Occt::Bnd_Box2d^ theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::Bnd_Box2d^ theValue);
     int Size();
@@ -190,8 +167,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::Bnd_Array1OfBox2d^ Assign(Macad::Occt::Bnd_Array1OfBox2d^ theOther);
     Macad::Occt::Bnd_Array1OfBox2d^ Move(Macad::Occt::Bnd_Array1OfBox2d^ theOther);
     Macad::Occt::Bnd_Box2d^ First();
@@ -201,7 +176,10 @@ public:
     virtual Macad::Occt::Bnd_Box2d^ Value(int theIndex);
     Macad::Occt::Bnd_Box2d^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Bnd_Box2d^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Bnd_Box2d^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class Bnd_Array1OfBox2d
@@ -264,24 +242,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::Bnd_Array1OfSphere^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::Bnd_Array1OfSphere^ theArray);
-        Iterator(Macad::Occt::Bnd_Array1OfSphere::Iterator^ parameter1);
-        void Init(Macad::Occt::Bnd_Array1OfSphere^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::Bnd_Array1OfSphere::Iterator^ theOther);
-        Macad::Occt::Bnd_Sphere^ Value();
-        Macad::Occt::Bnd_Sphere^ ChangeValue();
-        bool IsEqual(Macad::Occt::Bnd_Array1OfSphere::Iterator^ theOther);
     }; // class Iterator
 
     Bnd_Array1OfSphere();
     Bnd_Array1OfSphere(int theLower, int theUpper);
-    Bnd_Array1OfSphere(Macad::Occt::Bnd_Array1OfSphere^ theOther);
+    /* Method skipped due to unknown mapping: void Bnd_Array1OfSphere(allocator_type theAlloc, int theLower, int theUpper, ) */
+    Bnd_Array1OfSphere(Macad::Occt::Bnd_Sphere^ theBegin, int theLower, int theUpper, bool theUseBuffer);
     Bnd_Array1OfSphere(Macad::Occt::Bnd_Sphere^ theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::Bnd_Sphere^ theValue);
     int Size();
@@ -289,8 +255,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::Bnd_Array1OfSphere^ Assign(Macad::Occt::Bnd_Array1OfSphere^ theOther);
     Macad::Occt::Bnd_Array1OfSphere^ Move(Macad::Occt::Bnd_Array1OfSphere^ theOther);
     Macad::Occt::Bnd_Sphere^ First();
@@ -300,7 +264,10 @@ public:
     virtual Macad::Occt::Bnd_Sphere^ Value(int theIndex);
     Macad::Occt::Bnd_Sphere^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Bnd_Sphere^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Bnd_Sphere^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class Bnd_Array1OfSphere
@@ -392,7 +359,6 @@ public:
     /// The constructed box is qualified Void. Its gap is null.
     /// </summary>
     Bnd_Box(Macad::Occt::Pnt theMin, Macad::Occt::Pnt theMax);
-    Bnd_Box(Macad::Occt::Bnd_Box^ parameter1);
     /// <summary>
     /// Sets this bounding box so that it covers the whole of 3D space.
     /// It is infinitely long in all directions.
@@ -712,7 +678,6 @@ public:
     /// The constructed box is qualified Void. Its gap is null.
     /// </summary>
     Bnd_Box2d();
-    Bnd_Box2d(Macad::Occt::Bnd_Box2d^ parameter1);
     /// <summary>
     /// Sets this bounding box so that it covers the whole 2D
     /// space, i.e. it is infinite in all directions.
@@ -913,7 +878,6 @@ public:
     /// Constructor of a definite sphere
     /// </summary>
     Bnd_Sphere(Macad::Occt::XYZ theCntr, double theRad, int theU, int theV);
-    Bnd_Sphere(Macad::Occt::Bnd_Sphere^ parameter1);
     /// <summary>
     /// Returns the U parameter on shape
     /// </summary>
@@ -999,7 +963,6 @@ public:
     /// Constructor.
     /// </summary>
     Bnd_B2d(Macad::Occt::XY theCenter, Macad::Occt::XY theHSize);
-    Bnd_B2d(Macad::Occt::Bnd_B2d^ parameter1);
     /// <summary>
     /// Returns True if the box is void (non-initialized).
     /// </summary>
@@ -1149,7 +1112,6 @@ public:
     /// Constructor.
     /// </summary>
     Bnd_B2f(Macad::Occt::XY theCenter, Macad::Occt::XY theHSize);
-    Bnd_B2f(Macad::Occt::Bnd_B2f^ parameter1);
     /// <summary>
     /// Returns True if the box is void (non-initialized).
     /// </summary>
@@ -1299,7 +1261,6 @@ public:
     /// Constructor.
     /// </summary>
     Bnd_B3d(Macad::Occt::XYZ theCenter, Macad::Occt::XYZ theHSize);
-    Bnd_B3d(Macad::Occt::Bnd_B3d^ parameter1);
     /// <summary>
     /// Returns True if the box is void (non-initialized).
     /// </summary>
@@ -1476,7 +1437,6 @@ public:
     /// Constructor.
     /// </summary>
     Bnd_B3f(Macad::Occt::XYZ theCenter, Macad::Occt::XYZ theHSize);
-    Bnd_B3f(Macad::Occt::Bnd_B3f^ parameter1);
     /// <summary>
     /// Returns True if the box is void (non-initialized).
     /// </summary>
@@ -1673,26 +1633,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::Bnd_HArray1OfBox^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::Bnd_HArray1OfBox^ theArray);
-        Iterator(Macad::Occt::Bnd_HArray1OfBox::Iterator^ parameter1);
-        void Init(Macad::Occt::Bnd_HArray1OfBox^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::Bnd_HArray1OfBox::Iterator^ theOther);
-        Macad::Occt::Bnd_Box^ Value();
-        Macad::Occt::Bnd_Box^ ChangeValue();
-        bool IsEqual(Macad::Occt::Bnd_HArray1OfBox::Iterator^ theOther);
     }; // class Iterator
 
     Bnd_HArray1OfBox();
     Bnd_HArray1OfBox(int theLower, int theUpper);
     Bnd_HArray1OfBox(int theLower, int theUpper, Macad::Occt::Bnd_Box^ theValue);
+    Bnd_HArray1OfBox(Macad::Occt::Bnd_Box^ theBegin, int theLower, int theUpper, bool parameter1);
     Bnd_HArray1OfBox(Macad::Occt::Bnd_Array1OfBox^ theOther);
-    Bnd_HArray1OfBox(Macad::Occt::Bnd_HArray1OfBox^ parameter1);
     Macad::Occt::Bnd_Array1OfBox^ Array1();
     Macad::Occt::Bnd_Array1OfBox^ ChangeArray1();
     void Init(Macad::Occt::Bnd_Box^ theValue);
@@ -1701,8 +1648,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::Bnd_HArray1OfBox^ Assign(Macad::Occt::Bnd_HArray1OfBox^ theOther);
     Macad::Occt::Bnd_HArray1OfBox^ Move(Macad::Occt::Bnd_HArray1OfBox^ theOther);
     Macad::Occt::Bnd_Box^ First();
@@ -1712,7 +1657,10 @@ public:
     virtual Macad::Occt::Bnd_Box^ Value(int theIndex);
     Macad::Occt::Bnd_Box^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Bnd_Box^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::Bnd_HArray1OfBox^ CreateDowncasted(::Bnd_HArray1OfBox* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Bnd_Box^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -1762,7 +1710,6 @@ public:
     /// The bounding boxes are then defined using the Initialize function.
     /// </summary>
     Bnd_BoundSortBox();
-    Bnd_BoundSortBox(Macad::Occt::Bnd_BoundSortBox^ parameter1);
     /// <summary>
     /// Initializes this comparison algorithm with
     /// -   the set of bounding boxes SetOfBox.
@@ -1878,26 +1825,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::Bnd_HArray1OfBox2d^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::Bnd_HArray1OfBox2d^ theArray);
-        Iterator(Macad::Occt::Bnd_HArray1OfBox2d::Iterator^ parameter1);
-        void Init(Macad::Occt::Bnd_HArray1OfBox2d^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::Bnd_HArray1OfBox2d::Iterator^ theOther);
-        Macad::Occt::Bnd_Box2d^ Value();
-        Macad::Occt::Bnd_Box2d^ ChangeValue();
-        bool IsEqual(Macad::Occt::Bnd_HArray1OfBox2d::Iterator^ theOther);
     }; // class Iterator
 
     Bnd_HArray1OfBox2d();
     Bnd_HArray1OfBox2d(int theLower, int theUpper);
     Bnd_HArray1OfBox2d(int theLower, int theUpper, Macad::Occt::Bnd_Box2d^ theValue);
+    Bnd_HArray1OfBox2d(Macad::Occt::Bnd_Box2d^ theBegin, int theLower, int theUpper, bool parameter1);
     Bnd_HArray1OfBox2d(Macad::Occt::Bnd_Array1OfBox2d^ theOther);
-    Bnd_HArray1OfBox2d(Macad::Occt::Bnd_HArray1OfBox2d^ parameter1);
     Macad::Occt::Bnd_Array1OfBox2d^ Array1();
     Macad::Occt::Bnd_Array1OfBox2d^ ChangeArray1();
     void Init(Macad::Occt::Bnd_Box2d^ theValue);
@@ -1906,8 +1840,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::Bnd_HArray1OfBox2d^ Assign(Macad::Occt::Bnd_HArray1OfBox2d^ theOther);
     Macad::Occt::Bnd_HArray1OfBox2d^ Move(Macad::Occt::Bnd_HArray1OfBox2d^ theOther);
     Macad::Occt::Bnd_Box2d^ First();
@@ -1917,7 +1849,10 @@ public:
     virtual Macad::Occt::Bnd_Box2d^ Value(int theIndex);
     Macad::Occt::Bnd_Box2d^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Bnd_Box2d^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::Bnd_HArray1OfBox2d^ CreateDowncasted(::Bnd_HArray1OfBox2d* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Bnd_Box2d^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -1981,26 +1916,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::Bnd_HArray1OfSphere^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::Bnd_HArray1OfSphere^ theArray);
-        Iterator(Macad::Occt::Bnd_HArray1OfSphere::Iterator^ parameter1);
-        void Init(Macad::Occt::Bnd_HArray1OfSphere^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::Bnd_HArray1OfSphere::Iterator^ theOther);
-        Macad::Occt::Bnd_Sphere^ Value();
-        Macad::Occt::Bnd_Sphere^ ChangeValue();
-        bool IsEqual(Macad::Occt::Bnd_HArray1OfSphere::Iterator^ theOther);
     }; // class Iterator
 
     Bnd_HArray1OfSphere();
     Bnd_HArray1OfSphere(int theLower, int theUpper);
     Bnd_HArray1OfSphere(int theLower, int theUpper, Macad::Occt::Bnd_Sphere^ theValue);
+    Bnd_HArray1OfSphere(Macad::Occt::Bnd_Sphere^ theBegin, int theLower, int theUpper, bool parameter1);
     Bnd_HArray1OfSphere(Macad::Occt::Bnd_Array1OfSphere^ theOther);
-    Bnd_HArray1OfSphere(Macad::Occt::Bnd_HArray1OfSphere^ parameter1);
     Macad::Occt::Bnd_Array1OfSphere^ Array1();
     Macad::Occt::Bnd_Array1OfSphere^ ChangeArray1();
     void Init(Macad::Occt::Bnd_Sphere^ theValue);
@@ -2009,8 +1931,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::Bnd_HArray1OfSphere^ Assign(Macad::Occt::Bnd_HArray1OfSphere^ theOther);
     Macad::Occt::Bnd_HArray1OfSphere^ Move(Macad::Occt::Bnd_HArray1OfSphere^ theOther);
     Macad::Occt::Bnd_Sphere^ First();
@@ -2020,7 +1940,10 @@ public:
     virtual Macad::Occt::Bnd_Sphere^ Value(int theIndex);
     Macad::Occt::Bnd_Sphere^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Bnd_Sphere^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::Bnd_HArray1OfSphere^ CreateDowncasted(::Bnd_HArray1OfSphere* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Bnd_Sphere^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -2077,7 +2000,6 @@ public:
     /// Constructor to create OBB from AABB.
     /// </summary>
     Bnd_OBB(Macad::Occt::Bnd_Box^ theBox);
-    Bnd_OBB(Macad::Occt::Bnd_OBB^ parameter1);
     /// <summary>
     /// Creates new OBB covering every point in theListOfPoints.
     /// Tolerance of every such point is set by *theListOfTolerances array.
@@ -2277,7 +2199,6 @@ public:
     /// Constructor. Never creates VOID range.
     /// </summary>
     Bnd_Range(double theMin, double theMax);
-    Bnd_Range(Macad::Occt::Bnd_Range^ parameter1);
     /// <summary>
     /// Replaces <this> with common-part of <this> and theOther
     /// </summary>
@@ -2437,7 +2358,6 @@ public:
 
 public:
     Bnd_Tools();
-    Bnd_Tools(Macad::Occt::Bnd_Tools^ parameter1);
     /* Method skipped due to unknown mapping: BVH_Box<double, 2> Bnd2BVH(Bnd_Box2d theBox, ) */
     /* Method skipped due to unknown mapping: Graphic3d_BndBox3d Bnd2BVH(Bnd_Box theBox, ) */
 }; // class Bnd_Tools

@@ -26,12 +26,6 @@ Macad::Occt::IntAna_ListOfCurve::IntAna_ListOfCurve(Macad::Occt::NCollection_Bas
     _NativeInstance = new ::IntAna_ListOfCurve(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::IntAna_ListOfCurve::IntAna_ListOfCurve(Macad::Occt::IntAna_ListOfCurve^ theOther)
-    : Macad::Occt::NCollection_BaseList(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna_ListOfCurve(*(::IntAna_ListOfCurve*)theOther->NativeInstance);
-}
-
 int Macad::Occt::IntAna_ListOfCurve::Size()
 {
     int _result = ((::IntAna_ListOfCurve*)_NativeInstance)->Size();
@@ -76,26 +70,11 @@ Macad::Occt::IntAna_Curve^ Macad::Occt::IntAna_ListOfCurve::Append(Macad::Occt::
     return _result==nullptr ? nullptr : gcnew Macad::Occt::IntAna_Curve(_result);
 }
 
-void Macad::Occt::IntAna_ListOfCurve::Append(Macad::Occt::IntAna_Curve^ theItem, Macad::Occt::IntAna_ListOfCurve::Iterator^ theIter)
-{
-    ((::IntAna_ListOfCurve*)_NativeInstance)->Append(*(::IntAna_Curve*)theItem->NativeInstance, *(::IntAna_ListOfCurve::Iterator*)theIter->NativeInstance);
-}
-
-void Macad::Occt::IntAna_ListOfCurve::Append(Macad::Occt::IntAna_ListOfCurve^ theOther)
-{
-    ((::IntAna_ListOfCurve*)_NativeInstance)->Append(*(::IntAna_ListOfCurve*)theOther->NativeInstance);
-}
-
 Macad::Occt::IntAna_Curve^ Macad::Occt::IntAna_ListOfCurve::Prepend(Macad::Occt::IntAna_Curve^ theItem)
 {
     ::IntAna_Curve* _result = new ::IntAna_Curve();
     *_result = ((::IntAna_ListOfCurve*)_NativeInstance)->Prepend(*(::IntAna_Curve*)theItem->NativeInstance);
     return _result==nullptr ? nullptr : gcnew Macad::Occt::IntAna_Curve(_result);
-}
-
-void Macad::Occt::IntAna_ListOfCurve::Prepend(Macad::Occt::IntAna_ListOfCurve^ theOther)
-{
-    ((::IntAna_ListOfCurve*)_NativeInstance)->Prepend(*(::IntAna_ListOfCurve*)theOther->NativeInstance);
 }
 
 void Macad::Occt::IntAna_ListOfCurve::RemoveFirst()
@@ -115,21 +94,11 @@ Macad::Occt::IntAna_Curve^ Macad::Occt::IntAna_ListOfCurve::InsertBefore(Macad::
     return _result==nullptr ? nullptr : gcnew Macad::Occt::IntAna_Curve(_result);
 }
 
-void Macad::Occt::IntAna_ListOfCurve::InsertBefore(Macad::Occt::IntAna_ListOfCurve^ theOther, Macad::Occt::IntAna_ListOfCurve::Iterator^ theIter)
-{
-    ((::IntAna_ListOfCurve*)_NativeInstance)->InsertBefore(*(::IntAna_ListOfCurve*)theOther->NativeInstance, *(::IntAna_ListOfCurve::Iterator*)theIter->NativeInstance);
-}
-
 Macad::Occt::IntAna_Curve^ Macad::Occt::IntAna_ListOfCurve::InsertAfter(Macad::Occt::IntAna_Curve^ theItem, Macad::Occt::IntAna_ListOfCurve::Iterator^ theIter)
 {
     ::IntAna_Curve* _result = new ::IntAna_Curve();
     *_result = ((::IntAna_ListOfCurve*)_NativeInstance)->InsertAfter(*(::IntAna_Curve*)theItem->NativeInstance, *(::IntAna_ListOfCurve::Iterator*)theIter->NativeInstance);
     return _result==nullptr ? nullptr : gcnew Macad::Occt::IntAna_Curve(_result);
-}
-
-void Macad::Occt::IntAna_ListOfCurve::InsertAfter(Macad::Occt::IntAna_ListOfCurve^ theOther, Macad::Occt::IntAna_ListOfCurve::Iterator^ theIter)
-{
-    ((::IntAna_ListOfCurve*)_NativeInstance)->InsertAfter(*(::IntAna_ListOfCurve*)theOther->NativeInstance, *(::IntAna_ListOfCurve::Iterator*)theIter->NativeInstance);
 }
 
 void Macad::Occt::IntAna_ListOfCurve::Reverse()
@@ -139,12 +108,12 @@ void Macad::Occt::IntAna_ListOfCurve::Reverse()
 
 System::Collections::Generic::IEnumerator<Macad::Occt::IntAna_Curve^>^ Macad::Occt::IntAna_ListOfCurve::GetEnumerator()
 {
-    return gcnew Macad::Occt::IntAna_ListOfCurve::Iterator(this);
+    return gcnew Macad::Occt::IntAna_ListOfCurve::Iterator(new ::IntAna_ListOfCurve::Iterator(*NativeInstance));
 }
 
 System::Collections::IEnumerator^ Macad::Occt::IntAna_ListOfCurve::GetEnumerator2()
 {
-    return gcnew Macad::Occt::IntAna_ListOfCurve::Iterator(this);
+    return gcnew Macad::Occt::IntAna_ListOfCurve::Iterator(new ::IntAna_ListOfCurve::Iterator(*NativeInstance));
 }
 
 
@@ -157,18 +126,6 @@ Macad::Occt::IntAna_ListOfCurve::Iterator::Iterator()
     : Macad::Occt::IteratorEnumerator<Macad::Occt::IntAna_Curve^, ::IntAna_ListOfCurve::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::IntAna_ListOfCurve::Iterator();
-}
-
-Macad::Occt::IntAna_ListOfCurve::Iterator::Iterator(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::IteratorEnumerator<Macad::Occt::IntAna_Curve^, ::IntAna_ListOfCurve::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna_ListOfCurve::Iterator(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-Macad::Occt::IntAna_ListOfCurve::Iterator::Iterator(Macad::Occt::IntAna_ListOfCurve::Iterator^ parameter1)
-    : Macad::Occt::IteratorEnumerator<Macad::Occt::IntAna_Curve^, ::IntAna_ListOfCurve::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna_ListOfCurve::Iterator(*(::IntAna_ListOfCurve::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::IntAna_ListOfCurve::Iterator::More()
@@ -214,12 +171,6 @@ Macad::Occt::IntAna_ListIteratorOfListOfCurve::IntAna_ListIteratorOfListOfCurve(
     _NativeInstance = new ::IntAna_ListIteratorOfListOfCurve(*(::NCollection_BaseList*)theList->NativeInstance);
 }
 
-Macad::Occt::IntAna_ListIteratorOfListOfCurve::IntAna_ListIteratorOfListOfCurve(Macad::Occt::IntAna_ListIteratorOfListOfCurve^ parameter1)
-    : Macad::Occt::BaseClass<::IntAna_ListIteratorOfListOfCurve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna_ListIteratorOfListOfCurve(*(::IntAna_ListIteratorOfListOfCurve*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::IntAna_ListIteratorOfListOfCurve::More()
 {
     bool _result = ((::IntAna_ListIteratorOfListOfCurve*)_NativeInstance)->More();
@@ -255,12 +206,6 @@ Macad::Occt::IntAna_Curve::IntAna_Curve()
     : Macad::Occt::BaseClass<::IntAna_Curve>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::IntAna_Curve();
-}
-
-Macad::Occt::IntAna_Curve::IntAna_Curve(Macad::Occt::IntAna_Curve^ parameter1)
-    : Macad::Occt::BaseClass<::IntAna_Curve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna_Curve(*(::IntAna_Curve*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::IntAna_Curve::SetCylinderQuadValues(Macad::Occt::gp_Cylinder^ Cylinder, double Qxx, double Qyy, double Qzz, double Qxy, double Qxz, double Qyz, double Qx, double Qy, double Qz, double Q1, double Tol, double DomInf, double DomSup, bool TwoZForATheta, bool ZIsPositive)
@@ -360,12 +305,6 @@ Macad::Occt::IntAna_Int3Pln::IntAna_Int3Pln(Macad::Occt::Pln P1, Macad::Occt::Pl
     _NativeInstance = new ::IntAna_Int3Pln(*(gp_Pln*)pp_P1, *(gp_Pln*)pp_P2, *(gp_Pln*)pp_P3);
 }
 
-Macad::Occt::IntAna_Int3Pln::IntAna_Int3Pln(Macad::Occt::IntAna_Int3Pln^ parameter1)
-    : Macad::Occt::BaseClass<::IntAna_Int3Pln>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna_Int3Pln(*(::IntAna_Int3Pln*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::IntAna_Int3Pln::Perform(Macad::Occt::Pln P1, Macad::Occt::Pln P2, Macad::Occt::Pln P3)
 {
     pin_ptr<Macad::Occt::Pln> pp_P1 = &P1;
@@ -427,12 +366,6 @@ Macad::Occt::IntAna_Quadric::IntAna_Quadric(Macad::Occt::gp_Cone^ Cone)
     : Macad::Occt::BaseClass<::IntAna_Quadric>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::IntAna_Quadric(*(::gp_Cone*)Cone->NativeInstance);
-}
-
-Macad::Occt::IntAna_Quadric::IntAna_Quadric(Macad::Occt::IntAna_Quadric^ parameter1)
-    : Macad::Occt::BaseClass<::IntAna_Quadric>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna_Quadric(*(::IntAna_Quadric*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::IntAna_Quadric::SetQuadric(Macad::Occt::Pln P)
@@ -540,14 +473,14 @@ Macad::Occt::IntAna_IntConicQuad::IntAna_IntConicQuad(Macad::Occt::gp_Lin^ L, Ma
     : Macad::Occt::BaseClass<::IntAna_IntConicQuad>(BaseClass::InitMode::Uninitialized)
 {
     pin_ptr<Macad::Occt::Pln> pp_P = &P;
-    _NativeInstance = new ::IntAna_IntConicQuad(*(::gp_Lin*)L->NativeInstance, *(gp_Pln*)pp_P, Tolang, Tol, 0);
+    _NativeInstance = new ::IntAna_IntConicQuad(*(::gp_Lin*)L->NativeInstance, *(gp_Pln*)pp_P, Tolang, Tol, 0.0);
 }
 
 Macad::Occt::IntAna_IntConicQuad::IntAna_IntConicQuad(Macad::Occt::gp_Lin^ L, Macad::Occt::Pln P, double Tolang)
     : Macad::Occt::BaseClass<::IntAna_IntConicQuad>(BaseClass::InitMode::Uninitialized)
 {
     pin_ptr<Macad::Occt::Pln> pp_P = &P;
-    _NativeInstance = new ::IntAna_IntConicQuad(*(::gp_Lin*)L->NativeInstance, *(gp_Pln*)pp_P, Tolang, 0, 0);
+    _NativeInstance = new ::IntAna_IntConicQuad(*(::gp_Lin*)L->NativeInstance, *(gp_Pln*)pp_P, Tolang, 0.0, 0.0);
 }
 
 Macad::Occt::IntAna_IntConicQuad::IntAna_IntConicQuad(Macad::Occt::gp_Circ^ C, Macad::Occt::Pln P, double Tolang, double Tol)
@@ -576,12 +509,6 @@ Macad::Occt::IntAna_IntConicQuad::IntAna_IntConicQuad(Macad::Occt::gp_Hypr^ H, M
 {
     pin_ptr<Macad::Occt::Pln> pp_P = &P;
     _NativeInstance = new ::IntAna_IntConicQuad(*(::gp_Hypr*)H->NativeInstance, *(gp_Pln*)pp_P, Tolang);
-}
-
-Macad::Occt::IntAna_IntConicQuad::IntAna_IntConicQuad(Macad::Occt::IntAna_IntConicQuad^ parameter1)
-    : Macad::Occt::BaseClass<::IntAna_IntConicQuad>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna_IntConicQuad(*(::IntAna_IntConicQuad*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::IntAna_IntConicQuad::Perform(Macad::Occt::gp_Lin^ L, Macad::Occt::IntAna_Quadric^ Q)
@@ -618,13 +545,13 @@ void Macad::Occt::IntAna_IntConicQuad::Perform(Macad::Occt::gp_Lin^ L, Macad::Oc
 void Macad::Occt::IntAna_IntConicQuad::Perform(Macad::Occt::gp_Lin^ L, Macad::Occt::Pln P, double Tolang, double Tol)
 {
     pin_ptr<Macad::Occt::Pln> pp_P = &P;
-    ((::IntAna_IntConicQuad*)_NativeInstance)->Perform(*(::gp_Lin*)L->NativeInstance, *(gp_Pln*)pp_P, Tolang, Tol, 0);
+    ((::IntAna_IntConicQuad*)_NativeInstance)->Perform(*(::gp_Lin*)L->NativeInstance, *(gp_Pln*)pp_P, Tolang, Tol, 0.0);
 }
 
 void Macad::Occt::IntAna_IntConicQuad::Perform(Macad::Occt::gp_Lin^ L, Macad::Occt::Pln P, double Tolang)
 {
     pin_ptr<Macad::Occt::Pln> pp_P = &P;
-    ((::IntAna_IntConicQuad*)_NativeInstance)->Perform(*(::gp_Lin*)L->NativeInstance, *(gp_Pln*)pp_P, Tolang, 0, 0);
+    ((::IntAna_IntConicQuad*)_NativeInstance)->Perform(*(::gp_Lin*)L->NativeInstance, *(gp_Pln*)pp_P, Tolang, 0.0, 0.0);
 }
 
 void Macad::Occt::IntAna_IntConicQuad::Perform(Macad::Occt::gp_Circ^ C, Macad::Occt::Pln P, double Tolang, double Tol)
@@ -705,12 +632,6 @@ Macad::Occt::IntAna_IntLinTorus::IntAna_IntLinTorus(Macad::Occt::gp_Lin^ L, Maca
     _NativeInstance = new ::IntAna_IntLinTorus(*(::gp_Lin*)L->NativeInstance, *(::gp_Torus*)T->NativeInstance);
 }
 
-Macad::Occt::IntAna_IntLinTorus::IntAna_IntLinTorus(Macad::Occt::IntAna_IntLinTorus^ parameter1)
-    : Macad::Occt::BaseClass<::IntAna_IntLinTorus>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna_IntLinTorus(*(::IntAna_IntLinTorus*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::IntAna_IntLinTorus::Perform(Macad::Occt::gp_Lin^ L, Macad::Occt::gp_Torus^ T)
 {
     ((::IntAna_IntLinTorus*)_NativeInstance)->Perform(*(::gp_Lin*)L->NativeInstance, *(::gp_Torus*)T->NativeInstance);
@@ -769,12 +690,6 @@ Macad::Occt::IntAna_IntQuadQuad::IntAna_IntQuadQuad(Macad::Occt::gp_Cone^ C, Mac
     : Macad::Occt::BaseClass<::IntAna_IntQuadQuad>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::IntAna_IntQuadQuad(*(::gp_Cone*)C->NativeInstance, *(::IntAna_Quadric*)Q->NativeInstance, Tol);
-}
-
-Macad::Occt::IntAna_IntQuadQuad::IntAna_IntQuadQuad(Macad::Occt::IntAna_IntQuadQuad^ parameter1)
-    : Macad::Occt::BaseClass<::IntAna_IntQuadQuad>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna_IntQuadQuad(*(::IntAna_IntQuadQuad*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::IntAna_IntQuadQuad::Perform(Macad::Occt::gp_Cylinder^ C, Macad::Occt::IntAna_Quadric^ Q, double Tol)
@@ -888,7 +803,7 @@ Macad::Occt::IntAna_QuadQuadGeo::IntAna_QuadQuadGeo(Macad::Occt::Pln P, Macad::O
     : Macad::Occt::BaseClass<::IntAna_QuadQuadGeo>(BaseClass::InitMode::Uninitialized)
 {
     pin_ptr<Macad::Occt::Pln> pp_P = &P;
-    _NativeInstance = new ::IntAna_QuadQuadGeo(*(gp_Pln*)pp_P, *(::gp_Cylinder*)C->NativeInstance, Tolang, Tol, 0);
+    _NativeInstance = new ::IntAna_QuadQuadGeo(*(gp_Pln*)pp_P, *(::gp_Cylinder*)C->NativeInstance, Tolang, Tol, 0.0);
 }
 
 Macad::Occt::IntAna_QuadQuadGeo::IntAna_QuadQuadGeo(Macad::Occt::Pln P, Macad::Occt::gp_Sphere^ S)
@@ -972,12 +887,6 @@ Macad::Occt::IntAna_QuadQuadGeo::IntAna_QuadQuadGeo(Macad::Occt::gp_Torus^ Tor1,
     _NativeInstance = new ::IntAna_QuadQuadGeo(*(::gp_Torus*)Tor1->NativeInstance, *(::gp_Torus*)Tor2->NativeInstance, Tol);
 }
 
-Macad::Occt::IntAna_QuadQuadGeo::IntAna_QuadQuadGeo(Macad::Occt::IntAna_QuadQuadGeo^ parameter1)
-    : Macad::Occt::BaseClass<::IntAna_QuadQuadGeo>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna_QuadQuadGeo(*(::IntAna_QuadQuadGeo*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::IntAna_QuadQuadGeo::Perform(Macad::Occt::Pln P1, Macad::Occt::Pln P2, double TolAng, double Tol)
 {
     pin_ptr<Macad::Occt::Pln> pp_P1 = &P1;
@@ -994,7 +903,7 @@ void Macad::Occt::IntAna_QuadQuadGeo::Perform(Macad::Occt::Pln P, Macad::Occt::g
 void Macad::Occt::IntAna_QuadQuadGeo::Perform(Macad::Occt::Pln P, Macad::Occt::gp_Cylinder^ C, double Tolang, double Tol)
 {
     pin_ptr<Macad::Occt::Pln> pp_P = &P;
-    ((::IntAna_QuadQuadGeo*)_NativeInstance)->Perform(*(gp_Pln*)pp_P, *(::gp_Cylinder*)C->NativeInstance, Tolang, Tol, 0);
+    ((::IntAna_QuadQuadGeo*)_NativeInstance)->Perform(*(gp_Pln*)pp_P, *(::gp_Cylinder*)C->NativeInstance, Tolang, Tol, 0.0);
 }
 
 void Macad::Occt::IntAna_QuadQuadGeo::Perform(Macad::Occt::Pln P, Macad::Occt::gp_Sphere^ S)

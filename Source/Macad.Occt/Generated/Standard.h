@@ -82,7 +82,6 @@ public:
 
     Standard_DumpValue();
     Standard_DumpValue(Macad::Occt::TCollection_AsciiString^ theValue, int theStartPos);
-    Standard_DumpValue(Macad::Occt::Standard_DumpValue^ parameter1);
 }; // class Standard_DumpValue
 
 //---------------------------------------------------------------------
@@ -143,7 +142,6 @@ public:
     }
 
     Standard_UUID();
-    Standard_UUID(Macad::Occt::Standard_UUID^ parameter1);
 }; // class Standard_UUID
 
 //---------------------------------------------------------------------
@@ -180,13 +178,35 @@ public:
     }
 
 public:
+    //---------------------------------------------------------------------
+    //  Enum  AllocatorType
+    //---------------------------------------------------------------------
+    /// <summary>
+    /// Enumiration of possible allocator types
+    /// </summary>
+    enum class AllocatorType
+    {
+        NATIVE = 0,
+        OPT = 1,
+        TBB = 2,
+        JEMALLOC = 3
+    }; // enum  class AllocatorType
+
     Standard();
-    Standard(Macad::Occt::Standard^ parameter1);
+    /// <summary>
+    /// Returns default allocator type
+    /// </summary>
+    static Macad::Occt::Standard::AllocatorType GetAllocatorType();
     /// <summary>
     /// Allocates memory blocks
-    /// aSize - bytes to  allocate
+    /// theSize - bytes to  allocate
     /// </summary>
-    static System::IntPtr Allocate(long long unsigned int aSize);
+    static System::IntPtr Allocate(long long unsigned int theSize);
+    /// <summary>
+    /// Allocates memory blocks
+    /// theSize - bytes to  allocate
+    /// </summary>
+    static System::IntPtr AllocateOptimal(long long unsigned int theSize);
     /// <summary>
     /// Deallocates memory blocks
     /// </summary>
@@ -194,12 +214,13 @@ public:
     /// - previously allocated memory block to be freed
     /// </param>
     static void Free(System::IntPtr thePtr);
+    /* Method skipped due to unknown mapping: void Free(TI_0 thePtr, ) */
     /// <summary>
     /// Reallocates memory blocks
-    /// aStorage - previously allocated memory block
-    /// aNewSize - new size in bytes
+    /// theStorage - previously allocated memory block
+    /// theNewSize - new size in bytes
     /// </summary>
-    static System::IntPtr Reallocate(System::IntPtr aStorage, long long unsigned int aNewSize);
+    static System::IntPtr Reallocate(System::IntPtr theStorage, long long unsigned int theNewSize);
     /// <summary>
     /// Allocates aligned memory blocks.
     /// Should be used with CPU instructions which require specific alignment.
@@ -363,10 +384,6 @@ public:
     /// </summary>
     Standard_Failure();
     /// <summary>
-    /// Copy constructor
-    /// </summary>
-    Standard_Failure(Macad::Occt::Standard_Failure^ f);
-    /// <summary>
     /// Creates a status object of type "Failure".
     /// </summary>
     /// <param name="theDesc">
@@ -489,7 +506,6 @@ public:
     Standard_DomainError();
     Standard_DomainError(System::String^ theMessage);
     Standard_DomainError(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_DomainError(Macad::Occt::Standard_DomainError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -532,7 +548,6 @@ public:
     Standard_ConstructionError();
     Standard_ConstructionError(System::String^ theMessage);
     Standard_ConstructionError(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_ConstructionError(Macad::Occt::Standard_ConstructionError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -580,7 +595,6 @@ public:
     Standard_RangeError();
     Standard_RangeError(System::String^ theMessage);
     Standard_RangeError(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_RangeError(Macad::Occt::Standard_RangeError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -628,7 +642,6 @@ public:
     Standard_OutOfRange();
     Standard_OutOfRange(System::String^ theMessage);
     Standard_OutOfRange(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_OutOfRange(Macad::Occt::Standard_OutOfRange^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -676,7 +689,6 @@ public:
     Standard_DimensionError();
     Standard_DimensionError(System::String^ theMessage);
     Standard_DimensionError(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_DimensionError(Macad::Occt::Standard_DimensionError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -719,7 +731,6 @@ public:
     Standard_DimensionMismatch();
     Standard_DimensionMismatch(System::String^ theMessage);
     Standard_DimensionMismatch(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_DimensionMismatch(Macad::Occt::Standard_DimensionMismatch^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -767,7 +778,6 @@ public:
     Standard_ProgramError();
     Standard_ProgramError(System::String^ theMessage);
     Standard_ProgramError(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_ProgramError(Macad::Occt::Standard_ProgramError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -830,7 +840,6 @@ public:
     /// Constructor is kept public for backward compatibility
     /// </summary>
     Standard_OutOfMemory();
-    Standard_OutOfMemory(Macad::Occt::Standard_OutOfMemory^ parameter1);
     /// <summary>
     /// Returns error message
     /// </summary>
@@ -862,6 +871,95 @@ public:
     static Macad::Occt::Standard_OutOfMemory^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
     static Macad::Occt::Standard_OutOfMemory^ CreateDowncasted(::Standard_OutOfMemory* instance);
 }; // class Standard_OutOfMemory
+
+//---------------------------------------------------------------------
+//  Class  Standard_NotImplemented
+//---------------------------------------------------------------------
+public ref class Standard_NotImplemented sealed
+    : public Macad::Occt::Standard_ProgramError
+{
+
+#ifdef Include_Standard_NotImplemented_h
+public:
+    Include_Standard_NotImplemented_h
+#endif
+
+public:
+    Standard_NotImplemented(::Standard_NotImplemented* nativeInstance)
+        : Macad::Occt::Standard_ProgramError( nativeInstance )
+    {}
+
+    Standard_NotImplemented(::Standard_NotImplemented& nativeInstance)
+        : Macad::Occt::Standard_ProgramError( nativeInstance )
+    {}
+
+    property ::Standard_NotImplemented* NativeInstance
+    {
+        ::Standard_NotImplemented* get()
+        {
+            return static_cast<::Standard_NotImplemented*>(_NativeInstance);
+        }
+    }
+
+public:
+    Standard_NotImplemented();
+    Standard_NotImplemented(System::String^ theMessage);
+    Standard_NotImplemented(System::String^ theMessage, System::String^ theStackTrace);
+    static void Raise(System::String^ theMessage);
+    static void Raise();
+    /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
+    static Macad::Occt::Standard_NotImplemented^ NewInstance(System::String^ theMessage);
+    static Macad::Occt::Standard_NotImplemented^ NewInstance();
+    static Macad::Occt::Standard_NotImplemented^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
+    static Macad::Occt::Standard_NotImplemented^ CreateDowncasted(::Standard_NotImplemented* instance);
+}; // class Standard_NotImplemented
+
+//---------------------------------------------------------------------
+//  Class  Standard_Persistent
+//---------------------------------------------------------------------
+/// <summary>
+/// Root of "persistent" classes, a legacy support of
+/// object oriented databases, now outdated.
+/// </summary>
+public ref class Standard_Persistent sealed
+    : public Macad::Occt::Standard_Transient
+{
+
+#ifdef Include_Standard_Persistent_h
+public:
+    Include_Standard_Persistent_h
+#endif
+
+public:
+    Standard_Persistent(::Standard_Persistent* nativeInstance)
+        : Macad::Occt::Standard_Transient( nativeInstance )
+    {}
+
+    Standard_Persistent(::Standard_Persistent& nativeInstance)
+        : Macad::Occt::Standard_Transient( nativeInstance )
+    {}
+
+    property ::Standard_Persistent* NativeInstance
+    {
+        ::Standard_Persistent* get()
+        {
+            return static_cast<::Standard_Persistent*>(_NativeInstance);
+        }
+    }
+
+public:
+    property int TypeNum {
+        int get() {
+            return ((::Standard_Persistent*)_NativeInstance)->TypeNum();
+        }
+        void set(int value) {
+            ((::Standard_Persistent*)_NativeInstance)->TypeNum() = value;
+        }
+    }
+
+    Standard_Persistent();
+    static Macad::Occt::Standard_Persistent^ CreateDowncasted(::Standard_Persistent* instance);
+}; // class Standard_Persistent
 
 //---------------------------------------------------------------------
 //  Class  Standard_NoSuchObject
@@ -896,7 +994,6 @@ public:
     Standard_NoSuchObject();
     Standard_NoSuchObject(System::String^ theMessage);
     Standard_NoSuchObject(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_NoSuchObject(Macad::Occt::Standard_NoSuchObject^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -939,7 +1036,6 @@ public:
     Standard_TypeMismatch();
     Standard_TypeMismatch(System::String^ theMessage);
     Standard_TypeMismatch(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_TypeMismatch(Macad::Occt::Standard_TypeMismatch^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -983,12 +1079,14 @@ public:
 
 public:
     Standard_Dump();
-    Standard_Dump(Macad::Occt::Standard_Dump^ parameter1);
     /* Method skipped due to unknown mapping: TCollection_AsciiString Text(stringstream theStream, ) */
     /* Method skipped due to unknown mapping: TCollection_AsciiString FormatJson(stringstream theStream, int theIndent, ) */
     /* Method skipped due to unknown mapping: TCollection_AsciiString FormatJson(stringstream theStream, int theIndent, ) */
     /* Method skipped due to unknown mapping: bool SplitJson(TCollection_AsciiString theStreamStr, NCollection_IndexedDataMap<TCollection_AsciiString, Standard_DumpValue, NCollection_DefaultHasher<TCollection_AsciiString>> theKeyToValues, ) */
-    /* Method skipped due to unknown mapping: TColStd_ListOfInteger HierarchicalValueIndices(NCollection_IndexedDataMap<TCollection_AsciiString, TCollection_AsciiString, NCollection_DefaultHasher<TCollection_AsciiString>> theValues, ) */
+    /// <summary>
+    /// Returns container of indices in values, that has hierarchical value
+    /// </summary>
+    static Macad::Occt::TColStd_ListOfInteger^ HierarchicalValueIndices(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theValues);
     /// <summary>
     /// Returns true if the value has bracket key
     /// </summary>
@@ -1191,7 +1289,6 @@ public:
     Standard_AbortiveTransaction();
     Standard_AbortiveTransaction(System::String^ theMessage);
     Standard_AbortiveTransaction(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_AbortiveTransaction(Macad::Occt::Standard_AbortiveTransaction^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -1289,52 +1386,37 @@ public:
 }; // class Standard_Condition
 
 //---------------------------------------------------------------------
-//  Class  Standard_Persistent
+//  Class  Standard_CStringHasher
 //---------------------------------------------------------------------
-/// <summary>
-/// Root of "persistent" classes, a legacy support of
-/// object oriented databases, now outdated.
-/// </summary>
-public ref class Standard_Persistent sealed
-    : public Macad::Occt::Standard_Transient
+public ref class Standard_CStringHasher sealed
+    : public Macad::Occt::BaseClass<::Standard_CStringHasher>
 {
 
-#ifdef Include_Standard_Persistent_h
+#ifdef Include_Standard_CStringHasher_h
 public:
-    Include_Standard_Persistent_h
+    Include_Standard_CStringHasher_h
 #endif
 
 public:
-    Standard_Persistent(::Standard_Persistent* nativeInstance)
-        : Macad::Occt::Standard_Transient( nativeInstance )
+    Standard_CStringHasher(::Standard_CStringHasher* nativeInstance)
+        : Macad::Occt::BaseClass<::Standard_CStringHasher>( nativeInstance, true )
     {}
 
-    Standard_Persistent(::Standard_Persistent& nativeInstance)
-        : Macad::Occt::Standard_Transient( nativeInstance )
+    Standard_CStringHasher(::Standard_CStringHasher& nativeInstance)
+        : Macad::Occt::BaseClass<::Standard_CStringHasher>( &nativeInstance, false )
     {}
 
-    property ::Standard_Persistent* NativeInstance
+    property ::Standard_CStringHasher* NativeInstance
     {
-        ::Standard_Persistent* get()
+        ::Standard_CStringHasher* get()
         {
-            return static_cast<::Standard_Persistent*>(_NativeInstance);
+            return static_cast<::Standard_CStringHasher*>(_NativeInstance);
         }
     }
 
 public:
-    property int TypeNum {
-        int get() {
-            return ((::Standard_Persistent*)_NativeInstance)->TypeNum();
-        }
-        void set(int value) {
-            ((::Standard_Persistent*)_NativeInstance)->TypeNum() = value;
-        }
-    }
-
-    Standard_Persistent();
-    Standard_Persistent(Macad::Occt::Standard_Persistent^ parameter1);
-    static Macad::Occt::Standard_Persistent^ CreateDowncasted(::Standard_Persistent* instance);
-}; // class Standard_Persistent
+    Standard_CStringHasher();
+}; // class Standard_CStringHasher
 
 //---------------------------------------------------------------------
 //  Class  Standard_NumericError
@@ -1374,7 +1456,6 @@ public:
     Standard_NumericError();
     Standard_NumericError(System::String^ theMessage);
     Standard_NumericError(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_NumericError(Macad::Occt::Standard_NumericError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -1417,7 +1498,6 @@ public:
     Standard_DivideByZero();
     Standard_DivideByZero(System::String^ theMessage);
     Standard_DivideByZero(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_DivideByZero(Macad::Occt::Standard_DivideByZero^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -1512,7 +1592,6 @@ public:
         }
 
     public:
-        Callback(Macad::Occt::Standard_ErrorHandler::Callback^ parameter1);
         void RegisterCallback();
         void UnregisterCallback();
         /// <summary>
@@ -1528,7 +1607,6 @@ public:
     /// It uses the "setjmp" and "longjmp" routines.
     /// </summary>
     Standard_ErrorHandler();
-    Standard_ErrorHandler(Macad::Occt::Standard_ErrorHandler^ parameter1);
     /// <summary>
     /// Unlinks and checks if there is a raised exception.
     /// </summary>
@@ -1592,7 +1670,6 @@ public:
     Standard_GUID(System::String^ aGuid);
     /* Method skipped due to unknown mapping: void Standard_GUID(int a32b, char16_t a16b1, char16_t a16b2, char16_t a16b3, unsigned char a8b1, unsigned char a8b2, unsigned char a8b3, unsigned char a8b4, unsigned char a8b5, unsigned char a8b6, ) */
     Standard_GUID(Macad::Occt::Standard_UUID^ aGuid);
-    Standard_GUID(Macad::Occt::Standard_GUID^ aGuid);
     Macad::Occt::Standard_UUID^ ToUUID();
     /// <summary>
     /// translate the GUID into ascii string
@@ -1618,28 +1695,6 @@ public:
     /// It checks the size, the position of the '-' and the correct size of fields.
     /// </summary>
     static bool CheckGUIDFormat(System::String^ aGuid);
-    /// <summary>
-    /// Hash function for GUID.
-    /// </summary>
-    int Hash(int Upper);
-    /// <summary>
-    /// Computes a hash code for the given GUID of the Standard_Integer type, in the range [1, theUpperBound]
-    /// </summary>
-    /// <param name="theGUID">
-    /// the GUID which hash code is to be computed
-    /// </param>
-    /// <param name="theUpperBound">
-    /// the upper bound of the range a computing hash code must be within
-    /// </param>
-    /// <returns>
-    /// a computed hash code, in the range [1, theUpperBound]
-    /// </returns>
-    static int HashCode(Macad::Occt::Standard_GUID^ theGUID, int theUpperBound);
-    /// <summary>
-    /// Returns True  when the two GUID are the same.
-    /// </summary>
-    static bool IsEqual(Macad::Occt::Standard_GUID^ string1, Macad::Occt::Standard_GUID^ string2);
-    bool Equals(System::Object^ obj) override;
     int GetHashCode() override;
 }; // class Standard_GUID
 
@@ -1676,7 +1731,6 @@ public:
     Standard_ImmutableObject();
     Standard_ImmutableObject(System::String^ theMessage);
     Standard_ImmutableObject(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_ImmutableObject(Macad::Occt::Standard_ImmutableObject^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -1724,7 +1778,6 @@ public:
     Standard_LicenseError();
     Standard_LicenseError(System::String^ theMessage);
     Standard_LicenseError(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_LicenseError(Macad::Occt::Standard_LicenseError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -1767,7 +1820,6 @@ public:
     Standard_LicenseNotFound();
     Standard_LicenseNotFound(System::String^ theMessage);
     Standard_LicenseNotFound(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_LicenseNotFound(Macad::Occt::Standard_LicenseNotFound^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -1795,11 +1847,6 @@ public:
     Include_Standard_MMgrRoot_h
 #endif
 
-protected:
-    Standard_MMgrRoot(InitMode init)
-        : Macad::Occt::BaseClass<::Standard_MMgrRoot>( init )
-    {}
-
 public:
     Standard_MMgrRoot(::Standard_MMgrRoot* nativeInstance)
         : Macad::Occt::BaseClass<::Standard_MMgrRoot>( nativeInstance, true )
@@ -1818,7 +1865,6 @@ public:
     }
 
 public:
-    Standard_MMgrRoot(Macad::Occt::Standard_MMgrRoot^ parameter1);
     Standard_MMgrRoot();
     /// <summary>
     /// Allocate specified number of bytes.
@@ -1873,133 +1919,6 @@ public:
 }; // class Standard_MMgrRoot
 
 //---------------------------------------------------------------------
-//  Class  Standard_MMgrRaw
-//---------------------------------------------------------------------
-/// <summary>
-/// /**
-/// * Implementation of raw OCC memory manager which uses standard C
-/// * functions: malloc (or calloc), free and realloc
-/// * without any optimization
-/// */
-/// </summary>
-public ref class Standard_MMgrRaw sealed
-    : public Macad::Occt::Standard_MMgrRoot
-{
-
-#ifdef Include_Standard_MMgrRaw_h
-public:
-    Include_Standard_MMgrRaw_h
-#endif
-
-public:
-    Standard_MMgrRaw(::Standard_MMgrRaw* nativeInstance)
-        : Macad::Occt::Standard_MMgrRoot( nativeInstance )
-    {}
-
-    Standard_MMgrRaw(::Standard_MMgrRaw& nativeInstance)
-        : Macad::Occt::Standard_MMgrRoot( nativeInstance )
-    {}
-
-    property ::Standard_MMgrRaw* NativeInstance
-    {
-        ::Standard_MMgrRaw* get()
-        {
-            return static_cast<::Standard_MMgrRaw*>(_NativeInstance);
-        }
-    }
-
-public:
-    /// <summary>
-    /// Constructor; if aClear is True, the memory will be nullified
-    /// upon allocation.
-    /// </summary>
-    Standard_MMgrRaw(bool aClear);
-    /// <summary>
-    /// Constructor; if aClear is True, the memory will be nullified
-    /// upon allocation.
-    /// </summary>
-    Standard_MMgrRaw();
-    Standard_MMgrRaw(Macad::Occt::Standard_MMgrRaw^ parameter1);
-    /// <summary>
-    /// Allocate aSize bytes
-    /// </summary>
-    System::IntPtr Allocate(long long unsigned int aSize);
-    /// <summary>
-    /// Reallocate aPtr to the size aSize.
-    /// The new pointer is returned.
-    /// </summary>
-    System::IntPtr Reallocate(System::IntPtr thePtr, long long unsigned int theSize);
-    /// <summary>
-    /// Free allocated memory. The pointer is nullified.
-    /// </summary>
-    void Free(System::IntPtr thePtr);
-}; // class Standard_MMgrRaw
-
-//---------------------------------------------------------------------
-//  Class  Standard_MMgrTBBalloc
-//---------------------------------------------------------------------
-/// <summary>
-/// 
-/// Implementation of OCC memory manager which uses Intel TBB
-/// scalable allocator.
-/// 
-/// On configurations where TBB is not available standard RTL functions
-/// malloc() / free() are used.
-/// </summary>
-public ref class Standard_MMgrTBBalloc sealed
-    : public Macad::Occt::Standard_MMgrRoot
-{
-
-#ifdef Include_Standard_MMgrTBBalloc_h
-public:
-    Include_Standard_MMgrTBBalloc_h
-#endif
-
-public:
-    Standard_MMgrTBBalloc(::Standard_MMgrTBBalloc* nativeInstance)
-        : Macad::Occt::Standard_MMgrRoot( nativeInstance )
-    {}
-
-    Standard_MMgrTBBalloc(::Standard_MMgrTBBalloc& nativeInstance)
-        : Macad::Occt::Standard_MMgrRoot( nativeInstance )
-    {}
-
-    property ::Standard_MMgrTBBalloc* NativeInstance
-    {
-        ::Standard_MMgrTBBalloc* get()
-        {
-            return static_cast<::Standard_MMgrTBBalloc*>(_NativeInstance);
-        }
-    }
-
-public:
-    /// <summary>
-    /// Constructor; if aClear is True, the memory will be nullified
-    /// upon allocation.
-    /// </summary>
-    Standard_MMgrTBBalloc(bool aClear);
-    /// <summary>
-    /// Constructor; if aClear is True, the memory will be nullified
-    /// upon allocation.
-    /// </summary>
-    Standard_MMgrTBBalloc();
-    Standard_MMgrTBBalloc(Macad::Occt::Standard_MMgrTBBalloc^ parameter1);
-    /// <summary>
-    /// Allocate aSize bytes
-    /// </summary>
-    System::IntPtr Allocate(long long unsigned int aSize);
-    /// <summary>
-    /// Reallocate aPtr to the size aSize.
-    /// The new pointer is returned.
-    /// </summary>
-    System::IntPtr Reallocate(System::IntPtr thePtr, long long unsigned int theSize);
-    /// <summary>
-    /// Free allocated memory
-    /// </summary>
-    void Free(System::IntPtr thePtr);
-}; // class Standard_MMgrTBBalloc
-
-//---------------------------------------------------------------------
 //  Class  Standard_MultiplyDefined
 //---------------------------------------------------------------------
 public ref class Standard_MultiplyDefined sealed
@@ -2032,7 +1951,6 @@ public:
     Standard_MultiplyDefined();
     Standard_MultiplyDefined(System::String^ theMessage);
     Standard_MultiplyDefined(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_MultiplyDefined(Macad::Occt::Standard_MultiplyDefined^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -2075,7 +1993,6 @@ public:
     Standard_NegativeValue();
     Standard_NegativeValue(System::String^ theMessage);
     Standard_NegativeValue(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_NegativeValue(Macad::Occt::Standard_NegativeValue^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -2118,7 +2035,6 @@ public:
     Standard_NoMoreObject();
     Standard_NoMoreObject(System::String^ theMessage);
     Standard_NoMoreObject(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_NoMoreObject(Macad::Occt::Standard_NoMoreObject^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -2127,49 +2043,6 @@ public:
     static Macad::Occt::Standard_NoMoreObject^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
     static Macad::Occt::Standard_NoMoreObject^ CreateDowncasted(::Standard_NoMoreObject* instance);
 }; // class Standard_NoMoreObject
-
-//---------------------------------------------------------------------
-//  Class  Standard_NotImplemented
-//---------------------------------------------------------------------
-public ref class Standard_NotImplemented sealed
-    : public Macad::Occt::Standard_ProgramError
-{
-
-#ifdef Include_Standard_NotImplemented_h
-public:
-    Include_Standard_NotImplemented_h
-#endif
-
-public:
-    Standard_NotImplemented(::Standard_NotImplemented* nativeInstance)
-        : Macad::Occt::Standard_ProgramError( nativeInstance )
-    {}
-
-    Standard_NotImplemented(::Standard_NotImplemented& nativeInstance)
-        : Macad::Occt::Standard_ProgramError( nativeInstance )
-    {}
-
-    property ::Standard_NotImplemented* NativeInstance
-    {
-        ::Standard_NotImplemented* get()
-        {
-            return static_cast<::Standard_NotImplemented*>(_NativeInstance);
-        }
-    }
-
-public:
-    Standard_NotImplemented();
-    Standard_NotImplemented(System::String^ theMessage);
-    Standard_NotImplemented(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_NotImplemented(Macad::Occt::Standard_NotImplemented^ parameter1);
-    static void Raise(System::String^ theMessage);
-    static void Raise();
-    /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
-    static Macad::Occt::Standard_NotImplemented^ NewInstance(System::String^ theMessage);
-    static Macad::Occt::Standard_NotImplemented^ NewInstance();
-    static Macad::Occt::Standard_NotImplemented^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
-    static Macad::Occt::Standard_NotImplemented^ CreateDowncasted(::Standard_NotImplemented* instance);
-}; // class Standard_NotImplemented
 
 //---------------------------------------------------------------------
 //  Class  Standard_NullObject
@@ -2204,7 +2077,6 @@ public:
     Standard_NullObject();
     Standard_NullObject(System::String^ theMessage);
     Standard_NullObject(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_NullObject(Macad::Occt::Standard_NullObject^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -2247,7 +2119,6 @@ public:
     Standard_NullValue();
     Standard_NullValue(System::String^ theMessage);
     Standard_NullValue(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_NullValue(Macad::Occt::Standard_NullValue^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -2290,7 +2161,6 @@ public:
     Standard_Overflow();
     Standard_Overflow(System::String^ theMessage);
     Standard_Overflow(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_Overflow(Macad::Occt::Standard_Overflow^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -2341,7 +2211,6 @@ public:
     /// Constructor with initialization.
     /// </summary>
     Standard_ReadBuffer(long long int theDataLen, long long unsigned int theChunkLen);
-    Standard_ReadBuffer(Macad::Occt::Standard_ReadBuffer^ parameter1);
     /// <summary>
     /// Initialize the buffer.
     /// </summary>
@@ -2418,7 +2287,6 @@ public:
     /// the length of buffer to read (in bytes)
     /// </param>
     Standard_ReadLineBuffer(long long unsigned int theMaxBufferSizeBytes);
-    Standard_ReadLineBuffer(Macad::Occt::Standard_ReadLineBuffer^ parameter1);
     /// <summary>
     /// Clear buffer and cached values.
     /// </summary>
@@ -2497,7 +2365,6 @@ public:
     Standard_Underflow();
     Standard_Underflow(System::String^ theMessage);
     Standard_Underflow(System::String^ theMessage, System::String^ theStackTrace);
-    Standard_Underflow(Macad::Occt::Standard_Underflow^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */

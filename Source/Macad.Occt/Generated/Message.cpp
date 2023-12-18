@@ -26,12 +26,6 @@ Macad::Occt::Message_ListOfAlert::Message_ListOfAlert(Macad::Occt::NCollection_B
     _NativeInstance = new ::Message_ListOfAlert(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::Message_ListOfAlert::Message_ListOfAlert(Macad::Occt::Message_ListOfAlert^ theOther)
-    : Macad::Occt::NCollection_BaseList(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Message_ListOfAlert(*(::Message_ListOfAlert*)theOther->NativeInstance);
-}
-
 int Macad::Occt::Message_ListOfAlert::Size()
 {
     int _result = ((::Message_ListOfAlert*)_NativeInstance)->Size();
@@ -55,16 +49,6 @@ void Macad::Occt::Message_ListOfAlert::Clear()
     ((::Message_ListOfAlert*)_NativeInstance)->Clear(0L);
 }
 
-void Macad::Occt::Message_ListOfAlert::Append(Macad::Occt::Message_ListOfAlert^ theOther)
-{
-    ((::Message_ListOfAlert*)_NativeInstance)->Append(*(::Message_ListOfAlert*)theOther->NativeInstance);
-}
-
-void Macad::Occt::Message_ListOfAlert::Prepend(Macad::Occt::Message_ListOfAlert^ theOther)
-{
-    ((::Message_ListOfAlert*)_NativeInstance)->Prepend(*(::Message_ListOfAlert*)theOther->NativeInstance);
-}
-
 void Macad::Occt::Message_ListOfAlert::RemoveFirst()
 {
     ((::Message_ListOfAlert*)_NativeInstance)->RemoveFirst();
@@ -80,12 +64,6 @@ void Macad::Occt::Message_ListOfAlert::Reverse()
 //---------------------------------------------------------------------
 //  Class  Message_Printer
 //---------------------------------------------------------------------
-
-Macad::Occt::Message_Printer::Message_Printer(Macad::Occt::Message_Printer^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
 
 Macad::Occt::Message_Gravity Macad::Occt::Message_Printer::GetTraceLevel()
 {
@@ -141,12 +119,6 @@ Macad::Occt::Message_Messenger::Message_Messenger(Macad::Occt::Message_Printer^ 
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Message_Messenger(Handle(::Message_Printer)(thePrinter->NativeInstance));
-}
-
-Macad::Occt::Message_Messenger::Message_Messenger(Macad::Occt::Message_Messenger^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Message_Messenger(*(::Message_Messenger*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::Message_Messenger::AddPrinter(Macad::Occt::Message_Printer^ thePrinter)
@@ -276,7 +248,7 @@ bool Macad::Occt::Message_Report::IsActiveInMessenger(Macad::Occt::Message_Messe
 
 bool Macad::Occt::Message_Report::IsActiveInMessenger()
 {
-    bool _result = ((::Message_Report*)_NativeInstance)->IsActiveInMessenger(0);
+    bool _result = ((::Message_Report*)_NativeInstance)->IsActiveInMessenger(nullptr);
     return _result;
 }
 
@@ -287,7 +259,7 @@ void Macad::Occt::Message_Report::ActivateInMessenger(bool toActivate, Macad::Oc
 
 void Macad::Occt::Message_Report::ActivateInMessenger(bool toActivate)
 {
-    ((::Message_Report*)_NativeInstance)->ActivateInMessenger(toActivate, 0);
+    ((::Message_Report*)_NativeInstance)->ActivateInMessenger(toActivate, nullptr);
 }
 
 void Macad::Occt::Message_Report::UpdateActiveInMessenger(Macad::Occt::Message_Messenger^ theMessenger)
@@ -297,7 +269,7 @@ void Macad::Occt::Message_Report::UpdateActiveInMessenger(Macad::Occt::Message_M
 
 void Macad::Occt::Message_Report::UpdateActiveInMessenger()
 {
-    ((::Message_Report*)_NativeInstance)->UpdateActiveInMessenger(0);
+    ((::Message_Report*)_NativeInstance)->UpdateActiveInMessenger(nullptr);
 }
 
 void Macad::Occt::Message_Report::Clear()
@@ -396,12 +368,6 @@ Macad::Occt::Message::Message()
     _NativeInstance = new ::Message();
 }
 
-Macad::Occt::Message::Message(Macad::Occt::Message^ parameter1)
-    : Macad::Occt::BaseClass<::Message>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Message(*(::Message*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Message_Messenger^ Macad::Occt::Message::DefaultMessenger()
 {
     Handle(::Message_Messenger) _result = ::Message::DefaultMessenger();
@@ -490,12 +456,6 @@ Macad::Occt::Message_ProgressRange::Message_ProgressRange()
     : Macad::Occt::BaseClass<::Message_ProgressRange>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Message_ProgressRange();
-}
-
-Macad::Occt::Message_ProgressRange::Message_ProgressRange(Macad::Occt::Message_ProgressRange^ theOther)
-    : Macad::Occt::BaseClass<::Message_ProgressRange>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Message_ProgressRange(*(::Message_ProgressRange*)theOther->NativeInstance);
 }
 
 bool Macad::Occt::Message_ProgressRange::UserBreak()

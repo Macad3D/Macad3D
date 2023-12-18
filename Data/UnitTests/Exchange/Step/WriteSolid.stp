@@ -1,8 +1,8 @@
 ISO-10303-21;
 HEADER;
 FILE_DESCRIPTION(('Open CASCADE Model'),'2;1');
-FILE_NAME('Open CASCADE Shape Model','2022-12-31T17:54:40',('Author'),(
-    'Open CASCADE'),'Open CASCADE STEP processor 7.7','Open CASCADE 7.7'
+FILE_NAME('Open CASCADE Shape Model','2023-12-17T18:14:31',('Author'),(
+    'Open CASCADE'),'Open CASCADE STEP processor 7.8','Open CASCADE 7.8'
   ,'Unknown');
 FILE_SCHEMA(('AUTOMOTIVE_DESIGN { 1 0 10303 214 1 1 1 1 }'));
 ENDSEC;
@@ -15,8 +15,8 @@ DATA;
 #4 = PRODUCT_DEFINITION_SHAPE('','',#5);
 #5 = PRODUCT_DEFINITION('design','',#6,#9);
 #6 = PRODUCT_DEFINITION_FORMATION('','',#7);
-#7 = PRODUCT('Open CASCADE STEP translator 7.7 1',
-  'Open CASCADE STEP translator 7.7 1','',(#8));
+#7 = PRODUCT('Open CASCADE STEP translator 7.8 1',
+  'Open CASCADE STEP translator 7.8 1','',(#8));
 #8 = PRODUCT_CONTEXT('',#2,'mechanical');
 #9 = PRODUCT_DEFINITION_CONTEXT('part definition',#2,'design');
 #10 = ADVANCED_BREP_SHAPE_REPRESENTATION('',(#11,#15),#345);
@@ -416,8 +416,8 @@ GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT((#349)) GLOBAL_UNIT_ASSIGNED_CONTEXT
 #352 = PRODUCT_DEFINITION_SHAPE('','',#353);
 #353 = PRODUCT_DEFINITION('design','',#354,#357);
 #354 = PRODUCT_DEFINITION_FORMATION('','',#355);
-#355 = PRODUCT('Open CASCADE STEP translator 7.7 2',
-  'Open CASCADE STEP translator 7.7 2','',(#356));
+#355 = PRODUCT('Open CASCADE STEP translator 7.8 2',
+  'Open CASCADE STEP translator 7.8 2','',(#356));
 #356 = PRODUCT_CONTEXT('',#2,'mechanical');
 #357 = PRODUCT_DEFINITION_CONTEXT('part definition',#2,'design');
 #358 = ADVANCED_BREP_SHAPE_REPRESENTATION('',(#11,#359),#457);
@@ -545,8 +545,8 @@ GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT((#461)) GLOBAL_UNIT_ASSIGNED_CONTEXT
 #464 = PRODUCT_DEFINITION_SHAPE('','',#465);
 #465 = PRODUCT_DEFINITION('design','',#466,#469);
 #466 = PRODUCT_DEFINITION_FORMATION('','',#467);
-#467 = PRODUCT('Open CASCADE STEP translator 7.7 3',
-  'Open CASCADE STEP translator 7.7 3','',(#468));
+#467 = PRODUCT('Open CASCADE STEP translator 7.8 3',
+  'Open CASCADE STEP translator 7.8 3','',(#468));
 #468 = PRODUCT_CONTEXT('',#2,'mechanical');
 #469 = PRODUCT_DEFINITION_CONTEXT('part definition',#2,'design');
 #470 = ADVANCED_BREP_SHAPE_REPRESENTATION('',(#11,#471),#483);

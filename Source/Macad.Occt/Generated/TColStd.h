@@ -67,24 +67,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColStd_Array1OfAsciiString^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_Array1OfAsciiString^ theArray);
-        Iterator(Macad::Occt::TColStd_Array1OfAsciiString::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_Array1OfAsciiString^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_Array1OfAsciiString::Iterator^ theOther);
-        Macad::Occt::TCollection_AsciiString^ Value();
-        Macad::Occt::TCollection_AsciiString^ ChangeValue();
-        bool IsEqual(Macad::Occt::TColStd_Array1OfAsciiString::Iterator^ theOther);
     }; // class Iterator
 
     TColStd_Array1OfAsciiString();
     TColStd_Array1OfAsciiString(int theLower, int theUpper);
-    TColStd_Array1OfAsciiString(Macad::Occt::TColStd_Array1OfAsciiString^ theOther);
+    /* Method skipped due to unknown mapping: void TColStd_Array1OfAsciiString(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColStd_Array1OfAsciiString(Macad::Occt::TCollection_AsciiString^ theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColStd_Array1OfAsciiString(Macad::Occt::TCollection_AsciiString^ theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::TCollection_AsciiString^ theValue);
     int Size();
@@ -92,8 +80,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_Array1OfAsciiString^ Assign(Macad::Occt::TColStd_Array1OfAsciiString^ theOther);
     Macad::Occt::TColStd_Array1OfAsciiString^ Move(Macad::Occt::TColStd_Array1OfAsciiString^ theOther);
     Macad::Occt::TCollection_AsciiString^ First();
@@ -103,7 +89,10 @@ public:
     virtual Macad::Occt::TCollection_AsciiString^ Value(int theIndex);
     Macad::Occt::TCollection_AsciiString^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::TCollection_AsciiString^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::TCollection_AsciiString^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_Array1OfAsciiString
@@ -166,27 +155,6 @@ public:
         }
 
     public:
-        property bool ChangeValue {
-            bool get() {
-                return ((::TColStd_Array1OfBoolean::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(bool value) {
-                ((::TColStd_Array1OfBoolean::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_Array1OfBoolean^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_Array1OfBoolean^ theArray);
-        Iterator(Macad::Occt::TColStd_Array1OfBoolean::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_Array1OfBoolean^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_Array1OfBoolean::Iterator^ theOther);
-        bool Value();
-        bool IsEqual(Macad::Occt::TColStd_Array1OfBoolean::Iterator^ theOther);
     }; // class Iterator
 
     property bool ChangeFirst {
@@ -209,7 +177,8 @@ public:
 
     TColStd_Array1OfBoolean();
     TColStd_Array1OfBoolean(int theLower, int theUpper);
-    TColStd_Array1OfBoolean(Macad::Occt::TColStd_Array1OfBoolean^ theOther);
+    /* Method skipped due to unknown mapping: void TColStd_Array1OfBoolean(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColStd_Array1OfBoolean(bool theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColStd_Array1OfBoolean(bool theBegin, int theLower, int theUpper);
     void Init(bool theValue);
     int Size();
@@ -217,8 +186,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_Array1OfBoolean^ Assign(Macad::Occt::TColStd_Array1OfBoolean^ theOther);
     Macad::Occt::TColStd_Array1OfBoolean^ Move(Macad::Occt::TColStd_Array1OfBoolean^ theOther);
     bool First();
@@ -226,7 +193,10 @@ public:
     virtual bool Value(int theIndex);
     bool ChangeValue(int theIndex);
     void SetValue(int theIndex, bool theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<bool>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_Array1OfBoolean
@@ -289,27 +259,6 @@ public:
         }
 
     public:
-        property unsigned char ChangeValue {
-            unsigned char get() {
-                return ((::TColStd_Array1OfByte::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(unsigned char value) {
-                ((::TColStd_Array1OfByte::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_Array1OfByte^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_Array1OfByte^ theArray);
-        Iterator(Macad::Occt::TColStd_Array1OfByte::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_Array1OfByte^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_Array1OfByte::Iterator^ theOther);
-        unsigned char Value();
-        bool IsEqual(Macad::Occt::TColStd_Array1OfByte::Iterator^ theOther);
     }; // class Iterator
 
     property unsigned char ChangeFirst {
@@ -332,7 +281,8 @@ public:
 
     TColStd_Array1OfByte();
     TColStd_Array1OfByte(int theLower, int theUpper);
-    TColStd_Array1OfByte(Macad::Occt::TColStd_Array1OfByte^ theOther);
+    /* Method skipped due to unknown mapping: void TColStd_Array1OfByte(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColStd_Array1OfByte(unsigned char theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColStd_Array1OfByte(unsigned char theBegin, int theLower, int theUpper);
     void Init(unsigned char theValue);
     int Size();
@@ -340,8 +290,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_Array1OfByte^ Assign(Macad::Occt::TColStd_Array1OfByte^ theOther);
     Macad::Occt::TColStd_Array1OfByte^ Move(Macad::Occt::TColStd_Array1OfByte^ theOther);
     unsigned char First();
@@ -349,7 +297,10 @@ public:
     virtual unsigned char Value(int theIndex);
     unsigned char ChangeValue(int theIndex);
     void SetValue(int theIndex, unsigned char theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<unsigned char>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_Array1OfByte
@@ -412,27 +363,6 @@ public:
         }
 
     public:
-        property char ChangeValue {
-            char get() {
-                return ((::TColStd_Array1OfCharacter::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(char value) {
-                ((::TColStd_Array1OfCharacter::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_Array1OfCharacter^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_Array1OfCharacter^ theArray);
-        Iterator(Macad::Occt::TColStd_Array1OfCharacter::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_Array1OfCharacter^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_Array1OfCharacter::Iterator^ theOther);
-        char Value();
-        bool IsEqual(Macad::Occt::TColStd_Array1OfCharacter::Iterator^ theOther);
     }; // class Iterator
 
     property char ChangeFirst {
@@ -455,7 +385,8 @@ public:
 
     TColStd_Array1OfCharacter();
     TColStd_Array1OfCharacter(int theLower, int theUpper);
-    TColStd_Array1OfCharacter(Macad::Occt::TColStd_Array1OfCharacter^ theOther);
+    /* Method skipped due to unknown mapping: void TColStd_Array1OfCharacter(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColStd_Array1OfCharacter(char theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColStd_Array1OfCharacter(char theBegin, int theLower, int theUpper);
     void Init(char theValue);
     int Size();
@@ -463,8 +394,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_Array1OfCharacter^ Assign(Macad::Occt::TColStd_Array1OfCharacter^ theOther);
     Macad::Occt::TColStd_Array1OfCharacter^ Move(Macad::Occt::TColStd_Array1OfCharacter^ theOther);
     char First();
@@ -472,7 +401,10 @@ public:
     virtual char Value(int theIndex);
     char ChangeValue(int theIndex);
     void SetValue(int theIndex, char theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<char>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_Array1OfCharacter
@@ -535,24 +467,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColStd_Array1OfExtendedString^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_Array1OfExtendedString^ theArray);
-        Iterator(Macad::Occt::TColStd_Array1OfExtendedString::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_Array1OfExtendedString^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_Array1OfExtendedString::Iterator^ theOther);
-        Macad::Occt::TCollection_ExtendedString^ Value();
-        Macad::Occt::TCollection_ExtendedString^ ChangeValue();
-        bool IsEqual(Macad::Occt::TColStd_Array1OfExtendedString::Iterator^ theOther);
     }; // class Iterator
 
     TColStd_Array1OfExtendedString();
     TColStd_Array1OfExtendedString(int theLower, int theUpper);
-    TColStd_Array1OfExtendedString(Macad::Occt::TColStd_Array1OfExtendedString^ theOther);
+    /* Method skipped due to unknown mapping: void TColStd_Array1OfExtendedString(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColStd_Array1OfExtendedString(Macad::Occt::TCollection_ExtendedString^ theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColStd_Array1OfExtendedString(Macad::Occt::TCollection_ExtendedString^ theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::TCollection_ExtendedString^ theValue);
     int Size();
@@ -560,8 +480,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_Array1OfExtendedString^ Assign(Macad::Occt::TColStd_Array1OfExtendedString^ theOther);
     Macad::Occt::TColStd_Array1OfExtendedString^ Move(Macad::Occt::TColStd_Array1OfExtendedString^ theOther);
     Macad::Occt::TCollection_ExtendedString^ First();
@@ -571,7 +489,10 @@ public:
     virtual Macad::Occt::TCollection_ExtendedString^ Value(int theIndex);
     Macad::Occt::TCollection_ExtendedString^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::TCollection_ExtendedString^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::TCollection_ExtendedString^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_Array1OfExtendedString
@@ -634,27 +555,6 @@ public:
         }
 
     public:
-        property int ChangeValue {
-            int get() {
-                return ((::TColStd_Array1OfInteger::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(int value) {
-                ((::TColStd_Array1OfInteger::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_Array1OfInteger^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_Array1OfInteger^ theArray);
-        Iterator(Macad::Occt::TColStd_Array1OfInteger::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_Array1OfInteger^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_Array1OfInteger::Iterator^ theOther);
-        int Value();
-        bool IsEqual(Macad::Occt::TColStd_Array1OfInteger::Iterator^ theOther);
     }; // class Iterator
 
     property int ChangeFirst {
@@ -677,7 +577,8 @@ public:
 
     TColStd_Array1OfInteger();
     TColStd_Array1OfInteger(int theLower, int theUpper);
-    TColStd_Array1OfInteger(Macad::Occt::TColStd_Array1OfInteger^ theOther);
+    /* Method skipped due to unknown mapping: void TColStd_Array1OfInteger(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColStd_Array1OfInteger(int theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColStd_Array1OfInteger(int theBegin, int theLower, int theUpper);
     void Init(int theValue);
     int Size();
@@ -685,8 +586,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_Array1OfInteger^ Assign(Macad::Occt::TColStd_Array1OfInteger^ theOther);
     Macad::Occt::TColStd_Array1OfInteger^ Move(Macad::Occt::TColStd_Array1OfInteger^ theOther);
     int First();
@@ -694,7 +593,10 @@ public:
     virtual int Value(int theIndex);
     int ChangeValue(int theIndex);
     void SetValue(int theIndex, int theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<int>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_Array1OfInteger
@@ -767,8 +669,6 @@ public:
         }
 
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::TColStd_ListOfInteger::Iterator^ parameter1);
         bool More() override;
         void Next() override;
         int Value() override;
@@ -776,7 +676,6 @@ public:
 
     TColStd_ListOfInteger();
     TColStd_ListOfInteger(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_ListOfInteger(Macad::Occt::TColStd_ListOfInteger^ theOther);
     int Size();
     Macad::Occt::TColStd_ListOfInteger^ Assign(Macad::Occt::TColStd_ListOfInteger^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -784,16 +683,11 @@ public:
     int First();
     int Last();
     int Append(int theItem);
-    void Append(int theItem, Macad::Occt::TColStd_ListOfInteger::Iterator^ theIter);
-    void Append(Macad::Occt::TColStd_ListOfInteger^ theOther);
     int Prepend(int theItem);
-    void Prepend(Macad::Occt::TColStd_ListOfInteger^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::TColStd_ListOfInteger::Iterator^ theIter);
     int InsertBefore(int theItem, Macad::Occt::TColStd_ListOfInteger::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::TColStd_ListOfInteger^ theOther, Macad::Occt::TColStd_ListOfInteger::Iterator^ theIter);
     int InsertAfter(int theItem, Macad::Occt::TColStd_ListOfInteger::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::TColStd_ListOfInteger^ theOther, Macad::Occt::TColStd_ListOfInteger::Iterator^ theIter);
     void Reverse();
     virtual System::Collections::Generic::IEnumerator<int>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -840,7 +734,6 @@ public:
 
     TColStd_ListIteratorOfListOfInteger();
     TColStd_ListIteratorOfListOfInteger(Macad::Occt::NCollection_BaseList^ theList);
-    TColStd_ListIteratorOfListOfInteger(Macad::Occt::TColStd_ListIteratorOfListOfInteger^ parameter1);
     bool More();
     void Next();
     int Value();
@@ -851,7 +744,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_Array1OfListOfInteger sealed
     : public Macad::Occt::BaseClass<::TColStd_Array1OfListOfInteger>
-    , public IIndexEnumerable<Macad::Occt::TColStd_ListOfInteger^>
 {
 
 #ifdef Include_TColStd_Array1OfListOfInteger_h
@@ -904,45 +796,32 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColStd_Array1OfListOfInteger^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_Array1OfListOfInteger^ theArray);
-        Iterator(Macad::Occt::TColStd_Array1OfListOfInteger::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_Array1OfListOfInteger^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_Array1OfListOfInteger::Iterator^ theOther);
-        Macad::Occt::TColStd_ListOfInteger^ Value();
-        Macad::Occt::TColStd_ListOfInteger^ ChangeValue();
-        bool IsEqual(Macad::Occt::TColStd_Array1OfListOfInteger::Iterator^ theOther);
     }; // class Iterator
 
     TColStd_Array1OfListOfInteger();
     TColStd_Array1OfListOfInteger(int theLower, int theUpper);
-    TColStd_Array1OfListOfInteger(Macad::Occt::TColStd_Array1OfListOfInteger^ theOther);
-    TColStd_Array1OfListOfInteger(Macad::Occt::TColStd_ListOfInteger^ theBegin, int theLower, int theUpper);
-    void Init(Macad::Occt::TColStd_ListOfInteger^ theValue);
+    /* Method skipped due to unknown mapping: void TColStd_Array1OfListOfInteger(allocator_type theAlloc, int theLower, int theUpper, ) */
+    /* Method skipped due to unknown mapping: void TColStd_Array1OfListOfInteger(const_reference theBegin, int theLower, int theUpper, bool theUseBuffer, ) */
+    /* Method skipped due to unknown mapping: void TColStd_Array1OfListOfInteger(const_reference theBegin, int theLower, int theUpper, bool theUseBuffer, ) */
+    /* Method skipped due to unknown mapping: void Init(const_reference theValue, ) */
     int Size();
     int Length();
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_Array1OfListOfInteger^ Assign(Macad::Occt::TColStd_Array1OfListOfInteger^ theOther);
     Macad::Occt::TColStd_Array1OfListOfInteger^ Move(Macad::Occt::TColStd_Array1OfListOfInteger^ theOther);
-    Macad::Occt::TColStd_ListOfInteger^ First();
-    Macad::Occt::TColStd_ListOfInteger^ ChangeFirst();
-    Macad::Occt::TColStd_ListOfInteger^ Last();
-    Macad::Occt::TColStd_ListOfInteger^ ChangeLast();
-    virtual Macad::Occt::TColStd_ListOfInteger^ Value(int theIndex);
-    Macad::Occt::TColStd_ListOfInteger^ ChangeValue(int theIndex);
-    void SetValue(int theIndex, Macad::Occt::TColStd_ListOfInteger^ theItem);
+    /* Method skipped due to unknown mapping: const_reference First() */
+    /* Method skipped due to unknown mapping: reference ChangeFirst() */
+    /* Method skipped due to unknown mapping: const_reference Last() */
+    /* Method skipped due to unknown mapping: reference ChangeLast() */
+    /* Method skipped due to unknown mapping: const_reference Value(int theIndex, ) */
+    /* Method skipped due to unknown mapping: reference ChangeValue(int theIndex, ) */
+    /* Method skipped due to unknown mapping: void SetValue(int theIndex, value_type theItem, ) */
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::TColStd_ListOfInteger^>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    bool IsDeletable();
 }; // class TColStd_Array1OfListOfInteger
 
 //---------------------------------------------------------------------
@@ -1003,27 +882,6 @@ public:
         }
 
     public:
-        property double ChangeValue {
-            double get() {
-                return ((::TColStd_Array1OfReal::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(double value) {
-                ((::TColStd_Array1OfReal::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_Array1OfReal^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_Array1OfReal^ theArray);
-        Iterator(Macad::Occt::TColStd_Array1OfReal::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_Array1OfReal^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_Array1OfReal::Iterator^ theOther);
-        double Value();
-        bool IsEqual(Macad::Occt::TColStd_Array1OfReal::Iterator^ theOther);
     }; // class Iterator
 
     property double ChangeFirst {
@@ -1046,7 +904,8 @@ public:
 
     TColStd_Array1OfReal();
     TColStd_Array1OfReal(int theLower, int theUpper);
-    TColStd_Array1OfReal(Macad::Occt::TColStd_Array1OfReal^ theOther);
+    /* Method skipped due to unknown mapping: void TColStd_Array1OfReal(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColStd_Array1OfReal(double theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColStd_Array1OfReal(double theBegin, int theLower, int theUpper);
     void Init(double theValue);
     int Size();
@@ -1054,8 +913,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_Array1OfReal^ Assign(Macad::Occt::TColStd_Array1OfReal^ theOther);
     Macad::Occt::TColStd_Array1OfReal^ Move(Macad::Occt::TColStd_Array1OfReal^ theOther);
     double First();
@@ -1063,7 +920,10 @@ public:
     virtual double Value(int theIndex);
     double ChangeValue(int theIndex);
     void SetValue(int theIndex, double theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<double>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_Array1OfReal
@@ -1126,24 +986,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColStd_Array1OfTransient^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_Array1OfTransient^ theArray);
-        Iterator(Macad::Occt::TColStd_Array1OfTransient::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_Array1OfTransient^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_Array1OfTransient::Iterator^ theOther);
-        Macad::Occt::Standard_Transient^ Value();
-        Macad::Occt::Standard_Transient^ ChangeValue();
-        bool IsEqual(Macad::Occt::TColStd_Array1OfTransient::Iterator^ theOther);
     }; // class Iterator
 
     TColStd_Array1OfTransient();
     TColStd_Array1OfTransient(int theLower, int theUpper);
-    TColStd_Array1OfTransient(Macad::Occt::TColStd_Array1OfTransient^ theOther);
+    /* Method skipped due to unknown mapping: void TColStd_Array1OfTransient(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColStd_Array1OfTransient(Macad::Occt::Standard_Transient^ theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColStd_Array1OfTransient(Macad::Occt::Standard_Transient^ theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::Standard_Transient^ theValue);
     int Size();
@@ -1151,8 +999,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_Array1OfTransient^ Assign(Macad::Occt::TColStd_Array1OfTransient^ theOther);
     Macad::Occt::TColStd_Array1OfTransient^ Move(Macad::Occt::TColStd_Array1OfTransient^ theOther);
     Macad::Occt::Standard_Transient^ First();
@@ -1162,7 +1008,10 @@ public:
     virtual Macad::Occt::Standard_Transient^ Value(int theIndex);
     Macad::Occt::Standard_Transient^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Standard_Transient^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Standard_Transient^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_Array1OfTransient
@@ -1172,7 +1021,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_Array2OfBoolean sealed
     : public Macad::Occt::BaseClass<::TColStd_Array2OfBoolean>
-    , public IEnumerable<bool>
 {
 
 #ifdef Include_TColStd_Array2OfBoolean_h
@@ -1199,7 +1047,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<bool, ::TColStd_Array2OfBoolean::Iterator>
+        : public Macad::Occt::BaseClass<::TColStd_Array2OfBoolean::Iterator>
     {
 
 #ifdef Include_TColStd_Array2OfBoolean_Iterator_h
@@ -1209,11 +1057,11 @@ public:
 
     public:
         Iterator(::TColStd_Array2OfBoolean::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<bool, ::TColStd_Array2OfBoolean::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColStd_Array2OfBoolean::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_Array2OfBoolean::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<bool, ::TColStd_Array2OfBoolean::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColStd_Array2OfBoolean::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_Array2OfBoolean::Iterator* NativeInstance
@@ -1225,29 +1073,32 @@ public:
         }
 
     public:
-        property bool ChangeValue {
-            bool get() {
-                return ((::TColStd_Array2OfBoolean::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(bool value) {
-                ((::TColStd_Array2OfBoolean::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_Array2OfBoolean^ theArray);
-        Iterator(Macad::Occt::TColStd_Array2OfBoolean::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_Array2OfBoolean^ theArray);
-        bool More() override;
-        void Next() override;
-        bool Value() override;
     }; // class Iterator
+
+    property bool ChangeFirst {
+        bool get() {
+            return ((::TColStd_Array2OfBoolean*)_NativeInstance)->ChangeFirst();
+        }
+        void set(bool value) {
+            ((::TColStd_Array2OfBoolean*)_NativeInstance)->ChangeFirst() = value;
+        }
+    }
+
+    property bool ChangeLast {
+        bool get() {
+            return ((::TColStd_Array2OfBoolean*)_NativeInstance)->ChangeLast();
+        }
+        void set(bool value) {
+            ((::TColStd_Array2OfBoolean*)_NativeInstance)->ChangeLast() = value;
+        }
+    }
 
     TColStd_Array2OfBoolean();
     TColStd_Array2OfBoolean(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColStd_Array2OfBoolean(Macad::Occt::TColStd_Array2OfBoolean^ theOther);
+    /* Method skipped due to unknown mapping: void TColStd_Array2OfBoolean(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColStd_Array2OfBoolean(bool theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(bool theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1258,15 +1109,21 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColStd_Array2OfBoolean^ Assign(Macad::Occt::TColStd_Array2OfBoolean^ theOther);
     Macad::Occt::TColStd_Array2OfBoolean^ Move(Macad::Occt::TColStd_Array2OfBoolean^ theOther);
     bool Value(int theRow, int theCol);
     bool ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, bool theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<bool>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(bool theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    bool First();
+    bool Last();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColStd_Array2OfBoolean
 
 //---------------------------------------------------------------------
@@ -1274,7 +1131,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_Array2OfCharacter sealed
     : public Macad::Occt::BaseClass<::TColStd_Array2OfCharacter>
-    , public IEnumerable<char>
 {
 
 #ifdef Include_TColStd_Array2OfCharacter_h
@@ -1301,7 +1157,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<char, ::TColStd_Array2OfCharacter::Iterator>
+        : public Macad::Occt::BaseClass<::TColStd_Array2OfCharacter::Iterator>
     {
 
 #ifdef Include_TColStd_Array2OfCharacter_Iterator_h
@@ -1311,11 +1167,11 @@ public:
 
     public:
         Iterator(::TColStd_Array2OfCharacter::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<char, ::TColStd_Array2OfCharacter::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColStd_Array2OfCharacter::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_Array2OfCharacter::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<char, ::TColStd_Array2OfCharacter::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColStd_Array2OfCharacter::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_Array2OfCharacter::Iterator* NativeInstance
@@ -1327,29 +1183,32 @@ public:
         }
 
     public:
-        property char ChangeValue {
-            char get() {
-                return ((::TColStd_Array2OfCharacter::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(char value) {
-                ((::TColStd_Array2OfCharacter::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_Array2OfCharacter^ theArray);
-        Iterator(Macad::Occt::TColStd_Array2OfCharacter::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_Array2OfCharacter^ theArray);
-        bool More() override;
-        void Next() override;
-        char Value() override;
     }; // class Iterator
+
+    property char ChangeFirst {
+        char get() {
+            return ((::TColStd_Array2OfCharacter*)_NativeInstance)->ChangeFirst();
+        }
+        void set(char value) {
+            ((::TColStd_Array2OfCharacter*)_NativeInstance)->ChangeFirst() = value;
+        }
+    }
+
+    property char ChangeLast {
+        char get() {
+            return ((::TColStd_Array2OfCharacter*)_NativeInstance)->ChangeLast();
+        }
+        void set(char value) {
+            ((::TColStd_Array2OfCharacter*)_NativeInstance)->ChangeLast() = value;
+        }
+    }
 
     TColStd_Array2OfCharacter();
     TColStd_Array2OfCharacter(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColStd_Array2OfCharacter(Macad::Occt::TColStd_Array2OfCharacter^ theOther);
+    /* Method skipped due to unknown mapping: void TColStd_Array2OfCharacter(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColStd_Array2OfCharacter(char theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(char theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1360,15 +1219,21 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColStd_Array2OfCharacter^ Assign(Macad::Occt::TColStd_Array2OfCharacter^ theOther);
     Macad::Occt::TColStd_Array2OfCharacter^ Move(Macad::Occt::TColStd_Array2OfCharacter^ theOther);
     char Value(int theRow, int theCol);
     char ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, char theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<char>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(char theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    char First();
+    char Last();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColStd_Array2OfCharacter
 
 //---------------------------------------------------------------------
@@ -1376,7 +1241,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_Array2OfInteger sealed
     : public Macad::Occt::BaseClass<::TColStd_Array2OfInteger>
-    , public IEnumerable<int>
 {
 
 #ifdef Include_TColStd_Array2OfInteger_h
@@ -1403,7 +1267,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<int, ::TColStd_Array2OfInteger::Iterator>
+        : public Macad::Occt::BaseClass<::TColStd_Array2OfInteger::Iterator>
     {
 
 #ifdef Include_TColStd_Array2OfInteger_Iterator_h
@@ -1413,11 +1277,11 @@ public:
 
     public:
         Iterator(::TColStd_Array2OfInteger::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<int, ::TColStd_Array2OfInteger::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColStd_Array2OfInteger::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_Array2OfInteger::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<int, ::TColStd_Array2OfInteger::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColStd_Array2OfInteger::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_Array2OfInteger::Iterator* NativeInstance
@@ -1429,29 +1293,32 @@ public:
         }
 
     public:
-        property int ChangeValue {
-            int get() {
-                return ((::TColStd_Array2OfInteger::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(int value) {
-                ((::TColStd_Array2OfInteger::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_Array2OfInteger^ theArray);
-        Iterator(Macad::Occt::TColStd_Array2OfInteger::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_Array2OfInteger^ theArray);
-        bool More() override;
-        void Next() override;
-        int Value() override;
     }; // class Iterator
+
+    property int ChangeFirst {
+        int get() {
+            return ((::TColStd_Array2OfInteger*)_NativeInstance)->ChangeFirst();
+        }
+        void set(int value) {
+            ((::TColStd_Array2OfInteger*)_NativeInstance)->ChangeFirst() = value;
+        }
+    }
+
+    property int ChangeLast {
+        int get() {
+            return ((::TColStd_Array2OfInteger*)_NativeInstance)->ChangeLast();
+        }
+        void set(int value) {
+            ((::TColStd_Array2OfInteger*)_NativeInstance)->ChangeLast() = value;
+        }
+    }
 
     TColStd_Array2OfInteger();
     TColStd_Array2OfInteger(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColStd_Array2OfInteger(Macad::Occt::TColStd_Array2OfInteger^ theOther);
+    /* Method skipped due to unknown mapping: void TColStd_Array2OfInteger(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColStd_Array2OfInteger(int theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(int theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1462,15 +1329,21 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColStd_Array2OfInteger^ Assign(Macad::Occt::TColStd_Array2OfInteger^ theOther);
     Macad::Occt::TColStd_Array2OfInteger^ Move(Macad::Occt::TColStd_Array2OfInteger^ theOther);
     int Value(int theRow, int theCol);
     int ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, int theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<int>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(int theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    int First();
+    int Last();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColStd_Array2OfInteger
 
 //---------------------------------------------------------------------
@@ -1478,7 +1351,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_Array2OfReal sealed
     : public Macad::Occt::BaseClass<::TColStd_Array2OfReal>
-    , public IEnumerable<double>
 {
 
 #ifdef Include_TColStd_Array2OfReal_h
@@ -1505,7 +1377,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<double, ::TColStd_Array2OfReal::Iterator>
+        : public Macad::Occt::BaseClass<::TColStd_Array2OfReal::Iterator>
     {
 
 #ifdef Include_TColStd_Array2OfReal_Iterator_h
@@ -1515,11 +1387,11 @@ public:
 
     public:
         Iterator(::TColStd_Array2OfReal::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<double, ::TColStd_Array2OfReal::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColStd_Array2OfReal::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_Array2OfReal::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<double, ::TColStd_Array2OfReal::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColStd_Array2OfReal::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_Array2OfReal::Iterator* NativeInstance
@@ -1531,29 +1403,32 @@ public:
         }
 
     public:
-        property double ChangeValue {
-            double get() {
-                return ((::TColStd_Array2OfReal::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(double value) {
-                ((::TColStd_Array2OfReal::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_Array2OfReal^ theArray);
-        Iterator(Macad::Occt::TColStd_Array2OfReal::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_Array2OfReal^ theArray);
-        bool More() override;
-        void Next() override;
-        double Value() override;
     }; // class Iterator
+
+    property double ChangeFirst {
+        double get() {
+            return ((::TColStd_Array2OfReal*)_NativeInstance)->ChangeFirst();
+        }
+        void set(double value) {
+            ((::TColStd_Array2OfReal*)_NativeInstance)->ChangeFirst() = value;
+        }
+    }
+
+    property double ChangeLast {
+        double get() {
+            return ((::TColStd_Array2OfReal*)_NativeInstance)->ChangeLast();
+        }
+        void set(double value) {
+            ((::TColStd_Array2OfReal*)_NativeInstance)->ChangeLast() = value;
+        }
+    }
 
     TColStd_Array2OfReal();
     TColStd_Array2OfReal(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColStd_Array2OfReal(Macad::Occt::TColStd_Array2OfReal^ theOther);
+    /* Method skipped due to unknown mapping: void TColStd_Array2OfReal(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColStd_Array2OfReal(double theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(double theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1564,15 +1439,21 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColStd_Array2OfReal^ Assign(Macad::Occt::TColStd_Array2OfReal^ theOther);
     Macad::Occt::TColStd_Array2OfReal^ Move(Macad::Occt::TColStd_Array2OfReal^ theOther);
     double Value(int theRow, int theCol);
     double ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, double theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<double>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(double theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    double First();
+    double Last();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColStd_Array2OfReal
 
 //---------------------------------------------------------------------
@@ -1632,21 +1513,14 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColStd_Array2OfTransient^ theArray);
-        Iterator(Macad::Occt::TColStd_Array2OfTransient::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_Array2OfTransient^ theArray);
-        bool More();
-        void Next();
-        Macad::Occt::Standard_Transient^ Value();
-        Macad::Occt::Standard_Transient^ ChangeValue();
     }; // class Iterator
 
     TColStd_Array2OfTransient();
     TColStd_Array2OfTransient(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColStd_Array2OfTransient(Macad::Occt::TColStd_Array2OfTransient^ theOther);
+    /* Method skipped due to unknown mapping: void TColStd_Array2OfTransient(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColStd_Array2OfTransient(Macad::Occt::Standard_Transient^ theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(Macad::Occt::Standard_Transient^ theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1657,13 +1531,23 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColStd_Array2OfTransient^ Assign(Macad::Occt::TColStd_Array2OfTransient^ theOther);
     Macad::Occt::TColStd_Array2OfTransient^ Move(Macad::Occt::TColStd_Array2OfTransient^ theOther);
     Macad::Occt::Standard_Transient^ Value(int theRow, int theCol);
     Macad::Occt::Standard_Transient^ ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::Standard_Transient^ theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(Macad::Occt::Standard_Transient^ theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::Standard_Transient^ First();
+    Macad::Occt::Standard_Transient^ ChangeFirst();
+    Macad::Occt::Standard_Transient^ Last();
+    Macad::Occt::Standard_Transient^ ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColStd_Array2OfTransient
 
 //---------------------------------------------------------------------
@@ -1733,8 +1617,6 @@ public:
         }
 
         Iterator();
-        Iterator(Macad::Occt::TColStd_DataMapOfAsciiStringInteger^ theMap);
-        Iterator(Macad::Occt::TColStd_DataMapOfAsciiStringInteger::Iterator^ parameter1);
         bool More();
         void Next();
         int Value();
@@ -1744,7 +1626,6 @@ public:
     TColStd_DataMapOfAsciiStringInteger();
     TColStd_DataMapOfAsciiStringInteger(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_DataMapOfAsciiStringInteger(int theNbBuckets);
-    TColStd_DataMapOfAsciiStringInteger(Macad::Occt::TColStd_DataMapOfAsciiStringInteger^ theOther);
     void Exchange(Macad::Occt::TColStd_DataMapOfAsciiStringInteger^ theOther);
     Macad::Occt::TColStd_DataMapOfAsciiStringInteger^ Assign(Macad::Occt::TColStd_DataMapOfAsciiStringInteger^ theOther);
     void ReSize(int N);
@@ -1754,50 +1635,12 @@ public:
     bool UnBind(Macad::Occt::TCollection_AsciiString^ theKey);
     int Seek(Macad::Occt::TCollection_AsciiString^ theKey);
     int Find(Macad::Occt::TCollection_AsciiString^ theKey);
-    bool Find(Macad::Occt::TCollection_AsciiString^ theKey, int% theValue);
     int ChangeSeek(Macad::Occt::TCollection_AsciiString^ theKey);
     int ChangeFind(Macad::Occt::TCollection_AsciiString^ theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class TColStd_DataMapOfAsciiStringInteger
-
-//---------------------------------------------------------------------
-//  Class  TColStd_MapIntegerHasher
-//---------------------------------------------------------------------
-public ref class TColStd_MapIntegerHasher sealed
-    : public Macad::Occt::BaseClass<::TColStd_MapIntegerHasher>
-{
-
-#ifdef Include_TColStd_MapIntegerHasher_h
-public:
-    Include_TColStd_MapIntegerHasher_h
-#endif
-
-public:
-    TColStd_MapIntegerHasher(::TColStd_MapIntegerHasher* nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_MapIntegerHasher>( nativeInstance, true )
-    {}
-
-    TColStd_MapIntegerHasher(::TColStd_MapIntegerHasher& nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_MapIntegerHasher>( &nativeInstance, false )
-    {}
-
-    property ::TColStd_MapIntegerHasher* NativeInstance
-    {
-        ::TColStd_MapIntegerHasher* get()
-        {
-            return static_cast<::TColStd_MapIntegerHasher*>(_NativeInstance);
-        }
-    }
-
-public:
-    TColStd_MapIntegerHasher();
-    TColStd_MapIntegerHasher(Macad::Occt::TColStd_MapIntegerHasher^ parameter1);
-    static int HashCode(int theKey, int theUpperBound);
-    static bool IsEqual(int theKey1, int theKey2);
-}; // class TColStd_MapIntegerHasher
 
 //---------------------------------------------------------------------
 //  Class  TColStd_DataMapOfIntegerInteger
@@ -1866,8 +1709,6 @@ public:
         }
 
         Iterator();
-        Iterator(Macad::Occt::TColStd_DataMapOfIntegerInteger^ theMap);
-        Iterator(Macad::Occt::TColStd_DataMapOfIntegerInteger::Iterator^ parameter1);
         bool More();
         void Next();
         int Value();
@@ -1877,7 +1718,6 @@ public:
     TColStd_DataMapOfIntegerInteger();
     TColStd_DataMapOfIntegerInteger(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_DataMapOfIntegerInteger(int theNbBuckets);
-    TColStd_DataMapOfIntegerInteger(Macad::Occt::TColStd_DataMapOfIntegerInteger^ theOther);
     void Exchange(Macad::Occt::TColStd_DataMapOfIntegerInteger^ theOther);
     Macad::Occt::TColStd_DataMapOfIntegerInteger^ Assign(Macad::Occt::TColStd_DataMapOfIntegerInteger^ theOther);
     void ReSize(int N);
@@ -1887,12 +1727,10 @@ public:
     bool UnBind(int theKey);
     int Seek(int theKey);
     int Find(int theKey);
-    bool Find(int theKey, int% theValue);
     int ChangeSeek(int theKey);
     int ChangeFind(int theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class TColStd_DataMapOfIntegerInteger
 
@@ -1954,8 +1792,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_DataMapOfIntegerListOfInteger^ theMap);
-        Iterator(Macad::Occt::TColStd_DataMapOfIntegerListOfInteger::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TColStd_ListOfInteger^ Value();
@@ -1966,7 +1802,6 @@ public:
     TColStd_DataMapOfIntegerListOfInteger();
     TColStd_DataMapOfIntegerListOfInteger(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_DataMapOfIntegerListOfInteger(int theNbBuckets);
-    TColStd_DataMapOfIntegerListOfInteger(Macad::Occt::TColStd_DataMapOfIntegerListOfInteger^ theOther);
     void Exchange(Macad::Occt::TColStd_DataMapOfIntegerListOfInteger^ theOther);
     Macad::Occt::TColStd_DataMapOfIntegerListOfInteger^ Assign(Macad::Occt::TColStd_DataMapOfIntegerListOfInteger^ theOther);
     void ReSize(int N);
@@ -1976,12 +1811,10 @@ public:
     bool UnBind(int theKey);
     Macad::Occt::TColStd_ListOfInteger^ Seek(int theKey);
     Macad::Occt::TColStd_ListOfInteger^ Find(int theKey);
-    bool Find(int theKey, Macad::Occt::TColStd_ListOfInteger^ theValue);
     Macad::Occt::TColStd_ListOfInteger^ ChangeSeek(int theKey);
     Macad::Occt::TColStd_ListOfInteger^ ChangeFind(int theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class TColStd_DataMapOfIntegerListOfInteger
 
@@ -2052,8 +1885,6 @@ public:
         }
 
         Iterator();
-        Iterator(Macad::Occt::TColStd_DataMapOfIntegerReal^ theMap);
-        Iterator(Macad::Occt::TColStd_DataMapOfIntegerReal::Iterator^ parameter1);
         bool More();
         void Next();
         double Value();
@@ -2063,7 +1894,6 @@ public:
     TColStd_DataMapOfIntegerReal();
     TColStd_DataMapOfIntegerReal(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_DataMapOfIntegerReal(int theNbBuckets);
-    TColStd_DataMapOfIntegerReal(Macad::Occt::TColStd_DataMapOfIntegerReal^ theOther);
     void Exchange(Macad::Occt::TColStd_DataMapOfIntegerReal^ theOther);
     Macad::Occt::TColStd_DataMapOfIntegerReal^ Assign(Macad::Occt::TColStd_DataMapOfIntegerReal^ theOther);
     void ReSize(int N);
@@ -2073,12 +1903,10 @@ public:
     bool UnBind(int theKey);
     double Seek(int theKey);
     double Find(int theKey);
-    bool Find(int theKey, double% theValue);
     double ChangeSeek(int theKey);
     double ChangeFind(int theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class TColStd_DataMapOfIntegerReal
 
@@ -2140,8 +1968,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_DataMapOfIntegerTransient^ theMap);
-        Iterator(Macad::Occt::TColStd_DataMapOfIntegerTransient::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Standard_Transient^ Value();
@@ -2152,7 +1978,6 @@ public:
     TColStd_DataMapOfIntegerTransient();
     TColStd_DataMapOfIntegerTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_DataMapOfIntegerTransient(int theNbBuckets);
-    TColStd_DataMapOfIntegerTransient(Macad::Occt::TColStd_DataMapOfIntegerTransient^ theOther);
     void Exchange(Macad::Occt::TColStd_DataMapOfIntegerTransient^ theOther);
     Macad::Occt::TColStd_DataMapOfIntegerTransient^ Assign(Macad::Occt::TColStd_DataMapOfIntegerTransient^ theOther);
     void ReSize(int N);
@@ -2162,12 +1987,10 @@ public:
     bool UnBind(int theKey);
     Macad::Occt::Standard_Transient^ Seek(int theKey);
     Macad::Occt::Standard_Transient^ Find(int theKey);
-    bool Find(int theKey, Macad::Occt::Standard_Transient^ theValue);
     Macad::Occt::Standard_Transient^ ChangeSeek(int theKey);
     Macad::Occt::Standard_Transient^ ChangeFind(int theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class TColStd_DataMapOfIntegerTransient
 
@@ -2238,8 +2061,6 @@ public:
         }
 
         Iterator();
-        Iterator(Macad::Occt::TColStd_DataMapOfStringInteger^ theMap);
-        Iterator(Macad::Occt::TColStd_DataMapOfStringInteger::Iterator^ parameter1);
         bool More();
         void Next();
         int Value();
@@ -2249,7 +2070,6 @@ public:
     TColStd_DataMapOfStringInteger();
     TColStd_DataMapOfStringInteger(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_DataMapOfStringInteger(int theNbBuckets);
-    TColStd_DataMapOfStringInteger(Macad::Occt::TColStd_DataMapOfStringInteger^ theOther);
     void Exchange(Macad::Occt::TColStd_DataMapOfStringInteger^ theOther);
     Macad::Occt::TColStd_DataMapOfStringInteger^ Assign(Macad::Occt::TColStd_DataMapOfStringInteger^ theOther);
     void ReSize(int N);
@@ -2259,50 +2079,12 @@ public:
     bool UnBind(Macad::Occt::TCollection_ExtendedString^ theKey);
     int Seek(Macad::Occt::TCollection_ExtendedString^ theKey);
     int Find(Macad::Occt::TCollection_ExtendedString^ theKey);
-    bool Find(Macad::Occt::TCollection_ExtendedString^ theKey, int% theValue);
     int ChangeSeek(Macad::Occt::TCollection_ExtendedString^ theKey);
     int ChangeFind(Macad::Occt::TCollection_ExtendedString^ theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class TColStd_DataMapOfStringInteger
-
-//---------------------------------------------------------------------
-//  Class  TColStd_MapTransientHasher
-//---------------------------------------------------------------------
-public ref class TColStd_MapTransientHasher sealed
-    : public Macad::Occt::BaseClass<::TColStd_MapTransientHasher>
-{
-
-#ifdef Include_TColStd_MapTransientHasher_h
-public:
-    Include_TColStd_MapTransientHasher_h
-#endif
-
-public:
-    TColStd_MapTransientHasher(::TColStd_MapTransientHasher* nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_MapTransientHasher>( nativeInstance, true )
-    {}
-
-    TColStd_MapTransientHasher(::TColStd_MapTransientHasher& nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_MapTransientHasher>( &nativeInstance, false )
-    {}
-
-    property ::TColStd_MapTransientHasher* NativeInstance
-    {
-        ::TColStd_MapTransientHasher* get()
-        {
-            return static_cast<::TColStd_MapTransientHasher*>(_NativeInstance);
-        }
-    }
-
-public:
-    TColStd_MapTransientHasher();
-    TColStd_MapTransientHasher(Macad::Occt::TColStd_MapTransientHasher^ parameter1);
-    static int HashCode(Macad::Occt::Standard_Transient^ theKey, int theUpperBound);
-    static bool IsEqual(Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theKey2);
-}; // class TColStd_MapTransientHasher
 
 //---------------------------------------------------------------------
 //  Class  TColStd_DataMapOfTransientTransient
@@ -2362,8 +2144,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_DataMapOfTransientTransient^ theMap);
-        Iterator(Macad::Occt::TColStd_DataMapOfTransientTransient::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Standard_Transient^ Value();
@@ -2374,7 +2154,6 @@ public:
     TColStd_DataMapOfTransientTransient();
     TColStd_DataMapOfTransientTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_DataMapOfTransientTransient(int theNbBuckets);
-    TColStd_DataMapOfTransientTransient(Macad::Occt::TColStd_DataMapOfTransientTransient^ theOther);
     void Exchange(Macad::Occt::TColStd_DataMapOfTransientTransient^ theOther);
     Macad::Occt::TColStd_DataMapOfTransientTransient^ Assign(Macad::Occt::TColStd_DataMapOfTransientTransient^ theOther);
     void ReSize(int N);
@@ -2384,12 +2163,10 @@ public:
     bool UnBind(Macad::Occt::Standard_Transient^ theKey);
     Macad::Occt::Standard_Transient^ Seek(Macad::Occt::Standard_Transient^ theKey);
     Macad::Occt::Standard_Transient^ Find(Macad::Occt::Standard_Transient^ theKey);
-    bool Find(Macad::Occt::Standard_Transient^ theKey, Macad::Occt::Standard_Transient^ theValue);
     Macad::Occt::Standard_Transient^ ChangeSeek(Macad::Occt::Standard_Transient^ theKey);
     Macad::Occt::Standard_Transient^ ChangeFind(Macad::Occt::Standard_Transient^ theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class TColStd_DataMapOfTransientTransient
 
@@ -2452,19 +2229,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_SequenceOfAsciiString^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_SequenceOfAsciiString^ theSeq);
-        Iterator(Macad::Occt::TColStd_SequenceOfAsciiString::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TCollection_AsciiString^ Value();
         Macad::Occt::TCollection_AsciiString^ ChangeValue();
         bool IsEqual(Macad::Occt::TColStd_SequenceOfAsciiString::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_SequenceOfAsciiString();
     TColStd_SequenceOfAsciiString(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_SequenceOfAsciiString(Macad::Occt::TColStd_SequenceOfAsciiString^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2477,17 +2251,10 @@ public:
     void Clear();
     Macad::Occt::TColStd_SequenceOfAsciiString^ Assign(Macad::Occt::TColStd_SequenceOfAsciiString^ theOther);
     void Remove(Macad::Occt::TColStd_SequenceOfAsciiString::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::TCollection_AsciiString^ theItem);
-    void Append(Macad::Occt::TColStd_SequenceOfAsciiString^ theSeq);
     void Prepend(Macad::Occt::TCollection_AsciiString^ theItem);
-    void Prepend(Macad::Occt::TColStd_SequenceOfAsciiString^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::TCollection_AsciiString^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_SequenceOfAsciiString^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_SequenceOfAsciiString::Iterator^ thePosition, Macad::Occt::TCollection_AsciiString^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_SequenceOfAsciiString^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::TCollection_AsciiString^ theItem);
     void Split(int theIndex, Macad::Occt::TColStd_SequenceOfAsciiString^ theSeq);
     Macad::Occt::TCollection_AsciiString^ First();
     Macad::Occt::TCollection_AsciiString^ ChangeFirst();
@@ -2559,19 +2326,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_SequenceOfExtendedString^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_SequenceOfExtendedString^ theSeq);
-        Iterator(Macad::Occt::TColStd_SequenceOfExtendedString::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TCollection_ExtendedString^ Value();
         Macad::Occt::TCollection_ExtendedString^ ChangeValue();
         bool IsEqual(Macad::Occt::TColStd_SequenceOfExtendedString::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_SequenceOfExtendedString();
     TColStd_SequenceOfExtendedString(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_SequenceOfExtendedString(Macad::Occt::TColStd_SequenceOfExtendedString^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2584,17 +2348,10 @@ public:
     void Clear();
     Macad::Occt::TColStd_SequenceOfExtendedString^ Assign(Macad::Occt::TColStd_SequenceOfExtendedString^ theOther);
     void Remove(Macad::Occt::TColStd_SequenceOfExtendedString::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::TCollection_ExtendedString^ theItem);
-    void Append(Macad::Occt::TColStd_SequenceOfExtendedString^ theSeq);
     void Prepend(Macad::Occt::TCollection_ExtendedString^ theItem);
-    void Prepend(Macad::Occt::TColStd_SequenceOfExtendedString^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::TCollection_ExtendedString^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_SequenceOfExtendedString^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_SequenceOfExtendedString::Iterator^ thePosition, Macad::Occt::TCollection_ExtendedString^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_SequenceOfExtendedString^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::TCollection_ExtendedString^ theItem);
     void Split(int theIndex, Macad::Occt::TColStd_SequenceOfExtendedString^ theSeq);
     Macad::Occt::TCollection_ExtendedString^ First();
     Macad::Occt::TCollection_ExtendedString^ ChangeFirst();
@@ -2666,19 +2423,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_SequenceOfHAsciiString^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_SequenceOfHAsciiString^ theSeq);
-        Iterator(Macad::Occt::TColStd_SequenceOfHAsciiString::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TCollection_HAsciiString^ Value();
         Macad::Occt::TCollection_HAsciiString^ ChangeValue();
         bool IsEqual(Macad::Occt::TColStd_SequenceOfHAsciiString::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_SequenceOfHAsciiString();
     TColStd_SequenceOfHAsciiString(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_SequenceOfHAsciiString(Macad::Occt::TColStd_SequenceOfHAsciiString^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2691,17 +2445,10 @@ public:
     void Clear();
     Macad::Occt::TColStd_SequenceOfHAsciiString^ Assign(Macad::Occt::TColStd_SequenceOfHAsciiString^ theOther);
     void Remove(Macad::Occt::TColStd_SequenceOfHAsciiString::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::TCollection_HAsciiString^ theItem);
-    void Append(Macad::Occt::TColStd_SequenceOfHAsciiString^ theSeq);
     void Prepend(Macad::Occt::TCollection_HAsciiString^ theItem);
-    void Prepend(Macad::Occt::TColStd_SequenceOfHAsciiString^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::TCollection_HAsciiString^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_SequenceOfHAsciiString^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_SequenceOfHAsciiString::Iterator^ thePosition, Macad::Occt::TCollection_HAsciiString^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_SequenceOfHAsciiString^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::TCollection_HAsciiString^ theItem);
     void Split(int theIndex, Macad::Occt::TColStd_SequenceOfHAsciiString^ theSeq);
     Macad::Occt::TCollection_HAsciiString^ First();
     Macad::Occt::TCollection_HAsciiString^ ChangeFirst();
@@ -2773,19 +2520,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_SequenceOfHExtendedString^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_SequenceOfHExtendedString^ theSeq);
-        Iterator(Macad::Occt::TColStd_SequenceOfHExtendedString::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TCollection_HExtendedString^ Value();
         Macad::Occt::TCollection_HExtendedString^ ChangeValue();
         bool IsEqual(Macad::Occt::TColStd_SequenceOfHExtendedString::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_SequenceOfHExtendedString();
     TColStd_SequenceOfHExtendedString(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_SequenceOfHExtendedString(Macad::Occt::TColStd_SequenceOfHExtendedString^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2798,17 +2542,10 @@ public:
     void Clear();
     Macad::Occt::TColStd_SequenceOfHExtendedString^ Assign(Macad::Occt::TColStd_SequenceOfHExtendedString^ theOther);
     void Remove(Macad::Occt::TColStd_SequenceOfHExtendedString::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::TCollection_HExtendedString^ theItem);
-    void Append(Macad::Occt::TColStd_SequenceOfHExtendedString^ theSeq);
     void Prepend(Macad::Occt::TCollection_HExtendedString^ theItem);
-    void Prepend(Macad::Occt::TColStd_SequenceOfHExtendedString^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::TCollection_HExtendedString^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_SequenceOfHExtendedString^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_SequenceOfHExtendedString::Iterator^ thePosition, Macad::Occt::TCollection_HExtendedString^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_SequenceOfHExtendedString^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::TCollection_HExtendedString^ theItem);
     void Split(int theIndex, Macad::Occt::TColStd_SequenceOfHExtendedString^ theSeq);
     Macad::Occt::TCollection_HExtendedString^ First();
     Macad::Occt::TCollection_HExtendedString^ ChangeFirst();
@@ -2889,13 +2626,11 @@ public:
         }
 
         Iterator();
-        Iterator(Macad::Occt::TColStd_SequenceOfInteger^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_SequenceOfInteger^ theSeq);
-        Iterator(Macad::Occt::TColStd_SequenceOfInteger::Iterator^ parameter1);
         bool More();
         void Next();
         int Value();
         bool IsEqual(Macad::Occt::TColStd_SequenceOfInteger::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     property int ChangeFirst {
@@ -2918,7 +2653,6 @@ public:
 
     TColStd_SequenceOfInteger();
     TColStd_SequenceOfInteger(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_SequenceOfInteger(Macad::Occt::TColStd_SequenceOfInteger^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2931,17 +2665,10 @@ public:
     void Clear();
     Macad::Occt::TColStd_SequenceOfInteger^ Assign(Macad::Occt::TColStd_SequenceOfInteger^ theOther);
     void Remove(Macad::Occt::TColStd_SequenceOfInteger::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(int theItem);
-    void Append(Macad::Occt::TColStd_SequenceOfInteger^ theSeq);
     void Prepend(int theItem);
-    void Prepend(Macad::Occt::TColStd_SequenceOfInteger^ theSeq);
     void InsertBefore(int theIndex, int theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_SequenceOfInteger^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_SequenceOfInteger::Iterator^ thePosition, int theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_SequenceOfInteger^ theSeq);
-    void InsertAfter(int theIndex, int theItem);
     void Split(int theIndex, Macad::Occt::TColStd_SequenceOfInteger^ theSeq);
     int First();
     int Last();
@@ -3020,13 +2747,11 @@ public:
         }
 
         Iterator();
-        Iterator(Macad::Occt::TColStd_SequenceOfReal^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_SequenceOfReal^ theSeq);
-        Iterator(Macad::Occt::TColStd_SequenceOfReal::Iterator^ parameter1);
         bool More();
         void Next();
         double Value();
         bool IsEqual(Macad::Occt::TColStd_SequenceOfReal::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     property double ChangeFirst {
@@ -3049,7 +2774,6 @@ public:
 
     TColStd_SequenceOfReal();
     TColStd_SequenceOfReal(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_SequenceOfReal(Macad::Occt::TColStd_SequenceOfReal^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -3062,17 +2786,10 @@ public:
     void Clear();
     Macad::Occt::TColStd_SequenceOfReal^ Assign(Macad::Occt::TColStd_SequenceOfReal^ theOther);
     void Remove(Macad::Occt::TColStd_SequenceOfReal::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(double theItem);
-    void Append(Macad::Occt::TColStd_SequenceOfReal^ theSeq);
     void Prepend(double theItem);
-    void Prepend(Macad::Occt::TColStd_SequenceOfReal^ theSeq);
     void InsertBefore(int theIndex, double theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_SequenceOfReal^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_SequenceOfReal::Iterator^ thePosition, double theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_SequenceOfReal^ theSeq);
-    void InsertAfter(int theIndex, double theItem);
     void Split(int theIndex, Macad::Occt::TColStd_SequenceOfReal^ theSeq);
     double First();
     double Last();
@@ -3142,19 +2859,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_SequenceOfTransient^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_SequenceOfTransient^ theSeq);
-        Iterator(Macad::Occt::TColStd_SequenceOfTransient::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Standard_Transient^ Value();
         Macad::Occt::Standard_Transient^ ChangeValue();
         bool IsEqual(Macad::Occt::TColStd_SequenceOfTransient::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_SequenceOfTransient();
     TColStd_SequenceOfTransient(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_SequenceOfTransient(Macad::Occt::TColStd_SequenceOfTransient^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -3167,17 +2881,10 @@ public:
     void Clear();
     Macad::Occt::TColStd_SequenceOfTransient^ Assign(Macad::Occt::TColStd_SequenceOfTransient^ theOther);
     void Remove(Macad::Occt::TColStd_SequenceOfTransient::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Standard_Transient^ theItem);
-    void Append(Macad::Occt::TColStd_SequenceOfTransient^ theSeq);
     void Prepend(Macad::Occt::Standard_Transient^ theItem);
-    void Prepend(Macad::Occt::TColStd_SequenceOfTransient^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Standard_Transient^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_SequenceOfTransient^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_SequenceOfTransient::Iterator^ thePosition, Macad::Occt::Standard_Transient^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_SequenceOfTransient^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Standard_Transient^ theItem);
     void Split(int theIndex, Macad::Occt::TColStd_SequenceOfTransient^ theSeq);
     Macad::Occt::Standard_Transient^ First();
     Macad::Occt::Standard_Transient^ ChangeFirst();
@@ -3248,21 +2955,21 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theMap);
-        Iterator(Macad::Occt::TColStd_IndexedDataMapOfStringString::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TCollection_AsciiString^ Value();
         Macad::Occt::TCollection_AsciiString^ ChangeValue();
         Macad::Occt::TCollection_AsciiString^ Key();
         bool IsEqual(Macad::Occt::TColStd_IndexedDataMapOfStringString::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_IndexedDataMapOfStringString();
     TColStd_IndexedDataMapOfStringString(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_IndexedDataMapOfStringString(int theNbBuckets);
-    TColStd_IndexedDataMapOfStringString(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theOther);
     void Exchange(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theOther);
+    Macad::Occt::TColStd_IndexedDataMapOfStringString^ Assign(Macad::Occt::TColStd_IndexedDataMapOfStringString^ theOther);
+    void ReSize(int N);
     int Add(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::TCollection_AsciiString^ theItem);
     bool Contains(Macad::Occt::TCollection_AsciiString^ theKey1);
     void Substitute(int theIndex, Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::TCollection_AsciiString^ theItem);
@@ -3278,10 +2985,8 @@ public:
     Macad::Occt::TCollection_AsciiString^ ChangeFromKey(Macad::Occt::TCollection_AsciiString^ theKey1);
     Macad::Occt::TCollection_AsciiString^ Seek(Macad::Occt::TCollection_AsciiString^ theKey1);
     Macad::Occt::TCollection_AsciiString^ ChangeSeek(Macad::Occt::TCollection_AsciiString^ theKey1);
-    bool FindFromKey(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::TCollection_AsciiString^ theValue);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class TColStd_IndexedDataMapOfStringString
 
@@ -3343,21 +3048,21 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_IndexedDataMapOfTransientTransient^ theMap);
-        Iterator(Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Standard_Transient^ Value();
         Macad::Occt::Standard_Transient^ ChangeValue();
         Macad::Occt::Standard_Transient^ Key();
         bool IsEqual(Macad::Occt::TColStd_IndexedDataMapOfTransientTransient::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_IndexedDataMapOfTransientTransient();
     TColStd_IndexedDataMapOfTransientTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_IndexedDataMapOfTransientTransient(int theNbBuckets);
-    TColStd_IndexedDataMapOfTransientTransient(Macad::Occt::TColStd_IndexedDataMapOfTransientTransient^ theOther);
     void Exchange(Macad::Occt::TColStd_IndexedDataMapOfTransientTransient^ theOther);
+    Macad::Occt::TColStd_IndexedDataMapOfTransientTransient^ Assign(Macad::Occt::TColStd_IndexedDataMapOfTransientTransient^ theOther);
+    void ReSize(int N);
     int Add(Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theItem);
     bool Contains(Macad::Occt::Standard_Transient^ theKey1);
     void Substitute(int theIndex, Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theItem);
@@ -3373,10 +3078,8 @@ public:
     Macad::Occt::Standard_Transient^ ChangeFromKey(Macad::Occt::Standard_Transient^ theKey1);
     Macad::Occt::Standard_Transient^ Seek(Macad::Occt::Standard_Transient^ theKey1);
     Macad::Occt::Standard_Transient^ ChangeSeek(Macad::Occt::Standard_Transient^ theKey1);
-    bool FindFromKey(Macad::Occt::Standard_Transient^ theKey1, Macad::Occt::Standard_Transient^ theValue);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class TColStd_IndexedDataMapOfTransientTransient
 
@@ -3385,7 +3088,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_IndexedMapOfInteger sealed
     : public Macad::Occt::BaseClass<::TColStd_IndexedMapOfInteger>
-    , public IEnumerable<int>
 {
 
 #ifdef Include_TColStd_IndexedMapOfInteger_h
@@ -3412,7 +3114,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<int, ::TColStd_IndexedMapOfInteger::Iterator>
+        : public Macad::Occt::BaseClass<::TColStd_IndexedMapOfInteger::Iterator>
     {
 
 #ifdef Include_TColStd_IndexedMapOfInteger_Iterator_h
@@ -3422,11 +3124,11 @@ public:
 
     public:
         Iterator(::TColStd_IndexedMapOfInteger::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<int, ::TColStd_IndexedMapOfInteger::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColStd_IndexedMapOfInteger::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_IndexedMapOfInteger::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<int, ::TColStd_IndexedMapOfInteger::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColStd_IndexedMapOfInteger::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_IndexedMapOfInteger::Iterator* NativeInstance
@@ -3439,19 +3141,19 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_IndexedMapOfInteger^ theMap);
-        Iterator(Macad::Occt::TColStd_IndexedMapOfInteger::Iterator^ parameter1);
-        bool More() override;
-        void Next() override;
-        int Value() override;
+        bool More();
+        void Next();
+        int Value();
         bool IsEqual(Macad::Occt::TColStd_IndexedMapOfInteger::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_IndexedMapOfInteger();
     TColStd_IndexedMapOfInteger(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_IndexedMapOfInteger(int theNbBuckets);
-    TColStd_IndexedMapOfInteger(Macad::Occt::TColStd_IndexedMapOfInteger^ theOther);
     void Exchange(Macad::Occt::TColStd_IndexedMapOfInteger^ theOther);
+    Macad::Occt::TColStd_IndexedMapOfInteger^ Assign(Macad::Occt::TColStd_IndexedMapOfInteger^ theOther);
+    void ReSize(int theExtent);
     int Add(int theKey1);
     bool Contains(int theKey1);
     void Substitute(int theIndex, int theKey1);
@@ -3463,54 +3165,14 @@ public:
     int FindIndex(int theKey1);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
-    virtual System::Collections::Generic::IEnumerator<int>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_IndexedMapOfInteger
-
-//---------------------------------------------------------------------
-//  Class  TColStd_MapRealHasher
-//---------------------------------------------------------------------
-public ref class TColStd_MapRealHasher sealed
-    : public Macad::Occt::BaseClass<::TColStd_MapRealHasher>
-{
-
-#ifdef Include_TColStd_MapRealHasher_h
-public:
-    Include_TColStd_MapRealHasher_h
-#endif
-
-public:
-    TColStd_MapRealHasher(::TColStd_MapRealHasher* nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_MapRealHasher>( nativeInstance, true )
-    {}
-
-    TColStd_MapRealHasher(::TColStd_MapRealHasher& nativeInstance)
-        : Macad::Occt::BaseClass<::TColStd_MapRealHasher>( &nativeInstance, false )
-    {}
-
-    property ::TColStd_MapRealHasher* NativeInstance
-    {
-        ::TColStd_MapRealHasher* get()
-        {
-            return static_cast<::TColStd_MapRealHasher*>(_NativeInstance);
-        }
-    }
-
-public:
-    TColStd_MapRealHasher();
-    TColStd_MapRealHasher(Macad::Occt::TColStd_MapRealHasher^ parameter1);
-    static int HashCode(double theKey, int theUpperBound);
-    static bool IsEqual(double theKey1, double theKey2);
-}; // class TColStd_MapRealHasher
 
 //---------------------------------------------------------------------
 //  Class  TColStd_IndexedMapOfReal
 //---------------------------------------------------------------------
 public ref class TColStd_IndexedMapOfReal sealed
     : public Macad::Occt::BaseClass<::TColStd_IndexedMapOfReal>
-    , public IEnumerable<double>
 {
 
 #ifdef Include_TColStd_IndexedMapOfReal_h
@@ -3537,7 +3199,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<double, ::TColStd_IndexedMapOfReal::Iterator>
+        : public Macad::Occt::BaseClass<::TColStd_IndexedMapOfReal::Iterator>
     {
 
 #ifdef Include_TColStd_IndexedMapOfReal_Iterator_h
@@ -3547,11 +3209,11 @@ public:
 
     public:
         Iterator(::TColStd_IndexedMapOfReal::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<double, ::TColStd_IndexedMapOfReal::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColStd_IndexedMapOfReal::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_IndexedMapOfReal::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<double, ::TColStd_IndexedMapOfReal::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColStd_IndexedMapOfReal::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_IndexedMapOfReal::Iterator* NativeInstance
@@ -3564,19 +3226,19 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_IndexedMapOfReal^ theMap);
-        Iterator(Macad::Occt::TColStd_IndexedMapOfReal::Iterator^ parameter1);
-        bool More() override;
-        void Next() override;
-        double Value() override;
+        bool More();
+        void Next();
+        double Value();
         bool IsEqual(Macad::Occt::TColStd_IndexedMapOfReal::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_IndexedMapOfReal();
     TColStd_IndexedMapOfReal(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_IndexedMapOfReal(int theNbBuckets);
-    TColStd_IndexedMapOfReal(Macad::Occt::TColStd_IndexedMapOfReal^ theOther);
     void Exchange(Macad::Occt::TColStd_IndexedMapOfReal^ theOther);
+    Macad::Occt::TColStd_IndexedMapOfReal^ Assign(Macad::Occt::TColStd_IndexedMapOfReal^ theOther);
+    void ReSize(int theExtent);
     int Add(double theKey1);
     bool Contains(double theKey1);
     void Substitute(int theIndex, double theKey1);
@@ -3588,10 +3250,7 @@ public:
     int FindIndex(double theKey1);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
-    virtual System::Collections::Generic::IEnumerator<double>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_IndexedMapOfReal
 
 //---------------------------------------------------------------------
@@ -3652,19 +3311,19 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_IndexedMapOfTransient^ theMap);
-        Iterator(Macad::Occt::TColStd_IndexedMapOfTransient::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Standard_Transient^ Value();
         bool IsEqual(Macad::Occt::TColStd_IndexedMapOfTransient::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_IndexedMapOfTransient();
     TColStd_IndexedMapOfTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_IndexedMapOfTransient(int theNbBuckets);
-    TColStd_IndexedMapOfTransient(Macad::Occt::TColStd_IndexedMapOfTransient^ theOther);
     void Exchange(Macad::Occt::TColStd_IndexedMapOfTransient^ theOther);
+    Macad::Occt::TColStd_IndexedMapOfTransient^ Assign(Macad::Occt::TColStd_IndexedMapOfTransient^ theOther);
+    void ReSize(int theExtent);
     int Add(Macad::Occt::Standard_Transient^ theKey1);
     bool Contains(Macad::Occt::Standard_Transient^ theKey1);
     void Substitute(int theIndex, Macad::Occt::Standard_Transient^ theKey1);
@@ -3676,7 +3335,6 @@ public:
     int FindIndex(Macad::Occt::Standard_Transient^ theKey1);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class TColStd_IndexedMapOfTransient
 
@@ -3739,8 +3397,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::TColStd_ListOfAsciiString::Iterator^ parameter1);
         bool More() override;
         void Next() override;
         Macad::Occt::TCollection_AsciiString^ Value() override;
@@ -3749,7 +3405,6 @@ public:
 
     TColStd_ListOfAsciiString();
     TColStd_ListOfAsciiString(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_ListOfAsciiString(Macad::Occt::TColStd_ListOfAsciiString^ theOther);
     int Size();
     Macad::Occt::TColStd_ListOfAsciiString^ Assign(Macad::Occt::TColStd_ListOfAsciiString^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -3757,16 +3412,11 @@ public:
     Macad::Occt::TCollection_AsciiString^ First();
     Macad::Occt::TCollection_AsciiString^ Last();
     Macad::Occt::TCollection_AsciiString^ Append(Macad::Occt::TCollection_AsciiString^ theItem);
-    void Append(Macad::Occt::TCollection_AsciiString^ theItem, Macad::Occt::TColStd_ListOfAsciiString::Iterator^ theIter);
-    void Append(Macad::Occt::TColStd_ListOfAsciiString^ theOther);
     Macad::Occt::TCollection_AsciiString^ Prepend(Macad::Occt::TCollection_AsciiString^ theItem);
-    void Prepend(Macad::Occt::TColStd_ListOfAsciiString^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::TColStd_ListOfAsciiString::Iterator^ theIter);
     Macad::Occt::TCollection_AsciiString^ InsertBefore(Macad::Occt::TCollection_AsciiString^ theItem, Macad::Occt::TColStd_ListOfAsciiString::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::TColStd_ListOfAsciiString^ theOther, Macad::Occt::TColStd_ListOfAsciiString::Iterator^ theIter);
     Macad::Occt::TCollection_AsciiString^ InsertAfter(Macad::Occt::TCollection_AsciiString^ theItem, Macad::Occt::TColStd_ListOfAsciiString::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::TColStd_ListOfAsciiString^ theOther, Macad::Occt::TColStd_ListOfAsciiString::Iterator^ theIter);
     void Reverse();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::TCollection_AsciiString^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -3804,7 +3454,6 @@ public:
 public:
     TColStd_ListIteratorOfListOfAsciiString();
     TColStd_ListIteratorOfListOfAsciiString(Macad::Occt::NCollection_BaseList^ theList);
-    TColStd_ListIteratorOfListOfAsciiString(Macad::Occt::TColStd_ListIteratorOfListOfAsciiString^ parameter1);
     bool More();
     void Next();
     Macad::Occt::TCollection_AsciiString^ Value();
@@ -3879,8 +3528,6 @@ public:
         }
 
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::TColStd_ListOfReal::Iterator^ parameter1);
         bool More() override;
         void Next() override;
         double Value() override;
@@ -3888,7 +3535,6 @@ public:
 
     TColStd_ListOfReal();
     TColStd_ListOfReal(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_ListOfReal(Macad::Occt::TColStd_ListOfReal^ theOther);
     int Size();
     Macad::Occt::TColStd_ListOfReal^ Assign(Macad::Occt::TColStd_ListOfReal^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -3896,16 +3542,11 @@ public:
     double First();
     double Last();
     double Append(double theItem);
-    void Append(double theItem, Macad::Occt::TColStd_ListOfReal::Iterator^ theIter);
-    void Append(Macad::Occt::TColStd_ListOfReal^ theOther);
     double Prepend(double theItem);
-    void Prepend(Macad::Occt::TColStd_ListOfReal^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::TColStd_ListOfReal::Iterator^ theIter);
     double InsertBefore(double theItem, Macad::Occt::TColStd_ListOfReal::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::TColStd_ListOfReal^ theOther, Macad::Occt::TColStd_ListOfReal::Iterator^ theIter);
     double InsertAfter(double theItem, Macad::Occt::TColStd_ListOfReal::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::TColStd_ListOfReal^ theOther, Macad::Occt::TColStd_ListOfReal::Iterator^ theIter);
     void Reverse();
     virtual System::Collections::Generic::IEnumerator<double>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -3952,7 +3593,6 @@ public:
 
     TColStd_ListIteratorOfListOfReal();
     TColStd_ListIteratorOfListOfReal(Macad::Occt::NCollection_BaseList^ theList);
-    TColStd_ListIteratorOfListOfReal(Macad::Occt::TColStd_ListIteratorOfListOfReal^ parameter1);
     bool More();
     void Next();
     double Value();
@@ -4016,8 +3656,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::TColStd_ListOfTransient::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Standard_Transient^ Value();
@@ -4026,7 +3664,6 @@ public:
 
     TColStd_ListOfTransient();
     TColStd_ListOfTransient(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_ListOfTransient(Macad::Occt::TColStd_ListOfTransient^ theOther);
     int Size();
     Macad::Occt::TColStd_ListOfTransient^ Assign(Macad::Occt::TColStd_ListOfTransient^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -4034,16 +3671,11 @@ public:
     Macad::Occt::Standard_Transient^ First();
     Macad::Occt::Standard_Transient^ Last();
     Macad::Occt::Standard_Transient^ Append(Macad::Occt::Standard_Transient^ theItem);
-    void Append(Macad::Occt::Standard_Transient^ theItem, Macad::Occt::TColStd_ListOfTransient::Iterator^ theIter);
-    void Append(Macad::Occt::TColStd_ListOfTransient^ theOther);
     Macad::Occt::Standard_Transient^ Prepend(Macad::Occt::Standard_Transient^ theItem);
-    void Prepend(Macad::Occt::TColStd_ListOfTransient^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::TColStd_ListOfTransient::Iterator^ theIter);
     Macad::Occt::Standard_Transient^ InsertBefore(Macad::Occt::Standard_Transient^ theItem, Macad::Occt::TColStd_ListOfTransient::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::TColStd_ListOfTransient^ theOther, Macad::Occt::TColStd_ListOfTransient::Iterator^ theIter);
     Macad::Occt::Standard_Transient^ InsertAfter(Macad::Occt::Standard_Transient^ theItem, Macad::Occt::TColStd_ListOfTransient::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::TColStd_ListOfTransient^ theOther, Macad::Occt::TColStd_ListOfTransient::Iterator^ theIter);
     void Reverse();
 }; // class TColStd_ListOfTransient
 
@@ -4079,7 +3711,6 @@ public:
 public:
     TColStd_ListIteratorOfListOfTransient();
     TColStd_ListIteratorOfListOfTransient(Macad::Occt::NCollection_BaseList^ theList);
-    TColStd_ListIteratorOfListOfTransient(Macad::Occt::TColStd_ListIteratorOfListOfTransient^ parameter1);
     bool More();
     void Next();
     Macad::Occt::Standard_Transient^ Value();
@@ -4091,7 +3722,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_MapOfAsciiString sealed
     : public Macad::Occt::BaseClass<::TColStd_MapOfAsciiString>
-    , public IEnumerable<Macad::Occt::TCollection_AsciiString^>
 {
 
 #ifdef Include_TColStd_MapOfAsciiString_h
@@ -4118,7 +3748,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::TCollection_AsciiString^, ::TColStd_MapOfAsciiString::Iterator>
+        : public Macad::Occt::BaseClass<::TColStd_MapOfAsciiString::Iterator>
     {
 
 #ifdef Include_TColStd_MapOfAsciiString_Iterator_h
@@ -4128,11 +3758,11 @@ public:
 
     public:
         Iterator(::TColStd_MapOfAsciiString::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::TCollection_AsciiString^, ::TColStd_MapOfAsciiString::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColStd_MapOfAsciiString::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_MapOfAsciiString::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::TCollection_AsciiString^, ::TColStd_MapOfAsciiString::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColStd_MapOfAsciiString::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_MapOfAsciiString::Iterator* NativeInstance
@@ -4145,31 +3775,26 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_MapOfAsciiString^ theMap);
-        Iterator(Macad::Occt::TColStd_MapOfAsciiString::Iterator^ parameter1);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::TCollection_AsciiString^ Value() override;
+        bool More();
+        void Next();
+        Macad::Occt::TCollection_AsciiString^ Value();
         Macad::Occt::TCollection_AsciiString^ Key();
     }; // class Iterator
 
     TColStd_MapOfAsciiString();
     TColStd_MapOfAsciiString(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_MapOfAsciiString(int theNbBuckets);
-    TColStd_MapOfAsciiString(Macad::Occt::TColStd_MapOfAsciiString^ theOther);
     void Exchange(Macad::Occt::TColStd_MapOfAsciiString^ theOther);
     Macad::Occt::TColStd_MapOfAsciiString^ Assign(Macad::Occt::TColStd_MapOfAsciiString^ theOther);
     void ReSize(int N);
-    bool Add(Macad::Occt::TCollection_AsciiString^ K);
-    Macad::Occt::TCollection_AsciiString^ Added(Macad::Occt::TCollection_AsciiString^ K);
-    bool Contains(Macad::Occt::TCollection_AsciiString^ K);
+    bool Add(Macad::Occt::TCollection_AsciiString^ theKey);
+    Macad::Occt::TCollection_AsciiString^ Added(Macad::Occt::TCollection_AsciiString^ theKey);
+    bool Contains(Macad::Occt::TCollection_AsciiString^ theKey);
     bool Remove(Macad::Occt::TCollection_AsciiString^ K);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
     bool IsEqual(Macad::Occt::TColStd_MapOfAsciiString^ theOther);
-    bool Contains(Macad::Occt::TColStd_MapOfAsciiString^ theOther);
     void Union(Macad::Occt::TColStd_MapOfAsciiString^ theLeft, Macad::Occt::TColStd_MapOfAsciiString^ theRight);
     bool Unite(Macad::Occt::TColStd_MapOfAsciiString^ theOther);
     bool HasIntersection(Macad::Occt::TColStd_MapOfAsciiString^ theMap);
@@ -4179,8 +3804,7 @@ public:
     bool Subtract(Macad::Occt::TColStd_MapOfAsciiString^ theOther);
     void Difference(Macad::Occt::TColStd_MapOfAsciiString^ theLeft, Macad::Occt::TColStd_MapOfAsciiString^ theRight);
     bool Differ(Macad::Occt::TColStd_MapOfAsciiString^ theOther);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::TCollection_AsciiString^>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    bool Equals(System::Object^ obj) override;
 }; // class TColStd_MapOfAsciiString
 
 //---------------------------------------------------------------------
@@ -4188,7 +3812,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_MapOfInteger sealed
     : public Macad::Occt::BaseClass<::TColStd_MapOfInteger>
-    , public IEnumerable<int>
 {
 
 #ifdef Include_TColStd_MapOfInteger_h
@@ -4215,7 +3838,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<int, ::TColStd_MapOfInteger::Iterator>
+        : public Macad::Occt::BaseClass<::TColStd_MapOfInteger::Iterator>
     {
 
 #ifdef Include_TColStd_MapOfInteger_Iterator_h
@@ -4225,11 +3848,11 @@ public:
 
     public:
         Iterator(::TColStd_MapOfInteger::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<int, ::TColStd_MapOfInteger::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColStd_MapOfInteger::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_MapOfInteger::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<int, ::TColStd_MapOfInteger::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColStd_MapOfInteger::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_MapOfInteger::Iterator* NativeInstance
@@ -4242,31 +3865,26 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_MapOfInteger^ theMap);
-        Iterator(Macad::Occt::TColStd_MapOfInteger::Iterator^ parameter1);
-        bool More() override;
-        void Next() override;
-        int Value() override;
+        bool More();
+        void Next();
+        int Value();
         int Key();
     }; // class Iterator
 
     TColStd_MapOfInteger();
     TColStd_MapOfInteger(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_MapOfInteger(int theNbBuckets);
-    TColStd_MapOfInteger(Macad::Occt::TColStd_MapOfInteger^ theOther);
     void Exchange(Macad::Occt::TColStd_MapOfInteger^ theOther);
     Macad::Occt::TColStd_MapOfInteger^ Assign(Macad::Occt::TColStd_MapOfInteger^ theOther);
     void ReSize(int N);
-    bool Add(int K);
-    int Added(int K);
-    bool Contains(int K);
+    bool Add(int theKey);
+    int Added(int theKey);
+    bool Contains(int theKey);
     bool Remove(int K);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
     bool IsEqual(Macad::Occt::TColStd_MapOfInteger^ theOther);
-    bool Contains(Macad::Occt::TColStd_MapOfInteger^ theOther);
     void Union(Macad::Occt::TColStd_MapOfInteger^ theLeft, Macad::Occt::TColStd_MapOfInteger^ theRight);
     bool Unite(Macad::Occt::TColStd_MapOfInteger^ theOther);
     bool HasIntersection(Macad::Occt::TColStd_MapOfInteger^ theMap);
@@ -4276,8 +3894,7 @@ public:
     bool Subtract(Macad::Occt::TColStd_MapOfInteger^ theOther);
     void Difference(Macad::Occt::TColStd_MapOfInteger^ theLeft, Macad::Occt::TColStd_MapOfInteger^ theRight);
     bool Differ(Macad::Occt::TColStd_MapOfInteger^ theOther);
-    virtual System::Collections::Generic::IEnumerator<int>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    bool Equals(System::Object^ obj) override;
 }; // class TColStd_MapOfInteger
 
 //---------------------------------------------------------------------
@@ -4285,7 +3902,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_MapOfReal sealed
     : public Macad::Occt::BaseClass<::TColStd_MapOfReal>
-    , public IEnumerable<double>
 {
 
 #ifdef Include_TColStd_MapOfReal_h
@@ -4312,7 +3928,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<double, ::TColStd_MapOfReal::Iterator>
+        : public Macad::Occt::BaseClass<::TColStd_MapOfReal::Iterator>
     {
 
 #ifdef Include_TColStd_MapOfReal_Iterator_h
@@ -4322,11 +3938,11 @@ public:
 
     public:
         Iterator(::TColStd_MapOfReal::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<double, ::TColStd_MapOfReal::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColStd_MapOfReal::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_MapOfReal::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<double, ::TColStd_MapOfReal::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColStd_MapOfReal::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_MapOfReal::Iterator* NativeInstance
@@ -4339,31 +3955,26 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_MapOfReal^ theMap);
-        Iterator(Macad::Occt::TColStd_MapOfReal::Iterator^ parameter1);
-        bool More() override;
-        void Next() override;
-        double Value() override;
+        bool More();
+        void Next();
+        double Value();
         double Key();
     }; // class Iterator
 
     TColStd_MapOfReal();
     TColStd_MapOfReal(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_MapOfReal(int theNbBuckets);
-    TColStd_MapOfReal(Macad::Occt::TColStd_MapOfReal^ theOther);
     void Exchange(Macad::Occt::TColStd_MapOfReal^ theOther);
     Macad::Occt::TColStd_MapOfReal^ Assign(Macad::Occt::TColStd_MapOfReal^ theOther);
     void ReSize(int N);
-    bool Add(double K);
-    double Added(double K);
-    bool Contains(double K);
+    bool Add(double theKey);
+    double Added(double theKey);
+    bool Contains(double theKey);
     bool Remove(double K);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
     bool IsEqual(Macad::Occt::TColStd_MapOfReal^ theOther);
-    bool Contains(Macad::Occt::TColStd_MapOfReal^ theOther);
     void Union(Macad::Occt::TColStd_MapOfReal^ theLeft, Macad::Occt::TColStd_MapOfReal^ theRight);
     bool Unite(Macad::Occt::TColStd_MapOfReal^ theOther);
     bool HasIntersection(Macad::Occt::TColStd_MapOfReal^ theMap);
@@ -4373,8 +3984,7 @@ public:
     bool Subtract(Macad::Occt::TColStd_MapOfReal^ theOther);
     void Difference(Macad::Occt::TColStd_MapOfReal^ theLeft, Macad::Occt::TColStd_MapOfReal^ theRight);
     bool Differ(Macad::Occt::TColStd_MapOfReal^ theOther);
-    virtual System::Collections::Generic::IEnumerator<double>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    bool Equals(System::Object^ obj) override;
 }; // class TColStd_MapOfReal
 
 //---------------------------------------------------------------------
@@ -4435,8 +4045,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_MapOfTransient^ theMap);
-        Iterator(Macad::Occt::TColStd_MapOfTransient::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Standard_Transient^ Value();
@@ -4446,20 +4054,17 @@ public:
     TColStd_MapOfTransient();
     TColStd_MapOfTransient(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TColStd_MapOfTransient(int theNbBuckets);
-    TColStd_MapOfTransient(Macad::Occt::TColStd_MapOfTransient^ theOther);
     void Exchange(Macad::Occt::TColStd_MapOfTransient^ theOther);
     Macad::Occt::TColStd_MapOfTransient^ Assign(Macad::Occt::TColStd_MapOfTransient^ theOther);
     void ReSize(int N);
-    bool Add(Macad::Occt::Standard_Transient^ K);
-    Macad::Occt::Standard_Transient^ Added(Macad::Occt::Standard_Transient^ K);
-    bool Contains(Macad::Occt::Standard_Transient^ K);
+    bool Add(Macad::Occt::Standard_Transient^ theKey);
+    Macad::Occt::Standard_Transient^ Added(Macad::Occt::Standard_Transient^ theKey);
+    bool Contains(Macad::Occt::Standard_Transient^ theKey);
     bool Remove(Macad::Occt::Standard_Transient^ K);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
     bool IsEqual(Macad::Occt::TColStd_MapOfTransient^ theOther);
-    bool Contains(Macad::Occt::TColStd_MapOfTransient^ theOther);
     void Union(Macad::Occt::TColStd_MapOfTransient^ theLeft, Macad::Occt::TColStd_MapOfTransient^ theRight);
     bool Unite(Macad::Occt::TColStd_MapOfTransient^ theOther);
     bool HasIntersection(Macad::Occt::TColStd_MapOfTransient^ theMap);
@@ -4469,6 +4074,7 @@ public:
     bool Subtract(Macad::Occt::TColStd_MapOfTransient^ theOther);
     void Difference(Macad::Occt::TColStd_MapOfTransient^ theLeft, Macad::Occt::TColStd_MapOfTransient^ theRight);
     bool Differ(Macad::Occt::TColStd_MapOfTransient^ theOther);
+    bool Equals(System::Object^ obj) override;
 }; // class TColStd_MapOfTransient
 
 //---------------------------------------------------------------------
@@ -4529,19 +4135,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_SequenceOfAddress^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_SequenceOfAddress^ theSeq);
-        Iterator(Macad::Occt::TColStd_SequenceOfAddress::Iterator^ parameter1);
         bool More();
         void Next();
         /* Method skipped due to unknown mapping: void * Value() */
         /* Method skipped due to unknown mapping: void * ChangeValue() */
         bool IsEqual(Macad::Occt::TColStd_SequenceOfAddress::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_SequenceOfAddress();
     TColStd_SequenceOfAddress(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_SequenceOfAddress(Macad::Occt::TColStd_SequenceOfAddress^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -4554,17 +4157,10 @@ public:
     void Clear();
     Macad::Occt::TColStd_SequenceOfAddress^ Assign(Macad::Occt::TColStd_SequenceOfAddress^ theOther);
     void Remove(Macad::Occt::TColStd_SequenceOfAddress::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     /* Method skipped due to unknown mapping: void Append(void * theItem, ) */
-    void Append(Macad::Occt::TColStd_SequenceOfAddress^ theSeq);
     /* Method skipped due to unknown mapping: void Prepend(void * theItem, ) */
-    void Prepend(Macad::Occt::TColStd_SequenceOfAddress^ theSeq);
     /* Method skipped due to unknown mapping: void InsertBefore(int theIndex, void * theItem, ) */
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_SequenceOfAddress^ theSeq);
     /* Method skipped due to unknown mapping: void InsertAfter(Iterator thePosition, void * theItem, ) */
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_SequenceOfAddress^ theSeq);
-    /* Method skipped due to unknown mapping: void InsertAfter(int theIndex, void * theItem, ) */
     void Split(int theIndex, Macad::Occt::TColStd_SequenceOfAddress^ theSeq);
     /* Method skipped due to unknown mapping: void * First() */
     /* Method skipped due to unknown mapping: void * ChangeFirst() */
@@ -4643,13 +4239,11 @@ public:
         }
 
         Iterator();
-        Iterator(Macad::Occt::TColStd_SequenceOfBoolean^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_SequenceOfBoolean^ theSeq);
-        Iterator(Macad::Occt::TColStd_SequenceOfBoolean::Iterator^ parameter1);
         bool More();
         void Next();
         bool Value();
         bool IsEqual(Macad::Occt::TColStd_SequenceOfBoolean::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     property bool ChangeFirst {
@@ -4672,7 +4266,6 @@ public:
 
     TColStd_SequenceOfBoolean();
     TColStd_SequenceOfBoolean(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColStd_SequenceOfBoolean(Macad::Occt::TColStd_SequenceOfBoolean^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -4685,17 +4278,10 @@ public:
     void Clear();
     Macad::Occt::TColStd_SequenceOfBoolean^ Assign(Macad::Occt::TColStd_SequenceOfBoolean^ theOther);
     void Remove(Macad::Occt::TColStd_SequenceOfBoolean::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(bool theItem);
-    void Append(Macad::Occt::TColStd_SequenceOfBoolean^ theSeq);
     void Prepend(bool theItem);
-    void Prepend(Macad::Occt::TColStd_SequenceOfBoolean^ theSeq);
     void InsertBefore(int theIndex, bool theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_SequenceOfBoolean^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_SequenceOfBoolean::Iterator^ thePosition, bool theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_SequenceOfBoolean^ theSeq);
-    void InsertAfter(int theIndex, bool theItem);
     void Split(int theIndex, Macad::Occt::TColStd_SequenceOfBoolean^ theSeq);
     bool First();
     bool Last();
@@ -4764,26 +4350,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColStd_HArray1OfAsciiString^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_HArray1OfAsciiString^ theArray);
-        Iterator(Macad::Occt::TColStd_HArray1OfAsciiString::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_HArray1OfAsciiString^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_HArray1OfAsciiString::Iterator^ theOther);
-        Macad::Occt::TCollection_AsciiString^ Value();
-        Macad::Occt::TCollection_AsciiString^ ChangeValue();
-        bool IsEqual(Macad::Occt::TColStd_HArray1OfAsciiString::Iterator^ theOther);
     }; // class Iterator
 
     TColStd_HArray1OfAsciiString();
     TColStd_HArray1OfAsciiString(int theLower, int theUpper);
     TColStd_HArray1OfAsciiString(int theLower, int theUpper, Macad::Occt::TCollection_AsciiString^ theValue);
+    TColStd_HArray1OfAsciiString(Macad::Occt::TCollection_AsciiString^ theBegin, int theLower, int theUpper, bool parameter1);
     TColStd_HArray1OfAsciiString(Macad::Occt::TColStd_Array1OfAsciiString^ theOther);
-    TColStd_HArray1OfAsciiString(Macad::Occt::TColStd_HArray1OfAsciiString^ parameter1);
     Macad::Occt::TColStd_Array1OfAsciiString^ Array1();
     Macad::Occt::TColStd_Array1OfAsciiString^ ChangeArray1();
     void Init(Macad::Occt::TCollection_AsciiString^ theValue);
@@ -4792,8 +4365,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_HArray1OfAsciiString^ Assign(Macad::Occt::TColStd_HArray1OfAsciiString^ theOther);
     Macad::Occt::TColStd_HArray1OfAsciiString^ Move(Macad::Occt::TColStd_HArray1OfAsciiString^ theOther);
     Macad::Occt::TCollection_AsciiString^ First();
@@ -4803,7 +4374,10 @@ public:
     virtual Macad::Occt::TCollection_AsciiString^ Value(int theIndex);
     Macad::Occt::TCollection_AsciiString^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::TCollection_AsciiString^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColStd_HArray1OfAsciiString^ CreateDowncasted(::TColStd_HArray1OfAsciiString* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::TCollection_AsciiString^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -4867,27 +4441,6 @@ public:
         }
 
     public:
-        property bool ChangeValue {
-            bool get() {
-                return ((::TColStd_HArray1OfBoolean::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(bool value) {
-                ((::TColStd_HArray1OfBoolean::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_HArray1OfBoolean^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_HArray1OfBoolean^ theArray);
-        Iterator(Macad::Occt::TColStd_HArray1OfBoolean::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_HArray1OfBoolean^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_HArray1OfBoolean::Iterator^ theOther);
-        bool Value();
-        bool IsEqual(Macad::Occt::TColStd_HArray1OfBoolean::Iterator^ theOther);
     }; // class Iterator
 
     property bool ChangeFirst {
@@ -4911,8 +4464,8 @@ public:
     TColStd_HArray1OfBoolean();
     TColStd_HArray1OfBoolean(int theLower, int theUpper);
     TColStd_HArray1OfBoolean(int theLower, int theUpper, bool theValue);
+    TColStd_HArray1OfBoolean(bool theBegin, int theLower, int theUpper, bool parameter1);
     TColStd_HArray1OfBoolean(Macad::Occt::TColStd_Array1OfBoolean^ theOther);
-    TColStd_HArray1OfBoolean(Macad::Occt::TColStd_HArray1OfBoolean^ parameter1);
     Macad::Occt::TColStd_Array1OfBoolean^ Array1();
     Macad::Occt::TColStd_Array1OfBoolean^ ChangeArray1();
     void Init(bool theValue);
@@ -4921,8 +4474,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_HArray1OfBoolean^ Assign(Macad::Occt::TColStd_HArray1OfBoolean^ theOther);
     Macad::Occt::TColStd_HArray1OfBoolean^ Move(Macad::Occt::TColStd_HArray1OfBoolean^ theOther);
     bool First();
@@ -4930,7 +4481,10 @@ public:
     virtual bool Value(int theIndex);
     bool ChangeValue(int theIndex);
     void SetValue(int theIndex, bool theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColStd_HArray1OfBoolean^ CreateDowncasted(::TColStd_HArray1OfBoolean* instance);
     virtual System::Collections::Generic::IEnumerator<bool>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -4994,27 +4548,6 @@ public:
         }
 
     public:
-        property unsigned char ChangeValue {
-            unsigned char get() {
-                return ((::TColStd_HArray1OfByte::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(unsigned char value) {
-                ((::TColStd_HArray1OfByte::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_HArray1OfByte^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_HArray1OfByte^ theArray);
-        Iterator(Macad::Occt::TColStd_HArray1OfByte::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_HArray1OfByte^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_HArray1OfByte::Iterator^ theOther);
-        unsigned char Value();
-        bool IsEqual(Macad::Occt::TColStd_HArray1OfByte::Iterator^ theOther);
     }; // class Iterator
 
     property unsigned char ChangeFirst {
@@ -5038,8 +4571,8 @@ public:
     TColStd_HArray1OfByte();
     TColStd_HArray1OfByte(int theLower, int theUpper);
     TColStd_HArray1OfByte(int theLower, int theUpper, unsigned char theValue);
+    TColStd_HArray1OfByte(unsigned char theBegin, int theLower, int theUpper, bool parameter1);
     TColStd_HArray1OfByte(Macad::Occt::TColStd_Array1OfByte^ theOther);
-    TColStd_HArray1OfByte(Macad::Occt::TColStd_HArray1OfByte^ parameter1);
     Macad::Occt::TColStd_Array1OfByte^ Array1();
     Macad::Occt::TColStd_Array1OfByte^ ChangeArray1();
     void Init(unsigned char theValue);
@@ -5048,8 +4581,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_HArray1OfByte^ Assign(Macad::Occt::TColStd_HArray1OfByte^ theOther);
     Macad::Occt::TColStd_HArray1OfByte^ Move(Macad::Occt::TColStd_HArray1OfByte^ theOther);
     unsigned char First();
@@ -5057,7 +4588,10 @@ public:
     virtual unsigned char Value(int theIndex);
     unsigned char ChangeValue(int theIndex);
     void SetValue(int theIndex, unsigned char theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColStd_HArray1OfByte^ CreateDowncasted(::TColStd_HArray1OfByte* instance);
     virtual System::Collections::Generic::IEnumerator<unsigned char>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -5121,27 +4655,6 @@ public:
         }
 
     public:
-        property char ChangeValue {
-            char get() {
-                return ((::TColStd_HArray1OfCharacter::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(char value) {
-                ((::TColStd_HArray1OfCharacter::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_HArray1OfCharacter^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_HArray1OfCharacter^ theArray);
-        Iterator(Macad::Occt::TColStd_HArray1OfCharacter::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_HArray1OfCharacter^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_HArray1OfCharacter::Iterator^ theOther);
-        char Value();
-        bool IsEqual(Macad::Occt::TColStd_HArray1OfCharacter::Iterator^ theOther);
     }; // class Iterator
 
     property char ChangeFirst {
@@ -5165,8 +4678,8 @@ public:
     TColStd_HArray1OfCharacter();
     TColStd_HArray1OfCharacter(int theLower, int theUpper);
     TColStd_HArray1OfCharacter(int theLower, int theUpper, char theValue);
+    TColStd_HArray1OfCharacter(char theBegin, int theLower, int theUpper, bool parameter1);
     TColStd_HArray1OfCharacter(Macad::Occt::TColStd_Array1OfCharacter^ theOther);
-    TColStd_HArray1OfCharacter(Macad::Occt::TColStd_HArray1OfCharacter^ parameter1);
     Macad::Occt::TColStd_Array1OfCharacter^ Array1();
     Macad::Occt::TColStd_Array1OfCharacter^ ChangeArray1();
     void Init(char theValue);
@@ -5175,8 +4688,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_HArray1OfCharacter^ Assign(Macad::Occt::TColStd_HArray1OfCharacter^ theOther);
     Macad::Occt::TColStd_HArray1OfCharacter^ Move(Macad::Occt::TColStd_HArray1OfCharacter^ theOther);
     char First();
@@ -5184,7 +4695,10 @@ public:
     virtual char Value(int theIndex);
     char ChangeValue(int theIndex);
     void SetValue(int theIndex, char theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColStd_HArray1OfCharacter^ CreateDowncasted(::TColStd_HArray1OfCharacter* instance);
     virtual System::Collections::Generic::IEnumerator<char>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -5248,26 +4762,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColStd_HArray1OfExtendedString^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_HArray1OfExtendedString^ theArray);
-        Iterator(Macad::Occt::TColStd_HArray1OfExtendedString::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_HArray1OfExtendedString^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_HArray1OfExtendedString::Iterator^ theOther);
-        Macad::Occt::TCollection_ExtendedString^ Value();
-        Macad::Occt::TCollection_ExtendedString^ ChangeValue();
-        bool IsEqual(Macad::Occt::TColStd_HArray1OfExtendedString::Iterator^ theOther);
     }; // class Iterator
 
     TColStd_HArray1OfExtendedString();
     TColStd_HArray1OfExtendedString(int theLower, int theUpper);
     TColStd_HArray1OfExtendedString(int theLower, int theUpper, Macad::Occt::TCollection_ExtendedString^ theValue);
+    TColStd_HArray1OfExtendedString(Macad::Occt::TCollection_ExtendedString^ theBegin, int theLower, int theUpper, bool parameter1);
     TColStd_HArray1OfExtendedString(Macad::Occt::TColStd_Array1OfExtendedString^ theOther);
-    TColStd_HArray1OfExtendedString(Macad::Occt::TColStd_HArray1OfExtendedString^ parameter1);
     Macad::Occt::TColStd_Array1OfExtendedString^ Array1();
     Macad::Occt::TColStd_Array1OfExtendedString^ ChangeArray1();
     void Init(Macad::Occt::TCollection_ExtendedString^ theValue);
@@ -5276,8 +4777,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_HArray1OfExtendedString^ Assign(Macad::Occt::TColStd_HArray1OfExtendedString^ theOther);
     Macad::Occt::TColStd_HArray1OfExtendedString^ Move(Macad::Occt::TColStd_HArray1OfExtendedString^ theOther);
     Macad::Occt::TCollection_ExtendedString^ First();
@@ -5287,7 +4786,10 @@ public:
     virtual Macad::Occt::TCollection_ExtendedString^ Value(int theIndex);
     Macad::Occt::TCollection_ExtendedString^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::TCollection_ExtendedString^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColStd_HArray1OfExtendedString^ CreateDowncasted(::TColStd_HArray1OfExtendedString* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::TCollection_ExtendedString^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -5351,27 +4853,6 @@ public:
         }
 
     public:
-        property int ChangeValue {
-            int get() {
-                return ((::TColStd_HArray1OfInteger::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(int value) {
-                ((::TColStd_HArray1OfInteger::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_HArray1OfInteger^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_HArray1OfInteger^ theArray);
-        Iterator(Macad::Occt::TColStd_HArray1OfInteger::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_HArray1OfInteger^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_HArray1OfInteger::Iterator^ theOther);
-        int Value();
-        bool IsEqual(Macad::Occt::TColStd_HArray1OfInteger::Iterator^ theOther);
     }; // class Iterator
 
     property int ChangeFirst {
@@ -5395,8 +4876,8 @@ public:
     TColStd_HArray1OfInteger();
     TColStd_HArray1OfInteger(int theLower, int theUpper);
     TColStd_HArray1OfInteger(int theLower, int theUpper, int theValue);
+    TColStd_HArray1OfInteger(int theBegin, int theLower, int theUpper, bool parameter1);
     TColStd_HArray1OfInteger(Macad::Occt::TColStd_Array1OfInteger^ theOther);
-    TColStd_HArray1OfInteger(Macad::Occt::TColStd_HArray1OfInteger^ parameter1);
     Macad::Occt::TColStd_Array1OfInteger^ Array1();
     Macad::Occt::TColStd_Array1OfInteger^ ChangeArray1();
     void Init(int theValue);
@@ -5405,8 +4886,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_HArray1OfInteger^ Assign(Macad::Occt::TColStd_HArray1OfInteger^ theOther);
     Macad::Occt::TColStd_HArray1OfInteger^ Move(Macad::Occt::TColStd_HArray1OfInteger^ theOther);
     int First();
@@ -5414,7 +4893,10 @@ public:
     virtual int Value(int theIndex);
     int ChangeValue(int theIndex);
     void SetValue(int theIndex, int theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColStd_HArray1OfInteger^ CreateDowncasted(::TColStd_HArray1OfInteger* instance);
     virtual System::Collections::Generic::IEnumerator<int>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -5425,7 +4907,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_HArray1OfListOfInteger sealed
     : public Macad::Occt::Standard_Transient
-    , public IIndexEnumerable<Macad::Occt::TColStd_ListOfInteger^>
 {
 
 #ifdef Include_TColStd_HArray1OfListOfInteger_h
@@ -5478,49 +4959,35 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColStd_HArray1OfListOfInteger^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_HArray1OfListOfInteger^ theArray);
-        Iterator(Macad::Occt::TColStd_HArray1OfListOfInteger::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_HArray1OfListOfInteger^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_HArray1OfListOfInteger::Iterator^ theOther);
-        Macad::Occt::TColStd_ListOfInteger^ Value();
-        Macad::Occt::TColStd_ListOfInteger^ ChangeValue();
-        bool IsEqual(Macad::Occt::TColStd_HArray1OfListOfInteger::Iterator^ theOther);
     }; // class Iterator
 
     TColStd_HArray1OfListOfInteger();
     TColStd_HArray1OfListOfInteger(int theLower, int theUpper);
     /* Method skipped due to unknown mapping: void TColStd_HArray1OfListOfInteger(int theLower, int theUpper, value_type theValue, ) */
+    /* Method skipped due to unknown mapping: void TColStd_HArray1OfListOfInteger(value_type theBegin, int theLower, int theUpper, bool parameter1, ) */
     TColStd_HArray1OfListOfInteger(Macad::Occt::TColStd_Array1OfListOfInteger^ theOther);
-    TColStd_HArray1OfListOfInteger(Macad::Occt::TColStd_HArray1OfListOfInteger^ parameter1);
     Macad::Occt::TColStd_Array1OfListOfInteger^ Array1();
     Macad::Occt::TColStd_Array1OfListOfInteger^ ChangeArray1();
-    void Init(Macad::Occt::TColStd_ListOfInteger^ theValue);
+    /* Method skipped due to unknown mapping: void Init(const_reference theValue, ) */
     int Size();
     int Length();
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_HArray1OfListOfInteger^ Assign(Macad::Occt::TColStd_HArray1OfListOfInteger^ theOther);
     Macad::Occt::TColStd_HArray1OfListOfInteger^ Move(Macad::Occt::TColStd_HArray1OfListOfInteger^ theOther);
-    Macad::Occt::TColStd_ListOfInteger^ First();
-    Macad::Occt::TColStd_ListOfInteger^ ChangeFirst();
-    Macad::Occt::TColStd_ListOfInteger^ Last();
-    Macad::Occt::TColStd_ListOfInteger^ ChangeLast();
-    virtual Macad::Occt::TColStd_ListOfInteger^ Value(int theIndex);
-    Macad::Occt::TColStd_ListOfInteger^ ChangeValue(int theIndex);
-    void SetValue(int theIndex, Macad::Occt::TColStd_ListOfInteger^ theItem);
+    /* Method skipped due to unknown mapping: const_reference First() */
+    /* Method skipped due to unknown mapping: reference ChangeFirst() */
+    /* Method skipped due to unknown mapping: const_reference Last() */
+    /* Method skipped due to unknown mapping: reference ChangeLast() */
+    /* Method skipped due to unknown mapping: const_reference Value(int theIndex, ) */
+    /* Method skipped due to unknown mapping: reference ChangeValue(int theIndex, ) */
+    /* Method skipped due to unknown mapping: void SetValue(int theIndex, value_type theItem, ) */
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColStd_HArray1OfListOfInteger^ CreateDowncasted(::TColStd_HArray1OfListOfInteger* instance);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::TColStd_ListOfInteger^>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_HArray1OfListOfInteger
 
 //---------------------------------------------------------------------
@@ -5581,27 +5048,6 @@ public:
         }
 
     public:
-        property double ChangeValue {
-            double get() {
-                return ((::TColStd_HArray1OfReal::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(double value) {
-                ((::TColStd_HArray1OfReal::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_HArray1OfReal^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_HArray1OfReal^ theArray);
-        Iterator(Macad::Occt::TColStd_HArray1OfReal::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_HArray1OfReal^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_HArray1OfReal::Iterator^ theOther);
-        double Value();
-        bool IsEqual(Macad::Occt::TColStd_HArray1OfReal::Iterator^ theOther);
     }; // class Iterator
 
     property double ChangeFirst {
@@ -5625,8 +5071,8 @@ public:
     TColStd_HArray1OfReal();
     TColStd_HArray1OfReal(int theLower, int theUpper);
     TColStd_HArray1OfReal(int theLower, int theUpper, double theValue);
+    TColStd_HArray1OfReal(double theBegin, int theLower, int theUpper, bool parameter1);
     TColStd_HArray1OfReal(Macad::Occt::TColStd_Array1OfReal^ theOther);
-    TColStd_HArray1OfReal(Macad::Occt::TColStd_HArray1OfReal^ parameter1);
     Macad::Occt::TColStd_Array1OfReal^ Array1();
     Macad::Occt::TColStd_Array1OfReal^ ChangeArray1();
     void Init(double theValue);
@@ -5635,8 +5081,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_HArray1OfReal^ Assign(Macad::Occt::TColStd_HArray1OfReal^ theOther);
     Macad::Occt::TColStd_HArray1OfReal^ Move(Macad::Occt::TColStd_HArray1OfReal^ theOther);
     double First();
@@ -5644,7 +5088,10 @@ public:
     virtual double Value(int theIndex);
     double ChangeValue(int theIndex);
     void SetValue(int theIndex, double theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColStd_HArray1OfReal^ CreateDowncasted(::TColStd_HArray1OfReal* instance);
     virtual System::Collections::Generic::IEnumerator<double>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -5708,26 +5155,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColStd_HArray1OfTransient^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColStd_HArray1OfTransient^ theArray);
-        Iterator(Macad::Occt::TColStd_HArray1OfTransient::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_HArray1OfTransient^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColStd_HArray1OfTransient::Iterator^ theOther);
-        Macad::Occt::Standard_Transient^ Value();
-        Macad::Occt::Standard_Transient^ ChangeValue();
-        bool IsEqual(Macad::Occt::TColStd_HArray1OfTransient::Iterator^ theOther);
     }; // class Iterator
 
     TColStd_HArray1OfTransient();
     TColStd_HArray1OfTransient(int theLower, int theUpper);
     TColStd_HArray1OfTransient(int theLower, int theUpper, Macad::Occt::Standard_Transient^ theValue);
+    TColStd_HArray1OfTransient(Macad::Occt::Standard_Transient^ theBegin, int theLower, int theUpper, bool parameter1);
     TColStd_HArray1OfTransient(Macad::Occt::TColStd_Array1OfTransient^ theOther);
-    TColStd_HArray1OfTransient(Macad::Occt::TColStd_HArray1OfTransient^ parameter1);
     Macad::Occt::TColStd_Array1OfTransient^ Array1();
     Macad::Occt::TColStd_Array1OfTransient^ ChangeArray1();
     void Init(Macad::Occt::Standard_Transient^ theValue);
@@ -5736,8 +5170,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColStd_HArray1OfTransient^ Assign(Macad::Occt::TColStd_HArray1OfTransient^ theOther);
     Macad::Occt::TColStd_HArray1OfTransient^ Move(Macad::Occt::TColStd_HArray1OfTransient^ theOther);
     Macad::Occt::Standard_Transient^ First();
@@ -5747,7 +5179,10 @@ public:
     virtual Macad::Occt::Standard_Transient^ Value(int theIndex);
     Macad::Occt::Standard_Transient^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Standard_Transient^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColStd_HArray1OfTransient^ CreateDowncasted(::TColStd_HArray1OfTransient* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Standard_Transient^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -5758,7 +5193,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_HArray2OfBoolean sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<bool>
 {
 
 #ifdef Include_TColStd_HArray2OfBoolean_h
@@ -5785,7 +5219,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<bool, ::TColStd_HArray2OfBoolean::Iterator>
+        : public Macad::Occt::BaseClass<::TColStd_HArray2OfBoolean::Iterator>
     {
 
 #ifdef Include_TColStd_HArray2OfBoolean_Iterator_h
@@ -5795,11 +5229,11 @@ public:
 
     public:
         Iterator(::TColStd_HArray2OfBoolean::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<bool, ::TColStd_HArray2OfBoolean::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColStd_HArray2OfBoolean::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_HArray2OfBoolean::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<bool, ::TColStd_HArray2OfBoolean::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColStd_HArray2OfBoolean::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_HArray2OfBoolean::Iterator* NativeInstance
@@ -5811,31 +5245,33 @@ public:
         }
 
     public:
-        property bool ChangeValue {
-            bool get() {
-                return ((::TColStd_HArray2OfBoolean::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(bool value) {
-                ((::TColStd_HArray2OfBoolean::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_HArray2OfBoolean^ theArray);
-        Iterator(Macad::Occt::TColStd_HArray2OfBoolean::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_HArray2OfBoolean^ theArray);
-        bool More() override;
-        void Next() override;
-        bool Value() override;
     }; // class Iterator
+
+    property bool ChangeFirst {
+        bool get() {
+            return ((::TColStd_HArray2OfBoolean*)_NativeInstance)->ChangeFirst();
+        }
+        void set(bool value) {
+            ((::TColStd_HArray2OfBoolean*)_NativeInstance)->ChangeFirst() = value;
+        }
+    }
+
+    property bool ChangeLast {
+        bool get() {
+            return ((::TColStd_HArray2OfBoolean*)_NativeInstance)->ChangeLast();
+        }
+        void set(bool value) {
+            ((::TColStd_HArray2OfBoolean*)_NativeInstance)->ChangeLast() = value;
+        }
+    }
 
     TColStd_HArray2OfBoolean(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColStd_HArray2OfBoolean(int theRowLow, int theRowUpp, int theColLow, int theColUpp, bool theValue);
     TColStd_HArray2OfBoolean(Macad::Occt::TColStd_Array2OfBoolean^ theOther);
-    TColStd_HArray2OfBoolean(Macad::Occt::TColStd_HArray2OfBoolean^ parameter1);
     Macad::Occt::TColStd_Array2OfBoolean^ Array2();
     Macad::Occt::TColStd_Array2OfBoolean^ ChangeArray2();
-    void Init(bool theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -5846,16 +5282,22 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColStd_HArray2OfBoolean^ Assign(Macad::Occt::TColStd_HArray2OfBoolean^ theOther);
     Macad::Occt::TColStd_HArray2OfBoolean^ Move(Macad::Occt::TColStd_HArray2OfBoolean^ theOther);
     bool Value(int theRow, int theCol);
     bool ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, bool theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(bool theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    bool First();
+    bool Last();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColStd_HArray2OfBoolean^ CreateDowncasted(::TColStd_HArray2OfBoolean* instance);
-    virtual System::Collections::Generic::IEnumerator<bool>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_HArray2OfBoolean
 
 //---------------------------------------------------------------------
@@ -5863,7 +5305,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_HArray2OfCharacter sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<char>
 {
 
 #ifdef Include_TColStd_HArray2OfCharacter_h
@@ -5890,7 +5331,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<char, ::TColStd_HArray2OfCharacter::Iterator>
+        : public Macad::Occt::BaseClass<::TColStd_HArray2OfCharacter::Iterator>
     {
 
 #ifdef Include_TColStd_HArray2OfCharacter_Iterator_h
@@ -5900,11 +5341,11 @@ public:
 
     public:
         Iterator(::TColStd_HArray2OfCharacter::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<char, ::TColStd_HArray2OfCharacter::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColStd_HArray2OfCharacter::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_HArray2OfCharacter::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<char, ::TColStd_HArray2OfCharacter::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColStd_HArray2OfCharacter::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_HArray2OfCharacter::Iterator* NativeInstance
@@ -5916,31 +5357,33 @@ public:
         }
 
     public:
-        property char ChangeValue {
-            char get() {
-                return ((::TColStd_HArray2OfCharacter::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(char value) {
-                ((::TColStd_HArray2OfCharacter::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_HArray2OfCharacter^ theArray);
-        Iterator(Macad::Occt::TColStd_HArray2OfCharacter::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_HArray2OfCharacter^ theArray);
-        bool More() override;
-        void Next() override;
-        char Value() override;
     }; // class Iterator
+
+    property char ChangeFirst {
+        char get() {
+            return ((::TColStd_HArray2OfCharacter*)_NativeInstance)->ChangeFirst();
+        }
+        void set(char value) {
+            ((::TColStd_HArray2OfCharacter*)_NativeInstance)->ChangeFirst() = value;
+        }
+    }
+
+    property char ChangeLast {
+        char get() {
+            return ((::TColStd_HArray2OfCharacter*)_NativeInstance)->ChangeLast();
+        }
+        void set(char value) {
+            ((::TColStd_HArray2OfCharacter*)_NativeInstance)->ChangeLast() = value;
+        }
+    }
 
     TColStd_HArray2OfCharacter(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColStd_HArray2OfCharacter(int theRowLow, int theRowUpp, int theColLow, int theColUpp, char theValue);
     TColStd_HArray2OfCharacter(Macad::Occt::TColStd_Array2OfCharacter^ theOther);
-    TColStd_HArray2OfCharacter(Macad::Occt::TColStd_HArray2OfCharacter^ parameter1);
     Macad::Occt::TColStd_Array2OfCharacter^ Array2();
     Macad::Occt::TColStd_Array2OfCharacter^ ChangeArray2();
-    void Init(char theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -5951,16 +5394,22 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColStd_HArray2OfCharacter^ Assign(Macad::Occt::TColStd_HArray2OfCharacter^ theOther);
     Macad::Occt::TColStd_HArray2OfCharacter^ Move(Macad::Occt::TColStd_HArray2OfCharacter^ theOther);
     char Value(int theRow, int theCol);
     char ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, char theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(char theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    char First();
+    char Last();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColStd_HArray2OfCharacter^ CreateDowncasted(::TColStd_HArray2OfCharacter* instance);
-    virtual System::Collections::Generic::IEnumerator<char>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_HArray2OfCharacter
 
 //---------------------------------------------------------------------
@@ -5968,7 +5417,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_HArray2OfInteger sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<int>
 {
 
 #ifdef Include_TColStd_HArray2OfInteger_h
@@ -5995,7 +5443,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<int, ::TColStd_HArray2OfInteger::Iterator>
+        : public Macad::Occt::BaseClass<::TColStd_HArray2OfInteger::Iterator>
     {
 
 #ifdef Include_TColStd_HArray2OfInteger_Iterator_h
@@ -6005,11 +5453,11 @@ public:
 
     public:
         Iterator(::TColStd_HArray2OfInteger::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<int, ::TColStd_HArray2OfInteger::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColStd_HArray2OfInteger::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_HArray2OfInteger::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<int, ::TColStd_HArray2OfInteger::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColStd_HArray2OfInteger::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_HArray2OfInteger::Iterator* NativeInstance
@@ -6021,31 +5469,33 @@ public:
         }
 
     public:
-        property int ChangeValue {
-            int get() {
-                return ((::TColStd_HArray2OfInteger::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(int value) {
-                ((::TColStd_HArray2OfInteger::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_HArray2OfInteger^ theArray);
-        Iterator(Macad::Occt::TColStd_HArray2OfInteger::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_HArray2OfInteger^ theArray);
-        bool More() override;
-        void Next() override;
-        int Value() override;
     }; // class Iterator
+
+    property int ChangeFirst {
+        int get() {
+            return ((::TColStd_HArray2OfInteger*)_NativeInstance)->ChangeFirst();
+        }
+        void set(int value) {
+            ((::TColStd_HArray2OfInteger*)_NativeInstance)->ChangeFirst() = value;
+        }
+    }
+
+    property int ChangeLast {
+        int get() {
+            return ((::TColStd_HArray2OfInteger*)_NativeInstance)->ChangeLast();
+        }
+        void set(int value) {
+            ((::TColStd_HArray2OfInteger*)_NativeInstance)->ChangeLast() = value;
+        }
+    }
 
     TColStd_HArray2OfInteger(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColStd_HArray2OfInteger(int theRowLow, int theRowUpp, int theColLow, int theColUpp, int theValue);
     TColStd_HArray2OfInteger(Macad::Occt::TColStd_Array2OfInteger^ theOther);
-    TColStd_HArray2OfInteger(Macad::Occt::TColStd_HArray2OfInteger^ parameter1);
     Macad::Occt::TColStd_Array2OfInteger^ Array2();
     Macad::Occt::TColStd_Array2OfInteger^ ChangeArray2();
-    void Init(int theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -6056,16 +5506,22 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColStd_HArray2OfInteger^ Assign(Macad::Occt::TColStd_HArray2OfInteger^ theOther);
     Macad::Occt::TColStd_HArray2OfInteger^ Move(Macad::Occt::TColStd_HArray2OfInteger^ theOther);
     int Value(int theRow, int theCol);
     int ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, int theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(int theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    int First();
+    int Last();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColStd_HArray2OfInteger^ CreateDowncasted(::TColStd_HArray2OfInteger* instance);
-    virtual System::Collections::Generic::IEnumerator<int>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_HArray2OfInteger
 
 //---------------------------------------------------------------------
@@ -6073,7 +5529,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColStd_HArray2OfReal sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<double>
 {
 
 #ifdef Include_TColStd_HArray2OfReal_h
@@ -6100,7 +5555,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<double, ::TColStd_HArray2OfReal::Iterator>
+        : public Macad::Occt::BaseClass<::TColStd_HArray2OfReal::Iterator>
     {
 
 #ifdef Include_TColStd_HArray2OfReal_Iterator_h
@@ -6110,11 +5565,11 @@ public:
 
     public:
         Iterator(::TColStd_HArray2OfReal::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<double, ::TColStd_HArray2OfReal::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColStd_HArray2OfReal::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColStd_HArray2OfReal::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<double, ::TColStd_HArray2OfReal::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColStd_HArray2OfReal::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColStd_HArray2OfReal::Iterator* NativeInstance
@@ -6126,31 +5581,33 @@ public:
         }
 
     public:
-        property double ChangeValue {
-            double get() {
-                return ((::TColStd_HArray2OfReal::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(double value) {
-                ((::TColStd_HArray2OfReal::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TColStd_HArray2OfReal^ theArray);
-        Iterator(Macad::Occt::TColStd_HArray2OfReal::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_HArray2OfReal^ theArray);
-        bool More() override;
-        void Next() override;
-        double Value() override;
     }; // class Iterator
+
+    property double ChangeFirst {
+        double get() {
+            return ((::TColStd_HArray2OfReal*)_NativeInstance)->ChangeFirst();
+        }
+        void set(double value) {
+            ((::TColStd_HArray2OfReal*)_NativeInstance)->ChangeFirst() = value;
+        }
+    }
+
+    property double ChangeLast {
+        double get() {
+            return ((::TColStd_HArray2OfReal*)_NativeInstance)->ChangeLast();
+        }
+        void set(double value) {
+            ((::TColStd_HArray2OfReal*)_NativeInstance)->ChangeLast() = value;
+        }
+    }
 
     TColStd_HArray2OfReal(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColStd_HArray2OfReal(int theRowLow, int theRowUpp, int theColLow, int theColUpp, double theValue);
     TColStd_HArray2OfReal(Macad::Occt::TColStd_Array2OfReal^ theOther);
-    TColStd_HArray2OfReal(Macad::Occt::TColStd_HArray2OfReal^ parameter1);
     Macad::Occt::TColStd_Array2OfReal^ Array2();
     Macad::Occt::TColStd_Array2OfReal^ ChangeArray2();
-    void Init(double theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -6161,16 +5618,22 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColStd_HArray2OfReal^ Assign(Macad::Occt::TColStd_HArray2OfReal^ theOther);
     Macad::Occt::TColStd_HArray2OfReal^ Move(Macad::Occt::TColStd_HArray2OfReal^ theOther);
     double Value(int theRow, int theCol);
     double ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, double theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(double theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    double First();
+    double Last();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColStd_HArray2OfReal^ CreateDowncasted(::TColStd_HArray2OfReal* instance);
-    virtual System::Collections::Generic::IEnumerator<double>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColStd_HArray2OfReal
 
 //---------------------------------------------------------------------
@@ -6230,23 +5693,15 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColStd_HArray2OfTransient^ theArray);
-        Iterator(Macad::Occt::TColStd_HArray2OfTransient::Iterator^ parameter1);
-        void Init(Macad::Occt::TColStd_HArray2OfTransient^ theArray);
-        bool More();
-        void Next();
-        Macad::Occt::Standard_Transient^ Value();
-        Macad::Occt::Standard_Transient^ ChangeValue();
     }; // class Iterator
 
     TColStd_HArray2OfTransient(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColStd_HArray2OfTransient(int theRowLow, int theRowUpp, int theColLow, int theColUpp, Macad::Occt::Standard_Transient^ theValue);
     TColStd_HArray2OfTransient(Macad::Occt::TColStd_Array2OfTransient^ theOther);
-    TColStd_HArray2OfTransient(Macad::Occt::TColStd_HArray2OfTransient^ parameter1);
     Macad::Occt::TColStd_Array2OfTransient^ Array2();
     Macad::Occt::TColStd_Array2OfTransient^ ChangeArray2();
-    void Init(Macad::Occt::Standard_Transient^ theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -6257,13 +5712,23 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColStd_HArray2OfTransient^ Assign(Macad::Occt::TColStd_HArray2OfTransient^ theOther);
     Macad::Occt::TColStd_HArray2OfTransient^ Move(Macad::Occt::TColStd_HArray2OfTransient^ theOther);
     Macad::Occt::Standard_Transient^ Value(int theRow, int theCol);
     Macad::Occt::Standard_Transient^ ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::Standard_Transient^ theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(Macad::Occt::Standard_Transient^ theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::Standard_Transient^ First();
+    Macad::Occt::Standard_Transient^ ChangeFirst();
+    Macad::Occt::Standard_Transient^ Last();
+    Macad::Occt::Standard_Transient^ ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColStd_HArray2OfTransient^ CreateDowncasted(::TColStd_HArray2OfTransient* instance);
 }; // class TColStd_HArray2OfTransient
 
@@ -6340,7 +5805,6 @@ public:
         /// Constructor.
         /// </summary>
         Iterator(Macad::Occt::TColStd_PackedMapOfInteger^ theMap);
-        Iterator(Macad::Occt::TColStd_PackedMapOfInteger::Iterator^ parameter1);
         /// <summary>
         /// Re-initialize with the same or another Map instance.
         /// </summary>
@@ -6371,10 +5835,6 @@ public:
     /// Constructor
     /// </summary>
     TColStd_PackedMapOfInteger();
-    /// <summary>
-    /// Copy constructor
-    /// </summary>
-    TColStd_PackedMapOfInteger(Macad::Occt::TColStd_PackedMapOfInteger^ theOther);
     Macad::Occt::TColStd_PackedMapOfInteger^ Assign(Macad::Occt::TColStd_PackedMapOfInteger^ parameter1);
     void ReSize(int NbBuckets);
     void Clear();
@@ -6503,6 +5963,7 @@ public:
     /// */
     /// </summary>
     bool HasIntersection(Macad::Occt::TColStd_PackedMapOfInteger^ parameter1);
+    bool Equals(System::Object^ obj) override;
 }; // class TColStd_PackedMapOfInteger
 
 //---------------------------------------------------------------------
@@ -6541,7 +6002,6 @@ public:
     TColStd_HPackedMapOfInteger(int NbBuckets);
     TColStd_HPackedMapOfInteger();
     TColStd_HPackedMapOfInteger(Macad::Occt::TColStd_PackedMapOfInteger^ theOther);
-    TColStd_HPackedMapOfInteger(Macad::Occt::TColStd_HPackedMapOfInteger^ parameter1);
     Macad::Occt::TColStd_PackedMapOfInteger^ Map();
     Macad::Occt::TColStd_PackedMapOfInteger^ ChangeMap();
     static Macad::Occt::TColStd_HPackedMapOfInteger^ CreateDowncasted(::TColStd_HPackedMapOfInteger* instance);
@@ -6606,20 +6066,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_HSequenceOfAsciiString^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_HSequenceOfAsciiString^ theSeq);
-        Iterator(Macad::Occt::TColStd_HSequenceOfAsciiString::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TCollection_AsciiString^ Value();
         Macad::Occt::TCollection_AsciiString^ ChangeValue();
         bool IsEqual(Macad::Occt::TColStd_HSequenceOfAsciiString::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_HSequenceOfAsciiString();
     TColStd_HSequenceOfAsciiString(Macad::Occt::TColStd_SequenceOfAsciiString^ theOther);
-    TColStd_HSequenceOfAsciiString(Macad::Occt::TColStd_HSequenceOfAsciiString^ parameter1);
     Macad::Occt::TColStd_SequenceOfAsciiString^ Sequence();
+    void Append(Macad::Occt::TCollection_AsciiString^ theItem);
     void Append(Macad::Occt::TColStd_SequenceOfAsciiString^ theSequence);
     Macad::Occt::TColStd_SequenceOfAsciiString^ ChangeSequence();
     int Size();
@@ -6634,17 +6092,9 @@ public:
     void Clear();
     Macad::Occt::TColStd_HSequenceOfAsciiString^ Assign(Macad::Occt::TColStd_HSequenceOfAsciiString^ theOther);
     void Remove(Macad::Occt::TColStd_HSequenceOfAsciiString::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::TCollection_AsciiString^ theItem);
-    void Append(Macad::Occt::TColStd_HSequenceOfAsciiString^ theSeq);
     void Prepend(Macad::Occt::TCollection_AsciiString^ theItem);
-    void Prepend(Macad::Occt::TColStd_HSequenceOfAsciiString^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::TCollection_AsciiString^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_HSequenceOfAsciiString^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_HSequenceOfAsciiString::Iterator^ thePosition, Macad::Occt::TCollection_AsciiString^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_HSequenceOfAsciiString^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::TCollection_AsciiString^ theItem);
     void Split(int theIndex, Macad::Occt::TColStd_HSequenceOfAsciiString^ theSeq);
     Macad::Occt::TCollection_AsciiString^ First();
     Macad::Occt::TCollection_AsciiString^ ChangeFirst();
@@ -6717,20 +6167,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_HSequenceOfExtendedString^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_HSequenceOfExtendedString^ theSeq);
-        Iterator(Macad::Occt::TColStd_HSequenceOfExtendedString::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TCollection_ExtendedString^ Value();
         Macad::Occt::TCollection_ExtendedString^ ChangeValue();
         bool IsEqual(Macad::Occt::TColStd_HSequenceOfExtendedString::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_HSequenceOfExtendedString();
     TColStd_HSequenceOfExtendedString(Macad::Occt::TColStd_SequenceOfExtendedString^ theOther);
-    TColStd_HSequenceOfExtendedString(Macad::Occt::TColStd_HSequenceOfExtendedString^ parameter1);
     Macad::Occt::TColStd_SequenceOfExtendedString^ Sequence();
+    void Append(Macad::Occt::TCollection_ExtendedString^ theItem);
     void Append(Macad::Occt::TColStd_SequenceOfExtendedString^ theSequence);
     Macad::Occt::TColStd_SequenceOfExtendedString^ ChangeSequence();
     int Size();
@@ -6745,17 +6193,9 @@ public:
     void Clear();
     Macad::Occt::TColStd_HSequenceOfExtendedString^ Assign(Macad::Occt::TColStd_HSequenceOfExtendedString^ theOther);
     void Remove(Macad::Occt::TColStd_HSequenceOfExtendedString::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::TCollection_ExtendedString^ theItem);
-    void Append(Macad::Occt::TColStd_HSequenceOfExtendedString^ theSeq);
     void Prepend(Macad::Occt::TCollection_ExtendedString^ theItem);
-    void Prepend(Macad::Occt::TColStd_HSequenceOfExtendedString^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::TCollection_ExtendedString^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_HSequenceOfExtendedString^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_HSequenceOfExtendedString::Iterator^ thePosition, Macad::Occt::TCollection_ExtendedString^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_HSequenceOfExtendedString^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::TCollection_ExtendedString^ theItem);
     void Split(int theIndex, Macad::Occt::TColStd_HSequenceOfExtendedString^ theSeq);
     Macad::Occt::TCollection_ExtendedString^ First();
     Macad::Occt::TCollection_ExtendedString^ ChangeFirst();
@@ -6828,20 +6268,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_HSequenceOfHAsciiString^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_HSequenceOfHAsciiString^ theSeq);
-        Iterator(Macad::Occt::TColStd_HSequenceOfHAsciiString::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TCollection_HAsciiString^ Value();
         Macad::Occt::TCollection_HAsciiString^ ChangeValue();
         bool IsEqual(Macad::Occt::TColStd_HSequenceOfHAsciiString::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_HSequenceOfHAsciiString();
     TColStd_HSequenceOfHAsciiString(Macad::Occt::TColStd_SequenceOfHAsciiString^ theOther);
-    TColStd_HSequenceOfHAsciiString(Macad::Occt::TColStd_HSequenceOfHAsciiString^ parameter1);
     Macad::Occt::TColStd_SequenceOfHAsciiString^ Sequence();
+    void Append(Macad::Occt::TCollection_HAsciiString^ theItem);
     void Append(Macad::Occt::TColStd_SequenceOfHAsciiString^ theSequence);
     Macad::Occt::TColStd_SequenceOfHAsciiString^ ChangeSequence();
     int Size();
@@ -6856,17 +6294,9 @@ public:
     void Clear();
     Macad::Occt::TColStd_HSequenceOfHAsciiString^ Assign(Macad::Occt::TColStd_HSequenceOfHAsciiString^ theOther);
     void Remove(Macad::Occt::TColStd_HSequenceOfHAsciiString::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::TCollection_HAsciiString^ theItem);
-    void Append(Macad::Occt::TColStd_HSequenceOfHAsciiString^ theSeq);
     void Prepend(Macad::Occt::TCollection_HAsciiString^ theItem);
-    void Prepend(Macad::Occt::TColStd_HSequenceOfHAsciiString^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::TCollection_HAsciiString^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_HSequenceOfHAsciiString^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_HSequenceOfHAsciiString::Iterator^ thePosition, Macad::Occt::TCollection_HAsciiString^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_HSequenceOfHAsciiString^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::TCollection_HAsciiString^ theItem);
     void Split(int theIndex, Macad::Occt::TColStd_HSequenceOfHAsciiString^ theSeq);
     Macad::Occt::TCollection_HAsciiString^ First();
     Macad::Occt::TCollection_HAsciiString^ ChangeFirst();
@@ -6939,20 +6369,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_HSequenceOfHExtendedString^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_HSequenceOfHExtendedString^ theSeq);
-        Iterator(Macad::Occt::TColStd_HSequenceOfHExtendedString::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TCollection_HExtendedString^ Value();
         Macad::Occt::TCollection_HExtendedString^ ChangeValue();
         bool IsEqual(Macad::Occt::TColStd_HSequenceOfHExtendedString::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_HSequenceOfHExtendedString();
     TColStd_HSequenceOfHExtendedString(Macad::Occt::TColStd_SequenceOfHExtendedString^ theOther);
-    TColStd_HSequenceOfHExtendedString(Macad::Occt::TColStd_HSequenceOfHExtendedString^ parameter1);
     Macad::Occt::TColStd_SequenceOfHExtendedString^ Sequence();
+    void Append(Macad::Occt::TCollection_HExtendedString^ theItem);
     void Append(Macad::Occt::TColStd_SequenceOfHExtendedString^ theSequence);
     Macad::Occt::TColStd_SequenceOfHExtendedString^ ChangeSequence();
     int Size();
@@ -6967,17 +6395,9 @@ public:
     void Clear();
     Macad::Occt::TColStd_HSequenceOfHExtendedString^ Assign(Macad::Occt::TColStd_HSequenceOfHExtendedString^ theOther);
     void Remove(Macad::Occt::TColStd_HSequenceOfHExtendedString::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::TCollection_HExtendedString^ theItem);
-    void Append(Macad::Occt::TColStd_HSequenceOfHExtendedString^ theSeq);
     void Prepend(Macad::Occt::TCollection_HExtendedString^ theItem);
-    void Prepend(Macad::Occt::TColStd_HSequenceOfHExtendedString^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::TCollection_HExtendedString^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_HSequenceOfHExtendedString^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_HSequenceOfHExtendedString::Iterator^ thePosition, Macad::Occt::TCollection_HExtendedString^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_HSequenceOfHExtendedString^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::TCollection_HExtendedString^ theItem);
     void Split(int theIndex, Macad::Occt::TColStd_HSequenceOfHExtendedString^ theSeq);
     Macad::Occt::TCollection_HExtendedString^ First();
     Macad::Occt::TCollection_HExtendedString^ ChangeFirst();
@@ -7059,13 +6479,11 @@ public:
         }
 
         Iterator();
-        Iterator(Macad::Occt::TColStd_HSequenceOfInteger^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_HSequenceOfInteger^ theSeq);
-        Iterator(Macad::Occt::TColStd_HSequenceOfInteger::Iterator^ parameter1);
         bool More();
         void Next();
         int Value();
         bool IsEqual(Macad::Occt::TColStd_HSequenceOfInteger::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     property int ChangeFirst {
@@ -7088,8 +6506,8 @@ public:
 
     TColStd_HSequenceOfInteger();
     TColStd_HSequenceOfInteger(Macad::Occt::TColStd_SequenceOfInteger^ theOther);
-    TColStd_HSequenceOfInteger(Macad::Occt::TColStd_HSequenceOfInteger^ parameter1);
     Macad::Occt::TColStd_SequenceOfInteger^ Sequence();
+    void Append(int theItem);
     void Append(Macad::Occt::TColStd_SequenceOfInteger^ theSequence);
     Macad::Occt::TColStd_SequenceOfInteger^ ChangeSequence();
     int Size();
@@ -7104,17 +6522,9 @@ public:
     void Clear();
     Macad::Occt::TColStd_HSequenceOfInteger^ Assign(Macad::Occt::TColStd_HSequenceOfInteger^ theOther);
     void Remove(Macad::Occt::TColStd_HSequenceOfInteger::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(int theItem);
-    void Append(Macad::Occt::TColStd_HSequenceOfInteger^ theSeq);
     void Prepend(int theItem);
-    void Prepend(Macad::Occt::TColStd_HSequenceOfInteger^ theSeq);
     void InsertBefore(int theIndex, int theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_HSequenceOfInteger^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_HSequenceOfInteger::Iterator^ thePosition, int theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_HSequenceOfInteger^ theSeq);
-    void InsertAfter(int theIndex, int theItem);
     void Split(int theIndex, Macad::Occt::TColStd_HSequenceOfInteger^ theSeq);
     int First();
     int Last();
@@ -7194,13 +6604,11 @@ public:
         }
 
         Iterator();
-        Iterator(Macad::Occt::TColStd_HSequenceOfReal^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_HSequenceOfReal^ theSeq);
-        Iterator(Macad::Occt::TColStd_HSequenceOfReal::Iterator^ parameter1);
         bool More();
         void Next();
         double Value();
         bool IsEqual(Macad::Occt::TColStd_HSequenceOfReal::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     property double ChangeFirst {
@@ -7223,8 +6631,8 @@ public:
 
     TColStd_HSequenceOfReal();
     TColStd_HSequenceOfReal(Macad::Occt::TColStd_SequenceOfReal^ theOther);
-    TColStd_HSequenceOfReal(Macad::Occt::TColStd_HSequenceOfReal^ parameter1);
     Macad::Occt::TColStd_SequenceOfReal^ Sequence();
+    void Append(double theItem);
     void Append(Macad::Occt::TColStd_SequenceOfReal^ theSequence);
     Macad::Occt::TColStd_SequenceOfReal^ ChangeSequence();
     int Size();
@@ -7239,17 +6647,9 @@ public:
     void Clear();
     Macad::Occt::TColStd_HSequenceOfReal^ Assign(Macad::Occt::TColStd_HSequenceOfReal^ theOther);
     void Remove(Macad::Occt::TColStd_HSequenceOfReal::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(double theItem);
-    void Append(Macad::Occt::TColStd_HSequenceOfReal^ theSeq);
     void Prepend(double theItem);
-    void Prepend(Macad::Occt::TColStd_HSequenceOfReal^ theSeq);
     void InsertBefore(int theIndex, double theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_HSequenceOfReal^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_HSequenceOfReal::Iterator^ thePosition, double theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_HSequenceOfReal^ theSeq);
-    void InsertAfter(int theIndex, double theItem);
     void Split(int theIndex, Macad::Occt::TColStd_HSequenceOfReal^ theSeq);
     double First();
     double Last();
@@ -7320,20 +6720,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColStd_HSequenceOfTransient^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColStd_HSequenceOfTransient^ theSeq);
-        Iterator(Macad::Occt::TColStd_HSequenceOfTransient::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Standard_Transient^ Value();
         Macad::Occt::Standard_Transient^ ChangeValue();
         bool IsEqual(Macad::Occt::TColStd_HSequenceOfTransient::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColStd_HSequenceOfTransient();
     TColStd_HSequenceOfTransient(Macad::Occt::TColStd_SequenceOfTransient^ theOther);
-    TColStd_HSequenceOfTransient(Macad::Occt::TColStd_HSequenceOfTransient^ parameter1);
     Macad::Occt::TColStd_SequenceOfTransient^ Sequence();
+    void Append(Macad::Occt::Standard_Transient^ theItem);
     void Append(Macad::Occt::TColStd_SequenceOfTransient^ theSequence);
     Macad::Occt::TColStd_SequenceOfTransient^ ChangeSequence();
     int Size();
@@ -7348,17 +6746,9 @@ public:
     void Clear();
     Macad::Occt::TColStd_HSequenceOfTransient^ Assign(Macad::Occt::TColStd_HSequenceOfTransient^ theOther);
     void Remove(Macad::Occt::TColStd_HSequenceOfTransient::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::Standard_Transient^ theItem);
-    void Append(Macad::Occt::TColStd_HSequenceOfTransient^ theSeq);
     void Prepend(Macad::Occt::Standard_Transient^ theItem);
-    void Prepend(Macad::Occt::TColStd_HSequenceOfTransient^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Standard_Transient^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColStd_HSequenceOfTransient^ theSeq);
     void InsertAfter(Macad::Occt::TColStd_HSequenceOfTransient::Iterator^ thePosition, Macad::Occt::Standard_Transient^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColStd_HSequenceOfTransient^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Standard_Transient^ theItem);
     void Split(int theIndex, Macad::Occt::TColStd_HSequenceOfTransient^ theSeq);
     Macad::Occt::Standard_Transient^ First();
     Macad::Occt::Standard_Transient^ ChangeFirst();

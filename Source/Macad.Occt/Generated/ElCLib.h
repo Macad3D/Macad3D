@@ -59,7 +59,6 @@ public:
 
 public:
     ElCLib();
-    ElCLib(Macad::Occt::ElCLib^ parameter1);
     /// <summary>
     /// Return a value in   the  range <UFirst, ULast>  by
     /// adding or removing the period <ULast -  UFirst> to

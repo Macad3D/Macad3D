@@ -28,12 +28,6 @@ Macad::Occt::SelectBasics_PickResult::SelectBasics_PickResult(double theDepth, d
     _NativeInstance = new ::SelectBasics_PickResult(theDepth, theDistToCenter, *(gp_Pnt*)pp_theObjPickedPnt);
 }
 
-Macad::Occt::SelectBasics_PickResult::SelectBasics_PickResult(Macad::Occt::SelectBasics_PickResult^ parameter1)
-    : Macad::Occt::BaseClass<::SelectBasics_PickResult>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::SelectBasics_PickResult(*(::SelectBasics_PickResult*)parameter1->NativeInstance);
-}
-
 Macad::Occt::SelectBasics_PickResult^ Macad::Occt::SelectBasics_PickResult::Min(Macad::Occt::SelectBasics_PickResult^ thePickResult1, Macad::Occt::SelectBasics_PickResult^ thePickResult2)
 {
     ::SelectBasics_PickResult* _result = new ::SelectBasics_PickResult();
@@ -122,12 +116,6 @@ Macad::Occt::SelectBasics::SelectBasics()
     _NativeInstance = new ::SelectBasics();
 }
 
-Macad::Occt::SelectBasics::SelectBasics(Macad::Occt::SelectBasics^ parameter1)
-    : Macad::Occt::BaseClass<::SelectBasics>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::SelectBasics(*(::SelectBasics*)parameter1->NativeInstance);
-}
-
 int Macad::Occt::SelectBasics::MaxOwnerPriority()
 {
     int _result = ::SelectBasics::MaxOwnerPriority();
@@ -147,12 +135,6 @@ int Macad::Occt::SelectBasics::MinOwnerPriority()
 //---------------------------------------------------------------------
 
 Macad::Occt::SelectBasics_SelectingVolumeManager::SelectBasics_SelectingVolumeManager()
-    : Macad::Occt::BaseClass<::SelectBasics_SelectingVolumeManager>(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
-Macad::Occt::SelectBasics_SelectingVolumeManager::SelectBasics_SelectingVolumeManager(Macad::Occt::SelectBasics_SelectingVolumeManager^ parameter1)
     : Macad::Occt::BaseClass<::SelectBasics_SelectingVolumeManager>(BaseClass::InitMode::Uninitialized)
 {
     	throw gcnew System::NotImplementedException("Native class is abstract");
@@ -179,7 +161,7 @@ bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsBox(Macad::Occt::
 
 bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsBox(Macad::Occt::Graphic3d_Vec3d^ theBoxMin, Macad::Occt::Graphic3d_Vec3d^ theBoxMax)
 {
-    bool _result = ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsBox(*(::Graphic3d_Vec3d*)theBoxMin->NativeInstance, *(::Graphic3d_Vec3d*)theBoxMax->NativeInstance, 0);
+    bool _result = ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsBox(*(::Graphic3d_Vec3d*)theBoxMin->NativeInstance, *(::Graphic3d_Vec3d*)theBoxMax->NativeInstance, nullptr);
     return _result;
 }
 
@@ -238,7 +220,7 @@ bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsSphere(Macad::Occ
 bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsSphere(Macad::Occt::Pnt theCenter, double theRadius)
 {
     pin_ptr<Macad::Occt::Pnt> pp_theCenter = &theCenter;
-    bool _result = ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsSphere(*(gp_Pnt*)pp_theCenter, theRadius, 0);
+    bool _result = ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsSphere(*(gp_Pnt*)pp_theCenter, theRadius, nullptr);
     return _result;
 }
 
@@ -260,7 +242,7 @@ bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsCylinder(double t
 bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsCylinder(double theBottomRad, double theTopRad, double theHeight, Macad::Occt::Trsf theTrsf, bool theIsHollow)
 {
     pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
-    bool _result = ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsCylinder(theBottomRad, theTopRad, theHeight, *(gp_Trsf*)pp_theTrsf, theIsHollow, 0);
+    bool _result = ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsCylinder(theBottomRad, theTopRad, theHeight, *(gp_Trsf*)pp_theTrsf, theIsHollow, nullptr);
     return _result;
 }
 
@@ -282,7 +264,7 @@ bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsCircle(double the
 bool Macad::Occt::SelectBasics_SelectingVolumeManager::OverlapsCircle(double theRadius, Macad::Occt::Trsf theTrsf, bool theIsFilled)
 {
     pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
-    bool _result = ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsCircle(theRadius, *(gp_Trsf*)pp_theTrsf, theIsFilled, 0);
+    bool _result = ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->OverlapsCircle(theRadius, *(gp_Trsf*)pp_theTrsf, theIsFilled, nullptr);
     return _result;
 }
 
@@ -364,7 +346,7 @@ bool Macad::Occt::SelectBasics_SelectingVolumeManager::Overlaps(Macad::Occt::Gra
 
 bool Macad::Occt::SelectBasics_SelectingVolumeManager::Overlaps(Macad::Occt::Graphic3d_Vec3d^ theBoxMin, Macad::Occt::Graphic3d_Vec3d^ theBoxMax)
 {
-    bool _result = ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->Overlaps(*(::Graphic3d_Vec3d*)theBoxMin->NativeInstance, *(::Graphic3d_Vec3d*)theBoxMax->NativeInstance, 0);
+    bool _result = ((::SelectBasics_SelectingVolumeManager*)_NativeInstance)->Overlaps(*(::Graphic3d_Vec3d*)theBoxMin->NativeInstance, *(::Graphic3d_Vec3d*)theBoxMax->NativeInstance, nullptr);
     return _result;
 }
 

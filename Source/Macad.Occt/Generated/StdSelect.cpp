@@ -26,12 +26,6 @@ Macad::Occt::StdSelect::StdSelect()
     _NativeInstance = new ::StdSelect();
 }
 
-Macad::Occt::StdSelect::StdSelect(Macad::Occt::StdSelect^ parameter1)
-    : Macad::Occt::BaseClass<::StdSelect>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::StdSelect(*(::StdSelect*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::StdSelect::SetDrawerForBRepOwner(Macad::Occt::SelectMgr_Selection^ aSelection, Macad::Occt::Prs3d_Drawer^ aDrawer)
 {
     ::StdSelect::SetDrawerForBRepOwner(Handle(::SelectMgr_Selection)(aSelection->NativeInstance), Handle(::Prs3d_Drawer)(aDrawer->NativeInstance));
@@ -53,12 +47,6 @@ Macad::Occt::StdSelect_Shape::StdSelect_Shape(Macad::Occt::TopoDS_Shape^ theShap
     : Macad::Occt::PrsMgr_PresentableObject(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::StdSelect_Shape(*(::TopoDS_Shape*)theShape->NativeInstance, ::opencascade::handle<::Prs3d_Drawer>());
-}
-
-Macad::Occt::StdSelect_Shape::StdSelect_Shape(Macad::Occt::StdSelect_Shape^ parameter1)
-    : Macad::Occt::PrsMgr_PresentableObject(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::StdSelect_Shape(*(::StdSelect_Shape*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::StdSelect_Shape::Compute(Macad::Occt::PrsMgr_PresentationManager^ thePrsMgr, Macad::Occt::Graphic3d_Structure^ thePrs, int theMode)
@@ -143,12 +131,6 @@ Macad::Occt::StdSelect_BRepOwner::StdSelect_BRepOwner(Macad::Occt::TopoDS_Shape^
     : Macad::Occt::SelectMgr_EntityOwner(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::StdSelect_BRepOwner(*(::TopoDS_Shape*)aShape->NativeInstance, Handle(::SelectMgr_SelectableObject)(theOrigin->NativeInstance), 0, false);
-}
-
-Macad::Occt::StdSelect_BRepOwner::StdSelect_BRepOwner(Macad::Occt::StdSelect_BRepOwner^ parameter1)
-    : Macad::Occt::SelectMgr_EntityOwner(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::StdSelect_BRepOwner(*(::StdSelect_BRepOwner*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::StdSelect_BRepOwner::HasShape()
@@ -264,12 +246,6 @@ Macad::Occt::StdSelect_BRepSelectionTool::StdSelect_BRepSelectionTool()
     _NativeInstance = new ::StdSelect_BRepSelectionTool();
 }
 
-Macad::Occt::StdSelect_BRepSelectionTool::StdSelect_BRepSelectionTool(Macad::Occt::StdSelect_BRepSelectionTool^ parameter1)
-    : Macad::Occt::BaseClass<::StdSelect_BRepSelectionTool>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::StdSelect_BRepSelectionTool(*(::StdSelect_BRepSelectionTool*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::StdSelect_BRepSelectionTool::Load(Macad::Occt::SelectMgr_Selection^ aSelection, Macad::Occt::TopoDS_Shape^ aShape, Macad::Occt::TopAbs_ShapeEnum aType, double theDeflection, double theDeviationAngle, bool AutoTriangulation, int aPriority, int NbPOnEdge, double MaximalParameter)
 {
     ::StdSelect_BRepSelectionTool::Load(Handle(::SelectMgr_Selection)(aSelection->NativeInstance), *(::TopoDS_Shape*)aShape->NativeInstance, (::TopAbs_ShapeEnum)aType, theDeflection, theDeviationAngle, AutoTriangulation, aPriority, NbPOnEdge, MaximalParameter);
@@ -359,12 +335,6 @@ Macad::Occt::StdSelect_EdgeFilter::StdSelect_EdgeFilter(Macad::Occt::StdSelect_T
     NativeInstance = new ::StdSelect_EdgeFilter((::StdSelect_TypeOfEdge)Edge);
 }
 
-Macad::Occt::StdSelect_EdgeFilter::StdSelect_EdgeFilter(Macad::Occt::StdSelect_EdgeFilter^ parameter1)
-    : Macad::Occt::SelectMgr_Filter(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::StdSelect_EdgeFilter(*(::StdSelect_EdgeFilter*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::StdSelect_EdgeFilter::SetType(Macad::Occt::StdSelect_TypeOfEdge aNewType)
 {
     ((::StdSelect_EdgeFilter*)_NativeInstance)->SetType((::StdSelect_TypeOfEdge)aNewType);
@@ -405,12 +375,6 @@ Macad::Occt::StdSelect_FaceFilter::StdSelect_FaceFilter(Macad::Occt::StdSelect_T
     NativeInstance = new ::StdSelect_FaceFilter((::StdSelect_TypeOfFace)aTypeOfFace);
 }
 
-Macad::Occt::StdSelect_FaceFilter::StdSelect_FaceFilter(Macad::Occt::StdSelect_FaceFilter^ parameter1)
-    : Macad::Occt::SelectMgr_Filter(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::StdSelect_FaceFilter(*(::StdSelect_FaceFilter*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::StdSelect_FaceFilter::SetType(Macad::Occt::StdSelect_TypeOfFace aNewType)
 {
     ((::StdSelect_FaceFilter*)_NativeInstance)->SetType((::StdSelect_TypeOfFace)aNewType);
@@ -449,12 +413,6 @@ Macad::Occt::StdSelect_ShapeTypeFilter::StdSelect_ShapeTypeFilter(Macad::Occt::T
     : Macad::Occt::SelectMgr_Filter(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::StdSelect_ShapeTypeFilter((::TopAbs_ShapeEnum)aType);
-}
-
-Macad::Occt::StdSelect_ShapeTypeFilter::StdSelect_ShapeTypeFilter(Macad::Occt::StdSelect_ShapeTypeFilter^ parameter1)
-    : Macad::Occt::SelectMgr_Filter(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::StdSelect_ShapeTypeFilter(*(::StdSelect_ShapeTypeFilter*)parameter1->NativeInstance);
 }
 
 Macad::Occt::TopAbs_ShapeEnum Macad::Occt::StdSelect_ShapeTypeFilter::Type()

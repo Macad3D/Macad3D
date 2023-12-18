@@ -23,12 +23,6 @@ Macad::Occt::Geom2dAdaptor::Geom2dAdaptor()
     _NativeInstance = new ::Geom2dAdaptor();
 }
 
-Macad::Occt::Geom2dAdaptor::Geom2dAdaptor(Macad::Occt::Geom2dAdaptor^ parameter1)
-    : Macad::Occt::BaseClass<::Geom2dAdaptor>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom2dAdaptor(*(::Geom2dAdaptor*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Geom2d_Curve^ Macad::Occt::Geom2dAdaptor::MakeCurve(Macad::Occt::Adaptor2d_Curve2d^ HC)
 {
     Handle(::Geom2d_Curve) _result = ::Geom2dAdaptor::MakeCurve(*(::Adaptor2d_Curve2d*)HC->NativeInstance);
@@ -57,12 +51,6 @@ Macad::Occt::Geom2dAdaptor_Curve::Geom2dAdaptor_Curve(Macad::Occt::Geom2d_Curve^
     : Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom2dAdaptor_Curve(Handle(::Geom2d_Curve)(C->NativeInstance), UFirst, ULast);
-}
-
-Macad::Occt::Geom2dAdaptor_Curve::Geom2dAdaptor_Curve(Macad::Occt::Geom2dAdaptor_Curve^ parameter1)
-    : Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2dAdaptor_Curve(*(::Geom2dAdaptor_Curve*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::Geom2dAdaptor_Curve::ShallowCopy()

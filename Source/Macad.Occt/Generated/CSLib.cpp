@@ -19,12 +19,6 @@ Macad::Occt::CSLib::CSLib()
     _NativeInstance = new ::CSLib();
 }
 
-Macad::Occt::CSLib::CSLib(Macad::Occt::CSLib^ parameter1)
-    : Macad::Occt::BaseClass<::CSLib>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::CSLib(*(::CSLib*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::CSLib::Normal(Macad::Occt::Vec D1U, Macad::Occt::Vec D1V, double SinTol, Macad::Occt::CSLib_DerivativeStatus% theStatus, Macad::Occt::Dir% Normal)
 {
     pin_ptr<Macad::Occt::Vec> pp_D1U = &D1U;
@@ -111,12 +105,6 @@ Macad::Occt::CSLib_Class2d::CSLib_Class2d(Macad::Occt::TColgp_SequenceOfPnt2d^ t
     : Macad::Occt::BaseClass<::CSLib_Class2d>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::CSLib_Class2d(*(::TColgp_SequenceOfPnt2d*)thePnts2d->NativeInstance, theTolU, theTolV, theUMin, theVMin, theUMax, theVMax);
-}
-
-Macad::Occt::CSLib_Class2d::CSLib_Class2d(Macad::Occt::CSLib_Class2d^ parameter1)
-    : Macad::Occt::BaseClass<::CSLib_Class2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::CSLib_Class2d(*(::CSLib_Class2d*)parameter1->NativeInstance);
 }
 
 int Macad::Occt::CSLib_Class2d::SiDans(Macad::Occt::Pnt2d P)

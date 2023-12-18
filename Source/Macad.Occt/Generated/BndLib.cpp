@@ -22,12 +22,6 @@ Macad::Occt::BndLib::BndLib()
     _NativeInstance = new ::BndLib();
 }
 
-Macad::Occt::BndLib::BndLib(Macad::Occt::BndLib^ parameter1)
-    : Macad::Occt::BaseClass<::BndLib>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BndLib(*(::BndLib*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BndLib::Add(Macad::Occt::gp_Lin^ L, double P1, double P2, double Tol, Macad::Occt::Bnd_Box^ B)
 {
     ::BndLib::Add(*(::gp_Lin*)L->NativeInstance, P1, P2, Tol, *(::Bnd_Box*)B->NativeInstance);
@@ -150,12 +144,6 @@ Macad::Occt::BndLib_Add2dCurve::BndLib_Add2dCurve()
     _NativeInstance = new ::BndLib_Add2dCurve();
 }
 
-Macad::Occt::BndLib_Add2dCurve::BndLib_Add2dCurve(Macad::Occt::BndLib_Add2dCurve^ parameter1)
-    : Macad::Occt::BaseClass<::BndLib_Add2dCurve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BndLib_Add2dCurve(*(::BndLib_Add2dCurve*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BndLib_Add2dCurve::Add(Macad::Occt::Adaptor2d_Curve2d^ C, double Tol, Macad::Occt::Bnd_Box2d^ B)
 {
     ::BndLib_Add2dCurve::Add(*(::Adaptor2d_Curve2d*)C->NativeInstance, Tol, *(::Bnd_Box2d*)B->NativeInstance);
@@ -193,12 +181,6 @@ Macad::Occt::BndLib_Add3dCurve::BndLib_Add3dCurve()
     _NativeInstance = new ::BndLib_Add3dCurve();
 }
 
-Macad::Occt::BndLib_Add3dCurve::BndLib_Add3dCurve(Macad::Occt::BndLib_Add3dCurve^ parameter1)
-    : Macad::Occt::BaseClass<::BndLib_Add3dCurve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BndLib_Add3dCurve(*(::BndLib_Add3dCurve*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BndLib_Add3dCurve::Add(Macad::Occt::Adaptor3d_Curve^ C, double Tol, Macad::Occt::Bnd_Box^ B)
 {
     ::BndLib_Add3dCurve::Add(*(::Adaptor3d_Curve*)C->NativeInstance, Tol, *(::Bnd_Box*)B->NativeInstance);
@@ -234,12 +216,6 @@ Macad::Occt::BndLib_AddSurface::BndLib_AddSurface()
     : Macad::Occt::BaseClass<::BndLib_AddSurface>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BndLib_AddSurface();
-}
-
-Macad::Occt::BndLib_AddSurface::BndLib_AddSurface(Macad::Occt::BndLib_AddSurface^ parameter1)
-    : Macad::Occt::BaseClass<::BndLib_AddSurface>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BndLib_AddSurface(*(::BndLib_AddSurface*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BndLib_AddSurface::Add(Macad::Occt::Adaptor3d_Surface^ S, double Tol, Macad::Occt::Bnd_Box^ B)

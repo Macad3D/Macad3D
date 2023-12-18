@@ -32,12 +32,6 @@ Macad::Occt::NCollection_CellFilter_InspectorXYZ::NCollection_CellFilter_Inspect
     _NativeInstance = new ::NCollection_CellFilter_InspectorXYZ();
 }
 
-Macad::Occt::NCollection_CellFilter_InspectorXYZ::NCollection_CellFilter_InspectorXYZ(Macad::Occt::NCollection_CellFilter_InspectorXYZ^ parameter1)
-    : Macad::Occt::BaseClass<::NCollection_CellFilter_InspectorXYZ>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::NCollection_CellFilter_InspectorXYZ(*(::NCollection_CellFilter_InspectorXYZ*)parameter1->NativeInstance);
-}
-
 double Macad::Occt::NCollection_CellFilter_InspectorXYZ::Coord(int i, Macad::Occt::XYZ thePnt)
 {
     pin_ptr<Macad::Occt::XYZ> pp_thePnt = &thePnt;
@@ -64,12 +58,6 @@ Macad::Occt::NCollection_CellFilter_InspectorXY::NCollection_CellFilter_Inspecto
     _NativeInstance = new ::NCollection_CellFilter_InspectorXY();
 }
 
-Macad::Occt::NCollection_CellFilter_InspectorXY::NCollection_CellFilter_InspectorXY(Macad::Occt::NCollection_CellFilter_InspectorXY^ parameter1)
-    : Macad::Occt::BaseClass<::NCollection_CellFilter_InspectorXY>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::NCollection_CellFilter_InspectorXY(*(::NCollection_CellFilter_InspectorXY*)parameter1->NativeInstance);
-}
-
 double Macad::Occt::NCollection_CellFilter_InspectorXY::Coord(int i, Macad::Occt::XY thePnt)
 {
     pin_ptr<Macad::Occt::XY> pp_thePnt = &thePnt;
@@ -90,31 +78,27 @@ Macad::Occt::XY Macad::Occt::NCollection_CellFilter_InspectorXY::Shift(Macad::Oc
 //  Class  NCollection_BaseAllocator
 //---------------------------------------------------------------------
 
-System::IntPtr Macad::Occt::NCollection_BaseAllocator::Allocate(long long unsigned int size)
+System::IntPtr Macad::Occt::NCollection_BaseAllocator::Allocate(long long unsigned int theSize)
 {
-    void* _result = ((::NCollection_BaseAllocator*)_NativeInstance)->Allocate(size);
+    void* _result = ((::NCollection_BaseAllocator*)_NativeInstance)->Allocate(theSize);
     return System::IntPtr(_result);
 }
 
-void Macad::Occt::NCollection_BaseAllocator::Free(System::IntPtr anAddress)
+System::IntPtr Macad::Occt::NCollection_BaseAllocator::AllocateOptimal(long long unsigned int theSize)
 {
-    ((::NCollection_BaseAllocator*)_NativeInstance)->Free(anAddress.ToPointer());
+    void* _result = ((::NCollection_BaseAllocator*)_NativeInstance)->AllocateOptimal(theSize);
+    return System::IntPtr(_result);
+}
+
+void Macad::Occt::NCollection_BaseAllocator::Free(System::IntPtr theAddress)
+{
+    ((::NCollection_BaseAllocator*)_NativeInstance)->Free(theAddress.ToPointer());
 }
 
 Macad::Occt::NCollection_BaseAllocator^ Macad::Occt::NCollection_BaseAllocator::CommonBaseAllocator()
 {
     Handle(::NCollection_BaseAllocator) _result = ::NCollection_BaseAllocator::CommonBaseAllocator();
     return _result.IsNull() ? nullptr : Macad::Occt::NCollection_BaseAllocator::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::NCollection_BaseAllocator::StandardCallBack(bool theIsAlloc, System::IntPtr theStorage, long long unsigned int theRoundSize, long long unsigned int theSize)
-{
-    ::NCollection_BaseAllocator::StandardCallBack(theIsAlloc, theStorage.ToPointer(), theRoundSize, theSize);
-}
-
-void Macad::Occt::NCollection_BaseAllocator::PrintMemUsageStatistics()
-{
-    ::NCollection_BaseAllocator::PrintMemUsageStatistics();
 }
 
 Macad::Occt::NCollection_BaseAllocator^ Macad::Occt::NCollection_BaseAllocator::CreateDowncasted(::NCollection_BaseAllocator* instance)
@@ -141,12 +125,6 @@ Macad::Occt::NCollection_BaseAllocator^ Macad::Occt::NCollection_BaseAllocator::
 //---------------------------------------------------------------------
 //  Class  NCollection_BaseList
 //---------------------------------------------------------------------
-
-Macad::Occt::NCollection_BaseList::NCollection_BaseList(Macad::Occt::NCollection_BaseList^ parameter1)
-    : Macad::Occt::BaseClass<::NCollection_BaseList>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::NCollection_BaseList(*(::NCollection_BaseList*)parameter1->NativeInstance);
-}
 
 int Macad::Occt::NCollection_BaseList::Extent()
 {
@@ -184,12 +162,6 @@ Macad::Occt::NCollection_BaseList::Iterator::Iterator(Macad::Occt::NCollection_B
     _NativeInstance = new ::NCollection_BaseList::Iterator(*(::NCollection_BaseList*)theList->NativeInstance);
 }
 
-Macad::Occt::NCollection_BaseList::Iterator::Iterator(Macad::Occt::NCollection_BaseList::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::NCollection_BaseList::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::NCollection_BaseList::Iterator(*(::NCollection_BaseList::Iterator*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::NCollection_BaseList::Iterator::Init(Macad::Occt::NCollection_BaseList^ theList)
 {
     ((::NCollection_BaseList::Iterator*)_NativeInstance)->Init(*(::NCollection_BaseList*)theList->NativeInstance);
@@ -210,6 +182,92 @@ bool Macad::Occt::NCollection_BaseList::Iterator::IsEqual(Macad::Occt::NCollecti
 {
     bool _result = ((::NCollection_BaseList::Iterator*)_NativeInstance)->IsEqual(*(::NCollection_BaseList::Iterator*)theOther->NativeInstance);
     return _result;
+}
+
+bool Macad::Occt::NCollection_BaseList::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::NCollection_BaseList::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  NCollection_BasePointerVector
+//---------------------------------------------------------------------
+
+Macad::Occt::NCollection_BasePointerVector::NCollection_BasePointerVector()
+    : Macad::Occt::BaseClass<::NCollection_BasePointerVector>(BaseClass::InitMode::Uninitialized)
+{
+    _NativeInstance = new ::NCollection_BasePointerVector();
+}
+
+bool Macad::Occt::NCollection_BasePointerVector::IsEmpty()
+{
+    bool _result = ((::NCollection_BasePointerVector*)_NativeInstance)->IsEmpty();
+    return _result;
+}
+
+long long unsigned int Macad::Occt::NCollection_BasePointerVector::Size()
+{
+    long long unsigned int _result = ((::NCollection_BasePointerVector*)_NativeInstance)->Size();
+    return _result;
+}
+
+long long unsigned int Macad::Occt::NCollection_BasePointerVector::Capacity()
+{
+    long long unsigned int _result = ((::NCollection_BasePointerVector*)_NativeInstance)->Capacity();
+    return _result;
+}
+
+void Macad::Occt::NCollection_BasePointerVector::RemoveLast()
+{
+    ((::NCollection_BasePointerVector*)_NativeInstance)->RemoveLast();
+}
+
+void Macad::Occt::NCollection_BasePointerVector::Clear(bool theReleaseMemory)
+{
+    ((::NCollection_BasePointerVector*)_NativeInstance)->Clear(theReleaseMemory);
+}
+
+void Macad::Occt::NCollection_BasePointerVector::Clear()
+{
+    ((::NCollection_BasePointerVector*)_NativeInstance)->Clear(false);
+}
+
+System::IntPtr Macad::Occt::NCollection_BasePointerVector::GetArray()
+{
+    void* _result = ((::NCollection_BasePointerVector*)_NativeInstance)->GetArray();
+    return System::IntPtr(_result);
+}
+
+System::IntPtr Macad::Occt::NCollection_BasePointerVector::Value(long long unsigned int theInd)
+{
+    void* _result = ((::NCollection_BasePointerVector*)_NativeInstance)->Value(theInd);
+    return System::IntPtr(_result);
+}
+
+void Macad::Occt::NCollection_BasePointerVector::Append(System::IntPtr thePnt)
+{
+    ((::NCollection_BasePointerVector*)_NativeInstance)->Append(thePnt.ToPointer());
+}
+
+void Macad::Occt::NCollection_BasePointerVector::SetValue(long long unsigned int theInd, System::IntPtr thePnt)
+{
+    ((::NCollection_BasePointerVector*)_NativeInstance)->SetValue(theInd, thePnt.ToPointer());
 }
 
 
@@ -233,6 +291,12 @@ Macad::Occt::NCollection_AccAllocator::NCollection_AccAllocator()
 System::IntPtr Macad::Occt::NCollection_AccAllocator::Allocate(long long unsigned int theSize)
 {
     void* _result = ((::NCollection_AccAllocator*)_NativeInstance)->Allocate(theSize);
+    return System::IntPtr(_result);
+}
+
+System::IntPtr Macad::Occt::NCollection_AccAllocator::AllocateOptimal(long long unsigned int theSize)
+{
+    void* _result = ((::NCollection_AccAllocator*)_NativeInstance)->AllocateOptimal(theSize);
     return System::IntPtr(_result);
 }
 
@@ -264,6 +328,12 @@ System::IntPtr Macad::Occt::NCollection_AlignedAllocator::Allocate(long long uns
     return System::IntPtr(_result);
 }
 
+System::IntPtr Macad::Occt::NCollection_AlignedAllocator::AllocateOptimal(long long unsigned int theSize)
+{
+    void* _result = ((::NCollection_AlignedAllocator*)_NativeInstance)->AllocateOptimal(theSize);
+    return System::IntPtr(_result);
+}
+
 void Macad::Occt::NCollection_AlignedAllocator::Free(System::IntPtr thePtr)
 {
     ((::NCollection_AlignedAllocator*)_NativeInstance)->Free(thePtr.ToPointer());
@@ -290,19 +360,13 @@ Macad::Occt::NCollection_Buffer::NCollection_Buffer(Macad::Occt::NCollection_Bas
 Macad::Occt::NCollection_Buffer::NCollection_Buffer(Macad::Occt::NCollection_BaseAllocator^ theAlloc, long long unsigned int theSize)
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
-    NativeInstance = new ::NCollection_Buffer(Handle(::NCollection_BaseAllocator)(theAlloc->NativeInstance), theSize, 0);
+    NativeInstance = new ::NCollection_Buffer(Handle(::NCollection_BaseAllocator)(theAlloc->NativeInstance), theSize, nullptr);
 }
 
 Macad::Occt::NCollection_Buffer::NCollection_Buffer(Macad::Occt::NCollection_BaseAllocator^ theAlloc)
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
-    NativeInstance = new ::NCollection_Buffer(Handle(::NCollection_BaseAllocator)(theAlloc->NativeInstance), 0, 0);
-}
-
-Macad::Occt::NCollection_Buffer::NCollection_Buffer(Macad::Occt::NCollection_Buffer^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::NCollection_Buffer(*(::NCollection_Buffer*)parameter1->NativeInstance);
+    NativeInstance = new ::NCollection_Buffer(Handle(::NCollection_BaseAllocator)(theAlloc->NativeInstance), 0, nullptr);
 }
 
 unsigned char Macad::Occt::NCollection_Buffer::Data()
@@ -391,7 +455,7 @@ Macad::Occt::NCollection_IncAllocator::NCollection_IncAllocator(long long unsign
 Macad::Occt::NCollection_IncAllocator::NCollection_IncAllocator()
     : Macad::Occt::NCollection_BaseAllocator(BaseClass::InitMode::Uninitialized)
 {
-    NativeInstance = new ::NCollection_IncAllocator(::NCollection_IncAllocator::DefaultBlockSize);
+    NativeInstance = new ::NCollection_IncAllocator(::NCollection_IncAllocator::THE_DEFAULT_BLOCK_SIZE);
 }
 
 void Macad::Occt::NCollection_IncAllocator::SetThreadSafe(bool theIsThreadSafe)
@@ -410,31 +474,25 @@ System::IntPtr Macad::Occt::NCollection_IncAllocator::Allocate(long long unsigne
     return System::IntPtr(_result);
 }
 
-void Macad::Occt::NCollection_IncAllocator::Free(System::IntPtr anAddress)
+System::IntPtr Macad::Occt::NCollection_IncAllocator::AllocateOptimal(long long unsigned int size)
 {
-    ((::NCollection_IncAllocator*)_NativeInstance)->Free(anAddress.ToPointer());
-}
-
-long long unsigned int Macad::Occt::NCollection_IncAllocator::GetMemSize()
-{
-    long long unsigned int _result = ((::NCollection_IncAllocator*)_NativeInstance)->GetMemSize();
-    return _result;
-}
-
-System::IntPtr Macad::Occt::NCollection_IncAllocator::Reallocate(System::IntPtr anAddress, long long unsigned int oldSize, long long unsigned int newSize)
-{
-    void* _result = ((::NCollection_IncAllocator*)_NativeInstance)->Reallocate(anAddress.ToPointer(), oldSize, newSize);
+    void* _result = ((::NCollection_IncAllocator*)_NativeInstance)->AllocateOptimal(size);
     return System::IntPtr(_result);
 }
 
-void Macad::Occt::NCollection_IncAllocator::Reset(bool doReleaseMem)
+void Macad::Occt::NCollection_IncAllocator::Free(System::IntPtr parameter1)
 {
-    ((::NCollection_IncAllocator*)_NativeInstance)->Reset(doReleaseMem);
+    ((::NCollection_IncAllocator*)_NativeInstance)->Free(parameter1.ToPointer());
+}
+
+void Macad::Occt::NCollection_IncAllocator::Reset(bool theReleaseMemory)
+{
+    ((::NCollection_IncAllocator*)_NativeInstance)->Reset(theReleaseMemory);
 }
 
 void Macad::Occt::NCollection_IncAllocator::Reset()
 {
-    ((::NCollection_IncAllocator*)_NativeInstance)->Reset(true);
+    ((::NCollection_IncAllocator*)_NativeInstance)->Reset(false);
 }
 
 Macad::Occt::NCollection_IncAllocator^ Macad::Occt::NCollection_IncAllocator::CreateDowncasted(::NCollection_IncAllocator* instance)
@@ -451,6 +509,12 @@ Macad::Occt::NCollection_IncAllocator^ Macad::Occt::NCollection_IncAllocator::Cr
 System::IntPtr Macad::Occt::NCollection_HeapAllocator::Allocate(long long unsigned int theSize)
 {
     void* _result = ((::NCollection_HeapAllocator*)_NativeInstance)->Allocate(theSize);
+    return System::IntPtr(_result);
+}
+
+System::IntPtr Macad::Occt::NCollection_HeapAllocator::AllocateOptimal(long long unsigned int theSize)
+{
+    void* _result = ((::NCollection_HeapAllocator*)_NativeInstance)->AllocateOptimal(theSize);
     return System::IntPtr(_result);
 }
 
@@ -491,6 +555,12 @@ Macad::Occt::NCollection_WinHeapAllocator::NCollection_WinHeapAllocator()
 System::IntPtr Macad::Occt::NCollection_WinHeapAllocator::Allocate(long long unsigned int theSize)
 {
     void* _result = ((::NCollection_WinHeapAllocator*)_NativeInstance)->Allocate(theSize);
+    return System::IntPtr(_result);
+}
+
+System::IntPtr Macad::Occt::NCollection_WinHeapAllocator::AllocateOptimal(long long unsigned int theSize)
+{
+    void* _result = ((::NCollection_WinHeapAllocator*)_NativeInstance)->AllocateOptimal(theSize);
     return System::IntPtr(_result);
 }
 

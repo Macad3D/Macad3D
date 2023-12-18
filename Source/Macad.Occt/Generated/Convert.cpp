@@ -27,12 +27,6 @@ Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Convert_SequenceOfArray1OfPoles2
     _NativeInstance = new ::Convert_SequenceOfArray1OfPoles2d(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Convert_SequenceOfArray1OfPoles2d(Macad::Occt::Convert_SequenceOfArray1OfPoles2d^ theOther)
-    : Macad::Occt::BaseClass<::Convert_SequenceOfArray1OfPoles2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_SequenceOfArray1OfPoles2d(*(::Convert_SequenceOfArray1OfPoles2d*)theOther->NativeInstance);
-}
-
 int Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Size()
 {
     int _result = ((::Convert_SequenceOfArray1OfPoles2d*)_NativeInstance)->Size();
@@ -95,24 +89,9 @@ void Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Remove(Macad::Occt::Convert
     ((::Convert_SequenceOfArray1OfPoles2d*)_NativeInstance)->Remove(*(::Convert_SequenceOfArray1OfPoles2d::Iterator*)thePosition->NativeInstance);
 }
 
-void Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Remove(int theIndex)
-{
-    ((::Convert_SequenceOfArray1OfPoles2d*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Remove(int theFromIndex, int theToIndex)
-{
-    ((::Convert_SequenceOfArray1OfPoles2d*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
 void Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Append(Macad::Occt::TColgp_HArray1OfPnt2d^ theItem)
 {
     ((::Convert_SequenceOfArray1OfPoles2d*)_NativeInstance)->Append(Handle(::TColgp_HArray1OfPnt2d)(theItem->NativeInstance));
-}
-
-void Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Append(Macad::Occt::Convert_SequenceOfArray1OfPoles2d^ theSeq)
-{
-    ((::Convert_SequenceOfArray1OfPoles2d*)_NativeInstance)->Append(*(::Convert_SequenceOfArray1OfPoles2d*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Prepend(Macad::Occt::TColgp_HArray1OfPnt2d^ theItem)
@@ -120,34 +99,14 @@ void Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Prepend(Macad::Occt::TColgp
     ((::Convert_SequenceOfArray1OfPoles2d*)_NativeInstance)->Prepend(Handle(::TColgp_HArray1OfPnt2d)(theItem->NativeInstance));
 }
 
-void Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Prepend(Macad::Occt::Convert_SequenceOfArray1OfPoles2d^ theSeq)
-{
-    ((::Convert_SequenceOfArray1OfPoles2d*)_NativeInstance)->Prepend(*(::Convert_SequenceOfArray1OfPoles2d*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::Convert_SequenceOfArray1OfPoles2d::InsertBefore(int theIndex, Macad::Occt::TColgp_HArray1OfPnt2d^ theItem)
 {
     ((::Convert_SequenceOfArray1OfPoles2d*)_NativeInstance)->InsertBefore(theIndex, Handle(::TColgp_HArray1OfPnt2d)(theItem->NativeInstance));
 }
 
-void Macad::Occt::Convert_SequenceOfArray1OfPoles2d::InsertBefore(int theIndex, Macad::Occt::Convert_SequenceOfArray1OfPoles2d^ theSeq)
-{
-    ((::Convert_SequenceOfArray1OfPoles2d*)_NativeInstance)->InsertBefore(theIndex, *(::Convert_SequenceOfArray1OfPoles2d*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::Convert_SequenceOfArray1OfPoles2d::InsertAfter(Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Iterator^ thePosition, Macad::Occt::TColgp_HArray1OfPnt2d^ theItem)
 {
     ((::Convert_SequenceOfArray1OfPoles2d*)_NativeInstance)->InsertAfter(*(::Convert_SequenceOfArray1OfPoles2d::Iterator*)thePosition->NativeInstance, Handle(::TColgp_HArray1OfPnt2d)(theItem->NativeInstance));
-}
-
-void Macad::Occt::Convert_SequenceOfArray1OfPoles2d::InsertAfter(int theIndex, Macad::Occt::Convert_SequenceOfArray1OfPoles2d^ theSeq)
-{
-    ((::Convert_SequenceOfArray1OfPoles2d*)_NativeInstance)->InsertAfter(theIndex, *(::Convert_SequenceOfArray1OfPoles2d*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::Convert_SequenceOfArray1OfPoles2d::InsertAfter(int theIndex, Macad::Occt::TColgp_HArray1OfPnt2d^ theItem)
-{
-    ((::Convert_SequenceOfArray1OfPoles2d*)_NativeInstance)->InsertAfter(theIndex, Handle(::TColgp_HArray1OfPnt2d)(theItem->NativeInstance));
 }
 
 void Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Split(int theIndex, Macad::Occt::Convert_SequenceOfArray1OfPoles2d^ theSeq)
@@ -218,24 +177,6 @@ Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Iterator::Iterator()
     _NativeInstance = new ::Convert_SequenceOfArray1OfPoles2d::Iterator();
 }
 
-Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Iterator::Iterator(Macad::Occt::Convert_SequenceOfArray1OfPoles2d^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::Convert_SequenceOfArray1OfPoles2d::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_SequenceOfArray1OfPoles2d::Iterator(*(::Convert_SequenceOfArray1OfPoles2d*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Iterator::Iterator(Macad::Occt::Convert_SequenceOfArray1OfPoles2d^ theSeq)
-    : Macad::Occt::BaseClass<::Convert_SequenceOfArray1OfPoles2d::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_SequenceOfArray1OfPoles2d::Iterator(*(::Convert_SequenceOfArray1OfPoles2d*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Iterator::Iterator(Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::Convert_SequenceOfArray1OfPoles2d::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_SequenceOfArray1OfPoles2d::Iterator(*(::Convert_SequenceOfArray1OfPoles2d::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Iterator::More()
 {
     bool _result = ((::Convert_SequenceOfArray1OfPoles2d::Iterator*)_NativeInstance)->More();
@@ -265,6 +206,25 @@ bool Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Iterator::IsEqual(Macad::Oc
     return _result;
 }
 
+bool Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::Convert_SequenceOfArray1OfPoles2d::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -281,12 +241,6 @@ Macad::Occt::Convert_SequenceOfArray1OfPoles::Convert_SequenceOfArray1OfPoles(Ma
     : Macad::Occt::BaseClass<::Convert_SequenceOfArray1OfPoles>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Convert_SequenceOfArray1OfPoles(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
-}
-
-Macad::Occt::Convert_SequenceOfArray1OfPoles::Convert_SequenceOfArray1OfPoles(Macad::Occt::Convert_SequenceOfArray1OfPoles^ theOther)
-    : Macad::Occt::BaseClass<::Convert_SequenceOfArray1OfPoles>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_SequenceOfArray1OfPoles(*(::Convert_SequenceOfArray1OfPoles*)theOther->NativeInstance);
 }
 
 int Macad::Occt::Convert_SequenceOfArray1OfPoles::Size()
@@ -351,24 +305,9 @@ void Macad::Occt::Convert_SequenceOfArray1OfPoles::Remove(Macad::Occt::Convert_S
     ((::Convert_SequenceOfArray1OfPoles*)_NativeInstance)->Remove(*(::Convert_SequenceOfArray1OfPoles::Iterator*)thePosition->NativeInstance);
 }
 
-void Macad::Occt::Convert_SequenceOfArray1OfPoles::Remove(int theIndex)
-{
-    ((::Convert_SequenceOfArray1OfPoles*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::Convert_SequenceOfArray1OfPoles::Remove(int theFromIndex, int theToIndex)
-{
-    ((::Convert_SequenceOfArray1OfPoles*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
 void Macad::Occt::Convert_SequenceOfArray1OfPoles::Append(Macad::Occt::TColgp_HArray1OfPnt^ theItem)
 {
     ((::Convert_SequenceOfArray1OfPoles*)_NativeInstance)->Append(Handle(::TColgp_HArray1OfPnt)(theItem->NativeInstance));
-}
-
-void Macad::Occt::Convert_SequenceOfArray1OfPoles::Append(Macad::Occt::Convert_SequenceOfArray1OfPoles^ theSeq)
-{
-    ((::Convert_SequenceOfArray1OfPoles*)_NativeInstance)->Append(*(::Convert_SequenceOfArray1OfPoles*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::Convert_SequenceOfArray1OfPoles::Prepend(Macad::Occt::TColgp_HArray1OfPnt^ theItem)
@@ -376,34 +315,14 @@ void Macad::Occt::Convert_SequenceOfArray1OfPoles::Prepend(Macad::Occt::TColgp_H
     ((::Convert_SequenceOfArray1OfPoles*)_NativeInstance)->Prepend(Handle(::TColgp_HArray1OfPnt)(theItem->NativeInstance));
 }
 
-void Macad::Occt::Convert_SequenceOfArray1OfPoles::Prepend(Macad::Occt::Convert_SequenceOfArray1OfPoles^ theSeq)
-{
-    ((::Convert_SequenceOfArray1OfPoles*)_NativeInstance)->Prepend(*(::Convert_SequenceOfArray1OfPoles*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::Convert_SequenceOfArray1OfPoles::InsertBefore(int theIndex, Macad::Occt::TColgp_HArray1OfPnt^ theItem)
 {
     ((::Convert_SequenceOfArray1OfPoles*)_NativeInstance)->InsertBefore(theIndex, Handle(::TColgp_HArray1OfPnt)(theItem->NativeInstance));
 }
 
-void Macad::Occt::Convert_SequenceOfArray1OfPoles::InsertBefore(int theIndex, Macad::Occt::Convert_SequenceOfArray1OfPoles^ theSeq)
-{
-    ((::Convert_SequenceOfArray1OfPoles*)_NativeInstance)->InsertBefore(theIndex, *(::Convert_SequenceOfArray1OfPoles*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::Convert_SequenceOfArray1OfPoles::InsertAfter(Macad::Occt::Convert_SequenceOfArray1OfPoles::Iterator^ thePosition, Macad::Occt::TColgp_HArray1OfPnt^ theItem)
 {
     ((::Convert_SequenceOfArray1OfPoles*)_NativeInstance)->InsertAfter(*(::Convert_SequenceOfArray1OfPoles::Iterator*)thePosition->NativeInstance, Handle(::TColgp_HArray1OfPnt)(theItem->NativeInstance));
-}
-
-void Macad::Occt::Convert_SequenceOfArray1OfPoles::InsertAfter(int theIndex, Macad::Occt::Convert_SequenceOfArray1OfPoles^ theSeq)
-{
-    ((::Convert_SequenceOfArray1OfPoles*)_NativeInstance)->InsertAfter(theIndex, *(::Convert_SequenceOfArray1OfPoles*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::Convert_SequenceOfArray1OfPoles::InsertAfter(int theIndex, Macad::Occt::TColgp_HArray1OfPnt^ theItem)
-{
-    ((::Convert_SequenceOfArray1OfPoles*)_NativeInstance)->InsertAfter(theIndex, Handle(::TColgp_HArray1OfPnt)(theItem->NativeInstance));
 }
 
 void Macad::Occt::Convert_SequenceOfArray1OfPoles::Split(int theIndex, Macad::Occt::Convert_SequenceOfArray1OfPoles^ theSeq)
@@ -474,24 +393,6 @@ Macad::Occt::Convert_SequenceOfArray1OfPoles::Iterator::Iterator()
     _NativeInstance = new ::Convert_SequenceOfArray1OfPoles::Iterator();
 }
 
-Macad::Occt::Convert_SequenceOfArray1OfPoles::Iterator::Iterator(Macad::Occt::Convert_SequenceOfArray1OfPoles^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::Convert_SequenceOfArray1OfPoles::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_SequenceOfArray1OfPoles::Iterator(*(::Convert_SequenceOfArray1OfPoles*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::Convert_SequenceOfArray1OfPoles::Iterator::Iterator(Macad::Occt::Convert_SequenceOfArray1OfPoles^ theSeq)
-    : Macad::Occt::BaseClass<::Convert_SequenceOfArray1OfPoles::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_SequenceOfArray1OfPoles::Iterator(*(::Convert_SequenceOfArray1OfPoles*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::Convert_SequenceOfArray1OfPoles::Iterator::Iterator(Macad::Occt::Convert_SequenceOfArray1OfPoles::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::Convert_SequenceOfArray1OfPoles::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_SequenceOfArray1OfPoles::Iterator(*(::Convert_SequenceOfArray1OfPoles::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::Convert_SequenceOfArray1OfPoles::Iterator::More()
 {
     bool _result = ((::Convert_SequenceOfArray1OfPoles::Iterator*)_NativeInstance)->More();
@@ -521,17 +422,30 @@ bool Macad::Occt::Convert_SequenceOfArray1OfPoles::Iterator::IsEqual(Macad::Occt
     return _result;
 }
 
+bool Macad::Occt::Convert_SequenceOfArray1OfPoles::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::Convert_SequenceOfArray1OfPoles::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
 //  Class  Convert_ConicToBSplineCurve
 //---------------------------------------------------------------------
-
-Macad::Occt::Convert_ConicToBSplineCurve::Convert_ConicToBSplineCurve(Macad::Occt::Convert_ConicToBSplineCurve^ parameter1)
-    : Macad::Occt::BaseClass<::Convert_ConicToBSplineCurve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_ConicToBSplineCurve(*(::Convert_ConicToBSplineCurve*)parameter1->NativeInstance);
-}
 
 int Macad::Occt::Convert_ConicToBSplineCurve::Degree()
 {
@@ -643,12 +557,6 @@ Macad::Occt::Convert_CircleToBSplineCurve::Convert_CircleToBSplineCurve(Macad::O
     _NativeInstance = new ::Convert_CircleToBSplineCurve(*(::gp_Circ2d*)C->NativeInstance, U1, U2, Convert_TgtThetaOver2);
 }
 
-Macad::Occt::Convert_CircleToBSplineCurve::Convert_CircleToBSplineCurve(Macad::Occt::Convert_CircleToBSplineCurve^ parameter1)
-    : Macad::Occt::Convert_ConicToBSplineCurve(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_CircleToBSplineCurve(*(::Convert_CircleToBSplineCurve*)parameter1->NativeInstance);
-}
-
 
 
 //---------------------------------------------------------------------
@@ -665,12 +573,6 @@ Macad::Occt::Convert_CompBezierCurves2dToBSplineCurve2d::Convert_CompBezierCurve
     : Macad::Occt::BaseClass<::Convert_CompBezierCurves2dToBSplineCurve2d>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Convert_CompBezierCurves2dToBSplineCurve2d(1.0E-4);
-}
-
-Macad::Occt::Convert_CompBezierCurves2dToBSplineCurve2d::Convert_CompBezierCurves2dToBSplineCurve2d(Macad::Occt::Convert_CompBezierCurves2dToBSplineCurve2d^ parameter1)
-    : Macad::Occt::BaseClass<::Convert_CompBezierCurves2dToBSplineCurve2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_CompBezierCurves2dToBSplineCurve2d(*(::Convert_CompBezierCurves2dToBSplineCurve2d*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Convert_CompBezierCurves2dToBSplineCurve2d::AddCurve(Macad::Occt::TColgp_Array1OfPnt2d^ Poles)
@@ -727,12 +629,6 @@ Macad::Occt::Convert_CompBezierCurvesToBSplineCurve::Convert_CompBezierCurvesToB
     : Macad::Occt::BaseClass<::Convert_CompBezierCurvesToBSplineCurve>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Convert_CompBezierCurvesToBSplineCurve(1.0E-4);
-}
-
-Macad::Occt::Convert_CompBezierCurvesToBSplineCurve::Convert_CompBezierCurvesToBSplineCurve(Macad::Occt::Convert_CompBezierCurvesToBSplineCurve^ parameter1)
-    : Macad::Occt::BaseClass<::Convert_CompBezierCurvesToBSplineCurve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_CompBezierCurvesToBSplineCurve(*(::Convert_CompBezierCurvesToBSplineCurve*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Convert_CompBezierCurvesToBSplineCurve::AddCurve(Macad::Occt::TColgp_Array1OfPnt^ Poles)
@@ -797,12 +693,6 @@ Macad::Occt::Convert_CompPolynomialToPoles::Convert_CompPolynomialToPoles(int Di
     _NativeInstance = new ::Convert_CompPolynomialToPoles(Dimension, MaxDegree, Degree, *(::TColStd_Array1OfReal*)Coefficients->NativeInstance, *(::TColStd_Array1OfReal*)PolynomialIntervals->NativeInstance, *(::TColStd_Array1OfReal*)TrueIntervals->NativeInstance);
 }
 
-Macad::Occt::Convert_CompPolynomialToPoles::Convert_CompPolynomialToPoles(Macad::Occt::Convert_CompPolynomialToPoles^ parameter1)
-    : Macad::Occt::BaseClass<::Convert_CompPolynomialToPoles>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_CompPolynomialToPoles(*(::Convert_CompPolynomialToPoles*)parameter1->NativeInstance);
-}
-
 int Macad::Occt::Convert_CompPolynomialToPoles::NbPoles()
 {
     int _result = ((::Convert_CompPolynomialToPoles*)_NativeInstance)->NbPoles();
@@ -853,12 +743,6 @@ bool Macad::Occt::Convert_CompPolynomialToPoles::IsDone()
 //---------------------------------------------------------------------
 //  Class  Convert_ElementarySurfaceToBSplineSurface
 //---------------------------------------------------------------------
-
-Macad::Occt::Convert_ElementarySurfaceToBSplineSurface::Convert_ElementarySurfaceToBSplineSurface(Macad::Occt::Convert_ElementarySurfaceToBSplineSurface^ parameter1)
-    : Macad::Occt::BaseClass<::Convert_ElementarySurfaceToBSplineSurface>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_ElementarySurfaceToBSplineSurface(*(::Convert_ElementarySurfaceToBSplineSurface*)parameter1->NativeInstance);
-}
 
 int Macad::Occt::Convert_ElementarySurfaceToBSplineSurface::UDegree()
 {
@@ -962,12 +846,6 @@ Macad::Occt::Convert_ConeToBSplineSurface::Convert_ConeToBSplineSurface(Macad::O
     _NativeInstance = new ::Convert_ConeToBSplineSurface(*(::gp_Cone*)C->NativeInstance, V1, V2);
 }
 
-Macad::Occt::Convert_ConeToBSplineSurface::Convert_ConeToBSplineSurface(Macad::Occt::Convert_ConeToBSplineSurface^ parameter1)
-    : Macad::Occt::Convert_ElementarySurfaceToBSplineSurface(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_ConeToBSplineSurface(*(::Convert_ConeToBSplineSurface*)parameter1->NativeInstance);
-}
-
 
 
 //---------------------------------------------------------------------
@@ -984,12 +862,6 @@ Macad::Occt::Convert_CylinderToBSplineSurface::Convert_CylinderToBSplineSurface(
     : Macad::Occt::Convert_ElementarySurfaceToBSplineSurface(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Convert_CylinderToBSplineSurface(*(::gp_Cylinder*)Cyl->NativeInstance, V1, V2);
-}
-
-Macad::Occt::Convert_CylinderToBSplineSurface::Convert_CylinderToBSplineSurface(Macad::Occt::Convert_CylinderToBSplineSurface^ parameter1)
-    : Macad::Occt::Convert_ElementarySurfaceToBSplineSurface(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_CylinderToBSplineSurface(*(::Convert_CylinderToBSplineSurface*)parameter1->NativeInstance);
 }
 
 
@@ -1022,12 +894,6 @@ Macad::Occt::Convert_EllipseToBSplineCurve::Convert_EllipseToBSplineCurve(Macad:
     _NativeInstance = new ::Convert_EllipseToBSplineCurve(*(::gp_Elips2d*)E->NativeInstance, U1, U2, Convert_TgtThetaOver2);
 }
 
-Macad::Occt::Convert_EllipseToBSplineCurve::Convert_EllipseToBSplineCurve(Macad::Occt::Convert_EllipseToBSplineCurve^ parameter1)
-    : Macad::Occt::Convert_ConicToBSplineCurve(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_EllipseToBSplineCurve(*(::Convert_EllipseToBSplineCurve*)parameter1->NativeInstance);
-}
-
 
 
 //---------------------------------------------------------------------
@@ -1044,12 +910,6 @@ Macad::Occt::Convert_GridPolynomialToPoles::Convert_GridPolynomialToPoles(int Nb
     : Macad::Occt::BaseClass<::Convert_GridPolynomialToPoles>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Convert_GridPolynomialToPoles(NbUSurfaces, NBVSurfaces, UContinuity, VContinuity, MaxUDegree, MaxVDegree, Handle(::TColStd_HArray2OfInteger)(NumCoeffPerSurface->NativeInstance), Handle(::TColStd_HArray1OfReal)(Coefficients->NativeInstance), Handle(::TColStd_HArray1OfReal)(PolynomialUIntervals->NativeInstance), Handle(::TColStd_HArray1OfReal)(PolynomialVIntervals->NativeInstance), Handle(::TColStd_HArray1OfReal)(TrueUIntervals->NativeInstance), Handle(::TColStd_HArray1OfReal)(TrueVIntervals->NativeInstance));
-}
-
-Macad::Occt::Convert_GridPolynomialToPoles::Convert_GridPolynomialToPoles(Macad::Occt::Convert_GridPolynomialToPoles^ parameter1)
-    : Macad::Occt::BaseClass<::Convert_GridPolynomialToPoles>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_GridPolynomialToPoles(*(::Convert_GridPolynomialToPoles*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Convert_GridPolynomialToPoles::Perform(int UContinuity, int VContinuity, int MaxUDegree, int MaxVDegree, Macad::Occt::TColStd_HArray2OfInteger^ NumCoeffPerSurface, Macad::Occt::TColStd_HArray1OfReal^ Coefficients, Macad::Occt::TColStd_HArray1OfReal^ PolynomialUIntervals, Macad::Occt::TColStd_HArray1OfReal^ PolynomialVIntervals, Macad::Occt::TColStd_HArray1OfReal^ TrueUIntervals, Macad::Occt::TColStd_HArray1OfReal^ TrueVIntervals)
@@ -1141,12 +1001,6 @@ Macad::Occt::Convert_HyperbolaToBSplineCurve::Convert_HyperbolaToBSplineCurve(Ma
     _NativeInstance = new ::Convert_HyperbolaToBSplineCurve(*(::gp_Hypr2d*)H->NativeInstance, U1, U2);
 }
 
-Macad::Occt::Convert_HyperbolaToBSplineCurve::Convert_HyperbolaToBSplineCurve(Macad::Occt::Convert_HyperbolaToBSplineCurve^ parameter1)
-    : Macad::Occt::Convert_ConicToBSplineCurve(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_HyperbolaToBSplineCurve(*(::Convert_HyperbolaToBSplineCurve*)parameter1->NativeInstance);
-}
-
 
 
 //---------------------------------------------------------------------
@@ -1157,12 +1011,6 @@ Macad::Occt::Convert_ParabolaToBSplineCurve::Convert_ParabolaToBSplineCurve(Maca
     : Macad::Occt::Convert_ConicToBSplineCurve(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Convert_ParabolaToBSplineCurve(*(::gp_Parab2d*)Prb->NativeInstance, U1, U2);
-}
-
-Macad::Occt::Convert_ParabolaToBSplineCurve::Convert_ParabolaToBSplineCurve(Macad::Occt::Convert_ParabolaToBSplineCurve^ parameter1)
-    : Macad::Occt::Convert_ConicToBSplineCurve(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_ParabolaToBSplineCurve(*(::Convert_ParabolaToBSplineCurve*)parameter1->NativeInstance);
 }
 
 
@@ -1195,12 +1043,6 @@ Macad::Occt::Convert_SphereToBSplineSurface::Convert_SphereToBSplineSurface(Maca
     _NativeInstance = new ::Convert_SphereToBSplineSurface(*(::gp_Sphere*)Sph->NativeInstance);
 }
 
-Macad::Occt::Convert_SphereToBSplineSurface::Convert_SphereToBSplineSurface(Macad::Occt::Convert_SphereToBSplineSurface^ parameter1)
-    : Macad::Occt::Convert_ElementarySurfaceToBSplineSurface(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_SphereToBSplineSurface(*(::Convert_SphereToBSplineSurface*)parameter1->NativeInstance);
-}
-
 
 
 //---------------------------------------------------------------------
@@ -1229,12 +1071,6 @@ Macad::Occt::Convert_TorusToBSplineSurface::Convert_TorusToBSplineSurface(Macad:
     : Macad::Occt::Convert_ElementarySurfaceToBSplineSurface(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Convert_TorusToBSplineSurface(*(::gp_Torus*)T->NativeInstance);
-}
-
-Macad::Occt::Convert_TorusToBSplineSurface::Convert_TorusToBSplineSurface(Macad::Occt::Convert_TorusToBSplineSurface^ parameter1)
-    : Macad::Occt::Convert_ElementarySurfaceToBSplineSurface(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Convert_TorusToBSplineSurface(*(::Convert_TorusToBSplineSurface*)parameter1->NativeInstance);
 }
 
 

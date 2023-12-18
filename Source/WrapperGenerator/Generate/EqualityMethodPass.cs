@@ -8,11 +8,9 @@ public class EqualityMethodPass : Pass
 
     protected override bool ProcessClass(ClassDecl cd)
     {
-        var isEqualMethod = cd.Methods.FirstOrDefault(md => md.Name == "IsEqual");
-        var hashCodeMethod = cd.Methods.FirstOrDefault(md => md.Name == "HashCode");
-        if (isEqualMethod != default 
-            && isEqualMethod.Parameters[0].Type.Name == cd.Name
-            && hashCodeMethod != default)
+        var isEqualMethod = cd.Methods.FirstOrDefault(md => md.Name == "IsEqual" && md.Parameters.Count == 1);
+        if (isEqualMethod != default
+            && isEqualMethod.Parameters.FirstOrDefault()?.Type.Name == cd.Name)
         {
             var equalsMethod = new MethodDecl
             {
@@ -39,7 +37,10 @@ public class EqualityMethodPass : Pass
                 }
             };
             cd.Methods.Add(equalsMethod);
+        }
 
+        if(cd.HasHashStruct)
+        {
             var getHashCodeMethod = new MethodDecl
             {
                 Name = "GetHashCode",
@@ -65,7 +66,17 @@ public class EqualityMethodPass : Pass
         if (isEqualMethod.Parameters.Count is < 1 or > 2)
             return;
 
-        w.WriteLine($"System::Type^ myType = Macad::Occt::{method.Class.Name}::GetType();");
+        w.WriteLine("if(ReferenceEquals(this, obj))");
+        w.WriteLine("{");
+        w.WriteLine("return true;", 1);
+        w.WriteLine("}");
+
+        w.WriteLine("if(ReferenceEquals(nullptr, obj))");
+        w.WriteLine("{");
+        w.WriteLine("return false;", 1);
+        w.WriteLine("}");
+
+        w.WriteLine($"System::Type^ myType = Macad::Occt::{method.Class.FullName}::GetType();");
         w.WriteLine($"System::Type^ objType = obj->GetType();");
         w.WriteLine($"if (myType->Equals(objType) || objType->IsSubclassOf(myType))");
         w.WriteLine("{");
@@ -79,12 +90,6 @@ public class EqualityMethodPass : Pass
         w.Write(pd.Type.IsPointer || pd.Type.IsHandle ? $"(({method.Class.Name}^)obj)->NativeInstance" 
                                                       : $"*(({method.Class.Name}^)obj)->NativeInstance");
 
-        if (isEqualMethod.Parameters.Count == 2)
-        {
-            pd = isEqualMethod.Parameters[1];
-            w.Write(pd.Type.IsPointer || pd.Type.IsHandle ? ", NativeInstance" 
-                                                          : ", *NativeInstance");
-        }
         w.WriteLine(");");
 
         w.Outdent();
@@ -96,21 +101,7 @@ public class EqualityMethodPass : Pass
 
     void _HashCodeBodyGenerate(MethodDecl method, SourceWriter w)
     {
-        var hashCodeMethod = method.Class.Methods.FirstOrDefault(md => md.Name == "HashCode");
-        if (hashCodeMethod.Parameters.Count is < 1 or > 2)
-            return;
-
-        w.Write(hashCodeMethod.IsStatic
-            ? $"return ::{method.Class.Name}::HashCode("
-            : "return NativeInstance->HashCode(");
-
-        if (hashCodeMethod.Parameters.Count == 2)
-        {
-            var pd = hashCodeMethod.Parameters[0];
-            w.Write(pd.Type.IsPointer || pd.Type.IsHandle ? "NativeInstance, "
-                : "*NativeInstance, ");
-        }
-        w.WriteLine("MAXINT);");
+        w.WriteLine($"return std::hash<::{method.Class.Name}>{{}}(*NativeInstance);");
     }
 
     //--------------------------------------------------------------------------------------------------

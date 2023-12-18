@@ -89,7 +89,6 @@ public:
 
 public:
     GProp();
-    GProp(Macad::Occt::GProp^ parameter1);
     /// <summary>
     /// methods of package
     /// Computes the matrix Operator, referred to as the
@@ -162,7 +161,6 @@ public:
     /// creates an undefined PrincipalProps.
     /// </summary>
     GProp_PrincipalProps();
-    GProp_PrincipalProps(Macad::Occt::GProp_PrincipalProps^ parameter1);
     /// <summary>
     /// returns true if the geometric system has an axis of symmetry.
     /// For  comparing  moments  relative  tolerance  1.e-10  is  used.
@@ -390,7 +388,6 @@ public:
     /// access the computed values.
     /// </summary>
     GProp_GProps(Macad::Occt::Pnt SystemLocation);
-    GProp_GProps(Macad::Occt::GProp_GProps^ parameter1);
     /// <summary>
     /// Computes the principal properties of inertia of the current system.
     /// There is always a set of axes for which the products
@@ -598,7 +595,6 @@ public:
     GProp_CelGProps(Macad::Occt::gp_Circ^ C, Macad::Occt::Pnt CLocation);
     GProp_CelGProps(Macad::Occt::gp_Circ^ C, double U1, double U2, Macad::Occt::Pnt CLocation);
     GProp_CelGProps(Macad::Occt::gp_Lin^ C, double U1, double U2, Macad::Occt::Pnt CLocation);
-    GProp_CelGProps(Macad::Occt::GProp_CelGProps^ parameter1);
     void SetLocation(Macad::Occt::Pnt CLocation);
     void Perform(Macad::Occt::gp_Circ^ C, double U1, double U2);
     void Perform(Macad::Occt::gp_Lin^ C, double U1, double U2);
@@ -658,7 +654,6 @@ public:
     /// access the computed result.
     /// </summary>
     GProp_PEquation(Macad::Occt::TColgp_Array1OfPnt^ Pnts, double Tol);
-    GProp_PEquation(Macad::Occt::GProp_PEquation^ parameter1);
     /// <summary>
     /// Returns true if, according to the given
     /// tolerance, the points analyzed by this framework are  coplanar.
@@ -842,7 +837,6 @@ public:
     /// is not the same.
     /// </summary>
     GProp_PGProps(Macad::Occt::TColgp_Array2OfPnt^ Pnts, Macad::Occt::TColStd_Array2OfReal^ Density);
-    GProp_PGProps(Macad::Occt::GProp_PGProps^ parameter1);
     /// <summary>
     /// Brings together the global properties already
     /// retained by this framework with those induced by
@@ -931,7 +925,6 @@ public:
     GProp_SelGProps(Macad::Occt::gp_Cone^ S, double Alpha1, double Alpha2, double Z1, double Z2, Macad::Occt::Pnt SLocation);
     GProp_SelGProps(Macad::Occt::gp_Sphere^ S, double Teta1, double Teta2, double Alpha1, double Alpha2, Macad::Occt::Pnt SLocation);
     GProp_SelGProps(Macad::Occt::gp_Torus^ S, double Teta1, double Teta2, double Alpha1, double Alpha2, Macad::Occt::Pnt SLocation);
-    GProp_SelGProps(Macad::Occt::GProp_SelGProps^ parameter1);
     void SetLocation(Macad::Occt::Pnt SLocation);
     void Perform(Macad::Occt::gp_Cylinder^ S, double Alpha1, double Alpha2, double Z1, double Z2);
     void Perform(Macad::Occt::gp_Cone^ S, double Alpha1, double Alpha2, double Z1, double Z2);
@@ -972,7 +965,6 @@ public:
     GProp_UndefinedAxis();
     GProp_UndefinedAxis(System::String^ theMessage);
     GProp_UndefinedAxis(System::String^ theMessage, System::String^ theStackTrace);
-    GProp_UndefinedAxis(Macad::Occt::GProp_UndefinedAxis^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -1022,7 +1014,6 @@ public:
     GProp_VelGProps(Macad::Occt::gp_Cone^ S, double Alpha1, double Alpha2, double Z1, double Z2, Macad::Occt::Pnt VLocation);
     GProp_VelGProps(Macad::Occt::gp_Sphere^ S, double Teta1, double Teta2, double Alpha1, double Alpha2, Macad::Occt::Pnt VLocation);
     GProp_VelGProps(Macad::Occt::gp_Torus^ S, double Teta1, double Teta2, double Alpha1, double Alpha2, Macad::Occt::Pnt VLocation);
-    GProp_VelGProps(Macad::Occt::GProp_VelGProps^ parameter1);
     void SetLocation(Macad::Occt::Pnt VLocation);
     void Perform(Macad::Occt::gp_Cylinder^ S, double Alpha1, double Alpha2, double Z1, double Z2);
     void Perform(Macad::Occt::gp_Cone^ S, double Alpha1, double Alpha2, double Z1, double Z2);

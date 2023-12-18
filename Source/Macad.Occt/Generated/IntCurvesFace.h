@@ -191,7 +191,6 @@ public:
 
 public:
     IntCurvesFace_ShapeIntersector();
-    IntCurvesFace_ShapeIntersector(Macad::Occt::IntCurvesFace_ShapeIntersector^ parameter1);
     void Load(Macad::Occt::TopoDS_Shape^ Sh, double Tol);
     /// <summary>
     /// Perform the intersection between the

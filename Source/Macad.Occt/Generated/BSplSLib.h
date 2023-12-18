@@ -134,7 +134,6 @@ public:
 
 public:
     BSplSLib();
-    BSplSLib(Macad::Occt::BSplSLib^ parameter1);
     /// <summary>
     /// this is a one dimensional function
     /// typedef  void (*EvaluatorFunction)  (

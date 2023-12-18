@@ -34,12 +34,6 @@ Macad::Occt::Prs3d_NListOfSequenceOfPnt::Prs3d_NListOfSequenceOfPnt(Macad::Occt:
     _NativeInstance = new ::Prs3d_NListOfSequenceOfPnt(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::Prs3d_NListOfSequenceOfPnt::Prs3d_NListOfSequenceOfPnt(Macad::Occt::Prs3d_NListOfSequenceOfPnt^ theOther)
-    : Macad::Occt::NCollection_BaseList(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_NListOfSequenceOfPnt(*(::Prs3d_NListOfSequenceOfPnt*)theOther->NativeInstance);
-}
-
 int Macad::Occt::Prs3d_NListOfSequenceOfPnt::Size()
 {
     int _result = ((::Prs3d_NListOfSequenceOfPnt*)_NativeInstance)->Size();
@@ -81,25 +75,10 @@ Macad::Occt::TColgp_HSequenceOfPnt^ Macad::Occt::Prs3d_NListOfSequenceOfPnt::App
     return _result.IsNull() ? nullptr : Macad::Occt::TColgp_HSequenceOfPnt::CreateDowncasted(_result.get());
 }
 
-void Macad::Occt::Prs3d_NListOfSequenceOfPnt::Append(Macad::Occt::TColgp_HSequenceOfPnt^ theItem, Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator^ theIter)
-{
-    ((::Prs3d_NListOfSequenceOfPnt*)_NativeInstance)->Append(Handle(::TColgp_HSequenceOfPnt)(theItem->NativeInstance), *(::Prs3d_NListOfSequenceOfPnt::Iterator*)theIter->NativeInstance);
-}
-
-void Macad::Occt::Prs3d_NListOfSequenceOfPnt::Append(Macad::Occt::Prs3d_NListOfSequenceOfPnt^ theOther)
-{
-    ((::Prs3d_NListOfSequenceOfPnt*)_NativeInstance)->Append(*(::Prs3d_NListOfSequenceOfPnt*)theOther->NativeInstance);
-}
-
 Macad::Occt::TColgp_HSequenceOfPnt^ Macad::Occt::Prs3d_NListOfSequenceOfPnt::Prepend(Macad::Occt::TColgp_HSequenceOfPnt^ theItem)
 {
     Handle(::TColgp_HSequenceOfPnt) _result = ((::Prs3d_NListOfSequenceOfPnt*)_NativeInstance)->Prepend(Handle(::TColgp_HSequenceOfPnt)(theItem->NativeInstance));
     return _result.IsNull() ? nullptr : Macad::Occt::TColgp_HSequenceOfPnt::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::Prs3d_NListOfSequenceOfPnt::Prepend(Macad::Occt::Prs3d_NListOfSequenceOfPnt^ theOther)
-{
-    ((::Prs3d_NListOfSequenceOfPnt*)_NativeInstance)->Prepend(*(::Prs3d_NListOfSequenceOfPnt*)theOther->NativeInstance);
 }
 
 void Macad::Occt::Prs3d_NListOfSequenceOfPnt::RemoveFirst()
@@ -118,20 +97,10 @@ Macad::Occt::TColgp_HSequenceOfPnt^ Macad::Occt::Prs3d_NListOfSequenceOfPnt::Ins
     return _result.IsNull() ? nullptr : Macad::Occt::TColgp_HSequenceOfPnt::CreateDowncasted(_result.get());
 }
 
-void Macad::Occt::Prs3d_NListOfSequenceOfPnt::InsertBefore(Macad::Occt::Prs3d_NListOfSequenceOfPnt^ theOther, Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator^ theIter)
-{
-    ((::Prs3d_NListOfSequenceOfPnt*)_NativeInstance)->InsertBefore(*(::Prs3d_NListOfSequenceOfPnt*)theOther->NativeInstance, *(::Prs3d_NListOfSequenceOfPnt::Iterator*)theIter->NativeInstance);
-}
-
 Macad::Occt::TColgp_HSequenceOfPnt^ Macad::Occt::Prs3d_NListOfSequenceOfPnt::InsertAfter(Macad::Occt::TColgp_HSequenceOfPnt^ theItem, Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator^ theIter)
 {
     Handle(::TColgp_HSequenceOfPnt) _result = ((::Prs3d_NListOfSequenceOfPnt*)_NativeInstance)->InsertAfter(Handle(::TColgp_HSequenceOfPnt)(theItem->NativeInstance), *(::Prs3d_NListOfSequenceOfPnt::Iterator*)theIter->NativeInstance);
     return _result.IsNull() ? nullptr : Macad::Occt::TColgp_HSequenceOfPnt::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::Prs3d_NListOfSequenceOfPnt::InsertAfter(Macad::Occt::Prs3d_NListOfSequenceOfPnt^ theOther, Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator^ theIter)
-{
-    ((::Prs3d_NListOfSequenceOfPnt*)_NativeInstance)->InsertAfter(*(::Prs3d_NListOfSequenceOfPnt*)theOther->NativeInstance, *(::Prs3d_NListOfSequenceOfPnt::Iterator*)theIter->NativeInstance);
 }
 
 void Macad::Occt::Prs3d_NListOfSequenceOfPnt::Reverse()
@@ -149,18 +118,6 @@ Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator::Iterator()
     : Macad::Occt::BaseClass<::Prs3d_NListOfSequenceOfPnt::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Prs3d_NListOfSequenceOfPnt::Iterator();
-}
-
-Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator::Iterator(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::Prs3d_NListOfSequenceOfPnt::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_NListOfSequenceOfPnt::Iterator(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator::Iterator(Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::Prs3d_NListOfSequenceOfPnt::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_NListOfSequenceOfPnt::Iterator(*(::Prs3d_NListOfSequenceOfPnt::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator::More()
@@ -204,12 +161,6 @@ Macad::Occt::Prs3d_NListIteratorOfListOfSequenceOfPnt::Prs3d_NListIteratorOfList
     _NativeInstance = new ::Prs3d_NListIteratorOfListOfSequenceOfPnt(*(::NCollection_BaseList*)theList->NativeInstance);
 }
 
-Macad::Occt::Prs3d_NListIteratorOfListOfSequenceOfPnt::Prs3d_NListIteratorOfListOfSequenceOfPnt(Macad::Occt::Prs3d_NListIteratorOfListOfSequenceOfPnt^ parameter1)
-    : Macad::Occt::BaseClass<::Prs3d_NListIteratorOfListOfSequenceOfPnt>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_NListIteratorOfListOfSequenceOfPnt(*(::Prs3d_NListIteratorOfListOfSequenceOfPnt*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::Prs3d_NListIteratorOfListOfSequenceOfPnt::More()
 {
     bool _result = ((::Prs3d_NListIteratorOfListOfSequenceOfPnt*)_NativeInstance)->More();
@@ -245,12 +196,6 @@ Macad::Occt::Prs3d_DimensionUnits::Prs3d_DimensionUnits()
     _NativeInstance = new ::Prs3d_DimensionUnits();
 }
 
-Macad::Occt::Prs3d_DimensionUnits::Prs3d_DimensionUnits(Macad::Occt::Prs3d_DimensionUnits^ theUnits)
-    : Macad::Occt::BaseClass<::Prs3d_DimensionUnits>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_DimensionUnits(*(::Prs3d_DimensionUnits*)theUnits->NativeInstance);
-}
-
 void Macad::Occt::Prs3d_DimensionUnits::SetAngleUnits(Macad::Occt::TCollection_AsciiString^ theUnits)
 {
     ((::Prs3d_DimensionUnits*)_NativeInstance)->SetAngleUnits(*(::TCollection_AsciiString*)theUnits->NativeInstance);
@@ -280,12 +225,6 @@ Macad::Occt::TCollection_AsciiString^ Macad::Occt::Prs3d_DimensionUnits::GetLeng
 //---------------------------------------------------------------------
 //  Class  Prs3d_BasicAspect
 //---------------------------------------------------------------------
-
-Macad::Occt::Prs3d_BasicAspect::Prs3d_BasicAspect(Macad::Occt::Prs3d_BasicAspect^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
 
 Macad::Occt::Prs3d_BasicAspect::Prs3d_BasicAspect()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
@@ -348,12 +287,6 @@ Macad::Occt::Prs3d_LineAspect::Prs3d_LineAspect(Macad::Occt::Graphic3d_AspectLin
     : Macad::Occt::Prs3d_BasicAspect(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Prs3d_LineAspect(Handle(::Graphic3d_AspectLine3d)(theAspect->NativeInstance));
-}
-
-Macad::Occt::Prs3d_LineAspect::Prs3d_LineAspect(Macad::Occt::Prs3d_LineAspect^ parameter1)
-    : Macad::Occt::Prs3d_BasicAspect(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Prs3d_LineAspect(*(::Prs3d_LineAspect*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Prs3d_LineAspect::SetColor(Macad::Occt::Quantity_Color^ theColor)
@@ -423,12 +356,6 @@ Macad::Occt::Prs3d_TextAspect::Prs3d_TextAspect(Macad::Occt::Graphic3d_AspectTex
     : Macad::Occt::Prs3d_BasicAspect(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Prs3d_TextAspect(Handle(::Graphic3d_AspectText3d)(theAspect->NativeInstance));
-}
-
-Macad::Occt::Prs3d_TextAspect::Prs3d_TextAspect(Macad::Occt::Prs3d_TextAspect^ parameter1)
-    : Macad::Occt::Prs3d_BasicAspect(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Prs3d_TextAspect(*(::Prs3d_TextAspect*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Prs3d_TextAspect::SetColor(Macad::Occt::Quantity_Color^ theColor)
@@ -544,12 +471,6 @@ Macad::Occt::Prs3d_ShadingAspect::Prs3d_ShadingAspect(Macad::Occt::Graphic3d_Asp
     : Macad::Occt::Prs3d_BasicAspect(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Prs3d_ShadingAspect(Handle(::Graphic3d_AspectFillArea3d)(theAspect->NativeInstance));
-}
-
-Macad::Occt::Prs3d_ShadingAspect::Prs3d_ShadingAspect(Macad::Occt::Prs3d_ShadingAspect^ parameter1)
-    : Macad::Occt::Prs3d_BasicAspect(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Prs3d_ShadingAspect(*(::Prs3d_ShadingAspect*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Prs3d_ShadingAspect::SetColor(Macad::Occt::Quantity_Color^ aColor, Macad::Occt::Aspect_TypeOfFacingModel aModel)
@@ -676,12 +597,6 @@ Macad::Occt::Prs3d_PointAspect::Prs3d_PointAspect(Macad::Occt::Graphic3d_AspectM
     NativeInstance = new ::Prs3d_PointAspect(Handle(::Graphic3d_AspectMarker3d)(theAspect->NativeInstance));
 }
 
-Macad::Occt::Prs3d_PointAspect::Prs3d_PointAspect(Macad::Occt::Prs3d_PointAspect^ parameter1)
-    : Macad::Occt::Prs3d_BasicAspect(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Prs3d_PointAspect(*(::Prs3d_PointAspect*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Prs3d_PointAspect::SetColor(Macad::Occt::Quantity_Color^ theColor)
 {
     ((::Prs3d_PointAspect*)_NativeInstance)->SetColor(*(::Quantity_Color*)theColor->NativeInstance);
@@ -750,12 +665,6 @@ Macad::Occt::Prs3d_PlaneAspect::Prs3d_PlaneAspect()
     : Macad::Occt::Prs3d_BasicAspect(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Prs3d_PlaneAspect();
-}
-
-Macad::Occt::Prs3d_PlaneAspect::Prs3d_PlaneAspect(Macad::Occt::Prs3d_PlaneAspect^ parameter1)
-    : Macad::Occt::Prs3d_BasicAspect(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Prs3d_PlaneAspect(*(::Prs3d_PlaneAspect*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Prs3d_LineAspect^ Macad::Occt::Prs3d_PlaneAspect::EdgesAspect()
@@ -924,12 +833,6 @@ Macad::Occt::Prs3d_ArrowAspect::Prs3d_ArrowAspect(Macad::Occt::Graphic3d_AspectL
     NativeInstance = new ::Prs3d_ArrowAspect(Handle(::Graphic3d_AspectLine3d)(theAspect->NativeInstance));
 }
 
-Macad::Occt::Prs3d_ArrowAspect::Prs3d_ArrowAspect(Macad::Occt::Prs3d_ArrowAspect^ parameter1)
-    : Macad::Occt::Prs3d_BasicAspect(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Prs3d_ArrowAspect(*(::Prs3d_ArrowAspect*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Prs3d_ArrowAspect::SetAngle(double anAngle)
 {
     ((::Prs3d_ArrowAspect*)_NativeInstance)->SetAngle(anAngle);
@@ -1008,12 +911,6 @@ Macad::Occt::Prs3d_DatumAspect::Prs3d_DatumAspect()
     : Macad::Occt::Prs3d_BasicAspect(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Prs3d_DatumAspect();
-}
-
-Macad::Occt::Prs3d_DatumAspect::Prs3d_DatumAspect(Macad::Occt::Prs3d_DatumAspect^ parameter1)
-    : Macad::Occt::Prs3d_BasicAspect(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Prs3d_DatumAspect(*(::Prs3d_DatumAspect*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Prs3d_LineAspect^ Macad::Occt::Prs3d_DatumAspect::LineAspect(Macad::Occt::Prs3d_DatumParts thePart)
@@ -1173,12 +1070,6 @@ Macad::Occt::Prs3d_DimensionAspect::Prs3d_DimensionAspect()
     : Macad::Occt::Prs3d_BasicAspect(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Prs3d_DimensionAspect();
-}
-
-Macad::Occt::Prs3d_DimensionAspect::Prs3d_DimensionAspect(Macad::Occt::Prs3d_DimensionAspect^ parameter1)
-    : Macad::Occt::Prs3d_BasicAspect(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Prs3d_DimensionAspect(*(::Prs3d_DimensionAspect*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Prs3d_LineAspect^ Macad::Occt::Prs3d_DimensionAspect::LineAspect()
@@ -1359,12 +1250,6 @@ Macad::Occt::Prs3d_Drawer::Prs3d_Drawer()
     : Macad::Occt::Graphic3d_PresentationAttributes(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Prs3d_Drawer();
-}
-
-Macad::Occt::Prs3d_Drawer::Prs3d_Drawer(Macad::Occt::Prs3d_Drawer^ parameter1)
-    : Macad::Occt::Graphic3d_PresentationAttributes(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Prs3d_Drawer(*(::Prs3d_Drawer*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Prs3d_Drawer::SetupOwnDefaults()
@@ -2359,12 +2244,6 @@ Macad::Occt::Prs3d::Prs3d()
     _NativeInstance = new ::Prs3d();
 }
 
-Macad::Occt::Prs3d::Prs3d(Macad::Occt::Prs3d^ parameter1)
-    : Macad::Occt::BaseClass<::Prs3d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d(*(::Prs3d*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::Prs3d::MatchSegment(double X, double Y, double Z, double aDistance, Macad::Occt::Pnt p1, Macad::Occt::Pnt p2, double% dist)
 {
     pin_ptr<Macad::Occt::Pnt> pp_p1 = &p1;
@@ -2409,12 +2288,6 @@ Macad::Occt::Prs3d_Arrow::Prs3d_Arrow()
     _NativeInstance = new ::Prs3d_Arrow();
 }
 
-Macad::Occt::Prs3d_Arrow::Prs3d_Arrow(Macad::Occt::Prs3d_Arrow^ parameter1)
-    : Macad::Occt::BaseClass<::Prs3d_Arrow>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_Arrow(*(::Prs3d_Arrow*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Graphic3d_ArrayOfTriangles^ Macad::Occt::Prs3d_Arrow::DrawShaded(Macad::Occt::Ax1 theAxis, double theTubeRadius, double theAxisLength, double theConeRadius, double theConeLength, int theNbFacettes)
 {
     pin_ptr<Macad::Occt::Ax1> pp_theAxis = &theAxis;
@@ -2449,12 +2322,6 @@ Macad::Occt::Prs3d_IsoAspect::Prs3d_IsoAspect(Macad::Occt::Quantity_Color^ theCo
     NativeInstance = new ::Prs3d_IsoAspect(*(::Quantity_Color*)theColor->NativeInstance, (::Aspect_TypeOfLine)theType, theWidth, theNumber);
 }
 
-Macad::Occt::Prs3d_IsoAspect::Prs3d_IsoAspect(Macad::Occt::Prs3d_IsoAspect^ parameter1)
-    : Macad::Occt::Prs3d_LineAspect(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Prs3d_IsoAspect(*(::Prs3d_IsoAspect*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Prs3d_IsoAspect::SetNumber(int theNumber)
 {
     ((::Prs3d_IsoAspect*)_NativeInstance)->SetNumber(theNumber);
@@ -2483,12 +2350,6 @@ Macad::Occt::Prs3d_Root::Prs3d_Root()
     _NativeInstance = new ::Prs3d_Root();
 }
 
-Macad::Occt::Prs3d_Root::Prs3d_Root(Macad::Occt::Prs3d_Root^ parameter1)
-    : Macad::Occt::BaseClass<::Prs3d_Root>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_Root(*(::Prs3d_Root*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Graphic3d_Group^ Macad::Occt::Prs3d_Root::CurrentGroup(Macad::Occt::Graphic3d_Structure^ thePrs3d)
 {
     Handle(::Graphic3d_Group) _result = ::Prs3d_Root::CurrentGroup(Handle(::Graphic3d_Structure)(thePrs3d->NativeInstance));
@@ -2511,12 +2372,6 @@ Macad::Occt::Prs3d_BndBox::Prs3d_BndBox()
     : Macad::Occt::Prs3d_Root(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Prs3d_BndBox();
-}
-
-Macad::Occt::Prs3d_BndBox::Prs3d_BndBox(Macad::Occt::Prs3d_BndBox^ parameter1)
-    : Macad::Occt::Prs3d_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_BndBox(*(::Prs3d_BndBox*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Prs3d_BndBox::Add(Macad::Occt::Graphic3d_Structure^ thePresentation, Macad::Occt::Bnd_Box^ theBndBox, Macad::Occt::Prs3d_Drawer^ theDrawer)
@@ -2587,12 +2442,6 @@ Macad::Occt::Prs3d_InvalidAngle::Prs3d_InvalidAngle(System::String^ theMessage, 
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
-Macad::Occt::Prs3d_InvalidAngle::Prs3d_InvalidAngle(Macad::Occt::Prs3d_InvalidAngle^ parameter1)
-    : Macad::Occt::Standard_RangeError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Prs3d_InvalidAngle(*(::Prs3d_InvalidAngle*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Prs3d_InvalidAngle::Raise(System::String^ theMessage)
 {
     const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
@@ -2646,12 +2495,6 @@ Macad::Occt::Prs3d_PresentationShadow::Prs3d_PresentationShadow(Macad::Occt::Gra
     NativeInstance = new ::Prs3d_PresentationShadow(Handle(::Graphic3d_StructureManager)(theViewer->NativeInstance), Handle(::Graphic3d_Structure)(thePrs->NativeInstance));
 }
 
-Macad::Occt::Prs3d_PresentationShadow::Prs3d_PresentationShadow(Macad::Occt::Prs3d_PresentationShadow^ parameter1)
-    : Macad::Occt::Graphic3d_Structure(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Prs3d_PresentationShadow(*(::Prs3d_PresentationShadow*)parameter1->NativeInstance);
-}
-
 int Macad::Occt::Prs3d_PresentationShadow::ParentId()
 {
     int _result = ((::Prs3d_PresentationShadow*)_NativeInstance)->ParentId();
@@ -2700,12 +2543,6 @@ Macad::Occt::Prs3d_Text::Prs3d_Text()
     _NativeInstance = new ::Prs3d_Text();
 }
 
-Macad::Occt::Prs3d_Text::Prs3d_Text(Macad::Occt::Prs3d_Text^ parameter1)
-    : Macad::Occt::BaseClass<::Prs3d_Text>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_Text(*(::Prs3d_Text*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Graphic3d_Text^ Macad::Occt::Prs3d_Text::Draw(Macad::Occt::Graphic3d_Group^ theGroup, Macad::Occt::Prs3d_TextAspect^ theAspect, Macad::Occt::TCollection_ExtendedString^ theText, Macad::Occt::Pnt theAttachmentPoint)
 {
     pin_ptr<Macad::Occt::Pnt> pp_theAttachmentPoint = &theAttachmentPoint;
@@ -2734,12 +2571,6 @@ Macad::Occt::Graphic3d_Text^ Macad::Occt::Prs3d_Text::Draw(Macad::Occt::Graphic3
 //---------------------------------------------------------------------
 
 Macad::Occt::Prs3d_ToolQuadric::Prs3d_ToolQuadric()
-    : Macad::Occt::BaseClass<::Prs3d_ToolQuadric>(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
-Macad::Occt::Prs3d_ToolQuadric::Prs3d_ToolQuadric(Macad::Occt::Prs3d_ToolQuadric^ parameter1)
     : Macad::Occt::BaseClass<::Prs3d_ToolQuadric>(BaseClass::InitMode::Uninitialized)
 {
     	throw gcnew System::NotImplementedException("Native class is abstract");
@@ -2808,12 +2639,6 @@ Macad::Occt::Prs3d_ToolCylinder::Prs3d_ToolCylinder(double theBottomRad, double 
     _NativeInstance = new ::Prs3d_ToolCylinder(theBottomRad, theTopRad, theHeight, theNbSlices, theNbStacks);
 }
 
-Macad::Occt::Prs3d_ToolCylinder::Prs3d_ToolCylinder(Macad::Occt::Prs3d_ToolCylinder^ parameter1)
-    : Macad::Occt::Prs3d_ToolQuadric(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_ToolCylinder(*(::Prs3d_ToolCylinder*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Graphic3d_ArrayOfTriangles^ Macad::Occt::Prs3d_ToolCylinder::Create(double theBottomRad, double theTopRad, double theHeight, int theNbSlices, int theNbStacks, Macad::Occt::Trsf theTrsf)
 {
     pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
@@ -2831,12 +2656,6 @@ Macad::Occt::Prs3d_ToolDisk::Prs3d_ToolDisk(double theInnerRadius, double theOut
     : Macad::Occt::Prs3d_ToolQuadric(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Prs3d_ToolDisk(theInnerRadius, theOuterRadius, theNbSlices, theNbStacks);
-}
-
-Macad::Occt::Prs3d_ToolDisk::Prs3d_ToolDisk(Macad::Occt::Prs3d_ToolDisk^ parameter1)
-    : Macad::Occt::Prs3d_ToolQuadric(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_ToolDisk(*(::Prs3d_ToolDisk*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Graphic3d_ArrayOfTriangles^ Macad::Occt::Prs3d_ToolDisk::Create(double theInnerRadius, double theOuterRadius, int theNbSlices, int theNbStacks, Macad::Occt::Trsf theTrsf)
@@ -2863,12 +2682,6 @@ Macad::Occt::Prs3d_ToolSector::Prs3d_ToolSector(double theRadius, int theNbSlice
     _NativeInstance = new ::Prs3d_ToolSector(theRadius, theNbSlices, theNbStacks);
 }
 
-Macad::Occt::Prs3d_ToolSector::Prs3d_ToolSector(Macad::Occt::Prs3d_ToolSector^ parameter1)
-    : Macad::Occt::Prs3d_ToolQuadric(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_ToolSector(*(::Prs3d_ToolSector*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Graphic3d_ArrayOfTriangles^ Macad::Occt::Prs3d_ToolSector::Create(double theRadius, int theNbSlices, int theNbStacks, Macad::Occt::Trsf theTrsf)
 {
     pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
@@ -2886,12 +2699,6 @@ Macad::Occt::Prs3d_ToolSphere::Prs3d_ToolSphere(double theRadius, int theNbSlice
     : Macad::Occt::Prs3d_ToolQuadric(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Prs3d_ToolSphere(theRadius, theNbSlices, theNbStacks);
-}
-
-Macad::Occt::Prs3d_ToolSphere::Prs3d_ToolSphere(Macad::Occt::Prs3d_ToolSphere^ parameter1)
-    : Macad::Occt::Prs3d_ToolQuadric(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_ToolSphere(*(::Prs3d_ToolSphere*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Graphic3d_ArrayOfTriangles^ Macad::Occt::Prs3d_ToolSphere::Create(double theRadius, int theNbSlices, int theNbStacks, Macad::Occt::Trsf theTrsf)
@@ -2929,12 +2736,6 @@ Macad::Occt::Prs3d_ToolTorus::Prs3d_ToolTorus(double theMajorRad, double theMino
     : Macad::Occt::Prs3d_ToolQuadric(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Prs3d_ToolTorus(theMajorRad, theMinorRad, theAngle1, theAngle2, theAngle, theNbSlices, theNbStacks);
-}
-
-Macad::Occt::Prs3d_ToolTorus::Prs3d_ToolTorus(Macad::Occt::Prs3d_ToolTorus^ parameter1)
-    : Macad::Occt::Prs3d_ToolQuadric(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Prs3d_ToolTorus(*(::Prs3d_ToolTorus*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Graphic3d_ArrayOfTriangles^ Macad::Occt::Prs3d_ToolTorus::Create(double theMajorRad, double theMinorRad, int theNbSlices, int theNbStacks, Macad::Occt::Trsf theTrsf)

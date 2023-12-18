@@ -10,6 +10,7 @@ public class ClassDecl : ElementDecl
     public bool IsPublic;
     public bool IsTypedef;
     public bool IsIncomplete;
+    public bool HasHashStruct;
 
     public ClassDecl BaseClass;
     public ClassDecl OuterClass;

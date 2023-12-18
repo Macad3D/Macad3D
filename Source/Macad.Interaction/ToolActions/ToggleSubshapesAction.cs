@@ -70,9 +70,11 @@ namespace Macad.Interaction
 
             if (_TopmostHighlightDrawer == null)
             {
-                _TopmostHighlightDrawer = new Prs3d_Drawer(WorkspaceController.Workspace.AisContext.HighlightStyle(Prs3d_TypeOfHighlight.Dynamic));
+                _TopmostHighlightDrawer = new Prs3d_Drawer();
+                _TopmostHighlightDrawer.SetLink(WorkspaceController.Workspace.AisContext.HighlightStyle(Prs3d_TypeOfHighlight.Dynamic));
                 _TopmostHighlightDrawer.SetZLayer(-2 /* Top */);
                 _TopmostHighlightDrawer.SetDisplayMode(1);
+                _TopmostHighlightDrawer.SetColor(Colors.Highlight);
             }
             subshape.AisShape.SetDynamicHilightAttributes(_TopmostHighlightDrawer);
 

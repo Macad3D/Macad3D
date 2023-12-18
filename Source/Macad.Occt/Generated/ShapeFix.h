@@ -66,19 +66,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::ShapeFix_SequenceOfWireSegment^ theSeq, bool isStart);
-        Iterator(Macad::Occt::ShapeFix_SequenceOfWireSegment^ theSeq);
-        Iterator(Macad::Occt::ShapeFix_SequenceOfWireSegment::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::ShapeFix_WireSegment^ Value();
         Macad::Occt::ShapeFix_WireSegment^ ChangeValue();
         bool IsEqual(Macad::Occt::ShapeFix_SequenceOfWireSegment::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     ShapeFix_SequenceOfWireSegment();
     ShapeFix_SequenceOfWireSegment(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    ShapeFix_SequenceOfWireSegment(Macad::Occt::ShapeFix_SequenceOfWireSegment^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -91,17 +88,10 @@ public:
     void Clear();
     Macad::Occt::ShapeFix_SequenceOfWireSegment^ Assign(Macad::Occt::ShapeFix_SequenceOfWireSegment^ theOther);
     void Remove(Macad::Occt::ShapeFix_SequenceOfWireSegment::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::ShapeFix_WireSegment^ theItem);
-    void Append(Macad::Occt::ShapeFix_SequenceOfWireSegment^ theSeq);
     void Prepend(Macad::Occt::ShapeFix_WireSegment^ theItem);
-    void Prepend(Macad::Occt::ShapeFix_SequenceOfWireSegment^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::ShapeFix_WireSegment^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::ShapeFix_SequenceOfWireSegment^ theSeq);
     void InsertAfter(Macad::Occt::ShapeFix_SequenceOfWireSegment::Iterator^ thePosition, Macad::Occt::ShapeFix_WireSegment^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::ShapeFix_SequenceOfWireSegment^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::ShapeFix_WireSegment^ theItem);
     void Split(int theIndex, Macad::Occt::ShapeFix_SequenceOfWireSegment^ theSeq);
     Macad::Occt::ShapeFix_WireSegment^ First();
     Macad::Occt::ShapeFix_WireSegment^ ChangeFirst();
@@ -172,8 +162,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::ShapeFix_DataMapOfShapeBox2d^ theMap);
-        Iterator(Macad::Occt::ShapeFix_DataMapOfShapeBox2d::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Bnd_Box2d^ Value();
@@ -184,7 +172,6 @@ public:
     ShapeFix_DataMapOfShapeBox2d();
     ShapeFix_DataMapOfShapeBox2d(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     ShapeFix_DataMapOfShapeBox2d(int theNbBuckets);
-    ShapeFix_DataMapOfShapeBox2d(Macad::Occt::ShapeFix_DataMapOfShapeBox2d^ theOther);
     void Exchange(Macad::Occt::ShapeFix_DataMapOfShapeBox2d^ theOther);
     Macad::Occt::ShapeFix_DataMapOfShapeBox2d^ Assign(Macad::Occt::ShapeFix_DataMapOfShapeBox2d^ theOther);
     void ReSize(int N);
@@ -194,12 +181,10 @@ public:
     bool UnBind(Macad::Occt::TopoDS_Shape^ theKey);
     Macad::Occt::Bnd_Box2d^ Seek(Macad::Occt::TopoDS_Shape^ theKey);
     Macad::Occt::Bnd_Box2d^ Find(Macad::Occt::TopoDS_Shape^ theKey);
-    bool Find(Macad::Occt::TopoDS_Shape^ theKey, Macad::Occt::Bnd_Box2d^ theValue);
     Macad::Occt::Bnd_Box2d^ ChangeSeek(Macad::Occt::TopoDS_Shape^ theKey);
     Macad::Occt::Bnd_Box2d^ ChangeFind(Macad::Occt::TopoDS_Shape^ theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class ShapeFix_DataMapOfShapeBox2d
 
@@ -243,7 +228,6 @@ public:
 
 public:
     ShapeFix();
-    ShapeFix(Macad::Occt::ShapeFix^ parameter1);
     /* Method skipped due to unknown mapping: bool SameParameter(TopoDS_Shape shape, bool enforce, double preci, Message_ProgressRange theProgress, ShapeExtend_BasicMsgRegistrator theMsgReg, ) */
     /// <summary>
     /// Runs SameParameter from BRepLib with these adaptations :
@@ -357,7 +341,6 @@ public:
     /// Empty Constructor (no context is created)
     /// </summary>
     ShapeFix_Root();
-    ShapeFix_Root(Macad::Occt::ShapeFix_Root^ parameter1);
     /// <summary>
     /// Copy all fields from another Root object
     /// </summary>
@@ -634,7 +617,6 @@ public:
     /// Creates empty tool.
     /// </summary>
     ShapeFix_ComposeShell();
-    ShapeFix_ComposeShell(Macad::Occt::ShapeFix_ComposeShell^ parameter1);
     /* Method skipped due to unknown mapping: void Init(ShapeExtend_CompositeSurface Grid, TopLoc_Location L, TopoDS_Face Face, double Prec, ) */
     /// <summary>
     /// Performs the work on already loaded data.
@@ -718,7 +700,6 @@ public:
     /// Empty constructor
     /// </summary>
     ShapeFix_Edge();
-    ShapeFix_Edge(Macad::Occt::ShapeFix_Edge^ parameter1);
     /// <summary>
     /// Returns the projector used for recomputing missing pcurves
     /// Can be used for adjusting parameters of projector
@@ -1038,7 +1019,6 @@ public:
 
 public:
     ShapeFix_EdgeConnect();
-    ShapeFix_EdgeConnect(Macad::Occt::ShapeFix_EdgeConnect^ parameter1);
     /// <summary>
     /// Adds information on connectivity between start vertex
     /// of second edge and end vertex of first edge,
@@ -1097,7 +1077,6 @@ public:
 public:
     ShapeFix_EdgeProjAux();
     ShapeFix_EdgeProjAux(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E);
-    ShapeFix_EdgeProjAux(Macad::Occt::ShapeFix_EdgeProjAux^ parameter1);
     void Init(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E);
     void Compute(double preci);
     bool IsFirstDone();
@@ -1502,7 +1481,6 @@ public:
     /// (Loads analyzer with all the data for the wire and face)
     /// </summary>
     ShapeFix_Wire(Macad::Occt::TopoDS_Wire^ wire, Macad::Occt::TopoDS_Face^ face, double prec);
-    ShapeFix_Wire(Macad::Occt::ShapeFix_Wire^ parameter1);
     /// <summary>
     /// Sets all modes to default
     /// </summary>
@@ -2032,7 +2010,6 @@ public:
     /// Creates a tool and loads a face
     /// </summary>
     ShapeFix_Face(Macad::Occt::TopoDS_Face^ face);
-    ShapeFix_Face(Macad::Occt::ShapeFix_Face^ parameter1);
     /// <summary>
     /// Sets all modes to default
     /// </summary>
@@ -2223,7 +2200,6 @@ public:
 
 public:
     ShapeFix_FaceConnect();
-    ShapeFix_FaceConnect(Macad::Occt::ShapeFix_FaceConnect^ parameter1);
     bool Add(Macad::Occt::TopoDS_Face^ aFirst, Macad::Occt::TopoDS_Face^ aSecond);
     Macad::Occt::TopoDS_Shell^ Build(Macad::Occt::TopoDS_Shell^ shell, double sewtoler, double fixtoler);
     /// <summary>
@@ -2266,7 +2242,6 @@ public:
 
 public:
     ShapeFix_FixSmallFace();
-    ShapeFix_FixSmallFace(Macad::Occt::ShapeFix_FixSmallFace^ parameter1);
     void Init(Macad::Occt::TopoDS_Shape^ S);
     /// <summary>
     /// Fixing case of spot face
@@ -2353,7 +2328,6 @@ public:
     /// Construct
     /// </summary>
     ShapeFix_FixSmallSolid();
-    ShapeFix_FixSmallSolid(Macad::Occt::ShapeFix_FixSmallSolid^ parameter1);
     /// <summary>
     /// Set working mode for operator:
     /// - theMode = 0 use both WidthFactorThreshold and VolumeThreshold parameters
@@ -2462,7 +2436,6 @@ public:
     /// <shape> should be a compound of shells.
     /// </summary>
     ShapeFix_FreeBounds(Macad::Occt::TopoDS_Shape^ shape, double closetoler, bool splitclosed, bool splitopen);
-    ShapeFix_FreeBounds(Macad::Occt::ShapeFix_FreeBounds^ parameter1);
     /// <summary>
     /// Returns compound of closed wires out of free edges.
     /// </summary>
@@ -2519,7 +2492,6 @@ public:
     /// Constructor
     /// </summary>
     ShapeFix_IntersectionTool(Macad::Occt::ShapeBuild_ReShape^ context, double preci);
-    ShapeFix_IntersectionTool(Macad::Occt::ShapeFix_IntersectionTool^ parameter1);
     /// <summary>
     /// Returns context
     /// </summary>
@@ -2622,7 +2594,6 @@ public:
     /// Initializes by solid.
     /// </summary>
     ShapeFix_Solid(Macad::Occt::TopoDS_Solid^ solid);
-    ShapeFix_Solid(Macad::Occt::ShapeFix_Solid^ parameter1);
     /// <summary>
     /// Initializes by solid .
     /// </summary>
@@ -2742,7 +2713,6 @@ public:
     /// Initializes by shell.
     /// </summary>
     ShapeFix_Shell(Macad::Occt::TopoDS_Shell^ shape);
-    ShapeFix_Shell(Macad::Occt::ShapeFix_Shell^ parameter1);
     /// <summary>
     /// Initializes by shell.
     /// </summary>
@@ -2988,7 +2958,6 @@ public:
     /// Initislises by shape.
     /// </summary>
     ShapeFix_Shape(Macad::Occt::TopoDS_Shape^ shape);
-    ShapeFix_Shape(Macad::Occt::ShapeFix_Shape^ parameter1);
     /// <summary>
     /// Initislises by shape.
     /// </summary>
@@ -3076,7 +3045,6 @@ public:
 
 public:
     ShapeFix_ShapeTolerance();
-    ShapeFix_ShapeTolerance(Macad::Occt::ShapeFix_ShapeTolerance^ parameter1);
     /// <summary>
     /// Limits tolerances in a shape as follows :
     /// tmin = tmax -> as SetTolerance (forces)
@@ -3181,7 +3149,6 @@ public:
 
 public:
     ShapeFix_SplitCommonVertex();
-    ShapeFix_SplitCommonVertex(Macad::Occt::ShapeFix_SplitCommonVertex^ parameter1);
     void Init(Macad::Occt::TopoDS_Shape^ S);
     void Perform();
     Macad::Occt::TopoDS_Shape^ Shape();
@@ -3226,7 +3193,6 @@ public:
     /// Empty constructor
     /// </summary>
     ShapeFix_SplitTool();
-    ShapeFix_SplitTool(Macad::Occt::ShapeFix_SplitTool^ parameter1);
     /// <summary>
     /// Split edge on two new edges using new vertex "vert"
     /// and "param" - parameter for splitting
@@ -3299,7 +3265,6 @@ public:
 
     ShapeFix_Wireframe();
     ShapeFix_Wireframe(Macad::Occt::TopoDS_Shape^ shape);
-    ShapeFix_Wireframe(Macad::Occt::ShapeFix_Wireframe^ parameter1);
     /// <summary>
     /// Clears all statuses
     /// </summary>
@@ -3405,7 +3370,6 @@ public:
 
 public:
     ShapeFix_WireVertex();
-    ShapeFix_WireVertex(Macad::Occt::ShapeFix_WireVertex^ parameter1);
     /// <summary>
     /// Loads the wire, ininializes internal analyzer
     /// (ShapeAnalysis_WireVertex) with the given precision,

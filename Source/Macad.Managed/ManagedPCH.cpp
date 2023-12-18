@@ -16,5 +16,5 @@
 #pragma comment(lib, "TKHLR.lib")
 #pragma comment(lib, "TKMesh")
 #pragma comment(lib, "TKXSBase")
-#pragma comment(lib, "TKIGES")
-#pragma comment(lib, "TKStep")
+#pragma comment(lib, "TKDEIGES")
+#pragma comment(lib, "TKDEStep")

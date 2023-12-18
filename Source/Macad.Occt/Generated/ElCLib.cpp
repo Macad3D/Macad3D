@@ -18,12 +18,6 @@ Macad::Occt::ElCLib::ElCLib()
     _NativeInstance = new ::ElCLib();
 }
 
-Macad::Occt::ElCLib::ElCLib(Macad::Occt::ElCLib^ parameter1)
-    : Macad::Occt::BaseClass<::ElCLib>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ElCLib(*(::ElCLib*)parameter1->NativeInstance);
-}
-
 double Macad::Occt::ElCLib::InPeriod(double U, double UFirst, double ULast)
 {
     double _result = ::ElCLib::InPeriod(U, UFirst, ULast);

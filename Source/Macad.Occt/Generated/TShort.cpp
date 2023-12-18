@@ -24,17 +24,18 @@ Macad::Occt::TShort_Array1OfShortReal::TShort_Array1OfShortReal(int theLower, in
     _NativeInstance = new ::TShort_Array1OfShortReal(theLower, theUpper);
 }
 
-Macad::Occt::TShort_Array1OfShortReal::TShort_Array1OfShortReal(Macad::Occt::TShort_Array1OfShortReal^ theOther)
+Macad::Occt::TShort_Array1OfShortReal::TShort_Array1OfShortReal(float theBegin, int theLower, int theUpper, bool theUseBuffer)
     : Macad::Occt::BaseClass<::TShort_Array1OfShortReal>(BaseClass::InitMode::Uninitialized)
 {
-    _NativeInstance = new ::TShort_Array1OfShortReal(*(::TShort_Array1OfShortReal*)theOther->NativeInstance);
+    pin_ptr<float> pp_theBegin = &theBegin;
+    _NativeInstance = new ::TShort_Array1OfShortReal(*(float*)pp_theBegin, theLower, theUpper, theUseBuffer);
 }
 
 Macad::Occt::TShort_Array1OfShortReal::TShort_Array1OfShortReal(float theBegin, int theLower, int theUpper)
     : Macad::Occt::BaseClass<::TShort_Array1OfShortReal>(BaseClass::InitMode::Uninitialized)
 {
     pin_ptr<float> pp_theBegin = &theBegin;
-    _NativeInstance = new ::TShort_Array1OfShortReal(*(float*)pp_theBegin, theLower, theUpper);
+    _NativeInstance = new ::TShort_Array1OfShortReal(*(float*)pp_theBegin, theLower, theUpper, true);
 }
 
 void Macad::Occt::TShort_Array1OfShortReal::Init(float theValue)
@@ -70,18 +71,6 @@ int Macad::Occt::TShort_Array1OfShortReal::Lower()
 int Macad::Occt::TShort_Array1OfShortReal::Upper()
 {
     int _result = ((::TShort_Array1OfShortReal*)_NativeInstance)->Upper();
-    return _result;
-}
-
-bool Macad::Occt::TShort_Array1OfShortReal::IsDeletable()
-{
-    bool _result = ((::TShort_Array1OfShortReal*)_NativeInstance)->IsDeletable();
-    return _result;
-}
-
-bool Macad::Occt::TShort_Array1OfShortReal::IsAllocated()
-{
-    bool _result = ((::TShort_Array1OfShortReal*)_NativeInstance)->IsAllocated();
     return _result;
 }
 
@@ -129,9 +118,25 @@ void Macad::Occt::TShort_Array1OfShortReal::SetValue(int theIndex, float theItem
     ((::TShort_Array1OfShortReal*)_NativeInstance)->SetValue(theIndex, *(float*)pp_theItem);
 }
 
+void Macad::Occt::TShort_Array1OfShortReal::UpdateLowerBound(int theLower)
+{
+    ((::TShort_Array1OfShortReal*)_NativeInstance)->UpdateLowerBound(theLower);
+}
+
+void Macad::Occt::TShort_Array1OfShortReal::UpdateUpperBound(int theUpper)
+{
+    ((::TShort_Array1OfShortReal*)_NativeInstance)->UpdateUpperBound(theUpper);
+}
+
 void Macad::Occt::TShort_Array1OfShortReal::Resize(int theLower, int theUpper, bool theToCopyData)
 {
     ((::TShort_Array1OfShortReal*)_NativeInstance)->Resize(theLower, theUpper, theToCopyData);
+}
+
+bool Macad::Occt::TShort_Array1OfShortReal::IsDeletable()
+{
+    bool _result = ((::TShort_Array1OfShortReal*)_NativeInstance)->IsDeletable();
+    return _result;
 }
 
 System::Collections::Generic::IEnumerator<float>^ Macad::Occt::TShort_Array1OfShortReal::GetEnumerator()
@@ -149,74 +154,6 @@ System::Collections::IEnumerator^ Macad::Occt::TShort_Array1OfShortReal::GetEnum
 //---------------------------------------------------------------------
 //  Class  TShort_Array1OfShortReal::Iterator
 //---------------------------------------------------------------------
-
-Macad::Occt::TShort_Array1OfShortReal::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::TShort_Array1OfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_Array1OfShortReal::Iterator();
-}
-
-Macad::Occt::TShort_Array1OfShortReal::Iterator::Iterator(Macad::Occt::TShort_Array1OfShortReal^ theArray, bool theToEnd)
-    : Macad::Occt::BaseClass<::TShort_Array1OfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_Array1OfShortReal::Iterator(*(::TShort_Array1OfShortReal*)theArray->NativeInstance, theToEnd);
-}
-
-Macad::Occt::TShort_Array1OfShortReal::Iterator::Iterator(Macad::Occt::TShort_Array1OfShortReal^ theArray)
-    : Macad::Occt::BaseClass<::TShort_Array1OfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_Array1OfShortReal::Iterator(*(::TShort_Array1OfShortReal*)theArray->NativeInstance, false);
-}
-
-Macad::Occt::TShort_Array1OfShortReal::Iterator::Iterator(Macad::Occt::TShort_Array1OfShortReal::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::TShort_Array1OfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_Array1OfShortReal::Iterator(*(::TShort_Array1OfShortReal::Iterator*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::TShort_Array1OfShortReal::Iterator::Init(Macad::Occt::TShort_Array1OfShortReal^ theArray)
-{
-    ((::TShort_Array1OfShortReal::Iterator*)_NativeInstance)->Init(*(::TShort_Array1OfShortReal*)theArray->NativeInstance);
-}
-
-bool Macad::Occt::TShort_Array1OfShortReal::Iterator::More()
-{
-    bool _result = ((::TShort_Array1OfShortReal::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::TShort_Array1OfShortReal::Iterator::Next()
-{
-    ((::TShort_Array1OfShortReal::Iterator*)_NativeInstance)->Next();
-}
-
-void Macad::Occt::TShort_Array1OfShortReal::Iterator::Previous()
-{
-    ((::TShort_Array1OfShortReal::Iterator*)_NativeInstance)->Previous();
-}
-
-void Macad::Occt::TShort_Array1OfShortReal::Iterator::Offset(long long int theOffset)
-{
-    ((::TShort_Array1OfShortReal::Iterator*)_NativeInstance)->Offset(theOffset);
-}
-
-long long int Macad::Occt::TShort_Array1OfShortReal::Iterator::Differ(Macad::Occt::TShort_Array1OfShortReal::Iterator^ theOther)
-{
-    long long int _result = ((::TShort_Array1OfShortReal::Iterator*)_NativeInstance)->Differ(*(::TShort_Array1OfShortReal::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-float Macad::Occt::TShort_Array1OfShortReal::Iterator::Value()
-{
-    float _result = ((::TShort_Array1OfShortReal::Iterator*)_NativeInstance)->Value();
-    return _result;
-}
-
-bool Macad::Occt::TShort_Array1OfShortReal::Iterator::IsEqual(Macad::Occt::TShort_Array1OfShortReal::Iterator^ theOther)
-{
-    bool _result = ((::TShort_Array1OfShortReal::Iterator*)_NativeInstance)->IsEqual(*(::TShort_Array1OfShortReal::Iterator*)theOther->NativeInstance);
-    return _result;
-}
 
 
 
@@ -236,12 +173,6 @@ Macad::Occt::TShort_Array2OfShortReal::TShort_Array2OfShortReal(int theRowLower,
     _NativeInstance = new ::TShort_Array2OfShortReal(theRowLower, theRowUpper, theColLower, theColUpper);
 }
 
-Macad::Occt::TShort_Array2OfShortReal::TShort_Array2OfShortReal(Macad::Occt::TShort_Array2OfShortReal^ theOther)
-    : Macad::Occt::BaseClass<::TShort_Array2OfShortReal>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_Array2OfShortReal(*(::TShort_Array2OfShortReal*)theOther->NativeInstance);
-}
-
 Macad::Occt::TShort_Array2OfShortReal::TShort_Array2OfShortReal(float theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper)
     : Macad::Occt::BaseClass<::TShort_Array2OfShortReal>(BaseClass::InitMode::Uninitialized)
 {
@@ -249,10 +180,16 @@ Macad::Occt::TShort_Array2OfShortReal::TShort_Array2OfShortReal(float theBegin, 
     _NativeInstance = new ::TShort_Array2OfShortReal(*(float*)pp_theBegin, theRowLower, theRowUpper, theColLower, theColUpper);
 }
 
-void Macad::Occt::TShort_Array2OfShortReal::Init(float theValue)
+int Macad::Occt::TShort_Array2OfShortReal::BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper)
 {
-    pin_ptr<float> pp_theValue = &theValue;
-    ((::TShort_Array2OfShortReal*)_NativeInstance)->Init(*(float*)pp_theValue);
+    int _result = ::TShort_Array2OfShortReal::BeginPosition(theRowLower, parameter1, theColLower, theColUpper);
+    return _result;
+}
+
+int Macad::Occt::TShort_Array2OfShortReal::LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper)
+{
+    int _result = ::TShort_Array2OfShortReal::LastPosition(theRowLower, theRowUpper, theColLower, theColUpper);
+    return _result;
 }
 
 int Macad::Occt::TShort_Array2OfShortReal::Size()
@@ -315,12 +252,6 @@ int Macad::Occt::TShort_Array2OfShortReal::UpperCol()
     return _result;
 }
 
-bool Macad::Occt::TShort_Array2OfShortReal::IsDeletable()
-{
-    bool _result = ((::TShort_Array2OfShortReal*)_NativeInstance)->IsDeletable();
-    return _result;
-}
-
 Macad::Occt::TShort_Array2OfShortReal^ Macad::Occt::TShort_Array2OfShortReal::Assign(Macad::Occt::TShort_Array2OfShortReal^ theOther)
 {
     ::TShort_Array2OfShortReal* _result = new ::TShort_Array2OfShortReal();
@@ -358,14 +289,56 @@ void Macad::Occt::TShort_Array2OfShortReal::Resize(int theRowLower, int theRowUp
     ((::TShort_Array2OfShortReal*)_NativeInstance)->Resize(theRowLower, theRowUpper, theColLower, theColUpper, theToCopyData);
 }
 
-System::Collections::Generic::IEnumerator<float>^ Macad::Occt::TShort_Array2OfShortReal::GetEnumerator()
+void Macad::Occt::TShort_Array2OfShortReal::Init(float theValue)
 {
-    return gcnew Macad::Occt::TShort_Array2OfShortReal::Iterator(this);
+    pin_ptr<float> pp_theValue = &theValue;
+    ((::TShort_Array2OfShortReal*)_NativeInstance)->Init(*(float*)pp_theValue);
 }
 
-System::Collections::IEnumerator^ Macad::Occt::TShort_Array2OfShortReal::GetEnumerator2()
+bool Macad::Occt::TShort_Array2OfShortReal::IsEmpty()
 {
-    return gcnew Macad::Occt::TShort_Array2OfShortReal::Iterator(this);
+    bool _result = ((::TShort_Array2OfShortReal*)_NativeInstance)->IsEmpty();
+    return _result;
+}
+
+int Macad::Occt::TShort_Array2OfShortReal::Lower()
+{
+    int _result = ((::TShort_Array2OfShortReal*)_NativeInstance)->Lower();
+    return _result;
+}
+
+int Macad::Occt::TShort_Array2OfShortReal::Upper()
+{
+    int _result = ((::TShort_Array2OfShortReal*)_NativeInstance)->Upper();
+    return _result;
+}
+
+float Macad::Occt::TShort_Array2OfShortReal::First()
+{
+    float _result = ((::TShort_Array2OfShortReal*)_NativeInstance)->First();
+    return _result;
+}
+
+float Macad::Occt::TShort_Array2OfShortReal::Last()
+{
+    float _result = ((::TShort_Array2OfShortReal*)_NativeInstance)->Last();
+    return _result;
+}
+
+void Macad::Occt::TShort_Array2OfShortReal::UpdateLowerBound(int theLower)
+{
+    ((::TShort_Array2OfShortReal*)_NativeInstance)->UpdateLowerBound(theLower);
+}
+
+void Macad::Occt::TShort_Array2OfShortReal::UpdateUpperBound(int theUpper)
+{
+    ((::TShort_Array2OfShortReal*)_NativeInstance)->UpdateUpperBound(theUpper);
+}
+
+bool Macad::Occt::TShort_Array2OfShortReal::IsDeletable()
+{
+    bool _result = ((::TShort_Array2OfShortReal*)_NativeInstance)->IsDeletable();
+    return _result;
 }
 
 
@@ -373,46 +346,6 @@ System::Collections::IEnumerator^ Macad::Occt::TShort_Array2OfShortReal::GetEnum
 //---------------------------------------------------------------------
 //  Class  TShort_Array2OfShortReal::Iterator
 //---------------------------------------------------------------------
-
-Macad::Occt::TShort_Array2OfShortReal::Iterator::Iterator()
-    : Macad::Occt::IteratorEnumerator<float, ::TShort_Array2OfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_Array2OfShortReal::Iterator();
-}
-
-Macad::Occt::TShort_Array2OfShortReal::Iterator::Iterator(Macad::Occt::TShort_Array2OfShortReal^ theArray)
-    : Macad::Occt::IteratorEnumerator<float, ::TShort_Array2OfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_Array2OfShortReal::Iterator(*(::TShort_Array2OfShortReal*)theArray->NativeInstance);
-}
-
-Macad::Occt::TShort_Array2OfShortReal::Iterator::Iterator(Macad::Occt::TShort_Array2OfShortReal::Iterator^ parameter1)
-    : Macad::Occt::IteratorEnumerator<float, ::TShort_Array2OfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_Array2OfShortReal::Iterator(*(::TShort_Array2OfShortReal::Iterator*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::TShort_Array2OfShortReal::Iterator::Init(Macad::Occt::TShort_Array2OfShortReal^ theArray)
-{
-    ((::TShort_Array2OfShortReal::Iterator*)_NativeInstance)->Init(*(::TShort_Array2OfShortReal*)theArray->NativeInstance);
-}
-
-bool Macad::Occt::TShort_Array2OfShortReal::Iterator::More()
-{
-    bool _result = ((::TShort_Array2OfShortReal::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::TShort_Array2OfShortReal::Iterator::Next()
-{
-    ((::TShort_Array2OfShortReal::Iterator*)_NativeInstance)->Next();
-}
-
-float Macad::Occt::TShort_Array2OfShortReal::Iterator::Value()
-{
-    float _result = ((::TShort_Array2OfShortReal::Iterator*)_NativeInstance)->Value();
-    return _result;
-}
 
 
 
@@ -430,12 +363,6 @@ Macad::Occt::TShort_SequenceOfShortReal::TShort_SequenceOfShortReal(Macad::Occt:
     : Macad::Occt::BaseClass<::TShort_SequenceOfShortReal>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::TShort_SequenceOfShortReal(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
-}
-
-Macad::Occt::TShort_SequenceOfShortReal::TShort_SequenceOfShortReal(Macad::Occt::TShort_SequenceOfShortReal^ theOther)
-    : Macad::Occt::BaseClass<::TShort_SequenceOfShortReal>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_SequenceOfShortReal(*(::TShort_SequenceOfShortReal*)theOther->NativeInstance);
 }
 
 int Macad::Occt::TShort_SequenceOfShortReal::Size()
@@ -500,25 +427,10 @@ void Macad::Occt::TShort_SequenceOfShortReal::Remove(Macad::Occt::TShort_Sequenc
     ((::TShort_SequenceOfShortReal*)_NativeInstance)->Remove(*(::TShort_SequenceOfShortReal::Iterator*)thePosition->NativeInstance);
 }
 
-void Macad::Occt::TShort_SequenceOfShortReal::Remove(int theIndex)
-{
-    ((::TShort_SequenceOfShortReal*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::TShort_SequenceOfShortReal::Remove(int theFromIndex, int theToIndex)
-{
-    ((::TShort_SequenceOfShortReal*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
 void Macad::Occt::TShort_SequenceOfShortReal::Append(float theItem)
 {
     pin_ptr<float> pp_theItem = &theItem;
     ((::TShort_SequenceOfShortReal*)_NativeInstance)->Append(*(float*)pp_theItem);
-}
-
-void Macad::Occt::TShort_SequenceOfShortReal::Append(Macad::Occt::TShort_SequenceOfShortReal^ theSeq)
-{
-    ((::TShort_SequenceOfShortReal*)_NativeInstance)->Append(*(::TShort_SequenceOfShortReal*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::TShort_SequenceOfShortReal::Prepend(float theItem)
@@ -527,37 +439,16 @@ void Macad::Occt::TShort_SequenceOfShortReal::Prepend(float theItem)
     ((::TShort_SequenceOfShortReal*)_NativeInstance)->Prepend(*(float*)pp_theItem);
 }
 
-void Macad::Occt::TShort_SequenceOfShortReal::Prepend(Macad::Occt::TShort_SequenceOfShortReal^ theSeq)
-{
-    ((::TShort_SequenceOfShortReal*)_NativeInstance)->Prepend(*(::TShort_SequenceOfShortReal*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::TShort_SequenceOfShortReal::InsertBefore(int theIndex, float theItem)
 {
     pin_ptr<float> pp_theItem = &theItem;
     ((::TShort_SequenceOfShortReal*)_NativeInstance)->InsertBefore(theIndex, *(float*)pp_theItem);
 }
 
-void Macad::Occt::TShort_SequenceOfShortReal::InsertBefore(int theIndex, Macad::Occt::TShort_SequenceOfShortReal^ theSeq)
-{
-    ((::TShort_SequenceOfShortReal*)_NativeInstance)->InsertBefore(theIndex, *(::TShort_SequenceOfShortReal*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::TShort_SequenceOfShortReal::InsertAfter(Macad::Occt::TShort_SequenceOfShortReal::Iterator^ thePosition, float theItem)
 {
     pin_ptr<float> pp_theItem = &theItem;
     ((::TShort_SequenceOfShortReal*)_NativeInstance)->InsertAfter(*(::TShort_SequenceOfShortReal::Iterator*)thePosition->NativeInstance, *(float*)pp_theItem);
-}
-
-void Macad::Occt::TShort_SequenceOfShortReal::InsertAfter(int theIndex, Macad::Occt::TShort_SequenceOfShortReal^ theSeq)
-{
-    ((::TShort_SequenceOfShortReal*)_NativeInstance)->InsertAfter(theIndex, *(::TShort_SequenceOfShortReal*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::TShort_SequenceOfShortReal::InsertAfter(int theIndex, float theItem)
-{
-    pin_ptr<float> pp_theItem = &theItem;
-    ((::TShort_SequenceOfShortReal*)_NativeInstance)->InsertAfter(theIndex, *(float*)pp_theItem);
 }
 
 void Macad::Occt::TShort_SequenceOfShortReal::Split(int theIndex, Macad::Occt::TShort_SequenceOfShortReal^ theSeq)
@@ -617,24 +508,6 @@ Macad::Occt::TShort_SequenceOfShortReal::Iterator::Iterator()
     _NativeInstance = new ::TShort_SequenceOfShortReal::Iterator();
 }
 
-Macad::Occt::TShort_SequenceOfShortReal::Iterator::Iterator(Macad::Occt::TShort_SequenceOfShortReal^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::TShort_SequenceOfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_SequenceOfShortReal::Iterator(*(::TShort_SequenceOfShortReal*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::TShort_SequenceOfShortReal::Iterator::Iterator(Macad::Occt::TShort_SequenceOfShortReal^ theSeq)
-    : Macad::Occt::BaseClass<::TShort_SequenceOfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_SequenceOfShortReal::Iterator(*(::TShort_SequenceOfShortReal*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::TShort_SequenceOfShortReal::Iterator::Iterator(Macad::Occt::TShort_SequenceOfShortReal::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::TShort_SequenceOfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_SequenceOfShortReal::Iterator(*(::TShort_SequenceOfShortReal::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::TShort_SequenceOfShortReal::Iterator::More()
 {
     bool _result = ((::TShort_SequenceOfShortReal::Iterator*)_NativeInstance)->More();
@@ -656,6 +529,25 @@ bool Macad::Occt::TShort_SequenceOfShortReal::Iterator::IsEqual(Macad::Occt::TSh
 {
     bool _result = ((::TShort_SequenceOfShortReal::Iterator*)_NativeInstance)->IsEqual(*(::TShort_SequenceOfShortReal::Iterator*)theOther->NativeInstance);
     return _result;
+}
+
+bool Macad::Occt::TShort_SequenceOfShortReal::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::TShort_SequenceOfShortReal::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
 }
 
 
@@ -683,16 +575,17 @@ Macad::Occt::TShort_HArray1OfShortReal::TShort_HArray1OfShortReal(int theLower, 
     NativeInstance = new ::TShort_HArray1OfShortReal(theLower, theUpper, *(float*)pp_theValue);
 }
 
+Macad::Occt::TShort_HArray1OfShortReal::TShort_HArray1OfShortReal(float theBegin, int theLower, int theUpper, bool parameter1)
+    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+    pin_ptr<float> pp_theBegin = &theBegin;
+    NativeInstance = new ::TShort_HArray1OfShortReal(*(float*)pp_theBegin, theLower, theUpper, parameter1);
+}
+
 Macad::Occt::TShort_HArray1OfShortReal::TShort_HArray1OfShortReal(Macad::Occt::TShort_Array1OfShortReal^ theOther)
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::TShort_HArray1OfShortReal(*(::TShort_Array1OfShortReal*)theOther->NativeInstance);
-}
-
-Macad::Occt::TShort_HArray1OfShortReal::TShort_HArray1OfShortReal(Macad::Occt::TShort_HArray1OfShortReal^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TShort_HArray1OfShortReal(*(::TShort_HArray1OfShortReal*)parameter1->NativeInstance);
 }
 
 Macad::Occt::TShort_Array1OfShortReal^ Macad::Occt::TShort_HArray1OfShortReal::Array1()
@@ -745,30 +638,14 @@ int Macad::Occt::TShort_HArray1OfShortReal::Upper()
     return _result;
 }
 
-bool Macad::Occt::TShort_HArray1OfShortReal::IsDeletable()
-{
-    bool _result = ((::TShort_HArray1OfShortReal*)_NativeInstance)->IsDeletable();
-    return _result;
-}
-
-bool Macad::Occt::TShort_HArray1OfShortReal::IsAllocated()
-{
-    bool _result = ((::TShort_HArray1OfShortReal*)_NativeInstance)->IsAllocated();
-    return _result;
-}
-
 Macad::Occt::TShort_HArray1OfShortReal^ Macad::Occt::TShort_HArray1OfShortReal::Assign(Macad::Occt::TShort_HArray1OfShortReal^ theOther)
 {
-    ::TShort_HArray1OfShortReal* _result = new ::TShort_HArray1OfShortReal();
-    *_result = ((::TShort_HArray1OfShortReal*)_NativeInstance)->Assign(*(::TShort_HArray1OfShortReal*)theOther->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TShort_HArray1OfShortReal(_result);
+    throw gcnew System::NotImplementedException();
 }
 
 Macad::Occt::TShort_HArray1OfShortReal^ Macad::Occt::TShort_HArray1OfShortReal::Move(Macad::Occt::TShort_HArray1OfShortReal^ theOther)
 {
-    ::TShort_HArray1OfShortReal* _result = new ::TShort_HArray1OfShortReal();
-    *_result = ((::TShort_HArray1OfShortReal*)_NativeInstance)->Move(*(::TShort_HArray1OfShortReal*)theOther->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TShort_HArray1OfShortReal(_result);
+    throw gcnew System::NotImplementedException();
 }
 
 float Macad::Occt::TShort_HArray1OfShortReal::First()
@@ -801,9 +678,25 @@ void Macad::Occt::TShort_HArray1OfShortReal::SetValue(int theIndex, float theIte
     ((::TShort_HArray1OfShortReal*)_NativeInstance)->SetValue(theIndex, *(float*)pp_theItem);
 }
 
+void Macad::Occt::TShort_HArray1OfShortReal::UpdateLowerBound(int theLower)
+{
+    ((::TShort_HArray1OfShortReal*)_NativeInstance)->UpdateLowerBound(theLower);
+}
+
+void Macad::Occt::TShort_HArray1OfShortReal::UpdateUpperBound(int theUpper)
+{
+    ((::TShort_HArray1OfShortReal*)_NativeInstance)->UpdateUpperBound(theUpper);
+}
+
 void Macad::Occt::TShort_HArray1OfShortReal::Resize(int theLower, int theUpper, bool theToCopyData)
 {
     ((::TShort_HArray1OfShortReal*)_NativeInstance)->Resize(theLower, theUpper, theToCopyData);
+}
+
+bool Macad::Occt::TShort_HArray1OfShortReal::IsDeletable()
+{
+    bool _result = ((::TShort_HArray1OfShortReal*)_NativeInstance)->IsDeletable();
+    return _result;
 }
 
 Macad::Occt::TShort_HArray1OfShortReal^ Macad::Occt::TShort_HArray1OfShortReal::CreateDowncasted(::TShort_HArray1OfShortReal* instance)
@@ -826,74 +719,6 @@ System::Collections::IEnumerator^ Macad::Occt::TShort_HArray1OfShortReal::GetEnu
 //---------------------------------------------------------------------
 //  Class  TShort_HArray1OfShortReal::Iterator
 //---------------------------------------------------------------------
-
-Macad::Occt::TShort_HArray1OfShortReal::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::TShort_HArray1OfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_HArray1OfShortReal::Iterator();
-}
-
-Macad::Occt::TShort_HArray1OfShortReal::Iterator::Iterator(Macad::Occt::TShort_HArray1OfShortReal^ theArray, bool theToEnd)
-    : Macad::Occt::BaseClass<::TShort_HArray1OfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_HArray1OfShortReal::Iterator(*(::TShort_HArray1OfShortReal*)theArray->NativeInstance, theToEnd);
-}
-
-Macad::Occt::TShort_HArray1OfShortReal::Iterator::Iterator(Macad::Occt::TShort_HArray1OfShortReal^ theArray)
-    : Macad::Occt::BaseClass<::TShort_HArray1OfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_HArray1OfShortReal::Iterator(*(::TShort_HArray1OfShortReal*)theArray->NativeInstance, false);
-}
-
-Macad::Occt::TShort_HArray1OfShortReal::Iterator::Iterator(Macad::Occt::TShort_HArray1OfShortReal::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::TShort_HArray1OfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_HArray1OfShortReal::Iterator(*(::TShort_HArray1OfShortReal::Iterator*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::TShort_HArray1OfShortReal::Iterator::Init(Macad::Occt::TShort_HArray1OfShortReal^ theArray)
-{
-    ((::TShort_HArray1OfShortReal::Iterator*)_NativeInstance)->Init(*(::TShort_HArray1OfShortReal*)theArray->NativeInstance);
-}
-
-bool Macad::Occt::TShort_HArray1OfShortReal::Iterator::More()
-{
-    bool _result = ((::TShort_HArray1OfShortReal::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::TShort_HArray1OfShortReal::Iterator::Next()
-{
-    ((::TShort_HArray1OfShortReal::Iterator*)_NativeInstance)->Next();
-}
-
-void Macad::Occt::TShort_HArray1OfShortReal::Iterator::Previous()
-{
-    ((::TShort_HArray1OfShortReal::Iterator*)_NativeInstance)->Previous();
-}
-
-void Macad::Occt::TShort_HArray1OfShortReal::Iterator::Offset(long long int theOffset)
-{
-    ((::TShort_HArray1OfShortReal::Iterator*)_NativeInstance)->Offset(theOffset);
-}
-
-long long int Macad::Occt::TShort_HArray1OfShortReal::Iterator::Differ(Macad::Occt::TShort_HArray1OfShortReal::Iterator^ theOther)
-{
-    long long int _result = ((::TShort_HArray1OfShortReal::Iterator*)_NativeInstance)->Differ(*(::TShort_HArray1OfShortReal::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-float Macad::Occt::TShort_HArray1OfShortReal::Iterator::Value()
-{
-    float _result = ((::TShort_HArray1OfShortReal::Iterator*)_NativeInstance)->Value();
-    return _result;
-}
-
-bool Macad::Occt::TShort_HArray1OfShortReal::Iterator::IsEqual(Macad::Occt::TShort_HArray1OfShortReal::Iterator^ theOther)
-{
-    bool _result = ((::TShort_HArray1OfShortReal::Iterator*)_NativeInstance)->IsEqual(*(::TShort_HArray1OfShortReal::Iterator*)theOther->NativeInstance);
-    return _result;
-}
 
 
 
@@ -920,12 +745,6 @@ Macad::Occt::TShort_HArray2OfShortReal::TShort_HArray2OfShortReal(Macad::Occt::T
     NativeInstance = new ::TShort_HArray2OfShortReal(*(::TShort_Array2OfShortReal*)theOther->NativeInstance);
 }
 
-Macad::Occt::TShort_HArray2OfShortReal::TShort_HArray2OfShortReal(Macad::Occt::TShort_HArray2OfShortReal^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TShort_HArray2OfShortReal(*(::TShort_HArray2OfShortReal*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TShort_Array2OfShortReal^ Macad::Occt::TShort_HArray2OfShortReal::Array2()
 {
     ::TShort_Array2OfShortReal* _result = new ::TShort_Array2OfShortReal();
@@ -940,10 +759,16 @@ Macad::Occt::TShort_Array2OfShortReal^ Macad::Occt::TShort_HArray2OfShortReal::C
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TShort_Array2OfShortReal(_result);
 }
 
-void Macad::Occt::TShort_HArray2OfShortReal::Init(float theValue)
+int Macad::Occt::TShort_HArray2OfShortReal::BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper)
 {
-    pin_ptr<float> pp_theValue = &theValue;
-    ((::TShort_HArray2OfShortReal*)_NativeInstance)->Init(*(float*)pp_theValue);
+    int _result = ::TShort_HArray2OfShortReal::BeginPosition(theRowLower, parameter1, theColLower, theColUpper);
+    return _result;
+}
+
+int Macad::Occt::TShort_HArray2OfShortReal::LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper)
+{
+    int _result = ::TShort_HArray2OfShortReal::LastPosition(theRowLower, theRowUpper, theColLower, theColUpper);
+    return _result;
 }
 
 int Macad::Occt::TShort_HArray2OfShortReal::Size()
@@ -1006,12 +831,6 @@ int Macad::Occt::TShort_HArray2OfShortReal::UpperCol()
     return _result;
 }
 
-bool Macad::Occt::TShort_HArray2OfShortReal::IsDeletable()
-{
-    bool _result = ((::TShort_HArray2OfShortReal*)_NativeInstance)->IsDeletable();
-    return _result;
-}
-
 Macad::Occt::TShort_HArray2OfShortReal^ Macad::Occt::TShort_HArray2OfShortReal::Assign(Macad::Occt::TShort_HArray2OfShortReal^ theOther)
 {
     throw gcnew System::NotImplementedException();
@@ -1045,19 +864,61 @@ void Macad::Occt::TShort_HArray2OfShortReal::Resize(int theRowLower, int theRowU
     ((::TShort_HArray2OfShortReal*)_NativeInstance)->Resize(theRowLower, theRowUpper, theColLower, theColUpper, theToCopyData);
 }
 
+void Macad::Occt::TShort_HArray2OfShortReal::Init(float theValue)
+{
+    pin_ptr<float> pp_theValue = &theValue;
+    ((::TShort_HArray2OfShortReal*)_NativeInstance)->Init(*(float*)pp_theValue);
+}
+
+bool Macad::Occt::TShort_HArray2OfShortReal::IsEmpty()
+{
+    bool _result = ((::TShort_HArray2OfShortReal*)_NativeInstance)->IsEmpty();
+    return _result;
+}
+
+int Macad::Occt::TShort_HArray2OfShortReal::Lower()
+{
+    int _result = ((::TShort_HArray2OfShortReal*)_NativeInstance)->Lower();
+    return _result;
+}
+
+int Macad::Occt::TShort_HArray2OfShortReal::Upper()
+{
+    int _result = ((::TShort_HArray2OfShortReal*)_NativeInstance)->Upper();
+    return _result;
+}
+
+float Macad::Occt::TShort_HArray2OfShortReal::First()
+{
+    float _result = ((::TShort_HArray2OfShortReal*)_NativeInstance)->First();
+    return _result;
+}
+
+float Macad::Occt::TShort_HArray2OfShortReal::Last()
+{
+    float _result = ((::TShort_HArray2OfShortReal*)_NativeInstance)->Last();
+    return _result;
+}
+
+void Macad::Occt::TShort_HArray2OfShortReal::UpdateLowerBound(int theLower)
+{
+    ((::TShort_HArray2OfShortReal*)_NativeInstance)->UpdateLowerBound(theLower);
+}
+
+void Macad::Occt::TShort_HArray2OfShortReal::UpdateUpperBound(int theUpper)
+{
+    ((::TShort_HArray2OfShortReal*)_NativeInstance)->UpdateUpperBound(theUpper);
+}
+
+bool Macad::Occt::TShort_HArray2OfShortReal::IsDeletable()
+{
+    bool _result = ((::TShort_HArray2OfShortReal*)_NativeInstance)->IsDeletable();
+    return _result;
+}
+
 Macad::Occt::TShort_HArray2OfShortReal^ Macad::Occt::TShort_HArray2OfShortReal::CreateDowncasted(::TShort_HArray2OfShortReal* instance)
 {
     return gcnew Macad::Occt::TShort_HArray2OfShortReal( instance );
-}
-
-System::Collections::Generic::IEnumerator<float>^ Macad::Occt::TShort_HArray2OfShortReal::GetEnumerator()
-{
-    return gcnew Macad::Occt::TShort_HArray2OfShortReal::Iterator(this);
-}
-
-System::Collections::IEnumerator^ Macad::Occt::TShort_HArray2OfShortReal::GetEnumerator2()
-{
-    return gcnew Macad::Occt::TShort_HArray2OfShortReal::Iterator(this);
 }
 
 
@@ -1065,46 +926,6 @@ System::Collections::IEnumerator^ Macad::Occt::TShort_HArray2OfShortReal::GetEnu
 //---------------------------------------------------------------------
 //  Class  TShort_HArray2OfShortReal::Iterator
 //---------------------------------------------------------------------
-
-Macad::Occt::TShort_HArray2OfShortReal::Iterator::Iterator()
-    : Macad::Occt::IteratorEnumerator<float, ::TShort_HArray2OfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_HArray2OfShortReal::Iterator();
-}
-
-Macad::Occt::TShort_HArray2OfShortReal::Iterator::Iterator(Macad::Occt::TShort_HArray2OfShortReal^ theArray)
-    : Macad::Occt::IteratorEnumerator<float, ::TShort_HArray2OfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_HArray2OfShortReal::Iterator(*(::TShort_HArray2OfShortReal*)theArray->NativeInstance);
-}
-
-Macad::Occt::TShort_HArray2OfShortReal::Iterator::Iterator(Macad::Occt::TShort_HArray2OfShortReal::Iterator^ parameter1)
-    : Macad::Occt::IteratorEnumerator<float, ::TShort_HArray2OfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_HArray2OfShortReal::Iterator(*(::TShort_HArray2OfShortReal::Iterator*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::TShort_HArray2OfShortReal::Iterator::Init(Macad::Occt::TShort_HArray2OfShortReal^ theArray)
-{
-    ((::TShort_HArray2OfShortReal::Iterator*)_NativeInstance)->Init(*(::TShort_HArray2OfShortReal*)theArray->NativeInstance);
-}
-
-bool Macad::Occt::TShort_HArray2OfShortReal::Iterator::More()
-{
-    bool _result = ((::TShort_HArray2OfShortReal::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::TShort_HArray2OfShortReal::Iterator::Next()
-{
-    ((::TShort_HArray2OfShortReal::Iterator*)_NativeInstance)->Next();
-}
-
-float Macad::Occt::TShort_HArray2OfShortReal::Iterator::Value()
-{
-    float _result = ((::TShort_HArray2OfShortReal::Iterator*)_NativeInstance)->Value();
-    return _result;
-}
 
 
 
@@ -1124,17 +945,17 @@ Macad::Occt::TShort_HSequenceOfShortReal::TShort_HSequenceOfShortReal(Macad::Occ
     NativeInstance = new ::TShort_HSequenceOfShortReal(*(::TShort_SequenceOfShortReal*)theOther->NativeInstance);
 }
 
-Macad::Occt::TShort_HSequenceOfShortReal::TShort_HSequenceOfShortReal(Macad::Occt::TShort_HSequenceOfShortReal^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TShort_HSequenceOfShortReal(*(::TShort_HSequenceOfShortReal*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TShort_SequenceOfShortReal^ Macad::Occt::TShort_HSequenceOfShortReal::Sequence()
 {
     ::TShort_SequenceOfShortReal* _result = new ::TShort_SequenceOfShortReal();
     *_result = (::TShort_SequenceOfShortReal)((::TShort_HSequenceOfShortReal*)_NativeInstance)->Sequence();
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TShort_SequenceOfShortReal(_result);
+}
+
+void Macad::Occt::TShort_HSequenceOfShortReal::Append(float theItem)
+{
+    pin_ptr<float> pp_theItem = &theItem;
+    ((::TShort_HSequenceOfShortReal*)_NativeInstance)->Append(*(float*)pp_theItem);
 }
 
 void Macad::Occt::TShort_HSequenceOfShortReal::Append(Macad::Occt::TShort_SequenceOfShortReal^ theSequence)
@@ -1201,35 +1022,12 @@ void Macad::Occt::TShort_HSequenceOfShortReal::Clear()
 
 Macad::Occt::TShort_HSequenceOfShortReal^ Macad::Occt::TShort_HSequenceOfShortReal::Assign(Macad::Occt::TShort_HSequenceOfShortReal^ theOther)
 {
-    ::TShort_HSequenceOfShortReal* _result = new ::TShort_HSequenceOfShortReal();
-    *_result = ((::TShort_HSequenceOfShortReal*)_NativeInstance)->Assign(*(::TShort_HSequenceOfShortReal*)theOther->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TShort_HSequenceOfShortReal(_result);
+    throw gcnew System::NotImplementedException();
 }
 
 void Macad::Occt::TShort_HSequenceOfShortReal::Remove(Macad::Occt::TShort_HSequenceOfShortReal::Iterator^ thePosition)
 {
     ((::TShort_HSequenceOfShortReal*)_NativeInstance)->Remove(*(::TShort_HSequenceOfShortReal::Iterator*)thePosition->NativeInstance);
-}
-
-void Macad::Occt::TShort_HSequenceOfShortReal::Remove(int theIndex)
-{
-    ((::TShort_HSequenceOfShortReal*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::TShort_HSequenceOfShortReal::Remove(int theFromIndex, int theToIndex)
-{
-    ((::TShort_HSequenceOfShortReal*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
-void Macad::Occt::TShort_HSequenceOfShortReal::Append(float theItem)
-{
-    pin_ptr<float> pp_theItem = &theItem;
-    ((::TShort_HSequenceOfShortReal*)_NativeInstance)->Append(*(float*)pp_theItem);
-}
-
-void Macad::Occt::TShort_HSequenceOfShortReal::Append(Macad::Occt::TShort_HSequenceOfShortReal^ theSeq)
-{
-    ((::TShort_HSequenceOfShortReal*)_NativeInstance)->Append(*(::TShort_HSequenceOfShortReal*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::TShort_HSequenceOfShortReal::Prepend(float theItem)
@@ -1238,37 +1036,16 @@ void Macad::Occt::TShort_HSequenceOfShortReal::Prepend(float theItem)
     ((::TShort_HSequenceOfShortReal*)_NativeInstance)->Prepend(*(float*)pp_theItem);
 }
 
-void Macad::Occt::TShort_HSequenceOfShortReal::Prepend(Macad::Occt::TShort_HSequenceOfShortReal^ theSeq)
-{
-    ((::TShort_HSequenceOfShortReal*)_NativeInstance)->Prepend(*(::TShort_HSequenceOfShortReal*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::TShort_HSequenceOfShortReal::InsertBefore(int theIndex, float theItem)
 {
     pin_ptr<float> pp_theItem = &theItem;
     ((::TShort_HSequenceOfShortReal*)_NativeInstance)->InsertBefore(theIndex, *(float*)pp_theItem);
 }
 
-void Macad::Occt::TShort_HSequenceOfShortReal::InsertBefore(int theIndex, Macad::Occt::TShort_HSequenceOfShortReal^ theSeq)
-{
-    ((::TShort_HSequenceOfShortReal*)_NativeInstance)->InsertBefore(theIndex, *(::TShort_HSequenceOfShortReal*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::TShort_HSequenceOfShortReal::InsertAfter(Macad::Occt::TShort_HSequenceOfShortReal::Iterator^ thePosition, float theItem)
 {
     pin_ptr<float> pp_theItem = &theItem;
     ((::TShort_HSequenceOfShortReal*)_NativeInstance)->InsertAfter(*(::TShort_HSequenceOfShortReal::Iterator*)thePosition->NativeInstance, *(float*)pp_theItem);
-}
-
-void Macad::Occt::TShort_HSequenceOfShortReal::InsertAfter(int theIndex, Macad::Occt::TShort_HSequenceOfShortReal^ theSeq)
-{
-    ((::TShort_HSequenceOfShortReal*)_NativeInstance)->InsertAfter(theIndex, *(::TShort_HSequenceOfShortReal*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::TShort_HSequenceOfShortReal::InsertAfter(int theIndex, float theItem)
-{
-    pin_ptr<float> pp_theItem = &theItem;
-    ((::TShort_HSequenceOfShortReal*)_NativeInstance)->InsertAfter(theIndex, *(float*)pp_theItem);
 }
 
 void Macad::Occt::TShort_HSequenceOfShortReal::Split(int theIndex, Macad::Occt::TShort_HSequenceOfShortReal^ theSeq)
@@ -1333,24 +1110,6 @@ Macad::Occt::TShort_HSequenceOfShortReal::Iterator::Iterator()
     _NativeInstance = new ::TShort_HSequenceOfShortReal::Iterator();
 }
 
-Macad::Occt::TShort_HSequenceOfShortReal::Iterator::Iterator(Macad::Occt::TShort_HSequenceOfShortReal^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::TShort_HSequenceOfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_HSequenceOfShortReal::Iterator(*(::TShort_HSequenceOfShortReal*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::TShort_HSequenceOfShortReal::Iterator::Iterator(Macad::Occt::TShort_HSequenceOfShortReal^ theSeq)
-    : Macad::Occt::BaseClass<::TShort_HSequenceOfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_HSequenceOfShortReal::Iterator(*(::TShort_HSequenceOfShortReal*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::TShort_HSequenceOfShortReal::Iterator::Iterator(Macad::Occt::TShort_HSequenceOfShortReal::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::TShort_HSequenceOfShortReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TShort_HSequenceOfShortReal::Iterator(*(::TShort_HSequenceOfShortReal::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::TShort_HSequenceOfShortReal::Iterator::More()
 {
     bool _result = ((::TShort_HSequenceOfShortReal::Iterator*)_NativeInstance)->More();
@@ -1372,6 +1131,25 @@ bool Macad::Occt::TShort_HSequenceOfShortReal::Iterator::IsEqual(Macad::Occt::TS
 {
     bool _result = ((::TShort_HSequenceOfShortReal::Iterator*)_NativeInstance)->IsEqual(*(::TShort_HSequenceOfShortReal::Iterator*)theOther->NativeInstance);
     return _result;
+}
+
+bool Macad::Occt::TShort_HSequenceOfShortReal::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::TShort_HSequenceOfShortReal::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
 }
 
 

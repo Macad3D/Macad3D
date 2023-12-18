@@ -68,8 +68,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::TopoDS_ListOfShape::Iterator^ parameter1);
         bool More() override;
         void Next() override;
         Macad::Occt::TopoDS_Shape^ Value() override;
@@ -78,7 +76,6 @@ public:
 
     TopoDS_ListOfShape();
     TopoDS_ListOfShape(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TopoDS_ListOfShape(Macad::Occt::TopoDS_ListOfShape^ theOther);
     int Size();
     Macad::Occt::TopoDS_ListOfShape^ Assign(Macad::Occt::TopoDS_ListOfShape^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -86,16 +83,11 @@ public:
     Macad::Occt::TopoDS_Shape^ First();
     Macad::Occt::TopoDS_Shape^ Last();
     Macad::Occt::TopoDS_Shape^ Append(Macad::Occt::TopoDS_Shape^ theItem);
-    void Append(Macad::Occt::TopoDS_Shape^ theItem, Macad::Occt::TopoDS_ListOfShape::Iterator^ theIter);
-    void Append(Macad::Occt::TopoDS_ListOfShape^ theOther);
     Macad::Occt::TopoDS_Shape^ Prepend(Macad::Occt::TopoDS_Shape^ theItem);
-    void Prepend(Macad::Occt::TopoDS_ListOfShape^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::TopoDS_ListOfShape::Iterator^ theIter);
     Macad::Occt::TopoDS_Shape^ InsertBefore(Macad::Occt::TopoDS_Shape^ theItem, Macad::Occt::TopoDS_ListOfShape::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::TopoDS_ListOfShape^ theOther, Macad::Occt::TopoDS_ListOfShape::Iterator^ theIter);
     Macad::Occt::TopoDS_Shape^ InsertAfter(Macad::Occt::TopoDS_Shape^ theItem, Macad::Occt::TopoDS_ListOfShape::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::TopoDS_ListOfShape^ theOther, Macad::Occt::TopoDS_ListOfShape::Iterator^ theIter);
     void Reverse();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::TopoDS_Shape^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -133,7 +125,6 @@ public:
 public:
     TopoDS_ListIteratorOfListOfShape();
     TopoDS_ListIteratorOfListOfShape(Macad::Occt::NCollection_BaseList^ theList);
-    TopoDS_ListIteratorOfListOfShape(Macad::Occt::TopoDS_ListIteratorOfListOfShape^ parameter1);
     bool More();
     void Next();
     Macad::Occt::TopoDS_Shape^ Value();
@@ -191,7 +182,6 @@ public:
     /// Creates a NULL Shape referring to nothing.
     /// </summary>
     TopoDS_Shape();
-    TopoDS_Shape(Macad::Occt::TopoDS_Shape^ parameter1);
     /// <summary>
     /// Returns true if this shape is null. In other words, it
     /// references no underlying shape with the potential to
@@ -391,17 +381,6 @@ public:
     /// </summary>
     bool IsNotEqual(Macad::Occt::TopoDS_Shape^ theOther);
     /// <summary>
-    /// Returns a hashed value denoting <me>. This value is in the range [1, theUpperBound]. It is computed from the
-    /// TShape and the Location. The Orientation is not used.
-    /// </summary>
-    /// <param name="theUpperBound">
-    /// the upper bound of the range a computing hash code must be within
-    /// </param>
-    /// <returns>
-    /// a computed hash code, in the range [1, theUpperBound]
-    /// </returns>
-    int HashCode(int theUpperBound);
-    /// <summary>
     /// Replace   <me> by  a  new   Shape with the    same
     /// Orientation and Location and a new TShape with the
     /// same geometry and no sub-shapes.
@@ -470,7 +449,7 @@ public:
     /// Undefined Vertex.
     /// </summary>
     TopoDS_Vertex();
-    TopoDS_Vertex(Macad::Occt::TopoDS_Vertex^ parameter1);
+    int GetHashCode() override;
 }; // class TopoDS_Vertex
 
 //---------------------------------------------------------------------
@@ -517,7 +496,7 @@ public:
     /// Undefined Edge.
     /// </summary>
     TopoDS_Edge();
-    TopoDS_Edge(Macad::Occt::TopoDS_Edge^ parameter1);
+    int GetHashCode() override;
 }; // class TopoDS_Edge
 
 //---------------------------------------------------------------------
@@ -563,7 +542,7 @@ public:
     /// Undefined Wire.
     /// </summary>
     TopoDS_Wire();
-    TopoDS_Wire(Macad::Occt::TopoDS_Wire^ parameter1);
+    int GetHashCode() override;
 }; // class TopoDS_Wire
 
 //---------------------------------------------------------------------
@@ -609,7 +588,7 @@ public:
     /// Undefined Face.
     /// </summary>
     TopoDS_Face();
-    TopoDS_Face(Macad::Occt::TopoDS_Face^ parameter1);
+    int GetHashCode() override;
 }; // class TopoDS_Face
 
 //---------------------------------------------------------------------
@@ -655,7 +634,7 @@ public:
     /// Constructs an Undefined Shell.
     /// </summary>
     TopoDS_Shell();
-    TopoDS_Shell(Macad::Occt::TopoDS_Shell^ parameter1);
+    int GetHashCode() override;
 }; // class TopoDS_Shell
 
 //---------------------------------------------------------------------
@@ -702,7 +681,7 @@ public:
     /// Constructs an Undefined Solid.
     /// </summary>
     TopoDS_Solid();
-    TopoDS_Solid(Macad::Occt::TopoDS_Solid^ parameter1);
+    int GetHashCode() override;
 }; // class TopoDS_Solid
 
 //---------------------------------------------------------------------
@@ -750,7 +729,7 @@ public:
     /// Constructs an Undefined CompSolid.
     /// </summary>
     TopoDS_CompSolid();
-    TopoDS_CompSolid(Macad::Occt::TopoDS_CompSolid^ parameter1);
+    int GetHashCode() override;
 }; // class TopoDS_CompSolid
 
 //---------------------------------------------------------------------
@@ -798,7 +777,7 @@ public:
     /// Constructs an Undefined Compound.
     /// </summary>
     TopoDS_Compound();
-    TopoDS_Compound(Macad::Occt::TopoDS_Compound^ parameter1);
+    int GetHashCode() override;
 }; // class TopoDS_Compound
 
 //---------------------------------------------------------------------
@@ -842,7 +821,6 @@ public:
     /// Constructs a shape object defined by the shape aShape.
     /// </summary>
     TopoDS_HShape(Macad::Occt::TopoDS_Shape^ aShape);
-    TopoDS_HShape(Macad::Occt::TopoDS_HShape^ parameter1);
     /// <summary>
     /// Loads this shape with the shape aShape
     /// </summary>
@@ -940,7 +918,6 @@ public:
         Locked = 128
     }; // enum  class TopoDS_TShape_Flags
 
-    TopoDS_TShape(Macad::Occt::TopoDS_TShape^ parameter1);
     /// <summary>
     /// Returns the free flag.
     /// </summary>
@@ -1069,7 +1046,6 @@ public:
     }
 
 public:
-    TopoDS_TVertex(Macad::Occt::TopoDS_TVertex^ parameter1);
     /// <summary>
     /// Returns VERTEX.
     /// </summary>
@@ -1116,7 +1092,6 @@ public:
     }
 
 public:
-    TopoDS_TEdge(Macad::Occt::TopoDS_TEdge^ parameter1);
     /// <summary>
     /// Returns  EDGE.
     /// </summary>
@@ -1161,7 +1136,6 @@ public:
     /// Creates an empty TWire.
     /// </summary>
     TopoDS_TWire();
-    TopoDS_TWire(Macad::Occt::TopoDS_TWire^ parameter1);
     /// <summary>
     /// Returns WIRE.
     /// </summary>
@@ -1217,7 +1191,6 @@ public:
     /// Creates an empty TFace.
     /// </summary>
     TopoDS_TFace();
-    TopoDS_TFace(Macad::Occt::TopoDS_TFace^ parameter1);
     /// <summary>
     /// returns FACE.
     /// </summary>
@@ -1266,7 +1239,6 @@ public:
     /// Creates an empty TShell.
     /// </summary>
     TopoDS_TShell();
-    TopoDS_TShell(Macad::Occt::TopoDS_TShell^ parameter1);
     /// <summary>
     /// Returns SHELL.
     /// </summary>
@@ -1316,7 +1288,6 @@ public:
     /// Creates an empty TSolid.
     /// </summary>
     TopoDS_TSolid();
-    TopoDS_TSolid(Macad::Occt::TopoDS_TSolid^ parameter1);
     /// <summary>
     /// returns SOLID.
     /// </summary>
@@ -1365,7 +1336,6 @@ public:
     /// Creates an empty TCompSolid.
     /// </summary>
     TopoDS_TCompSolid();
-    TopoDS_TCompSolid(Macad::Occt::TopoDS_TCompSolid^ parameter1);
     /// <summary>
     /// returns COMPSOLID
     /// </summary>
@@ -1414,7 +1384,6 @@ public:
     /// Creates an empty TCompound.
     /// </summary>
     TopoDS_TCompound();
-    TopoDS_TCompound(Macad::Occt::TopoDS_TCompound^ parameter1);
     /// <summary>
     /// Returns COMPOUND.
     /// </summary>
@@ -1503,7 +1472,6 @@ public:
 
 public:
     TopoDS_Builder();
-    TopoDS_Builder(Macad::Occt::TopoDS_Builder^ parameter1);
     /// <summary>
     /// Make an empty Wire.
     /// </summary>
@@ -1610,7 +1578,6 @@ public:
     /// each sub-shape the transformation that is associated with S.
     /// </summary>
     TopoDS_Iterator(Macad::Occt::TopoDS_Shape^ S);
-    TopoDS_Iterator(Macad::Occt::TopoDS_Iterator^ parameter1);
     /// <summary>
     /// Initializes this iterator with shape S.
     /// Note:
@@ -1700,7 +1667,6 @@ public:
 
 public:
     TopoDS();
-    TopoDS(Macad::Occt::TopoDS^ parameter1);
     /// <summary>
     /// Basic tool to access the data structure.
     /// Casts shape S to the more specialized return type, Vertex.
@@ -1785,7 +1751,6 @@ public:
     TopoDS_FrozenShape();
     TopoDS_FrozenShape(System::String^ theMessage);
     TopoDS_FrozenShape(System::String^ theMessage, System::String^ theStackTrace);
-    TopoDS_FrozenShape(Macad::Occt::TopoDS_FrozenShape^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -1828,7 +1793,6 @@ public:
     TopoDS_LockedShape();
     TopoDS_LockedShape(System::String^ theMessage);
     TopoDS_LockedShape(System::String^ theMessage, System::String^ theStackTrace);
-    TopoDS_LockedShape(Macad::Occt::TopoDS_LockedShape^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -1871,7 +1835,6 @@ public:
     TopoDS_UnCompatibleShapes();
     TopoDS_UnCompatibleShapes(System::String^ theMessage);
     TopoDS_UnCompatibleShapes(System::String^ theMessage, System::String^ theStackTrace);
-    TopoDS_UnCompatibleShapes(Macad::Occt::TopoDS_UnCompatibleShapes^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */

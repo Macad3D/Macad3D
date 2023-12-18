@@ -74,7 +74,6 @@ public:
 
 public:
     GeomAPI();
-    GeomAPI(Macad::Occt::GeomAPI^ parameter1);
     /// <summary>
     /// This function builds (in the
     /// parametric space of the plane P) a 2D curve equivalent to the 3D curve
@@ -502,7 +501,6 @@ public:
     /// parametric direction.
     /// </summary>
     GeomAPI_ExtremaSurfaceSurface(Macad::Occt::Geom_Surface^ S1, Macad::Occt::Geom_Surface^ S2, double U1min, double U1max, double V1min, double V1max, double U2min, double U2max, double V2min, double V2max);
-    GeomAPI_ExtremaSurfaceSurface(Macad::Occt::GeomAPI_ExtremaSurfaceSurface^ parameter1);
     /// <summary>
     /// Initializes this algorithm with the given arguments
     /// and computes  the  extrema  distances  between  the
@@ -632,7 +630,6 @@ public:
     /// Use function IsDone to verify that the intersections are computed successfully.
     /// </summary>
     GeomAPI_IntCS(Macad::Occt::Geom_Curve^ C, Macad::Occt::Geom_Surface^ S);
-    GeomAPI_IntCS(Macad::Occt::GeomAPI_IntCS^ parameter1);
     /// <summary>
     /// This function Initializes an algorithm with the curve C and the
     /// surface S and computes the intersections between C and S.
@@ -826,7 +823,6 @@ public:
     /// Points and Parameters are not respected.
     /// </summary>
     GeomAPI_Interpolate(Macad::Occt::TColgp_HArray1OfPnt^ Points, Macad::Occt::TColStd_HArray1OfReal^ Parameters, bool PeriodicFlag, double Tolerance);
-    GeomAPI_Interpolate(Macad::Occt::GeomAPI_Interpolate^ parameter1);
     /// <summary>
     /// Assigns this constrained BSpline curve to be
     /// tangential to vectors InitialTangent and FinalTangent
@@ -938,7 +934,6 @@ public:
     /// Use the function IsDone to verify that the intersections are successfully computed.I
     /// </summary>
     GeomAPI_IntSS(Macad::Occt::Geom_Surface^ S1, Macad::Occt::Geom_Surface^ S2, double Tol);
-    GeomAPI_IntSS(Macad::Occt::GeomAPI_IntSS^ parameter1);
     /// <summary>
     /// Initializes an algorithm with the
     /// given arguments and computes the intersection curves between the two surfaces S1 and S2.
@@ -1155,7 +1150,6 @@ public:
     /// Weight1*CurveLength + Weight2*Curvature + Weight3*Torsion
     /// </summary>
     GeomAPI_PointsToBSpline(Macad::Occt::TColgp_Array1OfPnt^ Points, double Weight1, double Weight2, double Weight3);
-    GeomAPI_PointsToBSpline(Macad::Occt::GeomAPI_PointsToBSpline^ parameter1);
     /// <summary>
     /// Approximate  a BSpline  Curve passing  through  an
     /// array of  Point.  The resulting BSpline will  have
@@ -1565,7 +1559,6 @@ public:
     /// S->Value( U, V) = gp_Pnt( U, V, Z(U,V) );
     /// </summary>
     GeomAPI_PointsToBSplineSurface(Macad::Occt::TColStd_Array2OfReal^ ZPoints, double X0, double dX, double Y0, double dY);
-    GeomAPI_PointsToBSplineSurface(Macad::Occt::GeomAPI_PointsToBSplineSurface^ parameter1);
     /// <summary>
     /// Approximates  a BSpline Surface passing  through  an
     /// array of  Point.  The resulting BSpline will  have
@@ -1836,7 +1829,6 @@ public:
     /// <Curve> limited by the two points of parameter Umin and Usup.
     /// </summary>
     GeomAPI_ProjectPointOnCurve(Macad::Occt::Pnt P, Macad::Occt::Geom_Curve^ Curve, double Umin, double Usup);
-    GeomAPI_ProjectPointOnCurve(Macad::Occt::GeomAPI_ProjectPointOnCurve^ parameter1);
     /// <summary>
     /// Init the projection  of a  point  <P> on a curve
     /// <Curve>

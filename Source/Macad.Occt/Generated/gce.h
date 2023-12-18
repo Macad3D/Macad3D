@@ -88,7 +88,6 @@ public:
 
 public:
     gce_Root();
-    gce_Root(Macad::Occt::gce_Root^ parameter1);
     /// <summary>
     /// Returns true if the construction is successful.
     /// </summary>
@@ -212,7 +211,6 @@ public:
     /// -   gce_NullAxis if Center and Ptaxis are coincident.
     /// </summary>
     gce_MakeCirc(Macad::Occt::Ax1 Axis, double Radius);
-    gce_MakeCirc(Macad::Occt::gce_MakeCirc^ parameter1);
     /// <summary>
     /// Returns the constructed circle.
     /// Exceptions StdFail_NotDone if no circle is constructed.
@@ -341,7 +339,6 @@ public:
     /// the solution is direct and non direct in the other case.
     /// </summary>
     gce_MakeCirc2d(Macad::Occt::Pnt2d Center, Macad::Occt::Pnt2d Point);
-    gce_MakeCirc2d(Macad::Occt::gce_MakeCirc2d^ parameter1);
     /// <summary>
     /// Returns the constructed circle.
     /// Exceptions StdFail_NotDone if no circle is constructed.
@@ -485,7 +482,6 @@ public:
     /// -   P1, P2, P3, and P4 are collinear.
     /// </summary>
     gce_MakeCone(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2, double R1, double R2);
-    gce_MakeCone(Macad::Occt::gce_MakeCone^ parameter1);
     /// <summary>
     /// Returns the constructed cone.
     /// Exceptions StdFail_NotDone if no cone is constructed.
@@ -576,7 +572,6 @@ public:
     /// -   gce_ConfusedPoints if points P1 and P2 are coincident.
     /// </summary>
     gce_MakeCylinder(Macad::Occt::gp_Circ^ Circ);
-    gce_MakeCylinder(Macad::Occt::gce_MakeCylinder^ parameter1);
     /// <summary>
     /// Returns the constructed cylinder.
     /// Exceptions StdFail_NotDone if no cylinder is constructed.
@@ -656,7 +651,6 @@ public:
     /// -   Sqrt(Xv*Xv + Yv*Yv + Zv*Zv).
     /// </summary>
     gce_MakeDir(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2);
-    gce_MakeDir(Macad::Occt::gce_MakeDir^ parameter1);
     /// <summary>
     /// Returns the constructed unit vector.
     /// Exceptions StdFail_NotDone if no unit vector is constructed.
@@ -735,7 +729,6 @@ public:
     /// -   Sqrt(Xv*Xv + Yv*Yv).
     /// </summary>
     gce_MakeDir2d(Macad::Occt::Pnt2d P1, Macad::Occt::Pnt2d P2);
-    gce_MakeDir2d(Macad::Occt::gce_MakeDir2d^ parameter1);
     /// <summary>
     /// Returns the constructed unit vector.
     /// Exceptions StdFail_NotDone if no unit vector is constructed.
@@ -809,7 +802,6 @@ public:
     /// -   Center, S1 and S2 are collinear.
     /// </summary>
     gce_MakeElips(Macad::Occt::Pnt S1, Macad::Occt::Pnt S2, Macad::Occt::Pnt Center);
-    gce_MakeElips(Macad::Occt::gce_MakeElips^ parameter1);
     /// <summary>
     /// Returns the constructed ellipse.
     /// Exceptions StdFail_NotDone if no ellipse is constructed.
@@ -912,7 +904,6 @@ public:
     /// computed with Center, S1 and S2.
     /// </summary>
     gce_MakeElips2d(Macad::Occt::Pnt2d S1, Macad::Occt::Pnt2d S2, Macad::Occt::Pnt2d Center);
-    gce_MakeElips2d(Macad::Occt::gce_MakeElips2d^ parameter1);
     /// <summary>
     /// Returns the constructed ellipse.
     /// Exceptions StdFail_NotDone if no ellipse is constructed.
@@ -1021,7 +1012,6 @@ public:
     /// -   gce_ColinearPoints if S1, S2 and Center are collinear.
     /// </summary>
     gce_MakeHypr(Macad::Occt::Pnt S1, Macad::Occt::Pnt S2, Macad::Occt::Pnt Center);
-    gce_MakeHypr(Macad::Occt::gce_MakeHypr^ parameter1);
     /// <summary>
     /// Returns the constructed hyperbola.
     /// Exceptions StdFail_NotDone if no hyperbola is constructed.
@@ -1121,7 +1111,6 @@ public:
     /// of A (A is the local coordinate system of the hyperbola).
     /// </summary>
     gce_MakeHypr2d(Macad::Occt::Ax22d A, double MajorRadius, double MinorRadius);
-    gce_MakeHypr2d(Macad::Occt::gce_MakeHypr2d^ parameter1);
     /// <summary>
     /// Returns the constructed hyperbola.
     /// Exceptions StdFail_NotDone if no hyperbola is constructed.
@@ -1189,7 +1178,6 @@ public:
     /// It returns false if <p1> and <P2> are confused.
     /// </summary>
     gce_MakeLin(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2);
-    gce_MakeLin(Macad::Occt::gce_MakeLin^ parameter1);
     /// <summary>
     /// Returns the constructed line.
     /// Exceptions StdFail_NotDone is raised if no line is constructed.
@@ -1280,7 +1268,6 @@ public:
     /// -   gce_ConfusedPoints if points P1 and P2 are coincident.
     /// </summary>
     gce_MakeLin2d(Macad::Occt::Pnt2d P1, Macad::Occt::Pnt2d P2);
-    gce_MakeLin2d(Macad::Occt::gce_MakeLin2d^ parameter1);
     /// <summary>
     /// Returns the constructed line.
     /// Exceptions StdFail_NotDone if no line is constructed.
@@ -1344,7 +1331,6 @@ public:
     /// Makes a symmetry transformation of plane <Plane>.
     /// </summary>
     gce_MakeMirror(Macad::Occt::Ax2 Plane);
-    gce_MakeMirror(Macad::Occt::gce_MakeMirror^ parameter1);
     /// <summary>
     /// Returns the constructed transformation.
     /// </summary>
@@ -1398,7 +1384,6 @@ public:
     /// <Point> and <Direc>.
     /// </summary>
     gce_MakeMirror2d(Macad::Occt::Pnt2d Point, Macad::Occt::Dir2d Direc);
-    gce_MakeMirror2d(Macad::Occt::gce_MakeMirror2d^ parameter1);
     /// <summary>
     /// Returns the constructed transformation.
     /// </summary>
@@ -1487,7 +1472,6 @@ public:
     /// YAxis.
     /// </summary>
     gce_MakeParab(Macad::Occt::Ax1 D, Macad::Occt::Pnt F);
-    gce_MakeParab(Macad::Occt::gce_MakeParab^ parameter1);
     /// <summary>
     /// Returns the constructed parabola.
     /// Exceptions StdFail_NotDone if no parabola is constructed.
@@ -1606,7 +1590,6 @@ public:
     /// -   gce_NullAxis if S1 and Center are coincident.
     /// </summary>
     gce_MakeParab2d(Macad::Occt::Pnt2d S1, Macad::Occt::Pnt2d Center);
-    gce_MakeParab2d(Macad::Occt::gce_MakeParab2d^ parameter1);
     /// <summary>
     /// Returns the constructed parabola.
     /// Exceptions StdFail_NotDone if no parabola is constructed.
@@ -1724,7 +1707,6 @@ public:
     /// -   gce_ColinearPoints if P1, P2 and P3 are collinear.
     /// </summary>
     gce_MakePln(Macad::Occt::Ax1 Axis);
-    gce_MakePln(Macad::Occt::gce_MakePln^ parameter1);
     /// <summary>
     /// Returns the constructed plane.
     /// Exceptions StdFail_NotDone if no plane is constructed.
@@ -1784,7 +1766,6 @@ public:
     /// the point Point and the unit vector Direc.
     /// </summary>
     gce_MakeRotation(Macad::Occt::Pnt Point, Macad::Occt::Dir Direc, double Angle);
-    gce_MakeRotation(Macad::Occt::gce_MakeRotation^ parameter1);
     /// <summary>
     /// Returns the constructed transformation.
     /// </summary>
@@ -1834,7 +1815,6 @@ public:
     /// Constructs a rotation through angle Angle about the center Point.
     /// </summary>
     gce_MakeRotation2d(Macad::Occt::Pnt2d Point, double Angle);
-    gce_MakeRotation2d(Macad::Occt::gce_MakeRotation2d^ parameter1);
     /// <summary>
     /// Returns the constructed transformation.
     /// </summary>
@@ -1886,7 +1866,6 @@ public:
     /// -   Scale as the scale factor.
     /// </summary>
     gce_MakeScale(Macad::Occt::Pnt Point, double Scale);
-    gce_MakeScale(Macad::Occt::gce_MakeScale^ parameter1);
     /// <summary>
     /// Returns the constructed transformation.
     /// </summary>
@@ -1938,7 +1917,6 @@ public:
     /// -   Scale as the scale factor.
     /// </summary>
     gce_MakeScale2d(Macad::Occt::Pnt2d Point, double Scale);
-    gce_MakeScale2d(Macad::Occt::gce_MakeScale2d^ parameter1);
     /// <summary>
     /// Returns the constructed transformation.
     /// </summary>
@@ -1993,7 +1971,6 @@ public:
     /// (Point1,Point2) defined from the point Point1 to the point Point2.
     /// </summary>
     gce_MakeTranslation(Macad::Occt::Pnt Point1, Macad::Occt::Pnt Point2);
-    gce_MakeTranslation(Macad::Occt::gce_MakeTranslation^ parameter1);
     /// <summary>
     /// Returns the constructed transformation.
     /// </summary>
@@ -2048,7 +2025,6 @@ public:
     /// (Point1,Point2) defined from the point Point1 to the point Point2.
     /// </summary>
     gce_MakeTranslation2d(Macad::Occt::Pnt2d Point1, Macad::Occt::Pnt2d Point2);
-    gce_MakeTranslation2d(Macad::Occt::gce_MakeTranslation2d^ parameter1);
     /// <summary>
     /// Returns the constructed transformation.
     /// </summary>

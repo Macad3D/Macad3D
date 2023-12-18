@@ -43,7 +43,6 @@ public:
 
 public:
     ShapeBuild();
-    ShapeBuild(Macad::Occt::ShapeBuild^ parameter1);
     /// <summary>
     /// Rebuilds a shape with substitution of some components
     /// Returns a Geom_Surface which is the Plane XOY (Z positive)
@@ -88,7 +87,6 @@ public:
 
 public:
     ShapeBuild_Edge();
-    ShapeBuild_Edge(Macad::Occt::ShapeBuild_Edge^ parameter1);
     /// <summary>
     /// Copy edge and replace one or both its vertices to a given
     /// one(s). Vertex V1 replaces FORWARD vertex, and V2 - REVERSED,
@@ -252,7 +250,6 @@ public:
     /// Returns an empty Reshape
     /// </summary>
     ShapeBuild_ReShape();
-    ShapeBuild_ReShape(Macad::Occt::ShapeBuild_ReShape^ parameter1);
     /// <summary>
     /// Applies the substitutions requests to a shape
     /// 
@@ -358,7 +355,6 @@ public:
 
 public:
     ShapeBuild_Vertex();
-    ShapeBuild_Vertex(Macad::Occt::ShapeBuild_Vertex^ parameter1);
     /// <summary>
     /// Combines new vertex from two others. This new one is the
     /// smallest vertex which comprises both of the source vertices.

@@ -26,16 +26,16 @@ Macad::Occt::Quantity_Array1OfColor::Quantity_Array1OfColor(int theLower, int th
     _NativeInstance = new ::Quantity_Array1OfColor(theLower, theUpper);
 }
 
-Macad::Occt::Quantity_Array1OfColor::Quantity_Array1OfColor(Macad::Occt::Quantity_Array1OfColor^ theOther)
+Macad::Occt::Quantity_Array1OfColor::Quantity_Array1OfColor(Macad::Occt::Quantity_Color^ theBegin, int theLower, int theUpper, bool theUseBuffer)
     : Macad::Occt::BaseClass<::Quantity_Array1OfColor>(BaseClass::InitMode::Uninitialized)
 {
-    _NativeInstance = new ::Quantity_Array1OfColor(*(::Quantity_Array1OfColor*)theOther->NativeInstance);
+    _NativeInstance = new ::Quantity_Array1OfColor(*(::Quantity_Color*)theBegin->NativeInstance, theLower, theUpper, theUseBuffer);
 }
 
 Macad::Occt::Quantity_Array1OfColor::Quantity_Array1OfColor(Macad::Occt::Quantity_Color^ theBegin, int theLower, int theUpper)
     : Macad::Occt::BaseClass<::Quantity_Array1OfColor>(BaseClass::InitMode::Uninitialized)
 {
-    _NativeInstance = new ::Quantity_Array1OfColor(*(::Quantity_Color*)theBegin->NativeInstance, theLower, theUpper);
+    _NativeInstance = new ::Quantity_Array1OfColor(*(::Quantity_Color*)theBegin->NativeInstance, theLower, theUpper, true);
 }
 
 void Macad::Occt::Quantity_Array1OfColor::Init(Macad::Occt::Quantity_Color^ theValue)
@@ -70,18 +70,6 @@ int Macad::Occt::Quantity_Array1OfColor::Lower()
 int Macad::Occt::Quantity_Array1OfColor::Upper()
 {
     int _result = ((::Quantity_Array1OfColor*)_NativeInstance)->Upper();
-    return _result;
-}
-
-bool Macad::Occt::Quantity_Array1OfColor::IsDeletable()
-{
-    bool _result = ((::Quantity_Array1OfColor*)_NativeInstance)->IsDeletable();
-    return _result;
-}
-
-bool Macad::Occt::Quantity_Array1OfColor::IsAllocated()
-{
-    bool _result = ((::Quantity_Array1OfColor*)_NativeInstance)->IsAllocated();
     return _result;
 }
 
@@ -146,9 +134,25 @@ void Macad::Occt::Quantity_Array1OfColor::SetValue(int theIndex, Macad::Occt::Qu
     ((::Quantity_Array1OfColor*)_NativeInstance)->SetValue(theIndex, *(::Quantity_Color*)theItem->NativeInstance);
 }
 
+void Macad::Occt::Quantity_Array1OfColor::UpdateLowerBound(int theLower)
+{
+    ((::Quantity_Array1OfColor*)_NativeInstance)->UpdateLowerBound(theLower);
+}
+
+void Macad::Occt::Quantity_Array1OfColor::UpdateUpperBound(int theUpper)
+{
+    ((::Quantity_Array1OfColor*)_NativeInstance)->UpdateUpperBound(theUpper);
+}
+
 void Macad::Occt::Quantity_Array1OfColor::Resize(int theLower, int theUpper, bool theToCopyData)
 {
     ((::Quantity_Array1OfColor*)_NativeInstance)->Resize(theLower, theUpper, theToCopyData);
+}
+
+bool Macad::Occt::Quantity_Array1OfColor::IsDeletable()
+{
+    bool _result = ((::Quantity_Array1OfColor*)_NativeInstance)->IsDeletable();
+    return _result;
 }
 
 System::Collections::Generic::IEnumerator<Macad::Occt::Quantity_Color^>^ Macad::Occt::Quantity_Array1OfColor::GetEnumerator()
@@ -167,33 +171,9 @@ System::Collections::IEnumerator^ Macad::Occt::Quantity_Array1OfColor::GetEnumer
 //  Class  Quantity_Array1OfColor::Iterator
 //---------------------------------------------------------------------
 
-Macad::Occt::Quantity_Array1OfColor::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::Quantity_Array1OfColor::Iterator>(BaseClass::InitMode::Uninitialized)
+void Macad::Occt::Quantity_Array1OfColor::Iterator::Init(Macad::Occt::Quantity_Array1OfColor^ theList)
 {
-    _NativeInstance = new ::Quantity_Array1OfColor::Iterator();
-}
-
-Macad::Occt::Quantity_Array1OfColor::Iterator::Iterator(Macad::Occt::Quantity_Array1OfColor^ theArray, bool theToEnd)
-    : Macad::Occt::BaseClass<::Quantity_Array1OfColor::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Quantity_Array1OfColor::Iterator(*(::Quantity_Array1OfColor*)theArray->NativeInstance, theToEnd);
-}
-
-Macad::Occt::Quantity_Array1OfColor::Iterator::Iterator(Macad::Occt::Quantity_Array1OfColor^ theArray)
-    : Macad::Occt::BaseClass<::Quantity_Array1OfColor::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Quantity_Array1OfColor::Iterator(*(::Quantity_Array1OfColor*)theArray->NativeInstance, false);
-}
-
-Macad::Occt::Quantity_Array1OfColor::Iterator::Iterator(Macad::Occt::Quantity_Array1OfColor::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::Quantity_Array1OfColor::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Quantity_Array1OfColor::Iterator(*(::Quantity_Array1OfColor::Iterator*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::Quantity_Array1OfColor::Iterator::Init(Macad::Occt::Quantity_Array1OfColor^ theArray)
-{
-    ((::Quantity_Array1OfColor::Iterator*)_NativeInstance)->Init(*(::Quantity_Array1OfColor*)theArray->NativeInstance);
+    ((::Quantity_Array1OfColor::Iterator*)_NativeInstance)->Init(*(::Quantity_Array1OfColor*)theList->NativeInstance);
 }
 
 bool Macad::Occt::Quantity_Array1OfColor::Iterator::More()
@@ -202,25 +182,14 @@ bool Macad::Occt::Quantity_Array1OfColor::Iterator::More()
     return _result;
 }
 
+void Macad::Occt::Quantity_Array1OfColor::Iterator::Initialize(Macad::Occt::Quantity_Array1OfColor^ theList)
+{
+    ((::Quantity_Array1OfColor::Iterator*)_NativeInstance)->Initialize(*(::Quantity_Array1OfColor*)theList->NativeInstance);
+}
+
 void Macad::Occt::Quantity_Array1OfColor::Iterator::Next()
 {
     ((::Quantity_Array1OfColor::Iterator*)_NativeInstance)->Next();
-}
-
-void Macad::Occt::Quantity_Array1OfColor::Iterator::Previous()
-{
-    ((::Quantity_Array1OfColor::Iterator*)_NativeInstance)->Previous();
-}
-
-void Macad::Occt::Quantity_Array1OfColor::Iterator::Offset(long long int theOffset)
-{
-    ((::Quantity_Array1OfColor::Iterator*)_NativeInstance)->Offset(theOffset);
-}
-
-long long int Macad::Occt::Quantity_Array1OfColor::Iterator::Differ(Macad::Occt::Quantity_Array1OfColor::Iterator^ theOther)
-{
-    long long int _result = ((::Quantity_Array1OfColor::Iterator*)_NativeInstance)->Differ(*(::Quantity_Array1OfColor::Iterator*)theOther->NativeInstance);
-    return _result;
 }
 
 Macad::Occt::Quantity_Color^ Macad::Occt::Quantity_Array1OfColor::Iterator::Value()
@@ -235,72 +204,6 @@ Macad::Occt::Quantity_Color^ Macad::Occt::Quantity_Array1OfColor::Iterator::Chan
     ::Quantity_Color* _result = new ::Quantity_Color();
     *_result = ((::Quantity_Array1OfColor::Iterator*)_NativeInstance)->ChangeValue();
     return _result==nullptr ? nullptr : gcnew Macad::Occt::Quantity_Color(_result);
-}
-
-bool Macad::Occt::Quantity_Array1OfColor::Iterator::IsEqual(Macad::Occt::Quantity_Array1OfColor::Iterator^ theOther)
-{
-    bool _result = ((::Quantity_Array1OfColor::Iterator*)_NativeInstance)->IsEqual(*(::Quantity_Array1OfColor::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  Quantity_ColorHasher
-//---------------------------------------------------------------------
-
-Macad::Occt::Quantity_ColorHasher::Quantity_ColorHasher()
-    : Macad::Occt::BaseClass<::Quantity_ColorHasher>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Quantity_ColorHasher();
-}
-
-Macad::Occt::Quantity_ColorHasher::Quantity_ColorHasher(Macad::Occt::Quantity_ColorHasher^ parameter1)
-    : Macad::Occt::BaseClass<::Quantity_ColorHasher>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Quantity_ColorHasher(*(::Quantity_ColorHasher*)parameter1->NativeInstance);
-}
-
-int Macad::Occt::Quantity_ColorHasher::HashCode(Macad::Occt::Quantity_Color^ theColor, int theUpperBound)
-{
-    int _result = ::Quantity_ColorHasher::HashCode(*(::Quantity_Color*)theColor->NativeInstance, theUpperBound);
-    return _result;
-}
-
-bool Macad::Occt::Quantity_ColorHasher::IsEqual(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2)
-{
-    bool _result = ::Quantity_ColorHasher::IsEqual(*(::Quantity_Color*)theColor1->NativeInstance, *(::Quantity_Color*)theColor2->NativeInstance);
-    return _result;
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  Quantity_ColorRGBAHasher
-//---------------------------------------------------------------------
-
-Macad::Occt::Quantity_ColorRGBAHasher::Quantity_ColorRGBAHasher()
-    : Macad::Occt::BaseClass<::Quantity_ColorRGBAHasher>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Quantity_ColorRGBAHasher();
-}
-
-Macad::Occt::Quantity_ColorRGBAHasher::Quantity_ColorRGBAHasher(Macad::Occt::Quantity_ColorRGBAHasher^ parameter1)
-    : Macad::Occt::BaseClass<::Quantity_ColorRGBAHasher>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Quantity_ColorRGBAHasher(*(::Quantity_ColorRGBAHasher*)parameter1->NativeInstance);
-}
-
-int Macad::Occt::Quantity_ColorRGBAHasher::HashCode(Macad::Occt::Quantity_ColorRGBA^ theColor, int theUpperBound)
-{
-    int _result = ::Quantity_ColorRGBAHasher::HashCode(*(::Quantity_ColorRGBA*)theColor->NativeInstance, theUpperBound);
-    return _result;
-}
-
-bool Macad::Occt::Quantity_ColorRGBAHasher::IsEqual(Macad::Occt::Quantity_ColorRGBA^ theColor1, Macad::Occt::Quantity_ColorRGBA^ theColor2)
-{
-    bool _result = ::Quantity_ColorRGBAHasher::IsEqual(*(::Quantity_ColorRGBA*)theColor1->NativeInstance, *(::Quantity_ColorRGBA*)theColor2->NativeInstance);
-    return _result;
 }
 
 
@@ -331,12 +234,6 @@ Macad::Occt::Quantity_Color::Quantity_Color(Macad::Occt::gp_Vec3f^ theRgb)
     : Macad::Occt::BaseClass<::Quantity_Color>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Quantity_Color(*(::gp_Vec3f*)theRgb->NativeInstance);
-}
-
-Macad::Occt::Quantity_Color::Quantity_Color(Macad::Occt::Quantity_Color^ parameter1)
-    : Macad::Occt::BaseClass<::Quantity_Color>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Quantity_Color(*(::Quantity_Color*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Quantity_NameOfColor Macad::Occt::Quantity_Color::Name()
@@ -676,6 +573,30 @@ void Macad::Occt::Quantity_Color::DumpJson(System::IO::TextWriter^ theOStream)
     theOStream->Write(gcnew System::String(oss_theOStream.str().c_str()));
 }
 
+bool Macad::Occt::Quantity_Color::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::Quantity_Color::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Quantity_Color^)obj)->NativeInstance);
+    }
+    return false;
+}
+
+int Macad::Occt::Quantity_Color::GetHashCode()
+{
+    return std::hash<::Quantity_Color>{}(*NativeInstance);
+}
+
 
 
 //---------------------------------------------------------------------
@@ -710,12 +631,6 @@ Macad::Occt::Quantity_ColorRGBA::Quantity_ColorRGBA(float theRed, float theGreen
     : Macad::Occt::BaseClass<::Quantity_ColorRGBA>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Quantity_ColorRGBA(theRed, theGreen, theBlue, theAlpha);
-}
-
-Macad::Occt::Quantity_ColorRGBA::Quantity_ColorRGBA(Macad::Occt::Quantity_ColorRGBA^ parameter1)
-    : Macad::Occt::BaseClass<::Quantity_ColorRGBA>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Quantity_ColorRGBA(*(::Quantity_ColorRGBA*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Quantity_ColorRGBA::SetValues(float theRed, float theGreen, float theBlue, float theAlpha)
@@ -829,6 +744,30 @@ void Macad::Occt::Quantity_ColorRGBA::DumpJson(System::IO::TextWriter^ theOStrea
     theOStream->Write(gcnew System::String(oss_theOStream.str().c_str()));
 }
 
+bool Macad::Occt::Quantity_ColorRGBA::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::Quantity_ColorRGBA::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Quantity_ColorRGBA^)obj)->NativeInstance);
+    }
+    return false;
+}
+
+int Macad::Occt::Quantity_ColorRGBA::GetHashCode()
+{
+    return std::hash<::Quantity_ColorRGBA>{}(*NativeInstance);
+}
+
 
 
 //---------------------------------------------------------------------
@@ -863,12 +802,6 @@ Macad::Occt::Quantity_Period::Quantity_Period(int ss)
     : Macad::Occt::BaseClass<::Quantity_Period>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Quantity_Period(ss, 0);
-}
-
-Macad::Occt::Quantity_Period::Quantity_Period(Macad::Occt::Quantity_Period^ parameter1)
-    : Macad::Occt::BaseClass<::Quantity_Period>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Quantity_Period(*(::Quantity_Period*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Quantity_Period::Values(int% dd, int% hh, int% mn, int% ss, int% mis, int% mics)
@@ -972,6 +905,25 @@ bool Macad::Occt::Quantity_Period::IsValid(int ss)
     return _result;
 }
 
+bool Macad::Occt::Quantity_Period::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::Quantity_Period::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Quantity_Period^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -1000,12 +952,6 @@ Macad::Occt::Quantity_Date::Quantity_Date(int mm, int dd, int yyyy, int hh, int 
     : Macad::Occt::BaseClass<::Quantity_Date>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Quantity_Date(mm, dd, yyyy, hh, mn, ss, 0, 0);
-}
-
-Macad::Occt::Quantity_Date::Quantity_Date(Macad::Occt::Quantity_Date^ parameter1)
-    : Macad::Occt::BaseClass<::Quantity_Date>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Quantity_Date(*(::Quantity_Date*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Quantity_Date::Values(int% mm, int% dd, int% yy, int% hh, int% mn, int% ss, int% mis, int% mics)
@@ -1145,6 +1091,25 @@ bool Macad::Occt::Quantity_Date::IsLeap(int yy)
     return _result;
 }
 
+bool Macad::Occt::Quantity_Date::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::Quantity_Date::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Quantity_Date^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -1173,12 +1138,6 @@ Macad::Occt::Quantity_DateDefinitionError::Quantity_DateDefinitionError(System::
     NativeInstance = new ::Quantity_DateDefinitionError(sz_theMessage, sz_theStackTrace);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::Quantity_DateDefinitionError::Quantity_DateDefinitionError(Macad::Occt::Quantity_DateDefinitionError^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Quantity_DateDefinitionError(*(::Quantity_DateDefinitionError*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Quantity_DateDefinitionError::Raise(System::String^ theMessage)
@@ -1246,16 +1205,16 @@ Macad::Occt::Quantity_HArray1OfColor::Quantity_HArray1OfColor(int theLower, int 
     NativeInstance = new ::Quantity_HArray1OfColor(theLower, theUpper, *(::Quantity_Color*)theValue->NativeInstance);
 }
 
+Macad::Occt::Quantity_HArray1OfColor::Quantity_HArray1OfColor(Macad::Occt::Quantity_Color^ theBegin, int theLower, int theUpper, bool parameter1)
+    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+    NativeInstance = new ::Quantity_HArray1OfColor(*(::Quantity_Color*)theBegin->NativeInstance, theLower, theUpper, parameter1);
+}
+
 Macad::Occt::Quantity_HArray1OfColor::Quantity_HArray1OfColor(Macad::Occt::Quantity_Array1OfColor^ theOther)
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Quantity_HArray1OfColor(*(::Quantity_Array1OfColor*)theOther->NativeInstance);
-}
-
-Macad::Occt::Quantity_HArray1OfColor::Quantity_HArray1OfColor(Macad::Occt::Quantity_HArray1OfColor^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Quantity_HArray1OfColor(*(::Quantity_HArray1OfColor*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Quantity_Array1OfColor^ Macad::Occt::Quantity_HArray1OfColor::Array1()
@@ -1307,30 +1266,14 @@ int Macad::Occt::Quantity_HArray1OfColor::Upper()
     return _result;
 }
 
-bool Macad::Occt::Quantity_HArray1OfColor::IsDeletable()
-{
-    bool _result = ((::Quantity_HArray1OfColor*)_NativeInstance)->IsDeletable();
-    return _result;
-}
-
-bool Macad::Occt::Quantity_HArray1OfColor::IsAllocated()
-{
-    bool _result = ((::Quantity_HArray1OfColor*)_NativeInstance)->IsAllocated();
-    return _result;
-}
-
 Macad::Occt::Quantity_HArray1OfColor^ Macad::Occt::Quantity_HArray1OfColor::Assign(Macad::Occt::Quantity_HArray1OfColor^ theOther)
 {
-    ::Quantity_HArray1OfColor* _result = new ::Quantity_HArray1OfColor();
-    *_result = ((::Quantity_HArray1OfColor*)_NativeInstance)->Assign(*(::Quantity_HArray1OfColor*)theOther->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::Quantity_HArray1OfColor(_result);
+    throw gcnew System::NotImplementedException();
 }
 
 Macad::Occt::Quantity_HArray1OfColor^ Macad::Occt::Quantity_HArray1OfColor::Move(Macad::Occt::Quantity_HArray1OfColor^ theOther)
 {
-    ::Quantity_HArray1OfColor* _result = new ::Quantity_HArray1OfColor();
-    *_result = ((::Quantity_HArray1OfColor*)_NativeInstance)->Move(*(::Quantity_HArray1OfColor*)theOther->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::Quantity_HArray1OfColor(_result);
+    throw gcnew System::NotImplementedException();
 }
 
 Macad::Occt::Quantity_Color^ Macad::Occt::Quantity_HArray1OfColor::First()
@@ -1380,9 +1323,25 @@ void Macad::Occt::Quantity_HArray1OfColor::SetValue(int theIndex, Macad::Occt::Q
     ((::Quantity_HArray1OfColor*)_NativeInstance)->SetValue(theIndex, *(::Quantity_Color*)theItem->NativeInstance);
 }
 
+void Macad::Occt::Quantity_HArray1OfColor::UpdateLowerBound(int theLower)
+{
+    ((::Quantity_HArray1OfColor*)_NativeInstance)->UpdateLowerBound(theLower);
+}
+
+void Macad::Occt::Quantity_HArray1OfColor::UpdateUpperBound(int theUpper)
+{
+    ((::Quantity_HArray1OfColor*)_NativeInstance)->UpdateUpperBound(theUpper);
+}
+
 void Macad::Occt::Quantity_HArray1OfColor::Resize(int theLower, int theUpper, bool theToCopyData)
 {
     ((::Quantity_HArray1OfColor*)_NativeInstance)->Resize(theLower, theUpper, theToCopyData);
+}
+
+bool Macad::Occt::Quantity_HArray1OfColor::IsDeletable()
+{
+    bool _result = ((::Quantity_HArray1OfColor*)_NativeInstance)->IsDeletable();
+    return _result;
 }
 
 Macad::Occt::Quantity_HArray1OfColor^ Macad::Occt::Quantity_HArray1OfColor::CreateDowncasted(::Quantity_HArray1OfColor* instance)
@@ -1406,33 +1365,9 @@ System::Collections::IEnumerator^ Macad::Occt::Quantity_HArray1OfColor::GetEnume
 //  Class  Quantity_HArray1OfColor::Iterator
 //---------------------------------------------------------------------
 
-Macad::Occt::Quantity_HArray1OfColor::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::Quantity_HArray1OfColor::Iterator>(BaseClass::InitMode::Uninitialized)
+void Macad::Occt::Quantity_HArray1OfColor::Iterator::Init(Macad::Occt::Quantity_HArray1OfColor^ theList)
 {
-    _NativeInstance = new ::Quantity_HArray1OfColor::Iterator();
-}
-
-Macad::Occt::Quantity_HArray1OfColor::Iterator::Iterator(Macad::Occt::Quantity_HArray1OfColor^ theArray, bool theToEnd)
-    : Macad::Occt::BaseClass<::Quantity_HArray1OfColor::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Quantity_HArray1OfColor::Iterator(*(::Quantity_HArray1OfColor*)theArray->NativeInstance, theToEnd);
-}
-
-Macad::Occt::Quantity_HArray1OfColor::Iterator::Iterator(Macad::Occt::Quantity_HArray1OfColor^ theArray)
-    : Macad::Occt::BaseClass<::Quantity_HArray1OfColor::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Quantity_HArray1OfColor::Iterator(*(::Quantity_HArray1OfColor*)theArray->NativeInstance, false);
-}
-
-Macad::Occt::Quantity_HArray1OfColor::Iterator::Iterator(Macad::Occt::Quantity_HArray1OfColor::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::Quantity_HArray1OfColor::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Quantity_HArray1OfColor::Iterator(*(::Quantity_HArray1OfColor::Iterator*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::Quantity_HArray1OfColor::Iterator::Init(Macad::Occt::Quantity_HArray1OfColor^ theArray)
-{
-    ((::Quantity_HArray1OfColor::Iterator*)_NativeInstance)->Init(*(::Quantity_HArray1OfColor*)theArray->NativeInstance);
+    ((::Quantity_HArray1OfColor::Iterator*)_NativeInstance)->Init(*(::Quantity_HArray1OfColor*)theList->NativeInstance);
 }
 
 bool Macad::Occt::Quantity_HArray1OfColor::Iterator::More()
@@ -1441,25 +1376,14 @@ bool Macad::Occt::Quantity_HArray1OfColor::Iterator::More()
     return _result;
 }
 
+void Macad::Occt::Quantity_HArray1OfColor::Iterator::Initialize(Macad::Occt::Quantity_HArray1OfColor^ theList)
+{
+    ((::Quantity_HArray1OfColor::Iterator*)_NativeInstance)->Initialize(*(::Quantity_HArray1OfColor*)theList->NativeInstance);
+}
+
 void Macad::Occt::Quantity_HArray1OfColor::Iterator::Next()
 {
     ((::Quantity_HArray1OfColor::Iterator*)_NativeInstance)->Next();
-}
-
-void Macad::Occt::Quantity_HArray1OfColor::Iterator::Previous()
-{
-    ((::Quantity_HArray1OfColor::Iterator*)_NativeInstance)->Previous();
-}
-
-void Macad::Occt::Quantity_HArray1OfColor::Iterator::Offset(long long int theOffset)
-{
-    ((::Quantity_HArray1OfColor::Iterator*)_NativeInstance)->Offset(theOffset);
-}
-
-long long int Macad::Occt::Quantity_HArray1OfColor::Iterator::Differ(Macad::Occt::Quantity_HArray1OfColor::Iterator^ theOther)
-{
-    long long int _result = ((::Quantity_HArray1OfColor::Iterator*)_NativeInstance)->Differ(*(::Quantity_HArray1OfColor::Iterator*)theOther->NativeInstance);
-    return _result;
 }
 
 Macad::Occt::Quantity_Color^ Macad::Occt::Quantity_HArray1OfColor::Iterator::Value()
@@ -1474,12 +1398,6 @@ Macad::Occt::Quantity_Color^ Macad::Occt::Quantity_HArray1OfColor::Iterator::Cha
     ::Quantity_Color* _result = new ::Quantity_Color();
     *_result = ((::Quantity_HArray1OfColor::Iterator*)_NativeInstance)->ChangeValue();
     return _result==nullptr ? nullptr : gcnew Macad::Occt::Quantity_Color(_result);
-}
-
-bool Macad::Occt::Quantity_HArray1OfColor::Iterator::IsEqual(Macad::Occt::Quantity_HArray1OfColor::Iterator^ theOther)
-{
-    bool _result = ((::Quantity_HArray1OfColor::Iterator*)_NativeInstance)->IsEqual(*(::Quantity_HArray1OfColor::Iterator*)theOther->NativeInstance);
-    return _result;
 }
 
 
@@ -1510,12 +1428,6 @@ Macad::Occt::Quantity_PeriodDefinitionError::Quantity_PeriodDefinitionError(Syst
     NativeInstance = new ::Quantity_PeriodDefinitionError(sz_theMessage, sz_theStackTrace);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::Quantity_PeriodDefinitionError::Quantity_PeriodDefinitionError(Macad::Occt::Quantity_PeriodDefinitionError^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Quantity_PeriodDefinitionError(*(::Quantity_PeriodDefinitionError*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Quantity_PeriodDefinitionError::Raise(System::String^ theMessage)

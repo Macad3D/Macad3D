@@ -68,24 +68,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::BRepAdaptor_Array1OfCurve^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::BRepAdaptor_Array1OfCurve^ theArray);
-        Iterator(Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator^ parameter1);
-        void Init(Macad::Occt::BRepAdaptor_Array1OfCurve^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator^ theOther);
-        Macad::Occt::BRepAdaptor_Curve^ Value();
-        Macad::Occt::BRepAdaptor_Curve^ ChangeValue();
-        bool IsEqual(Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator^ theOther);
     }; // class Iterator
 
     BRepAdaptor_Array1OfCurve();
     BRepAdaptor_Array1OfCurve(int theLower, int theUpper);
-    BRepAdaptor_Array1OfCurve(Macad::Occt::BRepAdaptor_Array1OfCurve^ theOther);
+    /* Method skipped due to unknown mapping: void BRepAdaptor_Array1OfCurve(allocator_type theAlloc, int theLower, int theUpper, ) */
+    BRepAdaptor_Array1OfCurve(Macad::Occt::BRepAdaptor_Curve^ theBegin, int theLower, int theUpper, bool theUseBuffer);
     BRepAdaptor_Array1OfCurve(Macad::Occt::BRepAdaptor_Curve^ theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::BRepAdaptor_Curve^ theValue);
     int Size();
@@ -93,8 +81,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::BRepAdaptor_Array1OfCurve^ Assign(Macad::Occt::BRepAdaptor_Array1OfCurve^ theOther);
     Macad::Occt::BRepAdaptor_Array1OfCurve^ Move(Macad::Occt::BRepAdaptor_Array1OfCurve^ theOther);
     Macad::Occt::BRepAdaptor_Curve^ First();
@@ -104,7 +90,10 @@ public:
     virtual Macad::Occt::BRepAdaptor_Curve^ Value(int theIndex);
     Macad::Occt::BRepAdaptor_Curve^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::BRepAdaptor_Curve^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::BRepAdaptor_Curve^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class BRepAdaptor_Array1OfCurve
@@ -170,7 +159,6 @@ public:
     /// the face.
     /// </summary>
     BRepAdaptor_Curve(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F);
-    BRepAdaptor_Curve(Macad::Occt::BRepAdaptor_Curve^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>
@@ -373,26 +361,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::BRepAdaptor_HArray1OfCurve^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::BRepAdaptor_HArray1OfCurve^ theArray);
-        Iterator(Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator^ parameter1);
-        void Init(Macad::Occt::BRepAdaptor_HArray1OfCurve^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator^ theOther);
-        Macad::Occt::BRepAdaptor_Curve^ Value();
-        Macad::Occt::BRepAdaptor_Curve^ ChangeValue();
-        bool IsEqual(Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator^ theOther);
     }; // class Iterator
 
     BRepAdaptor_HArray1OfCurve();
     BRepAdaptor_HArray1OfCurve(int theLower, int theUpper);
     BRepAdaptor_HArray1OfCurve(int theLower, int theUpper, Macad::Occt::BRepAdaptor_Curve^ theValue);
+    BRepAdaptor_HArray1OfCurve(Macad::Occt::BRepAdaptor_Curve^ theBegin, int theLower, int theUpper, bool parameter1);
     BRepAdaptor_HArray1OfCurve(Macad::Occt::BRepAdaptor_Array1OfCurve^ theOther);
-    BRepAdaptor_HArray1OfCurve(Macad::Occt::BRepAdaptor_HArray1OfCurve^ parameter1);
     Macad::Occt::BRepAdaptor_Array1OfCurve^ Array1();
     Macad::Occt::BRepAdaptor_Array1OfCurve^ ChangeArray1();
     void Init(Macad::Occt::BRepAdaptor_Curve^ theValue);
@@ -401,8 +376,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::BRepAdaptor_HArray1OfCurve^ Assign(Macad::Occt::BRepAdaptor_HArray1OfCurve^ theOther);
     Macad::Occt::BRepAdaptor_HArray1OfCurve^ Move(Macad::Occt::BRepAdaptor_HArray1OfCurve^ theOther);
     Macad::Occt::BRepAdaptor_Curve^ First();
@@ -412,7 +385,10 @@ public:
     virtual Macad::Occt::BRepAdaptor_Curve^ Value(int theIndex);
     Macad::Occt::BRepAdaptor_Curve^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::BRepAdaptor_Curve^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::BRepAdaptor_HArray1OfCurve^ CreateDowncasted(::BRepAdaptor_HArray1OfCurve* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::BRepAdaptor_Curve^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -471,7 +447,6 @@ public:
     /// <W>.
     /// </summary>
     BRepAdaptor_CompCurve(Macad::Occt::TopoDS_Wire^ W, bool KnotByCurvilinearAbcissa, double First, double Last, double Tol);
-    BRepAdaptor_CompCurve(Macad::Occt::BRepAdaptor_CompCurve^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>
@@ -625,7 +600,6 @@ public:
     /// Creates with the pcurve of <E> on <F>.
     /// </summary>
     BRepAdaptor_Curve2d(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F);
-    BRepAdaptor_Curve2d(Macad::Occt::BRepAdaptor_Curve2d^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>
@@ -707,7 +681,6 @@ public:
     /// restriction.
     /// </summary>
     BRepAdaptor_Surface(Macad::Occt::TopoDS_Face^ F);
-    BRepAdaptor_Surface(Macad::Occt::BRepAdaptor_Surface^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>

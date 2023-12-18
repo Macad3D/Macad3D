@@ -58,7 +58,6 @@ public:
 
 public:
     ElSLib();
-    ElSLib(Macad::Occt::ElSLib^ parameter1);
     /// <summary>
     /// For elementary surfaces from the gp package (planes,
     /// cones, cylinders, spheres and tori), computes the point

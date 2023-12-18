@@ -8,83 +8,6 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 
 
 //---------------------------------------------------------------------
-//  Class  StdFail_InfiniteSolutions
-//---------------------------------------------------------------------
-
-Macad::Occt::StdFail_InfiniteSolutions::StdFail_InfiniteSolutions()
-    : Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::StdFail_InfiniteSolutions();
-}
-
-Macad::Occt::StdFail_InfiniteSolutions::StdFail_InfiniteSolutions(System::String^ theMessage)
-    : Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
-{
-    const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-    NativeInstance = new ::StdFail_InfiniteSolutions(sz_theMessage);
-    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-Macad::Occt::StdFail_InfiniteSolutions::StdFail_InfiniteSolutions(System::String^ theMessage, System::String^ theStackTrace)
-    : Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
-{
-    const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-    const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
-    NativeInstance = new ::StdFail_InfiniteSolutions(sz_theMessage, sz_theStackTrace);
-    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::StdFail_InfiniteSolutions::StdFail_InfiniteSolutions(Macad::Occt::StdFail_InfiniteSolutions^ parameter1)
-    : Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::StdFail_InfiniteSolutions(*(::StdFail_InfiniteSolutions*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::StdFail_InfiniteSolutions::Raise(System::String^ theMessage)
-{
-    const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-    ::StdFail_InfiniteSolutions::Raise(sz_theMessage);
-    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-}
-
-void Macad::Occt::StdFail_InfiniteSolutions::Raise()
-{
-    ::StdFail_InfiniteSolutions::Raise("");
-}
-
-Macad::Occt::StdFail_InfiniteSolutions^ Macad::Occt::StdFail_InfiniteSolutions::NewInstance(System::String^ theMessage)
-{
-    const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-    Handle(::StdFail_InfiniteSolutions) _result = ::StdFail_InfiniteSolutions::NewInstance(sz_theMessage);
-    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-    return _result.IsNull() ? nullptr : Macad::Occt::StdFail_InfiniteSolutions::CreateDowncasted(_result.get());
-}
-
-Macad::Occt::StdFail_InfiniteSolutions^ Macad::Occt::StdFail_InfiniteSolutions::NewInstance()
-{
-    Handle(::StdFail_InfiniteSolutions) _result = ::StdFail_InfiniteSolutions::NewInstance("");
-    return _result.IsNull() ? nullptr : Macad::Occt::StdFail_InfiniteSolutions::CreateDowncasted(_result.get());
-}
-
-Macad::Occt::StdFail_InfiniteSolutions^ Macad::Occt::StdFail_InfiniteSolutions::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
-{
-    const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
-    const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
-    Handle(::StdFail_InfiniteSolutions) _result = ::StdFail_InfiniteSolutions::NewInstance(sz_theMessage, sz_theStackTrace);
-    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
-    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-    return _result.IsNull() ? nullptr : Macad::Occt::StdFail_InfiniteSolutions::CreateDowncasted(_result.get());
-}
-
-Macad::Occt::StdFail_InfiniteSolutions^ Macad::Occt::StdFail_InfiniteSolutions::CreateDowncasted(::StdFail_InfiniteSolutions* instance)
-{
-    return gcnew Macad::Occt::StdFail_InfiniteSolutions( instance );
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  StdFail_NotDone
 //---------------------------------------------------------------------
 
@@ -110,12 +33,6 @@ Macad::Occt::StdFail_NotDone::StdFail_NotDone(System::String^ theMessage, System
     NativeInstance = new ::StdFail_NotDone(sz_theMessage, sz_theStackTrace);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::StdFail_NotDone::StdFail_NotDone(Macad::Occt::StdFail_NotDone^ parameter1)
-    : Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::StdFail_NotDone(*(::StdFail_NotDone*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::StdFail_NotDone::Raise(System::String^ theMessage)
@@ -162,6 +79,77 @@ Macad::Occt::StdFail_NotDone^ Macad::Occt::StdFail_NotDone::CreateDowncasted(::S
 
 
 //---------------------------------------------------------------------
+//  Class  StdFail_InfiniteSolutions
+//---------------------------------------------------------------------
+
+Macad::Occt::StdFail_InfiniteSolutions::StdFail_InfiniteSolutions()
+    : Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
+{
+    NativeInstance = new ::StdFail_InfiniteSolutions();
+}
+
+Macad::Occt::StdFail_InfiniteSolutions::StdFail_InfiniteSolutions(System::String^ theMessage)
+    : Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
+{
+    const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+    NativeInstance = new ::StdFail_InfiniteSolutions(sz_theMessage);
+    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+Macad::Occt::StdFail_InfiniteSolutions::StdFail_InfiniteSolutions(System::String^ theMessage, System::String^ theStackTrace)
+    : Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
+{
+    const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+    const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+    NativeInstance = new ::StdFail_InfiniteSolutions(sz_theMessage, sz_theStackTrace);
+    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+}
+
+void Macad::Occt::StdFail_InfiniteSolutions::Raise(System::String^ theMessage)
+{
+    const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+    ::StdFail_InfiniteSolutions::Raise(sz_theMessage);
+    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+}
+
+void Macad::Occt::StdFail_InfiniteSolutions::Raise()
+{
+    ::StdFail_InfiniteSolutions::Raise("");
+}
+
+Macad::Occt::StdFail_InfiniteSolutions^ Macad::Occt::StdFail_InfiniteSolutions::NewInstance(System::String^ theMessage)
+{
+    const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+    Handle(::StdFail_InfiniteSolutions) _result = ::StdFail_InfiniteSolutions::NewInstance(sz_theMessage);
+    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+    return _result.IsNull() ? nullptr : Macad::Occt::StdFail_InfiniteSolutions::CreateDowncasted(_result.get());
+}
+
+Macad::Occt::StdFail_InfiniteSolutions^ Macad::Occt::StdFail_InfiniteSolutions::NewInstance()
+{
+    Handle(::StdFail_InfiniteSolutions) _result = ::StdFail_InfiniteSolutions::NewInstance("");
+    return _result.IsNull() ? nullptr : Macad::Occt::StdFail_InfiniteSolutions::CreateDowncasted(_result.get());
+}
+
+Macad::Occt::StdFail_InfiniteSolutions^ Macad::Occt::StdFail_InfiniteSolutions::NewInstance(System::String^ theMessage, System::String^ theStackTrace)
+{
+    const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
+    const char* sz_theStackTrace = (char*)(void*)Marshal::StringToHGlobalAnsi(theStackTrace);
+    Handle(::StdFail_InfiniteSolutions) _result = ::StdFail_InfiniteSolutions::NewInstance(sz_theMessage, sz_theStackTrace);
+    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
+    Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
+    return _result.IsNull() ? nullptr : Macad::Occt::StdFail_InfiniteSolutions::CreateDowncasted(_result.get());
+}
+
+Macad::Occt::StdFail_InfiniteSolutions^ Macad::Occt::StdFail_InfiniteSolutions::CreateDowncasted(::StdFail_InfiniteSolutions* instance)
+{
+    return gcnew Macad::Occt::StdFail_InfiniteSolutions( instance );
+}
+
+
+
+//---------------------------------------------------------------------
 //  Class  StdFail_Undefined
 //---------------------------------------------------------------------
 
@@ -187,12 +175,6 @@ Macad::Occt::StdFail_Undefined::StdFail_Undefined(System::String^ theMessage, Sy
     NativeInstance = new ::StdFail_Undefined(sz_theMessage, sz_theStackTrace);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::StdFail_Undefined::StdFail_Undefined(Macad::Occt::StdFail_Undefined^ parameter1)
-    : Macad::Occt::Standard_Failure(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::StdFail_Undefined(*(::StdFail_Undefined*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::StdFail_Undefined::Raise(System::String^ theMessage)
@@ -266,12 +248,6 @@ Macad::Occt::StdFail_UndefinedDerivative::StdFail_UndefinedDerivative(System::St
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
-Macad::Occt::StdFail_UndefinedDerivative::StdFail_UndefinedDerivative(Macad::Occt::StdFail_UndefinedDerivative^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::StdFail_UndefinedDerivative(*(::StdFail_UndefinedDerivative*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::StdFail_UndefinedDerivative::Raise(System::String^ theMessage)
 {
     const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
@@ -341,12 +317,6 @@ Macad::Occt::StdFail_UndefinedValue::StdFail_UndefinedValue(System::String^ theM
     NativeInstance = new ::StdFail_UndefinedValue(sz_theMessage, sz_theStackTrace);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::StdFail_UndefinedValue::StdFail_UndefinedValue(Macad::Occt::StdFail_UndefinedValue^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::StdFail_UndefinedValue(*(::StdFail_UndefinedValue*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::StdFail_UndefinedValue::Raise(System::String^ theMessage)

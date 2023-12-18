@@ -17,12 +17,6 @@ Macad::Occt::TopAbs::TopAbs()
     _NativeInstance = new ::TopAbs();
 }
 
-Macad::Occt::TopAbs::TopAbs(Macad::Occt::TopAbs^ parameter1)
-    : Macad::Occt::BaseClass<::TopAbs>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopAbs(*(::TopAbs*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TopAbs_Orientation Macad::Occt::TopAbs::Compose(Macad::Occt::TopAbs_Orientation Or1, Macad::Occt::TopAbs_Orientation Or2)
 {
     ::TopAbs_Orientation _result = ::TopAbs::Compose((::TopAbs_Orientation)Or1, (::TopAbs_Orientation)Or2);

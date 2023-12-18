@@ -115,7 +115,6 @@ public:
 
 public:
     CSLib();
-    CSLib(Macad::Occt::CSLib^ parameter1);
     /// <summary>
     /// The following functions computes the normal to a surface
     /// inherits FunctionWithDerivative from math
@@ -279,7 +278,6 @@ public:
     /// UV-bounds of the polygon.
     /// </summary>
     CSLib_Class2d(Macad::Occt::TColgp_SequenceOfPnt2d^ thePnts2d, double theTolU, double theTolV, double theUMin, double theVMin, double theUMax, double theVMax);
-    CSLib_Class2d(Macad::Occt::CSLib_Class2d^ parameter1);
     int SiDans(Macad::Occt::Pnt2d P);
     int SiDans_OnMode(Macad::Occt::Pnt2d P, double Tol);
     int InternalSiDans(double X, double Y);

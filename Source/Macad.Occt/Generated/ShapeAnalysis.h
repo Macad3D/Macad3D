@@ -107,8 +107,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal^ theMap);
-        Iterator(Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TColStd_ListOfReal^ Value();
@@ -119,7 +117,6 @@ public:
     ShapeAnalysis_DataMapOfShapeListOfReal();
     ShapeAnalysis_DataMapOfShapeListOfReal(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     ShapeAnalysis_DataMapOfShapeListOfReal(int theNbBuckets);
-    ShapeAnalysis_DataMapOfShapeListOfReal(Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal^ theOther);
     void Exchange(Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal^ theOther);
     Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal^ Assign(Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal^ theOther);
     void ReSize(int N);
@@ -129,12 +126,10 @@ public:
     bool UnBind(Macad::Occt::TopoDS_Shape^ theKey);
     Macad::Occt::TColStd_ListOfReal^ Seek(Macad::Occt::TopoDS_Shape^ theKey);
     Macad::Occt::TColStd_ListOfReal^ Find(Macad::Occt::TopoDS_Shape^ theKey);
-    bool Find(Macad::Occt::TopoDS_Shape^ theKey, Macad::Occt::TColStd_ListOfReal^ theValue);
     Macad::Occt::TColStd_ListOfReal^ ChangeSeek(Macad::Occt::TopoDS_Shape^ theKey);
     Macad::Occt::TColStd_ListOfReal^ ChangeFind(Macad::Occt::TopoDS_Shape^ theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class ShapeAnalysis_DataMapOfShapeListOfReal
 
@@ -197,19 +192,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSeq, bool isStart);
-        Iterator(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSeq);
-        Iterator(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::ShapeAnalysis_FreeBoundData^ Value();
         Macad::Occt::ShapeAnalysis_FreeBoundData^ ChangeValue();
         bool IsEqual(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     ShapeAnalysis_SequenceOfFreeBounds();
     ShapeAnalysis_SequenceOfFreeBounds(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    ShapeAnalysis_SequenceOfFreeBounds(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -222,17 +214,10 @@ public:
     void Clear();
     Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ Assign(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theOther);
     void Remove(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem);
-    void Append(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSeq);
     void Prepend(Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem);
-    void Prepend(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSeq);
     void InsertAfter(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Iterator^ thePosition, Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem);
     void Split(int theIndex, Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSeq);
     Macad::Occt::ShapeAnalysis_FreeBoundData^ First();
     Macad::Occt::ShapeAnalysis_FreeBoundData^ ChangeFirst();
@@ -292,7 +277,6 @@ public:
 
 public:
     ShapeAnalysis();
-    ShapeAnalysis(Macad::Occt::ShapeAnalysis^ parameter1);
     /// <summary>
     /// Returns positively oriented wire in the face.
     /// If there is no such wire - returns the last wire of the face.
@@ -383,7 +367,6 @@ public:
     /// constructor with shape initialisation
     /// </summary>
     ShapeAnalysis_CanonicalRecognition(Macad::Occt::TopoDS_Shape^ theShape);
-    ShapeAnalysis_CanonicalRecognition(Macad::Occt::ShapeAnalysis_CanonicalRecognition^ parameter1);
     /// <summary>
     /// Sets shape
     /// </summary>
@@ -496,7 +479,6 @@ public:
     /// inshell : to compute more information, relevant to topology
     /// </summary>
     ShapeAnalysis_CheckSmallFace();
-    ShapeAnalysis_CheckSmallFace(Macad::Occt::ShapeAnalysis_CheckSmallFace^ parameter1);
     /// <summary>
     /// Checks if a Face is as a Spot
     /// Returns 0 if not, 1 if yes, 2 if yes and all vertices are the
@@ -689,7 +671,6 @@ public:
 
 public:
     ShapeAnalysis_Curve();
-    ShapeAnalysis_Curve(Macad::Occt::ShapeAnalysis_Curve^ parameter1);
     /// <summary>
     /// Projects a Point on a Curve.
     /// Computes the projected point and its parameter on the curve.
@@ -900,7 +881,6 @@ public:
     /// Empty constructor; initialises Status to OK
     /// </summary>
     ShapeAnalysis_Edge();
-    ShapeAnalysis_Edge(Macad::Occt::ShapeAnalysis_Edge^ parameter1);
     /// <summary>
     /// Tells if the edge has a 3d curve
     /// </summary>
@@ -1186,7 +1166,6 @@ public:
     /// Creates object with contour given in the form of TopoDS_Wire
     /// </summary>
     ShapeAnalysis_FreeBoundData(Macad::Occt::TopoDS_Wire^ freebound);
-    ShapeAnalysis_FreeBoundData(Macad::Occt::ShapeAnalysis_FreeBoundData^ parameter1);
     /// <summary>
     /// Clears all properties of the contour.
     /// Contour bound itself is not cleared.
@@ -1423,7 +1402,6 @@ public:
     /// built open wires.
     /// </summary>
     ShapeAnalysis_FreeBounds(Macad::Occt::TopoDS_Shape^ shape);
-    ShapeAnalysis_FreeBounds(Macad::Occt::ShapeAnalysis_FreeBounds^ parameter1);
     /// <summary>
     /// Returns compound of closed wires out of free edges.
     /// </summary>
@@ -1540,20 +1518,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theSeq, bool isStart);
-        Iterator(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theSeq);
-        Iterator(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::ShapeAnalysis_FreeBoundData^ Value();
         Macad::Occt::ShapeAnalysis_FreeBoundData^ ChangeValue();
         bool IsEqual(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     ShapeAnalysis_HSequenceOfFreeBounds();
     ShapeAnalysis_HSequenceOfFreeBounds(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theOther);
-    ShapeAnalysis_HSequenceOfFreeBounds(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ parameter1);
     Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ Sequence();
+    void Append(Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem);
     void Append(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSequence);
     Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ ChangeSequence();
     int Size();
@@ -1568,17 +1544,9 @@ public:
     void Clear();
     Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ Assign(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theOther);
     void Remove(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem);
-    void Append(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theSeq);
     void Prepend(Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem);
-    void Prepend(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theSeq);
     void InsertAfter(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator^ thePosition, Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem);
     void Split(int theIndex, Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theSeq);
     Macad::Occt::ShapeAnalysis_FreeBoundData^ First();
     Macad::Occt::ShapeAnalysis_FreeBoundData^ ChangeFirst();
@@ -1677,7 +1645,6 @@ public:
     /// <shape> should be a compound of shells.
     /// </summary>
     ShapeAnalysis_FreeBoundsProperties(Macad::Occt::TopoDS_Shape^ shape);
-    ShapeAnalysis_FreeBoundsProperties(Macad::Occt::ShapeAnalysis_FreeBoundsProperties^ parameter1);
     /// <summary>
     /// Initializes the object with given parameters.
     /// <shape> should be a compound of faces.
@@ -1810,7 +1777,6 @@ public:
 
 public:
     ShapeAnalysis_Geom();
-    ShapeAnalysis_Geom(Macad::Occt::ShapeAnalysis_Geom^ parameter1);
     /// <summary>
     /// Builds a plane out of a set of points in array
     /// Returns in <dmax> the maximal distance between the produced
@@ -1947,7 +1913,6 @@ public:
     /// Initialize fields and call ClearFlags()
     /// </summary>
     ShapeAnalysis_ShapeContents();
-    ShapeAnalysis_ShapeContents(Macad::Occt::ShapeAnalysis_ShapeContents^ parameter1);
     /// <summary>
     /// Clears all accumulated statistics
     /// </summary>
@@ -2041,7 +2006,6 @@ public:
     /// Empty constructor
     /// </summary>
     ShapeAnalysis_ShapeTolerance();
-    ShapeAnalysis_ShapeTolerance(Macad::Occt::ShapeAnalysis_ShapeTolerance^ parameter1);
     /// <summary>
     /// Determines a tolerance from the ones stored in a shape
     /// Remark : calls InitTolerance and AddTolerance,
@@ -2155,7 +2119,6 @@ public:
     /// Empty constructor
     /// </summary>
     ShapeAnalysis_Shell();
-    ShapeAnalysis_Shell(Macad::Occt::ShapeAnalysis_Shell^ parameter1);
     /// <summary>
     /// Clears data about loaded shells and performed checks
     /// </summary>
@@ -2641,7 +2604,6 @@ public:
     /// Creates a tool and initializes it with edge and face
     /// </summary>
     ShapeAnalysis_TransferParameters(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F);
-    ShapeAnalysis_TransferParameters(Macad::Occt::ShapeAnalysis_TransferParameters^ parameter1);
     /// <summary>
     /// Initialize a tool with edge and face
     /// </summary>
@@ -2731,7 +2693,6 @@ public:
     /// </summary>
     ShapeAnalysis_TransferParametersProj();
     ShapeAnalysis_TransferParametersProj(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F);
-    ShapeAnalysis_TransferParametersProj(Macad::Occt::ShapeAnalysis_TransferParametersProj^ parameter1);
     void Init(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F);
     /// <summary>
     /// Transfers parameters given by sequence Params from 3d curve
@@ -2853,7 +2814,6 @@ public:
     /// Warning: Parameter <theTolerance> is not used in algorithm.
     /// </summary>
     ShapeAnalysis_WireOrder(bool theMode3D, double theTolerance);
-    ShapeAnalysis_WireOrder(Macad::Occt::ShapeAnalysis_WireOrder^ parameter1);
     /// <summary>
     /// Sets new values.
     /// Clears the edge list if the mode (<theMode3D> or <theModeBoth> ) changes.
@@ -3059,7 +3019,6 @@ public:
     /// </summary>
     ShapeAnalysis_Wire(Macad::Occt::TopoDS_Wire^ wire, Macad::Occt::TopoDS_Face^ face, double precision);
     /* Method skipped due to unknown mapping: void ShapeAnalysis_Wire(ShapeExtend_WireData sbwd, TopoDS_Face face, double precision, ) */
-    ShapeAnalysis_Wire(Macad::Occt::ShapeAnalysis_Wire^ parameter1);
     /// <summary>
     /// Initializes the object with standard TopoDS_Wire, face
     /// and precision
@@ -3724,7 +3683,6 @@ public:
     /// Empty constructor
     /// </summary>
     ShapeAnalysis_WireVertex();
-    ShapeAnalysis_WireVertex(Macad::Occt::ShapeAnalysis_WireVertex^ parameter1);
     void Init(Macad::Occt::TopoDS_Wire^ wire, double preci);
     /* Method skipped due to unknown mapping: void Init(ShapeExtend_WireData swbd, double preci, ) */
     void Load(Macad::Occt::TopoDS_Wire^ wire);

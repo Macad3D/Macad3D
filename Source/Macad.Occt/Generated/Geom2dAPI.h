@@ -73,7 +73,6 @@ public:
     /// of solutions. If this algorithm fails, NbExtrema returns 0.
     /// </summary>
     Geom2dAPI_ExtremaCurveCurve(Macad::Occt::Geom2d_Curve^ C1, Macad::Occt::Geom2d_Curve^ C2, double U1min, double U1max, double U2min, double U2max);
-    Geom2dAPI_ExtremaCurveCurve(Macad::Occt::Geom2dAPI_ExtremaCurveCurve^ parameter1);
     /// <summary>
     /// Returns the number of extrema computed by this algorithm.
     /// Note: if this algorithm fails, NbExtrema returns 0.
@@ -216,7 +215,6 @@ public:
     /// NbSegments return 0.
     /// </summary>
     Geom2dAPI_InterCurveCurve(Macad::Occt::Geom2d_Curve^ C1);
-    Geom2dAPI_InterCurveCurve(Macad::Occt::Geom2dAPI_InterCurveCurve^ parameter1);
     /// <summary>
     /// Initializes an algorithm with the
     /// given arguments and computes the intersections between the curves C1. and C2.
@@ -353,7 +351,6 @@ public:
     /// parameter to close the curve
     /// </summary>
     Geom2dAPI_Interpolate(Macad::Occt::TColgp_HArray1OfPnt2d^ Points, Macad::Occt::TColStd_HArray1OfReal^ Parameters, bool PeriodicFlag, double Tolerance);
-    Geom2dAPI_Interpolate(Macad::Occt::Geom2dAPI_Interpolate^ parameter1);
     /// <summary>
     /// Assigns this constrained BSpline curve to be
     /// tangential to vectors InitialTangent and FinalTangent
@@ -719,7 +716,6 @@ public:
     /// Weight1*CurveLength + Weight2*Curvature + Weight3*Torsion
     /// </summary>
     Geom2dAPI_PointsToBSpline(Macad::Occt::TColgp_Array1OfPnt2d^ Points, double Weight1, double Weight2, double Weight3);
-    Geom2dAPI_PointsToBSpline(Macad::Occt::Geom2dAPI_PointsToBSpline^ parameter1);
     /// <summary>
     /// Approximate  a BSpline  Curve passing  through  an
     /// array of  Point.  The resulting BSpline will  have
@@ -1032,7 +1028,6 @@ public:
     /// projection fails, NbPoints returns 0.
     /// </summary>
     Geom2dAPI_ProjectPointOnCurve(Macad::Occt::Pnt2d P, Macad::Occt::Geom2d_Curve^ Curve, double Umin, double Usup);
-    Geom2dAPI_ProjectPointOnCurve(Macad::Occt::Geom2dAPI_ProjectPointOnCurve^ parameter1);
     /// <summary>
     /// Initializes this algorithm with the given arguments, and
     /// computes the orthogonal  projections  of a  point  <P> on a curve <Curve>

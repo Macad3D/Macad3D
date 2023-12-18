@@ -13,6 +13,23 @@ namespace Macad
 namespace Occt
 {
 //---------------------------------------------------------------------
+//  Enum  AIS_SelectionScheme
+//---------------------------------------------------------------------
+/// <summary>
+/// Sets selection schemes for interactive contexts.
+/// </summary>
+public enum class AIS_SelectionScheme
+{
+    UNKNOWN = -1,
+    Replace = 0,
+    Add = 1,
+    Remove = 2,
+    XOR = 3,
+    Clear = 4,
+    ReplaceExtra = 5
+}; // enum  class AIS_SelectionScheme
+
+//---------------------------------------------------------------------
 //  Enum  AIS_KindOfInteractive
 //---------------------------------------------------------------------
 /// <summary>
@@ -58,23 +75,6 @@ public enum class AIS_DisplayMode
     WireFrame = 0,
     Shaded = 1
 }; // enum  class AIS_DisplayMode
-
-//---------------------------------------------------------------------
-//  Enum  AIS_SelectionScheme
-//---------------------------------------------------------------------
-/// <summary>
-/// Sets selection schemes for interactive contexts.
-/// </summary>
-public enum class AIS_SelectionScheme
-{
-    UNKNOWN = -1,
-    Replace = 0,
-    Add = 1,
-    Remove = 2,
-    XOR = 3,
-    Clear = 4,
-    ReplaceExtra = 5
-}; // enum  class AIS_SelectionScheme
 
 //---------------------------------------------------------------------
 //  Enum  AIS_SelectStatus
@@ -375,8 +375,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::AIS_DataMapOfIOStatus^ theMap);
-        Iterator(Macad::Occt::AIS_DataMapOfIOStatus::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::AIS_GlobalStatus^ Value();
@@ -387,7 +385,6 @@ public:
     AIS_DataMapOfIOStatus();
     AIS_DataMapOfIOStatus(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     AIS_DataMapOfIOStatus(int theNbBuckets);
-    AIS_DataMapOfIOStatus(Macad::Occt::AIS_DataMapOfIOStatus^ theOther);
     void Exchange(Macad::Occt::AIS_DataMapOfIOStatus^ theOther);
     Macad::Occt::AIS_DataMapOfIOStatus^ Assign(Macad::Occt::AIS_DataMapOfIOStatus^ theOther);
     void ReSize(int N);
@@ -397,12 +394,10 @@ public:
     bool UnBind(Macad::Occt::AIS_InteractiveObject^ theKey);
     Macad::Occt::AIS_GlobalStatus^ Seek(Macad::Occt::AIS_InteractiveObject^ theKey);
     Macad::Occt::AIS_GlobalStatus^ Find(Macad::Occt::AIS_InteractiveObject^ theKey);
-    bool Find(Macad::Occt::AIS_InteractiveObject^ theKey, Macad::Occt::AIS_GlobalStatus^ theValue);
     Macad::Occt::AIS_GlobalStatus^ ChangeSeek(Macad::Occt::AIS_InteractiveObject^ theKey);
     Macad::Occt::AIS_GlobalStatus^ ChangeFind(Macad::Occt::AIS_InteractiveObject^ theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class AIS_DataMapOfIOStatus
 
@@ -464,8 +459,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::AIS_ListOfInteractive::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::AIS_InteractiveObject^ Value();
@@ -474,7 +467,6 @@ public:
 
     AIS_ListOfInteractive();
     AIS_ListOfInteractive(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    AIS_ListOfInteractive(Macad::Occt::AIS_ListOfInteractive^ theOther);
     int Size();
     Macad::Occt::AIS_ListOfInteractive^ Assign(Macad::Occt::AIS_ListOfInteractive^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -482,16 +474,11 @@ public:
     Macad::Occt::AIS_InteractiveObject^ First();
     Macad::Occt::AIS_InteractiveObject^ Last();
     Macad::Occt::AIS_InteractiveObject^ Append(Macad::Occt::AIS_InteractiveObject^ theItem);
-    void Append(Macad::Occt::AIS_InteractiveObject^ theItem, Macad::Occt::AIS_ListOfInteractive::Iterator^ theIter);
-    void Append(Macad::Occt::AIS_ListOfInteractive^ theOther);
     Macad::Occt::AIS_InteractiveObject^ Prepend(Macad::Occt::AIS_InteractiveObject^ theItem);
-    void Prepend(Macad::Occt::AIS_ListOfInteractive^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::AIS_ListOfInteractive::Iterator^ theIter);
     Macad::Occt::AIS_InteractiveObject^ InsertBefore(Macad::Occt::AIS_InteractiveObject^ theItem, Macad::Occt::AIS_ListOfInteractive::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::AIS_ListOfInteractive^ theOther, Macad::Occt::AIS_ListOfInteractive::Iterator^ theIter);
     Macad::Occt::AIS_InteractiveObject^ InsertAfter(Macad::Occt::AIS_InteractiveObject^ theItem, Macad::Occt::AIS_ListOfInteractive::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::AIS_ListOfInteractive^ theOther, Macad::Occt::AIS_ListOfInteractive::Iterator^ theIter);
     void Reverse();
 }; // class AIS_ListOfInteractive
 
@@ -527,7 +514,6 @@ public:
 public:
     AIS_ListIteratorOfListOfInteractive();
     AIS_ListIteratorOfListOfInteractive(Macad::Occt::NCollection_BaseList^ theList);
-    AIS_ListIteratorOfListOfInteractive(Macad::Occt::AIS_ListIteratorOfListOfInteractive^ parameter1);
     bool More();
     void Next();
     Macad::Occt::AIS_InteractiveObject^ Value();
@@ -592,24 +578,22 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::AIS_NArray1OfEntityOwner^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::AIS_NArray1OfEntityOwner^ theArray);
-        Iterator(Macad::Occt::AIS_NArray1OfEntityOwner::Iterator^ parameter1);
-        void Init(Macad::Occt::AIS_NArray1OfEntityOwner^ theArray);
+        void Init(Macad::Occt::AIS_NArray1OfEntityOwner^ theList);
         bool More();
+        void Initialize(Macad::Occt::AIS_NArray1OfEntityOwner^ theList);
+        /* Method skipped due to unknown mapping: iterator ValueIter() */
+        /* Method skipped due to unknown mapping: iterator ChangeValueIter() */
+        /* Method skipped due to unknown mapping: iterator EndIter() */
+        /* Method skipped due to unknown mapping: iterator ChangeEndIter() */
         void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::AIS_NArray1OfEntityOwner::Iterator^ theOther);
         Macad::Occt::SelectMgr_EntityOwner^ Value();
         Macad::Occt::SelectMgr_EntityOwner^ ChangeValue();
-        bool IsEqual(Macad::Occt::AIS_NArray1OfEntityOwner::Iterator^ theOther);
     }; // class Iterator
 
     AIS_NArray1OfEntityOwner();
     AIS_NArray1OfEntityOwner(int theLower, int theUpper);
-    AIS_NArray1OfEntityOwner(Macad::Occt::AIS_NArray1OfEntityOwner^ theOther);
+    /* Method skipped due to unknown mapping: void AIS_NArray1OfEntityOwner(allocator_type theAlloc, int theLower, int theUpper, ) */
+    AIS_NArray1OfEntityOwner(Macad::Occt::SelectMgr_EntityOwner^ theBegin, int theLower, int theUpper, bool theUseBuffer);
     AIS_NArray1OfEntityOwner(Macad::Occt::SelectMgr_EntityOwner^ theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::SelectMgr_EntityOwner^ theValue);
     int Size();
@@ -617,8 +601,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::AIS_NArray1OfEntityOwner^ Assign(Macad::Occt::AIS_NArray1OfEntityOwner^ theOther);
     Macad::Occt::AIS_NArray1OfEntityOwner^ Move(Macad::Occt::AIS_NArray1OfEntityOwner^ theOther);
     Macad::Occt::SelectMgr_EntityOwner^ First();
@@ -628,7 +610,10 @@ public:
     virtual Macad::Occt::SelectMgr_EntityOwner^ Value(int theIndex);
     Macad::Occt::SelectMgr_EntityOwner^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::SelectMgr_EntityOwner^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::SelectMgr_EntityOwner^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class AIS_NArray1OfEntityOwner
@@ -691,8 +676,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::AIS_NListOfEntityOwner::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::SelectMgr_EntityOwner^ Value();
@@ -701,7 +684,6 @@ public:
 
     AIS_NListOfEntityOwner();
     AIS_NListOfEntityOwner(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    AIS_NListOfEntityOwner(Macad::Occt::AIS_NListOfEntityOwner^ theOther);
     int Size();
     Macad::Occt::AIS_NListOfEntityOwner^ Assign(Macad::Occt::AIS_NListOfEntityOwner^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -709,16 +691,11 @@ public:
     Macad::Occt::SelectMgr_EntityOwner^ First();
     Macad::Occt::SelectMgr_EntityOwner^ Last();
     Macad::Occt::SelectMgr_EntityOwner^ Append(Macad::Occt::SelectMgr_EntityOwner^ theItem);
-    void Append(Macad::Occt::SelectMgr_EntityOwner^ theItem, Macad::Occt::AIS_NListOfEntityOwner::Iterator^ theIter);
-    void Append(Macad::Occt::AIS_NListOfEntityOwner^ theOther);
     Macad::Occt::SelectMgr_EntityOwner^ Prepend(Macad::Occt::SelectMgr_EntityOwner^ theItem);
-    void Prepend(Macad::Occt::AIS_NListOfEntityOwner^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::AIS_NListOfEntityOwner::Iterator^ theIter);
     Macad::Occt::SelectMgr_EntityOwner^ InsertBefore(Macad::Occt::SelectMgr_EntityOwner^ theItem, Macad::Occt::AIS_NListOfEntityOwner::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::AIS_NListOfEntityOwner^ theOther, Macad::Occt::AIS_NListOfEntityOwner::Iterator^ theIter);
     Macad::Occt::SelectMgr_EntityOwner^ InsertAfter(Macad::Occt::SelectMgr_EntityOwner^ theItem, Macad::Occt::AIS_NListOfEntityOwner::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::AIS_NListOfEntityOwner^ theOther, Macad::Occt::AIS_NListOfEntityOwner::Iterator^ theIter);
     void Reverse();
 }; // class AIS_NListOfEntityOwner
 
@@ -780,8 +757,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::AIS_DataMapOfShapeDrawer^ theMap);
-        Iterator(Macad::Occt::AIS_DataMapOfShapeDrawer::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::AIS_ColoredDrawer^ Value();
@@ -792,7 +767,6 @@ public:
     AIS_DataMapOfShapeDrawer();
     AIS_DataMapOfShapeDrawer(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     AIS_DataMapOfShapeDrawer(int theNbBuckets);
-    AIS_DataMapOfShapeDrawer(Macad::Occt::AIS_DataMapOfShapeDrawer^ theOther);
     void Exchange(Macad::Occt::AIS_DataMapOfShapeDrawer^ theOther);
     Macad::Occt::AIS_DataMapOfShapeDrawer^ Assign(Macad::Occt::AIS_DataMapOfShapeDrawer^ theOther);
     void ReSize(int N);
@@ -802,12 +776,10 @@ public:
     bool UnBind(Macad::Occt::TopoDS_Shape^ theKey);
     Macad::Occt::AIS_ColoredDrawer^ Seek(Macad::Occt::TopoDS_Shape^ theKey);
     Macad::Occt::AIS_ColoredDrawer^ Find(Macad::Occt::TopoDS_Shape^ theKey);
-    bool Find(Macad::Occt::TopoDS_Shape^ theKey, Macad::Occt::AIS_ColoredDrawer^ theValue);
     Macad::Occt::AIS_ColoredDrawer^ ChangeSeek(Macad::Occt::TopoDS_Shape^ theKey);
     Macad::Occt::AIS_ColoredDrawer^ ChangeFind(Macad::Occt::TopoDS_Shape^ theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class AIS_DataMapOfShapeDrawer
 
@@ -872,8 +844,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::AIS_MouseGestureMap^ theMap);
-        Iterator(Macad::Occt::AIS_MouseGestureMap::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::AIS_MouseGesture Value();
@@ -884,7 +854,6 @@ public:
     AIS_MouseGestureMap();
     AIS_MouseGestureMap(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     AIS_MouseGestureMap(int theNbBuckets);
-    AIS_MouseGestureMap(Macad::Occt::AIS_MouseGestureMap^ theOther);
     void Exchange(Macad::Occt::AIS_MouseGestureMap^ theOther);
     Macad::Occt::AIS_MouseGestureMap^ Assign(Macad::Occt::AIS_MouseGestureMap^ theOther);
     void ReSize(int N);
@@ -894,12 +863,10 @@ public:
     bool UnBind(unsigned int theKey);
     Macad::Occt::AIS_MouseGesture Seek(unsigned int theKey);
     Macad::Occt::AIS_MouseGesture Find(unsigned int theKey);
-    bool Find(unsigned int theKey, Macad::Occt::AIS_MouseGesture% theValue);
     Macad::Occt::AIS_MouseGesture ChangeSeek(unsigned int theKey);
     Macad::Occt::AIS_MouseGesture ChangeFind(unsigned int theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class AIS_MouseGestureMap
 
@@ -961,8 +928,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::AIS_MouseSelectionSchemeMap^ theMap);
-        Iterator(Macad::Occt::AIS_MouseSelectionSchemeMap::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::AIS_SelectionScheme Value();
@@ -973,7 +938,6 @@ public:
     AIS_MouseSelectionSchemeMap();
     AIS_MouseSelectionSchemeMap(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     AIS_MouseSelectionSchemeMap(int theNbBuckets);
-    AIS_MouseSelectionSchemeMap(Macad::Occt::AIS_MouseSelectionSchemeMap^ theOther);
     void Exchange(Macad::Occt::AIS_MouseSelectionSchemeMap^ theOther);
     Macad::Occt::AIS_MouseSelectionSchemeMap^ Assign(Macad::Occt::AIS_MouseSelectionSchemeMap^ theOther);
     void ReSize(int N);
@@ -983,12 +947,10 @@ public:
     bool UnBind(unsigned int theKey);
     Macad::Occt::AIS_SelectionScheme Seek(unsigned int theKey);
     Macad::Occt::AIS_SelectionScheme Find(unsigned int theKey);
-    bool Find(unsigned int theKey, Macad::Occt::AIS_SelectionScheme% theValue);
     Macad::Occt::AIS_SelectionScheme ChangeSeek(unsigned int theKey);
     Macad::Occt::AIS_SelectionScheme ChangeFind(unsigned int theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class AIS_MouseSelectionSchemeMap
 
@@ -1062,7 +1024,6 @@ public:
     }
 
     AIS_AnimationProgress();
-    AIS_AnimationProgress(Macad::Occt::AIS_AnimationProgress^ parameter1);
 }; // class AIS_AnimationProgress
 
 //---------------------------------------------------------------------
@@ -1138,7 +1099,6 @@ public:
     /// Empty constructor.
     /// </summary>
     AIS_WalkPart();
-    AIS_WalkPart(Macad::Occt::AIS_WalkPart^ parameter1);
     /// <summary>
     /// Return TRUE if delta is empty.
     /// </summary>
@@ -1182,7 +1142,6 @@ public:
     /// Empty constructor.
     /// </summary>
     AIS_WalkDelta();
-    AIS_WalkDelta(Macad::Occt::AIS_WalkDelta^ parameter1);
     /// <summary>
     /// Return jumping state.
     /// </summary>
@@ -1308,7 +1267,6 @@ public:
 
 public:
     AIS();
-    AIS(Macad::Occt::AIS^ parameter1);
 }; // class AIS
 
 //---------------------------------------------------------------------
@@ -1356,7 +1314,6 @@ public:
     /// Constructs the interactive context object defined by the principal viewer MainViewer.
     /// </summary>
     AIS_InteractiveContext(Macad::Occt::V3d_Viewer^ MainViewer);
-    AIS_InteractiveContext(Macad::Occt::AIS_InteractiveContext^ parameter1);
     /// <summary>
     /// Returns the display status of the entity anIobj.
     /// This will be one of the following:
@@ -2871,7 +2828,6 @@ public:
     }
 
 public:
-    AIS_InteractiveObject(Macad::Occt::AIS_InteractiveObject^ parameter1);
     /// <summary>
     /// Returns the kind of Interactive Object; AIS_KindOfInteractive_None by default.
     /// </summary>
@@ -3085,7 +3041,6 @@ public:
     /// Creates empty animation.
     /// </summary>
     AIS_Animation(Macad::Occt::TCollection_AsciiString^ theAnimationName);
-    AIS_Animation(Macad::Occt::AIS_Animation^ parameter1);
     /// <summary>
     /// Animation name.
     /// </summary>
@@ -3248,71 +3203,6 @@ public:
 }; // class AIS_Animation
 
 //---------------------------------------------------------------------
-//  Class  AIS_AnimationCamera
-//---------------------------------------------------------------------
-/// <summary>
-/// Camera animation.
-/// </summary>
-public ref class AIS_AnimationCamera sealed
-    : public Macad::Occt::AIS_Animation
-{
-
-#ifdef Include_AIS_AnimationCamera_h
-public:
-    Include_AIS_AnimationCamera_h
-#endif
-
-public:
-    AIS_AnimationCamera(::AIS_AnimationCamera* nativeInstance)
-        : Macad::Occt::AIS_Animation( nativeInstance )
-    {}
-
-    AIS_AnimationCamera(::AIS_AnimationCamera& nativeInstance)
-        : Macad::Occt::AIS_Animation( nativeInstance )
-    {}
-
-    property ::AIS_AnimationCamera* NativeInstance
-    {
-        ::AIS_AnimationCamera* get()
-        {
-            return static_cast<::AIS_AnimationCamera*>(_NativeInstance);
-        }
-    }
-
-public:
-    /// <summary>
-    /// Main constructor.
-    /// </summary>
-    AIS_AnimationCamera(Macad::Occt::TCollection_AsciiString^ theAnimationName, Macad::Occt::V3d_View^ theView);
-    AIS_AnimationCamera(Macad::Occt::AIS_AnimationCamera^ parameter1);
-    /// <summary>
-    /// Return the target view.
-    /// </summary>
-    Macad::Occt::V3d_View^ View();
-    /// <summary>
-    /// Set target view.
-    /// </summary>
-    void SetView(Macad::Occt::V3d_View^ theView);
-    /// <summary>
-    /// Return camera start position.
-    /// </summary>
-    Macad::Occt::Graphic3d_Camera^ CameraStart();
-    /// <summary>
-    /// Define camera start position.
-    /// </summary>
-    void SetCameraStart(Macad::Occt::Graphic3d_Camera^ theCameraStart);
-    /// <summary>
-    /// Return camera end position.
-    /// </summary>
-    Macad::Occt::Graphic3d_Camera^ CameraEnd();
-    /// <summary>
-    /// Define camera end position.
-    /// </summary>
-    void SetCameraEnd(Macad::Occt::Graphic3d_Camera^ theCameraEnd);
-    static Macad::Occt::AIS_AnimationCamera^ CreateDowncasted(::AIS_AnimationCamera* instance);
-}; // class AIS_AnimationCamera
-
-//---------------------------------------------------------------------
 //  Class  AIS_GlobalStatus
 //---------------------------------------------------------------------
 /// <summary>
@@ -3349,7 +3239,6 @@ public:
     /// Default constructor.
     /// </summary>
     AIS_GlobalStatus();
-    AIS_GlobalStatus(Macad::Occt::AIS_GlobalStatus^ parameter1);
     /// <summary>
     /// Returns the display mode.
     /// </summary>
@@ -3436,7 +3325,6 @@ public:
     /// creates a new selection.
     /// </summary>
     AIS_Selection();
-    AIS_Selection(Macad::Occt::AIS_Selection^ parameter1);
     /// <summary>
     /// removes all the object of the selection.
     /// </summary>
@@ -3445,7 +3333,22 @@ public:
     /// if the object is not yet in the selection, it will be added.
     /// if the object is already in the selection, it will be removed.
     /// </summary>
-    Macad::Occt::AIS_SelectStatus Select(Macad::Occt::SelectMgr_EntityOwner^ theObject);
+    /// <param name="in]">
+    /// theOwner element to change selection state
+    /// </param>
+    /// <param name="in]">
+    /// theFilter context filter
+    /// </param>
+    /// <param name="in]">
+    /// theSelScheme selection scheme
+    /// </param>
+    /// <param name="in]">
+    /// theIsDetected flag of object detection
+    /// </param>
+    /// <returns>
+    /// result of selection
+    /// </returns>
+    Macad::Occt::AIS_SelectStatus Select(Macad::Occt::SelectMgr_EntityOwner^ theOwner, Macad::Occt::SelectMgr_Filter^ theFilter, Macad::Occt::AIS_SelectionScheme theSelScheme, bool theIsDetected);
     /// <summary>
     /// the object is always add int the selection.
     /// faster when the number of objects selected is great.
@@ -3454,7 +3357,16 @@ public:
     /// <summary>
     /// clears the selection and adds the object in the selection.
     /// </summary>
-    void ClearAndSelect(Macad::Occt::SelectMgr_EntityOwner^ theObject);
+    /// <param name="in]">
+    /// theObject element to change selection state
+    /// </param>
+    /// <param name="in]">
+    /// theFilter context filter
+    /// </param>
+    /// <param name="in]">
+    /// theIsDetected flag of object detection
+    /// </param>
+    void ClearAndSelect(Macad::Occt::SelectMgr_EntityOwner^ theObject, Macad::Occt::SelectMgr_Filter^ theFilter, bool theIsDetected);
     /// <summary>
     /// checks if the object is in the selection.
     /// </summary>
@@ -3507,13 +3419,176 @@ public:
 }; // class AIS_Selection
 
 //---------------------------------------------------------------------
+//  Class  AIS_BaseAnimationObject
+//---------------------------------------------------------------------
+/// <summary>
+/// Animation defining object transformation.
+/// </summary>
+public ref class AIS_BaseAnimationObject
+    : public Macad::Occt::AIS_Animation
+{
+
+#ifdef Include_AIS_BaseAnimationObject_h
+public:
+    Include_AIS_BaseAnimationObject_h
+#endif
+
+protected:
+    AIS_BaseAnimationObject(InitMode init)
+        : Macad::Occt::AIS_Animation( init )
+    {}
+
+public:
+    AIS_BaseAnimationObject(::AIS_BaseAnimationObject* nativeInstance)
+        : Macad::Occt::AIS_Animation( nativeInstance )
+    {}
+
+    AIS_BaseAnimationObject(::AIS_BaseAnimationObject& nativeInstance)
+        : Macad::Occt::AIS_Animation( nativeInstance )
+    {}
+
+    property ::AIS_BaseAnimationObject* NativeInstance
+    {
+        ::AIS_BaseAnimationObject* get()
+        {
+            return static_cast<::AIS_BaseAnimationObject*>(_NativeInstance);
+        }
+    }
+
+public:
+    static Macad::Occt::AIS_BaseAnimationObject^ CreateDowncasted(::AIS_BaseAnimationObject* instance);
+}; // class AIS_BaseAnimationObject
+
+//---------------------------------------------------------------------
+//  Class  AIS_AnimationAxisRotation
+//---------------------------------------------------------------------
+/// <summary>
+/// Animation defining object transformation.
+/// </summary>
+public ref class AIS_AnimationAxisRotation sealed
+    : public Macad::Occt::AIS_BaseAnimationObject
+{
+
+#ifdef Include_AIS_AnimationAxisRotation_h
+public:
+    Include_AIS_AnimationAxisRotation_h
+#endif
+
+public:
+    AIS_AnimationAxisRotation(::AIS_AnimationAxisRotation* nativeInstance)
+        : Macad::Occt::AIS_BaseAnimationObject( nativeInstance )
+    {}
+
+    AIS_AnimationAxisRotation(::AIS_AnimationAxisRotation& nativeInstance)
+        : Macad::Occt::AIS_BaseAnimationObject( nativeInstance )
+    {}
+
+    property ::AIS_AnimationAxisRotation* NativeInstance
+    {
+        ::AIS_AnimationAxisRotation* get()
+        {
+            return static_cast<::AIS_AnimationAxisRotation*>(_NativeInstance);
+        }
+    }
+
+public:
+    /// <summary>
+    /// Constructor with initialization.
+    /// </summary>
+    /// <param name="in]">
+    /// theAnimationName animation identifier
+    /// </param>
+    /// <param name="in]">
+    /// theContext       interactive context where object have been displayed
+    /// </param>
+    /// <param name="in]">
+    /// theObject        object to apply rotation
+    /// </param>
+    /// <param name="in]">
+    /// theAxis          rotation axis
+    /// </param>
+    /// <param name="in]">
+    /// theAngleStart    rotation angle at the start of animation
+    /// </param>
+    /// <param name="in]">
+    /// theAngleEnd      rotation angle at the end   of animation
+    /// </param>
+    AIS_AnimationAxisRotation(Macad::Occt::TCollection_AsciiString^ theAnimationName, Macad::Occt::AIS_InteractiveContext^ theContext, Macad::Occt::AIS_InteractiveObject^ theObject, Macad::Occt::Ax1 theAxis, double theAngleStart, double theAngleEnd);
+    static Macad::Occt::AIS_AnimationAxisRotation^ CreateDowncasted(::AIS_AnimationAxisRotation* instance);
+}; // class AIS_AnimationAxisRotation
+
+//---------------------------------------------------------------------
+//  Class  AIS_AnimationCamera
+//---------------------------------------------------------------------
+/// <summary>
+/// Camera animation.
+/// </summary>
+public ref class AIS_AnimationCamera sealed
+    : public Macad::Occt::AIS_Animation
+{
+
+#ifdef Include_AIS_AnimationCamera_h
+public:
+    Include_AIS_AnimationCamera_h
+#endif
+
+public:
+    AIS_AnimationCamera(::AIS_AnimationCamera* nativeInstance)
+        : Macad::Occt::AIS_Animation( nativeInstance )
+    {}
+
+    AIS_AnimationCamera(::AIS_AnimationCamera& nativeInstance)
+        : Macad::Occt::AIS_Animation( nativeInstance )
+    {}
+
+    property ::AIS_AnimationCamera* NativeInstance
+    {
+        ::AIS_AnimationCamera* get()
+        {
+            return static_cast<::AIS_AnimationCamera*>(_NativeInstance);
+        }
+    }
+
+public:
+    /// <summary>
+    /// Main constructor.
+    /// </summary>
+    AIS_AnimationCamera(Macad::Occt::TCollection_AsciiString^ theAnimationName, Macad::Occt::V3d_View^ theView);
+    /// <summary>
+    /// Return the target view.
+    /// </summary>
+    Macad::Occt::V3d_View^ View();
+    /// <summary>
+    /// Set target view.
+    /// </summary>
+    void SetView(Macad::Occt::V3d_View^ theView);
+    /// <summary>
+    /// Return camera start position.
+    /// </summary>
+    Macad::Occt::Graphic3d_Camera^ CameraStart();
+    /// <summary>
+    /// Define camera start position.
+    /// </summary>
+    void SetCameraStart(Macad::Occt::Graphic3d_Camera^ theCameraStart);
+    /// <summary>
+    /// Return camera end position.
+    /// </summary>
+    Macad::Occt::Graphic3d_Camera^ CameraEnd();
+    /// <summary>
+    /// Define camera end position.
+    /// </summary>
+    void SetCameraEnd(Macad::Occt::Graphic3d_Camera^ theCameraEnd);
+    static Macad::Occt::AIS_AnimationCamera^ CreateDowncasted(::AIS_AnimationCamera* instance);
+}; // class AIS_AnimationCamera
+
+//---------------------------------------------------------------------
 //  Class  AIS_AnimationObject
 //---------------------------------------------------------------------
 /// <summary>
 /// Animation defining object transformation.
 /// </summary>
 public ref class AIS_AnimationObject sealed
-    : public Macad::Occt::AIS_Animation
+    : public Macad::Occt::AIS_BaseAnimationObject
 {
 
 #ifdef Include_AIS_AnimationObject_h
@@ -3523,11 +3598,11 @@ public:
 
 public:
     AIS_AnimationObject(::AIS_AnimationObject* nativeInstance)
-        : Macad::Occt::AIS_Animation( nativeInstance )
+        : Macad::Occt::AIS_BaseAnimationObject( nativeInstance )
     {}
 
     AIS_AnimationObject(::AIS_AnimationObject& nativeInstance)
-        : Macad::Occt::AIS_Animation( nativeInstance )
+        : Macad::Occt::AIS_BaseAnimationObject( nativeInstance )
     {}
 
     property ::AIS_AnimationObject* NativeInstance
@@ -3544,23 +3619,22 @@ public:
     /// Note that start/end transformations specify exactly local transformation of the object,
     /// not the transformation to be applied to existing local transformation.
     /// </summary>
-    /// <param name="theAnimationName">
-    /// animation identifier
+    /// <param name="in]">
+    /// theAnimationName animation identifier
     /// </param>
-    /// <param name="theContext">
-    ///       interactive context where object have been displayed
+    /// <param name="in]">
+    /// theContext       interactive context where object have been displayed
     /// </param>
-    /// <param name="theObject">
-    ///        object to apply local transformation
+    /// <param name="in]">
+    /// theObject        object to apply local transformation
     /// </param>
-    /// <param name="theTrsfStart">
-    ///     local transformation at the start of animation (e.g. theObject->LocalTransformation())
+    /// <param name="in]">
+    /// theTrsfStart     local transformation at the start of animation (e.g. theObject->LocalTransformation())
     /// </param>
-    /// <param name="theTrsfEnd">
-    ///       local transformation at the end   of animation
+    /// <param name="in]">
+    /// theTrsfEnd       local transformation at the end   of animation
     /// </param>
     AIS_AnimationObject(Macad::Occt::TCollection_AsciiString^ theAnimationName, Macad::Occt::AIS_InteractiveContext^ theContext, Macad::Occt::AIS_InteractiveObject^ theObject, Macad::Occt::Trsf theTrsfStart, Macad::Occt::Trsf theTrsfEnd);
-    AIS_AnimationObject(Macad::Occt::AIS_AnimationObject^ parameter1);
     static Macad::Occt::AIS_AnimationObject^ CreateDowncasted(::AIS_AnimationObject* instance);
 }; // class AIS_AnimationObject
 
@@ -3622,7 +3696,6 @@ public:
     /// width attribute aWidth.
     /// </summary>
     AIS_AttributeFilter(double aWidth);
-    AIS_AttributeFilter(Macad::Occt::AIS_AttributeFilter^ parameter1);
     /// <summary>
     /// Indicates that the Interactive Object has the color
     /// setting specified by the argument aCol at construction time.
@@ -3735,7 +3808,6 @@ public:
     /// theLength Optional length of the ray (ray is infinite by default).
     /// </param>
     AIS_Axis(Macad::Occt::Ax1 theAxis);
-    AIS_Axis(Macad::Occt::AIS_Axis^ parameter1);
     /// <summary>
     /// Returns the axis entity aComponent and identifies it
     /// as a component of a shape.
@@ -3830,7 +3902,6 @@ public:
     /// Constructs an empty filter object for bad edges.
     /// </summary>
     AIS_BadEdgeFilter();
-    AIS_BadEdgeFilter(Macad::Occt::AIS_BadEdgeFilter^ parameter1);
     bool ActsOn(Macad::Occt::TopAbs_ShapeEnum aType);
     bool IsOk(Macad::Occt::SelectMgr_EntityOwner^ EO);
     /// <summary>
@@ -3882,7 +3953,6 @@ public:
 
 public:
     AIS_C0RegularityFilter(Macad::Occt::TopoDS_Shape^ aShape);
-    AIS_C0RegularityFilter(Macad::Occt::AIS_C0RegularityFilter^ parameter1);
     bool ActsOn(Macad::Occt::TopAbs_ShapeEnum aType);
     bool IsOk(Macad::Occt::SelectMgr_EntityOwner^ EO);
     static Macad::Occt::AIS_C0RegularityFilter^ CreateDowncasted(::AIS_C0RegularityFilter* instance);
@@ -3938,7 +4008,6 @@ public:
     /// Constructs camera frustum with default configuration.
     /// </summary>
     AIS_CameraFrustum();
-    AIS_CameraFrustum(Macad::Occt::AIS_CameraFrustum^ parameter1);
     /// <summary>
     /// Sets camera frustum.
     /// </summary>
@@ -4015,7 +4084,6 @@ public:
     /// and the type of sensitivity theIsFilledCircleSens.
     /// </summary>
     AIS_Circle(Macad::Occt::Geom_Circle^ theCircle, double theUStart, double theUEnd);
-    AIS_Circle(Macad::Occt::AIS_Circle^ parameter1);
     /// <summary>
     /// Returns index 6 by default.
     /// </summary>
@@ -4155,7 +4223,6 @@ public:
     /// Default constructor.
     /// </summary>
     AIS_ColoredDrawer(Macad::Occt::Prs3d_Drawer^ theLink);
-    AIS_ColoredDrawer(Macad::Occt::AIS_ColoredDrawer^ parameter1);
     bool IsHidden();
     void SetHidden(bool theToHide);
     bool HasOwnMaterial();
@@ -4248,7 +4315,6 @@ public:
     /// edges and vertices.
     /// </summary>
     AIS_Shape(Macad::Occt::TopoDS_Shape^ shap);
-    AIS_Shape(Macad::Occt::AIS_Shape^ parameter1);
     /// <summary>
     /// Returns index 0. This value refers to SHAPE from TopAbs_ShapeEnum
     /// </summary>
@@ -4486,7 +4552,6 @@ public:
     /// Copy constructor
     /// </summary>
     AIS_ColoredShape(Macad::Occt::AIS_Shape^ theShape);
-    AIS_ColoredShape(Macad::Occt::AIS_ColoredShape^ parameter1);
     /// <summary>
     /// Customize properties of specified sub-shape.
     /// The shape will be stored in the map but ignored, if it is not sub-shape of main Shape!
@@ -4603,7 +4668,6 @@ public:
     /// Default constructor.
     /// </summary>
     AIS_ColorScale();
-    AIS_ColorScale(Macad::Occt::AIS_ColorScale^ parameter1);
     /// <summary>
     /// Calculate color according passed value; returns true if value is in range or false, if isn't
     /// </summary>
@@ -5028,7 +5092,6 @@ public:
     /// Top_AllView deactivates hidden line removal.
     /// </summary>
     AIS_ConnectedInteractive();
-    AIS_ConnectedInteractive(Macad::Occt::AIS_ConnectedInteractive^ parameter1);
     /// <summary>
     /// Returns KOI_Object
     /// </summary>
@@ -5163,7 +5226,6 @@ public:
     /// By default, the flag is set to true.
     /// </summary>
     AIS_ExclusionFilter(Macad::Occt::AIS_KindOfInteractive TypeToExclude, int SignatureInType);
-    AIS_ExclusionFilter(Macad::Occt::AIS_ExclusionFilter^ parameter1);
     bool IsOk(Macad::Occt::SelectMgr_EntityOwner^ anObj);
     /// <summary>
     /// Adds the type TypeToExclude to the list of types.
@@ -5212,7 +5274,6 @@ public:
 
 public:
     AIS_GraphicTool();
-    AIS_GraphicTool(Macad::Occt::AIS_GraphicTool^ parameter1);
     static Macad::Occt::Quantity_NameOfColor GetLineColor(Macad::Occt::Prs3d_Drawer^ aDrawer, Macad::Occt::AIS_TypeOfAttribute TheTypeOfAttributes);
     static void GetLineColor(Macad::Occt::Prs3d_Drawer^ aDrawer, Macad::Occt::AIS_TypeOfAttribute TheTypeOfAttributes, Macad::Occt::Quantity_Color^ TheLineColor);
     static double GetLineWidth(Macad::Occt::Prs3d_Drawer^ aDrawer, Macad::Occt::AIS_TypeOfAttribute TheTypeOfAttributes);
@@ -5266,7 +5327,6 @@ public:
     /// Initializes the light source by copying Graphic3d_CLight settings.
     /// </summary>
     AIS_LightSource(Macad::Occt::Graphic3d_CLight^ theLightSource);
-    AIS_LightSource(Macad::Occt::AIS_LightSource^ parameter1);
     /// <summary>
     /// Returns the light.
     /// </summary>
@@ -5424,7 +5484,6 @@ public:
     /// Main constructor.
     /// </summary>
     AIS_LightSourceOwner(Macad::Occt::AIS_LightSource^ theObject);
-    AIS_LightSourceOwner(Macad::Occt::AIS_LightSourceOwner^ parameter1);
     /// <summary>
     /// Handle mouse button click event.
     /// </summary>
@@ -5485,7 +5544,6 @@ public:
     /// and a finishing point aEndPoint for the line.
     /// </summary>
     AIS_Line(Macad::Occt::Geom_Point^ aStartPoint, Macad::Occt::Geom_Point^ aEndPoint);
-    AIS_Line(Macad::Occt::AIS_Line^ parameter1);
     /// <summary>
     /// Returns the signature 5.
     /// </summary>
@@ -5590,20 +5648,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::AIS_ManipulatorObjectSequence^ theSeq, bool isStart);
-        Iterator(Macad::Occt::AIS_ManipulatorObjectSequence^ theSeq);
-        Iterator(Macad::Occt::AIS_ManipulatorObjectSequence::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::AIS_InteractiveObject^ Value();
         Macad::Occt::AIS_InteractiveObject^ ChangeValue();
         bool IsEqual(Macad::Occt::AIS_ManipulatorObjectSequence::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     AIS_ManipulatorObjectSequence();
     /* Method skipped due to unknown mapping: void AIS_ManipulatorObjectSequence(NCollection_Sequence<opencascade::handle<AIS_InteractiveObject>> theOther, ) */
-    AIS_ManipulatorObjectSequence(Macad::Occt::AIS_ManipulatorObjectSequence^ parameter1);
     /* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<AIS_InteractiveObject>> Sequence() */
+    void Append(Macad::Occt::AIS_InteractiveObject^ theItem);
     /* Method skipped due to unknown mapping: void Append(NCollection_Sequence<opencascade::handle<AIS_InteractiveObject>> theSequence, ) */
     /* Method skipped due to unknown mapping: NCollection_Sequence<opencascade::handle<AIS_InteractiveObject>> ChangeSequence() */
     int Size();
@@ -5618,16 +5674,9 @@ public:
     void Clear();
     Macad::Occt::AIS_ManipulatorObjectSequence^ Assign(Macad::Occt::AIS_ManipulatorObjectSequence^ theOther);
     void Remove(Macad::Occt::AIS_ManipulatorObjectSequence::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::AIS_ManipulatorObjectSequence^ theSeq);
     void Prepend(Macad::Occt::AIS_InteractiveObject^ theItem);
-    void Prepend(Macad::Occt::AIS_ManipulatorObjectSequence^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::AIS_InteractiveObject^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::AIS_ManipulatorObjectSequence^ theSeq);
     void InsertAfter(Macad::Occt::AIS_ManipulatorObjectSequence::Iterator^ thePosition, Macad::Occt::AIS_InteractiveObject^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::AIS_ManipulatorObjectSequence^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::AIS_InteractiveObject^ theItem);
     void Split(int theIndex, Macad::Occt::AIS_ManipulatorObjectSequence^ theSeq);
     Macad::Occt::AIS_InteractiveObject^ First();
     Macad::Occt::AIS_InteractiveObject^ ChangeFirst();
@@ -5739,7 +5788,6 @@ public:
     /// Constructs a manipulator object with input location and positions of axes and all parts to be displayed.
     /// </summary>
     AIS_Manipulator(Macad::Occt::Ax2 thePosition);
-    AIS_Manipulator(Macad::Occt::AIS_Manipulator^ parameter1);
     /// <summary>
     /// Disable or enable visual parts for translation, rotation or scaling for some axis.
     /// By default all parts are enabled (will be displayed).
@@ -6028,7 +6076,6 @@ public:
 public:
     AIS_ManipulatorOwner(Macad::Occt::SelectMgr_SelectableObject^ theSelObject, int theIndex, Macad::Occt::AIS_ManipulatorMode theMode, int thePriority);
     AIS_ManipulatorOwner(Macad::Occt::SelectMgr_SelectableObject^ theSelObject, int theIndex, Macad::Occt::AIS_ManipulatorMode theMode);
-    AIS_ManipulatorOwner(Macad::Occt::AIS_ManipulatorOwner^ parameter1);
     void HilightWithColor(Macad::Occt::PrsMgr_PresentationManager^ thePM, Macad::Occt::Prs3d_Drawer^ theStyle, int theMode);
     bool IsHilighted(Macad::Occt::PrsMgr_PresentationManager^ thePM, int theMode);
     void Unhilight(Macad::Occt::PrsMgr_PresentationManager^ thePM, int theMode);
@@ -6079,7 +6126,6 @@ public:
     /// Empty constructor.
     /// </summary>
     AIS_MediaPlayer();
-    AIS_MediaPlayer(Macad::Occt::AIS_MediaPlayer^ parameter1);
     /// <summary>
     /// Open specified file.
     /// </summary>
@@ -6146,7 +6192,6 @@ public:
     /// connections to AIS_Interactive objects.
     /// </summary>
     AIS_MultipleConnectedInteractive();
-    AIS_MultipleConnectedInteractive(Macad::Occt::AIS_MultipleConnectedInteractive^ parameter1);
     /// <summary>
     /// Establishes the connection between the Connected Interactive Object, theInteractive, and its reference.
     /// Locates instance in theLocation and applies specified transformation persistence mode.
@@ -6291,7 +6336,6 @@ public:
     AIS_Plane(Macad::Occt::Geom_Plane^ aComponent, Macad::Occt::Pnt aCenter, Macad::Occt::Pnt aPmin, Macad::Occt::Pnt aPmax);
     AIS_Plane(Macad::Occt::Geom_Axis2Placement^ aComponent, Macad::Occt::AIS_TypeOfPlane aPlaneType, bool aCurrentMode);
     AIS_Plane(Macad::Occt::Geom_Axis2Placement^ aComponent, Macad::Occt::AIS_TypeOfPlane aPlaneType);
-    AIS_Plane(Macad::Occt::AIS_Plane^ parameter1);
     /// <summary>
     /// Same value for x and y directions
     /// </summary>
@@ -6440,7 +6484,6 @@ public:
     /// datum will be built.
     /// </summary>
     AIS_Point(Macad::Occt::Geom_Point^ aComponent);
-    AIS_Point(Macad::Occt::AIS_Point^ parameter1);
     /// <summary>
     /// Returns index 1, the default index for a point.
     /// </summary>
@@ -6545,7 +6588,6 @@ public:
     /// constructed from this and an axis.
     /// </summary>
     AIS_PlaneTrihedron(Macad::Occt::Geom_Plane^ aPlane);
-    AIS_PlaneTrihedron(Macad::Occt::AIS_PlaneTrihedron^ parameter1);
     /// <summary>
     /// Returns the component specified in SetComponent.
     /// </summary>
@@ -6664,7 +6706,6 @@ public:
     /// Constructor.
     /// </summary>
     AIS_PointCloud();
-    AIS_PointCloud(Macad::Occt::AIS_PointCloud^ parameter1);
     /// <summary>
     /// Sets the points from array of points.
     /// Method will not copy the input data - array will be stored as handle.
@@ -6789,7 +6830,6 @@ public:
     /// Main constructor.
     /// </summary>
     AIS_PointCloudOwner(Macad::Occt::AIS_PointCloud^ theOrigin);
-    AIS_PointCloudOwner(Macad::Occt::AIS_PointCloudOwner^ parameter1);
     /// <summary>
     /// Return selected points.
     /// WARNING! Indexation starts with 0 (shifted by -1 comparing to Graphic3d_ArrayOfPoints::Vertice()).
@@ -6984,7 +7024,6 @@ public:
     /// </param>
     /// @warning It binds this object with Graphic3d_ZLayerId_TopOSD layer.
     AIS_RubberBand(Macad::Occt::Quantity_Color^ theLineColor, Macad::Occt::Aspect_TypeOfLine theType, Macad::Occt::Quantity_Color^ theFillColor);
-    AIS_RubberBand(Macad::Occt::AIS_RubberBand^ parameter1);
     /// <summary>
     /// Sets rectangle bounds.
     /// </summary>
@@ -7155,7 +7194,6 @@ public:
     /// Initializes filter for type, aGivenKind.
     /// </summary>
     AIS_TypeFilter(Macad::Occt::AIS_KindOfInteractive aGivenKind);
-    AIS_TypeFilter(Macad::Occt::AIS_TypeFilter^ parameter1);
     /// <summary>
     /// Returns False if the transient is not an Interactive
     /// Object, or if the type of the Interactive Object is not
@@ -7230,7 +7268,6 @@ public:
     /// aGivenKind, in AIS_TypeFilter.
     /// </summary>
     AIS_SignatureFilter(Macad::Occt::AIS_KindOfInteractive aGivenKind, int aGivenSignature);
-    AIS_SignatureFilter(Macad::Occt::AIS_SignatureFilter^ parameter1);
     /// <summary>
     /// Returns False if the transient is not an AIS_InteractiveObject.
     /// Returns False if the signature of InteractiveObject
@@ -7277,7 +7314,6 @@ public:
     /// Default constructor
     /// </summary>
     AIS_TextLabel();
-    AIS_TextLabel(Macad::Occt::AIS_TextLabel^ parameter1);
     /// <summary>
     /// Return TRUE for supported display mode.
     /// </summary>
@@ -7442,7 +7478,6 @@ public:
     /// Initializes the textured shape.
     /// </summary>
     AIS_TexturedShape(Macad::Occt::TopoDS_Shape^ theShape);
-    AIS_TexturedShape(Macad::Occt::AIS_TexturedShape^ parameter1);
     /// <summary>
     /// Sets the texture source. <theTextureFileName> can specify path to texture image or one of the standard predefined textures.
     /// The accepted file types are those used in Image_AlienPixMap with extensions such as rgb, png, jpg and more.
@@ -7688,7 +7723,6 @@ public:
 
 public:
     /* Method skipped due to unknown mapping: void AIS_Triangulation(Poly_Triangulation aTriangulation, ) */
-    AIS_Triangulation(Macad::Occt::AIS_Triangulation^ parameter1);
     /// <summary>
     /// Set the color for each node.
     /// Each 32-bit color is Alpha << 24 + Blue << 16 + Green << 8 + Red
@@ -7775,7 +7809,6 @@ public:
     /// Initializes a trihedron entity.
     /// </summary>
     AIS_Trihedron(Macad::Occt::Geom_Axis2Placement^ theComponent);
-    AIS_Trihedron(Macad::Occt::AIS_Trihedron^ parameter1);
     /// <summary>
     /// Returns datum display mode.
     /// </summary>
@@ -7970,7 +8003,6 @@ public:
     /// Creates an owner of AIS_Trihedron object.
     /// </summary>
     AIS_TrihedronOwner(Macad::Occt::SelectMgr_SelectableObject^ theSelObject, Macad::Occt::Prs3d_DatumParts theDatumPart, int thePriority);
-    AIS_TrihedronOwner(Macad::Occt::AIS_TrihedronOwner^ parameter1);
     /// <summary>
     /// Returns the datum part identifier.
     /// </summary>
@@ -8038,7 +8070,6 @@ public:
     }
 
     AIS_ViewInputBuffer();
-    AIS_ViewInputBuffer(Macad::Occt::AIS_ViewInputBuffer^ parameter1);
     /// <summary>
     /// Reset events buffer.
     /// </summary>
@@ -8086,7 +8117,6 @@ public:
     /// Empty constructor.
     /// </summary>
     AIS_XRTrackedDevice();
-    AIS_XRTrackedDevice(Macad::Occt::AIS_XRTrackedDevice^ parameter1);
     /// <summary>
     /// Return device role.
     /// </summary>
@@ -9003,7 +9033,6 @@ public:
     /// Main constructor.
     /// </summary>
     AIS_ViewCubeOwner(Macad::Occt::AIS_ViewCube^ theObject, Macad::Occt::V3d_TypeOfOrientation theOrient);
-    AIS_ViewCubeOwner(Macad::Occt::AIS_ViewCubeOwner^ parameter1);
     /// <summary>
     /// </summary>
     /// <returns>
@@ -9088,7 +9117,6 @@ public:
     /// Empty constructor.
     /// </summary>
     AIS_ViewCube();
-    AIS_ViewCube(Macad::Occt::AIS_ViewCube^ parameter1);
     /// <summary>
     /// Return TRUE if specified orientation belongs to box side.
     /// </summary>

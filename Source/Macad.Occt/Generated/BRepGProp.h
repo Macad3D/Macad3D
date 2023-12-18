@@ -53,7 +53,6 @@ public:
 
 public:
     BRepGProp();
-    BRepGProp(Macad::Occt::BRepGProp^ parameter1);
     /// <summary>
     /// Computes the linear global properties of the shape S,
     /// i.e. the global properties induced by each edge of the
@@ -745,7 +744,6 @@ public:
 public:
     BRepGProp_Cinert();
     BRepGProp_Cinert(Macad::Occt::BRepAdaptor_Curve^ C, Macad::Occt::Pnt CLocation);
-    BRepGProp_Cinert(Macad::Occt::BRepGProp_Cinert^ parameter1);
     void SetLocation(Macad::Occt::Pnt CLocation);
     void Perform(Macad::Occt::BRepAdaptor_Curve^ C);
 }; // class BRepGProp_Cinert
@@ -792,7 +790,6 @@ public:
     /// Constructor. Initializes the domain with the face.
     /// </summary>
     BRepGProp_Domain(Macad::Occt::TopoDS_Face^ F);
-    BRepGProp_Domain(Macad::Occt::BRepGProp_Domain^ parameter1);
     /// <summary>
     /// Initializes the domain with the face.
     /// </summary>
@@ -851,7 +848,6 @@ public:
 
 public:
     BRepGProp_EdgeTool();
-    BRepGProp_EdgeTool(Macad::Occt::BRepGProp_EdgeTool^ parameter1);
     /// <summary>
     /// Returns the parametric value of the start point of
     /// the curve.  The curve is oriented from the start point
@@ -956,7 +952,6 @@ public:
     /// and GetTKnots.
     /// </summary>
     BRepGProp_Face(Macad::Occt::TopoDS_Face^ F);
-    BRepGProp_Face(Macad::Occt::BRepGProp_Face^ parameter1);
     void Load(Macad::Occt::TopoDS_Face^ F);
     int VIntegrationOrder();
     /// <summary>
@@ -1334,7 +1329,6 @@ public:
 
 public:
     BRepGProp_MeshCinert();
-    BRepGProp_MeshCinert(Macad::Occt::BRepGProp_MeshCinert^ parameter1);
     void SetLocation(Macad::Occt::Pnt CLocation);
     /// <summary>
     /// Computes the  global properties of
@@ -1402,7 +1396,6 @@ public:
     /// Constructor takes the type of object.
     /// </summary>
     BRepGProp_MeshProps(Macad::Occt::BRepGProp_MeshProps::BRepGProp_MeshObjType theType);
-    BRepGProp_MeshProps(Macad::Occt::BRepGProp_MeshProps^ parameter1);
     /// <summary>
     /// Sets the point relative which the calculation is to be done
     /// </summary>
@@ -1468,7 +1461,6 @@ public:
     BRepGProp_Sinert(Macad::Occt::BRepGProp_Face^ S, Macad::Occt::BRepGProp_Domain^ D, Macad::Occt::Pnt SLocation);
     BRepGProp_Sinert(Macad::Occt::BRepGProp_Face^ S, Macad::Occt::Pnt SLocation, double Eps);
     BRepGProp_Sinert(Macad::Occt::BRepGProp_Face^ S, Macad::Occt::BRepGProp_Domain^ D, Macad::Occt::Pnt SLocation, double Eps);
-    BRepGProp_Sinert(Macad::Occt::BRepGProp_Sinert^ parameter1);
     void SetLocation(Macad::Occt::Pnt SLocation);
     void Perform(Macad::Occt::BRepGProp_Face^ S);
     void Perform(Macad::Occt::BRepGProp_Face^ S, Macad::Occt::BRepGProp_Domain^ D);
@@ -1644,7 +1636,6 @@ public:
     /// WARNING: if Eps > 0.001 algorithm performs non-adaptive integration.
     /// </summary>
     BRepGProp_Vinert(Macad::Occt::BRepGProp_Face^ S, Macad::Occt::BRepGProp_Domain^ D, Macad::Occt::Pln Pl, Macad::Occt::Pnt VLocation, double Eps);
-    BRepGProp_Vinert(Macad::Occt::BRepGProp_Vinert^ parameter1);
     void SetLocation(Macad::Occt::Pnt VLocation);
     void Perform(Macad::Occt::BRepGProp_Face^ S);
     double Perform(Macad::Occt::BRepGProp_Face^ S, double Eps);
@@ -1878,7 +1869,6 @@ public:
     /// and the plane.
     /// </summary>
     BRepGProp_VinertGK(Macad::Occt::BRepGProp_Face^ theSurface, Macad::Occt::BRepGProp_Domain^ theDomain, Macad::Occt::Pln thePlane, Macad::Occt::Pnt theLocation);
-    BRepGProp_VinertGK(Macad::Occt::BRepGProp_VinertGK^ parameter1);
     /// <summary>
     /// Sets the vertex that delimit 3D closed region of space.
     /// </summary>

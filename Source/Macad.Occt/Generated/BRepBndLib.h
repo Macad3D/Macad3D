@@ -43,7 +43,6 @@ public:
 
 public:
     BRepBndLib();
-    BRepBndLib(Macad::Occt::BRepBndLib^ parameter1);
     /// <summary>
     /// Adds the shape S to the bounding box B.
     /// More precisely are successively added to B:

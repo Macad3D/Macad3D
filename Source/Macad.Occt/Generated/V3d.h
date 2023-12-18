@@ -182,8 +182,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::V3d_ListOfLight::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Graphic3d_CLight^ Value();
@@ -192,7 +190,6 @@ public:
 
     V3d_ListOfLight();
     V3d_ListOfLight(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    V3d_ListOfLight(Macad::Occt::V3d_ListOfLight^ theOther);
     int Size();
     Macad::Occt::V3d_ListOfLight^ Assign(Macad::Occt::V3d_ListOfLight^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -200,16 +197,11 @@ public:
     Macad::Occt::Graphic3d_CLight^ First();
     Macad::Occt::Graphic3d_CLight^ Last();
     Macad::Occt::Graphic3d_CLight^ Append(Macad::Occt::Graphic3d_CLight^ theItem);
-    void Append(Macad::Occt::Graphic3d_CLight^ theItem, Macad::Occt::V3d_ListOfLight::Iterator^ theIter);
-    void Append(Macad::Occt::V3d_ListOfLight^ theOther);
     Macad::Occt::Graphic3d_CLight^ Prepend(Macad::Occt::Graphic3d_CLight^ theItem);
-    void Prepend(Macad::Occt::V3d_ListOfLight^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::V3d_ListOfLight::Iterator^ theIter);
     Macad::Occt::Graphic3d_CLight^ InsertBefore(Macad::Occt::Graphic3d_CLight^ theItem, Macad::Occt::V3d_ListOfLight::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::V3d_ListOfLight^ theOther, Macad::Occt::V3d_ListOfLight::Iterator^ theIter);
     Macad::Occt::Graphic3d_CLight^ InsertAfter(Macad::Occt::Graphic3d_CLight^ theItem, Macad::Occt::V3d_ListOfLight::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::V3d_ListOfLight^ theOther, Macad::Occt::V3d_ListOfLight::Iterator^ theIter);
     void Reverse();
 }; // class V3d_ListOfLight
 
@@ -245,7 +237,6 @@ public:
 public:
     V3d_ListOfLightIterator();
     V3d_ListOfLightIterator(Macad::Occt::NCollection_BaseList^ theList);
-    V3d_ListOfLightIterator(Macad::Occt::V3d_ListOfLightIterator^ parameter1);
     bool More();
     void Next();
     Macad::Occt::Graphic3d_CLight^ Value();
@@ -310,8 +301,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::V3d_ListOfView::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::V3d_View^ Value();
@@ -320,7 +309,6 @@ public:
 
     V3d_ListOfView();
     V3d_ListOfView(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    V3d_ListOfView(Macad::Occt::V3d_ListOfView^ theOther);
     int Size();
     Macad::Occt::V3d_ListOfView^ Assign(Macad::Occt::V3d_ListOfView^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -328,16 +316,11 @@ public:
     Macad::Occt::V3d_View^ First();
     Macad::Occt::V3d_View^ Last();
     Macad::Occt::V3d_View^ Append(Macad::Occt::V3d_View^ theItem);
-    void Append(Macad::Occt::V3d_View^ theItem, Macad::Occt::V3d_ListOfView::Iterator^ theIter);
-    void Append(Macad::Occt::V3d_ListOfView^ theOther);
     Macad::Occt::V3d_View^ Prepend(Macad::Occt::V3d_View^ theItem);
-    void Prepend(Macad::Occt::V3d_ListOfView^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::V3d_ListOfView::Iterator^ theIter);
     Macad::Occt::V3d_View^ InsertBefore(Macad::Occt::V3d_View^ theItem, Macad::Occt::V3d_ListOfView::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::V3d_ListOfView^ theOther, Macad::Occt::V3d_ListOfView::Iterator^ theIter);
     Macad::Occt::V3d_View^ InsertAfter(Macad::Occt::V3d_View^ theItem, Macad::Occt::V3d_ListOfView::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::V3d_ListOfView^ theOther, Macad::Occt::V3d_ListOfView::Iterator^ theIter);
     void Reverse();
 }; // class V3d_ListOfView
 
@@ -373,7 +356,6 @@ public:
 public:
     V3d_ListOfViewIterator();
     V3d_ListOfViewIterator(Macad::Occt::NCollection_BaseList^ theList);
-    V3d_ListOfViewIterator(Macad::Occt::V3d_ListOfViewIterator^ parameter1);
     bool More();
     void Next();
     Macad::Occt::V3d_View^ Value();
@@ -489,7 +471,6 @@ public:
     /// Default constructor.
     /// </summary>
     V3d_ImageDumpOptions();
-    V3d_ImageDumpOptions(Macad::Occt::V3d_ImageDumpOptions^ parameter1);
 }; // class V3d_ImageDumpOptions
 
 //---------------------------------------------------------------------
@@ -551,7 +532,6 @@ public:
     /// Initializes the view by copying.
     /// </summary>
     V3d_View(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt::V3d_View^ theView);
-    V3d_View(Macad::Occt::V3d_View^ parameter1);
     /// <summary>
     /// Activates the view in the specified Window
     /// If <aContext> is not NULL the graphic context is used
@@ -2419,7 +2399,6 @@ public:
 
 public:
     V3d();
-    V3d(Macad::Occt::V3d^ parameter1);
     /// <summary>
     /// Determines the orientation vector corresponding to the predefined orientation type.
     /// </summary>
@@ -2554,7 +2533,6 @@ public:
     V3d_BadValue();
     V3d_BadValue(System::String^ theMessage);
     V3d_BadValue(System::String^ theMessage, System::String^ theStackTrace);
-    V3d_BadValue(Macad::Occt::V3d_BadValue^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -2607,7 +2585,6 @@ public:
     /// - Shading model: V3d_GOURAUD
     /// </summary>
     V3d_Viewer(Macad::Occt::Graphic3d_GraphicDriver^ theDriver);
-    V3d_Viewer(Macad::Occt::V3d_Viewer^ parameter1);
     /// <summary>
     /// Returns True if One View more can be defined in this Viewer.
     /// </summary>
@@ -3133,7 +3110,6 @@ public:
 
 public:
     V3d_CircularGrid(Macad::Occt::V3d_Viewer^ aViewer, Macad::Occt::Quantity_Color^ aColor, Macad::Occt::Quantity_Color^ aTenthColor);
-    V3d_CircularGrid(Macad::Occt::V3d_CircularGrid^ parameter1);
     void SetColors(Macad::Occt::Quantity_Color^ aColor, Macad::Occt::Quantity_Color^ aTenthColor);
     void Display();
     void Erase();
@@ -3291,7 +3267,6 @@ public:
 
 public:
     V3d_RectangularGrid(Macad::Occt::V3d_Viewer^ aViewer, Macad::Occt::Quantity_Color^ aColor, Macad::Occt::Quantity_Color^ aTenthColor);
-    V3d_RectangularGrid(Macad::Occt::V3d_RectangularGrid^ parameter1);
     void SetColors(Macad::Occt::Quantity_Color^ aColor, Macad::Occt::Quantity_Color^ aTenthColor);
     void Display();
     void Erase();
@@ -3346,7 +3321,6 @@ public:
     /// Creates a default trihedron.
     /// </summary>
     V3d_Trihedron();
-    V3d_Trihedron(Macad::Occt::V3d_Trihedron^ parameter1);
     /// <summary>
     /// Return TRUE if wireframe presentation is set; FALSE by default.
     /// </summary>
@@ -3534,7 +3508,6 @@ public:
     /// Creates a clipping plane from plane coefficients.
     /// </summary>
     V3d_Plane();
-    V3d_Plane(Macad::Occt::V3d_Plane^ parameter1);
     /// <summary>
     /// Change plane equation.
     /// </summary>
@@ -3726,7 +3699,6 @@ public:
     V3d_UnMapped();
     V3d_UnMapped(System::String^ theMessage);
     V3d_UnMapped(System::String^ theMessage, System::String^ theStackTrace);
-    V3d_UnMapped(Macad::Occt::V3d_UnMapped^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */

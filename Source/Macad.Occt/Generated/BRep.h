@@ -67,8 +67,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::BRep_ListOfPointRepresentation::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::BRep_PointRepresentation^ Value();
@@ -77,7 +75,6 @@ public:
 
     BRep_ListOfPointRepresentation();
     BRep_ListOfPointRepresentation(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    BRep_ListOfPointRepresentation(Macad::Occt::BRep_ListOfPointRepresentation^ theOther);
     int Size();
     Macad::Occt::BRep_ListOfPointRepresentation^ Assign(Macad::Occt::BRep_ListOfPointRepresentation^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -85,16 +82,11 @@ public:
     Macad::Occt::BRep_PointRepresentation^ First();
     Macad::Occt::BRep_PointRepresentation^ Last();
     Macad::Occt::BRep_PointRepresentation^ Append(Macad::Occt::BRep_PointRepresentation^ theItem);
-    void Append(Macad::Occt::BRep_PointRepresentation^ theItem, Macad::Occt::BRep_ListOfPointRepresentation::Iterator^ theIter);
-    void Append(Macad::Occt::BRep_ListOfPointRepresentation^ theOther);
     Macad::Occt::BRep_PointRepresentation^ Prepend(Macad::Occt::BRep_PointRepresentation^ theItem);
-    void Prepend(Macad::Occt::BRep_ListOfPointRepresentation^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::BRep_ListOfPointRepresentation::Iterator^ theIter);
     Macad::Occt::BRep_PointRepresentation^ InsertBefore(Macad::Occt::BRep_PointRepresentation^ theItem, Macad::Occt::BRep_ListOfPointRepresentation::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::BRep_ListOfPointRepresentation^ theOther, Macad::Occt::BRep_ListOfPointRepresentation::Iterator^ theIter);
     Macad::Occt::BRep_PointRepresentation^ InsertAfter(Macad::Occt::BRep_PointRepresentation^ theItem, Macad::Occt::BRep_ListOfPointRepresentation::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::BRep_ListOfPointRepresentation^ theOther, Macad::Occt::BRep_ListOfPointRepresentation::Iterator^ theIter);
     void Reverse();
 }; // class BRep_ListOfPointRepresentation
 
@@ -130,7 +122,6 @@ public:
 public:
     BRep_ListIteratorOfListOfPointRepresentation();
     BRep_ListIteratorOfListOfPointRepresentation(Macad::Occt::NCollection_BaseList^ theList);
-    BRep_ListIteratorOfListOfPointRepresentation(Macad::Occt::BRep_ListIteratorOfListOfPointRepresentation^ parameter1);
     bool More();
     void Next();
     Macad::Occt::BRep_PointRepresentation^ Value();
@@ -195,8 +186,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::BRep_ListOfCurveRepresentation::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::BRep_CurveRepresentation^ Value();
@@ -205,7 +194,6 @@ public:
 
     BRep_ListOfCurveRepresentation();
     BRep_ListOfCurveRepresentation(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    BRep_ListOfCurveRepresentation(Macad::Occt::BRep_ListOfCurveRepresentation^ theOther);
     int Size();
     Macad::Occt::BRep_ListOfCurveRepresentation^ Assign(Macad::Occt::BRep_ListOfCurveRepresentation^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -213,16 +201,11 @@ public:
     Macad::Occt::BRep_CurveRepresentation^ First();
     Macad::Occt::BRep_CurveRepresentation^ Last();
     Macad::Occt::BRep_CurveRepresentation^ Append(Macad::Occt::BRep_CurveRepresentation^ theItem);
-    void Append(Macad::Occt::BRep_CurveRepresentation^ theItem, Macad::Occt::BRep_ListOfCurveRepresentation::Iterator^ theIter);
-    void Append(Macad::Occt::BRep_ListOfCurveRepresentation^ theOther);
     Macad::Occt::BRep_CurveRepresentation^ Prepend(Macad::Occt::BRep_CurveRepresentation^ theItem);
-    void Prepend(Macad::Occt::BRep_ListOfCurveRepresentation^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::BRep_ListOfCurveRepresentation::Iterator^ theIter);
     Macad::Occt::BRep_CurveRepresentation^ InsertBefore(Macad::Occt::BRep_CurveRepresentation^ theItem, Macad::Occt::BRep_ListOfCurveRepresentation::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::BRep_ListOfCurveRepresentation^ theOther, Macad::Occt::BRep_ListOfCurveRepresentation::Iterator^ theIter);
     Macad::Occt::BRep_CurveRepresentation^ InsertAfter(Macad::Occt::BRep_CurveRepresentation^ theItem, Macad::Occt::BRep_ListOfCurveRepresentation::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::BRep_ListOfCurveRepresentation^ theOther, Macad::Occt::BRep_ListOfCurveRepresentation::Iterator^ theIter);
     void Reverse();
 }; // class BRep_ListOfCurveRepresentation
 
@@ -258,7 +241,6 @@ public:
 public:
     BRep_ListIteratorOfListOfCurveRepresentation();
     BRep_ListIteratorOfListOfCurveRepresentation(Macad::Occt::NCollection_BaseList^ theList);
-    BRep_ListIteratorOfListOfCurveRepresentation(Macad::Occt::BRep_ListIteratorOfListOfCurveRepresentation^ parameter1);
     bool More();
     void Next();
     Macad::Occt::BRep_CurveRepresentation^ Value();
@@ -314,7 +296,6 @@ public:
 
 public:
     BRep_Builder();
-    BRep_Builder(Macad::Occt::BRep_Builder^ parameter1);
     /// <summary>
     /// Makes an undefined Face.
     /// </summary>
@@ -563,7 +544,6 @@ public:
     /// Creates an empty TFace.
     /// </summary>
     BRep_TFace();
-    BRep_TFace(Macad::Occt::BRep_TFace^ parameter1);
     /// <summary>
     /// Returns face surface.
     /// </summary>
@@ -662,7 +642,6 @@ public:
     }
 
 public:
-    BRep_PointRepresentation(Macad::Occt::BRep_PointRepresentation^ parameter1);
     /// <summary>
     /// A point on a 3d curve.
     /// </summary>
@@ -747,7 +726,6 @@ public:
 
 public:
     BRep_TVertex();
-    BRep_TVertex(Macad::Occt::BRep_TVertex^ parameter1);
     double Tolerance();
     void Tolerance(double T);
     /// <summary>
@@ -809,7 +787,6 @@ public:
 
 public:
     BRep_Tool();
-    BRep_Tool(Macad::Occt::BRep_Tool^ parameter1);
     /// <summary>
     /// If S is Shell, returns True if it has no free boundaries (edges).
     /// If S is Wire, returns True if it has no free ends (vertices).
@@ -1098,7 +1075,6 @@ public:
     }
 
 public:
-    BRep_CurveRepresentation(Macad::Occt::BRep_CurveRepresentation^ parameter1);
     /// <summary>
     /// A 3D curve representation.
     /// </summary>
@@ -1234,7 +1210,6 @@ public:
     }
 
 public:
-    BRep_GCurve(Macad::Occt::BRep_GCurve^ parameter1);
     void SetRange(double First, double Last);
     void Range(double% First, double% Last);
     double First();
@@ -1295,7 +1270,6 @@ public:
 
 public:
     BRep_Curve3D(Macad::Occt::Geom_Curve^ C, Macad::Occt::TopLoc_Location^ L);
-    BRep_Curve3D(Macad::Occt::BRep_Curve3D^ parameter1);
     /// <summary>
     /// Computes the point at parameter U.
     /// </summary>
@@ -1355,7 +1329,6 @@ public:
 
 public:
     BRep_CurveOn2Surfaces(Macad::Occt::Geom_Surface^ S1, Macad::Occt::Geom_Surface^ S2, Macad::Occt::TopLoc_Location^ L1, Macad::Occt::TopLoc_Location^ L2, Macad::Occt::GeomAbs_Shape C);
-    BRep_CurveOn2Surfaces(Macad::Occt::BRep_CurveOn2Surfaces^ parameter1);
     /// <summary>
     /// Returns True.
     /// </summary>
@@ -1428,7 +1401,6 @@ public:
 
 public:
     BRep_CurveOnSurface(Macad::Occt::Geom2d_Curve^ PC, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopLoc_Location^ L);
-    BRep_CurveOnSurface(Macad::Occt::BRep_CurveOnSurface^ parameter1);
     void SetUVPoints(Macad::Occt::Pnt2d P1, Macad::Occt::Pnt2d P2);
     void UVPoints(Macad::Occt::Pnt2d% P1, Macad::Occt::Pnt2d% P2);
     /// <summary>
@@ -1501,7 +1473,6 @@ public:
 
 public:
     BRep_CurveOnClosedSurface(Macad::Occt::Geom2d_Curve^ PC1, Macad::Occt::Geom2d_Curve^ PC2, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopLoc_Location^ L, Macad::Occt::GeomAbs_Shape C);
-    BRep_CurveOnClosedSurface(Macad::Occt::BRep_CurveOnClosedSurface^ parameter1);
     void SetUVPoints2(Macad::Occt::Pnt2d P1, Macad::Occt::Pnt2d P2);
     void UVPoints2(Macad::Occt::Pnt2d% P1, Macad::Occt::Pnt2d% P2);
     /// <summary>
@@ -1582,7 +1553,6 @@ public:
 
 public:
     BRep_PointOnCurve(double P, Macad::Occt::Geom_Curve^ C, Macad::Occt::TopLoc_Location^ L);
-    BRep_PointOnCurve(Macad::Occt::BRep_PointOnCurve^ parameter1);
     /// <summary>
     /// Returns True
     /// </summary>
@@ -1639,7 +1609,6 @@ public:
     }
 
 public:
-    BRep_PointsOnSurface(Macad::Occt::BRep_PointsOnSurface^ parameter1);
     Macad::Occt::Geom_Surface^ Surface();
     void Surface(Macad::Occt::Geom_Surface^ S);
     /// <summary>
@@ -1688,7 +1657,6 @@ public:
 
 public:
     BRep_PointOnCurveOnSurface(double P, Macad::Occt::Geom2d_Curve^ C, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopLoc_Location^ L);
-    BRep_PointOnCurveOnSurface(Macad::Occt::BRep_PointOnCurveOnSurface^ parameter1);
     /// <summary>
     /// Returns True
     /// </summary>
@@ -1741,7 +1709,6 @@ public:
 
 public:
     BRep_PointOnSurface(double P1, double P2, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopLoc_Location^ L);
-    BRep_PointOnSurface(Macad::Occt::BRep_PointOnSurface^ parameter1);
     bool IsPointOnSurface();
     bool IsPointOnSurface(Macad::Occt::Geom_Surface^ S, Macad::Occt::TopLoc_Location^ L);
     double Parameter2();
@@ -1783,7 +1750,6 @@ public:
 
 public:
     /* Method skipped due to unknown mapping: void BRep_Polygon3D(Poly_Polygon3D P, TopLoc_Location L, ) */
-    BRep_Polygon3D(Macad::Occt::BRep_Polygon3D^ parameter1);
     /// <summary>
     /// Returns True.
     /// </summary>
@@ -1845,7 +1811,6 @@ public:
 
 public:
     /* Method skipped due to unknown mapping: void BRep_PolygonOnSurface(Poly_Polygon2D P, Geom_Surface S, TopLoc_Location L, ) */
-    BRep_PolygonOnSurface(Macad::Occt::BRep_PolygonOnSurface^ parameter1);
     /// <summary>
     /// A   2D polygon  representation  in the  parametric
     /// space of a surface.
@@ -1909,7 +1874,6 @@ public:
 
 public:
     /* Method skipped due to unknown mapping: void BRep_PolygonOnClosedSurface(Poly_Polygon2D P1, Poly_Polygon2D P2, Geom_Surface S, TopLoc_Location L, ) */
-    BRep_PolygonOnClosedSurface(Macad::Occt::BRep_PolygonOnClosedSurface^ parameter1);
     /// <summary>
     /// returns True.
     /// </summary>
@@ -1971,7 +1935,6 @@ public:
 
 public:
     /* Method skipped due to unknown mapping: void BRep_PolygonOnTriangulation(Poly_PolygonOnTriangulation P, Poly_Triangulation T, TopLoc_Location L, ) */
-    BRep_PolygonOnTriangulation(Macad::Occt::BRep_PolygonOnTriangulation^ parameter1);
     /// <summary>
     /// returns True.
     /// </summary>
@@ -2030,7 +1993,6 @@ public:
 
 public:
     /* Method skipped due to unknown mapping: void BRep_PolygonOnClosedTriangulation(Poly_PolygonOnTriangulation P1, Poly_PolygonOnTriangulation P2, Poly_Triangulation Tr, TopLoc_Location L, ) */
-    BRep_PolygonOnClosedTriangulation(Macad::Occt::BRep_PolygonOnClosedTriangulation^ parameter1);
     /// <summary>
     /// Returns True.
     /// </summary>
@@ -2102,7 +2064,6 @@ public:
     /// Creates an empty TEdge.
     /// </summary>
     BRep_TEdge();
-    BRep_TEdge(Macad::Occt::BRep_TEdge^ parameter1);
     double Tolerance();
     void Tolerance(double T);
     /// <summary>

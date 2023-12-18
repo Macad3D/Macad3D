@@ -22,12 +22,6 @@ Macad::Occt::GeomAdaptor::GeomAdaptor()
     _NativeInstance = new ::GeomAdaptor();
 }
 
-Macad::Occt::GeomAdaptor::GeomAdaptor(Macad::Occt::GeomAdaptor^ parameter1)
-    : Macad::Occt::BaseClass<::GeomAdaptor>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomAdaptor(*(::GeomAdaptor*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Geom_Curve^ Macad::Occt::GeomAdaptor::MakeCurve(Macad::Occt::Adaptor3d_Curve^ C)
 {
     Handle(::Geom_Curve) _result = ::GeomAdaptor::MakeCurve(*(::Adaptor3d_Curve*)C->NativeInstance);
@@ -68,12 +62,6 @@ Macad::Occt::GeomAdaptor_Curve::GeomAdaptor_Curve(Macad::Occt::Geom_Curve^ theCu
     : Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::GeomAdaptor_Curve(Handle(::Geom_Curve)(theCurve->NativeInstance), theUFirst, theULast);
-}
-
-Macad::Occt::GeomAdaptor_Curve::GeomAdaptor_Curve(Macad::Occt::GeomAdaptor_Curve^ parameter1)
-    : Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::GeomAdaptor_Curve(*(::GeomAdaptor_Curve*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Adaptor3d_Curve^ Macad::Occt::GeomAdaptor_Curve::ShallowCopy()
@@ -326,12 +314,6 @@ Macad::Occt::GeomAdaptor_Surface::GeomAdaptor_Surface(Macad::Occt::Geom_Surface^
     : Macad::Occt::Adaptor3d_Surface(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::GeomAdaptor_Surface(Handle(::Geom_Surface)(theSurf->NativeInstance), theUFirst, theULast, theVFirst, theVLast, 0., 0.);
-}
-
-Macad::Occt::GeomAdaptor_Surface::GeomAdaptor_Surface(Macad::Occt::GeomAdaptor_Surface^ parameter1)
-    : Macad::Occt::Adaptor3d_Surface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::GeomAdaptor_Surface(*(::GeomAdaptor_Surface*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_Surface::ShallowCopy()
@@ -704,12 +686,6 @@ Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::GeomAdaptor_SurfaceOfLinearEx
     NativeInstance = new ::GeomAdaptor_SurfaceOfLinearExtrusion(Handle(::Adaptor3d_Curve)(C->NativeInstance), *(gp_Dir*)pp_V);
 }
 
-Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::GeomAdaptor_SurfaceOfLinearExtrusion(Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion^ parameter1)
-    : Macad::Occt::GeomAdaptor_Surface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::GeomAdaptor_SurfaceOfLinearExtrusion(*(::GeomAdaptor_SurfaceOfLinearExtrusion*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion::ShallowCopy()
 {
     Handle(::Adaptor3d_Surface) _result = ((::GeomAdaptor_SurfaceOfLinearExtrusion*)_NativeInstance)->ShallowCopy();
@@ -967,12 +943,6 @@ Macad::Occt::GeomAdaptor_SurfaceOfRevolution::GeomAdaptor_SurfaceOfRevolution(Ma
 {
     pin_ptr<Macad::Occt::Ax1> pp_V = &V;
     NativeInstance = new ::GeomAdaptor_SurfaceOfRevolution(Handle(::Adaptor3d_Curve)(C->NativeInstance), *(gp_Ax1*)pp_V);
-}
-
-Macad::Occt::GeomAdaptor_SurfaceOfRevolution::GeomAdaptor_SurfaceOfRevolution(Macad::Occt::GeomAdaptor_SurfaceOfRevolution^ parameter1)
-    : Macad::Occt::GeomAdaptor_Surface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::GeomAdaptor_SurfaceOfRevolution(*(::GeomAdaptor_SurfaceOfRevolution*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Adaptor3d_Surface^ Macad::Occt::GeomAdaptor_SurfaceOfRevolution::ShallowCopy()

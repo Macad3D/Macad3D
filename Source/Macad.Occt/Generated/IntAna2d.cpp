@@ -30,12 +30,6 @@ Macad::Occt::IntAna2d_IntPoint::IntAna2d_IntPoint()
     _NativeInstance = new ::IntAna2d_IntPoint();
 }
 
-Macad::Occt::IntAna2d_IntPoint::IntAna2d_IntPoint(Macad::Occt::IntAna2d_IntPoint^ parameter1)
-    : Macad::Occt::BaseClass<::IntAna2d_IntPoint>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna2d_IntPoint(*(::IntAna2d_IntPoint*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::IntAna2d_IntPoint::SetValue(double X, double Y, double U1, double U2)
 {
     ((::IntAna2d_IntPoint*)_NativeInstance)->SetValue(X, Y, U1, U2);
@@ -104,12 +98,6 @@ Macad::Occt::IntAna2d_Conic::IntAna2d_Conic(Macad::Occt::gp_Elips2d^ C)
     : Macad::Occt::BaseClass<::IntAna2d_Conic>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::IntAna2d_Conic(*(::gp_Elips2d*)C->NativeInstance);
-}
-
-Macad::Occt::IntAna2d_Conic::IntAna2d_Conic(Macad::Occt::IntAna2d_Conic^ parameter1)
-    : Macad::Occt::BaseClass<::IntAna2d_Conic>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna2d_Conic(*(::IntAna2d_Conic*)parameter1->NativeInstance);
 }
 
 double Macad::Occt::IntAna2d_Conic::Value(double X, double Y)
@@ -212,12 +200,6 @@ Macad::Occt::IntAna2d_AnaIntersection::IntAna2d_AnaIntersection(Macad::Occt::gp_
     : Macad::Occt::BaseClass<::IntAna2d_AnaIntersection>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::IntAna2d_AnaIntersection(*(::gp_Hypr2d*)H->NativeInstance, *(::IntAna2d_Conic*)C->NativeInstance);
-}
-
-Macad::Occt::IntAna2d_AnaIntersection::IntAna2d_AnaIntersection(Macad::Occt::IntAna2d_AnaIntersection^ parameter1)
-    : Macad::Occt::BaseClass<::IntAna2d_AnaIntersection>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::IntAna2d_AnaIntersection(*(::IntAna2d_AnaIntersection*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::IntAna2d_AnaIntersection::Perform(Macad::Occt::gp_Lin2d^ L1, Macad::Occt::gp_Lin2d^ L2)

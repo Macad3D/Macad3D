@@ -66,8 +66,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::BRepTools_MapOfVertexPnt2d^ theMap);
-        Iterator(Macad::Occt::BRepTools_MapOfVertexPnt2d::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TColgp_SequenceOfPnt2d^ Value();
@@ -78,7 +76,6 @@ public:
     BRepTools_MapOfVertexPnt2d();
     BRepTools_MapOfVertexPnt2d(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     BRepTools_MapOfVertexPnt2d(int theNbBuckets);
-    BRepTools_MapOfVertexPnt2d(Macad::Occt::BRepTools_MapOfVertexPnt2d^ theOther);
     void Exchange(Macad::Occt::BRepTools_MapOfVertexPnt2d^ theOther);
     Macad::Occt::BRepTools_MapOfVertexPnt2d^ Assign(Macad::Occt::BRepTools_MapOfVertexPnt2d^ theOther);
     void ReSize(int N);
@@ -88,12 +85,10 @@ public:
     bool UnBind(Macad::Occt::TopoDS_Shape^ theKey);
     Macad::Occt::TColgp_SequenceOfPnt2d^ Seek(Macad::Occt::TopoDS_Shape^ theKey);
     Macad::Occt::TColgp_SequenceOfPnt2d^ Find(Macad::Occt::TopoDS_Shape^ theKey);
-    bool Find(Macad::Occt::TopoDS_Shape^ theKey, Macad::Occt::TColgp_SequenceOfPnt2d^ theValue);
     Macad::Occt::TColgp_SequenceOfPnt2d^ ChangeSeek(Macad::Occt::TopoDS_Shape^ theKey);
     Macad::Occt::TColgp_SequenceOfPnt2d^ ChangeFind(Macad::Occt::TopoDS_Shape^ theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class BRepTools_MapOfVertexPnt2d
 
@@ -160,7 +155,6 @@ public:
 
 public:
     BRepTools();
-    BRepTools(Macad::Occt::BRepTools^ parameter1);
     /// <summary>
     /// Returns in UMin,  UMax, VMin,  VMax  the  bounding
     /// values in the parametric space of F.
@@ -758,7 +752,6 @@ public:
     }
 
 public:
-    BRepTools_Modification(Macad::Occt::BRepTools_Modification^ parameter1);
     BRepTools_Modification();
     /// <summary>
     /// Returns true if the face, F, has been modified.
@@ -887,7 +880,6 @@ public:
     /// \param[in] theCopyMesh  indicates that the triangulation should be copied
     /// </summary>
     BRepTools_CopyModification();
-    BRepTools_CopyModification(Macad::Occt::BRepTools_CopyModification^ parameter1);
     /// <summary>
     /// Returns true if theFace has been modified.
     /// If the face has been modified:
@@ -983,7 +975,6 @@ public:
 
 public:
     BRepTools_GTrsfModification(Macad::Occt::gp_GTrsf^ T);
-    BRepTools_GTrsfModification(Macad::Occt::BRepTools_GTrsfModification^ parameter1);
     /// <summary>
     /// Gives an access on the GTrsf.
     /// </summary>
@@ -1162,7 +1153,6 @@ public:
     /// Empty constructor
     /// </summary>
     BRepTools_History();
-    BRepTools_History(Macad::Occt::BRepTools_History^ parameter1);
     /// <summary>
     /// Returns 'true' if the type of the shape is supported by the history.
     /// </summary>
@@ -1276,7 +1266,6 @@ public:
     /// the modifications described by <M>.
     /// </summary>
     BRepTools_Modifier(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::BRepTools_Modification^ M);
-    BRepTools_Modifier(Macad::Occt::BRepTools_Modifier^ parameter1);
     /// <summary>
     /// Initializes the modifier with the shape <S>.
     /// </summary>
@@ -1346,7 +1335,6 @@ public:
 
 public:
     BRepTools_NurbsConvertModification();
-    BRepTools_NurbsConvertModification(Macad::Occt::BRepTools_NurbsConvertModification^ parameter1);
     /// <summary>
     /// Returns Standard_True  if  the face  <F> has  been
     /// modified.  In this  case, <S> is the new geometric
@@ -1493,7 +1481,6 @@ public:
     /// Returns an empty Reshape
     /// </summary>
     BRepTools_ReShape();
-    BRepTools_ReShape(Macad::Occt::BRepTools_ReShape^ parameter1);
     /// <summary>
     /// Clears all substitutions requests
     /// </summary>
@@ -1610,7 +1597,6 @@ public:
 
 public:
     BRepTools_PurgeLocations();
-    BRepTools_PurgeLocations(Macad::Occt::BRepTools_PurgeLocations^ parameter1);
     /// <summary>
     /// Removes all locations correspodingly to criterium from theShape.
     /// </summary>
@@ -1668,7 +1654,6 @@ public:
 
 public:
     BRepTools_Quilt();
-    BRepTools_Quilt(Macad::Occt::BRepTools_Quilt^ parameter1);
     /// <summary>
     /// Binds <Enew> to   be  the  new edge  instead   of
     /// <Eold>.
@@ -1795,7 +1780,6 @@ public:
     /// flag to write triangulation data
     /// </param>
     BRepTools_ShapeSet(Macad::Occt::BRep_Builder^ theBuilder);
-    BRepTools_ShapeSet(Macad::Occt::BRepTools_ShapeSet^ parameter1);
     /// <summary>
     /// Return true if shape should be stored with triangles.
     /// </summary>
@@ -1975,7 +1959,6 @@ public:
 
 public:
     BRepTools_Substitution();
-    BRepTools_Substitution(Macad::Occt::BRepTools_Substitution^ parameter1);
     /// <summary>
     /// Reset all the fields.
     /// </summary>
@@ -2056,7 +2039,6 @@ public:
     }
 
     BRepTools_TrsfModification(Macad::Occt::Trsf T);
-    BRepTools_TrsfModification(Macad::Occt::BRepTools_TrsfModification^ parameter1);
     /// <summary>
     /// Provides access to the gp_Trsf associated with this
     /// modification. The transformation can be changed.
@@ -2188,7 +2170,6 @@ public:
     /// previous in the parametric representation of <F>.
     /// </summary>
     BRepTools_WireExplorer(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Face^ F);
-    BRepTools_WireExplorer(Macad::Occt::BRepTools_WireExplorer^ parameter1);
     /// <summary>
     /// Initializes an exploration of the wire <W>.
     /// </summary>

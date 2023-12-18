@@ -77,19 +77,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::BRepExtrema_SeqOfSolution^ theSeq, bool isStart);
-        Iterator(Macad::Occt::BRepExtrema_SeqOfSolution^ theSeq);
-        Iterator(Macad::Occt::BRepExtrema_SeqOfSolution::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::BRepExtrema_SolutionElem^ Value();
         Macad::Occt::BRepExtrema_SolutionElem^ ChangeValue();
         bool IsEqual(Macad::Occt::BRepExtrema_SeqOfSolution::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     BRepExtrema_SeqOfSolution();
     BRepExtrema_SeqOfSolution(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    BRepExtrema_SeqOfSolution(Macad::Occt::BRepExtrema_SeqOfSolution^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -102,17 +99,10 @@ public:
     void Clear();
     Macad::Occt::BRepExtrema_SeqOfSolution^ Assign(Macad::Occt::BRepExtrema_SeqOfSolution^ theOther);
     void Remove(Macad::Occt::BRepExtrema_SeqOfSolution::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::BRepExtrema_SolutionElem^ theItem);
-    void Append(Macad::Occt::BRepExtrema_SeqOfSolution^ theSeq);
     void Prepend(Macad::Occt::BRepExtrema_SolutionElem^ theItem);
-    void Prepend(Macad::Occt::BRepExtrema_SeqOfSolution^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::BRepExtrema_SolutionElem^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::BRepExtrema_SeqOfSolution^ theSeq);
     void InsertAfter(Macad::Occt::BRepExtrema_SeqOfSolution::Iterator^ thePosition, Macad::Occt::BRepExtrema_SolutionElem^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::BRepExtrema_SeqOfSolution^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::BRepExtrema_SolutionElem^ theItem);
     void Split(int theIndex, Macad::Occt::BRepExtrema_SeqOfSolution^ theSeq);
     Macad::Occt::BRepExtrema_SolutionElem^ First();
     Macad::Occt::BRepExtrema_SolutionElem^ ChangeFirst();
@@ -186,8 +176,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger^ theMap);
-        Iterator(Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TColStd_PackedMapOfInteger^ Value();
@@ -198,7 +186,6 @@ public:
     BRepExtrema_MapOfIntegerPackedMapOfInteger();
     BRepExtrema_MapOfIntegerPackedMapOfInteger(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     BRepExtrema_MapOfIntegerPackedMapOfInteger(int theNbBuckets);
-    BRepExtrema_MapOfIntegerPackedMapOfInteger(Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger^ theOther);
     void Exchange(Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger^ theOther);
     Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger^ Assign(Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger^ theOther);
     void ReSize(int N);
@@ -208,12 +195,10 @@ public:
     bool UnBind(int theKey);
     Macad::Occt::TColStd_PackedMapOfInteger^ Seek(int theKey);
     Macad::Occt::TColStd_PackedMapOfInteger^ Find(int theKey);
-    bool Find(int theKey, Macad::Occt::TColStd_PackedMapOfInteger^ theValue);
     Macad::Occt::TColStd_PackedMapOfInteger^ ChangeSeek(int theKey);
     Macad::Occt::TColStd_PackedMapOfInteger^ ChangeFind(int theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class BRepExtrema_MapOfIntegerPackedMapOfInteger
 
@@ -278,33 +263,21 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::BRepExtrema_ShapeList^ theVector, bool theToEnd);
-        Iterator(Macad::Occt::BRepExtrema_ShapeList^ theVector);
-        Iterator(Macad::Occt::BRepExtrema_ShapeList::Iterator^ parameter1);
-        void Init(Macad::Occt::BRepExtrema_ShapeList^ theVector);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::BRepExtrema_ShapeList::Iterator^ theOther);
-        Macad::Occt::TopoDS_Shape^ Value();
-        Macad::Occt::TopoDS_Shape^ ChangeValue();
-        bool IsEqual(Macad::Occt::BRepExtrema_ShapeList::Iterator^ theOther);
     }; // class Iterator
 
-    BRepExtrema_ShapeList(int theIncrement, Macad::Occt::NCollection_BaseAllocator^ theAlloc);
     BRepExtrema_ShapeList(int theIncrement);
     BRepExtrema_ShapeList();
-    BRepExtrema_ShapeList(Macad::Occt::BRepExtrema_ShapeList^ theOther);
+    BRepExtrema_ShapeList(int theIncrement, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
+    /* Method skipped due to unknown mapping: void BRepExtrema_ShapeList(int theIncrement, allocator_type theAllocator, ) */
     int Length();
     int Size();
     int Lower();
     int Upper();
     bool IsEmpty();
-    void Assign(Macad::Occt::BRepExtrema_ShapeList^ theOther, bool theOwnAllocator);
-    void Assign(Macad::Occt::BRepExtrema_ShapeList^ theOther);
+    Macad::Occt::BRepExtrema_ShapeList^ Assign(Macad::Occt::BRepExtrema_ShapeList^ theOther, bool theOwnAllocator);
+    Macad::Occt::BRepExtrema_ShapeList^ Assign(Macad::Occt::BRepExtrema_ShapeList^ theOther);
     Macad::Occt::TopoDS_Shape^ Append(Macad::Occt::TopoDS_Shape^ theValue);
+    void EraseLast();
     Macad::Occt::TopoDS_Shape^ Appended();
     virtual Macad::Occt::TopoDS_Shape^ Value(int theIndex);
     Macad::Occt::TopoDS_Shape^ First();
@@ -313,6 +286,9 @@ public:
     Macad::Occt::TopoDS_Shape^ ChangeLast();
     Macad::Occt::TopoDS_Shape^ ChangeValue(int theIndex);
     Macad::Occt::TopoDS_Shape^ SetValue(int theIndex, Macad::Occt::TopoDS_Shape^ theValue);
+    void Clear(bool theReleaseMemory);
+    void Clear();
+    void SetIncrement(int theIncrement);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::TopoDS_Shape^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class BRepExtrema_ShapeList
@@ -364,7 +340,6 @@ public:
         DoCheck = 2
     }; // enum  class FilterResult
 
-    BRepExtrema_ElementFilter(Macad::Occt::BRepExtrema_ElementFilter^ parameter1);
     BRepExtrema_ElementFilter();
     /// <summary>
     /// Checks if two mesh elements should be tested for overlapping/intersection
@@ -470,7 +445,6 @@ public:
     ///       V parameter to locate the solution
     /// </param>
     BRepExtrema_SolutionElem(double theDist, Macad::Occt::Pnt thePoint, Macad::Occt::BRepExtrema_SupportType theSolType, Macad::Occt::TopoDS_Face^ theFace, double theU, double theV);
-    BRepExtrema_SolutionElem(Macad::Occt::BRepExtrema_SolutionElem^ parameter1);
     /// <summary>
     /// Returns the value of the minimum distance.
     /// </summary>
@@ -666,7 +640,6 @@ public:
     /// (default is Grad algo, applied only to point-face extrema)
     /// </param>
     BRepExtrema_DistanceSS(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2, Macad::Occt::Bnd_Box^ theBox1, Macad::Occt::Bnd_Box^ theBox2, double theDstRef);
-    BRepExtrema_DistanceSS(Macad::Occt::BRepExtrema_DistanceSS^ parameter1);
     /// <summary>
     /// Returns true if the distance has been computed, false otherwise.
     /// </summary>
@@ -879,7 +852,6 @@ public:
     /// - the progress indicator of algorithm
     /// </param>
     BRepExtrema_DistShapeShape(Macad::Occt::TopoDS_Shape^ Shape1, Macad::Occt::TopoDS_Shape^ Shape2, double theDeflection);
-    BRepExtrema_DistShapeShape(Macad::Occt::BRepExtrema_DistShapeShape^ parameter1);
     /// <summary>
     /// Sets deflection to computation of the minimum distance <br>
     /// </summary>
@@ -1197,7 +1169,6 @@ public:
     /// It calculates all the distances. <br>
     /// </summary>
     BRepExtrema_ExtFF(Macad::Occt::TopoDS_Face^ F1, Macad::Occt::TopoDS_Face^ F2);
-    BRepExtrema_ExtFF(Macad::Occt::BRepExtrema_ExtFF^ parameter1);
     void Initialize(Macad::Occt::TopoDS_Face^ F2);
     /// <summary>
     /// An exception is raised if the fields have not been initialized. <br>
@@ -1273,7 +1244,6 @@ public:
     /// It calculates all the distances. <br>
     /// </summary>
     BRepExtrema_ExtPC(Macad::Occt::TopoDS_Vertex^ V, Macad::Occt::TopoDS_Edge^ E);
-    BRepExtrema_ExtPC(Macad::Occt::BRepExtrema_ExtPC^ parameter1);
     void Initialize(Macad::Occt::TopoDS_Edge^ E);
     /// <summary>
     /// An exception is raised if the fields have not been initialized. <br>
@@ -1419,7 +1389,6 @@ public:
 
 public:
     BRepExtrema_Poly();
-    BRepExtrema_Poly(Macad::Occt::BRepExtrema_Poly^ parameter1);
     /// <summary>
     /// returns Standard_True if OK.
     /// </summary>
@@ -1427,11 +1396,72 @@ public:
 }; // class BRepExtrema_Poly
 
 //---------------------------------------------------------------------
+//  Class  BRepExtrema_VertexInspector
+//---------------------------------------------------------------------
+/// <summary>
+/// Class BRepExtrema_VertexInspector
+/// derived from NCollection_CellFilter_InspectorXYZ
+/// This class define the Inspector interface for CellFilter algorithm,
+/// working with gp_XYZ points in 3d space.
+/// Used in search of coincidence points with a certain tolerance.
+/// </summary>
+public ref class BRepExtrema_VertexInspector sealed
+    : public Macad::Occt::BaseClass<::BRepExtrema_VertexInspector>
+{
+
+#ifdef Include_BRepExtrema_VertexInspector_h
+public:
+    Include_BRepExtrema_VertexInspector_h
+#endif
+
+public:
+    BRepExtrema_VertexInspector(::BRepExtrema_VertexInspector* nativeInstance)
+        : Macad::Occt::BaseClass<::BRepExtrema_VertexInspector>( nativeInstance, true )
+    {}
+
+    BRepExtrema_VertexInspector(::BRepExtrema_VertexInspector& nativeInstance)
+        : Macad::Occt::BaseClass<::BRepExtrema_VertexInspector>( &nativeInstance, false )
+    {}
+
+    property ::BRepExtrema_VertexInspector* NativeInstance
+    {
+        ::BRepExtrema_VertexInspector* get()
+        {
+            return static_cast<::BRepExtrema_VertexInspector*>(_NativeInstance);
+        }
+    }
+
+public:
+    /// <summary>
+    /// Constructor; remembers the tolerance
+    /// </summary>
+    BRepExtrema_VertexInspector();
+    /// <summary>
+    /// Keep the points used for comparison
+    /// </summary>
+    void Add(Macad::Occt::XYZ thePnt);
+    /// <summary>
+    /// Set tolerance for comparison of point coordinates
+    /// </summary>
+    void SetTol(double theTol);
+    /// <summary>
+    /// Set current point to search for coincidence
+    /// </summary>
+    void SetCurrent(Macad::Occt::XYZ theCurPnt);
+    bool IsNeedAdd();
+    /// <summary>
+    /// Implementation of inspection method
+    /// </summary>
+    Macad::Occt::NCollection_CellFilter_Action Inspect(int theTarget);
+}; // class BRepExtrema_VertexInspector
+
+//---------------------------------------------------------------------
 //  Class  BRepExtrema_ProximityValueTool
 //---------------------------------------------------------------------
 /// <summary>
 /// Tool class for computation of the proximity value from one BVH
 /// primitive set to another, solving max(min) problem.
+/// Handles only edge/edge or face/face cases.
 /// This tool is not intended to be used independently, and is integrated
 /// in other classes, implementing algorithms based on shape tessellation
 /// (BRepExtrema_ShapeProximity and BRepExtrema_SelfIntersection).
@@ -1471,7 +1501,6 @@ public:
     /// </summary>
     BRepExtrema_ProximityValueTool();
     /* Method skipped due to unknown mapping: void BRepExtrema_ProximityValueTool(BRepExtrema_TriangleSet theSet1, BRepExtrema_TriangleSet theSet2, BRepExtrema_ShapeList theShapeList1, BRepExtrema_ShapeList theShapeList2, ) */
-    BRepExtrema_ProximityValueTool(Macad::Occt::BRepExtrema_ProximityValueTool^ parameter1);
     /* Method skipped due to unknown mapping: void LoadTriangleSets(BRepExtrema_TriangleSet theSet1, BRepExtrema_TriangleSet theSet2, ) */
     /// <summary>
     /// Loads the given list of subshapes into the proximity tool.
@@ -1574,7 +1603,6 @@ public:
     /// Creates self-intersection tool for the given shape.
     /// </summary>
     BRepExtrema_SelfIntersection(Macad::Occt::TopoDS_Shape^ theShape);
-    BRepExtrema_SelfIntersection(Macad::Occt::BRepExtrema_SelfIntersection^ parameter1);
     /// <summary>
     /// Returns tolerance value used for self-intersection test.
     /// </summary>
@@ -1624,7 +1652,8 @@ public:
 /// on distance less than the given tolerance from each other.
 /// 
 /// Second approach:
-/// Compute the proximity value between two shapes if the tolerance is not defined (Precision::Infinite()).
+/// Compute the proximity value between two shapes (handles only edge/edge or face/face cases)
+/// if the tolerance is not defined (Precision::Infinite()).
 /// In this case the proximity value is a minimal thickness of a layer containing both shapes.
 /// 
 /// For the both approaches the high performance is achieved through the use of existing
@@ -1674,7 +1703,6 @@ public:
     /// Creates proximity tool for the given two shapes.
     /// </summary>
     BRepExtrema_ShapeProximity(Macad::Occt::TopoDS_Shape^ theShape1, Macad::Occt::TopoDS_Shape^ theShape2);
-    BRepExtrema_ShapeProximity(Macad::Occt::BRepExtrema_ShapeProximity^ parameter1);
     /// <summary>
     /// Returns tolerance value for overlap test (distance between shapes).
     /// </summary>
@@ -1778,7 +1806,6 @@ public:
     BRepExtrema_UnCompatibleShape();
     BRepExtrema_UnCompatibleShape(System::String^ theMessage);
     BRepExtrema_UnCompatibleShape(System::String^ theMessage, System::String^ theStackTrace);
-    BRepExtrema_UnCompatibleShape(Macad::Occt::BRepExtrema_UnCompatibleShape^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */

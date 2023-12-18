@@ -33,12 +33,6 @@ Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::ProjLib_SequenceOfHSequenceOfPnt(
     _NativeInstance = new ::ProjLib_SequenceOfHSequenceOfPnt(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::ProjLib_SequenceOfHSequenceOfPnt(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theOther)
-    : Macad::Occt::BaseClass<::ProjLib_SequenceOfHSequenceOfPnt>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_SequenceOfHSequenceOfPnt(*(::ProjLib_SequenceOfHSequenceOfPnt*)theOther->NativeInstance);
-}
-
 int Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Size()
 {
     int _result = ((::ProjLib_SequenceOfHSequenceOfPnt*)_NativeInstance)->Size();
@@ -101,24 +95,9 @@ void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Remove(Macad::Occt::ProjLib_
     ((::ProjLib_SequenceOfHSequenceOfPnt*)_NativeInstance)->Remove(*(::ProjLib_SequenceOfHSequenceOfPnt::Iterator*)thePosition->NativeInstance);
 }
 
-void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Remove(int theIndex)
-{
-    ((::ProjLib_SequenceOfHSequenceOfPnt*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Remove(int theFromIndex, int theToIndex)
-{
-    ((::ProjLib_SequenceOfHSequenceOfPnt*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
 void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Append(Macad::Occt::TColgp_HSequenceOfPnt^ theItem)
 {
     ((::ProjLib_SequenceOfHSequenceOfPnt*)_NativeInstance)->Append(Handle(::TColgp_HSequenceOfPnt)(theItem->NativeInstance));
-}
-
-void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Append(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSeq)
-{
-    ((::ProjLib_SequenceOfHSequenceOfPnt*)_NativeInstance)->Append(*(::ProjLib_SequenceOfHSequenceOfPnt*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Prepend(Macad::Occt::TColgp_HSequenceOfPnt^ theItem)
@@ -126,34 +105,14 @@ void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Prepend(Macad::Occt::TColgp_
     ((::ProjLib_SequenceOfHSequenceOfPnt*)_NativeInstance)->Prepend(Handle(::TColgp_HSequenceOfPnt)(theItem->NativeInstance));
 }
 
-void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Prepend(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSeq)
-{
-    ((::ProjLib_SequenceOfHSequenceOfPnt*)_NativeInstance)->Prepend(*(::ProjLib_SequenceOfHSequenceOfPnt*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::InsertBefore(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt^ theItem)
 {
     ((::ProjLib_SequenceOfHSequenceOfPnt*)_NativeInstance)->InsertBefore(theIndex, Handle(::TColgp_HSequenceOfPnt)(theItem->NativeInstance));
 }
 
-void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::InsertBefore(int theIndex, Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSeq)
-{
-    ((::ProjLib_SequenceOfHSequenceOfPnt*)_NativeInstance)->InsertBefore(theIndex, *(::ProjLib_SequenceOfHSequenceOfPnt*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::InsertAfter(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Iterator^ thePosition, Macad::Occt::TColgp_HSequenceOfPnt^ theItem)
 {
     ((::ProjLib_SequenceOfHSequenceOfPnt*)_NativeInstance)->InsertAfter(*(::ProjLib_SequenceOfHSequenceOfPnt::Iterator*)thePosition->NativeInstance, Handle(::TColgp_HSequenceOfPnt)(theItem->NativeInstance));
-}
-
-void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::InsertAfter(int theIndex, Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSeq)
-{
-    ((::ProjLib_SequenceOfHSequenceOfPnt*)_NativeInstance)->InsertAfter(theIndex, *(::ProjLib_SequenceOfHSequenceOfPnt*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::InsertAfter(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt^ theItem)
-{
-    ((::ProjLib_SequenceOfHSequenceOfPnt*)_NativeInstance)->InsertAfter(theIndex, Handle(::TColgp_HSequenceOfPnt)(theItem->NativeInstance));
 }
 
 void Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Split(int theIndex, Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSeq)
@@ -224,24 +183,6 @@ Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Iterator::Iterator()
     _NativeInstance = new ::ProjLib_SequenceOfHSequenceOfPnt::Iterator();
 }
 
-Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Iterator::Iterator(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::ProjLib_SequenceOfHSequenceOfPnt::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_SequenceOfHSequenceOfPnt::Iterator(*(::ProjLib_SequenceOfHSequenceOfPnt*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Iterator::Iterator(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSeq)
-    : Macad::Occt::BaseClass<::ProjLib_SequenceOfHSequenceOfPnt::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_SequenceOfHSequenceOfPnt::Iterator(*(::ProjLib_SequenceOfHSequenceOfPnt*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Iterator::Iterator(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::ProjLib_SequenceOfHSequenceOfPnt::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_SequenceOfHSequenceOfPnt::Iterator(*(::ProjLib_SequenceOfHSequenceOfPnt::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Iterator::More()
 {
     bool _result = ((::ProjLib_SequenceOfHSequenceOfPnt::Iterator*)_NativeInstance)->More();
@@ -269,6 +210,25 @@ bool Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Iterator::IsEqual(Macad::Occ
 {
     bool _result = ((::ProjLib_SequenceOfHSequenceOfPnt::Iterator*)_NativeInstance)->IsEqual(*(::ProjLib_SequenceOfHSequenceOfPnt::Iterator*)theOther->NativeInstance);
     return _result;
+}
+
+bool Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
 }
 
 
@@ -299,12 +259,6 @@ Macad::Occt::ProjLib_ProjectedCurve::ProjLib_ProjectedCurve(Macad::Occt::Adaptor
     : Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ProjLib_ProjectedCurve(Handle(::Adaptor3d_Surface)(S->NativeInstance), Handle(::Adaptor3d_Curve)(C->NativeInstance), Tol);
-}
-
-Macad::Occt::ProjLib_ProjectedCurve::ProjLib_ProjectedCurve(Macad::Occt::ProjLib_ProjectedCurve^ parameter1)
-    : Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ProjLib_ProjectedCurve(*(::ProjLib_ProjectedCurve*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::ProjLib_ProjectedCurve::ShallowCopy()
@@ -556,12 +510,6 @@ Macad::Occt::ProjLib::ProjLib()
     _NativeInstance = new ::ProjLib();
 }
 
-Macad::Occt::ProjLib::ProjLib(Macad::Occt::ProjLib^ parameter1)
-    : Macad::Occt::BaseClass<::ProjLib>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib(*(::ProjLib*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Pnt2d Macad::Occt::ProjLib::Project(Macad::Occt::Pln Pl, Macad::Occt::Pnt P)
 {
     pin_ptr<Macad::Occt::Pln> pp_Pl = &Pl;
@@ -711,17 +659,16 @@ Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::ProjLib_HSequenceOfHSequenceOfPn
     NativeInstance = new ::ProjLib_HSequenceOfHSequenceOfPnt(*(::ProjLib_SequenceOfHSequenceOfPnt*)theOther->NativeInstance);
 }
 
-Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::ProjLib_HSequenceOfHSequenceOfPnt(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ProjLib_HSequenceOfHSequenceOfPnt(*(::ProjLib_HSequenceOfHSequenceOfPnt*)parameter1->NativeInstance);
-}
-
 Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Sequence()
 {
     ::ProjLib_SequenceOfHSequenceOfPnt* _result = new ::ProjLib_SequenceOfHSequenceOfPnt();
     *_result = (::ProjLib_SequenceOfHSequenceOfPnt)((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->Sequence();
     return _result==nullptr ? nullptr : gcnew Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt(_result);
+}
+
+void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Append(Macad::Occt::TColgp_HSequenceOfPnt^ theItem)
+{
+    ((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->Append(Handle(::TColgp_HSequenceOfPnt)(theItem->NativeInstance));
 }
 
 void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Append(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSequence)
@@ -788,9 +735,7 @@ void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Clear()
 
 Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Assign(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theOther)
 {
-    ::ProjLib_HSequenceOfHSequenceOfPnt* _result = new ::ProjLib_HSequenceOfHSequenceOfPnt();
-    *_result = ((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->Assign(*(::ProjLib_HSequenceOfHSequenceOfPnt*)theOther->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt(_result);
+    throw gcnew System::NotImplementedException();
 }
 
 void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Remove(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator^ thePosition)
@@ -798,34 +743,9 @@ void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Remove(Macad::Occt::ProjLib
     ((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->Remove(*(::ProjLib_HSequenceOfHSequenceOfPnt::Iterator*)thePosition->NativeInstance);
 }
 
-void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Remove(int theIndex)
-{
-    ((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Remove(int theFromIndex, int theToIndex)
-{
-    ((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
-void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Append(Macad::Occt::TColgp_HSequenceOfPnt^ theItem)
-{
-    ((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->Append(Handle(::TColgp_HSequenceOfPnt)(theItem->NativeInstance));
-}
-
-void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Append(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theSeq)
-{
-    ((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->Append(*(::ProjLib_HSequenceOfHSequenceOfPnt*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Prepend(Macad::Occt::TColgp_HSequenceOfPnt^ theItem)
 {
     ((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->Prepend(Handle(::TColgp_HSequenceOfPnt)(theItem->NativeInstance));
-}
-
-void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Prepend(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theSeq)
-{
-    ((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->Prepend(*(::ProjLib_HSequenceOfHSequenceOfPnt*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::InsertBefore(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt^ theItem)
@@ -833,24 +753,9 @@ void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::InsertBefore(int theIndex, 
     ((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->InsertBefore(theIndex, Handle(::TColgp_HSequenceOfPnt)(theItem->NativeInstance));
 }
 
-void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::InsertBefore(int theIndex, Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theSeq)
-{
-    ((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->InsertBefore(theIndex, *(::ProjLib_HSequenceOfHSequenceOfPnt*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::InsertAfter(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator^ thePosition, Macad::Occt::TColgp_HSequenceOfPnt^ theItem)
 {
     ((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->InsertAfter(*(::ProjLib_HSequenceOfHSequenceOfPnt::Iterator*)thePosition->NativeInstance, Handle(::TColgp_HSequenceOfPnt)(theItem->NativeInstance));
-}
-
-void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::InsertAfter(int theIndex, Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theSeq)
-{
-    ((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->InsertAfter(theIndex, *(::ProjLib_HSequenceOfHSequenceOfPnt*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::InsertAfter(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt^ theItem)
-{
-    ((::ProjLib_HSequenceOfHSequenceOfPnt*)_NativeInstance)->InsertAfter(theIndex, Handle(::TColgp_HSequenceOfPnt)(theItem->NativeInstance));
 }
 
 void Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Split(int theIndex, Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theSeq)
@@ -926,24 +831,6 @@ Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator::Iterator()
     _NativeInstance = new ::ProjLib_HSequenceOfHSequenceOfPnt::Iterator();
 }
 
-Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator::Iterator(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::ProjLib_HSequenceOfHSequenceOfPnt::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_HSequenceOfHSequenceOfPnt::Iterator(*(::ProjLib_HSequenceOfHSequenceOfPnt*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator::Iterator(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theSeq)
-    : Macad::Occt::BaseClass<::ProjLib_HSequenceOfHSequenceOfPnt::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_HSequenceOfHSequenceOfPnt::Iterator(*(::ProjLib_HSequenceOfHSequenceOfPnt*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator::Iterator(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::ProjLib_HSequenceOfHSequenceOfPnt::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_HSequenceOfHSequenceOfPnt::Iterator(*(::ProjLib_HSequenceOfHSequenceOfPnt::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator::More()
 {
     bool _result = ((::ProjLib_HSequenceOfHSequenceOfPnt::Iterator*)_NativeInstance)->More();
@@ -973,6 +860,25 @@ bool Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator::IsEqual(Macad::Oc
     return _result;
 }
 
+bool Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -983,12 +889,6 @@ Macad::Occt::ProjLib_Projector::ProjLib_Projector()
     : Macad::Occt::BaseClass<::ProjLib_Projector>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ProjLib_Projector();
-}
-
-Macad::Occt::ProjLib_Projector::ProjLib_Projector(Macad::Occt::ProjLib_Projector^ parameter1)
-    : Macad::Occt::BaseClass<::ProjLib_Projector>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_Projector(*(::ProjLib_Projector*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::ProjLib_Projector::IsDone()
@@ -1150,12 +1050,6 @@ Macad::Occt::ProjLib_CompProjectedCurve::ProjLib_CompProjectedCurve(double Tol3d
     : Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ProjLib_CompProjectedCurve(Tol3d, Handle(::Adaptor3d_Surface)(S->NativeInstance), Handle(::Adaptor3d_Curve)(C->NativeInstance), -1.);
-}
-
-Macad::Occt::ProjLib_CompProjectedCurve::ProjLib_CompProjectedCurve(Macad::Occt::ProjLib_CompProjectedCurve^ parameter1)
-    : Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ProjLib_CompProjectedCurve(*(::ProjLib_CompProjectedCurve*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::ProjLib_CompProjectedCurve::ShallowCopy()
@@ -1436,12 +1330,6 @@ Macad::Occt::ProjLib_ComputeApprox::ProjLib_ComputeApprox(Macad::Occt::Adaptor3d
     _NativeInstance = new ::ProjLib_ComputeApprox(Handle(::Adaptor3d_Curve)(C->NativeInstance), Handle(::Adaptor3d_Surface)(S->NativeInstance), Tol);
 }
 
-Macad::Occt::ProjLib_ComputeApprox::ProjLib_ComputeApprox(Macad::Occt::ProjLib_ComputeApprox^ parameter1)
-    : Macad::Occt::BaseClass<::ProjLib_ComputeApprox>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_ComputeApprox(*(::ProjLib_ComputeApprox*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ProjLib_ComputeApprox::Perform(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S)
 {
     ((::ProjLib_ComputeApprox*)_NativeInstance)->Perform(Handle(::Adaptor3d_Curve)(C->NativeInstance), Handle(::Adaptor3d_Surface)(S->NativeInstance));
@@ -1514,12 +1402,6 @@ Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::ProjLib_ComputeApproxOnPolarSu
     : Macad::Occt::BaseClass<::ProjLib_ComputeApproxOnPolarSurface>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ProjLib_ComputeApproxOnPolarSurface(Handle(::Adaptor2d_Curve2d)(InitCurve2d->NativeInstance), Handle(::Adaptor2d_Curve2d)(InitCurve2dBis->NativeInstance), Handle(::Adaptor3d_Curve)(C->NativeInstance), Handle(::Adaptor3d_Surface)(S->NativeInstance), Tol);
-}
-
-Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::ProjLib_ComputeApproxOnPolarSurface^ parameter1)
-    : Macad::Occt::BaseClass<::ProjLib_ComputeApproxOnPolarSurface>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_ComputeApproxOnPolarSurface(*(::ProjLib_ComputeApproxOnPolarSurface*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ProjLib_ComputeApproxOnPolarSurface::SetDegree(int theDegMin, int theDegMax)
@@ -1619,12 +1501,6 @@ Macad::Occt::ProjLib_Cone::ProjLib_Cone(Macad::Occt::gp_Cone^ Co, Macad::Occt::g
     _NativeInstance = new ::ProjLib_Cone(*(::gp_Cone*)Co->NativeInstance, *(::gp_Circ*)C->NativeInstance);
 }
 
-Macad::Occt::ProjLib_Cone::ProjLib_Cone(Macad::Occt::ProjLib_Cone^ parameter1)
-    : Macad::Occt::ProjLib_Projector(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_Cone(*(::ProjLib_Cone*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ProjLib_Cone::Init(Macad::Occt::gp_Cone^ Co)
 {
     ((::ProjLib_Cone*)_NativeInstance)->Init(*(::gp_Cone*)Co->NativeInstance);
@@ -1689,12 +1565,6 @@ Macad::Occt::ProjLib_Cylinder::ProjLib_Cylinder(Macad::Occt::gp_Cylinder^ Cyl, M
     : Macad::Occt::ProjLib_Projector(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ProjLib_Cylinder(*(::gp_Cylinder*)Cyl->NativeInstance, *(::gp_Elips*)E->NativeInstance);
-}
-
-Macad::Occt::ProjLib_Cylinder::ProjLib_Cylinder(Macad::Occt::ProjLib_Cylinder^ parameter1)
-    : Macad::Occt::ProjLib_Projector(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_Cylinder(*(::ProjLib_Cylinder*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ProjLib_Cylinder::Init(Macad::Occt::gp_Cylinder^ Cyl)
@@ -1781,12 +1651,6 @@ Macad::Occt::ProjLib_Plane::ProjLib_Plane(Macad::Occt::Pln Pl, Macad::Occt::gp_H
     _NativeInstance = new ::ProjLib_Plane(*(gp_Pln*)pp_Pl, *(::gp_Hypr*)H->NativeInstance);
 }
 
-Macad::Occt::ProjLib_Plane::ProjLib_Plane(Macad::Occt::ProjLib_Plane^ parameter1)
-    : Macad::Occt::ProjLib_Projector(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_Plane(*(::ProjLib_Plane*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ProjLib_Plane::Init(Macad::Occt::Pln Pl)
 {
     pin_ptr<Macad::Occt::Pln> pp_Pl = &Pl;
@@ -1828,12 +1692,6 @@ Macad::Occt::ProjLib_PrjResolve::ProjLib_PrjResolve(Macad::Occt::Adaptor3d_Curve
     : Macad::Occt::BaseClass<::ProjLib_PrjResolve>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ProjLib_PrjResolve(*(::Adaptor3d_Curve*)C->NativeInstance, *(::Adaptor3d_Surface*)S->NativeInstance, Fix);
-}
-
-Macad::Occt::ProjLib_PrjResolve::ProjLib_PrjResolve(Macad::Occt::ProjLib_PrjResolve^ parameter1)
-    : Macad::Occt::BaseClass<::ProjLib_PrjResolve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_PrjResolve(*(::ProjLib_PrjResolve*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ProjLib_PrjResolve::Perform(double t, double U, double V, Macad::Occt::Pnt2d Tol, Macad::Occt::Pnt2d Inf, Macad::Occt::Pnt2d Sup, double FTol, bool StrictInside)
@@ -1897,12 +1755,6 @@ Macad::Occt::ProjLib_ProjectOnPlane::ProjLib_ProjectOnPlane(Macad::Occt::Ax3 Pl,
     pin_ptr<Macad::Occt::Ax3> pp_Pl = &Pl;
     pin_ptr<Macad::Occt::Dir> pp_D = &D;
     NativeInstance = new ::ProjLib_ProjectOnPlane(*(gp_Ax3*)pp_Pl, *(gp_Dir*)pp_D);
-}
-
-Macad::Occt::ProjLib_ProjectOnPlane::ProjLib_ProjectOnPlane(Macad::Occt::ProjLib_ProjectOnPlane^ parameter1)
-    : Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ProjLib_ProjectOnPlane(*(::ProjLib_ProjectOnPlane*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Adaptor3d_Curve^ Macad::Occt::ProjLib_ProjectOnPlane::ShallowCopy()
@@ -2146,12 +1998,6 @@ Macad::Occt::ProjLib_ProjectOnSurface::ProjLib_ProjectOnSurface(Macad::Occt::Ada
     _NativeInstance = new ::ProjLib_ProjectOnSurface(Handle(::Adaptor3d_Surface)(S->NativeInstance));
 }
 
-Macad::Occt::ProjLib_ProjectOnSurface::ProjLib_ProjectOnSurface(Macad::Occt::ProjLib_ProjectOnSurface^ parameter1)
-    : Macad::Occt::BaseClass<::ProjLib_ProjectOnSurface>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_ProjectOnSurface(*(::ProjLib_ProjectOnSurface*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ProjLib_ProjectOnSurface::Load(Macad::Occt::Adaptor3d_Surface^ S)
 {
     ((::ProjLib_ProjectOnSurface*)_NativeInstance)->Load(Handle(::Adaptor3d_Surface)(S->NativeInstance));
@@ -2196,12 +2042,6 @@ Macad::Occt::ProjLib_Sphere::ProjLib_Sphere(Macad::Occt::gp_Sphere^ Sp, Macad::O
     : Macad::Occt::ProjLib_Projector(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ProjLib_Sphere(*(::gp_Sphere*)Sp->NativeInstance, *(::gp_Circ*)C->NativeInstance);
-}
-
-Macad::Occt::ProjLib_Sphere::ProjLib_Sphere(Macad::Occt::ProjLib_Sphere^ parameter1)
-    : Macad::Occt::ProjLib_Projector(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_Sphere(*(::ProjLib_Sphere*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ProjLib_Sphere::Init(Macad::Occt::gp_Sphere^ Sp)
@@ -2261,12 +2101,6 @@ Macad::Occt::ProjLib_Torus::ProjLib_Torus(Macad::Occt::gp_Torus^ To, Macad::Occt
     : Macad::Occt::ProjLib_Projector(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ProjLib_Torus(*(::gp_Torus*)To->NativeInstance, *(::gp_Circ*)C->NativeInstance);
-}
-
-Macad::Occt::ProjLib_Torus::ProjLib_Torus(Macad::Occt::ProjLib_Torus^ parameter1)
-    : Macad::Occt::ProjLib_Projector(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ProjLib_Torus(*(::ProjLib_Torus*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ProjLib_Torus::Init(Macad::Occt::gp_Torus^ To)

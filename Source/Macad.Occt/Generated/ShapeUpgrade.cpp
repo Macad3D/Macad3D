@@ -29,12 +29,6 @@ Macad::Occt::ShapeUpgrade::ShapeUpgrade()
     _NativeInstance = new ::ShapeUpgrade();
 }
 
-Macad::Occt::ShapeUpgrade::ShapeUpgrade(Macad::Occt::ShapeUpgrade^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeUpgrade>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeUpgrade(*(::ShapeUpgrade*)parameter1->NativeInstance);
-}
-
 
 
 //---------------------------------------------------------------------
@@ -45,12 +39,6 @@ Macad::Occt::ShapeUpgrade_Tool::ShapeUpgrade_Tool()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeUpgrade_Tool();
-}
-
-Macad::Occt::ShapeUpgrade_Tool::ShapeUpgrade_Tool(Macad::Occt::ShapeUpgrade_Tool^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_Tool(*(::ShapeUpgrade_Tool*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_Tool::Set(Macad::Occt::ShapeUpgrade_Tool^ tool)
@@ -139,12 +127,6 @@ Macad::Occt::ShapeUpgrade_SplitCurve::ShapeUpgrade_SplitCurve()
     NativeInstance = new ::ShapeUpgrade_SplitCurve();
 }
 
-Macad::Occt::ShapeUpgrade_SplitCurve::ShapeUpgrade_SplitCurve(Macad::Occt::ShapeUpgrade_SplitCurve^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_SplitCurve(*(::ShapeUpgrade_SplitCurve*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeUpgrade_SplitCurve::Init(double First, double Last)
 {
     ((::ShapeUpgrade_SplitCurve*)_NativeInstance)->Init(First, Last);
@@ -206,12 +188,6 @@ Macad::Occt::ShapeUpgrade_SplitCurve2d::ShapeUpgrade_SplitCurve2d()
     NativeInstance = new ::ShapeUpgrade_SplitCurve2d();
 }
 
-Macad::Occt::ShapeUpgrade_SplitCurve2d::ShapeUpgrade_SplitCurve2d(Macad::Occt::ShapeUpgrade_SplitCurve2d^ parameter1)
-    : Macad::Occt::ShapeUpgrade_SplitCurve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_SplitCurve2d(*(::ShapeUpgrade_SplitCurve2d*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeUpgrade_SplitCurve2d::Init(Macad::Occt::Geom2d_Curve^ C)
 {
     ((::ShapeUpgrade_SplitCurve2d*)_NativeInstance)->Init(Handle(::Geom2d_Curve)(C->NativeInstance));
@@ -250,12 +226,6 @@ Macad::Occt::ShapeUpgrade_EdgeDivide::ShapeUpgrade_EdgeDivide()
     : Macad::Occt::ShapeUpgrade_Tool(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeUpgrade_EdgeDivide();
-}
-
-Macad::Occt::ShapeUpgrade_EdgeDivide::ShapeUpgrade_EdgeDivide(Macad::Occt::ShapeUpgrade_EdgeDivide^ parameter1)
-    : Macad::Occt::ShapeUpgrade_Tool(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_EdgeDivide(*(::ShapeUpgrade_EdgeDivide*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_EdgeDivide::Clear()
@@ -343,12 +313,6 @@ Macad::Occt::ShapeUpgrade_ClosedEdgeDivide::ShapeUpgrade_ClosedEdgeDivide()
     NativeInstance = new ::ShapeUpgrade_ClosedEdgeDivide();
 }
 
-Macad::Occt::ShapeUpgrade_ClosedEdgeDivide::ShapeUpgrade_ClosedEdgeDivide(Macad::Occt::ShapeUpgrade_ClosedEdgeDivide^ parameter1)
-    : Macad::Occt::ShapeUpgrade_EdgeDivide(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_ClosedEdgeDivide(*(::ShapeUpgrade_ClosedEdgeDivide*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ShapeUpgrade_ClosedEdgeDivide::Compute(Macad::Occt::TopoDS_Edge^ anEdge)
 {
     bool _result = ((::ShapeUpgrade_ClosedEdgeDivide*)_NativeInstance)->Compute(*(::TopoDS_Edge*)anEdge->NativeInstance);
@@ -370,12 +334,6 @@ Macad::Occt::ShapeUpgrade_SplitSurface::ShapeUpgrade_SplitSurface()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeUpgrade_SplitSurface();
-}
-
-Macad::Occt::ShapeUpgrade_SplitSurface::ShapeUpgrade_SplitSurface(Macad::Occt::ShapeUpgrade_SplitSurface^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_SplitSurface(*(::ShapeUpgrade_SplitSurface*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_SplitSurface::Init(Macad::Occt::Geom_Surface^ S)
@@ -467,12 +425,6 @@ Macad::Occt::ShapeUpgrade_WireDivide::ShapeUpgrade_WireDivide()
     : Macad::Occt::ShapeUpgrade_Tool(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeUpgrade_WireDivide();
-}
-
-Macad::Occt::ShapeUpgrade_WireDivide::ShapeUpgrade_WireDivide(Macad::Occt::ShapeUpgrade_WireDivide^ parameter1)
-    : Macad::Occt::ShapeUpgrade_Tool(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_WireDivide(*(::ShapeUpgrade_WireDivide*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_WireDivide::Init(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Face^ F)
@@ -593,12 +545,6 @@ Macad::Occt::ShapeUpgrade_FaceDivide::ShapeUpgrade_FaceDivide(Macad::Occt::TopoD
     NativeInstance = new ::ShapeUpgrade_FaceDivide(*(::TopoDS_Face*)F->NativeInstance);
 }
 
-Macad::Occt::ShapeUpgrade_FaceDivide::ShapeUpgrade_FaceDivide(Macad::Occt::ShapeUpgrade_FaceDivide^ parameter1)
-    : Macad::Occt::ShapeUpgrade_Tool(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_FaceDivide(*(::ShapeUpgrade_FaceDivide*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeUpgrade_FaceDivide::Init(Macad::Occt::TopoDS_Face^ F)
 {
     ((::ShapeUpgrade_FaceDivide*)_NativeInstance)->Init(*(::TopoDS_Face*)F->NativeInstance);
@@ -699,12 +645,6 @@ Macad::Occt::ShapeUpgrade_ClosedFaceDivide::ShapeUpgrade_ClosedFaceDivide(Macad:
     NativeInstance = new ::ShapeUpgrade_ClosedFaceDivide(*(::TopoDS_Face*)F->NativeInstance);
 }
 
-Macad::Occt::ShapeUpgrade_ClosedFaceDivide::ShapeUpgrade_ClosedFaceDivide(Macad::Occt::ShapeUpgrade_ClosedFaceDivide^ parameter1)
-    : Macad::Occt::ShapeUpgrade_FaceDivide(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_ClosedFaceDivide(*(::ShapeUpgrade_ClosedFaceDivide*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ShapeUpgrade_ClosedFaceDivide::SplitSurface(double theArea)
 {
     bool _result = ((::ShapeUpgrade_ClosedFaceDivide*)_NativeInstance)->SplitSurface(theArea);
@@ -743,12 +683,6 @@ Macad::Occt::ShapeUpgrade_SplitCurve3d::ShapeUpgrade_SplitCurve3d()
     : Macad::Occt::ShapeUpgrade_SplitCurve(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeUpgrade_SplitCurve3d();
-}
-
-Macad::Occt::ShapeUpgrade_SplitCurve3d::ShapeUpgrade_SplitCurve3d(Macad::Occt::ShapeUpgrade_SplitCurve3d^ parameter1)
-    : Macad::Occt::ShapeUpgrade_SplitCurve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_SplitCurve3d(*(::ShapeUpgrade_SplitCurve3d*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_SplitCurve3d::Init(Macad::Occt::Geom_Curve^ C)
@@ -791,12 +725,6 @@ Macad::Occt::ShapeUpgrade_ConvertCurve2dToBezier::ShapeUpgrade_ConvertCurve2dToB
     NativeInstance = new ::ShapeUpgrade_ConvertCurve2dToBezier();
 }
 
-Macad::Occt::ShapeUpgrade_ConvertCurve2dToBezier::ShapeUpgrade_ConvertCurve2dToBezier(Macad::Occt::ShapeUpgrade_ConvertCurve2dToBezier^ parameter1)
-    : Macad::Occt::ShapeUpgrade_SplitCurve2d(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_ConvertCurve2dToBezier(*(::ShapeUpgrade_ConvertCurve2dToBezier*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeUpgrade_ConvertCurve2dToBezier::Compute()
 {
     ((::ShapeUpgrade_ConvertCurve2dToBezier*)_NativeInstance)->Compute();
@@ -828,12 +756,6 @@ Macad::Occt::ShapeUpgrade_ConvertCurve3dToBezier::ShapeUpgrade_ConvertCurve3dToB
     : Macad::Occt::ShapeUpgrade_SplitCurve3d(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeUpgrade_ConvertCurve3dToBezier();
-}
-
-Macad::Occt::ShapeUpgrade_ConvertCurve3dToBezier::ShapeUpgrade_ConvertCurve3dToBezier(Macad::Occt::ShapeUpgrade_ConvertCurve3dToBezier^ parameter1)
-    : Macad::Occt::ShapeUpgrade_SplitCurve3d(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_ConvertCurve3dToBezier(*(::ShapeUpgrade_ConvertCurve3dToBezier*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_ConvertCurve3dToBezier::SetLineMode(bool mode)
@@ -900,12 +822,6 @@ Macad::Occt::ShapeUpgrade_ConvertSurfaceToBezierBasis::ShapeUpgrade_ConvertSurfa
     : Macad::Occt::ShapeUpgrade_SplitSurface(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeUpgrade_ConvertSurfaceToBezierBasis();
-}
-
-Macad::Occt::ShapeUpgrade_ConvertSurfaceToBezierBasis::ShapeUpgrade_ConvertSurfaceToBezierBasis(Macad::Occt::ShapeUpgrade_ConvertSurfaceToBezierBasis^ parameter1)
-    : Macad::Occt::ShapeUpgrade_SplitSurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_ConvertSurfaceToBezierBasis(*(::ShapeUpgrade_ConvertSurfaceToBezierBasis*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_ConvertSurfaceToBezierBasis::Build(bool Segment)
@@ -985,12 +901,6 @@ Macad::Occt::ShapeUpgrade_FaceDivideArea::ShapeUpgrade_FaceDivideArea(Macad::Occ
     NativeInstance = new ::ShapeUpgrade_FaceDivideArea(*(::TopoDS_Face*)F->NativeInstance);
 }
 
-Macad::Occt::ShapeUpgrade_FaceDivideArea::ShapeUpgrade_FaceDivideArea(Macad::Occt::ShapeUpgrade_FaceDivideArea^ parameter1)
-    : Macad::Occt::ShapeUpgrade_FaceDivide(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_FaceDivideArea(*(::ShapeUpgrade_FaceDivideArea*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ShapeUpgrade_FaceDivideArea::Perform(double theArea)
 {
     bool _result = ((::ShapeUpgrade_FaceDivideArea*)_NativeInstance)->Perform(theArea);
@@ -1028,12 +938,6 @@ Macad::Occt::ShapeUpgrade_FixSmallCurves::ShapeUpgrade_FixSmallCurves()
     : Macad::Occt::ShapeUpgrade_Tool(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeUpgrade_FixSmallCurves();
-}
-
-Macad::Occt::ShapeUpgrade_FixSmallCurves::ShapeUpgrade_FixSmallCurves(Macad::Occt::ShapeUpgrade_FixSmallCurves^ parameter1)
-    : Macad::Occt::ShapeUpgrade_Tool(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_FixSmallCurves(*(::ShapeUpgrade_FixSmallCurves*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_FixSmallCurves::Init(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Face^ theFace)
@@ -1088,12 +992,6 @@ Macad::Occt::ShapeUpgrade_FixSmallBezierCurves::ShapeUpgrade_FixSmallBezierCurve
     NativeInstance = new ::ShapeUpgrade_FixSmallBezierCurves();
 }
 
-Macad::Occt::ShapeUpgrade_FixSmallBezierCurves::ShapeUpgrade_FixSmallBezierCurves(Macad::Occt::ShapeUpgrade_FixSmallBezierCurves^ parameter1)
-    : Macad::Occt::ShapeUpgrade_FixSmallCurves(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_FixSmallBezierCurves(*(::ShapeUpgrade_FixSmallBezierCurves*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ShapeUpgrade_FixSmallBezierCurves::Approx(Macad::Occt::Geom_Curve^ Curve3d, Macad::Occt::Geom2d_Curve^ Curve2d, Macad::Occt::Geom2d_Curve^ Curve2dR, double% First, double% Last)
 {
     Handle(::Geom_Curve) h_Curve3d = Curve3d->NativeInstance;
@@ -1129,12 +1027,6 @@ Macad::Occt::ShapeUpgrade_RemoveInternalWires::ShapeUpgrade_RemoveInternalWires(
     : Macad::Occt::ShapeUpgrade_Tool(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeUpgrade_RemoveInternalWires(*(::TopoDS_Shape*)theShape->NativeInstance);
-}
-
-Macad::Occt::ShapeUpgrade_RemoveInternalWires::ShapeUpgrade_RemoveInternalWires(Macad::Occt::ShapeUpgrade_RemoveInternalWires^ parameter1)
-    : Macad::Occt::ShapeUpgrade_Tool(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_RemoveInternalWires(*(::ShapeUpgrade_RemoveInternalWires*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_RemoveInternalWires::Init(Macad::Occt::TopoDS_Shape^ theShape)
@@ -1192,12 +1084,6 @@ Macad::Occt::ShapeUpgrade_RemoveLocations::ShapeUpgrade_RemoveLocations()
     NativeInstance = new ::ShapeUpgrade_RemoveLocations();
 }
 
-Macad::Occt::ShapeUpgrade_RemoveLocations::ShapeUpgrade_RemoveLocations(Macad::Occt::ShapeUpgrade_RemoveLocations^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_RemoveLocations(*(::ShapeUpgrade_RemoveLocations*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ShapeUpgrade_RemoveLocations::Remove(Macad::Occt::TopoDS_Shape^ theShape)
 {
     bool _result = ((::ShapeUpgrade_RemoveLocations*)_NativeInstance)->Remove(*(::TopoDS_Shape*)theShape->NativeInstance);
@@ -1250,12 +1136,6 @@ Macad::Occt::ShapeUpgrade_ShapeDivide::ShapeUpgrade_ShapeDivide(Macad::Occt::Top
     : Macad::Occt::BaseClass<::ShapeUpgrade_ShapeDivide>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeUpgrade_ShapeDivide(*(::TopoDS_Shape*)S->NativeInstance);
-}
-
-Macad::Occt::ShapeUpgrade_ShapeDivide::ShapeUpgrade_ShapeDivide(Macad::Occt::ShapeUpgrade_ShapeDivide^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeUpgrade_ShapeDivide>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeUpgrade_ShapeDivide(*(::ShapeUpgrade_ShapeDivide*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_ShapeDivide::Init(Macad::Occt::TopoDS_Shape^ S)
@@ -1339,12 +1219,6 @@ Macad::Occt::ShapeUpgrade_ShapeConvertToBezier::ShapeUpgrade_ShapeConvertToBezie
     : Macad::Occt::ShapeUpgrade_ShapeDivide(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeUpgrade_ShapeConvertToBezier(*(::TopoDS_Shape*)S->NativeInstance);
-}
-
-Macad::Occt::ShapeUpgrade_ShapeConvertToBezier::ShapeUpgrade_ShapeConvertToBezier(Macad::Occt::ShapeUpgrade_ShapeConvertToBezier^ parameter1)
-    : Macad::Occt::ShapeUpgrade_ShapeDivide(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeUpgrade_ShapeConvertToBezier(*(::ShapeUpgrade_ShapeConvertToBezier*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_ShapeConvertToBezier::Set2dConversion(bool mode)
@@ -1487,12 +1361,6 @@ Macad::Occt::ShapeUpgrade_ShapeDivideAngle::ShapeUpgrade_ShapeDivideAngle(double
     _NativeInstance = new ::ShapeUpgrade_ShapeDivideAngle(MaxAngle, *(::TopoDS_Shape*)S->NativeInstance);
 }
 
-Macad::Occt::ShapeUpgrade_ShapeDivideAngle::ShapeUpgrade_ShapeDivideAngle(Macad::Occt::ShapeUpgrade_ShapeDivideAngle^ parameter1)
-    : Macad::Occt::ShapeUpgrade_ShapeDivide(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeUpgrade_ShapeDivideAngle(*(::ShapeUpgrade_ShapeDivideAngle*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeUpgrade_ShapeDivideAngle::InitTool(double MaxAngle)
 {
     ((::ShapeUpgrade_ShapeDivideAngle*)_NativeInstance)->InitTool(MaxAngle);
@@ -1527,12 +1395,6 @@ Macad::Occt::ShapeUpgrade_ShapeDivideArea::ShapeUpgrade_ShapeDivideArea(Macad::O
     _NativeInstance = new ::ShapeUpgrade_ShapeDivideArea(*(::TopoDS_Shape*)S->NativeInstance);
 }
 
-Macad::Occt::ShapeUpgrade_ShapeDivideArea::ShapeUpgrade_ShapeDivideArea(Macad::Occt::ShapeUpgrade_ShapeDivideArea^ parameter1)
-    : Macad::Occt::ShapeUpgrade_ShapeDivide(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeUpgrade_ShapeDivideArea(*(::ShapeUpgrade_ShapeDivideArea*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeUpgrade_ShapeDivideArea::SetNumbersUVSplits(int theNbUsplits, int theNbVsplits)
 {
     ((::ShapeUpgrade_ShapeDivideArea*)_NativeInstance)->SetNumbersUVSplits(theNbUsplits, theNbVsplits);
@@ -1555,12 +1417,6 @@ Macad::Occt::ShapeUpgrade_ShapeDivideClosed::ShapeUpgrade_ShapeDivideClosed(Maca
     _NativeInstance = new ::ShapeUpgrade_ShapeDivideClosed(*(::TopoDS_Shape*)S->NativeInstance);
 }
 
-Macad::Occt::ShapeUpgrade_ShapeDivideClosed::ShapeUpgrade_ShapeDivideClosed(Macad::Occt::ShapeUpgrade_ShapeDivideClosed^ parameter1)
-    : Macad::Occt::ShapeUpgrade_ShapeDivide(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeUpgrade_ShapeDivideClosed(*(::ShapeUpgrade_ShapeDivideClosed*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeUpgrade_ShapeDivideClosed::SetNbSplitPoints(int num)
 {
     ((::ShapeUpgrade_ShapeDivideClosed*)_NativeInstance)->SetNbSplitPoints(num);
@@ -1576,12 +1432,6 @@ Macad::Occt::ShapeUpgrade_ShapeDivideClosedEdges::ShapeUpgrade_ShapeDivideClosed
     : Macad::Occt::ShapeUpgrade_ShapeDivide(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeUpgrade_ShapeDivideClosedEdges(*(::TopoDS_Shape*)S->NativeInstance);
-}
-
-Macad::Occt::ShapeUpgrade_ShapeDivideClosedEdges::ShapeUpgrade_ShapeDivideClosedEdges(Macad::Occt::ShapeUpgrade_ShapeDivideClosedEdges^ parameter1)
-    : Macad::Occt::ShapeUpgrade_ShapeDivide(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeUpgrade_ShapeDivideClosedEdges(*(::ShapeUpgrade_ShapeDivideClosedEdges*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_ShapeDivideClosedEdges::SetNbSplitPoints(int num)
@@ -1605,12 +1455,6 @@ Macad::Occt::ShapeUpgrade_ShapeDivideContinuity::ShapeUpgrade_ShapeDivideContinu
     : Macad::Occt::ShapeUpgrade_ShapeDivide(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeUpgrade_ShapeDivideContinuity(*(::TopoDS_Shape*)S->NativeInstance);
-}
-
-Macad::Occt::ShapeUpgrade_ShapeDivideContinuity::ShapeUpgrade_ShapeDivideContinuity(Macad::Occt::ShapeUpgrade_ShapeDivideContinuity^ parameter1)
-    : Macad::Occt::ShapeUpgrade_ShapeDivide(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeUpgrade_ShapeDivideContinuity(*(::ShapeUpgrade_ShapeDivideContinuity*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_ShapeDivideContinuity::SetTolerance(double Tol)
@@ -1665,12 +1509,6 @@ Macad::Occt::ShapeUpgrade_ShellSewing::ShapeUpgrade_ShellSewing()
     _NativeInstance = new ::ShapeUpgrade_ShellSewing();
 }
 
-Macad::Occt::ShapeUpgrade_ShellSewing::ShapeUpgrade_ShellSewing(Macad::Occt::ShapeUpgrade_ShellSewing^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeUpgrade_ShellSewing>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeUpgrade_ShellSewing(*(::ShapeUpgrade_ShellSewing*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TopoDS_Shape^ Macad::Occt::ShapeUpgrade_ShellSewing::ApplySewing(Macad::Occt::TopoDS_Shape^ shape, double tol)
 {
     ::TopoDS_Shape* _result = new ::TopoDS_Shape();
@@ -1695,12 +1533,6 @@ Macad::Occt::ShapeUpgrade_SplitCurve2dContinuity::ShapeUpgrade_SplitCurve2dConti
     : Macad::Occt::ShapeUpgrade_SplitCurve2d(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeUpgrade_SplitCurve2dContinuity();
-}
-
-Macad::Occt::ShapeUpgrade_SplitCurve2dContinuity::ShapeUpgrade_SplitCurve2dContinuity(Macad::Occt::ShapeUpgrade_SplitCurve2dContinuity^ parameter1)
-    : Macad::Occt::ShapeUpgrade_SplitCurve2d(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_SplitCurve2dContinuity(*(::ShapeUpgrade_SplitCurve2dContinuity*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_SplitCurve2dContinuity::SetCriterion(Macad::Occt::GeomAbs_Shape Criterion)
@@ -1733,12 +1565,6 @@ Macad::Occt::ShapeUpgrade_SplitCurve3dContinuity::ShapeUpgrade_SplitCurve3dConti
     : Macad::Occt::ShapeUpgrade_SplitCurve3d(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeUpgrade_SplitCurve3dContinuity();
-}
-
-Macad::Occt::ShapeUpgrade_SplitCurve3dContinuity::ShapeUpgrade_SplitCurve3dContinuity(Macad::Occt::ShapeUpgrade_SplitCurve3dContinuity^ parameter1)
-    : Macad::Occt::ShapeUpgrade_SplitCurve3d(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_SplitCurve3dContinuity(*(::ShapeUpgrade_SplitCurve3dContinuity*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_SplitCurve3dContinuity::SetCriterion(Macad::Occt::GeomAbs_Shape Criterion)
@@ -1779,12 +1605,6 @@ Macad::Occt::ShapeUpgrade_SplitSurfaceAngle::ShapeUpgrade_SplitSurfaceAngle(doub
     NativeInstance = new ::ShapeUpgrade_SplitSurfaceAngle(MaxAngle);
 }
 
-Macad::Occt::ShapeUpgrade_SplitSurfaceAngle::ShapeUpgrade_SplitSurfaceAngle(Macad::Occt::ShapeUpgrade_SplitSurfaceAngle^ parameter1)
-    : Macad::Occt::ShapeUpgrade_SplitSurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_SplitSurfaceAngle(*(::ShapeUpgrade_SplitSurfaceAngle*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeUpgrade_SplitSurfaceAngle::SetMaxAngle(double MaxAngle)
 {
     ((::ShapeUpgrade_SplitSurfaceAngle*)_NativeInstance)->SetMaxAngle(MaxAngle);
@@ -1816,12 +1636,6 @@ Macad::Occt::ShapeUpgrade_SplitSurfaceArea::ShapeUpgrade_SplitSurfaceArea()
     : Macad::Occt::ShapeUpgrade_SplitSurface(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeUpgrade_SplitSurfaceArea();
-}
-
-Macad::Occt::ShapeUpgrade_SplitSurfaceArea::ShapeUpgrade_SplitSurfaceArea(Macad::Occt::ShapeUpgrade_SplitSurfaceArea^ parameter1)
-    : Macad::Occt::ShapeUpgrade_SplitSurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_SplitSurfaceArea(*(::ShapeUpgrade_SplitSurfaceArea*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_SplitSurfaceArea::SetSplittingIntoSquares(bool theIsSplittingIntoSquares)
@@ -1859,12 +1673,6 @@ Macad::Occt::ShapeUpgrade_SplitSurfaceContinuity::ShapeUpgrade_SplitSurfaceConti
     : Macad::Occt::ShapeUpgrade_SplitSurface(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeUpgrade_SplitSurfaceContinuity();
-}
-
-Macad::Occt::ShapeUpgrade_SplitSurfaceContinuity::ShapeUpgrade_SplitSurfaceContinuity(Macad::Occt::ShapeUpgrade_SplitSurfaceContinuity^ parameter1)
-    : Macad::Occt::ShapeUpgrade_SplitSurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_SplitSurfaceContinuity(*(::ShapeUpgrade_SplitSurfaceContinuity*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_SplitSurfaceContinuity::SetCriterion(Macad::Occt::GeomAbs_Shape Criterion)
@@ -1921,12 +1729,6 @@ Macad::Occt::ShapeUpgrade_UnifySameDomain::ShapeUpgrade_UnifySameDomain(Macad::O
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeUpgrade_UnifySameDomain(*(::TopoDS_Shape*)aShape->NativeInstance, true, true, false);
-}
-
-Macad::Occt::ShapeUpgrade_UnifySameDomain::ShapeUpgrade_UnifySameDomain(Macad::Occt::ShapeUpgrade_UnifySameDomain^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeUpgrade_UnifySameDomain(*(::ShapeUpgrade_UnifySameDomain*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeUpgrade_UnifySameDomain::Initialize(Macad::Occt::TopoDS_Shape^ aShape, bool UnifyEdges, bool UnifyFaces, bool ConcatBSplines)

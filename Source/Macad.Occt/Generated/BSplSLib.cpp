@@ -39,12 +39,6 @@ Macad::Occt::BSplSLib::BSplSLib()
     _NativeInstance = new ::BSplSLib();
 }
 
-Macad::Occt::BSplSLib::BSplSLib(Macad::Occt::BSplSLib^ parameter1)
-    : Macad::Occt::BaseClass<::BSplSLib>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BSplSLib(*(::BSplSLib*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BSplSLib::RationalDerivative(int UDeg, int VDeg, int N, int M, double% Ders, double% RDers, bool All)
 {
     pin_ptr<double> pp_Ders = &Ders;
@@ -330,7 +324,7 @@ Macad::Occt::BSplSLib_Cache::BSplSLib_Cache(int theDegreeU, bool thePeriodicU, M
     pin_ptr<bool> pp_thePeriodicU = &thePeriodicU;
     pin_ptr<int> pp_theDegreeV = &theDegreeV;
     pin_ptr<bool> pp_thePeriodicV = &thePeriodicV;
-    NativeInstance = new ::BSplSLib_Cache(*(int*)pp_theDegreeU, *(bool*)pp_thePeriodicU, *(::TColStd_Array1OfReal*)theFlatKnotsU->NativeInstance, *(int*)pp_theDegreeV, *(bool*)pp_thePeriodicV, *(::TColStd_Array1OfReal*)theFlatKnotsV->NativeInstance, 0);
+    NativeInstance = new ::BSplSLib_Cache(*(int*)pp_theDegreeU, *(bool*)pp_thePeriodicU, *(::TColStd_Array1OfReal*)theFlatKnotsU->NativeInstance, *(int*)pp_theDegreeV, *(bool*)pp_thePeriodicV, *(::TColStd_Array1OfReal*)theFlatKnotsV->NativeInstance, nullptr);
 }
 
 bool Macad::Occt::BSplSLib_Cache::IsCacheValid(double theParameterU, double theParameterV)
@@ -350,7 +344,7 @@ void Macad::Occt::BSplSLib_Cache::BuildCache(double theParameterU, double thePar
 {
     pin_ptr<double> pp_theParameterU = &theParameterU;
     pin_ptr<double> pp_theParameterV = &theParameterV;
-    ((::BSplSLib_Cache*)_NativeInstance)->BuildCache(*(double*)pp_theParameterU, *(double*)pp_theParameterV, *(::TColStd_Array1OfReal*)theFlatKnotsU->NativeInstance, *(::TColStd_Array1OfReal*)theFlatKnotsV->NativeInstance, *(::TColgp_Array2OfPnt*)thePoles->NativeInstance, 0);
+    ((::BSplSLib_Cache*)_NativeInstance)->BuildCache(*(double*)pp_theParameterU, *(double*)pp_theParameterV, *(::TColStd_Array1OfReal*)theFlatKnotsU->NativeInstance, *(::TColStd_Array1OfReal*)theFlatKnotsV->NativeInstance, *(::TColgp_Array2OfPnt*)thePoles->NativeInstance, nullptr);
 }
 
 void Macad::Occt::BSplSLib_Cache::D0(double theU, double theV, Macad::Occt::Pnt% thePoint)

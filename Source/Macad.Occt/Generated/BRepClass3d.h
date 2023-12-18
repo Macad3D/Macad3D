@@ -106,8 +106,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::BRepClass3d_MapOfInter^ theMap);
-        Iterator(Macad::Occt::BRepClass3d_MapOfInter::Iterator^ parameter1);
         bool More();
         void Next();
         System::IntPtr Value();
@@ -118,7 +116,6 @@ public:
     BRepClass3d_MapOfInter();
     BRepClass3d_MapOfInter(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     BRepClass3d_MapOfInter(int theNbBuckets);
-    BRepClass3d_MapOfInter(Macad::Occt::BRepClass3d_MapOfInter^ theOther);
     void Exchange(Macad::Occt::BRepClass3d_MapOfInter^ theOther);
     Macad::Occt::BRepClass3d_MapOfInter^ Assign(Macad::Occt::BRepClass3d_MapOfInter^ theOther);
     void ReSize(int N);
@@ -128,12 +125,10 @@ public:
     bool UnBind(Macad::Occt::TopoDS_Shape^ theKey);
     System::IntPtr Seek(Macad::Occt::TopoDS_Shape^ theKey);
     System::IntPtr Find(Macad::Occt::TopoDS_Shape^ theKey);
-    bool Find(Macad::Occt::TopoDS_Shape^ theKey, System::IntPtr theValue);
     System::IntPtr ChangeSeek(Macad::Occt::TopoDS_Shape^ theKey);
     System::IntPtr ChangeFind(Macad::Occt::TopoDS_Shape^ theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class BRepClass3d_MapOfInter
 
@@ -168,7 +163,6 @@ public:
 
 public:
     BRepClass3d();
-    BRepClass3d(Macad::Occt::BRepClass3d^ parameter1);
     /// <summary>
     /// Returns the outer most shell of <S>. Returns a Null
     /// shell if <S> has no outer shell.
@@ -211,7 +205,6 @@ public:
     /// Empty constructor.
     /// </summary>
     BRepClass3d_Intersector3d();
-    BRepClass3d_Intersector3d(Macad::Occt::BRepClass3d_Intersector3d^ parameter1);
     /// <summary>
     /// Perform the intersection between the
     /// segment L(0) ... L(Prm) and the Shape <Sh>.
@@ -452,7 +445,6 @@ public:
     /// tolerance Tol on the solid S.
     /// </summary>
     BRepClass3d_SClassifier(Macad::Occt::BRepClass3d_SolidExplorer^ S, Macad::Occt::Pnt P, double Tol);
-    BRepClass3d_SClassifier(Macad::Occt::BRepClass3d_SClassifier^ parameter1);
     /// <summary>
     /// Classify the point P with the
     /// tolerance Tol on the solid S.
@@ -582,7 +574,6 @@ public:
     /// Creates an undefined classifier.
     /// </summary>
     BRepClass3d_SolidPassiveClassifier();
-    BRepClass3d_SolidPassiveClassifier(Macad::Occt::BRepClass3d_SolidPassiveClassifier^ parameter1);
     /// <summary>
     /// Starts  a  classification process.   The  point to
     /// classify is the origin of  the  line <L>.  <P>  is

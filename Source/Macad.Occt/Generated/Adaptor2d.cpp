@@ -17,12 +17,6 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 //  Class  Adaptor2d_Curve2d
 //---------------------------------------------------------------------
 
-Macad::Occt::Adaptor2d_Curve2d::Adaptor2d_Curve2d(Macad::Occt::Adaptor2d_Curve2d^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Adaptor2d_Curve2d(*(::Adaptor2d_Curve2d*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Adaptor2d_Curve2d::Adaptor2d_Curve2d()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
@@ -258,12 +252,6 @@ Macad::Occt::Adaptor2d_Line2d::Adaptor2d_Line2d(Macad::Occt::Pnt2d P, Macad::Occ
     NativeInstance = new ::Adaptor2d_Line2d(*(gp_Pnt2d*)pp_P, *(gp_Dir2d*)pp_D, UFirst, ULast);
 }
 
-Macad::Occt::Adaptor2d_Line2d::Adaptor2d_Line2d(Macad::Occt::Adaptor2d_Line2d^ parameter1)
-    : Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Adaptor2d_Line2d(*(::Adaptor2d_Line2d*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::Adaptor2d_Line2d::ShallowCopy()
 {
     Handle(::Adaptor2d_Curve2d) _result = ((::Adaptor2d_Line2d*)_NativeInstance)->ShallowCopy();
@@ -491,12 +479,6 @@ Macad::Occt::Adaptor2d_OffsetCurve::Adaptor2d_OffsetCurve(Macad::Occt::Adaptor2d
     : Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Adaptor2d_OffsetCurve(Handle(::Adaptor2d_Curve2d)(C->NativeInstance), Offset, WFirst, WLast);
-}
-
-Macad::Occt::Adaptor2d_OffsetCurve::Adaptor2d_OffsetCurve(Macad::Occt::Adaptor2d_OffsetCurve^ parameter1)
-    : Macad::Occt::Adaptor2d_Curve2d(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Adaptor2d_OffsetCurve(*(::Adaptor2d_OffsetCurve*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::Adaptor2d_OffsetCurve::ShallowCopy()

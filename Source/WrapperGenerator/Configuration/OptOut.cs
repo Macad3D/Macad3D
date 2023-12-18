@@ -35,6 +35,7 @@ public static partial class Configuration
         "Image_VideoRecorder::ChangeFrame", // Image_VideoRecorder::ChangeFrame() returns pixmap, this cannot be wrapped, because Image_PixMap defines an private assignment operator
         "Standard_Type", // could not deduce template argument for 'T'
         "Graphic3d_Buffer", // could not deduce template argument for 'Type_t'
+        "BRepExtrema_CellFilter", // error C2039: 'IsEqual': is not a member of 'BRepExtrema_VertexInspector'
 
         /*
          * Missing External
@@ -53,6 +54,11 @@ public static partial class Configuration
         "MyDirectPolynomialRoots", // unresolved external symbol
         "ShapeFix_WireSegment::ShapeFix_WireSegment", // unresolved external symbol
         "Bnd_BoundSortBox2d", // seems to be completely missing from the library (as of 7.7.0)
+
+        /*
+         * Only internally used
+         */
+        "VectorOfPoint",
 
         /*
          * Replaced with hand-wrapped code

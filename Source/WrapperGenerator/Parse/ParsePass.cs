@@ -129,6 +129,22 @@ namespace Macad.Occt.Generator
                     _AddClass(c, package, false);
                 }
             }
+            
+            // Process Hash Structs
+            var hashStructs = from item in _Db.Structs
+                              where fileSet.ContainsKey(item.file)
+                                    && item.name.StartsWith("hash<")
+                              select item;
+
+            foreach (var s in hashStructs)
+            {
+                var className = s.name.Substring(5).TrimEnd('>');
+                var cd = package.Classes.FirstOrDefault(cd => cd.Name == className);
+                if (cd != null)
+                {
+                    cd.HasHashStruct = true;
+                }
+            }
 
             Logger.Context = "";
             return result;
@@ -200,6 +216,7 @@ namespace Macad.Occt.Generator
             if (string.IsNullOrEmpty(className) || className.StartsWith("Handle_"))
                 return null;
 
+            
             if (package == null)
             {
                 var packageName = className.Split('_').FirstOrDefault("");
@@ -399,7 +416,7 @@ namespace Macad.Occt.Generator
 
             m.Type.Context = m;
 
-            Logger.WriteLine(true, string.Format("\tRelevant method: [{0}] {1} type='{2}'", method.id, mName, m.Type.Name));
+            Logger.WriteLine(true, $"\tRelevant method: [{method.id}] {logName} type='{m.Type.Name}'");
 
             // Get parameters
             int unnamedCount = 1;
@@ -585,6 +602,7 @@ namespace Macad.Occt.Generator
                         td.Name = std.Name;
                         td.IsPointer = std.IsPointer;
                         td.IsReference = std.IsReference;
+                        td.IsConst = std.IsConst;
                         td.IsHandle = std.IsHandle;
                         td.Typedefs.Add(typedef.name);
                         td.Typedefs.AddRange(std.Typedefs);

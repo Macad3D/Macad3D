@@ -47,7 +47,10 @@ public:
     }
 
 public:
-    BRepAlgoAPI_Algo(Macad::Occt::BRepAlgoAPI_Algo^ parameter1);
+    /// <summary>
+    /// Returns a shape built by the shape construction algorithm.
+    /// Does not check if the shape is built.
+    /// </summary>
     Macad::Occt::TopoDS_Shape^ Shape();
 }; // class BRepAlgoAPI_Algo
 
@@ -121,7 +124,6 @@ public:
     /// </summary>
     BRepAlgoAPI_BuilderAlgo();
     /* Method skipped due to unknown mapping: void BRepAlgoAPI_BuilderAlgo(BOPAlgo_PaveFiller thePF, ) */
-    BRepAlgoAPI_BuilderAlgo(Macad::Occt::BRepAlgoAPI_BuilderAlgo^ parameter1);
     /// <summary>
     /// Sets the arguments
     /// </summary>
@@ -420,7 +422,6 @@ public:
     /// </summary>
     BRepAlgoAPI_BooleanOperation();
     /* Method skipped due to unknown mapping: void BRepAlgoAPI_BooleanOperation(BOPAlgo_PaveFiller thePF, ) */
-    BRepAlgoAPI_BooleanOperation(Macad::Occt::BRepAlgoAPI_BooleanOperation^ parameter1);
     /// <summary>
     /// Returns the first argument involved in this Boolean operation.
     /// Obsolete
@@ -732,7 +733,6 @@ public:
     /// [in] - parameter to use progress indicator
     /// </param>
     BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ theS1, Macad::Occt::TopoDS_Shape^ theS2);
-    BRepAlgoAPI_Check(Macad::Occt::BRepAlgoAPI_Check^ parameter1);
     /// <summary>
     /// Initializes the algorithm with single shape.
     /// 
@@ -957,7 +957,6 @@ public:
     BRepAlgoAPI_Common(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2);
     /* Method skipped due to unknown mapping: void BRepAlgoAPI_Common(TopoDS_Shape S1, TopoDS_Shape S2, BOPAlgo_PaveFiller PF, Message_ProgressRange theRange, ) */
     /* Method skipped due to unknown mapping: void BRepAlgoAPI_Common(TopoDS_Shape S1, TopoDS_Shape S2, BOPAlgo_PaveFiller PF, Message_ProgressRange theRange, ) */
-    BRepAlgoAPI_Common(Macad::Occt::BRepAlgoAPI_Common^ parameter1);
 }; // class BRepAlgoAPI_Common
 
 //---------------------------------------------------------------------
@@ -1018,7 +1017,6 @@ public:
     /* Method skipped due to unknown mapping: void BRepAlgoAPI_Cut(TopoDS_Shape S1, TopoDS_Shape S2, BOPAlgo_PaveFiller aDSF, bool bFWD, Message_ProgressRange theRange, ) */
     /* Method skipped due to unknown mapping: void BRepAlgoAPI_Cut(TopoDS_Shape S1, TopoDS_Shape S2, BOPAlgo_PaveFiller aDSF, bool bFWD, Message_ProgressRange theRange, ) */
     /* Method skipped due to unknown mapping: void BRepAlgoAPI_Cut(TopoDS_Shape S1, TopoDS_Shape S2, BOPAlgo_PaveFiller aDSF, bool bFWD, Message_ProgressRange theRange, ) */
-    BRepAlgoAPI_Cut(Macad::Occt::BRepAlgoAPI_Cut^ parameter1);
 }; // class BRepAlgoAPI_Cut
 
 //---------------------------------------------------------------------
@@ -1132,7 +1130,6 @@ public:
     /// Empty constructor
     /// </summary>
     BRepAlgoAPI_Defeaturing();
-    BRepAlgoAPI_Defeaturing(Macad::Occt::BRepAlgoAPI_Defeaturing^ parameter1);
     /// <summary>
     /// Sets the shape for processing.
     /// </summary>
@@ -1269,7 +1266,6 @@ public:
     BRepAlgoAPI_Fuse(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2);
     /* Method skipped due to unknown mapping: void BRepAlgoAPI_Fuse(TopoDS_Shape S1, TopoDS_Shape S2, BOPAlgo_PaveFiller aDSF, Message_ProgressRange theRange, ) */
     /* Method skipped due to unknown mapping: void BRepAlgoAPI_Fuse(TopoDS_Shape S1, TopoDS_Shape S2, BOPAlgo_PaveFiller aDSF, Message_ProgressRange theRange, ) */
-    BRepAlgoAPI_Fuse(Macad::Occt::BRepAlgoAPI_Fuse^ parameter1);
 }; // class BRepAlgoAPI_Fuse
 
 //---------------------------------------------------------------------
@@ -1408,7 +1404,6 @@ public:
     /// Obsolete
     /// </summary>
     BRepAlgoAPI_Section(Macad::Occt::Geom_Surface^ Sf1, Macad::Occt::Geom_Surface^ Sf2);
-    BRepAlgoAPI_Section(Macad::Occt::BRepAlgoAPI_Section^ parameter1);
     /// <summary>
     /// initialize the argument
     /// <S1>  - argument
@@ -1578,7 +1573,6 @@ public:
     /// </summary>
     BRepAlgoAPI_Splitter();
     /* Method skipped due to unknown mapping: void BRepAlgoAPI_Splitter(BOPAlgo_PaveFiller thePF, ) */
-    BRepAlgoAPI_Splitter(Macad::Occt::BRepAlgoAPI_Splitter^ parameter1);
     /// <summary>
     /// Sets the Tool arguments
     /// </summary>

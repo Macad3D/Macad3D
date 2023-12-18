@@ -44,7 +44,6 @@ public:
 
 public:
     Geom2dAdaptor();
-    Geom2dAdaptor(Macad::Occt::Geom2dAdaptor^ parameter1);
     /// <summary>
     /// Inherited  from    GHCurve.   Provides a  curve
     /// handled by reference.
@@ -104,7 +103,6 @@ public:
     /// Standard_ConstructionError is raised if Ufirst>Ulast
     /// </summary>
     Geom2dAdaptor_Curve(Macad::Occt::Geom2d_Curve^ C, double UFirst, double ULast);
-    Geom2dAdaptor_Curve(Macad::Occt::Geom2dAdaptor_Curve^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>

@@ -111,8 +111,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::BRepCheck_ListOfStatus::Iterator^ parameter1);
         bool More() override;
         void Next() override;
         Macad::Occt::BRepCheck_Status Value() override;
@@ -121,7 +119,6 @@ public:
 
     BRepCheck_ListOfStatus();
     BRepCheck_ListOfStatus(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    BRepCheck_ListOfStatus(Macad::Occt::BRepCheck_ListOfStatus^ theOther);
     int Size();
     Macad::Occt::BRepCheck_ListOfStatus^ Assign(Macad::Occt::BRepCheck_ListOfStatus^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -129,16 +126,11 @@ public:
     Macad::Occt::BRepCheck_Status First();
     Macad::Occt::BRepCheck_Status Last();
     Macad::Occt::BRepCheck_Status Append(Macad::Occt::BRepCheck_Status theItem);
-    void Append(Macad::Occt::BRepCheck_Status theItem, Macad::Occt::BRepCheck_ListOfStatus::Iterator^ theIter);
-    void Append(Macad::Occt::BRepCheck_ListOfStatus^ theOther);
     Macad::Occt::BRepCheck_Status Prepend(Macad::Occt::BRepCheck_Status theItem);
-    void Prepend(Macad::Occt::BRepCheck_ListOfStatus^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::BRepCheck_ListOfStatus::Iterator^ theIter);
     Macad::Occt::BRepCheck_Status InsertBefore(Macad::Occt::BRepCheck_Status theItem, Macad::Occt::BRepCheck_ListOfStatus::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::BRepCheck_ListOfStatus^ theOther, Macad::Occt::BRepCheck_ListOfStatus::Iterator^ theIter);
     Macad::Occt::BRepCheck_Status InsertAfter(Macad::Occt::BRepCheck_Status theItem, Macad::Occt::BRepCheck_ListOfStatus::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::BRepCheck_ListOfStatus^ theOther, Macad::Occt::BRepCheck_ListOfStatus::Iterator^ theIter);
     void Reverse();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::BRepCheck_Status>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -176,7 +168,6 @@ public:
 public:
     BRepCheck_ListIteratorOfListOfStatus();
     BRepCheck_ListIteratorOfListOfStatus(Macad::Occt::NCollection_BaseList^ theList);
-    BRepCheck_ListIteratorOfListOfStatus(Macad::Occt::BRepCheck_ListIteratorOfListOfStatus^ parameter1);
     bool More();
     void Next();
     Macad::Occt::BRepCheck_Status Value();
@@ -241,8 +232,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::BRepCheck_HListOfStatus::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::BRepCheck_Status Value();
@@ -256,19 +245,13 @@ public:
     Macad::Occt::BRepCheck_Status First();
     Macad::Occt::BRepCheck_Status Last();
     Macad::Occt::BRepCheck_Status Append(Macad::Occt::BRepCheck_Status theItem);
-    void Append(Macad::Occt::BRepCheck_Status theItem, Macad::Occt::BRepCheck_HListOfStatus::Iterator^ theIter);
-    void Append(Macad::Occt::BRepCheck_ListOfStatus^ theOther);
     Macad::Occt::BRepCheck_Status Prepend(Macad::Occt::BRepCheck_Status theItem);
-    void Prepend(Macad::Occt::BRepCheck_ListOfStatus^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::BRepCheck_HListOfStatus::Iterator^ theIter);
     Macad::Occt::BRepCheck_Status InsertBefore(Macad::Occt::BRepCheck_Status theItem, Macad::Occt::BRepCheck_HListOfStatus::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::BRepCheck_ListOfStatus^ theOther, Macad::Occt::BRepCheck_HListOfStatus::Iterator^ theIter);
     Macad::Occt::BRepCheck_Status InsertAfter(Macad::Occt::BRepCheck_Status theItem, Macad::Occt::BRepCheck_HListOfStatus::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::BRepCheck_ListOfStatus^ theOther, Macad::Occt::BRepCheck_HListOfStatus::Iterator^ theIter);
     void Reverse();
     BRepCheck_HListOfStatus();
-    BRepCheck_HListOfStatus(Macad::Occt::BRepCheck_HListOfStatus^ parameter1);
     static Macad::Occt::BRepCheck_HListOfStatus^ CreateDowncasted(::BRepCheck_HListOfStatus* instance);
 }; // class BRepCheck_HListOfStatus
 
@@ -330,8 +313,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus^ theMap);
-        Iterator(Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus::Iterator^ parameter1);
         bool More();
         void Next();
         /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status>, void Value() */
@@ -342,7 +323,6 @@ public:
     BRepCheck_DataMapOfShapeListOfStatus();
     BRepCheck_DataMapOfShapeListOfStatus(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     BRepCheck_DataMapOfShapeListOfStatus(int theNbBuckets);
-    BRepCheck_DataMapOfShapeListOfStatus(Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus^ theOther);
     void Exchange(Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus^ theOther);
     Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus^ Assign(Macad::Occt::BRepCheck_DataMapOfShapeListOfStatus^ theOther);
     void ReSize(int N);
@@ -352,12 +332,10 @@ public:
     bool UnBind(Macad::Occt::TopoDS_Shape^ theKey);
     /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status>, void Seek(TopoDS_Shape theKey, ) */
     /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status>, void Find(TopoDS_Shape theKey, ) */
-    /* Method skipped due to unknown mapping: bool Find(TopoDS_Shape theKey, NCollection_Shared<NCollection_List<BRepCheck_Status>, void theValue, ) */
     /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status>, void ChangeSeek(TopoDS_Shape theKey, ) */
     /* Method skipped due to unknown mapping: NCollection_Shared<NCollection_List<BRepCheck_Status>, void ChangeFind(TopoDS_Shape theKey, ) */
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class BRepCheck_DataMapOfShapeListOfStatus
 
@@ -419,20 +397,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult^ theMap);
-        Iterator(Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::BRepCheck_Result^ Value();
         Macad::Occt::BRepCheck_Result^ ChangeValue();
         Macad::Occt::TopoDS_Shape^ Key();
         bool IsEqual(Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     BRepCheck_IndexedDataMapOfShapeResult();
     BRepCheck_IndexedDataMapOfShapeResult(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     BRepCheck_IndexedDataMapOfShapeResult(int theNbBuckets);
-    BRepCheck_IndexedDataMapOfShapeResult(Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult^ theOther);
     void Exchange(Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult^ theOther);
     Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult^ Assign(Macad::Occt::BRepCheck_IndexedDataMapOfShapeResult^ theOther);
     void ReSize(int N);
@@ -451,10 +427,8 @@ public:
     Macad::Occt::BRepCheck_Result^ ChangeFromKey(Macad::Occt::TopoDS_Shape^ theKey1);
     Macad::Occt::BRepCheck_Result^ Seek(Macad::Occt::TopoDS_Shape^ theKey1);
     Macad::Occt::BRepCheck_Result^ ChangeSeek(Macad::Occt::TopoDS_Shape^ theKey1);
-    bool FindFromKey(Macad::Occt::TopoDS_Shape^ theKey1, Macad::Occt::BRepCheck_Result^ theValue);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class BRepCheck_IndexedDataMapOfShapeResult
 
@@ -493,7 +467,6 @@ public:
 
 public:
     BRepCheck();
-    BRepCheck(Macad::Occt::BRepCheck^ parameter1);
     static void Add(Macad::Occt::BRepCheck_ListOfStatus^ List, Macad::Occt::BRepCheck_Status Stat);
     static void Print(Macad::Occt::BRepCheck_Status Stat, System::IO::TextWriter^ OS);
     static bool SelfIntersection(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E1, Macad::Occt::TopoDS_Edge^ E2);
@@ -542,7 +515,6 @@ public:
     }
 
 public:
-    BRepCheck_Result(Macad::Occt::BRepCheck_Result^ parameter1);
     void Init(Macad::Occt::TopoDS_Shape^ S);
     void InContext(Macad::Occt::TopoDS_Shape^ ContextShape);
     void Minimum();
@@ -681,7 +653,6 @@ public:
     /// BRepCheck_SelfIntersectingWire
     /// </summary>
     BRepCheck_Analyzer(Macad::Occt::TopoDS_Shape^ S);
-    BRepCheck_Analyzer(Macad::Occt::BRepCheck_Analyzer^ parameter1);
     /// <summary>
     /// <S> is the  shape  to control.  <GeomControls>  If
     /// False   only topological informaions  are checked.
@@ -822,7 +793,6 @@ public:
 
 public:
     BRepCheck_Edge(Macad::Occt::TopoDS_Edge^ E);
-    BRepCheck_Edge(Macad::Occt::BRepCheck_Edge^ parameter1);
     void InContext(Macad::Occt::TopoDS_Shape^ ContextShape);
     void Minimum();
     void Blind();
@@ -884,7 +854,6 @@ public:
 
 public:
     BRepCheck_Face(Macad::Occt::TopoDS_Face^ F);
-    BRepCheck_Face(Macad::Occt::BRepCheck_Face^ parameter1);
     void InContext(Macad::Occt::TopoDS_Shape^ ContextShape);
     void Minimum();
     void Blind();
@@ -936,7 +905,6 @@ public:
 
 public:
     BRepCheck_Shell(Macad::Occt::TopoDS_Shell^ S);
-    BRepCheck_Shell(Macad::Occt::BRepCheck_Shell^ parameter1);
     void InContext(Macad::Occt::TopoDS_Shape^ ContextShape);
     void Minimum();
     void Blind();
@@ -1012,7 +980,6 @@ public:
     /// <theS> is the solid to check
     /// </summary>
     BRepCheck_Solid(Macad::Occt::TopoDS_Solid^ theS);
-    BRepCheck_Solid(Macad::Occt::BRepCheck_Solid^ parameter1);
     /// <summary>
     /// Checks the solid in context of
     /// the shape <theContextShape>
@@ -1077,7 +1044,6 @@ public:
 
 public:
     BRepCheck_Vertex(Macad::Occt::TopoDS_Vertex^ V);
-    BRepCheck_Vertex(Macad::Occt::BRepCheck_Vertex^ parameter1);
     void InContext(Macad::Occt::TopoDS_Shape^ ContextShape);
     void Minimum();
     void Blind();
@@ -1116,7 +1082,6 @@ public:
 
 public:
     BRepCheck_Wire(Macad::Occt::TopoDS_Wire^ W);
-    BRepCheck_Wire(Macad::Occt::BRepCheck_Wire^ parameter1);
     /// <summary>
     /// if <ContextShape> is  a  face, consequently checks
     /// SelfIntersect(),   Closed(),   Orientation()   and

@@ -33,12 +33,6 @@ Macad::Occt::BOPAlgo_Options::BOPAlgo_Options(Macad::Occt::NCollection_BaseAlloc
     _NativeInstance = new ::BOPAlgo_Options(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::BOPAlgo_Options::BOPAlgo_Options(Macad::Occt::BOPAlgo_Options^ parameter1)
-    : Macad::Occt::BaseClass<::BOPAlgo_Options>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BOPAlgo_Options(*(::BOPAlgo_Options*)parameter1->NativeInstance);
-}
-
 Macad::Occt::NCollection_BaseAllocator^ Macad::Occt::BOPAlgo_Options::Allocator()
 {
     Handle(::NCollection_BaseAllocator) _result = ((::BOPAlgo_Options*)_NativeInstance)->Allocator();
@@ -137,12 +131,6 @@ bool Macad::Occt::BOPAlgo_Options::UseOBB()
 //  Class  BOPAlgo_Algo
 //---------------------------------------------------------------------
 
-Macad::Occt::BOPAlgo_Algo::BOPAlgo_Algo(Macad::Occt::BOPAlgo_Algo^ parameter1)
-    : Macad::Occt::BOPAlgo_Options(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 void Macad::Occt::BOPAlgo_Algo::Perform(Macad::Occt::Message_ProgressRange^ theRange)
 {
     ((::BOPAlgo_Algo*)_NativeInstance)->Perform(*(::Message_ProgressRange*)theRange->NativeInstance);
@@ -158,12 +146,6 @@ void Macad::Occt::BOPAlgo_Algo::Perform()
 //---------------------------------------------------------------------
 //  Class  BOPAlgo_BuilderShape
 //---------------------------------------------------------------------
-
-Macad::Occt::BOPAlgo_BuilderShape::BOPAlgo_BuilderShape(Macad::Occt::BOPAlgo_BuilderShape^ parameter1)
-    : Macad::Occt::BOPAlgo_Algo(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
 
 Macad::Occt::TopoDS_Shape^ Macad::Occt::BOPAlgo_BuilderShape::Shape()
 {
@@ -245,12 +227,6 @@ Macad::Occt::BOPAlgo_Builder::BOPAlgo_Builder(Macad::Occt::NCollection_BaseAlloc
     _NativeInstance = new ::BOPAlgo_Builder(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::BOPAlgo_Builder::BOPAlgo_Builder(Macad::Occt::BOPAlgo_Builder^ parameter1)
-    : Macad::Occt::BOPAlgo_BuilderShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BOPAlgo_Builder(*(::BOPAlgo_Builder*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BOPAlgo_Builder::Clear()
 {
     ((::BOPAlgo_Builder*)_NativeInstance)->Clear();
@@ -323,7 +299,7 @@ void Macad::Occt::BOPAlgo_Builder::BuildBOP(Macad::Occt::TopTools_ListOfShape^ t
 
 void Macad::Occt::BOPAlgo_Builder::BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopAbs_State theObjState, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::TopAbs_State theToolsState, Macad::Occt::Message_ProgressRange^ theRange)
 {
-    ((::BOPAlgo_Builder*)_NativeInstance)->BuildBOP(*(::TopTools_ListOfShape*)theObjects->NativeInstance, (::TopAbs_State)theObjState, *(::TopTools_ListOfShape*)theTools->NativeInstance, (::TopAbs_State)theToolsState, *(::Message_ProgressRange*)theRange->NativeInstance, 0);
+    ((::BOPAlgo_Builder*)_NativeInstance)->BuildBOP(*(::TopTools_ListOfShape*)theObjects->NativeInstance, (::TopAbs_State)theObjState, *(::TopTools_ListOfShape*)theTools->NativeInstance, (::TopAbs_State)theToolsState, *(::Message_ProgressRange*)theRange->NativeInstance, nullptr);
 }
 
 void Macad::Occt::BOPAlgo_Builder::BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::BOPAlgo_Operation theOperation, Macad::Occt::Message_ProgressRange^ theRange, Macad::Occt::Message_Report^ theReport)
@@ -333,7 +309,7 @@ void Macad::Occt::BOPAlgo_Builder::BuildBOP(Macad::Occt::TopTools_ListOfShape^ t
 
 void Macad::Occt::BOPAlgo_Builder::BuildBOP(Macad::Occt::TopTools_ListOfShape^ theObjects, Macad::Occt::TopTools_ListOfShape^ theTools, Macad::Occt::BOPAlgo_Operation theOperation, Macad::Occt::Message_ProgressRange^ theRange)
 {
-    ((::BOPAlgo_Builder*)_NativeInstance)->BuildBOP(*(::TopTools_ListOfShape*)theObjects->NativeInstance, *(::TopTools_ListOfShape*)theTools->NativeInstance, (::BOPAlgo_Operation)theOperation, *(::Message_ProgressRange*)theRange->NativeInstance, 0);
+    ((::BOPAlgo_Builder*)_NativeInstance)->BuildBOP(*(::TopTools_ListOfShape*)theObjects->NativeInstance, *(::TopTools_ListOfShape*)theTools->NativeInstance, (::BOPAlgo_Operation)theOperation, *(::Message_ProgressRange*)theRange->NativeInstance, nullptr);
 }
 
 Macad::Occt::TopTools_DataMapOfShapeListOfShape^ Macad::Occt::BOPAlgo_Builder::Images()
@@ -373,12 +349,6 @@ Macad::Occt::BOPAlgo_ToolsProvider::BOPAlgo_ToolsProvider(Macad::Occt::NCollecti
     : Macad::Occt::BOPAlgo_Builder(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BOPAlgo_ToolsProvider(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
-}
-
-Macad::Occt::BOPAlgo_ToolsProvider::BOPAlgo_ToolsProvider(Macad::Occt::BOPAlgo_ToolsProvider^ parameter1)
-    : Macad::Occt::BOPAlgo_Builder(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BOPAlgo_ToolsProvider(*(::BOPAlgo_ToolsProvider*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BOPAlgo_ToolsProvider::Clear()
@@ -421,12 +391,6 @@ Macad::Occt::BOPAlgo_BOP::BOPAlgo_BOP(Macad::Occt::NCollection_BaseAllocator^ th
     _NativeInstance = new ::BOPAlgo_BOP(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::BOPAlgo_BOP::BOPAlgo_BOP(Macad::Occt::BOPAlgo_BOP^ parameter1)
-    : Macad::Occt::BOPAlgo_ToolsProvider(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BOPAlgo_BOP(*(::BOPAlgo_BOP*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BOPAlgo_BOP::Clear()
 {
     ((::BOPAlgo_BOP*)_NativeInstance)->Clear();
@@ -463,12 +427,6 @@ Macad::Occt::BOPAlgo_Tools::BOPAlgo_Tools()
     : Macad::Occt::BaseClass<::BOPAlgo_Tools>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BOPAlgo_Tools();
-}
-
-Macad::Occt::BOPAlgo_Tools::BOPAlgo_Tools(Macad::Occt::BOPAlgo_Tools^ parameter1)
-    : Macad::Occt::BaseClass<::BOPAlgo_Tools>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BOPAlgo_Tools(*(::BOPAlgo_Tools*)parameter1->NativeInstance);
 }
 
 int Macad::Occt::BOPAlgo_Tools::EdgesToWires(Macad::Occt::TopoDS_Shape^ theEdges, Macad::Occt::TopoDS_Shape^ theWires, bool theShared, double theAngTol)

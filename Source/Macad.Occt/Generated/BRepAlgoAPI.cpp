@@ -18,12 +18,6 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 //  Class  BRepAlgoAPI_Algo
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepAlgoAPI_Algo::BRepAlgoAPI_Algo(Macad::Occt::BRepAlgoAPI_Algo^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAlgoAPI_Algo(*(::BRepAlgoAPI_Algo*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepAlgoAPI_Algo::Shape()
 {
     ::TopoDS_Shape* _result = new ::TopoDS_Shape();
@@ -41,12 +35,6 @@ Macad::Occt::BRepAlgoAPI_BuilderAlgo::BRepAlgoAPI_BuilderAlgo()
     : Macad::Occt::BRepAlgoAPI_Algo(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepAlgoAPI_BuilderAlgo();
-}
-
-Macad::Occt::BRepAlgoAPI_BuilderAlgo::BRepAlgoAPI_BuilderAlgo(Macad::Occt::BRepAlgoAPI_BuilderAlgo^ parameter1)
-    : Macad::Occt::BRepAlgoAPI_Algo(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAlgoAPI_BuilderAlgo(*(::BRepAlgoAPI_BuilderAlgo*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepAlgoAPI_BuilderAlgo::SetArguments(Macad::Occt::TopTools_ListOfShape^ theLS)
@@ -204,12 +192,6 @@ Macad::Occt::BRepAlgoAPI_BooleanOperation::BRepAlgoAPI_BooleanOperation()
     _NativeInstance = new ::BRepAlgoAPI_BooleanOperation();
 }
 
-Macad::Occt::BRepAlgoAPI_BooleanOperation::BRepAlgoAPI_BooleanOperation(Macad::Occt::BRepAlgoAPI_BooleanOperation^ parameter1)
-    : Macad::Occt::BRepAlgoAPI_BuilderAlgo(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAlgoAPI_BooleanOperation(*(::BRepAlgoAPI_BooleanOperation*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepAlgoAPI_BooleanOperation::Shape1()
 {
     ::TopoDS_Shape* _result = new ::TopoDS_Shape();
@@ -323,12 +305,6 @@ Macad::Occt::BRepAlgoAPI_Check::BRepAlgoAPI_Check(Macad::Occt::TopoDS_Shape^ the
     _NativeInstance = new ::BRepAlgoAPI_Check(*(::TopoDS_Shape*)theS1->NativeInstance, *(::TopoDS_Shape*)theS2->NativeInstance, BOPAlgo_UNKNOWN, true, true, ::Message_ProgressRange());
 }
 
-Macad::Occt::BRepAlgoAPI_Check::BRepAlgoAPI_Check(Macad::Occt::BRepAlgoAPI_Check^ parameter1)
-    : Macad::Occt::BOPAlgo_Options(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAlgoAPI_Check(*(::BRepAlgoAPI_Check*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepAlgoAPI_Check::SetData(Macad::Occt::TopoDS_Shape^ theS, bool bTestSE, bool bTestSI)
 {
     ((::BRepAlgoAPI_Check*)_NativeInstance)->SetData(*(::TopoDS_Shape*)theS->NativeInstance, bTestSE, bTestSI);
@@ -404,12 +380,6 @@ Macad::Occt::BRepAlgoAPI_Common::BRepAlgoAPI_Common(Macad::Occt::TopoDS_Shape^ S
     _NativeInstance = new ::BRepAlgoAPI_Common(*(::TopoDS_Shape*)S1->NativeInstance, *(::TopoDS_Shape*)S2->NativeInstance, ::Message_ProgressRange());
 }
 
-Macad::Occt::BRepAlgoAPI_Common::BRepAlgoAPI_Common(Macad::Occt::BRepAlgoAPI_Common^ parameter1)
-    : Macad::Occt::BRepAlgoAPI_BooleanOperation(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAlgoAPI_Common(*(::BRepAlgoAPI_Common*)parameter1->NativeInstance);
-}
-
 
 
 //---------------------------------------------------------------------
@@ -434,12 +404,6 @@ Macad::Occt::BRepAlgoAPI_Cut::BRepAlgoAPI_Cut(Macad::Occt::TopoDS_Shape^ S1, Mac
     _NativeInstance = new ::BRepAlgoAPI_Cut(*(::TopoDS_Shape*)S1->NativeInstance, *(::TopoDS_Shape*)S2->NativeInstance, ::Message_ProgressRange());
 }
 
-Macad::Occt::BRepAlgoAPI_Cut::BRepAlgoAPI_Cut(Macad::Occt::BRepAlgoAPI_Cut^ parameter1)
-    : Macad::Occt::BRepAlgoAPI_BooleanOperation(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAlgoAPI_Cut(*(::BRepAlgoAPI_Cut*)parameter1->NativeInstance);
-}
-
 
 
 //---------------------------------------------------------------------
@@ -450,12 +414,6 @@ Macad::Occt::BRepAlgoAPI_Defeaturing::BRepAlgoAPI_Defeaturing()
     : Macad::Occt::BRepAlgoAPI_Algo(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepAlgoAPI_Defeaturing();
-}
-
-Macad::Occt::BRepAlgoAPI_Defeaturing::BRepAlgoAPI_Defeaturing(Macad::Occt::BRepAlgoAPI_Defeaturing^ parameter1)
-    : Macad::Occt::BRepAlgoAPI_Algo(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAlgoAPI_Defeaturing(*(::BRepAlgoAPI_Defeaturing*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepAlgoAPI_Defeaturing::SetShape(Macad::Occt::TopoDS_Shape^ theShape)
@@ -576,12 +534,6 @@ Macad::Occt::BRepAlgoAPI_Fuse::BRepAlgoAPI_Fuse(Macad::Occt::TopoDS_Shape^ S1, M
     _NativeInstance = new ::BRepAlgoAPI_Fuse(*(::TopoDS_Shape*)S1->NativeInstance, *(::TopoDS_Shape*)S2->NativeInstance, ::Message_ProgressRange());
 }
 
-Macad::Occt::BRepAlgoAPI_Fuse::BRepAlgoAPI_Fuse(Macad::Occt::BRepAlgoAPI_Fuse^ parameter1)
-    : Macad::Occt::BRepAlgoAPI_BooleanOperation(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAlgoAPI_Fuse(*(::BRepAlgoAPI_Fuse*)parameter1->NativeInstance);
-}
-
 
 
 //---------------------------------------------------------------------
@@ -654,12 +606,6 @@ Macad::Occt::BRepAlgoAPI_Section::BRepAlgoAPI_Section(Macad::Occt::Geom_Surface^
     : Macad::Occt::BRepAlgoAPI_BooleanOperation(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepAlgoAPI_Section(Handle(::Geom_Surface)(Sf1->NativeInstance), Handle(::Geom_Surface)(Sf2->NativeInstance), true);
-}
-
-Macad::Occt::BRepAlgoAPI_Section::BRepAlgoAPI_Section(Macad::Occt::BRepAlgoAPI_Section^ parameter1)
-    : Macad::Occt::BRepAlgoAPI_BooleanOperation(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAlgoAPI_Section(*(::BRepAlgoAPI_Section*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepAlgoAPI_Section::Init1(Macad::Occt::TopoDS_Shape^ S1)
@@ -741,12 +687,6 @@ Macad::Occt::BRepAlgoAPI_Splitter::BRepAlgoAPI_Splitter()
     : Macad::Occt::BRepAlgoAPI_BuilderAlgo(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepAlgoAPI_Splitter();
-}
-
-Macad::Occt::BRepAlgoAPI_Splitter::BRepAlgoAPI_Splitter(Macad::Occt::BRepAlgoAPI_Splitter^ parameter1)
-    : Macad::Occt::BRepAlgoAPI_BuilderAlgo(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAlgoAPI_Splitter(*(::BRepAlgoAPI_Splitter*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepAlgoAPI_Splitter::SetTools(Macad::Occt::TopTools_ListOfShape^ theLS)

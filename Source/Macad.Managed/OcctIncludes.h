@@ -82,6 +82,7 @@
 #include <Poly_Triangulation.hxx>
 
 #include <Image_PixMap.hxx>
+#include <Image_AlienPixMap.hxx>
 
 #include <Aspect_DisplayConnection.hxx>
 #include <Aspect_TypeOfLine.hxx>

@@ -89,12 +89,6 @@ Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::ShapeAnalysis_DataMapOfShap
     _NativeInstance = new ::ShapeAnalysis_DataMapOfShapeListOfReal(theNbBuckets, 0L);
 }
 
-Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::ShapeAnalysis_DataMapOfShapeListOfReal(Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal^ theOther)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_DataMapOfShapeListOfReal>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_DataMapOfShapeListOfReal(*(::ShapeAnalysis_DataMapOfShapeListOfReal*)theOther->NativeInstance);
-}
-
 void Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::Exchange(Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal^ theOther)
 {
     ((::ShapeAnalysis_DataMapOfShapeListOfReal*)_NativeInstance)->Exchange(*(::ShapeAnalysis_DataMapOfShapeListOfReal*)theOther->NativeInstance);
@@ -149,12 +143,6 @@ Macad::Occt::TColStd_ListOfReal^ Macad::Occt::ShapeAnalysis_DataMapOfShapeListOf
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TColStd_ListOfReal(_result);
 }
 
-bool Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::Find(Macad::Occt::TopoDS_Shape^ theKey, Macad::Occt::TColStd_ListOfReal^ theValue)
-{
-    bool _result = ((::ShapeAnalysis_DataMapOfShapeListOfReal*)_NativeInstance)->Find(*(::TopoDS_Shape*)theKey->NativeInstance, *(::TColStd_ListOfReal*)theValue->NativeInstance);
-    return _result;
-}
-
 Macad::Occt::TColStd_ListOfReal^ Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::ChangeSeek(Macad::Occt::TopoDS_Shape^ theKey)
 {
     ::TColStd_ListOfReal* _result = ((::ShapeAnalysis_DataMapOfShapeListOfReal*)_NativeInstance)->ChangeSeek(*(::TopoDS_Shape*)theKey->NativeInstance);
@@ -175,12 +163,7 @@ void Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::Clear(bool doReleaseMe
 
 void Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::Clear()
 {
-    ((::ShapeAnalysis_DataMapOfShapeListOfReal*)_NativeInstance)->Clear(true);
-}
-
-void Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-{
-    ((::ShapeAnalysis_DataMapOfShapeListOfReal*)_NativeInstance)->Clear(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
+    ((::ShapeAnalysis_DataMapOfShapeListOfReal*)_NativeInstance)->Clear(false);
 }
 
 int Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::Size()
@@ -199,18 +182,6 @@ Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::Iterator::Iterator()
     : Macad::Occt::BaseClass<::ShapeAnalysis_DataMapOfShapeListOfReal::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeAnalysis_DataMapOfShapeListOfReal::Iterator();
-}
-
-Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::Iterator::Iterator(Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal^ theMap)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_DataMapOfShapeListOfReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_DataMapOfShapeListOfReal::Iterator(*(::ShapeAnalysis_DataMapOfShapeListOfReal*)theMap->NativeInstance);
-}
-
-Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::Iterator::Iterator(Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_DataMapOfShapeListOfReal::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_DataMapOfShapeListOfReal::Iterator(*(::ShapeAnalysis_DataMapOfShapeListOfReal::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::ShapeAnalysis_DataMapOfShapeListOfReal::Iterator::More()
@@ -261,12 +232,6 @@ Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::ShapeAnalysis_SequenceOfFreeBou
     : Macad::Occt::BaseClass<::ShapeAnalysis_SequenceOfFreeBounds>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeAnalysis_SequenceOfFreeBounds(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
-}
-
-Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::ShapeAnalysis_SequenceOfFreeBounds(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theOther)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_SequenceOfFreeBounds>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_SequenceOfFreeBounds(*(::ShapeAnalysis_SequenceOfFreeBounds*)theOther->NativeInstance);
 }
 
 int Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Size()
@@ -331,24 +296,9 @@ void Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Remove(Macad::Occt::ShapeA
     ((::ShapeAnalysis_SequenceOfFreeBounds*)_NativeInstance)->Remove(*(::ShapeAnalysis_SequenceOfFreeBounds::Iterator*)thePosition->NativeInstance);
 }
 
-void Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Remove(int theIndex)
-{
-    ((::ShapeAnalysis_SequenceOfFreeBounds*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Remove(int theFromIndex, int theToIndex)
-{
-    ((::ShapeAnalysis_SequenceOfFreeBounds*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
 void Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Append(Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem)
 {
     ((::ShapeAnalysis_SequenceOfFreeBounds*)_NativeInstance)->Append(Handle(::ShapeAnalysis_FreeBoundData)(theItem->NativeInstance));
-}
-
-void Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Append(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSeq)
-{
-    ((::ShapeAnalysis_SequenceOfFreeBounds*)_NativeInstance)->Append(*(::ShapeAnalysis_SequenceOfFreeBounds*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Prepend(Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem)
@@ -356,34 +306,14 @@ void Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Prepend(Macad::Occt::Shape
     ((::ShapeAnalysis_SequenceOfFreeBounds*)_NativeInstance)->Prepend(Handle(::ShapeAnalysis_FreeBoundData)(theItem->NativeInstance));
 }
 
-void Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Prepend(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSeq)
-{
-    ((::ShapeAnalysis_SequenceOfFreeBounds*)_NativeInstance)->Prepend(*(::ShapeAnalysis_SequenceOfFreeBounds*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::InsertBefore(int theIndex, Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem)
 {
     ((::ShapeAnalysis_SequenceOfFreeBounds*)_NativeInstance)->InsertBefore(theIndex, Handle(::ShapeAnalysis_FreeBoundData)(theItem->NativeInstance));
 }
 
-void Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::InsertBefore(int theIndex, Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSeq)
-{
-    ((::ShapeAnalysis_SequenceOfFreeBounds*)_NativeInstance)->InsertBefore(theIndex, *(::ShapeAnalysis_SequenceOfFreeBounds*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::InsertAfter(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Iterator^ thePosition, Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem)
 {
     ((::ShapeAnalysis_SequenceOfFreeBounds*)_NativeInstance)->InsertAfter(*(::ShapeAnalysis_SequenceOfFreeBounds::Iterator*)thePosition->NativeInstance, Handle(::ShapeAnalysis_FreeBoundData)(theItem->NativeInstance));
-}
-
-void Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::InsertAfter(int theIndex, Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSeq)
-{
-    ((::ShapeAnalysis_SequenceOfFreeBounds*)_NativeInstance)->InsertAfter(theIndex, *(::ShapeAnalysis_SequenceOfFreeBounds*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::InsertAfter(int theIndex, Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem)
-{
-    ((::ShapeAnalysis_SequenceOfFreeBounds*)_NativeInstance)->InsertAfter(theIndex, Handle(::ShapeAnalysis_FreeBoundData)(theItem->NativeInstance));
 }
 
 void Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Split(int theIndex, Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSeq)
@@ -454,24 +384,6 @@ Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Iterator::Iterator()
     _NativeInstance = new ::ShapeAnalysis_SequenceOfFreeBounds::Iterator();
 }
 
-Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Iterator::Iterator(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_SequenceOfFreeBounds::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_SequenceOfFreeBounds::Iterator(*(::ShapeAnalysis_SequenceOfFreeBounds*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Iterator::Iterator(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSeq)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_SequenceOfFreeBounds::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_SequenceOfFreeBounds::Iterator(*(::ShapeAnalysis_SequenceOfFreeBounds*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Iterator::Iterator(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_SequenceOfFreeBounds::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_SequenceOfFreeBounds::Iterator(*(::ShapeAnalysis_SequenceOfFreeBounds::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Iterator::More()
 {
     bool _result = ((::ShapeAnalysis_SequenceOfFreeBounds::Iterator*)_NativeInstance)->More();
@@ -501,6 +413,25 @@ bool Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Iterator::IsEqual(Macad::O
     return _result;
 }
 
+bool Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -511,12 +442,6 @@ Macad::Occt::ShapeAnalysis::ShapeAnalysis()
     : Macad::Occt::BaseClass<::ShapeAnalysis>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeAnalysis();
-}
-
-Macad::Occt::ShapeAnalysis::ShapeAnalysis(Macad::Occt::ShapeAnalysis^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis(*(::ShapeAnalysis*)parameter1->NativeInstance);
 }
 
 Macad::Occt::TopoDS_Wire^ Macad::Occt::ShapeAnalysis::OuterWire(Macad::Occt::TopoDS_Face^ theFace)
@@ -580,12 +505,6 @@ Macad::Occt::ShapeAnalysis_CanonicalRecognition::ShapeAnalysis_CanonicalRecognit
     : Macad::Occt::BaseClass<::ShapeAnalysis_CanonicalRecognition>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeAnalysis_CanonicalRecognition(*(::TopoDS_Shape*)theShape->NativeInstance);
-}
-
-Macad::Occt::ShapeAnalysis_CanonicalRecognition::ShapeAnalysis_CanonicalRecognition(Macad::Occt::ShapeAnalysis_CanonicalRecognition^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_CanonicalRecognition>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_CanonicalRecognition(*(::ShapeAnalysis_CanonicalRecognition*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeAnalysis_CanonicalRecognition::SetShape(Macad::Occt::TopoDS_Shape^ theShape)
@@ -670,12 +589,6 @@ Macad::Occt::ShapeAnalysis_CheckSmallFace::ShapeAnalysis_CheckSmallFace()
     : Macad::Occt::BaseClass<::ShapeAnalysis_CheckSmallFace>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeAnalysis_CheckSmallFace();
-}
-
-Macad::Occt::ShapeAnalysis_CheckSmallFace::ShapeAnalysis_CheckSmallFace(Macad::Occt::ShapeAnalysis_CheckSmallFace^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_CheckSmallFace>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_CheckSmallFace(*(::ShapeAnalysis_CheckSmallFace*)parameter1->NativeInstance);
 }
 
 int Macad::Occt::ShapeAnalysis_CheckSmallFace::IsSpotFace(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Pnt% spot, double% spotol, double tol)
@@ -819,12 +732,6 @@ Macad::Occt::ShapeAnalysis_Curve::ShapeAnalysis_Curve()
     _NativeInstance = new ::ShapeAnalysis_Curve();
 }
 
-Macad::Occt::ShapeAnalysis_Curve::ShapeAnalysis_Curve(Macad::Occt::ShapeAnalysis_Curve^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_Curve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_Curve(*(::ShapeAnalysis_Curve*)parameter1->NativeInstance);
-}
-
 double Macad::Occt::ShapeAnalysis_Curve::Project(Macad::Occt::Geom_Curve^ C3D, Macad::Occt::Pnt P3D, double preci, Macad::Occt::Pnt% proj, double% param, bool AdjustToEnds)
 {
     pin_ptr<Macad::Occt::Pnt> pp_P3D = &P3D;
@@ -944,7 +851,7 @@ bool Macad::Occt::ShapeAnalysis_Curve::IsPlanar(Macad::Occt::TColgp_Array1OfPnt^
 bool Macad::Occt::ShapeAnalysis_Curve::IsPlanar(Macad::Occt::TColgp_Array1OfPnt^ pnts, Macad::Occt::XYZ% Normal)
 {
     pin_ptr<Macad::Occt::XYZ> pp_Normal = &Normal;
-    bool _result = ::ShapeAnalysis_Curve::IsPlanar(*(::TColgp_Array1OfPnt*)pnts->NativeInstance, *(gp_XYZ*)pp_Normal, 0);
+    bool _result = ::ShapeAnalysis_Curve::IsPlanar(*(::TColgp_Array1OfPnt*)pnts->NativeInstance, *(gp_XYZ*)pp_Normal, 0.0);
     return _result;
 }
 
@@ -958,7 +865,7 @@ bool Macad::Occt::ShapeAnalysis_Curve::IsPlanar(Macad::Occt::Geom_Curve^ curve, 
 bool Macad::Occt::ShapeAnalysis_Curve::IsPlanar(Macad::Occt::Geom_Curve^ curve, Macad::Occt::XYZ% Normal)
 {
     pin_ptr<Macad::Occt::XYZ> pp_Normal = &Normal;
-    bool _result = ::ShapeAnalysis_Curve::IsPlanar(Handle(::Geom_Curve)(curve->NativeInstance), *(gp_XYZ*)pp_Normal, 0);
+    bool _result = ::ShapeAnalysis_Curve::IsPlanar(Handle(::Geom_Curve)(curve->NativeInstance), *(gp_XYZ*)pp_Normal, 0.0);
     return _result;
 }
 
@@ -1008,12 +915,6 @@ Macad::Occt::ShapeAnalysis_Edge::ShapeAnalysis_Edge()
     : Macad::Occt::BaseClass<::ShapeAnalysis_Edge>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeAnalysis_Edge();
-}
-
-Macad::Occt::ShapeAnalysis_Edge::ShapeAnalysis_Edge(Macad::Occt::ShapeAnalysis_Edge^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_Edge>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_Edge(*(::ShapeAnalysis_Edge*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::ShapeAnalysis_Edge::HasCurve3d(Macad::Occt::TopoDS_Edge^ edge)
@@ -1322,12 +1223,6 @@ Macad::Occt::ShapeAnalysis_FreeBoundData::ShapeAnalysis_FreeBoundData(Macad::Occ
     NativeInstance = new ::ShapeAnalysis_FreeBoundData(*(::TopoDS_Wire*)freebound->NativeInstance);
 }
 
-Macad::Occt::ShapeAnalysis_FreeBoundData::ShapeAnalysis_FreeBoundData(Macad::Occt::ShapeAnalysis_FreeBoundData^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeAnalysis_FreeBoundData(*(::ShapeAnalysis_FreeBoundData*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeAnalysis_FreeBoundData::Clear()
 {
     ((::ShapeAnalysis_FreeBoundData*)_NativeInstance)->Clear();
@@ -1484,12 +1379,6 @@ Macad::Occt::ShapeAnalysis_FreeBounds::ShapeAnalysis_FreeBounds(Macad::Occt::Top
     _NativeInstance = new ::ShapeAnalysis_FreeBounds(*(::TopoDS_Shape*)shape->NativeInstance, false, true, false);
 }
 
-Macad::Occt::ShapeAnalysis_FreeBounds::ShapeAnalysis_FreeBounds(Macad::Occt::ShapeAnalysis_FreeBounds^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_FreeBounds>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_FreeBounds(*(::ShapeAnalysis_FreeBounds*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TopoDS_Compound^ Macad::Occt::ShapeAnalysis_FreeBounds::GetClosedWires()
 {
     ::TopoDS_Compound* _result = new ::TopoDS_Compound();
@@ -1563,17 +1452,16 @@ Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::ShapeAnalysis_HSequenceOfFreeB
     NativeInstance = new ::ShapeAnalysis_HSequenceOfFreeBounds(*(::ShapeAnalysis_SequenceOfFreeBounds*)theOther->NativeInstance);
 }
 
-Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::ShapeAnalysis_HSequenceOfFreeBounds(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeAnalysis_HSequenceOfFreeBounds(*(::ShapeAnalysis_HSequenceOfFreeBounds*)parameter1->NativeInstance);
-}
-
 Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Sequence()
 {
     ::ShapeAnalysis_SequenceOfFreeBounds* _result = new ::ShapeAnalysis_SequenceOfFreeBounds();
     *_result = (::ShapeAnalysis_SequenceOfFreeBounds)((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->Sequence();
     return _result==nullptr ? nullptr : gcnew Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds(_result);
+}
+
+void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Append(Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem)
+{
+    ((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->Append(Handle(::ShapeAnalysis_FreeBoundData)(theItem->NativeInstance));
 }
 
 void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Append(Macad::Occt::ShapeAnalysis_SequenceOfFreeBounds^ theSequence)
@@ -1640,9 +1528,7 @@ void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Clear()
 
 Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Assign(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theOther)
 {
-    ::ShapeAnalysis_HSequenceOfFreeBounds* _result = new ::ShapeAnalysis_HSequenceOfFreeBounds();
-    *_result = ((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->Assign(*(::ShapeAnalysis_HSequenceOfFreeBounds*)theOther->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds(_result);
+    throw gcnew System::NotImplementedException();
 }
 
 void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Remove(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator^ thePosition)
@@ -1650,34 +1536,9 @@ void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Remove(Macad::Occt::Shape
     ((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->Remove(*(::ShapeAnalysis_HSequenceOfFreeBounds::Iterator*)thePosition->NativeInstance);
 }
 
-void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Remove(int theIndex)
-{
-    ((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Remove(int theFromIndex, int theToIndex)
-{
-    ((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
-void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Append(Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem)
-{
-    ((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->Append(Handle(::ShapeAnalysis_FreeBoundData)(theItem->NativeInstance));
-}
-
-void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Append(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theSeq)
-{
-    ((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->Append(*(::ShapeAnalysis_HSequenceOfFreeBounds*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Prepend(Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem)
 {
     ((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->Prepend(Handle(::ShapeAnalysis_FreeBoundData)(theItem->NativeInstance));
-}
-
-void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Prepend(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theSeq)
-{
-    ((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->Prepend(*(::ShapeAnalysis_HSequenceOfFreeBounds*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::InsertBefore(int theIndex, Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem)
@@ -1685,24 +1546,9 @@ void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::InsertBefore(int theIndex
     ((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->InsertBefore(theIndex, Handle(::ShapeAnalysis_FreeBoundData)(theItem->NativeInstance));
 }
 
-void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::InsertBefore(int theIndex, Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theSeq)
-{
-    ((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->InsertBefore(theIndex, *(::ShapeAnalysis_HSequenceOfFreeBounds*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::InsertAfter(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator^ thePosition, Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem)
 {
     ((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->InsertAfter(*(::ShapeAnalysis_HSequenceOfFreeBounds::Iterator*)thePosition->NativeInstance, Handle(::ShapeAnalysis_FreeBoundData)(theItem->NativeInstance));
-}
-
-void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::InsertAfter(int theIndex, Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theSeq)
-{
-    ((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->InsertAfter(theIndex, *(::ShapeAnalysis_HSequenceOfFreeBounds*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::InsertAfter(int theIndex, Macad::Occt::ShapeAnalysis_FreeBoundData^ theItem)
-{
-    ((::ShapeAnalysis_HSequenceOfFreeBounds*)_NativeInstance)->InsertAfter(theIndex, Handle(::ShapeAnalysis_FreeBoundData)(theItem->NativeInstance));
 }
 
 void Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Split(int theIndex, Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theSeq)
@@ -1778,24 +1624,6 @@ Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator::Iterator()
     _NativeInstance = new ::ShapeAnalysis_HSequenceOfFreeBounds::Iterator();
 }
 
-Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator::Iterator(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_HSequenceOfFreeBounds::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_HSequenceOfFreeBounds::Iterator(*(::ShapeAnalysis_HSequenceOfFreeBounds*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator::Iterator(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds^ theSeq)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_HSequenceOfFreeBounds::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_HSequenceOfFreeBounds::Iterator(*(::ShapeAnalysis_HSequenceOfFreeBounds*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator::Iterator(Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_HSequenceOfFreeBounds::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_HSequenceOfFreeBounds::Iterator(*(::ShapeAnalysis_HSequenceOfFreeBounds::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator::More()
 {
     bool _result = ((::ShapeAnalysis_HSequenceOfFreeBounds::Iterator*)_NativeInstance)->More();
@@ -1823,6 +1651,25 @@ bool Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator::IsEqual(Macad::
 {
     bool _result = ((::ShapeAnalysis_HSequenceOfFreeBounds::Iterator*)_NativeInstance)->IsEqual(*(::ShapeAnalysis_HSequenceOfFreeBounds::Iterator*)theOther->NativeInstance);
     return _result;
+}
+
+bool Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::ShapeAnalysis_HSequenceOfFreeBounds::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
 }
 
 
@@ -1871,12 +1718,6 @@ Macad::Occt::ShapeAnalysis_FreeBoundsProperties::ShapeAnalysis_FreeBoundsPropert
     : Macad::Occt::BaseClass<::ShapeAnalysis_FreeBoundsProperties>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeAnalysis_FreeBoundsProperties(*(::TopoDS_Shape*)shape->NativeInstance, false, false);
-}
-
-Macad::Occt::ShapeAnalysis_FreeBoundsProperties::ShapeAnalysis_FreeBoundsProperties(Macad::Occt::ShapeAnalysis_FreeBoundsProperties^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_FreeBoundsProperties>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_FreeBoundsProperties(*(::ShapeAnalysis_FreeBoundsProperties*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeAnalysis_FreeBoundsProperties::Init(Macad::Occt::TopoDS_Shape^ shape, double tolerance, bool splitclosed, bool splitopen)
@@ -2064,12 +1905,6 @@ Macad::Occt::ShapeAnalysis_Geom::ShapeAnalysis_Geom()
     _NativeInstance = new ::ShapeAnalysis_Geom();
 }
 
-Macad::Occt::ShapeAnalysis_Geom::ShapeAnalysis_Geom(Macad::Occt::ShapeAnalysis_Geom^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_Geom>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_Geom(*(::ShapeAnalysis_Geom*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ShapeAnalysis_Geom::NearestPlane(Macad::Occt::TColgp_Array1OfPnt^ Pnts, Macad::Occt::Pln% aPln, double% Dmax)
 {
     pin_ptr<Macad::Occt::Pln> pp_aPln = &aPln;
@@ -2095,12 +1930,6 @@ Macad::Occt::ShapeAnalysis_ShapeContents::ShapeAnalysis_ShapeContents()
     : Macad::Occt::BaseClass<::ShapeAnalysis_ShapeContents>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeAnalysis_ShapeContents();
-}
-
-Macad::Occt::ShapeAnalysis_ShapeContents::ShapeAnalysis_ShapeContents(Macad::Occt::ShapeAnalysis_ShapeContents^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_ShapeContents>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_ShapeContents(*(::ShapeAnalysis_ShapeContents*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeAnalysis_ShapeContents::Clear()
@@ -2364,12 +2193,6 @@ Macad::Occt::ShapeAnalysis_ShapeTolerance::ShapeAnalysis_ShapeTolerance()
     _NativeInstance = new ::ShapeAnalysis_ShapeTolerance();
 }
 
-Macad::Occt::ShapeAnalysis_ShapeTolerance::ShapeAnalysis_ShapeTolerance(Macad::Occt::ShapeAnalysis_ShapeTolerance^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_ShapeTolerance>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_ShapeTolerance(*(::ShapeAnalysis_ShapeTolerance*)parameter1->NativeInstance);
-}
-
 double Macad::Occt::ShapeAnalysis_ShapeTolerance::Tolerance(Macad::Occt::TopoDS_Shape^ shape, int mode, Macad::Occt::TopAbs_ShapeEnum type)
 {
     double _result = ((::ShapeAnalysis_ShapeTolerance*)_NativeInstance)->Tolerance(*(::TopoDS_Shape*)shape->NativeInstance, mode, (::TopAbs_ShapeEnum)type);
@@ -2437,12 +2260,6 @@ Macad::Occt::ShapeAnalysis_Shell::ShapeAnalysis_Shell()
     : Macad::Occt::BaseClass<::ShapeAnalysis_Shell>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeAnalysis_Shell();
-}
-
-Macad::Occt::ShapeAnalysis_Shell::ShapeAnalysis_Shell(Macad::Occt::ShapeAnalysis_Shell^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_Shell>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_Shell(*(::ShapeAnalysis_Shell*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeAnalysis_Shell::Clear()
@@ -2810,12 +2627,6 @@ Macad::Occt::ShapeAnalysis_TransferParameters::ShapeAnalysis_TransferParameters(
     NativeInstance = new ::ShapeAnalysis_TransferParameters(*(::TopoDS_Edge*)E->NativeInstance, *(::TopoDS_Face*)F->NativeInstance);
 }
 
-Macad::Occt::ShapeAnalysis_TransferParameters::ShapeAnalysis_TransferParameters(Macad::Occt::ShapeAnalysis_TransferParameters^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeAnalysis_TransferParameters(*(::ShapeAnalysis_TransferParameters*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeAnalysis_TransferParameters::Init(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F)
 {
     ((::ShapeAnalysis_TransferParameters*)_NativeInstance)->Init(*(::TopoDS_Edge*)E->NativeInstance, *(::TopoDS_Face*)F->NativeInstance);
@@ -2876,12 +2687,6 @@ Macad::Occt::ShapeAnalysis_TransferParametersProj::ShapeAnalysis_TransferParamet
     : Macad::Occt::ShapeAnalysis_TransferParameters(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeAnalysis_TransferParametersProj(*(::TopoDS_Edge*)E->NativeInstance, *(::TopoDS_Face*)F->NativeInstance);
-}
-
-Macad::Occt::ShapeAnalysis_TransferParametersProj::ShapeAnalysis_TransferParametersProj(Macad::Occt::ShapeAnalysis_TransferParametersProj^ parameter1)
-    : Macad::Occt::ShapeAnalysis_TransferParameters(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeAnalysis_TransferParametersProj(*(::ShapeAnalysis_TransferParametersProj*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeAnalysis_TransferParametersProj::Init(Macad::Occt::TopoDS_Edge^ E, Macad::Occt::TopoDS_Face^ F)
@@ -2953,12 +2758,6 @@ Macad::Occt::ShapeAnalysis_WireOrder::ShapeAnalysis_WireOrder(bool theMode3D, do
     : Macad::Occt::BaseClass<::ShapeAnalysis_WireOrder>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeAnalysis_WireOrder(theMode3D, theTolerance, false);
-}
-
-Macad::Occt::ShapeAnalysis_WireOrder::ShapeAnalysis_WireOrder(Macad::Occt::ShapeAnalysis_WireOrder^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_WireOrder>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_WireOrder(*(::ShapeAnalysis_WireOrder*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeAnalysis_WireOrder::SetMode(bool theMode3D, double theTolerance, bool theModeBoth)
@@ -3117,12 +2916,6 @@ Macad::Occt::ShapeAnalysis_Wire::ShapeAnalysis_Wire(Macad::Occt::TopoDS_Wire^ wi
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeAnalysis_Wire(*(::TopoDS_Wire*)wire->NativeInstance, *(::TopoDS_Face*)face->NativeInstance, precision);
-}
-
-Macad::Occt::ShapeAnalysis_Wire::ShapeAnalysis_Wire(Macad::Occt::ShapeAnalysis_Wire^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeAnalysis_Wire(*(::ShapeAnalysis_Wire*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeAnalysis_Wire::Init(Macad::Occt::TopoDS_Wire^ wire, Macad::Occt::TopoDS_Face^ face, double precision)
@@ -3570,12 +3363,6 @@ Macad::Occt::ShapeAnalysis_WireVertex::ShapeAnalysis_WireVertex()
     : Macad::Occt::BaseClass<::ShapeAnalysis_WireVertex>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeAnalysis_WireVertex();
-}
-
-Macad::Occt::ShapeAnalysis_WireVertex::ShapeAnalysis_WireVertex(Macad::Occt::ShapeAnalysis_WireVertex^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeAnalysis_WireVertex>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeAnalysis_WireVertex(*(::ShapeAnalysis_WireVertex*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeAnalysis_WireVertex::Init(Macad::Occt::TopoDS_Wire^ wire, double preci)

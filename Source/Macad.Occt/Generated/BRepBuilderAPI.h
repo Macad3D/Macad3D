@@ -210,103 +210,6 @@ public:
 }; // class BRepBuilderAPI_BndBoxTree
 
 //---------------------------------------------------------------------
-//  Class  VectorOfPoint
-//---------------------------------------------------------------------
-public ref class VectorOfPoint sealed
-    : public Macad::Occt::BaseClass<::VectorOfPoint>
-    , public IIndexEnumerable<Macad::Occt::XYZ>
-{
-
-#ifdef Include_VectorOfPoint_h
-public:
-    Include_VectorOfPoint_h
-#endif
-
-public:
-    VectorOfPoint(::VectorOfPoint* nativeInstance)
-        : Macad::Occt::BaseClass<::VectorOfPoint>( nativeInstance, true )
-    {}
-
-    VectorOfPoint(::VectorOfPoint& nativeInstance)
-        : Macad::Occt::BaseClass<::VectorOfPoint>( &nativeInstance, false )
-    {}
-
-    property ::VectorOfPoint* NativeInstance
-    {
-        ::VectorOfPoint* get()
-        {
-            return static_cast<::VectorOfPoint*>(_NativeInstance);
-        }
-    }
-
-public:
-    ref class Iterator sealed
-        : public Macad::Occt::BaseClass<::VectorOfPoint::Iterator>
-    {
-
-#ifdef Include_VectorOfPoint_Iterator_h
-    public:
-        Include_VectorOfPoint_Iterator_h
-#endif
-
-    public:
-        Iterator(::VectorOfPoint::Iterator* nativeInstance)
-            : Macad::Occt::BaseClass<::VectorOfPoint::Iterator>( nativeInstance, true )
-        {}
-
-        Iterator(::VectorOfPoint::Iterator& nativeInstance)
-            : Macad::Occt::BaseClass<::VectorOfPoint::Iterator>( &nativeInstance, false )
-        {}
-
-        property ::VectorOfPoint::Iterator* NativeInstance
-        {
-            ::VectorOfPoint::Iterator* get()
-            {
-                return static_cast<::VectorOfPoint::Iterator*>(_NativeInstance);
-            }
-        }
-
-    public:
-        Iterator();
-        Iterator(Macad::Occt::VectorOfPoint^ theVector, bool theToEnd);
-        Iterator(Macad::Occt::VectorOfPoint^ theVector);
-        Iterator(Macad::Occt::VectorOfPoint::Iterator^ parameter1);
-        void Init(Macad::Occt::VectorOfPoint^ theVector);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::VectorOfPoint::Iterator^ theOther);
-        Macad::Occt::XYZ Value();
-        Macad::Occt::XYZ ChangeValue();
-        bool IsEqual(Macad::Occt::VectorOfPoint::Iterator^ theOther);
-    }; // class Iterator
-
-    VectorOfPoint(int theIncrement, Macad::Occt::NCollection_BaseAllocator^ theAlloc);
-    VectorOfPoint(int theIncrement);
-    VectorOfPoint();
-    VectorOfPoint(Macad::Occt::VectorOfPoint^ theOther);
-    int Length();
-    int Size();
-    int Lower();
-    int Upper();
-    bool IsEmpty();
-    void Assign(Macad::Occt::VectorOfPoint^ theOther, bool theOwnAllocator);
-    void Assign(Macad::Occt::VectorOfPoint^ theOther);
-    Macad::Occt::XYZ Append(Macad::Occt::XYZ theValue);
-    Macad::Occt::XYZ Appended();
-    virtual Macad::Occt::XYZ Value(int theIndex);
-    Macad::Occt::XYZ First();
-    Macad::Occt::XYZ ChangeFirst();
-    Macad::Occt::XYZ Last();
-    Macad::Occt::XYZ ChangeLast();
-    Macad::Occt::XYZ ChangeValue(int theIndex);
-    Macad::Occt::XYZ SetValue(int theIndex, Macad::Occt::XYZ theValue);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::XYZ>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
-}; // class VectorOfPoint
-
-//---------------------------------------------------------------------
 //  Class  BRepBuilderAPI
 //---------------------------------------------------------------------
 /// <summary>
@@ -397,7 +300,6 @@ public:
 
 public:
     BRepBuilderAPI();
-    BRepBuilderAPI(Macad::Occt::BRepBuilderAPI^ parameter1);
     /// <summary>
     /// Sets    the current plane.
     /// </summary>
@@ -458,7 +360,6 @@ public:
     /// Constructor; remembers the tolerance
     /// </summary>
     BRepBuilderAPI_VertexInspector(double theTol);
-    BRepBuilderAPI_VertexInspector(Macad::Occt::BRepBuilderAPI_VertexInspector^ parameter1);
     /// <summary>
     /// Keep the points used for comparison
     /// </summary>
@@ -527,7 +428,6 @@ public:
     }
 
 public:
-    BRepBuilderAPI_Command(Macad::Occt::BRepBuilderAPI_Command^ parameter1);
     bool IsDone();
     /// <summary>
     /// Raises NotDone if done is false.
@@ -566,7 +466,6 @@ public:
 
 public:
     BRepBuilderAPI_Collect();
-    BRepBuilderAPI_Collect(Macad::Occt::BRepBuilderAPI_Collect^ parameter1);
     void Add(Macad::Occt::TopoDS_Shape^ SI, Macad::Occt::BRepBuilderAPI_MakeShape^ MKS);
     void AddGenerated(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopoDS_Shape^ Gen);
     void AddModif(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopoDS_Shape^ Mod);
@@ -617,7 +516,6 @@ public:
     }
 
 public:
-    BRepBuilderAPI_MakeShape(Macad::Occt::BRepBuilderAPI_MakeShape^ parameter1);
     /// <summary>
     /// This is  called by  Shape().  It does  nothing but
     /// may be redefined.
@@ -701,7 +599,6 @@ public:
     }
 
 public:
-    BRepBuilderAPI_ModifyShape(Macad::Occt::BRepBuilderAPI_ModifyShape^ parameter1);
     /// <summary>
     /// Returns the list  of shapes modified from the shape
     /// <S>.
@@ -795,7 +692,6 @@ public:
     /// other shapes: just specify them with the function Perform.
     /// </summary>
     BRepBuilderAPI_Copy(Macad::Occt::TopoDS_Shape^ S);
-    BRepBuilderAPI_Copy(Macad::Occt::BRepBuilderAPI_Copy^ parameter1);
     /// <summary>
     /// Copies the shape S.
     /// Use the function Shape to access the result.
@@ -897,7 +793,6 @@ public:
     /// Creates an object with tolerance of connexity
     /// </summary>
     BRepBuilderAPI_FastSewing();
-    BRepBuilderAPI_FastSewing(Macad::Occt::BRepBuilderAPI_FastSewing^ parameter1);
     /// <summary>
     /// Adds faces of a shape
     /// </summary>
@@ -997,7 +892,6 @@ public:
     /// The resulting plane is then retrieved using the function Plane.
     /// </summary>
     BRepBuilderAPI_FindPlane(Macad::Occt::TopoDS_Shape^ S);
-    BRepBuilderAPI_FindPlane(Macad::Occt::BRepBuilderAPI_FindPlane^ parameter1);
     /// <summary>
     /// Constructs the plane containing the edges of the shape S.
     /// A plane is built only if all the edges are within a distance
@@ -1126,7 +1020,6 @@ public:
     /// shapes: just specify them with the function Perform.
     /// </summary>
     BRepBuilderAPI_GTransform(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::gp_GTrsf^ T);
-    BRepBuilderAPI_GTransform(Macad::Occt::BRepBuilderAPI_GTransform^ parameter1);
     /// <summary>
     /// Applies the geometric transformation defined at the
     /// time of construction of this framework to the shape S.
@@ -1332,7 +1225,6 @@ public:
     /// Auxiliary methods
     /// </summary>
     BRepBuilderAPI_MakeEdge(Macad::Occt::Geom2d_Curve^ L, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, double p1, double p2);
-    BRepBuilderAPI_MakeEdge(Macad::Occt::BRepBuilderAPI_MakeEdge^ parameter1);
     void Init(Macad::Occt::Geom_Curve^ C);
     void Init(Macad::Occt::Geom_Curve^ C, double p1, double p2);
     void Init(Macad::Occt::Geom_Curve^ C, Macad::Occt::Pnt P1, Macad::Occt::Pnt P2);
@@ -1475,7 +1367,6 @@ public:
     BRepBuilderAPI_MakeEdge2d(Macad::Occt::Geom2d_Curve^ L, Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2);
     BRepBuilderAPI_MakeEdge2d(Macad::Occt::Geom2d_Curve^ L, Macad::Occt::Pnt2d P1, Macad::Occt::Pnt2d P2, double p1, double p2);
     BRepBuilderAPI_MakeEdge2d(Macad::Occt::Geom2d_Curve^ L, Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, double p1, double p2);
-    BRepBuilderAPI_MakeEdge2d(Macad::Occt::BRepBuilderAPI_MakeEdge2d^ parameter1);
     void Init(Macad::Occt::Geom2d_Curve^ C);
     void Init(Macad::Occt::Geom2d_Curve^ C, double p1, double p2);
     void Init(Macad::Occt::Geom2d_Curve^ C, Macad::Occt::Pnt2d P1, Macad::Occt::Pnt2d P2);
@@ -1727,7 +1618,6 @@ public:
     /// no vertex in the corresponding direction.
     /// </summary>
     BRepBuilderAPI_MakeFace(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Wire^ W);
-    BRepBuilderAPI_MakeFace(Macad::Occt::BRepBuilderAPI_MakeFace^ parameter1);
     /// <summary>
     /// Initializes (or reinitializes) the
     /// construction of a face by creating a new object which is a copy of
@@ -1934,7 +1824,6 @@ public:
     /// constructor's arguments.
     /// </summary>
     BRepBuilderAPI_MakePolygon(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, Macad::Occt::TopoDS_Vertex^ V3, Macad::Occt::TopoDS_Vertex^ V4);
-    BRepBuilderAPI_MakePolygon(Macad::Occt::BRepBuilderAPI_MakePolygon^ parameter1);
     void Add(Macad::Occt::Pnt P);
     /// <summary>
     /// Adds the point P or the vertex V at the end of the
@@ -2040,7 +1929,6 @@ public:
 
 public:
     /* Method skipped due to unknown mapping: void BRepBuilderAPI_MakeShapeOnMesh(Poly_Triangulation theMesh, ) */
-    BRepBuilderAPI_MakeShapeOnMesh(Macad::Occt::BRepBuilderAPI_MakeShapeOnMesh^ parameter1);
     /// <summary>
     /// Builds shape on mesh.
     /// </summary>
@@ -2136,7 +2024,6 @@ public:
     /// parametric direction by the two parameter values VMin and VMax.
     /// </summary>
     BRepBuilderAPI_MakeShell(Macad::Occt::Geom_Surface^ S, double UMin, double UMax, double VMin, double VMax);
-    BRepBuilderAPI_MakeShell(Macad::Occt::BRepBuilderAPI_MakeShell^ parameter1);
     /// <summary>
     /// Defines or redefines the arguments
     /// for the construction of a shell. The construction is initialized
@@ -2280,7 +2167,6 @@ public:
     /// the previous ones. Each must bound a closed volume.
     /// </summary>
     BRepBuilderAPI_MakeSolid(Macad::Occt::TopoDS_Solid^ So, Macad::Occt::TopoDS_Shell^ S);
-    BRepBuilderAPI_MakeSolid(Macad::Occt::BRepBuilderAPI_MakeSolid^ parameter1);
     /// <summary>
     /// Adds the shell to the current solid.
     /// Warning
@@ -2357,7 +2243,6 @@ public:
     /// TopoDS_Vertex V = BRepBuilderAPI_MakeVertex(P);
     /// </summary>
     BRepBuilderAPI_MakeVertex(Macad::Occt::Pnt P);
-    BRepBuilderAPI_MakeVertex(Macad::Occt::BRepBuilderAPI_MakeVertex^ parameter1);
     /// <summary>
     /// Returns the constructed vertex.
     /// </summary>
@@ -2482,7 +2367,6 @@ public:
     /// Add an edge to a wire.
     /// </summary>
     BRepBuilderAPI_MakeWire(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Edge^ E);
-    BRepBuilderAPI_MakeWire(Macad::Occt::BRepBuilderAPI_MakeWire^ parameter1);
     /// <summary>
     /// Adds the edge E to the wire under construction.
     /// E must be connectable to the wire under construction, and, unless it
@@ -2622,7 +2506,6 @@ public:
     /// function Perform.
     /// </summary>
     BRepBuilderAPI_NurbsConvert(Macad::Occt::TopoDS_Shape^ S);
-    BRepBuilderAPI_NurbsConvert(Macad::Occt::BRepBuilderAPI_NurbsConvert^ parameter1);
     /// <summary>
     /// Builds a new shape by converting the geometry of the
     /// shape S into NURBS geometry.
@@ -2769,7 +2652,6 @@ public:
     /// option for non manifold processing
     /// </summary>
     BRepBuilderAPI_Sewing();
-    BRepBuilderAPI_Sewing(Macad::Occt::BRepBuilderAPI_Sewing^ parameter1);
     /// <summary>
     /// initialize the parameters if necessary
     /// </summary>
@@ -3074,7 +2956,6 @@ public:
     /// and the copy will be assigned to the result shape.
     /// </summary>
     BRepBuilderAPI_Transform(Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::Trsf theTrsf);
-    BRepBuilderAPI_Transform(Macad::Occt::BRepBuilderAPI_Transform^ parameter1);
     /// <summary>
     /// Applies the geometric transformation defined at the
     /// time of construction of this framework to the shape S.

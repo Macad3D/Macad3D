@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Shapes;
 using Macad.Occt;
+using Macad.Occt.Helper;
 
 namespace Macad.Interaction.Visual
 {
@@ -37,7 +39,7 @@ namespace Macad.Interaction.Visual
                 {
                     if (reloadIfExist && cachedPixMap is Image_AlienPixMap alienPixMap)
                     {
-                        alienPixMap.Load(new TCollection_AsciiString(new TCollection_ExtendedString(path)));
+                        Reload(alienPixMap, path);
                     }
                     return cachedPixMap;
                 }
@@ -49,14 +51,34 @@ namespace Macad.Interaction.Visual
             }
 
             Image_AlienPixMap pixMap = new();
-            if(!pixMap.Load(new TCollection_AsciiString(new TCollection_ExtendedString(path))))
+            if(!Reload(pixMap, path))
             {
                 return null;
             }
-
             _PixMaps[lowerPath] = new WeakReference<Image_PixMap>(pixMap);
 
             return pixMap;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        static bool Reload(Image_AlienPixMap pixmap, string path)
+        {
+            try
+            {
+                if (!File.Exists(path))
+                    return false;
+
+                var bytes = File.ReadAllBytes(path);
+                if (bytes.Length == 0)
+                    return false;
+
+                return PixMapHelper.LoadFromMemory(pixmap, bytes, path);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         //--------------------------------------------------------------------------------------------------

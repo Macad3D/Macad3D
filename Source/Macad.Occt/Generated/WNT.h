@@ -83,7 +83,6 @@ public:
     /// Creates a Windows NT window class and registers it.
     /// </summary>
     WNT_WClass(Macad::Occt::TCollection_AsciiString^ theClassName, System::IntPtr theWndProc, unsigned int theStyle);
-    WNT_WClass(Macad::Occt::WNT_WClass^ parameter1);
     /// <summary>
     /// Returns address of window procedure.
     /// </summary>
@@ -165,7 +164,6 @@ public:
     /// Creates a Window based on the existing window handle.
     /// </summary>
     WNT_Window(System::IntPtr theHandle);
-    WNT_Window(Macad::Occt::WNT_Window^ parameter1);
     /// <summary>
     /// Convert WInAPI virtual key (VK_ enumeration) into Aspect_VKey.
     /// </summary>

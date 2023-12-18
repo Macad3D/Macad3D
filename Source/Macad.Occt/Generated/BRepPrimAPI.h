@@ -78,7 +78,6 @@ public:
     /// Make a box with Ax2 (the left corner and the axis) and size dx, dy, dz.
     /// </summary>
     BRepPrimAPI_MakeBox(Macad::Occt::Ax2 Axes, double dx, double dy, double dz);
-    BRepPrimAPI_MakeBox(Macad::Occt::BRepPrimAPI_MakeBox^ parameter1);
     /// <summary>
     /// Init a box with a corner at 0,0,0 and the other theDX, theDY, theDZ
     /// </summary>
@@ -178,7 +177,6 @@ public:
 
 public:
     BRepPrimAPI_MakeOneAxis();
-    BRepPrimAPI_MakeOneAxis(Macad::Occt::BRepPrimAPI_MakeOneAxis^ parameter1);
     /// <summary>
     /// The inherited commands should provide the algorithm.
     /// Returned as a pointer.
@@ -322,7 +320,6 @@ public:
     /// (Pi/2)-Precision::Confusion()/H.f
     /// </summary>
     BRepPrimAPI_MakeCone(Macad::Occt::Ax2 Axes, double R1, double R2, double H, double angle);
-    BRepPrimAPI_MakeCone(Macad::Occt::BRepPrimAPI_MakeCone^ parameter1);
     /// <summary>
     /// Returns the algorithm.
     /// </summary>
@@ -432,7 +429,6 @@ public:
     /// -   H is less than or equal to Precision::Confusion().
     /// </summary>
     BRepPrimAPI_MakeCylinder(Macad::Occt::Ax2 Axes, double R, double H, double Angle);
-    BRepPrimAPI_MakeCylinder(Macad::Occt::BRepPrimAPI_MakeCylinder^ parameter1);
     /// <summary>
     /// Returns the algorithm.
     /// </summary>
@@ -490,7 +486,6 @@ public:
     /// Make a HalfSpace defined with a Shell and a Point.
     /// </summary>
     BRepPrimAPI_MakeHalfSpace(Macad::Occt::TopoDS_Shell^ Shell, Macad::Occt::Pnt RefPnt);
-    BRepPrimAPI_MakeHalfSpace(Macad::Occt::BRepPrimAPI_MakeHalfSpace^ parameter1);
     /// <summary>
     /// Returns the constructed half-space as a solid.
     /// </summary>
@@ -550,7 +545,6 @@ public:
     }
 
 public:
-    BRepPrimAPI_MakeSweep(Macad::Occt::BRepPrimAPI_MakeSweep^ parameter1);
     BRepPrimAPI_MakeSweep();
     /// <summary>
     /// Returns the  TopoDS  Shape of the bottom of the sweep.
@@ -665,7 +659,6 @@ public:
     /// are attempted to be canonized in simple types
     /// </summary>
     BRepPrimAPI_MakePrism(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::Dir D);
-    BRepPrimAPI_MakePrism(Macad::Occt::BRepPrimAPI_MakePrism^ parameter1);
     /* Method skipped due to unknown mapping: BRepSweep_Prism Prism() */
     /// <summary>
     /// Builds the resulting shape (redefined from MakeShape).
@@ -791,7 +784,6 @@ public:
     /// C is true, S is copied.
     /// </summary>
     BRepPrimAPI_MakeRevol(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::Ax1 A);
-    BRepPrimAPI_MakeRevol(Macad::Occt::BRepPrimAPI_MakeRevol^ parameter1);
     /* Method skipped due to unknown mapping: BRepSweep_Revol Revol() */
     /// <summary>
     /// Builds the resulting shape (redefined from MakeShape).
@@ -917,7 +909,6 @@ public:
     /// planar faces to close the shape (in the planes u = 0 and u = angle).
     /// </summary>
     BRepPrimAPI_MakeRevolution(Macad::Occt::Ax2 Axes, Macad::Occt::Geom_Curve^ Meridian, double VMin, double VMax, double angle);
-    BRepPrimAPI_MakeRevolution(Macad::Occt::BRepPrimAPI_MakeRevolution^ parameter1);
     /// <summary>
     /// Returns the algorithm.
     /// </summary>
@@ -1118,7 +1109,6 @@ public:
     /// to shut the shape.(in the planes u = 0 and u = angle).
     /// </summary>
     BRepPrimAPI_MakeSphere(Macad::Occt::Ax2 Axis, double R, double angle1, double angle2, double angle3);
-    BRepPrimAPI_MakeSphere(Macad::Occt::BRepPrimAPI_MakeSphere^ parameter1);
     /// <summary>
     /// Returns the algorithm.
     /// </summary>
@@ -1292,7 +1282,6 @@ public:
     /// parameter. Near 0, as v increases, the Z coordinate decreases.
     /// </summary>
     BRepPrimAPI_MakeTorus(Macad::Occt::Ax2 Axes, double R1, double R2, double angle1, double angle2, double angle);
-    BRepPrimAPI_MakeTorus(Macad::Occt::BRepPrimAPI_MakeTorus^ parameter1);
     /// <summary>
     /// Returns the algorithm.
     /// </summary>
@@ -1353,7 +1342,6 @@ public:
     /// Make a wedge. The face at dy is xmin,zmin xmax,zmax
     /// </summary>
     BRepPrimAPI_MakeWedge(Macad::Occt::Ax2 Axes, double dx, double dy, double dz, double xmin, double zmin, double xmax, double zmax);
-    BRepPrimAPI_MakeWedge(Macad::Occt::BRepPrimAPI_MakeWedge^ parameter1);
     /* Method skipped due to unknown mapping: BRepPrim_Wedge Wedge() */
     /// <summary>
     /// Stores the solid in myShape.

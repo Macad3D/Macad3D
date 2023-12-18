@@ -38,12 +38,6 @@ Macad::Occt::Aspect_XRActionMap::Aspect_XRActionMap(int theNbBuckets)
     _NativeInstance = new ::Aspect_XRActionMap(theNbBuckets, 0L);
 }
 
-Macad::Occt::Aspect_XRActionMap::Aspect_XRActionMap(Macad::Occt::Aspect_XRActionMap^ theOther)
-    : Macad::Occt::BaseClass<::Aspect_XRActionMap>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_XRActionMap(*(::Aspect_XRActionMap*)theOther->NativeInstance);
-}
-
 void Macad::Occt::Aspect_XRActionMap::Exchange(Macad::Occt::Aspect_XRActionMap^ theOther)
 {
     ((::Aspect_XRActionMap*)_NativeInstance)->Exchange(*(::Aspect_XRActionMap*)theOther->NativeInstance);
@@ -145,14 +139,6 @@ Macad::Occt::Aspect_XRAction^ Macad::Occt::Aspect_XRActionMap::ChangeSeek(Macad:
     throw gcnew System::NotImplementedException();
 }
 
-bool Macad::Occt::Aspect_XRActionMap::FindFromKey(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRAction^ theValue)
-{
-    Handle(::Aspect_XRAction) h_theValue = theValue->NativeInstance;
-    bool _result = ((::Aspect_XRActionMap*)_NativeInstance)->FindFromKey(*(::TCollection_AsciiString*)theKey1->NativeInstance, h_theValue);
-    theValue->NativeInstance = h_theValue.get();
-    return _result;
-}
-
 void Macad::Occt::Aspect_XRActionMap::Clear(bool doReleaseMemory)
 {
     ((::Aspect_XRActionMap*)_NativeInstance)->Clear(doReleaseMemory);
@@ -160,12 +146,7 @@ void Macad::Occt::Aspect_XRActionMap::Clear(bool doReleaseMemory)
 
 void Macad::Occt::Aspect_XRActionMap::Clear()
 {
-    ((::Aspect_XRActionMap*)_NativeInstance)->Clear(true);
-}
-
-void Macad::Occt::Aspect_XRActionMap::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-{
-    ((::Aspect_XRActionMap*)_NativeInstance)->Clear(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
+    ((::Aspect_XRActionMap*)_NativeInstance)->Clear(false);
 }
 
 int Macad::Occt::Aspect_XRActionMap::Size()
@@ -184,18 +165,6 @@ Macad::Occt::Aspect_XRActionMap::Iterator::Iterator()
     : Macad::Occt::BaseClass<::Aspect_XRActionMap::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Aspect_XRActionMap::Iterator();
-}
-
-Macad::Occt::Aspect_XRActionMap::Iterator::Iterator(Macad::Occt::Aspect_XRActionMap^ theMap)
-    : Macad::Occt::BaseClass<::Aspect_XRActionMap::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_XRActionMap::Iterator(*(::Aspect_XRActionMap*)theMap->NativeInstance);
-}
-
-Macad::Occt::Aspect_XRActionMap::Iterator::Iterator(Macad::Occt::Aspect_XRActionMap::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_XRActionMap::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_XRActionMap::Iterator(*(::Aspect_XRActionMap::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::Aspect_XRActionMap::Iterator::More()
@@ -234,6 +203,25 @@ bool Macad::Occt::Aspect_XRActionMap::Iterator::IsEqual(Macad::Occt::Aspect_XRAc
     return _result;
 }
 
+bool Macad::Occt::Aspect_XRActionMap::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::Aspect_XRActionMap::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -256,12 +244,6 @@ Macad::Occt::Aspect_XRActionSetMap::Aspect_XRActionSetMap(int theNbBuckets)
     : Macad::Occt::BaseClass<::Aspect_XRActionSetMap>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Aspect_XRActionSetMap(theNbBuckets, 0L);
-}
-
-Macad::Occt::Aspect_XRActionSetMap::Aspect_XRActionSetMap(Macad::Occt::Aspect_XRActionSetMap^ theOther)
-    : Macad::Occt::BaseClass<::Aspect_XRActionSetMap>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_XRActionSetMap(*(::Aspect_XRActionSetMap*)theOther->NativeInstance);
 }
 
 void Macad::Occt::Aspect_XRActionSetMap::Exchange(Macad::Occt::Aspect_XRActionSetMap^ theOther)
@@ -365,14 +347,6 @@ Macad::Occt::Aspect_XRActionSet^ Macad::Occt::Aspect_XRActionSetMap::ChangeSeek(
     throw gcnew System::NotImplementedException();
 }
 
-bool Macad::Occt::Aspect_XRActionSetMap::FindFromKey(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRActionSet^ theValue)
-{
-    Handle(::Aspect_XRActionSet) h_theValue = theValue->NativeInstance;
-    bool _result = ((::Aspect_XRActionSetMap*)_NativeInstance)->FindFromKey(*(::TCollection_AsciiString*)theKey1->NativeInstance, h_theValue);
-    theValue->NativeInstance = h_theValue.get();
-    return _result;
-}
-
 void Macad::Occt::Aspect_XRActionSetMap::Clear(bool doReleaseMemory)
 {
     ((::Aspect_XRActionSetMap*)_NativeInstance)->Clear(doReleaseMemory);
@@ -380,12 +354,7 @@ void Macad::Occt::Aspect_XRActionSetMap::Clear(bool doReleaseMemory)
 
 void Macad::Occt::Aspect_XRActionSetMap::Clear()
 {
-    ((::Aspect_XRActionSetMap*)_NativeInstance)->Clear(true);
-}
-
-void Macad::Occt::Aspect_XRActionSetMap::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-{
-    ((::Aspect_XRActionSetMap*)_NativeInstance)->Clear(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
+    ((::Aspect_XRActionSetMap*)_NativeInstance)->Clear(false);
 }
 
 int Macad::Occt::Aspect_XRActionSetMap::Size()
@@ -404,18 +373,6 @@ Macad::Occt::Aspect_XRActionSetMap::Iterator::Iterator()
     : Macad::Occt::BaseClass<::Aspect_XRActionSetMap::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Aspect_XRActionSetMap::Iterator();
-}
-
-Macad::Occt::Aspect_XRActionSetMap::Iterator::Iterator(Macad::Occt::Aspect_XRActionSetMap^ theMap)
-    : Macad::Occt::BaseClass<::Aspect_XRActionSetMap::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_XRActionSetMap::Iterator(*(::Aspect_XRActionSetMap*)theMap->NativeInstance);
-}
-
-Macad::Occt::Aspect_XRActionSetMap::Iterator::Iterator(Macad::Occt::Aspect_XRActionSetMap::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_XRActionSetMap::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_XRActionSetMap::Iterator(*(::Aspect_XRActionSetMap::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::Aspect_XRActionSetMap::Iterator::More()
@@ -454,6 +411,25 @@ bool Macad::Occt::Aspect_XRActionSetMap::Iterator::IsEqual(Macad::Occt::Aspect_X
     return _result;
 }
 
+bool Macad::Occt::Aspect_XRActionSetMap::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::Aspect_XRActionSetMap::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -472,16 +448,16 @@ Macad::Occt::Aspect_TrackedDevicePoseArray::Aspect_TrackedDevicePoseArray(int th
     _NativeInstance = new ::Aspect_TrackedDevicePoseArray(theLower, theUpper);
 }
 
-Macad::Occt::Aspect_TrackedDevicePoseArray::Aspect_TrackedDevicePoseArray(Macad::Occt::Aspect_TrackedDevicePoseArray^ theOther)
+Macad::Occt::Aspect_TrackedDevicePoseArray::Aspect_TrackedDevicePoseArray(Macad::Occt::Aspect_TrackedDevicePose^ theBegin, int theLower, int theUpper, bool theUseBuffer)
     : Macad::Occt::BaseClass<::Aspect_TrackedDevicePoseArray>(BaseClass::InitMode::Uninitialized)
 {
-    _NativeInstance = new ::Aspect_TrackedDevicePoseArray(*(::Aspect_TrackedDevicePoseArray*)theOther->NativeInstance);
+    _NativeInstance = new ::Aspect_TrackedDevicePoseArray(*(::Aspect_TrackedDevicePose*)theBegin->NativeInstance, theLower, theUpper, theUseBuffer);
 }
 
 Macad::Occt::Aspect_TrackedDevicePoseArray::Aspect_TrackedDevicePoseArray(Macad::Occt::Aspect_TrackedDevicePose^ theBegin, int theLower, int theUpper)
     : Macad::Occt::BaseClass<::Aspect_TrackedDevicePoseArray>(BaseClass::InitMode::Uninitialized)
 {
-    _NativeInstance = new ::Aspect_TrackedDevicePoseArray(*(::Aspect_TrackedDevicePose*)theBegin->NativeInstance, theLower, theUpper);
+    _NativeInstance = new ::Aspect_TrackedDevicePoseArray(*(::Aspect_TrackedDevicePose*)theBegin->NativeInstance, theLower, theUpper, true);
 }
 
 void Macad::Occt::Aspect_TrackedDevicePoseArray::Init(Macad::Occt::Aspect_TrackedDevicePose^ theValue)
@@ -516,18 +492,6 @@ int Macad::Occt::Aspect_TrackedDevicePoseArray::Lower()
 int Macad::Occt::Aspect_TrackedDevicePoseArray::Upper()
 {
     int _result = ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->Upper();
-    return _result;
-}
-
-bool Macad::Occt::Aspect_TrackedDevicePoseArray::IsDeletable()
-{
-    bool _result = ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->IsDeletable();
-    return _result;
-}
-
-bool Macad::Occt::Aspect_TrackedDevicePoseArray::IsAllocated()
-{
-    bool _result = ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->IsAllocated();
     return _result;
 }
 
@@ -592,9 +556,25 @@ void Macad::Occt::Aspect_TrackedDevicePoseArray::SetValue(int theIndex, Macad::O
     ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->SetValue(theIndex, *(::Aspect_TrackedDevicePose*)theItem->NativeInstance);
 }
 
+void Macad::Occt::Aspect_TrackedDevicePoseArray::UpdateLowerBound(int theLower)
+{
+    ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->UpdateLowerBound(theLower);
+}
+
+void Macad::Occt::Aspect_TrackedDevicePoseArray::UpdateUpperBound(int theUpper)
+{
+    ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->UpdateUpperBound(theUpper);
+}
+
 void Macad::Occt::Aspect_TrackedDevicePoseArray::Resize(int theLower, int theUpper, bool theToCopyData)
 {
     ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->Resize(theLower, theUpper, theToCopyData);
+}
+
+bool Macad::Occt::Aspect_TrackedDevicePoseArray::IsDeletable()
+{
+    bool _result = ((::Aspect_TrackedDevicePoseArray*)_NativeInstance)->IsDeletable();
+    return _result;
 }
 
 System::Collections::Generic::IEnumerator<Macad::Occt::Aspect_TrackedDevicePose^>^ Macad::Occt::Aspect_TrackedDevicePoseArray::GetEnumerator()
@@ -613,82 +593,6 @@ System::Collections::IEnumerator^ Macad::Occt::Aspect_TrackedDevicePoseArray::Ge
 //  Class  Aspect_TrackedDevicePoseArray::Iterator
 //---------------------------------------------------------------------
 
-Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::Aspect_TrackedDevicePoseArray::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_TrackedDevicePoseArray::Iterator();
-}
-
-Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator::Iterator(Macad::Occt::Aspect_TrackedDevicePoseArray^ theArray, bool theToEnd)
-    : Macad::Occt::BaseClass<::Aspect_TrackedDevicePoseArray::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_TrackedDevicePoseArray::Iterator(*(::Aspect_TrackedDevicePoseArray*)theArray->NativeInstance, theToEnd);
-}
-
-Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator::Iterator(Macad::Occt::Aspect_TrackedDevicePoseArray^ theArray)
-    : Macad::Occt::BaseClass<::Aspect_TrackedDevicePoseArray::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_TrackedDevicePoseArray::Iterator(*(::Aspect_TrackedDevicePoseArray*)theArray->NativeInstance, false);
-}
-
-Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator::Iterator(Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_TrackedDevicePoseArray::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_TrackedDevicePoseArray::Iterator(*(::Aspect_TrackedDevicePoseArray::Iterator*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator::Init(Macad::Occt::Aspect_TrackedDevicePoseArray^ theArray)
-{
-    ((::Aspect_TrackedDevicePoseArray::Iterator*)_NativeInstance)->Init(*(::Aspect_TrackedDevicePoseArray*)theArray->NativeInstance);
-}
-
-bool Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator::More()
-{
-    bool _result = ((::Aspect_TrackedDevicePoseArray::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator::Next()
-{
-    ((::Aspect_TrackedDevicePoseArray::Iterator*)_NativeInstance)->Next();
-}
-
-void Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator::Previous()
-{
-    ((::Aspect_TrackedDevicePoseArray::Iterator*)_NativeInstance)->Previous();
-}
-
-void Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator::Offset(long long int theOffset)
-{
-    ((::Aspect_TrackedDevicePoseArray::Iterator*)_NativeInstance)->Offset(theOffset);
-}
-
-long long int Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator::Differ(Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator^ theOther)
-{
-    long long int _result = ((::Aspect_TrackedDevicePoseArray::Iterator*)_NativeInstance)->Differ(*(::Aspect_TrackedDevicePoseArray::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-Macad::Occt::Aspect_TrackedDevicePose^ Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator::Value()
-{
-    ::Aspect_TrackedDevicePose* _result = new ::Aspect_TrackedDevicePose();
-    *_result = (::Aspect_TrackedDevicePose)((::Aspect_TrackedDevicePoseArray::Iterator*)_NativeInstance)->Value();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_TrackedDevicePose(_result);
-}
-
-Macad::Occt::Aspect_TrackedDevicePose^ Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator::ChangeValue()
-{
-    ::Aspect_TrackedDevicePose* _result = new ::Aspect_TrackedDevicePose();
-    *_result = ((::Aspect_TrackedDevicePoseArray::Iterator*)_NativeInstance)->ChangeValue();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_TrackedDevicePose(_result);
-}
-
-bool Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator::IsEqual(Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator^ theOther)
-{
-    bool _result = ((::Aspect_TrackedDevicePoseArray::Iterator*)_NativeInstance)->IsEqual(*(::Aspect_TrackedDevicePoseArray::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
 
 
 //---------------------------------------------------------------------
@@ -705,12 +609,6 @@ Macad::Occt::Aspect_SequenceOfColor::Aspect_SequenceOfColor(Macad::Occt::NCollec
     : Macad::Occt::BaseClass<::Aspect_SequenceOfColor>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Aspect_SequenceOfColor(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
-}
-
-Macad::Occt::Aspect_SequenceOfColor::Aspect_SequenceOfColor(Macad::Occt::Aspect_SequenceOfColor^ theOther)
-    : Macad::Occt::BaseClass<::Aspect_SequenceOfColor>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_SequenceOfColor(*(::Aspect_SequenceOfColor*)theOther->NativeInstance);
 }
 
 int Macad::Occt::Aspect_SequenceOfColor::Size()
@@ -775,24 +673,9 @@ void Macad::Occt::Aspect_SequenceOfColor::Remove(Macad::Occt::Aspect_SequenceOfC
     ((::Aspect_SequenceOfColor*)_NativeInstance)->Remove(*(::Aspect_SequenceOfColor::Iterator*)thePosition->NativeInstance);
 }
 
-void Macad::Occt::Aspect_SequenceOfColor::Remove(int theIndex)
-{
-    ((::Aspect_SequenceOfColor*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::Aspect_SequenceOfColor::Remove(int theFromIndex, int theToIndex)
-{
-    ((::Aspect_SequenceOfColor*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
 void Macad::Occt::Aspect_SequenceOfColor::Append(Macad::Occt::Quantity_Color^ theItem)
 {
     ((::Aspect_SequenceOfColor*)_NativeInstance)->Append(*(::Quantity_Color*)theItem->NativeInstance);
-}
-
-void Macad::Occt::Aspect_SequenceOfColor::Append(Macad::Occt::Aspect_SequenceOfColor^ theSeq)
-{
-    ((::Aspect_SequenceOfColor*)_NativeInstance)->Append(*(::Aspect_SequenceOfColor*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::Aspect_SequenceOfColor::Prepend(Macad::Occt::Quantity_Color^ theItem)
@@ -800,34 +683,14 @@ void Macad::Occt::Aspect_SequenceOfColor::Prepend(Macad::Occt::Quantity_Color^ t
     ((::Aspect_SequenceOfColor*)_NativeInstance)->Prepend(*(::Quantity_Color*)theItem->NativeInstance);
 }
 
-void Macad::Occt::Aspect_SequenceOfColor::Prepend(Macad::Occt::Aspect_SequenceOfColor^ theSeq)
-{
-    ((::Aspect_SequenceOfColor*)_NativeInstance)->Prepend(*(::Aspect_SequenceOfColor*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::Aspect_SequenceOfColor::InsertBefore(int theIndex, Macad::Occt::Quantity_Color^ theItem)
 {
     ((::Aspect_SequenceOfColor*)_NativeInstance)->InsertBefore(theIndex, *(::Quantity_Color*)theItem->NativeInstance);
 }
 
-void Macad::Occt::Aspect_SequenceOfColor::InsertBefore(int theIndex, Macad::Occt::Aspect_SequenceOfColor^ theSeq)
-{
-    ((::Aspect_SequenceOfColor*)_NativeInstance)->InsertBefore(theIndex, *(::Aspect_SequenceOfColor*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::Aspect_SequenceOfColor::InsertAfter(Macad::Occt::Aspect_SequenceOfColor::Iterator^ thePosition, Macad::Occt::Quantity_Color^ theItem)
 {
     ((::Aspect_SequenceOfColor*)_NativeInstance)->InsertAfter(*(::Aspect_SequenceOfColor::Iterator*)thePosition->NativeInstance, *(::Quantity_Color*)theItem->NativeInstance);
-}
-
-void Macad::Occt::Aspect_SequenceOfColor::InsertAfter(int theIndex, Macad::Occt::Aspect_SequenceOfColor^ theSeq)
-{
-    ((::Aspect_SequenceOfColor*)_NativeInstance)->InsertAfter(theIndex, *(::Aspect_SequenceOfColor*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::Aspect_SequenceOfColor::InsertAfter(int theIndex, Macad::Occt::Quantity_Color^ theItem)
-{
-    ((::Aspect_SequenceOfColor*)_NativeInstance)->InsertAfter(theIndex, *(::Quantity_Color*)theItem->NativeInstance);
 }
 
 void Macad::Occt::Aspect_SequenceOfColor::Split(int theIndex, Macad::Occt::Aspect_SequenceOfColor^ theSeq)
@@ -904,24 +767,6 @@ Macad::Occt::Aspect_SequenceOfColor::Iterator::Iterator()
     _NativeInstance = new ::Aspect_SequenceOfColor::Iterator();
 }
 
-Macad::Occt::Aspect_SequenceOfColor::Iterator::Iterator(Macad::Occt::Aspect_SequenceOfColor^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::Aspect_SequenceOfColor::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_SequenceOfColor::Iterator(*(::Aspect_SequenceOfColor*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::Aspect_SequenceOfColor::Iterator::Iterator(Macad::Occt::Aspect_SequenceOfColor^ theSeq)
-    : Macad::Occt::BaseClass<::Aspect_SequenceOfColor::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_SequenceOfColor::Iterator(*(::Aspect_SequenceOfColor*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::Aspect_SequenceOfColor::Iterator::Iterator(Macad::Occt::Aspect_SequenceOfColor::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_SequenceOfColor::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_SequenceOfColor::Iterator(*(::Aspect_SequenceOfColor::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::Aspect_SequenceOfColor::Iterator::More()
 {
     bool _result = ((::Aspect_SequenceOfColor::Iterator*)_NativeInstance)->More();
@@ -953,6 +798,25 @@ bool Macad::Occt::Aspect_SequenceOfColor::Iterator::IsEqual(Macad::Occt::Aspect_
     return _result;
 }
 
+bool Macad::Occt::Aspect_SequenceOfColor::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::Aspect_SequenceOfColor::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -975,12 +839,6 @@ Macad::Occt::Aspect_TouchMap::Aspect_TouchMap(int theNbBuckets)
     : Macad::Occt::BaseClass<::Aspect_TouchMap>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Aspect_TouchMap(theNbBuckets, 0L);
-}
-
-Macad::Occt::Aspect_TouchMap::Aspect_TouchMap(Macad::Occt::Aspect_TouchMap^ theOther)
-    : Macad::Occt::BaseClass<::Aspect_TouchMap>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_TouchMap(*(::Aspect_TouchMap*)theOther->NativeInstance);
 }
 
 void Macad::Occt::Aspect_TouchMap::Exchange(Macad::Occt::Aspect_TouchMap^ theOther)
@@ -1098,13 +956,6 @@ Macad::Occt::Aspect_Touch^ Macad::Occt::Aspect_TouchMap::ChangeSeek(long long un
     return _result==nullptr ? nullptr : gcnew Macad::Occt::Aspect_Touch(_result);
 }
 
-bool Macad::Occt::Aspect_TouchMap::FindFromKey(long long unsigned int theKey1, Macad::Occt::Aspect_Touch^ theValue)
-{
-    pin_ptr<long long unsigned int> pp_theKey1 = &theKey1;
-    bool _result = ((::Aspect_TouchMap*)_NativeInstance)->FindFromKey(*(long long unsigned int*)pp_theKey1, *(::Aspect_Touch*)theValue->NativeInstance);
-    return _result;
-}
-
 void Macad::Occt::Aspect_TouchMap::Clear(bool doReleaseMemory)
 {
     ((::Aspect_TouchMap*)_NativeInstance)->Clear(doReleaseMemory);
@@ -1112,12 +963,7 @@ void Macad::Occt::Aspect_TouchMap::Clear(bool doReleaseMemory)
 
 void Macad::Occt::Aspect_TouchMap::Clear()
 {
-    ((::Aspect_TouchMap*)_NativeInstance)->Clear(true);
-}
-
-void Macad::Occt::Aspect_TouchMap::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-{
-    ((::Aspect_TouchMap*)_NativeInstance)->Clear(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
+    ((::Aspect_TouchMap*)_NativeInstance)->Clear(false);
 }
 
 int Macad::Occt::Aspect_TouchMap::Size()
@@ -1136,18 +982,6 @@ Macad::Occt::Aspect_TouchMap::Iterator::Iterator()
     : Macad::Occt::BaseClass<::Aspect_TouchMap::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Aspect_TouchMap::Iterator();
-}
-
-Macad::Occt::Aspect_TouchMap::Iterator::Iterator(Macad::Occt::Aspect_TouchMap^ theMap)
-    : Macad::Occt::BaseClass<::Aspect_TouchMap::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_TouchMap::Iterator(*(::Aspect_TouchMap*)theMap->NativeInstance);
-}
-
-Macad::Occt::Aspect_TouchMap::Iterator::Iterator(Macad::Occt::Aspect_TouchMap::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_TouchMap::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_TouchMap::Iterator(*(::Aspect_TouchMap::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::Aspect_TouchMap::Iterator::More()
@@ -1181,6 +1015,25 @@ bool Macad::Occt::Aspect_TouchMap::Iterator::IsEqual(Macad::Occt::Aspect_TouchMa
     return _result;
 }
 
+bool Macad::Occt::Aspect_TouchMap::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::Aspect_TouchMap::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -1191,12 +1044,6 @@ Macad::Occt::Aspect_XRAnalogActionData::Aspect_XRAnalogActionData()
     : Macad::Occt::BaseClass<::Aspect_XRAnalogActionData>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Aspect_XRAnalogActionData();
-}
-
-Macad::Occt::Aspect_XRAnalogActionData::Aspect_XRAnalogActionData(Macad::Occt::Aspect_XRAnalogActionData^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_XRAnalogActionData>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_XRAnalogActionData(*(::Aspect_XRAnalogActionData*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::Aspect_XRAnalogActionData::IsChanged()
@@ -1217,12 +1064,6 @@ Macad::Occt::Aspect_XRDigitalActionData::Aspect_XRDigitalActionData()
     _NativeInstance = new ::Aspect_XRDigitalActionData();
 }
 
-Macad::Occt::Aspect_XRDigitalActionData::Aspect_XRDigitalActionData(Macad::Occt::Aspect_XRDigitalActionData^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_XRDigitalActionData>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_XRDigitalActionData(*(::Aspect_XRDigitalActionData*)parameter1->NativeInstance);
-}
-
 
 
 //---------------------------------------------------------------------
@@ -1233,12 +1074,6 @@ Macad::Occt::Aspect_XRHapticActionData::Aspect_XRHapticActionData()
     : Macad::Occt::BaseClass<::Aspect_XRHapticActionData>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Aspect_XRHapticActionData();
-}
-
-Macad::Occt::Aspect_XRHapticActionData::Aspect_XRHapticActionData(Macad::Occt::Aspect_XRHapticActionData^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_XRHapticActionData>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_XRHapticActionData(*(::Aspect_XRHapticActionData*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::Aspect_XRHapticActionData::IsValid()
@@ -1259,12 +1094,6 @@ Macad::Occt::Aspect_TrackedDevicePose::Aspect_TrackedDevicePose()
     _NativeInstance = new ::Aspect_TrackedDevicePose();
 }
 
-Macad::Occt::Aspect_TrackedDevicePose::Aspect_TrackedDevicePose(Macad::Occt::Aspect_TrackedDevicePose^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_TrackedDevicePose>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_TrackedDevicePose(*(::Aspect_TrackedDevicePose*)parameter1->NativeInstance);
-}
-
 
 
 //---------------------------------------------------------------------
@@ -1275,12 +1104,6 @@ Macad::Occt::Aspect_XRPoseActionData::Aspect_XRPoseActionData()
     : Macad::Occt::BaseClass<::Aspect_XRPoseActionData>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Aspect_XRPoseActionData();
-}
-
-Macad::Occt::Aspect_XRPoseActionData::Aspect_XRPoseActionData(Macad::Occt::Aspect_XRPoseActionData^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_XRPoseActionData>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_XRPoseActionData(*(::Aspect_XRPoseActionData*)parameter1->NativeInstance);
 }
 
 
@@ -1317,12 +1140,6 @@ Macad::Occt::Aspect_ScrollDelta::Aspect_ScrollDelta(double theValue)
     : Macad::Occt::BaseClass<::Aspect_ScrollDelta>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Aspect_ScrollDelta(theValue, Aspect_VKeyFlags_NONE);
-}
-
-Macad::Occt::Aspect_ScrollDelta::Aspect_ScrollDelta(Macad::Occt::Aspect_ScrollDelta^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_ScrollDelta>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_ScrollDelta(*(::Aspect_ScrollDelta*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::Aspect_ScrollDelta::HasPoint()
@@ -1364,12 +1181,6 @@ Macad::Occt::Aspect_AspectFillAreaDefinitionError::Aspect_AspectFillAreaDefiniti
     NativeInstance = new ::Aspect_AspectFillAreaDefinitionError(sz_theMessage, sz_theStackTrace);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::Aspect_AspectFillAreaDefinitionError::Aspect_AspectFillAreaDefinitionError(Macad::Occt::Aspect_AspectFillAreaDefinitionError^ parameter1)
-    : Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Aspect_AspectFillAreaDefinitionError(*(::Aspect_AspectFillAreaDefinitionError*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Aspect_AspectFillAreaDefinitionError::Raise(System::String^ theMessage)
@@ -1443,12 +1254,6 @@ Macad::Occt::Aspect_AspectLineDefinitionError::Aspect_AspectLineDefinitionError(
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
-Macad::Occt::Aspect_AspectLineDefinitionError::Aspect_AspectLineDefinitionError(Macad::Occt::Aspect_AspectLineDefinitionError^ parameter1)
-    : Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Aspect_AspectLineDefinitionError(*(::Aspect_AspectLineDefinitionError*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Aspect_AspectLineDefinitionError::Raise(System::String^ theMessage)
 {
     const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
@@ -1520,12 +1325,6 @@ Macad::Occt::Aspect_AspectMarkerDefinitionError::Aspect_AspectMarkerDefinitionEr
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
-Macad::Occt::Aspect_AspectMarkerDefinitionError::Aspect_AspectMarkerDefinitionError(Macad::Occt::Aspect_AspectMarkerDefinitionError^ parameter1)
-    : Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Aspect_AspectMarkerDefinitionError(*(::Aspect_AspectMarkerDefinitionError*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Aspect_AspectMarkerDefinitionError::Raise(System::String^ theMessage)
 {
     const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
@@ -1585,12 +1384,6 @@ Macad::Occt::Aspect_Background::Aspect_Background(Macad::Occt::Quantity_Color^ A
     _NativeInstance = new ::Aspect_Background(*(::Quantity_Color*)AColor->NativeInstance);
 }
 
-Macad::Occt::Aspect_Background::Aspect_Background(Macad::Occt::Aspect_Background^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_Background>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_Background(*(::Aspect_Background*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Aspect_Background::SetColor(Macad::Occt::Quantity_Color^ AColor)
 {
     ((::Aspect_Background*)_NativeInstance)->SetColor(*(::Quantity_Color*)AColor->NativeInstance);
@@ -1622,12 +1415,6 @@ void Macad::Occt::Aspect_Background::DumpJson(System::IO::TextWriter^ theOStream
 //---------------------------------------------------------------------
 //  Class  Aspect_Grid
 //---------------------------------------------------------------------
-
-Macad::Occt::Aspect_Grid::Aspect_Grid(Macad::Occt::Aspect_Grid^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
 
 void Macad::Occt::Aspect_Grid::SetXOrigin(double anOrigin)
 {
@@ -1801,12 +1588,6 @@ Macad::Occt::Aspect_CircularGrid::Aspect_CircularGrid(double aRadiusStep, int aD
     	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Aspect_CircularGrid::Aspect_CircularGrid(Macad::Occt::Aspect_CircularGrid^ parameter1)
-    : Macad::Occt::Aspect_Grid(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 void Macad::Occt::Aspect_CircularGrid::SetRadiusStep(double aStep)
 {
     ((::Aspect_CircularGrid*)_NativeInstance)->SetRadiusStep(aStep);
@@ -1901,12 +1682,6 @@ Macad::Occt::Aspect_DisplayConnectionDefinitionError::Aspect_DisplayConnectionDe
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
-Macad::Occt::Aspect_DisplayConnectionDefinitionError::Aspect_DisplayConnectionDefinitionError(Macad::Occt::Aspect_DisplayConnectionDefinitionError^ parameter1)
-    : Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Aspect_DisplayConnectionDefinitionError(*(::Aspect_DisplayConnectionDefinitionError*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Aspect_DisplayConnectionDefinitionError::Raise(System::String^ theMessage)
 {
     const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
@@ -1964,12 +1739,6 @@ Macad::Occt::Aspect_GenId::Aspect_GenId(int theLow, int theUpper)
     : Macad::Occt::BaseClass<::Aspect_GenId>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Aspect_GenId(theLow, theUpper);
-}
-
-Macad::Occt::Aspect_GenId::Aspect_GenId(Macad::Occt::Aspect_GenId^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_GenId>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_GenId(*(::Aspect_GenId*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Aspect_GenId::Free()
@@ -2057,12 +1826,6 @@ Macad::Occt::Aspect_GradientBackground::Aspect_GradientBackground(Macad::Occt::Q
     _NativeInstance = new ::Aspect_GradientBackground(*(::Quantity_Color*)theColor1->NativeInstance, *(::Quantity_Color*)theColor2->NativeInstance, Aspect_GradientFillMethod_Horizontal);
 }
 
-Macad::Occt::Aspect_GradientBackground::Aspect_GradientBackground(Macad::Occt::Aspect_GradientBackground^ parameter1)
-    : Macad::Occt::Aspect_Background(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_GradientBackground(*(::Aspect_GradientBackground*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Aspect_GradientBackground::SetColors(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2, Macad::Occt::Aspect_GradientFillMethod theMethod)
 {
     ((::Aspect_GradientBackground*)_NativeInstance)->SetColors(*(::Quantity_Color*)theColor1->NativeInstance, *(::Quantity_Color*)theColor2->NativeInstance, (::Aspect_GradientFillMethod)theMethod);
@@ -2126,12 +1889,6 @@ Macad::Occt::Aspect_GraphicDeviceDefinitionError::Aspect_GraphicDeviceDefinition
     NativeInstance = new ::Aspect_GraphicDeviceDefinitionError(sz_theMessage, sz_theStackTrace);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::Aspect_GraphicDeviceDefinitionError::Aspect_GraphicDeviceDefinitionError(Macad::Occt::Aspect_GraphicDeviceDefinitionError^ parameter1)
-    : Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Aspect_GraphicDeviceDefinitionError(*(::Aspect_GraphicDeviceDefinitionError*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Aspect_GraphicDeviceDefinitionError::Raise(System::String^ theMessage)
@@ -2205,12 +1962,6 @@ Macad::Occt::Aspect_IdentDefinitionError::Aspect_IdentDefinitionError(System::St
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
-Macad::Occt::Aspect_IdentDefinitionError::Aspect_IdentDefinitionError(Macad::Occt::Aspect_IdentDefinitionError^ parameter1)
-    : Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Aspect_IdentDefinitionError(*(::Aspect_IdentDefinitionError*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Aspect_IdentDefinitionError::Raise(System::String^ theMessage)
 {
     const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
@@ -2257,12 +2008,6 @@ Macad::Occt::Aspect_IdentDefinitionError^ Macad::Occt::Aspect_IdentDefinitionErr
 //---------------------------------------------------------------------
 //  Class  Aspect_Window
 //---------------------------------------------------------------------
-
-Macad::Occt::Aspect_Window::Aspect_Window(Macad::Occt::Aspect_Window^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
 
 bool Macad::Occt::Aspect_Window::IsVirtual()
 {
@@ -2453,12 +2198,6 @@ Macad::Occt::Aspect_XRAction::Aspect_XRAction(Macad::Occt::TCollection_AsciiStri
     NativeInstance = new ::Aspect_XRAction(*(::TCollection_AsciiString*)theId->NativeInstance, (::Aspect_XRActionType)theType);
 }
 
-Macad::Occt::Aspect_XRAction::Aspect_XRAction(Macad::Occt::Aspect_XRAction^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Aspect_XRAction(*(::Aspect_XRAction*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TCollection_AsciiString^ Macad::Occt::Aspect_XRAction::Id()
 {
     ::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
@@ -2506,12 +2245,6 @@ Macad::Occt::Aspect_XRActionSet::Aspect_XRActionSet(Macad::Occt::TCollection_Asc
     NativeInstance = new ::Aspect_XRActionSet(*(::TCollection_AsciiString*)theId->NativeInstance);
 }
 
-Macad::Occt::Aspect_XRActionSet::Aspect_XRActionSet(Macad::Occt::Aspect_XRActionSet^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Aspect_XRActionSet(*(::Aspect_XRActionSet*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TCollection_AsciiString^ Macad::Occt::Aspect_XRActionSet::Id()
 {
     ::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
@@ -2552,12 +2285,6 @@ Macad::Occt::Aspect_XRActionSet^ Macad::Occt::Aspect_XRActionSet::CreateDowncast
 //---------------------------------------------------------------------
 //  Class  Aspect_XRSession
 //---------------------------------------------------------------------
-
-Macad::Occt::Aspect_XRSession::Aspect_XRSession(Macad::Occt::Aspect_XRSession^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
 
 bool Macad::Occt::Aspect_XRSession::IsOpen()
 {
@@ -2793,12 +2520,6 @@ Macad::Occt::Aspect_OpenVRSession::Aspect_OpenVRSession()
     NativeInstance = new ::Aspect_OpenVRSession();
 }
 
-Macad::Occt::Aspect_OpenVRSession::Aspect_OpenVRSession(Macad::Occt::Aspect_OpenVRSession^ parameter1)
-    : Macad::Occt::Aspect_XRSession(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Aspect_OpenVRSession(*(::Aspect_OpenVRSession*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::Aspect_OpenVRSession::IsHmdPresent()
 {
     bool _result = ::Aspect_OpenVRSession::IsHmdPresent();
@@ -2952,12 +2673,6 @@ Macad::Occt::Aspect_RectangularGrid::Aspect_RectangularGrid(double aXStep, doubl
     	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Aspect_RectangularGrid::Aspect_RectangularGrid(Macad::Occt::Aspect_RectangularGrid^ parameter1)
-    : Macad::Occt::Aspect_Grid(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 void Macad::Occt::Aspect_RectangularGrid::SetXStep(double aStep)
 {
     ((::Aspect_RectangularGrid*)_NativeInstance)->SetXStep(aStep);
@@ -3058,12 +2773,6 @@ Macad::Occt::Aspect_SkydomeBackground::Aspect_SkydomeBackground(Macad::Occt::Dir
     _NativeInstance = new ::Aspect_SkydomeBackground(*(gp_Dir*)pp_theSunDirection, theCloudiness, theTime, theFogginess, theSize);
 }
 
-Macad::Occt::Aspect_SkydomeBackground::Aspect_SkydomeBackground(Macad::Occt::Aspect_SkydomeBackground^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_SkydomeBackground>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_SkydomeBackground(*(::Aspect_SkydomeBackground*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Dir Macad::Occt::Aspect_SkydomeBackground::SunDirection()
 {
     ::gp_Dir _nativeResult = ((::Aspect_SkydomeBackground*)_NativeInstance)->SunDirection();
@@ -3158,12 +2867,6 @@ Macad::Occt::Aspect_Touch::Aspect_Touch(double theX, double theY, bool theIsPrec
     _NativeInstance = new ::Aspect_Touch(theX, theY, theIsPreciseDevice);
 }
 
-Macad::Occt::Aspect_Touch::Aspect_Touch(Macad::Occt::Aspect_Touch^ parameter1)
-    : Macad::Occt::BaseClass<::Aspect_Touch>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Aspect_Touch(*(::Aspect_Touch*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Graphic3d_Vec2d^ Macad::Occt::Aspect_Touch::Delta()
 {
     ::Graphic3d_Vec2d* _result = new ::Graphic3d_Vec2d();
@@ -3199,12 +2902,6 @@ Macad::Occt::Aspect_WindowDefinitionError::Aspect_WindowDefinitionError(System::
     NativeInstance = new ::Aspect_WindowDefinitionError(sz_theMessage, sz_theStackTrace);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::Aspect_WindowDefinitionError::Aspect_WindowDefinitionError(Macad::Occt::Aspect_WindowDefinitionError^ parameter1)
-    : Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Aspect_WindowDefinitionError(*(::Aspect_WindowDefinitionError*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Aspect_WindowDefinitionError::Raise(System::String^ theMessage)
@@ -3276,12 +2973,6 @@ Macad::Occt::Aspect_WindowError::Aspect_WindowError(System::String^ theMessage, 
     NativeInstance = new ::Aspect_WindowError(sz_theMessage, sz_theStackTrace);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::Aspect_WindowError::Aspect_WindowError(Macad::Occt::Aspect_WindowError^ parameter1)
-    : Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Aspect_WindowError(*(::Aspect_WindowError*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Aspect_WindowError::Raise(System::String^ theMessage)

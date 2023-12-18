@@ -19,7 +19,7 @@ public class IndexEnumerablePass : Pass
         var valueMethod = cd.Methods.FirstOrDefault(md => md.Name == "Value" && md.Parameters.Count == 1 && md.Parameters[0].Type.Name == "int");
         if (valueMethod == null || valueMethod.Type.Wrapper == null)
             return true;
-        if (!valueMethod.Type.Wrapper.GetDeclaration(valueMethod.Type, false, out var typeDecl))
+        if (!valueMethod.Type.Wrapper.GetDeclaration(valueMethod.Type, true, out var typeDecl))
             return true;
 
         // Create interface and it's implementation methods

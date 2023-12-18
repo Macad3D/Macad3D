@@ -40,7 +40,20 @@ public class ClassWrapper : TypeWrapper
         returnValue = "";
         var cd = md.Type.Element as ClassDecl;
 
-        if (md.Type.IsPointer)
+        if (cd is { IsTransient: true } && md.Type.IsReference)
+        {
+            if (cd.Methods.Exists(md => md.Name == "ShallowCopy"))
+            {
+                resultAssign = $"const ::{cd.FullNativeName}& _result = ";
+                returnValue = $"gcnew {Context.Current.Settings.Namespace}::{cd.FullName}((::{cd.FullNativeName}*)_result.ShallowCopy().get())";
+            }
+            else
+            {
+                // We need an explicit copy method
+                return false;
+            }
+        }
+        else if (md.Type.IsPointer)
         {
             if (md.Type.IsConst)
             {
@@ -53,7 +66,7 @@ public class ClassWrapper : TypeWrapper
                 returnValue = $"_result==nullptr ? nullptr : gcnew {Context.Current.Settings.Namespace}::{cd?.FullName ?? md.Type.Name}(_result)";
             }
         }
-        else
+        else 
         {
             // Check if there has any constructors we can fill with value types
             if (cd == null || cd.HasAbstractFunctions || cd.IsAbstract)

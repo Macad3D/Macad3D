@@ -71,12 +71,6 @@ Macad::Occt::BSplCLib::BSplCLib()
     _NativeInstance = new ::BSplCLib();
 }
 
-Macad::Occt::BSplCLib::BSplCLib(Macad::Occt::BSplCLib^ parameter1)
-    : Macad::Occt::BaseClass<::BSplCLib>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BSplCLib(*(::BSplCLib*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BSplCLib::Hunt(Macad::Occt::TColStd_Array1OfReal^ theArray, double theX, int% theXPos)
 {
     pin_ptr<int> pp_theXPos = &theXPos;
@@ -1051,6 +1045,12 @@ void Macad::Occt::BSplCLib::Resolution(Macad::Occt::TColgp_Array1OfPnt2d^ Poles,
     ::BSplCLib::Resolution(*(::TColgp_Array1OfPnt2d*)Poles->NativeInstance, (::TColStd_Array1OfReal*)Weights->NativeInstance, NumPoles, *(::TColStd_Array1OfReal*)FlatKnots->NativeInstance, Degree, Tolerance3D, *(double*)pp_UTolerance);
 }
 
+int Macad::Occt::BSplCLib::Intervals(Macad::Occt::TColStd_Array1OfReal^ theKnots, Macad::Occt::TColStd_Array1OfInteger^ theMults, int theDegree, bool isPeriodic, int theContinuity, double theFirst, double theLast, double theTolerance, Macad::Occt::TColStd_Array1OfReal^ theIntervals)
+{
+    int _result = ::BSplCLib::Intervals(*(::TColStd_Array1OfReal*)theKnots->NativeInstance, *(::TColStd_Array1OfInteger*)theMults->NativeInstance, theDegree, isPeriodic, theContinuity, theFirst, theLast, theTolerance, (::TColStd_Array1OfReal*)theIntervals->NativeInstance);
+    return _result;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -1070,7 +1070,7 @@ Macad::Occt::BSplCLib_Cache::BSplCLib_Cache(int theDegree, bool thePeriodic, Mac
 {
     pin_ptr<int> pp_theDegree = &theDegree;
     pin_ptr<bool> pp_thePeriodic = &thePeriodic;
-    NativeInstance = new ::BSplCLib_Cache(*(int*)pp_theDegree, *(bool*)pp_thePeriodic, *(::TColStd_Array1OfReal*)theFlatKnots->NativeInstance, *(::TColgp_Array1OfPnt2d*)thePoles2d->NativeInstance, 0);
+    NativeInstance = new ::BSplCLib_Cache(*(int*)pp_theDegree, *(bool*)pp_thePeriodic, *(::TColStd_Array1OfReal*)theFlatKnots->NativeInstance, *(::TColgp_Array1OfPnt2d*)thePoles2d->NativeInstance, nullptr);
 }
 
 Macad::Occt::BSplCLib_Cache::BSplCLib_Cache(int theDegree, bool thePeriodic, Macad::Occt::TColStd_Array1OfReal^ theFlatKnots, Macad::Occt::TColgp_Array1OfPnt^ thePoles, Macad::Occt::TColStd_Array1OfReal^ theWeights)
@@ -1086,7 +1086,7 @@ Macad::Occt::BSplCLib_Cache::BSplCLib_Cache(int theDegree, bool thePeriodic, Mac
 {
     pin_ptr<int> pp_theDegree = &theDegree;
     pin_ptr<bool> pp_thePeriodic = &thePeriodic;
-    NativeInstance = new ::BSplCLib_Cache(*(int*)pp_theDegree, *(bool*)pp_thePeriodic, *(::TColStd_Array1OfReal*)theFlatKnots->NativeInstance, *(::TColgp_Array1OfPnt*)thePoles->NativeInstance, 0);
+    NativeInstance = new ::BSplCLib_Cache(*(int*)pp_theDegree, *(bool*)pp_thePeriodic, *(::TColStd_Array1OfReal*)theFlatKnots->NativeInstance, *(::TColgp_Array1OfPnt*)thePoles->NativeInstance, nullptr);
 }
 
 bool Macad::Occt::BSplCLib_Cache::IsCacheValid(double theParameter)
@@ -1110,7 +1110,7 @@ void Macad::Occt::BSplCLib_Cache::BuildCache(double theParameter, Macad::Occt::T
 void Macad::Occt::BSplCLib_Cache::BuildCache(double theParameter, Macad::Occt::TColStd_Array1OfReal^ theFlatKnots, Macad::Occt::TColgp_Array1OfPnt^ thePoles)
 {
     pin_ptr<double> pp_theParameter = &theParameter;
-    ((::BSplCLib_Cache*)_NativeInstance)->BuildCache(*(double*)pp_theParameter, *(::TColStd_Array1OfReal*)theFlatKnots->NativeInstance, *(::TColgp_Array1OfPnt*)thePoles->NativeInstance, 0);
+    ((::BSplCLib_Cache*)_NativeInstance)->BuildCache(*(double*)pp_theParameter, *(::TColStd_Array1OfReal*)theFlatKnots->NativeInstance, *(::TColgp_Array1OfPnt*)thePoles->NativeInstance, nullptr);
 }
 
 void Macad::Occt::BSplCLib_Cache::D0(double theParameter, Macad::Occt::Pnt2d% thePoint)

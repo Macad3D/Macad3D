@@ -29,31 +29,25 @@ Macad::Occt::WNT_WClass::WNT_WClass(Macad::Occt::TCollection_AsciiString^ theCla
 Macad::Occt::WNT_WClass::WNT_WClass(Macad::Occt::TCollection_AsciiString^ theClassName, System::IntPtr theWndProc, unsigned int theStyle, int theClassExtra, int theWindowExtra, System::IntPtr theCursor)
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
-    NativeInstance = new ::WNT_WClass(*(::TCollection_AsciiString*)theClassName->NativeInstance, theWndProc.ToPointer(), theStyle, theClassExtra, theWindowExtra, theCursor.ToPointer(), 0, ::TCollection_AsciiString());
+    NativeInstance = new ::WNT_WClass(*(::TCollection_AsciiString*)theClassName->NativeInstance, theWndProc.ToPointer(), theStyle, theClassExtra, theWindowExtra, theCursor.ToPointer(), nullptr, ::TCollection_AsciiString());
 }
 
 Macad::Occt::WNT_WClass::WNT_WClass(Macad::Occt::TCollection_AsciiString^ theClassName, System::IntPtr theWndProc, unsigned int theStyle, int theClassExtra, int theWindowExtra)
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
-    NativeInstance = new ::WNT_WClass(*(::TCollection_AsciiString*)theClassName->NativeInstance, theWndProc.ToPointer(), theStyle, theClassExtra, theWindowExtra, 0, 0, ::TCollection_AsciiString());
+    NativeInstance = new ::WNT_WClass(*(::TCollection_AsciiString*)theClassName->NativeInstance, theWndProc.ToPointer(), theStyle, theClassExtra, theWindowExtra, nullptr, nullptr, ::TCollection_AsciiString());
 }
 
 Macad::Occt::WNT_WClass::WNT_WClass(Macad::Occt::TCollection_AsciiString^ theClassName, System::IntPtr theWndProc, unsigned int theStyle, int theClassExtra)
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
-    NativeInstance = new ::WNT_WClass(*(::TCollection_AsciiString*)theClassName->NativeInstance, theWndProc.ToPointer(), theStyle, theClassExtra, 0, 0, 0, ::TCollection_AsciiString());
+    NativeInstance = new ::WNT_WClass(*(::TCollection_AsciiString*)theClassName->NativeInstance, theWndProc.ToPointer(), theStyle, theClassExtra, 0, nullptr, nullptr, ::TCollection_AsciiString());
 }
 
 Macad::Occt::WNT_WClass::WNT_WClass(Macad::Occt::TCollection_AsciiString^ theClassName, System::IntPtr theWndProc, unsigned int theStyle)
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
-    NativeInstance = new ::WNT_WClass(*(::TCollection_AsciiString*)theClassName->NativeInstance, theWndProc.ToPointer(), theStyle, 0, 0, 0, 0, ::TCollection_AsciiString());
-}
-
-Macad::Occt::WNT_WClass::WNT_WClass(Macad::Occt::WNT_WClass^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::WNT_WClass(*(::WNT_WClass*)parameter1->NativeInstance);
+    NativeInstance = new ::WNT_WClass(*(::TCollection_AsciiString*)theClassName->NativeInstance, theWndProc.ToPointer(), theStyle, 0, 0, nullptr, nullptr, ::TCollection_AsciiString());
 }
 
 System::IntPtr Macad::Occt::WNT_WClass::WndProc()
@@ -100,7 +94,7 @@ Macad::Occt::WNT_Window::WNT_Window(System::String^ theTitle, Macad::Occt::WNT_W
 {
     const char* sz_theTitle = (char*)(void*)Marshal::StringToHGlobalAnsi(theTitle);
     pin_ptr<long unsigned int> pp_theStyle = &theStyle;
-    NativeInstance = new ::WNT_Window(sz_theTitle, Handle(::WNT_WClass)(theClass->NativeInstance), *(long unsigned int*)pp_theStyle, thePxLeft, thePxTop, thePxWidth, thePxHeight, (::Quantity_NameOfColor)theBackColor, theParent.ToPointer(), theMenu.ToPointer(), 0);
+    NativeInstance = new ::WNT_Window(sz_theTitle, Handle(::WNT_WClass)(theClass->NativeInstance), *(long unsigned int*)pp_theStyle, thePxLeft, thePxTop, thePxWidth, thePxHeight, (::Quantity_NameOfColor)theBackColor, theParent.ToPointer(), theMenu.ToPointer(), nullptr);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theTitle);
 }
 
@@ -109,7 +103,7 @@ Macad::Occt::WNT_Window::WNT_Window(System::String^ theTitle, Macad::Occt::WNT_W
 {
     const char* sz_theTitle = (char*)(void*)Marshal::StringToHGlobalAnsi(theTitle);
     pin_ptr<long unsigned int> pp_theStyle = &theStyle;
-    NativeInstance = new ::WNT_Window(sz_theTitle, Handle(::WNT_WClass)(theClass->NativeInstance), *(long unsigned int*)pp_theStyle, thePxLeft, thePxTop, thePxWidth, thePxHeight, (::Quantity_NameOfColor)theBackColor, theParent.ToPointer(), 0, 0);
+    NativeInstance = new ::WNT_Window(sz_theTitle, Handle(::WNT_WClass)(theClass->NativeInstance), *(long unsigned int*)pp_theStyle, thePxLeft, thePxTop, thePxWidth, thePxHeight, (::Quantity_NameOfColor)theBackColor, theParent.ToPointer(), nullptr, nullptr);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theTitle);
 }
 
@@ -118,7 +112,7 @@ Macad::Occt::WNT_Window::WNT_Window(System::String^ theTitle, Macad::Occt::WNT_W
 {
     const char* sz_theTitle = (char*)(void*)Marshal::StringToHGlobalAnsi(theTitle);
     pin_ptr<long unsigned int> pp_theStyle = &theStyle;
-    NativeInstance = new ::WNT_Window(sz_theTitle, Handle(::WNT_WClass)(theClass->NativeInstance), *(long unsigned int*)pp_theStyle, thePxLeft, thePxTop, thePxWidth, thePxHeight, (::Quantity_NameOfColor)theBackColor, 0, 0, 0);
+    NativeInstance = new ::WNT_Window(sz_theTitle, Handle(::WNT_WClass)(theClass->NativeInstance), *(long unsigned int*)pp_theStyle, thePxLeft, thePxTop, thePxWidth, thePxHeight, (::Quantity_NameOfColor)theBackColor, nullptr, nullptr, nullptr);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theTitle);
 }
 
@@ -127,7 +121,7 @@ Macad::Occt::WNT_Window::WNT_Window(System::String^ theTitle, Macad::Occt::WNT_W
 {
     const char* sz_theTitle = (char*)(void*)Marshal::StringToHGlobalAnsi(theTitle);
     pin_ptr<long unsigned int> pp_theStyle = &theStyle;
-    NativeInstance = new ::WNT_Window(sz_theTitle, Handle(::WNT_WClass)(theClass->NativeInstance), *(long unsigned int*)pp_theStyle, thePxLeft, thePxTop, thePxWidth, thePxHeight, Quantity_NOC_MATRAGRAY, 0, 0, 0);
+    NativeInstance = new ::WNT_Window(sz_theTitle, Handle(::WNT_WClass)(theClass->NativeInstance), *(long unsigned int*)pp_theStyle, thePxLeft, thePxTop, thePxWidth, thePxHeight, Quantity_NOC_MATRAGRAY, nullptr, nullptr, nullptr);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theTitle);
 }
 
@@ -141,12 +135,6 @@ Macad::Occt::WNT_Window::WNT_Window(System::IntPtr theHandle)
     : Macad::Occt::Aspect_Window(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::WNT_Window(theHandle.ToPointer(), Quantity_NOC_MATRAGRAY);
-}
-
-Macad::Occt::WNT_Window::WNT_Window(Macad::Occt::WNT_Window^ parameter1)
-    : Macad::Occt::Aspect_Window(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::WNT_Window(*(::WNT_Window*)parameter1->NativeInstance);
 }
 
 unsigned int Macad::Occt::WNT_Window::VirtualKeyFromNative(int theKey)

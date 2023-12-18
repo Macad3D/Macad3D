@@ -25,12 +25,6 @@ Macad::Occt::GeomConvert::GeomConvert()
     _NativeInstance = new ::GeomConvert();
 }
 
-Macad::Occt::GeomConvert::GeomConvert(Macad::Occt::GeomConvert^ parameter1)
-    : Macad::Occt::BaseClass<::GeomConvert>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomConvert(*(::GeomConvert*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Geom_BSplineCurve^ Macad::Occt::GeomConvert::SplitBSplineCurve(Macad::Occt::Geom_BSplineCurve^ C, int FromK1, int ToK2, bool SameOrientation)
 {
     Handle(::Geom_BSplineCurve) _result = ::GeomConvert::SplitBSplineCurve(Handle(::Geom_BSplineCurve)(C->NativeInstance), FromK1, ToK2, SameOrientation);
@@ -165,12 +159,6 @@ Macad::Occt::GeomConvert_ApproxCurve::GeomConvert_ApproxCurve(Macad::Occt::Adapt
     _NativeInstance = new ::GeomConvert_ApproxCurve(Handle(::Adaptor3d_Curve)(Curve->NativeInstance), Tol3d, (::GeomAbs_Shape)Order, MaxSegments, MaxDegree);
 }
 
-Macad::Occt::GeomConvert_ApproxCurve::GeomConvert_ApproxCurve(Macad::Occt::GeomConvert_ApproxCurve^ parameter1)
-    : Macad::Occt::BaseClass<::GeomConvert_ApproxCurve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomConvert_ApproxCurve(*(::GeomConvert_ApproxCurve*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Geom_BSplineCurve^ Macad::Occt::GeomConvert_ApproxCurve::Curve()
 {
     Handle(::Geom_BSplineCurve) _result = ((::GeomConvert_ApproxCurve*)_NativeInstance)->Curve();
@@ -220,12 +208,6 @@ Macad::Occt::GeomConvert_ApproxSurface::GeomConvert_ApproxSurface(Macad::Occt::A
     _NativeInstance = new ::GeomConvert_ApproxSurface(Handle(::Adaptor3d_Surface)(Surf->NativeInstance), Tol3d, (::GeomAbs_Shape)UContinuity, (::GeomAbs_Shape)VContinuity, MaxDegU, MaxDegV, MaxSegments, PrecisCode);
 }
 
-Macad::Occt::GeomConvert_ApproxSurface::GeomConvert_ApproxSurface(Macad::Occt::GeomConvert_ApproxSurface^ parameter1)
-    : Macad::Occt::BaseClass<::GeomConvert_ApproxSurface>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomConvert_ApproxSurface(*(::GeomConvert_ApproxSurface*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Geom_BSplineSurface^ Macad::Occt::GeomConvert_ApproxSurface::Surface()
 {
     Handle(::Geom_BSplineSurface) _result = ((::GeomConvert_ApproxSurface*)_NativeInstance)->Surface();
@@ -269,12 +251,6 @@ Macad::Occt::GeomConvert_BSplineCurveKnotSplitting::GeomConvert_BSplineCurveKnot
     _NativeInstance = new ::GeomConvert_BSplineCurveKnotSplitting(Handle(::Geom_BSplineCurve)(BasisCurve->NativeInstance), ContinuityRange);
 }
 
-Macad::Occt::GeomConvert_BSplineCurveKnotSplitting::GeomConvert_BSplineCurveKnotSplitting(Macad::Occt::GeomConvert_BSplineCurveKnotSplitting^ parameter1)
-    : Macad::Occt::BaseClass<::GeomConvert_BSplineCurveKnotSplitting>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomConvert_BSplineCurveKnotSplitting(*(::GeomConvert_BSplineCurveKnotSplitting*)parameter1->NativeInstance);
-}
-
 int Macad::Occt::GeomConvert_BSplineCurveKnotSplitting::NbSplits()
 {
     int _result = ((::GeomConvert_BSplineCurveKnotSplitting*)_NativeInstance)->NbSplits();
@@ -310,12 +286,6 @@ Macad::Occt::GeomConvert_BSplineCurveToBezierCurve::GeomConvert_BSplineCurveToBe
     _NativeInstance = new ::GeomConvert_BSplineCurveToBezierCurve(Handle(::Geom_BSplineCurve)(BasisCurve->NativeInstance), U1, U2, ParametricTolerance);
 }
 
-Macad::Occt::GeomConvert_BSplineCurveToBezierCurve::GeomConvert_BSplineCurveToBezierCurve(Macad::Occt::GeomConvert_BSplineCurveToBezierCurve^ parameter1)
-    : Macad::Occt::BaseClass<::GeomConvert_BSplineCurveToBezierCurve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomConvert_BSplineCurveToBezierCurve(*(::GeomConvert_BSplineCurveToBezierCurve*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Geom_BezierCurve^ Macad::Occt::GeomConvert_BSplineCurveToBezierCurve::Arc(int Index)
 {
     Handle(::Geom_BezierCurve) _result = ((::GeomConvert_BSplineCurveToBezierCurve*)_NativeInstance)->Arc(Index);
@@ -343,12 +313,6 @@ Macad::Occt::GeomConvert_BSplineSurfaceKnotSplitting::GeomConvert_BSplineSurface
     : Macad::Occt::BaseClass<::GeomConvert_BSplineSurfaceKnotSplitting>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::GeomConvert_BSplineSurfaceKnotSplitting(Handle(::Geom_BSplineSurface)(BasisSurface->NativeInstance), UContinuityRange, VContinuityRange);
-}
-
-Macad::Occt::GeomConvert_BSplineSurfaceKnotSplitting::GeomConvert_BSplineSurfaceKnotSplitting(Macad::Occt::GeomConvert_BSplineSurfaceKnotSplitting^ parameter1)
-    : Macad::Occt::BaseClass<::GeomConvert_BSplineSurfaceKnotSplitting>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomConvert_BSplineSurfaceKnotSplitting(*(::GeomConvert_BSplineSurfaceKnotSplitting*)parameter1->NativeInstance);
 }
 
 int Macad::Occt::GeomConvert_BSplineSurfaceKnotSplitting::NbUSplits()
@@ -398,12 +362,6 @@ Macad::Occt::GeomConvert_BSplineSurfaceToBezierSurface::GeomConvert_BSplineSurfa
     _NativeInstance = new ::GeomConvert_BSplineSurfaceToBezierSurface(Handle(::Geom_BSplineSurface)(BasisSurface->NativeInstance), U1, U2, V1, V2, ParametricTolerance);
 }
 
-Macad::Occt::GeomConvert_BSplineSurfaceToBezierSurface::GeomConvert_BSplineSurfaceToBezierSurface(Macad::Occt::GeomConvert_BSplineSurfaceToBezierSurface^ parameter1)
-    : Macad::Occt::BaseClass<::GeomConvert_BSplineSurfaceToBezierSurface>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomConvert_BSplineSurfaceToBezierSurface(*(::GeomConvert_BSplineSurfaceToBezierSurface*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Geom_BezierSurface^ Macad::Occt::GeomConvert_BSplineSurfaceToBezierSurface::Patch(int UIndex, int VIndex)
 {
     Handle(::Geom_BezierSurface) _result = ((::GeomConvert_BSplineSurfaceToBezierSurface*)_NativeInstance)->Patch(UIndex, VIndex);
@@ -437,12 +395,6 @@ int Macad::Occt::GeomConvert_BSplineSurfaceToBezierSurface::NbVPatches()
 //---------------------------------------------------------------------
 //  Class  GeomConvert_CompBezierSurfacesToBSplineSurface
 //---------------------------------------------------------------------
-
-Macad::Occt::GeomConvert_CompBezierSurfacesToBSplineSurface::GeomConvert_CompBezierSurfacesToBSplineSurface(Macad::Occt::GeomConvert_CompBezierSurfacesToBSplineSurface^ parameter1)
-    : Macad::Occt::BaseClass<::GeomConvert_CompBezierSurfacesToBSplineSurface>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomConvert_CompBezierSurfacesToBSplineSurface(*(::GeomConvert_CompBezierSurfacesToBSplineSurface*)parameter1->NativeInstance);
-}
 
 int Macad::Occt::GeomConvert_CompBezierSurfacesToBSplineSurface::NbUKnots()
 {
@@ -546,12 +498,6 @@ Macad::Occt::GeomConvert_CompCurveToBSplineCurve::GeomConvert_CompCurveToBSpline
     _NativeInstance = new ::GeomConvert_CompCurveToBSplineCurve(Handle(::Geom_BoundedCurve)(BasisCurve->NativeInstance), Convert_TgtThetaOver2);
 }
 
-Macad::Occt::GeomConvert_CompCurveToBSplineCurve::GeomConvert_CompCurveToBSplineCurve(Macad::Occt::GeomConvert_CompCurveToBSplineCurve^ parameter1)
-    : Macad::Occt::BaseClass<::GeomConvert_CompCurveToBSplineCurve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomConvert_CompCurveToBSplineCurve(*(::GeomConvert_CompCurveToBSplineCurve*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::GeomConvert_CompCurveToBSplineCurve::Add(Macad::Occt::Geom_BoundedCurve^ NewCurve, double Tolerance, bool After, bool WithRatio, int MinM)
 {
     bool _result = ((::GeomConvert_CompCurveToBSplineCurve*)_NativeInstance)->Add(Handle(::Geom_BoundedCurve)(NewCurve->NativeInstance), Tolerance, After, WithRatio, MinM);
@@ -603,12 +549,6 @@ Macad::Occt::GeomConvert_CurveToAnaCurve::GeomConvert_CurveToAnaCurve(Macad::Occ
     : Macad::Occt::BaseClass<::GeomConvert_CurveToAnaCurve>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::GeomConvert_CurveToAnaCurve(Handle(::Geom_Curve)(C->NativeInstance));
-}
-
-Macad::Occt::GeomConvert_CurveToAnaCurve::GeomConvert_CurveToAnaCurve(Macad::Occt::GeomConvert_CurveToAnaCurve^ parameter1)
-    : Macad::Occt::BaseClass<::GeomConvert_CurveToAnaCurve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomConvert_CurveToAnaCurve(*(::GeomConvert_CurveToAnaCurve*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::GeomConvert_CurveToAnaCurve::Init(Macad::Occt::Geom_Curve^ C)
@@ -753,12 +693,6 @@ Macad::Occt::GeomConvert_SurfToAnaSurf::GeomConvert_SurfToAnaSurf(Macad::Occt::G
     _NativeInstance = new ::GeomConvert_SurfToAnaSurf(Handle(::Geom_Surface)(S->NativeInstance));
 }
 
-Macad::Occt::GeomConvert_SurfToAnaSurf::GeomConvert_SurfToAnaSurf(Macad::Occt::GeomConvert_SurfToAnaSurf^ parameter1)
-    : Macad::Occt::BaseClass<::GeomConvert_SurfToAnaSurf>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomConvert_SurfToAnaSurf(*(::GeomConvert_SurfToAnaSurf*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::GeomConvert_SurfToAnaSurf::Init(Macad::Occt::Geom_Surface^ S)
 {
     ((::GeomConvert_SurfToAnaSurf*)_NativeInstance)->Init(Handle(::Geom_Surface)(S->NativeInstance));
@@ -824,12 +758,6 @@ Macad::Occt::GeomConvert_Units::GeomConvert_Units()
     : Macad::Occt::BaseClass<::GeomConvert_Units>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::GeomConvert_Units();
-}
-
-Macad::Occt::GeomConvert_Units::GeomConvert_Units(Macad::Occt::GeomConvert_Units^ parameter1)
-    : Macad::Occt::BaseClass<::GeomConvert_Units>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomConvert_Units(*(::GeomConvert_Units*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Geom2d_Curve^ Macad::Occt::GeomConvert_Units::RadianToDegree(Macad::Occt::Geom2d_Curve^ theCurve, Macad::Occt::Geom_Surface^ theSurface, double theLengthFactor, double theFactorRadianDegree)

@@ -26,12 +26,6 @@ Macad::Occt::Extrema_POnCurv::Extrema_POnCurv(double U, Macad::Occt::Pnt P)
     _NativeInstance = new ::Extrema_POnCurv(U, *(gp_Pnt*)pp_P);
 }
 
-Macad::Occt::Extrema_POnCurv::Extrema_POnCurv(Macad::Occt::Extrema_POnCurv^ parameter1)
-    : Macad::Occt::BaseClass<::Extrema_POnCurv>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Extrema_POnCurv(*(::Extrema_POnCurv*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Extrema_POnCurv::SetValues(double U, Macad::Occt::Pnt P)
 {
     pin_ptr<Macad::Occt::Pnt> pp_P = &P;
@@ -88,12 +82,6 @@ Macad::Occt::Extrema_ExtPC::Extrema_ExtPC(Macad::Occt::Pnt P, Macad::Occt::Adapt
 {
     pin_ptr<Macad::Occt::Pnt> pp_P = &P;
     _NativeInstance = new ::Extrema_ExtPC(*(gp_Pnt*)pp_P, *(::Adaptor3d_Curve*)C->NativeInstance, 1.0E-10);
-}
-
-Macad::Occt::Extrema_ExtPC::Extrema_ExtPC(Macad::Occt::Extrema_ExtPC^ parameter1)
-    : Macad::Occt::BaseClass<::Extrema_ExtPC>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Extrema_ExtPC(*(::Extrema_ExtPC*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Extrema_ExtPC::Initialize(Macad::Occt::Adaptor3d_Curve^ C, double Uinf, double Usup, double TolF)

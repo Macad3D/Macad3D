@@ -235,10 +235,7 @@ namespace Macad.Interaction
             var shadingAspect = new Prs3d_ShadingAspect();
             shadingAspect.SetColor(Colors.Highlight);
             shadingAspect.SetTransparency(0);
-
-            var aspectFill = new Graphic3d_AspectFillArea3d(shadingAspect.Aspect());
-            aspectFill.SetPolygonOffsets((int)Aspect_PolygonOffsetMode.Fill, 0.99f, 0.0f);
-            shadingAspect.SetAspect(aspectFill);
+            shadingAspect.Aspect().SetPolygonOffsets((int)Aspect_PolygonOffsetMode.Fill, 0.99f, 0.0f);
             hilightLocalDrawer.SetShadingAspect(shadingAspect);
 
             var lineAspect = new Prs3d_LineAspect(Colors.Highlight, Aspect_TypeOfLine.SOLID, 3.0);

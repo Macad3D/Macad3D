@@ -63,7 +63,6 @@ public:
     /// Empty constructor;
     /// </summary>
     BRepIntCurveSurface_Inter();
-    BRepIntCurveSurface_Inter(Macad::Occt::BRepIntCurveSurface_Inter^ parameter1);
     /// <summary>
     /// Load the Shape, the curve  and initialize the
     /// tolerance used for the classification.

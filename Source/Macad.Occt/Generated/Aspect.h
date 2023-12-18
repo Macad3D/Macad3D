@@ -669,20 +669,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Aspect_XRActionMap^ theMap);
-        Iterator(Macad::Occt::Aspect_XRActionMap::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Aspect_XRAction^ Value();
         Macad::Occt::Aspect_XRAction^ ChangeValue();
         Macad::Occt::TCollection_AsciiString^ Key();
         bool IsEqual(Macad::Occt::Aspect_XRActionMap::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Aspect_XRActionMap();
     Aspect_XRActionMap(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     Aspect_XRActionMap(int theNbBuckets);
-    Aspect_XRActionMap(Macad::Occt::Aspect_XRActionMap^ theOther);
     void Exchange(Macad::Occt::Aspect_XRActionMap^ theOther);
     Macad::Occt::Aspect_XRActionMap^ Assign(Macad::Occt::Aspect_XRActionMap^ theOther);
     void ReSize(int N);
@@ -701,10 +699,8 @@ public:
     Macad::Occt::Aspect_XRAction^ ChangeFromKey(Macad::Occt::TCollection_AsciiString^ theKey1);
     Macad::Occt::Aspect_XRAction^ Seek(Macad::Occt::TCollection_AsciiString^ theKey1);
     Macad::Occt::Aspect_XRAction^ ChangeSeek(Macad::Occt::TCollection_AsciiString^ theKey1);
-    bool FindFromKey(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRAction^ theValue);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class Aspect_XRActionMap
 
@@ -766,20 +762,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Aspect_XRActionSetMap^ theMap);
-        Iterator(Macad::Occt::Aspect_XRActionSetMap::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Aspect_XRActionSet^ Value();
         Macad::Occt::Aspect_XRActionSet^ ChangeValue();
         Macad::Occt::TCollection_AsciiString^ Key();
         bool IsEqual(Macad::Occt::Aspect_XRActionSetMap::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Aspect_XRActionSetMap();
     Aspect_XRActionSetMap(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     Aspect_XRActionSetMap(int theNbBuckets);
-    Aspect_XRActionSetMap(Macad::Occt::Aspect_XRActionSetMap^ theOther);
     void Exchange(Macad::Occt::Aspect_XRActionSetMap^ theOther);
     Macad::Occt::Aspect_XRActionSetMap^ Assign(Macad::Occt::Aspect_XRActionSetMap^ theOther);
     void ReSize(int N);
@@ -798,10 +792,8 @@ public:
     Macad::Occt::Aspect_XRActionSet^ ChangeFromKey(Macad::Occt::TCollection_AsciiString^ theKey1);
     Macad::Occt::Aspect_XRActionSet^ Seek(Macad::Occt::TCollection_AsciiString^ theKey1);
     Macad::Occt::Aspect_XRActionSet^ ChangeSeek(Macad::Occt::TCollection_AsciiString^ theKey1);
-    bool FindFromKey(Macad::Occt::TCollection_AsciiString^ theKey1, Macad::Occt::Aspect_XRActionSet^ theValue);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class Aspect_XRActionSetMap
 
@@ -866,24 +858,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::Aspect_TrackedDevicePoseArray^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::Aspect_TrackedDevicePoseArray^ theArray);
-        Iterator(Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator^ parameter1);
-        void Init(Macad::Occt::Aspect_TrackedDevicePoseArray^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator^ theOther);
-        Macad::Occt::Aspect_TrackedDevicePose^ Value();
-        Macad::Occt::Aspect_TrackedDevicePose^ ChangeValue();
-        bool IsEqual(Macad::Occt::Aspect_TrackedDevicePoseArray::Iterator^ theOther);
     }; // class Iterator
 
     Aspect_TrackedDevicePoseArray();
     Aspect_TrackedDevicePoseArray(int theLower, int theUpper);
-    Aspect_TrackedDevicePoseArray(Macad::Occt::Aspect_TrackedDevicePoseArray^ theOther);
+    /* Method skipped due to unknown mapping: void Aspect_TrackedDevicePoseArray(allocator_type theAlloc, int theLower, int theUpper, ) */
+    Aspect_TrackedDevicePoseArray(Macad::Occt::Aspect_TrackedDevicePose^ theBegin, int theLower, int theUpper, bool theUseBuffer);
     Aspect_TrackedDevicePoseArray(Macad::Occt::Aspect_TrackedDevicePose^ theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::Aspect_TrackedDevicePose^ theValue);
     int Size();
@@ -891,8 +871,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::Aspect_TrackedDevicePoseArray^ Assign(Macad::Occt::Aspect_TrackedDevicePoseArray^ theOther);
     Macad::Occt::Aspect_TrackedDevicePoseArray^ Move(Macad::Occt::Aspect_TrackedDevicePoseArray^ theOther);
     Macad::Occt::Aspect_TrackedDevicePose^ First();
@@ -902,7 +880,10 @@ public:
     virtual Macad::Occt::Aspect_TrackedDevicePose^ Value(int theIndex);
     Macad::Occt::Aspect_TrackedDevicePose^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Aspect_TrackedDevicePose^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Aspect_TrackedDevicePose^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class Aspect_TrackedDevicePoseArray
@@ -966,19 +947,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Aspect_SequenceOfColor^ theSeq, bool isStart);
-        Iterator(Macad::Occt::Aspect_SequenceOfColor^ theSeq);
-        Iterator(Macad::Occt::Aspect_SequenceOfColor::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Quantity_Color^ Value();
         Macad::Occt::Quantity_Color^ ChangeValue();
         bool IsEqual(Macad::Occt::Aspect_SequenceOfColor::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Aspect_SequenceOfColor();
     Aspect_SequenceOfColor(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    Aspect_SequenceOfColor(Macad::Occt::Aspect_SequenceOfColor^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -991,17 +969,10 @@ public:
     void Clear();
     Macad::Occt::Aspect_SequenceOfColor^ Assign(Macad::Occt::Aspect_SequenceOfColor^ theOther);
     void Remove(Macad::Occt::Aspect_SequenceOfColor::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Quantity_Color^ theItem);
-    void Append(Macad::Occt::Aspect_SequenceOfColor^ theSeq);
     void Prepend(Macad::Occt::Quantity_Color^ theItem);
-    void Prepend(Macad::Occt::Aspect_SequenceOfColor^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Quantity_Color^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::Aspect_SequenceOfColor^ theSeq);
     void InsertAfter(Macad::Occt::Aspect_SequenceOfColor::Iterator^ thePosition, Macad::Occt::Quantity_Color^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::Aspect_SequenceOfColor^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Quantity_Color^ theItem);
     void Split(int theIndex, Macad::Occt::Aspect_SequenceOfColor^ theSeq);
     Macad::Occt::Quantity_Color^ First();
     Macad::Occt::Quantity_Color^ ChangeFirst();
@@ -1072,20 +1043,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Aspect_TouchMap^ theMap);
-        Iterator(Macad::Occt::Aspect_TouchMap::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Aspect_Touch^ Value();
         Macad::Occt::Aspect_Touch^ ChangeValue();
         /* Method skipped due to unknown mapping: unsigned long long Key() */
         bool IsEqual(Macad::Occt::Aspect_TouchMap::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Aspect_TouchMap();
     Aspect_TouchMap(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     Aspect_TouchMap(int theNbBuckets);
-    Aspect_TouchMap(Macad::Occt::Aspect_TouchMap^ theOther);
     void Exchange(Macad::Occt::Aspect_TouchMap^ theOther);
     Macad::Occt::Aspect_TouchMap^ Assign(Macad::Occt::Aspect_TouchMap^ theOther);
     void ReSize(int N);
@@ -1104,10 +1073,8 @@ public:
     Macad::Occt::Aspect_Touch^ ChangeFromKey(long long unsigned int theKey1);
     Macad::Occt::Aspect_Touch^ Seek(long long unsigned int theKey1);
     Macad::Occt::Aspect_Touch^ ChangeSeek(long long unsigned int theKey1);
-    bool FindFromKey(long long unsigned int theKey1, Macad::Occt::Aspect_Touch^ theValue);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class Aspect_TouchMap
 
@@ -1184,7 +1151,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Aspect_XRAnalogActionData();
-    Aspect_XRAnalogActionData(Macad::Occt::Aspect_XRAnalogActionData^ parameter1);
     /// <summary>
     /// Return TRUE if delta is non-zero.
     /// </summary>
@@ -1288,7 +1254,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Aspect_XRDigitalActionData();
-    Aspect_XRDigitalActionData(Macad::Occt::Aspect_XRDigitalActionData^ parameter1);
 }; // class Aspect_XRDigitalActionData
 
 //---------------------------------------------------------------------
@@ -1376,7 +1341,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Aspect_XRHapticActionData();
-    Aspect_XRHapticActionData(Macad::Occt::Aspect_XRHapticActionData^ parameter1);
     /// <summary>
     /// Return TRUE if data is not empty.
     /// </summary>
@@ -1444,7 +1408,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Aspect_TrackedDevicePose();
-    Aspect_TrackedDevicePose(Macad::Occt::Aspect_TrackedDevicePose^ parameter1);
 }; // class Aspect_TrackedDevicePose
 
 //---------------------------------------------------------------------
@@ -1508,7 +1471,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Aspect_XRPoseActionData();
-    Aspect_XRPoseActionData(Macad::Occt::Aspect_XRPoseActionData^ parameter1);
 }; // class Aspect_XRPoseActionData
 
 //---------------------------------------------------------------------
@@ -1588,7 +1550,6 @@ public:
     /// Constructor with undefined point.
     /// </summary>
     Aspect_ScrollDelta(double theValue);
-    Aspect_ScrollDelta(Macad::Occt::Aspect_ScrollDelta^ parameter1);
     /// <summary>
     /// Return true if action has point defined.
     /// </summary>
@@ -1632,7 +1593,6 @@ public:
     Aspect_AspectFillAreaDefinitionError();
     Aspect_AspectFillAreaDefinitionError(System::String^ theMessage);
     Aspect_AspectFillAreaDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
-    Aspect_AspectFillAreaDefinitionError(Macad::Occt::Aspect_AspectFillAreaDefinitionError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -1675,7 +1635,6 @@ public:
     Aspect_AspectLineDefinitionError();
     Aspect_AspectLineDefinitionError(System::String^ theMessage);
     Aspect_AspectLineDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
-    Aspect_AspectLineDefinitionError(Macad::Occt::Aspect_AspectLineDefinitionError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -1718,7 +1677,6 @@ public:
     Aspect_AspectMarkerDefinitionError();
     Aspect_AspectMarkerDefinitionError(System::String^ theMessage);
     Aspect_AspectMarkerDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
-    Aspect_AspectMarkerDefinitionError(Macad::Occt::Aspect_AspectMarkerDefinitionError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -1776,7 +1734,6 @@ public:
     /// Creates a window background with the colour <AColor>.
     /// </summary>
     Aspect_Background(Macad::Occt::Quantity_Color^ AColor);
-    Aspect_Background(Macad::Occt::Aspect_Background^ parameter1);
     /// <summary>
     /// Modifies the colour of the window background <me>.
     /// </summary>
@@ -1830,7 +1787,6 @@ public:
     }
 
 public:
-    Aspect_Grid(Macad::Occt::Aspect_Grid^ parameter1);
     /// <summary>
     /// defines the x Origin of the grid.
     /// </summary>
@@ -1983,7 +1939,6 @@ public:
     /// active.
     /// </summary>
     Aspect_CircularGrid(double aRadiusStep, int aDivisionNumber);
-    Aspect_CircularGrid(Macad::Occt::Aspect_CircularGrid^ parameter1);
     /// <summary>
     /// defines the x step of the grid.
     /// </summary>
@@ -2050,7 +2005,6 @@ public:
     Aspect_DisplayConnectionDefinitionError();
     Aspect_DisplayConnectionDefinitionError(System::String^ theMessage);
     Aspect_DisplayConnectionDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
-    Aspect_DisplayConnectionDefinitionError(Macad::Occt::Aspect_DisplayConnectionDefinitionError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -2102,7 +2056,6 @@ public:
     /// Raises IdentDefinitionError if theUpper is less than theLow.
     /// </summary>
     Aspect_GenId(int theLow, int theUpper);
-    Aspect_GenId(Macad::Occt::Aspect_GenId^ parameter1);
     /// <summary>
     /// Free all identifiers - make the whole range available again.
     /// </summary>
@@ -2199,7 +2152,6 @@ public:
     /// Creates a window gradient background with two colours.
     /// </summary>
     Aspect_GradientBackground(Macad::Occt::Quantity_Color^ theColor1, Macad::Occt::Quantity_Color^ theColor2);
-    Aspect_GradientBackground(Macad::Occt::Aspect_GradientBackground^ parameter1);
     /// <summary>
     /// Modifies the colours of the window gradient background.
     /// </summary>
@@ -2259,7 +2211,6 @@ public:
     Aspect_GraphicDeviceDefinitionError();
     Aspect_GraphicDeviceDefinitionError(System::String^ theMessage);
     Aspect_GraphicDeviceDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
-    Aspect_GraphicDeviceDefinitionError(Macad::Occt::Aspect_GraphicDeviceDefinitionError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -2302,7 +2253,6 @@ public:
     Aspect_IdentDefinitionError();
     Aspect_IdentDefinitionError(System::String^ theMessage);
     Aspect_IdentDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
-    Aspect_IdentDefinitionError(Macad::Occt::Aspect_IdentDefinitionError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -2350,7 +2300,6 @@ public:
     }
 
 public:
-    Aspect_Window(Macad::Occt::Aspect_Window^ parameter1);
     /// <summary>
     /// Returns True if the window <me> is virtual
     /// </summary>
@@ -2505,7 +2454,6 @@ public:
     /// Main constructor.
     /// </summary>
     Aspect_XRAction(Macad::Occt::TCollection_AsciiString^ theId, Macad::Occt::Aspect_XRActionType theType);
-    Aspect_XRAction(Macad::Occt::Aspect_XRAction^ parameter1);
     /// <summary>
     /// Return action id.
     /// </summary>
@@ -2566,7 +2514,6 @@ public:
     /// Main constructor.
     /// </summary>
     Aspect_XRActionSet(Macad::Occt::TCollection_AsciiString^ theId);
-    Aspect_XRActionSet(Macad::Occt::Aspect_XRActionSet^ parameter1);
     /// <summary>
     /// Return action id.
     /// </summary>
@@ -2654,7 +2601,6 @@ public:
         SerialNumber = 3
     }; // enum  class InfoString
 
-    Aspect_XRSession(Macad::Occt::Aspect_XRSession^ parameter1);
     /// <summary>
     /// Return TRUE if session is opened.
     /// </summary>
@@ -2885,7 +2831,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Aspect_OpenVRSession();
-    Aspect_OpenVRSession(Macad::Occt::Aspect_OpenVRSession^ parameter1);
     /// <summary>
     /// Return TRUE if an HMD may be presented on the system (e.g. to show VR checkbox in application GUI).
     /// This is fast check, and even if it returns TRUE, opening session may fail.
@@ -3053,7 +2998,6 @@ public:
     /// The second angle is given relatively to the vertical.
     /// </summary>
     Aspect_RectangularGrid(double aXStep, double aYStep);
-    Aspect_RectangularGrid(Macad::Occt::Aspect_RectangularGrid^ parameter1);
     /// <summary>
     /// defines the x step of the grid.
     /// </summary>
@@ -3160,7 +3104,6 @@ public:
     /// theSize         size of cubemap side in pixels.
     /// </param>
     Aspect_SkydomeBackground(Macad::Occt::Dir theSunDirection, float theCloudiness, float theTime, float theFogginess, int theSize);
-    Aspect_SkydomeBackground(Macad::Occt::Aspect_SkydomeBackground^ parameter1);
     /// <summary>
     /// Get sun direction. By default this value is (0, 1, 0)
     /// Sun direction with negative Y component represents moon with (-X, -Y, -Z) direction.
@@ -3276,7 +3219,6 @@ public:
     /// Constructor with initialization.
     /// </summary>
     Aspect_Touch(double theX, double theY, bool theIsPreciseDevice);
-    Aspect_Touch(Macad::Occt::Aspect_Touch^ parameter1);
     /// <summary>
     /// Return values delta.
     /// </summary>
@@ -3316,7 +3258,6 @@ public:
     Aspect_WindowDefinitionError();
     Aspect_WindowDefinitionError(System::String^ theMessage);
     Aspect_WindowDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
-    Aspect_WindowDefinitionError(Macad::Occt::Aspect_WindowDefinitionError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -3359,7 +3300,6 @@ public:
     Aspect_WindowError();
     Aspect_WindowError(System::String^ theMessage);
     Aspect_WindowError(System::String^ theMessage, System::String^ theStackTrace);
-    Aspect_WindowError(Macad::Occt::Aspect_WindowError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */

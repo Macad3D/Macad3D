@@ -26,12 +26,6 @@ Macad::Occt::BRepLib::BRepLib()
     _NativeInstance = new ::BRepLib();
 }
 
-Macad::Occt::BRepLib::BRepLib(Macad::Occt::BRepLib^ parameter1)
-    : Macad::Occt::BaseClass<::BRepLib>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib(*(::BRepLib*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepLib::Precision(double P)
 {
     ::BRepLib::Precision(P);
@@ -357,12 +351,6 @@ Macad::Occt::BRepLib_CheckCurveOnSurface::BRepLib_CheckCurveOnSurface(Macad::Occ
     _NativeInstance = new ::BRepLib_CheckCurveOnSurface(*(::TopoDS_Edge*)theEdge->NativeInstance, *(::TopoDS_Face*)theFace->NativeInstance);
 }
 
-Macad::Occt::BRepLib_CheckCurveOnSurface::BRepLib_CheckCurveOnSurface(Macad::Occt::BRepLib_CheckCurveOnSurface^ parameter1)
-    : Macad::Occt::BaseClass<::BRepLib_CheckCurveOnSurface>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_CheckCurveOnSurface(*(::BRepLib_CheckCurveOnSurface*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepLib_CheckCurveOnSurface::Init(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Face^ theFace)
 {
     ((::BRepLib_CheckCurveOnSurface*)_NativeInstance)->Init(*(::TopoDS_Edge*)theEdge->NativeInstance, *(::TopoDS_Face*)theFace->NativeInstance);
@@ -414,12 +402,6 @@ double Macad::Occt::BRepLib_CheckCurveOnSurface::MaxParameter()
 //  Class  BRepLib_Command
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepLib_Command::BRepLib_Command(Macad::Occt::BRepLib_Command^ parameter1)
-    : Macad::Occt::BaseClass<::BRepLib_Command>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_Command(*(::BRepLib_Command*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::BRepLib_Command::IsDone()
 {
     bool _result = ((::BRepLib_Command*)_NativeInstance)->IsDone();
@@ -465,12 +447,6 @@ Macad::Occt::BRepLib_FindSurface::BRepLib_FindSurface(Macad::Occt::TopoDS_Shape^
     : Macad::Occt::BaseClass<::BRepLib_FindSurface>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepLib_FindSurface(*(::TopoDS_Shape*)S->NativeInstance, -1, false, false);
-}
-
-Macad::Occt::BRepLib_FindSurface::BRepLib_FindSurface(Macad::Occt::BRepLib_FindSurface^ parameter1)
-    : Macad::Occt::BaseClass<::BRepLib_FindSurface>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_FindSurface(*(::BRepLib_FindSurface*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepLib_FindSurface::Init(Macad::Occt::TopoDS_Shape^ S, double Tol, bool OnlyPlane, bool OnlyClosed)
@@ -548,12 +524,6 @@ Macad::Occt::BRepLib_FuseEdges::BRepLib_FuseEdges(Macad::Occt::TopoDS_Shape^ the
     _NativeInstance = new ::BRepLib_FuseEdges(*(::TopoDS_Shape*)theShape->NativeInstance, false);
 }
 
-Macad::Occt::BRepLib_FuseEdges::BRepLib_FuseEdges(Macad::Occt::BRepLib_FuseEdges^ parameter1)
-    : Macad::Occt::BaseClass<::BRepLib_FuseEdges>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_FuseEdges(*(::BRepLib_FuseEdges*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepLib_FuseEdges::AvoidEdges(Macad::Occt::TopTools_IndexedMapOfShape^ theMapEdg)
 {
     ((::BRepLib_FuseEdges*)_NativeInstance)->AvoidEdges(*(::TopTools_IndexedMapOfShape*)theMapEdg->NativeInstance);
@@ -607,12 +577,6 @@ void Macad::Occt::BRepLib_FuseEdges::Perform()
 //---------------------------------------------------------------------
 //  Class  BRepLib_MakeShape
 //---------------------------------------------------------------------
-
-Macad::Occt::BRepLib_MakeShape::BRepLib_MakeShape(Macad::Occt::BRepLib_MakeShape^ parameter1)
-    : Macad::Occt::BRepLib_Command(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_MakeShape(*(::BRepLib_MakeShape*)parameter1->NativeInstance);
-}
 
 void Macad::Occt::BRepLib_MakeShape::Build()
 {
@@ -901,12 +865,6 @@ Macad::Occt::BRepLib_MakeEdge::BRepLib_MakeEdge(Macad::Occt::Geom2d_Curve^ L, Ma
     _NativeInstance = new ::BRepLib_MakeEdge(Handle(::Geom2d_Curve)(L->NativeInstance), Handle(::Geom_Surface)(S->NativeInstance), *(::TopoDS_Vertex*)V1->NativeInstance, *(::TopoDS_Vertex*)V2->NativeInstance, p1, p2);
 }
 
-Macad::Occt::BRepLib_MakeEdge::BRepLib_MakeEdge(Macad::Occt::BRepLib_MakeEdge^ parameter1)
-    : Macad::Occt::BRepLib_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_MakeEdge(*(::BRepLib_MakeEdge*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepLib_MakeEdge::Init(Macad::Occt::Geom_Curve^ C)
 {
     ((::BRepLib_MakeEdge*)_NativeInstance)->Init(Handle(::Geom_Curve)(C->NativeInstance));
@@ -1192,12 +1150,6 @@ Macad::Occt::BRepLib_MakeEdge2d::BRepLib_MakeEdge2d(Macad::Occt::Geom2d_Curve^ L
     _NativeInstance = new ::BRepLib_MakeEdge2d(Handle(::Geom2d_Curve)(L->NativeInstance), *(::TopoDS_Vertex*)V1->NativeInstance, *(::TopoDS_Vertex*)V2->NativeInstance, p1, p2);
 }
 
-Macad::Occt::BRepLib_MakeEdge2d::BRepLib_MakeEdge2d(Macad::Occt::BRepLib_MakeEdge2d^ parameter1)
-    : Macad::Occt::BRepLib_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_MakeEdge2d(*(::BRepLib_MakeEdge2d*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepLib_MakeEdge2d::Init(Macad::Occt::Geom2d_Curve^ C)
 {
     ((::BRepLib_MakeEdge2d*)_NativeInstance)->Init(Handle(::Geom2d_Curve)(C->NativeInstance));
@@ -1443,12 +1395,6 @@ Macad::Occt::BRepLib_MakeFace::BRepLib_MakeFace(Macad::Occt::TopoDS_Face^ F, Mac
     _NativeInstance = new ::BRepLib_MakeFace(*(::TopoDS_Face*)F->NativeInstance, *(::TopoDS_Wire*)W->NativeInstance);
 }
 
-Macad::Occt::BRepLib_MakeFace::BRepLib_MakeFace(Macad::Occt::BRepLib_MakeFace^ parameter1)
-    : Macad::Occt::BRepLib_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_MakeFace(*(::BRepLib_MakeFace*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepLib_MakeFace::Init(Macad::Occt::TopoDS_Face^ F)
 {
     ((::BRepLib_MakeFace*)_NativeInstance)->Init(*(::TopoDS_Face*)F->NativeInstance);
@@ -1577,12 +1523,6 @@ Macad::Occt::BRepLib_MakePolygon::BRepLib_MakePolygon(Macad::Occt::TopoDS_Vertex
     _NativeInstance = new ::BRepLib_MakePolygon(*(::TopoDS_Vertex*)V1->NativeInstance, *(::TopoDS_Vertex*)V2->NativeInstance, *(::TopoDS_Vertex*)V3->NativeInstance, *(::TopoDS_Vertex*)V4->NativeInstance, false);
 }
 
-Macad::Occt::BRepLib_MakePolygon::BRepLib_MakePolygon(Macad::Occt::BRepLib_MakePolygon^ parameter1)
-    : Macad::Occt::BRepLib_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_MakePolygon(*(::BRepLib_MakePolygon*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepLib_MakePolygon::Add(Macad::Occt::Pnt P)
 {
     pin_ptr<Macad::Occt::Pnt> pp_P = &P;
@@ -1669,12 +1609,6 @@ Macad::Occt::BRepLib_MakeShell::BRepLib_MakeShell(Macad::Occt::Geom_Surface^ S, 
     _NativeInstance = new ::BRepLib_MakeShell(Handle(::Geom_Surface)(S->NativeInstance), UMin, UMax, VMin, VMax, false);
 }
 
-Macad::Occt::BRepLib_MakeShell::BRepLib_MakeShell(Macad::Occt::BRepLib_MakeShell^ parameter1)
-    : Macad::Occt::BRepLib_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_MakeShell(*(::BRepLib_MakeShell*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepLib_MakeShell::Init(Macad::Occt::Geom_Surface^ S, double UMin, double UMax, double VMin, double VMax, bool Segment)
 {
     ((::BRepLib_MakeShell*)_NativeInstance)->Init(Handle(::Geom_Surface)(S->NativeInstance), UMin, UMax, VMin, VMax, Segment);
@@ -1746,12 +1680,6 @@ Macad::Occt::BRepLib_MakeSolid::BRepLib_MakeSolid(Macad::Occt::TopoDS_Solid^ So,
     _NativeInstance = new ::BRepLib_MakeSolid(*(::TopoDS_Solid*)So->NativeInstance, *(::TopoDS_Shell*)S->NativeInstance);
 }
 
-Macad::Occt::BRepLib_MakeSolid::BRepLib_MakeSolid(Macad::Occt::BRepLib_MakeSolid^ parameter1)
-    : Macad::Occt::BRepLib_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_MakeSolid(*(::BRepLib_MakeSolid*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepLib_MakeSolid::Add(Macad::Occt::TopoDS_Shell^ S)
 {
     ((::BRepLib_MakeSolid*)_NativeInstance)->Add(*(::TopoDS_Shell*)S->NativeInstance);
@@ -1781,12 +1709,6 @@ Macad::Occt::BRepLib_MakeVertex::BRepLib_MakeVertex(Macad::Occt::Pnt P)
 {
     pin_ptr<Macad::Occt::Pnt> pp_P = &P;
     _NativeInstance = new ::BRepLib_MakeVertex(*(gp_Pnt*)pp_P);
-}
-
-Macad::Occt::BRepLib_MakeVertex::BRepLib_MakeVertex(Macad::Occt::BRepLib_MakeVertex^ parameter1)
-    : Macad::Occt::BRepLib_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_MakeVertex(*(::BRepLib_MakeVertex*)parameter1->NativeInstance);
 }
 
 Macad::Occt::TopoDS_Vertex^ Macad::Occt::BRepLib_MakeVertex::Vertex()
@@ -1842,12 +1764,6 @@ Macad::Occt::BRepLib_MakeWire::BRepLib_MakeWire(Macad::Occt::TopoDS_Wire^ W, Mac
     : Macad::Occt::BRepLib_MakeShape(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepLib_MakeWire(*(::TopoDS_Wire*)W->NativeInstance, *(::TopoDS_Edge*)E->NativeInstance);
-}
-
-Macad::Occt::BRepLib_MakeWire::BRepLib_MakeWire(Macad::Occt::BRepLib_MakeWire^ parameter1)
-    : Macad::Occt::BRepLib_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_MakeWire(*(::BRepLib_MakeWire*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepLib_MakeWire::Add(Macad::Occt::TopoDS_Edge^ E)
@@ -1911,12 +1827,6 @@ Macad::Occt::BRepLib_PointCloudShape::BRepLib_PointCloudShape(Macad::Occt::TopoD
 }
 
 Macad::Occt::BRepLib_PointCloudShape::BRepLib_PointCloudShape()
-    : Macad::Occt::BaseClass<::BRepLib_PointCloudShape>(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
-Macad::Occt::BRepLib_PointCloudShape::BRepLib_PointCloudShape(Macad::Occt::BRepLib_PointCloudShape^ parameter1)
     : Macad::Occt::BaseClass<::BRepLib_PointCloudShape>(BaseClass::InitMode::Uninitialized)
 {
     	throw gcnew System::NotImplementedException("Native class is abstract");
@@ -2004,12 +1914,6 @@ Macad::Occt::BRepLib_ToolTriangulatedShape::BRepLib_ToolTriangulatedShape()
     _NativeInstance = new ::BRepLib_ToolTriangulatedShape();
 }
 
-Macad::Occt::BRepLib_ToolTriangulatedShape::BRepLib_ToolTriangulatedShape(Macad::Occt::BRepLib_ToolTriangulatedShape^ parameter1)
-    : Macad::Occt::BaseClass<::BRepLib_ToolTriangulatedShape>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_ToolTriangulatedShape(*(::BRepLib_ToolTriangulatedShape*)parameter1->NativeInstance);
-}
-
 
 
 //---------------------------------------------------------------------
@@ -2020,12 +1924,6 @@ Macad::Occt::BRepLib_ValidateEdge::BRepLib_ValidateEdge(Macad::Occt::Adaptor3d_C
     : Macad::Occt::BaseClass<::BRepLib_ValidateEdge>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepLib_ValidateEdge(Handle(::Adaptor3d_Curve)(theReferenceCurve->NativeInstance), Handle(::Adaptor3d_CurveOnSurface)(theOtherCurve->NativeInstance), theSameParameter);
-}
-
-Macad::Occt::BRepLib_ValidateEdge::BRepLib_ValidateEdge(Macad::Occt::BRepLib_ValidateEdge^ parameter1)
-    : Macad::Occt::BaseClass<::BRepLib_ValidateEdge>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepLib_ValidateEdge(*(::BRepLib_ValidateEdge*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepLib_ValidateEdge::SetExactMethod(bool theIsExact)

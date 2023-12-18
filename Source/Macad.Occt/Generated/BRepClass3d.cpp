@@ -84,12 +84,6 @@ Macad::Occt::BRepClass3d_MapOfInter::BRepClass3d_MapOfInter(int theNbBuckets)
     _NativeInstance = new ::BRepClass3d_MapOfInter(theNbBuckets, 0L);
 }
 
-Macad::Occt::BRepClass3d_MapOfInter::BRepClass3d_MapOfInter(Macad::Occt::BRepClass3d_MapOfInter^ theOther)
-    : Macad::Occt::BaseClass<::BRepClass3d_MapOfInter>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepClass3d_MapOfInter(*(::BRepClass3d_MapOfInter*)theOther->NativeInstance);
-}
-
 void Macad::Occt::BRepClass3d_MapOfInter::Exchange(Macad::Occt::BRepClass3d_MapOfInter^ theOther)
 {
     ((::BRepClass3d_MapOfInter*)_NativeInstance)->Exchange(*(::BRepClass3d_MapOfInter*)theOther->NativeInstance);
@@ -145,13 +139,6 @@ System::IntPtr Macad::Occt::BRepClass3d_MapOfInter::Find(Macad::Occt::TopoDS_Sha
     return System::IntPtr((void*)_result);
 }
 
-bool Macad::Occt::BRepClass3d_MapOfInter::Find(Macad::Occt::TopoDS_Shape^ theKey, System::IntPtr theValue)
-{
-    void* _theValue = theValue.ToPointer();
-    bool _result = ((::BRepClass3d_MapOfInter*)_NativeInstance)->Find(*(::TopoDS_Shape*)theKey->NativeInstance, _theValue);
-    return _result;
-}
-
 System::IntPtr Macad::Occt::BRepClass3d_MapOfInter::ChangeSeek(Macad::Occt::TopoDS_Shape^ theKey)
 {
     void* _result = ((::BRepClass3d_MapOfInter*)_NativeInstance)->ChangeSeek(*(::TopoDS_Shape*)theKey->NativeInstance);
@@ -171,12 +158,7 @@ void Macad::Occt::BRepClass3d_MapOfInter::Clear(bool doReleaseMemory)
 
 void Macad::Occt::BRepClass3d_MapOfInter::Clear()
 {
-    ((::BRepClass3d_MapOfInter*)_NativeInstance)->Clear(true);
-}
-
-void Macad::Occt::BRepClass3d_MapOfInter::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-{
-    ((::BRepClass3d_MapOfInter*)_NativeInstance)->Clear(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
+    ((::BRepClass3d_MapOfInter*)_NativeInstance)->Clear(false);
 }
 
 int Macad::Occt::BRepClass3d_MapOfInter::Size()
@@ -195,18 +177,6 @@ Macad::Occt::BRepClass3d_MapOfInter::Iterator::Iterator()
     : Macad::Occt::BaseClass<::BRepClass3d_MapOfInter::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepClass3d_MapOfInter::Iterator();
-}
-
-Macad::Occt::BRepClass3d_MapOfInter::Iterator::Iterator(Macad::Occt::BRepClass3d_MapOfInter^ theMap)
-    : Macad::Occt::BaseClass<::BRepClass3d_MapOfInter::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepClass3d_MapOfInter::Iterator(*(::BRepClass3d_MapOfInter*)theMap->NativeInstance);
-}
-
-Macad::Occt::BRepClass3d_MapOfInter::Iterator::Iterator(Macad::Occt::BRepClass3d_MapOfInter::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::BRepClass3d_MapOfInter::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepClass3d_MapOfInter::Iterator(*(::BRepClass3d_MapOfInter::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::BRepClass3d_MapOfInter::Iterator::More()
@@ -251,12 +221,6 @@ Macad::Occt::BRepClass3d::BRepClass3d()
     _NativeInstance = new ::BRepClass3d();
 }
 
-Macad::Occt::BRepClass3d::BRepClass3d(Macad::Occt::BRepClass3d^ parameter1)
-    : Macad::Occt::BaseClass<::BRepClass3d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepClass3d(*(::BRepClass3d*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TopoDS_Shell^ Macad::Occt::BRepClass3d::OuterShell(Macad::Occt::TopoDS_Solid^ S)
 {
     ::TopoDS_Shell* _result = new ::TopoDS_Shell();
@@ -274,12 +238,6 @@ Macad::Occt::BRepClass3d_Intersector3d::BRepClass3d_Intersector3d()
     : Macad::Occt::BaseClass<::BRepClass3d_Intersector3d>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepClass3d_Intersector3d();
-}
-
-Macad::Occt::BRepClass3d_Intersector3d::BRepClass3d_Intersector3d(Macad::Occt::BRepClass3d_Intersector3d^ parameter1)
-    : Macad::Occt::BaseClass<::BRepClass3d_Intersector3d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepClass3d_Intersector3d(*(::BRepClass3d_Intersector3d*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepClass3d_Intersector3d::Perform(Macad::Occt::gp_Lin^ L, double Prm, double Tol, Macad::Occt::TopoDS_Face^ F)
@@ -596,12 +554,6 @@ Macad::Occt::BRepClass3d_SClassifier::BRepClass3d_SClassifier(Macad::Occt::BRepC
     _NativeInstance = new ::BRepClass3d_SClassifier(*(::BRepClass3d_SolidExplorer*)S->NativeInstance, *(gp_Pnt*)pp_P, Tol);
 }
 
-Macad::Occt::BRepClass3d_SClassifier::BRepClass3d_SClassifier(Macad::Occt::BRepClass3d_SClassifier^ parameter1)
-    : Macad::Occt::BaseClass<::BRepClass3d_SClassifier>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepClass3d_SClassifier(*(::BRepClass3d_SClassifier*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepClass3d_SClassifier::Perform(Macad::Occt::BRepClass3d_SolidExplorer^ S, Macad::Occt::Pnt P, double Tol)
 {
     pin_ptr<Macad::Occt::Pnt> pp_P = &P;
@@ -694,12 +646,6 @@ Macad::Occt::BRepClass3d_SolidPassiveClassifier::BRepClass3d_SolidPassiveClassif
     : Macad::Occt::BaseClass<::BRepClass3d_SolidPassiveClassifier>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepClass3d_SolidPassiveClassifier();
-}
-
-Macad::Occt::BRepClass3d_SolidPassiveClassifier::BRepClass3d_SolidPassiveClassifier(Macad::Occt::BRepClass3d_SolidPassiveClassifier^ parameter1)
-    : Macad::Occt::BaseClass<::BRepClass3d_SolidPassiveClassifier>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepClass3d_SolidPassiveClassifier(*(::BRepClass3d_SolidPassiveClassifier*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepClass3d_SolidPassiveClassifier::Reset(Macad::Occt::gp_Lin^ L, double P, double Tol)

@@ -58,7 +58,6 @@ public:
 
 public:
     BndLib();
-    BndLib(Macad::Occt::BndLib^ parameter1);
     /// <summary>
     /// Bounding box for a surface trimmed or not
     /// Adds the segment of the line L limited by the two
@@ -217,7 +216,6 @@ public:
 
 public:
     BndLib_Add2dCurve();
-    BndLib_Add2dCurve(Macad::Occt::BndLib_Add2dCurve^ parameter1);
     /// <summary>
     /// Adds to the bounding box B the curve C
     /// B is then enlarged by the tolerance value Tol.
@@ -349,7 +347,6 @@ public:
 
 public:
     BndLib_Add3dCurve();
-    BndLib_Add3dCurve(Macad::Occt::BndLib_Add3dCurve^ parameter1);
     /// <summary>
     /// Adds to the bounding box B the curve C
     /// B is then enlarged by the tolerance value Tol.
@@ -460,7 +457,6 @@ public:
 
 public:
     BndLib_AddSurface();
-    BndLib_AddSurface(Macad::Occt::BndLib_AddSurface^ parameter1);
     /// <summary>
     /// Adds to the bounding box B the surface S
     /// B is then enlarged by the tolerance value Tol.

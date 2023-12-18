@@ -68,7 +68,6 @@ public:
     }
 
 public:
-    Geom2d_Geometry(Macad::Occt::Geom2d_Geometry^ parameter1);
     Geom2d_Geometry();
     /// <summary>
     /// Performs the symmetrical transformation of a Geometry
@@ -181,7 +180,6 @@ public:
     /// Constructs an axis from a given origin P and unit vector V.
     /// </summary>
     Geom2d_AxisPlacement(Macad::Occt::Pnt2d P, Macad::Occt::Dir2d V);
-    Geom2d_AxisPlacement(Macad::Occt::Geom2d_AxisPlacement^ parameter1);
     void Reverse();
     /// <summary>
     /// Reverses the unit vector of this axis.
@@ -296,7 +294,6 @@ public:
     }
 
 public:
-    Geom2d_Curve(Macad::Occt::Geom2d_Curve^ parameter1);
     Geom2d_Curve();
     /// <summary>
     /// Changes the direction of parametrization of <me>.
@@ -529,7 +526,6 @@ public:
     }
 
 public:
-    Geom2d_BoundedCurve(Macad::Occt::Geom2d_BoundedCurve^ parameter1);
     Geom2d_BoundedCurve();
     /// <summary>
     /// Returns the end point of the curve.
@@ -656,7 +652,6 @@ public:
     /// package gp.
     /// </summary>
     Geom2d_BezierCurve(Macad::Occt::TColgp_Array1OfPnt2d^ CurvePoles, Macad::Occt::TColStd_Array1OfReal^ PoleWeights);
-    Geom2d_BezierCurve(Macad::Occt::Geom2d_BezierCurve^ parameter1);
     /// <summary>
     /// Increases the degree of a bezier curve. Degree is the new
     /// degree of <me>.
@@ -1129,7 +1124,6 @@ public:
     /// Poles.Length() == Sum(Mults(i)) except the first or last
     /// </summary>
     Geom2d_BSplineCurve(Macad::Occt::TColgp_Array1OfPnt2d^ Poles, Macad::Occt::TColStd_Array1OfReal^ Weights, Macad::Occt::TColStd_Array1OfReal^ Knots, Macad::Occt::TColStd_Array1OfInteger^ Multiplicities, int Degree);
-    Geom2d_BSplineCurve(Macad::Occt::Geom2d_BSplineCurve^ parameter1);
     /// <summary>
     /// Increases the degree of this BSpline curve to
     /// Degree. As a result, the poles, weights and
@@ -1988,7 +1982,6 @@ public:
 
 public:
     Geom2d_Point();
-    Geom2d_Point(Macad::Occt::Geom2d_Point^ parameter1);
     /// <summary>
     /// returns the Coordinates of <me>.
     /// </summary>
@@ -2064,7 +2057,6 @@ public:
     /// </summary>
     Geom2d_CartesianPoint(Macad::Occt::Pnt2d P);
     Geom2d_CartesianPoint(double X, double Y);
-    Geom2d_CartesianPoint(Macad::Occt::Geom2d_CartesianPoint^ parameter1);
     /// <summary>
     /// Set <me> to X, Y coordinates.
     /// </summary>
@@ -2165,7 +2157,6 @@ public:
 
 public:
     Geom2d_Conic();
-    Geom2d_Conic(Macad::Occt::Geom2d_Conic^ parameter1);
     /// <summary>
     /// Modifies this conic, redefining its local coordinate system
     /// partially, by assigning theA as its axis
@@ -2344,7 +2335,6 @@ public:
     /// orientation of the circle.
     /// </summary>
     Geom2d_Circle(Macad::Occt::Ax22d A, double Radius);
-    Geom2d_Circle(Macad::Occt::Geom2d_Circle^ parameter1);
     /// <summary>
     /// Converts the gp_Circ2d circle C into this circle.
     /// </summary>
@@ -2474,7 +2464,6 @@ public:
 
 public:
     Geom2d_Vector();
-    Geom2d_Vector(Macad::Occt::Geom2d_Vector^ parameter1);
     /// <summary>
     /// Reverses the vector <me>.
     /// </summary>
@@ -2571,7 +2560,6 @@ public:
     /// Creates a persistent copy of <me>.
     /// </summary>
     Geom2d_Direction(Macad::Occt::Dir2d V);
-    Geom2d_Direction(Macad::Occt::Geom2d_Direction^ parameter1);
     /// <summary>
     /// Assigns the coordinates X and Y to this unit vector,
     /// then normalizes it.
@@ -2749,7 +2737,6 @@ public:
     /// - MinorRadius is less than 0.
     /// </summary>
     Geom2d_Ellipse(Macad::Occt::Ax22d Axis, double MajorRadius, double MinorRadius);
-    Geom2d_Ellipse(Macad::Occt::Geom2d_Ellipse^ parameter1);
     /// <summary>
     /// Converts the gp_Elips2d ellipse E into this ellipse.
     /// </summary>
@@ -3013,7 +3000,6 @@ public:
     /// Raised if MajorRadius < 0.0 or if MinorRadius < 0.0
     /// </summary>
     Geom2d_Hyperbola(Macad::Occt::Ax22d Axis, double MajorRadius, double MinorRadius);
-    Geom2d_Hyperbola(Macad::Occt::Geom2d_Hyperbola^ parameter1);
     /// <summary>
     /// Converts the gp_Hypr2d hyperbola H into this hyperbola.
     /// </summary>
@@ -3286,7 +3272,6 @@ public:
     /// and the unit vector of the positioning axis of the line).
     /// </summary>
     Geom2d_Line(Macad::Occt::Pnt2d P, Macad::Occt::Dir2d V);
-    Geom2d_Line(Macad::Occt::Geom2d_Line^ parameter1);
     /// <summary>
     /// Set <me> so that <me> has the same geometric properties as L.
     /// </summary>
@@ -3535,7 +3520,6 @@ public:
     /// No check is done to know if ||V^Z|| != 0.0 at any point.
     /// </summary>
     Geom2d_OffsetCurve(Macad::Occt::Geom2d_Curve^ C, double Offset);
-    Geom2d_OffsetCurve(Macad::Occt::Geom2d_OffsetCurve^ parameter1);
     /// <summary>
     /// Changes the direction of parametrization of <me>.
     /// As a result:
@@ -3854,7 +3838,6 @@ public:
     /// point is the vertex of the parabola.
     /// </summary>
     Geom2d_Parabola(Macad::Occt::Ax2d D, Macad::Occt::Pnt2d F);
-    Geom2d_Parabola(Macad::Occt::Geom2d_Parabola^ parameter1);
     /// <summary>
     /// Assigns the value Focal to the focal length of this parabola.
     /// Exceptions Standard_ConstructionError if Focal is negative.
@@ -4060,7 +4043,6 @@ public:
     /// Creates a persistent copy of T.
     /// </summary>
     Geom2d_Transformation(Macad::Occt::Trsf2d T);
-    Geom2d_Transformation(Macad::Occt::Geom2d_Transformation^ parameter1);
     /// <summary>
     /// Makes the transformation into a symmetrical transformation
     /// with respect to a point P.
@@ -4342,7 +4324,6 @@ public:
     /// Raised if U1 = U2.
     /// </summary>
     Geom2d_TrimmedCurve(Macad::Occt::Geom2d_Curve^ C, double U1, double U2);
-    Geom2d_TrimmedCurve(Macad::Occt::Geom2d_TrimmedCurve^ parameter1);
     /// <summary>
     /// Changes the direction of parametrization of <me>. The first and
     /// the last parametric values are modified. The "StartPoint"
@@ -4607,7 +4588,6 @@ public:
     Geom2d_UndefinedDerivative();
     Geom2d_UndefinedDerivative(System::String^ theMessage);
     Geom2d_UndefinedDerivative(System::String^ theMessage, System::String^ theStackTrace);
-    Geom2d_UndefinedDerivative(Macad::Occt::Geom2d_UndefinedDerivative^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -4650,7 +4630,6 @@ public:
     Geom2d_UndefinedValue();
     Geom2d_UndefinedValue(System::String^ theMessage);
     Geom2d_UndefinedValue(System::String^ theMessage, System::String^ theStackTrace);
-    Geom2d_UndefinedValue(Macad::Occt::Geom2d_UndefinedValue^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -4707,7 +4686,6 @@ public:
     /// The magnitude of the vector is the distance between P1 and P2
     /// </summary>
     Geom2d_VectorWithMagnitude(Macad::Occt::Pnt2d P1, Macad::Occt::Pnt2d P2);
-    Geom2d_VectorWithMagnitude(Macad::Occt::Geom2d_VectorWithMagnitude^ parameter1);
     /// <summary>
     /// Set <me> to X, Y coordinates.
     /// </summary>

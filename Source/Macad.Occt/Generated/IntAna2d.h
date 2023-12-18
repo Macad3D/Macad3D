@@ -56,7 +56,6 @@ public:
     /// </summary>
     IntAna2d_IntPoint(double X, double Y, double U1);
     IntAna2d_IntPoint();
-    IntAna2d_IntPoint(Macad::Occt::IntAna2d_IntPoint^ parameter1);
     /// <summary>
     /// Set the values for a "non-implicit" point.
     /// </summary>
@@ -124,7 +123,6 @@ public:
     IntAna2d_Conic(Macad::Occt::gp_Parab2d^ C);
     IntAna2d_Conic(Macad::Occt::gp_Hypr2d^ C);
     IntAna2d_Conic(Macad::Occt::gp_Elips2d^ C);
-    IntAna2d_Conic(Macad::Occt::IntAna2d_Conic^ parameter1);
     /// <summary>
     /// value of the function F at the point X,Y.
     /// </summary>
@@ -229,7 +227,6 @@ public:
     /// Intersection between an hyperbola and another conic.
     /// </summary>
     IntAna2d_AnaIntersection(Macad::Occt::gp_Hypr2d^ H, Macad::Occt::IntAna2d_Conic^ C);
-    IntAna2d_AnaIntersection(Macad::Occt::IntAna2d_AnaIntersection^ parameter1);
     /// <summary>
     /// Intersection between two lines.
     /// </summary>

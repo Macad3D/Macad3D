@@ -66,19 +66,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theSeq, bool isStart);
-        Iterator(Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theSeq);
-        Iterator(Macad::Occt::Geom2dConvert_SequenceOfPPoint::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Geom2dConvert_PPoint^ Value();
         Macad::Occt::Geom2dConvert_PPoint^ ChangeValue();
         bool IsEqual(Macad::Occt::Geom2dConvert_SequenceOfPPoint::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Geom2dConvert_SequenceOfPPoint();
     Geom2dConvert_SequenceOfPPoint(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    Geom2dConvert_SequenceOfPPoint(Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -91,17 +88,10 @@ public:
     void Clear();
     Macad::Occt::Geom2dConvert_SequenceOfPPoint^ Assign(Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theOther);
     void Remove(Macad::Occt::Geom2dConvert_SequenceOfPPoint::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Geom2dConvert_PPoint^ theItem);
-    void Append(Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theSeq);
     void Prepend(Macad::Occt::Geom2dConvert_PPoint^ theItem);
-    void Prepend(Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Geom2dConvert_PPoint^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theSeq);
     void InsertAfter(Macad::Occt::Geom2dConvert_SequenceOfPPoint::Iterator^ thePosition, Macad::Occt::Geom2dConvert_PPoint^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Geom2dConvert_PPoint^ theItem);
     void Split(int theIndex, Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theSeq);
     Macad::Occt::Geom2dConvert_PPoint^ First();
     Macad::Occt::Geom2dConvert_PPoint^ ChangeFirst();
@@ -167,7 +157,6 @@ public:
 
 public:
     Geom2dConvert();
-    Geom2dConvert(Macad::Occt::Geom2dConvert^ parameter1);
     /// <summary>
     /// -- Convert a curve to BSpline  by Approximation
     /// 
@@ -439,7 +428,6 @@ public:
     /// Constructor.
     /// </summary>
     Geom2dConvert_PPoint(double theParameter, Macad::Occt::Adaptor2d_Curve2d^ theAdaptor);
-    Geom2dConvert_PPoint(Macad::Occt::Geom2dConvert_PPoint^ parameter1);
     /// <summary>
     /// Compute the distance betwwen two 2d points.
     /// </summary>
@@ -509,7 +497,6 @@ public:
     /// Constructor.
     /// </summary>
     Geom2dConvert_ApproxArcsSegments(Macad::Occt::Adaptor2d_Curve2d^ theCurve, double theTolerance, double theAngleTol);
-    Geom2dConvert_ApproxArcsSegments(Macad::Occt::Geom2dConvert_ApproxArcsSegments^ parameter1);
     /* Method skipped due to unknown mapping: TColGeom2d_SequenceOfCurve GetResult() */
 }; // class Geom2dConvert_ApproxArcsSegments
 
@@ -567,7 +554,6 @@ public:
     /// polynomial defining the BSpline is allowed to have.
     /// </summary>
     Geom2dConvert_ApproxCurve(Macad::Occt::Adaptor2d_Curve2d^ Curve, double Tol2d, Macad::Occt::GeomAbs_Shape Order, int MaxSegments, int MaxDegree);
-    Geom2dConvert_ApproxCurve(Macad::Occt::Geom2dConvert_ApproxCurve^ parameter1);
     /// <summary>
     /// Returns the 2D BSpline curve resulting from the
     /// approximation algorithm.
@@ -661,7 +647,6 @@ public:
     /// Standard_RangeError if ContinuityRange is less than zero.
     /// </summary>
     Geom2dConvert_BSplineCurveKnotSplitting(Macad::Occt::Geom2d_BSplineCurve^ BasisCurve, int ContinuityRange);
-    Geom2dConvert_BSplineCurveKnotSplitting(Macad::Occt::Geom2dConvert_BSplineCurveKnotSplitting^ parameter1);
     /// <summary>
     /// Returns the number of points at which the analysed
     /// BSpline curve should be split, in order to obtain arcs
@@ -779,7 +764,6 @@ public:
     /// Raised if Abs (U2 - U1) <= ParametricTolerance.
     /// </summary>
     Geom2dConvert_BSplineCurveToBezierCurve(Macad::Occt::Geom2d_BSplineCurve^ BasisCurve, double U1, double U2, double ParametricTolerance);
-    Geom2dConvert_BSplineCurveToBezierCurve(Macad::Occt::Geom2dConvert_BSplineCurveToBezierCurve^ parameter1);
     /// <summary>
     /// Constructs and returns the Bezier curve of index
     /// Index to the table of adjacent Bezier arcs
@@ -866,7 +850,6 @@ public:
     /// - Parameterisation is used to convert
     /// </summary>
     Geom2dConvert_CompCurveToBSplineCurve(Macad::Occt::Geom2d_BoundedCurve^ BasisCurve);
-    Geom2dConvert_CompCurveToBSplineCurve(Macad::Occt::Geom2dConvert_CompCurveToBSplineCurve^ parameter1);
     /// <summary>
     /// Append a curve in the BSpline
     /// Return False if the curve is not G0 with the BSplineCurve.

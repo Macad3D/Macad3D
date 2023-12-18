@@ -18,12 +18,6 @@ Macad::Occt::gce_Root::gce_Root()
     _NativeInstance = new ::gce_Root();
 }
 
-Macad::Occt::gce_Root::gce_Root(Macad::Occt::gce_Root^ parameter1)
-    : Macad::Occt::BaseClass<::gce_Root>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_Root(*(::gce_Root*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::gce_Root::IsDone()
 {
     bool _result = ((::gce_Root*)_NativeInstance)->IsDone();
@@ -100,12 +94,6 @@ Macad::Occt::gce_MakeCirc::gce_MakeCirc(Macad::Occt::Ax1 Axis, double Radius)
 {
     pin_ptr<Macad::Occt::Ax1> pp_Axis = &Axis;
     _NativeInstance = new ::gce_MakeCirc(*(gp_Ax1*)pp_Axis, Radius);
-}
-
-Macad::Occt::gce_MakeCirc::gce_MakeCirc(Macad::Occt::gce_MakeCirc^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeCirc(*(::gce_MakeCirc*)parameter1->NativeInstance);
 }
 
 Macad::Occt::gp_Circ^ Macad::Occt::gce_MakeCirc::Value()
@@ -201,12 +189,6 @@ Macad::Occt::gce_MakeCirc2d::gce_MakeCirc2d(Macad::Occt::Pnt2d Center, Macad::Oc
     _NativeInstance = new ::gce_MakeCirc2d(*(gp_Pnt2d*)pp_Center, *(gp_Pnt2d*)pp_Point, true);
 }
 
-Macad::Occt::gce_MakeCirc2d::gce_MakeCirc2d(Macad::Occt::gce_MakeCirc2d^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeCirc2d(*(::gce_MakeCirc2d*)parameter1->NativeInstance);
-}
-
 Macad::Occt::gp_Circ2d^ Macad::Occt::gce_MakeCirc2d::Value()
 {
     ::gp_Circ2d* _result = new ::gp_Circ2d();
@@ -282,12 +264,6 @@ Macad::Occt::gce_MakeCone::gce_MakeCone(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2
     _NativeInstance = new ::gce_MakeCone(*(gp_Pnt*)pp_P1, *(gp_Pnt*)pp_P2, R1, R2);
 }
 
-Macad::Occt::gce_MakeCone::gce_MakeCone(Macad::Occt::gce_MakeCone^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeCone(*(::gce_MakeCone*)parameter1->NativeInstance);
-}
-
 Macad::Occt::gp_Cone^ Macad::Occt::gce_MakeCone::Value()
 {
     ::gp_Cone* _result = new ::gp_Cone();
@@ -350,12 +326,6 @@ Macad::Occt::gce_MakeCylinder::gce_MakeCylinder(Macad::Occt::gp_Circ^ Circ)
     _NativeInstance = new ::gce_MakeCylinder(*(::gp_Circ*)Circ->NativeInstance);
 }
 
-Macad::Occt::gce_MakeCylinder::gce_MakeCylinder(Macad::Occt::gce_MakeCylinder^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeCylinder(*(::gce_MakeCylinder*)parameter1->NativeInstance);
-}
-
 Macad::Occt::gp_Cylinder^ Macad::Occt::gce_MakeCylinder::Value()
 {
     ::gp_Cylinder* _result = new ::gp_Cylinder();
@@ -404,12 +374,6 @@ Macad::Occt::gce_MakeDir::gce_MakeDir(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2)
     _NativeInstance = new ::gce_MakeDir(*(gp_Pnt*)pp_P1, *(gp_Pnt*)pp_P2);
 }
 
-Macad::Occt::gce_MakeDir::gce_MakeDir(Macad::Occt::gce_MakeDir^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeDir(*(::gce_MakeDir*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Dir Macad::Occt::gce_MakeDir::Value()
 {
     ::gp_Dir _nativeResult = ((::gce_MakeDir*)_NativeInstance)->Value();
@@ -456,12 +420,6 @@ Macad::Occt::gce_MakeDir2d::gce_MakeDir2d(Macad::Occt::Pnt2d P1, Macad::Occt::Pn
     _NativeInstance = new ::gce_MakeDir2d(*(gp_Pnt2d*)pp_P1, *(gp_Pnt2d*)pp_P2);
 }
 
-Macad::Occt::gce_MakeDir2d::gce_MakeDir2d(Macad::Occt::gce_MakeDir2d^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeDir2d(*(::gce_MakeDir2d*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Dir2d Macad::Occt::gce_MakeDir2d::Value()
 {
     ::gp_Dir2d _nativeResult = ((::gce_MakeDir2d*)_NativeInstance)->Value();
@@ -494,12 +452,6 @@ Macad::Occt::gce_MakeElips::gce_MakeElips(Macad::Occt::Pnt S1, Macad::Occt::Pnt 
     pin_ptr<Macad::Occt::Pnt> pp_S2 = &S2;
     pin_ptr<Macad::Occt::Pnt> pp_Center = &Center;
     _NativeInstance = new ::gce_MakeElips(*(gp_Pnt*)pp_S1, *(gp_Pnt*)pp_S2, *(gp_Pnt*)pp_Center);
-}
-
-Macad::Occt::gce_MakeElips::gce_MakeElips(Macad::Occt::gce_MakeElips^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeElips(*(::gce_MakeElips*)parameter1->NativeInstance);
 }
 
 Macad::Occt::gp_Elips^ Macad::Occt::gce_MakeElips::Value()
@@ -552,12 +504,6 @@ Macad::Occt::gce_MakeElips2d::gce_MakeElips2d(Macad::Occt::Pnt2d S1, Macad::Occt
     _NativeInstance = new ::gce_MakeElips2d(*(gp_Pnt2d*)pp_S1, *(gp_Pnt2d*)pp_S2, *(gp_Pnt2d*)pp_Center);
 }
 
-Macad::Occt::gce_MakeElips2d::gce_MakeElips2d(Macad::Occt::gce_MakeElips2d^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeElips2d(*(::gce_MakeElips2d*)parameter1->NativeInstance);
-}
-
 Macad::Occt::gp_Elips2d^ Macad::Occt::gce_MakeElips2d::Value()
 {
     ::gp_Elips2d* _result = new ::gp_Elips2d();
@@ -592,12 +538,6 @@ Macad::Occt::gce_MakeHypr::gce_MakeHypr(Macad::Occt::Pnt S1, Macad::Occt::Pnt S2
     pin_ptr<Macad::Occt::Pnt> pp_S2 = &S2;
     pin_ptr<Macad::Occt::Pnt> pp_Center = &Center;
     _NativeInstance = new ::gce_MakeHypr(*(gp_Pnt*)pp_S1, *(gp_Pnt*)pp_S2, *(gp_Pnt*)pp_Center);
-}
-
-Macad::Occt::gce_MakeHypr::gce_MakeHypr(Macad::Occt::gce_MakeHypr^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeHypr(*(::gce_MakeHypr*)parameter1->NativeInstance);
 }
 
 Macad::Occt::gp_Hypr^ Macad::Occt::gce_MakeHypr::Value()
@@ -641,12 +581,6 @@ Macad::Occt::gce_MakeHypr2d::gce_MakeHypr2d(Macad::Occt::Ax22d A, double MajorRa
 {
     pin_ptr<Macad::Occt::Ax22d> pp_A = &A;
     _NativeInstance = new ::gce_MakeHypr2d(*(gp_Ax22d*)pp_A, MajorRadius, MinorRadius);
-}
-
-Macad::Occt::gce_MakeHypr2d::gce_MakeHypr2d(Macad::Occt::gce_MakeHypr2d^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeHypr2d(*(::gce_MakeHypr2d*)parameter1->NativeInstance);
 }
 
 Macad::Occt::gp_Hypr2d^ Macad::Occt::gce_MakeHypr2d::Value()
@@ -697,12 +631,6 @@ Macad::Occt::gce_MakeLin::gce_MakeLin(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2)
     pin_ptr<Macad::Occt::Pnt> pp_P1 = &P1;
     pin_ptr<Macad::Occt::Pnt> pp_P2 = &P2;
     _NativeInstance = new ::gce_MakeLin(*(gp_Pnt*)pp_P1, *(gp_Pnt*)pp_P2);
-}
-
-Macad::Occt::gce_MakeLin::gce_MakeLin(Macad::Occt::gce_MakeLin^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeLin(*(::gce_MakeLin*)parameter1->NativeInstance);
 }
 
 Macad::Occt::gp_Lin^ Macad::Occt::gce_MakeLin::Value()
@@ -767,12 +695,6 @@ Macad::Occt::gce_MakeLin2d::gce_MakeLin2d(Macad::Occt::Pnt2d P1, Macad::Occt::Pn
     _NativeInstance = new ::gce_MakeLin2d(*(gp_Pnt2d*)pp_P1, *(gp_Pnt2d*)pp_P2);
 }
 
-Macad::Occt::gce_MakeLin2d::gce_MakeLin2d(Macad::Occt::gce_MakeLin2d^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeLin2d(*(::gce_MakeLin2d*)parameter1->NativeInstance);
-}
-
 Macad::Occt::gp_Lin2d^ Macad::Occt::gce_MakeLin2d::Value()
 {
     ::gp_Lin2d* _result = new ::gp_Lin2d();
@@ -835,12 +757,6 @@ Macad::Occt::gce_MakeMirror::gce_MakeMirror(Macad::Occt::Ax2 Plane)
     _NativeInstance = new ::gce_MakeMirror(*(gp_Ax2*)pp_Plane);
 }
 
-Macad::Occt::gce_MakeMirror::gce_MakeMirror(Macad::Occt::gce_MakeMirror^ parameter1)
-    : Macad::Occt::BaseClass<::gce_MakeMirror>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeMirror(*(::gce_MakeMirror*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Trsf Macad::Occt::gce_MakeMirror::Value()
 {
     ::gp_Trsf _nativeResult = ((::gce_MakeMirror*)_NativeInstance)->Value();
@@ -887,12 +803,6 @@ Macad::Occt::gce_MakeMirror2d::gce_MakeMirror2d(Macad::Occt::Pnt2d Point, Macad:
     _NativeInstance = new ::gce_MakeMirror2d(*(gp_Pnt2d*)pp_Point, *(gp_Dir2d*)pp_Direc);
 }
 
-Macad::Occt::gce_MakeMirror2d::gce_MakeMirror2d(Macad::Occt::gce_MakeMirror2d^ parameter1)
-    : Macad::Occt::BaseClass<::gce_MakeMirror2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeMirror2d(*(::gce_MakeMirror2d*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Trsf2d Macad::Occt::gce_MakeMirror2d::Value()
 {
     ::gp_Trsf2d _nativeResult = ((::gce_MakeMirror2d*)_NativeInstance)->Value();
@@ -924,12 +834,6 @@ Macad::Occt::gce_MakeParab::gce_MakeParab(Macad::Occt::Ax1 D, Macad::Occt::Pnt F
     pin_ptr<Macad::Occt::Ax1> pp_D = &D;
     pin_ptr<Macad::Occt::Pnt> pp_F = &F;
     _NativeInstance = new ::gce_MakeParab(*(gp_Ax1*)pp_D, *(gp_Pnt*)pp_F);
-}
-
-Macad::Occt::gce_MakeParab::gce_MakeParab(Macad::Occt::gce_MakeParab^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeParab(*(::gce_MakeParab*)parameter1->NativeInstance);
 }
 
 Macad::Occt::gp_Parab^ Macad::Occt::gce_MakeParab::Value()
@@ -1003,12 +907,6 @@ Macad::Occt::gce_MakeParab2d::gce_MakeParab2d(Macad::Occt::Pnt2d S1, Macad::Occt
     pin_ptr<Macad::Occt::Pnt2d> pp_S1 = &S1;
     pin_ptr<Macad::Occt::Pnt2d> pp_Center = &Center;
     _NativeInstance = new ::gce_MakeParab2d(*(gp_Pnt2d*)pp_S1, *(gp_Pnt2d*)pp_Center, true);
-}
-
-Macad::Occt::gce_MakeParab2d::gce_MakeParab2d(Macad::Occt::gce_MakeParab2d^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeParab2d(*(::gce_MakeParab2d*)parameter1->NativeInstance);
 }
 
 Macad::Occt::gp_Parab2d^ Macad::Occt::gce_MakeParab2d::Value()
@@ -1091,12 +989,6 @@ Macad::Occt::gce_MakePln::gce_MakePln(Macad::Occt::Ax1 Axis)
     _NativeInstance = new ::gce_MakePln(*(gp_Ax1*)pp_Axis);
 }
 
-Macad::Occt::gce_MakePln::gce_MakePln(Macad::Occt::gce_MakePln^ parameter1)
-    : Macad::Occt::gce_Root(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakePln(*(::gce_MakePln*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Pln Macad::Occt::gce_MakePln::Value()
 {
     ::gp_Pln _nativeResult = ((::gce_MakePln*)_NativeInstance)->Value();
@@ -1136,12 +1028,6 @@ Macad::Occt::gce_MakeRotation::gce_MakeRotation(Macad::Occt::Pnt Point, Macad::O
     _NativeInstance = new ::gce_MakeRotation(*(gp_Pnt*)pp_Point, *(gp_Dir*)pp_Direc, Angle);
 }
 
-Macad::Occt::gce_MakeRotation::gce_MakeRotation(Macad::Occt::gce_MakeRotation^ parameter1)
-    : Macad::Occt::BaseClass<::gce_MakeRotation>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeRotation(*(::gce_MakeRotation*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Trsf Macad::Occt::gce_MakeRotation::Value()
 {
     ::gp_Trsf _nativeResult = ((::gce_MakeRotation*)_NativeInstance)->Value();
@@ -1165,12 +1051,6 @@ Macad::Occt::gce_MakeRotation2d::gce_MakeRotation2d(Macad::Occt::Pnt2d Point, do
 {
     pin_ptr<Macad::Occt::Pnt2d> pp_Point = &Point;
     _NativeInstance = new ::gce_MakeRotation2d(*(gp_Pnt2d*)pp_Point, Angle);
-}
-
-Macad::Occt::gce_MakeRotation2d::gce_MakeRotation2d(Macad::Occt::gce_MakeRotation2d^ parameter1)
-    : Macad::Occt::BaseClass<::gce_MakeRotation2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeRotation2d(*(::gce_MakeRotation2d*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Trsf2d Macad::Occt::gce_MakeRotation2d::Value()
@@ -1198,12 +1078,6 @@ Macad::Occt::gce_MakeScale::gce_MakeScale(Macad::Occt::Pnt Point, double Scale)
     _NativeInstance = new ::gce_MakeScale(*(gp_Pnt*)pp_Point, Scale);
 }
 
-Macad::Occt::gce_MakeScale::gce_MakeScale(Macad::Occt::gce_MakeScale^ parameter1)
-    : Macad::Occt::BaseClass<::gce_MakeScale>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeScale(*(::gce_MakeScale*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Trsf Macad::Occt::gce_MakeScale::Value()
 {
     ::gp_Trsf _nativeResult = ((::gce_MakeScale*)_NativeInstance)->Value();
@@ -1227,12 +1101,6 @@ Macad::Occt::gce_MakeScale2d::gce_MakeScale2d(Macad::Occt::Pnt2d Point, double S
 {
     pin_ptr<Macad::Occt::Pnt2d> pp_Point = &Point;
     _NativeInstance = new ::gce_MakeScale2d(*(gp_Pnt2d*)pp_Point, Scale);
-}
-
-Macad::Occt::gce_MakeScale2d::gce_MakeScale2d(Macad::Occt::gce_MakeScale2d^ parameter1)
-    : Macad::Occt::BaseClass<::gce_MakeScale2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeScale2d(*(::gce_MakeScale2d*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Trsf2d Macad::Occt::gce_MakeScale2d::Value()
@@ -1268,12 +1136,6 @@ Macad::Occt::gce_MakeTranslation::gce_MakeTranslation(Macad::Occt::Pnt Point1, M
     _NativeInstance = new ::gce_MakeTranslation(*(gp_Pnt*)pp_Point1, *(gp_Pnt*)pp_Point2);
 }
 
-Macad::Occt::gce_MakeTranslation::gce_MakeTranslation(Macad::Occt::gce_MakeTranslation^ parameter1)
-    : Macad::Occt::BaseClass<::gce_MakeTranslation>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeTranslation(*(::gce_MakeTranslation*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Trsf Macad::Occt::gce_MakeTranslation::Value()
 {
     ::gp_Trsf _nativeResult = ((::gce_MakeTranslation*)_NativeInstance)->Value();
@@ -1305,12 +1167,6 @@ Macad::Occt::gce_MakeTranslation2d::gce_MakeTranslation2d(Macad::Occt::Pnt2d Poi
     pin_ptr<Macad::Occt::Pnt2d> pp_Point1 = &Point1;
     pin_ptr<Macad::Occt::Pnt2d> pp_Point2 = &Point2;
     _NativeInstance = new ::gce_MakeTranslation2d(*(gp_Pnt2d*)pp_Point1, *(gp_Pnt2d*)pp_Point2);
-}
-
-Macad::Occt::gce_MakeTranslation2d::gce_MakeTranslation2d(Macad::Occt::gce_MakeTranslation2d^ parameter1)
-    : Macad::Occt::BaseClass<::gce_MakeTranslation2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::gce_MakeTranslation2d(*(::gce_MakeTranslation2d*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Trsf2d Macad::Occt::gce_MakeTranslation2d::Value()

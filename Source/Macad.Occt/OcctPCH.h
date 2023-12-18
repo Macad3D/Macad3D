@@ -16,6 +16,7 @@
     #error Incorrect OCCT library version.
 #endif
 
+// Native includes
 
 #include "Standard_TypeDef.hxx"
 #include "gp.hxx"
@@ -29,6 +30,11 @@
 #define _Aspect_FBConfig_HeaderFile
 typedef void* Aspect_FBConfig;
 
+#include "Generated/ForwardDeclarations.h"
+#include "Generated/NativeIncludes.h"
+
+// Managed includes
+
 #include "BaseClass.h"
 #include "IndexEnumerator.h"
 #include "IteratorEnumerator.h"
@@ -40,8 +46,3 @@ typedef void* Aspect_FBConfig;
 #include "Extensions/Geom2dAPI_Ex.h"
 #include "Extensions/TopTools_Ex.h"
 #include "Extensions/V3d_Ex.h"
-
-#include "Generated/ForwardDeclarations.h"
-#include "Generated/NativeIncludes.h"
-#include "Generated/Precision.h"
-

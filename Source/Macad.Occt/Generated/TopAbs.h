@@ -150,7 +150,6 @@ public:
 
 public:
     TopAbs();
-    TopAbs(Macad::Occt::TopAbs^ parameter1);
     /// <summary>
     /// Compose  the Orientation    <Or1>  and  <Or2>.    This
     /// composition is not symmetric (if  you switch <Or1> and

@@ -333,7 +333,7 @@ namespace Macad.Test.Unit.Interaction.Sheet
                 ctx.ViewportController.MouseDown();
                 ctx.MoveTo(184, 279);
                 ctx.ViewportController.MouseUp();
-                Assert.AreEqual(150.0, flange.Angle);
+                Assert.AreEqual(180.0, flange.Angle);
 
                 // Cleanup
                 ctx.WorkspaceController.StopEditor();

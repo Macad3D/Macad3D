@@ -50,7 +50,6 @@ public:
 
 public:
     TopExp();
-    TopExp(Macad::Occt::TopExp^ parameter1);
     /// <summary>
     /// Tool to explore a topological data structure.
     /// Stores in the map <M> all  the sub-shapes of <S>
@@ -310,7 +309,6 @@ public:
     /// has no effect on the exploration.
     /// </summary>
     TopExp_Explorer(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopAbs_ShapeEnum ToFind);
-    TopExp_Explorer(Macad::Occt::TopExp_Explorer^ parameter1);
     /// <summary>
     /// Resets this explorer on the shape S. It is initialized to
     /// search the shape S, for shapes of type ToFind, that

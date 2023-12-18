@@ -157,7 +157,6 @@ public:
 
 public:
     BRepFeat();
-    BRepFeat(Macad::Occt::BRepFeat^ parameter1);
     static void SampleEdges(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TColgp_SequenceOfPnt^ Pt);
     static void Barycenter(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::Pnt% Pt);
     static double ParametricBarycenter(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::Geom_Curve^ C);
@@ -233,7 +232,6 @@ public:
 
 public:
     BRepFeat_Builder();
-    BRepFeat_Builder(Macad::Occt::BRepFeat_Builder^ parameter1);
     /// <summary>
     /// Clears internal fields and arguments.
     /// </summary>
@@ -369,7 +367,6 @@ public:
     }
 
 public:
-    BRepFeat_Form(Macad::Occt::BRepFeat_Form^ parameter1);
     /// <summary>
     /// returns the list of generated Faces.
     /// </summary>
@@ -503,7 +500,6 @@ public:
     /// Snew and the basis shape Sbase.
     /// </summary>
     BRepFeat_Gluer(Macad::Occt::TopoDS_Shape^ Snew, Macad::Occt::TopoDS_Shape^ Sbase);
-    BRepFeat_Gluer(Macad::Occt::BRepFeat_Gluer^ parameter1);
     /// <summary>
     /// Initializes the new shape Snew and the basis shape
     /// Sbase for the local glueing operation.
@@ -593,7 +589,6 @@ public:
     /// Empty constructor.
     /// </summary>
     BRepFeat_MakeCylindricalHole();
-    BRepFeat_MakeCylindricalHole(Macad::Occt::BRepFeat_MakeCylindricalHole^ parameter1);
     /// <summary>
     /// Sets the axis of the hole(s).
     /// </summary>
@@ -750,7 +745,6 @@ public:
     /// </summary>
     BRepFeat_MakeDPrism(Macad::Occt::TopoDS_Shape^ Sbase, Macad::Occt::TopoDS_Face^ Pbase, Macad::Occt::TopoDS_Face^ Skface, double Angle, int Fuse, bool Modify);
     BRepFeat_MakeDPrism();
-    BRepFeat_MakeDPrism(Macad::Occt::BRepFeat_MakeDPrism^ parameter1);
     /// <summary>
     /// Initializes this algorithm for building draft prisms along surfaces.
     /// A face Pbase is selected in the basis shape Sbase to
@@ -864,7 +858,6 @@ public:
     }
 
 public:
-    BRepFeat_RibSlot(Macad::Occt::BRepFeat_RibSlot^ parameter1);
     /// <summary>
     /// Returns true if F a TopoDS_Shape of type edge or face has been deleted.
     /// </summary>
@@ -981,7 +974,6 @@ public:
     /// setting 1 in case of the rib.
     /// </summary>
     BRepFeat_MakeLinearForm(Macad::Occt::TopoDS_Shape^ Sbase, Macad::Occt::TopoDS_Wire^ W, Macad::Occt::Geom_Plane^ P, Macad::Occt::Vec Direction, Macad::Occt::Vec Direction1, int Fuse, bool Modify);
-    BRepFeat_MakeLinearForm(Macad::Occt::BRepFeat_MakeLinearForm^ parameter1);
     /// <summary>
     /// Initializes this construction algorithm.
     /// A contour W, a shape Sbase and a plane P are
@@ -1076,7 +1068,6 @@ public:
     /// shape, a local operation such as glueing can be performed.
     /// </summary>
     BRepFeat_MakePipe(Macad::Occt::TopoDS_Shape^ Sbase, Macad::Occt::TopoDS_Shape^ Pbase, Macad::Occt::TopoDS_Face^ Skface, Macad::Occt::TopoDS_Wire^ Spine, int Fuse, bool Modify);
-    BRepFeat_MakePipe(Macad::Occt::BRepFeat_MakePipe^ parameter1);
     /// <summary>
     /// Initializes this algorithm for adding pipes to shapes.
     /// A face Pbase is selected in the shape Sbase to
@@ -1180,7 +1171,6 @@ public:
     /// does not belong to the basis or the prism shape.
     /// </summary>
     BRepFeat_MakePrism(Macad::Occt::TopoDS_Shape^ Sbase, Macad::Occt::TopoDS_Shape^ Pbase, Macad::Occt::TopoDS_Face^ Skface, Macad::Occt::Dir Direction, int Fuse, bool Modify);
-    BRepFeat_MakePrism(Macad::Occt::BRepFeat_MakePrism^ parameter1);
     /// <summary>
     /// Initializes this algorithm for building prisms along surfaces.
     /// A face Pbase is selected in the shape Sbase
@@ -1284,7 +1274,6 @@ public:
     /// shape, a local operation such as glueing can be performed.
     /// </summary>
     BRepFeat_MakeRevol(Macad::Occt::TopoDS_Shape^ Sbase, Macad::Occt::TopoDS_Shape^ Pbase, Macad::Occt::TopoDS_Face^ Skface, Macad::Occt::Ax1 Axis, int Fuse, bool Modify);
-    BRepFeat_MakeRevol(Macad::Occt::BRepFeat_MakeRevol^ parameter1);
     void Init(Macad::Occt::TopoDS_Shape^ Sbase, Macad::Occt::TopoDS_Shape^ Pbase, Macad::Occt::TopoDS_Face^ Skface, Macad::Occt::Ax1 Axis, int Fuse, bool Modify);
     /// <summary>
     /// Indicates that the edge <E> will slide on the face
@@ -1373,7 +1362,6 @@ public:
     /// -   adding matter with Boolean fusion using the setting 1 in case of the rib.
     /// </summary>
     BRepFeat_MakeRevolutionForm(Macad::Occt::TopoDS_Shape^ Sbase, Macad::Occt::TopoDS_Wire^ W, Macad::Occt::Geom_Plane^ Plane, Macad::Occt::Ax1 Axis, double Height1, double Height2, int Fuse, bool% Sliding);
-    BRepFeat_MakeRevolutionForm(Macad::Occt::BRepFeat_MakeRevolutionForm^ parameter1);
     /// <summary>
     /// Initializes this construction algorithm
     /// A contour W, a shape Sbase and a plane P are initialized to serve as the basic elements
@@ -1452,7 +1440,6 @@ public:
     /// Creates the process  with the shape <S>.
     /// </summary>
     BRepFeat_SplitShape(Macad::Occt::TopoDS_Shape^ S);
-    BRepFeat_SplitShape(Macad::Occt::BRepFeat_SplitShape^ parameter1);
     /// <summary>
     /// Add splitting edges or wires for whole initial shape
     /// without additional specification edge->face, edge->edge

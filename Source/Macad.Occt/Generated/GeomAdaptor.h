@@ -43,7 +43,6 @@ public:
 
 public:
     GeomAdaptor();
-    GeomAdaptor(Macad::Occt::GeomAdaptor^ parameter1);
     /// <summary>
     /// Inherited  from    GHCurve.   Provides a  curve
     /// handled by reference.
@@ -118,7 +117,6 @@ public:
     /// Standard_ConstructionError is raised if theUFirst>theULast
     /// </summary>
     GeomAdaptor_Curve(Macad::Occt::Geom_Curve^ theCurve, double theUFirst, double theULast);
-    GeomAdaptor_Curve(Macad::Occt::GeomAdaptor_Curve^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>
@@ -324,7 +322,6 @@ public:
     /// Standard_ConstructionError is raised if UFirst>ULast or VFirst>VLast
     /// </summary>
     GeomAdaptor_Surface(Macad::Occt::Geom_Surface^ theSurf, double theUFirst, double theULast, double theVFirst, double theVLast);
-    GeomAdaptor_Surface(Macad::Occt::GeomAdaptor_Surface^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>
@@ -541,7 +538,6 @@ public:
     /// Thew Curve and the Direction are loaded.
     /// </summary>
     GeomAdaptor_SurfaceOfLinearExtrusion(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Dir V);
-    GeomAdaptor_SurfaceOfLinearExtrusion(Macad::Occt::GeomAdaptor_SurfaceOfLinearExtrusion^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>
@@ -695,7 +691,6 @@ public:
     /// The Curve and the Direction are loaded.
     /// </summary>
     GeomAdaptor_SurfaceOfRevolution(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Ax1 V);
-    GeomAdaptor_SurfaceOfRevolution(Macad::Occt::GeomAdaptor_SurfaceOfRevolution^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>

@@ -65,7 +65,6 @@ public:
     /// value on the curve and a Pnt from gp.
     /// </summary>
     Extrema_POnCurv(double U, Macad::Occt::Pnt P);
-    Extrema_POnCurv(Macad::Occt::Extrema_POnCurv^ parameter1);
     /// <summary>
     /// sets the point and parameter values.
     /// </summary>
@@ -157,7 +156,6 @@ public:
     /// the algorithm stops when abs(F(Un)-F(Un-1)) < Tol.
     /// </summary>
     Extrema_ExtPC(Macad::Occt::Pnt P, Macad::Occt::Adaptor3d_Curve^ C);
-    Extrema_ExtPC(Macad::Occt::Extrema_ExtPC^ parameter1);
     /// <summary>
     /// initializes the fields of the algorithm.
     /// </summary>

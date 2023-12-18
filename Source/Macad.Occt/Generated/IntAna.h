@@ -84,8 +84,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::IntAna_ListOfCurve::Iterator^ parameter1);
         bool More() override;
         void Next() override;
         Macad::Occt::IntAna_Curve^ Value() override;
@@ -94,7 +92,6 @@ public:
 
     IntAna_ListOfCurve();
     IntAna_ListOfCurve(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    IntAna_ListOfCurve(Macad::Occt::IntAna_ListOfCurve^ theOther);
     int Size();
     Macad::Occt::IntAna_ListOfCurve^ Assign(Macad::Occt::IntAna_ListOfCurve^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -102,16 +99,11 @@ public:
     Macad::Occt::IntAna_Curve^ First();
     Macad::Occt::IntAna_Curve^ Last();
     Macad::Occt::IntAna_Curve^ Append(Macad::Occt::IntAna_Curve^ theItem);
-    void Append(Macad::Occt::IntAna_Curve^ theItem, Macad::Occt::IntAna_ListOfCurve::Iterator^ theIter);
-    void Append(Macad::Occt::IntAna_ListOfCurve^ theOther);
     Macad::Occt::IntAna_Curve^ Prepend(Macad::Occt::IntAna_Curve^ theItem);
-    void Prepend(Macad::Occt::IntAna_ListOfCurve^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::IntAna_ListOfCurve::Iterator^ theIter);
     Macad::Occt::IntAna_Curve^ InsertBefore(Macad::Occt::IntAna_Curve^ theItem, Macad::Occt::IntAna_ListOfCurve::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::IntAna_ListOfCurve^ theOther, Macad::Occt::IntAna_ListOfCurve::Iterator^ theIter);
     Macad::Occt::IntAna_Curve^ InsertAfter(Macad::Occt::IntAna_Curve^ theItem, Macad::Occt::IntAna_ListOfCurve::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::IntAna_ListOfCurve^ theOther, Macad::Occt::IntAna_ListOfCurve::Iterator^ theIter);
     void Reverse();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::IntAna_Curve^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -149,7 +141,6 @@ public:
 public:
     IntAna_ListIteratorOfListOfCurve();
     IntAna_ListIteratorOfListOfCurve(Macad::Occt::NCollection_BaseList^ theList);
-    IntAna_ListIteratorOfListOfCurve(Macad::Occt::IntAna_ListIteratorOfListOfCurve^ parameter1);
     bool More();
     void Next();
     Macad::Occt::IntAna_Curve^ Value();
@@ -194,7 +185,6 @@ public:
     /// Empty Constructor
     /// </summary>
     IntAna_Curve();
-    IntAna_Curve(Macad::Occt::IntAna_Curve^ parameter1);
     /// <summary>
     /// Sets the parameters used to compute Points and Derivative
     /// on the curve.
@@ -300,7 +290,6 @@ public:
     /// 3 planes.
     /// </summary>
     IntAna_Int3Pln(Macad::Occt::Pln P1, Macad::Occt::Pln P2, Macad::Occt::Pln P3);
-    IntAna_Int3Pln(Macad::Occt::IntAna_Int3Pln^ parameter1);
     /// <summary>
     /// Determination of the intersection point between
     /// 3 planes.
@@ -376,7 +365,6 @@ public:
     /// Creates a Quadric from a Cone
     /// </summary>
     IntAna_Quadric(Macad::Occt::gp_Cone^ Cone);
-    IntAna_Quadric(Macad::Occt::IntAna_Quadric^ parameter1);
     /// <summary>
     /// Initializes the quadric with a Pln
     /// </summary>
@@ -534,7 +522,6 @@ public:
     /// vectors is null.
     /// </summary>
     IntAna_IntConicQuad(Macad::Occt::gp_Hypr^ H, Macad::Occt::Pln P, double Tolang);
-    IntAna_IntConicQuad(Macad::Occt::IntAna_IntConicQuad^ parameter1);
     /// <summary>
     /// Intersects a line and a quadric.
     /// </summary>
@@ -671,7 +658,6 @@ public:
     /// Creates the intersection between a line and a torus.
     /// </summary>
     IntAna_IntLinTorus(Macad::Occt::gp_Lin^ L, Macad::Occt::gp_Torus^ T);
-    IntAna_IntLinTorus(Macad::Occt::IntAna_IntLinTorus^ parameter1);
     /// <summary>
     /// Intersects a line and a torus.
     /// </summary>
@@ -755,7 +741,6 @@ public:
     /// Tol est a definir plus precisemment.
     /// </summary>
     IntAna_IntQuadQuad(Macad::Occt::gp_Cone^ C, Macad::Occt::IntAna_Quadric^ Q, double Tol);
-    IntAna_IntQuadQuad(Macad::Occt::IntAna_IntQuadQuad^ parameter1);
     /// <summary>
     /// Intersects a cylinder and a quadric .
     /// Tol est a definir plus precisemment.
@@ -971,7 +956,6 @@ public:
     /// Creates the intersection between two toruses.
     /// </summary>
     IntAna_QuadQuadGeo(Macad::Occt::gp_Torus^ Tor1, Macad::Occt::gp_Torus^ Tor2, double Tol);
-    IntAna_QuadQuadGeo(Macad::Occt::IntAna_QuadQuadGeo^ parameter1);
     /// <summary>
     /// Intersects two planes.
     /// TolAng is the angular tolerance used to determine

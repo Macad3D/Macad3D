@@ -28,12 +28,6 @@ Macad::Occt::ShapeConstruct::ShapeConstruct()
     _NativeInstance = new ::ShapeConstruct();
 }
 
-Macad::Occt::ShapeConstruct::ShapeConstruct(Macad::Occt::ShapeConstruct^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeConstruct>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeConstruct(*(::ShapeConstruct*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Geom_BSplineCurve^ Macad::Occt::ShapeConstruct::ConvertCurveToBSpline(Macad::Occt::Geom_Curve^ C3D, double First, double Last, double Tol3d, Macad::Occt::GeomAbs_Shape Continuity, int MaxSegments, int MaxDegree)
 {
     Handle(::Geom_BSplineCurve) _result = ::ShapeConstruct::ConvertCurveToBSpline(Handle(::Geom_Curve)(C3D->NativeInstance), First, Last, Tol3d, (::GeomAbs_Shape)Continuity, MaxSegments, MaxDegree);
@@ -110,12 +104,6 @@ Macad::Occt::ShapeConstruct_Curve::ShapeConstruct_Curve()
     : Macad::Occt::BaseClass<::ShapeConstruct_Curve>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeConstruct_Curve();
-}
-
-Macad::Occt::ShapeConstruct_Curve::ShapeConstruct_Curve(Macad::Occt::ShapeConstruct_Curve^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeConstruct_Curve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeConstruct_Curve(*(::ShapeConstruct_Curve*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::ShapeConstruct_Curve::AdjustCurve(Macad::Occt::Geom_Curve^ C3D, Macad::Occt::Pnt P1, Macad::Occt::Pnt P2, bool take1, bool take2)
@@ -230,12 +218,6 @@ Macad::Occt::ShapeConstruct_MakeTriangulation::ShapeConstruct_MakeTriangulation(
     _NativeInstance = new ::ShapeConstruct_MakeTriangulation(*(::TopoDS_Wire*)wire->NativeInstance, 0.);
 }
 
-Macad::Occt::ShapeConstruct_MakeTriangulation::ShapeConstruct_MakeTriangulation(Macad::Occt::ShapeConstruct_MakeTriangulation^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeConstruct_MakeTriangulation(*(::ShapeConstruct_MakeTriangulation*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeConstruct_MakeTriangulation::Build(Macad::Occt::Message_ProgressRange^ theRange)
 {
     ((::ShapeConstruct_MakeTriangulation*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
@@ -262,12 +244,6 @@ Macad::Occt::ShapeConstruct_ProjectCurveOnSurface::ShapeConstruct_ProjectCurveOn
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeConstruct_ProjectCurveOnSurface();
-}
-
-Macad::Occt::ShapeConstruct_ProjectCurveOnSurface::ShapeConstruct_ProjectCurveOnSurface(Macad::Occt::ShapeConstruct_ProjectCurveOnSurface^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeConstruct_ProjectCurveOnSurface(*(::ShapeConstruct_ProjectCurveOnSurface*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeConstruct_ProjectCurveOnSurface::Init(Macad::Occt::Geom_Surface^ surf, double preci)

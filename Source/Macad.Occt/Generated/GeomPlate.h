@@ -56,7 +56,6 @@ public:
     /// Creates the plane from the "best vector"
     /// </summary>
     GeomPlate_BuildAveragePlane(Macad::Occt::TColgp_SequenceOfVec^ Normals, Macad::Occt::TColgp_HArray1OfPnt^ Pts);
-    GeomPlate_BuildAveragePlane(Macad::Occt::GeomPlate_BuildAveragePlane^ parameter1);
     /// <summary>
     /// Return the average Plane.
     /// </summary>

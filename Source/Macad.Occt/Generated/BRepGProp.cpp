@@ -26,12 +26,6 @@ Macad::Occt::BRepGProp::BRepGProp()
     _NativeInstance = new ::BRepGProp();
 }
 
-Macad::Occt::BRepGProp::BRepGProp(Macad::Occt::BRepGProp^ parameter1)
-    : Macad::Occt::BaseClass<::BRepGProp>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepGProp(*(::BRepGProp*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepGProp::LinearProperties(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::GProp_GProps^ LProps, bool SkipShared, bool UseTriangulation)
 {
     ::BRepGProp::LinearProperties(*(::TopoDS_Shape*)S->NativeInstance, *(::GProp_GProps*)LProps->NativeInstance, SkipShared, UseTriangulation);
@@ -222,12 +216,6 @@ Macad::Occt::BRepGProp_Cinert::BRepGProp_Cinert(Macad::Occt::BRepAdaptor_Curve^ 
     _NativeInstance = new ::BRepGProp_Cinert(*(::BRepAdaptor_Curve*)C->NativeInstance, *(gp_Pnt*)pp_CLocation);
 }
 
-Macad::Occt::BRepGProp_Cinert::BRepGProp_Cinert(Macad::Occt::BRepGProp_Cinert^ parameter1)
-    : Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepGProp_Cinert(*(::BRepGProp_Cinert*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepGProp_Cinert::SetLocation(Macad::Occt::Pnt CLocation)
 {
     pin_ptr<Macad::Occt::Pnt> pp_CLocation = &CLocation;
@@ -255,12 +243,6 @@ Macad::Occt::BRepGProp_Domain::BRepGProp_Domain(Macad::Occt::TopoDS_Face^ F)
     : Macad::Occt::BaseClass<::BRepGProp_Domain>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepGProp_Domain(*(::TopoDS_Face*)F->NativeInstance);
-}
-
-Macad::Occt::BRepGProp_Domain::BRepGProp_Domain(Macad::Occt::BRepGProp_Domain^ parameter1)
-    : Macad::Occt::BaseClass<::BRepGProp_Domain>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepGProp_Domain(*(::BRepGProp_Domain*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepGProp_Domain::Init(Macad::Occt::TopoDS_Face^ F)
@@ -301,12 +283,6 @@ Macad::Occt::BRepGProp_EdgeTool::BRepGProp_EdgeTool()
     : Macad::Occt::BaseClass<::BRepGProp_EdgeTool>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepGProp_EdgeTool();
-}
-
-Macad::Occt::BRepGProp_EdgeTool::BRepGProp_EdgeTool(Macad::Occt::BRepGProp_EdgeTool^ parameter1)
-    : Macad::Occt::BaseClass<::BRepGProp_EdgeTool>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepGProp_EdgeTool(*(::BRepGProp_EdgeTool*)parameter1->NativeInstance);
 }
 
 double Macad::Occt::BRepGProp_EdgeTool::FirstParameter(Macad::Occt::BRepAdaptor_Curve^ C)
@@ -379,12 +355,6 @@ Macad::Occt::BRepGProp_Face::BRepGProp_Face(Macad::Occt::TopoDS_Face^ F)
     : Macad::Occt::BaseClass<::BRepGProp_Face>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepGProp_Face(*(::TopoDS_Face*)F->NativeInstance, false);
-}
-
-Macad::Occt::BRepGProp_Face::BRepGProp_Face(Macad::Occt::BRepGProp_Face^ parameter1)
-    : Macad::Occt::BaseClass<::BRepGProp_Face>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepGProp_Face(*(::BRepGProp_Face*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepGProp_Face::Load(Macad::Occt::TopoDS_Face^ F)
@@ -617,12 +587,6 @@ Macad::Occt::BRepGProp_MeshCinert::BRepGProp_MeshCinert()
     _NativeInstance = new ::BRepGProp_MeshCinert();
 }
 
-Macad::Occt::BRepGProp_MeshCinert::BRepGProp_MeshCinert(Macad::Occt::BRepGProp_MeshCinert^ parameter1)
-    : Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepGProp_MeshCinert(*(::BRepGProp_MeshCinert*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepGProp_MeshCinert::SetLocation(Macad::Occt::Pnt CLocation)
 {
     pin_ptr<Macad::Occt::Pnt> pp_CLocation = &CLocation;
@@ -651,12 +615,6 @@ Macad::Occt::BRepGProp_MeshProps::BRepGProp_MeshProps(Macad::Occt::BRepGProp_Mes
     : Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepGProp_MeshProps((::BRepGProp_MeshProps::BRepGProp_MeshObjType)theType);
-}
-
-Macad::Occt::BRepGProp_MeshProps::BRepGProp_MeshProps(Macad::Occt::BRepGProp_MeshProps^ parameter1)
-    : Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepGProp_MeshProps(*(::BRepGProp_MeshProps*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepGProp_MeshProps::SetLocation(Macad::Occt::Pnt theLocation)
@@ -720,12 +678,6 @@ Macad::Occt::BRepGProp_Sinert::BRepGProp_Sinert(Macad::Occt::BRepGProp_Face^ S, 
 {
     pin_ptr<Macad::Occt::Pnt> pp_SLocation = &SLocation;
     _NativeInstance = new ::BRepGProp_Sinert(*(::BRepGProp_Face*)S->NativeInstance, *(::BRepGProp_Domain*)D->NativeInstance, *(gp_Pnt*)pp_SLocation, Eps);
-}
-
-Macad::Occt::BRepGProp_Sinert::BRepGProp_Sinert(Macad::Occt::BRepGProp_Sinert^ parameter1)
-    : Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepGProp_Sinert(*(::BRepGProp_Sinert*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepGProp_Sinert::SetLocation(Macad::Occt::Pnt SLocation)
@@ -864,12 +816,6 @@ Macad::Occt::BRepGProp_Vinert::BRepGProp_Vinert(Macad::Occt::BRepGProp_Face^ S, 
     pin_ptr<Macad::Occt::Pln> pp_Pl = &Pl;
     pin_ptr<Macad::Occt::Pnt> pp_VLocation = &VLocation;
     _NativeInstance = new ::BRepGProp_Vinert(*(::BRepGProp_Face*)S->NativeInstance, *(::BRepGProp_Domain*)D->NativeInstance, *(gp_Pln*)pp_Pl, *(gp_Pnt*)pp_VLocation, Eps);
-}
-
-Macad::Occt::BRepGProp_Vinert::BRepGProp_Vinert(Macad::Occt::BRepGProp_Vinert^ parameter1)
-    : Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepGProp_Vinert(*(::BRepGProp_Vinert*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepGProp_Vinert::SetLocation(Macad::Occt::Pnt VLocation)
@@ -1152,12 +1098,6 @@ Macad::Occt::BRepGProp_VinertGK::BRepGProp_VinertGK(Macad::Occt::BRepGProp_Face^
     pin_ptr<Macad::Occt::Pln> pp_thePlane = &thePlane;
     pin_ptr<Macad::Occt::Pnt> pp_theLocation = &theLocation;
     _NativeInstance = new ::BRepGProp_VinertGK(*(::BRepGProp_Face*)theSurface->NativeInstance, *(::BRepGProp_Domain*)theDomain->NativeInstance, *(gp_Pln*)pp_thePlane, *(gp_Pnt*)pp_theLocation, 0.001, false, false);
-}
-
-Macad::Occt::BRepGProp_VinertGK::BRepGProp_VinertGK(Macad::Occt::BRepGProp_VinertGK^ parameter1)
-    : Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepGProp_VinertGK(*(::BRepGProp_VinertGK*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepGProp_VinertGK::SetLocation(Macad::Occt::Pnt theLocation)

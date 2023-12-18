@@ -19,14 +19,14 @@ public static class Occt
 
     static readonly string[] _OcctPartialToolkits = new string[]
     {
-        "TKXSBase", "TKIGES", "TKSTEPBase", "TKSTEPAttr","TKSTEP209", "TKSTEP", 			
+        "TKXSBase", "TKDE", "TKLCAF", "TKXCAF", "TKVCAF", "TKCAF", "TKCDF", "TKDEIGES", "TKDESTEP",
         "TKHLR",
     };
     
     static readonly string[] _OcctPartialPackages = new string[]
     {
         "HLRAlgo", "HLRBRep",
-        "Interface", "IFSelect", "MoniTool", "XSControl", "STEPControl", "IGESControl", "IGESData"
+        "Interface", "IFSelect", "MoniTool", "XSControl", "STEPControl", "StepData", "IGESControl", "IGESData"
     };
 
     static readonly string[] _IncludeFileExtensions = new string[]

@@ -93,7 +93,7 @@ public class IteratorEnumerablePass : Pass
 
     void _GetEnumeratorBodyGenerate(MethodDecl method, SourceWriter writer)
     {
-        writer.WriteLine($"return gcnew Macad::Occt::{method.Class.FullName}::Iterator(this);");
+        writer.WriteLine($"return gcnew Macad::Occt::{method.Class.FullName}::Iterator(new ::{method.Class.NativeName}::Iterator(*NativeInstance));");
     }
 
     //--------------------------------------------------------------------------------------------------

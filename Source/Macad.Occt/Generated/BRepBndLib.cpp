@@ -19,12 +19,6 @@ Macad::Occt::BRepBndLib::BRepBndLib()
     _NativeInstance = new ::BRepBndLib();
 }
 
-Macad::Occt::BRepBndLib::BRepBndLib(Macad::Occt::BRepBndLib^ parameter1)
-    : Macad::Occt::BaseClass<::BRepBndLib>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBndLib(*(::BRepBndLib*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepBndLib::Add(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::Bnd_Box^ B, bool useTriangulation)
 {
     ::BRepBndLib::Add(*(::TopoDS_Shape*)S->NativeInstance, *(::Bnd_Box*)B->NativeInstance, useTriangulation);

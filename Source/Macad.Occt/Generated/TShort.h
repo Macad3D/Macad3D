@@ -66,27 +66,6 @@ public:
         }
 
     public:
-        property float ChangeValue {
-            float get() {
-                return ((::TShort_Array1OfShortReal::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(float value) {
-                ((::TShort_Array1OfShortReal::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TShort_Array1OfShortReal^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TShort_Array1OfShortReal^ theArray);
-        Iterator(Macad::Occt::TShort_Array1OfShortReal::Iterator^ parameter1);
-        void Init(Macad::Occt::TShort_Array1OfShortReal^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TShort_Array1OfShortReal::Iterator^ theOther);
-        float Value();
-        bool IsEqual(Macad::Occt::TShort_Array1OfShortReal::Iterator^ theOther);
     }; // class Iterator
 
     property float ChangeFirst {
@@ -109,7 +88,8 @@ public:
 
     TShort_Array1OfShortReal();
     TShort_Array1OfShortReal(int theLower, int theUpper);
-    TShort_Array1OfShortReal(Macad::Occt::TShort_Array1OfShortReal^ theOther);
+    /* Method skipped due to unknown mapping: void TShort_Array1OfShortReal(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TShort_Array1OfShortReal(float theBegin, int theLower, int theUpper, bool theUseBuffer);
     TShort_Array1OfShortReal(float theBegin, int theLower, int theUpper);
     void Init(float theValue);
     int Size();
@@ -117,8 +97,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TShort_Array1OfShortReal^ Assign(Macad::Occt::TShort_Array1OfShortReal^ theOther);
     Macad::Occt::TShort_Array1OfShortReal^ Move(Macad::Occt::TShort_Array1OfShortReal^ theOther);
     float First();
@@ -126,7 +104,10 @@ public:
     virtual float Value(int theIndex);
     float ChangeValue(int theIndex);
     void SetValue(int theIndex, float theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<float>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TShort_Array1OfShortReal
@@ -136,7 +117,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TShort_Array2OfShortReal sealed
     : public Macad::Occt::BaseClass<::TShort_Array2OfShortReal>
-    , public IEnumerable<float>
 {
 
 #ifdef Include_TShort_Array2OfShortReal_h
@@ -163,7 +143,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<float, ::TShort_Array2OfShortReal::Iterator>
+        : public Macad::Occt::BaseClass<::TShort_Array2OfShortReal::Iterator>
     {
 
 #ifdef Include_TShort_Array2OfShortReal_Iterator_h
@@ -173,11 +153,11 @@ public:
 
     public:
         Iterator(::TShort_Array2OfShortReal::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<float, ::TShort_Array2OfShortReal::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TShort_Array2OfShortReal::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TShort_Array2OfShortReal::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<float, ::TShort_Array2OfShortReal::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TShort_Array2OfShortReal::Iterator>( &nativeInstance, false )
         {}
 
         property ::TShort_Array2OfShortReal::Iterator* NativeInstance
@@ -189,29 +169,32 @@ public:
         }
 
     public:
-        property float ChangeValue {
-            float get() {
-                return ((::TShort_Array2OfShortReal::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(float value) {
-                ((::TShort_Array2OfShortReal::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TShort_Array2OfShortReal^ theArray);
-        Iterator(Macad::Occt::TShort_Array2OfShortReal::Iterator^ parameter1);
-        void Init(Macad::Occt::TShort_Array2OfShortReal^ theArray);
-        bool More() override;
-        void Next() override;
-        float Value() override;
     }; // class Iterator
+
+    property float ChangeFirst {
+        float get() {
+            return ((::TShort_Array2OfShortReal*)_NativeInstance)->ChangeFirst();
+        }
+        void set(float value) {
+            ((::TShort_Array2OfShortReal*)_NativeInstance)->ChangeFirst() = value;
+        }
+    }
+
+    property float ChangeLast {
+        float get() {
+            return ((::TShort_Array2OfShortReal*)_NativeInstance)->ChangeLast();
+        }
+        void set(float value) {
+            ((::TShort_Array2OfShortReal*)_NativeInstance)->ChangeLast() = value;
+        }
+    }
 
     TShort_Array2OfShortReal();
     TShort_Array2OfShortReal(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TShort_Array2OfShortReal(Macad::Occt::TShort_Array2OfShortReal^ theOther);
+    /* Method skipped due to unknown mapping: void TShort_Array2OfShortReal(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TShort_Array2OfShortReal(float theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(float theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -222,15 +205,21 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TShort_Array2OfShortReal^ Assign(Macad::Occt::TShort_Array2OfShortReal^ theOther);
     Macad::Occt::TShort_Array2OfShortReal^ Move(Macad::Occt::TShort_Array2OfShortReal^ theOther);
     float Value(int theRow, int theCol);
     float ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, float theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<float>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(float theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    float First();
+    float Last();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TShort_Array2OfShortReal
 
 //---------------------------------------------------------------------
@@ -301,13 +290,11 @@ public:
         }
 
         Iterator();
-        Iterator(Macad::Occt::TShort_SequenceOfShortReal^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TShort_SequenceOfShortReal^ theSeq);
-        Iterator(Macad::Occt::TShort_SequenceOfShortReal::Iterator^ parameter1);
         bool More();
         void Next();
         float Value();
         bool IsEqual(Macad::Occt::TShort_SequenceOfShortReal::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     property float ChangeFirst {
@@ -330,7 +317,6 @@ public:
 
     TShort_SequenceOfShortReal();
     TShort_SequenceOfShortReal(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TShort_SequenceOfShortReal(Macad::Occt::TShort_SequenceOfShortReal^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -343,17 +329,10 @@ public:
     void Clear();
     Macad::Occt::TShort_SequenceOfShortReal^ Assign(Macad::Occt::TShort_SequenceOfShortReal^ theOther);
     void Remove(Macad::Occt::TShort_SequenceOfShortReal::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(float theItem);
-    void Append(Macad::Occt::TShort_SequenceOfShortReal^ theSeq);
     void Prepend(float theItem);
-    void Prepend(Macad::Occt::TShort_SequenceOfShortReal^ theSeq);
     void InsertBefore(int theIndex, float theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TShort_SequenceOfShortReal^ theSeq);
     void InsertAfter(Macad::Occt::TShort_SequenceOfShortReal::Iterator^ thePosition, float theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TShort_SequenceOfShortReal^ theSeq);
-    void InsertAfter(int theIndex, float theItem);
     void Split(int theIndex, Macad::Occt::TShort_SequenceOfShortReal^ theSeq);
     float First();
     float Last();
@@ -422,27 +401,6 @@ public:
         }
 
     public:
-        property float ChangeValue {
-            float get() {
-                return ((::TShort_HArray1OfShortReal::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(float value) {
-                ((::TShort_HArray1OfShortReal::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TShort_HArray1OfShortReal^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TShort_HArray1OfShortReal^ theArray);
-        Iterator(Macad::Occt::TShort_HArray1OfShortReal::Iterator^ parameter1);
-        void Init(Macad::Occt::TShort_HArray1OfShortReal^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TShort_HArray1OfShortReal::Iterator^ theOther);
-        float Value();
-        bool IsEqual(Macad::Occt::TShort_HArray1OfShortReal::Iterator^ theOther);
     }; // class Iterator
 
     property float ChangeFirst {
@@ -466,8 +424,8 @@ public:
     TShort_HArray1OfShortReal();
     TShort_HArray1OfShortReal(int theLower, int theUpper);
     TShort_HArray1OfShortReal(int theLower, int theUpper, float theValue);
+    TShort_HArray1OfShortReal(float theBegin, int theLower, int theUpper, bool parameter1);
     TShort_HArray1OfShortReal(Macad::Occt::TShort_Array1OfShortReal^ theOther);
-    TShort_HArray1OfShortReal(Macad::Occt::TShort_HArray1OfShortReal^ parameter1);
     Macad::Occt::TShort_Array1OfShortReal^ Array1();
     Macad::Occt::TShort_Array1OfShortReal^ ChangeArray1();
     void Init(float theValue);
@@ -476,8 +434,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TShort_HArray1OfShortReal^ Assign(Macad::Occt::TShort_HArray1OfShortReal^ theOther);
     Macad::Occt::TShort_HArray1OfShortReal^ Move(Macad::Occt::TShort_HArray1OfShortReal^ theOther);
     float First();
@@ -485,7 +441,10 @@ public:
     virtual float Value(int theIndex);
     float ChangeValue(int theIndex);
     void SetValue(int theIndex, float theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TShort_HArray1OfShortReal^ CreateDowncasted(::TShort_HArray1OfShortReal* instance);
     virtual System::Collections::Generic::IEnumerator<float>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -496,7 +455,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TShort_HArray2OfShortReal sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<float>
 {
 
 #ifdef Include_TShort_HArray2OfShortReal_h
@@ -523,7 +481,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<float, ::TShort_HArray2OfShortReal::Iterator>
+        : public Macad::Occt::BaseClass<::TShort_HArray2OfShortReal::Iterator>
     {
 
 #ifdef Include_TShort_HArray2OfShortReal_Iterator_h
@@ -533,11 +491,11 @@ public:
 
     public:
         Iterator(::TShort_HArray2OfShortReal::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<float, ::TShort_HArray2OfShortReal::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TShort_HArray2OfShortReal::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TShort_HArray2OfShortReal::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<float, ::TShort_HArray2OfShortReal::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TShort_HArray2OfShortReal::Iterator>( &nativeInstance, false )
         {}
 
         property ::TShort_HArray2OfShortReal::Iterator* NativeInstance
@@ -549,31 +507,33 @@ public:
         }
 
     public:
-        property float ChangeValue {
-            float get() {
-                return ((::TShort_HArray2OfShortReal::Iterator*)_NativeInstance)->ChangeValue();
-            }
-            void set(float value) {
-                ((::TShort_HArray2OfShortReal::Iterator*)_NativeInstance)->ChangeValue() = value;
-            }
-        }
-
-        Iterator();
-        Iterator(Macad::Occt::TShort_HArray2OfShortReal^ theArray);
-        Iterator(Macad::Occt::TShort_HArray2OfShortReal::Iterator^ parameter1);
-        void Init(Macad::Occt::TShort_HArray2OfShortReal^ theArray);
-        bool More() override;
-        void Next() override;
-        float Value() override;
     }; // class Iterator
+
+    property float ChangeFirst {
+        float get() {
+            return ((::TShort_HArray2OfShortReal*)_NativeInstance)->ChangeFirst();
+        }
+        void set(float value) {
+            ((::TShort_HArray2OfShortReal*)_NativeInstance)->ChangeFirst() = value;
+        }
+    }
+
+    property float ChangeLast {
+        float get() {
+            return ((::TShort_HArray2OfShortReal*)_NativeInstance)->ChangeLast();
+        }
+        void set(float value) {
+            ((::TShort_HArray2OfShortReal*)_NativeInstance)->ChangeLast() = value;
+        }
+    }
 
     TShort_HArray2OfShortReal(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TShort_HArray2OfShortReal(int theRowLow, int theRowUpp, int theColLow, int theColUpp, float theValue);
     TShort_HArray2OfShortReal(Macad::Occt::TShort_Array2OfShortReal^ theOther);
-    TShort_HArray2OfShortReal(Macad::Occt::TShort_HArray2OfShortReal^ parameter1);
     Macad::Occt::TShort_Array2OfShortReal^ Array2();
     Macad::Occt::TShort_Array2OfShortReal^ ChangeArray2();
-    void Init(float theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -584,16 +544,22 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TShort_HArray2OfShortReal^ Assign(Macad::Occt::TShort_HArray2OfShortReal^ theOther);
     Macad::Occt::TShort_HArray2OfShortReal^ Move(Macad::Occt::TShort_HArray2OfShortReal^ theOther);
     float Value(int theRow, int theCol);
     float ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, float theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(float theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    float First();
+    float Last();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TShort_HArray2OfShortReal^ CreateDowncasted(::TShort_HArray2OfShortReal* instance);
-    virtual System::Collections::Generic::IEnumerator<float>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TShort_HArray2OfShortReal
 
 //---------------------------------------------------------------------
@@ -664,13 +630,11 @@ public:
         }
 
         Iterator();
-        Iterator(Macad::Occt::TShort_HSequenceOfShortReal^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TShort_HSequenceOfShortReal^ theSeq);
-        Iterator(Macad::Occt::TShort_HSequenceOfShortReal::Iterator^ parameter1);
         bool More();
         void Next();
         float Value();
         bool IsEqual(Macad::Occt::TShort_HSequenceOfShortReal::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     property float ChangeFirst {
@@ -693,8 +657,8 @@ public:
 
     TShort_HSequenceOfShortReal();
     TShort_HSequenceOfShortReal(Macad::Occt::TShort_SequenceOfShortReal^ theOther);
-    TShort_HSequenceOfShortReal(Macad::Occt::TShort_HSequenceOfShortReal^ parameter1);
     Macad::Occt::TShort_SequenceOfShortReal^ Sequence();
+    void Append(float theItem);
     void Append(Macad::Occt::TShort_SequenceOfShortReal^ theSequence);
     Macad::Occt::TShort_SequenceOfShortReal^ ChangeSequence();
     int Size();
@@ -709,17 +673,9 @@ public:
     void Clear();
     Macad::Occt::TShort_HSequenceOfShortReal^ Assign(Macad::Occt::TShort_HSequenceOfShortReal^ theOther);
     void Remove(Macad::Occt::TShort_HSequenceOfShortReal::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(float theItem);
-    void Append(Macad::Occt::TShort_HSequenceOfShortReal^ theSeq);
     void Prepend(float theItem);
-    void Prepend(Macad::Occt::TShort_HSequenceOfShortReal^ theSeq);
     void InsertBefore(int theIndex, float theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TShort_HSequenceOfShortReal^ theSeq);
     void InsertAfter(Macad::Occt::TShort_HSequenceOfShortReal::Iterator^ thePosition, float theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TShort_HSequenceOfShortReal^ theSeq);
-    void InsertAfter(int theIndex, float theItem);
     void Split(int theIndex, Macad::Occt::TShort_HSequenceOfShortReal^ theSeq);
     float First();
     float Last();

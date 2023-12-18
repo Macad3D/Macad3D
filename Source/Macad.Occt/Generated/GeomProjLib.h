@@ -41,7 +41,6 @@ public:
 
 public:
     GeomProjLib();
-    GeomProjLib(Macad::Occt::GeomProjLib^ parameter1);
     /// <summary>
     /// gives  the 2d-curve   of  a 3d-curve  lying on   a
     /// surface (  uses GeomProjLib_ProjectedCurve   )

@@ -50,12 +50,6 @@ Macad::Occt::TCollection_ExtendedString::TCollection_ExtendedString(double value
     _NativeInstance = new ::TCollection_ExtendedString(value);
 }
 
-Macad::Occt::TCollection_ExtendedString::TCollection_ExtendedString(Macad::Occt::TCollection_ExtendedString^ astring)
-    : Macad::Occt::BaseClass<::TCollection_ExtendedString>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TCollection_ExtendedString(*(::TCollection_ExtendedString*)astring->NativeInstance);
-}
-
 Macad::Occt::TCollection_ExtendedString::TCollection_ExtendedString(Macad::Occt::TCollection_AsciiString^ astring, bool isMultiByte)
     : Macad::Occt::BaseClass<::TCollection_ExtendedString>(BaseClass::InitMode::Uninitialized)
 {
@@ -250,9 +244,9 @@ void Macad::Occt::TCollection_ExtendedString::Trunc(int ahowmany)
     ((::TCollection_ExtendedString*)_NativeInstance)->Trunc(ahowmany);
 }
 
-int Macad::Occt::TCollection_ExtendedString::HashCode(Macad::Occt::TCollection_ExtendedString^ theString, int theUpperBound)
+long long unsigned int Macad::Occt::TCollection_ExtendedString::HashCode()
 {
-    int _result = ::TCollection_ExtendedString::HashCode(*(::TCollection_ExtendedString*)theString->NativeInstance, theUpperBound);
+    long long unsigned int _result = ((::TCollection_ExtendedString*)_NativeInstance)->HashCode();
     return _result;
 }
 
@@ -274,6 +268,11 @@ int Macad::Occt::TCollection_ExtendedString::LengthOfCString()
 {
     int _result = ((::TCollection_ExtendedString*)_NativeInstance)->LengthOfCString();
     return _result;
+}
+
+int Macad::Occt::TCollection_ExtendedString::GetHashCode()
+{
+    return std::hash<::TCollection_ExtendedString>{}(*NativeInstance);
 }
 
 
@@ -320,12 +319,6 @@ Macad::Occt::TCollection_AsciiString::TCollection_AsciiString(double value)
     : Macad::Occt::BaseClass<::TCollection_AsciiString>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::TCollection_AsciiString(value);
-}
-
-Macad::Occt::TCollection_AsciiString::TCollection_AsciiString(Macad::Occt::TCollection_AsciiString^ astring)
-    : Macad::Occt::BaseClass<::TCollection_AsciiString>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TCollection_AsciiString(*(::TCollection_AsciiString*)astring->NativeInstance);
 }
 
 Macad::Occt::TCollection_AsciiString::TCollection_AsciiString(Macad::Occt::TCollection_AsciiString^ astring, char message)
@@ -764,9 +757,9 @@ char Macad::Occt::TCollection_AsciiString::Value(int where)
     return _result;
 }
 
-int Macad::Occt::TCollection_AsciiString::HashCode(Macad::Occt::TCollection_AsciiString^ theAsciiString, int theUpperBound)
+long long unsigned int Macad::Occt::TCollection_AsciiString::HashCode()
 {
-    int _result = ::TCollection_AsciiString::HashCode(*(::TCollection_AsciiString*)theAsciiString->NativeInstance, theUpperBound);
+    long long unsigned int _result = ((::TCollection_AsciiString*)_NativeInstance)->HashCode();
     return _result;
 }
 
@@ -787,30 +780,6 @@ bool Macad::Occt::TCollection_AsciiString::IsEqual(Macad::Occt::TCollection_Asci
 bool Macad::Occt::TCollection_AsciiString::IsSameString(Macad::Occt::TCollection_AsciiString^ theString1, Macad::Occt::TCollection_AsciiString^ theString2, bool theIsCaseSensitive)
 {
     bool _result = ::TCollection_AsciiString::IsSameString(*(::TCollection_AsciiString*)theString1->NativeInstance, *(::TCollection_AsciiString*)theString2->NativeInstance, theIsCaseSensitive);
-    return _result;
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  TCollection
-//---------------------------------------------------------------------
-
-Macad::Occt::TCollection::TCollection()
-    : Macad::Occt::BaseClass<::TCollection>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TCollection();
-}
-
-Macad::Occt::TCollection::TCollection(Macad::Occt::TCollection^ parameter1)
-    : Macad::Occt::BaseClass<::TCollection>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TCollection(*(::TCollection*)parameter1->NativeInstance);
-}
-
-int Macad::Occt::TCollection::NextPrimeForMap(int I)
-{
-    int _result = ::TCollection::NextPrimeForMap(I);
     return _result;
 }
 
@@ -843,12 +812,6 @@ Macad::Occt::TCollection_HExtendedString::TCollection_HExtendedString(Macad::Occ
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::TCollection_HExtendedString(Handle(::TCollection_HAsciiString)(aString->NativeInstance));
-}
-
-Macad::Occt::TCollection_HExtendedString::TCollection_HExtendedString(Macad::Occt::TCollection_HExtendedString^ aString)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TCollection_HExtendedString(Handle(::TCollection_HExtendedString)(aString->NativeInstance));
 }
 
 void Macad::Occt::TCollection_HExtendedString::AssignCat(Macad::Occt::TCollection_HExtendedString^ other)
@@ -1027,12 +990,6 @@ Macad::Occt::TCollection_HAsciiString::TCollection_HAsciiString(Macad::Occt::TCo
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::TCollection_HAsciiString(*(::TCollection_AsciiString*)aString->NativeInstance);
-}
-
-Macad::Occt::TCollection_HAsciiString::TCollection_HAsciiString(Macad::Occt::TCollection_HAsciiString^ aString)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TCollection_HAsciiString(Handle(::TCollection_HAsciiString)(aString->NativeInstance));
 }
 
 Macad::Occt::TCollection_HAsciiString::TCollection_HAsciiString(Macad::Occt::TCollection_HExtendedString^ aString, char replaceNonAscii)
@@ -1381,6 +1338,24 @@ bool Macad::Occt::TCollection_HAsciiString::IsSameState(Macad::Occt::TCollection
 Macad::Occt::TCollection_HAsciiString^ Macad::Occt::TCollection_HAsciiString::CreateDowncasted(::TCollection_HAsciiString* instance)
 {
     return gcnew Macad::Occt::TCollection_HAsciiString( instance );
+}
+
+
+
+//---------------------------------------------------------------------
+//  Class  TCollection
+//---------------------------------------------------------------------
+
+Macad::Occt::TCollection::TCollection()
+    : Macad::Occt::BaseClass<::TCollection>(BaseClass::InitMode::Uninitialized)
+{
+    _NativeInstance = new ::TCollection();
+}
+
+int Macad::Occt::TCollection::NextPrimeForMap(int I)
+{
+    int _result = ::TCollection::NextPrimeForMap(I);
+    return _result;
 }
 
 

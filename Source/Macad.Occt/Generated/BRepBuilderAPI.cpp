@@ -7,8 +7,8 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 
 #include "NCollection.h"
 #include "Bnd.h"
-#include "gp.h"
 #include "Geom.h"
+#include "gp.h"
 #include "TColStd.h"
 #include "TopoDS.h"
 #include "TopTools.h"
@@ -71,222 +71,6 @@ Macad::Occt::NCollection_BaseAllocator^ Macad::Occt::BRepBuilderAPI_BndBoxTree::
 
 
 //---------------------------------------------------------------------
-//  Class  VectorOfPoint
-//---------------------------------------------------------------------
-
-Macad::Occt::VectorOfPoint::VectorOfPoint(int theIncrement, Macad::Occt::NCollection_BaseAllocator^ theAlloc)
-    : Macad::Occt::BaseClass<::VectorOfPoint>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::VectorOfPoint(theIncrement, Handle(::NCollection_BaseAllocator)(theAlloc->NativeInstance));
-}
-
-Macad::Occt::VectorOfPoint::VectorOfPoint(int theIncrement)
-    : Macad::Occt::BaseClass<::VectorOfPoint>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::VectorOfPoint(theIncrement, 0);
-}
-
-Macad::Occt::VectorOfPoint::VectorOfPoint()
-    : Macad::Occt::BaseClass<::VectorOfPoint>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::VectorOfPoint(256, 0);
-}
-
-Macad::Occt::VectorOfPoint::VectorOfPoint(Macad::Occt::VectorOfPoint^ theOther)
-    : Macad::Occt::BaseClass<::VectorOfPoint>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::VectorOfPoint(*(::VectorOfPoint*)theOther->NativeInstance);
-}
-
-int Macad::Occt::VectorOfPoint::Length()
-{
-    int _result = ((::VectorOfPoint*)_NativeInstance)->Length();
-    return _result;
-}
-
-int Macad::Occt::VectorOfPoint::Size()
-{
-    int _result = ((::VectorOfPoint*)_NativeInstance)->Size();
-    return _result;
-}
-
-int Macad::Occt::VectorOfPoint::Lower()
-{
-    int _result = ((::VectorOfPoint*)_NativeInstance)->Lower();
-    return _result;
-}
-
-int Macad::Occt::VectorOfPoint::Upper()
-{
-    int _result = ((::VectorOfPoint*)_NativeInstance)->Upper();
-    return _result;
-}
-
-bool Macad::Occt::VectorOfPoint::IsEmpty()
-{
-    bool _result = ((::VectorOfPoint*)_NativeInstance)->IsEmpty();
-    return _result;
-}
-
-void Macad::Occt::VectorOfPoint::Assign(Macad::Occt::VectorOfPoint^ theOther, bool theOwnAllocator)
-{
-    ((::VectorOfPoint*)_NativeInstance)->Assign(*(::VectorOfPoint*)theOther->NativeInstance, theOwnAllocator);
-}
-
-void Macad::Occt::VectorOfPoint::Assign(Macad::Occt::VectorOfPoint^ theOther)
-{
-    ((::VectorOfPoint*)_NativeInstance)->Assign(*(::VectorOfPoint*)theOther->NativeInstance, true);
-}
-
-Macad::Occt::XYZ Macad::Occt::VectorOfPoint::Append(Macad::Occt::XYZ theValue)
-{
-    pin_ptr<Macad::Occt::XYZ> pp_theValue = &theValue;
-    ::gp_XYZ _nativeResult = ((::VectorOfPoint*)_NativeInstance)->Append(*(gp_XYZ*)pp_theValue);
-    return Macad::Occt::XYZ(_nativeResult);
-}
-
-Macad::Occt::XYZ Macad::Occt::VectorOfPoint::Appended()
-{
-    ::gp_XYZ _nativeResult = ((::VectorOfPoint*)_NativeInstance)->Appended();
-    return Macad::Occt::XYZ(_nativeResult);
-}
-
-Macad::Occt::XYZ Macad::Occt::VectorOfPoint::Value(int theIndex)
-{
-    ::gp_XYZ _nativeResult = ((::VectorOfPoint*)_NativeInstance)->Value(theIndex);
-    return Macad::Occt::XYZ(_nativeResult);
-}
-
-Macad::Occt::XYZ Macad::Occt::VectorOfPoint::First()
-{
-    ::gp_XYZ _nativeResult = ((::VectorOfPoint*)_NativeInstance)->First();
-    return Macad::Occt::XYZ(_nativeResult);
-}
-
-Macad::Occt::XYZ Macad::Occt::VectorOfPoint::ChangeFirst()
-{
-    ::gp_XYZ _nativeResult = ((::VectorOfPoint*)_NativeInstance)->ChangeFirst();
-    return Macad::Occt::XYZ(_nativeResult);
-}
-
-Macad::Occt::XYZ Macad::Occt::VectorOfPoint::Last()
-{
-    ::gp_XYZ _nativeResult = ((::VectorOfPoint*)_NativeInstance)->Last();
-    return Macad::Occt::XYZ(_nativeResult);
-}
-
-Macad::Occt::XYZ Macad::Occt::VectorOfPoint::ChangeLast()
-{
-    ::gp_XYZ _nativeResult = ((::VectorOfPoint*)_NativeInstance)->ChangeLast();
-    return Macad::Occt::XYZ(_nativeResult);
-}
-
-Macad::Occt::XYZ Macad::Occt::VectorOfPoint::ChangeValue(int theIndex)
-{
-    ::gp_XYZ _nativeResult = ((::VectorOfPoint*)_NativeInstance)->ChangeValue(theIndex);
-    return Macad::Occt::XYZ(_nativeResult);
-}
-
-Macad::Occt::XYZ Macad::Occt::VectorOfPoint::SetValue(int theIndex, Macad::Occt::XYZ theValue)
-{
-    pin_ptr<Macad::Occt::XYZ> pp_theValue = &theValue;
-    ::gp_XYZ _nativeResult = ((::VectorOfPoint*)_NativeInstance)->SetValue(theIndex, *(gp_XYZ*)pp_theValue);
-    return Macad::Occt::XYZ(_nativeResult);
-}
-
-System::Collections::Generic::IEnumerator<Macad::Occt::XYZ>^ Macad::Occt::VectorOfPoint::GetEnumerator()
-{
-    return gcnew IndexEnumerator<Macad::Occt::XYZ>(this, Lower(), Upper());
-}
-
-System::Collections::IEnumerator^ Macad::Occt::VectorOfPoint::GetEnumerator2()
-{
-    return gcnew IndexEnumerator<Macad::Occt::XYZ>(this, Lower(), Upper());
-}
-
-
-
-//---------------------------------------------------------------------
-//  Class  VectorOfPoint::Iterator
-//---------------------------------------------------------------------
-
-Macad::Occt::VectorOfPoint::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::VectorOfPoint::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::VectorOfPoint::Iterator();
-}
-
-Macad::Occt::VectorOfPoint::Iterator::Iterator(Macad::Occt::VectorOfPoint^ theVector, bool theToEnd)
-    : Macad::Occt::BaseClass<::VectorOfPoint::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::VectorOfPoint::Iterator(*(::VectorOfPoint*)theVector->NativeInstance, theToEnd);
-}
-
-Macad::Occt::VectorOfPoint::Iterator::Iterator(Macad::Occt::VectorOfPoint^ theVector)
-    : Macad::Occt::BaseClass<::VectorOfPoint::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::VectorOfPoint::Iterator(*(::VectorOfPoint*)theVector->NativeInstance, false);
-}
-
-Macad::Occt::VectorOfPoint::Iterator::Iterator(Macad::Occt::VectorOfPoint::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::VectorOfPoint::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::VectorOfPoint::Iterator(*(::VectorOfPoint::Iterator*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::VectorOfPoint::Iterator::Init(Macad::Occt::VectorOfPoint^ theVector)
-{
-    ((::VectorOfPoint::Iterator*)_NativeInstance)->Init(*(::VectorOfPoint*)theVector->NativeInstance);
-}
-
-bool Macad::Occt::VectorOfPoint::Iterator::More()
-{
-    bool _result = ((::VectorOfPoint::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::VectorOfPoint::Iterator::Next()
-{
-    ((::VectorOfPoint::Iterator*)_NativeInstance)->Next();
-}
-
-void Macad::Occt::VectorOfPoint::Iterator::Previous()
-{
-    ((::VectorOfPoint::Iterator*)_NativeInstance)->Previous();
-}
-
-void Macad::Occt::VectorOfPoint::Iterator::Offset(long long int theOffset)
-{
-    ((::VectorOfPoint::Iterator*)_NativeInstance)->Offset(theOffset);
-}
-
-long long int Macad::Occt::VectorOfPoint::Iterator::Differ(Macad::Occt::VectorOfPoint::Iterator^ theOther)
-{
-    long long int _result = ((::VectorOfPoint::Iterator*)_NativeInstance)->Differ(*(::VectorOfPoint::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-Macad::Occt::XYZ Macad::Occt::VectorOfPoint::Iterator::Value()
-{
-    ::gp_XYZ _nativeResult = ((::VectorOfPoint::Iterator*)_NativeInstance)->Value();
-    return Macad::Occt::XYZ(_nativeResult);
-}
-
-Macad::Occt::XYZ Macad::Occt::VectorOfPoint::Iterator::ChangeValue()
-{
-    ::gp_XYZ _nativeResult = ((::VectorOfPoint::Iterator*)_NativeInstance)->ChangeValue();
-    return Macad::Occt::XYZ(_nativeResult);
-}
-
-bool Macad::Occt::VectorOfPoint::Iterator::IsEqual(Macad::Occt::VectorOfPoint::Iterator^ theOther)
-{
-    bool _result = ((::VectorOfPoint::Iterator*)_NativeInstance)->IsEqual(*(::VectorOfPoint::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-
-
-//---------------------------------------------------------------------
 //  Class  BRepBuilderAPI
 //---------------------------------------------------------------------
 
@@ -294,12 +78,6 @@ Macad::Occt::BRepBuilderAPI::BRepBuilderAPI()
     : Macad::Occt::BaseClass<::BRepBuilderAPI>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepBuilderAPI();
-}
-
-Macad::Occt::BRepBuilderAPI::BRepBuilderAPI(Macad::Occt::BRepBuilderAPI^ parameter1)
-    : Macad::Occt::BaseClass<::BRepBuilderAPI>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI(*(::BRepBuilderAPI*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepBuilderAPI::Plane(Macad::Occt::Geom_Plane^ P)
@@ -334,12 +112,6 @@ Macad::Occt::BRepBuilderAPI_VertexInspector::BRepBuilderAPI_VertexInspector(doub
     : Macad::Occt::BaseClass<::BRepBuilderAPI_VertexInspector>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepBuilderAPI_VertexInspector(theTol);
-}
-
-Macad::Occt::BRepBuilderAPI_VertexInspector::BRepBuilderAPI_VertexInspector(Macad::Occt::BRepBuilderAPI_VertexInspector^ parameter1)
-    : Macad::Occt::BaseClass<::BRepBuilderAPI_VertexInspector>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_VertexInspector(*(::BRepBuilderAPI_VertexInspector*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepBuilderAPI_VertexInspector::Add(Macad::Occt::XYZ thePnt)
@@ -378,12 +150,6 @@ Macad::Occt::NCollection_CellFilter_Action Macad::Occt::BRepBuilderAPI_VertexIns
 //  Class  BRepBuilderAPI_Command
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepBuilderAPI_Command::BRepBuilderAPI_Command(Macad::Occt::BRepBuilderAPI_Command^ parameter1)
-    : Macad::Occt::BaseClass<::BRepBuilderAPI_Command>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_Command(*(::BRepBuilderAPI_Command*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::BRepBuilderAPI_Command::IsDone()
 {
     bool _result = ((::BRepBuilderAPI_Command*)_NativeInstance)->IsDone();
@@ -405,12 +171,6 @@ Macad::Occt::BRepBuilderAPI_Collect::BRepBuilderAPI_Collect()
     : Macad::Occt::BaseClass<::BRepBuilderAPI_Collect>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepBuilderAPI_Collect();
-}
-
-Macad::Occt::BRepBuilderAPI_Collect::BRepBuilderAPI_Collect(Macad::Occt::BRepBuilderAPI_Collect^ parameter1)
-    : Macad::Occt::BaseClass<::BRepBuilderAPI_Collect>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_Collect(*(::BRepBuilderAPI_Collect*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepBuilderAPI_Collect::Add(Macad::Occt::TopoDS_Shape^ SI, Macad::Occt::BRepBuilderAPI_MakeShape^ MKS)
@@ -452,12 +212,6 @@ Macad::Occt::TopTools_DataMapOfShapeListOfShape^ Macad::Occt::BRepBuilderAPI_Col
 //---------------------------------------------------------------------
 //  Class  BRepBuilderAPI_MakeShape
 //---------------------------------------------------------------------
-
-Macad::Occt::BRepBuilderAPI_MakeShape::BRepBuilderAPI_MakeShape(Macad::Occt::BRepBuilderAPI_MakeShape^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_Command(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_MakeShape(*(::BRepBuilderAPI_MakeShape*)parameter1->NativeInstance);
-}
 
 void Macad::Occt::BRepBuilderAPI_MakeShape::Build(Macad::Occt::Message_ProgressRange^ theRange)
 {
@@ -501,12 +255,6 @@ bool Macad::Occt::BRepBuilderAPI_MakeShape::IsDeleted(Macad::Occt::TopoDS_Shape^
 //---------------------------------------------------------------------
 //  Class  BRepBuilderAPI_ModifyShape
 //---------------------------------------------------------------------
-
-Macad::Occt::BRepBuilderAPI_ModifyShape::BRepBuilderAPI_ModifyShape(Macad::Occt::BRepBuilderAPI_ModifyShape^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_ModifyShape(*(::BRepBuilderAPI_ModifyShape*)parameter1->NativeInstance);
-}
 
 Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepBuilderAPI_ModifyShape::Modified(Macad::Occt::TopoDS_Shape^ S)
 {
@@ -552,12 +300,6 @@ Macad::Occt::BRepBuilderAPI_Copy::BRepBuilderAPI_Copy(Macad::Occt::TopoDS_Shape^
     _NativeInstance = new ::BRepBuilderAPI_Copy(*(::TopoDS_Shape*)S->NativeInstance, true, false);
 }
 
-Macad::Occt::BRepBuilderAPI_Copy::BRepBuilderAPI_Copy(Macad::Occt::BRepBuilderAPI_Copy^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_ModifyShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_Copy(*(::BRepBuilderAPI_Copy*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepBuilderAPI_Copy::Perform(Macad::Occt::TopoDS_Shape^ S, bool copyGeom, bool copyMesh)
 {
     ((::BRepBuilderAPI_Copy*)_NativeInstance)->Perform(*(::TopoDS_Shape*)S->NativeInstance, copyGeom, copyMesh);
@@ -589,12 +331,6 @@ Macad::Occt::BRepBuilderAPI_FastSewing::BRepBuilderAPI_FastSewing()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::BRepBuilderAPI_FastSewing(9.9999999999999995E-7);
-}
-
-Macad::Occt::BRepBuilderAPI_FastSewing::BRepBuilderAPI_FastSewing(Macad::Occt::BRepBuilderAPI_FastSewing^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRepBuilderAPI_FastSewing(*(::BRepBuilderAPI_FastSewing*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::BRepBuilderAPI_FastSewing::Add(Macad::Occt::TopoDS_Shape^ theShape)
@@ -642,7 +378,7 @@ unsigned int Macad::Occt::BRepBuilderAPI_FastSewing::GetStatuses(System::IO::Tex
 
 unsigned int Macad::Occt::BRepBuilderAPI_FastSewing::GetStatuses()
 {
-    unsigned int _result = ((::BRepBuilderAPI_FastSewing*)_NativeInstance)->GetStatuses(0);
+    unsigned int _result = ((::BRepBuilderAPI_FastSewing*)_NativeInstance)->GetStatuses(nullptr);
     return _result;
 }
 
@@ -673,12 +409,6 @@ Macad::Occt::BRepBuilderAPI_FindPlane::BRepBuilderAPI_FindPlane(Macad::Occt::Top
     : Macad::Occt::BaseClass<::BRepBuilderAPI_FindPlane>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepBuilderAPI_FindPlane(*(::TopoDS_Shape*)S->NativeInstance, -1);
-}
-
-Macad::Occt::BRepBuilderAPI_FindPlane::BRepBuilderAPI_FindPlane(Macad::Occt::BRepBuilderAPI_FindPlane^ parameter1)
-    : Macad::Occt::BaseClass<::BRepBuilderAPI_FindPlane>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_FindPlane(*(::BRepBuilderAPI_FindPlane*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepBuilderAPI_FindPlane::Init(Macad::Occt::TopoDS_Shape^ S, double Tol)
@@ -725,12 +455,6 @@ Macad::Occt::BRepBuilderAPI_GTransform::BRepBuilderAPI_GTransform(Macad::Occt::T
     : Macad::Occt::BRepBuilderAPI_ModifyShape(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepBuilderAPI_GTransform(*(::TopoDS_Shape*)S->NativeInstance, *(::gp_GTrsf*)T->NativeInstance, false);
-}
-
-Macad::Occt::BRepBuilderAPI_GTransform::BRepBuilderAPI_GTransform(Macad::Occt::BRepBuilderAPI_GTransform^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_ModifyShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_GTransform(*(::BRepBuilderAPI_GTransform*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepBuilderAPI_GTransform::Perform(Macad::Occt::TopoDS_Shape^ S, bool Copy)
@@ -991,12 +715,6 @@ Macad::Occt::BRepBuilderAPI_MakeEdge::BRepBuilderAPI_MakeEdge(Macad::Occt::Geom2
     : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepBuilderAPI_MakeEdge(Handle(::Geom2d_Curve)(L->NativeInstance), Handle(::Geom_Surface)(S->NativeInstance), *(::TopoDS_Vertex*)V1->NativeInstance, *(::TopoDS_Vertex*)V2->NativeInstance, p1, p2);
-}
-
-Macad::Occt::BRepBuilderAPI_MakeEdge::BRepBuilderAPI_MakeEdge(Macad::Occt::BRepBuilderAPI_MakeEdge^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_MakeEdge(*(::BRepBuilderAPI_MakeEdge*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepBuilderAPI_MakeEdge::Init(Macad::Occt::Geom_Curve^ C)
@@ -1290,12 +1008,6 @@ Macad::Occt::BRepBuilderAPI_MakeEdge2d::BRepBuilderAPI_MakeEdge2d(Macad::Occt::G
     _NativeInstance = new ::BRepBuilderAPI_MakeEdge2d(Handle(::Geom2d_Curve)(L->NativeInstance), *(::TopoDS_Vertex*)V1->NativeInstance, *(::TopoDS_Vertex*)V2->NativeInstance, p1, p2);
 }
 
-Macad::Occt::BRepBuilderAPI_MakeEdge2d::BRepBuilderAPI_MakeEdge2d(Macad::Occt::BRepBuilderAPI_MakeEdge2d^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_MakeEdge2d(*(::BRepBuilderAPI_MakeEdge2d*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepBuilderAPI_MakeEdge2d::Init(Macad::Occt::Geom2d_Curve^ C)
 {
     ((::BRepBuilderAPI_MakeEdge2d*)_NativeInstance)->Init(Handle(::Geom2d_Curve)(C->NativeInstance));
@@ -1547,12 +1259,6 @@ Macad::Occt::BRepBuilderAPI_MakeFace::BRepBuilderAPI_MakeFace(Macad::Occt::TopoD
     _NativeInstance = new ::BRepBuilderAPI_MakeFace(*(::TopoDS_Face*)F->NativeInstance, *(::TopoDS_Wire*)W->NativeInstance);
 }
 
-Macad::Occt::BRepBuilderAPI_MakeFace::BRepBuilderAPI_MakeFace(Macad::Occt::BRepBuilderAPI_MakeFace^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_MakeFace(*(::BRepBuilderAPI_MakeFace*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepBuilderAPI_MakeFace::Init(Macad::Occt::TopoDS_Face^ F)
 {
     ((::BRepBuilderAPI_MakeFace*)_NativeInstance)->Init(*(::TopoDS_Face*)F->NativeInstance);
@@ -1680,12 +1386,6 @@ Macad::Occt::BRepBuilderAPI_MakePolygon::BRepBuilderAPI_MakePolygon(Macad::Occt:
     _NativeInstance = new ::BRepBuilderAPI_MakePolygon(*(::TopoDS_Vertex*)V1->NativeInstance, *(::TopoDS_Vertex*)V2->NativeInstance, *(::TopoDS_Vertex*)V3->NativeInstance, *(::TopoDS_Vertex*)V4->NativeInstance, false);
 }
 
-Macad::Occt::BRepBuilderAPI_MakePolygon::BRepBuilderAPI_MakePolygon(Macad::Occt::BRepBuilderAPI_MakePolygon^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_MakePolygon(*(::BRepBuilderAPI_MakePolygon*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepBuilderAPI_MakePolygon::Add(Macad::Occt::Pnt P)
 {
     pin_ptr<Macad::Occt::Pnt> pp_P = &P;
@@ -1748,12 +1448,6 @@ Macad::Occt::TopoDS_Wire^ Macad::Occt::BRepBuilderAPI_MakePolygon::Wire()
 //  Class  BRepBuilderAPI_MakeShapeOnMesh
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepBuilderAPI_MakeShapeOnMesh::BRepBuilderAPI_MakeShapeOnMesh(Macad::Occt::BRepBuilderAPI_MakeShapeOnMesh^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_MakeShapeOnMesh(*(::BRepBuilderAPI_MakeShapeOnMesh*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepBuilderAPI_MakeShapeOnMesh::Build(Macad::Occt::Message_ProgressRange^ theRange)
 {
     ((::BRepBuilderAPI_MakeShapeOnMesh*)_NativeInstance)->Build(*(::Message_ProgressRange*)theRange->NativeInstance);
@@ -1798,12 +1492,6 @@ Macad::Occt::BRepBuilderAPI_MakeShell::BRepBuilderAPI_MakeShell(Macad::Occt::Geo
     : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepBuilderAPI_MakeShell(Handle(::Geom_Surface)(S->NativeInstance), UMin, UMax, VMin, VMax, false);
-}
-
-Macad::Occt::BRepBuilderAPI_MakeShell::BRepBuilderAPI_MakeShell(Macad::Occt::BRepBuilderAPI_MakeShell^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_MakeShell(*(::BRepBuilderAPI_MakeShell*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepBuilderAPI_MakeShell::Init(Macad::Occt::Geom_Surface^ S, double UMin, double UMax, double VMin, double VMax, bool Segment)
@@ -1883,12 +1571,6 @@ Macad::Occt::BRepBuilderAPI_MakeSolid::BRepBuilderAPI_MakeSolid(Macad::Occt::Top
     _NativeInstance = new ::BRepBuilderAPI_MakeSolid(*(::TopoDS_Solid*)So->NativeInstance, *(::TopoDS_Shell*)S->NativeInstance);
 }
 
-Macad::Occt::BRepBuilderAPI_MakeSolid::BRepBuilderAPI_MakeSolid(Macad::Occt::BRepBuilderAPI_MakeSolid^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_MakeSolid(*(::BRepBuilderAPI_MakeSolid*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepBuilderAPI_MakeSolid::Add(Macad::Occt::TopoDS_Shell^ S)
 {
     ((::BRepBuilderAPI_MakeSolid*)_NativeInstance)->Add(*(::TopoDS_Shell*)S->NativeInstance);
@@ -1924,12 +1606,6 @@ Macad::Occt::BRepBuilderAPI_MakeVertex::BRepBuilderAPI_MakeVertex(Macad::Occt::P
 {
     pin_ptr<Macad::Occt::Pnt> pp_P = &P;
     _NativeInstance = new ::BRepBuilderAPI_MakeVertex(*(gp_Pnt*)pp_P);
-}
-
-Macad::Occt::BRepBuilderAPI_MakeVertex::BRepBuilderAPI_MakeVertex(Macad::Occt::BRepBuilderAPI_MakeVertex^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_MakeVertex(*(::BRepBuilderAPI_MakeVertex*)parameter1->NativeInstance);
 }
 
 Macad::Occt::TopoDS_Vertex^ Macad::Occt::BRepBuilderAPI_MakeVertex::Vertex()
@@ -1985,12 +1661,6 @@ Macad::Occt::BRepBuilderAPI_MakeWire::BRepBuilderAPI_MakeWire(Macad::Occt::TopoD
     : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepBuilderAPI_MakeWire(*(::TopoDS_Wire*)W->NativeInstance, *(::TopoDS_Edge*)E->NativeInstance);
-}
-
-Macad::Occt::BRepBuilderAPI_MakeWire::BRepBuilderAPI_MakeWire(Macad::Occt::BRepBuilderAPI_MakeWire^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_MakeWire(*(::BRepBuilderAPI_MakeWire*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepBuilderAPI_MakeWire::Add(Macad::Occt::TopoDS_Edge^ E)
@@ -2065,12 +1735,6 @@ Macad::Occt::BRepBuilderAPI_NurbsConvert::BRepBuilderAPI_NurbsConvert(Macad::Occ
     _NativeInstance = new ::BRepBuilderAPI_NurbsConvert(*(::TopoDS_Shape*)S->NativeInstance, false);
 }
 
-Macad::Occt::BRepBuilderAPI_NurbsConvert::BRepBuilderAPI_NurbsConvert(Macad::Occt::BRepBuilderAPI_NurbsConvert^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_ModifyShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_NurbsConvert(*(::BRepBuilderAPI_NurbsConvert*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepBuilderAPI_NurbsConvert::Perform(Macad::Occt::TopoDS_Shape^ S, bool Copy)
 {
     ((::BRepBuilderAPI_NurbsConvert*)_NativeInstance)->Perform(*(::TopoDS_Shape*)S->NativeInstance, Copy);
@@ -2135,12 +1799,6 @@ Macad::Occt::BRepBuilderAPI_Sewing::BRepBuilderAPI_Sewing()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::BRepBuilderAPI_Sewing(9.9999999999999995E-7, true, true, true, false);
-}
-
-Macad::Occt::BRepBuilderAPI_Sewing::BRepBuilderAPI_Sewing(Macad::Occt::BRepBuilderAPI_Sewing^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRepBuilderAPI_Sewing(*(::BRepBuilderAPI_Sewing*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepBuilderAPI_Sewing::Init(double tolerance, bool option1, bool option2, bool option3, bool option4)
@@ -2472,12 +2130,6 @@ Macad::Occt::BRepBuilderAPI_Transform::BRepBuilderAPI_Transform(Macad::Occt::Top
 {
     pin_ptr<Macad::Occt::Trsf> pp_theTrsf = &theTrsf;
     _NativeInstance = new ::BRepBuilderAPI_Transform(*(::TopoDS_Shape*)theShape->NativeInstance, *(gp_Trsf*)pp_theTrsf, false, false);
-}
-
-Macad::Occt::BRepBuilderAPI_Transform::BRepBuilderAPI_Transform(Macad::Occt::BRepBuilderAPI_Transform^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_ModifyShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepBuilderAPI_Transform(*(::BRepBuilderAPI_Transform*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepBuilderAPI_Transform::Perform(Macad::Occt::TopoDS_Shape^ theShape, bool theCopyGeom, bool theCopyMesh)

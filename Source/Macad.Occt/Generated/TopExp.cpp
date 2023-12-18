@@ -20,12 +20,6 @@ Macad::Occt::TopExp::TopExp()
     _NativeInstance = new ::TopExp();
 }
 
-Macad::Occt::TopExp::TopExp(Macad::Occt::TopExp^ parameter1)
-    : Macad::Occt::BaseClass<::TopExp>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopExp(*(::TopExp*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::TopExp::MapShapes(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopAbs_ShapeEnum T, Macad::Occt::TopTools_IndexedMapOfShape^ M)
 {
     ::TopExp::MapShapes(*(::TopoDS_Shape*)S->NativeInstance, (::TopAbs_ShapeEnum)T, *(::TopTools_IndexedMapOfShape*)M->NativeInstance);
@@ -147,12 +141,6 @@ Macad::Occt::TopExp_Explorer::TopExp_Explorer(Macad::Occt::TopoDS_Shape^ S, Maca
     : Macad::Occt::BaseClass<::TopExp_Explorer>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::TopExp_Explorer(*(::TopoDS_Shape*)S->NativeInstance, (::TopAbs_ShapeEnum)ToFind, TopAbs_SHAPE);
-}
-
-Macad::Occt::TopExp_Explorer::TopExp_Explorer(Macad::Occt::TopExp_Explorer^ parameter1)
-    : Macad::Occt::BaseClass<::TopExp_Explorer>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopExp_Explorer(*(::TopExp_Explorer*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::TopExp_Explorer::Init(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TopAbs_ShapeEnum ToFind, Macad::Occt::TopAbs_ShapeEnum ToAvoid)

@@ -35,12 +35,6 @@ Macad::Occt::ShapeFix_SequenceOfWireSegment::ShapeFix_SequenceOfWireSegment(Maca
     _NativeInstance = new ::ShapeFix_SequenceOfWireSegment(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::ShapeFix_SequenceOfWireSegment::ShapeFix_SequenceOfWireSegment(Macad::Occt::ShapeFix_SequenceOfWireSegment^ theOther)
-    : Macad::Occt::BaseClass<::ShapeFix_SequenceOfWireSegment>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix_SequenceOfWireSegment(*(::ShapeFix_SequenceOfWireSegment*)theOther->NativeInstance);
-}
-
 int Macad::Occt::ShapeFix_SequenceOfWireSegment::Size()
 {
     int _result = ((::ShapeFix_SequenceOfWireSegment*)_NativeInstance)->Size();
@@ -103,24 +97,9 @@ void Macad::Occt::ShapeFix_SequenceOfWireSegment::Remove(Macad::Occt::ShapeFix_S
     ((::ShapeFix_SequenceOfWireSegment*)_NativeInstance)->Remove(*(::ShapeFix_SequenceOfWireSegment::Iterator*)thePosition->NativeInstance);
 }
 
-void Macad::Occt::ShapeFix_SequenceOfWireSegment::Remove(int theIndex)
-{
-    ((::ShapeFix_SequenceOfWireSegment*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::ShapeFix_SequenceOfWireSegment::Remove(int theFromIndex, int theToIndex)
-{
-    ((::ShapeFix_SequenceOfWireSegment*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
 void Macad::Occt::ShapeFix_SequenceOfWireSegment::Append(Macad::Occt::ShapeFix_WireSegment^ theItem)
 {
     ((::ShapeFix_SequenceOfWireSegment*)_NativeInstance)->Append(*(::ShapeFix_WireSegment*)theItem->NativeInstance);
-}
-
-void Macad::Occt::ShapeFix_SequenceOfWireSegment::Append(Macad::Occt::ShapeFix_SequenceOfWireSegment^ theSeq)
-{
-    ((::ShapeFix_SequenceOfWireSegment*)_NativeInstance)->Append(*(::ShapeFix_SequenceOfWireSegment*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::ShapeFix_SequenceOfWireSegment::Prepend(Macad::Occt::ShapeFix_WireSegment^ theItem)
@@ -128,34 +107,14 @@ void Macad::Occt::ShapeFix_SequenceOfWireSegment::Prepend(Macad::Occt::ShapeFix_
     ((::ShapeFix_SequenceOfWireSegment*)_NativeInstance)->Prepend(*(::ShapeFix_WireSegment*)theItem->NativeInstance);
 }
 
-void Macad::Occt::ShapeFix_SequenceOfWireSegment::Prepend(Macad::Occt::ShapeFix_SequenceOfWireSegment^ theSeq)
-{
-    ((::ShapeFix_SequenceOfWireSegment*)_NativeInstance)->Prepend(*(::ShapeFix_SequenceOfWireSegment*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::ShapeFix_SequenceOfWireSegment::InsertBefore(int theIndex, Macad::Occt::ShapeFix_WireSegment^ theItem)
 {
     ((::ShapeFix_SequenceOfWireSegment*)_NativeInstance)->InsertBefore(theIndex, *(::ShapeFix_WireSegment*)theItem->NativeInstance);
 }
 
-void Macad::Occt::ShapeFix_SequenceOfWireSegment::InsertBefore(int theIndex, Macad::Occt::ShapeFix_SequenceOfWireSegment^ theSeq)
-{
-    ((::ShapeFix_SequenceOfWireSegment*)_NativeInstance)->InsertBefore(theIndex, *(::ShapeFix_SequenceOfWireSegment*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::ShapeFix_SequenceOfWireSegment::InsertAfter(Macad::Occt::ShapeFix_SequenceOfWireSegment::Iterator^ thePosition, Macad::Occt::ShapeFix_WireSegment^ theItem)
 {
     ((::ShapeFix_SequenceOfWireSegment*)_NativeInstance)->InsertAfter(*(::ShapeFix_SequenceOfWireSegment::Iterator*)thePosition->NativeInstance, *(::ShapeFix_WireSegment*)theItem->NativeInstance);
-}
-
-void Macad::Occt::ShapeFix_SequenceOfWireSegment::InsertAfter(int theIndex, Macad::Occt::ShapeFix_SequenceOfWireSegment^ theSeq)
-{
-    ((::ShapeFix_SequenceOfWireSegment*)_NativeInstance)->InsertAfter(theIndex, *(::ShapeFix_SequenceOfWireSegment*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::ShapeFix_SequenceOfWireSegment::InsertAfter(int theIndex, Macad::Occt::ShapeFix_WireSegment^ theItem)
-{
-    ((::ShapeFix_SequenceOfWireSegment*)_NativeInstance)->InsertAfter(theIndex, *(::ShapeFix_WireSegment*)theItem->NativeInstance);
 }
 
 void Macad::Occt::ShapeFix_SequenceOfWireSegment::Split(int theIndex, Macad::Occt::ShapeFix_SequenceOfWireSegment^ theSeq)
@@ -232,24 +191,6 @@ Macad::Occt::ShapeFix_SequenceOfWireSegment::Iterator::Iterator()
     _NativeInstance = new ::ShapeFix_SequenceOfWireSegment::Iterator();
 }
 
-Macad::Occt::ShapeFix_SequenceOfWireSegment::Iterator::Iterator(Macad::Occt::ShapeFix_SequenceOfWireSegment^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::ShapeFix_SequenceOfWireSegment::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix_SequenceOfWireSegment::Iterator(*(::ShapeFix_SequenceOfWireSegment*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::ShapeFix_SequenceOfWireSegment::Iterator::Iterator(Macad::Occt::ShapeFix_SequenceOfWireSegment^ theSeq)
-    : Macad::Occt::BaseClass<::ShapeFix_SequenceOfWireSegment::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix_SequenceOfWireSegment::Iterator(*(::ShapeFix_SequenceOfWireSegment*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::ShapeFix_SequenceOfWireSegment::Iterator::Iterator(Macad::Occt::ShapeFix_SequenceOfWireSegment::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeFix_SequenceOfWireSegment::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix_SequenceOfWireSegment::Iterator(*(::ShapeFix_SequenceOfWireSegment::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ShapeFix_SequenceOfWireSegment::Iterator::More()
 {
     bool _result = ((::ShapeFix_SequenceOfWireSegment::Iterator*)_NativeInstance)->More();
@@ -281,6 +222,25 @@ bool Macad::Occt::ShapeFix_SequenceOfWireSegment::Iterator::IsEqual(Macad::Occt:
     return _result;
 }
 
+bool Macad::Occt::ShapeFix_SequenceOfWireSegment::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::ShapeFix_SequenceOfWireSegment::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -303,12 +263,6 @@ Macad::Occt::ShapeFix_DataMapOfShapeBox2d::ShapeFix_DataMapOfShapeBox2d(int theN
     : Macad::Occt::BaseClass<::ShapeFix_DataMapOfShapeBox2d>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeFix_DataMapOfShapeBox2d(theNbBuckets, 0L);
-}
-
-Macad::Occt::ShapeFix_DataMapOfShapeBox2d::ShapeFix_DataMapOfShapeBox2d(Macad::Occt::ShapeFix_DataMapOfShapeBox2d^ theOther)
-    : Macad::Occt::BaseClass<::ShapeFix_DataMapOfShapeBox2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix_DataMapOfShapeBox2d(*(::ShapeFix_DataMapOfShapeBox2d*)theOther->NativeInstance);
 }
 
 void Macad::Occt::ShapeFix_DataMapOfShapeBox2d::Exchange(Macad::Occt::ShapeFix_DataMapOfShapeBox2d^ theOther)
@@ -365,12 +319,6 @@ Macad::Occt::Bnd_Box2d^ Macad::Occt::ShapeFix_DataMapOfShapeBox2d::Find(Macad::O
     return _result==nullptr ? nullptr : gcnew Macad::Occt::Bnd_Box2d(_result);
 }
 
-bool Macad::Occt::ShapeFix_DataMapOfShapeBox2d::Find(Macad::Occt::TopoDS_Shape^ theKey, Macad::Occt::Bnd_Box2d^ theValue)
-{
-    bool _result = ((::ShapeFix_DataMapOfShapeBox2d*)_NativeInstance)->Find(*(::TopoDS_Shape*)theKey->NativeInstance, *(::Bnd_Box2d*)theValue->NativeInstance);
-    return _result;
-}
-
 Macad::Occt::Bnd_Box2d^ Macad::Occt::ShapeFix_DataMapOfShapeBox2d::ChangeSeek(Macad::Occt::TopoDS_Shape^ theKey)
 {
     ::Bnd_Box2d* _result = ((::ShapeFix_DataMapOfShapeBox2d*)_NativeInstance)->ChangeSeek(*(::TopoDS_Shape*)theKey->NativeInstance);
@@ -391,12 +339,7 @@ void Macad::Occt::ShapeFix_DataMapOfShapeBox2d::Clear(bool doReleaseMemory)
 
 void Macad::Occt::ShapeFix_DataMapOfShapeBox2d::Clear()
 {
-    ((::ShapeFix_DataMapOfShapeBox2d*)_NativeInstance)->Clear(true);
-}
-
-void Macad::Occt::ShapeFix_DataMapOfShapeBox2d::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-{
-    ((::ShapeFix_DataMapOfShapeBox2d*)_NativeInstance)->Clear(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
+    ((::ShapeFix_DataMapOfShapeBox2d*)_NativeInstance)->Clear(false);
 }
 
 int Macad::Occt::ShapeFix_DataMapOfShapeBox2d::Size()
@@ -415,18 +358,6 @@ Macad::Occt::ShapeFix_DataMapOfShapeBox2d::Iterator::Iterator()
     : Macad::Occt::BaseClass<::ShapeFix_DataMapOfShapeBox2d::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeFix_DataMapOfShapeBox2d::Iterator();
-}
-
-Macad::Occt::ShapeFix_DataMapOfShapeBox2d::Iterator::Iterator(Macad::Occt::ShapeFix_DataMapOfShapeBox2d^ theMap)
-    : Macad::Occt::BaseClass<::ShapeFix_DataMapOfShapeBox2d::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix_DataMapOfShapeBox2d::Iterator(*(::ShapeFix_DataMapOfShapeBox2d*)theMap->NativeInstance);
-}
-
-Macad::Occt::ShapeFix_DataMapOfShapeBox2d::Iterator::Iterator(Macad::Occt::ShapeFix_DataMapOfShapeBox2d::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeFix_DataMapOfShapeBox2d::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix_DataMapOfShapeBox2d::Iterator(*(::ShapeFix_DataMapOfShapeBox2d::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::ShapeFix_DataMapOfShapeBox2d::Iterator::More()
@@ -473,27 +404,21 @@ Macad::Occt::ShapeFix::ShapeFix()
     _NativeInstance = new ::ShapeFix();
 }
 
-Macad::Occt::ShapeFix::ShapeFix(Macad::Occt::ShapeFix^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeFix>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix(*(::ShapeFix*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ShapeFix::SameParameter(Macad::Occt::TopoDS_Shape^ shape, bool enforce, double preci, Macad::Occt::Message_ProgressRange^ theProgress)
 {
-    bool _result = ::ShapeFix::SameParameter(*(::TopoDS_Shape*)shape->NativeInstance, enforce, preci, *(::Message_ProgressRange*)theProgress->NativeInstance, 0);
+    bool _result = ::ShapeFix::SameParameter(*(::TopoDS_Shape*)shape->NativeInstance, enforce, preci, *(::Message_ProgressRange*)theProgress->NativeInstance, nullptr);
     return _result;
 }
 
 bool Macad::Occt::ShapeFix::SameParameter(Macad::Occt::TopoDS_Shape^ shape, bool enforce, double preci)
 {
-    bool _result = ::ShapeFix::SameParameter(*(::TopoDS_Shape*)shape->NativeInstance, enforce, preci, ::Message_ProgressRange(), 0);
+    bool _result = ::ShapeFix::SameParameter(*(::TopoDS_Shape*)shape->NativeInstance, enforce, preci, ::Message_ProgressRange(), nullptr);
     return _result;
 }
 
 bool Macad::Occt::ShapeFix::SameParameter(Macad::Occt::TopoDS_Shape^ shape, bool enforce)
 {
-    bool _result = ::ShapeFix::SameParameter(*(::TopoDS_Shape*)shape->NativeInstance, enforce, 0., ::Message_ProgressRange(), 0);
+    bool _result = ::ShapeFix::SameParameter(*(::TopoDS_Shape*)shape->NativeInstance, enforce, 0., ::Message_ProgressRange(), nullptr);
     return _result;
 }
 
@@ -538,12 +463,6 @@ Macad::Occt::ShapeFix_Root::ShapeFix_Root()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeFix_Root();
-}
-
-Macad::Occt::ShapeFix_Root::ShapeFix_Root(Macad::Occt::ShapeFix_Root^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeFix_Root(*(::ShapeFix_Root*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeFix_Root::Set(Macad::Occt::ShapeFix_Root^ Root)
@@ -770,12 +689,6 @@ Macad::Occt::ShapeFix_ComposeShell::ShapeFix_ComposeShell()
     NativeInstance = new ::ShapeFix_ComposeShell();
 }
 
-Macad::Occt::ShapeFix_ComposeShell::ShapeFix_ComposeShell(Macad::Occt::ShapeFix_ComposeShell^ parameter1)
-    : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeFix_ComposeShell(*(::ShapeFix_ComposeShell*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ShapeFix_ComposeShell::Perform()
 {
     bool _result = ((::ShapeFix_ComposeShell*)_NativeInstance)->Perform();
@@ -825,12 +738,6 @@ Macad::Occt::ShapeFix_Edge::ShapeFix_Edge()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeFix_Edge();
-}
-
-Macad::Occt::ShapeFix_Edge::ShapeFix_Edge(Macad::Occt::ShapeFix_Edge^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeFix_Edge(*(::ShapeFix_Edge*)parameter1->NativeInstance);
 }
 
 Macad::Occt::ShapeConstruct_ProjectCurveOnSurface^ Macad::Occt::ShapeFix_Edge::Projector()
@@ -987,12 +894,6 @@ Macad::Occt::ShapeFix_EdgeConnect::ShapeFix_EdgeConnect()
     _NativeInstance = new ::ShapeFix_EdgeConnect();
 }
 
-Macad::Occt::ShapeFix_EdgeConnect::ShapeFix_EdgeConnect(Macad::Occt::ShapeFix_EdgeConnect^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeFix_EdgeConnect>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix_EdgeConnect(*(::ShapeFix_EdgeConnect*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeFix_EdgeConnect::Add(Macad::Occt::TopoDS_Edge^ aFirst, Macad::Occt::TopoDS_Edge^ aSecond)
 {
     ((::ShapeFix_EdgeConnect*)_NativeInstance)->Add(*(::TopoDS_Edge*)aFirst->NativeInstance, *(::TopoDS_Edge*)aSecond->NativeInstance);
@@ -1029,12 +930,6 @@ Macad::Occt::ShapeFix_EdgeProjAux::ShapeFix_EdgeProjAux(Macad::Occt::TopoDS_Face
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeFix_EdgeProjAux(*(::TopoDS_Face*)F->NativeInstance, *(::TopoDS_Edge*)E->NativeInstance);
-}
-
-Macad::Occt::ShapeFix_EdgeProjAux::ShapeFix_EdgeProjAux(Macad::Occt::ShapeFix_EdgeProjAux^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeFix_EdgeProjAux(*(::ShapeFix_EdgeProjAux*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeFix_EdgeProjAux::Init(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Edge^ E)
@@ -1098,12 +993,6 @@ Macad::Occt::ShapeFix_Wire::ShapeFix_Wire(Macad::Occt::TopoDS_Wire^ wire, Macad:
     : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeFix_Wire(*(::TopoDS_Wire*)wire->NativeInstance, *(::TopoDS_Face*)face->NativeInstance, prec);
-}
-
-Macad::Occt::ShapeFix_Wire::ShapeFix_Wire(Macad::Occt::ShapeFix_Wire^ parameter1)
-    : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeFix_Wire(*(::ShapeFix_Wire*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeFix_Wire::ClearModes()
@@ -1421,12 +1310,6 @@ Macad::Occt::ShapeFix_Face::ShapeFix_Face(Macad::Occt::TopoDS_Face^ face)
     NativeInstance = new ::ShapeFix_Face(*(::TopoDS_Face*)face->NativeInstance);
 }
 
-Macad::Occt::ShapeFix_Face::ShapeFix_Face(Macad::Occt::ShapeFix_Face^ parameter1)
-    : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeFix_Face(*(::ShapeFix_Face*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeFix_Face::ClearModes()
 {
     ((::ShapeFix_Face*)_NativeInstance)->ClearModes();
@@ -1580,12 +1463,6 @@ Macad::Occt::ShapeFix_FaceConnect::ShapeFix_FaceConnect()
     _NativeInstance = new ::ShapeFix_FaceConnect();
 }
 
-Macad::Occt::ShapeFix_FaceConnect::ShapeFix_FaceConnect(Macad::Occt::ShapeFix_FaceConnect^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeFix_FaceConnect>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix_FaceConnect(*(::ShapeFix_FaceConnect*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ShapeFix_FaceConnect::Add(Macad::Occt::TopoDS_Face^ aFirst, Macad::Occt::TopoDS_Face^ aSecond)
 {
     bool _result = ((::ShapeFix_FaceConnect*)_NativeInstance)->Add(*(::TopoDS_Face*)aFirst->NativeInstance, *(::TopoDS_Face*)aSecond->NativeInstance);
@@ -1614,12 +1491,6 @@ Macad::Occt::ShapeFix_FixSmallFace::ShapeFix_FixSmallFace()
     : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeFix_FixSmallFace();
-}
-
-Macad::Occt::ShapeFix_FixSmallFace::ShapeFix_FixSmallFace(Macad::Occt::ShapeFix_FixSmallFace^ parameter1)
-    : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeFix_FixSmallFace(*(::ShapeFix_FixSmallFace*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeFix_FixSmallFace::Init(Macad::Occt::TopoDS_Shape^ S)
@@ -1741,12 +1612,6 @@ Macad::Occt::ShapeFix_FixSmallSolid::ShapeFix_FixSmallSolid()
     NativeInstance = new ::ShapeFix_FixSmallSolid();
 }
 
-Macad::Occt::ShapeFix_FixSmallSolid::ShapeFix_FixSmallSolid(Macad::Occt::ShapeFix_FixSmallSolid^ parameter1)
-    : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeFix_FixSmallSolid(*(::ShapeFix_FixSmallSolid*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeFix_FixSmallSolid::SetFixMode(int theMode)
 {
     ((::ShapeFix_FixSmallSolid*)_NativeInstance)->SetFixMode(theMode);
@@ -1815,12 +1680,6 @@ Macad::Occt::ShapeFix_FreeBounds::ShapeFix_FreeBounds(Macad::Occt::TopoDS_Shape^
     _NativeInstance = new ::ShapeFix_FreeBounds(*(::TopoDS_Shape*)shape->NativeInstance, closetoler, splitclosed, splitopen);
 }
 
-Macad::Occt::ShapeFix_FreeBounds::ShapeFix_FreeBounds(Macad::Occt::ShapeFix_FreeBounds^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeFix_FreeBounds>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix_FreeBounds(*(::ShapeFix_FreeBounds*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TopoDS_Compound^ Macad::Occt::ShapeFix_FreeBounds::GetClosedWires()
 {
     ::TopoDS_Compound* _result = new ::TopoDS_Compound();
@@ -1858,12 +1717,6 @@ Macad::Occt::ShapeFix_IntersectionTool::ShapeFix_IntersectionTool(Macad::Occt::S
     : Macad::Occt::BaseClass<::ShapeFix_IntersectionTool>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeFix_IntersectionTool(Handle(::ShapeBuild_ReShape)(context->NativeInstance), preci, 1.);
-}
-
-Macad::Occt::ShapeFix_IntersectionTool::ShapeFix_IntersectionTool(Macad::Occt::ShapeFix_IntersectionTool^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeFix_IntersectionTool>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix_IntersectionTool(*(::ShapeFix_IntersectionTool*)parameter1->NativeInstance);
 }
 
 Macad::Occt::ShapeBuild_ReShape^ Macad::Occt::ShapeFix_IntersectionTool::Context()
@@ -1907,12 +1760,6 @@ Macad::Occt::ShapeFix_Solid::ShapeFix_Solid(Macad::Occt::TopoDS_Solid^ solid)
     : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeFix_Solid(*(::TopoDS_Solid*)solid->NativeInstance);
-}
-
-Macad::Occt::ShapeFix_Solid::ShapeFix_Solid(Macad::Occt::ShapeFix_Solid^ parameter1)
-    : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeFix_Solid(*(::ShapeFix_Solid*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeFix_Solid::Init(Macad::Occt::TopoDS_Solid^ solid)
@@ -1995,12 +1842,6 @@ Macad::Occt::ShapeFix_Shell::ShapeFix_Shell(Macad::Occt::TopoDS_Shell^ shape)
     : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeFix_Shell(*(::TopoDS_Shell*)shape->NativeInstance);
-}
-
-Macad::Occt::ShapeFix_Shell::ShapeFix_Shell(Macad::Occt::ShapeFix_Shell^ parameter1)
-    : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeFix_Shell(*(::ShapeFix_Shell*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeFix_Shell::Init(Macad::Occt::TopoDS_Shell^ shell)
@@ -2114,12 +1955,6 @@ Macad::Occt::ShapeFix_Shape::ShapeFix_Shape(Macad::Occt::TopoDS_Shape^ shape)
     NativeInstance = new ::ShapeFix_Shape(*(::TopoDS_Shape*)shape->NativeInstance);
 }
 
-Macad::Occt::ShapeFix_Shape::ShapeFix_Shape(Macad::Occt::ShapeFix_Shape^ parameter1)
-    : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeFix_Shape(*(::ShapeFix_Shape*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeFix_Shape::Init(Macad::Occt::TopoDS_Shape^ shape)
 {
     ((::ShapeFix_Shape*)_NativeInstance)->Init(*(::TopoDS_Shape*)shape->NativeInstance);
@@ -2206,12 +2041,6 @@ Macad::Occt::ShapeFix_ShapeTolerance::ShapeFix_ShapeTolerance()
     _NativeInstance = new ::ShapeFix_ShapeTolerance();
 }
 
-Macad::Occt::ShapeFix_ShapeTolerance::ShapeFix_ShapeTolerance(Macad::Occt::ShapeFix_ShapeTolerance^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeFix_ShapeTolerance>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix_ShapeTolerance(*(::ShapeFix_ShapeTolerance*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::ShapeFix_ShapeTolerance::LimitTolerance(Macad::Occt::TopoDS_Shape^ shape, double tmin, double tmax, Macad::Occt::TopAbs_ShapeEnum styp)
 {
     bool _result = ((::ShapeFix_ShapeTolerance*)_NativeInstance)->LimitTolerance(*(::TopoDS_Shape*)shape->NativeInstance, tmin, tmax, (::TopAbs_ShapeEnum)styp);
@@ -2252,12 +2081,6 @@ Macad::Occt::ShapeFix_SplitCommonVertex::ShapeFix_SplitCommonVertex()
     NativeInstance = new ::ShapeFix_SplitCommonVertex();
 }
 
-Macad::Occt::ShapeFix_SplitCommonVertex::ShapeFix_SplitCommonVertex(Macad::Occt::ShapeFix_SplitCommonVertex^ parameter1)
-    : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeFix_SplitCommonVertex(*(::ShapeFix_SplitCommonVertex*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::ShapeFix_SplitCommonVertex::Init(Macad::Occt::TopoDS_Shape^ S)
 {
     ((::ShapeFix_SplitCommonVertex*)_NativeInstance)->Init(*(::TopoDS_Shape*)S->NativeInstance);
@@ -2290,12 +2113,6 @@ Macad::Occt::ShapeFix_SplitTool::ShapeFix_SplitTool()
     : Macad::Occt::BaseClass<::ShapeFix_SplitTool>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeFix_SplitTool();
-}
-
-Macad::Occt::ShapeFix_SplitTool::ShapeFix_SplitTool(Macad::Occt::ShapeFix_SplitTool^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeFix_SplitTool>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix_SplitTool(*(::ShapeFix_SplitTool*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::ShapeFix_SplitTool::SplitEdge(Macad::Occt::TopoDS_Edge^ edge, double param, Macad::Occt::TopoDS_Vertex^ vert, Macad::Occt::TopoDS_Face^ face, Macad::Occt::TopoDS_Edge^ newE1, Macad::Occt::TopoDS_Edge^ newE2, double tol3d, double tol2d)
@@ -2340,12 +2157,6 @@ Macad::Occt::ShapeFix_Wireframe::ShapeFix_Wireframe(Macad::Occt::TopoDS_Shape^ s
     : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::ShapeFix_Wireframe(*(::TopoDS_Shape*)shape->NativeInstance);
-}
-
-Macad::Occt::ShapeFix_Wireframe::ShapeFix_Wireframe(Macad::Occt::ShapeFix_Wireframe^ parameter1)
-    : Macad::Occt::ShapeFix_Root(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::ShapeFix_Wireframe(*(::ShapeFix_Wireframe*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeFix_Wireframe::ClearStatuses()
@@ -2427,12 +2238,6 @@ Macad::Occt::ShapeFix_WireVertex::ShapeFix_WireVertex()
     : Macad::Occt::BaseClass<::ShapeFix_WireVertex>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::ShapeFix_WireVertex();
-}
-
-Macad::Occt::ShapeFix_WireVertex::ShapeFix_WireVertex(Macad::Occt::ShapeFix_WireVertex^ parameter1)
-    : Macad::Occt::BaseClass<::ShapeFix_WireVertex>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ShapeFix_WireVertex(*(::ShapeFix_WireVertex*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::ShapeFix_WireVertex::Init(Macad::Occt::TopoDS_Wire^ wire, double preci)

@@ -57,7 +57,6 @@ public:
     }
 
 public:
-    Adaptor3d_Curve(Macad::Occt::Adaptor3d_Curve^ parameter1);
     Adaptor3d_Curve();
     /// <summary>
     /// Shallow copy of adaptor
@@ -207,7 +206,6 @@ public:
     }
 
 public:
-    Adaptor3d_Surface(Macad::Occt::Adaptor3d_Surface^ parameter1);
     Adaptor3d_Surface();
     /// <summary>
     /// Shallow copy of adaptor
@@ -382,7 +380,6 @@ public:
     /// the surface <S>.
     /// </summary>
     Adaptor3d_CurveOnSurface(Macad::Occt::Adaptor2d_Curve2d^ C, Macad::Occt::Adaptor3d_Surface^ S);
-    Adaptor3d_CurveOnSurface(Macad::Occt::Adaptor3d_CurveOnSurface^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>
@@ -522,7 +519,6 @@ public:
 
 public:
     Adaptor3d_HSurfaceTool();
-    Adaptor3d_HSurfaceTool(Macad::Occt::Adaptor3d_HSurfaceTool^ parameter1);
     static double FirstUParameter(Macad::Occt::Adaptor3d_Surface^ theSurf);
     static double FirstVParameter(Macad::Occt::Adaptor3d_Surface^ theSurf);
     static double LastUParameter(Macad::Occt::Adaptor3d_Surface^ theSurf);
@@ -606,7 +602,6 @@ public:
 public:
     Adaptor3d_HVertex();
     Adaptor3d_HVertex(Macad::Occt::Pnt2d P, Macad::Occt::TopAbs_Orientation Ori, double Resolution);
-    Adaptor3d_HVertex(Macad::Occt::Adaptor3d_HVertex^ parameter1);
     Macad::Occt::Pnt2d Value();
     double Parameter(Macad::Occt::Adaptor2d_Curve2d^ C);
     /// <summary>
@@ -675,7 +670,6 @@ public:
     /// iso. WFirst,WLast define the bounds of the iso.
     /// </summary>
     Adaptor3d_IsoCurve(Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::GeomAbs_IsoType Iso, double Param, double WFirst, double WLast);
-    Adaptor3d_IsoCurve(Macad::Occt::Adaptor3d_IsoCurve^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>
@@ -822,7 +816,6 @@ public:
 public:
     Adaptor3d_TopolTool();
     Adaptor3d_TopolTool(Macad::Occt::Adaptor3d_Surface^ Surface);
-    Adaptor3d_TopolTool(Macad::Occt::Adaptor3d_TopolTool^ parameter1);
     void Initialize();
     void Initialize(Macad::Occt::Adaptor3d_Surface^ S);
     void Initialize(Macad::Occt::Adaptor2d_Curve2d^ Curve);

@@ -30,12 +30,6 @@ Macad::Occt::BRepExtrema_SeqOfSolution::BRepExtrema_SeqOfSolution(Macad::Occt::N
     _NativeInstance = new ::BRepExtrema_SeqOfSolution(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::BRepExtrema_SeqOfSolution::BRepExtrema_SeqOfSolution(Macad::Occt::BRepExtrema_SeqOfSolution^ theOther)
-    : Macad::Occt::BaseClass<::BRepExtrema_SeqOfSolution>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_SeqOfSolution(*(::BRepExtrema_SeqOfSolution*)theOther->NativeInstance);
-}
-
 int Macad::Occt::BRepExtrema_SeqOfSolution::Size()
 {
     int _result = ((::BRepExtrema_SeqOfSolution*)_NativeInstance)->Size();
@@ -98,24 +92,9 @@ void Macad::Occt::BRepExtrema_SeqOfSolution::Remove(Macad::Occt::BRepExtrema_Seq
     ((::BRepExtrema_SeqOfSolution*)_NativeInstance)->Remove(*(::BRepExtrema_SeqOfSolution::Iterator*)thePosition->NativeInstance);
 }
 
-void Macad::Occt::BRepExtrema_SeqOfSolution::Remove(int theIndex)
-{
-    ((::BRepExtrema_SeqOfSolution*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::BRepExtrema_SeqOfSolution::Remove(int theFromIndex, int theToIndex)
-{
-    ((::BRepExtrema_SeqOfSolution*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
 void Macad::Occt::BRepExtrema_SeqOfSolution::Append(Macad::Occt::BRepExtrema_SolutionElem^ theItem)
 {
     ((::BRepExtrema_SeqOfSolution*)_NativeInstance)->Append(*(::BRepExtrema_SolutionElem*)theItem->NativeInstance);
-}
-
-void Macad::Occt::BRepExtrema_SeqOfSolution::Append(Macad::Occt::BRepExtrema_SeqOfSolution^ theSeq)
-{
-    ((::BRepExtrema_SeqOfSolution*)_NativeInstance)->Append(*(::BRepExtrema_SeqOfSolution*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::BRepExtrema_SeqOfSolution::Prepend(Macad::Occt::BRepExtrema_SolutionElem^ theItem)
@@ -123,34 +102,14 @@ void Macad::Occt::BRepExtrema_SeqOfSolution::Prepend(Macad::Occt::BRepExtrema_So
     ((::BRepExtrema_SeqOfSolution*)_NativeInstance)->Prepend(*(::BRepExtrema_SolutionElem*)theItem->NativeInstance);
 }
 
-void Macad::Occt::BRepExtrema_SeqOfSolution::Prepend(Macad::Occt::BRepExtrema_SeqOfSolution^ theSeq)
-{
-    ((::BRepExtrema_SeqOfSolution*)_NativeInstance)->Prepend(*(::BRepExtrema_SeqOfSolution*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::BRepExtrema_SeqOfSolution::InsertBefore(int theIndex, Macad::Occt::BRepExtrema_SolutionElem^ theItem)
 {
     ((::BRepExtrema_SeqOfSolution*)_NativeInstance)->InsertBefore(theIndex, *(::BRepExtrema_SolutionElem*)theItem->NativeInstance);
 }
 
-void Macad::Occt::BRepExtrema_SeqOfSolution::InsertBefore(int theIndex, Macad::Occt::BRepExtrema_SeqOfSolution^ theSeq)
-{
-    ((::BRepExtrema_SeqOfSolution*)_NativeInstance)->InsertBefore(theIndex, *(::BRepExtrema_SeqOfSolution*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::BRepExtrema_SeqOfSolution::InsertAfter(Macad::Occt::BRepExtrema_SeqOfSolution::Iterator^ thePosition, Macad::Occt::BRepExtrema_SolutionElem^ theItem)
 {
     ((::BRepExtrema_SeqOfSolution*)_NativeInstance)->InsertAfter(*(::BRepExtrema_SeqOfSolution::Iterator*)thePosition->NativeInstance, *(::BRepExtrema_SolutionElem*)theItem->NativeInstance);
-}
-
-void Macad::Occt::BRepExtrema_SeqOfSolution::InsertAfter(int theIndex, Macad::Occt::BRepExtrema_SeqOfSolution^ theSeq)
-{
-    ((::BRepExtrema_SeqOfSolution*)_NativeInstance)->InsertAfter(theIndex, *(::BRepExtrema_SeqOfSolution*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::BRepExtrema_SeqOfSolution::InsertAfter(int theIndex, Macad::Occt::BRepExtrema_SolutionElem^ theItem)
-{
-    ((::BRepExtrema_SeqOfSolution*)_NativeInstance)->InsertAfter(theIndex, *(::BRepExtrema_SolutionElem*)theItem->NativeInstance);
 }
 
 void Macad::Occt::BRepExtrema_SeqOfSolution::Split(int theIndex, Macad::Occt::BRepExtrema_SeqOfSolution^ theSeq)
@@ -227,24 +186,6 @@ Macad::Occt::BRepExtrema_SeqOfSolution::Iterator::Iterator()
     _NativeInstance = new ::BRepExtrema_SeqOfSolution::Iterator();
 }
 
-Macad::Occt::BRepExtrema_SeqOfSolution::Iterator::Iterator(Macad::Occt::BRepExtrema_SeqOfSolution^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::BRepExtrema_SeqOfSolution::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_SeqOfSolution::Iterator(*(::BRepExtrema_SeqOfSolution*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::BRepExtrema_SeqOfSolution::Iterator::Iterator(Macad::Occt::BRepExtrema_SeqOfSolution^ theSeq)
-    : Macad::Occt::BaseClass<::BRepExtrema_SeqOfSolution::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_SeqOfSolution::Iterator(*(::BRepExtrema_SeqOfSolution*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::BRepExtrema_SeqOfSolution::Iterator::Iterator(Macad::Occt::BRepExtrema_SeqOfSolution::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::BRepExtrema_SeqOfSolution::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_SeqOfSolution::Iterator(*(::BRepExtrema_SeqOfSolution::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::BRepExtrema_SeqOfSolution::Iterator::More()
 {
     bool _result = ((::BRepExtrema_SeqOfSolution::Iterator*)_NativeInstance)->More();
@@ -276,6 +217,25 @@ bool Macad::Occt::BRepExtrema_SeqOfSolution::Iterator::IsEqual(Macad::Occt::BRep
     return _result;
 }
 
+bool Macad::Occt::BRepExtrema_SeqOfSolution::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::BRepExtrema_SeqOfSolution::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -298,12 +258,6 @@ Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::BRepExtrema_MapOfIntege
     : Macad::Occt::BaseClass<::BRepExtrema_MapOfIntegerPackedMapOfInteger>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepExtrema_MapOfIntegerPackedMapOfInteger(theNbBuckets, 0L);
-}
-
-Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::BRepExtrema_MapOfIntegerPackedMapOfInteger(Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger^ theOther)
-    : Macad::Occt::BaseClass<::BRepExtrema_MapOfIntegerPackedMapOfInteger>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_MapOfIntegerPackedMapOfInteger(*(::BRepExtrema_MapOfIntegerPackedMapOfInteger*)theOther->NativeInstance);
 }
 
 void Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::Exchange(Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger^ theOther)
@@ -366,13 +320,6 @@ Macad::Occt::TColStd_PackedMapOfInteger^ Macad::Occt::BRepExtrema_MapOfIntegerPa
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TColStd_PackedMapOfInteger(_result);
 }
 
-bool Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::Find(int theKey, Macad::Occt::TColStd_PackedMapOfInteger^ theValue)
-{
-    pin_ptr<int> pp_theKey = &theKey;
-    bool _result = ((::BRepExtrema_MapOfIntegerPackedMapOfInteger*)_NativeInstance)->Find(*(int*)pp_theKey, *(::TColStd_PackedMapOfInteger*)theValue->NativeInstance);
-    return _result;
-}
-
 Macad::Occt::TColStd_PackedMapOfInteger^ Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::ChangeSeek(int theKey)
 {
     pin_ptr<int> pp_theKey = &theKey;
@@ -395,12 +342,7 @@ void Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::Clear(bool doRelea
 
 void Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::Clear()
 {
-    ((::BRepExtrema_MapOfIntegerPackedMapOfInteger*)_NativeInstance)->Clear(true);
-}
-
-void Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-{
-    ((::BRepExtrema_MapOfIntegerPackedMapOfInteger*)_NativeInstance)->Clear(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
+    ((::BRepExtrema_MapOfIntegerPackedMapOfInteger*)_NativeInstance)->Clear(false);
 }
 
 int Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::Size()
@@ -419,18 +361,6 @@ Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::Iterator::Iterator()
     : Macad::Occt::BaseClass<::BRepExtrema_MapOfIntegerPackedMapOfInteger::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepExtrema_MapOfIntegerPackedMapOfInteger::Iterator();
-}
-
-Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::Iterator::Iterator(Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger^ theMap)
-    : Macad::Occt::BaseClass<::BRepExtrema_MapOfIntegerPackedMapOfInteger::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_MapOfIntegerPackedMapOfInteger::Iterator(*(::BRepExtrema_MapOfIntegerPackedMapOfInteger*)theMap->NativeInstance);
-}
-
-Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::Iterator::Iterator(Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::BRepExtrema_MapOfIntegerPackedMapOfInteger::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_MapOfIntegerPackedMapOfInteger::Iterator(*(::BRepExtrema_MapOfIntegerPackedMapOfInteger::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::Iterator::More()
@@ -470,28 +400,22 @@ int Macad::Occt::BRepExtrema_MapOfIntegerPackedMapOfInteger::Iterator::Key()
 //  Class  BRepExtrema_ShapeList
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepExtrema_ShapeList::BRepExtrema_ShapeList(int theIncrement, Macad::Occt::NCollection_BaseAllocator^ theAlloc)
-    : Macad::Occt::BaseClass<::BRepExtrema_ShapeList>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_ShapeList(theIncrement, Handle(::NCollection_BaseAllocator)(theAlloc->NativeInstance));
-}
-
 Macad::Occt::BRepExtrema_ShapeList::BRepExtrema_ShapeList(int theIncrement)
     : Macad::Occt::BaseClass<::BRepExtrema_ShapeList>(BaseClass::InitMode::Uninitialized)
 {
-    _NativeInstance = new ::BRepExtrema_ShapeList(theIncrement, 0);
+    _NativeInstance = new ::BRepExtrema_ShapeList(theIncrement);
 }
 
 Macad::Occt::BRepExtrema_ShapeList::BRepExtrema_ShapeList()
     : Macad::Occt::BaseClass<::BRepExtrema_ShapeList>(BaseClass::InitMode::Uninitialized)
 {
-    _NativeInstance = new ::BRepExtrema_ShapeList(256, 0);
+    _NativeInstance = new ::BRepExtrema_ShapeList(256);
 }
 
-Macad::Occt::BRepExtrema_ShapeList::BRepExtrema_ShapeList(Macad::Occt::BRepExtrema_ShapeList^ theOther)
+Macad::Occt::BRepExtrema_ShapeList::BRepExtrema_ShapeList(int theIncrement, Macad::Occt::NCollection_BaseAllocator^ theAllocator)
     : Macad::Occt::BaseClass<::BRepExtrema_ShapeList>(BaseClass::InitMode::Uninitialized)
 {
-    _NativeInstance = new ::BRepExtrema_ShapeList(*(::BRepExtrema_ShapeList*)theOther->NativeInstance);
+    _NativeInstance = new ::BRepExtrema_ShapeList(theIncrement, Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
 int Macad::Occt::BRepExtrema_ShapeList::Length()
@@ -524,14 +448,18 @@ bool Macad::Occt::BRepExtrema_ShapeList::IsEmpty()
     return _result;
 }
 
-void Macad::Occt::BRepExtrema_ShapeList::Assign(Macad::Occt::BRepExtrema_ShapeList^ theOther, bool theOwnAllocator)
+Macad::Occt::BRepExtrema_ShapeList^ Macad::Occt::BRepExtrema_ShapeList::Assign(Macad::Occt::BRepExtrema_ShapeList^ theOther, bool theOwnAllocator)
 {
-    ((::BRepExtrema_ShapeList*)_NativeInstance)->Assign(*(::BRepExtrema_ShapeList*)theOther->NativeInstance, theOwnAllocator);
+    ::BRepExtrema_ShapeList* _result = new ::BRepExtrema_ShapeList();
+    *_result = ((::BRepExtrema_ShapeList*)_NativeInstance)->Assign(*(::BRepExtrema_ShapeList*)theOther->NativeInstance, theOwnAllocator);
+    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepExtrema_ShapeList(_result);
 }
 
-void Macad::Occt::BRepExtrema_ShapeList::Assign(Macad::Occt::BRepExtrema_ShapeList^ theOther)
+Macad::Occt::BRepExtrema_ShapeList^ Macad::Occt::BRepExtrema_ShapeList::Assign(Macad::Occt::BRepExtrema_ShapeList^ theOther)
 {
-    ((::BRepExtrema_ShapeList*)_NativeInstance)->Assign(*(::BRepExtrema_ShapeList*)theOther->NativeInstance, true);
+    ::BRepExtrema_ShapeList* _result = new ::BRepExtrema_ShapeList();
+    *_result = ((::BRepExtrema_ShapeList*)_NativeInstance)->Assign(*(::BRepExtrema_ShapeList*)theOther->NativeInstance, true);
+    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepExtrema_ShapeList(_result);
 }
 
 Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepExtrema_ShapeList::Append(Macad::Occt::TopoDS_Shape^ theValue)
@@ -539,6 +467,11 @@ Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepExtrema_ShapeList::Append(Macad::Occ
     ::TopoDS_Shape* _result = new ::TopoDS_Shape();
     *_result = ((::BRepExtrema_ShapeList*)_NativeInstance)->Append(*(::TopoDS_Shape*)theValue->NativeInstance);
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
+}
+
+void Macad::Occt::BRepExtrema_ShapeList::EraseLast()
+{
+    ((::BRepExtrema_ShapeList*)_NativeInstance)->EraseLast();
 }
 
 Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepExtrema_ShapeList::Appended()
@@ -597,6 +530,21 @@ Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepExtrema_ShapeList::SetValue(int theI
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
 }
 
+void Macad::Occt::BRepExtrema_ShapeList::Clear(bool theReleaseMemory)
+{
+    ((::BRepExtrema_ShapeList*)_NativeInstance)->Clear(theReleaseMemory);
+}
+
+void Macad::Occt::BRepExtrema_ShapeList::Clear()
+{
+    ((::BRepExtrema_ShapeList*)_NativeInstance)->Clear(false);
+}
+
+void Macad::Occt::BRepExtrema_ShapeList::SetIncrement(int theIncrement)
+{
+    ((::BRepExtrema_ShapeList*)_NativeInstance)->SetIncrement(theIncrement);
+}
+
 System::Collections::Generic::IEnumerator<Macad::Occt::TopoDS_Shape^>^ Macad::Occt::BRepExtrema_ShapeList::GetEnumerator()
 {
     return gcnew IndexEnumerator<Macad::Occt::TopoDS_Shape^>(this, Lower(), Upper());
@@ -613,93 +561,11 @@ System::Collections::IEnumerator^ Macad::Occt::BRepExtrema_ShapeList::GetEnumera
 //  Class  BRepExtrema_ShapeList::Iterator
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepExtrema_ShapeList::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::BRepExtrema_ShapeList::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_ShapeList::Iterator();
-}
-
-Macad::Occt::BRepExtrema_ShapeList::Iterator::Iterator(Macad::Occt::BRepExtrema_ShapeList^ theVector, bool theToEnd)
-    : Macad::Occt::BaseClass<::BRepExtrema_ShapeList::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_ShapeList::Iterator(*(::BRepExtrema_ShapeList*)theVector->NativeInstance, theToEnd);
-}
-
-Macad::Occt::BRepExtrema_ShapeList::Iterator::Iterator(Macad::Occt::BRepExtrema_ShapeList^ theVector)
-    : Macad::Occt::BaseClass<::BRepExtrema_ShapeList::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_ShapeList::Iterator(*(::BRepExtrema_ShapeList*)theVector->NativeInstance, false);
-}
-
-Macad::Occt::BRepExtrema_ShapeList::Iterator::Iterator(Macad::Occt::BRepExtrema_ShapeList::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::BRepExtrema_ShapeList::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_ShapeList::Iterator(*(::BRepExtrema_ShapeList::Iterator*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::BRepExtrema_ShapeList::Iterator::Init(Macad::Occt::BRepExtrema_ShapeList^ theVector)
-{
-    ((::BRepExtrema_ShapeList::Iterator*)_NativeInstance)->Init(*(::BRepExtrema_ShapeList*)theVector->NativeInstance);
-}
-
-bool Macad::Occt::BRepExtrema_ShapeList::Iterator::More()
-{
-    bool _result = ((::BRepExtrema_ShapeList::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::BRepExtrema_ShapeList::Iterator::Next()
-{
-    ((::BRepExtrema_ShapeList::Iterator*)_NativeInstance)->Next();
-}
-
-void Macad::Occt::BRepExtrema_ShapeList::Iterator::Previous()
-{
-    ((::BRepExtrema_ShapeList::Iterator*)_NativeInstance)->Previous();
-}
-
-void Macad::Occt::BRepExtrema_ShapeList::Iterator::Offset(long long int theOffset)
-{
-    ((::BRepExtrema_ShapeList::Iterator*)_NativeInstance)->Offset(theOffset);
-}
-
-long long int Macad::Occt::BRepExtrema_ShapeList::Iterator::Differ(Macad::Occt::BRepExtrema_ShapeList::Iterator^ theOther)
-{
-    long long int _result = ((::BRepExtrema_ShapeList::Iterator*)_NativeInstance)->Differ(*(::BRepExtrema_ShapeList::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepExtrema_ShapeList::Iterator::Value()
-{
-    ::TopoDS_Shape* _result = new ::TopoDS_Shape();
-    *_result = (::TopoDS_Shape)((::BRepExtrema_ShapeList::Iterator*)_NativeInstance)->Value();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-Macad::Occt::TopoDS_Shape^ Macad::Occt::BRepExtrema_ShapeList::Iterator::ChangeValue()
-{
-    ::TopoDS_Shape* _result = new ::TopoDS_Shape();
-    *_result = ((::BRepExtrema_ShapeList::Iterator*)_NativeInstance)->ChangeValue();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-bool Macad::Occt::BRepExtrema_ShapeList::Iterator::IsEqual(Macad::Occt::BRepExtrema_ShapeList::Iterator^ theOther)
-{
-    bool _result = ((::BRepExtrema_ShapeList::Iterator*)_NativeInstance)->IsEqual(*(::BRepExtrema_ShapeList::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
 
 
 //---------------------------------------------------------------------
 //  Class  BRepExtrema_ElementFilter
 //---------------------------------------------------------------------
-
-Macad::Occt::BRepExtrema_ElementFilter::BRepExtrema_ElementFilter(Macad::Occt::BRepExtrema_ElementFilter^ parameter1)
-    : Macad::Occt::BaseClass<::BRepExtrema_ElementFilter>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_ElementFilter(*(::BRepExtrema_ElementFilter*)parameter1->NativeInstance);
-}
 
 Macad::Occt::BRepExtrema_ElementFilter::BRepExtrema_ElementFilter()
     : Macad::Occt::BaseClass<::BRepExtrema_ElementFilter>(BaseClass::InitMode::Uninitialized)
@@ -744,12 +610,6 @@ Macad::Occt::BRepExtrema_SolutionElem::BRepExtrema_SolutionElem(double theDist, 
 {
     pin_ptr<Macad::Occt::Pnt> pp_thePoint = &thePoint;
     _NativeInstance = new ::BRepExtrema_SolutionElem(theDist, *(gp_Pnt*)pp_thePoint, (::BRepExtrema_SupportType)theSolType, *(::TopoDS_Face*)theFace->NativeInstance, theU, theV);
-}
-
-Macad::Occt::BRepExtrema_SolutionElem::BRepExtrema_SolutionElem(Macad::Occt::BRepExtrema_SolutionElem^ parameter1)
-    : Macad::Occt::BaseClass<::BRepExtrema_SolutionElem>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_SolutionElem(*(::BRepExtrema_SolutionElem*)parameter1->NativeInstance);
 }
 
 double Macad::Occt::BRepExtrema_SolutionElem::Dist()
@@ -832,12 +692,6 @@ Macad::Occt::BRepExtrema_DistanceSS::BRepExtrema_DistanceSS(Macad::Occt::TopoDS_
     : Macad::Occt::BaseClass<::BRepExtrema_DistanceSS>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepExtrema_DistanceSS(*(::TopoDS_Shape*)theS1->NativeInstance, *(::TopoDS_Shape*)theS2->NativeInstance, *(::Bnd_Box*)theBox1->NativeInstance, *(::Bnd_Box*)theBox2->NativeInstance, theDstRef, ::Precision::Confusion(), Extrema_ExtFlag_MINMAX, Extrema_ExtAlgo_Grad);
-}
-
-Macad::Occt::BRepExtrema_DistanceSS::BRepExtrema_DistanceSS(Macad::Occt::BRepExtrema_DistanceSS^ parameter1)
-    : Macad::Occt::BaseClass<::BRepExtrema_DistanceSS>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_DistanceSS(*(::BRepExtrema_DistanceSS*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::BRepExtrema_DistanceSS::IsDone()
@@ -924,12 +778,6 @@ Macad::Occt::BRepExtrema_DistShapeShape::BRepExtrema_DistShapeShape(Macad::Occt:
     : Macad::Occt::BaseClass<::BRepExtrema_DistShapeShape>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepExtrema_DistShapeShape(*(::TopoDS_Shape*)Shape1->NativeInstance, *(::TopoDS_Shape*)Shape2->NativeInstance, theDeflection, Extrema_ExtFlag_MINMAX, Extrema_ExtAlgo_Grad, ::Message_ProgressRange());
-}
-
-Macad::Occt::BRepExtrema_DistShapeShape::BRepExtrema_DistShapeShape(Macad::Occt::BRepExtrema_DistShapeShape^ parameter1)
-    : Macad::Occt::BaseClass<::BRepExtrema_DistShapeShape>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_DistShapeShape(*(::BRepExtrema_DistShapeShape*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepExtrema_DistShapeShape::SetDeflection(double theDeflection)
@@ -1259,12 +1107,6 @@ Macad::Occt::BRepExtrema_ExtFF::BRepExtrema_ExtFF(Macad::Occt::TopoDS_Face^ F1, 
     _NativeInstance = new ::BRepExtrema_ExtFF(*(::TopoDS_Face*)F1->NativeInstance, *(::TopoDS_Face*)F2->NativeInstance);
 }
 
-Macad::Occt::BRepExtrema_ExtFF::BRepExtrema_ExtFF(Macad::Occt::BRepExtrema_ExtFF^ parameter1)
-    : Macad::Occt::BaseClass<::BRepExtrema_ExtFF>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_ExtFF(*(::BRepExtrema_ExtFF*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepExtrema_ExtFF::Initialize(Macad::Occt::TopoDS_Face^ F2)
 {
     ((::BRepExtrema_ExtFF*)_NativeInstance)->Initialize(*(::TopoDS_Face*)F2->NativeInstance);
@@ -1341,12 +1183,6 @@ Macad::Occt::BRepExtrema_ExtPC::BRepExtrema_ExtPC(Macad::Occt::TopoDS_Vertex^ V,
     : Macad::Occt::BaseClass<::BRepExtrema_ExtPC>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepExtrema_ExtPC(*(::TopoDS_Vertex*)V->NativeInstance, *(::TopoDS_Edge*)E->NativeInstance);
-}
-
-Macad::Occt::BRepExtrema_ExtPC::BRepExtrema_ExtPC(Macad::Occt::BRepExtrema_ExtPC^ parameter1)
-    : Macad::Occt::BaseClass<::BRepExtrema_ExtPC>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_ExtPC(*(::BRepExtrema_ExtPC*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepExtrema_ExtPC::Initialize(Macad::Occt::TopoDS_Edge^ E)
@@ -1507,12 +1343,6 @@ Macad::Occt::BRepExtrema_Poly::BRepExtrema_Poly()
     _NativeInstance = new ::BRepExtrema_Poly();
 }
 
-Macad::Occt::BRepExtrema_Poly::BRepExtrema_Poly(Macad::Occt::BRepExtrema_Poly^ parameter1)
-    : Macad::Occt::BaseClass<::BRepExtrema_Poly>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_Poly(*(::BRepExtrema_Poly*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::BRepExtrema_Poly::Distance(Macad::Occt::TopoDS_Shape^ S1, Macad::Occt::TopoDS_Shape^ S2, Macad::Occt::Pnt% P1, Macad::Occt::Pnt% P2, double% dist)
 {
     pin_ptr<Macad::Occt::Pnt> pp_P1 = &P1;
@@ -1525,6 +1355,47 @@ bool Macad::Occt::BRepExtrema_Poly::Distance(Macad::Occt::TopoDS_Shape^ S1, Maca
 
 
 //---------------------------------------------------------------------
+//  Class  BRepExtrema_VertexInspector
+//---------------------------------------------------------------------
+
+Macad::Occt::BRepExtrema_VertexInspector::BRepExtrema_VertexInspector()
+    : Macad::Occt::BaseClass<::BRepExtrema_VertexInspector>(BaseClass::InitMode::Uninitialized)
+{
+    _NativeInstance = new ::BRepExtrema_VertexInspector();
+}
+
+void Macad::Occt::BRepExtrema_VertexInspector::Add(Macad::Occt::XYZ thePnt)
+{
+    pin_ptr<Macad::Occt::XYZ> pp_thePnt = &thePnt;
+    ((::BRepExtrema_VertexInspector*)_NativeInstance)->Add(*(gp_XYZ*)pp_thePnt);
+}
+
+void Macad::Occt::BRepExtrema_VertexInspector::SetTol(double theTol)
+{
+    ((::BRepExtrema_VertexInspector*)_NativeInstance)->SetTol(theTol);
+}
+
+void Macad::Occt::BRepExtrema_VertexInspector::SetCurrent(Macad::Occt::XYZ theCurPnt)
+{
+    pin_ptr<Macad::Occt::XYZ> pp_theCurPnt = &theCurPnt;
+    ((::BRepExtrema_VertexInspector*)_NativeInstance)->SetCurrent(*(gp_XYZ*)pp_theCurPnt);
+}
+
+bool Macad::Occt::BRepExtrema_VertexInspector::IsNeedAdd()
+{
+    bool _result = ((::BRepExtrema_VertexInspector*)_NativeInstance)->IsNeedAdd();
+    return _result;
+}
+
+Macad::Occt::NCollection_CellFilter_Action Macad::Occt::BRepExtrema_VertexInspector::Inspect(int theTarget)
+{
+    ::NCollection_CellFilter_Action _result = ((::BRepExtrema_VertexInspector*)_NativeInstance)->Inspect(theTarget);
+    return (Macad::Occt::NCollection_CellFilter_Action)_result;
+}
+
+
+
+//---------------------------------------------------------------------
 //  Class  BRepExtrema_ProximityValueTool
 //---------------------------------------------------------------------
 
@@ -1532,12 +1403,6 @@ Macad::Occt::BRepExtrema_ProximityValueTool::BRepExtrema_ProximityValueTool()
     : Macad::Occt::BaseClass<::BRepExtrema_ProximityValueTool>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepExtrema_ProximityValueTool();
-}
-
-Macad::Occt::BRepExtrema_ProximityValueTool::BRepExtrema_ProximityValueTool(Macad::Occt::BRepExtrema_ProximityValueTool^ parameter1)
-    : Macad::Occt::BaseClass<::BRepExtrema_ProximityValueTool>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_ProximityValueTool(*(::BRepExtrema_ProximityValueTool*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepExtrema_ProximityValueTool::LoadShapeLists(Macad::Occt::BRepExtrema_ShapeList^ theShapeList1, Macad::Occt::BRepExtrema_ShapeList^ theShapeList2)
@@ -1620,12 +1485,6 @@ Macad::Occt::BRepExtrema_SelfIntersection::BRepExtrema_SelfIntersection(Macad::O
     _NativeInstance = new ::BRepExtrema_SelfIntersection(*(::TopoDS_Shape*)theShape->NativeInstance, 0.);
 }
 
-Macad::Occt::BRepExtrema_SelfIntersection::BRepExtrema_SelfIntersection(Macad::Occt::BRepExtrema_SelfIntersection^ parameter1)
-    : Macad::Occt::BaseClass<::BRepExtrema_SelfIntersection>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_SelfIntersection(*(::BRepExtrema_SelfIntersection*)parameter1->NativeInstance);
-}
-
 double Macad::Occt::BRepExtrema_SelfIntersection::Tolerance()
 {
     double _result = ((::BRepExtrema_SelfIntersection*)_NativeInstance)->Tolerance();
@@ -1696,12 +1555,6 @@ Macad::Occt::BRepExtrema_ShapeProximity::BRepExtrema_ShapeProximity(Macad::Occt:
     : Macad::Occt::BaseClass<::BRepExtrema_ShapeProximity>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepExtrema_ShapeProximity(*(::TopoDS_Shape*)theShape1->NativeInstance, *(::TopoDS_Shape*)theShape2->NativeInstance, ::Precision::Infinite());
-}
-
-Macad::Occt::BRepExtrema_ShapeProximity::BRepExtrema_ShapeProximity(Macad::Occt::BRepExtrema_ShapeProximity^ parameter1)
-    : Macad::Occt::BaseClass<::BRepExtrema_ShapeProximity>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepExtrema_ShapeProximity(*(::BRepExtrema_ShapeProximity*)parameter1->NativeInstance);
 }
 
 double Macad::Occt::BRepExtrema_ShapeProximity::Tolerance()
@@ -1822,12 +1675,6 @@ Macad::Occt::BRepExtrema_UnCompatibleShape::BRepExtrema_UnCompatibleShape(System
     NativeInstance = new ::BRepExtrema_UnCompatibleShape(sz_theMessage, sz_theStackTrace);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::BRepExtrema_UnCompatibleShape::BRepExtrema_UnCompatibleShape(Macad::Occt::BRepExtrema_UnCompatibleShape^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRepExtrema_UnCompatibleShape(*(::BRepExtrema_UnCompatibleShape*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepExtrema_UnCompatibleShape::Raise(System::String^ theMessage)

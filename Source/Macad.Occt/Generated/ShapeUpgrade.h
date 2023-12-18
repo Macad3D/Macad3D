@@ -47,7 +47,6 @@ public:
 
 public:
     ShapeUpgrade();
-    ShapeUpgrade(Macad::Occt::ShapeUpgrade^ parameter1);
     /* Method skipped due to unknown mapping: bool C0BSplineToSequenceOfC1BSplineCurve(Geom_BSplineCurve BS, TColGeom_HSequenceOfBoundedCurve seqBS, ) */
     /* Method skipped due to unknown mapping: bool C0BSplineToSequenceOfC1BSplineCurve(Geom2d_BSplineCurve BS, TColGeom2d_HSequenceOfBoundedCurve seqBS, ) */
 }; // class ShapeUpgrade
@@ -97,7 +96,6 @@ public:
     /// Empty constructor
     /// </summary>
     ShapeUpgrade_Tool();
-    ShapeUpgrade_Tool(Macad::Occt::ShapeUpgrade_Tool^ parameter1);
     /// <summary>
     /// Copy all fields from another Root object
     /// </summary>
@@ -183,7 +181,6 @@ public:
     /// Empty constructor.
     /// </summary>
     ShapeUpgrade_SplitCurve();
-    ShapeUpgrade_SplitCurve(Macad::Occt::ShapeUpgrade_SplitCurve^ parameter1);
     /// <summary>
     /// Initializes with curve first and last parameters.
     /// </summary>
@@ -265,7 +262,6 @@ public:
     /// Empty constructor.
     /// </summary>
     ShapeUpgrade_SplitCurve2d();
-    ShapeUpgrade_SplitCurve2d(Macad::Occt::ShapeUpgrade_SplitCurve2d^ parameter1);
     /// <summary>
     /// Initializes with pcurve with its first and last parameters.
     /// </summary>
@@ -324,7 +320,6 @@ public:
     /// Empty constructor
     /// </summary>
     ShapeUpgrade_EdgeDivide();
-    ShapeUpgrade_EdgeDivide(Macad::Occt::ShapeUpgrade_EdgeDivide^ parameter1);
     void Clear();
     /// <summary>
     /// Sets supporting surface by face
@@ -388,7 +383,6 @@ public:
     /// Empty constructor.
     /// </summary>
     ShapeUpgrade_ClosedEdgeDivide();
-    ShapeUpgrade_ClosedEdgeDivide(Macad::Occt::ShapeUpgrade_ClosedEdgeDivide^ parameter1);
     bool Compute(Macad::Occt::TopoDS_Edge^ anEdge);
     static Macad::Occt::ShapeUpgrade_ClosedEdgeDivide^ CreateDowncasted(::ShapeUpgrade_ClosedEdgeDivide* instance);
 }; // class ShapeUpgrade_ClosedEdgeDivide
@@ -435,7 +429,6 @@ public:
     /// Empty constructor.
     /// </summary>
     ShapeUpgrade_SplitSurface();
-    ShapeUpgrade_SplitSurface(Macad::Occt::ShapeUpgrade_SplitSurface^ parameter1);
     /// <summary>
     /// Initializes with single supporting surface.
     /// </summary>
@@ -549,7 +542,6 @@ public:
     /// Empty constructor
     /// </summary>
     ShapeUpgrade_WireDivide();
-    ShapeUpgrade_WireDivide(Macad::Occt::ShapeUpgrade_WireDivide^ parameter1);
     /// <summary>
     /// Initializes by wire and face
     /// </summary>
@@ -695,7 +687,6 @@ public:
     /// Initialize by a Face.
     /// </summary>
     ShapeUpgrade_FaceDivide(Macad::Occt::TopoDS_Face^ F);
-    ShapeUpgrade_FaceDivide(Macad::Occt::ShapeUpgrade_FaceDivide^ parameter1);
     /// <summary>
     /// Initialize by a Face.
     /// </summary>
@@ -815,7 +806,6 @@ public:
     /// Initialize by a Face.
     /// </summary>
     ShapeUpgrade_ClosedFaceDivide(Macad::Occt::TopoDS_Face^ F);
-    ShapeUpgrade_ClosedFaceDivide(Macad::Occt::ShapeUpgrade_ClosedFaceDivide^ parameter1);
     /// <summary>
     /// Performs splitting of surface and computes the shell
     /// from source face.
@@ -880,7 +870,6 @@ public:
     /// Empty constructor.
     /// </summary>
     ShapeUpgrade_SplitCurve3d();
-    ShapeUpgrade_SplitCurve3d(Macad::Occt::ShapeUpgrade_SplitCurve3d^ parameter1);
     /// <summary>
     /// Initializes with curve with its first and last parameters.
     /// </summary>
@@ -937,7 +926,6 @@ public:
     /// Empty constructor.
     /// </summary>
     ShapeUpgrade_ConvertCurve2dToBezier();
-    ShapeUpgrade_ConvertCurve2dToBezier(Macad::Occt::ShapeUpgrade_ConvertCurve2dToBezier^ parameter1);
     /// <summary>
     /// Converts curve into a list of beziers, and stores the
     /// splitting parameters on original curve.
@@ -992,7 +980,6 @@ public:
     /// Empty constructor
     /// </summary>
     ShapeUpgrade_ConvertCurve3dToBezier();
-    ShapeUpgrade_ConvertCurve3dToBezier(Macad::Occt::ShapeUpgrade_ConvertCurve3dToBezier^ parameter1);
     /// <summary>
     /// Sets mode for conversion Geom_Line to bezier.
     /// </summary>
@@ -1075,7 +1062,6 @@ public:
     /// Empty constructor.
     /// </summary>
     ShapeUpgrade_ConvertSurfaceToBezierBasis();
-    ShapeUpgrade_ConvertSurfaceToBezierBasis(Macad::Occt::ShapeUpgrade_ConvertSurfaceToBezierBasis^ parameter1);
     /// <summary>
     /// Splits a list of beziers computed by Compute method according
     /// the split values and splitting parameters.
@@ -1184,7 +1170,6 @@ public:
     /// </summary>
     ShapeUpgrade_FaceDivideArea();
     ShapeUpgrade_FaceDivideArea(Macad::Occt::TopoDS_Face^ F);
-    ShapeUpgrade_FaceDivideArea(Macad::Occt::ShapeUpgrade_FaceDivideArea^ parameter1);
     /// <summary>
     /// Performs splitting and computes the resulting shell
     /// The context is used to keep track of former splittings
@@ -1246,7 +1231,6 @@ public:
 
 public:
     ShapeUpgrade_FixSmallCurves();
-    ShapeUpgrade_FixSmallCurves(Macad::Occt::ShapeUpgrade_FixSmallCurves^ parameter1);
     void Init(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Face^ theFace);
     bool Approx(Macad::Occt::Geom_Curve^ Curve3d, Macad::Occt::Geom2d_Curve^ Curve2d, Macad::Occt::Geom2d_Curve^ Curve2dR, double% First, double% Last);
     /// <summary>
@@ -1292,7 +1276,6 @@ public:
 
 public:
     ShapeUpgrade_FixSmallBezierCurves();
-    ShapeUpgrade_FixSmallBezierCurves(Macad::Occt::ShapeUpgrade_FixSmallBezierCurves^ parameter1);
     bool Approx(Macad::Occt::Geom_Curve^ Curve3d, Macad::Occt::Geom2d_Curve^ Curve2d, Macad::Occt::Geom2d_Curve^ Curve2dR, double% First, double% Last);
     static Macad::Occt::ShapeUpgrade_FixSmallBezierCurves^ CreateDowncasted(::ShapeUpgrade_FixSmallBezierCurves* instance);
 }; // class ShapeUpgrade_FixSmallBezierCurves
@@ -1361,7 +1344,6 @@ public:
     /// </summary>
     ShapeUpgrade_RemoveInternalWires();
     ShapeUpgrade_RemoveInternalWires(Macad::Occt::TopoDS_Shape^ theShape);
-    ShapeUpgrade_RemoveInternalWires(Macad::Occt::ShapeUpgrade_RemoveInternalWires^ parameter1);
     /// <summary>
     /// Initialize by a Shape.
     /// </summary>
@@ -1429,7 +1411,6 @@ public:
     /// Empty constructor
     /// </summary>
     ShapeUpgrade_RemoveLocations();
-    ShapeUpgrade_RemoveLocations(Macad::Occt::ShapeUpgrade_RemoveLocations^ parameter1);
     /// <summary>
     /// Removes all location correspodingly to RemoveLevel.
     /// </summary>
@@ -1500,7 +1481,6 @@ public:
     /// Initialize by a Shape.
     /// </summary>
     ShapeUpgrade_ShapeDivide(Macad::Occt::TopoDS_Shape^ S);
-    ShapeUpgrade_ShapeDivide(Macad::Occt::ShapeUpgrade_ShapeDivide^ parameter1);
     /// <summary>
     /// Initialize by a Shape.
     /// </summary>
@@ -1613,7 +1593,6 @@ public:
     /// Initialize by a Shape.
     /// </summary>
     ShapeUpgrade_ShapeConvertToBezier(Macad::Occt::TopoDS_Shape^ S);
-    ShapeUpgrade_ShapeConvertToBezier(Macad::Occt::ShapeUpgrade_ShapeConvertToBezier^ parameter1);
     /// <summary>
     /// Sets mode for conversion 2D curves to bezier.
     /// </summary>
@@ -1749,7 +1728,6 @@ public:
     /// Initialize by a Shape.
     /// </summary>
     ShapeUpgrade_ShapeDivideAngle(double MaxAngle, Macad::Occt::TopoDS_Shape^ S);
-    ShapeUpgrade_ShapeDivideAngle(Macad::Occt::ShapeUpgrade_ShapeDivideAngle^ parameter1);
     /// <summary>
     /// Resets tool for splitting face with given angle
     /// </summary>
@@ -1827,7 +1805,6 @@ public:
     /// Initialize by a Shape.
     /// </summary>
     ShapeUpgrade_ShapeDivideArea(Macad::Occt::TopoDS_Shape^ S);
-    ShapeUpgrade_ShapeDivideArea(Macad::Occt::ShapeUpgrade_ShapeDivideArea^ parameter1);
     /// <summary>
     /// Set fixed numbers of splits in U and V directions.
     /// Only for "Splitting By Numbers" mode
@@ -1880,7 +1857,6 @@ public:
     /// Initialises tool with shape and default parameter.
     /// </summary>
     ShapeUpgrade_ShapeDivideClosed(Macad::Occt::TopoDS_Shape^ S);
-    ShapeUpgrade_ShapeDivideClosed(Macad::Occt::ShapeUpgrade_ShapeDivideClosed^ parameter1);
     /// <summary>
     /// Sets the number of cuts applied to divide closed faces.
     /// The number of resulting faces will be num+1.
@@ -1922,7 +1898,6 @@ public:
     /// Initialises tool with shape and default parameter.
     /// </summary>
     ShapeUpgrade_ShapeDivideClosedEdges(Macad::Occt::TopoDS_Shape^ S);
-    ShapeUpgrade_ShapeDivideClosedEdges(Macad::Occt::ShapeUpgrade_ShapeDivideClosedEdges^ parameter1);
     /// <summary>
     /// Sets the number of cuts applied to divide closed edges.
     /// The number of resulting faces will be num+1.
@@ -1968,7 +1943,6 @@ public:
     /// Initialize by a Shape.
     /// </summary>
     ShapeUpgrade_ShapeDivideContinuity(Macad::Occt::TopoDS_Shape^ S);
-    ShapeUpgrade_ShapeDivideContinuity(Macad::Occt::ShapeUpgrade_ShapeDivideContinuity^ parameter1);
     /// <summary>
     /// Sets tolerance.
     /// </summary>
@@ -2072,7 +2046,6 @@ public:
     /// Creates a ShellSewing, empty
     /// </summary>
     ShapeUpgrade_ShellSewing();
-    ShapeUpgrade_ShellSewing(Macad::Occt::ShapeUpgrade_ShellSewing^ parameter1);
     /// <summary>
     /// Builds a new shape from a former one, by calling Sewing from
     /// BRepBuilderAPI. Rebuilt solids are oriented to be "not infinite"
@@ -2137,7 +2110,6 @@ public:
     /// Empty constructor.
     /// </summary>
     ShapeUpgrade_SplitCurve2dContinuity();
-    ShapeUpgrade_SplitCurve2dContinuity(Macad::Occt::ShapeUpgrade_SplitCurve2dContinuity^ parameter1);
     /// <summary>
     /// Sets criterion for splitting.
     /// </summary>
@@ -2193,7 +2165,6 @@ public:
     /// Empty constructor.
     /// </summary>
     ShapeUpgrade_SplitCurve3dContinuity();
-    ShapeUpgrade_SplitCurve3dContinuity(Macad::Occt::ShapeUpgrade_SplitCurve3dContinuity^ parameter1);
     /// <summary>
     /// Sets criterion for splitting.
     /// </summary>
@@ -2249,7 +2220,6 @@ public:
     /// Empty constructor.
     /// </summary>
     ShapeUpgrade_SplitSurfaceAngle(double MaxAngle);
-    ShapeUpgrade_SplitSurfaceAngle(Macad::Occt::ShapeUpgrade_SplitSurfaceAngle^ parameter1);
     /// <summary>
     /// Set maximal angle
     /// </summary>
@@ -2316,7 +2286,6 @@ public:
     /// Empty constructor.
     /// </summary>
     ShapeUpgrade_SplitSurfaceArea();
-    ShapeUpgrade_SplitSurfaceArea(Macad::Occt::ShapeUpgrade_SplitSurfaceArea^ parameter1);
     /// <summary>
     /// Set splitting mode
     /// If the mode is "splitting into squares",
@@ -2375,7 +2344,6 @@ public:
     /// Empty constructor.
     /// </summary>
     ShapeUpgrade_SplitSurfaceContinuity();
-    ShapeUpgrade_SplitSurfaceContinuity(Macad::Occt::ShapeUpgrade_SplitSurfaceContinuity^ parameter1);
     /// <summary>
     /// Sets criterion for splitting.
     /// </summary>
@@ -2472,7 +2440,6 @@ public:
     /// It does not perform unification.
     /// </summary>
     ShapeUpgrade_UnifySameDomain(Macad::Occt::TopoDS_Shape^ aShape);
-    ShapeUpgrade_UnifySameDomain(Macad::Occt::ShapeUpgrade_UnifySameDomain^ parameter1);
     /// <summary>
     /// Initializes with a shape and necessary flags.
     /// It does not perform unification.

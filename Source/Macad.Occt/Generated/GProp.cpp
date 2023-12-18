@@ -21,12 +21,6 @@ Macad::Occt::GProp::GProp()
     _NativeInstance = new ::GProp();
 }
 
-Macad::Occt::GProp::GProp(Macad::Occt::GProp^ parameter1)
-    : Macad::Occt::BaseClass<::GProp>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GProp(*(::GProp*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::GProp::HOperator(Macad::Occt::Pnt G, Macad::Occt::Pnt Q, double Mass, Macad::Occt::Mat% Operator)
 {
     pin_ptr<Macad::Occt::Pnt> pp_G = &G;
@@ -45,12 +39,6 @@ Macad::Occt::GProp_PrincipalProps::GProp_PrincipalProps()
     : Macad::Occt::BaseClass<::GProp_PrincipalProps>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::GProp_PrincipalProps();
-}
-
-Macad::Occt::GProp_PrincipalProps::GProp_PrincipalProps(Macad::Occt::GProp_PrincipalProps^ parameter1)
-    : Macad::Occt::BaseClass<::GProp_PrincipalProps>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GProp_PrincipalProps(*(::GProp_PrincipalProps*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::GProp_PrincipalProps::HasSymmetryAxis()
@@ -128,12 +116,6 @@ Macad::Occt::GProp_GProps::GProp_GProps(Macad::Occt::Pnt SystemLocation)
 {
     pin_ptr<Macad::Occt::Pnt> pp_SystemLocation = &SystemLocation;
     _NativeInstance = new ::GProp_GProps(*(gp_Pnt*)pp_SystemLocation);
-}
-
-Macad::Occt::GProp_GProps::GProp_GProps(Macad::Occt::GProp_GProps^ parameter1)
-    : Macad::Occt::BaseClass<::GProp_GProps>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GProp_GProps(*(::GProp_GProps*)parameter1->NativeInstance);
 }
 
 Macad::Occt::GProp_PrincipalProps^ Macad::Occt::GProp_GProps::PrincipalProperties()
@@ -226,12 +208,6 @@ Macad::Occt::GProp_CelGProps::GProp_CelGProps(Macad::Occt::gp_Lin^ C, double U1,
     _NativeInstance = new ::GProp_CelGProps(*(::gp_Lin*)C->NativeInstance, U1, U2, *(gp_Pnt*)pp_CLocation);
 }
 
-Macad::Occt::GProp_CelGProps::GProp_CelGProps(Macad::Occt::GProp_CelGProps^ parameter1)
-    : Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GProp_CelGProps(*(::GProp_CelGProps*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::GProp_CelGProps::SetLocation(Macad::Occt::Pnt CLocation)
 {
     pin_ptr<Macad::Occt::Pnt> pp_CLocation = &CLocation;
@@ -258,12 +234,6 @@ Macad::Occt::GProp_PEquation::GProp_PEquation(Macad::Occt::TColgp_Array1OfPnt^ P
     : Macad::Occt::BaseClass<::GProp_PEquation>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::GProp_PEquation(*(::TColgp_Array1OfPnt*)Pnts->NativeInstance, Tol);
-}
-
-Macad::Occt::GProp_PEquation::GProp_PEquation(Macad::Occt::GProp_PEquation^ parameter1)
-    : Macad::Occt::BaseClass<::GProp_PEquation>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GProp_PEquation(*(::GProp_PEquation*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::GProp_PEquation::IsPlanar()
@@ -354,12 +324,6 @@ Macad::Occt::GProp_PGProps::GProp_PGProps(Macad::Occt::TColgp_Array2OfPnt^ Pnts,
     _NativeInstance = new ::GProp_PGProps(*(::TColgp_Array2OfPnt*)Pnts->NativeInstance, *(::TColStd_Array2OfReal*)Density->NativeInstance);
 }
 
-Macad::Occt::GProp_PGProps::GProp_PGProps(Macad::Occt::GProp_PGProps^ parameter1)
-    : Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GProp_PGProps(*(::GProp_PGProps*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::GProp_PGProps::AddPoint(Macad::Occt::Pnt P)
 {
     pin_ptr<Macad::Occt::Pnt> pp_P = &P;
@@ -438,12 +402,6 @@ Macad::Occt::GProp_SelGProps::GProp_SelGProps(Macad::Occt::gp_Torus^ S, double T
     _NativeInstance = new ::GProp_SelGProps(*(::gp_Torus*)S->NativeInstance, Teta1, Teta2, Alpha1, Alpha2, *(gp_Pnt*)pp_SLocation);
 }
 
-Macad::Occt::GProp_SelGProps::GProp_SelGProps(Macad::Occt::GProp_SelGProps^ parameter1)
-    : Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GProp_SelGProps(*(::GProp_SelGProps*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::GProp_SelGProps::SetLocation(Macad::Occt::Pnt SLocation)
 {
     pin_ptr<Macad::Occt::Pnt> pp_SLocation = &SLocation;
@@ -498,12 +456,6 @@ Macad::Occt::GProp_UndefinedAxis::GProp_UndefinedAxis(System::String^ theMessage
     NativeInstance = new ::GProp_UndefinedAxis(sz_theMessage, sz_theStackTrace);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::GProp_UndefinedAxis::GProp_UndefinedAxis(Macad::Occt::GProp_UndefinedAxis^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::GProp_UndefinedAxis(*(::GProp_UndefinedAxis*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::GProp_UndefinedAxis::Raise(System::String^ theMessage)
@@ -585,12 +537,6 @@ Macad::Occt::GProp_VelGProps::GProp_VelGProps(Macad::Occt::gp_Torus^ S, double T
 {
     pin_ptr<Macad::Occt::Pnt> pp_VLocation = &VLocation;
     _NativeInstance = new ::GProp_VelGProps(*(::gp_Torus*)S->NativeInstance, Teta1, Teta2, Alpha1, Alpha2, *(gp_Pnt*)pp_VLocation);
-}
-
-Macad::Occt::GProp_VelGProps::GProp_VelGProps(Macad::Occt::GProp_VelGProps^ parameter1)
-    : Macad::Occt::GProp_GProps(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GProp_VelGProps(*(::GProp_VelGProps*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::GProp_VelGProps::SetLocation(Macad::Occt::Pnt VLocation)

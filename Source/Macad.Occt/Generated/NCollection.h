@@ -50,7 +50,6 @@ public:
 
 public:
     NCollection_CellFilter_InspectorXYZ();
-    NCollection_CellFilter_InspectorXYZ(Macad::Occt::NCollection_CellFilter_InspectorXYZ^ parameter1);
     /// <summary>
     /// Access to coordinate
     /// </summary>
@@ -93,7 +92,6 @@ public:
 
 public:
     NCollection_CellFilter_InspectorXY();
-    NCollection_CellFilter_InspectorXY(Macad::Occt::NCollection_CellFilter_InspectorXY^ parameter1);
     /// <summary>
     /// Access to coordinate
     /// </summary>
@@ -154,8 +152,9 @@ public:
     }
 
 public:
-    System::IntPtr Allocate(long long unsigned int size);
-    void Free(System::IntPtr anAddress);
+    System::IntPtr Allocate(long long unsigned int theSize);
+    System::IntPtr AllocateOptimal(long long unsigned int theSize);
+    void Free(System::IntPtr theAddress);
     /// <summary>
     /// CommonBaseAllocator
     /// This method is designed to have the only one BaseAllocator (to avoid
@@ -163,14 +162,6 @@ public:
     /// create more BaseAllocators, but it is injurious.
     /// </summary>
     static Macad::Occt::NCollection_BaseAllocator^ CommonBaseAllocator();
-    /// <summary>
-    /// Callback function to register alloc/free calls
-    /// </summary>
-    static void StandardCallBack(bool theIsAlloc, System::IntPtr theStorage, long long unsigned int theRoundSize, long long unsigned int theSize);
-    /// <summary>
-    /// Prints memory usage statistics cumulated by StandardCallBack
-    /// </summary>
-    static void PrintMemUsageStatistics();
     static Macad::Occt::NCollection_BaseAllocator^ CreateDowncasted(::NCollection_BaseAllocator* instance);
 }; // class NCollection_BaseAllocator
 
@@ -241,7 +232,6 @@ public:
     public:
         Iterator();
         Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::NCollection_BaseList::Iterator^ parameter1);
         void Init(Macad::Occt::NCollection_BaseList^ theList);
         void Initialize(Macad::Occt::NCollection_BaseList^ theList);
         bool More();
@@ -249,9 +239,9 @@ public:
         /// Performs comparison of two iterators
         /// </summary>
         bool IsEqual(Macad::Occt::NCollection_BaseList::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
-    NCollection_BaseList(Macad::Occt::NCollection_BaseList^ parameter1);
     int Extent();
     bool IsEmpty();
     /// <summary>
@@ -259,6 +249,94 @@ public:
     /// </summary>
     Macad::Occt::NCollection_BaseAllocator^ Allocator();
 }; // class NCollection_BaseList
+
+//---------------------------------------------------------------------
+//  Class  NCollection_BasePointerVector
+//---------------------------------------------------------------------
+/// <summary>
+/// Simplified class for vector of pointers of void.
+/// Offers basic functionality to scalable inserts,
+/// resizes and erasing last.
+/// 
+/// Control of processing values of pointers out-of-scope
+/// and should be controlled externally.
+/// Especially, copy operation should post-process elements of pointers to make deep copy.
+/// </summary>
+public ref class NCollection_BasePointerVector sealed
+    : public Macad::Occt::BaseClass<::NCollection_BasePointerVector>
+{
+
+#ifdef Include_NCollection_BasePointerVector_h
+public:
+    Include_NCollection_BasePointerVector_h
+#endif
+
+public:
+    NCollection_BasePointerVector(::NCollection_BasePointerVector* nativeInstance)
+        : Macad::Occt::BaseClass<::NCollection_BasePointerVector>( nativeInstance, true )
+    {}
+
+    NCollection_BasePointerVector(::NCollection_BasePointerVector& nativeInstance)
+        : Macad::Occt::BaseClass<::NCollection_BasePointerVector>( &nativeInstance, false )
+    {}
+
+    property ::NCollection_BasePointerVector* NativeInstance
+    {
+        ::NCollection_BasePointerVector* get()
+        {
+            return static_cast<::NCollection_BasePointerVector*>(_NativeInstance);
+        }
+    }
+
+public:
+    /// <summary>
+    /// Default constructor
+    /// </summary>
+    NCollection_BasePointerVector();
+    /// <summary>
+    /// Checks for an empty status
+    /// </summary>
+    bool IsEmpty();
+    /// <summary>
+    /// Gets used size
+    /// </summary>
+    long long unsigned int Size();
+    /// <summary>
+    /// Gets available capacity
+    /// </summary>
+    long long unsigned int Capacity();
+    /// <summary>
+    /// Erases last element, decrements size.
+    /// </summary>
+    void RemoveLast();
+    /// <summary>
+    /// Resets the size
+    /// </summary>
+    void Clear(bool theReleaseMemory);
+    /// <summary>
+    /// Resets the size
+    /// </summary>
+    void Clear();
+    /// <summary>
+    /// Gets array, can be null
+    /// </summary>
+    System::IntPtr GetArray();
+    /// <summary>
+    /// Gets value by index, no acess validation
+    /// </summary>
+    System::IntPtr Value(long long unsigned int theInd);
+    /// <summary>
+    /// Inserts new element at the end, increase size,
+    /// if capacity is not enough, call resize.
+    /// </summary>
+    void Append(System::IntPtr thePnt);
+    /// <summary>
+    /// Updates value of existed element,
+    /// If index more then size, increase size of container,
+    /// in this case capacity can be updated.
+    /// </summary>
+    void SetValue(long long unsigned int theInd, System::IntPtr thePnt);
+}; // class NCollection_BasePointerVector
 
 //---------------------------------------------------------------------
 //  Class  NCollection_AccAllocator
@@ -323,6 +401,10 @@ public:
     /// </summary>
     System::IntPtr Allocate(long long unsigned int theSize);
     /// <summary>
+    /// Allocate memory with given size
+    /// </summary>
+    System::IntPtr AllocateOptimal(long long unsigned int theSize);
+    /// <summary>
     /// Free a previously allocated memory;
     /// memory is returned to the OS when all allocations in some block are freed
     /// </summary>
@@ -373,6 +455,10 @@ public:
     /// Allocate memory with given size. Returns NULL on failure.
     /// </summary>
     System::IntPtr Allocate(long long unsigned int theSize);
+    /// <summary>
+    /// Allocate memory with given size. Returns NULL on failure.
+    /// </summary>
+    System::IntPtr AllocateOptimal(long long unsigned int theSize);
     /// <summary>
     /// Free a previously allocated memory.
     /// </summary>
@@ -460,7 +546,6 @@ public:
     ///  buffer data allocated by theAlloc
     /// </param>
     NCollection_Buffer(Macad::Occt::NCollection_BaseAllocator^ theAlloc);
-    NCollection_Buffer(Macad::Occt::NCollection_Buffer^ parameter1);
     /// <summary>
     /// </summary>
     /// <returns>
@@ -571,6 +656,21 @@ public:
     }
 
 public:
+    //---------------------------------------------------------------------
+    //  Enum  IBlockSizeLevel
+    //---------------------------------------------------------------------
+    /// <summary>
+    /// Description ability to next growing size each 5-th new block
+    /// </summary>
+    enum class IBlockSizeLevel
+    {
+        Min = 0,
+        Small = 1,
+        Medium = 2,
+        Large = 3,
+        Max = 4
+    }; // enum  class IBlockSizeLevel
+
     /// <summary>
     /// Constructor.
     /// Note that this constructor does NOT setup mutex for using allocator concurrently from different threads,
@@ -608,18 +708,13 @@ public:
     /// </summary>
     System::IntPtr Allocate(long long unsigned int size);
     /// <summary>
+    /// Allocate memory with given size. Returns NULL on failure
+    /// </summary>
+    System::IntPtr AllocateOptimal(long long unsigned int size);
+    /// <summary>
     /// Free a previously allocated memory. Does nothing
     /// </summary>
-    void Free(System::IntPtr anAddress);
-    /// <summary>
-    /// Diagnostic method, returns the total allocated size
-    /// </summary>
-    long long unsigned int GetMemSize();
-    /// <summary>
-    /// Reallocation: it is always allowed but is only efficient with the
-    /// last allocated item
-    /// </summary>
-    System::IntPtr Reallocate(System::IntPtr anAddress, long long unsigned int oldSize, long long unsigned int newSize);
+    void Free(System::IntPtr parameter1);
     /// <summary>
     /// Re-initialize the allocator so that the next Allocate call should
     /// start allocating in the very beginning as though the allocator is just
@@ -628,7 +723,7 @@ public:
     /// </summary>
     /// True - release all previously allocated memory, False - preserve it
     /// for future allocations.
-    void Reset(bool doReleaseMem);
+    void Reset(bool theReleaseMemory);
     /// <summary>
     /// Re-initialize the allocator so that the next Allocate call should
     /// start allocating in the very beginning as though the allocator is just
@@ -677,6 +772,7 @@ public:
 
 public:
     System::IntPtr Allocate(long long unsigned int theSize);
+    System::IntPtr AllocateOptimal(long long unsigned int theSize);
     void Free(System::IntPtr anAddress);
     static Macad::Occt::NCollection_HeapAllocator^ GlobalHeapAllocator();
     static Macad::Occt::NCollection_HeapAllocator^ CreateDowncasted(::NCollection_HeapAllocator* instance);
@@ -739,6 +835,10 @@ public:
     /// Allocate memory
     /// </summary>
     System::IntPtr Allocate(long long unsigned int theSize);
+    /// <summary>
+    /// Allocate memory
+    /// </summary>
+    System::IntPtr AllocateOptimal(long long unsigned int theSize);
     /// <summary>
     /// Release memory
     /// </summary>

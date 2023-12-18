@@ -33,12 +33,6 @@ Macad::Occt::V3d_ListOfLight::V3d_ListOfLight(Macad::Occt::NCollection_BaseAlloc
     _NativeInstance = new ::V3d_ListOfLight(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::V3d_ListOfLight::V3d_ListOfLight(Macad::Occt::V3d_ListOfLight^ theOther)
-    : Macad::Occt::NCollection_BaseList(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::V3d_ListOfLight(*(::V3d_ListOfLight*)theOther->NativeInstance);
-}
-
 int Macad::Occt::V3d_ListOfLight::Size()
 {
     int _result = ((::V3d_ListOfLight*)_NativeInstance)->Size();
@@ -80,25 +74,10 @@ Macad::Occt::Graphic3d_CLight^ Macad::Occt::V3d_ListOfLight::Append(Macad::Occt:
     return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CLight::CreateDowncasted(_result.get());
 }
 
-void Macad::Occt::V3d_ListOfLight::Append(Macad::Occt::Graphic3d_CLight^ theItem, Macad::Occt::V3d_ListOfLight::Iterator^ theIter)
-{
-    ((::V3d_ListOfLight*)_NativeInstance)->Append(Handle(::Graphic3d_CLight)(theItem->NativeInstance), *(::V3d_ListOfLight::Iterator*)theIter->NativeInstance);
-}
-
-void Macad::Occt::V3d_ListOfLight::Append(Macad::Occt::V3d_ListOfLight^ theOther)
-{
-    ((::V3d_ListOfLight*)_NativeInstance)->Append(*(::V3d_ListOfLight*)theOther->NativeInstance);
-}
-
 Macad::Occt::Graphic3d_CLight^ Macad::Occt::V3d_ListOfLight::Prepend(Macad::Occt::Graphic3d_CLight^ theItem)
 {
     Handle(::Graphic3d_CLight) _result = ((::V3d_ListOfLight*)_NativeInstance)->Prepend(Handle(::Graphic3d_CLight)(theItem->NativeInstance));
     return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CLight::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::V3d_ListOfLight::Prepend(Macad::Occt::V3d_ListOfLight^ theOther)
-{
-    ((::V3d_ListOfLight*)_NativeInstance)->Prepend(*(::V3d_ListOfLight*)theOther->NativeInstance);
 }
 
 void Macad::Occt::V3d_ListOfLight::RemoveFirst()
@@ -117,20 +96,10 @@ Macad::Occt::Graphic3d_CLight^ Macad::Occt::V3d_ListOfLight::InsertBefore(Macad:
     return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CLight::CreateDowncasted(_result.get());
 }
 
-void Macad::Occt::V3d_ListOfLight::InsertBefore(Macad::Occt::V3d_ListOfLight^ theOther, Macad::Occt::V3d_ListOfLight::Iterator^ theIter)
-{
-    ((::V3d_ListOfLight*)_NativeInstance)->InsertBefore(*(::V3d_ListOfLight*)theOther->NativeInstance, *(::V3d_ListOfLight::Iterator*)theIter->NativeInstance);
-}
-
 Macad::Occt::Graphic3d_CLight^ Macad::Occt::V3d_ListOfLight::InsertAfter(Macad::Occt::Graphic3d_CLight^ theItem, Macad::Occt::V3d_ListOfLight::Iterator^ theIter)
 {
     Handle(::Graphic3d_CLight) _result = ((::V3d_ListOfLight*)_NativeInstance)->InsertAfter(Handle(::Graphic3d_CLight)(theItem->NativeInstance), *(::V3d_ListOfLight::Iterator*)theIter->NativeInstance);
     return _result.IsNull() ? nullptr : Macad::Occt::Graphic3d_CLight::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::V3d_ListOfLight::InsertAfter(Macad::Occt::V3d_ListOfLight^ theOther, Macad::Occt::V3d_ListOfLight::Iterator^ theIter)
-{
-    ((::V3d_ListOfLight*)_NativeInstance)->InsertAfter(*(::V3d_ListOfLight*)theOther->NativeInstance, *(::V3d_ListOfLight::Iterator*)theIter->NativeInstance);
 }
 
 void Macad::Occt::V3d_ListOfLight::Reverse()
@@ -148,18 +117,6 @@ Macad::Occt::V3d_ListOfLight::Iterator::Iterator()
     : Macad::Occt::BaseClass<::V3d_ListOfLight::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::V3d_ListOfLight::Iterator();
-}
-
-Macad::Occt::V3d_ListOfLight::Iterator::Iterator(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::V3d_ListOfLight::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::V3d_ListOfLight::Iterator(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-Macad::Occt::V3d_ListOfLight::Iterator::Iterator(Macad::Occt::V3d_ListOfLight::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::V3d_ListOfLight::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::V3d_ListOfLight::Iterator(*(::V3d_ListOfLight::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::V3d_ListOfLight::Iterator::More()
@@ -203,12 +160,6 @@ Macad::Occt::V3d_ListOfLightIterator::V3d_ListOfLightIterator(Macad::Occt::NColl
     _NativeInstance = new ::V3d_ListOfLightIterator(*(::NCollection_BaseList*)theList->NativeInstance);
 }
 
-Macad::Occt::V3d_ListOfLightIterator::V3d_ListOfLightIterator(Macad::Occt::V3d_ListOfLightIterator^ parameter1)
-    : Macad::Occt::BaseClass<::V3d_ListOfLightIterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::V3d_ListOfLightIterator(*(::V3d_ListOfLightIterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::V3d_ListOfLightIterator::More()
 {
     bool _result = ((::V3d_ListOfLightIterator*)_NativeInstance)->More();
@@ -248,12 +199,6 @@ Macad::Occt::V3d_ListOfView::V3d_ListOfView(Macad::Occt::NCollection_BaseAllocat
     : Macad::Occt::NCollection_BaseList(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::V3d_ListOfView(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
-}
-
-Macad::Occt::V3d_ListOfView::V3d_ListOfView(Macad::Occt::V3d_ListOfView^ theOther)
-    : Macad::Occt::NCollection_BaseList(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::V3d_ListOfView(*(::V3d_ListOfView*)theOther->NativeInstance);
 }
 
 int Macad::Occt::V3d_ListOfView::Size()
@@ -297,25 +242,10 @@ Macad::Occt::V3d_View^ Macad::Occt::V3d_ListOfView::Append(Macad::Occt::V3d_View
     return _result.IsNull() ? nullptr : Macad::Occt::V3d_View::CreateDowncasted(_result.get());
 }
 
-void Macad::Occt::V3d_ListOfView::Append(Macad::Occt::V3d_View^ theItem, Macad::Occt::V3d_ListOfView::Iterator^ theIter)
-{
-    ((::V3d_ListOfView*)_NativeInstance)->Append(Handle(::V3d_View)(theItem->NativeInstance), *(::V3d_ListOfView::Iterator*)theIter->NativeInstance);
-}
-
-void Macad::Occt::V3d_ListOfView::Append(Macad::Occt::V3d_ListOfView^ theOther)
-{
-    ((::V3d_ListOfView*)_NativeInstance)->Append(*(::V3d_ListOfView*)theOther->NativeInstance);
-}
-
 Macad::Occt::V3d_View^ Macad::Occt::V3d_ListOfView::Prepend(Macad::Occt::V3d_View^ theItem)
 {
     Handle(::V3d_View) _result = ((::V3d_ListOfView*)_NativeInstance)->Prepend(Handle(::V3d_View)(theItem->NativeInstance));
     return _result.IsNull() ? nullptr : Macad::Occt::V3d_View::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::V3d_ListOfView::Prepend(Macad::Occt::V3d_ListOfView^ theOther)
-{
-    ((::V3d_ListOfView*)_NativeInstance)->Prepend(*(::V3d_ListOfView*)theOther->NativeInstance);
 }
 
 void Macad::Occt::V3d_ListOfView::RemoveFirst()
@@ -334,20 +264,10 @@ Macad::Occt::V3d_View^ Macad::Occt::V3d_ListOfView::InsertBefore(Macad::Occt::V3
     return _result.IsNull() ? nullptr : Macad::Occt::V3d_View::CreateDowncasted(_result.get());
 }
 
-void Macad::Occt::V3d_ListOfView::InsertBefore(Macad::Occt::V3d_ListOfView^ theOther, Macad::Occt::V3d_ListOfView::Iterator^ theIter)
-{
-    ((::V3d_ListOfView*)_NativeInstance)->InsertBefore(*(::V3d_ListOfView*)theOther->NativeInstance, *(::V3d_ListOfView::Iterator*)theIter->NativeInstance);
-}
-
 Macad::Occt::V3d_View^ Macad::Occt::V3d_ListOfView::InsertAfter(Macad::Occt::V3d_View^ theItem, Macad::Occt::V3d_ListOfView::Iterator^ theIter)
 {
     Handle(::V3d_View) _result = ((::V3d_ListOfView*)_NativeInstance)->InsertAfter(Handle(::V3d_View)(theItem->NativeInstance), *(::V3d_ListOfView::Iterator*)theIter->NativeInstance);
     return _result.IsNull() ? nullptr : Macad::Occt::V3d_View::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::V3d_ListOfView::InsertAfter(Macad::Occt::V3d_ListOfView^ theOther, Macad::Occt::V3d_ListOfView::Iterator^ theIter)
-{
-    ((::V3d_ListOfView*)_NativeInstance)->InsertAfter(*(::V3d_ListOfView*)theOther->NativeInstance, *(::V3d_ListOfView::Iterator*)theIter->NativeInstance);
 }
 
 void Macad::Occt::V3d_ListOfView::Reverse()
@@ -365,18 +285,6 @@ Macad::Occt::V3d_ListOfView::Iterator::Iterator()
     : Macad::Occt::BaseClass<::V3d_ListOfView::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::V3d_ListOfView::Iterator();
-}
-
-Macad::Occt::V3d_ListOfView::Iterator::Iterator(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::V3d_ListOfView::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::V3d_ListOfView::Iterator(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-Macad::Occt::V3d_ListOfView::Iterator::Iterator(Macad::Occt::V3d_ListOfView::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::V3d_ListOfView::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::V3d_ListOfView::Iterator(*(::V3d_ListOfView::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::V3d_ListOfView::Iterator::More()
@@ -420,12 +328,6 @@ Macad::Occt::V3d_ListOfViewIterator::V3d_ListOfViewIterator(Macad::Occt::NCollec
     _NativeInstance = new ::V3d_ListOfViewIterator(*(::NCollection_BaseList*)theList->NativeInstance);
 }
 
-Macad::Occt::V3d_ListOfViewIterator::V3d_ListOfViewIterator(Macad::Occt::V3d_ListOfViewIterator^ parameter1)
-    : Macad::Occt::BaseClass<::V3d_ListOfViewIterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::V3d_ListOfViewIterator(*(::V3d_ListOfViewIterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::V3d_ListOfViewIterator::More()
 {
     bool _result = ((::V3d_ListOfViewIterator*)_NativeInstance)->More();
@@ -461,12 +363,6 @@ Macad::Occt::V3d_ImageDumpOptions::V3d_ImageDumpOptions()
     _NativeInstance = new ::V3d_ImageDumpOptions();
 }
 
-Macad::Occt::V3d_ImageDumpOptions::V3d_ImageDumpOptions(Macad::Occt::V3d_ImageDumpOptions^ parameter1)
-    : Macad::Occt::BaseClass<::V3d_ImageDumpOptions>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::V3d_ImageDumpOptions(*(::V3d_ImageDumpOptions*)parameter1->NativeInstance);
-}
-
 
 
 //---------------------------------------------------------------------
@@ -491,12 +387,6 @@ Macad::Occt::V3d_View::V3d_View(Macad::Occt::V3d_Viewer^ theViewer, Macad::Occt:
     NativeInstance = new ::V3d_View(Handle(::V3d_Viewer)(theViewer->NativeInstance), Handle(::V3d_View)(theView->NativeInstance));
 }
 
-Macad::Occt::V3d_View::V3d_View(Macad::Occt::V3d_View^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::V3d_View(*(::V3d_View*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::V3d_View::SetWindow(Macad::Occt::Aspect_Window^ theWindow, System::IntPtr theContext)
 {
     ((::V3d_View*)_NativeInstance)->SetWindow(Handle(::Aspect_Window)(theWindow->NativeInstance), theContext.ToPointer());
@@ -504,7 +394,7 @@ void Macad::Occt::V3d_View::SetWindow(Macad::Occt::Aspect_Window^ theWindow, Sys
 
 void Macad::Occt::V3d_View::SetWindow(Macad::Occt::Aspect_Window^ theWindow)
 {
-    ((::V3d_View*)_NativeInstance)->SetWindow(Handle(::Aspect_Window)(theWindow->NativeInstance), 0);
+    ((::V3d_View*)_NativeInstance)->SetWindow(Handle(::Aspect_Window)(theWindow->NativeInstance), nullptr);
 }
 
 void Macad::Occt::V3d_View::SetWindow(Macad::Occt::V3d_View^ theParentView, Macad::Occt::Graphic3d_Vec2d^ theSize, Macad::Occt::Aspect_TypeOfTriedronPosition theCorner, Macad::Occt::Graphic3d_Vec2d^ theOffset, Macad::Occt::Graphic3d_Vec2i^ theMargins)
@@ -1873,12 +1763,6 @@ Macad::Occt::V3d::V3d()
     _NativeInstance = new ::V3d();
 }
 
-Macad::Occt::V3d::V3d(Macad::Occt::V3d^ parameter1)
-    : Macad::Occt::BaseClass<::V3d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::V3d(*(::V3d*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Dir Macad::Occt::V3d::GetProjAxis(Macad::Occt::V3d_TypeOfOrientation theOrientation)
 {
     ::gp_Dir _nativeResult = ::V3d::GetProjAxis((::V3d_TypeOfOrientation)theOrientation);
@@ -1976,12 +1860,6 @@ Macad::Occt::V3d_BadValue::V3d_BadValue(System::String^ theMessage, System::Stri
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
-Macad::Occt::V3d_BadValue::V3d_BadValue(Macad::Occt::V3d_BadValue^ parameter1)
-    : Macad::Occt::Standard_OutOfRange(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::V3d_BadValue(*(::V3d_BadValue*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::V3d_BadValue::Raise(System::String^ theMessage)
 {
     const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
@@ -2033,12 +1911,6 @@ Macad::Occt::V3d_Viewer::V3d_Viewer(Macad::Occt::Graphic3d_GraphicDriver^ theDri
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::V3d_Viewer(Handle(::Graphic3d_GraphicDriver)(theDriver->NativeInstance));
-}
-
-Macad::Occt::V3d_Viewer::V3d_Viewer(Macad::Occt::V3d_Viewer^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::V3d_Viewer(*(::V3d_Viewer*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::V3d_Viewer::IfMoreViews()
@@ -2659,12 +2531,6 @@ Macad::Occt::V3d_CircularGrid::V3d_CircularGrid(Macad::Occt::V3d_Viewer^ aViewer
     NativeInstance = new ::V3d_CircularGrid((::V3d_Viewer*)aViewer->NativeInstance, *(::Quantity_Color*)aColor->NativeInstance, *(::Quantity_Color*)aTenthColor->NativeInstance);
 }
 
-Macad::Occt::V3d_CircularGrid::V3d_CircularGrid(Macad::Occt::V3d_CircularGrid^ parameter1)
-    : Macad::Occt::Aspect_CircularGrid(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::V3d_CircularGrid(*(::V3d_CircularGrid*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::V3d_CircularGrid::SetColors(Macad::Occt::Quantity_Color^ aColor, Macad::Occt::Quantity_Color^ aTenthColor)
 {
     ((::V3d_CircularGrid*)_NativeInstance)->SetColors(*(::Quantity_Color*)aColor->NativeInstance, *(::Quantity_Color*)aTenthColor->NativeInstance);
@@ -2811,12 +2677,6 @@ Macad::Occt::V3d_RectangularGrid::V3d_RectangularGrid(Macad::Occt::V3d_Viewer^ a
     NativeInstance = new ::V3d_RectangularGrid((::V3d_Viewer*)aViewer->NativeInstance, *(::Quantity_Color*)aColor->NativeInstance, *(::Quantity_Color*)aTenthColor->NativeInstance);
 }
 
-Macad::Occt::V3d_RectangularGrid::V3d_RectangularGrid(Macad::Occt::V3d_RectangularGrid^ parameter1)
-    : Macad::Occt::Aspect_RectangularGrid(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::V3d_RectangularGrid(*(::V3d_RectangularGrid*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::V3d_RectangularGrid::SetColors(Macad::Occt::Quantity_Color^ aColor, Macad::Occt::Quantity_Color^ aTenthColor)
 {
     ((::V3d_RectangularGrid*)_NativeInstance)->SetColors(*(::Quantity_Color*)aColor->NativeInstance, *(::Quantity_Color*)aTenthColor->NativeInstance);
@@ -2880,12 +2740,6 @@ Macad::Occt::V3d_Trihedron::V3d_Trihedron()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::V3d_Trihedron();
-}
-
-Macad::Occt::V3d_Trihedron::V3d_Trihedron(Macad::Occt::V3d_Trihedron^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::V3d_Trihedron(*(::V3d_Trihedron*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::V3d_Trihedron::IsWireframe()
@@ -3064,12 +2918,6 @@ Macad::Occt::V3d_Plane::V3d_Plane()
     NativeInstance = new ::V3d_Plane(0., 0., 1., 0.);
 }
 
-Macad::Occt::V3d_Plane::V3d_Plane(Macad::Occt::V3d_Plane^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::V3d_Plane(*(::V3d_Plane*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::V3d_Plane::SetPlane(double theA, double theB, double theC, double theD)
 {
     ((::V3d_Plane*)_NativeInstance)->SetPlane(theA, theB, theC, theD);
@@ -3222,12 +3070,6 @@ Macad::Occt::V3d_UnMapped::V3d_UnMapped(System::String^ theMessage, System::Stri
     NativeInstance = new ::V3d_UnMapped(sz_theMessage, sz_theStackTrace);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::V3d_UnMapped::V3d_UnMapped(Macad::Occt::V3d_UnMapped^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::V3d_UnMapped(*(::V3d_UnMapped*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::V3d_UnMapped::Raise(System::String^ theMessage)

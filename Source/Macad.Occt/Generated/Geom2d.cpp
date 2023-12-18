@@ -15,12 +15,6 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 //  Class  Geom2d_Geometry
 //---------------------------------------------------------------------
 
-Macad::Occt::Geom2d_Geometry::Geom2d_Geometry(Macad::Occt::Geom2d_Geometry^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 Macad::Occt::Geom2d_Geometry::Geom2d_Geometry()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
@@ -178,12 +172,6 @@ Macad::Occt::Geom2d_AxisPlacement::Geom2d_AxisPlacement(Macad::Occt::Pnt2d P, Ma
     NativeInstance = new ::Geom2d_AxisPlacement(*(gp_Pnt2d*)pp_P, *(gp_Dir2d*)pp_V);
 }
 
-Macad::Occt::Geom2d_AxisPlacement::Geom2d_AxisPlacement(Macad::Occt::Geom2d_AxisPlacement^ parameter1)
-    : Macad::Occt::Geom2d_Geometry(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_AxisPlacement(*(::Geom2d_AxisPlacement*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom2d_AxisPlacement::Reverse()
 {
     ((::Geom2d_AxisPlacement*)_NativeInstance)->Reverse();
@@ -259,12 +247,6 @@ Macad::Occt::Geom2d_AxisPlacement^ Macad::Occt::Geom2d_AxisPlacement::CreateDown
 //---------------------------------------------------------------------
 //  Class  Geom2d_Curve
 //---------------------------------------------------------------------
-
-Macad::Occt::Geom2d_Curve::Geom2d_Curve(Macad::Occt::Geom2d_Curve^ parameter1)
-    : Macad::Occt::Geom2d_Geometry(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
 
 Macad::Occt::Geom2d_Curve::Geom2d_Curve()
     : Macad::Occt::Geom2d_Geometry(BaseClass::InitMode::Uninitialized)
@@ -424,12 +406,6 @@ Macad::Occt::Geom2d_Curve^ Macad::Occt::Geom2d_Curve::CreateDowncasted(::Geom2d_
 //  Class  Geom2d_BoundedCurve
 //---------------------------------------------------------------------
 
-Macad::Occt::Geom2d_BoundedCurve::Geom2d_BoundedCurve(Macad::Occt::Geom2d_BoundedCurve^ parameter1)
-    : Macad::Occt::Geom2d_Curve(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 Macad::Occt::Geom2d_BoundedCurve::Geom2d_BoundedCurve()
     : Macad::Occt::Geom2d_Curve(BaseClass::InitMode::Uninitialized)
 {
@@ -493,12 +469,6 @@ Macad::Occt::Geom2d_BezierCurve::Geom2d_BezierCurve(Macad::Occt::TColgp_Array1Of
     : Macad::Occt::Geom2d_BoundedCurve(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom2d_BezierCurve(*(::TColgp_Array1OfPnt2d*)CurvePoles->NativeInstance, *(::TColStd_Array1OfReal*)PoleWeights->NativeInstance);
-}
-
-Macad::Occt::Geom2d_BezierCurve::Geom2d_BezierCurve(Macad::Occt::Geom2d_BezierCurve^ parameter1)
-    : Macad::Occt::Geom2d_BoundedCurve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_BezierCurve(*(::Geom2d_BezierCurve*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom2d_BezierCurve::Increase(int Degree)
@@ -776,12 +746,6 @@ Macad::Occt::Geom2d_BSplineCurve::Geom2d_BSplineCurve(Macad::Occt::TColgp_Array1
     : Macad::Occt::Geom2d_BoundedCurve(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom2d_BSplineCurve(*(::TColgp_Array1OfPnt2d*)Poles->NativeInstance, *(::TColStd_Array1OfReal*)Weights->NativeInstance, *(::TColStd_Array1OfReal*)Knots->NativeInstance, *(::TColStd_Array1OfInteger*)Multiplicities->NativeInstance, Degree, false);
-}
-
-Macad::Occt::Geom2d_BSplineCurve::Geom2d_BSplineCurve(Macad::Occt::Geom2d_BSplineCurve^ parameter1)
-    : Macad::Occt::Geom2d_BoundedCurve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_BSplineCurve(*(::Geom2d_BSplineCurve*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom2d_BSplineCurve::IncreaseDegree(int Degree)
@@ -1285,12 +1249,6 @@ Macad::Occt::Geom2d_Point::Geom2d_Point()
     	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Geom2d_Point::Geom2d_Point(Macad::Occt::Geom2d_Point^ parameter1)
-    : Macad::Occt::Geom2d_Geometry(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 void Macad::Occt::Geom2d_Point::Coord(double% X, double% Y)
 {
     pin_ptr<double> pp_X = &X;
@@ -1370,12 +1328,6 @@ Macad::Occt::Geom2d_CartesianPoint::Geom2d_CartesianPoint(double X, double Y)
     : Macad::Occt::Geom2d_Point(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom2d_CartesianPoint(X, Y);
-}
-
-Macad::Occt::Geom2d_CartesianPoint::Geom2d_CartesianPoint(Macad::Occt::Geom2d_CartesianPoint^ parameter1)
-    : Macad::Occt::Geom2d_Point(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_CartesianPoint(*(::Geom2d_CartesianPoint*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom2d_CartesianPoint::SetCoord(double X, double Y)
@@ -1462,12 +1414,6 @@ Macad::Occt::Geom2d_CartesianPoint^ Macad::Occt::Geom2d_CartesianPoint::CreateDo
 //---------------------------------------------------------------------
 
 Macad::Occt::Geom2d_Conic::Geom2d_Conic()
-    : Macad::Occt::Geom2d_Curve(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
-Macad::Occt::Geom2d_Conic::Geom2d_Conic(Macad::Occt::Geom2d_Conic^ parameter1)
     : Macad::Occt::Geom2d_Curve(BaseClass::InitMode::Uninitialized)
 {
     	throw gcnew System::NotImplementedException("Native class is abstract");
@@ -1614,12 +1560,6 @@ Macad::Occt::Geom2d_Circle::Geom2d_Circle(Macad::Occt::Ax22d A, double Radius)
     NativeInstance = new ::Geom2d_Circle(*(gp_Ax22d*)pp_A, Radius);
 }
 
-Macad::Occt::Geom2d_Circle::Geom2d_Circle(Macad::Occt::Geom2d_Circle^ parameter1)
-    : Macad::Occt::Geom2d_Conic(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_Circle(*(::Geom2d_Circle*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom2d_Circle::SetCirc2d(Macad::Occt::gp_Circ2d^ C)
 {
     ((::Geom2d_Circle*)_NativeInstance)->SetCirc2d(*(::gp_Circ2d*)C->NativeInstance);
@@ -1758,12 +1698,6 @@ Macad::Occt::Geom2d_Vector::Geom2d_Vector()
     	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Geom2d_Vector::Geom2d_Vector(Macad::Occt::Geom2d_Vector^ parameter1)
-    : Macad::Occt::Geom2d_Geometry(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 void Macad::Occt::Geom2d_Vector::Reverse()
 {
     ((::Geom2d_Vector*)_NativeInstance)->Reverse();
@@ -1862,12 +1796,6 @@ Macad::Occt::Geom2d_Direction::Geom2d_Direction(Macad::Occt::Dir2d V)
     NativeInstance = new ::Geom2d_Direction(*(gp_Dir2d*)pp_V);
 }
 
-Macad::Occt::Geom2d_Direction::Geom2d_Direction(Macad::Occt::Geom2d_Direction^ parameter1)
-    : Macad::Occt::Geom2d_Vector(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_Direction(*(::Geom2d_Direction*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom2d_Direction::SetCoord(double X, double Y)
 {
     ((::Geom2d_Direction*)_NativeInstance)->SetCoord(X, Y);
@@ -1961,12 +1889,6 @@ Macad::Occt::Geom2d_Ellipse::Geom2d_Ellipse(Macad::Occt::Ax22d Axis, double Majo
 {
     pin_ptr<Macad::Occt::Ax22d> pp_Axis = &Axis;
     NativeInstance = new ::Geom2d_Ellipse(*(gp_Ax22d*)pp_Axis, MajorRadius, MinorRadius);
-}
-
-Macad::Occt::Geom2d_Ellipse::Geom2d_Ellipse(Macad::Occt::Geom2d_Ellipse^ parameter1)
-    : Macad::Occt::Geom2d_Conic(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_Ellipse(*(::Geom2d_Ellipse*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom2d_Ellipse::SetElips2d(Macad::Occt::gp_Elips2d^ E)
@@ -2173,12 +2095,6 @@ Macad::Occt::Geom2d_Hyperbola::Geom2d_Hyperbola(Macad::Occt::Ax22d Axis, double 
 {
     pin_ptr<Macad::Occt::Ax22d> pp_Axis = &Axis;
     NativeInstance = new ::Geom2d_Hyperbola(*(gp_Ax22d*)pp_Axis, MajorRadius, MinorRadius);
-}
-
-Macad::Occt::Geom2d_Hyperbola::Geom2d_Hyperbola(Macad::Occt::Geom2d_Hyperbola^ parameter1)
-    : Macad::Occt::Geom2d_Conic(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_Hyperbola(*(::Geom2d_Hyperbola*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom2d_Hyperbola::SetHypr2d(Macad::Occt::gp_Hypr2d^ H)
@@ -2414,12 +2330,6 @@ Macad::Occt::Geom2d_Line::Geom2d_Line(Macad::Occt::Pnt2d P, Macad::Occt::Dir2d V
     NativeInstance = new ::Geom2d_Line(*(gp_Pnt2d*)pp_P, *(gp_Dir2d*)pp_V);
 }
 
-Macad::Occt::Geom2d_Line::Geom2d_Line(Macad::Occt::Geom2d_Line^ parameter1)
-    : Macad::Occt::Geom2d_Curve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_Line(*(::Geom2d_Line*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom2d_Line::SetLin2d(Macad::Occt::gp_Lin2d^ L)
 {
     ((::Geom2d_Line*)_NativeInstance)->SetLin2d(*(::gp_Lin2d*)L->NativeInstance);
@@ -2619,12 +2529,6 @@ Macad::Occt::Geom2d_OffsetCurve::Geom2d_OffsetCurve(Macad::Occt::Geom2d_Curve^ C
     : Macad::Occt::Geom2d_Curve(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom2d_OffsetCurve(Handle(::Geom2d_Curve)(C->NativeInstance), Offset, false);
-}
-
-Macad::Occt::Geom2d_OffsetCurve::Geom2d_OffsetCurve(Macad::Occt::Geom2d_OffsetCurve^ parameter1)
-    : Macad::Occt::Geom2d_Curve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_OffsetCurve(*(::Geom2d_OffsetCurve*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom2d_OffsetCurve::Reverse()
@@ -2835,12 +2739,6 @@ Macad::Occt::Geom2d_Parabola::Geom2d_Parabola(Macad::Occt::Ax2d D, Macad::Occt::
     NativeInstance = new ::Geom2d_Parabola(*(gp_Ax2d*)pp_D, *(gp_Pnt2d*)pp_F);
 }
 
-Macad::Occt::Geom2d_Parabola::Geom2d_Parabola(Macad::Occt::Geom2d_Parabola^ parameter1)
-    : Macad::Occt::Geom2d_Conic(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_Parabola(*(::Geom2d_Parabola*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom2d_Parabola::SetFocal(double Focal)
 {
     ((::Geom2d_Parabola*)_NativeInstance)->SetFocal(Focal);
@@ -3018,12 +2916,6 @@ Macad::Occt::Geom2d_Transformation::Geom2d_Transformation(Macad::Occt::Trsf2d T)
     NativeInstance = new ::Geom2d_Transformation(*(gp_Trsf2d*)pp_T);
 }
 
-Macad::Occt::Geom2d_Transformation::Geom2d_Transformation(Macad::Occt::Geom2d_Transformation^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_Transformation(*(::Geom2d_Transformation*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom2d_Transformation::SetMirror(Macad::Occt::Pnt2d P)
 {
     pin_ptr<Macad::Occt::Pnt2d> pp_P = &P;
@@ -3188,12 +3080,6 @@ Macad::Occt::Geom2d_TrimmedCurve::Geom2d_TrimmedCurve(Macad::Occt::Geom2d_Curve^
     : Macad::Occt::Geom2d_BoundedCurve(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom2d_TrimmedCurve(Handle(::Geom2d_Curve)(C->NativeInstance), U1, U2, true, true);
-}
-
-Macad::Occt::Geom2d_TrimmedCurve::Geom2d_TrimmedCurve(Macad::Occt::Geom2d_TrimmedCurve^ parameter1)
-    : Macad::Occt::Geom2d_BoundedCurve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_TrimmedCurve(*(::Geom2d_TrimmedCurve*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom2d_TrimmedCurve::Reverse()
@@ -3393,12 +3279,6 @@ Macad::Occt::Geom2d_UndefinedDerivative::Geom2d_UndefinedDerivative(System::Stri
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
-Macad::Occt::Geom2d_UndefinedDerivative::Geom2d_UndefinedDerivative(Macad::Occt::Geom2d_UndefinedDerivative^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_UndefinedDerivative(*(::Geom2d_UndefinedDerivative*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom2d_UndefinedDerivative::Raise(System::String^ theMessage)
 {
     const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
@@ -3470,12 +3350,6 @@ Macad::Occt::Geom2d_UndefinedValue::Geom2d_UndefinedValue(System::String^ theMes
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
-Macad::Occt::Geom2d_UndefinedValue::Geom2d_UndefinedValue(Macad::Occt::Geom2d_UndefinedValue^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_UndefinedValue(*(::Geom2d_UndefinedValue*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom2d_UndefinedValue::Raise(System::String^ theMessage)
 {
     const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
@@ -3542,12 +3416,6 @@ Macad::Occt::Geom2d_VectorWithMagnitude::Geom2d_VectorWithMagnitude(Macad::Occt:
     pin_ptr<Macad::Occt::Pnt2d> pp_P1 = &P1;
     pin_ptr<Macad::Occt::Pnt2d> pp_P2 = &P2;
     NativeInstance = new ::Geom2d_VectorWithMagnitude(*(gp_Pnt2d*)pp_P1, *(gp_Pnt2d*)pp_P2);
-}
-
-Macad::Occt::Geom2d_VectorWithMagnitude::Geom2d_VectorWithMagnitude(Macad::Occt::Geom2d_VectorWithMagnitude^ parameter1)
-    : Macad::Occt::Geom2d_Vector(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom2d_VectorWithMagnitude(*(::Geom2d_VectorWithMagnitude*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom2d_VectorWithMagnitude::SetCoord(double X, double Y)

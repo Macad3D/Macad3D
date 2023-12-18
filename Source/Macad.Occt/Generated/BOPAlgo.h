@@ -126,7 +126,6 @@ public:
     /// Constructor with allocator
     /// </summary>
     BOPAlgo_Options(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    BOPAlgo_Options(Macad::Occt::BOPAlgo_Options^ parameter1);
     /// <summary>
     /// Returns allocator
     /// </summary>
@@ -238,7 +237,6 @@ public:
     }
 
 public:
-    BOPAlgo_Algo(Macad::Occt::BOPAlgo_Algo^ parameter1);
     /// <summary>
     /// The main method to implement the operation
     /// Providing the range allows to enable Progress indicator User break functionalities.
@@ -294,7 +292,6 @@ public:
     }
 
 public:
-    BOPAlgo_BuilderShape(Macad::Occt::BOPAlgo_BuilderShape^ parameter1);
     /// <summary>
     /// Returns the result of algorithm
     /// </summary>
@@ -410,7 +407,6 @@ public:
     /// </summary>
     BOPAlgo_Builder();
     BOPAlgo_Builder(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    BOPAlgo_Builder(Macad::Occt::BOPAlgo_Builder^ parameter1);
     /// <summary>
     /// Clears the content of the algorithm.
     /// </summary>
@@ -702,7 +698,6 @@ public:
     /// </summary>
     BOPAlgo_ToolsProvider();
     BOPAlgo_ToolsProvider(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    BOPAlgo_ToolsProvider(Macad::Occt::BOPAlgo_ToolsProvider^ parameter1);
     /// <summary>
     /// Clears internal fields and arguments
     /// </summary>
@@ -797,7 +792,6 @@ public:
     /// </summary>
     BOPAlgo_BOP();
     BOPAlgo_BOP(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    BOPAlgo_BOP(Macad::Occt::BOPAlgo_BOP^ parameter1);
     /// <summary>
     /// Clears internal fields and arguments
     /// </summary>
@@ -842,7 +836,6 @@ public:
 
 public:
     BOPAlgo_Tools();
-    BOPAlgo_Tools(Macad::Occt::BOPAlgo_Tools^ parameter1);
     /* Method skipped due to unknown mapping: void FillMap(BOPDS_PaveBlock thePB1, int theF, BOPDS_IndexedDataMapOfPaveBlockListOfInteger theMILI, NCollection_BaseAllocator theAllocator, ) */
     /* Method skipped due to unknown mapping: void PerformCommonBlocks(BOPDS_IndexedDataMapOfPaveBlockListOfPaveBlock theMBlocks, NCollection_BaseAllocator theAllocator, BOPDS_DS theDS, IntTools_Context theContext, ) */
     /* Method skipped due to unknown mapping: void PerformCommonBlocks(BOPDS_IndexedDataMapOfPaveBlockListOfPaveBlock theMBlocks, NCollection_BaseAllocator theAllocator, BOPDS_DS theDS, IntTools_Context theContext, ) */

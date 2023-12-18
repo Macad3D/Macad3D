@@ -28,12 +28,6 @@ Macad::Occt::Geom_SequenceOfBSplineSurface::Geom_SequenceOfBSplineSurface(Macad:
     _NativeInstance = new ::Geom_SequenceOfBSplineSurface(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::Geom_SequenceOfBSplineSurface::Geom_SequenceOfBSplineSurface(Macad::Occt::Geom_SequenceOfBSplineSurface^ theOther)
-    : Macad::Occt::BaseClass<::Geom_SequenceOfBSplineSurface>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom_SequenceOfBSplineSurface(*(::Geom_SequenceOfBSplineSurface*)theOther->NativeInstance);
-}
-
 int Macad::Occt::Geom_SequenceOfBSplineSurface::Size()
 {
     int _result = ((::Geom_SequenceOfBSplineSurface*)_NativeInstance)->Size();
@@ -96,24 +90,9 @@ void Macad::Occt::Geom_SequenceOfBSplineSurface::Remove(Macad::Occt::Geom_Sequen
     ((::Geom_SequenceOfBSplineSurface*)_NativeInstance)->Remove(*(::Geom_SequenceOfBSplineSurface::Iterator*)thePosition->NativeInstance);
 }
 
-void Macad::Occt::Geom_SequenceOfBSplineSurface::Remove(int theIndex)
-{
-    ((::Geom_SequenceOfBSplineSurface*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::Geom_SequenceOfBSplineSurface::Remove(int theFromIndex, int theToIndex)
-{
-    ((::Geom_SequenceOfBSplineSurface*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
 void Macad::Occt::Geom_SequenceOfBSplineSurface::Append(Macad::Occt::Geom_BSplineSurface^ theItem)
 {
     ((::Geom_SequenceOfBSplineSurface*)_NativeInstance)->Append(Handle(::Geom_BSplineSurface)(theItem->NativeInstance));
-}
-
-void Macad::Occt::Geom_SequenceOfBSplineSurface::Append(Macad::Occt::Geom_SequenceOfBSplineSurface^ theSeq)
-{
-    ((::Geom_SequenceOfBSplineSurface*)_NativeInstance)->Append(*(::Geom_SequenceOfBSplineSurface*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::Geom_SequenceOfBSplineSurface::Prepend(Macad::Occt::Geom_BSplineSurface^ theItem)
@@ -121,34 +100,14 @@ void Macad::Occt::Geom_SequenceOfBSplineSurface::Prepend(Macad::Occt::Geom_BSpli
     ((::Geom_SequenceOfBSplineSurface*)_NativeInstance)->Prepend(Handle(::Geom_BSplineSurface)(theItem->NativeInstance));
 }
 
-void Macad::Occt::Geom_SequenceOfBSplineSurface::Prepend(Macad::Occt::Geom_SequenceOfBSplineSurface^ theSeq)
-{
-    ((::Geom_SequenceOfBSplineSurface*)_NativeInstance)->Prepend(*(::Geom_SequenceOfBSplineSurface*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::Geom_SequenceOfBSplineSurface::InsertBefore(int theIndex, Macad::Occt::Geom_BSplineSurface^ theItem)
 {
     ((::Geom_SequenceOfBSplineSurface*)_NativeInstance)->InsertBefore(theIndex, Handle(::Geom_BSplineSurface)(theItem->NativeInstance));
 }
 
-void Macad::Occt::Geom_SequenceOfBSplineSurface::InsertBefore(int theIndex, Macad::Occt::Geom_SequenceOfBSplineSurface^ theSeq)
-{
-    ((::Geom_SequenceOfBSplineSurface*)_NativeInstance)->InsertBefore(theIndex, *(::Geom_SequenceOfBSplineSurface*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::Geom_SequenceOfBSplineSurface::InsertAfter(Macad::Occt::Geom_SequenceOfBSplineSurface::Iterator^ thePosition, Macad::Occt::Geom_BSplineSurface^ theItem)
 {
     ((::Geom_SequenceOfBSplineSurface*)_NativeInstance)->InsertAfter(*(::Geom_SequenceOfBSplineSurface::Iterator*)thePosition->NativeInstance, Handle(::Geom_BSplineSurface)(theItem->NativeInstance));
-}
-
-void Macad::Occt::Geom_SequenceOfBSplineSurface::InsertAfter(int theIndex, Macad::Occt::Geom_SequenceOfBSplineSurface^ theSeq)
-{
-    ((::Geom_SequenceOfBSplineSurface*)_NativeInstance)->InsertAfter(theIndex, *(::Geom_SequenceOfBSplineSurface*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::Geom_SequenceOfBSplineSurface::InsertAfter(int theIndex, Macad::Occt::Geom_BSplineSurface^ theItem)
-{
-    ((::Geom_SequenceOfBSplineSurface*)_NativeInstance)->InsertAfter(theIndex, Handle(::Geom_BSplineSurface)(theItem->NativeInstance));
 }
 
 void Macad::Occt::Geom_SequenceOfBSplineSurface::Split(int theIndex, Macad::Occt::Geom_SequenceOfBSplineSurface^ theSeq)
@@ -219,24 +178,6 @@ Macad::Occt::Geom_SequenceOfBSplineSurface::Iterator::Iterator()
     _NativeInstance = new ::Geom_SequenceOfBSplineSurface::Iterator();
 }
 
-Macad::Occt::Geom_SequenceOfBSplineSurface::Iterator::Iterator(Macad::Occt::Geom_SequenceOfBSplineSurface^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::Geom_SequenceOfBSplineSurface::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom_SequenceOfBSplineSurface::Iterator(*(::Geom_SequenceOfBSplineSurface*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::Geom_SequenceOfBSplineSurface::Iterator::Iterator(Macad::Occt::Geom_SequenceOfBSplineSurface^ theSeq)
-    : Macad::Occt::BaseClass<::Geom_SequenceOfBSplineSurface::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom_SequenceOfBSplineSurface::Iterator(*(::Geom_SequenceOfBSplineSurface*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::Geom_SequenceOfBSplineSurface::Iterator::Iterator(Macad::Occt::Geom_SequenceOfBSplineSurface::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::Geom_SequenceOfBSplineSurface::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom_SequenceOfBSplineSurface::Iterator(*(::Geom_SequenceOfBSplineSurface::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::Geom_SequenceOfBSplineSurface::Iterator::More()
 {
     bool _result = ((::Geom_SequenceOfBSplineSurface::Iterator*)_NativeInstance)->More();
@@ -266,17 +207,30 @@ bool Macad::Occt::Geom_SequenceOfBSplineSurface::Iterator::IsEqual(Macad::Occt::
     return _result;
 }
 
+bool Macad::Occt::Geom_SequenceOfBSplineSurface::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::Geom_SequenceOfBSplineSurface::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
 //  Class  Geom_Geometry
 //---------------------------------------------------------------------
-
-Macad::Occt::Geom_Geometry::Geom_Geometry(Macad::Occt::Geom_Geometry^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
 
 Macad::Occt::Geom_Geometry::Geom_Geometry()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
@@ -441,12 +395,6 @@ Macad::Occt::Geom_AxisPlacement::Geom_AxisPlacement()
     	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Geom_AxisPlacement::Geom_AxisPlacement(Macad::Occt::Geom_AxisPlacement^ parameter1)
-    : Macad::Occt::Geom_Geometry(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 void Macad::Occt::Geom_AxisPlacement::SetAxis(Macad::Occt::Ax1 A1)
 {
     pin_ptr<Macad::Occt::Ax1> pp_A1 = &A1;
@@ -523,12 +471,6 @@ Macad::Occt::Geom_Axis1Placement::Geom_Axis1Placement(Macad::Occt::Pnt P, Macad:
     NativeInstance = new ::Geom_Axis1Placement(*(gp_Pnt*)pp_P, *(gp_Dir*)pp_V);
 }
 
-Macad::Occt::Geom_Axis1Placement::Geom_Axis1Placement(Macad::Occt::Geom_Axis1Placement^ parameter1)
-    : Macad::Occt::Geom_AxisPlacement(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_Axis1Placement(*(::Geom_Axis1Placement*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Ax1 Macad::Occt::Geom_Axis1Placement::Ax1()
 {
     ::gp_Ax1 _nativeResult = ((::Geom_Axis1Placement*)_NativeInstance)->Ax1();
@@ -589,12 +531,6 @@ Macad::Occt::Geom_Axis2Placement::Geom_Axis2Placement(Macad::Occt::Pnt P, Macad:
     pin_ptr<Macad::Occt::Dir> pp_N = &N;
     pin_ptr<Macad::Occt::Dir> pp_Vx = &Vx;
     NativeInstance = new ::Geom_Axis2Placement(*(gp_Pnt*)pp_P, *(gp_Dir*)pp_N, *(gp_Dir*)pp_Vx);
-}
-
-Macad::Occt::Geom_Axis2Placement::Geom_Axis2Placement(Macad::Occt::Geom_Axis2Placement^ parameter1)
-    : Macad::Occt::Geom_AxisPlacement(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_Axis2Placement(*(::Geom_Axis2Placement*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_Axis2Placement::SetAx2(Macad::Occt::Ax2 A2)
@@ -661,12 +597,6 @@ Macad::Occt::Geom_Axis2Placement^ Macad::Occt::Geom_Axis2Placement::CreateDownca
 //---------------------------------------------------------------------
 //  Class  Geom_Curve
 //---------------------------------------------------------------------
-
-Macad::Occt::Geom_Curve::Geom_Curve(Macad::Occt::Geom_Curve^ parameter1)
-    : Macad::Occt::Geom_Geometry(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
 
 Macad::Occt::Geom_Curve::Geom_Curve()
     : Macad::Occt::Geom_Geometry(BaseClass::InitMode::Uninitialized)
@@ -826,12 +756,6 @@ Macad::Occt::Geom_Curve^ Macad::Occt::Geom_Curve::CreateDowncasted(::Geom_Curve*
 //  Class  Geom_BoundedCurve
 //---------------------------------------------------------------------
 
-Macad::Occt::Geom_BoundedCurve::Geom_BoundedCurve(Macad::Occt::Geom_BoundedCurve^ parameter1)
-    : Macad::Occt::Geom_Curve(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 Macad::Occt::Geom_BoundedCurve::Geom_BoundedCurve()
     : Macad::Occt::Geom_Curve(BaseClass::InitMode::Uninitialized)
 {
@@ -895,12 +819,6 @@ Macad::Occt::Geom_BezierCurve::Geom_BezierCurve(Macad::Occt::TColgp_Array1OfPnt^
     : Macad::Occt::Geom_BoundedCurve(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom_BezierCurve(*(::TColgp_Array1OfPnt*)CurvePoles->NativeInstance, *(::TColStd_Array1OfReal*)PoleWeights->NativeInstance);
-}
-
-Macad::Occt::Geom_BezierCurve::Geom_BezierCurve(Macad::Occt::Geom_BezierCurve^ parameter1)
-    : Macad::Occt::Geom_BoundedCurve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_BezierCurve(*(::Geom_BezierCurve*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_BezierCurve::Increase(int Degree)
@@ -1156,12 +1074,6 @@ Macad::Occt::Geom_BezierCurve^ Macad::Occt::Geom_BezierCurve::CreateDowncasted(:
 //  Class  Geom_Surface
 //---------------------------------------------------------------------
 
-Macad::Occt::Geom_Surface::Geom_Surface(Macad::Occt::Geom_Surface^ parameter1)
-    : Macad::Occt::Geom_Geometry(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 Macad::Occt::Geom_Surface::Geom_Surface()
     : Macad::Occt::Geom_Geometry(BaseClass::InitMode::Uninitialized)
 {
@@ -1382,12 +1294,6 @@ Macad::Occt::Geom_Surface^ Macad::Occt::Geom_Surface::CreateDowncasted(::Geom_Su
 //  Class  Geom_BoundedSurface
 //---------------------------------------------------------------------
 
-Macad::Occt::Geom_BoundedSurface::Geom_BoundedSurface(Macad::Occt::Geom_BoundedSurface^ parameter1)
-    : Macad::Occt::Geom_Surface(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 Macad::Occt::Geom_BoundedSurface::Geom_BoundedSurface()
     : Macad::Occt::Geom_Surface(BaseClass::InitMode::Uninitialized)
 {
@@ -1425,12 +1331,6 @@ Macad::Occt::Geom_BezierSurface::Geom_BezierSurface(Macad::Occt::TColgp_Array2Of
     : Macad::Occt::Geom_BoundedSurface(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom_BezierSurface(*(::TColgp_Array2OfPnt*)SurfacePoles->NativeInstance, *(::TColStd_Array2OfReal*)PoleWeights->NativeInstance);
-}
-
-Macad::Occt::Geom_BezierSurface::Geom_BezierSurface(Macad::Occt::Geom_BezierSurface^ parameter1)
-    : Macad::Occt::Geom_BoundedSurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_BezierSurface(*(::Geom_BezierSurface*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_BezierSurface::ExchangeUV()
@@ -1825,12 +1725,6 @@ Macad::Occt::Geom_BSplineCurve::Geom_BSplineCurve(Macad::Occt::TColgp_Array1OfPn
     : Macad::Occt::Geom_BoundedCurve(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom_BSplineCurve(*(::TColgp_Array1OfPnt*)Poles->NativeInstance, *(::TColStd_Array1OfReal*)Weights->NativeInstance, *(::TColStd_Array1OfReal*)Knots->NativeInstance, *(::TColStd_Array1OfInteger*)Multiplicities->NativeInstance, Degree, false, true);
-}
-
-Macad::Occt::Geom_BSplineCurve::Geom_BSplineCurve(Macad::Occt::Geom_BSplineCurve^ parameter1)
-    : Macad::Occt::Geom_BoundedCurve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_BSplineCurve(*(::Geom_BSplineCurve*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_BSplineCurve::IncreaseDegree(int Degree)
@@ -2349,12 +2243,6 @@ Macad::Occt::Geom_BSplineSurface::Geom_BSplineSurface(Macad::Occt::TColgp_Array2
     : Macad::Occt::Geom_BoundedSurface(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom_BSplineSurface(*(::TColgp_Array2OfPnt*)Poles->NativeInstance, *(::TColStd_Array2OfReal*)Weights->NativeInstance, *(::TColStd_Array1OfReal*)UKnots->NativeInstance, *(::TColStd_Array1OfReal*)VKnots->NativeInstance, *(::TColStd_Array1OfInteger*)UMults->NativeInstance, *(::TColStd_Array1OfInteger*)VMults->NativeInstance, UDegree, VDegree, false, false);
-}
-
-Macad::Occt::Geom_BSplineSurface::Geom_BSplineSurface(Macad::Occt::Geom_BSplineSurface^ parameter1)
-    : Macad::Occt::Geom_BoundedSurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_BSplineSurface(*(::Geom_BSplineSurface*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_BSplineSurface::ExchangeUV()
@@ -3107,12 +2995,6 @@ Macad::Occt::Geom_Point::Geom_Point()
     	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Geom_Point::Geom_Point(Macad::Occt::Geom_Point^ parameter1)
-    : Macad::Occt::Geom_Geometry(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 void Macad::Occt::Geom_Point::Coord(double% X, double% Y, double% Z)
 {
     pin_ptr<double> pp_X = &X;
@@ -3185,12 +3067,6 @@ Macad::Occt::Geom_CartesianPoint::Geom_CartesianPoint(double X, double Y, double
     : Macad::Occt::Geom_Point(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom_CartesianPoint(X, Y, Z);
-}
-
-Macad::Occt::Geom_CartesianPoint::Geom_CartesianPoint(Macad::Occt::Geom_CartesianPoint^ parameter1)
-    : Macad::Occt::Geom_Point(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_CartesianPoint(*(::Geom_CartesianPoint*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_CartesianPoint::SetCoord(double X, double Y, double Z)
@@ -3275,12 +3151,6 @@ Macad::Occt::Geom_CartesianPoint^ Macad::Occt::Geom_CartesianPoint::CreateDownca
 //---------------------------------------------------------------------
 
 Macad::Occt::Geom_Conic::Geom_Conic()
-    : Macad::Occt::Geom_Curve(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
-Macad::Occt::Geom_Conic::Geom_Conic(Macad::Occt::Geom_Conic^ parameter1)
     : Macad::Occt::Geom_Curve(BaseClass::InitMode::Uninitialized)
 {
     	throw gcnew System::NotImplementedException("Native class is abstract");
@@ -3411,12 +3281,6 @@ Macad::Occt::Geom_Circle::Geom_Circle(Macad::Occt::Ax2 A2, double Radius)
 {
     pin_ptr<Macad::Occt::Ax2> pp_A2 = &A2;
     NativeInstance = new ::Geom_Circle(*(gp_Ax2*)pp_A2, Radius);
-}
-
-Macad::Occt::Geom_Circle::Geom_Circle(Macad::Occt::Geom_Circle^ parameter1)
-    : Macad::Occt::Geom_Conic(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_Circle(*(::Geom_Circle*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_Circle::SetCirc(Macad::Occt::gp_Circ^ C)
@@ -3557,12 +3421,6 @@ Macad::Occt::Geom_ElementarySurface::Geom_ElementarySurface()
     	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Geom_ElementarySurface::Geom_ElementarySurface(Macad::Occt::Geom_ElementarySurface^ parameter1)
-    : Macad::Occt::Geom_Surface(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 void Macad::Occt::Geom_ElementarySurface::SetAxis(Macad::Occt::Ax1 theA1)
 {
     pin_ptr<Macad::Occt::Ax1> pp_theA1 = &theA1;
@@ -3689,12 +3547,6 @@ Macad::Occt::Geom_ConicalSurface::Geom_ConicalSurface(Macad::Occt::gp_Cone^ C)
     : Macad::Occt::Geom_ElementarySurface(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom_ConicalSurface(*(::gp_Cone*)C->NativeInstance);
-}
-
-Macad::Occt::Geom_ConicalSurface::Geom_ConicalSurface(Macad::Occt::Geom_ConicalSurface^ parameter1)
-    : Macad::Occt::Geom_ElementarySurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_ConicalSurface(*(::Geom_ConicalSurface*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_ConicalSurface::SetCone(Macad::Occt::gp_Cone^ C)
@@ -3926,12 +3778,6 @@ Macad::Occt::Geom_CylindricalSurface::Geom_CylindricalSurface(Macad::Occt::gp_Cy
     NativeInstance = new ::Geom_CylindricalSurface(*(::gp_Cylinder*)C->NativeInstance);
 }
 
-Macad::Occt::Geom_CylindricalSurface::Geom_CylindricalSurface(Macad::Occt::Geom_CylindricalSurface^ parameter1)
-    : Macad::Occt::Geom_ElementarySurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_CylindricalSurface(*(::Geom_CylindricalSurface*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom_CylindricalSurface::SetCylinder(Macad::Occt::gp_Cylinder^ C)
 {
     ((::Geom_CylindricalSurface*)_NativeInstance)->SetCylinder(*(::gp_Cylinder*)C->NativeInstance);
@@ -4132,12 +3978,6 @@ Macad::Occt::Geom_Vector::Geom_Vector()
     	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::Geom_Vector::Geom_Vector(Macad::Occt::Geom_Vector^ parameter1)
-    : Macad::Occt::Geom_Geometry(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 void Macad::Occt::Geom_Vector::Reverse()
 {
     ((::Geom_Vector*)_NativeInstance)->Reverse();
@@ -4271,12 +4111,6 @@ Macad::Occt::Geom_Direction::Geom_Direction(Macad::Occt::Dir V)
     NativeInstance = new ::Geom_Direction(*(gp_Dir*)pp_V);
 }
 
-Macad::Occt::Geom_Direction::Geom_Direction(Macad::Occt::Geom_Direction^ parameter1)
-    : Macad::Occt::Geom_Vector(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_Direction(*(::Geom_Direction*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom_Direction::SetCoord(double X, double Y, double Z)
 {
     ((::Geom_Direction*)_NativeInstance)->SetCoord(X, Y, Z);
@@ -4377,12 +4211,6 @@ Macad::Occt::Geom_Ellipse::Geom_Ellipse(Macad::Occt::Ax2 A2, double MajorRadius,
 {
     pin_ptr<Macad::Occt::Ax2> pp_A2 = &A2;
     NativeInstance = new ::Geom_Ellipse(*(gp_Ax2*)pp_A2, MajorRadius, MinorRadius);
-}
-
-Macad::Occt::Geom_Ellipse::Geom_Ellipse(Macad::Occt::Geom_Ellipse^ parameter1)
-    : Macad::Occt::Geom_Conic(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_Ellipse(*(::Geom_Ellipse*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_Ellipse::SetElips(Macad::Occt::gp_Elips^ E)
@@ -4576,17 +4404,16 @@ Macad::Occt::Geom_HSequenceOfBSplineSurface::Geom_HSequenceOfBSplineSurface(Maca
     NativeInstance = new ::Geom_HSequenceOfBSplineSurface(*(::Geom_SequenceOfBSplineSurface*)theOther->NativeInstance);
 }
 
-Macad::Occt::Geom_HSequenceOfBSplineSurface::Geom_HSequenceOfBSplineSurface(Macad::Occt::Geom_HSequenceOfBSplineSurface^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_HSequenceOfBSplineSurface(*(::Geom_HSequenceOfBSplineSurface*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Geom_SequenceOfBSplineSurface^ Macad::Occt::Geom_HSequenceOfBSplineSurface::Sequence()
 {
     ::Geom_SequenceOfBSplineSurface* _result = new ::Geom_SequenceOfBSplineSurface();
     *_result = (::Geom_SequenceOfBSplineSurface)((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->Sequence();
     return _result==nullptr ? nullptr : gcnew Macad::Occt::Geom_SequenceOfBSplineSurface(_result);
+}
+
+void Macad::Occt::Geom_HSequenceOfBSplineSurface::Append(Macad::Occt::Geom_BSplineSurface^ theItem)
+{
+    ((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->Append(Handle(::Geom_BSplineSurface)(theItem->NativeInstance));
 }
 
 void Macad::Occt::Geom_HSequenceOfBSplineSurface::Append(Macad::Occt::Geom_SequenceOfBSplineSurface^ theSequence)
@@ -4653,9 +4480,7 @@ void Macad::Occt::Geom_HSequenceOfBSplineSurface::Clear()
 
 Macad::Occt::Geom_HSequenceOfBSplineSurface^ Macad::Occt::Geom_HSequenceOfBSplineSurface::Assign(Macad::Occt::Geom_HSequenceOfBSplineSurface^ theOther)
 {
-    ::Geom_HSequenceOfBSplineSurface* _result = new ::Geom_HSequenceOfBSplineSurface();
-    *_result = ((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->Assign(*(::Geom_HSequenceOfBSplineSurface*)theOther->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::Geom_HSequenceOfBSplineSurface(_result);
+    throw gcnew System::NotImplementedException();
 }
 
 void Macad::Occt::Geom_HSequenceOfBSplineSurface::Remove(Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator^ thePosition)
@@ -4663,34 +4488,9 @@ void Macad::Occt::Geom_HSequenceOfBSplineSurface::Remove(Macad::Occt::Geom_HSequ
     ((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->Remove(*(::Geom_HSequenceOfBSplineSurface::Iterator*)thePosition->NativeInstance);
 }
 
-void Macad::Occt::Geom_HSequenceOfBSplineSurface::Remove(int theIndex)
-{
-    ((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::Geom_HSequenceOfBSplineSurface::Remove(int theFromIndex, int theToIndex)
-{
-    ((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
-void Macad::Occt::Geom_HSequenceOfBSplineSurface::Append(Macad::Occt::Geom_BSplineSurface^ theItem)
-{
-    ((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->Append(Handle(::Geom_BSplineSurface)(theItem->NativeInstance));
-}
-
-void Macad::Occt::Geom_HSequenceOfBSplineSurface::Append(Macad::Occt::Geom_HSequenceOfBSplineSurface^ theSeq)
-{
-    ((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->Append(*(::Geom_HSequenceOfBSplineSurface*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::Geom_HSequenceOfBSplineSurface::Prepend(Macad::Occt::Geom_BSplineSurface^ theItem)
 {
     ((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->Prepend(Handle(::Geom_BSplineSurface)(theItem->NativeInstance));
-}
-
-void Macad::Occt::Geom_HSequenceOfBSplineSurface::Prepend(Macad::Occt::Geom_HSequenceOfBSplineSurface^ theSeq)
-{
-    ((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->Prepend(*(::Geom_HSequenceOfBSplineSurface*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::Geom_HSequenceOfBSplineSurface::InsertBefore(int theIndex, Macad::Occt::Geom_BSplineSurface^ theItem)
@@ -4698,24 +4498,9 @@ void Macad::Occt::Geom_HSequenceOfBSplineSurface::InsertBefore(int theIndex, Mac
     ((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->InsertBefore(theIndex, Handle(::Geom_BSplineSurface)(theItem->NativeInstance));
 }
 
-void Macad::Occt::Geom_HSequenceOfBSplineSurface::InsertBefore(int theIndex, Macad::Occt::Geom_HSequenceOfBSplineSurface^ theSeq)
-{
-    ((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->InsertBefore(theIndex, *(::Geom_HSequenceOfBSplineSurface*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::Geom_HSequenceOfBSplineSurface::InsertAfter(Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator^ thePosition, Macad::Occt::Geom_BSplineSurface^ theItem)
 {
     ((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->InsertAfter(*(::Geom_HSequenceOfBSplineSurface::Iterator*)thePosition->NativeInstance, Handle(::Geom_BSplineSurface)(theItem->NativeInstance));
-}
-
-void Macad::Occt::Geom_HSequenceOfBSplineSurface::InsertAfter(int theIndex, Macad::Occt::Geom_HSequenceOfBSplineSurface^ theSeq)
-{
-    ((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->InsertAfter(theIndex, *(::Geom_HSequenceOfBSplineSurface*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::Geom_HSequenceOfBSplineSurface::InsertAfter(int theIndex, Macad::Occt::Geom_BSplineSurface^ theItem)
-{
-    ((::Geom_HSequenceOfBSplineSurface*)_NativeInstance)->InsertAfter(theIndex, Handle(::Geom_BSplineSurface)(theItem->NativeInstance));
 }
 
 void Macad::Occt::Geom_HSequenceOfBSplineSurface::Split(int theIndex, Macad::Occt::Geom_HSequenceOfBSplineSurface^ theSeq)
@@ -4791,24 +4576,6 @@ Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator::Iterator()
     _NativeInstance = new ::Geom_HSequenceOfBSplineSurface::Iterator();
 }
 
-Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator::Iterator(Macad::Occt::Geom_HSequenceOfBSplineSurface^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::Geom_HSequenceOfBSplineSurface::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom_HSequenceOfBSplineSurface::Iterator(*(::Geom_HSequenceOfBSplineSurface*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator::Iterator(Macad::Occt::Geom_HSequenceOfBSplineSurface^ theSeq)
-    : Macad::Occt::BaseClass<::Geom_HSequenceOfBSplineSurface::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom_HSequenceOfBSplineSurface::Iterator(*(::Geom_HSequenceOfBSplineSurface*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator::Iterator(Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::Geom_HSequenceOfBSplineSurface::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom_HSequenceOfBSplineSurface::Iterator(*(::Geom_HSequenceOfBSplineSurface::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator::More()
 {
     bool _result = ((::Geom_HSequenceOfBSplineSurface::Iterator*)_NativeInstance)->More();
@@ -4838,6 +4605,25 @@ bool Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator::IsEqual(Macad::Occt:
     return _result;
 }
 
+bool Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -4855,12 +4641,6 @@ Macad::Occt::Geom_Hyperbola::Geom_Hyperbola(Macad::Occt::Ax2 A2, double MajorRad
 {
     pin_ptr<Macad::Occt::Ax2> pp_A2 = &A2;
     NativeInstance = new ::Geom_Hyperbola(*(gp_Ax2*)pp_A2, MajorRadius, MinorRadius);
-}
-
-Macad::Occt::Geom_Hyperbola::Geom_Hyperbola(Macad::Occt::Geom_Hyperbola^ parameter1)
-    : Macad::Occt::Geom_Conic(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_Hyperbola(*(::Geom_Hyperbola*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_Hyperbola::SetHypr(Macad::Occt::gp_Hypr^ H)
@@ -5096,12 +4876,6 @@ Macad::Occt::Geom_Line::Geom_Line(Macad::Occt::Pnt P, Macad::Occt::Dir V)
     NativeInstance = new ::Geom_Line(*(gp_Pnt*)pp_P, *(gp_Dir*)pp_V);
 }
 
-Macad::Occt::Geom_Line::Geom_Line(Macad::Occt::Geom_Line^ parameter1)
-    : Macad::Occt::Geom_Curve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_Line(*(::Geom_Line*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom_Line::SetLin(Macad::Occt::gp_Lin^ L)
 {
     ((::Geom_Line*)_NativeInstance)->SetLin(*(::gp_Lin*)L->NativeInstance);
@@ -5284,12 +5058,6 @@ Macad::Occt::Geom_OffsetCurve::Geom_OffsetCurve(Macad::Occt::Geom_Curve^ C, doub
 {
     pin_ptr<Macad::Occt::Dir> pp_V = &V;
     NativeInstance = new ::Geom_OffsetCurve(Handle(::Geom_Curve)(C->NativeInstance), Offset, *(gp_Dir*)pp_V, false);
-}
-
-Macad::Occt::Geom_OffsetCurve::Geom_OffsetCurve(Macad::Occt::Geom_OffsetCurve^ parameter1)
-    : Macad::Occt::Geom_Curve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_OffsetCurve(*(::Geom_OffsetCurve*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_OffsetCurve::Reverse()
@@ -5489,12 +5257,6 @@ Macad::Occt::Geom_OsculatingSurface::Geom_OsculatingSurface(Macad::Occt::Geom_Su
     NativeInstance = new ::Geom_OsculatingSurface(Handle(::Geom_Surface)(BS->NativeInstance), Tol);
 }
 
-Macad::Occt::Geom_OsculatingSurface::Geom_OsculatingSurface(Macad::Occt::Geom_OsculatingSurface^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_OsculatingSurface(*(::Geom_OsculatingSurface*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom_OsculatingSurface::Init(Macad::Occt::Geom_Surface^ BS, double Tol)
 {
     ((::Geom_OsculatingSurface*)_NativeInstance)->Init(Handle(::Geom_Surface)(BS->NativeInstance), Tol);
@@ -5565,12 +5327,6 @@ Macad::Occt::Geom_OffsetSurface::Geom_OffsetSurface(Macad::Occt::Geom_Surface^ S
     : Macad::Occt::Geom_Surface(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom_OffsetSurface(Handle(::Geom_Surface)(S->NativeInstance), Offset, false);
-}
-
-Macad::Occt::Geom_OffsetSurface::Geom_OffsetSurface(Macad::Occt::Geom_OffsetSurface^ parameter1)
-    : Macad::Occt::Geom_Surface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_OffsetSurface(*(::Geom_OffsetSurface*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_OffsetSurface::SetBasisSurface(Macad::Occt::Geom_Surface^ S, bool isNotCheckC0)
@@ -5853,12 +5609,6 @@ Macad::Occt::Geom_Parabola::Geom_Parabola(Macad::Occt::Ax1 D, Macad::Occt::Pnt F
     NativeInstance = new ::Geom_Parabola(*(gp_Ax1*)pp_D, *(gp_Pnt*)pp_F);
 }
 
-Macad::Occt::Geom_Parabola::Geom_Parabola(Macad::Occt::Geom_Parabola^ parameter1)
-    : Macad::Occt::Geom_Conic(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_Parabola(*(::Geom_Parabola*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom_Parabola::SetFocal(double Focal)
 {
     ((::Geom_Parabola*)_NativeInstance)->SetFocal(Focal);
@@ -6049,12 +5799,6 @@ Macad::Occt::Geom_Plane::Geom_Plane(double A, double B, double C, double D)
     : Macad::Occt::Geom_ElementarySurface(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom_Plane(A, B, C, D);
-}
-
-Macad::Occt::Geom_Plane::Geom_Plane(Macad::Occt::Geom_Plane^ parameter1)
-    : Macad::Occt::Geom_ElementarySurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_Plane(*(::Geom_Plane*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_Plane::SetPln(Macad::Occt::Pln Pl)
@@ -6272,12 +6016,6 @@ Macad::Occt::Geom_RectangularTrimmedSurface::Geom_RectangularTrimmedSurface(Maca
     : Macad::Occt::Geom_BoundedSurface(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom_RectangularTrimmedSurface(Handle(::Geom_Surface)(S->NativeInstance), Param1, Param2, UTrim, true);
-}
-
-Macad::Occt::Geom_RectangularTrimmedSurface::Geom_RectangularTrimmedSurface(Macad::Occt::Geom_RectangularTrimmedSurface^ parameter1)
-    : Macad::Occt::Geom_BoundedSurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_RectangularTrimmedSurface(*(::Geom_RectangularTrimmedSurface*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_RectangularTrimmedSurface::SetTrim(double U1, double U2, double V1, double V2, bool USense, bool VSense)
@@ -6520,12 +6258,6 @@ Macad::Occt::Geom_SphericalSurface::Geom_SphericalSurface(Macad::Occt::gp_Sphere
     NativeInstance = new ::Geom_SphericalSurface(*(::gp_Sphere*)S->NativeInstance);
 }
 
-Macad::Occt::Geom_SphericalSurface::Geom_SphericalSurface(Macad::Occt::Geom_SphericalSurface^ parameter1)
-    : Macad::Occt::Geom_ElementarySurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_SphericalSurface(*(::Geom_SphericalSurface*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom_SphericalSurface::SetRadius(double R)
 {
     ((::Geom_SphericalSurface*)_NativeInstance)->SetRadius(R);
@@ -6716,12 +6448,6 @@ Macad::Occt::Geom_SphericalSurface^ Macad::Occt::Geom_SphericalSurface::CreateDo
 //  Class  Geom_SweptSurface
 //---------------------------------------------------------------------
 
-Macad::Occt::Geom_SweptSurface::Geom_SweptSurface(Macad::Occt::Geom_SweptSurface^ parameter1)
-    : Macad::Occt::Geom_Surface(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 Macad::Occt::Geom_SweptSurface::Geom_SweptSurface()
     : Macad::Occt::Geom_Surface(BaseClass::InitMode::Uninitialized)
 {
@@ -6784,12 +6510,6 @@ Macad::Occt::Geom_SurfaceOfLinearExtrusion::Geom_SurfaceOfLinearExtrusion(Macad:
 {
     pin_ptr<Macad::Occt::Dir> pp_V = &V;
     NativeInstance = new ::Geom_SurfaceOfLinearExtrusion(Handle(::Geom_Curve)(C->NativeInstance), *(gp_Dir*)pp_V);
-}
-
-Macad::Occt::Geom_SurfaceOfLinearExtrusion::Geom_SurfaceOfLinearExtrusion(Macad::Occt::Geom_SurfaceOfLinearExtrusion^ parameter1)
-    : Macad::Occt::Geom_SweptSurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_SurfaceOfLinearExtrusion(*(::Geom_SurfaceOfLinearExtrusion*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_SurfaceOfLinearExtrusion::SetDirection(Macad::Occt::Dir V)
@@ -6986,12 +6706,6 @@ Macad::Occt::Geom_SurfaceOfRevolution::Geom_SurfaceOfRevolution(Macad::Occt::Geo
 {
     pin_ptr<Macad::Occt::Ax1> pp_A1 = &A1;
     NativeInstance = new ::Geom_SurfaceOfRevolution(Handle(::Geom_Curve)(C->NativeInstance), *(gp_Ax1*)pp_A1);
-}
-
-Macad::Occt::Geom_SurfaceOfRevolution::Geom_SurfaceOfRevolution(Macad::Occt::Geom_SurfaceOfRevolution^ parameter1)
-    : Macad::Occt::Geom_SweptSurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_SurfaceOfRevolution(*(::Geom_SurfaceOfRevolution*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_SurfaceOfRevolution::SetAxis(Macad::Occt::Ax1 A1)
@@ -7226,12 +6940,6 @@ Macad::Occt::Geom_ToroidalSurface::Geom_ToroidalSurface(Macad::Occt::gp_Torus^ T
     NativeInstance = new ::Geom_ToroidalSurface(*(::gp_Torus*)T->NativeInstance);
 }
 
-Macad::Occt::Geom_ToroidalSurface::Geom_ToroidalSurface(Macad::Occt::Geom_ToroidalSurface^ parameter1)
-    : Macad::Occt::Geom_ElementarySurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_ToroidalSurface(*(::Geom_ToroidalSurface*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom_ToroidalSurface::SetMajorRadius(double MajorRadius)
 {
     ((::Geom_ToroidalSurface*)_NativeInstance)->SetMajorRadius(MajorRadius);
@@ -7436,12 +7144,6 @@ Macad::Occt::Geom_Transformation::Geom_Transformation(Macad::Occt::Trsf T)
     NativeInstance = new ::Geom_Transformation(*(gp_Trsf*)pp_T);
 }
 
-Macad::Occt::Geom_Transformation::Geom_Transformation(Macad::Occt::Geom_Transformation^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_Transformation(*(::Geom_Transformation*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom_Transformation::SetMirror(Macad::Occt::Pnt thePnt)
 {
     pin_ptr<Macad::Occt::Pnt> pp_thePnt = &thePnt;
@@ -7627,12 +7329,6 @@ Macad::Occt::Geom_TrimmedCurve::Geom_TrimmedCurve(Macad::Occt::Geom_Curve^ C, do
     : Macad::Occt::Geom_BoundedCurve(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Geom_TrimmedCurve(Handle(::Geom_Curve)(C->NativeInstance), U1, U2, true, true);
-}
-
-Macad::Occt::Geom_TrimmedCurve::Geom_TrimmedCurve(Macad::Occt::Geom_TrimmedCurve^ parameter1)
-    : Macad::Occt::Geom_BoundedCurve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_TrimmedCurve(*(::Geom_TrimmedCurve*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_TrimmedCurve::Reverse()
@@ -7832,12 +7528,6 @@ Macad::Occt::Geom_UndefinedDerivative::Geom_UndefinedDerivative(System::String^ 
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
-Macad::Occt::Geom_UndefinedDerivative::Geom_UndefinedDerivative(Macad::Occt::Geom_UndefinedDerivative^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_UndefinedDerivative(*(::Geom_UndefinedDerivative*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom_UndefinedDerivative::Raise(System::String^ theMessage)
 {
     const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
@@ -7909,12 +7599,6 @@ Macad::Occt::Geom_UndefinedValue::Geom_UndefinedValue(System::String^ theMessage
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
-Macad::Occt::Geom_UndefinedValue::Geom_UndefinedValue(Macad::Occt::Geom_UndefinedValue^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_UndefinedValue(*(::Geom_UndefinedValue*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Geom_UndefinedValue::Raise(System::String^ theMessage)
 {
     const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
@@ -7981,12 +7665,6 @@ Macad::Occt::Geom_VectorWithMagnitude::Geom_VectorWithMagnitude(Macad::Occt::Pnt
     pin_ptr<Macad::Occt::Pnt> pp_P1 = &P1;
     pin_ptr<Macad::Occt::Pnt> pp_P2 = &P2;
     NativeInstance = new ::Geom_VectorWithMagnitude(*(gp_Pnt*)pp_P1, *(gp_Pnt*)pp_P2);
-}
-
-Macad::Occt::Geom_VectorWithMagnitude::Geom_VectorWithMagnitude(Macad::Occt::Geom_VectorWithMagnitude^ parameter1)
-    : Macad::Occt::Geom_Vector(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Geom_VectorWithMagnitude(*(::Geom_VectorWithMagnitude*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Geom_VectorWithMagnitude::SetCoord(double X, double Y, double Z)

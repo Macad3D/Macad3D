@@ -20,12 +20,6 @@ Macad::Occt::GeomProjLib::GeomProjLib()
     _NativeInstance = new ::GeomProjLib();
 }
 
-Macad::Occt::GeomProjLib::GeomProjLib(Macad::Occt::GeomProjLib^ parameter1)
-    : Macad::Occt::BaseClass<::GeomProjLib>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomProjLib(*(::GeomProjLib*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Geom2d_Curve^ Macad::Occt::GeomProjLib::Curve2d(Macad::Occt::Geom_Curve^ C, double First, double Last, Macad::Occt::Geom_Surface^ S, double UFirst, double ULast, double VFirst, double VLast, double% Tolerance)
 {
     pin_ptr<double> pp_Tolerance = &Tolerance;

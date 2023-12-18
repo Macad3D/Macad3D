@@ -112,7 +112,6 @@ public:
 
 public:
     Precision();
-    Precision(Macad::Occt::Precision^ parameter1);
     /// <summary>
     /// Returns the recommended precision value
     /// when checking the equality of two angles (given in radians).

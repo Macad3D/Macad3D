@@ -95,8 +95,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::PrsMgr_PresentableObject^ Value();
@@ -105,7 +103,6 @@ public:
 
     PrsMgr_ListOfPresentableObjects();
     PrsMgr_ListOfPresentableObjects(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    PrsMgr_ListOfPresentableObjects(Macad::Occt::PrsMgr_ListOfPresentableObjects^ theOther);
     int Size();
     Macad::Occt::PrsMgr_ListOfPresentableObjects^ Assign(Macad::Occt::PrsMgr_ListOfPresentableObjects^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -113,16 +110,11 @@ public:
     Macad::Occt::PrsMgr_PresentableObject^ First();
     Macad::Occt::PrsMgr_PresentableObject^ Last();
     Macad::Occt::PrsMgr_PresentableObject^ Append(Macad::Occt::PrsMgr_PresentableObject^ theItem);
-    void Append(Macad::Occt::PrsMgr_PresentableObject^ theItem, Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator^ theIter);
-    void Append(Macad::Occt::PrsMgr_ListOfPresentableObjects^ theOther);
     Macad::Occt::PrsMgr_PresentableObject^ Prepend(Macad::Occt::PrsMgr_PresentableObject^ theItem);
-    void Prepend(Macad::Occt::PrsMgr_ListOfPresentableObjects^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator^ theIter);
     Macad::Occt::PrsMgr_PresentableObject^ InsertBefore(Macad::Occt::PrsMgr_PresentableObject^ theItem, Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::PrsMgr_ListOfPresentableObjects^ theOther, Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator^ theIter);
     Macad::Occt::PrsMgr_PresentableObject^ InsertAfter(Macad::Occt::PrsMgr_PresentableObject^ theItem, Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::PrsMgr_ListOfPresentableObjects^ theOther, Macad::Occt::PrsMgr_ListOfPresentableObjects::Iterator^ theIter);
     void Reverse();
 }; // class PrsMgr_ListOfPresentableObjects
 
@@ -158,7 +150,6 @@ public:
 public:
     PrsMgr_ListOfPresentableObjectsIter();
     PrsMgr_ListOfPresentableObjectsIter(Macad::Occt::NCollection_BaseList^ theList);
-    PrsMgr_ListOfPresentableObjectsIter(Macad::Occt::PrsMgr_ListOfPresentableObjectsIter^ parameter1);
     bool More();
     void Next();
     Macad::Occt::PrsMgr_PresentableObject^ Value();
@@ -223,8 +214,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::PrsMgr_ListOfPresentations::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Graphic3d_Structure^ Value();
@@ -233,7 +222,6 @@ public:
 
     PrsMgr_ListOfPresentations();
     PrsMgr_ListOfPresentations(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    PrsMgr_ListOfPresentations(Macad::Occt::PrsMgr_ListOfPresentations^ theOther);
     int Size();
     Macad::Occt::PrsMgr_ListOfPresentations^ Assign(Macad::Occt::PrsMgr_ListOfPresentations^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -241,16 +229,11 @@ public:
     Macad::Occt::Graphic3d_Structure^ First();
     Macad::Occt::Graphic3d_Structure^ Last();
     Macad::Occt::Graphic3d_Structure^ Append(Macad::Occt::Graphic3d_Structure^ theItem);
-    void Append(Macad::Occt::Graphic3d_Structure^ theItem, Macad::Occt::PrsMgr_ListOfPresentations::Iterator^ theIter);
-    void Append(Macad::Occt::PrsMgr_ListOfPresentations^ theOther);
     Macad::Occt::Graphic3d_Structure^ Prepend(Macad::Occt::Graphic3d_Structure^ theItem);
-    void Prepend(Macad::Occt::PrsMgr_ListOfPresentations^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::PrsMgr_ListOfPresentations::Iterator^ theIter);
     Macad::Occt::Graphic3d_Structure^ InsertBefore(Macad::Occt::Graphic3d_Structure^ theItem, Macad::Occt::PrsMgr_ListOfPresentations::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::PrsMgr_ListOfPresentations^ theOther, Macad::Occt::PrsMgr_ListOfPresentations::Iterator^ theIter);
     Macad::Occt::Graphic3d_Structure^ InsertAfter(Macad::Occt::Graphic3d_Structure^ theItem, Macad::Occt::PrsMgr_ListOfPresentations::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::PrsMgr_ListOfPresentations^ theOther, Macad::Occt::PrsMgr_ListOfPresentations::Iterator^ theIter);
     void Reverse();
 }; // class PrsMgr_ListOfPresentations
 
@@ -313,19 +296,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::PrsMgr_Presentations^ theSeq, bool isStart);
-        Iterator(Macad::Occt::PrsMgr_Presentations^ theSeq);
-        Iterator(Macad::Occt::PrsMgr_Presentations::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::PrsMgr_Presentation^ Value();
         Macad::Occt::PrsMgr_Presentation^ ChangeValue();
         bool IsEqual(Macad::Occt::PrsMgr_Presentations::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     PrsMgr_Presentations();
     PrsMgr_Presentations(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    PrsMgr_Presentations(Macad::Occt::PrsMgr_Presentations^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -338,17 +318,10 @@ public:
     void Clear();
     Macad::Occt::PrsMgr_Presentations^ Assign(Macad::Occt::PrsMgr_Presentations^ theOther);
     void Remove(Macad::Occt::PrsMgr_Presentations::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::PrsMgr_Presentation^ theItem);
-    void Append(Macad::Occt::PrsMgr_Presentations^ theSeq);
     void Prepend(Macad::Occt::PrsMgr_Presentation^ theItem);
-    void Prepend(Macad::Occt::PrsMgr_Presentations^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::PrsMgr_Presentation^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::PrsMgr_Presentations^ theSeq);
     void InsertAfter(Macad::Occt::PrsMgr_Presentations::Iterator^ thePosition, Macad::Occt::PrsMgr_Presentation^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::PrsMgr_Presentations^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::PrsMgr_Presentation^ theItem);
     void Split(int theIndex, Macad::Occt::PrsMgr_Presentations^ theSeq);
     Macad::Occt::PrsMgr_Presentation^ First();
     Macad::Occt::PrsMgr_Presentation^ ChangeFirst();
@@ -411,7 +384,6 @@ public:
     }
 
 public:
-    PrsMgr_PresentableObject(Macad::Occt::PrsMgr_PresentableObject^ parameter1);
     /// <summary>
     /// Return presentations.
     /// </summary>
@@ -926,7 +898,6 @@ public:
     /// Creates a framework to manage displays and graphic entities with the 3D view theStructureManager.
     /// </summary>
     PrsMgr_PresentationManager(Macad::Occt::Graphic3d_StructureManager^ theStructureManager);
-    PrsMgr_PresentationManager(Macad::Occt::PrsMgr_PresentationManager^ parameter1);
     /// <summary>
     /// Displays the presentation of the object in the given Presentation manager with the given mode.
     /// The mode should be enumerated by the object which inherits PresentableObject.
@@ -1180,7 +1151,6 @@ public:
     }
 
 public:
-    PrsMgr_Presentation(Macad::Occt::PrsMgr_Presentation^ parameter1);
     Macad::Occt::Graphic3d_Structure^ Presentation();
     /// <summary>
     /// returns the PresentationManager in which the presentation has been created.

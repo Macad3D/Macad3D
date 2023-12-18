@@ -69,19 +69,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSeq, bool isStart);
-        Iterator(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSeq);
-        Iterator(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TColgp_HSequenceOfPnt^ Value();
         Macad::Occt::TColgp_HSequenceOfPnt^ ChangeValue();
         bool IsEqual(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     ProjLib_SequenceOfHSequenceOfPnt();
     ProjLib_SequenceOfHSequenceOfPnt(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    ProjLib_SequenceOfHSequenceOfPnt(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -94,17 +91,10 @@ public:
     void Clear();
     Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ Assign(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theOther);
     void Remove(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
-    void Append(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSeq);
     void Prepend(Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
-    void Prepend(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSeq);
     void InsertAfter(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt::Iterator^ thePosition, Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
     void Split(int theIndex, Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSeq);
     Macad::Occt::TColgp_HSequenceOfPnt^ First();
     Macad::Occt::TColgp_HSequenceOfPnt^ ChangeFirst();
@@ -177,7 +167,6 @@ public:
     /// If projecting uses approximation, 3d tolerance is Tol, default parameters are used,
     /// </summary>
     ProjLib_ProjectedCurve(Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C, double Tol);
-    ProjLib_ProjectedCurve(Macad::Occt::ProjLib_ProjectedCurve^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>
@@ -380,7 +369,6 @@ public:
 
 public:
     ProjLib();
-    ProjLib(Macad::Occt::ProjLib^ parameter1);
     static Macad::Occt::Pnt2d Project(Macad::Occt::Pln Pl, Macad::Occt::Pnt P);
     static Macad::Occt::gp_Lin2d^ Project(Macad::Occt::Pln Pl, Macad::Occt::gp_Lin^ L);
     static Macad::Occt::gp_Circ2d^ Project(Macad::Occt::Pln Pl, Macad::Occt::gp_Circ^ C);
@@ -468,20 +456,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theSeq, bool isStart);
-        Iterator(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theSeq);
-        Iterator(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TColgp_HSequenceOfPnt^ Value();
         Macad::Occt::TColgp_HSequenceOfPnt^ ChangeValue();
         bool IsEqual(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     ProjLib_HSequenceOfHSequenceOfPnt();
     ProjLib_HSequenceOfHSequenceOfPnt(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theOther);
-    ProjLib_HSequenceOfHSequenceOfPnt(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ parameter1);
     Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ Sequence();
+    void Append(Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
     void Append(Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ theSequence);
     Macad::Occt::ProjLib_SequenceOfHSequenceOfPnt^ ChangeSequence();
     int Size();
@@ -496,17 +482,9 @@ public:
     void Clear();
     Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ Assign(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theOther);
     void Remove(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
-    void Append(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theSeq);
     void Prepend(Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
-    void Prepend(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theSeq);
     void InsertAfter(Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt::Iterator^ thePosition, Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
     void Split(int theIndex, Macad::Occt::ProjLib_HSequenceOfHSequenceOfPnt^ theSeq);
     Macad::Occt::TColgp_HSequenceOfPnt^ First();
     Macad::Occt::TColgp_HSequenceOfPnt^ ChangeFirst();
@@ -562,7 +540,6 @@ public:
     /// Sets the type to OtherCurve
     /// </summary>
     ProjLib_Projector();
-    ProjLib_Projector(Macad::Occt::ProjLib_Projector^ parameter1);
     bool IsDone();
     /// <summary>
     /// Set isDone = Standard_True;
@@ -658,7 +635,6 @@ public:
     /// Tolerances of parameters are calculated automatically.
     /// </summary>
     ProjLib_CompProjectedCurve(double Tol3d, Macad::Occt::Adaptor3d_Surface^ S, Macad::Occt::Adaptor3d_Curve^ C);
-    ProjLib_CompProjectedCurve(Macad::Occt::ProjLib_CompProjectedCurve^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>
@@ -915,7 +891,6 @@ public:
     /// Other parameters for approximation have default values.
     /// </summary>
     ProjLib_ComputeApprox(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S, double Tol);
-    ProjLib_ComputeApprox(Macad::Occt::ProjLib_ComputeApprox^ parameter1);
     /// <summary>
     /// Performs projecting.
     /// In case of approximation current values of parameters are used:
@@ -1015,7 +990,6 @@ public:
     /// Parameter Tol is 3d tolerance of approximation.
     /// </summary>
     ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::Adaptor2d_Curve2d^ InitCurve2d, Macad::Occt::Adaptor2d_Curve2d^ InitCurve2dBis, Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S, double Tol);
-    ProjLib_ComputeApproxOnPolarSurface(Macad::Occt::ProjLib_ComputeApproxOnPolarSurface^ parameter1);
     /// <summary>
     /// Set min and max possible degree of result BSpline curve2d, which is got by approximation.
     /// If theDegMin/Max < 0, algorithm uses values min = 2, max = 8.
@@ -1126,7 +1100,6 @@ public:
     /// Projection of the circle <C> on the cone <Co>.
     /// </summary>
     ProjLib_Cone(Macad::Occt::gp_Cone^ Co, Macad::Occt::gp_Circ^ C);
-    ProjLib_Cone(Macad::Occt::ProjLib_Cone^ parameter1);
     void Init(Macad::Occt::gp_Cone^ Co);
     void Project(Macad::Occt::gp_Lin^ L);
     void Project(Macad::Occt::gp_Circ^ C);
@@ -1188,7 +1161,6 @@ public:
     /// Projection of the ellipse <E> on the cylinder <Cyl>.
     /// </summary>
     ProjLib_Cylinder(Macad::Occt::gp_Cylinder^ Cyl, Macad::Occt::gp_Elips^ E);
-    ProjLib_Cylinder(Macad::Occt::ProjLib_Cylinder^ parameter1);
     void Init(Macad::Occt::gp_Cylinder^ Cyl);
     void Project(Macad::Occt::gp_Lin^ L);
     void Project(Macad::Occt::gp_Circ^ C);
@@ -1258,7 +1230,6 @@ public:
     /// Projection of the hyperbola <H> on the plane <Pl>.
     /// </summary>
     ProjLib_Plane(Macad::Occt::Pln Pl, Macad::Occt::gp_Hypr^ H);
-    ProjLib_Plane(Macad::Occt::ProjLib_Plane^ parameter1);
     void Init(Macad::Occt::Pln Pl);
     void Project(Macad::Occt::gp_Lin^ L);
     void Project(Macad::Occt::gp_Circ^ C);
@@ -1298,7 +1269,6 @@ public:
 
 public:
     ProjLib_PrjResolve(Macad::Occt::Adaptor3d_Curve^ C, Macad::Occt::Adaptor3d_Surface^ S, int Fix);
-    ProjLib_PrjResolve(Macad::Occt::ProjLib_PrjResolve^ parameter1);
     /// <summary>
     /// Calculates the ort from  C(t)  to  S  with a close point.
     /// The close point is defined by the parameter values U0 and V0.
@@ -1386,7 +1356,6 @@ public:
     /// plane <Pl>.
     /// </summary>
     ProjLib_ProjectOnPlane(Macad::Occt::Ax3 Pl, Macad::Occt::Dir D);
-    ProjLib_ProjectOnPlane(Macad::Occt::ProjLib_ProjectOnPlane^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>
@@ -1557,7 +1526,6 @@ public:
     /// Create a projector normally to the surface <S>.
     /// </summary>
     ProjLib_ProjectOnSurface(Macad::Occt::Adaptor3d_Surface^ S);
-    ProjLib_ProjectOnSurface(Macad::Occt::ProjLib_ProjectOnSurface^ parameter1);
     /// <summary>
     /// Set the Surface to <S>.
     /// To compute the projection, you have to Load the Curve.
@@ -1616,7 +1584,6 @@ public:
     /// Projection of the circle <C> on the sphere <Sp>.
     /// </summary>
     ProjLib_Sphere(Macad::Occt::gp_Sphere^ Sp, Macad::Occt::gp_Circ^ C);
-    ProjLib_Sphere(Macad::Occt::ProjLib_Sphere^ parameter1);
     void Init(Macad::Occt::gp_Sphere^ Sp);
     void Project(Macad::Occt::gp_Lin^ L);
     void Project(Macad::Occt::gp_Circ^ C);
@@ -1675,7 +1642,6 @@ public:
     /// Projection of the circle <C> on the torus <To>.
     /// </summary>
     ProjLib_Torus(Macad::Occt::gp_Torus^ To, Macad::Occt::gp_Circ^ C);
-    ProjLib_Torus(Macad::Occt::ProjLib_Torus^ parameter1);
     void Init(Macad::Occt::gp_Torus^ To);
     void Project(Macad::Occt::gp_Lin^ L);
     void Project(Macad::Occt::gp_Circ^ C);

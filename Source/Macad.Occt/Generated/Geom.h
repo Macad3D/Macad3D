@@ -67,19 +67,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Geom_SequenceOfBSplineSurface^ theSeq, bool isStart);
-        Iterator(Macad::Occt::Geom_SequenceOfBSplineSurface^ theSeq);
-        Iterator(Macad::Occt::Geom_SequenceOfBSplineSurface::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Geom_BSplineSurface^ Value();
         Macad::Occt::Geom_BSplineSurface^ ChangeValue();
         bool IsEqual(Macad::Occt::Geom_SequenceOfBSplineSurface::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Geom_SequenceOfBSplineSurface();
     Geom_SequenceOfBSplineSurface(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    Geom_SequenceOfBSplineSurface(Macad::Occt::Geom_SequenceOfBSplineSurface^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -92,17 +89,10 @@ public:
     void Clear();
     Macad::Occt::Geom_SequenceOfBSplineSurface^ Assign(Macad::Occt::Geom_SequenceOfBSplineSurface^ theOther);
     void Remove(Macad::Occt::Geom_SequenceOfBSplineSurface::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Geom_BSplineSurface^ theItem);
-    void Append(Macad::Occt::Geom_SequenceOfBSplineSurface^ theSeq);
     void Prepend(Macad::Occt::Geom_BSplineSurface^ theItem);
-    void Prepend(Macad::Occt::Geom_SequenceOfBSplineSurface^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Geom_BSplineSurface^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::Geom_SequenceOfBSplineSurface^ theSeq);
     void InsertAfter(Macad::Occt::Geom_SequenceOfBSplineSurface::Iterator^ thePosition, Macad::Occt::Geom_BSplineSurface^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::Geom_SequenceOfBSplineSurface^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Geom_BSplineSurface^ theItem);
     void Split(int theIndex, Macad::Occt::Geom_SequenceOfBSplineSurface^ theSeq);
     Macad::Occt::Geom_BSplineSurface^ First();
     Macad::Occt::Geom_BSplineSurface^ ChangeFirst();
@@ -169,7 +159,6 @@ public:
     }
 
 public:
-    Geom_Geometry(Macad::Occt::Geom_Geometry^ parameter1);
     Geom_Geometry();
     /// <summary>
     /// Performs the symmetrical transformation of a Geometry
@@ -301,7 +290,6 @@ public:
 
 public:
     Geom_AxisPlacement();
-    Geom_AxisPlacement(Macad::Occt::Geom_AxisPlacement^ parameter1);
     /// <summary>
     /// Assigns A1 as the "main Axis" of this positioning system. This modifies
     /// - its origin, and
@@ -406,7 +394,6 @@ public:
     /// of the axis placement.
     /// </summary>
     Geom_Axis1Placement(Macad::Occt::Pnt P, Macad::Occt::Dir V);
-    Geom_Axis1Placement(Macad::Occt::Geom_Axis1Placement^ parameter1);
     /// <summary>
     /// Returns a non transient copy of <me>.
     /// </summary>
@@ -504,7 +491,6 @@ public:
     /// Raised if N and Vx are parallel.
     /// </summary>
     Geom_Axis2Placement(Macad::Occt::Pnt P, Macad::Occt::Dir N, Macad::Occt::Dir Vx);
-    Geom_Axis2Placement(Macad::Occt::Geom_Axis2Placement^ parameter1);
     /// <summary>
     /// Assigns the origin and the three unit vectors of A2 to
     /// this coordinate system.
@@ -628,7 +614,6 @@ public:
     }
 
 public:
-    Geom_Curve(Macad::Occt::Geom_Curve^ parameter1);
     Geom_Curve();
     /// <summary>
     /// Changes the direction of parametrization of <me>.
@@ -863,7 +848,6 @@ public:
     }
 
 public:
-    Geom_BoundedCurve(Macad::Occt::Geom_BoundedCurve^ parameter1);
     Geom_BoundedCurve();
     /// <summary>
     /// Returns the end point of the curve.
@@ -982,7 +966,6 @@ public:
     /// or one weight value is lower or equal to Resolution from package gp.
     /// </summary>
     Geom_BezierCurve(Macad::Occt::TColgp_Array1OfPnt^ CurvePoles, Macad::Occt::TColStd_Array1OfReal^ PoleWeights);
-    Geom_BezierCurve(Macad::Occt::Geom_BezierCurve^ parameter1);
     /// <summary>
     /// Increases the degree of a bezier curve. Degree is the new
     /// degree of <me>. Raises ConstructionError
@@ -1287,7 +1270,6 @@ public:
     }
 
 public:
-    Geom_Surface(Macad::Occt::Geom_Surface^ parameter1);
     Geom_Surface();
     /// <summary>
     /// Reverses the U direction of parametrization of <me>.
@@ -1579,7 +1561,6 @@ public:
     }
 
 public:
-    Geom_BoundedSurface(Macad::Occt::Geom_BoundedSurface^ parameter1);
     Geom_BoundedSurface();
     static Macad::Occt::Geom_BoundedSurface^ CreateDowncasted(::Geom_BoundedSurface* instance);
 }; // class Geom_BoundedSurface
@@ -1718,7 +1699,6 @@ public:
     /// or greater than MaxDegree + 1 in one of the two directions U or V.
     /// </summary>
     Geom_BezierSurface(Macad::Occt::TColgp_Array2OfPnt^ SurfacePoles, Macad::Occt::TColStd_Array2OfReal^ PoleWeights);
-    Geom_BezierSurface(Macad::Occt::Geom_BezierSurface^ parameter1);
     /// <summary>
     /// Exchanges the direction U and V on a Bezier surface
     /// As a consequence:
@@ -2402,7 +2382,6 @@ public:
     /// Poles.Length() == Sum(Mults(i)) except the first or last
     /// </summary>
     Geom_BSplineCurve(Macad::Occt::TColgp_Array1OfPnt^ Poles, Macad::Occt::TColStd_Array1OfReal^ Weights, Macad::Occt::TColStd_Array1OfReal^ Knots, Macad::Occt::TColStd_Array1OfInteger^ Multiplicities, int Degree);
-    Geom_BSplineCurve(Macad::Occt::Geom_BSplineCurve^ parameter1);
     /// <summary>
     /// Increases the degree of this BSpline curve to
     /// Degree. As a result, the poles, weights and
@@ -3503,7 +3482,6 @@ public:
     /// RowLength of the poles.
     /// </summary>
     Geom_BSplineSurface(Macad::Occt::TColgp_Array2OfPnt^ Poles, Macad::Occt::TColStd_Array2OfReal^ Weights, Macad::Occt::TColStd_Array1OfReal^ UKnots, Macad::Occt::TColStd_Array1OfReal^ VKnots, Macad::Occt::TColStd_Array1OfInteger^ UMults, Macad::Occt::TColStd_Array1OfInteger^ VMults, int UDegree, int VDegree);
-    Geom_BSplineSurface(Macad::Occt::Geom_BSplineSurface^ parameter1);
     /// <summary>
     /// Exchanges the u and v parametric directions on
     /// this BSpline surface.
@@ -4796,7 +4774,6 @@ public:
 
 public:
     Geom_Point();
-    Geom_Point(Macad::Occt::Geom_Point^ parameter1);
     /// <summary>
     /// returns the Coordinates of <me>.
     /// </summary>
@@ -4871,7 +4848,6 @@ public:
     /// Constructs a point defined by its three Cartesian coordinates X, Y and Z.
     /// </summary>
     Geom_CartesianPoint(double X, double Y, double Z);
-    Geom_CartesianPoint(Macad::Occt::Geom_CartesianPoint^ parameter1);
     /// <summary>
     /// Assigns the coordinates X, Y and Z to this point.
     /// </summary>
@@ -4985,7 +4961,6 @@ public:
 
 public:
     Geom_Conic();
-    Geom_Conic(Macad::Occt::Geom_Conic^ parameter1);
     /// <summary>
     /// Changes the orientation of the conic's plane. The normal
     /// axis to the plane is A1. The XAxis and the YAxis are recomputed.
@@ -5150,7 +5125,6 @@ public:
     /// raised if Radius < 0.
     /// </summary>
     Geom_Circle(Macad::Occt::Ax2 A2, double Radius);
-    Geom_Circle(Macad::Occt::Geom_Circle^ parameter1);
     /// <summary>
     /// Set <me> so that <me> has the same geometric properties as C.
     /// </summary>
@@ -5321,7 +5295,6 @@ public:
 
 public:
     Geom_ElementarySurface();
-    Geom_ElementarySurface(Macad::Occt::Geom_ElementarySurface^ parameter1);
     /// <summary>
     /// Changes the main axis (ZAxis) of the elementary surface.
     /// 
@@ -5492,7 +5465,6 @@ public:
     /// Creates a ConicalSurface from a non transient gp_Cone.
     /// </summary>
     Geom_ConicalSurface(Macad::Occt::gp_Cone^ C);
-    Geom_ConicalSurface(Macad::Occt::Geom_ConicalSurface^ parameter1);
     /// <summary>
     /// Set <me> so that <me> has the same geometric properties as C.
     /// </summary>
@@ -5775,7 +5747,6 @@ public:
     /// Creates a CylindricalSurface from a non transient gp_Cylinder.
     /// </summary>
     Geom_CylindricalSurface(Macad::Occt::gp_Cylinder^ C);
-    Geom_CylindricalSurface(Macad::Occt::Geom_CylindricalSurface^ parameter1);
     /// <summary>
     /// Set <me> so that <me> has the same geometric properties as C.
     /// </summary>
@@ -5973,7 +5944,6 @@ public:
 
 public:
     Geom_Vector();
-    Geom_Vector(Macad::Occt::Geom_Vector^ parameter1);
     /// <summary>
     /// Reverses the vector <me>.
     /// </summary>
@@ -6124,7 +6094,6 @@ public:
     /// Creates a transient copy of <me>.
     /// </summary>
     Geom_Direction(Macad::Occt::Dir V);
-    Geom_Direction(Macad::Occt::Geom_Direction^ parameter1);
     /// <summary>
     /// Sets <me> to X,Y,Z coordinates.
     /// 
@@ -6294,7 +6263,6 @@ public:
     /// MinorRadius are equal.
     /// </summary>
     Geom_Ellipse(Macad::Occt::Ax2 A2, double MajorRadius, double MinorRadius);
-    Geom_Ellipse(Macad::Occt::Geom_Ellipse^ parameter1);
     /// <summary>
     /// Converts the gp_Elips ellipse E into this ellipse.
     /// </summary>
@@ -6500,20 +6468,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Geom_HSequenceOfBSplineSurface^ theSeq, bool isStart);
-        Iterator(Macad::Occt::Geom_HSequenceOfBSplineSurface^ theSeq);
-        Iterator(Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Geom_BSplineSurface^ Value();
         Macad::Occt::Geom_BSplineSurface^ ChangeValue();
         bool IsEqual(Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Geom_HSequenceOfBSplineSurface();
     Geom_HSequenceOfBSplineSurface(Macad::Occt::Geom_SequenceOfBSplineSurface^ theOther);
-    Geom_HSequenceOfBSplineSurface(Macad::Occt::Geom_HSequenceOfBSplineSurface^ parameter1);
     Macad::Occt::Geom_SequenceOfBSplineSurface^ Sequence();
+    void Append(Macad::Occt::Geom_BSplineSurface^ theItem);
     void Append(Macad::Occt::Geom_SequenceOfBSplineSurface^ theSequence);
     Macad::Occt::Geom_SequenceOfBSplineSurface^ ChangeSequence();
     int Size();
@@ -6528,17 +6494,9 @@ public:
     void Clear();
     Macad::Occt::Geom_HSequenceOfBSplineSurface^ Assign(Macad::Occt::Geom_HSequenceOfBSplineSurface^ theOther);
     void Remove(Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::Geom_BSplineSurface^ theItem);
-    void Append(Macad::Occt::Geom_HSequenceOfBSplineSurface^ theSeq);
     void Prepend(Macad::Occt::Geom_BSplineSurface^ theItem);
-    void Prepend(Macad::Occt::Geom_HSequenceOfBSplineSurface^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Geom_BSplineSurface^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::Geom_HSequenceOfBSplineSurface^ theSeq);
     void InsertAfter(Macad::Occt::Geom_HSequenceOfBSplineSurface::Iterator^ thePosition, Macad::Occt::Geom_BSplineSurface^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::Geom_HSequenceOfBSplineSurface^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Geom_BSplineSurface^ theItem);
     void Split(int theIndex, Macad::Occt::Geom_HSequenceOfBSplineSurface^ theSeq);
     Macad::Occt::Geom_BSplineSurface^ First();
     Macad::Occt::Geom_BSplineSurface^ ChangeFirst();
@@ -6656,7 +6614,6 @@ public:
     /// - MinorRadius is less than 0.0.
     /// </summary>
     Geom_Hyperbola(Macad::Occt::Ax2 A2, double MajorRadius, double MinorRadius);
-    Geom_Hyperbola(Macad::Occt::Geom_Hyperbola^ parameter1);
     /// <summary>
     /// Converts the gp_Hypr hyperbola H into this hyperbola.
     /// </summary>
@@ -6900,7 +6857,6 @@ public:
     /// vector of the positioning axis of the line).
     /// </summary>
     Geom_Line(Macad::Occt::Pnt P, Macad::Occt::Dir V);
-    Geom_Line(Macad::Occt::Geom_Line^ parameter1);
     /// <summary>
     /// Set <me> so that <me> has the same geometric properties as L.
     /// </summary>
@@ -7149,7 +7105,6 @@ public:
     /// No check is done to know if ||V^T|| != 0.0 at any point.
     /// </summary>
     Geom_OffsetCurve(Macad::Occt::Geom_Curve^ C, double Offset, Macad::Occt::Dir V);
-    Geom_OffsetCurve(Macad::Occt::Geom_OffsetCurve^ parameter1);
     /// <summary>
     /// Changes the orientation of this offset curve.
     /// As a result:
@@ -7399,7 +7354,6 @@ public:
     /// osculating surfaces.
     /// </summary>
     Geom_OsculatingSurface(Macad::Occt::Geom_Surface^ BS, double Tol);
-    Geom_OsculatingSurface(Macad::Occt::Geom_OsculatingSurface^ parameter1);
     void Init(Macad::Occt::Geom_Surface^ BS, double Tol);
     Macad::Occt::Geom_Surface^ BasisSurface();
     double Tolerance();
@@ -7532,7 +7486,6 @@ public:
     /// defined at any point of the basis surface S.
     /// </summary>
     Geom_OffsetSurface(Macad::Occt::Geom_Surface^ S, double Offset);
-    Geom_OffsetSurface(Macad::Occt::Geom_OffsetSurface^ parameter1);
     /// <summary>
     /// Raised if S is not at least C1.
     /// Warnings :
@@ -7926,7 +7879,6 @@ public:
     /// YAxis.
     /// </summary>
     Geom_Parabola(Macad::Occt::Ax1 D, Macad::Occt::Pnt F);
-    Geom_Parabola(Macad::Occt::Geom_Parabola^ parameter1);
     /// <summary>
     /// Assigns the value Focal to the focal distance of this parabola.
     /// Exceptions Standard_ConstructionError if Focal is negative.
@@ -8161,7 +8113,6 @@ public:
     /// @endcode
     /// Raised if Sqrt (A*A + B*B + C*C) <= Resolution from gp
     Geom_Plane(double A, double B, double C, double D);
-    Geom_Plane(Macad::Occt::Geom_Plane^ parameter1);
     /// <summary>
     /// Set <me> so that <me> has the same geometric properties as Pl.
     /// </summary>
@@ -8474,7 +8425,6 @@ public:
     /// Param1 = Param2
     /// </summary>
     Geom_RectangularTrimmedSurface(Macad::Occt::Geom_Surface^ S, double Param1, double Param2, bool UTrim);
-    Geom_RectangularTrimmedSurface(Macad::Occt::Geom_RectangularTrimmedSurface^ parameter1);
     /// <summary>
     /// Modifies this patch by changing the trim values
     /// applied to the original surface
@@ -8856,7 +8806,6 @@ public:
     /// package gp.
     /// </summary>
     Geom_SphericalSurface(Macad::Occt::gp_Sphere^ S);
-    Geom_SphericalSurface(Macad::Occt::Geom_SphericalSurface^ parameter1);
     /// <summary>
     /// Assigns the value R to the radius of this sphere.
     /// Exceptions Standard_ConstructionError if R is less than 0.0.
@@ -9045,7 +8994,6 @@ public:
     }
 
 public:
-    Geom_SweptSurface(Macad::Occt::Geom_SweptSurface^ parameter1);
     Geom_SweptSurface();
     /// <summary>
     /// returns the continuity of the surface :
@@ -9156,7 +9104,6 @@ public:
     /// line.
     /// </summary>
     Geom_SurfaceOfLinearExtrusion(Macad::Occt::Geom_Curve^ C, Macad::Occt::Dir V);
-    Geom_SurfaceOfLinearExtrusion(Macad::Occt::Geom_SurfaceOfLinearExtrusion^ parameter1);
     /// <summary>
     /// Assigns V as the "direction of extrusion" for this
     /// surface of linear extrusion.
@@ -9440,7 +9387,6 @@ public:
     /// self-intersects.
     /// </summary>
     Geom_SurfaceOfRevolution(Macad::Occt::Geom_Curve^ C, Macad::Occt::Ax1 A1);
-    Geom_SurfaceOfRevolution(Macad::Occt::Geom_SurfaceOfRevolution^ parameter1);
     /// <summary>
     /// Changes the axis of revolution.
     /// Warnings :
@@ -9769,7 +9715,6 @@ public:
     /// package gp.
     /// </summary>
     Geom_ToroidalSurface(Macad::Occt::gp_Torus^ T);
-    Geom_ToroidalSurface(Macad::Occt::Geom_ToroidalSurface^ parameter1);
     /// <summary>
     /// Modifies this torus by changing its major radius.
     /// Exceptions
@@ -10009,7 +9954,6 @@ public:
     /// Creates a transient copy of T.
     /// </summary>
     Geom_Transformation(Macad::Occt::Trsf T);
-    Geom_Transformation(Macad::Occt::Geom_Transformation^ parameter1);
     /// <summary>
     /// Makes the transformation into a symmetrical transformation
     /// with respect to a point P.
@@ -10319,7 +10263,6 @@ public:
     /// - U1 is equal to U2.
     /// </summary>
     Geom_TrimmedCurve(Macad::Occt::Geom_Curve^ C, double U1, double U2);
-    Geom_TrimmedCurve(Macad::Occt::Geom_TrimmedCurve^ parameter1);
     /// <summary>
     /// Changes the orientation of this trimmed curve.
     /// As a result:
@@ -10583,7 +10526,6 @@ public:
     Geom_UndefinedDerivative();
     Geom_UndefinedDerivative(System::String^ theMessage);
     Geom_UndefinedDerivative(System::String^ theMessage, System::String^ theStackTrace);
-    Geom_UndefinedDerivative(Macad::Occt::Geom_UndefinedDerivative^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -10626,7 +10568,6 @@ public:
     Geom_UndefinedValue();
     Geom_UndefinedValue(System::String^ theMessage);
     Geom_UndefinedValue(System::String^ theMessage, System::String^ theStackTrace);
-    Geom_UndefinedValue(Macad::Occt::Geom_UndefinedValue^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -10683,7 +10624,6 @@ public:
     /// The magnitude of the vector is the distance between P1 and P2
     /// </summary>
     Geom_VectorWithMagnitude(Macad::Occt::Pnt P1, Macad::Occt::Pnt P2);
-    Geom_VectorWithMagnitude(Macad::Occt::Geom_VectorWithMagnitude^ parameter1);
     /// <summary>
     /// Assigns the values X, Y and Z to the coordinates of this vector.
     /// </summary>

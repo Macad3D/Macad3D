@@ -8,47 +8,10 @@ namespace Macad
 namespace Occt
 {
 //---------------------------------------------------------------------
-//  Class  TopLoc_MapLocationHasher
-//---------------------------------------------------------------------
-public ref class TopLoc_MapLocationHasher sealed
-    : public Macad::Occt::BaseClass<::TopLoc_MapLocationHasher>
-{
-
-#ifdef Include_TopLoc_MapLocationHasher_h
-public:
-    Include_TopLoc_MapLocationHasher_h
-#endif
-
-public:
-    TopLoc_MapLocationHasher(::TopLoc_MapLocationHasher* nativeInstance)
-        : Macad::Occt::BaseClass<::TopLoc_MapLocationHasher>( nativeInstance, true )
-    {}
-
-    TopLoc_MapLocationHasher(::TopLoc_MapLocationHasher& nativeInstance)
-        : Macad::Occt::BaseClass<::TopLoc_MapLocationHasher>( &nativeInstance, false )
-    {}
-
-    property ::TopLoc_MapLocationHasher* NativeInstance
-    {
-        ::TopLoc_MapLocationHasher* get()
-        {
-            return static_cast<::TopLoc_MapLocationHasher*>(_NativeInstance);
-        }
-    }
-
-public:
-    TopLoc_MapLocationHasher();
-    TopLoc_MapLocationHasher(Macad::Occt::TopLoc_MapLocationHasher^ parameter1);
-    static int HashCode(Macad::Occt::TopLoc_Location^ theKey, int theUpperBound);
-    static bool IsEqual(Macad::Occt::TopLoc_Location^ theKey1, Macad::Occt::TopLoc_Location^ theKey2);
-}; // class TopLoc_MapLocationHasher
-
-//---------------------------------------------------------------------
 //  Class  TopLoc_IndexedMapOfLocation
 //---------------------------------------------------------------------
 public ref class TopLoc_IndexedMapOfLocation sealed
     : public Macad::Occt::BaseClass<::TopLoc_IndexedMapOfLocation>
-    , public IEnumerable<Macad::Occt::TopLoc_Location^>
 {
 
 #ifdef Include_TopLoc_IndexedMapOfLocation_h
@@ -75,7 +38,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::TopLoc_Location^, ::TopLoc_IndexedMapOfLocation::Iterator>
+        : public Macad::Occt::BaseClass<::TopLoc_IndexedMapOfLocation::Iterator>
     {
 
 #ifdef Include_TopLoc_IndexedMapOfLocation_Iterator_h
@@ -85,11 +48,11 @@ public:
 
     public:
         Iterator(::TopLoc_IndexedMapOfLocation::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::TopLoc_Location^, ::TopLoc_IndexedMapOfLocation::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TopLoc_IndexedMapOfLocation::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TopLoc_IndexedMapOfLocation::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::TopLoc_Location^, ::TopLoc_IndexedMapOfLocation::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TopLoc_IndexedMapOfLocation::Iterator>( &nativeInstance, false )
         {}
 
         property ::TopLoc_IndexedMapOfLocation::Iterator* NativeInstance
@@ -102,19 +65,19 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TopLoc_IndexedMapOfLocation^ theMap);
-        Iterator(Macad::Occt::TopLoc_IndexedMapOfLocation::Iterator^ parameter1);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::TopLoc_Location^ Value() override;
+        bool More();
+        void Next();
+        Macad::Occt::TopLoc_Location^ Value();
         bool IsEqual(Macad::Occt::TopLoc_IndexedMapOfLocation::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TopLoc_IndexedMapOfLocation();
     TopLoc_IndexedMapOfLocation(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TopLoc_IndexedMapOfLocation(int theNbBuckets);
-    TopLoc_IndexedMapOfLocation(Macad::Occt::TopLoc_IndexedMapOfLocation^ theOther);
     void Exchange(Macad::Occt::TopLoc_IndexedMapOfLocation^ theOther);
+    Macad::Occt::TopLoc_IndexedMapOfLocation^ Assign(Macad::Occt::TopLoc_IndexedMapOfLocation^ theOther);
+    void ReSize(int theExtent);
     int Add(Macad::Occt::TopLoc_Location^ theKey1);
     bool Contains(Macad::Occt::TopLoc_Location^ theKey1);
     void Substitute(int theIndex, Macad::Occt::TopLoc_Location^ theKey1);
@@ -126,10 +89,7 @@ public:
     int FindIndex(Macad::Occt::TopLoc_Location^ theKey1);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::TopLoc_Location^>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TopLoc_IndexedMapOfLocation
 
 //---------------------------------------------------------------------
@@ -137,7 +97,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TopLoc_MapOfLocation sealed
     : public Macad::Occt::BaseClass<::TopLoc_MapOfLocation>
-    , public IEnumerable<Macad::Occt::TopLoc_Location^>
 {
 
 #ifdef Include_TopLoc_MapOfLocation_h
@@ -164,7 +123,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::TopLoc_Location^, ::TopLoc_MapOfLocation::Iterator>
+        : public Macad::Occt::BaseClass<::TopLoc_MapOfLocation::Iterator>
     {
 
 #ifdef Include_TopLoc_MapOfLocation_Iterator_h
@@ -174,11 +133,11 @@ public:
 
     public:
         Iterator(::TopLoc_MapOfLocation::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::TopLoc_Location^, ::TopLoc_MapOfLocation::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TopLoc_MapOfLocation::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TopLoc_MapOfLocation::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::TopLoc_Location^, ::TopLoc_MapOfLocation::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TopLoc_MapOfLocation::Iterator>( &nativeInstance, false )
         {}
 
         property ::TopLoc_MapOfLocation::Iterator* NativeInstance
@@ -191,31 +150,26 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TopLoc_MapOfLocation^ theMap);
-        Iterator(Macad::Occt::TopLoc_MapOfLocation::Iterator^ parameter1);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::TopLoc_Location^ Value() override;
+        bool More();
+        void Next();
+        Macad::Occt::TopLoc_Location^ Value();
         Macad::Occt::TopLoc_Location^ Key();
     }; // class Iterator
 
     TopLoc_MapOfLocation();
     TopLoc_MapOfLocation(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     TopLoc_MapOfLocation(int theNbBuckets);
-    TopLoc_MapOfLocation(Macad::Occt::TopLoc_MapOfLocation^ theOther);
     void Exchange(Macad::Occt::TopLoc_MapOfLocation^ theOther);
     Macad::Occt::TopLoc_MapOfLocation^ Assign(Macad::Occt::TopLoc_MapOfLocation^ theOther);
     void ReSize(int N);
-    bool Add(Macad::Occt::TopLoc_Location^ K);
-    Macad::Occt::TopLoc_Location^ Added(Macad::Occt::TopLoc_Location^ K);
-    bool Contains(Macad::Occt::TopLoc_Location^ K);
+    bool Add(Macad::Occt::TopLoc_Location^ theKey);
+    Macad::Occt::TopLoc_Location^ Added(Macad::Occt::TopLoc_Location^ theKey);
+    bool Contains(Macad::Occt::TopLoc_Location^ theKey);
     bool Remove(Macad::Occt::TopLoc_Location^ K);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
     bool IsEqual(Macad::Occt::TopLoc_MapOfLocation^ theOther);
-    bool Contains(Macad::Occt::TopLoc_MapOfLocation^ theOther);
     void Union(Macad::Occt::TopLoc_MapOfLocation^ theLeft, Macad::Occt::TopLoc_MapOfLocation^ theRight);
     bool Unite(Macad::Occt::TopLoc_MapOfLocation^ theOther);
     bool HasIntersection(Macad::Occt::TopLoc_MapOfLocation^ theMap);
@@ -225,8 +179,7 @@ public:
     bool Subtract(Macad::Occt::TopLoc_MapOfLocation^ theOther);
     void Difference(Macad::Occt::TopLoc_MapOfLocation^ theLeft, Macad::Occt::TopLoc_MapOfLocation^ theRight);
     bool Differ(Macad::Occt::TopLoc_MapOfLocation^ theOther);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::TopLoc_Location^>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    bool Equals(System::Object^ obj) override;
 }; // class TopLoc_MapOfLocation
 
 //---------------------------------------------------------------------
@@ -275,7 +228,6 @@ public:
     /// raised if the Trsf is not a rigid transformation.
     /// </summary>
     TopLoc_Datum3D(Macad::Occt::Trsf T);
-    TopLoc_Datum3D(Macad::Occt::TopLoc_Datum3D^ parameter1);
     /// <summary>
     /// Returns a gp_Trsf which, when applied to this datum, produces the default datum.
     /// </summary>
@@ -334,7 +286,6 @@ public:
 
 public:
     TopLoc_SListNodeOfItemLocation(Macad::Occt::TopLoc_ItemLocation^ I, Macad::Occt::TopLoc_SListOfItemLocation^ aTail);
-    TopLoc_SListNodeOfItemLocation(Macad::Occt::TopLoc_SListNodeOfItemLocation^ parameter1);
     Macad::Occt::TopLoc_SListOfItemLocation^ Tail();
     Macad::Occt::TopLoc_ItemLocation^ Value();
     static Macad::Occt::TopLoc_SListNodeOfItemLocation^ CreateDowncasted(::TopLoc_SListNodeOfItemLocation* instance);
@@ -387,7 +338,6 @@ public:
     /// Sets the exponent to <P>
     /// </summary>
     TopLoc_ItemLocation(Macad::Occt::TopLoc_Datum3D^ D, int P);
-    TopLoc_ItemLocation(Macad::Occt::TopLoc_ItemLocation^ parameter1);
     /// <summary>
     /// Dumps the content of me into the stream
     /// </summary>
@@ -453,10 +403,6 @@ public:
     /// Creates a List with <anItem> as value  and <aTail> as tail.
     /// </summary>
     TopLoc_SListOfItemLocation(Macad::Occt::TopLoc_ItemLocation^ anItem, Macad::Occt::TopLoc_SListOfItemLocation^ aTail);
-    /// <summary>
-    /// Creates a list from an other one. The lists  are shared.
-    /// </summary>
-    TopLoc_SListOfItemLocation(Macad::Occt::TopLoc_SListOfItemLocation^ Other);
     /// <summary>
     /// Sets  a list  from  an  other  one. The  lists are
     /// shared. The list itself is returned.
@@ -554,7 +500,6 @@ public:
     /// T does not represent a 3D coordinate system.
     /// </summary>
     TopLoc_Location(Macad::Occt::TopLoc_Datum3D^ D);
-    TopLoc_Location(Macad::Occt::TopLoc_Location^ parameter1);
     /// <summary>
     /// Returns true if this location is equal to the Identity transformation.
     /// </summary>
@@ -619,15 +564,12 @@ public:
     Macad::Occt::TopLoc_Location^ Powered(int pwr);
     /// <summary>
     /// Returns a hashed value for this local coordinate system. This value is used, with map tables, to store and
-    /// retrieve the object easily, and is in the range [1, theUpperBound].
+    /// retrieve the object easily
     /// </summary>
-    /// <param name="theUpperBound">
-    /// the upper bound of the range a computing hash code must be within
-    /// </param>
     /// <returns>
-    /// a computed hash code, in the range [1, theUpperBound]
+    /// a computed hash code
     /// </returns>
-    int HashCode(int theUpperBound);
+    long long unsigned int HashCode();
     /// <summary>
     /// Returns true if this location and the location Other
     /// have the same elementary data, i.e. contain the same
@@ -660,7 +602,6 @@ public:
     void Clear();
     static double ScalePrec();
     bool Equals(System::Object^ obj) override;
-    int GetHashCode() override;
 }; // class TopLoc_Location
 
 }; // namespace Occt

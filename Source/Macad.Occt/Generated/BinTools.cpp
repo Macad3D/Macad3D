@@ -24,12 +24,6 @@ Macad::Occt::BinTools::BinTools()
     _NativeInstance = new ::BinTools();
 }
 
-Macad::Occt::BinTools::BinTools(Macad::Occt::BinTools^ parameter1)
-    : Macad::Occt::BaseClass<::BinTools>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BinTools(*(::BinTools*)parameter1->NativeInstance);
-}
-
 System::IO::TextWriter^ Macad::Occt::BinTools::PutReal(System::IO::TextWriter^ OS, double theValue)
 {
     throw gcnew System::NotImplementedException();
@@ -140,12 +134,6 @@ Macad::Occt::BinTools_OStream::BinTools_OStream(System::IO::TextWriter^ theStrea
     theStream->Write(gcnew System::String(oss_theStream.str().c_str()));
 }
 
-Macad::Occt::BinTools_OStream::BinTools_OStream(Macad::Occt::BinTools_OStream^ parameter1)
-    : Macad::Occt::BaseClass<::BinTools_OStream>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BinTools_OStream(*(::BinTools_OStream*)parameter1->NativeInstance);
-}
-
 long long unsigned int Macad::Occt::BinTools_OStream::Position()
 {
     long long unsigned int _result = ((::BinTools_OStream*)_NativeInstance)->Position();
@@ -185,12 +173,6 @@ Macad::Occt::BinTools_Curve2dSet::BinTools_Curve2dSet()
     : Macad::Occt::BaseClass<::BinTools_Curve2dSet>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BinTools_Curve2dSet();
-}
-
-Macad::Occt::BinTools_Curve2dSet::BinTools_Curve2dSet(Macad::Occt::BinTools_Curve2dSet^ parameter1)
-    : Macad::Occt::BaseClass<::BinTools_Curve2dSet>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BinTools_Curve2dSet(*(::BinTools_Curve2dSet*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BinTools_Curve2dSet::Clear()
@@ -247,12 +229,6 @@ Macad::Occt::BinTools_CurveSet::BinTools_CurveSet()
     _NativeInstance = new ::BinTools_CurveSet();
 }
 
-Macad::Occt::BinTools_CurveSet::BinTools_CurveSet(Macad::Occt::BinTools_CurveSet^ parameter1)
-    : Macad::Occt::BaseClass<::BinTools_CurveSet>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BinTools_CurveSet(*(::BinTools_CurveSet*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BinTools_CurveSet::Clear()
 {
     ((::BinTools_CurveSet*)_NativeInstance)->Clear();
@@ -300,12 +276,6 @@ void Macad::Occt::BinTools_CurveSet::WriteCurve(Macad::Occt::Geom_Curve^ C, Maca
 //---------------------------------------------------------------------
 //  Class  BinTools_IStream
 //---------------------------------------------------------------------
-
-Macad::Occt::BinTools_IStream::BinTools_IStream(Macad::Occt::BinTools_IStream^ parameter1)
-    : Macad::Occt::BaseClass<::BinTools_IStream>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BinTools_IStream(*(::BinTools_IStream*)parameter1->NativeInstance);
-}
 
 Macad::Occt::BinTools_ObjectType Macad::Occt::BinTools_IStream::ReadType()
 {
@@ -428,12 +398,6 @@ Macad::Occt::BinTools_LocationSet::BinTools_LocationSet()
     _NativeInstance = new ::BinTools_LocationSet();
 }
 
-Macad::Occt::BinTools_LocationSet::BinTools_LocationSet(Macad::Occt::BinTools_LocationSet^ parameter1)
-    : Macad::Occt::BaseClass<::BinTools_LocationSet>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BinTools_LocationSet(*(::BinTools_LocationSet*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BinTools_LocationSet::Clear()
 {
     ((::BinTools_LocationSet*)_NativeInstance)->Clear();
@@ -481,12 +445,6 @@ Macad::Occt::BinTools_ShapeSetBase::BinTools_ShapeSetBase()
     : Macad::Occt::BaseClass<::BinTools_ShapeSetBase>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BinTools_ShapeSetBase();
-}
-
-Macad::Occt::BinTools_ShapeSetBase::BinTools_ShapeSetBase(Macad::Occt::BinTools_ShapeSetBase^ parameter1)
-    : Macad::Occt::BaseClass<::BinTools_ShapeSetBase>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BinTools_ShapeSetBase(*(::BinTools_ShapeSetBase*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::BinTools_ShapeSetBase::IsWithTriangles()
@@ -560,12 +518,6 @@ Macad::Occt::BinTools_ShapeReader::BinTools_ShapeReader()
     _NativeInstance = new ::BinTools_ShapeReader();
 }
 
-Macad::Occt::BinTools_ShapeReader::BinTools_ShapeReader(Macad::Occt::BinTools_ShapeReader^ parameter1)
-    : Macad::Occt::BinTools_ShapeSetBase(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BinTools_ShapeReader(*(::BinTools_ShapeReader*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BinTools_ShapeReader::Clear()
 {
     ((::BinTools_ShapeReader*)_NativeInstance)->Clear();
@@ -587,12 +539,6 @@ Macad::Occt::BinTools_SurfaceSet::BinTools_SurfaceSet()
     : Macad::Occt::BaseClass<::BinTools_SurfaceSet>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BinTools_SurfaceSet();
-}
-
-Macad::Occt::BinTools_SurfaceSet::BinTools_SurfaceSet(Macad::Occt::BinTools_SurfaceSet^ parameter1)
-    : Macad::Occt::BaseClass<::BinTools_SurfaceSet>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BinTools_SurfaceSet(*(::BinTools_SurfaceSet*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BinTools_SurfaceSet::Clear()
@@ -647,12 +593,6 @@ Macad::Occt::BinTools_ShapeSet::BinTools_ShapeSet()
     : Macad::Occt::BinTools_ShapeSetBase(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BinTools_ShapeSet();
-}
-
-Macad::Occt::BinTools_ShapeSet::BinTools_ShapeSet(Macad::Occt::BinTools_ShapeSet^ parameter1)
-    : Macad::Occt::BinTools_ShapeSetBase(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BinTools_ShapeSet(*(::BinTools_ShapeSet*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BinTools_ShapeSet::Clear()

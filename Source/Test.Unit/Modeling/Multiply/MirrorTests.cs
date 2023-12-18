@@ -235,7 +235,7 @@ namespace Macad.Test.Unit.Modeling.Multiply
         //--------------------------------------------------------------------------------------------------
 
         [Test]
-        [Explicit("OCCT bug 33421")]
+        [Description("OCCT bug 33421, fixed in 7.8.0")]
         public void MergeFacesThrowsException()
         {
             var cylinder = TestGeomGenerator.CreateCylinder();

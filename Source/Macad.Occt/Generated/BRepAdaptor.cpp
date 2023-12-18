@@ -31,16 +31,16 @@ Macad::Occt::BRepAdaptor_Array1OfCurve::BRepAdaptor_Array1OfCurve(int theLower, 
     _NativeInstance = new ::BRepAdaptor_Array1OfCurve(theLower, theUpper);
 }
 
-Macad::Occt::BRepAdaptor_Array1OfCurve::BRepAdaptor_Array1OfCurve(Macad::Occt::BRepAdaptor_Array1OfCurve^ theOther)
+Macad::Occt::BRepAdaptor_Array1OfCurve::BRepAdaptor_Array1OfCurve(Macad::Occt::BRepAdaptor_Curve^ theBegin, int theLower, int theUpper, bool theUseBuffer)
     : Macad::Occt::BaseClass<::BRepAdaptor_Array1OfCurve>(BaseClass::InitMode::Uninitialized)
 {
-    _NativeInstance = new ::BRepAdaptor_Array1OfCurve(*(::BRepAdaptor_Array1OfCurve*)theOther->NativeInstance);
+    _NativeInstance = new ::BRepAdaptor_Array1OfCurve(*(::BRepAdaptor_Curve*)theBegin->NativeInstance, theLower, theUpper, theUseBuffer);
 }
 
 Macad::Occt::BRepAdaptor_Array1OfCurve::BRepAdaptor_Array1OfCurve(Macad::Occt::BRepAdaptor_Curve^ theBegin, int theLower, int theUpper)
     : Macad::Occt::BaseClass<::BRepAdaptor_Array1OfCurve>(BaseClass::InitMode::Uninitialized)
 {
-    _NativeInstance = new ::BRepAdaptor_Array1OfCurve(*(::BRepAdaptor_Curve*)theBegin->NativeInstance, theLower, theUpper);
+    _NativeInstance = new ::BRepAdaptor_Array1OfCurve(*(::BRepAdaptor_Curve*)theBegin->NativeInstance, theLower, theUpper, true);
 }
 
 void Macad::Occt::BRepAdaptor_Array1OfCurve::Init(Macad::Occt::BRepAdaptor_Curve^ theValue)
@@ -78,18 +78,6 @@ int Macad::Occt::BRepAdaptor_Array1OfCurve::Upper()
     return _result;
 }
 
-bool Macad::Occt::BRepAdaptor_Array1OfCurve::IsDeletable()
-{
-    bool _result = ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->IsDeletable();
-    return _result;
-}
-
-bool Macad::Occt::BRepAdaptor_Array1OfCurve::IsAllocated()
-{
-    bool _result = ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->IsAllocated();
-    return _result;
-}
-
 Macad::Occt::BRepAdaptor_Array1OfCurve^ Macad::Occt::BRepAdaptor_Array1OfCurve::Assign(Macad::Occt::BRepAdaptor_Array1OfCurve^ theOther)
 {
     ::BRepAdaptor_Array1OfCurve* _result = new ::BRepAdaptor_Array1OfCurve();
@@ -106,44 +94,38 @@ Macad::Occt::BRepAdaptor_Array1OfCurve^ Macad::Occt::BRepAdaptor_Array1OfCurve::
 
 Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_Array1OfCurve::First()
 {
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = (::BRepAdaptor_Curve)((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->First();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
+    const ::BRepAdaptor_Curve& _result = ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->First();
+    return gcnew Macad::Occt::BRepAdaptor_Curve((::BRepAdaptor_Curve*)_result.ShallowCopy().get());
 }
 
 Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_Array1OfCurve::ChangeFirst()
 {
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->ChangeFirst();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
+    const ::BRepAdaptor_Curve& _result = ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->ChangeFirst();
+    return gcnew Macad::Occt::BRepAdaptor_Curve((::BRepAdaptor_Curve*)_result.ShallowCopy().get());
 }
 
 Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_Array1OfCurve::Last()
 {
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = (::BRepAdaptor_Curve)((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->Last();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
+    const ::BRepAdaptor_Curve& _result = ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->Last();
+    return gcnew Macad::Occt::BRepAdaptor_Curve((::BRepAdaptor_Curve*)_result.ShallowCopy().get());
 }
 
 Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_Array1OfCurve::ChangeLast()
 {
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->ChangeLast();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
+    const ::BRepAdaptor_Curve& _result = ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->ChangeLast();
+    return gcnew Macad::Occt::BRepAdaptor_Curve((::BRepAdaptor_Curve*)_result.ShallowCopy().get());
 }
 
 Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_Array1OfCurve::Value(int theIndex)
 {
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = (::BRepAdaptor_Curve)((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->Value(theIndex);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
+    const ::BRepAdaptor_Curve& _result = ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->Value(theIndex);
+    return gcnew Macad::Occt::BRepAdaptor_Curve((::BRepAdaptor_Curve*)_result.ShallowCopy().get());
 }
 
 Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_Array1OfCurve::ChangeValue(int theIndex)
 {
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->ChangeValue(theIndex);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
+    const ::BRepAdaptor_Curve& _result = ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->ChangeValue(theIndex);
+    return gcnew Macad::Occt::BRepAdaptor_Curve((::BRepAdaptor_Curve*)_result.ShallowCopy().get());
 }
 
 void Macad::Occt::BRepAdaptor_Array1OfCurve::SetValue(int theIndex, Macad::Occt::BRepAdaptor_Curve^ theItem)
@@ -151,9 +133,25 @@ void Macad::Occt::BRepAdaptor_Array1OfCurve::SetValue(int theIndex, Macad::Occt:
     ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->SetValue(theIndex, *(::BRepAdaptor_Curve*)theItem->NativeInstance);
 }
 
+void Macad::Occt::BRepAdaptor_Array1OfCurve::UpdateLowerBound(int theLower)
+{
+    ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->UpdateLowerBound(theLower);
+}
+
+void Macad::Occt::BRepAdaptor_Array1OfCurve::UpdateUpperBound(int theUpper)
+{
+    ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->UpdateUpperBound(theUpper);
+}
+
 void Macad::Occt::BRepAdaptor_Array1OfCurve::Resize(int theLower, int theUpper, bool theToCopyData)
 {
     ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->Resize(theLower, theUpper, theToCopyData);
+}
+
+bool Macad::Occt::BRepAdaptor_Array1OfCurve::IsDeletable()
+{
+    bool _result = ((::BRepAdaptor_Array1OfCurve*)_NativeInstance)->IsDeletable();
+    return _result;
 }
 
 System::Collections::Generic::IEnumerator<Macad::Occt::BRepAdaptor_Curve^>^ Macad::Occt::BRepAdaptor_Array1OfCurve::GetEnumerator()
@@ -171,82 +169,6 @@ System::Collections::IEnumerator^ Macad::Occt::BRepAdaptor_Array1OfCurve::GetEnu
 //---------------------------------------------------------------------
 //  Class  BRepAdaptor_Array1OfCurve::Iterator
 //---------------------------------------------------------------------
-
-Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::BRepAdaptor_Array1OfCurve::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAdaptor_Array1OfCurve::Iterator();
-}
-
-Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator::Iterator(Macad::Occt::BRepAdaptor_Array1OfCurve^ theArray, bool theToEnd)
-    : Macad::Occt::BaseClass<::BRepAdaptor_Array1OfCurve::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAdaptor_Array1OfCurve::Iterator(*(::BRepAdaptor_Array1OfCurve*)theArray->NativeInstance, theToEnd);
-}
-
-Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator::Iterator(Macad::Occt::BRepAdaptor_Array1OfCurve^ theArray)
-    : Macad::Occt::BaseClass<::BRepAdaptor_Array1OfCurve::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAdaptor_Array1OfCurve::Iterator(*(::BRepAdaptor_Array1OfCurve*)theArray->NativeInstance, false);
-}
-
-Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator::Iterator(Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::BRepAdaptor_Array1OfCurve::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAdaptor_Array1OfCurve::Iterator(*(::BRepAdaptor_Array1OfCurve::Iterator*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator::Init(Macad::Occt::BRepAdaptor_Array1OfCurve^ theArray)
-{
-    ((::BRepAdaptor_Array1OfCurve::Iterator*)_NativeInstance)->Init(*(::BRepAdaptor_Array1OfCurve*)theArray->NativeInstance);
-}
-
-bool Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator::More()
-{
-    bool _result = ((::BRepAdaptor_Array1OfCurve::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator::Next()
-{
-    ((::BRepAdaptor_Array1OfCurve::Iterator*)_NativeInstance)->Next();
-}
-
-void Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator::Previous()
-{
-    ((::BRepAdaptor_Array1OfCurve::Iterator*)_NativeInstance)->Previous();
-}
-
-void Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator::Offset(long long int theOffset)
-{
-    ((::BRepAdaptor_Array1OfCurve::Iterator*)_NativeInstance)->Offset(theOffset);
-}
-
-long long int Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator::Differ(Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator^ theOther)
-{
-    long long int _result = ((::BRepAdaptor_Array1OfCurve::Iterator*)_NativeInstance)->Differ(*(::BRepAdaptor_Array1OfCurve::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator::Value()
-{
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = (::BRepAdaptor_Curve)((::BRepAdaptor_Array1OfCurve::Iterator*)_NativeInstance)->Value();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
-}
-
-Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator::ChangeValue()
-{
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = ((::BRepAdaptor_Array1OfCurve::Iterator*)_NativeInstance)->ChangeValue();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
-}
-
-bool Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator::IsEqual(Macad::Occt::BRepAdaptor_Array1OfCurve::Iterator^ theOther)
-{
-    bool _result = ((::BRepAdaptor_Array1OfCurve::Iterator*)_NativeInstance)->IsEqual(*(::BRepAdaptor_Array1OfCurve::Iterator*)theOther->NativeInstance);
-    return _result;
-}
 
 
 
@@ -270,12 +192,6 @@ Macad::Occt::BRepAdaptor_Curve::BRepAdaptor_Curve(Macad::Occt::TopoDS_Edge^ E, M
     : Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::BRepAdaptor_Curve(*(::TopoDS_Edge*)E->NativeInstance, *(::TopoDS_Face*)F->NativeInstance);
-}
-
-Macad::Occt::BRepAdaptor_Curve::BRepAdaptor_Curve(Macad::Occt::BRepAdaptor_Curve^ parameter1)
-    : Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRepAdaptor_Curve(*(::BRepAdaptor_Curve*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Adaptor3d_Curve^ Macad::Occt::BRepAdaptor_Curve::ShallowCopy()
@@ -319,16 +235,14 @@ bool Macad::Occt::BRepAdaptor_Curve::IsCurveOnSurface()
 
 Macad::Occt::GeomAdaptor_Curve^ Macad::Occt::BRepAdaptor_Curve::Curve()
 {
-    ::GeomAdaptor_Curve* _result = new ::GeomAdaptor_Curve();
-    *_result = (::GeomAdaptor_Curve)((::BRepAdaptor_Curve*)_NativeInstance)->Curve();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::GeomAdaptor_Curve(_result);
+    const ::GeomAdaptor_Curve& _result = ((::BRepAdaptor_Curve*)_NativeInstance)->Curve();
+    return gcnew Macad::Occt::GeomAdaptor_Curve((::GeomAdaptor_Curve*)_result.ShallowCopy().get());
 }
 
 Macad::Occt::Adaptor3d_CurveOnSurface^ Macad::Occt::BRepAdaptor_Curve::CurveOnSurface()
 {
-    ::Adaptor3d_CurveOnSurface* _result = new ::Adaptor3d_CurveOnSurface();
-    *_result = (::Adaptor3d_CurveOnSurface)((::BRepAdaptor_Curve*)_NativeInstance)->CurveOnSurface();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::Adaptor3d_CurveOnSurface(_result);
+    const ::Adaptor3d_CurveOnSurface& _result = ((::BRepAdaptor_Curve*)_NativeInstance)->CurveOnSurface();
+    return gcnew Macad::Occt::Adaptor3d_CurveOnSurface((::Adaptor3d_CurveOnSurface*)_result.ShallowCopy().get());
 }
 
 Macad::Occt::TopoDS_Edge^ Macad::Occt::BRepAdaptor_Curve::Edge()
@@ -557,16 +471,16 @@ Macad::Occt::BRepAdaptor_HArray1OfCurve::BRepAdaptor_HArray1OfCurve(int theLower
     NativeInstance = new ::BRepAdaptor_HArray1OfCurve(theLower, theUpper, *(::BRepAdaptor_Curve*)theValue->NativeInstance);
 }
 
+Macad::Occt::BRepAdaptor_HArray1OfCurve::BRepAdaptor_HArray1OfCurve(Macad::Occt::BRepAdaptor_Curve^ theBegin, int theLower, int theUpper, bool parameter1)
+    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
+{
+    NativeInstance = new ::BRepAdaptor_HArray1OfCurve(*(::BRepAdaptor_Curve*)theBegin->NativeInstance, theLower, theUpper, parameter1);
+}
+
 Macad::Occt::BRepAdaptor_HArray1OfCurve::BRepAdaptor_HArray1OfCurve(Macad::Occt::BRepAdaptor_Array1OfCurve^ theOther)
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::BRepAdaptor_HArray1OfCurve(*(::BRepAdaptor_Array1OfCurve*)theOther->NativeInstance);
-}
-
-Macad::Occt::BRepAdaptor_HArray1OfCurve::BRepAdaptor_HArray1OfCurve(Macad::Occt::BRepAdaptor_HArray1OfCurve^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRepAdaptor_HArray1OfCurve(*(::BRepAdaptor_HArray1OfCurve*)parameter1->NativeInstance);
 }
 
 Macad::Occt::BRepAdaptor_Array1OfCurve^ Macad::Occt::BRepAdaptor_HArray1OfCurve::Array1()
@@ -618,72 +532,50 @@ int Macad::Occt::BRepAdaptor_HArray1OfCurve::Upper()
     return _result;
 }
 
-bool Macad::Occt::BRepAdaptor_HArray1OfCurve::IsDeletable()
-{
-    bool _result = ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->IsDeletable();
-    return _result;
-}
-
-bool Macad::Occt::BRepAdaptor_HArray1OfCurve::IsAllocated()
-{
-    bool _result = ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->IsAllocated();
-    return _result;
-}
-
 Macad::Occt::BRepAdaptor_HArray1OfCurve^ Macad::Occt::BRepAdaptor_HArray1OfCurve::Assign(Macad::Occt::BRepAdaptor_HArray1OfCurve^ theOther)
 {
-    ::BRepAdaptor_HArray1OfCurve* _result = new ::BRepAdaptor_HArray1OfCurve();
-    *_result = ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->Assign(*(::BRepAdaptor_HArray1OfCurve*)theOther->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_HArray1OfCurve(_result);
+    throw gcnew System::NotImplementedException();
 }
 
 Macad::Occt::BRepAdaptor_HArray1OfCurve^ Macad::Occt::BRepAdaptor_HArray1OfCurve::Move(Macad::Occt::BRepAdaptor_HArray1OfCurve^ theOther)
 {
-    ::BRepAdaptor_HArray1OfCurve* _result = new ::BRepAdaptor_HArray1OfCurve();
-    *_result = ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->Move(*(::BRepAdaptor_HArray1OfCurve*)theOther->NativeInstance);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_HArray1OfCurve(_result);
+    throw gcnew System::NotImplementedException();
 }
 
 Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_HArray1OfCurve::First()
 {
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = (::BRepAdaptor_Curve)((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->First();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
+    const ::BRepAdaptor_Curve& _result = ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->First();
+    return gcnew Macad::Occt::BRepAdaptor_Curve((::BRepAdaptor_Curve*)_result.ShallowCopy().get());
 }
 
 Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_HArray1OfCurve::ChangeFirst()
 {
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->ChangeFirst();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
+    const ::BRepAdaptor_Curve& _result = ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->ChangeFirst();
+    return gcnew Macad::Occt::BRepAdaptor_Curve((::BRepAdaptor_Curve*)_result.ShallowCopy().get());
 }
 
 Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_HArray1OfCurve::Last()
 {
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = (::BRepAdaptor_Curve)((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->Last();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
+    const ::BRepAdaptor_Curve& _result = ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->Last();
+    return gcnew Macad::Occt::BRepAdaptor_Curve((::BRepAdaptor_Curve*)_result.ShallowCopy().get());
 }
 
 Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_HArray1OfCurve::ChangeLast()
 {
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->ChangeLast();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
+    const ::BRepAdaptor_Curve& _result = ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->ChangeLast();
+    return gcnew Macad::Occt::BRepAdaptor_Curve((::BRepAdaptor_Curve*)_result.ShallowCopy().get());
 }
 
 Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_HArray1OfCurve::Value(int theIndex)
 {
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = (::BRepAdaptor_Curve)((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->Value(theIndex);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
+    const ::BRepAdaptor_Curve& _result = ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->Value(theIndex);
+    return gcnew Macad::Occt::BRepAdaptor_Curve((::BRepAdaptor_Curve*)_result.ShallowCopy().get());
 }
 
 Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_HArray1OfCurve::ChangeValue(int theIndex)
 {
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->ChangeValue(theIndex);
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
+    const ::BRepAdaptor_Curve& _result = ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->ChangeValue(theIndex);
+    return gcnew Macad::Occt::BRepAdaptor_Curve((::BRepAdaptor_Curve*)_result.ShallowCopy().get());
 }
 
 void Macad::Occt::BRepAdaptor_HArray1OfCurve::SetValue(int theIndex, Macad::Occt::BRepAdaptor_Curve^ theItem)
@@ -691,9 +583,25 @@ void Macad::Occt::BRepAdaptor_HArray1OfCurve::SetValue(int theIndex, Macad::Occt
     ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->SetValue(theIndex, *(::BRepAdaptor_Curve*)theItem->NativeInstance);
 }
 
+void Macad::Occt::BRepAdaptor_HArray1OfCurve::UpdateLowerBound(int theLower)
+{
+    ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->UpdateLowerBound(theLower);
+}
+
+void Macad::Occt::BRepAdaptor_HArray1OfCurve::UpdateUpperBound(int theUpper)
+{
+    ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->UpdateUpperBound(theUpper);
+}
+
 void Macad::Occt::BRepAdaptor_HArray1OfCurve::Resize(int theLower, int theUpper, bool theToCopyData)
 {
     ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->Resize(theLower, theUpper, theToCopyData);
+}
+
+bool Macad::Occt::BRepAdaptor_HArray1OfCurve::IsDeletable()
+{
+    bool _result = ((::BRepAdaptor_HArray1OfCurve*)_NativeInstance)->IsDeletable();
+    return _result;
 }
 
 Macad::Occt::BRepAdaptor_HArray1OfCurve^ Macad::Occt::BRepAdaptor_HArray1OfCurve::CreateDowncasted(::BRepAdaptor_HArray1OfCurve* instance)
@@ -716,82 +624,6 @@ System::Collections::IEnumerator^ Macad::Occt::BRepAdaptor_HArray1OfCurve::GetEn
 //---------------------------------------------------------------------
 //  Class  BRepAdaptor_HArray1OfCurve::Iterator
 //---------------------------------------------------------------------
-
-Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator::Iterator()
-    : Macad::Occt::BaseClass<::BRepAdaptor_HArray1OfCurve::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAdaptor_HArray1OfCurve::Iterator();
-}
-
-Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator::Iterator(Macad::Occt::BRepAdaptor_HArray1OfCurve^ theArray, bool theToEnd)
-    : Macad::Occt::BaseClass<::BRepAdaptor_HArray1OfCurve::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAdaptor_HArray1OfCurve::Iterator(*(::BRepAdaptor_HArray1OfCurve*)theArray->NativeInstance, theToEnd);
-}
-
-Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator::Iterator(Macad::Occt::BRepAdaptor_HArray1OfCurve^ theArray)
-    : Macad::Occt::BaseClass<::BRepAdaptor_HArray1OfCurve::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAdaptor_HArray1OfCurve::Iterator(*(::BRepAdaptor_HArray1OfCurve*)theArray->NativeInstance, false);
-}
-
-Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator::Iterator(Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::BRepAdaptor_HArray1OfCurve::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepAdaptor_HArray1OfCurve::Iterator(*(::BRepAdaptor_HArray1OfCurve::Iterator*)parameter1->NativeInstance);
-}
-
-void Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator::Init(Macad::Occt::BRepAdaptor_HArray1OfCurve^ theArray)
-{
-    ((::BRepAdaptor_HArray1OfCurve::Iterator*)_NativeInstance)->Init(*(::BRepAdaptor_HArray1OfCurve*)theArray->NativeInstance);
-}
-
-bool Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator::More()
-{
-    bool _result = ((::BRepAdaptor_HArray1OfCurve::Iterator*)_NativeInstance)->More();
-    return _result;
-}
-
-void Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator::Next()
-{
-    ((::BRepAdaptor_HArray1OfCurve::Iterator*)_NativeInstance)->Next();
-}
-
-void Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator::Previous()
-{
-    ((::BRepAdaptor_HArray1OfCurve::Iterator*)_NativeInstance)->Previous();
-}
-
-void Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator::Offset(long long int theOffset)
-{
-    ((::BRepAdaptor_HArray1OfCurve::Iterator*)_NativeInstance)->Offset(theOffset);
-}
-
-long long int Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator::Differ(Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator^ theOther)
-{
-    long long int _result = ((::BRepAdaptor_HArray1OfCurve::Iterator*)_NativeInstance)->Differ(*(::BRepAdaptor_HArray1OfCurve::Iterator*)theOther->NativeInstance);
-    return _result;
-}
-
-Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator::Value()
-{
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = (::BRepAdaptor_Curve)((::BRepAdaptor_HArray1OfCurve::Iterator*)_NativeInstance)->Value();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
-}
-
-Macad::Occt::BRepAdaptor_Curve^ Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator::ChangeValue()
-{
-    ::BRepAdaptor_Curve* _result = new ::BRepAdaptor_Curve();
-    *_result = ((::BRepAdaptor_HArray1OfCurve::Iterator*)_NativeInstance)->ChangeValue();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::BRepAdaptor_Curve(_result);
-}
-
-bool Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator::IsEqual(Macad::Occt::BRepAdaptor_HArray1OfCurve::Iterator^ theOther)
-{
-    bool _result = ((::BRepAdaptor_HArray1OfCurve::Iterator*)_NativeInstance)->IsEqual(*(::BRepAdaptor_HArray1OfCurve::Iterator*)theOther->NativeInstance);
-    return _result;
-}
 
 
 
@@ -821,12 +653,6 @@ Macad::Occt::BRepAdaptor_CompCurve::BRepAdaptor_CompCurve(Macad::Occt::TopoDS_Wi
     : Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::BRepAdaptor_CompCurve(*(::TopoDS_Wire*)W->NativeInstance, KnotByCurvilinearAbcissa, First, Last, Tol);
-}
-
-Macad::Occt::BRepAdaptor_CompCurve::BRepAdaptor_CompCurve(Macad::Occt::BRepAdaptor_CompCurve^ parameter1)
-    : Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRepAdaptor_CompCurve(*(::BRepAdaptor_CompCurve*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Adaptor3d_Curve^ Macad::Occt::BRepAdaptor_CompCurve::ShallowCopy()
@@ -1059,12 +885,6 @@ Macad::Occt::BRepAdaptor_Curve2d::BRepAdaptor_Curve2d(Macad::Occt::TopoDS_Edge^ 
     NativeInstance = new ::BRepAdaptor_Curve2d(*(::TopoDS_Edge*)E->NativeInstance, *(::TopoDS_Face*)F->NativeInstance);
 }
 
-Macad::Occt::BRepAdaptor_Curve2d::BRepAdaptor_Curve2d(Macad::Occt::BRepAdaptor_Curve2d^ parameter1)
-    : Macad::Occt::Geom2dAdaptor_Curve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRepAdaptor_Curve2d(*(::BRepAdaptor_Curve2d*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Adaptor2d_Curve2d^ Macad::Occt::BRepAdaptor_Curve2d::ShallowCopy()
 {
     Handle(::Adaptor2d_Curve2d) _result = ((::BRepAdaptor_Curve2d*)_NativeInstance)->ShallowCopy();
@@ -1119,12 +939,6 @@ Macad::Occt::BRepAdaptor_Surface::BRepAdaptor_Surface(Macad::Occt::TopoDS_Face^ 
     NativeInstance = new ::BRepAdaptor_Surface(*(::TopoDS_Face*)F->NativeInstance, true);
 }
 
-Macad::Occt::BRepAdaptor_Surface::BRepAdaptor_Surface(Macad::Occt::BRepAdaptor_Surface^ parameter1)
-    : Macad::Occt::Adaptor3d_Surface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRepAdaptor_Surface(*(::BRepAdaptor_Surface*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Adaptor3d_Surface^ Macad::Occt::BRepAdaptor_Surface::ShallowCopy()
 {
     Handle(::Adaptor3d_Surface) _result = ((::BRepAdaptor_Surface*)_NativeInstance)->ShallowCopy();
@@ -1143,16 +957,14 @@ void Macad::Occt::BRepAdaptor_Surface::Initialize(Macad::Occt::TopoDS_Face^ F)
 
 Macad::Occt::GeomAdaptor_Surface^ Macad::Occt::BRepAdaptor_Surface::Surface()
 {
-    ::GeomAdaptor_Surface* _result = new ::GeomAdaptor_Surface();
-    *_result = (::GeomAdaptor_Surface)((::BRepAdaptor_Surface*)_NativeInstance)->Surface();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::GeomAdaptor_Surface(_result);
+    const ::GeomAdaptor_Surface& _result = ((::BRepAdaptor_Surface*)_NativeInstance)->Surface();
+    return gcnew Macad::Occt::GeomAdaptor_Surface((::GeomAdaptor_Surface*)_result.ShallowCopy().get());
 }
 
 Macad::Occt::GeomAdaptor_Surface^ Macad::Occt::BRepAdaptor_Surface::ChangeSurface()
 {
-    ::GeomAdaptor_Surface* _result = new ::GeomAdaptor_Surface();
-    *_result = ((::BRepAdaptor_Surface*)_NativeInstance)->ChangeSurface();
-    return _result==nullptr ? nullptr : gcnew Macad::Occt::GeomAdaptor_Surface(_result);
+    const ::GeomAdaptor_Surface& _result = ((::BRepAdaptor_Surface*)_NativeInstance)->ChangeSurface();
+    return gcnew Macad::Occt::GeomAdaptor_Surface((::GeomAdaptor_Surface*)_result.ShallowCopy().get());
 }
 
 Macad::Occt::Trsf Macad::Occt::BRepAdaptor_Surface::Trsf()

@@ -25,12 +25,6 @@ Macad::Occt::GeomPlate_BuildAveragePlane::GeomPlate_BuildAveragePlane(Macad::Occ
     _NativeInstance = new ::GeomPlate_BuildAveragePlane(*(::TColgp_SequenceOfVec*)Normals->NativeInstance, Handle(::TColgp_HArray1OfPnt)(Pts->NativeInstance));
 }
 
-Macad::Occt::GeomPlate_BuildAveragePlane::GeomPlate_BuildAveragePlane(Macad::Occt::GeomPlate_BuildAveragePlane^ parameter1)
-    : Macad::Occt::BaseClass<::GeomPlate_BuildAveragePlane>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::GeomPlate_BuildAveragePlane(*(::GeomPlate_BuildAveragePlane*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Geom_Plane^ Macad::Occt::GeomPlate_BuildAveragePlane::Plane()
 {
     Handle(::Geom_Plane) _result = ((::GeomPlate_BuildAveragePlane*)_NativeInstance)->Plane();

@@ -49,7 +49,6 @@ public:
     /// Constructor with initialization.
     /// </summary>
     SelectBasics_PickResult(double theDepth, double theDistToCenter, Macad::Occt::Pnt theObjPickedPnt);
-    SelectBasics_PickResult(Macad::Occt::SelectBasics_PickResult^ parameter1);
     /// <summary>
     /// Return closest result between two Pick Results according to Depth value.
     /// </summary>
@@ -140,7 +139,6 @@ public:
 
 public:
     SelectBasics();
-    SelectBasics(Macad::Occt::SelectBasics^ parameter1);
     /// <summary>
     /// Structure to provide all-in-one result of selection of sensitive for "Matches" method of Select3D_SensitiveEntity.
     /// </summary>
@@ -193,7 +191,6 @@ public:
     /// Empty constructor.
     /// </summary>
     SelectBasics_SelectingVolumeManager();
-    SelectBasics_SelectingVolumeManager(Macad::Occt::SelectBasics_SelectingVolumeManager^ parameter1);
     /// <summary>
     /// Return selection type.
     /// </summary>
@@ -331,7 +328,7 @@ public:
     /// infinite point in case of unsupport of mouse position for this active selection volume.
     /// </returns>
     Macad::Occt::Pnt2d GetMousePosition();
-    /* Method skipped due to unknown mapping: void GetPlanes(NCollection_Vector<NCollection_Vec4<double>> thePlaneEquations, ) */
+    /* Method skipped due to unknown mapping: void GetPlanes(NCollection_DynamicArray<NCollection_Vec4<double>> thePlaneEquations, ) */
     /// <summary>
     /// Dumps the content of me into the stream
     /// </summary>

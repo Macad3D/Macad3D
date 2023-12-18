@@ -931,7 +931,6 @@ public:
 public:
     Graphic3d_Vec2(float theXY);
     Graphic3d_Vec2(float theX, float theY);
-    Graphic3d_Vec2(Macad::Occt::Graphic3d_Vec2^ theOtherVec2);
     static int Length();
     void SetValues(float theX, float theY);
     float x();
@@ -955,6 +954,7 @@ public:
     static Macad::Occt::Graphic3d_Vec2^ DY();
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Vec2
 
 //---------------------------------------------------------------------
@@ -990,7 +990,6 @@ public:
     Graphic3d_Vec2d();
     Graphic3d_Vec2d(double theXY);
     Graphic3d_Vec2d(double theX, double theY);
-    Graphic3d_Vec2d(Macad::Occt::Graphic3d_Vec2d^ theOtherVec2);
     static int Length();
     void SetValues(double theX, double theY);
     double x();
@@ -1014,6 +1013,7 @@ public:
     static Macad::Occt::Graphic3d_Vec2d^ DY();
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Vec2d
 
 //---------------------------------------------------------------------
@@ -1049,7 +1049,6 @@ public:
     Graphic3d_Vec2i();
     Graphic3d_Vec2i(int theXY);
     Graphic3d_Vec2i(int theX, int theY);
-    Graphic3d_Vec2i(Macad::Occt::Graphic3d_Vec2i^ theOtherVec2);
     static int Length();
     void SetValues(int theX, int theY);
     int x();
@@ -1073,6 +1072,7 @@ public:
     static Macad::Occt::Graphic3d_Vec2i^ DY();
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Vec2i
 
 //---------------------------------------------------------------------
@@ -1107,7 +1107,6 @@ public:
 public:
     Graphic3d_Vec2u(unsigned int theXY);
     Graphic3d_Vec2u(unsigned int theX, unsigned int theY);
-    Graphic3d_Vec2u(Macad::Occt::Graphic3d_Vec2u^ theOtherVec2);
     static int Length();
     void SetValues(unsigned int theX, unsigned int theY);
     unsigned int x();
@@ -1131,6 +1130,7 @@ public:
     static Macad::Occt::Graphic3d_Vec2u^ DY();
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Vec2u
 
 //---------------------------------------------------------------------
@@ -1165,7 +1165,6 @@ public:
 public:
     Graphic3d_Vec2ub(unsigned char theXY);
     Graphic3d_Vec2ub(unsigned char theX, unsigned char theY);
-    Graphic3d_Vec2ub(Macad::Occt::Graphic3d_Vec2ub^ theOtherVec2);
     static int Length();
     void SetValues(unsigned char theX, unsigned char theY);
     unsigned char x();
@@ -1189,6 +1188,7 @@ public:
     static Macad::Occt::Graphic3d_Vec2ub^ DY();
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Vec2ub
 
 //---------------------------------------------------------------------
@@ -1223,7 +1223,6 @@ public:
 public:
     Graphic3d_Vec2b(char theXY);
     Graphic3d_Vec2b(char theX, char theY);
-    Graphic3d_Vec2b(Macad::Occt::Graphic3d_Vec2b^ theOtherVec2);
     static int Length();
     void SetValues(char theX, char theY);
     char x();
@@ -1247,6 +1246,7 @@ public:
     static Macad::Occt::Graphic3d_Vec2b^ DY();
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Vec2b
 
 //---------------------------------------------------------------------
@@ -1284,10 +1284,8 @@ public:
     Graphic3d_Vec3(float theX, float theY, float theZ);
     Graphic3d_Vec3(Macad::Occt::gp_Vec2f^ theVec2, float theZ);
     Graphic3d_Vec3(Macad::Occt::gp_Vec2f^ theVec2);
-    Graphic3d_Vec3(Macad::Occt::Graphic3d_Vec3^ parameter1);
     static int Length();
     void SetValues(float theX, float theY, float theZ);
-    void SetValues(Macad::Occt::gp_Vec2f^ theVec2, float theZ);
     float x();
     float r();
     float y();
@@ -1328,6 +1326,7 @@ public:
     static Macad::Occt::Graphic3d_Vec3^ DZ();
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Vec3
 
 //---------------------------------------------------------------------
@@ -1365,10 +1364,8 @@ public:
     Graphic3d_Vec3d(double theX, double theY, double theZ);
     Graphic3d_Vec3d(Macad::Occt::Graphic3d_Vec2d^ theVec2, double theZ);
     Graphic3d_Vec3d(Macad::Occt::Graphic3d_Vec2d^ theVec2);
-    Graphic3d_Vec3d(Macad::Occt::Graphic3d_Vec3d^ parameter1);
     static int Length();
     void SetValues(double theX, double theY, double theZ);
-    void SetValues(Macad::Occt::Graphic3d_Vec2d^ theVec2, double theZ);
     double x();
     double r();
     double y();
@@ -1409,6 +1406,7 @@ public:
     static Macad::Occt::Graphic3d_Vec3d^ DZ();
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Vec3d
 
 //---------------------------------------------------------------------
@@ -1447,10 +1445,8 @@ public:
     Graphic3d_Vec3i(Macad::Occt::Graphic3d_Vec2i^ theVec2, int theZ);
     Graphic3d_Vec3i(Macad::Occt::Graphic3d_Vec2i^ theVec2);
     Graphic3d_Vec3i(Macad::Occt::gp_Vec3f^ theOtherVec3);
-    Graphic3d_Vec3i(Macad::Occt::Graphic3d_Vec3i^ theOtherVec3);
     static int Length();
     void SetValues(int theX, int theY, int theZ);
-    void SetValues(Macad::Occt::Graphic3d_Vec2i^ theVec2, int theZ);
     int x();
     int r();
     int y();
@@ -1491,6 +1487,7 @@ public:
     static Macad::Occt::Graphic3d_Vec3i^ DZ();
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Vec3i
 
 //---------------------------------------------------------------------
@@ -1529,10 +1526,8 @@ public:
     Graphic3d_Vec4(Macad::Occt::gp_Vec2f^ theVec2);
     Graphic3d_Vec4(Macad::Occt::gp_Vec3f^ theVec3, float theW);
     Graphic3d_Vec4(Macad::Occt::gp_Vec3f^ theVec3);
-    Graphic3d_Vec4(Macad::Occt::Graphic3d_Vec4^ parameter1);
     static int Length();
     void SetValues(float theX, float theY, float theZ, float theW);
-    void SetValues(Macad::Occt::gp_Vec3f^ theVec3, float theW);
     float x();
     float r();
     float y();
@@ -1596,6 +1591,7 @@ public:
     float Dot(Macad::Occt::Graphic3d_Vec4^ theOther);
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Vec4
 
 //---------------------------------------------------------------------
@@ -1634,10 +1630,8 @@ public:
     Graphic3d_Vec4d(Macad::Occt::Graphic3d_Vec2d^ theVec2);
     Graphic3d_Vec4d(Macad::Occt::Graphic3d_Vec3d^ theVec3, double theW);
     Graphic3d_Vec4d(Macad::Occt::Graphic3d_Vec3d^ theVec3);
-    Graphic3d_Vec4d(Macad::Occt::Graphic3d_Vec4d^ parameter1);
     static int Length();
     void SetValues(double theX, double theY, double theZ, double theW);
-    void SetValues(Macad::Occt::Graphic3d_Vec3d^ theVec3, double theW);
     double x();
     double r();
     double y();
@@ -1701,6 +1695,7 @@ public:
     double Dot(Macad::Occt::Graphic3d_Vec4d^ theOther);
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Vec4d
 
 //---------------------------------------------------------------------
@@ -1740,10 +1735,8 @@ public:
     Graphic3d_Vec4i(Macad::Occt::Graphic3d_Vec3i^ theVec3, int theW);
     Graphic3d_Vec4i(Macad::Occt::Graphic3d_Vec3i^ theVec3);
     Graphic3d_Vec4i(Macad::Occt::Graphic3d_Vec4^ theOtherVec4);
-    Graphic3d_Vec4i(Macad::Occt::Graphic3d_Vec4i^ theOtherVec4);
     static int Length();
     void SetValues(int theX, int theY, int theZ, int theW);
-    void SetValues(Macad::Occt::Graphic3d_Vec3i^ theVec3, int theW);
     int x();
     int r();
     int y();
@@ -1807,6 +1800,7 @@ public:
     int Dot(Macad::Occt::Graphic3d_Vec4i^ theOther);
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Vec4i
 
 //---------------------------------------------------------------------
@@ -1845,10 +1839,8 @@ public:
     Graphic3d_Vec4ub(Macad::Occt::Graphic3d_Vec2ub^ theVec2);
     /* Method skipped due to unknown mapping: void Graphic3d_Vec4ub(Graphic3d_Vec3ub theVec3, unsigned char theW, ) */
     /* Method skipped due to unknown mapping: void Graphic3d_Vec4ub(Graphic3d_Vec3ub theVec3, unsigned char theW, ) */
-    Graphic3d_Vec4ub(Macad::Occt::Graphic3d_Vec4ub^ parameter1);
     static int Length();
     void SetValues(unsigned char theX, unsigned char theY, unsigned char theZ, unsigned char theW);
-    /* Method skipped due to unknown mapping: void SetValues(Graphic3d_Vec3ub theVec3, unsigned char theW, ) */
     unsigned char x();
     unsigned char r();
     unsigned char y();
@@ -1912,6 +1904,7 @@ public:
     unsigned char Dot(Macad::Occt::Graphic3d_Vec4ub^ theOther);
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int theDepth, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Vec4ub
 
 //---------------------------------------------------------------------
@@ -1945,7 +1938,6 @@ public:
 
 public:
     Graphic3d_Mat4();
-    Graphic3d_Mat4(Macad::Occt::Graphic3d_Mat4^ parameter1);
     static long long unsigned int Rows();
     static long long unsigned int Cols();
     static Macad::Occt::Graphic3d_Mat4^ Identity();
@@ -1955,13 +1947,10 @@ public:
     void SetValue(long long unsigned int theRow, long long unsigned int theCol, float theValue);
     Macad::Occt::Graphic3d_Vec4^ GetRow(long long unsigned int theRow);
     void SetRow(long long unsigned int theRow, Macad::Occt::gp_Vec3f^ theVec);
-    void SetRow(long long unsigned int theRow, Macad::Occt::Graphic3d_Vec4^ theVec);
     Macad::Occt::Graphic3d_Vec4^ GetColumn(long long unsigned int theCol);
     void SetColumn(long long unsigned int theCol, Macad::Occt::gp_Vec3f^ theVec);
-    void SetColumn(long long unsigned int theCol, Macad::Occt::Graphic3d_Vec4^ theVec);
     Macad::Occt::Graphic3d_Vec4^ GetDiagonal();
     void SetDiagonal(Macad::Occt::gp_Vec3f^ theVec);
-    void SetDiagonal(Macad::Occt::Graphic3d_Vec4^ theVec);
     /* Method skipped due to unknown mapping: NCollection_Mat3<float> GetMat3() */
     void InitZero();
     bool IsZero();
@@ -1971,10 +1960,7 @@ public:
     float GetData();
     float ChangeData();
     static Macad::Occt::Graphic3d_Mat4^ Multiply(Macad::Occt::Graphic3d_Mat4^ theMatA, Macad::Occt::Graphic3d_Mat4^ theMatB);
-    void Multiply(Macad::Occt::Graphic3d_Mat4^ theMat);
     Macad::Occt::Graphic3d_Mat4^ Multiplied(Macad::Occt::Graphic3d_Mat4^ theMat);
-    void Multiply(float theFactor);
-    Macad::Occt::Graphic3d_Mat4^ Multiplied(float theFactor);
     void Divide(float theFactor);
     Macad::Occt::Graphic3d_Mat4^ Divided(float theScalar);
     void Add(Macad::Occt::Graphic3d_Mat4^ theMat);
@@ -1986,12 +1972,11 @@ public:
     Macad::Occt::Graphic3d_Mat4^ Transposed();
     void Transpose();
     bool Inverted(Macad::Occt::Graphic3d_Mat4^ theOutMx, float% theDet);
-    bool Inverted(Macad::Occt::Graphic3d_Mat4^ theOutMx);
-    Macad::Occt::Graphic3d_Mat4^ Inverted();
     float DeterminantMat3();
     Macad::Occt::Graphic3d_Mat4^ Adjoint();
     static Macad::Occt::Graphic3d_Mat4^ Map(float% theData);
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int parameter1, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Mat4
 
 //---------------------------------------------------------------------
@@ -2025,7 +2010,6 @@ public:
 
 public:
     Graphic3d_Mat4d();
-    Graphic3d_Mat4d(Macad::Occt::Graphic3d_Mat4d^ theOtherMat4);
     static long long unsigned int Rows();
     static long long unsigned int Cols();
     static Macad::Occt::Graphic3d_Mat4d^ Identity();
@@ -2035,13 +2019,10 @@ public:
     void SetValue(long long unsigned int theRow, long long unsigned int theCol, double theValue);
     Macad::Occt::Graphic3d_Vec4d^ GetRow(long long unsigned int theRow);
     void SetRow(long long unsigned int theRow, Macad::Occt::Graphic3d_Vec3d^ theVec);
-    void SetRow(long long unsigned int theRow, Macad::Occt::Graphic3d_Vec4d^ theVec);
     Macad::Occt::Graphic3d_Vec4d^ GetColumn(long long unsigned int theCol);
     void SetColumn(long long unsigned int theCol, Macad::Occt::Graphic3d_Vec3d^ theVec);
-    void SetColumn(long long unsigned int theCol, Macad::Occt::Graphic3d_Vec4d^ theVec);
     Macad::Occt::Graphic3d_Vec4d^ GetDiagonal();
     void SetDiagonal(Macad::Occt::Graphic3d_Vec3d^ theVec);
-    void SetDiagonal(Macad::Occt::Graphic3d_Vec4d^ theVec);
     /* Method skipped due to unknown mapping: NCollection_Mat3<double> GetMat3() */
     void InitZero();
     bool IsZero();
@@ -2051,10 +2032,7 @@ public:
     double GetData();
     double ChangeData();
     static Macad::Occt::Graphic3d_Mat4d^ Multiply(Macad::Occt::Graphic3d_Mat4d^ theMatA, Macad::Occt::Graphic3d_Mat4d^ theMatB);
-    void Multiply(Macad::Occt::Graphic3d_Mat4d^ theMat);
     Macad::Occt::Graphic3d_Mat4d^ Multiplied(Macad::Occt::Graphic3d_Mat4d^ theMat);
-    void Multiply(double theFactor);
-    Macad::Occt::Graphic3d_Mat4d^ Multiplied(double theFactor);
     void Divide(double theFactor);
     Macad::Occt::Graphic3d_Mat4d^ Divided(double theScalar);
     void Add(Macad::Occt::Graphic3d_Mat4d^ theMat);
@@ -2066,12 +2044,11 @@ public:
     Macad::Occt::Graphic3d_Mat4d^ Transposed();
     void Transpose();
     bool Inverted(Macad::Occt::Graphic3d_Mat4d^ theOutMx, double% theDet);
-    bool Inverted(Macad::Occt::Graphic3d_Mat4d^ theOutMx);
-    Macad::Occt::Graphic3d_Mat4d^ Inverted();
     double DeterminantMat3();
     Macad::Occt::Graphic3d_Mat4d^ Adjoint();
     static Macad::Occt::Graphic3d_Mat4d^ Map(double% theData);
     /* Method skipped due to unknown mapping: void DumpJson(ostream theOStream, int parameter1, ) */
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Mat4d
 
 //---------------------------------------------------------------------
@@ -2132,24 +2109,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::Graphic3d_Array1OfAttribute^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::Graphic3d_Array1OfAttribute^ theArray);
-        Iterator(Macad::Occt::Graphic3d_Array1OfAttribute::Iterator^ parameter1);
-        void Init(Macad::Occt::Graphic3d_Array1OfAttribute^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::Graphic3d_Array1OfAttribute::Iterator^ theOther);
-        Macad::Occt::Graphic3d_Attribute^ Value();
-        Macad::Occt::Graphic3d_Attribute^ ChangeValue();
-        bool IsEqual(Macad::Occt::Graphic3d_Array1OfAttribute::Iterator^ theOther);
     }; // class Iterator
 
     Graphic3d_Array1OfAttribute();
     Graphic3d_Array1OfAttribute(int theLower, int theUpper);
-    Graphic3d_Array1OfAttribute(Macad::Occt::Graphic3d_Array1OfAttribute^ theOther);
+    /* Method skipped due to unknown mapping: void Graphic3d_Array1OfAttribute(allocator_type theAlloc, int theLower, int theUpper, ) */
+    Graphic3d_Array1OfAttribute(Macad::Occt::Graphic3d_Attribute^ theBegin, int theLower, int theUpper, bool theUseBuffer);
     Graphic3d_Array1OfAttribute(Macad::Occt::Graphic3d_Attribute^ theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::Graphic3d_Attribute^ theValue);
     int Size();
@@ -2157,8 +2122,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::Graphic3d_Array1OfAttribute^ Assign(Macad::Occt::Graphic3d_Array1OfAttribute^ theOther);
     Macad::Occt::Graphic3d_Array1OfAttribute^ Move(Macad::Occt::Graphic3d_Array1OfAttribute^ theOther);
     Macad::Occt::Graphic3d_Attribute^ First();
@@ -2168,7 +2131,10 @@ public:
     virtual Macad::Occt::Graphic3d_Attribute^ Value(int theIndex);
     Macad::Occt::Graphic3d_Attribute^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Graphic3d_Attribute^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Graphic3d_Attribute^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class Graphic3d_Array1OfAttribute
@@ -2235,19 +2201,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Graphic3d_ShaderObjectList^ theSeq, bool isStart);
-        Iterator(Macad::Occt::Graphic3d_ShaderObjectList^ theSeq);
-        Iterator(Macad::Occt::Graphic3d_ShaderObjectList::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Graphic3d_ShaderObject^ Value();
         Macad::Occt::Graphic3d_ShaderObject^ ChangeValue();
         bool IsEqual(Macad::Occt::Graphic3d_ShaderObjectList::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Graphic3d_ShaderObjectList();
     Graphic3d_ShaderObjectList(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    Graphic3d_ShaderObjectList(Macad::Occt::Graphic3d_ShaderObjectList^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2260,17 +2223,10 @@ public:
     void Clear();
     Macad::Occt::Graphic3d_ShaderObjectList^ Assign(Macad::Occt::Graphic3d_ShaderObjectList^ theOther);
     void Remove(Macad::Occt::Graphic3d_ShaderObjectList::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Graphic3d_ShaderObject^ theItem);
-    void Append(Macad::Occt::Graphic3d_ShaderObjectList^ theSeq);
     void Prepend(Macad::Occt::Graphic3d_ShaderObject^ theItem);
-    void Prepend(Macad::Occt::Graphic3d_ShaderObjectList^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Graphic3d_ShaderObject^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::Graphic3d_ShaderObjectList^ theSeq);
     void InsertAfter(Macad::Occt::Graphic3d_ShaderObjectList::Iterator^ thePosition, Macad::Occt::Graphic3d_ShaderObject^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::Graphic3d_ShaderObjectList^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Graphic3d_ShaderObject^ theItem);
     void Split(int theIndex, Macad::Occt::Graphic3d_ShaderObjectList^ theSeq);
     Macad::Occt::Graphic3d_ShaderObject^ First();
     Macad::Occt::Graphic3d_ShaderObject^ ChangeFirst();
@@ -2345,19 +2301,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Graphic3d_ShaderVariableList^ theSeq, bool isStart);
-        Iterator(Macad::Occt::Graphic3d_ShaderVariableList^ theSeq);
-        Iterator(Macad::Occt::Graphic3d_ShaderVariableList::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Graphic3d_ShaderVariable^ Value();
         Macad::Occt::Graphic3d_ShaderVariable^ ChangeValue();
         bool IsEqual(Macad::Occt::Graphic3d_ShaderVariableList::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Graphic3d_ShaderVariableList();
     Graphic3d_ShaderVariableList(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    Graphic3d_ShaderVariableList(Macad::Occt::Graphic3d_ShaderVariableList^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2370,17 +2323,10 @@ public:
     void Clear();
     Macad::Occt::Graphic3d_ShaderVariableList^ Assign(Macad::Occt::Graphic3d_ShaderVariableList^ theOther);
     void Remove(Macad::Occt::Graphic3d_ShaderVariableList::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Graphic3d_ShaderVariable^ theItem);
-    void Append(Macad::Occt::Graphic3d_ShaderVariableList^ theSeq);
     void Prepend(Macad::Occt::Graphic3d_ShaderVariable^ theItem);
-    void Prepend(Macad::Occt::Graphic3d_ShaderVariableList^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Graphic3d_ShaderVariable^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::Graphic3d_ShaderVariableList^ theSeq);
     void InsertAfter(Macad::Occt::Graphic3d_ShaderVariableList::Iterator^ thePosition, Macad::Occt::Graphic3d_ShaderVariable^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::Graphic3d_ShaderVariableList^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Graphic3d_ShaderVariable^ theItem);
     void Split(int theIndex, Macad::Occt::Graphic3d_ShaderVariableList^ theSeq);
     Macad::Occt::Graphic3d_ShaderVariable^ First();
     Macad::Occt::Graphic3d_ShaderVariable^ ChangeFirst();
@@ -2455,19 +2401,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Graphic3d_ShaderAttributeList^ theSeq, bool isStart);
-        Iterator(Macad::Occt::Graphic3d_ShaderAttributeList^ theSeq);
-        Iterator(Macad::Occt::Graphic3d_ShaderAttributeList::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Graphic3d_ShaderAttribute^ Value();
         Macad::Occt::Graphic3d_ShaderAttribute^ ChangeValue();
         bool IsEqual(Macad::Occt::Graphic3d_ShaderAttributeList::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Graphic3d_ShaderAttributeList();
     Graphic3d_ShaderAttributeList(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    Graphic3d_ShaderAttributeList(Macad::Occt::Graphic3d_ShaderAttributeList^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2480,17 +2423,10 @@ public:
     void Clear();
     Macad::Occt::Graphic3d_ShaderAttributeList^ Assign(Macad::Occt::Graphic3d_ShaderAttributeList^ theOther);
     void Remove(Macad::Occt::Graphic3d_ShaderAttributeList::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Graphic3d_ShaderAttribute^ theItem);
-    void Append(Macad::Occt::Graphic3d_ShaderAttributeList^ theSeq);
     void Prepend(Macad::Occt::Graphic3d_ShaderAttribute^ theItem);
-    void Prepend(Macad::Occt::Graphic3d_ShaderAttributeList^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Graphic3d_ShaderAttribute^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::Graphic3d_ShaderAttributeList^ theSeq);
     void InsertAfter(Macad::Occt::Graphic3d_ShaderAttributeList::Iterator^ thePosition, Macad::Occt::Graphic3d_ShaderAttribute^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::Graphic3d_ShaderAttributeList^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Graphic3d_ShaderAttribute^ theItem);
     void Split(int theIndex, Macad::Occt::Graphic3d_ShaderAttributeList^ theSeq);
     Macad::Occt::Graphic3d_ShaderAttribute^ First();
     Macad::Occt::Graphic3d_ShaderAttribute^ ChangeFirst();
@@ -2540,10 +2476,8 @@ public:
 public:
     Graphic3d_CameraLerp();
     Graphic3d_CameraLerp(Macad::Occt::Graphic3d_Camera^ theStart, Macad::Occt::Graphic3d_Camera^ theEnd);
-    Graphic3d_CameraLerp(Macad::Occt::Graphic3d_CameraLerp^ parameter1);
     static Macad::Occt::Graphic3d_Camera^ Interpolate(Macad::Occt::Graphic3d_Camera^ theStart, Macad::Occt::Graphic3d_Camera^ theEnd, double theT);
     void Init(Macad::Occt::Graphic3d_Camera^ theStart, Macad::Occt::Graphic3d_Camera^ theEnd);
-    void Interpolate(double theT, Macad::Occt::Graphic3d_Camera^ theResult);
 }; // class Graphic3d_CameraLerp
 
 //---------------------------------------------------------------------
@@ -2604,8 +2538,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Graphic3d_MapOfAspectsToAspects^ theMap);
-        Iterator(Macad::Occt::Graphic3d_MapOfAspectsToAspects::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Graphic3d_Aspects^ Value();
@@ -2616,20 +2548,19 @@ public:
     Graphic3d_MapOfAspectsToAspects();
     Graphic3d_MapOfAspectsToAspects(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     Graphic3d_MapOfAspectsToAspects(int theNbBuckets);
-    Graphic3d_MapOfAspectsToAspects(Macad::Occt::Graphic3d_MapOfAspectsToAspects^ theOther);
     void Exchange(Macad::Occt::Graphic3d_MapOfAspectsToAspects^ theOther);
     Macad::Occt::Graphic3d_MapOfAspectsToAspects^ Assign(Macad::Occt::Graphic3d_MapOfAspectsToAspects^ theOther);
+    void ReSize(int N);
+    bool Bind(Macad::Occt::Graphic3d_Aspects^ theKey, Macad::Occt::Graphic3d_Aspects^ theItem);
     Macad::Occt::Graphic3d_Aspects^ Bound(Macad::Occt::Graphic3d_Aspects^ theKey, Macad::Occt::Graphic3d_Aspects^ theItem);
     bool IsBound(Macad::Occt::Graphic3d_Aspects^ theKey);
     bool UnBind(Macad::Occt::Graphic3d_Aspects^ theKey);
     Macad::Occt::Graphic3d_Aspects^ Seek(Macad::Occt::Graphic3d_Aspects^ theKey);
     Macad::Occt::Graphic3d_Aspects^ Find(Macad::Occt::Graphic3d_Aspects^ theKey);
-    bool Find(Macad::Occt::Graphic3d_Aspects^ theKey, Macad::Occt::Graphic3d_Aspects^ theValue);
     Macad::Occt::Graphic3d_Aspects^ ChangeSeek(Macad::Occt::Graphic3d_Aspects^ theKey);
     Macad::Occt::Graphic3d_Aspects^ ChangeFind(Macad::Occt::Graphic3d_Aspects^ theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class Graphic3d_MapOfAspectsToAspects
 
@@ -2692,19 +2623,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Graphic3d_SequenceOfGroup^ theSeq, bool isStart);
-        Iterator(Macad::Occt::Graphic3d_SequenceOfGroup^ theSeq);
-        Iterator(Macad::Occt::Graphic3d_SequenceOfGroup::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Graphic3d_Group^ Value();
         Macad::Occt::Graphic3d_Group^ ChangeValue();
         bool IsEqual(Macad::Occt::Graphic3d_SequenceOfGroup::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Graphic3d_SequenceOfGroup();
     Graphic3d_SequenceOfGroup(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    Graphic3d_SequenceOfGroup(Macad::Occt::Graphic3d_SequenceOfGroup^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2717,17 +2645,10 @@ public:
     void Clear();
     Macad::Occt::Graphic3d_SequenceOfGroup^ Assign(Macad::Occt::Graphic3d_SequenceOfGroup^ theOther);
     void Remove(Macad::Occt::Graphic3d_SequenceOfGroup::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Graphic3d_Group^ theItem);
-    void Append(Macad::Occt::Graphic3d_SequenceOfGroup^ theSeq);
     void Prepend(Macad::Occt::Graphic3d_Group^ theItem);
-    void Prepend(Macad::Occt::Graphic3d_SequenceOfGroup^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Graphic3d_Group^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::Graphic3d_SequenceOfGroup^ theSeq);
     void InsertAfter(Macad::Occt::Graphic3d_SequenceOfGroup::Iterator^ thePosition, Macad::Occt::Graphic3d_Group^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::Graphic3d_SequenceOfGroup^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Graphic3d_Group^ theItem);
     void Split(int theIndex, Macad::Occt::Graphic3d_SequenceOfGroup^ theSeq);
     Macad::Occt::Graphic3d_Group^ First();
     Macad::Occt::Graphic3d_Group^ ChangeFirst();
@@ -2798,8 +2719,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Graphic3d_MapOfStructure^ theMap);
-        Iterator(Macad::Occt::Graphic3d_MapOfStructure::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Graphic3d_Structure^ Value();
@@ -2809,20 +2728,17 @@ public:
     Graphic3d_MapOfStructure();
     Graphic3d_MapOfStructure(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     Graphic3d_MapOfStructure(int theNbBuckets);
-    Graphic3d_MapOfStructure(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
     void Exchange(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
     Macad::Occt::Graphic3d_MapOfStructure^ Assign(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
     void ReSize(int N);
-    bool Add(Macad::Occt::Graphic3d_Structure^ K);
-    Macad::Occt::Graphic3d_Structure^ Added(Macad::Occt::Graphic3d_Structure^ K);
-    bool Contains(Macad::Occt::Graphic3d_Structure^ K);
+    bool Add(Macad::Occt::Graphic3d_Structure^ theKey);
+    Macad::Occt::Graphic3d_Structure^ Added(Macad::Occt::Graphic3d_Structure^ theKey);
+    bool Contains(Macad::Occt::Graphic3d_Structure^ theKey);
     bool Remove(Macad::Occt::Graphic3d_Structure^ K);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
     bool IsEqual(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
-    bool Contains(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
     void Union(Macad::Occt::Graphic3d_MapOfStructure^ theLeft, Macad::Occt::Graphic3d_MapOfStructure^ theRight);
     bool Unite(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
     bool HasIntersection(Macad::Occt::Graphic3d_MapOfStructure^ theMap);
@@ -2832,6 +2748,7 @@ public:
     bool Subtract(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
     void Difference(Macad::Occt::Graphic3d_MapOfStructure^ theLeft, Macad::Occt::Graphic3d_MapOfStructure^ theRight);
     bool Differ(Macad::Occt::Graphic3d_MapOfStructure^ theOther);
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_MapOfStructure
 
 //---------------------------------------------------------------------
@@ -2893,19 +2810,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Graphic3d_SequenceOfStructure^ theSeq, bool isStart);
-        Iterator(Macad::Occt::Graphic3d_SequenceOfStructure^ theSeq);
-        Iterator(Macad::Occt::Graphic3d_SequenceOfStructure::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Graphic3d_Structure^ Value();
         Macad::Occt::Graphic3d_Structure^ ChangeValue();
         bool IsEqual(Macad::Occt::Graphic3d_SequenceOfStructure::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Graphic3d_SequenceOfStructure();
     Graphic3d_SequenceOfStructure(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    Graphic3d_SequenceOfStructure(Macad::Occt::Graphic3d_SequenceOfStructure^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2918,17 +2832,10 @@ public:
     void Clear();
     Macad::Occt::Graphic3d_SequenceOfStructure^ Assign(Macad::Occt::Graphic3d_SequenceOfStructure^ theOther);
     void Remove(Macad::Occt::Graphic3d_SequenceOfStructure::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Graphic3d_Structure^ theItem);
-    void Append(Macad::Occt::Graphic3d_SequenceOfStructure^ theSeq);
     void Prepend(Macad::Occt::Graphic3d_Structure^ theItem);
-    void Prepend(Macad::Occt::Graphic3d_SequenceOfStructure^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Graphic3d_Structure^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::Graphic3d_SequenceOfStructure^ theSeq);
     void InsertAfter(Macad::Occt::Graphic3d_SequenceOfStructure::Iterator^ thePosition, Macad::Occt::Graphic3d_Structure^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::Graphic3d_SequenceOfStructure^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Graphic3d_Structure^ theItem);
     void Split(int theIndex, Macad::Occt::Graphic3d_SequenceOfStructure^ theSeq);
     Macad::Occt::Graphic3d_Structure^ First();
     Macad::Occt::Graphic3d_Structure^ ChangeFirst();
@@ -3006,7 +2913,6 @@ public:
 
     Graphic3d_GraphicDriverFactoryList();
     Graphic3d_GraphicDriverFactoryList(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    Graphic3d_GraphicDriverFactoryList(Macad::Occt::Graphic3d_GraphicDriverFactoryList^ theOther);
     int Size();
     Macad::Occt::Graphic3d_GraphicDriverFactoryList^ Assign(Macad::Occt::Graphic3d_GraphicDriverFactoryList^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -3014,16 +2920,11 @@ public:
     Macad::Occt::Graphic3d_GraphicDriverFactory^ First();
     Macad::Occt::Graphic3d_GraphicDriverFactory^ Last();
     Macad::Occt::Graphic3d_GraphicDriverFactory^ Append(Macad::Occt::Graphic3d_GraphicDriverFactory^ theItem);
-    void Append(Macad::Occt::Graphic3d_GraphicDriverFactory^ theItem, Macad::Occt::Graphic3d_GraphicDriverFactoryList::Iterator^ theIter);
-    void Append(Macad::Occt::Graphic3d_GraphicDriverFactoryList^ theOther);
     Macad::Occt::Graphic3d_GraphicDriverFactory^ Prepend(Macad::Occt::Graphic3d_GraphicDriverFactory^ theItem);
-    void Prepend(Macad::Occt::Graphic3d_GraphicDriverFactoryList^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::Graphic3d_GraphicDriverFactoryList::Iterator^ theIter);
     Macad::Occt::Graphic3d_GraphicDriverFactory^ InsertBefore(Macad::Occt::Graphic3d_GraphicDriverFactory^ theItem, Macad::Occt::Graphic3d_GraphicDriverFactoryList::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::Graphic3d_GraphicDriverFactoryList^ theOther, Macad::Occt::Graphic3d_GraphicDriverFactoryList::Iterator^ theIter);
     Macad::Occt::Graphic3d_GraphicDriverFactory^ InsertAfter(Macad::Occt::Graphic3d_GraphicDriverFactory^ theItem, Macad::Occt::Graphic3d_GraphicDriverFactoryList::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::Graphic3d_GraphicDriverFactoryList^ theOther, Macad::Occt::Graphic3d_GraphicDriverFactoryList::Iterator^ theIter);
     void Reverse();
 }; // class Graphic3d_GraphicDriverFactoryList
 
@@ -3088,18 +2989,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Graphic3d_IndexedMapOfStructure^ theMap);
-        Iterator(Macad::Occt::Graphic3d_IndexedMapOfStructure::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Graphic3d_CStructure^ Value();
         bool IsEqual(Macad::Occt::Graphic3d_IndexedMapOfStructure::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Graphic3d_IndexedMapOfStructure();
     Graphic3d_IndexedMapOfStructure(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     Graphic3d_IndexedMapOfStructure(int theNbBuckets);
-    Graphic3d_IndexedMapOfStructure(Macad::Occt::Graphic3d_IndexedMapOfStructure^ theOther);
     void Exchange(Macad::Occt::Graphic3d_IndexedMapOfStructure^ theOther);
     Macad::Occt::Graphic3d_IndexedMapOfStructure^ Assign(Macad::Occt::Graphic3d_IndexedMapOfStructure^ theOther);
     void ReSize(int theExtent);
@@ -3114,7 +3013,6 @@ public:
     int FindIndex(Macad::Occt::Graphic3d_CStructure^ theKey1);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class Graphic3d_IndexedMapOfStructure
 
@@ -3176,8 +3074,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Graphic3d_MapOfObject^ theMap);
-        Iterator(Macad::Occt::Graphic3d_MapOfObject::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Graphic3d_ViewAffinity^ Value();
@@ -3188,7 +3084,6 @@ public:
     Graphic3d_MapOfObject();
     Graphic3d_MapOfObject(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     Graphic3d_MapOfObject(int theNbBuckets);
-    Graphic3d_MapOfObject(Macad::Occt::Graphic3d_MapOfObject^ theOther);
     void Exchange(Macad::Occt::Graphic3d_MapOfObject^ theOther);
     Macad::Occt::Graphic3d_MapOfObject^ Assign(Macad::Occt::Graphic3d_MapOfObject^ theOther);
     void ReSize(int N);
@@ -3198,12 +3093,10 @@ public:
     bool UnBind(Macad::Occt::Standard_Transient^ theKey);
     Macad::Occt::Graphic3d_ViewAffinity^ Seek(Macad::Occt::Standard_Transient^ theKey);
     Macad::Occt::Graphic3d_ViewAffinity^ Find(Macad::Occt::Standard_Transient^ theKey);
-    bool Find(Macad::Occt::Standard_Transient^ theKey, Macad::Occt::Graphic3d_ViewAffinity^ theValue);
     Macad::Occt::Graphic3d_ViewAffinity^ ChangeSeek(Macad::Occt::Standard_Transient^ theKey);
     Macad::Occt::Graphic3d_ViewAffinity^ ChangeFind(Macad::Occt::Standard_Transient^ theKey);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class Graphic3d_MapOfObject
 
@@ -3265,18 +3158,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::Graphic3d_IndexedMapOfView^ theMap);
-        Iterator(Macad::Occt::Graphic3d_IndexedMapOfView::Iterator^ parameter1);
         bool More();
         void Next();
         /* Method skipped due to unknown mapping: Graphic3d_CView * Value() */
         bool IsEqual(Macad::Occt::Graphic3d_IndexedMapOfView::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     Graphic3d_IndexedMapOfView();
     Graphic3d_IndexedMapOfView(int theNbBuckets, Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     Graphic3d_IndexedMapOfView(int theNbBuckets);
-    Graphic3d_IndexedMapOfView(Macad::Occt::Graphic3d_IndexedMapOfView^ theOther);
     void Exchange(Macad::Occt::Graphic3d_IndexedMapOfView^ theOther);
     Macad::Occt::Graphic3d_IndexedMapOfView^ Assign(Macad::Occt::Graphic3d_IndexedMapOfView^ theOther);
     void ReSize(int theExtent);
@@ -3291,7 +3182,6 @@ public:
     int FindIndex(Macad::Occt::Graphic3d_CView^ theKey1);
     void Clear(bool doReleaseMemory);
     void Clear();
-    void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
     int Size();
 }; // class Graphic3d_IndexedMapOfView
 
@@ -3360,7 +3250,6 @@ public:
     /// Constructor.
     /// </summary>
     Graphic3d_BufferRange(int theStart, int theLength);
-    Graphic3d_BufferRange(Macad::Occt::Graphic3d_BufferRange^ parameter1);
     /// <summary>
     /// Return TRUE if range is empty.
     /// </summary>
@@ -3437,7 +3326,6 @@ public:
     }
 
     Graphic3d_Attribute();
-    Graphic3d_Attribute(Macad::Occt::Graphic3d_Attribute^ parameter1);
     int Stride();
     /// <summary>
     /// </summary>
@@ -3511,7 +3399,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Graphic3d_PolygonOffset();
-    Graphic3d_PolygonOffset(Macad::Occt::Graphic3d_PolygonOffset^ parameter1);
     /// <summary>
     /// Dumps the content of me into the stream
     /// </summary>
@@ -3555,7 +3442,6 @@ public:
     }
 
 public:
-    Graphic3d_ValueInterface(Macad::Occt::Graphic3d_ValueInterface^ parameter1);
     Graphic3d_ValueInterface();
     /// <summary>
     /// Returns unique identifier of value type.
@@ -3600,7 +3486,6 @@ public:
     /// Default settings.
     /// </summary>
     Graphic3d_ZLayerSettings();
-    Graphic3d_ZLayerSettings(Macad::Occt::Graphic3d_ZLayerSettings^ parameter1);
     /// <summary>
     /// Return user-provided name.
     /// </summary>
@@ -3808,7 +3693,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Graphic3d_BoundBuffer(Macad::Occt::NCollection_BaseAllocator^ theAlloc);
-    Graphic3d_BoundBuffer(Macad::Occt::Graphic3d_BoundBuffer^ parameter1);
     /// <summary>
     /// Allocates new empty array
     /// </summary>
@@ -3892,7 +3776,6 @@ public:
     }
 
 public:
-    Graphic3d_ArrayOfPrimitives(Macad::Occt::Graphic3d_ArrayOfPrimitives^ parameter1);
     /// <summary>
     /// Create an array of specified type.
     /// </summary>
@@ -4621,7 +4504,6 @@ public:
     /// when TRUE, AddVertex(Point,Normal) should be used for specifying vertex normal
     /// </param>
     Graphic3d_ArrayOfPoints(int theMaxVertexs);
-    Graphic3d_ArrayOfPoints(Macad::Occt::Graphic3d_ArrayOfPoints^ parameter1);
     static Macad::Occt::Graphic3d_ArrayOfPoints^ CreateDowncasted(::Graphic3d_ArrayOfPoints* instance);
 }; // class Graphic3d_ArrayOfPoints
 
@@ -4827,7 +4709,6 @@ public:
     ///   defines the maximum allowed edge   number in the array
     /// </param>
     Graphic3d_ArrayOfPolygons(int theMaxVertexs);
-    Graphic3d_ArrayOfPolygons(Macad::Occt::Graphic3d_ArrayOfPolygons^ parameter1);
     static Macad::Occt::Graphic3d_ArrayOfPolygons^ CreateDowncasted(::Graphic3d_ArrayOfPolygons* instance);
 }; // class Graphic3d_ArrayOfPolygons
 
@@ -5035,7 +4916,6 @@ public:
     /// when TRUE AddBound(number,Color) should be used to specify sub-group color
     /// </param>
     Graphic3d_ArrayOfPolylines(int theMaxVertexs);
-    Graphic3d_ArrayOfPolylines(Macad::Occt::Graphic3d_ArrayOfPolylines^ parameter1);
     static Macad::Occt::Graphic3d_ArrayOfPolylines^ CreateDowncasted(::Graphic3d_ArrayOfPolylines* instance);
 }; // class Graphic3d_ArrayOfPolylines
 
@@ -5153,7 +5033,6 @@ public:
     ///   defines the maximum allowed edge   number in the array (for indexed array)
     /// </param>
     Graphic3d_ArrayOfQuadrangles(int theMaxVertexs);
-    Graphic3d_ArrayOfQuadrangles(Macad::Occt::Graphic3d_ArrayOfQuadrangles^ parameter1);
     static Macad::Occt::Graphic3d_ArrayOfQuadrangles^ CreateDowncasted(::Graphic3d_ArrayOfQuadrangles* instance);
 }; // class Graphic3d_ArrayOfQuadrangles
 
@@ -5285,7 +5164,6 @@ public:
     ///  defines the maximum allowed strip  number in the array
     /// </param>
     Graphic3d_ArrayOfQuadrangleStrips(int theMaxVertexs);
-    Graphic3d_ArrayOfQuadrangleStrips(Macad::Occt::Graphic3d_ArrayOfQuadrangleStrips^ parameter1);
     static Macad::Occt::Graphic3d_ArrayOfQuadrangleStrips^ CreateDowncasted(::Graphic3d_ArrayOfQuadrangleStrips* instance);
 }; // class Graphic3d_ArrayOfQuadrangleStrips
 
@@ -5392,7 +5270,6 @@ public:
     /// when TRUE, AddVertex(Point,Color) should be used for specifying vertex color
     /// </param>
     Graphic3d_ArrayOfSegments(int theMaxVertexs);
-    Graphic3d_ArrayOfSegments(Macad::Occt::Graphic3d_ArrayOfSegments^ parameter1);
     static Macad::Occt::Graphic3d_ArrayOfSegments^ CreateDowncasted(::Graphic3d_ArrayOfSegments* instance);
 }; // class Graphic3d_ArrayOfSegments
 
@@ -5522,7 +5399,6 @@ public:
     ///    defines the maximum allowed fan    number in the array
     /// </param>
     Graphic3d_ArrayOfTriangleFans(int theMaxVertexs);
-    Graphic3d_ArrayOfTriangleFans(Macad::Occt::Graphic3d_ArrayOfTriangleFans^ parameter1);
     static Macad::Occt::Graphic3d_ArrayOfTriangleFans^ CreateDowncasted(::Graphic3d_ArrayOfTriangleFans* instance);
 }; // class Graphic3d_ArrayOfTriangleFans
 
@@ -5688,7 +5564,6 @@ public:
     ///  when TRUE,  AddVertex(Point,Texel) or AddVertex(Point,Normal,Texel) should be used to specify vertex UV coordinates
     /// </param>
     Graphic3d_ArrayOfTriangles(int theMaxVertexs);
-    Graphic3d_ArrayOfTriangles(Macad::Occt::Graphic3d_ArrayOfTriangles^ parameter1);
     static Macad::Occt::Graphic3d_ArrayOfTriangles^ CreateDowncasted(::Graphic3d_ArrayOfTriangles* instance);
 }; // class Graphic3d_ArrayOfTriangles
 
@@ -5902,7 +5777,6 @@ public:
     ///  when TRUE, AddVertex(Point,Texel) or AddVertex(Point,Normal,Texel) should be used to specify vertex UV coordinates
     /// </param>
     Graphic3d_ArrayOfTriangleStrips(int theMaxVertexs);
-    Graphic3d_ArrayOfTriangleStrips(Macad::Occt::Graphic3d_ArrayOfTriangleStrips^ parameter1);
     static Macad::Occt::Graphic3d_ArrayOfTriangleStrips^ CreateDowncasted(::Graphic3d_ArrayOfTriangleStrips* instance);
 }; // class Graphic3d_ArrayOfTriangleStrips
 
@@ -5974,7 +5848,6 @@ public:
     /// [in] number of bits in a column
     /// </param>
     Graphic3d_MarkerImage(Macad::Occt::TColStd_HArray1OfByte^ theBitMap, int theWidth, int theHeight);
-    Graphic3d_MarkerImage(Macad::Occt::Graphic3d_MarkerImage^ parameter1);
     /// <summary>
     /// Returns a marker image for the marker of the specified type, scale and color.
     /// </summary>
@@ -6097,7 +5970,6 @@ public:
     /// Creates new physically based material in Metallic-Roughness system from Graphic3d_BSDF.
     /// </summary>
     Graphic3d_PBRMaterial(Macad::Occt::Graphic3d_BSDF^ theBSDF);
-    Graphic3d_PBRMaterial(Macad::Occt::Graphic3d_PBRMaterial^ parameter1);
     /// <summary>
     /// Returns material's metallic coefficient in [0, 1] range.
     /// 1 for metals and 0 for dielectrics.
@@ -6286,7 +6158,6 @@ public:
     /// Creates uninitialized Fresnel factor.
     /// </summary>
     Graphic3d_Fresnel();
-    Graphic3d_Fresnel(Macad::Occt::Graphic3d_Fresnel^ parameter1);
     /// <summary>
     /// Creates Schlick's approximation of Fresnel factor.
     /// </summary>
@@ -6371,7 +6242,6 @@ public:
     /// Creates uninitialized BSDF.
     /// </summary>
     Graphic3d_BSDF();
-    Graphic3d_BSDF(Macad::Occt::Graphic3d_BSDF^ parameter1);
     /// <summary>
     /// Creates BSDF describing diffuse (Lambertian) surface.
     /// </summary>
@@ -6455,7 +6325,6 @@ public:
     /// Creates a generic material.
     /// </summary>
     Graphic3d_MaterialAspect(Macad::Occt::Graphic3d_NameOfMaterial theName);
-    Graphic3d_MaterialAspect(Macad::Occt::Graphic3d_MaterialAspect^ parameter1);
     /// <summary>
     /// Returns the number of predefined textures.
     /// </summary>
@@ -6654,6 +6523,7 @@ public:
     /// Deactivates the reflective properties of the surface with specified reflection type.
     /// </summary>
     void SetReflectionModeOff(Macad::Occt::Graphic3d_TypeOfReflection theType);
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_MaterialAspect
 
 //---------------------------------------------------------------------
@@ -6701,7 +6571,6 @@ public:
     /// GPU memory for the pattern will not be allocated.
     /// </summary>
     Graphic3d_HatchStyle(Macad::Occt::Aspect_HatchStyle theType);
-    Graphic3d_HatchStyle(Macad::Occt::Graphic3d_HatchStyle^ parameter1);
     /// <summary>
     /// Returns the pattern of custom hatch style
     /// </summary>
@@ -6760,7 +6629,6 @@ public:
     /// Creates new attribute.
     /// </summary>
     Graphic3d_ShaderAttribute(Macad::Occt::TCollection_AsciiString^ theName, int theLocation);
-    Graphic3d_ShaderAttribute(Macad::Occt::Graphic3d_ShaderAttribute^ parameter1);
     /// <summary>
     /// Returns name of shader variable.
     /// </summary>
@@ -6805,7 +6673,6 @@ public:
     }
 
 public:
-    Graphic3d_ShaderObject(Macad::Occt::Graphic3d_ShaderObject^ parameter1);
     /// <summary>
     /// Creates new shader object from specified file.
     /// </summary>
@@ -6871,7 +6738,6 @@ public:
     }
 
 public:
-    Graphic3d_ShaderVariable(Macad::Occt::Graphic3d_ShaderVariable^ parameter1);
     /// <summary>
     /// Returns name of shader variable.
     /// </summary>
@@ -6932,7 +6798,6 @@ public:
     /// Default constructor.
     /// </summary>
     Graphic3d_TextureParams();
-    Graphic3d_TextureParams(Macad::Occt::Graphic3d_TextureParams^ parameter1);
     /// <summary>
     /// Default texture unit to be used, default is Graphic3d_TextureUnit_BaseColor.
     /// </summary>
@@ -7116,7 +6981,6 @@ public:
     /// Creates new empty program object.
     /// </summary>
     Graphic3d_ShaderProgram();
-    Graphic3d_ShaderProgram(Macad::Occt::Graphic3d_ShaderProgram^ parameter1);
     /// <summary>
     /// Checks if the program object is valid or not.
     /// </summary>
@@ -7349,7 +7213,6 @@ public:
     }
 
 public:
-    Graphic3d_TextureRoot(Macad::Occt::Graphic3d_TextureRoot^ parameter1);
     /// <summary>
     /// The path to textures determined from CSF_MDTVTexturesDirectory or CASROOT environment variables.
     /// </summary>
@@ -7500,7 +7363,6 @@ public:
     }
 
 public:
-    Graphic3d_TextureMap(Macad::Occt::Graphic3d_TextureMap^ parameter1);
     /// <summary>
     /// enable texture smoothing
     /// </summary>
@@ -7604,7 +7466,6 @@ public:
     /// Constructor for a single texture.
     /// </summary>
     Graphic3d_TextureSet(Macad::Occt::Graphic3d_TextureMap^ theTexture);
-    Graphic3d_TextureSet(Macad::Occt::Graphic3d_TextureSet^ parameter1);
     /// <summary>
     /// Return TRUE if texture array is empty.
     /// </summary>
@@ -7684,7 +7545,6 @@ public:
     /// Creates a context table for drawing primitives defined with the following default values:
     /// </summary>
     Graphic3d_Aspects();
-    Graphic3d_Aspects(Macad::Occt::Graphic3d_Aspects^ parameter1);
     /// <summary>
     /// Return interior rendering style; Aspect_IS_SOLID by default.
     /// </summary>
@@ -8159,6 +8019,7 @@ public:
     void AllowBackFace();
     void SuppressBackFace();
     static Macad::Occt::Graphic3d_Aspects^ CreateDowncasted(::Graphic3d_Aspects* instance);
+    bool Equals(System::Object^ obj) override;
 }; // class Graphic3d_Aspects
 
 //---------------------------------------------------------------------
@@ -8220,7 +8081,6 @@ public:
     /// Polygon offset parameters: mode = Aspect_POM_None, factor = 1., units = 0.
     /// </summary>
     Graphic3d_AspectFillArea3d(Macad::Occt::Aspect_InteriorStyle theInterior, Macad::Occt::Quantity_Color^ theInteriorColor, Macad::Occt::Quantity_Color^ theEdgeColor, Macad::Occt::Aspect_TypeOfLine theEdgeLineType, double theEdgeWidth, Macad::Occt::Graphic3d_MaterialAspect^ theFrontMaterial, Macad::Occt::Graphic3d_MaterialAspect^ theBackMaterial);
-    Graphic3d_AspectFillArea3d(Macad::Occt::Graphic3d_AspectFillArea3d^ parameter1);
     bool Edge();
     static Macad::Occt::Graphic3d_AspectFillArea3d^ CreateDowncasted(::Graphic3d_AspectFillArea3d* instance);
 }; // class Graphic3d_AspectFillArea3d
@@ -8276,7 +8136,6 @@ public:
     /// The supported line widths vary by 1-pixel units.
     /// </summary>
     Graphic3d_AspectLine3d(Macad::Occt::Quantity_Color^ theColor, Macad::Occt::Aspect_TypeOfLine theType, double theWidth);
-    Graphic3d_AspectLine3d(Macad::Occt::Graphic3d_AspectLine3d^ parameter1);
     /// <summary>
     /// Return line type.
     /// </summary>
@@ -8356,7 +8215,6 @@ public:
     /// defined with the specified values.
     /// </summary>
     Graphic3d_AspectMarker3d(Macad::Occt::Image_PixMap^ theTextureImage);
-    Graphic3d_AspectMarker3d(Macad::Occt::Graphic3d_AspectMarker3d^ parameter1);
     /// <summary>
     /// Return scale factor.
     /// </summary>
@@ -8500,7 +8358,6 @@ public:
     /// [in] display mode
     /// </param>
     Graphic3d_AspectText3d(Macad::Occt::Quantity_Color^ theColor, System::String^ theFont, double theExpansionFactor, double theSpace);
-    Graphic3d_AspectText3d(Macad::Occt::Graphic3d_AspectText3d^ parameter1);
     /// <summary>
     /// Return the text color.
     /// </summary>
@@ -8680,7 +8537,6 @@ public:
         }
     }
 
-    Graphic3d_CStructure(Macad::Occt::Graphic3d_CStructure^ parameter1);
     /// <summary>
     /// </summary>
     /// <returns>
@@ -8940,7 +8796,6 @@ public:
     /// world view matrices (camera).
     /// </param>
     Graphic3d_WorldViewProjState(long long unsigned int theProjectionState, long long unsigned int theWorldViewState);
-    Graphic3d_WorldViewProjState(Macad::Occt::Graphic3d_WorldViewProjState^ parameter1);
     /// <summary>
     /// Check state validity.
     /// </summary>
@@ -9088,13 +8943,6 @@ public:
     /// ZFocus(1.0); ZFocusType(Relative); IOD(0.05); IODType(Relative)
     /// </summary>
     Graphic3d_Camera();
-    /// <summary>
-    /// Copy constructor.
-    /// </summary>
-    /// <param name="theOther">
-    /// [in] the camera to copy from.
-    /// </param>
-    Graphic3d_Camera(Macad::Occt::Graphic3d_Camera^ theOther);
     /// <summary>
     /// Linear interpolation tool for camera orientation and position.
     /// This tool interpolates camera parameters scale, eye, center, rotation (up and direction vectors) independently.
@@ -9856,7 +9704,6 @@ public:
     /// Such Tile is considered uninitialized (invalid).
     /// </summary>
     Graphic3d_CameraTile();
-    Graphic3d_CameraTile(Macad::Occt::Graphic3d_CameraTile^ parameter1);
     /// <summary>
     /// Return true if Tile has been defined.
     /// </summary>
@@ -10192,13 +10039,6 @@ public:
     /// - IsHatchOn (False)
     /// </summary>
     Graphic3d_ClipPlane();
-    /// <summary>
-    /// Copy constructor.
-    /// </summary>
-    /// <param name="theOther">
-    /// [in] the copied plane.
-    /// </param>
-    Graphic3d_ClipPlane(Macad::Occt::Graphic3d_ClipPlane^ theOther);
     /// <summary>
     /// Construct clip plane for the passed equation.
     /// By default the plane is on, capping is turned off.
@@ -10543,7 +10383,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Graphic3d_PresentationAttributes();
-    Graphic3d_PresentationAttributes(Macad::Occt::Graphic3d_PresentationAttributes^ parameter1);
     /// <summary>
     /// Returns highlight method, Aspect_TOHM_COLOR by default.
     /// </summary>
@@ -10655,7 +10494,6 @@ public:
     /// Creates a point with theX, theY and theZ coordinates.
     /// </summary>
     Graphic3d_Vertex(double theX, double theY, double theZ);
-    Graphic3d_Vertex(Macad::Occt::Graphic3d_Vertex^ parameter1);
     /// <summary>
     /// Modifies the coordinates.
     /// </summary>
@@ -10762,7 +10600,6 @@ public:
     /// another structure for creating a shadow (linked) structure
     /// </param>
     Graphic3d_Structure(Macad::Occt::Graphic3d_StructureManager^ theManager);
-    Graphic3d_Structure(Macad::Occt::Graphic3d_Structure^ parameter1);
     /// <summary>
     /// if WithDestruction == Standard_True then
     /// suppress all the groups of primitives in the structure.
@@ -11194,7 +11031,6 @@ public:
     /// Creates default text parameters.
     /// </summary>
     Graphic3d_Text(float theHeight);
-    Graphic3d_Text(Macad::Occt::Graphic3d_Text^ parameter1);
     /* Method skipped due to unknown mapping: NCollection_Utf8String Text() */
     /* Method skipped due to unknown mapping: void SetText(NCollection_Utf8String theText, ) */
     /// <summary>
@@ -11343,7 +11179,6 @@ public:
     /// The offset is a positive displacement from the view corner in pixels.
     /// </summary>
     Graphic3d_TransformPers(Macad::Occt::Graphic3d_TransModeFlags theMode, Macad::Occt::Aspect_TypeOfTriedronPosition theCorner);
-    Graphic3d_TransformPers(Macad::Occt::Graphic3d_TransformPers^ parameter1);
     /// <summary>
     /// Return true if specified mode is zoom/rotate transformation persistence.
     /// </summary>
@@ -11415,6 +11250,7 @@ public:
     /// [in] the height of viewport.
     /// </param>
     double persistentScale(Macad::Occt::Graphic3d_Camera^ theCamera, int theViewportWidth, int theViewportHeight);
+    /* Method skipped due to unknown mapping: NCollection_Mat3<double> persistentRotationMatrix(Graphic3d_Camera theCamera, int theViewportWidth, int theViewportHeight, ) */
     /// <summary>
     /// Dumps the content of me into the stream
     /// </summary>
@@ -11488,7 +11324,6 @@ public:
     }
 
 public:
-    Graphic3d_Group(Macad::Occt::Graphic3d_Group^ parameter1);
     /// <summary>
     /// Suppress all primitives and attributes of <me>.
     /// To clear group without update in Graphic3d_StructureManager
@@ -11808,7 +11643,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Graphic3d_SequenceOfHClipPlane();
-    Graphic3d_SequenceOfHClipPlane(Macad::Occt::Graphic3d_SequenceOfHClipPlane^ parameter1);
     /// <summary>
     /// Return true if local properties should override global properties.
     /// </summary>
@@ -11896,7 +11730,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Graphic3d_ViewAffinity();
-    Graphic3d_ViewAffinity(Macad::Occt::Graphic3d_ViewAffinity^ parameter1);
     /// <summary>
     /// Return visibility flag.
     /// </summary>
@@ -11954,7 +11787,6 @@ public:
     }
 
 public:
-    Graphic3d_GraphicDriver(Macad::Occt::Graphic3d_GraphicDriver^ parameter1);
     /// <summary>
     /// Request limit of graphic resource of specific type.
     /// </summary>
@@ -12127,7 +11959,6 @@ public:
     /// of the ViewManager failed.
     /// </summary>
     Graphic3d_StructureManager(Macad::Occt::Graphic3d_GraphicDriver^ theDriver);
-    Graphic3d_StructureManager(Macad::Occt::Graphic3d_StructureManager^ parameter1);
     /// <summary>
     /// Invalidates bounding box of specified ZLayerId.
     /// </summary>
@@ -12300,10 +12131,6 @@ public:
     }
 
 public:
-    /// <summary>
-    /// Copy constructor.
-    /// </summary>
-    Graphic3d_ValidatedCubeMapOrder(Macad::Occt::Graphic3d_ValidatedCubeMapOrder^ theOther);
 }; // class Graphic3d_ValidatedCubeMapOrder
 
 //---------------------------------------------------------------------
@@ -12355,7 +12182,6 @@ public:
     /// Creates Graphic3d_CubeMapOrder using Graphic3d_ValidatedCubeMapOrder.
     /// </summary>
     Graphic3d_CubeMapOrder(Macad::Occt::Graphic3d_ValidatedCubeMapOrder^ theOrder);
-    Graphic3d_CubeMapOrder(Macad::Occt::Graphic3d_CubeMapOrder^ parameter1);
     /// <summary>
     /// Alias of 'operator='.
     /// </summary>
@@ -12482,7 +12308,6 @@ public:
     /// Constructor defining direct cubemap initialization from PixMap.
     /// </summary>
     Graphic3d_CubeMap();
-    Graphic3d_CubeMap(Macad::Occt::Graphic3d_CubeMap^ parameter1);
     /// <summary>
     /// Returns whether the iterator has reached the end (true if it hasn't).
     /// </summary>
@@ -12586,7 +12411,6 @@ public:
     /// @thePixMap - origin PixMap
     /// @theOrder - array containing six different indexes of cubemap sides which maps tile grid to cubemap sides
     Graphic3d_CubeMapPacked(Macad::Occt::Image_PixMap^ theImage);
-    Graphic3d_CubeMapPacked(Macad::Occt::Graphic3d_CubeMapPacked^ parameter1);
     /// <summary>
     /// Returns current cubemap side as compressed PixMap.
     /// </summary>
@@ -12640,7 +12464,6 @@ public:
     /// @thePaths - array of paths to separate image files (has to have size equal 6).
     Graphic3d_CubeMapSeparate(Macad::Occt::TColStd_Array1OfAsciiString^ thePaths);
     /* Method skipped due to unknown mapping: void Graphic3d_CubeMapSeparate(NCollection_Array1<opencascade::handle<Image_PixMap>> theImages, ) */
-    Graphic3d_CubeMapSeparate(Macad::Occt::Graphic3d_CubeMapSeparate^ parameter1);
     /// <summary>
     /// Returns current cubemap side as compressed PixMap.
     /// </summary>
@@ -12701,7 +12524,6 @@ public:
     /// Creates an empty selector object with parallel projection type by default.
     /// </summary>
     Graphic3d_CullingTool();
-    Graphic3d_CullingTool(Macad::Occt::Graphic3d_CullingTool^ parameter1);
     /// <summary>
     /// Retrieves view volume's planes equations and its vertices from projection and world-view matrices.
     /// </summary>
@@ -12850,7 +12672,6 @@ public:
     }
 
 public:
-    Graphic3d_DataStructureManager(Macad::Occt::Graphic3d_DataStructureManager^ parameter1);
     static Macad::Occt::Graphic3d_DataStructureManager^ CreateDowncasted(::Graphic3d_DataStructureManager* instance);
 }; // class Graphic3d_DataStructureManager
 
@@ -12895,7 +12716,6 @@ public:
     /// Constructor.
     /// </summary>
     Graphic3d_CView(Macad::Occt::Graphic3d_StructureManager^ theMgr);
-    Graphic3d_CView(Macad::Occt::Graphic3d_CView^ parameter1);
     /// <summary>
     /// Returns the identification number of the view.
     /// </summary>
@@ -13606,7 +13426,6 @@ public:
         AxisAspect(Macad::Occt::TCollection_ExtendedString^ theName, Macad::Occt::Quantity_Color^ theNameColor);
         AxisAspect(Macad::Occt::TCollection_ExtendedString^ theName);
         AxisAspect();
-        AxisAspect(Macad::Occt::Graphic3d_GraduatedTrihedron::AxisAspect^ parameter1);
         void SetName(Macad::Occt::TCollection_ExtendedString^ theName);
         Macad::Occt::TCollection_ExtendedString^ Name();
         bool ToDrawName();
@@ -13654,7 +13473,6 @@ public:
     /// Constructs the default graduated trihedron with grid, X, Y, Z axes, and tickmarks
     /// </summary>
     Graphic3d_GraduatedTrihedron();
-    Graphic3d_GraduatedTrihedron(Macad::Occt::Graphic3d_GraduatedTrihedron^ parameter1);
     Macad::Occt::Graphic3d_GraduatedTrihedron::AxisAspect^ ChangeXAxisAspect();
     Macad::Occt::Graphic3d_GraduatedTrihedron::AxisAspect^ ChangeYAxisAspect();
     Macad::Occt::Graphic3d_GraduatedTrihedron::AxisAspect^ ChangeZAxisAspect();
@@ -14428,7 +14246,6 @@ public:
     /// Creates default rendering parameters.
     /// </summary>
     Graphic3d_RenderingParams();
-    Graphic3d_RenderingParams(Macad::Occt::Graphic3d_RenderingParams^ parameter1);
     /// <summary>
     /// Returns resolution ratio.
     /// </summary>
@@ -14488,7 +14305,6 @@ public:
     /// Creates an environment texture from the pixmap.
     /// </summary>
     Graphic3d_TextureEnv(Macad::Occt::Image_PixMap^ thePixMap);
-    Graphic3d_TextureEnv(Macad::Occt::Graphic3d_TextureEnv^ parameter1);
     /// <summary>
     /// Returns the name of the predefined textures or NOT_ENV_UNKNOWN
     /// when the name is given as a filename.
@@ -14597,7 +14413,6 @@ public:
         /// Constructor with initialization.
         /// </summary>
         Iterator(Macad::Occt::Graphic3d_LightSet^ theSet);
-        Iterator(Macad::Occt::Graphic3d_LightSet::Iterator^ parameter1);
         /// <summary>
         /// Returns TRUE if iterator points to a valid item.
         /// </summary>
@@ -14616,7 +14431,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Graphic3d_LightSet();
-    Graphic3d_LightSet(Macad::Occt::Graphic3d_LightSet^ parameter1);
     /// <summary>
     /// Return lower light index.
     /// </summary>
@@ -14744,7 +14558,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Graphic3d_FrameStatsData();
-    Graphic3d_FrameStatsData(Macad::Occt::Graphic3d_FrameStatsData^ parameter1);
     /// <summary>
     /// Returns FPS (frames per seconds, elapsed time).
     /// This number indicates an actual frame rate averaged for several frames within UpdateInterval() duration,
@@ -14871,7 +14684,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Graphic3d_FrameStatsDataTmp();
-    Graphic3d_FrameStatsDataTmp(Macad::Occt::Graphic3d_FrameStatsDataTmp^ parameter1);
     /// <summary>
     /// Compute average data considering the amount of rendered frames.
     /// </summary>
@@ -14928,7 +14740,6 @@ public:
     /// Default constructor.
     /// </summary>
     Graphic3d_FrameStats();
-    Graphic3d_FrameStats(Macad::Occt::Graphic3d_FrameStats^ parameter1);
     /// <summary>
     /// Returns interval in seconds for updating meters across several frames; 1 second by default.
     /// </summary>
@@ -15057,7 +14868,6 @@ public:
     }
 
 public:
-    Graphic3d_GraphicDriverFactory(Macad::Occt::Graphic3d_GraphicDriverFactory^ parameter1);
     /// <summary>
     /// Registers factory.
     /// </summary>
@@ -15131,7 +14941,6 @@ public:
     Graphic3d_GroupDefinitionError();
     Graphic3d_GroupDefinitionError(System::String^ theMessage);
     Graphic3d_GroupDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
-    Graphic3d_GroupDefinitionError(Macad::Occt::Graphic3d_GroupDefinitionError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -15174,7 +14983,6 @@ public:
     Graphic3d_MaterialDefinitionError();
     Graphic3d_MaterialDefinitionError(System::String^ theMessage);
     Graphic3d_MaterialDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
-    Graphic3d_MaterialDefinitionError(Macad::Occt::Graphic3d_MaterialDefinitionError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -15237,7 +15045,6 @@ public:
     /// MipMaps levels will be automatically generated if needed.
     /// </summary>
     Graphic3d_Texture2D(Macad::Occt::Image_PixMap^ thePixMap);
-    Graphic3d_Texture2D(Macad::Occt::Graphic3d_Texture2D^ parameter1);
     /// <summary>
     /// Returns the number of predefined textures.
     /// </summary>
@@ -15294,7 +15101,6 @@ public:
 public:
     /* Method skipped due to unknown mapping: void Graphic3d_MediaTexture(NCollection_Shared<Standard_Mutex, void theMutex, int thePlane, ) */
     /* Method skipped due to unknown mapping: void Graphic3d_MediaTexture(NCollection_Shared<Standard_Mutex, void theMutex, int thePlane, ) */
-    Graphic3d_MediaTexture(Macad::Occt::Graphic3d_MediaTexture^ parameter1);
     /// <summary>
     /// Image reader.
     /// </summary>
@@ -15341,7 +15147,6 @@ public:
     Graphic3d_PriorityDefinitionError();
     Graphic3d_PriorityDefinitionError(System::String^ theMessage);
     Graphic3d_PriorityDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
-    Graphic3d_PriorityDefinitionError(Macad::Occt::Graphic3d_PriorityDefinitionError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -15388,7 +15193,6 @@ public:
     /// Creates new empty shader manager.
     /// </summary>
     Graphic3d_ShaderManager(Macad::Occt::Aspect_GraphicsLibrary theGapi);
-    Graphic3d_ShaderManager(Macad::Occt::Graphic3d_ShaderManager^ parameter1);
     /// <summary>
     /// </summary>
     /// <returns>
@@ -15484,7 +15288,6 @@ public:
     Graphic3d_StructureDefinitionError();
     Graphic3d_StructureDefinitionError(System::String^ theMessage);
     Graphic3d_StructureDefinitionError(System::String^ theMessage, System::String^ theStackTrace);
-    Graphic3d_StructureDefinitionError(Macad::Occt::Graphic3d_StructureDefinitionError^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -15532,7 +15335,6 @@ public:
     }
 
 public:
-    Graphic3d_Texture1D(Macad::Occt::Graphic3d_Texture1D^ parameter1);
     /// <summary>
     /// Returns the name of the predefined textures or NOT_1D_UNKNOWN
     /// when the name is given as a filename.
@@ -15595,7 +15397,6 @@ public:
     /// Creates a texture from the pixmap.
     /// </summary>
     Graphic3d_Texture1Dmanual(Macad::Occt::Image_PixMap^ thePixMap);
-    Graphic3d_Texture1Dmanual(Macad::Occt::Graphic3d_Texture1Dmanual^ parameter1);
     static Macad::Occt::Graphic3d_Texture1Dmanual^ CreateDowncasted(::Graphic3d_Texture1Dmanual* instance);
 }; // class Graphic3d_Texture1Dmanual
 
@@ -15647,7 +15448,6 @@ public:
     /// Creates a texture from the pixmap.
     /// </summary>
     Graphic3d_Texture1Dsegment(Macad::Occt::Image_PixMap^ thePixMap);
-    Graphic3d_Texture1Dsegment(Macad::Occt::Graphic3d_Texture1Dsegment^ parameter1);
     /// <summary>
     /// Sets the texture application bounds. Defines the way
     /// the texture is stretched across facets.
@@ -15707,7 +15507,6 @@ public:
     /// Creates a texture from the pixmap.
     /// </summary>
     Graphic3d_Texture2Dplane(Macad::Occt::Image_PixMap^ thePixMap);
-    Graphic3d_Texture2Dplane(Macad::Occt::Graphic3d_Texture2Dplane^ parameter1);
     /// <summary>
     /// Defines the texture projection plane for texture coordinate S
     /// default is <1.0, 0.0, 0.0, 0.0>
@@ -15842,7 +15641,6 @@ public:
     /// Creates a texture from a file.
     /// </summary>
     Graphic3d_Texture3D(Macad::Occt::TColStd_Array1OfAsciiString^ theFiles);
-    Graphic3d_Texture3D(Macad::Occt::Graphic3d_Texture3D^ parameter1);
     /// <summary>
     /// Assign new image to the texture.
     /// Note that this method does not invalidate already uploaded resources - consider calling ::UpdateRevision() if needed.
@@ -15894,7 +15692,6 @@ public:
     /// Create a Zoom transformation persistence with an anchor 3D point and a scale value
     /// </summary>
     Graphic3d_TransformPersScaledAbove(double theScale, Macad::Occt::Pnt thePnt);
-    Graphic3d_TransformPersScaledAbove(Macad::Occt::Graphic3d_TransformPersScaledAbove^ parameter1);
     /// <summary>
     /// Find scale value based on the camera position and view dimensions
     /// If the camera scale value less than the persistence scale, zoom persistence is not applied.

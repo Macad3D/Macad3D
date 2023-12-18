@@ -49,7 +49,6 @@ public:
 
 public:
     ShapeConstruct();
-    ShapeConstruct(Macad::Occt::ShapeConstruct^ parameter1);
     /// <summary>
     /// Tool for wire triangulation
     /// </summary>
@@ -137,7 +136,6 @@ public:
 
 public:
     ShapeConstruct_Curve();
-    ShapeConstruct_Curve(Macad::Occt::ShapeConstruct_Curve^ parameter1);
     /// <summary>
     /// Modifies a curve in order to make its bounds confused with
     /// given points.
@@ -277,7 +275,6 @@ public:
     ShapeConstruct_MakeTriangulation(Macad::Occt::TColgp_Array1OfPnt^ pnts);
     ShapeConstruct_MakeTriangulation(Macad::Occt::TopoDS_Wire^ wire, double prec);
     ShapeConstruct_MakeTriangulation(Macad::Occt::TopoDS_Wire^ wire);
-    ShapeConstruct_MakeTriangulation(Macad::Occt::ShapeConstruct_MakeTriangulation^ parameter1);
     void Build(Macad::Occt::Message_ProgressRange^ theRange);
     void Build();
     bool IsDone();
@@ -365,7 +362,6 @@ public:
     /// Empty constructor.
     /// </summary>
     ShapeConstruct_ProjectCurveOnSurface();
-    ShapeConstruct_ProjectCurveOnSurface(Macad::Occt::ShapeConstruct_ProjectCurveOnSurface^ parameter1);
     /// <summary>
     /// Initializes the object with all necessary parameters,
     /// i.e. surface and precision

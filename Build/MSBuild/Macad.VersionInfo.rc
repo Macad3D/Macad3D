@@ -1,14 +1,14 @@
 #include <winres.h>
 VS_VERSION_INFO VERSIONINFO
-    FILEVERSION    3,0,1774,3
-    PRODUCTVERSION 3,0,1774,3
+    FILEVERSION    3,0,1808,3
+    PRODUCTVERSION 3,0,1808,3
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "FileVersion", "3.0.1774.3\0"
-            VALUE "ProductVersion", "3.0.1774.3\0"
+            VALUE "FileVersion", "3.0.1808.3\0"
+            VALUE "ProductVersion", "3.0.1808.3\0"
             VALUE "ProductName", "Macad|3D\0"
             VALUE "LegalCopyright", "Copyright (c) 2015-2023 Tobias Schachte\0"
             VALUE "CompanyName", "Tobias Schachte\0"

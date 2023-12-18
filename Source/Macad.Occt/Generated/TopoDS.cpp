@@ -27,12 +27,6 @@ Macad::Occt::TopoDS_ListOfShape::TopoDS_ListOfShape(Macad::Occt::NCollection_Bas
     _NativeInstance = new ::TopoDS_ListOfShape(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::TopoDS_ListOfShape::TopoDS_ListOfShape(Macad::Occt::TopoDS_ListOfShape^ theOther)
-    : Macad::Occt::NCollection_BaseList(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopoDS_ListOfShape(*(::TopoDS_ListOfShape*)theOther->NativeInstance);
-}
-
 int Macad::Occt::TopoDS_ListOfShape::Size()
 {
     int _result = ((::TopoDS_ListOfShape*)_NativeInstance)->Size();
@@ -77,26 +71,11 @@ Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_ListOfShape::Append(Macad::Occt::
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
 }
 
-void Macad::Occt::TopoDS_ListOfShape::Append(Macad::Occt::TopoDS_Shape^ theItem, Macad::Occt::TopoDS_ListOfShape::Iterator^ theIter)
-{
-    ((::TopoDS_ListOfShape*)_NativeInstance)->Append(*(::TopoDS_Shape*)theItem->NativeInstance, *(::TopoDS_ListOfShape::Iterator*)theIter->NativeInstance);
-}
-
-void Macad::Occt::TopoDS_ListOfShape::Append(Macad::Occt::TopoDS_ListOfShape^ theOther)
-{
-    ((::TopoDS_ListOfShape*)_NativeInstance)->Append(*(::TopoDS_ListOfShape*)theOther->NativeInstance);
-}
-
 Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_ListOfShape::Prepend(Macad::Occt::TopoDS_Shape^ theItem)
 {
     ::TopoDS_Shape* _result = new ::TopoDS_Shape();
     *_result = ((::TopoDS_ListOfShape*)_NativeInstance)->Prepend(*(::TopoDS_Shape*)theItem->NativeInstance);
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-void Macad::Occt::TopoDS_ListOfShape::Prepend(Macad::Occt::TopoDS_ListOfShape^ theOther)
-{
-    ((::TopoDS_ListOfShape*)_NativeInstance)->Prepend(*(::TopoDS_ListOfShape*)theOther->NativeInstance);
 }
 
 void Macad::Occt::TopoDS_ListOfShape::RemoveFirst()
@@ -116,21 +95,11 @@ Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_ListOfShape::InsertBefore(Macad::
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
 }
 
-void Macad::Occt::TopoDS_ListOfShape::InsertBefore(Macad::Occt::TopoDS_ListOfShape^ theOther, Macad::Occt::TopoDS_ListOfShape::Iterator^ theIter)
-{
-    ((::TopoDS_ListOfShape*)_NativeInstance)->InsertBefore(*(::TopoDS_ListOfShape*)theOther->NativeInstance, *(::TopoDS_ListOfShape::Iterator*)theIter->NativeInstance);
-}
-
 Macad::Occt::TopoDS_Shape^ Macad::Occt::TopoDS_ListOfShape::InsertAfter(Macad::Occt::TopoDS_Shape^ theItem, Macad::Occt::TopoDS_ListOfShape::Iterator^ theIter)
 {
     ::TopoDS_Shape* _result = new ::TopoDS_Shape();
     *_result = ((::TopoDS_ListOfShape*)_NativeInstance)->InsertAfter(*(::TopoDS_Shape*)theItem->NativeInstance, *(::TopoDS_ListOfShape::Iterator*)theIter->NativeInstance);
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TopoDS_Shape(_result);
-}
-
-void Macad::Occt::TopoDS_ListOfShape::InsertAfter(Macad::Occt::TopoDS_ListOfShape^ theOther, Macad::Occt::TopoDS_ListOfShape::Iterator^ theIter)
-{
-    ((::TopoDS_ListOfShape*)_NativeInstance)->InsertAfter(*(::TopoDS_ListOfShape*)theOther->NativeInstance, *(::TopoDS_ListOfShape::Iterator*)theIter->NativeInstance);
 }
 
 void Macad::Occt::TopoDS_ListOfShape::Reverse()
@@ -140,12 +109,12 @@ void Macad::Occt::TopoDS_ListOfShape::Reverse()
 
 System::Collections::Generic::IEnumerator<Macad::Occt::TopoDS_Shape^>^ Macad::Occt::TopoDS_ListOfShape::GetEnumerator()
 {
-    return gcnew Macad::Occt::TopoDS_ListOfShape::Iterator(this);
+    return gcnew Macad::Occt::TopoDS_ListOfShape::Iterator(new ::TopoDS_ListOfShape::Iterator(*NativeInstance));
 }
 
 System::Collections::IEnumerator^ Macad::Occt::TopoDS_ListOfShape::GetEnumerator2()
 {
-    return gcnew Macad::Occt::TopoDS_ListOfShape::Iterator(this);
+    return gcnew Macad::Occt::TopoDS_ListOfShape::Iterator(new ::TopoDS_ListOfShape::Iterator(*NativeInstance));
 }
 
 
@@ -158,18 +127,6 @@ Macad::Occt::TopoDS_ListOfShape::Iterator::Iterator()
     : Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopoDS_ListOfShape::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::TopoDS_ListOfShape::Iterator();
-}
-
-Macad::Occt::TopoDS_ListOfShape::Iterator::Iterator(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopoDS_ListOfShape::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopoDS_ListOfShape::Iterator(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-Macad::Occt::TopoDS_ListOfShape::Iterator::Iterator(Macad::Occt::TopoDS_ListOfShape::Iterator^ parameter1)
-    : Macad::Occt::IteratorEnumerator<Macad::Occt::TopoDS_Shape^, ::TopoDS_ListOfShape::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopoDS_ListOfShape::Iterator(*(::TopoDS_ListOfShape::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::TopoDS_ListOfShape::Iterator::More()
@@ -215,12 +172,6 @@ Macad::Occt::TopoDS_ListIteratorOfListOfShape::TopoDS_ListIteratorOfListOfShape(
     _NativeInstance = new ::TopoDS_ListIteratorOfListOfShape(*(::NCollection_BaseList*)theList->NativeInstance);
 }
 
-Macad::Occt::TopoDS_ListIteratorOfListOfShape::TopoDS_ListIteratorOfListOfShape(Macad::Occt::TopoDS_ListIteratorOfListOfShape^ parameter1)
-    : Macad::Occt::BaseClass<::TopoDS_ListIteratorOfListOfShape>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopoDS_ListIteratorOfListOfShape(*(::TopoDS_ListIteratorOfListOfShape*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::TopoDS_ListIteratorOfListOfShape::More()
 {
     bool _result = ((::TopoDS_ListIteratorOfListOfShape*)_NativeInstance)->More();
@@ -256,12 +207,6 @@ Macad::Occt::TopoDS_Shape::TopoDS_Shape()
     : Macad::Occt::BaseClass<::TopoDS_Shape>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::TopoDS_Shape();
-}
-
-Macad::Occt::TopoDS_Shape::TopoDS_Shape(Macad::Occt::TopoDS_Shape^ parameter1)
-    : Macad::Occt::BaseClass<::TopoDS_Shape>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopoDS_Shape(*(::TopoDS_Shape*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::TopoDS_Shape::IsNull()
@@ -514,12 +459,6 @@ bool Macad::Occt::TopoDS_Shape::IsNotEqual(Macad::Occt::TopoDS_Shape^ theOther)
     return _result;
 }
 
-int Macad::Occt::TopoDS_Shape::HashCode(int theUpperBound)
-{
-    int _result = ((::TopoDS_Shape*)_NativeInstance)->HashCode(theUpperBound);
-    return _result;
-}
-
 void Macad::Occt::TopoDS_Shape::EmptyCopy()
 {
     ((::TopoDS_Shape*)_NativeInstance)->EmptyCopy();
@@ -553,6 +492,14 @@ void Macad::Occt::TopoDS_Shape::DumpJson(System::IO::TextWriter^ theOStream)
 
 bool Macad::Occt::TopoDS_Shape::Equals(System::Object^ obj)
 {
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
     System::Type^ myType = Macad::Occt::TopoDS_Shape::GetType();
     System::Type^ objType = obj->GetType();
     if (myType->Equals(objType) || objType->IsSubclassOf(myType))
@@ -564,7 +511,7 @@ bool Macad::Occt::TopoDS_Shape::Equals(System::Object^ obj)
 
 int Macad::Occt::TopoDS_Shape::GetHashCode()
 {
-    return NativeInstance->HashCode(MAXINT);
+    return std::hash<::TopoDS_Shape>{}(*NativeInstance);
 }
 
 
@@ -579,10 +526,9 @@ Macad::Occt::TopoDS_Vertex::TopoDS_Vertex()
     _NativeInstance = new ::TopoDS_Vertex();
 }
 
-Macad::Occt::TopoDS_Vertex::TopoDS_Vertex(Macad::Occt::TopoDS_Vertex^ parameter1)
-    : Macad::Occt::TopoDS_Shape(BaseClass::InitMode::Uninitialized)
+int Macad::Occt::TopoDS_Vertex::GetHashCode()
 {
-    _NativeInstance = new ::TopoDS_Vertex(*(::TopoDS_Vertex*)parameter1->NativeInstance);
+    return std::hash<::TopoDS_Vertex>{}(*NativeInstance);
 }
 
 
@@ -597,10 +543,9 @@ Macad::Occt::TopoDS_Edge::TopoDS_Edge()
     _NativeInstance = new ::TopoDS_Edge();
 }
 
-Macad::Occt::TopoDS_Edge::TopoDS_Edge(Macad::Occt::TopoDS_Edge^ parameter1)
-    : Macad::Occt::TopoDS_Shape(BaseClass::InitMode::Uninitialized)
+int Macad::Occt::TopoDS_Edge::GetHashCode()
 {
-    _NativeInstance = new ::TopoDS_Edge(*(::TopoDS_Edge*)parameter1->NativeInstance);
+    return std::hash<::TopoDS_Edge>{}(*NativeInstance);
 }
 
 
@@ -615,10 +560,9 @@ Macad::Occt::TopoDS_Wire::TopoDS_Wire()
     _NativeInstance = new ::TopoDS_Wire();
 }
 
-Macad::Occt::TopoDS_Wire::TopoDS_Wire(Macad::Occt::TopoDS_Wire^ parameter1)
-    : Macad::Occt::TopoDS_Shape(BaseClass::InitMode::Uninitialized)
+int Macad::Occt::TopoDS_Wire::GetHashCode()
 {
-    _NativeInstance = new ::TopoDS_Wire(*(::TopoDS_Wire*)parameter1->NativeInstance);
+    return std::hash<::TopoDS_Wire>{}(*NativeInstance);
 }
 
 
@@ -633,10 +577,9 @@ Macad::Occt::TopoDS_Face::TopoDS_Face()
     _NativeInstance = new ::TopoDS_Face();
 }
 
-Macad::Occt::TopoDS_Face::TopoDS_Face(Macad::Occt::TopoDS_Face^ parameter1)
-    : Macad::Occt::TopoDS_Shape(BaseClass::InitMode::Uninitialized)
+int Macad::Occt::TopoDS_Face::GetHashCode()
 {
-    _NativeInstance = new ::TopoDS_Face(*(::TopoDS_Face*)parameter1->NativeInstance);
+    return std::hash<::TopoDS_Face>{}(*NativeInstance);
 }
 
 
@@ -651,10 +594,9 @@ Macad::Occt::TopoDS_Shell::TopoDS_Shell()
     _NativeInstance = new ::TopoDS_Shell();
 }
 
-Macad::Occt::TopoDS_Shell::TopoDS_Shell(Macad::Occt::TopoDS_Shell^ parameter1)
-    : Macad::Occt::TopoDS_Shape(BaseClass::InitMode::Uninitialized)
+int Macad::Occt::TopoDS_Shell::GetHashCode()
 {
-    _NativeInstance = new ::TopoDS_Shell(*(::TopoDS_Shell*)parameter1->NativeInstance);
+    return std::hash<::TopoDS_Shell>{}(*NativeInstance);
 }
 
 
@@ -669,10 +611,9 @@ Macad::Occt::TopoDS_Solid::TopoDS_Solid()
     _NativeInstance = new ::TopoDS_Solid();
 }
 
-Macad::Occt::TopoDS_Solid::TopoDS_Solid(Macad::Occt::TopoDS_Solid^ parameter1)
-    : Macad::Occt::TopoDS_Shape(BaseClass::InitMode::Uninitialized)
+int Macad::Occt::TopoDS_Solid::GetHashCode()
 {
-    _NativeInstance = new ::TopoDS_Solid(*(::TopoDS_Solid*)parameter1->NativeInstance);
+    return std::hash<::TopoDS_Solid>{}(*NativeInstance);
 }
 
 
@@ -687,10 +628,9 @@ Macad::Occt::TopoDS_CompSolid::TopoDS_CompSolid()
     _NativeInstance = new ::TopoDS_CompSolid();
 }
 
-Macad::Occt::TopoDS_CompSolid::TopoDS_CompSolid(Macad::Occt::TopoDS_CompSolid^ parameter1)
-    : Macad::Occt::TopoDS_Shape(BaseClass::InitMode::Uninitialized)
+int Macad::Occt::TopoDS_CompSolid::GetHashCode()
 {
-    _NativeInstance = new ::TopoDS_CompSolid(*(::TopoDS_CompSolid*)parameter1->NativeInstance);
+    return std::hash<::TopoDS_CompSolid>{}(*NativeInstance);
 }
 
 
@@ -705,10 +645,9 @@ Macad::Occt::TopoDS_Compound::TopoDS_Compound()
     _NativeInstance = new ::TopoDS_Compound();
 }
 
-Macad::Occt::TopoDS_Compound::TopoDS_Compound(Macad::Occt::TopoDS_Compound^ parameter1)
-    : Macad::Occt::TopoDS_Shape(BaseClass::InitMode::Uninitialized)
+int Macad::Occt::TopoDS_Compound::GetHashCode()
 {
-    _NativeInstance = new ::TopoDS_Compound(*(::TopoDS_Compound*)parameter1->NativeInstance);
+    return std::hash<::TopoDS_Compound>{}(*NativeInstance);
 }
 
 
@@ -727,12 +666,6 @@ Macad::Occt::TopoDS_HShape::TopoDS_HShape(Macad::Occt::TopoDS_Shape^ aShape)
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::TopoDS_HShape(*(::TopoDS_Shape*)aShape->NativeInstance);
-}
-
-Macad::Occt::TopoDS_HShape::TopoDS_HShape(Macad::Occt::TopoDS_HShape^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TopoDS_HShape(*(::TopoDS_HShape*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::TopoDS_HShape::Shape(Macad::Occt::TopoDS_Shape^ aShape)
@@ -764,12 +697,6 @@ Macad::Occt::TopoDS_HShape^ Macad::Occt::TopoDS_HShape::CreateDowncasted(::TopoD
 //---------------------------------------------------------------------
 //  Class  TopoDS_TShape
 //---------------------------------------------------------------------
-
-Macad::Occt::TopoDS_TShape::TopoDS_TShape(Macad::Occt::TopoDS_TShape^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
 
 bool Macad::Occt::TopoDS_TShape::Free()
 {
@@ -922,12 +849,6 @@ Macad::Occt::TopoDS_TShape^ Macad::Occt::TopoDS_TShape::CreateDowncasted(::TopoD
 //  Class  TopoDS_TVertex
 //---------------------------------------------------------------------
 
-Macad::Occt::TopoDS_TVertex::TopoDS_TVertex(Macad::Occt::TopoDS_TVertex^ parameter1)
-    : Macad::Occt::TopoDS_TShape(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 Macad::Occt::TopAbs_ShapeEnum Macad::Occt::TopoDS_TVertex::ShapeType()
 {
     ::TopAbs_ShapeEnum _result = ((::TopoDS_TVertex*)_NativeInstance)->ShapeType();
@@ -950,12 +871,6 @@ Macad::Occt::TopoDS_TVertex^ Macad::Occt::TopoDS_TVertex::CreateDowncasted(::Top
 //---------------------------------------------------------------------
 //  Class  TopoDS_TEdge
 //---------------------------------------------------------------------
-
-Macad::Occt::TopoDS_TEdge::TopoDS_TEdge(Macad::Occt::TopoDS_TEdge^ parameter1)
-    : Macad::Occt::TopoDS_TShape(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
 
 Macad::Occt::TopAbs_ShapeEnum Macad::Occt::TopoDS_TEdge::ShapeType()
 {
@@ -986,12 +901,6 @@ Macad::Occt::TopoDS_TWire::TopoDS_TWire()
     NativeInstance = new ::TopoDS_TWire();
 }
 
-Macad::Occt::TopoDS_TWire::TopoDS_TWire(Macad::Occt::TopoDS_TWire^ parameter1)
-    : Macad::Occt::TopoDS_TShape(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TopoDS_TWire(*(::TopoDS_TWire*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TopAbs_ShapeEnum Macad::Occt::TopoDS_TWire::ShapeType()
 {
     ::TopAbs_ShapeEnum _result = ((::TopoDS_TWire*)_NativeInstance)->ShapeType();
@@ -1019,12 +928,6 @@ Macad::Occt::TopoDS_TFace::TopoDS_TFace()
     : Macad::Occt::TopoDS_TShape(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::TopoDS_TFace();
-}
-
-Macad::Occt::TopoDS_TFace::TopoDS_TFace(Macad::Occt::TopoDS_TFace^ parameter1)
-    : Macad::Occt::TopoDS_TShape(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TopoDS_TFace(*(::TopoDS_TFace*)parameter1->NativeInstance);
 }
 
 Macad::Occt::TopAbs_ShapeEnum Macad::Occt::TopoDS_TFace::ShapeType()
@@ -1062,12 +965,6 @@ Macad::Occt::TopoDS_TShell::TopoDS_TShell()
     NativeInstance = new ::TopoDS_TShell();
 }
 
-Macad::Occt::TopoDS_TShell::TopoDS_TShell(Macad::Occt::TopoDS_TShell^ parameter1)
-    : Macad::Occt::TopoDS_TShape(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TopoDS_TShell(*(::TopoDS_TShell*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TopAbs_ShapeEnum Macad::Occt::TopoDS_TShell::ShapeType()
 {
     ::TopAbs_ShapeEnum _result = ((::TopoDS_TShell*)_NativeInstance)->ShapeType();
@@ -1095,12 +992,6 @@ Macad::Occt::TopoDS_TSolid::TopoDS_TSolid()
     : Macad::Occt::TopoDS_TShape(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::TopoDS_TSolid();
-}
-
-Macad::Occt::TopoDS_TSolid::TopoDS_TSolid(Macad::Occt::TopoDS_TSolid^ parameter1)
-    : Macad::Occt::TopoDS_TShape(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TopoDS_TSolid(*(::TopoDS_TSolid*)parameter1->NativeInstance);
 }
 
 Macad::Occt::TopAbs_ShapeEnum Macad::Occt::TopoDS_TSolid::ShapeType()
@@ -1132,12 +1023,6 @@ Macad::Occt::TopoDS_TCompSolid::TopoDS_TCompSolid()
     NativeInstance = new ::TopoDS_TCompSolid();
 }
 
-Macad::Occt::TopoDS_TCompSolid::TopoDS_TCompSolid(Macad::Occt::TopoDS_TCompSolid^ parameter1)
-    : Macad::Occt::TopoDS_TShape(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TopoDS_TCompSolid(*(::TopoDS_TCompSolid*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TopAbs_ShapeEnum Macad::Occt::TopoDS_TCompSolid::ShapeType()
 {
     ::TopAbs_ShapeEnum _result = ((::TopoDS_TCompSolid*)_NativeInstance)->ShapeType();
@@ -1167,12 +1052,6 @@ Macad::Occt::TopoDS_TCompound::TopoDS_TCompound()
     NativeInstance = new ::TopoDS_TCompound();
 }
 
-Macad::Occt::TopoDS_TCompound::TopoDS_TCompound(Macad::Occt::TopoDS_TCompound^ parameter1)
-    : Macad::Occt::TopoDS_TShape(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TopoDS_TCompound(*(::TopoDS_TCompound*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TopAbs_ShapeEnum Macad::Occt::TopoDS_TCompound::ShapeType()
 {
     ::TopAbs_ShapeEnum _result = ((::TopoDS_TCompound*)_NativeInstance)->ShapeType();
@@ -1200,12 +1079,6 @@ Macad::Occt::TopoDS_Builder::TopoDS_Builder()
     : Macad::Occt::BaseClass<::TopoDS_Builder>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::TopoDS_Builder();
-}
-
-Macad::Occt::TopoDS_Builder::TopoDS_Builder(Macad::Occt::TopoDS_Builder^ parameter1)
-    : Macad::Occt::BaseClass<::TopoDS_Builder>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopoDS_Builder(*(::TopoDS_Builder*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::TopoDS_Builder::MakeWire(Macad::Occt::TopoDS_Wire^ W)
@@ -1273,12 +1146,6 @@ Macad::Occt::TopoDS_Iterator::TopoDS_Iterator(Macad::Occt::TopoDS_Shape^ S)
     _NativeInstance = new ::TopoDS_Iterator(*(::TopoDS_Shape*)S->NativeInstance, true, true);
 }
 
-Macad::Occt::TopoDS_Iterator::TopoDS_Iterator(Macad::Occt::TopoDS_Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::TopoDS_Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopoDS_Iterator(*(::TopoDS_Iterator*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::TopoDS_Iterator::Initialize(Macad::Occt::TopoDS_Shape^ S, bool cumOri, bool cumLoc)
 {
     ((::TopoDS_Iterator*)_NativeInstance)->Initialize(*(::TopoDS_Shape*)S->NativeInstance, cumOri, cumLoc);
@@ -1322,12 +1189,6 @@ Macad::Occt::TopoDS::TopoDS()
     : Macad::Occt::BaseClass<::TopoDS>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::TopoDS();
-}
-
-Macad::Occt::TopoDS::TopoDS(Macad::Occt::TopoDS^ parameter1)
-    : Macad::Occt::BaseClass<::TopoDS>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::TopoDS(*(::TopoDS*)parameter1->NativeInstance);
 }
 
 Macad::Occt::TopoDS_Vertex^ Macad::Occt::TopoDS::Vertex(Macad::Occt::TopoDS_Shape^ S)
@@ -1416,12 +1277,6 @@ Macad::Occt::TopoDS_FrozenShape::TopoDS_FrozenShape(System::String^ theMessage, 
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
-Macad::Occt::TopoDS_FrozenShape::TopoDS_FrozenShape(Macad::Occt::TopoDS_FrozenShape^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TopoDS_FrozenShape(*(::TopoDS_FrozenShape*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::TopoDS_FrozenShape::Raise(System::String^ theMessage)
 {
     const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
@@ -1493,12 +1348,6 @@ Macad::Occt::TopoDS_LockedShape::TopoDS_LockedShape(System::String^ theMessage, 
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
 }
 
-Macad::Occt::TopoDS_LockedShape::TopoDS_LockedShape(Macad::Occt::TopoDS_LockedShape^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TopoDS_LockedShape(*(::TopoDS_LockedShape*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::TopoDS_LockedShape::Raise(System::String^ theMessage)
 {
     const char* sz_theMessage = (char*)(void*)Marshal::StringToHGlobalAnsi(theMessage);
@@ -1568,12 +1417,6 @@ Macad::Occt::TopoDS_UnCompatibleShapes::TopoDS_UnCompatibleShapes(System::String
     NativeInstance = new ::TopoDS_UnCompatibleShapes(sz_theMessage, sz_theStackTrace);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theMessage);
     Marshal::FreeHGlobal((System::IntPtr)(void*)sz_theStackTrace);
-}
-
-Macad::Occt::TopoDS_UnCompatibleShapes::TopoDS_UnCompatibleShapes(Macad::Occt::TopoDS_UnCompatibleShapes^ parameter1)
-    : Macad::Occt::Standard_DomainError(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::TopoDS_UnCompatibleShapes(*(::TopoDS_UnCompatibleShapes*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::TopoDS_UnCompatibleShapes::Raise(System::String^ theMessage)

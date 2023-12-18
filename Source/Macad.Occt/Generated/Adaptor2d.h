@@ -55,7 +55,6 @@ public:
     }
 
 public:
-    Adaptor2d_Curve2d(Macad::Occt::Adaptor2d_Curve2d^ parameter1);
     Adaptor2d_Curve2d();
     /// <summary>
     /// Shallow copy of adaptor
@@ -186,7 +185,6 @@ public:
 public:
     Adaptor2d_Line2d();
     Adaptor2d_Line2d(Macad::Occt::Pnt2d P, Macad::Occt::Dir2d D, double UFirst, double ULast);
-    Adaptor2d_Line2d(Macad::Occt::Adaptor2d_Line2d^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>
@@ -293,7 +291,6 @@ public:
     /// WFirst,WLast define the bounds of the Offset curve.
     /// </summary>
     Adaptor2d_OffsetCurve(Macad::Occt::Adaptor2d_Curve2d^ C, double Offset, double WFirst, double WLast);
-    Adaptor2d_OffsetCurve(Macad::Occt::Adaptor2d_OffsetCurve^ parameter1);
     /// <summary>
     /// Shallow copy of adaptor
     /// </summary>

@@ -69,12 +69,6 @@ Macad::Occt::BRepOffset_MakeOffset::BRepOffset_MakeOffset(Macad::Occt::TopoDS_Sh
     _NativeInstance = new ::BRepOffset_MakeOffset(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, BRepOffset_Skin, false, false, GeomAbs_Arc, false, false, ::Message_ProgressRange());
 }
 
-Macad::Occt::BRepOffset_MakeOffset::BRepOffset_MakeOffset(Macad::Occt::BRepOffset_MakeOffset^ parameter1)
-    : Macad::Occt::BaseClass<::BRepOffset_MakeOffset>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepOffset_MakeOffset(*(::BRepOffset_MakeOffset*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepOffset_MakeOffset::Initialize(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join, bool Thickening, bool RemoveIntEdges)
 {
     ((::BRepOffset_MakeOffset*)_NativeInstance)->Initialize(*(::TopoDS_Shape*)S->NativeInstance, Offset, Tol, (::BRepOffset_Mode)Mode, Intersection, SelfInter, (::GeomAbs_JoinType)Join, Thickening, RemoveIntEdges);

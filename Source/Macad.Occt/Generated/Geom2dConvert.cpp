@@ -30,12 +30,6 @@ Macad::Occt::Geom2dConvert_SequenceOfPPoint::Geom2dConvert_SequenceOfPPoint(Maca
     _NativeInstance = new ::Geom2dConvert_SequenceOfPPoint(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::Geom2dConvert_SequenceOfPPoint::Geom2dConvert_SequenceOfPPoint(Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theOther)
-    : Macad::Occt::BaseClass<::Geom2dConvert_SequenceOfPPoint>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom2dConvert_SequenceOfPPoint(*(::Geom2dConvert_SequenceOfPPoint*)theOther->NativeInstance);
-}
-
 int Macad::Occt::Geom2dConvert_SequenceOfPPoint::Size()
 {
     int _result = ((::Geom2dConvert_SequenceOfPPoint*)_NativeInstance)->Size();
@@ -98,24 +92,9 @@ void Macad::Occt::Geom2dConvert_SequenceOfPPoint::Remove(Macad::Occt::Geom2dConv
     ((::Geom2dConvert_SequenceOfPPoint*)_NativeInstance)->Remove(*(::Geom2dConvert_SequenceOfPPoint::Iterator*)thePosition->NativeInstance);
 }
 
-void Macad::Occt::Geom2dConvert_SequenceOfPPoint::Remove(int theIndex)
-{
-    ((::Geom2dConvert_SequenceOfPPoint*)_NativeInstance)->Remove(theIndex);
-}
-
-void Macad::Occt::Geom2dConvert_SequenceOfPPoint::Remove(int theFromIndex, int theToIndex)
-{
-    ((::Geom2dConvert_SequenceOfPPoint*)_NativeInstance)->Remove(theFromIndex, theToIndex);
-}
-
 void Macad::Occt::Geom2dConvert_SequenceOfPPoint::Append(Macad::Occt::Geom2dConvert_PPoint^ theItem)
 {
     ((::Geom2dConvert_SequenceOfPPoint*)_NativeInstance)->Append(*(::Geom2dConvert_PPoint*)theItem->NativeInstance);
-}
-
-void Macad::Occt::Geom2dConvert_SequenceOfPPoint::Append(Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theSeq)
-{
-    ((::Geom2dConvert_SequenceOfPPoint*)_NativeInstance)->Append(*(::Geom2dConvert_SequenceOfPPoint*)theSeq->NativeInstance);
 }
 
 void Macad::Occt::Geom2dConvert_SequenceOfPPoint::Prepend(Macad::Occt::Geom2dConvert_PPoint^ theItem)
@@ -123,34 +102,14 @@ void Macad::Occt::Geom2dConvert_SequenceOfPPoint::Prepend(Macad::Occt::Geom2dCon
     ((::Geom2dConvert_SequenceOfPPoint*)_NativeInstance)->Prepend(*(::Geom2dConvert_PPoint*)theItem->NativeInstance);
 }
 
-void Macad::Occt::Geom2dConvert_SequenceOfPPoint::Prepend(Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theSeq)
-{
-    ((::Geom2dConvert_SequenceOfPPoint*)_NativeInstance)->Prepend(*(::Geom2dConvert_SequenceOfPPoint*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::Geom2dConvert_SequenceOfPPoint::InsertBefore(int theIndex, Macad::Occt::Geom2dConvert_PPoint^ theItem)
 {
     ((::Geom2dConvert_SequenceOfPPoint*)_NativeInstance)->InsertBefore(theIndex, *(::Geom2dConvert_PPoint*)theItem->NativeInstance);
 }
 
-void Macad::Occt::Geom2dConvert_SequenceOfPPoint::InsertBefore(int theIndex, Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theSeq)
-{
-    ((::Geom2dConvert_SequenceOfPPoint*)_NativeInstance)->InsertBefore(theIndex, *(::Geom2dConvert_SequenceOfPPoint*)theSeq->NativeInstance);
-}
-
 void Macad::Occt::Geom2dConvert_SequenceOfPPoint::InsertAfter(Macad::Occt::Geom2dConvert_SequenceOfPPoint::Iterator^ thePosition, Macad::Occt::Geom2dConvert_PPoint^ theItem)
 {
     ((::Geom2dConvert_SequenceOfPPoint*)_NativeInstance)->InsertAfter(*(::Geom2dConvert_SequenceOfPPoint::Iterator*)thePosition->NativeInstance, *(::Geom2dConvert_PPoint*)theItem->NativeInstance);
-}
-
-void Macad::Occt::Geom2dConvert_SequenceOfPPoint::InsertAfter(int theIndex, Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theSeq)
-{
-    ((::Geom2dConvert_SequenceOfPPoint*)_NativeInstance)->InsertAfter(theIndex, *(::Geom2dConvert_SequenceOfPPoint*)theSeq->NativeInstance);
-}
-
-void Macad::Occt::Geom2dConvert_SequenceOfPPoint::InsertAfter(int theIndex, Macad::Occt::Geom2dConvert_PPoint^ theItem)
-{
-    ((::Geom2dConvert_SequenceOfPPoint*)_NativeInstance)->InsertAfter(theIndex, *(::Geom2dConvert_PPoint*)theItem->NativeInstance);
 }
 
 void Macad::Occt::Geom2dConvert_SequenceOfPPoint::Split(int theIndex, Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theSeq)
@@ -227,24 +186,6 @@ Macad::Occt::Geom2dConvert_SequenceOfPPoint::Iterator::Iterator()
     _NativeInstance = new ::Geom2dConvert_SequenceOfPPoint::Iterator();
 }
 
-Macad::Occt::Geom2dConvert_SequenceOfPPoint::Iterator::Iterator(Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theSeq, bool isStart)
-    : Macad::Occt::BaseClass<::Geom2dConvert_SequenceOfPPoint::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom2dConvert_SequenceOfPPoint::Iterator(*(::Geom2dConvert_SequenceOfPPoint*)theSeq->NativeInstance, isStart);
-}
-
-Macad::Occt::Geom2dConvert_SequenceOfPPoint::Iterator::Iterator(Macad::Occt::Geom2dConvert_SequenceOfPPoint^ theSeq)
-    : Macad::Occt::BaseClass<::Geom2dConvert_SequenceOfPPoint::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom2dConvert_SequenceOfPPoint::Iterator(*(::Geom2dConvert_SequenceOfPPoint*)theSeq->NativeInstance, true);
-}
-
-Macad::Occt::Geom2dConvert_SequenceOfPPoint::Iterator::Iterator(Macad::Occt::Geom2dConvert_SequenceOfPPoint::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::Geom2dConvert_SequenceOfPPoint::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom2dConvert_SequenceOfPPoint::Iterator(*(::Geom2dConvert_SequenceOfPPoint::Iterator*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::Geom2dConvert_SequenceOfPPoint::Iterator::More()
 {
     bool _result = ((::Geom2dConvert_SequenceOfPPoint::Iterator*)_NativeInstance)->More();
@@ -276,6 +217,25 @@ bool Macad::Occt::Geom2dConvert_SequenceOfPPoint::Iterator::IsEqual(Macad::Occt:
     return _result;
 }
 
+bool Macad::Occt::Geom2dConvert_SequenceOfPPoint::Iterator::Equals(System::Object^ obj)
+{
+    if(ReferenceEquals(this, obj))
+    {
+        return true;
+    }
+    if(ReferenceEquals(nullptr, obj))
+    {
+        return false;
+    }
+    System::Type^ myType = Macad::Occt::Geom2dConvert_SequenceOfPPoint::Iterator::GetType();
+    System::Type^ objType = obj->GetType();
+    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
+    {
+        return NativeInstance->IsEqual(*((Iterator^)obj)->NativeInstance);
+    }
+    return false;
+}
+
 
 
 //---------------------------------------------------------------------
@@ -286,12 +246,6 @@ Macad::Occt::Geom2dConvert::Geom2dConvert()
     : Macad::Occt::BaseClass<::Geom2dConvert>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Geom2dConvert();
-}
-
-Macad::Occt::Geom2dConvert::Geom2dConvert(Macad::Occt::Geom2dConvert^ parameter1)
-    : Macad::Occt::BaseClass<::Geom2dConvert>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom2dConvert(*(::Geom2dConvert*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert::SplitBSplineCurve(Macad::Occt::Geom2d_BSplineCurve^ C, int FromK1, int ToK2, bool SameOrientation)
@@ -363,12 +317,6 @@ Macad::Occt::Geom2dConvert_PPoint::Geom2dConvert_PPoint(double theParameter, Mac
     _NativeInstance = new ::Geom2dConvert_PPoint(theParameter, *(::Adaptor2d_Curve2d*)theAdaptor->NativeInstance);
 }
 
-Macad::Occt::Geom2dConvert_PPoint::Geom2dConvert_PPoint(Macad::Occt::Geom2dConvert_PPoint^ parameter1)
-    : Macad::Occt::BaseClass<::Geom2dConvert_PPoint>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom2dConvert_PPoint(*(::Geom2dConvert_PPoint*)parameter1->NativeInstance);
-}
-
 double Macad::Occt::Geom2dConvert_PPoint::Dist(Macad::Occt::Geom2dConvert_PPoint^ theOth)
 {
     double _result = ((::Geom2dConvert_PPoint*)_NativeInstance)->Dist(*(::Geom2dConvert_PPoint*)theOth->NativeInstance);
@@ -411,12 +359,6 @@ Macad::Occt::Geom2dConvert_ApproxArcsSegments::Geom2dConvert_ApproxArcsSegments(
     _NativeInstance = new ::Geom2dConvert_ApproxArcsSegments(*(::Adaptor2d_Curve2d*)theCurve->NativeInstance, theTolerance, theAngleTol);
 }
 
-Macad::Occt::Geom2dConvert_ApproxArcsSegments::Geom2dConvert_ApproxArcsSegments(Macad::Occt::Geom2dConvert_ApproxArcsSegments^ parameter1)
-    : Macad::Occt::BaseClass<::Geom2dConvert_ApproxArcsSegments>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom2dConvert_ApproxArcsSegments(*(::Geom2dConvert_ApproxArcsSegments*)parameter1->NativeInstance);
-}
-
 
 
 //---------------------------------------------------------------------
@@ -433,12 +375,6 @@ Macad::Occt::Geom2dConvert_ApproxCurve::Geom2dConvert_ApproxCurve(Macad::Occt::A
     : Macad::Occt::BaseClass<::Geom2dConvert_ApproxCurve>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Geom2dConvert_ApproxCurve(Handle(::Adaptor2d_Curve2d)(Curve->NativeInstance), Tol2d, (::GeomAbs_Shape)Order, MaxSegments, MaxDegree);
-}
-
-Macad::Occt::Geom2dConvert_ApproxCurve::Geom2dConvert_ApproxCurve(Macad::Occt::Geom2dConvert_ApproxCurve^ parameter1)
-    : Macad::Occt::BaseClass<::Geom2dConvert_ApproxCurve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom2dConvert_ApproxCurve(*(::Geom2dConvert_ApproxCurve*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Geom2d_BSplineCurve^ Macad::Occt::Geom2dConvert_ApproxCurve::Curve()
@@ -484,12 +420,6 @@ Macad::Occt::Geom2dConvert_BSplineCurveKnotSplitting::Geom2dConvert_BSplineCurve
     _NativeInstance = new ::Geom2dConvert_BSplineCurveKnotSplitting(Handle(::Geom2d_BSplineCurve)(BasisCurve->NativeInstance), ContinuityRange);
 }
 
-Macad::Occt::Geom2dConvert_BSplineCurveKnotSplitting::Geom2dConvert_BSplineCurveKnotSplitting(Macad::Occt::Geom2dConvert_BSplineCurveKnotSplitting^ parameter1)
-    : Macad::Occt::BaseClass<::Geom2dConvert_BSplineCurveKnotSplitting>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom2dConvert_BSplineCurveKnotSplitting(*(::Geom2dConvert_BSplineCurveKnotSplitting*)parameter1->NativeInstance);
-}
-
 int Macad::Occt::Geom2dConvert_BSplineCurveKnotSplitting::NbSplits()
 {
     int _result = ((::Geom2dConvert_BSplineCurveKnotSplitting*)_NativeInstance)->NbSplits();
@@ -523,12 +453,6 @@ Macad::Occt::Geom2dConvert_BSplineCurveToBezierCurve::Geom2dConvert_BSplineCurve
     : Macad::Occt::BaseClass<::Geom2dConvert_BSplineCurveToBezierCurve>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Geom2dConvert_BSplineCurveToBezierCurve(Handle(::Geom2d_BSplineCurve)(BasisCurve->NativeInstance), U1, U2, ParametricTolerance);
-}
-
-Macad::Occt::Geom2dConvert_BSplineCurveToBezierCurve::Geom2dConvert_BSplineCurveToBezierCurve(Macad::Occt::Geom2dConvert_BSplineCurveToBezierCurve^ parameter1)
-    : Macad::Occt::BaseClass<::Geom2dConvert_BSplineCurveToBezierCurve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom2dConvert_BSplineCurveToBezierCurve(*(::Geom2dConvert_BSplineCurveToBezierCurve*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Geom2d_BezierCurve^ Macad::Occt::Geom2dConvert_BSplineCurveToBezierCurve::Arc(int Index)
@@ -576,12 +500,6 @@ Macad::Occt::Geom2dConvert_CompCurveToBSplineCurve::Geom2dConvert_CompCurveToBSp
     : Macad::Occt::BaseClass<::Geom2dConvert_CompCurveToBSplineCurve>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Geom2dConvert_CompCurveToBSplineCurve(Handle(::Geom2d_BoundedCurve)(BasisCurve->NativeInstance), Convert_TgtThetaOver2);
-}
-
-Macad::Occt::Geom2dConvert_CompCurveToBSplineCurve::Geom2dConvert_CompCurveToBSplineCurve(Macad::Occt::Geom2dConvert_CompCurveToBSplineCurve^ parameter1)
-    : Macad::Occt::BaseClass<::Geom2dConvert_CompCurveToBSplineCurve>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Geom2dConvert_CompCurveToBSplineCurve(*(::Geom2dConvert_CompCurveToBSplineCurve*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::Geom2dConvert_CompCurveToBSplineCurve::Add(Macad::Occt::Geom2d_BoundedCurve^ NewCurve, double Tolerance, bool After)

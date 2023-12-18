@@ -48,7 +48,7 @@ namespace Occt
 			{
 				if(_NativeInstance->DecrementRefCounter() == 0)
 				{
-				    delete _NativeInstance;
+				    _NativeInstance->Delete();
 				}
 			}
 	    }

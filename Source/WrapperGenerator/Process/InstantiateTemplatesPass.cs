@@ -132,9 +132,9 @@ public class InstantiateTemplatesPass : Pass
                 _SubtituteType(pd.Type, substitutes);
                 pd.Type.Context = md;
             }
-            int baseEntry = cd.Methods.FindIndex(md => md.IsEqual(method));
+            int baseEntry = cd.Methods.FindIndex(md => md.Name == method.Name);
             if (baseEntry != -1)
-                cd.Methods.RemoveAt(baseEntry);
+                continue;
 
             cd.Methods.Add(md);
         }

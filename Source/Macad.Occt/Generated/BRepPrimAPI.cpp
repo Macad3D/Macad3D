@@ -51,12 +51,6 @@ Macad::Occt::BRepPrimAPI_MakeBox::BRepPrimAPI_MakeBox(Macad::Occt::Ax2 Axes, dou
     _NativeInstance = new ::BRepPrimAPI_MakeBox(*(gp_Ax2*)pp_Axes, dx, dy, dz);
 }
 
-Macad::Occt::BRepPrimAPI_MakeBox::BRepPrimAPI_MakeBox(Macad::Occt::BRepPrimAPI_MakeBox^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepPrimAPI_MakeBox(*(::BRepPrimAPI_MakeBox*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepPrimAPI_MakeBox::Init(double theDX, double theDY, double theDZ)
 {
     ((::BRepPrimAPI_MakeBox*)_NativeInstance)->Init(theDX, theDY, theDZ);
@@ -159,12 +153,6 @@ Macad::Occt::BRepPrimAPI_MakeOneAxis::BRepPrimAPI_MakeOneAxis()
     	throw gcnew System::NotImplementedException("Native class is abstract");
 }
 
-Macad::Occt::BRepPrimAPI_MakeOneAxis::BRepPrimAPI_MakeOneAxis(Macad::Occt::BRepPrimAPI_MakeOneAxis^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 System::IntPtr Macad::Occt::BRepPrimAPI_MakeOneAxis::OneAxis()
 {
     void* _result = ((::BRepPrimAPI_MakeOneAxis*)_NativeInstance)->OneAxis();
@@ -234,12 +222,6 @@ Macad::Occt::BRepPrimAPI_MakeCone::BRepPrimAPI_MakeCone(Macad::Occt::Ax2 Axes, d
     _NativeInstance = new ::BRepPrimAPI_MakeCone(*(gp_Ax2*)pp_Axes, R1, R2, H, angle);
 }
 
-Macad::Occt::BRepPrimAPI_MakeCone::BRepPrimAPI_MakeCone(Macad::Occt::BRepPrimAPI_MakeCone^ parameter1)
-    : Macad::Occt::BRepPrimAPI_MakeOneAxis(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepPrimAPI_MakeCone(*(::BRepPrimAPI_MakeCone*)parameter1->NativeInstance);
-}
-
 System::IntPtr Macad::Occt::BRepPrimAPI_MakeCone::OneAxis()
 {
     void* _result = ((::BRepPrimAPI_MakeCone*)_NativeInstance)->OneAxis();
@@ -278,12 +260,6 @@ Macad::Occt::BRepPrimAPI_MakeCylinder::BRepPrimAPI_MakeCylinder(Macad::Occt::Ax2
     _NativeInstance = new ::BRepPrimAPI_MakeCylinder(*(gp_Ax2*)pp_Axes, R, H, Angle);
 }
 
-Macad::Occt::BRepPrimAPI_MakeCylinder::BRepPrimAPI_MakeCylinder(Macad::Occt::BRepPrimAPI_MakeCylinder^ parameter1)
-    : Macad::Occt::BRepPrimAPI_MakeOneAxis(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepPrimAPI_MakeCylinder(*(::BRepPrimAPI_MakeCylinder*)parameter1->NativeInstance);
-}
-
 System::IntPtr Macad::Occt::BRepPrimAPI_MakeCylinder::OneAxis()
 {
     void* _result = ((::BRepPrimAPI_MakeCylinder*)_NativeInstance)->OneAxis();
@@ -310,12 +286,6 @@ Macad::Occt::BRepPrimAPI_MakeHalfSpace::BRepPrimAPI_MakeHalfSpace(Macad::Occt::T
     _NativeInstance = new ::BRepPrimAPI_MakeHalfSpace(*(::TopoDS_Shell*)Shell->NativeInstance, *(gp_Pnt*)pp_RefPnt);
 }
 
-Macad::Occt::BRepPrimAPI_MakeHalfSpace::BRepPrimAPI_MakeHalfSpace(Macad::Occt::BRepPrimAPI_MakeHalfSpace^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepPrimAPI_MakeHalfSpace(*(::BRepPrimAPI_MakeHalfSpace*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TopoDS_Solid^ Macad::Occt::BRepPrimAPI_MakeHalfSpace::Solid()
 {
     ::TopoDS_Solid* _result = new ::TopoDS_Solid();
@@ -328,12 +298,6 @@ Macad::Occt::TopoDS_Solid^ Macad::Occt::BRepPrimAPI_MakeHalfSpace::Solid()
 //---------------------------------------------------------------------
 //  Class  BRepPrimAPI_MakeSweep
 //---------------------------------------------------------------------
-
-Macad::Occt::BRepPrimAPI_MakeSweep::BRepPrimAPI_MakeSweep(Macad::Occt::BRepPrimAPI_MakeSweep^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
 
 Macad::Occt::BRepPrimAPI_MakeSweep::BRepPrimAPI_MakeSweep()
     : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
@@ -408,12 +372,6 @@ Macad::Occt::BRepPrimAPI_MakePrism::BRepPrimAPI_MakePrism(Macad::Occt::TopoDS_Sh
 {
     pin_ptr<Macad::Occt::Dir> pp_D = &D;
     _NativeInstance = new ::BRepPrimAPI_MakePrism(*(::TopoDS_Shape*)S->NativeInstance, *(gp_Dir*)pp_D, true, false, true);
-}
-
-Macad::Occt::BRepPrimAPI_MakePrism::BRepPrimAPI_MakePrism(Macad::Occt::BRepPrimAPI_MakePrism^ parameter1)
-    : Macad::Occt::BRepPrimAPI_MakeSweep(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepPrimAPI_MakePrism(*(::BRepPrimAPI_MakePrism*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepPrimAPI_MakePrism::Build(Macad::Occt::Message_ProgressRange^ theRange)
@@ -499,12 +457,6 @@ Macad::Occt::BRepPrimAPI_MakeRevol::BRepPrimAPI_MakeRevol(Macad::Occt::TopoDS_Sh
 {
     pin_ptr<Macad::Occt::Ax1> pp_A = &A;
     _NativeInstance = new ::BRepPrimAPI_MakeRevol(*(::TopoDS_Shape*)S->NativeInstance, *(gp_Ax1*)pp_A, false);
-}
-
-Macad::Occt::BRepPrimAPI_MakeRevol::BRepPrimAPI_MakeRevol(Macad::Occt::BRepPrimAPI_MakeRevol^ parameter1)
-    : Macad::Occt::BRepPrimAPI_MakeSweep(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepPrimAPI_MakeRevol(*(::BRepPrimAPI_MakeRevol*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepPrimAPI_MakeRevol::Build(Macad::Occt::Message_ProgressRange^ theRange)
@@ -629,12 +581,6 @@ Macad::Occt::BRepPrimAPI_MakeRevolution::BRepPrimAPI_MakeRevolution(Macad::Occt:
     _NativeInstance = new ::BRepPrimAPI_MakeRevolution(*(gp_Ax2*)pp_Axes, Handle(::Geom_Curve)(Meridian->NativeInstance), VMin, VMax, angle);
 }
 
-Macad::Occt::BRepPrimAPI_MakeRevolution::BRepPrimAPI_MakeRevolution(Macad::Occt::BRepPrimAPI_MakeRevolution^ parameter1)
-    : Macad::Occt::BRepPrimAPI_MakeOneAxis(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepPrimAPI_MakeRevolution(*(::BRepPrimAPI_MakeRevolution*)parameter1->NativeInstance);
-}
-
 System::IntPtr Macad::Occt::BRepPrimAPI_MakeRevolution::OneAxis()
 {
     void* _result = ((::BRepPrimAPI_MakeRevolution*)_NativeInstance)->OneAxis();
@@ -727,12 +673,6 @@ Macad::Occt::BRepPrimAPI_MakeSphere::BRepPrimAPI_MakeSphere(Macad::Occt::Ax2 Axi
     _NativeInstance = new ::BRepPrimAPI_MakeSphere(*(gp_Ax2*)pp_Axis, R, angle1, angle2, angle3);
 }
 
-Macad::Occt::BRepPrimAPI_MakeSphere::BRepPrimAPI_MakeSphere(Macad::Occt::BRepPrimAPI_MakeSphere^ parameter1)
-    : Macad::Occt::BRepPrimAPI_MakeOneAxis(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepPrimAPI_MakeSphere(*(::BRepPrimAPI_MakeSphere*)parameter1->NativeInstance);
-}
-
 System::IntPtr Macad::Occt::BRepPrimAPI_MakeSphere::OneAxis()
 {
     void* _result = ((::BRepPrimAPI_MakeSphere*)_NativeInstance)->OneAxis();
@@ -797,12 +737,6 @@ Macad::Occt::BRepPrimAPI_MakeTorus::BRepPrimAPI_MakeTorus(Macad::Occt::Ax2 Axes,
     _NativeInstance = new ::BRepPrimAPI_MakeTorus(*(gp_Ax2*)pp_Axes, R1, R2, angle1, angle2, angle);
 }
 
-Macad::Occt::BRepPrimAPI_MakeTorus::BRepPrimAPI_MakeTorus(Macad::Occt::BRepPrimAPI_MakeTorus^ parameter1)
-    : Macad::Occt::BRepPrimAPI_MakeOneAxis(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepPrimAPI_MakeTorus(*(::BRepPrimAPI_MakeTorus*)parameter1->NativeInstance);
-}
-
 System::IntPtr Macad::Occt::BRepPrimAPI_MakeTorus::OneAxis()
 {
     void* _result = ((::BRepPrimAPI_MakeTorus*)_NativeInstance)->OneAxis();
@@ -839,12 +773,6 @@ Macad::Occt::BRepPrimAPI_MakeWedge::BRepPrimAPI_MakeWedge(Macad::Occt::Ax2 Axes,
 {
     pin_ptr<Macad::Occt::Ax2> pp_Axes = &Axes;
     _NativeInstance = new ::BRepPrimAPI_MakeWedge(*(gp_Ax2*)pp_Axes, dx, dy, dz, xmin, zmin, xmax, zmax);
-}
-
-Macad::Occt::BRepPrimAPI_MakeWedge::BRepPrimAPI_MakeWedge(Macad::Occt::BRepPrimAPI_MakeWedge^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepPrimAPI_MakeWedge(*(::BRepPrimAPI_MakeWedge*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepPrimAPI_MakeWedge::Build(Macad::Occt::Message_ProgressRange^ theRange)

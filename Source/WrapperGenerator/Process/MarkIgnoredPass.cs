@@ -166,6 +166,12 @@ public class MarkIgnoredPass : Pass
             md.Ignore = true;
         }
 
+        // Check for copy constructor of Standard_Transient class
+        if (md.IsConstructor && md.Parameters.Count == 1 && md.Parameters[0].Type.Name == md.Class.Name)
+        {
+            md.Ignore = true;
+        }
+
         return true;
     }
 

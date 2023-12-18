@@ -25,12 +25,6 @@ Macad::Occt::BRepFeat::BRepFeat()
     _NativeInstance = new ::BRepFeat();
 }
 
-Macad::Occt::BRepFeat::BRepFeat(Macad::Occt::BRepFeat^ parameter1)
-    : Macad::Occt::BaseClass<::BRepFeat>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFeat(*(::BRepFeat*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepFeat::SampleEdges(Macad::Occt::TopoDS_Shape^ S, Macad::Occt::TColgp_SequenceOfPnt^ Pt)
 {
     ::BRepFeat::SampleEdges(*(::TopoDS_Shape*)S->NativeInstance, *(::TColgp_SequenceOfPnt*)Pt->NativeInstance);
@@ -101,12 +95,6 @@ Macad::Occt::BRepFeat_Builder::BRepFeat_Builder()
     : Macad::Occt::BOPAlgo_BOP(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepFeat_Builder();
-}
-
-Macad::Occt::BRepFeat_Builder::BRepFeat_Builder(Macad::Occt::BRepFeat_Builder^ parameter1)
-    : Macad::Occt::BOPAlgo_BOP(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFeat_Builder(*(::BRepFeat_Builder*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepFeat_Builder::Clear()
@@ -189,12 +177,6 @@ void Macad::Occt::BRepFeat_Builder::FillRemoved(Macad::Occt::TopoDS_Shape^ theS,
 //---------------------------------------------------------------------
 //  Class  BRepFeat_Form
 //---------------------------------------------------------------------
-
-Macad::Occt::BRepFeat_Form::BRepFeat_Form(Macad::Occt::BRepFeat_Form^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
 
 Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepFeat_Form::Modified(Macad::Occt::TopoDS_Shape^ F)
 {
@@ -309,12 +291,6 @@ Macad::Occt::BRepFeat_Gluer::BRepFeat_Gluer(Macad::Occt::TopoDS_Shape^ Snew, Mac
     _NativeInstance = new ::BRepFeat_Gluer(*(::TopoDS_Shape*)Snew->NativeInstance, *(::TopoDS_Shape*)Sbase->NativeInstance);
 }
 
-Macad::Occt::BRepFeat_Gluer::BRepFeat_Gluer(Macad::Occt::BRepFeat_Gluer^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFeat_Gluer(*(::BRepFeat_Gluer*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepFeat_Gluer::Init(Macad::Occt::TopoDS_Shape^ Snew, Macad::Occt::TopoDS_Shape^ Sbase)
 {
     ((::BRepFeat_Gluer*)_NativeInstance)->Init(*(::TopoDS_Shape*)Snew->NativeInstance, *(::TopoDS_Shape*)Sbase->NativeInstance);
@@ -377,12 +353,6 @@ Macad::Occt::BRepFeat_MakeCylindricalHole::BRepFeat_MakeCylindricalHole()
     : Macad::Occt::BRepFeat_Builder(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepFeat_MakeCylindricalHole();
-}
-
-Macad::Occt::BRepFeat_MakeCylindricalHole::BRepFeat_MakeCylindricalHole(Macad::Occt::BRepFeat_MakeCylindricalHole^ parameter1)
-    : Macad::Occt::BRepFeat_Builder(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFeat_MakeCylindricalHole(*(::BRepFeat_MakeCylindricalHole*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepFeat_MakeCylindricalHole::Init(Macad::Occt::Ax1 Axis)
@@ -471,12 +441,6 @@ Macad::Occt::BRepFeat_MakeDPrism::BRepFeat_MakeDPrism()
     _NativeInstance = new ::BRepFeat_MakeDPrism();
 }
 
-Macad::Occt::BRepFeat_MakeDPrism::BRepFeat_MakeDPrism(Macad::Occt::BRepFeat_MakeDPrism^ parameter1)
-    : Macad::Occt::BRepFeat_Form(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFeat_MakeDPrism(*(::BRepFeat_MakeDPrism*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepFeat_MakeDPrism::Init(Macad::Occt::TopoDS_Shape^ Sbase, Macad::Occt::TopoDS_Face^ Pbase, Macad::Occt::TopoDS_Face^ Skface, double Angle, int Fuse, bool Modify)
 {
     ((::BRepFeat_MakeDPrism*)_NativeInstance)->Init(*(::TopoDS_Shape*)Sbase->NativeInstance, *(::TopoDS_Face*)Pbase->NativeInstance, *(::TopoDS_Face*)Skface->NativeInstance, Angle, Fuse, Modify);
@@ -552,12 +516,6 @@ Macad::Occt::TopTools_ListOfShape^ Macad::Occt::BRepFeat_MakeDPrism::LatEdges()
 //---------------------------------------------------------------------
 //  Class  BRepFeat_RibSlot
 //---------------------------------------------------------------------
-
-Macad::Occt::BRepFeat_RibSlot::BRepFeat_RibSlot(Macad::Occt::BRepFeat_RibSlot^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFeat_RibSlot(*(::BRepFeat_RibSlot*)parameter1->NativeInstance);
-}
 
 bool Macad::Occt::BRepFeat_RibSlot::IsDeleted(Macad::Occt::TopoDS_Shape^ F)
 {
@@ -654,12 +612,6 @@ Macad::Occt::BRepFeat_MakeLinearForm::BRepFeat_MakeLinearForm(Macad::Occt::TopoD
     _NativeInstance = new ::BRepFeat_MakeLinearForm(*(::TopoDS_Shape*)Sbase->NativeInstance, *(::TopoDS_Wire*)W->NativeInstance, Handle(::Geom_Plane)(P->NativeInstance), *(gp_Vec*)pp_Direction, *(gp_Vec*)pp_Direction1, Fuse, Modify);
 }
 
-Macad::Occt::BRepFeat_MakeLinearForm::BRepFeat_MakeLinearForm(Macad::Occt::BRepFeat_MakeLinearForm^ parameter1)
-    : Macad::Occt::BRepFeat_RibSlot(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFeat_MakeLinearForm(*(::BRepFeat_MakeLinearForm*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepFeat_MakeLinearForm::Init(Macad::Occt::TopoDS_Shape^ Sbase, Macad::Occt::TopoDS_Wire^ W, Macad::Occt::Geom_Plane^ P, Macad::Occt::Vec Direction, Macad::Occt::Vec Direction1, int Fuse, bool Modify)
 {
     pin_ptr<Macad::Occt::Vec> pp_Direction = &Direction;
@@ -702,12 +654,6 @@ Macad::Occt::BRepFeat_MakePipe::BRepFeat_MakePipe(Macad::Occt::TopoDS_Shape^ Sba
     : Macad::Occt::BRepFeat_Form(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepFeat_MakePipe(*(::TopoDS_Shape*)Sbase->NativeInstance, *(::TopoDS_Shape*)Pbase->NativeInstance, *(::TopoDS_Face*)Skface->NativeInstance, *(::TopoDS_Wire*)Spine->NativeInstance, Fuse, Modify);
-}
-
-Macad::Occt::BRepFeat_MakePipe::BRepFeat_MakePipe(Macad::Occt::BRepFeat_MakePipe^ parameter1)
-    : Macad::Occt::BRepFeat_Form(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFeat_MakePipe(*(::BRepFeat_MakePipe*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepFeat_MakePipe::Init(Macad::Occt::TopoDS_Shape^ Sbase, Macad::Occt::TopoDS_Shape^ Pbase, Macad::Occt::TopoDS_Face^ Skface, Macad::Occt::TopoDS_Wire^ Spine, int Fuse, bool Modify)
@@ -758,12 +704,6 @@ Macad::Occt::BRepFeat_MakePrism::BRepFeat_MakePrism(Macad::Occt::TopoDS_Shape^ S
 {
     pin_ptr<Macad::Occt::Dir> pp_Direction = &Direction;
     _NativeInstance = new ::BRepFeat_MakePrism(*(::TopoDS_Shape*)Sbase->NativeInstance, *(::TopoDS_Shape*)Pbase->NativeInstance, *(::TopoDS_Face*)Skface->NativeInstance, *(gp_Dir*)pp_Direction, Fuse, Modify);
-}
-
-Macad::Occt::BRepFeat_MakePrism::BRepFeat_MakePrism(Macad::Occt::BRepFeat_MakePrism^ parameter1)
-    : Macad::Occt::BRepFeat_Form(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFeat_MakePrism(*(::BRepFeat_MakePrism*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepFeat_MakePrism::Init(Macad::Occt::TopoDS_Shape^ Sbase, Macad::Occt::TopoDS_Shape^ Pbase, Macad::Occt::TopoDS_Face^ Skface, Macad::Occt::Dir Direction, int Fuse, bool Modify)
@@ -837,12 +777,6 @@ Macad::Occt::BRepFeat_MakeRevol::BRepFeat_MakeRevol(Macad::Occt::TopoDS_Shape^ S
     _NativeInstance = new ::BRepFeat_MakeRevol(*(::TopoDS_Shape*)Sbase->NativeInstance, *(::TopoDS_Shape*)Pbase->NativeInstance, *(::TopoDS_Face*)Skface->NativeInstance, *(gp_Ax1*)pp_Axis, Fuse, Modify);
 }
 
-Macad::Occt::BRepFeat_MakeRevol::BRepFeat_MakeRevol(Macad::Occt::BRepFeat_MakeRevol^ parameter1)
-    : Macad::Occt::BRepFeat_Form(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFeat_MakeRevol(*(::BRepFeat_MakeRevol*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepFeat_MakeRevol::Init(Macad::Occt::TopoDS_Shape^ Sbase, Macad::Occt::TopoDS_Shape^ Pbase, Macad::Occt::TopoDS_Face^ Skface, Macad::Occt::Ax1 Axis, int Fuse, bool Modify)
 {
     pin_ptr<Macad::Occt::Ax1> pp_Axis = &Axis;
@@ -905,12 +839,6 @@ Macad::Occt::BRepFeat_MakeRevolutionForm::BRepFeat_MakeRevolutionForm(Macad::Occ
     _NativeInstance = new ::BRepFeat_MakeRevolutionForm(*(::TopoDS_Shape*)Sbase->NativeInstance, *(::TopoDS_Wire*)W->NativeInstance, Handle(::Geom_Plane)(Plane->NativeInstance), *(gp_Ax1*)pp_Axis, Height1, Height2, Fuse, *(bool*)pp_Sliding);
 }
 
-Macad::Occt::BRepFeat_MakeRevolutionForm::BRepFeat_MakeRevolutionForm(Macad::Occt::BRepFeat_MakeRevolutionForm^ parameter1)
-    : Macad::Occt::BRepFeat_RibSlot(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFeat_MakeRevolutionForm(*(::BRepFeat_MakeRevolutionForm*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepFeat_MakeRevolutionForm::Init(Macad::Occt::TopoDS_Shape^ Sbase, Macad::Occt::TopoDS_Wire^ W, Macad::Occt::Geom_Plane^ Plane, Macad::Occt::Ax1 Axis, double Height1, double Height2, int Fuse, bool% Sliding)
 {
     pin_ptr<Macad::Occt::Ax1> pp_Axis = &Axis;
@@ -953,12 +881,6 @@ Macad::Occt::BRepFeat_SplitShape::BRepFeat_SplitShape(Macad::Occt::TopoDS_Shape^
     : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepFeat_SplitShape(*(::TopoDS_Shape*)S->NativeInstance);
-}
-
-Macad::Occt::BRepFeat_SplitShape::BRepFeat_SplitShape(Macad::Occt::BRepFeat_SplitShape^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFeat_SplitShape(*(::BRepFeat_SplitShape*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::BRepFeat_SplitShape::Add(Macad::Occt::TopTools_SequenceOfShape^ theEdges)

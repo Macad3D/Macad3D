@@ -18,12 +18,6 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 //  Class  BRepFilletAPI_LocalOperation
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepFilletAPI_LocalOperation::BRepFilletAPI_LocalOperation(Macad::Occt::BRepFilletAPI_LocalOperation^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 Macad::Occt::BRepFilletAPI_LocalOperation::BRepFilletAPI_LocalOperation()
     : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
 {
@@ -140,12 +134,6 @@ Macad::Occt::BRepFilletAPI_MakeChamfer::BRepFilletAPI_MakeChamfer(Macad::Occt::T
     : Macad::Occt::BRepFilletAPI_LocalOperation(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepFilletAPI_MakeChamfer(*(::TopoDS_Shape*)S->NativeInstance);
-}
-
-Macad::Occt::BRepFilletAPI_MakeChamfer::BRepFilletAPI_MakeChamfer(Macad::Occt::BRepFilletAPI_MakeChamfer^ parameter1)
-    : Macad::Occt::BRepFilletAPI_LocalOperation(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFilletAPI_MakeChamfer(*(::BRepFilletAPI_MakeChamfer*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepFilletAPI_MakeChamfer::Add(Macad::Occt::TopoDS_Edge^ E)
@@ -362,12 +350,6 @@ Macad::Occt::BRepFilletAPI_MakeFillet::BRepFilletAPI_MakeFillet(Macad::Occt::Top
     : Macad::Occt::BRepFilletAPI_LocalOperation(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepFilletAPI_MakeFillet(*(::TopoDS_Shape*)S->NativeInstance, ChFi3d_Rational);
-}
-
-Macad::Occt::BRepFilletAPI_MakeFillet::BRepFilletAPI_MakeFillet(Macad::Occt::BRepFilletAPI_MakeFillet^ parameter1)
-    : Macad::Occt::BRepFilletAPI_LocalOperation(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFilletAPI_MakeFillet(*(::BRepFilletAPI_MakeFillet*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepFilletAPI_MakeFillet::SetParams(double Tang, double Tesp, double T2d, double TApp3d, double TolApp2d, double Fleche)
@@ -672,12 +654,6 @@ Macad::Occt::BRepFilletAPI_MakeFillet2d::BRepFilletAPI_MakeFillet2d(Macad::Occt:
     : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepFilletAPI_MakeFillet2d(*(::TopoDS_Face*)F->NativeInstance);
-}
-
-Macad::Occt::BRepFilletAPI_MakeFillet2d::BRepFilletAPI_MakeFillet2d(Macad::Occt::BRepFilletAPI_MakeFillet2d^ parameter1)
-    : Macad::Occt::BRepBuilderAPI_MakeShape(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepFilletAPI_MakeFillet2d(*(::BRepFilletAPI_MakeFillet2d*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepFilletAPI_MakeFillet2d::Init(Macad::Occt::TopoDS_Face^ F)

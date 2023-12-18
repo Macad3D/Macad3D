@@ -43,12 +43,6 @@ Macad::Occt::BRepTools_MapOfVertexPnt2d::BRepTools_MapOfVertexPnt2d(int theNbBuc
     _NativeInstance = new ::BRepTools_MapOfVertexPnt2d(theNbBuckets, 0L);
 }
 
-Macad::Occt::BRepTools_MapOfVertexPnt2d::BRepTools_MapOfVertexPnt2d(Macad::Occt::BRepTools_MapOfVertexPnt2d^ theOther)
-    : Macad::Occt::BaseClass<::BRepTools_MapOfVertexPnt2d>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepTools_MapOfVertexPnt2d(*(::BRepTools_MapOfVertexPnt2d*)theOther->NativeInstance);
-}
-
 void Macad::Occt::BRepTools_MapOfVertexPnt2d::Exchange(Macad::Occt::BRepTools_MapOfVertexPnt2d^ theOther)
 {
     ((::BRepTools_MapOfVertexPnt2d*)_NativeInstance)->Exchange(*(::BRepTools_MapOfVertexPnt2d*)theOther->NativeInstance);
@@ -103,12 +97,6 @@ Macad::Occt::TColgp_SequenceOfPnt2d^ Macad::Occt::BRepTools_MapOfVertexPnt2d::Fi
     return _result==nullptr ? nullptr : gcnew Macad::Occt::TColgp_SequenceOfPnt2d(_result);
 }
 
-bool Macad::Occt::BRepTools_MapOfVertexPnt2d::Find(Macad::Occt::TopoDS_Shape^ theKey, Macad::Occt::TColgp_SequenceOfPnt2d^ theValue)
-{
-    bool _result = ((::BRepTools_MapOfVertexPnt2d*)_NativeInstance)->Find(*(::TopoDS_Shape*)theKey->NativeInstance, *(::TColgp_SequenceOfPnt2d*)theValue->NativeInstance);
-    return _result;
-}
-
 Macad::Occt::TColgp_SequenceOfPnt2d^ Macad::Occt::BRepTools_MapOfVertexPnt2d::ChangeSeek(Macad::Occt::TopoDS_Shape^ theKey)
 {
     ::TColgp_SequenceOfPnt2d* _result = ((::BRepTools_MapOfVertexPnt2d*)_NativeInstance)->ChangeSeek(*(::TopoDS_Shape*)theKey->NativeInstance);
@@ -129,12 +117,7 @@ void Macad::Occt::BRepTools_MapOfVertexPnt2d::Clear(bool doReleaseMemory)
 
 void Macad::Occt::BRepTools_MapOfVertexPnt2d::Clear()
 {
-    ((::BRepTools_MapOfVertexPnt2d*)_NativeInstance)->Clear(true);
-}
-
-void Macad::Occt::BRepTools_MapOfVertexPnt2d::Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator)
-{
-    ((::BRepTools_MapOfVertexPnt2d*)_NativeInstance)->Clear(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
+    ((::BRepTools_MapOfVertexPnt2d*)_NativeInstance)->Clear(false);
 }
 
 int Macad::Occt::BRepTools_MapOfVertexPnt2d::Size()
@@ -153,18 +136,6 @@ Macad::Occt::BRepTools_MapOfVertexPnt2d::Iterator::Iterator()
     : Macad::Occt::BaseClass<::BRepTools_MapOfVertexPnt2d::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepTools_MapOfVertexPnt2d::Iterator();
-}
-
-Macad::Occt::BRepTools_MapOfVertexPnt2d::Iterator::Iterator(Macad::Occt::BRepTools_MapOfVertexPnt2d^ theMap)
-    : Macad::Occt::BaseClass<::BRepTools_MapOfVertexPnt2d::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepTools_MapOfVertexPnt2d::Iterator(*(::BRepTools_MapOfVertexPnt2d*)theMap->NativeInstance);
-}
-
-Macad::Occt::BRepTools_MapOfVertexPnt2d::Iterator::Iterator(Macad::Occt::BRepTools_MapOfVertexPnt2d::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::BRepTools_MapOfVertexPnt2d::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepTools_MapOfVertexPnt2d::Iterator(*(::BRepTools_MapOfVertexPnt2d::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::BRepTools_MapOfVertexPnt2d::Iterator::More()
@@ -209,12 +180,6 @@ Macad::Occt::BRepTools::BRepTools()
     : Macad::Occt::BaseClass<::BRepTools>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepTools();
-}
-
-Macad::Occt::BRepTools::BRepTools(Macad::Occt::BRepTools^ parameter1)
-    : Macad::Occt::BaseClass<::BRepTools>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepTools(*(::BRepTools*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepTools::UVBounds(Macad::Occt::TopoDS_Face^ F, double% UMin, double% UMax, double% VMin, double% VMax)
@@ -548,12 +513,6 @@ void Macad::Occt::BRepTools::CheckLocations(Macad::Occt::TopoDS_Shape^ theS, Mac
 //  Class  BRepTools_Modification
 //---------------------------------------------------------------------
 
-Macad::Occt::BRepTools_Modification::BRepTools_Modification(Macad::Occt::BRepTools_Modification^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 Macad::Occt::BRepTools_Modification::BRepTools_Modification()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
@@ -650,12 +609,6 @@ Macad::Occt::BRepTools_CopyModification::BRepTools_CopyModification()
     NativeInstance = new ::BRepTools_CopyModification(true, true);
 }
 
-Macad::Occt::BRepTools_CopyModification::BRepTools_CopyModification(Macad::Occt::BRepTools_CopyModification^ parameter1)
-    : Macad::Occt::BRepTools_Modification(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRepTools_CopyModification(*(::BRepTools_CopyModification*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::BRepTools_CopyModification::NewSurface(Macad::Occt::TopoDS_Face^ theFace, Macad::Occt::Geom_Surface^ theSurf, Macad::Occt::TopLoc_Location^ theLoc, double% theTol, bool% theRevWires, bool% theRevFace)
 {
     Handle(::Geom_Surface) h_theSurf = theSurf->NativeInstance;
@@ -728,12 +681,6 @@ Macad::Occt::BRepTools_GTrsfModification::BRepTools_GTrsfModification(Macad::Occ
     : Macad::Occt::BRepTools_Modification(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::BRepTools_GTrsfModification(*(::gp_GTrsf*)T->NativeInstance);
-}
-
-Macad::Occt::BRepTools_GTrsfModification::BRepTools_GTrsfModification(Macad::Occt::BRepTools_GTrsfModification^ parameter1)
-    : Macad::Occt::BRepTools_Modification(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRepTools_GTrsfModification(*(::BRepTools_GTrsfModification*)parameter1->NativeInstance);
 }
 
 Macad::Occt::gp_GTrsf^ Macad::Occt::BRepTools_GTrsfModification::GTrsf()
@@ -809,12 +756,6 @@ Macad::Occt::BRepTools_History::BRepTools_History()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::BRepTools_History();
-}
-
-Macad::Occt::BRepTools_History::BRepTools_History(Macad::Occt::BRepTools_History^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRepTools_History(*(::BRepTools_History*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::BRepTools_History::IsSupportedType(Macad::Occt::TopoDS_Shape^ theShape)
@@ -938,12 +879,6 @@ Macad::Occt::BRepTools_Modifier::BRepTools_Modifier(Macad::Occt::TopoDS_Shape^ S
     _NativeInstance = new ::BRepTools_Modifier(*(::TopoDS_Shape*)S->NativeInstance, Handle(::BRepTools_Modification)(M->NativeInstance));
 }
 
-Macad::Occt::BRepTools_Modifier::BRepTools_Modifier(Macad::Occt::BRepTools_Modifier^ parameter1)
-    : Macad::Occt::BaseClass<::BRepTools_Modifier>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepTools_Modifier(*(::BRepTools_Modifier*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepTools_Modifier::Init(Macad::Occt::TopoDS_Shape^ S)
 {
     ((::BRepTools_Modifier*)_NativeInstance)->Init(*(::TopoDS_Shape*)S->NativeInstance);
@@ -993,12 +928,6 @@ Macad::Occt::BRepTools_NurbsConvertModification::BRepTools_NurbsConvertModificat
     : Macad::Occt::BRepTools_CopyModification(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::BRepTools_NurbsConvertModification();
-}
-
-Macad::Occt::BRepTools_NurbsConvertModification::BRepTools_NurbsConvertModification(Macad::Occt::BRepTools_NurbsConvertModification^ parameter1)
-    : Macad::Occt::BRepTools_CopyModification(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRepTools_NurbsConvertModification(*(::BRepTools_NurbsConvertModification*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::BRepTools_NurbsConvertModification::NewSurface(Macad::Occt::TopoDS_Face^ F, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopLoc_Location^ L, double% Tol, bool% RevWires, bool% RevFace)
@@ -1074,12 +1003,6 @@ Macad::Occt::BRepTools_ReShape::BRepTools_ReShape()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::BRepTools_ReShape();
-}
-
-Macad::Occt::BRepTools_ReShape::BRepTools_ReShape(Macad::Occt::BRepTools_ReShape^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRepTools_ReShape(*(::BRepTools_ReShape*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepTools_ReShape::Clear()
@@ -1193,12 +1116,6 @@ Macad::Occt::BRepTools_PurgeLocations::BRepTools_PurgeLocations()
     _NativeInstance = new ::BRepTools_PurgeLocations();
 }
 
-Macad::Occt::BRepTools_PurgeLocations::BRepTools_PurgeLocations(Macad::Occt::BRepTools_PurgeLocations^ parameter1)
-    : Macad::Occt::BaseClass<::BRepTools_PurgeLocations>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepTools_PurgeLocations(*(::BRepTools_PurgeLocations*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::BRepTools_PurgeLocations::Perform(Macad::Occt::TopoDS_Shape^ theShape)
 {
     bool _result = ((::BRepTools_PurgeLocations*)_NativeInstance)->Perform(*(::TopoDS_Shape*)theShape->NativeInstance);
@@ -1228,12 +1145,6 @@ Macad::Occt::BRepTools_Quilt::BRepTools_Quilt()
     : Macad::Occt::BaseClass<::BRepTools_Quilt>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepTools_Quilt();
-}
-
-Macad::Occt::BRepTools_Quilt::BRepTools_Quilt(Macad::Occt::BRepTools_Quilt^ parameter1)
-    : Macad::Occt::BaseClass<::BRepTools_Quilt>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepTools_Quilt(*(::BRepTools_Quilt*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepTools_Quilt::Bind(Macad::Occt::TopoDS_Edge^ Eold, Macad::Occt::TopoDS_Edge^ Enew)
@@ -1311,12 +1222,6 @@ Macad::Occt::BRepTools_ShapeSet::BRepTools_ShapeSet(Macad::Occt::BRep_Builder^ t
     : Macad::Occt::TopTools_ShapeSet(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepTools_ShapeSet(*(::BRep_Builder*)theBuilder->NativeInstance, true, false);
-}
-
-Macad::Occt::BRepTools_ShapeSet::BRepTools_ShapeSet(Macad::Occt::BRepTools_ShapeSet^ parameter1)
-    : Macad::Occt::TopTools_ShapeSet(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepTools_ShapeSet(*(::BRepTools_ShapeSet*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::BRepTools_ShapeSet::IsWithTriangles()
@@ -1492,12 +1397,6 @@ Macad::Occt::BRepTools_Substitution::BRepTools_Substitution()
     _NativeInstance = new ::BRepTools_Substitution();
 }
 
-Macad::Occt::BRepTools_Substitution::BRepTools_Substitution(Macad::Occt::BRepTools_Substitution^ parameter1)
-    : Macad::Occt::BaseClass<::BRepTools_Substitution>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepTools_Substitution(*(::BRepTools_Substitution*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepTools_Substitution::Clear()
 {
     ((::BRepTools_Substitution*)_NativeInstance)->Clear();
@@ -1537,12 +1436,6 @@ Macad::Occt::BRepTools_TrsfModification::BRepTools_TrsfModification(Macad::Occt:
 {
     pin_ptr<Macad::Occt::Trsf> pp_T = &T;
     NativeInstance = new ::BRepTools_TrsfModification(*(gp_Trsf*)pp_T);
-}
-
-Macad::Occt::BRepTools_TrsfModification::BRepTools_TrsfModification(Macad::Occt::BRepTools_TrsfModification^ parameter1)
-    : Macad::Occt::BRepTools_Modification(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRepTools_TrsfModification(*(::BRepTools_TrsfModification*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Trsf Macad::Occt::BRepTools_TrsfModification::Trsf()
@@ -1629,12 +1522,6 @@ Macad::Occt::BRepTools_WireExplorer::BRepTools_WireExplorer(Macad::Occt::TopoDS_
     : Macad::Occt::BaseClass<::BRepTools_WireExplorer>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRepTools_WireExplorer(*(::TopoDS_Wire*)W->NativeInstance, *(::TopoDS_Face*)F->NativeInstance);
-}
-
-Macad::Occt::BRepTools_WireExplorer::BRepTools_WireExplorer(Macad::Occt::BRepTools_WireExplorer^ parameter1)
-    : Macad::Occt::BaseClass<::BRepTools_WireExplorer>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepTools_WireExplorer(*(::BRepTools_WireExplorer*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRepTools_WireExplorer::Init(Macad::Occt::TopoDS_Wire^ W)

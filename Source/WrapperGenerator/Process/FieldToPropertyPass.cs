@@ -23,8 +23,11 @@ public class FieldToPropertyPass : Pass
                 },
                 Comment = fd.Comment,
                 GetBodyGenerate = _GetBodyGenerate,
-                SetBodyGenerate = _SetBodyGenerate
             };
+            if (!fd.Type.IsConst)
+            {
+                property.SetBodyGenerate = _SetBodyGenerate;
+            }
             fd.Class.Properties.Add(property);
             fd.Ignore = true;
         }

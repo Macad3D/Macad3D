@@ -21,12 +21,6 @@ Macad::Occt::Image_ColorRGB::Image_ColorRGB()
     _NativeInstance = new ::Image_ColorRGB();
 }
 
-Macad::Occt::Image_ColorRGB::Image_ColorRGB(Macad::Occt::Image_ColorRGB^ parameter1)
-    : Macad::Occt::BaseClass<::Image_ColorRGB>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Image_ColorRGB(*(::Image_ColorRGB*)parameter1->NativeInstance);
-}
-
 int Macad::Occt::Image_ColorRGB::Length()
 {
     int _result = ::Image_ColorRGB::Length();
@@ -61,12 +55,6 @@ Macad::Occt::Image_ColorRGB32::Image_ColorRGB32()
     : Macad::Occt::BaseClass<::Image_ColorRGB32>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Image_ColorRGB32();
-}
-
-Macad::Occt::Image_ColorRGB32::Image_ColorRGB32(Macad::Occt::Image_ColorRGB32^ parameter1)
-    : Macad::Occt::BaseClass<::Image_ColorRGB32>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Image_ColorRGB32(*(::Image_ColorRGB32*)parameter1->NativeInstance);
 }
 
 int Macad::Occt::Image_ColorRGB32::Length()
@@ -111,12 +99,6 @@ Macad::Occt::Image_ColorRGBA::Image_ColorRGBA()
     _NativeInstance = new ::Image_ColorRGBA();
 }
 
-Macad::Occt::Image_ColorRGBA::Image_ColorRGBA(Macad::Occt::Image_ColorRGBA^ parameter1)
-    : Macad::Occt::BaseClass<::Image_ColorRGBA>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Image_ColorRGBA(*(::Image_ColorRGBA*)parameter1->NativeInstance);
-}
-
 int Macad::Occt::Image_ColorRGBA::Length()
 {
     int _result = ::Image_ColorRGBA::Length();
@@ -159,12 +141,6 @@ Macad::Occt::Image_ColorBGR::Image_ColorBGR()
     _NativeInstance = new ::Image_ColorBGR();
 }
 
-Macad::Occt::Image_ColorBGR::Image_ColorBGR(Macad::Occt::Image_ColorBGR^ parameter1)
-    : Macad::Occt::BaseClass<::Image_ColorBGR>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Image_ColorBGR(*(::Image_ColorBGR*)parameter1->NativeInstance);
-}
-
 int Macad::Occt::Image_ColorBGR::Length()
 {
     int _result = ::Image_ColorBGR::Length();
@@ -199,12 +175,6 @@ Macad::Occt::Image_ColorBGR32::Image_ColorBGR32()
     : Macad::Occt::BaseClass<::Image_ColorBGR32>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Image_ColorBGR32();
-}
-
-Macad::Occt::Image_ColorBGR32::Image_ColorBGR32(Macad::Occt::Image_ColorBGR32^ parameter1)
-    : Macad::Occt::BaseClass<::Image_ColorBGR32>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Image_ColorBGR32(*(::Image_ColorBGR32*)parameter1->NativeInstance);
 }
 
 int Macad::Occt::Image_ColorBGR32::Length()
@@ -249,12 +219,6 @@ Macad::Occt::Image_ColorBGRA::Image_ColorBGRA()
     _NativeInstance = new ::Image_ColorBGRA();
 }
 
-Macad::Occt::Image_ColorBGRA::Image_ColorBGRA(Macad::Occt::Image_ColorBGRA^ parameter1)
-    : Macad::Occt::BaseClass<::Image_ColorBGRA>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Image_ColorBGRA(*(::Image_ColorBGRA*)parameter1->NativeInstance);
-}
-
 int Macad::Occt::Image_ColorBGRA::Length()
 {
     int _result = ::Image_ColorBGRA::Length();
@@ -297,12 +261,6 @@ Macad::Occt::Image_ColorRGF::Image_ColorRGF()
     _NativeInstance = new ::Image_ColorRGF();
 }
 
-Macad::Occt::Image_ColorRGF::Image_ColorRGF(Macad::Occt::Image_ColorRGF^ parameter1)
-    : Macad::Occt::BaseClass<::Image_ColorRGF>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Image_ColorRGF(*(::Image_ColorRGF*)parameter1->NativeInstance);
-}
-
 int Macad::Occt::Image_ColorRGF::Length()
 {
     int _result = ::Image_ColorRGF::Length();
@@ -331,12 +289,6 @@ Macad::Occt::Image_ColorRGBF::Image_ColorRGBF()
     : Macad::Occt::BaseClass<::Image_ColorRGBF>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Image_ColorRGBF();
-}
-
-Macad::Occt::Image_ColorRGBF::Image_ColorRGBF(Macad::Occt::Image_ColorRGBF^ parameter1)
-    : Macad::Occt::BaseClass<::Image_ColorRGBF>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Image_ColorRGBF(*(::Image_ColorRGBF*)parameter1->NativeInstance);
 }
 
 int Macad::Occt::Image_ColorRGBF::Length()
@@ -375,12 +327,6 @@ Macad::Occt::Image_ColorBGRF::Image_ColorBGRF()
     _NativeInstance = new ::Image_ColorBGRF();
 }
 
-Macad::Occt::Image_ColorBGRF::Image_ColorBGRF(Macad::Occt::Image_ColorBGRF^ parameter1)
-    : Macad::Occt::BaseClass<::Image_ColorBGRF>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Image_ColorBGRF(*(::Image_ColorBGRF*)parameter1->NativeInstance);
-}
-
 int Macad::Occt::Image_ColorBGRF::Length()
 {
     int _result = ::Image_ColorBGRF::Length();
@@ -415,12 +361,6 @@ Macad::Occt::Image_ColorRGBAF::Image_ColorRGBAF()
     : Macad::Occt::BaseClass<::Image_ColorRGBAF>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Image_ColorRGBAF();
-}
-
-Macad::Occt::Image_ColorRGBAF::Image_ColorRGBAF(Macad::Occt::Image_ColorRGBAF^ parameter1)
-    : Macad::Occt::BaseClass<::Image_ColorRGBAF>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Image_ColorRGBAF(*(::Image_ColorRGBAF*)parameter1->NativeInstance);
 }
 
 int Macad::Occt::Image_ColorRGBAF::Length()
@@ -465,12 +405,6 @@ Macad::Occt::Image_ColorBGRAF::Image_ColorBGRAF()
     _NativeInstance = new ::Image_ColorBGRAF();
 }
 
-Macad::Occt::Image_ColorBGRAF::Image_ColorBGRAF(Macad::Occt::Image_ColorBGRAF^ parameter1)
-    : Macad::Occt::BaseClass<::Image_ColorBGRAF>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Image_ColorBGRAF(*(::Image_ColorBGRAF*)parameter1->NativeInstance);
-}
-
 int Macad::Occt::Image_ColorBGRAF::Length()
 {
     int _result = ::Image_ColorBGRAF::Length();
@@ -513,12 +447,6 @@ Macad::Occt::Image_VideoParams::Image_VideoParams()
     _NativeInstance = new ::Image_VideoParams();
 }
 
-Macad::Occt::Image_VideoParams::Image_VideoParams(Macad::Occt::Image_VideoParams^ parameter1)
-    : Macad::Occt::BaseClass<::Image_VideoParams>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Image_VideoParams(*(::Image_VideoParams*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::Image_VideoParams::SetFramerate(int theNumerator, int theDenominator)
 {
     ((::Image_VideoParams*)_NativeInstance)->SetFramerate(theNumerator, theDenominator);
@@ -539,12 +467,6 @@ Macad::Occt::Image_PixMapData::Image_PixMapData()
     : Macad::Occt::NCollection_Buffer(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Image_PixMapData();
-}
-
-Macad::Occt::Image_PixMapData::Image_PixMapData(Macad::Occt::Image_PixMapData^ parameter1)
-    : Macad::Occt::NCollection_Buffer(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Image_PixMapData(*(::Image_PixMapData*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::Image_PixMapData::Init(Macad::Occt::NCollection_BaseAllocator^ theAlloc, long long unsigned int theSizeBPP, long long unsigned int theSizeX, long long unsigned int theSizeY, long long unsigned int theSizeRowBytes, unsigned char% theDataPtr)
@@ -1053,6 +975,13 @@ bool Macad::Occt::Image_AlienPixMap::Save(Macad::Occt::TCollection_AsciiString^ 
     return _result;
 }
 
+bool Macad::Occt::Image_AlienPixMap::Save(unsigned char% theBuffer, long long unsigned int theLength, Macad::Occt::TCollection_AsciiString^ theFileName)
+{
+    pin_ptr<unsigned char> pp_theBuffer = &theBuffer;
+    bool _result = ((::Image_AlienPixMap*)_NativeInstance)->Save((unsigned char*)pp_theBuffer, theLength, *(::TCollection_AsciiString*)theFileName->NativeInstance);
+    return _result;
+}
+
 bool Macad::Occt::Image_AlienPixMap::InitTrash(Macad::Occt::Image_Format thePixelFormat, long long unsigned int theSizeX, long long unsigned int theSizeY, long long unsigned int theSizeRowBytes)
 {
     bool _result = ((::Image_AlienPixMap*)_NativeInstance)->InitTrash((::Image_Format)thePixelFormat, theSizeX, theSizeY, theSizeRowBytes);
@@ -1097,12 +1026,6 @@ Macad::Occt::Image_CompressedPixMap::Image_CompressedPixMap()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Image_CompressedPixMap();
-}
-
-Macad::Occt::Image_CompressedPixMap::Image_CompressedPixMap(Macad::Occt::Image_CompressedPixMap^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Image_CompressedPixMap(*(::Image_CompressedPixMap*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Image_Format Macad::Occt::Image_CompressedPixMap::BaseFormat()
@@ -1225,12 +1148,6 @@ Macad::Occt::Image_SupportedFormats::Image_SupportedFormats()
     NativeInstance = new ::Image_SupportedFormats();
 }
 
-Macad::Occt::Image_SupportedFormats::Image_SupportedFormats(Macad::Occt::Image_SupportedFormats^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Image_SupportedFormats(*(::Image_SupportedFormats*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::Image_SupportedFormats::IsSupported(Macad::Occt::Image_Format theFormat)
 {
     bool _result = ((::Image_SupportedFormats*)_NativeInstance)->IsSupported((::Image_Format)theFormat);
@@ -1281,12 +1198,6 @@ Macad::Occt::Image_DDSParser::Image_DDSParser()
     _NativeInstance = new ::Image_DDSParser();
 }
 
-Macad::Occt::Image_DDSParser::Image_DDSParser(Macad::Occt::Image_DDSParser^ parameter1)
-    : Macad::Occt::BaseClass<::Image_DDSParser>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Image_DDSParser(*(::Image_DDSParser*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Image_CompressedPixMap^ Macad::Occt::Image_DDSParser::Load(Macad::Occt::Image_SupportedFormats^ theSupported, Macad::Occt::TCollection_AsciiString^ theFile, int theFaceIndex, long long int theFileOffset)
 {
     Handle(::Image_CompressedPixMap) _result = ::Image_DDSParser::Load(Handle(::Image_SupportedFormats)(theSupported->NativeInstance), *(::TCollection_AsciiString*)theFile->NativeInstance, theFaceIndex, theFileOffset);
@@ -1315,12 +1226,6 @@ Macad::Occt::Image_Diff::Image_Diff()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Image_Diff();
-}
-
-Macad::Occt::Image_Diff::Image_Diff(Macad::Occt::Image_Diff^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Image_Diff(*(::Image_Diff*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::Image_Diff::Init(Macad::Occt::Image_PixMap^ theImageRef, Macad::Occt::Image_PixMap^ theImageNew, bool theToBlackWhite)
@@ -1416,12 +1321,6 @@ Macad::Occt::Image_Texture::Image_Texture(Macad::Occt::NCollection_Buffer^ theBu
     NativeInstance = new ::Image_Texture(Handle(::NCollection_Buffer)(theBuffer->NativeInstance), *(::TCollection_AsciiString*)theId->NativeInstance);
 }
 
-Macad::Occt::Image_Texture::Image_Texture(Macad::Occt::Image_Texture^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Image_Texture(*(::Image_Texture*)parameter1->NativeInstance);
-}
-
 Macad::Occt::TCollection_AsciiString^ Macad::Occt::Image_Texture::TextureId()
 {
     ::TCollection_AsciiString* _result = new ::TCollection_AsciiString();
@@ -1486,18 +1385,6 @@ bool Macad::Occt::Image_Texture::WriteImage(Macad::Occt::TCollection_AsciiString
     return _result;
 }
 
-int Macad::Occt::Image_Texture::HashCode(Macad::Occt::Image_Texture^ theTexture, int theUpper)
-{
-    int _result = ::Image_Texture::HashCode(Handle(::Image_Texture)(theTexture->NativeInstance), theUpper);
-    return _result;
-}
-
-bool Macad::Occt::Image_Texture::IsEqual(Macad::Occt::Image_Texture^ theTex1, Macad::Occt::Image_Texture^ theTex2)
-{
-    bool _result = ::Image_Texture::IsEqual(Handle(::Image_Texture)(theTex1->NativeInstance), Handle(::Image_Texture)(theTex2->NativeInstance));
-    return _result;
-}
-
 void Macad::Occt::Image_Texture::DumpJson(System::IO::TextWriter^ theOStream, int theDepth)
 {
     std::ostringstream oss_theOStream;
@@ -1515,22 +1402,6 @@ void Macad::Occt::Image_Texture::DumpJson(System::IO::TextWriter^ theOStream)
 Macad::Occt::Image_Texture^ Macad::Occt::Image_Texture::CreateDowncasted(::Image_Texture* instance)
 {
     return gcnew Macad::Occt::Image_Texture( instance );
-}
-
-bool Macad::Occt::Image_Texture::Equals(System::Object^ obj)
-{
-    System::Type^ myType = Macad::Occt::Image_Texture::GetType();
-    System::Type^ objType = obj->GetType();
-    if (myType->Equals(objType) || objType->IsSubclassOf(myType))
-    {
-        return ::Image_Texture::IsEqual(((Image_Texture^)obj)->NativeInstance, NativeInstance);
-    }
-    return false;
-}
-
-int Macad::Occt::Image_Texture::GetHashCode()
-{
-    return ::Image_Texture::HashCode(NativeInstance, MAXINT);
 }
 
 

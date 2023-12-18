@@ -85,10 +85,6 @@ public:
     /// </summary>
     TCollection_ExtendedString(double value);
     /// <summary>
-    /// Initializes a ExtendedString with another ExtendedString.
-    /// </summary>
-    TCollection_ExtendedString(Macad::Occt::TCollection_ExtendedString^ astring);
-    /// <summary>
     /// Creation by converting an Ascii string to an extended
     /// string. The string is treated as having UTF-8 coding.
     /// If it is not a UTF-8 or multi byte then
@@ -289,20 +285,14 @@ public:
     void Trunc(int ahowmany);
     /* Method skipped due to unknown mapping: char16_t Value(int where, ) */
     /// <summary>
-    /// Returns a hashed value for the extended string within the range 1 .. theUpper.
+    /// Returns a hashed value for the extended string.
     /// Note: if string is ASCII, the computed value is the same as the value computed with the HashCode function on a
     /// TCollection_AsciiString string composed with equivalent ASCII characters.
     /// </summary>
-    /// <param name="theString">
-    /// the extended string which hash code is to be computed
-    /// </param>
-    /// <param name="theUpperBound">
-    /// the upper bound of the range a computing hash code must be within
-    /// </param>
     /// <returns>
-    /// a computed hash code, in the range [1, theUpperBound]
+    /// a computed hash code
     /// </returns>
-    static int HashCode(Macad::Occt::TCollection_ExtendedString^ theString, int theUpperBound);
+    long long unsigned int HashCode();
     /// <summary>
     /// Returns true if the characters in this extended
     /// string are identical to the characters in the other extended string.
@@ -321,6 +311,7 @@ public:
     /// to CString containing symbols in UTF8 coding.
     /// </summary>
     int LengthOfCString();
+    int GetHashCode() override;
 }; // class TCollection_ExtendedString
 
 //---------------------------------------------------------------------
@@ -393,10 +384,6 @@ public:
     /// Initializes an AsciiString with a real value
     /// </summary>
     TCollection_AsciiString(double value);
-    /// <summary>
-    /// Initializes a AsciiString with another AsciiString.
-    /// </summary>
-    TCollection_AsciiString(Macad::Occt::TCollection_AsciiString^ astring);
     /// <summary>
     /// Initializes a AsciiString with copy of another AsciiString
     /// concatenated with the message character.
@@ -989,19 +976,13 @@ public:
     /// </summary>
     char Value(int where);
     /// <summary>
-    /// Computes a hash code for the given ASCII string, in the range [1, theUpperBound].
+    /// Computes a hash code for the given ASCII string
     /// Returns the same integer value as the hash function for TCollection_ExtendedString
     /// </summary>
-    /// <param name="theAsciiString">
-    /// the ASCII string which hash code is to be computed
-    /// </param>
-    /// <param name="theUpperBound">
-    /// the upper bound of the range a computing hash code must be within
-    /// </param>
     /// <returns>
-    /// a computed hash code, in the range [1, theUpperBound]
+    /// a computed hash code
     /// </returns>
-    static int HashCode(Macad::Occt::TCollection_AsciiString^ theAsciiString, int theUpperBound);
+    long long unsigned int HashCode();
     /// <summary>
     /// Returns True  when the two  strings are the same.
     /// (Just for HashCode for AsciiString)
@@ -1017,53 +998,6 @@ public:
     /// </summary>
     static bool IsSameString(Macad::Occt::TCollection_AsciiString^ theString1, Macad::Occt::TCollection_AsciiString^ theString2, bool theIsCaseSensitive);
 }; // class TCollection_AsciiString
-
-//---------------------------------------------------------------------
-//  Class  TCollection
-//---------------------------------------------------------------------
-/// <summary>
-/// The package <TCollection> provides the services for the
-/// transient basic data structures.
-/// </summary>
-public ref class TCollection sealed
-    : public Macad::Occt::BaseClass<::TCollection>
-{
-
-#ifdef Include_TCollection_h
-public:
-    Include_TCollection_h
-#endif
-
-public:
-    TCollection(::TCollection* nativeInstance)
-        : Macad::Occt::BaseClass<::TCollection>( nativeInstance, true )
-    {}
-
-    TCollection(::TCollection& nativeInstance)
-        : Macad::Occt::BaseClass<::TCollection>( &nativeInstance, false )
-    {}
-
-    property ::TCollection* NativeInstance
-    {
-        ::TCollection* get()
-        {
-            return static_cast<::TCollection*>(_NativeInstance);
-        }
-    }
-
-public:
-    TCollection();
-    TCollection(Macad::Occt::TCollection^ parameter1);
-    /// <summary>
-    /// Returns a  prime number greater than  <I> suitable
-    /// to dimension a Map.  When  <I> becomes great there
-    /// is  a  limit on  the  result (today  the  limit is
-    /// around 1 000 000). This is not a limit of the number of
-    /// items but a limit in the number  of buckets.  i.e.
-    /// there will be more collisions  in  the map.
-    /// </summary>
-    static int NextPrimeForMap(int I);
-}; // class TCollection
 
 //---------------------------------------------------------------------
 //  Class  TCollection_HExtendedString
@@ -1118,17 +1052,13 @@ public:
     TCollection_HExtendedString(System::String^ message);
     /* Method skipped due to unknown mapping: void TCollection_HExtendedString(int length, char16_t filler, ) */
     /// <summary>
-    /// Initializes a HExtendedString with a HExtendedString.
+    /// Initializes a HExtendedString with a ExtendedString.
     /// </summary>
     TCollection_HExtendedString(Macad::Occt::TCollection_ExtendedString^ aString);
     /// <summary>
     /// Initializes a HExtendedString with an HAsciiString.
     /// </summary>
     TCollection_HExtendedString(Macad::Occt::TCollection_HAsciiString^ aString);
-    /// <summary>
-    /// Initializes a HExtendedString with a HExtendedString.
-    /// </summary>
-    TCollection_HExtendedString(Macad::Occt::TCollection_HExtendedString^ aString);
     /// <summary>
     /// Appends <other>  to me.
     /// </summary>
@@ -1335,10 +1265,6 @@ public:
     /// Initializes a HAsciiString with a AsciiString.
     /// </summary>
     TCollection_HAsciiString(Macad::Occt::TCollection_AsciiString^ aString);
-    /// <summary>
-    /// Initializes a HAsciiString with a HAsciiString.
-    /// </summary>
-    TCollection_HAsciiString(Macad::Occt::TCollection_HAsciiString^ aString);
     /// <summary>
     /// Initializes a HAsciiString with a HExtendedString.
     /// If replaceNonAscii is non-null character, it will be used
@@ -1834,6 +1760,52 @@ public:
     bool IsSameState(Macad::Occt::TCollection_HAsciiString^ other);
     static Macad::Occt::TCollection_HAsciiString^ CreateDowncasted(::TCollection_HAsciiString* instance);
 }; // class TCollection_HAsciiString
+
+//---------------------------------------------------------------------
+//  Class  TCollection
+//---------------------------------------------------------------------
+/// <summary>
+/// The package <TCollection> provides the services for the
+/// transient basic data structures.
+/// </summary>
+public ref class TCollection sealed
+    : public Macad::Occt::BaseClass<::TCollection>
+{
+
+#ifdef Include_TCollection_h
+public:
+    Include_TCollection_h
+#endif
+
+public:
+    TCollection(::TCollection* nativeInstance)
+        : Macad::Occt::BaseClass<::TCollection>( nativeInstance, true )
+    {}
+
+    TCollection(::TCollection& nativeInstance)
+        : Macad::Occt::BaseClass<::TCollection>( &nativeInstance, false )
+    {}
+
+    property ::TCollection* NativeInstance
+    {
+        ::TCollection* get()
+        {
+            return static_cast<::TCollection*>(_NativeInstance);
+        }
+    }
+
+public:
+    TCollection();
+    /// <summary>
+    /// Returns a  prime number greater than  <I> suitable
+    /// to dimension a Map.  When  <I> becomes great there
+    /// is  a  limit on  the  result (today  the  limit is
+    /// around 1 000 000). This is not a limit of the number of
+    /// items but a limit in the number  of buckets.  i.e.
+    /// there will be more collisions  in  the map.
+    /// </summary>
+    static int NextPrimeForMap(int I);
+}; // class TCollection
 
 }; // namespace Occt
 }; // namespace Macad

@@ -18,12 +18,6 @@ Macad::Occt::ElSLib::ElSLib()
     _NativeInstance = new ::ElSLib();
 }
 
-Macad::Occt::ElSLib::ElSLib(Macad::Occt::ElSLib^ parameter1)
-    : Macad::Occt::BaseClass<::ElSLib>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::ElSLib(*(::ElSLib*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Pnt Macad::Occt::ElSLib::Value(double U, double V, Macad::Occt::Pln Pl)
 {
     pin_ptr<Macad::Occt::Pln> pp_Pl = &Pl;

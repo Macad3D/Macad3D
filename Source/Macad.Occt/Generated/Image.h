@@ -88,7 +88,6 @@ public:
 
 public:
     Image_ColorRGB();
-    Image_ColorRGB(Macad::Occt::Image_ColorRGB^ parameter1);
     /// <summary>
     /// Returns the number of components.
     /// </summary>
@@ -141,7 +140,6 @@ public:
 
 public:
     Image_ColorRGB32();
-    Image_ColorRGB32(Macad::Occt::Image_ColorRGB32^ parameter1);
     /// <summary>
     /// Returns the number of components.
     /// </summary>
@@ -198,7 +196,6 @@ public:
 
 public:
     Image_ColorRGBA();
-    Image_ColorRGBA(Macad::Occt::Image_ColorRGBA^ parameter1);
     /// <summary>
     /// Returns the number of components.
     /// </summary>
@@ -255,7 +252,6 @@ public:
 
 public:
     Image_ColorBGR();
-    Image_ColorBGR(Macad::Occt::Image_ColorBGR^ parameter1);
     /// <summary>
     /// Returns the number of components.
     /// </summary>
@@ -308,7 +304,6 @@ public:
 
 public:
     Image_ColorBGR32();
-    Image_ColorBGR32(Macad::Occt::Image_ColorBGR32^ parameter1);
     /// <summary>
     /// Returns the number of components.
     /// </summary>
@@ -365,7 +360,6 @@ public:
 
 public:
     Image_ColorBGRA();
-    Image_ColorBGRA(Macad::Occt::Image_ColorBGRA^ parameter1);
     /// <summary>
     /// Returns the number of components.
     /// </summary>
@@ -422,7 +416,6 @@ public:
 
 public:
     Image_ColorRGF();
-    Image_ColorRGF(Macad::Occt::Image_ColorRGF^ parameter1);
     /// <summary>
     /// Returns the number of components.
     /// </summary>
@@ -471,7 +464,6 @@ public:
 
 public:
     Image_ColorRGBF();
-    Image_ColorRGBF(Macad::Occt::Image_ColorRGBF^ parameter1);
     /// <summary>
     /// Returns the number of components.
     /// </summary>
@@ -524,7 +516,6 @@ public:
 
 public:
     Image_ColorBGRF();
-    Image_ColorBGRF(Macad::Occt::Image_ColorBGRF^ parameter1);
     /// <summary>
     /// Returns the number of components.
     /// </summary>
@@ -577,7 +568,6 @@ public:
 
 public:
     Image_ColorRGBAF();
-    Image_ColorRGBAF(Macad::Occt::Image_ColorRGBAF^ parameter1);
     /// <summary>
     /// Returns the number of components.
     /// </summary>
@@ -634,7 +624,6 @@ public:
 
 public:
     Image_ColorBGRAF();
-    Image_ColorBGRAF(Macad::Occt::Image_ColorBGRAF^ parameter1);
     /// <summary>
     /// Returns the number of components.
     /// </summary>
@@ -743,7 +732,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Image_VideoParams();
-    Image_VideoParams(Macad::Occt::Image_VideoParams^ parameter1);
     /// <summary>
     /// Setup playback FPS.
     /// </summary>
@@ -876,7 +864,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Image_PixMapData();
-    Image_PixMapData(Macad::Occt::Image_PixMapData^ parameter1);
     /// <summary>
     /// Initializer.
     /// </summary>
@@ -1505,34 +1492,61 @@ public:
     /// <summary>
     /// Read image data from memory buffer.
     /// </summary>
-    /// <param name="theData">
-    ///     memory pointer to read from;
+    /// <param name="in]">
+    /// theData     memory pointer to read from;
     /// when NULL, function will attempt to open theFileName file
     /// </param>
-    /// <param name="theLength">
-    ///   memory buffer length
+    /// <param name="in]">
+    /// theLength   memory buffer length
     /// </param>
-    /// <param name="theFileName">
-    /// optional file name
+    /// <param name="in]">
+    /// theFileName optional file name
     /// </param>
     bool Load(unsigned char theData, long long unsigned int theLength, Macad::Occt::TCollection_AsciiString^ theFileName);
     /// <summary>
-    /// Write image data to file using file extension to determine compression format.
+    /// Write image data to file.
     /// </summary>
+    /// <param name="in]">
+    /// theFileName file name to save
+    /// </param>
     bool Save(Macad::Occt::TCollection_AsciiString^ theFileName);
+    /* Method skipped due to unknown mapping: bool Save(ostream theStream, TCollection_AsciiString theExtension, ) */
+    /// <summary>
+    /// Write image data to file or memory buffer using file extension to determine format.
+    /// </summary>
+    /// <param name="out]">
+    /// theBuffer  buffer pointer where to write
+    /// when NULL, function write image data to theFileName file
+    /// </param>
+    /// <param name="in]">
+    /// theLength   memory buffer length
+    /// </param>
+    /// <param name="in]">
+    /// theFileName file name to save;
+    /// when theBuffer isn't NULL used only to determine format
+    /// </param>
+    bool Save(unsigned char% theBuffer, long long unsigned int theLength, Macad::Occt::TCollection_AsciiString^ theFileName);
     /// <summary>
     /// Initialize image plane with required dimensions.
-    /// thePixelFormat - if specified pixel format doesn't supported by image library
-    /// than nearest supported will be used instead!
-    /// theSizeRowBytes - may be ignored by this class and required alignment will be used instead!
     /// </summary>
+    /// <param name="in]">
+    /// thePixelFormat  if specified pixel format doesn't supported by image library
+    /// than nearest supported will be used instead!
+    /// </param>
+    /// <param name="in]">
+    /// theSizeRowBytes may be ignored by this class and required alignment will be used instead!
+    /// </param>
     bool InitTrash(Macad::Occt::Image_Format thePixelFormat, long long unsigned int theSizeX, long long unsigned int theSizeY, long long unsigned int theSizeRowBytes);
     /// <summary>
     /// Initialize image plane with required dimensions.
-    /// thePixelFormat - if specified pixel format doesn't supported by image library
-    /// than nearest supported will be used instead!
-    /// theSizeRowBytes - may be ignored by this class and required alignment will be used instead!
     /// </summary>
+    /// <param name="in]">
+    /// thePixelFormat  if specified pixel format doesn't supported by image library
+    /// than nearest supported will be used instead!
+    /// </param>
+    /// <param name="in]">
+    /// theSizeRowBytes may be ignored by this class and required alignment will be used instead!
+    /// </param>
     bool InitTrash(Macad::Occt::Image_Format thePixelFormat, long long unsigned int theSizeX, long long unsigned int theSizeY);
     /// <summary>
     /// Initialize by copying data.
@@ -1544,9 +1558,12 @@ public:
     void Clear();
     /// <summary>
     /// Performs gamma correction on image.
-    /// theGamma - gamma value to use; a value of 1.0 leaves the image alone
     /// </summary>
+    /// <param name="in]">
+    /// theGamma - gamma value to use; a value of 1.0 leaves the image alone
+    /// </param>
     bool AdjustGamma(double theGammaCorr);
+    /* Method skipped due to unknown mapping: IWICPalette GetPalette() */
     static Macad::Occt::Image_AlienPixMap^ CreateDowncasted(::Image_AlienPixMap* instance);
 }; // class Image_AlienPixMap
 
@@ -1588,7 +1605,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Image_CompressedPixMap();
-    Image_CompressedPixMap(Macad::Occt::Image_CompressedPixMap^ parameter1);
     /// <summary>
     /// Return base (uncompressed) pixel format.
     /// </summary>
@@ -1701,7 +1717,6 @@ public:
     /// Empty constructor.
     /// </summary>
     Image_SupportedFormats();
-    Image_SupportedFormats(Macad::Occt::Image_SupportedFormats^ parameter1);
     /// <summary>
     /// Return TRUE if image format is supported.
     /// </summary>
@@ -1763,7 +1778,6 @@ public:
 
 public:
     Image_DDSParser();
-    Image_DDSParser(Macad::Occt::Image_DDSParser^ parameter1);
     /// <summary>
     /// Load the face from DDS file.
     /// </summary>
@@ -1891,7 +1905,6 @@ public:
     /// An empty constructor. Init() should be called for initialization.
     /// </summary>
     Image_Diff();
-    Image_Diff(Macad::Occt::Image_Diff^ parameter1);
     /// <summary>
     /// Initialize algorithm by two images.
     /// </summary>
@@ -2005,7 +2018,6 @@ public:
     /// Constructor pointing to buffer.
     /// </summary>
     Image_Texture(Macad::Occt::NCollection_Buffer^ theBuffer, Macad::Occt::TCollection_AsciiString^ theId);
-    Image_Texture(Macad::Occt::Image_Texture^ parameter1);
     /// <summary>
     /// Return generated texture id.
     /// </summary>
@@ -2048,14 +2060,6 @@ public:
     bool WriteImage(Macad::Occt::TCollection_AsciiString^ theFile);
     /* Method skipped due to unknown mapping: bool WriteImage(ostream theStream, TCollection_AsciiString theFile, ) */
     /// <summary>
-    /// Hash value, for Map interface.
-    /// </summary>
-    static int HashCode(Macad::Occt::Image_Texture^ theTexture, int theUpper);
-    /// <summary>
-    /// Matching two instances, for Map interface.
-    /// </summary>
-    static bool IsEqual(Macad::Occt::Image_Texture^ theTex1, Macad::Occt::Image_Texture^ theTex2);
-    /// <summary>
     /// Dumps the content of me into the stream
     /// </summary>
     void DumpJson(System::IO::TextWriter^ theOStream, int theDepth);
@@ -2064,8 +2068,6 @@ public:
     /// </summary>
     void DumpJson(System::IO::TextWriter^ theOStream);
     static Macad::Occt::Image_Texture^ CreateDowncasted(::Image_Texture* instance);
-    bool Equals(System::Object^ obj) override;
-    int GetHashCode() override;
 }; // class Image_Texture
 
 //---------------------------------------------------------------------

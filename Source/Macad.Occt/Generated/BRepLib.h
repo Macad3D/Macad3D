@@ -126,7 +126,6 @@ public:
 
 public:
     BRepLib();
-    BRepLib(Macad::Occt::BRepLib^ parameter1);
     /// <summary>
     /// Computes the max distance between edge
     /// and its 2d representation on the face.
@@ -585,7 +584,6 @@ public:
     /// Constructor
     /// </summary>
     BRepLib_CheckCurveOnSurface(Macad::Occt::TopoDS_Edge^ theEdge, Macad::Occt::TopoDS_Face^ theFace);
-    BRepLib_CheckCurveOnSurface(Macad::Occt::BRepLib_CheckCurveOnSurface^ parameter1);
     /// <summary>
     /// Sets the data for the algorithm
     /// </summary>
@@ -672,7 +670,6 @@ public:
     }
 
 public:
-    BRepLib_Command(Macad::Occt::BRepLib_Command^ parameter1);
     bool IsDone();
     /// <summary>
     /// Raises NotDone if done is false.
@@ -777,7 +774,6 @@ public:
     /// closed in 2D, will be ignored.
     /// </summary>
     BRepLib_FindSurface(Macad::Occt::TopoDS_Shape^ S);
-    BRepLib_FindSurface(Macad::Occt::BRepLib_FindSurface^ parameter1);
     /// <summary>
     /// Computes the Surface from the edges of  <S> with the
     /// given tolerance.
@@ -881,7 +877,6 @@ public:
     /// of ancestors.
     /// </summary>
     BRepLib_FuseEdges(Macad::Occt::TopoDS_Shape^ theShape);
-    BRepLib_FuseEdges(Macad::Occt::BRepLib_FuseEdges^ parameter1);
     /// <summary>
     /// set edges to avoid being fused
     /// </summary>
@@ -972,7 +967,6 @@ public:
     }
 
 public:
-    BRepLib_MakeShape(Macad::Occt::BRepLib_MakeShape^ parameter1);
     /// <summary>
     /// This is  called by  Shape().  It does  nothing but
     /// may be redefined.
@@ -1106,7 +1100,6 @@ public:
     BRepLib_MakeEdge(Macad::Occt::Geom2d_Curve^ L, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2);
     BRepLib_MakeEdge(Macad::Occt::Geom2d_Curve^ L, Macad::Occt::Geom_Surface^ S, Macad::Occt::Pnt P1, Macad::Occt::Pnt P2, double p1, double p2);
     BRepLib_MakeEdge(Macad::Occt::Geom2d_Curve^ L, Macad::Occt::Geom_Surface^ S, Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, double p1, double p2);
-    BRepLib_MakeEdge(Macad::Occt::BRepLib_MakeEdge^ parameter1);
     void Init(Macad::Occt::Geom_Curve^ C);
     void Init(Macad::Occt::Geom_Curve^ C, double p1, double p2);
     void Init(Macad::Occt::Geom_Curve^ C, Macad::Occt::Pnt P1, Macad::Occt::Pnt P2);
@@ -1225,7 +1218,6 @@ public:
     BRepLib_MakeEdge2d(Macad::Occt::Geom2d_Curve^ L, Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2);
     BRepLib_MakeEdge2d(Macad::Occt::Geom2d_Curve^ L, Macad::Occt::Pnt2d P1, Macad::Occt::Pnt2d P2, double p1, double p2);
     BRepLib_MakeEdge2d(Macad::Occt::Geom2d_Curve^ L, Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, double p1, double p2);
-    BRepLib_MakeEdge2d(Macad::Occt::BRepLib_MakeEdge2d^ parameter1);
     void Init(Macad::Occt::Geom2d_Curve^ C);
     void Init(Macad::Occt::Geom2d_Curve^ C, double p1, double p2);
     void Init(Macad::Occt::Geom2d_Curve^ C, Macad::Occt::Pnt2d P1, Macad::Occt::Pnt2d P2);
@@ -1429,7 +1421,6 @@ public:
     /// Adds the wire <W> in the face <F>
     /// </summary>
     BRepLib_MakeFace(Macad::Occt::TopoDS_Face^ F, Macad::Occt::TopoDS_Wire^ W);
-    BRepLib_MakeFace(Macad::Occt::BRepLib_MakeFace^ parameter1);
     /// <summary>
     /// Load the face.
     /// </summary>
@@ -1527,7 +1518,6 @@ public:
     BRepLib_MakePolygon(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, Macad::Occt::TopoDS_Vertex^ V3);
     BRepLib_MakePolygon(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, Macad::Occt::TopoDS_Vertex^ V3, Macad::Occt::TopoDS_Vertex^ V4, bool Close);
     BRepLib_MakePolygon(Macad::Occt::TopoDS_Vertex^ V1, Macad::Occt::TopoDS_Vertex^ V2, Macad::Occt::TopoDS_Vertex^ V3, Macad::Occt::TopoDS_Vertex^ V4);
-    BRepLib_MakePolygon(Macad::Occt::BRepLib_MakePolygon^ parameter1);
     void Add(Macad::Occt::Pnt P);
     void Add(Macad::Occt::TopoDS_Vertex^ V);
     /// <summary>
@@ -1590,7 +1580,6 @@ public:
     BRepLib_MakeShell(Macad::Occt::Geom_Surface^ S);
     BRepLib_MakeShell(Macad::Occt::Geom_Surface^ S, double UMin, double UMax, double VMin, double VMax, bool Segment);
     BRepLib_MakeShell(Macad::Occt::Geom_Surface^ S, double UMin, double UMax, double VMin, double VMax);
-    BRepLib_MakeShell(Macad::Occt::BRepLib_MakeShell^ parameter1);
     /// <summary>
     /// Creates the shell from the surface  and the min-max
     /// values.
@@ -1669,7 +1658,6 @@ public:
     /// Add a shell to a solid.
     /// </summary>
     BRepLib_MakeSolid(Macad::Occt::TopoDS_Solid^ So, Macad::Occt::TopoDS_Shell^ S);
-    BRepLib_MakeSolid(Macad::Occt::BRepLib_MakeSolid^ parameter1);
     /// <summary>
     /// Add the shell to the current solid.
     /// </summary>
@@ -1719,7 +1707,6 @@ public:
 
 public:
     BRepLib_MakeVertex(Macad::Occt::Pnt P);
-    BRepLib_MakeVertex(Macad::Occt::BRepLib_MakeVertex^ parameter1);
     Macad::Occt::TopoDS_Vertex^ Vertex();
 }; // class BRepLib_MakeVertex
 
@@ -1825,7 +1812,6 @@ public:
     /// Add an edge to a wire.
     /// </summary>
     BRepLib_MakeWire(Macad::Occt::TopoDS_Wire^ W, Macad::Occt::TopoDS_Edge^ E);
-    BRepLib_MakeWire(Macad::Occt::BRepLib_MakeWire^ parameter1);
     /// <summary>
     /// Add the edge <E> to the current wire.
     /// </summary>
@@ -1905,7 +1891,6 @@ public:
     /// Constructor initialized by shape
     /// </summary>
     BRepLib_PointCloudShape();
-    BRepLib_PointCloudShape(Macad::Occt::BRepLib_PointCloudShape^ parameter1);
     /// <summary>
     /// Return loaded shape.
     /// </summary>
@@ -1999,7 +1984,6 @@ public:
 
 public:
     BRepLib_ToolTriangulatedShape();
-    BRepLib_ToolTriangulatedShape(Macad::Occt::BRepLib_ToolTriangulatedShape^ parameter1);
     /* Method skipped due to unknown mapping: void ComputeNormals(TopoDS_Face theFace, Poly_Triangulation theTris, ) */
     /* Method skipped due to unknown mapping: void ComputeNormals(TopoDS_Face theFace, Poly_Triangulation theTris, Poly_Connect thePolyConnect, ) */
 }; // class BRepLib_ToolTriangulatedShape
@@ -2043,7 +2027,6 @@ public:
     /// Initialization constructor
     /// </summary>
     BRepLib_ValidateEdge(Macad::Occt::Adaptor3d_Curve^ theReferenceCurve, Macad::Occt::Adaptor3d_CurveOnSurface^ theOtherCurve, bool theSameParameter);
-    BRepLib_ValidateEdge(Macad::Occt::BRepLib_ValidateEdge^ parameter1);
     /// <summary>
     /// Sets method to calculate distance: Calculating in finite number of points (if theIsExact
     /// is false, faster, but possible not correct result) or exact calculating by using

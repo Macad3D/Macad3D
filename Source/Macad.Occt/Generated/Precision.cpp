@@ -17,12 +17,6 @@ Macad::Occt::Precision::Precision()
     _NativeInstance = new ::Precision();
 }
 
-Macad::Occt::Precision::Precision(Macad::Occt::Precision^ parameter1)
-    : Macad::Occt::BaseClass<::Precision>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Precision(*(::Precision*)parameter1->NativeInstance);
-}
-
 double Macad::Occt::Precision::Angular()
 {
     double _result = ::Precision::Angular();

@@ -75,7 +75,6 @@ public:
 
 public:
     GeomConvert();
-    GeomConvert(Macad::Occt::GeomConvert^ parameter1);
     /// <summary>
     /// Convert a curve from Geom by an approximation method
     /// 
@@ -564,7 +563,6 @@ public:
     /// polynomial defining the BSpline curve may have.
     /// </summary>
     GeomConvert_ApproxCurve(Macad::Occt::Adaptor3d_Curve^ Curve, double Tol3d, Macad::Occt::GeomAbs_Shape Order, int MaxSegments, int MaxDegree);
-    GeomConvert_ApproxCurve(Macad::Occt::GeomConvert_ApproxCurve^ parameter1);
     /// <summary>
     /// Returns the BSpline curve resulting from the approximation algorithm.
     /// </summary>
@@ -655,7 +653,6 @@ public:
     /// -   the index of precision PrecisCode.
     /// </summary>
     GeomConvert_ApproxSurface(Macad::Occt::Adaptor3d_Surface^ Surf, double Tol3d, Macad::Occt::GeomAbs_Shape UContinuity, Macad::Occt::GeomAbs_Shape VContinuity, int MaxDegU, int MaxDegV, int MaxSegments, int PrecisCode);
-    GeomConvert_ApproxSurface(Macad::Occt::GeomConvert_ApproxSurface^ parameter1);
     /// <summary>
     /// Returns the BSpline surface resulting from the approximation algorithm.
     /// </summary>
@@ -748,7 +745,6 @@ public:
     /// Standard_RangeError if ContinuityRange is less than zero.
     /// </summary>
     GeomConvert_BSplineCurveKnotSplitting(Macad::Occt::Geom_BSplineCurve^ BasisCurve, int ContinuityRange);
-    GeomConvert_BSplineCurveKnotSplitting(Macad::Occt::GeomConvert_BSplineCurveKnotSplitting^ parameter1);
     /// <summary>
     /// Returns the number of points at which the analyzed
     /// BSpline curve should be split, in order to obtain arcs
@@ -857,7 +853,6 @@ public:
     /// Raised if Abs (U2 - U1) <= ParametricTolerance.
     /// </summary>
     GeomConvert_BSplineCurveToBezierCurve(Macad::Occt::Geom_BSplineCurve^ BasisCurve, double U1, double U2, double ParametricTolerance);
-    GeomConvert_BSplineCurveToBezierCurve(Macad::Occt::GeomConvert_BSplineCurveToBezierCurve^ parameter1);
     /// <summary>
     /// Constructs and returns the Bezier curve of index
     /// Index to the table of adjacent Bezier arcs
@@ -966,7 +961,6 @@ public:
     /// VContinuityRange is less than zero.
     /// </summary>
     GeomConvert_BSplineSurfaceKnotSplitting(Macad::Occt::Geom_BSplineSurface^ BasisSurface, int UContinuityRange, int VContinuityRange);
-    GeomConvert_BSplineSurfaceKnotSplitting(Macad::Occt::GeomConvert_BSplineSurfaceKnotSplitting^ parameter1);
     /// <summary>
     /// Returns the number of u-isoparametric curves
     /// along which the analysed BSpline surface should be
@@ -1135,7 +1129,6 @@ public:
     /// V2 - V1 <= ParametricTolerance.
     /// </summary>
     GeomConvert_BSplineSurfaceToBezierSurface(Macad::Occt::Geom_BSplineSurface^ BasisSurface, double U1, double U2, double V1, double V2, double ParametricTolerance);
-    GeomConvert_BSplineSurfaceToBezierSurface(Macad::Occt::GeomConvert_BSplineSurfaceToBezierSurface^ parameter1);
     /// <summary>
     /// Constructs and returns the Bezier surface of indices
     /// (UIndex, VIndex) to the patch grid computed on the
@@ -1263,7 +1256,6 @@ public:
     /* Method skipped due to unknown mapping: void GeomConvert_CompBezierSurfacesToBSplineSurface(TColGeom_Array2OfBezierSurface Beziers, TColStd_Array1OfReal UKnots, TColStd_Array1OfReal VKnots, GeomAbs_Shape UContinuity, GeomAbs_Shape VContinuity, double Tolerance, ) */
     /* Method skipped due to unknown mapping: void GeomConvert_CompBezierSurfacesToBSplineSurface(TColGeom_Array2OfBezierSurface Beziers, TColStd_Array1OfReal UKnots, TColStd_Array1OfReal VKnots, GeomAbs_Shape UContinuity, GeomAbs_Shape VContinuity, double Tolerance, ) */
     /* Method skipped due to unknown mapping: void GeomConvert_CompBezierSurfacesToBSplineSurface(TColGeom_Array2OfBezierSurface Beziers, TColStd_Array1OfReal UKnots, TColStd_Array1OfReal VKnots, GeomAbs_Shape UContinuity, GeomAbs_Shape VContinuity, double Tolerance, ) */
-    GeomConvert_CompBezierSurfacesToBSplineSurface(Macad::Occt::GeomConvert_CompBezierSurfacesToBSplineSurface^ parameter1);
     /// <summary>
     /// Returns the number of knots in the U direction
     /// of the BSpline surface whose data is computed in this framework.
@@ -1390,7 +1382,6 @@ public:
     /// - Parameterisation is used to convert
     /// </summary>
     GeomConvert_CompCurveToBSplineCurve(Macad::Occt::Geom_BoundedCurve^ BasisCurve);
-    GeomConvert_CompCurveToBSplineCurve(Macad::Occt::GeomConvert_CompCurveToBSplineCurve^ parameter1);
     /// <summary>
     /// Append a curve in  the BSpline Return False if the
     /// curve is not G0  with the BSplineCurve.  Tolerance
@@ -1482,7 +1473,6 @@ public:
 public:
     GeomConvert_CurveToAnaCurve();
     GeomConvert_CurveToAnaCurve(Macad::Occt::Geom_Curve^ C);
-    GeomConvert_CurveToAnaCurve(Macad::Occt::GeomConvert_CurveToAnaCurve^ parameter1);
     void Init(Macad::Occt::Geom_Curve^ C);
     /// <summary>
     /// Converts me to analytical if possible with given
@@ -1586,7 +1576,6 @@ public:
 public:
     GeomConvert_SurfToAnaSurf();
     GeomConvert_SurfToAnaSurf(Macad::Occt::Geom_Surface^ S);
-    GeomConvert_SurfToAnaSurf(Macad::Occt::GeomConvert_SurfToAnaSurf^ parameter1);
     void Init(Macad::Occt::Geom_Surface^ S);
     void SetConvType(Macad::Occt::GeomConvert_ConvType theConvType);
     void SetConvType();
@@ -1649,7 +1638,6 @@ public:
 
 public:
     GeomConvert_Units();
-    GeomConvert_Units(Macad::Occt::GeomConvert_Units^ parameter1);
     /// <summary>
     /// Convert 2d curve for change angle unit from radian to degree
     /// </summary>

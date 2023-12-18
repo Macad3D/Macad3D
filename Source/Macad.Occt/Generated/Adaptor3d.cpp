@@ -20,12 +20,6 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 //  Class  Adaptor3d_Curve
 //---------------------------------------------------------------------
 
-Macad::Occt::Adaptor3d_Curve::Adaptor3d_Curve(Macad::Occt::Adaptor3d_Curve^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Adaptor3d_Curve(*(::Adaptor3d_Curve*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Adaptor3d_Curve::Adaptor3d_Curve()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
@@ -248,12 +242,6 @@ Macad::Occt::Adaptor3d_Curve^ Macad::Occt::Adaptor3d_Curve::CreateDowncasted(::A
 //---------------------------------------------------------------------
 //  Class  Adaptor3d_Surface
 //---------------------------------------------------------------------
-
-Macad::Occt::Adaptor3d_Surface::Adaptor3d_Surface(Macad::Occt::Adaptor3d_Surface^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Adaptor3d_Surface(*(::Adaptor3d_Surface*)parameter1->NativeInstance);
-}
 
 Macad::Occt::Adaptor3d_Surface::Adaptor3d_Surface()
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
@@ -604,12 +592,6 @@ Macad::Occt::Adaptor3d_CurveOnSurface::Adaptor3d_CurveOnSurface(Macad::Occt::Ada
     NativeInstance = new ::Adaptor3d_CurveOnSurface(Handle(::Adaptor2d_Curve2d)(C->NativeInstance), Handle(::Adaptor3d_Surface)(S->NativeInstance));
 }
 
-Macad::Occt::Adaptor3d_CurveOnSurface::Adaptor3d_CurveOnSurface(Macad::Occt::Adaptor3d_CurveOnSurface^ parameter1)
-    : Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Adaptor3d_CurveOnSurface(*(::Adaptor3d_CurveOnSurface*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Adaptor3d_Curve^ Macad::Occt::Adaptor3d_CurveOnSurface::ShallowCopy()
 {
     Handle(::Adaptor3d_Curve) _result = ((::Adaptor3d_CurveOnSurface*)_NativeInstance)->ShallowCopy();
@@ -848,12 +830,6 @@ Macad::Occt::Adaptor3d_HSurfaceTool::Adaptor3d_HSurfaceTool()
     : Macad::Occt::BaseClass<::Adaptor3d_HSurfaceTool>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::Adaptor3d_HSurfaceTool();
-}
-
-Macad::Occt::Adaptor3d_HSurfaceTool::Adaptor3d_HSurfaceTool(Macad::Occt::Adaptor3d_HSurfaceTool^ parameter1)
-    : Macad::Occt::BaseClass<::Adaptor3d_HSurfaceTool>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::Adaptor3d_HSurfaceTool(*(::Adaptor3d_HSurfaceTool*)parameter1->NativeInstance);
 }
 
 double Macad::Occt::Adaptor3d_HSurfaceTool::FirstUParameter(Macad::Occt::Adaptor3d_Surface^ theSurf)
@@ -1151,12 +1127,6 @@ Macad::Occt::Adaptor3d_HVertex::Adaptor3d_HVertex(Macad::Occt::Pnt2d P, Macad::O
     NativeInstance = new ::Adaptor3d_HVertex(*(gp_Pnt2d*)pp_P, (::TopAbs_Orientation)Ori, Resolution);
 }
 
-Macad::Occt::Adaptor3d_HVertex::Adaptor3d_HVertex(Macad::Occt::Adaptor3d_HVertex^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Adaptor3d_HVertex(*(::Adaptor3d_HVertex*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Pnt2d Macad::Occt::Adaptor3d_HVertex::Value()
 {
     ::gp_Pnt2d _nativeResult = ((::Adaptor3d_HVertex*)_NativeInstance)->Value();
@@ -1220,12 +1190,6 @@ Macad::Occt::Adaptor3d_IsoCurve::Adaptor3d_IsoCurve(Macad::Occt::Adaptor3d_Surfa
     : Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Adaptor3d_IsoCurve(Handle(::Adaptor3d_Surface)(S->NativeInstance), (::GeomAbs_IsoType)Iso, Param, WFirst, WLast);
-}
-
-Macad::Occt::Adaptor3d_IsoCurve::Adaptor3d_IsoCurve(Macad::Occt::Adaptor3d_IsoCurve^ parameter1)
-    : Macad::Occt::Adaptor3d_Curve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Adaptor3d_IsoCurve(*(::Adaptor3d_IsoCurve*)parameter1->NativeInstance);
 }
 
 Macad::Occt::Adaptor3d_Curve^ Macad::Occt::Adaptor3d_IsoCurve::ShallowCopy()
@@ -1466,12 +1430,6 @@ Macad::Occt::Adaptor3d_TopolTool::Adaptor3d_TopolTool(Macad::Occt::Adaptor3d_Sur
     : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::Adaptor3d_TopolTool(Handle(::Adaptor3d_Surface)(Surface->NativeInstance));
-}
-
-Macad::Occt::Adaptor3d_TopolTool::Adaptor3d_TopolTool(Macad::Occt::Adaptor3d_TopolTool^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::Adaptor3d_TopolTool(*(::Adaptor3d_TopolTool*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::Adaptor3d_TopolTool::Initialize()

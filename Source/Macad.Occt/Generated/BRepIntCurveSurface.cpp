@@ -21,12 +21,6 @@ Macad::Occt::BRepIntCurveSurface_Inter::BRepIntCurveSurface_Inter()
     _NativeInstance = new ::BRepIntCurveSurface_Inter();
 }
 
-Macad::Occt::BRepIntCurveSurface_Inter::BRepIntCurveSurface_Inter(Macad::Occt::BRepIntCurveSurface_Inter^ parameter1)
-    : Macad::Occt::BaseClass<::BRepIntCurveSurface_Inter>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRepIntCurveSurface_Inter(*(::BRepIntCurveSurface_Inter*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRepIntCurveSurface_Inter::Init(Macad::Occt::TopoDS_Shape^ theShape, Macad::Occt::GeomAdaptor_Curve^ theCurve, double theTol)
 {
     ((::BRepIntCurveSurface_Inter*)_NativeInstance)->Init(*(::TopoDS_Shape*)theShape->NativeInstance, *(::GeomAdaptor_Curve*)theCurve->NativeInstance, theTol);

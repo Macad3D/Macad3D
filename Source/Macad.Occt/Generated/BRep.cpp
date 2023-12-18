@@ -31,12 +31,6 @@ Macad::Occt::BRep_ListOfPointRepresentation::BRep_ListOfPointRepresentation(Maca
     _NativeInstance = new ::BRep_ListOfPointRepresentation(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
 }
 
-Macad::Occt::BRep_ListOfPointRepresentation::BRep_ListOfPointRepresentation(Macad::Occt::BRep_ListOfPointRepresentation^ theOther)
-    : Macad::Occt::NCollection_BaseList(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRep_ListOfPointRepresentation(*(::BRep_ListOfPointRepresentation*)theOther->NativeInstance);
-}
-
 int Macad::Occt::BRep_ListOfPointRepresentation::Size()
 {
     int _result = ((::BRep_ListOfPointRepresentation*)_NativeInstance)->Size();
@@ -78,25 +72,10 @@ Macad::Occt::BRep_PointRepresentation^ Macad::Occt::BRep_ListOfPointRepresentati
     return _result.IsNull() ? nullptr : Macad::Occt::BRep_PointRepresentation::CreateDowncasted(_result.get());
 }
 
-void Macad::Occt::BRep_ListOfPointRepresentation::Append(Macad::Occt::BRep_PointRepresentation^ theItem, Macad::Occt::BRep_ListOfPointRepresentation::Iterator^ theIter)
-{
-    ((::BRep_ListOfPointRepresentation*)_NativeInstance)->Append(Handle(::BRep_PointRepresentation)(theItem->NativeInstance), *(::BRep_ListOfPointRepresentation::Iterator*)theIter->NativeInstance);
-}
-
-void Macad::Occt::BRep_ListOfPointRepresentation::Append(Macad::Occt::BRep_ListOfPointRepresentation^ theOther)
-{
-    ((::BRep_ListOfPointRepresentation*)_NativeInstance)->Append(*(::BRep_ListOfPointRepresentation*)theOther->NativeInstance);
-}
-
 Macad::Occt::BRep_PointRepresentation^ Macad::Occt::BRep_ListOfPointRepresentation::Prepend(Macad::Occt::BRep_PointRepresentation^ theItem)
 {
     Handle(::BRep_PointRepresentation) _result = ((::BRep_ListOfPointRepresentation*)_NativeInstance)->Prepend(Handle(::BRep_PointRepresentation)(theItem->NativeInstance));
     return _result.IsNull() ? nullptr : Macad::Occt::BRep_PointRepresentation::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::BRep_ListOfPointRepresentation::Prepend(Macad::Occt::BRep_ListOfPointRepresentation^ theOther)
-{
-    ((::BRep_ListOfPointRepresentation*)_NativeInstance)->Prepend(*(::BRep_ListOfPointRepresentation*)theOther->NativeInstance);
 }
 
 void Macad::Occt::BRep_ListOfPointRepresentation::RemoveFirst()
@@ -115,20 +94,10 @@ Macad::Occt::BRep_PointRepresentation^ Macad::Occt::BRep_ListOfPointRepresentati
     return _result.IsNull() ? nullptr : Macad::Occt::BRep_PointRepresentation::CreateDowncasted(_result.get());
 }
 
-void Macad::Occt::BRep_ListOfPointRepresentation::InsertBefore(Macad::Occt::BRep_ListOfPointRepresentation^ theOther, Macad::Occt::BRep_ListOfPointRepresentation::Iterator^ theIter)
-{
-    ((::BRep_ListOfPointRepresentation*)_NativeInstance)->InsertBefore(*(::BRep_ListOfPointRepresentation*)theOther->NativeInstance, *(::BRep_ListOfPointRepresentation::Iterator*)theIter->NativeInstance);
-}
-
 Macad::Occt::BRep_PointRepresentation^ Macad::Occt::BRep_ListOfPointRepresentation::InsertAfter(Macad::Occt::BRep_PointRepresentation^ theItem, Macad::Occt::BRep_ListOfPointRepresentation::Iterator^ theIter)
 {
     Handle(::BRep_PointRepresentation) _result = ((::BRep_ListOfPointRepresentation*)_NativeInstance)->InsertAfter(Handle(::BRep_PointRepresentation)(theItem->NativeInstance), *(::BRep_ListOfPointRepresentation::Iterator*)theIter->NativeInstance);
     return _result.IsNull() ? nullptr : Macad::Occt::BRep_PointRepresentation::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::BRep_ListOfPointRepresentation::InsertAfter(Macad::Occt::BRep_ListOfPointRepresentation^ theOther, Macad::Occt::BRep_ListOfPointRepresentation::Iterator^ theIter)
-{
-    ((::BRep_ListOfPointRepresentation*)_NativeInstance)->InsertAfter(*(::BRep_ListOfPointRepresentation*)theOther->NativeInstance, *(::BRep_ListOfPointRepresentation::Iterator*)theIter->NativeInstance);
 }
 
 void Macad::Occt::BRep_ListOfPointRepresentation::Reverse()
@@ -146,18 +115,6 @@ Macad::Occt::BRep_ListOfPointRepresentation::Iterator::Iterator()
     : Macad::Occt::BaseClass<::BRep_ListOfPointRepresentation::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRep_ListOfPointRepresentation::Iterator();
-}
-
-Macad::Occt::BRep_ListOfPointRepresentation::Iterator::Iterator(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::BRep_ListOfPointRepresentation::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRep_ListOfPointRepresentation::Iterator(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-Macad::Occt::BRep_ListOfPointRepresentation::Iterator::Iterator(Macad::Occt::BRep_ListOfPointRepresentation::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::BRep_ListOfPointRepresentation::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRep_ListOfPointRepresentation::Iterator(*(::BRep_ListOfPointRepresentation::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::BRep_ListOfPointRepresentation::Iterator::More()
@@ -201,12 +158,6 @@ Macad::Occt::BRep_ListIteratorOfListOfPointRepresentation::BRep_ListIteratorOfLi
     _NativeInstance = new ::BRep_ListIteratorOfListOfPointRepresentation(*(::NCollection_BaseList*)theList->NativeInstance);
 }
 
-Macad::Occt::BRep_ListIteratorOfListOfPointRepresentation::BRep_ListIteratorOfListOfPointRepresentation(Macad::Occt::BRep_ListIteratorOfListOfPointRepresentation^ parameter1)
-    : Macad::Occt::BaseClass<::BRep_ListIteratorOfListOfPointRepresentation>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRep_ListIteratorOfListOfPointRepresentation(*(::BRep_ListIteratorOfListOfPointRepresentation*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::BRep_ListIteratorOfListOfPointRepresentation::More()
 {
     bool _result = ((::BRep_ListIteratorOfListOfPointRepresentation*)_NativeInstance)->More();
@@ -246,12 +197,6 @@ Macad::Occt::BRep_ListOfCurveRepresentation::BRep_ListOfCurveRepresentation(Maca
     : Macad::Occt::NCollection_BaseList(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRep_ListOfCurveRepresentation(Handle(::NCollection_BaseAllocator)(theAllocator->NativeInstance));
-}
-
-Macad::Occt::BRep_ListOfCurveRepresentation::BRep_ListOfCurveRepresentation(Macad::Occt::BRep_ListOfCurveRepresentation^ theOther)
-    : Macad::Occt::NCollection_BaseList(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRep_ListOfCurveRepresentation(*(::BRep_ListOfCurveRepresentation*)theOther->NativeInstance);
 }
 
 int Macad::Occt::BRep_ListOfCurveRepresentation::Size()
@@ -295,25 +240,10 @@ Macad::Occt::BRep_CurveRepresentation^ Macad::Occt::BRep_ListOfCurveRepresentati
     return _result.IsNull() ? nullptr : Macad::Occt::BRep_CurveRepresentation::CreateDowncasted(_result.get());
 }
 
-void Macad::Occt::BRep_ListOfCurveRepresentation::Append(Macad::Occt::BRep_CurveRepresentation^ theItem, Macad::Occt::BRep_ListOfCurveRepresentation::Iterator^ theIter)
-{
-    ((::BRep_ListOfCurveRepresentation*)_NativeInstance)->Append(Handle(::BRep_CurveRepresentation)(theItem->NativeInstance), *(::BRep_ListOfCurveRepresentation::Iterator*)theIter->NativeInstance);
-}
-
-void Macad::Occt::BRep_ListOfCurveRepresentation::Append(Macad::Occt::BRep_ListOfCurveRepresentation^ theOther)
-{
-    ((::BRep_ListOfCurveRepresentation*)_NativeInstance)->Append(*(::BRep_ListOfCurveRepresentation*)theOther->NativeInstance);
-}
-
 Macad::Occt::BRep_CurveRepresentation^ Macad::Occt::BRep_ListOfCurveRepresentation::Prepend(Macad::Occt::BRep_CurveRepresentation^ theItem)
 {
     Handle(::BRep_CurveRepresentation) _result = ((::BRep_ListOfCurveRepresentation*)_NativeInstance)->Prepend(Handle(::BRep_CurveRepresentation)(theItem->NativeInstance));
     return _result.IsNull() ? nullptr : Macad::Occt::BRep_CurveRepresentation::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::BRep_ListOfCurveRepresentation::Prepend(Macad::Occt::BRep_ListOfCurveRepresentation^ theOther)
-{
-    ((::BRep_ListOfCurveRepresentation*)_NativeInstance)->Prepend(*(::BRep_ListOfCurveRepresentation*)theOther->NativeInstance);
 }
 
 void Macad::Occt::BRep_ListOfCurveRepresentation::RemoveFirst()
@@ -332,20 +262,10 @@ Macad::Occt::BRep_CurveRepresentation^ Macad::Occt::BRep_ListOfCurveRepresentati
     return _result.IsNull() ? nullptr : Macad::Occt::BRep_CurveRepresentation::CreateDowncasted(_result.get());
 }
 
-void Macad::Occt::BRep_ListOfCurveRepresentation::InsertBefore(Macad::Occt::BRep_ListOfCurveRepresentation^ theOther, Macad::Occt::BRep_ListOfCurveRepresentation::Iterator^ theIter)
-{
-    ((::BRep_ListOfCurveRepresentation*)_NativeInstance)->InsertBefore(*(::BRep_ListOfCurveRepresentation*)theOther->NativeInstance, *(::BRep_ListOfCurveRepresentation::Iterator*)theIter->NativeInstance);
-}
-
 Macad::Occt::BRep_CurveRepresentation^ Macad::Occt::BRep_ListOfCurveRepresentation::InsertAfter(Macad::Occt::BRep_CurveRepresentation^ theItem, Macad::Occt::BRep_ListOfCurveRepresentation::Iterator^ theIter)
 {
     Handle(::BRep_CurveRepresentation) _result = ((::BRep_ListOfCurveRepresentation*)_NativeInstance)->InsertAfter(Handle(::BRep_CurveRepresentation)(theItem->NativeInstance), *(::BRep_ListOfCurveRepresentation::Iterator*)theIter->NativeInstance);
     return _result.IsNull() ? nullptr : Macad::Occt::BRep_CurveRepresentation::CreateDowncasted(_result.get());
-}
-
-void Macad::Occt::BRep_ListOfCurveRepresentation::InsertAfter(Macad::Occt::BRep_ListOfCurveRepresentation^ theOther, Macad::Occt::BRep_ListOfCurveRepresentation::Iterator^ theIter)
-{
-    ((::BRep_ListOfCurveRepresentation*)_NativeInstance)->InsertAfter(*(::BRep_ListOfCurveRepresentation*)theOther->NativeInstance, *(::BRep_ListOfCurveRepresentation::Iterator*)theIter->NativeInstance);
 }
 
 void Macad::Occt::BRep_ListOfCurveRepresentation::Reverse()
@@ -363,18 +283,6 @@ Macad::Occt::BRep_ListOfCurveRepresentation::Iterator::Iterator()
     : Macad::Occt::BaseClass<::BRep_ListOfCurveRepresentation::Iterator>(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRep_ListOfCurveRepresentation::Iterator();
-}
-
-Macad::Occt::BRep_ListOfCurveRepresentation::Iterator::Iterator(Macad::Occt::NCollection_BaseList^ theList)
-    : Macad::Occt::BaseClass<::BRep_ListOfCurveRepresentation::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRep_ListOfCurveRepresentation::Iterator(*(::NCollection_BaseList*)theList->NativeInstance);
-}
-
-Macad::Occt::BRep_ListOfCurveRepresentation::Iterator::Iterator(Macad::Occt::BRep_ListOfCurveRepresentation::Iterator^ parameter1)
-    : Macad::Occt::BaseClass<::BRep_ListOfCurveRepresentation::Iterator>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRep_ListOfCurveRepresentation::Iterator(*(::BRep_ListOfCurveRepresentation::Iterator*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::BRep_ListOfCurveRepresentation::Iterator::More()
@@ -418,12 +326,6 @@ Macad::Occt::BRep_ListIteratorOfListOfCurveRepresentation::BRep_ListIteratorOfLi
     _NativeInstance = new ::BRep_ListIteratorOfListOfCurveRepresentation(*(::NCollection_BaseList*)theList->NativeInstance);
 }
 
-Macad::Occt::BRep_ListIteratorOfListOfCurveRepresentation::BRep_ListIteratorOfListOfCurveRepresentation(Macad::Occt::BRep_ListIteratorOfListOfCurveRepresentation^ parameter1)
-    : Macad::Occt::BaseClass<::BRep_ListIteratorOfListOfCurveRepresentation>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRep_ListIteratorOfListOfCurveRepresentation(*(::BRep_ListIteratorOfListOfCurveRepresentation*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::BRep_ListIteratorOfListOfCurveRepresentation::More()
 {
     bool _result = ((::BRep_ListIteratorOfListOfCurveRepresentation*)_NativeInstance)->More();
@@ -457,12 +359,6 @@ Macad::Occt::BRep_Builder::BRep_Builder()
     : Macad::Occt::TopoDS_Builder(BaseClass::InitMode::Uninitialized)
 {
     _NativeInstance = new ::BRep_Builder();
-}
-
-Macad::Occt::BRep_Builder::BRep_Builder(Macad::Occt::BRep_Builder^ parameter1)
-    : Macad::Occt::TopoDS_Builder(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRep_Builder(*(::BRep_Builder*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRep_Builder::MakeFace(Macad::Occt::TopoDS_Face^ F)
@@ -668,12 +564,6 @@ Macad::Occt::BRep_TFace::BRep_TFace()
     NativeInstance = new ::BRep_TFace();
 }
 
-Macad::Occt::BRep_TFace::BRep_TFace(Macad::Occt::BRep_TFace^ parameter1)
-    : Macad::Occt::TopoDS_TFace(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_TFace(*(::BRep_TFace*)parameter1->NativeInstance);
-}
-
 Macad::Occt::Geom_Surface^ Macad::Occt::BRep_TFace::Surface()
 {
     Handle(::Geom_Surface) _result = ((::BRep_TFace*)_NativeInstance)->Surface();
@@ -755,12 +645,6 @@ Macad::Occt::BRep_TFace^ Macad::Occt::BRep_TFace::CreateDowncasted(::BRep_TFace*
 //---------------------------------------------------------------------
 //  Class  BRep_PointRepresentation
 //---------------------------------------------------------------------
-
-Macad::Occt::BRep_PointRepresentation::BRep_PointRepresentation(Macad::Occt::BRep_PointRepresentation^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_PointRepresentation(*(::BRep_PointRepresentation*)parameter1->NativeInstance);
-}
 
 bool Macad::Occt::BRep_PointRepresentation::IsPointOnCurve()
 {
@@ -904,12 +788,6 @@ Macad::Occt::BRep_TVertex::BRep_TVertex()
     NativeInstance = new ::BRep_TVertex();
 }
 
-Macad::Occt::BRep_TVertex::BRep_TVertex(Macad::Occt::BRep_TVertex^ parameter1)
-    : Macad::Occt::TopoDS_TVertex(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_TVertex(*(::BRep_TVertex*)parameter1->NativeInstance);
-}
-
 double Macad::Occt::BRep_TVertex::Tolerance()
 {
     double _result = ((::BRep_TVertex*)_NativeInstance)->Tolerance();
@@ -989,12 +867,6 @@ Macad::Occt::BRep_Tool::BRep_Tool()
     _NativeInstance = new ::BRep_Tool();
 }
 
-Macad::Occt::BRep_Tool::BRep_Tool(Macad::Occt::BRep_Tool^ parameter1)
-    : Macad::Occt::BaseClass<::BRep_Tool>(BaseClass::InitMode::Uninitialized)
-{
-    _NativeInstance = new ::BRep_Tool(*(::BRep_Tool*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::BRep_Tool::IsClosed(Macad::Occt::TopoDS_Shape^ S)
 {
     bool _result = ::BRep_Tool::IsClosed(*(::TopoDS_Shape*)S->NativeInstance);
@@ -1066,7 +938,7 @@ Macad::Occt::Geom2d_Curve^ Macad::Occt::BRep_Tool::CurveOnSurface(Macad::Occt::T
 {
     pin_ptr<double> pp_First = &First;
     pin_ptr<double> pp_Last = &Last;
-    Handle(::Geom2d_Curve) _result = ::BRep_Tool::CurveOnSurface(*(::TopoDS_Edge*)E->NativeInstance, *(::TopoDS_Face*)F->NativeInstance, *(double*)pp_First, *(double*)pp_Last, 0);
+    Handle(::Geom2d_Curve) _result = ::BRep_Tool::CurveOnSurface(*(::TopoDS_Edge*)E->NativeInstance, *(::TopoDS_Face*)F->NativeInstance, *(double*)pp_First, *(double*)pp_Last, nullptr);
     return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_Curve::CreateDowncasted(_result.get());
 }
 
@@ -1083,7 +955,7 @@ Macad::Occt::Geom2d_Curve^ Macad::Occt::BRep_Tool::CurveOnSurface(Macad::Occt::T
 {
     pin_ptr<double> pp_First = &First;
     pin_ptr<double> pp_Last = &Last;
-    Handle(::Geom2d_Curve) _result = ::BRep_Tool::CurveOnSurface(*(::TopoDS_Edge*)E->NativeInstance, Handle(::Geom_Surface)(S->NativeInstance), *(::TopLoc_Location*)L->NativeInstance, *(double*)pp_First, *(double*)pp_Last, 0);
+    Handle(::Geom2d_Curve) _result = ::BRep_Tool::CurveOnSurface(*(::TopoDS_Edge*)E->NativeInstance, Handle(::Geom_Surface)(S->NativeInstance), *(::TopLoc_Location*)L->NativeInstance, *(double*)pp_First, *(double*)pp_Last, nullptr);
     return _result.IsNull() ? nullptr : Macad::Occt::Geom2d_Curve::CreateDowncasted(_result.get());
 }
 
@@ -1293,12 +1165,6 @@ double Macad::Occt::BRep_Tool::MaxTolerance(Macad::Occt::TopoDS_Shape^ theShape,
 //  Class  BRep_CurveRepresentation
 //---------------------------------------------------------------------
 
-Macad::Occt::BRep_CurveRepresentation::BRep_CurveRepresentation(Macad::Occt::BRep_CurveRepresentation^ parameter1)
-    : Macad::Occt::Standard_Transient(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 bool Macad::Occt::BRep_CurveRepresentation::IsCurve3D()
 {
     bool _result = ((::BRep_CurveRepresentation*)_NativeInstance)->IsCurve3D();
@@ -1491,12 +1357,6 @@ Macad::Occt::BRep_CurveRepresentation^ Macad::Occt::BRep_CurveRepresentation::Cr
 //  Class  BRep_GCurve
 //---------------------------------------------------------------------
 
-Macad::Occt::BRep_GCurve::BRep_GCurve(Macad::Occt::BRep_GCurve^ parameter1)
-    : Macad::Occt::BRep_CurveRepresentation(BaseClass::InitMode::Uninitialized)
-{
-    	throw gcnew System::NotImplementedException("Native class is abstract");
-}
-
 void Macad::Occt::BRep_GCurve::SetRange(double First, double Last)
 {
     ((::BRep_GCurve*)_NativeInstance)->SetRange(First, Last);
@@ -1581,12 +1441,6 @@ Macad::Occt::BRep_Curve3D::BRep_Curve3D(Macad::Occt::Geom_Curve^ C, Macad::Occt:
     NativeInstance = new ::BRep_Curve3D(Handle(::Geom_Curve)(C->NativeInstance), *(::TopLoc_Location*)L->NativeInstance);
 }
 
-Macad::Occt::BRep_Curve3D::BRep_Curve3D(Macad::Occt::BRep_Curve3D^ parameter1)
-    : Macad::Occt::BRep_GCurve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_Curve3D(*(::BRep_Curve3D*)parameter1->NativeInstance);
-}
-
 void Macad::Occt::BRep_Curve3D::D0(double U, Macad::Occt::Pnt% P)
 {
     pin_ptr<Macad::Occt::Pnt> pp_P = &P;
@@ -1645,12 +1499,6 @@ Macad::Occt::BRep_CurveOn2Surfaces::BRep_CurveOn2Surfaces(Macad::Occt::Geom_Surf
     : Macad::Occt::BRep_CurveRepresentation(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::BRep_CurveOn2Surfaces(Handle(::Geom_Surface)(S1->NativeInstance), Handle(::Geom_Surface)(S2->NativeInstance), *(::TopLoc_Location*)L1->NativeInstance, *(::TopLoc_Location*)L2->NativeInstance, (::GeomAbs_Shape)C);
-}
-
-Macad::Occt::BRep_CurveOn2Surfaces::BRep_CurveOn2Surfaces(Macad::Occt::BRep_CurveOn2Surfaces^ parameter1)
-    : Macad::Occt::BRep_CurveRepresentation(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_CurveOn2Surfaces(*(::BRep_CurveOn2Surfaces*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::BRep_CurveOn2Surfaces::IsRegularity()
@@ -1736,12 +1584,6 @@ Macad::Occt::BRep_CurveOnSurface::BRep_CurveOnSurface(Macad::Occt::Geom2d_Curve^
     : Macad::Occt::BRep_GCurve(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::BRep_CurveOnSurface(Handle(::Geom2d_Curve)(PC->NativeInstance), Handle(::Geom_Surface)(S->NativeInstance), *(::TopLoc_Location*)L->NativeInstance);
-}
-
-Macad::Occt::BRep_CurveOnSurface::BRep_CurveOnSurface(Macad::Occt::BRep_CurveOnSurface^ parameter1)
-    : Macad::Occt::BRep_GCurve(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_CurveOnSurface(*(::BRep_CurveOnSurface*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRep_CurveOnSurface::SetUVPoints(Macad::Occt::Pnt2d P1, Macad::Occt::Pnt2d P2)
@@ -1839,12 +1681,6 @@ Macad::Occt::BRep_CurveOnClosedSurface::BRep_CurveOnClosedSurface(Macad::Occt::G
     : Macad::Occt::BRep_CurveOnSurface(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::BRep_CurveOnClosedSurface(Handle(::Geom2d_Curve)(PC1->NativeInstance), Handle(::Geom2d_Curve)(PC2->NativeInstance), Handle(::Geom_Surface)(S->NativeInstance), *(::TopLoc_Location*)L->NativeInstance, (::GeomAbs_Shape)C);
-}
-
-Macad::Occt::BRep_CurveOnClosedSurface::BRep_CurveOnClosedSurface(Macad::Occt::BRep_CurveOnClosedSurface^ parameter1)
-    : Macad::Occt::BRep_CurveOnSurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_CurveOnClosedSurface(*(::BRep_CurveOnClosedSurface*)parameter1->NativeInstance);
 }
 
 void Macad::Occt::BRep_CurveOnClosedSurface::SetUVPoints2(Macad::Occt::Pnt2d P1, Macad::Occt::Pnt2d P2)
@@ -1956,12 +1792,6 @@ Macad::Occt::BRep_PointOnCurve::BRep_PointOnCurve(double P, Macad::Occt::Geom_Cu
     NativeInstance = new ::BRep_PointOnCurve(P, Handle(::Geom_Curve)(C->NativeInstance), *(::TopLoc_Location*)L->NativeInstance);
 }
 
-Macad::Occt::BRep_PointOnCurve::BRep_PointOnCurve(Macad::Occt::BRep_PointOnCurve^ parameter1)
-    : Macad::Occt::BRep_PointRepresentation(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_PointOnCurve(*(::BRep_PointOnCurve*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::BRep_PointOnCurve::IsPointOnCurve()
 {
     bool _result = ((::BRep_PointOnCurve*)_NativeInstance)->IsPointOnCurve();
@@ -2009,12 +1839,6 @@ Macad::Occt::BRep_PointOnCurve^ Macad::Occt::BRep_PointOnCurve::CreateDowncasted
 //---------------------------------------------------------------------
 //  Class  BRep_PointsOnSurface
 //---------------------------------------------------------------------
-
-Macad::Occt::BRep_PointsOnSurface::BRep_PointsOnSurface(Macad::Occt::BRep_PointsOnSurface^ parameter1)
-    : Macad::Occt::BRep_PointRepresentation(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_PointsOnSurface(*(::BRep_PointsOnSurface*)parameter1->NativeInstance);
-}
 
 Macad::Occt::Geom_Surface^ Macad::Occt::BRep_PointsOnSurface::Surface()
 {
@@ -2064,12 +1888,6 @@ Macad::Occt::BRep_PointOnCurveOnSurface::BRep_PointOnCurveOnSurface(double P, Ma
     : Macad::Occt::BRep_PointsOnSurface(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::BRep_PointOnCurveOnSurface(P, Handle(::Geom2d_Curve)(C->NativeInstance), Handle(::Geom_Surface)(S->NativeInstance), *(::TopLoc_Location*)L->NativeInstance);
-}
-
-Macad::Occt::BRep_PointOnCurveOnSurface::BRep_PointOnCurveOnSurface(Macad::Occt::BRep_PointOnCurveOnSurface^ parameter1)
-    : Macad::Occt::BRep_PointsOnSurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_PointOnCurveOnSurface(*(::BRep_PointOnCurveOnSurface*)parameter1->NativeInstance);
 }
 
 bool Macad::Occt::BRep_PointOnCurveOnSurface::IsPointOnCurveOnSurface()
@@ -2126,12 +1944,6 @@ Macad::Occt::BRep_PointOnSurface::BRep_PointOnSurface(double P1, double P2, Maca
     NativeInstance = new ::BRep_PointOnSurface(P1, P2, Handle(::Geom_Surface)(S->NativeInstance), *(::TopLoc_Location*)L->NativeInstance);
 }
 
-Macad::Occt::BRep_PointOnSurface::BRep_PointOnSurface(Macad::Occt::BRep_PointOnSurface^ parameter1)
-    : Macad::Occt::BRep_PointsOnSurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_PointOnSurface(*(::BRep_PointOnSurface*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::BRep_PointOnSurface::IsPointOnSurface()
 {
     bool _result = ((::BRep_PointOnSurface*)_NativeInstance)->IsPointOnSurface();
@@ -2165,12 +1977,6 @@ Macad::Occt::BRep_PointOnSurface^ Macad::Occt::BRep_PointOnSurface::CreateDownca
 //---------------------------------------------------------------------
 //  Class  BRep_Polygon3D
 //---------------------------------------------------------------------
-
-Macad::Occt::BRep_Polygon3D::BRep_Polygon3D(Macad::Occt::BRep_Polygon3D^ parameter1)
-    : Macad::Occt::BRep_CurveRepresentation(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_Polygon3D(*(::BRep_Polygon3D*)parameter1->NativeInstance);
-}
 
 bool Macad::Occt::BRep_Polygon3D::IsPolygon3D()
 {
@@ -2208,12 +2014,6 @@ Macad::Occt::BRep_Polygon3D^ Macad::Occt::BRep_Polygon3D::CreateDowncasted(::BRe
 //---------------------------------------------------------------------
 //  Class  BRep_PolygonOnSurface
 //---------------------------------------------------------------------
-
-Macad::Occt::BRep_PolygonOnSurface::BRep_PolygonOnSurface(Macad::Occt::BRep_PolygonOnSurface^ parameter1)
-    : Macad::Occt::BRep_CurveRepresentation(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_PolygonOnSurface(*(::BRep_PolygonOnSurface*)parameter1->NativeInstance);
-}
 
 bool Macad::Occt::BRep_PolygonOnSurface::IsPolygonOnSurface()
 {
@@ -2270,12 +2070,6 @@ Macad::Occt::BRep_PolygonOnSurface^ Macad::Occt::BRep_PolygonOnSurface::CreateDo
 //  Class  BRep_PolygonOnClosedSurface
 //---------------------------------------------------------------------
 
-Macad::Occt::BRep_PolygonOnClosedSurface::BRep_PolygonOnClosedSurface(Macad::Occt::BRep_PolygonOnClosedSurface^ parameter1)
-    : Macad::Occt::BRep_PolygonOnSurface(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_PolygonOnClosedSurface(*(::BRep_PolygonOnClosedSurface*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::BRep_PolygonOnClosedSurface::IsPolygonOnClosedSurface()
 {
     bool _result = ((::BRep_PolygonOnClosedSurface*)_NativeInstance)->IsPolygonOnClosedSurface();
@@ -2312,12 +2106,6 @@ Macad::Occt::BRep_PolygonOnClosedSurface^ Macad::Occt::BRep_PolygonOnClosedSurfa
 //---------------------------------------------------------------------
 //  Class  BRep_PolygonOnTriangulation
 //---------------------------------------------------------------------
-
-Macad::Occt::BRep_PolygonOnTriangulation::BRep_PolygonOnTriangulation(Macad::Occt::BRep_PolygonOnTriangulation^ parameter1)
-    : Macad::Occt::BRep_CurveRepresentation(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_PolygonOnTriangulation(*(::BRep_PolygonOnTriangulation*)parameter1->NativeInstance);
-}
 
 bool Macad::Occt::BRep_PolygonOnTriangulation::IsPolygonOnTriangulation()
 {
@@ -2362,12 +2150,6 @@ Macad::Occt::BRep_PolygonOnTriangulation^ Macad::Occt::BRep_PolygonOnTriangulati
 //  Class  BRep_PolygonOnClosedTriangulation
 //---------------------------------------------------------------------
 
-Macad::Occt::BRep_PolygonOnClosedTriangulation::BRep_PolygonOnClosedTriangulation(Macad::Occt::BRep_PolygonOnClosedTriangulation^ parameter1)
-    : Macad::Occt::BRep_PolygonOnTriangulation(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_PolygonOnClosedTriangulation(*(::BRep_PolygonOnClosedTriangulation*)parameter1->NativeInstance);
-}
-
 bool Macad::Occt::BRep_PolygonOnClosedTriangulation::IsPolygonOnClosedTriangulation()
 {
     bool _result = ((::BRep_PolygonOnClosedTriangulation*)_NativeInstance)->IsPolygonOnClosedTriangulation();
@@ -2409,12 +2191,6 @@ Macad::Occt::BRep_TEdge::BRep_TEdge()
     : Macad::Occt::TopoDS_TEdge(BaseClass::InitMode::Uninitialized)
 {
     NativeInstance = new ::BRep_TEdge();
-}
-
-Macad::Occt::BRep_TEdge::BRep_TEdge(Macad::Occt::BRep_TEdge^ parameter1)
-    : Macad::Occt::TopoDS_TEdge(BaseClass::InitMode::Uninitialized)
-{
-    NativeInstance = new ::BRep_TEdge(*(::BRep_TEdge*)parameter1->NativeInstance);
 }
 
 double Macad::Occt::BRep_TEdge::Tolerance()

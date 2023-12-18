@@ -9,49 +9,6 @@ namespace Macad
 namespace Occt
 {
 //---------------------------------------------------------------------
-//  Class  StdFail_InfiniteSolutions
-//---------------------------------------------------------------------
-public ref class StdFail_InfiniteSolutions sealed
-    : public Macad::Occt::Standard_Failure
-{
-
-#ifdef Include_StdFail_InfiniteSolutions_h
-public:
-    Include_StdFail_InfiniteSolutions_h
-#endif
-
-public:
-    StdFail_InfiniteSolutions(::StdFail_InfiniteSolutions* nativeInstance)
-        : Macad::Occt::Standard_Failure( nativeInstance )
-    {}
-
-    StdFail_InfiniteSolutions(::StdFail_InfiniteSolutions& nativeInstance)
-        : Macad::Occt::Standard_Failure( nativeInstance )
-    {}
-
-    property ::StdFail_InfiniteSolutions* NativeInstance
-    {
-        ::StdFail_InfiniteSolutions* get()
-        {
-            return static_cast<::StdFail_InfiniteSolutions*>(_NativeInstance);
-        }
-    }
-
-public:
-    StdFail_InfiniteSolutions();
-    StdFail_InfiniteSolutions(System::String^ theMessage);
-    StdFail_InfiniteSolutions(System::String^ theMessage, System::String^ theStackTrace);
-    StdFail_InfiniteSolutions(Macad::Occt::StdFail_InfiniteSolutions^ parameter1);
-    static void Raise(System::String^ theMessage);
-    static void Raise();
-    /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
-    static Macad::Occt::StdFail_InfiniteSolutions^ NewInstance(System::String^ theMessage);
-    static Macad::Occt::StdFail_InfiniteSolutions^ NewInstance();
-    static Macad::Occt::StdFail_InfiniteSolutions^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
-    static Macad::Occt::StdFail_InfiniteSolutions^ CreateDowncasted(::StdFail_InfiniteSolutions* instance);
-}; // class StdFail_InfiniteSolutions
-
-//---------------------------------------------------------------------
 //  Class  StdFail_NotDone
 //---------------------------------------------------------------------
 public ref class StdFail_NotDone sealed
@@ -84,7 +41,6 @@ public:
     StdFail_NotDone();
     StdFail_NotDone(System::String^ theMessage);
     StdFail_NotDone(System::String^ theMessage, System::String^ theStackTrace);
-    StdFail_NotDone(Macad::Occt::StdFail_NotDone^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -93,6 +49,48 @@ public:
     static Macad::Occt::StdFail_NotDone^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
     static Macad::Occt::StdFail_NotDone^ CreateDowncasted(::StdFail_NotDone* instance);
 }; // class StdFail_NotDone
+
+//---------------------------------------------------------------------
+//  Class  StdFail_InfiniteSolutions
+//---------------------------------------------------------------------
+public ref class StdFail_InfiniteSolutions sealed
+    : public Macad::Occt::Standard_Failure
+{
+
+#ifdef Include_StdFail_InfiniteSolutions_h
+public:
+    Include_StdFail_InfiniteSolutions_h
+#endif
+
+public:
+    StdFail_InfiniteSolutions(::StdFail_InfiniteSolutions* nativeInstance)
+        : Macad::Occt::Standard_Failure( nativeInstance )
+    {}
+
+    StdFail_InfiniteSolutions(::StdFail_InfiniteSolutions& nativeInstance)
+        : Macad::Occt::Standard_Failure( nativeInstance )
+    {}
+
+    property ::StdFail_InfiniteSolutions* NativeInstance
+    {
+        ::StdFail_InfiniteSolutions* get()
+        {
+            return static_cast<::StdFail_InfiniteSolutions*>(_NativeInstance);
+        }
+    }
+
+public:
+    StdFail_InfiniteSolutions();
+    StdFail_InfiniteSolutions(System::String^ theMessage);
+    StdFail_InfiniteSolutions(System::String^ theMessage, System::String^ theStackTrace);
+    static void Raise(System::String^ theMessage);
+    static void Raise();
+    /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
+    static Macad::Occt::StdFail_InfiniteSolutions^ NewInstance(System::String^ theMessage);
+    static Macad::Occt::StdFail_InfiniteSolutions^ NewInstance();
+    static Macad::Occt::StdFail_InfiniteSolutions^ NewInstance(System::String^ theMessage, System::String^ theStackTrace);
+    static Macad::Occt::StdFail_InfiniteSolutions^ CreateDowncasted(::StdFail_InfiniteSolutions* instance);
+}; // class StdFail_InfiniteSolutions
 
 //---------------------------------------------------------------------
 //  Class  StdFail_Undefined
@@ -127,7 +125,6 @@ public:
     StdFail_Undefined();
     StdFail_Undefined(System::String^ theMessage);
     StdFail_Undefined(System::String^ theMessage, System::String^ theStackTrace);
-    StdFail_Undefined(Macad::Occt::StdFail_Undefined^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -170,7 +167,6 @@ public:
     StdFail_UndefinedDerivative();
     StdFail_UndefinedDerivative(System::String^ theMessage);
     StdFail_UndefinedDerivative(System::String^ theMessage, System::String^ theStackTrace);
-    StdFail_UndefinedDerivative(Macad::Occt::StdFail_UndefinedDerivative^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -213,7 +209,6 @@ public:
     StdFail_UndefinedValue();
     StdFail_UndefinedValue(System::String^ theMessage);
     StdFail_UndefinedValue(System::String^ theMessage, System::String^ theStackTrace);
-    StdFail_UndefinedValue(Macad::Occt::StdFail_UndefinedValue^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */

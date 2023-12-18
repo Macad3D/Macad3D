@@ -21,7 +21,8 @@ public enum class BRepOffset_Error
     CannotTrimEdges = 6,
     CannotFuseVertices = 7,
     CannotExtentEdge = 8,
-    UserBreak = 9
+    UserBreak = 9,
+    MixedConnectivity = 10
 }; // enum  class BRepOffset_Error
 
 //---------------------------------------------------------------------
@@ -82,7 +83,6 @@ public:
     BRepOffset_MakeOffset(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection);
     BRepOffset_MakeOffset(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode);
     BRepOffset_MakeOffset(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol);
-    BRepOffset_MakeOffset(Macad::Occt::BRepOffset_MakeOffset^ parameter1);
     void Initialize(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join, bool Thickening, bool RemoveIntEdges);
     void Initialize(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join, bool Thickening);
     void Initialize(Macad::Occt::TopoDS_Shape^ S, double Offset, double Tol, Macad::Occt::BRepOffset_Mode Mode, bool Intersection, bool SelfInter, Macad::Occt::GeomAbs_JoinType Join);

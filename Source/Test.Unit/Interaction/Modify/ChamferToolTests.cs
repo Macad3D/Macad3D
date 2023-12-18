@@ -490,10 +490,10 @@ namespace Macad.Test.Unit.Interaction.Modify
             Assert.Multiple(() =>
             {
                 // Distance
-                ctx.MoveTo(220, 144);
+                ctx.MoveTo(220, 124);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolDistanceAngle01"));
                 ctx.ViewportController.MouseDown();
-                ctx.MoveTo(220, 129);
+                ctx.MoveTo(220, 109);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolDistanceAngle02"));
                 Assert.IsTrue(ctx.TestHudManager.HintMessage.Contains("distance"));
                 ctx.ViewportController.MouseUp();
@@ -548,12 +548,12 @@ namespace Macad.Test.Unit.Interaction.Modify
             Assert.Multiple(() =>
             {
                 // Distance
-                ctx.MoveTo(220, 144);
+                ctx.MoveTo(220, 124);
                 ctx.ViewportController.MouseDown();
-                ctx.MoveTo(222, 251);
+                ctx.MoveTo(222, 231);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolDistanceAngleMin01"));
                 Assert.AreEqual(0.01, shape.Distance);
-                ctx.MoveTo(220, 144);
+                ctx.MoveTo(220, 124);
                 ctx.ViewportController.MouseUp();
 
                 // Angle
@@ -586,9 +586,9 @@ namespace Macad.Test.Unit.Interaction.Modify
             Assert.Multiple(() =>
             {
                 // Distance
-                ctx.MoveTo(220, 144);
+                ctx.MoveTo(220, 124);
                 ctx.ViewportController.MouseDown();
-                ctx.MoveTo(220, 129, ModifierKeys.Control);
+                ctx.MoveTo(220, 109, ModifierKeys.Control);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolDistanceAngleClamp01"));
                 ctx.ViewportController.MouseUp();
                 Assert.AreEqual(2.5, shape.Distance);
@@ -626,9 +626,9 @@ namespace Macad.Test.Unit.Interaction.Modify
             Assert.Multiple(() =>
             {
                 // Distance
-                ctx.MoveTo(220, 144);
+                ctx.MoveTo(220, 124);
                 ctx.ViewportController.MouseDown();
-                ctx.MoveTo(220, 129, ModifierKeys.Control);
+                ctx.MoveTo(220, 109, ModifierKeys.Control);
                 ctx.ViewportController.MouseUp();
                 
                 Assert.AreEqual(2.5, shape.Distance);

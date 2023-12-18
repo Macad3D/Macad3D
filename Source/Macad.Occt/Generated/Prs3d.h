@@ -258,8 +258,6 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::NCollection_BaseList^ theList);
-        Iterator(Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TColgp_HSequenceOfPnt^ Value();
@@ -268,7 +266,6 @@ public:
 
     Prs3d_NListOfSequenceOfPnt();
     Prs3d_NListOfSequenceOfPnt(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    Prs3d_NListOfSequenceOfPnt(Macad::Occt::Prs3d_NListOfSequenceOfPnt^ theOther);
     int Size();
     Macad::Occt::Prs3d_NListOfSequenceOfPnt^ Assign(Macad::Occt::Prs3d_NListOfSequenceOfPnt^ theOther);
     void Clear(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
@@ -276,16 +273,11 @@ public:
     Macad::Occt::TColgp_HSequenceOfPnt^ First();
     Macad::Occt::TColgp_HSequenceOfPnt^ Last();
     Macad::Occt::TColgp_HSequenceOfPnt^ Append(Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
-    void Append(Macad::Occt::TColgp_HSequenceOfPnt^ theItem, Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator^ theIter);
-    void Append(Macad::Occt::Prs3d_NListOfSequenceOfPnt^ theOther);
     Macad::Occt::TColgp_HSequenceOfPnt^ Prepend(Macad::Occt::TColgp_HSequenceOfPnt^ theItem);
-    void Prepend(Macad::Occt::Prs3d_NListOfSequenceOfPnt^ theOther);
     void RemoveFirst();
     void Remove(Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator^ theIter);
     Macad::Occt::TColgp_HSequenceOfPnt^ InsertBefore(Macad::Occt::TColgp_HSequenceOfPnt^ theItem, Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator^ theIter);
-    void InsertBefore(Macad::Occt::Prs3d_NListOfSequenceOfPnt^ theOther, Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator^ theIter);
     Macad::Occt::TColgp_HSequenceOfPnt^ InsertAfter(Macad::Occt::TColgp_HSequenceOfPnt^ theItem, Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator^ theIter);
-    void InsertAfter(Macad::Occt::Prs3d_NListOfSequenceOfPnt^ theOther, Macad::Occt::Prs3d_NListOfSequenceOfPnt::Iterator^ theIter);
     void Reverse();
 }; // class Prs3d_NListOfSequenceOfPnt
 
@@ -321,7 +313,6 @@ public:
 public:
     Prs3d_NListIteratorOfListOfSequenceOfPnt();
     Prs3d_NListIteratorOfListOfSequenceOfPnt(Macad::Occt::NCollection_BaseList^ theList);
-    Prs3d_NListIteratorOfListOfSequenceOfPnt(Macad::Occt::Prs3d_NListIteratorOfListOfSequenceOfPnt^ parameter1);
     bool More();
     void Next();
     Macad::Occt::TColgp_HSequenceOfPnt^ Value();
@@ -368,7 +359,6 @@ public:
     /// and radians as default angle units.
     /// </summary>
     Prs3d_DimensionUnits();
-    Prs3d_DimensionUnits(Macad::Occt::Prs3d_DimensionUnits^ theUnits);
     /// <summary>
     /// Sets angle units
     /// </summary>
@@ -430,7 +420,6 @@ public:
     }
 
 public:
-    Prs3d_BasicAspect(Macad::Occt::Prs3d_BasicAspect^ parameter1);
     Prs3d_BasicAspect();
     /// <summary>
     /// Dumps the content of me into the stream
@@ -497,7 +486,6 @@ public:
     /// </summary>
     Prs3d_LineAspect(Macad::Occt::Quantity_Color^ theColor, Macad::Occt::Aspect_TypeOfLine theType, double theWidth);
     Prs3d_LineAspect(Macad::Occt::Graphic3d_AspectLine3d^ theAspect);
-    Prs3d_LineAspect(Macad::Occt::Prs3d_LineAspect^ parameter1);
     /// <summary>
     /// Sets the line color defined at the time of construction.
     /// Default value: Quantity_NOC_YELLOW
@@ -569,7 +557,6 @@ public:
     /// </summary>
     Prs3d_TextAspect();
     Prs3d_TextAspect(Macad::Occt::Graphic3d_AspectText3d^ theAspect);
-    Prs3d_TextAspect(Macad::Occt::Prs3d_TextAspect^ parameter1);
     /// <summary>
     /// Sets the color of the type used in text display.
     /// </summary>
@@ -701,7 +688,6 @@ public:
     /// Constructor with initialization.
     /// </summary>
     Prs3d_ShadingAspect(Macad::Occt::Graphic3d_AspectFillArea3d^ theAspect);
-    Prs3d_ShadingAspect(Macad::Occt::Prs3d_ShadingAspect^ parameter1);
     /// <summary>
     /// Change the polygons interior color and material ambient color.
     /// </summary>
@@ -809,7 +795,6 @@ public:
     /// </summary>
     Prs3d_PointAspect(Macad::Occt::Quantity_Color^ theColor, int theWidth, int theHeight, Macad::Occt::TColStd_HArray1OfByte^ theTexture);
     Prs3d_PointAspect(Macad::Occt::Graphic3d_AspectMarker3d^ theAspect);
-    Prs3d_PointAspect(Macad::Occt::Prs3d_PointAspect^ parameter1);
     /// <summary>
     /// defines the color to be used when drawing a point.
     /// Default value: Quantity_NOC_YELLOW
@@ -883,7 +868,6 @@ public:
     /// Constructs an empty framework for the display of planes.
     /// </summary>
     Prs3d_PlaneAspect();
-    Prs3d_PlaneAspect(Macad::Occt::Prs3d_PlaneAspect^ parameter1);
     /// <summary>
     /// Returns the attributes of displayed edges involved in the presentation of planes.
     /// </summary>
@@ -1020,7 +1004,6 @@ public:
     /// </summary>
     Prs3d_ArrowAspect(double anAngle, double aLength);
     Prs3d_ArrowAspect(Macad::Occt::Graphic3d_AspectLine3d^ theAspect);
-    Prs3d_ArrowAspect(Macad::Occt::Prs3d_ArrowAspect^ parameter1);
     /// <summary>
     /// defines the angle of the arrows.
     /// </summary>
@@ -1096,7 +1079,6 @@ public:
     /// An empty constructor.
     /// </summary>
     Prs3d_DatumAspect();
-    Prs3d_DatumAspect(Macad::Occt::Prs3d_DatumAspect^ parameter1);
     /// <summary>
     /// Returns line aspect for specified part.
     /// </summary>
@@ -1238,7 +1220,6 @@ public:
     /// Constructs an empty framework to define the display of dimensions.
     /// </summary>
     Prs3d_DimensionAspect();
-    Prs3d_DimensionAspect(Macad::Occt::Prs3d_DimensionAspect^ parameter1);
     /// <summary>
     /// Returns the settings for the display of lines used in presentation of dimensions.
     /// </summary>
@@ -1404,7 +1385,6 @@ public:
     /// Default constructor.
     /// </summary>
     Prs3d_Drawer();
-    Prs3d_Drawer(Macad::Occt::Prs3d_Drawer^ parameter1);
     /// <summary>
     /// Setup all own aspects with default values.
     /// </summary>
@@ -2293,7 +2273,6 @@ public:
 
 public:
     Prs3d();
-    Prs3d(Macad::Occt::Prs3d^ parameter1);
     /// <summary>
     /// draws an arrow at a given location, with respect
     /// to a given direction.
@@ -2382,7 +2361,6 @@ public:
 
 public:
     Prs3d_Arrow();
-    Prs3d_Arrow(Macad::Occt::Prs3d_Arrow^ parameter1);
     /// <summary>
     /// Defines the representation of the arrow as shaded triangulation.
     /// </summary>
@@ -2490,7 +2468,6 @@ public:
     /// -   aNumber, the number of isoparameters to be   displayed.
     /// </summary>
     Prs3d_IsoAspect(Macad::Occt::Quantity_Color^ theColor, Macad::Occt::Aspect_TypeOfLine theType, double theWidth, int theNumber);
-    Prs3d_IsoAspect(Macad::Occt::Prs3d_IsoAspect^ parameter1);
     /// <summary>
     /// defines the number of U or V isoparametric curves
     /// to be drawn for a single face.
@@ -2543,7 +2520,6 @@ public:
 
 public:
     Prs3d_Root();
-    Prs3d_Root(Macad::Occt::Prs3d_Root^ parameter1);
     static Macad::Occt::Graphic3d_Group^ CurrentGroup(Macad::Occt::Graphic3d_Structure^ thePrs3d);
     static Macad::Occt::Graphic3d_Group^ NewGroup(Macad::Occt::Graphic3d_Structure^ thePrs3d);
 }; // class Prs3d_Root
@@ -2582,7 +2558,6 @@ public:
 
 public:
     Prs3d_BndBox();
-    Prs3d_BndBox(Macad::Occt::Prs3d_BndBox^ parameter1);
     /// <summary>
     /// Computes presentation of a bounding box.
     /// </summary>
@@ -2691,7 +2666,6 @@ public:
     Prs3d_InvalidAngle();
     Prs3d_InvalidAngle(System::String^ theMessage);
     Prs3d_InvalidAngle(System::String^ theMessage, System::String^ theStackTrace);
-    Prs3d_InvalidAngle(Macad::Occt::Prs3d_InvalidAngle^ parameter1);
     static void Raise(System::String^ theMessage);
     static void Raise();
     /* Method skipped due to unknown mapping: void Raise(stringstream theMessage, ) */
@@ -2738,7 +2712,6 @@ public:
     /// Constructs a shadow of existing presentation object.
     /// </summary>
     Prs3d_PresentationShadow(Macad::Occt::Graphic3d_StructureManager^ theViewer, Macad::Occt::Graphic3d_Structure^ thePrs);
-    Prs3d_PresentationShadow(Macad::Occt::Prs3d_PresentationShadow^ parameter1);
     /// <summary>
     /// Returns the id of the parent presentation
     /// </summary>
@@ -2796,7 +2769,6 @@ public:
 
 public:
     Prs3d_Text();
-    Prs3d_Text(Macad::Occt::Prs3d_Text^ parameter1);
     /// <summary>
     /// Defines the display of the text.
     /// </summary>
@@ -2895,7 +2867,6 @@ public:
 
 public:
     Prs3d_ToolQuadric();
-    Prs3d_ToolQuadric(Macad::Occt::Prs3d_ToolQuadric^ parameter1);
     /// <summary>
     /// Return number of triangles for presentation with the given params.
     /// </summary>
@@ -2999,7 +2970,6 @@ public:
     ///  [in] number of stacks within V parameter
     /// </param>
     Prs3d_ToolCylinder(double theBottomRad, double theTopRad, double theHeight, int theNbSlices, int theNbStacks);
-    Prs3d_ToolCylinder(Macad::Occt::Prs3d_ToolCylinder^ parameter1);
     /// <summary>
     /// Generate primitives for 3D quadric surface and return a filled array.
     /// </summary>
@@ -3076,7 +3046,6 @@ public:
     ///    [in] number of stacks within V parameter
     /// </param>
     Prs3d_ToolDisk(double theInnerRadius, double theOuterRadius, int theNbSlices, int theNbStacks);
-    Prs3d_ToolDisk(Macad::Occt::Prs3d_ToolDisk^ parameter1);
     /// <summary>
     /// Generate primitives for 3D quadric surface.
     /// </summary>
@@ -3157,7 +3126,6 @@ public:
     /// [in] number of stacks within V parameter
     /// </param>
     Prs3d_ToolSector(double theRadius, int theNbSlices, int theNbStacks);
-    Prs3d_ToolSector(Macad::Occt::Prs3d_ToolSector^ parameter1);
     /// <summary>
     /// Generate primitives for 3D quadric surface.
     /// </summary>
@@ -3225,7 +3193,6 @@ public:
     /// [in] number of stacks within V parameter
     /// </param>
     Prs3d_ToolSphere(double theRadius, int theNbSlices, int theNbStacks);
-    Prs3d_ToolSphere(Macad::Occt::Prs3d_ToolSphere^ parameter1);
     /// <summary>
     /// Generate primitives for 3D quadric surface.
     /// </summary>
@@ -3362,7 +3329,6 @@ public:
     /// [in] number of stacks within V parameter
     /// </param>
     Prs3d_ToolTorus(double theMajorRad, double theMinorRad, double theAngle1, double theAngle2, double theAngle, int theNbSlices, int theNbStacks);
-    Prs3d_ToolTorus(Macad::Occt::Prs3d_ToolTorus^ parameter1);
     /// <summary>
     /// Generate primitives for 3D quadric surface (complete torus).
     /// </summary>

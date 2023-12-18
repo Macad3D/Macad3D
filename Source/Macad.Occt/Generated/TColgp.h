@@ -66,24 +66,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array1OfCirc2d^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_Array1OfCirc2d^ theArray);
-        Iterator(Macad::Occt::TColgp_Array1OfCirc2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array1OfCirc2d^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_Array1OfCirc2d::Iterator^ theOther);
-        Macad::Occt::gp_Circ2d^ Value();
-        Macad::Occt::gp_Circ2d^ ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_Array1OfCirc2d::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_Array1OfCirc2d();
     TColgp_Array1OfCirc2d(int theLower, int theUpper);
-    TColgp_Array1OfCirc2d(Macad::Occt::TColgp_Array1OfCirc2d^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array1OfCirc2d(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColgp_Array1OfCirc2d(Macad::Occt::gp_Circ2d^ theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColgp_Array1OfCirc2d(Macad::Occt::gp_Circ2d^ theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::gp_Circ2d^ theValue);
     int Size();
@@ -91,8 +79,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_Array1OfCirc2d^ Assign(Macad::Occt::TColgp_Array1OfCirc2d^ theOther);
     Macad::Occt::TColgp_Array1OfCirc2d^ Move(Macad::Occt::TColgp_Array1OfCirc2d^ theOther);
     Macad::Occt::gp_Circ2d^ First();
@@ -102,7 +88,10 @@ public:
     virtual Macad::Occt::gp_Circ2d^ Value(int theIndex);
     Macad::Occt::gp_Circ2d^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::gp_Circ2d^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::gp_Circ2d^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_Array1OfCirc2d
@@ -165,24 +154,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array1OfDir^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_Array1OfDir^ theArray);
-        Iterator(Macad::Occt::TColgp_Array1OfDir::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array1OfDir^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_Array1OfDir::Iterator^ theOther);
-        Macad::Occt::Dir Value();
-        Macad::Occt::Dir ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_Array1OfDir::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_Array1OfDir();
     TColgp_Array1OfDir(int theLower, int theUpper);
-    TColgp_Array1OfDir(Macad::Occt::TColgp_Array1OfDir^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array1OfDir(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColgp_Array1OfDir(Macad::Occt::Dir theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColgp_Array1OfDir(Macad::Occt::Dir theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::Dir theValue);
     int Size();
@@ -190,8 +167,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_Array1OfDir^ Assign(Macad::Occt::TColgp_Array1OfDir^ theOther);
     Macad::Occt::TColgp_Array1OfDir^ Move(Macad::Occt::TColgp_Array1OfDir^ theOther);
     Macad::Occt::Dir First();
@@ -201,7 +176,10 @@ public:
     virtual Macad::Occt::Dir Value(int theIndex);
     Macad::Occt::Dir ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Dir theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Dir>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_Array1OfDir
@@ -264,24 +242,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array1OfDir2d^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_Array1OfDir2d^ theArray);
-        Iterator(Macad::Occt::TColgp_Array1OfDir2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array1OfDir2d^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_Array1OfDir2d::Iterator^ theOther);
-        Macad::Occt::Dir2d Value();
-        Macad::Occt::Dir2d ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_Array1OfDir2d::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_Array1OfDir2d();
     TColgp_Array1OfDir2d(int theLower, int theUpper);
-    TColgp_Array1OfDir2d(Macad::Occt::TColgp_Array1OfDir2d^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array1OfDir2d(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColgp_Array1OfDir2d(Macad::Occt::Dir2d theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColgp_Array1OfDir2d(Macad::Occt::Dir2d theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::Dir2d theValue);
     int Size();
@@ -289,8 +255,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_Array1OfDir2d^ Assign(Macad::Occt::TColgp_Array1OfDir2d^ theOther);
     Macad::Occt::TColgp_Array1OfDir2d^ Move(Macad::Occt::TColgp_Array1OfDir2d^ theOther);
     Macad::Occt::Dir2d First();
@@ -300,7 +264,10 @@ public:
     virtual Macad::Occt::Dir2d Value(int theIndex);
     Macad::Occt::Dir2d ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Dir2d theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Dir2d>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_Array1OfDir2d
@@ -363,24 +330,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array1OfLin2d^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_Array1OfLin2d^ theArray);
-        Iterator(Macad::Occt::TColgp_Array1OfLin2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array1OfLin2d^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_Array1OfLin2d::Iterator^ theOther);
-        Macad::Occt::gp_Lin2d^ Value();
-        Macad::Occt::gp_Lin2d^ ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_Array1OfLin2d::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_Array1OfLin2d();
     TColgp_Array1OfLin2d(int theLower, int theUpper);
-    TColgp_Array1OfLin2d(Macad::Occt::TColgp_Array1OfLin2d^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array1OfLin2d(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColgp_Array1OfLin2d(Macad::Occt::gp_Lin2d^ theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColgp_Array1OfLin2d(Macad::Occt::gp_Lin2d^ theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::gp_Lin2d^ theValue);
     int Size();
@@ -388,8 +343,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_Array1OfLin2d^ Assign(Macad::Occt::TColgp_Array1OfLin2d^ theOther);
     Macad::Occt::TColgp_Array1OfLin2d^ Move(Macad::Occt::TColgp_Array1OfLin2d^ theOther);
     Macad::Occt::gp_Lin2d^ First();
@@ -399,7 +352,10 @@ public:
     virtual Macad::Occt::gp_Lin2d^ Value(int theIndex);
     Macad::Occt::gp_Lin2d^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::gp_Lin2d^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::gp_Lin2d^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_Array1OfLin2d
@@ -462,24 +418,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array1OfPnt^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_Array1OfPnt^ theArray);
-        Iterator(Macad::Occt::TColgp_Array1OfPnt::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array1OfPnt^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_Array1OfPnt::Iterator^ theOther);
-        Macad::Occt::Pnt Value();
-        Macad::Occt::Pnt ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_Array1OfPnt::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_Array1OfPnt();
     TColgp_Array1OfPnt(int theLower, int theUpper);
-    TColgp_Array1OfPnt(Macad::Occt::TColgp_Array1OfPnt^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array1OfPnt(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColgp_Array1OfPnt(Macad::Occt::Pnt theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColgp_Array1OfPnt(Macad::Occt::Pnt theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::Pnt theValue);
     int Size();
@@ -487,8 +431,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_Array1OfPnt^ Assign(Macad::Occt::TColgp_Array1OfPnt^ theOther);
     Macad::Occt::TColgp_Array1OfPnt^ Move(Macad::Occt::TColgp_Array1OfPnt^ theOther);
     Macad::Occt::Pnt First();
@@ -498,7 +440,10 @@ public:
     virtual Macad::Occt::Pnt Value(int theIndex);
     Macad::Occt::Pnt ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Pnt theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Pnt>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_Array1OfPnt
@@ -561,24 +506,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array1OfPnt2d^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_Array1OfPnt2d^ theArray);
-        Iterator(Macad::Occt::TColgp_Array1OfPnt2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array1OfPnt2d^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_Array1OfPnt2d::Iterator^ theOther);
-        Macad::Occt::Pnt2d Value();
-        Macad::Occt::Pnt2d ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_Array1OfPnt2d::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_Array1OfPnt2d();
     TColgp_Array1OfPnt2d(int theLower, int theUpper);
-    TColgp_Array1OfPnt2d(Macad::Occt::TColgp_Array1OfPnt2d^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array1OfPnt2d(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColgp_Array1OfPnt2d(Macad::Occt::Pnt2d theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColgp_Array1OfPnt2d(Macad::Occt::Pnt2d theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::Pnt2d theValue);
     int Size();
@@ -586,8 +519,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_Array1OfPnt2d^ Assign(Macad::Occt::TColgp_Array1OfPnt2d^ theOther);
     Macad::Occt::TColgp_Array1OfPnt2d^ Move(Macad::Occt::TColgp_Array1OfPnt2d^ theOther);
     Macad::Occt::Pnt2d First();
@@ -597,7 +528,10 @@ public:
     virtual Macad::Occt::Pnt2d Value(int theIndex);
     Macad::Occt::Pnt2d ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Pnt2d theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Pnt2d>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_Array1OfPnt2d
@@ -660,24 +594,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array1OfVec^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_Array1OfVec^ theArray);
-        Iterator(Macad::Occt::TColgp_Array1OfVec::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array1OfVec^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_Array1OfVec::Iterator^ theOther);
-        Macad::Occt::Vec Value();
-        Macad::Occt::Vec ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_Array1OfVec::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_Array1OfVec();
     TColgp_Array1OfVec(int theLower, int theUpper);
-    TColgp_Array1OfVec(Macad::Occt::TColgp_Array1OfVec^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array1OfVec(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColgp_Array1OfVec(Macad::Occt::Vec theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColgp_Array1OfVec(Macad::Occt::Vec theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::Vec theValue);
     int Size();
@@ -685,8 +607,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_Array1OfVec^ Assign(Macad::Occt::TColgp_Array1OfVec^ theOther);
     Macad::Occt::TColgp_Array1OfVec^ Move(Macad::Occt::TColgp_Array1OfVec^ theOther);
     Macad::Occt::Vec First();
@@ -696,7 +616,10 @@ public:
     virtual Macad::Occt::Vec Value(int theIndex);
     Macad::Occt::Vec ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Vec theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Vec>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_Array1OfVec
@@ -759,24 +682,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array1OfVec2d^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_Array1OfVec2d^ theArray);
-        Iterator(Macad::Occt::TColgp_Array1OfVec2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array1OfVec2d^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_Array1OfVec2d::Iterator^ theOther);
-        Macad::Occt::Vec2d Value();
-        Macad::Occt::Vec2d ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_Array1OfVec2d::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_Array1OfVec2d();
     TColgp_Array1OfVec2d(int theLower, int theUpper);
-    TColgp_Array1OfVec2d(Macad::Occt::TColgp_Array1OfVec2d^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array1OfVec2d(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColgp_Array1OfVec2d(Macad::Occt::Vec2d theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColgp_Array1OfVec2d(Macad::Occt::Vec2d theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::Vec2d theValue);
     int Size();
@@ -784,8 +695,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_Array1OfVec2d^ Assign(Macad::Occt::TColgp_Array1OfVec2d^ theOther);
     Macad::Occt::TColgp_Array1OfVec2d^ Move(Macad::Occt::TColgp_Array1OfVec2d^ theOther);
     Macad::Occt::Vec2d First();
@@ -795,7 +704,10 @@ public:
     virtual Macad::Occt::Vec2d Value(int theIndex);
     Macad::Occt::Vec2d ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Vec2d theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Vec2d>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_Array1OfVec2d
@@ -858,24 +770,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array1OfXY^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_Array1OfXY^ theArray);
-        Iterator(Macad::Occt::TColgp_Array1OfXY::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array1OfXY^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_Array1OfXY::Iterator^ theOther);
-        Macad::Occt::XY Value();
-        Macad::Occt::XY ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_Array1OfXY::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_Array1OfXY();
     TColgp_Array1OfXY(int theLower, int theUpper);
-    TColgp_Array1OfXY(Macad::Occt::TColgp_Array1OfXY^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array1OfXY(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColgp_Array1OfXY(Macad::Occt::XY theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColgp_Array1OfXY(Macad::Occt::XY theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::XY theValue);
     int Size();
@@ -883,8 +783,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_Array1OfXY^ Assign(Macad::Occt::TColgp_Array1OfXY^ theOther);
     Macad::Occt::TColgp_Array1OfXY^ Move(Macad::Occt::TColgp_Array1OfXY^ theOther);
     Macad::Occt::XY First();
@@ -894,7 +792,10 @@ public:
     virtual Macad::Occt::XY Value(int theIndex);
     Macad::Occt::XY ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::XY theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::XY>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_Array1OfXY
@@ -957,24 +858,12 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array1OfXYZ^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_Array1OfXYZ^ theArray);
-        Iterator(Macad::Occt::TColgp_Array1OfXYZ::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array1OfXYZ^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_Array1OfXYZ::Iterator^ theOther);
-        Macad::Occt::XYZ Value();
-        Macad::Occt::XYZ ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_Array1OfXYZ::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_Array1OfXYZ();
     TColgp_Array1OfXYZ(int theLower, int theUpper);
-    TColgp_Array1OfXYZ(Macad::Occt::TColgp_Array1OfXYZ^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array1OfXYZ(allocator_type theAlloc, int theLower, int theUpper, ) */
+    TColgp_Array1OfXYZ(Macad::Occt::XYZ theBegin, int theLower, int theUpper, bool theUseBuffer);
     TColgp_Array1OfXYZ(Macad::Occt::XYZ theBegin, int theLower, int theUpper);
     void Init(Macad::Occt::XYZ theValue);
     int Size();
@@ -982,8 +871,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_Array1OfXYZ^ Assign(Macad::Occt::TColgp_Array1OfXYZ^ theOther);
     Macad::Occt::TColgp_Array1OfXYZ^ Move(Macad::Occt::TColgp_Array1OfXYZ^ theOther);
     Macad::Occt::XYZ First();
@@ -993,7 +880,10 @@ public:
     virtual Macad::Occt::XYZ Value(int theIndex);
     Macad::Occt::XYZ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::XYZ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::XYZ>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_Array1OfXYZ
@@ -1003,7 +893,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_Array2OfCirc2d sealed
     : public Macad::Occt::BaseClass<::TColgp_Array2OfCirc2d>
-    , public IEnumerable<Macad::Occt::gp_Circ2d^>
 {
 
 #ifdef Include_TColgp_Array2OfCirc2d_h
@@ -1030,7 +919,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::gp_Circ2d^, ::TColgp_Array2OfCirc2d::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_Array2OfCirc2d::Iterator>
     {
 
 #ifdef Include_TColgp_Array2OfCirc2d_Iterator_h
@@ -1040,11 +929,11 @@ public:
 
     public:
         Iterator(::TColgp_Array2OfCirc2d::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::gp_Circ2d^, ::TColgp_Array2OfCirc2d::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfCirc2d::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_Array2OfCirc2d::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::gp_Circ2d^, ::TColgp_Array2OfCirc2d::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfCirc2d::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_Array2OfCirc2d::Iterator* NativeInstance
@@ -1056,21 +945,14 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array2OfCirc2d^ theArray);
-        Iterator(Macad::Occt::TColgp_Array2OfCirc2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array2OfCirc2d^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::gp_Circ2d^ Value() override;
-        Macad::Occt::gp_Circ2d^ ChangeValue();
     }; // class Iterator
 
     TColgp_Array2OfCirc2d();
     TColgp_Array2OfCirc2d(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColgp_Array2OfCirc2d(Macad::Occt::TColgp_Array2OfCirc2d^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array2OfCirc2d(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColgp_Array2OfCirc2d(Macad::Occt::gp_Circ2d^ theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(Macad::Occt::gp_Circ2d^ theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1081,15 +963,23 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_Array2OfCirc2d^ Assign(Macad::Occt::TColgp_Array2OfCirc2d^ theOther);
     Macad::Occt::TColgp_Array2OfCirc2d^ Move(Macad::Occt::TColgp_Array2OfCirc2d^ theOther);
     Macad::Occt::gp_Circ2d^ Value(int theRow, int theCol);
     Macad::Occt::gp_Circ2d^ ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::gp_Circ2d^ theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::gp_Circ2d^>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(Macad::Occt::gp_Circ2d^ theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::gp_Circ2d^ First();
+    Macad::Occt::gp_Circ2d^ ChangeFirst();
+    Macad::Occt::gp_Circ2d^ Last();
+    Macad::Occt::gp_Circ2d^ ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColgp_Array2OfCirc2d
 
 //---------------------------------------------------------------------
@@ -1097,7 +987,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_Array2OfDir sealed
     : public Macad::Occt::BaseClass<::TColgp_Array2OfDir>
-    , public IEnumerable<Macad::Occt::Dir>
 {
 
 #ifdef Include_TColgp_Array2OfDir_h
@@ -1124,7 +1013,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::Dir, ::TColgp_Array2OfDir::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_Array2OfDir::Iterator>
     {
 
 #ifdef Include_TColgp_Array2OfDir_Iterator_h
@@ -1134,11 +1023,11 @@ public:
 
     public:
         Iterator(::TColgp_Array2OfDir::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Dir, ::TColgp_Array2OfDir::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfDir::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_Array2OfDir::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Dir, ::TColgp_Array2OfDir::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfDir::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_Array2OfDir::Iterator* NativeInstance
@@ -1150,21 +1039,14 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array2OfDir^ theArray);
-        Iterator(Macad::Occt::TColgp_Array2OfDir::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array2OfDir^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::Dir Value() override;
-        Macad::Occt::Dir ChangeValue();
     }; // class Iterator
 
     TColgp_Array2OfDir();
     TColgp_Array2OfDir(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColgp_Array2OfDir(Macad::Occt::TColgp_Array2OfDir^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array2OfDir(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColgp_Array2OfDir(Macad::Occt::Dir theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(Macad::Occt::Dir theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1175,15 +1057,23 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_Array2OfDir^ Assign(Macad::Occt::TColgp_Array2OfDir^ theOther);
     Macad::Occt::TColgp_Array2OfDir^ Move(Macad::Occt::TColgp_Array2OfDir^ theOther);
     Macad::Occt::Dir Value(int theRow, int theCol);
     Macad::Occt::Dir ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::Dir theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::Dir>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(Macad::Occt::Dir theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::Dir First();
+    Macad::Occt::Dir ChangeFirst();
+    Macad::Occt::Dir Last();
+    Macad::Occt::Dir ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColgp_Array2OfDir
 
 //---------------------------------------------------------------------
@@ -1191,7 +1081,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_Array2OfDir2d sealed
     : public Macad::Occt::BaseClass<::TColgp_Array2OfDir2d>
-    , public IEnumerable<Macad::Occt::Dir2d>
 {
 
 #ifdef Include_TColgp_Array2OfDir2d_h
@@ -1218,7 +1107,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::Dir2d, ::TColgp_Array2OfDir2d::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_Array2OfDir2d::Iterator>
     {
 
 #ifdef Include_TColgp_Array2OfDir2d_Iterator_h
@@ -1228,11 +1117,11 @@ public:
 
     public:
         Iterator(::TColgp_Array2OfDir2d::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Dir2d, ::TColgp_Array2OfDir2d::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfDir2d::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_Array2OfDir2d::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Dir2d, ::TColgp_Array2OfDir2d::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfDir2d::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_Array2OfDir2d::Iterator* NativeInstance
@@ -1244,21 +1133,14 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array2OfDir2d^ theArray);
-        Iterator(Macad::Occt::TColgp_Array2OfDir2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array2OfDir2d^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::Dir2d Value() override;
-        Macad::Occt::Dir2d ChangeValue();
     }; // class Iterator
 
     TColgp_Array2OfDir2d();
     TColgp_Array2OfDir2d(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColgp_Array2OfDir2d(Macad::Occt::TColgp_Array2OfDir2d^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array2OfDir2d(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColgp_Array2OfDir2d(Macad::Occt::Dir2d theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(Macad::Occt::Dir2d theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1269,15 +1151,23 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_Array2OfDir2d^ Assign(Macad::Occt::TColgp_Array2OfDir2d^ theOther);
     Macad::Occt::TColgp_Array2OfDir2d^ Move(Macad::Occt::TColgp_Array2OfDir2d^ theOther);
     Macad::Occt::Dir2d Value(int theRow, int theCol);
     Macad::Occt::Dir2d ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::Dir2d theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::Dir2d>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(Macad::Occt::Dir2d theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::Dir2d First();
+    Macad::Occt::Dir2d ChangeFirst();
+    Macad::Occt::Dir2d Last();
+    Macad::Occt::Dir2d ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColgp_Array2OfDir2d
 
 //---------------------------------------------------------------------
@@ -1285,7 +1175,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_Array2OfLin2d sealed
     : public Macad::Occt::BaseClass<::TColgp_Array2OfLin2d>
-    , public IEnumerable<Macad::Occt::gp_Lin2d^>
 {
 
 #ifdef Include_TColgp_Array2OfLin2d_h
@@ -1312,7 +1201,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::gp_Lin2d^, ::TColgp_Array2OfLin2d::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_Array2OfLin2d::Iterator>
     {
 
 #ifdef Include_TColgp_Array2OfLin2d_Iterator_h
@@ -1322,11 +1211,11 @@ public:
 
     public:
         Iterator(::TColgp_Array2OfLin2d::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::gp_Lin2d^, ::TColgp_Array2OfLin2d::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfLin2d::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_Array2OfLin2d::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::gp_Lin2d^, ::TColgp_Array2OfLin2d::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfLin2d::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_Array2OfLin2d::Iterator* NativeInstance
@@ -1338,21 +1227,14 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array2OfLin2d^ theArray);
-        Iterator(Macad::Occt::TColgp_Array2OfLin2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array2OfLin2d^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::gp_Lin2d^ Value() override;
-        Macad::Occt::gp_Lin2d^ ChangeValue();
     }; // class Iterator
 
     TColgp_Array2OfLin2d();
     TColgp_Array2OfLin2d(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColgp_Array2OfLin2d(Macad::Occt::TColgp_Array2OfLin2d^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array2OfLin2d(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColgp_Array2OfLin2d(Macad::Occt::gp_Lin2d^ theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(Macad::Occt::gp_Lin2d^ theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1363,15 +1245,23 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_Array2OfLin2d^ Assign(Macad::Occt::TColgp_Array2OfLin2d^ theOther);
     Macad::Occt::TColgp_Array2OfLin2d^ Move(Macad::Occt::TColgp_Array2OfLin2d^ theOther);
     Macad::Occt::gp_Lin2d^ Value(int theRow, int theCol);
     Macad::Occt::gp_Lin2d^ ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::gp_Lin2d^ theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::gp_Lin2d^>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(Macad::Occt::gp_Lin2d^ theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::gp_Lin2d^ First();
+    Macad::Occt::gp_Lin2d^ ChangeFirst();
+    Macad::Occt::gp_Lin2d^ Last();
+    Macad::Occt::gp_Lin2d^ ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColgp_Array2OfLin2d
 
 //---------------------------------------------------------------------
@@ -1379,7 +1269,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_Array2OfPnt sealed
     : public Macad::Occt::BaseClass<::TColgp_Array2OfPnt>
-    , public IEnumerable<Macad::Occt::Pnt>
 {
 
 #ifdef Include_TColgp_Array2OfPnt_h
@@ -1406,7 +1295,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::Pnt, ::TColgp_Array2OfPnt::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_Array2OfPnt::Iterator>
     {
 
 #ifdef Include_TColgp_Array2OfPnt_Iterator_h
@@ -1416,11 +1305,11 @@ public:
 
     public:
         Iterator(::TColgp_Array2OfPnt::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Pnt, ::TColgp_Array2OfPnt::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfPnt::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_Array2OfPnt::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Pnt, ::TColgp_Array2OfPnt::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfPnt::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_Array2OfPnt::Iterator* NativeInstance
@@ -1432,21 +1321,14 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array2OfPnt^ theArray);
-        Iterator(Macad::Occt::TColgp_Array2OfPnt::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array2OfPnt^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::Pnt Value() override;
-        Macad::Occt::Pnt ChangeValue();
     }; // class Iterator
 
     TColgp_Array2OfPnt();
     TColgp_Array2OfPnt(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColgp_Array2OfPnt(Macad::Occt::TColgp_Array2OfPnt^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array2OfPnt(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColgp_Array2OfPnt(Macad::Occt::Pnt theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(Macad::Occt::Pnt theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1457,15 +1339,23 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_Array2OfPnt^ Assign(Macad::Occt::TColgp_Array2OfPnt^ theOther);
     Macad::Occt::TColgp_Array2OfPnt^ Move(Macad::Occt::TColgp_Array2OfPnt^ theOther);
     Macad::Occt::Pnt Value(int theRow, int theCol);
     Macad::Occt::Pnt ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::Pnt theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::Pnt>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(Macad::Occt::Pnt theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::Pnt First();
+    Macad::Occt::Pnt ChangeFirst();
+    Macad::Occt::Pnt Last();
+    Macad::Occt::Pnt ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColgp_Array2OfPnt
 
 //---------------------------------------------------------------------
@@ -1473,7 +1363,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_Array2OfPnt2d sealed
     : public Macad::Occt::BaseClass<::TColgp_Array2OfPnt2d>
-    , public IEnumerable<Macad::Occt::Pnt2d>
 {
 
 #ifdef Include_TColgp_Array2OfPnt2d_h
@@ -1500,7 +1389,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::Pnt2d, ::TColgp_Array2OfPnt2d::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_Array2OfPnt2d::Iterator>
     {
 
 #ifdef Include_TColgp_Array2OfPnt2d_Iterator_h
@@ -1510,11 +1399,11 @@ public:
 
     public:
         Iterator(::TColgp_Array2OfPnt2d::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Pnt2d, ::TColgp_Array2OfPnt2d::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfPnt2d::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_Array2OfPnt2d::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Pnt2d, ::TColgp_Array2OfPnt2d::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfPnt2d::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_Array2OfPnt2d::Iterator* NativeInstance
@@ -1526,21 +1415,14 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array2OfPnt2d^ theArray);
-        Iterator(Macad::Occt::TColgp_Array2OfPnt2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array2OfPnt2d^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::Pnt2d Value() override;
-        Macad::Occt::Pnt2d ChangeValue();
     }; // class Iterator
 
     TColgp_Array2OfPnt2d();
     TColgp_Array2OfPnt2d(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColgp_Array2OfPnt2d(Macad::Occt::TColgp_Array2OfPnt2d^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array2OfPnt2d(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColgp_Array2OfPnt2d(Macad::Occt::Pnt2d theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(Macad::Occt::Pnt2d theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1551,15 +1433,23 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_Array2OfPnt2d^ Assign(Macad::Occt::TColgp_Array2OfPnt2d^ theOther);
     Macad::Occt::TColgp_Array2OfPnt2d^ Move(Macad::Occt::TColgp_Array2OfPnt2d^ theOther);
     Macad::Occt::Pnt2d Value(int theRow, int theCol);
     Macad::Occt::Pnt2d ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::Pnt2d theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::Pnt2d>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(Macad::Occt::Pnt2d theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::Pnt2d First();
+    Macad::Occt::Pnt2d ChangeFirst();
+    Macad::Occt::Pnt2d Last();
+    Macad::Occt::Pnt2d ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColgp_Array2OfPnt2d
 
 //---------------------------------------------------------------------
@@ -1567,7 +1457,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_Array2OfVec sealed
     : public Macad::Occt::BaseClass<::TColgp_Array2OfVec>
-    , public IEnumerable<Macad::Occt::Vec>
 {
 
 #ifdef Include_TColgp_Array2OfVec_h
@@ -1594,7 +1483,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::Vec, ::TColgp_Array2OfVec::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_Array2OfVec::Iterator>
     {
 
 #ifdef Include_TColgp_Array2OfVec_Iterator_h
@@ -1604,11 +1493,11 @@ public:
 
     public:
         Iterator(::TColgp_Array2OfVec::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Vec, ::TColgp_Array2OfVec::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfVec::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_Array2OfVec::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Vec, ::TColgp_Array2OfVec::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfVec::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_Array2OfVec::Iterator* NativeInstance
@@ -1620,21 +1509,14 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array2OfVec^ theArray);
-        Iterator(Macad::Occt::TColgp_Array2OfVec::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array2OfVec^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::Vec Value() override;
-        Macad::Occt::Vec ChangeValue();
     }; // class Iterator
 
     TColgp_Array2OfVec();
     TColgp_Array2OfVec(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColgp_Array2OfVec(Macad::Occt::TColgp_Array2OfVec^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array2OfVec(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColgp_Array2OfVec(Macad::Occt::Vec theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(Macad::Occt::Vec theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1645,15 +1527,23 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_Array2OfVec^ Assign(Macad::Occt::TColgp_Array2OfVec^ theOther);
     Macad::Occt::TColgp_Array2OfVec^ Move(Macad::Occt::TColgp_Array2OfVec^ theOther);
     Macad::Occt::Vec Value(int theRow, int theCol);
     Macad::Occt::Vec ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::Vec theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::Vec>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(Macad::Occt::Vec theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::Vec First();
+    Macad::Occt::Vec ChangeFirst();
+    Macad::Occt::Vec Last();
+    Macad::Occt::Vec ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColgp_Array2OfVec
 
 //---------------------------------------------------------------------
@@ -1661,7 +1551,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_Array2OfVec2d sealed
     : public Macad::Occt::BaseClass<::TColgp_Array2OfVec2d>
-    , public IEnumerable<Macad::Occt::Vec2d>
 {
 
 #ifdef Include_TColgp_Array2OfVec2d_h
@@ -1688,7 +1577,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::Vec2d, ::TColgp_Array2OfVec2d::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_Array2OfVec2d::Iterator>
     {
 
 #ifdef Include_TColgp_Array2OfVec2d_Iterator_h
@@ -1698,11 +1587,11 @@ public:
 
     public:
         Iterator(::TColgp_Array2OfVec2d::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Vec2d, ::TColgp_Array2OfVec2d::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfVec2d::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_Array2OfVec2d::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Vec2d, ::TColgp_Array2OfVec2d::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfVec2d::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_Array2OfVec2d::Iterator* NativeInstance
@@ -1714,21 +1603,14 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array2OfVec2d^ theArray);
-        Iterator(Macad::Occt::TColgp_Array2OfVec2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array2OfVec2d^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::Vec2d Value() override;
-        Macad::Occt::Vec2d ChangeValue();
     }; // class Iterator
 
     TColgp_Array2OfVec2d();
     TColgp_Array2OfVec2d(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColgp_Array2OfVec2d(Macad::Occt::TColgp_Array2OfVec2d^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array2OfVec2d(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColgp_Array2OfVec2d(Macad::Occt::Vec2d theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(Macad::Occt::Vec2d theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1739,15 +1621,23 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_Array2OfVec2d^ Assign(Macad::Occt::TColgp_Array2OfVec2d^ theOther);
     Macad::Occt::TColgp_Array2OfVec2d^ Move(Macad::Occt::TColgp_Array2OfVec2d^ theOther);
     Macad::Occt::Vec2d Value(int theRow, int theCol);
     Macad::Occt::Vec2d ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::Vec2d theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::Vec2d>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(Macad::Occt::Vec2d theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::Vec2d First();
+    Macad::Occt::Vec2d ChangeFirst();
+    Macad::Occt::Vec2d Last();
+    Macad::Occt::Vec2d ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColgp_Array2OfVec2d
 
 //---------------------------------------------------------------------
@@ -1755,7 +1645,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_Array2OfXY sealed
     : public Macad::Occt::BaseClass<::TColgp_Array2OfXY>
-    , public IEnumerable<Macad::Occt::XY>
 {
 
 #ifdef Include_TColgp_Array2OfXY_h
@@ -1782,7 +1671,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::XY, ::TColgp_Array2OfXY::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_Array2OfXY::Iterator>
     {
 
 #ifdef Include_TColgp_Array2OfXY_Iterator_h
@@ -1792,11 +1681,11 @@ public:
 
     public:
         Iterator(::TColgp_Array2OfXY::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::XY, ::TColgp_Array2OfXY::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfXY::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_Array2OfXY::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::XY, ::TColgp_Array2OfXY::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfXY::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_Array2OfXY::Iterator* NativeInstance
@@ -1808,21 +1697,14 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array2OfXY^ theArray);
-        Iterator(Macad::Occt::TColgp_Array2OfXY::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array2OfXY^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::XY Value() override;
-        Macad::Occt::XY ChangeValue();
     }; // class Iterator
 
     TColgp_Array2OfXY();
     TColgp_Array2OfXY(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColgp_Array2OfXY(Macad::Occt::TColgp_Array2OfXY^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array2OfXY(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColgp_Array2OfXY(Macad::Occt::XY theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(Macad::Occt::XY theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1833,15 +1715,23 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_Array2OfXY^ Assign(Macad::Occt::TColgp_Array2OfXY^ theOther);
     Macad::Occt::TColgp_Array2OfXY^ Move(Macad::Occt::TColgp_Array2OfXY^ theOther);
     Macad::Occt::XY Value(int theRow, int theCol);
     Macad::Occt::XY ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::XY theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::XY>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(Macad::Occt::XY theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::XY First();
+    Macad::Occt::XY ChangeFirst();
+    Macad::Occt::XY Last();
+    Macad::Occt::XY ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColgp_Array2OfXY
 
 //---------------------------------------------------------------------
@@ -1849,7 +1739,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_Array2OfXYZ sealed
     : public Macad::Occt::BaseClass<::TColgp_Array2OfXYZ>
-    , public IEnumerable<Macad::Occt::XYZ>
 {
 
 #ifdef Include_TColgp_Array2OfXYZ_h
@@ -1876,7 +1765,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::XYZ, ::TColgp_Array2OfXYZ::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_Array2OfXYZ::Iterator>
     {
 
 #ifdef Include_TColgp_Array2OfXYZ_Iterator_h
@@ -1886,11 +1775,11 @@ public:
 
     public:
         Iterator(::TColgp_Array2OfXYZ::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::XYZ, ::TColgp_Array2OfXYZ::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfXYZ::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_Array2OfXYZ::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::XYZ, ::TColgp_Array2OfXYZ::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_Array2OfXYZ::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_Array2OfXYZ::Iterator* NativeInstance
@@ -1902,21 +1791,14 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_Array2OfXYZ^ theArray);
-        Iterator(Macad::Occt::TColgp_Array2OfXYZ::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_Array2OfXYZ^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::XYZ Value() override;
-        Macad::Occt::XYZ ChangeValue();
     }; // class Iterator
 
     TColgp_Array2OfXYZ();
     TColgp_Array2OfXYZ(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    TColgp_Array2OfXYZ(Macad::Occt::TColgp_Array2OfXYZ^ theOther);
+    /* Method skipped due to unknown mapping: void TColgp_Array2OfXYZ(allocator_type theAlloc, int theRowLower, int theRowUpper, int theColLower, int theColUpper, ) */
     TColgp_Array2OfXYZ(Macad::Occt::XYZ theBegin, int theRowLower, int theRowUpper, int theColLower, int theColUpper);
-    void Init(Macad::Occt::XYZ theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -1927,15 +1809,23 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_Array2OfXYZ^ Assign(Macad::Occt::TColgp_Array2OfXYZ^ theOther);
     Macad::Occt::TColgp_Array2OfXYZ^ Move(Macad::Occt::TColgp_Array2OfXYZ^ theOther);
     Macad::Occt::XYZ Value(int theRow, int theCol);
     Macad::Occt::XYZ ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::XYZ theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::XYZ>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
+    void Init(Macad::Occt::XYZ theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::XYZ First();
+    Macad::Occt::XYZ ChangeFirst();
+    Macad::Occt::XYZ Last();
+    Macad::Occt::XYZ ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
 }; // class TColgp_Array2OfXYZ
 
 //---------------------------------------------------------------------
@@ -1997,19 +1887,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_SequenceOfDir^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_SequenceOfDir^ theSeq);
-        Iterator(Macad::Occt::TColgp_SequenceOfDir::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Dir Value();
         Macad::Occt::Dir ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_SequenceOfDir::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_SequenceOfDir();
     TColgp_SequenceOfDir(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColgp_SequenceOfDir(Macad::Occt::TColgp_SequenceOfDir^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2022,17 +1909,10 @@ public:
     void Clear();
     Macad::Occt::TColgp_SequenceOfDir^ Assign(Macad::Occt::TColgp_SequenceOfDir^ theOther);
     void Remove(Macad::Occt::TColgp_SequenceOfDir::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Dir theItem);
-    void Append(Macad::Occt::TColgp_SequenceOfDir^ theSeq);
     void Prepend(Macad::Occt::Dir theItem);
-    void Prepend(Macad::Occt::TColgp_SequenceOfDir^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Dir theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_SequenceOfDir^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_SequenceOfDir::Iterator^ thePosition, Macad::Occt::Dir theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_SequenceOfDir^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Dir theItem);
     void Split(int theIndex, Macad::Occt::TColgp_SequenceOfDir^ theSeq);
     Macad::Occt::Dir First();
     Macad::Occt::Dir ChangeFirst();
@@ -2104,19 +1984,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_SequenceOfDir2d^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_SequenceOfDir2d^ theSeq);
-        Iterator(Macad::Occt::TColgp_SequenceOfDir2d::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Dir2d Value();
         Macad::Occt::Dir2d ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_SequenceOfDir2d::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_SequenceOfDir2d();
     TColgp_SequenceOfDir2d(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColgp_SequenceOfDir2d(Macad::Occt::TColgp_SequenceOfDir2d^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2129,17 +2006,10 @@ public:
     void Clear();
     Macad::Occt::TColgp_SequenceOfDir2d^ Assign(Macad::Occt::TColgp_SequenceOfDir2d^ theOther);
     void Remove(Macad::Occt::TColgp_SequenceOfDir2d::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Dir2d theItem);
-    void Append(Macad::Occt::TColgp_SequenceOfDir2d^ theSeq);
     void Prepend(Macad::Occt::Dir2d theItem);
-    void Prepend(Macad::Occt::TColgp_SequenceOfDir2d^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Dir2d theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_SequenceOfDir2d^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_SequenceOfDir2d::Iterator^ thePosition, Macad::Occt::Dir2d theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_SequenceOfDir2d^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Dir2d theItem);
     void Split(int theIndex, Macad::Occt::TColgp_SequenceOfDir2d^ theSeq);
     Macad::Occt::Dir2d First();
     Macad::Occt::Dir2d ChangeFirst();
@@ -2211,19 +2081,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_SequenceOfPnt^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_SequenceOfPnt^ theSeq);
-        Iterator(Macad::Occt::TColgp_SequenceOfPnt::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Pnt Value();
         Macad::Occt::Pnt ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_SequenceOfPnt::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_SequenceOfPnt();
     TColgp_SequenceOfPnt(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColgp_SequenceOfPnt(Macad::Occt::TColgp_SequenceOfPnt^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2236,17 +2103,10 @@ public:
     void Clear();
     Macad::Occt::TColgp_SequenceOfPnt^ Assign(Macad::Occt::TColgp_SequenceOfPnt^ theOther);
     void Remove(Macad::Occt::TColgp_SequenceOfPnt::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Pnt theItem);
-    void Append(Macad::Occt::TColgp_SequenceOfPnt^ theSeq);
     void Prepend(Macad::Occt::Pnt theItem);
-    void Prepend(Macad::Occt::TColgp_SequenceOfPnt^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Pnt theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_SequenceOfPnt^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_SequenceOfPnt::Iterator^ thePosition, Macad::Occt::Pnt theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_SequenceOfPnt^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Pnt theItem);
     void Split(int theIndex, Macad::Occt::TColgp_SequenceOfPnt^ theSeq);
     Macad::Occt::Pnt First();
     Macad::Occt::Pnt ChangeFirst();
@@ -2318,19 +2178,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_SequenceOfPnt2d^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_SequenceOfPnt2d^ theSeq);
-        Iterator(Macad::Occt::TColgp_SequenceOfPnt2d::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Pnt2d Value();
         Macad::Occt::Pnt2d ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_SequenceOfPnt2d::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_SequenceOfPnt2d();
     TColgp_SequenceOfPnt2d(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColgp_SequenceOfPnt2d(Macad::Occt::TColgp_SequenceOfPnt2d^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2343,17 +2200,10 @@ public:
     void Clear();
     Macad::Occt::TColgp_SequenceOfPnt2d^ Assign(Macad::Occt::TColgp_SequenceOfPnt2d^ theOther);
     void Remove(Macad::Occt::TColgp_SequenceOfPnt2d::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Pnt2d theItem);
-    void Append(Macad::Occt::TColgp_SequenceOfPnt2d^ theSeq);
     void Prepend(Macad::Occt::Pnt2d theItem);
-    void Prepend(Macad::Occt::TColgp_SequenceOfPnt2d^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Pnt2d theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_SequenceOfPnt2d^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_SequenceOfPnt2d::Iterator^ thePosition, Macad::Occt::Pnt2d theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_SequenceOfPnt2d^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Pnt2d theItem);
     void Split(int theIndex, Macad::Occt::TColgp_SequenceOfPnt2d^ theSeq);
     Macad::Occt::Pnt2d First();
     Macad::Occt::Pnt2d ChangeFirst();
@@ -2425,19 +2275,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_SequenceOfVec^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_SequenceOfVec^ theSeq);
-        Iterator(Macad::Occt::TColgp_SequenceOfVec::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Vec Value();
         Macad::Occt::Vec ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_SequenceOfVec::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_SequenceOfVec();
     TColgp_SequenceOfVec(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColgp_SequenceOfVec(Macad::Occt::TColgp_SequenceOfVec^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2450,17 +2297,10 @@ public:
     void Clear();
     Macad::Occt::TColgp_SequenceOfVec^ Assign(Macad::Occt::TColgp_SequenceOfVec^ theOther);
     void Remove(Macad::Occt::TColgp_SequenceOfVec::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Vec theItem);
-    void Append(Macad::Occt::TColgp_SequenceOfVec^ theSeq);
     void Prepend(Macad::Occt::Vec theItem);
-    void Prepend(Macad::Occt::TColgp_SequenceOfVec^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Vec theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_SequenceOfVec^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_SequenceOfVec::Iterator^ thePosition, Macad::Occt::Vec theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_SequenceOfVec^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Vec theItem);
     void Split(int theIndex, Macad::Occt::TColgp_SequenceOfVec^ theSeq);
     Macad::Occt::Vec First();
     Macad::Occt::Vec ChangeFirst();
@@ -2532,19 +2372,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_SequenceOfVec2d^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_SequenceOfVec2d^ theSeq);
-        Iterator(Macad::Occt::TColgp_SequenceOfVec2d::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Vec2d Value();
         Macad::Occt::Vec2d ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_SequenceOfVec2d::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_SequenceOfVec2d();
     TColgp_SequenceOfVec2d(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColgp_SequenceOfVec2d(Macad::Occt::TColgp_SequenceOfVec2d^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2557,17 +2394,10 @@ public:
     void Clear();
     Macad::Occt::TColgp_SequenceOfVec2d^ Assign(Macad::Occt::TColgp_SequenceOfVec2d^ theOther);
     void Remove(Macad::Occt::TColgp_SequenceOfVec2d::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Vec2d theItem);
-    void Append(Macad::Occt::TColgp_SequenceOfVec2d^ theSeq);
     void Prepend(Macad::Occt::Vec2d theItem);
-    void Prepend(Macad::Occt::TColgp_SequenceOfVec2d^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Vec2d theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_SequenceOfVec2d^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_SequenceOfVec2d::Iterator^ thePosition, Macad::Occt::Vec2d theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_SequenceOfVec2d^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Vec2d theItem);
     void Split(int theIndex, Macad::Occt::TColgp_SequenceOfVec2d^ theSeq);
     Macad::Occt::Vec2d First();
     Macad::Occt::Vec2d ChangeFirst();
@@ -2639,19 +2469,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_SequenceOfXY^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_SequenceOfXY^ theSeq);
-        Iterator(Macad::Occt::TColgp_SequenceOfXY::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::XY Value();
         Macad::Occt::XY ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_SequenceOfXY::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_SequenceOfXY();
     TColgp_SequenceOfXY(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColgp_SequenceOfXY(Macad::Occt::TColgp_SequenceOfXY^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2664,17 +2491,10 @@ public:
     void Clear();
     Macad::Occt::TColgp_SequenceOfXY^ Assign(Macad::Occt::TColgp_SequenceOfXY^ theOther);
     void Remove(Macad::Occt::TColgp_SequenceOfXY::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::XY theItem);
-    void Append(Macad::Occt::TColgp_SequenceOfXY^ theSeq);
     void Prepend(Macad::Occt::XY theItem);
-    void Prepend(Macad::Occt::TColgp_SequenceOfXY^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::XY theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_SequenceOfXY^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_SequenceOfXY::Iterator^ thePosition, Macad::Occt::XY theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_SequenceOfXY^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::XY theItem);
     void Split(int theIndex, Macad::Occt::TColgp_SequenceOfXY^ theSeq);
     Macad::Occt::XY First();
     Macad::Occt::XY ChangeFirst();
@@ -2746,19 +2566,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_SequenceOfXYZ^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_SequenceOfXYZ^ theSeq);
-        Iterator(Macad::Occt::TColgp_SequenceOfXYZ::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::XYZ Value();
         Macad::Occt::XYZ ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_SequenceOfXYZ::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_SequenceOfXYZ();
     TColgp_SequenceOfXYZ(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColgp_SequenceOfXYZ(Macad::Occt::TColgp_SequenceOfXYZ^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2771,17 +2588,10 @@ public:
     void Clear();
     Macad::Occt::TColgp_SequenceOfXYZ^ Assign(Macad::Occt::TColgp_SequenceOfXYZ^ theOther);
     void Remove(Macad::Occt::TColgp_SequenceOfXYZ::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::XYZ theItem);
-    void Append(Macad::Occt::TColgp_SequenceOfXYZ^ theSeq);
     void Prepend(Macad::Occt::XYZ theItem);
-    void Prepend(Macad::Occt::TColgp_SequenceOfXYZ^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::XYZ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_SequenceOfXYZ^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_SequenceOfXYZ::Iterator^ thePosition, Macad::Occt::XYZ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_SequenceOfXYZ^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::XYZ theItem);
     void Split(int theIndex, Macad::Occt::TColgp_SequenceOfXYZ^ theSeq);
     Macad::Occt::XYZ First();
     Macad::Occt::XYZ ChangeFirst();
@@ -2853,19 +2663,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_SequenceOfArray1OfPnt2d^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_SequenceOfArray1OfPnt2d^ theSeq);
-        Iterator(Macad::Occt::TColgp_SequenceOfArray1OfPnt2d::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::TColgp_HArray1OfPnt2d^ Value();
         Macad::Occt::TColgp_HArray1OfPnt2d^ ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_SequenceOfArray1OfPnt2d::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_SequenceOfArray1OfPnt2d();
     TColgp_SequenceOfArray1OfPnt2d(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColgp_SequenceOfArray1OfPnt2d(Macad::Occt::TColgp_SequenceOfArray1OfPnt2d^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2878,17 +2685,10 @@ public:
     void Clear();
     Macad::Occt::TColgp_SequenceOfArray1OfPnt2d^ Assign(Macad::Occt::TColgp_SequenceOfArray1OfPnt2d^ theOther);
     void Remove(Macad::Occt::TColgp_SequenceOfArray1OfPnt2d::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::TColgp_HArray1OfPnt2d^ theItem);
-    void Append(Macad::Occt::TColgp_SequenceOfArray1OfPnt2d^ theSeq);
     void Prepend(Macad::Occt::TColgp_HArray1OfPnt2d^ theItem);
-    void Prepend(Macad::Occt::TColgp_SequenceOfArray1OfPnt2d^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::TColgp_HArray1OfPnt2d^ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_SequenceOfArray1OfPnt2d^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_SequenceOfArray1OfPnt2d::Iterator^ thePosition, Macad::Occt::TColgp_HArray1OfPnt2d^ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_SequenceOfArray1OfPnt2d^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_HArray1OfPnt2d^ theItem);
     void Split(int theIndex, Macad::Occt::TColgp_SequenceOfArray1OfPnt2d^ theSeq);
     Macad::Occt::TColgp_HArray1OfPnt2d^ First();
     Macad::Occt::TColgp_HArray1OfPnt2d^ ChangeFirst();
@@ -2960,19 +2760,16 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_SequenceOfAx1^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_SequenceOfAx1^ theSeq);
-        Iterator(Macad::Occt::TColgp_SequenceOfAx1::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Ax1 Value();
         Macad::Occt::Ax1 ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_SequenceOfAx1::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_SequenceOfAx1();
     TColgp_SequenceOfAx1(Macad::Occt::NCollection_BaseAllocator^ theAllocator);
-    TColgp_SequenceOfAx1(Macad::Occt::TColgp_SequenceOfAx1^ theOther);
     int Size();
     int Length();
     int Lower();
@@ -2985,17 +2782,10 @@ public:
     void Clear();
     Macad::Occt::TColgp_SequenceOfAx1^ Assign(Macad::Occt::TColgp_SequenceOfAx1^ theOther);
     void Remove(Macad::Occt::TColgp_SequenceOfAx1::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
     void Append(Macad::Occt::Ax1 theItem);
-    void Append(Macad::Occt::TColgp_SequenceOfAx1^ theSeq);
     void Prepend(Macad::Occt::Ax1 theItem);
-    void Prepend(Macad::Occt::TColgp_SequenceOfAx1^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Ax1 theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_SequenceOfAx1^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_SequenceOfAx1::Iterator^ thePosition, Macad::Occt::Ax1 theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_SequenceOfAx1^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Ax1 theItem);
     void Split(int theIndex, Macad::Occt::TColgp_SequenceOfAx1^ theSeq);
     Macad::Occt::Ax1 First();
     Macad::Occt::Ax1 ChangeFirst();
@@ -3066,26 +2856,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray1OfCirc2d^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_HArray1OfCirc2d^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray1OfCirc2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray1OfCirc2d^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_HArray1OfCirc2d::Iterator^ theOther);
-        Macad::Occt::gp_Circ2d^ Value();
-        Macad::Occt::gp_Circ2d^ ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_HArray1OfCirc2d::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_HArray1OfCirc2d();
     TColgp_HArray1OfCirc2d(int theLower, int theUpper);
     TColgp_HArray1OfCirc2d(int theLower, int theUpper, Macad::Occt::gp_Circ2d^ theValue);
+    TColgp_HArray1OfCirc2d(Macad::Occt::gp_Circ2d^ theBegin, int theLower, int theUpper, bool parameter1);
     TColgp_HArray1OfCirc2d(Macad::Occt::TColgp_Array1OfCirc2d^ theOther);
-    TColgp_HArray1OfCirc2d(Macad::Occt::TColgp_HArray1OfCirc2d^ parameter1);
     Macad::Occt::TColgp_Array1OfCirc2d^ Array1();
     Macad::Occt::TColgp_Array1OfCirc2d^ ChangeArray1();
     void Init(Macad::Occt::gp_Circ2d^ theValue);
@@ -3094,8 +2871,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_HArray1OfCirc2d^ Assign(Macad::Occt::TColgp_HArray1OfCirc2d^ theOther);
     Macad::Occt::TColgp_HArray1OfCirc2d^ Move(Macad::Occt::TColgp_HArray1OfCirc2d^ theOther);
     Macad::Occt::gp_Circ2d^ First();
@@ -3105,7 +2880,10 @@ public:
     virtual Macad::Occt::gp_Circ2d^ Value(int theIndex);
     Macad::Occt::gp_Circ2d^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::gp_Circ2d^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray1OfCirc2d^ CreateDowncasted(::TColgp_HArray1OfCirc2d* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::gp_Circ2d^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -3169,26 +2947,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray1OfDir^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_HArray1OfDir^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray1OfDir::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray1OfDir^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_HArray1OfDir::Iterator^ theOther);
-        Macad::Occt::Dir Value();
-        Macad::Occt::Dir ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_HArray1OfDir::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_HArray1OfDir();
     TColgp_HArray1OfDir(int theLower, int theUpper);
     TColgp_HArray1OfDir(int theLower, int theUpper, Macad::Occt::Dir theValue);
+    TColgp_HArray1OfDir(Macad::Occt::Dir theBegin, int theLower, int theUpper, bool parameter1);
     TColgp_HArray1OfDir(Macad::Occt::TColgp_Array1OfDir^ theOther);
-    TColgp_HArray1OfDir(Macad::Occt::TColgp_HArray1OfDir^ parameter1);
     Macad::Occt::TColgp_Array1OfDir^ Array1();
     Macad::Occt::TColgp_Array1OfDir^ ChangeArray1();
     void Init(Macad::Occt::Dir theValue);
@@ -3197,8 +2962,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_HArray1OfDir^ Assign(Macad::Occt::TColgp_HArray1OfDir^ theOther);
     Macad::Occt::TColgp_HArray1OfDir^ Move(Macad::Occt::TColgp_HArray1OfDir^ theOther);
     Macad::Occt::Dir First();
@@ -3208,7 +2971,10 @@ public:
     virtual Macad::Occt::Dir Value(int theIndex);
     Macad::Occt::Dir ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Dir theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray1OfDir^ CreateDowncasted(::TColgp_HArray1OfDir* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Dir>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -3272,26 +3038,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray1OfDir2d^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_HArray1OfDir2d^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray1OfDir2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray1OfDir2d^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_HArray1OfDir2d::Iterator^ theOther);
-        Macad::Occt::Dir2d Value();
-        Macad::Occt::Dir2d ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_HArray1OfDir2d::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_HArray1OfDir2d();
     TColgp_HArray1OfDir2d(int theLower, int theUpper);
     TColgp_HArray1OfDir2d(int theLower, int theUpper, Macad::Occt::Dir2d theValue);
+    TColgp_HArray1OfDir2d(Macad::Occt::Dir2d theBegin, int theLower, int theUpper, bool parameter1);
     TColgp_HArray1OfDir2d(Macad::Occt::TColgp_Array1OfDir2d^ theOther);
-    TColgp_HArray1OfDir2d(Macad::Occt::TColgp_HArray1OfDir2d^ parameter1);
     Macad::Occt::TColgp_Array1OfDir2d^ Array1();
     Macad::Occt::TColgp_Array1OfDir2d^ ChangeArray1();
     void Init(Macad::Occt::Dir2d theValue);
@@ -3300,8 +3053,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_HArray1OfDir2d^ Assign(Macad::Occt::TColgp_HArray1OfDir2d^ theOther);
     Macad::Occt::TColgp_HArray1OfDir2d^ Move(Macad::Occt::TColgp_HArray1OfDir2d^ theOther);
     Macad::Occt::Dir2d First();
@@ -3311,7 +3062,10 @@ public:
     virtual Macad::Occt::Dir2d Value(int theIndex);
     Macad::Occt::Dir2d ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Dir2d theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray1OfDir2d^ CreateDowncasted(::TColgp_HArray1OfDir2d* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Dir2d>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -3375,26 +3129,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray1OfLin2d^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_HArray1OfLin2d^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray1OfLin2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray1OfLin2d^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_HArray1OfLin2d::Iterator^ theOther);
-        Macad::Occt::gp_Lin2d^ Value();
-        Macad::Occt::gp_Lin2d^ ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_HArray1OfLin2d::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_HArray1OfLin2d();
     TColgp_HArray1OfLin2d(int theLower, int theUpper);
     TColgp_HArray1OfLin2d(int theLower, int theUpper, Macad::Occt::gp_Lin2d^ theValue);
+    TColgp_HArray1OfLin2d(Macad::Occt::gp_Lin2d^ theBegin, int theLower, int theUpper, bool parameter1);
     TColgp_HArray1OfLin2d(Macad::Occt::TColgp_Array1OfLin2d^ theOther);
-    TColgp_HArray1OfLin2d(Macad::Occt::TColgp_HArray1OfLin2d^ parameter1);
     Macad::Occt::TColgp_Array1OfLin2d^ Array1();
     Macad::Occt::TColgp_Array1OfLin2d^ ChangeArray1();
     void Init(Macad::Occt::gp_Lin2d^ theValue);
@@ -3403,8 +3144,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_HArray1OfLin2d^ Assign(Macad::Occt::TColgp_HArray1OfLin2d^ theOther);
     Macad::Occt::TColgp_HArray1OfLin2d^ Move(Macad::Occt::TColgp_HArray1OfLin2d^ theOther);
     Macad::Occt::gp_Lin2d^ First();
@@ -3414,7 +3153,10 @@ public:
     virtual Macad::Occt::gp_Lin2d^ Value(int theIndex);
     Macad::Occt::gp_Lin2d^ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::gp_Lin2d^ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray1OfLin2d^ CreateDowncasted(::TColgp_HArray1OfLin2d* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::gp_Lin2d^>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -3478,26 +3220,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray1OfPnt^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_HArray1OfPnt^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray1OfPnt::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray1OfPnt^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_HArray1OfPnt::Iterator^ theOther);
-        Macad::Occt::Pnt Value();
-        Macad::Occt::Pnt ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_HArray1OfPnt::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_HArray1OfPnt();
     TColgp_HArray1OfPnt(int theLower, int theUpper);
     TColgp_HArray1OfPnt(int theLower, int theUpper, Macad::Occt::Pnt theValue);
+    TColgp_HArray1OfPnt(Macad::Occt::Pnt theBegin, int theLower, int theUpper, bool parameter1);
     TColgp_HArray1OfPnt(Macad::Occt::TColgp_Array1OfPnt^ theOther);
-    TColgp_HArray1OfPnt(Macad::Occt::TColgp_HArray1OfPnt^ parameter1);
     Macad::Occt::TColgp_Array1OfPnt^ Array1();
     Macad::Occt::TColgp_Array1OfPnt^ ChangeArray1();
     void Init(Macad::Occt::Pnt theValue);
@@ -3506,8 +3235,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_HArray1OfPnt^ Assign(Macad::Occt::TColgp_HArray1OfPnt^ theOther);
     Macad::Occt::TColgp_HArray1OfPnt^ Move(Macad::Occt::TColgp_HArray1OfPnt^ theOther);
     Macad::Occt::Pnt First();
@@ -3517,7 +3244,10 @@ public:
     virtual Macad::Occt::Pnt Value(int theIndex);
     Macad::Occt::Pnt ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Pnt theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray1OfPnt^ CreateDowncasted(::TColgp_HArray1OfPnt* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Pnt>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -3581,26 +3311,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray1OfPnt2d^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_HArray1OfPnt2d^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray1OfPnt2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray1OfPnt2d^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_HArray1OfPnt2d::Iterator^ theOther);
-        Macad::Occt::Pnt2d Value();
-        Macad::Occt::Pnt2d ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_HArray1OfPnt2d::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_HArray1OfPnt2d();
     TColgp_HArray1OfPnt2d(int theLower, int theUpper);
     TColgp_HArray1OfPnt2d(int theLower, int theUpper, Macad::Occt::Pnt2d theValue);
+    TColgp_HArray1OfPnt2d(Macad::Occt::Pnt2d theBegin, int theLower, int theUpper, bool parameter1);
     TColgp_HArray1OfPnt2d(Macad::Occt::TColgp_Array1OfPnt2d^ theOther);
-    TColgp_HArray1OfPnt2d(Macad::Occt::TColgp_HArray1OfPnt2d^ parameter1);
     Macad::Occt::TColgp_Array1OfPnt2d^ Array1();
     Macad::Occt::TColgp_Array1OfPnt2d^ ChangeArray1();
     void Init(Macad::Occt::Pnt2d theValue);
@@ -3609,8 +3326,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_HArray1OfPnt2d^ Assign(Macad::Occt::TColgp_HArray1OfPnt2d^ theOther);
     Macad::Occt::TColgp_HArray1OfPnt2d^ Move(Macad::Occt::TColgp_HArray1OfPnt2d^ theOther);
     Macad::Occt::Pnt2d First();
@@ -3620,7 +3335,10 @@ public:
     virtual Macad::Occt::Pnt2d Value(int theIndex);
     Macad::Occt::Pnt2d ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Pnt2d theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray1OfPnt2d^ CreateDowncasted(::TColgp_HArray1OfPnt2d* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Pnt2d>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -3684,26 +3402,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray1OfVec^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_HArray1OfVec^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray1OfVec::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray1OfVec^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_HArray1OfVec::Iterator^ theOther);
-        Macad::Occt::Vec Value();
-        Macad::Occt::Vec ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_HArray1OfVec::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_HArray1OfVec();
     TColgp_HArray1OfVec(int theLower, int theUpper);
     TColgp_HArray1OfVec(int theLower, int theUpper, Macad::Occt::Vec theValue);
+    TColgp_HArray1OfVec(Macad::Occt::Vec theBegin, int theLower, int theUpper, bool parameter1);
     TColgp_HArray1OfVec(Macad::Occt::TColgp_Array1OfVec^ theOther);
-    TColgp_HArray1OfVec(Macad::Occt::TColgp_HArray1OfVec^ parameter1);
     Macad::Occt::TColgp_Array1OfVec^ Array1();
     Macad::Occt::TColgp_Array1OfVec^ ChangeArray1();
     void Init(Macad::Occt::Vec theValue);
@@ -3712,8 +3417,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_HArray1OfVec^ Assign(Macad::Occt::TColgp_HArray1OfVec^ theOther);
     Macad::Occt::TColgp_HArray1OfVec^ Move(Macad::Occt::TColgp_HArray1OfVec^ theOther);
     Macad::Occt::Vec First();
@@ -3723,7 +3426,10 @@ public:
     virtual Macad::Occt::Vec Value(int theIndex);
     Macad::Occt::Vec ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Vec theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray1OfVec^ CreateDowncasted(::TColgp_HArray1OfVec* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Vec>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -3787,26 +3493,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray1OfVec2d^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_HArray1OfVec2d^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray1OfVec2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray1OfVec2d^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_HArray1OfVec2d::Iterator^ theOther);
-        Macad::Occt::Vec2d Value();
-        Macad::Occt::Vec2d ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_HArray1OfVec2d::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_HArray1OfVec2d();
     TColgp_HArray1OfVec2d(int theLower, int theUpper);
     TColgp_HArray1OfVec2d(int theLower, int theUpper, Macad::Occt::Vec2d theValue);
+    TColgp_HArray1OfVec2d(Macad::Occt::Vec2d theBegin, int theLower, int theUpper, bool parameter1);
     TColgp_HArray1OfVec2d(Macad::Occt::TColgp_Array1OfVec2d^ theOther);
-    TColgp_HArray1OfVec2d(Macad::Occt::TColgp_HArray1OfVec2d^ parameter1);
     Macad::Occt::TColgp_Array1OfVec2d^ Array1();
     Macad::Occt::TColgp_Array1OfVec2d^ ChangeArray1();
     void Init(Macad::Occt::Vec2d theValue);
@@ -3815,8 +3508,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_HArray1OfVec2d^ Assign(Macad::Occt::TColgp_HArray1OfVec2d^ theOther);
     Macad::Occt::TColgp_HArray1OfVec2d^ Move(Macad::Occt::TColgp_HArray1OfVec2d^ theOther);
     Macad::Occt::Vec2d First();
@@ -3826,7 +3517,10 @@ public:
     virtual Macad::Occt::Vec2d Value(int theIndex);
     Macad::Occt::Vec2d ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::Vec2d theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray1OfVec2d^ CreateDowncasted(::TColgp_HArray1OfVec2d* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::Vec2d>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -3890,26 +3584,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray1OfXY^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_HArray1OfXY^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray1OfXY::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray1OfXY^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_HArray1OfXY::Iterator^ theOther);
-        Macad::Occt::XY Value();
-        Macad::Occt::XY ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_HArray1OfXY::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_HArray1OfXY();
     TColgp_HArray1OfXY(int theLower, int theUpper);
     TColgp_HArray1OfXY(int theLower, int theUpper, Macad::Occt::XY theValue);
+    TColgp_HArray1OfXY(Macad::Occt::XY theBegin, int theLower, int theUpper, bool parameter1);
     TColgp_HArray1OfXY(Macad::Occt::TColgp_Array1OfXY^ theOther);
-    TColgp_HArray1OfXY(Macad::Occt::TColgp_HArray1OfXY^ parameter1);
     Macad::Occt::TColgp_Array1OfXY^ Array1();
     Macad::Occt::TColgp_Array1OfXY^ ChangeArray1();
     void Init(Macad::Occt::XY theValue);
@@ -3918,8 +3599,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_HArray1OfXY^ Assign(Macad::Occt::TColgp_HArray1OfXY^ theOther);
     Macad::Occt::TColgp_HArray1OfXY^ Move(Macad::Occt::TColgp_HArray1OfXY^ theOther);
     Macad::Occt::XY First();
@@ -3929,7 +3608,10 @@ public:
     virtual Macad::Occt::XY Value(int theIndex);
     Macad::Occt::XY ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::XY theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray1OfXY^ CreateDowncasted(::TColgp_HArray1OfXY* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::XY>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -3993,26 +3675,13 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray1OfXYZ^ theArray, bool theToEnd);
-        Iterator(Macad::Occt::TColgp_HArray1OfXYZ^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray1OfXYZ::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray1OfXYZ^ theArray);
-        bool More();
-        void Next();
-        void Previous();
-        void Offset(long long int theOffset);
-        long long int Differ(Macad::Occt::TColgp_HArray1OfXYZ::Iterator^ theOther);
-        Macad::Occt::XYZ Value();
-        Macad::Occt::XYZ ChangeValue();
-        bool IsEqual(Macad::Occt::TColgp_HArray1OfXYZ::Iterator^ theOther);
     }; // class Iterator
 
     TColgp_HArray1OfXYZ();
     TColgp_HArray1OfXYZ(int theLower, int theUpper);
     TColgp_HArray1OfXYZ(int theLower, int theUpper, Macad::Occt::XYZ theValue);
+    TColgp_HArray1OfXYZ(Macad::Occt::XYZ theBegin, int theLower, int theUpper, bool parameter1);
     TColgp_HArray1OfXYZ(Macad::Occt::TColgp_Array1OfXYZ^ theOther);
-    TColgp_HArray1OfXYZ(Macad::Occt::TColgp_HArray1OfXYZ^ parameter1);
     Macad::Occt::TColgp_Array1OfXYZ^ Array1();
     Macad::Occt::TColgp_Array1OfXYZ^ ChangeArray1();
     void Init(Macad::Occt::XYZ theValue);
@@ -4021,8 +3690,6 @@ public:
     bool IsEmpty();
     int Lower();
     int Upper();
-    bool IsDeletable();
-    bool IsAllocated();
     Macad::Occt::TColgp_HArray1OfXYZ^ Assign(Macad::Occt::TColgp_HArray1OfXYZ^ theOther);
     Macad::Occt::TColgp_HArray1OfXYZ^ Move(Macad::Occt::TColgp_HArray1OfXYZ^ theOther);
     Macad::Occt::XYZ First();
@@ -4032,7 +3699,10 @@ public:
     virtual Macad::Occt::XYZ Value(int theIndex);
     Macad::Occt::XYZ ChangeValue(int theIndex);
     void SetValue(int theIndex, Macad::Occt::XYZ theItem);
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
     void Resize(int theLower, int theUpper, bool theToCopyData);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray1OfXYZ^ CreateDowncasted(::TColgp_HArray1OfXYZ* instance);
     virtual System::Collections::Generic::IEnumerator<Macad::Occt::XYZ>^ GetEnumerator();
     virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
@@ -4043,7 +3713,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_HArray2OfCirc2d sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<Macad::Occt::gp_Circ2d^>
 {
 
 #ifdef Include_TColgp_HArray2OfCirc2d_h
@@ -4070,7 +3739,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::gp_Circ2d^, ::TColgp_HArray2OfCirc2d::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_HArray2OfCirc2d::Iterator>
     {
 
 #ifdef Include_TColgp_HArray2OfCirc2d_Iterator_h
@@ -4080,11 +3749,11 @@ public:
 
     public:
         Iterator(::TColgp_HArray2OfCirc2d::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::gp_Circ2d^, ::TColgp_HArray2OfCirc2d::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfCirc2d::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_HArray2OfCirc2d::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::gp_Circ2d^, ::TColgp_HArray2OfCirc2d::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfCirc2d::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_HArray2OfCirc2d::Iterator* NativeInstance
@@ -4096,23 +3765,15 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray2OfCirc2d^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray2OfCirc2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray2OfCirc2d^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::gp_Circ2d^ Value() override;
-        Macad::Occt::gp_Circ2d^ ChangeValue();
     }; // class Iterator
 
     TColgp_HArray2OfCirc2d(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColgp_HArray2OfCirc2d(int theRowLow, int theRowUpp, int theColLow, int theColUpp, Macad::Occt::gp_Circ2d^ theValue);
     TColgp_HArray2OfCirc2d(Macad::Occt::TColgp_Array2OfCirc2d^ theOther);
-    TColgp_HArray2OfCirc2d(Macad::Occt::TColgp_HArray2OfCirc2d^ parameter1);
     Macad::Occt::TColgp_Array2OfCirc2d^ Array2();
     Macad::Occt::TColgp_Array2OfCirc2d^ ChangeArray2();
-    void Init(Macad::Occt::gp_Circ2d^ theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -4123,16 +3784,24 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_HArray2OfCirc2d^ Assign(Macad::Occt::TColgp_HArray2OfCirc2d^ theOther);
     Macad::Occt::TColgp_HArray2OfCirc2d^ Move(Macad::Occt::TColgp_HArray2OfCirc2d^ theOther);
     Macad::Occt::gp_Circ2d^ Value(int theRow, int theCol);
     Macad::Occt::gp_Circ2d^ ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::gp_Circ2d^ theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(Macad::Occt::gp_Circ2d^ theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::gp_Circ2d^ First();
+    Macad::Occt::gp_Circ2d^ ChangeFirst();
+    Macad::Occt::gp_Circ2d^ Last();
+    Macad::Occt::gp_Circ2d^ ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray2OfCirc2d^ CreateDowncasted(::TColgp_HArray2OfCirc2d* instance);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::gp_Circ2d^>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_HArray2OfCirc2d
 
 //---------------------------------------------------------------------
@@ -4140,7 +3809,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_HArray2OfDir sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<Macad::Occt::Dir>
 {
 
 #ifdef Include_TColgp_HArray2OfDir_h
@@ -4167,7 +3835,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::Dir, ::TColgp_HArray2OfDir::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_HArray2OfDir::Iterator>
     {
 
 #ifdef Include_TColgp_HArray2OfDir_Iterator_h
@@ -4177,11 +3845,11 @@ public:
 
     public:
         Iterator(::TColgp_HArray2OfDir::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Dir, ::TColgp_HArray2OfDir::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfDir::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_HArray2OfDir::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Dir, ::TColgp_HArray2OfDir::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfDir::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_HArray2OfDir::Iterator* NativeInstance
@@ -4193,23 +3861,15 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray2OfDir^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray2OfDir::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray2OfDir^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::Dir Value() override;
-        Macad::Occt::Dir ChangeValue();
     }; // class Iterator
 
     TColgp_HArray2OfDir(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColgp_HArray2OfDir(int theRowLow, int theRowUpp, int theColLow, int theColUpp, Macad::Occt::Dir theValue);
     TColgp_HArray2OfDir(Macad::Occt::TColgp_Array2OfDir^ theOther);
-    TColgp_HArray2OfDir(Macad::Occt::TColgp_HArray2OfDir^ parameter1);
     Macad::Occt::TColgp_Array2OfDir^ Array2();
     Macad::Occt::TColgp_Array2OfDir^ ChangeArray2();
-    void Init(Macad::Occt::Dir theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -4220,16 +3880,24 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_HArray2OfDir^ Assign(Macad::Occt::TColgp_HArray2OfDir^ theOther);
     Macad::Occt::TColgp_HArray2OfDir^ Move(Macad::Occt::TColgp_HArray2OfDir^ theOther);
     Macad::Occt::Dir Value(int theRow, int theCol);
     Macad::Occt::Dir ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::Dir theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(Macad::Occt::Dir theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::Dir First();
+    Macad::Occt::Dir ChangeFirst();
+    Macad::Occt::Dir Last();
+    Macad::Occt::Dir ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray2OfDir^ CreateDowncasted(::TColgp_HArray2OfDir* instance);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::Dir>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_HArray2OfDir
 
 //---------------------------------------------------------------------
@@ -4237,7 +3905,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_HArray2OfDir2d sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<Macad::Occt::Dir2d>
 {
 
 #ifdef Include_TColgp_HArray2OfDir2d_h
@@ -4264,7 +3931,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::Dir2d, ::TColgp_HArray2OfDir2d::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_HArray2OfDir2d::Iterator>
     {
 
 #ifdef Include_TColgp_HArray2OfDir2d_Iterator_h
@@ -4274,11 +3941,11 @@ public:
 
     public:
         Iterator(::TColgp_HArray2OfDir2d::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Dir2d, ::TColgp_HArray2OfDir2d::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfDir2d::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_HArray2OfDir2d::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Dir2d, ::TColgp_HArray2OfDir2d::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfDir2d::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_HArray2OfDir2d::Iterator* NativeInstance
@@ -4290,23 +3957,15 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray2OfDir2d^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray2OfDir2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray2OfDir2d^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::Dir2d Value() override;
-        Macad::Occt::Dir2d ChangeValue();
     }; // class Iterator
 
     TColgp_HArray2OfDir2d(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColgp_HArray2OfDir2d(int theRowLow, int theRowUpp, int theColLow, int theColUpp, Macad::Occt::Dir2d theValue);
     TColgp_HArray2OfDir2d(Macad::Occt::TColgp_Array2OfDir2d^ theOther);
-    TColgp_HArray2OfDir2d(Macad::Occt::TColgp_HArray2OfDir2d^ parameter1);
     Macad::Occt::TColgp_Array2OfDir2d^ Array2();
     Macad::Occt::TColgp_Array2OfDir2d^ ChangeArray2();
-    void Init(Macad::Occt::Dir2d theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -4317,16 +3976,24 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_HArray2OfDir2d^ Assign(Macad::Occt::TColgp_HArray2OfDir2d^ theOther);
     Macad::Occt::TColgp_HArray2OfDir2d^ Move(Macad::Occt::TColgp_HArray2OfDir2d^ theOther);
     Macad::Occt::Dir2d Value(int theRow, int theCol);
     Macad::Occt::Dir2d ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::Dir2d theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(Macad::Occt::Dir2d theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::Dir2d First();
+    Macad::Occt::Dir2d ChangeFirst();
+    Macad::Occt::Dir2d Last();
+    Macad::Occt::Dir2d ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray2OfDir2d^ CreateDowncasted(::TColgp_HArray2OfDir2d* instance);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::Dir2d>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_HArray2OfDir2d
 
 //---------------------------------------------------------------------
@@ -4334,7 +4001,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_HArray2OfLin2d sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<Macad::Occt::gp_Lin2d^>
 {
 
 #ifdef Include_TColgp_HArray2OfLin2d_h
@@ -4361,7 +4027,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::gp_Lin2d^, ::TColgp_HArray2OfLin2d::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_HArray2OfLin2d::Iterator>
     {
 
 #ifdef Include_TColgp_HArray2OfLin2d_Iterator_h
@@ -4371,11 +4037,11 @@ public:
 
     public:
         Iterator(::TColgp_HArray2OfLin2d::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::gp_Lin2d^, ::TColgp_HArray2OfLin2d::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfLin2d::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_HArray2OfLin2d::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::gp_Lin2d^, ::TColgp_HArray2OfLin2d::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfLin2d::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_HArray2OfLin2d::Iterator* NativeInstance
@@ -4387,23 +4053,15 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray2OfLin2d^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray2OfLin2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray2OfLin2d^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::gp_Lin2d^ Value() override;
-        Macad::Occt::gp_Lin2d^ ChangeValue();
     }; // class Iterator
 
     TColgp_HArray2OfLin2d(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColgp_HArray2OfLin2d(int theRowLow, int theRowUpp, int theColLow, int theColUpp, Macad::Occt::gp_Lin2d^ theValue);
     TColgp_HArray2OfLin2d(Macad::Occt::TColgp_Array2OfLin2d^ theOther);
-    TColgp_HArray2OfLin2d(Macad::Occt::TColgp_HArray2OfLin2d^ parameter1);
     Macad::Occt::TColgp_Array2OfLin2d^ Array2();
     Macad::Occt::TColgp_Array2OfLin2d^ ChangeArray2();
-    void Init(Macad::Occt::gp_Lin2d^ theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -4414,16 +4072,24 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_HArray2OfLin2d^ Assign(Macad::Occt::TColgp_HArray2OfLin2d^ theOther);
     Macad::Occt::TColgp_HArray2OfLin2d^ Move(Macad::Occt::TColgp_HArray2OfLin2d^ theOther);
     Macad::Occt::gp_Lin2d^ Value(int theRow, int theCol);
     Macad::Occt::gp_Lin2d^ ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::gp_Lin2d^ theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(Macad::Occt::gp_Lin2d^ theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::gp_Lin2d^ First();
+    Macad::Occt::gp_Lin2d^ ChangeFirst();
+    Macad::Occt::gp_Lin2d^ Last();
+    Macad::Occt::gp_Lin2d^ ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray2OfLin2d^ CreateDowncasted(::TColgp_HArray2OfLin2d* instance);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::gp_Lin2d^>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_HArray2OfLin2d
 
 //---------------------------------------------------------------------
@@ -4431,7 +4097,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_HArray2OfPnt sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<Macad::Occt::Pnt>
 {
 
 #ifdef Include_TColgp_HArray2OfPnt_h
@@ -4458,7 +4123,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::Pnt, ::TColgp_HArray2OfPnt::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_HArray2OfPnt::Iterator>
     {
 
 #ifdef Include_TColgp_HArray2OfPnt_Iterator_h
@@ -4468,11 +4133,11 @@ public:
 
     public:
         Iterator(::TColgp_HArray2OfPnt::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Pnt, ::TColgp_HArray2OfPnt::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfPnt::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_HArray2OfPnt::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Pnt, ::TColgp_HArray2OfPnt::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfPnt::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_HArray2OfPnt::Iterator* NativeInstance
@@ -4484,23 +4149,15 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray2OfPnt^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray2OfPnt::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray2OfPnt^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::Pnt Value() override;
-        Macad::Occt::Pnt ChangeValue();
     }; // class Iterator
 
     TColgp_HArray2OfPnt(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColgp_HArray2OfPnt(int theRowLow, int theRowUpp, int theColLow, int theColUpp, Macad::Occt::Pnt theValue);
     TColgp_HArray2OfPnt(Macad::Occt::TColgp_Array2OfPnt^ theOther);
-    TColgp_HArray2OfPnt(Macad::Occt::TColgp_HArray2OfPnt^ parameter1);
     Macad::Occt::TColgp_Array2OfPnt^ Array2();
     Macad::Occt::TColgp_Array2OfPnt^ ChangeArray2();
-    void Init(Macad::Occt::Pnt theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -4511,16 +4168,24 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_HArray2OfPnt^ Assign(Macad::Occt::TColgp_HArray2OfPnt^ theOther);
     Macad::Occt::TColgp_HArray2OfPnt^ Move(Macad::Occt::TColgp_HArray2OfPnt^ theOther);
     Macad::Occt::Pnt Value(int theRow, int theCol);
     Macad::Occt::Pnt ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::Pnt theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(Macad::Occt::Pnt theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::Pnt First();
+    Macad::Occt::Pnt ChangeFirst();
+    Macad::Occt::Pnt Last();
+    Macad::Occt::Pnt ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray2OfPnt^ CreateDowncasted(::TColgp_HArray2OfPnt* instance);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::Pnt>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_HArray2OfPnt
 
 //---------------------------------------------------------------------
@@ -4528,7 +4193,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_HArray2OfPnt2d sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<Macad::Occt::Pnt2d>
 {
 
 #ifdef Include_TColgp_HArray2OfPnt2d_h
@@ -4555,7 +4219,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::Pnt2d, ::TColgp_HArray2OfPnt2d::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_HArray2OfPnt2d::Iterator>
     {
 
 #ifdef Include_TColgp_HArray2OfPnt2d_Iterator_h
@@ -4565,11 +4229,11 @@ public:
 
     public:
         Iterator(::TColgp_HArray2OfPnt2d::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Pnt2d, ::TColgp_HArray2OfPnt2d::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfPnt2d::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_HArray2OfPnt2d::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Pnt2d, ::TColgp_HArray2OfPnt2d::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfPnt2d::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_HArray2OfPnt2d::Iterator* NativeInstance
@@ -4581,23 +4245,15 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray2OfPnt2d^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray2OfPnt2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray2OfPnt2d^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::Pnt2d Value() override;
-        Macad::Occt::Pnt2d ChangeValue();
     }; // class Iterator
 
     TColgp_HArray2OfPnt2d(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColgp_HArray2OfPnt2d(int theRowLow, int theRowUpp, int theColLow, int theColUpp, Macad::Occt::Pnt2d theValue);
     TColgp_HArray2OfPnt2d(Macad::Occt::TColgp_Array2OfPnt2d^ theOther);
-    TColgp_HArray2OfPnt2d(Macad::Occt::TColgp_HArray2OfPnt2d^ parameter1);
     Macad::Occt::TColgp_Array2OfPnt2d^ Array2();
     Macad::Occt::TColgp_Array2OfPnt2d^ ChangeArray2();
-    void Init(Macad::Occt::Pnt2d theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -4608,16 +4264,24 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_HArray2OfPnt2d^ Assign(Macad::Occt::TColgp_HArray2OfPnt2d^ theOther);
     Macad::Occt::TColgp_HArray2OfPnt2d^ Move(Macad::Occt::TColgp_HArray2OfPnt2d^ theOther);
     Macad::Occt::Pnt2d Value(int theRow, int theCol);
     Macad::Occt::Pnt2d ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::Pnt2d theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(Macad::Occt::Pnt2d theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::Pnt2d First();
+    Macad::Occt::Pnt2d ChangeFirst();
+    Macad::Occt::Pnt2d Last();
+    Macad::Occt::Pnt2d ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray2OfPnt2d^ CreateDowncasted(::TColgp_HArray2OfPnt2d* instance);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::Pnt2d>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_HArray2OfPnt2d
 
 //---------------------------------------------------------------------
@@ -4625,7 +4289,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_HArray2OfVec sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<Macad::Occt::Vec>
 {
 
 #ifdef Include_TColgp_HArray2OfVec_h
@@ -4652,7 +4315,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::Vec, ::TColgp_HArray2OfVec::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_HArray2OfVec::Iterator>
     {
 
 #ifdef Include_TColgp_HArray2OfVec_Iterator_h
@@ -4662,11 +4325,11 @@ public:
 
     public:
         Iterator(::TColgp_HArray2OfVec::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Vec, ::TColgp_HArray2OfVec::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfVec::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_HArray2OfVec::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Vec, ::TColgp_HArray2OfVec::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfVec::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_HArray2OfVec::Iterator* NativeInstance
@@ -4678,23 +4341,15 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray2OfVec^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray2OfVec::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray2OfVec^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::Vec Value() override;
-        Macad::Occt::Vec ChangeValue();
     }; // class Iterator
 
     TColgp_HArray2OfVec(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColgp_HArray2OfVec(int theRowLow, int theRowUpp, int theColLow, int theColUpp, Macad::Occt::Vec theValue);
     TColgp_HArray2OfVec(Macad::Occt::TColgp_Array2OfVec^ theOther);
-    TColgp_HArray2OfVec(Macad::Occt::TColgp_HArray2OfVec^ parameter1);
     Macad::Occt::TColgp_Array2OfVec^ Array2();
     Macad::Occt::TColgp_Array2OfVec^ ChangeArray2();
-    void Init(Macad::Occt::Vec theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -4705,16 +4360,24 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_HArray2OfVec^ Assign(Macad::Occt::TColgp_HArray2OfVec^ theOther);
     Macad::Occt::TColgp_HArray2OfVec^ Move(Macad::Occt::TColgp_HArray2OfVec^ theOther);
     Macad::Occt::Vec Value(int theRow, int theCol);
     Macad::Occt::Vec ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::Vec theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(Macad::Occt::Vec theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::Vec First();
+    Macad::Occt::Vec ChangeFirst();
+    Macad::Occt::Vec Last();
+    Macad::Occt::Vec ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray2OfVec^ CreateDowncasted(::TColgp_HArray2OfVec* instance);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::Vec>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_HArray2OfVec
 
 //---------------------------------------------------------------------
@@ -4722,7 +4385,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_HArray2OfVec2d sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<Macad::Occt::Vec2d>
 {
 
 #ifdef Include_TColgp_HArray2OfVec2d_h
@@ -4749,7 +4411,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::Vec2d, ::TColgp_HArray2OfVec2d::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_HArray2OfVec2d::Iterator>
     {
 
 #ifdef Include_TColgp_HArray2OfVec2d_Iterator_h
@@ -4759,11 +4421,11 @@ public:
 
     public:
         Iterator(::TColgp_HArray2OfVec2d::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Vec2d, ::TColgp_HArray2OfVec2d::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfVec2d::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_HArray2OfVec2d::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::Vec2d, ::TColgp_HArray2OfVec2d::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfVec2d::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_HArray2OfVec2d::Iterator* NativeInstance
@@ -4775,23 +4437,15 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray2OfVec2d^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray2OfVec2d::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray2OfVec2d^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::Vec2d Value() override;
-        Macad::Occt::Vec2d ChangeValue();
     }; // class Iterator
 
     TColgp_HArray2OfVec2d(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColgp_HArray2OfVec2d(int theRowLow, int theRowUpp, int theColLow, int theColUpp, Macad::Occt::Vec2d theValue);
     TColgp_HArray2OfVec2d(Macad::Occt::TColgp_Array2OfVec2d^ theOther);
-    TColgp_HArray2OfVec2d(Macad::Occt::TColgp_HArray2OfVec2d^ parameter1);
     Macad::Occt::TColgp_Array2OfVec2d^ Array2();
     Macad::Occt::TColgp_Array2OfVec2d^ ChangeArray2();
-    void Init(Macad::Occt::Vec2d theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -4802,16 +4456,24 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_HArray2OfVec2d^ Assign(Macad::Occt::TColgp_HArray2OfVec2d^ theOther);
     Macad::Occt::TColgp_HArray2OfVec2d^ Move(Macad::Occt::TColgp_HArray2OfVec2d^ theOther);
     Macad::Occt::Vec2d Value(int theRow, int theCol);
     Macad::Occt::Vec2d ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::Vec2d theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(Macad::Occt::Vec2d theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::Vec2d First();
+    Macad::Occt::Vec2d ChangeFirst();
+    Macad::Occt::Vec2d Last();
+    Macad::Occt::Vec2d ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray2OfVec2d^ CreateDowncasted(::TColgp_HArray2OfVec2d* instance);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::Vec2d>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_HArray2OfVec2d
 
 //---------------------------------------------------------------------
@@ -4819,7 +4481,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_HArray2OfXY sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<Macad::Occt::XY>
 {
 
 #ifdef Include_TColgp_HArray2OfXY_h
@@ -4846,7 +4507,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::XY, ::TColgp_HArray2OfXY::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_HArray2OfXY::Iterator>
     {
 
 #ifdef Include_TColgp_HArray2OfXY_Iterator_h
@@ -4856,11 +4517,11 @@ public:
 
     public:
         Iterator(::TColgp_HArray2OfXY::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::XY, ::TColgp_HArray2OfXY::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfXY::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_HArray2OfXY::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::XY, ::TColgp_HArray2OfXY::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfXY::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_HArray2OfXY::Iterator* NativeInstance
@@ -4872,23 +4533,15 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray2OfXY^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray2OfXY::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray2OfXY^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::XY Value() override;
-        Macad::Occt::XY ChangeValue();
     }; // class Iterator
 
     TColgp_HArray2OfXY(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColgp_HArray2OfXY(int theRowLow, int theRowUpp, int theColLow, int theColUpp, Macad::Occt::XY theValue);
     TColgp_HArray2OfXY(Macad::Occt::TColgp_Array2OfXY^ theOther);
-    TColgp_HArray2OfXY(Macad::Occt::TColgp_HArray2OfXY^ parameter1);
     Macad::Occt::TColgp_Array2OfXY^ Array2();
     Macad::Occt::TColgp_Array2OfXY^ ChangeArray2();
-    void Init(Macad::Occt::XY theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -4899,16 +4552,24 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_HArray2OfXY^ Assign(Macad::Occt::TColgp_HArray2OfXY^ theOther);
     Macad::Occt::TColgp_HArray2OfXY^ Move(Macad::Occt::TColgp_HArray2OfXY^ theOther);
     Macad::Occt::XY Value(int theRow, int theCol);
     Macad::Occt::XY ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::XY theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(Macad::Occt::XY theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::XY First();
+    Macad::Occt::XY ChangeFirst();
+    Macad::Occt::XY Last();
+    Macad::Occt::XY ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray2OfXY^ CreateDowncasted(::TColgp_HArray2OfXY* instance);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::XY>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_HArray2OfXY
 
 //---------------------------------------------------------------------
@@ -4916,7 +4577,6 @@ public:
 //---------------------------------------------------------------------
 public ref class TColgp_HArray2OfXYZ sealed
     : public Macad::Occt::Standard_Transient
-    , public IEnumerable<Macad::Occt::XYZ>
 {
 
 #ifdef Include_TColgp_HArray2OfXYZ_h
@@ -4943,7 +4603,7 @@ public:
 
 public:
     ref class Iterator sealed
-        : public Macad::Occt::IteratorEnumerator<Macad::Occt::XYZ, ::TColgp_HArray2OfXYZ::Iterator>
+        : public Macad::Occt::BaseClass<::TColgp_HArray2OfXYZ::Iterator>
     {
 
 #ifdef Include_TColgp_HArray2OfXYZ_Iterator_h
@@ -4953,11 +4613,11 @@ public:
 
     public:
         Iterator(::TColgp_HArray2OfXYZ::Iterator* nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::XYZ, ::TColgp_HArray2OfXYZ::Iterator>( nativeInstance, true )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfXYZ::Iterator>( nativeInstance, true )
         {}
 
         Iterator(::TColgp_HArray2OfXYZ::Iterator& nativeInstance)
-            : Macad::Occt::IteratorEnumerator<Macad::Occt::XYZ, ::TColgp_HArray2OfXYZ::Iterator>( &nativeInstance, false )
+            : Macad::Occt::BaseClass<::TColgp_HArray2OfXYZ::Iterator>( &nativeInstance, false )
         {}
 
         property ::TColgp_HArray2OfXYZ::Iterator* NativeInstance
@@ -4969,23 +4629,15 @@ public:
         }
 
     public:
-        Iterator();
-        Iterator(Macad::Occt::TColgp_HArray2OfXYZ^ theArray);
-        Iterator(Macad::Occt::TColgp_HArray2OfXYZ::Iterator^ parameter1);
-        void Init(Macad::Occt::TColgp_HArray2OfXYZ^ theArray);
-        bool More() override;
-        void Next() override;
-        Macad::Occt::XYZ Value() override;
-        Macad::Occt::XYZ ChangeValue();
     }; // class Iterator
 
     TColgp_HArray2OfXYZ(int theRowLow, int theRowUpp, int theColLow, int theColUpp);
     TColgp_HArray2OfXYZ(int theRowLow, int theRowUpp, int theColLow, int theColUpp, Macad::Occt::XYZ theValue);
     TColgp_HArray2OfXYZ(Macad::Occt::TColgp_Array2OfXYZ^ theOther);
-    TColgp_HArray2OfXYZ(Macad::Occt::TColgp_HArray2OfXYZ^ parameter1);
     Macad::Occt::TColgp_Array2OfXYZ^ Array2();
     Macad::Occt::TColgp_Array2OfXYZ^ ChangeArray2();
-    void Init(Macad::Occt::XYZ theValue);
+    static int BeginPosition(int theRowLower, int parameter1, int theColLower, int theColUpper);
+    static int LastPosition(int theRowLower, int theRowUpper, int theColLower, int theColUpper);
     int Size();
     int Length();
     int NbRows();
@@ -4996,16 +4648,24 @@ public:
     int UpperRow();
     int LowerCol();
     int UpperCol();
-    bool IsDeletable();
     Macad::Occt::TColgp_HArray2OfXYZ^ Assign(Macad::Occt::TColgp_HArray2OfXYZ^ theOther);
     Macad::Occt::TColgp_HArray2OfXYZ^ Move(Macad::Occt::TColgp_HArray2OfXYZ^ theOther);
     Macad::Occt::XYZ Value(int theRow, int theCol);
     Macad::Occt::XYZ ChangeValue(int theRow, int theCol);
     void SetValue(int theRow, int theCol, Macad::Occt::XYZ theItem);
     void Resize(int theRowLower, int theRowUpper, int theColLower, int theColUpper, bool theToCopyData);
+    void Init(Macad::Occt::XYZ theValue);
+    bool IsEmpty();
+    int Lower();
+    int Upper();
+    Macad::Occt::XYZ First();
+    Macad::Occt::XYZ ChangeFirst();
+    Macad::Occt::XYZ Last();
+    Macad::Occt::XYZ ChangeLast();
+    void UpdateLowerBound(int theLower);
+    void UpdateUpperBound(int theUpper);
+    bool IsDeletable();
     static Macad::Occt::TColgp_HArray2OfXYZ^ CreateDowncasted(::TColgp_HArray2OfXYZ* instance);
-    virtual System::Collections::Generic::IEnumerator<Macad::Occt::XYZ>^ GetEnumerator();
-    virtual System::Collections::IEnumerator^ GetEnumerator2() = System::Collections::IEnumerable::GetEnumerator;
 }; // class TColgp_HArray2OfXYZ
 
 //---------------------------------------------------------------------
@@ -5067,20 +4727,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_HSequenceOfDir^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_HSequenceOfDir^ theSeq);
-        Iterator(Macad::Occt::TColgp_HSequenceOfDir::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Dir Value();
         Macad::Occt::Dir ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_HSequenceOfDir::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_HSequenceOfDir();
     TColgp_HSequenceOfDir(Macad::Occt::TColgp_SequenceOfDir^ theOther);
-    TColgp_HSequenceOfDir(Macad::Occt::TColgp_HSequenceOfDir^ parameter1);
     Macad::Occt::TColgp_SequenceOfDir^ Sequence();
+    void Append(Macad::Occt::Dir theItem);
     void Append(Macad::Occt::TColgp_SequenceOfDir^ theSequence);
     Macad::Occt::TColgp_SequenceOfDir^ ChangeSequence();
     int Size();
@@ -5095,17 +4753,9 @@ public:
     void Clear();
     Macad::Occt::TColgp_HSequenceOfDir^ Assign(Macad::Occt::TColgp_HSequenceOfDir^ theOther);
     void Remove(Macad::Occt::TColgp_HSequenceOfDir::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::Dir theItem);
-    void Append(Macad::Occt::TColgp_HSequenceOfDir^ theSeq);
     void Prepend(Macad::Occt::Dir theItem);
-    void Prepend(Macad::Occt::TColgp_HSequenceOfDir^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Dir theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_HSequenceOfDir^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_HSequenceOfDir::Iterator^ thePosition, Macad::Occt::Dir theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_HSequenceOfDir^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Dir theItem);
     void Split(int theIndex, Macad::Occt::TColgp_HSequenceOfDir^ theSeq);
     Macad::Occt::Dir First();
     Macad::Occt::Dir ChangeFirst();
@@ -5178,20 +4828,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_HSequenceOfDir2d^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_HSequenceOfDir2d^ theSeq);
-        Iterator(Macad::Occt::TColgp_HSequenceOfDir2d::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Dir2d Value();
         Macad::Occt::Dir2d ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_HSequenceOfDir2d::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_HSequenceOfDir2d();
     TColgp_HSequenceOfDir2d(Macad::Occt::TColgp_SequenceOfDir2d^ theOther);
-    TColgp_HSequenceOfDir2d(Macad::Occt::TColgp_HSequenceOfDir2d^ parameter1);
     Macad::Occt::TColgp_SequenceOfDir2d^ Sequence();
+    void Append(Macad::Occt::Dir2d theItem);
     void Append(Macad::Occt::TColgp_SequenceOfDir2d^ theSequence);
     Macad::Occt::TColgp_SequenceOfDir2d^ ChangeSequence();
     int Size();
@@ -5206,17 +4854,9 @@ public:
     void Clear();
     Macad::Occt::TColgp_HSequenceOfDir2d^ Assign(Macad::Occt::TColgp_HSequenceOfDir2d^ theOther);
     void Remove(Macad::Occt::TColgp_HSequenceOfDir2d::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::Dir2d theItem);
-    void Append(Macad::Occt::TColgp_HSequenceOfDir2d^ theSeq);
     void Prepend(Macad::Occt::Dir2d theItem);
-    void Prepend(Macad::Occt::TColgp_HSequenceOfDir2d^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Dir2d theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_HSequenceOfDir2d^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_HSequenceOfDir2d::Iterator^ thePosition, Macad::Occt::Dir2d theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_HSequenceOfDir2d^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Dir2d theItem);
     void Split(int theIndex, Macad::Occt::TColgp_HSequenceOfDir2d^ theSeq);
     Macad::Occt::Dir2d First();
     Macad::Occt::Dir2d ChangeFirst();
@@ -5289,20 +4929,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_HSequenceOfPnt^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_HSequenceOfPnt^ theSeq);
-        Iterator(Macad::Occt::TColgp_HSequenceOfPnt::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Pnt Value();
         Macad::Occt::Pnt ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_HSequenceOfPnt::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_HSequenceOfPnt();
     TColgp_HSequenceOfPnt(Macad::Occt::TColgp_SequenceOfPnt^ theOther);
-    TColgp_HSequenceOfPnt(Macad::Occt::TColgp_HSequenceOfPnt^ parameter1);
     Macad::Occt::TColgp_SequenceOfPnt^ Sequence();
+    void Append(Macad::Occt::Pnt theItem);
     void Append(Macad::Occt::TColgp_SequenceOfPnt^ theSequence);
     Macad::Occt::TColgp_SequenceOfPnt^ ChangeSequence();
     int Size();
@@ -5317,17 +4955,9 @@ public:
     void Clear();
     Macad::Occt::TColgp_HSequenceOfPnt^ Assign(Macad::Occt::TColgp_HSequenceOfPnt^ theOther);
     void Remove(Macad::Occt::TColgp_HSequenceOfPnt::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::Pnt theItem);
-    void Append(Macad::Occt::TColgp_HSequenceOfPnt^ theSeq);
     void Prepend(Macad::Occt::Pnt theItem);
-    void Prepend(Macad::Occt::TColgp_HSequenceOfPnt^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Pnt theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_HSequenceOfPnt::Iterator^ thePosition, Macad::Occt::Pnt theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Pnt theItem);
     void Split(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt^ theSeq);
     Macad::Occt::Pnt First();
     Macad::Occt::Pnt ChangeFirst();
@@ -5400,20 +5030,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_HSequenceOfPnt2d^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_HSequenceOfPnt2d^ theSeq);
-        Iterator(Macad::Occt::TColgp_HSequenceOfPnt2d::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Pnt2d Value();
         Macad::Occt::Pnt2d ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_HSequenceOfPnt2d::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_HSequenceOfPnt2d();
     TColgp_HSequenceOfPnt2d(Macad::Occt::TColgp_SequenceOfPnt2d^ theOther);
-    TColgp_HSequenceOfPnt2d(Macad::Occt::TColgp_HSequenceOfPnt2d^ parameter1);
     Macad::Occt::TColgp_SequenceOfPnt2d^ Sequence();
+    void Append(Macad::Occt::Pnt2d theItem);
     void Append(Macad::Occt::TColgp_SequenceOfPnt2d^ theSequence);
     Macad::Occt::TColgp_SequenceOfPnt2d^ ChangeSequence();
     int Size();
@@ -5428,17 +5056,9 @@ public:
     void Clear();
     Macad::Occt::TColgp_HSequenceOfPnt2d^ Assign(Macad::Occt::TColgp_HSequenceOfPnt2d^ theOther);
     void Remove(Macad::Occt::TColgp_HSequenceOfPnt2d::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::Pnt2d theItem);
-    void Append(Macad::Occt::TColgp_HSequenceOfPnt2d^ theSeq);
     void Prepend(Macad::Occt::Pnt2d theItem);
-    void Prepend(Macad::Occt::TColgp_HSequenceOfPnt2d^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Pnt2d theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt2d^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_HSequenceOfPnt2d::Iterator^ thePosition, Macad::Occt::Pnt2d theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt2d^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Pnt2d theItem);
     void Split(int theIndex, Macad::Occt::TColgp_HSequenceOfPnt2d^ theSeq);
     Macad::Occt::Pnt2d First();
     Macad::Occt::Pnt2d ChangeFirst();
@@ -5511,20 +5131,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_HSequenceOfVec^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_HSequenceOfVec^ theSeq);
-        Iterator(Macad::Occt::TColgp_HSequenceOfVec::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Vec Value();
         Macad::Occt::Vec ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_HSequenceOfVec::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_HSequenceOfVec();
     TColgp_HSequenceOfVec(Macad::Occt::TColgp_SequenceOfVec^ theOther);
-    TColgp_HSequenceOfVec(Macad::Occt::TColgp_HSequenceOfVec^ parameter1);
     Macad::Occt::TColgp_SequenceOfVec^ Sequence();
+    void Append(Macad::Occt::Vec theItem);
     void Append(Macad::Occt::TColgp_SequenceOfVec^ theSequence);
     Macad::Occt::TColgp_SequenceOfVec^ ChangeSequence();
     int Size();
@@ -5539,17 +5157,9 @@ public:
     void Clear();
     Macad::Occt::TColgp_HSequenceOfVec^ Assign(Macad::Occt::TColgp_HSequenceOfVec^ theOther);
     void Remove(Macad::Occt::TColgp_HSequenceOfVec::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::Vec theItem);
-    void Append(Macad::Occt::TColgp_HSequenceOfVec^ theSeq);
     void Prepend(Macad::Occt::Vec theItem);
-    void Prepend(Macad::Occt::TColgp_HSequenceOfVec^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Vec theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_HSequenceOfVec^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_HSequenceOfVec::Iterator^ thePosition, Macad::Occt::Vec theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_HSequenceOfVec^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Vec theItem);
     void Split(int theIndex, Macad::Occt::TColgp_HSequenceOfVec^ theSeq);
     Macad::Occt::Vec First();
     Macad::Occt::Vec ChangeFirst();
@@ -5622,20 +5232,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_HSequenceOfVec2d^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_HSequenceOfVec2d^ theSeq);
-        Iterator(Macad::Occt::TColgp_HSequenceOfVec2d::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::Vec2d Value();
         Macad::Occt::Vec2d ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_HSequenceOfVec2d::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_HSequenceOfVec2d();
     TColgp_HSequenceOfVec2d(Macad::Occt::TColgp_SequenceOfVec2d^ theOther);
-    TColgp_HSequenceOfVec2d(Macad::Occt::TColgp_HSequenceOfVec2d^ parameter1);
     Macad::Occt::TColgp_SequenceOfVec2d^ Sequence();
+    void Append(Macad::Occt::Vec2d theItem);
     void Append(Macad::Occt::TColgp_SequenceOfVec2d^ theSequence);
     Macad::Occt::TColgp_SequenceOfVec2d^ ChangeSequence();
     int Size();
@@ -5650,17 +5258,9 @@ public:
     void Clear();
     Macad::Occt::TColgp_HSequenceOfVec2d^ Assign(Macad::Occt::TColgp_HSequenceOfVec2d^ theOther);
     void Remove(Macad::Occt::TColgp_HSequenceOfVec2d::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::Vec2d theItem);
-    void Append(Macad::Occt::TColgp_HSequenceOfVec2d^ theSeq);
     void Prepend(Macad::Occt::Vec2d theItem);
-    void Prepend(Macad::Occt::TColgp_HSequenceOfVec2d^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::Vec2d theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_HSequenceOfVec2d^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_HSequenceOfVec2d::Iterator^ thePosition, Macad::Occt::Vec2d theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_HSequenceOfVec2d^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::Vec2d theItem);
     void Split(int theIndex, Macad::Occt::TColgp_HSequenceOfVec2d^ theSeq);
     Macad::Occt::Vec2d First();
     Macad::Occt::Vec2d ChangeFirst();
@@ -5733,20 +5333,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_HSequenceOfXY^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_HSequenceOfXY^ theSeq);
-        Iterator(Macad::Occt::TColgp_HSequenceOfXY::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::XY Value();
         Macad::Occt::XY ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_HSequenceOfXY::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_HSequenceOfXY();
     TColgp_HSequenceOfXY(Macad::Occt::TColgp_SequenceOfXY^ theOther);
-    TColgp_HSequenceOfXY(Macad::Occt::TColgp_HSequenceOfXY^ parameter1);
     Macad::Occt::TColgp_SequenceOfXY^ Sequence();
+    void Append(Macad::Occt::XY theItem);
     void Append(Macad::Occt::TColgp_SequenceOfXY^ theSequence);
     Macad::Occt::TColgp_SequenceOfXY^ ChangeSequence();
     int Size();
@@ -5761,17 +5359,9 @@ public:
     void Clear();
     Macad::Occt::TColgp_HSequenceOfXY^ Assign(Macad::Occt::TColgp_HSequenceOfXY^ theOther);
     void Remove(Macad::Occt::TColgp_HSequenceOfXY::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::XY theItem);
-    void Append(Macad::Occt::TColgp_HSequenceOfXY^ theSeq);
     void Prepend(Macad::Occt::XY theItem);
-    void Prepend(Macad::Occt::TColgp_HSequenceOfXY^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::XY theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_HSequenceOfXY^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_HSequenceOfXY::Iterator^ thePosition, Macad::Occt::XY theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_HSequenceOfXY^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::XY theItem);
     void Split(int theIndex, Macad::Occt::TColgp_HSequenceOfXY^ theSeq);
     Macad::Occt::XY First();
     Macad::Occt::XY ChangeFirst();
@@ -5844,20 +5434,18 @@ public:
 
     public:
         Iterator();
-        Iterator(Macad::Occt::TColgp_HSequenceOfXYZ^ theSeq, bool isStart);
-        Iterator(Macad::Occt::TColgp_HSequenceOfXYZ^ theSeq);
-        Iterator(Macad::Occt::TColgp_HSequenceOfXYZ::Iterator^ parameter1);
         bool More();
         void Next();
         Macad::Occt::XYZ Value();
         Macad::Occt::XYZ ChangeValue();
         bool IsEqual(Macad::Occt::TColgp_HSequenceOfXYZ::Iterator^ theOther);
+        bool Equals(System::Object^ obj) override;
     }; // class Iterator
 
     TColgp_HSequenceOfXYZ();
     TColgp_HSequenceOfXYZ(Macad::Occt::TColgp_SequenceOfXYZ^ theOther);
-    TColgp_HSequenceOfXYZ(Macad::Occt::TColgp_HSequenceOfXYZ^ parameter1);
     Macad::Occt::TColgp_SequenceOfXYZ^ Sequence();
+    void Append(Macad::Occt::XYZ theItem);
     void Append(Macad::Occt::TColgp_SequenceOfXYZ^ theSequence);
     Macad::Occt::TColgp_SequenceOfXYZ^ ChangeSequence();
     int Size();
@@ -5872,17 +5460,9 @@ public:
     void Clear();
     Macad::Occt::TColgp_HSequenceOfXYZ^ Assign(Macad::Occt::TColgp_HSequenceOfXYZ^ theOther);
     void Remove(Macad::Occt::TColgp_HSequenceOfXYZ::Iterator^ thePosition);
-    void Remove(int theIndex);
-    void Remove(int theFromIndex, int theToIndex);
-    void Append(Macad::Occt::XYZ theItem);
-    void Append(Macad::Occt::TColgp_HSequenceOfXYZ^ theSeq);
     void Prepend(Macad::Occt::XYZ theItem);
-    void Prepend(Macad::Occt::TColgp_HSequenceOfXYZ^ theSeq);
     void InsertBefore(int theIndex, Macad::Occt::XYZ theItem);
-    void InsertBefore(int theIndex, Macad::Occt::TColgp_HSequenceOfXYZ^ theSeq);
     void InsertAfter(Macad::Occt::TColgp_HSequenceOfXYZ::Iterator^ thePosition, Macad::Occt::XYZ theItem);
-    void InsertAfter(int theIndex, Macad::Occt::TColgp_HSequenceOfXYZ^ theSeq);
-    void InsertAfter(int theIndex, Macad::Occt::XYZ theItem);
     void Split(int theIndex, Macad::Occt::TColgp_HSequenceOfXYZ^ theSeq);
     Macad::Occt::XYZ First();
     Macad::Occt::XYZ ChangeFirst();

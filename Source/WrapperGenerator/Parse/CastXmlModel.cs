@@ -82,7 +82,7 @@ namespace Macad.Occt.Generator.CastXml
                         break;
                     case Items1ChoiceType.File:
                         var file = (ItemsFile)Items1[i];
-                        Files.Add(file.id, file.name);
+                        Files.Add(file.id, file.name.Replace('/', '\\'));
                         break;
                     case Items1ChoiceType.FundamentalType:
                         _IdLookup.Add(((ItemsFundamentalType)Items1[i]).id, i);

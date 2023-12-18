@@ -43,7 +43,6 @@ public:
 
 public:
     BRepLProp();
-    BRepLProp(Macad::Occt::BRepLProp^ parameter1);
     /// <summary>
     /// Computes the regularity at the junction between C1 and
     /// C2. The point u1 on C1 and the point u2 on  C2 must be
@@ -88,7 +87,6 @@ public:
 
 public:
     BRepLProp_CurveTool();
-    BRepLProp_CurveTool(Macad::Occt::BRepLProp_CurveTool^ parameter1);
     /// <summary>
     /// Computes the point <P> of parameter <U> on the curve <C>.
     /// </summary>
@@ -184,7 +182,6 @@ public:
     /// when the functions "set" will be done.
     /// </summary>
     BRepLProp_CLProps(int N, double Resolution);
-    BRepLProp_CLProps(Macad::Occt::BRepLProp_CLProps^ parameter1);
     /// <summary>
     /// Initializes the local properties of the curve
     /// for the parameter value <U>.
@@ -269,7 +266,6 @@ public:
 
 public:
     BRepLProp_SurfaceTool();
-    BRepLProp_SurfaceTool(Macad::Occt::BRepLProp_SurfaceTool^ parameter1);
     /// <summary>
     /// Computes the point <P> of parameter <U> and <V> on the
     /// Surface <S>.
@@ -352,7 +348,6 @@ public:
     /// the surface can have an empty constructor.
     /// </summary>
     BRepLProp_SLProps(int N, double Resolution);
-    BRepLProp_SLProps(Macad::Occt::BRepLProp_SLProps^ parameter1);
     /// <summary>
     /// Initializes the local properties of the surface S
     /// for the new surface.
