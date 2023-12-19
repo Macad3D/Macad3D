@@ -94,14 +94,11 @@ namespace Macad.Interaction.Visual
         class AttributeSet
         {
             public Prs3d_Drawer Drawer { get; }
-            public Prs3d_Drawer HilightDrawer { get; }
 
             public AttributeSet()
             {
                 Drawer = new Prs3d_Drawer();
                 Drawer.SetupOwnDefaults();
-                HilightDrawer = new Prs3d_Drawer();
-                HilightDrawer.Link(Drawer);
             }
         }
 
@@ -222,28 +219,6 @@ namespace Macad.Interaction.Visual
             attributeSet.Drawer.SetDisplayMode((int)(layer.PresentationMode == PresentationMode.Wireframe ? AIS_DisplayMode.WireFrame : AIS_DisplayMode.Shaded));
 
             attributeSet.Drawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.RELATIVE);
-
-            // Hilight Drawer
-            shadingAspect = new Prs3d_ShadingAspect();
-            shadingAspect.SetColor(layer.Color.ToQuantityColor());
-            shadingAspect.SetMaterial(Graphic3d_NameOfMaterial.PLASTIC.ToAspect());
-            shadingAspect.SetTransparency(0);
-            attributeSet.HilightDrawer.SetShadingAspect(shadingAspect);
-
-            lineAspect = new Prs3d_LineAspect(Colors.Selection, Aspect_TypeOfLine.SOLID, 3.0);
-            attributeSet.HilightDrawer.SetLineAspect(lineAspect);
-            attributeSet.HilightDrawer.SetSeenLineAspect(lineAspect);
-            attributeSet.HilightDrawer.SetWireAspect(lineAspect);
-            attributeSet.HilightDrawer.SetFaceBoundaryAspect(lineAspect);
-            attributeSet.HilightDrawer.SetFreeBoundaryAspect(lineAspect);
-            attributeSet.HilightDrawer.SetUnFreeBoundaryAspect(lineAspect);
-            attributeSet.HilightDrawer.SetPointAspect(Marker.CreateBitmapPointAspect(Marker.BallImage, Colors.Selection));
-
-            //TODO attributeSet.HilightDrawer.SetHighlightStyle(new Graphic3d_HighlightStyle(Aspect_TypeOfHighlightMethod.Aspect_TOHM_COLOR, new Quantity_Color(Quantity_NameOfColor.ALICEBLUE)));
-
-            attributeSet.HilightDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.RELATIVE);
-            attributeSet.HilightDrawer.SetFaceBoundaryDraw(layer.PresentationMode == PresentationMode.SolidWithBoundary);
-            attributeSet.HilightDrawer.SetDisplayMode(0);
         }
 
         //--------------------------------------------------------------------------------------------------
