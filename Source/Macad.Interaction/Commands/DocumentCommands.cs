@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using Macad.Common;
 using Macad.Interaction.Dialogs;
+using Macad.Interaction.Panels;
 using Macad.Presentation;
 
 namespace Macad.Interaction
@@ -113,11 +115,52 @@ namespace Macad.Interaction
 
                 InteractiveContext.Current.DocumentController.OpenFile(fileName, false);
             },
-            () => !(InteractiveContext.Current?.DocumentController is null))
+            () => InteractiveContext.Current?.DocumentController is not null)
         {
             Header = (fileName) => "Open Recent Model",
             Description = (fileName) => "Opens again a recently edited Model.",
             Icon = (fileName) => "App-OpenRecent"
+        };
+
+        //--------------------------------------------------------------------------------------------------
+        
+        public static ActionCommand<DocumentFilterFlags> ToggleFilterFlag { get; } = new(
+            (flag) =>
+            {
+                var editorState = InteractiveContext.Current.EditorState;
+                var flags = editorState.DocumentFilterFlags;
+                if (flag.HasAny(DocumentFilterFlags.SortingKey))
+                {
+                    if (flags.Has(flag))
+                    {
+                        flags = flags.Toggled(flag);
+                    }
+                    else
+                    {
+                        flags = flags.Removed(DocumentFilterFlags.SortingKey)
+                                     .Added(flag);
+                    }
+                }
+                else
+                {
+                    flags = flags.Toggled(flag);
+                }
+                editorState.DocumentFilterFlags = flags;
+            },
+            () => InteractiveContext.Current?.EditorState is not null)
+        {
+            Header = (flag) =>
+            {
+                return flag switch
+                {
+                    DocumentFilterFlags.ActiveLayer => "In Active Layer",
+                    DocumentFilterFlags.Visible => "Is Visible",
+                    DocumentFilterFlags.SortDescending => "Descending",
+                    DocumentFilterFlags.SortByName => "Sort by Name",
+                    DocumentFilterFlags.SortByType => "Sort by Type",
+                    _ => ""
+                };
+            }
         };
 
         //--------------------------------------------------------------------------------------------------

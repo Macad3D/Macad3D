@@ -20,7 +20,9 @@
         </Grid.RowDefinitions>
 
         <!--Name, Visibility-->
-        <TextBlock Grid.Row="0" Text="Name" Style="{StaticResource Macad.Styles.TextBlock.Property}" />
+        <TextBlock Grid.Row="0" 
+                   Text="Name" 
+                   Style="{StaticResource Macad.Styles.TextBlock.Property}"/>
         <DockPanel Grid.Row="0" Grid.Column="1">
             <Button x:Name="VisibilityToggle"
                     DockPanel.Dock="Right" 
@@ -35,8 +37,8 @@
                            Visibility="{Binding Entity.IsVisible, Converter={mmp:BoolToInvisibleHiddenConverter}}"/>
                 </Grid>
             </Button>                
-            <TextBox x:Name="EntityName" 
-                     Text="{Binding Entity.Name, NotifyOnSourceUpdated=True}" >
+            <TextBox Text="{Binding Entity.Name, NotifyOnSourceUpdated=True}"
+                     AutomationProperties.AutomationId="EntityName">
                 <mmp:Behaviors.Behavior>
                     <mmp:SubmitOnEnterBehaviour />
                 </mmp:Behaviors.Behavior>
@@ -45,8 +47,7 @@
 
         <!--Layer-->
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Layer" Style="{StaticResource Macad.Styles.TextBlock.Property}" />
-        <ComboBox x:Name="LayerBox" 
-                  Grid.Row="1" Grid.Column="1" 
+        <ComboBox Grid.Row="1" Grid.Column="1" 
                   SelectedValue="{Binding Entity.Layer, NotifyOnSourceUpdated=True}"
                   ItemsSource="{Binding Context.Layers}"
                   AutomationProperties.AutomationId="LayerBox">

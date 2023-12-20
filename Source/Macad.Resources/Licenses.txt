@@ -29,5 +29,4 @@ Types\TopoDS_* (Box)
 by Sean A. Hanley, https://github.com/yadyn/WPF-Task-Dialog
 License: The Code Project Open License (CPOL) 1.02
 
-TaskDialog/*
 

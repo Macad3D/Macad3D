@@ -360,7 +360,8 @@
 
                     <ComboBox x:Name="Layers_ActiveLayerSelect"
                               SelectedValue="{Binding Context.Layers.ActiveLayer}"
-                              ItemsSource="{Binding Context.Layers}">
+                              ItemsSource="{Binding Context.Layers}"
+                              AutomationProperties.AutomationId="ActiveLayerSelect">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

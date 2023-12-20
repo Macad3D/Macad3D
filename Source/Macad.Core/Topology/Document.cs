@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Macad.Core.Components;
+using System.Collections.Specialized;
 
 namespace Macad.Core.Topology
 {
@@ -13,6 +14,7 @@ namespace Macad.Core.Topology
         void RegisterInstance(Entity entity);
         void UnregisterInstance(Entity entity);
         Entity FindInstance(Guid instanceGuid);
+        void InstanceChanged(Entity entity);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -101,6 +103,19 @@ namespace Macad.Core.Topology
                 return entity;
 
             return null;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public void InstanceChanged(Entity instance)
+        {
+            var typedInstance = instance as T;
+            int index = IndexOf(typedInstance);
+            if(index == -1)
+                return;
+
+            NotifyCollectionChangedEventArgs eventArgs = new(NotifyCollectionChangedAction.Replace, typedInstance, typedInstance, index);
+            RaiseCollectionChanged(eventArgs);
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -4,64 +4,60 @@ using System.Linq;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.AutomationElements.Infrastructure;
 using FlaUI.Core.Input;
+using Macad.Common;
 using NUnit.Framework;
 
 namespace Macad.Test.UI.Framework
 {
-    public class DocumentExplorerAdaptor
+    public class DocumentExplorerAdaptor : FormAdaptor
     {
-        readonly AutomationElement _ViewControl;
         readonly Tree _TreeControl;
 
         //--------------------------------------------------------------------------------------------------
 
         public DocumentExplorerAdaptor(Window window)
         {
-            _ViewControl = window.FindFirstDescendant(cf => cf.ByClassName("DocumentExplorerPanel"));
-            Assume.That(_ViewControl, Is.Not.Null);
-            _TreeControl = _ViewControl.FindFirstDescendant(cf => cf.ByAutomationId("TreeView")).AsTree();
+            _FormControl = window.FindFirstDescendant(cf => cf.ByClassName("DocumentExplorerPanel"));
+            Assume.That(_FormControl, Is.Not.Null);
+            _TreeControl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId("TreeView")).AsTree();
             Assume.That(_TreeControl, Is.Not.Null);
         }
 
-        //--------------------------------------------------------------------------------------------------
-
-        public TreeItem GetModelItem()
-        {
-            Assume.That(_TreeControl.Items.Length, Is.EqualTo(1));
-            Assume.That(_TreeControl.Items[0].AutomationId == "Topology.Model");
-            return _TreeControl.Items[0];
-        }
 
         //--------------------------------------------------------------------------------------------------
 
-        public IEnumerable<TreeItem> GetBodyItems()
+        public IEnumerable<TreeItem> GetItems(string type="")
         {
-            return GetModelItem().Items.Where(ti => ti.AutomationId == "Topology.Body");
+            if(type.IsNullOrEmpty())
+                return _TreeControl.Items;
+            else
+                return _TreeControl.Items.Where(ti => ti.AutomationId == type);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public IEnumerable<TreeItem> GetSelectedItems()
         {
-            return GetModelItem().Items.Where(ti => ti.IsSelected);
-        }
-        
-        //--------------------------------------------------------------------------------------------------
-
-        public void SelectModelItem()
-        {
-            SelectItem(GetModelItem());
+            return _TreeControl.Items.Where(ti => ti.IsSelected);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public void SelectItem(string name)
         {
-            var item = GetModelItem().Items.First(ti => ti.Text == name);
+            var item = _TreeControl.Items.First(ti => ti.Text == name);
             Assert.NotNull(item, $"Item {name} not found");
             SelectItem(item);
         }
         
+        //--------------------------------------------------------------------------------------------------
+
+        public void SelectItem(int index)
+        {
+            Assert.That(index >= 0 && index < _TreeControl.Items.Length, "Index out of bounds.");
+            SelectItem(_TreeControl.Items[index]);
+        }
+
         //--------------------------------------------------------------------------------------------------
 
         public void SelectItem(TreeItem item)
@@ -70,7 +66,10 @@ namespace Macad.Test.UI.Framework
             var pnt = new Point((int)(rect.Left + rect.Width * 0.5), (int)(rect.Top + rect.Height * 0.5));
             Mouse.Click(pnt, MouseButton.Left);
             Wait.UntilInputIsProcessed();
-            Wait.UntilResponsive(_ViewControl);
+            Wait.UntilResponsive(_FormControl);
         }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

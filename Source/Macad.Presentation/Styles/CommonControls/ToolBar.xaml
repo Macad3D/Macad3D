@@ -28,7 +28,7 @@
     </Style>
 
     <!--Button-->
-    <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="{x:Type Button}" BasedOn="{x:Null}">
+    <Style x:Key="Macad.Styles.Button.ToolBar" TargetType="{x:Type Button}" BasedOn="{x:Null}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="1" />
@@ -70,6 +70,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="{x:Type Button}" BasedOn="{StaticResource Macad.Styles.Button.ToolBar}" />
 
     <!--ToggleButton-->
     <Style x:Key="{x:Static ToolBar.ToggleButtonStyleKey}" TargetType="{x:Type ToggleButton}">
@@ -132,7 +133,6 @@
         </Setter>
     </Style>
 
-
     <Style x:Key="Macad.Styles.ToggleButton.ToolBarHorizontalOverflow" TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Glyph}" />
@@ -164,8 +164,15 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
-    
+
+    <!-- TextBox -->
+    <Style x:Key="Macad.Styles.TextBox.ToolBar" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="Padding" Value="2" />
+    </Style>
+
+    <!-- Toolbar -->
     <Style x:Key="Macad.Styles.Thumb.ToolBar" TargetType="{x:Type Thumb}">
         <Setter Property="Template">
             <Setter.Value>
@@ -196,7 +203,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 
     <Style TargetType="{x:Type ToolBar}">
         <Setter Property="Background" Value="Transparent"/>

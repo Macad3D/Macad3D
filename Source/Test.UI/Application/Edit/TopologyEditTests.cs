@@ -1,8 +1,4 @@
 ﻿using System.Linq;
-using System.Threading;
-using System.Windows;
-using System.Windows.Input;
-using FlaUI.Core.Input;
 using FlaUI.Core.WindowsAPI;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
@@ -27,7 +23,7 @@ namespace Macad.Test.UI.Application.Edit
             Pipe.TypeKey(VirtualKeyShort.DELETE);
 
             // Check that box is away
-            Assert.AreEqual(0, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(0, MainWindow.Document.GetItems().Count());
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -41,7 +37,7 @@ namespace Macad.Test.UI.Application.Edit
             MainWindow.Ribbon.ClickButton("Delete");
             
             // Check that box is away
-            Assert.AreEqual(0, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(0, MainWindow.Document.GetItems().Count());
             Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("Delete"));
         }
 
@@ -56,7 +52,7 @@ namespace Macad.Test.UI.Application.Edit
             MainWindow.Ribbon.ClickButton("Duplicate");
 
             // Check that box is duplicated
-            Assert.AreEqual(2, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(2, MainWindow.Document.GetItems().Count());
             Assert.AreEqual(1, MainWindow.Document.GetSelectedItems().Count());
         }
 
@@ -76,7 +72,7 @@ namespace Macad.Test.UI.Application.Edit
             dlg.ClickButton(TaskDialogAdaptor.Button.Command1);
 
             // Check that box is duplicated
-            Assert.AreEqual(3, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(3, MainWindow.Document.GetItems().Count());
             Assert.AreEqual(1, MainWindow.Document.GetSelectedItems().Count());
         }
 
@@ -96,7 +92,7 @@ namespace Macad.Test.UI.Application.Edit
             dlg.ClickButton(TaskDialogAdaptor.Button.Command2);
 
             // Check that box is duplicated
-            Assert.AreEqual(4, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(4, MainWindow.Document.GetItems().Count());
             Assert.AreEqual(1, MainWindow.Document.GetSelectedItems().Count());
         }
         
@@ -116,7 +112,7 @@ namespace Macad.Test.UI.Application.Edit
             dlg.Close();
 
             // Check that box is not duplicated
-            Assert.AreEqual(2, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(2, MainWindow.Document.GetItems().Count());
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -132,7 +128,7 @@ namespace Macad.Test.UI.Application.Edit
             MainWindow.Ribbon.ClickButton("PasteClipboard");
 
             // Check that box is duplicated
-            Assert.AreEqual(2, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(2, MainWindow.Document.GetItems().Count());
             Assert.AreEqual(1, MainWindow.Document.GetSelectedItems().Count());
         }
 
@@ -149,7 +145,7 @@ namespace Macad.Test.UI.Application.Edit
             MainWindow.Ribbon.ClickButton("PasteClipboard");
 
             // Check that box exists only once
-            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(1, MainWindow.Document.GetItems().Count());
             Assert.AreEqual(1, MainWindow.Document.GetSelectedItems().Count());
         }
 
@@ -171,7 +167,7 @@ namespace Macad.Test.UI.Application.Edit
             dlg.ClickButton(TaskDialogAdaptor.Button.Command1);
 
             // Check that box is duplicated
-            Assert.AreEqual(3, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(3, MainWindow.Document.GetItems().Count());
             Assert.AreEqual(1, MainWindow.Document.GetSelectedItems().Count());
         }
 
@@ -194,7 +190,7 @@ namespace Macad.Test.UI.Application.Edit
             Assert.IsFalse(TaskDialogAdaptor.IsTaskDialogOpen(MainWindow));
 
             // Check that box is duplicated
-            Assert.AreEqual(2, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(2, MainWindow.Document.GetItems().Count());
             Assert.AreEqual(1, MainWindow.Document.GetSelectedItems().Count());
         }
 
@@ -216,7 +212,7 @@ namespace Macad.Test.UI.Application.Edit
             Assert.IsFalse(TaskDialogAdaptor.IsTaskDialogOpen(MainWindow));
 
             // Check that box is duplicated
-            Assert.AreEqual(2, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(2, MainWindow.Document.GetItems().Count());
             Assert.AreEqual(1, MainWindow.Document.GetSelectedItems().Count());
         }
 

@@ -83,5 +83,16 @@ namespace Macad.Test.UI.Framework
             viewport.ClickRelative(0.3, 0.3);
             Assert.IsFalse(mainWindow.Ribbon.IsButtonChecked("CreatePolyLineSegment"));
         }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static void GenerateDatumPlane(MainWindowAdaptor mainWindow)
+        {
+            mainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+            mainWindow.Ribbon.ClickButton("CreateDatumPlane");
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
     }
 }

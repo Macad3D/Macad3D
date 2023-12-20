@@ -24,7 +24,7 @@ namespace Macad.Test.UI.Application.Edit
             MainWindow.Ribbon.ClickButton("Duplicate");
 
             // Check that box is duplicated
-            Assert.AreEqual(2, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(2, MainWindow.Document.GetItems().Count());
             Assert.AreEqual(1, MainWindow.Document.GetSelectedItems().Count());
 
             // Select first item

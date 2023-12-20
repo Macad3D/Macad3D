@@ -22,7 +22,11 @@ namespace Macad.Common.Serialization
             {
                 bool isFirst = true;
                 var e = Convert.ToInt32((Enum) obj);
-                var flaggedValues = _Values.Where(m => (e & Convert.ToInt32(m)) != 0);
+                var flaggedValues = _Values.Where(m =>
+                {
+                    var mi = Convert.ToInt32(m);
+                    return (e & mi) == mi;
+                });
 
                 foreach (var flaggedValue in flaggedValues)
                 {

@@ -52,7 +52,7 @@ namespace Macad.Test.UI.Application.Window
             dlg.ClickButton(TaskDialogAdaptor.Button.Cancel);
 
             // Check that box is still there
-            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(1, MainWindow.Document.GetItems().Count());
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ namespace Macad.Test.UI.Application.Window
             fileDlg.ClickButton(FileDialogAdaptor.Button.Cancel);
 
             // Check that button box is still there
-            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(1, MainWindow.Document.GetItems().Count());
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -6,7 +6,7 @@
              xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
              xmlns:mmt="clr-namespace:Macad.Core.Topology;assembly=Macad.Core"
              xmlns:treeView="clr-namespace:Macad.Presentation.TreeView;assembly=Macad.Presentation"
-             xmlns:interaction="clr-namespace:Macad.Interaction"
+             xmlns:mmi="clr-namespace:Macad.Interaction"
              xmlns:panels="clr-namespace:Macad.Interaction.Panels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
@@ -17,11 +17,112 @@
         <!--
             Toolbar
         -->
-        <ToolBarTray IsLocked="true"
-                     DockPanel.Dock="Top">
-            <ToolBar>
-            </ToolBar>
-        </ToolBarTray>
+        <DockPanel DockPanel.Dock="Top"
+                   Background="{StaticResource Macad.Brushes.Panel.Background}">
+
+            <Button DockPanel.Dock="Right" 
+                    Height="22" Width="24" Padding="0,2,2,2"
+                    Style="{StaticResource Macad.Styles.Button.ToolBar}"
+                    AutomationProperties.AutomationId="FilterMenu">
+
+                <mmp:Behaviors.Behavior>
+                    <mmp:DropDownButtonBehavior />
+                </mmp:Behaviors.Behavior>
+
+                <Button.ContextMenu>
+                    <ContextMenu DataContext="{Binding DataContext, Source={mmp:RootObject}}"
+                                 AutomationProperties.AutomationId="DocumentFilterContextMenu">
+                        <MenuItem Header="Filter"
+                                  Style="{StaticResource Macad.Styles.MenuItem.GroupHeader}"/>
+                        <MenuItem Header="In Active Layer"
+                                  IsCheckable="True"
+                                  IsChecked="{Binding Context.EditorState.DocumentFilterFlags, Mode=OneWay, Converter={mmp:HasFlagToBoolConverter}, ConverterParameter=ActiveLayer}"
+                                  CommandParameter="ActiveLayer"
+                                  mmp:Command.Action="{x:Static mmi:DocumentCommands.ToggleFilterFlag}"
+                                  AutomationProperties.AutomationId="FilterActiveLayer"/>
+                        <MenuItem Header="Is Visible"
+                                  IsCheckable="True"
+                                  IsChecked="{Binding Context.EditorState.DocumentFilterFlags, Mode=OneWay, Converter={mmp:HasFlagToBoolConverter}, ConverterParameter=Visible}"
+                                  CommandParameter="Visible"
+                                  mmp:Command.Action="{x:Static mmi:DocumentCommands.ToggleFilterFlag}"
+                                  AutomationProperties.AutomationId="FilterVisible"/>
+                        <MenuItem Header="Sorting"
+                                  Style="{StaticResource Macad.Styles.MenuItem.GroupHeader}"/>
+                        <MenuItem Header="Sort by Name"
+                                  IsCheckable="True"
+                                  IsChecked="{Binding Context.EditorState.DocumentFilterFlags, Mode=OneWay, Converter={mmp:HasFlagToBoolConverter}, ConverterParameter=SortByName}"
+                                  CommandParameter="SortByName"
+                                  mmp:Command.Action="{x:Static mmi:DocumentCommands.ToggleFilterFlag}"
+                                  AutomationProperties.AutomationId="SortByName"/>
+                        <MenuItem Header="Sort by Type"
+                                  IsCheckable="True"
+                                  IsChecked="{Binding Context.EditorState.DocumentFilterFlags, Mode=OneWay, Converter={mmp:HasFlagToBoolConverter}, ConverterParameter=SortByType}"
+                                  CommandParameter="SortByType"
+                                  mmp:Command.Action="{x:Static mmi:DocumentCommands.ToggleFilterFlag}"
+                                  AutomationProperties.AutomationId="SortByType"/>
+                        <MenuItem Header="Descending"
+                                  IsCheckable="True"
+                                  IsChecked="{Binding Context.EditorState.DocumentFilterFlags, Mode=OneWay, Converter={mmp:HasFlagToBoolConverter}, ConverterParameter=SortDescending}"
+                                  CommandParameter="SortDescending"
+                                  mmp:Command.Action="{x:Static mmi:DocumentCommands.ToggleFilterFlag}"
+                                  AutomationProperties.AutomationId="SortDescending"/>
+                    </ContextMenu>
+                </Button.ContextMenu>
+
+                <!-- Filter Button Icon -->
+                <Grid>
+                    <Image Source="{mmp:IconResource Generic-Filter}" 
+                           HorizontalAlignment="Left"/>
+                    <Path HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                          Stroke="{x:Null}"
+                          Fill="{StaticResource Macad.Brushes.Text}" 
+                          Data="M0,0L5,0 2.5,3z" 
+                          Margin="0,0,-2,0" 
+                          Height="4" Width="7" />
+                </Grid>
+
+            </Button>
+
+            <Grid>
+                <TextBox x:Name="FilterString"
+                         HorizontalContentAlignment="Stretch"
+                         Text="{Binding FilterString,Delay=250,UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource Macad.Styles.TextBox.ToolBar}"
+                         Padding="22,2,2,2"
+                         AutomationProperties.AutomationId="FilterStringBox" />
+
+                <Path HorizontalAlignment="Left" 
+                      VerticalAlignment="Center" 
+                      Fill="{StaticResource Macad.Brushes.Glyph.Disabled}" 
+                      Data="{StaticResource Macad.Geometries.MagnifyingGlass}"
+                      Margin="20,0,0,0"
+                      IsHitTestVisible="False">
+                    <Path.RenderTransform>
+                        <ScaleTransform ScaleX="-1.0" />
+                    </Path.RenderTransform>
+                </Path>
+
+                <TextBlock Text="Search Document"
+                           Foreground="{StaticResource Macad.Brushes.Glyph.Disabled}"
+                           VerticalAlignment="Center"
+                           Margin="28,0,0,0"
+                           FontStyle="Italic" 
+                           IsHitTestVisible="False"
+                           Visibility="{Binding Text, ElementName=FilterString, Converter={mmp:StringNotEmptyToInvisibleHiddenConverter}}"/>
+
+                <Button HorizontalAlignment="Right" 
+                        VerticalAlignment="Center"
+                        Margin="0,0,2,0"
+                        Padding="6"
+                        Width="22" Height="22"
+                        Style="{StaticResource Macad.Styles.Button.Glyph}"
+                        Content="{StaticResource Macad.Geometries.Close}"
+                        Command="{x:Static panels:DocumentExplorerPanelModel.ClearFilterStringCommand}" 
+                        CommandParameter="{Binding}"
+                        Visibility="{Binding Text, ElementName=FilterString, Converter={mmp:StringNotEmptyToVisibleHiddenConverter}}"
+                        AutomationProperties.AutomationId="ResetNameFilter"/>
+            </Grid>
+        </DockPanel>
 
         <Rectangle Height="1" 
                    DockPanel.Dock="Top"
@@ -31,8 +132,9 @@
         <!--
             Tree
         -->
-        <treeView:TreeViewEx x:Name="TreeView"
-                             ItemsSource="{Binding Entities}"
+        <Grid>
+            <treeView:TreeViewEx x:Name="TreeView"
+                             ItemsSource="{Binding EntitiesView}"
                              SelectedItems="{Binding SelectedEntities, Mode=OneWay}"
                              Background="{StaticResource Macad.Brushes.Panel.Background}"
                              BorderBrush="{StaticResource Macad.Brushes.Panel.Border}"
@@ -119,5 +221,16 @@
         
             </treeView:TreeViewEx.Resources>
         </treeView:TreeViewEx>
+
+            <TextBlock Text="You Document is empty. Start with creating some shapes by selecing tools in the MODEL menu tab."
+                       TextWrapping="Wrap"
+                       Foreground="{StaticResource Macad.Brushes.TextLight}"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Top"
+                       Margin="20"
+                       FontStyle="Italic" 
+                       IsHitTestVisible="False"
+                       Visibility="{Binding DocumentIsEmpty, Converter={mmp:BoolToVisibleCollapsedConverter}}"/>
+        </Grid>
     </DockPanel>
 </UserControl>

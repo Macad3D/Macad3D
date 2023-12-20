@@ -30,8 +30,8 @@ namespace Macad.Test.UI.Application.Exchange
             dlg.ClickButton(TaskDialogAdaptor.Button.Cancel);
 
             // Check that box is still there
-            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
-            Assert.AreEqual("Box_1", MainWindow.Document.GetBodyItems().First().Name);
+            Assert.AreEqual(1, MainWindow.Document.GetItems().Count());
+            Assert.AreEqual("Box_1", MainWindow.Document.GetItems().First().Name);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -49,13 +49,13 @@ namespace Macad.Test.UI.Application.Exchange
             dlg.ClickButton(TaskDialogAdaptor.Button.Command2);
 
             // Check that data was imported
-            Assert.AreEqual(2, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(2, MainWindow.Document.GetItems().Count());
 
             // Undo action
             MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             MainWindow.Ribbon.ClickButton("Undo");
-            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
-            Assert.AreEqual("Box_1", MainWindow.Document.GetBodyItems().First().Name);
+            Assert.AreEqual(1, MainWindow.Document.GetItems().Count());
+            Assert.AreEqual("Box_1", MainWindow.Document.GetItems().First().Name);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -79,13 +79,13 @@ namespace Macad.Test.UI.Application.Exchange
             dlg.ClickButton(TaskDialogAdaptor.Button.No);
 
             // Check that button box is not there
-            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
-            Assert.AreEqual("ImprintRingFace", MainWindow.Document.GetBodyItems().First().Name);
+            Assert.AreEqual(1, MainWindow.Document.GetItems().Count());
+            Assert.AreEqual("ImprintRingFace", MainWindow.Document.GetItems().First().Name);
 
             // Undo action not available, box is not there
             MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             MainWindow.Ribbon.ClickButton("Undo");
-            Assert.AreEqual(0, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(0, MainWindow.Document.GetItems().Count());
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -110,8 +110,8 @@ namespace Macad.Test.UI.Application.Exchange
             dlg.ClickButton(TaskDialogAdaptor.Button.Cancel, false);
 
             // Check that box is still there
-            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
-            Assert.AreEqual("Box_1", MainWindow.Document.GetBodyItems().First().Name);
+            Assert.AreEqual(1, MainWindow.Document.GetItems().Count());
+            Assert.AreEqual("Box_1", MainWindow.Document.GetItems().First().Name);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -129,8 +129,8 @@ namespace Macad.Test.UI.Application.Exchange
             dlg.ClickButton(TaskDialogAdaptor.Button.No);
 
             // Check that box is not selectable anymore
-            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
-            Assert.AreEqual("Cylinder", MainWindow.Document.GetBodyItems().First().Name);
+            Assert.AreEqual(1, MainWindow.Document.GetItems().Count());
+            Assert.AreEqual("Cylinder", MainWindow.Document.GetItems().First().Name);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -148,8 +148,8 @@ namespace Macad.Test.UI.Application.Exchange
             dlg.ClickButton(TaskDialogAdaptor.Button.Cancel);
 
             // Check that box is still here
-            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
-            Assert.AreEqual("Box_1", MainWindow.Document.GetBodyItems().First().Name);
+            Assert.AreEqual(1, MainWindow.Document.GetItems().Count());
+            Assert.AreEqual("Box_1", MainWindow.Document.GetItems().First().Name);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -166,15 +166,15 @@ namespace Macad.Test.UI.Application.Exchange
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
             // Check that data was imported
-            Assert.AreEqual(2, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(2, MainWindow.Document.GetItems().Count());
 
             // Undo action
             MainWindow.Ribbon.SelectTab(RibbonTabs.Edit);
             MainWindow.Ribbon.ClickButton("Undo");
 
             // Check that box is still here
-            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
-            Assert.AreEqual("Box_1", MainWindow.Document.GetBodyItems().First().Name);
+            Assert.AreEqual(1, MainWindow.Document.GetItems().Count());
+            Assert.AreEqual("Box_1", MainWindow.Document.GetItems().First().Name);
         }
         
         //--------------------------------------------------------------------------------------------------
@@ -191,8 +191,8 @@ namespace Macad.Test.UI.Application.Exchange
             Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
             // Check that box is still alone
-            Assert.AreEqual(1, MainWindow.Document.GetBodyItems().Count());
-            Assert.AreEqual("Box_1", MainWindow.Document.GetBodyItems().First().Name);
+            Assert.AreEqual(1, MainWindow.Document.GetItems().Count());
+            Assert.AreEqual("Box_1", MainWindow.Document.GetItems().First().Name);
         }
     }
 }

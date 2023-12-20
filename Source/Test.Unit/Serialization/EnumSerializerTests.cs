@@ -13,6 +13,8 @@ namespace Macad.Test.Unit.Serialization
             Serializer.RegisterNamespaceAlias("Test", "Macad.Test.Unit.Serialization");
         }
 
+        //--------------------------------------------------------------------------------------------------
+
         [Test]
         public void Simple()
         {
@@ -36,6 +38,8 @@ namespace Macad.Test.Unit.Serialization
             r.EndList();
             Assert.IsFalse(r.AnyLeft, "Any characters left.");
         }
+
+        //--------------------------------------------------------------------------------------------------
 
         [Test]
         public void Flags()

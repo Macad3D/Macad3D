@@ -226,7 +226,7 @@
     </Style>
 
     <Style x:Key="Macad.Styles.Button.Glyph" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Background" Value="{StaticResource Macad.Brushes.Glyph}"/>
         <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Glyph}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -236,21 +236,24 @@
                 <ControlTemplate TargetType="{x:Type ButtonBase}">
                     <Border VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            Background="{TemplateBinding Background}">
-                        <Path Margin="{TemplateBinding Padding}"
+                            Background="Transparent">
+                        <Path x:Name="Path"
+                              Margin="{TemplateBinding Padding}"
                               SnapsToDevicePixels="True" UseLayoutRounding="True"
                               Stroke="{TemplateBinding Foreground}"
                               StrokeThickness="1"
+                              Fill="{TemplateBinding Background}"
+                              Opacity="0.6"
                               Stretch="Uniform"
                               Data="{TemplateBinding Content}" />
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Path" Property="Opacity" Value="1.0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
-                <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Glyph.MouseOver}" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 </ResourceDictionary>

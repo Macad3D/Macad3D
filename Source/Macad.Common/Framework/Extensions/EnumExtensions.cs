@@ -46,6 +46,20 @@ namespace Macad.Common
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        public static bool HasAny<T>(this System.Enum type, T value)
+        {
+            try
+            {
+                return (((int)(object)type & (int)(object)value) != 0);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         public static T Added<T>(this System.Enum type, T value)
         {

@@ -37,7 +37,7 @@ namespace Macad.Core.Topology
             EntityList.Add(entity);
             if (update)
             {
-                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, entity, EntityList.Count-1));
+                RaiseCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, entity, EntityList.Count-1));
             }
         }
 
@@ -53,7 +53,7 @@ namespace Macad.Core.Topology
             entity.Remove();
             if (update)
             {
-                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, entity, index));
+                RaiseCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, entity, index));
             }
         }
 
@@ -62,6 +62,13 @@ namespace Macad.Core.Topology
         public virtual T Get(int index)
         {
             return EntityList[index];
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public virtual int IndexOf(T entity)
+        {
+            return EntityList.IndexOf(entity);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -94,6 +101,13 @@ namespace Macad.Core.Topology
         #region INotifyCollectionChanged
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+
+        //--------------------------------------------------------------------------------------------------
+
+        protected void RaiseCollectionChanged(NotifyCollectionChangedEventArgs args)
+        {
+            CollectionChanged?.Invoke(this, args);
+        }
 
         //--------------------------------------------------------------------------------------------------
 

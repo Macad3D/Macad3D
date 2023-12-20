@@ -19,9 +19,8 @@ namespace Macad.Test.UI.Framework
 
     //--------------------------------------------------------------------------------------------------
 
-    public class RibbonAdaptor
+    public class RibbonAdaptor : FormAdaptor
     {
-        readonly AutomationElement _RibbonControl;
         readonly Window _MainWindow;
         AutomationElement _ButtonBarControl;
 
@@ -30,20 +29,20 @@ namespace Macad.Test.UI.Framework
         public RibbonAdaptor(Window window)
         {
             _MainWindow = window;
-            _RibbonControl = window.FindFirstDescendant(cf => cf.ByClassName("MainWindowRibbon"));
-            Assume.That(_RibbonControl, Is.Not.Null);
+            _FormControl = window.FindFirstDescendant(cf => cf.ByClassName("MainWindowRibbon"));
+            Assume.That(_FormControl, Is.Not.Null);
         }
 
         //--------------------------------------------------------------------------------------------------
 
         public void SelectTab(RibbonTabs id, bool jump = true)
         {
-            var tabControl = _RibbonControl.FindFirstDescendant(cf => cf.ByAutomationId(id.ToString()));
+            var tabControl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id.ToString()));
             Assume.That(tabControl, Is.Not.Null, $"Ribbon tab control {id} not found.");
             //groupControl.Click(!jump);
             tabControl.Patterns.SelectionItem.Pattern.Select();
             Wait.UntilInputIsProcessed();
-            Wait.UntilResponsive(_RibbonControl);
+            Wait.UntilResponsive(_FormControl);
 
             _ButtonBarControl = tabControl;
         }
@@ -68,7 +67,7 @@ namespace Macad.Test.UI.Framework
 
         //--------------------------------------------------------------------------------------------------
 
-        public void ClickButton(string id, bool jump = true)
+        public new void ClickButton(string id, bool jump = true)
         {
             var button = _FindButton(id);
 
@@ -76,13 +75,13 @@ namespace Macad.Test.UI.Framework
             if (jump)
                 Mouse.Position = new Point(center.X + 10, center.Y + 10);
             Wait.UntilInputIsProcessed();
-            Wait.UntilResponsive(_RibbonControl);
+            Wait.UntilResponsive(_FormControl);
 
             Mouse.MoveTo(center);
             Mouse.LeftClick(center);
 
             Wait.UntilInputIsProcessed();
-            Wait.UntilResponsive(_RibbonControl);
+            Wait.UntilResponsive(_FormControl);
             Wait.UntilInputIsProcessed();
         }
         
@@ -102,12 +101,12 @@ namespace Macad.Test.UI.Framework
 
             listItem.Patterns.ExpandCollapse.Pattern.Expand();
             Wait.UntilInputIsProcessed();
-            Wait.UntilResponsive(_RibbonControl);
+            Wait.UntilResponsive(_FormControl);
         }
 
         //--------------------------------------------------------------------------------------------------
 
-        public bool IsButtonChecked(string id)
+        public new bool IsButtonChecked(string id)
         {
             var button = _FindButton(id);
             if (!button.Patterns.Toggle.IsSupported)
@@ -130,12 +129,12 @@ namespace Macad.Test.UI.Framework
 
         public void ClickFileMenuItem(string id1, string id2=null, bool jump = true)
         {
-            var tabControl = _RibbonControl.FindFirstDescendant(cf => cf.ByAutomationId(RibbonTabs.File.ToString()));
+            var tabControl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(RibbonTabs.File.ToString()));
             Assume.That(tabControl, Is.Not.Null, $"Ribbon tab control File not found.");
             Assume.That(tabControl.Patterns.ExpandCollapse.IsSupported, $"Ribbon tab control File does not support ExpandCollapsePattern.");
             tabControl.Patterns.ExpandCollapse.Pattern.Expand();
             Wait.UntilInputIsProcessed();
-            Wait.UntilResponsive(_RibbonControl);
+            Wait.UntilResponsive(_FormControl);
 
             var menuItem1 = _MainWindow.Popup?.FindFirstDescendant(cf => cf.ByAutomationId($"AppMenu{id1}"))?.AsMenuItem();
             Assert.IsNotNull(menuItem1, $"Parent MenuItem AppMenu{id1} not found.");
@@ -144,7 +143,7 @@ namespace Macad.Test.UI.Framework
             else
                 Mouse.Position = menuItem1.GetClickablePoint();
             Wait.UntilInputIsProcessed();
-            Wait.UntilResponsive(_RibbonControl);
+            Wait.UntilResponsive(_FormControl);
 
             if (!id2.IsNullOrEmpty())
             {
@@ -152,7 +151,7 @@ namespace Macad.Test.UI.Framework
                 Assert.IsNotNull(menuItem2, $"Child MenuItem AppMenu{id2} not found.");
                 menuItem2.Click(!jump);
                 Wait.UntilInputIsProcessed();
-                Wait.UntilResponsive(_RibbonControl);
+                Wait.UntilResponsive(_FormControl);
             }
         }
 

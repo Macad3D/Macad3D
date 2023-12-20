@@ -21,6 +21,10 @@ namespace Macad.Core.Topology
                     SaveUndo();
                     _Name = value;
                     RaisePropertyChanged();
+                    if (!IsDeserializing && CoreContext.Current != null)
+                    {
+                        Document?.InstanceChanged(this);
+                    }
                 }
             }
         }
@@ -40,6 +44,7 @@ namespace Macad.Core.Topology
                     RaisePropertyChanged();
                     if (!IsDeserializing && CoreContext.Current != null && CoreContext.Current.Workspace != null)
                     {
+                        Document?.InstanceChanged(this);
                         RaiseVisualChanged();
                     }
                 }
@@ -61,7 +66,11 @@ namespace Macad.Core.Topology
                     Invalidate();
                     RaisePropertyChanged();
                     RaisePropertyChanged("Layer");
-                    RaiseVisualChanged();
+                    if (!IsDeserializing && CoreContext.Current != null && CoreContext.Current.Workspace != null)
+                    {
+                        RaiseVisualChanged();
+                        Document?.InstanceChanged(this);
+                    }
                 }
             }
         }

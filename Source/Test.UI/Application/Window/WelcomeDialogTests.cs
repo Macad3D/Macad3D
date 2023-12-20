@@ -42,7 +42,7 @@ namespace Macad.Test.UI.Application.Window
             Wait.UntilResponsive(MainWindow.Window);
 
             Assert.IsFalse(WelcomeDialog.IsEnabled);
-            Assert.AreEqual(0, MainWindow.Document.GetBodyItems().Count());
+            Assert.AreEqual(0, MainWindow.Document.GetItems().Count());
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ namespace Macad.Test.UI.Application.Window
             Wait.UntilResponsive(MainWindow.Window);
 
             Assert.IsFalse(WelcomeDialog.IsEnabled);
-            Assert.Greater(MainWindow.Document.GetBodyItems().Count(), 0);
+            Assert.Greater(MainWindow.Document.GetItems().Count(), 0);
         }
 
         //--------------------------------------------------------------------------------------------------
@@ -80,7 +80,7 @@ namespace Macad.Test.UI.Application.Window
             Wait.UntilResponsive(MainWindow.Window);
 
             Assert.IsFalse(WelcomeDialog.IsEnabled);
-            Assert.Greater(MainWindow.Document.GetBodyItems().Count(), 0);
+            Assert.Greater(MainWindow.Document.GetItems().Count(), 0);
         }
 
         //--------------------------------------------------------------------------------------------------

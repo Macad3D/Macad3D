@@ -44,6 +44,17 @@ namespace Macad.Test.UI.Framework
             Assert.IsNotNull(menuItemCtrl, $"MenuItem {name} not found in current context menu.");
             return menuItemCtrl.IsEnabled;
         }
+                        
+        //--------------------------------------------------------------------------------------------------
+
+        public bool IsMenuItemChecked(string name, bool jump = true)
+        {
+            var menuItemCtrl = (Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByAutomationId(name)))
+                                ?? Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(name))))
+                ?.AsMenuItem();
+            Assert.IsNotNull(menuItemCtrl, $"MenuItem {name} not found in current context menu.");
+            return menuItemCtrl.IsChecked ?? false;
+        }
 
         //--------------------------------------------------------------------------------------------------
 

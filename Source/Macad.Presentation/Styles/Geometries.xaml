@@ -7,5 +7,6 @@
     <Geometry x:Key="Macad.Geometries.DropDownArrow">M0.5,0.5 L3,6.5 5.5,0.5</Geometry>
     <Geometry x:Key="Macad.Geometries.Check">M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z</Geometry>
     <Geometry x:Key="Macad.Geometries.Close">F1M8.583,8L13,12.424 12.424,13 8,8.583 3.576,13 3,12.424 7.417,8 3,3.576 3.576,3 8,7.417 12.424,3 13,3.576z</Geometry>
+    <Geometry x:Key="Macad.Geometries.MagnifyingGlass">F1M8.5,7C7.12,7 6,5.88 6,4.5 6,3.12 7.12,2 8.5,2 9.88,2 11,3.12 11,4.5 11,5.88 9.88,7 8.5,7z M8.5,0C6.02,0 4,2.02 4,4.5 4,5.23 4.19,5.9 4.49,6.5L0,11 2,13 6.49,8.51C7.1,8.81 7.77,9 8.5,9 11,9 13,7 13,4.5 13,2.02 11,0 8.5,0z</Geometry>
 
 </ResourceDictionary>

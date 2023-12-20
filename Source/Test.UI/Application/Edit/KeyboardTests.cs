@@ -1,4 +1,5 @@
-﻿using FlaUI.Core.WindowsAPI;
+﻿using System.Linq;
+using FlaUI.Core.WindowsAPI;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
 
@@ -57,7 +58,8 @@ namespace Macad.Test.UI.Application.Edit
         public void ForwardEnterFromTreeView()
         {
             // Select tree view
-            MainWindow.Document.SelectModelItem();
+            TestDataGenerator.GenerateBox(MainWindow);
+            MainWindow.Document.SelectItem(0);
 
             // Init
             MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
@@ -74,7 +76,7 @@ namespace Macad.Test.UI.Application.Edit
             Pipe.TypeKey(VirtualKeyShort.ENTER);
 
             Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
-            Assert.AreEqual("Box_1", Pipe.GetValue<string>("$Selected.Name"));
+            Assert.AreEqual("Box_2", Pipe.GetValue<string>("$Selected.Name"));
         }
 
         //--------------------------------------------------------------------------------------------------

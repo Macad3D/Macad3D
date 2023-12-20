@@ -2,6 +2,9 @@
 using Macad.Interaction.Editors.Shapes;
 using Macad.Common;
 using Macad.Common.Serialization;
+using Macad.Interaction.Panels;
+using System.Runtime.CompilerServices;
+using System;
 
 namespace Macad.Interaction
 {
@@ -307,6 +310,28 @@ namespace Macad.Interaction
 
         #endregion
 
+        #region Document Explorer
+
+        [SerializeMember]
+        public DocumentFilterFlags DocumentFilterFlags
+        {
+            get { return _DocumentFilterFlags; }
+            set
+            {
+                if (_DocumentFilterFlags == value)
+                    return;
+
+                _DocumentFilterFlags = value; 
+                RaisePropertyChanged();
+            }
+        }
+
+        DocumentFilterFlags _DocumentFilterFlags = DocumentFilterFlags.None;
+
+        //--------------------------------------------------------------------------------------------------
+
+        #endregion
+
         #region c'tor and property handling
 
         public EditorState()
@@ -341,7 +366,16 @@ namespace Macad.Interaction
         }
 
         //--------------------------------------------------------------------------------------------------
-       
+
+        public static event PropertyChangedEventHandler StateChanged;
+
+        protected override void RaisePropertyChanged([CallerMemberName]string propertyName = "")
+        {
+            base.RaisePropertyChanged(propertyName);
+            StateChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
     }
