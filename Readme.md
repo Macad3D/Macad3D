@@ -34,7 +34,7 @@ Start ```ScriptConsole.cmd``` and enter the following commands:
 
 ## About OpenCASCADE Technology
 
-The restore script downloads a pre-built version of OpenCASCADE Technology (OCCT) so that the project can be built immediately. This package contains only the parts that are used in this project. The complete OCCT distribution can be downloaded from the [OpenCASCADE Download Center](https://dev.opencascade.org/release). This allows to use additional parts, build the library with other build options or to make code changes. The currently used version can be found in the about dialog. 
+The restore script downloads a pre-built version of OpenCASCADE Technology (OCCT) so that the project can be built immediately. This package contains only the parts that are used in this project. The complete distribution can be downloaded from the [OCCT release page](https://github.com/Open-Cascade-SAS/OCCT/releases). This allows to use additional parts, build the library with other build options or to make code changes. The currently used version can be found in the about dialog. 
 
 To use an own build of OCCT, you need to configure the path to OCCT and it's dependencies using the following script console command:
 
