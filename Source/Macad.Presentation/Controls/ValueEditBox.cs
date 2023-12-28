@@ -268,7 +268,7 @@ namespace Macad.Presentation
 
         void _UpdateText(double value)
         {
-            Text = value.ToString("F" + Precision, CultureInfo.InvariantCulture);
+            Text = value.ToString("F" + (Precision >= 0 ? Precision : ""), CultureInfo.InvariantCulture);
         }
 
         //--------------------------------------------------------------------------------------------------

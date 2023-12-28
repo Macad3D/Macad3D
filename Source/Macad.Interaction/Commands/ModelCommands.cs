@@ -533,6 +533,28 @@ namespace Macad.Interaction
         };
 
         //--------------------------------------------------------------------------------------------------
+                        
+        public static ActionCommand CreateScale { get; } = new(
+            () =>
+            {
+                var body = InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.First() as Body;
+                if (body?.Shape?.ShapeType != ShapeType.Solid 
+                    && body?.Shape?.ShapeType != ShapeType.Sketch)
+                    return;
+
+                Scale.Create(body, 1.0);
+                InteractiveContext.Current?.UndoHandler.Commit();
+                Invalidate();
+            },
+            () => CanExecuteOnSingleSketch() || CanExecuteOnSingleSolid())
+        {
+            Header = () => "Scale",
+            Description = () => "Scales a sketch or a solid.",
+            Icon = () => "Mod-Scale",
+            HelpTopic = "5974B87B-8CE2-4454-B400-377B936650BB"
+        };
+
+        //--------------------------------------------------------------------------------------------------
 
         #endregion
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Macad.Occt;
 
@@ -10,7 +8,7 @@ namespace Macad.Core.Geom
     {
         //--------------------------------------------------------------------------------------------------
 
-        public static TopoDS_Shape TransformSketchShape(TopoDS_Shape original, IEnumerable<Trsf2d> transforms, bool includeOriginal)
+        public static TopoDS_Shape TransformSketchShape(TopoDS_Shape original, IEnumerable<Trsf2d> transforms, bool includeOriginal=false, double affinityUFactor=1.0)
         {
             if (!EdgeAlgo.GetPlaneOfEdges(original, out Geom_Plane geomPlane))
             {
@@ -43,9 +41,9 @@ namespace Macad.Core.Geom
                             // Transform PCurve
                             var curve = curveRep.PCurve();
                             var plane = curveRep.Surface() as Geom_Plane;
-                            double first = curve.FirstParameter();
-                            double last = curve.LastParameter();
-                            var newCurve = shapeBuildEdge.TransformPCurve(curve, transform, 1.0, ref first, ref last);
+                            double first = curveRep.First();
+                            double last = curveRep.Last();
+                            var newCurve = shapeBuildEdge.TransformPCurve(curve, transform, affinityUFactor, ref first, ref last);
 
                             // Transform UVs
                             Pnt2d uv1 = new Pnt2d();
@@ -53,9 +51,23 @@ namespace Macad.Core.Geom
                             curveRep.UVPoints(ref uv1, ref uv2);
                             uv1.Transform(transform);
                             uv2.Transform(transform);
+                            if (affinityUFactor != 1.0)
+                            {
+                                gp_GTrsf2d gtrsf = new();
+                                gtrsf.SetAffinity(Ax2d.OY, affinityUFactor);
+                                uv1 = gtrsf.Transformed(uv1.ToXY()).ToPnt();
+                                uv2 = gtrsf.Transformed(uv2.ToXY()).ToPnt();
+                            }
+
                             Pnt p1 = plane.Value(uv1.X, uv1.Y);
                             Pnt p2 = plane.Value(uv2.X, uv2.Y);
-                            var makeEdge = new BRepBuilderAPI_MakeEdge(newCurve, plane, p1, p2);
+                            BRepBuilderAPI_MakeEdge makeEdge = new(newCurve, plane, p1, p2, first, last);
+
+                            if (!makeEdge.IsDone())
+                            {
+                                Messages.Error("Failed generating transformed edge: " + makeEdge.Error());
+                                continue;
+                            }
                             builder.Add(newShape, makeEdge.Edge());
                         }
                     }

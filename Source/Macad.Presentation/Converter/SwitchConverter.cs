@@ -15,7 +15,7 @@ using System.Windows.Markup;
 //        <p:SwitchConverter x:Key="WeatherIcons">
 //            <p:SwitchCase When="Sunny" Then="Sunny.png" />
 //            <p:SwitchCase When="Cloudy" Then="Cloudy.png" />
-//            <p:witchCase When="Rain" Then="Rain.png" />
+//            <p:SwitchCase When="Rain" Then="Rain.png" />
 //            <p:SwitchCase When="Snow" Then="Snow.png" />
 //        </p:SwitchConverter>
 //    </Grid.Resources>

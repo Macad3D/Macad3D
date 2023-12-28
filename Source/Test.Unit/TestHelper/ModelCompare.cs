@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Macad.Test.Utils;
 using Macad.Common;
-using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Occt;
-using Macad.Test.Unit.Serialization;
 using NUnit.Framework;
 
 namespace Macad.Test.Unit
@@ -168,7 +164,7 @@ namespace Macad.Test.Unit
                     if (double.TryParse(shapeLineContent[contentIndex], NumberStyles.Any, CultureInfo.InvariantCulture, out var shapeValue)
                         && double.TryParse(refLineContent[contentIndex], NumberStyles.Any, CultureInfo.InvariantCulture, out var refValue))
                     {
-                        if (shapeValue - refValue < 1e-10)
+                        if (shapeValue.Distance(refValue) < 1e-10)
                             continue;
                     }
 

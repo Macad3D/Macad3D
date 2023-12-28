@@ -497,6 +497,10 @@
                 <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateOffset}"
                                AutomationProperties.AutomationId="CreateOffset"
                                SizeDefinition="Large,Middle,Small" />
+
+                <Fluent:Button mmp:Command.Action="{x:Static mmi:ModelCommands.CreateScale}"
+                               AutomationProperties.AutomationId="CreateScale"
+                               SizeDefinition="Large,Middle,Small" />
             </Fluent:RibbonGroupBox>
 
             <Fluent:RibbonGroupBox Header="Boolean"

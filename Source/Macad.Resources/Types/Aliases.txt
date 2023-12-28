@@ -19,6 +19,7 @@ Shapes-Offset=..\Icons\Mod-Offset.xaml
 Shapes-Pipe=..\Icons\Form-Pipe.xaml
 Shapes-Reference=..\Icons\Create-Reference.xaml
 Shapes-Revolve=..\Icons\Form-Revolve.xaml
+Shapes-Scale=..\Icons\Mod-Scale.xaml
 Shapes-Sketch=..\Icons\Prim-Sketch.xaml
 Shapes-Solid=..\Icons\Prim-Box.xaml
 Shapes-Sphere=..\Icons\Prim-Sphere.xaml

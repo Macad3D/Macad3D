@@ -119,6 +119,11 @@
           <HelpKeyword index="K" term="Bevel" />
         </HelpKeywords>
       </Topic>
+      <Topic id="5974B87B-8CE2-4454-B400-377B936650BB" visible="True">
+        <HelpKeywords>
+          <HelpKeyword index="K" term="Scale" />
+        </HelpKeywords>
+      </Topic>
       <Topic id="79be5f3d-4bf0-4c76-9bc6-50428e6ed621" visible="True" title="Common">
         <HelpKeywords>
           <HelpKeyword index="K" term="Boolean" />

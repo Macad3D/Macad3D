@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    sodipodi:docname="Mod-FlangeSheet.svg"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
    id="svg8"
    version="1.1"
    viewBox="0 0 16.933333 16.933333"
    height="64"
-   width="64">
+   width="64"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -39,15 +39,17 @@
      inkscape:document-rotation="0"
      inkscape:current-layer="layer1"
      inkscape:document-units="px"
-     inkscape:cy="31.780877"
-     inkscape:cx="28.171064"
+     inkscape:cy="31.819805"
+     inkscape:cx="28.158002"
      inkscape:zoom="7.9195959"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
      bordercolor="#666666"
      pagecolor="#ffffff"
-     id="base">
+     id="base"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
     <inkscape:grid
        visible="false"
        dotted="false"
@@ -55,7 +57,10 @@
        spacingy="0.26458333"
        spacingx="0.26458333"
        id="grid835"
-       type="xygrid" />
+       type="xygrid"
+       originx="0"
+       originy="0"
+       units="px" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
@@ -74,11 +79,6 @@
      inkscape:groupmode="layer"
      inkscape:label="Layer 1"
      style="display:inline">
-    <path
-       id="path852"
-       style="fill:#dfe2ec;stroke:#000000;stroke-width:0.13229166;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-linejoin:bevel;fill-opacity:1"
-       d="M 5.6766328,7.994166 C 5.9837889,7.8167303 6.2526503,7.4230632 6.3321481,7.0343601 l 6.7863949,3.9203149 c -0.0795,0.388703 -0.348359,0.782369 -0.655515,0.959805 z"
-       sodipodi:nodetypes="ccccc" />
     <g
        transform="matrix(0.14602543,0,0,0.14450818,9.3867209,7.4266966)"
        id="g975"
@@ -109,6 +109,11 @@
        style="fill:#3a4cac;fill-rule:evenodd;stroke:#000000;stroke-width:0.26458333;stroke-linecap:butt;stroke-linejoin:bevel;stroke-opacity:1;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
        d="m 14.435879,4.5135863 1.638789,-0.4393576 -1.317337,6.4410893 -1.638788,0.439357 z"
        id="path892" />
+    <path
+       id="path852"
+       style="fill:#dfe2ec;stroke:#000000;stroke-width:0.13229166;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-linejoin:bevel;fill-opacity:1"
+       d="M 5.6766328,7.994166 C 5.9837889,7.8167303 6.2526503,7.4230632 6.3321481,7.0343601 l 6.7863949,3.9203149 c -0.0795,0.388703 -0.348359,0.782369 -0.655515,0.959805 z"
+       sodipodi:nodetypes="ccccc" />
     <g
        id="HiddenOutline"
        stroke-width="0.787395"

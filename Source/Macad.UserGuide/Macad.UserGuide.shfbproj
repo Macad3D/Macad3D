@@ -580,6 +580,7 @@
     <Content Include="Modeling\Form\Pipe.md" />
     <Content Include="Modeling\Modify\Chamfer.md" />
     <Content Include="Modeling\Modify\Fillet.md" />
+    <Content Include="Modeling\Modify\Scale.md" />
     <Content Include="Modeling\Multiply\CircularArray.md" />
     <Content Include="Modeling\Multiply\LinearArray.md" />
     <Content Include="Modeling\Multiply\Mirror.md" />
