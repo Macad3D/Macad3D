@@ -202,7 +202,12 @@ namespace Macad.Interaction
                 if (bodies.Length == 0)
                     return;
 
-                if (!Core.Toolkits.ConvertToEditableSketch.CollapseShapeStack(bodies))
+                bool success;
+                using (new WaitCursor())
+                {
+                    success = Core.Toolkits.ConvertToEditableSketch.CollapseShapeStack(bodies);
+                }
+                if (!success)
                 {
                     ErrorDialogs.CommandExecutionFailed("The selected shape cannot be converted to a editable sketch.");
                     return;
@@ -225,13 +230,18 @@ namespace Macad.Interaction
             {
                 var bodies = Selection.SelectedEntities
                                     .OfType<Body>()
-                                    .Where(body => body.Shape.ShapeType == ShapeType.Solid)
+                                    .Where(body => body.Shape.ShapeType is ShapeType.Solid or ShapeType.Mesh)
                                     .ToArray();
 
                 if (bodies.Length == 0)
                     return;
 
-                if (!Core.Toolkits.ConvertToSolid.CollapseShapeStack(bodies))
+                bool success;
+                using (new WaitCursor())
+                {
+                    success = Core.Toolkits.ConvertToSolid.CollapseShapeStack(bodies);
+                }
+                if (!success)
                 {
                     ErrorDialogs.CommandExecutionFailed("The selected shape cannot be converted to a solid.");
                     return;
@@ -239,7 +249,7 @@ namespace Macad.Interaction
 
                 Commit();
             },
-            CanExecuteOnMultiSolid)
+            CanExecuteOnMultiSolidOrMesh)
         {
             Header = () => "Convert to Solid",
             Title = () => "Convert to Solid",

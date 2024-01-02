@@ -74,6 +74,7 @@
 #include <BRepBuilderAPI_MakeEdge.hxx>
 #include <BRepBuilderAPI_MakeFace.hxx>
 #include <BRepBuilderAPI_MakeWire.hxx>
+#include <BRepBuilderAPI_MakeShapeOnMesh.hxx>
 
 #include <BRepMesh_ShapeTool.hxx>
 #include <BRepMesh_IncrementalMesh.hxx>

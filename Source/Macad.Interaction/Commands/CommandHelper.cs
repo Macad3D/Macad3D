@@ -43,6 +43,15 @@ internal static class CommandHelper
         
     //--------------------------------------------------------------------------------------------------
 
+    public static bool CanExecuteOnMultiSolidOrMesh()
+    {
+        return _WorkspaceController?.Selection != null
+               && _WorkspaceController.Selection.SelectedEntities.Count > 0
+               && _WorkspaceController.Selection.SelectedEntities.All(e => (e as Body)?.Shape?.ShapeType is ShapeType.Solid or ShapeType.Mesh);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public static bool CanExecuteOnSingleSketch()
     {
         return _WorkspaceController?.Selection != null

@@ -1,6 +1,9 @@
 ﻿using System.IO;
+using System.Linq;
+using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Toolkits;
+using Macad.Exchange;
 using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
@@ -62,6 +65,23 @@ public class ConvertToSolidTests
         Assert.IsInstanceOf<Box>(body2.RootShape);
     }
 
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ConvertMesh()
+    {
+        var exchanger = new ObjExchanger();
+        exchanger.Settings.ImportSingleBody = true;
+        var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "ConvertMesh_Source.obj"));
+        Assert.IsTrue(((IBodyImporter)exchanger).DoImport(path, out var bodies));
+        Assert.AreEqual(1, bodies?.Count());
+        var body = bodies.First();
+
+        Assert.IsTrue(ConvertToSolid.CollapseShapeStack(new []{body}));
+        Assert.IsInstanceOf<Solid>(body.RootShape);
+        AssertHelper.IsSameModel(body.RootShape, Path.Combine(_BasePath, "ConvertMesh"));
+    }
+    
     //--------------------------------------------------------------------------------------------------
 
 }

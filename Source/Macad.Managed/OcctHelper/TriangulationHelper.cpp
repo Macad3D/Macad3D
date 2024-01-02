@@ -239,6 +239,39 @@ namespace Macad
 
 					return gcnew Macad::Occt::TopoDS_Face(new ::TopoDS_Face(face));
 				}
+				
+				//--------------------------------------------------------------------------------------------------
+
+				static Macad::Occt::TopoDS_Compound^ MakeShapeOnTriangulation(Macad::Occt::TopoDS_Shape^ brepShape)
+				{
+					bool hasAny = false;
+					::BRep_Builder builder;
+					::TopoDS_Compound compound;
+					builder.MakeCompound(compound);
+					auto shape = *brepShape->NativeInstance;
+
+					for (::TopExp_Explorer exp(shape, TopAbs_FACE); exp.More(); exp.Next())
+					{
+						::TopLoc_Location location;
+						auto triangulation = ::BRep_Tool::Triangulation(::TopoDS::Face(exp.Current()), location);
+						if (triangulation.IsNull())
+							continue;
+
+						::BRepBuilderAPI_MakeShapeOnMesh makeShape(triangulation);
+						makeShape.Build();
+						if(!makeShape.IsDone())
+							continue;
+
+						::TopoDS_Shape shape = makeShape.Shape();
+						if(shape.IsNull())
+							continue;
+
+						builder.Add(compound, shape);
+						hasAny = true;
+					}
+
+					return hasAny ? gcnew Macad::Occt::TopoDS_Compound(new ::TopoDS_Compound(compound)) : nullptr;
+				}
 			};
 
 		} // namespace Helper
