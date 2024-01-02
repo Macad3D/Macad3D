@@ -539,6 +539,7 @@ namespace Macad.Interaction
             {
                 var body = InteractiveContext.Current.WorkspaceController.Selection.SelectedEntities.First() as Body;
                 if (body?.Shape?.ShapeType != ShapeType.Solid 
+                    && body?.Shape?.ShapeType != ShapeType.Mesh
                     && body?.Shape?.ShapeType != ShapeType.Sketch)
                     return;
 
@@ -546,7 +547,7 @@ namespace Macad.Interaction
                 InteractiveContext.Current?.UndoHandler.Commit();
                 Invalidate();
             },
-            () => CanExecuteOnSingleSketch() || CanExecuteOnSingleSolid())
+            () => CanExecuteOnMulti(entity => (entity as Body)?.Shape?.ShapeType is ShapeType.Sketch or ShapeType.Solid or ShapeType.Mesh))
         {
             Header = () => "Scale",
             Description = () => "Scales a sketch or a solid.",

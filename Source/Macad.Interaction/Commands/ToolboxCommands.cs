@@ -249,7 +249,7 @@ namespace Macad.Interaction
 
                 Commit();
             },
-            CanExecuteOnMultiSolidOrMesh)
+            () => CanExecuteOnSingle(entity => (entity as Body)?.Shape?.ShapeType is ShapeType.Solid or ShapeType.Mesh))
         {
             Header = () => "Convert to Solid",
             Title = () => "Convert to Solid",

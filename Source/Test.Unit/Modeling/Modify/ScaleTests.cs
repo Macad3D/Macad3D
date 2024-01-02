@@ -83,5 +83,27 @@ public class ScaleTests
     }
 
     //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void MeshUniform()
+    {
+        var body = TestData.GetBodyFromBRep("SourceData\\Mesh\\CompoundMesh.brep", ShapeType.Mesh);
+        var scale = Scale.Create(body, 5.0);
+        Assert.IsTrue(scale.Make(Shape.MakeFlags.None));
+        Assert.IsTrue(ModelCompare.CompareShape(scale, Path.Combine(_BasePath, "MeshUniform01"), ModelCompare.CompareFlags.CompareText));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void MeshNonUniform()
+    {
+        var body = TestData.GetBodyFromBRep("SourceData\\Mesh\\CompoundMesh.brep", ShapeType.Mesh);
+        var scale = Scale.Create(body, 2.0, 4.0, 6.0);
+        Assert.IsTrue(scale.Make(Shape.MakeFlags.None));
+        Assert.IsTrue(ModelCompare.CompareShape(scale, Path.Combine(_BasePath, "MeshNonUniform01"), ModelCompare.CompareFlags.CompareText));
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
 }

@@ -149,6 +149,7 @@ public class Scale : ModifierBase
                 break;
 
             case ShapeType.Solid:
+            case ShapeType.Mesh:
                 if (!_MakeSolid(brep, scaleFactor))
                     return false;
                 break;

@@ -70,16 +70,24 @@ public class ConvertToSolidTests
     [Test]
     public void ConvertMesh()
     {
-        var exchanger = new ObjExchanger();
-        exchanger.Settings.ImportSingleBody = true;
-        var path = Path.Combine(TestData.TestDataDirectory, Path.Combine(_BasePath, "ConvertMesh_Source.obj"));
-        Assert.IsTrue(((IBodyImporter)exchanger).DoImport(path, out var bodies));
-        Assert.AreEqual(1, bodies?.Count());
-        var body = bodies.First();
+        var body = TestData.GetBodyFromBRep("SourceData\\Mesh\\CompoundMesh.brep", ShapeType.Mesh);
 
         Assert.IsTrue(ConvertToSolid.CollapseShapeStack(new []{body}));
         Assert.IsInstanceOf<Solid>(body.RootShape);
         AssertHelper.IsSameModel(body.RootShape, Path.Combine(_BasePath, "ConvertMesh"));
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void ConvertMeshWithModifier()
+    {
+        var body = TestData.GetBodyFromBRep("SourceData\\Mesh\\CompoundMesh.brep", ShapeType.Mesh);
+        Scale.Create(body, 1.5);
+
+        Assert.IsTrue(ConvertToSolid.CollapseShapeStack(new []{body}));
+        Assert.IsInstanceOf<Solid>(body.RootShape);
+        AssertHelper.IsSameModel(body.RootShape, Path.Combine(_BasePath, "ConvertMeshWithModifier"));
     }
     
     //--------------------------------------------------------------------------------------------------

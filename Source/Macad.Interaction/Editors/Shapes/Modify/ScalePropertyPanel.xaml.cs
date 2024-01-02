@@ -95,38 +95,12 @@ namespace Macad.Interaction.Editors.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        //public ICommand ToggleKeepOriginalCommand { get; private set; }
-
-        //void ExecuteToggleKeepOriginalCommand()
-        //{
-        //    Offset.KeepOriginal = !Offset.KeepOriginal;
-        //    CommmitChange();
-        //}
-
-        //--------------------------------------------------------------------------------------------------
-
-        //public ICommand SwitchCornerCommand { get; private set; }
-
-        //void ExecuteSwitchCornerCommand(Offset.CornerType cornerType)
-        //{
-        //    if (Offset.Corner != cornerType)
-        //    {
-        //        Offset.Corner = cornerType;
-        //        CommmitChange();
-        //    }
-        //}
-
-        //--------------------------------------------------------------------------------------------------
-
         public override void Initialize(BaseObject instance)
         {
             Scale = instance as Scale;
             Debug.Assert(Scale != null);
 
             Scale.PropertyChanged += _Scale_OnPropertyChanged;
-
-            //SwitchCornerCommand = new RelayCommand<Offset.CornerType>(ExecuteSwitchCornerCommand);
-            //ToggleKeepOriginalCommand = new RelayCommand(ExecuteToggleKeepOriginalCommand);
 
             InitializeComponent();
         }

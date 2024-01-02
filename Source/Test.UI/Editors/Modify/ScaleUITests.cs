@@ -40,6 +40,20 @@ public class ScaleUITests : UITestBase
 
         Assert.AreEqual("Scale", Pipe.GetValue<string>("$Selected.Shape.Name"));
     }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CreateFromMesh()
+    {
+        TestDataGenerator.GenerateMesh(MainWindow);
+
+        // Create pipe on existing sketch
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        MainWindow.Ribbon.ClickButton("CreateScale");
+
+        Assert.AreEqual("Scale", Pipe.GetValue<string>("$Selected.Shape.Name"));
+    }
 
     //--------------------------------------------------------------------------------------------------
         

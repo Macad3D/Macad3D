@@ -37,7 +37,7 @@ public static class ConvertToSolid
                 continue;
             }
 
-            if (originalShape is Mesh)
+            if (originalShape.ShapeType == ShapeType.Mesh)
             {
                 brep = _ConvertMeshToShape(originalBreps[i]);
                 if (brep == null)

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+using NUnit.Framework;
 
 namespace Macad.Test.UI.Framework
 {
@@ -90,6 +91,18 @@ namespace Macad.Test.UI.Framework
         {
             mainWindow.Ribbon.SelectTab(RibbonTabs.Model);
             mainWindow.Ribbon.ClickButton("CreateDatumPlane");
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public static void GenerateMesh(MainWindowAdaptor mainWindow)
+        {
+            string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportMesh.stl"));
+            mainWindow.Ribbon.ClickFileMenuItem("Exchange", "ImportFileToModel");
+
+            var fileDlg = new FileDialogAdaptor(mainWindow);
+            fileDlg.SelectFileType(".stl");
+            fileDlg.Load(path);
         }
 
         //--------------------------------------------------------------------------------------------------

@@ -7,6 +7,7 @@ using Macad.Core.Topology;
 using Macad.Occt;
 using NUnit.Framework;
 using System.Text;
+using Macad.Core.Shapes;
 
 namespace Macad.Test.Utils
 {
@@ -79,15 +80,29 @@ namespace Macad.Test.Utils
         
         //--------------------------------------------------------------------------------------------------
 
-        public static Body GetBodyFromBRep(string path)
+        public static Body GetBodyFromBRep(string path, ShapeType shapeType=ShapeType.Solid)
         {
-            var importer = new OpenCascadeExchanger() as IBodyImporter;
-            Assume.That(importer != null);
-            Assume.That(importer.DoImport(Path.Combine(TestDataDirectory, path), out var newBodies));
-            Assume.That(newBodies != null);
-            var body = newBodies.FirstOrDefault();
-            Assume.That(body != null);
-            return body;
+            if (shapeType == ShapeType.Solid)
+            {
+                var importer = new OpenCascadeExchanger() as IBodyImporter;
+                Assume.That(importer != null);
+                Assume.That(importer.DoImport(Path.Combine(TestDataDirectory, path), out var newBodies));
+                Assume.That(newBodies != null);
+                var body = newBodies.FirstOrDefault();
+                Assume.That(body != null);
+                return body;
+            }
+            if (shapeType == ShapeType.Mesh)
+            {
+                var shape = GetTestDataBRep(path);
+                var mesh = Mesh.Create(shape);
+                Assume.That(mesh != null);
+                var body = Body.Create(mesh);
+                Assume.That(body != null);
+                return body;
+            }
+            Assert.IsTrue(false, "Shape type not implemented.");
+            return null;
         }
 
         //--------------------------------------------------------------------------------------------------

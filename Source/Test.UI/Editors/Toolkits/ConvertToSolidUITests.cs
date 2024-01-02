@@ -31,6 +31,21 @@ public class ConvertToSolidUITests : UITestBase
     }
 
     //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void ConvertMesh()
+    {
+        TestDataGenerator.GenerateMesh(MainWindow);
+        Assert.AreEqual("Mesh", Pipe.GetValue<string>("$Selected.Shape.Name"));
+
+        // Do convert
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ConvertToSolid"));
+        MainWindow.Ribbon.ClickButton("ConvertToSolid");
+        Assert.AreEqual("Solid", Pipe.GetValue<string>("$Selected.Shape.Name"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
     [Test]
     public void DoNotConvertSketch()

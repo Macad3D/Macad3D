@@ -42,7 +42,10 @@ It can be helpful for various reasons to collapse a shape stack and continue usi
 - Eliminating dependencies on bodies attracted to the shape stack.
 - Avoiding circular dependencies.
 - Optimization if the shape stack is complex and the shape may be referenced multiple times.
+- Converting a mesh shape into a solid to enable modeling tools
 
 For sketches in particular, there is another advantage: the conversion converts the sketch back into a version that can be edited with the sketch editor. However, the contents of the sketch are mapped to the available segment types, which may lead to restrictions.
+
+Bodies with a shape stack of type _Mesh_ can also be converted into a new shape stack with a _Solid_ as the basis. This enables further processing with all modeling tools, which typically only work on solids. However, this conversion has limitations: The geometric shape itself is not changed. This means that while coplanar triangles are joined together to form a face, "round" structures remain as angular as they were when they were originally tessellated. 
 
 > [!Tip] If the body is already referenced by another body, this referencing may be lost. This is particularly the case if an intermediate step in the shape stack is referenced. One way to solve this is to convert these shapes at the same time. To do this, simply select all the bodies in question and then trigger the conversion.

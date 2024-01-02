@@ -20,7 +20,7 @@ STL         | Mesh Import and Export
 U3D         | Mesh Export
 PDF         | Drawing Export, Mesh Export (as 3D-PDF)
 
-Imported meshes can be displayed, but not modified or be part of another modeling operation.
+> [!Tip] Imported meshes can be displayed, but not modified or be part of another modeling operation. However, meshes can be converted to solids using the [Convert to Solid](xref:xref:e0d6ed71-f1fa-481b-94b4-c7f76591b1b4#shape-stack-converter) tool.
 
 # Drawings
 

@@ -222,7 +222,7 @@
             </treeView:TreeViewEx.Resources>
         </treeView:TreeViewEx>
 
-            <TextBlock Text="You Document is empty. Start with creating some shapes by selecing tools in the MODEL menu tab."
+            <TextBlock Text="Your document is empty. Start creating some shapes by selecing tools in the MODEL menu tab."
                        TextWrapping="Wrap"
                        Foreground="{StaticResource Macad.Brushes.TextLight}"
                        HorizontalAlignment="Stretch"
