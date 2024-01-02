@@ -1,28 +1,9 @@
-﻿using Macad.Common.Serialization;
-using Macad.Occt;
+﻿using Macad.Occt;
 
 namespace Macad.Core.Shapes
 {
     public abstract class BooleanBase : ModifierBase
     {
-        [SerializeMember]
-        public bool MergeFaces
-        {
-            get { return _MergeFaces; }
-            set
-            {
-                if (_MergeFaces != value)
-                {
-                    SaveUndo();
-                    _MergeFaces = value;
-                    Invalidate();
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         public override ShapeType ShapeType
         {
             get { return ShapeType.Solid; }
@@ -30,13 +11,9 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
-        #region Members
-
-        bool _MergeFaces;
+        protected virtual bool SimplifyResult => false;
 
         //--------------------------------------------------------------------------------------------------
-
-        #endregion
 
         #region Make
 
@@ -78,7 +55,7 @@ namespace Macad.Core.Shapes
                 return false;
             }
 
-            if (_MergeFaces)
+            if (SimplifyResult)
             {
                 algo.SimplifyResult(true, true);
             }

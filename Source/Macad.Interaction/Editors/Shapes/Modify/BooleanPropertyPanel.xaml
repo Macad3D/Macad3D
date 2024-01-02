@@ -30,8 +30,13 @@
                   VerticalAlignment="Center" HorizontalAlignment="Left"
                   Content="Merge Faces"
                   IsChecked="{Binding Shape.MergeFaces}"
+                  Visibility="{Binding HasMergeFacesOption, Converter={mmp:BoolToVisibleCollapsedConverter}}"
                   AutomationProperties.AutomationId="MergeFaces">
         </CheckBox>
 
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2"
+                   Text="This modifier has no parameters."
+                   HorizontalAlignment="Center"
+                   Visibility="{Binding HasMergeFacesOption, Converter={mmp:BoolToInvisibleCollapsedConverter}}" />
     </Grid>
 </panels:PropertyPanel>

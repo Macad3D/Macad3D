@@ -5,12 +5,9 @@ title: Boolean Common
 Combines the solid shape of two or more bodies by calculating the common part of all shapes.
 
 # Property Panel
-
-Merge Faces
-:   If checked, resulting faces will be merged to a single face if they are coplanar. Disabled by default.
+This modifier does currently not have any editable parameters.
 
 # Remarks
-
 If more than two bodies are selected, the resulting shape will be a common part of all input shapes.
 
 # Creating a Boolean Common

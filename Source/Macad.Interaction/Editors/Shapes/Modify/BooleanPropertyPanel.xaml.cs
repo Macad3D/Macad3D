@@ -19,6 +19,10 @@ public partial class BooleanPropertyPanel : PropertyPanel
     public string HelpTopic => ModelCommands.CreateBoolean.HelpTopic(Operation);
 
     //--------------------------------------------------------------------------------------------------
+    
+    public bool HasMergeFacesOption => Shape is BooleanFuse;
+
+    //--------------------------------------------------------------------------------------------------
 
     BooleanOperationTool.Operation Operation
     {
