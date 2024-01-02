@@ -42,7 +42,7 @@ The circle center is defined by the shape pivot being a point on the circle, the
 1. Select a sketch or a solid.
 2. Select __Circular Array__ from ribbon menu.
 3. If created from solid, select the plane on which the multiplied elements will be distributed.
-4. Adjust the offset in the property panel.
+4. Adjust parameters in the property panel or using the live tools.
 
 # See Also
 [](xref:c867c6ad-f4ce-432b-a097-99596e31fea1)

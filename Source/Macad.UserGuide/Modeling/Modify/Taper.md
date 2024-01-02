@@ -36,4 +36,4 @@ A taper can be created on any solid shape.
 3. Select the face you want to taper.
 4. Select an edge or a vertex of the selected face as the base part of the taper.
    The direction of the taper is previewed in the form of an arrow.
-   
+3. Adjust parameters in the property panel or using the live tools.

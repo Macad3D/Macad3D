@@ -10,7 +10,7 @@ The modeling is done by adding modifiers, each of which carries out a further pr
 
 Tools are divided into individual processing phases, which are called _actions_. This can be the selection of a sub-shape, the definition of a point or other interactive activities. The tool shows which action is currently expected by a note at the top of the viewport.
 
-Actions and tools can usually be canceled with the __Esc__ kex. While an action is running, additional information is often displayed next to the mouse pointer, e.g. the length/width/height when creating a box. Values that are displayed in an input field can also be entered manually using the keyboard. The input can be made without selecting the input field and is completed with the __Enter__ key.
+Actions and tools can usually be canceled with the __Esc__ key. While an action is running, additional information is often displayed next to the mouse pointer, e.g. the length/width/height when creating a box. Values that are displayed in an input field can also be entered manually using the keyboard. The input can be made without selecting the input field and is completed with the __Enter__ key.
 
 ![_Create Box_-Tool allowing manual entry of length and width](EditingBoxTool.png)
 

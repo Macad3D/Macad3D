@@ -24,7 +24,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- Thickness -->
+        <!-- Distance -->
         <TextBlock Grid.Row="0" Grid.Column="0" 
                    Text="Distance" 
                    Style="{StaticResource Macad.Styles.TextBlock.Property}"/>

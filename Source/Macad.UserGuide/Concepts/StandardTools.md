@@ -35,3 +35,14 @@ With _Duplicate_, the entire body including the entire shape stack is duplicated
 With _Create Reference_ also a new body is created, but this refers to the shape of the original body. If the shape of the original body is changed, the shape of the new body also changes. Regardless of this, the new body can again accept new modifiers in order to further edit the inherited shape.
 
 ![Shape stack of a _Reference_](StandardToolsReferenceStack.png)
+
+# Convert to Solid / Convert to Editable Sketch
+
+It can be helpful for various reasons to collapse a shape stack and continue using the resulting shape as a starting point. Reasons can be:
+- Eliminating dependencies on bodies attracted to the shape stack.
+- Avoiding circular dependencies.
+- Optimization if the shape stack is complex and the shape may be referenced multiple times.
+
+For sketches in particular, there is another advantage: the conversion converts the sketch back into a version that can be edited with the sketch editor. However, the contents of the sketch are mapped to the available segment types, which may lead to restrictions.
+
+> [!Tip] If the body is already referenced by another body, this referencing may be lost. This is particularly the case if an intermediate step in the shape stack is referenced. One way to solve this is to convert these shapes at the same time. To do this, simply select all the bodies in question and then trigger the conversion.

@@ -124,6 +124,12 @@
           <HelpKeyword index="K" term="Scale" />
         </HelpKeywords>
       </Topic>
+      <Topic id="AF5F6317-5201-4C55-B56D-DA368F359324" visible="True">
+        <HelpKeywords>
+          <HelpKeyword index="K" term="Offset" />
+          <HelpKeyword index="K" term="Thicken" />
+        </HelpKeywords>
+      </Topic>
       <Topic id="79be5f3d-4bf0-4c76-9bc6-50428e6ed621" visible="True" title="Common">
         <HelpKeywords>
           <HelpKeyword index="K" term="Boolean" />

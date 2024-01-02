@@ -18,7 +18,7 @@ Uniform Scale
 # Remarks
 The original geometry is only retained in the case of uniform scaling, i.e. a circle remains a circle, while the geometry is changed in the case of non-uniform scaling, i.e. a circle becomes an ellipse.
 
-# Creating an Imprint
+# Creating a Scale
 A scale can be created on any sketch or solid shape.
 
 1. Select the solid or sketch to scale.

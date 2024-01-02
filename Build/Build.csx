@@ -130,16 +130,6 @@ bool _BuildDocumentation(string configuration)
     if(!_EnsureVS())
         return false;
 
-    // Ensure SHFB
-    var shfbPath = Packages.FindPackageFile($"EWSoftware.SHFB\\*", "tools\\SandcastleHelpFileBuilder.targets");
-	if(string.IsNullOrEmpty(shfbPath))
-		return false;
-
-    // Ensure .Net Reflection Package
-    var shfbNetReflectionPath = Packages.FindPackageFile($"EWSoftware.SHFB.NET\\*", "build\\EWSoftware.SHFB.NET.props");
-	if(string.IsNullOrEmpty(shfbNetReflectionPath))
-		return false;
-
     if(!Version.ReadCurrentVersion(out var major, out var minor, out var revision, out var flags))
     {
         Printer.Error("Cannot read version information.");
@@ -159,7 +149,7 @@ bool _BuildDocumentation(string configuration)
         }
     }
 
-    if (Common.Run(_VS.PathToMSBuild, commandLine) != 0)
+    if (Common.Run(_VS.PathToMSBuild, commandLine + " /restore") != 0)
     {
         Printer.Error("Build failed.");
         return false;

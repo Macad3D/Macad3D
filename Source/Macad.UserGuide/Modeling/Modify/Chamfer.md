@@ -19,7 +19,7 @@ Angle
     This parameter is only available if mode is _Angle_.
 
 # Remarks
-To select the edges to chamfer click the editor button in the property panel. Unselected edges will be shown in blue, selected edges are shown in red. Re-click the editor button or press __ESC__ to close the editor. To select all possible edges, click __Select All__, to clear the selection click __Select None__.
+To select the edges to chamfer click the editor button in the property panel. Edges that are not selected are shown in blue. Red faces show the result of a selected edge. The selection can be adjusted by clicking on blue edges to select and red faces to deselect. Re-click the editor button or press __ESC__ to close the editor. To select all possible edges, click __Select All__, to clear the selection click __Select None__.
 
 The chamfer modifier works on continous edges. When an edge is selected, additional edges may be automatically included.
 
@@ -30,7 +30,7 @@ The chamfer modifier works on continous edges. When an edge is selected, additio
 1. Select the solid to chamfer.
 2. Select __Chamfer__ from ribbon menu.
 3. Select the edges you want to chamfer.
-4. Edit distance parameters in the property panel.
+4. Edit distance parameters in the property panel or using the live tool.
 
 # See Also
 [](xref:9b151212-b7f3-43ab-ad5a-bb03c8c8b083)

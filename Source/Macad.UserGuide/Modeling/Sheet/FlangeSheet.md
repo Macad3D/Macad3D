@@ -41,7 +41,7 @@ This modifier constructs a flange part and a bend part connecting the flange wit
 1. Select the solid you.
 2. Select __Flange Sheet__ from ribbon menu.
 3. Select the face to be extended by the flange.
-4. Adjust the parameters in the property panel.
+3. Adjust parameters in the property panel or using the live tools.
 
 # See Also
 [](xref:87D3ECCA-434C-474D-BEFD-47F1BB83370E)

@@ -36,4 +36,4 @@ Depending on the shape the direction of the offset may be improper. Invert the o
 1. Select a solid.
 2. Select __Mirror__ from ribbon menu.
 3. Select one of the default planes or the reference face to define the mirror plane.
-4. Adjust the offset in the property panel.
+3. Adjust offset in the property panel or using the live tool.

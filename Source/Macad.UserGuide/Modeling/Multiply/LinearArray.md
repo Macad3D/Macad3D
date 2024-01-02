@@ -43,7 +43,7 @@ Alignment
 1. Select a sketch or a solid.
 2. Select __Linear Array__ from ribbon menu.
 3. If created from solid, select the plane on which the multiplied elements will be distributed.
-4. Adjust the properties in the property panel.
+4. Adjust parameters in the property panel or using the live tools.
 
 # See Also
 [](xref:07407809-3236-4469-ad99-526aab13b6e7)

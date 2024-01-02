@@ -28,4 +28,4 @@ Segment
 1. Select the sketch which defines the profile.
 2. Select __Revolve__ from ribbon menu.
 3. Select the axis around which the sketch contour will be revolved.
-4. Adjust the axis and other settings in the property panel.
+4. Adjust the axis and other settings in the property panel or using the live tool.

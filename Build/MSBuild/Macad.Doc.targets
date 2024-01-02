@@ -36,10 +36,21 @@
 
   <!-- Patch file for web doc -->
   
-  <Target Name="CopyWebDocFiles" 
+  <Target Name="PatchWebDocFiles" 
           AfterTargets="AfterBuildHelp"
           Condition=" '$(Configuration)' == 'WebDoc' ">
-    <Copy SourceFiles="$(MMScriptDir)Patches\branding-Website.js" DestinationFolder="$(OutputPath)scripts" SkipUnchangedFiles="true" />
-  </Target>
+
+    <ItemGroup>
+      <ConcatFiles Include="$(OutputPath)css\vs.min.css; 
+                            $(MMScriptDir)Patches\vs.min.css;"/>
+                              <!-- Read the contents of the files (preserving tabs/spaces). -->
+    </ItemGroup>
+
+    <ItemGroup>
+      <FileContents Include="$([System.IO.File]::ReadAllText(%(ConcatFiles.Identity)))"/>
+    </ItemGroup>
+
+    <WriteLinesToFile File="$(OutputPath)css\vs.min.css" Lines="@(FileContents)" Overwrite="true" />
+</Target>
 
 </Project>

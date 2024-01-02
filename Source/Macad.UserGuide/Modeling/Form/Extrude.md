@@ -25,10 +25,10 @@ Reselect Face
 ## Extrude a sketch.
 1. Select the sketch to be extruded.
 2. Select __Extrude__ from ribbon menu.
-3. Adjust the depth in the property panel.
+3. Adjust the depth in the property panel or using the live tool.
 
 ## Extrude a face of a solid.
 1. Select the solid.
 2. Select __Extrude__ from ribbon menu.
 3. Select the face to be extruded.
-4. Adjust the depth in the property panel.
+4. Adjust the depth in the property panel or using the live tool.
