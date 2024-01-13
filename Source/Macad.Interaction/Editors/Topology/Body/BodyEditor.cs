@@ -2,6 +2,7 @@
 using System.Linq;
 using Macad.Interaction.Visual;
 using Macad.Core.Components;
+using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction.Panels;
 using Macad.Presentation;
@@ -152,6 +153,11 @@ namespace Macad.Interaction.Editors.Topology
 
         public override void EnrichContextMenu(ContextMenuItems itemList)
         {
+            if (Entity?.Shape?.ShapeType == ShapeType.Mesh)
+            {
+                itemList.AddCommand(ToolboxCommands.ConvertToSolid);
+            }
+
             _ShapePanel?.SelectedEditor?.EnrichContextMenu(itemList);
         }
 
