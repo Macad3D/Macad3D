@@ -750,7 +750,9 @@ namespace Macad.Interaction
 
         public Bitmap RenderToBitmap(uint width, uint height)
         {
-            if (Viewport?.V3dView == null || width == 0 || height == 0)
+            if (Viewport?.V3dView == null 
+                || !(_OcWindow?.IsMapped() ?? false)
+                || width == 0 || height == 0)
                 return null;
 
             try

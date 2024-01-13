@@ -202,8 +202,7 @@ namespace Macad.Core.Auxiliary
             base.RaisePropertyChanged(propertyName);
             if (!IsDeserializing)
             {
-                if (CoreContext.Current.Workspace != null)
-                    CoreContext.Current.Workspace.MarkAsUnsaved();
+                CoreContext.Current?.Document?.MarkAsUnsaved();
             }
         }
 

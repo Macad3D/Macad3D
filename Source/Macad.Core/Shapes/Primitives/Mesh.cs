@@ -56,12 +56,23 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
+        public override void LoadShapeCache(FileSystem fileSystem)
+        {
+            if (Data?.Length > 0)
+            {
+                _CachedOcShape = Occt.Helper.BRepExchange.ReadBinary(Data);
+                BRep = _CachedOcShape;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         protected override bool MakeInternal(MakeFlags flags)
         {
             if (_CachedOcShape == null)
             {
 
-                if ((Data == null) || (Data.Length == 0))
+                if (Data == null || Data.Length == 0)
                 {
                     Messages.Error("The data of this mesh is empty or invalid.");
                     HasErrors = true;

@@ -61,6 +61,17 @@ namespace Macad.Core.Shapes
 
         //--------------------------------------------------------------------------------------------------
 
+        public override void LoadShapeCache(FileSystem fileSystem)
+        {
+            if (Data?.Length > 0)
+            {
+                _CachedBRep = Occt.Helper.BRepExchange.ReadBinary(Data);
+                BRep = _CachedBRep;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
         protected override bool MakeInternal(MakeFlags flags)
         {
             if (_CachedBRep == null)

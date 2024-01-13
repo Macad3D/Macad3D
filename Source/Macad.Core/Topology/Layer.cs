@@ -232,8 +232,7 @@ namespace Macad.Core.Topology
             base.RaisePropertyChanged(propertyName);
             if (!IsDeserializing)
             {
-                if ((CoreContext.Current != null) && (CoreContext.Current.Workspace != null))
-                    CoreContext.Current.Workspace.MarkAsUnsaved();
+                CoreContext.Current?.Document?.MarkAsUnsaved();
             }
         }
 

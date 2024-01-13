@@ -115,7 +115,7 @@ namespace Macad.Core
                 if (_RenderMode != value)
                 {
                     _RenderMode = value;
-                    Workspace.MarkAsUnsaved();
+                    Workspace?.Model.MarkAsUnsaved();
                     UpdateRenderMode();
                     RaisePropertyChanged();
                 }

@@ -117,19 +117,9 @@ namespace Macad.Core
             get { return _CurrentWorkingContext.WorkingPlane; }
             set
             {
-                //Console.WriteLine("Old WorkingPlane: {0} {1} {2}", _WorkingPlane.Axis().Direction().X(), _WorkingPlane.Axis().Direction().Y(), _WorkingPlane.Axis().Direction().Z());
-                //Console.WriteLine("New WorkingPlane: {0} {1} {2}", value.Axis().Direction().X(), value.Axis().Direction().Y(), value.Axis().Direction().Z());
-                if (AisContext != null)
-                {
-                    V3dViewer.SetPrivilegedPlane(value.Position);
-                }
-
-                //Console.WriteLine("New working plane: {0}  {1}  {2}", value.Position().Location().x, value.Position().Location().z, value.Position().Location().z);
-                //Console.WriteLine("Global working plane: {0}  {1}  {2}", _GlobalWorkingContext.WorkingPlane.Position().Location().x, _GlobalWorkingContext.WorkingPlane.Position().Location().z, _GlobalWorkingContext.WorkingPlane.Position().Location().z);
                 _CurrentWorkingContext.WorkingPlane = value;
                 Model.MarkAsUnsaved();
-                RaisePropertyChanged();
-                _RaiseGridChanged();
+                _ApplyWorkingContext();
             }
         }
 
@@ -394,14 +384,12 @@ namespace Macad.Core
 
         void _ApplyWorkingContext()
         {
-            WorkingPlane = _CurrentWorkingContext.WorkingPlane;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void MarkAsUnsaved()
-        {
-            Model.MarkAsUnsaved();
+            if (AisContext != null)
+            {
+                V3dViewer.SetPrivilegedPlane(_CurrentWorkingContext.WorkingPlane.Position);
+            }
+            RaisePropertyChanged(nameof(WorkingPlane));
+            _RaiseGridChanged();
         }
 
         //--------------------------------------------------------------------------------------------------

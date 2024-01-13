@@ -47,7 +47,7 @@ namespace Macad.Core.Topology
             }
         }
 
-        public bool HasUnsavedChanges { get; protected set; }
+        public bool HasUnsavedChanges { get; private set; }
 
         //--------------------------------------------------------------------------------------------------
 
@@ -287,7 +287,7 @@ namespace Macad.Core.Topology
 
                 fileSystem.Commit();
 
-                HasUnsavedChanges = false;
+                ResetUnsavedChanges();
                 FilePath = filePath;
 
                 return true;
@@ -312,9 +312,8 @@ namespace Macad.Core.Topology
                 if (newDoc != null)
                 {
                     newDoc.FilePath = filePath;
-                    newDoc.HasUnsavedChanges = false;
-
                     newDoc.LoadData(fileSystem);
+                    newDoc.ResetUnsavedChanges();
 
                     if (context.HasErrors)
                     {
