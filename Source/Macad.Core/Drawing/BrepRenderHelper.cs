@@ -83,7 +83,7 @@ namespace Macad.Core.Drawing
             }
             else
             {
-                if (!EdgeAlgo.GetPlaneOfEdges(edges, out var edgesPlane))
+                if (!Topo2dUtils.GetPlaneOfEdges(edges, out var edgesPlane))
                 {
                     return false;
                 }

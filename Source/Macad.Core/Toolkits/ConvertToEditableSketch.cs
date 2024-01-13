@@ -52,7 +52,7 @@ public class ConvertToEditableSketch : IDrawingRenderer, IRendererCapabilities
             body.CollapseShapeStack(newSketch, saveUndo);
 
             // Correct transformation
-            if(EdgeAlgo.GetPlaneOfEdges(originalBreps[i], out Geom_Plane plane))
+            if(Topo2dUtils.GetPlaneOfEdges(originalBreps[i], out Geom_Plane plane))
             {
                 var worldPosition = plane.Position().Transformed(body.GetTransformation());
                 Trsf trsf = new Trsf(new Ax3(Pnt.Origin, worldPosition.Direction, worldPosition.XDirection), Ax3.XOY);

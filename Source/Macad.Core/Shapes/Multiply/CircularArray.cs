@@ -393,7 +393,7 @@ namespace Macad.Core.Shapes
                     var center = new Pnt(-_Radius, 0, 0).Rotated(Ax1.OZ, _OriginalAngle.ToRad());
                     var axis = new Ax3(center, Dir.DZ, Dir.DX.Rotated(Ax1.OZ, _OriginalAngle.ToRad()));
                     var brep = GetBRep();
-                    if (brep != null && EdgeAlgo.GetPlaneOfEdges(brep, out Geom_Plane plane))
+                    if (brep != null && Topo2dUtils.GetPlaneOfEdges(brep, out Geom_Plane plane))
                     {
                         axis.Transform(new Trsf(plane.Position(), Ax3.XOY));
                     }

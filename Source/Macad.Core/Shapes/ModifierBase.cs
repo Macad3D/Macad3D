@@ -209,7 +209,7 @@ namespace Macad.Core.Shapes
             }
 
             Geom_Plane geomPlane;
-            if (!EdgeAlgo.GetPlaneOfEdges(sourceBrep, out geomPlane))
+            if (!Topo2dUtils.GetPlaneOfEdges(sourceBrep, out geomPlane))
                 return null;
             var baseFacesShape = TopoUtils.CreateFacesFromWires(sourceBrep, geomPlane.Pln());
 

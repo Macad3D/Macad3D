@@ -134,7 +134,7 @@ namespace Macad.Core.Drawing
             }
 
             var edges = pipe.GetOperandWires().SelectMany(wire => wire.Edges());
-            if (!EdgeAlgo.GetPlaneOfEdges(edges, out _Plane))
+            if (!Topo2dUtils.GetPlaneOfEdges(edges, out _Plane))
             {
                 Messages.Error("The path of the pipe does not lie on the same plane.");
                 return false;

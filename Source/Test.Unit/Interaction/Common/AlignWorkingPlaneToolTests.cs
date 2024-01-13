@@ -5,6 +5,7 @@ using Macad.Test.Utils;
 using Macad.Interaction;
 using Macad.Occt;
 using NUnit.Framework;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace Macad.Test.Unit.Interaction.Common
 {
@@ -93,10 +94,10 @@ namespace Macad.Test.Unit.Interaction.Common
             var tool = new AlignWorkingPlaneTool(AlignWorkingPlaneTool.AlignWorkingPlaneModes.All);
             Assert.That(ctx.WorkspaceController.StartTool(tool));
 
-            ctx.MoveTo(174, 207);
+            ctx.MoveTo(77, 151);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AlignOnEdge1"));
 
-            ctx.SelectAt(174, 207);
+            ctx.SelectAt(77, 151);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AlignOnEdge2"));
         }
 
@@ -138,10 +139,78 @@ namespace Macad.Test.Unit.Interaction.Common
             ctx.MoveTo(90, 250);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SelectionFilter1"));
 
-            ctx.SelectAt(200, 277);
+            ctx.SelectAt(160, 256);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SelectionFilter2"));
         }
 
         //--------------------------------------------------------------------------------------------------
+        
+        [Test]
+        public void AlignOnDefaultPlane()
+        {
+            var ctx = Context.Current;
+
+            var body = TestGeomGenerator.CreateImprint().Body;
+            ctx.WorkspaceController.Selection.SelectEntity(body);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                var tool = new AlignWorkingPlaneTool(AlignWorkingPlaneTool.AlignWorkingPlaneModes.All);
+                Assert.That(ctx.WorkspaceController.StartTool(tool));
+                ctx.ClickAt(279, 244);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AlignOnDefaultPlane01"));
+
+                tool = new AlignWorkingPlaneTool(AlignWorkingPlaneTool.AlignWorkingPlaneModes.All);
+                Assert.That(ctx.WorkspaceController.StartTool(tool));
+                ctx.ClickAt(208, 258);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AlignOnDefaultPlane02"));
+
+                tool = new AlignWorkingPlaneTool(AlignWorkingPlaneTool.AlignWorkingPlaneModes.All);
+                Assert.That(ctx.WorkspaceController.StartTool(tool));
+                ctx.ClickAt(234, 333);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AlignOnDefaultPlane03"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void AlignOnSketchEdge()
+        {
+            var ctx = Context.Current;
+
+            var body = TestGeomGenerator.CreateCrossSection().Body;
+            ctx.WorkspaceController.Selection.SelectEntity(body);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                var tool = new AlignWorkingPlaneTool(AlignWorkingPlaneTool.AlignWorkingPlaneModes.All);
+                Assert.That(ctx.WorkspaceController.StartTool(tool));
+                ctx.MoveTo(303, 244);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AlignOnSketchEdge01"));
+            });
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        [Test]
+        public void AlignOnSketchVertex()
+        {
+            var ctx = Context.Current;
+
+            var body = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle, true).Body;
+            ctx.WorkspaceController.Selection.SelectEntity(body);
+            ctx.ViewportController.ZoomFitAll();
+
+            Assert.Multiple(() =>
+            {
+                var tool = new AlignWorkingPlaneTool(AlignWorkingPlaneTool.AlignWorkingPlaneModes.All);
+                Assert.That(ctx.WorkspaceController.StartTool(tool));
+                ctx.MoveTo(251, 118);
+                AssertHelper.IsSameViewport(Path.Combine(_BasePath, "AlignOnSketchVertex01"));
+            });
+        }
     }
 }

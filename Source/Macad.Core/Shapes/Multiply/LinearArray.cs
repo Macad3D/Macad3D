@@ -363,7 +363,7 @@ namespace Macad.Core.Shapes
             }
 
             // Calculate Offsets
-            if (!EdgeAlgo.GetPlaneOfEdges(sourceBRep, out Geom_Plane realPlane))
+            if (!Topo2dUtils.GetPlaneOfEdges(sourceBRep, out Geom_Plane realPlane))
             {
                 Messages.Error("The plane of the sketch could not be determined.");
                 return false;

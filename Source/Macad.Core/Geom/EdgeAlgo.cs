@@ -149,63 +149,6 @@ namespace Macad.Core.Geom
         
         //--------------------------------------------------------------------------------------------------
 
-        public static bool GetPlaneOfEdges(TopoDS_Shape shape, out Geom_Plane geomPlane)
-        {
-            return GetPlaneOfEdges(shape.Edges(), out geomPlane);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public static bool GetPlaneOfEdges(IEnumerable<TopoDS_Edge> edges, out Geom_Plane geomPlane)
-        {
-            geomPlane = new Geom_Plane(Pln.XOY);
-            if (!edges.Any())
-            {
-                Messages.Error("Cannot get plane of edges, shape doesn't have edges.");
-                return false;
-            }
-
-            List<Geom_Plane> _Candidates = new();
-            foreach (var edge in edges)
-            {
-                if (!(edge.TShape() is BRep_TEdge tedge))
-                    continue;
-
-                var curves = tedge.CurvesList();
-                var geomPlanes = curves.Where(cos => (cos as BRep_CurveOnSurface)?.Surface() is Geom_Plane)
-                                       .Select(cos => (Geom_Plane)cos.Surface());
-                if (!geomPlanes.Any())
-                    continue;
-
-                if (_Candidates.Count == 0)
-                {
-                    _Candidates.AddRange(geomPlanes);
-                    continue;
-                }
-
-                var commons = _Candidates.Where(a => geomPlanes.Any(b => a.Pln().Position.IsCoplanar(b.Pln().Position, 0.00001, 0.00001)));
-                int commonsCount = commons.Count();
-                if (commonsCount == 0)
-                {
-                    Messages.Error("Cannot get plane of edges, not all edges are coplanar.");
-                    return false;
-                }
-                if(commonsCount == _Candidates.Count)
-                    continue;
-                _Candidates = commons.ToList();
-            }
-
-            if (_Candidates.Count <= 0)
-            {
-                return false;
-            }
-
-            geomPlane = _Candidates.First();
-            return true;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
         public static bool SetContinuity(TopoDS_Shape shape, TopoDS_Edge edge, GeomAbs_Shape newContinuity)
         {
             var (face1, face2) = FindAdjacentFaces(shape, edge);

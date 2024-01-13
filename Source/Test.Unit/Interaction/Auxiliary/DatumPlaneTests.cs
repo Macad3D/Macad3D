@@ -260,7 +260,7 @@ namespace Macad.Test.Unit.Interaction.Auxiliary
             Assert.Multiple(() =>
             {
                 WorkspaceCommands.AlignWorkingPlane.Execute();
-                ctx.ClickAt(300, 300);
+                ctx.ClickAt(382, 262);
                 AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SelectAsWorkingPlane01"));
             });
         }
