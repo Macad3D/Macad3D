@@ -1,5 +1,5 @@
 ---
-uid: 86065E4D-C0FC-46E2-AAE4-4B385FB47409
+uid: 86065e4d-c0fc-46e2-aae4-4b385fb47409
 title: Cross Section
 ---
 Creates a cross section sketch by cutting the solid with a plane.

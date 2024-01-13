@@ -1,5 +1,5 @@
 ﻿---
-uid: 87D3ECCA-434C-474D-BEFD-47F1BB83370E
+uid: 87d3ecca-434c-474d-befd-47f1bb83370e
 title: Unfold Sheet
 ---
 Unfolds a sheet with bend flanges with respect to the material compression.
@@ -19,4 +19,4 @@ The length of the straight parts is calculated by taking the material compressio
 3. Select the base face to which the sheet will be flattened. If the base face can be detected automatically, this step is being skipped.
 
 # See Also
-[](xref:5F9B1A87-60F9-448A-860A-567EB18473C8)
+[](xref:5f9b1a87-60f9-448a-860a-567eb18473c8)

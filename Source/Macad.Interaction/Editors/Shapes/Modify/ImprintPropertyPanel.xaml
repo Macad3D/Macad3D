@@ -10,7 +10,7 @@
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              Style="{DynamicResource Macad.Styles.PropertyPanel}"
              Header="Imprint"
-			 mmp:Help.TopicId="D3FAF9BF-849F-4612-B689-BD5F699E850D">
+			 mmp:Help.TopicId="D3faf9Bf-849f-4612-b689-bd5f699e850d">
     
     <Grid>
         <Grid.ColumnDefinitions>

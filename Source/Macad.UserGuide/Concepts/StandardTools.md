@@ -36,7 +36,7 @@ With _Create Reference_ also a new body is created, but this refers to the shape
 
 ![Shape stack of a _Reference_](StandardToolsReferenceStack.png)
 
-# Convert to Solid / Convert to Editable Sketch
+# Shape Stack Converter
 
 It can be helpful for various reasons to collapse a shape stack and continue using the resulting shape as a starting point. Reasons can be:
 - Eliminating dependencies on bodies attracted to the shape stack.
@@ -47,5 +47,7 @@ It can be helpful for various reasons to collapse a shape stack and continue usi
 For sketches in particular, there is another advantage: the conversion converts the sketch back into a version that can be edited with the sketch editor. However, the contents of the sketch are mapped to the available segment types, which may lead to restrictions.
 
 Bodies with a shape stack of type _Mesh_ can also be converted into a new shape stack with a _Solid_ as the basis. This enables further processing with all modeling tools, which typically only work on solids. However, this conversion has limitations: The geometric shape itself is not changed. This means that while coplanar triangles are joined together to form a face, "round" structures remain as angular as they were when they were originally tessellated. 
+
+The tools are called _Convert to Solid_ and _Convert to Editable Sketch_ and can be found on the ribbon tab _Toolbox_.
 
 > [!Tip] If the body is already referenced by another body, this referencing may be lost. This is particularly the case if an intermediate step in the shape stack is referenced. One way to solve this is to convert these shapes at the same time. To do this, simply select all the bodies in question and then trigger the conversion.

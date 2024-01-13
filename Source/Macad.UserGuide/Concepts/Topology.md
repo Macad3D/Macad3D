@@ -21,7 +21,7 @@ The shape of a body can be of one of the following types:
 Type       | Purpose
 -----------|-------------------------
 __Solid__  | 3D shape defined by geometric definition of it's boundary ([B-Rep](xref:#see-Also)). This type is used for construction and works with almost all modifiers and exporters.
-__Sketch__ | 2D vector drawing, used as operand for modifiers. Some modifiers build a solid type shape out of a sketch (e.g. [Extrude](xref:240A3C08-F9A0-4E31-88E0-7B034C1D9F9D)). See [Sketches](xref:0dc12d15-5450-460c-909b-f25ed1cf4b7e) for further information.
+__Sketch__ | 2D vector drawing, used as operand for modifiers. Some modifiers build a solid type shape out of a sketch (e.g. [Extrude](xref:240a3c08-f9a0-4e31-88e0-7b034c1d9f9d)). See [Sketches](xref:0dc12d15-5450-460c-909b-f25ed1cf4b7e) for further information.
 __Mesh__   | 3D shape defined by triangles. Can only be displayed, not manipulated, but [converted to solids](xref:e0d6ed71-f1fa-481b-94b4-c7f76591b1b4#shape-stack-converter).
 
 

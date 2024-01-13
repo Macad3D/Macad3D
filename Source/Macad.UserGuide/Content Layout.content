@@ -105,7 +105,7 @@
           <HelpKeyword index="K" term="Chamfer" />
         </HelpKeywords>
       </Topic>
-      <Topic id="D3FAF9BF-849F-4612-B689-BD5F699E850D" visible="True">
+      <Topic id="D3faf9Bf-849f-4612-b689-bd5f699e850d" visible="True">
         <HelpKeywords>
           <HelpKeyword index="K" term="Imprint" />
           <HelpKeyword index="K" term="Emboss" />
@@ -119,12 +119,12 @@
           <HelpKeyword index="K" term="Bevel" />
         </HelpKeywords>
       </Topic>
-      <Topic id="5974B87B-8CE2-4454-B400-377B936650BB" visible="True">
+      <Topic id="5974b87b-8ce2-4454-b400-377b936650bb" visible="True">
         <HelpKeywords>
           <HelpKeyword index="K" term="Scale" />
         </HelpKeywords>
       </Topic>
-      <Topic id="AF5F6317-5201-4C55-B56D-DA368F359324" visible="True">
+      <Topic id="af5f6317-5201-4c55-b56d-da368f359324" visible="True">
         <HelpKeywords>
           <HelpKeyword index="K" term="Offset" />
           <HelpKeyword index="K" term="Thicken" />
@@ -151,7 +151,7 @@
           <HelpKeyword index="K" term="Merge" />
         </HelpKeywords>
       </Topic>
-      <Topic id="86065E4D-C0FC-46E2-AAE4-4B385FB47409" visible="True" title="Cross Section">
+      <Topic id="86065e4d-c0fc-46e2-aae4-4b385fb47409" visible="True" title="Cross Section">
         <HelpKeywords>
           <HelpKeyword index="K" term="Boolean" />
           <HelpKeyword index="K" term="Cross Section" />
@@ -160,14 +160,14 @@
       </Topic>
     </Topic>
     <Topic id="f4130d1f-604b-451e-b712-57c44ba0a6fc" visible="True" noFile="true" isExpanded="true" title="Form">
-      <Topic id="240A3C08-F9A0-4E31-88E0-7B034C1D9F9D" visible="True">
+      <Topic id="240a3c08-f9a0-4e31-88e0-7b034c1d9f9d" visible="True">
         <HelpKeywords>
           <HelpKeyword index="K" term="Extrude" />
           <HelpKeyword index="K" term="Face Extrude" />
           <HelpKeyword index="K" term="Sketch Extrude" />
         </HelpKeywords>
       </Topic>
-      <Topic id="74C0AAB4-7847-4DCB-83E9-6ED639F4591C" visible="True">
+      <Topic id="74c0aab4-7847-4dcb-83e9-6ed639f4591c" visible="True">
         <HelpKeywords>
           <HelpKeyword index="K" term="Revolve" />
           <HelpKeyword index="K" term="Turn" />
@@ -209,13 +209,13 @@
       </Topic>
     </Topic>
     <Topic id="f2639330-6842-474a-b628-4a49f9c239f2" visible="True" noFile="true" isExpanded="true" title="Sheet">
-      <Topic id="5F9B1A87-60F9-448A-860A-567EB18473C8" visible="True" title="Flange Sheet">
+      <Topic id="5f9b1a87-60f9-448a-860a-567eb18473c8" visible="True" title="Flange Sheet">
         <HelpKeywords>
           <HelpKeyword index="K" term="Sheet, Flange" />
           <HelpKeyword index="K" term="Flange Sheet" />
         </HelpKeywords>
       </Topic>
-      <Topic id="87D3ECCA-434C-474D-BEFD-47F1BB83370E" visible="True" title="Unfold Sheet">
+      <Topic id="87d3ecca-434c-474d-befd-47f1bb83370e" visible="True" title="Unfold Sheet">
         <HelpKeywords>
           <HelpKeyword index="K" term="Sheet, Unfold Sheet" />
           <HelpKeyword index="K" term="Unfold Sheet" />

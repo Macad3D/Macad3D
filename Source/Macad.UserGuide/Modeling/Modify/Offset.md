@@ -1,12 +1,12 @@
 ---
-uid: AF5F6317-5201-4C55-B56D-DA368F359324
+uid: af5f6317-5201-4c55-b56d-da368f359324
 title: Offset
 ---
-Makes a sketch or solid thicker or thinner by moving the surfaces and closing the resulting gaps.
+Makes a sketch or solid thicker or thinner by creating parallel copies of each curve or face at a specified distance and closing the resulting gaps.
 
 # Property Panel
 Distance
-:   Defines the distance between the new boundary and the initial one. A positive distance thickens the shape, a negative distance narrows the shape.
+:   Defines the distance between the new boundary and the initial one. A positive distance makes the shape thicker, a negative distance narrows the shape.
     ![Original, Positive Distance, Negative Distance](OffsetDistanceSign.png)
 
 Corner Type

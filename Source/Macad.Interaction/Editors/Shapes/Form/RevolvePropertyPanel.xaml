@@ -10,7 +10,7 @@
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              Style="{DynamicResource Macad.Styles.PropertyPanel}"
              Header="Revolve"
-			 mmp:Help.TopicId="74C0AAB4-7847-4DCB-83E9-6ED639F4591C">
+			 mmp:Help.TopicId="74c0aab4-7847-4dcb-83e9-6ed639f4591c">
     
     <Grid>
         <Grid.ColumnDefinitions>

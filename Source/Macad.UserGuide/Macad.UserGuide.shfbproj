@@ -856,6 +856,10 @@
       <ImageId>AmerigoDoor9</ImageId>
       <AlternateText>Amerigo Door 9</AlternateText>
     </Image>
+    <Image Include="Changelog\LiveToolsDemo.apng">
+      <ImageId>LiveToolsDemo</ImageId>
+      <AlternateText>Live Tool of Flange Sheet</AlternateText>
+    </Image>
   </ItemGroup>
   <!-- The pre-build and post-build event properties must appear *after* the targets file import in order to be
 			 evaluated correctly. -->

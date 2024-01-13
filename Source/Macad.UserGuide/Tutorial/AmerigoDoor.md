@@ -18,7 +18,7 @@ We construct the wall using a [Box](xref:5da4906e-c86b-4f91-8b30-f5163e152d0e). 
 
 We select the __Create Box__ tool on the Model tab and first select the two points of the base at -15.0, 0.0 and 15.0, 2.0 on the working plane, resulting in a length of 30.0 mm and a width of 2.0 mm. We then enter the height of 25.0 mm via keyboard and confirm the entry with the __Enter__ key. Our box should now be in place. If values have to be corrected again afterwards, this can be done in the property pane. We change at least the name for this new body.
 
-Now we define the door cutout. To do this, we use the [Imprint](xref:D3FAF9BF-849F-4612-B689-BD5F699E850D) modifier. We choose the tool __Create Imprint__ in the mode _Cutout_. To do this we click on the arrow in the button in the ribbon menu and select __Cut-Out a Face__ from the menu that then opens. We select the front surface of our wall and automatically switch to the sketch editor. We draw a rectangle from -9.0, -6.0 to 10.0, 6.0. Then we close the sketch editor with the __Esc__ key or one of the buttons reading __Close Editor__.
+Now we define the door cutout. To do this, we use the [Imprint](xref:D3faf9Bf-849f-4612-b689-bd5f699e850d) modifier. We choose the tool __Create Imprint__ in the mode _Cutout_. To do this we click on the arrow in the button in the ribbon menu and select __Cut-Out a Face__ from the menu that then opens. We select the front surface of our wall and automatically switch to the sketch editor. We draw a rectangle from -9.0, -6.0 to 10.0, 6.0. Then we close the sketch editor with the __Esc__ key or one of the buttons reading __Close Editor__.
 
 We now have our wall with a door cutout.
 
@@ -30,7 +30,7 @@ We now have our wall with a door cutout.
 
 For the door we switch to the _Door_ layer, e.g. by double-clicking on the layer in the layer editor or by selecting the layer in the dropdown box in the ribbon menu. Then we put the working plane at the height of the door cutout. For this we select the tool __Align Working Plane__ in the __Edit__ tab. This function is also available in the toolbar of the context menu of the viewport. We use the front left vertex as the target of the alignment.
 
-First we create the door frame. We proceed in the same way as with the wall: we create a [Box](xref:5da4906e-c86b-4f91-8b30-f5163e152d0e) that is flush with the wall and then create a cut-out with the [Imprint](xref:D3FAF9BF-849F-4612-B689-BD5F699E850D) modifier from -9.0, -5.5 to 9.0, 5.5. The stepping of the grid should be set to 0.5 mm.
+First we create the door frame. We proceed in the same way as with the wall: we create a [Box](xref:5da4906e-c86b-4f91-8b30-f5163e152d0e) that is flush with the wall and then create a cut-out with the [Imprint](xref:D3faf9Bf-849f-4612-b689-bd5f699e850d) modifier from -9.0, -5.5 to 9.0, 5.5. The stepping of the grid should be set to 0.5 mm.
 
 > [!Tip] The snapping function can make work extremely easy, especially if reference points, edges or surfaces are available. In this case, when creating the box for the door frame, the vertices of the wall can serve as a reference for all points to be selected.
 
@@ -40,9 +40,9 @@ First we create the door frame. We proceed in the same way as with the wall: we 
 
 The door has two symmetrical door leaves, so we will simplify the work by constructing only the left door leaf and deriving the right one from it. We first align the working plane to the door frame. Since the door is lower, this time we take the rear left vertex as a reference and open a box from there so that it fills half of the door frame in width and in depth.
 
-We create the decoration in the lower part of the door using two [Imprints](xref:D3FAF9BF-849F-4612-B689-BD5F699E850D), but this time we use the _lower mode_ once to achieve a recess of 0.5 mm, then the _raise mode_ to create an increase of 0.3 mm within this recess.
+We create the decoration in the lower part of the door using two [Imprints](xref:D3faf9Bf-849f-4612-b689-bd5f699e850d), but this time we use the _lower mode_ once to achieve a recess of 0.5 mm, then the _raise mode_ to create an increase of 0.3 mm within this recess.
 
-We create the decoration in the upper part with a single [Imprint](xref:D3FAF9BF-849F-4612-B689-BD5F699E850D) in _cut-out mode_. A little work is required in the sketch editor to recreate the cutouts nicely.
+We create the decoration in the upper part with a single [Imprint](xref:D3faf9Bf-849f-4612-b689-bd5f699e850d) in _cut-out mode_. A little work is required in the sketch editor to recreate the cutouts nicely.
 
 ![The upper decorations](AmerigoDoor6.png)
 

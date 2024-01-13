@@ -10,7 +10,7 @@
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              Style="{DynamicResource Macad.Styles.PropertyPanel}"
              Header="Unfold Sheet"
-			 mmp:Help.TopicId="87D3ECCA-434C-474D-BEFD-47F1BB83370E">
+			 mmp:Help.TopicId="87d3ecca-434c-474d-befd-47f1bb83370e">
 
     <Grid Margin="2,5,5,5">
         <TextBlock  Grid.Row="0" Grid.Column="0" Text="This modifier has no parameters." HorizontalAlignment="Center" />

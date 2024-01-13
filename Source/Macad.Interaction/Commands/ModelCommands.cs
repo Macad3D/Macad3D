@@ -209,7 +209,7 @@ namespace Macad.Interaction
             Header = () => "Extrude",
             Description = () => "Extrudes a shape or a single face of a solid.",
             Icon = () => "Form-Extrude",
-            HelpTopic = "240A3C08-F9A0-4E31-88E0-7B034C1D9F9D",
+            HelpTopic = "240a3c08-f9a0-4e31-88e0-7b034c1d9f9d",
             IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.OneWay,
                                                     EqualityToBoolConverter.Instance, nameof(CreateExtrudeTool))
         };
@@ -226,7 +226,7 @@ namespace Macad.Interaction
             Header = () => "Revolve",
             Description = () => "Creates a solid by revolving a sketch contour.",
             Icon = () => "Form-Revolve",
-            HelpTopic = "74C0AAB4-7847-4DCB-83E9-6ED639F4591C",
+            HelpTopic = "74c0aab4-7847-4dcb-83e9-6ed639f4591c",
             IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.OneWay,
                                                     EqualityToBoolConverter.Instance, nameof(CreateRevolveTool))
         };
@@ -272,7 +272,7 @@ namespace Macad.Interaction
                 }
             },
             Description = (mode) => "Imprints a face based on a sketch to create a protrusion, depression or cutout." ,
-            HelpTopic = (mode) => "D3FAF9BF-849F-4612-B689-BD5F699E850D",
+            HelpTopic = (mode) => "D3faf9Bf-849f-4612-b689-bd5f699e850d",
             IsCheckedBinding = (mode) => mode != Imprint.ImprintMode.Default ? null
                                                                              : BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.TwoWay, 
                                                                                                     EqualityToBoolConverter.Instance, nameof(CreateImprintTool))
@@ -291,7 +291,7 @@ namespace Macad.Interaction
             Title = () => "Create Flange on Sheet",
             Description = () => "Extends a solid shape by adding a folded flange.",
             Icon = () => "Mod-FlangeSheet",
-            HelpTopic = "5F9B1A87-60F9-448A-860A-567EB18473C8",
+            HelpTopic = "5f9b1a87-60f9-448a-860a-567eb18473c8",
             IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.OneWay,
                                                     EqualityToBoolConverter.Instance, nameof(CreateFlangeSheetTool))
         };
@@ -309,7 +309,7 @@ namespace Macad.Interaction
             Title = () => "Unfold a folded Sheet",
             Description = () => "Unfolds a sheet with bend flanges with respect to the material compression.",
             Icon = () => "Mod-UnfoldSheet",
-            HelpTopic = "87D3ECCA-434C-474D-BEFD-47F1BB83370E",
+            HelpTopic = "87d3ecca-434c-474d-befd-47f1bb83370e",
             IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.OneWay,
                                                     EqualityToBoolConverter.Instance, nameof(CreateUnfoldSheetTool))
         };
@@ -508,7 +508,7 @@ namespace Macad.Interaction
             Header = () => "Offset",
             Description = () => "Offsets a sketch or solid.",
             Icon = () => "Mod-Offset",
-            HelpTopic = "AF5F6317-5201-4C55-B56D-DA368F359324"
+            HelpTopic = "af5f6317-5201-4c55-b56d-da368f359324"
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -529,7 +529,7 @@ namespace Macad.Interaction
             Header = () => "Cross Section",
             Description = () => "Creates a cross section sketch by cutting the solid with a plane.",
             Icon = () => "Mod-CrossSection",
-            HelpTopic = "86065E4D-C0FC-46E2-AAE4-4B385FB47409"
+            HelpTopic = "86065e4d-c0fc-46e2-aae4-4b385fb47409"
         };
 
         //--------------------------------------------------------------------------------------------------
@@ -552,7 +552,7 @@ namespace Macad.Interaction
             Header = () => "Scale",
             Description = () => "Scales a sketch or a solid.",
             Icon = () => "Mod-Scale",
-            HelpTopic = "5974B87B-8CE2-4454-B400-377B936650BB"
+            HelpTopic = "5974b87b-8ce2-4454-b400-377b936650bb"
         };
 
         //--------------------------------------------------------------------------------------------------

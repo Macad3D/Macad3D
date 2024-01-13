@@ -1,5 +1,5 @@
 ﻿---
-uid: 74C0AAB4-7847-4DCB-83E9-6ED639F4591C
+uid: 74c0aab4-7847-4dcb-83e9-6ed639f4591c
 title: Revolve
 ---
 Creates a solid by revolving a sketch contour.

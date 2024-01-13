@@ -1,5 +1,5 @@
 ﻿---
-uid: D3FAF9BF-849F-4612-B689-BD5F699E850D
+uid: D3faf9Bf-849f-4612-b689-bd5f699e850d
 title: Imprint
 ---
 Imprints a face based on a sketch to create a protrusion, depression or cutout.

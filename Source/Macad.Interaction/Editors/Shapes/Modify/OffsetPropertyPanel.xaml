@@ -10,7 +10,7 @@
                    DataContext="{Binding RelativeSource={RelativeSource Self}}"
                    Style="{DynamicResource Macad.Styles.PropertyPanel}"
                    Header="Offset"
-                   mmp:Help.TopicId="AF5F6317-5201-4C55-B56D-DA368F359324">
+                   mmp:Help.TopicId="af5f6317-5201-4c55-b56d-da368f359324">
     
     <Grid>
         <Grid.ColumnDefinitions>

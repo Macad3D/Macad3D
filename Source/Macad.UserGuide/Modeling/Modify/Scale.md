@@ -1,5 +1,5 @@
 ---
-uid: 5974B87B-8CE2-4454-B400-377B936650BB
+uid: 5974b87b-8ce2-4454-b400-377b936650bb
 title: Scale
 ---
 Scales a sketch, a solid or a mesh uniformly or non-uniformly.

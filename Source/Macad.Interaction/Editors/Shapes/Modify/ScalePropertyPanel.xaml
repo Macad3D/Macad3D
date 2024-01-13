@@ -10,7 +10,7 @@
                    DataContext="{Binding RelativeSource={RelativeSource Self}}"
                    Style="{DynamicResource Macad.Styles.PropertyPanel}"
                    Header="Scale"
-                   mmp:Help.TopicId="5974B87B-8CE2-4454-B400-377B936650BB">
+                   mmp:Help.TopicId="5974b87b-8ce2-4454-b400-377b936650bb">
     <StackPanel>
 
         <!-- Uniform Scaling -->

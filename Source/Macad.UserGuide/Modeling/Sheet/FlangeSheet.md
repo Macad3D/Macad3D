@@ -1,5 +1,5 @@
 ﻿---
-uid: 5F9B1A87-60F9-448A-860A-567EB18473C8
+uid: 5f9b1a87-60f9-448a-860a-567eb18473c8
 title: Flange Sheet
 ---
 Extends a solid shape by adding a bended flange.
@@ -44,4 +44,4 @@ This modifier constructs a flange part and a bend part connecting the flange wit
 3. Adjust parameters in the property panel or using the live tools.
 
 # See Also
-[](xref:87D3ECCA-434C-474D-BEFD-47F1BB83370E)
+[](xref:87d3ecca-434c-474d-befd-47f1bb83370e)

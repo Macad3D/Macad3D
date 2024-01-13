@@ -1,5 +1,5 @@
 ﻿---
-uid: 240A3C08-F9A0-4E31-88E0-7B034C1D9F9D
+uid: 240a3c08-f9a0-4e31-88e0-7b034c1d9f9d
 title: Extrude
 ---
 Extrudes a sketch or a single face of a solid.

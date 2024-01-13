@@ -16,7 +16,7 @@ Sketches can also have construction lines. These can be included in the sketch e
 
 Sketches can be created explicitly or implicitly. Explicitly means that a new body is created that contains the sketch. They can either be created in one of the three planes of the world space, or in the plane of a selected planar surface.
 
-Some modifiers also implicitly generate sketches, e.g. [Imprint](xref:D3FAF9BF-849F-4612-B689-BD5F699E850D). After selecting the face, the required sketch is automatically generated and bound to the surface, i.e. always aligned with this, even if it changes.
+Some modifiers also implicitly generate sketches, e.g. [Imprint](xref:D3faf9Bf-849f-4612-b689-bd5f699e850d). After selecting the face, the required sketch is automatically generated and bound to the surface, i.e. always aligned with this, even if it changes.
 
 # Sketch Editor
 
