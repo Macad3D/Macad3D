@@ -75,7 +75,7 @@
                         Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel.Resources>
                     <mmp:SwitchConverter x:Key="GroupPositionConverter"
-                                         Else="Middle">
+                                         Else="HCenter">
                         <mmp:SwitchCase When="Sketch" Then="Right" />
                     </mmp:SwitchConverter>
                 </StackPanel.Resources>

@@ -359,6 +359,7 @@
                     </Fluent:RibbonToolBar.LayoutDefinitions>
 
                     <ComboBox x:Name="Layers_ActiveLayerSelect"
+                              Margin="0,10,0,0"
                               SelectedValue="{Binding Context.Layers.ActiveLayer}"
                               ItemsSource="{Binding Context.Layers}"
                               AutomationProperties.AutomationId="ActiveLayerSelect">

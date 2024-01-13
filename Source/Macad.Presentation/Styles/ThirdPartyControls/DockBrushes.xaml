@@ -31,7 +31,9 @@
     <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.FloatingToolWindowBorder}">Macad.Colors.Dock.Border</SolidColorBrush>
 
     <!--  DockingBrushKeys  -->
-    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DockingButtonForegroundBrushKey}">Macad.Colors.Base80</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DockingButtonForegroundBrushKey}">Macad.Colors.Base60</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DockingButtonForegroundArrowBrushKey}">Macad.Colors.Base90</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.DockingButtonStarBackgroundBrushKey}" Opacity="0.4">Macad.Colors.Base20</SolidColorBrush>
 
     <!--  Preview Box  -->
     <SolidColorBrush x:Key="{x:Static dock:ResourceKeys.PreviewBoxBorderBrushKey}">Macad.Colors.Base80</SolidColorBrush>
