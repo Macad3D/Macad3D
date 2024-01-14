@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using Macad.Core.Shapes;
 using Macad.Common;
@@ -24,7 +22,7 @@ namespace Macad.Core.Topology
 
         public const string FileExtension = "model";
         public const int FileVersionMajor = 3;
-        public const int FileVersionMinor = 1;
+        public const int FileVersionMinor = 2;
 
         //--------------------------------------------------------------------------------------------------
 

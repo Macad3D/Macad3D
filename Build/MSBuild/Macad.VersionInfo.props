@@ -1,7 +1,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Version>3.0.1808.3</Version>
-    <Copyright>Copyright © 2015-2023 Tobias Schachte</Copyright>
+    <Version>3.0.1840.0</Version>
+    <Copyright>Copyright © 2015-2024 Tobias Schachte</Copyright>
     <Company>Tobias Schachte</Company>
     <Product>Macad|3D</Product>
   </PropertyGroup>
