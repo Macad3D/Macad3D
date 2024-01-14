@@ -71,7 +71,7 @@ namespace Macad.Window
                     mbres = MessageBox.Show(
                         "An unhandled exception occurred, and the application is terminating.\n\n"
                         + "If you click OK, it is tried to save a copy of the open documents.\n"
-                        + "Also two crashdump files will be saved to the application directory. "
+                        + "Also two crashdump files will be saved to the users temp directory. "
                         + "These can be used by the developer to trace the crash.\n\n"
                         + "The crashdump files will be deleted on the next start of the application.",
                         "Ooops...", MessageBoxButton.OKCancel, MessageBoxImage.Error);

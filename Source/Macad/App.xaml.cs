@@ -28,8 +28,8 @@ namespace Macad.Window
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
 
-            string baseDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            CrashHandler.Init(baseDir);
+            string tempDir = Path.GetTempPath();
+            CrashHandler.Init(tempDir);
 
             // Check command line arguments
             var cmdLine = new CommandLine(e.Args);
