@@ -99,7 +99,7 @@ public class HalvedJointTests
     [Test]
     public void CrossTwoTimes()
     {
-        Sketch sketch = Sketch.Create();
+        var sketch = Core.Shapes.Sketch.Create();
         SketchBuilder sb = new(sketch);
         sb.Rectangle(-10, -10, 10, 10);
         sb.Rectangle(-8,  -8, 8,  8);

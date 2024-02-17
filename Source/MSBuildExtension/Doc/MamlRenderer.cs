@@ -425,7 +425,6 @@ namespace Macad.Build.Doc
 
             if ( obj[0] is DefinitionTerm term)
             {
-    //            renderer.XmlWriter.WriteStartElement("definedTerm");
                 renderer.XmlWriter.WriteStartElement("entry");
                 renderer.XmlWriter.WriteStartElement("para");
                 renderer.XmlWriter.WriteStartElement("ui");
@@ -435,7 +434,6 @@ namespace Macad.Build.Doc
                 renderer.XmlWriter.WriteEndElement();
             }
 
-    //        renderer.XmlWriter.WriteStartElement("definition");
             renderer.XmlWriter.WriteStartElement("entry");
             renderer.XmlWriter.WriteStartElement("para");
             renderer.WriteChildren(obj);
@@ -453,8 +451,10 @@ namespace Macad.Build.Doc
         protected override void Write(MamlRenderer renderer, CodeSnippetBlock obj)
         {
             renderer.XmlWriter.WriteStartElement("code");
-            if(Path.GetExtension(obj.FileName) == ".txt")
-            renderer.XmlWriter.WriteAttributeString("language", "none");
+            if (Path.GetExtension(obj.FileName) == ".txt")
+            {
+                renderer.XmlWriter.WriteAttributeString("language", "none");
+            }
 
             renderer.XmlWriter.WriteAttributeString("source", Path.Combine(renderer.RelativeDirectory, obj.FileName));
             renderer.XmlWriter.WriteEndElement();

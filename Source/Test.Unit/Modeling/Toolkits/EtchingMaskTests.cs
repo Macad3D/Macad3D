@@ -3,49 +3,48 @@ using Macad.Test.Utils;
 using Macad.Core.Toolkits;
 using NUnit.Framework;
 
-namespace Macad.Test.Unit.Modeling.Toolkits
+namespace Macad.Test.Unit.Modeling.Toolkits;
+
+[TestFixture]
+public class EtchingMaskTests
 {
-    [TestFixture]
-    public class EtchingMaskTests
+    const string _BasePath = @"Modeling\Toolkits\EtchingMask";
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void SimpleDoubleLayer()
     {
-        const string _BasePath = @"Modeling\Toolkits\EtchingMask";
+        var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "SheetWithTwoLayers_Source.brep"));
+        Assume.That(source?.GetBRep() != null);
 
-        //--------------------------------------------------------------------------------------------------
-
-        [Test]
-        public void SimpleDoubleLayer()
+        var component = new EtchingMaskComponent()
         {
-            var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "SheetWithTwoLayers_Source.brep"));
-            Assume.That(source?.GetBRep() != null);
+            Owner = source
+        };
 
-            var component = new EtchingMaskComponent()
-            {
-                Owner = source
-            };
-
-            Assert.IsTrue(component.Make());
-            AssertHelper.IsSameModel2D(component.Layers[0].BRep, Path.Combine(_BasePath, "SimpleDoubleLayer1"));
-            AssertHelper.IsSameModel2D(component.Layers[1].BRep, Path.Combine(_BasePath, "SimpleDoubleLayer2"));
-        }
-
-        //--------------------------------------------------------------------------------------------------
-        
-        [Test]
-        public void Reconstruction()
-        {
-            var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "SheetWithTwoLayers_Source.brep"));
-            Assume.That(source?.GetBRep() != null);
-            
-            var component = new EtchingMaskComponent()
-            {
-                Owner = source
-            };
-
-            Assert.IsTrue(component.Make());
-            AssertHelper.IsSameModel(component.ReconstructedBRep, Path.Combine(_BasePath, "Reconstruction"));
-        }
-    
-        //--------------------------------------------------------------------------------------------------
-
+        Assert.IsTrue(component.Make());
+        AssertHelper.IsSameModel2D(component.Layers[0].BRep, Path.Combine(_BasePath, "SimpleDoubleLayer1"));
+        AssertHelper.IsSameModel2D(component.Layers[1].BRep, Path.Combine(_BasePath, "SimpleDoubleLayer2"));
     }
+
+    //--------------------------------------------------------------------------------------------------
+        
+    [Test]
+    public void Reconstruction()
+    {
+        var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "SheetWithTwoLayers_Source.brep"));
+        Assume.That(source?.GetBRep() != null);
+            
+        var component = new EtchingMaskComponent()
+        {
+            Owner = source
+        };
+
+        Assert.IsTrue(component.Make());
+        AssertHelper.IsSameModel(component.ReconstructedBRep, Path.Combine(_BasePath, "Reconstruction"));
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+
 }

@@ -15,10 +15,6 @@
     <MMRuntime>win7-x64</MMRuntime>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <RestoreSourcesa>https://nuget.macad3d.net%3B$(RestoreSources)</RestoreSourcesa>
-  </PropertyGroup>
-
   <Import Project="$(MMBuildPropsDir)Macad.ThirdParty.props" />
   <Import Project="$(MMBuildPropsDir)Macad.CSharp.props" Condition="$(MMIsCsProj) == 'true'" />
   <Import Project="$(MMBuildPropsDir)Macad.Native.props" Condition="$(MMIsVcxProj) == 'true'" />

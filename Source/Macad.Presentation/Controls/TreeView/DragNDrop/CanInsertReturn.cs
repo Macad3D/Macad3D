@@ -1,18 +1,17 @@
-﻿namespace Macad.Presentation.TreeView
+﻿namespace Macad.Presentation.TreeView;
+
+class CanInsertReturn
 {
-    class CanInsertReturn
+    public CanInsertReturn(string format, int index, bool before)
     {
-        public CanInsertReturn(string format, int index, bool before)
-        {
-            Format = format;
-            Index = index;
-            Before = before;
-        }
-
-        public string Format { get; set; }
-
-        public int Index { get; set; }
-        
-        public bool Before { get; set; }
+        Format = format;
+        Index = index;
+        Before = before;
     }
+
+    public string Format { get; set; }
+
+    public int Index { get; set; }
+        
+    public bool Before { get; set; }
 }

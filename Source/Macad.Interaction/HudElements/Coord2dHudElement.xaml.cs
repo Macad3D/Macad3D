@@ -1,53 +1,52 @@
-﻿namespace Macad.Interaction
+﻿namespace Macad.Interaction;
+
+public partial class Coord2DHudElement : HudElement
 {
-    public partial class Coord2DHudElement : HudElement
+    public double CoordinateX
     {
-        public double CoordinateX
+        get { return _CoordinateX; }
+        set
         {
-            get { return _CoordinateX; }
-            set
+            if (_CoordinateX != value)
             {
-                if (_CoordinateX != value)
-                {
-                    _CoordinateX = value;
-                    RaisePropertyChanged();
-                }
+                _CoordinateX = value;
+                RaisePropertyChanged();
             }
         }
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public double CoordinateY
+    public double CoordinateY
+    {
+        get { return _CoordinateY; }
+        set
         {
-            get { return _CoordinateY; }
-            set
+            if (_CoordinateY != value)
             {
-                if (_CoordinateY != value)
-                {
-                    _CoordinateY = value;
-                    RaisePropertyChanged();
-                }
+                _CoordinateY = value;
+                RaisePropertyChanged();
             }
         }
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        double _CoordinateX;
-        double _CoordinateY;
+    double _CoordinateX;
+    double _CoordinateY;
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public Coord2DHudElement()
-        {
-            InitializeComponent();
-        }
+    public Coord2DHudElement()
+    {
+        InitializeComponent();
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public void SetValues(double coordX, double coordY)
-        {
-            CoordinateX = coordX;
-            CoordinateY = coordY;
-        }
+    public void SetValues(double coordX, double coordY)
+    {
+        CoordinateX = coordX;
+        CoordinateY = coordY;
     }
 }

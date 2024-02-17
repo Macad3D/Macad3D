@@ -1,68 +1,66 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace Macad.Presentation
+namespace Macad.Presentation;
+
+public class DropDownButtonBehavior : Behavior<ButtonBase>
 {
-    public class DropDownButtonBehavior : Behavior<ButtonBase>
+    #region DropDownContent
+
+    public static readonly DependencyProperty DropDownContentProperty = DependencyProperty.Register("DropDownContent", typeof(Popup), typeof(DropDownButtonBehavior));
+    public Popup DropDownContent
     {
-        #region DropDownContent
-
-        public static readonly DependencyProperty DropDownContentProperty = DependencyProperty.Register("DropDownContent", typeof(Popup), typeof(DropDownButtonBehavior));
-        public Popup DropDownContent
+        get
         {
-            get
-            {
-                return (Popup)GetValue(DropDownContentProperty);
-            }
-            set
-            {
-                SetValue(DropDownContentProperty, value);
-            }
+            return (Popup)GetValue(DropDownContentProperty);
         }
-
-        #endregion //DropDownContent
-
-        ButtonBase _Button;
-
-        public override void OnAttached(ButtonBase target)
+        set
         {
-            _Button = target;
-            target.Click += target_Click;
-            if (DropDownContent != null)
-            {
-                DropDownContent.PlacementTarget = _Button;
-            }
+            SetValue(DropDownContentProperty, value);
         }
+    }
 
-        public override void OnDetached(ButtonBase target)
+    #endregion //DropDownContent
+
+    ButtonBase _Button;
+
+    public override void OnAttached(ButtonBase target)
+    {
+        _Button = target;
+        target.Click += target_Click;
+        if (DropDownContent != null)
         {
-            target.MouseLeftButtonDown -= target_Click;
+            DropDownContent.PlacementTarget = _Button;
         }
+    }
 
-        void target_Click(object sender, RoutedEventArgs e)
+    public override void OnDetached(ButtonBase target)
+    {
+        target.MouseLeftButtonDown -= target_Click;
+    }
+
+    void target_Click(object sender, RoutedEventArgs e)
+    {
+        _OpenDropDown();
+    }
+
+    void _OpenDropDown()
+    {
+        if (DropDownContent == null)
         {
-            _OpenDropDown();
-        }
-
-        void _OpenDropDown()
-        {
-            if (DropDownContent == null)
-            {
-                // Show context menu instead
-                if (_Button?.ContextMenu == null)
-                    return;
-
-                _Button.ContextMenu.Placement = PlacementMode.Bottom;
-                _Button.ContextMenu.PlacementTarget = _Button;
-                _Button.ContextMenu.IsOpen = true;
+            // Show context menu instead
+            if (_Button?.ContextMenu == null)
                 return;
-            }
 
-            if (!DropDownContent.IsOpen)
-            {
-                DropDownContent.IsOpen = true;
-            }
+            _Button.ContextMenu.Placement = PlacementMode.Bottom;
+            _Button.ContextMenu.PlacementTarget = _Button;
+            _Button.ContextMenu.IsOpen = true;
+            return;
+        }
+
+        if (!DropDownContent.IsOpen)
+        {
+            DropDownContent.IsOpen = true;
         }
     }
 }

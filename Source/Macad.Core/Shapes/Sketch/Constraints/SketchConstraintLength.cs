@@ -4,79 +4,78 @@ using Macad.Common.Serialization;
 using Macad.Occt;
 using Macad.SketchSolve;
 
-namespace Macad.Core.Shapes
+namespace Macad.Core.Shapes;
+
+[SerializeType]
+public class SketchConstraintLength : SketchConstraint
 {
-    [SerializeType]
-    public class SketchConstraintLength : SketchConstraint
+    [SerializeMember]
+    public double Length { get; set; }
+
+    public override double Parameter
     {
-        [SerializeMember]
-        public double Length { get; set; }
+        get { return Length; }
+        set { Length = value; }
+    }
 
-        public override double Parameter
+    //--------------------------------------------------------------------------------------------------
+
+    // Implement for serialization
+    SketchConstraintLength()
+    { }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public SketchConstraintLength(int lineSegment, double length)
+    {
+        Segments = new[] { lineSegment };
+        Length = length;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override bool MakeConstraint(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, SketchConstraintSolver solver)
+    {
+        var lineSegment = segments[Segments[0]] as SketchSegmentLine;
+        if (lineSegment == null) return false;
+
+        var con = new Constraint { Type = ConstraintType.LineLength };
+
+        bool valid = Length > 0;
+        valid &= solver.SetParameter(out con.Parameter, Length, true);
+        valid &= solver.SetLine(ref con.Line1, lineSegment.Points[0], lineSegment.Points[1], false, false);
+
+        if(valid)
         {
-            get { return Length; }
-            set { Length = value; }
+            solver.AddConstraint(con);
         }
+        return valid;
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        // Implement for serialization
-        SketchConstraintLength()
-        { }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public SketchConstraintLength(int lineSegment, double length)
-        {
-            Segments = new[] { lineSegment };
-            Length = length;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override bool MakeConstraint(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, SketchConstraintSolver solver)
-        {
-            var lineSegment = segments[Segments[0]] as SketchSegmentLine;
-            if (lineSegment == null) return false;
-
-            var con = new Constraint { Type = ConstraintType.LineLength };
-
-            bool valid = Length > 0;
-            valid &= solver.SetParameter(out con.Parameter, Length, true);
-            valid &= solver.SetLine(ref con.Line1, lineSegment.Points[0], lineSegment.Points[1], false, false);
-
-            if(valid)
-            {
-                solver.AddConstraint(con);
-            }
-            return valid;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override SketchConstraint Clone()
-        {
-            return new SketchConstraintLength(Segments[0], Length);
-        }
+    public override SketchConstraint Clone()
+    {
+        return new SketchConstraintLength(Segments[0], Length);
+    }
         
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public static List<SketchConstraint> Create(Sketch sketch, List<int> points, List<int> segments)
+    public static List<SketchConstraint> Create(Sketch sketch, List<int> points, List<int> segments)
+    {
+        var list = new List<SketchConstraint>();
+
+        foreach (var segmentIndex in segments)
         {
-            var list = new List<SketchConstraint>();
+            var line = sketch.Segments[segmentIndex] as SketchSegmentLine;
+            Debug.Assert(line != null);
 
-            foreach (var segmentIndex in segments)
+            var length = line.Length(sketch.Points);
+            if (length > 0)
             {
-                var line = sketch.Segments[segmentIndex] as SketchSegmentLine;
-                Debug.Assert(line != null);
-
-                var length = line.Length(sketch.Points);
-                if (length > 0)
-                {
-                    list.Add(new SketchConstraintLength(segmentIndex, length));
-                }
+                list.Add(new SketchConstraintLength(segmentIndex, length));
             }
-            return list;
         }
+        return list;
     }
 }

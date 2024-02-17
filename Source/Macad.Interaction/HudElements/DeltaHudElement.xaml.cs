@@ -1,62 +1,60 @@
 ﻿using Macad.Presentation;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace Macad.Interaction
+namespace Macad.Interaction;
+
+public partial class DeltaHudElement : HudElement
 {
-    public partial class DeltaHudElement : HudElement
+    public double Delta
     {
-        public double Delta
+        get { return _Delta; }
+        set
         {
-            get { return _Delta; }
-            set
+            if (_Delta != value)
             {
-                if (_Delta != value)
-                {
-                    _Delta = value;
-                    RaisePropertyChanged();
-                }
+                _Delta = value;
+                RaisePropertyChanged();
             }
         }
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public ValueUnits Units
+    public ValueUnits Units
+    {
+        get { return _Units; }
+        set
         {
-            get { return _Units; }
-            set
+            if (_Units != value)
             {
-                if (_Units != value)
-                {
-                    _Units = value;
-                    RaisePropertyChanged();
-                }
+                _Units = value;
+                RaisePropertyChanged();
             }
         }
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        double _Delta;
-        ValueUnits _Units;
+    double _Delta;
+    ValueUnits _Units;
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public DeltaHudElement()
-        {
-            InitializeComponent();
-        }
+    public DeltaHudElement()
+    {
+        InitializeComponent();
+    }
         
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public void SetValue(double value)
-        {
-            Delta = value;
-        }
+    public void SetValue(double value)
+    {
+        Delta = value;
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public void SetUnits(ValueUnits valueUnits)
-        {
-            Units = valueUnits;
-        }
+    public void SetUnits(ValueUnits valueUnits)
+    {
+        Units = valueUnits;
     }
 }

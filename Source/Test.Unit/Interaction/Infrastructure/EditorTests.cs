@@ -1,8 +1,6 @@
 ﻿using System.IO;
-using System.Linq;
 using Macad.Core;
 using Macad.Core.Shapes;
-using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Interaction.Editors.Topology;
 using Macad.Presentation;

@@ -3,72 +3,71 @@ using Macad.Common.Serialization;
 using Macad.Occt;
 using Macad.SketchSolve;
 
-namespace Macad.Core.Shapes
+namespace Macad.Core.Shapes;
+
+[SerializeType]
+public class SketchConstraintHorizontalDistance : SketchConstraint
 {
-    [SerializeType]
-    public class SketchConstraintHorizontalDistance : SketchConstraint
+    [SerializeMember]
+    public double Distance { get; set; }
+
+    public override double Parameter
     {
-        [SerializeMember]
-        public double Distance { get; set; }
+        get { return Distance; }
+        set { Distance = value; }
+    }
 
-        public override double Parameter
+    //--------------------------------------------------------------------------------------------------
+
+    // Implement for serialization
+    SketchConstraintHorizontalDistance()
+    { }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public SketchConstraintHorizontalDistance(int point, double distance)
+    {
+        Points = new[] { point };
+        Distance = distance;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override SketchConstraint Clone()
+    {
+        return new SketchConstraintHorizontalDistance(Points[0], Distance);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override bool MakeConstraint(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, SketchConstraintSolver solver)
+    {
+        bool valid = true;
+
+        var con = new Constraint {Type = ConstraintType.PointHorizontalDistance};
+        valid &= solver.SetPoint(ref con.Point1, Points[0], false);
+        valid &= solver.SetParameter(out con.Parameter, Distance, true);
+
+        if (valid)
         {
-            get { return Distance; }
-            set { Distance = value; }
+            solver.AddConstraint(con);
         }
 
-        //--------------------------------------------------------------------------------------------------
-
-        // Implement for serialization
-        SketchConstraintHorizontalDistance()
-        { }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public SketchConstraintHorizontalDistance(int point, double distance)
-        {
-            Points = new[] { point };
-            Distance = distance;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override SketchConstraint Clone()
-        {
-            return new SketchConstraintHorizontalDistance(Points[0], Distance);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override bool MakeConstraint(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, SketchConstraintSolver solver)
-        {
-            bool valid = true;
-
-            var con = new Constraint {Type = ConstraintType.PointHorizontalDistance};
-            valid &= solver.SetPoint(ref con.Point1, Points[0], false);
-            valid &= solver.SetParameter(out con.Parameter, Distance, true);
-
-            if (valid)
-            {
-                solver.AddConstraint(con);
-            }
-
-            return valid;
-        }
+        return valid;
+    }
         
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public static List<SketchConstraint> Create(Sketch sketch, List<int> points, List<int> segments)
+    public static List<SketchConstraint> Create(Sketch sketch, List<int> points, List<int> segments)
+    {
+        var list = new List<SketchConstraint>();
+
+        foreach (var pointIndex in points)
         {
-            var list = new List<SketchConstraint>();
-
-            foreach (var pointIndex in points)
-            {
-                list.Add(new SketchConstraintHorizontalDistance(pointIndex, sketch.Points[pointIndex].X));
-            }
-            return list;
+            list.Add(new SketchConstraintHorizontalDistance(pointIndex, sketch.Points[pointIndex].X));
         }
+        return list;
+    }
 
-        //--------------------------------------------------------------------------------------------------
-   }
+    //--------------------------------------------------------------------------------------------------
 }

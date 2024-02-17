@@ -1,36 +1,34 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 
-namespace Macad.Common
+namespace Macad.Common;
+
+public static class ArrayExtensions
 {
-    public static class ArrayExtensions
+    public static void Fill<T>(this T[] array, T value)
     {
-        public static void Fill<T>(this T[] array, T value)
+        for (int i = 0; i < array.Length; i++)
         {
-            for (int i = 0; i < array.Length; i++)
-            {
-                array[i] = value;
-            }
+            array[i] = value;
         }
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public static void Fill<T>(this T[] array, int start, int length, T value)
+    public static void Fill<T>(this T[] array, int start, int length, T value)
+    {
+        for (int i = start; i < start+length; i++)
         {
-            for (int i = start; i < start+length; i++)
-            {
-                array[i] = value;
-            }
+            array[i] = value;
         }
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public static void ForEach<T>(this T[] array, Action<T> action)
+    public static void ForEach<T>(this T[] array, Action<T> action)
+    {
+        for (int index = 0; index < array.Length; ++index)
         {
-            for (int index = 0; index < array.Length; ++index)
-            {
-                action(array[index]);
-            }
+            action(array[index]);
         }
     }
 }

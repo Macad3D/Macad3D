@@ -2,76 +2,75 @@
 using Macad.Core;
 using Macad.Presentation;
 
-namespace Macad.Exchange.Stl
+namespace Macad.Exchange.Stl;
+
+public class StlSettingsPanelCreator : IExchangerSettingsPanelCreator
 {
-    public class StlSettingsPanelCreator : IExchangerSettingsPanelCreator
+    public Type ExchangerType
     {
-        public Type ExchangerType
+        get
         {
-            get
-            {
-                return typeof(StlExchanger);
-            }
+            return typeof(StlExchanger);
         }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public object CreatePanel<T>(IExchanger exchanger)
-        {
-            if(typeof(T) == typeof(IBodyExporter))
-            {
-                return new StlSettingsPanel((exchanger as StlExchanger)?.Settings);
-            }
-
-            return null;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        [AutoRegister]
-        internal static void Register()
-        {
-            ExchangeRegistry.Register(new StlSettingsPanelCreator());
-        }
-
-        //--------------------------------------------------------------------------------------------------
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public partial class StlSettingsPanel : SettingsPanelBase
+    public object CreatePanel<T>(IExchanger exchanger)
     {
-        public bool ExportBinaryFormat
+        if(typeof(T) == typeof(IBodyExporter))
         {
-            get { return _Settings.ExportBinaryFormat; }
-            set
-            {
-                _Settings.ExportBinaryFormat = value;
-                RaisePropertyChanged();
-            }
+            return new StlSettingsPanel((exchanger as StlExchanger)?.Settings);
         }
 
-        //--------------------------------------------------------------------------------------------------
-
-        StlExchanger.StlSettings _Settings;
-
-        //--------------------------------------------------------------------------------------------------
-
-        public RelayCommand<bool> SetExportBinaryFormatCommand { get; }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public StlSettingsPanel(StlExchanger.StlSettings settings)
-        {
-            _Settings = settings;
-            ExportBinaryFormat = _Settings.ExportBinaryFormat;
-
-            SetExportBinaryFormatCommand = new RelayCommand<bool>((b) => { ExportBinaryFormat = b; });
-
-            InitializeComponent();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
+        return null;
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [AutoRegister]
+    internal static void Register()
+    {
+        ExchangeRegistry.Register(new StlSettingsPanelCreator());
+    }
+
+    //--------------------------------------------------------------------------------------------------
+}
+
+//--------------------------------------------------------------------------------------------------
+
+public partial class StlSettingsPanel : SettingsPanelBase
+{
+    public bool ExportBinaryFormat
+    {
+        get { return _Settings.ExportBinaryFormat; }
+        set
+        {
+            _Settings.ExportBinaryFormat = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    StlExchanger.StlSettings _Settings;
+
+    //--------------------------------------------------------------------------------------------------
+
+    public RelayCommand<bool> SetExportBinaryFormatCommand { get; }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public StlSettingsPanel(StlExchanger.StlSettings settings)
+    {
+        _Settings = settings;
+        ExportBinaryFormat = _Settings.ExportBinaryFormat;
+
+        SetExportBinaryFormatCommand = new RelayCommand<bool>((b) => { ExportBinaryFormat = b; });
+
+        InitializeComponent();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

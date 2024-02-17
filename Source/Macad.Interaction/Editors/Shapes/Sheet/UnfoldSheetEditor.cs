@@ -1,22 +1,21 @@
 ﻿using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 
-namespace Macad.Interaction.Editors.Shapes
+namespace Macad.Interaction.Editors.Shapes;
+
+public class UnfoldSheetEditor : Editor<UnfoldSheet>
 {
-    public class UnfoldSheetEditor : Editor<UnfoldSheet>
+    protected override void OnStart()
     {
-        protected override void OnStart()
-        {
-            CreatePanel<UnfoldSheetPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        [AutoRegister]
-        internal static void Register()
-        {
-            RegisterEditor<UnfoldSheetEditor>();
-        }
-
+        CreatePanel<UnfoldSheetPropertyPanel>(Entity, PropertyPanelSortingKey.Shapes);
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [AutoRegister]
+    internal static void Register()
+    {
+        RegisterEditor<UnfoldSheetEditor>();
+    }
+
 }

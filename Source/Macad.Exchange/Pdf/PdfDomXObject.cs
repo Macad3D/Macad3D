@@ -1,25 +1,24 @@
 ﻿using System.Linq;
 
-namespace Macad.Exchange.Pdf
+namespace Macad.Exchange.Pdf;
+
+public class PdfDomXObject : PdfDomStream
 {
-    public class PdfDomXObject : PdfDomStream
+    public double[] BoundingBox
     {
-        public double[] BoundingBox
+        set
         {
-            set
-            {
-                Attributes["BBox"] = value.Select(d => d * PdfDomDocument.UserSpaceScale).ToArray();
-            }
+            Attributes["BBox"] = value.Select(d => d * PdfDomDocument.UserSpaceScale).ToArray();
         }
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public PdfDomXObject(PdfDomDocument document, double[] boundingBox) 
-            : base(document, "XObject")
-        {
-            Attributes["Subtype"] = "/Form";
-            Attributes["FormType"] = 1;
-            BoundingBox = boundingBox;
-        }
+    public PdfDomXObject(PdfDomDocument document, double[] boundingBox) 
+        : base(document, "XObject")
+    {
+        Attributes["Subtype"] = "/Form";
+        Attributes["FormType"] = 1;
+        BoundingBox = boundingBox;
     }
 }

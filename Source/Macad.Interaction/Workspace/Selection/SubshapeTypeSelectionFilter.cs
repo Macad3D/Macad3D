@@ -1,27 +1,26 @@
 ﻿using Macad.Core;
 using Macad.Occt;
 
-namespace Macad.Interaction
+namespace Macad.Interaction;
+
+public sealed class SubshapeTypeSelectionFilter : ISelectionFilter
 {
-    public sealed class SubshapeTypeSelectionFilter : ISelectionFilter
+    readonly SubshapeType _SubshapeType;
+
+    //--------------------------------------------------------------------------------------------------
+
+    public SubshapeTypeSelectionFilter(SubshapeType subshapeType)
     {
-        readonly SubshapeType _SubshapeType;
-
-        //--------------------------------------------------------------------------------------------------
-
-        public SubshapeTypeSelectionFilter(SubshapeType subshapeType)
-        {
-            _SubshapeType = subshapeType;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        SelectMgr_Filter ISelectionFilter.GetNativeFilter()
-        {
-            return new StdSelect_ShapeTypeFilter(_SubshapeType.ToTopAbs());
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
+        _SubshapeType = subshapeType;
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    SelectMgr_Filter ISelectionFilter.GetNativeFilter()
+    {
+        return new StdSelect_ShapeTypeFilter(_SubshapeType.ToTopAbs());
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

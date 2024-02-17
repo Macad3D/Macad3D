@@ -1,31 +1,27 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using Macad.Common;
-using Macad.Core;
+﻿using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 
-namespace Macad.Interaction.Editors.Shapes
+namespace Macad.Interaction.Editors.Shapes;
+
+public partial class SpherePropertyPanel : PropertyPanel
 {
-    public partial class SpherePropertyPanel : PropertyPanel
+    public Sphere Sphere { get; private set; }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override void Initialize(BaseObject instance)
     {
-        public Sphere Sphere { get; private set; }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Initialize(BaseObject instance)
-        {
-            Sphere = instance as Sphere;
-            InitializeComponent();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Cleanup()
-        {
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
+        Sphere = instance as Sphere;
+        InitializeComponent();
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override void Cleanup()
+    {
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

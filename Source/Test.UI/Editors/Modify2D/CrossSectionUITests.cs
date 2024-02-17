@@ -1,5 +1,4 @@
-﻿using System.Windows.Forms;
-using Macad.Test.UI.Framework;
+﻿using Macad.Test.UI.Framework;
 using NUnit.Framework;
 
 namespace Macad.Test.UI.Editors.Modify2D;

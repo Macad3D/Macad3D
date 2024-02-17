@@ -2,108 +2,107 @@
 using Macad.Common;
 using Macad.Interaction.Editors.Shapes;
 
-namespace Macad.Interaction
+namespace Macad.Interaction;
+
+public sealed class SelectSketchElementAction : ToolAction
 {
-    public sealed class SelectSketchElementAction : ToolAction
-    {
-        #region Events
+    #region Events
 
-        public delegate void EventHandler(SelectSketchElementAction sender);
-        public event EventHandler Finished;
+    public delegate void EventHandler(SelectSketchElementAction sender);
+    public event EventHandler Finished;
         
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        #endregion
+    #endregion
 
-        readonly SketchEditorTool _SketchEditorTool;
+    readonly SketchEditorTool _SketchEditorTool;
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public SelectSketchElementAction(SketchEditorTool sketchEditorTool) 
-            : base()
+    public SelectSketchElementAction(SketchEditorTool sketchEditorTool) 
+        : base()
+    {
+        _SketchEditorTool = sketchEditorTool;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    protected override bool OnStart()
+    {
+        return _SketchEditorTool != null;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    protected override void Cleanup()
+    {
+        Finished = null;
+        base.Cleanup();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override bool OnMouseMove(MouseEventData data)
+    {
+        if (!IsFinished)
         {
-            _SketchEditorTool = sketchEditorTool;
+            return base.OnMouseMove(data);
         }
+        return false;
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        protected override bool OnStart()
+    public override bool OnMouseUp(MouseEventData data)
+    {
+        if (!IsFinished)
         {
-            return _SketchEditorTool != null;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        protected override void Cleanup()
-        {
-            Finished = null;
-            base.Cleanup();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override bool OnMouseMove(MouseEventData data)
-        {
-            if (!IsFinished)
+            if (!data.ModifierKeys.Has(ModifierKeys.Shift))
             {
-                return base.OnMouseMove(data);
+                _SketchEditorTool.Elements.DeselectAll();
             }
-            return false;
-        }
 
-        //--------------------------------------------------------------------------------------------------
-
-        public override bool OnMouseUp(MouseEventData data)
-        {
-            if (!IsFinished)
+            foreach (var detectedObject in data.DetectedAisInteractives)
             {
-                if (!data.ModifierKeys.Has(ModifierKeys.Shift))
-                {
-                    _SketchEditorTool.Elements.DeselectAll();
-                }
-
-                foreach (var detectedObject in data.DetectedAisInteractives)
-                {
-                    _SketchEditorTool.Elements.Select(detectedObject);
-                }
-
-                Finished?.Invoke(this);
+                _SketchEditorTool.Elements.Select(detectedObject);
             }
+
+            Finished?.Invoke(this);
+        }
+        return true;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override bool OnKeyPressed(Key key)
+    {
+        if (key == Key.Delete)
+        {
+            var selectedCons = _SketchEditorTool.SelectedConstraints.ToArray();
+            foreach (var constraint in selectedCons)
+            {
+                _SketchEditorTool.Sketch.DeleteConstraint(constraint);
+            }
+
+            var selectedSegs = _SketchEditorTool.SelectedSegments.ToArray();
+            foreach (var segment in selectedSegs)
+            {
+                _SketchEditorTool.Sketch.DeleteSegment(segment);
+            }
+
+            var selectedPoints = _SketchEditorTool.SelectedPoints.ToArray();
+            foreach (var point in selectedPoints)
+            {
+                _SketchEditorTool.Sketch.DeletePoint(point);
+            }
+
+            CommitChanges();
+            Finished?.Invoke(this);
             return true;
         }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override bool OnKeyPressed(Key key)
-        {
-            if (key == Key.Delete)
-            {
-                var selectedCons = _SketchEditorTool.SelectedConstraints.ToArray();
-                foreach (var constraint in selectedCons)
-                {
-                    _SketchEditorTool.Sketch.DeleteConstraint(constraint);
-                }
-
-                var selectedSegs = _SketchEditorTool.SelectedSegments.ToArray();
-                foreach (var segment in selectedSegs)
-                {
-                    _SketchEditorTool.Sketch.DeleteSegment(segment);
-                }
-
-                var selectedPoints = _SketchEditorTool.SelectedPoints.ToArray();
-                foreach (var point in selectedPoints)
-                {
-                    _SketchEditorTool.Sketch.DeletePoint(point);
-                }
-
-                CommitChanges();
-                Finished?.Invoke(this);
-                return true;
-            }
-            return base.OnKeyPressed(key);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
+        return base.OnKeyPressed(key);
     }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

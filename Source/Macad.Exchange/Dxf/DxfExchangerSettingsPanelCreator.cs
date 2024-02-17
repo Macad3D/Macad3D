@@ -1,47 +1,43 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using Macad.Common;
 using Macad.Core;
 
-namespace Macad.Exchange.Dxf
+namespace Macad.Exchange.Dxf;
+
+public class DxfSettingsPanelCreator : IExchangerSettingsPanelCreator
 {
-    public class DxfSettingsPanelCreator : IExchangerSettingsPanelCreator
+    public Type ExchangerType
     {
-        public Type ExchangerType
+        get
         {
-            get
-            {
-                return typeof(DxfExchanger);
-            }
+            return typeof(DxfExchanger);
         }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public object CreatePanel<T>(IExchanger exchanger)
-        {
-            if (typeof(T) == typeof(ISketchExporter) || typeof(T) == typeof(IDrawingExporter))
-            {
-                return new DxfExportSettingsPanel((exchanger as DxfExchanger)?.Settings);
-            }
-            if (typeof(T) == typeof(ISketchImporter))
-            {
-                return new DxfImportSettingsPanel((exchanger as DxfExchanger)?.Settings);
-            }
-
-            return null;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        [AutoRegister]
-        internal static void Register()
-        {
-            ExchangeRegistry.Register(new DxfSettingsPanelCreator());
-        }
-
-        //--------------------------------------------------------------------------------------------------
     }
 
     //--------------------------------------------------------------------------------------------------
 
+    public object CreatePanel<T>(IExchanger exchanger)
+    {
+        if (typeof(T) == typeof(ISketchExporter) || typeof(T) == typeof(IDrawingExporter))
+        {
+            return new DxfExportSettingsPanel((exchanger as DxfExchanger)?.Settings);
+        }
+        if (typeof(T) == typeof(ISketchImporter))
+        {
+            return new DxfImportSettingsPanel((exchanger as DxfExchanger)?.Settings);
+        }
+
+        return null;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [AutoRegister]
+    internal static void Register()
+    {
+        ExchangeRegistry.Register(new DxfSettingsPanelCreator());
+    }
+
+    //--------------------------------------------------------------------------------------------------
 }
+
+//--------------------------------------------------------------------------------------------------

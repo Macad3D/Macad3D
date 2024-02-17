@@ -4,26 +4,24 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace Macad.Presentation
+namespace Macad.Presentation;
+
+[ContentProperty("MultiConverter")]
+[ValueConversion(typeof(bool), typeof(bool))]
+public class BooleanOrToVisibleCollapsedMultiConverter : MultiConverterMarkupExtension<BooleanOrToVisibleCollapsedMultiConverter>
 {
-    [ContentProperty("MultiConverter")]
-    [ValueConversion(typeof(bool), typeof(bool))]
-    public class BooleanOrToVisibleCollapsedMultiConverter : MultiConverterMarkupExtension<BooleanOrToVisibleCollapsedMultiConverter>
+    public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        public override object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        foreach (object value in values)
         {
-            foreach (object value in values)
+            if (value is bool boolValue)
             {
-                if (value is bool boolValue)
+                if (boolValue)
                 {
-                    if (boolValue)
-                    {
-                        return Visibility.Visible;
-                    }
+                    return Visibility.Visible;
                 }
             }
-            return Visibility.Collapsed;
         }
+        return Visibility.Collapsed;
     }
 }
-

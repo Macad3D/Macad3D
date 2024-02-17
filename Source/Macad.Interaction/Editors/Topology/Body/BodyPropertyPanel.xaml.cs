@@ -4,44 +4,43 @@ using Macad.Common;
 using Macad.Core.Topology;
 using Macad.Interaction.Panels;
 
-namespace Macad.Interaction.Editors.Topology
+namespace Macad.Interaction.Editors.Topology;
+
+public partial class BodyPropertyPanel : PropertyPanel
 {
-    public partial class BodyPropertyPanel : PropertyPanel
+    public Body Body
     {
-        public Body Body
+        get { return _Body; }
+        set
         {
-            get { return _Body; }
-            set
+            if (_Body != value)
             {
-                if (_Body != value)
-                {
-                    _Body = value;
-                    RaisePropertyChanged();
-                }
+                _Body = value;
+                RaisePropertyChanged();
             }
         }
-
-        Body _Body;
-        
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Initialize(BaseObject instance)
-        {
-            Body = instance as Body;
-            Debug.Assert(Body != null);
-
-            if(Application.Current != null)
-                InitializeComponent();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Cleanup()
-        {
-            Body = null;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
     }
+
+    Body _Body;
+        
+    //--------------------------------------------------------------------------------------------------
+
+    public override void Initialize(BaseObject instance)
+    {
+        Body = instance as Body;
+        Debug.Assert(Body != null);
+
+        if(Application.Current != null)
+            InitializeComponent();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override void Cleanup()
+    {
+        Body = null;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

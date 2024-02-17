@@ -3,97 +3,95 @@ using System.Linq;
 using System.Threading;
 using Macad.Common;
 using Macad.Interaction.Panels;
-using NUnit.Framework;
 
-namespace Macad.Test.Utils
+namespace Macad.Test.Utils;
+
+public class TestPropertyPanelManager : IPropertyPanelManager
 {
-    public class TestPropertyPanelManager : IPropertyPanelManager
+    struct PropertyPanelItem
     {
-        struct PropertyPanelItem
-        {
-            public int SortingKey { get; }
-            public PropertyPanel Panel { get; }
+        public int SortingKey { get; }
+        public PropertyPanel Panel { get; }
 
-            public PropertyPanelItem(int sortingKey, PropertyPanel panel)
-            {
-                SortingKey = sortingKey;
-                Panel = panel;
-            }
+        public PropertyPanelItem(int sortingKey, PropertyPanel panel)
+        {
+            SortingKey = sortingKey;
+            Panel = panel;
         }
+    }
 
-        List<PropertyPanelItem> _PropertyPanels = new List<PropertyPanelItem>();
+    List<PropertyPanelItem> _PropertyPanels = new List<PropertyPanelItem>();
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public TestPropertyPanelManager()
+    public TestPropertyPanelManager()
+    {
+        if (Thread.CurrentThread.GetApartmentState() != ApartmentState.STA)
         {
-            if (Thread.CurrentThread.GetApartmentState() != ApartmentState.STA)
-            {
-                throw new ThreadStateException("The current threads apartment state is not STA");
-            }
+            throw new ThreadStateException("The current threads apartment state is not STA");
         }
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public int Count
+    public int Count
+    {
+        get { return _PropertyPanels.Count; }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void AddPanel(PropertyPanel panel, int sortingKey)
+    {
+        var index = _PropertyPanels.IndexOfFirst(p => p.SortingKey > sortingKey);
+        if(index >= 0)
         {
-            get { return _PropertyPanels.Count; }
+            _PropertyPanels.Insert(index, new PropertyPanelItem(sortingKey, panel));
+            return;
         }
+        _PropertyPanels.Add(new PropertyPanelItem(sortingKey, panel));
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public void AddPanel(PropertyPanel panel, int sortingKey)
+    public void AddPanel(PropertyPanel panel, PropertyPanel insertAfter)
+    {
+        var index = _PropertyPanels.IndexOfFirst(p => p.Panel == insertAfter);
+        if (index >= 0)
         {
-            var index = _PropertyPanels.IndexOfFirst(p => p.SortingKey > sortingKey);
-            if(index >= 0)
-            {
-                _PropertyPanels.Insert(index, new PropertyPanelItem(sortingKey, panel));
-                return;
-            }
-            _PropertyPanels.Add(new PropertyPanelItem(sortingKey, panel));
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void AddPanel(PropertyPanel panel, PropertyPanel insertAfter)
-        {
-            var index = _PropertyPanels.IndexOfFirst(p => p.Panel == insertAfter);
-            if (index >= 0)
-            {
-                _PropertyPanels.Insert(index + 1, new PropertyPanelItem(_PropertyPanels[index].SortingKey, panel));
-                return;
-            }
-
-            _PropertyPanels.Add(new PropertyPanelItem(int.MaxValue, panel));
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void RemovePanel(PropertyPanel panel)
-        {
-            var index = _PropertyPanels.IndexOfFirst(p => p.Panel == panel);
-            if (index >= 0)
-            {
-                _PropertyPanels.RemoveAt(index);
-                panel.Cleanup();
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void HidePanels(int firstSortingKey, int lastSortingKey)
-        {
+            _PropertyPanels.Insert(index + 1, new PropertyPanelItem(_PropertyPanels[index].SortingKey, panel));
             return;
         }
 
-        //--------------------------------------------------------------------------------------------------
-
-        public T FindFirst<T>() where T: PropertyPanel
-        {
-            return _PropertyPanels.Select(p => p.Panel).OfType<T>().FirstOrDefault();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
+        _PropertyPanels.Add(new PropertyPanelItem(int.MaxValue, panel));
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void RemovePanel(PropertyPanel panel)
+    {
+        var index = _PropertyPanels.IndexOfFirst(p => p.Panel == panel);
+        if (index >= 0)
+        {
+            _PropertyPanels.RemoveAt(index);
+            panel.Cleanup();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void HidePanels(int firstSortingKey, int lastSortingKey)
+    {
+        return;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public T FindFirst<T>() where T: PropertyPanel
+    {
+        return _PropertyPanels.Select(p => p.Panel).OfType<T>().FirstOrDefault();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

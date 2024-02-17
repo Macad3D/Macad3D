@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Macad.Occt.Generator;
+﻿namespace Macad.Occt.Generator;
 
 [TypeList("Standard_ExtString")]
 public class UnicodeStringWrapper : TypeWrapper

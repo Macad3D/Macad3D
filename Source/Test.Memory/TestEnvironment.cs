@@ -5,28 +5,27 @@ using System.Windows;
 using Macad.Test.Utils;
 using NUnit.Framework;
 
-namespace Macad.Test.Memory
+namespace Macad.Test.Memory;
+
+[SetUpFixture, Apartment(ApartmentState.STA)]
+public class TestEnvironment
 {
-    [SetUpFixture, Apartment(ApartmentState.STA)]
-    public class TestEnvironment
+    [OneTimeSetUp]
+    public void SetUp()
     {
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-            // Initialize WPF correctly without having an Application
-            PackUriHelper.Create(new Uri("reliable://0"));
-            new FrameworkElement();
+        // Initialize WPF correctly without having an Application
+        PackUriHelper.Create(new Uri("reliable://0"));
+        new FrameworkElement();
             
-            // Init context
-            Context.InitEmpty();
-        }
+        // Init context
+        Context.InitEmpty();
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        [OneTimeTearDown]
-        public void TearDown()
-        {
+    [OneTimeTearDown]
+    public void TearDown()
+    {
             
-        }
     }
 }

@@ -1,45 +1,44 @@
 ﻿using System.Collections.Generic;
 
-namespace Macad.Exchange.Pdf
+namespace Macad.Exchange.Pdf;
+
+public class PdfDom3DStream : PdfDomStream
 {
-    public class PdfDom3DStream : PdfDomStream
+    List<PdfDom3DView> _Views;
+
+    //--------------------------------------------------------------------------------------------------
+
+    public PdfDom3DStream(PdfDomDocument document) 
+        : base(document, "3D")
     {
-        List<PdfDom3DView> _Views;
-
-        //--------------------------------------------------------------------------------------------------
-
-        public PdfDom3DStream(PdfDomDocument document) 
-            : base(document, "3D")
-        {
-            Attributes["Subtype"] = "/U3D";
-        }
+        Attributes["Subtype"] = "/U3D";
+    }
         
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public override bool Write(PdfWriter writer)
+    public override bool Write(PdfWriter writer)
+    {
+        base.Write(writer);
+
+        _Views?.ForEach(view => view.Write(writer));
+
+        return true;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public PdfDom3DView AddView(string displayName)
+    {
+        var view = new PdfDom3DView(Document, displayName);
+
+        if (_Views == null)
         {
-            base.Write(writer);
-
-            _Views?.ForEach(view => view.Write(writer));
-
-            return true;
+            _Views = new();
+            Attributes["VA"] = _Views;
+            Attributes["DV"] = view;
         }
 
-        //--------------------------------------------------------------------------------------------------
-
-        public PdfDom3DView AddView(string displayName)
-        {
-            var view = new PdfDom3DView(Document, displayName);
-
-            if (_Views == null)
-            {
-                _Views = new();
-                Attributes["VA"] = _Views;
-                Attributes["DV"] = view;
-            }
-
-            _Views.Add(view);
-            return view;
-        }
+        _Views.Add(view);
+        return view;
     }
 }

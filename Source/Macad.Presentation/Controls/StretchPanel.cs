@@ -2,41 +2,40 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Macad.Presentation
+namespace Macad.Presentation;
+
+public class StretchPanel : Panel
 {
-    public class StretchPanel : Panel
+    // Default public constructor 
+    public StretchPanel()
+        : base()
     {
-        // Default public constructor 
-        public StretchPanel()
-            : base()
+    }
+
+    // Override the default Measure method of Panel 
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        // Take the available space at minimum
+        Size panelDesiredSize = new Size(
+            Double.IsPositiveInfinity(availableSize.Width) ? 0 : availableSize.Width,
+            Double.IsPositiveInfinity(availableSize.Height) ? 0 : availableSize.Height);
+
+        foreach (UIElement child in InternalChildren)
         {
+            child.Measure(availableSize);
+            panelDesiredSize.Height = Math.Max(child.DesiredSize.Height, panelDesiredSize.Height);
+            panelDesiredSize.Width = Math.Max(child.DesiredSize.Width, panelDesiredSize.Width);
         }
 
-        // Override the default Measure method of Panel 
-        protected override Size MeasureOverride(Size availableSize)
+        return panelDesiredSize;
+    }
+
+    protected override Size ArrangeOverride(Size finalSize)
+    {
+        foreach (UIElement child in InternalChildren)
         {
-            // Take the available space at minimum
-            Size panelDesiredSize = new Size(
-                Double.IsPositiveInfinity(availableSize.Width) ? 0 : availableSize.Width,
-                Double.IsPositiveInfinity(availableSize.Height) ? 0 : availableSize.Height);
-
-            foreach (UIElement child in InternalChildren)
-            {
-                child.Measure(availableSize);
-                panelDesiredSize.Height = Math.Max(child.DesiredSize.Height, panelDesiredSize.Height);
-                panelDesiredSize.Width = Math.Max(child.DesiredSize.Width, panelDesiredSize.Width);
-            }
-
-            return panelDesiredSize;
+            child.Arrange(new Rect(new Point(0, 0), finalSize));
         }
-
-        protected override Size ArrangeOverride(Size finalSize)
-        {
-            foreach (UIElement child in InternalChildren)
-            {
-                child.Arrange(new Rect(new Point(0, 0), finalSize));
-            }
-            return finalSize; // Returns the final Arranged size
-        }
+        return finalSize; // Returns the final Arranged size
     }
 }

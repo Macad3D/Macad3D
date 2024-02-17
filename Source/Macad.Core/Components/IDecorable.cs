@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using Macad.Core.Topology;
 
-namespace Macad.Core.Components
+namespace Macad.Core.Components;
+
+public interface IDecorable
 {
-    public interface IDecorable
-    {
-        Model GetOwnerModel();
+    Model GetOwnerModel();
 
-        IEnumerable<Component> GetComponents(bool inherited = false);
-        T FindComponent<T>(bool inherited = false) where T : Component;
+    IEnumerable<Component> GetComponents(bool inherited = false);
+    T FindComponent<T>(bool inherited = false) where T : Component;
 
-        void AddComponent(Component component);
-        void RemoveComponent(Component component);
-    }
+    void AddComponent(Component component);
+    void RemoveComponent(Component component);
 }

@@ -2,72 +2,71 @@
 using System;
 using Macad.Core;
 
-namespace Macad.Exchange.Step
+namespace Macad.Exchange.Step;
+
+public class StepSettingsPanelCreator : IExchangerSettingsPanelCreator
 {
-    public class StepSettingsPanelCreator : IExchangerSettingsPanelCreator
+    public Type ExchangerType
     {
-        public Type ExchangerType
-        {
-            get { return typeof(StepExchanger); }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public object CreatePanel<T>(IExchanger exchanger)
-        {
-            if (typeof(T) == typeof(IBodyImporter))
-            {
-                return new StepSettingsPanel((exchanger as StepExchanger)?.Settings);
-            }
-
-            return null;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        [AutoRegister]
-        internal static void Register()
-        {
-            ExchangeRegistry.Register(new StepSettingsPanelCreator());
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
+        get { return typeof(StepExchanger); }
     }
 
-    public partial class StepSettingsPanel : SettingsPanelBase
+    //--------------------------------------------------------------------------------------------------
+
+    public object CreatePanel<T>(IExchanger exchanger)
     {
-        public bool ImportSingleBody
+        if (typeof(T) == typeof(IBodyImporter))
         {
-            get { return _StepSettings.ImportSingleBody; }
-            set
-            {
-                _StepSettings.ImportSingleBody = value;
-                RaisePropertyChanged();
-            }
+            return new StepSettingsPanel((exchanger as StepExchanger)?.Settings);
         }
 
-        //--------------------------------------------------------------------------------------------------
-
-        StepExchanger.StepSettings _StepSettings;
-
-        //--------------------------------------------------------------------------------------------------
-
-        public RelayCommand<bool> SetImportSingleBodyCommand { get; }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public StepSettingsPanel(StepExchanger.StepSettings stepSettings)
-        {
-            _StepSettings = stepSettings;
-            ImportSingleBody = _StepSettings.ImportSingleBody;
-
-            SetImportSingleBodyCommand = new RelayCommand<bool>((b) => { ImportSingleBody = b; });
-
-            InitializeComponent();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
+        return null;
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [AutoRegister]
+    internal static void Register()
+    {
+        ExchangeRegistry.Register(new StepSettingsPanelCreator());
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+}
+
+public partial class StepSettingsPanel : SettingsPanelBase
+{
+    public bool ImportSingleBody
+    {
+        get { return _StepSettings.ImportSingleBody; }
+        set
+        {
+            _StepSettings.ImportSingleBody = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    StepExchanger.StepSettings _StepSettings;
+
+    //--------------------------------------------------------------------------------------------------
+
+    public RelayCommand<bool> SetImportSingleBodyCommand { get; }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public StepSettingsPanel(StepExchanger.StepSettings stepSettings)
+    {
+        _StepSettings = stepSettings;
+        ImportSingleBody = _StepSettings.ImportSingleBody;
+
+        SetImportSingleBodyCommand = new RelayCommand<bool>((b) => { ImportSingleBody = b; });
+
+        InitializeComponent();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

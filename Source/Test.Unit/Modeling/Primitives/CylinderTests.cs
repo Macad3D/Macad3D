@@ -2,44 +2,43 @@
 using Macad.Core.Shapes;
 using NUnit.Framework;
 
-namespace Macad.Test.Unit.Modeling.Primitives
+namespace Macad.Test.Unit.Modeling.Primitives;
+
+[TestFixture]
+public class CylinderTests
 {
-    [TestFixture]
-    public class CylinderTests
+    const string _BasePath = @"Modeling\Primitives\Cylinder";
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void Simple()
     {
-        const string _BasePath = @"Modeling\Primitives\Cylinder";
-
-        //--------------------------------------------------------------------------------------------------
-
-        [Test]
-        public void Simple()
+        var shape = new Cylinder()
         {
-            var shape = new Cylinder()
-            {
-                Radius = 10,
-                Height = 10
-            };
+            Radius = 10,
+            Height = 10
+        };
 
-            Assert.IsTrue(shape.Make(Shape.MakeFlags.None));
+        Assert.IsTrue(shape.Make(Shape.MakeFlags.None));
 
-            Assert.IsTrue(ModelCompare.CompareShape(shape, Path.Combine(_BasePath, "Simple")));
-        }
+        Assert.IsTrue(ModelCompare.CompareShape(shape, Path.Combine(_BasePath, "Simple")));
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        [Test]
-        public void SegmentAngle()
+    [Test]
+    public void SegmentAngle()
+    {
+        var shape = new Cylinder()
         {
-            var shape = new Cylinder()
-            {
-                Radius = 10,
-                Height = 10,
-                SegmentAngle = 120
-            };
+            Radius = 10,
+            Height = 10,
+            SegmentAngle = 120
+        };
 
-            Assert.IsTrue(shape.Make(Shape.MakeFlags.None));
+        Assert.IsTrue(shape.Make(Shape.MakeFlags.None));
 
-            Assert.IsTrue(ModelCompare.CompareShape(shape, Path.Combine(_BasePath, "SegmentAngle")));
-        }
+        Assert.IsTrue(ModelCompare.CompareShape(shape, Path.Combine(_BasePath, "SegmentAngle")));
     }
 }

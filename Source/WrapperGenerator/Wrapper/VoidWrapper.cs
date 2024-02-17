@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Macad.Occt.Generator;
+﻿namespace Macad.Occt.Generator;
 
 [TypeList("void")]
 public class VoidWrapper : TypeWrapper

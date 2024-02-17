@@ -1,49 +1,47 @@
-﻿using System;
-using System.Xml;
+﻿using System.Xml;
 using Macad.Occt;
 
-namespace Macad.Exchange.Svg
+namespace Macad.Exchange.Svg;
+
+public class SvgDomText : SvgDomElement
 {
-    public class SvgDomText : SvgDomElement
+    public Pnt2d Position;
+    public string Text;
+
+    //--------------------------------------------------------------------------------------------------
+
+    public SvgDomText(Pnt2d position, string text)
     {
-        public Pnt2d Position;
-        public string Text;
+        Position = position;
+        Text = text;
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public SvgDomText(Pnt2d position, string text)
-        {
-            Position = position;
-            Text = text;
-        }
+    internal SvgDomText()
+    {}
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        internal SvgDomText()
-        {}
+    internal override void Write(XmlWriter writer, SvgConverter conv)
+    {
+        writer.WriteStartElement("text");
 
-        //--------------------------------------------------------------------------------------------------
+        writer.WriteAttributeString("x", conv.ToSvgLength(Position.X));
+        writer.WriteAttributeString("y", conv.ToSvgLength(-Position.Y));
 
-        internal override void Write(XmlWriter writer, SvgConverter conv)
-        {
-            writer.WriteStartElement("text");
+        base.Write(writer, conv);
 
-            writer.WriteAttributeString("x", conv.ToSvgLength(Position.X));
-            writer.WriteAttributeString("y", conv.ToSvgLength(-Position.Y));
+        writer.WriteValue(Text);
 
-            base.Write(writer, conv);
+        writer.WriteEndElement();
+    }
 
-            writer.WriteValue(Text);
+    //--------------------------------------------------------------------------------------------------
 
-            writer.WriteEndElement();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        internal override bool Read(XmlReader reader, SvgConverter conv)
-        {
-            // Gracefully ignore
-            return true;
-        }
+    internal override bool Read(XmlReader reader, SvgConverter conv)
+    {
+        // Gracefully ignore
+        return true;
     }
 }

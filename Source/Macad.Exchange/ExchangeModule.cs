@@ -1,29 +1,26 @@
-﻿using System.Runtime.CompilerServices;
-using Macad.Common.Serialization;
-using Macad.Core;
+﻿using Macad.Common.Serialization;
 
-namespace Macad.Exchange
+namespace Macad.Exchange;
+
+[AutoRegisterHost]
+public static partial class ExchangeModule
 {
-    [AutoRegisterHost]
-    public static partial class ExchangeModule
+    static bool _IsInitialized;
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static void Initialize()
     {
-        static bool _IsInitialized;
+        if (_IsInitialized)
+            return;
 
-        //--------------------------------------------------------------------------------------------------
+        Serializer.RegisterNamespaceAlias("Exchange", "Macad.Exchange");
 
-        public static void Initialize()
-        {
-            if (_IsInitialized)
-                return;
+        _DoAutoRegister();
 
-            Serializer.RegisterNamespaceAlias("Exchange", "Macad.Exchange");
-
-            _DoAutoRegister();
-
-            _IsInitialized = true;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
+        _IsInitialized = true;
     }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

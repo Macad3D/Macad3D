@@ -241,7 +241,7 @@ public class RevolveToolTests
 
     Body _CreateSketch()
     {
-        var sketch = new Sketch();
+        var sketch = new Core.Shapes.Sketch();
         var body = Body.Create(sketch);
 
         SketchBuilder sb = new SketchBuilder(sketch);

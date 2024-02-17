@@ -5,90 +5,89 @@ using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
 using Macad.Presentation;
 
-namespace Macad.Interaction.Editors.Shapes
+namespace Macad.Interaction.Editors.Shapes;
+
+public partial class PipePropertyPanel : PropertyPanel
 {
-    public partial class PipePropertyPanel : PropertyPanel
+    public Pipe Pipe { get; private set; }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public bool ProfileIsHollow
     {
-        public Pipe Pipe { get; private set; }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public bool ProfileIsHollow
+        get
         {
-            get
-            {
-                return Pipe.Profile == Pipe.ProfileType.HollowCircle || Pipe.Profile == Pipe.ProfileType.HollowRectangle;
-            }
+            return Pipe.Profile == Pipe.ProfileType.HollowCircle || Pipe.Profile == Pipe.ProfileType.HollowRectangle;
         }
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
         
-        public ICommand SwitchProfileCommand { get; private set; }
+    public ICommand SwitchProfileCommand { get; private set; }
 
-        void ExecuteSwitchProfileCommand(Pipe.ProfileType profile)
+    void ExecuteSwitchProfileCommand(Pipe.ProfileType profile)
+    {
+        if (Pipe.Profile != profile)
         {
-            if (Pipe.Profile != profile)
+            Sketch profileSketch = null;
+
+            if (profile == Pipe.ProfileType.Custom)
             {
-                Sketch profileSketch = null;
-
-                if (profile == Pipe.ProfileType.Custom)
+                if (Pipe.Operands.Count < 2)
                 {
-                    if (Pipe.Operands.Count < 2)
-                    {
-                        Pipe.Body.SaveTopologyUndo();
-                        Pipe.InitCustomProfile();
-                        profileSketch = Pipe.Operands.Count > 1 ? Pipe.Operands[1] as Sketch : null;
-                    }
-                }
-                else // proile == custom
-                {
-                    if (Pipe.Operands.Count > 1)
-                    {
-                        Pipe.RemoveOperand(1);
-                    }
-                }
-                Pipe.Profile = profile;
-                CommmitChange();
-
-                RaisePropertyChanged(nameof(ProfileIsHollow));
-                if (profileSketch != null)
-                {
-                    InteractiveContext.Current.WorkspaceController.StartTool(new SketchEditorTool(profileSketch));
+                    Pipe.Body.SaveTopologyUndo();
+                    Pipe.InitCustomProfile();
+                    profileSketch = Pipe.Operands.Count > 1 ? Pipe.Operands[1] as Sketch : null;
                 }
             }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public ICommand ToggleFlagCommand { get; private set; }
-
-        void ExecuteToggleFlagCommand(Pipe.PipeFlags flag)
-        {
-            Pipe.Flags = Pipe.Flags.HasFlag(flag) ? Pipe.Flags.Removed(flag) : Pipe.Flags.Added(flag);
+            else // proile == custom
+            {
+                if (Pipe.Operands.Count > 1)
+                {
+                    Pipe.RemoveOperand(1);
+                }
+            }
+            Pipe.Profile = profile;
             CommmitChange();
+
+            RaisePropertyChanged(nameof(ProfileIsHollow));
+            if (profileSketch != null)
+            {
+                InteractiveContext.Current.WorkspaceController.StartTool(new SketchEditorTool(profileSketch));
+            }
         }
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public override void Initialize(BaseObject instance)
-        {
-            Pipe = instance as Pipe;
-            Debug.Assert(Pipe != null);
+    public ICommand ToggleFlagCommand { get; private set; }
 
-            SwitchProfileCommand = new RelayCommand<Pipe.ProfileType>(ExecuteSwitchProfileCommand);
-            ToggleFlagCommand = new RelayCommand<Pipe.PipeFlags>(ExecuteToggleFlagCommand);
+    void ExecuteToggleFlagCommand(Pipe.PipeFlags flag)
+    {
+        Pipe.Flags = Pipe.Flags.HasFlag(flag) ? Pipe.Flags.Removed(flag) : Pipe.Flags.Added(flag);
+        CommmitChange();
+    }
 
-            InitializeComponent();
-        }
+    //--------------------------------------------------------------------------------------------------
 
-        //--------------------------------------------------------------------------------------------------
+    public override void Initialize(BaseObject instance)
+    {
+        Pipe = instance as Pipe;
+        Debug.Assert(Pipe != null);
 
-        public override void Cleanup()
-        {
+        SwitchProfileCommand = new RelayCommand<Pipe.ProfileType>(ExecuteSwitchProfileCommand);
+        ToggleFlagCommand = new RelayCommand<Pipe.PipeFlags>(ExecuteToggleFlagCommand);
 
-        }
+        InitializeComponent();
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
+
+    public override void Cleanup()
+    {
 
     }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

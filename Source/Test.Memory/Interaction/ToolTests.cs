@@ -12,355 +12,354 @@ using Macad.Interaction.Visual;
 using Macad.Occt.Ext;
 using NUnit.Framework;
 
-namespace Macad.Test.Memory.Interaction
+namespace Macad.Test.Memory.Interaction;
+
+[TestFixture]
+public class ToolTests
 {
-    [TestFixture]
-    public class ToolTests
+    [SetUp]
+    public void SetUp()
     {
-        [SetUp]
-        public void SetUp()
-        {
-            Context.InitWithView(500);
-        }
+        Context.InitWithView(500);
+    }
 
-        [TearDown]
-        public void TearDown()
-        {
-            Context.Current.Deinit();
-        }
+    [TearDown]
+    public void TearDown()
+    {
+        Context.Current.Deinit();
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
         
-        [Test]
-        public void CreateBox()
+    [Test]
+    public void CreateBox()
+    {
+        void __CreateAndReleaseTool()
         {
-            void __CreateAndReleaseTool()
-            {
-                var ctx = Context.Current;
+            var ctx = Context.Current;
 
-                ctx.WorkspaceController.StartTool(new CreateBoxTool());
-                ctx.ViewportController.MouseMove(new Point(50, 250));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.ViewportController.MouseMove(new Point(450, 250));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.ViewportController.MouseMove(new Point(450, 200));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.ViewportController.MouseMove(new Point(0, 0));
+            ctx.WorkspaceController.StartTool(new CreateBoxTool());
+            ctx.ViewportController.MouseMove(new Point(50, 250));
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.MouseUp();
+            ctx.ViewportController.MouseMove(new Point(450, 250));
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.MouseUp();
+            ctx.ViewportController.MouseMove(new Point(450, 200));
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.MouseUp();
+            ctx.ViewportController.MouseMove(new Point(0, 0));
 
-                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-                Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
-            }
-
-            __CreateAndReleaseTool();
-
-            dotMemory.Check(memory =>
-            {
-                Assert.AreEqual(0, memory.ObjectsCount<CreateBoxTool>(), "Tool is still alive");
-                Assert.AreEqual(0, memory.ObjectsCount<PointAction>(), "PointAction is alive");
-                Assert.AreEqual(0, memory.ObjectsCount<AxisValueAction>(), "AxisValueAction is alive");
-            });
+            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
 
-        //--------------------------------------------------------------------------------------------------
+        __CreateAndReleaseTool();
+
+        dotMemory.Check(memory =>
+        {
+            Assert.AreEqual(0, memory.ObjectsCount<CreateBoxTool>(), "Tool is still alive");
+            Assert.AreEqual(0, memory.ObjectsCount<PointAction>(), "PointAction is alive");
+            Assert.AreEqual(0, memory.ObjectsCount<AxisValueAction>(), "AxisValueAction is alive");
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
                 
-        [Test]
-        public void CreateBoxCancelled()
+    [Test]
+    public void CreateBoxCancelled()
+    {
+        void __CreateAndReleaseTool()
         {
-            void __CreateAndReleaseTool()
-            {
-                var ctx = Context.Current;
+            var ctx = Context.Current;
 
-                ctx.WorkspaceController.StartTool(new CreateBoxTool());
-                ctx.ViewportController.MouseMove(new Point(50, 250));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.WorkspaceController.Invalidate(forceRedraw:true);
-                ctx.ViewportController.MouseMove(new Point(450, 250));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.WorkspaceController.Invalidate(forceRedraw:true);
-                ctx.ViewportController.MouseMove(new Point(450, 200));
-                ctx.WorkspaceController.CancelTool(ctx.WorkspaceController.CurrentTool, false);
-                ctx.WorkspaceController.Invalidate(forceRedraw:true);
-                ctx.ViewportController.MouseMove(new Point(0,0));
+            ctx.WorkspaceController.StartTool(new CreateBoxTool());
+            ctx.ViewportController.MouseMove(new Point(50, 250));
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.MouseUp();
+            ctx.WorkspaceController.Invalidate(forceRedraw:true);
+            ctx.ViewportController.MouseMove(new Point(450, 250));
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.MouseUp();
+            ctx.WorkspaceController.Invalidate(forceRedraw:true);
+            ctx.ViewportController.MouseMove(new Point(450, 200));
+            ctx.WorkspaceController.CancelTool(ctx.WorkspaceController.CurrentTool, false);
+            ctx.WorkspaceController.Invalidate(forceRedraw:true);
+            ctx.ViewportController.MouseMove(new Point(0,0));
 
-                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-                Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
-            }
-
-            __CreateAndReleaseTool();
-
-            dotMemory.Check(memory =>
-            {
-                Assert.AreEqual(0, memory.ObjectsCount<CreateBoxTool>(), "Tool is still alive");
-                Assert.AreEqual(0, memory.ObjectsCount<Body>(), "Body is alive");
-                Assert.AreEqual(0, memory.ObjectsCount<Box>(), "Box is alive");
-                Assert.AreEqual(0, memory.ObjectsCount<VisualShape>(), "VisualShape is alive");
-            });
+            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
 
-        //--------------------------------------------------------------------------------------------------
+        __CreateAndReleaseTool();
 
-        [Test]
-        public void CreateCylinder()
+        dotMemory.Check(memory =>
         {
-            void __CreateAndReleaseTool()
-            {
-                var ctx = Context.Current;
+            Assert.AreEqual(0, memory.ObjectsCount<CreateBoxTool>(), "Tool is still alive");
+            Assert.AreEqual(0, memory.ObjectsCount<Body>(), "Body is alive");
+            Assert.AreEqual(0, memory.ObjectsCount<Box>(), "Box is alive");
+            Assert.AreEqual(0, memory.ObjectsCount<VisualShape>(), "VisualShape is alive");
+        });
+    }
 
-                ctx.WorkspaceController.StartTool(new CreateCylinderTool());
-                ctx.ViewportController.MouseMove(new Point(250, 250));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.ViewportController.MouseMove(new Point(450, 250));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.ViewportController.MouseMove(new Point(450, 200));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.ViewportController.MouseMove(new Point(0, 0));
+    //--------------------------------------------------------------------------------------------------
 
-                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-                Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
-            }
+    [Test]
+    public void CreateCylinder()
+    {
+        void __CreateAndReleaseTool()
+        {
+            var ctx = Context.Current;
 
-            __CreateAndReleaseTool();
+            ctx.WorkspaceController.StartTool(new CreateCylinderTool());
+            ctx.ViewportController.MouseMove(new Point(250, 250));
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.MouseUp();
+            ctx.ViewportController.MouseMove(new Point(450, 250));
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.MouseUp();
+            ctx.ViewportController.MouseMove(new Point(450, 200));
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.MouseUp();
+            ctx.ViewportController.MouseMove(new Point(0, 0));
 
-            dotMemory.Check(memory =>
-            {
-                Assert.AreEqual(0, memory.ObjectsCount<CreateCylinderTool>(), "Tool is still alive");
-                Assert.AreEqual(0, memory.ObjectsCount<PointAction>(), "PointAction is alive");
-                Assert.AreEqual(0, memory.ObjectsCount<AxisValueAction>(), "AxisValueAction is alive");
-            });
+            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
+
+        __CreateAndReleaseTool();
+
+        dotMemory.Check(memory =>
+        {
+            Assert.AreEqual(0, memory.ObjectsCount<CreateCylinderTool>(), "Tool is still alive");
+            Assert.AreEqual(0, memory.ObjectsCount<PointAction>(), "PointAction is alive");
+            Assert.AreEqual(0, memory.ObjectsCount<AxisValueAction>(), "AxisValueAction is alive");
+        });
+    }
         
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
                 
-        [Test]
-        public void CreateCylinderCancelled()
+    [Test]
+    public void CreateCylinderCancelled()
+    {
+        void __CreateAndReleaseTool()
         {
-            void __CreateAndReleaseTool()
-            {
-                var ctx = Context.Current;
+            var ctx = Context.Current;
 
-                ctx.WorkspaceController.StartTool(new CreateCylinderTool());
-                ctx.ViewportController.MouseMove(new Point(250, 250));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.WorkspaceController.Invalidate(forceRedraw:true);
-                ctx.ViewportController.MouseMove(new Point(450, 250));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.WorkspaceController.Invalidate(forceRedraw:true);
-                ctx.ViewportController.MouseMove(new Point(450, 200));
-                ctx.WorkspaceController.CancelTool(ctx.WorkspaceController.CurrentTool, false);
-                ctx.WorkspaceController.Invalidate(forceRedraw:true);
-                ctx.ViewportController.MouseMove(new Point(0,0));
+            ctx.WorkspaceController.StartTool(new CreateCylinderTool());
+            ctx.ViewportController.MouseMove(new Point(250, 250));
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.MouseUp();
+            ctx.WorkspaceController.Invalidate(forceRedraw:true);
+            ctx.ViewportController.MouseMove(new Point(450, 250));
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.MouseUp();
+            ctx.WorkspaceController.Invalidate(forceRedraw:true);
+            ctx.ViewportController.MouseMove(new Point(450, 200));
+            ctx.WorkspaceController.CancelTool(ctx.WorkspaceController.CurrentTool, false);
+            ctx.WorkspaceController.Invalidate(forceRedraw:true);
+            ctx.ViewportController.MouseMove(new Point(0,0));
 
-                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-                Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
-            }
-
-            __CreateAndReleaseTool();
-
-            dotMemory.Check(memory =>
-            {
-                Assert.AreEqual(0, memory.ObjectsCount<CreateBoxTool>(), "Tool is still alive");
-                Assert.AreEqual(0, memory.ObjectsCount<Body>(), "Body is alive");
-                Assert.AreEqual(0, memory.ObjectsCount<Cylinder>(), "Cylinder is alive");
-                Assert.AreEqual(0, memory.ObjectsCount<VisualShape>(), "VisualShape is alive");
-            });
+            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
 
-        //--------------------------------------------------------------------------------------------------
+        __CreateAndReleaseTool();
 
-        [Test]
-        public void CreateSphere()
+        dotMemory.Check(memory =>
         {
-            void __CreateAndReleaseTool()
-            {
-                var ctx = Context.Current;
+            Assert.AreEqual(0, memory.ObjectsCount<CreateBoxTool>(), "Tool is still alive");
+            Assert.AreEqual(0, memory.ObjectsCount<Body>(), "Body is alive");
+            Assert.AreEqual(0, memory.ObjectsCount<Cylinder>(), "Cylinder is alive");
+            Assert.AreEqual(0, memory.ObjectsCount<VisualShape>(), "VisualShape is alive");
+        });
+    }
 
-                ctx.WorkspaceController.StartTool(new CreateSphereTool());
-                ctx.ViewportController.MouseMove(new Point(250, 250));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.ViewportController.MouseMove(new Point(450, 250));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.ViewportController.MouseMove(new Point(0, 0));
+    //--------------------------------------------------------------------------------------------------
 
-                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-                Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
-            }
+    [Test]
+    public void CreateSphere()
+    {
+        void __CreateAndReleaseTool()
+        {
+            var ctx = Context.Current;
 
-            __CreateAndReleaseTool();
+            ctx.WorkspaceController.StartTool(new CreateSphereTool());
+            ctx.ViewportController.MouseMove(new Point(250, 250));
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.MouseUp();
+            ctx.ViewportController.MouseMove(new Point(450, 250));
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.MouseUp();
+            ctx.ViewportController.MouseMove(new Point(0, 0));
 
-            dotMemory.Check(memory =>
-            {
-                Assert.AreEqual(0, memory.ObjectsCount<CreateSphereTool>(), "Tool is still alive");
-                Assert.AreEqual(0, memory.ObjectsCount<PointAction>(), "PointAction is alive");
-                Assert.AreEqual(0, memory.ObjectsCount<AxisValueAction>(), "AxisValueAction is alive");
-            });
+            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
+
+        __CreateAndReleaseTool();
+
+        dotMemory.Check(memory =>
+        {
+            Assert.AreEqual(0, memory.ObjectsCount<CreateSphereTool>(), "Tool is still alive");
+            Assert.AreEqual(0, memory.ObjectsCount<PointAction>(), "PointAction is alive");
+            Assert.AreEqual(0, memory.ObjectsCount<AxisValueAction>(), "AxisValueAction is alive");
+        });
+    }
            
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
     
-        [Test]
-        public void CreateSphereCancelled()
+    [Test]
+    public void CreateSphereCancelled()
+    {
+        void __CreateAndReleaseTool()
         {
-            void __CreateAndReleaseTool()
-            {
-                var ctx = Context.Current;
+            var ctx = Context.Current;
 
-                ctx.WorkspaceController.StartTool(new CreateSphereTool());
-                ctx.ViewportController.MouseMove(new Point(250, 250));
-                ctx.ViewportController.MouseDown();
-                ctx.ViewportController.MouseUp();
-                ctx.WorkspaceController.Invalidate(forceRedraw:true);
-                ctx.ViewportController.MouseMove(new Point(450, 250));
-                ctx.WorkspaceController.CancelTool(ctx.WorkspaceController.CurrentTool, false);
-                ctx.WorkspaceController.Invalidate(forceRedraw:true);
-                ctx.ViewportController.MouseMove(new Point(0,0));
+            ctx.WorkspaceController.StartTool(new CreateSphereTool());
+            ctx.ViewportController.MouseMove(new Point(250, 250));
+            ctx.ViewportController.MouseDown();
+            ctx.ViewportController.MouseUp();
+            ctx.WorkspaceController.Invalidate(forceRedraw:true);
+            ctx.ViewportController.MouseMove(new Point(450, 250));
+            ctx.WorkspaceController.CancelTool(ctx.WorkspaceController.CurrentTool, false);
+            ctx.WorkspaceController.Invalidate(forceRedraw:true);
+            ctx.ViewportController.MouseMove(new Point(0,0));
 
-                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-                Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
-            }
-
-            __CreateAndReleaseTool();
-
-            dotMemory.Check(memory =>
-            {
-                Assert.AreEqual(0, memory.ObjectsCount<CreateBoxTool>(), "Tool is still alive");
-                Assert.AreEqual(0, memory.ObjectsCount<Body>(), "Body is alive");
-                Assert.AreEqual(0, memory.ObjectsCount<Sphere>(), "Sphere is alive");
-                Assert.AreEqual(0, memory.ObjectsCount<VisualShape>(), "VisualShape is alive");
-            });
+            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
 
-        //--------------------------------------------------------------------------------------------------
+        __CreateAndReleaseTool();
 
-        [Test]
-        public void CreateSliceContour()
+        dotMemory.Check(memory =>
         {
-            void __CreateAndReleaseTool()
-            {
-                var ctx = Context.Current;
-                var body = TestGeomGenerator.CreateImprint()?.Body;
-                Assume.That(body != null);
-                ctx.Document.Add(body);
-                ctx.WorkspaceController.Selection.SelectEntity(body);
+            Assert.AreEqual(0, memory.ObjectsCount<CreateBoxTool>(), "Tool is still alive");
+            Assert.AreEqual(0, memory.ObjectsCount<Body>(), "Body is alive");
+            Assert.AreEqual(0, memory.ObjectsCount<Sphere>(), "Sphere is alive");
+            Assert.AreEqual(0, memory.ObjectsCount<VisualShape>(), "VisualShape is alive");
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CreateSliceContour()
+    {
+        void __CreateAndReleaseTool()
+        {
+            var ctx = Context.Current;
+            var body = TestGeomGenerator.CreateImprint()?.Body;
+            Assume.That(body != null);
+            ctx.Document.Add(body);
+            ctx.WorkspaceController.Selection.SelectEntity(body);
             
-                Assume.That(ToolboxCommands.CreateSliceContour.CanExecute());
-                ToolboxCommands.CreateSliceContour.Execute();
+            Assume.That(ToolboxCommands.CreateSliceContour.CanExecute());
+            ToolboxCommands.CreateSliceContour.Execute();
 
-                var tool = ctx.WorkspaceController.CurrentTool as SliceContourEditTool;
-                Assume.That(tool, Is.Not.Null);
+            var tool = ctx.WorkspaceController.CurrentTool as SliceContourEditTool;
+            Assume.That(tool, Is.Not.Null);
 
-                ctx.WorkspaceController.CancelTool(tool, false);
-                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-                Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
-            }
-
-            __CreateAndReleaseTool();
-
-            dotMemory.Check(memory =>
-            {
-                Assert.AreEqual(0, memory.ObjectsCount<SliceContourEditTool>(), "Tool is still alive");
-                Assert.AreEqual(1, memory.ObjectsCount<SliceContourComponent>(), "SliceContourComponent is dead");
-            });
+            ctx.WorkspaceController.CancelTool(tool, false);
+            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
+
+        __CreateAndReleaseTool();
+
+        dotMemory.Check(memory =>
+        {
+            Assert.AreEqual(0, memory.ObjectsCount<SliceContourEditTool>(), "Tool is still alive");
+            Assert.AreEqual(1, memory.ObjectsCount<SliceContourComponent>(), "SliceContourComponent is dead");
+        });
+    }
         
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        [Test]
-        public void CreateEtchingMask()
+    [Test]
+    public void CreateEtchingMask()
+    {
+        void __CreateAndReleaseTool()
         {
-            void __CreateAndReleaseTool()
-            {
-                var ctx = Context.Current;
-                var body = TestGeomGenerator.CreateImprint()?.Body;
-                Assume.That(body != null);
-                ctx.Document.Add(body);
-                ctx.WorkspaceController.Selection.SelectEntity(body);
+            var ctx = Context.Current;
+            var body = TestGeomGenerator.CreateImprint()?.Body;
+            Assume.That(body != null);
+            ctx.Document.Add(body);
+            ctx.WorkspaceController.Selection.SelectEntity(body);
             
-                Assume.That(ToolboxCommands.CreateEtchingMask.CanExecute());
-                ToolboxCommands.CreateEtchingMask.Execute();
+            Assume.That(ToolboxCommands.CreateEtchingMask.CanExecute());
+            ToolboxCommands.CreateEtchingMask.Execute();
 
-                var tool = ctx.WorkspaceController.CurrentTool as EtchingMaskEditTool;
-                Assume.That(tool, Is.Not.Null);
+            var tool = ctx.WorkspaceController.CurrentTool as EtchingMaskEditTool;
+            Assume.That(tool, Is.Not.Null);
 
-                ctx.WorkspaceController.CancelTool(tool, false);
-                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-                Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
-            }
-
-            __CreateAndReleaseTool();
-
-            dotMemory.Check(memory =>
-            {
-                Assert.AreEqual(0, memory.ObjectsCount<EtchingMaskEditTool>(), "Tool is still alive");
-                Assert.AreEqual(1, memory.ObjectsCount<EtchingMaskComponent>(), "SliceContourComponent is dead");
-            });
+            ctx.WorkspaceController.CancelTool(tool, false);
+            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
 
-        //--------------------------------------------------------------------------------------------------
+        __CreateAndReleaseTool();
 
-        [Test]
-        public void SketchEditor()
+        dotMemory.Check(memory =>
         {
-            void __CreateAndDelete()
-            {
-                var ctx = Context.Current;
-                ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
-                var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-                Assume.That(sketchEditTool, Is.Not.Null);
-                var sketch = sketchEditTool.Sketch;
+            Assert.AreEqual(0, memory.ObjectsCount<EtchingMaskEditTool>(), "Tool is still alive");
+            Assert.AreEqual(1, memory.ObjectsCount<EtchingMaskComponent>(), "SliceContourComponent is dead");
+        });
+    }
 
-                // Create segments
-                sketchEditTool.StartSegmentCreation<SketchSegmentRectangleCreator>();
-                ctx.ClickAt(100, 100);
-                ctx.ClickAt(400, 400);
+    //--------------------------------------------------------------------------------------------------
 
-                // Create constraints
-                ctx.ClickAt(100, 250);
-                Assume.That(sketchEditTool.CreateConstraint<SketchConstraintVertical>().Count > 0);
-                ctx.ClickAt(100, 250);
-                Assume.That(sketchEditTool.CreateConstraint<SketchConstraintLength>().Count > 0);
-                ctx.ClickAt(100, 250);
-                ctx.ClickAt(250, 100, ModifierKeys.Shift);
-                Assume.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
-                ctx.ClickAt(100, 250);
-                ctx.ClickAt(400, 250, ModifierKeys.Shift);
-                Assume.That(sketchEditTool.CreateConstraint<SketchConstraintParallel>().Count > 0);
-                ctx.ClickAt(400, 250);
-                ctx.ClickAt(250, 400, ModifierKeys.Shift);
-                Assume.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
-                ctx.WorkspaceController.Invalidate(forceRedraw: true);
+    [Test]
+    public void SketchEditor()
+    {
+        void __CreateAndDelete()
+        {
+            var ctx = Context.Current;
+            ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+            var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+            Assume.That(sketchEditTool, Is.Not.Null);
+            var sketch = sketchEditTool.Sketch;
 
-                ctx.WorkspaceController.CancelTool(sketchEditTool, false);
-                Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-                Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            // Create segments
+            sketchEditTool.StartSegmentCreation<SketchSegmentRectangleCreator>();
+            ctx.ClickAt(100, 100);
+            ctx.ClickAt(400, 400);
 
-                InteractiveContext.Current.WorkspaceController.Delete();
-                ctx.UndoHandler.UndoStack.Clear();
-            }
+            // Create constraints
+            ctx.ClickAt(100, 250);
+            Assume.That(sketchEditTool.CreateConstraint<SketchConstraintVertical>().Count > 0);
+            ctx.ClickAt(100, 250);
+            Assume.That(sketchEditTool.CreateConstraint<SketchConstraintLength>().Count > 0);
+            ctx.ClickAt(100, 250);
+            ctx.ClickAt(250, 100, ModifierKeys.Shift);
+            Assume.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
+            ctx.ClickAt(100, 250);
+            ctx.ClickAt(400, 250, ModifierKeys.Shift);
+            Assume.That(sketchEditTool.CreateConstraint<SketchConstraintParallel>().Count > 0);
+            ctx.ClickAt(400, 250);
+            ctx.ClickAt(250, 400, ModifierKeys.Shift);
+            Assume.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
+            ctx.WorkspaceController.Invalidate(forceRedraw: true);
 
-            __CreateAndDelete();
+            ctx.WorkspaceController.CancelTool(sketchEditTool, false);
+            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
 
-            dotMemory.Check(memory =>
-            {
-                Assert.AreEqual(0, memory.ObjectsCount<SketchEditorTool>(), "Tool is still alive");
-                Assert.AreEqual(0, memory.ObjectsCount<Sketch>(), "Sketch is still alive");
-                Assert.AreEqual(0, memory.ObjectsCount<SketchSegmentLine>(), "SketchSegmentLine is still alive");
-                Assert.AreEqual(0, memory.ObjectsCount<SketchConstraintPerpendicular>(), "SketchConstraintPerpendicular is still alive");
-                Assert.AreEqual(0, memory.ObjectsCount<SketchEditorConstraintElement>(), "SketchEditorConstraintElement is still alive");
-                Assert.AreEqual(0, memory.ObjectsCount<Marker>(), "Marker is still alive");
-                Assert.AreEqual(0, memory.ObjectsCount<AIS_PointEx>(), "AIS_PointEx is still alive");
-            });
+            InteractiveContext.Current.WorkspaceController.Delete();
+            ctx.UndoHandler.UndoStack.Clear();
         }
+
+        __CreateAndDelete();
+
+        dotMemory.Check(memory =>
+        {
+            Assert.AreEqual(0, memory.ObjectsCount<SketchEditorTool>(), "Tool is still alive");
+            Assert.AreEqual(0, memory.ObjectsCount<Sketch>(), "Sketch is still alive");
+            Assert.AreEqual(0, memory.ObjectsCount<SketchSegmentLine>(), "SketchSegmentLine is still alive");
+            Assert.AreEqual(0, memory.ObjectsCount<SketchConstraintPerpendicular>(), "SketchConstraintPerpendicular is still alive");
+            Assert.AreEqual(0, memory.ObjectsCount<SketchEditorConstraintElement>(), "SketchEditorConstraintElement is still alive");
+            Assert.AreEqual(0, memory.ObjectsCount<Marker>(), "Marker is still alive");
+            Assert.AreEqual(0, memory.ObjectsCount<AIS_PointEx>(), "AIS_PointEx is still alive");
+        });
     }
 }

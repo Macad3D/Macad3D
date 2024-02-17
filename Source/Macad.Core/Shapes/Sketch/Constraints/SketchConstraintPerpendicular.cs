@@ -4,67 +4,66 @@ using Macad.Common.Serialization;
 using Macad.Occt;
 using Macad.SketchSolve;
 
-namespace Macad.Core.Shapes
+namespace Macad.Core.Shapes;
+
+[SerializeType]
+public class SketchConstraintPerpendicular : SketchConstraint
 {
-    [SerializeType]
-    public class SketchConstraintPerpendicular : SketchConstraint
+    // Implement for serialization
+    SketchConstraintPerpendicular()
+    { }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public SketchConstraintPerpendicular(int lineSegment1, int lineSegment2)
     {
-        // Implement for serialization
-        SketchConstraintPerpendicular()
-        { }
+        Segments = new int[2] { lineSegment1, lineSegment2 };
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public SketchConstraintPerpendicular(int lineSegment1, int lineSegment2)
+    public override bool MakeConstraint(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, SketchConstraintSolver solver)
+    {
+        var lineSegment1 = segments[Segments[0]] as SketchSegmentLine;
+        if (lineSegment1 == null) return false;
+        var lineSegment2 = segments[Segments[1]] as SketchSegmentLine;
+        if (lineSegment2 == null) return false;
+
+        var con = new Constraint { Type = ConstraintType.Perpendicular };
+
+        bool valid = true;
+        valid &= solver.SetLine(ref con.Line1, lineSegment1.Points[0], lineSegment1.Points[1], false, false);
+        valid &= solver.SetLine(ref con.Line2, lineSegment2.Points[0], lineSegment2.Points[1], false, false);
+
+        if(valid)
         {
-            Segments = new int[2] { lineSegment1, lineSegment2 };
+            solver.AddConstraint(con);
         }
+        return valid;
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public override bool MakeConstraint(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, SketchConstraintSolver solver)
-        {
-            var lineSegment1 = segments[Segments[0]] as SketchSegmentLine;
-            if (lineSegment1 == null) return false;
-            var lineSegment2 = segments[Segments[1]] as SketchSegmentLine;
-            if (lineSegment2 == null) return false;
-
-            var con = new Constraint { Type = ConstraintType.Perpendicular };
-
-            bool valid = true;
-            valid &= solver.SetLine(ref con.Line1, lineSegment1.Points[0], lineSegment1.Points[1], false, false);
-            valid &= solver.SetLine(ref con.Line2, lineSegment2.Points[0], lineSegment2.Points[1], false, false);
-
-            if(valid)
-            {
-                solver.AddConstraint(con);
-            }
-            return valid;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override SketchConstraint Clone()
-        {
-            return new SketchConstraintPerpendicular(Segments[0], Segments[1]);
-        }
+    public override SketchConstraint Clone()
+    {
+        return new SketchConstraintPerpendicular(Segments[0], Segments[1]);
+    }
         
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public static List<SketchConstraint> Create(Sketch sketch, List<int> points, List<int> segments)
+    public static List<SketchConstraint> Create(Sketch sketch, List<int> points, List<int> segments)
+    {
+        var list = new List<SketchConstraint>();
+
+        for (int i = 0; i < segments.Count - 1; i++)
         {
-            var list = new List<SketchConstraint>();
+            var line1 = sketch.Segments[segments[i]] as SketchSegmentLine;
+            Debug.Assert(line1 != null);
+            var line2 = sketch.Segments[segments[i + 1]] as SketchSegmentLine;
+            Debug.Assert(line2 != null);
 
-            for (int i = 0; i < segments.Count - 1; i++)
-            {
-                var line1 = sketch.Segments[segments[i]] as SketchSegmentLine;
-                Debug.Assert(line1 != null);
-                var line2 = sketch.Segments[segments[i + 1]] as SketchSegmentLine;
-                Debug.Assert(line2 != null);
-
-                list.Add(new SketchConstraintPerpendicular(segments[i], segments[i + 1]));
-            }
-            return list;
+            list.Add(new SketchConstraintPerpendicular(segments[i], segments[i + 1]));
         }
+        return list;
     }
 }

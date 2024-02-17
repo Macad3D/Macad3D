@@ -1,17 +1,16 @@
-﻿namespace Macad.Presentation
-{
-    using System;
-    using System.Windows.Controls;
-    using System.Windows.Markup;
-    using System.Xaml;
+﻿namespace Macad.Presentation;
 
-    [MarkupExtensionReturnType(typeof(ContentControl))]
-    public class RootObject : MarkupExtension
+using System;
+using System.Windows.Controls;
+using System.Windows.Markup;
+using System.Xaml;
+
+[MarkupExtensionReturnType(typeof(ContentControl))]
+public class RootObject : MarkupExtension
+{
+    public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            var rootObjectProvider = (IRootObjectProvider)serviceProvider.GetService(typeof(IRootObjectProvider));
-            return rootObjectProvider != null ? rootObjectProvider.RootObject : null;
-        }
+        var rootObjectProvider = (IRootObjectProvider)serviceProvider.GetService(typeof(IRootObjectProvider));
+        return rootObjectProvider != null ? rootObjectProvider.RootObject : null;
     }
 }

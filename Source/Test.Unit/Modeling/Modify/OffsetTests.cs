@@ -80,7 +80,7 @@ public class OffsetTests
     [Test]
     public void SketchOpenWire()
     {
-        Sketch sketch = Sketch.Create();
+        Core.Shapes.Sketch sketch = Core.Shapes.Sketch.Create();
         SketchBuilder sb = new(sketch);
         sb.StartPath(-5, -5);
         sb.LineTo(-2, 0);

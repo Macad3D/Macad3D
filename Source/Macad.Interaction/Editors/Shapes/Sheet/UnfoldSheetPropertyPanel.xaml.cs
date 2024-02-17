@@ -1,36 +1,31 @@
-﻿using System;
-using System.Windows;
-using Macad.Common;
-using Macad.Core;
+﻿using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
-using Macad.Presentation;
 
-namespace Macad.Interaction.Editors.Shapes
+namespace Macad.Interaction.Editors.Shapes;
+
+/// <summary>
+/// Interaction logic for ChamferPropertyPanel.xaml
+/// </summary>
+public partial class UnfoldSheetPropertyPanel : PropertyPanel
 {
-    /// <summary>
-    /// Interaction logic for ChamferPropertyPanel.xaml
-    /// </summary>
-    public partial class UnfoldSheetPropertyPanel : PropertyPanel
+    public UnfoldSheet UnfoldSheet { get; private set; }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override void Initialize(BaseObject instance)
     {
-        public UnfoldSheet UnfoldSheet { get; private set; }
+        UnfoldSheet = instance as UnfoldSheet;
 
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Initialize(BaseObject instance)
-        {
-            UnfoldSheet = instance as UnfoldSheet;
-
-            InitializeComponent();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public override void Cleanup()
-        {
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
+        InitializeComponent();
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override void Cleanup()
+    {
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

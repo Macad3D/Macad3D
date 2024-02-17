@@ -2,114 +2,113 @@
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
 
-namespace Macad.Test.UI.Application.Exchange
+namespace Macad.Test.UI.Application.Exchange;
+
+[TestFixture]
+public class ExportPipeDrawingTests : UITestBase
 {
-    [TestFixture]
-    public class ExportPipeDrawingTests : UITestBase
+    [SetUp]
+    public void SetUp()
     {
-        [SetUp]
-        public void SetUp()
-        {
-            Reset();
-        }
+        Reset();
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        [Test]
-        public void DisableWithoutPipeModifier()
-        {
-            TestDataGenerator.GenerateBox(MainWindow);
+    [Test]
+    public void DisableWithoutPipeModifier()
+    {
+        TestDataGenerator.GenerateBox(MainWindow);
             
-            MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
-            Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
-        }
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
+    }
         
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        [Test]
-        public void Export()
-        {
-            var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "pipe.svg");
+    [Test]
+    public void Export()
+    {
+        var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "pipe.svg");
 
-            TestDataGenerator.GenerateSketch(MainWindow);
-            MainWindow.Ribbon.ClickButton("CloseSketchEditor");
+        TestDataGenerator.GenerateSketch(MainWindow);
+        MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
-            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-            Assume.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
-            MainWindow.Ribbon.ClickButton("CreatePipe");
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        Assume.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
+        MainWindow.Ribbon.ClickButton("CreatePipe");
             
-            MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
-            Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
-            MainWindow.Ribbon.ClickButton("ExportPipeDrawing");
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
+        MainWindow.Ribbon.ClickButton("ExportPipeDrawing");
 
-            var fileDlg = new FileDialogAdaptor(MainWindow);
-            fileDlg.SelectFileType("*.svg");
-            fileDlg.Save(path, checkFile:false);
-            Assert.IsFalse(FileDialogAdaptor.IsDialogOpen(MainWindow));
-            Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExportViewportHlr"));
+        var fileDlg = new FileDialogAdaptor(MainWindow);
+        fileDlg.SelectFileType("*.svg");
+        fileDlg.Save(path, checkFile:false);
+        Assert.IsFalse(FileDialogAdaptor.IsDialogOpen(MainWindow));
+        Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExportViewportHlr"));
 
-            var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
-            dlg.ClickButton("Ok");
-            Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
+        var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
+        dlg.ClickButton("Ok");
+        Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
 
-            Assert.IsTrue(System.IO.File.Exists(path));
-
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        [Test]
-        public void ExportCancelSettings()
-        {
-            var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "pipe.svg");
-
-            TestDataGenerator.GenerateSketch(MainWindow);
-            MainWindow.Ribbon.ClickButton("CloseSketchEditor");
-
-            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-            Assume.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
-            MainWindow.Ribbon.ClickButton("CreatePipe");
-            
-            MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
-            Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
-            MainWindow.Ribbon.ClickButton("ExportPipeDrawing");
-
-            var fileDlg = new FileDialogAdaptor(MainWindow);
-            fileDlg.SelectFileType("*.svg");
-            fileDlg.Save(path, checkFile:false);
-            Assert.IsFalse(FileDialogAdaptor.IsDialogOpen(MainWindow));
-            Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExportViewportHlr"));
-
-            var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
-            dlg.ClickButton("Cancel");
-            Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
-
-            Assert.IsFalse(System.IO.File.Exists(path));
-
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        [Test]
-        public void ExportCancelFileDlg()
-        {
-            TestDataGenerator.GenerateSketch(MainWindow);
-            MainWindow.Ribbon.ClickButton("CloseSketchEditor");
-
-            MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-            Assume.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
-            MainWindow.Ribbon.ClickButton("CreatePipe");
-            
-            MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
-            Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
-            MainWindow.Ribbon.ClickButton("ExportPipeDrawing");
-
-            var fileDlg = new FileDialogAdaptor(MainWindow);
-            fileDlg.ClickButton(FileDialogAdaptor.Button.Cancel);
-            Assert.IsFalse(FileDialogAdaptor.IsDialogOpen(MainWindow));
-        }
-
-        //--------------------------------------------------------------------------------------------------
+        Assert.IsTrue(System.IO.File.Exists(path));
 
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ExportCancelSettings()
+    {
+        var path = Path.Combine(FileDialogAdaptor.GetTempPath(), "pipe.svg");
+
+        TestDataGenerator.GenerateSketch(MainWindow);
+        MainWindow.Ribbon.ClickButton("CloseSketchEditor");
+
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        Assume.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
+        MainWindow.Ribbon.ClickButton("CreatePipe");
+            
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
+        MainWindow.Ribbon.ClickButton("ExportPipeDrawing");
+
+        var fileDlg = new FileDialogAdaptor(MainWindow);
+        fileDlg.SelectFileType("*.svg");
+        fileDlg.Save(path, checkFile:false);
+        Assert.IsFalse(FileDialogAdaptor.IsDialogOpen(MainWindow));
+        Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExportViewportHlr"));
+
+        var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
+        dlg.ClickButton("Cancel");
+        Assert.IsFalse(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"));
+
+        Assert.IsFalse(System.IO.File.Exists(path));
+
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ExportCancelFileDlg()
+    {
+        TestDataGenerator.GenerateSketch(MainWindow);
+        MainWindow.Ribbon.ClickButton("CloseSketchEditor");
+
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        Assume.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
+        MainWindow.Ribbon.ClickButton("CreatePipe");
+            
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ExportPipeDrawing"));
+        MainWindow.Ribbon.ClickButton("ExportPipeDrawing");
+
+        var fileDlg = new FileDialogAdaptor(MainWindow);
+        fileDlg.ClickButton(FileDialogAdaptor.Button.Cancel);
+        Assert.IsFalse(FileDialogAdaptor.IsDialogOpen(MainWindow));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

@@ -1,18 +1,17 @@
 ﻿using Macad.Occt;
 
-namespace Macad.Interaction
+namespace Macad.Interaction;
+
+public struct SelectionSignature
 {
-    public struct SelectionSignature
+    public AIS_KindOfInteractive Kind { get; }
+    public int Signature { get; }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public SelectionSignature(AIS_KindOfInteractive kind, int signature)
     {
-        public AIS_KindOfInteractive Kind { get; }
-        public int Signature { get; }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public SelectionSignature(AIS_KindOfInteractive kind, int signature)
-        {
-            Kind = kind;
-            Signature = signature;
-        }
+        Kind = kind;
+        Signature = signature;
     }
 }

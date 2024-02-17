@@ -20,7 +20,7 @@ public class ConvertToEditableSketchTests
     [Test]
     public void SingleLine()
     {
-        var sketch = Sketch.Create();
+        var sketch = Core.Shapes.Sketch.Create();
         var sb = new SketchBuilder(sketch);
 
         sb.Line(1, 1, 5, 5);
@@ -36,7 +36,7 @@ public class ConvertToEditableSketchTests
     [Test]
     public void MultipleLinesOpen()
     {
-        var sketch = Sketch.Create();
+        var sketch = Core.Shapes.Sketch.Create();
         var sb = new SketchBuilder(sketch);
 
         sb.StartPath(0, 0);
@@ -56,7 +56,7 @@ public class ConvertToEditableSketchTests
     [Test]
     public void MultipleLinesClosed()
     {
-        var sketch = Sketch.Create();
+        var sketch = Core.Shapes.Sketch.Create();
         var sb = new SketchBuilder(sketch);
 
         sb.StartPath(0, 0);
@@ -77,7 +77,7 @@ public class ConvertToEditableSketchTests
     [Test]
     public void Circle()
     {
-        var sketch = Sketch.Create();
+        var sketch = Core.Shapes.Sketch.Create();
         var sb = new SketchBuilder(sketch);
 
         sb.Line(0, 0, 5, 5);
@@ -94,7 +94,7 @@ public class ConvertToEditableSketchTests
     [Test]
     public void Ellipse()
     {
-        var sketch = Sketch.Create();
+        var sketch = Core.Shapes.Sketch.Create();
         var sb = new SketchBuilder(sketch);
 
         sb.Line(0, 0, 5, 5);
@@ -111,7 +111,7 @@ public class ConvertToEditableSketchTests
     [Test]
     public void Arc()
     {
-        var sketch = Sketch.Create();
+        var sketch = Core.Shapes.Sketch.Create();
         var sb = new SketchBuilder(sketch);
 
         sb.StartPath(0, 0);
@@ -129,7 +129,7 @@ public class ConvertToEditableSketchTests
     [Test]
     public void EllipticalArc()
     {
-        var sketch = Sketch.Create();
+        var sketch = Core.Shapes.Sketch.Create();
         var sb = new SketchBuilder(sketch);
 
         sb.StartPath(0, 0);
@@ -147,7 +147,7 @@ public class ConvertToEditableSketchTests
     [Test]
     public void BezierQuadratic()
     {
-        var sketch = Sketch.Create();
+        var sketch = Core.Shapes.Sketch.Create();
         var sb = new SketchBuilder(sketch);
 
         sb.StartPath(0, 0);
@@ -165,7 +165,7 @@ public class ConvertToEditableSketchTests
     [Test]
     public void BezierCubic()
     {
-        var sketch = Sketch.Create();
+        var sketch = Core.Shapes.Sketch.Create();
         var sb = new SketchBuilder(sketch);
 
         sb.StartPath(0, 0);
@@ -189,7 +189,7 @@ public class ConvertToEditableSketchTests
         //AssertHelper.IsSameModel(body.RootShape, Path.Combine(_BasePath, "CollapseBodyS"));
 
         Assert.IsTrue(ConvertToEditableSketch.CollapseShapeStack(new []{body}));
-        Assert.IsInstanceOf<Sketch>(body.RootShape);
+        Assert.IsInstanceOf<Core.Shapes.Sketch>(body.RootShape);
         AssertHelper.IsSameModel2D(body.RootShape, Path.Combine(_BasePath, "CollapseBody"));
     }
     
@@ -218,7 +218,7 @@ public class ConvertToEditableSketchTests
         //AssertHelper.IsSameModel(body.RootShape, Path.Combine(_BasePath, "CrossSectionEllipseS"));
 
         Assert.IsTrue(ConvertToEditableSketch.CollapseShapeStack(new []{body}));
-        Assert.IsInstanceOf<Sketch>(body.RootShape);
+        Assert.IsInstanceOf<Core.Shapes.Sketch>(body.RootShape);
         AssertHelper.IsSameModel2D(body.RootShape, Path.Combine(_BasePath, "CrossSectionEllipse"));
     }
         
@@ -252,7 +252,7 @@ public class ConvertToEditableSketchTests
         //AssertHelper.IsSameModel(body.RootShape, Path.Combine(_BasePath, "CrossSectionEllipticalArcS"));
 
         Assert.IsTrue(ConvertToEditableSketch.CollapseShapeStack(new[] { body }));
-        Assert.IsInstanceOf<Sketch>(body.RootShape);
+        Assert.IsInstanceOf<Core.Shapes.Sketch>(body.RootShape);
         AssertHelper.IsSameModel2D(body.RootShape, Path.Combine(_BasePath, "CrossSectionEllipticalArc"));
     }
 
@@ -264,7 +264,7 @@ public class ConvertToEditableSketchTests
         var body = TestData.GetBodyFromBRep(@"SourceData\BRep\WallWithWindows.brep");
         var crossSection = CrossSection.Create(body, new Pln(new Quaternion(0, 70.0.ToRad(), 0).ToAx3(new Pnt(-25, 0, 13.54))));
         Assert.IsTrue(ConvertToEditableSketch.CollapseShapeStack(new[] { body }));
-        Assert.IsInstanceOf<Sketch>(body.RootShape);
+        Assert.IsInstanceOf<Core.Shapes.Sketch>(body.RootShape);
         AssertHelper.IsSameModel2D(body.RootShape, Path.Combine(_BasePath, "MultipleUnorderedPCurves"));
     }
 

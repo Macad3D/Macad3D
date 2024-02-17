@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Macad.Occt.Generator;
+﻿namespace Macad.Occt.Generator;
 
 public class EnumWrapper : TypeWrapper
 {

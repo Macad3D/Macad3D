@@ -1,10 +1,9 @@
-﻿namespace Macad.Interaction.Editors.Shapes
+﻿namespace Macad.Interaction.Editors.Shapes;
+
+public class SketchSegmentCreator : SketchTool
 {
-    public class SketchSegmentCreator : SketchTool
+    public virtual bool Continue(int continueWithPoint)
     {
-        public virtual bool Continue(int continueWithPoint)
-        {
-            return false;
-        }
+        return false;
     }
 }

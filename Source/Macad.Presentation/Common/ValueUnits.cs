@@ -1,11 +1,10 @@
-﻿namespace Macad.Presentation
+﻿namespace Macad.Presentation;
+
+public enum ValueUnits
 {
-    public enum ValueUnits
-    {
-        None,
-        Length,
-        Degree,
-        Percent,
-        DotsPerInch
-    }
+    None,
+    Length,
+    Degree,
+    Percent,
+    DotsPerInch
 }

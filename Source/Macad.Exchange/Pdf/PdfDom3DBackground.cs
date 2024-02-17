@@ -1,24 +1,23 @@
 ﻿using Macad.Common;
 
-namespace Macad.Exchange.Pdf
+namespace Macad.Exchange.Pdf;
+
+public class PdfDom3DBackground : PdfDomObject
 {
-    public class PdfDom3DBackground : PdfDomObject
+    public Color Color
+    {
+        set
         {
-            public Color Color
-            {
-                set
-                {
-                    Attributes["C"] = value;
-                    Attributes["CS"] = "/DeviceRGB";
-                }
-            }
-
-            //--------------------------------------------------------------------------------------------------
-
-            public PdfDom3DBackground(PdfDomDocument document) 
-                : base(document, "3DBG")
-            {
-                Attributes["Subtype"] = "/SC";
-            }
+            Attributes["C"] = value;
+            Attributes["CS"] = "/DeviceRGB";
         }
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public PdfDom3DBackground(PdfDomDocument document) 
+        : base(document, "3DBG")
+    {
+        Attributes["Subtype"] = "/SC";
+    }
+}

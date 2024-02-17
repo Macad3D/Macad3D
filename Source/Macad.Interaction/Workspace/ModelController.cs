@@ -15,501 +15,500 @@ using Macad.Common.Serialization;
 using Macad.Core.Topology;
 using Macad.Presentation;
 
-namespace Macad.Interaction
+namespace Macad.Interaction;
+
+public class ModelController : BaseObject
 {
-    public class ModelController : BaseObject
+    #region Member variables
+
+    const int _MaxMruCount = 12;
+
+    public ObservableCollection<string> MruList { get; }
+
+    #endregion
+
+    #region Initialization
+
+    public ModelController()
     {
-        #region Member variables
-
-        const int _MaxMruCount = 12;
-
-        public ObservableCollection<string> MruList { get; }
-
-        #endregion
-
-        #region Initialization
-
-        public ModelController()
+        MruList = InteractiveContext.Current.LoadLocalSettings<ObservableCollection<string>>("MRU")
+                  ?? new ObservableCollection<string>();
+        while (MruList.Count >= _MaxMruCount)
         {
-            MruList = InteractiveContext.Current.LoadLocalSettings<ObservableCollection<string>>("MRU")
-                      ?? new ObservableCollection<string>();
-            while (MruList.Count >= _MaxMruCount)
-            {
-                MruList.RemoveAt(MruList.Count-1);
-            }
-
-            Model.AdditionalDataSaving += _Model_AdditionalDataSaving;
+            MruList.RemoveAt(MruList.Count-1);
         }
 
-        //--------------------------------------------------------------------------------------------------
+        Model.AdditionalDataSaving += _Model_AdditionalDataSaving;
+    }
 
-        #endregion
+    //--------------------------------------------------------------------------------------------------
 
-        #region Model
+    #endregion
 
-        public Model NewModel()
+    #region Model
+
+    public Model NewModel()
+    {
+        Model newModel = new();
+        InteractiveContext.Current.Document = newModel;
+        newModel.ResetUnsavedChanges();
+        return newModel;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public Model CreateModelAs(string baseDirectory = null)
+    {
+        var dlg = new SaveFileDialog()
         {
-            Model newModel = new();
-            InteractiveContext.Current.Document = newModel;
-            newModel.ResetUnsavedChanges();
-            return newModel;
+            Title = "Create Model...",
+            CheckPathExists = true,
+            Filter = "Macad3D Models|*." + Model.FileExtension,
+            DefaultExt = Model.FileExtension,
+        };
+        if (!(baseDirectory is null))
+        {
+            dlg.InitialDirectory = baseDirectory;
         }
 
-        //--------------------------------------------------------------------------------------------------
+        var result = dlg.ShowDialog(Application.Current.MainWindow);
+        if (!(result ?? false))
+            return null;
 
-        public Model CreateModelAs(string baseDirectory = null)
+        var relativeFilePath = dlg.FileName;
+        var model = NewModel();
+        if (model.SaveToFile(relativeFilePath))
         {
-            var dlg = new SaveFileDialog()
+            return model;
+        }
+        else
+        {
+            ErrorDialogs.CannotSaveFile(dlg.FileName);
+        }
+        return null;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public bool OpenModel(string filePath)
+    {
+        try
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            var context = new SerializationContext(SerializationScope.Storage);
+            var model = Model.CreateFromFile(filePath, context);
+            if (model == null)
             {
-                Title = "Create Model...",
-                CheckPathExists = true,
-                Filter = "Macad3D Models|*." + Model.FileExtension,
-                DefaultExt = Model.FileExtension,
-            };
-            if (!(baseDirectory is null))
-            {
-                dlg.InitialDirectory = baseDirectory;
+                switch (context.Result)
+                {
+                    case SerializationResult.VersionMismatch:
+                        ErrorDialogs.FileVersionIsNewer(filePath);
+                        break;
+                    default:
+                        ErrorDialogs.CannotLoadFile(filePath);
+                        break;
+                }
+
+                return false;
             }
 
-            var result = dlg.ShowDialog(Application.Current.MainWindow);
-            if (!(result ?? false))
-                return null;
-
-            var relativeFilePath = dlg.FileName;
-            var model = NewModel();
-            if (model.SaveToFile(relativeFilePath))
+            if (context.HasErrors)
             {
-                return model;
+                ErrorDialogs.FileLoadedWithErrors(filePath);
+            }
+
+            InteractiveContext.Current.Document = model;
+
+            model.ResetUnsavedChanges();
+            AddToMruList(filePath);
+
+            stopwatch.Stop();
+            Messages.Info(string.Format("Model " + model.Name + " loaded in {0}:{1} seconds.", stopwatch.Elapsed.Seconds, stopwatch.Elapsed.Milliseconds));
+            return true;
+        }
+        catch (Exception e)
+        {
+            Messages.Exception($"Exception while loading model {filePath}.", e);
+            ErrorDialogs.CannotLoadFile(filePath);
+            return false;
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public bool SaveModel()
+    {
+        var model = InteractiveContext.Current.Document;
+        if (model.FilePath.IsNullOrEmpty())
+        {
+            return SaveModelAs();
+        }
+        else
+        {
+            if (model.Save())
+            {
+                AddToMruList(model.FilePath);
+                return true;
+            }
+            ErrorDialogs.CannotSaveFile(model.FilePath);
+        }
+        return false;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public bool SaveModelAs()
+    {
+        var dlg = new SaveFileDialog()
+        {
+            Title = "Saving Model...",
+            InitialDirectory = Path.GetDirectoryName(InteractiveContext.Current.Document.FilePath),
+            FileName = Path.GetFileName(InteractiveContext.Current.Document.FilePath),
+            CheckPathExists = true,
+            Filter = "Macad3D Models|*." + Model.FileExtension,
+            DefaultExt = Model.FileExtension
+        };
+        var result = dlg.ShowDialog(Application.Current.MainWindow);
+        if (result ?? false)
+        {
+            var filePath = dlg.FileName;
+            if (PathUtils.GetExtensionWithoutPoint(filePath).ToLower() != Model.FileExtension)
+            {
+                filePath += "." + Model.FileExtension;
+            }
+            var model = InteractiveContext.Current.Document;
+            if (model.SaveToFile(filePath))
+            {
+                AddToMruList(model.FilePath);
+                return true;
             }
             else
             {
                 ErrorDialogs.CannotSaveFile(dlg.FileName);
             }
-            return null;
         }
+        return false;
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public bool OpenModel(string filePath)
+    public bool OpenModelFrom(string initialDirectory)
+    {
+        var dlg = new OpenFileDialog()
         {
-            try
-            {
-                var stopwatch = new Stopwatch();
-                stopwatch.Start();
-
-                var context = new SerializationContext(SerializationScope.Storage);
-                var model = Model.CreateFromFile(filePath, context);
-                if (model == null)
-                {
-                    switch (context.Result)
-                    {
-                        case SerializationResult.VersionMismatch:
-                            ErrorDialogs.FileVersionIsNewer(filePath);
-                            break;
-                        default:
-                            ErrorDialogs.CannotLoadFile(filePath);
-                            break;
-                    }
-
-                    return false;
-                }
-
-                if (context.HasErrors)
-                {
-                    ErrorDialogs.FileLoadedWithErrors(filePath);
-                }
-
-                InteractiveContext.Current.Document = model;
-
-                model.ResetUnsavedChanges();
-                AddToMruList(filePath);
-
-                stopwatch.Stop();
-                Messages.Info(string.Format("Model " + model.Name + " loaded in {0}:{1} seconds.", stopwatch.Elapsed.Seconds, stopwatch.Elapsed.Milliseconds));
-                return true;
-            }
-            catch (Exception e)
-            {
-                Messages.Exception($"Exception while loading model {filePath}.", e);
-                ErrorDialogs.CannotLoadFile(filePath);
-                return false;
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public bool SaveModel()
+            Title = "Open Model...",
+            CheckFileExists = true,
+            Filter = "Macad3D Models|*." + Model.FileExtension,
+            DefaultExt = Model.FileExtension,
+            InitialDirectory = initialDirectory ?? String.Empty
+        };
+        var result = dlg.ShowDialog(Application.Current.MainWindow);
+        if (!((bool) result))
         {
-            var model = InteractiveContext.Current.Document;
-            if (model.FilePath.IsNullOrEmpty())
-            {
-                return SaveModelAs();
-            }
-            else
-            {
-                if (model.Save())
-                {
-                    AddToMruList(model.FilePath);
-                    return true;
-                }
-                ErrorDialogs.CannotSaveFile(model.FilePath);
-            }
             return false;
         }
 
-        //--------------------------------------------------------------------------------------------------
+        return OpenModel(dlg.FileName);
+    }
 
-        public bool SaveModelAs()
-        {
-            var dlg = new SaveFileDialog()
-            {
-                Title = "Saving Model...",
-                InitialDirectory = Path.GetDirectoryName(InteractiveContext.Current.Document.FilePath),
-                FileName = Path.GetFileName(InteractiveContext.Current.Document.FilePath),
-                CheckPathExists = true,
-                Filter = "Macad3D Models|*." + Model.FileExtension,
-                DefaultExt = Model.FileExtension
-            };
-            var result = dlg.ShowDialog(Application.Current.MainWindow);
-            if (result ?? false)
-            {
-                var filePath = dlg.FileName;
-                if (PathUtils.GetExtensionWithoutPoint(filePath).ToLower() != Model.FileExtension)
-                {
-                    filePath += "." + Model.FileExtension;
-                }
-                var model = InteractiveContext.Current.Document;
-                if (model.SaveToFile(filePath))
-                {
-                    AddToMruList(model.FilePath);
-                    return true;
-                }
-                else
-                {
-                    ErrorDialogs.CannotSaveFile(dlg.FileName);
-                }
-            }
-            return false;
-        }
+    //--------------------------------------------------------------------------------------------------
 
-        //--------------------------------------------------------------------------------------------------
-
-        public bool OpenModelFrom(string initialDirectory)
-        {
-            var dlg = new OpenFileDialog()
-            {
-                Title = "Open Model...",
-                CheckFileExists = true,
-                Filter = "Macad3D Models|*." + Model.FileExtension,
-                DefaultExt = Model.FileExtension,
-                InitialDirectory = initialDirectory ?? String.Empty
-            };
-            var result = dlg.ShowDialog(Application.Current.MainWindow);
-            if (!((bool) result))
-            {
-                return false;
-            }
-
-            return OpenModel(dlg.FileName);
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public bool AskForSavingModelChanges()
-        {
-            if (InteractiveContext.Current.Document == null)
-                return true;
-
-            if (InteractiveContext.Current.Document.HasUnsavedChanges)
-            {
-                switch (Dialogs.Dialogs.AskForSavingModelChanges())
-                {
-                    case TaskDialogResults.Cancel:
-                        return false;
-
-                    case TaskDialogResults.Yes:
-                        if (!SaveModel())
-                        {
-                            return false;
-                        }
-                        break;
-
-                    case TaskDialogResults.No:
-                        break;
-                }
-            }
+    public bool AskForSavingModelChanges()
+    {
+        if (InteractiveContext.Current.Document == null)
             return true;
+
+        if (InteractiveContext.Current.Document.HasUnsavedChanges)
+        {
+            switch (Dialogs.Dialogs.AskForSavingModelChanges())
+            {
+                case TaskDialogResults.Cancel:
+                    return false;
+
+                case TaskDialogResults.Yes:
+                    if (!SaveModel())
+                    {
+                        return false;
+                    }
+                    break;
+
+                case TaskDialogResults.No:
+                    break;
+            }
+        }
+        return true;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Generic File I/O
+
+    public void OpenFile(string filePath, bool mergeToCurrent)
+    {
+        var extension = PathUtils.GetExtensionWithoutPoint(filePath);
+        if (extension != null && extension.Equals(Model.FileExtension))
+        {
+            // Load model
+            if (AskForSavingModelChanges())
+            {
+                OpenModel(filePath);
+            }
+            return;
         }
 
-        //--------------------------------------------------------------------------------------------------
+        // Try importer
+        var importer = ExchangeRegistry.FindExchanger<IBodyImporter>(extension);
+        if (importer == null)
+            return;
 
-        #endregion
-
-        #region Generic File I/O
-
-        public void OpenFile(string filePath, bool mergeToCurrent)
+        if (!mergeToCurrent)
         {
-            var extension = PathUtils.GetExtensionWithoutPoint(filePath);
-            if (extension != null && extension.Equals(Model.FileExtension))
+            if (!AskForSavingModelChanges())
             {
-                // Load model
-                if (AskForSavingModelChanges())
-                {
-                    OpenModel(filePath);
-                }
                 return;
             }
+        }
 
-            // Try importer
-            var importer = ExchangeRegistry.FindExchanger<IBodyImporter>(extension);
-            if (importer == null)
-                return;
+        // Call for Settings
+        if (!ExchangerSettings.Execute<IBodyImporter>(importer))
+            return;
 
+        // Do it
+        using (new ProcessingScope(null, "Importing file..."))
+        {
             if (!mergeToCurrent)
             {
-                if (!AskForSavingModelChanges())
-                {
-                    return;
-                }
+                NewModel();
             }
 
-            // Call for Settings
-            if (!ExchangerSettings.Execute<IBodyImporter>(importer))
-                return;
-
-            // Do it
-            using (new ProcessingScope(null, "Importing file..."))
+            if (importer.DoImport(filePath, out var newBodies))
             {
-                if (!mergeToCurrent)
+                foreach (var newBody in newBodies)
                 {
-                    NewModel();
+                    CoreContext.Current?.Document?.Add(newBody);
                 }
 
-                if (importer.DoImport(filePath, out var newBodies))
-                {
-                    foreach (var newBody in newBodies)
-                    {
-                        CoreContext.Current?.Document?.Add(newBody);
-                    }
-
-                    InteractiveContext.Current.ViewportController.ZoomFitAll();
-                    AddToMruList(filePath);
-                }
-
-                CoreContext.Current.UndoHandler.Commit();
+                InteractiveContext.Current.ViewportController.ZoomFitAll();
+                AddToMruList(filePath);
             }
+
+            CoreContext.Current.UndoHandler.Commit();
         }
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public void AddToMruList(string filePath)
+    public void AddToMruList(string filePath)
+    {
+        var index = MruList.IndexOfFirst(s => s.CompareIgnoreCase(filePath) == 0);
+        if (index >= 0)
         {
-            var index = MruList.IndexOfFirst(s => s.CompareIgnoreCase(filePath) == 0);
-            if (index >= 0)
-            {
-                // Move to top of list
-                MruList.Move(index, 0);
-                MruList[0] = filePath;
-            }
-            else
-            {
-                if(MruList.Count >= _MaxMruCount)
-                    MruList.RemoveAt(MruList.Count-1);
-
-                MruList.Insert(0, filePath);
-            }
-
-            InteractiveContext.Current.SaveLocalSettings("MRU", MruList);
-
-            try
-            {
-                JumpList.AddToRecentCategory(filePath);
-            }
-            catch
-            {
-                // ignored
-            }
+            // Move to top of list
+            MruList.Move(index, 0);
+            MruList[0] = filePath;
         }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void RemoveFromMruList(string filePath)
+        else
         {
-            var index = MruList.IndexOfFirst(s => s.CompareIgnoreCase(filePath) == 0);
-            if (index >= 0)
-            {
-                MruList.RemoveAt(index);
-            }
+            if(MruList.Count >= _MaxMruCount)
+                MruList.RemoveAt(MruList.Count-1);
 
-            InteractiveContext.Current.SaveLocalSettings("MRU", MruList);
+            MruList.Insert(0, filePath);
         }
+
+        InteractiveContext.Current.SaveLocalSettings("MRU", MruList);
+
+        try
+        {
+            JumpList.AddToRecentCategory(filePath);
+        }
+        catch
+        {
+            // ignored
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void RemoveFromMruList(string filePath)
+    {
+        var index = MruList.IndexOfFirst(s => s.CompareIgnoreCase(filePath) == 0);
+        if (index >= 0)
+        {
+            MruList.RemoveAt(index);
+        }
+
+        InteractiveContext.Current.SaveLocalSettings("MRU", MruList);
+    }
         
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        void _Model_AdditionalDataSaving(Document<InteractiveEntity> sender, FileSystem fileSystem)
+    void _Model_AdditionalDataSaving(Document<InteractiveEntity> sender, FileSystem fileSystem)
+    {
+        if (InteractiveContext.Current?.Document != sender)
+            return; // This model is not active
+
+        var bitmap = InteractiveContext.Current?.ViewportController.RenderToBitmap(500, 500);
+        if (bitmap == null)
+            return;
+
+        using (var ms = new MemoryStream())
         {
-            if (InteractiveContext.Current?.Document != sender)
-                return; // This model is not active
-
-            var bitmap = InteractiveContext.Current?.ViewportController.RenderToBitmap(500, 500);
-            if (bitmap == null)
-                return;
-
-            using (var ms = new MemoryStream())
-            {
-                bitmap.Save(ms, ImageFormat.Png);
-                fileSystem.Write("thumbnail.png", ms.GetBuffer());
-            }
+            bitmap.Save(ms, ImageFormat.Png);
+            fileSystem.Write("thumbnail.png", ms.GetBuffer());
         }
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        #endregion
+    #endregion
 
-        #region Delete, Duplicate, Clipboard
+    #region Delete, Duplicate, Clipboard
             
-        const string ClipboardContentFormat = "Macad.ModelContent.1";
+    const string ClipboardContentFormat = "Macad.ModelContent.1";
         
-        [SerializeType]
-        public class ClipboardHeader
-        {
-            [SerializeMember]
-            public Guid ModelGuid { get; set; }
-        }
+    [SerializeType]
+    public class ClipboardHeader
+    {
+        [SerializeMember]
+        public Guid ModelGuid { get; set; }
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        internal bool CanDelete(List<InteractiveEntity> entities)
-        {
-            return entities.Any() && entities.All(e => CoreContext.Current.Document.Contains(e));
-        }
+    internal bool CanDelete(List<InteractiveEntity> entities)
+    {
+        return entities.Any() && entities.All(e => CoreContext.Current.Document.Contains(e));
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
         
-        internal void Delete(List<InteractiveEntity> entities)
-        {
-            if (!CanDelete(entities))
-                return;
+    internal void Delete(List<InteractiveEntity> entities)
+    {
+        if (!CanDelete(entities))
+            return;
 
-            // Delete all bodies. Use array copy, since the list will change.
-            var entitiesToDelete = entities.ToArray();
-            InteractiveContext.Current.WorkspaceController.Selection.ChangeEntitySelection(new InteractiveEntity[0], entitiesToDelete);
-            InteractiveContext.Current.Document.SafeDelete(entitiesToDelete);
+        // Delete all bodies. Use array copy, since the list will change.
+        var entitiesToDelete = entities.ToArray();
+        InteractiveContext.Current.WorkspaceController.Selection.ChangeEntitySelection(new InteractiveEntity[0], entitiesToDelete);
+        InteractiveContext.Current.Document.SafeDelete(entitiesToDelete);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    internal bool CanDuplicate(List<InteractiveEntity> entities)
+    {
+        return entities.Any() && entities.All(e => CoreContext.Current.Document.Contains(e));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    internal IEnumerable<InteractiveEntity> Duplicate(List<InteractiveEntity> entities, CloneOptions options = null)
+    {
+        if (!CanDuplicate(entities))
+            return null;
+
+        var context = new SerializationContext(SerializationScope.CopyPaste);
+        context.SetInstance(InteractiveContext.Current.Document);
+        context.SetInstance<IDocument>(InteractiveContext.Current.Document);
+        var serialized = Serializer.Serialize(entities, context);
+
+        context = new SerializationContext(SerializationScope.CopyPaste);
+        context.SetInstance(InteractiveContext.Current.Document);
+        context.SetInstance<IDocument>(InteractiveContext.Current.Document);
+        context.SetInstance(ReadOptions.RecreateGuids);
+        var cloneOptions = options ?? new InteractiveCloneOptions();
+        context.SetInstance<CloneOptions>(cloneOptions);
+        var cloned = Serializer.Deserialize<InteractiveEntity[]>(serialized, context);
+
+        if ((cloneOptions as InteractiveCloneOptions)?.IsCanceled ?? false)
+            return null;
+
+        foreach (var entity in context.GetInstanceList<InteractiveEntity>())
+        {
+            InteractiveContext.Current.Document.Add(entity);
+            entity.RaiseVisualChanged();
         }
 
-        //--------------------------------------------------------------------------------------------------
+        InteractiveContext.Current.WorkspaceController.Selection.SelectEntities(cloned);
+        return cloned;
+    }
 
-        internal bool CanDuplicate(List<InteractiveEntity> entities)
+    //--------------------------------------------------------------------------------------------------
+
+    internal bool CanCopyToClipboard(List<InteractiveEntity> entities)
+    {
+        return entities.Any() && entities.All(e => e is InteractiveEntity && CoreContext.Current.Document.Contains(e));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    internal void CopyToClipboard(List<InteractiveEntity> entities)
+    {
+        if (!CanCopyToClipboard(entities))
+            return;
+
+        var context = new SerializationContext(SerializationScope.CopyPaste);
+        context.SetInstance(InteractiveContext.Current.Document);
+        context.SetInstance<IDocument>(InteractiveContext.Current.Document);
+        var document = new ClipboardHeader()
         {
-            return entities.Any() && entities.All(e => CoreContext.Current.Document.Contains(e));
-        }
+            ModelGuid = CoreContext.Current.Document.Guid
+        };
+        var writer = new Writer();
+        if (!Serializer.Serialize(writer, document, context)
+            || !Serializer.Serialize(writer, entities, context))
+            return;
 
-        //--------------------------------------------------------------------------------------------------
+        Core.Clipboard.Current?.SetData(ClipboardContentFormat, writer.ToString());
+    }
 
-        internal IEnumerable<InteractiveEntity> Duplicate(List<InteractiveEntity> entities, CloneOptions options = null)
-        {
-            if (!CanDuplicate(entities))
-                return null;
+    //--------------------------------------------------------------------------------------------------
 
-            var context = new SerializationContext(SerializationScope.CopyPaste);
-            context.SetInstance(InteractiveContext.Current.Document);
-            context.SetInstance<IDocument>(InteractiveContext.Current.Document);
-            var serialized = Serializer.Serialize(entities, context);
+    internal bool CanPasteFromClipboard()
+    {
+        return Core.Clipboard.Current?.ContainsData(ClipboardContentFormat) ?? false;
+    }
 
-            context = new SerializationContext(SerializationScope.CopyPaste);
-            context.SetInstance(InteractiveContext.Current.Document);
-            context.SetInstance<IDocument>(InteractiveContext.Current.Document);
-            context.SetInstance(ReadOptions.RecreateGuids);
-            var cloneOptions = options ?? new InteractiveCloneOptions();
-            context.SetInstance<CloneOptions>(cloneOptions);
-            var cloned = Serializer.Deserialize<InteractiveEntity[]>(serialized, context);
+    //--------------------------------------------------------------------------------------------------
 
-            if ((cloneOptions as InteractiveCloneOptions)?.IsCanceled ?? false)
-                return null;
+    internal IEnumerable<InteractiveEntity> PasteFromClipboard()
+    {
+        var serialized = Core.Clipboard.Current?.GetDataAsString(ClipboardContentFormat);
+        if (serialized == null)
+            return null;
 
-            foreach (var entity in context.GetInstanceList<InteractiveEntity>())
-            {
-                InteractiveContext.Current.Document.Add(entity);
-                entity.RaiseVisualChanged();
-            }
+        var context = new SerializationContext(SerializationScope.CopyPaste);
+        context.SetInstance(InteractiveContext.Current.Document);
+        context.SetInstance<IDocument>(InteractiveContext.Current.Document);
 
-            InteractiveContext.Current.WorkspaceController.Selection.SelectEntities(cloned);
-            return cloned;
-        }
+        var reader = new Reader(serialized, ReadOptions.RecreateGuids);
+        var document = Serializer.Deserialize<ClipboardHeader>(reader, context);
+        if (document == null)
+            return null;
 
-        //--------------------------------------------------------------------------------------------------
-
-        internal bool CanCopyToClipboard(List<InteractiveEntity> entities)
-        {
-            return entities.Any() && entities.All(e => e is InteractiveEntity && CoreContext.Current.Document.Contains(e));
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        internal void CopyToClipboard(List<InteractiveEntity> entities)
-        {
-            if (!CanCopyToClipboard(entities))
-                return;
-
-            var context = new SerializationContext(SerializationScope.CopyPaste);
-            context.SetInstance(InteractiveContext.Current.Document);
-            context.SetInstance<IDocument>(InteractiveContext.Current.Document);
-            var document = new ClipboardHeader()
-            {
-                ModelGuid = CoreContext.Current.Document.Guid
-            };
-            var writer = new Writer();
-            if (!Serializer.Serialize(writer, document, context)
-                || !Serializer.Serialize(writer, entities, context))
-                return;
-
-            Core.Clipboard.Current?.SetData(ClipboardContentFormat, writer.ToString());
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        internal bool CanPasteFromClipboard()
-        {
-            return Core.Clipboard.Current?.ContainsData(ClipboardContentFormat) ?? false;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        internal IEnumerable<InteractiveEntity> PasteFromClipboard()
-        {
-            var serialized = Core.Clipboard.Current?.GetDataAsString(ClipboardContentFormat);
-            if (serialized == null)
-                return null;
-
-            var context = new SerializationContext(SerializationScope.CopyPaste);
-            context.SetInstance(InteractiveContext.Current.Document);
-            context.SetInstance<IDocument>(InteractiveContext.Current.Document);
-
-            var reader = new Reader(serialized, ReadOptions.RecreateGuids);
-            var document = Serializer.Deserialize<ClipboardHeader>(reader, context);
-            if (document == null)
-                return null;
-
-            // Same Model -> Ask for cloning
-            // Foreign Model -> Clone always
-            context.SetInstance<CloneOptions>(
-                document.ModelGuid == CoreContext.Current.Document.Guid 
+        // Same Model -> Ask for cloning
+        // Foreign Model -> Clone always
+        context.SetInstance<CloneOptions>(
+            document.ModelGuid == CoreContext.Current.Document.Guid 
                 ? new InteractiveCloneOptions() 
                 : new CloneOptions(true));
 
-            var cloned = Serializer.Deserialize<InteractiveEntity[]>(reader, context);
-            foreach (var entity in context.GetInstanceList<InteractiveEntity>())
-            {
-                InteractiveContext.Current.Document.Add(entity);
-                entity.RaiseVisualChanged();
-            }
-
-            InteractiveContext.Current.WorkspaceController?.Selection?.SelectEntities(cloned);
-            return cloned;
+        var cloned = Serializer.Deserialize<InteractiveEntity[]>(reader, context);
+        foreach (var entity in context.GetInstanceList<InteractiveEntity>())
+        {
+            InteractiveContext.Current.Document.Add(entity);
+            entity.RaiseVisualChanged();
         }
 
-        //--------------------------------------------------------------------------------------------------
-
-        #endregion
+        InteractiveContext.Current.WorkspaceController?.Selection?.SelectEntities(cloned);
+        return cloned;
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
 }

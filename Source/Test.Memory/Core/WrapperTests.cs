@@ -1,31 +1,28 @@
-﻿using System;
-using System.Diagnostics;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Macad.Occt;
 
-namespace Macad.Test.Memory.Core
+namespace Macad.Test.Memory.Core;
+
+[TestFixture]
+public class WrapperTests
 {
-    [TestFixture]
-    public class WrapperTests
+    [Test]
+    public void FinalizeNonTransient()
     {
-        [Test]
-        public void FinalizeNonTransient()
+        AssertHelper.IsFreeingMemory(() =>
         {
-            AssertHelper.IsFreeingMemory(() =>
-            {
-                var obj = new BRep_Builder();
-            }, 1000000, 10000);
-        }
+            var obj = new BRep_Builder();
+        }, 1000000, 10000);
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        [Test]
-        public void FinalizeTransient()
+    [Test]
+    public void FinalizeTransient()
+    {
+        AssertHelper.IsFreeingMemory(() =>
         {
-            AssertHelper.IsFreeingMemory(() =>
-            {
-                var obj = new BRepTools_History();
-            }, 1000000, 100000);
-        }
+            var obj = new BRepTools_History();
+        }, 1000000, 100000);
     }
 }

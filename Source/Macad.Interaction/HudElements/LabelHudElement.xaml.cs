@@ -1,36 +1,35 @@
-﻿namespace Macad.Interaction
+﻿namespace Macad.Interaction;
+
+public partial class LabelHudElement : HudElement
 {
-    public partial class LabelHudElement : HudElement
+    public string Text
     {
-        public string Text
+        get { return _Text; }
+        set
         {
-            get { return _Text; }
-            set
+            if (_Text != value)
             {
-                if (_Text != value)
-                {
-                    _Text = value;
-                    RaisePropertyChanged();
-                }
+                _Text = value;
+                RaisePropertyChanged();
             }
         }
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        string _Text;
+    string _Text;
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public LabelHudElement()
-        {
-            InitializeComponent();
-        }
+    public LabelHudElement()
+    {
+        InitializeComponent();
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public void SetValue(string text)
-        {
-            Text = text;
-        }
+    public void SetValue(string text)
+    {
+        Text = text;
     }
 }

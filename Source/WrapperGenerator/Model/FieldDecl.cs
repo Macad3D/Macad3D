@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Macad.Occt.Generator;
+﻿namespace Macad.Occt.Generator;
 
 public class FieldDecl : ElementDecl
 {

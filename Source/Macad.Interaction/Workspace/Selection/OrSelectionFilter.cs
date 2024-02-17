@@ -1,29 +1,28 @@
 ﻿using Macad.Occt;
 
-namespace Macad.Interaction
+namespace Macad.Interaction;
+
+public sealed class OrSelectionFilter : ISelectionFilter
 {
-    public sealed class OrSelectionFilter : ISelectionFilter
+    readonly ISelectionFilter[] _Filters;
+
+    //--------------------------------------------------------------------------------------------------
+
+    public OrSelectionFilter(params ISelectionFilter[] filters)
     {
-        readonly ISelectionFilter[] _Filters;
+        _Filters = filters;
+    }
 
-        //--------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------
 
-        public OrSelectionFilter(params ISelectionFilter[] filters)
+    SelectMgr_Filter ISelectionFilter.GetNativeFilter()
+    {
+        var andFilter = new SelectMgr_OrFilter();
+        foreach (var filter in _Filters)
         {
-            _Filters = filters;
+            andFilter.Add(filter.GetNativeFilter());
         }
 
-        //--------------------------------------------------------------------------------------------------
-
-        SelectMgr_Filter ISelectionFilter.GetNativeFilter()
-        {
-            var andFilter = new SelectMgr_OrFilter();
-            foreach (var filter in _Filters)
-            {
-                andFilter.Add(filter.GetNativeFilter());
-            }
-
-            return andFilter;
-        }
+        return andFilter;
     }
 }

@@ -1,5 +1,4 @@
-﻿using Macad.Common;
-using Macad.Core;
+﻿using Macad.Core;
 using Macad.Interaction.Visual;
 using Macad.Occt;
 

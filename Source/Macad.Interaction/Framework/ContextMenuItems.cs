@@ -6,117 +6,116 @@ using System.Windows.Controls;
 using Macad.Common;
 using Macad.Presentation;
 
-namespace Macad.Interaction
+namespace Macad.Interaction;
+
+public interface IContextMenuItemProvider
 {
-    public interface IContextMenuItemProvider
-    {
-        void EnrichContextMenu(ContextMenuItems itemList);
-    }
+    void EnrichContextMenu(ContextMenuItems itemList);
+}
     
-    //--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+
+public sealed class ContextMenuItems : ObservableCollection<Control>
+{
+    readonly Stack<MenuItem> _GroupItems = new();
+
     //--------------------------------------------------------------------------------------------------
 
-    public sealed class ContextMenuItems : ObservableCollection<Control>
+    public void AddCommand(IActionCommand command, object param = null, string overrideTitle = null)
     {
-        readonly Stack<MenuItem> _GroupItems = new();
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void AddCommand(IActionCommand command, object param = null, string overrideTitle = null)
+        var mi = new MenuItem
         {
-            var mi = new MenuItem
-            {
-                CommandParameter = param
-            };
+            CommandParameter = param
+        };
 
-            var autoId = command.GetHeader(param) ?? command.GetTitle(param);
-            if (!autoId.IsNullOrEmpty())
-            {
-                AutomationProperties.SetAutomationId(mi, autoId);
-            }
-
-            Command.SetAction(mi, command);
-
-            if (!overrideTitle.IsNullOrEmpty())
-            {
-                mi.Header = overrideTitle;
-            }
-
-            if (_GroupItems.Count > 0)
-            {
-                var gi = _GroupItems.Peek();
-                gi.Items.Add(mi);
-                gi.IsEnabled = true;
-            }
-            else
-            {
-                Add(mi);
-            }
+        var autoId = command.GetHeader(param) ?? command.GetTitle(param);
+        if (!autoId.IsNullOrEmpty())
+        {
+            AutomationProperties.SetAutomationId(mi, autoId);
         }
 
-        //--------------------------------------------------------------------------------------------------
+        Command.SetAction(mi, command);
 
-        public void AddCommandIfExecutable(IActionCommand command, object param, string overrideTitle = null)
+        if (!overrideTitle.IsNullOrEmpty())
         {
-            if (command.CanExecute(param))
-            {
-                AddCommand(command, param, overrideTitle);
-            }
+            mi.Header = overrideTitle;
         }
 
-        //--------------------------------------------------------------------------------------------------
-
-        public void AddSeparator(string header = null)
+        if (_GroupItems.Count > 0)
         {
-            Control newSeperator = header.IsNullOrEmpty() ? new Separator() 
-                                       : (Control)new MenuItem()
-                                       {
-                                           Header = header,
-                                           Style = Application.Current.FindResource("Macad.Styles.MenuItem.GroupHeader") as Style
-                                       };
-            if (_GroupItems.Count > 0)
-            {
-                _GroupItems.Peek().Items.Add(newSeperator);
-            }
-            else
-            {
-                Add(newSeperator);
-            }
+            var gi = _GroupItems.Peek();
+            gi.Items.Add(mi);
+            gi.IsEnabled = true;
         }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void AddGroup(string header)
+        else
         {
-            var mi = new MenuItem
-            {
-                Header = header,
-                IsEnabled = false
-            };
-
-            if (_GroupItems.Count > 0)
-            {
-                _GroupItems.Peek().Items.Add(mi);
-            }
-            else
-            {
-                Add(mi);
-            }
-
-            _GroupItems.Push(mi);
+            Add(mi);
         }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public void CloseGroup()
-        {
-            if (_GroupItems.Count > 0)
-            {
-                _GroupItems.Pop();
-            }
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void AddCommandIfExecutable(IActionCommand command, object param, string overrideTitle = null)
+    {
+        if (command.CanExecute(param))
+        {
+            AddCommand(command, param, overrideTitle);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void AddSeparator(string header = null)
+    {
+        Control newSeperator = header.IsNullOrEmpty() ? new Separator() 
+                                   : (Control)new MenuItem()
+                                   {
+                                       Header = header,
+                                       Style = Application.Current.FindResource("Macad.Styles.MenuItem.GroupHeader") as Style
+                                   };
+        if (_GroupItems.Count > 0)
+        {
+            _GroupItems.Peek().Items.Add(newSeperator);
+        }
+        else
+        {
+            Add(newSeperator);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void AddGroup(string header)
+    {
+        var mi = new MenuItem
+        {
+            Header = header,
+            IsEnabled = false
+        };
+
+        if (_GroupItems.Count > 0)
+        {
+            _GroupItems.Peek().Items.Add(mi);
+        }
+        else
+        {
+            Add(mi);
+        }
+
+        _GroupItems.Push(mi);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void CloseGroup()
+    {
+        if (_GroupItems.Count > 0)
+        {
+            _GroupItems.Pop();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

@@ -1,27 +1,26 @@
 ﻿using Macad.Common.Serialization;
 
-namespace Macad.Interaction
+namespace Macad.Interaction;
+
+[AutoRegisterHost]
+public static partial class InteractionModule
 {
-    [AutoRegisterHost]
-    public static partial class InteractionModule
+    static bool _IsInitialized;
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static void Initialize()
     {
-        static bool _IsInitialized;
+        if (_IsInitialized)
+            return;
 
-        //--------------------------------------------------------------------------------------------------
+        Serializer.RegisterNamespaceAlias("Editors", "Macad.Interaction.Editors");
 
-        public static void Initialize()
-        {
-            if (_IsInitialized)
-                return;
+        _DoAutoRegister(); 
 
-            Serializer.RegisterNamespaceAlias("Editors", "Macad.Interaction.Editors");
-
-            _DoAutoRegister(); 
-
-            _IsInitialized = true;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
+        _IsInitialized = true;
     }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

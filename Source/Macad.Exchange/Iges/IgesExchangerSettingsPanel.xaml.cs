@@ -2,77 +2,76 @@
 using Macad.Core;
 using Macad.Presentation;
 
-namespace Macad.Exchange.Iges
+namespace Macad.Exchange.Iges;
+
+public class IgesSettingsPanelCreator : IExchangerSettingsPanelCreator
 {
-    public class IgesSettingsPanelCreator : IExchangerSettingsPanelCreator
+    public Type ExchangerType
     {
-        public Type ExchangerType
+        get
         {
-            get
-            {
-                return typeof(IgesExchanger);
-            }
+            return typeof(IgesExchanger);
         }
-
-        //--------------------------------------------------------------------------------------------------
-
-        public object CreatePanel<T>(IExchanger exchanger)
-        {
-            if(typeof(T) == typeof(IBodyImporter))
-            {
-                return new IgesSettingsPanel((exchanger as IgesExchanger)?.Settings);
-            }
-
-            return null;
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
-        [AutoRegister]
-        internal static void Register()
-        {
-            ExchangeRegistry.Register(new IgesSettingsPanelCreator());
-        }
-
-        //--------------------------------------------------------------------------------------------------
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public partial class IgesSettingsPanel : SettingsPanelBase
+    public object CreatePanel<T>(IExchanger exchanger)
     {
-        public bool ImportSingleBody
+        if(typeof(T) == typeof(IBodyImporter))
         {
-            get { return _IgesSettings.ImportSingleBody; }
-            set
-            {
-                _IgesSettings.ImportSingleBody = value;
-                RaisePropertyChanged();
-            }
+            return new IgesSettingsPanel((exchanger as IgesExchanger)?.Settings);
         }
 
-        //--------------------------------------------------------------------------------------------------
-
-        public RelayCommand<bool> SetImportSingleBodyCommand { get; }
-
-        //--------------------------------------------------------------------------------------------------
-
-        IgesExchanger.IgesSettings _IgesSettings;
-
-        //--------------------------------------------------------------------------------------------------
-
-        public IgesSettingsPanel(IgesExchanger.IgesSettings igesSettings)
-        {
-            _IgesSettings = igesSettings;
-
-            SetImportSingleBodyCommand = new RelayCommand<bool>(
-                (b) => { ImportSingleBody = b; }
-            );
-
-            InitializeComponent();
-        }
-
-        //--------------------------------------------------------------------------------------------------
-
+        return null;
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [AutoRegister]
+    internal static void Register()
+    {
+        ExchangeRegistry.Register(new IgesSettingsPanelCreator());
+    }
+
+    //--------------------------------------------------------------------------------------------------
+}
+
+//--------------------------------------------------------------------------------------------------
+
+public partial class IgesSettingsPanel : SettingsPanelBase
+{
+    public bool ImportSingleBody
+    {
+        get { return _IgesSettings.ImportSingleBody; }
+        set
+        {
+            _IgesSettings.ImportSingleBody = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public RelayCommand<bool> SetImportSingleBodyCommand { get; }
+
+    //--------------------------------------------------------------------------------------------------
+
+    IgesExchanger.IgesSettings _IgesSettings;
+
+    //--------------------------------------------------------------------------------------------------
+
+    public IgesSettingsPanel(IgesExchanger.IgesSettings igesSettings)
+    {
+        _IgesSettings = igesSettings;
+
+        SetImportSingleBodyCommand = new RelayCommand<bool>(
+            (b) => { ImportSingleBody = b; }
+        );
+
+        InitializeComponent();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

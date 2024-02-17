@@ -1,9 +1,6 @@
 ﻿using System.IO;
-using System.Linq;
-using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Toolkits;
-using Macad.Exchange;
 using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
