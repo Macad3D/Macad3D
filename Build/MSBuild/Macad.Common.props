@@ -11,8 +11,8 @@
     <MMIsVcxManagedProj Condition="($(MMIsVcxProj) == 'true') And ($(Keyword) == 'ManagedCProj')">true</MMIsVcxManagedProj>
     <MMIsDocProj Condition="$(MSBuildProjectExtension) == '.shfbproj'">true</MMIsDocProj>
 
-    <MMFramework>net6.0-windows</MMFramework>
-    <MMRuntime>win7-x64</MMRuntime>
+    <MMFramework>net8.0-windows</MMFramework>
+    <MMRuntime>win-x64</MMRuntime>
   </PropertyGroup>
 
   <Import Project="$(MMBuildPropsDir)Macad.ThirdParty.props" />

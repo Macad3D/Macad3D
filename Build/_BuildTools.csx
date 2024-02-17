@@ -7,7 +7,7 @@ using System.Linq;
 
 public class VisualStudio
 {
-    public const string DotNetRelease = "6.0";
+    public const string DotNetRelease = "8.0";
     public const string DotNetRuntime = "Microsoft.WindowsDesktop.App";
 
     public bool IsReady

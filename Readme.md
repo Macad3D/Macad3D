@@ -13,7 +13,7 @@ Official homepage and download: https://macad3d.net
 - Visual Studio 2022 Community Edition 
   - .Net Desktop workload
   - C++ Desktop workload
-  - .Net 6 support component
+  - .Net 8 support component
   - C++/CLI support component 
 
 ## Building from source
