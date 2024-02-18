@@ -7,7 +7,7 @@ using Macad.SketchSolve;
 namespace Macad.Core.Shapes;
 
 [SerializeType]
-public class SketchConstraintPointOnSegment : SketchConstraint
+public class SketchConstraintPointOnSegment : SketchConstraint, ISketchConstraintCreator
 {
     // Implement for serialization
     SketchConstraintPointOnSegment()
@@ -20,13 +20,6 @@ public class SketchConstraintPointOnSegment : SketchConstraint
     {
         Segments = new[] {segment};
         Points = new[] {point};
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public override SketchConstraint Clone()
-    {
-        return new SketchConstraintPointOnSegment(Points[0], Segments[0]);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -66,7 +59,27 @@ public class SketchConstraintPointOnSegment : SketchConstraint
 
         return valid;
     }
-        
+            
+    //--------------------------------------------------------------------------------------------------
+    
+    public override SketchConstraint Clone()
+    {
+        return new SketchConstraintPointOnSegment(Points[0], Segments[0]);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static bool CanCreate(Sketch sketch, List<int> points, List<int> segments)
+    {
+        return points.Count > 0
+               && segments.Count == 1
+               && (SketchConstraintHelper.AllSegmentsOfType<SketchSegmentLine>(sketch, segments)
+                   || SketchConstraintHelper.AllSegmentsOfType<SketchSegmentCircle>(sketch, segments))
+               && !SketchConstraintHelper.AnySegmentAndPointConstraint<SketchConstraintPointOnSegment>(sketch, points, segments)
+               && !SketchConstraintHelper.AnySegmentAndPointConstraint<SketchConstraintPointOnMidpoint>(sketch, points, segments)
+               && !SketchConstraintHelper.AnyConstrainedPoint<SketchConstraintFixed>(sketch, points);
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public static List<SketchConstraint> Create(Sketch sketch, List<int> points, List<int> segments)

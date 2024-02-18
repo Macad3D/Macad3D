@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Macad.Common.Serialization;
 using Macad.Occt;
 using Macad.SketchSolve;
@@ -7,7 +8,7 @@ using Macad.SketchSolve;
 namespace Macad.Core.Shapes;
 
 [SerializeType]
-public class SketchConstraintLength : SketchConstraint
+public class SketchConstraintLength : SketchConstraint, ISketchConstraintCreator
 {
     [SerializeMember]
     public double Length { get; set; }
@@ -59,6 +60,17 @@ public class SketchConstraintLength : SketchConstraint
         return new SketchConstraintLength(Segments[0], Length);
     }
         
+    //--------------------------------------------------------------------------------------------------
+
+    public static bool CanCreate(Sketch sketch, List<int> points, List<int> segments)
+    {
+        return points.Count == 0 
+               && segments.Count > 0
+               && SketchConstraintHelper.AllSegmentsOfType<SketchSegmentLine>(sketch, segments)
+               && !SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintFixed>(sketch, segments)
+               && !SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintLength>(sketch, segments);
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public static List<SketchConstraint> Create(Sketch sketch, List<int> points, List<int> segments)

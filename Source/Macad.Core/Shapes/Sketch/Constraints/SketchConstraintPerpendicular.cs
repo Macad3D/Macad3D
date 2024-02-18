@@ -7,7 +7,7 @@ using Macad.SketchSolve;
 namespace Macad.Core.Shapes;
 
 [SerializeType]
-public class SketchConstraintPerpendicular : SketchConstraint
+public class SketchConstraintPerpendicular : SketchConstraint, ISketchConstraintCreator
 {
     // Implement for serialization
     SketchConstraintPerpendicular()
@@ -48,7 +48,17 @@ public class SketchConstraintPerpendicular : SketchConstraint
     {
         return new SketchConstraintPerpendicular(Segments[0], Segments[1]);
     }
-        
+                                          
+    //--------------------------------------------------------------------------------------------------
+    
+    public static bool CanCreate(Sketch sketch, List<int> points, List<int> segments)
+    {
+        return points.Count == 0
+               && segments.Count == 2
+               && SketchConstraintHelper.AllSegmentsOfType<SketchSegmentLine>(sketch, segments)
+               && !SketchConstraintHelper.AllSegmentsHaveCommonAngleConstraint(sketch, segments);
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public static List<SketchConstraint> Create(Sketch sketch, List<int> points, List<int> segments)

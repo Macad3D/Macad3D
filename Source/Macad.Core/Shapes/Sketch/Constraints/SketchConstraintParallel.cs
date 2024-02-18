@@ -7,7 +7,7 @@ using Macad.SketchSolve;
 namespace Macad.Core.Shapes;
 
 [SerializeType]
-public class SketchConstraintParallel : SketchConstraint
+public class SketchConstraintParallel : SketchConstraint, ISketchConstraintCreator
 {
     // Implement for serialization
     SketchConstraintParallel()
@@ -18,13 +18,6 @@ public class SketchConstraintParallel : SketchConstraint
     public SketchConstraintParallel(int lineSegment1, int lineSegment2)
     {
         Segments = new[] { lineSegment1, lineSegment2 };
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public override SketchConstraint Clone()
-    {
-        return new SketchConstraintParallel(Segments[0], Segments[1]);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -48,7 +41,25 @@ public class SketchConstraintParallel : SketchConstraint
         }
         return valid;
     }
-       
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override SketchConstraint Clone()
+    {
+        return new SketchConstraintParallel(Segments[0], Segments[1]);
+    }
+                                  
+    //--------------------------------------------------------------------------------------------------
+    
+    public static bool CanCreate(Sketch sketch, List<int> points, List<int> segments)
+    {
+        return points.Count == 0
+               && segments.Count == 2
+               && SketchConstraintHelper.AllSegmentsOfType<SketchSegmentLine>(sketch, segments)
+               && !SketchConstraintHelper.AllSegmentsHaveCommonAngleConstraint(sketch, segments)
+               && !sketch.Segments[segments[0]].IsConnected(sketch.Segments[segments[1]]);
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public static List<SketchConstraint> Create(Sketch sketch, List<int> points, List<int> segments)

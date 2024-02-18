@@ -633,23 +633,26 @@ public sealed class SketchEditorTool : Tool
 
     #region Constraint Creation
 
-    public bool CanCreateConstraint<T>() where T : SketchConstraint
+    public bool CanCreateConstraint<T>() where T : ISketchConstraintCreator
     {
         // Don't allow constraint creation if any constraint is selected
         if (SelectedConstraints != null && SelectedConstraints.Any())
             return false;
 
-        return SketchConstraintCreator.CanCreate<T>(Sketch, SelectedPoints, SelectedSegmentIndices);
+        if (SelectedPoints == null || SelectedSegmentIndices == null)
+            return false;
+
+        return T.CanCreate(Sketch, SelectedPoints, SelectedSegmentIndices);
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public List<SketchConstraint> CreateConstraint<T>() where T : SketchConstraint
+    public List<SketchConstraint> CreateConstraint<T>() where T : ISketchConstraintCreator
     {
         if (!CanCreateConstraint<T>())
             return null;
 
-        var constraints = SketchConstraintCreator.Create<T>(Sketch, SelectedPoints, SelectedSegmentIndices);
+        var constraints = T.Create(Sketch, SelectedPoints, SelectedSegmentIndices);
         if (constraints != null)
         {
             Sketch.AddElements(null, null, null, constraints);

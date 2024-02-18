@@ -5,14 +5,23 @@ using Macad.Occt;
 
 namespace Macad.Core.Shapes;
 
+public interface ISketchConstraintCreator
+{
+    static abstract bool CanCreate(Sketch sketch, List<int> points, List<int> segments);
+    static abstract List<SketchConstraint> Create(Sketch sketch, List<int> points, List<int> segments);
+}
+
+//--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+
 [SerializeType]
 public abstract class SketchConstraint : BaseObject
 {
     [SerializeMember]
-    public int[] Points { get; protected set; }
+    public int[] Points { get; protected init; }
 
     [SerializeMember]
-    public int[] Segments { get; protected set; }
+    public int[] Segments { get; protected init; }
 
     //--------------------------------------------------------------------------------------------------
 

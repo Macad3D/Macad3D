@@ -2,11 +2,12 @@
 using Macad.Common.Serialization;
 using Macad.Occt;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Macad.Core.Shapes;
 
 [SerializeType]
-public class SketchConstraintFixed : SketchConstraint
+public class SketchConstraintFixed : SketchConstraint, ISketchConstraintCreator
 {
     // Implement for serialization
     SketchConstraintFixed()
@@ -76,6 +77,27 @@ public class SketchConstraintFixed : SketchConstraint
                 }
                 return true;
         }
+
+        return false;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static bool CanCreate(Sketch sketch, List<int> points, List<int> segments)
+    {
+        if (segments.Count > 0)
+        {
+            return !SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintFixed>(sketch, segments)
+                   && !SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintFixed>(sketch, segments)
+                   && !SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintFixed>(sketch, segments);
+        } 
+        else if (points.Count > 0)
+        {
+            return !SketchConstraintHelper.AnyConstrainedPoint<SketchConstraintFixed>(sketch, points)
+                   && !SketchConstraintHelper.AnyConstrainedPoint<SketchConstraintHorizontalDistance>(sketch, points)
+                   && !SketchConstraintHelper.AnyConstrainedPoint<SketchConstraintVerticalDistance>(sketch, points);
+        }
+
 
         return false;
     }

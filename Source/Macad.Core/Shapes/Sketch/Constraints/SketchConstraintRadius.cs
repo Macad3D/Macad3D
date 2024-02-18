@@ -7,7 +7,7 @@ using Macad.SketchSolve;
 namespace Macad.Core.Shapes;
 
 [SerializeType]
-public class SketchConstraintRadius : SketchConstraint
+public class SketchConstraintRadius : SketchConstraint, ISketchConstraintCreator
 {
     [SerializeMember]
     public double Radius { get; set; }
@@ -72,7 +72,19 @@ public class SketchConstraintRadius : SketchConstraint
     {
         return new SketchConstraintRadius(Segments[0], Radius);
     }
-        
+                            
+    //--------------------------------------------------------------------------------------------------
+
+    public static bool CanCreate(Sketch sketch, List<int> points, List<int> segments)
+    {
+        return points.Count == 0 
+               && segments.Count > 0
+               && (SketchConstraintHelper.AllSegmentsOfType<SketchSegmentCircle>(sketch, segments)
+                   || SketchConstraintHelper.AllSegmentsOfType<SketchSegmentArc>(sketch, segments))
+               && !SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintFixed>(sketch, segments)
+               && !SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintRadius>(sketch, segments);
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public static List<SketchConstraint> Create(Sketch sketch, List<int> points, List<int> segments)

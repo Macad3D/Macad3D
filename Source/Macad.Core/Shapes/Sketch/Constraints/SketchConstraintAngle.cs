@@ -7,7 +7,7 @@ using Macad.SketchSolve;
 namespace Macad.Core.Shapes;
 
 [SerializeType]
-public class SketchConstraintAngle : SketchConstraint
+public class SketchConstraintAngle : SketchConstraint, ISketchConstraintCreator
 {
     [SerializeMember]
     public double Angle { get; set; }
@@ -30,13 +30,6 @@ public class SketchConstraintAngle : SketchConstraint
     {
         Segments = new[] { lineSegment1, lineSegment2 };
         Angle = angle;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public override SketchConstraint Clone()
-    {
-        return new SketchConstraintAngle(Segments[0], Segments[1], Parameter);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -75,7 +68,23 @@ public class SketchConstraintAngle : SketchConstraint
         }
         return valid;
     }
+         
+    //--------------------------------------------------------------------------------------------------
 
+    public override SketchConstraint Clone()
+    {
+        return new SketchConstraintAngle(Segments[0], Segments[1], Parameter);
+    }
+                           
+    //--------------------------------------------------------------------------------------------------
+    
+    public static bool CanCreate(Sketch sketch, List<int> points, List<int> segments)
+    {
+        return points.Count == 0
+               && segments.Count == 2
+               && SketchConstraintHelper.AllSegmentsOfType<SketchSegmentLine>(sketch, segments)
+               && !SketchConstraintHelper.AllSegmentsHaveCommonAngleConstraint(sketch, segments);
+    }
 
     //--------------------------------------------------------------------------------------------------
 

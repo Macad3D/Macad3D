@@ -7,7 +7,7 @@ using Macad.SketchSolve;
 namespace Macad.Core.Shapes;
 
 [SerializeType]
-public class SketchConstraintConcentric : SketchConstraint
+public class SketchConstraintConcentric : SketchConstraint, ISketchConstraintCreator
 {        
     // Implement for serialization
     SketchConstraintConcentric()
@@ -18,13 +18,6 @@ public class SketchConstraintConcentric : SketchConstraint
     public SketchConstraintConcentric(int segment1, int segment2)
     {
         Segments = new[] { segment1, segment2 };
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public override SketchConstraint Clone()
-    {
-        return new SketchConstraintConcentric(Segments[0], Segments[1]);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -44,6 +37,24 @@ public class SketchConstraintConcentric : SketchConstraint
             solver.AddConstraint(con);
         }
         return valid;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override SketchConstraint Clone()
+    {
+        return new SketchConstraintConcentric(Segments[0], Segments[1]);
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+    
+    public static bool CanCreate(Sketch sketch, List<int> points, List<int> segments)
+    {
+        return points.Count == 0 
+               && segments.Count >= 2
+               && (SketchConstraintHelper.AllSegmentsOfType<SketchSegmentCircle>(sketch, segments)
+                   || SketchConstraintHelper.AllSegmentsOfType<SketchSegmentArc>(sketch, segments))
+               && !SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintConcentric>(sketch, segments);
     }
 
     //--------------------------------------------------------------------------------------------------

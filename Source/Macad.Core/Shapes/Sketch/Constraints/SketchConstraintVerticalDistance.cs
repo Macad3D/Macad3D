@@ -6,7 +6,7 @@ using Macad.SketchSolve;
 namespace Macad.Core.Shapes;
 
 [SerializeType]
-public class SketchConstraintVerticalDistance : SketchConstraint
+public class SketchConstraintVerticalDistance : SketchConstraint, ISketchConstraintCreator
 {
     [SerializeMember]
     public double Distance { get; set; }
@@ -33,13 +33,6 @@ public class SketchConstraintVerticalDistance : SketchConstraint
 
     //--------------------------------------------------------------------------------------------------
 
-    public override SketchConstraint Clone()
-    {
-        return new SketchConstraintVerticalDistance(Points[0], Distance);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     public override bool MakeConstraint(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, SketchConstraintSolver solver)
     {
         bool valid = true;
@@ -54,6 +47,23 @@ public class SketchConstraintVerticalDistance : SketchConstraint
         }
 
         return valid;
+    }                                          
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override SketchConstraint Clone()
+    {
+        return new SketchConstraintVerticalDistance(Points[0], Distance);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    public static bool CanCreate(Sketch sketch, List<int> points, List<int> segments)
+    {
+        return points.Count > 0
+               && segments.Count == 0
+               && !SketchConstraintHelper.AnyConstrainedPoint<SketchConstraintVerticalDistance>(sketch, points)
+               && !SketchConstraintHelper.AnyConstrainedPoint<SketchConstraintFixed>(sketch, points);
     }
         
     //--------------------------------------------------------------------------------------------------

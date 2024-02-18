@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Macad.Common.Serialization;
 using Macad.Occt;
 using Macad.SketchSolve;
@@ -7,7 +8,7 @@ using Macad.SketchSolve;
 namespace Macad.Core.Shapes;
 
 [SerializeType]
-public class SketchConstraintHorizontal : SketchConstraint
+public class SketchConstraintHorizontal : SketchConstraint, ISketchConstraintCreator
 {        
     // Implement for serialization
     SketchConstraintHorizontal()
@@ -18,13 +19,6 @@ public class SketchConstraintHorizontal : SketchConstraint
     public SketchConstraintHorizontal(int lineSegment)
     {
         Segments = new[] { lineSegment };
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public override SketchConstraint Clone()
-    {
-        return new SketchConstraintHorizontal(Segments[0]);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -45,6 +39,25 @@ public class SketchConstraintHorizontal : SketchConstraint
         return valid;
     }
         
+    //--------------------------------------------------------------------------------------------------
+
+    public override SketchConstraint Clone()
+    {
+        return new SketchConstraintHorizontal(Segments[0]);
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    public static bool CanCreate(Sketch sketch, List<int> points, List<int> segments)
+    {
+        return points.Count == 0 
+               && segments.Count > 0
+               && SketchConstraintHelper.AllSegmentsOfType<SketchSegmentLine>(sketch, segments)
+               && !SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintFixed>(sketch, segments)
+               && !SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintHorizontal>(sketch, segments)
+               && !SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintVertical>(sketch, segments);
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public static List<SketchConstraint> Create(Sketch sketch, List<int> points, List<int> segments)

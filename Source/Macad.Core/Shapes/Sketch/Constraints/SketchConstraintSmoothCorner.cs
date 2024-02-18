@@ -7,7 +7,7 @@ using Macad.SketchSolve;
 namespace Macad.Core.Shapes;
 
 [SerializeType]
-public class SketchConstraintSmoothCorner : SketchConstraint
+public class SketchConstraintSmoothCorner : SketchConstraint, ISketchConstraintCreator
 {
     [SerializeMember]
     public bool Symmetric { get; set; }
@@ -25,13 +25,6 @@ public class SketchConstraintSmoothCorner : SketchConstraint
     {
         Points = new[] {point};
         Symmetric = symmetric;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public override SketchConstraint Clone()
-    {
-        return new SketchConstraintSmoothCorner(Points[0], Symmetric);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -126,16 +119,25 @@ public class SketchConstraintSmoothCorner : SketchConstraint
 
         return false;
     }
-
+                                              
+    //--------------------------------------------------------------------------------------------------
+    
+    public override SketchConstraint Clone()
+    {
+        return new SketchConstraintSmoothCorner(Points[0], Symmetric);
+    }
+    
     //--------------------------------------------------------------------------------------------------
 
     public static bool CanCreate(Sketch sketch, List<int> points, List<int> segments)
     {
-        if (segments.Count > 0)
+        if (points.Count == 0
+            || segments.Count != 0
+            || SketchConstraintHelper.AnySegmentWithConstrainedPoint<SketchConstraintFixed>(sketch, points)
+            || SketchConstraintHelper.AnyConstrainedPoint<SketchConstraintSmoothCorner>(sketch, points))
+        {
             return false;
-
-        if (sketch.Constraints.Any(c => c is SketchConstraintSmoothCorner && c.Points != null && points.Contains(c.Points[0])))
-            return false;
+        }
 
         foreach (var pointIndex in points)
         {

@@ -7,7 +7,7 @@ using Macad.SketchSolve;
 namespace Macad.Core.Shapes;
 
 [SerializeType]
-public class SketchConstraintTangent : SketchConstraint
+public class SketchConstraintTangent : SketchConstraint, ISketchConstraintCreator
 {
     // Implement for serialization
     SketchConstraintTangent()
@@ -68,6 +68,18 @@ public class SketchConstraintTangent : SketchConstraint
         }
 
         return valid;
+    }
+                                
+    //--------------------------------------------------------------------------------------------------
+    
+    public static bool CanCreate(Sketch sketch, List<int> points, List<int> segments)
+    {
+        return points.Count == 0
+               && segments.Count == 2
+               && SketchConstraintHelper.AnySegmentsOfType<SketchSegmentLine>(sketch, segments)
+               && (SketchConstraintHelper.AnySegmentsOfType<SketchSegmentCircle>(sketch, segments)
+                   || SketchConstraintHelper.AnySegmentsOfType<SketchSegmentArc>(sketch, segments))
+               && !SketchConstraintHelper.AllSegmentsHaveCommonAngleConstraint(sketch, segments);
     }
 
     //--------------------------------------------------------------------------------------------------

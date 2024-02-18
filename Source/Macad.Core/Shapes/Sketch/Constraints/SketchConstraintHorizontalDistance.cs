@@ -6,7 +6,7 @@ using Macad.SketchSolve;
 namespace Macad.Core.Shapes;
 
 [SerializeType]
-public class SketchConstraintHorizontalDistance : SketchConstraint
+public class SketchConstraintHorizontalDistance : SketchConstraint, ISketchConstraintCreator
 {
     [SerializeMember]
     public double Distance { get; set; }
@@ -33,13 +33,6 @@ public class SketchConstraintHorizontalDistance : SketchConstraint
 
     //--------------------------------------------------------------------------------------------------
 
-    public override SketchConstraint Clone()
-    {
-        return new SketchConstraintHorizontalDistance(Points[0], Distance);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     public override bool MakeConstraint(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, SketchConstraintSolver solver)
     {
         bool valid = true;
@@ -55,7 +48,24 @@ public class SketchConstraintHorizontalDistance : SketchConstraint
 
         return valid;
     }
-        
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override SketchConstraint Clone()
+    {
+        return new SketchConstraintHorizontalDistance(Points[0], Distance);
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+    
+    public static bool CanCreate(Sketch sketch, List<int> points, List<int> segments)
+    {
+        return points.Count > 0
+               && segments.Count == 0
+               && !SketchConstraintHelper.AnyConstrainedPoint<SketchConstraintHorizontalDistance>(sketch, points)
+               && !SketchConstraintHelper.AnyConstrainedPoint<SketchConstraintFixed>(sketch, points);
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public static List<SketchConstraint> Create(Sketch sketch, List<int> points, List<int> segments)
