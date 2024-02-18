@@ -125,7 +125,7 @@ public static class SketchCommands
                 return;
 
             var exporter = new SvgExchanger() as ISketchExporter;
-            if (!exporter.DoExport(Clipboard.Current, tool.Sketch))
+            if (!exporter.DoExport(InteractiveContext.Current?.Clipboard, tool.Sketch))
             {
                 ErrorDialogs.CannotExportToClipboard();
             }
@@ -179,7 +179,7 @@ public static class SketchCommands
                 return;
 
             var importer = new SvgExchanger() as ISketchImporter;
-            if (!importer.DoImport(Clipboard.Current, out var points, out var segments, out var constraints))
+            if (!importer.DoImport(InteractiveContext.Current?.Clipboard, out var points, out var segments, out var constraints))
             {
                 ErrorDialogs.CannotImportFromClipboard();
                 return;
@@ -197,7 +197,7 @@ public static class SketchCommands
         {
             if (!(InteractiveContext.Current?.WorkspaceController?.CurrentTool is SketchEditorTool))
                 return false;
-            return ExchangeRegistry.CanImportFromClipboard<ISketchImporter>(Clipboard.Current);
+            return ExchangeRegistry.CanImportFromClipboard<ISketchImporter>(InteractiveContext.Current?.Clipboard);
         })
     {
         Header = (b) => b ? "Replace from Clipboard" : "Add from Clipboard"

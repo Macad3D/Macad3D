@@ -101,7 +101,7 @@ public class ShapeInspectorPanelModel : PanelBase
                 StringWriter writer = new();
                 brepShape.DumpJson(writer);
                 writer.Write('\0');
-                Core.Clipboard.Current.SetData(DataFormats.UnicodeText, writer.ToString());
+                InteractiveContext.Current?.Clipboard.SetData(DataFormats.UnicodeText, writer.ToString());
             }
         },
         () => true

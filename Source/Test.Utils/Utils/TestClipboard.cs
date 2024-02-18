@@ -33,14 +33,5 @@ public class TestClipboard : Clipboard
     }
 
     //--------------------------------------------------------------------------------------------------
-        
-    public static TestClipboard Init()
-    {
-        var newClipboard = new TestClipboard();
-        Current = newClipboard;
-        return newClipboard;
-    }
-
-    //--------------------------------------------------------------------------------------------------
 
 }

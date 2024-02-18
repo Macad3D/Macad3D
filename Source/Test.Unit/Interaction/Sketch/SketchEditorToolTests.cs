@@ -537,7 +537,6 @@ public class SketchEditorToolTests
     public void CopyToAndPasteFromClipboard()
     {
         var ctx = Context.Current;
-        var clipboard = TestClipboard.Init();
 
         var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
         var body = TestGeomGenerator.CreateBody(sketch);
@@ -556,7 +555,7 @@ public class SketchEditorToolTests
         // Do it
         Assert.IsTrue(ctx.WorkspaceController.CanCopyToClipboard());
         ctx.WorkspaceController.CopyToClipboard();
-        Assert.That(clipboard.ContainsData("Macad.SketchContent.1"));
+        Assert.That(ctx.Clipboard.ContainsData("Macad.SketchContent.1"));
         ctx.WorkspaceController.PasteFromClipboard();
 
         Assert.AreEqual(7, sketch.Points.Count);
@@ -582,7 +581,6 @@ public class SketchEditorToolTests
     public void CutToAndPasteFromClipboard()
     {
         var ctx = Context.Current;
-        var clipboard = TestClipboard.Init();
 
         var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
         var body = TestGeomGenerator.CreateBody(sketch);
@@ -604,7 +602,7 @@ public class SketchEditorToolTests
         Assert.IsTrue(ctx.WorkspaceController.CanDelete());
         ctx.WorkspaceController.CopyToClipboard();
         ctx.WorkspaceController.Delete();
-        Assert.That(clipboard.ContainsData("Macad.SketchContent.1"));
+        Assert.That(ctx.Clipboard.ContainsData("Macad.SketchContent.1"));
         ctx.WorkspaceController.PasteFromClipboard();
 
         Assert.AreEqual(6, sketch.Points.Count);

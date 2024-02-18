@@ -360,8 +360,6 @@ public class VisualShapeTests
     [Test]
     public void PastedImmediatelyVisible()
     {
-        TestClipboard.Init();
-
         // Bugcheck: This tests that after duplicating a body, the doublette is 
         // visible without any other action.
         var ctx = Context.Current;

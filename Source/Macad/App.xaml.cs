@@ -51,7 +51,6 @@ public partial class App : Application
 #endif
         // Init statics
         GlobalEventHandler.Init();
-        WindowsClipboard.Init();
 
         // Init context
         AppContext.Initialize(cmdLine);

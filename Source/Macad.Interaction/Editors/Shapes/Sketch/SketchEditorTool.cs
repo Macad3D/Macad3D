@@ -778,21 +778,21 @@ public sealed class SketchEditorTool : Tool
         if (serialized.IsNullOrEmpty())
             return;
 
-        Core.Clipboard.Current?.SetData(ClipboardContentFormat, serialized);
+        InteractiveContext.Current?.Clipboard.SetData(ClipboardContentFormat, serialized);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public override bool CanPasteFromClipboard()
     {
-        return Core.Clipboard.Current?.ContainsData(ClipboardContentFormat) ?? false;
+        return InteractiveContext.Current?.Clipboard.ContainsData(ClipboardContentFormat) ?? false;
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public override IEnumerable<InteractiveEntity> PasteFromClipboard()
     {
-        var serialized = Core.Clipboard.Current?.GetDataAsString(ClipboardContentFormat);
+        var serialized = InteractiveContext.Current?.Clipboard.GetDataAsString(ClipboardContentFormat);
         if (serialized == null)
             return null;
 

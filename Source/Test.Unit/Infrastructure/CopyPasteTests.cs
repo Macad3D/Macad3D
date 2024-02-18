@@ -15,7 +15,6 @@ public class CopyPasteTests
     public void SetUp()
     {
         Context.InitWithDefault();
-        TestClipboard.Init();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -29,7 +28,7 @@ public class CopyPasteTests
 
         context.WorkspaceController.Selection.SelectEntity(body1);
         context.WorkspaceController.CopyToClipboard();
-        Assert.That(Clipboard.Current.ContainsData("Macad.ModelContent.1"));
+        Assert.That(context.Clipboard.ContainsData("Macad.ModelContent.1"));
         Assert.That(context.WorkspaceController.CanPasteFromClipboard());
 
         var newContent = context.WorkspaceController.PasteFromClipboard();

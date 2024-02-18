@@ -5,12 +5,6 @@ namespace Macad.Window;
 
 public sealed class WindowsClipboard : Clipboard
 {
-    WindowsClipboard()
-    {
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     public override bool ContainsData(in string format)
     {
         return System.Windows.Clipboard.ContainsData(format);
@@ -28,14 +22,6 @@ public sealed class WindowsClipboard : Clipboard
     public override void SetData(in string format, in MemoryStream data)
     {
         System.Windows.Clipboard.SetData(format, data);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public static void Init()
-    {
-        if(Current == null)
-            Current = new WindowsClipboard();
     }
 
     //--------------------------------------------------------------------------------------------------

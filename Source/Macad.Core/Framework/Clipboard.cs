@@ -5,8 +5,6 @@ namespace Macad.Core;
 
 public abstract class Clipboard
 {
-    public static Clipboard Current { get; protected set; }
-
     public abstract bool ContainsData(in string format);
     public abstract MemoryStream GetDataStream(in string format);
     public abstract void SetData(in string format, in MemoryStream data);

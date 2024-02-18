@@ -28,6 +28,8 @@ public sealed class Context : InteractiveContext
         var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
         viewportParameterSet.ShowViewCube = false;
         viewportParameterSet.ShowTrihedron = false;
+
+        Clipboard = new TestClipboard();
     }
 
     //--------------------------------------------------------------------------------------------------

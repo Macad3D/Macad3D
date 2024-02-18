@@ -463,21 +463,21 @@ public class ModelController : BaseObject
             || !Serializer.Serialize(writer, entities, context))
             return;
 
-        Core.Clipboard.Current?.SetData(ClipboardContentFormat, writer.ToString());
+        InteractiveContext.Current?.Clipboard.SetData(ClipboardContentFormat, writer.ToString());
     }
 
     //--------------------------------------------------------------------------------------------------
 
     internal bool CanPasteFromClipboard()
     {
-        return Core.Clipboard.Current?.ContainsData(ClipboardContentFormat) ?? false;
+        return InteractiveContext.Current?.Clipboard.ContainsData(ClipboardContentFormat) ?? false;
     }
 
     //--------------------------------------------------------------------------------------------------
 
     internal IEnumerable<InteractiveEntity> PasteFromClipboard()
     {
-        var serialized = Core.Clipboard.Current?.GetDataAsString(ClipboardContentFormat);
+        var serialized = InteractiveContext.Current?.Clipboard.GetDataAsString(ClipboardContentFormat);
         if (serialized == null)
             return null;
 

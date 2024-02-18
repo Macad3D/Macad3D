@@ -33,6 +33,8 @@ public class AppContext : InteractiveContext
 
     AppContext()
     {
+        Clipboard = new WindowsClipboard();
+
         LoadShortcuts();
     }
 

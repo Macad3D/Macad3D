@@ -40,7 +40,7 @@ public sealed class SvgExchanger : ISketchExporter, ISketchImporter, IDrawingExp
 
     public bool CanImportFromClipboard(Clipboard clipboard)
     {
-        return Clipboard.Current.ContainsData("image/svg+xml") || Clipboard.Current.ContainsData("image/x-inkscape-svg");
+        return clipboard.ContainsData("image/svg+xml") || clipboard.ContainsData("image/x-inkscape-svg");
     }
 
     //--------------------------------------------------------------------------------------------------
