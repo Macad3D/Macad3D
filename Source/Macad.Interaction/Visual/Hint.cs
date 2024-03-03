@@ -42,21 +42,21 @@ public abstract class Hint : VisualObject
         switch (style & HintStyle.Styles)
         {
             case HintStyle.ThinDashed:
-                drawer.SetLineAspect(new Prs3d_LineAspect(Quantity_NameOfColor.GRAY.ToColor(), Aspect_TypeOfLine.DASH, 0.5));
+                drawer.SetLineAspect(new Prs3d_LineAspect(new Color(0.753f, 0.753f, 0.753f).ToQuantityColor(), Aspect_TypeOfLine.DASH, 0.5));
                 obj.SetTransparency(0.5);
                 break;
 
             case HintStyle.WorkingAxis:
-                drawer.SetLineAspect(new Prs3d_LineAspect(Quantity_NameOfColor.YELLOW.ToColor(), Aspect_TypeOfLine.DASH, 2.0));
+                drawer.SetLineAspect(new Prs3d_LineAspect(new Color(1.0f, 1.0f, 0.0f).ToQuantityColor(), Aspect_TypeOfLine.DASH, 2.0));
                 break;
 
             case HintStyle.Dashed:
-                drawer.SetLineAspect(new Prs3d_LineAspect(Quantity_NameOfColor.GRAY.ToColor(), Aspect_TypeOfLine.DASH, 2.0));
+                drawer.SetLineAspect(new Prs3d_LineAspect(new Color(0.753f, 0.753f, 0.753f).ToQuantityColor(), Aspect_TypeOfLine.DASH, 2.0));
                 obj.SetTransparency(0.5);
                 break;
 
             case HintStyle.Solid:
-                drawer.SetLineAspect(new Prs3d_LineAspect(Quantity_NameOfColor.GRAY.ToColor(), Aspect_TypeOfLine.SOLID, 2.0));
+                drawer.SetLineAspect(new Prs3d_LineAspect(new Color(0.753f, 0.753f, 0.753f).ToQuantityColor(), Aspect_TypeOfLine.SOLID, 2.0));
                 obj.SetTransparency(0.5);
                 break;
         }

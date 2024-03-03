@@ -43,24 +43,25 @@ public enum LineThickness
     
 public static class Colors
 {
-    public static readonly Quantity_Color Selection = Quantity_NameOfColor.ANTIQUEWHITE.ToColor();
-    public static readonly Quantity_Color Highlight = Quantity_NameOfColor.GOLDENROD2.ToColor();
-    public static readonly Quantity_Color FilteredSubshapes = Quantity_NameOfColor.DEEPSKYBLUE2.ToColor();
-    public static readonly Quantity_Color FilteredSubshapesHot = Quantity_NameOfColor.RED.ToColor();
-    public static readonly Quantity_Color Ghost = Quantity_NameOfColor.LIGHTGRAY.ToColor();
-    public static readonly Quantity_Color Auxillary = Quantity_NameOfColor.GRAY25.ToColor();
-    public static readonly Quantity_Color BallMarker = Quantity_NameOfColor.YELLOW.ToColor();
-    public static readonly Quantity_Color AttributeMarkerBackground = new Color(0.2f, 0.3f, 0.6f).ToQuantityColor();
-    public static readonly Quantity_Color AttributeMarkerSelection = new Color(0.7f, 0.3f, 0.3f).ToQuantityColor();
-    public static readonly Quantity_Color SketchEditorSegments = Quantity_NameOfColor.WHITE.ToColor();
-    public static readonly Quantity_Color SketchEditorHighlight = Quantity_NameOfColor.GOLDENROD2.ToColor();
-    public static readonly Quantity_Color SketchEditorSelection = Quantity_NameOfColor.RED.ToColor();
-    public static readonly Quantity_Color SketchEditorCreating = Quantity_NameOfColor.GOLDENROD2.ToColor();
-    public static readonly Quantity_Color SketchEditorAuxillary = Quantity_NameOfColor.DEEPSKYBLUE3.ToColor();
-    public static readonly Quantity_Color ActionBlue = new Color(0.2f, 0.2f, 0.8f).ToQuantityColor();
-    public static readonly Quantity_Color ActionRed = new Color(0.8f, 0.2f, 0.2f).ToQuantityColor();
-    public static readonly Quantity_Color ActionGreen = new Color(0.2f, 0.8f, 0.2f).ToQuantityColor();
-    public static readonly Quantity_Color ActionWhite = new Color(0.8f, 0.8f, 0.8f).ToQuantityColor();
+    public static readonly Color Default = new("#c0c0c0");
+    public static readonly Color Selection = new(0.98f, 0.922f, 0.843f);
+    public static readonly Color Highlight = new(0.933f, 0.706f, 0.133f);
+    public static readonly Color FilteredSubshapes = new(0.0f, 0.698f, 0.933f);
+    public static readonly Color FilteredSubshapesHot = new(1.0f, 0.0f, 0.0f);
+    public static readonly Color Ghost = new(0.827f, 0.827f, 0.827f);
+    public static readonly Color Auxillary = new(0.251f, 0.251f, 0.251f);
+    public static readonly Color Marker = new(1.0f, 1.0f, 0.0f);
+    public static readonly Color AttributeMarkerBackground = new(0.2f, 0.3f, 0.6f);
+    public static readonly Color AttributeMarkerSelection = new(0.7f, 0.3f, 0.3f);
+    public static readonly Color SketchEditorSegments = Color.White;
+    public static readonly Color SketchEditorHighlight = new(0.933f, 0.706f, 0.133f);
+    public static readonly Color SketchEditorSelection = new(1.0f, 0.0f, 0.0f);
+    public static readonly Color SketchEditorCreating = new(0.933f, 0.706f, 0.133f);
+    public static readonly Color SketchEditorAuxillary = new(0.0f, 0.604f, 0.804f);
+    public static readonly Color ActionBlue = new(0.2f, 0.2f, 0.8f);
+    public static readonly Color ActionRed = new(0.8f, 0.2f, 0.2f);
+    public static readonly Color ActionGreen = new(0.2f, 0.8f, 0.2f);
+    public static readonly Color ActionWhite = new(0.8f, 0.8f, 0.8f);
 }
 
 //--------------------------------------------------------------------------------------------------

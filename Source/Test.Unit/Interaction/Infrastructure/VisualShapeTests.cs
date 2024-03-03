@@ -80,12 +80,12 @@ public class VisualShapeTests
     {
         var ctx = Context.Current;
 
-        var layer1 = new Layer {Color = OcctColorUtils.Color(Quantity_NameOfColor.RED)};
+        var layer1 = new Layer { Color = new(1.0f, 0.0f, 0.0f) };
         ctx.Layers.Add(layer1);
         var body1 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
         body1.Layer = layer1;
 
-        var layer2 = new Layer { Color = OcctColorUtils.Color(Quantity_NameOfColor.GREEN) };
+        var layer2 = new Layer { Color = new(0.0f, 1.0f, 0.0f) };
         ctx.Layers.Add(layer2);
         var body2 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
         body2.Layer = layer2;
@@ -149,12 +149,12 @@ public class VisualShapeTests
     {
         var ctx = Context.Current;
 
-        var layer1 = new Layer {Name = "Red", Color = OcctColorUtils.Color(Quantity_NameOfColor.RED)};
+        var layer1 = new Layer {Name = "Red", Color = new(1.0f, 0.0f, 0.0f) };
         ctx.Layers.Add(layer1);
         var body1 = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
         body1.Layer = layer1;
 
-        var layer2 = new Layer {Name = "Green", Color = OcctColorUtils.Color(Quantity_NameOfColor.GREEN)};
+        var layer2 = new Layer {Name = "Green", Color = new(0.0f, 1.0f, 0.0f) };
         ctx.Layers.Add(layer2);
 
         ctx.ViewportController.ZoomFitAll();
@@ -178,7 +178,7 @@ public class VisualShapeTests
         var body = TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
         ctx.ViewportController.ZoomFitAll();
 
-        body.Layer.Color = OcctColorUtils.Color(Quantity_NameOfColor.GREEN);
+        body.Layer.Color = new(0.0f, 1.0f, 0.0f);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Colors"));
 
         ctx.ViewportController.MouseMove(new Point(250, 250));

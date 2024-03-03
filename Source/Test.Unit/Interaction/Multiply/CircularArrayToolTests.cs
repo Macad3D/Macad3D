@@ -21,7 +21,7 @@ public class CircularArrayToolTests
     public void SetUp()
     {
         Context.InitWithView(500);
-        Context.Current.Viewport.V3dView.SetBackgroundColor(Quantity_NameOfColor.BLACK.ToColor());
+        Context.Current.Viewport.V3dView.SetBackgroundColor(Macad.Common.Color.Black.ToQuantityColor());
     }
 
     [TearDown]

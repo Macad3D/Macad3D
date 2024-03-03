@@ -62,7 +62,7 @@ public class ToggleSubshapesAction : ToolAction
         //Debug.WriteLine(string.Format("Added component to sum: {0}", Subshapes.Count));
 
         subshape.AisShape.SetLocalTransformation(trsf);
-        subshape.AisShape.SetColor(isSelected ? Colors.FilteredSubshapesHot : Colors.FilteredSubshapes);
+        subshape.AisShape.SetColor((isSelected ? Colors.FilteredSubshapesHot : Colors.FilteredSubshapes).ToQuantityColor());
         subshape.AisShape.Attributes().WireAspect().SetWidth(4);
         subshape.AisShape.SetMaterial(new Graphic3d_MaterialAspect(Graphic3d_NameOfMaterial.Plastified));
         subshape.AisShape.SetPolygonOffsets(1, 0.999f, -5.0f);
@@ -74,7 +74,7 @@ public class ToggleSubshapesAction : ToolAction
             _TopmostHighlightDrawer.SetLink(WorkspaceController.Workspace.AisContext.HighlightStyle(Prs3d_TypeOfHighlight.Dynamic));
             _TopmostHighlightDrawer.SetZLayer(-2 /* Top */);
             _TopmostHighlightDrawer.SetDisplayMode(1);
-            _TopmostHighlightDrawer.SetColor(Colors.Highlight);
+            _TopmostHighlightDrawer.SetColor(Colors.Highlight.ToQuantityColor());
         }
         subshape.AisShape.SetDynamicHilightAttributes(_TopmostHighlightDrawer);
 
@@ -109,7 +109,7 @@ public class ToggleSubshapesAction : ToolAction
             if (subshape != null)
             {
                 subshape.IsSelected = !subshape.IsSelected;
-                subshape.AisShape.SetColor(subshape.IsSelected ? Colors.FilteredSubshapesHot : Colors.FilteredSubshapes);
+                subshape.AisShape.SetColor((subshape.IsSelected ? Colors.FilteredSubshapesHot : Colors.FilteredSubshapes).ToQuantityColor());
                 _ChangedSubshape = subshape;
 
                 EventArgs args = new()

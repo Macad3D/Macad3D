@@ -28,7 +28,7 @@ public sealed class Axis : VisualObject
 
     //--------------------------------------------------------------------------------------------------
 
-    public Quantity_Color Color
+    public Color Color
     {
         get { return _Color; }
         set
@@ -99,7 +99,7 @@ public sealed class Axis : VisualObject
     double _Length = 10.0;
     double _Width = 3.0;
     double _Margin = 0.0;
-    Quantity_Color _Color = Colors.Auxillary;
+    Color _Color = Colors.Auxillary;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -182,7 +182,7 @@ public sealed class Axis : VisualObject
             _AisObject.SetMargin(_Margin);
         }
 
-        _AisObject.SetColor(_Color);
+        _AisObject.SetColor(_Color.ToQuantityColor());
         _AisObject.SetWidth(_Width);
 
         if(_Style.Has(Style.ArrowHead))

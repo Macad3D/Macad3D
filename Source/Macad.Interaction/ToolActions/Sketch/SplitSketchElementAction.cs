@@ -143,7 +143,7 @@ public class SplitSketchElementAction : ToolAction
                     _Marker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, 
                                          _SelectedElementType == Sketch.ElementType.Segment ? Marker.XImage : Marker.RingImage)
                     {
-                        Color = Colors.BallMarker
+                        Color = Colors.Marker
                     };
                     Add(_Marker);
                     _MarkerType = _SelectedElementType;

@@ -232,7 +232,7 @@ public class SketchEditorConstraintElement : SketchEditorElement
 
         //--------------------------------------------------------------------------------------------------
 
-        public void SetColor(Quantity_Color color)
+        public void SetColor(Color color)
         {
             _Marker.ForEach(marker => marker.BackgroundColor = color);
         }

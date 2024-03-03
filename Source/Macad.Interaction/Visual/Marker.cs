@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Macad.Common;
 using Macad.Core;
 using Macad.Occt;
 using Macad.Occt.Ext;
 using Macad.Occt.Helper;
 using Macad.Resources;
-using Colors = Macad.Core.Colors;
 
 namespace Macad.Interaction.Visual;
 
@@ -28,12 +27,12 @@ public class Marker : VisualObject
 
     //--------------------------------------------------------------------------------------------------
 
-    public Quantity_Color Color
+    public Color Color
     {
         get { return _Color; }
         set
         {
-            if (_Color != null && _Color.Equals(value)) 
+            if (_Color.Equals(value)) 
                 return;
 
             _Color = value;
@@ -44,12 +43,12 @@ public class Marker : VisualObject
         
     //--------------------------------------------------------------------------------------------------
 
-    public Quantity_Color BackgroundColor
+    public Color BackgroundColor
     {
         get { return _ColorBg; }
         set
         {
-            if (_ColorBg != null && _ColorBg.Equals(value)) 
+            if (_ColorBg.Equals(value)) 
                 return;
 
             _ColorBg = value;
@@ -83,8 +82,8 @@ public class Marker : VisualObject
     Image _Image;
     AIS_PointEx _AisPoint;
     Geom_Point _P;
-    Quantity_Color _Color = Colors.BallMarker;
-    Quantity_Color _ColorBg = Colors.AttributeMarkerBackground;
+    Color _Color = Colors.Marker;
+    Color _ColorBg = Colors.AttributeMarkerBackground;
     bool _IsSelectable;
 
     //--------------------------------------------------------------------------------------------------
@@ -215,14 +214,14 @@ public class Marker : VisualObject
 
         _AisPoint.Attributes().SetPointAspect(pointAspect);
         _AisPoint.HilightAttributes().SetPointAspect(pointAspect);
-        _AisPoint.HilightAttributes().SetColor(Colors.Highlight);
+        _AisPoint.HilightAttributes().SetColor(Colors.Highlight.ToQuantityColor());
         _AisPoint.DynamicHilightAttributes().SetPointAspect(pointAspect);
-        _AisPoint.DynamicHilightAttributes().SetColor(Colors.Highlight);
+        _AisPoint.DynamicHilightAttributes().SetColor(Colors.Highlight.ToQuantityColor());
 
         if (_Styles.HasFlag(Styles.Background))
         {
             _AisPoint.EnableBackground(0.75);
-            _AisPoint.SetBackgroundColor(_ColorBg ?? Colors.AttributeMarkerBackground);
+            _AisPoint.SetBackgroundColor(_ColorBg.ToQuantityColor());
         }
     }
 
@@ -343,21 +342,21 @@ public class Marker : VisualObject
             double dpiScale = InteractiveContext.Current.WorkspaceController?.ActiveViewport?.DpiScale ?? 1.0;
             int finalSize = (int)(size * dpiScale);
 
-            var drawing = ResourceUtils.GetDictionaryElement<Drawing>(ResourceUtils.Category.Marker, "Marker_" + name);
+            var drawing = ResourceUtils.GetDictionaryElement<System.Windows.Media.Drawing>(ResourceUtils.Category.Marker, "Marker_" + name);
             if (drawing == null)
                 return null;
 
-            var drawingImage = new DrawingImage(drawing);
+            var drawingImage = new System.Windows.Media.DrawingImage(drawing);
             drawingImage.Freeze();
 
-            DrawingVisual drawingVisual = new DrawingVisual();
-            using(DrawingContext drawingContext = drawingVisual.RenderOpen())
+            System.Windows.Media.DrawingVisual drawingVisual = new();
+            using(var drawingContext = drawingVisual.RenderOpen())
             {
-                drawingContext.PushTransform(new ScaleTransform(finalSize / drawingImage.Width, finalSize / drawingImage.Height, 0, 0));
+                drawingContext.PushTransform(new System.Windows.Media.ScaleTransform(finalSize / drawingImage.Width, finalSize / drawingImage.Height, 0, 0));
                 drawingContext.DrawDrawing(drawing);
             }
 
-            RenderTargetBitmap renderTarget = new RenderTargetBitmap(finalSize, finalSize, 96, 96, PixelFormats.Pbgra32);
+            RenderTargetBitmap renderTarget = new RenderTargetBitmap(finalSize, finalSize, 96, 96, System.Windows.Media.PixelFormats.Pbgra32);
             renderTarget.Render(drawingVisual);
 
             int stride = renderTarget.PixelWidth * (renderTarget.Format.BitsPerPixel / 8);
@@ -381,14 +380,14 @@ public class Marker : VisualObject
 
     //--------------------------------------------------------------------------------------------------
 
-    public static Prs3d_PointAspect CreateBitmapPointAspect(Image image, Quantity_Color color)
+    public static Prs3d_PointAspect CreateBitmapPointAspect(Image image, Color color)
     {
         if (image?.Bytes == null)
         {
-            return new Prs3d_PointAspect(Aspect_TypeOfMarker.BALL, color ?? Colors.BallMarker, 1.0);
+            return new Prs3d_PointAspect(Aspect_TypeOfMarker.BALL, color.ToQuantityColor(), 1.0);
         }
 
-        return new Prs3d_PointAspect(color ?? Colors.BallMarker, image.Width, image.Height, image.Bytes);
+        return new Prs3d_PointAspect(color.ToQuantityColor(), image.Width, image.Height, image.Bytes);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -397,7 +396,7 @@ public class Marker : VisualObject
     {
         if (image?.PixMap == null)
         {
-            return new Prs3d_PointAspect(Aspect_TypeOfMarker.BALL, Colors.BallMarker, 1.0);
+            return new Prs3d_PointAspect(Aspect_TypeOfMarker.BALL, Colors.Marker.ToQuantityColor(), 1.0);
         }
 
         var aspectMarker = new Graphic3d_AspectMarker3d(image.PixMap);

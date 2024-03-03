@@ -250,10 +250,10 @@ public sealed class Workspace : BaseObject, IDisposable
 
         V3dViewer.SetDefaultViewSize(1000.0);
         V3dViewer.SetDefaultViewProj(V3d_TypeOfOrientation.XposYposZpos);
-        V3dViewer.SetDefaultBackgroundColor(Quantity_NameOfColor.GRAY30.ToColor());
+        V3dViewer.SetDefaultBackgroundColor(new Color(0.3f, 0.3f, 0.3f).ToQuantityColor());
         V3dViewer.SetDefaultVisualization(V3d_TypeOfVisualization.ZBUFFER);
-        V3dViewer.SetLightOn(new V3d_DirectionalLight(V3d_TypeOfOrientation.Zneg, Quantity_NameOfColor.WHITE.ToColor(), true));
-        V3dViewer.SetLightOn(new V3d_AmbientLight(Quantity_NameOfColor.WHITE.ToColor()));
+        V3dViewer.SetLightOn(new V3d_DirectionalLight(V3d_TypeOfOrientation.Zneg, Color.White.ToQuantityColor(), true));
+        V3dViewer.SetLightOn(new V3d_AmbientLight(Color.White.ToQuantityColor()));
 
         // Reinit viewer parameters
         _ApplyWorkingContext();
@@ -284,7 +284,7 @@ public sealed class Workspace : BaseObject, IDisposable
         AisContext.SetPixelTolerance(2);
 
         var drawer = AisContext.DefaultDrawer();
-        drawer.SetWireAspect(new Prs3d_LineAspect(Colors.Selection, Aspect_TypeOfLine.SOLID, 1.0));
+        drawer.SetWireAspect(new Prs3d_LineAspect(Colors.Selection.ToQuantityColor(), Aspect_TypeOfLine.SOLID, 1.0));
         drawer.SetTypeOfHLR(Prs3d_TypeOfHLR.TOH_PolyAlgo);
     }
 

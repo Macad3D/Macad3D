@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using Macad.Occt;
+using Color = Macad.Common.Color;
 
 namespace Macad.Core.Drawing;
 
@@ -32,7 +33,7 @@ public static class DrawingRenderHelper
         var p2 = backpoint.Translated(rightVec);
         var p3 = backpoint.Translated(rightVec.Reversed());
 
-        renderer.SetStyle(null, new FillStyle(Common.Color.Black), null);
+        renderer.SetStyle(null, new FillStyle(Color.Black), null);
         renderer.BeginPath();
         renderer.BeginPathSegment();
         renderer.Line(p1, p2);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Macad.Common;
 using Macad.Interaction.Visual;
 using Macad.Core;
 using Macad.Occt;
@@ -38,7 +39,7 @@ public class RecenterGridSketchTool : SketchTool
             IsSelectable = true
         };
         _OriginMarker.Set(SketchEditorTool.Sketch.Plane.Location);
-        _OriginMarker.Color = Quantity_NameOfColor.WHITE.ToColor();
+        _OriginMarker.Color = Color.White;
         Add(_OriginMarker);
 
         return true;

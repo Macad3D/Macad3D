@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using Macad.Common;
 using Macad.Core;
 using Macad.Interaction.Visual;
 using Macad.Occt;
@@ -10,7 +11,7 @@ public class TranslateAxisLiveAction : LiveAction
 {
     #region Properties and Members
 
-    public Quantity_Color Color
+    public Color Color
     {
         get { return _Color; }
         set
@@ -83,7 +84,7 @@ public class TranslateAxisLiveAction : LiveAction
     double _Distance;
     SelectionContext _SelectionContext;
     HintLine _HintLine;
-    Quantity_Color _Color = Colors.Auxillary;
+    Color _Color = Colors.Auxillary;
     DeltaHudElement _HudElement;
 
     //--------------------------------------------------------------------------------------------------

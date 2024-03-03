@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Core.Topology;
@@ -82,7 +83,7 @@ public sealed class Context : InteractiveContext
         // Neutralize View
         var ocView = Current.Viewport.V3dView;
         ocView.SetBgGradientStyle(Aspect_GradientFillMethod.NONE, false);
-        ocView.SetBackgroundColor(Quantity_NameOfColor.BLACK.ToColor());
+        ocView.SetBackgroundColor(Color.Black.ToQuantityColor());
         ocView.ChangeRenderingParams().NbMsaaSamples = 0;
 
         Current.Workspace.GridEnabled = false;

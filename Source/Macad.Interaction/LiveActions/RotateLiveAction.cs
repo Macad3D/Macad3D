@@ -11,7 +11,7 @@ public sealed class RotateLiveAction : LiveAction
 {
     #region Properties and Members
     
-    public Quantity_Color Color { get; init; } = Colors.Auxillary;
+    public Color Color { get; init; } = Colors.Auxillary;
 
     //--------------------------------------------------------------------------------------------------
 

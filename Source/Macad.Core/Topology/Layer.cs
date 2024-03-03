@@ -216,7 +216,7 @@ public class Layer : Entity
         _IsVisible = true;
         _IsLocked = false;
         _PresentationMode = PresentationMode.SolidWithBoundary;
-        _Color = new Color("#c0c0c0");
+        _Color = Colors.Default;
         _Transparency = 0;
         _LineStyle = LineStyle.Solid;
         _LineThickness = LineThickness.Normal;

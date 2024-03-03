@@ -253,7 +253,7 @@ public class LinearArrayEditor : Editor<LinearArray>
 
     //--------------------------------------------------------------------------------------------------
 
-    Quantity_Color _GetAxisColor(bool secondAxis)
+    Color _GetAxisColor(bool secondAxis)
     {
         switch (Entity.Plane)
         {

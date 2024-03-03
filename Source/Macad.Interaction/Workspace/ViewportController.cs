@@ -10,6 +10,7 @@ using Macad.Core;
 using Macad.Occt;
 using Macad.Occt.Helper;
 using Macad.Resources;
+using Color = Macad.Common.Color;
 using Point = System.Windows.Point;
 
 namespace Macad.Interaction;
@@ -585,13 +586,13 @@ public sealed class ViewportController : BaseObject, IDisposable
         _AisViewCube.BoxCornerStyle().SetColor(color);
 
         var material = new Graphic3d_MaterialAspect(Graphic3d_NameOfMaterial.DEFAULT);
-        material.SetAmbientColor(Quantity_NameOfColor.GRAY80.ToColor());
-        material.SetDiffuseColor(Quantity_NameOfColor.GRAY20.ToColor());
-        material.SetEmissiveColor(Quantity_NameOfColor.BLACK.ToColor());
-        material.SetSpecularColor(Quantity_NameOfColor.BLACK.ToColor());
+        material.SetAmbientColor(new Color(0.8f, 0.8f, 0.8f).ToQuantityColor());
+        material.SetDiffuseColor(new Color(0.2f, 0.2f, 0.2f).ToQuantityColor());
+        material.SetEmissiveColor(Color.Black.ToQuantityColor());
+        material.SetSpecularColor(Color.Black.ToQuantityColor());
         _AisViewCube.SetMaterial(material);
 
-        _AisViewCube.DynamicHilightAttributes().ShadingAspect().SetColor(Colors.Highlight);
+        _AisViewCube.DynamicHilightAttributes().ShadingAspect().SetColor(Colors.Highlight.ToQuantityColor());
         _AisViewCube.DynamicHilightAttributes().ShadingAspect().SetMaterial(material);
 
         if (isVisible)
@@ -613,7 +614,7 @@ public sealed class ViewportController : BaseObject, IDisposable
     {
         if (visible)
         {
-            Viewport?.V3dView?.TriedronDisplay(Aspect_TypeOfTriedronPosition.LEFT_LOWER, Quantity_NameOfColor.ALICEBLUE.ToColor(), 0.1, V3d_TypeOfVisualization.ZBUFFER);
+            Viewport?.V3dView?.TriedronDisplay(Aspect_TypeOfTriedronPosition.LEFT_LOWER, new Color(0.941f, 0.973f, 1.0f).ToQuantityColor(), 0.1, V3d_TypeOfVisualization.ZBUFFER);
         }
         else
         {
@@ -691,9 +692,9 @@ public sealed class ViewportController : BaseObject, IDisposable
 
         var aisContext = WorkspaceController.Workspace.AisContext;
         _AisRubberBand = new AIS_RubberBand(
-            new Quantity_Color(Quantity_NameOfColor.BLUE1), 
+            new Color(0.0f, 0.0f, 1.0f).ToQuantityColor(), 
             Aspect_TypeOfLine.DASH, 
-            new Quantity_Color(Quantity_NameOfColor.BLUE1),
+            new Color(0.0f, 0.0f, 1.0f).ToQuantityColor(), 
             0.9, 2, true);
 
         _RubberbandMode = mode;

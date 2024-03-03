@@ -30,7 +30,7 @@ public class Plane : VisualObject
 
     //--------------------------------------------------------------------------------------------------
 
-    public Quantity_Color Color
+    public Color Color
     {
         get { return _Color; }
         set
@@ -100,7 +100,7 @@ public class Plane : VisualObject
     XY _Size = new XY(100, 100);
     Vec2d _Margin;
     bool _IsSelectable;
-    Quantity_Color _Color = Colors.Auxillary;
+    Color _Color = Colors.Auxillary;
     double _Transparency = 0.8;
     bool _Boundary = true;
 
@@ -187,7 +187,7 @@ public class Plane : VisualObject
             _AisObject.SetSize(_Size.X, _Size.Y);
         }
 
-        _AisObject.SetColor(_Color, true);
+        _AisObject.SetColor(_Color.ToQuantityColor(), true);
         _AisObject.SetTransparency(Transparency);
         _AisObject.Attributes().SetFaceBoundaryDraw(_Boundary);
 

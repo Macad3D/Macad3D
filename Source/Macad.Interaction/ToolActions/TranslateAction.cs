@@ -235,7 +235,7 @@ public class TranslateAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
     
-    Quantity_Color _GetColorByMode(MoveMode mode)
+    Color _GetColorByMode(MoveMode mode)
     {
         return mode switch
         {

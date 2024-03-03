@@ -200,7 +200,7 @@ public sealed class VisualShape : VisualObject
         // Normal mode Drawer
         var shadingAspect = new Prs3d_ShadingAspect();
         shadingAspect.SetColor(layer.Color.ToQuantityColor());
-        shadingAspect.SetMaterial(Graphic3d_NameOfMaterial.PLASTIC.ToAspect());
+        shadingAspect.SetMaterial(new Graphic3d_MaterialAspect(Graphic3d_NameOfMaterial.PLASTIC));
         shadingAspect.SetTransparency(layer.Transparency);
         attributeSet.Drawer.SetShadingAspect(shadingAspect);
 
@@ -355,19 +355,19 @@ public sealed class VisualShape : VisualObject
         ghostDrawer.SetDisplayMode((int)AIS_DisplayMode.Shaded);
 
         var shadingAspect = new Prs3d_ShadingAspect();
-        shadingAspect.SetColor(Colors.Ghost);
-        shadingAspect.SetMaterial(Graphic3d_NameOfMaterial.DEFAULT.ToAspect());
+        shadingAspect.SetColor(Colors.Ghost.ToQuantityColor());
+        shadingAspect.SetMaterial(new Graphic3d_MaterialAspect(Graphic3d_NameOfMaterial.DEFAULT));
         shadingAspect.SetTransparency(0.75);
         ghostDrawer.SetShadingAspect(shadingAspect);
 
-        var lineAspect = new Prs3d_LineAspect(Colors.Ghost, Aspect_TypeOfLine.SOLID, 0.5);
+        var lineAspect = new Prs3d_LineAspect(Colors.Ghost.ToQuantityColor(), Aspect_TypeOfLine.SOLID, 0.5);
         ghostDrawer.SetLineAspect(lineAspect);
         ghostDrawer.SetSeenLineAspect(lineAspect);
         ghostDrawer.SetWireAspect(lineAspect);
         ghostDrawer.SetFaceBoundaryAspect(lineAspect);
         ghostDrawer.SetFreeBoundaryAspect(lineAspect);
         ghostDrawer.SetUnFreeBoundaryAspect(lineAspect);
-        ghostDrawer.SetPointAspect(new Prs3d_PointAspect(Aspect_TypeOfMarker.O_POINT, Colors.Ghost, 0.5));
+        ghostDrawer.SetPointAspect(new Prs3d_PointAspect(Aspect_TypeOfMarker.O_POINT, Colors.Ghost.ToQuantityColor(), 0.5));
         ghostDrawer.SetFaceBoundaryDraw(true);
            
         _AisShape.SetAttributes(ghostDrawer);

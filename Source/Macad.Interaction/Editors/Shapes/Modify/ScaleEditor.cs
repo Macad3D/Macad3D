@@ -89,7 +89,7 @@ public class ScaleEditor : Editor<Scale>
 
     //--------------------------------------------------------------------------------------------------
 
-    TranslateAxisLiveAction _CreateAction(Quantity_Color color)
+    TranslateAxisLiveAction _CreateAction(Color color)
     {
         TranslateAxisLiveAction action = new()
         {

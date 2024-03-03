@@ -2,7 +2,6 @@
 using Macad.Core.Topology;
 using Macad.Common;
 using Macad.Common.Serialization;
-using Macad.Occt;
 
 namespace Macad.Core.Components;
 
@@ -88,7 +87,7 @@ public class VisualStyle : Component
 
     public VisualStyle() 
     {
-        _Color = OcctColorUtils.Color(Quantity_NameOfColor.GOLDENROD2);
+        _Color = Colors.Default;
         _Transparency = 0;
     }
 

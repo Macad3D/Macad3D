@@ -137,7 +137,7 @@ public class RotateAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    Quantity_Color _GetColorByMode(RotateMode mode)
+    Color _GetColorByMode(RotateMode mode)
     {
         return mode switch
         {

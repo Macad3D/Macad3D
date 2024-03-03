@@ -31,7 +31,7 @@ public class SketchEditorPointElement : SketchEditorElement
 
     public override void UpdateVisual()
     {
-        _Marker.Color = IsSelected ? Colors.SketchEditorSelection : null;
+        _Marker.Color = IsSelected ? Colors.SketchEditorSelection : Colors.Marker;
     }
 
     //--------------------------------------------------------------------------------------------------

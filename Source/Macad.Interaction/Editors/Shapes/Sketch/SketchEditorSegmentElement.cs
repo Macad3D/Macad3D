@@ -33,10 +33,11 @@ public class SketchEditorSegmentElement : SketchEditorElement
     public override void UpdateVisual()
     {
         AisObject?.SetColor(
-            IsSelected ? Colors.SketchEditorSelection : 
+            (IsSelected ? Colors.SketchEditorSelection : 
             Segment.IsAuxilliary ? Colors.SketchEditorAuxillary :
             IsCreating ? Colors.SketchEditorCreating : 
-            Colors.SketchEditorSegments);
+            Colors.SketchEditorSegments)
+            .ToQuantityColor());
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -70,7 +71,7 @@ public class SketchEditorSegmentElement : SketchEditorElement
             if (_HighlightDrawer == null)
             {
                 _HighlightDrawer = new Prs3d_Drawer();
-                _HighlightDrawer.SetColor(Colors.Highlight);
+                _HighlightDrawer.SetColor(Colors.Highlight.ToQuantityColor());
                 _HighlightDrawer.SetDisplayMode(0);
                 _HighlightDrawer.SetZLayer(-3); // TOP
             }
@@ -78,7 +79,7 @@ public class SketchEditorSegmentElement : SketchEditorElement
 
             var paramSet = InteractiveContext.Current.Parameters.Get<SketchEditorParameterSet>();
             aisShape.SetAngleAndDeviation(paramSet.DeviationAngle.ToRad());
-            aisShape.SetColor(Colors.SketchEditorSegments);
+            aisShape.SetColor(Colors.SketchEditorSegments.ToQuantityColor());
 
             ctx.Display(aisShape, false);
             ctx.SetSelectionSensitivity(aisShape, 0, (int)(paramSet.SegmentSelectionSensitivity * 1.0));

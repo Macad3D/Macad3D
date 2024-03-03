@@ -200,7 +200,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         // Higlight Selected
         var selectionDrawer = new Prs3d_Drawer();
         selectionDrawer.SetupOwnDefaults();
-        selectionDrawer.SetColor(Colors.Selection);
+        selectionDrawer.SetColor(Colors.Selection.ToQuantityColor());
         selectionDrawer.SetDisplayMode(0);
         selectionDrawer.SetZLayer(0); // Graphic3d_ZLayerId_Default
         selectionDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.RELATIVE);
@@ -214,7 +214,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         // Higlight Dynamic
         var hilightDrawer = new Prs3d_Drawer();
         hilightDrawer.SetupOwnDefaults();
-        hilightDrawer.SetColor(Colors.Highlight);
+        hilightDrawer.SetColor(Colors.Highlight.ToQuantityColor());
         hilightDrawer.SetDisplayMode(0);
         hilightDrawer.SetZLayer(-2); // Graphic3d_ZLayerId_Top
         hilightDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.RELATIVE);
@@ -225,7 +225,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         // Higlight Local
         var hilightLocalDrawer = new Prs3d_Drawer();
         hilightLocalDrawer.SetupOwnDefaults();
-        hilightLocalDrawer.SetColor(Colors.Highlight);
+        hilightLocalDrawer.SetColor(Colors.Highlight.ToQuantityColor());
         hilightLocalDrawer.SetDisplayMode(1);
         hilightLocalDrawer.SetZLayer(-2); // Graphic3d_ZLayerId_Top
         hilightLocalDrawer.SetTypeOfDeflection(Aspect_TypeOfDeflection.RELATIVE);
@@ -233,12 +233,12 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         hilightLocalDrawer.SetDeviationCoefficient(aisContext.DeviationCoefficient());
 
         var shadingAspect = new Prs3d_ShadingAspect();
-        shadingAspect.SetColor(Colors.Highlight);
+        shadingAspect.SetColor(Colors.Highlight.ToQuantityColor());
         shadingAspect.SetTransparency(0);
         shadingAspect.Aspect().SetPolygonOffsets((int)Aspect_PolygonOffsetMode.Fill, 0.99f, 0.0f);
         hilightLocalDrawer.SetShadingAspect(shadingAspect);
 
-        var lineAspect = new Prs3d_LineAspect(Colors.Highlight, Aspect_TypeOfLine.SOLID, 3.0);
+        var lineAspect = new Prs3d_LineAspect(Colors.Highlight.ToQuantityColor(), Aspect_TypeOfLine.SOLID, 3.0);
         hilightLocalDrawer.SetLineAspect(lineAspect);
         hilightLocalDrawer.SetSeenLineAspect(lineAspect);
         hilightLocalDrawer.SetWireAspect(lineAspect);

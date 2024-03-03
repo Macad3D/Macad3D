@@ -117,7 +117,7 @@ public class LayerTests
             Name = "Second",
             IsVisible = false,
             IsLocked = true,
-            Color = OcctColorUtils.Color(Quantity_NameOfColor.GOLD),
+            Color = new(1.0f, 0.0f, 0.0f),
             Transparency = 0.4f,
             LineThickness = LineThickness.Thin,
             LineStyle = LineStyle.DotDash,

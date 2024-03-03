@@ -133,7 +133,7 @@ public sealed class VisualPlane : VisualObject
             if (aisShape == null)
                 continue;
                 
-            aisShape.SetColor(layer?.Color.ToQuantityColor() ?? Colors.Auxillary);
+            aisShape.SetColor((layer?.Color ?? Colors.Auxillary).ToQuantityColor());
             workspaceController.Workspace.AisContext.RecomputePrsOnly(aisShape, false, true);
         }
     }
@@ -175,7 +175,7 @@ public sealed class VisualPlane : VisualObject
 
         _AisObject.SetPlane(new Pln(_DatumPlane.GetCoordinateSystem()));
         _AisObject.SetSize(_DatumPlane.SizeX, _DatumPlane.SizeY);
-        _AisObject.SetColor(_DatumPlane.Layer?.Color.ToQuantityColor() ?? Colors.Auxillary);
+        _AisObject.SetColor((_DatumPlane.Layer?.Color ?? Colors.Auxillary).ToQuantityColor());
         _AisObject.SetTransparency(_Transparency);
 
         if (!_DatumPlane.ImageFilePath.IsNullOrEmpty())

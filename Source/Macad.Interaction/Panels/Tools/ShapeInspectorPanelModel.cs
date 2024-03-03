@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
@@ -173,8 +174,8 @@ public class ShapeInspectorPanelModel : PanelBase
                 _AisShape = new AIS_Shape(ocShape);
                 _AisShape.SetLocalTransformation(trsf.Value);
                 _AisShape.SetZLayer(-2); // Graphic3d_ZLayerId_Top
-                _AisShape.SetColor(Quantity_NameOfColor.BLUE1.ToColor());
-                _AisShape.Attributes().LineAspect().SetColor(Quantity_NameOfColor.BLUE1.ToColor());
+                _AisShape.SetColor(new Color(0.0f, 0.0f, 1.0f).ToQuantityColor());
+                _AisShape.Attributes().LineAspect().SetColor(new Color(0.0f, 0.0f, 1.0f).ToQuantityColor());
                 _AisShape.SetWidth(3);
                 _AisShape.Attributes().PointAspect().SetScale(3);
 

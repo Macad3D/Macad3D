@@ -1,11 +1,13 @@
 ﻿using System;
+using Macad.Common;
+using Macad.Core;
 using Macad.Occt;
 
 namespace Macad.Interaction.Visual;
 
 public class HintLine : Hint
 {
-    public Quantity_Color Color
+    public Color? Color
     {
         get { return _Color; }
         set
@@ -26,7 +28,7 @@ public class HintLine : Hint
     Geom_Point _P1;
     Geom_Point _P2;
     Geom_Line _GeomLine;
-    Quantity_Color _Color;
+    Color? _Color;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -146,8 +148,10 @@ public class HintLine : Hint
 
     void _UpdatePresentation()
     {
-        if(_Color != null)
-            _AisLine.SetColor(_Color);
+        if (_Color.HasValue)
+        {
+            _AisLine.SetColor(_Color.Value.ToQuantityColor());
+        }
     }
 
     //--------------------------------------------------------------------------------------------------

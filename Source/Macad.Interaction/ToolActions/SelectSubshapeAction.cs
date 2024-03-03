@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Macad.Common;
 using Macad.Interaction.Visual;
 using Macad.Core;
 using Macad.Core.Topology;
@@ -35,7 +36,7 @@ public class SelectSubshapeAction : ToolAction
     Trsf? _LocalTransformation;
     List<AIS_Shape> _AisShapes;
     readonly ISelectionFilter _SelectionFilter;
-    readonly Quantity_Color _SubshapeColor;
+    readonly Color _SubshapeColor;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -49,7 +50,7 @@ public class SelectSubshapeAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public SelectSubshapeAction(IEnumerable<TopoDS_Shape> shapes, Trsf? localTransformation = null, Quantity_Color color = null)
+    public SelectSubshapeAction(IEnumerable<TopoDS_Shape> shapes, Trsf? localTransformation = null, Color? color = null)
         : base()
     {
         _SubshapeTypes = SubshapeTypes.All;
@@ -80,7 +81,7 @@ public class SelectSubshapeAction : ToolAction
                     aisShape.SetLocalTransformation(_LocalTransformation.Value);
                 }
 
-                aisShape.SetColor(_SubshapeColor);
+                aisShape.SetColor(_SubshapeColor.ToQuantityColor());
                 aisShape.Attributes().SetPointAspect(Marker.CreateBitmapPointAspect(Marker.BallImage, _SubshapeColor));
                 aisShape.Attributes().WireAspect().SetWidth(2);
                 aisShape.SetPolygonOffsets(0, 1.01f, 1.0f);

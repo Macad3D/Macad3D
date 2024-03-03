@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Macad.Common;
 using Macad.Core;
 using Macad.Occt;
 
@@ -61,7 +62,7 @@ public class Trihedron : VisualObject
 
     void _CreateVisuals(Components components)
     {
-        void __CreatePlane(Components component, Quantity_Color color)
+        void __CreatePlane(Components component, Color color)
         {
             var plane = new Plane(_WorkspaceController, Plane.Style.Topmost | Plane.Style.NoResize)
             {
@@ -77,7 +78,7 @@ public class Trihedron : VisualObject
 
         //--------------------------------------------------------------------------------------------------
 
-        void __CreateAxis(Components component, Quantity_Color color)
+        void __CreateAxis(Components component, Color color)
         {
             var axis = new Axis(WorkspaceController, Axis.Style.NoResize | Axis.Style.Topmost)
             {

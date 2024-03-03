@@ -4,7 +4,6 @@ using System.Windows.Input;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Interaction.Editors.Shapes;
-using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
 
@@ -21,7 +20,7 @@ public class LinearArrayToolTests
     public void SetUp()
     {
         Context.InitWithView(500);
-        Context.Current.Viewport.V3dView.SetBackgroundColor(Quantity_NameOfColor.BLACK.ToColor());
+        Context.Current.Viewport.V3dView.SetBackgroundColor(Macad.Common.Color.Black.ToQuantityColor());
     }
 
     [TearDown]
