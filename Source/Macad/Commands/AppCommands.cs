@@ -47,26 +47,19 @@ public static class AppCommands
             var cmdArgs = AppContext.CommandLine;
 
             // Check for command line option to load project
-            // Only load models here, because importers opens dialogs, which is not allowed before main window is shown
             if (cmdArgs.HasPathToOpen 
-                && DocumentCommands.OpenFile.CanExecute(cmdArgs.PathToOpen)
-                && PathUtils.GetExtensionWithoutPoint(cmdArgs.PathToOpen).Equals(Model.FileExtension))
+                && DocumentCommands.OpenFile.CanExecute(cmdArgs.PathToOpen))
             {
-                DocumentCommands.OpenFile.Execute(cmdArgs.PathToOpen);
-            }
-
-            // If no document is loaded, create a new
-            if (AppContext.Current.Document == null)
-            {
-                DocumentCommands.CreateNewModel.Execute();
-            }
-
-            // Load other files than models
-            if (cmdArgs.HasPathToOpen 
-                && DocumentCommands.OpenFile.CanExecute(cmdArgs.PathToOpen)
-                && !PathUtils.GetExtensionWithoutPoint(cmdArgs.PathToOpen).Equals(Model.FileExtension))
-            {
-                Dispatcher.CurrentDispatcher.InvokeAsync(() => DocumentCommands.OpenFile.Execute(cmdArgs.PathToOpen), DispatcherPriority.Loaded);
+                // Load models immediately, import other files deferred.
+                // Importers can open dialogs, which is not allowed before main window is shown
+                if (PathUtils.GetExtensionWithoutPoint(cmdArgs.PathToOpen).Equals(Model.FileExtension))
+                {
+                    DocumentCommands.OpenFile.Execute(cmdArgs.PathToOpen);
+                }
+                else
+                {
+                    Dispatcher.CurrentDispatcher.InvokeAsync(() => DocumentCommands.OpenFile.Execute(cmdArgs.PathToOpen), DispatcherPriority.Loaded);
+                }
             }
 
             // Check for command line option to run script
