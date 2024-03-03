@@ -212,6 +212,7 @@ public sealed class VisualShape : VisualObject
         attributeSet.Drawer.SetFaceBoundaryAspect(lineAspect);
         attributeSet.Drawer.SetFreeBoundaryAspect(lineAspect);
         attributeSet.Drawer.SetUnFreeBoundaryAspect(lineAspect);
+        attributeSet.Drawer.SetFaceBoundaryUpperContinuity(GeomAbs_Shape.C2);
         attributeSet.Drawer.SetPointAspect(new Prs3d_PointAspect(Aspect_TypeOfMarker.O_POINT, layer.Color.ToQuantityColor(), 2.0));
 
         attributeSet.Drawer.SetFaceBoundaryDraw(layer.PresentationMode == PresentationMode.SolidWithBoundary);
