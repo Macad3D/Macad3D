@@ -1,5 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using Macad.Common;
 using Macad.Core.Auxiliary;
 using Macad.Interaction.Panels;
@@ -75,20 +78,68 @@ public partial class DatumPlanePropertyPanel : PropertyPanel
         {
             plane.ImageFilePath = null; // this is needed to trigger visual update even if the filename is the same
         }
+
         plane.ImageFilePath = dlg.FileName;
 
-        var oldAspect = plane.SizeX / plane.SizeY;
-        var imageAspect = (double) pixmap.Width() / (double) pixmap.Height();
+        bool applySizeChanges = false;
+        double imageSizeX;
+        double imageSizeY;
+        if (_TryGetDimensionsFromImage(plane.ImageFilePath, out imageSizeX, out imageSizeY))
+        {
+            applySizeChanges = !(plane.SizeX.IsEqual(imageSizeX, 0.0001) && plane.SizeY.IsEqual(imageSizeY, 0.0001))
+                               && Dialogs.Dialogs.AskUseDimensionsFromImageFile(imageSizeX, imageSizeY);
+        }
+        else
+        {
+            // Reading metadata failed, use pixel aspect instead
+            var imageAspect = (double)pixmap.Width() / (double)pixmap.Height();
+            imageSizeX = plane.SizeX;
+            imageSizeY = plane.SizeX / imageAspect;
 
-        if (!oldAspect.IsEqual(imageAspect, 0.0001)
-            && Dialogs.Dialogs.UseAspectRatioFromImageFile())
+            applySizeChanges = !plane.SizeY.IsEqual(imageSizeY, 0.0001)
+                               && Dialogs.Dialogs.AskUseAspectRatioFromImageFile();
+            {
+
+            }
+        }
+
+        if (applySizeChanges)
         {
             var saveKeepAspectRatio = plane.KeepAspectRatio;
             plane.KeepAspectRatio = false;
-            plane.SizeY = plane.SizeX / imageAspect;
+            plane.SizeX = imageSizeX;
+            plane.SizeY = imageSizeY;
             plane.KeepAspectRatio = saveKeepAspectRatio;
         }
     });
+
+    //--------------------------------------------------------------------------------------------------
+
+    static bool _TryGetDimensionsFromImage(string filePath, out double sizeX, out double sizeY)
+    {
+        sizeX = 0;
+        sizeY = 0;
+
+        try
+        {
+            // This way, the metadata are gathered without reading the entire file
+            using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var bitmapFrame = BitmapFrame.Create(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
+            if (bitmapFrame.DpiX != 0 || bitmapFrame.DpiY != 0)
+            {
+                // Get size in mm
+                sizeX = bitmapFrame.PixelWidth / bitmapFrame.DpiX * 25.4;
+                sizeY = bitmapFrame.PixelHeight / bitmapFrame.DpiY * 25.4;
+                return true;
+            }
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
+
+        return false;
+    }
 
     //--------------------------------------------------------------------------------------------------
 

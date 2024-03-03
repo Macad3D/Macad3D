@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Macad.Common;
 using Macad.Presentation;
 
 namespace Macad.Interaction.Dialogs;
@@ -143,15 +144,26 @@ public static class Dialogs
         }
         return false;
     }
-
+    
     //--------------------------------------------------------------------------------------------------
 
-    public static bool UseAspectRatioFromImageFile()
+    public static bool AskUseAspectRatioFromImageFile()
     {
         return TaskDialog.ShowMessage(Application.Current.MainWindow,
                                       $"Use Aspect Ratio from image?",
                                       $"The loaded image file has a different aspect ratio than the plane it will be assigned to. Should the Y-dimension of the plane adjusted to match the aspect ratio of the image?",
                                       $"Aspect Ratio",
+                                      TaskDialogCommonButtons.YesNo, TaskDialogIcon.Question) == TaskDialogResults.Yes;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static bool AskUseDimensionsFromImageFile(double dimX, double dimY)
+    {
+        return TaskDialog.ShowMessage(Application.Current.MainWindow,
+                                      $"Use dimensions from image?",
+                                      $"The loaded image file has different dimensions than the plane it will be assigned to. Should the dimensions of the plane adjusted to match the image?\n\nImage dimensions: {dimX.ToRoundedString()} mm x {dimY.ToRoundedString()} mm.",
+                                      $"Dimensions",
                                       TaskDialogCommonButtons.YesNo, TaskDialogIcon.Question) == TaskDialogResults.Yes;
     }
 

@@ -94,8 +94,8 @@ public class DatumPlaneUITests : UITestBase
         taskDialog.ClickButton(TaskDialogAdaptor.Button.Yes);
 
         Assert.IsNotEmpty(Pipe.GetValue<string>("$Selected.ImageFilePath"));
-        Assert.AreEqual(100.0, panel.GetValue<double>("DimensionX"));
-        Assert.AreEqual(50.0, panel.GetValue<double>("DimensionY"));
+        Assert.AreEqual(79.4, panel.GetValue<double>("DimensionX"), 0.1);
+        Assert.AreEqual(39.7, panel.GetValue<double>("DimensionY"), 0.1);
     }
 
     //--------------------------------------------------------------------------------------------------
