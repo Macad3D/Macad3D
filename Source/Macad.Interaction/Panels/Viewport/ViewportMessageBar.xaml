@@ -20,7 +20,7 @@
                 <Image DockPanel.Dock="Left"
                        Width="16" Height="16"
                        Margin="20,0,0,0"
-                       Source="pack://application:,,,/Macad.Resources;component/Marker/Marker_Error.png"/>
+                       Source="{mmp:IconResource IconName=Generic-Error}"/>
                 <TextBlock Text="{Binding ErrorMessage}"
                            TextWrapping="NoWrap"
                            TextTrimming="WordEllipsis"
