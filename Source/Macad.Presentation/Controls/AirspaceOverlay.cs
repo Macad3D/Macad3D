@@ -123,10 +123,8 @@ public class AirspaceOverlay : Border
     protected override void OnRender(DrawingContext drawingContext)
     {
         base.OnRender(drawingContext);
-        if (_TransparentInputWindow.Visibility != Visibility.Visible)
+        if (_TransparentInputWindow.Owner == null)
         {
-            UpdateWindow();
-
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
                 _Parent = GetParentWindow(this);
@@ -134,7 +132,8 @@ public class AirspaceOverlay : Border
                 {
                     _TransparentInputWindow.Show();
                     _TransparentInputWindow.Owner = _Parent;
-                    _Parent.LocationChanged += parent_LocationChanged;
+                    _Parent.LocationChanged += _Parent_LocationChanged;
+                    UpdateWindow();
                 }
             }
         }
@@ -142,7 +141,7 @@ public class AirspaceOverlay : Border
 
     //--------------------------------------------------------------------------------------------------
 
-    void parent_LocationChanged(object sender, EventArgs e)
+    void _Parent_LocationChanged(object sender, EventArgs e)
     {
         UpdateWindow();
     }
