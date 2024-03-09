@@ -310,12 +310,11 @@ public static class BrepRenderHelper
             renderer.BSplineCurve(bspline.Degree(), knots, points, weights, bspline.IsRational());
             return true;
         }
-        else
+        else // Cannot render BSpline, Try bezier
         {
-            // Cannot render BSpline, Try bezier
             if (last - first < 0.001)
             {
-                // too small, just add a line
+                // too small, just skip
                 return true;
             }
             var converter = new Geom2dConvert_BSplineCurveToBezierCurve(bspline, first, last, 0.001 /*Precision.PConfusion() * 10*/);
