@@ -188,7 +188,7 @@ public class ConvertToEditableSketchTests
         Assert.IsNotNull(section);
         //AssertHelper.IsSameModel(body.RootShape, Path.Combine(_BasePath, "CollapseBodyS"));
 
-        Assert.IsTrue(ConvertToEditableSketch.CollapseShapeStack(new []{body}));
+        Assert.IsTrue(ConvertToEditableSketch.CollapseShapeStack([body]));
         Assert.IsInstanceOf<Core.Shapes.Sketch>(body.RootShape);
         AssertHelper.IsSameModel2D(body.RootShape, Path.Combine(_BasePath, "CollapseBody"));
     }
@@ -217,7 +217,7 @@ public class ConvertToEditableSketchTests
         Assert.IsNotNull(section);
         //AssertHelper.IsSameModel(body.RootShape, Path.Combine(_BasePath, "CrossSectionEllipseS"));
 
-        Assert.IsTrue(ConvertToEditableSketch.CollapseShapeStack(new []{body}));
+        Assert.IsTrue(ConvertToEditableSketch.CollapseShapeStack([body]));
         Assert.IsInstanceOf<Core.Shapes.Sketch>(body.RootShape);
         AssertHelper.IsSameModel2D(body.RootShape, Path.Combine(_BasePath, "CrossSectionEllipse"));
     }
@@ -251,7 +251,7 @@ public class ConvertToEditableSketchTests
         Assert.IsNotNull(section);
         //AssertHelper.IsSameModel(body.RootShape, Path.Combine(_BasePath, "CrossSectionEllipticalArcS"));
 
-        Assert.IsTrue(ConvertToEditableSketch.CollapseShapeStack(new[] { body }));
+        Assert.IsTrue(ConvertToEditableSketch.CollapseShapeStack([body]));
         Assert.IsInstanceOf<Core.Shapes.Sketch>(body.RootShape);
         AssertHelper.IsSameModel2D(body.RootShape, Path.Combine(_BasePath, "CrossSectionEllipticalArc"));
     }
@@ -263,9 +263,21 @@ public class ConvertToEditableSketchTests
     {
         var body = TestData.GetBodyFromBRep(@"SourceData\BRep\WallWithWindows.brep");
         var crossSection = CrossSection.Create(body, new Pln(new Quaternion(0, 70.0.ToRad(), 0).ToAx3(new Pnt(-25, 0, 13.54))));
-        Assert.IsTrue(ConvertToEditableSketch.CollapseShapeStack(new[] { body }));
+        Assert.IsTrue(ConvertToEditableSketch.CollapseShapeStack([body]));
         Assert.IsInstanceOf<Core.Shapes.Sketch>(body.RootShape);
         AssertHelper.IsSameModel2D(body.RootShape, Path.Combine(_BasePath, "MultipleUnorderedPCurves"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("This was a bug which crashed in geometric processing.")]
+    public void ConvertOffsettedBeziers()
+    {
+        var body = TestData.GetTestDataSerialized<Body>(Path.Combine(_BasePath, "ConvertOffsettedBeziers_Source.txt"));
+        Assert.IsTrue(ConvertToEditableSketch.CollapseShapeStack([body]));
+        Assert.IsInstanceOf<Core.Shapes.Sketch>(body.RootShape);
+        AssertHelper.IsSameModel2D(body.RootShape, Path.Combine(_BasePath, "ConvertOffsettedBeziers"));
     }
 
     //--------------------------------------------------------------------------------------------------

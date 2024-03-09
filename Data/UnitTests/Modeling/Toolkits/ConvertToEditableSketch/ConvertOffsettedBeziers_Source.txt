@@ -1,0 +1,60 @@
+!Topology.Body
+{
+    Guid: 7dc4c7fd92484ce0950fe9dc0fcc36a1,
+    Name: "Sketch_1",
+    IsVisible: True,
+    LayerId: ?null,
+    Position: [296.53453403045205, -17.191427826087114, 0],
+    Rotation: [0, 0, 0, 1],
+    RootShape: !Shapes.Offset
+    {
+        Guid: 495f772aaae34f478cd669dcbb279397,
+        Name: "Offset",
+        IsSkipped: False,
+        Distance: 1,
+        KeepOriginal: False,
+        Corner: Round,
+        Operands: 
+        [
+            !Shapes.Sketch
+            {
+                Guid: a272c824fb574765b1dc17515b513920,
+                Name: "Sketch",
+                IsSkipped: False,
+                BoundTo: ?null,
+                BoundToPlane: ?null,
+                Segments: 
+                {
+                    7: !Shapes.SketchSegmentLine
+                    {
+                        Points: [43, 13],
+                        IsAuxilliary: False
+                    },
+                    21: !Shapes.SketchSegmentBezier
+                    {
+                        Points: [43, 44, 45, 46],
+                        IsAuxilliary: False
+                    },
+                    22: !Shapes.SketchSegmentBezier
+                    {
+                        Points: [46, 47, 48, 13],
+                        IsAuxilliary: False
+                    }
+                },
+                Points: 
+                {
+                    13: [16.63696449410939, 57.893193150497574],
+                    43: [-3.1355765218481686, 115.46159572575372],
+                    44: [2.9646564715691834, 106.802211636291],
+                    45: [7.126934852593214, 96.28189466333286],
+                    46: [10.697627573564152, 87.25877423336097],
+                    47: [14.268320294535071, 78.23565380338907],
+                    48: [15.546976918053776, 69.53681969475757]
+                },
+                Constraints: []
+            }
+        ]
+    },
+    Shape: ?495f772aaae34f478cd669dcbb279397,
+    Components: []
+}

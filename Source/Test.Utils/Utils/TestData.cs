@@ -7,6 +7,8 @@ using Macad.Core.Topology;
 using Macad.Occt;
 using NUnit.Framework;
 using System.Text;
+using Macad.Common;
+using Macad.Common.Serialization;
 using Macad.Core.Shapes;
 
 namespace Macad.Test.Utils;
@@ -39,7 +41,23 @@ public static class TestData
             return null;
         }
     }
-        
+                
+    //--------------------------------------------------------------------------------------------------
+
+    public static string GetTestDataText(string path)
+    {
+        try
+        {
+            return File.ReadAllText(Path.Combine(TestDataDirectory, path));
+        }
+        catch (IOException e)
+        {
+            TestContext.WriteLine("Test data loading failed: " + path);
+            Console.WriteLine(e);
+            return null;
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public static string[] GetTestDataLines(string path)
@@ -73,11 +91,21 @@ public static class TestData
         
     //--------------------------------------------------------------------------------------------------
 
+    public static T GetTestDataSerialized<T>(string path)
+    {
+        var dataText = GetTestDataText(path);
+        Assert.IsFalse(dataText.IsNullOrEmpty(), "Reference file not found.");
+
+        return Serializer.Deserialize<T>(dataText, new SerializationContext());
+    }
+        
+    //--------------------------------------------------------------------------------------------------
+
     public static void LoadTestDataModel(string path)
     {
         Assume.That(Context.Current.DocumentController.OpenModel(Path.Combine(TestDataDirectory, path)), $"Model {path} could not be loaded.");
     }
-        
+
     //--------------------------------------------------------------------------------------------------
 
     public static Body GetBodyFromBRep(string path, ShapeType shapeType=ShapeType.Solid)

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Runtime.InteropServices;
 using Macad.Common;
 using Macad.Core.Drawing;
 using Macad.Core.Geom;
@@ -10,11 +12,28 @@ namespace Macad.Core.Toolkits;
 
 public class ConvertToEditableSketch : IDrawingRenderer, IRendererCapabilities
 {
-    public static Sketch Convert(TopoDS_Shape brepShape)
+    public static Sketch Convert(TopoDS_Shape brepShape, Entity context = null)
     {
-        var converter = new ConvertToEditableSketch();
-        converter.Add(brepShape);
-        return converter._Sketch;
+        try
+        {
+            var converter = new ConvertToEditableSketch();
+            converter.Add(brepShape);
+            return converter._Sketch;
+        }
+        catch (SEHException e)
+        {
+            // Try to get infos from native
+            var info = Interop.ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionPointers());
+            Messages.Exception(info != null ? $"Modeling Exception - {info.Message}" : "Exception while converting shape.", e, context);
+            Console.WriteLine(e);
+        }
+        catch (Exception e)
+        {
+            Messages.Exception("Exception while making shape.", e, context);
+            Console.WriteLine(e);
+        }
+
+        return null;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -47,6 +66,11 @@ public class ConvertToEditableSketch : IDrawingRenderer, IRendererCapabilities
             }
 
             Sketch newSketch = Convert(originalBreps[i]);
+            if (newSketch == null)
+            {
+                result = false;
+                continue;
+            }
             
             Body body = bodies[i];
             body.CollapseShapeStack(newSketch, saveUndo);

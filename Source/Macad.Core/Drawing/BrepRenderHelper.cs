@@ -313,6 +313,11 @@ public static class BrepRenderHelper
         else
         {
             // Cannot render BSpline, Try bezier
+            if (last - first < 0.001)
+            {
+                // too small, just add a line
+                return true;
+            }
             var converter = new Geom2dConvert_BSplineCurveToBezierCurve(bspline, first, last, 0.001 /*Precision.PConfusion() * 10*/);
             bool result = true;
 
