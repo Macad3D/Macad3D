@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Occt;
@@ -109,6 +110,20 @@ public class SketchTests
 
         Assert.IsTrue(sketch.Make(Shape.MakeFlags.None));
         Assert.AreEqual(1, sketch.GetBRep().Wires().Count);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("Fix invalid references of sketch points or segments on load.")]
+    public void CorrectInvalidReferencesOnLoad()
+    {
+        // The test file contains invalid references to both constraints and segments
+        TestData.LoadTestDataModel(Path.Combine(_BasePath, "InvalidReferences_Source.model"));
+        var sketch = Context.Current.Document.FindInstances<Core.Shapes.Sketch>().FirstOrDefault();
+        Assert.That(sketch.Segments.Values.All(seg => sketch.Points.Keys.ContainsAll(seg.Points)));
+        Assert.That(sketch.Constraints.All(con => con.Segments == null || sketch.Segments.Keys.ContainsAll(con.Segments)));
+        Assert.That(sketch.Constraints.All(con => con.Points == null || sketch.Points.Keys.ContainsAll(con.Points)));
     }
 
     //--------------------------------------------------------------------------------------------------

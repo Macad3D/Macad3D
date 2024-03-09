@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Occt;
 
@@ -546,6 +548,36 @@ public sealed class Sketch : Shape2D
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Checks all segments and constraints to references wo points or segments which do not exist and removes them.
+    /// </summary>
+    [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
+    void _CheckForInvalidReferences()
+    {
+        var segmentsToDelete = _Segments.Values.Where(seg => !_Points.Keys.ContainsAll(seg.Points));
+        if (segmentsToDelete.Any())
+        {
+            foreach (var segment in segmentsToDelete.ToArray())
+            {
+                Messages.Warning($"Sketch {Name} contains a segment of type {segment.GetType().Name} which references to points which do not exist. The segment will be deleted.");
+                DeleteSegment(segment);
+            }
+        }
+
+        var constraintsToDelete = _Constraints.Where(con => !((con.Points == null || _Points.Keys.ContainsAll(con.Points))
+                                                              && (con.Segments == null || _Segments.Keys.ContainsAll(con.Segments))));
+        if (constraintsToDelete.Any())
+        {
+            foreach (var constraint in constraintsToDelete.ToArray())
+            {
+                Messages.Warning($"Sketch {Name} contains a constraint of type {constraint.GetType().Name} which references to points or segments which do not exist. The constraint will be deleted.");
+                DeleteConstraint(constraint);
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public void Clear()
     {
         SaveUndo(ElementType.Point);
@@ -754,4 +786,15 @@ public sealed class Sketch : Shape2D
 
     #endregion
 
+    #region Serialization
+
+    public override void OnDeserialized(SerializationContext context)
+    {
+        _CheckForInvalidReferences();
+        base.OnDeserialized(context);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
 }
