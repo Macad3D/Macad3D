@@ -17,6 +17,7 @@ public class SplitElementSketchTool : SketchTool
         _ToolAction.Finished += _ToolAction_Finished;
 
         SetHintMessage(_Message);
+        SetCursor(Cursors.Plus);
         return true;
     }
 

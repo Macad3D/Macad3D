@@ -20,10 +20,12 @@ public static class Cursors
     public static Cursor SetRadius => _GetOrCreate();
     public static Cursor SetHeight => _GetOrCreate();
     public static Cursor WorkingPlane => _GetOrCreate();
+    public static Cursor Plus => _GetOrCreate();
+    public static Cursor Minus => _GetOrCreate();
 
     //--------------------------------------------------------------------------------------------------
 
-    static readonly Dictionary<string, Cursor> _Cursors = new Dictionary<string, Cursor>();
+    static readonly Dictionary<string, Cursor> _Cursors = new();
 
     //--------------------------------------------------------------------------------------------------
 
