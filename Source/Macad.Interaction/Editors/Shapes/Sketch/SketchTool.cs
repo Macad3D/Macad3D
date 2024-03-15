@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace Macad.Interaction.Editors.Shapes;
 
-public class SketchTool : WorkspaceControl
+public abstract class SketchTool : WorkspaceControl
 {
     public bool IsActive { get; private set; }
     public SketchEditorTool SketchEditorTool { get; private set; }
@@ -46,10 +46,7 @@ public class SketchTool : WorkspaceControl
 
     //--------------------------------------------------------------------------------------------------
 
-    protected virtual bool OnStart()
-    {
-        return false;
-    }
+    protected abstract bool OnStart();
 
     //--------------------------------------------------------------------------------------------------
 
@@ -60,6 +57,7 @@ public class SketchTool : WorkspaceControl
     protected override void Cleanup()
     {
         _StopToolActions();
+        SketchEditorTool.Elements.ConstraintsVisible = true;
         base.Cleanup();
     }
 

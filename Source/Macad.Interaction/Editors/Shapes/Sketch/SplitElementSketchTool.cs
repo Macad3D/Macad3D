@@ -11,6 +11,9 @@ public class SplitElementSketchTool : SketchTool
 
     protected override bool OnStart()
     {
+        SketchEditorTool.Elements.ConstraintsVisible = false;
+        SketchEditorTool.Select([], []);
+
         _ToolAction = new SplitSketchElementAction(SketchEditorTool);
         if (!StartAction(_ToolAction))
             return false;

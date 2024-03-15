@@ -12,6 +12,7 @@ public abstract class SketchEditorElement
     protected Pln Plane;
     bool _IsSelected;
     bool _IsCreating;
+    bool _IsVisible = true;
         
     //--------------------------------------------------------------------------------------------------
 
@@ -54,6 +55,28 @@ public abstract class SketchEditorElement
 
     //--------------------------------------------------------------------------------------------------
 
+    public bool IsVisible
+    {
+        get { return _IsVisible; }
+        set
+        {
+            if(_IsVisible == value)
+                return;
+
+            _IsVisible = value;
+            if (_IsVisible)
+            {
+                UpdateVisual();
+            }
+            else
+            {
+                Remove();
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public abstract void UpdateVisual();
     public abstract void OnPointsChanged(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, Dictionary<int, int> markerCounts = default);
     public abstract void Activate(bool selectable);
@@ -66,6 +89,26 @@ public abstract class SketchEditorElement
 
 public sealed class SketchEditorElements
 {
+    public bool ConstraintsVisible
+    {
+        get { return _ConstraintsVisible; }
+        set
+        {
+            if (_ConstraintsVisible == value)
+                return;
+
+            _ConstraintsVisible = value;
+            _MarkerCounts.Clear();
+            ConstraintElements.ForEach(element =>
+            {
+                element.IsVisible = value;
+                element.OnPointsChanged(_SketchEditorTool.Sketch.Points, _SketchEditorTool.Sketch.Segments, _MarkerCounts);
+            });
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     List<SketchEditorSegmentElement> SegmentElements { get; } = new();
     List<SketchEditorConstraintElement> ConstraintElements { get; } = new();
     List<SketchEditorPointElement> PointElements { get; } = new();
@@ -75,6 +118,7 @@ public sealed class SketchEditorElements
 
     readonly SketchEditorTool _SketchEditorTool;
     readonly Dictionary<int, int> _MarkerCounts = new();
+    bool _ConstraintsVisible = true;
 
     //--------------------------------------------------------------------------------------------------
 

@@ -21,6 +21,8 @@ public sealed class SketchSegmentCircleCreator : SketchSegmentCreator
 
     protected override bool OnStart()
     {
+        base.OnStart();
+
         _PointAction = new SketchPointAction(SketchEditorTool);
         if (!StartAction(_PointAction))
             return false;

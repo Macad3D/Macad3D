@@ -477,17 +477,17 @@ public class MoveSketchPointAction : ToolAction
             }
 
             data.ForceReDetection = true;
-        }
 
-        EventArgs args = new()
-        {
-            Points = _Points,
-            MoveDelta = _MoveDelta,
-            RotateDelta = _RotateDelta,
-            RotateCenter = _RotateCenter,
-            MouseEventData = data
-        };
-        Preview?.Invoke(this, args);
+            EventArgs args = new()
+            {
+                Points = _Points,
+                MoveDelta = _MoveDelta,
+                RotateDelta = _RotateDelta,
+                RotateCenter = _RotateCenter,
+                MouseEventData = data
+            };
+            Preview?.Invoke(this, args);
+        }
 
         return base.OnMouseMove(data);
     }

@@ -30,6 +30,7 @@ public class RecenterGridSketchTool : SketchTool
 
         // Re-enable elements for snapping
         SketchEditorTool.Elements.Activate(true, false, false);
+        SketchEditorTool.Elements.ConstraintsVisible = false;
 
         SetHintMessage("Select new workspace center position.");
         SetCursor(Cursors.WorkingPlane);

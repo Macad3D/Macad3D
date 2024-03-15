@@ -26,7 +26,7 @@ public class SketchEditorConstraintElement : SketchEditorElement
 
     public override void UpdateVisual()
     {
-        _Marker.SetColor(IsSelected ? Colors.AttributeMarkerSelection : Colors.AttributeMarkerBackground);
+        _Marker?.SetColor(IsSelected ? Colors.AttributeMarkerSelection : Colors.AttributeMarkerBackground);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -35,6 +35,9 @@ public class SketchEditorConstraintElement : SketchEditorElement
     {
         if (_Marker == null)
         {
+            if(!IsVisible)
+                return;
+
             _Marker = _CreateMarker();
             foreach (var visualobj in _Marker.VisualObjects)
             {

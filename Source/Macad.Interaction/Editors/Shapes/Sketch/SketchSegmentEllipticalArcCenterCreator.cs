@@ -26,6 +26,8 @@ public sealed class SketchSegmentEllipticalArcCenterCreator : SketchSegmentCreat
 
     protected override bool OnStart()
     {
+        base.OnStart();
+
         _PointAction = new SketchPointAction(SketchEditorTool);
         if (!StartAction(_PointAction))
             return false;

@@ -538,6 +538,8 @@ public sealed class SketchEditorTool : Tool
         if (CurrentTool != null)
             return;
 
+        Elements.ConstraintsVisible = false;
+
         _ApplyMoveActionDelta(args);
     }
 
@@ -547,6 +549,8 @@ public sealed class SketchEditorTool : Tool
     {
         if (CurrentTool != null)
             return;
+
+        Elements.ConstraintsVisible = true;
 
         if (!args.Points.Any())
         {
