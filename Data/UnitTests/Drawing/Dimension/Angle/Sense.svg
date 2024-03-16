@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="35.975655mm" height="56.010178mm" viewBox="0, 0, 135.97098, 211.692" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg">
+  <sodipodi:namedview inkscape:document-units="mm" />
+  <g id="Drawing" transform="translate(98.1757,100.195946)">
+    <g id="Contour" stroke-width="0.18897638" style="stroke:black;fill:black;">
+      <path d="M-9.450527,-60.392097 L-13.226638,-60.552784 L-16.838497,24.325901 A5.6692915,5.6692915 0 0 0 -11.174332,30.236221 L0,30.236221 L-6.4253066E-16,26.456694 L-11.174332,26.456694 A1.8897638,1.8897638 0 0 1 -13.0623865,24.486586 L-9.450527,-60.392097 Z" />
+    </g>
+    <g id="Dimension" stroke-width="0.37795275" style="stroke:black;fill:none;">
+      <line x1="-11.338583" y1="-60.472443" x2="-56.651905" y2="-62.40067" />
+      <line x1="-15.067099" y1="27.147684" x2="-60.38042" y2="25.219458" />
+      <line x1="-49.58174" y1="-50.750965" x2="-52.346146" y2="14.212498" />
+      <path d="M-49.099686,-62.079296 L-47.693687,-50.670624 L-51.469795,-50.831306 L-49.099686,-62.079296 Z" style="fill:black;" />
+      <path d="M-52.8282,25.540829 L-54.2342,14.132154 L-50.458088,14.29284 L-52.8282,25.540829 Z" style="fill:black;" />
+      <text x="-55.209164" y="-7.4058166" style="fill:black;" font-family="Arial" font-size="11.338583" transform="rotate(272.43665,-55.209164,-7.4058166)">23.2</text>
+    </g>
+    <g id="Dimension" stroke-width="0.37795275" style="stroke:black;fill:none;">
+      <line x1="-15.067099" y1="27.147684" x2="-60.38042" y2="25.219458" />
+      <line x1="-13.918252" y1="28.346457" x2="-13.918252" y2="73.70079" />
+      <path d="M-51.666016,36.779476 A38.94516,38.94516 0 0 0 -25.097328,64.502785" />
+      <path d="M-52.82988,25.580753 L-49.783836,36.66481 L-53.54332,37.053577 L-52.82988,25.580753 Z" style="fill:black;" />
+      <path d="M-13.958214,66.14171 L-25.450994,66.36674 L-24.902746,62.62719 L-13.958214,66.14171 Z" style="fill:black;" />
+      <text x="-45.239056" y="45.338455" style="fill:black;" font-family="Arial" font-size="11.338583" transform="rotate(46.218323,-45.239056,45.338455)">92°</text>
+    </g>
+    <g id="Dimension" stroke-width="0.37795275" style="stroke:black;fill:none;">
+      <line x1="-13.918252" y1="28.346457" x2="-13.918252" y2="73.70079" />
+      <line x1="0" y1="28.346457" x2="0" y2="73.70079" />
+      <line x1="-9.278834" y1="66.14173" x2="-4.639417" y2="66.14173" />
+      <path d="M-13.918252,66.14173 L-9.278834,65.3685 L-9.278834,66.91497 L-13.918252,66.14173 Z" style="fill:black;" />
+      <path d="M0,66.14173 L-4.639417,66.91497 L-4.639417,65.3685 L0,66.14173 Z" style="fill:black;" />
+      <text x="-13.22234" y="62.362206" style="fill:black;" font-family="Arial" font-size="9.010932">3.7</text>
+    </g>
+  </g>
+</svg>

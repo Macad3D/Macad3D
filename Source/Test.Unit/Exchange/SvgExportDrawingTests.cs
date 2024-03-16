@@ -358,7 +358,7 @@ public class SvgExportDrawingTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void Dimension()
+    public void LengthDimension()
     {
         // Create simple geometry
         var dim = new LengthDimension()
@@ -374,10 +374,11 @@ public class SvgExportDrawingTests
         Assert.IsNotNull(svg);
 
         // Write to file and compare
-        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Dimension.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "LengthDimension.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
     }
 
     //--------------------------------------------------------------------------------------------------
+
 
     #region Helper
 

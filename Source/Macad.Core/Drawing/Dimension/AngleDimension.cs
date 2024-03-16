@@ -253,17 +253,26 @@ public class AngleDimension : DrawingElement
 
         // Extension line
         var extDir1 = new Vec2d(_CenterPoint, _FirstPoint).ToDir();
-        var angle1 = -extDir1.Angle(Dir2d.DX);
+        var angle1 = Maths.NormalizeAngleRad(-extDir1.Angle(Dir2d.DX));
         var extVector1 = extDir1.ToVec(radius - _CenterPoint.Distance(_FirstPoint) + _ExtensionOverlength);
 
         var extDir2 = new Vec2d(_CenterPoint, _SecondPoint).ToDir();
-        var angle2 = -extDir2.Angle(Dir2d.DX);
+        var angle2 = Maths.NormalizeAngleRad(-extDir2.Angle(Dir2d.DX));
         var extVector2 = extDir2.ToVec(radius - _CenterPoint.Distance(_SecondPoint) + _ExtensionOverlength);
 
-        var angle = (angle1 - angle2).Abs();
+        // Check sense
+        var posAngle = Maths.NormalizeAngleRad(-new Vec2d(_CenterPoint, Position).ToDir().Angle(Dir2d.DX));
+        if (posAngle < angle1 || posAngle > angle2)
+        {
+            angle1.Swap(ref angle2);
+            if (angle2 < angle1)
+                angle1 -= Maths.DoublePI;
+        }
+        var angle = Maths.NormalizeAngleRad(angle2 - angle1);
+
         if (_AutoText)
         {
-            Text = (angle1 - angle2).Abs().ToDeg().ToInvariantString("F0") + "°";
+            Text = angle.Abs().ToDeg().ToInvariantString("F0") + "°";
         }
 
         Geom2d_Circle circle = new(new Ax2d(_CenterPoint, Dir2d.DX), radius);

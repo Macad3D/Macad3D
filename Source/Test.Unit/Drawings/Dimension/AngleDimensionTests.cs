@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using Macad.Core.Drawing;
+using Macad.Core.Shapes;
+using Macad.Core.Topology;
 using Macad.Exchange.Svg;
 using Macad.Occt;
 using NUnit.Framework;
@@ -109,6 +111,32 @@ public class AngleDimensionTests
         var svg = SvgDrawingExporter.Export(drawing);
         Assert.IsNotNull(svg);
         AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "ReversedCoordinates.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void Sense()
+    {
+        var sketch = Sketch.Create();
+        SketchBuilder sb = new SketchBuilder(sketch);
+        sb.StartPath(-3, 16);
+        sb.LineTo(-4, -7.5);
+        sb.LineTo(0, -7.5);
+        var body = Body.Create(sketch);
+        var pipe = Pipe.Create(body);
+        Assume.That(pipe.Make(Shape.MakeFlags.None));
+
+        var pipeDrawing = PipeDrawing.Create(pipe.Body);
+
+        Drawing drawing = new();
+        drawing.Add(pipeDrawing);
+
+        var svg = SvgDrawingExporter.Export(drawing);
+        Assert.IsNotNull(svg);
+
+        // Write to file and compare
+        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "Sense.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
     }
 
     //--------------------------------------------------------------------------------------------------
