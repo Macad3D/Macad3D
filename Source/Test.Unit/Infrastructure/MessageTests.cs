@@ -47,7 +47,7 @@ public class MessageTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void ProcessingScope()
+    public void ProcessingScopeUsing()
     {
         var box = TestGeomGenerator.CreateBox();
         using(new ProcessingScope(box, "Pro"))
@@ -77,4 +77,22 @@ public class MessageTests
         Assert.AreEqual(1, Context.Current.MessageHandler.GetEntityMessages(box1).Count);
         Assert.AreEqual(1, Context.Current.MessageHandler.GetEntityMessages(box2).Count);
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ProcessingScopeExecute()
+    {
+        var box = TestGeomGenerator.CreateBox();
+        Assert.IsTrue(ProcessingScope.ExecuteWithGuards(box, "Pro", () =>
+        {
+            Messages.Error("Hello World");
+            return true;
+        }));
+
+        Assert.AreEqual(1, Context.Current.MessageHandler.GetEntityMessages(box).Count);
+    }
+        
+    //--------------------------------------------------------------------------------------------------
+
 }

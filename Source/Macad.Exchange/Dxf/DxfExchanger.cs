@@ -163,13 +163,11 @@ public sealed class DxfExchanger : ISketchExporter, ISketchImporter, IDrawingExp
 
     bool ISketchExporter.DoExport(string fileName, Sketch sketch)
     {
-        bool result;
-        using(new ProcessingScope(sketch, "Exporting sketch to DXF"))
+        return ProcessingScope.ExecuteWithGuards(sketch, "Exporting sketch to DXF", () =>
         {
-            var stream = DxfSketchExporter.Export(sketch, Settings.ExportVersion, _GetFlags(), Settings.ExportPolygonPrecision );
-            result = _WriteToFile(fileName, stream);
-        }
-        return result;
+            var stream = DxfSketchExporter.Export(sketch, Settings.ExportVersion, _GetFlags(), Settings.ExportPolygonPrecision);
+            return _WriteToFile(fileName, stream);
+        });
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -187,19 +185,21 @@ public sealed class DxfExchanger : ISketchExporter, ISketchImporter, IDrawingExp
 
     bool ISketchImporter.DoImport(string fileName, out IDictionary<int, Pnt2d> points, out IDictionary<int, SketchSegment> segments, out IEnumerable<SketchConstraint> constraints)
     {
-        points = null;
-        segments = null;
-        constraints = null;
-        bool result = false;
-        using (new ProcessingScope(null, "Importing sketch from DXF"))
-        {
-            if (_ReadFromFile(fileName, out var content))
-            {
-                result = DxfSketchImporter.Import(content, out points, out segments,
-                                                  _GetFlags(), Settings.ImportMergePointPrecision, DxfUtils.GetImportScaleValue(Settings.ImportScaling));
-            }
-        }
+        IDictionary<int, Pnt2d> pointsImported = null;
+        IDictionary<int, SketchSegment> segmentsImported = null;
 
+        bool result = ProcessingScope.ExecuteWithGuards(null, "Importing sketch from DXF", () =>
+        {
+            if (!_ReadFromFile(fileName, out var content))
+                return false;
+
+            return DxfSketchImporter.Import(content, out pointsImported, out segmentsImported,
+                                            _GetFlags(), Settings.ImportMergePointPrecision, DxfUtils.GetImportScaleValue(Settings.ImportScaling));
+        });
+
+        points = pointsImported;
+        segments = segmentsImported;
+        constraints = null;
         return result;
     }
 
@@ -221,13 +221,11 @@ public sealed class DxfExchanger : ISketchExporter, ISketchImporter, IDrawingExp
 
     bool IDrawingExporter.DoExport(string fileName, Drawing drawing)
     {
-        bool result;
-        using (new ProcessingScope(null, "Exporting vector to DXF"))
+        return ProcessingScope.ExecuteWithGuards(null, "Exporting vector to DXF", () =>
         {
             var stream = DxfDrawingExporter.Export(drawing, Settings.ExportVersion, _GetFlags(), Settings.ExportPolygonPrecision);
-            result = _WriteToFile(fileName, stream);
-        }
-        return result;
+            return _WriteToFile(fileName, stream);
+        });
     }
 
     #endregion

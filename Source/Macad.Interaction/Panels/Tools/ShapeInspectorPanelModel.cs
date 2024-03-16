@@ -96,14 +96,15 @@ public class ShapeInspectorPanelModel : PanelBase
         {
             if (brepShape == null)
                 return;
-                
-            using (new ProcessingScope(null, "Creating JSON dump."))
+
+            ProcessingScope.ExecuteWithGuards(null, "Creating JSON dump.", () =>
             {
                 StringWriter writer = new();
                 brepShape.DumpJson(writer);
                 writer.Write('\0');
                 InteractiveContext.Current?.Clipboard.SetData(DataFormats.UnicodeText, writer.ToString());
-            }
+                return true;
+            });
         },
         () => true
     );

@@ -99,13 +99,8 @@ public class PdfExchanger : IDrawingExporter, IBodyExporter
         
     bool IDrawingExporter.DoExport(string fileName, Core.Drawing.Drawing drawing)
     {
-        bool result;
-        using (new ProcessingScope(null, "Exporting drawing to PDF"))
-        {
-            result = _WriteToFile(fileName, PdfDrawingExporter.Export(drawing));
-        }
-
-        return result;
+        return ProcessingScope.ExecuteWithGuards(null, "Exporting drawing to PDF", 
+                                                 () => _WriteToFile(fileName, PdfDrawingExporter.Export(drawing)));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -116,13 +111,8 @@ public class PdfExchanger : IDrawingExporter, IBodyExporter
         
     bool IBodyExporter.DoExport(string fileName, IEnumerable<Body> bodies)
     {
-        bool result;
-        using (new ProcessingScope(null, "Exporting bodies to 3D-PDF"))
-        {
-            result = _WriteToFile(fileName, PdfBodyExporter.Export(bodies));
-        }
-
-        return result;
+        return ProcessingScope.ExecuteWithGuards(null, "Exporting drawing to 3D-PDF", 
+                                                 () => _WriteToFile(fileName, PdfBodyExporter.Export(bodies)));
     }
 
     //--------------------------------------------------------------------------------------------------

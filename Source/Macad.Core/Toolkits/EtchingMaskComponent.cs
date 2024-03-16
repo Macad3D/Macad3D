@@ -220,7 +220,7 @@ public sealed class EtchingMaskComponent : Component, IShapeDependent
         }
 
         CoreContext.Current.MessageHandler.ClearEntityMessages(this);
-        using (new ProcessingScope(this, "Generating Etching Mask Drawing"))
+        return ProcessingScope.ExecuteWithGuards(this, "Generating Etching Mask Drawing", () =>
         {
             Invalidate();
 
@@ -232,12 +232,10 @@ public sealed class EtchingMaskComponent : Component, IShapeDependent
 
             // Reconstruct
             _ReconstructedBRep = context.Slicer.Reconstruct();
-        }
-
-        RaisePropertyChanged(nameof(Layers));
-        RaisePropertyChanged(nameof(ReconstructedBRep));
-
-        return true;
+            RaisePropertyChanged(nameof(Layers));
+            RaisePropertyChanged(nameof(ReconstructedBRep));
+            return true;
+        });
     }
 
     //--------------------------------------------------------------------------------------------------

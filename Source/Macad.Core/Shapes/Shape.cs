@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using Macad.Core.Topology;
 using Macad.Common.Serialization;
 using Macad.Occt;
@@ -313,52 +312,39 @@ public abstract class Shape : Entity, IShapeOperand, IShapeDependent
 
     public bool Make(MakeFlags flags)
     {
-        try
+        CoreContext.Current.MessageHandler.ClearEntityMessages(this);
+
+        if (_IsSkipped)
         {
-            CoreContext.Current.MessageHandler.ClearEntityMessages(this);
+            if (Skip())
+                return true;
+        }
 
-            if (_IsSkipped)
+        bool result = ProcessingScope.ExecuteWithGuards(this, "Making Shape", () =>
+        {
+            if (IsValid)
             {
-                if (Skip())
-                    return true;
-            }
-
-            using (new ProcessingScope(this, "Making Shape"))
-            {
+                Invalidate();
                 if (IsValid)
                 {
-                    Invalidate();
-                    if (IsValid)
-                    {
-                        // This is the case when triggering invalidation leads to recursivly remaking the shape
-                        return true;
-                    }
-                }
-
-                if (MakeInternal(flags))
-                {
-                    HasErrors = false;
-                    _IsLoadedFromCache = false;
-                    RaiseShapeChanged();
+                    // This is the case when triggering invalidation leads to recursivly remaking the shape
                     return true;
                 }
-                Messages.Error("Shape making failed.");
             }
-        }
-        catch (SEHException e)
-        {
-            // Try to get infos from native
-            var info = Interop.ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionPointers());
-            Messages.Exception(info != null ? $"Modeling Exception - {info.Message}" : "Exception while making shape.", e, this);
-            Console.WriteLine(e);
-        }
-        catch (Exception e)
-        {
-            Messages.Exception("Exception while making shape.", e, this);
-            Console.WriteLine(e);
-        }
-        HasErrors = true;
-        return false;
+
+            if (MakeInternal(flags))
+            {
+                _IsLoadedFromCache = false;
+                RaiseShapeChanged();
+                return true;
+            }
+
+            Messages.Error("Shape making failed.");
+            return false;
+        });
+
+        HasErrors = !result;
+        return result;
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -4,6 +4,7 @@ using System.IO;
 using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Core.Topology;
+using Macad.Exchange.Pdf;
 using Macad.Exchange.U3d;
 
 namespace Macad.Exchange;
@@ -99,13 +100,8 @@ public class U3dExchanger: IBodyExporter
         
     bool IBodyExporter.DoExport(string fileName, IEnumerable<Body> bodies)
     {
-        bool result;
-        using (new ProcessingScope(null, "Exporting bodies to Universal 3D File"))
-        {
-            result = _WriteToFile(fileName, U3dBodyExporter.Export(bodies));
-        }
-
-        return result;
+        return ProcessingScope.ExecuteWithGuards(null, "Exporting drawing to Universal 3D File", 
+                                                 () => _WriteToFile(fileName, U3dBodyExporter.Export(bodies)));
     }
 
     #endregion

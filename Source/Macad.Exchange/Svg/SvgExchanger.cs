@@ -178,29 +178,22 @@ public sealed class SvgExchanger : ISketchExporter, ISketchImporter, IDrawingExp
 
     bool ISketchExporter.DoExport(string fileName, Sketch sketch)
     {
-        bool result;
-        using (new ProcessingScope(sketch, "Exporting sketch to SVG"))
+        return ProcessingScope.ExecuteWithGuards(sketch, "Exporting sketch to SVG", () =>
         {
             SvgSketchExporter.DotsPerInch = Settings.DotsPerInch;
-            result = _WriteToFile(fileName, SvgSketchExporter.Export(sketch));
-        }
-
-        return result;
+            return _WriteToFile(fileName, SvgSketchExporter.Export(sketch));
+        });
     }
 
     //--------------------------------------------------------------------------------------------------
 
     bool ISketchExporter.DoExport(Clipboard clipboard, Sketch sketch)
     {
-        bool result;
-        using (new ProcessingScope(sketch, "Exporting sketch to SVG"))
+        return ProcessingScope.ExecuteWithGuards(sketch, "Exporting sketch to SVG", () =>
         {
             SvgSketchExporter.DotsPerInch = Settings.DotsPerInch;
-            result = _WriteToClipboard(clipboard, SvgSketchExporter.Export(sketch));
-            CoreContext.Current?.MessageHandler.OnProcessingStopped();
-        }
-
-        return result;
+            return _WriteToClipboard(clipboard, SvgSketchExporter.Export(sketch));
+        });
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -211,19 +204,20 @@ public sealed class SvgExchanger : ISketchExporter, ISketchImporter, IDrawingExp
 
     bool ISketchImporter.DoImport(string fileName, out IDictionary<int, Pnt2d> points, out IDictionary<int, SketchSegment> segments, out IEnumerable<SketchConstraint> constraints)
     {
-        points = null;
-        segments = null;
-        constraints = null;
+        IDictionary<int, Pnt2d> pointsImported = null;
+        IDictionary<int, SketchSegment> segmentsImported = null;
 
-        bool result = false;
-        using (new ProcessingScope(null, "Importing sketch from SVG"))
+        bool result = ProcessingScope.ExecuteWithGuards(null, "Importing sketch from SVG", () =>
         {
-            if (_ReadFromFile(fileName, out var content))
-            {
-                result = SvgSketchImporter.Import(content, out points, out segments);
-            }
-        }
+            if (!_ReadFromFile(fileName, out var content))
+                return false;
 
+            return SvgSketchImporter.Import(content, out pointsImported, out segmentsImported);
+        });
+
+        points = pointsImported;
+        segments = segmentsImported;
+        constraints = null;
         return result;
     }
 
@@ -231,19 +225,20 @@ public sealed class SvgExchanger : ISketchExporter, ISketchImporter, IDrawingExp
 
     bool ISketchImporter.DoImport(Clipboard clipboard, out IDictionary<int, Pnt2d> points, out IDictionary<int, SketchSegment> segments, out IEnumerable<SketchConstraint> constraints)
     {
-        points = null;
-        segments = null;
-        constraints = null;
+        IDictionary<int, Pnt2d> pointsImported = null;
+        IDictionary<int, SketchSegment> segmentsImported = null;
 
-        bool result = false;
-        using (new ProcessingScope(null, "Importing sketch from SVG"))
+        bool result = ProcessingScope.ExecuteWithGuards(null, "Importing sketch from SVG", () =>
         {
-            if (_ReadFromClipboard(clipboard, out var content))
-            {
-                result = SvgSketchImporter.Import(content, out points, out segments);
-            }
-        }
+            if (!_ReadFromClipboard(clipboard, out var content))
+                return false;
 
+            return SvgSketchImporter.Import(content, out pointsImported, out segmentsImported);
+        });
+
+        points = pointsImported;
+        segments = segmentsImported;
+        constraints = null;
         return result;
     }
 
@@ -255,16 +250,15 @@ public sealed class SvgExchanger : ISketchExporter, ISketchImporter, IDrawingExp
         
     bool IDrawingExporter.DoExport(string fileName, Drawing drawing)
     {
-        bool result;
-        using (new ProcessingScope(null, "Exporting drawing to SVG"))
+        return ProcessingScope.ExecuteWithGuards(null, "Exporting drawing to SVG", () =>
         {
             SvgExporterBase.DotsPerInch = Settings.DotsPerInch;
             SvgExporterBase.TagGroupsAsLayers = Settings.TagGroupsAsLayers;
-            result = _WriteToFile(fileName, SvgDrawingExporter.Export(drawing));
-        }
-
-        return result;
+            return _WriteToFile(fileName, SvgDrawingExporter.Export(drawing));
+        });
     }
+
+    //--------------------------------------------------------------------------------------------------
 
     #endregion
 }

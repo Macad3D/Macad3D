@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Runtime.InteropServices;
+﻿using System.Linq;
 using Macad.Common;
 using Macad.Core.Drawing;
 using Macad.Core.Geom;
@@ -14,26 +12,16 @@ public class ConvertToEditableSketch : IDrawingRenderer, IRendererCapabilities
 {
     public static Sketch Convert(TopoDS_Shape brepShape, Entity context = null)
     {
-        try
+        Sketch sketch = null;
+        ProcessingScope.ExecuteWithGuards(context, "Converting Sketch", () =>
         {
             var converter = new ConvertToEditableSketch();
             converter.Add(brepShape);
-            return converter._Sketch;
-        }
-        catch (SEHException e)
-        {
-            // Try to get infos from native
-            var info = Interop.ExceptionHelper.GetNativeExceptionInfo(Marshal.GetExceptionPointers());
-            Messages.Exception(info != null ? $"Modeling Exception - {info.Message}" : "Exception while converting shape.", e, context);
-            Console.WriteLine(e);
-        }
-        catch (Exception e)
-        {
-            Messages.Exception("Exception while making shape.", e, context);
-            Console.WriteLine(e);
-        }
+            sketch = converter._Sketch;
+            return true;
+        });
 
-        return null;
+        return sketch;
     }
 
     //--------------------------------------------------------------------------------------------------
