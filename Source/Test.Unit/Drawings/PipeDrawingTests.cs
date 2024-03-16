@@ -60,7 +60,39 @@ public class PipeDrawingTests
         var svg = _Export(drawing);
         AssertHelper.IsSameTextFile(Path.Combine(_BasePath, "SelectBestPosition.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
     }
+        
+    //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    [TestCase(true, true, TestName = "BetweenArcs")]
+    [TestCase(true, false, TestName = "AtBegin")]
+    [TestCase(false, true, TestName = "AtEnd")]
+    public void SkipWarpedLinearSegment(bool startLine, bool endLine)
+    {
+        var sketch = Sketch.Create();
+        SketchBuilder sb = new SketchBuilder(sketch);
+        sb.StartPath(-13.32, 38.13);
+        if (startLine)
+        {
+            sb.LineTo(-15.01, 39.52);
+        }
+
+        sb.ArcTo(-20.8, 31.19, -24.02, 38.89);
+        if (endLine)
+        {
+            sb.LineTo(-19.21, 29.96);
+        }
+
+        var body = Body.Create(sketch);
+        var pipe = Pipe.Create(body);
+        Assume.That(pipe.Make(Shape.MakeFlags.None));
+
+        var drawing = PipeDrawing.Create(pipe.Body);
+        Assert.IsNotNull(drawing.Extents);
+        var svg = _Export(drawing);
+        AssertHelper.IsSameTextFile(Path.Combine(_BasePath, $"SkipWarpedLinearSegment{(startLine?1:0)}{(endLine?1:0)}.svg"), svg, AssertHelper.TextCompareFlags.IgnoreFloatPrecision);
+    }
+    
     //--------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------
 

@@ -228,6 +228,13 @@ public class PipeDrawing : DrawingElement
 
     LengthDimension _CreateLengthDimension(Pnt2d p1, Pnt2d p2, Pipe.ArcInfo nextArc, Pipe.ArcInfo priorArc)
     {
+        // Check linearity of current segment, skip if too warped
+        if (priorArc != null && nextArc != null)
+        {
+            if (!priorArc.Tangent2.IsOpposite(nextArc.Tangent1, Maths.PI * 0.1))
+                return null;
+        }
+
         // Find direction of bending
         double arcAngle = 0.0;
         if (nextArc != null)
@@ -249,15 +256,35 @@ public class PipeDrawing : DrawingElement
 
         // Apply allowance
         double u = 0, v = 0;
-        if (priorArc != null && priorArc.Angle > BendAllowanceThreshold)
+        if (priorArc != null)
         {
             ElSLib.Parameters(Pln.XOY, priorArc.Tangent2.ToPnt(), ref u, ref v);
-            p1.Translate(new Vec2d(u, v).Normalized().Scaled(priorArc.Center.Distance(priorArc.P2) * priorArc.Angle * -0.5 * BendAllowanceScale));
+            Vec2d tangent = new Vec2d(u, v).Normalized();
+            if (priorArc.Angle > BendAllowanceThreshold)
+            {
+                p1.Translate(tangent.Scaled(priorArc.Center.Distance(priorArc.P2) * priorArc.Angle * -0.5 * BendAllowanceScale));
+            }
+
+            // Linearity of current segment if nextArc is not present, skip if too warped
+            if (nextArc == null && tangent.ToDir().Angle(dimDir) > Maths.PI * 0.1)
+            {
+                return null;
+            }
         }
-        if (nextArc != null && nextArc.Angle > BendAllowanceThreshold)
+        if (nextArc != null)
         {
             ElSLib.Parameters(Pln.XOY, nextArc.Tangent1.ToPnt(), ref u, ref v);
-            p2.Translate(new Vec2d(u, v).Normalized().Scaled(nextArc.Center.Distance(nextArc.P1) * nextArc.Angle * -0.5 * BendAllowanceScale));
+            Vec2d tangent = new Vec2d(u, v).Normalized();
+            if (nextArc.Angle > BendAllowanceThreshold)
+            {
+                p2.Translate(tangent.Scaled(nextArc.Center.Distance(nextArc.P1) * nextArc.Angle * -0.5 * BendAllowanceScale));
+            }
+
+            // Linearity of current segment if priorArc is not present, skip if too warped
+            if (priorArc == null && tangent.ToDir().Angle(dimDir.Reversed()).Abs() > Maths.PI * 0.1)
+            {
+                return null;
+            }
         }
 
         Pnt2d position = p1.Lerped(p2, 0.5).Translated(extDir.ToVec(ExtensionLength));
