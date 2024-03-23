@@ -46,7 +46,7 @@
                    Stroke="{StaticResource Macad.Brushes.Separator}" />
 
         <!--List-->
-        <treeView:TreeViewEx ItemsSource="{Binding Layers}"
+        <treeView:TreeViewEx ItemsSource="{Binding LayersView}"
                              SelectedItems="{Binding SelectedLayers, Mode=OneWay}"
                              Background="{StaticResource Macad.Brushes.Panel.Background}"
                              BorderBrush="{StaticResource Macad.Brushes.Panel.Border}"

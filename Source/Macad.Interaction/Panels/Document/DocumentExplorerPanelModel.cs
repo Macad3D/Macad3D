@@ -41,7 +41,7 @@ public class DocumentExplorerPanelModel : BaseObject
 
     //--------------------------------------------------------------------------------------------------
 
-    public ICollectionView EntitiesView
+    public CollectionView EntitiesView
     {
         get { return _EntitiesView; }
         private set
@@ -94,7 +94,7 @@ public class DocumentExplorerPanelModel : BaseObject
 
     WorkspaceController _WorkspaceController;
     Model _Document;
-    ICollectionView _EntitiesView;
+    CollectionView _EntitiesView;
     string _FilterString;
     bool _DocumentIsEmpty;
 
@@ -154,6 +154,10 @@ public class DocumentExplorerPanelModel : BaseObject
             if (_Document != null)
             {
                 _Document.Layers.PropertyChanged -= _Layers_PropertyChanged;
+                if (DocumentIsEmpty)
+                {
+                    _Document.CollectionChanged -= _Document_CollectionChanged;
+                }
                 _Document = null;
             }
             _UpdateEntitiesView(); // Clear view
@@ -259,15 +263,16 @@ public class DocumentExplorerPanelModel : BaseObject
         if (EntitiesView != null)
         {
             EntitiesView.Filter -= _EntitiesView_Filter;
+            EntitiesView.DetachFromSourceCollection();
+            EntitiesView = null;
         }
 
         if (_Document == null)
         {
-            EntitiesView = null;
             return;
         }
 
-        EntitiesView = CollectionViewSource.GetDefaultView(CoreContext.Current.Document);
+        EntitiesView = CollectionViewSource.GetDefaultView(CoreContext.Current.Document) as CollectionView;
         EntitiesView.Filter += _EntitiesView_Filter;
         _UpdateEntitiesSorting();
     }

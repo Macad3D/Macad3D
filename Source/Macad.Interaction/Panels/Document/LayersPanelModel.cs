@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Data;
 using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
@@ -12,12 +13,12 @@ public class LayersPanelModel : BaseObject
 {
     #region Properties
 
-    public LayerCollection Layers
+    public CollectionView LayersView
     {
-        get { return _Layers; }
+        get { return _LayersView; }
         private set
         {
-            _Layers = value; 
+            _LayersView = value; 
             RaisePropertyChanged();
         }
     }
@@ -69,8 +70,9 @@ public class LayersPanelModel : BaseObject
 
     #region Members
 
+    CollectionView _LayersView;
     LayerCollection _Layers;
-    ObservableCollection<Layer> _SelectedLayers;
+    readonly ObservableCollection<Layer> _SelectedLayers = new();
     Layer _SelectedLayer;
     bool _IsNameEditing;
     Layer _RenamingLayer;
@@ -165,9 +167,7 @@ public class LayersPanelModel : BaseObject
     {
         CreateCommands();
 
-        Layers = InteractiveContext.Current.Layers;
-        InteractiveContext.Current.PropertyChanged += AppContext_PropertyChanged;
-        _SelectedLayers = new ObservableCollection<Layer>();
+        InteractiveContext.Current.PropertyChanged += InteractiveContext_PropertyChanged;
         SelectedLayers.CollectionChanged += _SelectedLayers_CollectionChanged;
 
         _IsNameEditing = false;
@@ -186,9 +186,21 @@ public class LayersPanelModel : BaseObject
 
     //--------------------------------------------------------------------------------------------------
 
-    void AppContext_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    void InteractiveContext_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        Layers = (sender as InteractiveContext)?.Layers;
+        if (e.PropertyName == nameof(InteractiveContext.Layers))
+        {
+            if (_LayersView != null)
+            {
+                _LayersView.DetachFromSourceCollection();
+                LayersView = null;
+            }
+            _Layers = (sender as InteractiveContext)?.Layers;
+            if (_Layers != null)
+            {
+                LayersView = new CollectionView(_Layers);
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -199,7 +211,7 @@ public class LayersPanelModel : BaseObject
         
     public bool CanMove(Layer layer)
     {
-        return layer != Layers.Default;
+        return layer != _Layers.Default;
     }
 
     //--------------------------------------------------------------------------------------------------
