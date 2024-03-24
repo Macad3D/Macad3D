@@ -129,7 +129,7 @@ public struct Color : ISerializeValue, IEquatable<Color>
 
     public override string ToString()
     {
-        return string.Format(CultureInfo.InvariantCulture, $"[{Red},{Green},{Blue}]");
+        return string.Format(CultureInfo.InvariantCulture, "[{0},{1},{2}]", Red, Green, Blue);
     }
     
     //--------------------------------------------------------------------------------------------------

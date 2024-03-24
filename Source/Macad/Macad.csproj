@@ -5,7 +5,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ApplicationIcon>..\Macad.Resources\Icons\App\App-MainLogo.ico</ApplicationIcon>  
     <Platforms>x64</Platforms>
-    <StartupObject>Macad.Window.App</StartupObject>
+    <StartupObject>Macad.Window.Program</StartupObject>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   

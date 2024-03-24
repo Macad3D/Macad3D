@@ -19,8 +19,6 @@ public partial class App : Application
     [STAThread]
     protected override void OnStartup(StartupEventArgs e)
     {
-        System.AppContext.SetSwitch("Switch.System.Windows.Input.Stylus.EnablePointerSupport", true);
-
         CultureInfo culture = new CultureInfo("en");
         Thread.CurrentThread.CurrentCulture = culture;
         Thread.CurrentThread.CurrentUICulture = culture;
@@ -126,5 +124,12 @@ public partial class App : Application
 
         if(ptrSecurityDescriptor != IntPtr.Zero)
             Marshal.FreeCoTaskMem(ptrSecurityDescriptor);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public App()
+    {
+        InitializeComponent();
     }
 }
