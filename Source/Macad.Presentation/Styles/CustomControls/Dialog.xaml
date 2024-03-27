@@ -31,6 +31,7 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="Padding" Value="30" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -73,7 +74,7 @@
                                         
                                         <!-- content -->
                                         <Grid Grid.Row="1" Background="{TemplateBinding Background}" >
-                                            <ContentPresenter Margin="30,30" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
+                                            <ContentPresenter Margin="{TemplateBinding Padding}" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
                                         </Grid>
 
                                         <!-- footer -->

@@ -152,7 +152,8 @@ public class LayersPanelModel : BaseObject
             Header = () => "Rename",
             Title = () => "Rename Layer",
             Description = () => "Rename the selected layer.",
-            Icon = () => "Generic-Rename"
+            Icon = () => "Generic-Rename",
+            Shortcut = "F2"
         };
         ActivateLayerCommand = new ActionCommand(ExecuteActivateLayerCommand, CanExecuteActivateLayerCommand);
     }

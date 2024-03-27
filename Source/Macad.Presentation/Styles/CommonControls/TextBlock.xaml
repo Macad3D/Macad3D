@@ -4,9 +4,9 @@
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Colors.xaml" />
-        <ResourceDictionary Source="../CommonControls/ScrollViewer.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <!--Header of Popups-->
     <Style x:Key="Macad.Styles.TextBlock.PopupHeader" TargetType="{x:Type TextBlock}">
         <Setter Property="Padding" Value="10,2" />
         <Setter Property="Background" Value="{StaticResource Macad.Brushes.Popup.Header.Background}" />

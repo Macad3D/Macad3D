@@ -12,8 +12,6 @@ using Fluent;
 using Macad.Common;
 using Macad.Common.Interop;
 using Macad.Interaction;
-using Macad.Presentation;
-
 
 namespace Macad.Window;
 
@@ -224,15 +222,7 @@ public partial class MainWindow : RibbonWindow
 
     void _ApplicationCommandsHelp_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        string topicId = e.Parameter as string;
-        DependencyObject currentObj = FocusManager.GetFocusedElement(e.Source as DependencyObject) as DependencyObject;
-        while (topicId == null && currentObj != null)
-        {
-            topicId = Help.GetTopicId(currentObj);
-            currentObj = LogicalTreeHelper.GetParent(currentObj);
-        }
-
-        AppCommands.ShowHelpTopic.Execute(topicId);
+        AppCommands.ShowHelp.Execute(e.Parameter as string ?? e.Source);
     }
 
     //--------------------------------------------------------------------------------------------------

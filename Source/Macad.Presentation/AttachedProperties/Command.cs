@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -192,8 +194,8 @@ public class Command : DependencyObject
                 {
                     BindingOperations.SetBinding(menuItem, MenuItem.IsCheckedProperty, isCheckedBinding);
                 }
-                binding = BindingHelper.Create(cmd, nameof(IActionCommand.Shortcut), BindingMode.OneWay);
-                BindingOperations.SetBinding(menuItem, MenuItem.InputGestureTextProperty, binding);
+
+                menuItem.InputGestureText = cmd.GetShortcut(param);
                 break;
         }
     }
@@ -234,15 +236,11 @@ public class Command : DependencyObject
 
     static ToolTip _CreateScreenTip(IActionCommand cmd, object param)
     {
-        var screenTip = new Fluent.ScreenTip
+        var screenTip = new ScreenTip()
         {
-            Title = cmd.GetTitle(param) ?? cmd.GetHeader(param), 
-            Text = cmd.GetDescription(param),
-            HelpTopic = cmd.GetHelpTopic(param),
+            Command = cmd,
+            CommandParameter = param
         };
-
-        var binding = BindingHelper.Create(cmd, nameof(IActionCommand.Shortcut), BindingMode.OneWay, ShortcutToTitleConverter.Instance, screenTip.Title);
-        BindingOperations.SetBinding(screenTip, Fluent.ScreenTip.TitleProperty, binding);
 
         return screenTip;
     }

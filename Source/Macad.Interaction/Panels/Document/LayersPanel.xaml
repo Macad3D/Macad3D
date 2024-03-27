@@ -71,7 +71,8 @@
                     <MenuItem mmp:Command.Action="{x:Static mmi:LayerCommands.CreateNewLayer}" />
                     <MenuItem CommandParameter="{Binding SelectedLayer}" 
                               mmp:Command.Action="{x:Static mmi:LayerCommands.DeleteLayer}" />
-                    <MenuItem mmp:Command.Action="{Binding StartRenamingCommand}" />
+                    <MenuItem mmp:Command.Action="{Binding StartRenamingCommand}"
+                              InputGestureText="F2"/>
                     <Separator />
                     <MenuItem Header="Move Entities to Layer"
                               CommandParameter="{Binding SelectedLayer}" 

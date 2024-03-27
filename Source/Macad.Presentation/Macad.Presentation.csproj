@@ -25,8 +25,13 @@
     <None Include="Styles\**\*.xaml" />
     <UpToDateCheckInput Include="Styles\**\*.xaml" />
     <None Remove="Styles\CommonControls\CheckBox.xaml" />
+    <None Remove="Styles\CommonControls\ItemsControl.xaml" />
+    <None Remove="Styles\CommonControls\Label.xaml" />
+    <None Remove="Styles\CustomControls\RichTextBlock.xaml" />
     <None Remove="Styles\ThirdPartyControls\DockControls.xaml" />
     <UpToDateCheckInput Remove="Styles\CommonControls\CheckBox.xaml" />
+    <UpToDateCheckInput Remove="Styles\CommonControls\ItemsControl.xaml" />
+    <UpToDateCheckInput Remove="Styles\CustomControls\RichTextBlock.xaml" />
     <UpToDateCheckInput Remove="Styles\ThirdPartyControls\DockControls.xaml" />
     <None Include="Styles\StylesSource.xaml">
       <Generator>MSBuild:Compile</Generator>

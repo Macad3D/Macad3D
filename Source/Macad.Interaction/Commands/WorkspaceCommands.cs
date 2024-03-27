@@ -16,7 +16,7 @@ public static class WorkspaceCommands
 {
     #region Tools
 
-    public static RelayCommand Escape { get; } = new(
+    public static ActionCommand Escape { get; } = new(
         () =>
         {
             if (CurrentTool != null)
@@ -25,7 +25,11 @@ public static class WorkspaceCommands
                 Invalidate();
             }
         },
-        () => true);
+        () => true)
+    {
+        Header = () => "Stop Current Tool",
+        Description = () => "Stops or cancels the current tool.",
+    };
 
     //--------------------------------------------------------------------------------------------------
 

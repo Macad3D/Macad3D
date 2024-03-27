@@ -3,19 +3,34 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using System.Windows.Input;
+using Macad.Common;
 
 namespace Macad.Presentation;
 
-public interface IActionCommand : ICommand, INotifyPropertyChanged
+public interface IActionCommand : ICommand
 {
     string GetHeader(object parameter);
     string GetTitle(object parameter);
     string GetIcon(object parameter);
     string GetDescription(object parameter);
     string GetHelpTopic(object parameter);
-    string Shortcut { get; set; }
+    string GetShortcut(object parameter);
     (object Object, string Path) GetBindingSource(object parameter);
     Binding GetIsCheckedBinding(object parameter);
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static Func<IActionCommand, object, string> GetShortcutDefaultHandler { get; set; }
+
+    protected static string TryFindShortcut(IActionCommand command, object parameter)
+    {
+        if (GetShortcutDefaultHandler != null)
+        {
+            return GetShortcutDefaultHandler(command, parameter);
+        }
+
+        return null;
+    }
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -44,12 +59,13 @@ public sealed class ActionCommand : RelayCommand, IActionCommand
     public string HelpTopic { get; set; }
     public string GetHelpTopic(object parameter) => HelpTopic;
 
-    public string Shortcut
+    public string Shortcut { get; set; }
+    public string GetShortcut(object parameter)
     {
-        get { return _Shortcut; }
-        set { _Shortcut = value; RaisePropertyChanged(); }
+        if(!Shortcut.IsNullOrEmpty())
+            return Shortcut;
+        return IActionCommand.TryFindShortcut(this, parameter);
     }
-    string _Shortcut;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -74,7 +90,7 @@ public sealed class ActionCommand : RelayCommand, IActionCommand
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
-public class ActionCommand<T> : RelayCommand<T>, IActionCommand
+public sealed class ActionCommand<T> : RelayCommand<T>, IActionCommand
 {
     public Func<T,string> Header { get; set; }
     public string GetHeader(object parameter) => Header?.Invoke(ConvertParameter(parameter));
@@ -97,12 +113,11 @@ public class ActionCommand<T> : RelayCommand<T>, IActionCommand
     public Func<T,string> HelpTopic { get; set; }
     public string GetHelpTopic(object parameter) => HelpTopic?.Invoke(ConvertParameter(parameter));
 
-    public string Shortcut
+    public Func<T,string> Shortcut { get; set; }
+    public string GetShortcut(object parameter)
     {
-        get { return _Shortcut; }
-        set { _Shortcut = value; RaisePropertyChanged(); }
+        return Shortcut?.Invoke(ConvertParameter(parameter)) ?? IActionCommand.TryFindShortcut(this, parameter);
     }
-    string _Shortcut;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -120,10 +135,4 @@ public class ActionCommand<T> : RelayCommand<T>, IActionCommand
         
     //--------------------------------------------------------------------------------------------------
 
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
 }

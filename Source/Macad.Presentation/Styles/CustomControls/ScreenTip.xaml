@@ -1,0 +1,113 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mmp="clr-namespace:Macad.Presentation">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="Macad.Templates.ScreenTip"
+                     TargetType="{x:Type mmp:ScreenTip}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="5" />
+            </Grid.RowDefinitions>
+            <Border Grid.RowSpan="1"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="1">
+                <Grid>
+                    <StackPanel x:Name="screenTipPanel">
+                        <DockPanel>
+                            <mmp:RichTextBlock x:Name="shortcut" 
+                                               DockPanel.Dock="Right"
+                                               VerticalAlignment="Center"
+                                               RichText="{TemplateBinding Property=Shortcut, Converter={mmp:KeyListToRichTextConverter}}" />
+                            <TextBlock x:Name="title"
+                                       DockPanel.Dock="Left"
+                                       Margin="7 8 7 10"
+                                       FontWeight="Bold"
+                                       Text="{TemplateBinding Property=Title}"
+                                       TextWrapping="Wrap" />
+                        </DockPanel>
+                        <Grid x:Name="imageAndTextSection">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image x:Name="image"
+                                   MaxHeight="48"
+                                   Margin="7 5 3 7"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Source="{TemplateBinding Property=Image}"
+                                   Stretch="Uniform" />
+                            <TextBlock Grid.Column="1"
+                                       Margin="8 0 8 6"
+                                       Text="{TemplateBinding Property=Text}"
+                                       TextWrapping="Wrap" />
+                        </Grid>
+                        <Border x:Name="separator"
+                                Width="Auto"
+                                Height="2"
+                                Margin="5"
+                                HorizontalAlignment="Stretch"
+                                Background="{StaticResource Macad.Brushes.Separator}"
+                                BorderThickness="0 0 0 1"
+                                Visibility="{TemplateBinding Property=HelpLabelVisibility}" />
+                        <Grid x:Name="helpSection"
+                              Visibility="{TemplateBinding Property=HelpLabelVisibility}"
+                              Margin="5 0 6 6">
+                            <Image Width="16"
+                                   Height="16"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Source="{DynamicResource Fluent.Ribbon.Images.Help}"
+                                   Stretch="Uniform" />
+                            <mmp:RichTextBlock x:Name="textBlock"
+                                       x:Uid="HelpText"
+                                       Margin="28 0 0 0"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Center"
+                                       RichText="Press `k:F1` for help"
+                                       TextWrapping="Wrap" />
+                            <ContentControl x:Name="helpTopic"
+                                            Content="{TemplateBinding Property=HelpTopic}"
+                                            Visibility="Collapsed" />
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger SourceName="helpTopic" Property="Content" Value="{x:Null}">
+                <Setter TargetName="separator" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="helpSection" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Text" Value="" />
+                    <Condition Property="Image" Value="{x:Null}" />
+                </MultiTrigger.Conditions>
+                <Setter TargetName="imageAndTextSection" Property="Visibility" Value="Collapsed" />
+            </MultiTrigger>
+            <Trigger Property="Image" Value="{x:Null}">
+                <Setter TargetName="image" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type mmp:ScreenTip}">
+        <Setter Property="Background" Value="{DynamicResource Fluent.Ribbon.Brushes.ScreenTip.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Fluent.Ribbon.Brushes.ScreenTip.Border}" />
+        <Setter Property="Foreground" Value="{DynamicResource Fluent.Ribbon.Brushes.LabelText}" />
+        <Setter Property="Template" Value="{StaticResource Macad.Templates.ScreenTip}" />
+        <Setter Property="Width" Value="205" />
+    </Style>
+
+</ResourceDictionary>

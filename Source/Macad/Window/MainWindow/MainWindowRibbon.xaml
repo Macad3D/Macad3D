@@ -37,6 +37,9 @@
         <!--region Toolbar -->
         <Fluent:Ribbon.ToolBarItems>
             <Fluent:Button Size="Small"
+                           mmp:Command.Action="{x:Static mmw:AppCommands.ShowShortcutCheatSheet}"
+                           AutomationProperties.AutomationId="ToolbarShowShortcutCheatSheet"/>
+            <Fluent:Button Size="Small"
                            Command="{x:Static mmw:AppCommands.ShowHelpTopic}" 
                            Icon="{DynamicResource Fluent.Ribbon.Images.Help}"/>
         </Fluent:Ribbon.ToolBarItems>

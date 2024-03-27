@@ -19,6 +19,7 @@
         <ResourceDictionary Source="CommonControls/ComboBox.xaml" />
         <ResourceDictionary Source="CommonControls/Expander.xaml" />
         <ResourceDictionary Source="CommonControls/GroupBox.xaml" />
+        <ResourceDictionary Source="CommonControls/Label.xaml" />
         <ResourceDictionary Source="CommonControls/ListBox.xaml" />
         <ResourceDictionary Source="CommonControls/Menu.xaml" />
         <ResourceDictionary Source="CommonControls/ScrollBar.xaml" />
@@ -35,6 +36,7 @@
         <ResourceDictionary Source="CustomControls/ToggleButton.xaml" />
         <ResourceDictionary Source="CustomControls/TreeViewEx.xaml" />
         <ResourceDictionary Source="CustomControls/ValueEditBox.xaml" />
+        <ResourceDictionary Source="CustomControls/ScreenTip.xaml" />
 
         <ResourceDictionary Source="PropertyPanelStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>

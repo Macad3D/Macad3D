@@ -57,7 +57,8 @@ public class AppContext : InteractiveContext
 
     void LoadShortcuts()
     {
-        ShortcutHandler.AddShortcut(ShortcutScope.Application, new(Key.F1, ApplicationCommands.Help));
+        ShortcutHandler.AddShortcut(ShortcutScope.Application, new(Key.F1, AppCommands.ShowHelp));
+        ShortcutHandler.AddShortcut(ShortcutScope.Application, new(Key.F1, ModifierKeys.Control, AppCommands.ShowShortcutCheatSheet));
         ShortcutHandler.AddShortcut(ShortcutScope.Application, new(Key.S, ModifierKeys.Control, DocumentCommands.SaveAll));
     }
 
