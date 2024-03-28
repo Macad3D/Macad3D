@@ -201,7 +201,7 @@ public class TransformTool : Tool
                 _TranslateAction = new TranslateAction(_CoordinateSystem);
                 if (!StartAction(_TranslateAction, false))
                     return;
-                SetHintMessage("Move entity using gizmo, press 'CTRL' to round to grid stepping. Press 'T' for rotation.");
+                SetHintMessage("__Move entity__ using gizmo, press `k:Ctrl` to round to grid stepping. Press `k:T` for rotation.");
                 _TranslateAction.Preview += _TranslateAction_Preview;
                 _TranslateAction.Finished += _TranslateAction_Finished;
                 break;
@@ -210,7 +210,7 @@ public class TransformTool : Tool
                 _RotateAction = new RotateAction(_CoordinateSystem);
                 if (!StartAction(_RotateAction, false))
                     return;
-                SetHintMessage("Rotate entity using gizmo, press 'CTRL' to round to 5°. Press 'T' for translation.");
+                SetHintMessage("__Rotate entity__ using gizmo, press `k:Ctrl` to round to 5°. Press `k:T` for translation.");
                 _RotateAction.Preview += _RotateAction_Preview;
                 _RotateAction.Finished += _RotateAction_Finished;
                 break;

@@ -87,7 +87,7 @@ public class CylinderEditor : Editor<Cylinder>
 
     void _ScaleAction_Preview(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
     {
-        SetHintMessage("Scale cylinder using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to scale relative to center.");
+        SetHintMessage("__Scale cylinder__ using gizmo, press `k:Ctrl` to round to grid stepping, press `k:Shift` to scale relative to center.");
 
         double newHeight = 0;
         double newRadius = 0;

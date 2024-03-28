@@ -88,7 +88,7 @@ public class BoxEditor : Editor<Box>
 
     void _ScaleAction_Preview(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
     {
-        SetHintMessage("Scale box using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to scale relative to center.");
+        SetHintMessage("__Scale box__ using gizmo, press `k:Ctrl` to round to grid stepping, press `k:Shift` to scale relative to center.");
 
         if (!_ScaleAxisReversed[1 << 3])
         {

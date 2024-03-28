@@ -90,7 +90,7 @@ public sealed class SphereEditor : Editor<Sphere>
         if (sender != _ScaleAction)
             return;
 
-        SetHintMessage("Scale sphere using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to scale relative to center.");
+        SetHintMessage("__Scale sphere__ using gizmo, press `k:Ctrl` to round to grid stepping, press `k:Shift` to scale relative to center.");
 
         double radiusDelta = args.Delta * 0.5 * Math.Max(args.Direction.X.Abs(), 
                                                          Math.Max(args.Direction.Y.Abs(), 

@@ -102,7 +102,7 @@ public class ChamferEditorTool : EdgeModifierTool
         {
             _StopActions();
 
-            SetHintMessage("Select edges to apply modifier on. Select faces to toggle all it's edges.");
+            SetHintMessage("__Select edges__ to apply modifier on. __Select faces__ to toggle all it's edges.");
             SetCursor(Cursors.SelectEdge);
 
             if (ContourEdges == null || ValidEdges == null)
@@ -337,7 +337,7 @@ public class ChamferEditorTool : EdgeModifierTool
         _IsMoving = true;
         _StopActions(sender);
 
-        SetHintMessage("Scale chamfer distance using gizmo, press 'CTRL' to round to grid stepping.");
+        SetHintMessage("__Scale chamfer distance__ using gizmo, press `k:Ctrl` to round to grid stepping.");
         SetCursor(Cursors.SetRadius);
 
         var info = _Actions.FirstOrDefault(info => info.AxisAction == sender || info.SecAxisAction == sender);
@@ -406,7 +406,7 @@ public class ChamferEditorTool : EdgeModifierTool
         _IsMoving = true;
         _StopActions(sender);
 
-        SetHintMessage("Scale chamfer angle using gizmo, press 'CTRL' to round to 5°.");
+        SetHintMessage("__Scale chamfer angle__ using gizmo, press `k:Ctrl` to round to 5°.");
         SetCursor(Cursors.SetRadius);
 
         var info = _Actions.FirstOrDefault(info => info.RotateAction == sender);

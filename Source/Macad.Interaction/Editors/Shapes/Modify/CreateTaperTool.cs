@@ -88,7 +88,7 @@ public class CreateTaperTool : Tool
             return false;
         toolAction.Finished += _SelectFaceAction_Finished;
 
-        SetHintMessage("Select face to taper.");
+        SetHintMessage("__Select face__ to taper.");
         SetCursor(Cursors.SelectFace);
         return true;
     }

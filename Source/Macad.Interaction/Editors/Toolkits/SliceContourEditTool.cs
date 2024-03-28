@@ -386,7 +386,7 @@ public class SliceContourEditTool : Tool
                 return;
             }
             _SelectFaceAction.Finished += _SelectFaceAction_OnFinished;
-            SetHintMessage("Select plane base face.");
+            SetHintMessage("__Select face__ to define base plane.");
             SetCursor(Cursors.SelectFace);
         }
         RaisePropertyChanged(nameof(IsSelectingFace));
@@ -473,7 +473,7 @@ public class SliceContourEditTool : Tool
         args.MouseEventData.ForceReDetection = true;
 
         SetCursor(Cursors.SetHeight);
-        SetHintMessage("Adjust slice plane interval. Press 'SHIFT' to also move subsequent layers. Press 'CTRL' to round to current grid step.");
+        SetHintMessage("__Adjust slice plane interval__. Press `k:Shift` to also move subsequent layers. Press `k:Ctrl` to round to current grid step.");
     }
 
     //--------------------------------------------------------------------------------------------------

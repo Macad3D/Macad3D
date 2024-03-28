@@ -35,7 +35,7 @@ public sealed class SketchSegmentEllipseCenterCreator : SketchSegmentCreator
         _Coord2DHudElement = new Coord2DHudElement();
         Add(_Coord2DHudElement);
 
-        SetHintMessage("Select center point of the ellipse.");
+        SetHintMessage("__Select center point__ of the ellipse.");
             
         return true;
     }
@@ -131,7 +131,7 @@ public sealed class SketchSegmentEllipseCenterCreator : SketchSegmentCreator
         _Marker[0].Set(point, SketchEditorTool.Sketch.Plane);
         Add(_Marker[0]);
 
-        SetHintMessage("Select first rim point of the ellipse.");
+        SetHintMessage("__Select first rim point__ of the ellipse.");
 
         _PointAction.Reset();
     }
@@ -189,7 +189,7 @@ public sealed class SketchSegmentEllipseCenterCreator : SketchSegmentCreator
         };
         _Element.OnPointsChanged(_Points, null);
 
-        SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select second rim point of the ellipse.");
+        SetHintMessage("__Select second rim point__ of the ellipse.");
         _PointAction.Reset();
         SketchEditorTool.WorkspaceController.Invalidate();
         SketchEditorTool.WorkspaceController.UpdateSelection();

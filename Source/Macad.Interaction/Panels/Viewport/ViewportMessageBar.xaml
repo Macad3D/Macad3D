@@ -21,10 +21,10 @@
                        Width="16" Height="16"
                        Margin="20,0,0,0"
                        Source="{mmp:IconResource IconName=Generic-Error}"/>
-                <TextBlock Text="{Binding ErrorMessage}"
-                           TextWrapping="NoWrap"
-                           TextTrimming="WordEllipsis"
-                           Margin="20,0"/>
+                <mmp:RichTextBlock RichText="{Binding ErrorMessage}"
+                                   TextWrapping="NoWrap"
+                                   TextTrimming="WordEllipsis"
+                                   Margin="20,0"/>
             </DockPanel>
         </Border>
 
@@ -33,10 +33,10 @@
                 BorderBrush="{StaticResource Macad.Brushes.Panel.Border}"
                 BorderThickness="0,0,0,1"
                 Visibility="{Binding HintMessage, Converter={mmp:StringNotEmptyToVisibleCollapsedConverter}}">
-            <TextBlock Text="{Binding HintMessage}"
-                       TextWrapping="NoWrap"
-                       TextTrimming="WordEllipsis"
-                       Margin="20,1,5,1"/>
+            <mmp:RichTextBlock RichText="{Binding HintMessage}"
+                               TextWrapping="NoWrap"
+                               TextTrimming="WordEllipsis"
+                               Margin="20,1,5,1"/>
         </Border>
 
     </StackPanel>

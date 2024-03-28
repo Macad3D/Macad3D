@@ -78,7 +78,7 @@ public class BooleanOperationTool : Tool
 
     void UpdateStatusText(string shapeName)
     {
-        string text = "Select shape as operator to the ";
+        string text = "__Select shape__ as operator to the ";
         switch(_Operation)
         {
             case Operation.Cut:
@@ -100,7 +100,7 @@ public class BooleanOperationTool : Tool
         }
         else
         {
-            text += ": " + shapeName;
+            text += ": _" + shapeName + "_";
         }
         SetHintMessage(text);
     }

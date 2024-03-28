@@ -34,7 +34,7 @@ public sealed class SketchSegmentArcRimCreator : SketchSegmentCreator
         _Coord2DHudElement = new Coord2DHudElement();
         Add(_Coord2DHudElement);
 
-        SetHintMessage("Select start point for circular arc.");
+        SetHintMessage("__Select start point__ for circular arc.");
 
         return true;
     }
@@ -98,7 +98,7 @@ public sealed class SketchSegmentArcRimCreator : SketchSegmentCreator
                 _Points.Add(0, args.Point);
                 _MergePointIndices[0] = args.MergeCandidateIndex;
                 _PointsCompleted++;
-                SetHintMessage("Select end point for circular arc.");
+                SetHintMessage("__Select end point__ for circular arc.");
                 _PointAction.Reset();
                 break;
 
@@ -123,7 +123,7 @@ public sealed class SketchSegmentArcRimCreator : SketchSegmentCreator
                 };
                 _Element.OnPointsChanged(_Points, null);
 
-                SetHintMessage("Select rim point for circular arc.");
+                SetHintMessage("__Select rim point__ for circular arc.");
                 _PointAction.Reset();
                 break;
 

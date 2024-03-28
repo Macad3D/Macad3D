@@ -252,7 +252,7 @@ public class EtchingMaskEditTool : Tool
                 return;
             }
             _SelectFaceAction.Finished += _SelectFaceAction_OnFinished;
-            SetHintMessage("Select plane base face.");
+            SetHintMessage("__Select face__ to define base plane.");
             SetCursor(Cursors.SelectFace);
         }
         RaisePropertyChanged(nameof(IsSelectingFace));

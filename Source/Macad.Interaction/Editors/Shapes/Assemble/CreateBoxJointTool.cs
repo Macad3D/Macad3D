@@ -49,7 +49,7 @@ public class CreateBoxJointTool : Tool
 
     void UpdateStatusText(string shapeName)
     {
-        string text = "Select shape to build a box joint with";
+        string text = "__Select shape__ to build a box joint with";
 
         if (string.IsNullOrEmpty(shapeName))
         {
@@ -57,7 +57,7 @@ public class CreateBoxJointTool : Tool
         }
         else
         {
-            text += ": " + shapeName;
+            text += ": _" + shapeName + "_";
         }
         SetHintMessage(text);
     }

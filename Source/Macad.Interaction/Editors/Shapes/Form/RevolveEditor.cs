@@ -243,7 +243,7 @@ public class RevolveEditor : Editor<Revolve>
             _OffsetYAction = null;
             StopAction(_OffsetZAction);
             _OffsetZAction = null;
-            SetHintMessage( "Adjust offset using gizmo, press 'CTRL' to round to grid stepping.");
+            SetHintMessage( "__Adjust offset__ using gizmo, press `k:Ctrl` to round to grid stepping.");
         }
 
         var newOffset = _StartOffset.X + args.Distance;
@@ -277,7 +277,7 @@ public class RevolveEditor : Editor<Revolve>
             _OffsetXAction = null;
             StopAction(_OffsetZAction);
             _OffsetZAction = null;
-            SetHintMessage("Adjust offset using gizmo, press 'CTRL' to round to grid stepping.");
+            SetHintMessage("__Adjust offset__ using gizmo, press `k:Ctrl` to round to grid stepping.");
         }
 
         var newOffset = _StartOffset.Y + args.Distance;
@@ -311,7 +311,7 @@ public class RevolveEditor : Editor<Revolve>
             _OffsetXAction = null;
             StopAction(_OffsetYAction);
             _OffsetYAction = null;
-            SetHintMessage("Adjust offset using gizmo, press 'CTRL' to round to grid stepping.");
+            SetHintMessage("__Adjust offset__ using gizmo, press `k:Ctrl` to round to grid stepping.");
         }
 
         var newOffset = _StartOffset.Z + args.Distance;

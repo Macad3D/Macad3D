@@ -30,7 +30,7 @@ public sealed class SketchSegmentRectangleCreator : SketchSegmentCreator
 
         _Coord2DHudElement = new Coord2DHudElement();
         Add(_Coord2DHudElement);
-        SetHintMessage("Select first corner of the rectangle.");
+        SetHintMessage("__Select first corner__ of the rectangle.");
 
         return true;
     }
@@ -102,7 +102,7 @@ public sealed class SketchSegmentRectangleCreator : SketchSegmentCreator
                 _Elements[i].OnPointsChanged(_Points, null);
             }
 
-            SetHintMessage("Select second corner or the rectangle.");
+            SetHintMessage("__Select second corner__ or the rectangle.");
             _PointAction.Reset();
         } 
         else

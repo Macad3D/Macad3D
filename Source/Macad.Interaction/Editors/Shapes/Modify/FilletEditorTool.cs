@@ -88,7 +88,7 @@ public class FilletEditorTool : EdgeModifierTool
         {
             _StopActions();
 
-            SetHintMessage("Select edges to apply modifier on. Select faces to toggle all it's edges.");
+            SetHintMessage("__Select edges__ to apply modifier on. __Select faces__ to toggle all it's edges.");
             SetCursor(Cursors.SelectEdge);
 
             if (ContourEdges == null || ValidEdges == null)
@@ -141,7 +141,7 @@ public class FilletEditorTool : EdgeModifierTool
         _IsMoving = true;
         _StopActions(sender);
 
-        SetHintMessage("Scale fillet radius using gizmo, press 'CTRL' to round to grid stepping.");
+        SetHintMessage("__Scale fillet radius__ using gizmo, press `k:Ctrl` to round to grid stepping.");
         SetCursor(Cursors.SetRadius);
 
         double reversed = _AxisActions.First(info => info.Action == sender).Reverse ? 1.0 : -1.0;

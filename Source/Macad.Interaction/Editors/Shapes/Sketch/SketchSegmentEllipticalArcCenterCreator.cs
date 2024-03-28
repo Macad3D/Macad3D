@@ -37,7 +37,7 @@ public sealed class SketchSegmentEllipticalArcCenterCreator : SketchSegmentCreat
         _Coord2DHudElement = new Coord2DHudElement();
         Add(_Coord2DHudElement);
 
-        SetHintMessage("Select center point for elliptical arc.");
+        SetHintMessage("__Select center point__ for elliptical arc.");
 
         return true;
     }
@@ -156,7 +156,7 @@ public sealed class SketchSegmentEllipticalArcCenterCreator : SketchSegmentCreat
                 _MergePointIndices[0] = args.MergeCandidateIndex;
                 _PointsCompleted++;
 
-                SetHintMessage("Select start point for elliptical arc.");
+                SetHintMessage("__Select start point__ for elliptical arc.");
                 _PointAction.Reset();
                 break;
 
@@ -182,7 +182,7 @@ public sealed class SketchSegmentEllipticalArcCenterCreator : SketchSegmentCreat
                 };
                 _Element.OnPointsChanged(_Points, null);
 
-                SetHintMessage("Select end point for elliptical arc.");
+                SetHintMessage("__Select end point__ for elliptical arc.");
                 _PointAction.Reset();
                 break;
 

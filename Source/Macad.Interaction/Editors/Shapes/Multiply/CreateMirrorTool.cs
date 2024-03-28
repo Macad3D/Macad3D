@@ -64,7 +64,7 @@ public class CreateMirrorTool : Tool
         {
             case ShapeType.Sketch:
                 toolAction = new SelectSubshapeAction(SubshapeTypes.Edge, _TargetBody);
-                SetHintMessage("Select edge as reference for the mirror axis.");
+                SetHintMessage("__Select edge__ as reference for the mirror axis.");
                 SetCursor(Cursors.SelectEdge);
                 break;
 
@@ -74,7 +74,7 @@ public class CreateMirrorTool : Tool
                 var selectionFilter = new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane)
                     .Or(_DefaultPlanes.GetSelectionFilter());
                 toolAction = new SelectSubshapeAction(SubshapeTypes.Face, _TargetBody, selectionFilter);
-                SetHintMessage("Select a plane or a face as reference for the mirror plane.");
+                SetHintMessage("__Select plane or face__ as reference for the mirror plane.");
                 SetCursor(Cursors.SelectFace);
                 break;
 

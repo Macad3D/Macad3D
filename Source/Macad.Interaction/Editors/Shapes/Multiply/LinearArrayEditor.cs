@@ -150,7 +150,7 @@ public class LinearArrayEditor : Editor<LinearArray>
         {
             _IsMoving = true;
             _StartDistance = secondAxis ? Entity.Distance2 : Entity.Distance1;
-            SetHintMessage("Scale distances using gizmo, press 'CTRL' to round to grid stepping, press 'SHIFT' to scale both directions uniformly.");
+            SetHintMessage("__Adjust distances__ using gizmo, press `k:Ctrl` to round to grid stepping, press `k:Shift` to scale both directions uniformly.");
         }
 
         var newDistance = _StartDistance + args.Distance * _GetAxisScale(false);

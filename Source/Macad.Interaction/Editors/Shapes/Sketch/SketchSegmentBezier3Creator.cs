@@ -33,7 +33,7 @@ public sealed class SketchSegmentBezier3Creator : SketchSegmentCreator
         _Coord2DHudElement = new Coord2DHudElement();
         Add(_Coord2DHudElement);
 
-        SetHintMessage("Select start point for line.");
+        SetHintMessage("__Select start point__ for cubic bézier curve.");
 
         return true;
     }
@@ -65,7 +65,7 @@ public sealed class SketchSegmentBezier3Creator : SketchSegmentCreator
             return false;
 
         _PointsFinished = 1;
-        SetHintMessage("Select end point for line.");
+        SetHintMessage("__Select end point__ for cubic bézier curve.");
         return true;
     }
 
@@ -111,7 +111,7 @@ public sealed class SketchSegmentBezier3Creator : SketchSegmentCreator
                 _HintLine.Set(args.Point, args.Point, SketchEditorTool.Sketch.Plane);
                 Add(_HintLine);
 
-                SketchEditorTool.WorkspaceController.HudManager?.SetHintMessage(this, "Select end point for line.");
+                SetHintMessage("__Select end point__ for cubic bézier curve.");
 
                 if (_ValueHudElement == null && SketchEditorTool.WorkspaceController.HudManager != null)
                 {
@@ -139,7 +139,7 @@ public sealed class SketchSegmentBezier3Creator : SketchSegmentCreator
 
                 _Element.OnPointsChanged(_Points, null);
 
-                SetHintMessage("Select second control point for line.");
+                SetHintMessage("__Select second control point__ for cubic bézier curve.");
 
                 _PointAction.Reset();
                 _PointsFinished++;
@@ -188,7 +188,7 @@ public sealed class SketchSegmentBezier3Creator : SketchSegmentCreator
 
         Remove(_ValueHudElement);
         _ValueHudElement = null;
-        SetHintMessage("Select first control point for line.");
+        SetHintMessage("__Select first control point__ for cubic bézier curve.");
 
         _PointAction.Reset();
         _PointsFinished++;

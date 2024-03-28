@@ -38,7 +38,7 @@ public class HoleOnFaceTool : Tool
         toolAction.Finished += _OnActionFinished;
 
         // Set some UI hints
-        SetHintMessage("Select face.");
+        SetHintMessage("__Select face.__");
         SetCursor(Cursors.SelectFace);
         return true;
     }

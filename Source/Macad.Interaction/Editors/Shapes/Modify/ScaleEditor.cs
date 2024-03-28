@@ -150,7 +150,7 @@ public class ScaleEditor : Editor<Scale>
             _IsMoving = true;
             _StartFactor = Entity.Factor;
             _StartLength = sender.Length / 1.2;
-            SetHintMessage("Set scale factor by using gizmos, press 'CTRL' to round to 5%.");
+            SetHintMessage("__Adjust scale factor__ using gizmos, press `k:Ctrl` to round to 5%.");
         }
 
         double scale = (_StartLength + args.Distance) / _StartLength;

@@ -35,7 +35,7 @@ public class CreateRevolveTool : Tool
         toolAction.Finished += _ToolAction_Finished;
         toolAction.Preview += _ToolActionPreview;
 
-        SetHintMessage("Select the axis around which the shape will be revolved.");
+        SetHintMessage("__Select axis__ around which the shape will be revolved.");
         SetCursor(Cursors.SelectEdge);
         return true;
     }

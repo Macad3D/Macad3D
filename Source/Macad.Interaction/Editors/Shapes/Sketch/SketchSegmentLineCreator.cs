@@ -30,7 +30,7 @@ public sealed class SketchSegmentLineCreator : SketchSegmentCreator
         _Coord2DHudElement = new Coord2DHudElement();
         Add(_Coord2DHudElement);
 
-        SetHintMessage("Select start point for line.");
+        SetHintMessage("__Select start point__ for line.");
 
         return true;
     }
@@ -114,7 +114,7 @@ public sealed class SketchSegmentLineCreator : SketchSegmentCreator
             }
             _ValueHudElement.SetValue(_Segment.Length(_Points));
 
-            SetHintMessage("Select end point for line.");
+            SetHintMessage("__Select end point__ for line.");
             _PointAction.Reset();
         } 
         else

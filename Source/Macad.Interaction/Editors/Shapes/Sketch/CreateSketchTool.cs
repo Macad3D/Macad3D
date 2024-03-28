@@ -52,7 +52,7 @@ public class CreateSketchTool : Tool
             toolAction.Finished += _ToolAction_Finished;
             toolAction.Preview += _ToolActionPreview;
 
-            SetHintMessage("Select face or plane to which the new sketch should be aligned.");
+            SetHintMessage("__Select face or plane__ to which the new sketch should be aligned.");
             SetCursor(Cursors.SelectFace);
             return true;
         }

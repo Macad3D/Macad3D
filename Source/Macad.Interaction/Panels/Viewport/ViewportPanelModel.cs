@@ -268,11 +268,11 @@ public class ViewportPanelModel : BaseObject, IHudManager
                 var messageList = InteractiveContext.Current.MessageHandler.GetEntityMessages(shape);
                 if (messageList != null && messageList.Count != 0)
                 {
-                    ErrorMessage = $"Error: {messageList[0].Text}{(messageList[0].Text.EndsWith(".")?"":".")} See log for details.";
+                    ErrorMessage = $"__Error:__ {messageList[0].Text}{(messageList[0].Text.EndsWith(".")?"":".")} __See log for details.__";
                 }
                 else
                 {
-                    ErrorMessage = "Error: Shape making failed for unknown reason. See log for details.";
+                    ErrorMessage = "__Error:__ Shape making failed for unknown reason. __See log for details.__";
                 }
                 return;
             }
@@ -281,7 +281,7 @@ public class ViewportPanelModel : BaseObject, IHudManager
         {
             if (entities.Any(ent => (ent as Body)?.Shape?.HasErrors ?? false))
             {
-                ErrorMessage = "Error: One or more of the selected bodies have errors. See log for details.";
+                ErrorMessage = "__Error:__ One or more of the selected bodies have errors. __See log for details.__";
                 return;
             }
         }

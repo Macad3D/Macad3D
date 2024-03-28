@@ -278,7 +278,7 @@ public class MirrorEditor : Editor<Mirror>
         if (!_IsMoving)
         {
             _IsMoving = true;
-            SetHintMessage("Scale mirror offset using gizmo, press 'CTRL' to round to grid stepping.");
+            SetHintMessage("__Adjust mirror offset__ using gizmo, press `k:Ctrl` to round to grid stepping.");
         }
 
         var newOffset = _StartOffset + args.Distance;

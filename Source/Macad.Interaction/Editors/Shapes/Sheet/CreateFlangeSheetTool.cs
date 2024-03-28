@@ -68,7 +68,7 @@ public class CreateFlangeSheetTool : Tool
         }
         toolAction.Finished += _ToolAction_Finished;
 
-        SetHintMessage("Select face to create flange to.");
+        SetHintMessage("__Select face__ to create flange to.");
         SetCursor(Cursors.SelectFace);
         return true;
     }

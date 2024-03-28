@@ -209,7 +209,7 @@ public class CircularArrayEditor : Editor<CircularArray>
             _StartValue = Entity.Radius;
             StopAction(_RotateAction);
             _RotateAction = null;
-            SetHintMessage("Scale radius using gizmo, press 'CTRL' to round to grid stepping.");
+            SetHintMessage("__Adjust radius__ using gizmo, press `k:Ctrl` to round to grid stepping.");
         }
 
         var newRadius = _StartValue + args.Distance;
@@ -241,7 +241,7 @@ public class CircularArrayEditor : Editor<CircularArray>
             _StartValue = Entity.OriginalAngle;
             StopAction(_RadiusAction);
             _RadiusAction = null;
-            SetHintMessage("Rotate angle to origin using gizmo, press 'CTRL' to round to 5°.");
+            SetHintMessage("__Rotate angle__ to origin using gizmo, press `k:Ctrl` to round to 5°.");
         }
 
         var newAngle = _StartValue + args.DeltaSum.ToDeg();

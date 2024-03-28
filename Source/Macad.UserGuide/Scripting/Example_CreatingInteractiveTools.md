@@ -57,8 +57,9 @@ public override bool Start()
     return false;
   toolAction.Finished += _OnActionFinished;
 
-  StatusText = "Select face.";
-  WorkspaceController.HudManager.SetCursor(Cursors.SelectFace);
+  // Set some UI hints
+  SetHintMessage("__Select face.__");
+  SetCursor(Cursors.SelectFace);
   return true;
 }
 ```

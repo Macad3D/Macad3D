@@ -49,7 +49,7 @@ public class CreateCylinderTool : Tool
         pointAction.Finished += _PivotAction_Finished;
 
         _CurrentPhase = Phase.PivotPoint;
-        SetHintMessage("Select center point.");
+        SetHintMessage("__Select center point.__");
         _Coord2DHudElement = new Coord2DHudElement();
         Add(_Coord2DHudElement);
         SetCursor(Cursors.SetPoint);
@@ -92,7 +92,7 @@ public class CreateCylinderTool : Tool
         pointAction.Finished += _RadiusAction_Finished;
 
         _CurrentPhase = Phase.Radius;
-        SetHintMessage("Select radius, press 'CTRL' to round to grid stepping.");
+        SetHintMessage("__Select radius__, press `k:Ctrl` to round to grid stepping.");
 
         if (_ValueHudElement == null)
         {
@@ -152,7 +152,7 @@ public class CreateCylinderTool : Tool
         axisValueAction.Finished += _HeightAction_Finished;
 
         _CurrentPhase = Phase.Height;
-        SetHintMessage("Select height, press 'CTRL' to round to grid stepping.");
+        SetHintMessage("__Select height__, press `k:Ctrl` to round to grid stepping.");
 
         if (_ValueHudElement != null)
         {

@@ -50,7 +50,7 @@ public class CreateLoftTool : Tool
         if (!_StartToolAction())
             return false;
 
-        SetHintMessage("Select section sketches.");
+        SetHintMessage("__Select sketches__ to define the sections.");
         SetCursor(Cursors.SelectShape);
         return true;
     }

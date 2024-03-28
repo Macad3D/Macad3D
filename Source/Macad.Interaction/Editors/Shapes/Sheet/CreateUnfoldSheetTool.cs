@@ -54,7 +54,7 @@ public class CreateUnfoldSheetTool : Tool
             return false;
         toolAction.Finished += _ToolAction_Finished;
 
-        SetHintMessage("Select start face for unfolding.");
+        SetHintMessage("__Select start face__ for unfolding.");
         SetCursor(Cursors.SelectFace);
         return true;
     }

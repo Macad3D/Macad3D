@@ -47,7 +47,7 @@ public class CreateBoxTool : Tool
         pointAction.Preview += _PivotAction_Preview;
         pointAction.Finished += _PivotAction_Finished;
 
-        SetHintMessage("Select corner point.");
+        SetHintMessage("__Select corner point.__");
         _Coord2DHudElement = new Coord2DHudElement();
         Add(_Coord2DHudElement);
         SetCursor(Cursors.SetPoint);
@@ -89,7 +89,7 @@ public class CreateBoxTool : Tool
             return;
 
         _CurrentPhase = Phase.BaseRect;
-        SetHintMessage("Select opposite corner point, press 'CTRL' to round length and width to grid stepping.");
+        SetHintMessage("__Select opposite corner point__, press `k:Ctrl` to round length and width to grid stepping.");
 
         if (_MultiValueHudElement == null)
         {
@@ -191,7 +191,7 @@ public class CreateBoxTool : Tool
 
         _CurrentPhase = Phase.Height;
         SetCursor(Cursors.SetHeight);
-        SetHintMessage($"Select height, press 'CTRL' to round to grid stepping.");
+        SetHintMessage($"__Select height__, press `k:Ctrl` to round to grid stepping.");
 
         if (_ValueHudElement == null)
         {

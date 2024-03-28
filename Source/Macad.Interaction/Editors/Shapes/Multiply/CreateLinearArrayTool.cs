@@ -41,7 +41,7 @@ public class CreateLinearArrayTool : Tool
         toolAction.Finished += _ToolAction_Finished;
         toolAction.Preview += _ToolActionPreview;
 
-        SetHintMessage("Select plane on which the multiplied elements will be distributed.");
+        SetHintMessage("__Select plane__ on which the multiplied elements will be distributed.");
         SetCursor(Cursors.SelectFace);
         return true;
     }

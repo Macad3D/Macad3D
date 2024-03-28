@@ -32,7 +32,7 @@ public class RecenterGridSketchTool : SketchTool
         SketchEditorTool.Elements.Activate(true, false, false);
         SketchEditorTool.Elements.ConstraintsVisible = false;
 
-        SetHintMessage("Select new workspace center position.");
+        SetHintMessage("__Select point__ for new workspace center.");
         SetCursor(Cursors.WorkingPlane);
 
         _OriginMarker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.BallImage)

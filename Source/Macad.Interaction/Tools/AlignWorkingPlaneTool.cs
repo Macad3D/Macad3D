@@ -81,7 +81,7 @@ public class AlignWorkingPlaneTool : Tool
         toolAction.Finished += _ToolAction_Finished;
         toolAction.Preview += _ToolAction_Preview;
 
-        SetHintMessage("Select compnent to align to, or select X / Y / Z for default direction.");
+        SetHintMessage("__Select component__ to align to, or __select X / Y / Z__ for default direction.");
         SetCursor(Cursors.WorkingPlane);
 
         return true;

@@ -33,7 +33,7 @@ public sealed class SketchSegmentBezier2Creator : SketchSegmentCreator
         _Coord2DHudElement = new Coord2DHudElement();
         Add(_Coord2DHudElement);
 
-        SetHintMessage("Select start point for line.");
+        SetHintMessage("__Select start point__ for bézier curve.");
 
         return true;
     }
@@ -65,7 +65,7 @@ public sealed class SketchSegmentBezier2Creator : SketchSegmentCreator
             return false;
 
         pointsFinished = 1;
-        SetHintMessage("Select end point for line.");
+        SetHintMessage("__Select end point__ for bézier curve.");
         return true;
     }
 
@@ -105,7 +105,7 @@ public sealed class SketchSegmentBezier2Creator : SketchSegmentCreator
                 _HintLine.Set(args.Point, args.Point, SketchEditorTool.Sketch.Plane);
                 Add(_HintLine);
 
-                SetHintMessage("Select end point for line.");
+                SetHintMessage("__Select end point__ for bézier curve.");
 
                 if (_ValueHudElement == null)
                 {
@@ -169,7 +169,7 @@ public sealed class SketchSegmentBezier2Creator : SketchSegmentCreator
         Remove(_ValueHudElement);
         _ValueHudElement = null;
 
-        SetHintMessage("Select control point for line.");
+        SetHintMessage("__Select control point__ for bézier curve.");
 
         _PointAction.Reset();
         pointsFinished++;

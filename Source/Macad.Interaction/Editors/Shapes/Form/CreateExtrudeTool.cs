@@ -74,7 +74,7 @@ public class CreateExtrudeTool : Tool
                 return false;
             toolAction.Finished += _ToolAction_Finished;
 
-            SetHintMessage("Select face to extrude.");
+            SetHintMessage("__Select face__ to extrude.");
             SetCursor(Cursors.SelectFace);
             return true;
         }

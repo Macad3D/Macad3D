@@ -78,7 +78,7 @@ public class CreateImprintTool : Tool
             return false;
         toolAction.Finished += _ToolAction_Finished;
 
-        SetHintMessage("Select face to imprint.");
+        SetHintMessage("__Select face__ to imprint.");
         SetCursor(Cursors.SelectFace);
         return true;
     }

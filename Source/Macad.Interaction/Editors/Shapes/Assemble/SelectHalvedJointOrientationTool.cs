@@ -39,7 +39,7 @@ public class SelectHalvedJointOrientationTool : Tool
         action.Finished += _Action_OnFinished;
         StartAction(action);
         SetCursor(Cursors.SelectFace);
-        SetHintMessage("Select side to define orientation and direction of the half-cut.");
+        SetHintMessage("__Select side__ to define orientation and direction of the half-cut.");
 
         return true;
     }

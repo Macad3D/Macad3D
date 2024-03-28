@@ -32,7 +32,7 @@ public sealed class SketchSegmentCircleCreator : SketchSegmentCreator
         _Coord2DHudElement = new Coord2DHudElement();
         Add(_Coord2DHudElement);
 
-        SetHintMessage("Select center point of the circle.");
+        SetHintMessage("__Select center point__ of the circle.");
 
         return true;
     }
@@ -94,7 +94,7 @@ public sealed class SketchSegmentCircleCreator : SketchSegmentCreator
 
             SketchEditorTool.WorkspaceController.Invalidate();
                 
-            SetHintMessage("Select any rim point of the circle.");
+            SetHintMessage("__Select any rim point__ of the circle.");
             _PointAction.Reset();
         } 
         else

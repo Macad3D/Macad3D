@@ -219,7 +219,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
         if (!_IsMoving)
         {
             _IsMoving = true;
-            SetHintMessage("Move cut plane using gizmo, press 'CTRL' to round to grid stepping.");
+            SetHintMessage("__Move cut plane__ using gizmo, press `k:Ctrl` to round to grid stepping.");
         }
 
         var newLocation = args.Axis.Location;
@@ -263,7 +263,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
         if (!_IsMoving)
         {
             _IsMoving = true;
-            SetHintMessage("Rotate cut plane using gizmo, press 'CTRL' to round to 5°.");
+            SetHintMessage("__Rotate cut plane__ using gizmo, press `k:Ctrl` to round to 5°.");
         }
 
         var delta = args.Delta;

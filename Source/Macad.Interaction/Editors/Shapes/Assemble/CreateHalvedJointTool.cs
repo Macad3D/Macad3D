@@ -50,7 +50,7 @@ public class CreateHalvedJointTool : Tool
 
     void UpdateStatusText(string shapeName)
     {
-        string text = "Select shape to build a halved joint with";
+        string text = "__Select shape__ to build a halved joint with";
 
         if (string.IsNullOrEmpty(shapeName))
         {
@@ -58,7 +58,7 @@ public class CreateHalvedJointTool : Tool
         }
         else
         {
-            text += ": " + shapeName;
+            text += ": _" + shapeName + "_";
         }
 
         SetHintMessage(text);

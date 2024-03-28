@@ -265,7 +265,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         if (!_IsMoving)
         {
             _IsMoving = true;
-            WorkspaceController.HudManager?.SetHintMessage(this, "Adjust angle using gizmo, press 'CTRL' to round to 5°.");
+            WorkspaceController.HudManager?.SetHintMessage(this, "__Adjust angle__ using gizmo, press `k:Ctrl` to round to 5°.");
             StopAction(_LengthAction);
             _LengthAction = null;
             StopAction(_RadiusAction);
@@ -305,7 +305,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         if (!_IsMoving)
         {
             _IsMoving = true;
-            SetHintMessage("Adjust length using gizmo, press 'CTRL' to round to grid stepping.");
+            SetHintMessage("__Adjust length__ using gizmo, press `k:Ctrl` to round to grid stepping.");
             StopAction(_AngleAction);
             _AngleAction = null;
             StopAction(_RadiusAction);
@@ -348,7 +348,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         if (!_IsMoving)
         {
             _IsMoving = true;
-            SetHintMessage("Adjust radius using gizmo, press 'CTRL' to round to grid stepping.");
+            SetHintMessage("__Adjust radius__ using gizmo, press `k:Ctrl` to round to grid stepping.");
             StopAction(_AngleAction);
             _AngleAction = null;
             StopAction(_LengthAction);
@@ -389,7 +389,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         if (!_IsMoving)
         {
             _IsMoving = true;
-            SetHintMessage("Adjust gap width using gizmo, press 'CTRL' to round to grid stepping.");
+            SetHintMessage("__Adjust gap width__ using gizmo, press `k:Ctrl` to round to grid stepping.");
             StopAction(_AngleAction);
             _AngleAction = null;
             StopAction(_LengthAction);
@@ -436,7 +436,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         if (!_IsMoving)
         {
             _IsMoving = true;
-            SetHintMessage( "Adjust gap width using gizmo, press 'CTRL' to round to grid stepping.");
+            SetHintMessage( "__Adjust gap width__ using gizmo, press `k:Ctrl` to round to grid stepping.");
             StopAction(_AngleAction);
             _AngleAction = null;
             StopAction(_LengthAction);

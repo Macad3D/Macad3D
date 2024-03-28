@@ -44,7 +44,7 @@ public class CreateSphereTool : Tool
         pointAction.Finished += _PivotAction_Finished;
 
         _CurrentPhase = Phase.PivotPoint;
-        SetHintMessage("Select center point.");
+        SetHintMessage("__Select center point.__");
         _Coord2DHudElement = new Coord2DHudElement();
         Add(_Coord2DHudElement);
         SetCursor(Cursors.SetPoint);
@@ -86,7 +86,7 @@ public class CreateSphereTool : Tool
         axisValueAction.Finished += _RadiusAction_Finished;
 
         _CurrentPhase = Phase.Radius;
-        SetHintMessage("Select Radius, press 'CTRL' to round to grid stepping.");
+        SetHintMessage("__Select Radius__, press `k:Ctrl` to round to grid stepping.");
 
         Remove(_Coord2DHudElement);
         if (_ValueHudElement == null)

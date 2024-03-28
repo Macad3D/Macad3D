@@ -138,13 +138,13 @@ public class ExtrudeEditor : Editor<Extrude>
         double newDepth;
         if (Entity.IsSketchBased)
         {
-            SetHintMessage("Scale extrusion depth using gizmo, press 'CTRL' to round to grid stepping.");
+            SetHintMessage("__Scale extrusion depth__ using gizmo, press `k:Ctrl` to round to grid stepping.");
 
             newDepth = _StartDepth + args.Distance * (Entity.Symmetric ? 2.0 : 1.0) * (_StartDepth < 0 ? -1.0 : 1.0);
         }
         else
         {
-            SetHintMessage("Scale extrusion depth using gizmo, press 'CTRL' to round to grid stepping.");
+            SetHintMessage("__Scale extrusion depth__ using gizmo, press `k:Ctrl` to round to grid stepping.");
             newDepth = _StartDepth + args.Distance;
         }
 

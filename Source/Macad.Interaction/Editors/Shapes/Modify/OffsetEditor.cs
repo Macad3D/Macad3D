@@ -99,7 +99,7 @@ public sealed class OffsetEditor : Editor<Offset>
 
     void _ScaleAction_Preview(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
     {
-        SetHintMessage("Change distance box using gizmo, press 'CTRL' to round to grid stepping.");
+        SetHintMessage("__Change distance__ using gizmo, press `k:Ctrl` to round to grid stepping.");
 
         double delta = args.Delta * Math.Max(args.Direction.X.Abs(),
                                              Math.Max(args.Direction.Y.Abs(),
