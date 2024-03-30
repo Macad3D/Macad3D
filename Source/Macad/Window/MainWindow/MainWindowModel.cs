@@ -37,8 +37,8 @@ public class MainWindowModel
 
     public bool GlobalKeyDown(KeyEventArgs keyEventArgs)
     {
-        return AppContext.Current.ShortcutHandler.KeyPressed(ShortcutScope.Application, keyEventArgs.Key, Keyboard.Modifiers)
-               || InteractiveContext.Current.ShortcutHandler.KeyPressed(ShortcutScope.Workspace, keyEventArgs.Key, Keyboard.Modifiers);
+        return AppContext.Current.ShortcutHandler.KeyPressed("Application", keyEventArgs.Key, Keyboard.Modifiers)
+               || InteractiveContext.Current.ShortcutHandler.KeyPressed("Workspace", keyEventArgs.Key, Keyboard.Modifiers);
     }
 
     //--------------------------------------------------------------------------------------------------

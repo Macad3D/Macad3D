@@ -1,62 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using System.Windows.Input;
 using Macad.Presentation;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Macad.Interaction;
 
-public enum ShortcutScope
-{
-    Application,
-    Workspace
-}
-
-//--------------------------------------------------------------------------------------------------
-
-public class ShortcutHandler
+public sealed class ShortcutHandler
 {
     //--------------------------------------------------------------------------------------------------
 
-    readonly Dictionary<ShortcutScope, List<Shortcut>> _ShortcutScopes = new();
+    readonly Dictionary<string, List<Shortcut>> _ShortcutScopes = new();
 
     //--------------------------------------------------------------------------------------------------
 
     public ShortcutHandler()
     {
-        // TODO: Read in from external config file
-        _ShortcutScopes.Add(ShortcutScope.Application, [
-            new(Key.Y, ModifierKeys.Control, WorkspaceCommands.DoRedo),
-            new(Key.Z, ModifierKeys.Control, WorkspaceCommands.DoUndo),
-            new(Key.C, ModifierKeys.Control, WorkspaceCommands.CopyToClipboard),
-            new(Key.X, ModifierKeys.Control, WorkspaceCommands.CutToClipboard),
-            new(Key.V, ModifierKeys.Control, WorkspaceCommands.PasteFromClipboard)
-        ]);
-
-        _ShortcutScopes.Add(ShortcutScope.Workspace, [
-            new(Key.G, WorkspaceCommands.ToggleGrid),
-            new(Key.S, WorkspaceCommands.ToggleSnappingEnabled),
-            new(Key.F, WorkspaceCommands.ZoomFitSelected),
-            new(Key.F, ModifierKeys.Control, WorkspaceCommands.ZoomFitAll),
-            new(Key.T, WorkspaceCommands.Transform),
-            new(Key.W, WorkspaceCommands.AlignWorkingPlane),
-            new(Key.Delete, WorkspaceCommands.DeleteEntity),
-            new(Key.D, ModifierKeys.Control, WorkspaceCommands.DuplicateEntity),
-            new(Key.R, ModifierKeys.Control, ModelCommands.CreateReference),
-            new(Key.I, WorkspaceCommands.ToggleIsolateSelection),
-            new(Key.E, WorkspaceCommands.StartEditing),
-            new(Key.Escape, WorkspaceCommands.Escape)
-        ]);
-
-        // Register
+        // Register to action
         IActionCommand.GetShortcutDefaultHandler = GetShortcutForCommand;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public void AddShortcut(ShortcutScope scope, Shortcut shortcut)
+    public IEnumerable<string> GetScopes()
+    {
+        return _ShortcutScopes.Keys;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void AddShortcut(string scope, Shortcut shortcut)
     {
         if (!_ShortcutScopes.TryGetValue(scope, out var shortcutList))
         {
@@ -69,7 +42,20 @@ public class ShortcutHandler
 
     //--------------------------------------------------------------------------------------------------
 
-    public bool KeyPressed(ShortcutScope scope, Key key, ModifierKeys modifierKeys)
+    public void AddShortcuts(string scope, IEnumerable<Shortcut> shortcut)
+    {
+        if (!_ShortcutScopes.TryGetValue(scope, out var shortcutList))
+        {
+            shortcutList = new List<Shortcut>();
+            _ShortcutScopes.Add(scope, shortcutList);
+        }
+
+        shortcutList.AddRange(shortcut);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    public bool KeyPressed(string scope, Key key, ModifierKeys modifierKeys)
     {
         if (!_ShortcutScopes.ContainsKey(scope))
             return false;
@@ -84,7 +70,7 @@ public class ShortcutHandler
 
     //--------------------------------------------------------------------------------------------------
 
-    public IEnumerable<Shortcut> GetShortcutsForScope(ShortcutScope scope)
+    public IEnumerable<Shortcut> GetShortcutsForScope(string scope)
     {
         if (_ShortcutScopes.TryGetValue(scope, out var list))
             return list;
@@ -97,8 +83,8 @@ public class ShortcutHandler
     public string GetShortcutForCommand(IActionCommand command, object param)
     {
         var shortcut = _ShortcutScopes.Values
-                                      .Select(list => list.FirstOrDefault(s => s.Command == command && s.Parameter == param))
-                                      .FirstOrDefault(s => s != null);
+                                 .Select(list => list.FirstOrDefault(s => s.Command == command && s.Parameter == param))
+                                 .FirstOrDefault(s => s != null);
         if(shortcut == null)
             return null;
 

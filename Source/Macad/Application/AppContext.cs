@@ -7,6 +7,7 @@ using Macad.Common.Serialization;
 using Macad.Interaction;
 using Macad.Common;
 using Macad.Exchange;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Macad.Window;
 
@@ -34,8 +35,6 @@ public class AppContext : InteractiveContext
     AppContext()
     {
         Clipboard = new WindowsClipboard();
-
-        LoadShortcuts();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -49,17 +48,9 @@ public class AppContext : InteractiveContext
         }
 
         Current = new AppContext();
-
         ExchangeModule.Initialize();
-    }
 
-    //--------------------------------------------------------------------------------------------------
-
-    void LoadShortcuts()
-    {
-        ShortcutHandler.AddShortcut(ShortcutScope.Application, new(Key.F1, AppCommands.ShowHelp));
-        ShortcutHandler.AddShortcut(ShortcutScope.Application, new(Key.F1, ModifierKeys.Control, AppCommands.ShowShortcutCheatSheet));
-        ShortcutHandler.AddShortcut(ShortcutScope.Application, new(Key.S, ModifierKeys.Control, DocumentCommands.SaveAll));
+        ShortcutDefinition.RegisterShortcuts(Current.ShortcutHandler);
     }
 
     //--------------------------------------------------------------------------------------------------

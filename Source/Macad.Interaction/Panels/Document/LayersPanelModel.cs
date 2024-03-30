@@ -241,7 +241,7 @@ public class LayersPanelModel : BaseObject
     internal bool KeyDown(KeyEventArgs keyEventArgs)
     {
         // Forward to Workspace
-        return InteractiveContext.Current.ShortcutHandler.KeyPressed(ShortcutScope.Workspace, keyEventArgs.Key, Keyboard.Modifiers);
+        return InteractiveContext.Current.ShortcutHandler.KeyPressed("Workspace", keyEventArgs.Key, Keyboard.Modifiers);
     }
         
     //--------------------------------------------------------------------------------------------------

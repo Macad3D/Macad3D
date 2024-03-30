@@ -238,7 +238,7 @@ public class DocumentExplorerPanelModel : BaseObject
     public bool KeyDown(KeyEventArgs keyEventArgs)
     {
         // Forward to Workspace
-        return InteractiveContext.Current.ShortcutHandler.KeyPressed(ShortcutScope.Workspace, keyEventArgs.Key, Keyboard.Modifiers);
+        return InteractiveContext.Current.ShortcutHandler.KeyPressed("Workspace", keyEventArgs.Key, Keyboard.Modifiers);
     }
         
     //--------------------------------------------------------------------------------------------------

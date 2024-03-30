@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
 using Macad.Interaction.Panels;

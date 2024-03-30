@@ -4,8 +4,7 @@ using System.Windows.Input;
 
 namespace Macad.Interaction;
 
-
-public class Shortcut
+public sealed class Shortcut
 {
     public Key Key { get; }
     public ModifierKeys ModifierKeys { get; }

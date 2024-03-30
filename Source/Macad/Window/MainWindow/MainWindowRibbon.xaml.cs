@@ -63,7 +63,7 @@ public partial class MainWindowRibbon : UserControl
             return;
 
         // Forward to workspace
-        e.Handled = AppContext.Current.ShortcutHandler.KeyPressed(ShortcutScope.Workspace, e.Key, Keyboard.Modifiers);
+        e.Handled = AppContext.Current.ShortcutHandler.KeyPressed("Workspace", e.Key, Keyboard.Modifiers);
     }
 
     //--------------------------------------------------------------------------------------------------

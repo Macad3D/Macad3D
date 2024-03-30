@@ -11,7 +11,7 @@ public partial class ShortcutCheatSheet : Dialog
 {
     public struct ShortcutInfo
     {
-        public ShortcutScope Scope { get; init; }
+        public string Scope { get; init; }
         public string Title { get; init; }
         public string Description { get; init; }
         public IEnumerable<string> Keys { get; init; }
@@ -34,7 +34,7 @@ public partial class ShortcutCheatSheet : Dialog
 
     void _CreateShortcutList()
     {
-        ShortcutScope[] scopes = Enum.GetValues<ShortcutScope>();
+        var scopes = InteractiveContext.Current.ShortcutHandler.GetScopes();
         foreach (var scope in scopes)
         {
             var shortcuts = InteractiveContext.Current.ShortcutHandler.GetShortcutsForScope(scope);

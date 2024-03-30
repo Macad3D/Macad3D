@@ -161,7 +161,7 @@ public class ViewportPanelModel : BaseObject, IHudManager
         // Forward to workspace
         if (!(InteractiveContext.Current?.WorkspaceController is null))
         {
-            if (InteractiveContext.Current.ShortcutHandler.KeyPressed(ShortcutScope.Workspace, keyEventArgs.Key, Keyboard.Modifiers)
+            if (InteractiveContext.Current.ShortcutHandler.KeyPressed("Workspace", keyEventArgs.Key, Keyboard.Modifiers)
                 || InteractiveContext.Current.WorkspaceController.KeyPressed(keyEventArgs.Key))
             {
                 return true;
