@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Data;
 using Macad.Interaction.Dialogs;
 using Macad.Interaction.Editors.Shapes;
@@ -112,7 +113,8 @@ public static class SketchCommands
         },
         () => InteractiveContext.Current?.WorkspaceController?.CurrentTool is SketchEditorTool)
     {
-        Header = () => "Export to File"
+        Header = () => "Export to File",
+        Description = () => @"Export the current sketch in to a file."
     };
 
     //--------------------------------------------------------------------------------------------------
@@ -132,7 +134,8 @@ public static class SketchCommands
         },
         () => InteractiveContext.Current?.WorkspaceController?.CurrentTool is SketchEditorTool)
     {
-        Header = () => "Export as SVG to Clipboard"
+        Header = () => "Export as SVG to Clipboard",
+        Description = () => @"Export the current sketch in SVG format to the Windows clipboard."
     };
         
     //--------------------------------------------------------------------------------------------------
@@ -166,7 +169,9 @@ public static class SketchCommands
         },
         () => InteractiveContext.Current?.WorkspaceController?.CurrentTool is SketchEditorTool)
     {
-        Header = (b) => b ? "Replace from File" : "Add from File"
+        Header = (b) => b ? "Replace from File" : "Add from File",
+        Description = (b) => b ? "Replaces the current sketch with new segments imported from the Windows clipboard."
+        : "Adds new segments imported from the Windows clipboard."
     };
 
     //--------------------------------------------------------------------------------------------------
@@ -200,7 +205,9 @@ public static class SketchCommands
             return ExchangeRegistry.CanImportFromClipboard<ISketchImporter>(InteractiveContext.Current?.Clipboard);
         })
     {
-        Header = (b) => b ? "Replace from Clipboard" : "Add from Clipboard"
+        Header = (b) => b ? "Replace from Clipboard" : "Add from Clipboard",
+        Description = (b) => b ? "Replaces the current sketch with new segments imported from the Windows clipboard."
+                                 : "Adds new segments imported from the Windows clipboard."
     };
 
     //--------------------------------------------------------------------------------------------------
@@ -360,7 +367,8 @@ public static class SketchCommands
                 default:                             return "Create Constraint";
             }
         },
-        Icon = (constraintType) => $"Sketch-Constraint{constraintType.ToString()}"
+        Icon = (constraintType) => $"Sketch-Constraint{constraintType.ToString()}",
+        Description = (creator) => $"Creates a new constraint."
     };
 
     //--------------------------------------------------------------------------------------------------
@@ -428,7 +436,8 @@ public static class SketchCommands
         },
         Icon = (creator) => $"Sketch-Segment{creator.ToString()}",
         IsCheckedBinding = (creator) => BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveSketchTool)}", BindingMode.OneWay,
-                                                             EqualityToBoolConverter.Instance, $"SketchSegment{creator.ToString()}Creator")
+                                                             EqualityToBoolConverter.Instance, $"SketchSegment{creator.ToString()}Creator"),
+        Description = (creator) => $"Creates a new segment."
     };
 
     //--------------------------------------------------------------------------------------------------
@@ -446,6 +455,7 @@ public static class SketchCommands
     {
         Header = (param) => param < 0 ? "Rotate Left" : "Rotate Right",
         Icon = (param) => param < 0 ? "Sketch-RotateLeft" : "Sketch-RotateRight",
+        Description = (param) => $"Rotates the viewport of the sketch 90° to the {(param < 0 ? "left" : "right.")}"
     };
 
     //--------------------------------------------------------------------------------------------------
@@ -463,7 +473,8 @@ public static class SketchCommands
     {
         Header = () => "Clip Plane",
         Icon = () => "Sketch-ClipPlane",
-        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.SketchClipPlaneEnabled)}", BindingMode.OneWay)
+        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.SketchClipPlaneEnabled)}", BindingMode.OneWay),
+        Description = () => "Toggles the clipping of the whole model by the sketch plane."
     };
 
     //--------------------------------------------------------------------------------------------------
@@ -489,7 +500,8 @@ public static class SketchCommands
         Header = () => "Recenter Grid",
         Icon = () => "WorkingPlane-Align",
         IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveSketchTool)}", BindingMode.OneWay,
-                                                EqualityToBoolConverter.Instance, nameof(RecenterGridSketchTool))
+                                                EqualityToBoolConverter.Instance, nameof(RecenterGridSketchTool)),
+        Description = () => "Moves the grid to a new selected center point."
     };
 
     //--------------------------------------------------------------------------------------------------
@@ -628,6 +640,40 @@ public static class SketchCommands
                             + "1. Points will be welded to the geometric center of all points.\n" 
                             + "2. Points will be welded on segments they are lying on.\n" 
                             + "3. Segments will be welded where they are tangent or intersecting."
+    };
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static ActionCommand ToggleAuxiliaryFlag { get; } = new(
+        () =>
+        {
+            var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
+            if (sketchEditTool == null || sketchEditTool.SelectedSegments.Count < 0)
+                return;
+
+            var sketch = sketchEditTool.Sketch;
+            bool newState = !sketchEditTool.SelectedSegments[0].IsAuxilliary;
+            sketch.SaveUndo(Sketch.ElementType.Segment);
+            sketchEditTool.SelectedSegments.ForEach(seg =>
+            {
+                seg.IsAuxilliary = newState;
+            });
+            sketch.OnElementsChanged(Sketch.ElementType.Segment);
+            sketch.Invalidate();
+            InteractiveContext.Current?.UndoHandler?.Commit();
+        },
+        () =>
+        {
+            var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
+            if (sketchEditTool == null)
+                return false;
+
+            return sketchEditTool.SelectedSegments.Count > 0;
+        }
+    )
+    {
+        Header = () => "Toggle Auxiliary",
+        Description = () => "Toggles the auxiliary flag on the selected segments."
     };
 
     //--------------------------------------------------------------------------------------------------

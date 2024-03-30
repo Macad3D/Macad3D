@@ -584,9 +584,17 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     //--------------------------------------------------------------------------------------------------
 
-    public bool KeyPressed(Key key)
+    public bool KeyPressed(Key key, ModifierKeys modifierKeys)
     {
-        return EnumerateControls().Any(control => control.OnKeyPressed(key));
+        if(EnumerateControls().Any(control => control.OnKeyPressed(key, modifierKeys)))
+            return true;
+
+        if (_CurrentTool != null)
+        {
+            InteractiveContext.Current.ShortcutHandler.KeyPressed(_CurrentTool.Id, key, modifierKeys);
+        }
+
+        return InteractiveContext.Current.ShortcutHandler.KeyPressed("Workspace", key, modifierKeys);
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -74,9 +74,9 @@ public sealed class SelectSketchElementAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public override bool OnKeyPressed(Key key)
+    public override bool OnKeyPressed(Key key, ModifierKeys modifierKeys)
     {
-        if (key == Key.Delete)
+        if (key == Key.Delete && modifierKeys == ModifierKeys.None)
         {
             var selectedCons = _SketchEditorTool.SelectedConstraints.ToArray();
             foreach (var constraint in selectedCons)
@@ -100,7 +100,7 @@ public sealed class SelectSketchElementAction : ToolAction
             Finished?.Invoke(this);
             return true;
         }
-        return base.OnKeyPressed(key);
+        return base.OnKeyPressed(key, modifierKeys);
     }
 
     //--------------------------------------------------------------------------------------------------

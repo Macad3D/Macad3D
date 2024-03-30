@@ -18,10 +18,9 @@ public partial class SketchSegmentsPropertyPanel : PropertyPanel
         public string Type { get; }
         public string Info { get; }
         public bool Auxilliary => Segment.IsAuxilliary;
-
         //--------------------------------------------------------------------------------------------------
 
-        public static RelayCommand<SegmentData> ToggleAuxilliaryCommand { get; } = new RelayCommand<SegmentData>(
+        public static RelayCommand<SegmentData> ToggleAuxilliaryCommand { get; } = new(
             (segmentData) =>
             {
                 segmentData?._ToggleAuxilliary();
@@ -37,7 +36,6 @@ public partial class SketchSegmentsPropertyPanel : PropertyPanel
             Sketch.OnElementsChanged(Sketch.ElementType.Segment);
             Sketch.Invalidate();
             InteractiveContext.Current.UndoHandler.Commit();
-            RaisePropertyChanged(nameof(Auxilliary));
         }
 
         //--------------------------------------------------------------------------------------------------

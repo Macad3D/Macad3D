@@ -32,5 +32,14 @@ internal static class ShortcutDefinition
             new(Key.E, WorkspaceCommands.StartEditing),
             new(Key.Escape, WorkspaceCommands.Escape)
         ]);
+
+        handler.AddShortcuts("SketchEditorTool", [
+            new(Key.C, SketchCommands.CreateSegment, SketchCommands.Segments.PolyLine),
+            new(Key.S, SketchCommands.SplitElement),
+            new(Key.W, SketchCommands.WeldElements),
+            new(Key.A, SketchCommands.ToggleAuxiliaryFlag),
+            new(Key.P, SketchCommands.ToggleClippingPlane),
+            new(Key.R, SketchCommands.RecenterGrid),
+            ]);
     }
 }

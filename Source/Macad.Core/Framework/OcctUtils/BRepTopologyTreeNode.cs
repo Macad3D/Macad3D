@@ -535,7 +535,7 @@ public class BRepTopologyTreeNode
 
         if (group)
         {
-            var name = typeof(T).Name.TrimPrefixes("TopoDS_") + "s";
+            var name = StringUtils.TrimPrefixes(typeof(T).Name, "TopoDS_") + "s";
             if (name == "Vertexs")
                 name = "Vertices";
 

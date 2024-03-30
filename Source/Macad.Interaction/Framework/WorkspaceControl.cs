@@ -305,9 +305,9 @@ public abstract class WorkspaceControl : BaseObject, IMouseEventHandler, IContex
 
     //--------------------------------------------------------------------------------------------------
 
-    public virtual bool OnKeyPressed(Key key)
+    public virtual bool OnKeyPressed(Key key, ModifierKeys modifierKeys)
     {
-        return GetChildren().Any(child => child.OnKeyPressed(key));
+        return GetChildren().Any(child => child.OnKeyPressed(key, modifierKeys));
     }
     
     //--------------------------------------------------------------------------------------------------

@@ -6,43 +6,6 @@ namespace Macad.Common;
 
 public static class StringExtensions
 {
-    public static string ToMixedCase(this string value)
-    {
-        if (string.IsNullOrEmpty(value)) return value;
-
-        var len = value.Length;
-        var newValue = new char[len];
-        var ToUpperCase = true;
-
-        for (var i = 0; i < len; ++i)
-        {
-            var c0 = value[i];
-            if (!Char.IsLetter(c0))
-            {
-                newValue[i] = c0;
-                ToUpperCase = true;
-                continue;
-            }
-
-            var c0isUpper = Char.IsUpper(c0);
-            if (c0isUpper && !ToUpperCase)
-            {
-                c0 = Char.ToLower(c0);
-            }
-            else if (!c0isUpper && ToUpperCase)
-            {
-                c0 = Char.ToUpper(c0);
-            }
-
-            newValue[i] = c0;
-            ToUpperCase = false;
-        }
-
-        return new string(newValue);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-        
     public static bool IsNullOrWhiteSpace(this string value)
     {
         return String.IsNullOrWhiteSpace(value);
@@ -93,37 +56,4 @@ public static class StringExtensions
 
     //--------------------------------------------------------------------------------------------------
 
-    public static string TrimPrefixes(this string fromString, params string[] prefixes)
-    {
-        if (string.IsNullOrEmpty(fromString))
-            return fromString;
-
-        foreach (var prefix in prefixes)
-        {
-            if (fromString.StartsWith(prefix))
-                return fromString.Substring(prefix.Length);
-        }
-
-        return fromString;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public static string ToIdentifier(this string fromString)
-    {
-        string toString = "";
-        for (int i = 0; i < fromString.Length; i++)
-        {
-            char c = fromString[i];
-
-            if (char.IsLetter(c)
-                || char.IsDigit(c) && toString.Length > 0
-                || c == '_')
-            {
-                toString += c;
-            }
-        }
-
-        return toString.IsNullOrEmpty() ? "_" : toString;
-    }
 }

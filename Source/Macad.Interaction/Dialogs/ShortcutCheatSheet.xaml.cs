@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using Macad.Common;
 using Macad.Presentation;
 
 namespace Macad.Interaction.Dialogs;
@@ -42,7 +43,7 @@ public partial class ShortcutCheatSheet : Dialog
             {
                 ShortcutInfo si = new()
                 {
-                    Scope = scope,
+                    Scope = StringUtils.CamelCaseToWords(scope),
                     Title = shortcut.Command.GetTitle(shortcut.Parameter) ?? shortcut.Command.GetHeader(shortcut.Parameter),
                     Description = shortcut.Command.GetDescription(shortcut.Parameter),
                     Keys = shortcut.GetKeyStrings()

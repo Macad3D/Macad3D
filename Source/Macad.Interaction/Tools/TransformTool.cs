@@ -342,14 +342,14 @@ public class TransformTool : Tool
 
     //--------------------------------------------------------------------------------------------------
 
-    public override bool OnKeyPressed(Key key)
+    public override bool OnKeyPressed(Key key, ModifierKeys modifierKeys)
     {
-        if (key == Key.T)
+        if (key == Key.T && modifierKeys == ModifierKeys.None)
         {
             ToggleTransformMode();
             return true;
         }
-        return base.OnKeyPressed(key);
+        return base.OnKeyPressed(key, modifierKeys);
     }
 
     //--------------------------------------------------------------------------------------------------

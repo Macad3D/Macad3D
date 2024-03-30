@@ -249,8 +249,11 @@ public class AlignWorkingPlaneTool : Tool
 
     //--------------------------------------------------------------------------------------------------
 
-    public override bool OnKeyPressed(Key key)
+    public override bool OnKeyPressed(Key key, ModifierKeys modifierKeys)
     {
+        if (modifierKeys != ModifierKeys.None)
+            return false;
+        
         switch (key)
         {
             case Key.Z:
