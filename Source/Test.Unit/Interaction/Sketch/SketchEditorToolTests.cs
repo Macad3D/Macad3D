@@ -748,6 +748,28 @@ public class SketchEditorToolTests
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LockViewRotation()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.IsNotNull(sketchEditTool);
+
+        Assert.Multiple(() =>
+        {
+            Assert.DoesNotThrow(() => ctx.ViewportController.SetPredefinedView(ViewportController.PredefinedViews.Top));
+            Assert.IsFalse(WorkspaceCommands.SetPredefinedView.CanExecute(ViewportController.PredefinedViews.Top));
+
+            sketchEditTool.Stop();
+            Assert.IsNull(ctx.WorkspaceController.CurrentTool);
+            Assert.IsTrue(WorkspaceCommands.SetPredefinedView.CanExecute(ViewportController.PredefinedViews.Top));
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
         
     [Test]
     public void RestoreWorkingContextTwist()

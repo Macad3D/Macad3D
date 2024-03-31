@@ -555,7 +555,7 @@ public static class WorkspaceCommands
         {
             InteractiveContext.Current?.ViewportController?.SetPredefinedView(param);
         },
-        (param) => CanExecuteOnViewport())
+        (param) => CanExecuteOnViewport() && !InteractiveContext.Current.ViewportController.LockedToPlane)
     {
         Header = (param) => param.ToString(),
         Icon = (param) => $"View-{param.ToString()}"

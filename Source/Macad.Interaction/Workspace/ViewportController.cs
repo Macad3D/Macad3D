@@ -236,6 +236,11 @@ public sealed class ViewportController : BaseObject, IDisposable
             Viewport.V3dView.SetUp(up.X, up.Y, up.Z);
             return;
         }
+        
+        // Currently the view cube is needed to execute the rotation. This is
+        // ok as long as there is always a view cube present when rotation is allowed.
+        if(_LockedToPlane || _AisViewCube == null)
+            return;
 
         V3d_TypeOfOrientation orientation;
         switch (predefinedView)
