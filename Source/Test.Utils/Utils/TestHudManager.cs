@@ -53,7 +53,7 @@ public class TestHudManager : IHudManager
 
     public void SetHintMessage(object owner, string message)
     {
-        if (HintMessage != null && owner != null)
+        if (!string.IsNullOrEmpty(HintMessage) && owner != null)
         {
             if (owner != HintMessageOwner)
                 return;

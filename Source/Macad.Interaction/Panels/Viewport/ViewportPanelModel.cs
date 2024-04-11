@@ -185,7 +185,7 @@ public class ViewportPanelModel : BaseObject, IHudManager
 
     public void SetHintMessage(object owner, string message)
     {
-        if (_HintMessage != null && owner != null)
+        if (!string.IsNullOrEmpty(_HintMessage) && owner != null)
         {
             if (owner != _HintMessageOwner)
                 return;
