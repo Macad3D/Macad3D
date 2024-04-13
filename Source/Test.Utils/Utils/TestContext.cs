@@ -62,7 +62,6 @@ public sealed class Context : InteractiveContext
         Current = new Context
         {
             Document = new Model(), 
-            DocumentController = new ModelController(),
         };
         Current.WorkspaceController.HudManager = new TestHudManager();
         return Current;

@@ -17,7 +17,7 @@ using Macad.Presentation;
 
 namespace Macad.Interaction;
 
-public class ModelController : BaseObject
+public sealed class ModelController : BaseObject, IDisposable
 {
     #region Member variables
 
@@ -27,7 +27,7 @@ public class ModelController : BaseObject
 
     #endregion
 
-    #region Initialization
+    #region n'tor
 
     public ModelController()
     {
@@ -39,6 +39,24 @@ public class ModelController : BaseObject
         }
 
         Model.AdditionalDataSaving += _Model_AdditionalDataSaving;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    ~ModelController()
+    {
+        Dispose(false);
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+    }
+
+    void Dispose(bool disposing)
+    {
+        Model.AdditionalDataSaving -= _Model_AdditionalDataSaving;
+        GC.SuppressFinalize(this);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -511,4 +529,5 @@ public class ModelController : BaseObject
     //--------------------------------------------------------------------------------------------------
 
     #endregion
+
 }

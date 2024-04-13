@@ -72,4 +72,20 @@ public class ProjectTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void CleanupContext()
+    {
+        // Context is already initialized, just re-init
+        Context.InitEmpty();
+
+        dotMemory.Check(memory =>
+        {
+            Assert.AreEqual(1, memory.ObjectsCount<Context>(), "Old Context is alive");
+            Assert.AreEqual(1, memory.ObjectsCount<ModelController>(), "Old ModelController is alive");
+            Assert.AreEqual(0, memory.ObjectsCount<WorkspaceController>(), "Old WorkspaceController is alive");
+            Assert.AreEqual(0, memory.ObjectsCount<ViewportController>(), "Old ViewportController is alive");
+            Assert.AreEqual(1, memory.ObjectsCount<TestClipboard>(), "Old Clipboard is alive");
+            Assert.AreEqual(1, memory.ObjectsCount<ShortcutHandler>(), "Old ShortcutHandler is alive");
+        });
+    }
 }

@@ -151,6 +151,8 @@ public abstract class InteractiveContext : CoreContext
 
     protected override void Dispose(bool disposing)
     {
+        DocumentController?.Dispose();
+        DocumentController = null;
         WorkspaceController?.Dispose();
         WorkspaceController = null;
         ViewportController = null;
