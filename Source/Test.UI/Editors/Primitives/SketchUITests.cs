@@ -109,6 +109,24 @@ public class SketchUITests : UITestBase
         MainWindow.Viewport.ClickRelative(0.6, 0.5);
         Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateLineSegment"));
     }
+            
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void StopSegmentCreation()
+    {
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        MainWindow.Ribbon.ClickButton("CreateSketch");
+        MainWindow.Viewport.ClickRelative(0.5, 0.55);
+
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
+        MainWindow.Ribbon.ClickButton("CreateLineSegment");
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateLineSegment"));
+
+        MainWindow.Viewport.ClickRelative(0.4, 0.5);
+        MainWindow.Ribbon.ClickButton("CreateLineSegment");
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateLineSegment"));
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -567,4 +585,36 @@ public class SketchUITests : UITestBase
         Assert.AreNotEqual(oldX0, Pipe.GetValue<double>("$Sketch.Points.[0].X"));
         Assert.AreNotEqual(oldX1, Pipe.GetValue<double>("$Sketch.Points.[1].X"));
     }
+            
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CreatePolyLineSegment()
+    {
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        MainWindow.Ribbon.ClickButton("CreateSketch");
+        MainWindow.Viewport.ClickRelative(0.5, 0.55);
+
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
+        MainWindow.Ribbon.ClickButton("CreatePolyLineSegment");
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreatePolyLineSegment"));
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateLineSegment"));
+
+        MainWindow.Viewport.ClickRelative(0.4, 0.5);
+        MainWindow.Viewport.ClickRelative(0.6, 0.5);
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreatePolyLineSegment"));
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateLineSegment"));
+
+        MainWindow.Ribbon.ClickButton("CreateBezier2Segment");
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreatePolyLineSegment"));
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateLineSegment"));
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("CreateBezier2Segment"));
+
+        MainWindow.Ribbon.ClickButton("CreatePolyLineSegment");
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreatePolyLineSegment"));
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateBezier2Segment"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

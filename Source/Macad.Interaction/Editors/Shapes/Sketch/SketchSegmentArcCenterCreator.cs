@@ -18,11 +18,12 @@ public sealed class SketchSegmentArcCenterCreator : SketchSegmentCreator
     SketchEditorSegmentElement _Element;
     readonly Dictionary<int, Pnt2d> _Points = new(3);
     readonly int[] _MergePointIndices = new int[3];
-    int _PointsCompleted = 0;
+    int _PointsCompleted;
     Pnt2d _CenterPoint;
     Pnt2d _LastActionPoint;
-    double _LastEndParameter = 0;
-    bool _ArcDirection = false;
+    double _LastEndParameter;
+    bool _ArcDirection;
+    bool _StartPointFirst;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -37,9 +38,28 @@ public sealed class SketchSegmentArcCenterCreator : SketchSegmentCreator
         _PointAction.Finished += _PointAction_Finished;
 
         _Coord2DHudElement = new ();
+        Add(_Coord2DHudElement);
 
         SetHintMessage("__Select center point__ for circular arc.");
 
+        return true;
+    }
+        
+    //--------------------------------------------------------------------------------------------------
+
+    public override bool Continue(int continueWithPoint)
+    {
+        // Start the next line with the first point already catched
+        _Points[0] = SketchEditorTool.Sketch.Points[continueWithPoint];
+        _MergePointIndices[0] = continueWithPoint;
+
+        _Element?.Remove();
+        _Element = null;
+        _Segment = null;
+        _PointAction.Reset();
+        _PointsCompleted = 0;
+        _StartPointFirst = true;
+        SetHintMessage("__Select center point__ for circular arc.");
         return true;
     }
 
@@ -57,11 +77,46 @@ public sealed class SketchSegmentArcCenterCreator : SketchSegmentCreator
     {
         switch (_PointsCompleted)
         {
+            case 0:
+                if (_StartPointFirst)
+                {
+                    var p1 = _Points[0];
+                    var p2 = args.Point;
+                    if (_HintLines[0] == null)
+                    {
+                        _HintLines[0] = new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                        Add(_HintLines[0]);
+                    }
+
+                    _HintLines[0].Set(p1, p2, SketchEditorTool.Sketch.Plane);
+
+                    if (_ValueHudElement == null)
+                    {
+                        _ValueHudElement = new()
+                        {
+                            Label = "Radius:",
+                            Units = ValueUnits.Length
+                        };
+                        _ValueHudElement.ValueEntered += _ValueHudElement_RadiusEntered;
+                        Add(_ValueHudElement);
+                    }
+                    _ValueHudElement.SetValue(p1.Distance(p2));
+                }
+                break;
+
             case 1:
-                _PreviewLine ??= new HintCircle(WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                Add(_PreviewLine);
-                _HintLines[0] ??= new HintLine(WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                Add(_HintLines[0]);
+                if (_PreviewLine == null)
+                {
+                    _PreviewLine ??= new HintCircle(WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                    Add(_PreviewLine);
+                }
+
+                if (_HintLines[0] == null)
+                {
+                    _HintLines[0] ??= new HintLine(WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                    Add(_HintLines[0]);
+                }
+
                 var circ = new gce_MakeCirc2d(_CenterPoint, args.Point).Value();
                 _PreviewLine.Set(circ, Sketch.Plane);
                 _HintLines[0].Set(_CenterPoint, args.Point, Sketch.Plane);
@@ -157,9 +212,24 @@ public sealed class SketchSegmentArcCenterCreator : SketchSegmentCreator
         {
             case 0:
                 _CenterPoint = args.Point;
-                _PointsCompleted++;
 
-                SetHintMessage("__Select start point__ for circular arc.");
+                if (_StartPointFirst)
+                {
+                    if (_Points[0].Distance(_CenterPoint) < 0.001)
+                    {
+                        // Minimum length not met
+                        _PointAction.Reset();
+                        return;
+                    }
+
+                    _PointsCompleted++;
+                    _SetStartPoint(_Points[0], _MergePointIndices[0]);
+                }
+                else
+                {
+                    _PointsCompleted++;
+                    SetHintMessage("__Select start point__ for circular arc.");
+                }
 
                 _PointAction.Reset();
                 break;
@@ -177,12 +247,15 @@ public sealed class SketchSegmentArcCenterCreator : SketchSegmentCreator
                     return;
                 }
 
-                _PointAction.Stop();
+                RemoveVisuals();
+                _HintLines[0] = null;
+                _HintLines[1] = null;
+                Remove(_ValueHudElement);
+                _ValueHudElement = null;
 
                 _MergePointIndices[1] = args.MergeCandidateIndex;
                 _MergePointIndices[2] = -1;
-
-                SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
+                SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, [_Segment], null, _MergePointIndices[1] >= 0 ? -1 : 1);
                 break;
         }
     }
@@ -206,12 +279,12 @@ public sealed class SketchSegmentArcCenterCreator : SketchSegmentCreator
         Remove(_ValueHudElement);
         _ValueHudElement = null;
 
-        _Points.Add(0, point);
+        _Points[0] = point;
         _MergePointIndices[0] = mergeCandidateIndex;
         _PointsCompleted++;
 
-        _Points.Add(1, point);
-        _Points.Add(2, point);
+        _Points[1] = point;
+        _Points[2] = point;
         _Segment = new SketchSegmentArc(0, 1, 2);
 
         _Element = new SketchEditorSegmentElement(SketchEditorTool, -1, _Segment, SketchEditorTool.Transform, SketchEditorTool.Sketch.Plane)
@@ -247,11 +320,26 @@ public sealed class SketchSegmentArcCenterCreator : SketchSegmentCreator
         if (newValue <= 0)
             return;
 
-        Vec2d vec = new(_CenterPoint, _LastActionPoint);
-        if (vec.Magnitude() == 0)
-            return;
+        if (_StartPointFirst)
+        {
+            Vec2d vec = new(_Points[0], _LastActionPoint);
+            if (vec.Magnitude() == 0)
+                return;
 
-        _SetStartPoint(_CenterPoint.Translated(vec.Normalized().Scaled(newValue)), -1);
+            _CenterPoint = _Points[0].Translated(vec.Normalized().Scaled(newValue));
+            _PointsCompleted = 1;
+            _SetStartPoint(_Points[0], _MergePointIndices[0]);
+            SetHintMessage("__Select start point__ for circular arc.");
+            _PointAction.Reset();
+        }
+        else
+        {
+            Vec2d vec = new(_CenterPoint, _LastActionPoint);
+            if (vec.Magnitude() == 0)
+                return;
+
+            _SetStartPoint(_CenterPoint.Translated(vec.Normalized().Scaled(newValue)), -1);
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -277,11 +365,17 @@ public sealed class SketchSegmentArcCenterCreator : SketchSegmentCreator
         if (!_CalcArcRimPoints(endPoint)) 
             return;
 
+        RemoveVisuals();
+        _HintLines[0] = null;
+        _HintLines[1] = null;
+        Remove(_ValueHudElement);
+        _ValueHudElement = null;
+
         _MergePointIndices[1] = -1;
         _MergePointIndices[2] = -1;
         _PointsCompleted++;
 
-        SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] {_Segment}, null);
+        SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, [_Segment], null, 1);
     }
 
     //--------------------------------------------------------------------------------------------------

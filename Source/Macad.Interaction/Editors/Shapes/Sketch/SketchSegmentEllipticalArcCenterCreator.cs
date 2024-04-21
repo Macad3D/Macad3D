@@ -16,11 +16,13 @@ public sealed class SketchSegmentEllipticalArcCenterCreator : SketchSegmentCreat
     readonly Dictionary<int, Pnt2d> _Points = new(3);
     readonly int[] _MergePointIndices = new int[3];
     int _StartPointMergeIndex = -1;
-    int _PointsCompleted = 0;
+    int _EndPointIndex = 1;
+    int _PointsCompleted;
     Pnt2d _CenterPoint, _StartPoint;
-    double _LastEndParameter = 0;
+    double _LastEndParameter;
     bool _LastParameterWasEnd;
-    bool _ArcDirection = false;
+    bool _ArcDirection;
+    bool _StartPointFirst;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -41,6 +43,24 @@ public sealed class SketchSegmentEllipticalArcCenterCreator : SketchSegmentCreat
 
         return true;
     }
+            
+    //--------------------------------------------------------------------------------------------------
+
+    public override bool Continue(int continueWithPoint)
+    {
+        // Start the next line with the first point already catched
+        _Points[1] = SketchEditorTool.Sketch.Points[continueWithPoint];
+        _MergePointIndices[1] = continueWithPoint;
+
+        _Element?.Remove();
+        _Element = null;
+        _Segment = null;
+        _PointAction.Reset();
+        _PointsCompleted = 0;
+        _StartPointFirst = true;
+        SetHintMessage("__Select center point__ for elliptical arc.");
+        return true;
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -56,6 +76,21 @@ public sealed class SketchSegmentEllipticalArcCenterCreator : SketchSegmentCreat
     {
         switch (_PointsCompleted)
         {
+            case 0:
+                if (_StartPointFirst)
+                {
+                    var p1 = _Points[1];
+                    var p2 = args.Point;
+                    if (_HintLines[0] == null)
+                    {
+                        _HintLines[0] = new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                        Add(_HintLines[0]);
+                    }
+
+                    _HintLines[0].Set(p1, p2, SketchEditorTool.Sketch.Plane);
+                }
+                break;
+
             case 1:
                 if (_HintLines[0] == null)
                 {
@@ -129,6 +164,7 @@ public sealed class SketchSegmentEllipticalArcCenterCreator : SketchSegmentCreat
         // Catch points
         if (_ArcDirection)
         {
+            _EndPointIndex = 2;
             _Points[1] = _StartPoint;
             _MergePointIndices[1] = _StartPointMergeIndex;
             _Points[2] = endPoint;
@@ -136,6 +172,7 @@ public sealed class SketchSegmentEllipticalArcCenterCreator : SketchSegmentCreat
         }
         else
         {
+            _EndPointIndex = 1;
             _Points[1] = endPoint;
             _MergePointIndices[1] = mergeCandidateIndex;
             _Points[2] = _StartPoint;
@@ -152,9 +189,25 @@ public sealed class SketchSegmentEllipticalArcCenterCreator : SketchSegmentCreat
         {
             case 0:
                 _CenterPoint = args.Point;
-                _Points.Add(0, args.Point);
+                _Points[0] = args.Point;
                 _MergePointIndices[0] = args.MergeCandidateIndex;
-                _PointsCompleted++;
+
+                if (_StartPointFirst)
+                {
+                    if (_Points[1].Distance(_CenterPoint) < 0.001)
+                    {
+                        // Minimum length not met
+                        _PointAction.Reset();
+                        return;
+                    }
+
+                    _PointsCompleted++;
+                    _SetStartPoint(_Points[1], _MergePointIndices[1]);
+                }
+                else
+                {
+                    _PointsCompleted++;
+                }
 
                 SetHintMessage("__Select start point__ for elliptical arc.");
                 _PointAction.Reset();
@@ -168,22 +221,7 @@ public sealed class SketchSegmentEllipticalArcCenterCreator : SketchSegmentCreat
                     return;
                 }
 
-                _StartPoint = args.Point;
-                _StartPointMergeIndex = args.MergeCandidateIndex;
-                _PointsCompleted++;
-
-                _Points.Add(1, args.Point);
-                _Points.Add(2, args.Point);
-                _Segment = new SketchSegmentEllipticalArc(1, 2, 0);
-
-                _Element = new SketchEditorSegmentElement(SketchEditorTool, -1, _Segment, SketchEditorTool.Transform, SketchEditorTool.Sketch.Plane)
-                {
-                    IsCreating = true
-                };
-                _Element.OnPointsChanged(_Points, null);
-
-                SetHintMessage("__Select end point__ for elliptical arc.");
-                _PointAction.Reset();
+                _SetStartPoint(args.Point, args.MergeCandidateIndex);
                 break;
 
             case 2:
@@ -194,9 +232,43 @@ public sealed class SketchSegmentEllipticalArcCenterCreator : SketchSegmentCreat
                     return;
                 }
 
-                StopAction(_PointAction);
-                SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
+                _PointsCompleted++;
+
+                RemoveVisuals();
+                _HintLines[0] = null;
+                _HintLines[1] = null;
+                
+                SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, [_Segment], null, _MergePointIndices[_EndPointIndex] >= 0 ? -1 : _EndPointIndex);
                 break;
         }
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _SetStartPoint(Pnt2d point, int mergeCandidateIndex)
+    {
+        _StartPoint = point;
+        _StartPointMergeIndex = mergeCandidateIndex;
+        _PointsCompleted++;
+
+        if (!_StartPointFirst)
+        {
+            _Points[1] = point;
+        }
+
+        _Points[2] = point;
+        _Segment = new SketchSegmentEllipticalArc(1, 2, 0);
+
+        _Element = new SketchEditorSegmentElement(SketchEditorTool, -1, _Segment, SketchEditorTool.Transform, SketchEditorTool.Sketch.Plane)
+        {
+            IsCreating = true
+        };
+        _Element.OnPointsChanged(_Points, null);
+
+        SetHintMessage("__Select end point__ for elliptical arc.");
+        _PointAction.Reset();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

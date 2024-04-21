@@ -20,7 +20,6 @@ public static class SketchCommands
         None,
         Circle,
         Line,
-        PolyLine,
         Arc,
         ArcCenter,
         ArcRim,
@@ -373,44 +372,53 @@ public static class SketchCommands
 
     //--------------------------------------------------------------------------------------------------
 
+    static bool _StartOrStopSegmentCreator<T>(bool continuesModeEnabled) where T : SketchSegmentCreator, new()
+    {
+        var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
+        if (sketchEditTool == null)
+            return false;
+
+        if (sketchEditTool.CurrentTool is T)
+        {
+            sketchEditTool.StopTool();
+            return false;
+        }
+
+        bool continuesMode = continuesModeEnabled && sketchEditTool.ContinuesSegmentCreation;
+        return sketchEditTool.StartSegmentCreation<T>(continuesMode);
+    }
+
     public static ActionCommand<Segments> CreateSegment { get; } = new(
         (creator) =>
         {
-            var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
-            if (sketchEditTool == null)
-                return;
-
             switch (creator)
             {
                 case Segments.Circle:
-                    sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
+                    _StartOrStopSegmentCreator<SketchSegmentCircleCreator>(false);
                     break;
                 case Segments.Line:
-                    sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
-                    break;
-                case Segments.PolyLine:
-                    sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>(true);
+                    _StartOrStopSegmentCreator<SketchSegmentLineCreator>(true);
                     break;
                 case Segments.ArcCenter:
-                    sketchEditTool.StartSegmentCreation<SketchSegmentArcCenterCreator>();
+                    _StartOrStopSegmentCreator<SketchSegmentArcCenterCreator>(true);
                     break;
                 case Segments.ArcRim:
-                    sketchEditTool.StartSegmentCreation<SketchSegmentArcRimCreator>();
+                    _StartOrStopSegmentCreator<SketchSegmentArcRimCreator>(true);
                     break;
                 case Segments.EllipseCenter:
-                    sketchEditTool.StartSegmentCreation<SketchSegmentEllipseCenterCreator>();
+                    _StartOrStopSegmentCreator<SketchSegmentEllipseCenterCreator>(false);
                     break;
                 case Segments.EllipticalArcCenter:
-                    sketchEditTool.StartSegmentCreation<SketchSegmentEllipticalArcCenterCreator>();
+                    _StartOrStopSegmentCreator<SketchSegmentEllipticalArcCenterCreator>(true);
                     break;
                 case Segments.Rectangle:
-                    sketchEditTool.StartSegmentCreation<SketchSegmentRectangleCreator>();
+                    _StartOrStopSegmentCreator<SketchSegmentRectangleCreator>(false);
                     break;
                 case Segments.Bezier2:
-                    sketchEditTool.StartSegmentCreation<SketchSegmentBezier2Creator>();
+                    _StartOrStopSegmentCreator<SketchSegmentBezier2Creator>(true);
                     break;
                 case Segments.Bezier3:
-                    sketchEditTool.StartSegmentCreation<SketchSegmentBezier3Creator>();
+                    _StartOrStopSegmentCreator<SketchSegmentBezier3Creator>(true);
                     break;
             }
         },
@@ -423,7 +431,6 @@ public static class SketchCommands
             {
                 case Segments.Circle:              return "Circle";
                 case Segments.Line:                return "Line";
-                case Segments.PolyLine:            return "Polyline";
                 case Segments.ArcCenter:           return "Arc using Center";
                 case Segments.ArcRim:              return "Arc using Rim";
                 case Segments.EllipseCenter:       return "Ellipse";
@@ -438,6 +445,32 @@ public static class SketchCommands
         IsCheckedBinding = (creator) => BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveSketchTool)}", BindingMode.OneWay,
                                                              EqualityToBoolConverter.Instance, $"SketchSegment{creator.ToString()}Creator"),
         Description = (creator) => $"Creates a new segment."
+    };
+
+    //--------------------------------------------------------------------------------------------------
+    
+    public static ActionCommand CreatePolyLine { get; } = new(
+        () =>
+        {
+            var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
+            if (sketchEditTool == null)
+                return;
+
+            if (InteractiveContext.Current.EditorState.SketchContinuesSegmentCreation)
+            {
+                sketchEditTool.StopTool();
+                return;
+            }
+
+            sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>(true);
+        },
+        () => InteractiveContext.Current?.WorkspaceController?.CurrentTool is SketchEditorTool
+    )
+    {
+        Header = () => "Polyline",
+        Icon = () => $"Sketch-SegmentPolyLine",
+        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.SketchContinuesSegmentCreation)}", BindingMode.OneWay),
+        Description = () => $"Creates multiple continues segments."
     };
 
     //--------------------------------------------------------------------------------------------------

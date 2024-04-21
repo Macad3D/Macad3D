@@ -70,6 +70,13 @@ public class EditorState : BaseObject
 
     //--------------------------------------------------------------------------------------------------
 
+    public bool SketchContinuesSegmentCreation
+    {
+        get { return _CurrentSketchEditorTool?.CurrentTool is SketchSegmentCreator && (_CurrentSketchEditorTool?.ContinuesSegmentCreation ?? false); }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public bool SketchClipPlaneEnabled
     {
         get { return _CurrentSketchEditorTool?.ClipPlaneEnabled ?? false; }
@@ -106,14 +113,8 @@ public class EditorState : BaseObject
 
         if (e.PropertyName == nameof(SketchEditorTool.CurrentTool))
         {
-            if (_CurrentSketchEditorTool.CurrentTool is SketchSegmentLineCreator)
-            {
-                ActiveSketchTool = _CurrentSketchEditorTool.ContinuesSegmentCreation ? "SketchSegmentPolyLineCreator" : "SketchSegmentLineCreator";
-            }
-            else
-            {
-                ActiveSketchTool = _CurrentSketchEditorTool.CurrentTool?.GetType().Name ?? "";
-            }
+            ActiveSketchTool = _CurrentSketchEditorTool.CurrentTool?.GetType().Name ?? "";
+            RaisePropertyChanged(nameof(SketchContinuesSegmentCreation));
         }
         else if (e.PropertyName == nameof(SketchEditorTool.ClipPlaneEnabled))
         {

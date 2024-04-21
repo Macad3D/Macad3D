@@ -46,6 +46,23 @@ public sealed class SketchSegmentArcRimCreator : SketchSegmentCreator
         _Element?.Remove();
         base.Cleanup();
     }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    public override bool Continue(int continueWithPoint)
+    {
+        // Start the next line with the first point already catched
+        _Points[0] = SketchEditorTool.Sketch.Points[continueWithPoint];
+        _MergePointIndices[0] = continueWithPoint;
+
+        _Element?.Remove();
+        _Element = null;
+        _Segment = null;
+        _PointAction.Reset();
+        _PointsCompleted = 1;
+        SetHintMessage("\"__Select end point__ for circular arc.");
+        return true;
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -95,7 +112,7 @@ public sealed class SketchSegmentArcRimCreator : SketchSegmentCreator
         switch (_PointsCompleted)
         {
             case 0:
-                _Points.Add(0, args.Point);
+                _Points[0] = args.Point;
                 _MergePointIndices[0] = args.MergeCandidateIndex;
                 _PointsCompleted++;
                 SetHintMessage("__Select end point__ for circular arc.");
@@ -110,11 +127,11 @@ public sealed class SketchSegmentArcRimCreator : SketchSegmentCreator
                     return;
                 }
 
-                _Points.Add(1, args.Point);
+                _Points[1] = args.Point;
                 _MergePointIndices[1] = args.MergeCandidateIndex;
                 _PointsCompleted++;
 
-                _Points.Add(2, args.Point);
+                _Points[2] = args.Point;
                 _Segment = new SketchSegmentArc(0, 1, 2);
 
                 _Element = new SketchEditorSegmentElement(SketchEditorTool, -1, _Segment, SketchEditorTool.Transform, SketchEditorTool.Sketch.Plane)
@@ -135,13 +152,13 @@ public sealed class SketchSegmentArcRimCreator : SketchSegmentCreator
                     _PointAction.Reset();
                     return;
                 }
-
-                StopAction(_PointAction);
+                
+                Remove(_ValueHudElement);
+                _ValueHudElement = null;
 
                 _Points[2] = args.Point;
                 _MergePointIndices[2] = args.MergeCandidateIndex;
-
-                SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
+                SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, [_Segment], null, _MergePointIndices[1] >= 0 ? -1 : 1);
                 break;
         }
     }
@@ -162,10 +179,12 @@ public sealed class SketchSegmentArcRimCreator : SketchSegmentCreator
         var circ = new gp_Circ2d(xAxis, radius, newValue < 0);
         var endParameter = ElCLib.Parameter(circ, _Points[1]);
         _Points[2] = ElCLib.Value(endParameter/2, circ);
-
         _MergePointIndices[2] = -1;
-        StopAction(_PointAction);
-        SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] { _Segment }, null);
+                
+        Remove(_ValueHudElement);
+        _ValueHudElement = null;
+        _PointsCompleted++;
+        SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, [_Segment], null, _MergePointIndices[1] >= 0 ? -1 : 1);
     }
 
     //--------------------------------------------------------------------------------------------------

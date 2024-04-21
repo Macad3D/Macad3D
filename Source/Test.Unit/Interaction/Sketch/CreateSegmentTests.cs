@@ -61,7 +61,7 @@ public class CreateSegmentTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void CreateLineContinued()
+    public void CreateLine_Continued()
     {
         var ctx = Context.Current;
 
@@ -122,6 +122,39 @@ public class CreateSegmentTests
     }
 
     //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void CreateBezier2_Continued()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentBezier2Creator>(true);
+            ctx.ClickAt(50, 50); // Start point
+            ctx.ClickAt(450, 450); // End point
+            ctx.ClickAt(150, 300); // Control point
+            ctx.MoveTo(400, 50);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier2Continued01"), 0.1);
+            ctx.ClickAt(400, 50); // End point 2
+            ctx.ClickAt(450, 100); // Control point 2
+            ctx.ClickAt(50, 50); // End point 3 -> Merge
+            ctx.ClickAt(250, 200); // Control point 3
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier2Continued02"), 0.1);
+            Assert.AreEqual(6, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(3, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+
+            //Cleanup
+            sketchEditTool.Stop();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
     [Test]
     public void CreateBezier3()
@@ -153,6 +186,42 @@ public class CreateSegmentTests
             //Cleanup
             sketchEditTool.Stop();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier39"), 0.1);
+        });
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void CreateBezier3_Continued()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentBezier3Creator>(true);
+            ctx.ClickAt(50, 50); // Start point
+            ctx.ClickAt(450, 450); // End point
+            ctx.ClickAt(150, 300); // Control point
+            ctx.ClickAt(250, 50); // Control point
+            ctx.MoveTo(400, 50);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier3Continued01"), 0.1);
+            ctx.ClickAt(400, 50); // End point 2
+            ctx.ClickAt(450, 300); // Control point 2
+            ctx.ClickAt(470, 100); // Control point 2
+            ctx.ClickAt(50, 50); // End point 3 -> Merge
+            ctx.ClickAt(240, 200); // Control point 3
+            ctx.ClickAt(260, 20); // Control point 3
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier3Continued02"), 0.1);
+            Assert.AreEqual(9, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(3, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+
+            //Cleanup
+            sketchEditTool.Stop();
         });
     }
 
@@ -245,6 +314,39 @@ public class CreateSegmentTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter9"), 0.1);
         });
     }
+    
+    //--------------------------------------------------------------------------------------------------
+        
+    [Test]
+    public void CreateArcCenter_Continued()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentArcCenterCreator>(true);
+            ctx.ClickAt(250, 250); // Center point
+            ctx.ClickAt(150, 300); // Start point
+            ctx.ClickAt(450, 450); // End point
+            ctx.MoveTo(350, 150);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenterContinued01"), 0.1);
+            ctx.ClickAt(250, 250); // Center point 2
+            ctx.ClickAt(400, 250); // End point 2
+            ctx.ClickAt(250, 250); // Center point 3
+            ctx.ClickAt(150, 300); // End point 3 -> Merge
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenterContinued02"), 0.1);
+            Assert.AreEqual(6, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(3, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+
+            //Cleanup
+            sketchEditTool.Stop();
+        });
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -275,6 +377,39 @@ public class CreateSegmentTests
             //Cleanup
             sketchEditTool.Stop();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcRim9"), 0.1);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+        
+    [Test]
+    public void CreateArcRim_Continued()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentArcRimCreator>(true);
+            ctx.ClickAt(50, 50); // Start point
+            ctx.ClickAt(450, 450); // End point
+            ctx.ClickAt(150, 300); // Rim point
+            ctx.MoveTo(400, 50);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcRimContinued01"), 0.1);
+            ctx.ClickAt(400, 50); // End point 2
+            ctx.ClickAt(450, 100); // Rim point 2
+            ctx.ClickAt(50, 50); // End point 3 -> Merge
+            ctx.ClickAt(250, 200); // Rim point 3
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcRimContinued02"), 0.1);
+            Assert.AreEqual(6, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(3, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+
+            //Cleanup
+            sketchEditTool.Stop();
         });
     }
 
@@ -339,6 +474,39 @@ public class CreateSegmentTests
             //Cleanup
             sketchEditTool.Stop();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenter9"), 0.1);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+            
+    [Test]
+    public void CreateEllipticalArcCenter_Continued()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentEllipticalArcCenterCreator>(true);
+            ctx.ClickAt(250, 250); // Center point
+            ctx.ClickAt(150, 300); // Start point
+            ctx.ClickAt(450, 450); // End point
+            ctx.MoveTo(350, 150);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenterContinued01"), 0.1);
+            ctx.ClickAt(250, 250); // Center point 2
+            ctx.ClickAt(400, 250); // End point 2
+            ctx.ClickAt(250, 250); // Center point 3
+            ctx.ClickAt(150, 300); // End point 3 -> Merge
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipticalArcCenterContinued02"), 0.1);
+            Assert.AreEqual(4, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(3, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+
+            //Cleanup
+            sketchEditTool.Stop();
         });
     }
 
@@ -690,7 +858,7 @@ public class CreateSegmentTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void StopLineContinuedOnMerge()
+    public void StopPolylineOnMerge()
     {
         var ctx = Context.Current;
 
@@ -707,6 +875,71 @@ public class CreateSegmentTests
         Assert.AreEqual(3, sketchEditTool.Sketch.Points.Count);
         Assert.AreEqual(3, sketchEditTool.Sketch.Segments.Count);
         Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ChangePolylineType()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>(true);
+            ctx.ClickAt(10, 10);
+            ctx.ClickAt(100, 50); 
+            Assert.AreEqual(2, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
+            ctx.MoveTo(200, 70);
+
+            sketchEditTool.StartSegmentCreation<SketchSegmentBezier2Creator>(true);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ChangePolylineType01"), 0.1);
+            ctx.ClickAt(200, 70);
+            ctx.ClickAt(150, 30); 
+            Assert.AreEqual(4, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(2, sketchEditTool.Sketch.Segments.Count);
+            ctx.MoveTo(300, 30); 
+
+            sketchEditTool.StartSegmentCreation<SketchSegmentBezier3Creator>(true);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ChangePolylineType02"), 0.1);
+            ctx.ClickAt(300, 150);
+            ctx.ClickAt(220, 140); 
+            ctx.ClickAt(270, 30); 
+            Assert.AreEqual(7, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(3, sketchEditTool.Sketch.Segments.Count);
+            ctx.MoveTo(400, 50); 
+
+            sketchEditTool.StartSegmentCreation<SketchSegmentArcRimCreator>(true);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ChangePolylineType03"), 0.1);
+            ctx.ClickAt(400, 150);
+            ctx.ClickAt(350, 100); 
+            Assert.AreEqual(9, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(4, sketchEditTool.Sketch.Segments.Count);
+            ctx.MoveTo(400, 200); 
+
+            sketchEditTool.StartSegmentCreation<SketchSegmentArcCenterCreator>(true);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ChangePolylineType04"), 0.1);
+            ctx.ClickAt(400, 200);
+            ctx.ClickAt(400, 250); 
+            Assert.AreEqual(11, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(5, sketchEditTool.Sketch.Segments.Count);
+            ctx.MoveTo(400, 270); 
+            
+            sketchEditTool.StartSegmentCreation<SketchSegmentEllipticalArcCenterCreator>(true);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ChangePolylineType05"), 0.1);
+            ctx.ClickAt(350, 220);
+            ctx.ClickAt(300, 350); 
+            Assert.AreEqual(13, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(6, sketchEditTool.Sketch.Segments.Count);
+            ctx.MoveTo(400, 270); 
+
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ChangePolylineType06"), 0.1);
+        });
     }
 
     //--------------------------------------------------------------------------------------------------

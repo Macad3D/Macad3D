@@ -15,7 +15,7 @@ public sealed class SketchEditorTool : Tool
 {
     #region Constants
 
-    const string UnselectedStatusText = "";
+    const string UnselectedStatusText = null;
     const string MixedSelectedStatusText = "Multiple items selected.";
     const string SegmentSelectedStatusText = "Segment {0} selected.";
     const string MultiSegmentSelectedStatusText = "Multiple Segments ({0}) selected.";
@@ -40,7 +40,15 @@ public sealed class SketchEditorTool : Tool
 
     //--------------------------------------------------------------------------------------------------
 
-    public bool ContinuesSegmentCreation { get { return _ContinuesSegmentCreation; } }
+    public bool ContinuesSegmentCreation
+    {
+        get
+        {
+            return CurrentTool is SketchSegmentCreator && _ContinuesSegmentCreation;
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
     public Sketch Sketch { get; private set; }
     public Trsf Transform { get; private set; } = Trsf.Identity;
@@ -111,6 +119,7 @@ public sealed class SketchEditorTool : Tool
     MoveSketchPointAction _MoveAction;
     SketchTool _CurrentTool;
     bool _ContinuesSegmentCreation;
+    int _LastContinuesSegmentStartPoint = -1;
     List<int> _SelectedPoints;
     List<SketchSegment> _SelectedSegments;
     List<SketchConstraint> _SelectedConstraints;
@@ -341,9 +350,22 @@ public sealed class SketchEditorTool : Tool
     {
         itemList.AddCommand(SketchCommands.CloseSketchEditor, null);
 
+        if (CurrentTool is SketchSegmentCreator && ContinuesSegmentCreation)
+        {
+            itemList.AddSeparator();
+            itemList.AddCommand(SketchCommands.CreatePolyLine, null, "Stop Polyline");
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.Line);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.Bezier2);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.Bezier3);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.ArcCenter);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.ArcRim);
+            itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.EllipticalArcCenter);
+            itemList.AddSeparator();
+        }
+
         itemList.AddGroup("Create Segment");
+        itemList.AddCommand(SketchCommands.CreatePolyLine);
         itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.Line);
-        itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.PolyLine);
         itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.Bezier2);
         itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.Bezier3);
         itemList.AddCommand(SketchCommands.CreateSegment, SketchCommands.Segments.Circle);
@@ -598,6 +620,7 @@ public sealed class SketchEditorTool : Tool
     public bool StartSegmentCreation<T>(bool continuesCreation = false) where T : SketchSegmentCreator, new()
     {
         Select(null, null);
+        bool wasInContinuesSegmentCreation = _ContinuesSegmentCreation;
         StopTool();
 
         T newCreator = new T();
@@ -605,7 +628,16 @@ public sealed class SketchEditorTool : Tool
         if (!newCreator.Start(this))
             return false;
 
+        if (wasInContinuesSegmentCreation && continuesCreation && _LastContinuesSegmentStartPoint >= 0)
+        {
+            _ContinuesSegmentCreation = newCreator.Continue(_LastContinuesSegmentStartPoint);
+        }
+        else
+        {
+            _LastContinuesSegmentStartPoint = -1;
+        }
         _ContinuesSegmentCreation = continuesCreation;
+
         CurrentTool = newCreator;
         return true;
     }
@@ -618,17 +650,24 @@ public sealed class SketchEditorTool : Tool
         CommitChanges();
         WorkspaceController.UpdateSelection();
 
-        if (_ContinuesSegmentCreation && continueWithPoint >= 0 && pointMap.ContainsKey(continueWithPoint))
+        if (_ContinuesSegmentCreation 
+            && continueWithPoint >= 0 
+            && pointMap.ContainsKey(continueWithPoint)
+            && CurrentTool is SketchSegmentCreator creator)
         {
-            (CurrentTool as SketchSegmentCreator)?.Continue(pointMap[continueWithPoint]);
+            if (creator.Continue(pointMap[continueWithPoint]))
+            {
+                // Segment creation will continue
+                _LastContinuesSegmentStartPoint = pointMap[continueWithPoint];
+                return;
+            }
         }
-        else
-        {
-            StopTool();
-            Elements.DeselectAll();
-            Elements.Select(null, segmentMap.Values);
-            _OnSelectionChanged();
-        }
+
+        // Segment creation will stop
+        StopTool();
+        Elements.DeselectAll();
+        Elements.Select(null, segmentMap.Values);
+        _OnSelectionChanged();
     }
 
     //--------------------------------------------------------------------------------------------------

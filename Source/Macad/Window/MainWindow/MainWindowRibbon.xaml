@@ -693,12 +693,12 @@
                               AutomationProperties.AutomationId="Sketch">
             <Fluent:RibbonGroupBox Name="Segment" Header="Create Segment">
 
+                <Fluent:ToggleButton CommandParameter="PolyLine"
+                                     mmp:Command.Action="{x:Static mmi:SketchCommands.CreatePolyLine}"
+                                     AutomationProperties.AutomationId="CreatePolyLineSegment"/>
                 <Fluent:ToggleButton CommandParameter="Line"
                                      mmp:Command.Action="{x:Static mmi:SketchCommands.CreateSegment}"
                                      AutomationProperties.AutomationId="CreateLineSegment"/>
-                <Fluent:ToggleButton CommandParameter="PolyLine"
-                                     mmp:Command.Action="{x:Static mmi:SketchCommands.CreateSegment}"
-                                     AutomationProperties.AutomationId="CreatePolyLineSegment"/>
                 <Fluent:ToggleButton CommandParameter="Bezier2"
                                      mmp:Command.Action="{x:Static mmi:SketchCommands.CreateSegment}" 
                                      AutomationProperties.AutomationId="CreateBezier2Segment"/>

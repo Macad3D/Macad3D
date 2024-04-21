@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Macad.Interaction.Visual;
 using Macad.Core.Shapes;
 using Macad.Occt;
@@ -53,17 +54,11 @@ public sealed class SketchSegmentBezier2Creator : SketchSegmentCreator
         // Start the next line with the first point already catched
         _Points[0] = SketchEditorTool.Sketch.Points[continueWithPoint];
         _MergePointIndices[0] = continueWithPoint;
+
         _Element?.Remove();
-
+        _Element = null;
         _Segment = null;
-        _HintLine = new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-        _HintLine.Set(_Points[0], _Points[0], SketchEditorTool.Sketch.Plane);
-        Add(_HintLine);
-
-        _PointAction = new SketchPointAction(SketchEditorTool);
-        if (!StartAction(_PointAction))
-            return false;
-
+        _PointAction.Reset();
         pointsFinished = 1;
         SetHintMessage("__Select end point__ for bézier curve.");
         return true;
@@ -77,7 +72,24 @@ public sealed class SketchSegmentBezier2Creator : SketchSegmentCreator
         {
             case 1:
                 _Points[2] = args.Point;
-                _HintLine?.Set(_Points[0], args.Point, SketchEditorTool.Sketch.Plane);
+
+                if (_HintLine == null)
+                {
+                    _HintLine = new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
+                    Add(_HintLine);
+                }
+                _HintLine.Set(_Points[0], args.Point, SketchEditorTool.Sketch.Plane);
+
+                if (_ValueHudElement == null)
+                {
+                    _ValueHudElement = new ValueHudElement
+                    {
+                        Label = "Distance:",
+                        Units = ValueUnits.Length
+                    };
+                    _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
+                    Add(_ValueHudElement);
+                }
                 _ValueHudElement.SetValue(_Points[0].Distance(_Points[2]));
                 break;
 
@@ -101,22 +113,7 @@ public sealed class SketchSegmentBezier2Creator : SketchSegmentCreator
                 _Points[0] = args.Point;
                 _MergePointIndices[0] = args.MergeCandidateIndex;
 
-                _HintLine = new HintLine(SketchEditorTool.WorkspaceController, HintStyle.ThinDashed | HintStyle.Topmost);
-                _HintLine.Set(args.Point, args.Point, SketchEditorTool.Sketch.Plane);
-                Add(_HintLine);
-
                 SetHintMessage("__Select end point__ for bézier curve.");
-
-                if (_ValueHudElement == null)
-                {
-                    _ValueHudElement = new ValueHudElement
-                    {
-                        Label = "Distance:",
-                        Units = ValueUnits.Length
-                    };
-                    _ValueHudElement.ValueEntered += _ValueHudElement_ValueEntered;
-                    Add(_ValueHudElement);
-                }
 
                 _PointAction.Reset();
                 pointsFinished++;
@@ -128,17 +125,15 @@ public sealed class SketchSegmentBezier2Creator : SketchSegmentCreator
 
             case 2:
                 // Control point, finished
-                StopAction(_PointAction);
-
                 _Points[1] = args.Point;
                 _MergePointIndices[1] = args.MergeCandidateIndex;
-
-                SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, new SketchSegment[] {_Segment}, null, _MergePointIndices[1] >= 0 ? -1 : 2);
                 pointsFinished++;
+
+                SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, [_Segment], null, _MergePointIndices[2] >= 0 ? -1 : 2);
                 break;
         }
     }
-
+    
     //--------------------------------------------------------------------------------------------------
 
     void _SetEndPoint(Pnt2d point, int mergeCandidateIndex)

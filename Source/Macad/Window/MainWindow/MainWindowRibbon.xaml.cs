@@ -32,7 +32,7 @@ public partial class MainWindowRibbon : UserControl
             var tabItem = group?.Items.FirstOrDefault();
             if (tabItem != null)
             {
-                tabItem.IsSelected = true;
+                Dispatcher.BeginInvoke(() => tabItem.IsSelected = true);
             }
         }
     }

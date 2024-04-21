@@ -34,7 +34,7 @@ internal static class ShortcutDefinition
         ]);
 
         handler.AddShortcuts("SketchEditorTool", [
-            new(Key.C, SketchCommands.CreateSegment, SketchCommands.Segments.PolyLine),
+            new(Key.C, SketchCommands.CreatePolyLine),
             new(Key.S, SketchCommands.SplitElement),
             new(Key.W, SketchCommands.WeldElements),
             new(Key.A, SketchCommands.ToggleAuxiliaryFlag),
