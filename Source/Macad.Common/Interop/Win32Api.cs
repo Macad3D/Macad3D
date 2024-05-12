@@ -426,8 +426,8 @@ public static class Win32Api
     [DllImport("shell32.dll")]
     public static extern void DragFinish(IntPtr hDrop);
 
-    [DllImport("shell32.dll", PreserveSig = false)]
-    public static extern void SetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)] string AppID);
+    [DllImport("shell32.dll")]
+    public static extern HRESULT SetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)] string AppID);
 
     [DllImport("shell32.dll")]
     public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)] out string AppID);

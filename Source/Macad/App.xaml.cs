@@ -7,6 +7,7 @@ using System.Windows;
 using Macad.Common;
 using Macad.Common.Interop;
 using Macad.Presentation;
+using Microsoft.Win32;
 
 namespace Macad.Window;
 
@@ -30,10 +31,18 @@ public partial class App : Application
 
         // Check command line arguments
         var cmdLine = new CommandLine(e.Args);
+
+        // Check if we are running under wine to disable some not-working features
+        bool bIsWine = false;
+        if (Registry.LocalMachine.OpenSubKey(@"Software\Wine", false) is { } regkey)
+        {
+            bIsWine = true;
+            regkey.Close();
+        }
             
         // Show Welcome Dialog while initializing
         bool bSkipWelcome = cmdLine.NoWelcomeDialog || cmdLine.HasPathToOpen || cmdLine.HasScriptToRun;
-        if (!bSkipWelcome)
+        if (!bSkipWelcome && !bIsWine)
         {
             WelcomeDialog.ShowAsync();
         }
@@ -59,6 +68,11 @@ public partial class App : Application
         MainWindow.Show();
 
         ShutdownMode = ShutdownMode.OnMainWindowClose;
+
+        if (!bSkipWelcome && bIsWine)
+        {
+            WelcomeDialog.Show(MainWindow);
+        }
 
         base.OnStartup(e);
     }

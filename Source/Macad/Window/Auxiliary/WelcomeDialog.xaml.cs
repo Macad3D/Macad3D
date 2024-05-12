@@ -19,6 +19,19 @@ public partial class WelcomeDialog
 
     //--------------------------------------------------------------------------------------------------
 
+    internal static void Show(System.Windows.Window ownerWindow)
+    {
+        Debug.Assert(Current == null);
+
+        Current = new WelcomeDialog
+        {
+            Owner = ownerWindow
+        };
+        Current.Show();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     internal static void ShowAsync()
     {
         Debug.Assert(Current == null);
@@ -64,6 +77,12 @@ public partial class WelcomeDialog
 
     void _Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
+        if (Owner != null)
+        {
+            // Running in sync
+            return;
+        }
+
         using (new WaitCursor())
         {
             while (_MainWindow == null)
@@ -92,6 +111,12 @@ public partial class WelcomeDialog
 
     void _OnClosed(object sender, EventArgs e)
     {
+        if (Owner != null)
+        {
+            // Running in sync
+            return;
+        }
+
         Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
     }
 
