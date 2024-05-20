@@ -1,11 +1,15 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Macad.Presentation;
 
 public class ToolbarContextMenu : ContextMenu
 {
-    public static readonly DependencyProperty ToolbarContentProperty = DependencyProperty.Register("ToolbarContent", typeof(object), typeof(ToolbarContextMenu),
+    public static readonly DependencyProperty ToolbarContentProperty = DependencyProperty.Register(nameof(ToolbarContent), typeof(object), typeof(ToolbarContextMenu),
                                                                                                    new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsParentMeasure));
     public object ToolbarContent
     {
@@ -19,21 +23,19 @@ public class ToolbarContextMenu : ContextMenu
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolbarContextMenu), 
                                                  new FrameworkPropertyMetadata(typeof(ToolbarContextMenu)));
-        VerticalOffsetProperty.OverrideMetadata(typeof(ToolbarContextMenu), 
-                                                new FrameworkPropertyMetadata(null, new CoerceValueCallback(CoerceVerticalOffset)));
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    static object CoerceVerticalOffset(DependencyObject d, object basevalue)
+    public ToolbarContextMenu()
     {
-        if (d is ToolbarContextMenu menu)
-            return menu.CoerceVerticalOffset(basevalue);
-        return basevalue;
+        CustomPopupPlacementCallback = _CustomPopupPlacementCallback;
+        Placement = PlacementMode.Custom;
+        PlacementTarget ??= Application.Current.MainWindow;
     }
 
     //--------------------------------------------------------------------------------------------------
-
+    
     const string _PartToolbarBorder = "PART_ToolbarBorder";
     FrameworkElement _ToolbarBorder;
 
@@ -47,21 +49,41 @@ public class ToolbarContextMenu : ContextMenu
 
     //--------------------------------------------------------------------------------------------------
 
-    object CoerceVerticalOffset(object basevalue)
+    CustomPopupPlacement[] _CustomPopupPlacementCallback(Size popupSize, Size targetSize, Point offset)
     {
-        if (_ToolbarBorder != null && basevalue is double value)
+        var targetElement = PlacementTarget ?? Application.Current.MainWindow;
+        Point targetPos = Mouse.GetPosition(targetElement);
+        var dpiScale = VisualTreeHelper.GetDpi(this);
+        targetPos.X *= dpiScale.DpiScaleX;
+        targetPos.Y *= dpiScale.DpiScaleY;
+        Point screenExt = targetElement.PointFromScreen(SystemParameters.WorkArea.BottomRight);
+
+        // Check if there is enough space below the mouse, else place it above
+        if (targetPos.Y + popupSize.Height > Math.Min(screenExt.Y, targetSize.Height ))
         {
-            return value - _ToolbarBorder.ActualHeight;
+            VerticalAlignment = VerticalAlignment.Top;
+            targetPos.Y += -popupSize.Height + _ToolbarBorder.ActualHeight * dpiScale.DpiScaleY;
         }
-        return basevalue;
+        else
+        {
+            VerticalAlignment = VerticalAlignment.Bottom;
+            targetPos.Y += -_ToolbarBorder.ActualHeight * dpiScale.DpiScaleY;
+        }
+
+        // Check if there is enough space right of the mouse, else place it left
+        if (targetPos.X + popupSize.Width > Math.Min(screenExt.X, targetSize.Width ))
+        {
+            HorizontalAlignment = HorizontalAlignment.Left;
+            targetPos.X += - popupSize.Width;
+        }
+        else
+        {
+            HorizontalAlignment = HorizontalAlignment.Right;
+        }
+
+        return [new(targetPos, PopupPrimaryAxis.Vertical)];
     }
 
     //--------------------------------------------------------------------------------------------------
-
-    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
-    {
-        base.OnRenderSizeChanged(sizeInfo);
-        CoerceValue(VerticalOffsetProperty);
-    }
 
 }

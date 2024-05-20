@@ -264,8 +264,16 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContextMenu}">
-                    <StackPanel>
-                        <Border x:Name="PART_ToolbarBorder"  Background="Transparent" HorizontalAlignment="Left">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Border x:Name="PART_ToolbarBorder"  
+                                Background="Transparent" 
+                                HorizontalAlignment="Left"
+                                Grid.Row="0">
                             <mmp:DropShadow Margin="6">
                                 <Border Background="{TemplateBinding Background}"
                                         BorderBrush="{StaticResource Macad.Brushes.Popup.Border}" BorderThickness="1">
@@ -277,14 +285,33 @@
                                 </Border>
                             </mmp:DropShadow>
                         </Border>
-                        <Border Background="Transparent" HorizontalAlignment="Left">
+                        <Border x:Name="PART_Menu" 
+                                Background="Transparent"
+                                Grid.Row="1">
                             <mmp:DropShadow Margin="6">
                                     <Border x:Name="Border" BorderBrush="{StaticResource Macad.Brushes.Popup.Border}" BorderThickness="1">
                                         <StackPanel Background="{TemplateBinding Background}" IsItemsHost="True" ClipToBounds="True" Orientation="Vertical" />
                                     </Border>
                             </mmp:DropShadow>
                         </Border>
-                    </StackPanel>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="VerticalAlignment" Value="Bottom">
+                            <Setter TargetName="PART_ToolbarBorder" Property="Grid.Row" Value="0" />
+                            <Setter TargetName="PART_Menu" Property="Grid.Row" Value="1" />
+                        </Trigger>
+                        <Trigger Property="VerticalAlignment" Value="Top">
+                            <Setter TargetName="PART_ToolbarBorder" Property="Grid.Row" Value="1" />
+                            <Setter TargetName="PART_Menu" Property="Grid.Row" Value="0" />
+                        </Trigger>
+                        <Trigger Property="HorizontalAlignment" Value="Left">
+                            <Setter TargetName="PART_Menu" Property="HorizontalAlignment" Value="Right" />
+                        </Trigger>
+                        <Trigger Property="HorizontalAlignment" Value="Right">
+                            <Setter TargetName="PART_Menu" Property="HorizontalAlignment" Value="Left" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
