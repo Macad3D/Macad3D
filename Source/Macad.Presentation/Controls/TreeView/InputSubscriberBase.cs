@@ -76,10 +76,7 @@ internal class InputSubscriberBase
 
     protected TreeViewExItem GetTreeViewItemUnderMouse(Point positionRelativeToTree)
     {
-        HitTestResult hitTestResult = VisualTreeHelper.HitTest(TreeView, positionRelativeToTree);
-        if (hitTestResult?.VisualHit == null) return null;
-
-        FrameworkElement child = hitTestResult.VisualHit as FrameworkElement;
+        FrameworkElement child = TreeView.InputHitTest(positionRelativeToTree) as FrameworkElement;
             
         while (child != null)
         {

@@ -101,7 +101,7 @@ public class FormAdaptor
 
     //--------------------------------------------------------------------------------------------------
 
-    public virtual void ClickButton(string id, bool jump = true)
+    public virtual void ClickButton(string id, bool jump = true, bool doubleClick = false)
     {
         var control = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(id).And(cf.ByControlType(ControlType.Button)));
         Assert.That(control, Is.Not.Null, $"Button {id} not found in form.");
@@ -109,7 +109,12 @@ public class FormAdaptor
         var center = control.BoundingRectangle.Center();
         if(!jump)
             Mouse.MoveTo(center);
-        Mouse.LeftClick(center);
+
+        if(doubleClick)
+            Mouse.LeftDoubleClick(center);
+        else
+            Mouse.LeftClick(center);
+
         Wait.UntilInputIsProcessed();
         if(_FormControl.IsAvailable)
             Wait.UntilResponsive(_FormControl);

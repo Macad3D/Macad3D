@@ -67,7 +67,7 @@ public class RibbonAdaptor : FormAdaptor
 
     //--------------------------------------------------------------------------------------------------
 
-    public new void ClickButton(string id, bool jump = true)
+    public new void ClickButton(string id, bool jump = true, bool doubleClick = false)
     {
         var button = _FindButton(id);
 
@@ -78,7 +78,10 @@ public class RibbonAdaptor : FormAdaptor
         Wait.UntilResponsive(_FormControl);
 
         Mouse.MoveTo(center);
-        Mouse.LeftClick(center);
+        if(doubleClick)
+            Mouse.LeftDoubleClick(center);
+        else
+            Mouse.LeftClick(center);
 
         Wait.UntilInputIsProcessed();
         Wait.UntilResponsive(_FormControl);

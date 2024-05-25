@@ -138,7 +138,8 @@
                         <Grid Margin="5,0">
                             <TextBlock Text="{Binding Name}" 
                                        VerticalAlignment="Center"
-                                       HorizontalAlignment="Stretch">
+                                       HorizontalAlignment="Stretch"
+                                       AutomationProperties.AutomationId="LayerName">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>

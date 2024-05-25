@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Macad.Presentation;
@@ -28,28 +27,14 @@ public class DoubleClickCommandBehavior : Behavior<FrameworkElement>
 
     public override void OnAttached(FrameworkElement target)
     {
-        if (target is Control control)
-        {
-            control.MouseDoubleClick += _Control_MouseDoubleClick;
-        }
-        else
-        {
-            target.MouseLeftButtonDown += _Target_MouseLeftButtonDown;
-        }
+        target.MouseLeftButtonDown += _Target_MouseLeftButtonDown;
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public override void OnDetached(FrameworkElement target)
     {
-        if (target is Control control)
-        {
-            control.MouseDoubleClick -= _Control_MouseDoubleClick;
-        }
-        else
-        {
-            target.MouseLeftButtonDown -= _Target_MouseLeftButtonDown;
-        }
+        target.MouseLeftButtonDown -= _Target_MouseLeftButtonDown;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -60,13 +45,8 @@ public class DoubleClickCommandBehavior : Behavior<FrameworkElement>
 
         if (e.ClickCount > 1)
         {
-            Command.Execute(CommandParameter);
+            Command?.Execute(CommandParameter);
         }
-    }
-
-    void _Control_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-    {
-        Command?.Execute(CommandParameter);
     }
 
     //--------------------------------------------------------------------------------------------------

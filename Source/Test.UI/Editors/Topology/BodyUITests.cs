@@ -98,7 +98,7 @@ public class BodyUITests : UITestBase
         Assert.That(bodyPanel, Is.Not.Null);
 
         var layer = MainWindow.Layers.AddLayer();
-        MainWindow.Layers.ToggleIsLocked(layer);
+        layer.ClickButton("ToggleIsLocked");
             
         Assert.AreEqual("0 (Default)", Pipe.GetValue<string>("$Selected.Layer.Name"));
         bodyPanel.SelectComboBoxItem("LayerBox", "Unnamed");
