@@ -9,6 +9,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
+using System.Windows.Threading;
 using Macad.Common.Interop;
 
 namespace Macad.Presentation;
@@ -19,6 +20,8 @@ public class AirspaceOverlay : Border
     readonly Window _TransparentInputWindow;
     Window _Parent;
     Thickness _ClippingBorder;
+    WindowSizeMoveEvents _SizeMoveEvents;
+    bool _IsProcessingSizeEvent;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -36,7 +39,7 @@ public class AirspaceOverlay : Border
 
     protected virtual void ClippingBorderChanged()
     {
-        UpdateWindow();
+        _InvalidateWindow();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -112,14 +115,6 @@ public class AirspaceOverlay : Border
 
     //--------------------------------------------------------------------------------------------------
 
-    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
-    {
-        base.OnRenderSizeChanged(sizeInfo);
-        UpdateWindow();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     protected override void OnRender(DrawingContext drawingContext)
     {
         base.OnRender(drawingContext);
@@ -127,63 +122,75 @@ public class AirspaceOverlay : Border
         {
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
-                _Parent = GetParentWindow(this);
+                _Parent = PresentationHelper.FindVisualParent<Window>(this);
                 if (_Parent != null)
                 {
                     _TransparentInputWindow.Show();
                     _TransparentInputWindow.Owner = _Parent;
                     _Parent.LocationChanged += _Parent_LocationChanged;
-                    UpdateWindow();
+                    _SizeMoveEvents = WindowSizeMoveEvents.GetOrCreate(_Parent);
+                    _SizeMoveEvents.StateChanged += _SizeMoveEvents_StateChanged;
+                    _InvalidateWindow();
                 }
             }
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _SizeMoveEvents_StateChanged(object sender, WindowSizeMoveChangedEventArgs e)
+    {
+        switch (e.CurrentState)
+        {
+            case WindowSizeMoveState.None:
+                _IsProcessingSizeEvent = false;
+                break;
+            case WindowSizeMoveState.Sizing:
+                _IsProcessingSizeEvent = true;
+                break;
+        }
+    }
+    
+
+    //--------------------------------------------------------------------------------------------------
+
+    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+    {
+        base.OnRenderSizeChanged(sizeInfo);
+
+        _InvalidateWindow();
     }
 
     //--------------------------------------------------------------------------------------------------
 
     void _Parent_LocationChanged(object sender, EventArgs e)
     {
-        UpdateWindow();
+        if (_IsProcessingSizeEvent)
+        {
+            // Ignore position update, we get a better update with next size changed message
+            return;
+        }
+
+        _InvalidateWindow();
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    Window GetParentWindow(DependencyObject o)
+    void _InvalidateWindow()
     {
-        DependencyObject parent = VisualTreeHelper.GetParent(o);
-        if (parent == null)
+        _TransparentInputWindow.Dispatcher.BeginInvoke(() =>
         {
-            if (!DesignerProperties.GetIsInDesignMode(this))
-            {
-                FrameworkElement fe = o as FrameworkElement;
-                if (fe != null)
-                {
-                    if (fe is Window)
-                    {
-                        return fe as Window;
-                    }
-                    else if (fe.Parent != null)
-                    {
-                        return GetParentWindow(fe.Parent);
-                    }
-                }
-                //throw new ApplicationException("A window parent could not be found for " + o.ToString());
-            }
-            return null;
-        }
-        else
-        {
-            return GetParentWindow(parent);
-        }
+            _UpdateWindow();
+        }, DispatcherPriority.Normal);
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void UpdateWindow()
+    void _UpdateWindow()
     {
         if (!DesignerProperties.GetIsInDesignMode(this))
         {
-            var parent = GetParentWindow(this);
+            var parent = PresentationHelper.FindVisualParent<Window>(this);
             if (parent is not {IsVisible: true})
                 return;
 

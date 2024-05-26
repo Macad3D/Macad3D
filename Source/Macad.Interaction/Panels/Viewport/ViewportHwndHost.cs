@@ -4,7 +4,9 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Macad.Common.Interop;
+using Macad.Presentation;
 
 namespace Macad.Interaction;
 
@@ -12,6 +14,8 @@ public class ViewportHwndHost : HwndHost
 {
     readonly ViewportController _ViewportController;
     readonly Int32Rect _InitialRect;
+    bool _IsProcessingSizeEvent;
+    WindowSizeMoveEvents _SizeMoveEvents;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -32,7 +36,13 @@ public class ViewportHwndHost : HwndHost
     protected override HandleRef BuildWindowCore(HandleRef hwndParent)
     {
         IntPtr windowHandle = _ViewportController.InitWindow(hwndParent.Handle, _InitialRect);
-
+        var parent = PresentationHelper.FindVisualParent<Window>(this);
+        if (parent != null)
+        {
+            _SizeMoveEvents = WindowSizeMoveEvents.GetOrCreate(parent);
+            _SizeMoveEvents.StateChanged += _SizeMoveEvents_StateChanged;
+        }
+        
         return new HandleRef(this, windowHandle);
     }
 
@@ -44,11 +54,69 @@ public class ViewportHwndHost : HwndHost
 
     //--------------------------------------------------------------------------------------------------
 
+    protected override void Dispose(bool disposing)
+    {
+        if (_SizeMoveEvents != null)
+        {
+            _SizeMoveEvents.StateChanged -= _SizeMoveEvents_StateChanged;
+            _SizeMoveEvents = null;
+        }
+
+        // Remove ourselves as an IKeyboardInputSinks child of our previous
+        // containing window.
+        // This is done in OnSourceChanged-event of HwndHost, but unfortunately not in Dispose
+        IKeyboardInputSite keyboardInputSite = ((IKeyboardInputSink)this).KeyboardInputSite;
+        if (keyboardInputSite != null)
+        {
+            // Derived classes that implement IKeyboardInputSink should support setting it to null.
+            ((IKeyboardInputSink)this).KeyboardInputSite = null;
+
+            keyboardInputSite.Unregister();
+        }
+
+        base.Dispose(disposing);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _SizeMoveEvents_StateChanged(object sender, WindowSizeMoveChangedEventArgs e)
+    {
+        switch (e.CurrentState)
+        {
+            case WindowSizeMoveState.None:
+                _IsProcessingSizeEvent = false;
+                break;
+            case WindowSizeMoveState.Sizing:
+                _IsProcessingSizeEvent = true;
+                break;
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
-        _ViewportController.Viewport.Resize();
-        _ViewportController.WorkspaceController.Invalidate();
         base.OnRenderSizeChanged(sizeInfo);
+        Dispatcher.BeginInvoke(() =>
+        {
+            _IsProcessingSizeEvent = false;
+            UpdateWindowPos();
+            _IsProcessingSizeEvent = true;
+            _ViewportController.Viewport.Resize();
+            _ViewportController.WorkspaceController.Invalidate();
+        }, DispatcherPriority.Normal);
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    protected override void OnWindowPositionChanged(Rect rcBoundingBox)
+    {
+        if (_IsProcessingSizeEvent)
+        {
+            // Ignore position update, we get a better update with next size changed message
+            return;
+        }
+        base.OnWindowPositionChanged(rcBoundingBox);
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -60,7 +61,10 @@ public partial class ViewportPanel : AirspaceOverlay
     void _ViewportControllerChanged()
     {
         if (Child != null)
+        {
+            (Child as IDisposable)?.Dispose();
             Child = null;
+        }
 
         var viewportController = Model?.ViewportController;
         if (MouseControl != null)

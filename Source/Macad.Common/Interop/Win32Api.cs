@@ -30,6 +30,7 @@ public static class Win32Api
     //--------------------------------------------------------------------------------------------------
 
     public const int
+        WM_MOVE = 0x0003,
         WM_SETFOCUS = 0x0007,
         WM_PAINT = 0x000f,
         WM_ENABLE = 0x000a,
@@ -45,6 +46,10 @@ public static class Win32Api
         WM_MOUSEWHEEL = 0x020a,
         WM_MOUSELEAVE = 0x02a3,
         WM_NCHITTEST = 0x0084,
+        WM_SIZING = 0x0214,
+        WM_MOVING = 0x0216,
+        WM_ENTERSIZEMOVE = 0x0231, 
+        WM_EXITSIZEMOVE = 0x0232,
         WM_DROPFILES = 0x0233;
 
     //--------------------------------------------------------------------------------------------------
