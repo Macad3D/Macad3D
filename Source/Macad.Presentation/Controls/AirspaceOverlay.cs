@@ -168,6 +168,7 @@ public class AirspaceOverlay : Border
         if (_IsProcessingSizeEvent)
         {
             // Ignore position update, we get a better update with next size changed message
+            _IsProcessingSizeEvent = false;
             return;
         }
 
