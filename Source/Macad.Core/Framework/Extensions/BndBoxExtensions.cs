@@ -37,4 +37,35 @@ public static class BndBoxExtensions
 
     //--------------------------------------------------------------------------------------------------
 
+    public static Pnt2d Center(this Bnd_Box2d box)
+    {
+        double xMin = 0, yMin = 0, xMax = 0, yMax = 0;
+        box.Get(ref xMin, ref yMin, ref xMax, ref yMax );
+        return new Pnt2d( 
+            xMin + (xMax - xMin) / 2, 
+            yMin + (yMax - yMin) / 2 );
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static (double X, double Y) Extents(this Bnd_Box2d box)
+    {
+        double xMin = 0, yMin = 0, xMax = 0, yMax = 0;
+        box.Get(ref xMin, ref yMin, ref xMax, ref yMax );
+
+        return (Math.Abs(xMax - xMin), Math.Abs(yMax - yMin));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static (double minX, double minY, double maxX, double maxY) MinMax(this Bnd_Box2d box)
+    {
+        double xMin = 0, yMin = 0, xMax = 0, yMax = 0;
+        box.Get(ref xMin, ref yMin, ref xMax, ref yMax );
+
+        return (xMin, yMin, xMax, yMax);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

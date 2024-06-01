@@ -15,6 +15,10 @@ public sealed class SelectSketchElementAction : ToolAction
 
     #endregion
 
+    public bool IsActive { get; set; } = true;
+
+    //--------------------------------------------------------------------------------------------------
+
     readonly SketchEditorTool _SketchEditorTool;
 
     //--------------------------------------------------------------------------------------------------
@@ -44,6 +48,9 @@ public sealed class SelectSketchElementAction : ToolAction
 
     public override bool OnMouseMove(MouseEventData data)
     {
+        if (!IsActive)
+            return false;
+
         if (!IsFinished)
         {
             return base.OnMouseMove(data);
@@ -55,6 +62,9 @@ public sealed class SelectSketchElementAction : ToolAction
 
     public override bool OnMouseUp(MouseEventData data)
     {
+        if (!IsActive)
+            return false;
+
         if (!IsFinished)
         {
             if (!data.ModifierKeys.Has(ModifierKeys.Shift))
@@ -76,6 +86,9 @@ public sealed class SelectSketchElementAction : ToolAction
 
     public override bool OnKeyPressed(Key key, ModifierKeys modifierKeys)
     {
+        if (!IsActive)
+            return false;
+
         if (key == Key.Delete && modifierKeys == ModifierKeys.None)
         {
             var selectedCons = _SketchEditorTool.SelectedConstraints.ToArray();

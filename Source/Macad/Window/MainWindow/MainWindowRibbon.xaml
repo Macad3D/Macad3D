@@ -801,6 +801,9 @@
                                      AutomationProperties.AutomationId="ConvertSegmentToEllipticalArc" />
                 </Fluent:DropDownButton>
 
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.ScaleElement}"
+                                     AutomationProperties.AutomationId="ScaleElement"/>
+
                 <Fluent:DropDownButton Header="Exchange"
                                        Icon="{mmp:IconResource Sketch-Exchange}"
                                        LargeIcon="{mmp:IconResource Sketch-Exchange}"

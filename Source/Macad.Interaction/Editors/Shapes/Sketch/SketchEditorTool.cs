@@ -472,7 +472,6 @@ public sealed class SketchEditorTool : Tool
 
     void _UpdateStatusText()
     {
-
         if (SelectedSegments.Any() && !SelectedPoints.Any() && !SelectedConstraints.Any())
         {
             SetHintMessage(SelectedSegments.Count == 1 
@@ -516,6 +515,7 @@ public sealed class SketchEditorTool : Tool
         }
 
         Elements.OnSketchChanged(Sketch, types);
+        _CurrentTool?.OnSketchChanged(Sketch, types);
         _UpdateSelections();
     }
 
@@ -857,12 +857,19 @@ public sealed class SketchEditorTool : Tool
     {
         StopTool();
 
-        if (tool.Start(this))
+        // Free own message, so tool can set it
+        SetHintMessage(null); 
+
+        if (!tool.Start(this))
         {
-            _MoveAction?.Stop();
-            _MoveAction = null;
-            CurrentTool = tool;
+            _UpdateStatusText();
+            return;
         }
+
+        _MoveAction?.Stop();
+        _MoveAction = null;
+        _SelectAction.IsActive = false;
+        CurrentTool = tool;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -872,10 +879,8 @@ public sealed class SketchEditorTool : Tool
         CurrentTool?.Stop();
         CurrentTool = null;
         _ContinuesSegmentCreation = false;
+        _SelectAction.IsActive = true;
 
-        // Update activation, since we have switched the local context
-        Elements.Activate(true, true, true);
-        _OnSelectionChanged();
         _UpdateStatusText();
     }
 

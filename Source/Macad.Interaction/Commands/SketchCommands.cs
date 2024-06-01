@@ -538,6 +538,34 @@ public static class SketchCommands
     };
 
     //--------------------------------------------------------------------------------------------------
+    
+    public static ActionCommand ScaleElement { get; } = new(
+        () =>
+        {
+            var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
+            if (sketchEditTool == null)
+                return;
+
+            if (sketchEditTool.CurrentTool is ScaleElementSketchTool)
+            {
+                sketchEditTool.StopTool();
+                return;
+            }
+
+            var tool = new ScaleElementSketchTool();
+            sketchEditTool.StartTool(tool);
+        },
+        () => InteractiveContext.Current?.WorkspaceController?.CurrentTool is SketchEditorTool sketchTool
+              && (sketchTool.SelectedPoints.Count > 0 || sketchTool.SelectedSegments.Count > 0))
+    {
+        Header = () => "Scale",
+        Icon = () => "Sketch-ScaleTool",
+        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveSketchTool)}", BindingMode.OneWay,
+                                                EqualityToBoolConverter.Instance, nameof(ScaleElementSketchTool)),
+        Description = () => "Scales selected points or segments."
+    };
+        
+    //--------------------------------------------------------------------------------------------------
 
     public static ActionCommand SplitElement { get; } = new(
         () =>

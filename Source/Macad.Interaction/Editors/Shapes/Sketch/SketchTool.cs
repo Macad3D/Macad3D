@@ -58,6 +58,7 @@ public abstract class SketchTool : WorkspaceControl
     {
         _StopToolActions();
         SketchEditorTool.Elements.ConstraintsVisible = true;
+        SketchEditorTool.Elements.Activate(true, true, true);
         base.Cleanup();
     }
 
@@ -101,6 +102,16 @@ public abstract class SketchTool : WorkspaceControl
                 StopAction(action);
             }
         }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Sketch Events
+       
+    public virtual void OnSketchChanged(Sketch sketch, Sketch.ElementType types)
+    {
     }
 
     //--------------------------------------------------------------------------------------------------

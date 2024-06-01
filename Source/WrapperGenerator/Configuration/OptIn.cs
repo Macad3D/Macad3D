@@ -39,15 +39,6 @@ public partial class Configuration
             }
         },
         {
-            "Extrema", new()
-            {
-                "Extrema_ExtAlgo",
-                "Extrema_ExtFlag",
-                "Extrema_ExtPC",
-                "Extrema_POnCurv",
-            }
-        },
-        {
             "GeomPlate", new()
             {
                 "GeomPlate_BuildAveragePlane",

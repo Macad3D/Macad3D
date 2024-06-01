@@ -8,10 +8,10 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "Geom2d.h"
 #include "Geom.h"
 #include "gp.h"
+#include "Extrema.h"
 #include "TColgp.h"
 #include "TColStd.h"
 #include "GeomAbs.h"
-#include "Extrema.h"
 
 
 //---------------------------------------------------------------------
@@ -322,6 +322,13 @@ double Macad::Occt::GeomAPI_ExtremaSurfaceSurface::LowerDistance()
 {
     double _result = ((::GeomAPI_ExtremaSurfaceSurface*)_NativeInstance)->LowerDistance();
     return _result;
+}
+
+Macad::Occt::Extrema_ExtSS^ Macad::Occt::GeomAPI_ExtremaSurfaceSurface::Extrema()
+{
+    ::Extrema_ExtSS* _result = new ::Extrema_ExtSS();
+    *_result = (::Extrema_ExtSS)((::GeomAPI_ExtremaSurfaceSurface*)_NativeInstance)->Extrema();
+    return _result==nullptr ? nullptr : gcnew Macad::Occt::Extrema_ExtSS(_result);
 }
 
 

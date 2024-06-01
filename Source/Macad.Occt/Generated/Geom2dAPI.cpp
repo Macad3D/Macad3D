@@ -7,6 +7,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 
 #include "Geom2d.h"
 #include "gp.h"
+#include "Extrema.h"
 #include "TColgp.h"
 #include "TColStd.h"
 #include "GeomAbs.h"
@@ -66,6 +67,13 @@ double Macad::Occt::Geom2dAPI_ExtremaCurveCurve::LowerDistance()
 {
     double _result = ((::Geom2dAPI_ExtremaCurveCurve*)_NativeInstance)->LowerDistance();
     return _result;
+}
+
+Macad::Occt::Extrema_ExtCC2d^ Macad::Occt::Geom2dAPI_ExtremaCurveCurve::Extrema()
+{
+    ::Extrema_ExtCC2d* _result = new ::Extrema_ExtCC2d();
+    *_result = (::Extrema_ExtCC2d)((::Geom2dAPI_ExtremaCurveCurve*)_NativeInstance)->Extrema();
+    return _result==nullptr ? nullptr : gcnew Macad::Occt::Extrema_ExtCC2d(_result);
 }
 
 
@@ -527,6 +535,13 @@ double Macad::Occt::Geom2dAPI_ProjectPointOnCurve::LowerDistance()
 {
     double _result = ((::Geom2dAPI_ProjectPointOnCurve*)_NativeInstance)->LowerDistance();
     return _result;
+}
+
+Macad::Occt::Extrema_ExtPC2d^ Macad::Occt::Geom2dAPI_ProjectPointOnCurve::Extrema()
+{
+    ::Extrema_ExtPC2d* _result = new ::Extrema_ExtPC2d();
+    *_result = (::Extrema_ExtPC2d)((::Geom2dAPI_ProjectPointOnCurve*)_NativeInstance)->Extrema();
+    return _result==nullptr ? nullptr : gcnew Macad::Occt::Extrema_ExtPC2d(_result);
 }
 
 

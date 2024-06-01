@@ -614,6 +614,30 @@ public class SketchUITests : UITestBase
         Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreatePolyLineSegment"));
         Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateBezier2Segment"));
     }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void Scale()
+    {
+        // Create Sketch
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        MainWindow.Ribbon.ClickButton("CreateSketch");
+        MainWindow.Viewport.ClickRelative(0.5, 0.55);
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("ScaleElement"));
+
+        MainWindow.Ribbon.ClickButton("CreateLineSegment");
+        MainWindow.Viewport.ClickRelative(0.4, 0.5);
+        MainWindow.Viewport.ClickRelative(0.6, 0.5);
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("ScaleElement"));
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("ScaleElement"));
+
+        MainWindow.Ribbon.ClickButton("ScaleElement");
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("ScaleElement"));
+        MainWindow.Ribbon.ClickButton("ScaleElement");
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("ScaleElement"));
+    }
 
     //--------------------------------------------------------------------------------------------------
 

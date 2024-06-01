@@ -129,7 +129,7 @@ public:
     /// Exceptions - StdFail_NotDone if this algorithm fails.
     /// </summary>
     double LowerDistance();
-    /* Method skipped due to unknown mapping: Extrema_ExtCC2d Extrema() */
+    Macad::Occt::Extrema_ExtCC2d^ Extrema();
 }; // class Geom2dAPI_ExtremaCurveCurve
 
 //---------------------------------------------------------------------
@@ -1099,7 +1099,10 @@ public:
     /// StdFail_NotDone if this algorithm fails.
     /// </summary>
     double LowerDistance();
-    /* Method skipped due to unknown mapping: Extrema_ExtPC2d Extrema() */
+    /// <summary>
+    /// return the algorithmic object from Extrema
+    /// </summary>
+    Macad::Occt::Extrema_ExtPC2d^ Extrema();
 }; // class Geom2dAPI_ProjectPointOnCurve
 
 }; // namespace Occt

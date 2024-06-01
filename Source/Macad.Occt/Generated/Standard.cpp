@@ -13,6 +13,7 @@ using namespace System::Runtime::InteropServices; // for class Marshal
 #include "TColgp.h"
 #include "Geom.h"
 #include "ProjLib.h"
+#include "Extrema.h"
 #include "BRepAdaptor.h"
 #include "TopTools.h"
 #include "ShapeAnalysis.h"

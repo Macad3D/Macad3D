@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Windows.Input;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Interaction;
@@ -291,11 +293,11 @@ public class SketchToolsTests
 
         Assert.Multiple(() =>
         {
-            sketchEditTool.StartSegmentCreation<SketchSegmentArcCenterCreator>(true);
+            sketchEditTool.StartSegmentCreation<SketchSegmentArcCenterCreator>();
             ctx.ClickAt(250, 250); 
             ctx.ClickAt(50, 250);
             ctx.ClickAt(250, 50);
-            sketchEditTool.StartSegmentCreation<SketchSegmentArcCenterCreator>(true);
+            sketchEditTool.StartSegmentCreation<SketchSegmentArcCenterCreator>();
             ctx.ClickAt(250, 250); 
             ctx.ClickAt(250, 50);
             ctx.ClickAt(400, 250);
@@ -398,5 +400,145 @@ public class SketchToolsTests
 
         //Cleanup
         sketchEditTool.Stop();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ScaleElements()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        body.Position = new(-10, 5, 0);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [1,2]);
+        tool.StartTool(new ScaleElementSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElements01"), 0.1);
+            ctx.MoveTo(249, 463);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElements02"), 0.1);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(316, 404);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElements03"), 0.1);
+            ctx.ViewportController.MouseUp();
+            ctx.MoveTo(287, 216);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElements04"), 0.1);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(200, 209);
+            ctx.ViewportController.MouseUp();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElements05"), 0.1);
+
+            // Cleanup
+            tool.StopTool();
+            ctx.WorkspaceController.CancelTool(tool, true);
+            tool = new SketchEditorTool(sketch);
+            ctx.WorkspaceController.StartTool(tool);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElements99"), 0.1);
+        });
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void ScaleElementsCenter()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        body.Position = new(-10, 5, 0);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [1,2]);
+        tool.StartTool(new ScaleElementSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(249, 463);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(316, 404, ModifierKeys.Shift);
+            ctx.ViewportController.MouseUp(ModifierKeys.Shift);
+            ctx.MoveTo(287, 216);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElementsCenter01"), 0.1);
+
+            // Cleanup
+            tool.StopTool();
+            ctx.WorkspaceController.CancelTool(tool, true);
+        });
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+        
+    [Test]
+    public void ScaleElementsRound()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        body.Position = new(-10, 5, 0);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [1,2]);
+        tool.StartTool(new ScaleElementSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(249, 463);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(316, 404, ModifierKeys.Control);
+            ctx.ViewportController.MouseUp(ModifierKeys.Control);
+            ctx.MoveTo(287, 216);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElementsRound01"), 0.1);
+
+            // Cleanup
+            tool.StopTool();
+            ctx.WorkspaceController.CancelTool(tool, true);
+        });
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ScaleElementsUndo()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        body.Position = new(-10, 5, 0);
+        ctx.ViewportController.ZoomFitAll();
+
+        ctx.UndoHandler.Commit();
+        Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
+        Dictionary<int, Pnt2d> savedPoints = new(sketch.Points);
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [1,2]);
+        tool.StartTool(new ScaleElementSketchTool());
+
+        ctx.MoveTo(249, 463);
+        ctx.ViewportController.MouseDown();
+        ctx.MoveTo(316, 404);
+        ctx.ViewportController.MouseUp();
+        CollectionAssert.AreNotEqual(savedPoints, sketch.Points);
+        Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);
+        ctx.UndoHandler.DoUndo(1);
+        Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
+        CollectionAssert.AreEqual(savedPoints, sketch.Points);
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElementsUndo01"), 0.1);
+        tool.StopTool();
     }
 }

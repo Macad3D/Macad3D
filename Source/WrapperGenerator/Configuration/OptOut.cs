@@ -65,6 +65,13 @@ public static partial class Configuration
          */
         "gp", 
         "V3d_View::ChangeRenderingParams",
+
+        /*
+         * Returns const references
+         */
+        "GeomAPI_ExtremaCurveCurve::Extrema",
+        "GeomAPI_ExtremaCurveSurface::Extrema",
+        "GeomAPI_ProjectPointOnSurf::Extrema",
     };
 
     //--------------------------------------------------------------------------------------------------

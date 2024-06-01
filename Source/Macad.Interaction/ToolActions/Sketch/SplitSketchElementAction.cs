@@ -69,7 +69,7 @@ public class SplitSketchElementAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    void ProcessMouseInput(MouseEventData data)
+    void _ProcessMouseInput(MouseEventData data)
     {
         _SelectedSegment = null;
         _SelectedPointIndex = -1;
@@ -127,7 +127,7 @@ public class SplitSketchElementAction : ToolAction
     {
         if (!IsFinished)
         {
-            ProcessMouseInput(data);
+            _ProcessMouseInput(data);
 
             if (_MarkerType != _SelectedElementType)
             {
@@ -172,7 +172,7 @@ public class SplitSketchElementAction : ToolAction
     {
         if (!IsFinished)
         {
-            ProcessMouseInput(data);
+            _ProcessMouseInput(data);
             IsFinished = true;
             EventArgs args = new()
             {

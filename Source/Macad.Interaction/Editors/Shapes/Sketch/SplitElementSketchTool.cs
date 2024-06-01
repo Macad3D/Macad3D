@@ -5,7 +5,7 @@ namespace Macad.Interaction.Editors.Shapes;
 public class SplitElementSketchTool : SketchTool
 {
     SplitSketchElementAction _ToolAction;
-    const string _Message = "Select a shared point or a position on a segment to split.";
+    const string _Message = "__Select__ a shared point or a position on a segment to split.";
 
     //--------------------------------------------------------------------------------------------------
 

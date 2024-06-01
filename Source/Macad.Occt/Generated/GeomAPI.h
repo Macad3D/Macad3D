@@ -248,7 +248,6 @@ public:
     /// Exceptions StdFail_NotDone if this algorithm fails.
     /// </summary>
     double LowerDistance();
-    /* Method skipped due to unknown mapping: Extrema_ExtCC Extrema() */
     /// <summary>
     /// set  in  <P1>  and <P2> the couple solution points
     /// such a the distance [P1,P2] is the minimum. taking  in  account
@@ -421,7 +420,6 @@ public:
     /// Exceptions - StdFail_NotDone if this algorithm fails.
     /// </summary>
     double LowerDistance();
-    /* Method skipped due to unknown mapping: Extrema_ExtCS Extrema() */
 }; // class GeomAPI_ExtremaCurveSurface
 
 //---------------------------------------------------------------------
@@ -580,7 +578,10 @@ public:
     /// Exceptions StdFail_NotDone if this algorithm fails.
     /// </summary>
     double LowerDistance();
-    /* Method skipped due to unknown mapping: Extrema_ExtSS Extrema() */
+    /// <summary>
+    /// return the algorithmic object from Extrema
+    /// </summary>
+    Macad::Occt::Extrema_ExtSS^ Extrema();
 }; // class GeomAPI_ExtremaSurfaceSurface
 
 //---------------------------------------------------------------------
@@ -2088,7 +2089,6 @@ public:
     /// StdFail_NotDone if projection fails.
     /// </summary>
     double LowerDistance();
-    /* Method skipped due to unknown mapping: Extrema_ExtPS Extrema() */
 }; // class GeomAPI_ProjectPointOnSurf
 
 }; // namespace Occt
