@@ -77,6 +77,7 @@
     <Style TargetType="{x:Type Button}" BasedOn="{x:Null}">
         <Setter Property="Background" Value="{StaticResource Macad.Brushes.Button.Background}" />
         <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Button.Text}" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.Button.Border}" />
         <Setter Property="Template" Value="{StaticResource Macad.Templates.Button}" />
         <Setter Property="Padding" Value="7,2" />

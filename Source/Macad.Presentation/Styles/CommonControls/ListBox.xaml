@@ -11,6 +11,7 @@
     <Style TargetType="{x:Type ListBox}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Background" Value="{StaticResource Macad.Brushes.ListView.Background}" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{StaticResource Macad.Brushes.ListView.Border}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
