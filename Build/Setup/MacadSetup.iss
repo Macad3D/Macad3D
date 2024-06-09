@@ -44,8 +44,6 @@ VersionInfoProductVersion={#MyAppRevision}
 UninstallDisplayName={#MyAppTitle}
 UninstallDisplayIcon={app}\Macad.exe
 
-ArchitecturesInstallIn64BitMode=x64
-ArchitecturesAllowed=x64
 MinVersion=0,6.3
 WizardSmallImageFile=WizModernSmallImage.bmp
 WizardImageFile=WizModernImage.bmp
@@ -153,8 +151,21 @@ UseRelativePaths=True
 var
   dependenciesNeedRestart: Boolean;
 
+///////////////////////////////////////////////////////////////////////////////
+
 procedure InitializeWizard(); 
 begin 
+  if ProcessorArchitecture <> pax64 then begin
+    if TaskDialogMsgBox('Incompatible Architecture Detected',
+                     'The application you are attempting to install is designed for the x64 architecture.'#13#10'However, it appears that you are running this installer on a system based on a different architecture.'#13#10#13#10'The application may not function correctly or at all on this system. Even if the system is capable of emulating x64 architecture, performance may be significantly impacted.',
+                     mbConfirmation,
+                     MB_YESNO, ['Continue Installation'#13#10'Ensure that your system is capable of emulating x64 applications.', 
+                                'Cancel Installation'#13#10'Stop the installation process.'],
+                     0) = IDNO then begin
+      Abort();
+    end;
+  end;
+  
   CheckDependencies();
 end;
 
