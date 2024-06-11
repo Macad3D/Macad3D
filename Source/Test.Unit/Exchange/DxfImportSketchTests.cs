@@ -130,7 +130,20 @@ public class DxfImportSketchTests
 
         AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "LwPolyline"));
     }
-                        
+              
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LwPolylineClosed()
+    {
+        var svg = TestData.GetTestData(Path.Combine(_BasePath, "LwPolylineClosed_Source.dxf"));
+
+        var sketch = Sketch.Create();
+        _ReadFromBytes(svg, sketch, true);
+
+        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "LwPolylineClosed"));
+    }
+    
     //--------------------------------------------------------------------------------------------------
 
     [Test]

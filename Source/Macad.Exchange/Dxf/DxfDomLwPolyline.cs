@@ -95,7 +95,7 @@ public class DxfDomLwPolyline : DxfDomEntity
                     pointCount = reader.ReadInteger();
                     break;
                 case 70:
-                    typeFlag= reader.ReadInteger();
+                    typeFlag = reader.ReadInteger();
                     break;
                 case 10:
                     point.X = reader.ReadCoord();
@@ -124,10 +124,9 @@ public class DxfDomLwPolyline : DxfDomEntity
         }
 
         //A closed polyline
-        if (typeFlag==1&&pointList.Count>0)
+        if (typeFlag == 1 && pointList.Count > 0)
         {
-            var p0=pointList[0];
-            pointList.Add(new Pnt2d(p0.X, p0.Y));
+            pointList.Add(pointList[0]);
         }
 
         Points = pointList.ToArray();
