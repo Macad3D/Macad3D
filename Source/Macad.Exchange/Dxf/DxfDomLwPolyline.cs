@@ -85,6 +85,7 @@ public class DxfDomLwPolyline : DxfDomEntity
         Pnt2d point = default;
         var pointCount = 0;
         var readBits = new BitVector32(0);
+        var typeFlag = 0;
 
         while (reader.GroupCode > 0)
         {
@@ -92,6 +93,9 @@ public class DxfDomLwPolyline : DxfDomEntity
             {
                 case 90:
                     pointCount = reader.ReadInteger();
+                    break;
+                case 70:
+                    typeFlag= reader.ReadInteger();
                     break;
                 case 10:
                     point.X = reader.ReadCoord();
@@ -117,6 +121,13 @@ public class DxfDomLwPolyline : DxfDomEntity
         {
             Messages.Error($"DxfReader: Entity LWPOLYLINE count of point data does not match point list length in groupcode 90 in line {reader.Line}.");
             return false;
+        }
+
+        //A closed polyline
+        if (typeFlag==1&&pointList.Count>0)
+        {
+            var p0=pointList[0];
+            pointList.Add(new Pnt2d(p0.X, p0.Y));
         }
 
         Points = pointList.ToArray();
