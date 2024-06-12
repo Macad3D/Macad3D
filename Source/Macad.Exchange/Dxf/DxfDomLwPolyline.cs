@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using Macad.Core;
 using Macad.Occt;
 
@@ -9,11 +10,13 @@ public class DxfDomLwPolyline : DxfDomEntity
 {
     public Pnt2d[] Points;
 
+    //--------------------------------------------------------------------------------------------------
+
     public bool IsClosed
     {
         get
         {
-            return Points.Length > 2 && Points[0].IsEqual(Points[Points.Length - 1], 0.000001);
+            return Points.Length > 2 && Points[0].IsEqual(Points[^1], 0.000001);
         }
     }
 
@@ -46,7 +49,7 @@ public class DxfDomLwPolyline : DxfDomEntity
             writer.Write(90, Points.Length);
             writer.Write(70, IsClosed ? 1 : 0);
 
-            foreach (var point in Points)
+            foreach (var point in IsClosed ? Points.SkipLast(1) : Points)
             {
                 writer.Write(10, point.X);
                 writer.Write(20, point.Y);
@@ -64,7 +67,7 @@ public class DxfDomLwPolyline : DxfDomEntity
             writer.Write(20, 0.0);
             writer.Write(30, 0.0);
             writer.Write(70, IsClosed ? 1 : 0);
-            foreach (var point in Points)
+            foreach (var point in IsClosed ? Points.SkipLast(1) : Points)
             {
                 writer.Write(0, "VERTEX");
                 writer.WriteHandle();
