@@ -56,10 +56,9 @@ public class ToolbarContextMenu : ContextMenu
         var dpiScale = VisualTreeHelper.GetDpi(this);
         targetPos.X *= dpiScale.DpiScaleX;
         targetPos.Y *= dpiScale.DpiScaleY;
-        Point screenExt = targetElement.PointFromScreen(SystemParameters.WorkArea.BottomRight);
 
         // Check if there is enough space below the mouse, else place it above
-        if (targetPos.Y + popupSize.Height > Math.Min(screenExt.Y, targetSize.Height ))
+        if (targetPos.Y + popupSize.Height > targetSize.Height )
         {
             VerticalAlignment = VerticalAlignment.Top;
             targetPos.Y += -popupSize.Height + _ToolbarBorder.ActualHeight * dpiScale.DpiScaleY;
@@ -71,7 +70,7 @@ public class ToolbarContextMenu : ContextMenu
         }
 
         // Check if there is enough space right of the mouse, else place it left
-        if (targetPos.X + popupSize.Width > Math.Min(screenExt.X, targetSize.Width ))
+        if (targetPos.X + popupSize.Width > targetSize.Width )
         {
             HorizontalAlignment = HorizontalAlignment.Left;
             targetPos.X += - popupSize.Width;
