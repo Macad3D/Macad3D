@@ -67,7 +67,7 @@ public sealed class FlangeSheet : ModifierBase
         get { return _Length; }
         set
         {
-            if ((value >= 0) && (_Length != value))
+            if (value >= 0 && _Length != value)
             {
                 SaveUndo();
                 _Length = value;
@@ -204,10 +204,10 @@ public sealed class FlangeSheet : ModifierBase
     public class ToolSupportData
     {
         [SerializeMember]
-        public Ax2 BendCenterAxis { get; internal set; }
+        public Ax2 BendCenterAxis { get; internal set; } = Ax2.XOY;
 
         [SerializeMember]
-        public Ax1 FlangeExtrudeAxis { get; internal set; }
+        public Ax1 FlangeExtrudeAxis { get; internal set; } = Ax1.OZ;
 
         [SerializeMember]
         public double Thickness { get; internal set; }
@@ -592,9 +592,6 @@ public sealed class FlangeSheet : ModifierBase
 
     bool _MakeFlangeSection(MakeContext context)
     {
-        if (_Length <= 0)
-            return true;
-
         var brepAdaptor = new BRepAdaptor_Surface(context.FlangeFace);
         if (brepAdaptor.GetSurfaceType() != GeomAbs_SurfaceType.Plane)
         {
@@ -604,6 +601,13 @@ public sealed class FlangeSheet : ModifierBase
         var direction = brepAdaptor.Plane().Position.Direction;
         if (context.FlangeFace.Orientation() == TopAbs_Orientation.REVERSED)
             direction.Reverse();
+
+        context.ToolSupport.FlangeExtrudeAxis = FaceAlgo.GetFaceCenterNormal(context.FlangeFace)
+                                                        .Rotated(context.BendAxis, _Angle.Clamp(0.0, 180.0).ToRad());
+
+        // Early out: No material to be added
+        if (_Length <= 0)
+            return true;
 
         // Extrude
         var makePrism = new BRepPrimAPI_MakePrism(context.FlangeFace, direction.ToVec().Multiplied(_Length));
@@ -622,9 +626,6 @@ public sealed class FlangeSheet : ModifierBase
         }
 
         context.FlangeShape = flangeShape;
-
-        context.ToolSupport.FlangeExtrudeAxis = FaceAlgo.GetFaceCenterNormal(context.FlangeFace)
-                                                        .Rotated(context.BendAxis, _Angle.Clamp(0.0, 180.0).ToRad());
 
         return true;
     }

@@ -482,7 +482,7 @@ public class FlangeSheetToolTests
             ctx.MoveTo(240, 336);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveLengthMinimum01"));
             ctx.ViewportController.MouseUp();
-            Assert.AreEqual(0.001, flange.Length);
+            Assert.AreEqual(0.0, flange.Length);
 
             // Cleanup
             ctx.WorkspaceController.StopEditor();
@@ -1053,7 +1053,27 @@ public class FlangeSheetToolTests
         Assert.AreEqual(oldGap, flange.EndGap);
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
     }
-        
+       
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("This bug occured when the length was set to 0 in the prop panel.")]
+    public void LiveGapOnZeroLength()
+    {
+        var ctx = Context.Current;
+
+        var flange = _CreateFlange();
+        flange.Length = 0;
+        ctx.WorkspaceController.StartEditor(flange);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            Assert.DoesNotThrow(() => ctx.MoveTo(268, 343));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveGapOnZeroLength01"));
+        });
+    }
+    
     //--------------------------------------------------------------------------------------------------
                 
     [Test]
