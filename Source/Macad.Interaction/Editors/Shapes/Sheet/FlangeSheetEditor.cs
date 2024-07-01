@@ -145,7 +145,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             _RadiusAction.Finished += _TranslateAxisActions_Finished;
             StartAction(_RadiusAction);
         }
-
+        
         // Start Gap
         if (_StartGapAction == null)
         {
@@ -321,9 +321,9 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         {
             newLength = Maths.RoundToNearest(newLength, WorkspaceController.Workspace.GridStep);
         }
-        if (newLength < 0.001)
+        if (newLength < 0.0)
         {
-            newLength = 0.001;
+            newLength = 0.0;
         }
 
         if (Entity.Length != newLength)

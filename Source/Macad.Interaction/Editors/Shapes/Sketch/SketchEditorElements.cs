@@ -99,7 +99,7 @@ public sealed class SketchEditorElements
 
             _ConstraintsVisible = value;
             _MarkerCounts.Clear();
-            ConstraintElements.ForEach(element =>
+            _ConstraintElements.ForEach(element =>
             {
                 element.IsVisible = value;
                 element.OnPointsChanged(_SketchEditorTool.Sketch.Points, _SketchEditorTool.Sketch.Segments, _MarkerCounts);
@@ -107,14 +107,17 @@ public sealed class SketchEditorElements
         }
     }
 
-    //--------------------------------------------------------------------------------------------------
-
-    List<SketchEditorSegmentElement> SegmentElements { get; } = new();
-    List<SketchEditorConstraintElement> ConstraintElements { get; } = new();
-    List<SketchEditorPointElement> PointElements { get; } = new();
-    List<SketchEditorElement> Elements { get; } = new();
+    public IEnumerable<SketchEditorSegmentElement> SegmentElements => _SegmentElements;
+    public IEnumerable<SketchEditorConstraintElement> ConstraintElements => _ConstraintElements;
+    public IEnumerable<SketchEditorPointElement> PointElements => _PointElements;
+    public IEnumerable<SketchEditorElement> Elements => _Elements;
 
     //--------------------------------------------------------------------------------------------------
+    
+    readonly List<SketchEditorSegmentElement> _SegmentElements = new();
+    readonly List<SketchEditorConstraintElement> _ConstraintElements = new();
+    readonly List<SketchEditorPointElement> _PointElements = new();
+    readonly List<SketchEditorElement> _Elements = new();
 
     readonly SketchEditorTool _SketchEditorTool;
     readonly Dictionary<int, int> _MarkerCounts = new();
@@ -131,42 +134,42 @@ public sealed class SketchEditorElements
         
     public IEnumerable<int> GetSelectedPointIndices()
     {
-        return PointElements.Where(c => c.IsSelected).Select(c => c.PointIndex);
+        return _PointElements.Where(c => c.IsSelected).Select(c => c.PointIndex);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public IEnumerable<SketchSegment> GetSelectedSegments()
     {
-        return SegmentElements.Where(c => c.IsSelected).Select(c => c.Segment);
+        return _SegmentElements.Where(c => c.IsSelected).Select(c => c.Segment);
     }
 
     //--------------------------------------------------------------------------------------------------
         
     public IEnumerable<int> GetSelectedSegmentIndices()
     {
-        return SegmentElements.Where(c => c.IsSelected).Select(c => c.SegmentIndex);
+        return _SegmentElements.Where(c => c.IsSelected).Select(c => c.SegmentIndex);
     }
 
     //--------------------------------------------------------------------------------------------------
         
     public IEnumerable<SketchConstraint> GetSelectedConstraints()
     {
-        return ConstraintElements.Where(c => c.IsSelected).Select(c => c.Constraint);
+        return _ConstraintElements.Where(c => c.IsSelected).Select(c => c.Constraint);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     internal void Select(IEnumerable<int> pointIndices, IEnumerable<int> segmentIndices)
     {
-        Elements.ForEach(c =>
+        _Elements.ForEach(c =>
         {
             c.IsSelected = false;
         });
 
         if (pointIndices != null)
         {
-            foreach (var element in pointIndices.Select(index => PointElements.First(element => element.PointIndex == index)))
+            foreach (var element in pointIndices.Select(index => _PointElements.First(element => element.PointIndex == index)))
             {
                 element.IsSelected = true;
             }
@@ -174,7 +177,7 @@ public sealed class SketchEditorElements
 
         if (segmentIndices != null)
         {
-            foreach (var element in segmentIndices.Select(index => SegmentElements.First(element => element.SegmentIndex == index)))
+            foreach (var element in segmentIndices.Select(index => _SegmentElements.First(element => element.SegmentIndex == index)))
             {
                 element.IsSelected = true;
             }
@@ -185,7 +188,7 @@ public sealed class SketchEditorElements
 
     public void Select(AIS_InteractiveObject detectedObject)
     {
-        foreach (var element in Elements)
+        foreach (var element in _Elements)
         {
             if (element.IsOwnerOf(detectedObject))
             {
@@ -199,7 +202,7 @@ public sealed class SketchEditorElements
 
     public void Select(List<SketchConstraint> constraints)
     {
-        foreach (var element in ConstraintElements.Where(ce => constraints.Contains(ce.Constraint)))
+        foreach (var element in _ConstraintElements.Where(ce => constraints.Contains(ce.Constraint)))
         {
             element.IsSelected = true;
         }
@@ -209,7 +212,7 @@ public sealed class SketchEditorElements
 
     public void DeselectAll()
     {
-        Elements.ForEach(c =>
+        _Elements.ForEach(c =>
         {
             c.IsSelected = false;
         });
@@ -222,7 +225,7 @@ public sealed class SketchEditorElements
         if (detectedObject == null)
             return null;
 
-        foreach (var element in Elements)
+        foreach (var element in _Elements)
         {
             if (element.IsOwnerOf(detectedObject))
             {
@@ -237,23 +240,23 @@ public sealed class SketchEditorElements
 
     public void Activate(bool points, bool segments, bool constraints)
     {
-        PointElements.ForEach(p => p.Activate(points));
-        SegmentElements.ForEach(s => s.Activate(segments));
-        ConstraintElements.ForEach(c => c.Activate(constraints));
+        _PointElements.ForEach(p => p.Activate(points));
+        _SegmentElements.ForEach(s => s.Activate(segments));
+        _ConstraintElements.ForEach(c => c.Activate(constraints));
     }
 
     //--------------------------------------------------------------------------------------------------
         
     internal void RemoveAll()
     {
-        Elements.ForEach(c =>
+        _Elements.ForEach(c =>
         {
             c.Remove();
         });
-        Elements.Clear();
-        SegmentElements.Clear();
-        ConstraintElements.Clear();
-        PointElements.Clear();
+        _Elements.Clear();
+        _SegmentElements.Clear();
+        _ConstraintElements.Clear();
+        _PointElements.Clear();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -267,25 +270,25 @@ public sealed class SketchEditorElements
         {
             var element = new SketchEditorSegmentElement(_SketchEditorTool, segmentKvp.Key, segmentKvp.Value, _SketchEditorTool.Transform, plane);
             element.OnPointsChanged(tempPoints, sketch.Segments, _MarkerCounts);
-            SegmentElements.Add(element);
+            _SegmentElements.Add(element);
         }
 
         foreach (var constraint in sketch.Constraints)
         {
             var element = new SketchEditorConstraintElement(_SketchEditorTool, constraint, _SketchEditorTool.Transform, plane);
             element.OnPointsChanged(tempPoints, sketch.Segments, _MarkerCounts);
-            ConstraintElements.Add(element);
+            _ConstraintElements.Add(element);
         }
 
         foreach (var pointKvp in sketch.Points)
         {
             var element = new SketchEditorPointElement(_SketchEditorTool, pointKvp.Key, pointKvp.Value, _SketchEditorTool.Transform, plane);
-            PointElements.Add(element);
+            _PointElements.Add(element);
         }
 
         _UpdateElementList();
 
-        Elements.ForEach(c =>
+        _Elements.ForEach(c =>
         {
             c.Activate(true);
             c.UpdateVisual();
@@ -303,31 +306,31 @@ public sealed class SketchEditorElements
             if (types.HasFlag(Sketch.ElementType.Point))
             {
                 // Check for lost points
-                var lostPoints = PointElements.Where(pc => !sketch.Points.ContainsKey(pc.PointIndex)).ToArray();
+                var lostPoints = _PointElements.Where(pc => !sketch.Points.ContainsKey(pc.PointIndex)).ToArray();
                 foreach (var lostPoint in lostPoints)
                 {
                     lostPoint.Remove();
-                    PointElements.Remove(lostPoint);
+                    _PointElements.Remove(lostPoint);
                 }
             }
             if (types.HasFlag(Sketch.ElementType.Segment))
             {
                 // Check for lost segments
-                var lostSegs = SegmentElements.Where(sc => !sketch.Segments.ContainsValue(sc.Segment)).ToArray();
+                var lostSegs = _SegmentElements.Where(sc => !sketch.Segments.ContainsValue(sc.Segment)).ToArray();
                 foreach (var lostSeg in lostSegs)
                 {
                     lostSeg.Remove();
-                    SegmentElements.Remove(lostSeg);
+                    _SegmentElements.Remove(lostSeg);
                 }
             }
             if (types.HasFlag(Sketch.ElementType.Constraint))
             {
                 // Check for lost constraints
-                var lostCons = ConstraintElements.Where(cc => !sketch.Constraints.Contains(cc.Constraint)).ToArray();
+                var lostCons = _ConstraintElements.Where(cc => !sketch.Constraints.Contains(cc.Constraint)).ToArray();
                 foreach (var lostCon in lostCons)
                 {
                     lostCon.Remove();
-                    ConstraintElements.Remove(lostCon);
+                    _ConstraintElements.Remove(lostCon);
                 }
             }
 
@@ -335,39 +338,39 @@ public sealed class SketchEditorElements
             if (types.HasFlag(Sketch.ElementType.Point))
             {
                 // Check for new points
-                var newPoints = sketch.Points.Where(kvp => !PointElements.Exists(pc => pc.PointIndex == kvp.Key));
+                var newPoints = sketch.Points.Where(kvp => !_PointElements.Exists(pc => pc.PointIndex == kvp.Key));
                 foreach (var pointKvp in newPoints)
                 {
                     var element = new SketchEditorPointElement(_SketchEditorTool, pointKvp.Key, pointKvp.Value, _SketchEditorTool.Transform, sketch.Plane);
                     element.UpdateVisual();
                     element.Activate(true);
-                    PointElements.Add(element);
+                    _PointElements.Add(element);
                 }
             }
             if (types.HasFlag(Sketch.ElementType.Segment))
             {
                 // Check for new segments
-                var newSegs = sketch.Segments.Where(seg => !SegmentElements.Exists(sc => sc.Segment == seg.Value));
+                var newSegs = sketch.Segments.Where(seg => !_SegmentElements.Exists(sc => sc.Segment == seg.Value));
                 foreach (var segmentKvp in newSegs)
                 {
                     var element = new SketchEditorSegmentElement(_SketchEditorTool, segmentKvp.Key, segmentKvp.Value, _SketchEditorTool.Transform, sketch.Plane);
                     element.OnPointsChanged(sketch.Points, sketch.Segments, _MarkerCounts);
                     element.UpdateVisual();
                     element.Activate(true);
-                    SegmentElements.Add(element);
+                    _SegmentElements.Add(element);
                 }
             }
             if (types.HasFlag(Sketch.ElementType.Constraint))
             {
                 // Check for new constraints
-                var newCons = sketch.Constraints.Where(con => !ConstraintElements.Exists(cc => cc.Constraint == con));
+                var newCons = sketch.Constraints.Where(con => !_ConstraintElements.Exists(cc => cc.Constraint == con));
                 foreach (var sketchConstraint in newCons)
                 {
                     var element = new SketchEditorConstraintElement(_SketchEditorTool, sketchConstraint, _SketchEditorTool.Transform, sketch.Plane);
                     element.OnPointsChanged(sketch.Points, sketch.Segments, _MarkerCounts);
                     element.UpdateVisual();
                     element.Activate(true);
-                    ConstraintElements.Add(element);
+                    _ConstraintElements.Add(element);
                 }
             }
 
@@ -388,17 +391,17 @@ public sealed class SketchEditorElements
     public void OnPointsChanged(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments)
     {
         _MarkerCounts.Clear();
-        Elements.ForEach(c => c.OnPointsChanged(points, segments, _MarkerCounts));
+        _Elements.ForEach(c => c.OnPointsChanged(points, segments, _MarkerCounts));
     }
 
     //--------------------------------------------------------------------------------------------------
 
     void _UpdateElementList()
     {
-        Elements.Clear();
-        Elements.AddRange(PointElements);
-        Elements.AddRange(ConstraintElements);
-        Elements.AddRange(SegmentElements);
+        _Elements.Clear();
+        _Elements.AddRange(_PointElements);
+        _Elements.AddRange(_ConstraintElements);
+        _Elements.AddRange(_SegmentElements);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -406,7 +409,7 @@ public sealed class SketchEditorElements
     internal void OnGizmoScaleChanged(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments)
     {
         _MarkerCounts.Clear();
-        ConstraintElements.ForEach(cc => cc.OnGizmoScaleChanged(points, segments, _MarkerCounts));
+        _ConstraintElements.ForEach(cc => cc.OnGizmoScaleChanged(points, segments, _MarkerCounts));
         _SketchEditorTool.WorkspaceController.Invalidate();
     }
 
@@ -415,7 +418,7 @@ public sealed class SketchEditorElements
     internal void OnViewRotated(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments)
     {
         _MarkerCounts.Clear();
-        ConstraintElements.ForEach(cc => cc.OnViewRotated(points, segments, _MarkerCounts));
+        _ConstraintElements.ForEach(cc => cc.OnViewRotated(points, segments, _MarkerCounts));
         _SketchEditorTool.WorkspaceController.Invalidate();
     }
 

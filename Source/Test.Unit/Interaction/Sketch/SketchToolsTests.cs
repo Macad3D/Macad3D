@@ -541,4 +541,230 @@ public class SketchToolsTests
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElementsUndo01"), 0.1);
         tool.StopTool();
     }
+    
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void OffsetSegmentsClosed()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [0,1,2]);
+        tool.StartTool(new OffsetSegmentSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            // Select reference point
+            ctx.MoveTo(332, 70);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsClosed01"), 0.1);
+            ctx.ClickAt(332, 70);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsClosed02"), 0.1);
+            // Move to distance
+            ctx.MoveTo(319, 95);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsClosed03"), 0.1);
+            // Set
+            ctx.ClickAt(319, 95);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsClosed04"), 0.1);
+
+            Assert.IsNull(tool.CurrentTool);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void OffsetSegmentsOpen()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        body.Position = new(-10, 5, 0);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [1,2]);
+        tool.StartTool(new OffsetSegmentSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            // Select reference point
+            ctx.ClickAt(332, 70);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsOpen01"), 0.1);
+            // Move to distance
+            ctx.MoveTo(319, 95);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsOpen02"), 0.1);
+            // Set
+            ctx.ClickAt(319, 95);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsOpen03"), 0.1);
+
+            Assert.IsNull(tool.CurrentTool);
+        });
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    [Test] public void OffsetSegmentsMultiple()
+    {
+        var ctx = Context.Current;
+
+        Core.Shapes.Sketch sketch = new();
+        SketchBuilder sb = new(sketch);
+        sb.PolyLine((-5, -5), (-1, 0), (-5, 5), (-5, -5));
+        sb.PolyLine((5, -5), (1, 0), (5, 5), (5, -5));
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [0,1,2,3,4,5]);
+        tool.StartTool(new OffsetSegmentSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            ctx.ClickAt(144, 157);
+            ctx.MoveTo(216, 121);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsMultiple01"), 0.1);
+            ctx.MoveTo(130, 180);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsMultiple02"), 0.1);
+            ctx.ClickAt(130, 180);
+
+            Assert.IsNull(tool.CurrentTool);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void OffsetSegmentsCancel()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [0,1,2]);
+
+        Assert.Multiple(() =>
+        {
+            tool.StartTool(new OffsetSegmentSketchTool());
+            tool.Cancel(false);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsCancel01"), 0.1);
+
+            tool.StartTool(new OffsetSegmentSketchTool());
+            // Select reference point
+            ctx.ClickAt(332, 70);
+            tool.Cancel(false);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsCancel01"), 0.1);
+
+            tool.StartTool(new OffsetSegmentSketchTool());
+            ctx.ClickAt(332, 70);
+            ctx.MoveTo(319, 95);
+            tool.Cancel(false);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsCancel01"), 0.1);
+
+            Assert.IsNull(tool.CurrentTool);
+        });
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void OffsetSegmentsUndo()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+        ctx.UndoHandler.Commit();
+        Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [0,1,2]);
+
+        Assert.Multiple(() =>
+        {
+            tool.StartTool(new OffsetSegmentSketchTool());
+            ctx.ClickAt(332, 70);
+            ctx.ClickAt(359, 30);
+            Assert.IsNull(tool.CurrentTool);
+            Assert.AreEqual(6, sketch.Segments.Count);
+            Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);
+
+            ctx.UndoHandler.DoUndo(1);
+            Assert.AreEqual(3, sketch.Segments.Count);
+            Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+        
+    [Test]
+    public void OffsetSegmentsRound()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+        ctx.Workspace.GridStep = 2.0;
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [0,1,2]);
+        tool.StartTool(new OffsetSegmentSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            ctx.ClickAt(332, 70);
+            ctx.ClickAt(319, 95, ModifierKeys.Control);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsRound01"), 0.1);
+
+            Assert.IsNull(tool.CurrentTool);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+      
+    [Test]
+    public void OffsetSegmentsJoinType()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [0,1,2]);
+        tool.StartTool(new OffsetSegmentSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            // Select reference point
+            ctx.ClickAt(332, 70);
+            ctx.MoveTo(340, 50);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsJoinType01"), 0.1);
+            tool.OnKeyPressed(Key.Space, ModifierKeys.None);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsJoinType02"), 0.1);
+            tool.OnKeyPressed(Key.Space, ModifierKeys.None);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsJoinType01"), 0.1);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

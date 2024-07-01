@@ -465,7 +465,7 @@ public class SliceContourEditTool : Tool
         _SliceMovingStartValue = layer.Interval;
         if (index < Component.Layers.Length - 1)
             _SliceMovingNextValue = Component.Layers[index + 1].Interval;
-        _MoveSliceAction = new AxisValueAction(this, axis);
+        _MoveSliceAction = new AxisValueAction(axis);
         _MoveSliceAction.Preview += _MoveSliceAction_Preview;
         _MoveSliceAction.Finished += _MoveSliceAction_Finished;
         StartAction(_MoveSliceAction, false);

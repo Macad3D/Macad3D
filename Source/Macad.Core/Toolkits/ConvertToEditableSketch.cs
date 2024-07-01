@@ -12,12 +12,11 @@ public class ConvertToEditableSketch : IDrawingRenderer, IRendererCapabilities
 {
     public static Sketch Convert(TopoDS_Shape brepShape, Entity context = null)
     {
-        Sketch sketch = null;
+        Sketch sketch = Sketch.Create();
         ProcessingScope.ExecuteWithGuards(context, "Converting Sketch", () =>
         {
-            var converter = new ConvertToEditableSketch();
+            var converter = new ConvertToEditableSketch(sketch);
             converter.Add(brepShape);
-            sketch = converter._Sketch;
             return true;
         });
 
@@ -87,17 +86,17 @@ public class ConvertToEditableSketch : IDrawingRenderer, IRendererCapabilities
 
     //--------------------------------------------------------------------------------------------------
 
-    ConvertToEditableSketch()
+    public ConvertToEditableSketch(Sketch sketch)
     {
-        _Sketch = new Sketch();
+        _Sketch = sketch;
         _Builder = new SketchBuilder(_Sketch);
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void Add(TopoDS_Shape brepShape)
+    public bool Add(TopoDS_Shape brepShape)
     {
-        BrepRenderHelper.RenderShape(this, brepShape);
+        return BrepRenderHelper.RenderShape(this, brepShape);
     }
 
     //--------------------------------------------------------------------------------------------------

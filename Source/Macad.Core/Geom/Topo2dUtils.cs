@@ -76,19 +76,19 @@ public static class Topo2dUtils
 
         return BuildWiresFromEdges(newShape);
     }
-
+        
     //--------------------------------------------------------------------------------------------------
 
-    public static TopoDS_Shape BuildWiresFromEdges(TopoDS_Shape shape)
+    public static TopoDS_Shape BuildWiresFromEdges(IEnumerable<TopoDS_Edge> edges)
     {
-        var edges = new TopTools_HSequenceOfShape();
-        foreach (var edge in shape.Edges())
+        var sosEdges = new TopTools_HSequenceOfShape();
+        foreach (var edge in edges)
         {
-            edges.Append(edge);
+            sosEdges.Append(edge);
         }
 
         var wires = new TopTools_HSequenceOfShape();
-        ShapeAnalysis_FreeBounds.ConnectEdgesToWires(edges, 1e-8, false, wires);
+        ShapeAnalysis_FreeBounds.ConnectEdgesToWires(sosEdges, 1e-8, false, wires);
             
         var builder = new BRep_Builder();
         var newShape = new TopoDS_Compound();
@@ -99,6 +99,13 @@ public static class Topo2dUtils
         }
 
         return newShape;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static TopoDS_Shape BuildWiresFromEdges(TopoDS_Shape shape)
+    {
+        return BuildWiresFromEdges(shape.Edges());
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Interaction.Editors.Shapes;
@@ -8,24 +9,37 @@ using Macad.Occt;
 
 namespace Macad.Interaction;
 
-public class SplitSketchElementAction : ToolAction
+public class PointOnSketchElementAction : ToolAction
 {
     #region Events
 
     public class EventArgs
     {
-        public Sketch.ElementType SelectedElementType { get; init; }
-        public SketchSegment SelectedSegment { get; init; }
-        public double SelectedParameter { get; init; }
-        public int SelectedPointIndex { get; init; }
+        public Sketch.ElementType ElementType { get; init; }
+        public SketchSegment Segment { get; init; }
+        public double Parameter { get; init; }
+        public int PointIndex { get; init; }
         public MouseEventData MouseEventData { get; init; }
     }
 
-    public delegate void EventHandler(SplitSketchElementAction sender, EventArgs args);
-    public event EventHandler Preview;
+    public class PreviewEventArgs : EventArgs
+    {
+        public bool Cancel { get; set; }
+    }
+
+    public delegate void PreviewEventHandler(PointOnSketchElementAction sender, PreviewEventArgs args);
+    public event PreviewEventHandler Preview;
+    public delegate void EventHandler(PointOnSketchElementAction sender, EventArgs args);
     public event EventHandler Finished;
         
     //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Properties
+
+    public bool AllowPoints { get; init; } = true;
+    public bool SelectedElementsOnly { get; init; }
 
     #endregion
 
@@ -40,7 +54,7 @@ public class SplitSketchElementAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public SplitSketchElementAction(SketchEditorTool sketchEditorTool)
+    public PointOnSketchElementAction(SketchEditorTool sketchEditorTool)
         : base()
     {
         _SketchEditorTool = sketchEditorTool;
@@ -52,8 +66,21 @@ public class SplitSketchElementAction : ToolAction
     {
         Debug.Assert(_SketchEditorTool != null);
 
-        OpenSelectionContext();
-        _SketchEditorTool.Elements.Activate(true, true, false);
+        if (SelectedElementsOnly)
+        {
+            _SketchEditorTool.Elements.Activate(false, false, false);
+            _SketchEditorTool.Elements.SegmentElements.Where(element => element.IsSelected)
+                                                      .ForEach(element => element.Activate(true));
+            if (AllowPoints)
+            {
+                _SketchEditorTool.Elements.PointElements.Where(element => element.IsSelected)
+                                                        .ForEach(element => element.Activate(true));
+            }
+        }
+        else
+        {
+            _SketchEditorTool.Elements.Activate(AllowPoints, true, false);
+        }
 
         return true;
     }
@@ -85,9 +112,6 @@ public class SplitSketchElementAction : ToolAction
             // Segment
             //
             var segment = segmentElement.Segment;
-            if (!SketchUtils.CanSplitSegment(_SketchEditorTool.Sketch, segment))
-                return;
-
             var curve = segment.CachedCurve ?? segment.MakeCurve(_SketchEditorTool.Sketch.Points);
             if (curve == null)
                 return;
@@ -112,9 +136,6 @@ public class SplitSketchElementAction : ToolAction
             // Point
             //
             var pointIndex = pointElement.PointIndex;
-            if (!SketchUtils.CanSplitPoint(_SketchEditorTool.Sketch, pointIndex))
-                return;
-
             _SelectedPointIndex = pointIndex;
             _SelectedPoint = _SketchEditorTool.Sketch.Plane.Value(_SketchEditorTool.Sketch.Points[pointIndex]);
             _SelectedElementType = Sketch.ElementType.Point;
@@ -128,6 +149,24 @@ public class SplitSketchElementAction : ToolAction
         if (!IsFinished)
         {
             _ProcessMouseInput(data);
+
+            PreviewEventArgs args = new()
+            {
+                ElementType = _SelectedElementType,
+                Segment = _SelectedSegment,
+                Parameter = _SelectedParameter,
+                PointIndex = _SelectedPointIndex,
+                MouseEventData = data,
+                Cancel = false,
+            };
+            Preview?.Invoke(this, args);
+
+            if (args.Cancel)
+            {
+                _SelectedSegment = null;
+                _SelectedPointIndex = -1;
+                _SelectedElementType = Sketch.ElementType.None;
+            }
 
             if (_MarkerType != _SelectedElementType)
             {
@@ -152,16 +191,6 @@ public class SplitSketchElementAction : ToolAction
             }
 
             WorkspaceController.Invalidate();
-
-            EventArgs args = new()
-            {
-                SelectedElementType = _SelectedElementType,
-                SelectedSegment = _SelectedSegment,
-                SelectedParameter = _SelectedParameter,
-                SelectedPointIndex = _SelectedPointIndex,
-                MouseEventData = data
-            };
-            Preview?.Invoke(this, args);
         }
         return base.OnMouseMove(data);
     }
@@ -173,17 +202,20 @@ public class SplitSketchElementAction : ToolAction
         if (!IsFinished)
         {
             _ProcessMouseInput(data);
-            IsFinished = true;
-            EventArgs args = new()
+            if (_SelectedElementType != Sketch.ElementType.None)
             {
-                SelectedElementType = _SelectedElementType,
-                SelectedSegment = _SelectedSegment,
-                SelectedParameter = _SelectedParameter,
-                SelectedPointIndex = _SelectedPointIndex,
-                MouseEventData = data
-            };
-            Finished?.Invoke(this, args);
-            data.ForceReDetection = true;
+                IsFinished = true;
+                EventArgs args = new()
+                {
+                    ElementType = _SelectedElementType,
+                    Segment = _SelectedSegment,
+                    Parameter = _SelectedParameter,
+                    PointIndex = _SelectedPointIndex,
+                    MouseEventData = data
+                };
+                Finished?.Invoke(this, args);
+                data.ForceReDetection = true;
+            }
         }
         return true;
     }

@@ -82,7 +82,7 @@ public class SketchEditorSegmentElement : SketchEditorElement
             aisShape.SetColor(Colors.SketchEditorSegments.ToQuantityColor());
 
             ctx.Display(aisShape, false);
-            ctx.SetSelectionSensitivity(aisShape, 0, (int)(paramSet.SegmentSelectionSensitivity * 1.0));
+            ctx.SetSelectionSensitivity(aisShape, 0, (int)(paramSet.SegmentSelectionSensitivity * 10.0));
             if (_IsActive)
                 ctx.Activate(aisShape, 0, false);
             else

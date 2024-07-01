@@ -187,4 +187,26 @@ public static class EdgeAlgo
 
     //--------------------------------------------------------------------------------------------------
 
+    public static double FindEdgeParameter(TopoDS_Edge edge, Ax1 axis)
+    {
+        // Calculate parameter on the edge
+        double umin = 0, umax = 0;
+        var curve = BRep_Tool.Curve(edge, ref umin, ref umax);
+        if (curve != null)
+        {
+            var extrema = new GeomAPI_ExtremaCurveCurve(curve, new Geom_Line(axis));
+            if (extrema.NbExtrema() > 0)
+            {
+                double param1 = 0, param2 = 0;
+                extrema.LowerDistanceParameters(ref param1, ref param2);
+                return param1;
+            }
+        }
+
+        var adaptorEdge = edge.Adaptor();
+        return (adaptorEdge.FirstParameter() + adaptorEdge.LastParameter()) * 0.5;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

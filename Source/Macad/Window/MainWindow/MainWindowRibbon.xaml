@@ -804,6 +804,9 @@
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.ScaleElement}"
                                      AutomationProperties.AutomationId="ScaleElement"/>
 
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.OffsetSegment}"
+                                     AutomationProperties.AutomationId="OffsetSegment"/>
+
                 <Fluent:DropDownButton Header="Exchange"
                                        Icon="{mmp:IconResource Sketch-Exchange}"
                                        LargeIcon="{mmp:IconResource Sketch-Exchange}"

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Input;
 using Macad.Interaction.Visual;
 using Macad.Common;
 using Macad.Common.Serialization;
@@ -898,6 +899,14 @@ public sealed class SketchEditorTool : Tool
     {
         // Forward for sketch tool
         StopAction(toolAction);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override bool OnKeyPressed(Key key, ModifierKeys modifierKeys)
+    {
+        return _CurrentTool?.OnKeyPressed(key, modifierKeys) 
+               ?? base.OnKeyPressed(key, modifierKeys);
     }
 
     //--------------------------------------------------------------------------------------------------

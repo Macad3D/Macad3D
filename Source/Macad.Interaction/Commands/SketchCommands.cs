@@ -566,6 +566,34 @@ public static class SketchCommands
     };
         
     //--------------------------------------------------------------------------------------------------
+    
+    public static ActionCommand OffsetSegment { get; } = new(
+        () =>
+        {
+            var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
+            if (sketchEditTool == null)
+                return;
+
+            if (sketchEditTool.CurrentTool is OffsetSegmentSketchTool)
+            {
+                sketchEditTool.StopTool();
+                return;
+            }
+
+            var tool = new OffsetSegmentSketchTool();
+            sketchEditTool.StartTool(tool);
+        },
+        () => InteractiveContext.Current?.WorkspaceController?.CurrentTool is SketchEditorTool sketchTool
+              && sketchTool.SelectedSegments.Count > 0)
+    {
+        Header = () => "Offset",
+        Icon = () => "Sketch-OffsetTool",
+        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveSketchTool)}", BindingMode.OneWay,
+                                                EqualityToBoolConverter.Instance, nameof(OffsetSegmentSketchTool)),
+        Description = () => "Offsets selected segments."
+    };
+        
+    //--------------------------------------------------------------------------------------------------
 
     public static ActionCommand SplitElement { get; } = new(
         () =>

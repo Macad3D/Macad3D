@@ -179,7 +179,7 @@ public class CreateBoxTool : Tool
     void _BaseRectAction_Finished(PointAction action, PointAction.EventArgs args)
     {
         var axisPosition = ElSLib.Value(_PointPlane2.X, _PointPlane2.Y, _Plane);
-        var axisValueAction = new AxisValueAction(this, new Ax1(axisPosition, _Plane.Axis.Direction));
+        var axisValueAction = new AxisValueAction(new Ax1(axisPosition, _Plane.Axis.Direction));
         axisValueAction.Preview += _HeightAction_Preview;
         axisValueAction.Finished += _HeightAction_Finished;
 

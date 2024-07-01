@@ -33,7 +33,7 @@ public class AxisValueAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public AxisValueAction(object owner, Ax1 axis) 
+    public AxisValueAction(Ax1 axis) 
         : base()
     {
         _Axis = axis;

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using Macad.Interaction.Visual;
 using Macad.Core;
+using Macad.Core.Geom;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
@@ -11,14 +12,6 @@ namespace Macad.Interaction.Editors.Shapes;
 
 public class CreateTaperTool : Tool
 {
-    enum Phase
-    {
-        Face,
-        BaseEdgeOrVertex
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     enum ToolMode
     {
         CreateNew,
@@ -147,32 +140,12 @@ public class CreateTaperTool : Tool
 
     //--------------------------------------------------------------------------------------------------
 
-    double _FindEdgeParam(TopoDS_Edge edge, Ax1 viewAxis)
-    {
-        // Calculate parameter on the edge
-        double umin = 0, umax = 0;
-        var curve = BRep_Tool.Curve(edge, ref umin, ref umax);
-        var extrema = new GeomAPI_ExtremaCurveCurve(curve, new Geom_Line(viewAxis));
-        if (extrema.NbExtrema() > 0)
-        {
-            double param1 = 0, param2 = 0;
-            extrema.LowerDistanceParameters(ref param1, ref param2);
-            return param1;
-        }
-        else
-        {
-            return Taper.CalculateBaseParameter(edge, 0.5);
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     bool _GetPreviewAxis(SelectSubshapeAction.EventArgs args, out Ax2 axis)
     {
         if (args.SelectedSubshapeType == SubshapeTypes.Edge)
         {
             var edge = args.SelectedSubshape.ToEdge();
-            var edgeParam = _FindEdgeParam(edge, args.MouseEventData.PickAxis);
+            var edgeParam = EdgeAlgo.FindEdgeParameter(edge, args.MouseEventData.PickAxis);
             return Taper.ComputeAxisFromEdge(_TargetFace, edge, edgeParam, out axis);
         }
             
@@ -245,7 +218,7 @@ public class CreateTaperTool : Tool
         double? edgeParam = null;
         if (args.SelectedSubshapeType == SubshapeTypes.Edge)
         {
-            edgeParam = _FindEdgeParam(args.SelectedSubshape.ToEdge(), args.MouseEventData.PickAxis);
+            edgeParam = EdgeAlgo.FindEdgeParameter(args.SelectedSubshape.ToEdge(), args.MouseEventData.PickAxis);
         }
 
         // Create or update

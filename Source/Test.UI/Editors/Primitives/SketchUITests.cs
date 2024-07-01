@@ -618,7 +618,7 @@ public class SketchUITests : UITestBase
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void Scale()
+    public void ScaleElement()
     {
         // Create Sketch
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
@@ -637,6 +637,30 @@ public class SketchUITests : UITestBase
         Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("ScaleElement"));
         MainWindow.Ribbon.ClickButton("ScaleElement");
         Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("ScaleElement"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void OffsetSegment()
+    {
+        // Create Sketch
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        MainWindow.Ribbon.ClickButton("CreateSketch");
+        MainWindow.Viewport.ClickRelative(0.5, 0.55);
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("OffsetSegment"));
+
+        MainWindow.Ribbon.ClickButton("CreateLineSegment");
+        MainWindow.Viewport.ClickRelative(0.4, 0.5);
+        MainWindow.Viewport.ClickRelative(0.6, 0.5);
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("OffsetSegment"));
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("OffsetSegment"));
+
+        MainWindow.Ribbon.ClickButton("OffsetSegment");
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("OffsetSegment"));
+        MainWindow.Ribbon.ClickButton("OffsetSegment");
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("OffsetSegment"));
     }
 
     //--------------------------------------------------------------------------------------------------

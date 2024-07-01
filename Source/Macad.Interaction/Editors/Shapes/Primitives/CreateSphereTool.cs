@@ -79,7 +79,7 @@ public class CreateSphereTool : Tool
         _Position = args.Point.Rounded();
         StopAction(action);
 
-        var axisValueAction = new AxisValueAction(this, new Ax1(_Position, Dir.DZ));
+        var axisValueAction = new AxisValueAction(new Ax1(_Position, Dir.DZ));
         if (!StartAction(axisValueAction))
             return;
         axisValueAction.Preview += _RadiusAction_Preview;
