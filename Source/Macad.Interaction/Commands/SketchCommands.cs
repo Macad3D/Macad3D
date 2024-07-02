@@ -564,7 +564,35 @@ public static class SketchCommands
                                                 EqualityToBoolConverter.Instance, nameof(ScaleElementSketchTool)),
         Description = () => "Scales selected points or segments."
     };
-        
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static ActionCommand MirrorElement { get; } = new(
+        () =>
+        {
+            var sketchEditTool = InteractiveContext.Current?.WorkspaceController?.CurrentTool as SketchEditorTool;
+            if (sketchEditTool == null)
+                return;
+
+            if (sketchEditTool.CurrentTool is MirrorElementSketchTool)
+            {
+                sketchEditTool.StopTool();
+                return;
+            }
+
+            var tool = new MirrorElementSketchTool();
+            sketchEditTool.StartTool(tool);
+        },
+        () => InteractiveContext.Current?.WorkspaceController?.CurrentTool is SketchEditorTool sketchTool
+              && sketchTool.SelectedSegments.Count > 0)
+    {
+        Header = () => "Mirror",
+        Icon = () => "Sketch-MirrorTool",
+        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveSketchTool)}", BindingMode.OneWay,
+                                                EqualityToBoolConverter.Instance, nameof(MirrorElementSketchTool)),
+        Description = () => "Mirrors selected points or segments by defining the mirror axis."
+    };
+
     //--------------------------------------------------------------------------------------------------
     
     public static ActionCommand OffsetSegment { get; } = new(

@@ -767,4 +767,151 @@ public class SketchToolsTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void MirrorElements()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        body.Position = new(-10, 5, 0);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [1,2]);
+        tool.StartTool(new MirrorElementSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(230, 380);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MirrorElements01"), 0.1);
+            ctx.ClickAt(230, 380);
+            ctx.MoveTo(345, 104);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MirrorElements02"), 0.1);
+            ctx.ClickAt(345, 104);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MirrorElements03"), 0.1);
+        });
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void MirrorElementsCancel()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        body.Position = new(-10, 5, 0);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [1,2]);
+        tool.StartTool(new MirrorElementSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            tool.StartTool(new MirrorElementSketchTool());
+            tool.Cancel(false);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MirrorElementsCancel01"), 0.1);
+
+            tool.StartTool(new MirrorElementSketchTool());
+            ctx.ClickAt(230, 380);
+            tool.Cancel(false);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MirrorElementsCancel01"), 0.1);
+
+            tool.StartTool(new MirrorElementSketchTool());
+            ctx.ClickAt(230, 380);
+            ctx.MoveTo(345, 104);
+            tool.Cancel(false);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MirrorElementsCancel01"), 0.1);
+
+            Assert.IsNull(tool.CurrentTool);
+        });
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void MirrorElementsUndo()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        body.Position = new(-10, 5, 0);
+        ctx.ViewportController.ZoomFitAll();
+
+        ctx.UndoHandler.Commit();
+        Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
+        Dictionary<int, Pnt2d> savedPoints = new(sketch.Points);
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [1,2]);
+        tool.StartTool(new MirrorElementSketchTool());
+
+        ctx.ClickAt(230, 380);
+        ctx.MoveTo(345, 104);
+        ctx.ClickAt(345, 104);
+
+        CollectionAssert.AreNotEqual(savedPoints, sketch.Points);
+        Assert.AreEqual(2, ctx.UndoHandler.UndoStack.Count);
+        ctx.UndoHandler.DoUndo(1);
+        Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
+        CollectionAssert.AreEqual(savedPoints, sketch.Points);
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MirrorElementsUndo01"), 0.1);
+        tool.StopTool();
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+        
+    [Test]
+    public void MirrorElementsRound()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        body.Position = new(-10, 5, 0);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [1,2]);
+        tool.StartTool(new MirrorElementSketchTool());
+        ctx.ClickAt(230, 380);
+        ctx.MoveTo(345, 104, ModifierKeys.Control);
+        ctx.ClickAt(345, 104, ModifierKeys.Control);
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MirrorElementsRound01"), 0.1);
+        tool.StopTool();
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void MirrorElementsEllipticalArc()
+    {
+        var ctx = Context.Current;
+
+        var sketch = Core.Shapes.Sketch.Create();
+        SketchBuilder sb = new(sketch);
+        sb.EllipticalArc(4, 0, 0, 2, 0, 0);
+        sb.EllipticalArc(4, 0, 0, 2, 0, 0);
+        var body = TestGeomGenerator.CreateBody(sketch);
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [1]);
+        tool.StartTool(new MirrorElementSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            ctx.ClickAt(250, 100);
+            ctx.ClickAt(250, 200);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MirrorElementsEllipticalArc01"), 0.1);
+        });
+    }
 }

@@ -804,6 +804,9 @@
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.ScaleElement}"
                                      AutomationProperties.AutomationId="ScaleElement"/>
 
+                <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.MirrorElement}"
+                                     AutomationProperties.AutomationId="MirrorElement"/>
+
                 <Fluent:ToggleButton mmp:Command.Action="{x:Static mmi:SketchCommands.OffsetSegment}"
                                      AutomationProperties.AutomationId="OffsetSegment"/>
 

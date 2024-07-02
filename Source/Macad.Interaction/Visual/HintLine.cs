@@ -119,6 +119,20 @@ public class HintLine : Hint
 
         Update();
     }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    public void Set(Ax2d axis, Pln plane)
+    {
+        Pnt2d p1 = axis.Location;
+        Pnt2d p2 = p1.Translated(axis.Direction.ToVec());
+        Pnt pnt1 = new Pnt();
+        Pnt pnt2 = new Pnt();
+        ElSLib.D0(p1.X, p1.Y, plane, ref pnt1);
+        ElSLib.D0(p2.X, p2.Y, plane, ref pnt2);
+
+        Set(new Ax1(pnt1, new Vec(pnt1, pnt2).ToDir()));
+    }
 
     //--------------------------------------------------------------------------------------------------
 

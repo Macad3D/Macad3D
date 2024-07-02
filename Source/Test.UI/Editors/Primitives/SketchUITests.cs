@@ -640,6 +640,30 @@ public class SketchUITests : UITestBase
     }
 
     //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void MirrorElement()
+    {
+        // Create Sketch
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        MainWindow.Ribbon.ClickButton("CreateSketch");
+        MainWindow.Viewport.ClickRelative(0.5, 0.55);
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("MirrorElement"));
+
+        MainWindow.Ribbon.ClickButton("CreateLineSegment");
+        MainWindow.Viewport.ClickRelative(0.4, 0.5);
+        MainWindow.Viewport.ClickRelative(0.6, 0.5);
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("MirrorElement"));
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("MirrorElement"));
+
+        MainWindow.Ribbon.ClickButton("MirrorElement");
+        Assert.IsTrue(MainWindow.Ribbon.IsButtonChecked("MirrorElement"));
+        MainWindow.Ribbon.ClickButton("MirrorElement");
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("MirrorElement"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
     [Test]
     public void OffsetSegment()
