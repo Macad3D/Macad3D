@@ -50,6 +50,7 @@ public class MirrorElementSketchTool : SketchTool
         SketchEditorTool.Elements.Activate(false, false, false);
 
         SetHintMessage(_MessageFirst);
+        SetCursor(Cursors.SetPoint);
         return true;
     }
 
