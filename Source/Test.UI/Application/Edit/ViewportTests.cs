@@ -146,4 +146,22 @@ public class ViewportTests : UITestBase
         viewport.ClickRelative(0.6, 0.3);
         Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateBox"));
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void DoubleClickStartsEditing()
+    {
+        TestDataGenerator.GenerateSketch(MainWindow);
+        Assert.AreEqual("SketchEditorTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
+        MainWindow.Ribbon.ClickButton("CloseSketchEditor");
+        Assert.AreNotEqual("SketchEditorTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
+
+        MainWindow.Viewport.ClickRelative(0.4, 0.46, doubleClick: true);
+        Assert.AreEqual("SketchEditorTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

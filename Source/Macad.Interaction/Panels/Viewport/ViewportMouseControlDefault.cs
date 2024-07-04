@@ -70,14 +70,22 @@ public class ViewportMouseControlDefault : IViewportMouseControl
 
     //--------------------------------------------------------------------------------------------------
 
-    public void MouseDown(Point pos, MouseButton changedButton, MouseDevice mouseDevice, ModifierKeys modifierKeys)
+    public void MouseDown(Point pos, MouseButton changedButton, int clickCount, MouseDevice mouseDevice, ModifierKeys modifierKeys)
     {
         if (ViewportController == null)
             return;
 
         if (changedButton == MouseButton.Left)
         {
-            ViewportController.MouseDown(modifierKeys);
+            if (clickCount == 2)
+            {
+                if(WorkspaceCommands.StartEditing.CanExecute())
+                    WorkspaceCommands.StartEditing.Execute();
+            }
+            else
+            {
+                ViewportController.MouseDown(modifierKeys);
+            }
         }
 
         _MouseDownPos = pos;
@@ -86,7 +94,7 @@ public class ViewportMouseControlDefault : IViewportMouseControl
 
     //--------------------------------------------------------------------------------------------------
 
-    public void MouseUp(Point pos, MouseButton changedButton, int clickCount, MouseDevice mouseDevice, ModifierKeys modifierKeys)
+    public void MouseUp(Point pos, MouseButton changedButton, MouseDevice mouseDevice, ModifierKeys modifierKeys)
     {
         if (ViewportController == null)
             return;

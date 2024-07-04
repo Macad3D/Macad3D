@@ -262,9 +262,8 @@ public partial class ViewportPanel : AirspaceOverlay
         _RightMouseBtnDown = e.RightButton == MouseButtonState.Pressed;
 
         var dpiScale = VisualTreeHelper.GetDpi(this);
-        MouseControl?.MouseDown(
-            new Point(_MouseDownPosition.X * dpiScale.DpiScaleX, _MouseDownPosition.Y * dpiScale.DpiScaleY),
-            e.ChangedButton, e.MouseDevice, Keyboard.Modifiers);
+        MouseControl?.MouseDown(new Point(_MouseDownPosition.X * dpiScale.DpiScaleX, _MouseDownPosition.Y * dpiScale.DpiScaleY),
+                                e.ChangedButton, e.ClickCount, e.MouseDevice, Keyboard.Modifiers);
 
         if (Model?.HudElements.Any() == true)
             Focus();
@@ -290,7 +289,7 @@ public partial class ViewportPanel : AirspaceOverlay
             var pos = e.GetPosition(this);
             var dpiScale = VisualTreeHelper.GetDpi(this);
             MouseControl?.MouseUp(new Point(pos.X * dpiScale.DpiScaleX, pos.Y * dpiScale.DpiScaleY),
-                                  e.ChangedButton, e.ClickCount, e.MouseDevice, Keyboard.Modifiers);
+                                  e.ChangedButton, e.MouseDevice, Keyboard.Modifiers);
         }
 
         _SupressButtonUp = false;

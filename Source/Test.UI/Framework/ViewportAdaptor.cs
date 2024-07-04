@@ -34,11 +34,15 @@ public class ViewportAdaptor
 
     //--------------------------------------------------------------------------------------------------
 
-    public void ClickRelative(double x, double y, MouseButton button = MouseButton.Left, bool jump = true)
+    public void ClickRelative(double x, double y, MouseButton button = MouseButton.Left, bool jump = true, bool doubleClick = false)
     {
         MoveRelative(x, y, jump);
 
-        if (jump)
+        if (doubleClick)
+        {
+            Mouse.DoubleClick(button);
+        }
+        else if (jump)
         {
             Mouse.Down(button);
             Wait.UntilInputIsProcessed();

@@ -17,8 +17,8 @@ public interface IViewportMouseControl
 
     void MouseMove(Point pos, MouseDevice mouseDevice, ModifierKeys modifierKeys);
     void MouseWheel(Point pos, MouseWheel wheel, int delta, InputDevice device, ModifierKeys modifierKeys);
-    void MouseDown(Point pos, MouseButton changedButton, MouseDevice mouseDevice, ModifierKeys modifierKeys);
-    void MouseUp(Point pos, MouseButton changedButton, int clickCount, MouseDevice mouseDevice, ModifierKeys modifierKeys);
+    void MouseDown(Point pos, MouseButton changedButton, int clickCount, MouseDevice mouseDevice, ModifierKeys modifierKeys);
+    void MouseUp(Point pos, MouseButton changedButton, MouseDevice mouseDevice, ModifierKeys modifierKeys);
     void Cancel();
 }
 
