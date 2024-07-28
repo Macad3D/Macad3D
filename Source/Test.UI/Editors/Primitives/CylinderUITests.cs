@@ -63,7 +63,6 @@ public class CylinderUITests : UITestBase
         Assert.AreEqual(3.0, Pipe.GetValue<double>("$Selected.Shape.Radius"));
         Assert.AreEqual(2.0, Pipe.GetValue<double>("$Selected.Shape.Height"));
         Assert.AreEqual(180.0, Pipe.GetValue<double>("$Selected.Shape.SegmentAngle"));
-
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -82,6 +81,19 @@ public class CylinderUITests : UITestBase
         Assert.That(_CylinderPanel.GetValue<double>("CylinderSegment"), Is.EqualTo(360.0));
         _CylinderPanel.EnterValue("CylinderSegment", 370.0);
         Assert.That(_CylinderPanel.GetValue<double>("CylinderSegment"), Is.EqualTo(360.0));
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    [Test, Order(4)]
+    public void NegativeHeight()
+    {
+        Assume.That(_CylinderPanel, Is.Not.Null);
+
+        // Set new values
+        _CylinderPanel.EnterValue("CylinderHeight", -2.0);
+        Assert.AreEqual(-2.0, _CylinderPanel.GetValue<double>("CylinderHeight"));
+        Assert.AreEqual(-2.0, Pipe.GetValue<double>("$Selected.Shape.Height"));
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -41,4 +41,23 @@ public class CylinderTests
 
         Assert.IsTrue(ModelCompare.CompareShape(shape, Path.Combine(_BasePath, "SegmentAngle")));
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void NegativeHeight()
+    {
+        var shape = new Cylinder()
+        {
+            Radius = 10,
+            Height = -10
+        };
+
+        Assert.IsTrue(shape.Make(Shape.MakeFlags.None));
+
+        Assert.IsTrue(ModelCompare.CompareShape(shape, Path.Combine(_BasePath, "NegativeHeight")));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

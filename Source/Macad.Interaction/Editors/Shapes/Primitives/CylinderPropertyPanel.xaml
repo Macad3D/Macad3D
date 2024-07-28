@@ -33,7 +33,6 @@
             <mmp:ValueEditBox  Grid.Row="1" Grid.Column="1"  Width="100"
                                Units="Length"
                                Value="{Binding Cylinder.Height, NotifyOnSourceUpdated=True}"
-                               MinValue="0.01"
                                AutomationProperties.AutomationId="CylinderHeight"/>
 
             <TextBlock  Grid.Row="2" Grid.Column="0" Text="Segment"  Style="{DynamicResource Macad.Styles.TextBlock.Property}"  />

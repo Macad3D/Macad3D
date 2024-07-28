@@ -1,4 +1,5 @@
-﻿using Macad.Common;
+﻿using System;
+using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Occt;
 
@@ -42,7 +43,7 @@ public sealed class Cylinder : Shape
             if (_Height != value)
             {
                 SaveUndo();
-                _Height = value != 0.0 ? value : 0.001;
+                _Height = value;
                 Invalidate();
                 RaisePropertyChanged();
             }
@@ -115,13 +116,19 @@ public sealed class Cylinder : Shape
     protected override bool MakeInternal(MakeFlags flags)
     {
         var radius = Radius > 0.0 ? Radius : 0.001;
-        var height = Height != 0.0 ? Height : 0.001;
-
+        var height = Math.Max(Height.Abs(), 0.001);
+        
         var makeCylinder = SegmentAngle is <= 0 or >= 360
                                ? new BRepPrimAPI_MakeCylinder(radius, height) 
                                : new BRepPrimAPI_MakeCylinder(radius, height, SegmentAngle.Clamp(0.001, 360.0).ToRad());
 
-        BRep = makeCylinder.Solid();
+        TopoDS_Shape brep = makeCylinder.Solid();
+        if (_Height < 0)
+        {
+            brep = brep.Moved(new TopLoc_Location(new Trsf(Pnt.Origin, new Pnt(0, 0, _Height))));
+        }
+
+        BRep = brep;
         return base.MakeInternal(flags);
     }
 

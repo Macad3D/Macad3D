@@ -97,6 +97,33 @@ public class CylinderToolTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void CreateNegativeHeight()
+    {
+        var ctx = Context.Current;
+        ctx.Workspace.GridStep = 1.5;
+        ctx.WorkspaceController.StartTool(new CreateCylinderTool());
+
+        Assert.Multiple(() => 
+        {
+            // Center point
+            ctx.ClickAt(250, 250);
+            // Radius
+            ctx.ClickAt(450, 250, ModifierKeys.Control);
+            // Height
+            ctx.MoveTo(450, 300, ModifierKeys.Control);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateNegativeHeight01"));
+            ctx.ClickAt(450, 300, ModifierKeys.Control);
+
+            // Create
+            var cyl = (ctx.WorkspaceController.Selection.SelectedEntities.FirstOrDefault() as Body)?.Shape as Cylinder;
+            Assert.AreEqual(4.5, cyl.Radius);
+            Assert.AreEqual(-1.5, cyl.Height);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void EditorIdle()
     {
         var ctx = Context.Current;
@@ -306,7 +333,7 @@ public class CylinderToolTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void LiveScaleHeightLimit()
+    public void LiveScaleNegativeHeight()
     {
         var ctx = Context.Current;
         var cylinder = TestGeomGenerator.CreateCylinder();
@@ -317,10 +344,24 @@ public class CylinderToolTests
         {
             ctx.MoveTo(250, 180);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(250, 244);
             ctx.MoveTo(62, 388);
             ctx.ViewportController.MouseUp();
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleHeightLimit01"));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleNegativeHeight01"));
+
+            // Take top point
+            ctx.MoveTo(250, 316);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(250, 286);
+            ctx.ViewportController.MouseUp();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleNegativeHeight02"));
+
+            // Take bottom point
+            ctx.ViewportController.Rotate(0, 45, 0);
+            ctx.MoveTo(250, 416);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(250, 443);
+            ctx.ViewportController.MouseUp();
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleNegativeHeight03"));
 
             // Cleanup
             ctx.WorkspaceController.StopEditor();

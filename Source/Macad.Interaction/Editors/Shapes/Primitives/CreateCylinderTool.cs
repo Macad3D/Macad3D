@@ -184,16 +184,7 @@ public class CreateCylinderTool : Tool
             _Height = 0.001;
 
         _EnsurePreviewShape();
-        if (_Height > 0)
-        {
-            _PreviewShape.Body.Position = _PivotPoint.Rounded();
-            _PreviewShape.Height = _Height;
-        }
-        else
-        {
-            _PreviewShape.Body.Position = _PivotPoint.Translated(_Plane.Axis.Direction.ToVec().Multiplied(_Height)).Rounded();
-            _PreviewShape.Height = -_Height;
-        }
+        _PreviewShape.Height = _Height;
         if(_IsTemporaryVisual)
             _VisualShape?.Update();
 

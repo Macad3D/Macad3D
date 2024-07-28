@@ -11,6 +11,7 @@ public class CylinderEditor : Editor<Cylinder>
 {
     BoxScaleLiveAction _ScaleAction;
     LabelHudElement[] _HudElements = new LabelHudElement[2];
+    bool? _HeightDirection;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -117,7 +118,9 @@ public class CylinderEditor : Editor<Cylinder>
         double heightDelta = args.Delta * args.Direction.Z;
         if (heightDelta != 0)
         {
-            if (args.Direction.Z < 0)
+            _HeightDirection ??= Entity.Height > 0;
+
+            if (args.Direction.Z < 0 == _HeightDirection.Value)
                 heightDelta *= -1;
 
             if (center)
@@ -128,9 +131,6 @@ public class CylinderEditor : Editor<Cylinder>
             {
                 newHeight = Maths.RoundToNearest(newHeight, WorkspaceController.Workspace.GridStep);
             }
-
-            if (newHeight <= 0)
-                return;
 
             heightDelta = newHeight - Entity.Height;
             if (heightDelta == 0)
@@ -144,7 +144,7 @@ public class CylinderEditor : Editor<Cylinder>
                 Entity.Body.Position = Entity.Body.Position.Translated(Dir.DZ.ToVec(heightDelta * -0.5)
                                                                           .Transformed(new Trsf(Entity.Body.Rotation)));
             } 
-            else if (args.Direction.Z < 0)
+            else if (args.Direction.Z < 0 == _HeightDirection.Value)
             {
                 Entity.Body.Position = Entity.Body.Position.Translated(Dir.DZ.ToVec(-heightDelta)
                                                                           .Transformed(new Trsf(Entity.Body.Rotation)));
@@ -190,6 +190,7 @@ public class CylinderEditor : Editor<Cylinder>
         _HudElements.Fill(null);
         RemoveHintMessage();
         _UpdateActions();
+        _HeightDirection = null;
     }
 
     //--------------------------------------------------------------------------------------------------
