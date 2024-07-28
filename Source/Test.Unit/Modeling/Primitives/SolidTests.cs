@@ -1,7 +1,9 @@
 ﻿using System.IO;
 using Macad.Common.Serialization;
+using Macad.Core.Shapes;
 using Macad.Core.Toolkits;
 using Macad.Core.Topology;
+using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
 
@@ -36,4 +38,24 @@ public class SolidTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void KeepLocation()
+    {
+        var body = TestData.GetBodyFromBRep("SourceData\\Brep\\ImprintRingFace.brep");
+        body.Position = new Pnt(0, 10, 0);
+        Assert.IsTrue(ConvertToSolid.CollapseShapeStack(new []{body})); // This creates a solid
+        Solid solid = body.Shape as Solid;
+        Assert.IsNotNull(solid);
+
+        TopLoc_Location location = new(new Trsf(Pnt.Origin, new Pnt(10, 0, 0)));
+        var brep = solid.GetBRep().Located(location);
+        solid.UpdateShape(brep);
+
+        Assert.AreEqual(location, solid.GetBRep().Location());
+        Assert.AreEqual(new XYZ(10, 10, 0), solid.GetTransformedBRep().Location().Transformation().TranslationPart());
+
+        // Don't overwrite if only transformation is updated
+        solid.InvalidateTransformation();
+        Assert.AreEqual(new XYZ(10, 10, 0), solid.GetTransformedBRep().Location().Transformation().TranslationPart());
+    }
 }
