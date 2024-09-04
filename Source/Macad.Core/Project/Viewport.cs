@@ -138,7 +138,7 @@ public sealed class Viewport : BaseObject, IDisposable
         get
         {
             double width = 0, height = 0;
-            V3dView.Size(ref width, ref height);
+            V3dView?.Size(ref width, ref height);
             return (width, height);
         }
     }
@@ -150,8 +150,8 @@ public sealed class Viewport : BaseObject, IDisposable
         get
         {
             double pixelSize = PixelSize;
-            double width = 0, height = 0;
-            V3dView.Size(ref width, ref height);
+            double width = 100, height = 100;
+            V3dView?.Size(ref width, ref height);
             return ((int)(width / pixelSize), (int)(height / pixelSize));
         }
     }
@@ -162,8 +162,8 @@ public sealed class Viewport : BaseObject, IDisposable
     {
         get
         {
-            double width = 0, height = 0;
-            V3dView.Size(ref width, ref height);
+            double width = 100, height = 100;
+            V3dView?.Size(ref width, ref height);
             double scale = Math.Min(width, height) / 10.0f;
             //Debug.WriteLine("w/h/s {0} {1} {2}", width, height, scale);
             return scale;
@@ -176,7 +176,11 @@ public sealed class Viewport : BaseObject, IDisposable
     {
         get
         {
-            return V3dView.IfWindow() ? V3dView.Convert(1) : 1.0;
+            if (V3dView != null && V3dView.IfWindow())
+            {
+                return V3dView.Convert(1);
+            }
+            return 1.0;
         }
     }
 
@@ -317,20 +321,23 @@ public sealed class Viewport : BaseObject, IDisposable
 
     public bool ScreenToPoint(int screenX, int screenY, out Pnt resultPnt)
     {
-        try
+        if (V3dView != null)
         {
-            var viewPlane = GetViewPlane();
-            double x = 0, y = 0, z = 0;
-            V3dView.Convert(screenX, screenY, ref x, ref y, ref z);
-            Pnt convertedPoint = new Pnt(x, y, z);
-            Pnt2d convertedPointOnPlane = ProjLib.Project(viewPlane, convertedPoint);
+            try
+            {
+                var viewPlane = GetViewPlane();
+                double x = 0, y = 0, z = 0;
+                V3dView.Convert(screenX, screenY, ref x, ref y, ref z);
+                Pnt convertedPoint = new Pnt(x, y, z);
+                Pnt2d convertedPointOnPlane = ProjLib.Project(viewPlane, convertedPoint);
 
-            resultPnt = ElSLib.Value(convertedPointOnPlane.X, convertedPointOnPlane.Y, viewPlane);
-            return true;
-        }
-        catch (Exception)
-        {
-            Debug.Assert(false);
+                resultPnt = ElSLib.Value(convertedPointOnPlane.X, convertedPointOnPlane.Y, viewPlane);
+                return true;
+            }
+            catch (Exception)
+            {
+                Debug.Assert(false);
+            }
         }
 
         resultPnt = Pnt.Origin;
@@ -341,33 +348,36 @@ public sealed class Viewport : BaseObject, IDisposable
 
     public bool ScreenToPoint(Pln plane, int screenX, int screenY, out Pnt resultPnt)
     {
-        try
+        if (V3dView != null)
         {
-            _ValidateViewGeometry();
-
-            if (V3dView.IfWindow())
+            try
             {
-                double xv = 0, yv = 0, zv = 0;
-                double vx = 0, vy = 0, vz = 0;
+                _ValidateViewGeometry();
 
-                V3dView.Convert(screenX, screenY, ref xv, ref yv, ref zv);
-                V3dView.Proj(ref vx, ref vy, ref vz);
-
-                gp_Lin line = new gp_Lin(new Pnt(xv, yv, zv), new Dir(vx, vy, vz));
-                IntAna_IntConicQuad intersection = new IntAna_IntConicQuad(line, plane, Precision.Angular(), 0, 0);
-
-                if (intersection.IsDone()
-                    && !intersection.IsParallel()
-                    && intersection.NbPoints() > 0)
+                if (V3dView.IfWindow())
                 {
-                    resultPnt = intersection.Point(1);
-                    return true;
+                    double xv = 0, yv = 0, zv = 0;
+                    double vx = 0, vy = 0, vz = 0;
+
+                    V3dView.Convert(screenX, screenY, ref xv, ref yv, ref zv);
+                    V3dView.Proj(ref vx, ref vy, ref vz);
+
+                    gp_Lin line = new gp_Lin(new Pnt(xv, yv, zv), new Dir(vx, vy, vz));
+                    IntAna_IntConicQuad intersection = new IntAna_IntConicQuad(line, plane, Precision.Angular(), 0, 0);
+
+                    if (intersection.IsDone()
+                        && !intersection.IsParallel()
+                        && intersection.NbPoints() > 0)
+                    {
+                        resultPnt = intersection.Point(1);
+                        return true;
+                    }
                 }
             }
-        }
-        catch (Exception e)
-        {
-            Debug.Assert(false, e.Message);
+            catch (Exception e)
+            {
+                Debug.Assert(false, e.Message);
+            }
         }
 
         resultPnt = new Pnt();
@@ -378,17 +388,20 @@ public sealed class Viewport : BaseObject, IDisposable
 
     public bool PointToScreen(Pnt pnt, out int screenX, out int screenY)
     {
-        try
+        if (V3dView != null)
         {
-            int x = 0, y = 0;
-            V3dView.Convert(pnt.X, pnt.Y, pnt.Z, ref x, ref y );
-            screenX = x;
-            screenY = y;
-            return true;
-        }
-        catch (Exception)
-        {
-            Debug.Assert(false);
+            try
+            {
+                int x = 0, y = 0;
+                V3dView.Convert(pnt.X, pnt.Y, pnt.Z, ref x, ref y);
+                screenX = x;
+                screenY = y;
+                return true;
+            }
+            catch (Exception)
+            {
+                Debug.Assert(false);
+            }
         }
 
         screenX = 0;
@@ -404,6 +417,9 @@ public sealed class Viewport : BaseObject, IDisposable
 
     void _ValidateViewGeometry()
     {
+        if (V3dView == null)
+            return;
+
         // If distance is 0, the parameters cannot be restored
         if(V3dView.Camera().Distance() == 0.0)
             V3dView.Camera().SetDistance(0.00001);
@@ -431,6 +447,9 @@ public sealed class Viewport : BaseObject, IDisposable
 
     public Ax1 ViewAxis(int screenX, int screenY)
     {
+        if (V3dView == null)
+            return Ax1.OX;
+
         double px = 0, py = 0, pz = 0;
         V3dView.Convert(screenX, screenY, ref px, ref py, ref pz);
         return new Ax1(new Pnt(px, py, pz), GetViewDirection());
@@ -440,6 +459,9 @@ public sealed class Viewport : BaseObject, IDisposable
 
     public Dir GetUpDirection()
     {
+        if (V3dView == null)
+            return Dir.DZ;
+
         double xUp = 0, yUp = 0, zUp = 0;
         V3dView.Up(ref xUp, ref yUp, ref zUp);
         return new Dir(xUp, yUp, zUp);
@@ -534,7 +556,7 @@ public sealed class Viewport : BaseObject, IDisposable
         
     public void Resize()
     {
-        V3dView.MustBeResized();
+        V3dView?.MustBeResized();
         RaisePropertyChanged(nameof(PixelSize));
         RaisePropertyChanged(nameof(GizmoScale));
         _RaiseViewportChanged();
