@@ -40,7 +40,7 @@ public class ScriptTests
 
         Assert.That(Context.Current.MessageHandler.MessageItems.Any(m => m.Severity == MessageSeverity.Error 
                                                                          && m.Explanation != null
-                                                                         && m.Explanation.Any(s => s.Contains("Error CS0117"))));
+                                                                         && m.Explanation.Any(s => s.Contains("CompilerError.csx (3,9): Error CS0117"))));
     }
         
     //--------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ public class ScriptTests
         Assert.IsNotNull(script);
 
         Assert.That(Context.Current.MessageHandler.MessageItems.Any(m => m.Severity == MessageSeverity.Warning 
-                                                                         && m.Explanation.Any(s => s.Contains("Warning CS0162"))));
+                                                                         && m.Explanation.Any(s => s.Contains("CompilerWarning.csx (4,5): Warning CS0162"))));
     }
 
     //--------------------------------------------------------------------------------------------------

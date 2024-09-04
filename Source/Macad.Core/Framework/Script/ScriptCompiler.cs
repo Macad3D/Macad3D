@@ -329,7 +329,7 @@ internal sealed class ScriptCompiler
                 if (location.IsValid && !location.Path.IsNullOrEmpty())
                 {
                     sb.Append(Path.GetFileName(location.Path));
-                    sb.Append($" ({location.Span.Start.Line},{location.Span.Start.Character}): ");
+                    sb.Append($" ({location.Span.Start.Line + 1},{location.Span.Start.Character + 1}): ");
                 }
             }
 
