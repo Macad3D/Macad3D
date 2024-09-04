@@ -296,17 +296,18 @@ public class TransformTool : Tool
 
     public override bool OnMouseDown(MouseEventData data)
     {
-        if(data.DetectedAisInteractives.Count==0 || 
-           data.DetectedEntities.Count > 0 && !_TargetEntities.ContainsAny(data.DetectedEntities.Cast<ITransformable>()))
+        if (data.DetectedAisObject == null ||
+            data.DetectedEntity != null && !_TargetEntities.Contains(data.DetectedEntity as ITransformable))
         {
             // Selection of another shape clicking into "nothing" closes the tool
-            if ((_TranslateAction==null || !_TranslateAction.IsMoving)
-                &&(_RotateAction==null || !_RotateAction.IsRotating))
+            if (_TranslateAction is not { IsMoving: true }
+                && _RotateAction is not { IsRotating: true })
             {
                 Stop();
                 return true;
             }
         }
+
         return base.OnMouseDown(data);
     }
 

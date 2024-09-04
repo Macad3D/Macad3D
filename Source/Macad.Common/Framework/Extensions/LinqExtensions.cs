@@ -87,4 +87,20 @@ public static class LinqExtensions
             action(item);
         }
     }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    public static IEnumerable<TSource> WhereNotNull<TSource>(this IEnumerable<TSource> source)
+    {    
+        foreach (var item in source)
+        {
+            if( item == null )
+                continue;
+
+            yield return item;
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

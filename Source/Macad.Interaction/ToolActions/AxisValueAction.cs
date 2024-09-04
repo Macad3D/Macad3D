@@ -26,10 +26,7 @@ public class AxisValueAction : ToolAction
     double _CurrentValue;
     double _CurrentDistance;
     readonly Ax1 _Axis;
-
-    //--------------------------------------------------------------------------------------------------
-
-    public override SnapMode SupportedSnapModes => SnapMode.Vertex | SnapMode.Edge;
+    Snap3D _SnapHandler;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -43,6 +40,8 @@ public class AxisValueAction : ToolAction
 
     protected override bool OnStart()
     {
+        _SnapHandler = SetSnapHandler(new Snap3D());
+        _SnapHandler.SupportedModes = SnapModes.Vertex | SnapModes.Edge;
         OpenSelectionContext();
         HintLine hintLine = new(WorkspaceController, HintStyle.ThinDashed);
         Add(hintLine);
@@ -90,16 +89,16 @@ public class AxisValueAction : ToolAction
         //Console.WriteLine("PlaneDir: {0:0.00} | {1:0.00} | {2:0.00}", planeDir.X(), planeDir.Y(), planeDir.Z());
         var plane = new Pln(new Ax3(_Axis.Location, planeDir, _Axis.Direction));
 
-        var snapInfo = WorkspaceController.SnapHandler.Snap(data);
-        var snapPoint = WorkspaceController.SnapHandler.SnapOnPlane(snapInfo, plane);
-        if (snapPoint != null)
+        var snapInfo = _SnapHandler.Snap(data);
+        if (snapInfo.Mode != SnapModes.None)
         {
             // Point snapped
-            var extrema = new Extrema_ExtPC(ElSLib.Value(snapPoint.Value.X, snapPoint.Value.Y, plane), new GeomAdaptor_Curve(new Geom_Line(_Axis)), 1.0e-10);
+            Pnt2d point2D = ProjLib.Project(plane, snapInfo.Point);
+            var extrema = new Extrema_ExtPC(ElSLib.Value(point2D.X, point2D.Y, plane), new GeomAdaptor_Curve(new Geom_Line(_Axis)), 1.0e-10);
             if (extrema.IsDone() && extrema.NbExt() >= 1)
             {
                 var value = extrema.Point(1).Parameter();
-                distance = snapInfo.Point.Distance(_Axis.Location);
+                distance = _Axis.Location.Distance(snapInfo.Point);
                 return value;
             }
         }

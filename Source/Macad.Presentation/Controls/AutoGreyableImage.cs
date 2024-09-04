@@ -75,15 +75,28 @@ public class AutoGreyableImage : Image
                     // Already grey !
                     return;
                 }
-                else if (autoGreyScaleImg.Source is BitmapSource)
+                
+                if(autoGreyScaleImg.Source is DrawingImage drawingImage)
                 {
-                    bitmapImage = (BitmapSource) autoGreyScaleImg.Source;
+                    RenderTargetBitmap renderTarget = new ((int)autoGreyScaleImg.Width, (int)autoGreyScaleImg.Height, 96, 96, PixelFormats.Pbgra32);
+                    DrawingVisual drawingVisual = new ();
+                    using (var context = drawingVisual.RenderOpen())
+                    {
+                        context.DrawImage(drawingImage, new Rect(new Size((int)autoGreyScaleImg.Width, (int)autoGreyScaleImg.Height)));
+                    }
+
+                    renderTarget.Render(drawingVisual);
+                    bitmapImage = renderTarget;
+                }
+                else if (autoGreyScaleImg.Source is BitmapSource bitmapSource)
+                {
+                    bitmapImage = bitmapSource;
                 }
                 else // trying string 
                 {
                     bitmapImage = new BitmapImage(new Uri(autoGreyScaleImg.Source.ToString()));
                 }
-                FormatConvertedBitmap conv = new FormatConvertedBitmap(bitmapImage, PixelFormats.Gray32Float, null, 0);
+                FormatConvertedBitmap conv = new (bitmapImage, PixelFormats.Gray32Float, null, 0);
                 autoGreyScaleImg.Source = conv;
 
                 // Create Opacity Mask for greyscale image as FormatConvertedBitmap does not keep transparency info
@@ -91,9 +104,9 @@ public class AutoGreyableImage : Image
             }
             else
             {
-                if (autoGreyScaleImg.Source is FormatConvertedBitmap)
+                if (autoGreyScaleImg.Source is FormatConvertedBitmap convertedBitmap)
                 {
-                    autoGreyScaleImg.Source = ((FormatConvertedBitmap) autoGreyScaleImg.Source).Source;
+                    autoGreyScaleImg.Source = convertedBitmap.Source;
                 }
                 else if (autoGreyScaleImg.Source is BitmapSource)
                 {

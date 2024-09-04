@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Macad.Core;
@@ -14,28 +15,74 @@ public interface IMouseEventHandler
     bool OnMouseUp(MouseEventData data);
 }
 
-
 //--------------------------------------------------------------------------------------------------
 
 public class MouseEventData
 {
+    public readonly struct Element
+    {
+        public AIS_InteractiveObject AisObject { get; }
+        public InteractiveEntity Entity { get; }
+        public TopoDS_Shape BrepShape { get; }
+
+        //--------------------------------------------------------------------------------------------------
+
+        public Element(AIS_InteractiveObject aisObject, InteractiveEntity entity, TopoDS_Shape brepShape)
+        {
+            AisObject = aisObject;
+            Entity = entity;
+            BrepShape = brepShape;
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public Element(AIS_InteractiveObject aisObject, TopoDS_Shape brepShape=null)
+        {
+            AisObject = aisObject;
+            BrepShape = brepShape;
+        }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public Element(InteractiveEntity entity)
+        {
+            Entity = entity;
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public class ReturnOptions
+    {
+        public List<Element> AdditionalHighlights { get; } = [];
+
+        public bool ForceReDetection { get; set; }
+
+        public bool RemoveHighlighting { get; set; }
+        
+        //--------------------------------------------------------------------------------------------------
+
+        public void Clear()
+        {
+            AdditionalHighlights.Clear();
+            ForceReDetection = false;
+            RemoveHighlighting = false;
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public Viewport Viewport { get; private set; }
 
     public Point ScreenPoint { get; private set; }
-
-    public Pnt RawPoint { get; private set; }
 
     public Pnt PointOnPlane { get; private set; }
 
     public ModifierKeys ModifierKeys { get; set; }
 
-    public List<AIS_InteractiveObject> DetectedAisInteractives { get; } = new();
+    public List<Element> DetectedElements { get; } = [];
 
-    public List<InteractiveEntity> DetectedEntities { get; } = new();
-
-    public List<TopoDS_Shape> DetectedShapes { get; } = new();
-
-    public bool ForceReDetection { get; set; }
+    public ReturnOptions Return { get; } = new();
 
     //--------------------------------------------------------------------------------------------------
 
@@ -49,12 +96,17 @@ public class MouseEventData
 
     //--------------------------------------------------------------------------------------------------
 
-    public MouseEventData()
+    public InteractiveEntity DetectedEntity
     {
-        ScreenPoint = default;
-        RawPoint = default;
-        PointOnPlane = default;
-        ForceReDetection = false;
+        get { return DetectedElements.Count > 0 ? DetectedElements[0].Entity : null; }
+    }
+    public TopoDS_Shape DetectedBrepShape
+    {
+        get { return DetectedElements.Count > 0 ? DetectedElements[0].BrepShape : null; }
+    }
+    public AIS_InteractiveObject DetectedAisObject
+    {
+        get { return DetectedElements.Count > 0 ? DetectedElements[0].AisObject : null; }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -63,36 +115,51 @@ public class MouseEventData
     {
         Viewport = default;
         ScreenPoint = default;
-        RawPoint = default;
         PointOnPlane = default;
-        ForceReDetection = false;
-        DetectedAisInteractives.Clear();
-        DetectedEntities.Clear();
-        DetectedShapes.Clear();
+        DetectedElements.Clear();
+        Return.Clear();
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    public void Set(in Viewport viewport, in Point screenPoint, in Pnt pointOnPlane, in ModifierKeys modifierKeys)
+    {
+        Clear();
+
+        Viewport = viewport;
+        ScreenPoint = screenPoint;
+        PointOnPlane = pointOnPlane;
+        ModifierKeys = modifierKeys;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public void Set(in Viewport viewport, in Point screenPoint, in Pnt rawPoint, in Pnt pointOnPlane, in InteractiveEntity detectedEntity, 
-                    in AIS_InteractiveObject detectedInteractive, in TopoDS_Shape detectedShape, in ModifierKeys modifierKeys)
+    public void SetDetectedElements(IEnumerable<AIS_InteractiveObject> aisObjects, IEnumerable<InteractiveEntity> entities, IEnumerable<TopoDS_Shape> brepShapes)
     {
-        Viewport = viewport;
-        ScreenPoint = screenPoint;
-        RawPoint = rawPoint;
-        PointOnPlane = pointOnPlane;
-        ModifierKeys = modifierKeys;
+        DetectedElements.Clear();
 
-        DetectedAisInteractives.Clear();
-        if(detectedInteractive != null)
-            DetectedAisInteractives.Add(detectedInteractive);
+        using var e1 = aisObjects.GetEnumerator();
+        using var e2 = entities.GetEnumerator();
+        using var e3 = brepShapes.GetEnumerator();
 
-        DetectedEntities.Clear();
-        if(detectedEntity != null)
-            DetectedEntities.Add(detectedEntity);
+        while (true)
+        {
+            var c1 = e1.MoveNext() ? e1.Current : null;
+            var c2 = e2.MoveNext() ? e2.Current : null;
+            var c3 = e3.MoveNext() ? e3.Current : null;
+            if (c1 == null && c2 == null && c3 == null)
+                return;
 
-        DetectedShapes.Clear();
-        if(detectedShape != null)
-            DetectedShapes.Add(detectedShape);
+            DetectedElements.Add(new Element(c1, c2, c3));
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    public void SetDetectedElement(AIS_InteractiveObject aisObject, InteractiveEntity entity, TopoDS_Shape brepShape)
+    {
+        DetectedElements.Clear();
+        DetectedElements.Add(new Element(aisObject, entity, brepShape));
     }
 
     //--------------------------------------------------------------------------------------------------

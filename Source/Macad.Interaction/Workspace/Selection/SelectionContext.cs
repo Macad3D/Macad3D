@@ -221,17 +221,17 @@ public sealed class SelectionContext : IDisposable
 
             // Enlist all requested modes
             var modesToBeActivated = new bool[5];
-            var snapHandler = _WorkspaceController.SnapHandler;
+            var snapHandler = _WorkspaceController.CurrentTool?.GetSnapHandler() ?? _WorkspaceController.CurrentEditor?.GetSnapHandler();;
 
             modesToBeActivated[0] = activate && _SubshapeTypes == SubshapeTypes.None;
             modesToBeActivated[SubshapeType.Vertex.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Vertex)
-                                                                           || snapHandler.NeedActiveSubshapes(SubshapeType.Vertex);
+                                                                           || (snapHandler?.NeedActiveSubshapes(SubshapeType.Vertex) ?? false);
             modesToBeActivated[SubshapeType.Edge.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Edge) 
-                                                                         || snapHandler.NeedActiveSubshapes(SubshapeType.Edge);
+                                                                         || (snapHandler?.NeedActiveSubshapes(SubshapeType.Edge) ?? false);
             modesToBeActivated[SubshapeType.Wire.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Wire) 
-                                                                         || snapHandler.NeedActiveSubshapes(SubshapeType.Wire);
+                                                                         || (snapHandler?.NeedActiveSubshapes(SubshapeType.Wire) ?? false);
             modesToBeActivated[SubshapeType.Face.ToAisSelectionMode()] = activate && _SubshapeTypes.HasFlag(SubshapeTypes.Face) 
-                                                                         || snapHandler.NeedActiveSubshapes(SubshapeType.Face);
+                                                                         || (snapHandler?.NeedActiveSubshapes(SubshapeType.Face) ?? false);
 
             // Deactivate all modes which are not requested
             foreach (var mode in activatedModes)

@@ -12,10 +12,6 @@ public abstract class ToolAction : WorkspaceControl
 
     //--------------------------------------------------------------------------------------------------
 
-    public virtual SnapMode SupportedSnapModes => SnapMode.None;
-
-    //--------------------------------------------------------------------------------------------------
-
     #endregion
 
     #region Members
@@ -51,7 +47,7 @@ public abstract class ToolAction : WorkspaceControl
     {
         OnStop();
         Cleanup();
-            
+
         Debug.Assert(CleanedUp);
     }
 

@@ -209,7 +209,7 @@ public sealed class RotateLiveAction : LiveAction
 
     public override bool OnMouseDown(MouseEventData data)
     {
-        if (data.DetectedAisInteractives.Contains(_Circle?.AisObject))
+        if (Equals(data.DetectedAisObject, _Circle?.AisObject))
         {
             _RotationPlane = new Pln(new Ax3(_Position.Location, _Position.Direction, _Position.XDirection));
             var value = _ProcessMouseInput(data);
@@ -336,7 +336,7 @@ public sealed class RotateLiveAction : LiveAction
             };
             Finished?.Invoke(this, eventArgs);
 
-            data.ForceReDetection = true;
+            data.Return.ForceReDetection = true;
             return true;
         }
         return base.OnMouseUp(data);

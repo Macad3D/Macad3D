@@ -56,10 +56,8 @@ public class SketchEditorSegmentElement : SketchEditorElement
         {
             var aisShape = AisObject as AIS_Shape;
             aisShape.Set(edge.Located(new TopLoc_Location(Transform)));
-            if (_IsActive)
-                ctx.Redisplay(aisShape, false);
-            else
-                ctx.RecomputePrsOnly(aisShape, false);
+            ctx.Redisplay(aisShape, false);
+            Activate(_IsActive);
         }
         else
         {

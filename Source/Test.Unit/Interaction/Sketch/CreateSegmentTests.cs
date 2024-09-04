@@ -1,5 +1,8 @@
 ﻿using System.IO;
 using Macad.Core;
+using Macad.Core.Shapes;
+using Macad.Core.Topology;
+using Macad.Interaction;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using Macad.Test.Utils;
@@ -534,6 +537,75 @@ public class CreateSegmentTests
             sketchEditTool.StopTool();
             ctx.MoveTo(10, 10);  // Move away to get a clear picture
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MergeHilight02"), 0.1);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("Bugfix for taking the latest point in list instead of the nearest, if both points are inside the minimum range.")]
+    public void MergeNearest()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = false;
+        ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 10;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        // Create points to merge to
+        sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
+        ctx.ClickAt(200, 192); 
+        ctx.ClickAt(200, 208);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
+            ctx.MoveTo(200, 199); 
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MergeNearest01"), 0.1);
+            sketchEditTool.StopTool();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void Snapping()
+    {
+        var ctx = Context.Current;
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(1, 1, 0);
+
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+        ctx.EditorState.SnapToGridSelected = true;
+        ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 10;
+
+        var sketch = Core.Shapes.Sketch.Create();
+        var body = Body.Create(sketch);
+        SketchBuilder sb = new(sketch);
+        sb.Line(-1, -1, 1, -1);
+        ctx.WorkspaceController.Selection.SelectEntity(sketch.Body);
+        SketchCommands.StartSketchEditor.Execute(sketch);
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
+            ctx.MoveTo(295, 204); // Vertex point
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Snapping01"), 0.1);
+            ctx.MoveTo(295, 110); // Edge point
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Snapping02"), 0.1);
+            ctx.MoveTo(244, 246); // Grid
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Snapping03"), 0.1);
+            ctx.MoveTo(206, 292); // Sketch Vertex
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "Snapping04"), 0.1);
+
+            //Cleanup
+            sketchEditTool.Stop();
         });
     }
 

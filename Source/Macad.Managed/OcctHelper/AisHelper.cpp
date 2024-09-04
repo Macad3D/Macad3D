@@ -4,6 +4,7 @@
 
 using namespace System;
 using namespace System::Collections::Generic;
+using namespace System::Runtime::InteropServices;
 
 namespace Macad {
 namespace Occt {
@@ -25,13 +26,12 @@ namespace Helper {
 	    //--------------------------------------------------------------------------------------------------
 
     public:
-	    static Macad::Occt::TopoDS_Shape^ GetDetectedShapeFromContext(Macad::Occt::AIS_InteractiveContext^ aisContext )
+	    static Macad::Occt::TopoDS_Shape^ GetShapeFromEntityOwner(Macad::Occt::SelectMgr_EntityOwner^ owner)
 	    {
-		    auto owner = aisContext->NativeInstance->DetectedOwner();
-		    if (owner.IsNull())
+		    if (owner == nullptr || owner->NativeInstance == nullptr)
 			    return nullptr;
 
-		    auto brepOwner = Handle(::StdSelect_BRepOwner)::DownCast(owner);
+		    auto brepOwner = Handle(::StdSelect_BRepOwner)::DownCast(owner->NativeInstance);
 		    if (brepOwner.IsNull() || !brepOwner->HasShape())
 			    return nullptr;
 
@@ -59,7 +59,7 @@ namespace Helper {
 		    selector->AllowOverlapDetection(bAllowOverlapDetection);
 		    selector->Pick(points, theView->NativeInstance);
 
-		    return _PickFromSelector(*selector, interactives, shapes);
+		    return _GetPickedFromSelector(*selector, interactives, shapes);
 	    }
 
 	    //--------------------------------------------------------------------------------------------------
@@ -77,17 +77,62 @@ namespace Helper {
 		    selector->AllowOverlapDetection(bAllowOverlapDetection);
 		    selector->Pick(theXPMin, theYPMin, theXPMax, theYPMax, theView->NativeInstance);
 
-		    return _PickFromSelector(*selector, interactives, shapes);
+		    return _GetPickedFromSelector(*selector, interactives, shapes);
+	    }
+		
+	    //--------------------------------------------------------------------------------------------------
+		  
+	    static int PickFromContext(Macad::Occt::AIS_InteractiveContext^ aisContext,
+                                   const Standard_Integer theScreenX, const Standard_Integer theScreenY, 
+                                   Macad::Occt::V3d_View^ theView,
+                                   List<Macad::Occt::AIS_InteractiveObject^>^ interactives,
+                                   List<Macad::Occt::TopoDS_Shape^>^ shapes)
+	    {
+		    auto selector = aisContext->NativeInstance->MainSelector();
+		    selector->Pick(theScreenX, theScreenY, theView->NativeInstance);
+
+		    return _GetPickedFromSelector(*selector, interactives, shapes);
+	    }
+				
+	    //--------------------------------------------------------------------------------------------------
+		  
+	    static bool PickFromContext(Macad::Occt::AIS_InteractiveContext^ aisContext,
+                                   const Standard_Integer theScreenX, const Standard_Integer theScreenY, 
+                                   Macad::Occt::V3d_View^ theView,
+                                   [Out] Macad::Occt::AIS_InteractiveObject^% interactive,
+                                   [Out] Macad::Occt::TopoDS_Shape^% shape)
+	    {
+		    auto selector = aisContext->NativeInstance->MainSelector();
+		    selector->Pick(theScreenX, theScreenY, theView->NativeInstance);
+
+		    return _GetOnePickedFromSelector(*selector, interactive, shape);
 	    }
 
 	    //--------------------------------------------------------------------------------------------------
 
-    private:
-	    static int _PickFromSelector(::StdSelect_ViewerSelector3d& selector, 
-								     List<Macad::Occt::AIS_InteractiveObject^>^ interactives,
-								     List<Macad::Occt::TopoDS_Shape^>^ shapes)
+		static int GetPickedFromContext(Macad::Occt::AIS_InteractiveContext^ aisContext,
+										 List<Macad::Occt::AIS_InteractiveObject^>^ aisObjects,
+									     List<Macad::Occt::TopoDS_Shape^>^ shapes)
+		{
+			auto selector = aisContext->NativeInstance->MainSelector();
+			return _GetPickedFromSelector(*selector, aisObjects, shapes);
+		}
+
+	    //--------------------------------------------------------------------------------------------------
+
+	private:
+
+	    static int _GetPickedFromSelector(::StdSelect_ViewerSelector3d& selector, 
+									      List<Macad::Occt::AIS_InteractiveObject^>^ interactives,
+									      List<Macad::Occt::TopoDS_Shape^>^ shapes)
 	    {
 		    int count = 0;
+			bool doInteractives = interactives != nullptr;
+			bool doShapes = shapes != nullptr;
+
+			interactives->Clear();
+			shapes->Clear();
+
 		    for (Standard_Integer aPickIter = 1; aPickIter <= selector.NbPicked(); ++aPickIter)
 		    {
 			    auto owner = selector.Picked (aPickIter);
@@ -96,21 +141,62 @@ namespace Helper {
 
 			    count++;
 
-			    if(interactives != nullptr)
+			    if(doInteractives)
 			    {
 				    Handle(::AIS_InteractiveObject) interactive = Handle(::AIS_InteractiveObject)::DownCast (owner->Selectable());
 				    if (!interactive.IsNull())
+					{
 					    interactives->Add(Macad::Occt::AIS_InteractiveObject::CreateDowncasted(interactive.get()));
+					} 
+					else 
+					{
+						interactives->Add(nullptr);
+					}
 			    }
 
-			    if(shapes != nullptr)
+			    if(doShapes)
 			    {
 				    auto brepOwner = Handle(::StdSelect_BRepOwner)::DownCast(owner);
 				    if (!brepOwner.IsNull() && brepOwner->HasShape())
+					{
 					    shapes->Add(gcnew Macad::Occt::TopoDS_Shape(new ::TopoDS_Shape(brepOwner->Shape())));
+					}
+					else 
+					{
+						shapes->Add(nullptr);
+					}
 			    }
 		    }
 		    return count;
+	    }
+
+	    //--------------------------------------------------------------------------------------------------
+
+		static bool _GetOnePickedFromSelector(::StdSelect_ViewerSelector3d& selector, 
+								 			 [Out] Macad::Occt::AIS_InteractiveObject^% interactive,
+											 [Out] Macad::Occt::TopoDS_Shape^% shape)
+	    {
+			interactive = nullptr;
+			shape = nullptr;
+
+			if(selector.NbPicked() == 0)
+			{
+				return false;
+			}
+
+			auto owner = selector.OnePicked();
+			if (owner.IsNull() || !owner->HasSelectable()) // || !filters.IsOk (owner))
+				return false;
+
+			Handle(::AIS_InteractiveObject) nativeInteractive = Handle(::AIS_InteractiveObject)::DownCast(owner->Selectable());
+			if (!nativeInteractive.IsNull())
+				interactive = Macad::Occt::AIS_InteractiveObject::CreateDowncasted(nativeInteractive.get());
+
+			auto brepOwner = Handle(::StdSelect_BRepOwner)::DownCast(owner);
+			if (!brepOwner.IsNull() && brepOwner->HasShape())
+				shape = gcnew Macad::Occt::TopoDS_Shape(new ::TopoDS_Shape(brepOwner->Shape()));
+
+			return true;
 	    }
 
 	    //--------------------------------------------------------------------------------------------------

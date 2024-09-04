@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Linq;
+using System.Windows.Input;
 using Macad.Common;
 using Macad.Interaction.Editors.Shapes;
 
@@ -72,7 +73,7 @@ public sealed class SelectSketchElementAction : ToolAction
                 _SketchEditorTool.Elements.DeselectAll();
             }
 
-            foreach (var detectedObject in data.DetectedAisInteractives)
+            foreach (var detectedObject in data.DetectedElements.Select(element => element.AisObject).WhereNotNull())
             {
                 _SketchEditorTool.Elements.Select(detectedObject);
             }

@@ -1,4 +1,6 @@
-﻿using Macad.Core.Shapes;
+﻿using System.Linq;
+using Macad.Core.Shapes;
+using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -32,6 +34,14 @@ public class SplitElementSketchTool : SketchTool
         if (args.ElementType == Sketch.ElementType.Segment)
         {
             args.Cancel = !SketchUtils.CanSplitSegment(SketchEditorTool.Sketch, args.Segment);
+            if (args.SecondSegment != null)
+            {
+                var secondElement = SketchEditorTool.Elements.SegmentElements.FirstOrDefault(element => element.Segment == args.SecondSegment);
+                if (secondElement?.AisObject is { } aisObject)
+                {
+                    args.MouseEventData.Return.AdditionalHighlights.Add(new MouseEventData.Element(aisObject));
+                }
+            }
         }
         if (args.ElementType == Sketch.ElementType.Point)
         {
@@ -46,7 +56,12 @@ public class SplitElementSketchTool : SketchTool
         if (args.ElementType == Sketch.ElementType.Segment && args.Segment != null)
         {
             Sketch.SaveUndo(Sketch.ElementType.All);
-            if (SketchUtils.SplitSegment(Sketch, args.Segment, args.Parameter) != SketchUtils.SplitSegmentFailed)
+            bool commit = SketchUtils.SplitSegment(Sketch, args.Segment, args.Parameter) != SketchUtils.SplitSegmentFailed;
+            if (args.SecondSegment != null)
+            {
+                commit |= SketchUtils.SplitSegment(Sketch, args.SecondSegment, args.SecondParameter) != SketchUtils.SplitSegmentFailed;
+            }
+            if(commit)
             {
                 CommitChanges();
             }

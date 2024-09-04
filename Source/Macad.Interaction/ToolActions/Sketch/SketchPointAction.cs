@@ -36,14 +36,11 @@ public class SketchPointAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public override SnapMode SupportedSnapModes => SnapMode.Grid | SnapMode.Vertex;
-
-    //--------------------------------------------------------------------------------------------------
-
     readonly SketchEditorTool _SketchEditorTool;
     Marker _Marker;
     Marker _MergePreviewMarker;
     Pnt2d _MergeCandidatePoint;
+    Snap2D _SnapHandler;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -75,8 +72,11 @@ public class SketchPointAction : ToolAction
     {
         Debug.Assert(_SketchEditorTool != null);
 
+        _SnapHandler = SetSnapHandler(new Snap2D());
+        _SnapHandler.Plane = _SketchEditorTool.Sketch.Plane;
+
         OpenSelectionContext();
-        _SketchEditorTool.Elements.Activate(true, false, false);
+        _SketchEditorTool.Elements.Activate(true, true, false);
 
         return true;
     }
@@ -103,7 +103,7 @@ public class SketchPointAction : ToolAction
         ElSLib.Parameters(_SketchEditorTool.Sketch.Plane, data.PointOnPlane, ref u, ref v);
         var sketchPoint = new Pnt2d(u, v);
 
-        _Point = Snap(sketchPoint);
+        _Point = _Snap(sketchPoint, data);
 
         // Recalculate point on working plane
         if (_SketchEditorTool.Sketch.Plane.Location.IsEqual(WorkspaceController.Workspace.WorkingPlane.Location, 0.00001))
@@ -130,7 +130,7 @@ public class SketchPointAction : ToolAction
             _Marker.Set(ElSLib.Value(_Point.X, _Point.Y, _SketchEditorTool.Sketch.Plane));
             WorkspaceController.Invalidate();
 
-            UpdateMergeMarker();
+            _UpdateMergeMarker();
 
             EventArgs args = new()
             {
@@ -169,7 +169,7 @@ public class SketchPointAction : ToolAction
             };
             Finished?.Invoke(this, args);
 
-            data.ForceReDetection = true;
+            data.Return.ForceReDetection = true;
         }
         return true;
     }
@@ -186,44 +186,47 @@ public class SketchPointAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    Pnt2d Snap(Pnt2d point)
+    Pnt2d _Snap(Pnt2d point, MouseEventData data)
     {
-        Pnt2d snapPoint = point;
+        double mergeDistance = _SnapHandler.GetSnapOnPlaneDistanceThreshold();
 
         // Snap
-        double snapDistance = WorkspaceController.ActiveViewport.GizmoScale*0.2;
-        var snapInfo = SketchToolHelper.Snap(point, _SketchEditorTool.Sketch, AdditionalSnapPoints);
-        if (snapInfo.Distance < snapDistance)
+        var snapInfo = _SnapHandler.Snap(data, AdditionalSnapPoints);
+        if (snapInfo.Mode != SnapModes.None)
         {
-            snapPoint = snapInfo.Point;
+            point = snapInfo.Point;
+            mergeDistance = snapInfo.Distance;
         }
 
         // Constraint point
-        OnConstraintPoint(ref snapPoint);
+        OnConstraintPoint(ref point);
 
         // Find merge candidate
-        double mergeDistance = WorkspaceController.ActiveViewport.GizmoScale*0.2;
+        _MergeCandidatePoint = point;
         _MergeCandidateIndex = -1;
 
         if (EnablePointMerge)
         {
             foreach (var pointKvp in _SketchEditorTool.Sketch.Points)
             {
-                var distance = pointKvp.Value.Distance(snapPoint);
-                if (distance < mergeDistance)
+                var distance = pointKvp.Value.Distance(point);
+                if (distance <= mergeDistance)
                 {
                     _MergeCandidatePoint = pointKvp.Value;
                     _MergeCandidateIndex = pointKvp.Key;
+                    mergeDistance = distance;
                 }
             }
+
+            point = _MergeCandidatePoint;
         }
 
-        return snapPoint;
+        return point;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void UpdateMergeMarker()
+    void _UpdateMergeMarker()
     {
         if (_MergeCandidateIndex >= 0)
         {

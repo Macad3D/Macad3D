@@ -179,7 +179,7 @@ public class TranslateAction : ToolAction
         for (int i = 0; i < _AxisGizmos.Length; i++)
         {
             var gizmo = _AxisGizmos[i];
-            if (data.DetectedAisInteractives.Contains(gizmo?.AisObject))
+            if (Equals(data.DetectedAisObject, gizmo?.AisObject))
             {
                 _MoveMode = (MoveMode)i + 1;
                 Dir translateDir = _MoveMode switch
@@ -201,7 +201,7 @@ public class TranslateAction : ToolAction
         for (int i = 0; i < _PlaneGizmos.Length; i++)
         {
             var gizmo = _PlaneGizmos[i];
-            if (data.DetectedAisInteractives.Contains(gizmo?.AisObject))
+            if (Equals(data.DetectedAisObject, gizmo?.AisObject))
             {
                 _MoveMode = (MoveMode)(i + 1 << 2);
 
@@ -411,7 +411,7 @@ public class TranslateAction : ToolAction
             // Transform into unrotated frame
             _Delta.Transform(_InverseRotation);
             UpdateGizmo();
-            data.ForceReDetection = true;
+            data.Return.ForceReDetection = true;
 
             EventArgs args = new()
             {

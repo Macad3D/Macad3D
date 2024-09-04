@@ -321,13 +321,9 @@ public abstract class Tool : WorkspaceControl
 
     #region Events
 
-    public delegate void ToolActionChangedHandler(Tool sender, ToolAction action);
-    public static event ToolActionChangedHandler ToolActionChanged;
-
     void OnToolActionChanged()
     {
         RaisePropertyChanged(nameof(CurrentAction));
-        ToolActionChanged?.Invoke(this, CurrentAction);
     }
 
     //--------------------------------------------------------------------------------------------------

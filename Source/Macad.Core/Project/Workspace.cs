@@ -341,20 +341,32 @@ public sealed class Workspace : BaseObject, IDisposable
         
     public Pnt2d ComputeGridPoint(Pnt2d coord)
     {
+        if (GridRotation != 0)
+        {
+            coord.Rotate(Pnt2d.Origin, -GridRotation.ToRad());
+        }
+
+        Pnt2d gridPoint;
         if (GridType == GridTypes.Circular)
         {
             double angle = gp.DX2d.Angle(coord.ToDir());
             double circStep = Maths.PI / GridDivisions;
             int iseg = (angle / circStep).ToRoundedInt();
             int icirc = (coord.Distance(Pnt2d.Origin) / GridStep).ToRoundedInt();
-            return new Pnt2d(GridStep * icirc, 0).Rotated(Pnt2d.Origin, circStep * iseg);
+            gridPoint = new Pnt2d(GridStep * icirc, 0).Rotated(Pnt2d.Origin, circStep * iseg);
         }
         else // GridTypes.Rectangular
         {
             int ix = (coord.X / GridStep).ToRoundedInt();
             int iy = (coord.Y / GridStep).ToRoundedInt();
-            return new Pnt2d(GridStep * ix, GridStep * iy);
+            gridPoint = new Pnt2d(GridStep * ix, GridStep * iy);
         }
+
+        if (GridRotation != 0)
+        {
+            gridPoint.Rotate(Pnt2d.Origin, GridRotation.ToRad());
+        }
+        return gridPoint;
     } 
         
     //--------------------------------------------------------------------------------------------------
@@ -362,11 +374,6 @@ public sealed class Workspace : BaseObject, IDisposable
     public bool ProjectToGrid(Viewport viewport, int screenX, int screenY, out Pnt pnt)
     {
         Pln plane = WorkingPlane;
-        if (GridRotation != 0)
-        {
-            plane.Rotate(WorkingPlane.Axis, GridRotation.ToRad());
-        }
-
         if(!viewport.ScreenToPoint(plane, screenX, screenY, out pnt))
             return false;
 

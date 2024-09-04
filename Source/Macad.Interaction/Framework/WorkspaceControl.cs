@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
@@ -41,6 +42,7 @@ public abstract class WorkspaceControl : BaseObject, IMouseEventHandler, IContex
     List<HudElement> _HudElements;
     List<VisualObject> _VisualObjects;
     List<SelectionContext> _SelectionContexts;
+    ISnapHandler _SnapHandler;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -56,6 +58,7 @@ public abstract class WorkspaceControl : BaseObject, IMouseEventHandler, IContex
         CloseSelectionContexts();
         RemoveHintMessage();
         RemoveCursor();
+        RemoveSnapHandler();
         WorkspaceController.Invalidate();
         CleanedUp = true;
     }
@@ -269,6 +272,38 @@ public abstract class WorkspaceControl : BaseObject, IMouseEventHandler, IContex
     public virtual bool OnEntitySelectionChanging(IEnumerable<InteractiveEntity> entitiesToSelect, IEnumerable<InteractiveEntity> entitiesToUnSelect)
     {
         return GetChildren().Any(child => child.OnEntitySelectionChanging(entitiesToSelect, entitiesToUnSelect));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Snapping
+
+    protected T SetSnapHandler<T>(T snapHandler) where T : SnapBase
+    {
+        RemoveSnapHandler();
+        snapHandler.WorkspaceController = WorkspaceController;
+        _SnapHandler = snapHandler;
+        WorkspaceController?.Selection?.Invalidate();
+        return snapHandler;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    protected void RemoveSnapHandler()
+    {
+        (_SnapHandler as IDisposable)?.Dispose();
+        _SnapHandler = null;
+        WorkspaceController?.Selection?.Invalidate();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public ISnapHandler GetSnapHandler()
+    {
+        return _SnapHandler ?? GetChildren().Select(child => child.GetSnapHandler())
+                                            .FirstOrDefault(handler => handler != null);
     }
 
     //--------------------------------------------------------------------------------------------------

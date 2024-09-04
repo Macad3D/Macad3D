@@ -540,18 +540,18 @@ public class VisualShapeTests
         Assert.Multiple(() =>
         {
             // Enhanced sensitivity for sketches
-            ctx.ClickAt(350, 160);
+            ctx.ClickAt(352, 160);
             Assert.IsFalse(ctx.WorkspaceController.Selection.SelectedEntities.Contains(body), "1");
-            ctx.ClickAt(350, 170);
+            ctx.ClickAt(352, 170);
             Assert.IsTrue(ctx.WorkspaceController.Selection.SelectedEntities.Contains(body), "2");
 
             // Restore original sensitivity when converted to solid
             Extrude.Create(body);
             ctx.WorkspaceController.Invalidate(forceRedraw:true);
 
-            ctx.ClickAt(350, 160);
+            ctx.ClickAt(352, 160);
             Assert.IsFalse(ctx.WorkspaceController.Selection.SelectedEntities.Contains(body), "3");
-            ctx.ClickAt(350, 170);
+            ctx.ClickAt(352, 170);
             Assert.IsTrue(ctx.WorkspaceController.Selection.SelectedEntities.Contains(body), "4");
             //AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SketchSelectionSensitivity01"));
         });

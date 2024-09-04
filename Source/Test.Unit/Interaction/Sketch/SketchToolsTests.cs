@@ -249,6 +249,157 @@ public class SketchToolsTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void SplitSnap()
+    {
+        var ctx = Context.Current;
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(0.5, 0.5, 0);
+
+        ctx.Workspace.GridStep = 3.0;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+        ctx.EditorState.SnapToGridSelected = true;
+        ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 10;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+
+        Assert.Multiple(() =>
+        {
+            // Select Segment
+            ctx.ClickAt(140, 90);
+            // Start split tool
+            var splitTool = new SplitElementSketchTool();
+            tool.StartTool(splitTool);
+
+            // Snap to Edge
+            ctx.MoveTo(350, 236);
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.Edge));
+            ctx.ClickAt(350, 236);
+            ctx.MoveTo(1, 1);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitSnap01"), 0.1);
+
+            // Snap to Grid
+            ctx.MoveTo(219, 145);
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.None));
+            ctx.ClickAt(219, 145);
+            ctx.MoveTo(190, 150);
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.Grid));
+            ctx.ClickAt(190, 150);
+            ctx.MoveTo(146, 184);
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.Grid));
+            ctx.ClickAt(146, 184);
+            ctx.MoveTo(1, 1);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitSnap02"), 0.1);
+
+            // Snap to circ grid
+            ctx.Workspace.GridType = Workspace.GridTypes.Circular;
+            ctx.MoveTo(271, 353);
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.None));
+            ctx.ClickAt(271, 353);
+            ctx.MoveTo(145, 311);
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.Grid));
+            ctx.ClickAt(145, 311);
+            ctx.MoveTo(210, 353);
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.Grid));
+            ctx.ClickAt(210, 353);
+            ctx.MoveTo(1, 1);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitSnap03"), 0.1);
+
+            tool.StopTool();
+        });
+
+        tool.Stop();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void SplitSnapSegmentCrossing()
+    {
+        var ctx = Context.Current;
+        ctx.Workspace.GridStep = 10.0;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = false;
+        ctx.EditorState.SnapToEdgeSelected = true;
+        ctx.EditorState.SnapToGridSelected = false;
+        ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 10;
+
+        var sketch = Core.Shapes.Sketch.Create();
+        var sb = new SketchBuilder(sketch);
+        sb.Line(0, 0, 10, 10);
+        sb.Line(8, 2, 2, 8);
+        var body = TestGeomGenerator.CreateBody(sketch);
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            var splitTool = new SplitElementSketchTool();
+            tool.StartTool(splitTool);
+            ctx.MoveTo(240, 240);
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.Edge));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitSnapSegmentCrossing01"), 0.1);
+
+            // Check un-highlighting of both segments
+            ctx.MoveTo(180, 318);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitSnapSegmentCrossing02"), 0.1);
+
+            // Check double-split
+            ctx.ClickAt(240, 240);
+            Assert.That(sketch.Points.Count, Is.EqualTo(6));
+            Assert.That(sketch.Segments.Count, Is.EqualTo(4));
+            tool.StopTool();
+            tool.Stop();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void SplitUnhighlightUnusedEdge()
+    {
+        var ctx = Context.Current;
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(0.5, 0.5, 0);
+
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+        ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 10;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+
+        Assert.Multiple(() =>
+        {
+            // Start split tool
+            var splitTool = new SplitElementSketchTool();
+            tool.StartTool(splitTool);
+
+            // Check not highlighting the unused detected edge
+            ctx.MoveTo(259, 95);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SplitUnhighlightUnusedEdge01"), 0.1);
+
+            tool.StopTool();
+        });
+
+        tool.Stop();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void DeletePointLineLine()
     {
         var ctx = Context.Current;
@@ -543,6 +694,50 @@ public class SketchToolsTests
     }
     
     //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ScaleElementsSnap()
+    {
+        var ctx = Context.Current;
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(-12.0, 5.0, -0.5);
+
+        ctx.Workspace.GridStep = 3.0;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+        ctx.EditorState.SnapToGridSelected = true;
+        ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 10;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [1,2]);
+        tool.StartTool(new ScaleElementSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(250, 103);
+            ctx.ViewportController.MouseDown();
+
+            ctx.MoveTo(290, 165);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElementsSnap01"), 0.1);
+            Assert.That(tool.GetSnapHandler().CurrentInfo.Mode, Is.EqualTo(SnapModes.Grid));
+
+            ctx.MoveTo(224, 78);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElementsSnap02"), 0.1);
+            Assert.That(tool.GetSnapHandler().CurrentInfo.Mode, Is.EqualTo(SnapModes.Edge));
+
+            // Cleanup
+            tool.StopTool();
+            ctx.WorkspaceController.CancelTool(tool, true);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
     
     [Test]
     public void OffsetSegmentsClosed()
@@ -762,6 +957,81 @@ public class SketchToolsTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsJoinType02"), 0.1);
             tool.OnKeyPressed(Key.Space, ModifierKeys.None);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsJoinType01"), 0.1);
+        });
+    }
+        
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void OffsetSegmentsSnapReferencePoint()
+    {
+        var ctx = Context.Current;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(-5.0, -5.0, 0.0);
+
+        ctx.Workspace.GridStep = 3.0;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+        ctx.EditorState.SnapToGridSelected = true;
+        ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 10;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [0,1,2]);
+        tool.StartTool(new OffsetSegmentSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(260, 152);
+            Assert.That(tool.GetSnapHandler().CurrentInfo.Mode, Is.EqualTo(SnapModes.Edge));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsSnap01"), 0.1);
+
+            ctx.MoveTo(258, 135);
+            Assert.That(tool.GetSnapHandler().CurrentInfo.Mode, Is.EqualTo(SnapModes.Grid));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsSnap02"), 0.1);
+        });
+    }
+            
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void OffsetSegmentsSnapDistance()
+    {
+        var ctx = Context.Current;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(0.0, 0.0, 0.0);
+
+        ctx.Workspace.GridStep = 3.0;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+        ctx.EditorState.SnapToGridSelected = true;
+        ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 10;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        tool.Select(null, [0,1,2]);
+        tool.StartTool(new OffsetSegmentSketchTool());
+
+        Assert.Multiple(() =>
+        {
+            // Select reference point
+            ctx.ClickAt(334, 70);
+
+            ctx.MoveTo(351, 31);
+            Assert.That(tool.GetSnapHandler().CurrentInfo.Mode, Is.EqualTo(SnapModes.Edge));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "OffsetSegmentsSnap11"), 0.1);
         });
     }
 

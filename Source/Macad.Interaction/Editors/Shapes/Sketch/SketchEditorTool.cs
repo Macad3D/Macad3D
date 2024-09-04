@@ -286,7 +286,7 @@ public sealed class SketchEditorTool : Tool
             _LastPixelSize = WorkspaceController.ActiveViewport.PixelSize;
             //Debug.WriteLine("Gizmo scaled, last is " + _LastGizmoScale);
             Elements.OnGizmoScaleChanged(_TempPoints, Sketch.Segments);
-            data.ForceReDetection = true;
+            data.Return.ForceReDetection = true;
         }
 
         return base.OnMouseMove(data);

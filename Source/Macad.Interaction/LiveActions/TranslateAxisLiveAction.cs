@@ -172,7 +172,7 @@ public class TranslateAxisLiveAction : LiveAction
 
     public override bool OnMouseDown(MouseEventData data)
     {
-        if (data.DetectedAisInteractives.Contains(_AxisGizmo?.AisObject))
+        if (Equals(data.DetectedAisObject, _AxisGizmo?.AisObject))
         {
             var value = _ProcessMouseInput(data);
             if (value != null)
@@ -267,7 +267,7 @@ public class TranslateAxisLiveAction : LiveAction
                 MouseEventData = data
             };
             Finished?.Invoke(this, eventArgs);
-            data.ForceReDetection = true;
+            data.Return.ForceReDetection = true;
             return true;
         }
         return base.OnMouseUp(data);

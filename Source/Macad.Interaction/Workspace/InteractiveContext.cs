@@ -156,6 +156,7 @@ public abstract class InteractiveContext : CoreContext
         WorkspaceController?.Dispose();
         WorkspaceController = null;
         ViewportController = null;
+        _EditorState?.Dispose();
         base.Dispose(disposing);
     }
 

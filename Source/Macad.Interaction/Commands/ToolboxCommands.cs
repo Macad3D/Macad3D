@@ -117,7 +117,7 @@ public static class ToolboxCommands
         Description = () => "Create and export the contours of a number of slices from the selected body.",
         Icon = () => "Make-SliceContour",
         HelpTopic = "0c834add-faf4-48f0-a8c3-e6dce411774c",
-        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.TwoWay,
+        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveTool)}", BindingMode.TwoWay,
                                                 EqualityToBoolConverter.Instance, nameof(SliceContourEditTool))
     };
 
@@ -147,7 +147,7 @@ public static class ToolboxCommands
         Description = () => "Create and export the mask from the selected body for etching.",
         Icon = () => "Make-EtchingMask",
         HelpTopic = "0c834add-faf4-48f0-a8c3-e6dce411774c",
-        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, "EditorState.ActiveTool", BindingMode.TwoWay,
+        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveTool)}", BindingMode.TwoWay,
                                                 EqualityToBoolConverter.Instance, nameof(EtchingMaskEditTool))
     };
 

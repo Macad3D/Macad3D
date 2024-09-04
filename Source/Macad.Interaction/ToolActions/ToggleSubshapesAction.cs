@@ -103,9 +103,12 @@ public class ToggleSubshapesAction : ToolAction
 
     void _ProcessMouseSelect(MouseEventData data)
     {
-        foreach (var detectedShape in data.DetectedShapes)
+        foreach (var detected in data.DetectedElements)
         {
-            var subshape = _Subshapes.FirstOrDefault(sh => sh.Shape.IsEqual(detectedShape));
+            if(detected.BrepShape == null)
+                continue;
+
+            var subshape = _Subshapes.FirstOrDefault(sh => sh.Shape.IsEqual(detected.BrepShape));
             if (subshape != null)
             {
                 subshape.IsSelected = !subshape.IsSelected;
@@ -118,7 +121,7 @@ public class ToggleSubshapesAction : ToolAction
                     MouseEventData = data
                 };
                 Finished?.Invoke(this, args);
-                data.ForceReDetection = true;
+                data.Return.ForceReDetection = true;
                 break;
             }
         }

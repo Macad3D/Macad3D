@@ -29,8 +29,8 @@
     </UserControl.Resources>
 
     <StatusBar HorizontalAlignment="Center">
-        <StatusBarItem>
-            <Grid Visibility="{Binding Context.WorkspaceController.IsCursorPositionValid, Converter={mmp:BoolToVisibleHiddenConverter}}">
+        <StatusBarItem Margin="25,0">
+            <Grid Visibility="{Binding Context.WorkspaceController.CursorPosition, Converter={mmp:NotNullToVisibleHiddenConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition MinWidth="75"/>
@@ -45,8 +45,8 @@
             </Grid>
         </StatusBarItem>
 
-        <StatusBarItem Margin="100,0">
-            <Grid Visibility="{Binding Context.WorkspaceController.IsCursorPositionValid, Converter={mmp:BoolToVisibleHiddenConverter}}">
+        <StatusBarItem Margin="25,0">
+            <Grid Visibility="{Binding Context.WorkspaceController.CursorPosition2d, Converter={mmp:NotNullToVisibleHiddenConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition MinWidth="75"/>
@@ -56,6 +56,25 @@
                 <TextBlock Text="Plane:" />
                 <TextBlock Grid.Column="1" Margin="3,0" Text="{Binding Context.WorkspaceController.CursorPosition2d.X, StringFormat={}{0:0.00}}" HorizontalAlignment="Right" />
                 <TextBlock Grid.Column="2" Margin="3,0" Text="{Binding Context.WorkspaceController.CursorPosition2d.Y, StringFormat={}{0:0.00}}" HorizontalAlignment="Right" />
+            </Grid>
+        </StatusBarItem>
+
+        <StatusBarItem Margin="25,0">
+            <Grid Visibility="{Binding Context.EditorState.SnapInfo, Converter={mmp:NotNullToVisibleHiddenConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition MinWidth="120"/>
+                </Grid.ColumnDefinitions>
+
+                <mmp:AutoGreyableImage Source="{mmp:IconResource Snap-Enabled}" 
+                                       Height="18" Width="18"
+                                       Margin="0,0,10,0"
+                                       IsEnabled="{Binding Context.EditorState.SnapInfo.Mode, Converter={mmp:EqualityToNotBoolConverter}, ConverterParameter=None}"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Text="{Binding Context.EditorState.SnapInfo.Mode}" />
+                    <TextBlock Text="{Binding Context.EditorState.SnapInfo.TargetName, StringFormat={} [{0}]}"
+                               Visibility="{Binding Context.EditorState.SnapInfo.TargetName, Converter={mmp:NotNullToVisibleCollapsedConverter}}"/>
+                </StackPanel>
             </Grid>
         </StatusBarItem>
     </StatusBar>

@@ -301,7 +301,8 @@ public static class WorkspaceCommands
         Title = () => "Align Working Plane",
         Description = () => "Align the working plane to a face, edge or vertex.",
         Icon = () => "WorkingPlane-Align",
-        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveTool)}", BindingMode.OneWay, EqualityToBoolConverter.Instance, nameof(AlignWorkingPlaneTool))
+        IsCheckedBinding = BindingHelper.Create(InteractiveContext.Current, $"{nameof(EditorState)}.{nameof(EditorState.ActiveTool)}", BindingMode.OneWay, 
+                                                EqualityToBoolConverter.Instance, nameof(AlignWorkingPlaneTool))
     };
 
     //--------------------------------------------------------------------------------------------------

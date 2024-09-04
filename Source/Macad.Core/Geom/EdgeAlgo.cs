@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Macad.Common;
 using Macad.Occt;
@@ -147,6 +148,29 @@ public static class EdgeAlgo
         return null;
     }
         
+    //--------------------------------------------------------------------------------------------------
+
+    public static bool HasCoincidentVertices(TopoDS_Edge edge1, TopoDS_Edge edge2, double precision=0.0001)
+    {
+        var vertices1 = edge1.Vertices();
+        var vertices2 = edge2.Vertices();
+        Debug.Assert(vertices1.Count == 2 && vertices2.Count == 2);
+
+        var p10 = vertices1[0].Pnt();
+        var p11 = vertices1[1].Pnt();
+        var p20 = vertices2[0].Pnt();
+        var p21 = vertices2[1].Pnt();
+
+        if (p10.Distance(p20) < precision)
+        {
+            return p11.Distance(p21) < precision;
+        }
+        else
+        {
+            return p10.Distance(p21) < precision && p11.Distance(p20) < precision;
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public static bool SetContinuity(TopoDS_Shape shape, TopoDS_Edge edge, GeomAbs_Shape newContinuity)

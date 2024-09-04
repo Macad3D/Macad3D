@@ -85,14 +85,7 @@ public class SelectEntityAction<T> : ToolAction where T: InteractiveEntity
 
     void ProcessMouseInput(MouseEventData data)
     {
-        if (data.DetectedEntities.Count == 1)
-        {
-            _SelectedEntity = data.DetectedEntities[0] as T;
-        }
-        else
-        {
-            _SelectedEntity = null;
-        }
+        _SelectedEntity = data.DetectedEntity as T;
     }
 
     //--------------------------------------------------------------------------------------------------

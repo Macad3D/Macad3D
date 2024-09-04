@@ -241,7 +241,7 @@ public sealed class BoxScaleLiveAction : LiveAction
             Finished?.Invoke(this, eventArgs);
 
             _Update();
-            data.ForceReDetection = true;
+            data.Return.ForceReDetection = true;
 
             return true;
         }
@@ -254,7 +254,7 @@ public sealed class BoxScaleLiveAction : LiveAction
     {
         for (int i = 0; i < _Handles.Length; i++)
         {
-            if (data.DetectedAisInteractives.Contains(_Handles[i]?.AisObject))
+            if (Equals(data.DetectedAisObject, _Handles[i]?.AisObject))
             {
                 Pnt min = _Box.CornerMin();
                 XYZ extent = new Vec(min, _Box.CornerMax()).ToXYZ();

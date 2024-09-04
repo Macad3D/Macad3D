@@ -171,6 +171,9 @@ public static class Dialogs
 
     public static bool AskSketchPointMerge(string pointList)
     {
+        if(Application.Current?.MainWindow == null)
+            return false;
+
         return TaskDialog.ShowMessage(Application.Current.MainWindow,
                                       $"Merge coincident points?",
                                       $"The following points are very close in position. These could be combined into one point if they should be coincident.\n Points: {pointList}",

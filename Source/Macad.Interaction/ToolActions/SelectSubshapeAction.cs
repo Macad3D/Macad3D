@@ -142,15 +142,14 @@ public class SelectSubshapeAction : ToolAction
 
     EventArgs ProcessMouseInput(MouseEventData data)
     {
-        InteractiveEntity selectedEntity = data.DetectedEntities.FirstOrDefault();
-        AIS_InteractiveObject selectedAisObject = data.DetectedAisInteractives.FirstOrDefault();
+        InteractiveEntity selectedEntity = data.DetectedEntity;
+        AIS_InteractiveObject selectedAisObject = data.DetectedAisObject;
         TopoDS_Shape selectedSubshape = null;
         SubshapeTypes selectedSubshapeType = SubshapeTypes.None;
 
-        if (data.DetectedShapes.Count > 0)
+        var detectedShape = data.DetectedBrepShape;
+        if (detectedShape != null)
         {
-            var detectedShape = data.DetectedShapes[0];
-
             if (_SubshapeTypes.HasFlag(SubshapeTypes.Vertex)
                 && detectedShape.ShapeType() == TopAbs_ShapeEnum.VERTEX)
             {

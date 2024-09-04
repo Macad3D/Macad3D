@@ -155,10 +155,15 @@ public class Plane : VisualObject
             _UpdatePresentation();
             AisContext.RecomputePrsOnly(_AisObject, false);
         }
-        if(_IsSelectable)
+
+        if (_IsSelectable)
+        {
             AisContext.Activate(_AisObject);
+        }
         else
+        {
             AisContext.Deactivate(_AisObject);
+        }
     }
     
     //--------------------------------------------------------------------------------------------------
@@ -196,20 +201,21 @@ public class Plane : VisualObject
 
     //--------------------------------------------------------------------------------------------------
 
-    bool _EnsureAisObject()
+    void _EnsureAisObject()
     {
         if (_AisObject != null)
-            return true;
+            return;
 
         _AisObject = new AISX_Plane();
-                
+
         if (_Style.HasFlag(Style.Topmost))
+        {
             _AisObject.SetZLayer(-3); // TOPMOST
+        }
 
         _UpdatePresentation();
 
         AisContext.Display(_AisObject, false);
-        return true;
     }
 
     //--------------------------------------------------------------------------------------------------

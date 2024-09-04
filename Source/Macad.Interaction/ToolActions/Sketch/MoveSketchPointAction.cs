@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using Macad.Common;
-using Macad.Interaction.Editors.Shapes;
 using Macad.Interaction.Visual;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Occt;
 using Macad.Presentation;
+using Macad.Interaction.Editors.Shapes;
+using System;
 
 namespace Macad.Interaction;
 
@@ -47,10 +47,7 @@ public class MoveSketchPointAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public override SnapMode SupportedSnapModes => SnapMode.Grid | SnapMode.Vertex;
-
-    //--------------------------------------------------------------------------------------------------
-
+    readonly SketchEditorTool _SketchEditorTool;
     Sketch _Sketch;
     Axis _AxisGizmoX;
     Axis _AxisGizmoY;
@@ -61,6 +58,7 @@ public class MoveSketchPointAction : ToolAction
     Pnt2d _Center2DOnWorkingPlane;
     Pnt2d _MoveStartPoint;
     double _RotateStartValue;
+    Snap2D _SnapHandler;
     Coord2DHudElement _Coord2DHudElement;
     Delta2DHudElement _Delta2DHudElement;
     ValueHudElement _ValueHudElement;
@@ -81,9 +79,10 @@ public class MoveSketchPointAction : ToolAction
     //--------------------------------------------------------------------------------------------------
 
 
-    public MoveSketchPointAction(object owner)
+    public MoveSketchPointAction(SketchEditorTool sketchEditorTool)
         : base()
     {
+        _SketchEditorTool = sketchEditorTool;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -262,57 +261,65 @@ public class MoveSketchPointAction : ToolAction
 
     public override bool OnMouseDown(MouseEventData data)
     {
-        if (data.DetectedEntities.Count == 0)
+        if (data.DetectedAisObject != null)
         {
             double u = 0, v = 0;
-            if (data.DetectedAisInteractives.Contains(_PlaneGizmo?.AisObject))
+            if (Equals(data.DetectedAisObject, _PlaneGizmo?.AisObject))
             {
                 _MoveConstraintX = false;
                 _MoveConstraintY = false;
-                _ActivateGizmos(false);
                 _PlaneGizmo.IsSelected = true;
                 _Moving = true;
             }
-            else if (data.DetectedAisInteractives.Contains(_AxisGizmoX?.AisObject))
+            else if (Equals(data.DetectedAisObject, _AxisGizmoX?.AisObject))
             {
                 _MoveConstraintX = false;
                 _MoveConstraintY = true;
-                _ActivateGizmos(false);
                 _AxisGizmoX.IsSelected = true;
                 _Moving = true;
             }
-            else if (data.DetectedAisInteractives.Contains(_AxisGizmoY?.AisObject))
+            else if (Equals(data.DetectedAisObject, _AxisGizmoY?.AisObject))
             {
                 _MoveConstraintX = true;
                 _MoveConstraintY = false;
-                _ActivateGizmos(false);
                 _AxisGizmoY.IsSelected = true;
                 _Moving = true;
             }
-            else if (_CircleGizmo != null && data.DetectedAisInteractives.Contains(_CircleGizmo.AisObject))
+            else if (_CircleGizmo != null && Equals(data.DetectedAisObject, _CircleGizmo.AisObject))
             {
                 if (WorkspaceController.ActiveViewport.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var resultPnt))
                 {
                     var planeDelta = ProjLib.Project(_MovePlane, resultPnt);
                     _RotateStartValue = Dir2d.DX.Angle(new Dir2d(planeDelta.Coord));
 
-                    _ActivateGizmos(false);
                     _CircleGizmo.IsSelected = true;
                     _RotateCenter = _Center2D;
                     _Rotating = true;
-                    _FirstDelta = false;
                 }
             }
-            if (_Moving)
-            {
-                ElSLib.Parameters(_Sketch.Plane, data.PointOnPlane, ref u, ref v);
-                _MoveStartPoint = new Pnt2d(u, v);
-                _FirstDelta = false;
-                return true;
-            }
+
+            if (!(_Moving || _Rotating))
+                return false;
+
+            ElSLib.Parameters(_Sketch.Plane, data.PointOnPlane, ref u, ref v);
+            _MoveStartPoint = new Pnt2d(u, v);
+            _FirstDelta = false;
+            _ActivateGizmos(false);
+            SetCursor(Cursors.Move);
+
+            // Deactivate to prevent self-snapping
+            _SketchEditorTool.Elements.Activate(true, false, false);
+            _SketchEditorTool.Elements.PointElements.Where(element => _Points.Contains(element.PointIndex))
+                                                    .ForEach(element => element.Activate(false));
+            
+            _SnapHandler = SetSnapHandler(new Snap2D());
+            _SnapHandler.SupportedModes = SnapModes.Grid | SnapModes.Edge | SnapModes.Vertex;
+            _SnapHandler.Plane = _SketchEditorTool.Sketch.Plane;
+
+            return true; // Supress Rubberband Selection
         }
 
-        return _Moving || _Rotating; // Supress Rubberband Selection
+        return false;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -336,13 +343,20 @@ public class MoveSketchPointAction : ToolAction
 
                 _MoveDelta = Vec2d.Zero;
                 _RotateDelta = 0;
+
+                // Re-Activate
+                _SketchEditorTool.Elements.PointElements.Where(element => _Points.Contains(element.PointIndex))
+                                                        .ForEach(element => element.Activate(true));
+                _SketchEditorTool.Elements.Activate(true, true, true);
             }
+
             _Moving = false;
             _Rotating = false;
 
-            // Set new center
             _UpdateGizmos();
             _ActivateGizmos(true);
+            _SnapHandler.SupportedModes = SnapModes.None;
+            SetCursor(null);
 
             Remove(_Coord2DHudElement);
             _Coord2DHudElement = null;
@@ -353,6 +367,9 @@ public class MoveSketchPointAction : ToolAction
 
             _MergePreviewMarkers.ForEach(m => Remove(m));
             _MergePreviewMarkers.Clear();
+
+            RemoveSnapHandler();
+            _SnapHandler = null;
 
             return true;
         }
@@ -374,7 +391,7 @@ public class MoveSketchPointAction : ToolAction
             _MoveDelta = new Vec2d(newPoint.Coord.Subtracted(_MoveStartPoint.Coord));
 
             // Apply constraints
-            ApplyConstraints();
+            _ApplyConstraints();
             if (data.ModifierKeys.HasFlag(ModifierKeys.Control))
             {
                 var tempCoord = _Center2DOnWorkingPlane.Translated(_MoveDelta);
@@ -384,9 +401,9 @@ public class MoveSketchPointAction : ToolAction
             }
             else
             {
-                Snap();
+                _Snap();
             }
-            ApplyConstraints();
+            _ApplyConstraints();
                 
             if (!_FirstDelta && _MoveDelta.Magnitude() > double.Epsilon)
             {
@@ -476,7 +493,8 @@ public class MoveSketchPointAction : ToolAction
                 _MergePreviewMarkers.Add(marker);
             }
 
-            data.ForceReDetection = true;
+            data.Return.ForceReDetection = true;
+            data.Return.RemoveHighlighting = true;
 
             EventArgs args = new()
             {
@@ -494,7 +512,7 @@ public class MoveSketchPointAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    void ApplyConstraints()
+    void _ApplyConstraints()
     {
         if (_MoveConstraintX)
             _MoveDelta = new Vec2d(0, _MoveDelta.Y);
@@ -504,28 +522,18 @@ public class MoveSketchPointAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    void Snap()
+    void _Snap()
     {
-        double snapDistance = Double.MaxValue;
-        Vec2d snapDelta = _MoveDelta;
-
-        foreach (var point in _Points)
+        var snapCount = InteractiveContext.Current.Parameters.Get<SketchEditorParameterSet>().MaximumPointCountSnapping;
+        var points = _Points.Take(snapCount).Select(index => _Sketch.Points[index].Translated(_MoveDelta)).ToList();
+        var snapInfo = _SnapHandler.Snap(points, out var snappedPointListIndex);
+        if (snapInfo.Mode != SnapModes.None)
         {
-            var movedPoint = _Sketch.Points[point].Translated(_MoveDelta);
+            int pointIndex = _Points[snappedPointListIndex];
+            snapInfo.TargetName = $"Pnt #{pointIndex}" + (snapInfo.TargetName != null ? $" on {snapInfo.TargetName}" : "");
 
-            // Calc snapping position and distance to grid
-            var snapInfo = SketchToolHelper.Snap(movedPoint, _Sketch);
-            if (snapInfo.Distance < snapDistance)
-            {
-                // This point snaps closer
-                snapDistance = snapInfo.Distance;
-                snapDelta = new Vec2d(snapInfo.Point.Coord.Subtracted(_Sketch.Points[point].Coord));
-            }
-        }
-
-        if (snapDistance <  WorkspaceController.ActiveViewport.GizmoScale*0.2)
-        {
-            _MoveDelta = snapDelta;
+            Vec2d snapDelta = new(points[snappedPointListIndex], snapInfo.Point);
+            _MoveDelta += snapDelta;
         }
     }
 

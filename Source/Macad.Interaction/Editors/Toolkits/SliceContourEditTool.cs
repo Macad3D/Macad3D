@@ -470,7 +470,7 @@ public class SliceContourEditTool : Tool
         _MoveSliceAction.Finished += _MoveSliceAction_Finished;
         StartAction(_MoveSliceAction, false);
 
-        args.MouseEventData.ForceReDetection = true;
+        args.MouseEventData.Return.ForceReDetection = true;
 
         SetCursor(Cursors.SetHeight);
         SetHintMessage("__Adjust slice plane interval__. Press `k:Shift` to also move subsequent layers. Press `k:Ctrl` to round to current grid step.");

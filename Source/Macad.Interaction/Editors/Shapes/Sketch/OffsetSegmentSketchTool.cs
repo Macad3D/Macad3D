@@ -28,6 +28,7 @@ public class OffsetSegmentSketchTool : SketchTool
 
     OffsetData[] _Data;
     SketchSegment[] _Segments;
+    TopoDS_Edge[] _Edges;
     Axis _DirectionPreview;
     ValueHudElement _OffsetHudElement;
     LabelHudElement _JoinTypeHudElement;
@@ -50,17 +51,16 @@ public class OffsetSegmentSketchTool : SketchTool
 
         // Init interactions
         SketchEditorTool.Elements.ConstraintsVisible = false;
-        SketchEditorTool.Elements.Activate(false, false, false);
-        _UpdateSegmentElementsVisibility(false);
 
-        SketchEditorTool.Elements.PointElements.Where(element => element.IsSelected)
-                                               .ForEach(element => element.IsSelected = false);
-
-        var toolAction = new SelectSubshapeAction(_Data.SelectMany(data => data.Original.Edges()), Sketch.GetTransformation(), Colors.SketchEditorSelection);
+        var toolAction = new PointOnSketchElementAction(SketchEditorTool)
+        {
+            SelectedElementsOnly = true,
+            AllowPoints = false
+        };
         if (!StartAction(toolAction))
             return false;
-        toolAction.Preview += _SegmentPointAction_Preview;
-        toolAction.Finished += _SegmentPointAction_Finished;
+        toolAction.Preview += _PointOnElementAction_Preview;
+        toolAction.Finished += _PointOnElementAction_Finished;
 
         SetHintMessage(_MessageRefPoint);
         SetCursor(Cursors.SetPoint);
@@ -85,7 +85,6 @@ public class OffsetSegmentSketchTool : SketchTool
             _OffsetHudElement.ValueEntered -= _OffsetHudElement_ValueEntered;
             _OffsetHudElement = null;
         }
-
         _UpdateSegmentElementsVisibility(true);
         _DirectionPreview = null;
         
@@ -94,9 +93,9 @@ public class OffsetSegmentSketchTool : SketchTool
 
     //--------------------------------------------------------------------------------------------------
 
-    void _SegmentPointAction_Preview(SelectSubshapeAction sender, SelectSubshapeAction.EventArgs args)
+    void _PointOnElementAction_Preview(PointOnSketchElementAction action, PointOnSketchElementAction.PreviewEventArgs eventArgs)
     {
-        if (_GetDirectionAxis(args, out var axis))
+        if (_GetDirectionAxis(eventArgs, out var axis))
         {
             if (_DirectionPreview == null)
             {
@@ -120,15 +119,18 @@ public class OffsetSegmentSketchTool : SketchTool
     
     //--------------------------------------------------------------------------------------------------
 
-    void _SegmentPointAction_Finished(SelectSubshapeAction sender, SelectSubshapeAction.EventArgs args)
+    void _PointOnElementAction_Finished(PointOnSketchElementAction action, PointOnSketchElementAction.EventArgs eventArgs)
     {
-        if (!_GetDirectionAxis(args, out var axis))
+        if (!_GetDirectionAxis(eventArgs, out var axis))
         {
-            sender.Reset();
+            action.Reset();
             return;
         }
 
-        StopAction(sender);
+        StopAction(action);
+        // Reactivate vertices and segments for snapping
+        SketchEditorTool.Elements.Activate(true, true, false);
+
         Remove(_DirectionPreview);
         _DirectionPreview = null;
 
@@ -152,6 +154,7 @@ public class OffsetSegmentSketchTool : SketchTool
         };
         Add(_JoinTypeHudElement);
 
+        _UpdateSegmentElementsVisibility(false);
         _UpdatePreviews();
         SetHintMessage(_MessageDistance);
         SetCursor(Cursors.SetHeight);
@@ -159,19 +162,23 @@ public class OffsetSegmentSketchTool : SketchTool
     
     //--------------------------------------------------------------------------------------------------
 
-    bool _GetDirectionAxis(SelectSubshapeAction.EventArgs args, out Ax1 axis)
+    bool _GetDirectionAxis(PointOnSketchElementAction.EventArgs eventArgs, out Ax1 axis)
     {
-        if (args.SelectedSubshapeType == SubshapeTypes.Edge)
+        if (eventArgs.ElementType == Sketch.ElementType.Segment)
         {
-            var edge = args.SelectedSubshape.ToEdge();
-            var edgeParam = EdgeAlgo.FindEdgeParameter(edge, args.MouseEventData.PickAxis);
-            Pnt point = new();
-            Vec tangent = new();
-            edge.Adaptor().D1(edgeParam, ref point, ref tangent);
-            axis = new (new Pnt(point.X, point.Y, 0.0), tangent.ToDir().Crossed(Dir.DZ));
-            if(edge.Orientation() == TopAbs_Orientation.REVERSED)
-                axis.Reverse();
-            return true;
+            int index = Array.IndexOf(_Segments, eventArgs.Segment);
+            if (index >= 0)
+            {
+                var edge = _Edges[index];
+                Pnt point = new();
+                Vec tangent = new();
+                edge.Adaptor().D1(eventArgs.Parameter, ref point, ref tangent);
+                point.Transform(Sketch.GetTransformation());
+                axis = new(new Pnt(point.X, point.Y, 0.0), tangent.ToDir().Crossed(Dir.DZ));
+                if (edge.Orientation() == TopAbs_Orientation.REVERSED)
+                    axis.Reverse();
+                return true;
+            }
         }
 
         axis = Ax1.OZ;
@@ -238,7 +245,7 @@ public class OffsetSegmentSketchTool : SketchTool
     }
 
     //--------------------------------------------------------------------------------------------------
-
+    
     void _UpdateSegmentElementsVisibility(bool show)
     {
         if (_Segments == null)
@@ -263,8 +270,7 @@ public class OffsetSegmentSketchTool : SketchTool
         }
     }
 
-    //--------------------------------------------------------------------------------------------------
-
+    //---------------------
     void _SetJoinType(GeomAbs_JoinType newType)
     {
         _CurrentJoinType = newType;
@@ -283,12 +289,11 @@ public class OffsetSegmentSketchTool : SketchTool
             Geom_Surface surface = new Geom_Plane(Pln.XOY);
             BRepBuilderAPI_MakeFace makeFace = new(surface, 1e-6);
 
-            var edges = _Segments
+            _Edges = _Segments
                     .Select(seg => seg.MakeCurve(Sketch.Points))
-                    .Where(curve => curve != null)
-                    .Select(curve => new BRepBuilderAPI_MakeEdge(curve, surface).Edge())
+                    .Select(curve => curve != null ? new BRepBuilderAPI_MakeEdge(curve, surface).Edge() : null)
                     .ToArray();
-            var wires = Topo2dUtils.BuildWiresFromEdges(edges).Wires();
+            var wires = Topo2dUtils.BuildWiresFromEdges(_Edges.WhereNotNull()).Wires();
             wires.ForEach(makeFace.Add);
 
             // Fix orientation of that faces
@@ -303,12 +308,23 @@ public class OffsetSegmentSketchTool : SketchTool
             _Data = new OffsetData[faces.Count];
             for (int faceIndex = 0; faceIndex < faces.Count; faceIndex++)
             {
+                var face = faces[faceIndex];
                 _Data[faceIndex] = new OffsetData
                 {
-                    Face = faces[faceIndex],
-                    MakeOffset = new(faces[faceIndex], _CurrentJoinType, false),
-                    Original = TopoUtils.CreateCompound(faces[faceIndex].Wires())
+                    Face = face,
+                    MakeOffset = new(face, _CurrentJoinType, false),
+                    Original = TopoUtils.CreateCompound(face.Wires())
                 };
+
+                // Find new edges to get correct orientation later on selecting
+                foreach (var faceEdge in face.Edges())
+                {
+                    int index = Array.FindIndex(_Edges, edge => EdgeAlgo.HasCoincidentVertices(edge, faceEdge));
+                    if (index >= 0)
+                    {
+                        _Edges[index] = faceEdge;
+                    }
+                }
             }
 
             return _DoOffsets();
@@ -377,16 +393,20 @@ public class OffsetSegmentSketchTool : SketchTool
         {
             if (data.PreviewShape == null)
             {
-                var previewShape = new AIS_Shape(data.Result.Located(new TopLoc_Location(Sketch.GetTransformation())));
-                previewShape.SetZLayer(-3); // TOP
-                previewShape.SetWidth(2.0);
-                AisHelper.DisableGlobalClipPlanes(previewShape);
+                if (data.Result != null)
+                {
+                    var previewShape = new AIS_Shape((data.Result ?? data.Original).Located(new TopLoc_Location(Sketch.GetTransformation())));
+                    previewShape.SetZLayer(-3); // TOP
+                    previewShape.SetWidth(2.0);
+                    AisHelper.DisableGlobalClipPlanes(previewShape);
 
-                var paramSet = InteractiveContext.Current.Parameters.Get<SketchEditorParameterSet>();
-                previewShape.SetAngleAndDeviation(paramSet.DeviationAngle.ToRad());
-                previewShape.SetColor(Colors.SketchEditorSegments.ToQuantityColor());
-                WorkspaceController.Workspace.AisContext.Display(previewShape, false);
-                data.PreviewShape = previewShape;
+                    var paramSet = InteractiveContext.Current.Parameters.Get<SketchEditorParameterSet>();
+                    previewShape.SetAngleAndDeviation(paramSet.DeviationAngle.ToRad());
+                    previewShape.SetColor(Colors.SketchEditorSegments.ToQuantityColor());
+                    WorkspaceController.Workspace.AisContext.Display(previewShape, false);
+                    WorkspaceController.Workspace.AisContext.Deactivate(previewShape);
+                    data.PreviewShape = previewShape;
+                }
             }
             else
             {
@@ -394,7 +414,7 @@ public class OffsetSegmentSketchTool : SketchTool
                 {
                     data.PreviewShape.Set(data.Result.Located(new TopLoc_Location(Sketch.GetTransformation())));
                     WorkspaceController.Workspace.AisContext.RecomputePrsOnly(data.PreviewShape, false);
-                    WorkspaceController.Workspace.AisContext.Deactivate();
+                    WorkspaceController.Workspace.AisContext.Deactivate(data.PreviewShape);
                 }
                 else
                 {

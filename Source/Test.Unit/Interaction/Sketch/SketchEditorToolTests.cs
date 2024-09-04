@@ -66,11 +66,11 @@ public class SketchEditorToolTests
             ctx.ViewportController.MouseMove(new Point(377, 38));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint05"), 0.1);
             // Hilite Gizmo XY-Plane
-            ctx.ViewportController.MouseMove(new Point(392, 104));
+            ctx.ViewportController.MouseMove(new Point(412, 84));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint06"), 0.1);
             // Move on progress
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseMove(new Point(387, 141));
+            ctx.ViewportController.MouseMove(new Point(407, 121));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePoint07"), 0.1);
             // Move released
             ctx.ViewportController.MouseUp();
@@ -244,6 +244,103 @@ public class SketchEditorToolTests
     public void MovePointSnap()
     {            
         var ctx = Context.Current;
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(1, 1, 0);
+
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+        ctx.EditorState.SnapToGridSelected = true;
+        ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 10;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        
+        Assert.Multiple(() =>
+        {
+            // Select Point
+            ctx.ClickAt(377, 122);
+            // Move on progress
+            ctx.MoveTo(410, 90);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(306, 48); // Vertex
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.Vertex));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap01"), 0.1);
+            ctx.MoveTo(305, 130); // Edge point
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.Edge));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap02"), 0.1);
+            ctx.MoveTo(142, 219); // Grid
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.Grid));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap03"), 0.1);
+            ctx.MoveTo(362, 138); // Sketch point
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.Vertex));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap04"), 0.1);
+
+            // Move released
+            ctx.ViewportController.MouseUp();
+            ctx.ClickAt(1,1);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap99"), 0.1);
+
+            // Cleanup
+            tool.Stop();
+        });
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void MovePointMaxSnapPoints()
+    {            
+        var ctx = Context.Current;
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
+
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+        ctx.EditorState.SnapToGridSelected = true;
+        ctx.Workspace.GridStep = 3.0;
+        ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 20;
+        ctx.Parameters.Get<SketchEditorParameterSet>().MaximumPointCountSnapping = 5;
+
+        ctx.ViewportController.ZoomFitAll();
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        
+        Assert.Multiple(() =>
+        {
+            // Select all
+            tool.Select(sketch.Points.Keys, null);
+            // Move on progress
+            ctx.MoveTo(390, 187);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(340, 190);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointMaxSnapPoints01"), 0.1);
+            ctx.MoveTo(350, 170);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointMaxSnapPoints02"), 0.1);
+
+            ctx.Parameters.Get<SketchEditorParameterSet>().MaximumPointCountSnapping = 1;
+            ctx.MoveTo(340, 190);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointMaxSnapPoints01"), 0.1);
+            ctx.MoveTo(350, 170);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointMaxSnapPoints03"), 0.1);
+
+            // Move released
+            ctx.ViewportController.MouseUp();
+            tool.Stop();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [Description("Plane selection should be higher prio than edge selection.")]
+    [Ignore("OCCT 0030484")]
+    public void SegmentCoveredByPlane()
+    {
+        var ctx = Context.Current;
 
         var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
         var body = TestGeomGenerator.CreateBody(sketch);
@@ -251,22 +348,16 @@ public class SketchEditorToolTests
 
         var tool = new SketchEditorTool(sketch);
         ctx.WorkspaceController.StartTool(tool);
-        ctx.EditorState.SnappingEnabled = true;
-        ctx.EditorState.SnapToGridSelected = true;
 
         Assert.Multiple(() =>
         {
-            // Select Point
+            // Hilite Point
             ctx.ClickAt(377, 122);
-            // Move on progress
-            ctx.MoveTo(390, 108);
+            // Select Point, move gizmo shown
             ctx.ViewportController.MouseDown();
-            ctx.ViewportController.MouseMove(new Point(257, 83));
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap01"), 0.1);
-            // Move released
             ctx.ViewportController.MouseUp();
-            ctx.ClickAt(1,1);
-            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap02"), 0.1);
+            ctx.ViewportController.MouseMove(new Point(392, 104));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SegmentCoveredByPlane"), 0.1);
 
             // Cleanup
             tool.Stop();
@@ -289,6 +380,7 @@ public class SketchEditorToolTests
             var sketchEditor = new SketchEditorTool(sketch);
             ctx.WorkspaceController.StartTool(sketchEditor);
 
+            ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 5;
             ctx.EditorState.SnappingEnabled = true;
             ctx.EditorState.SnapToVertexSelected = false;
             ctx.EditorState.SnapToEdgeSelected = false;
@@ -318,7 +410,7 @@ public class SketchEditorToolTests
             ctx.MoveTo(184, 185);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToGrid21"), 0.1);
             ctx.Workspace.GridRotation = 20;
-            ctx.MoveTo(182, 187);
+            ctx.MoveTo(184, 180);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SnapToGrid22"), 0.1);
         });
     }
@@ -948,9 +1040,9 @@ public class SketchEditorToolTests
         // Move point
         ctx.ClickAt(377, 122);
         Assert.AreEqual(1, tool.SelectedPoints.Count);
-        ctx.MoveTo(392, 104);
+        ctx.MoveTo(412, 84);
         ctx.ViewportController.MouseDown();
-        ctx.MoveTo(387, 141);
+        ctx.MoveTo(407, 121);
         ctx.ViewportController.MouseUp();
 
         // Return to idle
@@ -1035,6 +1127,7 @@ public class SketchEditorToolTests
 
             ctx.Workspace.GridStep = 3.0;
             ctx.EditorState.SnappingEnabled = true;
+            ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 5;
             var savedWorkingPlane = ctx.WorkspaceController.Workspace.WorkingPlane;
 
             // Snap to grid
@@ -1051,9 +1144,9 @@ public class SketchEditorToolTests
             ctx.EditorState.SnapToGridSelected = false;
             ctx.EditorState.SnapToVertexSelected = true;
             SketchCommands.RecenterGrid.Execute();
-            ctx.MoveTo(409, 93);
+            ctx.MoveTo(409, 92);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapping11"), 0.1);
-            ctx.ClickAt(409, 93);
+            ctx.ClickAt(409, 92);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapping12"), 0.1);
             // Snap to origin
             SketchCommands.RecenterGrid.Execute();
@@ -1090,7 +1183,8 @@ public class SketchEditorToolTests
         SketchCommands.CreateSegment.Execute(SketchCommands.Segments.Line);
         ctx.EditorState.SnappingEnabled = true;
         ctx.EditorState.SnapToGridSelected = true;
-        ctx.MoveTo(44, 44);
+        ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 25;
+        ctx.MoveTo(65, 65);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RecenterGridSnapRef01"), 0.1);
     }
 

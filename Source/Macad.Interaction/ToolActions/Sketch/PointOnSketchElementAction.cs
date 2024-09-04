@@ -18,6 +18,8 @@ public class PointOnSketchElementAction : ToolAction
         public Sketch.ElementType ElementType { get; init; }
         public SketchSegment Segment { get; init; }
         public double Parameter { get; init; }
+        public SketchSegment SecondSegment { get; init; }
+        public double SecondParameter { get; init; }
         public int PointIndex { get; init; }
         public MouseEventData MouseEventData { get; init; }
     }
@@ -40,22 +42,26 @@ public class PointOnSketchElementAction : ToolAction
 
     public bool AllowPoints { get; init; } = true;
     public bool SelectedElementsOnly { get; init; }
+    
+    //--------------------------------------------------------------------------------------------------
 
     #endregion
 
     Sketch.ElementType _SelectedElementType;
     SketchSegment _SelectedSegment;
     double _SelectedParameter;
+    SketchSegment _SecondSegment;
+    double _SecondParameter;
     int _SelectedPointIndex;
     readonly SketchEditorTool _SketchEditorTool;
     Marker _Marker;
     Sketch.ElementType _MarkerType;
     Pnt _SelectedPoint;
+    SnapOnCurve2D _SnapOnCurve;
 
     //--------------------------------------------------------------------------------------------------
 
     public PointOnSketchElementAction(SketchEditorTool sketchEditorTool)
-        : base()
     {
         _SketchEditorTool = sketchEditorTool;
     }
@@ -65,6 +71,9 @@ public class PointOnSketchElementAction : ToolAction
     protected override bool OnStart()
     {
         Debug.Assert(_SketchEditorTool != null);
+
+        _SnapOnCurve = SetSnapHandler(new SnapOnCurve2D());
+        _SnapOnCurve.UseSecondDetected = true;
 
         if (SelectedElementsOnly)
         {
@@ -99,13 +108,12 @@ public class PointOnSketchElementAction : ToolAction
     void _ProcessMouseInput(MouseEventData data)
     {
         _SelectedSegment = null;
+        _SecondSegment = null;
         _SelectedPointIndex = -1;
         _SelectedElementType = Sketch.ElementType.None;
+        _SnapOnCurve.Reset();
 
-        var element = _SketchEditorTool.Elements.FindOwner(data.DetectedAisInteractives.FirstOrDefault());
-        if(element == null)
-            return;
-
+        var element = _SketchEditorTool.Elements.FindOwner(data.DetectedAisObject);
         if (element is SketchEditorSegmentElement segmentElement)
         {
             //
@@ -116,16 +124,31 @@ public class PointOnSketchElementAction : ToolAction
             if (curve == null)
                 return;
 
-            // Get new point from parameters
-            double u = 0, v = 0;
-            ElSLib.Parameters(_SketchEditorTool.Sketch.Plane, data.PointOnPlane, ref u, ref v);
-            var sketchPoint = new Pnt2d(u, v);
-            var pointOnCurve = new Geom2dAPI_ProjectPointOnCurve(sketchPoint, curve);
+            // Snap
+            var snapInfo = _SnapOnCurve.Snap(curve, data);
+            if (snapInfo.Mode != SnapModes.None)
+            {
+                _SelectedParameter = snapInfo.Parameter;
+                if (_SketchEditorTool.Elements.FindOwner(snapInfo.TargetAisObject) is SketchEditorSegmentElement segmentElement2)
+                {
+                    _SecondSegment = segmentElement2.Segment;
+                    _SecondParameter = snapInfo.TargetParameter;
+                }
+            }
+            else
+            {
+                // Get new point from parameters
+                double u = 0, v = 0;
+                ElSLib.Parameters(_SketchEditorTool.Sketch.Plane, data.PointOnPlane, ref u, ref v);
+                var sketchPoint = new Pnt2d(u, v);
+                var pointOnCurve = new Geom2dAPI_ProjectPointOnCurve(sketchPoint, curve);
 
-            if (pointOnCurve.NbPoints() < 1)
-                return;
+                if (pointOnCurve.NbPoints() < 1)
+                    return;
 
-            _SelectedParameter = pointOnCurve.LowerDistanceParameter();
+                _SelectedParameter = pointOnCurve.LowerDistanceParameter();
+            }
+
             _SelectedSegment = segment;
             _SelectedPoint = _SketchEditorTool.Sketch.Plane.Value(curve.Value(_SelectedParameter));
             _SelectedElementType = Sketch.ElementType.Segment;
@@ -139,6 +162,10 @@ public class PointOnSketchElementAction : ToolAction
             _SelectedPointIndex = pointIndex;
             _SelectedPoint = _SketchEditorTool.Sketch.Plane.Value(_SketchEditorTool.Sketch.Points[pointIndex]);
             _SelectedElementType = Sketch.ElementType.Point;
+        }
+        else
+        {
+            data.Return.RemoveHighlighting = true;
         }
     }
         
@@ -155,6 +182,8 @@ public class PointOnSketchElementAction : ToolAction
                 ElementType = _SelectedElementType,
                 Segment = _SelectedSegment,
                 Parameter = _SelectedParameter,
+                SecondSegment = _SecondSegment,
+                SecondParameter = _SecondParameter,
                 PointIndex = _SelectedPointIndex,
                 MouseEventData = data,
                 Cancel = false,
@@ -164,6 +193,7 @@ public class PointOnSketchElementAction : ToolAction
             if (args.Cancel)
             {
                 _SelectedSegment = null;
+                _SecondSegment = null;
                 _SelectedPointIndex = -1;
                 _SelectedElementType = Sketch.ElementType.None;
             }
@@ -210,11 +240,13 @@ public class PointOnSketchElementAction : ToolAction
                     ElementType = _SelectedElementType,
                     Segment = _SelectedSegment,
                     Parameter = _SelectedParameter,
+                    SecondSegment = _SecondSegment,
+                    SecondParameter = _SecondParameter,
                     PointIndex = _SelectedPointIndex,
                     MouseEventData = data
                 };
                 Finished?.Invoke(this, args);
-                data.ForceReDetection = true;
+                data.Return.ForceReDetection = true;
             }
         }
         return true;

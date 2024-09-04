@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Common;
 using Macad.Common.Serialization;
@@ -8,15 +9,18 @@ using System.Runtime.CompilerServices;
 namespace Macad.Interaction;
 
 [SerializeType]
-public class EditorState : BaseObject
+public sealed class EditorState : BaseObject, IDisposable
 {
     #region Active Tools
 
     public string ActiveTool
     {
         get { return _ActiveTool; }
+        // ReSharper disable once ValueParameterNotUsed
         set
         {
+            // Some controls need a TwoWay binding which triggers a property change to get correct state
+            // e.g. ToggleButton toggles itself, with TwoWay binding we get notified and can trigger state update
             RaisePropertyChanged();
         }
     }
@@ -31,7 +35,6 @@ public class EditorState : BaseObject
         RaisePropertyChanged(nameof(ActiveTool));
 
         _UpdateSketchEditTool(tool as SketchEditorTool);
-
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -194,7 +197,7 @@ public class EditorState : BaseObject
     #endregion
 
     #region Workspace
-
+    
     WorkspaceController _WorkspaceController;
 
     //--------------------------------------------------------------------------------------------------
@@ -212,7 +215,6 @@ public class EditorState : BaseObject
     #endregion
 
     #region Snapping
-
         
     [SerializeMember]
     public bool SnapToGridSelected
@@ -289,22 +291,15 @@ public class EditorState : BaseObject
 
     //--------------------------------------------------------------------------------------------------
 
-    [SerializeMember]
-    public double SnappingPixelTolerance
-    {
-        get { return _SnappingPixelTolerance; }
-        set
-        {
-            _WorkspaceController?.Workspace?.AisContext?.SetPixelTolerance((int)value);
-            if (_SnappingPixelTolerance != value)
-            {
-                _SnappingPixelTolerance = value;
-                RaisePropertyChanged();
-            }
-        }
-    }
+    public SnapInfo SnapInfo { get; private set; }
 
-    double _SnappingPixelTolerance = 2.0;
+    //--------------------------------------------------------------------------------------------------
+    
+    void _SnapBase_SnapInfoChanged(SnapInfo snapInfo)
+    {
+        SnapInfo = snapInfo;
+        RaisePropertyChanged(nameof(SnapInfo));
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -343,13 +338,27 @@ public class EditorState : BaseObject
         {
             _WorkspaceController.PropertyChanged += _WorkspaceController_PropertyChanged;
         }
+
+        ISnapHandler.SnapInfoChanged += _SnapBase_SnapInfoChanged;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void Dispose()
+    {
+        ISnapHandler.SnapInfoChanged -= _SnapBase_SnapInfoChanged;
+        if (_WorkspaceController != null)
+        {
+            _WorkspaceController.PropertyChanged -= _WorkspaceController_PropertyChanged;
+        }
+        InteractiveContext.Current.PropertyChanged -= _InteractiveContext_PropertyChanged;
     }
 
     //--------------------------------------------------------------------------------------------------
 
     void _InteractiveContext_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == "WorkspaceController")
+        if (e.PropertyName == nameof(InteractiveContext.WorkspaceController))
         {
             if (_WorkspaceController != null)
             {

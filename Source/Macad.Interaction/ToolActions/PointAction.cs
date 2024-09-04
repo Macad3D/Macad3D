@@ -1,5 +1,6 @@
 ﻿using Macad.Interaction.Visual;
 using Macad.Occt;
+using System.Numerics;
 
 namespace Macad.Interaction;
 
@@ -26,15 +27,13 @@ public class PointAction : ToolAction
     Pnt _CurrentPoint;
     Marker _Marker;
     HintLine _HintLine;
-
-    //--------------------------------------------------------------------------------------------------
-
-    public override SnapMode SupportedSnapModes => SnapMode.Grid | SnapMode.Vertex | SnapMode.Edge;
+    Snap3D _SnapHandler;
 
     //--------------------------------------------------------------------------------------------------
 
     protected override bool OnStart()
     {
+        _SnapHandler = SetSnapHandler(new Snap3D());
         OpenSelectionContext();
         return true;
     }
@@ -63,13 +62,13 @@ public class PointAction : ToolAction
 
     void ProcessMouseInput(MouseEventData data)
     {
-        var snapInfo = WorkspaceController.SnapHandler.Snap(data);
-        var snapPoint = WorkspaceController.SnapHandler.SnapOnPlane(snapInfo);
-        if (snapPoint != null)
+        var snapInfo = _SnapHandler.Snap(data);
+        if (snapInfo.Mode != SnapModes.None)
         {
             // Point is snapped
-            _CurrentPoint = ElSLib.Value(snapPoint.Value.X, snapPoint.Value.Y, WorkspaceController.Workspace.WorkingPlane);
-            if (snapInfo.SnapMode != SnapMode.Grid)
+            Pnt2d point2D = ProjLib.Project(WorkspaceController.Workspace.WorkingPlane, snapInfo.Point);
+            _CurrentPoint = ElSLib.Value(point2D.X, point2D.Y, WorkspaceController.Workspace.WorkingPlane);
+            if (snapInfo.Mode != SnapModes.Grid)
             {
                 if (_HintLine == null)
                 {

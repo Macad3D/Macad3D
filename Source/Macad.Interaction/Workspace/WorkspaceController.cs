@@ -23,9 +23,10 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     public Viewport ActiveViewport { get; set; }
 
-    public ViewportController ActiveViewControlller { get { return GetViewController(ActiveViewport); } }
-
-    public SnapHandler SnapHandler { get; }
+    public ViewportController ActiveViewControlller
+    {
+        get { return GetViewController(ActiveViewport); }
+    }
 
     public IHudManager HudManager { get; set; }
 
@@ -36,6 +37,40 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
     public bool IsSelecting { get; private set; }
 
     public VisualObjectManager VisualObjects { get; init; }
+    
+    public Pnt? CursorPosition
+    {
+        get
+        {
+            return _CursorPosition;
+        }
+        set
+        {
+            if (_CursorPosition != value)
+            {
+                _CursorPosition = value;
+                RaisePropertyChanged();
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public Pnt2d? CursorPosition2d
+    {
+        get
+        {
+            return _CursorPosition2d;
+        }
+        set
+        {
+            if (_CursorPosition2d != value)
+            {
+                _CursorPosition2d = value;
+                RaisePropertyChanged();
+            }
+        }
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -43,11 +78,12 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     #region Member variables
 
-    readonly List<ViewportController> _ViewControllers = new();
+    readonly List<ViewportController> _ViewControllers = [];
     readonly DispatcherTimer _RedrawTimer;
     AISX_Grid _Grid;
     XY _LastGridSize = new(200.0, 200.0);
     bool _GridNeedsUpdate;
+    readonly List<AIS_InteractiveObject> _CustomHighlights = [];
 
     //--------------------------------------------------------------------------------------------------
 
@@ -70,9 +106,8 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         Selection.SelectionChanging += _Selection_SelectionChanging;
         Selection.SelectionChanged += _Selection_SelectionChanged;
 
-        SnapHandler = new SnapHandler(this);
-
-        VisualParameterSet.ParameterChanged += _VisualParameterSet_ParameterChanged;
+        VisualParameterSet.ParameterChanged += _ParameterSet_ParameterChanged;
+        ViewportParameterSet.ParameterChanged += _ParameterSet_ParameterChanged;
 
         _RedrawTimer = new DispatcherTimer(DispatcherPriority.Render)
         {
@@ -112,14 +147,14 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         _RedrawTimer.Stop();
         _RedrawTimer.Tick -= _RedrawTimer_Tick;
 
-        VisualParameterSet.ParameterChanged -= _VisualParameterSet_ParameterChanged;
+        VisualParameterSet.ParameterChanged -= _ParameterSet_ParameterChanged;
+        ViewportParameterSet.ParameterChanged -= _ParameterSet_ParameterChanged;
 
         Selection.SelectionChanged -= _Selection_SelectionChanged;
         Selection.SelectionChanging -= _Selection_SelectionChanging;
         Selection.Dispose();
 
         VisualObjects.Dispose();
-        SnapHandler.Dispose();
 
         Viewport.ViewportChanged -= _Viewport_ViewportChanged;
 
@@ -128,7 +163,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
             viewCtrl.Dispose();
         }
         _ViewControllers.Clear();
-        _LastDetectedInteractive?.Dispose();
+        _LastDetectedAisObject?.Dispose();
 
         Workspace.GridChanged -= _Workspace_GridChanged;
         Workspace.Dispose();
@@ -156,13 +191,14 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         if (_ViewControllers.Any(vc => vc.Viewport == sender))
         {
             _RecalculateGridSize();
+            _UpdateParameter();
             Invalidate();
         }
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void _VisualParameterSet_ParameterChanged(OverridableParameterSet set, string key)
+    void _ParameterSet_ParameterChanged(OverridableParameterSet set, string key)
     {
         _UpdateParameter();
     }
@@ -258,9 +294,13 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
             return;
 
         var aisContext = Workspace.AisContext;
-        var parameterSet = InteractiveContext.Current.Parameters.Get<VisualParameterSet>();
-        aisContext.SetDeviationCoefficient(parameterSet.DeviationCoefficient);
-        aisContext.SetDeviationAngle(parameterSet.DeviationAngle.ToRad());
+        var visualParameterSet = InteractiveContext.Current.Parameters.Get<VisualParameterSet>();
+        aisContext.SetDeviationCoefficient(visualParameterSet.DeviationCoefficient);
+        aisContext.SetDeviationAngle(visualParameterSet.DeviationAngle.ToRad());
+
+        var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+        var viewport = ActiveViewport ?? Workspace.Viewports.First();
+        aisContext.SetPixelTolerance((int)(viewportParameterSet.SelectionPixelTolerance * viewport.DpiScale));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -291,83 +331,13 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
     #region Workspace navigation
 
     readonly MouseEventData _MouseEventData = new();
-
-    bool _IsMouseEventDataValid;
-    public bool IsMouseEventDataValid
-    {
-        get
-        {
-            return _IsMouseEventDataValid;
-        }
-        set
-        {
-            if (_IsMouseEventDataValid != value)
-            {
-                _IsMouseEventDataValid = value;
-                RaisePropertyChanged();
-            }
-        }
-    }
-
-    Pnt _CursorPosition;
-    public Pnt CursorPosition
-    {
-        get
-        {
-            return _CursorPosition;
-        }
-        set
-        {
-            if (_CursorPosition != value)
-            {
-                _CursorPosition = value;
-                RaisePropertyChanged();
-            }
-        }
-    }
-
-    Pnt2d _CursorPosition2d;
-    public Pnt2d CursorPosition2d
-    {
-        get
-        {
-            return _CursorPosition2d;
-        }
-        set
-        {
-            if (_CursorPosition2d != value)
-            {
-                _CursorPosition2d = value;
-                RaisePropertyChanged();
-            }
-        }
-    }
-
-    bool _IsCursorPositionValid;
-        
     Point _LastMouseMovePosition;
     ViewportController _LastMouseMoveViewportController;
     ModifierKeys _LastModifierKeys;
-    AIS_InteractiveObject _LastDetectedInteractive;
+    AIS_InteractiveObject _LastDetectedAisObject;
     SelectMgr_EntityOwner _LastDetectedOwner;
-
-    //--------------------------------------------------------------------------------------------------
-
-    public bool IsCursorPositionValid
-    {
-        get
-        {
-            return _IsCursorPositionValid;
-        }
-        set
-        {
-            if (_IsCursorPositionValid != value)
-            {
-                _IsCursorPositionValid = value;
-                RaisePropertyChanged();
-            }
-        }
-    }
+    Pnt? _CursorPosition;
+    Pnt2d? _CursorPosition2d;
         
     //--------------------------------------------------------------------------------------------------
 
@@ -390,12 +360,21 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         _LastModifierKeys = modifierKeys;
         _MouseEventData.Clear();
 
+        foreach (var aisObject in _CustomHighlights)
+        {
+            if (Workspace.AisContext.IsDisplayed(aisObject))
+            {
+                Workspace.AisContext.Unhilight(aisObject, false);
+            }
+        }
+        _CustomHighlights.Clear();
+
         Selection.Update();
 
         if (pos.X < 0 || pos.Y < 0)
         {
             // Position is out of bounds, reset highlighting
-            Workspace.AisContext.MoveTo(Int32.MinValue, Int32.MinValue, viewportController.Viewport.V3dView, false); ;
+            Workspace.AisContext.MoveTo(int.MinValue, int.MinValue, viewportController.Viewport.V3dView, false); ;
             Invalidate(true);
             return;
         }
@@ -403,58 +382,65 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         var status = Workspace.AisContext.MoveTo(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), viewportController.Viewport.V3dView, false);
         Invalidate(true);
 
-        if (status != AIS_StatusOfDetection.Error)
+        if (status == AIS_StatusOfDetection.Error)
         {
-            Pnt rawPoint;
-            if (!viewportController.Viewport.ScreenToPoint(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), out rawPoint))
-            {
-                IsMouseEventDataValid = false;
-                IsCursorPositionValid = false;
-                return;
-            }
-
-            Pnt planePoint;
-            if (!viewportController.Viewport.ScreenToPoint(Workspace.WorkingPlane, Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), out planePoint))
-            {
-                IsMouseEventDataValid = false;
-                IsCursorPositionValid = false;
-            }
-
-            _LastDetectedInteractive = null;
-            _LastDetectedOwner = null;
-            InteractiveEntity detectedEntity = null;
-            TopoDS_Shape detectedShape = null;
-            if (Workspace.AisContext.HasDetected())
-            {
-                _LastDetectedInteractive = Workspace.AisContext.DetectedInteractive();
-                _LastDetectedOwner = Workspace.AisContext.DetectedOwner();
-                detectedShape = AisHelper.GetDetectedShapeFromContext(Workspace.AisContext);
-                detectedEntity = VisualObjects.GetEntity(_LastDetectedInteractive);
-            }
-
-            _MouseEventData.Set(viewportController.Viewport, pos, rawPoint, planePoint, detectedEntity, _LastDetectedInteractive, detectedShape, modifierKeys);
-            IsMouseEventDataValid = true;
-
-            CursorPosition = planePoint;
-            CursorPosition2d = Workspace.WorkingPlane.Parameters(planePoint);
-            IsCursorPositionValid = true;
-
-            foreach (var handler in EnumerateControls())
-            {
-                if (handler.OnMouseMove(_MouseEventData))
-                    break;
-            }
-
-            if (_MouseEventData.ForceReDetection)
-            {
-                Workspace.AisContext.MoveTo(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), viewportController.Viewport.V3dView, false);
-            }
-
+            CursorPosition = null;
+            CursorPosition2d = null;
             return;
         }
 
-        IsMouseEventDataValid = false;
-        IsCursorPositionValid = false;
+        Pnt planePoint;
+        if (!viewportController.Viewport.ScreenToPoint(Workspace.WorkingPlane, Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), out planePoint))
+        {
+            CursorPosition = null;
+            CursorPosition2d = null;
+        }
+
+        _LastDetectedAisObject = null;
+        _LastDetectedOwner = null;
+        _MouseEventData.Set(viewportController.Viewport, pos, planePoint, modifierKeys);
+
+        if (Workspace.AisContext.HasDetected())
+        {
+            _LastDetectedOwner = Workspace.AisContext.DetectedOwner();
+            _LastDetectedAisObject = Workspace.AisContext.DetectedInteractive();
+            TopoDS_Shape detectedShape = AisHelper.GetShapeFromEntityOwner(_LastDetectedOwner);
+            InteractiveEntity detectedEntity = VisualObjects.GetEntity(_LastDetectedAisObject);
+            _MouseEventData.SetDetectedElement(_LastDetectedAisObject, detectedEntity, detectedShape);
+        }
+
+        CursorPosition = planePoint;
+        CursorPosition2d = Workspace.WorkingPlane.Parameters(planePoint);
+
+        foreach (var handler in EnumerateControls())
+        {
+            if (handler.OnMouseMove(_MouseEventData))
+                break;
+        }
+
+        // Process return infos
+
+        if (_MouseEventData.Return.ForceReDetection)
+        {
+            Workspace.AisContext.MoveTo(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), viewportController.Viewport.V3dView, false);
+        }
+
+        if (_MouseEventData.Return.RemoveHighlighting)
+        {
+            Workspace.AisContext.ClearDetected(false);
+        }
+
+        foreach (var element in _MouseEventData.Return.AdditionalHighlights)
+        {
+            Debug.Assert(element.Entity == null, "Custom highlighting if entities not implemented yet.");
+            var aisObject = element.AisObject;
+            if (aisObject != null && Workspace.AisContext.IsDisplayed(aisObject))
+            {
+                Debug.Assert(element.BrepShape == null, "Custom highlighting subshapes not implemented yet.");
+                Workspace.AisContext.Hilight(aisObject, false);
+                _CustomHighlights.Add(aisObject);
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -464,7 +450,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         _LastModifierKeys = modifierKeys;
         _MouseEventData.ModifierKeys = modifierKeys;
 
-        if (_LastDetectedInteractive is AIS_ViewCube viewCube
+        if (_LastDetectedAisObject is AIS_ViewCube viewCube
             && _LastDetectedOwner is AIS_ViewCubeOwner viewCubeOwner)
         {
             if (!viewportController.LockedToPlane)
@@ -482,7 +468,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
                 break;
         }
                         
-        if (_MouseEventData.ForceReDetection)
+        if (_MouseEventData.Return.ForceReDetection)
         {
             MouseMove(viewportController, _LastMouseMovePosition, modifierKeys);
         }
@@ -500,7 +486,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         _LastModifierKeys = modifierKeys;
         _MouseEventData.ModifierKeys = modifierKeys;
             
-        if (_LastDetectedInteractive is AIS_ViewCube viewCube
+        if (_LastDetectedAisObject is AIS_ViewCube viewCube
             && _LastDetectedOwner is AIS_ViewCubeOwner viewCubeOwner)
         {
             return;
@@ -517,7 +503,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
                 break;
         }
             
-        if (_MouseEventData.ForceReDetection)
+        if (_MouseEventData.Return.ForceReDetection)
         {
             MouseMove(viewportController, _LastMouseMovePosition, modifierKeys);
         }
@@ -527,10 +513,15 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         if (wasSelecting)
         {
-            if (_MouseEventData.DetectedEntities.Any())
+            InteractiveEntity[] detectedEntities = _MouseEventData.DetectedElements
+                                                                  .Select(element => element.Entity)
+                                                                  .WhereNotNull()
+                                                                  .ToArray();
+
+            if (detectedEntities is { Length: > 0 })
             {
                 // Shape selected
-                Selection.SelectEntities(_MouseEventData.DetectedEntities, _GetSelectionModeFromKeys(modifierKeys));
+                Selection.SelectEntities(detectedEntities, _GetSelectionModeFromKeys(modifierKeys));
                 MouseMove(viewportController, _LastMouseMovePosition, modifierKeys);
             }
             else
@@ -549,12 +540,13 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     public void SelectByRectangle(int[] corners, bool includeTouched, ViewportController viewportController)
     {
+        List<AIS_InteractiveObject> detectedAisObjects = [];
+        List<TopoDS_Shape> detectedBrepShapes = [];
         if (AisHelper.PickFromContext(Workspace.AisContext, corners[0], corners[1], corners[2], corners[3], includeTouched,
                                       viewportController.Viewport.V3dView, 
-                                      _MouseEventData.DetectedAisInteractives, _MouseEventData.DetectedShapes) > 0)
+                                      detectedAisObjects, detectedBrepShapes) > 0)
         {
-            var entities = _MouseEventData.DetectedAisInteractives.Select(VisualObjects.GetEntity).Where(entity => entity != null);
-            _MouseEventData.DetectedEntities.AddRange(entities);
+            _MouseEventData.SetDetectedElements(detectedAisObjects, detectedAisObjects.Select(VisualObjects.GetEntity), detectedBrepShapes);
         }
     }
 
@@ -562,16 +554,13 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     public void SelectByPolyline(List<ValueTuple<int,int>> pointList, bool includeTouched, ViewportController viewportController)
     {
-        _MouseEventData.DetectedAisInteractives.Clear();
-        _MouseEventData.DetectedEntities.Clear();
-        _MouseEventData.DetectedShapes.Clear();
-            
+        List<AIS_InteractiveObject> detectedAisObjects = [];
+        List<TopoDS_Shape> detectedBrepShapes = [];
         if (AisHelper.PickFromContext(Workspace.AisContext, pointList, includeTouched,
                                       viewportController.Viewport.V3dView, 
-                                      _MouseEventData.DetectedAisInteractives, _MouseEventData.DetectedShapes) > 0)
+                                      detectedAisObjects, detectedBrepShapes) > 0)
         {
-            var entities = _MouseEventData.DetectedAisInteractives.Select(VisualObjects.GetEntity).Where(entity => entity != null);
-            _MouseEventData.DetectedEntities.AddRange(entities);
+            _MouseEventData.SetDetectedElements(detectedAisObjects, detectedAisObjects.Select(VisualObjects.GetEntity), detectedBrepShapes);
         }
     }
 

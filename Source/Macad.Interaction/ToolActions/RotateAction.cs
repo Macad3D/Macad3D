@@ -160,7 +160,7 @@ public class RotateAction : ToolAction
         for (int i = 0; i < _Gizmos.Length; i++)
         {
             var gizmo = _Gizmos[i];
-            if (data.DetectedAisInteractives.Contains(gizmo?.AisObject))
+            if (Equals(data.DetectedAisObject, gizmo?.AisObject))
             {
                 _RotateMode = (RotateMode)i;
                 Dir axisDir = Dir.DX;
@@ -267,7 +267,7 @@ public class RotateAction : ToolAction
             }
 
             _UpdateGizmo();
-            data.ForceReDetection = true;
+            data.Return.ForceReDetection = true;
 
             if (_DeltaHudElement == null)
             {

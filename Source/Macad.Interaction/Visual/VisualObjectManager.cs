@@ -242,6 +242,9 @@ public sealed class VisualObjectManager : BaseObject, IDisposable
 
     public InteractiveEntity GetEntity(AIS_InteractiveObject aisInteractiveObject)
     {
+        if (aisInteractiveObject == null)
+            return null;
+
         var owner = aisInteractiveObject.GetOwner();
         if (AISX_Guid.TryGetGuid(owner, out var guid)
             && _GuidToInteractiveDictionary.TryGetValue(guid, out var entity))

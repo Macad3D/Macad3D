@@ -39,6 +39,7 @@ public class ScaleSketchElementAction : ToolAction
     double _LengthOfOne;
     Ax2d _Axis;
     double _LastValue;
+    SnapOnCurve2D _SnapHandler;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -135,6 +136,9 @@ public class ScaleSketchElementAction : ToolAction
                 _Handles[i] = null;
             }
 
+            _SnapHandler = SetSnapHandler(new SnapOnCurve2D());
+            _SnapHandler.Plane = _SketchEditorTool.Sketch.Plane;
+
             var axisDelta = _ProcessMouseInput(data);
             if (!axisDelta.HasValue)
                 return false;
@@ -171,8 +175,11 @@ public class ScaleSketchElementAction : ToolAction
             };
             Finished?.Invoke(this, eventArgs);
 
+            RemoveSnapHandler();
+            _SnapHandler = null;
+
             _Update();
-            data.ForceReDetection = true;
+            data.Return.ForceReDetection = true;
 
             return true;
         }
@@ -181,11 +188,20 @@ public class ScaleSketchElementAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    double? _ProcessMouseInput(MouseEventData data)
+    double? _ProcessMouseInput(MouseEventData mouseEventData)
     {
-        double u = 0, v = 0;
-        ElSLib.Parameters(_SketchEditorTool.Sketch.Plane, data.PointOnPlane, ref u, ref v);
-        var sketchPoint = new Pnt2d(u, v);
+        var snapInfo = _SnapHandler.Snap(new Geom2d_Line(_Axis), mouseEventData);
+        Pnt2d sketchPoint;
+        if (snapInfo.Mode != SnapModes.None)
+        {
+            sketchPoint = snapInfo.Point;
+        }
+        else
+        {
+            double u = 0, v = 0;
+            ElSLib.Parameters(_SketchEditorTool.Sketch.Plane, mouseEventData.PointOnPlane, ref u, ref v);
+            sketchPoint = new Pnt2d(u, v);
+        }
         Extrema_ExtPElC2d extrema = new(sketchPoint, new gp_Lin2d(_Axis), 0.00001, double.NegativeInfinity, double.PositiveInfinity);
         if (extrema.IsDone() && extrema.NbExt() > 0)
         {
@@ -205,7 +221,7 @@ public class ScaleSketchElementAction : ToolAction
     {
         for (int i = 0; i < _Handles.Length; i++)
         {
-            if (data.DetectedAisInteractives.Contains(_Handles[i]?.AisObject))
+            if (Equals(data.DetectedAisObject, _Handles[i]?.AisObject))
             {
                 var minmax = _Box.MinMax();
                 var extents = _Box.Extents();
