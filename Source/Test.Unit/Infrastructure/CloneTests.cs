@@ -1,8 +1,11 @@
-﻿using Macad.Test.Utils;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Macad.Test.Utils;
 using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Interaction;
 using Macad.Occt;
 using NUnit.Framework;
 
@@ -37,7 +40,11 @@ public class CloneTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void CloneReferenceBodies()
+    [TestCase( false, false, TestName="DuplicateCloneReferencedBodies")]
+    [TestCase( false, false, TestName="CopyPasteCloneReferencedBodies")]
+    [TestCase( true, true, TestName="DuplicateReuseReferencedBodies")]
+    [TestCase( true, true, TestName="CopyPasteReuseReferencedBodies")]
+    public void CloneReferenceBodies(bool useCopyPaste, bool cloneReferenced)
     {
         var model = CoreContext.Current.Document;
         var operandBody1 = TestGeomGenerator.CreateBody(Box.Create(5, 5, 5), new Pnt());
@@ -45,31 +52,56 @@ public class CloneTests
         var targetBody1 = TestGeomGenerator.CreateBody(Box.Create(5, 5, 5), new Pnt(2, 2, 0));
         model.Add(targetBody1);
         BooleanFuse.Create(targetBody1, new BodyShapeOperand(operandBody1));
-        var serialized = Serializer.Serialize(targetBody1, new SerializationContext());
 
-        // Deserialize with reusing existing referenced bodies
-        var context = new SerializationContext(SerializationScope.CopyPaste);
-        context.SetInstance(model);
-        context.SetInstance<IDocument>(model);
-        context.SetInstance(ReadOptions.RecreateGuids);
-        context.SetInstance(new CloneOptions(false));
-        var targetBody2 = Serializer.Deserialize<Entity>(serialized, context) as Body;
-        Assert.IsNotNull(targetBody2);
+        List<InteractiveEntity> clones;
+        if (useCopyPaste)
+        {
+            InteractiveContext.Current.DocumentController.CopyToClipboard([targetBody1]);
+            clones = InteractiveContext.Current.DocumentController.PasteFromClipboard(new CloneOptions(cloneReferenced)).ToList();
+        }
+        else
+        {
+            clones = InteractiveContext.Current.DocumentController.Duplicate([targetBody1], new CloneOptions(cloneReferenced)).ToList();
+        }
+
+        var targetBody2 = clones[0] as Body;
+        Assert.That(targetBody2, Is.Not.Null);
         var operandBody2 = ((targetBody2.RootShape as ModifierBase)?.Operands[1] as BodyShapeOperand)?.Body;
-        Assert.IsNotNull(operandBody2);
-        Assert.AreSame(operandBody1, operandBody2);
+        Assert.That(operandBody2, Is.Not.Null);
+        Assert.That(ReferenceEquals(operandBody1, operandBody2), Is.Not.EqualTo(cloneReferenced));
+    }
+    
+    //--------------------------------------------------------------------------------------------------
 
-        // Deserialize with cloning referenced bodies
-        context = new SerializationContext(SerializationScope.CopyPaste);
-        context.SetInstance(model);
-        context.SetInstance<IDocument>(model);
-        context.SetInstance(ReadOptions.RecreateGuids);
-        context.SetInstance(new CloneOptions(true));
-        var targetBody3 = Serializer.Deserialize<Entity>(serialized, context) as Body;
-        Assert.IsNotNull(targetBody3);
-        var operandBody3 = ((targetBody3.RootShape as ModifierBase)?.Operands[1] as BodyShapeOperand)?.Body;
-        Assert.IsNotNull(operandBody3);
-        Assert.AreNotSame(operandBody1, operandBody3);
+    [Test]
+    [TestCase( false, TestName="DuplicateMultipleReferenceBodies")]
+    [TestCase( true, TestName="CopyPasteMultipleReferenceBodies")]
+    public void CloneMultipleReferenceBodies(bool useCopyPaste)
+    {        
+        // Same as CloneReferenceBodies, but we have the referenced bodies also in the list
+        var model = CoreContext.Current.Document;
+        var operandBody1 = TestGeomGenerator.CreateBody(Box.Create(5, 5, 5), new Pnt());
+        model.Add(operandBody1);
+        var targetBody1 = TestGeomGenerator.CreateBody(Box.Create(5, 5, 5), new Pnt(2, 2, 0));
+        model.Add(targetBody1);
+        BooleanFuse.Create(targetBody1, new BodyShapeOperand(operandBody1));
+
+        List<InteractiveEntity> clones;
+        if (useCopyPaste)
+        {
+            InteractiveContext.Current.DocumentController.CopyToClipboard([targetBody1, operandBody1]);
+            clones = InteractiveContext.Current.DocumentController.PasteFromClipboard(new CloneOptions(false)).ToList();
+        }
+        else
+        {
+            clones = InteractiveContext.Current.DocumentController.Duplicate([targetBody1, operandBody1], new CloneOptions(false)).ToList();
+        }
+
+        Assert.That(clones.Count, Is.EqualTo(2));
+        Assert.That(clones, Is.All.Not.Null);
+        var targetBody2 = clones[0] as Body;
+        var operandBody2 = clones[1] as Body;
+        Assert.That(((targetBody2.RootShape as ModifierBase)?.Operands[1] as BodyShapeOperand)?.Body, Is.EqualTo(operandBody2));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -128,4 +160,30 @@ public class CloneTests
         Assert.AreEqual(targetBody2, imprint.Body);
         Assert.AreEqual(targetBody2, imprint.Sketch.Body);
     }
+    
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CopyPasteSameModel()
+    {
+        var context = InteractiveContext.Current;
+        var body1 = Body.Create(Box.Create(1, 1, 1));
+        context.Document.Add(body1);
+
+        context.WorkspaceController.Selection.SelectEntity(body1);
+        context.WorkspaceController.CopyToClipboard();
+        Assert.That(context.Clipboard.ContainsData("Macad.ModelContent.1"));
+        Assert.That(context.WorkspaceController.CanPasteFromClipboard());
+
+        var newContent = context.WorkspaceController.PasteFromClipboard();
+        Assert.IsNotNull(newContent);
+        var body2 = newContent.FirstOrDefault() as Body;
+        Assert.IsNotNull(body2);
+        Assert.AreNotEqual(body1.Guid, body2.Guid);
+        Assert.AreNotEqual(body1.Shape.Guid, body2.Shape.Guid);
+        Assert.AreNotEqual(body1.Shape.Guid, body2.RootShape.Guid);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

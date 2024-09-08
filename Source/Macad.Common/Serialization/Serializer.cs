@@ -347,6 +347,15 @@ public static class Serializer
 
     #endregion
 
+    #region Events
+    
+    public delegate void SerializationEventHandler(object result, SerializationContext context);
+    public static event SerializationEventHandler Deserialized;
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
     #region Serialize
 
     static Serializer()
@@ -395,12 +404,25 @@ public static class Serializer
 
     public static T Deserialize<T>(Reader reader, SerializationContext context=null)
     {
+        context ??= new SerializationContext();
+
+        if (reader.Options.HasFlag(ReadOptions.RecreateGuids))
+        {
+            context.SetInstance(reader.RecreatedGuids);
+        }
 
         var serializer = GetSerializer(typeof(T));
         Debug.Assert(serializer != null);
+        
+        var obj = serializer.Read(reader, null, context);
+        if (obj is not T)
+        {
+            return default;
+        }
+        
+        Deserialized?.Invoke(obj, context);
 
-        var obj = serializer.Read(reader, null, context ?? new SerializationContext());
-        return obj is T ? (T) obj : default;
+        return (T) obj;
     }
 
     //--------------------------------------------------------------------------------------------------

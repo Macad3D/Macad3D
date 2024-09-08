@@ -1,8 +1,11 @@
 ﻿using System.IO;
+using System.Linq;
 using Macad.Common;
+using Macad.Common.Serialization;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Interaction;
 using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
@@ -327,4 +330,57 @@ public class HalvedJointTests
         Assert.IsNotNull(messages);
         Assert.IsTrue(messages[0].Text.Contains("The orientation reference is not valid anymore."));
     }
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void Clone()
+    {
+        var model = CoreContext.Current.Document;
+        var body1 = TestGeomGenerator.CreateBody(Box.Create(10,  2, 2), new Pnt(-5, -1, 0));
+        model.Add(body1);
+        var body2 = TestGeomGenerator.CreateBody(Box.Create( 2, 10, 2), new Pnt(-1, -5, 0));
+        model.Add(body2);
+        HalvedJoint.Create(body1, body2);
+
+        var clones = InteractiveContext.Current.DocumentController.Duplicate([body2], new CloneOptions(cloneReferencedBodies: false)).ToList();
+        var third = (clones[0] as Body)?.Shape as HalvedJoint;
+        Assume.That(third != null);
+        third.Body.Position = new Pnt(-5, -5, 0);
+
+        Assert.AreEqual(body1, (third.Operands[1] as BodyShapeOperand)?.Body);
+        Assert.AreEqual(third.Body, ((body1.Shape as ModifierBase)?.Operands[1] as BodyShapeOperand)?.Body);
+
+        Assert.IsTrue(body1.Shape.Make(Shape.MakeFlags.None));
+        AssertHelper.IsSameModel(body1.Shape, Path.Combine(_BasePath, "Clone01"));
+
+        Assert.IsTrue(third.Make(Shape.MakeFlags.None));
+        AssertHelper.IsSameModel(third, Path.Combine(_BasePath, "Clone03"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+        
+    [Test]
+    public void CloneBothBodies()
+    {        
+        var model = CoreContext.Current.Document;
+        var body1 = TestGeomGenerator.CreateBody(Box.Create(10,  2, 2), new Pnt(-5, -1, 0));
+        model.Add(body1);
+        var body2 = TestGeomGenerator.CreateBody(Box.Create( 2, 10, 2), new Pnt(-1, -5, 0));
+        model.Add(body2);
+        HalvedJoint.Create(body1, body2);
+        var clones = InteractiveContext.Current.DocumentController.Duplicate([body1, body2]).ToList();
+
+        Assert.That(clones.Count, Is.EqualTo(2));
+        Assert.That(clones, Is.All.Not.Null);
+        var clone1 = clones[0] as Body;
+        var clone2 = clones[1] as Body;
+        Assert.That((clone1.RootShape as HalvedJoint).AssociatedShape.Body, Is.EqualTo(clone2));
+        Assert.That((clone2.RootShape as HalvedJoint).AssociatedShape.Body, Is.EqualTo(clone1));
+        Assert.That((clone1.RootShape as HalvedJoint).Operands[0], Is.Not.TypeOf<HalvedJoint>());
+        Assert.That((clone2.RootShape as HalvedJoint).Operands[0], Is.Not.TypeOf<HalvedJoint>());
+        Assert.That(body1.Shape.Make(Shape.MakeFlags.None));
+    }
+        
+    //--------------------------------------------------------------------------------------------------
+    
 }

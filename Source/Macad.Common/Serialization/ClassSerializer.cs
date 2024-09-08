@@ -100,6 +100,11 @@ public sealed class ClassSerializer : ISerializer
                 classPropInfo.CustomWriterInfo = method;
             }
 
+            if (classPropInfo.MemberAttribute.Redirect)
+            {
+                Debug.Assert(classPropInfo.PropertyInfo.PropertyType == typeof(Guid));
+            }
+
             propInfos.Add(classPropInfo);
         }
     }
@@ -266,6 +271,12 @@ public sealed class ClassSerializer : ISerializer
 
                     if(!ReferenceEquals(oldValue, newValue))
                         propInfo.PropertyInfo.SetValue(instance, newValue);
+
+                    if (propInfo.MemberAttribute.Redirect && context != null)
+                    {
+                        var redirectList = context.GetInstanceList<(Guid, object, PropertyInfo)>();
+                        redirectList.Add(((Guid)newValue, instance, propInfo.PropertyInfo));
+                    }
                 }
             }
             reader.EndMap();
@@ -286,7 +297,34 @@ public sealed class ClassSerializer : ISerializer
 
     //--------------------------------------------------------------------------------------------------
 
-    #region Static Helper Functions
+    #region Static Functions
+    
+    static ClassSerializer()
+    {
+        Serializer.Deserialized += _Serializer_Deserialized;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+        
+    static void _Serializer_Deserialized(object result, SerializationContext context)
+    {
+        var redirectList = context?.GetInstanceList<(Guid, object, PropertyInfo)>();
+        var guidMap = context?.GetInstance<Dictionary<Guid, Guid>>();
+        if (guidMap == null || redirectList == null || redirectList.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var (guid, instance, propInfo) in redirectList)
+        {
+            if (guidMap.TryGetValue(guid, out var newGuid))
+            {
+                propInfo.SetValue(instance, newGuid);
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
     public class AnticipatedType
     {
@@ -381,7 +419,6 @@ public sealed class ClassSerializer : ISerializer
     }
 
     //--------------------------------------------------------------------------------------------------
-
 
     #endregion
 }

@@ -1,7 +1,6 @@
-﻿
-namespace Macad.Common.Serialization;
+﻿namespace Macad.Common.Serialization;
 
-#region Interfaces
+//--------------------------------------------------------------------------------------------------
 
 public interface ISerializer
 {
@@ -9,11 +8,15 @@ public interface ISerializer
     object Read(Reader reader, object obj, SerializationContext context);
 }
 
+//--------------------------------------------------------------------------------------------------
+
 public interface ISerializeValue
 {
     bool Write(Writer writer, SerializationContext context);
     bool Read(Reader reader, SerializationContext context);
 }
+
+//--------------------------------------------------------------------------------------------------
 
 public interface ISerializable
 {
@@ -23,11 +26,7 @@ public interface ISerializable
     void OnDeserialized(SerializationContext context);
 }
 
-public interface ISerializeProperty
-{
-    bool ReadProperty(string propertyName, Reader reader, SerializationContext context);
-    bool WriteProperty(string propertyName, Writer writer, SerializationContext context);
-}
+//--------------------------------------------------------------------------------------------------
 
 public interface IBlobArchive
 {
@@ -35,4 +34,4 @@ public interface IBlobArchive
     byte[] ReadBlob(int reference);
 }
 
-#endregion
+//--------------------------------------------------------------------------------------------------

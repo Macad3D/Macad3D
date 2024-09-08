@@ -82,6 +82,9 @@ public class PropertyClassGuid : PropertyClass, ISerializable
     [SerializeReferenceId]
     public Guid MyGuid { get; set; }
 
+    [SerializeMember(Redirect = true)]
+    public Guid ExGuid { get; set; }
+
     public void OnBeginSerializing(SerializationContext context)
     {}
 

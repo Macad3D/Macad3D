@@ -17,7 +17,7 @@ public sealed class BodyShapeOperand : IShapeOperand, IEquatable<BodyShapeOperan
 
     //--------------------------------------------------------------------------------------------------
 
-    [SerializeMember]
+    [SerializeMember(Redirect = true)]
     public Guid ShapeId { get; private set; } // Setter needed for serialization
 
     //--------------------------------------------------------------------------------------------------
@@ -79,7 +79,9 @@ public sealed class BodyShapeOperand : IShapeOperand, IEquatable<BodyShapeOperan
         {
             // Try to find referenced body shapes in current model
             var anticipated = ClassSerializer.AnticipateType(reader, context);
-            if (anticipated.Type != null && typeof(Body).IsAssignableFrom(anticipated.Type))
+            if (anticipated.Type != null 
+                && typeof(Body).IsAssignableFrom(anticipated.Type)
+                && !(cloneOptions?.IsEntityToClone(anticipated.Guid) ?? false))
             {
                 // Try finding body in model?
                 var body = document.FindInstance(anticipated.Guid) as Body;
@@ -124,7 +126,7 @@ public sealed class BodyShapeOperand : IShapeOperand, IEquatable<BodyShapeOperan
     //--------------------------------------------------------------------------------------------------
 
     // Cache for subshape reference finding
-    Tuple<Ax3, Ax3, TopLoc_Location> _CachedLocation = new Tuple<Ax3, Ax3, TopLoc_Location>(Ax3.XOY, Ax3.XOY, new TopLoc_Location());
+    Tuple<Ax3, Ax3, TopLoc_Location> _CachedLocation = new(Ax3.XOY, Ax3.XOY, new TopLoc_Location());
         
     TopLoc_Location _GetCachedLocation(Ax3 targetFrame)
     {

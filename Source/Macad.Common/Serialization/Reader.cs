@@ -17,7 +17,7 @@ public enum ReadOptions
 
 public class Reader
 {
-    #region Members
+    #region Types
 
     public struct State
     {
@@ -26,10 +26,39 @@ public class Reader
     }
 
     //--------------------------------------------------------------------------------------------------
+   
+    #endregion
 
-    readonly Dictionary<Guid, object> _ReadInstances = new Dictionary<Guid, object>();
-    readonly Stack<State> _StateStack = new Stack<State>();
-    Dictionary<Guid, Guid> _RecreatedGuids;
+    #region Properties
+
+    public ReadOptions Options
+    {
+        get { return _Options; }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public Dictionary<Guid, Guid> RecreatedGuids
+    {
+        get { return _RecreatedGuids; }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public bool AnyLeft
+    {
+        get { return _State.Position < _Length; }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
+    #region Members
+
+    readonly Dictionary<Guid, object> _ReadInstances = new();
+    readonly Stack<State> _StateStack = new();
+    readonly Dictionary<Guid, Guid> _RecreatedGuids = new();
 
     readonly string _Source;
     readonly int _Length;
@@ -41,21 +70,9 @@ public class Reader
 
     //--------------------------------------------------------------------------------------------------
 
-    public delegate void RecreatedGuidHandler(Reader reader, Guid oldGuid, Guid newGuid);
-    public event RecreatedGuidHandler RecreatedGuid;
-
-    //--------------------------------------------------------------------------------------------------
-
     #endregion
 
     #region Reader functions
-
-    public bool AnyLeft
-    {
-        get { return _State.Position < _Length; }
-    }
-
-    //--------------------------------------------------------------------------------------------------
 
     public Reader(in string source, ReadOptions options = ReadOptions.None)
     {
@@ -384,7 +401,6 @@ public class Reader
         {
             var newGuid = Guid.NewGuid();
             _RecreatedGuids.Add(guid, newGuid);
-            RecreatedGuid?.Invoke(this, guid, newGuid);
             guid = newGuid;
         }
     }
@@ -420,7 +436,7 @@ public class Reader
 
         return true;
     }
-
+    
     //--------------------------------------------------------------------------------------------------
         
     public bool TryGetInstance(in Guid guid, out object instance)
@@ -429,6 +445,7 @@ public class Reader
     }
 
     //--------------------------------------------------------------------------------------------------
-
+       
+ 
     #endregion
 }

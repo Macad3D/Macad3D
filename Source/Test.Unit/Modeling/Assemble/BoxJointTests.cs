@@ -6,6 +6,8 @@ using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
 using NUnit.Framework;
+using Macad.Interaction;
+using System.Linq;
 
 namespace Macad.Test.Unit.Modeling.Assemble;
 
@@ -276,36 +278,6 @@ public class BoxJointTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void Clone()
-    {
-        var body1 = TestGeomGenerator.CreateBody(Box.Create(10, 2, 10), new Pnt(-5, -5, -5));
-        var body2 = TestGeomGenerator.CreateBody(Box.Create(2, 10, 10), new Pnt(-5, -5, -5));
-
-        var (first, second) = BoxJoint.Create(body1, body2);
-
-        var serialized = Serializer.Serialize(body2, new SerializationContext());
-        var context = new SerializationContext(SerializationScope.CopyPaste);
-        context.SetInstance(CoreContext.Current.Document);
-        context.SetInstance<IDocument>(CoreContext.Current.Document);
-        context.SetInstance(ReadOptions.RecreateGuids);
-        context.SetInstance(new CloneOptions(cloneReferencedBodies: false));
-        var third = (Serializer.Deserialize<Entity>(serialized, context) as Body)?.Shape as BoxJoint;
-        Assume.That(third != null);
-        third.Body.Position = new Pnt(0, -5, -5);
-
-        Assert.AreEqual(body1, (third.Operands[1] as BodyShapeOperand)?.Body);
-        Assert.AreEqual(third.Body, ((body1.Shape as ModifierBase)?.Operands[1] as BodyShapeOperand)?.Body);
-
-        Assert.IsTrue(body1.Shape.Make(Shape.MakeFlags.None));
-        AssertHelper.IsSameModel(body1.Shape, Path.Combine(_BasePath, "Clone1"));
-
-        Assert.IsTrue(third.Make(Shape.MakeFlags.None));
-        AssertHelper.IsSameModel(third, Path.Combine(_BasePath, "Clone3"));
-    }
-
-    //--------------------------------------------------------------------------------------------------
-        
-    [Test]
     public void SameBeginning()
     {
         var body1 = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "Source1.brep"));
@@ -417,5 +389,56 @@ public class BoxJointTests
     }
 
     //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    public void Clone()
+    {
+        var model = CoreContext.Current.Document;
+        var body1 = TestGeomGenerator.CreateBody(Box.Create(10, 2, 10), new Pnt(-5, -5, -5));
+        model.Add(body1);
+        var body2 = TestGeomGenerator.CreateBody(Box.Create(2, 10, 10), new Pnt(-5, -5, -5));
+        model.Add(body2);
+        BoxJoint.Create(body1, body2);
+        var clones = InteractiveContext.Current.DocumentController.Duplicate([body2], new CloneOptions(cloneReferencedBodies: false)).ToList();
 
+        var third = (clones[0] as Body)?.Shape as BoxJoint;
+        Assume.That(third != null);
+        third.Body.Position = new Pnt(0, -5, -5);
+
+        Assert.AreEqual(body1, (third.Operands[1] as BodyShapeOperand)?.Body);
+        Assert.AreEqual(third.Body, ((body1.Shape as ModifierBase)?.Operands[1] as BodyShapeOperand)?.Body);
+
+        Assert.IsTrue(body1.Shape.Make(Shape.MakeFlags.None));
+        AssertHelper.IsSameModel(body1.Shape, Path.Combine(_BasePath, "Clone1"));
+
+        Assert.IsTrue(third.Make(Shape.MakeFlags.None));
+        AssertHelper.IsSameModel(third, Path.Combine(_BasePath, "Clone3"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+        
+    [Test]
+    public void CloneBothBodies()
+    {        
+        var model = CoreContext.Current.Document;
+        var body1 = TestGeomGenerator.CreateBody(Box.Create(10, 2, 10), new Pnt(-5, -5, -5));
+        model.Add(body1);
+        var body2 = TestGeomGenerator.CreateBody(Box.Create(2, 10, 10), new Pnt(-5, -5, -5));
+        model.Add(body2);
+        BoxJoint.Create(body1, body2);
+        var clones = InteractiveContext.Current.DocumentController.Duplicate([body1, body2]).ToList();
+
+        Assert.That(clones.Count, Is.EqualTo(2));
+        Assert.That(clones, Is.All.Not.Null);
+        var clone1 = clones[0] as Body;
+        var clone2 = clones[1] as Body;
+        Assert.That((clone1.RootShape as BoxJoint).AssociatedShape.Body, Is.EqualTo(clone2));
+        Assert.That((clone2.RootShape as BoxJoint).AssociatedShape.Body, Is.EqualTo(clone1));
+        Assert.That((clone1.RootShape as BoxJoint).Operands[0], Is.Not.TypeOf<BoxJoint>());
+        Assert.That((clone2.RootShape as BoxJoint).Operands[0], Is.Not.TypeOf<BoxJoint>());
+        Assert.That(body1.Shape.Make(Shape.MakeFlags.None));
+    }
+        
+    //--------------------------------------------------------------------------------------------------
+    
 }

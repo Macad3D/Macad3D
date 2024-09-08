@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
@@ -125,7 +126,6 @@ public class SubshapeReference : ISerializeValue, IEquatable<SubshapeReference>
         }
 
         ShapeId =new Guid(parts[1]);
-        reader.RecreatedGuid += Reader_RecreatedGuid;
 			
         if (parts.Length == 4)
         {
@@ -136,19 +136,43 @@ public class SubshapeReference : ISerializeValue, IEquatable<SubshapeReference>
             Index = Int32.Parse(parts[2]);
         }
 
+        // Safe for later GUID redirection
+        context?.GetInstanceList<SubshapeReference>().Add(this);
+
         return true;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void Reader_RecreatedGuid(Reader reader, Guid oldGuid, Guid newGuid)
+    #region Static Functions
+
+    static SubshapeReference()
     {
-        if (oldGuid == ShapeId)
+        Serializer.Deserialized += _Serializer_Deserialized;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    static void _Serializer_Deserialized(object result, SerializationContext context)
+    {
+        // The GUID changes in certain deserialization cases, so we need to redirect them
+        var instances = context?.GetInstanceList<SubshapeReference>();
+        var guidMap = context?.GetInstance<Dictionary<Guid, Guid>>();
+        if (guidMap == null || instances == null || instances.Count == 0)
         {
-            ShapeId = newGuid;
-            reader.RecreatedGuid -= Reader_RecreatedGuid;
+            return;
+        }
+
+        foreach (var subshapeReference in instances)
+        {
+            if (guidMap.TryGetValue(subshapeReference.ShapeId, out var newGuid))
+            {
+                subshapeReference.ShapeId = newGuid;
+            }
         }
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    #endregion
 }

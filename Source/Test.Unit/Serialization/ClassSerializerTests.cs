@@ -90,7 +90,7 @@ public class ClassSerializerTests
         var w = new Writer();
         var cs = new ClassSerializer(typeof(ReferencedClass));
         Assert.True(cs.Write(w, value, null));
-        Assert.AreEqual("!Test.ReferencedClass{MyPropertyClass:!Test.PropertyClassGuid{MyGuid:fb82b37ccc56415ebaea773f4bbe7203,MyStringProperty:\"Hello World!\"},MyCascadedClass:!Test.CascadedClass{MyEmptyClass:!Test.EmptyClass{},MyPropertyClass:?fb82b37ccc56415ebaea773f4bbe7203}}", w.ToString());
+        Assert.AreEqual("!Test.ReferencedClass{MyPropertyClass:!Test.PropertyClassGuid{MyGuid:fb82b37ccc56415ebaea773f4bbe7203,MyStringProperty:\"Hello World!\",ExGuid:?null},MyCascadedClass:!Test.CascadedClass{MyEmptyClass:!Test.EmptyClass{},MyPropertyClass:?fb82b37ccc56415ebaea773f4bbe7203}}", w.ToString());
 
         var r = new Reader(w.ToString());
         var result = cs.Read(r, null, null) as ReferencedClass;
@@ -221,18 +221,19 @@ public class ClassSerializerTests
             MyPropertyClass =
             {
                 MyStringProperty = "Hello World!", 
-                MyGuid = new Guid("{fb82b37c-cc56-415e-baea-773f4bbe7203}")
+                MyGuid = new Guid("{fb82b37c-cc56-415e-baea-773f4bbe7203}"),
+                ExGuid = new Guid("{fb82b37c-cc56-415e-baea-773f4bbe7203}")
             },
         };
         var w = new Writer();
-        var cs = new ClassSerializer(typeof(ReferencedClass));
-        Assert.True(cs.Write(w, value, null));
+        Assert.True(Serializer.Serialize(w, value));
 
         var r = new Reader(w.ToString(), ReadOptions.RecreateGuids);
-        var result = cs.Read(r, null, null) as ReferencedClass;
+        var result = Serializer.Deserialize<ReferencedClass>(r);
 
         Assert.IsNotNull(result);
         Assert.AreNotEqual(value.MyPropertyClass.MyGuid, result.MyPropertyClass.MyGuid);
+        Assert.AreEqual(result.MyPropertyClass.ExGuid, result.MyPropertyClass.MyGuid);
         Assert.AreNotEqual((value.MyCascadedClass.MyPropertyClass as PropertyClassGuid)?.MyGuid, (result.MyCascadedClass.MyPropertyClass as PropertyClassGuid)?.MyGuid);
     }
 

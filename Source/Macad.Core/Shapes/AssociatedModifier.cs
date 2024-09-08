@@ -128,7 +128,7 @@ public abstract class AssociatedModifier<TModifier> : ModifierBase where TModifi
 
         if (e.PropertyName == nameof(Body))
         {
-            if (_AssociatedShape != null && _AssociatedShape.Body == null)
+            if (_AssociatedShape?.Body == null)
             {
                 if (Operands.Count > 1)
                 {
@@ -149,23 +149,30 @@ public abstract class AssociatedModifier<TModifier> : ModifierBase where TModifi
     public override void OnDeserialized(SerializationContext context)
     {
         base.OnDeserialized(context);
-
-        if (context.Scope == SerializationScope.CopyPaste && _UpdateAssociatedShape() != null)
+        
+        if (context.Scope == SerializationScope.CopyPaste 
+            && _UpdateAssociatedShape() != null
+            && _AssociatedShape.AssociatedShape != null)
         {
             // Check if the back reference is still valid
-            if (_AssociatedShape.Guid != Guid)
+            if (_AssociatedShape.AssociatedShape.Guid != Guid)
             {
-                // Create Clone
-                var associatedModifier = new TModifier();
-                associatedModifier.AddOperand(new BodyShapeOperand(Body, this));
-                associatedModifier.IsFirst = !_IsFirst;
-                associatedModifier.SyncProperties(this as TModifier);
+                // This is only the case when cloned with reusing the shapes inside the model
+                context.TryGetInstance(out CloneOptions cloneOptions);
+                if (!(cloneOptions?.CloneReferencedBodies ?? false)
+                    && !(cloneOptions?.IsEntityToClone(_AssociatedShape.Guid) ?? false))
+                {
+                    var associatedModifier = new TModifier();
+                    associatedModifier.AddOperand(new BodyShapeOperand(Body, _AssociatedShape.Operands[0] as Shape));
+                    associatedModifier.IsFirst = !_IsFirst;
+                    associatedModifier.SyncProperties(this as TModifier);
 
-                _AssociatedShape.Body.AddShape(associatedModifier);
-                Operands[1] = new BodyShapeOperand(associatedModifier.Body, associatedModifier);
+                    _AssociatedShape.Body.AddShape(associatedModifier);
+                    Operands[1] = new BodyShapeOperand(associatedModifier.Body, associatedModifier);
+                }
             }
         }
-
+        
         _UpdateAssociatedShape();
     }
 

@@ -393,6 +393,9 @@ public sealed class ModelController : BaseObject, IDisposable
     {
         [SerializeMember]
         public Guid ModelGuid { get; set; }
+
+        [SerializeMember]
+        public Guid[] Entities { get; set; }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -424,7 +427,7 @@ public sealed class ModelController : BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    internal IEnumerable<InteractiveEntity> Duplicate(List<InteractiveEntity> entities, CloneOptions options = null)
+    internal IEnumerable<InteractiveEntity> Duplicate(List<InteractiveEntity> entities, CloneOptions cloneOptions = null)
     {
         if (!CanDuplicate(entities))
             return null;
@@ -438,7 +441,9 @@ public sealed class ModelController : BaseObject, IDisposable
         context.SetInstance(InteractiveContext.Current.Document);
         context.SetInstance<IDocument>(InteractiveContext.Current.Document);
         context.SetInstance(ReadOptions.RecreateGuids);
-        var cloneOptions = options ?? new InteractiveCloneOptions();
+
+        cloneOptions ??= new InteractiveCloneOptions();
+        cloneOptions.AddEntitiesToClone(entities);
         context.SetInstance<CloneOptions>(cloneOptions);
         var cloned = Serializer.Deserialize<InteractiveEntity[]>(serialized, context);
 
@@ -474,7 +479,8 @@ public sealed class ModelController : BaseObject, IDisposable
         context.SetInstance<IDocument>(InteractiveContext.Current.Document);
         var document = new ClipboardHeader()
         {
-            ModelGuid = CoreContext.Current.Document.Guid
+            ModelGuid = CoreContext.Current.Document.Guid,
+            Entities = entities.Select(entity => entity.Guid).ToArray()
         };
         var writer = new Writer();
         if (!Serializer.Serialize(writer, document, context)
@@ -493,7 +499,7 @@ public sealed class ModelController : BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    internal IEnumerable<InteractiveEntity> PasteFromClipboard()
+    internal IEnumerable<InteractiveEntity> PasteFromClipboard(CloneOptions cloneOptions = null)
     {
         var serialized = InteractiveContext.Current?.Clipboard.GetDataAsString(ClipboardContentFormat);
         if (serialized == null)
@@ -504,16 +510,17 @@ public sealed class ModelController : BaseObject, IDisposable
         context.SetInstance<IDocument>(InteractiveContext.Current.Document);
 
         var reader = new Reader(serialized, ReadOptions.RecreateGuids);
-        var document = Serializer.Deserialize<ClipboardHeader>(reader, context);
-        if (document == null)
+        var header = Serializer.Deserialize<ClipboardHeader>(reader, context);
+        if (header == null)
             return null;
 
         // Same Model -> Ask for cloning
         // Foreign Model -> Clone always
-        context.SetInstance<CloneOptions>(
-            document.ModelGuid == CoreContext.Current.Document.Guid 
-                ? new InteractiveCloneOptions() 
-                : new CloneOptions(true));
+        cloneOptions ??= header.ModelGuid == CoreContext.Current.Document.Guid
+                             ? new InteractiveCloneOptions()
+                             : new CloneOptions(true);
+        cloneOptions.AddEntitiesToClone(header.Entities);
+        context.SetInstance<CloneOptions>(cloneOptions);
 
         var cloned = Serializer.Deserialize<InteractiveEntity[]>(reader, context);
         foreach (var entity in context.GetInstanceList<InteractiveEntity>())
