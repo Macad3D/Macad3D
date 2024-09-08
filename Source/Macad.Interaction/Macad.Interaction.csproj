@@ -24,7 +24,7 @@
     <ProjectReference Include="..\Macad.Occt\Macad.Occt.vcxproj" />
     <ProjectReference Include="..\Macad.Presentation\Macad.Presentation.csproj" />
     <ProjectReference Include="..\Macad.Resources\Macad.Resources.csproj" />
-    <ProjectReference Include="..\SourceGenerator\SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\..\Tools\SourceGenerator\SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Test.Unit" />

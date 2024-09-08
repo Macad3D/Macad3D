@@ -10,13 +10,13 @@
   </PropertyGroup>
     
   <ItemGroup>
-    <ProjectReference Include="..\Macad.Common\Macad.Common.csproj" />
-    <ProjectReference Include="..\Macad.Core\Macad.Core.csproj" />
-    <ProjectReference Include="..\Macad.Presentation\Macad.Presentation.csproj" />
     <ProjectReference Include="..\Test.Utils\Test.Utils.csproj" />
-    <ProjectReference Include="..\Macad.Interaction\Macad.Interaction.csproj" />
-    <ProjectReference Include="..\Macad.Managed\Macad.Managed.vcxproj" />
-    <ProjectReference Include="..\Macad.Occt\Macad.Occt.vcxproj" />
+    <ProjectReference Include="..\..\Source\Macad.Common\Macad.Common.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Core\Macad.Core.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Presentation\Macad.Presentation.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Interaction\Macad.Interaction.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Managed\Macad.Managed.vcxproj" />
+    <ProjectReference Include="..\..\Source\Macad.Occt\Macad.Occt.vcxproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.dotMemoryUnit" Version="3.2.20220510" GeneratePathProperty="true" />

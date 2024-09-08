@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Macad.Common\Macad.Common.csproj" />
+    <ProjectReference Include="..\..\Source\Macad.Common\Macad.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FlaUI.UIA3" Version="4.0.0" />

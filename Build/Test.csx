@@ -93,7 +93,7 @@ static bool _RunTestsNunit(List<string> targets)
 	bool result = true;
 	foreach(var target in targets)
 	{
-		var projectFile = Path.Combine(Common.GetRootFolder(), "Source", target, $"{target}.csproj");
+		var projectFile = Path.Combine(Common.GetRootFolder(), "Tests", target, $"{target}.csproj");
 		if (!vs.Build(projectFile, "Test", _OptionDebug ? "Debug" : "Release", "x64", $"/p:AdditionalTestOptions=\"{_GetAdditionalOptions()}\""))
 		{
 			result = false;
