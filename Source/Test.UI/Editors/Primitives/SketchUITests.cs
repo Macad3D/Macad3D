@@ -548,14 +548,14 @@ public class SketchUITests : UITestBase
         var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");
         Assert.That(sketchPanel, Is.Not.Null);
 
-        var oldX = Pipe.GetValue<double>("$Sketch.Points.[1].X");
-        var oldY = Pipe.GetValue<double>("$Sketch.Points.[1].Y");
+        var oldX = Pipe.GetValue<double>("$Sketch.Points.[0].X");
+        var oldY = Pipe.GetValue<double>("$Sketch.Points.[0].Y");
 
         sketchPanel.EnterValue("PointX", 0.0);
         sketchPanel.EnterValue("PointY", 0.0);
 
-        Assert.AreNotEqual(oldX, Pipe.GetValue<double>("$Sketch.Points.[1].X"));
-        Assert.AreNotEqual(oldY, Pipe.GetValue<double>("$Sketch.Points.[1].Y"));
+        Assert.AreNotEqual(oldX, Pipe.GetValue<double>("$Sketch.Points.[0].X"));
+        Assert.AreNotEqual(oldY, Pipe.GetValue<double>("$Sketch.Points.[0].Y"));
     }
         
     //--------------------------------------------------------------------------------------------------

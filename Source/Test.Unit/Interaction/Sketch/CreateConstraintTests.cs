@@ -991,6 +991,19 @@ public class CreateConstraintTests
         ctx.ClickAt(400, 400);
 
         // Create constraints
+        ctx.ClickAt(250, 400);
+        ctx.ClickAt(100, 250, ModifierKeys.Shift);
+        Assume.That(sketchEditTool.CreateConstraint<SketchConstraintPerpendicular>().Count > 0);
+        ctx.ClickAt(100, 250);
+        ctx.ClickAt(250, 100, ModifierKeys.Shift);
+        Assume.That(sketchEditTool.CreateConstraint<SketchConstraintPerpendicular>().Count > 0);
+        ctx.ClickAt(250, 100);
+        ctx.ClickAt(400, 250, ModifierKeys.Shift);
+        Assume.That(sketchEditTool.CreateConstraint<SketchConstraintPerpendicular>().Count > 0);
+        ctx.ClickAt(400, 250);
+        ctx.ClickAt(250, 400, ModifierKeys.Shift);
+        Assume.That(sketchEditTool.CreateConstraint<SketchConstraintPerpendicular>().Count > 0);
+
         ctx.ClickAt(100, 250);
         Assume.That(sketchEditTool.CreateConstraint<SketchConstraintVertical>().Count > 0);
         ctx.ClickAt(100, 250);

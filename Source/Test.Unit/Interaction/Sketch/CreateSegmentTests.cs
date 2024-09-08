@@ -249,7 +249,6 @@ public class CreateSegmentTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateRectangle2"), 0.1);
             Assert.AreEqual(4, sketchEditTool.Sketch.Points.Count);
             Assert.AreEqual(4, sketchEditTool.Sketch.Segments.Count);
-            Assert.AreEqual(4, sketchEditTool.Sketch.Constraints.Count);
 
             //Cleanup
             sketchEditTool.Stop();

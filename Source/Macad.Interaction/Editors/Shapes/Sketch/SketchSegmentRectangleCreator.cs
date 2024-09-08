@@ -130,13 +130,7 @@ public sealed class SketchSegmentRectangleCreator : SketchSegmentCreator
         _MergePointIndices[2] = mergeCandidateIndex;
         _MergePointIndices[3] = -1;
 
-        var constraints = new SketchConstraintPerpendicular[4];
-        constraints[0] = new SketchConstraintPerpendicular(0, 1);
-        constraints[1] = new SketchConstraintPerpendicular(1, 2);
-        constraints[2] = new SketchConstraintPerpendicular(2, 3);
-        constraints[3] = new SketchConstraintPerpendicular(3, 0);
-
-        SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, _Segments, constraints);
+        SketchEditorTool.FinishSegmentCreation(_Points, _MergePointIndices, _Segments, null);
     }
 
     //--------------------------------------------------------------------------------------------------
