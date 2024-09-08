@@ -50,7 +50,7 @@ Generating the OCCT wrapper code depends on several packages to work hand in han
 
     > occt generate
 
-If you are missing something in the wrapper, it maybe excluded because of several reasons: Maybe it cannot be automatically wrapped yet, it did make trouble in any prior version, or it was simply not needed yet and excluded for saving compilation (and especially linking) time. Check the [configuration files](Source/WrapperGenerator/Configuration) for the wrapper generator and enable what you need, then regenerate the wrapper code.
+If you are missing something in the wrapper, it maybe excluded because of several reasons: Maybe it cannot be automatically wrapped yet, it did make trouble in any prior version, or it was simply not needed yet and excluded for saving compilation (and especially linking) time. Check the [configuration files](Tools/WrapperGenerator/Configuration) for the wrapper generator and enable what you need, then regenerate the wrapper code.
 
 ## Acknowledgments
 
