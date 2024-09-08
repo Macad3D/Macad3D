@@ -157,13 +157,16 @@ public static class SketchCommands
                     return;
                 }
 
-                if (replace && points?.Count > 0)
+                using (new ProcessingScope(tool.Sketch, "Import sketch from file."))
                 {
-                    tool.Sketch.Clear();
-                }
+                    if (replace && points?.Count > 0)
+                    {
+                        tool.Sketch.Clear();
+                    }
 
-                tool.Sketch.AddElements(points, null, segments, constraints);
-                InteractiveContext.Current?.UndoHandler?.Commit();
+                    tool.Sketch.AddElements(points, null, segments, constraints);
+                    InteractiveContext.Current?.UndoHandler?.Commit();
+                }
             }
         },
         () => InteractiveContext.Current?.WorkspaceController?.CurrentTool is SketchEditorTool)
@@ -189,13 +192,16 @@ public static class SketchCommands
                 return;
             }
 
-            if (replace && points?.Count > 0)
+            using (new ProcessingScope(tool.Sketch, "Import sketch from cliboard."))
             {
-                tool.Sketch.Clear();
-            }
+                if (replace && points?.Count > 0)
+                {
+                    tool.Sketch.Clear();
+                }
 
-            tool.Sketch.AddElements(points, null, segments, constraints);
-            InteractiveContext.Current?.UndoHandler?.Commit();
+                tool.Sketch.AddElements(points, null, segments, constraints);
+                InteractiveContext.Current?.UndoHandler?.Commit();
+            }
         },
         () =>
         {

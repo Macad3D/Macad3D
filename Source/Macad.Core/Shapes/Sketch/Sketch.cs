@@ -386,18 +386,30 @@ public sealed class Sketch : Shape2D
 
             SaveUndo(ElementType.Point);
             changedTypes |= ElementType.Point;
+            var nextIndex = Points.Keys.Any() ? Points.Keys.Max() + 1 : 0;
 
             foreach (var pointKvp in points)
             {
-                pointMap.Add(pointKvp.Key, (mergePointIndices != null)&&(mergePointIndices[pointKvp.Key] >= 0) ? mergePointIndices[pointKvp.Key] : AddPoint(pointKvp.Value));
+                int newPointIndex;
+                if (mergePointIndices != null && mergePointIndices[pointKvp.Key] >= 0)
+                {
+                    newPointIndex = mergePointIndices[pointKvp.Key];
+                }
+                else
+                {
+                    newPointIndex = nextIndex;
+                    Points.Add(newPointIndex, pointKvp.Value);
+                    nextIndex++;
+                }
+                pointMap.Add(pointKvp.Key, newPointIndex);
             }
 
             if (segments != null)
             {
                 segmentMap = new Dictionary<int, int>();
-
                 SaveUndo(ElementType.Segment);
                 changedTypes |= ElementType.Segment;
+                nextIndex = Segments.Keys.Any() ? Segments.Keys.Max() + 1 : 0;
 
                 foreach (var segmentKvp in segments)
                 {
@@ -406,7 +418,9 @@ public sealed class Sketch : Shape2D
                     {
                         segment.Points[i] = pointMap[segment.Points[i]];
                     }
-                    segmentMap.Add( segmentKvp.Key, AddSegment(segment) );
+                    Segments.Add(nextIndex, segment);
+                    segmentMap.Add( segmentKvp.Key, nextIndex );
+                    nextIndex++;
                 }
             }
         }
@@ -418,7 +432,7 @@ public sealed class Sketch : Shape2D
             changedTypes |= ElementType.Constraint;
             SaveUndo(ElementType.Point);
             changedTypes |= ElementType.Point;
-
+            int nextIndex = Constraints.Count;
             newConstraints = new List<int>();
 
             foreach (var constraint in constraints)
@@ -438,7 +452,9 @@ public sealed class Sketch : Shape2D
                     }
                 }
 
-                newConstraints.Add(AddConstraint(constraint));
+                Constraints.Add(constraint);
+                newConstraints.Add(nextIndex);
+                nextIndex++;
             }
         }
 
