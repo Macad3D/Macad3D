@@ -561,6 +561,38 @@ public class SketchUITests : UITestBase
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void UpdateOnManualPointEditWithConstraint()
+    {
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
+        MainWindow.Ribbon.ClickButton("CreateSketch");
+        MainWindow.Viewport.ClickRelative(0.5, 0.55);
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Sketch);
+            
+        MainWindow.Ribbon.ClickButton("CreateRectangleSegment");
+        MainWindow.Viewport.ClickRelative(0.3, 0.3);
+        MainWindow.Viewport.ClickRelative(0.7, 0.7);
+        
+        // Create constraint
+        MainWindow.Viewport.ClickRelative(0.5, 0.3);
+        MainWindow.Ribbon.ClickButton("CreateHorizontalConstraint");
+        MainWindow.Viewport.ClickRelative(0.3, 0.5);
+        MainWindow.Ribbon.ClickButton("CreateVerticalConstraint");
+
+        // Select rectangle
+        MainWindow.Viewport.ClickRelative(0.3, 0.3);
+        var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");
+        Assert.That(sketchPanel, Is.Not.Null);
+
+        sketchPanel.EnterValue("PointX", -2.1);
+        sketchPanel.EnterValue("PointY", 2.4);
+
+        Assert.AreEqual(-2.1, Pipe.GetValue<double>("$Sketch.Points.[0].X"));
+        Assert.AreEqual(2.4, Pipe.GetValue<double>("$Sketch.Points.[0].Y"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void UpdateOnManualConstraintParameterEdit()
     {
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);

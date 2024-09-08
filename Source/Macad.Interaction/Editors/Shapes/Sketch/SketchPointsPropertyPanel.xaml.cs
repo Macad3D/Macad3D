@@ -95,7 +95,7 @@ public partial class SketchPointsPropertyPanel : PropertyPanel
         if (SketchEditorTool.Sketch.SetPoint(pointData.Index, new Pnt2d(pointData.X, pointData.Y)))
         {
             // Run solver 
-            SketchEditorTool.Sketch.SolveConstraints(true);
+            SketchEditorTool.Sketch.SolveConstraints(true, [pointData.Index]);
 
             CommmitChange();
         }

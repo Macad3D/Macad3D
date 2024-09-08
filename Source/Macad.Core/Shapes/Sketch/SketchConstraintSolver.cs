@@ -15,7 +15,7 @@ public class SketchConstraintSolver
 
     //--------------------------------------------------------------------------------------------------
 
-    Result _Solve(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, List<SketchConstraint> constraints, bool precise)
+    Result _Solve(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, List<SketchConstraint> constraints, IEnumerable<int> fixedPoints, bool precise)
     {
         if (points.Count == 0 || constraints.Count == 0)
             return Result.Success;
@@ -34,6 +34,15 @@ public class SketchConstraintSolver
             {
                 Messages.Warning($"The constraint {constraints.IndexOf(sketchConstraint)} of type {sketchConstraint.GetType().Name} " +
                                  "has invalid parameters. It will be ignored.");
+            }
+        }
+
+        // Build constraint for temporable fixed points
+        if (fixedPoints != null)
+        {
+            foreach (var fixedPoint in fixedPoints)
+            {
+                FixPoint(fixedPoint);
             }
         }
 
@@ -63,20 +72,20 @@ public class SketchConstraintSolver
 
     //--------------------------------------------------------------------------------------------------
 
-    public static bool Solve(Sketch sketch, bool precise)
+    public static bool Solve(Sketch sketch, IEnumerable<int> fixedPoints=null)
     {
         var solver = new SketchConstraintSolver();
-        var result = solver._Solve(sketch.Points, sketch.Segments, sketch.Constraints, precise) == Result.Success;
+        var result = solver._Solve(sketch.Points, sketch.Segments, sketch.Constraints, fixedPoints, true) == Result.Success;
         //Debug.WriteLine("Sketch constraints " + (result ? "solved successful." : "have no solution."));
         return result;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public static bool Solve(Sketch sketch, Dictionary<int, Pnt2d> tempPoints, bool precise)
+    public static bool Solve(Sketch sketch, Dictionary<int, Pnt2d> tempPoints, IEnumerable<int> fixedPoints=null)
     {
         var solver = new SketchConstraintSolver();
-        var result = solver._Solve(tempPoints, sketch.Segments, sketch.Constraints, precise) == Result.Success;
+        var result = solver._Solve(tempPoints, sketch.Segments, sketch.Constraints, fixedPoints, false) == Result.Success;
         //Debug.WriteLine("Sketch constraints " + (result ? "solved successful." : "have no solution."));
         return result;
     }

@@ -676,7 +676,7 @@ public sealed class Sketch : Shape2D
 
     #region Make
 
-    public bool SolveConstraints(bool precise)
+    public bool SolveConstraints(bool canFail, IEnumerable<int> fixedPoints=null)
     {
         if (Constraints.Count == 0)
         {
@@ -684,18 +684,26 @@ public sealed class Sketch : Shape2D
             return true;
         }
 
-        if (SketchConstraintSolver.Solve(this, precise))
+        bool success = SketchConstraintSolver.Solve(this, fixedPoints);
+        if (!success)
+        {
+            // If constraints can not be solved with fixed points, try again without.
+            // Solving the constraints has a higher prio than leave the points untouched.
+            success = SketchConstraintSolver.Solve(this);
+        }
+
+        if (success)
         {
             Invalidate();
             RaisePropertyChanged("Points");
             OnElementsChanged(ElementType.Point);
-            if (precise)
+            if (canFail)
             {
                 ConstraintSolverFailed = false;
             }
             return true;
         }
-        if (precise)
+        if (canFail)
         {
             Messages.Error("Sketch constraints failed to solve.");
             ConstraintSolverFailed = true;

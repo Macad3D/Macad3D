@@ -548,7 +548,7 @@ public sealed class SketchEditorTool : Tool
             return false;
         }
 
-        SketchConstraintSolver.Solve(Sketch, _TempPoints, false);
+        SketchConstraintSolver.Solve(Sketch, _TempPoints, args.Points);
         Elements.OnPointsChanged(_TempPoints, Sketch.Segments);
         WorkspaceController.Invalidate();
         return true;
