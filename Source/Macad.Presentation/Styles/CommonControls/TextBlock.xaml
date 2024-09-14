@@ -25,4 +25,17 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    <!--Panel Hint Text-->
+    <Style x:Key="Macad.Styles.TextBlock.PanelHintText" TargetType="{x:Type TextBlock}">
+        <Setter Property="Padding" Value="10,2" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Margin" Value="20" />
+        <Setter Property="FontStyle" Value="Italic"  />
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.TextLight}" />
+    </Style>
+
 </ResourceDictionary>

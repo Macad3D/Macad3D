@@ -143,94 +143,98 @@
                              Padding="5"
                              AllowMultiSelection="True"
                              HorizontalContentAlignment="Stretch">
-            
-            <treeView:TreeViewEx.ItemContainerStyle>
-                <Style TargetType="{x:Type treeView:TreeViewExItem}" BasedOn="{StaticResource {x:Type treeView:TreeViewExItem}}">
-                    <!--<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />-->
-                    <Setter Property="Focusable" Value="True" />
-                    <Setter Property="AutomationProperties.AutomationId" Value="{Binding Converter={mmp:TypeToStringConverter}}" />
-                </Style>
-            </treeView:TreeViewEx.ItemContainerStyle>
-            
-            <treeView:TreeViewEx.Resources>
                 
-                <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ButtonBase}">
-                                <ContentPresenter Margin="0"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  RecognizesAccessKey="True"
-                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-
-                <!--
-                        InteractiveEntity
-                -->
-                <HierarchicalDataTemplate DataType="{x:Type mmt:InteractiveEntity}">
-                    <DockPanel ToolTip="-" ToolTipOpening="FrameworkElement_OnToolTipOpening"
-                        Margin="0,0,10,0">
-                        <Image Source="{Binding Converter={mmp:TypeToImageSourceConverter}}" Height="16" />
-
-                        <Button DockPanel.Dock="Right" 
-                                Command="{x:Static panels:DocumentExplorerPanelModel.ToggleVisibilityCommand}"
-                                CommandParameter="{Binding}">
-                            <Grid Width="14" Height="14" Margin="0,0,2,0">
-                                <Image Source="{mmp:IconResource Generic-Visible}"
-                                       Visibility="{Binding IsVisible, Converter={mmp:BoolToVisibleHiddenConverter}}"/>
-                                <Image Source="{mmp:IconResource Generic-Hidden}" 
-                                       Visibility="{Binding IsVisible, Converter={mmp:BoolToInvisibleHiddenConverter}}"/>
-                            </Grid>
-                        </Button>
-
-                        <TextBlock Text="{Binding Name}" Margin="3,0">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                    <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Text}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding HasErrors}" Value="True">
-                                            <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Error}"/>
-                                            <Setter Property="FontWeight" Value="Bold"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </DockPanel>
-                </HierarchicalDataTemplate>
+                <treeView:TreeViewEx.ItemContainerStyle>
+                    <Style TargetType="{x:Type treeView:TreeViewExItem}" BasedOn="{StaticResource {x:Type treeView:TreeViewExItem}}">
+                        <!--<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />-->
+                        <Setter Property="Focusable" Value="True" />
+                        <Setter Property="AutomationProperties.AutomationId" Value="{Binding Converter={mmp:TypeToStringConverter}}" />
+                    </Style>
+                </treeView:TreeViewEx.ItemContainerStyle>
                 
-                <!--
-                        Model
-                -->
-                <HierarchicalDataTemplate DataType="{x:Type mmt:Model}" 
-                                          ItemsSource="{Binding Mode=OneWay}">
-                    <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
-                        <Image Source="{Binding Converter={mmp:TypeToImageSourceConverter}}" 
-                               Height="16" Margin="0,0,5,0"/>
-                        <TextBlock Text="{Binding Name}" Foreground="{StaticResource Macad.Brushes.Text}" />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-        
-            </treeView:TreeViewEx.Resources>
-        </treeView:TreeViewEx>
+                <treeView:TreeViewEx.Resources>
+                    
+                    <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                                    <ContentPresenter Margin="0"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      RecognizesAccessKey="True"
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <!--
+                            InteractiveEntity
+                    -->
+                    <HierarchicalDataTemplate DataType="{x:Type mmt:InteractiveEntity}">
+                        <DockPanel ToolTip="-" ToolTipOpening="FrameworkElement_OnToolTipOpening"
+                            Margin="0,0,10,0">
+                            <Image Source="{Binding Converter={mmp:TypeToImageSourceConverter}}" Height="16" />
+
+                            <Button DockPanel.Dock="Right" 
+                                    Command="{x:Static panels:DocumentExplorerPanelModel.ToggleVisibilityCommand}"
+                                    CommandParameter="{Binding}">
+                                <Grid Width="14" Height="14" Margin="0,0,2,0">
+                                    <Image Source="{mmp:IconResource Generic-Visible}"
+                                           Visibility="{Binding IsVisible, Converter={mmp:BoolToVisibleHiddenConverter}}"/>
+                                    <Image Source="{mmp:IconResource Generic-Hidden}" 
+                                           Visibility="{Binding IsVisible, Converter={mmp:BoolToInvisibleHiddenConverter}}"/>
+                                </Grid>
+                            </Button>
+
+                            <TextBlock Text="{Binding Name}" Margin="3,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                        <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Text}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding HasErrors}" Value="True">
+                                                <Setter Property="Foreground" Value="{StaticResource Macad.Brushes.Error}"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DockPanel>
+                    </HierarchicalDataTemplate>
+                    
+                    <!--
+                            Model
+                    -->
+                    <HierarchicalDataTemplate DataType="{x:Type mmt:Model}" 
+                                              ItemsSource="{Binding Mode=OneWay}">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                            <Image Source="{Binding Converter={mmp:TypeToImageSourceConverter}}" 
+                                   Height="16" Margin="0,0,5,0"/>
+                            <TextBlock Text="{Binding Name}" Foreground="{StaticResource Macad.Brushes.Text}" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+            
+                </treeView:TreeViewEx.Resources>
+            </treeView:TreeViewEx>
 
             <TextBlock Text="Your document is empty. Start creating some shapes by selecing tools in the MODEL menu tab."
-                       TextWrapping="Wrap"
-                       Foreground="{StaticResource Macad.Brushes.TextLight}"
-                       HorizontalAlignment="Stretch"
-                       VerticalAlignment="Top"
-                       Margin="20"
-                       FontStyle="Italic" 
-                       IsHitTestVisible="False"
+                       Style="{StaticResource Macad.Styles.TextBlock.PanelHintText}"
                        Visibility="{Binding DocumentIsEmpty, Converter={mmp:BoolToVisibleCollapsedConverter}}"/>
+
+            <TextBlock Text="All elements are hidden."
+                       Style="{StaticResource Macad.Styles.TextBlock.PanelHintText}">
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{mmp:BooleanAndToVisibleCollapsedMultiConverter}">
+                        <Binding Path="EntitiesView.IsEmpty" />
+                        <Binding Path="DocumentIsEmpty" Converter="{mmp:BoolToNotBoolConverter}" />
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
         </Grid>
     </DockPanel>
 </UserControl>
