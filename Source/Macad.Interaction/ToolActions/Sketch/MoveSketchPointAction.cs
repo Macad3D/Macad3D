@@ -308,9 +308,11 @@ public class MoveSketchPointAction : ToolAction
             SetCursor(Cursors.Move);
 
             // Deactivate to prevent self-snapping
-            _SketchEditorTool.Elements.Activate(true, false, false);
+            _SketchEditorTool.Elements.Activate(true, true, false);
             _SketchEditorTool.Elements.PointElements.Where(element => _Points.Contains(element.PointIndex))
                                                     .ForEach(element => element.Activate(false));
+            _SketchEditorTool.Elements.SegmentElements.Where(element => _Points.ContainsAny(element.Segment.Points))
+                                                      .ForEach(element => element.Activate(false));
             
             _SnapHandler = SetSnapHandler(new Snap2D());
             _SnapHandler.SupportedModes = SnapModes.Grid | SnapModes.Edge | SnapModes.Vertex;

@@ -278,8 +278,12 @@ public class SketchEditorToolTests
             ctx.MoveTo(362, 138); // Sketch point
             Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.Vertex));
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap04"), 0.1);
+            ctx.MoveTo(378, 159); // Sketch segment
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.Edge));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap05"), 0.1);
 
             // Move released
+            ctx.MoveTo(362, 138);
             ctx.ViewportController.MouseUp();
             ctx.ClickAt(1,1);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnap99"), 0.1);
@@ -288,7 +292,43 @@ public class SketchEditorToolTests
             tool.Stop();
         });
     }
-    
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void MovePointSnapNotItself()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+        ctx.Parameters.Get<ViewportParameterSet>().SelectionPixelTolerance = 10;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+
+        tool.StartSegmentCreation<SketchSegmentRectangleCreator>();
+        ctx.ClickAt(150, 150); // LeftTop point
+        ctx.ClickAt(350, 350); // BottomRight point
+        
+        Assert.Multiple(() =>
+        {
+            // Move on progress
+            ctx.MoveTo(290, 210);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(290, 220);
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.None));
+            ctx.MoveTo(290, 267);
+            Assert.That(ctx.EditorState.SnapInfo.Mode, Is.EqualTo(SnapModes.Edge));
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointSnapNotItself01"), 0.1);
+
+            // Cleanup
+            tool.Stop();
+        });
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     [Test]
