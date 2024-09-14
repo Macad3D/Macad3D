@@ -211,4 +211,74 @@
 
     <!--endregion-->
 
+    <!--region TwoLineLabel-->
+
+    <ControlTemplate x:Key="Fluent.Ribbon.Templates.TwoLineLabel"
+                     TargetType="{x:Type Fluent:TwoLineLabel}">
+        <StackPanel x:Name="stackPanel"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical"
+                    Margin="1,0,1,0">
+            <AccessText x:Name="PART_TextRun"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+
+            <StackPanel x:Name="stackPanel1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Margin="0,-2,0,0">
+                <AccessText x:Name="PART_TextRun2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+
+                <Border x:Name="border"
+                        Width="5"
+                        Height="Auto"
+                        Margin="0"
+                        HorizontalAlignment="Center">
+                    <Path x:Name="path"
+                          Width="5"
+                          Height="3"
+                          Margin="0 2 0 0"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Data="M0,0L5,0 2.5,3z"
+                          Fill="{TemplateBinding Foreground}"
+                          SnapsToDevicePixels="True"
+                          StrokeThickness="0" />
+                </Border>
+            </StackPanel>
+        </StackPanel>
+        <ControlTemplate.Triggers>
+            <Trigger Property="HasTwoLines" Value="False">
+                <Setter TargetName="PART_TextRun2" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="border" Property="Margin" Value="0" />
+                <Setter TargetName="border" Property="VerticalAlignment" Value="Center" />
+                <Setter TargetName="stackPanel" Property="HorizontalAlignment" Value="Left" />
+                <Setter TargetName="stackPanel" Property="Orientation" Value="Horizontal" />
+                <Setter TargetName="stackPanel" Property="VerticalAlignment" Value="Center" />
+                <Setter TargetName="stackPanel1" Property="Margin" Value="3 0 0 0" />
+                <Setter TargetName="stackPanel1" Property="VerticalAlignment" Value="Center" />
+            </Trigger>
+            <Trigger Property="HasGlyph" Value="False">
+                <Setter TargetName="border" Property="Width" Value="0.1" />
+                <Setter TargetName="path" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            <Trigger SourceName="PART_TextRun2" Property="Text" Value="">
+                <Setter TargetName="PART_TextRun2" Property="Visibility" Value="Hidden" />
+            </Trigger>
+            <Trigger SourceName="PART_TextRun2" Property="Text" Value="{x:Null}">
+                <Setter TargetName="PART_TextRun2" Property="Visibility" Value="Hidden" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!--endregion-->
+
 </ResourceDictionary>
