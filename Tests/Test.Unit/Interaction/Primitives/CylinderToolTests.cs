@@ -416,6 +416,8 @@ public class CylinderToolTests
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(435, 205, ModifierKeys.Shift);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCenter02"));
+            ctx.MoveTo(435, 205);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCenter03"));
             
             ctx.ViewportController.MouseUp();
 

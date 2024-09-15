@@ -11,6 +11,9 @@ public sealed class SphereEditor : Editor<Sphere>
 {
     BoxScaleLiveAction _ScaleAction;
     LabelHudElement _HudElement;
+    bool _IsScaling;
+    double _StartRadius;
+    Pnt _StartPosition;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -77,6 +80,12 @@ public sealed class SphereEditor : Editor<Sphere>
         if (_ScaleAction == null)
             return;
 
+        if (!_IsScaling)
+        {
+            _StartRadius = Entity.Radius;
+            _StartPosition = Entity.Body.Position;
+        }
+
         Bnd_Box box = new Bnd_Box(new Pnt(-Entity.Radius, -Entity.Radius, -Entity.Radius),
                                   new Pnt( Entity.Radius,  Entity.Radius,  Entity.Radius));
         _ScaleAction.Box = box;
@@ -89,32 +98,41 @@ public sealed class SphereEditor : Editor<Sphere>
     {
         if (sender != _ScaleAction)
             return;
-
+        
+        _IsScaling = true;
         SetHintMessage("__Scale sphere__ using gizmo, press `k:Ctrl` to round to grid stepping, press `k:Shift` to scale relative to center.");
 
-        double radiusDelta = args.Delta * 0.5 * Math.Max(args.Direction.X.Abs(), 
-                                                         Math.Max(args.Direction.Y.Abs(), 
-                                                                  args.Direction.Z.Abs()));
+        double radiusDelta = args.DeltaSum * 0.5 * Math.Max(args.Direction.X.Abs(),
+                                                            Math.Max(args.Direction.Y.Abs(),
+                                                                     args.Direction.Z.Abs()));
         Vec offset = new Vec(Math.Sign(args.Direction.X), Math.Sign(args.Direction.Y), Math.Sign(args.Direction.Z));
 
-        double tempRadius = Entity.Radius + radiusDelta;
+        double tempRadius = _StartRadius + radiusDelta;
         if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
         {
             tempRadius = Maths.RoundToNearest(tempRadius, WorkspaceController.Workspace.GridStep);
         }
+
         if (tempRadius <= 0)
+        {
             return;
-        radiusDelta = tempRadius - Entity.Radius;
+        }
+
+        radiusDelta = tempRadius - _StartRadius;
         if (radiusDelta == 0)
+        {
             return;
+        }
 
         Entity.Radius = tempRadius;
 
+        Pnt position = _StartPosition;
         if (!args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Shift))
         {
-            Entity.Body.Position = Entity.Body.Position.Translated(offset.Scaled(radiusDelta)
-                                                                         .Transformed(new Trsf(Entity.Body.Rotation)));
+            position.Translate(offset.Scaled(radiusDelta)
+                                     .Transformed(new Trsf(Entity.Body.Rotation)));
         }
+        Entity.Body.Position = position;
 
         _UpdateActions();
 
@@ -130,6 +148,7 @@ public sealed class SphereEditor : Editor<Sphere>
 
     void _ScaleAction_Finished(BoxScaleLiveAction sender, BoxScaleLiveAction.EventArgs args)
     {
+        _IsScaling = false;
         if (!args.DeltaSum.IsEqual(0.0, double.Epsilon))
         {
             CommitChanges();

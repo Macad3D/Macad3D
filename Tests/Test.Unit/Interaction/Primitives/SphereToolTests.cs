@@ -259,6 +259,8 @@ public class SphereToolTests
             ctx.ViewportController.MouseDown();
             ctx.MoveTo(274, 265, ModifierKeys.Shift);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCenter02"));
+            ctx.MoveTo(274, 265);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleCenter03"));
 
             ctx.ViewportController.MouseUp();
 

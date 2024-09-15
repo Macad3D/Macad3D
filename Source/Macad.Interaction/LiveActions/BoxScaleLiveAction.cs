@@ -74,11 +74,10 @@ public sealed class BoxScaleLiveAction : LiveAction
     Ax1 _Axis;
     HintLine _AxisHintLine;
     double _StartValue;
-    bool _ResetStartValue;
     SelectionContext _SelectionContext;
     Trsf _Transformation;
 
-    bool _IsXY;
+    readonly bool _IsXY;
     int _MoveMode = -1;
     double _LastDelta;
     double _DeltaSum;
@@ -184,21 +183,15 @@ public sealed class BoxScaleLiveAction : LiveAction
 
     public override bool OnMouseMove(MouseEventData data)
     {
-        if (_ResetStartValue)
-        {
-            _ResetStartValue = false;
-            _StartValue += _LastDelta;
-            _LastDelta = 0;
-        }
-
         if (_MoveMode >= 0)
         {
             var axisDelta = _ProcessMouseInput(data);
             if (!axisDelta.HasValue)
                 return false;
 
-            _LastDelta = axisDelta.Value - _StartValue;
-            _DeltaSum += _LastDelta;
+            var value = axisDelta.Value - _StartValue;
+            _LastDelta = value - _DeltaSum;
+            _DeltaSum = value;
 
             EventArgs eventArgs = new()
             {
@@ -341,9 +334,6 @@ public sealed class BoxScaleLiveAction : LiveAction
             if (_MoveMode >= 0)
                 break;
         }
-
-        // Reset reference value
-        _ResetStartValue = true;
 
         WorkspaceController.Invalidate();
     }
