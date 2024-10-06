@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
@@ -99,5 +100,24 @@ public class SketchToolTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "EditorThinBoundingBox03"));
         });
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void StopEditorToolOnEditorClose()
+    {
+        var ctx = Context.Current;
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
+        ctx.ViewportController.ZoomFitAll();
+        ctx.WorkspaceController.StartEditor(sketch);
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        Assert.That(ctx.WorkspaceController.CurrentTool, Is.EqualTo(tool));
+        ctx.WorkspaceController.StopEditor();
+        Assert.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
 }

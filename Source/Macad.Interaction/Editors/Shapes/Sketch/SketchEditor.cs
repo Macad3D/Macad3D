@@ -21,6 +21,19 @@ public class SketchEditor : Editor<Sketch>
 
     //--------------------------------------------------------------------------------------------------
 
+    protected override void OnStop()
+    {
+        if (WorkspaceController.CurrentTool is SketchEditorTool sketchEditorTool
+            && sketchEditorTool.Sketch == Entity)
+        {
+            WorkspaceController.CancelTool(sketchEditorTool, true);
+        }
+
+        base.OnStop();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public override void EnrichContextMenu(ContextMenuItems itemList)
     {
         itemList.AddCommand(ModelCommands.CreateExtrude, Entity);
