@@ -29,6 +29,10 @@ public abstract class InteractiveContext : CoreContext
         }
         protected set
         {
+            if (base.Workspace == value)
+                return;
+
+            WorkspaceController = null; // Safe Reset
             WorkspaceController = value == null ? null : new WorkspaceController(value);
             base.Workspace = value;
             RaisePropertyChanged(nameof(WorkspaceController));

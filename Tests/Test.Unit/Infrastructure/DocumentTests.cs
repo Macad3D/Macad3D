@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Macad.Common.Serialization;
 using Macad.Core.Topology;
+using Macad.Interaction.Editors.Shapes;
 using Macad.Test.Utils;
 using NUnit.Framework;
 
@@ -30,6 +31,45 @@ public class DocumentTests
         Assert.IsFalse(ctx.Document.HasUnsavedChanges);
 
         File.Delete(fileName);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void NewDocumentHasNoOldVisualEntities()
+    {
+        var ctx = Context.InitWithDefault();
+        var body = TestGeomGenerator.CreateBox().Body;
+        ctx.Document.Add(body);
+
+        ctx.DocumentController.NewModel();
+        ctx.WorkspaceController.Invalidate(forceRedraw: true);
+        Assert.That(ctx.Document.Instances, Has.Count.EqualTo(2));
+        Assert.That(ctx.Document, Is.Empty);
+        Assert.That(ctx.WorkspaceController.VisualObjects.GetVisibleEntities(), Is.Empty);
+        Assert.That(ctx.WorkspaceController.VisualObjects.GetAll(), Is.Empty);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    [Test]
+    [Description("VisualChanged events can be fired from old entities if e.g. the cleanup process restores properties.")]
+    public void NewDocumentDoesNotTakeOldVisualChangedEvents()
+    {
+        var ctx = Context.InitWithDefault();
+        var body = TestGeomGenerator.CreateBox().Body;
+        ctx.Document.Add(body);
+
+        // Instantiate any tool which restores stack shape, which fires VisualChanged event
+        var tool = new CreateLinearArrayTool(body);
+        ctx.WorkspaceController.StartTool(tool);
+
+        ctx.DocumentController.NewModel();
+        ctx.WorkspaceController.Invalidate(forceRedraw: true);
+        Assert.That(ctx.Document.Instances, Has.Count.EqualTo(2));
+        Assert.That(ctx.Document, Is.Empty);
+        Assert.That(ctx.WorkspaceController.VisualObjects.GetVisibleEntities(), Is.Empty);
+        Assert.That(ctx.WorkspaceController.VisualObjects.GetAll(), Is.Empty);
     }
 
     //--------------------------------------------------------------------------------------------------
