@@ -20,7 +20,7 @@ public class FaceAlgoTests
     public void FindConnectedFaces()
     {
         var shape = TestData.GetTestDataBRep(Path.Combine(_BasePath, "FindConnectedFaces_Source.brep"));
-        Assume.That(shape, Is.Not.Null);
+        Assert.That(shape, Is.Not.Null);
 
         var faces = shape.Faces();
         var edges = shape.Edges();
@@ -43,7 +43,7 @@ public class FaceAlgoTests
     public void PlaneFromFace_Direction()
     {
         var shape = Box.Create(10, 10, 2);
-        Assume.That(shape, Is.Not.Null);
+        Assert.That(shape, Is.Not.Null);
 
         Assert.IsTrue(FaceAlgo.GetCenteredPlaneFromFace(shape, 5, true, out var topFacePlane));
         Assert.IsTrue(topFacePlane.Axis.Direction.IsEqual(Dir.DZ, 0.1));
@@ -87,9 +87,9 @@ public class FaceAlgoTests
     public void FindFaceNearestToPlane()
     {
         var source = TestData.GetTestDataBRep(Path.Combine(_BasePath, "FindFaceNearestToPlane_Source.brep"));
-        Assume.That(source, Is.Not.Null);
+        Assert.That(source, Is.Not.Null);
         var faces = source.Faces();
-        Assume.That(faces.Count == 112);
+        Assert.That(faces.Count == 112);
 
         Assert.Multiple(() =>
         {
@@ -110,9 +110,9 @@ public class FaceAlgoTests
     public void FindOppositeFace()
     {
         var source = TestData.GetTestDataBRep(Path.Combine(_BasePath, "FindFaceNearestToPlane_Source.brep"));
-        Assume.That(source, Is.Not.Null);
+        Assert.That(source, Is.Not.Null);
         var faces = source.Faces();
-        Assume.That(faces.Count == 112);
+        Assert.That(faces.Count == 112);
 
         Assert.Multiple(() =>
         {

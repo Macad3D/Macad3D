@@ -22,7 +22,7 @@ public class HudElementsTests : UITestBase
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateBox");
 
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
         MainWindow.Viewport.ClickRelative(0.3, 0.3);
         MainWindow.Viewport.MoveRelative(0.55, 0.6);
 
@@ -34,7 +34,7 @@ public class HudElementsTests : UITestBase
         Pipe.TypeText("1");
         Pipe.TypeKey(VirtualKeyShort.ENTER);
 
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
         Assert.AreEqual("Box_1", Pipe.GetValue<string>("$Selected.Name"));
         Assert.AreEqual(2, Pipe.GetValue<double>("$Selected.Shape.DimensionX"));
         Assert.AreEqual(4, Pipe.GetValue<double>("$Selected.Shape.DimensionY"));
@@ -49,7 +49,7 @@ public class HudElementsTests : UITestBase
         // Init
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateBox");
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
         MainWindow.Viewport.ClickRelative(0.3, 0.3);
         MainWindow.Viewport.MoveRelative(0.55, 0.6);
 
@@ -61,7 +61,7 @@ public class HudElementsTests : UITestBase
         Pipe.TypeText(".8");
         Pipe.TypeKey(VirtualKeyShort.ENTER);
 
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
         Assert.AreEqual(2.4, Pipe.GetValue<double>("$Selected.Shape.DimensionX"));
         Assert.AreEqual(4.5, Pipe.GetValue<double>("$Selected.Shape.DimensionY"));
         Assert.AreEqual(0.8, Pipe.GetValue<double>("$Selected.Shape.DimensionZ"));
@@ -78,7 +78,7 @@ public class HudElementsTests : UITestBase
         MainWindow.Ribbon.SetButtonChecked("SnapToGrid", true);
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateBox");
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
         MainWindow.Viewport.ClickRelative(0.5, 0.5);
         MainWindow.Viewport.MoveRelative(0.55, 0.6);
 
@@ -92,7 +92,7 @@ public class HudElementsTests : UITestBase
         Pipe.TypeText("-1");
         Pipe.TypeKey(VirtualKeyShort.ENTER);
 
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
         Assert.AreEqual(-2.4, Pipe.GetValue<double>("$Selected.Position.X"));
         Assert.AreEqual(4.5, Pipe.GetValue<double>("$Selected.Shape.DimensionY"));
         Assert.AreEqual(-1, Pipe.GetValue<double>("$Selected.Shape.DimensionZ"));
@@ -106,7 +106,7 @@ public class HudElementsTests : UITestBase
         // Init
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateBox");
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
         MainWindow.Viewport.ClickRelative(0.3, 0.3);
         MainWindow.Viewport.MoveRelative(0.55, 0.6);
 
@@ -118,7 +118,7 @@ public class HudElementsTests : UITestBase
         Pipe.TypeText("=.8");
         Pipe.TypeKey(VirtualKeyShort.ENTER);
 
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
         Assert.AreEqual(4.0, Pipe.GetValue<double>("$Selected.Shape.DimensionX"));
         Assert.AreEqual(45, Pipe.GetValue<double>("$Selected.Shape.DimensionY"));
         Assert.AreEqual(0.8, Pipe.GetValue<double>("$Selected.Shape.DimensionZ"));
@@ -133,7 +133,7 @@ public class HudElementsTests : UITestBase
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateCylinder");
 
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateCylinder"), Is.True);
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateCylinder"), Is.True);
         MainWindow.Viewport.ClickRelative(0.3, 0.3);
         MainWindow.Viewport.MoveRelative(0.55, 0.6);
 
@@ -143,7 +143,7 @@ public class HudElementsTests : UITestBase
         Pipe.TypeText("4");
         Pipe.TypeKey(VirtualKeyShort.ENTER);
 
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateCylinder"), Is.False);
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateCylinder"), Is.False);
         Assert.AreEqual("Cylinder_1", Pipe.GetValue<string>("$Selected.Name"));
         Assert.AreEqual(2, Pipe.GetValue<double>("$Selected.Shape.Radius"));
         Assert.AreEqual(4, Pipe.GetValue<double>("$Selected.Shape.Height"));

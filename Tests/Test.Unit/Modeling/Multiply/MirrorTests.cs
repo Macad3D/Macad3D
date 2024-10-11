@@ -19,7 +19,7 @@ public class MirrorTests
     {
         var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
         var subshape = sketch.GetSubshapeReference(SubshapeType.Edge, 0);
-        Assume.That(subshape != null);
+        Assert.That(subshape != null);
 
         var mirror = Mirror.Create(sketch.Body, subshape);
         Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
@@ -37,7 +37,7 @@ public class MirrorTests
     {
         var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
         var subshape = sketch.GetSubshapeReference(SubshapeType.Edge, 0);
-        Assume.That(subshape != null);
+        Assert.That(subshape != null);
 
         var mirror = Mirror.Create(sketch.Body, subshape);
         mirror.Offset = 10;
@@ -54,7 +54,7 @@ public class MirrorTests
     {
         var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
         var subshape = sketch.GetSubshapeReference(SubshapeType.Edge, 1);
-        Assume.That(subshape != null);
+        Assert.That(subshape != null);
 
         var mirror = Mirror.Create(sketch.Body, subshape);
         mirror.Offset = 10;
@@ -70,7 +70,7 @@ public class MirrorTests
     {
         var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
         var subshape = sketch.GetSubshapeReference(SubshapeType.Edge, 2);
-        Assume.That(subshape != null);
+        Assert.That(subshape != null);
 
         var mirror = Mirror.Create(sketch.Body, subshape);
         Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
@@ -85,7 +85,7 @@ public class MirrorTests
     {
         var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
         var subshape = sketch.GetSubshapeReference(SubshapeType.Edge, 0);
-        Assume.That(subshape != null);
+        Assert.That(subshape != null);
 
         var mirror = Mirror.Create(sketch.Body, subshape);
         mirror.KeepOriginal = false;
@@ -101,7 +101,7 @@ public class MirrorTests
     {
         var section = TestGeomGenerator.CreateCrossSection();
         var subshape = section.GetSubshapeReference(SubshapeType.Edge, 0);
-        Assume.That(subshape != null);
+        Assert.That(subshape != null);
 
         var mirror = Mirror.Create(section.Body, subshape);
         Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
@@ -117,7 +117,7 @@ public class MirrorTests
     {
         var imprint = TestGeomGenerator.CreateImprint();
         var subshape = imprint.GetSubshapeReference(SubshapeType.Face, 5);
-        Assume.That(subshape != null);
+        Assert.That(subshape != null);
 
         var mirror = Mirror.Create(imprint.Body, subshape);
         Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
@@ -132,7 +132,7 @@ public class MirrorTests
     {
         var imprint = TestGeomGenerator.CreateImprint();
         var subshape = imprint.GetSubshapeReference(SubshapeType.Face, 5);
-        Assume.That(subshape != null);
+        Assert.That(subshape != null);
 
         var mirror = Mirror.Create(imprint.Body, subshape);
         mirror.Offset = 10;
@@ -148,7 +148,7 @@ public class MirrorTests
     {
         var imprint = TestGeomGenerator.CreateImprint();
         var subshape = imprint.GetSubshapeReference(SubshapeType.Face, 0);
-        Assume.That(subshape != null);
+        Assert.That(subshape != null);
 
         var mirror = Mirror.Create(imprint.Body, subshape);
         mirror.Offset = 5;
@@ -164,7 +164,7 @@ public class MirrorTests
     {
         var imprint = TestGeomGenerator.CreateImprint();
         var subshape = imprint.GetSubshapeReference(SubshapeType.Face, 6);
-        Assume.That(subshape != null);
+        Assert.That(subshape != null);
 
         var mirror = Mirror.Create(imprint.Body, subshape);
         Assert.IsTrue(mirror.Make(Shape.MakeFlags.None));
@@ -179,7 +179,7 @@ public class MirrorTests
     {
         var imprint = TestGeomGenerator.CreateImprint();
         var subshape = imprint.GetSubshapeReference(SubshapeType.Face, 5);
-        Assume.That(subshape != null);
+        Assert.That(subshape != null);
 
         var mirror = Mirror.Create(imprint.Body, subshape);
         mirror.KeepOriginal = false;
@@ -195,7 +195,7 @@ public class MirrorTests
     {
         var imprint = TestGeomGenerator.CreateImprint();
         var subshape = imprint.GetSubshapeReference(SubshapeType.Face, 5);
-        Assume.That(subshape != null);
+        Assert.That(subshape != null);
 
         var mirror = Mirror.Create(imprint.Body, subshape);
         mirror.MergeFaces = false;
@@ -223,7 +223,7 @@ public class MirrorTests
     {
         var imprint = TestGeomGenerator.CreateImprint();
         var subshape = imprint.GetSubshapeReference(SubshapeType.Face, 7);
-        Assume.That(subshape != null);
+        Assert.That(subshape != null);
 
         var mirror = Mirror.Create(imprint.Body, subshape);
         mirror.MergeFaces = false;

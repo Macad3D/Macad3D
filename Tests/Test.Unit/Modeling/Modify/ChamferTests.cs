@@ -131,7 +131,7 @@ public class ChamferTests
     public void FaceSelection()
     {
         var imprint = TestGeomGenerator.CreateImprint(TestSketchGenerator.SketchType.Circle);
-        Assume.That(imprint, Is.Not.Null);
+        Assert.That(imprint, Is.Not.Null);
         imprint.Depth = 5.0;
 
         var shape = Chamfer.Create(imprint.Body);
@@ -150,7 +150,7 @@ public class ChamferTests
     public void FaceSelectionSwapped()
     {
         var imprint = TestGeomGenerator.CreateImprint(TestSketchGenerator.SketchType.Circle);
-        Assume.That(imprint, Is.Not.Null);
+        Assert.That(imprint, Is.Not.Null);
         imprint.Depth = 5.0;
 
         var shape = Chamfer.Create(imprint.Body);

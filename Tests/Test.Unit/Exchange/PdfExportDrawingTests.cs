@@ -181,7 +181,7 @@ public class PdfExportDrawingTests
     public void BoundaryIsClosed()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "BoundaryIsClosed_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var template = new SliceContourComponent()
         {
@@ -201,7 +201,7 @@ public class PdfExportDrawingTests
     public void HolesInPaths()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "HolesInPaths_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var component = new EtchingMaskComponent()
         {
@@ -251,7 +251,7 @@ public class PdfExportDrawingTests
         sb.LineTo(-18.0, -7.0);
         var body = Body.Create(sketch);
         var pipe = Pipe.Create(body);
-        Assume.That(pipe.Make(Shape.MakeFlags.None));
+        Assert.That(pipe.Make(Shape.MakeFlags.None));
 
         var pipeDrawing = PipeDrawing.Create(pipe.Body);
         Drawing drawing = new();

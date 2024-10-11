@@ -78,7 +78,7 @@ public class FilletTests
         var body = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "DoubleKeysInContourDict_Source.brep"));
 
         var edge = body.Shape.GetSubshapeReference(SubshapeType.Edge, 40);
-        Assume.That(edge, Is.Not.Null);
+        Assert.That(edge, Is.Not.Null);
 
         var shape = Fillet.Create(body);
         shape.Edges = new[] {edge, edge};

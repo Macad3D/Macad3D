@@ -39,7 +39,7 @@ public class ViewportTests : UITestBase
     {
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateSphere");
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
         MainWindow.Viewport.ClickRelative(0.5, 0.5);
 
         MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
@@ -67,7 +67,7 @@ public class ViewportTests : UITestBase
     {
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateSphere");
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
         MainWindow.Viewport.ClickRelative(0.5, 0.5);
 
         MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);
@@ -94,7 +94,7 @@ public class ViewportTests : UITestBase
     {
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateSphere");
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateSphere"));
         MainWindow.Viewport.ClickRelative(0.5, 0.5);
 
         MainWindow.Viewport.ClickRelative(0.4, 0.4, MouseButton.Right);

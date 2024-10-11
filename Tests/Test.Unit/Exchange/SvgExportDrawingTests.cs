@@ -190,7 +190,7 @@ public class SvgExportDrawingTests
     public void SimpleContour()
     {
         var source = TestData.GetBodyFromBRep(@"SourceData\Brep\SheetWithOneLayer.brep");
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var template = new SliceContourComponent
         {
@@ -210,7 +210,7 @@ public class SvgExportDrawingTests
     public void TwoLayerCutout()
     {
         var source = TestData.GetBodyFromBRep(@"SourceData\Brep\SheetWithTwoLayers.brep");
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var template = new SliceContourComponent
         {
@@ -230,7 +230,7 @@ public class SvgExportDrawingTests
     public void HolesInPaths()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "HolesInPaths_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var component = new EtchingMaskComponent()
         {
@@ -251,7 +251,7 @@ public class SvgExportDrawingTests
     public void TwoLayerEtchMask()
     {
         var source = TestData.GetBodyFromBRep(@"SourceData\Brep\SheetWithTwoLayers.brep");
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var component = new EtchingMaskComponent()
         {
@@ -271,7 +271,7 @@ public class SvgExportDrawingTests
     public void MultipleHoles()
     {
         var source = TestData.GetBodyFromBRep(@"SourceData\Brep\ContourMultipleHoles.brep");
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var template = new SliceContourComponent()
         {
@@ -291,7 +291,7 @@ public class SvgExportDrawingTests
     public void BoundaryIsClosed()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "BoundaryIsClosed_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var template = new SliceContourComponent()
         {
@@ -311,7 +311,7 @@ public class SvgExportDrawingTests
     public void LocatedWire()
     {
         var source = TestData.GetBodyFromBRep(@"SourceData\Brep\ContourLocatedWire.brep");
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var template = new SliceContourComponent()
         {

@@ -320,7 +320,7 @@ public class TaperToolTests
 
         var taper = _CreateTaperedBoxByEdge();
         var box = taper.Predecessor as Box;
-        Assume.That(box != null);
+        Assert.That(box != null);
         ctx.WorkspaceController.StartEditor(taper);
         ctx.ViewportController.ZoomFitAll();
 

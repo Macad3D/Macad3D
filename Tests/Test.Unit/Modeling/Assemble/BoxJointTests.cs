@@ -402,7 +402,7 @@ public class BoxJointTests
         var clones = InteractiveContext.Current.DocumentController.Duplicate([body2], new CloneOptions(cloneReferencedBodies: false)).ToList();
 
         var third = (clones[0] as Body)?.Shape as BoxJoint;
-        Assume.That(third != null);
+        Assert.That(third != null);
         third.Body.Position = new Pnt(0, -5, -5);
 
         Assert.AreEqual(body1, (third.Operands[1] as BodyShapeOperand)?.Body);

@@ -103,7 +103,7 @@ public class SketchEditorToolTests
 
         // Select Point
         ctx.ClickAt(377, 122);
-        Assume.That(ctx.WorkspaceController.CurrentTool.CurrentAction is MoveSketchPointAction);
+        Assert.That(ctx.WorkspaceController.CurrentTool.CurrentAction is MoveSketchPointAction);
         // Move to MergePoint
         ctx.MoveTo(416, 78);
         ctx.WorkspaceController.MouseDown(ctx.ViewportController, ModifierKeys.None);
@@ -564,7 +564,7 @@ public class SketchEditorToolTests
         // Select 
         ctx.SelectAt(254, 88);
         ctx.SelectAt(411, 236, ModifierKeys.Shift);
-        Assume.That(tool.SelectedSegments.Count, Is.EqualTo(2));
+        Assert.That(tool.SelectedSegments.Count, Is.EqualTo(2));
 
         // Do it
         Assert.Multiple(() =>
@@ -682,7 +682,7 @@ public class SketchEditorToolTests
         ctx.SelectAt(254, 88);
         ctx.SelectAt(411, 236, ModifierKeys.Shift);
         ctx.SelectAt(387, 115, ModifierKeys.Shift);
-        Assume.That(tool.SelectedSegments.Count, Is.EqualTo(2));
+        Assert.That(tool.SelectedSegments.Count, Is.EqualTo(2));
 
         // Do it
         Assert.IsTrue(ctx.WorkspaceController.CanCopyToClipboard());
@@ -727,7 +727,7 @@ public class SketchEditorToolTests
         ctx.SelectAt(254, 88);
         ctx.SelectAt(411, 236, ModifierKeys.Shift);
         ctx.SelectAt(387, 115, ModifierKeys.Shift);
-        Assume.That(tool.SelectedSegments.Count, Is.EqualTo(2));
+        Assert.That(tool.SelectedSegments.Count, Is.EqualTo(2));
 
         // Do it
         Assert.IsTrue(ctx.WorkspaceController.CanCopyToClipboard());
@@ -1053,7 +1053,7 @@ public class SketchEditorToolTests
         ctx.ClickAt(250, 250); // Create Point 2
 
         ctx.ClickAt(250, 250); // Select Point, Move Action started
-        Assume.That(ctx.WorkspaceController.CurrentTool.CurrentAction is MoveSketchPointAction);
+        Assert.That(ctx.WorkspaceController.CurrentTool.CurrentAction is MoveSketchPointAction);
 
         // Create another Segment
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();

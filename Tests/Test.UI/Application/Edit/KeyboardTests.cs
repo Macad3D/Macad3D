@@ -63,7 +63,7 @@ public class KeyboardTests : UITestBase
         // Init
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateBox");
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
         MainWindow.Viewport.ClickRelative(0.3, 0.3);
             
         // Enter numbers
@@ -74,7 +74,7 @@ public class KeyboardTests : UITestBase
         Pipe.TypeText("5");
         Pipe.TypeKey(VirtualKeyShort.ENTER);
 
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
         Assert.AreEqual("Box_2", Pipe.GetValue<string>("$Selected.Name"));
     }
 
@@ -105,7 +105,7 @@ public class KeyboardTests : UITestBase
         // Init
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         MainWindow.Ribbon.ClickButton("CreateBox");
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.True);
         MainWindow.Viewport.ClickRelative(0.3, 0.3);
             
         // Enter numbers
@@ -116,7 +116,7 @@ public class KeyboardTests : UITestBase
         Pipe.TypeText("5");
         Pipe.TypeKey(VirtualKeyShort.ENTER);
 
-        Assume.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
+        Assert.That(MainWindow.Ribbon.IsButtonChecked("CreateBox"), Is.False);
         Assert.AreEqual("Box_1", Pipe.GetValue<string>("$Selected.Name"));
     }
 }

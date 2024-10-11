@@ -18,16 +18,16 @@ public class LayersAdaptor : FormAdaptor
     public LayersAdaptor(Window window)
     {
         _FormControl = window.FindFirstDescendant(cf => cf.ByClassName("LayersPanel"));
-        Assume.That(_FormControl, Is.Not.Null);
+        Assert.That(_FormControl, Is.Not.Null);
         _ListControl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId("LayerList")).AsTree();
-        Assume.That(_ListControl, Is.Not.Null);
+        Assert.That(_ListControl, Is.Not.Null);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public TreeItemAdaptor GetLayerItem(int index)
     {
-        Assume.That(_ListControl.Items.Length, Is.GreaterThan(index));
+        Assert.That(_ListControl.Items.Length, Is.GreaterThan(index));
         return new TreeItemAdaptor(_ListControl.Items[index]);
     }
 

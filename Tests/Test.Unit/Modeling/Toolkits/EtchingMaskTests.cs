@@ -16,7 +16,7 @@ public class EtchingMaskTests
     public void SimpleDoubleLayer()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "SheetWithTwoLayers_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var component = new EtchingMaskComponent()
         {
@@ -34,7 +34,7 @@ public class EtchingMaskTests
     public void Reconstruction()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "SheetWithTwoLayers_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
             
         var component = new EtchingMaskComponent()
         {

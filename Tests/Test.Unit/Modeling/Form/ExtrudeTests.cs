@@ -92,7 +92,7 @@ public class ExtrudeTests
     public void SolidFace()
     {
         var shape = TestGeomGenerator.CreateImprint();
-        Assume.That(shape != null);
+        Assert.That(shape != null);
 
         var subshapeRef = shape.GetSubshapeReference(SubshapeType.Face, 7);
         var extrude = Extrude.Create(shape.Body, subshapeRef);
@@ -107,7 +107,7 @@ public class ExtrudeTests
     public void SolidFaceNoMergeFaces()
     {
         var shape = TestGeomGenerator.CreateImprint();
-        Assume.That(shape != null);
+        Assert.That(shape != null);
 
         var subshapeRef = shape.GetSubshapeReference(SubshapeType.Face, 7);
         var extrude = Extrude.Create(shape.Body, subshapeRef);
@@ -123,7 +123,7 @@ public class ExtrudeTests
     public void SolidFaceCut()
     {
         var shape = TestGeomGenerator.CreateImprint();
-        Assume.That(shape != null);
+        Assert.That(shape != null);
 
         var subshapeRef = shape.GetSubshapeReference(SubshapeType.Face, 7);
         var extrude = Extrude.Create(shape.Body, subshapeRef);

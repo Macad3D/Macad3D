@@ -49,7 +49,7 @@ internal static class ModelCompare
         if (referenceBytes == null)
         {
             TestData.WriteTestResult(bytes, brepFile + "_TestResult.brep");
-            Assume.That(false, $"{brepFile}: Reference shape file not found.");
+            Assert.That(false, $"{brepFile}: Reference shape file not found.");
             return false;
         }
 
@@ -130,7 +130,7 @@ internal static class ModelCompare
         if (referenceBytes == null)
         {
             TestData.WriteTestResult(bytes, brepFile + "_TestResult.brep");
-            Assume.That(false, "Reference shape file not found.");
+            Assert.That(false, "Reference shape file not found.");
             return false;
         }
 

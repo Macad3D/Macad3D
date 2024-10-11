@@ -50,8 +50,8 @@ public class ToolTests
             ctx.ViewportController.MouseUp();
             ctx.ViewportController.MouseMove(new Point(0, 0));
 
-            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
 
         __CreateAndReleaseTool();
@@ -87,8 +87,8 @@ public class ToolTests
             ctx.WorkspaceController.Invalidate(forceRedraw:true);
             ctx.ViewportController.MouseMove(new Point(0,0));
 
-            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
 
         __CreateAndReleaseTool();
@@ -123,8 +123,8 @@ public class ToolTests
             ctx.ViewportController.MouseUp();
             ctx.ViewportController.MouseMove(new Point(0, 0));
 
-            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
 
         __CreateAndReleaseTool();
@@ -160,8 +160,8 @@ public class ToolTests
             ctx.WorkspaceController.Invalidate(forceRedraw:true);
             ctx.ViewportController.MouseMove(new Point(0,0));
 
-            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
 
         __CreateAndReleaseTool();
@@ -193,8 +193,8 @@ public class ToolTests
             ctx.ViewportController.MouseUp();
             ctx.ViewportController.MouseMove(new Point(0, 0));
 
-            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
 
         __CreateAndReleaseTool();
@@ -226,8 +226,8 @@ public class ToolTests
             ctx.WorkspaceController.Invalidate(forceRedraw:true);
             ctx.ViewportController.MouseMove(new Point(0,0));
 
-            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
 
         __CreateAndReleaseTool();
@@ -250,19 +250,19 @@ public class ToolTests
         {
             var ctx = Context.Current;
             var body = TestGeomGenerator.CreateImprint()?.Body;
-            Assume.That(body != null);
+            Assert.That(body != null);
             ctx.Document.Add(body);
             ctx.WorkspaceController.Selection.SelectEntity(body);
             
-            Assume.That(ToolboxCommands.CreateSliceContour.CanExecute());
+            Assert.That(ToolboxCommands.CreateSliceContour.CanExecute());
             ToolboxCommands.CreateSliceContour.Execute();
 
             var tool = ctx.WorkspaceController.CurrentTool as SliceContourEditTool;
-            Assume.That(tool, Is.Not.Null);
+            Assert.That(tool, Is.Not.Null);
 
             ctx.WorkspaceController.CancelTool(tool, false);
-            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
 
         __CreateAndReleaseTool();
@@ -283,19 +283,19 @@ public class ToolTests
         {
             var ctx = Context.Current;
             var body = TestGeomGenerator.CreateImprint()?.Body;
-            Assume.That(body != null);
+            Assert.That(body != null);
             ctx.Document.Add(body);
             ctx.WorkspaceController.Selection.SelectEntity(body);
             
-            Assume.That(ToolboxCommands.CreateEtchingMask.CanExecute());
+            Assert.That(ToolboxCommands.CreateEtchingMask.CanExecute());
             ToolboxCommands.CreateEtchingMask.Execute();
 
             var tool = ctx.WorkspaceController.CurrentTool as EtchingMaskEditTool;
-            Assume.That(tool, Is.Not.Null);
+            Assert.That(tool, Is.Not.Null);
 
             ctx.WorkspaceController.CancelTool(tool, false);
-            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool, Is.Null);
         }
 
         __CreateAndReleaseTool();
@@ -317,7 +317,7 @@ public class ToolTests
             var ctx = Context.Current;
             ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
             var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-            Assume.That(sketchEditTool, Is.Not.Null);
+            Assert.That(sketchEditTool, Is.Not.Null);
             var sketch = sketchEditTool.Sketch;
 
             // Create segments
@@ -327,23 +327,23 @@ public class ToolTests
 
             // Create constraints
             ctx.ClickAt(100, 250);
-            Assume.That(sketchEditTool.CreateConstraint<SketchConstraintVertical>().Count > 0);
+            Assert.That(sketchEditTool.CreateConstraint<SketchConstraintVertical>().Count > 0);
             ctx.ClickAt(100, 250);
-            Assume.That(sketchEditTool.CreateConstraint<SketchConstraintLength>().Count > 0);
+            Assert.That(sketchEditTool.CreateConstraint<SketchConstraintLength>().Count > 0);
             ctx.ClickAt(100, 250);
             ctx.ClickAt(250, 100, ModifierKeys.Shift);
-            Assume.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
+            Assert.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
             ctx.ClickAt(100, 250);
             ctx.ClickAt(400, 250, ModifierKeys.Shift);
-            Assume.That(sketchEditTool.CreateConstraint<SketchConstraintParallel>().Count > 0);
+            Assert.That(sketchEditTool.CreateConstraint<SketchConstraintParallel>().Count > 0);
             ctx.ClickAt(400, 250);
             ctx.ClickAt(250, 400, ModifierKeys.Shift);
-            Assume.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
+            Assert.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
             ctx.WorkspaceController.Invalidate(forceRedraw: true);
 
             ctx.WorkspaceController.CancelTool(sketchEditTool, false);
-            Assume.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
-            Assume.That(ctx.WorkspaceController.CurrentTool, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool?.CurrentAction, Is.Null);
+            Assert.That(ctx.WorkspaceController.CurrentTool, Is.Null);
 
             InteractiveContext.Current.WorkspaceController.Delete();
             ctx.UndoHandler.UndoStack.Clear();

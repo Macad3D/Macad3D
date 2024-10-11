@@ -41,7 +41,7 @@ public class DocumentExplorerTests : UITestBase
         TestDataGenerator.GenerateBodyReference(MainWindow);
         MainWindow.Document.EnterValue("FilterStringBox", "_1", true);
         Thread.Sleep(500); // Filter string is processed deferred
-        Assume.That(MainWindow.Document.GetItems().Count() == 1);
+        Assert.That(MainWindow.Document.GetItems().Count() == 1);
 
         MainWindow.Document.ClickButton("ResetNameFilter");
         Assert.AreEqual(2, MainWindow.Document.GetItems().Count());
@@ -55,7 +55,7 @@ public class DocumentExplorerTests : UITestBase
         TestDataGenerator.GenerateBodyReference(MainWindow);
         MainWindow.Document.EnterValue("FilterStringBox", "_1", true);
         Thread.Sleep(500); // Filter string is processed deferred
-        Assume.That(MainWindow.Document.GetItems().Count() == 1);
+        Assert.That(MainWindow.Document.GetItems().Count() == 1);
 
         var bodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");
         Assert.IsNotNull(bodyPanel);

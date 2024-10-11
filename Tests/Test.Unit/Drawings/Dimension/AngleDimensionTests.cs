@@ -125,7 +125,7 @@ public class AngleDimensionTests
         sb.LineTo(0, -7.5);
         var body = Body.Create(sketch);
         var pipe = Pipe.Create(body);
-        Assume.That(pipe.Make(Shape.MakeFlags.None));
+        Assert.That(pipe.Make(Shape.MakeFlags.None));
 
         var pipeDrawing = PipeDrawing.Create(pipe.Body);
 

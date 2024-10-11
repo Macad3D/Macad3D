@@ -6,3 +6,14 @@ before_build:
   - cmd: .\ScriptConsole.cmd restore
 build:
   verbosity: minimal
+test_script:
+  - ps: |
+      & .\ScriptConsole.cmd test unit
+      $testRunExitCode = $LASTEXITCODE
+      # upload results to AppVeyor
+      $wc = New-Object 'System.Net.WebClient'
+      $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit3/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\bin\release\TestResults\Test.Unit.xml))
+      $host.SetShouldExit($testRunExitCode)
+artifacts:
+  - path: bin\release\TestResults\Test.Unit.xml
+    name: Unit_Test_Results

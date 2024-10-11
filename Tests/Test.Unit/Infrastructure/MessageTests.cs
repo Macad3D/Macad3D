@@ -36,8 +36,8 @@ public class MessageTests
     {
         var box = TestGeomGenerator.CreateBox();
         Messages.Error("Hello World", null, box);
-        Assume.That(Context.Current.MessageHandler.GetEntityMessages(box).Count == 1);
-        Assume.That(Context.Current.MessageHandler.MessageItems.Count == 1);
+        Assert.That(Context.Current.MessageHandler.GetEntityMessages(box).Count == 1);
+        Assert.That(Context.Current.MessageHandler.MessageItems.Count == 1);
 
         box.Remove();
         Assert.IsNull(Context.Current.MessageHandler.GetEntityMessages(box));

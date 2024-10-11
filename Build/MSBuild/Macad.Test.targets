@@ -4,22 +4,26 @@
 
   <Target Name="Test">
     <PropertyGroup>
-        <_RunnerCommand>$(PkgNUnit_ConsoleRunner)\tools\nunit3-console.exe</_RunnerCommand>
+        <_RunnerCommand>"%ProgramW6432%\dotnet\dotnet.exe"</_RunnerCommand>
+        <_RunnerOptions>--nologo</_RunnerOptions>
         <_ResultSuffix>$(TargetName.Replace("Test.", ""))</_ResultSuffix>
-        <_TestResult>--result=TestResult_$(_ResultSuffix).xml</_TestResult>
-        <_TestOutput>--out=TestOutput_$(_ResultSuffix).txt</_TestOutput>
-        <_NunitOptions>--noheader --workers=1</_NunitOptions>
+        <_RunSettings>NUnit.NumberOfTestWorkers=1 NUnit.TestOutputXml="$(TargetDir)TestResults" NUnit.Consoleout=1</_RunSettings>
     </PropertyGroup>
 
-    <PropertyGroup Condition="$(AdditionalTestOptions) != ''">
-        <_NunitOptions>$(_NunitOptions) $(AdditionalTestOptions)</_NunitOptions>
+    <PropertyGroup Condition="$(AdditionalRunSettings) != ''">
+        <_RunSettings>$(_RunSettings) $(AdditionalRunSettings)</_RunSettings>
     </PropertyGroup>
 
     <PropertyGroup Condition="$(PkgJetBrains_dotMemoryUnit) != ''">
-        <_RunnerCommand>$(PkgJetBrains_dotMemoryUnit)\lib\tools\dotMemoryUnit.exe $(_RunnerCommand) --propagate-exit-code -- </_RunnerCommand>
+        <_RunnerCommand>"$(PkgJetBrains_dotMemoryUnit)\lib\tools\dotMemoryUnit.exe" $(_RunnerCommand) --propagate-exit-code --</_RunnerCommand>
     </PropertyGroup>
 
-    <Exec Command="$(_RunnerCommand) $(TargetPath) $(_NunitOptions) $(_TestResult) $(_TestOutput)" WorkingDirectory="$(TargetDir)" />
+    <Exec Command='$(_RunnerCommand) test "$(TargetPath)" $(_RunnerOptions) -- $(_RunSettings)' 
+          WorkingDirectory="$(TargetDir)"
+          EnvironmentVariables="DOTNET_NOLOGO=true"
+          IgnoreStandardErrorWarningFormat="true"
+          StdOutEncoding="utf-8" 
+          StdErrEncoding="utf-8" />
   </Target>
 
 </Project>

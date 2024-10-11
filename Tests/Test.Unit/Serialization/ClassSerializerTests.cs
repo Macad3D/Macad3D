@@ -312,14 +312,14 @@ public class ClassSerializerTests
     {
         var ctx = new SerializationContext();
         var r = new Reader("[!Test.PropertyClassGuid{MyGuid:fb82b37ccc56415ebaea773f4bbe7203},?fb82b37ccc56415ebaea773f4bbe7203]");
-        Assume.That(r.BeginList());
-        Assume.That(r.BeginListValue());
+        Assert.That(r.BeginList());
+        Assert.That(r.BeginListValue());
         var anticipated = ClassSerializer.AnticipateType(r, ctx);
         Assert.AreEqual(new Guid("fb82b37ccc56415ebaea773f4bbe7203"), anticipated.Guid);
         Assert.AreEqual(typeof(PropertyClassGuid), anticipated.Type);
         r.SkipListOrMapValue();
 
-        Assume.That(r.BeginListValue());
+        Assert.That(r.BeginListValue());
         anticipated = ClassSerializer.AnticipateType(r, ctx);
         Assert.AreEqual(new Guid("fb82b37ccc56415ebaea773f4bbe7203"), anticipated.Guid);
         Assert.AreEqual(typeof(PropertyClassGuid), anticipated.Type);

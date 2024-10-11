@@ -163,12 +163,12 @@ public class BodyTests
         var model = CoreContext.Current.Document;
         var body = TestGeomGenerator.CreateImprint().Body;
         model.Add(body);
-        Assume.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(1));
-        Assume.That(CoreContext.Current.Document.Instances.Count, Is.EqualTo(6));
+        Assert.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(1));
+        Assert.That(CoreContext.Current.Document.Instances.Count, Is.EqualTo(6));
 
         model.SafeDelete(new[] {body});
         Assert.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(0));
-        Assume.That(CoreContext.Current.Document.Instances.Count, Is.EqualTo(2));
+        Assert.That(CoreContext.Current.Document.Instances.Count, Is.EqualTo(2));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -180,7 +180,7 @@ public class BodyTests
         var body = TestGeomGenerator.CreateImprint().Body;
         model.Add(body);
         model.UndoHandler.Commit();
-        Assume.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(1));
+        Assert.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(1));
 
         model.SafeDelete(new[] {body});
         model.UndoHandler.Commit();
@@ -213,7 +213,7 @@ public class BodyTests
         cylBody.Position = new Pnt(-10, -10, 0);
         model.Add(cylBody);
 
-        Assume.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(2));
+        Assert.That(CoreContext.Current.Document.EntityCount, Is.EqualTo(2));
 
         var boolOp = BooleanCut.Create(boxBody, new BodyShapeOperand(cylBody));
         model.UndoHandler.Commit();
@@ -247,11 +247,11 @@ public class BodyTests
         model.Add(body2);
         BooleanFuse.Create(body2, new BodyShapeOperand(body1));
         model.UndoHandler.Commit();
-        Assume.That(model.EntityCount, Is.EqualTo(2));
+        Assert.That(model.EntityCount, Is.EqualTo(2));
 
         model.SafeDelete(new []{body2});
         model.UndoHandler.Commit();
-        Assume.That(model.EntityCount, Is.EqualTo(1));
+        Assert.That(model.EntityCount, Is.EqualTo(1));
 
         // Undo should link to the SAME body as before
         CoreContext.Current.UndoHandler.DoUndo(1);

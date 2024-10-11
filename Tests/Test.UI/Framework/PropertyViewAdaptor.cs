@@ -13,9 +13,9 @@ public class PropertyViewAdaptor
     public PropertyViewAdaptor(Window window)
     {
         _ViewControl = window.FindFirstDescendant(cf => cf.ByClassName("PropertiesPanel"));
-        Assume.That(_ViewControl, Is.Not.Null);
+        Assert.That(_ViewControl, Is.Not.Null);
         _PaneControl = _ViewControl.FindFirstChild();
-        Assume.That(_PaneControl, Is.Not.Null);
+        Assert.That(_PaneControl, Is.Not.Null);
     }
 
     //--------------------------------------------------------------------------------------------------

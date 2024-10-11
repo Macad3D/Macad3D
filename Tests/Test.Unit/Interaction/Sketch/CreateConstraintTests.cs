@@ -42,7 +42,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -81,7 +81,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -120,7 +120,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -159,7 +159,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -198,7 +198,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -237,7 +237,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -276,7 +276,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -312,7 +312,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
@@ -344,7 +344,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
@@ -380,7 +380,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -414,7 +414,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -448,7 +448,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -480,7 +480,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -515,7 +515,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
@@ -550,7 +550,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -585,7 +585,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -621,7 +621,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -657,7 +657,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -689,7 +689,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -720,7 +720,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -757,7 +757,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -792,7 +792,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -829,7 +829,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
@@ -866,7 +866,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentBezier2Creator>();
@@ -906,7 +906,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentBezier2Creator>();
@@ -944,7 +944,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentBezier2Creator>();
@@ -983,7 +983,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentRectangleCreator>();
@@ -993,30 +993,30 @@ public class CreateConstraintTests
         // Create constraints
         ctx.ClickAt(250, 400);
         ctx.ClickAt(100, 250, ModifierKeys.Shift);
-        Assume.That(sketchEditTool.CreateConstraint<SketchConstraintPerpendicular>().Count > 0);
+        Assert.That(sketchEditTool.CreateConstraint<SketchConstraintPerpendicular>().Count > 0);
         ctx.ClickAt(100, 250);
         ctx.ClickAt(250, 100, ModifierKeys.Shift);
-        Assume.That(sketchEditTool.CreateConstraint<SketchConstraintPerpendicular>().Count > 0);
+        Assert.That(sketchEditTool.CreateConstraint<SketchConstraintPerpendicular>().Count > 0);
         ctx.ClickAt(250, 100);
         ctx.ClickAt(400, 250, ModifierKeys.Shift);
-        Assume.That(sketchEditTool.CreateConstraint<SketchConstraintPerpendicular>().Count > 0);
+        Assert.That(sketchEditTool.CreateConstraint<SketchConstraintPerpendicular>().Count > 0);
         ctx.ClickAt(400, 250);
         ctx.ClickAt(250, 400, ModifierKeys.Shift);
-        Assume.That(sketchEditTool.CreateConstraint<SketchConstraintPerpendicular>().Count > 0);
+        Assert.That(sketchEditTool.CreateConstraint<SketchConstraintPerpendicular>().Count > 0);
 
         ctx.ClickAt(100, 250);
-        Assume.That(sketchEditTool.CreateConstraint<SketchConstraintVertical>().Count > 0);
+        Assert.That(sketchEditTool.CreateConstraint<SketchConstraintVertical>().Count > 0);
         ctx.ClickAt(100, 250);
-        Assume.That(sketchEditTool.CreateConstraint<SketchConstraintLength>().Count > 0);
+        Assert.That(sketchEditTool.CreateConstraint<SketchConstraintLength>().Count > 0);
         ctx.ClickAt(100, 250);
         ctx.ClickAt(250, 100, ModifierKeys.Shift);
-        Assume.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
+        Assert.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
         ctx.ClickAt(100, 250);
         ctx.ClickAt(400, 250, ModifierKeys.Shift);
-        Assume.That(sketchEditTool.CreateConstraint<SketchConstraintParallel>().Count > 0);
+        Assert.That(sketchEditTool.CreateConstraint<SketchConstraintParallel>().Count > 0);
         ctx.ClickAt(400, 250);
         ctx.ClickAt(250, 400, ModifierKeys.Shift);    
-        Assume.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
+        Assert.That(sketchEditTool.CreateConstraint<SketchConstraintEqual>().Count > 0);
             
         ctx.MoveTo(0,0);
 
@@ -1041,7 +1041,7 @@ public class CreateConstraintTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
 
         // Create segments
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();

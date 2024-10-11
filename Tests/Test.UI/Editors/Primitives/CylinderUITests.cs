@@ -21,7 +21,7 @@ public class CylinderUITests : UITestBase
     [Test, Order(1)]
     public void CreateCylinder()
     {
-        Assume.That(_Viewport, Is.Not.Null);
+        Assert.That(_Viewport, Is.Not.Null);
 
         // Start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
@@ -53,7 +53,7 @@ public class CylinderUITests : UITestBase
     [Test, Order(2)]
     public void ChangeDimensions()
     {
-        Assume.That(_CylinderPanel, Is.Not.Null);
+        Assert.That(_CylinderPanel, Is.Not.Null);
 
         // Set new values
         _CylinderPanel.EnterValue("CylinderRadius", 3.0);
@@ -70,7 +70,7 @@ public class CylinderUITests : UITestBase
     [Test, Order(3)]
     public void SegmentClamp()
     {
-        Assume.That(_CylinderPanel, Is.Not.Null);
+        Assert.That(_CylinderPanel, Is.Not.Null);
 
         // Segment should clamp between 0...360
         _CylinderPanel.EnterValue("CylinderSegment", 0.0);
@@ -88,7 +88,7 @@ public class CylinderUITests : UITestBase
     [Test, Order(4)]
     public void NegativeHeight()
     {
-        Assume.That(_CylinderPanel, Is.Not.Null);
+        Assert.That(_CylinderPanel, Is.Not.Null);
 
         // Set new values
         _CylinderPanel.EnterValue("CylinderHeight", -2.0);

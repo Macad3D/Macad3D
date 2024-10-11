@@ -1022,7 +1022,7 @@ public class CreateSegmentTests
 
         ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
         var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchEditTool, Is.Not.Null);
+        Assert.That(sketchEditTool, Is.Not.Null);
         sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
         Assert.That(ctx.TestHudManager.HintMessage.Contains("line"));
     }

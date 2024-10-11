@@ -109,7 +109,7 @@ public class DatumPlaneUITests : UITestBase
 
         // Select as WorkingPlane
         MainWindow.Viewport.ClickRelative(0.5, 0.5, MouseButton.Right, false);
-        Assume.That(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
+        Assert.That(ContextMenuAdaptor.IsContextMenuOpen(MainWindow, "ViewportContextMenu"));
         var contextMenu = new ContextMenuAdaptor(MainWindow, "ViewportContextMenu");
         contextMenu.ClickMenuItem("Set as Working Plane");
 

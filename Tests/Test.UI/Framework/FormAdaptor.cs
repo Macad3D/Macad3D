@@ -164,7 +164,7 @@ public class FormAdaptor
     public void SelectTreeItem(string controlId, string itemId)
     {
         var treeControl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId(controlId)).AsTree();
-        Assume.That(treeControl, Is.Not.Null);
+        Assert.That(treeControl, Is.Not.Null);
 
         var item = treeControl.Items.First(ti => ti.AutomationId == itemId);
         Assert.NotNull(item, $"No item with id {itemId} found in tree {controlId}");

@@ -84,7 +84,7 @@ public static class TestData
         var shape = 
             Occt.Helper.BRepExchange.ReadASCII(referenceBytes) 
             ?? Occt.Helper.BRepExchange.ReadBinary(referenceBytes);
-        Assume.That(shape, Is.Not.Null);
+        Assert.That(shape, Is.Not.Null);
 
         return shape;
     }
@@ -103,7 +103,7 @@ public static class TestData
 
     public static void LoadTestDataModel(string path)
     {
-        Assume.That(Context.Current.DocumentController.OpenModel(Path.Combine(TestDataDirectory, path)), $"Model {path} could not be loaded.");
+        Assert.That(Context.Current.DocumentController.OpenModel(Path.Combine(TestDataDirectory, path)), $"Model {path} could not be loaded.");
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -113,20 +113,20 @@ public static class TestData
         if (shapeType == ShapeType.Solid)
         {
             var importer = new OpenCascadeExchanger() as IBodyImporter;
-            Assume.That(importer != null);
-            Assume.That(importer.DoImport(Path.Combine(TestDataDirectory, path), out var newBodies));
-            Assume.That(newBodies != null);
+            Assert.That(importer != null);
+            Assert.That(importer.DoImport(Path.Combine(TestDataDirectory, path), out var newBodies));
+            Assert.That(newBodies != null);
             var body = newBodies.FirstOrDefault();
-            Assume.That(body != null);
+            Assert.That(body != null);
             return body;
         }
         if (shapeType == ShapeType.Mesh)
         {
             var shape = GetTestDataBRep(path);
             var mesh = Mesh.Create(shape);
-            Assume.That(mesh != null);
+            Assert.That(mesh != null);
             var body = Body.Create(mesh);
-            Assume.That(body != null);
+            Assert.That(body != null);
             return body;
         }
         Assert.IsTrue(false, "Shape type not implemented.");

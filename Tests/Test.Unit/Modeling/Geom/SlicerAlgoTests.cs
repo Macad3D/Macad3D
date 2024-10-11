@@ -18,7 +18,7 @@ public class SlicerAlgoTests
     public void SliceOneLayer()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "SliceOneLayer_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var slicer = new SliceByPlanes(source.GetBRep(), source.GetBRep().Faces()[4], 1);
         Assert.IsTrue(slicer.CreateSlices(true));
@@ -32,7 +32,7 @@ public class SlicerAlgoTests
     public void SliceRotated()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "SliceRotated_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var slicer = new SliceByPlanes(source.GetBRep(), source.GetBRep().Faces()[4], 1);
         Assert.IsTrue(slicer.CreateSlices(true));
@@ -46,7 +46,7 @@ public class SlicerAlgoTests
     public void TwoLayers()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "TwoLayers_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var slicer = new SliceByPlanes(source.GetBRep(), source.GetBRep().Faces()[0], 2);
         Assert.IsTrue(slicer.CreateSlices(true));
@@ -61,7 +61,7 @@ public class SlicerAlgoTests
     public void CorrectThickness()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "FindBiggestFace_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var slicer = new SliceByPlanes(source.GetBRep(), source.GetBRep().Faces()[0], 1);
         Assert.IsTrue(slicer.CreateSlices(true));
@@ -75,7 +75,7 @@ public class SlicerAlgoTests
     public void UseFarthestOpFace()
     {
         var source = TestGeomGenerator.CreateImprint().Body;
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
         (source.Shape as Imprint).Depth = 10;
 
         var slicer = new SliceByPlanes(source.GetBRep(), source.GetBRep().Faces()[4], 1);
@@ -90,7 +90,7 @@ public class SlicerAlgoTests
     public void CustomInterval()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "TwoLayers_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var slicer = new SliceByPlanes(source.GetBRep(), source.GetBRep().Faces()[0], 3, new []{ 0.2, 0.5, 0.15 });
         Assert.IsTrue(slicer.CreateSlices(true));

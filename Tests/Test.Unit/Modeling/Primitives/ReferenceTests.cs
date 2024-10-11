@@ -42,7 +42,7 @@ public class ReferenceTests
         var body2 = Reference.Create(body1);
         body2.Position = new Pnt(20, 0, 0);
 
-        Assume.That(body2.Shape.Make(Shape.MakeFlags.None));
+        Assert.That(body2.Shape.Make(Shape.MakeFlags.None));
 
         var subshaperef = body2.Shape.GetSubshapeReference(SubshapeType.Edge, 1);
         Assert.AreEqual(body1.Shape.Guid, subshaperef.ShapeId);
@@ -84,7 +84,7 @@ public class ReferenceTests
         ctx.Document.Add(body1);
         var refs = new List<InteractiveEntity> { Reference.Create(body1), Reference.Create(body1) };
         refs.ForEach(r => ctx.Document.Add(r));
-        Assume.That(ctx.DocumentController.CanDuplicate(refs));
+        Assert.That(ctx.DocumentController.CanDuplicate(refs));
 
         var clones = ctx.DocumentController.Duplicate(refs, new CloneOptions(cloneReferencedBody)).Cast<Body>().ToList();
         Assert.AreEqual(2, clones.Count());

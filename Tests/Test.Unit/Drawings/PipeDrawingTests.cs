@@ -53,7 +53,7 @@ public class PipeDrawingTests
         sb.LineTo(-18.0, -7.0);
         var body = Body.Create(sketch);
         var pipe = Pipe.Create(body);
-        Assume.That(pipe.Make(Shape.MakeFlags.None));
+        Assert.That(pipe.Make(Shape.MakeFlags.None));
 
         var drawing = PipeDrawing.Create(pipe.Body);
         Assert.IsNotNull(drawing.Extents);
@@ -85,7 +85,7 @@ public class PipeDrawingTests
 
         var body = Body.Create(sketch);
         var pipe = Pipe.Create(body);
-        Assume.That(pipe.Make(Shape.MakeFlags.None));
+        Assert.That(pipe.Make(Shape.MakeFlags.None));
 
         var drawing = PipeDrawing.Create(pipe.Body);
         Assert.IsNotNull(drawing.Extents);

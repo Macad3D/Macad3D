@@ -241,7 +241,7 @@ public class FlangeSheetTests
     public void SecondFlangeOnFlangeSide()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "SecondFlangeOnFlangeSide_Source.brep"));
-        Assume.That(source, Is.Not.Null);
+        Assert.That(source, Is.Not.Null);
 
         var flangeSheet = FlangeSheet.Create(source, new SubshapeReference(SubshapeType.Face, source.Shape.Guid, 2), 45.0, 5.0);
 
@@ -258,7 +258,7 @@ public class FlangeSheetTests
         var flangeSheet = FlangeSheet.Create(body, new SubshapeReference(SubshapeType.Face, box.Guid, 1), 45.0, 5.0);
         flangeSheet.StartGap = 2.0;
         flangeSheet.EndGap = 5.0;
-        Assume.That(flangeSheet.Make(Shape.MakeFlags.None));
+        Assert.That(flangeSheet.Make(Shape.MakeFlags.None));
 
         Assert.Multiple(() =>
         {
@@ -334,7 +334,7 @@ public class FlangeSheetTests
         var flangeSheet3 = FlangeSheet.Create(body, flangeSheet2.GetSubshapeReference(SubshapeType.Face, 12), 45.0, 5.0);
         flangeSheet3.StartGap = 0.0;
         flangeSheet3.EndGap = 0.0;
-        Assume.That(flangeSheet3.Make(Shape.MakeFlags.None));
+        Assert.That(flangeSheet3.Make(Shape.MakeFlags.None));
 
         Assert.That(flangeSheet3.Make(Shape.MakeFlags.DebugOutput));
         Assert.That(ModelCompare.CompareShape(flangeSheet3, Path.Combine(_BasePath, "FlangesOnSameFaceWithNoGaps")));

@@ -29,7 +29,7 @@ public class TreeItemAdaptor : FormAdaptor
         : base(treeItem)
     {
         _TreeItem = treeItem;
-        Assume.That(_TreeItem, Is.Not.Null);
+        Assert.That(_TreeItem, Is.Not.Null);
     }
 
     //--------------------------------------------------------------------------------------------------

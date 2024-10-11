@@ -344,7 +344,7 @@ public class HalvedJointTests
 
         var clones = InteractiveContext.Current.DocumentController.Duplicate([body2], new CloneOptions(cloneReferencedBodies: false)).ToList();
         var third = (clones[0] as Body)?.Shape as HalvedJoint;
-        Assume.That(third != null);
+        Assert.That(third != null);
         third.Body.Position = new Pnt(-5, -5, 0);
 
         Assert.AreEqual(body1, (third.Operands[1] as BodyShapeOperand)?.Body);

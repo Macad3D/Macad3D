@@ -345,7 +345,7 @@ public class VisualShapeTests
         ctx.Document.Add(body);
         ctx.WorkspaceController.Selection.SelectEntity(body);
         ctx.WorkspaceController.Duplicate();
-        Assume.That(ctx.Document.EntityCount == 2);
+        Assert.That(ctx.Document.EntityCount == 2);
 
         // Deselect and hide original
         ctx.WorkspaceController.Selection.SelectEntity(null);
@@ -368,7 +368,7 @@ public class VisualShapeTests
         ctx.WorkspaceController.Selection.SelectEntity(body);
         ctx.WorkspaceController.CopyToClipboard();
         ctx.WorkspaceController.PasteFromClipboard();
-        Assume.That(ctx.Document.EntityCount == 2);
+        Assert.That(ctx.Document.EntityCount == 2);
 
         // Deselect and hide original
         ctx.WorkspaceController.Selection.SelectEntity(null);

@@ -17,7 +17,7 @@ public class SliceContourTests
     public void SimpleCutout()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "SheetWithOneLayer_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var template = new SliceContourComponent
         {
@@ -33,7 +33,7 @@ public class SliceContourTests
     public void RotatedSheet()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "RotatedSheet_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         Assert.IsTrue(SliceContourComponent.CanFindReferenceFace(source.Shape.GetBRep()));
 
@@ -52,7 +52,7 @@ public class SliceContourTests
     public void Reconstruction()
     {
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "RotatedSheet_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var template = new SliceContourComponent
         {
@@ -70,7 +70,7 @@ public class SliceContourTests
     {
             
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "FindBiggestFace_Source.brep"));
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var template = new SliceContourComponent
         {
@@ -108,7 +108,7 @@ public class SliceContourTests
 
         var imprint = TestGeomGenerator.CreateImprint();
         var body = imprint.Body;
-        Assume.That(body?.GetBRep() != null);
+        Assert.That(body?.GetBRep() != null);
         imprint.Depth = 10;
 
         var template = new SliceContourComponent

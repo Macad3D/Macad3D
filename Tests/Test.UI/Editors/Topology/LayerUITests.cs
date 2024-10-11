@@ -107,7 +107,7 @@ public class LayerUITests : UITestBase
 
         layerPanel.AddLayer();
         var layerItem = layerPanel.GetLayerItem(1);
-        Assume.That(layerItem.Text == "Unnamed");
+        Assert.That(layerItem.Text == "Unnamed");
 
         // Start editing
         layerPanel.SelectItem(1);
@@ -128,7 +128,7 @@ public class LayerUITests : UITestBase
         layerPanel.AddLayer();
         layerPanel.AddLayer();
         var layerItem = layerPanel.GetLayerItem(1);
-        Assume.That(layerItem.Text == "Unnamed");
+        Assert.That(layerItem.Text == "Unnamed");
 
         // Start editing
         layerPanel.SelectItem(1);

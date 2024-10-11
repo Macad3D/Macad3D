@@ -21,7 +21,7 @@ public class BoxUITests : UITestBase
     [Test, Order(1)]
     public void CreateBox()
     {
-        Assume.That(_Viewport, Is.Not.Null);
+        Assert.That(_Viewport, Is.Not.Null);
 
         // Start tool
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
@@ -53,8 +53,8 @@ public class BoxUITests : UITestBase
     [Test, Order(2)]
     public void ChangeDimensions()
     {
-        Assume.That(_BoxPanel, Is.Not.Null);
-        Assume.That(_Viewport, Is.Not.Null);
+        Assert.That(_BoxPanel, Is.Not.Null);
+        Assert.That(_Viewport, Is.Not.Null);
 
         // Set new values
         _BoxPanel.EnterValue("BoxLength", 3.0);
@@ -67,7 +67,7 @@ public class BoxUITests : UITestBase
 
         // Deselect
         _Viewport.ClickRelative(0.9, 0.5);
-        Assume.That(MainWindow.PropertyView.FindPanelByClass("BoxPropertyPanel"), Is.Null);
+        Assert.That(MainWindow.PropertyView.FindPanelByClass("BoxPropertyPanel"), Is.Null);
 
         // Reselect
         _Viewport.ClickRelative(0.5, 0.5);

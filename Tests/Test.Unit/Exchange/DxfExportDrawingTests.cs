@@ -241,7 +241,7 @@ public class DxfExportDrawingTests
     public void SimpleContour()
     {
         var source = TestData.GetBodyFromBRep(@"SourceData\Brep\SheetWithOneLayer.brep");
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var template = new SliceContourComponent
         {
@@ -261,7 +261,7 @@ public class DxfExportDrawingTests
     public void TwoLayerCutout()
     {
         var source = TestData.GetBodyFromBRep(@"SourceData\Brep\SheetWithTwoLayers.brep");
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var template = new SliceContourComponent
         {
@@ -281,7 +281,7 @@ public class DxfExportDrawingTests
     public void TwoLayerEtchMask()
     {
         var source = TestData.GetBodyFromBRep(@"SourceData\Brep\SheetWithTwoLayers.brep");
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var component = new EtchingMaskComponent()
         {
@@ -301,7 +301,7 @@ public class DxfExportDrawingTests
     public void MultipleHoles()
     {
         var source = TestData.GetBodyFromBRep(@"SourceData\Brep\ContourMultipleHoles.brep");
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var template = new SliceContourComponent()
         {
@@ -321,7 +321,7 @@ public class DxfExportDrawingTests
     public void LocatedWire()
     {
         var source = TestData.GetBodyFromBRep(@"SourceData\Brep\ContourLocatedWire.brep");
-        Assume.That(source?.GetBRep() != null);
+        Assert.That(source?.GetBRep() != null);
 
         var template = new SliceContourComponent()
         {
@@ -432,7 +432,7 @@ public class DxfExportDrawingTests
         sb.LineTo(-18.0, -7.0);
         var body = Body.Create(sketch);
         var pipe = Pipe.Create(body);
-        Assume.That(pipe.Make(Shape.MakeFlags.None));
+        Assert.That(pipe.Make(Shape.MakeFlags.None));
 
         var pipeDrawing = PipeDrawing.Create(pipe.Body);
         Drawing drawing = new();

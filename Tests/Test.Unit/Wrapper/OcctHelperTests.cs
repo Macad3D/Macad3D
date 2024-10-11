@@ -18,7 +18,7 @@ public class OcctHelperTests
         var resultFile = Path.Combine(TestData.TestDataDirectory, @"Misc\OcctHelper_PixMapToBitmap24bpp_TestResult.png");
 
         var pixmap = new Image_AlienPixMap();
-        Assume.That(pixmap.Load(new TCollection_AsciiString(refFile)), "Inconclusive: Reference image file could not be loaded.");
+        Assert.That(pixmap.Load(new TCollection_AsciiString(refFile)), "Inconclusive: Reference image file could not be loaded.");
 
         // Convert to Bitmap
         var bitmap = Occt.Helper.PixMapHelper.ConvertToBitmap(pixmap);
@@ -39,7 +39,7 @@ public class OcctHelperTests
         var resultFile = Path.Combine(TestData.TestDataDirectory, @"Misc\OcctHelper_PixMapToBitmap32bpp_TestResult.png");
 
         var pixmap = new Image_AlienPixMap();
-        Assume.That(pixmap.Load(new TCollection_AsciiString(refFile)), "Inconclusive: Reference image file could not be loaded.");
+        Assert.That(pixmap.Load(new TCollection_AsciiString(refFile)), "Inconclusive: Reference image file could not be loaded.");
 
         // Convert to Bitmap
         var bitmap = Occt.Helper.PixMapHelper.ConvertToBitmap(pixmap);

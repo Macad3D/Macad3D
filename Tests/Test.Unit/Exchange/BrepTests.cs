@@ -16,7 +16,7 @@ public class BrepTests
     public void AsciiReadWrite()
     {
         var originalBytes = TestData.GetTestData(@"SourceData\Brep\ImprintRingFace.brep");
-        Assume.That(originalBytes, Is.Not.Null);
+        Assert.That(originalBytes, Is.Not.Null);
 
         // Read in
         var originalShape = BRepExchange.ReadASCII(originalBytes);
@@ -43,7 +43,7 @@ public class BrepTests
     public void BinaryReadWrite()
     {
         var originalBytes = TestData.GetTestData(@"SourceData\Brep\ImprintRingFace.brep");
-        Assume.That(originalBytes, Is.Not.Null);
+        Assert.That(originalBytes, Is.Not.Null);
 
         // Read in as ASCII
         var originalShape = BRepExchange.ReadASCII(originalBytes);
@@ -70,7 +70,7 @@ public class BrepTests
     public void AsciiTriangulation()
     {
         var originalBytes = TestData.GetTestData(@"SourceData\Brep\Motor-c.brep");
-        Assume.That(originalBytes, Is.Not.Null);
+        Assert.That(originalBytes, Is.Not.Null);
 
         // Read in
         var originalShape = BRepExchange.ReadASCII(originalBytes);
@@ -108,7 +108,7 @@ public class BrepTests
     public void BinaryTriangulation()
     {
         var originalBytes = TestData.GetTestData(@"SourceData\Brep\Motor-c.brep");
-        Assume.That(originalBytes, Is.Not.Null);
+        Assert.That(originalBytes, Is.Not.Null);
 
         // Read in
         var originalShape = BRepExchange.ReadASCII(originalBytes);

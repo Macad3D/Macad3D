@@ -87,10 +87,10 @@ public class ImprintToolTests
 
         // Build imprint
         var tool = new CreateImprintTool(body);
-        Assume.That(ctx.WorkspaceController.StartTool(tool));
+        Assert.That(ctx.WorkspaceController.StartTool(tool));
         ctx.SelectAt(90, 250);
         var sketchTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
-        Assume.That(sketchTool != null);
+        Assert.That(sketchTool != null);
 
         Assert.Multiple(() =>
         {

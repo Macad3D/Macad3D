@@ -21,7 +21,7 @@ public class FileDropTests : UITestBase
     public void CancelTaskDialog()
     {
         string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImprintRingFace.brep"));
-        Assume.That(MainWindow.SendFileDrop(path));
+        Assert.That(MainWindow.SendFileDrop(path));
 
         var dlg = new TaskDialogAdaptor(MainWindow);
         Assert.That(dlg, Is.Not.Null);
@@ -40,7 +40,7 @@ public class FileDropTests : UITestBase
     public void ImportMerged()
     {
         string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImprintRingFace.brep"));
-        Assume.That(MainWindow.SendFileDrop(path));
+        Assert.That(MainWindow.SendFileDrop(path));
 
         var dlg = new TaskDialogAdaptor(MainWindow);
         Assert.That(dlg, Is.Not.Null);
@@ -64,7 +64,7 @@ public class FileDropTests : UITestBase
     public void ImportToNewModel()
     {
         string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImprintRingFace.brep"));
-        Assume.That(MainWindow.SendFileDrop(path));
+        Assert.That(MainWindow.SendFileDrop(path));
 
         var dlg = new TaskDialogAdaptor(MainWindow);
         Assert.That(dlg, Is.Not.Null);
@@ -94,7 +94,7 @@ public class FileDropTests : UITestBase
     public void ImportToNewModelCancelSave()
     {
         string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImprintRingFace.brep"));
-        Assume.That(MainWindow.SendFileDrop(path));
+        Assert.That(MainWindow.SendFileDrop(path));
 
         var dlg = new TaskDialogAdaptor(MainWindow);
         Assert.That(dlg, Is.Not.Null);
@@ -120,7 +120,7 @@ public class FileDropTests : UITestBase
     public void LoadModel()
     {
         string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\Cylinder.model"));
-        Assume.That(MainWindow.SendFileDrop(path));
+        Assert.That(MainWindow.SendFileDrop(path));
 
         // Save model?
         var dlg = new TaskDialogAdaptor(MainWindow);
@@ -139,7 +139,7 @@ public class FileDropTests : UITestBase
     public void LoadModelCancelSave()
     {
         string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\Cylinder.model"));
-        Assume.That(MainWindow.SendFileDrop(path));
+        Assert.That(MainWindow.SendFileDrop(path));
 
         // Save model?
         var dlg = new TaskDialogAdaptor(MainWindow);
@@ -158,7 +158,7 @@ public class FileDropTests : UITestBase
     public void ImportToSketch()
     {
         string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportSketch.dxf"));
-        Assume.That(MainWindow.SendFileDrop(path));
+        Assert.That(MainWindow.SendFileDrop(path));
             
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);
@@ -183,7 +183,7 @@ public class FileDropTests : UITestBase
     public void ImportToSketchCanceled()
     {
         string path = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, @"..\..\Data\UITests\SourceData\ImportSketch.dxf"));
-        Assume.That(MainWindow.SendFileDrop(path));
+        Assert.That(MainWindow.SendFileDrop(path));
             
         var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
         Assert.IsNotNull(dlg);

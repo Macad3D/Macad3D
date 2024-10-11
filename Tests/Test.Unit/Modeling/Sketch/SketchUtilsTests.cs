@@ -40,7 +40,7 @@ public class SketchUtilsTests
         var arc2 = new SketchSegmentArc(p2, p4, p5);
         int s2 = sketch.AddSegment(arc2);
 
-        Assume.That(arc1.Center(sketch.Points).IsEqual(arc2.Center(sketch.Points), 0.001));
+        Assert.That(arc1.Center(sketch.Points).IsEqual(arc2.Center(sketch.Points), 0.001));
 
         SketchUtils.DeletePointTrySubstituteSegments(sketch, p2);
         Assert.AreEqual(3, sketch.Points.Count);

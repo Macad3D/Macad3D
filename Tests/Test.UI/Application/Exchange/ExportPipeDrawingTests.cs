@@ -35,7 +35,7 @@ public class ExportPipeDrawingTests : UITestBase
         MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assume.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
+        Assert.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
         MainWindow.Ribbon.ClickButton("CreatePipe");
             
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
@@ -67,7 +67,7 @@ public class ExportPipeDrawingTests : UITestBase
         MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assume.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
+        Assert.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
         MainWindow.Ribbon.ClickButton("CreatePipe");
             
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
@@ -97,7 +97,7 @@ public class ExportPipeDrawingTests : UITestBase
         MainWindow.Ribbon.ClickButton("CloseSketchEditor");
 
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
-        Assume.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
+        Assert.That(MainWindow.Ribbon.IsButtonEnabled("CreatePipe"));
         MainWindow.Ribbon.ClickButton("CreatePipe");
             
         MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);

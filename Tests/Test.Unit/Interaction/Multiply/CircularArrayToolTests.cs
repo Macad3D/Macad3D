@@ -451,7 +451,7 @@ public class CircularArrayToolTests
         array.OriginalAngle = 20;
         array.Range = 220;
         array.Alignment = CircularArray.AlignmentMode.Center;
-        Assume.That(array.Make(Shape.MakeFlags.None));
+        Assert.That(array.Make(Shape.MakeFlags.None));
 
         return array;
     }
@@ -467,7 +467,7 @@ public class CircularArrayToolTests
         array.OriginalAngle = 20;
         array.Range = 220;
         array.Alignment = CircularArray.AlignmentMode.Center;
-        Assume.That(array.Make(Shape.MakeFlags.None));
+        Assert.That(array.Make(Shape.MakeFlags.None));
         return array;
     }
 }

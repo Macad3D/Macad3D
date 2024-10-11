@@ -14,7 +14,7 @@ public class ViewportAdaptor
     public ViewportAdaptor(Window window)
     {
         _ViewportControl = window.FindFirstDescendant(cf => cf.ByClassName("WorkspaceView"));
-        Assume.That(_ViewportControl, Is.Not.Null);
+        Assert.That(_ViewportControl, Is.Not.Null);
     }
 
     //--------------------------------------------------------------------------------------------------

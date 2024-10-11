@@ -17,9 +17,9 @@ public class DocumentExplorerAdaptor : FormAdaptor
     public DocumentExplorerAdaptor(Window window)
     {
         _FormControl = window.FindFirstDescendant(cf => cf.ByClassName("DocumentExplorerPanel"));
-        Assume.That(_FormControl, Is.Not.Null);
+        Assert.That(_FormControl, Is.Not.Null);
         _TreeControl = _FormControl.FindFirstDescendant(cf => cf.ByAutomationId("TreeView")).AsTree();
-        Assume.That(_TreeControl, Is.Not.Null);
+        Assert.That(_TreeControl, Is.Not.Null);
     }
 
 

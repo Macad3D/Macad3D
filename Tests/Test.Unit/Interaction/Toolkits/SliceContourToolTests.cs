@@ -35,7 +35,7 @@ public class SliceContourToolTests
 
         var ctx = Context.Current;
         var body = TestGeomGenerator.CreateImprint()?.Body;
-        Assume.That(body != null);
+        Assert.That(body != null);
         ctx.Document.Add(body);
         ctx.WorkspaceController.Selection.SelectEntity(body);
             
@@ -59,7 +59,7 @@ public class SliceContourToolTests
         Context.InitWithView(500);
         var ctx = Context.Current;
         var body = TestGeomGenerator.CreateImprint()?.Body;
-        Assume.That(body != null);
+        Assert.That(body != null);
         ctx.Document.Add(body);
         ctx.ViewportController.ZoomFitAll();
 
@@ -105,7 +105,7 @@ public class SliceContourToolTests
         Context.InitWithView(500);
         var ctx = Context.Current;
         var body = TestGeomGenerator.CreateImprint()?.Body;
-        Assume.That(body != null);
+        Assert.That(body != null);
         ctx.Document.Add(body);
         ctx.ViewportController.ZoomFitAll();
 
@@ -137,7 +137,7 @@ public class SliceContourToolTests
         Context.InitWithView(500);
         var ctx = Context.Current;
         var body = TestGeomGenerator.CreateImprint()?.Body;
-        Assume.That(body != null);
+        Assert.That(body != null);
         ctx.Document.Add(body);
         ctx.ViewportController.ZoomFitAll();
 
@@ -229,11 +229,11 @@ public class SliceContourToolTests
         Context.InitWithView(500);
         var ctx = Context.Current;
         var body = TestGeomGenerator.CreateImprint()?.Body;
-        Assume.That(body != null);
+        Assert.That(body != null);
         ctx.Document.Add(body);
 
         var otherBody = TestGeomGenerator.CreateBox()?.Body;
-        Assume.That(otherBody != null);
+        Assert.That(otherBody != null);
         otherBody.Position = new Pnt(10, 0, 0);
 
         ctx.ViewportController.ZoomFitAll();
@@ -294,7 +294,7 @@ public class SliceContourToolTests
         var imprint = TestGeomGenerator.CreateImprint();
         imprint.Depth = 10;
         var body = imprint.Body;
-        Assume.That(body != null);
+        Assert.That(body != null);
         ctx.ViewportController.ZoomFitAll();
 
         ctx.WorkspaceController.Selection.SelectEntity(body);
@@ -332,7 +332,7 @@ public class SliceContourToolTests
         var imprint = TestGeomGenerator.CreateImprint();
         imprint.Depth = 10;
         var body = imprint.Body;
-        Assume.That(body != null);
+        Assert.That(body != null);
         ctx.ViewportController.ZoomFitAll();
 
         ctx.WorkspaceController.Selection.SelectEntity(body);
@@ -366,7 +366,7 @@ public class SliceContourToolTests
         var imprint = TestGeomGenerator.CreateImprint();
         imprint.Depth = 10;
         var body = imprint.Body;
-        Assume.That(body != null);
+        Assert.That(body != null);
         ctx.ViewportController.ZoomFitAll();
 
         ctx.WorkspaceController.Selection.SelectEntity(body);
@@ -398,7 +398,7 @@ public class SliceContourToolTests
         var imprint = TestGeomGenerator.CreateImprint();
         imprint.Depth = 10;
         var body = imprint.Body;
-        Assume.That(body != null);
+        Assert.That(body != null);
         ctx.ViewportController.ZoomFitAll();
 
         ctx.WorkspaceController.Selection.SelectEntity(body);
@@ -430,7 +430,7 @@ public class SliceContourToolTests
         var imprint = TestGeomGenerator.CreateImprint();
         imprint.Depth = 10;
         var body = imprint.Body;
-        Assume.That(body != null);
+        Assert.That(body != null);
         ctx.ViewportController.ZoomFitAll();
 
         ctx.WorkspaceController.Selection.SelectEntity(body);

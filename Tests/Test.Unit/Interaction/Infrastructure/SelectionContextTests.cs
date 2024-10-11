@@ -488,7 +488,7 @@ public class SelectionContextTests
         // Remove shape
         body2.Remove();
         var visShape2 = ctx.WorkspaceController.VisualObjects.Get(body2) as VisualShape;
-        Assume.That(visShape2, Is.Null);
+        Assert.That(visShape2, Is.Null);
 
         // Force AIS update by enhancing include list
         selContext.Include(body1);

@@ -24,7 +24,7 @@ public class ShellExtensionTests
         IStream inputStream = null;
         Win32Api.SHCreateStreamOnFileEx(Path.Combine(TestData.TestDataDirectory, @"Misc\ShellExtension_Source.model"),
                                         Win32Api.Stgm.STGM_READ, 0, false, null, ref inputStream);
-        Assume.That(inputStream != null);
+        Assert.That(inputStream != null);
         initializeWithStream.Initialize(inputStream, Win32Api.Stgm.STGM_READ);
 
         thumbnailProvider.GetThumbnail(500, out var hBitmap, out var alphaType );

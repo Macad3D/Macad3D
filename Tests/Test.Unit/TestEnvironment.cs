@@ -21,7 +21,7 @@ public class TestEnvironment
 
         // Install Mesa3D
         var mesaDir = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory, "Mesa"));
-        Assume.That(File.Exists(Path.Combine(mesaDir, "opengl32.dll")), "Mesa3D OpenGL driver not found, please rebuild project.");
+        Assert.That(File.Exists(Path.Combine(mesaDir, "opengl32.dll")), "Mesa3D OpenGL driver not found, please rebuild project.");
         Win32Api.SetDllDirectory(mesaDir);
         Environment.SetEnvironmentVariable("GALLIUM_DRIVER", "llvmpipe");
         Environment.SetEnvironmentVariable("LIBGL_ALWAYS_SOFTWARE", "true");

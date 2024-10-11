@@ -42,7 +42,7 @@ switch(Args[0].ToLower())
 		return -1;
 }
 
-if(!_RunTestsNunit(targets))
+if(!_RunTests(targets))
 	res = -1;
 
 if(res == 0)
@@ -65,26 +65,26 @@ static string _OptionWhere = "";
 
 /***************************************************************/
 
-static string _GetAdditionalOptions()
+static string _GetAdditionalRunSettings()
 {
 	string options = "";
 	if(!string.IsNullOrEmpty(_OptionWhere))
 	{
-		options += $" --where \"{_OptionWhere}\"";
+		options += $" NUnit.Where=\"{_OptionWhere}\"";
 	}
 
 	if(_OptionStopOnError)
-		options += " --stoponerror";
+		options += " StopOnError=\"true\"";
 
 	if(_OptionSaveLog)
-		options += " --trace=verbose";
+		options += " NUnit.InternalTraceLevel=\"verbose\"";
 
 	return options;
 }
 
 /***************************************************************/
 
-static bool _RunTestsNunit(List<string> targets)
+static bool _RunTests(List<string> targets)
 {
 	var vs = new VisualStudio();
 	if(!vs.IsReady)
@@ -93,8 +93,9 @@ static bool _RunTestsNunit(List<string> targets)
 	bool result = true;
 	foreach(var target in targets)
 	{
+		Printer.Line($"Starting tests: {target}");
 		var projectFile = Path.Combine(Common.GetRootFolder(), "Tests", target, $"{target}.csproj");
-		if (!vs.Build(projectFile, "Test", _OptionDebug ? "Debug" : "Release", "x64", $"/p:AdditionalTestOptions=\"{_GetAdditionalOptions()}\""))
+		if (!vs.Build(projectFile, "Test", _OptionDebug ? "Debug" : "Release", "x64", $"/p:AdditionalRunSettings=\"{_GetAdditionalRunSettings()}\""))
 		{
 			result = false;
 		}

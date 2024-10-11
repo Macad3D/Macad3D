@@ -20,10 +20,10 @@ public class ValueEditBoxTests : UITestBase
         TestDataGenerator.GenerateBox(MainWindow);
 
         var bodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");
-        Assume.That(bodyPanel, Is.Not.Null);
+        Assert.That(bodyPanel, Is.Not.Null);
 
         var boxPanel = MainWindow.PropertyView.FindPanelByClass("BoxPropertyPanel");
-        Assume.That(boxPanel, Is.Not.Null);
+        Assert.That(boxPanel, Is.Not.Null);
 
         boxPanel.EnterValue("BoxLength", "1.5.5", true);
         Assert.AreEqual(1.55, Pipe.GetValue<double>("$Selected.Shape.DimensionX"));
@@ -37,10 +37,10 @@ public class ValueEditBoxTests : UITestBase
         TestDataGenerator.GenerateBox(MainWindow);
 
         var bodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");
-        Assume.That(bodyPanel, Is.Not.Null);
+        Assert.That(bodyPanel, Is.Not.Null);
 
         var boxPanel = MainWindow.PropertyView.FindPanelByClass("BoxPropertyPanel");
-        Assume.That(boxPanel, Is.Not.Null);
+        Assert.That(boxPanel, Is.Not.Null);
 
         boxPanel.EnterValue("BoxLength", "=1.5+1.5+1.5", true);
         Assert.AreEqual(4.5, Pipe.GetValue<double>("$Selected.Shape.DimensionX"));
@@ -54,10 +54,10 @@ public class ValueEditBoxTests : UITestBase
         TestDataGenerator.GenerateBox(MainWindow);
 
         var bodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");
-        Assume.That(bodyPanel, Is.Not.Null);
+        Assert.That(bodyPanel, Is.Not.Null);
 
         var boxPanel = MainWindow.PropertyView.FindPanelByClass("BoxPropertyPanel");
-        Assume.That(boxPanel, Is.Not.Null);
+        Assert.That(boxPanel, Is.Not.Null);
 
         boxPanel.EnterValue("BoxLength", "-1.5", true);
         Assert.AreEqual(-1.5, Pipe.GetValue<double>("$Selected.Shape.DimensionX"));
@@ -74,10 +74,10 @@ public class ValueEditBoxTests : UITestBase
         TestDataGenerator.GenerateBox(MainWindow);
 
         var bodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");
-        Assume.That(bodyPanel, Is.Not.Null);
+        Assert.That(bodyPanel, Is.Not.Null);
 
         var boxPanel = MainWindow.PropertyView.FindPanelByClass("BoxPropertyPanel");
-        Assume.That(boxPanel, Is.Not.Null);
+        Assert.That(boxPanel, Is.Not.Null);
 
         boxPanel.EnterValue("BoxLength", "=10-5-2", true);
         Assert.AreEqual(3.0, Pipe.GetValue<double>("$Selected.Shape.DimensionX"));

@@ -378,7 +378,7 @@ public class LoftTests
         sketch1.Points.Add(3, new Pnt2d(-72.437392749422088, 25.059793263066492));
         sketch1.Segments.Add(0, new SketchSegmentBezier(0, 1, 2));
         sketch1.Segments.Add(1, new SketchSegmentBezier(0, 3, 2));
-        Assume.That(sketch1.Make(Shape.MakeFlags.None));
+        Assert.That(sketch1.Make(Shape.MakeFlags.None));
         var body1 = Body.Create(sketch1);
 
         var sketch2 = Core.Shapes.Sketch.Create();
@@ -388,7 +388,7 @@ public class LoftTests
         sketch2.Points.Add(3, new Pnt2d(-78.401338536398725, 25.978263950894874));
         sketch2.Segments.Add(0, new SketchSegmentBezier(0, 1, 2));
         sketch2.Segments.Add(1, new SketchSegmentBezier(2, 3, 0));
-        Assume.That(sketch2.Make(Shape.MakeFlags.None));
+        Assert.That(sketch2.Make(Shape.MakeFlags.None));
         var body2 = Body.Create(sketch2);
         TransformUtils.Translate(body2, new Vec(0, 0, 23.0534323259767));
 
@@ -423,7 +423,7 @@ public class LoftTests
         sketch1.Segments.Add(3, new SketchSegmentLine(3, 4));
         sketch1.Segments.Add(4, new SketchSegmentLine(4, 5));
         sketch1.Segments.Add(5, new SketchSegmentLine(5, 0));
-        Assume.That(sketch1.Make(Shape.MakeFlags.None));
+        Assert.That(sketch1.Make(Shape.MakeFlags.None));
         var body1 = Body.Create(sketch1);
 
         var sketch2 = Core.Shapes.Sketch.Create();
@@ -439,7 +439,7 @@ public class LoftTests
         sketch2.Segments.Add(3, new SketchSegmentLine(3, 4));
         sketch2.Segments.Add(4, new SketchSegmentLine(4, 5));
         sketch2.Segments.Add(5, new SketchSegmentLine(5, 0));
-        Assume.That(sketch2.Make(Shape.MakeFlags.None));
+        Assert.That(sketch2.Make(Shape.MakeFlags.None));
         var body2 = Body.Create(sketch2);
         TransformUtils.Translate(body2, new Vec(0, 0, 20.0));
 
@@ -456,7 +456,7 @@ public class LoftTests
         sketch3.Segments.Add(3, new SketchSegmentLine(3, 4));
         sketch3.Segments.Add(4, new SketchSegmentLine(4, 5));
         sketch3.Segments.Add(5, new SketchSegmentLine(5, 0));
-        Assume.That(sketch3.Make(Shape.MakeFlags.None));
+        Assert.That(sketch3.Make(Shape.MakeFlags.None));
         var body3 = Body.Create(sketch3);
         TransformUtils.Translate(body3, new Vec(0, 0, 40.0));
 

@@ -134,7 +134,7 @@ public static class AssertHelper
         var testLines = TestData.GetTestDataLines(testResultPath);
         Assert.IsNotNull(testLines, "Test file not found: " + testResultPath);
         var refLines = TestData.GetTestDataLines(originalPath);
-        Assume.That(refLines != null, "Reference file not found: " + originalPath);
+        Assert.That(refLines != null, "Reference file not found: " + originalPath);
 
         IsSameText(refLines, testLines, flags);
 
@@ -162,7 +162,7 @@ public static class AssertHelper
         try
         {
             var refLines = TestData.GetTestDataLines(originalPath);
-            Assume.That(refLines != null, "Reference file not found: " + originalPath);
+            Assert.That(refLines != null, "Reference file not found: " + originalPath);
             IsSameText(refLines, testLines.ToArray(), flags);
         }
         catch (ResultStateException e) when (e is AssertionException or InconclusiveException)

@@ -230,10 +230,10 @@ public class SubshapeReferenceTests
         imprint.Depth = 2.5;
         imprint.Mode = Imprint.ImprintMode.Raise;
         //var body = Body.Create(imprint);
-        Assume.That(imprint.Make(Shape.MakeFlags.None));
+        Assert.That(imprint.Make(Shape.MakeFlags.None));
 
         var edges = imprint.GetBRep().Edges();
-        Assume.That(edges.Count, Is.EqualTo(15));
+        Assert.That(edges.Count, Is.EqualTo(15));
         var edgeRefs = new[]
         {
             imprint.GetSubshapeReference(edges[1]),
@@ -298,7 +298,7 @@ public class SubshapeReferenceTests
         var box = Box.Create(10.0, 10.0, 1.0);
         var body = Body.Create(box);
         var flangeSheet = FlangeSheet.Create(body, new SubshapeReference(SubshapeType.Face, box.Guid, 1), 45.0, 5.0);
-        Assume.That(ModelCompare.CompareShape(flangeSheet, Path.Combine(_BasePath, "FlangeNamedSubshapes")));
+        Assert.That(ModelCompare.CompareShape(flangeSheet, Path.Combine(_BasePath, "FlangeNamedSubshapes")));
 
         var faces = flangeSheet.GetBRep().Faces();
         _TestSubshape(9, "Flange", 0);
@@ -334,10 +334,10 @@ public class SubshapeReferenceTests
 
         // Create another body and move imprint into
         var body = Body.Create(imprint);
-        Assume.That(imprint.Make(Shape.MakeFlags.None));
+        Assert.That(imprint.Make(Shape.MakeFlags.None));
 
         var edges = imprint.GetBRep().Edges();
-        Assume.That(edges.Count, Is.EqualTo(15));
+        Assert.That(edges.Count, Is.EqualTo(15));
         var edgeRefs = new[]
         {
             imprint.GetSubshapeReference(edges[1]),
