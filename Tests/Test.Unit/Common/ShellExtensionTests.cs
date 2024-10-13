@@ -30,14 +30,15 @@ public class ShellExtensionTests
         thumbnailProvider.GetThumbnail(500, out var hBitmap, out var alphaType );
         Assert.IsNotNull(hBitmap);
 
-        var bitmap = Image.FromHbitmap(hBitmap);
-        Assert.IsNotNull(bitmap);
-
         var refFile = Path.Combine(TestData.TestDataDirectory, @"Misc\ShellExtension_ModelThumbnail.png");
         var resultFile = Path.Combine(TestData.TestDataDirectory, @"Misc\ShellExtension_ModelThumbnail_TestResult.png");
-        bitmap.Save(resultFile);
-        AssertHelper.IsSameFile(refFile, resultFile, 0x53); // Skip png header
-        File.Delete(resultFile);
+        using (var bitmap = Image.FromHbitmap(hBitmap))
+        {
+            Assert.IsNotNull(bitmap);
+            bitmap.Save(resultFile);
+        }
+
+        AssertHelper.IsSameImage(refFile, resultFile);
     }
 
     //--------------------------------------------------------------------------------------------------

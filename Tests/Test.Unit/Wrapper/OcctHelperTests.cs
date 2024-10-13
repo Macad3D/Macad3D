@@ -25,7 +25,7 @@ public class OcctHelperTests
         bitmap.Save(resultFile);
 
         // Compare
-        AssertHelper.IsSameFile(refFile, resultFile, 0x53);
+        AssertHelper.IsSameImage(refFile, resultFile);
         File.Delete(resultFile);
     }
 
@@ -46,7 +46,7 @@ public class OcctHelperTests
         bitmap.Save(resultFile);
 
         // Compare
-        AssertHelper.IsSameFile(refFile, resultFile, 0x53);
+        AssertHelper.IsSameImage(refFile, resultFile);
         File.Delete(resultFile);
     }
 

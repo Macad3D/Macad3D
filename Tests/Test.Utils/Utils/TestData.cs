@@ -28,6 +28,13 @@ public static class TestData
 
     //--------------------------------------------------------------------------------------------------
 
+    public static bool TestDataExists(string path)
+    {
+        return File.Exists(Path.Combine(TestDataDirectory, path));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     public static byte[] GetTestData(string path)
     {
         try

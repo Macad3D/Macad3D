@@ -10,6 +10,7 @@ using Macad.Common;
 using Macad.Core.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
+using Macad.Occt.Helper;
 
 namespace Macad.Test.Unit;
 
@@ -159,19 +160,31 @@ public static class AssertHelper
             }
         }
 
-        try
+        var refFilePath = originalPath;
+        int variation = 1;
+        while(true)
         {
-            var refLines = TestData.GetTestDataLines(originalPath);
+            var refLines = TestData.GetTestDataLines(refFilePath);
             Assert.That(refLines != null, "Reference file not found: " + originalPath);
-            IsSameText(refLines, testLines.ToArray(), flags);
-        }
-        catch (ResultStateException e) when (e is AssertionException or InconclusiveException)
-        {
+            if (_IsSameText(refLines, testLines.ToArray(), flags, out string message))
+            {
+                TestContext.WriteLine($"File is same: {refFilePath}");
+                return;
+            }
+            TestContext.WriteLine($"File not same: {refFilePath} because {message}");
+
+            // Check for variants
+            refFilePath = Path.Combine(Path.GetDirectoryName(originalPath), Path.GetFileNameWithoutExtension(originalPath) + $"_Var{variation++}" + Path.GetExtension(originalPath));
+            if (TestData.TestDataExists(refFilePath))
+            {
+                continue;
+            }
+
             TestData.WriteTestResult(testResultStream.ToArray(), resultFileName);
-            throw;
+            Assert.Fail(message);
         }
     }
-        
+
     //--------------------------------------------------------------------------------------------------
 
     public static void IsSameText(byte[] referenceBytes, byte[] testBytes, TextCompareFlags flags = TextCompareFlags.None)
@@ -179,14 +192,27 @@ public static class AssertHelper
         var refLines = Encoding.Default.GetString(referenceBytes).Split('\n');
         var testLines = Encoding.Default.GetString(testBytes).Split('\n');
 
-        IsSameText(refLines, testLines, flags);
+        if (!_IsSameText(refLines, testLines, flags, out string message))
+        {
+            Assert.Fail(message);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    
+    public static void IsSameText(string[] refLines, string[] testLines, TextCompareFlags flags = TextCompareFlags.None)
+    {
+        if (!_IsSameText(refLines, testLines, flags, out string message))
+        {
+            Assert.Fail(message);
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
 
     static readonly string _FloatChars = "0123456789.+-Ee";
 
-    public static void IsSameText(string[] refLines, string[] testLines, TextCompareFlags flags = TextCompareFlags.None)
+    public static bool _IsSameText(string[] refLines, string[] testLines, TextCompareFlags flags, out string message)
     {
         int __FindFrontBorderOfFloat(string line, int startindex)
         {
@@ -229,7 +255,11 @@ public static class AssertHelper
         //--------------------------------------------------------------------------------------------------
             
         // Compare
-        Assert.AreEqual(refLines.Length, testLines.Length);
+        if (refLines.Length != testLines.Length)
+        {
+            message = $"Expected line count: {refLines.Length} but was: {testLines.Length}";
+            return false;
+        }
 
         for (int i = 0; i < testLines.Length; i++)
         {
@@ -258,9 +288,57 @@ public static class AssertHelper
                         }
                     }
                 }
-                Assert.Fail( $"File differs at line {i+1} at position {testCol}." );
+                message = $"File differs at line {i+1} at position {testCol}.";
+                return false;
             }
         }
+
+        message = "";
+        return true;
     }
 
+    //--------------------------------------------------------------------------------------------------
+
+    public static void IsSameImage(string refFilePath, string resultFilePath, double tolerance = 0.05)
+    {
+        // Load Result
+        Assert.That(File.Exists(resultFilePath));
+
+        var bytes = File.ReadAllBytes(resultFilePath);
+        Assert.That(bytes.Length, Is.Not.Zero);
+
+        var resultImage = new Image_AlienPixMap();
+        Assert.That(PixMapHelper.LoadFromMemory(resultImage, bytes, resultFilePath));
+
+        // Load Reference
+        var refImage = new Image_AlienPixMap();
+        if (!refImage.Load(new TCollection_AsciiString(refFilePath)))
+        {
+            // Save test result
+            Assert.Fail("Inconclusive: Reference image file could not be loaded: " + refFilePath);
+            return;
+        }
+
+        // Diff
+        var diffFilePath = Path.Combine(Path.GetDirectoryName(refFilePath), Path.GetFileNameWithoutExtension(refFilePath) + "_Difference.png");
+        var differ = new Image_Diff();
+        Assert.True(differ.Init(refImage, resultImage, false), "Images comparison init failed");
+        differ.SetColorTolerance(tolerance);
+        differ.SetBorderFilterOn(false);
+        var result = differ.Compare();
+        if (result != 0)
+        {
+            Assert.True(differ.SaveDiffImage(new TCollection_AsciiString(diffFilePath)), "Difference image could not be saved.");
+            Assert.AreEqual(0, result, "The resulted image differs: " + resultFilePath);
+            return;
+        }
+        differ.Dispose();
+        resultImage.Clear();
+        resultImage.Dispose();
+
+        // Equality
+        // Test was ok, delete result file if any left
+        File.Delete(resultFilePath);
+        File.Delete(diffFilePath);
+    }
 }
