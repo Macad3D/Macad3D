@@ -63,6 +63,7 @@ public partial class MainWindow : RibbonWindow
         Dispatcher.CurrentDispatcher.BeginInvoke(AppCommands.RunStartupCommands.Execute, DispatcherPriority.Loaded);
 
         Docking.Viewport.Focus();
+        SplashScreen.Close();
     }
 
     //--------------------------------------------------------------------------------------------------

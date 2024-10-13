@@ -13,7 +13,12 @@ public class Program
         // Touch support
         System.AppContext.SetSwitch("Switch.System.Windows.Input.Stylus.EnablePointerSupport", true);
 
+        SplashScreen.Show();
+
         var app = new App();
         app.Run();
     }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

@@ -33,7 +33,7 @@
     <InternalsVisibleTo Include="Test.Memory" />
   </ItemGroup>
   <ItemGroup>
-    <SplashScreen Include="Properties\SplashScreen.png" />
+    <Resource Include="Properties\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Macad.args.json" />

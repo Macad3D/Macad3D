@@ -62,6 +62,12 @@ public partial class WelcomeDialog
 
     WelcomeDialog()
     {
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    new void Show()
+    {
         Model = new WelcomeDialogModel();
         DataContext = Model;
 
@@ -71,6 +77,8 @@ public partial class WelcomeDialog
         Closed += _OnClosed;
 
         Dispatcher.InvokeAsync(() => Model.DeferredInit());
+
+        base.Show();
     }
 
     //--------------------------------------------------------------------------------------------------
