@@ -9,6 +9,7 @@ namespace Macad.Exchange.Dxf;
 public class DxfDomLwPolyline : DxfDomEntity
 {
     public Pnt2d[] Points;
+    public double[] Bulge;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -85,6 +86,7 @@ public class DxfDomLwPolyline : DxfDomEntity
     public override bool Read(DxfReader reader)
     {
         var pointList = new List<Pnt2d>();
+        var bulgeList = new List<double>();
         Pnt2d point = default;
         var pointCount = 0;
         var readBits = new BitVector32(0);
@@ -108,6 +110,14 @@ public class DxfDomLwPolyline : DxfDomEntity
                     point.Y = reader.ReadCoord();
                     readBits[0b10] = true;
                     break;
+                case 42:
+                    if (bulgeList.Count == 0)
+                    {
+                        Messages.Error($"DxfReader: Entity LWPOLYLINE has a bulge parameter which is expected after vertex coordinates in line {reader.Line}.");
+                        return false;
+                    }
+                    bulgeList[^1] = reader.ReadDouble();
+                    break;
                 default:
                     reader.Skip();
                     break;
@@ -116,6 +126,7 @@ public class DxfDomLwPolyline : DxfDomEntity
             if (readBits.Data == 0b11)
             {
                 pointList.Add(point);
+                bulgeList.Add(0.0);
                 readBits = new BitVector32();
             }
         }
@@ -130,9 +141,11 @@ public class DxfDomLwPolyline : DxfDomEntity
         if (typeFlag == 1 && pointList.Count > 0)
         {
             pointList.Add(pointList[0]);
+            bulgeList.Add(bulgeList[0]);
         }
 
         Points = pointList.ToArray();
+        Bulge = bulgeList.ToArray();
         return true;
     }
 

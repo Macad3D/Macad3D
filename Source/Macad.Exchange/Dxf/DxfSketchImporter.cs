@@ -255,7 +255,24 @@ public class DxfSketchImporter
         for (int i = 1; i < dxfPolyline.Points.Length; i++)
         {
             var endIndex = _AddPoint(dxfPolyline.Points[i]);
-            _Segments.Add(new SketchSegmentLine(startIndex, endIndex));
+
+            if (dxfPolyline.Bulge != null && dxfPolyline.Bulge[i - 1] != 0.0)
+            {
+                Pnt2d startPoint = dxfPolyline.Points[i - 1];
+                Pnt2d endPoint = dxfPolyline.Points[i];
+                double bulge = dxfPolyline.Bulge[i - 1];
+
+                Vec2d d = new Vec2d(startPoint, endPoint).Multiplied(0.5);
+                Pnt2d mid = startPoint.Translated(d);
+                double sagitta = bulge * d.Magnitude();
+                var rimPoint = mid.Translated(new Vec2d(d.Y, -d.X).Normalized().Multiplied(sagitta));
+                var rimIndex = _AddPoint(rimPoint);
+                _Segments.Add(new SketchSegmentArc(startIndex, endIndex, rimIndex));
+            }
+            else
+            {
+                _Segments.Add(new SketchSegmentLine(startIndex, endIndex));
+            }
             startIndex = endIndex;
         }
     }

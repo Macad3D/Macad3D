@@ -134,16 +134,29 @@ public class DxfImportSketchTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
-    public void LwPolylineClosed()
+    public void LwPolyline_Closed()
     {
-        var svg = TestData.GetTestData(Path.Combine(_BasePath, "LwPolylineClosed_Source.dxf"));
+        var svg = TestData.GetTestData(Path.Combine(_BasePath, "LwPolyline_Closed_Source.dxf"));
 
         var sketch = Sketch.Create();
         _ReadFromBytes(svg, sketch, true);
 
-        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "LwPolylineClosed"));
+        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "LwPolyline_Closed"));
     }
-    
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LwPolyline_Bulge()
+    {
+        var svg = TestData.GetTestData(Path.Combine(_BasePath, "LwPolyline_Bulge_Source.dxf"));
+
+        var sketch = Sketch.Create();
+        _ReadFromBytes(svg, sketch, true);
+
+        AssertHelper.IsSameModel2D(sketch, Path.Combine(_BasePath, "LwPolyline_Bulge"));
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     [Test]
