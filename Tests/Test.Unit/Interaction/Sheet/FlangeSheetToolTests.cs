@@ -401,6 +401,45 @@ public class FlangeSheetToolTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void LiveAngleSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(30.0, 0.0, 0);
+        var flange = _CreateFlange();
+        ctx.WorkspaceController.StartEditor(flange);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(316, 252);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(204, 279);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngleSnap01"));
+            ctx.ViewportController.MouseUp();
+            Assert.That(flange.Reverse, Is.False);
+            Assert.That(flange.Angle, Is.EqualTo(24.6).Within(0.1));
+
+            box.Body.Position = new Pnt(30.0, 0.0, -10.0);
+            ctx.MoveTo(319, 225);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(206, 481);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngleSnap02"));
+            ctx.ViewportController.MouseUp();
+            Assert.That(flange.Reverse, Is.True);
+            Assert.That(flange.Angle, Is.EqualTo(28.7).Within(0.1));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void LiveLength()
     {
         var ctx = Context.Current;
@@ -546,7 +585,37 @@ public class FlangeSheetToolTests
         Assert.AreEqual(oldLength, flange.Length);
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
     }
-    
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveLengthSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(30.0, 0.0, 0);
+        var flange = _CreateFlange();
+        flange.Angle = 26.0;
+        ctx.WorkspaceController.StartEditor(flange);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(229, 246);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(205, 272);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveLengthSnap01"));
+            ctx.ViewportController.MouseUp();
+            Assert.That(flange.Length, Is.EqualTo(21.48).Within(0.1));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     [Test]
@@ -694,6 +763,36 @@ public class FlangeSheetToolTests
 
         Assert.AreEqual(oldRadius, flange.Radius);
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveRadiusNoSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(30.0, 0.0, 0);
+        var flange = _CreateFlange();
+        flange.Angle = 160.0;
+        ctx.WorkspaceController.StartEditor(flange);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(292, 261);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(206, 374);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRadiusNoSnap01"));
+            ctx.ViewportController.MouseUp();
+            Assert.That(flange.Radius, Is.EqualTo(14.5).Within(0.1));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -874,7 +973,39 @@ public class FlangeSheetToolTests
         Assert.AreEqual(oldGap, flange.StartGap);
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
     }
-        
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveStartGapSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.DimensionY = 6.0;
+        box.Body.Position = new Pnt(0.0, 0.0, 0.0);
+        box.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
+        var flange = _CreateFlange();
+        flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
+        ctx.WorkspaceController.StartEditor(flange);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(214, 217);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(173, 194);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveStartGapSnap01"));
+            ctx.ViewportController.MouseUp();
+            Assert.That(flange.StartGap, Is.EqualTo(4.0).Within(0.1));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     [Test]
@@ -1053,7 +1184,39 @@ public class FlangeSheetToolTests
         Assert.AreEqual(oldGap, flange.EndGap);
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
     }
-       
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveEndGapSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.DimensionY = 6.0;
+        box.Body.Position = new Pnt(0.0, 0.0, -5.0);
+        box.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
+        var flange = _CreateFlange();
+        flange.Body.Rotation = new Quaternion(0.0, 0.0, 60.0.ToRad());
+        ctx.WorkspaceController.StartEditor(flange);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(138, 305);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(285, 359);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveEndGapSnap01"));
+            ctx.ViewportController.MouseUp();
+            Assert.That(flange.EndGap, Is.EqualTo(1.66).Within(0.1));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     [Test]

@@ -8,7 +8,7 @@ using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes;
 
-public class ImprintEditor : Editor<Imprint>
+public sealed class ImprintEditor : Editor<Imprint>
 {
     TranslateAxisLiveAction _TranslateAction;
     LabelHudElement _HudElement;
@@ -84,7 +84,7 @@ public class ImprintEditor : Editor<Imprint>
 
         if (_TranslateAction == null)
         {
-            _TranslateAction = new()
+            _TranslateAction = new(Entity.Body)
             {
                 Color = Colors.ActionBlue,
                 Cursor = Cursors.SetHeight,

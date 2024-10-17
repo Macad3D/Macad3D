@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Interaction.Editors.Shapes;
+using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
 
@@ -226,7 +227,7 @@ public class LinearArrayToolTests
             ctx.MoveTo(427, 357, ModifierKeys.Control);
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceClamp01"));
-            Assert.AreEqual(5.0, array.Distance2);
+            Assert.AreEqual(9.0, array.Distance2);
 
             // Cleanup
             ctx.WorkspaceController.StopEditor();
@@ -383,6 +384,34 @@ public class LinearArrayToolTests
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceSketchTransformedPlane02"));
             Assert.Greater(linearArray.Distance2, oldDistance);
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveDistanceSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(40.0, 5.0, 0);
+        var array = _CreateSolidArray();
+        ctx.WorkspaceController.StartEditor(array);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(191, 294);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(135, 365);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceSnap01"));
+            Assert.AreEqual(1.0, array.Distance2);
 
             // Cleanup
             ctx.WorkspaceController.StopEditor();

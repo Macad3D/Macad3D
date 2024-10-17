@@ -245,4 +245,99 @@ public class OffsetToolTests
             ctx.WorkspaceController.StopEditor();
         });
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveDistanceSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.DimensionZ = 12.0;
+        box.Body.Position = new Pnt(20, 0, 0);
+        var box2 = TestGeomGenerator.CreateBox();
+        var offset = Offset.Create(box2.Body);
+        ctx.WorkspaceController.StartEditor(offset);
+
+        ctx.ViewportController.ZoomFitAll();
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(350, 123);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(194, 206);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceSnap01"));
+
+            ctx.ViewportController.MouseUp();
+            Assert.That(offset.Distance, Is.EqualTo(2.0).Within(1e-6));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveDistanceSketchSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(25, 5, 0);
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle, true);
+        var offset = Offset.Create(sketch.Body);
+        ctx.WorkspaceController.StartEditor(offset);
+
+        ctx.ViewportController.ZoomFitAll();
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(280, 237);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(251, 383);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceSketchSnap01"));
+
+            ctx.ViewportController.MouseUp();
+            Assert.That(offset.Distance, Is.EqualTo(20.0).Within(1e-6));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveDistanceSketchSnapRotated()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(25, 5, 0);
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.Rectangle, true);
+        var offset = Offset.Create(sketch.Body);
+        offset.Body.Rotation = new Quaternion(0.0f, 0.2f, 0.0f);
+        ctx.WorkspaceController.StartEditor(offset);
+
+        ctx.ViewportController.ZoomFitAll();
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(279, 240);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(250, 377);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDistanceSketchSnapRotated01"));
+
+            ctx.ViewportController.MouseUp();
+            Assert.That(offset.Distance, Is.EqualTo(19.5).Within(1e-2));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
 }

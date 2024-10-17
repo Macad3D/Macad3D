@@ -290,4 +290,35 @@ public class SphereToolTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateSphereHidden03"));
         });
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveScaleSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.DimensionZ = 12.0;
+        box.Body.Position = new Pnt(20, 0, 0);
+        var sphere = TestGeomGenerator.CreateSphere();
+        ctx.WorkspaceController.StartEditor(sphere);
+
+        ctx.ViewportController.ZoomFitAll();
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(326, 126);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(135, 263);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleSnap01"));
+
+            ctx.ViewportController.MouseUp();
+            Assert.That(sphere.Radius, Is.EqualTo(11.0));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
 }

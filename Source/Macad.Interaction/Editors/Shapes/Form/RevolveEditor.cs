@@ -9,7 +9,7 @@ using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Shapes;
 
-public class RevolveEditor : Editor<Revolve>
+public sealed class RevolveEditor : Editor<Revolve>
 {
     HintLine _OriginHint;
     HintLine _AxisHint;
@@ -148,7 +148,7 @@ public class RevolveEditor : Editor<Revolve>
         // Offset X
         if (_OffsetXAction == null)
         {
-            _OffsetXAction = new()
+            _OffsetXAction = new(Entity.Body)
             {
                 Color = Colors.ActionRed,
                 NoResize = true,
@@ -162,7 +162,7 @@ public class RevolveEditor : Editor<Revolve>
         // Offset Y
         if (_OffsetYAction == null)
         {
-            _OffsetYAction = new()
+            _OffsetYAction = new(Entity.Body)
             {
                 Color = Colors.ActionGreen,
                 NoResize = true,
@@ -176,7 +176,7 @@ public class RevolveEditor : Editor<Revolve>
         // Offset Z
         if (_OffsetZAction == null)
         {
-            _OffsetZAction = new()
+            _OffsetZAction = new(Entity.Body)
             {
                 Color = Colors.ActionBlue,
                 NoResize = true,

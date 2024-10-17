@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Windows.Input;
 using Macad.Core.Shapes;
+using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
 
@@ -323,6 +324,69 @@ public class ScaleToolTests
 
         Assert.AreEqual(2.0, scale.Factor.X);
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveScaleSolidSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(30.0, -20.0, 0);
+        var body = TestGeomGenerator.CreateImprint().Body;
+        var scale = Scale.Create(body, 1.0);
+        scale.Uniform = false;
+        ctx.WorkspaceController.StartEditor(scale);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(220, 247);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(127, 303);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleSolidSnap01"));
+            ctx.ViewportController.MouseUp();
+
+            Assert.That(scale.Factor.X, Is.EqualTo(2.0).Within(1e-6));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveScaleSketchSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(20.0, -20.0, 0);
+        var sketch = TestSketchGenerator.CreateSketch(createBody: true);
+        var scale = Scale.Create(sketch.Body, 1.0);
+        ctx.WorkspaceController.StartEditor(scale);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(331, 288);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(161, 308);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleSketchSnap01"));
+            ctx.ViewportController.MouseUp();
+
+            Assert.That(scale.Factor.X, Is.EqualTo(2.8).Within(0.1));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
     }
 
     //--------------------------------------------------------------------------------------------------

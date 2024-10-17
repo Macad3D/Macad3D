@@ -9,7 +9,7 @@ using Macad.Core.Geom;
 
 namespace Macad.Interaction.Editors.Shapes;
 
-public class LinearArrayEditor : Editor<LinearArray>
+public sealed class LinearArrayEditor : Editor<LinearArray>
 {
     TranslateAxisLiveAction _Distance1Action;
     TranslateAxisLiveAction _Distance2Action;
@@ -69,7 +69,7 @@ public class LinearArrayEditor : Editor<LinearArray>
             
         if (_Distance1Action == null)
         {
-            _Distance1Action = new()
+            _Distance1Action = new(Entity.Body)
             {
                 Cursor = Cursors.SetHeight,
                 NoResize = true,
@@ -81,7 +81,7 @@ public class LinearArrayEditor : Editor<LinearArray>
         }
         if (_Distance2Action == null)
         {
-            _Distance2Action = new()
+            _Distance2Action = new(Entity.Body)
             {
                 Cursor = Cursors.SetHeight,
                 NoResize = true,
@@ -153,7 +153,7 @@ public class LinearArrayEditor : Editor<LinearArray>
             SetHintMessage("__Adjust distances__ using gizmo, press `k:Ctrl` to round to grid stepping, press `k:Shift` to scale both directions uniformly.");
         }
 
-        var newDistance = _StartDistance + args.Distance * _GetAxisScale(false);
+        var newDistance = _StartDistance + args.Distance * _GetAxisScale(secondAxis);
 
         if (args.MouseEventData.ModifierKeys.HasFlag(ModifierKeys.Control))
         {
@@ -195,15 +195,16 @@ public class LinearArrayEditor : Editor<LinearArray>
 
     double _GetAxisScale(bool secondAxis)
     {
-        double scale = 1.0;
-
         var distanceMode = secondAxis ? Entity.DistanceMode2 : Entity.DistanceMode1;
-        switch (distanceMode)
+        var quantity = secondAxis ? Entity.Quantity2 : Entity.Quantity1;
+        double scale = distanceMode switch
         {
-            case LinearArray.DistanceMode.Spacing or LinearArray.DistanceMode.Interval:
-                scale *= 0.5;
-                break;
-        }
+            LinearArray.DistanceMode.Spacing => 1.0 / (quantity - 1),
+            LinearArray.DistanceMode.Interval => 1.0 / (quantity - 1),
+            LinearArray.DistanceMode.Extent => 1.0,
+            LinearArray.DistanceMode.OverallExtent => 1.0,
+            _ => 1.0
+        };
 
         var alignmentMode = secondAxis ? Entity.Alignment2 : Entity.Alignment1;
         if (alignmentMode == LinearArray.AlignmentMode.Center)

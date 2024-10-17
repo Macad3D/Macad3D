@@ -8,7 +8,7 @@ using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes;
 
-public class CircularArrayEditor : Editor<CircularArray>
+public sealed class CircularArrayEditor : Editor<CircularArray>
 {
     TranslateAxisLiveAction _RadiusAction;
     RotateLiveAction _RotateAction;
@@ -138,7 +138,7 @@ public class CircularArrayEditor : Editor<CircularArray>
             
         if (_RadiusAction == null)
         {
-            _RadiusAction = new()
+            _RadiusAction = new(Entity.Body)
             {
                 Cursor = Cursors.SetRadius,
                 Color = Colors.ActionRed,
@@ -152,7 +152,7 @@ public class CircularArrayEditor : Editor<CircularArray>
                     
         if (_RotateAction == null)
         {
-            _RotateAction = new()
+            _RotateAction = new(Entity.Body)
             {
                 Cursor = Cursors.SetRadius,
                 Color = Colors.ActionBlue,

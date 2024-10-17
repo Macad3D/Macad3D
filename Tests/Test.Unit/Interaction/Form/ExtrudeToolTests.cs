@@ -489,6 +489,39 @@ public class ExtrudeToolTests
             ctx.WorkspaceController.StopEditor();
         });
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveDepthSolidSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(10.0, -10.0, 0);
+
+        var shape = TestGeomGenerator.CreateImprint();
+        var subshapeRef = shape.GetSubshapeReference(SubshapeType.Face, 7);
+        var extrude = Extrude.Create(shape.Body, subshapeRef);
+        ctx.WorkspaceController.StartEditor(extrude);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(295, 180);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(171, 243);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthSolidSnap01"));
+
+            ctx.ViewportController.MouseUp();
+            Assert.That(extrude.Depth, Is.EqualTo(4.0).Within(1e-6));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
         
     //--------------------------------------------------------------------------------------------------
                 

@@ -782,7 +782,74 @@ public class TaperToolTests
     }
 
     //--------------------------------------------------------------------------------------------------
-                
+
+    [Test]
+    public void LiveOffsetEdgeSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(15.0, -5.0, 0);
+
+        var taper = _CreateTaperedBoxByEdge();
+        ctx.WorkspaceController.StartEditor(taper);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(271, 229);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(250, 301);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetEdgeSnap01"));
+
+            Assert.That(taper.Offset, Is.EqualTo(5.0).Within(1e-6));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveAngleEdgeSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(-7.0, 11.0, 0);
+
+        var taper = _CreateTaperedBoxByEdge();
+        ctx.WorkspaceController.StartEditor(taper);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(77, 270);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(241, 255);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngleEdgeSnap01"));
+            ctx.ViewportController.MouseUp();
+            Assert.That(taper.Angle, Is.EqualTo(32.5).Within(0.1));
+
+            ctx.MoveTo(100, 267);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(328, 305);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveAngleEdgeSnap02"));
+            ctx.ViewportController.MouseUp();
+            Assert.That(taper.Angle, Is.EqualTo(18.4).Within(0.1));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     [Test]
     [Apartment(System.Threading.ApartmentState.STA)]
     public void PropPanelCleanup()

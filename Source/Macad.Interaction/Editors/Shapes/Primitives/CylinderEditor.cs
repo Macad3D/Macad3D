@@ -7,7 +7,7 @@ using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes;
 
-public class CylinderEditor : Editor<Cylinder>
+public sealed class CylinderEditor : Editor<Cylinder>
 {
     BoxScaleLiveAction _ScaleAction;
     LabelHudElement[] _HudElements = new LabelHudElement[2];
@@ -66,7 +66,7 @@ public class CylinderEditor : Editor<Cylinder>
 
         if (_ScaleAction == null)
         {
-            _ScaleAction = new BoxScaleLiveAction();
+            _ScaleAction = new BoxScaleLiveAction(false, Entity.Body);
             _ScaleAction.Preview += _ScaleAction_Preview;
             _ScaleAction.Finished += _ScaleAction_Finished;
             StartAction(_ScaleAction);

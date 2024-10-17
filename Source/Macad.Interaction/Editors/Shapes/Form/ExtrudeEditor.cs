@@ -8,7 +8,7 @@ using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes;
 
-public class ExtrudeEditor : Editor<Extrude>
+public sealed class ExtrudeEditor : Editor<Extrude>
 {
     TranslateAxisLiveAction[] _TranslateActions;
     LabelHudElement _HudElement;
@@ -78,7 +78,7 @@ public class ExtrudeEditor : Editor<Extrude>
 
     TranslateAxisLiveAction _CreateAction()
     {
-        TranslateAxisLiveAction action = new()
+        TranslateAxisLiveAction action = new(Entity.Body)
         {
             Color = Colors.ActionBlue,
             Cursor = Cursors.SetHeight,

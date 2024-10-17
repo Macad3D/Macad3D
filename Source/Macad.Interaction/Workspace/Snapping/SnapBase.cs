@@ -86,10 +86,10 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
 
     #region Common Snap Functions
 
-    protected (SnapModes mode, Pnt point) Snap(Point screenPoint, TopoDS_Shape shapeToSnap)
+    protected (SnapModes mode, Pnt point, Geom_Curve curve) Snap(Point screenPoint, TopoDS_Shape shapeToSnap)
     {
         if (shapeToSnap == null) 
-            return (SnapModes.None, Pnt.Origin);
+            return (SnapModes.None, Pnt.Origin, null);
 
         if (SupportedModes.HasFlag(SnapModes.Vertex)
             && InteractiveContext.Current.EditorState.SnapToVertexSelected
@@ -97,7 +97,7 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
         {
             // On Vertex
             var vertex = TopoDS.Vertex(shapeToSnap);
-            return (SnapModes.Vertex, BRep_Tool.Pnt(vertex));
+            return (SnapModes.Vertex, BRep_Tool.Pnt(vertex), null);
         }
 
         if (SupportedModes.HasFlag(SnapModes.Edge)
@@ -123,13 +123,13 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
                     Pnt p2 = new Pnt();
                     if (extrema.TotalNearestPoints(ref p1, ref p2))
                     {
-                        return (SnapModes.Edge, p1);
+                        return (SnapModes.Edge, p1, curve);
                     }
                 }
             }
         }
 
-        return (SnapModes.None, Pnt.Origin);
+        return (SnapModes.None, Pnt.Origin, null);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -152,15 +152,16 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
 
     //--------------------------------------------------------------------------------------------------
     
-    protected (SnapModes mode, Pnt point) Snap(Point screenPoint, TopoDS_Shape shapeToSnap, AIS_InteractiveObject aisObjectToSnap)
+    protected (SnapModes mode, Pnt point, Geom_Curve curve) Snap(Point screenPoint, TopoDS_Shape shapeToSnap, AIS_InteractiveObject aisObjectToSnap)
     {
         SnapModes mode = SnapModes.None;
         Pnt point = Pnt.Origin;
+        Geom_Curve curve = null;
 
         // Try BRepShape first
         if (shapeToSnap != null)
         {
-            (mode, point) = Snap(screenPoint, shapeToSnap);
+            (mode, point, curve) = Snap(screenPoint, shapeToSnap);
         }
 
         // If none found, try AIS object next
@@ -169,7 +170,7 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
             (mode, point) = Snap(screenPoint, aisObjectToSnap);
         }
 
-        return (mode, point);
+        return (mode, point, curve);
     }
 
     //--------------------------------------------------------------------------------------------------

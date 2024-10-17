@@ -113,7 +113,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
     {
         if (_TranslateAction == null)
         {
-            _TranslateAction = new()
+            _TranslateAction = new(Entity.Body)
             {
                 Color = Colors.ActionBlue,
                 Cursor = Cursors.Move,
@@ -156,7 +156,7 @@ internal sealed class CrossSectionEditor : Editor<CrossSection>
         
         if (_RotateActionZ == null)
         {
-            _RotateActionZ = new()
+            _RotateActionZ = new(Entity.Body)
             {
                 Color = Colors.ActionBlue,
                 ShowAxisHint = true,

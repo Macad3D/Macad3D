@@ -235,7 +235,38 @@ public class RevolveToolTests
         Assert.AreEqual(oldOffset, revolve.Offset);
         Assert.AreEqual(1, ctx.UndoHandler.UndoStack.Count);
     }
-               
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveOffsetSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(40.0, 50.0, 0);
+        var revolve = TestGeomGenerator.CreateRevolve();
+        ctx.WorkspaceController.StartEditor(revolve);
+
+        var oldOffset = revolve.Offset.Magnitude();
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(347, 317);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(313, 364);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, $"LiveOffsetSnap01"));
+
+            Assert.That(revolve.Offset.X, Is.EqualTo(30.0).Within(1e-6));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
     //--------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------
 

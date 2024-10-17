@@ -8,7 +8,7 @@ using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes;
 
-public class BoxEditor : Editor<Box>
+public sealed class BoxEditor : Editor<Box>
 {
     BoxScaleLiveAction _ScaleAction;
     BitVector32 _ScaleAxisReversed;
@@ -68,7 +68,7 @@ public class BoxEditor : Editor<Box>
             
         if (_ScaleAction == null)
         {
-            _ScaleAction = new BoxScaleLiveAction();
+            _ScaleAction = new BoxScaleLiveAction(false, Entity.Body);
             _ScaleAction.Preview += _ScaleAction_Preview;
             _ScaleAction.Finished += _ScaleAction_Finished;
             StartAction(_ScaleAction);

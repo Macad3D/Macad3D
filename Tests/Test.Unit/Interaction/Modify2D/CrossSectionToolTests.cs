@@ -445,6 +445,60 @@ public class CrossSectionToolTests
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveTranslateSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(0.0, 0.0, 5);
+        var section = _SetupTestGeom();
+        ctx.WorkspaceController.StartEditor(section);
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(250, 86);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(250, 273);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveTranslateSnap01"));
+
+            Assert.That(section.Plane.Location.Z, Is.EqualTo(5.0).Within(1e-6));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveRotateNoSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(-10.0, 10.0, 0);
+        var section = _SetupTestGeom();
+        ctx.WorkspaceController.StartEditor(section);
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(246, 185);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(308, 343);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRotateNoSnap01"));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------
 
     CrossSection _SetupTestGeom(double rotation=0.0)

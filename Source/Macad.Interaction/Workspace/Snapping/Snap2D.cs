@@ -175,7 +175,7 @@ public sealed class Snap2D : SnapBase
 
     SnapInfo2D _SnapDetected(Point screenPoint, Pnt2d pointOnPlane, TopoDS_Shape brepShape, AIS_InteractiveObject aisObject, string targetName)
     {
-        var (mode, point) = Snap(screenPoint, brepShape, aisObject);
+        var (mode, point, _) = Snap(screenPoint, brepShape, aisObject);
         if (mode == SnapModes.None)
         {
             return SnapInfo2D.Empty;

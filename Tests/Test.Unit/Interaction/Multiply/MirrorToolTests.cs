@@ -458,9 +458,46 @@ public class MirrorToolTests
             ctx.WorkspaceController.StopEditor();
         });
     }
-        
+
     //--------------------------------------------------------------------------------------------------
-                
+
+    [Test]
+    public void LiveOffsetSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(20.0, 12.0, 0);
+
+        var mirror = _CreateSimpleMirror();
+        ctx.WorkspaceController.StartEditor(mirror);
+
+        var oldOffset = mirror.Offset;
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(224, 156);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(221, 307);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetSnap01"));
+            Assert.That(mirror.Offset, Is.EqualTo(20.0).Within(1e-6));
+
+            ctx.MoveTo(224, 156);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(269, 277);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetSnap02"));
+            Assert.That(mirror.Offset, Is.EqualTo(10.0).Within(1e-6));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     [Test]
     [Apartment(System.Threading.ApartmentState.STA)]
     public void PropPanelCleanup()

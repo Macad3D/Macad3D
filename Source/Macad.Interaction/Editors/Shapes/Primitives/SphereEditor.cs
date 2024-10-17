@@ -64,7 +64,7 @@ public sealed class SphereEditor : Editor<Sphere>
 
         if (_ScaleAction == null)
         {
-            _ScaleAction = new BoxScaleLiveAction();
+            _ScaleAction = new BoxScaleLiveAction(false, Entity.Body);
             _ScaleAction.Preview += _ScaleAction_Preview;
             _ScaleAction.Finished += _ScaleAction_Finished;
             StartAction(_ScaleAction);

@@ -440,6 +440,75 @@ public class CircularArrayToolTests
     }
 
     //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveRadiusSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(-100.0, 0.0, 0);
+        var array = _CreateSolidArray();
+        array.OriginalAngle = 0.0;
+        array.Alignment = CircularArray.AlignmentMode.Center;
+        ctx.WorkspaceController.StartEditor(array);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(300, 239);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(352, 208);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveRadiusSnap01"));
+            Assert.That(array.Radius, Is.EqualTo(80.0).Within(1e-6));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void LiveOriginalAngleSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToVertexSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(-100.0, 30.0, 0);
+        var array = _CreateSolidArray();
+        array.OriginalAngle = 0.0;
+        array.Alignment = CircularArray.AlignmentMode.Center;
+        ctx.WorkspaceController.StartEditor(array);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(264, 244);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(407, 239);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOriginalAngleSnap01"));
+            ctx.ViewportController.MouseUp();
+            Assert.That(array.OriginalAngle, Is.EqualTo(-26.5).Within(0.1));
+
+            box.Body.Position = new Pnt(-100.0, -30.0, 0);
+            ctx.MoveTo(300, 268);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(316, 187);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOriginalAngleSnap02"));
+            ctx.ViewportController.MouseUp();
+            Assert.That(array.OriginalAngle, Is.EqualTo(7.1).Within(0.1));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------
 
     CircularArray _CreateSolidArray()

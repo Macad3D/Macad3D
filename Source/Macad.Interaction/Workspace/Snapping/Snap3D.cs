@@ -6,12 +6,13 @@ namespace Macad.Interaction;
 
 //--------------------------------------------------------------------------------------------------
 
-public sealed class SnapInfo3D(SnapModes mode, Pnt point) 
+public sealed class SnapInfo3D(SnapModes mode, Pnt point, Geom_Curve curve) 
     : SnapInfo(mode)
 {
     public Pnt Point { get; } = point;
+    public Geom_Curve Curve { get; } = curve;
 
-    public new static readonly SnapInfo3D Empty = new(SnapModes.None, Pnt.Origin);
+    public new static readonly SnapInfo3D Empty = new(SnapModes.None, Pnt.Origin, null);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -34,13 +35,13 @@ public sealed class Snap3D : SnapBase
         }
 
         SnapInfo3D snapInfo = SnapInfo3D.Empty;
-        
-        var (mode, point) = Snap(mouseEvent.ScreenPoint, 
-                                 mouseEvent.DetectedBrepShape, 
-                                 mouseEvent.DetectedAisObject);
+
+        var (mode, point, curve) = Snap(mouseEvent.ScreenPoint,
+                                   mouseEvent.DetectedBrepShape,
+                                   mouseEvent.DetectedAisObject);
         if (mode != SnapModes.None)
         {
-            snapInfo = new SnapInfo3D(mode, point)
+            snapInfo = new SnapInfo3D(mode, point, curve)
             {
                 TargetName = mouseEvent.DetectedEntity?.Name
             };
@@ -68,7 +69,7 @@ public sealed class Snap3D : SnapBase
                                                             out Pnt gridPnt))
             {
                 // On Grid
-                return new SnapInfo3D(SnapModes.Grid, gridPnt);
+                return new SnapInfo3D(SnapModes.Grid, gridPnt, null);
             }
         }
         return SnapInfo3D.Empty;

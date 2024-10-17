@@ -434,7 +434,39 @@ public class ImprintToolTests
     }
 
     //--------------------------------------------------------------------------------------------------
-                
+
+    [Test]
+    public void LiveDepthSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+
+        var box = TestGeomGenerator.CreateBox();
+        box.Body.Position = new Pnt(10.0, -10.0, 0);
+
+        var imprint = TestGeomGenerator.CreateImprint();
+        imprint.Mode = Imprint.ImprintMode.Raise;
+        ctx.WorkspaceController.StartEditor(imprint);
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(294, 184);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(131, 182);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveDepthSnap01"));
+            ctx.ViewportController.MouseUp();
+
+            Assert.That(imprint.Depth, Is.EqualTo(5.0).Within(1e-6));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     [Test]
     [Apartment(System.Threading.ApartmentState.STA)]
     public void PropPanelCleanup()

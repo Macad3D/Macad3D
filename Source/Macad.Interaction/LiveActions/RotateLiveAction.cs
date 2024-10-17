@@ -1,12 +1,19 @@
 ﻿using System.Windows.Input;
 using Macad.Common;
 using Macad.Core;
+using Macad.Core.Topology;
 using Macad.Interaction.Visual;
 using Macad.Occt;
 using Macad.Presentation;
 
 namespace Macad.Interaction;
 
+/// <summary>
+/// Snapping will be executed for Edge, Vertex and Face. It will snap only in a primary axis direction (x, y or z)
+/// depending on which result point is more close to the origin. This seems to be unfamiliar, but since the axis
+/// will almost never touch the snap target, this seems to be the only variant which can be useful in most situations.
+/// To activate snapping, the target entity must be set in the constructor.
+/// </summary>
 public sealed class RotateLiveAction : LiveAction
 {
     #region Properties and Members
@@ -78,6 +85,18 @@ public sealed class RotateLiveAction : LiveAction
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Angle offset in rad which defines the rotated axis to snap to. Set this if the axis to snap to is
+    /// not aligned to the current rotation direction.
+    /// </summary>
+    public double SnapAngleOffset { get; set; }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public Vec SnapCenterOffset { get; set; }
+
+    //--------------------------------------------------------------------------------------------------
+
     public bool NoResize { get; init; }
 
     //--------------------------------------------------------------------------------------------------
@@ -114,6 +133,7 @@ public sealed class RotateLiveAction : LiveAction
     Ax2 _Position = Ax2.XOY;
     bool _IsMoving;
     double _StartValue;
+    double _StartSnapOffset;
     double _Delta;
     double _DeltaSum;
     SelectionContext _SelectionContext;
@@ -122,14 +142,22 @@ public sealed class RotateLiveAction : LiveAction
     Pln _RotationPlane;
     (double start, double end) _VisualLimits;
     (double start, double end) _VisualSector;
+    InteractiveEntity _TargetEntity;
+    Snap3D _SnapHandler;
 
     //--------------------------------------------------------------------------------------------------
-
-    
 
     #endregion
 
     #region Creation and Activation
+
+    /// <param name="targetEntity">The entity which is the target of the operation. It will be excluded from snapping.</param>
+    public RotateLiveAction(InteractiveEntity targetEntity = null)
+    {
+        _TargetEntity = targetEntity;
+    }
+
+    //--------------------------------------------------------------------------------------------------
 
     protected override void OnStart()
     {
@@ -178,7 +206,6 @@ public sealed class RotateLiveAction : LiveAction
     {
         public double Delta { get; init; }
         public double DeltaSum { get; init; }
-        public double CircleValue { get; init; }
         public MouseEventData MouseEventData { get; init; }
         public double? DeltaSumOverride { get; set; }
     }
@@ -195,8 +222,26 @@ public sealed class RotateLiveAction : LiveAction
 
     double? _ProcessMouseInput(MouseEventData data)
     {
-        Pnt resultPnt;
-        if (WorkspaceController.ActiveViewport.ScreenToPoint(_RotationPlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
+        if (_SnapHandler != null)
+        {
+            if (data.DetectedEntity == _TargetEntity)
+            {
+                data.Return.RemoveHighlighting = true;
+            }
+            else
+            {
+                var snapInfo = _SnapHandler.Snap(data);
+                if (snapInfo.Mode != SnapModes.None)
+                {
+                    // Point snapped
+                    var planeDelta = ProjLib.Project(_RotationPlane, snapInfo.Point.Translated(SnapCenterOffset));
+                    var angle = Dir2d.DX.Angle(new Dir2d(planeDelta.Coord));
+                    return angle - _StartSnapOffset + _StartValue;
+                }
+            }
+        }
+
+        if (WorkspaceController.ActiveViewport.ScreenToPoint(_RotationPlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var resultPnt))
         {
             var planeDelta = ProjLib.Project(_RotationPlane, resultPnt);
             var angle = Dir2d.DX.Angle(new Dir2d(planeDelta.Coord));
@@ -216,6 +261,7 @@ public sealed class RotateLiveAction : LiveAction
             if (value != null)
             {
                 _StartValue = value.Value;
+                _StartSnapOffset = SnapAngleOffset;
                 _DeltaSum = 0;
 
                 _SelectionContext = OpenSelectionContext();
@@ -229,6 +275,12 @@ public sealed class RotateLiveAction : LiveAction
                     _HintLine.Set(_Position.Axis);
                     _HintLine.Color = Color;
                     Add(_HintLine);
+                }
+
+                if (_TargetEntity != null)
+                {
+                    _SnapHandler = SetSnapHandler(new Snap3D());
+                    _SnapHandler.SupportedModes = SnapModes.Vertex | SnapModes.Edge | SnapModes.Face;
                 }
 
                 SetCursor(Cursor);
@@ -276,7 +328,6 @@ public sealed class RotateLiveAction : LiveAction
                 {
                     Delta = _Delta,
                     DeltaSum = _DeltaSum,
-                    CircleValue = value.Value,
                     MouseEventData = data
                 };
                 Preview?.Invoke(this, eventArgs);
@@ -324,6 +375,8 @@ public sealed class RotateLiveAction : LiveAction
             }
 
             CloseSelectionContext(_SelectionContext);
+            RemoveSnapHandler();
+            _SnapHandler = null;
 
             SetCursor(null);
             Remove(_HudElement);

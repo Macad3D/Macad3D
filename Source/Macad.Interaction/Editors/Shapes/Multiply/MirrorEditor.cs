@@ -8,7 +8,7 @@ using Macad.Occt;
 
 namespace Macad.Interaction.Editors.Shapes;
 
-public class MirrorEditor : Editor<Mirror>
+public sealed class MirrorEditor : Editor<Mirror>
 {
     HintLine _AxisHint;
     Plane _PlaneHint;
@@ -188,7 +188,7 @@ public class MirrorEditor : Editor<Mirror>
             
         if (_OffsetAction1 == null)
         {
-            _OffsetAction1 = new()
+            _OffsetAction1 = new(Entity.Body)
             {
                 Color = Colors.ActionRed,
                 Cursor = Cursors.SetHeight,
@@ -202,7 +202,7 @@ public class MirrorEditor : Editor<Mirror>
             
         if (_OffsetAction2 == null)
         {
-            _OffsetAction2 = new()
+            _OffsetAction2 = new(Entity.Body)
             {
                 Color = Colors.ActionRed,
                 Cursor = Cursors.SetHeight,

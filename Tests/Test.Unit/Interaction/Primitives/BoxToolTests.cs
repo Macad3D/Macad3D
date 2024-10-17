@@ -405,4 +405,32 @@ public class BoxToolTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void LiveScaleSnap()
+    {
+        var ctx = Context.Current;
+        ctx.EditorState.SnappingEnabled = true;
+        ctx.EditorState.SnapToEdgeSelected = true;
+
+        var box1 = TestGeomGenerator.CreateBox();
+        box1.DimensionZ = 12.0;
+        box1.Body.Position = new Pnt(20, 0, 0);
+        var box2 = TestGeomGenerator.CreateBox();
+        ctx.WorkspaceController.StartEditor(box2);
+
+        ctx.ViewportController.ZoomFitAll();
+        Assert.Multiple(() =>
+        {
+            ctx.MoveTo(248, 130);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(164, 189);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleSnap01"));
+
+            ctx.ViewportController.MouseUp();
+            Assert.That(box2.DimensionZ, Is.EqualTo(box1.DimensionZ));
+
+            // Cleanup
+            ctx.WorkspaceController.StopEditor();
+        });
+    }
 }

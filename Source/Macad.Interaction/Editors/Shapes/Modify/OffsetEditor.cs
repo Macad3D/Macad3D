@@ -63,7 +63,7 @@ public sealed class OffsetEditor : Editor<Offset>
 
         if (_ScaleAction == null)
         {
-            _ScaleAction = new BoxScaleLiveAction(Entity.ShapeType==ShapeType.Sketch);
+            _ScaleAction = new BoxScaleLiveAction(Entity.ShapeType==ShapeType.Sketch, Entity.Body);
             _ScaleAction.Preview += _ScaleAction_Preview;
             _ScaleAction.Finished += _ScaleAction_Finished;
             StartAction(_ScaleAction);

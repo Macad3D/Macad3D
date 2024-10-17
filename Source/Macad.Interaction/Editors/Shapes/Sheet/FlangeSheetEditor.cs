@@ -1,4 +1,5 @@
-﻿using Macad.Common;
+﻿using System;
+using Macad.Common;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Interaction.Panels;
@@ -8,7 +9,7 @@ using Macad.Interaction.Visual;
 
 namespace Macad.Interaction.Editors.Shapes;
 
-public class FlangeSheetEditor : Editor<FlangeSheet>
+public sealed class FlangeSheetEditor : Editor<FlangeSheet>
 {
     RotateLiveAction _AngleAction;
     TranslateAxisLiveAction _LengthAction;
@@ -107,10 +108,10 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         // Angle
         if (_AngleAction == null)
         {
-            _AngleAction = new()
+            _AngleAction = new(Entity.Body)
             {
                 Color = Colors.ActionRed,
-                SectorAutoUpdate = RotateLiveAction.SectorAutoMode.Forward,
+                SectorAutoUpdate = RotateLiveAction.SectorAutoMode.Forward
             };
             _AngleAction.Preview += _AngleAction_Preview;
             _AngleAction.Finished += _RotateActions_Finished;
@@ -120,7 +121,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         // Length
         if (_LengthAction == null)
         {
-            _LengthAction = new()
+            _LengthAction = new(Entity.Body)
             {
                 Color = Colors.ActionBlue,
                 NoResize = true,
@@ -149,7 +150,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         // Start Gap
         if (_StartGapAction == null)
         {
-            _StartGapAction = new()
+            _StartGapAction = new(Entity.Body)
             {
                 Color = Colors.ActionRed,
                 NoResize = true,
@@ -163,7 +164,7 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
         // End Gap
         if (_EndGapAction == null)
         {
-            _EndGapAction = new()
+            _EndGapAction = new(Entity.Body)
             {
                 Color = Colors.ActionRed,
                 NoResize = true,
@@ -197,6 +198,8 @@ public class FlangeSheetEditor : Editor<FlangeSheet>
             if (!_IsMoving)
             {
                 _AngleAction.Position = bendAxis;
+                _AngleAction.SnapAngleOffset = Entity.Angle.ToRad() + (Entity.Reverse ? -Maths.HalfPI : Maths.HalfPI);
+                _AngleAction.SnapCenterOffset = new Vec(_LastSupportData.FlangeExtrudeAxis.Location.Transformed(Entity.GetTransformation()), bendAxis.Location);
             }
         }
 

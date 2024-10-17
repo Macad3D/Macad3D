@@ -9,7 +9,7 @@ using Macad.Core.Geom;
 
 namespace Macad.Interaction.Editors.Shapes;
 
-public class ScaleEditor : Editor<Scale>
+public sealed class ScaleEditor : Editor<Scale>
 {
     TranslateAxisLiveAction[] _TranslateActions;
     LabelHudElement _HudElement;
@@ -79,8 +79,8 @@ public class ScaleEditor : Editor<Scale>
             return;
 
         _TranslateActions = new TranslateAxisLiveAction[Entity.ShapeType == ShapeType.Sketch ? 2 : 3];
-        _TranslateActions[0] = _CreateAction( Colors.ActionRed);
-        _TranslateActions[1] = _CreateAction( Colors.ActionGreen);
+        _TranslateActions[0] = _CreateAction(Colors.ActionRed);
+        _TranslateActions[1] = _CreateAction(Colors.ActionGreen);
         if (Entity.ShapeType != ShapeType.Sketch)
         {
             _TranslateActions[2] = _CreateAction(Colors.ActionBlue);
@@ -91,7 +91,7 @@ public class ScaleEditor : Editor<Scale>
 
     TranslateAxisLiveAction _CreateAction(Color color)
     {
-        TranslateAxisLiveAction action = new()
+        TranslateAxisLiveAction action = new(Entity.Body)
         {
             Color = color,
             Cursor = Cursors.SetHeight
@@ -131,13 +131,16 @@ public class ScaleEditor : Editor<Scale>
 
         _TranslateActions[0].Axis = new Ax1(axis.Location, axis.XDirection);
         _TranslateActions[0].Length = Math.Max(bbox.CornerMax().X, 1.0) * 1.2;
+        _TranslateActions[0].SnapOffset = bbox.CornerMax().X;
         _TranslateActions[1].Axis = new Ax1(axis.Location, axis.YDirection);
         _TranslateActions[1].Length = Math.Max(bbox.CornerMax().Y, 1.0) * 1.2;
+        _TranslateActions[1].SnapOffset = bbox.CornerMax().Y;
 
         if (_TranslateActions.Length == 3)
         {
             _TranslateActions[2].Axis = new Ax1(axis.Location, axis.Direction);
             _TranslateActions[2].Length = Math.Max(bbox.CornerMax().Z, 1.0) * 1.2;
+            _TranslateActions[2].SnapOffset = bbox.CornerMax().Z;
         }
     }
 
