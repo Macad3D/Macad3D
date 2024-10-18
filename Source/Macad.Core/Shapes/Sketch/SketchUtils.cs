@@ -385,10 +385,10 @@ public static class SketchUtils
     #endregion
 
     #region Delete Point
-
-    public static SketchSegment DeletePointTrySubstituteSegments(Sketch sketch, int point)
+   
+    public static IEnumerable<SketchSegment> DeletePointsTrySubstituteSegments(Sketch sketch, IEnumerable<int> points)
     {
-        SketchSegment __CreateSubstituteLineLine(SketchSegmentLine line1, SketchSegmentLine line2)
+        SketchSegment __CreateSubstituteLineLine(int point, SketchSegmentLine line1, SketchSegmentLine line2)
         {
             // Line-Line --> Line
             var p1 = line1.StartPoint == point ? line1.EndPoint : line1.StartPoint;
@@ -398,7 +398,7 @@ public static class SketchUtils
 
         //--------------------------------------------------------------------------------------------------
 
-        SketchSegment __CreateSubstituteArcArc(SketchSegmentArc arc1, SketchSegmentArc arc2)
+        SketchSegment __CreateSubstituteArcArc(int point, SketchSegmentArc arc1, SketchSegmentArc arc2)
         {
             // Arc-Arc --> Arc, if center is equal
             var circ1 = arc1.GetCircle(sketch.Points);
@@ -423,10 +423,10 @@ public static class SketchUtils
 
             return new SketchSegmentArc(p1, p2, rim);
         }
-            
+
         //--------------------------------------------------------------------------------------------------
 
-        SketchSegment __CreateSubstituteGeneric(SketchSegment seg1, SketchSegment seg2)
+        SketchSegment __CreateSubstituteGeneric(int point, SketchSegment seg1, SketchSegment seg2)
         {
             // Any-Any --> Bezier3 approximation, if not perodic
             var curve1 = (seg1.CachedCurve ?? seg1.MakeCurve(sketch.Points)) as Geom2d_BoundedCurve;
@@ -468,39 +468,48 @@ public static class SketchUtils
 
         //--------------------------------------------------------------------------------------------------
 
-        SketchSegment substituteSegment = null;
-        var segmentIds = GetSegmentsUsingPoint(sketch, point).ToArray();
+        List<SketchSegment> _segmentsToAdd = [];
 
-        // Try to substitute
-        if (segmentIds.Length == 2)
+        foreach (var point in points)
         {
-            var seg1 = sketch.Segments[segmentIds[0]];
-            var seg2 = sketch.Segments[segmentIds[1]];
+            SketchSegment substituteSegment = null;
+            var segmentIds = GetSegmentsUsingPoint(sketch, point).ToArray();
 
-            if (seg1 is SketchSegmentLine line1 &&
-                seg2 is SketchSegmentLine line2)
+            // Try to substitute
+            if (segmentIds.Length == 2)
             {
-                substituteSegment = __CreateSubstituteLineLine(line1, line2);
+                var seg1 = sketch.Segments[segmentIds[0]];
+                var seg2 = sketch.Segments[segmentIds[1]];
+
+                if (seg1 is SketchSegmentLine line1 &&
+                    seg2 is SketchSegmentLine line2)
+                {
+                    substituteSegment = __CreateSubstituteLineLine(point, line1, line2);
+                }
+                else if (seg1 is SketchSegmentArc arc1 &&
+                         seg2 is SketchSegmentArc arc2)
+                {
+                    substituteSegment = __CreateSubstituteArcArc(point, arc1, arc2);
+                }
+
+                // Finally try the generic way
+                substituteSegment ??= __CreateSubstituteGeneric(point, seg1, seg2);
             }
-            else if (seg1 is SketchSegmentArc arc1 &&
-                     seg2 is SketchSegmentArc arc2)
+
+            if (substituteSegment != null)
             {
-                substituteSegment = __CreateSubstituteArcArc(arc1, arc2);
+                _segmentsToAdd.Add(substituteSegment);
             }
-
-            // Finally try the generic way
-            substituteSegment ??= __CreateSubstituteGeneric(seg1, seg2);
-        }
-
-        if (substituteSegment != null)
-        {
-            sketch.AddSegment(substituteSegment);
         }
 
         // Finally, delete the point
-        sketch.DeletePoint(point);
+        if (_segmentsToAdd.Count > 0)
+        {
+            sketch.AddElements(null, null, _segmentsToAdd.ToIndexedDictionary(), null);
+        }
+        sketch.DeleteElements(points, null, null);
 
-        return substituteSegment;
+        return _segmentsToAdd;
     }
 
     //--------------------------------------------------------------------------------------------------

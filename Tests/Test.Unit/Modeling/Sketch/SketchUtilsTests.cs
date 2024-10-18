@@ -17,7 +17,7 @@ public class SketchUtilsTests
         int s1 = sketch.AddSegment(new SketchSegmentLine(p1, p2));
         int s2 = sketch.AddSegment(new SketchSegmentLine(p2, p3));
 
-        SketchUtils.DeletePointTrySubstituteSegments(sketch, p2);
+        SketchUtils.DeletePointsTrySubstituteSegments(sketch, [p2]);
         Assert.AreEqual(2, sketch.Points.Count);
         Assert.AreEqual(1, sketch.Segments.Count);
         Assert.AreEqual(p1, sketch.Segments[s2+1].StartPoint);
@@ -42,7 +42,7 @@ public class SketchUtilsTests
 
         Assert.That(arc1.Center(sketch.Points).IsEqual(arc2.Center(sketch.Points), 0.001));
 
-        SketchUtils.DeletePointTrySubstituteSegments(sketch, p2);
+        SketchUtils.DeletePointsTrySubstituteSegments(sketch, [p2]);
         Assert.AreEqual(3, sketch.Points.Count);
         Assert.AreEqual(1, sketch.Segments.Count);
         Assert.AreEqual(p1, sketch.Segments[s2+1].StartPoint);
@@ -63,7 +63,7 @@ public class SketchUtilsTests
         int p5 = sketch.AddPoint(new Pnt2d(8, 0));
         int s2 = sketch.AddSegment(new SketchSegmentBezier(p3, p4, p5));
 
-        SketchUtils.DeletePointTrySubstituteSegments(sketch, p3);
+        SketchUtils.DeletePointsTrySubstituteSegments(sketch, [p3]);
         Assert.AreEqual(3, sketch.Points.Count);
         Assert.AreEqual(1, sketch.Segments.Count);
         Assert.AreEqual(p1, sketch.Segments[s2+1].StartPoint);

@@ -591,7 +591,7 @@ public sealed class SketchEditorTool : Tool
             // Check if points can be merged, and merge them
             var mergeCandidates = _MoveAction.CheckMergePoints(false);
 
-            if (mergeCandidates.Any())
+            if (mergeCandidates?.Count > 0)
             {
                 var pointString = mergeCandidates.Select(mc => $"({mc.Value},{mc.Key})").ToList().Join(", ");
                 if (Dialogs.Dialogs.AskSketchPointMerge(pointString))
@@ -743,9 +743,14 @@ public sealed class SketchEditorTool : Tool
 
     public override void Delete()
     {
-        SelectedConstraints.ForEach(c => Sketch.DeleteConstraint(c));
-        SelectedSegments.ForEach(s => Sketch.DeleteSegment(s));
-        SelectedPoints.ForEach(p => SketchUtils.DeletePointTrySubstituteSegments(Sketch, p));
+        if (SelectedSegments.Count == 0 && SelectedConstraints.Count == 0)
+        {
+            SketchUtils.DeletePointsTrySubstituteSegments(Sketch, SelectedPoints);
+        }
+        else
+        {
+            Sketch.DeleteElements(SelectedPoints, SelectedSegmentIndices, SelectedConstraints);
+        }
 
         Sketch.SolveConstraints(true);
         CommitChanges();

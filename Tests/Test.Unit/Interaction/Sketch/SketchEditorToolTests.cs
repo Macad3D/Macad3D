@@ -120,6 +120,40 @@ public class SketchEditorToolTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void MovePointMergeMaxPoints()
+    {
+        var ctx = Context.Current;
+        ctx.Parameters.Get<SketchEditorParameterSet>().MaximumPointCountSnapping = 5;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.SimpleAsymmetric, true);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+        
+        Assert.Multiple(() =>
+        {
+            // Select all
+            tool.Select(sketch.Points.Keys.Take(3), null);
+            // Move on progress
+            ctx.MoveTo(350, 161);
+            ctx.ViewportController.MouseDown();
+            ctx.MoveTo(414, 358);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointMergeMaxPoints01"), 0.1);
+
+            ctx.Parameters.Get<SketchEditorParameterSet>().MaximumPointCountSnapping = 1;
+            ctx.MoveTo(414, 358);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "MovePointMergeMaxPoints02"), 0.1);
+
+            // Move released
+            ctx.ViewportController.MouseUp();
+            tool.Stop();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void RotatePoint()
     {
         var ctx = Context.Current;

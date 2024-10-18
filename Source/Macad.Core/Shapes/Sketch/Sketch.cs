@@ -330,144 +330,6 @@ public sealed class Sketch : Shape2D
 
     //--------------------------------------------------------------------------------------------------
 
-    public int AddConstraint(SketchConstraint constraint)
-    {
-        SaveUndo(ElementType.Constraint);
-        Constraints.Add(constraint);
-
-        Invalidate();
-        RaisePropertyChanged(nameof(Constraints));
-        OnElementsChanged(ElementType.Constraint);
-        return Constraints.Count - 1;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public bool SetConstraintParameter(SketchConstraint constraint, double parameter)
-    {
-        if (!Constraints.Contains(constraint))
-            return false;
-
-        SaveUndo(ElementType.Constraint);
-        constraint.Parameter = parameter;
-
-        Invalidate();
-        RaisePropertyChanged(nameof(Constraints));
-        OnElementsChanged(ElementType.Constraint);
-        return true;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public void DeleteConstraint(SketchConstraint conToDelete)
-    {
-        SaveUndo(ElementType.Constraint);
-
-        // Remove constraint
-        _Constraints.Remove(conToDelete);
-
-        Invalidate();
-        RaisePropertyChanged(nameof(Constraints));
-        OnElementsChanged(ElementType.Constraint);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public (IDictionary<int, int> pointMap, IDictionary<int, int> segmentMap, IEnumerable<int> constraints) 
-        AddElements(IDictionary<int, Pnt2d> points, int[] mergePointIndices, IDictionary<int, SketchSegment> segments, IEnumerable<SketchConstraint> constraints)
-    {
-        Sketch.ElementType changedTypes = 0;
-        Dictionary<int, int> pointMap = null;
-        Dictionary<int, int> segmentMap = null;
-
-        if (points != null)
-        {
-            pointMap = new Dictionary<int, int>(points.Count);
-
-            SaveUndo(ElementType.Point);
-            changedTypes |= ElementType.Point;
-            var nextIndex = Points.Keys.Any() ? Points.Keys.Max() + 1 : 0;
-
-            foreach (var pointKvp in points)
-            {
-                int newPointIndex;
-                if (mergePointIndices != null && mergePointIndices[pointKvp.Key] >= 0)
-                {
-                    newPointIndex = mergePointIndices[pointKvp.Key];
-                }
-                else
-                {
-                    newPointIndex = nextIndex;
-                    Points.Add(newPointIndex, pointKvp.Value);
-                    nextIndex++;
-                }
-                pointMap.Add(pointKvp.Key, newPointIndex);
-            }
-
-            if (segments != null)
-            {
-                segmentMap = new Dictionary<int, int>();
-                SaveUndo(ElementType.Segment);
-                changedTypes |= ElementType.Segment;
-                nextIndex = Segments.Keys.Any() ? Segments.Keys.Max() + 1 : 0;
-
-                foreach (var segmentKvp in segments)
-                {
-                    var segment = segmentKvp.Value;
-                    for (int i = 0; i < segment.Points.Length; i++)
-                    {
-                        segment.Points[i] = pointMap[segment.Points[i]];
-                    }
-                    Segments.Add(nextIndex, segment);
-                    segmentMap.Add( segmentKvp.Key, nextIndex );
-                    nextIndex++;
-                }
-            }
-        }
-
-        List<int> newConstraints = default;
-        if (constraints != null)
-        {
-            SaveUndo(ElementType.Constraint);
-            changedTypes |= ElementType.Constraint;
-            SaveUndo(ElementType.Point);
-            changedTypes |= ElementType.Point;
-            int nextIndex = Constraints.Count;
-            newConstraints = new List<int>();
-
-            foreach (var constraint in constraints)
-            {
-                if ((pointMap != null) && (constraint.Points != null))
-                {
-                    for (int i = 0; i < constraint.Points.Length; i++)
-                    {
-                        constraint.Points[i] = pointMap[constraint.Points[i]];
-                    }
-                }
-                if ((segmentMap != null) && (constraint.Segments != null))
-                {
-                    for (int i = 0; i < constraint.Segments.Length; i++)
-                    {
-                        constraint.Segments[i] = segmentMap[constraint.Segments[i]];
-                    }
-                }
-
-                Constraints.Add(constraint);
-                newConstraints.Add(nextIndex);
-                nextIndex++;
-            }
-        }
-
-        if (changedTypes != 0)
-            OnElementsChanged(changedTypes);
-
-        Invalidate();
-
-        return (pointMap, segmentMap, newConstraints);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     public void DeleteSegment(SketchSegment segToDelete)
     {
         SaveUndo(ElementType.Point);
@@ -502,7 +364,7 @@ public sealed class Sketch : Shape2D
         if (changedConstraints)
             RaisePropertyChanged(nameof(Constraints));
         RaisePropertyChanged(nameof(Segments));
-            
+
         var deletedPoints = DeleteOrphanedPoints();
 
         // Look out for constraints who reference this segment
@@ -527,8 +389,222 @@ public sealed class Sketch : Shape2D
 
         ElementType types = ElementType.Segment | ElementType.Point;
         if (changedConstraints) types |= ElementType.Constraint;
-            
+
         OnElementsChanged(types);
+
+        Invalidate();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public int AddConstraint(SketchConstraint constraint)
+    {
+        SaveUndo(ElementType.Constraint);
+        Constraints.Add(constraint);
+
+        Invalidate();
+        RaisePropertyChanged(nameof(Constraints));
+        OnElementsChanged(ElementType.Constraint);
+        return Constraints.Count - 1;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public bool SetConstraintParameter(SketchConstraint constraint, double parameter)
+    {
+        if (!Constraints.Contains(constraint))
+            return false;
+
+        SaveUndo(ElementType.Constraint);
+        constraint.Parameter = parameter;
+
+        Invalidate();
+        RaisePropertyChanged(nameof(Constraints));
+        OnElementsChanged(ElementType.Constraint);
+        return true;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public (IDictionary<int, int> pointMap, IDictionary<int, int> segmentMap, IEnumerable<int> constraints)
+        AddElements(IDictionary<int, Pnt2d> points, int[] mergePointIndices, IDictionary<int, SketchSegment> segments, IEnumerable<SketchConstraint> constraints)
+    {
+        ElementType changedTypes = 0;
+        Dictionary<int, int> pointMap = null;
+        Dictionary<int, int> segmentMap = null;
+
+        if (points != null)
+        {
+            pointMap = new(points.Count);
+
+            SaveUndo(ElementType.Point);
+            changedTypes |= ElementType.Point;
+            var nextIndex = Points.Keys.Any() ? Points.Keys.Max() + 1 : 0;
+
+            foreach (var pointKvp in points)
+            {
+                int newPointIndex;
+                if (mergePointIndices != null && mergePointIndices[pointKvp.Key] >= 0)
+                {
+                    newPointIndex = mergePointIndices[pointKvp.Key];
+                }
+                else
+                {
+                    newPointIndex = nextIndex;
+                    Points.Add(newPointIndex, pointKvp.Value);
+                    nextIndex++;
+                }
+
+                pointMap.Add(pointKvp.Key, newPointIndex);
+            }
+        }
+
+        if (segments != null)
+        {
+            segmentMap = new();
+            SaveUndo(ElementType.Segment);
+            changedTypes |= ElementType.Segment;
+            var nextIndex = Segments.Keys.Any() ? Segments.Keys.Max() + 1 : 0;
+
+            foreach (var segmentKvp in segments)
+            {
+                var segment = segmentKvp.Value;
+                if (pointMap != null)
+                {
+                    for (int i = 0; i < segment.Points.Length; i++)
+                    {
+                        segment.Points[i] = pointMap[segment.Points[i]];
+                    }
+                }
+
+                Segments.Add(nextIndex, segment);
+                segmentMap.Add(segmentKvp.Key, nextIndex);
+                nextIndex++;
+            }
+        }
+
+        List<int> newConstraints = default;
+        if (constraints != null)
+        {
+            SaveUndo(ElementType.Constraint);
+            changedTypes |= ElementType.Constraint;
+            SaveUndo(ElementType.Point);
+            changedTypes |= ElementType.Point;
+            int nextIndex = Constraints.Count;
+            newConstraints = new();
+
+            foreach (var constraint in constraints)
+            {
+                if ((pointMap != null) && (constraint.Points != null))
+                {
+                    for (int i = 0; i < constraint.Points.Length; i++)
+                    {
+                        constraint.Points[i] = pointMap[constraint.Points[i]];
+                    }
+                }
+                if ((segmentMap != null) && (constraint.Segments != null))
+                {
+                    for (int i = 0; i < constraint.Segments.Length; i++)
+                    {
+                        constraint.Segments[i] = segmentMap[constraint.Segments[i]];
+                    }
+                }
+
+                Constraints.Add(constraint);
+                newConstraints.Add(nextIndex);
+                nextIndex++;
+            }
+        }
+
+        if (changedTypes != 0)
+            OnElementsChanged(changedTypes);
+
+        Invalidate();
+
+        return (pointMap, segmentMap, newConstraints);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void DeleteConstraint(SketchConstraint conToDelete)
+    {
+        SaveUndo(ElementType.Constraint);
+
+        // Remove constraint
+        _Constraints.Remove(conToDelete);
+
+        Invalidate();
+        RaisePropertyChanged(nameof(Constraints));
+        OnElementsChanged(ElementType.Constraint);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void DeleteElements(IEnumerable<int> points, IEnumerable<int> segments, IEnumerable<SketchConstraint> constraints)
+    {
+        ElementType changedTypes = 0;
+
+        var pointsToDelete = points?.ToList() ?? [];
+        var segsToDelete = segments?.ToList() ?? [];
+        var consToDelete = constraints?.ToList() ?? [];
+
+        if (pointsToDelete.Count > 0)
+        {
+            // Enhance deletion list for all elements referencing any of the points to delete
+            segsToDelete.AddRange(_Segments.Where(kvp => kvp.Value.Points.ContainsAny(pointsToDelete)).Select(kvp => kvp.Key));
+            consToDelete.AddRange(Constraints.Where(con => con.Points?.ContainsAny(pointsToDelete) ?? false));
+        }
+
+        // Delete segments
+        if (segsToDelete.Count > 0)
+        {
+            // Enhance deletion list for all elements referencing any of the points to delete
+            consToDelete.AddRange(Constraints.Where(con => con.Segments?.ContainsAny(segsToDelete) ?? false));
+
+            SaveUndo(ElementType.Segment);
+            changedTypes |= ElementType.Segment;
+
+            foreach (var segIndex in segsToDelete.Distinct())
+            {
+                _Segments.Remove(segIndex);
+            }
+
+            // Check which points are without any segment
+            var pointsWithoutSegment = new List<int>(_Points.Keys);
+            foreach (var segment in _Segments.Values)
+            {
+                pointsWithoutSegment.RemoveAll(pointIndex => segment.Points.Contains(pointIndex));
+            }
+            pointsToDelete.AddRange(pointsWithoutSegment);
+        }
+
+        // Delete points
+        if (points != null)
+        {
+            SaveUndo(ElementType.Point);
+            changedTypes |= ElementType.Point;
+
+            foreach (var pointIndex in pointsToDelete.Distinct())
+            {
+                _Points.Remove(pointIndex);
+            }
+        }
+
+        // Delete constraints
+        if (consToDelete.Count > 0)
+        {
+            SaveUndo(ElementType.Constraint);
+            changedTypes |= ElementType.Constraint;
+            foreach (var constraint in consToDelete.Distinct())
+            {
+                _Constraints.Remove(constraint);
+            }
+        }
+
+        _CheckForInvalidReferences(false);
+
+        if (changedTypes != 0)
+            OnElementsChanged(changedTypes);
 
         Invalidate();
     }
@@ -568,14 +644,18 @@ public sealed class Sketch : Shape2D
     /// Checks all segments and constraints to references wo points or segments which do not exist and removes them.
     /// </summary>
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-    void _CheckForInvalidReferences()
+    void _CheckForInvalidReferences(bool reportMessage)
     {
         var segmentsToDelete = _Segments.Values.Where(seg => !_Points.Keys.ContainsAll(seg.Points));
         if (segmentsToDelete.Any())
         {
             foreach (var segment in segmentsToDelete.ToArray())
             {
-                Messages.Warning($"Sketch {Name} contains a segment of type {segment.GetType().Name} which references to points which do not exist. The segment will be deleted.");
+                if (reportMessage)
+                {
+                    Messages.Warning($"Sketch {Name} contains a segment of type {segment.GetType().Name} which references to points which do not exist. The segment will be deleted.");
+                }
+
                 DeleteSegment(segment);
             }
         }
@@ -586,7 +666,11 @@ public sealed class Sketch : Shape2D
         {
             foreach (var constraint in constraintsToDelete.ToArray())
             {
-                Messages.Warning($"Sketch {Name} contains a constraint of type {constraint.GetType().Name} which references to points or segments which do not exist. The constraint will be deleted.");
+                if (reportMessage)
+                {
+                    Messages.Warning($"Sketch {Name} contains a constraint of type {constraint.GetType().Name} which references to points or segments which do not exist. The constraint will be deleted.");
+                }
+
                 DeleteConstraint(constraint);
             }
         }
@@ -814,7 +898,7 @@ public sealed class Sketch : Shape2D
 
     public override void OnDeserialized(SerializationContext context)
     {
-        _CheckForInvalidReferences();
+        _CheckForInvalidReferences(true);
         base.OnDeserialized(context);
     }
 

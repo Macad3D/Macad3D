@@ -92,25 +92,7 @@ public sealed class SelectSketchElementAction : ToolAction
 
         if (key == Key.Delete && modifierKeys == ModifierKeys.None)
         {
-            var selectedCons = _SketchEditorTool.SelectedConstraints.ToArray();
-            foreach (var constraint in selectedCons)
-            {
-                _SketchEditorTool.Sketch.DeleteConstraint(constraint);
-            }
-
-            var selectedSegs = _SketchEditorTool.SelectedSegments.ToArray();
-            foreach (var segment in selectedSegs)
-            {
-                _SketchEditorTool.Sketch.DeleteSegment(segment);
-            }
-
-            var selectedPoints = _SketchEditorTool.SelectedPoints.ToArray();
-            foreach (var point in selectedPoints)
-            {
-                _SketchEditorTool.Sketch.DeletePoint(point);
-            }
-
-            CommitChanges();
+            _SketchEditorTool.Delete();
             Finished?.Invoke(this);
             return true;
         }

@@ -8,7 +8,6 @@ using Macad.Core.Shapes;
 using Macad.Occt;
 using Macad.Presentation;
 using Macad.Interaction.Editors.Shapes;
-using System;
 
 namespace Macad.Interaction;
 
@@ -481,18 +480,22 @@ public class MoveSketchPointAction : ToolAction
             // Check for point merge candidates
             _MergePreviewMarkers.ForEach(m => Remove(m));
             _MergePreviewMarkers.Clear();
-            foreach (var candidate in CheckMergePoints(true))
+            var mergeCandidates = CheckMergePoints(true);
+            if (mergeCandidates != null)
             {
-                var point = _Sketch.Points[candidate.Value];
-                var geomPoint = new Geom_CartesianPoint(point.X, point.Y, 0);
-                geomPoint.Transform(_Sketch.GetTransformation());
-                var marker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.RingImage)
+                foreach (var candidate in mergeCandidates)
                 {
-                    Color = Colors.Highlight
-                };
-                marker.Set(geomPoint);
-                Add(marker);
-                _MergePreviewMarkers.Add(marker);
+                    var point = _Sketch.Points[candidate.Value];
+                    var geomPoint = new Geom_CartesianPoint(point.X, point.Y, 0);
+                    geomPoint.Transform(_Sketch.GetTransformation());
+                    var marker = new Marker(WorkspaceController, Marker.Styles.Bitmap | Marker.Styles.Topmost, Marker.RingImage)
+                    {
+                        Color = Colors.Highlight
+                    };
+                    marker.Set(geomPoint);
+                    Add(marker);
+                    _MergePreviewMarkers.Add(marker);
+                }
             }
 
             data.Return.ForceReDetection = true;
@@ -541,10 +544,15 @@ public class MoveSketchPointAction : ToolAction
 
     //--------------------------------------------------------------------------------------------------
 
-    public Dictionary<int, int> CheckMergePoints(bool applyDelta)
+    internal Dictionary<int, int> CheckMergePoints(bool applyDelta)
     {
+        var snapCount = InteractiveContext.Current.Parameters.Get<SketchEditorParameterSet>().MaximumPointCountSnapping;
+        if (_Points.Count > snapCount)
+            return null;
+
+        Dictionary<int, int> mergeCandidates = new();
         double mergeDistance = WorkspaceController.ActiveViewport.GizmoScale * 0.2; 
-        var mergeCandidates = new Dictionary<int, int>();
+        HashSet<int> pointSet = [.._Points];
 
         foreach (var point in _Points)
         {
@@ -560,7 +568,7 @@ public class MoveSketchPointAction : ToolAction
             // Distance to other points
             foreach (var pointKvp in _Sketch.Points)
             {
-                if (!_Points.Contains(pointKvp.Key))
+                if (!pointSet.Contains(pointKvp.Key))
                 {
                     var distance = pointKvp.Value.Distance(movedPoint);
                     if (distance < mergeDistance)
