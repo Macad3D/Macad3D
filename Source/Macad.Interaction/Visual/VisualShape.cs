@@ -240,9 +240,9 @@ public sealed class VisualShape : VisualObject
         _Options = options;
         if (entity != null)
         {
-            _VisualStyle = entity.GetVisualStyleComponent();
+            /*_VisualStyle = entity.GetVisualStyleComponent();
             if (_VisualStyle != null)
-                _VisualStyle.VisualStyleChanged += _VisualStyle_VisualStyleChanged;
+                _VisualStyle.VisualStyleChanged += _VisualStyle_VisualStyleChanged;*/
         }
         Update();
     }

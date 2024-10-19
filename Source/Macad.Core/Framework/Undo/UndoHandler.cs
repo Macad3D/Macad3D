@@ -9,7 +9,7 @@ using Macad.Common.Serialization;
 
 namespace Macad.Core;
 
-public class UndoHandler : BaseObject
+public sealed class UndoHandler : BaseObject
 {
     #region Enums
 
@@ -34,12 +34,12 @@ public class UndoHandler : BaseObject
         get { return _RedoStack.Count > 0; }
     }
 
-    public LimitedStack<UndoAction[]> UndoStack
+    internal LimitedStack<UndoAction[]> UndoStack
     {
         get { return _UndoStack; }
     }
 
-    public LimitedStack<UndoAction[]> RedoStack
+    internal LimitedStack<UndoAction[]> RedoStack
     {
         get { return _RedoStack; }
     }
@@ -54,7 +54,7 @@ public class UndoHandler : BaseObject
 
     //--------------------------------------------------------------------------------------------------
 
-    public UndoHandler(IUndoableTopology document)
+    internal UndoHandler(IUndoableTopology document)
     {
         _Document = document;
         _UndoStack = new LimitedStack<UndoAction[]>(500);

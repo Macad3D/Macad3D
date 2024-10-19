@@ -27,6 +27,8 @@ public sealed class ViewportController : BaseObject, IDisposable
         Freehand
     }
 
+    //--------------------------------------------------------------------------------------------------
+
     #endregion
 
     #region Properties
@@ -97,7 +99,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     #region Initialization
 
-    public ViewportController(Viewport viewport, WorkspaceController workspaceController)
+    internal ViewportController(Viewport viewport, WorkspaceController workspaceController)
     {
         Debug.Assert(viewport != null);
 
@@ -151,7 +153,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    public IntPtr InitWindow(IntPtr parentHWnd, Int32Rect initialRect)
+    internal IntPtr InitWindow(IntPtr parentHWnd, Int32Rect initialRect)
     {
         Debug.Assert(Viewport.V3dView != null);
 
@@ -748,8 +750,7 @@ public sealed class ViewportController : BaseObject, IDisposable
     }
 
     //--------------------------------------------------------------------------------------------------
-
-
+    
     #endregion
         
     #region Image

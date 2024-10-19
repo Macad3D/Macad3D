@@ -91,7 +91,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     #region Initialization
 
-    public WorkspaceController(Workspace workspace)
+    internal WorkspaceController(Workspace workspace)
     {
         Debug.Assert(workspace != null);
 
@@ -341,7 +341,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         
     //--------------------------------------------------------------------------------------------------
 
-    public SelectionManager.SelectionMode _GetSelectionModeFromKeys(ModifierKeys mode)
+    SelectionManager.SelectionMode _GetSelectionModeFromKeys(ModifierKeys mode)
     {
         return mode switch
         {
@@ -1043,9 +1043,9 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     #endregion
         
-    #region IActionCommandProvider
+    #region IContextMenuItemProvider
 
-    public void EnrichContextMenu(ContextMenuItems itemList)
+    void IContextMenuItemProvider.EnrichContextMenu(ContextMenuItems itemList)
     {
         if (CurrentTool != null) 
             return;

@@ -246,14 +246,14 @@ public sealed class Viewport : BaseObject, IDisposable
 
     #region Initialization
 
-    public Viewport()
+    internal Viewport()
     {
         _RenderMode = RenderModes.SolidShaded;
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public Viewport(Workspace workspace)
+    internal Viewport(Workspace workspace)
     {
         Workspace = workspace;
     }

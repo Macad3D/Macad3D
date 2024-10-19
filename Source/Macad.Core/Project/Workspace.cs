@@ -194,14 +194,14 @@ public sealed class Workspace : BaseObject, IDisposable
 
     #region Initialization
 
-    public Workspace()
+    internal Workspace()
     {
         Init();
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public Workspace(Model model)
+    internal Workspace(Model model)
     {
         Init();
 

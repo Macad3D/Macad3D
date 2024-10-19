@@ -21,8 +21,8 @@ public class Model : Document<InteractiveEntity>
     //--------------------------------------------------------------------------------------------------
 
     public const string FileExtension = "model";
-    public const int FileVersionMajor = 3;
-    public const int FileVersionMinor = 2;
+    const int FileVersionMajor = 3;
+    const int FileVersionMinor = 2;
 
     //--------------------------------------------------------------------------------------------------
 

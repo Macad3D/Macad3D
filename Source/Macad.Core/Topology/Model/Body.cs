@@ -593,13 +593,6 @@ public class Body : InteractiveEntity, IUndoableDataBlob, IDecorable, ITransform
 
     //--------------------------------------------------------------------------------------------------
 
-    public override VisualStyle GetVisualStyleComponent()
-    {
-        return FindComponent<VisualStyle>(true);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     #endregion
 
     #region Dependents

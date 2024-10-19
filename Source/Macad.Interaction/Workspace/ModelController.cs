@@ -233,7 +233,7 @@ public sealed class ModelController : BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    public bool AskForSavingModelChanges()
+    internal bool AskForSavingModelChanges()
     {
         if (InteractiveContext.Current.Document == null)
             return true;
@@ -389,7 +389,7 @@ public sealed class ModelController : BaseObject, IDisposable
     const string ClipboardContentFormat = "Macad.ModelContent.1";
         
     [SerializeType]
-    public class ClipboardHeader
+    class ClipboardHeader
     {
         [SerializeMember]
         public Guid ModelGuid { get; set; }

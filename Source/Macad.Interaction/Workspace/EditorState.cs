@@ -93,7 +93,7 @@ public sealed class EditorState : BaseObject, IDisposable
     {
         if (_CurrentSketchEditorTool != null)
         {
-            _CurrentSketchEditorTool.PropertyChanged -= SketchEditorToolPropertyChanged;
+            _CurrentSketchEditorTool.PropertyChanged -= _SketchEditorTool_PropertyChanged;
             _CurrentSketchEditorTool = null;
             ActiveSketchTool = "";
             SketchGroupVisible = false;
@@ -103,14 +103,14 @@ public sealed class EditorState : BaseObject, IDisposable
         {
             SketchGroupVisible = true;
             _CurrentSketchEditorTool = sketchEditorTool;
-            _CurrentSketchEditorTool.PropertyChanged += SketchEditorToolPropertyChanged;
+            _CurrentSketchEditorTool.PropertyChanged += _SketchEditorTool_PropertyChanged;
             RaisePropertyChanged(nameof(SketchClipPlaneEnabled));
         }
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    void SketchEditorToolPropertyChanged(object sender, PropertyChangedEventArgs e)
+    void _SketchEditorTool_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (_CurrentSketchEditorTool != sender) return;
 
@@ -329,7 +329,7 @@ public sealed class EditorState : BaseObject, IDisposable
 
     #region c'tor and property handling
 
-    public EditorState()
+    internal EditorState()
     {
         InteractiveContext.Current.PropertyChanged += _InteractiveContext_PropertyChanged;
 

@@ -41,7 +41,7 @@ public sealed class SelectionManager : IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    public SelectionManager(WorkspaceController workspaceController)
+    internal SelectionManager(WorkspaceController workspaceController)
     {
         _WorkspaceController = workspaceController;
         _BaseContext = new SelectionContext(workspaceController, SelectionContext.Options.IncludeAll | SelectionContext.Options.NewSelectedList);
