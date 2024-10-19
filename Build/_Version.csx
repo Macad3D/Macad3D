@@ -113,7 +113,6 @@ class Version
         var lines = File.ReadAllLines(Path.Combine(Common.GetRootFolder(), "License.txt"));
         lines[2] = $"Copyright (c) 2015-{DateTime.Now.Year} Tobias Schachte";
         File.WriteAllLines(Path.Combine(Common.GetRootFolder(), "License.txt"), lines);
-        File.WriteAllLines(Path.Combine(Common.GetRootFolder(), @"Source\Macad.UserGuide\License\Macad3D.txt"), lines);
         return true;
     }
 

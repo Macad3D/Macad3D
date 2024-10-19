@@ -32,6 +32,10 @@ Start ```ScriptConsole.cmd``` and enter the following commands:
 
         > test all
 
+## Documentation
+
+The user guide documentation is hosted in its own [repository](https://github.com/Macad3D/UserGuide) and is [available online](https://macad3d.net/userguide/).
+
 ## About OpenCASCADE Technology
 
 The restore script downloads a pre-built version of OpenCASCADE Technology (OCCT) so that the project can be built immediately. This package contains only the parts that are used in this project. The complete distribution can be downloaded from the [OCCT release page](https://github.com/Open-Cascade-SAS/OCCT/releases). This allows to use additional parts, build the library with other build options or to make code changes. The currently used version can be found in the about dialog. 

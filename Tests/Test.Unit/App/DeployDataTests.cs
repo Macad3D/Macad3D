@@ -73,7 +73,7 @@ public class DeployDataTests
     [TestCaseSource(typeof(DocExamplesEnumerator))]
     public void DocScriptExamples(string file)
     {
-        var script = ScriptInstance.LoadScriptFromFile(Path.Combine(TestData.TestDataDirectory, @"..\..\Source\Macad.UserGuide\Scripting\Samples", file), InteractiveScriptContext.Default, true);
+        var script = ScriptInstance.LoadScriptFromFile(Path.Combine(TestData.TestDataDirectory, @"SourceData\ScriptSamples", file), InteractiveScriptContext.Default, true);
         Assert.IsNotNull(script);
     }
 
@@ -102,7 +102,7 @@ class DocExamplesEnumerator : IEnumerable
 {
     public IEnumerator GetEnumerator()
     {
-        var path = Path.Combine(TestData.TestDataDirectory, @"..\..\Source\Macad.UserGuide\Scripting\Samples");
+        var path = Path.Combine(TestData.TestDataDirectory, @"SourceData\ScriptSamples");
         foreach (var file in Directory.EnumerateFiles(path, "*.csx"))
         {
             yield return Path.GetFileName(file);
