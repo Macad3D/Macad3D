@@ -1,13 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using System.Windows.Input;
 using Macad.Core;
 using Macad.Common.Serialization;
 using Macad.Interaction;
 using Macad.Common;
 using Macad.Exchange;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Macad.Window;
 
@@ -51,6 +49,11 @@ public class AppContext : InteractiveContext
         ExchangeModule.Initialize();
 
         ShortcutDefinition.RegisterShortcuts(Current.ShortcutHandler);
+
+        if (CommandLine.EnableGlDebugging)
+        {
+            Workspace.EnableGlDebugging = true;
+        }
     }
 
     //--------------------------------------------------------------------------------------------------

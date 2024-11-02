@@ -13,12 +13,14 @@ namespace Macad
 			public ref class Graphic3d
 			{
 			public:
-				static Macad::Occt::Graphic3d_GraphicDriver^ CreateOpenGlDriver()
+				static Macad::Occt::Graphic3d_GraphicDriver^ CreateOpenGlDriver(bool bEnableDebug)
 				{
 					Handle(::Aspect_DisplayConnection) aDisplayConnection;
 					::OpenGl_GraphicDriver* Driver = new ::OpenGl_GraphicDriver(aDisplayConnection);
+					Driver->ChangeOptions().contextCompatible = !bEnableDebug;
 					Driver->ChangeOptions().ffpEnable = false;
-					Driver->ChangeOptions().contextDebug = false;
+					Driver->ChangeOptions().contextDebug = bEnableDebug;
+					Driver->ChangeOptions().contextSyncDebug = bEnableDebug;
 					return gcnew Macad::Occt::Graphic3d_GraphicDriver(Driver);
 				}
 			};

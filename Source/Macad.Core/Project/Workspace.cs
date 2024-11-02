@@ -188,6 +188,8 @@ public sealed class Workspace : BaseObject, IDisposable
     readonly WorkingContext _GlobalWorkingContext = new WorkingContext();
     WorkingContext _CurrentWorkingContext;
 
+    public static bool EnableGlDebugging = false;
+
     //--------------------------------------------------------------------------------------------------
 
     #endregion
@@ -244,7 +246,7 @@ public sealed class Workspace : BaseObject, IDisposable
     {
         if (V3dViewer == null)
         {
-            var ocGraphicDriver = Occt.Helper.Graphic3d.CreateOpenGlDriver();
+            var ocGraphicDriver = Occt.Helper.Graphic3d.CreateOpenGlDriver(EnableGlDebugging);
             V3dViewer = new V3d_Viewer(ocGraphicDriver);
         }
 
