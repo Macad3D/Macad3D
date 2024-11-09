@@ -154,6 +154,9 @@
 #include <OpenGl_ArbFBO.hxx>
 #include <OpenGl_GlCore20.hxx>
 #include <OpenGl_GraphicDriver.hxx>
+#include "OpenGl_Workspace.hxx"
+#include "OpenGl_Element.hxx"
+#include "OpenGl_Group.hxx"
 
 #include <WNT_Window.hxx>
 

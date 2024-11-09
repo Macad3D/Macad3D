@@ -3,6 +3,31 @@
 
 IMPLEMENT_STANDARD_RTTIEXT(AIS_PointEx,AIS_Point)
 
+//--------------------------------------------------------------------------------------------------
+
+AIS_PointEx::SetMultisamplingElement::SetMultisamplingElement(bool bEnableMultisampling)
+    : m_bEnableMultisampling(bEnableMultisampling)
+{
+}
+
+//--------------------------------------------------------------------------------------------------
+
+void AIS_PointEx::SetMultisamplingElement::Render(const opencascade::handle<OpenGl_Workspace>& theWorkspace) const
+{
+    Handle(OpenGl_Context) aContext = theWorkspace->GetGlContext();
+
+    if (m_bEnableMultisampling)
+    {
+        aContext->core11fwd->glEnable(GL_MULTISAMPLE);
+    }
+    else
+    {
+        aContext->core11fwd->glDisable(GL_MULTISAMPLE);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 AIS_PointEx::AIS_PointEx(const Handle(Geom_Point)& aComponent)
 	: ::AIS_Point(aComponent)
@@ -22,18 +47,31 @@ void AIS_PointEx::SetBackgroundColor(const Quantity_Color& theColor)
 
 //--------------------------------------------------------------------------------------------------
 
-void AIS_PointEx::Compute(const Handle(PrsMgr_PresentationManager)& aPresentationManager,
-                        const Handle(Prs3d_Presentation)& aPresentation, 
-                        const Standard_Integer aMode)
+void AIS_PointEx::Compute(const Handle(PrsMgr_PresentationManager)& thePresentationMgr,
+                        const Handle(Prs3d_Presentation)& thePresentation, 
+                        const Standard_Integer theMode)
 {
-    aPresentation->SetInfiniteState(myInfiniteState);
+    thePresentation->SetInfiniteState(myInfiniteState);
+    Handle(Graphic3d_Group) aGroup = thePresentation->CurrentGroup();
+    Handle(OpenGl_Group) aOpenGlGroup = Handle(OpenGl_Group)::DownCast(thePresentation->CurrentGroup());
 
-    if (aMode==0 && !myBackgroundDrawer.IsNull())
+    // Disable MSAA due to a bug(?) in AMD driver to always render a smooth point, which has round edges
+    bool isUserdefined = myDrawer->HasOwnPointAspect() && myDrawer->PointAspect()->Aspect()->Type() == Aspect_TOM_USERDEFINED;
+    if (isUserdefined)
     {
-        StdPrs_Point::Add(aPresentation, Component(), myBackgroundDrawer);
+        aOpenGlGroup->AddElement(new SetMultisamplingElement(false));
     }
 
-    AIS_Point::Compute(aPresentationManager, aPresentation, aMode);
+    if (theMode==0 && !myBackgroundDrawer.IsNull())
+    {
+        StdPrs_Point::Add(thePresentation, Component(), myBackgroundDrawer);
+    }
+    AIS_Point::Compute(thePresentationMgr, thePresentation, theMode);
+
+    if (isUserdefined)
+    {
+        aOpenGlGroup->AddElement(new SetMultisamplingElement(true));
+    }
 }
 
 //--------------------------------------------------------------------------------------------------

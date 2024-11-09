@@ -1,6 +1,5 @@
 
 #include "ManagedPCH.h"
-#include "OpenGl_GraphicDriver.hxx"
 
 #using "Macad.Occt.dll" as_friend
 
@@ -17,6 +16,7 @@ namespace Macad
 				{
 					Handle(::Aspect_DisplayConnection) aDisplayConnection;
 					::OpenGl_GraphicDriver* Driver = new ::OpenGl_GraphicDriver(aDisplayConnection);
+					// contextCompatible is needed to support line thickness
 					Driver->ChangeOptions().contextCompatible = !bEnableDebug;
 					Driver->ChangeOptions().ffpEnable = false;
 					Driver->ChangeOptions().contextDebug = bEnableDebug;
