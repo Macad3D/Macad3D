@@ -14,10 +14,10 @@
     <ProjectReference Include="..\..\Source\Macad.Common\Macad.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FlaUI.UIA3" Version="4.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-    <PackageReference Include="NUnit" Version="3.14.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+    <PackageReference Include="FlaUI.UIA3" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit3TestAdapter" />
   </ItemGroup>
 
   <!-- Import the custom build targets -->

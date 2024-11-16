@@ -180,7 +180,7 @@ public class Marker : VisualObject
 
     public void SetImage(Image image)
     {
-        if (_Image.Equals(image))
+        if (ReferenceEquals(_Image, image))
             return;
 
         _Image = image;

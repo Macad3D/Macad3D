@@ -5,11 +5,11 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="6.0.0" />
-    <PackageReference Include="Dirkster.AvalonDock" Version="4.72.1" />
-    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.72.1" />
-    <PackageReference Include="Fluent.Ribbon" Version="10.0.4" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
+    <PackageReference Include="ControlzEx" />
+    <PackageReference Include="Dirkster.AvalonDock" />
+    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" />
+    <PackageReference Include="Fluent.Ribbon" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,23 +24,11 @@
   <ItemGroup>
     <None Include="Styles\**\*.xaml" />
     <UpToDateCheckInput Include="Styles\**\*.xaml" />
-    <None Remove="Styles\CommonControls\CheckBox.xaml" />
-    <None Remove="Styles\CommonControls\ItemsControl.xaml" />
-    <None Remove="Styles\CommonControls\Label.xaml" />
-    <None Remove="Styles\CustomControls\RichTextBlock.xaml" />
-    <None Remove="Styles\ThirdPartyControls\DockControls.xaml" />
-    <UpToDateCheckInput Remove="Styles\CommonControls\CheckBox.xaml" />
-    <UpToDateCheckInput Remove="Styles\CommonControls\ItemsControl.xaml" />
-    <UpToDateCheckInput Remove="Styles\CustomControls\RichTextBlock.xaml" />
-    <UpToDateCheckInput Remove="Styles\ThirdPartyControls\DockControls.xaml" />
-    <None Include="Styles\StylesSource.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </None>
-    <MergedDict Include="Styles\Styles.xaml">
-      <DependentUpon>StylesSource.xaml</DependentUpon>
+    <MergedDict Include="Styles\StylesSource.xaml">
+      <OutputName>Styles</OutputName>
     </MergedDict>
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Macad.Common\Macad.Common.csproj" />
     <ProjectReference Include="..\Macad.Resources\Macad.Resources.csproj" />
@@ -49,15 +37,6 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Test.Unit" />
     <InternalsVisibleTo Include="Test.Memory" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Page Include="Styles\CommonControls\CheckBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\ThirdPartyControls\DockControls.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
 
   <!-- Import the custom build targets -->

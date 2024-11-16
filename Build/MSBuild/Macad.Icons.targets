@@ -9,50 +9,41 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-  <Target Name="_CreateIconSources">
+  <Target Name="_ConvertSvgFiles"
+          Inputs="@(IconSet)"
+          Outputs="@(IconSet -> '$(BaseIntermediateOutputPath)XamlIcons\%(KeyPrefix)\%(Filename).xaml' )">
+
+    <MakeDir Directories="@(IconSet -> '$(BaseIntermediateOutputPath)XamlIcons\%(KeyPrefix)' )" />
+    <SvgToXaml Inputs="@(IconSet -> '%(FullPath)')"
+               Outputs="@(IconSet -> '$(BaseIntermediateOutputPath)XamlIcons\%(KeyPrefix)\%(Filename).xaml' )" />
+  </Target>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <Target Name="BuildXamlIconSets"
+          Inputs="@(IconSet -> '$(BaseIntermediateOutputPath)XamlIcons\%(KeyPrefix)\%(IconSet).xaml' )"
+          Outputs="$(BaseIntermediateOutputPath)\XamlIcons\%(IconSet.KeyPrefix).xaml"
+          BeforeTargets="BeforeBuild"
+          DependsOnTargets="_ConvertSvgFiles">
+
+    <MergeIcons Inputs="@(IconSet -> '$(BaseIntermediateOutputPath)XamlIcons\%(KeyPrefix)\%(Filename).xaml' )"
+                Output="$(BaseIntermediateOutputPath)XamlIcons\%(IconSet.KeyPrefix).xaml"
+                KeyPrefix="%(IconSet.KeyPrefix)"
+                TempPath="$(BaseIntermediateOutputPath)XamlIcons\%(KeyPrefix)" />
+    
     <ItemGroup>
-      <IconSources Include="%(IconSet.RootDir)%(IconSet.Directory)**\*.svg">
-        <IconSetFilename>%(IconSet.Filename)</IconSetFilename>
-        <IconSetPath>%(IconSet.FullPath)</IconSetPath>
-        <KeyPrefix>%(IconSet.KeyPrefix)</KeyPrefix>
-      </IconSources>
-      <Page Include="%(IconSet.Identity)">
+      <Page Include="$(BaseIntermediateOutputPath)XamlIcons\%(IconSet.KeyPrefix).xaml">
         <Generator>MSBuild:Compile</Generator>
+        <TargetPath>%(IconSet.KeyPrefix)/%(IconSet.KeyPrefix).xaml</TargetPath>
       </Page>
     </ItemGroup>
   </Target>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-  <Target Name="_ConvertSvgFiles"
-          Inputs="@(IconSources)"
-          Outputs="@(IconSources -> '$(BaseIntermediateOutputPath)\XamlIcons\%(IconSetFilename)\%(Filename).xaml' )">
-
-    <MakeDir Directories="@(IconSources -> '$(BaseIntermediateOutputPath)\XamlIcons\%(IconSetFilename)' )" />
-    <SvgToXaml Inputs="@(IconSources)"
-               Outputs="@(IconSources -> '$(BaseIntermediateOutputPath)\XamlIcons\%(IconSetFilename)\%(Filename).xaml' )" />
-  </Target>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-  <Target Name="BuildXamlIconSets"
-          Inputs="@(IconSources -> '$(BaseIntermediateOutputPath)\XamlIcons\%(IconSetFilename)\%(Filename).xaml' )"
-          Outputs="%(IconSources.IconSetPath)"
-          BeforeTargets="BeforeBuild"
-          DependsOnTargets="_CreateIconSources;_ConvertSvgFiles">
-
-    <MergeIcons Inputs="@(IconSources -> '$(BaseIntermediateOutputPath)\XamlIcons\%(IconSetFilename)\%(Filename).xaml' )"
-                Output="%(IconSources.IconSetPath)"
-                KeyPrefix="%(IconSources.KeyPrefix)"
-                TempPath="$(BaseIntermediateOutputPath)\XamlIcons\%(IconSetFilename)" />
-  </Target>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
   <Target Name="CleanXamlIconSets"
           AfterTargets="AfterClean">
-    <RemoveDir Directories="$(BaseIntermediateOutputPath)\XamlIcons\%(IconSet.Filename)" />
-    <Delete Files="%(IconSet.FullPath)" />
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)XamlIcons" />
   </Target>
   
 </Project>

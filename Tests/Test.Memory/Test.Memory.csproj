@@ -2,10 +2,8 @@
   <PropertyGroup>
     <ProjectGuid>{6D1AAD77-F569-48C6-95BC-3250F28251EF}</ProjectGuid>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <RootNamespace>Macad.Test.Memory</RootNamespace>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <RootNamespace>Macad.Test.Memory</RootNamespace>
     <Platforms>x64</Platforms>
   </PropertyGroup>
     
@@ -19,10 +17,10 @@
     <ProjectReference Include="..\..\Source\Macad.Occt\Macad.Occt.vcxproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.dotMemoryUnit" Version="3.2.20220510" GeneratePathProperty="true" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-    <PackageReference Include="NUnit" Version="3.14.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+    <PackageReference Include="JetBrains.dotMemoryUnit" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit3TestAdapter" />
   </ItemGroup>
 
   <!-- Import the custom build targets -->

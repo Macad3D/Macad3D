@@ -5,6 +5,7 @@
     <LangVersion>latest</LangVersion>
     <UseWPF>true</UseWPF>
     <SelfContained>false</SelfContained>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
     <OutputPath>$(MMRootDir)bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -15,9 +16,8 @@
     <WarningLevel>4</WarningLevel>
     <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
 
-    <SignAssembly>true</SignAssembly>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
 
     <!-- Warnings Disabled:

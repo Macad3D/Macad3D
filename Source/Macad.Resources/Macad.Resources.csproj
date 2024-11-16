@@ -13,20 +13,18 @@
     <Content Include="Types\Aliases.txt" />
     <Content Include="Licenses.txt" />
   </ItemGroup>
+  
   <ItemGroup>
-    <IconSet Include="Icons\Icons.xaml">
+    <IconSet Include="Icons\**\*.svg">
       <KeyPrefix>Icon</KeyPrefix>
     </IconSet>
-    <UpToDateCheckInput Include="Icons\**\*.svg" />
-    <IconSet Include="Types\Types.xaml">
+    <IconSet Include="Types\**\*.svg">
       <KeyPrefix>TypeIcon</KeyPrefix>
     </IconSet>
-    <UpToDateCheckInput Include="Types\**\*.svg" />
     <UpToDateCheckInput Include="Types\Aliases.txt" />
-    <IconSet Include="Marker\Marker.xaml">
+    <IconSet Include="Marker\**\*.svg">
       <KeyPrefix>Marker</KeyPrefix>
     </IconSet>
-    <UpToDateCheckInput Include="Marker\**\*.svg" />
   </ItemGroup>
 
   <ItemGroup>

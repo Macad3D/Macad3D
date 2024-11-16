@@ -61,8 +61,10 @@ public class ResourceUtils
         {
             if (!_Resources.TryGetValue(category, out var dict))
             {
-                dict = new ResourceDictionary();
-                dict.Source = GetResourceUri($"{category}/{category}.xaml");
+                dict = new()
+                {
+                    Source = GetResourceUri($"{category}.xaml")
+                };
                 _Resources[category] = dict;
             }
 
