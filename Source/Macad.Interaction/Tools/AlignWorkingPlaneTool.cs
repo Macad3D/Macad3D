@@ -103,6 +103,7 @@ public class AlignWorkingPlaneTool : Tool
 
     bool _GetPlaneFromAction(SelectSubshapeAction.EventArgs args, out Pln plane)
     {
+        RemoveHintMessage();
         plane = WorkspaceController.Workspace.WorkingPlane;
 
         // DatumPlane?
