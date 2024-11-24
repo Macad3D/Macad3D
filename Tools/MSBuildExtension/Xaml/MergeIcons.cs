@@ -18,6 +18,8 @@ namespace Macad.Build.Xaml
         [Required]
         public string KeyPrefix { get; set; }
 
+        public string AliasesFile { get; set; }
+
         [Required]
         public string TempPath { get; set; }
 
@@ -63,10 +65,9 @@ namespace Macad.Build.Xaml
             }
 
             // Process aliases
-            var aliasesFilename = Path.Combine(outputDirectory, "Aliases.txt");
-            if (File.Exists(aliasesFilename))
+            if (!string.IsNullOrEmpty(AliasesFile) & File.Exists(AliasesFile))
             {
-                var lines = File.ReadLines(aliasesFilename);
+                var lines = File.ReadLines(AliasesFile);
                 var linecount = 0;
                 foreach (var line in lines)
                 {

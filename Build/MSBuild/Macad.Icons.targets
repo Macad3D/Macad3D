@@ -21,7 +21,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
   <Target Name="BuildXamlIconSets"
-          Inputs="@(IconSet -> '$(BaseIntermediateOutputPath)XamlIcons\%(KeyPrefix)\%(IconSet).xaml' )"
+          Inputs="@(IconSet -> '$(BaseIntermediateOutputPath)XamlIcons\%(KeyPrefix)\%(IconSet).xaml');$(ProjectDir)%(IconSet.Aliases)'"
           Outputs="$(BaseIntermediateOutputPath)\XamlIcons\%(IconSet.KeyPrefix).xaml"
           BeforeTargets="BeforeBuild"
           DependsOnTargets="_ConvertSvgFiles">
@@ -29,6 +29,7 @@
     <MergeIcons Inputs="@(IconSet -> '$(BaseIntermediateOutputPath)XamlIcons\%(KeyPrefix)\%(Filename).xaml' )"
                 Output="$(BaseIntermediateOutputPath)XamlIcons\%(IconSet.KeyPrefix).xaml"
                 KeyPrefix="%(IconSet.KeyPrefix)"
+                AliasesFile="$(ProjectDir)%(IconSet.Aliases)"
                 TempPath="$(BaseIntermediateOutputPath)XamlIcons\%(KeyPrefix)" />
     
     <ItemGroup>
