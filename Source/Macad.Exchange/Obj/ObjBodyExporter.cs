@@ -29,11 +29,10 @@ internal static class ObjBodyExporter
 
             if (smoothEdges) // Export smooth edges
             {
-                for (var vtxIndex = 0; vtxIndex < triangulation.Vertices.Length; vtxIndex++)
+                foreach (var sourceVertex in triangulation.Vertices)
                 {
-                    var vertex = triangulation.Vertices[vtxIndex];
-                    int newIndex;
-                    if (!vertexMap.TryGetValue(vertex, out newIndex))
+                    var vertex = new Pnt(sourceVertex.X, sourceVertex.Z, -sourceVertex.Y);
+                    if (!vertexMap.TryGetValue(vertex, out var newIndex))
                     {
                         writer.AddVertex(vertex);
                         newIndex = vertexMap.Count + indexOffset;
@@ -52,7 +51,7 @@ internal static class ObjBodyExporter
             {
                 foreach (var vertex in triangulation.Vertices)
                 {
-                    writer.AddVertex(vertex);
+                    writer.AddVertex(new Pnt(vertex.X, vertex.Z, -vertex.Y));
                 }
 
                 for (int i = 0; i < triangulation.Indices.Length; i += 3)

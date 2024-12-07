@@ -59,7 +59,7 @@ internal static class ObjBodyImporter
                 case "v":
                     if (!reader.GetVertex(out var vertex))
                         return false;
-                    vertices.Add(vertex);
+                    vertices.Add(new Pnt(vertex.X, -vertex.Z, vertex.Y));
                     break;
 
                 case "f":
