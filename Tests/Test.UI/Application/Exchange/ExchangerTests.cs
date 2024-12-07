@@ -356,4 +356,50 @@ public class ExchangerTests : UITestBase
         using var reader = File.OpenText(path);
         Assert.That(reader.ReadLine()?.StartsWith("solid ") ?? false);
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    [TestCase(true, false, TestName = "Binary")]
+    [TestCase(false, false, TestName = "EmbedData")]
+    [TestCase(false, true, TestName = "ExternalData")]
+    public void ExportSolidGltf(bool binary, bool embed)
+    {
+        var path = Path.Combine(FileDialogAdaptor.GetTempPath(), binary ? "testexport.glb" : "testexport.gltf");
+        File.Delete(path);
+        var path2 = Path.Combine(FileDialogAdaptor.GetTempPath(), "testexport.bin");
+        File.Delete(path2);
+        TestDataGenerator.GenerateBox(MainWindow);
+
+        MainWindow.Ribbon.ClickFileMenuItem("Exchange", "ExportSelectedBrep");
+
+        var fileDlg = new FileDialogAdaptor(MainWindow);
+        fileDlg.SelectFileType(".glb");
+        fileDlg.Save(path, checkFile: false);
+        Assert.IsFalse(FileDialogAdaptor.IsDialogOpen(MainWindow));
+
+        var dlg = new WindowAdaptor(MainWindow, "ExchangerSettings");
+        Assert.IsNotNull(dlg);
+        dlg.ClickButton(binary ? "ExportBinaryTrue" : "ExportBinaryFalse");
+        Assert.That(dlg.IsButtonChecked("ExportBinaryTrue"), Is.EqualTo(binary));
+        Assert.That(dlg.IsButtonChecked("ExportBinaryFalse"), Is.Not.EqualTo(binary));
+        Assert.That(dlg.ControlExists("EmbedBufferTrue"), Is.Not.EqualTo(binary));
+        Assert.That(dlg.ControlExists("EmbedBufferFalse"), Is.Not.EqualTo(binary));
+        if (!binary)
+        {
+            dlg.ClickButton(embed ? "EmbedBufferTrue" : "EmbedBufferFalse");
+            Assert.That(dlg.IsButtonChecked("EmbedBufferTrue"), Is.EqualTo(embed));
+            Assert.That(dlg.IsButtonChecked("EmbedBufferFalse"), Is.Not.EqualTo(embed));
+        }
+        dlg.ClickButton("Ok");
+        Assert.That(WindowAdaptor.IsWindowOpen(MainWindow, "ExchangerSettings"), Is.False);
+
+        FileDialogAdaptor.CheckFileExists(path);
+        if (!binary && !embed)
+        {
+            FileDialogAdaptor.CheckFileExists(path2);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
 }

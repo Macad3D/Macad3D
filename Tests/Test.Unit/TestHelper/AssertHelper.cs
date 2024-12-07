@@ -11,6 +11,8 @@ using Macad.Core.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
 using Macad.Occt.Helper;
+using static Macad.Interaction.Editors.Shapes.CreateUnfoldSheetTool;
+using System.Windows.Controls;
 
 namespace Macad.Test.Unit;
 
@@ -115,7 +117,48 @@ public static class AssertHelper
         Assert.That(referenceBytes.Skip(skipBytes).SequenceEqual(testPathBytes.Skip(skipBytes)));
         TestData.DeleteTestResult(testResultPath);
     }
-        
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static void IsSameFile(string originalPath, MemoryStream testResultStream, int skipBytes = 0)
+    {
+        var resultFileName = Path.Combine(Path.GetDirectoryName(originalPath), Path.GetFileNameWithoutExtension(originalPath) + "_TestResult" + Path.GetExtension(originalPath));
+        TestData.DeleteTestResult(resultFileName);
+
+        var refFilePath = originalPath;
+        int variation = 1;
+        while (true)
+        {
+            string message = "";
+            var referenceBytes = TestData.GetTestData(refFilePath);
+            if (referenceBytes == null)
+            {
+                message = "Reference file not found: " + refFilePath;
+            }
+            else
+            {
+                if (referenceBytes.Skip(skipBytes).SequenceEqual(testResultStream.ToArray().Skip(skipBytes)))
+                {
+                    TestContext.WriteLine($"File is same: {refFilePath}");
+                    return;
+                }
+
+                TestContext.WriteLine($"File not same: {refFilePath}");
+
+                // Check for variants
+                refFilePath = Path.Combine(Path.GetDirectoryName(originalPath), Path.GetFileNameWithoutExtension(originalPath) + $"_Var{variation++}" + Path.GetExtension(originalPath));
+                if (TestData.TestDataExists(refFilePath))
+                {
+                    continue;
+                }
+            }
+
+            TestData.WriteTestResult(testResultStream.ToArray(), resultFileName);
+            Assert.Fail(message);
+            break;
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     [Flags]
@@ -162,26 +205,35 @@ public static class AssertHelper
 
         var refFilePath = originalPath;
         int variation = 1;
-        while(true)
+        while (true)
         {
+            string message;
             var refLines = TestData.GetTestDataLines(refFilePath);
-            Assert.That(refLines != null, "Reference file not found: " + originalPath);
-            if (_IsSameText(refLines, testLines.ToArray(), flags, out string message))
+            if (refLines == null)
             {
-                TestContext.WriteLine($"File is same: {refFilePath}");
-                return;
+                message = "Reference file not found: " + originalPath;
             }
-            TestContext.WriteLine($"File not same: {refFilePath} because {message}");
-
-            // Check for variants
-            refFilePath = Path.Combine(Path.GetDirectoryName(originalPath), Path.GetFileNameWithoutExtension(originalPath) + $"_Var{variation++}" + Path.GetExtension(originalPath));
-            if (TestData.TestDataExists(refFilePath))
+            else
             {
-                continue;
+                if (_IsSameText(refLines, testLines.ToArray(), flags, out message))
+                {
+                    TestContext.WriteLine($"File is same: {refFilePath}");
+                    return;
+                }
+
+                TestContext.WriteLine($"File not same: {refFilePath} because {message}");
+
+                // Check for variants
+                refFilePath = Path.Combine(Path.GetDirectoryName(originalPath), Path.GetFileNameWithoutExtension(originalPath) + $"_Var{variation++}" + Path.GetExtension(originalPath));
+                if (TestData.TestDataExists(refFilePath))
+                {
+                    continue;
+                }
             }
 
             TestData.WriteTestResult(testResultStream.ToArray(), resultFileName);
             Assert.Fail(message);
+            break;
         }
     }
 
