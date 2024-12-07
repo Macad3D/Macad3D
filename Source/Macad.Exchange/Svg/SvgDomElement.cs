@@ -5,7 +5,7 @@ using Macad.Common;
 
 namespace Macad.Exchange.Svg;
 
-public abstract class SvgDomElement
+internal abstract class SvgDomElement
 {
     public List<SvgDomElement> Children { get; } = new();
     public string ID;

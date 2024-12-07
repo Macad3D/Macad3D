@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Macad.Exchange.Svg;
 
-public sealed class SvgSketchExporter : SvgExporterBase
+internal sealed class SvgSketchExporter : SvgExporterBase
 {
     public static MemoryStream Export(Sketch sketch)
     {

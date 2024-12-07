@@ -9,7 +9,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfDrawingExporter: IDrawingRenderer, IRendererCapabilities
+internal sealed class DxfDrawingExporter: IDrawingRenderer, IRendererCapabilities
 { 
     public static MemoryStream Export(Drawing drawing, 
                                       DxfVersion version, DxfFlags flags = DxfFlags.None, double precision = 0.01)

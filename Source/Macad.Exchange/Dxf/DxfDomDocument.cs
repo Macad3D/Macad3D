@@ -7,7 +7,7 @@ using Macad.Core;
 namespace Macad.Exchange.Dxf;
 
 [Flags]
-public enum DxfFlags
+internal enum DxfFlags
 {
     None = 0,
     ExportBinaryFile = 1 << 0,
@@ -18,7 +18,7 @@ public enum DxfFlags
 
 //--------------------------------------------------------------------------------------------------
 
-public sealed class DxfDomDocument
+internal sealed class DxfDomDocument
 {
     #region Properties and Members
 

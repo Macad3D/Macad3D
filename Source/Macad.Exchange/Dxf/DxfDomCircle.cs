@@ -4,7 +4,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfDomCircle : DxfDomEntity
+internal sealed class DxfDomCircle : DxfDomEntity
 {
     public Pnt2d CenterPoint;
     public double Radius;

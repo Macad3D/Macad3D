@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Macad.Exchange.U3d;
 
-public class U3dDomDocument : U3dDomBlock
+internal sealed class U3dDomDocument : U3dDomBlock
 {
     public List<U3dDomDeclarationBlock> DeclarationBlocks { get; } = new();
     public List<U3dDomContinuationBlock> ContinuationBlocks { get; } = new();

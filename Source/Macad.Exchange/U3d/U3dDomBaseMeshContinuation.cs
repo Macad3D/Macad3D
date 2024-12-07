@@ -4,7 +4,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.U3d;
 
-public class U3dDomBaseMeshContinuation : U3dDomContinuationBlock
+internal sealed class U3dDomBaseMeshContinuation : U3dDomContinuationBlock
 {
     public Pnt[] Positions
     {

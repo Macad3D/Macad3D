@@ -2,7 +2,7 @@
 
 namespace Macad.Exchange.Stl;
 
-public interface IStlWriter
+internal interface IStlWriter
 {
     void Init(string headLine, int sumTriangleCount);
     void AddFacet(Vec normal, Pnt vertex1, Pnt vertex2, Pnt vertex3);

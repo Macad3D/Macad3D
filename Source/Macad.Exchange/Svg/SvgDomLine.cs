@@ -4,7 +4,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Svg;
 
-public class SvgDomLine : SvgDomElement
+internal sealed class SvgDomLine : SvgDomElement
 {
     public Pnt2d Start;
     public Pnt2d End;

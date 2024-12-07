@@ -6,7 +6,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Stl;
 
-class StlBinaryWriter : IStlWriter
+internal sealed class StlBinaryWriter : IStlWriter
 {
     MemoryStream _MemStream;
     BinaryWriter _Writer;

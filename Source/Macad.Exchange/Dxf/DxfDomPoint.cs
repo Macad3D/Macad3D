@@ -2,7 +2,7 @@
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfDomPoint : DxfDomEntity
+internal sealed class DxfDomPoint : DxfDomEntity
 {
     public Pnt2d Point;
 

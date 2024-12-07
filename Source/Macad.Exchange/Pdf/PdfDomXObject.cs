@@ -2,7 +2,7 @@
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfDomXObject : PdfDomStream
+internal sealed class PdfDomXObject : PdfDomStream
 {
     public double[] BoundingBox
     {

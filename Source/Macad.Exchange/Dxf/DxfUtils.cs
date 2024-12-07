@@ -27,7 +27,7 @@ public enum DxfScaling
 
 //--------------------------------------------------------------------------------------------------
 
-public static class DxfUtils
+internal static class DxfUtils
 {
     public static byte[] BinaryFileSentinel { get; } = Encoding.ASCII.GetBytes("AutoCAD Binary DXF\x0d\x0a\x1a\0");
 

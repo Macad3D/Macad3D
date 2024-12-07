@@ -2,7 +2,7 @@
 
 namespace Macad.Exchange.U3d;
 
-public class U3dDomMaterial : U3dDomDeclarationBlock
+internal sealed class U3dDomMaterial : U3dDomDeclarationBlock
 {
     public string Name { get; }
 

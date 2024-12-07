@@ -3,7 +3,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfDomLine : DxfDomEntity
+internal sealed class DxfDomLine : DxfDomEntity
 {
     public Pnt2d StartPoint;
     public Pnt2d EndPoint;

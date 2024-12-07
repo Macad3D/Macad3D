@@ -4,7 +4,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Stl;
 
-class StlBinaryReader : IStlReader
+internal sealed class StlBinaryReader : IStlReader
 {
     public Vec CurrentNormal { get; private set; }
     public Pnt[] CurrentVertices { get; } = new Pnt[3];

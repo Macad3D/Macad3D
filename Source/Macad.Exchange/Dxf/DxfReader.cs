@@ -10,7 +10,7 @@ using Macad.Core;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfReader
+internal sealed class DxfReader
 {
     public int Line => _Line;
     public int GroupCode => _GroupCode;

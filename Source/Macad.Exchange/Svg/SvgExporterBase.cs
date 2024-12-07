@@ -2,7 +2,7 @@
 
 namespace Macad.Exchange.Svg;
 
-public abstract class SvgExporterBase
+internal abstract class SvgExporterBase
 {
     #region Helper
 

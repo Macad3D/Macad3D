@@ -3,7 +3,7 @@ using Macad.Presentation;
 
 namespace Macad.Exchange.Dxf;
 
-public partial class DxfExportSettingsPanel : SettingsPanelBase
+public sealed partial class DxfExportSettingsPanel : SettingsPanelBase
 {
     public Dictionary<DxfVersion, string> VersionList { get; } = new Dictionary<DxfVersion, string>
     {

@@ -1,6 +1,6 @@
 ﻿namespace Macad.Exchange.U3d;
 
-public class U3dDomPriorityUpdate : U3dDomBlock
+internal sealed class U3dDomPriorityUpdate : U3dDomBlock
 {
     public uint Priority { get; set; }
 

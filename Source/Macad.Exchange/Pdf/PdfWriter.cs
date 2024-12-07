@@ -6,7 +6,7 @@ using Macad.Common;
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfWriter
+internal sealed class PdfWriter
 {
     MemoryStream _Stream;
     Encoding _Encoding = Encoding.GetEncoding(1252);

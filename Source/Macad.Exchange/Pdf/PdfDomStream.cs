@@ -4,7 +4,7 @@ using Macad.Common;
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfDomStream : PdfDomObject
+internal class PdfDomStream : PdfDomObject
 {
     readonly MemoryStream _TargetStream;
     readonly DeflateStream _DeflateStream;

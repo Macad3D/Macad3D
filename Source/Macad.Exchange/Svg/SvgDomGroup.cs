@@ -2,7 +2,7 @@
 
 namespace Macad.Exchange.Svg;
 
-public class SvgDomGroup : SvgDomElement
+internal sealed class SvgDomGroup : SvgDomElement
 {
     public bool IsLayer;
 

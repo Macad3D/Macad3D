@@ -1,6 +1,6 @@
 ﻿namespace Macad.Exchange.Pdf;
 
-public class PdfDom3DProjection : PdfDomObject
+internal sealed class PdfDom3DProjection : PdfDomObject
 {
     public bool IsPerspective
     {

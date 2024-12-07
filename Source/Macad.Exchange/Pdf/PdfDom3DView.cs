@@ -1,6 +1,6 @@
 ﻿namespace Macad.Exchange.Pdf;
 
-public class PdfDom3DView : PdfDomObject
+internal sealed class PdfDom3DView : PdfDomObject
 {
     public string U3DPath
     {

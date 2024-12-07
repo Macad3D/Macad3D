@@ -3,7 +3,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfDomDimension : DxfDomEntity
+internal sealed class DxfDomDimension : DxfDomEntity
 {
     public enum Type
     {

@@ -9,7 +9,7 @@ using Macad.Core;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfSketchImporter
+internal sealed class DxfSketchImporter
 {
     #region Reader
         

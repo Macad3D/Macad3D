@@ -10,7 +10,7 @@ using Macad.Occt.Helper;
 
 namespace Macad.Exchange.Obj;
 
-public static class ObjBodyImporter
+internal static class ObjBodyImporter
 {
     class ObjectDescription
     {

@@ -4,7 +4,7 @@ using Macad.Presentation;
 
 namespace Macad.Exchange.OpenCascade;
 
-public class OpenCascadeSettingsPanelCreator : IExchangerSettingsPanelCreator
+public sealed class OpenCascadeSettingsPanelCreator : IExchangerSettingsPanelCreator
 {
     public Type ExchangerType
     {

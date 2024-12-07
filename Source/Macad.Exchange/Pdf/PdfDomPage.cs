@@ -5,7 +5,7 @@ using Macad.Core.Drawing;
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfDomPage : PdfDomObject
+internal sealed class PdfDomPage : PdfDomObject
 {
     public double[] MediaBox
     {

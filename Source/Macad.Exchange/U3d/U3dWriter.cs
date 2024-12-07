@@ -5,7 +5,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.U3d;
 
-public class U3dWriter
+internal sealed class U3dWriter
 {
     MemoryStream _Stream;
     BinaryWriter _Writer;

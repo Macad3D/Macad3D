@@ -6,7 +6,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfDomLwPolyline : DxfDomEntity
+internal sealed class DxfDomLwPolyline : DxfDomEntity
 {
     public Pnt2d[] Points;
     public double[] Bulge;

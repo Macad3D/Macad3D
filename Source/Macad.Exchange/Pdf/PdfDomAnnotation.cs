@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfDomAnnotation : PdfDomObject
+internal class PdfDomAnnotation : PdfDomObject
 {
     public PdfDomAnnotation(PdfDomDocument document, string subtype, double[] rect) 
         : base(document, "Annot")

@@ -4,7 +4,7 @@ using Macad.Core;
 
 namespace Macad.Exchange.Step;
 
-public class StepSettingsPanelCreator : IExchangerSettingsPanelCreator
+public sealed class StepSettingsPanelCreator : IExchangerSettingsPanelCreator
 {
     public Type ExchangerType
     {
@@ -35,7 +35,7 @@ public class StepSettingsPanelCreator : IExchangerSettingsPanelCreator
 
 }
 
-public partial class StepSettingsPanel : SettingsPanelBase
+public sealed partial class StepSettingsPanel : SettingsPanelBase
 {
     public bool ImportSingleBody
     {

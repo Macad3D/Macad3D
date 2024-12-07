@@ -1,6 +1,6 @@
 ﻿namespace Macad.Exchange.U3d;
 
-public abstract class U3dDomBlock
+internal abstract class U3dDomBlock
 {
     readonly uint _BlockType;
 
@@ -39,7 +39,7 @@ public abstract class U3dDomBlock
 
 //--------------------------------------------------------------------------------------------------
 
-public abstract class U3dDomDeclarationBlock : U3dDomBlock
+internal abstract class U3dDomDeclarationBlock : U3dDomBlock
 {
     protected U3dDomDeclarationBlock(uint blockType) : base(blockType)
     {
@@ -48,7 +48,7 @@ public abstract class U3dDomDeclarationBlock : U3dDomBlock
     
 //--------------------------------------------------------------------------------------------------
 
-public abstract class U3dDomContinuationBlock : U3dDomBlock
+internal abstract class U3dDomContinuationBlock : U3dDomBlock
 {
     protected U3dDomContinuationBlock(uint blockType) : base(blockType)
     {
@@ -57,7 +57,7 @@ public abstract class U3dDomContinuationBlock : U3dDomBlock
         
 //--------------------------------------------------------------------------------------------------
 
-public abstract class U3dDomModifierBlock : U3dDomBlock
+internal abstract class U3dDomModifierBlock : U3dDomBlock
 {
     public string Name => _ModifierChain?.Name ?? "";
     public uint ChainIndex => (uint) (_ModifierChain?.Modifiers.IndexOf(this) ?? 0);

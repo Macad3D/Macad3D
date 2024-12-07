@@ -8,7 +8,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Svg;
 
-public abstract class SvgTransform
+internal abstract class SvgTransform
 {
     internal abstract void Write(StringBuilder sb, SvgConverter conv);
     internal abstract gp_GTrsf2d GetMatrix();
@@ -59,7 +59,7 @@ public abstract class SvgTransform
 
 //--------------------------------------------------------------------------------------------------
 
-public class SvgTranslateTransform : SvgTransform
+internal sealed class SvgTranslateTransform : SvgTransform
 {
     double _Tx;
     double _Ty;
@@ -90,10 +90,10 @@ public class SvgTranslateTransform : SvgTransform
             return new SvgTranslateTransform(values[0] * conv.Scale, 0);
     }
 }
-    
+
 //--------------------------------------------------------------------------------------------------
 
-public class SvgRotateTransform : SvgTransform
+internal sealed class SvgRotateTransform : SvgTransform
 {
     double _Angle;
     Pnt2d? _Center;
@@ -128,10 +128,10 @@ public class SvgRotateTransform : SvgTransform
             return new SvgRotateTransform(values[0]);
     }
 }
-        
+
 //--------------------------------------------------------------------------------------------------
 
-public class SvgScaleTransform : SvgTransform
+internal sealed class SvgScaleTransform : SvgTransform
 {
     double _Sx;
     double _Sy;
@@ -165,8 +165,8 @@ public class SvgScaleTransform : SvgTransform
 }
 
 //--------------------------------------------------------------------------------------------------
-    
-public class SvgMatrixTransform : SvgTransform
+
+internal sealed class SvgMatrixTransform : SvgTransform
 {
     double[] _Values = new double[6];
 
@@ -217,7 +217,7 @@ public class SvgMatrixTransform : SvgTransform
 
 //--------------------------------------------------------------------------------------------------
 
-public class SvgSkewXTransform : SvgTransform
+internal sealed class SvgSkewXTransform : SvgTransform
 {
     double _Skew;
 
@@ -252,7 +252,7 @@ public class SvgSkewXTransform : SvgTransform
 }
 //--------------------------------------------------------------------------------------------------
 
-public class SvgSkewYTransform : SvgTransform
+internal sealed class SvgSkewYTransform : SvgTransform
 {
     double _Skew;
 

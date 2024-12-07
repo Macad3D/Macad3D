@@ -8,7 +8,7 @@ using FontStyle = Macad.Core.Drawing.FontStyle;
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfDomFont : PdfDomObject
+internal sealed class PdfDomFont : PdfDomObject
 {
     public string Name
     {

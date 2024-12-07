@@ -2,7 +2,7 @@
 
 namespace Macad.Exchange.U3d;
 
-public class U3dDomModelNode : U3dDomModifierBlock
+internal sealed class U3dDomModelNode : U3dDomModifierBlock
 {
     public enum ModelVisibility
     {

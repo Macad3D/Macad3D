@@ -8,7 +8,7 @@ using Macad.Common;
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfDomFontDescriptor : PdfDomObject
+internal sealed class PdfDomFontDescriptor : PdfDomObject
 {
     [Flags]
     enum Flags

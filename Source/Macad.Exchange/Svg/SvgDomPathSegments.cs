@@ -4,7 +4,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Svg;
 
-public abstract class SvgPathSegment
+internal abstract class SvgPathSegment
 {
     public Pnt2d Start;
     public Pnt2d End;
@@ -92,10 +92,10 @@ public abstract class SvgPathSegment
         }
     }
 }
-    
+
 //--------------------------------------------------------------------------------------------------
 
-public class SvgPathSegLineto : SvgPathSegment
+internal sealed class SvgPathSegLineto : SvgPathSegment
 {
     public SvgPathSegLineto(Pnt2d start, Pnt2d end) 
         : base(start, end)
@@ -154,10 +154,10 @@ public class SvgPathSegLineto : SvgPathSegment
         }
     }
 }
-        
+
 //--------------------------------------------------------------------------------------------------
 
-public class SvgPathSegCurvetoQuadratic : SvgPathSegment
+internal class SvgPathSegCurvetoQuadratic : SvgPathSegment
 {
     public Pnt2d C1;
 
@@ -232,10 +232,10 @@ public class SvgPathSegCurvetoQuadratic : SvgPathSegment
         base.Transform(conv);
     }
 }
-            
+
 //--------------------------------------------------------------------------------------------------
 
-public class SvgPathSegCurvetoCubic : SvgPathSegment
+internal sealed class SvgPathSegCurvetoCubic : SvgPathSegment
 {
     public Pnt2d C1;
     public Pnt2d C2;
@@ -324,7 +324,7 @@ public class SvgPathSegCurvetoCubic : SvgPathSegment
 
 //--------------------------------------------------------------------------------------------------
 
-public class SvgPathSegMoveto : SvgPathSegment
+internal sealed class SvgPathSegMoveto : SvgPathSegment
 {
     public SvgPathSegMoveto(Pnt2d moveTo)
         : base(moveTo, moveTo)
@@ -384,7 +384,7 @@ public enum SvgArcSweep
     Positive
 }
 
-public class SvgPathSegArc : SvgPathSegment
+internal sealed class SvgPathSegArc : SvgPathSegment
 {
     public double RadiusX { get; }
     public double RadiusY { get; }
@@ -448,7 +448,7 @@ public class SvgPathSegArc : SvgPathSegment
 
 //--------------------------------------------------------------------------------------------------
 
-public class SvgPathSegClosePath : SvgPathSegment
+internal sealed class SvgPathSegClosePath : SvgPathSegment
 {
     public SvgPathSegClosePath() 
         : base(Pnt2d.Origin, Pnt2d.Origin)

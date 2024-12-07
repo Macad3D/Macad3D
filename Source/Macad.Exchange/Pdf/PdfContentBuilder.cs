@@ -6,7 +6,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfContentBuilder
+internal sealed class PdfContentBuilder
 {
     #region Props and Members
 

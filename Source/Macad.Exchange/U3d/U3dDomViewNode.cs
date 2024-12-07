@@ -2,7 +2,7 @@
 
 namespace Macad.Exchange.U3d;
 
-public class U3dDomViewNode : U3dDomModifierBlock
+internal sealed class U3dDomViewNode : U3dDomModifierBlock
 {
     public string ResourceName { get; }
     public Ax3 Transform { get; set; } = Ax3.XOY;

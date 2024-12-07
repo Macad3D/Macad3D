@@ -3,7 +3,7 @@ using Macad.Core;
 
 namespace Macad.Exchange.Svg;
 
-public class SvgSettingsPanelCreator : IExchangerSettingsPanelCreator
+public sealed class SvgSettingsPanelCreator : IExchangerSettingsPanelCreator
 {
     public Type ExchangerType
     {
@@ -34,7 +34,7 @@ public class SvgSettingsPanelCreator : IExchangerSettingsPanelCreator
 
 //--------------------------------------------------------------------------------------------------
 
-public partial class SvgSettingsPanel : SettingsPanelBase
+public sealed partial class SvgSettingsPanel : SettingsPanelBase
 {
     public double DotsPerInch
     {

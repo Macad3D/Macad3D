@@ -1,6 +1,6 @@
 ﻿namespace Macad.Exchange.U3d;
 
-public class U3dDomLitTextureShader : U3dDomDeclarationBlock
+internal sealed class U3dDomLitTextureShader : U3dDomDeclarationBlock
 {
     public string Name { get; }
     public U3dDomMaterial Material { get; set; }

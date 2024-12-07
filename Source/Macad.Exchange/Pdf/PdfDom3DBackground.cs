@@ -2,7 +2,7 @@
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfDom3DBackground : PdfDomObject
+internal sealed class PdfDom3DBackground : PdfDomObject
 {
     public Color Color
     {

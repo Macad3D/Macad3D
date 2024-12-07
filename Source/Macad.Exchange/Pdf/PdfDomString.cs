@@ -3,7 +3,7 @@ using Macad.Common;
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfDomString
+internal sealed class PdfDomString
 {
     string _Value;
 

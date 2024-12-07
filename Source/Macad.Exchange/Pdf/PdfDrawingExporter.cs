@@ -6,7 +6,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfDrawingExporter: IDrawingRenderer, IRendererCapabilities
+internal sealed class PdfDrawingExporter: IDrawingRenderer, IRendererCapabilities
 {
     public static MemoryStream Export(Drawing drawing)
     {

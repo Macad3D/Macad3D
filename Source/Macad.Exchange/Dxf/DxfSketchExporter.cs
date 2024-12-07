@@ -7,7 +7,7 @@ using Macad.Core;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfSketchExporter
+internal sealed class DxfSketchExporter
 {
     public static MemoryStream Export(Sketch sketch, DxfVersion version, DxfFlags flags, double precision=0.01)
     {

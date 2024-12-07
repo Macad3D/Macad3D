@@ -2,7 +2,7 @@
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfDomPages : PdfDomObject
+internal sealed class PdfDomPages : PdfDomObject
 {
     public List<PdfDomPage> PageList { get; } = new();
 

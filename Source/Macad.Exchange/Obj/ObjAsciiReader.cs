@@ -8,7 +8,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Obj;
 
-class ObjAsciiReader
+internal sealed class ObjAsciiReader
 {
     readonly StreamReader _Reader;
     readonly List<string> _Words = new();

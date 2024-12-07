@@ -4,7 +4,7 @@ using Macad.Presentation;
 
 namespace Macad.Exchange.Iges;
 
-public class IgesSettingsPanelCreator : IExchangerSettingsPanelCreator
+public sealed class IgesSettingsPanelCreator : IExchangerSettingsPanelCreator
 {
     public Type ExchangerType
     {

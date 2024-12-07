@@ -3,7 +3,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Stl;
 
-interface IStlReader
+internal interface IStlReader
 {
     Vec CurrentNormal { get; }
     Pnt[] CurrentVertices { get; }

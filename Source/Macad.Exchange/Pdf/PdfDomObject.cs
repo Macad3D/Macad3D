@@ -3,7 +3,7 @@ using Macad.Common;
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfDomObject
+internal class PdfDomObject
 {
     public string Type { get; }
     public int ObjectNumber { get; }

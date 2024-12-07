@@ -6,7 +6,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Stl;
 
-class StlAsciiReader : IStlReader
+internal sealed class StlAsciiReader : IStlReader
 {
     public Vec CurrentNormal { get; private set; }
     public Pnt[] CurrentVertices { get; } = new Pnt[3];

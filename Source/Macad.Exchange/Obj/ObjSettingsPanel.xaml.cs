@@ -4,7 +4,7 @@ using Macad.Presentation;
 
 namespace Macad.Exchange.Obj;
 
-public class ObjSettingsPanelCreator : IExchangerSettingsPanelCreator
+public sealed class ObjSettingsPanelCreator : IExchangerSettingsPanelCreator
 {
     public Type ExchangerType
     {
@@ -43,7 +43,7 @@ public class ObjSettingsPanelCreator : IExchangerSettingsPanelCreator
 
 //--------------------------------------------------------------------------------------------------
 
-public partial class ObjSettingsPanel : SettingsPanelBase
+public sealed partial class ObjSettingsPanel : SettingsPanelBase
 {
     public bool ExportSmoothEdges
     {

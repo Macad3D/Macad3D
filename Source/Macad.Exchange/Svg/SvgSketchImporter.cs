@@ -10,7 +10,7 @@ using Macad.Core.Geom;
 
 namespace Macad.Exchange.Svg;
 
-public class SvgSketchImporter
+internal sealed class SvgSketchImporter
 {
     #region Reader
         

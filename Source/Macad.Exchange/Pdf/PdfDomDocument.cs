@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfDomDocument
+internal sealed class PdfDomDocument
 {
     public PdfDomCatalog Catalog { get; }
 

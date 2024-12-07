@@ -14,7 +14,7 @@ namespace Macad.Exchange.Svg;
  * https://www.w3.org/TR/SVG11/
  */
 
-public class SvgConverter
+internal sealed class SvgConverter
 {
     public double DotsPerInch { get; set; }
     public double Scale { get; set; }

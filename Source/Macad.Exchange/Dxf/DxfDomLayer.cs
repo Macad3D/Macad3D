@@ -1,6 +1,6 @@
 ﻿namespace Macad.Exchange.Dxf;
 
-public class DxfDomLayer
+internal sealed class DxfDomLayer
 {
     public string Name;
     public string LinetypeName;

@@ -1,6 +1,6 @@
 ﻿namespace Macad.Exchange.U3d;
 
-public class U3dDomClodModifier : U3dDomModifierBlock
+internal sealed class U3dDomClodModifier : U3dDomModifierBlock
 {
     public U3dDomClodModifier(U3dDomModifierChain modChain, string name) 
         : base(modChain, 0xffffff46)

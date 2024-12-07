@@ -6,7 +6,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Stl;
 
-class StlAsciiWriter : IStlWriter
+internal sealed class StlAsciiWriter : IStlWriter
 {
     StringBuilder _Sb;
     string _HeadLine;

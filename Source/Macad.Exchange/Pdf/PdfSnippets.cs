@@ -1,6 +1,6 @@
 ﻿namespace Macad.Exchange.Pdf;
 
-public static class PdfSnippets
+internal static class PdfSnippets
 {
     public const string NormalAppearenceFor3DAnnot = "1 0 0 -1 0 566.929138 cm\r" + "q\r" + "0 0 0 rg\r" +
                                                      "0 0 0 RG 0.773507 w\r" + "0 J\r" + "0 j\r" + "[] 0.0 d\r" +

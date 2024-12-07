@@ -5,7 +5,7 @@ using Macad.Core;
 
 namespace Macad.Exchange.Svg;
 
-public class SvgStyle
+internal sealed class SvgStyle
 {
     public Color? StrokeColor;
     public float? StrokeWidth;

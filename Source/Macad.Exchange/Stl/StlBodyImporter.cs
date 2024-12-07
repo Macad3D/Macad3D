@@ -9,7 +9,7 @@ using Macad.Occt.Helper;
 
 namespace Macad.Exchange.Stl;
 
-public static class StlBodyImporter
+internal static class StlBodyImporter
 {
     public static bool Import(string fileName, out IEnumerable<Body> bodies)
     {

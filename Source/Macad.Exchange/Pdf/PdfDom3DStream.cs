@@ -2,7 +2,7 @@
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfDom3DStream : PdfDomStream
+internal sealed class PdfDom3DStream : PdfDomStream
 {
     List<PdfDom3DView> _Views;
 

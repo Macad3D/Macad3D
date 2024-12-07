@@ -4,7 +4,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfDomEllipse : DxfDomEntity
+internal sealed class DxfDomEllipse : DxfDomEntity
 {
     public Pnt2d CenterPoint;
     public Pnt2d MajorAxisPointOffset;

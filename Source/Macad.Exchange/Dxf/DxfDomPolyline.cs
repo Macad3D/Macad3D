@@ -5,7 +5,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfDomPolyline : DxfDomEntity
+internal sealed class DxfDomPolyline : DxfDomEntity
 {
     public Pnt2d[] Points;
 

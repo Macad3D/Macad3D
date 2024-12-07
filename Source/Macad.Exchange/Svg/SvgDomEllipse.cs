@@ -4,7 +4,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Svg;
 
-public class SvgDomEllipse : SvgDomElement
+internal sealed class SvgDomEllipse : SvgDomElement
 {
     public Pnt2d Center;
     public double RadiusX;

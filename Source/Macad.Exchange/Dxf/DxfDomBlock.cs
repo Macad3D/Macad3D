@@ -3,7 +3,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfDomBlock
+internal sealed class DxfDomBlock
 {
     public string Name;
     public Pnt2d Position;

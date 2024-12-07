@@ -3,7 +3,7 @@ using Macad.Core;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfSettingsPanelCreator : IExchangerSettingsPanelCreator
+public sealed class DxfSettingsPanelCreator : IExchangerSettingsPanelCreator
 {
     public Type ExchangerType
     {

@@ -2,7 +2,7 @@
 
 namespace Macad.Exchange.U3d;
 
-public class U3dDomLightResource : U3dDomDeclarationBlock
+internal sealed class U3dDomLightResource : U3dDomDeclarationBlock
 {
     public enum LightType : byte
     {

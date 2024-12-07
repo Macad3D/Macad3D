@@ -7,7 +7,7 @@ using Macad.Core;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfWriter
+internal sealed class DxfWriter
 {
     public DxfVersion Version { get; }
         

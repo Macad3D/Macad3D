@@ -5,7 +5,7 @@ using Macad.Occt.Helper;
 
 namespace Macad.Exchange.Obj;
 
-public static class ObjBodyExporter
+internal static class ObjBodyExporter
 {
     public static bool Export(string fileName, IEnumerable<Body> bodies, bool smoothEdges)
     {

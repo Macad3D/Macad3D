@@ -1,6 +1,6 @@
 ﻿namespace Macad.Exchange.Dxf;
 
-public abstract class DxfDomEntity
+internal abstract class DxfDomEntity
 {
     protected string LayerName;
     internal abstract void Write(DxfWriter writer);

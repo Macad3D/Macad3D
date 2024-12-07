@@ -8,7 +8,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfDomSpline : DxfDomEntity
+internal sealed class DxfDomSpline : DxfDomEntity
 {
     [Flags]
     public enum SplineFlags

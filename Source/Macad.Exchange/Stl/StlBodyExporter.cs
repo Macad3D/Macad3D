@@ -5,7 +5,7 @@ using Macad.Occt.Helper;
 
 namespace Macad.Exchange.Stl;
 
-public static class StlBodyExporter
+internal static class StlBodyExporter
 {
     public static bool Export(IEnumerable<Body> bodies, string fileName, bool binaryFormat)
     {

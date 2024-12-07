@@ -6,7 +6,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Obj;
 
-class ObjAsciiWriter
+internal sealed class ObjAsciiWriter
 {
     StringBuilder _Sb;
 

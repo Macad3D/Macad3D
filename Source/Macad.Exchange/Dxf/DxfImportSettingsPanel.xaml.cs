@@ -3,7 +3,7 @@ using Macad.Presentation;
 
 namespace Macad.Exchange.Dxf;
 
-public partial class DxfImportSettingsPanel : SettingsPanelBase
+public sealed partial class DxfImportSettingsPanel : SettingsPanelBase
 {
     public Array ScalingList { get; } = Enum.GetValues(typeof(DxfScaling));
 

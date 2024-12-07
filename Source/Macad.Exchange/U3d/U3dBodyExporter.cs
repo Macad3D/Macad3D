@@ -10,7 +10,7 @@ using Macad.Occt.Helper;
 
 namespace Macad.Exchange.U3d;
 
-public class U3dBodyExporter
+internal sealed class U3dBodyExporter
 {
     public static MemoryStream Export(IEnumerable<Body> bodies)
     {

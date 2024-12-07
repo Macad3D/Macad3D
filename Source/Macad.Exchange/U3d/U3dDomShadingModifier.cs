@@ -1,6 +1,6 @@
 ﻿namespace Macad.Exchange.U3d;
 
-public class U3dDomShadingModifier : U3dDomModifierBlock
+internal sealed class U3dDomShadingModifier : U3dDomModifierBlock
 {
     readonly U3dDomLitTextureShader _Shader;
 

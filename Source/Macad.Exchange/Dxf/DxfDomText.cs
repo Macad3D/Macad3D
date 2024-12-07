@@ -3,7 +3,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Dxf;
 
-public class DxfDomText : DxfDomEntity
+internal sealed class DxfDomText : DxfDomEntity
 {
     public Pnt2d Position;
     public double TextHeight;

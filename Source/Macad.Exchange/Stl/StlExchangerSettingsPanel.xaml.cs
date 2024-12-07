@@ -4,7 +4,7 @@ using Macad.Presentation;
 
 namespace Macad.Exchange.Stl;
 
-public class StlSettingsPanelCreator : IExchangerSettingsPanelCreator
+public sealed class StlSettingsPanelCreator : IExchangerSettingsPanelCreator
 {
     public Type ExchangerType
     {
@@ -39,7 +39,7 @@ public class StlSettingsPanelCreator : IExchangerSettingsPanelCreator
 
 //--------------------------------------------------------------------------------------------------
 
-public partial class StlSettingsPanel : SettingsPanelBase
+public sealed partial class StlSettingsPanel : SettingsPanelBase
 {
     public bool ExportBinaryFormat
     {

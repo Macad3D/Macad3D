@@ -8,7 +8,7 @@ using Macad.Exchange.U3d;
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfBodyExporter
+internal sealed class PdfBodyExporter
 {
     public static MemoryStream Export(IEnumerable<Body> bodies)
     {

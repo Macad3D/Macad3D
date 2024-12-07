@@ -3,7 +3,7 @@ using Macad.Common;
 
 namespace Macad.Exchange.U3d;
 
-public class U3dDomModifierChain : U3dDomDeclarationBlock
+internal sealed class U3dDomModifierChain : U3dDomDeclarationBlock
 {
     public enum ChainType
     {

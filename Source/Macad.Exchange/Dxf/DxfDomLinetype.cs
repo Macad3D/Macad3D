@@ -1,6 +1,6 @@
 ﻿namespace Macad.Exchange.Dxf;
 
-public class DxfDomLinetype
+internal sealed class DxfDomLinetype
 {
     public string Name;
     public string Description;

@@ -6,7 +6,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Svg;
 
-public class SvgDomPath : SvgDomElement
+internal sealed class SvgDomPath : SvgDomElement
 {
     public List<SvgPathSegment> Segments { get; } = new List<SvgPathSegment>();
 

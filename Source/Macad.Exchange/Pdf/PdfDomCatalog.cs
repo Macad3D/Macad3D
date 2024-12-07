@@ -1,6 +1,6 @@
 ﻿namespace Macad.Exchange.Pdf;
 
-public sealed class PdfDomCatalog : PdfDomObject
+internal sealed class PdfDomCatalog : PdfDomObject
 {
     public PdfDomObject Outlines { get; }
     public PdfDomPages Pages { get; }

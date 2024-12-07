@@ -4,7 +4,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Svg;
 
-public class SvgDomCircle : SvgDomElement
+internal sealed class SvgDomCircle : SvgDomElement
 {
     public Pnt2d Center;
     public double Radius;

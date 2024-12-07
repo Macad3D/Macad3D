@@ -2,7 +2,7 @@
 
 namespace Macad.Exchange.Pdf;
 
-public class PdfDom3DAnnotation : PdfDomAnnotation
+internal sealed class PdfDom3DAnnotation : PdfDomAnnotation
 {
     public bool IsInteractive
     {

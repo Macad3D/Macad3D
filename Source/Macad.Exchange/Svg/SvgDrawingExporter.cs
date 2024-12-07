@@ -8,7 +8,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Svg;
 
-public class SvgDrawingExporter : SvgExporterBase, IDrawingRenderer, IRendererCapabilities
+internal sealed class SvgDrawingExporter : SvgExporterBase, IDrawingRenderer, IRendererCapabilities
 {
     public static MemoryStream Export(Drawing drawing)
     {

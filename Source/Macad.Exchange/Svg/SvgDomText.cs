@@ -3,7 +3,7 @@ using Macad.Occt;
 
 namespace Macad.Exchange.Svg;
 
-public class SvgDomText : SvgDomElement
+internal sealed class SvgDomText : SvgDomElement
 {
     public Pnt2d Position;
     public string Text;

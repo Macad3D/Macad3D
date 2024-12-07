@@ -1,6 +1,6 @@
 ﻿namespace Macad.Exchange.U3d;
 
-public class U3dDomMeshDeclaration : U3dDomModifierBlock
+internal sealed class U3dDomMeshDeclaration : U3dDomModifierBlock
 {
     public uint FaceCount { get; set; }
     public uint PositionCount { get; set; }

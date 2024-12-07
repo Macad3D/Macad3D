@@ -1,6 +1,6 @@
 ﻿namespace Macad.Exchange.U3d;
 
-public class U3dDomViewResource : U3dDomDeclarationBlock
+internal sealed class U3dDomViewResource : U3dDomDeclarationBlock
 {
     public string Name { get; }
 
