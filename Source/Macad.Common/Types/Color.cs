@@ -5,6 +5,9 @@ using Macad.Common.Serialization;
 
 namespace Macad.Common;
 
+/// <summary>
+/// Color value in sRGB.
+/// </summary>
 [SerializeType]
 [DebuggerDisplay("{ToHexString(),nq} {ToString(),nq}")]
 public struct Color : ISerializeValue, IEquatable<Color>
@@ -147,18 +150,66 @@ public struct Color : ISerializeValue, IEquatable<Color>
 
     public Color Scaled(float scale)
     {
-        return new Color(Red*scale, Green*scale, Blue*scale);
+        var linear = ToLinearRgb();
+        return FromLinearRgb(linear.r*scale, linear.g*scale, linear.b*scale);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public Color Lerp(Color other, float f)
     {
-        return new Color(Red.Lerp(other.Red, f), Green.Lerp(other.Green, f), Blue.Lerp(other.Blue, f));
+        var linearThis = ToLinearRgb();
+        var linearOther = ToLinearRgb();
+        return new(linearThis.r.Lerp(linearOther.r, f), linearThis.g.Lerp(linearOther.g, f), linearThis.b.Lerp(linearOther.b, f));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public (float r, float g, float b) ToLinearRgb()
+    {
+        return (_SRgbToLinearRgb(Red), _SRgbToLinearRgb(Green), _SRgbToLinearRgb(Blue));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static Color FromLinearRgb(float r, float g, float b)
+    {
+        return new(_LinearRgbToSRgb(r), _LinearRgbToSRgb(g), _LinearRgbToSRgb(b));
     }
 
     //--------------------------------------------------------------------------------------------------
 
     #endregion
 
+    #region Color Conversions
+
+    static float _SRgbToLinearRgb(float srgbValue)
+    {
+        if (srgbValue <= 0.04045f)
+        {
+            return (float)(srgbValue / 12.92);
+        }
+        else
+        {
+            return (float)Math.Pow((srgbValue + 0.055) / 1.055, 2.4);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    static float _LinearRgbToSRgb(float linearValue)
+    {
+        if (linearValue <= 0.0031308f)
+        {
+            return (float)(linearValue * 12.92);
+        }
+        else
+        {
+            return (float)(1.055 * Math.Pow(linearValue, 1.0 / 2.4) - 0.055);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
 }
