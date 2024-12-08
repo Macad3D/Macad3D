@@ -11,8 +11,6 @@ using Macad.Core.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
 using Macad.Occt.Helper;
-using static Macad.Interaction.Editors.Shapes.CreateUnfoldSheetTool;
-using System.Windows.Controls;
 
 namespace Macad.Test.Unit;
 

@@ -77,7 +77,7 @@ internal sealed class GltfDomDocument
         }
         if (fileType == GltfFileType.EmbeddedData)
         {
-            _CurrentBuffer.Uri = "data:application/octet-stream;base64," + Convert.ToBase64String(_CurrentBuffer.Data.GetBuffer());
+            _CurrentBuffer.Uri = "data:application/octet-stream;base64," + Convert.ToBase64String(_CurrentBuffer.Data.GetBuffer(), 0, (int)_CurrentBuffer.ByteLength);
             _CurrentBuffer.Data.Dispose();
             _CurrentBuffer.Data = null;
         }
