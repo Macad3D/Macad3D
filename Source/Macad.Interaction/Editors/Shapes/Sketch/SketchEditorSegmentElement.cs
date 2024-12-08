@@ -44,7 +44,7 @@ public class SketchEditorSegmentElement : SketchEditorElement
 
     public override void OnPointsChanged(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, Dictionary<int, int> markerCounts = default)
     {
-        var ctx = SketchEditorTool.WorkspaceController.Workspace.AisContext;
+        var ctx = SketchEditorTool.WorkspaceController.AisContext;
         var edge = Segment.MakeEdge(points);
         if (edge == null)
         {
@@ -148,7 +148,7 @@ public class SketchEditorSegmentElement : SketchEditorElement
     {
         if (AisObject != null)
         {
-            SketchEditorTool.WorkspaceController.Workspace.AisContext.Erase(AisObject, false);
+            SketchEditorTool.WorkspaceController.AisContext.Erase(AisObject, false);
             AisObject = null;
         }
 
@@ -172,11 +172,11 @@ public class SketchEditorSegmentElement : SketchEditorElement
 
         if(selectable)
         {
-            SketchEditorTool.WorkspaceController.Workspace.AisContext.Activate(AisObject, 0, false);
+            SketchEditorTool.WorkspaceController.AisContext.Activate(AisObject, 0, false);
         }
         else
         {
-            SketchEditorTool.WorkspaceController.Workspace.AisContext.Deactivate(AisObject);
+            SketchEditorTool.WorkspaceController.AisContext.Deactivate(AisObject);
         }
     }
 

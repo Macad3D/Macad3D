@@ -149,7 +149,7 @@ public sealed class Snap2D : SnapBase
             Point screenPoint = new(screenX, screenY);
 
             // Pick viewport with screen coordinates of point to snap
-            AisHelper.PickFromContext(WorkspaceController.Workspace.AisContext, screenX, screenY, viewport.V3dView, out var pickedAisObject, out var pickedShape);
+            AisHelper.PickFromContext(WorkspaceController.AisContext, screenX, screenY, viewport.V3dView, out var pickedAisObject, out var pickedShape);
             string targetName = null;
             if (pickedAisObject != null)
             {

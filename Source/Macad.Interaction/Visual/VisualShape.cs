@@ -186,10 +186,10 @@ public sealed class VisualShape : VisualObject
                 
             if (displayModeChanged)
             {
-                workspaceController.Workspace.AisContext.SetDisplayMode(aisShape, newDisplayMode, false);
+                workspaceController.AisContext.SetDisplayMode(aisShape, newDisplayMode, false);
             }
 
-            workspaceController.Workspace.AisContext.RecomputePrsOnly(aisShape, false, true);
+            workspaceController.AisContext.RecomputePrsOnly(aisShape, false, true);
         }
     }
 

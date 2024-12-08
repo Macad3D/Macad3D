@@ -134,7 +134,7 @@ public sealed class VisualPlane : VisualObject
                 continue;
                 
             aisShape.SetColor((layer?.Color ?? Colors.Auxillary).ToQuantityColor());
-            workspaceController.Workspace.AisContext.RecomputePrsOnly(aisShape, false, true);
+            workspaceController.AisContext.RecomputePrsOnly(aisShape, false, true);
         }
     }
 

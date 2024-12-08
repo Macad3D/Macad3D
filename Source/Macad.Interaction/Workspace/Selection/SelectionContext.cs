@@ -161,7 +161,7 @@ public sealed class SelectionContext : IDisposable
 
         VisualObject.AisObjectChanged -= _VisualObject_AisObjectChanged;
 
-        var aisContext = _WorkspaceController?.Workspace?.AisContext;
+        var aisContext = _WorkspaceController?.AisContext;
         aisContext?.RemoveFilters();
             
         _IsActive = false;
@@ -171,7 +171,7 @@ public sealed class SelectionContext : IDisposable
 
     void _UpdateFilter()
     {
-        var aisContext = _WorkspaceController?.Workspace?.AisContext;
+        var aisContext = _WorkspaceController?.AisContext;
         aisContext?.Filters().Clear();
         if (_SelectionFilter != null)
         {
@@ -203,7 +203,7 @@ public sealed class SelectionContext : IDisposable
 
     void _UpdateShape(VisualObject visualObject)
     {
-        var aisContext = _WorkspaceController?.Workspace?.AisContext;
+        var aisContext = _WorkspaceController?.AisContext;
         var aisObject = visualObject?.AisObject;
         if (aisContext == null || aisObject == null)
             return;

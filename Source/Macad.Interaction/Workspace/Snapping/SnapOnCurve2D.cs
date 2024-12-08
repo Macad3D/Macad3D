@@ -56,7 +56,7 @@ public sealed class SnapOnCurve2D : SnapBase
         {
             List<AIS_InteractiveObject> detectedAisObjects = [];
             List<TopoDS_Shape> detectedBrepShapes = [];
-            if (AisHelper.GetPickedFromContext(WorkspaceController.Workspace.AisContext, detectedAisObjects, detectedBrepShapes) >= 2)
+            if (AisHelper.GetPickedFromContext(WorkspaceController.AisContext, detectedAisObjects, detectedBrepShapes) >= 2)
             {
                 result = _Snap(curve, detectedBrepShapes[1], detectedAisObjects[1]);
             }

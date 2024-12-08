@@ -88,7 +88,7 @@ public class MoveSketchPointAction : ToolAction
 
     protected override bool OnStart()
     {
-        WorkspaceController.Workspace.AisContext.UnhilightCurrents(false);
+        WorkspaceController.AisContext.UnhilightCurrents(false);
         return true;
     }
         

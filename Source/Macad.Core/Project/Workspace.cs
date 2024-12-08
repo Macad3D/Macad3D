@@ -15,10 +15,6 @@ public sealed class Workspace : BaseObject, IDisposable
     [SerializeMember]
     public List<Viewport> Viewports { get; private set; }
 
-    public V3d_Viewer V3dViewer { get; private set; }
-    public AIS_InteractiveContext AisContext { get; private set; }
-    public bool NeedsRedraw { get; set; }
-    public bool NeedsImmediateRedraw { get; set; }
     public Model Model { get; private set; }
 
     //--------------------------------------------------------------------------------------------------
@@ -26,7 +22,7 @@ public sealed class Workspace : BaseObject, IDisposable
     [SerializeMember]
     public bool GridEnabled
     {
-        get { return _GridEnabled; }
+        get => _GridEnabled;
         set
         {
             if (_GridEnabled != value)
@@ -43,7 +39,7 @@ public sealed class Workspace : BaseObject, IDisposable
 
     public GridTypes GridType
     {
-        get { return _CurrentWorkingContext.GridType; }
+        get => _CurrentWorkingContext.GridType;
         set
         {
             if (_CurrentWorkingContext.GridType != value)
@@ -60,7 +56,7 @@ public sealed class Workspace : BaseObject, IDisposable
 
     public double GridStep
     {
-        get { return _CurrentWorkingContext.GridStep; }
+        get => _CurrentWorkingContext.GridStep;
         set
         {
             if (_CurrentWorkingContext.GridStep != value)
@@ -77,7 +73,7 @@ public sealed class Workspace : BaseObject, IDisposable
 
     public double GridRotation
     {
-        get { return _CurrentWorkingContext.GridRotation; }
+        get => _CurrentWorkingContext.GridRotation;
         set
         {
             if (_CurrentWorkingContext.GridRotation != value)
@@ -94,7 +90,7 @@ public sealed class Workspace : BaseObject, IDisposable
 
     public int GridDivisions
     {
-        get { return _CurrentWorkingContext.GridDivisions; }
+        get => _CurrentWorkingContext.GridDivisions;
         set
         {
             if (value == 0)
@@ -114,12 +110,13 @@ public sealed class Workspace : BaseObject, IDisposable
 
     public Pln WorkingPlane
     {
-        get { return _CurrentWorkingContext.WorkingPlane; }
+        get => _CurrentWorkingContext.WorkingPlane;
         set
         {
             _CurrentWorkingContext.WorkingPlane = value;
             Model.MarkAsUnsaved();
-            _ApplyWorkingContext();
+            RaisePropertyChanged();
+            _RaiseGridChanged();
         }
     }
 
@@ -127,7 +124,7 @@ public sealed class Workspace : BaseObject, IDisposable
 
     public WorkingContext WorkingContext
     {
-        get { return _CurrentWorkingContext; }
+        get => _CurrentWorkingContext;
         set
         {
             _CurrentWorkingContext = value ?? _GlobalWorkingContext;
@@ -137,7 +134,6 @@ public sealed class Workspace : BaseObject, IDisposable
             RaisePropertyChanged(nameof(GridRotation));
             RaisePropertyChanged(nameof(GridDivisions));
             _RaiseGridChanged();
-            _ApplyWorkingContext();
         }
     }
 
@@ -146,7 +142,7 @@ public sealed class Workspace : BaseObject, IDisposable
     [SerializeMember]
     public WorkingContext GlobalWorkingContext
     {
-        get { return _GlobalWorkingContext; }
+        get => _GlobalWorkingContext;
         set { _GlobalWorkingContext.CopyFrom(value); }
     }
 
@@ -188,8 +184,6 @@ public sealed class Workspace : BaseObject, IDisposable
     readonly WorkingContext _GlobalWorkingContext = new WorkingContext();
     WorkingContext _CurrentWorkingContext;
 
-    public static bool EnableGlDebugging = false;
-
     //--------------------------------------------------------------------------------------------------
 
     #endregion
@@ -217,15 +211,6 @@ public sealed class Workspace : BaseObject, IDisposable
 
     public void Dispose()
     {
-        AisContext?.Dispose();
-        AisContext = null;
-        if (V3dViewer != null && !V3dViewer.IsDisposed())
-        {
-            V3dViewer.SetViewOff();
-            V3dViewer.Dispose();
-            V3dViewer = null;
-        }
-
         Model = null;
     }
 
@@ -238,56 +223,6 @@ public sealed class Workspace : BaseObject, IDisposable
         _CurrentWorkingContext = _GlobalWorkingContext;
 
         _GridEnabled = true;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public void InitV3dViewer()
-    {
-        if (V3dViewer == null)
-        {
-            var ocGraphicDriver = Occt.Helper.Graphic3d.CreateOpenGlDriver(EnableGlDebugging);
-            V3dViewer = new V3d_Viewer(ocGraphicDriver);
-        }
-
-        V3dViewer.SetDefaultViewSize(1000.0);
-        V3dViewer.SetDefaultViewProj(V3d_TypeOfOrientation.XposYposZpos);
-        V3dViewer.SetDefaultBackgroundColor(new Color(0.3f, 0.3f, 0.3f).ToQuantityColor());
-        V3dViewer.SetDefaultVisualization(V3d_TypeOfVisualization.ZBUFFER);
-        V3dViewer.SetLightOn(new V3d_DirectionalLight(V3d_TypeOfOrientation.Zneg, Color.White.ToQuantityColor(), true));
-        V3dViewer.SetLightOn(new V3d_AmbientLight(Color.White.ToQuantityColor()));
-
-        // Reinit viewer parameters
-        _ApplyWorkingContext();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public void InitAisContext()
-    {
-        if (V3dViewer == null)
-            InitV3dViewer();
-
-        if (AisContext == null)
-        {
-            AisContext = new AIS_InteractiveContext(V3dViewer);
-            AisContext.UpdateCurrentViewer();
-        }
-
-        AisContext.SetAutoActivateSelection(true);
-        AisContext.SetToHilightSelected(false);
-        AisContext.SetPickingStrategy(SelectMgr_PickingStrategy.OnlyTopmost);
-        AisContext.SetDisplayMode((int)AIS_DisplayMode.Shaded, false);
-        V3dViewer.DisplayPrivilegedPlane(false, 1.0);
-        AisContext.EnableDrawHiddenLine();
-
-        // Reinit ais parameters
-        _ApplyWorkingContext();
-        AisContext.SetPixelTolerance(2);
-
-        var drawer = AisContext.DefaultDrawer();
-        drawer.SetWireAspect(new Prs3d_LineAspect(Colors.Selection.ToQuantityColor(), Aspect_TypeOfLine.SOLID, 1.0));
-        drawer.SetTypeOfHLR(Prs3d_TypeOfHLR.TOH_PolyAlgo);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -389,19 +324,4 @@ public sealed class Workspace : BaseObject, IDisposable
 
     #endregion
 
-    #region Working Context
-
-    void _ApplyWorkingContext()
-    {
-        if (AisContext != null)
-        {
-            V3dViewer.SetPrivilegedPlane(_CurrentWorkingContext.WorkingPlane.Position);
-        }
-        RaisePropertyChanged(nameof(WorkingPlane));
-        _RaiseGridChanged();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    #endregion
 }

@@ -37,7 +37,14 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
     public bool IsSelecting { get; private set; }
 
     public VisualObjectManager VisualObjects { get; init; }
-    
+
+    //--------------------------------------------------------------------------------------------------
+
+    public V3d_Viewer V3dViewer { get; private set; }
+    public AIS_InteractiveContext AisContext { get; private set; }
+
+    //--------------------------------------------------------------------------------------------------
+
     public Pnt? CursorPosition
     {
         get
@@ -53,8 +60,6 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
             }
         }
     }
-
-    //--------------------------------------------------------------------------------------------------
 
     public Pnt2d? CursorPosition2d
     {
@@ -84,6 +89,9 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
     XY _LastGridSize = new(200.0, 200.0);
     bool _GridNeedsUpdate;
     readonly List<AIS_InteractiveObject> _CustomHighlights = [];
+    internal bool NeedsRedraw;
+    internal bool NeedsImmediateRedraw;
+    public static bool EnableGlDebugging = false;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -168,47 +176,24 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         Workspace.GridChanged -= _Workspace_GridChanged;
         Workspace.Dispose();
 
+        AisContext?.Dispose();
+        AisContext = null;
+        if (V3dViewer != null && !V3dViewer.IsDisposed())
+        {
+            V3dViewer.SetViewOff();
+            V3dViewer.Dispose();
+            V3dViewer = null;
+        }
+
         GC.SuppressFinalize(this);
     }
-        
-    //--------------------------------------------------------------------------------------------------
-        
-    void _Workspace_GridChanged(Workspace sender)
-    {
-        if (Workspace == sender)
-        {
-            _RecalculateGridSize();
-            _GridNeedsUpdate = true;
-            _UpdateGrid();
-            Invalidate();
-        }
-    }
 
     //--------------------------------------------------------------------------------------------------
-        
-    void _Viewport_ViewportChanged(Viewport sender)
-    {
-        if (_ViewControllers.Any(vc => vc.Viewport == sender))
-        {
-            _RecalculateGridSize();
-            _UpdateParameter();
-            Invalidate();
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    void _ParameterSet_ParameterChanged(OverridableParameterSet set, string key)
-    {
-        _UpdateParameter();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
+     
     void InitWorkspace()
     {
-        Workspace.InitV3dViewer();
-        Workspace.InitAisContext();
+        _InitV3dViewer();
+        _InitAisContext();
         _InitVisualSettings();
 
         foreach (var view in Workspace.Viewports)
@@ -219,7 +204,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         _Grid = new AISX_Grid();
         AisHelper.DisableGlobalClipPlanes(_Grid);
-        Workspace.AisContext?.Display(_Grid, 0, -1, false);
+        AisContext?.Display(_Grid, 0, -1, false);
 
         VisualObjects.InitEntities();
         _UpdateGrid();
@@ -227,9 +212,60 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     //--------------------------------------------------------------------------------------------------
 
+    public void _InitV3dViewer()
+    {
+        if (V3dViewer == null)
+        {
+            var ocGraphicDriver = Occt.Helper.Graphic3d.CreateOpenGlDriver(EnableGlDebugging);
+            V3dViewer = new V3d_Viewer(ocGraphicDriver);
+        }
+
+        V3dViewer.SetDefaultViewSize(1000.0);
+        V3dViewer.SetDefaultViewProj(V3d_TypeOfOrientation.XposYposZpos);
+        V3dViewer.SetDefaultBackgroundColor(new Color(0.3f, 0.3f, 0.3f).ToQuantityColor());
+        V3dViewer.SetDefaultVisualization(V3d_TypeOfVisualization.ZBUFFER);
+        V3dViewer.SetLightOn(new V3d_DirectionalLight(V3d_TypeOfOrientation.Zneg, Color.White.ToQuantityColor(), true));
+        V3dViewer.SetLightOn(new V3d_AmbientLight(Color.White.ToQuantityColor()));
+
+        // Reinit viewer parameters
+        _OnGridChanged();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void _InitAisContext()
+    {
+        if (V3dViewer == null)
+            _InitV3dViewer();
+
+        if (AisContext == null)
+        {
+            AisContext = new AIS_InteractiveContext(V3dViewer);
+            AisContext.UpdateCurrentViewer();
+        }
+
+        AisContext.SetAutoActivateSelection(true);
+        AisContext.SetToHilightSelected(false);
+        AisContext.SetPickingStrategy(SelectMgr_PickingStrategy.OnlyTopmost);
+        AisContext.SetDisplayMode((int)AIS_DisplayMode.Shaded, false);
+        V3dViewer.DisplayPrivilegedPlane(false, 1.0);
+        AisContext.EnableDrawHiddenLine();
+
+        // Reinit ais parameters
+        AisContext.SetPixelTolerance(2);
+
+        var drawer = AisContext.DefaultDrawer();
+        drawer.SetWireAspect(new Prs3d_LineAspect(Colors.Selection.ToQuantityColor(), Aspect_TypeOfLine.SOLID, 1.0));
+        drawer.SetTypeOfHLR(Prs3d_TypeOfHLR.TOH_PolyAlgo);
+
+        _OnGridChanged();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _InitVisualSettings()
     {
-        var aisContext = Workspace.AisContext;
+        var aisContext = AisContext;
 
         _UpdateParameter();
 
@@ -285,15 +321,44 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         aisContext.SetHighlightStyle(Prs3d_TypeOfHighlight.LocalDynamic, hilightLocalDrawer);
     }
+       
+    //--------------------------------------------------------------------------------------------------
+
+    void _Workspace_GridChanged(Workspace sender)
+    {
+        if (Workspace == sender)
+        {
+            _OnGridChanged();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+        
+    void _Viewport_ViewportChanged(Viewport sender)
+    {
+        if (_ViewControllers.Any(vc => vc.Viewport == sender))
+        {
+            _RecalculateGridSize();
+            _UpdateParameter();
+            Invalidate();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _ParameterSet_ParameterChanged(OverridableParameterSet set, string key)
+    {
+        _UpdateParameter();
+    }
 
     //--------------------------------------------------------------------------------------------------
 
     void _UpdateParameter()
     {
-        if (Workspace.AisContext == null)
+        if (AisContext == null)
             return;
 
-        var aisContext = Workspace.AisContext;
+        var aisContext = AisContext;
         var visualParameterSet = InteractiveContext.Current.Parameters.Get<VisualParameterSet>();
         aisContext.SetDeviationCoefficient(visualParameterSet.DeviationCoefficient);
         aisContext.SetDeviationAngle(visualParameterSet.DeviationAngle.ToRad());
@@ -362,9 +427,9 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         foreach (var aisObject in _CustomHighlights)
         {
-            if (Workspace.AisContext.IsDisplayed(aisObject))
+            if (AisContext.IsDisplayed(aisObject))
             {
-                Workspace.AisContext.Unhilight(aisObject, false);
+                AisContext.Unhilight(aisObject, false);
             }
         }
         _CustomHighlights.Clear();
@@ -374,12 +439,12 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         if (pos.X < 0 || pos.Y < 0)
         {
             // Position is out of bounds, reset highlighting
-            Workspace.AisContext.MoveTo(int.MinValue, int.MinValue, viewportController.Viewport.V3dView, false); ;
+            AisContext.MoveTo(int.MinValue, int.MinValue, viewportController.Viewport.V3dView, false); ;
             Invalidate(true);
             return;
         }
 
-        var status = Workspace.AisContext.MoveTo(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), viewportController.Viewport.V3dView, false);
+        var status = AisContext.MoveTo(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), viewportController.Viewport.V3dView, false);
         Invalidate(true);
 
         if (status == AIS_StatusOfDetection.Error)
@@ -400,10 +465,10 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         _LastDetectedOwner = null;
         _MouseEventData.Set(viewportController.Viewport, pos, planePoint, modifierKeys);
 
-        if (Workspace.AisContext.HasDetected())
+        if (AisContext.HasDetected())
         {
-            _LastDetectedOwner = Workspace.AisContext.DetectedOwner();
-            _LastDetectedAisObject = Workspace.AisContext.DetectedInteractive();
+            _LastDetectedOwner = AisContext.DetectedOwner();
+            _LastDetectedAisObject = AisContext.DetectedInteractive();
             TopoDS_Shape detectedShape = AisHelper.GetShapeFromEntityOwner(_LastDetectedOwner);
             InteractiveEntity detectedEntity = VisualObjects.GetEntity(_LastDetectedAisObject);
             _MouseEventData.SetDetectedElement(_LastDetectedAisObject, detectedEntity, detectedShape);
@@ -422,22 +487,22 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         if (_MouseEventData.Return.ForceReDetection)
         {
-            Workspace.AisContext.MoveTo(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), viewportController.Viewport.V3dView, false);
+            AisContext.MoveTo(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), viewportController.Viewport.V3dView, false);
         }
 
         if (_MouseEventData.Return.RemoveHighlighting)
         {
-            Workspace.AisContext.ClearDetected(false);
+            AisContext.ClearDetected(false);
         }
 
         foreach (var element in _MouseEventData.Return.AdditionalHighlights)
         {
             Debug.Assert(element.Entity == null, "Custom highlighting if entities not implemented yet.");
             var aisObject = element.AisObject;
-            if (aisObject != null && Workspace.AisContext.IsDisplayed(aisObject))
+            if (aisObject != null && AisContext.IsDisplayed(aisObject))
             {
                 Debug.Assert(element.BrepShape == null, "Custom highlighting subshapes not implemented yet.");
-                Workspace.AisContext.Hilight(aisObject, false);
+                AisContext.Hilight(aisObject, false);
                 _CustomHighlights.Add(aisObject);
             }
         }
@@ -542,7 +607,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
     {
         List<AIS_InteractiveObject> detectedAisObjects = [];
         List<TopoDS_Shape> detectedBrepShapes = [];
-        if (AisHelper.PickFromContext(Workspace.AisContext, corners[0], corners[1], corners[2], corners[3], includeTouched,
+        if (AisHelper.PickFromContext(AisContext, corners[0], corners[1], corners[2], corners[3], includeTouched,
                                       viewportController.Viewport.V3dView, 
                                       detectedAisObjects, detectedBrepShapes) > 0)
         {
@@ -556,7 +621,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
     {
         List<AIS_InteractiveObject> detectedAisObjects = [];
         List<TopoDS_Shape> detectedBrepShapes = [];
-        if (AisHelper.PickFromContext(Workspace.AisContext, pointList, includeTouched,
+        if (AisHelper.PickFromContext(AisContext, pointList, includeTouched,
                                       viewportController.Viewport.V3dView, 
                                       detectedAisObjects, detectedBrepShapes) > 0)
         {
@@ -813,9 +878,9 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         //_InvalidateCount++;
         //Debug.WriteLine("Invalidated: {0}    Redrawn: {1}", _InvalidateCount, _RedrawCount);
 
-        Workspace.NeedsImmediateRedraw = true;
+        NeedsImmediateRedraw = true;
         if (!immediateOnly)
-            Workspace.NeedsRedraw = true;
+            NeedsRedraw = true;
 
         if(forceRedraw)
             _Redraw();
@@ -827,7 +892,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
     {
         _UpdateGrid();
 
-        if (Workspace.V3dViewer == null)
+        if (V3dViewer == null)
             return;
 
         Workspace.Viewports.ForEach(v =>
@@ -835,11 +900,11 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
             if (!v.AisAnimationCamera.IsStopped())
             {
                 v.AisAnimationCamera.UpdateTimer();
-                Workspace.NeedsRedraw = true;
+                NeedsRedraw = true;
             }
         });
 
-        if (Workspace.NeedsRedraw)
+        if (NeedsRedraw)
         {
             VisualObjects.UpdateInvalidatedEntities();
             Workspace.Viewports.ForEach(v =>
@@ -847,14 +912,14 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
                 if(v.RenderMode == Viewport.RenderModes.HLR)
                     v.V3dView?.Update();
             });
-            Workspace.V3dViewer.Redraw();
-            Workspace.V3dViewer.RedrawImmediate();
-            Workspace.NeedsRedraw = false;
+            V3dViewer.Redraw();
+            V3dViewer.RedrawImmediate();
+            NeedsRedraw = false;
         }
-        else if (Workspace.NeedsImmediateRedraw)
+        else if (NeedsImmediateRedraw)
         {
-            Workspace.V3dViewer.RedrawImmediate();
-            Workspace.NeedsImmediateRedraw = false;
+            V3dViewer.RedrawImmediate();
+            NeedsImmediateRedraw = false;
         }
     }
 
@@ -866,10 +931,18 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
     #endregion
 
     #region Grid
+
+    void _OnGridChanged()
+    {
+        _RecalculateGridSize();
+        _GridNeedsUpdate = true;
+        _UpdateGrid();
+        Invalidate();
+    }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -922,6 +995,8 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         if (!_GridNeedsUpdate) 
             return;
 
+        V3dViewer.SetPrivilegedPlane(Workspace.WorkingPlane.Position);
+
         if (_Grid is null)
             return;
 
@@ -940,16 +1015,16 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
             if (wc.GridType == Workspace.GridTypes.Rectangular)
             {
-                Workspace.AisContext?.SetDisplayMode(_Grid, 1, false);
+                AisContext?.SetDisplayMode(_Grid, 1, false);
             }
             else
             {
-                Workspace.AisContext?.SetDisplayMode(_Grid, 2, false);
+                AisContext?.SetDisplayMode(_Grid, 2, false);
             }
         }
         else
         {
-            Workspace.AisContext?.SetDisplayMode(_Grid, 0, false);
+            AisContext?.SetDisplayMode(_Grid, 0, false);
         }
 
         _GridNeedsUpdate = false;

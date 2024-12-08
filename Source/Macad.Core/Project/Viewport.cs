@@ -121,7 +121,7 @@ public sealed class Viewport : BaseObject, IDisposable
 
     //--------------------------------------------------------------------------------------------------
 
-    public V3d_View V3dView { get; private set; }
+    public V3d_View V3dView { get; set; }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -271,11 +271,6 @@ public sealed class Viewport : BaseObject, IDisposable
 
     public void Init(bool useMsaa)
     {
-        if (V3dView != null)
-            return;
-
-        V3dView = Workspace.V3dViewer.CreateView();
-
         AisAnimationCamera = new AIS_AnimationCamera(new TCollection_AsciiString("ViewCamera"), V3dView);
 
         V3dView.SetBgGradientColors(new Color(0.624f, 0.714f, 0.804f).ToQuantityColor(), new Color(0.424f, 0.482f, 0.545f).ToQuantityColor(), Aspect_GradientFillMethod.VER, false);

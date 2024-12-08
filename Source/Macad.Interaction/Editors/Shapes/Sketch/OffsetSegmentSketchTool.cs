@@ -75,7 +75,7 @@ public class OffsetSegmentSketchTool : SketchTool
         {
             if (data.PreviewShape != null)
             {
-                WorkspaceController.Workspace.AisContext.Erase(data.PreviewShape, false);
+                WorkspaceController.AisContext.Erase(data.PreviewShape, false);
                 data.PreviewShape = null;
             }
         });
@@ -403,8 +403,8 @@ public class OffsetSegmentSketchTool : SketchTool
                     var paramSet = InteractiveContext.Current.Parameters.Get<SketchEditorParameterSet>();
                     previewShape.SetAngleAndDeviation(paramSet.DeviationAngle.ToRad());
                     previewShape.SetColor(Colors.SketchEditorSegments.ToQuantityColor());
-                    WorkspaceController.Workspace.AisContext.Display(previewShape, false);
-                    WorkspaceController.Workspace.AisContext.Deactivate(previewShape);
+                    WorkspaceController.AisContext.Display(previewShape, false);
+                    WorkspaceController.AisContext.Deactivate(previewShape);
                     data.PreviewShape = previewShape;
                 }
             }
@@ -413,12 +413,12 @@ public class OffsetSegmentSketchTool : SketchTool
                 if (data.Result != null)
                 {
                     data.PreviewShape.Set(data.Result.Located(new TopLoc_Location(Sketch.GetTransformation())));
-                    WorkspaceController.Workspace.AisContext.RecomputePrsOnly(data.PreviewShape, false);
-                    WorkspaceController.Workspace.AisContext.Deactivate(data.PreviewShape);
+                    WorkspaceController.AisContext.RecomputePrsOnly(data.PreviewShape, false);
+                    WorkspaceController.AisContext.Deactivate(data.PreviewShape);
                 }
                 else
                 {
-                    WorkspaceController.Workspace.AisContext.Erase(data.PreviewShape, false);
+                    WorkspaceController.AisContext.Erase(data.PreviewShape, false);
                     data.PreviewShape = null;
                 }
             }

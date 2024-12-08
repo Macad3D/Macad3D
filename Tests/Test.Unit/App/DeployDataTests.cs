@@ -25,7 +25,7 @@ public class DeployDataTests
         Context.InitWithView(500);
         var ctx = Context.Current;
         ctx.Workspace.GridEnabled = false;
-        ctx.Workspace.V3dViewer.DisplayPrivilegedPlane(false);
+        ctx.WorkspaceController.V3dViewer.DisplayPrivilegedPlane(false);
     }
 
     [TearDown]

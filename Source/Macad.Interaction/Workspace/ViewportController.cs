@@ -145,9 +145,14 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     void Init()
     {
-        ViewportParameterSet.ParameterChanged += _ViewportParameterSet_ParameterChanged;
+        if (Viewport.V3dView != null)
+            return;
 
+        Viewport.V3dView = WorkspaceController.V3dViewer.CreateView();
+
+        ViewportParameterSet.ParameterChanged += _ViewportParameterSet_ParameterChanged;
         var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+
         Viewport.Init(parameterSet.EnableAntialiasing);
     }
 
@@ -510,7 +515,7 @@ public sealed class ViewportController : BaseObject, IDisposable
     public void ZoomFitSelected()
     {
         WorkspaceController.VisualObjects.UpdateInvalidatedEntities();
-        WorkspaceController.Workspace.AisContext.FitSelected(Viewport.V3dView, 0.1, false);
+        WorkspaceController.AisContext.FitSelected(Viewport.V3dView, 0.1, false);
         WorkspaceController.Invalidate();
         Viewport.OnViewMoved();
     }
@@ -523,7 +528,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     void _SetViewCube(bool isVisible)
     {
-        var aisContext = WorkspaceController.Workspace.AisContext;
+        var aisContext = WorkspaceController.AisContext;
 
         if (_AisViewCube == null)
             return;
@@ -544,7 +549,7 @@ public sealed class ViewportController : BaseObject, IDisposable
 
     void _SetViewCube(bool isVisible, uint size, double duration)
     {
-        var aisContext = WorkspaceController.Workspace.AisContext;
+        var aisContext = WorkspaceController.AisContext;
             
         if (_AisViewCube != null)
         {
@@ -684,7 +689,7 @@ public sealed class ViewportController : BaseObject, IDisposable
                 break;
         }
 
-        WorkspaceController.Workspace.AisContext.Redisplay(_AisRubberBand, false);
+        WorkspaceController.AisContext.Redisplay(_AisRubberBand, false);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -697,7 +702,7 @@ public sealed class ViewportController : BaseObject, IDisposable
         _StartedMousePosition = position ?? _LastMousePosition;
         _RubberbandIncludeTouched = includeTouched;
 
-        var aisContext = WorkspaceController.Workspace.AisContext;
+        var aisContext = WorkspaceController.AisContext;
         _AisRubberBand = new AIS_RubberBand(
             new Color(0.0f, 0.0f, 1.0f).ToQuantityColor(), 
             Aspect_TypeOfLine.DASH, 
@@ -729,7 +734,7 @@ public sealed class ViewportController : BaseObject, IDisposable
     {
         if (_AisRubberBand != null)
         {
-            WorkspaceController.Workspace.AisContext.Remove(_AisRubberBand, false);
+            WorkspaceController.AisContext.Remove(_AisRubberBand, false);
             _AisRubberBand = null;
 
             switch (_RubberbandMode)

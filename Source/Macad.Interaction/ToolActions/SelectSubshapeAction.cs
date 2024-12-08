@@ -86,9 +86,9 @@ public class SelectSubshapeAction : ToolAction
                 aisShape.Attributes().WireAspect().SetWidth(2);
                 aisShape.SetPolygonOffsets(0, 1.01f, 1.0f);
                 aisShape.SetZLayer(-2);
-                WorkspaceController.Workspace.AisContext.Display(aisShape, false);
-                WorkspaceController.Workspace.AisContext.Activate(aisShape, 0, false);
-                WorkspaceController.Workspace.AisContext.SetSelectionSensitivity(aisShape, 0, 10);
+                WorkspaceController.AisContext.Display(aisShape, false);
+                WorkspaceController.AisContext.Activate(aisShape, 0, false);
+                WorkspaceController.AisContext.SetSelectionSensitivity(aisShape, 0, 10);
                 _AisShapes.Add(aisShape);
             }
         }
@@ -106,7 +106,7 @@ public class SelectSubshapeAction : ToolAction
 
     protected override void Cleanup()
     {
-        _AisShapes?.ForEach(aisShape => WorkspaceController.Workspace.AisContext.Remove(aisShape, false));
+        _AisShapes?.ForEach(aisShape => WorkspaceController.AisContext.Remove(aisShape, false));
         Preview = null;
         Finished = null;
         base.Cleanup();
@@ -133,7 +133,7 @@ public class SelectSubshapeAction : ToolAction
             {
                 _AisShapes[index].SetLocalTransformation(_LocalTransformation.Value);
             }
-            WorkspaceController.Workspace.AisContext.Redisplay(_AisShapes[index], false, true);
+            WorkspaceController.AisContext.Redisplay(_AisShapes[index], false, true);
             index++;
         }
     }

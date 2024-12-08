@@ -163,7 +163,7 @@ public sealed class SelectionManager : IDisposable
 
     void _SyncFromAisSelection()
     {
-        var aisContext = _WorkspaceController.Workspace.AisContext;
+        var aisContext = _WorkspaceController.AisContext;
         var aisSelected = new List<InteractiveEntity>();
 
         aisContext.InitSelected();
@@ -200,7 +200,7 @@ public sealed class SelectionManager : IDisposable
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     void _SyncToAisSelection()
     {
-        var aisContext = _WorkspaceController.Workspace.AisContext;
+        var aisContext = _WorkspaceController.AisContext;
         _WorkspaceController.VisualObjects.UpdateInvalidatedEntities();
 
         aisContext.ClearSelected(false);

@@ -71,16 +71,16 @@ public class ToggleSubshapesAction : ToolAction
         if (_TopmostHighlightDrawer == null)
         {
             _TopmostHighlightDrawer = new Prs3d_Drawer();
-            _TopmostHighlightDrawer.SetLink(WorkspaceController.Workspace.AisContext.HighlightStyle(Prs3d_TypeOfHighlight.Dynamic));
+            _TopmostHighlightDrawer.SetLink(WorkspaceController.AisContext.HighlightStyle(Prs3d_TypeOfHighlight.Dynamic));
             _TopmostHighlightDrawer.SetZLayer(-2 /* Top */);
             _TopmostHighlightDrawer.SetDisplayMode(1);
             _TopmostHighlightDrawer.SetColor(Colors.Highlight.ToQuantityColor());
         }
         subshape.AisShape.SetDynamicHilightAttributes(_TopmostHighlightDrawer);
 
-        WorkspaceController.Workspace.AisContext.Display(subshape.AisShape, false);
-        WorkspaceController.Workspace.AisContext.Activate(subshape.AisShape, 0, false);
-        WorkspaceController.Workspace.AisContext.SetSelectionSensitivity(subshape.AisShape, 0, 10);
+        WorkspaceController.AisContext.Display(subshape.AisShape, false);
+        WorkspaceController.AisContext.Activate(subshape.AisShape, 0, false);
+        WorkspaceController.AisContext.SetSelectionSensitivity(subshape.AisShape, 0, 10);
 
         _Subshapes.Add(subshape);
     }
@@ -93,7 +93,7 @@ public class ToggleSubshapesAction : ToolAction
         {
             if (subshape.AisShape != null)
             {
-                WorkspaceController.Workspace.AisContext.Remove(subshape.AisShape, false);
+                WorkspaceController.AisContext.Remove(subshape.AisShape, false);
             }
         }
         _Subshapes.Clear();

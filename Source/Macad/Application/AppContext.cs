@@ -52,7 +52,7 @@ public class AppContext : InteractiveContext
 
         if (CommandLine.EnableGlDebugging)
         {
-            Workspace.EnableGlDebugging = true;
+            WorkspaceController.EnableGlDebugging = true;
         }
     }
 

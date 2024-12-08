@@ -21,7 +21,7 @@ public class AlignWorkingPlaneToolTests
         Context.InitWithView(500);
         var ctx = Context.Current;
         ctx.Workspace.GridEnabled = true;
-        ctx.Workspace.V3dViewer.DisplayPrivilegedPlane(true);
+        ctx.WorkspaceController.V3dViewer.DisplayPrivilegedPlane(true);
     }
 
     [TearDown]

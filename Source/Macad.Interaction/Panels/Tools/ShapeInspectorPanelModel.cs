@@ -162,8 +162,8 @@ public class ShapeInspectorPanelModel : PanelBase
             if (_AisShape != null)
             {
                 // Remove AIS Shape
-                WorkspaceController.Workspace.AisContext.Remove(_AisShape, false);
-                WorkspaceController.Workspace.AisContext.Erase(_AisShape, false);
+                WorkspaceController.AisContext.Remove(_AisShape, false);
+                WorkspaceController.AisContext.Erase(_AisShape, false);
                 _AisShape = null;
             }
 
@@ -180,8 +180,8 @@ public class ShapeInspectorPanelModel : PanelBase
                 _AisShape.SetWidth(3);
                 _AisShape.Attributes().PointAspect().SetScale(3);
 
-                WorkspaceController.Workspace.AisContext.Display(_AisShape, false);
-                WorkspaceController.Workspace.AisContext.Deactivate(_AisShape);
+                WorkspaceController.AisContext.Display(_AisShape, false);
+                WorkspaceController.AisContext.Deactivate(_AisShape);
             }
         }
         catch (Exception e)

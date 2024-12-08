@@ -17,7 +17,7 @@ public abstract class VisualObject
 
     //--------------------------------------------------------------------------------------------------
 
-    protected AIS_InteractiveContext AisContext { get { return WorkspaceController.Workspace.AisContext; } }
+    protected AIS_InteractiveContext AisContext => WorkspaceController.AisContext;
 
     //--------------------------------------------------------------------------------------------------
 

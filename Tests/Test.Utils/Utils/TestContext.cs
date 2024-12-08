@@ -88,7 +88,7 @@ public sealed class Context : InteractiveContext
 
         Current.Workspace.GridEnabled = false;
         Current.Workspace.GridStep = 10;
-        Current.Workspace.V3dViewer.DisplayPrivilegedPlane(false);
+        Current.WorkspaceController.V3dViewer.DisplayPrivilegedPlane(false);
 
         return Current;
     }

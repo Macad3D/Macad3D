@@ -55,8 +55,8 @@ public static class AssertHelper
 
     internal static void IsSameViewport(string referenceFilename, double tolerance=0.05)
     {
-        if(Context.Current.Workspace.NeedsRedraw || Context.Current.Workspace.NeedsImmediateRedraw)
-            Context.Current.WorkspaceController.Invalidate(!Context.Current.Workspace.NeedsRedraw, true);
+        if(Context.Current.WorkspaceController.NeedsRedraw || Context.Current.WorkspaceController.NeedsImmediateRedraw)
+            Context.Current.WorkspaceController.Invalidate(!Context.Current.WorkspaceController.NeedsRedraw, true);
 
         var fullPath = Path.Combine(TestData.TestDataDirectory, referenceFilename);
         Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
