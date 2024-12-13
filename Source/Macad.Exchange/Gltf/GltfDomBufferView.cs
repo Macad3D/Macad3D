@@ -9,10 +9,10 @@ internal sealed class GltfDomBufferView
     public int BufferIndex { get; set; }
 
     [JsonPropertyName("byteOffset")]
-    public long ByteOffset { get; set; }
+    public int ByteOffset { get; set; }
 
     [JsonPropertyName("byteLength")]
-    public long ByteLength { get; set; }
+    public int ByteLength { get; set; }
 
     [JsonPropertyName("byteStride")]
     public int? ByteStride { get; set; }

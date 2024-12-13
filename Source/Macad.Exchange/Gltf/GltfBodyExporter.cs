@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Macad.Common;
+using System.Runtime.InteropServices;
 using Macad.Occt;
 using Macad.Occt.Helper;
 
@@ -30,11 +30,26 @@ internal sealed class GltfBodyExporter
 
     class MeshInfo
     {
-        public MemoryStream VertexStream;
         public float[] MinPosition;
         public float[] MaxPosition;
-        public MemoryStream IndexStream;
+        public int VertexBufferOffset;
+        public int VertexBufferLength;
+        public int IndexBufferOffset;
+        public int IndexBufferLength;
         public GltfDomAccessor.DataComponentType IndexDataType;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    struct Vertex(Pnt pos, Dir nrm)
+    {
+        float PosX = (float)pos.X;
+        float PosY = (float)pos.Z;
+        float PosZ = (float)-pos.Y;
+        float NrmX = (float)nrm.X;
+        float NrmY = (float)nrm.Z;
+        float NrmZ = (float)-nrm.Y;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -84,12 +99,11 @@ internal sealed class GltfBodyExporter
                     continue;
                 MeshInfo meshInfo = _SerializeBufferData(triangulation);
 
-                long vertexBufferOffset = _Document.AddBufferData(meshInfo.VertexStream);
                 GltfDomBufferView vertexBufferView = new()
                 {
                     BufferIndex = 0,
-                    ByteOffset = vertexBufferOffset,
-                    ByteLength = meshInfo.VertexStream.Length,
+                    ByteOffset = meshInfo.VertexBufferOffset,
+                    ByteLength = meshInfo.VertexBufferLength,
                     ByteStride = sizeof(float) * 6,
                     TargetHint = GltfDomBufferView.Target.ArrayBuffer
                 };
@@ -119,12 +133,11 @@ internal sealed class GltfBodyExporter
                 int normalAccessorIndex = _Document.AddAccessor(normalAccessor);
 
                 // Add indices
-                long indexBufferOffset = _Document.AddBufferData(meshInfo.IndexStream);
                 GltfDomBufferView indexBufferView = new()
                 {
                     BufferIndex = 0,
-                    ByteOffset = indexBufferOffset,
-                    ByteLength = meshInfo.IndexStream.Length,
+                    ByteOffset = meshInfo.IndexBufferOffset,
+                    ByteLength = meshInfo.IndexBufferLength,
                     TargetHint = GltfDomBufferView.Target.ElementArrayBuffer
                 };
                 int indexBufferViewIndex = _Document.AddBufferView(indexBufferView);
@@ -180,53 +193,70 @@ internal sealed class GltfBodyExporter
     {
         MeshInfo info = new()
         {
-            VertexStream = new MemoryStream(triangulation.Vertices.Length * sizeof(float) * 6),
             MinPosition = [float.MaxValue, float.MaxValue, float.MaxValue],
-            MaxPosition = [float.MinValue, float.MinValue, float.MinValue],
-            IndexStream = new MemoryStream(triangulation.Indices.Length * sizeof(float) * 3)
+            MaxPosition = [float.MinValue, float.MinValue, float.MinValue]
         };
 
-        BinaryWriter writer = new BinaryWriter(info.VertexStream);
+        // Vertices
+        info.VertexBufferLength = sizeof(float) * 6 * triangulation.Vertices.Length;
+        info.VertexBufferOffset = _Document.AddBufferData<Vertex>(triangulation.Vertices.Length, out var vspan);
+
         for (var i = 0; i < triangulation.Vertices.Length; i++)
         {
             var pnt = triangulation.Vertices[i];
+            var nrm = triangulation.Normals[i];
+            vspan[i] = new (pnt, nrm);
+
             float x = (float)pnt.X;
-            writer.Write(x);
             info.MinPosition[0] = Math.Min(x, info.MinPosition[0]);
             info.MaxPosition[0] = Math.Max(x, info.MaxPosition[0]);
             float y = (float)pnt.Z;
-            writer.Write(y);
             info.MinPosition[1] = Math.Min(y, info.MinPosition[1]);
             info.MaxPosition[1] = Math.Max(y, info.MaxPosition[1]);
             float z = -(float)pnt.Y;
-            writer.Write(z);
             info.MinPosition[2] = Math.Min(z, info.MinPosition[2]);
             info.MaxPosition[2] = Math.Max(z, info.MaxPosition[2]);
-
-            var nrm = triangulation.Normals[i];
-            writer.Write((float)nrm.X);
-            writer.Write((float)nrm.Z);
-            writer.Write(-(float)nrm.Y);
         }
-        info.VertexStream.Position = 0;
 
-        writer = new BinaryWriter(info.IndexStream);
+        // Indices
         switch (triangulation.Indices.Length)
         {
             case < 255:
+            {
                 info.IndexDataType = GltfDomAccessor.DataComponentType.UnsignedByte;
-                triangulation.Indices.ForEach(index => writer.Write((byte)index));
+                info.IndexBufferLength = sizeof(byte) * triangulation.Indices.Length;
+                info.IndexBufferOffset = _Document.AddBufferData<byte>(triangulation.Indices.Length, out var ispan);
+                for (var i = 0; i < triangulation.Indices.Length; i++)
+                {
+                    ispan[i] = (byte)triangulation.Indices[i];
+                }
                 break;
+            }
             case < 65535:
+            {
                 info.IndexDataType = GltfDomAccessor.DataComponentType.UnsignedShort;
-                triangulation.Indices.ForEach(index => writer.Write((ushort)index));
+                info.IndexBufferLength = sizeof(ushort) * triangulation.Indices.Length;
+                info.IndexBufferOffset = _Document.AddBufferData<ushort>(triangulation.Indices.Length, out var ispan);
+                for (var i = 0; i < triangulation.Indices.Length; i++)
+                {
+                    ispan[i] = (ushort)triangulation.Indices[i];
+                }
+
                 break;
+            }
             default:
+            {
                 info.IndexDataType = GltfDomAccessor.DataComponentType.UnsignedInt;
-                triangulation.Indices.ForEach(index => writer.Write((uint)index));
+                info.IndexBufferLength = sizeof(uint) * triangulation.Indices.Length;
+                info.IndexBufferOffset = _Document.AddBufferData<uint>(triangulation.Indices.Length, out var ispan);
+                for (var i = 0; i < triangulation.Indices.Length; i++)
+                {
+                    ispan[i] = (uint)triangulation.Indices[i];
+                }
+
                 break;
+            }
         }
-        info.IndexStream.Position = 0;
 
         return info;
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Macad.Common;
@@ -190,17 +191,21 @@ internal sealed class GltfDomDocument
 
     //--------------------------------------------------------------------------------------------------
 
-    public long AddBufferData(MemoryStream data)
+    public int AddBufferData<T>(int count, out Span<T> data) where T : struct
     {
-        long offset = _CurrentBuffer.Data.Position;
-        
-        data.Position = 0;
-        data.CopyTo(_CurrentBuffer.Data);
-        _CurrentBuffer.ByteLength += data.Length;
+        int offset = (int)_CurrentBuffer.Data.Length;
+        int byteLength = count * Marshal.SizeOf<T>();
+        int binPadCount = (4 - byteLength % 4) % 4;
 
-        int binPadCount = (4 - (int)data.Length % 4) % 4;
-        _CurrentBuffer.Data.Write(_BinPadding, 0, binPadCount);
-        _CurrentBuffer.ByteLength += binPadCount;
+        _CurrentBuffer.Data.SetLength(_CurrentBuffer.Data.Length + byteLength + binPadCount);
+        _CurrentBuffer.ByteLength = _CurrentBuffer.Data.Length;
+        data = MemoryMarshal.Cast<byte, T>(_CurrentBuffer.Data.GetBuffer().AsSpan(offset));
+
+        if (binPadCount > 0)
+        {
+            var padSpace = _CurrentBuffer.Data.GetBuffer().AsSpan(offset + byteLength, binPadCount);
+            padSpace.Clear();
+        }
 
         return offset;
     }
