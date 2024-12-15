@@ -9,10 +9,10 @@ using NUnit.Framework;
 
 namespace Macad.Test.Unit;
 
-internal static class ModelCompare
+public static class ModelCompare
 {
     [Flags]
-    internal enum CompareFlags
+    public enum CompareFlags
     {
         None = 0,
         CompareBytes = 1 << 1,
@@ -23,7 +23,7 @@ internal static class ModelCompare
 
     //--------------------------------------------------------------------------------------------------
 
-    internal static bool CompareShape(Shape shape, string brepFile, CompareFlags flags = CompareFlags.CompareProperties)
+    public static bool CompareShape(Shape shape, string brepFile, CompareFlags flags = CompareFlags.CompareProperties)
     {
         // Get OCC Shape
         var shape1 = shape.GetTransformedBRep();
@@ -34,7 +34,7 @@ internal static class ModelCompare
 
     //--------------------------------------------------------------------------------------------------
 
-    internal static bool CompareShape(TopoDS_Shape shape, string brepFile, CompareFlags flags = CompareFlags.CompareProperties)
+    public static bool CompareShape(TopoDS_Shape shape, string brepFile, CompareFlags flags = CompareFlags.CompareProperties)
     {
         // Get OCC Shape
         Assert.IsNotNull(shape);
@@ -107,7 +107,7 @@ internal static class ModelCompare
 
     //--------------------------------------------------------------------------------------------------
 
-    internal static bool CompareShape2D(Shape shape, string brepFile)
+    public static bool CompareShape2D(Shape shape, string brepFile)
     {
         // Get OCC Shape
         var shape1 = shape.GetTransformedBRep();
@@ -118,7 +118,7 @@ internal static class ModelCompare
 
     //--------------------------------------------------------------------------------------------------
 
-    internal static bool CompareShape2D(TopoDS_Shape shape, string brepFile)
+    public static bool CompareShape2D(TopoDS_Shape shape, string brepFile)
     {
         // Save to BREP ASCII
         var bytes = Occt.Helper.BRepExchange.WriteASCII(shape, false);

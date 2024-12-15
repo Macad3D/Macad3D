@@ -16,42 +16,42 @@ namespace Macad.Test.Unit;
 
 public static class AssertHelper
 {
-    internal static void IsSameModel(Shape shape, string brepFile, ModelCompare.CompareFlags flags = ModelCompare.CompareFlags.CompareProperties)
+    public static void IsSameModel(Shape shape, string brepFile, ModelCompare.CompareFlags flags = ModelCompare.CompareFlags.CompareProperties)
     {
         Assert.IsTrue(ModelCompare.CompareShape(shape, brepFile, flags));
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    internal static void IsSameModel(TopoDS_Shape shape, string brepFile, ModelCompare.CompareFlags flags = ModelCompare.CompareFlags.CompareProperties)
+    public static void IsSameModel(TopoDS_Shape shape, string brepFile, ModelCompare.CompareFlags flags = ModelCompare.CompareFlags.CompareProperties)
     {
         Assert.IsTrue(ModelCompare.CompareShape(shape, brepFile, flags));
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    internal static void IsSameModel2D(Shape shape, string brepFile)
-    {
-        Assert.IsTrue(ModelCompare.CompareShape2D(shape, brepFile));
-    }
-        
-    //--------------------------------------------------------------------------------------------------
-
-    internal static void IsSameModel2D(TopoDS_Shape shape, string brepFile)
+    public static void IsSameModel2D(Shape shape, string brepFile)
     {
         Assert.IsTrue(ModelCompare.CompareShape2D(shape, brepFile));
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    internal static void IsMade(Shape shape, Shape.MakeFlags flags = Shape.MakeFlags.None)
+    public static void IsSameModel2D(TopoDS_Shape shape, string brepFile)
+    {
+        Assert.IsTrue(ModelCompare.CompareShape2D(shape, brepFile));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public static void IsMade(Shape shape, Shape.MakeFlags flags = Shape.MakeFlags.None)
     {
         Assert.IsTrue(shape.Make(flags));
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    internal static void IsSameViewport(string referenceFilename, double tolerance=0.05)
+    public static void IsSameViewport(string referenceFilename, double tolerance=0.05)
     {
         if(Context.Current.WorkspaceController.NeedsRedraw || Context.Current.WorkspaceController.NeedsImmediateRedraw)
             Context.Current.WorkspaceController.Invalidate(!Context.Current.WorkspaceController.NeedsRedraw, true);
