@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using Macad.Common.Interop;
 
 namespace Macad.Window;
 
@@ -15,7 +17,15 @@ internal static class SplashScreen
             return;
         }
 
-        _SplashScreen = new("properties/splashscreen.png");
+        uint systemDpi = Win32Api.GetDpiForSystem();
+        uint imageDpi = systemDpi switch
+        {
+            >= 192 => 192,
+            >= 144 => 144,
+            _ => 96
+        };
+
+        _SplashScreen = new(Assembly.Load("Macad.Resources"), $"controls/splashscreen/splashscreen{imageDpi}.png");
         _SplashScreen.Show(true);
     }
 

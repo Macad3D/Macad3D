@@ -415,6 +415,9 @@ public static class Win32Api
     [DllImport("user32.dll")]
     public static extern bool GetKeyboardState(byte [] lpKeyState);
 
+    [DllImport("user32.dll")]
+    public static extern uint GetDpiForSystem();
+
     //--------------------------------------------------------------------------------------------------
 
     [DllImport("gdi32.dll", SetLastError = true)]

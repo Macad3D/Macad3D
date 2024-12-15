@@ -33,9 +33,6 @@
     <InternalsVisibleTo Include="Test.Memory" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\SplashScreen.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Macad.args.json" />
     <None Remove="Macad.csproj.DotSettings" />
     <None Remove="Properties\launchSettings.json" />
