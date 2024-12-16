@@ -80,7 +80,9 @@ public class SketchEditor : Editor<Sketch>
 
     void _UpdateHints()
     {
-        var trsf = Entity.Body.GetTransformation();
+        if (!ToolsActive)
+            return;
+
         var brep = Entity.GetBRep();
         if(brep == null)
             return;
@@ -110,7 +112,9 @@ public class SketchEditor : Editor<Sketch>
         }
         var add = Math.Max(extents.X, extents.Y) * 0.1;
 
-        _PlaneVisual.Set(Pln.XOY.Translated(Pnt.Origin, center));
+        var trsf = Entity.Body.GetTransformation();
+        var plane = Entity.BoundToPlane ?? Pln.XOY;
+        _PlaneVisual.Set(plane.Translated(Pnt.Origin, center));
         _PlaneVisual.Size = new XY(extents.X + add, extents.Y + add);
         _PlaneVisual.SetLocalTransformation(trsf);
 
