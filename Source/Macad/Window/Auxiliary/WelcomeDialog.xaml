@@ -14,7 +14,7 @@
                      BorderThickness="1"
                      Title="Welcome to Macad|3D" 
                      ShowInTaskbar="False" 
-                     Icon="/Macad;component/Properties/SplashScreen.png"
+                     Icon="/Macad.Resources;component/Controls/SplashScreen/SplashScreen96.png"
                      AutomationProperties.AutomationId="WelcomeDialog">
 
     <WindowChrome.WindowChrome>
