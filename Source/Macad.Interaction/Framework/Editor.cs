@@ -108,7 +108,7 @@ public abstract class Editor : WorkspaceControl
 
     public void StartTools()
     {
-        if (ToolsActive)
+        if (ToolsActive || !Active)
             return;
         ToolsActive = true;
 

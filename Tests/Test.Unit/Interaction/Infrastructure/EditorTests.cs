@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Macad.Core;
 using Macad.Core.Shapes;
+using Macad.Core.Topology;
 using Macad.Interaction.Editors.Shapes;
 using Macad.Interaction.Editors.Topology;
 using Macad.Presentation;
@@ -182,6 +183,31 @@ public class EditorTests
             DispatcherHelper.DoEventsSync(); // Editor Update comes via Dispatcher
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolsAfterUndo01"));
         });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+
+    [Test]
+    [Description("Tools should only be started if the editor is still active.")]
+    public void ToolsStartIfEditorActive()
+    {
+        var ctx = Context.Current;
+        var propertyPanels = ctx.EnablePropertyPanels();
+        var box = Box.Create(5, 5, 1);
+        var body = Body.Create(box);
+        var imprint = Imprint.Create(body, box.GetSubshapeReference(SubshapeType.Face, 5));
+        SketchBuilder sb = new(imprint.Sketch);
+        sb.Circle(-1, -1, 0.5);
+        ctx.ViewportController.ZoomFitAll();
+        ctx.ClickAt(250, 250);
+
+        body.Shape = imprint.Sketch;
+        ctx.WorkspaceController.StartTool(new SketchEditorTool(imprint.Sketch));
+        var bodyShapePanel = propertyPanels.FindFirst<BodyShapePropertyPanel>();
+        bodyShapePanel.Select(imprint);
+        BodyShapePropertyPanel.SetCurrentShapeCommand.Execute(imprint);
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ToolsStartIfEditorActive01"));
     }
 
     //--------------------------------------------------------------------------------------------------
