@@ -60,12 +60,12 @@ public static class AssertHelper
         Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
         int width = 0, height = 0;
-        Context.Current.Viewport.V3dView.Window().Size(ref width, ref height);
+        Context.Current.ViewportController.V3dView.Window().Size(ref width, ref height);
 
         // Get screenshot
         var screenshot = new Image_AlienPixMap();
         screenshot.InitZero(Image_Format.RGB, (ulong)width, (ulong)height);
-        Context.Current.Viewport.V3dView.ToPixMap(screenshot, (int)width, (int)height);
+        Context.Current.ViewportController.V3dView.ToPixMap(screenshot, (int)width, (int)height);
 
         // Load Reference
         var refshot = new Image_AlienPixMap();

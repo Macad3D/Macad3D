@@ -21,7 +21,7 @@ public class LinearArrayToolTests
     public void SetUp()
     {
         Context.InitWithView(500);
-        Context.Current.Viewport.V3dView.SetBackgroundColor(Macad.Common.Color.Black.ToQuantityColor());
+        Context.Current.ViewportController.V3dView.SetBackgroundColor(Macad.Common.Color.Black.ToQuantityColor());
     }
 
     [TearDown]

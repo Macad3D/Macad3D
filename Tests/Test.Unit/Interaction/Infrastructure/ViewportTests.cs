@@ -77,7 +77,7 @@ public class ViewportTests
         var plane = sketch.Plane;
         plane.UReverse();
         var clipPlane = new ClipPlane(plane);
-        clipPlane.AddViewport(ctx.Viewport);
+        clipPlane.AddViewport(ctx.ViewportController);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ClipPlane01"));
 
         clipPlane.Remove();
@@ -245,4 +245,39 @@ public class ViewportTests
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "RotationConstrainPoles14"));
         });
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void SyncCamAnimationToViewport()
+    {
+        var ctx = Context.Current;
+        var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
+        viewportParameterSet.ShowViewCube = true;
+
+        TestData.GetBodyFromBRep(@"SourceData\BRep\ImprintRingFace.brep");
+        ctx.ViewportController.ZoomFitAll();
+
+        Assert.Multiple(() =>
+        {
+            double[] paramsPre = ctx.Viewport.GetViewParameters();
+
+            // Select view cube
+            ctx.ClickAt(401, 70);
+            Thread.Sleep(500);
+            ctx.WorkspaceController.Invalidate(forceRedraw: true);
+            double[] paramsPost = ctx.Viewport.GetViewParameters();
+            Assert.That(paramsPost, Is.Not.EqualTo(paramsPre));
+
+            // Select predefined view
+            ctx.WorkspaceController.ActiveViewControlller.SetPredefinedView(ViewportController.PredefinedViews.Front);
+            Thread.Sleep(500);
+            ctx.WorkspaceController.Invalidate(forceRedraw: true);
+            paramsPost = ctx.Viewport.GetViewParameters();
+            Assert.That(paramsPost, Is.Not.EqualTo(paramsPre));
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

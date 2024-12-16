@@ -102,7 +102,7 @@ public class ViewportHwndHost : HwndHost
             _IsProcessingSizeEvent = false;
             UpdateWindowPos();
             _IsProcessingSizeEvent = true;
-            _ViewportController.Viewport.Resize();
+            _ViewportController.Resize();
             _ViewportController.WorkspaceController.Invalidate();
         }, DispatcherPriority.Normal);
     }
@@ -151,9 +151,9 @@ public class ViewportHwndHost : HwndHost
         switch (msg)
         {
             case Win32Api.WM_SHOWWINDOW:
-                if (_ViewportController?.Viewport?.V3dView != null)
+                if (_ViewportController?.V3dView != null)
                 {
-                    _ViewportController.Viewport.Resize();
+                    _ViewportController.Resize();
                     _ViewportController.WorkspaceController.Invalidate();
                 }
                 break;

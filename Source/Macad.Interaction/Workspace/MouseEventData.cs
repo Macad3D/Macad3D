@@ -72,7 +72,9 @@ public class MouseEventData
 
     //--------------------------------------------------------------------------------------------------
 
-    public Viewport Viewport { get; private set; }
+    public Viewport Viewport => ViewportController.Viewport;
+
+    public ViewportController ViewportController { get; private set; }
 
     public Point ScreenPoint { get; private set; }
 
@@ -90,7 +92,7 @@ public class MouseEventData
     {
         get
         {
-            return Viewport.ViewAxis((int)ScreenPoint.X, (int)ScreenPoint.Y);
+            return ViewportController.ScreenToViewAxis((int)ScreenPoint.X, (int)ScreenPoint.Y);
         }
     }
 
@@ -113,7 +115,7 @@ public class MouseEventData
 
     public void Clear()
     {
-        Viewport = default;
+        ViewportController = default;
         ScreenPoint = default;
         PointOnPlane = default;
         DetectedElements.Clear();
@@ -122,11 +124,11 @@ public class MouseEventData
     
     //--------------------------------------------------------------------------------------------------
 
-    public void Set(in Viewport viewport, in Point screenPoint, in Pnt pointOnPlane, in ModifierKeys modifierKeys)
+    public void Set(in ViewportController viewportCtrl, in Point screenPoint, in Pnt pointOnPlane, in ModifierKeys modifierKeys)
     {
         Clear();
 
-        Viewport = viewport;
+        ViewportController = viewportCtrl;
         ScreenPoint = screenPoint;
         PointOnPlane = pointOnPlane;
         ModifierKeys = modifierKeys;

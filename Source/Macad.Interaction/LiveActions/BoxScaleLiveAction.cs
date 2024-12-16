@@ -334,7 +334,7 @@ public sealed class BoxScaleLiveAction : LiveAction
             }
         }
 
-        if(WorkspaceController.ActiveViewport.ScreenToPoint(plane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var selectedPoint))
+        if(WorkspaceController.ActiveViewControlller.ScreenToPoint(plane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var selectedPoint))
         {
             
             {

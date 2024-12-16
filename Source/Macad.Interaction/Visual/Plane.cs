@@ -182,7 +182,7 @@ public class Plane : VisualObject
             Graphic3d_TransformPers transformPers = new(Graphic3d_TransModeFlags.ZoomPers, _Plane.Location);
             _AisObject.SetTransformPersistence(transformPers);
 
-            double scale = 50.0 * WorkspaceController.ActiveViewport.DpiScale;
+            double scale = 50.0 * WorkspaceController.ActiveViewControlller.DpiScale;
             _AisObject.SetPlane(planeOrigin.Translated(vecMargin.Scaled(scale)));
             _AisObject.SetSize(_Size.X * scale, _Size.Y * scale);
         }

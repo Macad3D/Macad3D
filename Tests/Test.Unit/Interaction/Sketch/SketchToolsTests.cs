@@ -22,7 +22,7 @@ public class SketchToolsTests
         Context.InitWithView(500);
         Context.Current.Workspace.GridEnabled = true;
         // Set background color to black to better see half-transparent gizmo XY plane
-        Context.Current.Viewport.V3dView.SetBackgroundColor(Macad.Common.Color.Black.ToQuantityColor());
+        Context.Current.ViewportController.V3dView.SetBackgroundColor(Macad.Common.Color.Black.ToQuantityColor());
     }
 
     [TearDown]
@@ -582,7 +582,7 @@ public class SketchToolsTests
             ctx.MoveTo(287, 216);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElements04"), 0.1);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(200, 209);
+            ctx.MoveTo(200, 210);
             ctx.ViewportController.MouseUp();
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ScaleElements05"), 0.1);
 

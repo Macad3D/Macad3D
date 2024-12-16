@@ -204,7 +204,7 @@ public sealed class TranslateAxisLiveAction : LiveAction
             }
         }
 
-        if (WorkspaceController.ActiveViewport.ScreenToPoint(plane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var convertedPoint))
+        if (WorkspaceController.ActiveViewControlller.ScreenToPoint(plane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var convertedPoint))
         {
             var extrema = new Extrema_ExtPC(convertedPoint, new GeomAdaptor_Curve(new Geom_Line(_Axis)), 1.0e-10);
             if (extrema.IsDone() && extrema.NbExt() >= 1)

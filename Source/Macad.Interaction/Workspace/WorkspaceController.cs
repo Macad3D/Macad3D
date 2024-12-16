@@ -124,7 +124,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         _RedrawTimer.Tick += _RedrawTimer_Tick;
         _RedrawTimer.Start();
 
-        InitWorkspace();
+        _InitWorkspace();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -168,6 +168,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         foreach (var viewCtrl in _ViewControllers)
         {
+            viewCtrl.PropertyChanged -= _ViewController_PropertyChanged;
             viewCtrl.Dispose();
         }
         _ViewControllers.Clear();
@@ -190,33 +191,35 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     //--------------------------------------------------------------------------------------------------
      
-    void InitWorkspace()
+    void _InitWorkspace()
     {
         _InitV3dViewer();
         _InitAisContext();
-        _InitVisualSettings();
 
         foreach (var view in Workspace.Viewports)
         {
             var viewCtrl = new ViewportController(view, this);
+            viewCtrl.PropertyChanged += _ViewController_PropertyChanged;
             _ViewControllers.Add(viewCtrl);
         }
+
+        _InitVisualSettings();
 
         _Grid = new AISX_Grid();
         AisHelper.DisableGlobalClipPlanes(_Grid);
         AisContext?.Display(_Grid, 0, -1, false);
+        _OnGridChanged();
 
         VisualObjects.InitEntities();
-        _UpdateGrid();
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public void _InitV3dViewer()
+    void _InitV3dViewer()
     {
         if (V3dViewer == null)
         {
-            var ocGraphicDriver = Occt.Helper.Graphic3d.CreateOpenGlDriver(EnableGlDebugging);
+            var ocGraphicDriver = Graphic3d.CreateOpenGlDriver(EnableGlDebugging);
             V3dViewer = new V3d_Viewer(ocGraphicDriver);
         }
 
@@ -226,18 +229,12 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         V3dViewer.SetDefaultVisualization(V3d_TypeOfVisualization.ZBUFFER);
         V3dViewer.SetLightOn(new V3d_DirectionalLight(V3d_TypeOfOrientation.Zneg, Color.White.ToQuantityColor(), true));
         V3dViewer.SetLightOn(new V3d_AmbientLight(Color.White.ToQuantityColor()));
-
-        // Reinit viewer parameters
-        _OnGridChanged();
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public void _InitAisContext()
+    void _InitAisContext()
     {
-        if (V3dViewer == null)
-            _InitV3dViewer();
-
         if (AisContext == null)
         {
             AisContext = new AIS_InteractiveContext(V3dViewer);
@@ -257,8 +254,6 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         var drawer = AisContext.DefaultDrawer();
         drawer.SetWireAspect(new Prs3d_LineAspect(Colors.Selection.ToQuantityColor(), Aspect_TypeOfLine.SOLID, 1.0));
         drawer.SetTypeOfHLR(Prs3d_TypeOfHLR.TOH_PolyAlgo);
-
-        _OnGridChanged();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -339,8 +334,17 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         if (_ViewControllers.Any(vc => vc.Viewport == sender))
         {
             _RecalculateGridSize();
-            _UpdateParameter();
             Invalidate();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _ViewController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ViewportController.DpiScale))
+        {
+            _UpdateParameter();
         }
     }
 
@@ -364,8 +368,8 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         aisContext.SetDeviationAngle(visualParameterSet.DeviationAngle.ToRad());
 
         var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
-        var viewport = ActiveViewport ?? Workspace.Viewports.First();
-        aisContext.SetPixelTolerance((int)(viewportParameterSet.SelectionPixelTolerance * viewport.DpiScale));
+        var viewportController = ActiveViewControlller ?? _ViewControllers.First();
+        aisContext.SetPixelTolerance((int)(viewportParameterSet.SelectionPixelTolerance * viewportController.DpiScale));
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -439,12 +443,12 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         if (pos.X < 0 || pos.Y < 0)
         {
             // Position is out of bounds, reset highlighting
-            AisContext.MoveTo(int.MinValue, int.MinValue, viewportController.Viewport.V3dView, false); ;
+            AisContext.MoveTo(int.MinValue, int.MinValue, viewportController.V3dView, false); ;
             Invalidate(true);
             return;
         }
 
-        var status = AisContext.MoveTo(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), viewportController.Viewport.V3dView, false);
+        var status = AisContext.MoveTo(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), viewportController.V3dView, false);
         Invalidate(true);
 
         if (status == AIS_StatusOfDetection.Error)
@@ -455,7 +459,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         }
 
         Pnt planePoint;
-        if (!viewportController.Viewport.ScreenToPoint(Workspace.WorkingPlane, Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), out planePoint))
+        if (!viewportController.ScreenToPoint(Workspace.WorkingPlane, Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), out planePoint))
         {
             CursorPosition = null;
             CursorPosition2d = null;
@@ -463,7 +467,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         _LastDetectedAisObject = null;
         _LastDetectedOwner = null;
-        _MouseEventData.Set(viewportController.Viewport, pos, planePoint, modifierKeys);
+        _MouseEventData.Set(viewportController, pos, planePoint, modifierKeys);
 
         if (AisContext.HasDetected())
         {
@@ -487,7 +491,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         if (_MouseEventData.Return.ForceReDetection)
         {
-            AisContext.MoveTo(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), viewportController.Viewport.V3dView, false);
+            AisContext.MoveTo(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y), viewportController.V3dView, false);
         }
 
         if (_MouseEventData.Return.RemoveHighlighting)
@@ -608,7 +612,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         List<AIS_InteractiveObject> detectedAisObjects = [];
         List<TopoDS_Shape> detectedBrepShapes = [];
         if (AisHelper.PickFromContext(AisContext, corners[0], corners[1], corners[2], corners[3], includeTouched,
-                                      viewportController.Viewport.V3dView, 
+                                      viewportController.V3dView, 
                                       detectedAisObjects, detectedBrepShapes) > 0)
         {
             _MouseEventData.SetDetectedElements(detectedAisObjects, detectedAisObjects.Select(VisualObjects.GetEntity), detectedBrepShapes);
@@ -622,7 +626,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         List<AIS_InteractiveObject> detectedAisObjects = [];
         List<TopoDS_Shape> detectedBrepShapes = [];
         if (AisHelper.PickFromContext(AisContext, pointList, includeTouched,
-                                      viewportController.Viewport.V3dView, 
+                                      viewportController.V3dView, 
                                       detectedAisObjects, detectedBrepShapes) > 0)
         {
             _MouseEventData.SetDetectedElements(detectedAisObjects, detectedAisObjects.Select(VisualObjects.GetEntity), detectedBrepShapes);
@@ -895,21 +899,18 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         if (V3dViewer == null)
             return;
 
-        Workspace.Viewports.ForEach(v =>
+        if (_ViewControllers.Select(vc => vc.PrepareDraw())
+                            .Aggregate((acc, x) => acc || x))
         {
-            if (!v.AisAnimationCamera.IsStopped())
-            {
-                v.AisAnimationCamera.UpdateTimer();
-                NeedsRedraw = true;
-            }
-        });
+            NeedsRedraw = true;
+        }
 
         if (NeedsRedraw)
         {
             VisualObjects.UpdateInvalidatedEntities();
-            Workspace.Viewports.ForEach(v =>
+            _ViewControllers.ForEach(v =>
             {
-                if(v.RenderMode == Viewport.RenderModes.HLR)
+                if(v.Viewport.RenderMode == Viewport.RenderModes.HLR)
                     v.V3dView?.Update();
             });
             V3dViewer.Redraw();
@@ -958,16 +959,12 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         Pln plane = Workspace.WorkingContext.WorkingPlane;
         foreach (var viewportController in _ViewControllers)
         {
-            var viewport = viewportController.Viewport;
-            if (viewport == null)
-                continue;
+            var screenSize = viewportController.ScreenSize;
 
-            var screenSize = viewport.ScreenSize;
-
-            viewport.ScreenToPoint(plane, 0,                0,                 out corners[0]);
-            viewport.ScreenToPoint(plane, 0,                screenSize.Height, out corners[1]);
-            viewport.ScreenToPoint(plane, screenSize.Width, screenSize.Height, out corners[2]);
-            viewport.ScreenToPoint(plane, screenSize.Width, 0,                 out corners[3]);
+            viewportController.ScreenToPoint(plane, 0,                0,                 out corners[0]);
+            viewportController.ScreenToPoint(plane, 0,                screenSize.Height, out corners[1]);
+            viewportController.ScreenToPoint(plane, screenSize.Width, screenSize.Height, out corners[2]);
+            viewportController.ScreenToPoint(plane, screenSize.Width, 0,                 out corners[3]);
 
             foreach (var corner in corners)
             {

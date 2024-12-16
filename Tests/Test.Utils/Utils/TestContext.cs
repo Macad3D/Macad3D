@@ -81,7 +81,7 @@ public sealed class Context : InteractiveContext
         Current.ViewportController.InitWindow(IntPtr.Zero, new Int32Rect(0, 0, viewportSize, viewportSize));
 
         // Neutralize View
-        var ocView = Current.Viewport.V3dView;
+        var ocView = Current.ViewportController.V3dView;
         ocView.SetBgGradientStyle(Aspect_GradientFillMethod.NONE, false);
         ocView.SetBackgroundColor(Color.Black.ToQuantityColor());
         ocView.ChangeRenderingParams().NbMsaaSamples = 0;

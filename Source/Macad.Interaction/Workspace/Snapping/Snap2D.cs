@@ -140,16 +140,16 @@ public sealed class Snap2D : SnapBase
 
         SnapInfo2D snapInfo = SnapInfo2D.Empty;
 
-        var viewport = WorkspaceController.ActiveViewport;
+        var viewportCtrl = WorkspaceController.ActiveViewControlller;
 
         // Calc screen point
         Pnt point3d = Plane.Value(point);
-        if (viewport.PointToScreen(point3d, out int screenX, out int screenY))
+        if (viewportCtrl.PointToScreen(point3d, out int screenX, out int screenY))
         {
             Point screenPoint = new(screenX, screenY);
 
             // Pick viewport with screen coordinates of point to snap
-            AisHelper.PickFromContext(WorkspaceController.AisContext, screenX, screenY, viewport.V3dView, out var pickedAisObject, out var pickedShape);
+            AisHelper.PickFromContext(WorkspaceController.AisContext, screenX, screenY, viewportCtrl.V3dView, out var pickedAisObject, out var pickedShape);
             string targetName = null;
             if (pickedAisObject != null)
             {
@@ -222,18 +222,21 @@ public sealed class Snap2D : SnapBase
 
     SnapInfo2D _SnapGrid(Point screenPoint, Pnt2d point)
     {
-        if (SupportedModes.HasFlag(SnapModes.Grid)
-            && InteractiveContext.Current.EditorState.SnapToGridSelected
-            && WorkspaceController.Workspace.GridEnabled)
+        if (!SupportedModes.HasFlag(SnapModes.Grid)
+            || !InteractiveContext.Current.EditorState.SnapToGridSelected
+            || !WorkspaceController.Workspace.GridEnabled)
         {
-            if(!WorkspaceController.Workspace.ProjectToGrid(WorkspaceController.ActiveViewport, (int)screenPoint.X, (int)screenPoint.Y, out var snapOnWP))
-                return SnapInfo2D.Empty;
-
-            var snapPoint = Plane.Parameters(snapOnWP);
-            var distance = snapPoint.Distance(point);
-            return new SnapInfo2D(SnapModes.Grid, snapPoint, distance);
+            return SnapInfo2D.Empty;
         }
-        return SnapInfo2D.Empty;
+
+        if (!_ProjectToGrid(screenPoint, out var snapOnWp))
+        {
+            return SnapInfo2D.Empty;
+        }
+
+        var snapPoint = Plane.Parameters(snapOnWp);
+        var distance = snapPoint.Distance(point);
+        return new SnapInfo2D(SnapModes.Grid, snapPoint, distance);
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -241,10 +244,24 @@ public sealed class Snap2D : SnapBase
     bool _ProjectViewportPoint(Point screenPoint, out Pnt2d pointOnPlane, Pln plane)
     {
         pointOnPlane = Pnt2d.Origin;
-        if(!WorkspaceController.ActiveViewport.ScreenToPoint(plane, (int)screenPoint.X, (int)screenPoint.Y, out var pnt))
+        if(!WorkspaceController.ActiveViewControlller.ScreenToPoint(plane, (int)screenPoint.X, (int)screenPoint.Y, out var pnt))
             return false;
 
         pointOnPlane = plane.Parameters(pnt);
+        return true;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    bool _ProjectToGrid(Point screenPoint, out Pnt pnt)
+    {
+        Pln plane = WorkspaceController.Workspace.WorkingPlane;
+        if (!WorkspaceController.ActiveViewControlller.ScreenToPoint(plane, (int)screenPoint.X, (int)screenPoint.Y, out pnt))
+            return false;
+
+        Pnt2d uv = plane.Parameters(pnt);
+        Pnt2d gridUv = WorkspaceController.Workspace.ComputeGridPoint(uv);
+        pnt = plane.Value(gridUv);
         return true;
     }
 

@@ -78,7 +78,7 @@ public partial class ViewportPanel : AirspaceOverlay
 
         // Viewport changed
         var dpiScale = VisualTreeHelper.GetDpi(this);
-        viewportController.Viewport.DpiScale = (dpiScale.DpiScaleX + dpiScale.DpiScaleY) / 2.0;
+        viewportController.DpiScale = (dpiScale.DpiScaleX + dpiScale.DpiScaleY) / 2.0;
 
         // Create host for OpenGL window
         Child = new ViewportHwndHost(viewportController, this);

@@ -73,7 +73,7 @@ public class ClipPlane
 
     //--------------------------------------------------------------------------------------------------
 
-    public void AddViewport(Viewport vcViewport)
+    public void AddViewport(ViewportController vcViewport)
     {
         var ocView = vcViewport.V3dView;
         if (_Views.Contains(ocView)) 

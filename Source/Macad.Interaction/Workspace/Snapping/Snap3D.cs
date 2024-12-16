@@ -63,10 +63,10 @@ public sealed class Snap3D : SnapBase
             && InteractiveContext.Current.EditorState.SnapToGridSelected
             && WorkspaceController.Workspace.GridEnabled)
         {
-            if (WorkspaceController.Workspace.ProjectToGrid(WorkspaceController.ActiveViewport,
-                                                            Convert.ToInt32(screenPoint.X),
-                                                            Convert.ToInt32(screenPoint.Y),
-                                                            out Pnt gridPnt))
+            if (ProjectToGrid(WorkspaceController.ActiveViewport,
+                    Convert.ToInt32(screenPoint.X),
+                    Convert.ToInt32(screenPoint.Y),
+                    out Pnt gridPnt))
             {
                 // On Grid
                 return new SnapInfo3D(SnapModes.Grid, gridPnt, null);

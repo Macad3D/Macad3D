@@ -241,7 +241,7 @@ public sealed class RotateLiveAction : LiveAction
             }
         }
 
-        if (WorkspaceController.ActiveViewport.ScreenToPoint(_RotationPlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var resultPnt))
+        if (WorkspaceController.ActiveViewControlller.ScreenToPoint(_RotationPlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var resultPnt))
         {
             var planeDelta = ProjLib.Project(_RotationPlane, resultPnt);
             var angle = Dir2d.DX.Angle(new Dir2d(planeDelta.Coord));

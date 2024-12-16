@@ -23,7 +23,7 @@ public class CreateSegmentTests
         Context.InitWithView(500);
         Context.Current.Workspace.GridEnabled = true;
         // Set background color to black to better the helper lines
-        Context.Current.Viewport.V3dView.SetBackgroundColor(Macad.Common.Color.Black.ToQuantityColor());
+        Context.Current.ViewportController.V3dView.SetBackgroundColor(Macad.Common.Color.Black.ToQuantityColor());
     }
 
     [TearDown]

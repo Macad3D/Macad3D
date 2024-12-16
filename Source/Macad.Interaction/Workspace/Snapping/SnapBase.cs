@@ -115,7 +115,7 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
 
             if (curve != null)
             {
-                var ray = new Geom_Line(WorkspaceController.ActiveViewport.ViewAxis(Convert.ToInt32(screenPoint.X), Convert.ToInt32(screenPoint.Y)));
+                var ray = new Geom_Line(WorkspaceController.ActiveViewControlller.ScreenToViewAxis(Convert.ToInt32(screenPoint.X), Convert.ToInt32(screenPoint.Y)));
                 var extrema = new GeomAPI_ExtremaCurveCurve(curve, ray);
                 if (extrema.NbExtrema() >= 1)
                 {
@@ -182,8 +182,8 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
     public double GetSnapOnPlaneDistanceThreshold()
     {
         var parameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
-        var viewport = WorkspaceController.ActiveViewport;
-        return parameterSet.SelectionPixelTolerance * viewport.PixelSize * viewport.DpiScale * 1.5;
+        var viewportController = WorkspaceController.ActiveViewControlller;
+        return parameterSet.SelectionPixelTolerance * viewportController.PixelSize * viewportController.DpiScale * 1.5;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -209,6 +209,20 @@ public abstract class SnapBase : BaseObject, ISnapHandler, IDisposable
     public void Reset()
     {
         CurrentInfo = SnapInfo.Empty;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    protected bool ProjectToGrid(Viewport viewport, int screenX, int screenY, out Pnt pnt)
+    {
+        Pln plane = WorkspaceController.Workspace.WorkingPlane;
+        if (!WorkspaceController.ActiveViewControlller.ScreenToPoint(plane, screenX, screenY, out pnt))
+            return false;
+
+        Pnt2d uv = plane.Parameters(pnt);
+        Pnt2d gridUv = WorkspaceController.Workspace.ComputeGridPoint(uv);
+        pnt = plane.Value(gridUv);
+        return true;
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -127,14 +127,14 @@ public sealed class SnapOnCurve2D : SnapBase
             && InteractiveContext.Current.EditorState.SnapToGridSelected
             && WorkspaceController.Workspace.GridEnabled)
         {
-            if (WorkspaceController.Workspace.ProjectToGrid(WorkspaceController.ActiveViewport,
+            if (ProjectToGrid(WorkspaceController.ActiveViewport,
                                                              screenPointX, screenPointY,
                                                              out Pnt gridPnt3d))
             {
                 // On grid, calculcate best intersection based on grid type
                 var gridPnt = ProjLib.Project(Plane, gridPnt3d);
                 Pnt2d screenPnt2d = Pnt2d.Origin;
-                if (WorkspaceController.ActiveViewport.ScreenToPoint(screenPointX, screenPointY, out Pnt screenPnt))
+                if (WorkspaceController.ActiveViewControlller.ScreenToPoint(screenPointX, screenPointY, out Pnt screenPnt))
                 {
                     screenPnt2d = ProjLib.Project(WorkspaceController.Workspace.WorkingPlane, screenPnt);
                 }

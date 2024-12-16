@@ -294,7 +294,7 @@ public class Marker : VisualObject
             return image;
         }
 
-        var pixmap = _TryGetMarkerAsXaml(name, size) ?? _TryGetMarkerAsImage(name);
+        var pixmap = _TryGetMarkerFromXaml(name, size) ?? _TryGetMarkerFromImage(name);
         if (pixmap == null)
         {
             Messages.Error($"Could not load marker image {name} from resource.");
@@ -315,7 +315,7 @@ public class Marker : VisualObject
 
     //--------------------------------------------------------------------------------------------------
 
-    static Image_PixMap _TryGetMarkerAsImage(string name)
+    static Image_PixMap _TryGetMarkerFromImage(string name)
     {
         var bitmap = ResourceUtils.ReadBitmapFromResource(Path.Combine("Marker", name) + ".png");
         if (bitmap == null)
@@ -335,11 +335,11 @@ public class Marker : VisualObject
         
     //--------------------------------------------------------------------------------------------------
 
-    static Image_PixMap _TryGetMarkerAsXaml(string name, int size)
+    static Image_PixMap _TryGetMarkerFromXaml(string name, int size)
     {
         try
         {
-            double dpiScale = InteractiveContext.Current.WorkspaceController?.ActiveViewport?.DpiScale ?? 1.0;
+            double dpiScale = InteractiveContext.Current.WorkspaceController?.ActiveViewControlller?.DpiScale ?? 1.0;
             int finalSize = (int)(size * dpiScale);
 
             var drawing = ResourceUtils.GetDictionaryElement<System.Windows.Media.Drawing>(ResourceUtils.Category.Marker, "Marker_" + name);

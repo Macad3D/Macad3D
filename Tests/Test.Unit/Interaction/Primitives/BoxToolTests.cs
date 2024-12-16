@@ -423,7 +423,7 @@ public class BoxToolTests
         {
             ctx.MoveTo(248, 130);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(164, 189);
+            ctx.MoveTo(163, 188);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveScaleSnap01"));
 
             ctx.ViewportController.MouseUp();

@@ -25,7 +25,7 @@ public class SketchEditorToolTests
         Context.InitWithView(500);
         Context.Current.Workspace.GridEnabled = true;
         // Set background color to black to better see half-transparent gizmo XY plane
-        Context.Current.Viewport.V3dView.SetBackgroundColor(Color.Black.ToQuantityColor());
+        Context.Current.ViewportController.V3dView.SetBackgroundColor(Color.Black.ToQuantityColor());
     }
 
     [TearDown]

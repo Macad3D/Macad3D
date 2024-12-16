@@ -171,7 +171,7 @@ public sealed class Axis : VisualObject
             _AisObject.SetTransformPersistence(transformPers);
 
             _AisObject.SetLocalTransformation(new Trsf(new Ax3(Pnt.Origin, _Axis.Direction), Ax3.XOY));
-            double scale = WorkspaceController.ActiveViewport.DpiScale;
+            double scale = WorkspaceController.ActiveViewControlller.DpiScale;
             _AisObject.SetSize(_Length * scale * 50.0, _Width * scale);
             _AisObject.SetMargin(_Margin * scale * 50.0);
         }

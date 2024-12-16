@@ -286,7 +286,7 @@ public class MoveSketchPointAction : ToolAction
             }
             else if (_CircleGizmo != null && Equals(data.DetectedAisObject, _CircleGizmo.AisObject))
             {
-                if (WorkspaceController.ActiveViewport.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var resultPnt))
+                if (WorkspaceController.ActiveViewControlller.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out var resultPnt))
                 {
                     var planeDelta = ProjLib.Project(_MovePlane, resultPnt);
                     _RotateStartValue = Dir2d.DX.Angle(new Dir2d(planeDelta.Coord));
@@ -436,7 +436,7 @@ public class MoveSketchPointAction : ToolAction
         else if (_Rotating)
         {
             Pnt resultPnt;
-            if (!WorkspaceController.ActiveViewport.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
+            if (!WorkspaceController.ActiveViewControlller.ScreenToPoint(_MovePlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
                 return false;
 
             var planeDelta = ProjLib.Project(_MovePlane, resultPnt);
@@ -551,7 +551,7 @@ public class MoveSketchPointAction : ToolAction
             return null;
 
         Dictionary<int, int> mergeCandidates = new();
-        double mergeDistance = WorkspaceController.ActiveViewport.GizmoScale * 0.2; 
+        double mergeDistance = WorkspaceController.ActiveViewControlller.GizmoScale * 0.2; 
         HashSet<int> pointSet = [.._Points];
 
         foreach (var point in _Points)

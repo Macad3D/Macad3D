@@ -165,7 +165,7 @@ public sealed class SketchEditorTool : Tool
         } else {
             _CenterView();
         }
-        vc.Viewport.PropertyChanged += _Viewport_PropertyChanged;
+        vc.PropertyChanged += _ViewportController_PropertyChanged;
 
         EnableClipPlane(editorSettings.ClipPlaneEnabled);
 
@@ -176,7 +176,7 @@ public sealed class SketchEditorTool : Tool
                 visualSketchShape.IsHidden = true;
         }
 
-        _LastGizmoScale = WorkspaceController.ActiveViewport.GizmoScale;
+        _LastGizmoScale = WorkspaceController.ActiveViewControlller.GizmoScale;
 
         _TempPoints = new Dictionary<int, Pnt2d>(Sketch.Points);
         Transform = Sketch.GetTransformation();
@@ -231,7 +231,7 @@ public sealed class SketchEditorTool : Tool
             editorSettings.ClipPlaneEnabled = ClipPlaneEnabled;
         }
 
-        vc.Viewport.PropertyChanged -= _Viewport_PropertyChanged;
+        vc.PropertyChanged -= _ViewportController_PropertyChanged;
         vc.LockedToPlane = false;
         if (_SavedViewParameters != null)
         {
@@ -266,9 +266,9 @@ public sealed class SketchEditorTool : Tool
 
     //--------------------------------------------------------------------------------------------------
         
-    void _Viewport_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    void _ViewportController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(Viewport.PixelSize))
+        if (e.PropertyName == nameof(ViewportController.PixelSize))
         {
             Elements.OnGizmoScaleChanged(_TempPoints, Sketch.Segments);
         }
@@ -279,11 +279,11 @@ public sealed class SketchEditorTool : Tool
     public override bool OnMouseMove(MouseEventData data)
     {
         // Check if we need to scale the trihedron
-        if (!_LastGizmoScale.IsEqual(WorkspaceController.ActiveViewport.GizmoScale, 0.001)
-            || !_LastPixelSize.IsEqual(WorkspaceController.ActiveViewport.PixelSize, 0.001))
+        if (!_LastGizmoScale.IsEqual(WorkspaceController.ActiveViewControlller.GizmoScale, 0.001)
+            || !_LastPixelSize.IsEqual(WorkspaceController.ActiveViewControlller.PixelSize, 0.001))
         {
-            _LastGizmoScale = WorkspaceController.ActiveViewport.GizmoScale;
-            _LastPixelSize = WorkspaceController.ActiveViewport.PixelSize;
+            _LastGizmoScale = WorkspaceController.ActiveViewControlller.GizmoScale;
+            _LastPixelSize = WorkspaceController.ActiveViewControlller.PixelSize;
             //Debug.WriteLine("Gizmo scaled, last is " + _LastGizmoScale);
             Elements.OnGizmoScaleChanged(_TempPoints, Sketch.Segments);
             data.Return.ForceReDetection = true;
@@ -329,7 +329,7 @@ public sealed class SketchEditorTool : Tool
             reversedPlane.Translate(reversedPlane.Axis.Direction.ToVec(-0.000001));
 
             _ClipPlane = new ClipPlane(reversedPlane);
-            _ClipPlane.AddViewport(WorkspaceController.ActiveViewport);
+            _ClipPlane.AddViewport(WorkspaceController.ActiveViewControlller);
             WorkspaceController.Invalidate();
             RaisePropertyChanged(nameof(ClipPlaneEnabled));
         }

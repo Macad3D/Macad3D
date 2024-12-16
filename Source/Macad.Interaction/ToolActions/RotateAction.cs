@@ -192,7 +192,7 @@ public class RotateAction : ToolAction
         if (_RotateMode != RotateMode.None)
         {
             Pnt resultPnt;
-            if (WorkspaceController.ActiveViewport.ScreenToPoint(_RotationPlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
+            if (WorkspaceController.ActiveViewControlller.ScreenToPoint(_RotationPlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
             {
                 var planeDelta = ProjLib.Project(_RotationPlane, resultPnt);
                 _StartValue = Dir2d.DX.Angle(new Dir2d(planeDelta.Coord));
@@ -250,7 +250,7 @@ public class RotateAction : ToolAction
         if (_RotateMode != RotateMode.None)
         {
             Pnt resultPnt;
-            if (!WorkspaceController.ActiveViewport.ScreenToPoint(_RotationPlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
+            if (!WorkspaceController.ActiveViewControlller.ScreenToPoint(_RotationPlane, (int)data.ScreenPoint.X, (int)data.ScreenPoint.Y, out resultPnt))
                 return false;
 
             var planeDelta = ProjLib.Project(_RotationPlane, resultPnt);

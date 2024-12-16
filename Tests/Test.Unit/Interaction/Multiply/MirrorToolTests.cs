@@ -487,7 +487,7 @@ public class MirrorToolTests
 
             ctx.MoveTo(224, 156);
             ctx.ViewportController.MouseDown();
-            ctx.MoveTo(269, 277);
+            ctx.MoveTo(270, 276);
             AssertHelper.IsSameViewport(Path.Combine(_BasePath, "LiveOffsetSnap02"));
             Assert.That(mirror.Offset, Is.EqualTo(10.0).Within(1e-6));
 

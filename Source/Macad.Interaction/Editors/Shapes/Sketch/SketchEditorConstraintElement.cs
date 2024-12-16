@@ -44,14 +44,14 @@ public class SketchEditorConstraintElement : SketchEditorElement
                 visualobj.IsSelectable = _IsSelectable;
             }
             _Marker?.UpdateVisual(points, segments, Plane, 
-                                  SketchEditorTool.WorkspaceController.ActiveViewport.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewport.DpiScale, 
+                                  SketchEditorTool.WorkspaceController.ActiveViewControlller.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewControlller.DpiScale, 
                                   markerCounts);
             UpdateVisual();
         }
         else
         {
             _Marker?.UpdateVisual(points, segments, Plane, 
-                                  SketchEditorTool.WorkspaceController.ActiveViewport.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewport.DpiScale,
+                                  SketchEditorTool.WorkspaceController.ActiveViewControlller.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewControlller.DpiScale,
                                   markerCounts);
         }
     }
@@ -61,7 +61,7 @@ public class SketchEditorConstraintElement : SketchEditorElement
     public void OnGizmoScaleChanged(Dictionary<int, Pnt2d> points, Dictionary<int, SketchSegment> segments, Dictionary<int, int> markerCounts)
     {
         _Marker?.UpdateVisual(points, segments, Plane, 
-                              SketchEditorTool.WorkspaceController.ActiveViewport.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewport.DpiScale,
+                              SketchEditorTool.WorkspaceController.ActiveViewControlller.PixelSize * SketchEditorTool.WorkspaceController.ActiveViewControlller.DpiScale,
                               markerCounts);
     }
 

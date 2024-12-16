@@ -14,20 +14,16 @@ public sealed class Viewport : BaseObject, IDisposable
     [SerializeMember]
     public Pnt EyePoint
     {
-        get
-        {
-            if (V3dView != null)
-            {
-                double xEye = 0, yEye = 0, zEye = 0;
-                V3dView.Eye(ref xEye, ref yEye, ref zEye);
-                _EyePoint = new Pnt(xEye, yEye, zEye);
-            }
-            return _EyePoint;
-        }
+        get => _EyePoint;
         set
         {
-            _EyePoint = value;
-            V3dView?.SetEye(_EyePoint.X, _EyePoint.Y, _EyePoint.Z);
+            if (!_EyePoint.IsEqual(value, Precision.Confusion()))
+            {
+
+                _EyePoint = value;
+                RaisePropertyChanged();
+                _RaiseViewportChanged();
+            }
         }
     }
 
@@ -36,20 +32,15 @@ public sealed class Viewport : BaseObject, IDisposable
     [SerializeMember]
     public Pnt TargetPoint
     {
-        get
-        {
-            if (V3dView != null)
-            {
-                double xAt = 0, yAt = 0, zAt = 0;
-                V3dView.At(ref xAt, ref yAt, ref zAt);
-                _TargetPoint = new Pnt(xAt, yAt, zAt);
-            }
-            return _TargetPoint;
-        }
+        get => _TargetPoint;
         set
         {
-            _TargetPoint = value;
-            V3dView?.SetAt(_TargetPoint.X, _TargetPoint.Y, _TargetPoint.Z);
+            if (!_TargetPoint.IsEqual(value, Precision.Confusion()))
+            {
+                _TargetPoint = value;
+                RaisePropertyChanged();
+                _RaiseViewportChanged();
+            }
         }
     }
 
@@ -58,21 +49,14 @@ public sealed class Viewport : BaseObject, IDisposable
     [SerializeMember]
     public double Twist
     {
-        get
-        {
-            if (V3dView != null)
-            {
-                _Twist = V3dView.Twist().ToDeg();
-            }
-            return _Twist;
-        }
+        get => _Twist;
         set
         {
-            V3dView?.SetTwist(value.ToRad());
-            if(_Twist != value)
+            if (!_Twist.IsEqual(value, Precision.Confusion()))
             {
                 _Twist = value;
                 RaisePropertyChanged();
+                _RaiseViewportChanged();
             }
         }
     }
@@ -82,21 +66,14 @@ public sealed class Viewport : BaseObject, IDisposable
     [SerializeMember]
     public double Scale
     {
-        get
-        {
-            if (V3dView != null)
-            {
-                _Scale = V3dView.Scale();
-            }
-            return _Scale;
-        }
+        get => _Scale;
         set
         {
-            V3dView?.SetScale(value);
-            if(_Scale != value)
+            if (!_Scale.IsEqual(value, Precision.Confusion()))
             {
                 _Scale = value;
                 RaisePropertyChanged();
+                _RaiseViewportChanged();
             }
         }
     }
@@ -106,26 +83,17 @@ public sealed class Viewport : BaseObject, IDisposable
     [SerializeMember]
     public RenderModes RenderMode
     {
-        get { return _RenderMode; }
+        get => _RenderMode;
         set
         {
             if (_RenderMode != value)
             {
                 _RenderMode = value;
                 Workspace?.Model.MarkAsUnsaved();
-                UpdateRenderMode();
                 RaisePropertyChanged();
             }
         }
     }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public V3d_View V3dView { get; set; }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public AIS_AnimationCamera AisAnimationCamera { get; private set; }
 
     //--------------------------------------------------------------------------------------------------
 
@@ -135,66 +103,15 @@ public sealed class Viewport : BaseObject, IDisposable
 
     public (double Width, double Height) Size
     {
-        get
-        {
-            double width = 0, height = 0;
-            V3dView?.Size(ref width, ref height);
-            return (width, height);
-        }
-    }
-        
-    //--------------------------------------------------------------------------------------------------
-
-    public (int Width, int Height) ScreenSize
-    {
-        get
-        {
-            double pixelSize = PixelSize;
-            double width = 100, height = 100;
-            V3dView?.Size(ref width, ref height);
-            return ((int)(width / pixelSize), (int)(height / pixelSize));
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public double GizmoScale
-    {
-        get
-        {
-            double width = 100, height = 100;
-            V3dView?.Size(ref width, ref height);
-            double scale = Math.Min(width, height) / 10.0f;
-            //Debug.WriteLine("w/h/s {0} {1} {2}", width, height, scale);
-            return scale;
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public double PixelSize
-    {
-        get
-        {
-            if (V3dView != null && V3dView.IfWindow())
-            {
-                return V3dView.Convert(1);
-            }
-            return 1.0;
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public double DpiScale
-    {
-        get { return _DpiScale; }
+        get => (_Width, _Height);
         set
         {
-            if (_DpiScale != value)
+            if(!(_Width.IsEqual(value.Width, Precision.Confusion()) && _Height.IsEqual(value.Height, Precision.Confusion())))
             {
-                _DpiScale = value;
+                _Width = value.Width;
+                _Height = value.Height;
                 RaisePropertyChanged();
+                _RaiseViewportChanged();
             }
         }
     }
@@ -233,12 +150,14 @@ public sealed class Viewport : BaseObject, IDisposable
 
     #region Member Variables
 
-    Pnt _EyePoint = new Pnt(10, 10, 10);
-    Pnt _TargetPoint = new Pnt(0, 0, 0);
+    Pnt _EyePoint = new(10, 10, 10);
+    Pnt _TargetPoint = new(0, 0, 0);
     double _Twist = 0.0f;
     double _Scale = 100.0f;
-    RenderModes _RenderMode;
-    double _DpiScale = 1.0;
+    double _Width, _Height;
+    Dir _LastCameraXAxis = Dir.DX;
+    Dir _LastCameraZAxis = Dir.DZ;
+    RenderModes _RenderMode = RenderModes.SolidShaded;
 
     //--------------------------------------------------------------------------------------------------
 
@@ -248,7 +167,6 @@ public sealed class Viewport : BaseObject, IDisposable
 
     internal Viewport()
     {
-        _RenderMode = RenderModes.SolidShaded;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -266,142 +184,12 @@ public sealed class Viewport : BaseObject, IDisposable
 
         base.OnBeginDeserializing(context);
     }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public void Init(bool useMsaa)
-    {
-        AisAnimationCamera = new AIS_AnimationCamera(new TCollection_AsciiString("ViewCamera"), V3dView);
-
-        V3dView.SetBgGradientColors(new Color(0.624f, 0.714f, 0.804f).ToQuantityColor(), new Color(0.424f, 0.482f, 0.545f).ToQuantityColor(), Aspect_GradientFillMethod.VER, false);
-
-        var renderParams = V3dView.ChangeRenderingParams();
-        renderParams.NbMsaaSamples = useMsaa ? 4 : 0;
-        renderParams.IsAntialiasingEnabled = useMsaa;
-        renderParams.TransparencyMethod = Graphic3d_RenderTransparentMethod.BLEND_OIT;
-        renderParams.Method = Graphic3d_RenderingMode.RASTERIZATION;
-        renderParams.RaytracingDepth = 3;
-        renderParams.IsShadowEnabled = true;
-        renderParams.IsReflectionEnabled = true;
-        renderParams.IsTransparentShadowEnabled = true;
-
-        // Reinit view parameters
-        TargetPoint = _TargetPoint;
-        EyePoint = _EyePoint;
-        Scale = _Scale;
-        Twist = _Twist;
-        UpdateRenderMode();
-    }
         
     //--------------------------------------------------------------------------------------------------
 
     public void Dispose()
     {
-        AisAnimationCamera?.Dispose();
-        AisAnimationCamera = null;
-
-        if (V3dView != null)
-        {
-            V3dView.Remove();
-            V3dView.Dispose();
-            V3dView = null;
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    #endregion
-
-    #region Screen Space Conversions
-
-    public bool ScreenToPoint(int screenX, int screenY, out Pnt resultPnt)
-    {
-        if (V3dView != null)
-        {
-            try
-            {
-                var viewPlane = GetViewPlane();
-                double x = 0, y = 0, z = 0;
-                V3dView.Convert(screenX, screenY, ref x, ref y, ref z);
-                Pnt convertedPoint = new Pnt(x, y, z);
-                Pnt2d convertedPointOnPlane = ProjLib.Project(viewPlane, convertedPoint);
-
-                resultPnt = ElSLib.Value(convertedPointOnPlane.X, convertedPointOnPlane.Y, viewPlane);
-                return true;
-            }
-            catch (Exception)
-            {
-                Debug.Assert(false);
-            }
-        }
-
-        resultPnt = Pnt.Origin;
-        return false;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public bool ScreenToPoint(Pln plane, int screenX, int screenY, out Pnt resultPnt)
-    {
-        if (V3dView != null)
-        {
-            try
-            {
-                _ValidateViewGeometry();
-
-                if (V3dView.IfWindow())
-                {
-                    double xv = 0, yv = 0, zv = 0;
-                    double vx = 0, vy = 0, vz = 0;
-
-                    V3dView.Convert(screenX, screenY, ref xv, ref yv, ref zv);
-                    V3dView.Proj(ref vx, ref vy, ref vz);
-
-                    gp_Lin line = new gp_Lin(new Pnt(xv, yv, zv), new Dir(vx, vy, vz));
-                    IntAna_IntConicQuad intersection = new IntAna_IntConicQuad(line, plane, Precision.Angular(), 0, 0);
-
-                    if (intersection.IsDone()
-                        && !intersection.IsParallel()
-                        && intersection.NbPoints() > 0)
-                    {
-                        resultPnt = intersection.Point(1);
-                        return true;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.Assert(false, e.Message);
-            }
-        }
-
-        resultPnt = new Pnt();
-        return false;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public bool PointToScreen(Pnt pnt, out int screenX, out int screenY)
-    {
-        if (V3dView != null)
-        {
-            try
-            {
-                int x = 0, y = 0;
-                V3dView.Convert(pnt.X, pnt.Y, pnt.Z, ref x, ref y);
-                screenX = x;
-                screenY = y;
-                return true;
-            }
-            catch (Exception)
-            {
-                Debug.Assert(false);
-            }
-        }
-
-        screenX = 0;
-        screenY = 0;
-        return false;
+        Workspace = null;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -410,69 +198,73 @@ public sealed class Viewport : BaseObject, IDisposable
 
     #region View Geometry
 
-    void _ValidateViewGeometry()
-    {
-        if (V3dView == null)
-            return;
-
-        // If distance is 0, the parameters cannot be restored
-        if(V3dView.Camera().Distance() == 0.0)
-            V3dView.Camera().SetDistance(0.00001);
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     public Pln GetViewPlane()
     {
         var eyeDir = GetViewDirection();
-        return new Pln(TargetPoint, eyeDir); 
+        return new Pln(TargetPoint, eyeDir);
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public Dir GetViewDirection()
     {
-        _ValidateViewGeometry();
         var eyeVector = new Vec(EyePoint, TargetPoint);
 
-        return new Dir(eyeVector);
+        return eyeVector.ToDir();
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    public Ax1 ViewAxis(int screenX, int screenY)
+    bool _TryGetCameraAxes(Dir viewDir, Dir upDir, out Dir xAxis, out Dir zAxis)
     {
-        if (V3dView == null)
-            return Ax1.OX;
+        xAxis = new();
+        zAxis = new();
 
-        double px = 0, py = 0, pz = 0;
-        V3dView.Convert(screenX, screenY, ref px, ref py, ref pz);
-        return new Ax1(new Pnt(px, py, pz), GetViewDirection());
+        Vec xVec = viewDir.Coord.Crossed(upDir.Coord).ToVec();
+        if (xVec.Magnitude() <= gp.Resolution)
+        {
+            return false;
+        }
+        xVec.Normalize();
+
+        Vec zVec = xVec.Coord.Crossed(viewDir.Coord).ToVec();
+        if (zVec.Magnitude() <= gp.Resolution)
+        {
+            return false;
+        }
+        zVec.Normalize();
+
+        xAxis = xVec.ToDir();
+        zAxis = zVec.ToDir();
+        return true;
     }
-        
+
     //--------------------------------------------------------------------------------------------------
 
     public Dir GetUpDirection()
     {
-        if (V3dView == null)
-            return Dir.DZ;
-
-        double xUp = 0, yUp = 0, zUp = 0;
-        V3dView.Up(ref xUp, ref yUp, ref zUp);
-        return new Dir(xUp, yUp, zUp);
+        var eyeDir = GetViewDirection();
+        if (_TryGetCameraAxes(eyeDir, Dir.DZ, out _, out var zAxis )
+            || _TryGetCameraAxes(eyeDir, Dir.DY, out _, out zAxis)
+            || _TryGetCameraAxes(eyeDir, Dir.DX, out _, out zAxis))
+        {
+            _LastCameraZAxis = zAxis;
+        }
+        return _LastCameraZAxis;
     }
-        
+
     //--------------------------------------------------------------------------------------------------
 
     public Dir GetRightDirection()
     {
-        var upDir = GetUpDirection();
         var eyeDir = GetViewDirection();
-        eyeDir.Cross(upDir);
-
-//            Console.WriteLine("ViewRight: {0:0.00} | {1:0.00} | {2:0.00}", eyeDir.X(), eyeDir.Y(), eyeDir.Z());
-
-        return eyeDir;
+        if (_TryGetCameraAxes(eyeDir, Dir.DZ, out var xAxis, out _)
+            || _TryGetCameraAxes(eyeDir, Dir.DY, out xAxis, out _)
+            || _TryGetCameraAxes(eyeDir, Dir.DX, out xAxis, out _))
+        {
+            _LastCameraXAxis = xAxis;
+        }
+        return _LastCameraXAxis;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -483,10 +275,8 @@ public sealed class Viewport : BaseObject, IDisposable
 
     public double[] GetViewParameters(Trsf transform = default)
     {
-        _ValidateViewGeometry();
-
-        var eyePoint = EyePoint;
-        var targetPoint = TargetPoint;
+        var eyePoint = _EyePoint;
+        var targetPoint = _TargetPoint;
 
         if (transform != default)
         {
@@ -498,8 +288,8 @@ public sealed class Viewport : BaseObject, IDisposable
         {
             eyePoint.X, eyePoint.Y, eyePoint.Z,
             targetPoint.X, targetPoint.Y, targetPoint.Z,
-            Twist,
-            Scale
+            _Twist,
+            _Scale
         };
     }
 
@@ -519,50 +309,11 @@ public sealed class Viewport : BaseObject, IDisposable
             targetPoint.Transform(transform);
         }
 
-        EyePoint = eyePoint;
-        TargetPoint = targetPoint;
-        Twist = parameters[6];
-        Scale = parameters[7];
+        _EyePoint = eyePoint;
+        _TargetPoint = targetPoint;
+        _Twist = parameters[6];
+        _Scale = parameters[7];
 
-        OnViewMoved();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    void UpdateRenderMode()
-    {
-        if (V3dView == null)
-            return;
-
-        V3dView.SetComputedMode(_RenderMode == RenderModes.HLR);
-
-        var renderParams = V3dView.ChangeRenderingParams();
-        if (_RenderMode == RenderModes.Raytraced)
-        {
-            renderParams.Method = Graphic3d_RenderingMode.RAYTRACING;
-        }
-        else
-        {
-            renderParams.Method = Graphic3d_RenderingMode.RASTERIZATION;
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-        
-    public void Resize()
-    {
-        V3dView?.MustBeResized();
-        RaisePropertyChanged(nameof(PixelSize));
-        RaisePropertyChanged(nameof(GizmoScale));
-        _RaiseViewportChanged();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-        
-    public void OnViewMoved()
-    {
-        RaisePropertyChanged(nameof(PixelSize));
-        RaisePropertyChanged(nameof(GizmoScale));
         RaisePropertyChanged(nameof(EyePoint));
         RaisePropertyChanged(nameof(TargetPoint));
         RaisePropertyChanged(nameof(Twist));
@@ -573,5 +324,4 @@ public sealed class Viewport : BaseObject, IDisposable
     //--------------------------------------------------------------------------------------------------
 
     #endregion
-
 }

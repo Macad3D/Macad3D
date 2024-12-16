@@ -48,7 +48,8 @@ public partial class ViewportGridInfo : PanelBase
 
     //--------------------------------------------------------------------------------------------------
 
-    Viewport _Viewport;
+    WorkspaceController _WorkspaceController;
+    ViewportController _ViewportController;
     bool _Visible;
     double _LineWidth;
     bool _SecondStep;
@@ -69,21 +70,30 @@ public partial class ViewportGridInfo : PanelBase
         
     void _Context_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(InteractiveContext.Viewport))
+        if (e.PropertyName == nameof(InteractiveContext.WorkspaceController))
         {
-            if (_Viewport != null)
+            if (_WorkspaceController != null)
             {
-                _Viewport.Workspace.PropertyChanged -= _Workspace_PropertyChanged;
-                _Viewport.PropertyChanged -= _Viewport_PropertyChanged;
+                _WorkspaceController.Workspace.PropertyChanged -= _Workspace_PropertyChanged;
             }
-            _Viewport = InteractiveContext.Current.Viewport;
-            if (_Viewport != null)
+            _WorkspaceController = InteractiveContext.Current.WorkspaceController;
+            if (_WorkspaceController != null)
             {
-                _Viewport.PropertyChanged += _Viewport_PropertyChanged;
-                _Viewport.Workspace.PropertyChanged += _Workspace_PropertyChanged;
+                _WorkspaceController.Workspace.PropertyChanged += _Workspace_PropertyChanged;
             }
-
-            _Viewport_PropertyChanged(_Viewport, new PropertyChangedEventArgs(nameof(Viewport.PixelSize)));
+        }
+        else if (e.PropertyName == nameof(InteractiveContext.ViewportController))
+        {
+            if (_ViewportController != null)
+            {
+                _ViewportController.PropertyChanged -= _ViewportController_PropertyChanged;
+            }
+            _ViewportController = InteractiveContext.Current.ViewportController;
+            if (_ViewportController != null)
+            {
+                _ViewportController.PropertyChanged += _ViewportController_PropertyChanged;
+                _ViewportController_PropertyChanged(_ViewportController, new(nameof(ViewportController.PixelSize)));
+            }
         }
     }
 
@@ -100,9 +110,9 @@ public partial class ViewportGridInfo : PanelBase
 
     //--------------------------------------------------------------------------------------------------
 
-    void _Viewport_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    void _ViewportController_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(Viewport.PixelSize))
+        if (e.PropertyName == nameof(ViewportController.PixelSize))
         {
             _UpdateValues();
         }
@@ -112,17 +122,17 @@ public partial class ViewportGridInfo : PanelBase
 
     double _CalcLineWidth(double viewportWidth)
     {
-        return viewportWidth / _Viewport.PixelSize / _Viewport.DpiScale;
+        return viewportWidth / _ViewportController.PixelSize / _ViewportController.DpiScale;
     }
 
     //--------------------------------------------------------------------------------------------------
 
     void _UpdateValues()
     {
-        Visible = _Viewport?.Workspace?.GridEnabled ?? false;
+        Visible = _WorkspaceController?.Workspace?.GridEnabled ?? false;
         if (Visible)
         {
-            LineWidth = _CalcLineWidth( _Viewport.Workspace.GridStep );
+            LineWidth = _CalcLineWidth(_WorkspaceController.Workspace.GridStep );
         }
 
         if (LineWidth > _AvailableWidth * 0.5)
@@ -138,7 +148,7 @@ public partial class ViewportGridInfo : PanelBase
     void _UpdateGridStep(int sign)
     {
         // Recalculate grid step
-        double current = _Viewport.Workspace.GridStep;
+        double current = _WorkspaceController.Workspace.GridStep;
         double mult = 1.0;
         while (current >= 1.0)
         {
@@ -175,7 +185,7 @@ public partial class ViewportGridInfo : PanelBase
             return;
         }
 
-        _Viewport.Workspace.GridStep = newGridStep;
+        _WorkspaceController.Workspace.GridStep = newGridStep;
     }
 
     //--------------------------------------------------------------------------------------------------

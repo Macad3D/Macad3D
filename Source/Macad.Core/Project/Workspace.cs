@@ -308,20 +308,6 @@ public sealed class Workspace : BaseObject, IDisposable
         
     //--------------------------------------------------------------------------------------------------
 
-    public bool ProjectToGrid(Viewport viewport, int screenX, int screenY, out Pnt pnt)
-    {
-        Pln plane = WorkingPlane;
-        if(!viewport.ScreenToPoint(plane, screenX, screenY, out pnt))
-            return false;
-
-        Pnt2d uv = plane.Parameters(pnt);
-        Pnt2d gridUv = ComputeGridPoint(uv);
-        pnt = plane.Value(gridUv);
-        return true;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     #endregion
 
 }

@@ -212,7 +212,7 @@ public class Circle: VisualObject
             _AisObject.SetTransformPersistence(transformPers);
 
             _AisObject.SetLocalTransformation(new Trsf(new Ax3(Pnt.Origin, _Position.Direction, _Position.XDirection), Ax3.XOY));
-            double size = _Radius * 50.0 * WorkspaceController.ActiveViewport.DpiScale;
+            double size = _Radius * 50.0 * WorkspaceController.ActiveViewControlller.DpiScale;
             _AisObject.SetCircle(new gp_Circ(Ax2.XOY, size));
         }
         else

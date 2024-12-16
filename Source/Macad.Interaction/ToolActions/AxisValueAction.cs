@@ -105,7 +105,7 @@ public class AxisValueAction : ToolAction
         else
         {
             Pnt convertedPoint;
-            if (WorkspaceController.ActiveViewport.ScreenToPoint(plane, Convert.ToInt32(data.ScreenPoint.X), Convert.ToInt32(data.ScreenPoint.Y), out convertedPoint))
+            if (WorkspaceController.ActiveViewControlller.ScreenToPoint(plane, Convert.ToInt32(data.ScreenPoint.X), Convert.ToInt32(data.ScreenPoint.Y), out convertedPoint))
             {
                 var extrema = new Extrema_ExtPC(convertedPoint, new GeomAdaptor_Curve(new Geom_Line(_Axis)), 1.0e-10);
                 if (extrema.IsDone() && extrema.NbExt() >= 1)
