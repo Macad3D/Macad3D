@@ -59,17 +59,6 @@ public sealed class ImprintEditor : Editor<Imprint>
 
     //--------------------------------------------------------------------------------------------------
 
-    public override (IActionCommand, object) GetStartEditingCommand()
-    {
-        if (Entity.Sketch != null)
-        {
-            return (SketchCommands.StartSketchEditor, Entity.Sketch);
-        }
-        return base.GetStartEditingCommand();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
     #region Live Actions
 
     void _ShowActions()

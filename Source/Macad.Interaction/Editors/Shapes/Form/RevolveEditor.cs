@@ -34,17 +34,6 @@ public sealed class RevolveEditor : Editor<Revolve>
     {
         base.OnStop();
     }
-        
-    //--------------------------------------------------------------------------------------------------
-
-    public override (IActionCommand, object) GetStartEditingCommand()
-    {
-        if (Entity.Predecessor is Sketch sketch)
-        {
-            return (SketchCommands.StartSketchEditor, sketch);
-        }
-        return base.GetStartEditingCommand();
-    }
 
     //--------------------------------------------------------------------------------------------------
 

@@ -216,6 +216,11 @@ public abstract class Editor : WorkspaceControl
 
     public virtual (IActionCommand Command, object Parameter) GetStartEditingCommand()
     {
+        if ((GetEntity() as Shape)?.Predecessor is Sketch sketch)
+        {
+            return (SketchCommands.StartSketchEditor, sketch);
+        }
+
         return (null, null);
     }
     
