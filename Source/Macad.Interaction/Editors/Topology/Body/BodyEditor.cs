@@ -5,6 +5,7 @@ using Macad.Core.Components;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction.Panels;
+using Macad.Occt;
 using Macad.Presentation;
 
 namespace Macad.Interaction.Editors.Topology;
@@ -81,7 +82,7 @@ public sealed class BodyEditor : Editor<Body>
 
     void _Body_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(Body.IsVisible))
+        if (e.PropertyName is nameof(Body.IsVisible) or nameof(Body.Shape))
         {
             _UpdateGhost();
         }
@@ -113,16 +114,70 @@ public sealed class BodyEditor : Editor<Body>
 
     //--------------------------------------------------------------------------------------------------
 
+    Shape _FindPrimaryPredecessorForGhost()
+    {
+        bool __HasOperandRecursive(IEnumerable<IShapeOperand> operands, IShapeOperand needle)
+        {
+            foreach (var operand in operands)
+            {
+                if (operand == needle)
+                    return true;
+
+                if (operand is ModifierBase nextModifier)
+                {
+                    if (__HasOperandRecursive(nextModifier.Operands, needle))
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        //--------------------------------------------------------------------------------------------------
+
+        Shape active = Entity.Shape;
+        Shape current = Entity.RootShape;
+
+        while (current != null)
+        {
+            if (Entity.IsShapeEffective(current))
+                return null; // Primary operand already visible
+
+            if (current is not ModifierBase currentModifier)
+                return null; // End of tree
+
+            current = currentModifier.Predecessor as Shape;
+            if (__HasOperandRecursive(currentModifier.Operands.Skip(1), active))
+            {
+                return current;
+            }
+        }
+
+        return null; // None found
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     void _UpdateGhost()
     {
-        if (Entity.IsVisible && Entity.Layer.IsVisible)
+        bool showGhost = !(Entity.IsVisible && Entity.Layer.IsVisible);
+        TopoDS_Shape ghostBrep = null;
+
+        if (!showGhost)
         {
-            _GhostVisualObject?.Remove();
-            _GhostVisualObject = null;
+            // Check if a shape is selected which is not on the primary path
+            ghostBrep = _FindPrimaryPredecessorForGhost()?.GetTransformedBRep();
+            showGhost = ghostBrep != null;
+        }
+
+        if (showGhost)
+        {
+            _GhostVisualObject ??= new VisualShape(WorkspaceController, Entity, VisualShape.Options.Ghosting);
+            _GhostVisualObject.OverrideBrep = ghostBrep;
         }
         else
         {
-            _GhostVisualObject ??= new VisualShape(WorkspaceController, Entity, VisualShape.Options.Ghosting);
+            _GhostVisualObject?.Remove();
+            _GhostVisualObject = null;
         }
     }
 

@@ -3,6 +3,7 @@ using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Interaction.Editors.Shapes;
+using Macad.Interaction.Editors.Topology;
 using Macad.Occt;
 using Macad.Test.Utils;
 using NUnit.Framework;
@@ -125,15 +126,17 @@ public class SketchToolTests
     public void SecondOperandEditor()
     {
         var ctx = Context.Current;
+        ctx.EnablePropertyPanels();
+
         var box = Box.Create(5, 5, 1);
         var body = Body.Create(box);
         var imprint = Imprint.Create(body, box.GetSubshapeReference(SubshapeType.Face, 5));
         SketchBuilder sb = new(imprint.Sketch);
         sb.Circle(-1, -1, 0.5);
         ctx.ViewportController.ZoomFitAll();
+        ctx.ClickAt(250, 250);
 
-        body.Shape = imprint.Sketch;
-        ctx.WorkspaceController.StartEditor(imprint.Sketch);
+        BodyShapePropertyPanel.SetCurrentShapeCommand.Execute(imprint.Sketch);
         AssertHelper.IsSameViewport(Path.Combine(_BasePath, "SecondOperandEditor01"));
     }
 }
