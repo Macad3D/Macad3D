@@ -217,8 +217,8 @@ public class SliceContourToolTests
 
         // Component should exist, even if it can not work correctly
         var component = body.FindComponent<SliceContourComponent>();
-        Assert.IsNotNull(component);
-        Assert.IsFalse(component.IsValid);
+        Assert.That(component, Is.Not.Null);
+        Assert.That(component.IsValid, Is.True);
     }
         
     //--------------------------------------------------------------------------------------------------

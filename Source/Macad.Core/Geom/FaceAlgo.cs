@@ -312,6 +312,9 @@ public static class FaceAlgo
 
     //--------------------------------------------------------------------------------------------------
 
+    /// <summary>
+    /// Find the opposite face to the given reference face which satisfies the distance requirement.
+    /// </summary>
     public static TopoDS_Face FindOppositeFace(TopoDS_Shape sourceShape, TopoDS_Face refFace, bool farthest=false, 
                                                FaceDistanceMethod distanceMethod=FaceDistanceMethod.UseNormalCenter,
                                                double angularTolerance=0.01)
@@ -370,6 +373,63 @@ public static class FaceAlgo
                 continue;
 
             bestMatch = face;
+            bestDistance = dist;
+        }
+
+        return bestMatch;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// Find the vertex which satisfies the distance requirement. The distance is calculated using the shortest
+    /// distance between the selected distance method of the face and the vertex position.
+    /// </summary>
+    /// <returns>The position of the vertex.</returns>
+    public static Pnt? FindOppositeVertex(TopoDS_Shape sourceShape, TopoDS_Face refFace, bool farthest = false,
+                                           FaceDistanceMethod distanceMethod = FaceDistanceMethod.UseNormalCenter,
+                                           double angularTolerance = 0.01)
+    {
+        if (sourceShape == null || refFace == null)
+            return null;
+
+        Pln refPlane = new Pln();
+        if (distanceMethod == FaceDistanceMethod.UseFacePlane)
+        {
+            if (!GetPlaneFromFace(refFace, out refPlane))
+                return null;
+        }
+
+        var refNormal = GetFaceCenterNormal(refFace);
+
+        // Iterate vertices
+        var faceVertices = refFace.Vertices();
+        var vertices = sourceShape.Vertices();
+        Pnt? bestMatch = null;
+        double bestDistance = farthest ? Double.MinValue : Double.MaxValue;
+
+        foreach (var vertex in vertices)
+        {
+            if (faceVertices.ContainsSame(vertex))
+                continue;
+
+            Pnt position = vertex.Pnt();
+            double dist = 0;
+            switch (distanceMethod)
+            {
+                case FaceDistanceMethod.UseNormalCenter:
+                    dist = position.SquareDistance(refNormal.Location);
+                    break;
+                case FaceDistanceMethod.UseFacePlane:
+                    dist = refPlane.Distance(position);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(distanceMethod), distanceMethod, null);
+            }
+            if (farthest ? (dist <= bestDistance) : (dist >= bestDistance))
+                continue;
+
+            bestMatch = position;
             bestDistance = dist;
         }
 

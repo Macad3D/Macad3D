@@ -102,22 +102,37 @@ public class SliceByPlanes
         }
 
         // Get Opface
+        Pln cutPlane;
         var opFace = FaceAlgo.FindOppositeFace(SourceShape, ReferenceFace, farthest: true, FaceAlgo.FaceDistanceMethod.UseFacePlane);
-        if (opFace == null)
+        if (opFace != null)
         {
-            Messages.Error("Reference face has no opposite face, so it seems that the shape has no thickness.");
-            return false;
+            // Calc cutting plane by the two faces
+            if (!(FaceAlgo.GetCenteredPlaneFromFace(ReferenceFace, out cutPlane)
+                  && FaceAlgo.GetCenteredPlaneFromFace(opFace, out var opPlane)))
+            {
+                Messages.Error("Cannot create cutting plane from reference or opposite face.");
+                return false;
+            }
+            _TotalThickness = cutPlane.Distance(opPlane);
+        }
+        else 
+        {
+            // Try using vertex
+            var opPnt = FaceAlgo.FindOppositeVertex(SourceShape, ReferenceFace, farthest: true, FaceAlgo.FaceDistanceMethod.UseFacePlane);
+            if (opPnt == null)
+            {
+                Messages.Error("No opposite face or vertex found for given reference face, it seems that the shape has no thickness.");
+                return false;
+            }
+
+            if (!FaceAlgo.GetCenteredPlaneFromFace(ReferenceFace, out cutPlane))
+            {
+                Messages.Error("Cannot create cutting plane from reference face.");
+                return false;
+            }
+            _TotalThickness = cutPlane.Distance(opPnt.Value);
         }
 
-        // Calc cutting plane
-        if (!(FaceAlgo.GetCenteredPlaneFromFace(ReferenceFace, out var cutPlane)
-              && FaceAlgo.GetCenteredPlaneFromFace(opFace, out var opPlane)))
-        {
-            Messages.Error("Cannot create cutting plane from reference or opposite face.");
-            return false;
-        }
-
-        _TotalThickness = cutPlane.Distance(opPlane);
         var sliceThickness = _TotalThickness / SliceCount;
         if (_Intervals == null)
         {

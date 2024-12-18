@@ -3,6 +3,7 @@ using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Geom;
 using Macad.Core.Shapes;
+using Macad.Core.Topology;
 using NUnit.Framework;
 
 namespace Macad.Test.Unit.Modeling.Geom;
@@ -92,7 +93,7 @@ public class SlicerAlgoTests
         var source = TestData.GetBodyFromBRep(Path.Combine(_BasePath, "TwoLayers_Source.brep"));
         Assert.That(source?.GetBRep() != null);
 
-        var slicer = new SliceByPlanes(source.GetBRep(), source.GetBRep().Faces()[0], 3, new []{ 0.2, 0.5, 0.15 });
+        var slicer = new SliceByPlanes(source.GetBRep(), source.GetBRep().Faces()[0], 3, [0.2, 0.5, 0.15]);
         Assert.IsTrue(slicer.CreateSlices(true));
         Assert.AreEqual(3, slicer.Slices.Length);
         AssertHelper.IsSameModel(slicer.Reconstruct(), Path.Combine(_BasePath, "CustomInterval1"));
@@ -100,4 +101,17 @@ public class SlicerAlgoTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void NoOppositeFace()
+    {
+        var body = Body.Create(Box.Create(50, 82, 35));
+        Taper.Create(body, body.Shape.GetSubshapeReference(SubshapeType.Face, 5), body.Shape.GetSubshapeReference(SubshapeType.Edge, 5), 28);
+        Assert.That(body.Shape.GetBRep() != null);
+
+        var slicer = new SliceByPlanes(body.Shape.GetBRep(), body.Shape.GetBRep().Faces()[4], 2, [10.0, 20.0]);
+        Assert.That(slicer.CreateSlices(true), Is.True);
+        Assert.That(slicer.Slices.Length, Is.EqualTo(2));
+        AssertHelper.IsSameModel(slicer.Reconstruct(), Path.Combine(_BasePath, "NoOppositeFace01"));
+
+    }
 }

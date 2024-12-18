@@ -171,10 +171,10 @@ public class EtchingMaskToolTests
         ctx.ClickAt(250, 250);
         Assert.IsNull(ctx.WorkspaceController.CurrentTool.CurrentAction);
 
-        // Component should exist, even if it can not work correctly
         var component = body.FindComponent<EtchingMaskComponent>();
-        Assert.IsNotNull(component);
-        Assert.IsFalse(component.IsValid);
+        Assert.That(component, Is.Not.Null);
+        Assert.That(component.IsValid, Is.True);
+
     }
 
     //--------------------------------------------------------------------------------------------------
