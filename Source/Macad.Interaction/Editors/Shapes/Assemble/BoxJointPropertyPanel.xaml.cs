@@ -34,7 +34,7 @@ public partial class BoxJointPropertyPanel : PropertyPanel
     void ExecuteToggleRemoveExcess()
     {
         BoxJoint.RemoveExcess = !BoxJoint.RemoveExcess;
-        CommmitChange();
+        CommitChange();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ public partial class BoxJointPropertyPanel : PropertyPanel
     void ExecuteToggleOrder()
     {
         BoxJoint.ReverseOrder = !BoxJoint.ReverseOrder;
-        CommmitChange();
+        CommitChange();
     }
         
     //--------------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ public partial class BoxJointPropertyPanel : PropertyPanel
                 }
                 break;
         }
-        CommmitChange();
+        CommitChange();
     }
 
     //--------------------------------------------------------------------------------------------------

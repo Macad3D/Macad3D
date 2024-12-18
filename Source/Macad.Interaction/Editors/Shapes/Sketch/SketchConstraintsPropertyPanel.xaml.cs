@@ -233,7 +233,7 @@ public partial class SketchConstraintsPropertyPanel : PropertyPanel
         if (SketchEditorTool.Sketch.SetConstraintParameter(constraintData.Constraint, constraintData.Parameter))
         {
             SketchEditorTool.Sketch.SolveConstraints(true);
-            CommmitChange();
+            CommitChange();
         }
     }
 

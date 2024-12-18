@@ -53,7 +53,7 @@ public partial class FilletPropertyPanel : PropertyPanel
     void ExecuteSelectAll()
     {
         Fillet.AddAllEdges();
-        CommmitChange();
+        CommitChange();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ public partial class FilletPropertyPanel : PropertyPanel
     void ExecuteSelectNone()
     {
         Fillet.RemoveAllEdges();
-        CommmitChange();
+        CommitChange();
     }
 
     //--------------------------------------------------------------------------------------------------

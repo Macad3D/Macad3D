@@ -35,28 +35,10 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row ="0" Grid.Column="0" Style="{DynamicResource Macad.Styles.TextBlock.Property}"
-                       Text="Use Shape:" />
-            <Button Grid.Row ="0" Grid.Column="1"
-                    Content="{Binding ShapeDescription}"
-                    HorizontalAlignment="Left" Margin="0,0,0,5"
-                    Width="150" Style="{DynamicResource Macad.Styles.Button.DropDown}">
-                <mmp:Behaviors.Behavior>
-                    <mmp:DropDownButtonBehavior />
-                </mmp:Behaviors.Behavior>
-                <Button.ContextMenu>
-                    <ContextMenu DataContext="{Binding DataContext, Source={mmp:RootObject}}">
-                        <MenuItem Header="Always use the Top Shape"
-                                  Command="{Binding ShapeSelectTopCommand}"/>
-                        <MenuItem Header="Always use Current Shape" 
-                                  Command="{Binding ShapeSelectCurrentCommand}"/>
-                        <MenuItem Header="Set Selected as Current"
-                                  Command="{Binding ShapeSetCurrentCommand}"
-                                  Icon="{mmp:IconResource Generic-CurrentMarker}"/>
-                    </ContextMenu>
-                </Button.ContextMenu>
-            </Button>
 
+            <panels:BodyShapeReferenceGroup Grid.Row="0" Grid.ColumnSpan="2"
+                                            Body="{Binding Tool.Body}"
+                                            ShapeGuid="{Binding ReferencedShapeId, Mode=TwoWay}" />
                     
             <TextBlock Grid.Row="1" Grid.Column="0" Style="{DynamicResource Macad.Styles.TextBlock.Property}"
                        Text="Layer Count" />

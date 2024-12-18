@@ -43,9 +43,16 @@ public sealed class BodyShapeOperand : IShapeOperand, IEquatable<BodyShapeOperan
     //--------------------------------------------------------------------------------------------------
 
     public BodyShapeOperand(Body body, Shape shape = null)
+        : this(body, shape?.Guid ?? Guid.Empty)
+    {
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public BodyShapeOperand(Body body, Guid shapeId)
     {
         Body = body;
-        ShapeId = shape?.Guid ?? Guid.Empty;
+        ShapeId = shapeId;
     }
 
     //--------------------------------------------------------------------------------------------------

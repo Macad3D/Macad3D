@@ -91,12 +91,12 @@ public abstract class PropertyPanel : PanelBase, IDisposable
 
     protected virtual void OnSourceUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
     {
-        CommmitChange();
+        CommitChange();
     }
 
     //--------------------------------------------------------------------------------------------------
 
-    protected virtual void CommmitChange()
+    protected virtual void CommitChange()
     {
         InteractiveContext.Current?.UndoHandler?.Commit();
     }

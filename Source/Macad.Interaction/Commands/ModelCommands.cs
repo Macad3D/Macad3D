@@ -432,7 +432,8 @@ public static class ModelCommands
     public static ActionCommand CreateReference { get; } = new(
         () =>
         {
-            var body = Reference.Create(Selection.SelectedEntities.First() as Body);
+            var source = Selection.SelectedEntities.First() as Body;
+            var body = Reference.Create(source, source.Shape != source.RootShape ? source.Shape : null);
             if (body != null)
             {
                 InteractiveContext.Current.Document.Add(body);
@@ -446,7 +447,8 @@ public static class ModelCommands
         Header = () => "Create Reference",
         Title = () => "Create a Reference",
         Description = () => "Creates a new body, which references the selected body and will update each time the original is being modified.",
-        Icon = () => "Create-Reference"
+        Icon = () => "Create-Reference",
+        HelpTopic = "55fc2982-4f52-4c9d-8e75-b1b100fd53b0"
     };
 
     //--------------------------------------------------------------------------------------------------

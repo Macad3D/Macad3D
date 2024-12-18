@@ -45,7 +45,7 @@ public partial class LinearArrayPropertyPanel : PropertyPanel
         if (Shape.Plane != planeType)
         {
             Shape.Plane = planeType;
-            CommmitChange();
+            CommitChange();
         }
     }
 
@@ -58,7 +58,7 @@ public partial class LinearArrayPropertyPanel : PropertyPanel
         if (Shape.Alignment1 != mode)
         {
             Shape.Alignment1 = mode;
-            CommmitChange();
+            CommitChange();
         }
     }
 
@@ -71,7 +71,7 @@ public partial class LinearArrayPropertyPanel : PropertyPanel
         if (Shape.Alignment2 != mode)
         {
             Shape.Alignment2 = mode;
-            CommmitChange();
+            CommitChange();
         }
     }
 
@@ -84,7 +84,7 @@ public partial class LinearArrayPropertyPanel : PropertyPanel
         if (Shape.DistanceMode1 != mode)
         {
             Shape.DistanceMode1 = mode;
-            CommmitChange();
+            CommitChange();
         }
     }
 
@@ -97,7 +97,7 @@ public partial class LinearArrayPropertyPanel : PropertyPanel
         if (Shape.DistanceMode2 != mode)
         {
             Shape.DistanceMode2 = mode;
-            CommmitChange();
+            CommitChange();
         }
     }
 

@@ -53,7 +53,7 @@ public partial class ChamferPropertyPanel : PropertyPanel
     void ExecuteSelectAll()
     {
         Chamfer.AddAllEdges();
-        CommmitChange();
+        CommitChange();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ public partial class ChamferPropertyPanel : PropertyPanel
     void ExecuteSelectNone()
     {
         Chamfer.RemoveAllEdges();
-        CommmitChange();
+        CommitChange();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ public partial class ChamferPropertyPanel : PropertyPanel
         if (Chamfer.Mode != mode)
         {
             Chamfer.Mode = mode;
-            CommmitChange();
+            CommitChange();
         }
     }
 
@@ -88,7 +88,7 @@ public partial class ChamferPropertyPanel : PropertyPanel
         if (Chamfer.Mode == Chamfer.ChamferModes.DistanceAngle)
         {
             Chamfer.ReverseOrientation = !Chamfer.ReverseOrientation;
-            CommmitChange();
+            CommitChange();
         }
     }
 

@@ -121,7 +121,7 @@ public partial class CrossSectionPropertyPanel : PropertyPanel
         if (CrossSection.Filter != filter)
         {
             CrossSection.Filter = filter;
-            CommmitChange();
+            CommitChange();
         }
     }
 
@@ -134,7 +134,7 @@ public partial class CrossSectionPropertyPanel : PropertyPanel
         CrossSection.Plane = WorkspaceController.Workspace.WorkingPlane
                                                 .Transformed(CrossSection.Body.GetTransformation()
                                                                          .Inverted());
-        CommmitChange();
+        CommitChange();
     }
 
     //--------------------------------------------------------------------------------------------------

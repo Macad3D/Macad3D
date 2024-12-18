@@ -108,7 +108,7 @@ public partial class RevolvePropertyPanel : PropertyPanel
     {
         Axis = int.Parse(param);
         UpdateAxisToShape();
-        CommmitChange();
+        CommitChange();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ public partial class RevolvePropertyPanel : PropertyPanel
     {
         Frame = int.Parse(param);
         UpdateAxisToShape();
-        CommmitChange();
+        CommitChange();
     }
 
     //--------------------------------------------------------------------------------------------------

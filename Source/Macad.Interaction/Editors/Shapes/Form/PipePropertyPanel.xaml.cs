@@ -48,7 +48,7 @@ public partial class PipePropertyPanel : PropertyPanel
                 }
             }
             Pipe.Profile = profile;
-            CommmitChange();
+            CommitChange();
 
             RaisePropertyChanged(nameof(ProfileIsHollow));
             if (profileSketch != null)
@@ -65,7 +65,7 @@ public partial class PipePropertyPanel : PropertyPanel
     void ExecuteToggleFlagCommand(Pipe.PipeFlags flag)
     {
         Pipe.Flags = Pipe.Flags.HasFlag(flag) ? Pipe.Flags.Removed(flag) : Pipe.Flags.Added(flag);
-        CommmitChange();
+        CommitChange();
     }
 
     //--------------------------------------------------------------------------------------------------

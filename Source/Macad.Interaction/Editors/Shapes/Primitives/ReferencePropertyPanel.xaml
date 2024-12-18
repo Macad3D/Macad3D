@@ -1,0 +1,35 @@
+﻿<panels:PropertyPanel x:Class="Macad.Interaction.Editors.Shapes.ReferencePropertyPanel"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                 xmlns:mmp="clr-namespace:Macad.Presentation;assembly=Macad.Presentation"
+                 xmlns:mmi="clr-namespace:Macad.Interaction"
+                 xmlns:panels="clr-namespace:Macad.Interaction.Panels"
+                 mc:Ignorable="d" 
+                 DataContext="{Binding RelativeSource={RelativeSource Self}}"
+                 Style="{DynamicResource Macad.Styles.PropertyPanel}"
+                 Header="Reference"
+                 mmp:Help.TopicId="55fc2982-4f52-4c9d-8e75-b1b100fd53b0">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+        </Grid.RowDefinitions>
+
+        <panels:BodyShapeReferenceGroup Grid.Row="1" Grid.ColumnSpan="2"
+                                        Body="{Binding ReferencedBody}" 
+                                        ShapeGuid="{Binding ReferencedShapeId, Mode=TwoWay}" />
+
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2"
+                   Text="No parameters available."
+                   HorizontalAlignment="Center"
+                   Visibility="{Binding HasBodyReference, Converter={mmp:BoolToInvisibleCollapsedConverter}}" />
+    </Grid>
+</panels:PropertyPanel>

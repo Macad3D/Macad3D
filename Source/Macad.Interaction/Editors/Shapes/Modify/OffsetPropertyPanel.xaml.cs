@@ -28,7 +28,7 @@ public partial class OffsetPropertyPanel : PropertyPanel
     void ExecuteToggleKeepOriginalCommand()
     {
         Offset.KeepOriginal = !Offset.KeepOriginal;
-        CommmitChange();
+        CommitChange();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ public partial class OffsetPropertyPanel : PropertyPanel
         if (Offset.Corner != cornerType)
         {
             Offset.Corner = cornerType;
-            CommmitChange();
+            CommitChange();
         }
     }
 

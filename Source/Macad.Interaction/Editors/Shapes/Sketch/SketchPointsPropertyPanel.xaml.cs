@@ -97,7 +97,7 @@ public partial class SketchPointsPropertyPanel : PropertyPanel
             // Run solver 
             SketchEditorTool.Sketch.SolveConstraints(true, [pointData.Index]);
 
-            CommmitChange();
+            CommitChange();
         }
     }
 

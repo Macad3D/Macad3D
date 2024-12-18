@@ -33,7 +33,7 @@ public class SliceContourEditTool : Tool
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
     public bool IsSelectingFace
     {
         get { return _SelectFaceAction != null; }

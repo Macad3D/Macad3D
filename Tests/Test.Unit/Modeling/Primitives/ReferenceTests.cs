@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Macad.Test.Utils;
 using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
+using Macad.Interaction;
 using Macad.Occt;
 using NUnit.Framework;
 
@@ -91,4 +93,53 @@ public class ReferenceTests
         Assert.IsTrue(clones[0].Shape.IsValid);
         Assert.IsTrue(clones[1].Shape.IsValid);
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void BodyReferenceNonCurrent()
+    {
+        var ctx = Context.InitWithDefault();
+        var body1 = TestGeomGenerator.CreateImprint().Body;
+        ctx.Document.Add(body1);
+        Box box = body1.RootShape.Predecessor as Box;
+        var body2 = Reference.Create(body1, box);
+        body2.Position = new Pnt(20, 0, 0);
+
+        Assert.IsTrue(body2.Shape.Make(Shape.MakeFlags.None));
+        Assert.IsTrue(box.IsValid);
+        AssertHelper.IsSameModel(body2.Shape, Path.Combine(_BasePath, "BodyReferenceNonCurrent01"));
+
+        box.DimensionX /= 2;
+        AssertHelper.IsSameModel(body2.Shape, Path.Combine(_BasePath, "BodyReferenceNonCurrent02"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CreateReferenceNonCurrent()
+    {
+        var ctx = Context.InitWithDefault();
+        var body1 = TestGeomGenerator.CreateImprint().Body;
+        ctx.Document.Add(body1);
+
+        ctx.WorkspaceController.Selection.SelectEntity(body1);
+        ModelCommands.CreateReference.Execute();
+        var reference1 = (ctx.WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape as Reference;
+        Assert.That(reference1, Is.Not.Null);
+        var shapeid1 = (reference1.Operands[1] as BodyShapeOperand)?.ShapeId;
+        Assert.That(shapeid1, Is.EqualTo(Guid.Empty));
+
+        ctx.WorkspaceController.Selection.SelectEntity(body1);
+        Box box = body1.RootShape.Predecessor as Box;
+        body1.Shape = box;
+        ModelCommands.CreateReference.Execute();
+        var reference2 = (ctx.WorkspaceController.Selection.SelectedEntities.First() as Body)?.Shape as Reference;
+        Assert.That(reference2, Is.Not.Null);
+        var shapeid2 = (reference2.Operands[1] as BodyShapeOperand)?.ShapeId;
+        Assert.That(shapeid2, Is.EqualTo(box.Guid));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

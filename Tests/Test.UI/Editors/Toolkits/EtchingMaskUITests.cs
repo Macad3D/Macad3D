@@ -1,6 +1,7 @@
 ﻿using FlaUI.Core.WindowsAPI;
 using Macad.Test.UI.Framework;
 using NUnit.Framework;
+using System;
 
 namespace Macad.Test.UI.Editors.Toolkits;
 
@@ -172,6 +173,34 @@ public class EtchingMaskUITests : UITestBase
         Assert.IsFalse(bodyShapePropPanel.IsCollapsed());
 
         Assert.IsFalse(bodyPropPanel.IsCollapsed());
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ChangeReferencedShape()
+    {
+        // Create box
+        GenerateBox();
+        Guid boxGuid = Pipe.GetValue<Guid>("$Selected.Shape.Guid");
+
+        // Click button to start tool
+        MainWindow.Ribbon.SelectTab(RibbonTabs.Toolbox);
+        MainWindow.Ribbon.ClickButton("CreateEtchingMask");
+
+        var propPanel = MainWindow.PropertyView.FindPanelByClass("EtchingMaskPropertyPanel");
+        Assert.IsNotNull(propPanel);
+        propPanel.ClickButton("ShapeGuidSelectButton");
+        var buttonMenu = MainWindow.FindContextMenu();
+        Assert.That(buttonMenu, Is.Not.Null);
+        buttonMenu.ClickMenuItem("SelectCurrent");
+        Assert.That(Pipe.GetValue<Guid>("$Selected.Components.[0].ShapeGuid"), Is.EqualTo(boxGuid));
+
+        propPanel.ClickButton("ShapeGuidSelectButton");
+        buttonMenu = MainWindow.FindContextMenu();
+        Assert.That(buttonMenu, Is.Not.Null);
+        buttonMenu.ClickMenuItem("SelectTop");
+        Assert.That(Pipe.GetValue("$Selected.Components.[0].ShapeGuid"), Is.EqualTo("?null"));
     }
 
     //--------------------------------------------------------------------------------------------------

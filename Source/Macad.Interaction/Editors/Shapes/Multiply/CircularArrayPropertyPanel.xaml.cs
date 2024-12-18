@@ -39,7 +39,7 @@ public partial class CircularArrayPropertyPanel : PropertyPanel
         if (Shape.Plane != plane)
         {
             Shape.Plane = plane;
-            CommmitChange();
+            CommitChange();
         }
     }
 
@@ -52,7 +52,7 @@ public partial class CircularArrayPropertyPanel : PropertyPanel
         if (Shape.Alignment != alignmentMode)
         {
             Shape.Alignment = alignmentMode;
-            CommmitChange();
+            CommitChange();
         }
     }
 

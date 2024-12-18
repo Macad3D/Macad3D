@@ -20,10 +20,10 @@ namespace Macad.Core.Shapes
 
         #region Create
 
-        public static Body Create(Body linkedBody)
+        public static Body Create(Body linkedBody, Shape linkedShape = null)
         {
             var shape = new Reference();
-            shape.AddOperand(new BodyShapeOperand(linkedBody));
+            shape.AddOperand(new BodyShapeOperand(linkedBody, linkedShape));
 
             var body = Topology.Body.Create(shape);
             body.Position = linkedBody.Position;

@@ -108,4 +108,12 @@ public class MainWindowAdaptor : WindowAdaptor
 
     //--------------------------------------------------------------------------------------------------
 
+    public ContextMenuAdaptor FindContextMenu(string contextMenuId=null)
+    {
+        return new ContextMenuAdaptor(this, contextMenuId);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+
 }

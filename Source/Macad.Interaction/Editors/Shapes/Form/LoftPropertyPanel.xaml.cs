@@ -41,7 +41,7 @@ public partial class LoftPropertyPanel : PropertyPanel
         if (Loft.StartCapping != mode)
         {
             Loft.StartCapping = mode;
-            CommmitChange();
+            CommitChange();
             RaisePropertyChanged(nameof(IsWallEnabled));
         }
     }
@@ -55,7 +55,7 @@ public partial class LoftPropertyPanel : PropertyPanel
         if (Loft.EndCapping != mode)
         {
             Loft.EndCapping = mode;
-            CommmitChange();
+            CommitChange();
             RaisePropertyChanged(nameof(IsWallEnabled));
         }
     }
@@ -69,7 +69,7 @@ public partial class LoftPropertyPanel : PropertyPanel
         if (Loft.ThickenDirection != direction)
         {
             Loft.ThickenDirection = direction;
-            CommmitChange();
+            CommitChange();
         }
     }
         
@@ -82,7 +82,7 @@ public partial class LoftPropertyPanel : PropertyPanel
         if (Loft.ThickenCornerType != cornerType)
         {
             Loft.ThickenCornerType = cornerType;
-            CommmitChange();
+            CommitChange();
         }
     }
 

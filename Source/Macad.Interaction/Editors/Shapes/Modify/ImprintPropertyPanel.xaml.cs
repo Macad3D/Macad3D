@@ -37,7 +37,7 @@ public partial class ImprintPropertyPanel : PropertyPanel
         if (Imprint.Mode != mode)
         {
             Imprint.Mode = mode;
-            CommmitChange();
+            CommitChange();
         }
     }
 

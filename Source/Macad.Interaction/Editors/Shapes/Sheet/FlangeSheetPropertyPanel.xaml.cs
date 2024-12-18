@@ -36,7 +36,7 @@ public partial class FlangeSheetPropertyPanel : PropertyPanel
     void ExecuteSwitchAngleSide()
     {
         FlangeSheet.Reverse = !FlangeSheet.Reverse;
-        CommmitChange();
+        CommitChange();
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ public partial class FlangeSheetPropertyPanel : PropertyPanel
         if (FlangeSheet.Relief != reliefFlags)
         {
             FlangeSheet.Relief = reliefFlags;
-            CommmitChange();
+            CommitChange();
         }
     }
 
