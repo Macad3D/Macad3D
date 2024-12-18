@@ -48,50 +48,11 @@ public partial class SketchPropertyPanel : PropertyPanel
 
     //--------------------------------------------------------------------------------------------------
 
-    SketchEditorTool _CurrentSketchEditorTool;
-    SketchPointsPropertyPanel _PointsPanel;
-    SketchSegmentsPropertyPanel _SegmentsPanel;
-    SketchConstraintsPropertyPanel _ConstraintsPanel;
-
-    //--------------------------------------------------------------------------------------------------
-
     void workspaceController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == "CurrentTool")
         {
-            _UpdateToolActive(WorkspaceController.CurrentTool is SketchEditorTool);
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    void _UpdateToolActive(bool isActive)
-    {
-        if (isActive)
-        {
-            if (IsToolActive == false)
-            {
-                IsToolActive = true;
-                _CurrentSketchEditorTool = (SketchEditorTool)WorkspaceController.CurrentTool;
-
-                _PointsPanel = CreatePanel<SketchPointsPropertyPanel>(_CurrentSketchEditorTool);
-                InteractiveContext.Current.PropertyPanelManager?.AddPanel(_PointsPanel, PropertyPanelSortingKey.Shapes + 1);
-                _SegmentsPanel = CreatePanel<SketchSegmentsPropertyPanel>(_CurrentSketchEditorTool);
-                InteractiveContext.Current.PropertyPanelManager?.AddPanel(_SegmentsPanel, _PointsPanel);
-                _ConstraintsPanel = CreatePanel<SketchConstraintsPropertyPanel>(_CurrentSketchEditorTool);
-                InteractiveContext.Current.PropertyPanelManager?.AddPanel(_ConstraintsPanel, _SegmentsPanel);
-            }
-        }
-        else if (_CurrentSketchEditorTool != null)
-        {
-            IsToolActive = false;
-            InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_ConstraintsPanel);
-            _ConstraintsPanel = null;
-            InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_SegmentsPanel);
-            _SegmentsPanel = null;
-            InteractiveContext.Current.PropertyPanelManager?.RemovePanel(_PointsPanel);
-            _PointsPanel = null;
-            _CurrentSketchEditorTool = null;
+            IsToolActive = (WorkspaceController.CurrentTool as SketchEditorTool)?.Sketch == Sketch;
         }
     }
 
@@ -114,14 +75,14 @@ public partial class SketchPropertyPanel : PropertyPanel
 
     public override void OnAddedToPane(IPropertyPanelManager manager)
     {
-        _UpdateToolActive(WorkspaceController.CurrentTool is SketchEditorTool);
+        IsToolActive = (WorkspaceController.CurrentTool as SketchEditorTool)?.Sketch == Sketch;
     }
 
     //--------------------------------------------------------------------------------------------------
 
     public override void Cleanup()
     {
-        _UpdateToolActive(false);
+        IsToolActive = false;
         WorkspaceController.PropertyChanged -= workspaceController_PropertyChanged;
     }
 }

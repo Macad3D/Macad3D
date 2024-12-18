@@ -29,12 +29,7 @@ public class SketchUITests : UITestBase
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateSketch"));
 
-        // Body and shape created
-        var bodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");
-        Assert.NotNull(bodyPanel);
-        Assert.AreEqual("Sketch_1", bodyPanel.GetValue<string>("EntityName"));
-
-        // All panels shown
+        // Sketch editor already started, All panels shown?
         var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPropertyPanel");
         Assert.That(sketchPanel, Is.Not.Null);
         sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");
@@ -73,12 +68,7 @@ public class SketchUITests : UITestBase
         MainWindow.Ribbon.SelectTab(RibbonTabs.Model);
         Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateSketch"));
 
-        // Body and shape created
-        var bodyPanel = MainWindow.PropertyView.FindPanelByClass("BodyPropertyPanel");
-        Assert.NotNull(bodyPanel);
-        Assert.AreEqual("Sketch_1", bodyPanel.GetValue<string>("EntityName"));
-
-        // All panels shown
+        // Sketch editor already started, All panels shown?
         var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPropertyPanel");
         Assert.That(sketchPanel, Is.Not.Null);
         sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");

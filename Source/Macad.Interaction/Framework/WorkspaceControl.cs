@@ -53,6 +53,7 @@ public abstract class WorkspaceControl : BaseObject, IMouseEventHandler, IContex
     protected virtual void Cleanup()
     {
         RemovePanels();
+        UnhidePanels();
         RemoveHudElements();
         RemoveVisuals();
         CloseSelectionContexts();
@@ -107,12 +108,6 @@ public abstract class WorkspaceControl : BaseObject, IMouseEventHandler, IContex
 
         if (InteractiveContext.Current.PropertyPanelManager != null)
         {
-            if (_PanelsHidden)
-            {
-                InteractiveContext.Current.PropertyPanelManager.HidePanels(0, 0);
-                _PanelsHidden = false;
-            }
-
             _Panels?.ForEach(InteractiveContext.Current.PropertyPanelManager.RemovePanel);
         }
         _Panels?.Clear();
@@ -124,6 +119,17 @@ public abstract class WorkspaceControl : BaseObject, IMouseEventHandler, IContex
     {
         InteractiveContext.Current.PropertyPanelManager?.HidePanels(firstSortingKey, lastSortingKey);
         _PanelsHidden = true;
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    protected void UnhidePanels()
+    {
+        if (_PanelsHidden)
+        {
+            InteractiveContext.Current.PropertyPanelManager?.HidePanels(0, 0);
+            _PanelsHidden = false;
+        }
     }
 
     //--------------------------------------------------------------------------------------------------

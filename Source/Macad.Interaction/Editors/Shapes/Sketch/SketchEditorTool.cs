@@ -9,6 +9,7 @@ using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
+using Macad.Interaction.Panels;
 
 namespace Macad.Interaction.Editors.Shapes;
 
@@ -192,6 +193,12 @@ public sealed class SketchEditorTool : Tool
         _SelectAction.Finished += _SelectAction_Finished;
 
         SetHintMessage(UnselectedStatusText);
+
+        int panelSortKey = PropertyPanelSortingKey.Shapes + 100;
+        var pointsPanel = CreatePanel<SketchPointsPropertyPanel>(this, panelSortKey);
+        var segmentsPanel = CreatePanel<SketchSegmentsPropertyPanel>(this, pointsPanel);
+        var constraintsPanel = CreatePanel<SketchConstraintsPropertyPanel>(this, segmentsPanel);
+        HidePanels(PropertyPanelSortingKey.BodyShape, panelSortKey - 1);
 
         return true;
     }
