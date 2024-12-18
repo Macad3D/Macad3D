@@ -141,7 +141,7 @@ public class EtchingMaskEditTool : Tool
         }
         else
         {
-            Application.Current.Dispatcher.InvokeAsync(() => { _UpdateReconstructed(); });
+            Application.Current.Dispatcher.InvokeAsync(_UpdateReconstructed);
         }
     }
 

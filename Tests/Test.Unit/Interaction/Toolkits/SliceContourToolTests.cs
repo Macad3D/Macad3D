@@ -287,6 +287,30 @@ public class SliceContourToolTests
     //--------------------------------------------------------------------------------------------------
 
     [Test]
+    public void ReselectCanceled()
+    {
+        var ctx = Context.InitWithView(500);
+        var box = TestGeomGenerator.CreateBox();
+        box.DimensionZ = 5;
+
+        ctx.ViewportController.ZoomFitAll();
+
+        // Start tool
+        ctx.WorkspaceController.Selection.SelectEntity(box.Body);
+        Assert.IsTrue(ToolboxCommands.CreateSliceContour.CanExecute());
+        ToolboxCommands.CreateSliceContour.Execute();
+        var tool = ctx.WorkspaceController.CurrentTool as SliceContourEditTool;
+        Assert.IsNotNull(tool);
+        Assert.IsTrue(tool.Component.IsValid);
+
+        tool.ToggleFaceSelection();
+        tool.Cancel(false);
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ReselectCanceled01"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
     public void MoveLayer()
     {
         Context.InitWithView(500);

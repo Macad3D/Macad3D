@@ -364,7 +364,7 @@ public class SliceContourEditTool : Tool
             }
             else
             {
-                _UpdateReconstruction();
+                _Update();
                 WorkspaceController.Invalidate();
             }
         }
@@ -378,6 +378,9 @@ public class SliceContourEditTool : Tool
             if (visObject == null)
                 return;
             visObject.OverrideBrep = _BrepForFaceSelection;
+
+            StopAction(_SelectSliceAction);
+            _SelectSliceAction = null;
 
             _SelectFaceAction = new SelectSubshapeAction(SubshapeTypes.Face, _Body, new FaceSelectionFilter(FaceSelectionFilter.FaceType.Plane));
             if (!StartAction(_SelectFaceAction))

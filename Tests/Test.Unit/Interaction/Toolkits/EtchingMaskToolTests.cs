@@ -239,4 +239,31 @@ public class EtchingMaskToolTests
         Assert.IsTrue(tool.Component.IsValid);
         Assert.AreEqual(box.Guid, tool.Component.ReferenceFace.ShapeId);
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void ReselectCanceled()
+    {
+        var ctx = Context.InitWithView(500);
+        var box = TestGeomGenerator.CreateBox();
+        box.DimensionZ = 5;
+
+        ctx.ViewportController.ZoomFitAll();
+
+        // Start tool
+        ctx.WorkspaceController.Selection.SelectEntity(box.Body);
+        Assert.IsTrue(ToolboxCommands.CreateEtchingMask.CanExecute());
+        ToolboxCommands.CreateEtchingMask.Execute();
+        var tool = ctx.WorkspaceController.CurrentTool as EtchingMaskEditTool;
+        Assert.IsNotNull(tool);
+        Assert.IsTrue(tool.Component.IsValid);
+
+        tool.ToggleFaceSelection();
+        tool.Cancel(false);
+        AssertHelper.IsSameViewport(Path.Combine(_BasePath, "ReselectCanceled01"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }
