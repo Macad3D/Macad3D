@@ -160,7 +160,7 @@ public sealed class SketchEditorElements
 
     //--------------------------------------------------------------------------------------------------
 
-    internal void Select(IEnumerable<int> pointIndices, IEnumerable<int> segmentIndices)
+    internal void Select(IEnumerable<int> pointIndices, IEnumerable<int> segmentIndices, List<SketchConstraint> constraints=null)
     {
         _Elements.ForEach(c =>
         {
@@ -182,6 +182,14 @@ public sealed class SketchEditorElements
                 element.IsSelected = true;
             }
         }
+
+        if (constraints != null)
+        {
+            foreach (var element in _ConstraintElements.Where(ce => constraints.Contains(ce.Constraint)))
+            {
+                element.IsSelected = true;
+            }
+        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -195,16 +203,6 @@ public sealed class SketchEditorElements
                 element.IsSelected = true;
                 break;
             }
-        }
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
-    public void Select(List<SketchConstraint> constraints)
-    {
-        foreach (var element in _ConstraintElements.Where(ce => constraints.Contains(ce.Constraint)))
-        {
-            element.IsSelected = true;
         }
     }
 

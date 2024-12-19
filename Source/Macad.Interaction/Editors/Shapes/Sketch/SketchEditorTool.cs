@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using Macad.Interaction.Visual;
 using Macad.Common;
 using Macad.Common.Serialization;
-using Macad.Core;
 using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Occt;
@@ -146,6 +146,7 @@ public sealed class SketchEditorTool : Tool
         OpenSelectionContext(SelectionContext.Options.NewSelectedList);
         var workspace = WorkspaceController.Workspace;
 
+        // Editor Settings
         var editorSettings = SketchEditorSettings.GetOrCreate(Sketch);
 
         editorSettings.WorkingContext ??= workspace.WorkingContext.Clone();
@@ -153,6 +154,7 @@ public sealed class SketchEditorTool : Tool
         WorkspaceController.LockWorkingPlane = true;
         workspace.WorkingPlane = Sketch.Plane;
 
+        // Viewport
         var vc = WorkspaceController.ActiveViewControlller;
         _SavedViewParameters = vc.Viewport.GetViewParameters();
         vc.LockedToPlane = true;
@@ -179,21 +181,27 @@ public sealed class SketchEditorTool : Tool
 
         _LastGizmoScale = WorkspaceController.ActiveViewControlller.GizmoScale;
 
+        // Elements
         _TempPoints = new Dictionary<int, Pnt2d>(Sketch.Points);
         Transform = Sketch.GetTransformation();
 
         Elements.InitElements(_TempPoints);
-        _UpdateSelections();
+        Elements.Select(_SelectedPoints, SelectedSegmentIndices, _SelectedConstraints);
+        //_UpdateSelections();
 
         Sketch.ElementsChanged += _Sketch_ElementsChanged;
+        Sketch.PropertyChanged += _Sketch_PropertyChanged;
 
+        // Select Action
         _SelectAction = new SelectSketchElementAction(this);
         if (!StartAction(_SelectAction))
             return false;
         _SelectAction.Finished += _SelectAction_Finished;
+        _OnSelectionChanged();
 
         SetHintMessage(UnselectedStatusText);
 
+        // Panels
         int panelSortKey = PropertyPanelSortingKey.Shapes + 100;
         var pointsPanel = CreatePanel<SketchPointsPropertyPanel>(this, panelSortKey);
         var segmentsPanel = CreatePanel<SketchSegmentsPropertyPanel>(this, pointsPanel);
@@ -222,6 +230,7 @@ public sealed class SketchEditorTool : Tool
             }
 
             Sketch.ElementsChanged -= _Sketch_ElementsChanged;
+            Sketch.PropertyChanged -= _Sketch_PropertyChanged;
         }
 
         Elements.RemoveAll();
@@ -269,16 +278,6 @@ public sealed class SketchEditorTool : Tool
     {
         // override base behaviour of closing our tool
         return true;
-    }
-
-    //--------------------------------------------------------------------------------------------------
-        
-    void _ViewportController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(ViewportController.PixelSize))
-        {
-            Elements.OnGizmoScaleChanged(_TempPoints, Sketch.Segments);
-        }
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -420,6 +419,55 @@ public sealed class SketchEditorTool : Tool
 
     #endregion
 
+    #region Events
+
+    void _ViewportController_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ViewportController.PixelSize))
+        {
+            Elements.OnGizmoScaleChanged(_TempPoints, Sketch.Segments);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _Sketch_ElementsChanged(Sketch sketch, Sketch.ElementType types)
+    {
+        if (sketch != Sketch)
+            return;
+
+        // Check for new ones
+        if (types.HasFlag(Sketch.ElementType.Point))
+        {
+            // Take over new points
+            _TempPoints = new Dictionary<int, Pnt2d>(Sketch.Points);
+        }
+
+        Elements.OnSketchChanged(Sketch, types);
+        _CurrentTool?.OnSketchChanged(Sketch, types);
+        _UpdateSelections();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _Sketch_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (sender != Sketch)
+            return;
+
+        if (e.PropertyName == nameof(Sketch.Plane))
+        {
+            // Restart tool to get everything re-initialized with the new plane
+            Stop();
+            WorkspaceController.StartTool(this);
+            WorkspaceController.Invalidate();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
+
     #region Selection
 
     void _SelectAction_Finished(ToolAction toolAction)
@@ -509,26 +557,7 @@ public sealed class SketchEditorTool : Tool
     }
 
     //--------------------------------------------------------------------------------------------------
-
-    void _Sketch_ElementsChanged(Sketch sketch, Sketch.ElementType types)
-    {
-        if (sketch != Sketch)
-            return;
-
-        // Check for new ones
-        if (types.HasFlag(Sketch.ElementType.Point))
-        {
-            // Take over new points
-            _TempPoints = new Dictionary<int, Pnt2d>(Sketch.Points);
-        }
-
-        Elements.OnSketchChanged(Sketch, types);
-        _CurrentTool?.OnSketchChanged(Sketch, types);
-        _UpdateSelections();
-    }
-
-    //--------------------------------------------------------------------------------------------------
-
+    
     #endregion
 
     #region Movement
@@ -713,7 +742,7 @@ public sealed class SketchEditorTool : Tool
 
             StopAction(_MoveAction);
             Elements.DeselectAll();
-            Elements.Select(constraints);
+            Elements.Select(null, null, constraints);
             _UpdateSelections();
         }
 

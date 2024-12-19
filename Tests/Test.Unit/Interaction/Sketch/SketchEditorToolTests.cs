@@ -1296,4 +1296,55 @@ public class SketchEditorToolTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void UpdateTransformation()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+
+        Assert.Multiple(() =>
+        {
+            body.Position = new Pnt(2, 2, 0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "UpdateTransformation01"), 0.1);
+
+            // Cleanup
+            tool.Stop();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void UpdateTransformationKeepSelection()
+    {
+        var ctx = Context.Current;
+
+        var sketch = TestSketchGenerator.CreateSketch(TestSketchGenerator.SketchType.MultiCircle);
+        var body = TestGeomGenerator.CreateBody(sketch);
+        ctx.ViewportController.ZoomFitAll();
+
+        var tool = new SketchEditorTool(sketch);
+        ctx.WorkspaceController.StartTool(tool);
+
+        Assert.Multiple(() =>
+        {
+            tool.Select([0, 1], [0]);
+            body.Position = new Pnt(2, 2, 0);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "UpdateTransformation02"), 0.1);
+
+            Assert.That(tool.SelectedPoints, Is.EqualTo(new[] { 0, 1 }));
+            Assert.That(tool.SelectedSegmentIndices, Is.EqualTo(new[] { 0 }));
+
+            // Cleanup
+            tool.Stop();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
 }

@@ -38,7 +38,7 @@ public abstract class WorkspaceControl : BaseObject, IMouseEventHandler, IContex
 
     WorkspaceController _WorkspaceController;
     List<PropertyPanel> _Panels;
-    bool _PanelsHidden = true;
+    bool _PanelsHidden;
     List<HudElement> _HudElements;
     List<VisualObject> _VisualObjects;
     List<SelectionContext> _SelectionContexts;

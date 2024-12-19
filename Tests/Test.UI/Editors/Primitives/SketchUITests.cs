@@ -30,9 +30,7 @@ public class SketchUITests : UITestBase
         Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateSketch"));
 
         // Sketch editor already started, All panels shown?
-        var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPropertyPanel");
-        Assert.That(sketchPanel, Is.Not.Null);
-        sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");
+        var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");
         Assert.That(sketchPanel, Is.Not.Null);
         sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchSegmentsPropertyPanel");
         Assert.That(sketchPanel, Is.Not.Null);
@@ -69,9 +67,7 @@ public class SketchUITests : UITestBase
         Assert.IsFalse(MainWindow.Ribbon.IsButtonChecked("CreateSketch"));
 
         // Sketch editor already started, All panels shown?
-        var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPropertyPanel");
-        Assert.That(sketchPanel, Is.Not.Null);
-        sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");
+        var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");
         Assert.That(sketchPanel, Is.Not.Null);
         sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchSegmentsPropertyPanel");
         Assert.That(sketchPanel, Is.Not.Null);

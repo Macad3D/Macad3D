@@ -41,7 +41,7 @@ public abstract class Shape2D : Shape
             _BoundToPlane = value;
             Invalidate();
             RaisePropertyChanged();
-            RaisePropertyChanged("Plane");
+            RaisePropertyChanged(nameof(Plane));
             if(IsVisible)
                 Body?.RaiseVisualChanged();
         }
@@ -83,6 +83,14 @@ public abstract class Shape2D : Shape
             return _BoundToPlane.Value.Position.Transformed(base.GetTransformation());
         }
         return base.GetCoordinateSystem();
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public override void InvalidateTransformation()
+    {
+        base.InvalidateTransformation();
+        RaisePropertyChanged(nameof(Plane));
     }
 
     //--------------------------------------------------------------------------------------------------

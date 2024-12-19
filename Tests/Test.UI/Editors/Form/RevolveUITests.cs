@@ -1,4 +1,5 @@
-﻿using Macad.Test.UI.Framework;
+﻿using FlaUI.Core.WindowsAPI;
+using Macad.Test.UI.Framework;
 using NUnit.Framework;
 
 namespace Macad.Test.UI.Editors.Form;
@@ -19,6 +20,19 @@ public class RevolveUITests : UITestBase
     {
         _CreateSketchBased();
         Assert.AreEqual("Revolve", Pipe.GetValue<string>("$Selected.Shape.Name"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void StartSketchEditor()
+    {
+        _CreateSketchBased();
+        Pipe.TypeKey(VirtualKeyShort.KEY_E);
+
+        Assert.AreEqual("SketchEditorTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
+        var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");
+        Assert.That(sketchPanel, Is.Not.Null);
     }
 
     //--------------------------------------------------------------------------------------------------

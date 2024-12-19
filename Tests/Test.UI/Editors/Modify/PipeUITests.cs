@@ -1,4 +1,5 @@
-﻿using Macad.Test.UI.Framework;
+﻿using FlaUI.Core.WindowsAPI;
+using Macad.Test.UI.Framework;
 using NUnit.Framework;
 
 namespace Macad.Test.UI.Editors.Modifier;
@@ -51,6 +52,19 @@ public class PipeUITests : UITestBase
 
         Assert.AreEqual("Custom", Pipe.GetValue("$Selected.Shape.Profile"));
         Assert.AreEqual(2, Pipe.GetValue<int>("$Selected.Shape.Operands.Count"));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void StartSketchEditor()
+    {
+        _CreatePipe();
+        Pipe.TypeKey(VirtualKeyShort.KEY_E);
+
+        Assert.AreEqual("SketchEditorTool", Pipe.GetValue<string>("$Context.EditorState.ActiveTool"));
+        var sketchPanel = MainWindow.PropertyView.FindPanelByClass("SketchPointsPropertyPanel");
+        Assert.That(sketchPanel, Is.Not.Null);
     }
 
     //--------------------------------------------------------------------------------------------------
