@@ -22,10 +22,16 @@
                               BlurRadius="5"/>
         </StackPanel.Effect>
 
-        <TextBlock Text="{Binding Context.Workspace.GridStep, StringFormat={}{0} mm}"
-                   Foreground="White"
-                   HorizontalAlignment="Center">
-        </TextBlock>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="{Binding Context.Workspace.GridStep, StringFormat={}{0} mm}"
+                       Foreground="White">
+            </TextBlock>
+            <TextBlock Text="{Binding Context.WorkspaceController.VisualGridMultiplier, StringFormat={}x{0}}"
+                       Visibility="{Binding Context.WorkspaceController.VisualGridMultiplier, Converter={mmp:EqualityToInvisibleCollapsedConverter}, ConverterParameter=1.0}"
+                       Foreground="White"
+                       Margin="5,0,0,0">
+            </TextBlock>
+        </StackPanel>
 
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center">

@@ -960,16 +960,16 @@ public sealed class ViewportController : BaseObject, IDisposable
 
         double xEye = 0, yEye = 0, zEye = 0;
         V3dView.Eye(ref xEye, ref yEye, ref zEye);
-        Viewport.EyePoint = new(xEye, yEye, zEye);
-
         double xAt = 0, yAt = 0, zAt = 0;
         V3dView.At(ref xAt, ref yAt, ref zAt);
-        Viewport.TargetPoint = new Pnt(xAt, yAt, zAt);
+        double scale = V3dView.Scale();
+        double twist = V3dView.Twist().ToDeg();
+        double width = 100, height = 100;
+        V3dView.Size(ref width, ref height);
 
-        Viewport.Scale = V3dView.Scale();
-        Viewport.Twist = V3dView.Twist().ToDeg();
-
-        _SyncViewportSizeFromV3d();
+        Viewport.SetViewParameters(new(xEye, yEye, zEye), new Pnt(xAt, yAt, zAt), twist, scale, width, height);
+        RaisePropertyChanged(nameof(ScreenSize));
+        RaisePropertyChanged(nameof(PixelSize));
 
         _IsSyncingViewport = false;
     }

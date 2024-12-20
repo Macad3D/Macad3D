@@ -79,6 +79,22 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
     //--------------------------------------------------------------------------------------------------
 
+    public double VisualGridMultiplier
+    {
+        get => _VisualGridMultiplier;
+        set
+        {
+            if (_VisualGridMultiplier != value)
+            {
+                _VisualGridMultiplier = value;
+                _GridNeedsUpdate = true;
+                RaisePropertyChanged();
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     #endregion
 
     #region Member variables
@@ -87,6 +103,9 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
     readonly DispatcherTimer _RedrawTimer;
     AISX_Grid _Grid;
     XY _LastGridSize = new(200.0, 200.0);
+    double _VisualGridMultiplier = 1.0;
+    uint _VisualGridStepMinPixel = 10;
+    uint _VisualGridMinStepsOnScreen = 10;
     bool _GridNeedsUpdate;
     readonly List<AIS_InteractiveObject> _CustomHighlights = [];
     internal bool NeedsRedraw;
@@ -370,6 +389,8 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         var viewportParameterSet = InteractiveContext.Current.Parameters.Get<ViewportParameterSet>();
         var viewportController = ActiveViewControlller ?? _ViewControllers.First();
         aisContext.SetPixelTolerance((int)(viewportParameterSet.SelectionPixelTolerance * viewportController.DpiScale));
+        _VisualGridStepMinPixel = viewportParameterSet.VisualGridStepMinPixel;
+        _VisualGridMinStepsOnScreen = viewportParameterSet.VisualGridMinStepsOnScreen;
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -956,11 +977,14 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
         double sizeX = 50.0 * Workspace.GridStep;
         double sizeY = 50.0 * Workspace.GridStep;
 
+        double maxPixelSize = double.MinValue;
+        double minScreenWidth = double.MaxValue;
         Pln plane = Workspace.WorkingContext.WorkingPlane;
         foreach (var viewportController in _ViewControllers)
         {
+            maxPixelSize = Math.Max(viewportController.PixelSize, maxPixelSize);
             var screenSize = viewportController.ScreenSize;
-
+            minScreenWidth = Math.Min(screenSize.Width* maxPixelSize, minScreenWidth);
             viewportController.ScreenToPoint(plane, 0,                0,                 out corners[0]);
             viewportController.ScreenToPoint(plane, 0,                screenSize.Height, out corners[1]);
             viewportController.ScreenToPoint(plane, screenSize.Width, screenSize.Height, out corners[2]);
@@ -974,9 +998,46 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
             }
         }
 
+        // Adjust the grid step to be drawn to fit on screen
+        double newGridStepMultiplier = 1.0;
+        if (_VisualGridStepMinPixel > 0)
+        {
+            if (maxPixelSize > double.MinValue)
+            {
+                double minGridStep = maxPixelSize * _VisualGridStepMinPixel;
+                double ratio = Workspace.GridStep / minGridStep;
+                if (ratio < 0.1)
+                {
+                    newGridStepMultiplier = 100;
+                }
+                else if (ratio < 1.0)
+                {
+                    newGridStepMultiplier = 10;
+                }
+            }
+        }
+
+        if (_VisualGridMinStepsOnScreen > 0)
+        {
+            if (minScreenWidth < double.MaxValue)
+            {
+                double maxGridStep = minScreenWidth / _VisualGridMinStepsOnScreen;
+                if (Workspace.GridStep > maxGridStep)
+                {
+                    newGridStepMultiplier = 0.1;
+                }
+            }
+        }
+
+        if (!_VisualGridMultiplier.IsEqual(newGridStepMultiplier, 0.01))
+        {
+            VisualGridMultiplier = newGridStepMultiplier;
+            _GridNeedsUpdate = true;
+        }
+
         // Take the maximum, overprovision by 10, and clamp to a (unrealistic) maximum
-        XY newGridSize = new XY(Math.Min(sizeX + 10.0, Workspace.GridStep * 1000.0),
-                                Math.Min(sizeY + 10.0, Workspace.GridStep * 1000.0));
+        XY newGridSize = new XY(Math.Min(sizeX + 10.0, Workspace.GridStep * _VisualGridMultiplier * 1000.0),
+                                Math.Min(sizeY + 10.0, Workspace.GridStep * _VisualGridMultiplier * 1000.0));
         XY diff = _LastGridSize - newGridSize;
         if (diff.X is < 0 or > 50.0 || diff.Y is < 0 or > 50.0)
         {
@@ -1008,7 +1069,7 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
             }
             _Grid.SetPosition(position);
             _Grid.SetExtents(_LastGridSize.X, _LastGridSize.Y);
-            _Grid.SetDivisions(wc.GridStep, wc.GridDivisions);
+            _Grid.SetDivisions(Workspace.GridStep * _VisualGridMultiplier, wc.GridDivisions);
 
             if (wc.GridType == Workspace.GridTypes.Rectangular)
             {

@@ -74,11 +74,13 @@ public partial class ViewportGridInfo : PanelBase
         {
             if (_WorkspaceController != null)
             {
+                _WorkspaceController.PropertyChanged -= _WorkspaceController_PropertyChanged;
                 _WorkspaceController.Workspace.PropertyChanged -= _Workspace_PropertyChanged;
             }
             _WorkspaceController = InteractiveContext.Current.WorkspaceController;
             if (_WorkspaceController != null)
             {
+                _WorkspaceController.PropertyChanged += _WorkspaceController_PropertyChanged;
                 _WorkspaceController.Workspace.PropertyChanged += _Workspace_PropertyChanged;
             }
         }
@@ -94,6 +96,16 @@ public partial class ViewportGridInfo : PanelBase
                 _ViewportController.PropertyChanged += _ViewportController_PropertyChanged;
                 _ViewportController_PropertyChanged(_ViewportController, new(nameof(ViewportController.PixelSize)));
             }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    void _WorkspaceController_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is nameof(WorkspaceController.VisualGridMultiplier))
+        {
+            _UpdateValues();
         }
     }
 
@@ -132,7 +144,7 @@ public partial class ViewportGridInfo : PanelBase
         Visible = _WorkspaceController?.Workspace?.GridEnabled ?? false;
         if (Visible)
         {
-            LineWidth = _CalcLineWidth(_WorkspaceController.Workspace.GridStep );
+            LineWidth = _CalcLineWidth(_WorkspaceController.Workspace.GridStep * _WorkspaceController.VisualGridMultiplier);
         }
 
         if (LineWidth > _AvailableWidth * 0.5)

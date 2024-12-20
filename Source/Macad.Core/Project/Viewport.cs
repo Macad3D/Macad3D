@@ -319,6 +319,25 @@ public sealed class Viewport : BaseObject, IDisposable
         RaisePropertyChanged(nameof(Twist));
         RaisePropertyChanged(nameof(Scale));
         _RaiseViewportChanged();
+    }    
+    
+    //--------------------------------------------------------------------------------------------------
+
+    public void SetViewParameters(Pnt eyePoint, Pnt targetPoint, double twist, double scale, double width, double height)
+    {
+        _EyePoint = eyePoint;
+        _TargetPoint = targetPoint;
+        _Twist = twist;
+        _Scale = scale;
+        _Width = width;
+        _Height = height;
+
+        RaisePropertyChanged(nameof(EyePoint));
+        RaisePropertyChanged(nameof(TargetPoint));
+        RaisePropertyChanged(nameof(Twist));
+        RaisePropertyChanged(nameof(Scale));
+        RaisePropertyChanged(nameof(Size));
+        _RaiseViewportChanged();
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -30,6 +30,8 @@ public sealed class Context : InteractiveContext
         viewportParameterSet.ShowViewCube = false;
         viewportParameterSet.ShowTrihedron = false;
         viewportParameterSet.SelectionPixelTolerance = 2;
+        viewportParameterSet.VisualGridStepMinPixel = 0;
+        viewportParameterSet.VisualGridMinStepsOnScreen = 0;
 
         Clipboard = new TestClipboard();
     }
