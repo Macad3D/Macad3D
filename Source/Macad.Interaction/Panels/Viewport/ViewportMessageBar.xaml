@@ -22,7 +22,7 @@
                        Margin="20,0,0,0"
                        Source="{mmp:IconResource IconName=Generic-Error}"/>
                 <mmp:RichTextBlock RichText="{Binding ErrorMessage}"
-                                   TextWrapping="NoWrap"
+                                   TextWrapping="Wrap"
                                    TextTrimming="WordEllipsis"
                                    Margin="20,0"/>
             </DockPanel>
@@ -34,7 +34,7 @@
                 BorderThickness="0,0,0,1"
                 Visibility="{Binding HintMessage, Converter={mmp:StringNotEmptyToVisibleCollapsedConverter}, FallbackValue=Collapsed}">
             <mmp:RichTextBlock RichText="{Binding HintMessage}"
-                               TextWrapping="NoWrap"
+                               TextWrapping="Wrap"
                                TextTrimming="WordEllipsis"
                                Margin="20,1,5,1"/>
         </Border>
