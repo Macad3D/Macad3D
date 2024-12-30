@@ -670,7 +670,8 @@ public sealed class WorkspaceController : BaseObject, IContextMenuItemProvider, 
 
         if (_CurrentTool != null)
         {
-            InteractiveContext.Current.ShortcutHandler.KeyPressed(_CurrentTool.Id, key, modifierKeys);
+            if (InteractiveContext.Current.ShortcutHandler.KeyPressed(_CurrentTool.Id, key, modifierKeys))
+                return true;
         }
 
         return InteractiveContext.Current.ShortcutHandler.KeyPressed("Workspace", key, modifierKeys);
