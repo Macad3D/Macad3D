@@ -29,7 +29,7 @@ AppCopyright=Copyright (c) {#MyAppPublisher}
 AppMutex=MacadInstanceRunning,Global\MacadInstanceRunning
 LicenseFile=..\..\License.txt
 
-DefaultDirName={autopf}\{#MyAppName}
+DefaultDirName={autopf64}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 OutputDir={#BasePath}\Bin\Deploy
 OutputBaseFilename={#MyAppName}_{#MyAppVersionStr}_Setup
