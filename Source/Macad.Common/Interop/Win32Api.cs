@@ -415,8 +415,21 @@ public static class Win32Api
     [DllImport("user32.dll")]
     public static extern bool GetKeyboardState(byte [] lpKeyState);
 
-    [DllImport("user32.dll")]
-    public static extern uint GetDpiForSystem();
+    public static uint GetDpiForSystem()
+    {
+        // This API is available starting with Windows 10 1607
+        var osVersion = Environment.OSVersion.Version;
+        if (osVersion.Major < 10 ||
+            (osVersion.Major == 10 && osVersion.Build < 14393))
+        {
+            return 96;
+        }
+
+        return _GetDpiForSystem();
+    }
+
+    [DllImport("user32.dll", EntryPoint = "GetDpiForSystem")]
+    static extern uint _GetDpiForSystem();
 
     //--------------------------------------------------------------------------------------------------
 
