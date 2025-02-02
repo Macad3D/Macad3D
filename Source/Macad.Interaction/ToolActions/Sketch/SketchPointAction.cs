@@ -181,6 +181,7 @@ public class SketchPointAction : ToolAction
         ConstraintPoint = null;
         Preview = null;
         Finished = null;
+        _Marker = null;
         base.Cleanup();
     }
 

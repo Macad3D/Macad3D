@@ -106,6 +106,11 @@ public partial class ValueHudElement : HudElement
 
     public event ValueEnteredEvent ValueEntered;
 
+    internal void RaiseValueEntered()
+    {
+        ValueEntered?.Invoke(this, Value);
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public ValueHudElement()
@@ -129,7 +134,7 @@ public partial class ValueHudElement : HudElement
         if (eventArgs.TargetObject == ValueEditBox)
         {
             IsInKeyboardMode = false;
-            ValueEntered?.Invoke(this, Value);
+            RaiseValueEntered();
         }
     }
         

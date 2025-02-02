@@ -1029,4 +1029,292 @@ public class CreateSegmentTests
 
     //--------------------------------------------------------------------------------------------------
 
+    [Test]
+    public void CreateLine_ViaHudElement()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>();
+            ctx.ClickAt(50, 50); // Left point
+            ctx.MoveTo(300, 300);
+            ctx.TestHudManager.EnterValue(2.0);
+            Assert.AreEqual(2, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLine_ViaHudElement01"), 0.1);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CreateLine_ViaHudElement_Continued()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentLineCreator>(true);
+            ctx.ClickAt(50, 50); // Left point
+            ctx.MoveTo(300, 300);
+            ctx.TestHudManager.EnterValue(2.0);
+            ctx.MoveTo(450, 450); // Right point
+            ctx.TestHudManager.EnterValue(2.0);
+            Assert.AreEqual(3, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(2, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateLine_ViaHudElement_Continued01"), 0.1);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CreateRectangle_ViaHudElement()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentRectangleCreator>();
+            ctx.ClickAt(100, 300); // LeftTop point
+            ctx.MoveTo(300, 300);
+            ctx.TestHudManager.EnterValue(2.0, 2.0);
+            Assert.AreEqual(4, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(4, sketchEditTool.Sketch.Segments.Count);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateRectangle_ViaHud01"), 0.1);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CreateBezier2_ViaHudElement()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentBezier2Creator>();
+            ctx.ClickAt(50, 50); // Left point
+            ctx.MoveTo(300, 300);
+            ctx.TestHudManager.EnterValue(10.0); // Right point
+            ctx.ClickAt(150, 300); // Control point
+            Assert.AreEqual(3, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier2_ViaHudElement01"), 0.1);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CreateBezier3_ViaHudElement()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentBezier3Creator>();
+            ctx.ClickAt(50, 50); // Left point
+            ctx.MoveTo(300, 300);
+            ctx.TestHudManager.EnterValue(10.0); // Right point
+            ctx.ClickAt(150, 300); // Control point 1
+            ctx.ClickAt(250, 50); // Control point 2
+            Assert.AreEqual(4, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateBezier3_ViaHudElement01"), 0.1);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CreateCircle_ViaHudElement()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentCircleCreator>();
+            ctx.ClickAt(250, 250); // Center point
+            ctx.MoveTo(80, 250);
+            ctx.TestHudManager.EnterValue(2.0); // Rim point
+            Assert.AreEqual(2, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateCircle_ViaHudElement01"), 0.1);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CreateArcCenter_ViaHudElement()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentArcCenterCreator>();
+            ctx.ClickAt(250, 250); // Center point
+            ctx.MoveTo(80, 250);
+            ctx.TestHudManager.EnterValue(2.0); // Edge point 1
+            ctx.MoveTo(200, 100);
+            ctx.TestHudManager.EnterValue(100.0);  // Edge point 2
+            Assert.AreEqual(3, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter_ViaHudElement01"), 0.1);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    [Test]
+    public void CreateArcCenter_ViaHudElement_Continued()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentArcCenterCreator>(true);
+            ctx.ClickAt(250, 250); // Center point
+            ctx.MoveTo(80, 250);
+            ctx.TestHudManager.EnterValue(2.0); // Edge point 1
+            ctx.MoveTo(200, 100);
+            ctx.TestHudManager.EnterValue(100.0);  // Edge point 2
+            ctx.MoveTo(250, 250); // Center point 2
+            ctx.TestHudManager.EnterValue(2.0); // Edge point 1
+            ctx.MoveTo(150, 300); // End point 3 -> Merge
+            ctx.TestHudManager.EnterValue(100.0);  // Edge point 2
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcCenter_ViaHudElement_Continued01"), 0.1);
+            Assert.AreEqual(5, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(2, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+
+            //Cleanup
+            sketchEditTool.Stop();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CreateArcRim_ViaHudElement()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentArcRimCreator>();
+            ctx.ClickAt(100, 250); // Edge point 1
+            ctx.ClickAt(250, 100); // Edge point 2
+            ctx.MoveTo(130, 180);
+            ctx.TestHudManager.EnterValue(2.0);  // Rim point
+            Assert.AreEqual(3, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcRim_ViaHudElement01"), 0.1);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CreateArcRim_ViaHudElement_Continued()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentArcRimCreator>(true);
+            ctx.ClickAt(50, 50); // Start point
+            ctx.ClickAt(450, 450); // End point
+            ctx.TestHudManager.EnterValue(2.0); // Rim point
+            ctx.MoveTo(400, 50);
+            ctx.ClickAt(400, 50); // End point 2
+            ctx.TestHudManager.EnterValue(3.0);  // Rim point 2
+            ctx.MoveTo(250, 250);
+            Assert.AreEqual(5, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(2, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateArcRim_ViaHudElement_Continued01"), 0.1);
+
+            //Cleanup
+            sketchEditTool.Stop();
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void CreateEllipseCenter_ViaHudElement()
+    {
+        var ctx = Context.Current;
+
+        ctx.WorkspaceController.StartTool(new CreateSketchTool(CreateSketchTool.CreateMode.WorkplaneXY));
+        var sketchEditTool = ctx.WorkspaceController.CurrentTool as SketchEditorTool;
+        Assert.That(sketchEditTool, Is.Not.Null);
+
+        Assert.Multiple(() =>
+        {
+            sketchEditTool.StartSegmentCreation<SketchSegmentEllipseCenterCreator>();
+            ctx.ClickAt(250, 250); // Center point
+            ctx.MoveTo(80, 250);
+            ctx.TestHudManager.EnterValue(2.0); // Rim point1
+            ctx.MoveTo(150, 200);
+            ctx.TestHudManager.EnterValue(4.0); // Rim point2
+            Assert.AreEqual(3, sketchEditTool.Sketch.Points.Count);
+            Assert.AreEqual(1, sketchEditTool.Sketch.Segments.Count);
+            Assert.AreEqual(0, sketchEditTool.Sketch.Constraints.Count);
+            AssertHelper.IsSameViewport(Path.Combine(_BasePath, "CreateEllipseCenter_ViaHudElement01"), 0.1);
+        });
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }

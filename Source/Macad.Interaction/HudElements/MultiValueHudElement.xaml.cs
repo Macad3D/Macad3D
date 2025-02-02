@@ -167,6 +167,11 @@ public partial class MultiValueHudElement : HudElement
 
     public event MultiValueEnteredEvent MultiValueEntered;
 
+    internal void RaiseMultiValueEntered()
+    {
+        MultiValueEntered?.Invoke(this, Value1, Value2);
+    }
+
     //--------------------------------------------------------------------------------------------------
 
     public MultiValueHudElement()
@@ -198,7 +203,7 @@ public partial class MultiValueHudElement : HudElement
             IsInKeyboardMode1 = false;
             IsInKeyboardMode2 = false;
             _FirstFromKeyboard = true;
-            MultiValueEntered?.Invoke(this, Value1, Value2);
+            RaiseMultiValueEntered();
         }
     }
                 

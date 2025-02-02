@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Input;
 using Macad.Interaction;
 
@@ -62,4 +63,34 @@ public class TestHudManager : IHudManager
         HintMessage = message;
         HintMessageOwner = message != null ? owner : null;
     }
+
+    //--------------------------------------------------------------------------------------------------
+
+    public void EnterValue(params double[] values)
+    {
+        int valueIndex = 0;
+        foreach (var element in HudElements.ToArray())
+        {
+            switch (element)
+            {
+                case ValueHudElement valueElement:
+                    Debug.Assert(values.Length-valueIndex >= 1);
+                    valueElement.Value = values[valueIndex];
+                    valueIndex++;
+                    valueElement.RaiseValueEntered();
+                    break;
+
+                case MultiValueHudElement multiValueElement:
+                    Debug.Assert(values.Length - valueIndex >= 2);
+                    multiValueElement.Value1 = values[valueIndex];
+                    multiValueElement.Value2 = values[valueIndex];
+                    valueIndex+=2;
+                    multiValueElement.RaiseMultiValueEntered();
+                    break;
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
 }
