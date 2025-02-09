@@ -807,6 +807,11 @@ public sealed class Sketch : Shape2D
             return base.MakeInternal(flags);
         }
 
+        if (ConstraintSolverFailed)
+        {
+            Messages.Warning("Sketch constraints failed to solve.", "The solver is not able to fulfill all constraints. Check your constraints or try to move your segments closer to the desired result.");
+        }
+
         // Create edges
         var freeSegmentEdges = new Dictionary<SketchSegment, TopoDS_Edge>();
         foreach (var segmentKvp in _Segments)
