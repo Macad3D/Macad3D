@@ -187,7 +187,7 @@ public class SketchUITests : UITestBase
         // Select segment, constraints available
         MainWindow.Viewport.ClickRelative(0.5, 0.5);
         Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateHorizontalConstraint"));
-        Assert.IsTrue(MainWindow.Ribbon.IsButtonEnabled("CreateVerticalConstraint"));
+        Assert.IsFalse(MainWindow.Ribbon.IsButtonEnabled("CreateVerticalConstraint"));
 
         // Create one constraint, it is disabled now
         MainWindow.Ribbon.ClickButton("CreateHorizontalConstraint");

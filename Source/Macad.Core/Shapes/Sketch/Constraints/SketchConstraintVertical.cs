@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Occt;
 using Macad.SketchSolve;
@@ -51,12 +52,27 @@ public class SketchConstraintVertical : SketchConstraint, ISketchConstraintCreat
 
     public static bool CanCreate(Sketch sketch, List<int> points, List<int> segments)
     {
-        return points.Count == 0 
-               && segments.Count > 0
-               && SketchConstraintHelper.AllSegmentsOfType<SketchSegmentLine>(sketch, segments)
-               && !SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintFixed>(sketch, segments)
-               && !SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintHorizontal>(sketch, segments)
-               && !SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintVertical>(sketch, segments);
+        if (points.Count > 0
+            || segments.Count == 0
+            || !SketchConstraintHelper.AllSegmentsOfType<SketchSegmentLine>(sketch, segments)
+            || SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintFixed>(sketch, segments)
+            || SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintHorizontal>(sketch, segments)
+            || SketchConstraintHelper.AnyConstrainedSegment<SketchConstraintVertical>(sketch, segments))
+        {
+            return false;
+        }
+
+        // Check for difference between Y coordinates, otherwise the points will get coincident.
+        if (segments.Any(segIndex =>
+            {
+                var seg = sketch.Segments[segIndex];
+                return sketch.Points[seg.StartPoint].Y.IsEqual(sketch.Points[seg.EndPoint].Y, 0.0001);
+            }))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     //--------------------------------------------------------------------------------------------------

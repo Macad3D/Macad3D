@@ -1,5 +1,6 @@
 ﻿using Macad.Common;
 using Macad.Core.Shapes;
+using Macad.Interaction.Editors.Shapes;
 using Macad.Occt;
 using NUnit.Framework;
 
@@ -57,7 +58,21 @@ public class SketchConstraintTests
     }
 
     //--------------------------------------------------------------------------------------------------
-        
+
+    [Test]
+    public void HorizontalRequireMinDistance()
+    {
+        var sketch = Core.Shapes.Sketch.Create();
+        var p1 = sketch.AddPoint(new(10, 10));
+        var p2 = sketch.AddPoint(new(10, -10));
+        var s1 = sketch.AddSegment(new SketchSegmentLine(p1, p2));
+        Assert.IsFalse(SketchConstraintHorizontal.CanCreate(sketch, [], [s1]));
+        sketch.Points[p1] = new(11, 10);
+        Assert.IsTrue(SketchConstraintHorizontal.CanCreate(sketch, [], [s1]));
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
     [Test]
     public void Vertical()
     {
@@ -69,6 +84,20 @@ public class SketchConstraintTests
 
         Assert.IsTrue(sketch.SolveConstraints(true));
         Assert.AreEqual(sketch.Points[p1].X, sketch.Points[p2].X, MaxLengthDelta);
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    [Test]
+    public void VerticalRequireMinDistance()
+    {
+        var sketch = Core.Shapes.Sketch.Create();
+        var p1 = sketch.AddPoint(new(10, 10));
+        var p2 = sketch.AddPoint(new(-10, 10));
+        var s1 = sketch.AddSegment(new SketchSegmentLine(p1, p2));
+        Assert.IsFalse(SketchConstraintVertical.CanCreate(sketch, [], [s1]));
+        sketch.Points[p1] = new(10, 11);
+        Assert.IsTrue(SketchConstraintVertical.CanCreate(sketch, [], [s1]));
     }
 
     //--------------------------------------------------------------------------------------------------
