@@ -17,10 +17,11 @@ public class TypeToImageSourceConverter : ConverterMarkupExtension<TypeToImageSo
         if (value == null || PresentationHelper.IsInDesignMode)
             return null;
 
+        Type type = value as Type ?? value.GetType();
         Drawing drawing = null;
-        if (!_Cache.TryGetValue(value.GetType(), out drawing))
+        if (!_Cache.TryGetValue(type, out drawing))
         {
-            var typeName = Common.Serialization.Serializer.ApplyNamespaceAlias(value.GetType().FullName);
+            var typeName = Common.Serialization.Serializer.ApplyNamespaceAlias(type.FullName);
             var key = $"TypeIcon_{typeName.Replace('.', '-')}";
 
             // Treat as XAML resource
@@ -31,11 +32,11 @@ public class TypeToImageSourceConverter : ConverterMarkupExtension<TypeToImageSo
             catch (Exception)
             {
                 // It seems that this image is not available, so don't try again in future requests
-                _Cache.Add(value.GetType(), null);
+                _Cache.Add(type, null);
                 return null;
             }
 
-            _Cache.Add(value.GetType(), drawing);
+            _Cache.Add(type, drawing);
         }
 
         if (drawing == null)

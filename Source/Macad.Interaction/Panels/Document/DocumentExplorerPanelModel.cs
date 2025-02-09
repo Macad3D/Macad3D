@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 using Macad.Common;
 using Macad.Common.Serialization;
 using Macad.Core;
+using Macad.Core.Shapes;
 using Macad.Core.Topology;
 using Macad.Presentation;
 
@@ -346,4 +348,46 @@ public class DocumentExplorerPanelModel : BaseObject
 
     #endregion
 
+    #region IconConverter
+
+    public static ShapeTypeToImageSourceConverter ShapeTypeImageConverter = new();
+
+    //--------------------------------------------------------------------------------------------------
+
+    public class ShapeTypeToImageSourceConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null || PresentationHelper.IsInDesignMode)
+                return null;
+
+            Type type = typeof(Body);
+            if (value is ShapeType shapeType)
+            {
+                switch (shapeType)
+                {
+                    case ShapeType.Sketch:
+                        type = typeof(Sketch);
+                        break;
+                    case ShapeType.Solid:
+                        type = typeof(Solid);
+                        break;
+                    case ShapeType.Mesh:
+                        type = typeof(Mesh);
+                        break;
+                }
+            }
+
+            return TypeToImageSourceConverter.Instance.Convert(type, targetType, parameter, culture);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+
+    #endregion
 }
