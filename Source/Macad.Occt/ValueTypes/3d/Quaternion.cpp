@@ -20,7 +20,7 @@ int Quaternion::GetHashCode()
 
 String^ Quaternion::ToString()
 {
-	return String::Format(Globalization::CultureInfo::InvariantCulture, "{0},{1},{2},{3}", X, Y, Z, W);
+	return String::Format(Globalization::CultureInfo::InvariantCulture, "{0},{1},{2},{3}", gcnew array<Object^>{ X, Y, Z, W });
 }
 
 Quaternion::Quaternion(const ::gp_Quaternion& native)

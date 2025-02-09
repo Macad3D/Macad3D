@@ -20,7 +20,7 @@ int XYZ::GetHashCode()
 
 String^ XYZ::ToString()
 {
-	return String::Format(Globalization::CultureInfo::InvariantCulture, "{0},{1},{2}", X, Y, Z);
+	return String::Format(Globalization::CultureInfo::InvariantCulture, "{0},{1},{2}", gcnew array<Object^>{ X, Y, Z });
 }
 
 XYZ::XYZ(const ::gp_XYZ& native)

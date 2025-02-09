@@ -20,8 +20,7 @@ int Trsf2d::GetHashCode()
 
 String^ Trsf2d::ToString()
 {
-	return String::Format("({0}),({1}),({2}),({3})", 
-		_Shape.ToString(), _Scale.ToString(), _Loc.ToString(), _Matrix.ToString());
+	return String::Format("({0}),({1}),({2}),({3})", gcnew array<Object^>{ _Shape, _Scale, _Loc, _Matrix });
 }
 
 Trsf2d::Trsf2d(const ::gp_Trsf2d& native)

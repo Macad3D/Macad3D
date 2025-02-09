@@ -20,8 +20,7 @@ int Ax2::GetHashCode()
 
 String^ Ax2::ToString()
 {
-	return String::Format("({0}),({1}),({2}),({3})", 
-		_Axis.Location.ToString(), _XDir.ToString(), _YDir.ToString(), _Axis.Direction.ToString());
+	return String::Format("({0}),({1}),({2}),({3})", gcnew array<Object^>{ _Axis.Location, _XDir, _YDir, _Axis.Direction });
 }
 
 Ax2::Ax2(const ::gp_Ax2& native)

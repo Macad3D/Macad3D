@@ -20,8 +20,7 @@ int Trsf::GetHashCode()
 
 String^ Trsf::ToString()
 {
-	return String::Format("({0}),({1}),({2}),({3})", 
-		_Shape.ToString(), _Scale.ToString(), _Loc.ToString(), _Matrix.ToString());
+	return String::Format("({0}),({1}),({2}),({3})", gcnew array<Object^>{ _Shape, _Scale, _Loc, _Matrix });
 }
 
 Trsf::Trsf(const ::gp_Trsf& native)
