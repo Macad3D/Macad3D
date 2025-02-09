@@ -29,7 +29,7 @@
         
         <TextBlock Grid.Row="1"
                    Text="Constraints failed to solve."
-                   Foreground="{StaticResource Macad.Brushes.Error}"
+                   Foreground="{DynamicResource Macad.Brushes.Error}"
                    FontWeight="Bold"
                    HorizontalAlignment="Center"
                    Visibility="{Binding Sketch.ConstraintSolverFailed, Converter={mmp:BoolToVisibleHiddenConverter}}"/>
